@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF8" />
+
+<link href="css/jquery-ui/cupertino/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="css/jquery-ui/cupertino/jquery-ui.selectmenu.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="css/jquery.steps.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="css/toolbox.css" media="screen" rel="stylesheet" type="text/css" />
+
+<script src="lib/jquery/jquery.js" type="text/javascript"></script>
+<script src="lib/jquery/jquery.jeditable.js" type="text/javascript"></script>
+<script src="lib/jquery/jquery.glow.js" type="text/javascript"></script>
+<script src="lib/jquery/jquery.safe_enter.js" type="text/javascript"></script>
+<script src="lib/jquery/jquery.elastic.js" type="text/javascript"></script>
+<script src="lib/jquery/jquery.sort_elements.js" type="text/javascript"></script>
+<script src="lib/jquery/jquery.steps.js" type="text/javascript"></script>
+<script src="lib/jquery-ui/jquery-ui.js" type="text/javascript"></script>
+<script src="lib/jquery-ui/jquery-ui.selectmenu.js" type="text/javascript"></script>
+<!-- <script src="lib/zero-clipboard/ZeroClipboard.js" type="text/javascript"></script> -->
+
+<script>
+
+var gettext_strings = {
+  delete_outline                  : 'Delete outline',
+  untitled_section                : 'Untitled section',
+  new_meta_tag                    : 'New meta tag',
+  create_meta_tag                 : 'Create meta tag',
+  cancel                          : 'Cancel',
+  new_tag                         : 'New tag',
+  create_tag                      : 'Create tag',
+  new_book_tag                    : 'New book tag',
+  create_book_tag                 : 'Create book tag',
+  delete_meta_tag                 : 'Delete meta tag',
+  delete_tag                      : 'Delete tag',
+  remove_tag_assignment           : 'Remove tag assignment',
+  delete_tag_permanently          : 'Delete this tag permanently',
+  delete_meta_tag_permanently     : 'Delete this meta tag permanently',
+  remove_tag_from_meta_tag        : 'Remove this tag from meta tag',
+  assign_tag                      : 'Assign tag',
+  rename_tag                      : 'Rename tag',
+  rename_meta_tag                 : 'Rename meta tag',
+  click_meta_tag_action_hint      : 'Click meta tag to see / edit assigned tags',
+  add_tag_to_meta_tag             : 'Add this tag to opened meta tag',
+  tag_browser_book_menu_footer    : 'Hint: Books with book specific tags are highlighted. ' +
+                                    'Books without these tags are gray (disabled).',
+  bible_browser_tag_hint          : 'Click to select all verses with this tag',
+  new_note_session                : 'New note session',
+  create_note_session             : 'Create note session',
+  click_to_add_notes              : 'Click to add notes',
+  restore_original_verse          : 'Restore original verse',
+  group_sections_beginning_here   : 'Group sections beginning with this section',
+  group_sections_ending_here      : 'Group sections ending with this section',
+  start_section_here              : 'Start section beginning with this verse',
+  end_section_here                : 'End section at this verse',
+  printable_version               : 'Printable version',
+  edit                            : 'Edit',
+  rename                          : 'Rename',
+  none                            : 'None',
+  split_this_verse_question       : 'Split this verse?',
+  split_verse_instruction         : 'Please click on the last word of the first part!<br/>The verse will be splitted accordingly.',
+  cross_references_for            : 'Cross references for',
+  delete_cross_reference          : 'Delete cross reference',
+  click_to_edit                   : 'Click to edit',
+  bible_verses_tagged_with        : 'Bible verses tagged with',
+  book_select_label		            : 'Select book',
+  tagged_verses_for               : 'Verses tagged with '
+};
+
+var bible_books = [
+    { long_title : 'Genesis',
+      short_title : "Gen" },
+    { long_title : 'Exodus',
+      short_title : "Exo" },
+    { long_title : 'Leviticus',
+      short_title : "Lev" },
+    { long_title : 'Numbers',
+      short_title : "Num" },
+    { long_title : 'Deuteronomy',
+      short_title : "Deu" },
+    { long_title : 'Joshua',
+      short_title : "Jos" },
+    { long_title : 'Judges',
+      short_title : "Jdg" },
+    { long_title : 'Ruth',
+      short_title : "Rut" },
+    { long_title : '1 Samuel',
+      short_title : "1Sa" },
+    { long_title : '2 Samuel',
+      short_title : "2Sa" },
+    { long_title : '1 Kings',
+      short_title : "1Ki" },
+    { long_title : '2 Kings',
+      short_title : "2Ki" },
+    { long_title : '1 Chronicles',
+      short_title : "1Ch" },
+    { long_title : '2 Chronicles',
+      short_title : "2Ch" },
+    { long_title : 'Ezra',
+      short_title : "Ezr" },
+    { long_title : 'Nehemiah',
+      short_title : "Neh" },
+    { long_title : 'Esther',
+      short_title : "Est" },
+    { long_title : 'Job',
+      short_title : "Job" },
+    { long_title : 'Psalms',
+      short_title : "Psa" },
+    { long_title : 'Proverbs',
+      short_title : "Pro" },
+    { long_title : 'Ecclesiastes',
+      short_title : "Ecc" },
+    { long_title : 'Song of Solomon',
+      short_title : "Sol" },
+    { long_title : 'Isaiah',
+      short_title : "Isa" },
+    { long_title : 'Jeremiah',
+      short_title : "Jer" },
+    { long_title : 'Lamentations',
+      short_title : "Lam" },
+    { long_title : 'Ezekiel',
+      short_title : "Eze" },
+    { long_title : 'Daniel',
+      short_title : "Dan" },
+    { long_title : 'Hosea',
+      short_title : "Hos" },
+    { long_title : 'Joel',
+      short_title : "Joe" },
+    { long_title : 'Amos',
+      short_title : "Amo" },
+    { long_title : 'Obadiah',
+      short_title : "Oba" },
+    { long_title : 'Jonah',
+      short_title : "Jon" },
+    { long_title : 'Micah',
+      short_title : "Mic" },
+    { long_title : 'Nahum',
+      short_title : "Nah" },
+    { long_title : 'Habakkuk',
+      short_title : "Hab" },
+    { long_title : 'Zephaniah',
+      short_title : "Zep" },
+    { long_title : 'Haggai',
+      short_title : "Hag" },
+    { long_title : 'Zechariah',
+      short_title : "Zec" },
+    { long_title : 'Malachi',
+      short_title : "Mal" },
+    { long_title : 'Matthew',
+      short_title : "Mat" },
+    { long_title : 'Mark',
+      short_title : "Mar" },
+    { long_title : 'Luke',
+      short_title : "Luk" },
+    { long_title : 'John',
+      short_title : "Joh" },
+    { long_title : 'Acts',
+      short_title : "Act" },
+    { long_title : 'Romans',
+      short_title : "Rom" },
+    { long_title : '1 Corinthians',
+      short_title : "1Co" },
+    { long_title : '2 Corinthians',
+      short_title : "2Co" },
+    { long_title : 'Galatians',
+      short_title : "Gal" },
+    { long_title : 'Ephesians',
+      short_title : "Eph" },
+    { long_title : 'Philippians',
+      short_title : "Phi" },
+    { long_title : 'Colossians',
+      short_title : "Col" },
+    { long_title : '1 Thessalonians',
+      short_title : "1Th" },
+    { long_title : '2 Thessalonians',
+      short_title : "2Th" },
+    { long_title : '1 Timothy',
+      short_title : "1Ti" },
+    { long_title : '2 Timothy',
+      short_title : "2Ti" },
+    { long_title : 'Titus',
+      short_title : "Tit" },
+    { long_title : 'Philemon',
+      short_title : "Phm" },
+    { long_title : 'Hebrews',
+      short_title : "Heb" },
+    { long_title : 'James',
+      short_title : "Jam" },
+    { long_title : '1 Peter',
+      short_title : "1Pe" },
+    { long_title : '2 Peter',
+      short_title : "2Pe" },
+    { long_title : '1 John',
+      short_title : "1Jo" },
+    { long_title : '2 John',
+      short_title : "2Jo" },
+    { long_title : '3 John',
+      short_title : "3Jo" },
+    { long_title : 'Jude',
+      short_title : "Jud" },
+    { long_title : 'Revelation',
+      short_title : "Rev" }
+];
+
+var bible_chapter_verse_counts = {};
+
+</script>
+
+<script src="app/bible_browser/bible_browser_communication_controller.js" type="text/javascript"></script>
+<script src="app/bible_browser/bible_browser_controller.js" type="text/javascript"></script>
+
+<script src="app/tags/tags_communication_controller.js" type="text/javascript"></script>
+<script src="app/tags/tags_controller.js" type="text/javascript"></script>
+
+<script src="init.js" type="text/javascript"></script>
+
+<title>Ezra Project</title>
+</head>
+
+<body>
+
+<div id="main-content">
+
+<a name='top'></a>
+
+<!-- Logo disabled for now -->
+<!--
+<div id="program-label">
+<img src="images/ezra_project_logo.jpg" alt="Ezra Project"/> 
+</div>
+-->
+
+<div style="display: none" id="setting-id"></div>
+<div id="bible-select-block">
+  <select name="bible-select" id="bible-select">
+  </select>
+</div>
+
+<div id="app-container">
+  <div id="bible-browser-toolbox">
+    <div id="tags-header" class="tab-component-menu">
+      <div id="selection-box"><span class="bold">Selection:</span> <span id="selected-verses">None</span></div>
+      <!-- <div id="clippy-box"></div> -->
+
+      <div id="tags-toolbar">
+        <!-- // Meta Tags disabled as long as they are not functional
+        <button id="new-meta-tag-button" class="fg-button ui-state-default ui-corner-all" type="button">New meta tag</button>
+        -->
+        <button id="new-standard-tag-button" class="fg-button ui-state-default ui-corner-all" type="button">New tag</button>
+
+        <!-- // Book Tags disabled as long as they are not functional
+        <button id="new-book-tag-button" class="fg-button ui-state-default ui-corner-all" type="button">New book tag</button>
+        -->
+      </div>
+    </div>
+
+    <div id="new-meta-tag-dialog" style="display: none;">
+      <span id="new-meta-tag-title-label">Title: </span><input id="new-meta-tag-title-input" type="text" maxlength="255" />
+    </div>
+
+    <div id="new-standard-tag-dialog" style="display: none;">
+      <span id="new-standard-tag-title-label">Title: </span><input id="new-standard-tag-title-input" type="text" maxlength="255" />
+    </div>
+
+    <div id="new-book-tag-dialog" style="display: none;">
+      <span id="new-book-tag-title-label">Title: </span><input id="new-book-tag-title-input" type="text" maxlength="255" />
+    </div>
+
+    <div id="delete-meta-tag-confirmation-dialog" style="display: none;">
+      <p>Do you really want to delete the meta tag &quot;<span id="delete-meta-tag-name"></span>&quot;?
+    </div>
+
+    <div id="delete-tag-confirmation-dialog" style="display: none;">
+      <p>Do you really want to delete the tag &quot;<span id="delete-tag-name"></span>&quot;?
+      The tag information would be deleted <span class="bold">for all associated verses!</span> (<span id="delete-tag-number-of-verses"></span>)</p>
+    </div>
+
+    <div id="remove-tag-assignment-confirmation-dialog" style="display: none;">
+      <p>Do you really want to remove the tag &quot;<span id="remove-tag-assignment-name" class="italic"></span>&quot; from the selected verses?</p>
+    </div>
+
+    <div id="filter-dialog">
+      <input type="radio" name="tag-filter" value="all" checked="checked">All tags</input><br/>
+      <input type="radio" name="tag-filter" value="assigned">Assigned tags</input><br/>
+      <input type="radio" name="tag-filter" value="unassigned">Unassigned tags</input><br/>
+    </div>
+
+    <div id="rename-standard-tag-dialog" style="display: none;">
+      <span id="rename-standard-tag-title-label">Title: </span><input id="rename-standard-tag-title-input" type="text" maxlength="255" />
+    </div>
+
+    <div id="rename-meta-tag-dialog" style="display: none;">
+      <span id="rename-meta-tag-title-label">Title: </span><input id="rename-meta-tag-title-input" type="text" maxlength="255" />
+    </div>
+
+    <!-- // Meta Tags disabled as long as they are not functional -->
+    <!--
+    <div id='meta-tag-navigation' class='ui-state-active ui-corner-top'>
+      <a href='javascript:tags_controller.show_meta_tag_list();'>Meta Tags</a>
+      <div id='opened-meta-tag-info'> / <span id='opened-meta-tag-title'>&nbsp;&nbsp;[Click meta tag to see / edit assigned tags]</span></div>
+    </div>
+
+    <div id="meta-tag-content">
+    </div>
+    <div id="meta-tag-assigned-tags">
+    </div>
+    -->
+
+    <div id="tags-content">
+      <h3><a href="#">Tags</a></h3>
+      <div id="tags-content-global">
+      </div>
+
+      <!--
+      <h3><a href="#">Book tags</a></h3>
+      <div id="tags-content-book">
+      </div>
+      -->
+    </div>
+  </div>
+
+  <div id="book-selection-menu" class="verse-selection-menu">
+    <ul class="book-list-column">
+      <li class="book-Gen"><a href="Gen">Genesis</a></li>
+      <li class="book-Exo"><a href="Exo">Exodus</a></li>
+      <li class="book-Lev"><a href="Lev">Leviticus</a></li>
+      <li class="book-Num"><a href="Num">Numbers</a></li>
+      <li class="book-Deu"><a href="Deu">Deuteronomy</a></li>
+      <li class="book-Jos"><a href="Jos">Joshua</a></li>
+      <li class="book-Jdg"><a href="Jdg">Judges</a></li>
+      <li class="book-Rut"><a href="Rut">Ruth</a></li>
+      <li class="book-1Sa"><a href="1Sa">1 Samuel</a></li>
+      <li class="book-2Sa"><a href="2Sa">2 Samuel</a></li>
+      <li class="book-1Ki"><a href="1Ki">1 Kings</a></li>
+      <li class="book-2Ki"><a href="2Ki">2 Kings</a></li>
+      <li class="book-1Ch"><a href="1Ch">1 Chronicles</a></li>
+      <li class="book-2Ch"><a href="2Ch">2 Chronicles</a></li>
+   </ul>
+
+   <ul class="book-list-column">
+      <li class="book-Ezr"><a href="Ezr">Ezra</a></li>
+      <li class="book-Neh"><a href="Neh">Nehemiah</a></li>
+      <li class="book-Est"><a href="Est">Esther</a></li>
+      <li class="book-Job"><a href="Job">Job</a></li>
+      <li class="book-Psa"><a href="Psa">Psalms</a></li>
+      <li class="book-Pro"><a href="Pro">Proverbs</a></li>
+      <li class="book-Ecc"><a href="Ecc">Ecclesiastes</a></li>
+      <li class="book-Sol"><a href="Sol">Song of Solomon</a></li>
+      <li class="book-Isa"><a href="Isa">Isaiah</a></li>
+      <li class="book-Jer"><a href="Jer">Jeremiah</a></li>
+      <li class="book-Lam"><a href="Lam">Lamentations</a></li>
+      <li class="book-Eze"><a href="Eze">Ezekiel</a></li>
+      <li class="book-Dan"><a href="Dan">Daniel</a></li>
+      <li class="book-Hos"><a href="Hos">Hosea</a></li>
+    </ul>
+
+    <ul class="book-list-column">
+      <li class="book-Joe"><a href="Joe">Joel</a></li>
+      <li class="book-Amo"><a href="Amo">Amos</a></li>
+      <li class="book-Oba"><a href="Oba">Obadiah</a></li>
+      <li class="book-Jon"><a href="Jon">Jonah</a></li>
+      <li class="book-Mic"><a href="Mic">Micah</a></li>
+      <li class="book-Nah"><a href="Nah">Nahum</a></li>
+      <li class="book-Hab"><a href="Hab">Habakkuk</a></li>
+      <li class="book-Zep"><a href="Zep">Zephaniah</a></li>
+      <li class="book-Hag"><a href="Hag">Haggai</a></li>
+      <li class="book-Zec"><a href="Zec">Zechariah</a></li>
+      <li class="book-Mal"><a href="Mal">Malachi</a></li>
+    </ul>
+    
+    <ul class="book-list-column ot-nt-div">
+      <li class="book-Mat"><a href="Mat">Matthew</a></li>
+      <li class="book-Mar"><a href="Mar">Mark</a></li>
+      <li class="book-Luk"><a href="Luk">Luke</a></li>
+      <li class="book-Joh"><a href="Joh">John</a></li>
+      <li class="book-Act"><a href="Act">Acts</a></li>
+      <li class="book-Rom"><a href="Rom">Romans</a></li>
+      <li class="book-1Co"><a href="1Co">1 Corinthians</a></li>
+      <li class="book-2Co"><a href="2Co">2 Corinthians</a></li>
+      <li class="book-Gal"><a href="Gal">Galatians</a></li>
+      <li class="book-Eph"><a href="Eph">Ephesians</a></li>
+      <li class="book-Phi"><a href="Phi">Philippians</a></li>
+      <li class="book-Col"><a href="Col">Colossians</a></li>
+      <li class="book-1Th"><a href="1Th">1 Thessalonians</a></li>
+      <li class="book-2Th"><a href="2Th">2 Thessalonians</a></li>
+    </ul>
+
+    <ul class="book-list-column">
+      <li class="book-1Ti"><a href="1Ti">1 Timothy</a></li>
+      <li class="book-2Ti"><a href="2Ti">2 Timothy</a></li>
+      <li class="book-Tit"><a href="Tit">Titus</a></li>
+      <li class="book-Phm"><a href="Phm">Philemon</a></li>
+      <li class="book-Heb"><a href="Heb">Hebrews</a></li>
+      <li class="book-Jam"><a href="Jam">James</a></li>
+      <li class="book-1Pe"><a href="1Pe">1 Peter</a></li>
+      <li class="book-2Pe"><a href="2Pe">2 Peter</a></li>
+      <li class="book-1Jo"><a href="1Jo">1 John</a></li>
+      <li class="book-2Jo"><a href="2Jo">2 John</a></li>
+      <li class="book-3Jo"><a href="3Jo">3 John</a></li>
+      <li class="book-Jud"><a href="Jud">Jude</a></li>
+      <li class="book-Rev"><a href="Rev">Revelation</a></li>
+    </ul>
+
+    <div class="selection-menu-footer not-shown"></div>
+    <!--<div class="book-selection-menu-footer">Hint: Recently opened books are highlighted with <span class="bold">bold</span> font</div>-->
+  </div>
+
+  <div id="tag-selection-menu" class="verse-selection-menu">
+    <div class="selection-menu-footer not-shown"></div>
+    <!--<div class="book-selection-menu-footer">Hint: Recently opened books are highlighted with <span class="bold">bold</span> font</div>-->
+
+    <div id="tag-selection-filter">
+      <span id="tag-selection-filter-label">Search: </span>
+      <input id="tag-selection-filter-input" type="text" maxlength="30" />
+    </div>
+
+    <div id="tag-selection-taglist">
+      <div id="tag-selection-taglist-global">
+      </div>
+    </div>
+  </div>
+
+  <!-- Display options menu disabled for now -->
+  <!--
+  <div id="display-options-menu" class="display-options-menu">
+    <div id="tags-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default ui-state-active">
+      <input id="tags-switch" type="checkbox"></input>
+      <div id="tags-switch-label">Tags</div>
+    </div>
+
+    <div id="verse-notes-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
+      <input id="verse-notes-switch" type="checkbox"></input>
+      <div id="verse-notes-switch-label">Notes</div>
+    </div>
+
+    <div id="x-refs-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default ui-state-active">
+      <input id="x-refs-switch" type="checkbox"></input>
+      <div id="x-refs-switch-label">X-Refs</div>
+    </div>
+  </div>
+  -->
+
+  <div id="translation-settings-wizard" title="Bible translation settings" style="display: none;">
+    <div id="translation-settings-wizard-init">
+      <button id="add-bible-translations-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled">
+      Add bible translations
+      </button>
+      <button id="remove-bible-translations-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled">
+      Remove bible translations
+      </button>
+    </div>
+    <div id="translation-settings-wizard-add" style="display: none;">
+      <h3>Repositories</h3>
+      <section id="translation-repositories">
+      </section>
+
+      <h3>Languages</h3>
+      </h3>
+      <section id="translation-languages">
+      </section>
+
+      <h3>Translations</h3>
+      <section id="translations">
+      </section>
+
+      <h3>Installation</h3>
+      <section id="install">
+      </section>
+    </div>
+    <div id="translation-settings-wizard-remove" style="display: none;">
+      <h3>Translations</h3>
+      <section id="translations">
+      </section>
+
+      <h3>Removal</h3>
+      <section id="uninstall">
+      </section>
+    </div>
+  </div>
+
+  <div id="verse-list-container">
+    <div id="verse-list-menu">
+
+      <div class="fg-button book-select-button ui-state-default ui-corner-all">
+        <div class="ui-icon ui-icon-triangle-1-s"></div>
+        <div class="book-select-value">Select book</div>
+      </div>
+
+      <div id="chapter-select-box">
+        <select id="chapter-select">
+          <option>1</option>
+        </select>
+      </div>
+
+      <div class="fg-button tag-select-button ui-state-default ui-corner-all">
+        <div class="ui-icon ui-icon-triangle-1-s"></div>
+        <div id="tag-select-label">Select tag</div>
+      </div>
+
+      <!-- Display options menu disabled for now -->
+      <!--
+      <div class="fg-button display-options-button ui-state-default ui-corner-all">
+        <div class="ui-icon ui-icon-triangle-1-s"></div>
+        <div id="display-options-label">Options</div>
+      </div>
+      -->
+
+      <button id="show-book-tag-statistics-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled">
+      Tag statistics
+      </button>
+
+      <button id="show-translation-settings-button" class="fg-button ui-corner-all ui-state-default">
+      Configure translations
+      </button>
+
+      <!-- Download tagged verses not working at the moment -->
+      <!--
+      <button id="download-tagged-verses-button" class="fg-button ui-corner-all events-configured ui-state-default ui-state-disabled">
+      Download
+      </button>
+      -->
+    </div>
+
+    <div id="verse-list-frame">
+      <div id="verse-list-loading-indicator">
+        <img src="images/loading_animation4.gif" />
+        Loading bible text ...
+      </div>
+
+      <div id="temporary-help">
+      </div>
+
+      <div id="cr-edit-box">
+        <div id="cr-edit-box-verse-list">
+        </div>
+        <input id="cr-edit-box-input" type="text" />
+
+        <button id="cr-edit-box-add-cr-button" type="button" class="fg-button ui-state-default ui-corner-all" id="add-cr-button">
+        Add cross reference
+        </button>
+
+        <div id="cr-edit-box-verse-preview">
+        </div>
+      </div>
+
+      <div id="tag-reference-box">
+        <div id="tag-reference-box-verse-list">
+        </div>
+      </div>
+
+      <div id="book-tag-statistics-box">
+        <div id="book-tag-statistics-box-content">
+        </div>
+      </div>
+
+      <div id="verse-menu-box">
+        <div class="verse-reference-toolbox">
+          <div class="outlining-toolbox">
+            <div class="split-verse-button ui-icon state-normal" title=""></div>
+            <div class="move-button-box">
+              <div class="move-up-button state-normal" title="Move verses up to next section"></div>
+              <div class="move-down-button state-normal" title="Move verses down to next section"></div>
+            </div>
+            <div class="section-button state-normal">{</div>
+          </div>
+        </div> <!-- verse-reference-toolbox -->
+      </div>
+
+      <div id="verse-expand-box">
+        <div class="expand-button state-normal" title="Load the context of this verse"></div>
+      </div>
+
+      <div id="verse-list" class="verse-list">
+        <div class="help-text">
+        To start using Ezra Project, select a book or a tag from the menu above.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+  require('./renderer.js')
+  // You can also require other files to run in this process
+</script>
+
+</body>
+</html>

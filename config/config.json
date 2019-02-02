@@ -1,0 +1,10 @@
+{
+  "development": {
+    "username": null,
+    "password": null,
+    "database": "ezra-project-ng",
+    "host": null,
+    "dialect": "sqlite",
+    "storage": "ezra.sqlite"
+  }
+}

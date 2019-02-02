@@ -1,0 +1,62 @@
+each bibleBook in bibleBooks
+  if renderBibleBookHeaders == true
+    div.tag-browser-verselist-book-header #{bibleBook.longTitle}
+
+  each verse in verses
+    unless verse.bibleBookId == bibleBook.id
+      - continue
+
+    - var current_id_class = "verse-id-" + verse.id
+    - var current_verse_reference_id_class = "verse-reference-id-" + verse.verseReferenceId
+    - var current_verse_nr_class = "verse-nr-" + verse.absoluteVerseNr
+    - var div_classes = "verse-box " + current_id_class + " " + current_verse_reference_id_class + " " + current_verse_nr_class
+
+    if renderVerseMetaInfo == false
+      - div_classes += " slim-verse-reference"
+
+    - var current_verse_tags = verseTags[verse.id]
+    - var current_tooltip_tag_list = []
+    - var current_tag_info_class = "tag-info"
+
+    if current_verse_tags != null
+      each verseTag in current_verse_tags
+        - current_tooltip_tag_list.push(verseTag.tagTitle)
+      - current_tag_info_class += ' visible'
+
+    div(class=div_classes)
+      - var verseReference = verse.chapter + reference_separator + verse.verseNr;
+      a(name=verseReference)
+      div.verse-id #{verse.id}
+      div.verse-reference-id #{verse.verseReferenceId}
+      div.abs-verse-nr #{verse.absoluteVerseNr}
+      div.verse-bible-book-short #{verse.bibleBookShortTitle}
+      div.verse-reference
+        if renderVerseMetaInfo == true
+          //- div.notes-info N
+          div(class=current_tag_info_class, title=current_tooltip_tag_list.join(', ')) T
+          //- div.cr-info C
+          div.tag-data
+            if current_verse_tags != null
+              each verseTag in current_verse_tags
+                - var verseTagBibleBookIsNull = (verseTag.bibleBookId == "NULL" || verseTag.bibleBookId == null);
+                if verseTagBibleBookIsNull
+                  - var tag_category_class = "tag-global"
+                else
+                  - var tag_category_class = "tag-book"
+                div(class=tag_category_class)
+                  div.tag-title #{verseTag.tagTitle}
+                  div.tag-id #{verseTag.tagId}
+        div.verse-reference-content #{verseReference}
+      div.verse-content
+        if renderVerseMetaInfo == true
+          div.tag-box
+            if current_verse_tags != null
+              each verseTag in current_verse_tags
+                - var current_tag_title = verseTag.tagTitle
+                - var verseTagBibleBookIsNull = (verseTag.bibleBookId == "NULL" || verseTag.bibleBookId == null);
+                if !verseTagBibleBookIsNull
+                  - current_tag_title += " *"
+                div.tag(title='Click to select all verses with this tag') #{current_tag_title}
+        div.verse-text #{verse.content}
+        div.cr-box
+      div.verse-notes

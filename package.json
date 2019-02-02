@@ -1,0 +1,38 @@
+{
+  "name": "ezra-project-ng",
+  "version": "0.0.5",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "postinstall": "install-app-deps",
+    "rebuild": "electron-rebuild -f -w sqlite3 -v 1.8.8",
+    "package-linux": "electron-packager . ezra-project --overwrite --platform=linux --arch=x64 --prune=true --out=release --electron-version=1.8.8",
+    "package-win": "electron-packager . ezra-project --overwrite --platform=win32 --arch=ia32 --prune=true --out=release --electron-version=1.8.8"
+  },
+  "author": "Tobias Klein",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "app-module-path": "^2.2.0",
+    "csv-parser": "^2.1.0",
+    "electron-debug": "^2.0.0",
+    "electron-settings": "^3.2.0",
+    "ezra-sword-interface": "0.0.5",
+    "fast-csv": "^2.4.1",
+    "fs-extra": "^7.0.1",
+    "iso-639-1": "^2.0.3",
+    "minimist": "^1.2.0",
+    "node-addon-api": "^1.6.2",
+    "pug": "^2.0.3",
+    "sequelize": "^4.42.0",
+    "sqlite3": "^4.0.4",
+    "task.js": "0.0.24",
+    "xml2js": "^0.4.19"
+  },
+  "devDependencies": {
+    "electron": "^2.0.0",
+    "electron-builder": "^20.38.4",
+    "electron-rebuild": "^1.8.2",
+    "node-gyp": "^3.8.0"
+  }
+}
