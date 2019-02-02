@@ -1,0 +1,1077 @@
+/* This file is part of Ezra Project.
+
+   Copyright (C) 2018 Tobias Klein <contact@ezra-project.tklein.info>
+
+   Ezra Project is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   Ezra Project is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Ezra Project. See the file COPYING.
+   If not, see <http://www.gnu.org/licenses/>. */
+
+.bold {
+  font-weight: bold;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.hl-yellow {
+  background-color: #FFFF65;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+.hl-green {
+  background-color: #9FFFA2;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+.not-shown {
+  display: none;
+}
+
+html, body {
+  font-family: Arial, Sans-Serif;
+  font-size: 100.1%;
+}
+
+form, input {
+  margin: 0;
+}
+
+h1 {
+  font-size: 1.3em;
+  text-decoration: underline; 
+}
+
+h2 {
+  font-size: 1.2em;
+}
+
+#main-content {
+  font-size: 0.9em;
+  display: none;
+}
+
+#verse-list-container {
+  margin-top: 0.5em;
+  height: 100%;
+}
+
+#verse-list-menu {
+  /*margin-left: 33em;*/
+  margin-bottom: 1em;
+  height: 2em;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  user-select: none;
+}
+
+#chapter-select-button {
+  height: 1.9em;
+}
+
+#chapter-select-button .ui-selectmenu-menu li a, #chapter-select-button .ui-selectmenu-status {
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+}
+
+#verse-list-frame { /* Needed because of selectable scroll bug */
+  overflow-y: scroll;
+  border: 1px solid #DDDDDD;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  user-select: none;
+}
+
+#verse-list {
+  padding-left: 0.5em;
+  font-family: Arial, Sans-Serif;
+  /*height: 100%;         // Needed because of selectable scroll-bug
+  overflow-y: scroll;*/
+}
+
+#verse-list .help-text {
+  margin: 1.5em;
+}
+
+.ie6 #main-content {
+  margin-top: 2em;
+}
+
+.verse-box {
+  clear: both;
+  padding: 0.1em;
+  margin-top: 0;
+}
+
+.section .verse-box {
+  padding-left: 3.6em;
+}
+
+/*.verse-preamble {
+  width: 6.2em;
+}*/
+
+.section-header-toolbox, .verse-toolbox {
+  min-height: 30px;
+  float: left;
+}
+
+/*.section-header-toolbox {
+  width: 3.5em;
+}*/
+
+.section-button, .abstract-section-button, .close-section-button, .assign-tag-button {
+  background-color: #F3F3F3;
+  font-size: 0.8em;
+  font-weight: bold;
+  cursor: pointer; 
+  font-family: Arial, Sans-Serif;
+  /*visibility: hidden;*/
+  width: 18px;
+  height: 18px;
+  float: right;
+  text-align: center;
+  color: black;
+}
+
+.section-button {
+  margin-top: 0.8em;
+  margin-left: 0.2em;
+  float: left;
+}
+
+.close-section-button {
+  padding-top: 2px;
+  height: 16px;
+}
+
+.webkit .section-button, .webkit .abstract-section-button, .webkit .close-section-button, .webkit .assign-tag-button {
+  height: 15px;
+  padding-top: 3px;
+}
+
+.close-section-button {
+  float: right;
+  margin-right: 0.5em;
+}
+
+.shadow {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  background-color: lightGrey;
+  opacity: 0.1;
+  display: none;
+}
+
+/* Bugfix for IE (see #59) */
+.ie .shadow {
+  display: none;
+}
+
+.move-up-button, .move-down-button, .split-verse-button {
+  background-color: #F3F3F3;
+  background-image: url(images/up.gif);
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 18px;
+  height: 18px;
+  /*float: right;
+  margin-right: 0.25em;*/
+  border: 1px solid #A0A0A0;
+  /*visibility: hidden;*/
+  /*opacity: 0.5;*/
+  cursor: pointer;
+}
+
+.move-up-button, .move-down-button {
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.move-up-button {
+  margin-bottom: 0.1em;
+}
+
+.move-down-button {
+  background-image:url(images/down.gif);
+  /*margin-top: 1.7em;*/
+}
+
+.move-button-box {
+  float: left;
+}
+
+.split-verse-button {
+  margin-top: 0.75em;
+  margin-right: 0.2em;
+  float: left;
+  background-position: -160px -48px;
+}
+
+.expand-button {
+  width: 18px;
+  height: 25px;
+  background-image:url(images/expand.gif);
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.verse-reference {
+  padding-top: 0.3em;
+  width: 6em; /* Needs to be bigger to support notes and x-refs, aligned with .verse-content */
+  /*height: 1.5em;*/
+  float: left;
+  z-index: 100;
+
+  /*padding-top: 0.1em;*/
+  color: #808080;
+}
+
+.verse-reference-content {
+  text-align: left;
+  margin-left: 0.5em;
+  width: 4em;
+}
+
+.verse-content {
+  margin-left: 6em; /* Needs to be bigger to support notes and x-refs, aligned with .verse-reference */
+  padding: 0.2em;
+}
+
+.slim-verse-reference .verse-reference {
+  width: 5em;
+}
+
+.slim-verse-reference .verse-reference-content {
+  margin-left: 0;
+}
+
+.slim-verse-reference .verse-content {
+  margin-left: 5em;
+}
+
+.tag-box {
+  line-height: 150%;
+  padding: 0.1em;
+}
+
+.tag {
+  display: inline;
+  color: #808080;
+  border: 1px solid #AED0EA;
+  /*border: 1px solid #808080;*/
+  font-size: 0.85em;
+  font-weight: bold;
+  padding: 0.1em;
+  margin-right: 0.4em;
+  margin-bottom: 0.4em;
+  cursor: pointer;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+.cr-box {
+  margin-top: 0.2em;
+}
+
+.cross-reference {
+  display: inline;
+  font-size: 0.85em;
+  color: #808080;
+  margin-right: 0.5em;
+}
+
+.full-cross-reference {
+  margin-bottom: 0.5em;
+}
+
+.cross-reference-ref {
+  float: left;
+}
+
+.cross-reference-text {
+  margin-left: 13em;
+  margin-top: -1.15em;
+}
+
+#cr-edit-box, #tag-reference-box, #book-tag-statistics-box {
+  display: none;
+}
+
+#cr-edit-box-verse-list, #tag-reference-box-verse-list {
+  padding-right: 0.2em;
+  width: 700px;
+  height: 350px;
+  margin-bottom: 0.5em;
+  overflow-y: scroll;
+}
+
+#cr-edit-box-input {
+  width: 300px;
+}
+
+#cr-edit-box-verse-preview {
+  width: 800px;
+  margin-top: 1em;
+}
+
+#book-tag-statistics-box {
+  width: 350px;
+  max-height: 500px;
+  overflow-y: scroll;
+}
+
+.verse-list-without-tags .tag-box, .ezra-dialog .tag-box {
+  display: none;
+}
+
+.verse-list-without-xrefs .cr-box, .ezra-dialog .cr-box {
+  display: none;
+}
+
+.verse-text {
+  cursor: pointer;
+  padding: 0.1em;
+}
+
+.ezra-dialog .verse-text {
+  cursor: auto;
+}
+
+.odd-row {
+  background-color: #EEEEEE;
+}
+
+.section {
+  clear: both;
+  margin: 1em 0 1em 3.5em;
+  /*border-left: 1px dashed #A0A0A0;*/
+}
+
+.section-first-level {
+  margin: 1em 0 1em 0;
+}
+
+.verse-list-no-indenting .section {
+  margin: 1em 0 2em 0;
+  border: 0;
+}
+
+.verse-list-without-outline {
+  padding: 0.5em;
+}
+
+.verse-list-without-outline .section {
+  margin: 0;
+  border: 0;
+}
+
+.verse-list-without-outline .section-header-box {
+  display: none;
+}
+
+.verse-list-without-outline .verse-box {
+  padding: 0.1em;
+}
+
+.verse-list-without-outline .verse-reference {
+  width: 7em;
+}
+
+.verse-list-without-outline .verse-reference-content {
+  margin-left: 3.5em;
+  margin-top: -1.15em;
+}
+
+.verse-list-without-outline .verse-content {
+  padding-left: 0;
+  margin-left: 7.5em;
+}
+
+.verse-list-without-outline .verse-notes {
+  width: 40%;
+}
+
+.verse-list-without-outline .verse-reference-toolbox {
+  display: none;
+}
+
+.verse-list-frame-small-screen {
+  margin-top: 3.6em;
+  height: 88%;
+}
+
+.verse-list-frame-small-screen .verse-notes {
+  width: 30%;
+}
+
+.section-header-box {
+  min-height: 30px;
+}
+
+.section-outline-number {
+  font-weight: bold;
+  float: left;
+  margin-left: 0.5em;
+  margin-right: 1em;
+}
+
+.section-header {
+  font-weight: bold;
+  float: left;
+}
+
+.section-header input {
+  font-weight: inherit;
+  font-size: inherit;
+  width: 30em;
+}
+
+.ui-selected, .ui-selecting {
+  border: 0;
+  background: none;
+  background-color: #AFCDFF;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+.ui-state-hover {
+  cursor: pointer;
+}
+
+.tag-delete-button, .meta-tag-assignment-button, .cr-delete-button {
+  margin-right: 0.5em;
+  float: left;
+  display: block;
+  width: 17px;
+  height: 17px;
+}
+
+.tag-delete-button, .cr-delete-button {
+  clear: both;
+}
+
+.notes-info {
+  margin-left: 1em;
+}
+
+.verse-list-without-outline .notes-info {
+  margin-left: 0;
+}
+
+.tag-info, .notes-info, .cr-info {
+  font-weight: bold;
+  margin-right: 0.5em;
+  color: #DDDDDD;
+  /*visibility: hidden;*/
+}
+
+.tag-info, .notes-info, .cr-info, .verse-reference-content {
+  float: left;
+}
+
+.cr-info {
+  cursor: pointer;
+}
+
+.visible {
+  color: #2779AA;
+  /*visibility: visible;*/
+}
+
+.verse-reference-id, .verse-bible-book-id, .verse-bible-book, .verse-bible-book-short, .verse-id, .verse-part, .abs-verse-nr, #current-outline-id, #current-outline-author {
+  display: none;
+}
+
+#app-container {
+  position: fixed;
+  top: 0.2em;
+  left: 0.5em;
+  padding: 0.1em;
+  width: 99%;
+  height: 40em;
+  border: 0;
+}
+
+/*.webkit #app-container, .ie #app-container, .opera #app-container {
+  top: 3.6em;
+}*/
+
+.app-view {
+  height: 90%;
+}
+
+#app-container .ui-tabs-panel, #app-container .ui-widget-content {
+  background-color: white;
+  background: none;
+}
+
+/*.ui-widget-content {
+  background-color: white;
+  background: none;
+}*/
+
+.ui-widget, .ui-widget .ui-widget, .fg-button, .ui-selectmenu-menu {
+  font-size: 0.9em;
+}
+
+.verse-selection-menu, #display-options-menu {
+  position: fixed;
+  border: 2px solid #DDDDDD;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-box-shadow: 5px 5px 5px #A0A0A0;
+  -webkit-box-shadow: 5px 5px 5px #A0A0A0;
+  background-color: white;
+  z-index: 100;
+  display: none;
+}
+
+#translation-settings-wizard {
+}
+
+#translation-settings-wizard-init {
+  padding-top: 3em;
+  text-align: center;
+}
+
+#translation-settings-wizard .label {
+  margin-left: 0.5em;
+}
+
+#translation-settings-wizard .disabled-label {
+  margin-left: 0.5em;
+  color: grey;
+}
+
+#translation-settings-wizard section {
+  overflow-y: scroll;
+}
+
+#display-options-menu {
+  width: 7em;
+  padding-top: 0.5em;
+}
+
+.selection-menu-footer {
+  clear: both;
+  margin: 0;
+  padding: 0.5em;
+  border-top: 1px solid #DDDDDD;
+  font-size: 0.9em;
+}
+
+.ot-nt-divider {
+  border-left: 1px solid #DDDDDD;
+  margin-left: 0.5em;
+}
+
+.ot-nt-divider li {
+  margin-left: 1em;
+}
+
+.book-list-column {
+  float: left;
+  list-style-type: none;
+  padding: 0.8em;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.book-list-column li {
+  margin-bottom: 0.15em;
+}
+
+.webkit .book-list-column li {
+  margin-bottom: 0.3em;
+}
+
+.book-select-button, .tag-select-button, .display-options-button, .note-session-select-button {
+  width: 11em;
+  padding: 0.3em;
+  cursor: pointer;
+  margin: 0 4px 0 0;
+  position: relative;
+  text-align: center;
+  float: left;
+}
+
+.display-options-button {
+  width: 7.5em;
+}
+
+.book-select-label {
+  float: left;
+}
+
+.book-select-button .ui-icon, .tag-select-button .ui-icon, .display-options-button .ui-icon, .note-session-select-button .ui-icon {
+  float: right;
+}
+
+.tag-select-button {
+  width: 7em;
+  margin-right: 1.5em;
+}
+
+.book-list-column li a:link, .book-list-column li a:visited, .book-list-column li a:hover, .book-list-column li a:focus {
+  color: gray;
+  text-decoration: none;
+  cursor: default;
+  padding: 2px;
+  margin: 1px;
+}
+
+.book-list-column li.book-menu-enabled-entry a:link, .book-list-column li.book-menu-enabled-entry a:visited {
+  color: black;
+  cursor: pointer;
+}
+
+.book-list-column li.book-menu-enabled-entry a:hover, .book-list-column li.book-menu-enabled-entry a:focus {
+  /*text-decoration: underline;*/
+  border: 1px solid #74B2E2;
+  margin: 0px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  background: #e4f1fb url(images/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
+}
+
+#verse-list-loading-indicator, .loading-indicator {
+  display: none;
+  width: 300px;
+  height: 30px;
+  margin-top: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.switch-box {
+  clear: both;
+  height: 2em;
+  width: 6em;
+  padding: 0.3em;
+  margin-bottom: 0.5em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.switch-box input {
+  float: left;
+  margin: 0.4em;
+}
+
+#download-tagged-verses-button {
+  margin-left: 1em;
+  height: 1.9em;
+}
+
+#show-book-tag-statistics-button, #show-translation-settings-button {
+  margin-left: 1em;
+  height: 1.9em;
+}
+
+#indent-switch-label, #outline-switch-label, #tags-switch-label, #tag-select-label, #display-options-label, #verse-notes-switch-label, #x-refs-switch-label {
+  margin: 0.2em;
+  margin-left: 0.2em;
+}
+
+#chapter-select-box {
+  float: left;
+  margin-left: 0.5em;
+  margin-right: 1em;
+}
+
+#chapter-select {
+  display: none;
+}
+
+.tag-data {
+  display: none;
+}
+
+#temporary-help {
+  display: none;
+  background-color: #F2F5F7;
+  z-index: 999;
+  position: fixed;
+}
+
+.temporary-help-split-verse {
+  border: 1px solid black;
+  -moz-border-radius: 6px 6px 0px 0px;
+  -webkit-border-radius: 6px 6px 0px 0px;
+  border-bottom: 0;
+  padding: 0.5em;
+  font-style: italic;
+  width: 20em;
+}
+
+#temporary-help p {
+  margin: 0.1em;
+}
+
+.verse-content-edited {
+  background-color: white;
+  border: 1px solid black;
+  -moz-border-radius: 0px 6px 6px 6px;
+  -webkit-border-radius: 0px 6px 6px 6px;
+  cursor: pointer;
+}
+
+.split-verse-marked-word {
+  background-color: #DEEDF7;
+}
+
+.split-verse-border {
+  border-right: 1px dashed black;
+}
+
+.split-verse-cancel-button-box {
+  padding-top: 0.3em;
+  text-align: right;
+}
+
+.split-verse-cancel-button {
+  margin: 0.5em;
+}
+
+.state-normal {
+  opacity: 0.6;
+  border: 1px solid #A0A0A0;
+  color: black;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+.state-disabled {
+  opacity: 0.2;
+}
+
+.state-highlighted {
+  opacity: 1.0;
+  border: 1px solid black;
+}
+
+.verse-notes {
+  float: left;
+  width: 35%;
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  min-height: 4em;
+  display: none;
+
+  /* YELLOW */
+  /*border: 1px solid #FFF500;
+  background-color: #FFFF88; */
+
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+
+  /* BLUEISH */
+  background-color: #DEEDF7;
+  border: 1px solid #AED0EA;
+}
+
+.verse-notes-empty {
+  min-height: 1.9em;
+  border: 1px solid #DDDDDD;
+  background-color: inherit;
+  padding-top: 1.1em;
+  padding-bottom: 1.1em;
+  text-align: center;
+  font-weight: bold;
+  color: #A0A0A0;
+}
+
+.verse-notes h1 {
+  text-decoration: none;
+  font-size: 1.4em;
+  font-weight: bold;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+}
+
+.verse-notes h2 {
+  text-decoration: none;
+  font-size: 1.3em;
+  font-weight: bold;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+}
+
+.verse-notes h3 {
+  text-decoration: none;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+}
+
+.verse-list-with-notes .verse-notes {
+  display: block;
+}
+
+.verse-list-with-notes .verse-content {
+  float: left;
+  width: 40%;
+  margin-left: 0;
+  margin-right: 0.5em;
+}
+
+#currently-edited-notes {
+  min-height: 3.1em;
+  padding: 0.5em;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+}
+
+.ui-selectable-helper {
+  opacity: 0.2;
+  background-color: black;
+}
+
+.clickable-checkbox-label {
+  cursor: default;
+}
+
+.verse-notes p {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.note-loading-indicator {
+  text-align: center;
+  min-height: 4.1em;
+  opacity: 0.5;
+}
+
+.transparent {
+  opacity: 0.5;
+}
+
+#selected-verses a:link, #selected-verses a:visited {
+  color: black;
+  text-decoration: none;
+}
+
+#selected-verses a:hover, #selected-verses a:active {
+  text-decoration: underline;
+}
+
+#search-result-content {
+ -moz-border-radius: 6px;
+ -webkit-border-radius: 6px;
+ border: 1px solid #DDDDDD;
+ height: 95%;
+ margin-top: 0.5em;
+ overflow-y: scroll;
+ padding: 0.5em;
+}
+
+#search-view {
+ height: 90%;
+}
+
+.search-result {
+  background-color: yellow;
+}
+
+#verse-menu-box, #verse-expand-box {
+  position: fixed;
+  display: none;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border: 1px solid #AED0EA;
+  padding: 0.1em;
+  padding-left: 0.2em;
+  padding-right: 0.2em;
+  z-index: 110;
+  background: url("images/ui-bg_highlight-soft_100_deedf7_1x100.png") repeat-x scroll 50% 50% #DEEDF7;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+#bible-translation-select {
+  border-collapse: collapse;
+}
+
+#bible-translation-select td {
+  border: 1px solid #DDDDDD;
+  padding: 0.2em;
+}
+
+#bible-translation-select th {
+  font-weight: bold;
+  padding: 0.5em;
+  border: 1px solid #DDDDDD;
+  border-bottom: 1px solid black;
+}
+
+.book-search-results {
+  margin-bottom: 1em;
+}
+
+.bible-book-title {
+  font-weight: bold;
+}
+
+#program-label {
+  position: fixed;
+  z-index: 10;
+  font-size: 0.8em;
+
+  font-family: Serif;
+  font-size: 1.5em;
+  /*width: 13em;*/
+  top: 0.7em;
+  left: 0.8em;
+}
+
+.webkit #program-label {
+  top: 0.5em;
+}
+
+#program-label img {
+  border: 0;
+}
+
+#project-version {
+  position: fixed;
+  top: 1.4em;
+  left: 13em;
+  font-size: 0.7em;
+  color: #A0A0A0;
+}
+
+#bible-select-block  {
+  position: fixed;
+  top: 0.8em;
+  right: 1em;
+  z-index: 100;
+  user-select: none;
+}
+
+#bible-select-block select {
+  width: 28em;
+  display: none;
+}
+
+#logout-button {
+  position: fixed;
+  top: 1.2em;
+  right: 2em;
+  z-index: 10;
+}
+
+#main-menu {
+  padding-left: 17em;
+}
+
+#main-menu li {
+  margin-top: 0.8em;
+}
+
+.webkit #main-menu {
+  padding-left: 18em;
+}
+
+.ui-autocomplete {
+  max-height: 150px;
+  overflow-y: auto;
+  /* prevent horizontal scrollbar */
+  overflow-x: hidden;
+  /* add padding to account for vertical scrollbar */
+  padding-right: 20px;
+}
+
+#tag-selection-menu {
+  padding: 1em;
+}
+
+#tag-selection-taglist-global {
+  margin-top: 1em;
+  height: 600px;
+  overflow-y: scroll;
+}
+
+#tag-selection-filter-input {
+  width: 18em;
+}
+
+.tag-browser-tag-id {
+  display: none;
+}
+
+.tag-browser-tag-cb {
+  float: left;
+  margin-right: 0.5em;
+}
+
+.tag-browser-tag {
+  clear: both;
+  margin-bottom: 0.5em;
+}
+
+.tag-browser-tag-title {
+  /*float: left;*/
+  margin-left: 1.5em;
+}
+
+.tag-browser-tag-assignment-count {
+  /*float: left;*/
+  margin-left: 0.2em;
+}
+
+#tag-browser-verselist-header {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+}
+
+.tag-browser-verselist-book-header {
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  clear: both;
+}
+
+.tag-browser-verselist-passage {
+  clear: both;
+  margin-top: 0.5em;
+  margin-bottom: 1.5em;
+}
+
+.tag-browser-verselist-passage-header {
+  margin-bottom: 0.2em;
+}
+
+#default-note-session {
+  display: none;
+}
+
