@@ -1,6 +1,6 @@
 /* This file is part of Ezra Project.
 
-   Copyright (C) 2019 Tobias Klein <contact@ezra-project.tklein.info>
+   Copyright (C) 2019 Tobias Klein <contact@tklein.info>
 
    Ezra Project is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -8,7 +8,8 @@
    (at your option) any later version.
 
    Ezra Project is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License

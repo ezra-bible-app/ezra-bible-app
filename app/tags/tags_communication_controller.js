@@ -1,6 +1,6 @@
 /* This file is part of Ezra Project.
 
-   Copyright (C) 2010 Tobias Klein <contact@ezra-project.tklein.info>
+   Copyright (C) 2019 Tobias Klein <contact@tklein.info>
 
    Ezra Project is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
