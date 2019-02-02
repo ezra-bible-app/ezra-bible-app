@@ -1,14 +1,15 @@
 {
   "name": "ezra-project",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "postinstall": "install-app-deps",
-    "rebuild": "electron-rebuild -f -w sqlite3 -v 1.8.8",
-    "package-linux": "electron-packager . ezra-project --overwrite --platform=linux --arch=x64 --prune=true --out=release --electron-version=1.8.8",
-    "package-win": "electron-packager . ezra-project --overwrite --platform=win32 --arch=ia32 --prune=true --out=release --electron-version=1.8.8"
+    "rebuild": "electron-rebuild -f -w sqlite3 -v 2.0.0",
+    "migrate-db": "sequelize db:migrate && sequelize db:seed:all",
+    "package-linux": "electron-packager . ezra-project --overwrite --platform=linux --arch=x64 --prune=true --out=release --electron-version=2.0.0",
+    "package-win": "electron-packager . ezra-project --overwrite --platform=win32 --arch=ia32 --prune=true --out=release --electron-version=2.0.0"
   },
   "author": "Tobias Klein",
   "license": "GPL-3.0",
