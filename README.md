@@ -7,4 +7,4 @@ Ezra Project is an [Electron](https://electronjs.org/) application, which makes 
 
 ## Installation
 
-To install Ezra Project, download the tar.gz file and extract it in a directory of your choice. After that you can execute it using the binary ezra-project in the toplevel folder.
+To install Ezra Project, download the tar.gz file and extract it in a directory of your choice. After that you can execute it using the binary *ezra-project* in the toplevel folder.
