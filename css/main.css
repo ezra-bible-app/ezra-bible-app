@@ -619,6 +619,10 @@ h2 {
   float: left;
 }
 
+.fg-button {
+  cursor: pointer;
+}
+
 .display-options-button {
   width: 7.5em;
 }

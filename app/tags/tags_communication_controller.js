@@ -81,7 +81,7 @@ function TagsCommunicationController()
     });
   };
 
-  this.destroy_tag = function(id) {
+  this.destroy_tag = async function(id) {
     models.VerseTag.destroy({
       where: {
         tagId: id
