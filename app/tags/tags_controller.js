@@ -248,6 +248,10 @@ function TagsController() {
   };
 
   this.handle_new_tag_button_click = function(button, type) {
+    if ($(button).hasClass('ui-state-disabled')) {
+      return;
+    }
+
     $('#new-' + type + '-tag-title-input').val(''); 
     $('#new-' + type + '-tag-dialog').dialog('open');
     $('#new-' + type + '-tag-title-input').focus();
@@ -294,8 +298,9 @@ function TagsController() {
     $('#delete-meta-tag-confirmation-dialog').dialog('close');
   };
 
-  this.delete_tag_after_confirmation = function() {
-    tags_controller.communication_controller.destroy_tag(tags_controller.tag_to_be_deleted);
+  this.delete_tag_after_confirmation = async function() {
+    await tags_controller.communication_controller.destroy_tag(tags_controller.tag_to_be_deleted);
+    await tags_controller.updateTagUiBasedOnTagAvailability();
     $('#delete-tag-confirmation-dialog').dialog('close');
   };
 
@@ -656,7 +661,7 @@ function TagsController() {
     return $('#tags-search-input')[0].empty();
   };
 
-  this.render_tags = function(tag_list) {
+  this.render_tags = async function(tag_list) {
     var book_content_header = $($('#tags-content').find('.ui-accordion-header')[1]);
     var global_tags_box = $('#tags-content-global');
     var book_tags_box = $('#tags-content-book');
@@ -680,6 +685,8 @@ function TagsController() {
     var book_tags_existing = false;
     var current_filter = $('#tags-search-input').val();
     var book_tag_statistics = new Array();
+
+    await tags_controller.updateTagUiBasedOnTagAvailability();
 
     for (var i = 0; i < tag_list.length; i++) {
       var current_tag = tag_list[i];
@@ -1528,7 +1535,7 @@ function TagsController() {
     new_reference_link.append(tags_search_input);
   };
 
-  this.init_ui = function() {
+  this.init_ui = async function() {
     $('#tags-content').accordion({
       autoHeight: false,
       animated: false,
@@ -1562,6 +1569,30 @@ function TagsController() {
     $('#tags-search-input').bind('keydown', function(e) {
       e.stopPropagation(); 
     });
+
+    await tags_controller.updateTagUiBasedOnTagAvailability();
+  };
+
+  this.updateTagUiBasedOnTagAvailability = async function() {
+    var translations = await models.BibleTranslation.getTranslations();
+    var translationCount = translations.length;
+    var tagsCount = await models.Tag.getTagCount();
+
+    if (tagsCount == 0) {
+      $('.tag-select-button').addClass('ui-state-disabled');
+      $('#show-book-tag-statistics-button').addClass('ui-state-disabled');
+
+      if (translationCount > 0) {
+        $('#tags-content-global').html(gettext_strings.help_text_no_tags_book_opened);
+      } else {
+        $('#new-standard-tag-button').addClass('ui-state-disabled');
+        $('#tags-content-global').html(gettext_strings.help_text_no_tags);
+      }
+    } else {
+      $('.tag-select-button').removeClass('ui-state-disabled');
+      $('#new-standard-tag-button').removeClass('ui-state-disabled');
+      $('#show-book-tag-statistics-button').removeClass('ui-state-disabled');
+    }
   };
 
   this.init = function() {

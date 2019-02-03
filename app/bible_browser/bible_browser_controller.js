@@ -508,6 +508,10 @@ function BibleBrowserController() {
   };
 
   this.handle_book_menu_click = function(event) {
+    if ($('.book-select-button').hasClass('ui-state-disabled')) {
+      return;
+    }
+
     if (bible_browser_controller.book_menu_is_opened) {
       bible_browser_controller.handle_body_click();
     } else {
@@ -531,6 +535,10 @@ function BibleBrowserController() {
   };
 
   this.handle_tag_menu_click = function(event) {
+    if ($('.tag-select-button').hasClass('ui-state-disabled')) {
+      return;
+    }
+
     if (bible_browser_controller.tag_menu_is_opened) {
       bible_browser_controller.handle_body_click();
     } else {
@@ -581,15 +589,20 @@ function BibleBrowserController() {
     }
   };
 
-  this.bind_events_after_bible_text_loaded = function() {
+  this.bind_events_after_bible_text_loaded = async function() {
     $('.cr-info').filter(":not('.tag-events-configured')").bind('click', bible_browser_controller.handle_cross_reference_click).addClass('tag-events-configured');
     $('.tag-box, .cr-box').filter(":not('.tag-events-configured')").bind('click', tags_controller.clear_verse_selection).addClass('tag-events-configured');
     $('.tag').filter(":not('.tag-events-configured')").bind('click', bible_browser_controller.handle_tag_reference_click).addClass('tag-events-configured');
 
     if (bible_browser_controller.text_is_book) {
+      var tagsCount = await models.Tag.getTagCount();
       var book_tag_statistics_button = $('#show-book-tag-statistics-button');
-      book_tag_statistics_button.removeClass('ui-state-disabled');
-      book_tag_statistics_button.removeClass('events-configured');
+
+      if (tagsCount > 0) {
+        book_tag_statistics_button.removeClass('ui-state-disabled');
+        book_tag_statistics_button.removeClass('events-configured');
+      }
+
       book_tag_statistics_button.bind('click', function() {
         bible_browser_controller.open_book_tag_statistics(); 
       });

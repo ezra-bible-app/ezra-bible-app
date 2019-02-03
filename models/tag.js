@@ -41,5 +41,11 @@ module.exports = (sequelize, DataTypes) => {
     return sequelize.query(query, { model: models.Tag });
   };
 
+  Tag.getTagCount = async function() {
+    var query = "SELECT id FROM Tags t";
+    var records = await sequelize.query(query, { model: models.Tag });
+    return records.length;
+  };
+
   return Tag;
 };

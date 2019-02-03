@@ -264,9 +264,10 @@ class TranslationWizard {
     return this._translationInstallStatus != 'IN_PROGRESS';
   }
 
-  addTranslationWizardFinished(event, currentIndex) {
+  async addTranslationWizardFinished(event, currentIndex) {
     $('#translation-settings-wizard').dialog('close');
 
+    this._installedTranslations = await models.BibleTranslation.getTranslations();
     $('#bible-select').removeAttr('disabled');
     initTranslationsMenu();
   }
@@ -323,6 +324,7 @@ class TranslationWizard {
             $("select#bible-select").empty();
             initTranslationsMenu();
             updateNavMenu();
+            tags_controller.updateTagUiBasedOnTagAvailability();
           });
         }
 
@@ -338,8 +340,9 @@ class TranslationWizard {
     return this._translationRemovalStatus != 'IN_PROGRESS';
   }
 
-  removeTranslationWizardFinished(event, currentIndex) {
+  async removeTranslationWizardFinished(event, currentIndex) {
     $('#translation-settings-wizard').dialog('close');
+    this._installedTranslations = await models.BibleTranslation.getTranslations();
     initTranslationsMenu();
   }
 

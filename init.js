@@ -421,8 +421,10 @@ async function initTranslationsMenu()
 
     if (result.count == 0) {
       $('#bible-select').attr('disabled','disabled');
+      $('.book-select-button').addClass('ui-state-disabled');
       $('#verse-list').find('.help-text').text(gettext_strings.help_text_no_translations);
     } else if (bible_browser_controller.current_book == null && bible_browser_controller.current_tag_id_list == "")  {
+      $('.book-select-button').removeClass('ui-state-disabled');
       $('#verse-list').find('.help-text').text(gettext_strings.help_text_translation_available);
     }
 
