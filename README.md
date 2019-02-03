@@ -7,4 +7,7 @@ Ezra Project is an [Electron](https://electronjs.org/) application, which makes 
 
 ## Installation
 
-To install Ezra Project, download the tar.gz file and extract it in a directory of your choice. After that you can execute it using the binary *ezra-project* in the toplevel folder.
+Before you can run Ezra Project you need to install the SWORD library. On Debian/Ubuntu distributions the package is called *libsword11v5*.
+
+Once Sword is available, install Ezra Project by downloading the tar.gz file and extracting it in a directory of your choice.
+After that you can execute Ezra Project using the binary *ezra-project* in the toplevel folder.
