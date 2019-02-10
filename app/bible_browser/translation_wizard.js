@@ -269,7 +269,8 @@ class TranslationWizard {
 
     this._installedTranslations = await models.BibleTranslation.getTranslations();
     $('#bible-select').removeAttr('disabled');
-    initTranslationsMenu();
+    await initTranslationsMenu();
+    await tags_controller.updateTagUiBasedOnTagAvailability();
   }
 
   removeTranslationWizardStepChanging(event, currentIndex, newIndex) {
