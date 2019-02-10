@@ -440,7 +440,7 @@ function BibleBrowserController() {
     bible_browser_controller.update_book_data();
   };
 
-  this.update_book_data = function() {
+  this.update_book_data = async function() {
     if (bible_browser_controller.current_book != null) {
 
       tags_controller.clear_verse_selection();
@@ -454,7 +454,6 @@ function BibleBrowserController() {
         bible_browser_controller.render_text_and_init_app);
 
       initChapterVerseCounts();
-
       tags_controller.communication_controller.request_tags();
 
       // DISABLED for PORTING
