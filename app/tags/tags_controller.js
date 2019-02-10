@@ -1583,6 +1583,7 @@ function TagsController() {
       $('#show-book-tag-statistics-button').addClass('ui-state-disabled');
 
       if (translationCount > 0) {
+        $('#new-standard-tag-button').removeClass('ui-state-disabled');
         $('#tags-content-global').html(gettext_strings.help_text_no_tags_book_opened);
       } else {
         $('#new-standard-tag-button').addClass('ui-state-disabled');
