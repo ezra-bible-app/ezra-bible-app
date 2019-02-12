@@ -686,8 +686,6 @@ function TagsController() {
     var current_filter = $('#tags-search-input').val();
     var book_tag_statistics = new Array();
 
-    await tags_controller.updateTagUiBasedOnTagAvailability();
-
     for (var i = 0; i < tag_list.length; i++) {
       var current_tag = tag_list[i];
       var current_tag_title = current_tag.title;
@@ -762,6 +760,8 @@ function TagsController() {
     //tags_controller.update_tag_count_after_rendering(); // FIXME: to be integrated!
     tags_controller.update_tags_view_after_verse_selection(true);
     tags_controller.show_meta_tag_assigned_tags(tags_controller.current_meta_tag_id);
+
+    await tags_controller.updateTagUiBasedOnTagAvailability();
 
     if (bible_browser_controller.current_book != null) {
       tags_controller.update_book_tag_statistics_box(book_tag_statistics);
