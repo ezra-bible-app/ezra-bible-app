@@ -8,8 +8,8 @@
     "rebuild-linux": "electron-rebuild -f -w sqlite3 -v 4.0.5",
     "rebuild-win": "electron-rebuild --arch=ia32 -f -w sqlite3 -v 4.0.5",
     "migrate-db": "sequelize db:migrate && sequelize db:seed:all",
-    "package-linux": "electron-packager . ezra-project --overwrite --platform=linux --arch=x64 --prune=true --out=release --electron-version=2.0.0",
-    "package-win": "electron-packager . ezra-project --overwrite --platform=win32 --arch=ia32 --prune=true --out=release --electron-version=2.0.0"
+    "package-linux": "electron-packager . ezra-project --overwrite --platform=linux --arch=x64 --prune=true --out=release --electron-version=4.0.5",
+    "package-win": "electron-packager . ezra-project --overwrite --platform=win32 --arch=ia32 --prune=true --out=release --electron-version=4.0.5"
   },
   "author": "Tobias Klein",
   "license": "GPL-3.0",
