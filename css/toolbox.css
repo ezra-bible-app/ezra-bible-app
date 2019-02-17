@@ -185,6 +185,7 @@ a.outline-reference:focus, a.outline-reference:hover {
   margin: 0;
   margin-top: -0.2em;
   float: right;
+  height: 1em;
 }
 
 #filter-dialog {
