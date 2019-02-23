@@ -299,40 +299,42 @@ class TranslationWizard {
       removalPage.append('<h3>Removing selected bible translations</h3>');
       removalPage.append('<p>Note, that each removal takes some time.</p>');
 
-      for (var i = 0; i < translations.length; i++) {
-        var translationCode = translations[i];
-        var translationName = ezraSwordInterface.getModuleDescription(translationCode);
+      setTimeout(async () => {
+        for (var i = 0; i < translations.length; i++) {
+          var translationCode = translations[i];
+          var translationName = ezraSwordInterface.getModuleDescription(translationCode);
 
-        removalPage.append('<span>Removing <i>' + translationName + '</i> ... </span>');
-        
-        await this.uninstallTranslation(translationCode);
-        await models.BibleTranslation.removeFromDb(translationCode);
+          removalPage.append('<span>Removing <i>' + translationName + '</i> ... </span>');
+          
+          await this.uninstallTranslation(translationCode);
+          await models.BibleTranslation.removeFromDb(translationCode);
 
-        if (current_bible_translation_id == translationCode) {
-          settings.delete('bible_translation');
-          models.BibleTranslation.findAndCountAll().then(result => {
-            if (result.rows.length > 0) {
-              current_bible_translation_id = result.rows[0].id;
-              bible_browser_controller.update_book_data();
-            } else {
-              $('#verse-list').empty();
-              $('#verse-list-loading-indicator').hide();
-              $('#verse-list').append("<div class='help-text'>To start using Ezra Project, select a book or a tag from the menu above.</div>");
-              current_bible_translation_id = null;
-              bible_browser_controller.current_book = null;
-              $('.book-select-value').text("Select book");
-            }
+          if (current_bible_translation_id == translationCode) {
+            settings.delete('bible_translation');
+            models.BibleTranslation.findAndCountAll().then(result => {
+              if (result.rows.length > 0) {
+                current_bible_translation_id = result.rows[0].id;
+                bible_browser_controller.update_book_data();
+              } else {
+                $('#verse-list').empty();
+                $('#verse-list-loading-indicator').hide();
+                $('#verse-list').append("<div class='help-text'>To start using Ezra Project, select a book or a tag from the menu above.</div>");
+                current_bible_translation_id = null;
+                bible_browser_controller.current_book = null;
+                $('.book-select-value').text("Select book");
+              }
 
-            $("select#bible-select").empty();
-            initTranslationsMenu();
-            updateNavMenu();
-            tags_controller.updateTagUiBasedOnTagAvailability();
-          });
+              $("select#bible-select").empty();
+              initTranslationsMenu();
+              updateNavMenu();
+              tags_controller.updateTagUiBasedOnTagAvailability();
+            });
+          }
+
+          removalPage.append('<span>done.</span>');
+          removalPage.append('<br/>');
         }
-
-        removalPage.append('<span>done.</span>');
-        removalPage.append('<br/>');
-      }
+      }, 800);
 
       this._translationRemovalStatus = 'DONE';
     }
