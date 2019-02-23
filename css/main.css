@@ -293,49 +293,16 @@ h2 {
   -webkit-border-radius: 4px;
 }
 
-.cr-box {
-  margin-top: 0.2em;
-}
-
-.cross-reference {
-  display: inline;
-  font-size: 0.85em;
-  color: #808080;
-  margin-right: 0.5em;
-}
-
-.full-cross-reference {
-  margin-bottom: 0.5em;
-}
-
-.cross-reference-ref {
-  float: left;
-}
-
-.cross-reference-text {
-  margin-left: 13em;
-  margin-top: -1.15em;
-}
-
-#cr-edit-box, #tag-reference-box, #book-tag-statistics-box {
+#tag-reference-box, #book-tag-statistics-box {
   display: none;
 }
 
-#cr-edit-box-verse-list, #tag-reference-box-verse-list {
+#tag-reference-box-verse-list {
   padding-right: 0.2em;
   width: 700px;
   height: 350px;
   margin-bottom: 0.5em;
   overflow-y: scroll;
-}
-
-#cr-edit-box-input {
-  width: 300px;
-}
-
-#cr-edit-box-verse-preview {
-  width: 800px;
-  margin-top: 1em;
 }
 
 #book-tag-statistics-box {
@@ -345,10 +312,6 @@ h2 {
 }
 
 .verse-list-without-tags .tag-box, .ezra-dialog .tag-box {
-  display: none;
-}
-
-.verse-list-without-xrefs .cr-box, .ezra-dialog .cr-box {
   display: none;
 }
 
@@ -462,7 +425,7 @@ h2 {
   cursor: pointer;
 }
 
-.tag-delete-button, .meta-tag-assignment-button, .cr-delete-button {
+.tag-delete-button, .meta-tag-assignment-button {
   margin-right: 0.5em;
   float: left;
   display: block;
@@ -470,7 +433,7 @@ h2 {
   height: 17px;
 }
 
-.tag-delete-button, .cr-delete-button {
+.tag-delete-button {
   clear: both;
 }
 
@@ -482,19 +445,15 @@ h2 {
   margin-left: 0;
 }
 
-.tag-info, .notes-info, .cr-info {
+.tag-info, .notes-info {
   font-weight: bold;
   margin-right: 0.5em;
   color: #DDDDDD;
   /*visibility: hidden;*/
 }
 
-.tag-info, .notes-info, .cr-info, .verse-reference-content {
+.tag-info, .notes-info, .verse-reference-content {
   float: left;
-}
-
-.cr-info {
-  cursor: pointer;
 }
 
 .visible {
