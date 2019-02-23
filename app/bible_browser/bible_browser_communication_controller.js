@@ -58,80 +58,10 @@ function BibleBrowserCommunicationController() {
     });
   };
 
-  this.request_verse_preview = function(book_short_title, chapter, verse) {
-    var absolute_verse_number = reference_to_absolute_verse_nr(book_short_title, chapter, verse);
-    //console.log("absolute_verse_number: " + absolute_verse_number);
-    $('#cr-edit-box-verse-preview').load('/bible_books/' + book_short_title + '/verses/' + absolute_verse_number + '.txt',
-                                         bible_browser_controller.communication_controller.on_verse_preview_load);
-  };
-
-  this.request_cross_references_for_verse = function(verse_id) {
-     $.ajax({
-      url: '/verses/' + verse_id + '/cross_references',
-      type: 'GET',
-      processData: true,
-      dataType: "xml",
-      success: bible_browser_controller.render_cross_references_in_preview_box
-    });
-  };
-
   this.request_tags_for_menu = function() {
     models.Tag.getGlobalAndBookTags().then(tags => {
       bible_browser_controller.render_tags_in_menu(tags);
     });
-  };
-
-  this.submit_new_cross_reference = function(verse_id, book, absolute_verse_number) {
-    var xml_param = "";
-    xml_param += 
-      "<cross_reference>" +
-      "<book>" + book + "</book>" +
-      "<absolute_verse_number>" + absolute_verse_number + "</absolute_verse_number>" +
-      "</cross_reference>";
-
-    xml_param = $.create_xml_doc(xml_param);
-
-    $.ajax({
-      type: 'POST',
-      url: '/verses/' + verse_id + '/cross_references',
-      contentType: "text/xml",
-      data: xml_param,
-      processData: false,
-      success: bible_browser_controller.communication_controller.on_new_cross_reference
-    });
-  };
-
-  this.on_verse_preview_load = function(response) {
-    //console.log("verse preview load!");
-  };
-
-  this.on_new_cross_reference = function(response) {
-      $('#cr-edit-box-verse-preview').empty();
-      $('#cr-edit-box-input').val('');
-      bible_browser_controller.communication_controller.request_cross_references_for_verse(
-        bible_browser_controller.current_cr_verse_id
-      );
-  };
-
-  this.destroy_cross_reference = function(cross_reference_id) {
-    $.ajax({
-      type: 'DELETE',
-      url: '/cross_references/' + cross_reference_id,
-      processData: false,
-      success: bible_browser_controller.communication_controller.process_server_response_after_cr_destruction
-    });
-  };
-
-  this.process_server_response_after_cr_destruction = function(response) {
-    if (response == "success") {
-      $('#cr-edit-box-verse-preview').empty();
-      $('#cr-edit-box-input').val('');
-      bible_browser_controller.communication_controller.request_cross_references_for_verse(
-        bible_browser_controller.current_cr_verse_id
-      );
-    } else {
-      alert('An error occurred while trying to delete the cross reference!');
-    }
   };
 
   this.request_verses_for_selected_tags = function(selected_tags, render_function, renderVerseMetaInfo=true) {

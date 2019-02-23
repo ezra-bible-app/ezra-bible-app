@@ -1606,7 +1606,7 @@ function TagsController() {
 
     $('#verse-list').selectable({
       filter: '.verse-text',
-      cancel: '.verse-notes, #currently-edited-notes, .section-header-box, .verse-content-edited, .tag-box, .tag, .cr-info',
+      cancel: '.verse-notes, #currently-edited-notes, .section-header-box, .verse-content-edited, .tag-box, .tag',
 
       start: function(event, ui) {
         tags_controller.selected_verse_references = new Array;
