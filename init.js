@@ -563,6 +563,7 @@ function loadSettings()
       current_bible_translation_id = result.rows[0].id;
     }
 
+    updateAvailableBooks();
     initChapterVerseCounts();
     bible_browser_controller.bibleTranslationCount = result.count;
     bible_browser_controller.loadSettings();
