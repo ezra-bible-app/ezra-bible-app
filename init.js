@@ -278,6 +278,7 @@ function initUi()
   tags_controller.init_ui();
   updateNavMenu();
   initTranslationsMenu();
+  updateAvailableBooks();
 
   $('#show-translation-settings-button').bind('click', function() {
     bible_browser_controller.open_translation_settings_wizard(); 
@@ -296,6 +297,7 @@ function handle_bible_translation_change()
   current_bible_translation_id = $(this).val();
   settings.set('bible_translation', current_bible_translation_id);
 
+  updateAvailableBooks();
   initChapterVerseCounts();
 
   if (bible_browser_controller.current_book != null) {
@@ -508,6 +510,26 @@ function initController()
 function unbind_events()
 {
   $('#verse-list-frame').find('div').unbind();
+}
+
+function updateAvailableBooks()
+{
+  models.BibleTranslation.getBookList(current_bible_translation_id).then(books => {
+    var book_links = $('#book-selection-menu').find('li');
+
+    for (var i = 0; i < book_links.length; i++) {
+      var current_book_link = $(book_links[i]);
+      var current_link_book = current_book_link.attr('class').split(' ')[0];
+      var current_book_id = current_link_book.split('-')[1];
+      if (books.includes(current_book_id)) {
+        current_book_link.removeClass('book-unavailable');
+        current_book_link.addClass('book-available');
+      } else {
+        current_book_link.addClass('book-unavailable');
+        current_book_link.removeClass('book-available');
+      }
+    }
+  });
 }
 
 function initChapterVerseCounts()

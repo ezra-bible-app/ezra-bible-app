@@ -250,6 +250,7 @@ class TranslationWizard {
 
         if (current_bible_translation_id == "" || current_bible_translation_id == null) {
           current_bible_translation_id = translationCode;
+          updateAvailableBooks();
         }
 
         installPage.append('<span>done.</span>');
@@ -304,12 +305,12 @@ class TranslationWizard {
 
         removalPage.append('<span>Removing <i>' + translationName + '</i> ... </span>');
         
-        ezraSwordInterface.uninstallModule(translationCode);
+        await this.uninstallTranslation(translationCode);
         await models.BibleTranslation.removeFromDb(translationCode);
 
         if (current_bible_translation_id == translationCode) {
           settings.delete('bible_translation');
-          current_bible_translation_id = models.BibleTranslation.findAndCountAll().then(result => {
+          models.BibleTranslation.findAndCountAll().then(result => {
             if (result.rows.length > 0) {
               current_bible_translation_id = result.rows[0].id;
               bible_browser_controller.update_book_data();
@@ -476,6 +477,14 @@ class TranslationWizard {
   installTranslation(translationCode) {
     return new Promise(resolve => {
       ezraSwordInterface.installModule(translationCode, function() {
+        resolve();
+      });
+    });
+  }
+
+  uninstallTranslation(translationCode) {
+    return new Promise(resolve => {
+      ezraSwordInterface.uninstallModule(translationCode, function() {
         resolve();
       });
     });
