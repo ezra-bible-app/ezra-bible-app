@@ -15,3 +15,7 @@ Once the SWORD library is available, install Ezra Project by downloading the tar
 
 ## Technology
 Ezra Project is based on [Electron](https://electronjs.org/), which makes it a web-based desktop application. It uses [SQLite](https://www.sqlite.org) as its database and HTML with [jQuery UI](https://jqueryui.com/) for its frontend. Bible translation modules are managed using the [ezra-sword-interface](https://github.com/tobias-klein/ezra-sword-interface).
+
+## Feedback
+To give feedback (bug reports, feature requests) please use the Github issue system.
+Click [here](https://github.com/tobias-klein/ezra-project/issues/new) to file a new Issue for Ezra Project.
