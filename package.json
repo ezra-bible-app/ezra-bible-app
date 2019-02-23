@@ -1,11 +1,11 @@
 {
   "name": "ezra-project",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "rebuild-linux": "electron-rebuild -f -w sqlite3 -v 4.0.5",
+    "rebuild-linux": "electron-rebuild -f -w ezra-sword-interface -v 4.0.5",
     "rebuild-win": "electron-rebuild --arch=ia32 -f -w sqlite3 -v 4.0.5",
     "migrate-db": "sequelize db:migrate && sequelize db:seed:all",
     "package-linux": "electron-packager . ezra-project --overwrite --platform=linux --arch=x64 --prune=true --out=release --electron-version=4.0.5",

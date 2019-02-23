@@ -204,8 +204,6 @@ function BibleBrowserController() {
     var menu = $('#app-container').find('#book-selection-menu');
     var links = menu.find('a');
 
-    menu.find('li').addClass('book-menu-enabled-entry');
-
     for (var i = 0; i < links.length; i++) {
       var current_link = $(links[i]);
       var current_link_href = current_link.attr('href');
@@ -420,24 +418,30 @@ function BibleBrowserController() {
   };
 
   this.select_bible_book = function(book_code, book_title) {
-    bible_browser_controller.hide_book_menu();
-    bible_browser_controller.hide_tag_menu();
+    models.BibleTranslation.getBookList(current_bible_translation_id).then(books => {
+      if (!books.includes(book_code)) {
+        return;
+      }
 
-    $('#verse-list-menu').find('.book-select-value').html(book_title);
-    $('#outline-content').empty();
+      bible_browser_controller.hide_book_menu();
+      bible_browser_controller.hide_tag_menu();
 
-    bible_browser_controller.settings.set('selected_book', {
-        code: book_code,
-        name: book_title
+      $('#verse-list-menu').find('.book-select-value').html(book_title);
+      $('#outline-content').empty();
+
+      bible_browser_controller.settings.set('selected_book', {
+          code: book_code,
+          name: book_title
+      });
+
+      // Set selected tags to null, since we just switched to a book
+      bible_browser_controller.settings.set('selected_tags', null);
+
+      this.current_book = book_code;
+      this.current_book_name = book_title;
+
+      bible_browser_controller.update_book_data();
     });
-
-    // Set selected tags to null, since we just switched to a book
-    bible_browser_controller.settings.set('selected_tags', null);
-
-    this.current_book = book_code;
-    this.current_book_name = book_title;
-
-    bible_browser_controller.update_book_data();
   };
 
   this.update_book_data = async function() {
@@ -453,6 +457,7 @@ function BibleBrowserController() {
         bible_browser_controller.current_book,
         bible_browser_controller.render_text_and_init_app);
 
+      updateAvailableBooks();
       initChapterVerseCounts();
       tags_controller.communication_controller.request_tags();
 
