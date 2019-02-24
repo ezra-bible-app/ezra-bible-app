@@ -86,7 +86,7 @@ h2 {
 }
 
 #chapter-select-button {
-  height: 1.9em;
+  height: 2.1em;
 }
 
 #chapter-select-button .ui-selectmenu-menu li a, #chapter-select-button .ui-selectmenu-status {
@@ -570,12 +570,13 @@ h2 {
 
 .book-select-button, .tag-select-button, .display-options-button, .note-session-select-button {
   width: 11em;
-  padding: 0.3em;
+  padding: 0.5em;
   cursor: pointer;
   margin: 0 4px 0 0;
   position: relative;
   text-align: center;
   float: left;
+  height: 1.1em;
 }
 
 .fg-button {
@@ -597,6 +598,8 @@ h2 {
 .tag-select-button {
   width: 7em;
   margin-right: 1.5em;
+  padding-top: 0.2em;
+  padding-bottom: 0.8em;
 }
 
 .book-available a:link, .book-available a:hover, .book-available a:visited, .book-available a:focus {
@@ -658,7 +661,7 @@ h2 {
 
 #show-book-tag-statistics-button, #show-translation-settings-button {
   margin-left: 1em;
-  height: 1.9em;
+  height: 2.3em;
 }
 
 #indent-switch-label, #outline-switch-label, #tags-switch-label, #tag-select-label, #display-options-label, #verse-notes-switch-label, #x-refs-switch-label {
