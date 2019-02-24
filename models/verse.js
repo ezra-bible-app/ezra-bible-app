@@ -258,6 +258,13 @@ module.exports = (sequelize, DataTypes) => {
       }
     ];
 
+    var offset_table_2co = [
+      { 'start'  : '13:13',
+        'end'    : '13:14',
+        'offset' : -1
+      }
+    ];
+
     var offset_table_revelation = [
       { 'start'  : '13:1',
         'end'    : '22:21',
@@ -273,6 +280,7 @@ module.exports = (sequelize, DataTypes) => {
       'Neh' : offset_table_nehemiah,
       'Psa' : offset_table_psalms,
       'Isa' : offset_table_isaiah,
+      '2Co' : offset_table_2co,
       'Rev' : offset_table_revelation
     };
 
