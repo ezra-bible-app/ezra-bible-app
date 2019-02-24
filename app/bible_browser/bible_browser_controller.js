@@ -126,6 +126,7 @@ function BibleBrowserController() {
     this.init_book_selection_menu();
     this.init_tag_selection_menu();
     this.init_display_options_menu();
+    this.init_tag_reference_box();
     this.translation_wizard = new TranslationWizard();
   };
 
@@ -202,6 +203,15 @@ function BibleBrowserController() {
 
   this.init_display_options_menu = function() {
     $('#app-container').find('.display-options-button').bind('click', bible_browser_controller.handle_display_menu_click);
+  };
+
+  this.init_tag_reference_box = function() {
+    $('#tag-reference-box').dialog({
+      width: 720,
+      position: [200,200],
+      autoOpen: false,
+      dialogClass: 'ezra-dialog'
+    });
   };
 
   this.handle_tag_search_input = function(e) {
