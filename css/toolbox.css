@@ -103,6 +103,7 @@ a.outline-reference:focus, a.outline-reference:hover {
 #new-meta-tag-button, #new-standard-tag-button, #new-book-tag-button {
   float: left;
   margin-right: 0.5em;
+  height: 2.2em;
 }
 
 #tags-search-label {
@@ -151,7 +152,7 @@ a.outline-reference:focus, a.outline-reference:hover {
 }
 
 #tags-content {
-  margin-top: 2em;
+  margin-top: 0.5em;
   clear: both;
   padding: 0.2em;
   margin-left: auto;
