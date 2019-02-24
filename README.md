@@ -13,6 +13,10 @@ Before you can run Ezra Project you need to install the [SWORD library](http://w
 
 Once the SWORD library is available install Ezra Project by downloading the tar.gz file and extracting it in a directory of your choice. After that, you can execute Ezra Project using the binary *ezra-project* in the toplevel folder.
 
+## Usage / Howto
+
+Watch [this video howto](https://www.youtube.com/watch?v=b8gScfa0MqM) to understand how to use Ezra Project.
+
 ## Technology
 Ezra Project is based on [Electron](https://electronjs.org/), which makes it a web-based desktop application. It uses [SQLite](https://www.sqlite.org) as its database and HTML with [jQuery UI](https://jqueryui.com/) for its frontend. Bible translation modules are managed using the [ezra-sword-interface](https://github.com/tobias-klein/ezra-sword-interface).
 
