@@ -270,6 +270,10 @@ function initUi()
     handles: 'e',
     resize: function(event, ui) {
       adapt_verse_list();
+    },
+    stop: function(event, ui) {
+      //console.log("Saving new tag list width: " + ui.size.width);
+      bible_browser_controller.settings.set('tag_list_width', ui.size.width);
     }
   });
 
