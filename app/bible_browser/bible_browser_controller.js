@@ -147,6 +147,12 @@ function BibleBrowserController() {
 
       bible_browser_controller.get_tagged_verses();
     }
+
+    if (bible_browser_controller.settings.get('tag_list_width') &&
+        bible_browser_controller.settings.get('tag_list_width') != null) {
+
+      $('#bible-browser-toolbox').css('width', bible_browser_controller.settings.get('tag_list_width'));
+    }
   };
 
   this.bind_events = function() {
