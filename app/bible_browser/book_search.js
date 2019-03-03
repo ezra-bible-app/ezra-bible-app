@@ -114,9 +114,16 @@ class BookSearch {
     return occurances;
   }
 
+  // based on https://stackoverflow.com/questions/3115150/how-to-escape-regular-expression-special-characters-using-javascript
+  escapeRegExp(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+  }
+
   highlightOccurancesInVerse(verseElement, searchString, occurances) {
     var verseText = verseElement.text()
     var highlightedSearchString = this.getHighlightedSearchString(searchString);
+    searchString = this.escapeRegExp(searchString);
+
     var regexSearchString = new RegExp(searchString, 'g');
     var highlightedVerseText = verseText.replace(regexSearchString, highlightedSearchString);
     verseElement.html(highlightedVerseText);
