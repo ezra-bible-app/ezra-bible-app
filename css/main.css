@@ -661,6 +661,7 @@ h2 {
 
 #show-book-tag-statistics-button, #show-translation-settings-button {
   margin-left: 1em;
+  margin-right: 1em;
   height: 2.3em;
 }
 
@@ -1047,4 +1048,8 @@ h2 {
   display: none;
 }
 
-
+.book-search-input {
+  background-color: white;
+  width: 250px;
+  height: 30px;
+}

@@ -1699,7 +1699,7 @@ function TagsController() {
         }
       }
       //console.timeEnd('filter-tag-list');
-    }, 300);
+    }, 200);
   };
 
   this.show_meta_tag_assigned_tags = function(meta_tag_id) {
