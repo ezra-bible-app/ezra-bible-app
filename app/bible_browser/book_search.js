@@ -28,6 +28,7 @@ class BookSearch {
     this.searchOccurancesElement = $(searchOccurancesElement);
 
     this.inputField.bind('focus', function() { $(this).select(); });
+
     this.inputField.bind('keyup', (e) => {
       if (e.key == 'Escape') {
         this.searchForm.hide();
