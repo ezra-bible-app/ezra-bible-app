@@ -20,6 +20,7 @@ const app = require('electron').remote.app;
 var userDataDir = app.getPath('userData');
 const models = require('./models')(userDataDir);
 const settings = require('electron-settings');
+var Mousetrap = require('mousetrap');
 
 current_section_start_toolbox = null;
 current_section_end_toolbox = null;

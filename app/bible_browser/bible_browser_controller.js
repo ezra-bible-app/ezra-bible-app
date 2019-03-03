@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const TranslationWizard = require('./app/bible_browser/translation_wizard.js');
+const BookSearch = require('./app/bible_browser/book_search.js');
 
 function sleep(time)
 {
@@ -127,7 +128,10 @@ function BibleBrowserController() {
     this.init_tag_selection_menu();
     this.init_display_options_menu();
     this.init_tag_reference_box();
+
     this.translation_wizard = new TranslationWizard();
+    this.book_search = new BookSearch();
+    this.book_search.init('#book-search-input', '#search-occurances');
   };
 
   this.loadSettings = function() {
