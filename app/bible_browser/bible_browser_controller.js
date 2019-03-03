@@ -131,7 +131,7 @@ function BibleBrowserController() {
 
     this.translation_wizard = new TranslationWizard();
     this.book_search = new BookSearch();
-    this.book_search.init('#book-search-input', '#search-occurances');
+    this.book_search.init('#book-search', '#book-search-input', '#book-search-occurances');
   };
 
   this.loadSettings = function() {

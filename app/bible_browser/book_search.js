@@ -22,22 +22,35 @@ class BookSearch {
   constructor() {
   }
 
-  init(searchInput, searchOccurancesElement) {
+  init(searchForm, searchInput, searchOccurancesElement) {
+    this.searchForm = $(searchForm);
     this.inputField = $(searchInput);
     this.searchOccurancesElement = $(searchOccurancesElement);
 
     this.inputField.bind('focus', function() { $(this).select(); });
-    this.inputField.bind('keyup', () => this.doSearch(this.inputField.val()));
+    this.inputField.bind('keyup', (e) => {
+      if (e.key == 'Escape') {
+        this.searchForm.hide();
+        return;
+      }
+
+      this.doSearch()
+    });
 
     Mousetrap.bind('ctrl+f', () => {
-      console.log('ctrl + f pressed ...');
-
+      this.searchForm.show();
       this.inputField.focus()
+      return false;
+    });
+
+    Mousetrap.bind('esc', () => {
+      this.searchForm.hide();
       return false;
     });
   }
 
-  doSearch(searchString) {
+  doSearch(e) {
+    var searchString = this.inputField.val();
     clearTimeout(this.searchTimeout);
 
     this.searchTimeout = setTimeout(() => {
