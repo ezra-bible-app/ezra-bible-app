@@ -23,6 +23,7 @@
   margin-right: 0.5em;
   /* margin-top disabled as long as we don't have a logo */
   /* margin-top: 3em; */
+  z-index: 10;
 }
 
 .webkit #bible-browser-toolbox {

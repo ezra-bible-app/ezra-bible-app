@@ -72,7 +72,8 @@ class TranslationWizard {
   }
 
   openWizard() {
-    var verse_list_position = $('#verse-list-frame').offset();
+    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame();
+    var verse_list_position = currentVerseListFrame.offset();
 
     $('#translation-settings-wizard-add').hide();
     $('#translation-settings-wizard-remove').hide();
@@ -236,7 +237,7 @@ class TranslationWizard {
       var installPage = $("#translation-settings-wizard-add-p-3");
       installPage.empty();
       installPage.append('<h3>Installing selected bible translations</h3>');
-      installPage.append('<p>Note, that each installation takes some time to download and then install.</p>');
+      installPage.append('<p>Note that it takes some time for each translation to be downloaded and then installed.</p>');
 
       for (var i = 0; i < translations.length; i++) {
         var translationCode = translations[i];

@@ -233,12 +233,6 @@ var bible_chapter_verse_counts = {};
 </div>
 -->
 
-<div style="display: none" id="setting-id"></div>
-<div id="bible-select-block">
-  <select name="bible-select" id="bible-select">
-  </select>
-</div>
-
 <div id="app-container">
   <div id="bible-browser-toolbox">
     <div id="tags-header" class="tab-component-menu">
@@ -255,9 +249,9 @@ var bible_chapter_verse_counts = {};
         Tag statistics
         </button>
 
-        <div id="book-search">
-        <input id="book-search-input" type="text" /> <div id="book-search-occurances"></div>
-        </div>
+        <button id="show-translation-settings-button" class="fg-button ui-corner-all ui-state-default">
+        Configure translations
+        </button>
 
         <!-- // Book Tags disabled as long as they are not functional
         <button id="new-book-tag-button" class="fg-button ui-state-default ui-corner-all" type="button">New book tag</button>
@@ -489,88 +483,85 @@ var bible_chapter_verse_counts = {};
     </div>
   </div>
 
-  <div id="verse-list-container">
-    <div id="verse-list-menu">
+  <div id="book-search">
+    <input id="book-search-input" type="text" /> <div id="book-search-occurances"></div>
+  </div>
 
-      <div class="fg-button book-select-button ui-state-default ui-corner-all">
-        <div class="ui-icon ui-icon-triangle-1-s"></div>
-        <div class="book-select-value">Select book</div>
-      </div>
-
-      <div id="chapter-select-box">
-        <select id="chapter-select">
-          <option>1</option>
-        </select>
-      </div>
-
-      <div class="fg-button tag-select-button ui-state-default ui-corner-all">
-        <div class="ui-icon ui-icon-triangle-1-s"></div>
-        <div id="tag-select-label">Select tag</div>
-      </div>
-
-      <!-- Display options menu disabled for now -->
-      <!--
-      <div class="fg-button display-options-button ui-state-default ui-corner-all">
-        <div class="ui-icon ui-icon-triangle-1-s"></div>
-        <div id="display-options-label">Options</div>
-      </div>
-      -->
-
-      <button id="show-translation-settings-button" class="fg-button ui-corner-all ui-state-default">
-      Configure translations
-      </button>
-
-      <!-- Download tagged verses not working at the moment -->
-      <!--
-      <button id="download-tagged-verses-button" class="fg-button ui-corner-all events-configured ui-state-default ui-state-disabled">
-      Download
-      </button>
-      -->
-    </div>
-
-    <div id="verse-list-frame">
-      <div id="verse-list-loading-indicator">
-        <img src="images/loading_animation4.gif" />
-        Loading bible text ...
-      </div>
-
-      <div id="temporary-help">
-      </div>
-
-      <div id="tag-reference-box">
-        <div id="tag-reference-box-verse-list">
-        </div>
-      </div>
-
-      <div id="book-tag-statistics-box">
-        <div id="book-tag-statistics-box-content">
-        </div>
-      </div>
-
-      <div id="verse-menu-box">
-        <div class="verse-reference-toolbox">
-          <div class="outlining-toolbox">
-            <div class="split-verse-button ui-icon state-normal" title=""></div>
-            <div class="move-button-box">
-              <div class="move-up-button state-normal" title="Move verses up to next section"></div>
-              <div class="move-down-button state-normal" title="Move verses down to next section"></div>
-            </div>
-            <div class="section-button state-normal">{</div>
-          </div>
-        </div> <!-- verse-reference-toolbox -->
-      </div>
-
-      <div id="verse-expand-box">
-        <div class="expand-button state-normal" title="Load the context of this verse"></div>
-      </div>
-
-      <div id="verse-list" class="verse-list">
-        <div class="help-text">
-        To start using Ezra Project, select a book or a tag from the menu above.
-        </div>
-      </div>
+  <div id="tag-reference-box">
+    <div id="tag-reference-box-verse-list">
     </div>
   </div>
+
+  <div id="book-tag-statistics-box">
+    <div id="book-tag-statistics-box-content">
+    </div>
+  </div>
+
+  <div id="verse-list-tabs">
+    <ul>
+      <li><a href="#verse-list-tabs-1">-------------</a> <span class="ui-icon ui-icon-close" role="presentation">Remove Tab</span></li>
+    </ul>
+    <div id="verse-list-tabs-1" class="verse-list-container">
+      <div class="verse-list-menu">
+
+        <div class="fg-button book-select-button ui-state-default ui-corner-all">
+          <div class="ui-icon ui-icon-triangle-1-s"></div>
+          <div class="book-select-value">Select book</div>
+        </div>
+
+        <div class="chapter-select-box">
+          <select class="chapter-select">
+            <option>1</option>
+          </select>
+        </div>
+
+        <div class="fg-button tag-select-button ui-state-default ui-corner-all">
+          <div class="ui-icon ui-icon-triangle-1-s"></div>
+          <div class="tag-select-label">Select tag</div>
+        </div>
+
+        <!-- Display options menu disabled for now -->
+        <!--
+        <div class="fg-button display-options-button ui-state-default ui-corner-all">
+          <div class="ui-icon ui-icon-triangle-1-s"></div>
+          <div id="display-options-label">Options</div>
+        </div>
+        -->
+
+        <!-- Download tagged verses not working at the moment -->
+        <!--
+        <button id="download-tagged-verses-button" class="fg-button ui-corner-all events-configured ui-state-default ui-state-disabled">
+        Download
+        </button>
+        -->
+
+        <div class="bible-select-block">
+          <select name="bible-select" class="bible-select">
+          </select>
+        </div>
+      </div> <!-- verse-list-menu -->
+
+      <div class="verse-list-frame">
+        <div class="verse-list-loading-indicator">
+          <img src="images/loading_animation4.gif" />
+          Loading bible text ...
+        </div>
+
+        <div class="temporary-help">
+        </div>
+
+        <div id="verse-expand-box">
+          <div class="expand-button state-normal" title="Load the context of this verse"></div>
+        </div>
+
+        <div class="verse-list">
+          <div class="help-text">
+          To start using Ezra Project, select a book or a tag from the menu above.
+          </div>
+        </div>
+      </div> <!-- verse-list-frame -->
+    </div> <!-- verse-list-container -->
+  </div> <!-- verse-list-tabs -->
 </div>
 
 </div>

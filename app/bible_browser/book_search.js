@@ -28,7 +28,6 @@ class BookSearch {
     this.searchOccurancesElement = $(searchOccurancesElement);
 
     this.inputField.bind('focus', function() { $(this).select(); });
-
     this.inputField.bind('keyup', (e) => {
       if (e.key == 'Escape') {
         this.searchForm.hide();
@@ -50,13 +49,16 @@ class BookSearch {
     });
   }
 
+  setVerseList(verseList) {
+    this.verseList = verseList;
+  }
+
   doSearch(e) {
     var searchString = this.inputField.val();
     clearTimeout(this.searchTimeout);
 
     this.searchTimeout = setTimeout(() => {
-      var verseList = $('#verse-list');
-      var allVerses = verseList.find('.verse-text');
+      var allVerses = this.verseList.find('.verse-text');
       var bookOccurancesCount = 0;
 
       //console.log("Found " + allVerses.length + " verses to search in.");
