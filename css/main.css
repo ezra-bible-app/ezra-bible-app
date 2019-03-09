@@ -71,12 +71,23 @@ h2 {
   display: none;
 }
 
-#verse-list-container {
-  margin-top: 0.5em;
-  height: 100%;
+#verse-list-tabs .ui-tabs-nav {
+  margin-left: 36em;
+  height: 2.5em;
 }
 
-#verse-list-menu {
+#verse-list-tabs ul li span {
+  margin-top: 0.5em;
+  margin-right: 0.5em;
+}
+
+/*.verse-list-container {
+  margin-left: 5em;
+  margin-top: 0.5em;
+  height: 100%;
+}*/
+
+.verse-list-menu {
   /*margin-left: 33em;*/
   margin-bottom: 1em;
   height: 2em;
@@ -94,7 +105,7 @@ h2 {
   padding-bottom: 0.2em;
 }
 
-#verse-list-frame { /* Needed because of selectable scroll bug */
+.verse-list-frame { /* Needed because of selectable scroll bug */
   overflow-y: scroll;
   border: 1px solid #DDDDDD;
   -moz-border-radius: 6px;
@@ -102,14 +113,14 @@ h2 {
   user-select: none;
 }
 
-#verse-list {
+.verse-list {
   padding-left: 0.5em;
   font-family: Arial, Sans-Serif;
   /*height: 100%;         // Needed because of selectable scroll-bug
   overflow-y: scroll;*/
 }
 
-#verse-list .help-text {
+.verse-list .help-text {
   margin: 1.5em;
 }
 
@@ -596,8 +607,8 @@ h2 {
 }
 
 .tag-select-button {
+  margin-left: 1em;
   width: 7em;
-  margin-right: 1.5em;
   padding-top: 0.2em;
   padding-bottom: 0.8em;
 }
@@ -630,7 +641,7 @@ h2 {
   background: #e4f1fb url(images/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
 }
 
-#verse-list-loading-indicator, .loading-indicator {
+.verse-list-loading-indicator, .loading-indicator {
   display: none;
   width: 300px;
   height: 30px;
@@ -661,22 +672,20 @@ h2 {
 
 #show-book-tag-statistics-button, #show-translation-settings-button {
   margin-left: 1em;
-  margin-right: 1em;
   height: 2.3em;
 }
 
-#indent-switch-label, #outline-switch-label, #tags-switch-label, #tag-select-label, #display-options-label, #verse-notes-switch-label, #x-refs-switch-label {
+#indent-switch-label, #outline-switch-label, #tags-switch-label, .tag-select-label, #display-options-label, #verse-notes-switch-label, #x-refs-switch-label {
   margin: 0.2em;
   margin-left: 0.2em;
 }
 
-#chapter-select-box {
+.chapter-select-box {
   float: left;
   margin-left: 0.5em;
-  margin-right: 1em;
 }
 
-#chapter-select {
+select.chapter-select {
   display: none;
 }
 
@@ -684,7 +693,7 @@ h2 {
   display: none;
 }
 
-#temporary-help {
+.temporary-help {
   display: none;
   background-color: #F2F5F7;
   z-index: 999;
@@ -701,7 +710,7 @@ h2 {
   width: 20em;
 }
 
-#temporary-help p {
+.temporary-help p {
   margin: 0.1em;
 }
 
@@ -940,16 +949,14 @@ h2 {
   color: #A0A0A0;
 }
 
-#bible-select-block  {
-  position: fixed;
-  top: 0.8em;
-  right: 1em;
-  z-index: 100;
+.bible-select-block  {
+  float: left;
+  margin-left: 0.8em;
   user-select: none;
 }
 
-#bible-select-block select {
-  width: 28em;
+.bible-select-block select {
+  width: 20em;
   display: none;
 }
 

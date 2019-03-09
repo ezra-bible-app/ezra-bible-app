@@ -18,8 +18,12 @@
 
 function TagsCommunicationController()
 {
-  this.request_tags = function() {
-    models.BibleBook.findOne({ where: { shortTitle: bible_browser_controller.current_book }}).then(bibleBook => {
+  this.request_tags = function(currentBook=undefined) {
+    if (currentBook === undefined) {
+      var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
+    }
+
+    models.BibleBook.findOne({ where: { shortTitle: currentBook }}).then(bibleBook => {
       var bibleBookId = null;
       if (bibleBook != null) {
         bibleBookId = bibleBook.id;
@@ -58,7 +62,7 @@ function TagsCommunicationController()
 
     var bibleBookId = null;
     if (isBookTag) {
-      bibleBookId = bible_browser_controller.current_book;
+      bibleBookId = bible_browser_controller.tab_controller.getCurrentTabBook();
     }
 
     model.create({
@@ -105,9 +109,10 @@ function TagsCommunicationController()
   };
 
   this.param_for_xml_verse_selection = function(xml_verse_selection) {
+    var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
     var xml_params = "<params>";
     xml_params += xml_verse_selection;
-    xml_params += "<book-code>" + bible_browser_controller.current_book + "</book-code>";
+    xml_params += "<book-code>" + currentBook + "</book-code>";
     xml_params += "</params>";
 
     xml_params = $.create_xml_doc(xml_params);
