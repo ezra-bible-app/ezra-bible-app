@@ -25,7 +25,8 @@ each bibleBook in bibleBooks
 
     div(class=div_classes)
       - var verseReference = verse.chapter + reference_separator + verse.verseNr;
-      a(name=verseReference)
+      - var anchor = verseListId + " " + verseReference;
+      a(name=anchor)
       div.verse-id #{verse.id}
       div.verse-reference-id #{verse.verseReferenceId}
       div.abs-verse-nr #{verse.absoluteVerseNr}

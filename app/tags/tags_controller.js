@@ -349,7 +349,7 @@ function TagsController() {
                                         .find('.verse-reference-content').html();
 
       tags_controller.update_tags_view_after_verse_selection(true);
-      jump_to_reference(current_verse_reference, false);
+      bible_browser_controller.jump_to_reference(current_verse_reference, false);
     }
   };
 
@@ -1512,7 +1512,7 @@ function TagsController() {
                                                             end_reference);
 
       if (turn_into_link) {
-        formatted_passage = "<a href=\"javascript:jump_to_reference('" + start_reference + "', true);\">" + formatted_passage + "</a>";
+        formatted_passage = "<a href=\"javascript:bible_browser_controller.jump_to_reference('" + start_reference + "', true);\">" + formatted_passage + "</a>";
       }
     }
 
