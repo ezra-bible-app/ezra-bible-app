@@ -514,16 +514,18 @@ function BibleBrowserController() {
   };
 
   this.get_overlay_verse_box_position = function(verse_box) {
+    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame();
+
     var verse_box_position = verse_box.offset();
     var verse_box_class = verse_box.attr('class');
     var verse_nr = parseInt(verse_box_class.match(/verse-nr-[0-9]*/)[0].split('-')[2]);
     var next_verse_nr = verse_nr + 1;
-    var next_verse_box = $('.verse-nr-' + next_verse_nr);
+
+    var next_verse_box = currentVerseListFrame.find('.verse-nr-' + next_verse_nr);
     var next_verse_box_position = next_verse_box.offset();
     if (next_verse_box_position == undefined) {
       next_verse_box_position = verse_box.offset();
     }
-    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame();
     var verse_list_height = currentVerseListFrame.height();
     var verse_list_position = currentVerseListFrame.offset();
     var screen_bottom = verse_list_position.top + verse_list_height;
