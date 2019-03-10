@@ -23,7 +23,8 @@ var verse_list_template_file = path.join(__dirname, 'templates/verse_list.pug');
 const verseListTemplate = pug.compileFile(verse_list_template_file);
 
 function BibleBrowserCommunicationController() {
-  this.request_book_text = function(book_short_title,
+  this.request_book_text = function(current_tab_id,
+                                    book_short_title,
                                     render_function,
                                     start_verse_number=0,
                                     number_of_verses=0) {
@@ -44,6 +45,7 @@ function BibleBrowserCommunicationController() {
           var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags);
 
           var verses_as_html = verseListTemplate({
+            verseListId: current_tab_id,
             renderVerseMetaInfo: true,
             renderBibleBookHeaders: false,
             bibleBooks: [bibleBook],
