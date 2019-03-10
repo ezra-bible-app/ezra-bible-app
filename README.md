@@ -20,6 +20,11 @@ Watch [this video howto](https://www.youtube.com/watch?v=b8gScfa0MqM) to underst
 ## Technology
 Ezra Project is based on [Electron](https://electronjs.org/), which makes it a web-based desktop application. It uses [SQLite](https://www.sqlite.org) as its database and HTML with [jQuery UI](https://jqueryui.com/) for its frontend. Bible translation modules are managed using the [ezra-sword-interface](https://github.com/tobias-klein/ezra-sword-interface).
 
+Furthermore, the following JS components are used (among others):
+* [Sequelize](http://docs.sequelizejs.com) [ORM](https://en.wikipedia.org/wiki/Object-relational_mapping) for handling database access
+* [Pug](https://pugjs.org) template engine for rendering verse list
+* [jQuery Steps](http://www.jquery-steps.com) for the bible translation wizard
+
 ## Feedback
 To give feedback (bug reports, feature requests) please use the Github issue system.
 Click [here](https://github.com/tobias-klein/ezra-project/issues/new) to file a new Issue for Ezra Project.
