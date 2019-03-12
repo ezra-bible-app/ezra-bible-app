@@ -330,8 +330,6 @@ function BibleBrowserController() {
       bible_browser_controller.hide_book_menu();
       bible_browser_controller.hide_tag_menu();
 
-      var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
-      currentVerseListMenu.find('.book-select-value').html(book_title);
       // Not needed at the moment
       //$('#outline-content').empty();
 
@@ -797,9 +795,6 @@ function BibleBrowserController() {
     bible_browser_controller.tab_controller.setCurrentTabBook(null, null);
     bible_browser_controller.settings.set('book', null);
 
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
-
-    currentVerseListMenu.find('.book-select-value').html(gettext_strings.book_select_label);
     $('#download-tagged-verses-button').removeClass('ui-state-disabled');
 
     var verseList = bible_browser_controller.getCurrentVerseList();

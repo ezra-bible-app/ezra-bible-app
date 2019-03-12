@@ -885,6 +885,7 @@ function TagsController() {
     });
 
     $('.expand-button').filter(":not('.tag-events-configured')").bind('click', function() {
+      var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
       var current_reference = $(tags_controller.current_mouseover_verse_reference);
       var start_verse_box = current_reference.closest('.verse-box');
       var current_book_title = start_verse_box.find('.verse-bible-book-short').html();
@@ -899,6 +900,7 @@ function TagsController() {
       tags_controller.context_verse = start_verse_box;
 
       bible_browser_controller.communication_controller.request_book_text(
+        currentTabId,
         current_book_title,
         tags_controller.load_verse_context,
         start_verse_nr,
