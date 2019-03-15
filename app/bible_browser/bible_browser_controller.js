@@ -709,6 +709,9 @@ function BibleBrowserController() {
     bible_browser_controller.reset_verse_list_view();
     $('#show-book-tag-statistics-button').addClass('ui-state-disabled');
 
+    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+    bible_browser_controller.book_search.setVerseList(currentVerseList);
+
     var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList();
     if (currentTagIdList != "") {
       var loadingIndicator = bible_browser_controller.getCurrentVerseListLoadingIndicator();
