@@ -28,13 +28,19 @@ class BookSearch {
     this.searchOccurancesElement = $(searchOccurancesElement);
 
     this.inputField.bind('focus', function() { $(this).select(); });
+
     this.inputField.bind('keyup', (e) => {
       if (e.key == 'Escape') {
-        this.searchForm.hide();
+        this.clearSearch();
         return;
       }
 
-      this.doSearch()
+      var searchString = this.inputField.val();
+      clearTimeout(this.searchTimeout);
+
+      this.searchTimeout = setTimeout(() => {
+        this.doSearch(searchString);
+      }, 200);
     });
 
     Mousetrap.bind('ctrl+f', () => {
@@ -44,7 +50,7 @@ class BookSearch {
     });
 
     Mousetrap.bind('esc', () => {
-      this.searchForm.hide();
+      this.clearSearch();
       return false;
     });
   }
@@ -53,31 +59,31 @@ class BookSearch {
     this.verseList = verseList;
   }
 
-  doSearch(e) {
-    var searchString = this.inputField.val();
-    clearTimeout(this.searchTimeout);
+  clearSearch() {
+    this.searchForm.hide();
+    this.doSearch("");
+  }
 
-    this.searchTimeout = setTimeout(() => {
-      var allVerses = this.verseList.find('.verse-text');
-      var bookOccurancesCount = 0;
+  doSearch(searchString) {
+    var allVerses = this.verseList.find('.verse-text');
+    var bookOccurancesCount = 0;
 
-      //console.log("Found " + allVerses.length + " verses to search in.");
+    //console.log("Found " + allVerses.length + " verses to search in.");
 
-      for (var i = 0; i < allVerses.length; i++) {
-        var currentVerse = $(allVerses[i]);
-        var verseOccurancesCount = this.doVerseSearch(currentVerse, searchString);
+    for (var i = 0; i < allVerses.length; i++) {
+      var currentVerse = $(allVerses[i]);
+      var verseOccurancesCount = this.doVerseSearch(currentVerse, searchString);
 
-        bookOccurancesCount += verseOccurancesCount;
-      }
+      bookOccurancesCount += verseOccurancesCount;
+    }
 
-      var occurancesString = "";
+    var occurancesString = "";
 
-      if (bookOccurancesCount > 0) {
-        var occurancesString = "(" + bookOccurancesCount + ")";
-      }
+    if (bookOccurancesCount > 0) {
+      var occurancesString = "(" + bookOccurancesCount + ")";
+    }
 
-      this.searchOccurancesElement.html(occurancesString);
-    }, 200);
+    this.searchOccurancesElement.html(occurancesString);
   }
 
   doVerseSearch(verseElement, searchString) {
