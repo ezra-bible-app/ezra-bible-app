@@ -1405,12 +1405,11 @@ function TagsController() {
     $('#tags-header').find('#selected-verses').html("");
     //$('#clippy-box').empty();
     var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
-    var currentBookName = bible_browser_controller.get_book_long_title(currentBook);
 
-    if (currentBookName != null && tags_controller.selected_verse_references.length > 0) {
+    if (currentBook != null && tags_controller.selected_verse_references.length > 0) {
+      var currentBookName = bible_browser_controller.get_book_long_title(currentBook);
       var formatted_verse_list = tags_controller.format_verse_list_for_view(tags_controller.selected_verse_references, true);
       selected_verses_content = currentBookName + ' ' + formatted_verse_list;
-
       $('#tags-header').find('#selected-verses').html(selected_verses_content);
 
       // PORTING disabled
