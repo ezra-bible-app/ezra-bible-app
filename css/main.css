@@ -1101,6 +1101,7 @@ a.book-chapter-link:link, a.book-chapter-link:hover, a.book-chapter-link:visited
   font-style: normal;
   text-decoration: none;
   padding: 0.3em;
+  color: #808080;
 }
 
 a.book-chapter-link:hover, a.book-chapter-link:focus {
@@ -1108,5 +1109,6 @@ a.book-chapter-link:hover, a.book-chapter-link:focus {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   background-color: #e4f1fb;
+  color: black;
 }
 
