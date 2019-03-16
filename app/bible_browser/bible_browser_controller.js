@@ -983,8 +983,8 @@ function BibleBrowserController() {
   };
 
   this.open_book_tag_statistics = function() {
-    var currentVerseListComposite = bible_browser_controller.getCurrentVerseListComposite();
-    var verse_list_position = currentVerseListComposite.offset();
+    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+    var verse_list_position = currentVerseList.offset();
     var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
     var currentBookName = bible_browser_controller.get_book_long_title(currentBook);
 
