@@ -310,9 +310,11 @@ function handle_bible_translation_change()
   initChapterVerseCounts();
 
   var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
+  var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
 
   if (currentBook != null) {
     bible_browser_controller.communication_controller.request_book_text(
+      currentTabId,
       currentBook,
       bible_browser_controller.render_book_text_and_init_app);
   }
