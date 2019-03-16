@@ -72,7 +72,7 @@ h2 {
 }
 
 #verse-list-tabs .ui-tabs-nav {
-  margin-left: 36em;
+  float: left;
   height: 2.5em;
 }
 
@@ -81,14 +81,12 @@ h2 {
   margin-right: 0.5em;
 }
 
-/*.verse-list-container {
-  margin-left: 5em;
-  margin-top: 0.5em;
-  height: 100%;
-}*/
+.verse-list-container {
+  margin-top: 3em;
+}
 
 .verse-list-menu {
-  /*margin-left: 33em;*/
+  float: left;
   margin-bottom: 1em;
   height: 2em;
   -moz-border-radius: 6px;
@@ -96,16 +94,12 @@ h2 {
   user-select: none;
 }
 
-#chapter-select-button {
-  height: 2.1em;
-}
-
-#chapter-select-button .ui-selectmenu-menu li a, #chapter-select-button .ui-selectmenu-status {
-  padding-top: 0.2em;
-  padding-bottom: 0.2em;
+.verse-list-composite {
+  margin-top: 3em;
 }
 
 .verse-list-frame { /* Needed because of selectable scroll bug */
+  padding-top: 0.5em;
   overflow-y: scroll;
   border: 1px solid #DDDDDD;
   -moz-border-radius: 6px;
@@ -680,15 +674,6 @@ h2 {
   margin-left: 0.2em;
 }
 
-.chapter-select-box {
-  float: left;
-  margin-left: 0.5em;
-}
-
-select.chapter-select {
-  display: none;
-}
-
 .tag-data {
   display: none;
 }
@@ -1076,5 +1061,52 @@ select.chapter-select {
   width: 3em;
   float: right;
   margin-left: 1em;
+}
+
+.chapter-navigation {
+  float: left;
+  padding-top: 0.5em;
+  padding-left: 0.5em;
+  padding-right: 1em;
+  overflow-y: scroll;
+  width: 3em;
+
+  border: 1px solid #DDDDDD;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+}
+
+.chapter-navigation::-webkit-scrollbar {
+  width: 0.5em;
+  border-width: 1px;
+}
+
+.chapter-navigation::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+ 
+.chapter-navigation::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+.book-chapter-link {
+  display: block;
+  margin-bottom: 0.5em;
+  text-align: center;
+  border: 1px solid white;
+}
+
+a.book-chapter-link:link, a.book-chapter-link:hover, a.book-chapter-link:visited, a.book-chapter-link:focus {
+  font-style: normal;
+  text-decoration: none;
+  padding: 0.3em;
+}
+
+a.book-chapter-link:hover, a.book-chapter-link:focus {
+  border: 1px solid #74B2E2;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  background-color: #e4f1fb;
 }
 
