@@ -103,7 +103,8 @@ function format_verse_reference(chapter, verse_nr)
 }
 
 function adapt_verse_list() {
-  var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame();
+  var currentVerseListComposite = bible_browser_controller.getCurrentVerseListComposite();
+  var currentVerseListFrame = currentVerseListComposite.find('.verse-list-frame');
   if (currentVerseListFrame.width() < 650) {
     currentVerseListFrame.addClass('verse-list-frame-small-screen');
   } else {
@@ -117,6 +118,7 @@ function resize_app_container(e) {
 
   $('#tags-view, #notes-view, #xrefs-view').css('height', new_app_container_height - 110);
   $('.verse-list-frame').css('height', new_app_container_height - 100);
+  $('.chapter-navigation').css('height', new_app_container_height - 100);
 
   // Meta Tag stuff disabled for now
   //$('#meta-tag-content, #meta-tag-assigned-tags').css('height', (new_app_container_height - 280) * 0.3);

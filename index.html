@@ -509,12 +509,6 @@ var bible_chapter_verse_counts = {};
           <div class="book-select-value">Select book</div>
         </div>
 
-        <div class="chapter-select-box">
-          <select class="chapter-select">
-            <option>1</option>
-          </select>
-        </div>
-
         <div class="fg-button tag-select-button ui-state-default ui-corner-all">
           <div class="ui-icon ui-icon-triangle-1-s"></div>
           <div class="tag-select-label">Select tag</div>
@@ -541,25 +535,30 @@ var bible_chapter_verse_counts = {};
         </div>
       </div> <!-- verse-list-menu -->
 
-      <div class="verse-list-frame">
-        <div class="verse-list-loading-indicator">
-          <img src="images/loading_animation4.gif" />
-          Loading bible text ...
+      <div class="verse-list-composite">
+        <div class="chapter-navigation">
         </div>
 
-        <div class="temporary-help">
-        </div>
-
-        <div id="verse-expand-box">
-          <div class="expand-button state-normal" title="Load the context of this verse"></div>
-        </div>
-
-        <div class="verse-list">
-          <div class="help-text">
-          To start using Ezra Project, select a book or a tag from the menu above.
+        <div class="verse-list-frame">
+          <div class="verse-list-loading-indicator">
+            <img src="images/loading_animation4.gif" />
+            Loading bible text ...
           </div>
-        </div>
-      </div> <!-- verse-list-frame -->
+
+          <div class="temporary-help">
+          </div>
+
+          <div id="verse-expand-box">
+            <div class="expand-button state-normal" title="Load the context of this verse"></div>
+          </div>
+
+          <div class="verse-list">
+            <div class="help-text">
+            To start using Ezra Project, select a book or a tag from the menu above.
+            </div>
+          </div>
+        </div> <!-- verse-list-frame -->
+      </div> <!-- verse-list-composite -->
     </div> <!-- verse-list-container -->
   </div> <!-- verse-list-tabs -->
 </div>

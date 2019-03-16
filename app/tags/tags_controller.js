@@ -964,7 +964,8 @@ function TagsController() {
       $('#verse-expand-box').css('top', verse_reference_position.top - 7);
       $('#verse-expand-box').css('left', verse_reference_position.left + 30);
 
-      if (bible_browser_controller.current_tag_id_list != "") {
+      var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList();
+      if (currentTagIdList != null && currentTagIdList != "") {
         $('#verse-expand-box').show();
       }
     }
