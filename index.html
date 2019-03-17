@@ -7,6 +7,7 @@
 <link href="css/jquery-ui/cupertino/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="css/jquery-ui/cupertino/jquery-ui.selectmenu.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="css/jquery.steps.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="css/loader.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="css/toolbox.css" media="screen" rel="stylesheet" type="text/css" />
 
@@ -18,10 +19,7 @@
 <script src="lib/jquery/jquery.sort_elements.js" type="text/javascript"></script>
 <script src="lib/jquery/jquery.steps.js" type="text/javascript"></script>
 <script src="lib/jquery-ui/jquery-ui.js" type="text/javascript"></script>
-<script src="lib/jquery-ui/jquery-ui.selectmenu.js" type="text/javascript"></script>
-<!-- <script src="lib/zero-clipboard/ZeroClipboard.js" type="text/javascript"></script> -->
-
-<script>
+<script src="lib/jquery-ui/jquery-ui.selectmenu.js" type="text/javascript"></script> <!-- <script src="lib/zero-clipboard/ZeroClipboard.js" type="text/javascript"></script> --> <script>
 
 var gettext_strings = {
   delete_outline                  : 'Delete outline',
@@ -533,6 +531,13 @@ var bible_chapter_verse_counts = {};
           <select name="bible-select" class="bible-select">
           </select>
         </div>
+
+        <div class="spinner" style="margin-left: 1em; margin-top: 0.3em">
+          <div class="bounce1"></div>
+          <div class="bounce2"></div>
+          <div class="bounce3"></div>
+        </div>
+
       </div> <!-- verse-list-menu -->
 
       <div class="verse-list-composite">
@@ -541,8 +546,13 @@ var bible_chapter_verse_counts = {};
 
         <div class="verse-list-frame">
           <div class="verse-list-loading-indicator">
-            <img src="images/loading_animation4.gif" />
-            Loading bible text ...
+            <div style="float: left;">Loading bible text</div>
+
+            <div class="spinner">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+            </div>
           </div>
 
           <div class="temporary-help">

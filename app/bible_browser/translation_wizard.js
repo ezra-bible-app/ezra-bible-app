@@ -243,7 +243,16 @@ class TranslationWizard {
         var translationCode = translations[i];
         var translationName = ezraSwordInterface.getModuleDescription(translationCode);
 
-        installPage.append('<span>Installing <i>' + translationName + '</i> ... </span>');
+        installPage.append("<div style='float: left;'>Installing <i>" + translationName + "</i> ... </div>");
+
+        var spinner = "<div id='bibleTranslationInstallIndicator' class='spinner'>" + 
+                      "<div class='bounce1'></div>" +
+                      "<div class='bounce2'></div>" +
+                      "<div class='bounce3'></div>" +
+                      "</div>"
+
+        installPage.append(spinner);
+        $('#bibleTranslationInstallIndicator').show();
         
         await this.installTranslation(translationCode);
         await models.BibleTranslation.importSwordTranslation(translationCode);
@@ -254,7 +263,10 @@ class TranslationWizard {
           updateAvailableBooks();
         }
 
-        installPage.append('<span>done.</span>');
+        $('#bibleTranslationInstallIndicator').hide();
+        $('#bibleTranslationInstallIndicator').remove();
+
+        installPage.append('<div>&nbsp;done.</div>');
         installPage.append('<br/>');
       }
 
@@ -315,7 +327,7 @@ class TranslationWizard {
             models.BibleTranslation.findAndCountAll().then(result => {
               if (result.rows.length > 0) {
                 current_bible_translation_id = result.rows[0].id;
-                bible_browser_controller.update_book_data();
+                bible_browser_controller.updateBookData();
               } else {
                 $('#verse-list').empty();
                 $('#verse-list-loading-indicator').hide();

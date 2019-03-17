@@ -1,9 +1,11 @@
 each bibleBook in bibleBooks
   if renderBibleBookHeaders == true
     div.tag-browser-verselist-book-header #{bibleBook.longTitle}
+      a(name=bibleBook.shortTitle)
 
   each verse in verses
     unless verse.bibleBookId == bibleBook.id
+      // skip the verse if it does not match the current bibleBook
       - continue
 
     - var current_id_class = "verse-id-" + verse.id
