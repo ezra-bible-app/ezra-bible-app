@@ -339,7 +339,7 @@ class TranslationWizard {
 
               $("select#bible-select").empty();
               initTranslationsMenu();
-              updateNavMenu();
+              bible_browser_controller.updateChapterSelect();
               tags_controller.updateTagUiBasedOnTagAvailability();
             });
           }

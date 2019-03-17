@@ -355,10 +355,11 @@ function handle_fg_button_mousedown(element, click_checkbox) {
   }
 }
 
+// FIXME: Move this as well to bible_browser_controller
 async function initTranslationsMenu()
 {
-
   var languages = await models.BibleTranslation.getLanguages();
+
   var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
   var bibleSelect = currentVerseListMenu.find('select.bible-select');
   bibleSelect.empty();
