@@ -301,36 +301,6 @@ function initUi()
   $(window).bind("resize", handle_window_resize);
 }
 
-function handle_bible_translation_change()
-{
-  current_bible_translation_id = $(this).val();
-  settings.set('bible_translation', current_bible_translation_id);
-
-  updateAvailableBooks();
-  initChapterVerseCounts();
-
-  var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
-  var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
-
-  if (currentBook != null) {
-    bible_browser_controller.communication_controller.request_book_text(
-      currentTabId,
-      currentBook,
-      bible_browser_controller.render_book_text_and_init_app);
-  }
-
-  var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList();
-  var currentTagTitleList = bible_browser_controller.tab_controller.getCurrentTagTitleList();
-
-  if (currentTagTitleList != null) {
-    bible_browser_controller.communication_controller.request_verses_for_selected_tags(
-      currentTagIdList,
-      bible_browser_controller.render_tagged_verse_list_and_init_app,
-      renderVerseMetaInfo=true
-    );
-  }
-}
-
 function handle_window_resize()
 {
   resize_app_container();
@@ -428,7 +398,7 @@ async function initTranslationsMenu()
     }
 
     bibleSelect.selectmenu({
-      change: handle_bible_translation_change,
+      change: bible_browser_controller.onBibleTranslationChange,
       maxHeight: 400
     });
   });

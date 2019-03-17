@@ -66,7 +66,10 @@ function BibleBrowserCommunicationController() {
     });
   };
 
-  this.request_verses_for_selected_tags = function(selected_tags, render_function, renderVerseMetaInfo=true) {
+  this.request_verses_for_selected_tags = function(current_tab_id,
+                                                   selected_tags,
+                                                   render_function,
+                                                   renderVerseMetaInfo=true) {
     if (selected_tags == '') {
       return;
     }
@@ -89,6 +92,7 @@ function BibleBrowserCommunicationController() {
           var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags);
 
           var verses_as_html = verseListTemplate({
+            verseListId: current_tab_id,
             renderBibleBookHeaders: true,
             renderVerseMetaInfo: renderVerseMetaInfo,
             bibleBooks: bibleBooks,
