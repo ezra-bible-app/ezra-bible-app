@@ -362,7 +362,7 @@ function BibleBrowserController() {
 
   this.showVerseListLoadingIndicator = function() {
     var loadingIndicator = bible_browser_controller.getCurrentVerseListLoadingIndicator();
-    loadingIndicator.find('.spinner').show();
+    loadingIndicator.find('.loader').show();
     loadingIndicator.show();
   };
 
@@ -373,7 +373,7 @@ function BibleBrowserController() {
 
   this.getCurrentBibleTranslationLoadingIndicator = function() {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
-    var loadingIndicator = currentVerseListMenu.find('.spinner');
+    var loadingIndicator = currentVerseListMenu.find('.loader');
     return loadingIndicator;
   };
 
