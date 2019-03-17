@@ -245,13 +245,13 @@ class TranslationWizard {
 
         installPage.append("<div style='float: left;'>Installing <i>" + translationName + "</i> ... </div>");
 
-        var spinner = "<div id='bibleTranslationInstallIndicator' class='spinner'>" + 
+        var loader = "<div id='bibleTranslationInstallIndicator' class='loader'>" + 
                       "<div class='bounce1'></div>" +
                       "<div class='bounce2'></div>" +
                       "<div class='bounce3'></div>" +
                       "</div>"
 
-        installPage.append(spinner);
+        installPage.append(loader);
         $('#bibleTranslationInstallIndicator').show();
         
         await this.installTranslation(translationCode);

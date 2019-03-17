@@ -1,4 +1,4 @@
-.spinner {
+.loader {
   display: none;
   float: left;
   width: 70px;
@@ -6,7 +6,7 @@
   position: relative;
 }
 
-.spinner > div {
+.loader > div {
   width: 10px;
   height: 10px;
   background-color: #808080;
@@ -17,12 +17,12 @@
   animation: sk-bouncedelay 1.4s infinite ease-in-out both;
 }
 
-.spinner .bounce1 {
+.loader .bounce1 {
   -webkit-animation-delay: -0.32s;
   animation-delay: -0.32s;
 }
 
-.spinner .bounce2 {
+.loader .bounce2 {
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s;
 }
