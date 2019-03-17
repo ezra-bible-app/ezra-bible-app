@@ -319,10 +319,13 @@ function handle_bible_translation_change()
       bible_browser_controller.render_book_text_and_init_app);
   }
 
-  if (bible_browser_controller.current_tag_title_list != null) {
+  var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList();
+  var currentTagTitleList = bible_browser_controller.tab_controller.getCurrentTagTitleList();
+
+  if (currentTagTitleList != null) {
     bible_browser_controller.communication_controller.request_verses_for_selected_tags(
-      bible_browser_controller.current_tag_id_list,
-      bible_browser_controller.render_tagged_verse_list,
+      currentTagIdList,
+      bible_browser_controller.render_tagged_verse_list_and_init_app,
       renderVerseMetaInfo=true
     );
   }
