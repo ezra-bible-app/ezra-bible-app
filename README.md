@@ -25,7 +25,7 @@ Furthermore, the following JS components are used (among others):
 * [Sequelize](http://docs.sequelizejs.com) [ORM](https://en.wikipedia.org/wiki/Object-relational_mapping) for handling database access
 * [Pug](https://pugjs.org) template engine for rendering verse list
 * [jQuery Steps](http://www.jquery-steps.com) for the bible translation wizard
-* [ISO-639-1](https://github.com/meikidd/iso-639-1) a simple interface for ISO-639-1 language codes
+* [ISO-639-1](https://github.com/meikidd/iso-639-1) for turning bible translation language codes into readable language names
 
 ## Feedback
 To give feedback (bug reports, feature requests) please use the Github issue system.
