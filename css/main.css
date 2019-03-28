@@ -1,6 +1,6 @@
 /* This file is part of Ezra Project.
 
-   Copyright (C) 2018 Tobias Klein <contact@ezra-project.tklein.info>
+   Copyright (C) 2019 Tobias Klein <contact@ezra-project.net>
 
    Ezra Project is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1062,65 +1062,4 @@ h2 {
   float: right;
   margin-left: 1em;
 }
-
-.navigation-pane {
-  float: left;
-  padding-top: 0.5em;
-  padding-left: 0.5em;
-  padding-right: 1em;
-  overflow-y: scroll;
-
-  border: 1px solid #DDDDDD;
-  -moz-border-radius: 6px;
-  -webkit-border-radius: 6px;
-}
-
-.navigation-pane-chapters {
-  width: 3em;
-}
-
-.navigation-pane-books {
-  width: 8em;
-}
-
-.navigation-pane::-webkit-scrollbar {
-  width: 0.5em;
-  border-width: 1px;
-}
-
-.navigation-pane::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-}
- 
-.navigation-pane::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
-  outline: 1px solid slategrey;
-}
-
-.navigation-link {
-  display: block;
-  margin-bottom: 0.5em;
-  text-align: center;
-  border: 1px solid white;
-}
-
-.navigation-pane-books .navigation-link {
-  text-align: left;
-}
-
-a.navigation-link:link, a.navigation-link:hover, a.navigation-link:visited, a.navigation-link:focus {
-  font-style: normal;
-  text-decoration: none;
-  padding: 0.3em;
-  color: #808080;
-}
-
-a.hl-nav-element:link, a.navigation-link:hover, a.navigation-link:focus {
-  border: 1px solid #74B2E2;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  background-color: #e4f1fb;
-  color: black;
-}
-
 
