@@ -39,30 +39,6 @@ function BibleBrowserController() {
   this.communication_controller = new BibleBrowserCommunicationController;
   this.tag_menu_populated = false;
 
-  this.is_valid_book = function(book) {
-    for (var i = 0; i < bible_books.length; i++) {
-      var current_book = bible_books[i];
-
-      if (current_book.long_title == book) {
-        return true;
-      }
-    }
-
-    return false;
-  };
-
-  this.is_valid_chapter = function(book, chapter) {
-    var book_short_title = bible_browser_controller.get_book_short_title(book);
-    var number_of_chapters = get_book_chapter_count(book_short_title);
-    return (parseInt(chapter) <= number_of_chapters);
-  };
-
-  this.is_valid_verse = function(book, chapter, verse) {
-    var book_short_title = bible_browser_controller.get_book_short_title(book);
-    var number_of_verses = get_book_chapter_verse_count(book_short_title, chapter);
-    return (parseInt(verse) <= number_of_verses);
-  }
-
   this.get_book_short_title = function(book_long_title) {
     for (var i = 0; i < bible_books.length; i++) {
       var current_book = bible_books[i];
@@ -85,40 +61,6 @@ function BibleBrowserController() {
     return -1;
   };
 
-  this.get_book_chapter_list = function(book_long_title, prefix_number) {
-    var book_short_title = bible_browser_controller.get_book_short_title(book_long_title);
-    var number_of_chapters = get_book_chapter_count(book_short_title);
-    var chapter_list = new Array();
-    var prefix = prefix_number + "";
-    for (var i = 1; i <= number_of_chapters; i++) {
-      var current_number_string = i + "";
-      if (current_number_string == prefix_number) {
-        continue;
-      }
-      if (prefix == "0" || current_number_string.indexOf(prefix) == 0) {
-        chapter_list.push(book_long_title + " " + i);
-      }
-    }
-    return chapter_list;
-  };
-
-  this.get_book_chapter_verse_list = function(book, chapter, prefix_number) {
-    var book_short_title = bible_browser_controller.get_book_short_title(book);
-    var verse_list = new Array();
-    var number_of_verses = get_book_chapter_verse_count(book_short_title, parseInt(chapter));
-    var prefix = prefix_number + "";
-    for (var i = 1; i <= number_of_verses; i++) {
-      var current_number_string = i + "";
-      if (current_number_string == prefix_number) {
-        continue;
-      }
-      if (prefix == "0" || current_number_string.indexOf(prefix) == 0) {
-        verse_list.push(book + " " + chapter + reference_separator + i);
-      }
-    }
-    return verse_list;
-  }
-
   this.init = function(settings) {
     this.verse_list_menu_template = $($('.verse-list-menu')[0]).html();
     this.verse_list_composite_template = $($('.verse-list-composite')[0]).html();
@@ -134,6 +76,7 @@ function BibleBrowserController() {
     this.book_search.init('#book-search', '#book-search-input', '#book-search-occurances');
 
     var tabHtmlTemplate = bible_browser_controller.getTabHtmlTemplate();
+
     this.tab_controller = new TabController();
     this.tab_controller.init('verse-list-tabs',
                              'verse-list-container',
@@ -899,19 +842,6 @@ function BibleBrowserController() {
     bible_browser_controller.enable_tagging_toolbox_only();
     bible_browser_controller.tab_controller.setCurrentTextIsBook(false);
     bible_browser_controller.init_application_for_current_verse_list();
-  };
-
-  this.selected_chapter = function() {
-    var chapter = Number(bible_browser_controller.selected_chapter_option().text);
-    return chapter;
-  };
-
-  this.selected_chapter_option = function() {
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
-    var select_field = currentVerseListMenu.find('select.chapter-select')[0];
-    var selected_option = select_field.options[select_field.selectedIndex];
-
-    return selected_option;
   };
 
   this.show_or_hide_verse_tags_based_on_option = function() {
