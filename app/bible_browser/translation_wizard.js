@@ -283,7 +283,7 @@ class TranslationWizard {
 
     this._installedTranslations = await models.BibleTranslation.getTranslations();
     $('#bible-select').removeAttr('disabled');
-    await initTranslationsMenu();
+    await bible_browser_controller.translation_controller.initTranslationsMenu();
     await tags_controller.updateTagUiBasedOnTagAvailability();
   }
 
@@ -338,8 +338,8 @@ class TranslationWizard {
               }
 
               $("select#bible-select").empty();
-              initTranslationsMenu();
-              bible_browser_controller.updateChapterSelect();
+              bible_browser_controller.translation_controller.initTranslationsMenu();
+              bible_browser_controller.navigation_pane.updateNavigation();
               tags_controller.updateTagUiBasedOnTagAvailability();
             });
           }
@@ -360,7 +360,7 @@ class TranslationWizard {
   async removeTranslationWizardFinished(event, currentIndex) {
     $('#translation-settings-wizard').dialog('close');
     this._installedTranslations = await models.BibleTranslation.getTranslations();
-    initTranslationsMenu();
+    bible_browser_controller.translation_controller.initTranslationsMenu();
   }
 
   updateSettingsWizardLanguages(selectedRepositories) {
