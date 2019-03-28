@@ -1104,11 +1104,12 @@ a.book-chapter-link:link, a.book-chapter-link:hover, a.book-chapter-link:visited
   color: #808080;
 }
 
-a.book-chapter-link:hover, a.book-chapter-link:focus {
+a.hl-chapter:link, a.book-chapter-link:hover, a.book-chapter-link:focus {
   border: 1px solid #74B2E2;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   background-color: #e4f1fb;
   color: black;
 }
+
 
