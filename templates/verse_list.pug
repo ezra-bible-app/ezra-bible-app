@@ -1,7 +1,8 @@
 each bibleBook in bibleBooks
   if renderBibleBookHeaders == true
+    - var anchor = verseListId + " " + bibleBook.shortTitle;
+    a(name=anchor)
     div.tag-browser-verselist-book-header #{bibleBook.longTitle}
-      a(name=bibleBook.shortTitle)
 
   each verse in verses
     unless verse.bibleBookId == bibleBook.id
