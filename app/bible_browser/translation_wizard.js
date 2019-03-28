@@ -327,7 +327,7 @@ class TranslationWizard {
             models.BibleTranslation.findAndCountAll().then(result => {
               if (result.rows.length > 0) {
                 current_bible_translation_id = result.rows[0].id;
-                bible_browser_controller.updateBookData();
+                bible_browser_controller.onBibleTranslationChanged();
               } else {
                 $('#verse-list').empty();
                 $('#verse-list-loading-indicator').hide();
