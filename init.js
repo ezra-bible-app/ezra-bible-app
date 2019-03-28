@@ -118,7 +118,7 @@ function resize_app_container(e) {
 
   $('#tags-view, #notes-view, #xrefs-view').css('height', new_app_container_height - 110);
   $('.verse-list-frame').css('height', new_app_container_height - 100);
-  $('.chapter-navigation').css('height', new_app_container_height - 100);
+  $('.navigation-pane').css('height', new_app_container_height - 100);
 
   // Meta Tag stuff disabled for now
   //$('#meta-tag-content, #meta-tag-assigned-tags').css('height', (new_app_container_height - 280) * 0.3);
