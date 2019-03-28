@@ -77,7 +77,6 @@ class TranslationController {
     }
 
     bible_browser_controller.translation_controller.updateAvailableBooks();
-    bible_browser_controller.translation_controller.initChapterVerseCounts();
     this.bibleTranslationCount = result.count;
   }
 
