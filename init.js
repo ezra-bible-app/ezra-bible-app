@@ -294,6 +294,13 @@ function initUi()
 
   configure_button_styles();
 
+  // Open links classified as external in the default web browser
+  $('body').on('click', 'a.external', (event) => {
+    event.preventDefault();
+    let link = event.target.href;
+    require("electron").shell.openExternal(link);
+  });
+
   $('#main-content').fadeIn(500);
   resize_app_container();
 

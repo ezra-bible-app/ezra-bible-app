@@ -93,7 +93,8 @@ class TranslationWizard {
       position: [verse_list_position.left + 50, verse_list_position.top + 50],
       title: "Bible translation settings",
       dialogClass: 'ezra-dialog',
-      width: 850
+      width: 850,
+      minHeight: 250
     });
   }
 
@@ -258,9 +259,11 @@ class TranslationWizard {
         await models.BibleTranslation.importSwordTranslation(translationCode);
         await models.BibleTranslation.updateVersification(translationCode);
 
-        if (current_bible_translation_id == "" || current_bible_translation_id == null) {
-          current_bible_translation_id = translationCode;
-          updateAvailableBooks();
+        if (bible_browser_controller.translation_controller.current_bible_translation_id == "" || 
+            bible_browser_controller.translation_controller.current_bible_translation_id == null) {
+
+          bible_browser_controller.translation_controller.current_bible_translation_id = translationCode;
+          bible_browser_controller.translation_controller.updateAvailableBooks();
         }
 
         $('#bibleTranslationInstallIndicator').hide();
@@ -322,17 +325,17 @@ class TranslationWizard {
           await this.uninstallTranslation(translationCode);
           await models.BibleTranslation.removeFromDb(translationCode);
 
-          if (current_bible_translation_id == translationCode) {
+          if (bible_browser_controller.translation_controller.current_bible_translation_id == translationCode) {
             settings.delete('bible_translation');
             models.BibleTranslation.findAndCountAll().then(result => {
               if (result.rows.length > 0) {
-                current_bible_translation_id = result.rows[0].id;
+                bible_browser_controller.translation_controller.current_bible_translation_id = result.rows[0].id;
                 bible_browser_controller.onBibleTranslationChanged();
               } else {
                 $('#verse-list').empty();
                 $('#verse-list-loading-indicator').hide();
                 $('#verse-list').append("<div class='help-text'>To start using Ezra Project, select a book or a tag from the menu above.</div>");
-                current_bible_translation_id = null;
+                bible_browser_controller.translation_controller.current_bible_translation_id = null;
                 bible_browser_controller.current_book = null;
                 $('.book-select-value').text("Select book");
               }
@@ -388,19 +391,57 @@ class TranslationWizard {
     knownLanguages.sort();
     unknownLanguages.sort();
 
-    $('#translation-settings-wizard-add-p-1').empty();
+    var wizardPage = $('#translation-settings-wizard-add-p-1');
+    wizardPage.empty();
+
+    var uiRepositories = this.getSelectedReposForUi();
+
+    var introText = "<p style='margin-bottom: 2em;'>" +
+                    "Please pick at least one of the languages available from " +
+                    uiRepositories.join(', ') +
+                    ".</p>";
+
+    wizardPage.append(introText);
+
     for (var i = 0; i < knownLanguages.length; i++) {
       var currentLanguageCode = ISO6391.getCode(knownLanguages[i]);
       var currentLanguageTranslationCount = this.getLanguageTranslationCount(currentLanguageCode);
       var currentLanguage = "<p><input type='checkbox'><span class='label' id='" + knownLanguages[i] + "'>";
       currentLanguage += knownLanguages[i] + ' (' + currentLanguageTranslationCount + ')';
       currentLanguage += "</span></p>";
-      $('#translation-settings-wizard-add-p-1').append(currentLanguage);
+      wizardPage.append(currentLanguage);
     }
   }
 
+  getSelectedReposForUi() {
+    var uiRepositories = []
+    for (var i = 0; i < this._selectedRepositories.length; i++) {
+      var currentRepo = "<b>" + this._selectedRepositories[i] + "</b>";
+      uiRepositories.push(currentRepo);
+    }
+
+    return uiRepositories;
+  }
+
   async updateSettingsWizardModules(selectedLanguages) {
-    $('#translation-settings-wizard-add-p-2').empty();
+    var wizardPage = $('#translation-settings-wizard-add-p-2');
+    wizardPage.empty();
+
+    var languagesPage = "#translation-settings-wizard-add-p-1";
+    var uiLanguages = this.getSelectedSettingsWizardElements(languagesPage);
+    for (var i = 0; i < uiLanguages.length; i++) {
+      uiLanguages[i] = "<b>" + uiLanguages[i] + "</b>";
+    }
+
+    var uiRepositories = this.getSelectedReposForUi();
+
+    var introText = "<p style='margin-bottom: 2em;'>" +
+                    uiLanguages.join(', ') +
+                    " translations available from " +
+                    uiRepositories.join(', ') +
+                    ".</p>";
+
+    wizardPage.append(introText);
 
     var selectedLanguageModules = [];
 
@@ -433,7 +474,7 @@ class TranslationWizard {
       currentModuleElement += currentModuleDescription + " [" + currentModule + "]";
       currentModuleElement += "</span></p>";
 
-      $('#translation-settings-wizard-add-p-2').append(currentModuleElement);
+      wizardPage.append(currentModuleElement);
     }
   }
 
@@ -454,6 +495,16 @@ class TranslationWizard {
     var repositories = ezraSwordInterface.getRepoNames();
     wizardPage.empty();
 
+    var introText = "<p style='margin-bottom: 2em;'>" +
+                    "Ezra Project works with bible translation modules provided by <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> " +
+                    "and the <a class='external' href='http://www.crosswire.org'>CrossWire bible society</a>.<br/><br/>" +
+                    "Below you see the list of SWORD repositories published by CrossWire. A repository is an internet storage location that contains a set of bible translation modules. " +
+                    "Next to each repository you see the total number of bible translation modules available from that repository.<br/><br/>" +
+                    "To install a bible translation module, select at least one repository from the list below. " +
+                    "The <i>CrossWire</i> and <i>eBible.org</i> repositories are a good place to start.</p>";
+
+    wizardPage.append(introText);
+
     for (var i = 0; i < repositories.length; i++) {
       var currentRepoTranslationCount = this.getRepoTranslationCount(repositories[i]);
 
@@ -464,6 +515,12 @@ class TranslationWizard {
         wizardPage.append(currentRepo);
       }
     }
+
+    var additionalInfo = "<p style='margin-top: 2em;'>" +
+                         "You need more information about these repositories?<br/>" +
+                         "Have a look at the <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>.</p>";
+
+    wizardPage.append(additionalInfo);
   }
 
   getRepoTranslationCount(repo) {
