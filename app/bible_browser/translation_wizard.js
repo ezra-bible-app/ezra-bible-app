@@ -28,14 +28,13 @@ class TranslationWizard {
     var addButton = $('#add-bible-translations-button');
     var removeButton = $('#remove-bible-translations-button');
 
-    addButton.bind('click', event => this.openAddTranslationWizard());
+    addButton.bind('click', () => this.openAddTranslationWizard());
 
-    removeButton.bind('click', event => {
-      models.BibleTranslation.findAndCountAll().then(result => {
-        if (result.count > 0) {
-          this.openRemoveTranslationWizard();
-        }
-      });
+    removeButton.bind('click', async () => {
+      var result = await models.BibleTranslation.findAndCountAll();
+      if (result.count > 0) {
+        this.openRemoveTranslationWizard();
+      }
     });
   }
 
@@ -91,7 +90,7 @@ class TranslationWizard {
 
     $('#translation-settings-wizard').dialog({
       position: [verse_list_position.left + 50, verse_list_position.top + 50],
-      title: "Bible translation settings",
+      title: "Configure bible translations",
       dialogClass: 'ezra-dialog',
       width: 850,
       minHeight: 250
@@ -160,6 +159,8 @@ class TranslationWizard {
         var languageBox = $('#remove-translation-wizard-' + translation.language + '-translations');
         languageBox.append(current_translation_html);
       }
+
+      this.bindLabelEvents(wizardPage);
     });
   }
 
@@ -210,7 +211,9 @@ class TranslationWizard {
       // Repositories have been selected
       var wizardPage = "#translation-settings-wizard-add-p-0";
       this._selectedRepositories = this.getSelectedSettingsWizardElements(wizardPage);
-      this.updateSettingsWizardLanguages(this._selectedRepositories);
+      bible_browser_controller.settings.set('selected_repositories', this._selectedRepositories);
+
+      this.listLanguages(this._selectedRepositories);
 
     } else if (priorIndex == 1) {
 
@@ -225,7 +228,8 @@ class TranslationWizard {
         languageCodes.push(currentCode);
       }
 
-      await this.updateSettingsWizardModules(languageCodes);
+      bible_browser_controller.settings.set('selected_languages', languages);
+      await this.listModules(languageCodes);
 
     } else if (priorIndex == 2) {
       
@@ -366,7 +370,7 @@ class TranslationWizard {
     bible_browser_controller.translation_controller.initTranslationsMenu();
   }
 
-  updateSettingsWizardLanguages(selectedRepositories) {
+  getAvailableLanguagesFromSelectedRepos(selectedRepositories) {
     var knownLanguages = [];
     var unknownLanguages = [];
 
@@ -391,6 +395,10 @@ class TranslationWizard {
     knownLanguages.sort();
     unknownLanguages.sort();
 
+    return knownLanguages;
+  }
+
+  listLanguages(selectedRepositories) {
     var wizardPage = $('#translation-settings-wizard-add-p-1');
     wizardPage.empty();
 
@@ -403,14 +411,24 @@ class TranslationWizard {
 
     wizardPage.append(introText);
 
+    var knownLanguages = this.getAvailableLanguagesFromSelectedRepos(selectedRepositories);
+
     for (var i = 0; i < knownLanguages.length; i++) {
+      var checkboxChecked = "";
+      if (this.hasLanguageBeenSelectedBefore(knownLanguages[i])) {
+        checkboxChecked = " checked";
+      }
+
       var currentLanguageCode = ISO6391.getCode(knownLanguages[i]);
       var currentLanguageTranslationCount = this.getLanguageTranslationCount(currentLanguageCode);
-      var currentLanguage = "<p><input type='checkbox'><span class='label' id='" + knownLanguages[i] + "'>";
+      var currentLanguage = "<p style='float: left; width: 14em;'><input type='checkbox'" + checkboxChecked + "><span class='label' id='" + knownLanguages[i] + "'>";
       currentLanguage += knownLanguages[i] + ' (' + currentLanguageTranslationCount + ')';
       currentLanguage += "</span></p>";
+
       wizardPage.append(currentLanguage);
     }
+
+    this.bindLabelEvents(wizardPage);
   }
 
   getSelectedReposForUi() {
@@ -423,7 +441,20 @@ class TranslationWizard {
     return uiRepositories;
   }
 
-  async updateSettingsWizardModules(selectedLanguages) {
+  getRepoModulesByLang(repo, lang) {
+    var moduleNames = [];
+    var repoModules = ezraSwordInterface.getRepoModulesByLang(repo, lang);
+
+    for (var i = 0; i < repoModules.length; i++) {
+      var currentModule = repoModules[i].name;
+      moduleNames.push(currentModule);
+    }
+
+    moduleNames.sort();
+    return moduleNames;
+  }
+
+  async listModules(selectedLanguages) {
     var wizardPage = $('#translation-settings-wizard-add-p-2');
     wizardPage.empty();
 
@@ -443,26 +474,39 @@ class TranslationWizard {
 
     wizardPage.append(introText);
 
-    var selectedLanguageModules = [];
-
-    for (var i = 0; i < this._selectedRepositories.length; i++) {
-      var currentRepo = this._selectedRepositories[i];
-
-      for (var j = 0; j < selectedLanguages.length; j++) {
-        var currentLanguage = selectedLanguages[j];
-        var currentLanguageModules = ezraSwordInterface.getRepoModulesByLang(currentRepo, currentLanguage);
-
-        for (var k = 0; k < currentLanguageModules.length; k++) {
-          var currentModule = currentLanguageModules[k].name;
-          selectedLanguageModules.push(currentModule);
-        }
-      }
+    var renderHeader = false;
+    if (selectedLanguages.length > 1) {
+      renderHeader = true;
     }
 
-    selectedLanguageModules.sort();
+    for (var i = 0; i < selectedLanguages.length; i++) {
+      var currentLanguage = selectedLanguages[i];
+      var currentUiLanguage = uiLanguages[i];
+      var currentLangModules = [];
 
-    for (var i = 0; i < selectedLanguageModules.length; i++) {
-      var currentModule = selectedLanguageModules[i];
+      for (var j = 0; j < this._selectedRepositories.length; j++) {
+        var currentRepo = this._selectedRepositories[j];
+        var currentRepoLangModules = this.getRepoModulesByLang(currentRepo, currentLanguage);
+        // Append this repo's modules to the overall language list
+        currentLangModules = currentLangModules.concat(currentRepoLangModules);
+      }
+
+      await this.listLanguageModules(currentUiLanguage, currentLangModules, renderHeader);
+    }
+
+    this.bindLabelEvents(wizardPage);
+  }
+
+  async listLanguageModules(lang, modules, renderHeader) {
+    var wizardPage = $('#translation-settings-wizard-add-p-2');
+
+    if (renderHeader) {
+      var languageHeader = "<p style='font-weight: bold; margin-top: 2em;'>" + lang + "</p>";
+      wizardPage.append(languageHeader);
+    }
+
+    for (var i = 0; i < modules.length; i++) {
+      var currentModule = modules[i];
       var currentModuleDescription = ezraSwordInterface.getModuleDescription(currentModule);
       var checkboxDisabled = "";
       var labelClass = "label";
@@ -489,6 +533,42 @@ class TranslationWizard {
     return count;
   }
 
+  hasRepoBeenSelectedBefore(repo) {
+    var hasBeenSelected = false;
+
+    if (bible_browser_controller.settings.has('selected_repositories')) {
+      var selectedRepositories = bible_browser_controller.settings.get('selected_repositories');
+
+      for (var i = 0; i < selectedRepositories.length; i++) {
+        var currentRepo = selectedRepositories[i];
+        if (currentRepo == repo) {
+          hasBeenSelected = true;
+          break;
+        }
+      }
+    }
+
+    return hasBeenSelected;
+  }
+
+  hasLanguageBeenSelectedBefore(language) {
+    var hasBeenSelected = false;
+
+    if (bible_browser_controller.settings.has('selected_languages')) {
+      var selectedLanguages = bible_browser_controller.settings.get('selected_languages');
+
+      for (var i = 0; i < selectedLanguages.length; i++) {
+        var currentLang = selectedLanguages[i];
+        if (currentLang == language) {
+          hasBeenSelected = true;
+          break;
+        }
+      }
+    }
+
+    return hasBeenSelected;
+  }
+
   listRepositories() {
     var wizardPage = $('#translation-settings-wizard-add-p-0');
 
@@ -509,7 +589,12 @@ class TranslationWizard {
       var currentRepoTranslationCount = this.getRepoTranslationCount(repositories[i]);
 
       if (currentRepoTranslationCount > 0) {
-        var currentRepo = "<p><input type='checkbox'><span class='label' id='" + repositories[i] + "'>";
+        var checkboxChecked = "";
+        if (this.hasRepoBeenSelectedBefore(repositories[i])) {
+          checkboxChecked = " checked";
+        }
+
+        var currentRepo = "<p><input type='checkbox'" + checkboxChecked + "><span class='label' id='" + repositories[i] + "'>";
         currentRepo += repositories[i] + ' (' + currentRepoTranslationCount + ')';
         currentRepo += "</span></p>";
         wizardPage.append(currentRepo);
@@ -521,6 +606,7 @@ class TranslationWizard {
                          "Have a look at the <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>.</p>";
 
     wizardPage.append(additionalInfo);
+    this.bindLabelEvents(wizardPage);
   }
 
   getRepoTranslationCount(repo) {
@@ -559,6 +645,13 @@ class TranslationWizard {
       ezraSwordInterface.uninstallModule(translationCode, function() {
         resolve();
       });
+    });
+  }
+
+  bindLabelEvents(wizardPage) {
+    wizardPage.find('.label').bind('click', function() {
+      var checkbox = $(this).prev();
+      checkbox.click();
     });
   }
 }

@@ -524,6 +524,7 @@ h2 {
 
 #translation-settings-wizard .label {
   margin-left: 0.5em;
+  cursor: default;
 }
 
 #translation-settings-wizard .disabled-label {
