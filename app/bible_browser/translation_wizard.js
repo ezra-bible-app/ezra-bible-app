@@ -155,7 +155,9 @@ class TranslationWizard {
 
     models.BibleTranslation.findAndCountAll().then(result => {
       for (var translation of result.rows) {
-        var current_translation_html = "<p><input type='checkbox'><span class='label' id='" + translation.id + "'>" + translation.name + "</span></p>"
+        var current_translation_html = "<p><input type='checkbox'><span class='label' id='" + translation.id + "'>";
+        current_translation_html += translation.name + " [" + translation.id + "]</span></p>";
+
         var languageBox = $('#remove-translation-wizard-' + translation.language + '-translations');
         languageBox.append(current_translation_html);
       }
@@ -213,7 +215,11 @@ class TranslationWizard {
       this._selectedRepositories = this.getSelectedSettingsWizardElements(wizardPage);
       bible_browser_controller.settings.set('selected_repositories', this._selectedRepositories);
 
-      this.listLanguages(this._selectedRepositories);
+      var languagesPage = $('#translation-settings-wizard-add-p-1');
+      languagesPage.empty();
+      languagesPage.append("<p>Loading languages ...</p>");
+
+      setTimeout(() => this.listLanguages(this._selectedRepositories), 400);
 
     } else if (priorIndex == 1) {
 
@@ -403,7 +409,6 @@ class TranslationWizard {
     wizardPage.empty();
 
     var uiRepositories = this.getSelectedReposForUi();
-
     var introText = "<p style='margin-bottom: 2em;'>" +
                     "Please pick at least one of the languages available from " +
                     uiRepositories.join(', ') +
@@ -441,19 +446,6 @@ class TranslationWizard {
     return uiRepositories;
   }
 
-  getRepoModulesByLang(repo, lang) {
-    var moduleNames = [];
-    var repoModules = ezraSwordInterface.getRepoModulesByLang(repo, lang);
-
-    for (var i = 0; i < repoModules.length; i++) {
-      var currentModule = repoModules[i].name;
-      moduleNames.push(currentModule);
-    }
-
-    moduleNames.sort();
-    return moduleNames;
-  }
-
   async listModules(selectedLanguages) {
     var wizardPage = $('#translation-settings-wizard-add-p-2');
     wizardPage.empty();
@@ -486,15 +478,28 @@ class TranslationWizard {
 
       for (var j = 0; j < this._selectedRepositories.length; j++) {
         var currentRepo = this._selectedRepositories[j];
-        var currentRepoLangModules = this.getRepoModulesByLang(currentRepo, currentLanguage);
+        var currentRepoLangModules = ezraSwordInterface.getRepoModulesByLang(currentRepo, currentLanguage);
         // Append this repo's modules to the overall language list
         currentLangModules = currentLangModules.concat(currentRepoLangModules);
       }
 
-      await this.listLanguageModules(currentUiLanguage, currentLangModules, renderHeader);
+      currentLangModules = currentLangModules.sort(this.sortBy('description'));
+
+      this.listLanguageModules(currentUiLanguage, currentLangModules, renderHeader);
     }
 
     this.bindLabelEvents(wizardPage);
+  }
+
+  sortBy(field) {
+    return function(a, b) {
+      if (a[field] < b[field]) {
+        return -1;
+      } else if (a[field] > b[field]) {
+        return 1;
+      }
+      return 0;
+    };
   }
 
   async listLanguageModules(lang, modules, renderHeader) {
@@ -507,16 +512,31 @@ class TranslationWizard {
 
     for (var i = 0; i < modules.length; i++) {
       var currentModule = modules[i];
-      var currentModuleDescription = ezraSwordInterface.getModuleDescription(currentModule);
       var checkboxDisabled = "";
       var labelClass = "label";
-      if (await this.isTranslationInstalled(currentModule) == true) {
+
+      if (await this.isTranslationInstalled(currentModule.name) == true) {
         checkboxDisabled = "disabled='disabled' checked";
         labelClass = "disabled-label";
       }
-      var currentModuleElement = "<p><input type='checkbox' "+ checkboxDisabled + "><span class='" + labelClass + "' id='" + currentModule + "'>";
-      currentModuleElement += currentModuleDescription + " [" + currentModule + "]";
-      currentModuleElement += "</span></p>";
+
+      var moduleTitle = "";
+      if (currentModule.locked == "true") {
+        moduleTitle = "title='This module is locked and requires that you purchase an unlock key from the content owner!'";
+      }
+
+      var currentModuleElement = "<p>";
+      currentModuleElement += "<input type='checkbox' "+ checkboxDisabled + ">";
+      currentModuleElement += "<span " + moduleTitle + " class='" + labelClass + "' id='" + currentModule.name + "'>";
+      currentModuleElement += currentModule.description + " [" + currentModule.name + "]";
+      currentModuleElement += "</span>";
+
+      if (currentModule.locked == "true") {
+        var lockedIcon = "<img style='margin-left: 0.5em; margin-bottom: -0.4em;' src='images/lock.png' width='20' height='20'/>";
+        currentModuleElement += lockedIcon;
+      }
+
+      currentModuleElement += "</p>";
 
       wizardPage.append(currentModuleElement);
     }
