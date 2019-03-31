@@ -20,7 +20,6 @@ class TranslationController {
   constructor() {
     this.current_bible_translation_id = '';
     this.bibleTranslationCount = 0;
-    this.selectMenu = null;
   }
 
   init(onBibleTranslationChanged) {
@@ -121,7 +120,7 @@ class TranslationController {
         optGroup.append(current_translation_html);
       }
 
-      this.selectMenu = bibleSelect.selectmenu({
+      bibleSelect.selectmenu({
         change: (event) => {
           this.handleBibleTranslationChange(event);
         },
@@ -131,7 +130,9 @@ class TranslationController {
   }
 
   handleBibleTranslationChange(event) {
-    this.current_bible_translation_id = $(this.selectMenu[0]).val();
+    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
+    var bibleSelect = currentVerseListMenu.find('select.bible-select');
+    this.current_bible_translation_id = bibleSelect[0].value;
     bible_browser_controller.settings.set('bible_translation', this.current_bible_translation_id);
     this.showBibleTranslationLoadingIndicator();
     this.updateAvailableBooks();
