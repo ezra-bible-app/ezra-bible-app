@@ -108,13 +108,13 @@ function BibleBrowserController() {
     }
 
     // Refresh tags selection menu (It's global!)
-    var currentTagTitleList = bible_browser_controller.tab_controller.getCurrentTagTitleList();
-    if (currentTagTitleList != "") {
+    var currentTagTitleList = bible_browser_controller.tab_controller.getCurrentTagTitleList(ui.index);
+    if (currentTagTitleList != "" && currentTagTitleList != null) {
         bible_browser_controller.communication_controller.request_tags_for_menu();
     }
 
     // Re-configure book search for current verse list
-    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+    var currentVerseList = bible_browser_controller.getCurrentVerseList(ui.index);
     bible_browser_controller.book_search.setVerseList(currentVerseList);
 
     // Toggle book statistics
@@ -246,8 +246,8 @@ function BibleBrowserController() {
     }, 300);
   };
 
-  this.getCurrentVerseListTabs = function() {
-    var selectedTabId = bible_browser_controller.tab_controller.getSelectedTabId();
+  this.getCurrentVerseListTabs = function(tabIndex=undefined) {
+    var selectedTabId = bible_browser_controller.tab_controller.getSelectedTabId(tabIndex);
     var currentVerseListTabs = $('#' + selectedTabId);
     return currentVerseListTabs;
   }
@@ -258,20 +258,20 @@ function BibleBrowserController() {
     return currentVerseListMenu;
   };
 
-  this.getCurrentVerseListComposite = function() {
-    var currentVerseListTabs = bible_browser_controller.getCurrentVerseListTabs();
+  this.getCurrentVerseListComposite = function(tabIndex=undefined) {
+    var currentVerseListTabs = bible_browser_controller.getCurrentVerseListTabs(tabIndex);
     var currentVerseListComposite = currentVerseListTabs.find('.verse-list-composite');
     return currentVerseListComposite;
   };
 
-  this.getCurrentVerseListFrame = function() {
-    var currentVerseListComposite = bible_browser_controller.getCurrentVerseListComposite();
+  this.getCurrentVerseListFrame = function(tabIndex=undefined) {
+    var currentVerseListComposite = bible_browser_controller.getCurrentVerseListComposite(tabIndex);
     var currentVerseListFrame = currentVerseListComposite.find('.verse-list-frame');
     return currentVerseListFrame;
   };
 
-  this.getCurrentVerseList = function() {
-    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame();
+  this.getCurrentVerseList = function(tabIndex=undefined) {
+    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
     var verseList = currentVerseListFrame.find('.verse-list');
     return verseList;
   };
