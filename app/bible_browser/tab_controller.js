@@ -86,10 +86,13 @@ class TabController {
     return selectedTabIndex;
   }
 
-  getSelectedTabId() {
-    var selectedTabIndex = this.getSelectedTabIndex();
+  getSelectedTabId(index=undefined) {
+    if (index === undefined) {
+      var index = this.getSelectedTabIndex();
+    }
+
     var allTabsPanels = $('#' + this.tabsElement).find('.' + this.tabsPanelClass);
-    var selectedTabsPanel = $(allTabsPanels[selectedTabIndex]);
+    var selectedTabsPanel = $(allTabsPanels[index]);
     var selectedTabsPanelId = selectedTabsPanel.attr('id');
     return selectedTabsPanelId;
   }
