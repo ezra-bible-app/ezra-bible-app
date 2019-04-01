@@ -150,7 +150,12 @@ class TabController {
       var index = this.getSelectedTabIndex();
     }
 
-    return this.metaTabs[index].book;
+    var book = null;
+    if (index < this.metaTabs.length) {
+      book = this.metaTabs[index].book;
+    }
+
+    return book;
   }
 
   setCurrentTagIdList(tagIdList) {
@@ -177,7 +182,12 @@ class TabController {
       var index = this.getSelectedTabIndex();
     }
 
-    return this.metaTabs[index].tagIdList;
+    var tagIdList = null;
+    if (index < this.metaTabs.length) {
+      tagIdList = this.metaTabs[index].tagIdList;
+    }
+
+    return tagIdList;
   }
 
   getCurrentTagTitleList(index=undefined) {
@@ -185,7 +195,12 @@ class TabController {
       var index = this.getSelectedTabIndex();
     }
 
-    return this.metaTabs[index].tagTitleList;
+    var tagTitleList = null;
+    if (index < this.metaTabs.length) {
+      tagTitleList = this.metaTabs[index].tagTitleList;
+    }
+
+    return tagTitleList;
   }
 
   setCurrentTextIsBook(isBook) {
@@ -198,7 +213,12 @@ class TabController {
       var index = this.getSelectedTabIndex();
     }
 
-    return this.metaTabs[index].textIsBook;
+    var textIsBook = null;
+    if (index < this.metaTabs.length) {
+      textIsBook = this.metaTabs[index].textIsBook;
+    }
+
+    return textIsBook;
   }
 
   setLastHighlightedNavElementIndex(index) {
