@@ -18,6 +18,17 @@
 
 const Mousetrap = require('mousetrap');
 
+class Tab {
+  constructor() {
+    this.elementId = null;
+    this.book = null;
+    this.tagIdList = "";
+    this.tagTitleList = "";
+    this.textIsBook = false;
+    this.lastHighlightedNavElementIndex = null;
+  }
+}
+
 class TabController {
   constructor() {
   }
@@ -31,13 +42,12 @@ class TabController {
     this.defaultLabel = "-------------";
     
     this.tabTemplate = "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>",
-    this.tabCounter = 2;
-    this.tabId = 2;
+    this.tabCounter = 1;
+    this.nextTabId = 2;
 
-    this.currentBooks = [];
-    this.currentTagIdLists = [];
-    this.currentTagTitleLists = [];
-    this.currentTextIsBook = [];
+    this.metaTabs = [];
+    // Initialize the list with the first tab, which is there by default
+    this.metaTabs.push(new Tab());
 
     Mousetrap.bind('ctrl+t', () => {
       this.addTab();
@@ -67,23 +77,7 @@ class TabController {
 
     // Close icon: removing the tab on click
     this.tabs.find('span.ui-icon-close').on( "click", (event) => {
-      var href = $(event.target).closest("li").find('a').attr('href');
-
-      var all_tabs = $(event.target).closest("ul").find("li");
-      var index = -1;
-      for (var i = 0; i < all_tabs.length; i++) {
-        var current_href = $(all_tabs[i]).find('a').attr('href');
-        if (current_href == href) {
-          this.currentBooks.splice(i, 1);
-          this.currentTagIdLists.splice(i, 1);
-          this.currentTagTitleLists.splice(i, 1);
-          this.currentTextIsBook.splice(i, 1);
-
-          this.tabs.tabs("remove", i);
-          this.tabCounter--;
-          break;
-        }
-      }
+      this.removeTab(event);
     });
   }
 
@@ -101,20 +95,35 @@ class TabController {
   }
 
   addTab() {
-    var id = this.tabsElement + '-' + this.tabId;
-    var li = $( this.tabTemplate.replace( /#\{href\}/g, "#" + id ).replace( /#\{label\}/g, this.defaultLabel ) );
+    var newTab = new Tab();
+    newTab.elementId = this.tabsElement + '-' + this.nextTabId;
+    this.metaTabs.push(newTab);
 
+    var li = $( this.tabTemplate.replace( /#\{href\}/g, "#" + newTab.elementId ).replace( /#\{label\}/g, this.defaultLabel ) );
     this.tabs.find(".ui-tabs-nav").append(li);
-    this.tabs.append("<div id='" + id + "' class='" + this.tabsPanelClass + "'>" + this.tabHtmlTemplate + "</div>");
+    this.tabs.append("<div id='" + newTab.elementId + "' class='" + this.tabsPanelClass + "'>" + this.tabHtmlTemplate + "</div>");
     this.reloadTabs();
-    this.tabs.tabs('select', this.tabCounter - 1);
+    this.tabs.tabs('select', this.tabCounter);
     this.tabCounter++;
-    this.tabId++;
-    this.currentBooks.push(null);
-    this.currentTagIdLists.push("");
-    this.currentTagTitleLists.push("");
-    this.currentTextIsBook.push(false);
+    this.nextTabId++;
+
     this.onTabAdded();
+  }
+
+  removeTab(event) {
+    var href = $(event.target).closest("li").find('a').attr('href');
+    var all_tabs = $(event.target).closest("ul").find("li");
+    var index = -1;
+
+    for (var i = 0; i < all_tabs.length; i++) {
+      var current_href = $(all_tabs[i]).find('a').attr('href');
+      if (current_href == href) {
+        this.metaTabs.splice(i, 1);
+        this.tabs.tabs("remove", i);
+        this.tabCounter--;
+        break;
+      }
+    }
   }
 
   setCurrentTabTitle(title) {
@@ -126,7 +135,7 @@ class TabController {
 
   setCurrentTabBook(bookCode, bookTitle) {
     var currentTabIndex = this.getSelectedTabIndex();
-    this.currentBooks[currentTabIndex] = bookCode;
+    this.metaTabs[currentTabIndex].book = bookCode;
 
     if (bookTitle != undefined && bookTitle != null) {
       this.setCurrentTabTitle(bookTitle);
@@ -138,17 +147,17 @@ class TabController {
       var index = this.getSelectedTabIndex();
     }
 
-    return this.currentBooks[index];
+    return this.metaTabs[index].book;
   }
 
   setCurrentTagIdList(tagIdList) {
     var currentTabIndex = this.getSelectedTabIndex();
-    this.currentTagIdLists[currentTabIndex] = tagIdList;
+    this.metaTabs[currentTabIndex].tagIdList = tagIdList;
   }
 
   setCurrentTagTitleList(tagTitleList) {
     var currentTabIndex = this.getSelectedTabIndex();
-    this.currentTagTitleLists[currentTabIndex] = tagTitleList;
+    this.metaTabs[currentTabIndex].tagTitleList = tagTitleList;
 
     if (tagTitleList != undefined && tagTitleList != null) {
 
@@ -165,7 +174,7 @@ class TabController {
       var index = this.getSelectedTabIndex();
     }
 
-    return this.currentTagIdLists[index];
+    return this.metaTabs[index].tagIdList;
   }
 
   getCurrentTagTitleList(index=undefined) {
@@ -173,12 +182,12 @@ class TabController {
       var index = this.getSelectedTabIndex();
     }
 
-    return this.currentTagTitleLists[index];
+    return this.metaTabs[index].tagTitleList;
   }
 
   setCurrentTextIsBook(isBook) {
     var currentTabIndex = this.getSelectedTabIndex();
-    this.currentTextIsBook[currentTabIndex] = isBook;
+    this.metaTabs[currentTabIndex].textIsBook = isBook;
   }
 
   isCurrentTextBook(index=undefined) {
@@ -186,7 +195,17 @@ class TabController {
       var index = this.getSelectedTabIndex();
     }
 
-    return this.currentTextIsBook[index];
+    return this.metaTabs[index].textIsBook;
+  }
+
+  setLastHighlightedNavElementIndex(index) {
+    var currentTabIndex = this.getSelectedTabIndex();
+    this.metaTabs[currentTabIndex].lastHighlightedNavElementIndex = index;
+  }
+
+  getLastHighlightedNavElementIndex() {
+    var currentTabIndex = this.getSelectedTabIndex();
+    return this.metaTabs[currentTabIndex].lastHighlightedNavElementIndex;
   }
 }
 

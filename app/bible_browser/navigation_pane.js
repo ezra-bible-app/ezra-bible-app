@@ -47,20 +47,20 @@ class NavigationPane {
   highlightNavElement(navElementNumber) {
     var navElementIndex = navElementNumber - 1;
     var currentNavigationPane = this.getCurrentNavigationPane();
-
     var allNavElementLinks = currentNavigationPane.find('.navigation-link');
+    var lastHighlightedNavElementIndex = bible_browser_controller.tab_controller.getLastHighlightedNavElementIndex();
 
     if ((allNavElementLinks.length - 1) >= navElementIndex &&
-        (allNavElementLinks.length - 1) >= this.lastHighlightedNavElementIndex) {
+        (allNavElementLinks.length - 1) >= lastHighlightedNavElementIndex) {
 
-      var lastHighlightedNavElementLink = $(allNavElementLinks[this.lastHighlightedNavElementIndex]);
+      var lastHighlightedNavElementLink = $(allNavElementLinks[lastHighlightedNavElementIndex]);
       var highlightedNavElementLink = $(allNavElementLinks[navElementIndex]);
 
       lastHighlightedNavElementLink.removeClass('hl-nav-element');
       highlightedNavElementLink.addClass('hl-nav-element');
     }
 
-    this.lastHighlightedNavElementIndex = navElementIndex;
+    bible_browser_controller.tab_controller.setLastHighlightedNavElementIndex(navElementIndex);
   }
 
   updateChapterNavigation() {
