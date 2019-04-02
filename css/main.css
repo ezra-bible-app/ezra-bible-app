@@ -1050,17 +1050,34 @@ h2 {
   -moz-border-radius: 4px;
   border: 1px solid lightGrey;
   display: None;
+  z-index: 10;
 }
 
 #book-search-input {
   float: left;
   background-color: white;
   width: 300px;
+  margin-right: 1em;
+}
+
+.book-search-nav {
+  float: left;
+  margin-right: 0.5em;
+  cursor: default;
 }
 
 #book-search-occurances {
-  width: 3em;
-  float: right;
-  margin-left: 1em;
+  float: left;
+  margin-left: 0.5em;
+  margin-right: 1.5em;
+  width: 2em;
+}
+
+.search-hl {
+  background-color: yellow;
+}
+
+.current-hl {
+  background-color: orange;
 }
 

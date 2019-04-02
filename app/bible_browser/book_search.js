@@ -22,16 +22,34 @@ class BookSearch {
   constructor() {
   }
 
-  init(searchForm, searchInput, searchOccurancesElement) {
+  init(searchForm, searchInput, searchOccurancesElement, prevButton, nextButton) {
     this.searchForm = $(searchForm);
     this.inputField = $(searchInput);
     this.searchOccurancesElement = $(searchOccurancesElement);
+    this.prevButton = $(prevButton);
+    this.nextButton = $(nextButton);
+    this.currentOccuranceIndex = 0;
+    this.currentOccurancesCount = 0;
+    this.allOccurances = [];
+    this.previousOccuranceElement = null;
+    this.currentOccuranceElement = null;
 
+    this.initInputField();
+    this.initNavigationButtons();
+    this.initGlobalShortCuts();
+  }
+
+  initInputField() {
     this.inputField.bind('focus', function() { $(this).select(); });
 
     this.inputField.bind('keyup', (e) => {
       if (e.key == 'Escape') {
         this.clearSearch();
+        return;
+      }
+
+      if (e.key == 'Enter') {
+        this.jumpToNextOccurance();
         return;
       }
 
@@ -42,7 +60,19 @@ class BookSearch {
         this.doSearch(searchString);
       }, 200);
     });
+  }
 
+  initNavigationButtons() {
+    this.prevButton.bind('click', () => {
+      this.jumpToNextOccurance(false);
+    });
+
+    this.nextButton.bind('click', () => {
+      this.jumpToNextOccurance();
+    });
+  }
+
+  initGlobalShortCuts() {
     Mousetrap.bind('ctrl+f', () => {
       this.searchForm.show();
       this.inputField.focus()
@@ -64,9 +94,74 @@ class BookSearch {
     this.doSearch("");
   }
 
+  jumpToNextOccurance(forward=true) {
+    this.previousOccuranceElement = $(this.allOccurances[this.currentOccuranceIndex]);
+
+    var increment = 1;
+    if (!forward) {
+      increment = -1;
+    }
+
+    var inBounds = false;
+    if (forward && (this.currentOccuranceIndex < (this.allOccurances.length - 1))) {
+      inBounds = true;
+    }
+
+    if (!forward && (this.currentOccuranceIndex > 0)) {
+      inBounds = true;
+    }
+
+    if (inBounds) {
+      this.currentOccuranceIndex += increment;
+    } else {
+      if (forward) {
+        this.currentOccuranceIndex = 0;
+      } else {
+        this.currentOccuranceIndex = this.allOccurances.length - 1;
+      }
+    }
+
+    // Jump to occurance in window
+    this.currentOccuranceElement = $(this.allOccurances[this.currentOccuranceIndex]);
+    var currentOccuranceVerseBox = this.currentOccuranceElement.closest('.verse-box');
+    var currentOccuranceAnchor = '#' + $(currentOccuranceVerseBox.find('a')[0]).attr('name');
+    window.location = currentOccuranceAnchor;
+
+    this.highlightCurrentOccurance();
+    this.inputField.focus();
+  }
+
+  highlightCurrentOccurance() {
+    // Update highlighting
+    if (this.previousOccuranceElement != null) {
+      this.previousOccuranceElement.removeClass('current-hl');
+    }
+
+    if (this.currentOccuranceElement != null) {
+      this.currentOccuranceElement.addClass('current-hl');
+    }
+
+    // Update occurances label
+    this.updateOccurancesLabel();
+  }
+
+  updateOccurancesLabel() {
+    var occurancesString = "";
+
+    if (this.currentOccurancesCount > 0) {
+      var currentOccuranceNumber = this.currentOccuranceIndex + 1;
+      var occurancesString = currentOccuranceNumber + '/' + this.currentOccurancesCount;
+    }
+
+    this.searchOccurancesElement.html(occurancesString);
+  }
+
   doSearch(searchString) {
     var allVerses = this.verseList.find('.verse-text');
-    var bookOccurancesCount = 0;
+
+    this.currentOccuranceIndex = 0;
+    this.currentOccurancesCount = 0;
+    this.allOccurances = [];
 
     //console.log("Found " + allVerses.length + " verses to search in.");
 
@@ -74,16 +169,12 @@ class BookSearch {
       var currentVerse = $(allVerses[i]);
       var verseOccurancesCount = this.doVerseSearch(currentVerse, searchString);
 
-      bookOccurancesCount += verseOccurancesCount;
+      this.currentOccurancesCount += verseOccurancesCount;
     }
 
-    var occurancesString = "";
-
-    if (bookOccurancesCount > 0) {
-      var occurancesString = "(" + bookOccurancesCount + ")";
-    }
-
-    this.searchOccurancesElement.html(occurancesString);
+    this.allOccurances = this.verseList.find('.search-hl');
+    this.currentOccuranceElement = $(this.allOccurances[this.currentOccuranceIndex]);
+    this.highlightCurrentOccurance();
   }
 
   doVerseSearch(verseElement, searchString) {
@@ -138,7 +229,7 @@ class BookSearch {
   }
 
   getHighlightedSearchString(searchString) {
-    return "<span class='search-hl' style='background-color: yellow;'>" + searchString + "</span>";
+    return "<span class='search-hl'>" + searchString + "</span>";
   }
 
   removeHighlightingFromVerse(verseElement) {
