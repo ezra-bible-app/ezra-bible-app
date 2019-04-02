@@ -1055,6 +1055,7 @@ h2 {
   margin-left: 0.5em;
   margin-right: 1.5em;
   width: 2em;
+  border: 1px solid white;
 }
 
 .search-hl {
