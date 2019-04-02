@@ -75,7 +75,11 @@ function BibleBrowserController() {
     this.text_loader = new TextLoader();
 
     this.book_search = new BookSearch();
-    this.book_search.init('#book-search', '#book-search-input', '#book-search-occurances');
+    this.book_search.init('#book-search',
+                          '#book-search-input',
+                          '#book-search-occurances',
+                          '#book-search-previous',
+                          '#book-search-next');
 
     var tabHtmlTemplate = bible_browser_controller.getTabHtmlTemplate();
 
