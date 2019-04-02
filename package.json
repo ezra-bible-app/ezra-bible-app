@@ -14,8 +14,6 @@
   "author": "Tobias Klein",
   "license": "GPL-3.0",
   "dependencies": {
-    "app-module-path": "^2.2.0",
-    "csv-parser": "^2.1.0",
     "electron-debug": "^2.1.0",
     "electron-packager": "^13.0.1",
     "electron-settings": "^3.2.0",
@@ -28,9 +26,7 @@
     "node-addon-api": "^1.6.2",
     "pug": "^2.0.3",
     "sequelize": "^4.42.0",
-    "sqlite3": "^4.0.6",
-    "task.js": "0.0.24",
-    "xml2js": "^0.4.19"
+    "sqlite3": "^4.0.6"
   },
   "devDependencies": {
     "electron": "^4.0.5",
