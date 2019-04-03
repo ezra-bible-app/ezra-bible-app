@@ -149,6 +149,25 @@ class NavigationPane {
     var reference = '#' + currentTabId + ' ' + book;
     window.location = reference;
   }
+
+  highlightSearchResult(navElementNumber) {  
+    var navElementIndex = navElementNumber - 1;
+    var currentNavigationPane = this.getCurrentNavigationPane();
+    var allNavElementLinks = currentNavigationPane.find('.navigation-link');
+
+    var highlightedLink = $(allNavElementLinks[navElementIndex]);
+    highlightedLink.addClass('hl-search-result');
+  }
+
+  clearHighlightedSearchResults() {
+    var currentNavigationPane = this.getCurrentNavigationPane();
+    var allHighlightedLinks = currentNavigationPane.find('.hl-search-result');
+
+    for (var i=0; i < allHighlightedLinks.length; i++) {
+      var currentLink = $(allHighlightedLinks[i]);
+      currentLink.removeClass('hl-search-result');
+    }
+  }
 }
 
 module.exports = NavigationPane;

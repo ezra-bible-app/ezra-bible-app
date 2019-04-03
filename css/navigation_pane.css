@@ -22,10 +22,8 @@
   padding-left: 0.5em;
   padding-right: 1em;
   overflow-y: scroll;
-
   border: 1px solid #DDDDDD;
-  -moz-border-radius: 6px;
-  -webkit-border-radius: 6px;
+  border-radius: 6px;
 }
 
 .navigation-pane-chapters {
@@ -70,9 +68,13 @@ a.navigation-link:link, a.navigation-link:hover, a.navigation-link:visited, a.na
 
 a.hl-nav-element:link, a.navigation-link:hover, a.navigation-link:focus {
   border: 1px solid #74B2E2;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
+  border-radius: 4px;
   background-color: #e4f1fb;
   color: black;
+}
+
+a.hl-search-result:link {
+  border: 1px solid orange;
+  border-radius: 4px;
 }
 
