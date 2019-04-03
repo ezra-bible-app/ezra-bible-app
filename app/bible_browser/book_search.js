@@ -22,7 +22,7 @@ class BookSearch {
   constructor() {
   }
 
-  init(searchForm, searchInput, searchOccurancesElement, prevButton, nextButton) {
+  init(searchForm, searchInput, searchOccurancesElement, prevButton, nextButton, onSearchResultsAvailable, onSearchReset) {
     this.searchForm = $(searchForm);
     this.inputField = $(searchInput);
     this.searchOccurancesElement = $(searchOccurancesElement);
@@ -33,6 +33,8 @@ class BookSearch {
     this.allOccurances = [];
     this.previousOccuranceElement = null;
     this.currentOccuranceElement = null;
+    this.onSearchResultsAvailable = onSearchResultsAvailable;
+    this.onSearchReset = onSearchReset;
 
     this.initInputField();
     this.initNavigationButtons();
@@ -57,6 +59,7 @@ class BookSearch {
       clearTimeout(this.searchTimeout);
 
       this.searchTimeout = setTimeout(() => {
+        this.onSearchReset();
         this.doSearch(searchString);
       }, 200);
     });
@@ -90,6 +93,7 @@ class BookSearch {
   }
 
   clearSearch() {
+    this.onSearchReset();
     this.searchForm.hide();
     this.doSearch("");
   }
@@ -175,6 +179,8 @@ class BookSearch {
     this.allOccurances = this.verseList.find('.search-hl');
     this.currentOccuranceElement = $(this.allOccurances[this.currentOccuranceIndex]);
     this.highlightCurrentOccurance();
+
+    this.onSearchResultsAvailable(this.allOccurances);
   }
 
   doVerseSearch(verseElement, searchString) {
