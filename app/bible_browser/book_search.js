@@ -118,9 +118,9 @@ class BookSearch {
     if (inBounds) {
       this.currentOccuranceIndex += increment;
     } else {
-      if (forward) {
+      if (forward) { // jump to the beginning when going forward at the end
         this.currentOccuranceIndex = 0;
-      } else {
+      } else { // jump to the end when going backwards in the beginning
         this.currentOccuranceIndex = this.allOccurances.length - 1;
       }
     }
