@@ -32,7 +32,7 @@ class TextLoader {
     }
 
     if (book != null) { // Book text mode
-      $('#download-tagged-verses-button').addClass('ui-state-disabled');
+      $('#export-tagged-verses-button').addClass('ui-state-disabled');
       bible_browser_controller.translation_controller.initChapterVerseCounts();
 
       bible_browser_controller.communication_controller.request_book_text(
@@ -72,24 +72,10 @@ class TextLoader {
 
       bible_browser_controller.tab_controller.setCurrentTextIsBook(false);
       bible_browser_controller.enable_tagging_toolbox_only();
-      this.enableTaggedVersesExportButton();
+      bible_browser_controller.enableTaggedVersesExportButton();
     }
 
     bible_browser_controller.init_application_for_current_verse_list();
-  }
-
-  enableTaggedVersesExportButton() {
-    /*$('#download-tagged-verses-button').removeClass('ui-state-disabled');
-
-    var dl_button = $('#download-tagged-verses-button');
-    dl_button.bind('click', function() {
-      var selected_tags = bible_browser_controller.selected_tags();
-      var url = '/tags/' + selected_tags + '/tagged_verses.odt';
-      location.href = url;
-    });
-    dl_button.show();
-    dl_button.removeClass('events-configured');
-    configure_button_styles('.verse-list-menu');*/
   }
 }
 
