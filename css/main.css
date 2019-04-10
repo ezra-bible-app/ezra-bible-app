@@ -651,14 +651,9 @@ h2 {
   margin: 0.4em;
 }
 
-#download-tagged-verses-button {
+#show-book-tag-statistics-button, #show-translation-settings-button, #export-tagged-verses-button {
   margin-left: 1em;
-  height: 1.9em;
-}
-
-#show-book-tag-statistics-button, #show-translation-settings-button {
-  margin-left: 1em;
-  height: 2.3em;
+  height: 2.2em;
 }
 
 #indent-switch-label, #outline-switch-label, #tags-switch-label, .tag-select-label, #display-options-label, #verse-notes-switch-label, #x-refs-switch-label {

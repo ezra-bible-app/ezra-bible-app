@@ -22,6 +22,8 @@ const BookSearch = require('./app/bible_browser/book_search.js');
 const TabController = require('./app/bible_browser/tab_controller.js');
 const NavigationPane = require('./app/bible_browser/navigation_pane.js');
 const TextLoader = require('./app/bible_browser/text_loader.js');
+const TaggedVerseExport = require('./app/bible_browser/tagged_verse_export.js');
+const BibleBrowserCommunicationController = require('./app/bible_browser/bible_browser_communication_controller.js');
 
 function sleep(time)
 {
@@ -37,7 +39,7 @@ function BibleBrowserController() {
   this.tag_menu_is_opened = false;
   this.display_menu_is_opened = false;
   this.current_cr_verse_id = null;
-  this.communication_controller = new BibleBrowserCommunicationController;
+  this.communication_controller = new BibleBrowserCommunicationController();
   this.tag_menu_populated = false;
 
   this.get_book_short_title = function(book_long_title) {
@@ -93,6 +95,8 @@ function BibleBrowserController() {
                              bible_browser_controller.onTabAdded);
 
     this.navigation_pane = new NavigationPane();
+
+    this.taggedVerseExport = new TaggedVerseExport();
 
     this.init_book_selection_menu();
     this.init_current_verse_list_menu();
@@ -782,9 +786,7 @@ function BibleBrowserController() {
     }
 
     bible_browser_controller.navigation_pane.resetNavigationPane();
-
-    // FIXME
-    //$('#download-tagged-verses-as-odt-button').hide();
+    $('#export-tagged-verses-button').hide();
   };
 
   this.selected_tag_titles = function() {
@@ -973,5 +975,20 @@ function BibleBrowserController() {
     }*/
   };
 
+  this.enableTaggedVersesExportButton = function() {
+    $('#export-tagged-verses-button').removeClass('ui-state-disabled');
+
+    var export_button = $('#export-tagged-verses-button');
+    export_button.bind('click', function() {
+      bible_browser_controller.taggedVerseExport.runExport();
+      
+      /*var selected_tags = bible_browser_controller.selected_tags();
+      var url = '/tags/' + selected_tags + '/tagged_verses.odt';
+      location.href = url;*/
+    });
+    export_button.show();
+    export_button.removeClass('events-configured');
+    configure_button_styles('.verse-list-menu');
+  }
 }
  

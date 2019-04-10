@@ -24,6 +24,7 @@
     "minimist": "^1.2.0",
     "mousetrap": "^1.6.2",
     "node-addon-api": "^1.6.2",
+    "officegen": "^0.5.2",
     "pug": "^2.0.3",
     "sequelize": "^4.42.0",
     "sqlite3": "^4.0.6"
