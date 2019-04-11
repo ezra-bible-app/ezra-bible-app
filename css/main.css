@@ -656,6 +656,10 @@ h2 {
   height: 2.2em;
 }
 
+#export-tagged-verses-button {
+  float: left;
+}
+
 #indent-switch-label, #outline-switch-label, #tags-switch-label, .tag-select-label, #display-options-label, #verse-notes-switch-label, #x-refs-switch-label {
   margin: 0.2em;
   margin-left: 0.2em;
