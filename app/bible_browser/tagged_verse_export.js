@@ -55,7 +55,7 @@ class TaggedVerseExport {
     return allBlocks;
   }
 
-  outputVerseBlocks(paragraph, bibleBook, verseBlocks) {
+  renderVerseBlocks(paragraph, bibleBook, verseBlocks) {
     for (var j = 0; j < verseBlocks.length; j++) {
       var currentBlock = verseBlocks[j];
 
@@ -119,7 +119,7 @@ class TaggedVerseExport {
       p.addLineBreak();
 
       var allBlocks = this.getBibleBookVerseBlocks(currentBook, verses);
-      this.outputVerseBlocks(p, currentBook, allBlocks);
+      this.renderVerseBlocks(p, currentBook, allBlocks);
 
       // Line break after book end
       p.addLineBreak();
