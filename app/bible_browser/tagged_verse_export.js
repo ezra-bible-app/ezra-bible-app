@@ -27,6 +27,71 @@ class TaggedVerseExport {
     this.exportFilePath = null;
   }
 
+  getBibleBookVerseBlocks(bibleBook, verses) {
+    var lastVerseNr = 0;
+    var allBlocks = [];
+    var currentBlock = [];
+
+    // Transform the list of verses into a list of verse blocks (verses that belong together)
+    for (var j = 0; j < verses.length; j++) {
+      var currentVerse = verses[j];
+
+      if (currentVerse.bibleBookId == bibleBook.id) {
+
+        if (currentVerse.absoluteVerseNr > (lastVerseNr + 1)) {
+          if (currentBlock.length > 0) {
+            allBlocks.push(currentBlock);
+          }
+          currentBlock = [];
+        }
+        
+        currentBlock.push(currentVerse);
+        lastVerseNr = currentVerse.absoluteVerseNr;
+      }
+    }
+
+    allBlocks.push(currentBlock);
+
+    return allBlocks;
+  }
+
+  outputVerseBlocks(paragraph, bibleBook, verseBlocks) {
+    for (var j = 0; j < verseBlocks.length; j++) {
+      var currentBlock = verseBlocks[j];
+
+      var firstVerse = currentBlock[0];
+      var lastVerse = currentBlock[currentBlock.length - 1];
+      
+      // Output the verse reference of this block
+      paragraph.addText(bibleBook.longTitle);
+      paragraph.addText(" " + firstVerse.chapter + reference_separator + firstVerse.verseNr);
+
+      if (currentBlock.length >= 2) { // At least 2 verses, a bigger block
+        var secondRef = "";
+
+        if (lastVerse.chapter == firstVerse.chapter) {
+          secondRef = "-" + lastVerse.verseNr;
+        } else {
+          secondRef = " - " + lastVerse.chapter + reference_separator + lastVerse.verseNr;
+        }
+
+        paragraph.addText(secondRef);
+      }
+      paragraph.addLineBreak();
+
+      for (var k = 0; k < currentBlock.length; k++) {
+        var currentVerse = currentBlock[k];
+      
+        paragraph.addText(currentVerse.verseNr + "", { superscript: true });
+        paragraph.addText(" " + currentVerse.content);
+        paragraph.addLineBreak();
+      }
+
+      // Line break after block end
+      paragraph.addLineBreak();
+    }
+  }
+
   renderWordDocument(bibleBooks, groupedVerseTags, verses) {
     var docx = officegen('docx');
 
@@ -53,64 +118,8 @@ class TaggedVerseExport {
       p.addText(currentBook.longTitle, { bold: true });
       p.addLineBreak();
 
-      var lastVerseNr = 0;
-      var allBlocks = [];
-      var currentBlock = [];
-
-      // Transform the list of verses into a list of verse blocks (verses that belong together)
-      for (var j = 0; j < verses.length; j++) {
-        var currentVerse = verses[j];
-
-        if (currentVerse.bibleBookId == currentBook.id) {
-
-          if (currentVerse.absoluteVerseNr > (lastVerseNr + 1)) {
-            if (currentBlock.length > 0) {
-              allBlocks.push(currentBlock);
-            }
-            currentBlock = [];
-          }
-          
-          currentBlock.push(currentVerse);
-          lastVerseNr = currentVerse.absoluteVerseNr;
-        }
-      }
-      allBlocks.push(currentBlock);
-
-      // Output the blocks into the document
-      for (var j = 0; j < allBlocks.length; j++) {
-        var currentBlock = allBlocks[j];
-
-        var firstVerse = currentBlock[0];
-        var lastVerse = currentBlock[currentBlock.length - 1];
-        
-        // Output the verse reference of this block
-        p.addText(currentBook.longTitle);
-        p.addText(" " + firstVerse.chapter + reference_separator + firstVerse.verseNr);
-
-        if (currentBlock.length >= 2) { // At least 2 verses, a bigger block
-          var secondRef = "";
-
-          if (lastVerse.chapter == firstVerse.chapter) {
-            secondRef = "-" + lastVerse.verseNr;
-          } else {
-            secondRef = " - " + lastVerse.chapter + reference_separator + lastVerse.verseNr;
-          }
-
-          p.addText(secondRef);
-        }
-        p.addLineBreak();
-
-        for (var k = 0; k < currentBlock.length; k++) {
-          var currentVerse = currentBlock[k];
-        
-          p.addText(currentVerse.verseNr + "", { superscript: true });
-          p.addText(" " + currentVerse.content);
-          p.addLineBreak();
-        }
-
-        // Line break after block end
-        p.addLineBreak();
-      }
+      var allBlocks = this.getBibleBookVerseBlocks(currentBook, verses);
+      this.outputVerseBlocks(p, currentBook, allBlocks);
 
       // Line break after book end
       p.addLineBreak();
