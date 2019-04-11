@@ -607,6 +607,7 @@ function BibleBrowserController() {
       currentTabId,
       tag_id,
       bible_browser_controller.render_tagged_verse_list_in_reference_box,
+      render_type='html',
       renderVerseMetaInfo=false
     );
 
