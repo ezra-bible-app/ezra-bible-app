@@ -148,17 +148,10 @@ class TaggedVerseExport {
     var currentTagTitleList = bible_browser_controller.tab_controller.getCurrentTagTitleList();
     var unixTagTitleList = currentTagTitleList.replace(/, /g, "__");
     unixTagTitleList = unixTagTitleList.replace(/ /g, "_");
-    
-    unixTagTitleList = unixTagTitleList.replace(/'/g, "");
-    unixTagTitleList = unixTagTitleList.replace(/,/g, "");
-    unixTagTitleList = unixTagTitleList.replace(/;/g, "");
-    unixTagTitleList = unixTagTitleList.replace(/:/g, "");
-    unixTagTitleList = unixTagTitleList.replace(/\(/g, "");
-    unixTagTitleList = unixTagTitleList.replace(/\)/g, "");
-    unixTagTitleList = unixTagTitleList.replace(/\[/g, "");
-    unixTagTitleList = unixTagTitleList.replace(/\]/g, "");
-    unixTagTitleList = unixTagTitleList.replace(/\?/g, "");
-    unixTagTitleList = unixTagTitleList.replace(/\//g, "");
+
+    // Eliminate all special characters in the tag title list
+    var specialCharacters = /[',;:\(\)\[\]{}=+\-\?\/\"><|@\*~#$%§!^°&`]/g;
+    unixTagTitleList = unixTagTitleList.replace(specialCharacters, "");
 
     return unixTagTitleList;
   }
