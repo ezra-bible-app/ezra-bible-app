@@ -980,6 +980,7 @@ function BibleBrowserController() {
     $('#export-tagged-verses-button').removeClass('ui-state-disabled');
 
     var export_button = $('#export-tagged-verses-button');
+    export_button.unbind('click');
     export_button.bind('click', function() {
       bible_browser_controller.taggedVerseExport.runExport();
       

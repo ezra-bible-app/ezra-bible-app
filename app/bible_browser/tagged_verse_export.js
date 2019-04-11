@@ -16,18 +16,24 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const officegen = require('officegen')
-const fs = require('fs')
+const officegen = require('officegen');
+const fs = require('fs');
+const app = require('electron').remote.app;
+const dialog = require('electron').remote.dialog;
+const shell = require('electron').remote.shell;
 
 class TaggedVerseExport {
   constructor() {
+    this.exportFilePath = null;
   }
 
   renderWordDocument(bibleBooks, groupedVerseTags, verses) {
     var docx = officegen('docx');
 
     // Officegen calling this function after finishing to generate the docx document:
-    // docx.on('finalize', function(written) {});
+    docx.on('finalize', (written) => {
+      shell.openItem(this.exportFilePath);
+    });
 
     // Officegen calling this function to report errors:
     docx.on('error', function(err) {
@@ -85,12 +91,12 @@ class TaggedVerseExport {
           var secondRef = "";
 
           if (lastVerse.chapter == firstVerse.chapter) {
-            secondRef = lastVerse.verseNr;
+            secondRef = "-" + lastVerse.verseNr;
           } else {
-            secondRef = lastVerse.chapter + reference_separator + lastVerse.verseNr;
+            secondRef = " - " + lastVerse.chapter + reference_separator + lastVerse.verseNr;
           }
 
-          p.addText("-" + secondRef);
+          p.addText(secondRef);
         }
         p.addLineBreak();
 
@@ -110,7 +116,8 @@ class TaggedVerseExport {
       p.addLineBreak();
     }
 
-    var out = fs.createWriteStream('example.docx');
+    //console.log("Generating word document " + this.saveFilePath);
+    var out = fs.createWriteStream(this.exportFilePath);
 
     out.on('error', function(err) {
       console.log(err);
@@ -120,16 +127,65 @@ class TaggedVerseExport {
     docx.generate(out);
   }
 
-  runExport() {
-    var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList();
+  getPaddedNumber(number) {
+    var paddedNumber = "" + number;
+    if (number < 10) {
+      paddedNumber = "0" + number;
+    }
+    return paddedNumber;
+  }
 
-    bible_browser_controller.communication_controller.request_verses_for_selected_tags(
-      null,
-      currentTagIdList,
-      this.renderWordDocument,
-      'docx',
-      false
-    );
+  getUnixTagTitleList() {
+    var currentTagTitleList = bible_browser_controller.tab_controller.getCurrentTagTitleList();
+    var unixTagTitleList = currentTagTitleList.replace(/, /g, "__");
+    unixTagTitleList = unixTagTitleList.replace(/ /g, "_");
+    
+    unixTagTitleList = unixTagTitleList.replace(/'/g, "");
+    unixTagTitleList = unixTagTitleList.replace(/,/g, "");
+    unixTagTitleList = unixTagTitleList.replace(/;/g, "");
+    unixTagTitleList = unixTagTitleList.replace(/:/g, "");
+    unixTagTitleList = unixTagTitleList.replace(/\(/g, "");
+    unixTagTitleList = unixTagTitleList.replace(/\)/g, "");
+    unixTagTitleList = unixTagTitleList.replace(/\[/g, "");
+    unixTagTitleList = unixTagTitleList.replace(/\]/g, "");
+    unixTagTitleList = unixTagTitleList.replace(/\?/g, "");
+    unixTagTitleList = unixTagTitleList.replace(/\//g, "");
+
+    return unixTagTitleList;
+  }
+
+  getExportDialogOptions() {
+    var today = new Date();
+    var month = this.getPaddedNumber(today.getMonth()+1);
+    var day = this.getPaddedNumber(today.getDate());
+    var date = today.getFullYear() + '_' + month + '_' + day;
+    var unixTagTitleList = this.getUnixTagTitleList();
+    var fileName = date + '__' + unixTagTitleList + '.docx';
+
+    var dialogOptions = {
+      defaultPath: app.getPath('documents') + '/' + fileName,
+      title: "Export tagged verse list to Word document",
+      buttonLabel: "Run export"
+    }
+
+    return dialogOptions;
+  }
+
+  runExport() {
+    var dialogOptions = this.getExportDialogOptions();
+    this.exportFilePath = dialog.showSaveDialog(null, dialogOptions);
+    
+    if (this.exportFilePath != undefined) {
+      var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList();
+
+      bible_browser_controller.communication_controller.request_verses_for_selected_tags(
+        null,
+        currentTagIdList,
+        (bibleBooks, groupedVerseTags, verses) => { this.renderWordDocument(bibleBooks, groupedVerseTags, verses) },
+        'docx',
+        false
+      );
+    }
   }
 }
 
