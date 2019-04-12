@@ -26,6 +26,7 @@ class Tab {
     this.tagTitleList = "";
     this.textIsBook = false;
     this.lastHighlightedNavElementIndex = null;
+    this.bibleTranslationId = bible_browser_controller.settings.get('bible_translation');
   }
 }
 
@@ -229,6 +230,26 @@ class TabController {
   getLastHighlightedNavElementIndex() {
     var currentTabIndex = this.getSelectedTabIndex();
     return this.metaTabs[currentTabIndex].lastHighlightedNavElementIndex;
+  }
+
+  setCurrentBibleTranslationId(bibleTranslationId) {
+    var currentTabIndex = this.getSelectedTabIndex();
+    this.metaTabs[currentTabIndex].bibleTranslationId = bibleTranslationId;
+  }
+
+  getCurrentBibleTranslationId() {
+    var currentTabIndex = this.getSelectedTabIndex();
+    return this.metaTabs[currentTabIndex].bibleTranslationId;
+  }
+
+  async getCurrentBibleTranslationName() {
+    return await models.BibleTranslation.getName(this.getCurrentBibleTranslationId());
+  }
+
+  isCurrentTabEmpty() {
+    var currentTabIndex = this.getSelectedTabIndex();
+    var currentTab = this.metaTabs[currentTabIndex];
+    return currentTab.book == null && currentTab.tagIdList == "";
   }
 }
 
