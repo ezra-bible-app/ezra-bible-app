@@ -60,6 +60,17 @@ module.exports = (sequelize, DataTypes) => {
     return translations;
   };
 
+  BibleTranslation.getName = async function(id) {
+    var query = "SELECT name FROM BibleTranslations WHERE id='" + id + "'";
+    var translationRecords = await sequelize.query(query, { model: models.BibleTranslation });
+
+    if (translationRecords.length > 0) {
+      return translationRecords[0].name;
+    } else {
+      return null;
+    }
+  };
+
   BibleTranslation.importSwordTranslation = async function(translationCode) {
     var bibleText = ezraSwordInterface.getBibleText(translationCode);
     if (bibleText.length == 0) {

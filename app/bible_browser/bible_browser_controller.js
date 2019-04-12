@@ -104,6 +104,7 @@ function BibleBrowserController() {
     // Not used
     //this.init_display_options_menu();
     this.init_tag_reference_box();
+    this.init_bible_translation_info_box();
   };
 
   this.onSearchResultsAvailable = function(occurances) {
@@ -167,6 +168,7 @@ function BibleBrowserController() {
     resize_app_container();
     bible_browser_controller.init_tag_selection_menu();
     bible_browser_controller.init_current_verse_list_menu();
+    bible_browser_controller.translation_controller.initBibleTranslationInfoButton();
   };
 
   this.onBibleTranslationChanged = function() {
@@ -262,6 +264,16 @@ function BibleBrowserController() {
     $('#tag-reference-box').dialog({
       width: 720,
       position: [200,200],
+      autoOpen: false,
+      dialogClass: 'ezra-dialog'
+    });
+  };
+
+  this.init_bible_translation_info_box = function() {
+    $('#bible-translation-info-box').dialog({
+      width: 800,
+      height: 500,
+      position: [600,200],
       autoOpen: false,
       dialogClass: 'ezra-dialog'
     });
@@ -787,7 +799,7 @@ function BibleBrowserController() {
     }
 
     bible_browser_controller.navigation_pane.resetNavigationPane();
-    $('#export-tagged-verses-button').hide();
+    $('.export-tagged-verses-button').hide();
   };
 
   this.selected_tag_titles = function() {
@@ -977,9 +989,9 @@ function BibleBrowserController() {
   };
 
   this.enableTaggedVersesExportButton = function() {
-    $('#export-tagged-verses-button').removeClass('ui-state-disabled');
+    $('.export-tagged-verses-button').removeClass('ui-state-disabled');
 
-    var export_button = $('#export-tagged-verses-button');
+    var export_button = $('.export-tagged-verses-button');
     export_button.unbind('click');
     export_button.bind('click', function() {
       bible_browser_controller.taggedVerseExport.runExport();
