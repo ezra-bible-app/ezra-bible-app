@@ -24,6 +24,7 @@
   overflow-y: scroll;
   border: 1px solid #DDDDDD;
   border-radius: 6px;
+  user-select: none;
 }
 
 .navigation-pane-chapters {

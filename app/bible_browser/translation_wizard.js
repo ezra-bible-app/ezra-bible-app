@@ -485,7 +485,7 @@ class TranslationWizard {
 
       currentLangModules = currentLangModules.sort(this.sortBy('description'));
 
-      this.listLanguageModules(currentUiLanguage, currentLangModules, renderHeader);
+      await this.listLanguageModules(currentUiLanguage, currentLangModules, renderHeader);
     }
 
     this.bindLabelEvents(wizardPage);
