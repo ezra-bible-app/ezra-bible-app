@@ -293,7 +293,7 @@ h2 {
   border-radius: 4px;
 }
 
-#tag-reference-box, #book-tag-statistics-box {
+#tag-reference-box, #book-tag-statistics-box, #bible-translation-info-box {
   display: none;
 }
 
@@ -308,6 +308,12 @@ h2 {
 #book-tag-statistics-box {
   width: 350px;
   max-height: 500px;
+  overflow-y: scroll;
+}
+
+#bible-translation-info-box {
+  width: 600px;
+  height: 400px;
   overflow-y: scroll;
 }
 
@@ -506,9 +512,6 @@ h2 {
   display: none;
 }
 
-#translation-settings-wizard {
-}
-
 #translation-settings-wizard-init {
   padding-top: 2em;
   text-align: center;
@@ -651,13 +654,19 @@ h2 {
   margin: 0.4em;
 }
 
-#show-book-tag-statistics-button, #show-translation-settings-button, #export-tagged-verses-button {
+#show-book-tag-statistics-button, #show-translation-settings-button, .export-tagged-verses-button, .bible-translation-info-button {
   margin-left: 1em;
   height: 2.2em;
 }
 
-#export-tagged-verses-button {
+.export-tagged-verses-button, .bible-translation-info-button {
   float: left;
+}
+
+.bible-translation-info-button {
+  width: 2.2em;
+  font-size: 120%;
+  padding: 0;
 }
 
 #indent-switch-label, #outline-switch-label, #tags-switch-label, .tag-select-label, #display-options-label, #verse-notes-switch-label, #x-refs-switch-label {

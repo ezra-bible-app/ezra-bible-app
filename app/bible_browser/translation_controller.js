@@ -16,14 +16,19 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const ezraSwordInterface = require('ezra-sword-interface');
+const ISO6391 = require('iso-639-1');
+
 class TranslationController {
   constructor() {
     this.current_bible_translation_id = '';
+    this.currentBibleTranslationName = '';
     this.bibleTranslationCount = 0;
   }
 
   init(onBibleTranslationChanged) {
     this.onBibleTranslationChanged = onBibleTranslationChanged;
+    this.initBibleTranslationInfoButton();
   }
 
   updateAvailableBooks() {
@@ -75,6 +80,7 @@ class TranslationController {
       this.current_bible_translation_id = result.rows[0].id;
     }
 
+    this.currentBibleTranslationName = await models.BibleTranslation.getName(this.current_bible_translation_id);
     bible_browser_controller.translation_controller.updateAvailableBooks();
     this.bibleTranslationCount = result.count;
   }
@@ -129,10 +135,46 @@ class TranslationController {
     });
   }
 
-  handleBibleTranslationChange(event) {
+  initBibleTranslationInfoButton() {
+    $('.bible-translation-info-button').unbind('click');
+    $('.bible-translation-info-button').bind('click', () => {
+      this.showBibleTranslationInfo();
+    });
+  }
+
+  showBibleTranslationInfo() {
+    var bibleTranslationInfo = "No info available!";
+
+    try {
+      var bibleTranslationModule = ezraSwordInterface.getLocalModule(this.current_bible_translation_id);
+      var bibleTranslationInfo = "<b>About</b><br><br>";
+      bibleTranslationInfo += bibleTranslationModule.about.replace(/\\par/g, "<br>");
+      var moduleSize = parseInt(bibleTranslationModule.size / 1024) + " KB";
+
+      bibleTranslationInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey;'>";
+      bibleTranslationInfo += "<b>Sword module info</b><br><br>";
+      bibleTranslationInfo += "Name: " + bibleTranslationModule.name + "<br>";
+      bibleTranslationInfo += "Version: " + bibleTranslationModule.version + "<br>";
+      bibleTranslationInfo += "Language: " + ISO6391.getName(bibleTranslationModule.language) + "<br>";
+      bibleTranslationInfo += "Size: " + moduleSize;
+      bibleTranslationInfo += "</p>";
+    } catch (ex) {
+      console.error("Got exception while trying to get bible translation info: " + ex);
+    }
+
+    $('#bible-translation-info-box').dialog({
+      title: this.currentBibleTranslationName
+    });
+    $('#bible-translation-info-box-content').empty();
+    $('#bible-translation-info-box-content').html(bibleTranslationInfo);
+    $('#bible-translation-info-box').dialog("open");
+  }
+
+  async handleBibleTranslationChange(event) {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
     var bibleSelect = currentVerseListMenu.find('select.bible-select');
     this.current_bible_translation_id = bibleSelect[0].value;
+    this.currentBibleTranslationName = await models.BibleTranslation.getName(this.current_bible_translation_id);
     bible_browser_controller.settings.set('bible_translation', this.current_bible_translation_id);
     this.showBibleTranslationLoadingIndicator();
     this.updateAvailableBooks();
