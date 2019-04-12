@@ -21,8 +21,6 @@ const ISO6391 = require('iso-639-1');
 
 class TranslationController {
   constructor() {
-    this.current_bible_translation_id = '';
-    this.currentBibleTranslationName = '';
     this.bibleTranslationCount = 0;
   }
 
@@ -32,7 +30,8 @@ class TranslationController {
   }
 
   updateAvailableBooks() {
-    models.BibleTranslation.getBookList(this.current_bible_translation_id).then(books => {
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
+    models.BibleTranslation.getBookList(currentBibleTranslationId).then(books => {
       var book_links = $('#book-selection-menu').find('li');
 
       for (var i = 0; i < book_links.length; i++) {
@@ -51,7 +50,8 @@ class TranslationController {
   }
 
   initChapterVerseCounts() {
-    return models.BibleBook.getChapterVerseCounts(this.current_bible_translation_id).then(verseCountEntries => {
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
+    return models.BibleBook.getChapterVerseCounts(currentBibleTranslationId).then(verseCountEntries => {
       var lastBook = null;
 
       for (var entry of verseCountEntries) {
@@ -71,16 +71,17 @@ class TranslationController {
 
   async loadSettings() {
     if (bible_browser_controller.settings.has('bible_translation')) {
-      this.current_bible_translation_id = bible_browser_controller.settings.get('bible_translation');
+      bible_browser_controller.tab_controller.setCurrentBibleTranslationId(
+        bible_browser_controller.settings.get('bible_translation')
+      );
     }
 
     var result = await models.BibleTranslation.findAndCountAll();
 
     if (!bible_browser_controller.settings.has('bible_translation') && result.rows.length > 0) {
-      this.current_bible_translation_id = result.rows[0].id;
+      bible_browser_controller.tab_controller.setCurrentBibleTranslationId(result.rows[0].id);
     }
 
-    this.currentBibleTranslationName = await models.BibleTranslation.getName(this.current_bible_translation_id);
     bible_browser_controller.translation_controller.updateAvailableBooks();
     this.bibleTranslationCount = result.count;
   }
@@ -117,7 +118,8 @@ class TranslationController {
 
       for (var translation of result.rows) {
         var selected = '';
-        if (this.current_bible_translation_id == translation.id) {
+        var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
+        if (currentBibleTranslationId == translation.id) {
           var selected = ' selected=\"selected\"';
         }
 
@@ -142,11 +144,12 @@ class TranslationController {
     });
   }
 
-  showBibleTranslationInfo() {
+  async showBibleTranslationInfo() {
     var bibleTranslationInfo = "No info available!";
 
     try {
-      var bibleTranslationModule = ezraSwordInterface.getLocalModule(this.current_bible_translation_id);
+      var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
+      var bibleTranslationModule = ezraSwordInterface.getLocalModule(currentBibleTranslationId);
       var bibleTranslationInfo = "<b>About</b><br><br>";
       bibleTranslationInfo += bibleTranslationModule.about.replace(/\\par/g, "<br>");
       var moduleSize = parseInt(bibleTranslationModule.size / 1024) + " KB";
@@ -162,8 +165,9 @@ class TranslationController {
       console.error("Got exception while trying to get bible translation info: " + ex);
     }
 
+    var currentBibleTranslationName = await bible_browser_controller.tab_controller.getCurrentBibleTranslationName();
     $('#bible-translation-info-box').dialog({
-      title: this.currentBibleTranslationName
+      title: currentBibleTranslationName
     });
     $('#bible-translation-info-box-content').empty();
     $('#bible-translation-info-box-content').html(bibleTranslationInfo);
@@ -173,13 +177,15 @@ class TranslationController {
   async handleBibleTranslationChange(event) {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
     var bibleSelect = currentVerseListMenu.find('select.bible-select');
-    this.current_bible_translation_id = bibleSelect[0].value;
-    this.currentBibleTranslationName = await models.BibleTranslation.getName(this.current_bible_translation_id);
-    bible_browser_controller.settings.set('bible_translation', this.current_bible_translation_id);
-    this.showBibleTranslationLoadingIndicator();
+    bible_browser_controller.tab_controller.setCurrentBibleTranslationId(bibleSelect[0].value);
+    bible_browser_controller.settings.set('bible_translation', bibleSelect[0].value);
+    
+    if (!bible_browser_controller.tab_controller.isCurrentTabEmpty()) {
+      this.showBibleTranslationLoadingIndicator();
+    }
+
     this.updateAvailableBooks();
     this.initChapterVerseCounts();
-
     this.onBibleTranslationChanged();
   }
 

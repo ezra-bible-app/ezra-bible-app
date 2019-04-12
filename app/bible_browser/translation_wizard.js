@@ -269,10 +269,11 @@ class TranslationWizard {
         await models.BibleTranslation.importSwordTranslation(translationCode);
         await models.BibleTranslation.updateVersification(translationCode);
 
-        if (bible_browser_controller.translation_controller.current_bible_translation_id == "" || 
-            bible_browser_controller.translation_controller.current_bible_translation_id == null) {
+        var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
+        if (currentBibleTranslationId == "" || 
+            currentBibleTranslationId == null) {
 
-          bible_browser_controller.translation_controller.current_bible_translation_id = translationCode;
+          bible_browser_controller.tab_controller.setCurrentBibleTranslationId(translationCode);
           bible_browser_controller.translation_controller.updateAvailableBooks();
         }
 
@@ -335,17 +336,18 @@ class TranslationWizard {
           await this.uninstallTranslation(translationCode);
           await models.BibleTranslation.removeFromDb(translationCode);
 
-          if (bible_browser_controller.translation_controller.current_bible_translation_id == translationCode) {
+          var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
+          if (currentBibleTranslationId == translationCode) {
             settings.delete('bible_translation');
             models.BibleTranslation.findAndCountAll().then(result => {
               if (result.rows.length > 0) {
-                bible_browser_controller.translation_controller.current_bible_translation_id = result.rows[0].id;
+                bible_browser_controller.tab_controller.setCurrentBibleTranslationId(result.rows[0].id);
                 bible_browser_controller.onBibleTranslationChanged();
               } else {
                 $('#verse-list').empty();
                 $('#verse-list-loading-indicator').hide();
                 $('#verse-list').append("<div class='help-text'>To start using Ezra Project, select a book or a tag from the menu above.</div>");
-                bible_browser_controller.translation_controller.current_bible_translation_id = null;
+                bible_browser_controller.tab_controller.setCurrentBibleTranslationId(null);
                 bible_browser_controller.current_book = null;
                 $('.book-select-value').text("Select book");
               }
