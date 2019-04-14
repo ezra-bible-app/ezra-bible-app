@@ -267,7 +267,7 @@ function BibleBrowserController() {
 
   this.init_tag_reference_box = function() {
     $('#tag-reference-box').dialog({
-      width: 720,
+      width: 620,
       position: [200,200],
       autoOpen: false,
       dialogClass: 'ezra-dialog'
@@ -278,7 +278,6 @@ function BibleBrowserController() {
     $('#bible-translation-info-box').dialog({
       width: 800,
       height: 500,
-      position: [600,200],
       autoOpen: false,
       dialogClass: 'ezra-dialog'
     });
@@ -580,20 +579,23 @@ function BibleBrowserController() {
     var cross_reference_box_height = 240;
     var overlay_box_position = null;
 
+    var appContainerWidth = $(window).width();
+    var offsetLeft = appContainerWidth - 700;
+
     if ((next_verse_box_position.top + cross_reference_box_height) <
         screen_bottom) {
       // The box does fit in the screen space between the beginning
       // of the next verse box and the bottom of the screen
       overlay_box_position = {
         top: next_verse_box_position.top + 7,
-        left: next_verse_box_position.left
+        left: offsetLeft
       };
     } else {
       // The box does NOT fit in the screen space between the beginning
       // of the next verse box and the bottom of the screen
       overlay_box_position = {
         top: verse_box_position.top - cross_reference_box_height,
-        left: verse_box_position.left
+        left: offsetLeft
       };
     }
 

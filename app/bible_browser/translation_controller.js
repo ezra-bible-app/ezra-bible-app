@@ -166,8 +166,10 @@ class TranslationController {
     }
 
     var currentBibleTranslationName = await bible_browser_controller.tab_controller.getCurrentBibleTranslationName();
+    var offsetLeft = $(window).width() - 900;
     $('#bible-translation-info-box').dialog({
-      title: currentBibleTranslationName
+      title: currentBibleTranslationName,
+      position: [offsetLeft,120]
     });
     $('#bible-translation-info-box-content').empty();
     $('#bible-translation-info-box-content').html(bibleTranslationInfo);
