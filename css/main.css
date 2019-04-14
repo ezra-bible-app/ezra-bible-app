@@ -517,6 +517,10 @@ h2 {
   display: none;
 }
 
+#translation-settings-wizard {
+  user-select: none;
+}
+
 #translation-settings-wizard-init {
   padding-top: 2em;
   text-align: center;
