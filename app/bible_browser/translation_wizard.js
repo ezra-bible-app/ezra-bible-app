@@ -71,8 +71,10 @@ class TranslationWizard {
   }
 
   openWizard() {
-    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame();
-    var verse_list_position = currentVerseListFrame.offset();
+    var wizardWidth = 850;
+    var appContainerWidth = $(window).width() - 10;
+    var offsetLeft = appContainerWidth - wizardWidth - 100;
+    var offsetTop = 20;
 
     $('#translation-settings-wizard-add').hide();
     $('#translation-settings-wizard-remove').hide();
@@ -89,10 +91,10 @@ class TranslationWizard {
     });
 
     $('#translation-settings-wizard').dialog({
-      position: [verse_list_position.left + 50, verse_list_position.top + 50],
+      position: [offsetLeft, offsetTop],
       title: "Configure bible translations",
       dialogClass: 'ezra-dialog',
-      width: 850,
+      width: wizardWidth,
       minHeight: 250
     });
   }
