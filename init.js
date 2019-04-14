@@ -112,16 +112,16 @@ function adapt_verse_list() {
 }
 
 function resize_app_container(e) {
-  var new_app_container_height = $(window).height();
+  var new_app_container_height = $(window).height() - 10;
   $("#app-container").css("height", new_app_container_height);
 
   $('#tags-view, #notes-view, #xrefs-view').css('height', new_app_container_height - 110);
-  $('.verse-list-frame').css('height', new_app_container_height - 100);
-  $('.navigation-pane').css('height', new_app_container_height - 100);
+  $('.verse-list-frame').css('height', new_app_container_height - 110);
+  $('.navigation-pane').css('height', new_app_container_height - 110);
 
   // Meta Tag stuff disabled for now
   //$('#meta-tag-content, #meta-tag-assigned-tags').css('height', (new_app_container_height - 280) * 0.3);
-  $('#tags-content-global').css('height', new_app_container_height - 175);
+  $('#tags-content-global').css('height', new_app_container_height - 145);
 
   // Book tags disabled
   //$('#tags-content-book').css('height', new_app_container_height - 220);
@@ -130,7 +130,7 @@ function resize_app_container(e) {
   // $('#general-notes-textarea').css('height', new_app_container_height - 210);
 
   $('#tag-browser-taglist').css('height', new_app_container_height - 110);
-  $('#tag-browser-taglist-global, #tag-browser-taglist-book').css('height', new_app_container_height - 170);
+  $('#tag-browser-taglist-global, #tag-browser-taglist-book').css('height', new_app_container_height - 140);
 
   adapt_verse_list();
 }
