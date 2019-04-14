@@ -304,7 +304,7 @@ h2 {
 
 #tag-reference-box-verse-list {
   padding-right: 0.2em;
-  width: 700px;
+  width: 600px;
   height: 350px;
   margin-bottom: 0.5em;
   overflow-y: scroll;
@@ -977,16 +977,17 @@ h2 {
 
 #tag-selection-menu {
   padding: 1em;
+  width: 22em;
 }
 
 #tag-selection-taglist-global {
   margin-top: 1em;
-  height: 600px;
+  height: 400px;
   overflow-y: scroll;
 }
 
 #tag-selection-filter-input {
-  width: 18em;
+  width: 16em;
 }
 
 .tag-browser-tag-id {
