@@ -104,16 +104,21 @@ class TranslationController {
       console.log("Found " + result.count + " bible translations!");
 
       var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
+      var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList();
 
       if (result.count == 0) {
         bibleSelect.attr('disabled','disabled');
         $('.book-select-button').addClass('ui-state-disabled');
         var currentVerseList = bible_browser_controller.getCurrentVerseList();
         currentVerseList.find('.help-text').text(gettext_strings.help_text_no_translations);
-      } else if (currentBook == null && bible_browser_controller.current_tag_id_list == "")  {
+      } else {
+        $('.bible-select').removeAttr('disabled');
         $('.book-select-button').removeClass('ui-state-disabled');
-        var currentVerseList = bible_browser_controller.getCurrentVerseList();
-        currentVerseList.find('.help-text').text(gettext_strings.help_text_translation_available);
+
+        if (currentBook == null && currentTagIdList == "")  {
+          var currentVerseList = bible_browser_controller.getCurrentVerseList();
+          currentVerseList.find('.help-text').text(gettext_strings.help_text_translation_available);
+        }
       }
 
       for (var translation of result.rows) {
