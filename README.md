@@ -29,6 +29,31 @@ Furthermore, the following components are used (among others):
 * [officegen](https://github.com/Ziv-Barber/officegen) for exporting tagged verse lists to Word documents
 * [SpinKit](https://github.com/tobiasahlin/SpinKit) for CSS-animated loading spinners
 
+## Building Ezra Project
+### Windows
+
+Instructions to be added
+
+### Linux
+
+The following build instructions are valid for Debian/Ubuntu based distributions.
+
+#### Setup and build ####
+
+1. Install compiler/lib dependencies: `sudo apt-get install build-essential nodejs libsword-dev libsqlite3-0`
+2. Clone Ezra Project from git repo or unpack sources from release
+3. Install Ezra Project dependencies, execute this commmand in the project dir: `npm install`
+4. Rebuild C/C++ dependencies, execute this command in the project dir: `npm run rebuild-linux`
+
+After performing these steps you can run Ezra Project, by executing this command in the project dir: `npm start`
+
+#### Create a release directory ####
+
+To create a release directory that contains all necessary files (except Sword and SQLite libs), execute the following command in the project dir: `npm run package-linux`
+
+After running the above command you will find a new directory `<project-dir>/release/ezra-project-linux-x64`.
+The application binary within that directory is named `ezra-project`.
+
 ## Feedback
 To give feedback (bug reports, feature requests) please use the Github issue system.
 Click [here](https://github.com/tobias-klein/ezra-project/issues/new) to file a new Issue for Ezra Project.
