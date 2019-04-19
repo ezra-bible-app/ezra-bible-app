@@ -296,9 +296,7 @@ class TranslationWizard {
 
   async addTranslationWizardFinished(event, currentIndex) {
     $('#translation-settings-wizard').dialog('close');
-
     this._installedTranslations = await models.BibleTranslation.getTranslations();
-    $('#bible-select').removeAttr('disabled');
     await bible_browser_controller.translation_controller.initTranslationsMenu();
     await tags_controller.updateTagUiBasedOnTagAvailability();
   }
