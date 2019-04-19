@@ -5,11 +5,11 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "rebuild-linux": "electron-rebuild -f -w ezra-sword-interface -v 4.0.5",
-    "rebuild-win": "electron-rebuild --arch=ia32 -f -w sqlite3 -v 4.0.5",
+    "rebuild-linux": "electron-rebuild -f -w ezra-sword-interface -v 4.1.4",
+    "rebuild-win": "electron-rebuild --arch=ia32 -f -w sqlite3 -v 4.1.4",
     "migrate-db": "sequelize db:migrate && sequelize db:seed:all",
-    "package-linux": "electron-packager . ezra-project --overwrite --platform=linux --arch=x64 --prune=true --out=release --electron-version=4.0.5",
-    "package-win": "electron-packager . ezra-project --overwrite --platform=win32 --arch=ia32 --prune=true --out=release --electron-version=4.0.5"
+    "package-linux": "electron-packager . ezra-project --overwrite --platform=linux --arch=x64 --prune=true --out=release --electron-version=4.1.4",
+    "package-win": "electron-packager . ezra-project --overwrite --platform=win32 --arch=ia32 --prune=true --out=release --electron-version=4.1.4"
   },
   "author": "Tobias Klein",
   "license": "GPL-3.0",
@@ -30,7 +30,7 @@
     "sqlite3": "^4.0.6"
   },
   "devDependencies": {
-    "electron": "^4.0.5",
+    "electron": "^4.1.4",
     "electron-builder": "^20.38.4",
     "electron-rebuild": "^1.8.4",
     "node-gyp": "^3.8.0"
