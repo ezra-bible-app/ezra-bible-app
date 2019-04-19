@@ -16,7 +16,7 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const ezraSwordInterface = require('ezra-sword-interface');
+const nodeSwordInterface = require('node-sword-interface');
 const ISO6391 = require('iso-639-1');
 
 class TranslationWizard {
@@ -107,7 +107,7 @@ class TranslationWizard {
     var wizardPage = $('#translation-settings-wizard-add-p-0');
     wizardPage.empty();
 
-    if (!ezraSwordInterface.repositoryConfigExisting()) {
+    if (!nodeSwordInterface.repositoryConfigExisting()) {
       wizardPage.append('<p>Updating repository data! This will take a few seconds ...</p>');
 
       await this.refreshRemoteSources();
@@ -254,7 +254,7 @@ class TranslationWizard {
 
       for (var i = 0; i < translations.length; i++) {
         var translationCode = translations[i];
-        var translationName = ezraSwordInterface.getModuleDescription(translationCode);
+        var translationName = nodeSwordInterface.getModuleDescription(translationCode);
 
         installPage.append("<div style='float: left;'>Installing <i>" + translationName + "</i> ... </div>");
 
@@ -329,7 +329,7 @@ class TranslationWizard {
       setTimeout(async () => {
         for (var i = 0; i < translations.length; i++) {
           var translationCode = translations[i];
-          var translationName = ezraSwordInterface.getModuleDescription(translationCode);
+          var translationName = nodeSwordInterface.getModuleDescription(translationCode);
 
           removalPage.append('<span>Removing <i>' + translationName + '</i> ... </span>');
           
@@ -384,7 +384,7 @@ class TranslationWizard {
 
     for (var i = 0;  i < selectedRepositories.length; i++) {
       var currentRepo = selectedRepositories[i];
-      var repoLanguages = ezraSwordInterface.getRepoLanguages(currentRepo);
+      var repoLanguages = nodeSwordInterface.getRepoLanguages(currentRepo);
 
       for (var j = 0; j < repoLanguages.length; j++) {
         if (ISO6391.validate(repoLanguages[j])) {
@@ -480,7 +480,7 @@ class TranslationWizard {
 
       for (var j = 0; j < this._selectedRepositories.length; j++) {
         var currentRepo = this._selectedRepositories[j];
-        var currentRepoLangModules = ezraSwordInterface.getRepoModulesByLang(currentRepo, currentLanguage);
+        var currentRepoLangModules = nodeSwordInterface.getRepoModulesByLang(currentRepo, currentLanguage);
         // Append this repo's modules to the overall language list
         currentLangModules = currentLangModules.concat(currentRepoLangModules);
       }
@@ -549,7 +549,7 @@ class TranslationWizard {
 
     for (var i = 0; i < this._selectedRepositories.length; i++) {
       var currentRepo = this._selectedRepositories[i];
-      count += ezraSwordInterface.getRepoLanguageTranslationCount(currentRepo, language);
+      count += nodeSwordInterface.getRepoLanguageTranslationCount(currentRepo, language);
     }
 
     return count;
@@ -594,7 +594,7 @@ class TranslationWizard {
   listRepositories() {
     var wizardPage = $('#translation-settings-wizard-add-p-0');
 
-    var repositories = ezraSwordInterface.getRepoNames();
+    var repositories = nodeSwordInterface.getRepoNames();
     wizardPage.empty();
 
     var introText = "<p style='margin-bottom: 2em;'>" +
@@ -646,7 +646,7 @@ class TranslationWizard {
 
   getRepoTranslationCount(repo) {
     var count = 0;
-    var allRepoModules = ezraSwordInterface.getAllRepoModules(repo);
+    var allRepoModules = nodeSwordInterface.getAllRepoModules(repo);
 
     for (var i = 0; i < allRepoModules.length; i++) {
       var module = allRepoModules[i];
@@ -661,7 +661,7 @@ class TranslationWizard {
 
   refreshRemoteSources() {
     return new Promise(resolve => {
-      ezraSwordInterface.refreshRemoteSources(function() {
+      nodeSwordInterface.refreshRemoteSources(function() {
         resolve();
       });
     });
@@ -669,7 +669,7 @@ class TranslationWizard {
 
   installTranslation(translationCode) {
     return new Promise(resolve => {
-      ezraSwordInterface.installModule(translationCode, function() {
+      nodeSwordInterface.installModule(translationCode, function() {
         resolve();
       });
     });
@@ -677,7 +677,7 @@ class TranslationWizard {
 
   uninstallTranslation(translationCode) {
     return new Promise(resolve => {
-      ezraSwordInterface.uninstallModule(translationCode, function() {
+      nodeSwordInterface.uninstallModule(translationCode, function() {
         resolve();
       });
     });
