@@ -268,7 +268,7 @@ class TranslationWizard {
         installPage.append(loader);
         $('#bibleTranslationInstallIndicator').show();
         
-        await this._nodeSwordInterface.installTranslation(translationCode);
+        await this._nodeSwordInterface.installModule(translationCode);
         await models.BibleTranslation.importSwordTranslation(translationCode);
         await models.BibleTranslation.updateVersification(translationCode);
 
@@ -334,7 +334,7 @@ class TranslationWizard {
 
           removalPage.append('<span>Removing <i>' + translationName + '</i> ... </span>');
           
-          await this._nodeSwordInterface.uninstallTranslation(translationCode);
+          await this._nodeSwordInterface.uninstallModule(translationCode);
           await models.BibleTranslation.removeFromDb(translationCode);
 
           var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
