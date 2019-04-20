@@ -16,12 +16,13 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const nodeSwordInterface = require('node-sword-interface');
+const NodeSwordInterface = require('node-sword-interface');
 const ISO6391 = require('iso-639-1');
 
 class TranslationController {
   constructor() {
     this.bibleTranslationCount = 0;
+    this.nodeSwordInterface = new NodeSwordInterface();
   }
 
   init(onBibleTranslationChanged) {
@@ -154,7 +155,7 @@ class TranslationController {
 
     try {
       var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
-      var bibleTranslationModule = nodeSwordInterface.getLocalModule(currentBibleTranslationId);
+      var bibleTranslationModule = this.nodeSwordInterface.getLocalModule(currentBibleTranslationId);
       var bibleTranslationInfo = "<b>About</b><br><br>";
       bibleTranslationInfo += bibleTranslationModule.about.replace(/\\par/g, "<br>");
       var moduleSize = parseInt(bibleTranslationModule.size / 1024) + " KB";

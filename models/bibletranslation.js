@@ -16,7 +16,7 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const nodeSwordInterface = require('node-sword-interface');
+const NodeSwordInterface = require('node-sword-interface');
 const ISO6391 = require('iso-639-1');
 
 'use strict';
@@ -72,6 +72,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   BibleTranslation.importSwordTranslation = async function(translationCode) {
+    var nodeSwordInterface = new NodeSwordInterface();
     var bibleText = nodeSwordInterface.getBibleText(translationCode);
     if (bibleText.length == 0) {
       console.log("ERROR: Bible text for " + translationCode + " has 0 verses!");

@@ -16,7 +16,7 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const nodeSwordInterface = require('node-sword-interface');
+const NodeSwordInterface = require('node-sword-interface');
 const ISO6391 = require('iso-639-1');
 
 class TranslationWizard {
@@ -24,6 +24,7 @@ class TranslationWizard {
     this._installedTranslations = null;
     this._translationInstallStatus = 'DONE';
     this._translationRemovalStatus = 'DONE';
+    this._nodeSwordInterface = new NodeSwordInterface();
 
     var addButton = $('#add-bible-translations-button');
     var removeButton = $('#remove-bible-translations-button');
@@ -107,10 +108,10 @@ class TranslationWizard {
     var wizardPage = $('#translation-settings-wizard-add-p-0');
     wizardPage.empty();
 
-    if (!nodeSwordInterface.repositoryConfigExisting()) {
+    if (!this._nodeSwordInterface.repositoryConfigExisting()) {
       wizardPage.append('<p>Updating repository data! This will take a few seconds ...</p>');
 
-      await this.refreshRemoteSources();
+      await this._nodeSwordInterface.refreshRemoteSources();
     }
 
     wizardPage.append('<p>Loading repositories ...</p>');
@@ -254,7 +255,7 @@ class TranslationWizard {
 
       for (var i = 0; i < translations.length; i++) {
         var translationCode = translations[i];
-        var translationName = nodeSwordInterface.getModuleDescription(translationCode);
+        var translationName = this._nodeSwordInterface.getModuleDescription(translationCode);
 
         installPage.append("<div style='float: left;'>Installing <i>" + translationName + "</i> ... </div>");
 
@@ -267,7 +268,7 @@ class TranslationWizard {
         installPage.append(loader);
         $('#bibleTranslationInstallIndicator').show();
         
-        await this.installTranslation(translationCode);
+        await this._nodeSwordInterface.installTranslation(translationCode);
         await models.BibleTranslation.importSwordTranslation(translationCode);
         await models.BibleTranslation.updateVersification(translationCode);
 
@@ -329,11 +330,11 @@ class TranslationWizard {
       setTimeout(async () => {
         for (var i = 0; i < translations.length; i++) {
           var translationCode = translations[i];
-          var translationName = nodeSwordInterface.getModuleDescription(translationCode);
+          var translationName = this._nodeSwordInterface.getModuleDescription(translationCode);
 
           removalPage.append('<span>Removing <i>' + translationName + '</i> ... </span>');
           
-          await this.uninstallTranslation(translationCode);
+          await this._nodeSwordInterface.uninstallTranslation(translationCode);
           await models.BibleTranslation.removeFromDb(translationCode);
 
           var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
@@ -384,7 +385,7 @@ class TranslationWizard {
 
     for (var i = 0;  i < selectedRepositories.length; i++) {
       var currentRepo = selectedRepositories[i];
-      var repoLanguages = nodeSwordInterface.getRepoLanguages(currentRepo);
+      var repoLanguages = this._nodeSwordInterface.getRepoLanguages(currentRepo);
 
       for (var j = 0; j < repoLanguages.length; j++) {
         if (ISO6391.validate(repoLanguages[j])) {
@@ -480,7 +481,7 @@ class TranslationWizard {
 
       for (var j = 0; j < this._selectedRepositories.length; j++) {
         var currentRepo = this._selectedRepositories[j];
-        var currentRepoLangModules = nodeSwordInterface.getRepoModulesByLang(currentRepo, currentLanguage);
+        var currentRepoLangModules = this._nodeSwordInterface.getRepoModulesByLang(currentRepo, currentLanguage);
         // Append this repo's modules to the overall language list
         currentLangModules = currentLangModules.concat(currentRepoLangModules);
       }
@@ -549,7 +550,7 @@ class TranslationWizard {
 
     for (var i = 0; i < this._selectedRepositories.length; i++) {
       var currentRepo = this._selectedRepositories[i];
-      count += nodeSwordInterface.getRepoLanguageTranslationCount(currentRepo, language);
+      count += this._nodeSwordInterface.getRepoLanguageTranslationCount(currentRepo, language);
     }
 
     return count;
@@ -594,7 +595,7 @@ class TranslationWizard {
   listRepositories() {
     var wizardPage = $('#translation-settings-wizard-add-p-0');
 
-    var repositories = nodeSwordInterface.getRepoNames();
+    var repositories = this._nodeSwordInterface.getRepoNames();
     wizardPage.empty();
 
     var introText = "<p style='margin-bottom: 2em;'>" +
@@ -646,7 +647,7 @@ class TranslationWizard {
 
   getRepoTranslationCount(repo) {
     var count = 0;
-    var allRepoModules = nodeSwordInterface.getAllRepoModules(repo);
+    var allRepoModules = this._nodeSwordInterface.getAllRepoModules(repo);
 
     for (var i = 0; i < allRepoModules.length; i++) {
       var module = allRepoModules[i];
@@ -657,30 +658,6 @@ class TranslationWizard {
     }
 
     return count;
-  }
-
-  refreshRemoteSources() {
-    return new Promise(resolve => {
-      nodeSwordInterface.refreshRemoteSources(function() {
-        resolve();
-      });
-    });
-  }
-
-  installTranslation(translationCode) {
-    return new Promise(resolve => {
-      nodeSwordInterface.installModule(translationCode, function() {
-        resolve();
-      });
-    });
-  }
-
-  uninstallTranslation(translationCode) {
-    return new Promise(resolve => {
-      nodeSwordInterface.uninstallModule(translationCode, function() {
-        resolve();
-      });
-    });
   }
 
   bindLabelEvents(wizardPage) {
