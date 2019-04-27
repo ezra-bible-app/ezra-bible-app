@@ -17,10 +17,8 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const app = require('electron').remote.app;
-var userDataDir = app.getPath('userData');
-const models = require('./models')(userDataDir);
 const settings = require('electron-settings');
-var Mousetrap = require('mousetrap');
+var models = require('./models')(getDatabaseDir());
 
 current_section_start_toolbox = null;
 current_section_end_toolbox = null;
@@ -31,6 +29,27 @@ tags_controller = null;
 last_highlighted_listpoint = null;
 
 reference_separator = ':';
+
+function getDatabaseDir()
+{
+    var databaseDir = app.getPath('userData');
+    
+    if (settings.has('custom_database_dir') &&
+        settings.get('custom_database_dir') != null) {
+
+        databaseDir = settings.get('custom_database_dir');
+        console.log('Using custom database dir ' + databaseDir + ' for database access!');
+    } else {
+        console.log('Using default database dir ' + databaseDir + ' for database access!');
+    }
+
+    return databaseDir;
+}
+
+function setCustomDatabaseDir(dir)
+{
+  // FIXME: Implement this
+}
 
 $.create_xml_doc = function(string)
 {
