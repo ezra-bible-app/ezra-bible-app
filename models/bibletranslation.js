@@ -83,13 +83,9 @@ module.exports = (sequelize, DataTypes) => {
     var absoluteVerseNr = 1;
 
     for (var i = 0; i < bibleText.length; i++) {
-      var inputVerse = bibleText[i];
-      var reference = inputVerse.split('|')[0];
-      var book = reference.split(' ')[0];
-      var verseReference = reference.split(' ')[1];
-      var chapter = verseReference.split(':')[0];
-      var verseNr = verseReference.split(':')[1];
-      var verseContent = inputVerse.split('|')[1];
+      var verseObject = bibleText[i];
+
+      var book = verseObject['bibleBookShortTitle'];
       
       if (book != lastBook) {
         absoluteVerseNr = 1;
@@ -97,10 +93,6 @@ module.exports = (sequelize, DataTypes) => {
         absoluteVerseNr += 1;
       }
 
-      var verseObject = {};
-      verseObject['chapter'] = chapter;
-      verseObject['verseNr'] = verseNr;
-      verseObject['content'] = verseContent;
       verseObject['bibleBookId'] = models.BibleTranslation.swordBooktoEzraBook(book);
       verseObject['bibleTranslationId'] = translationCode;
       verseObject['absoluteVerseNr'] = absoluteVerseNr;

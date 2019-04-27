@@ -111,7 +111,7 @@ class TranslationWizard {
     if (!this._nodeSwordInterface.repositoryConfigExisting()) {
       wizardPage.append('<p>Updating repository data! This will take a few seconds ...</p>');
 
-      await this._nodeSwordInterface.refreshRemoteSources();
+      await this._nodeSwordInterface.updateRepositoryConfig();
     }
 
     wizardPage.append('<p>Loading repositories ...</p>');
