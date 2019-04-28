@@ -83,7 +83,8 @@ class TranslationController {
       bible_browser_controller.tab_controller.setCurrentBibleTranslationId(result.rows[0].id);
     }
 
-    bible_browser_controller.translation_controller.updateAvailableBooks();
+    this.updateAvailableBooks();
+    this.initChapterVerseCounts();
     this.bibleTranslationCount = result.count;
   }
 
