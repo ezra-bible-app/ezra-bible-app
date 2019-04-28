@@ -64,7 +64,7 @@ function BibleBrowserController() {
     return -1;
   };
 
-  this.init = function(settings) {
+  this.init = async function(settings) {
     this.verse_list_menu_template = $($('.verse-list-menu')[0]).html();
     this.verse_list_composite_template = $($('.verse-list-composite')[0]).html();
 
@@ -87,12 +87,19 @@ function BibleBrowserController() {
 
     var tabHtmlTemplate = bible_browser_controller.getTabHtmlTemplate();
 
+    var bibleTranslations = await models.BibleTranslation.findAndCountAll();
+    var defaultBibleTranslationId = null;
+    if (bibleTranslations.rows.length > 0) {
+      var defaultBibleTranslationId = bibleTranslations.rows[0].id;
+    }
+
     this.tab_controller = new TabController();
     this.tab_controller.init('verse-list-tabs',
                              'verse-list-container',
                              tabHtmlTemplate,
                              bible_browser_controller.onTabSelected,
-                             bible_browser_controller.onTabAdded);
+                             bible_browser_controller.onTabAdded,
+                             defaultBibleTranslationId);
 
     this.navigation_pane = new NavigationPane();
 
@@ -172,6 +179,11 @@ function BibleBrowserController() {
     bible_browser_controller.init_tag_selection_menu();
     bible_browser_controller.init_current_verse_list_menu();
     bible_browser_controller.translation_controller.initBibleTranslationInfoButton();
+
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
+    if (currentBibleTranslationId != null) {
+      bible_browser_controller.enableCurrentTranslationInfoButton();
+    }
   };
 
   this.onBibleTranslationChanged = function() {
@@ -1011,6 +1023,18 @@ function BibleBrowserController() {
     export_button.show();
     export_button.removeClass('events-configured');
     configure_button_styles('.verse-list-menu');
+  }
+
+  this.enableCurrentTranslationInfoButton = function() {
+    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
+    var translationInfoButton = currentVerseListMenu.find('.bible-translation-info-button');
+    translationInfoButton.removeClass('ui-state-disabled');
+  }
+
+  this.disableCurrentTranslationInfoButton = function() {
+    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
+    var translationInfoButton = currentVerseListMenu.find('.bible-translation-info-button');
+    translationInfoButton.addClass('ui-state-disabled');
   }
 }
  

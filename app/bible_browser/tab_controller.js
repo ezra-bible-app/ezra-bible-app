@@ -19,14 +19,14 @@
 const Mousetrap = require('mousetrap');
 
 class Tab {
-  constructor() {
+  constructor(defaultBibleTranslationId) {
     this.elementId = null;
     this.book = null;
     this.tagIdList = "";
     this.tagTitleList = "";
     this.textIsBook = false;
     this.lastHighlightedNavElementIndex = null;
-    this.bibleTranslationId = bible_browser_controller.settings.get('bible_translation');
+    this.bibleTranslationId = defaultBibleTranslationId;
   }
 }
 
@@ -34,12 +34,13 @@ class TabController {
   constructor() {
   }
 
-  init(tabsElement, tabsPanelClass, tabHtmlTemplate, onTabSelected, onTabAdded) {
+  init(tabsElement, tabsPanelClass, tabHtmlTemplate, onTabSelected, onTabAdded, defaultBibleTranslationId) {
     this.tabsElement = tabsElement;
     this.tabsPanelClass = tabsPanelClass;
     this.tabHtmlTemplate = tabHtmlTemplate;
     this.onTabSelected = onTabSelected;
     this.onTabAdded = onTabAdded;
+    this.defaultBibleTranslationId = defaultBibleTranslationId;
     this.defaultLabel = "-------------";
     
     this.tabTemplate = "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>",
@@ -48,7 +49,8 @@ class TabController {
 
     this.metaTabs = [];
     // Initialize the list with the first tab, which is there by default
-    this.metaTabs.push(new Tab());
+    var newTab = new Tab(this.defaultBibleTranslationId);
+    this.metaTabs.push(newTab);
 
     Mousetrap.bind('ctrl+t', () => {
       this.addTab();
@@ -99,7 +101,7 @@ class TabController {
   }
 
   addTab() {
-    var newTab = new Tab();
+    var newTab = new Tab(this.defaultBibleTranslationId);
     newTab.elementId = this.tabsElement + '-' + this.nextTabId;
     this.metaTabs.push(newTab);
 
@@ -117,7 +119,6 @@ class TabController {
   removeTab(event) {
     var href = $(event.target).closest("li").find('a').attr('href');
     var all_tabs = $(event.target).closest("ul").find("li");
-    var index = -1;
 
     for (var i = 0; i < all_tabs.length; i++) {
       var current_href = $(all_tabs[i]).find('a').attr('href');
@@ -128,6 +129,19 @@ class TabController {
         break;
       }
     }
+  }
+
+  removeAllExtraTabs() {
+    var all_tabs = this.tabs.find("li");
+    for (var i = 1; i < all_tabs.length; i++) {
+      this.metaTabs.pop();
+      this.tabs.tabs("remove", 1);
+      this.tabCounter--;
+    }   
+  }
+
+  resetCurrentTabTitle() {
+    this.setCurrentTabTitle(this.defaultLabel);
   }
 
   setCurrentTabTitle(title) {
@@ -171,7 +185,7 @@ class TabController {
     if (tagTitleList != undefined && tagTitleList != null) {
 
       if (tagTitleList == "") {
-        this.setCurrentTabTitle(this.defaultLabel);
+        this.resetCurrentTabTitle();
       } else {
         this.setCurrentTabTitle(tagTitleList);
       }
@@ -235,6 +249,8 @@ class TabController {
   setCurrentBibleTranslationId(bibleTranslationId) {
     var currentTabIndex = this.getSelectedTabIndex();
     this.metaTabs[currentTabIndex].bibleTranslationId = bibleTranslationId;
+    this.defaultBibleTranslationId = bibleTranslationId;
+    bible_browser_controller.enableCurrentTranslationInfoButton();
   }
 
   getCurrentBibleTranslationId() {

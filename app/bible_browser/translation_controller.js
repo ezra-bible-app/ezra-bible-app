@@ -146,7 +146,9 @@ class TranslationController {
   initBibleTranslationInfoButton() {
     $('.bible-translation-info-button').unbind('click');
     $('.bible-translation-info-button').bind('click', () => {
-      this.showBibleTranslationInfo();
+      if (!$('.bible-translation-info-button').hasClass('ui-state-disabled')) {
+        this.showBibleTranslationInfo();
+      }
     });
   }
 

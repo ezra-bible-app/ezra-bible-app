@@ -399,16 +399,23 @@ function bind_click_to_checkbox_labels()
   }).addClass('events-configured');
 }
 
-function initController()
+async function initControllerAndUi()
 {
+  console.log("Initializing controllers ...");
   bible_browser_controller = new BibleBrowserController;
-  bible_browser_controller.init(settings);
+  await bible_browser_controller.init(settings);
 
   tags_controller = new TagsController;
   tags_controller.init();
 
   // Disabled notes controller
   //notes_controller = new NotesController;
+
+  console.log("Initializing UI ...");
+  initUi();
+
+  console.log("Loading settings ...");
+  bible_browser_controller.loadSettings();
 }
 
 function unbind_events()
@@ -418,13 +425,6 @@ function unbind_events()
 }
 
 $(document).ready(function() {
-  console.log("Initializing controllers ...");
-  initController();
-
-  console.log("Initializing UI ...");
-  initUi();
-
-  console.log("Loading settings ...");
-  bible_browser_controller.loadSettings();
+  initControllerAndUi();
 });
 
