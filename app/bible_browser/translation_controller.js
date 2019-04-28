@@ -78,6 +78,7 @@ class TranslationController {
     }
 
     var result = await models.BibleTranslation.findAndCountAll();
+    this.bibleTranslationCount = result.count;
 
     if (!bible_browser_controller.settings.has('bible_translation') && result.rows.length > 0) {
       bible_browser_controller.tab_controller.setCurrentBibleTranslationId(result.rows[0].id);
@@ -85,7 +86,6 @@ class TranslationController {
 
     this.updateAvailableBooks();
     this.initChapterVerseCounts();
-    this.bibleTranslationCount = result.count;
   }
 
   async initTranslationsMenu() {
