@@ -274,10 +274,11 @@ class TranslationWizard {
 
         var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
         if (currentBibleTranslationId == "" || 
-            currentBibleTranslationId == null) {
+            currentBibleTranslationId == null) { // Update UI after a bible translation becomes available
 
           bible_browser_controller.tab_controller.setCurrentBibleTranslationId(translationCode);
           bible_browser_controller.translation_controller.updateAvailableBooks();
+          bible_browser_controller.enableCurrentTranslationInfoButton();
         }
 
         $('#bibleTranslationInstallIndicator').hide();
@@ -344,18 +345,23 @@ class TranslationWizard {
               if (result.rows.length > 0) {
                 bible_browser_controller.tab_controller.setCurrentBibleTranslationId(result.rows[0].id);
                 bible_browser_controller.onBibleTranslationChanged();
-              } else {
-                $('#verse-list').empty();
-                $('#verse-list-loading-indicator').hide();
-                $('#verse-list').append("<div class='help-text'>To start using Ezra Project, select a book or a tag from the menu above.</div>");
+                bible_browser_controller.navigation_pane.updateNavigation();
+              } else { // Re-init application to state without bible translations
+                bible_browser_controller.tab_controller.removeAllExtraTabs();
                 bible_browser_controller.tab_controller.setCurrentBibleTranslationId(null);
+                bible_browser_controller.tab_controller.resetCurrentTabTitle();
+                bible_browser_controller.resetVerseListView();
+                var currentVerseListLoadingIndicator = bible_browser_controller.getCurrentVerseListLoadingIndicator();
+                currentVerseListLoadingIndicator.hide();
+                var currentVerseList = bible_browser_controller.getCurrentVerseList();
+                currentVerseList.append("<div class='help-text'>To start using Ezra Project, select a book or a tag from the menu above.</div>");
+                bible_browser_controller.disableCurrentTranslationInfoButton();
                 bible_browser_controller.current_book = null;
                 $('.book-select-value').text("Select book");
               }
 
               $("select#bible-select").empty();
               bible_browser_controller.translation_controller.initTranslationsMenu();
-              bible_browser_controller.navigation_pane.updateNavigation();
               tags_controller.updateTagUiBasedOnTagAvailability();
             });
           }
