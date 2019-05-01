@@ -530,7 +530,7 @@ class TranslationWizard {
       }
 
       var moduleTitle = "";
-      if (currentModule.locked == "true") {
+      if (currentModule.locked) {
         moduleTitle = "title='This module is locked and requires that you purchase an unlock key from the content owner!'";
       }
 
@@ -540,7 +540,7 @@ class TranslationWizard {
       currentModuleElement += currentModule.description + " [" + currentModule.name + "]";
       currentModuleElement += "</span>";
 
-      if (currentModule.locked == "true") {
+      if (currentModule.locked) {
         var lockedIcon = "<img style='margin-left: 0.5em; margin-bottom: -0.4em;' src='images/lock.png' width='20' height='20'/>";
         currentModuleElement += lockedIcon;
       }

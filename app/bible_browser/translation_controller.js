@@ -168,6 +168,7 @@ class TranslationController {
       bibleTranslationInfo += "Name: " + bibleTranslationModule.name + "<br>";
       bibleTranslationInfo += "Version: " + bibleTranslationModule.version + "<br>";
       bibleTranslationInfo += "Language: " + ISO6391.getName(bibleTranslationModule.language) + "<br>";
+      bibleTranslationInfo += "Strong's numbers: " + (bibleTranslationModule.hasStrongs ? "Yes" : "No") + "<br>";
       bibleTranslationInfo += "Size: " + moduleSize;
       bibleTranslationInfo += "</p>";
     } catch (ex) {
