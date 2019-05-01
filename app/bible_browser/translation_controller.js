@@ -163,14 +163,14 @@ class TranslationController {
       bibleTranslationInfo += bibleTranslationModule.about.replace(/\\par/g, "<br>");
       var moduleSize = parseInt(bibleTranslationModule.size / 1024) + " KB";
 
-      bibleTranslationInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey;'>";
-      bibleTranslationInfo += "<b>Sword module info</b><br><br>";
-      bibleTranslationInfo += "Name: " + bibleTranslationModule.name + "<br>";
-      bibleTranslationInfo += "Version: " + bibleTranslationModule.version + "<br>";
-      bibleTranslationInfo += "Language: " + ISO6391.getName(bibleTranslationModule.language) + "<br>";
-      bibleTranslationInfo += "Strong's numbers: " + (bibleTranslationModule.hasStrongs ? "Yes" : "No") + "<br>";
-      bibleTranslationInfo += "Size: " + moduleSize;
-      bibleTranslationInfo += "</p>";
+      bibleTranslationInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>Sword module info</p>";
+      bibleTranslationInfo += "<table>";
+      bibleTranslationInfo += "<tr><td style='width: 6em;'>Name:</td><td>" + bibleTranslationModule.name + "</td></tr>";
+      bibleTranslationInfo += "<tr><td>Version:</td><td>" + bibleTranslationModule.version + "</td></tr>";
+      bibleTranslationInfo += "<tr><td>Language:</td><td>" + ISO6391.getName(bibleTranslationModule.language) + "</td></tr>";
+      bibleTranslationInfo += "<tr><td>Strong's:</td><td>" + (bibleTranslationModule.hasStrongs ? "Yes" : "No") + "</td></tr>";
+      bibleTranslationInfo += "<tr><td>Size:</td><td>" + moduleSize + "</td></tr>";
+      bibleTranslationInfo += "</table>";
     } catch (ex) {
       console.error("Got exception while trying to get bible translation info: " + ex);
     }
