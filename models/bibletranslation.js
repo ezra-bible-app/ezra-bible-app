@@ -73,6 +73,8 @@ module.exports = (sequelize, DataTypes) => {
 
   BibleTranslation.importSwordTranslation = async function(translationCode) {
     var nodeSwordInterface = new NodeSwordInterface();
+    nodeSwordInterface.enableMarkup();
+
     var bibleText = nodeSwordInterface.getBibleText(translationCode);
     if (bibleText.length == 0) {
       console.log("ERROR: Bible text for " + translationCode + " has 0 verses!");
