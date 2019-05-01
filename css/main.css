@@ -1084,3 +1084,8 @@ h2 {
   background-color: orange;
 }
 
+/* Foot notes disabled by default */
+note {
+  display: none;
+}
+
