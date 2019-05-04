@@ -40,7 +40,7 @@ The following build instructions are valid for Debian/Ubuntu based distributions
 
 #### Setup and build ####
 
-1. Install compiler/lib dependencies: `sudo apt-get install build-essential nodejs libsword-dev libsqlite3-0 libcurl4-gnutls-dev`
+1. Install compiler/lib dependencies: `sudo apt-get install build-essential nodejs libsword-dev libsqlite3-0 libcurl4-gnutls-dev pkg-config`
 2. Clone Ezra Project from git repo or unpack sources from release
 3. Install Ezra Project dependencies, execute this commmand in the project dir: `npm install`
 4. Rebuild C/C++ dependencies, execute this command in the project dir: `npm run rebuild-linux`
