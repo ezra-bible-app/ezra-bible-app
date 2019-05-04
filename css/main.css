@@ -1084,8 +1084,17 @@ h2 {
   background-color: orange;
 }
 
-/* Foot notes disabled by default */
-note {
+/* Sword section titles disabled by default */
+.sword-section-title {
   display: none;
 }
 
+/* Foot notes disabled by default */
+.sword-note {
+  display: none;
+}
+
+/* Paragraph end markers disabled by default */
+.sword-paragraph-end {
+  display: none;
+}
