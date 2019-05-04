@@ -1084,17 +1084,8 @@ h2 {
   background-color: orange;
 }
 
-/* Sword section titles disabled by default */
-.sword-section-title {
+/* Sword markup disabled by default */
+.sword-section-title, .sword-note, .sword-paragraph-end, .sword-milestone, .sword-sid, .sword-eid {
   display: none;
 }
 
-/* Foot notes disabled by default */
-.sword-note {
-  display: none;
-}
-
-/* Paragraph end markers disabled by default */
-.sword-paragraph-end {
-  display: none;
-}
