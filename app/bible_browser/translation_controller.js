@@ -161,14 +161,18 @@ class TranslationController {
       var bibleTranslationModule = this.nodeSwordInterface.getLocalModule(currentBibleTranslationId);
       var bibleTranslationInfo = "<b>About</b><br><br>";
       bibleTranslationInfo += bibleTranslationModule.about.replace(/\\par/g, "<br>");
-      var moduleSize = parseInt(bibleTranslationModule.size / 1024) + " KB";
+      var moduleSize = Math.round(bibleTranslationModule.size / 1024) + " KB";
 
       bibleTranslationInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>Sword module info</p>";
       bibleTranslationInfo += "<table>";
-      bibleTranslationInfo += "<tr><td style='width: 6em;'>Name:</td><td>" + bibleTranslationModule.name + "</td></tr>";
+      bibleTranslationInfo += "<tr><td style='width: 9em;'>Name:</td><td>" + bibleTranslationModule.name + "</td></tr>";
       bibleTranslationInfo += "<tr><td>Version:</td><td>" + bibleTranslationModule.version + "</td></tr>";
       bibleTranslationInfo += "<tr><td>Language:</td><td>" + ISO6391.getName(bibleTranslationModule.language) + "</td></tr>";
       bibleTranslationInfo += "<tr><td>Strong's:</td><td>" + (bibleTranslationModule.hasStrongs ? "Yes" : "No") + "</td></tr>";
+      bibleTranslationInfo += "<tr><td>Headings:</td><td>" + (bibleTranslationModule.hasHeadings ? "Yes" : "No") + "</td></tr>";
+      bibleTranslationInfo += "<tr><td>Footnotes:</td><td>" + (bibleTranslationModule.hasFootnotes ? "Yes" : "No") + "</td></tr>";
+      bibleTranslationInfo += "<tr><td>Cross references:</td><td>" + (bibleTranslationModule.hasCrossReferences ? "Yes" : "No") + "</td></tr>";
+      bibleTranslationInfo += "<tr><td>Red letter words:</td><td>" + (bibleTranslationModule.hasRedLetterWords ? "Yes" : "No") + "</td></tr>";
       bibleTranslationInfo += "<tr><td>Size:</td><td>" + moduleSize + "</td></tr>";
       bibleTranslationInfo += "</table>";
     } catch (ex) {
