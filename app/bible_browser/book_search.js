@@ -184,13 +184,12 @@ class BookSearch {
   }
 
   doVerseSearch(verseElement, searchString) {
+    this.removeHighlightingFromVerse(verseElement);
+
     var occurances = this.getOccurancesInVerse(verseElement, searchString);
     var occurancesCount = occurances.length;
-
     if (occurancesCount > 0) {
       this.highlightOccurancesInVerse(verseElement, searchString, occurances);
-    } else {
-      this.removeHighlightingFromVerse(verseElement);
     }
 
     return occurancesCount;
@@ -201,16 +200,19 @@ class BookSearch {
     var searchStringLength = searchString.length;
 
     if (searchStringLength > 0) {
-      var verseText = verseElement.text();
+      var verseHtml = verseElement.html();
       var currentIndex = 0;
 
       while (true) {
-        var nextOccurance = verseText.indexOf(searchString, currentIndex);
+        var nextOccurance = verseHtml.indexOf(searchString, currentIndex);
 
         if (nextOccurance == -1) {
           break;
         } else {
-          occurances.push(nextOccurance);
+          if (this.isOccuranceValid(searchString, nextOccurance, verseHtml)) {
+            occurances.push(nextOccurance);
+          }
+
           currentIndex = nextOccurance + searchStringLength;
         }
       }
@@ -224,13 +226,69 @@ class BookSearch {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
   }
 
+  isOccuranceValid(match, offset, string) {
+    var offsetAfterMatch = offset + match.length;
+    var lengthAfterMatch = string.length - offset;
+    var foundOpeningAngleBracketIndex = -1;
+    var foundClosingAngleBracketIndex = -1;
+    var matchIsValid = true;
+
+    for (var i = offsetAfterMatch; i < (offsetAfterMatch + lengthAfterMatch); i++) {
+      var currentChar = string[i];
+
+      if (foundOpeningAngleBracketIndex == (i - 1)) {
+        // We found an opening angle bracket in the previous iteration
+
+        if (currentChar == '/') {
+          // Found closing angle bracket - so essential we found '</' now.
+          foundClosingAngleBracketIndex = i;
+
+        } else if (currentChar == 'd') {
+          // Some other markup is starting (with a div), it's not a closing one, so the match is not surrounded by markup.
+          // In this case we also cancel the search and the match is valid in this case.
+          break;
+        }
+      }
+
+      if (foundClosingAngleBracketIndex == (i - 1)) {
+        // We previously found a closing angle bracket ('</').
+        if (currentChar == 'd') {
+          // Now it's clear that the closing element is a div.
+
+          // This means that the match is within special markup and must be ignored (invalid match)
+          // Then we're cancelling the search and are done.
+          matchIsValid = false;
+          break;
+        }
+      }
+      
+      if (currentChar == '<') {
+        foundOpeningAngleBracketIndex = i;
+      }
+
+      if (currentChar == '>' && foundOpeningAngleBracketIndex == -1) {
+        // If we find a closing angle bracket and have not found a opening angle bracket before, it's clear that the occurance is within special markup and is invalid
+        matchIsValid = false;
+        break;
+      }
+    }
+    
+    return matchIsValid;
+  }
+
   highlightOccurancesInVerse(verseElement, searchString, occurances) {
-    var verseText = verseElement.text()
-    var highlightedSearchString = this.getHighlightedSearchString(searchString);
+    var verseHtml = verseElement.html()
     searchString = this.escapeRegExp(searchString);
 
     var regexSearchString = new RegExp(searchString, 'g');
-    var highlightedVerseText = verseText.replace(regexSearchString, highlightedSearchString);
+    var highlightedVerseText = verseHtml.replace(regexSearchString, (match, offset, string) => {
+      if (this.isOccuranceValid(match, offset, string)) {
+        return this.getHighlightedSearchString(match);
+      } else {
+        return match;
+      }
+    });
+
     verseElement.html(highlightedVerseText);
   }
 
@@ -239,8 +297,16 @@ class BookSearch {
   }
 
   removeHighlightingFromVerse(verseElement) {
-    var verseText = verseElement.text();
-    verseElement.html(verseText);
+    var searchHl = verseElement.find('.search-hl, .current-hl');
+    for (var i = 0; i < searchHl.length; i++) {
+      var highlightedText = $(searchHl[i]);
+      var text = highlightedText.text();
+      highlightedText.replaceWith(text);
+    }
+
+    var verseElementHtml = verseElement.html();
+    verseElementHtml = verseElementHtml.replace("\"\n\"", "");
+    verseElement.html(verseElementHtml);
   }
 }
 
