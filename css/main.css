@@ -1045,7 +1045,7 @@ h2 {
 
 #book-search {
   position: fixed;
-  top: 50px;
+  top: 45px;
   right: 16px;
   background-color: white;
   padding: 0.5em;
@@ -1058,7 +1058,7 @@ h2 {
 #book-search-input {
   float: left;
   background-color: white;
-  width: 200px;
+  width: 150px;
   margin-right: 1em;
 }
 
@@ -1085,7 +1085,7 @@ h2 {
 }
 
 /* Sword markup disabled by default */
-.sword-section-title, .sword-note, .sword-paragraph-end, .sword-milestone, .sword-sid, .sword-eid {
+.sword-markup {
   display: none;
 }
 
