@@ -238,6 +238,7 @@ class BookSearch {
 
       if (foundOpeningAngleBracketIndex == (i - 1)) {
         // We found an opening angle bracket in the previous iteration
+        // Next we will be looking for '/'
 
         if (currentChar == '/') {
           // Found closing angle bracket - so essential we found '</' now.
@@ -245,18 +246,19 @@ class BookSearch {
 
         } else if (currentChar == 'd') {
           // Some other markup is starting (with a div), it's not a closing one, so the match is not surrounded by markup.
-          // In this case we also cancel the search and the match is valid in this case.
+          // In this case we cancel the search and the match is considered valid.
           break;
         }
       }
 
       if (foundClosingAngleBracketIndex == (i - 1)) {
         // We previously found a closing angle bracket ('</').
-        if (currentChar == 'd') {
-          // Now it's clear that the closing element is a div.
 
+        if (currentChar == 'd') {
+          // Now it's clear that the closing element is a div. (No other element starting with 'd')
           // This means that the match is within special markup and must be ignored (invalid match)
-          // Then we're cancelling the search and are done.
+          // We're cancelling the search and are now done.
+
           matchIsValid = false;
           break;
         }
@@ -267,7 +269,10 @@ class BookSearch {
       }
 
       if (currentChar == '>' && foundOpeningAngleBracketIndex == -1) {
-        // If we find a closing angle bracket and have not found a opening angle bracket before, it's clear that the occurance is within special markup and is invalid
+        // If we find a closing angle bracket and have not found a opening angle bracket before,
+        // it's clear that the occurance is within special markup and is invalid.
+        // We're cancelling the search and are now done.
+
         matchIsValid = false;
         break;
       }
@@ -305,6 +310,22 @@ class BookSearch {
     }
 
     var verseElementHtml = verseElement.html();
+
+    /* Remove line breaks between strings, that resulted from inserting the 
+       search-hl / current-hl elements before. If these linebreaks are not removed
+       the search function would afterwards not work anymore.
+
+    State with highlighting:
+    <span class="search-hl">Christ</span>us
+
+    State after highlighting element was removed (see code above)
+    "Christ"
+    "us"
+
+    State after line break was removed: (intention of code below)
+    "Christus"
+
+     */
     verseElementHtml = verseElementHtml.replace("\"\n\"", "");
     verseElement.html(verseElementHtml);
   }
