@@ -17,7 +17,7 @@ each bibleBook in bibleBooks
     if renderVerseMetaInfo == false
       - div_classes += " slim-verse-reference"
 
-    - var current_verse_tags = verseTags[verse.id]
+    - var current_verse_tags = verseTags[verse.verseReferenceId]
     - var current_tooltip_tag_list = []
     - var current_tag_info_class = "tag-info"
 
