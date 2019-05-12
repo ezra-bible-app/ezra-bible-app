@@ -571,11 +571,7 @@ h2 {
 }
 
 .book-list-column li {
-  margin-bottom: 0.15em;
-}
-
-.webkit .book-list-column li {
-  margin-bottom: 0.3em;
+  margin-bottom: 0.8em;
 }
 
 .book-select-button, .tag-select-button, .display-options-button, .note-session-select-button {
