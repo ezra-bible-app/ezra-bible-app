@@ -36,11 +36,11 @@ module.exports = (sequelize, DataTypes) => {
     for (var i = 0; i < verseTags.length; i++) {
       var vt = verseTags[i];
 
-      if (groupedVerseTags[vt.verseId] == null) {
-        groupedVerseTags[vt.verseId] = [];
+      if (groupedVerseTags[vt.verseReferenceId] == null) {
+        groupedVerseTags[vt.verseReferenceId] = [];
       }
 
-      groupedVerseTags[vt.verseId].push(vt);
+      groupedVerseTags[vt.verseReferenceId].push(vt);
     }
 
     return groupedVerseTags;

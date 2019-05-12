@@ -36,7 +36,19 @@ module.exports = (sequelize, DataTypes) => {
                                            numberOfVerses = 0) {
 
     return models.BibleTranslation.findByPk(bibleTranslationId).then(bibleTranslation => {
-      var query = "SELECT v.* FROM Verses v " +
+      var versificationPostfix = "Eng";
+      if (bibleTranslation.versification == 'HEBREW') {
+        versificationPostfix = "Heb";
+      }
+
+      var query = "SELECT v.*, " +
+
+                  "( SELECT id FROM VerseReferences vr " +
+                  " WHERE vr.bibleBookId = v.bibleBookId " +
+                  " AND vr.absoluteVerseNrHeb = v.absoluteVerseNr )" +
+                  "verseReferenceId" +
+
+                  " FROM Verses v " +
                   " WHERE v.bibleTranslationId='" + bibleTranslationId + "'" +
                   " AND v.bibleBookId=" + this.id;
 
@@ -48,7 +60,6 @@ module.exports = (sequelize, DataTypes) => {
       }
 
       query += " ORDER BY v.absoluteVerseNr ASC";
-
 
       return sequelize.query(query, { model: models.Verse });
     });
@@ -62,15 +73,12 @@ module.exports = (sequelize, DataTypes) => {
         versificationPostfix = "Heb";
       }
 
-      var query = "SELECT v.id AS verseId, t.title AS tagTitle, t.bibleBookId AS bibleBookId, vt.*" + 
-                  " FROM Verses v " +
-                  " INNER JOIN VerseReferences vr ON v.bibleBookId = vr.bibleBookId AND" +
-                  " v.absoluteVerseNr = vr.absoluteVerseNr" + versificationPostfix +
+      var query = "SELECT t.title AS tagTitle, t.bibleBookId AS bibleBookId, vt.*" + 
+                  " FROM VerseReferences vr " +
                   " INNER JOIN VerseTags vt ON vt.verseReferenceId = vr.id" +
                   " INNER JOIN Tags t ON t.id = vt.tagId" +
-                  " WHERE v.bibleTranslationId='" + bibleTranslationId + "'" +
-                  " AND v.bibleBookId=" + this.id +
-                  " ORDER BY v.absoluteVerseNr ASC, t.title ASC";
+                  " WHERE vr.bibleBookId=" + this.id +
+                  " ORDER BY t.title ASC";
 
       return sequelize.query(query, { model: models.VerseTag });
     });
