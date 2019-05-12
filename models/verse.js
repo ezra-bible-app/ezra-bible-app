@@ -39,7 +39,10 @@ module.exports = (sequelize, DataTypes) => {
     return models.BibleTranslation.findByPk(bibleTranslationId).then(bibleTranslation => {
       var versificationPostfix = bibleTranslation.getVersificationPostfix();
 
-      var query = "SELECT v.*, b.shortTitle as bibleBookShortTitle, b.longTitle AS bibleBookLongTitle" +
+      var query = "SELECT v.*, " +
+                  " b.shortTitle as bibleBookShortTitle, " +
+                  " b.longTitle AS bibleBookLongTitle," +
+                  " vr.id AS verseReferenceId" +
                   " FROM Verses v" +
                   " INNER JOIN BibleBooks b ON" +
                   " v.bibleBookId = b.id" +
