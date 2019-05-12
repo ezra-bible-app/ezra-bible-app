@@ -36,16 +36,13 @@ module.exports = (sequelize, DataTypes) => {
                                            numberOfVerses = 0) {
 
     return models.BibleTranslation.findByPk(bibleTranslationId).then(bibleTranslation => {
-      var versificationPostfix = "Eng";
-      if (bibleTranslation.versification == 'HEBREW') {
-        versificationPostfix = "Heb";
-      }
+      var versificationPostfix = bibleTranslation.getVersificationPostfix();
 
       var query = "SELECT v.*, " +
 
                   "( SELECT id FROM VerseReferences vr " +
                   " WHERE vr.bibleBookId = v.bibleBookId " +
-                  " AND vr.absoluteVerseNrHeb = v.absoluteVerseNr )" +
+                  " AND vr.absoluteVerseNr" + versificationPostfix + " = v.absoluteVerseNr )" +
                   "verseReferenceId" +
 
                   " FROM Verses v " +
