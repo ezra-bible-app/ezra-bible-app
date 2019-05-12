@@ -52,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
 
       var query = "SELECT v.id AS verseId, t.title AS tagTitle, t.bibleBookId AS bibleBookId, vt.* FROM Verses v" +
                   " INNER JOIN VerseReferences vr ON" +
-                  " vr.absoluteVerseNr" + versificationPostfix + "=v.absoluteVerseNr" +
+                  " vr.absoluteVerseNr" + versificationPostfix + " = v.absoluteVerseNr" +
                   " AND vr.bibleBookId=v.bibleBookId" +
                   " INNER JOIN VerseTags vt ON vt.verseReferenceId = vr.id" +
                   " INNER JOIN Tags t ON t.id = vt.tagId" +
