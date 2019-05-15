@@ -664,6 +664,13 @@ h2 {
   height: 2.2em;
 }
 
+#add-tab-button {
+  margin-top: 0.5em;
+  margin-left: 1em;
+  height: 2em;
+  float: left;
+}
+
 .export-tagged-verses-button, .bible-translation-info-button {
   float: left;
 }

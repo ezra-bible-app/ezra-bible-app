@@ -34,9 +34,10 @@ class TabController {
   constructor() {
   }
 
-  init(tabsElement, tabsPanelClass, tabHtmlTemplate, onTabSelected, onTabAdded, defaultBibleTranslationId) {
+  init(tabsElement, tabsPanelClass, addTabElement, tabHtmlTemplate, onTabSelected, onTabAdded, defaultBibleTranslationId) {
     this.tabsElement = tabsElement;
     this.tabsPanelClass = tabsPanelClass;
+    this.addTabElement = addTabElement;
     this.tabHtmlTemplate = tabHtmlTemplate;
     this.onTabSelected = onTabSelected;
     this.onTabAdded = onTabAdded;
@@ -53,6 +54,11 @@ class TabController {
     this.metaTabs.push(newTab);
 
     Mousetrap.bind('ctrl+t', () => {
+      this.addTab();
+      return false;
+    });
+    
+    $('#' + this.addTabElement).on("click", (event) => {
       this.addTab();
       return false;
     });

@@ -96,6 +96,7 @@ function BibleBrowserController() {
     this.tab_controller = new TabController();
     this.tab_controller.init('verse-list-tabs',
                              'verse-list-container',
+                             'add-tab-button',
                              tabHtmlTemplate,
                              bible_browser_controller.onTabSelected,
                              bible_browser_controller.onTabAdded,
