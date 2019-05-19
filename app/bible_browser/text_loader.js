@@ -20,7 +20,7 @@ class TextLoader {
   constructor() {
   }
 
-  requestTextUpdate(tabId, book, tagIdList, resetView) {
+  async requestTextUpdate(tabId, book, tagIdList, resetView, tabIndex=undefined) {
     bible_browser_controller.navigation_pane.initNavigationPaneForCurrentView();
     tags_controller.clear_verse_selection();
 
@@ -35,31 +35,40 @@ class TextLoader {
       $('#export-tagged-verses-button').addClass('ui-state-disabled');
       bible_browser_controller.translation_controller.initChapterVerseCounts();
 
-      bible_browser_controller.communication_controller.request_book_text(
+      await bible_browser_controller.communication_controller.request_book_text(
+        tabIndex,
         tabId,
         book,
         (htmlVerseList) => { 
-          this.renderVerseList(htmlVerseList, 'book');
+          this.renderVerseList(htmlVerseList, 'book', tabIndex);
         }
       );
 
     } else if (tagIdList != null) { // Tagged verse list mode
       $('#show-book-tag-statistics-button').addClass('ui-state-disabled');
 
-      bible_browser_controller.communication_controller.request_verses_for_selected_tags(
+      await bible_browser_controller.communication_controller.request_verses_for_selected_tags(
+        tabIndex,
         tabId,
         tagIdList,
         (htmlVerseList) => {
-          this.renderVerseList(htmlVerseList, 'tagged_verses');
+          this.renderVerseList(htmlVerseList, 'tagged_verses', tabIndex);
         }
       );
     }
   }
 
-  renderVerseList(htmlVerseList, listType) {
+  renderVerseList(htmlVerseList, listType, tabIndex=undefined) {
     bible_browser_controller.translation_controller.hideBibleTranslationLoadingIndicator();
     bible_browser_controller.hideVerseListLoadingIndicator();
-    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+    var initialRendering = true;
+
+    if (tabIndex === undefined) {
+      var tabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
+      initialRendering = false;
+    }
+
+    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
     currentVerseList.html(htmlVerseList);
 
     if (listType == 'book') {
@@ -75,7 +84,11 @@ class TextLoader {
       bible_browser_controller.enableTaggedVersesExportButton();
     }
 
-    bible_browser_controller.init_application_for_current_verse_list();
+    if (!initialRendering) {
+      bible_browser_controller.tab_controller.saveTabConfiguration();
+    }
+
+    bible_browser_controller.initApplicationForVerseList(tabIndex);
   }
 }
 

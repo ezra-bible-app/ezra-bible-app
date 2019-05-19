@@ -22,6 +22,7 @@ class Tab {
   constructor(defaultBibleTranslationId) {
     this.elementId = null;
     this.book = null;
+    this.bookTitle = null;
     this.tagIdList = "";
     this.tagTitleList = "";
     this.textIsBook = false;
@@ -32,26 +33,24 @@ class Tab {
 
 class TabController {
   constructor() {
+    this.persistanceEnabled = false;
+    this.defaultLabel = "-------------";
+    this.tabTemplate = "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>",
+    this.tabCounter = 1;
+    this.nextTabId = 2;
+    this.metaTabs = [];
   }
 
-  init(tabsElement, tabsPanelClass, addTabElement, tabHtmlTemplate, onTabSelected, onTabAdded, defaultBibleTranslationId) {
+  init(tabsElement, tabsPanelClass, addTabElement, settings, tabHtmlTemplate, onTabSelected, onTabAdded, defaultBibleTranslationId) {
     this.tabsElement = tabsElement;
     this.tabsPanelClass = tabsPanelClass;
     this.addTabElement = addTabElement;
+    this.settings = settings;
     this.tabHtmlTemplate = tabHtmlTemplate;
     this.onTabSelected = onTabSelected;
     this.onTabAdded = onTabAdded;
     this.defaultBibleTranslationId = defaultBibleTranslationId;
-    this.defaultLabel = "-------------";
-    
-    this.tabTemplate = "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>",
-    this.tabCounter = 1;
-    this.nextTabId = 2;
-
-    this.metaTabs = [];
-    // Initialize the list with the first tab, which is there by default
-    var newTab = new Tab(this.defaultBibleTranslationId);
-    this.metaTabs.push(newTab);
+    this.initFirstTab();
 
     Mousetrap.bind('ctrl+t', () => {
       this.addTab();
@@ -66,27 +65,80 @@ class TabController {
     this.initTabs();
   }
 
-  initTabs() {
-    this.tabs = $("#" + this.tabsElement).tabs({
-      select: (event, ui) => {
-        this.onTabSelected(event, ui);
-      }
-    });
+  initFirstTab() {
+    // Initialize the list with the first tab, which is there by default
+    var newTab = new Tab(this.defaultBibleTranslationId);
+    this.metaTabs.push(newTab);
+  }
 
-    this.bindEvents();
+  saveTabConfiguration() {
+    if (this.persistanceEnabled) {
+      console.log('Saving tab configuration');
+      this.settings.set('tabConfiguration', this.metaTabs);
+    }
+  }
+  
+  async loadTabConfiguration() {
+    if (this.settings.has('tabConfiguration')) {
+      var savedMetaTabs = this.settings.get('tabConfiguration');
+      console.log("Loading " + savedMetaTabs.length + " tabs from configuration!");
+
+      for (var i = 0; i < savedMetaTabs.length; i++) {
+        var currentMetaTab = savedMetaTabs[i];
+        console.log("Creating tab " + i + " from saved entry ... ");
+        //console.log("Bible translation: " + currentMetaTab.bibleTranslationId);
+
+        if (i == 0) {
+          currentMetaTab.elementId = this.metaTabs[0].elementId;
+          this.metaTabs[0] = currentMetaTab;
+        } else {
+          this.addTab(currentMetaTab);
+        }
+
+        var tabTitle = this.getMetaTabTitle(currentMetaTab);
+        this.setTabTitle(i, tabTitle);
+      }
+
+      for (var i = 0; i < savedMetaTabs.length; i++) {
+        var currentMetaTab = savedMetaTabs[i];
+        
+        await bible_browser_controller.text_loader.requestTextUpdate(
+          currentMetaTab.elementId,
+          currentMetaTab.book,
+          currentMetaTab.tagIdList,
+          false,
+          i
+        );
+      }
+    }
+
+    // FIXME: this may happen to early - figure out a different way
+    this.persistanceEnabled = true;
+  }
+
+  initTabs() {
+    this.tabs = $("#" + this.tabsElement).tabs();
   }
 
   reloadTabs() {
     this.tabs.tabs("destroy");
     this.initTabs();
+    this.bindEvents();
   }
 
   bindEvents() {
+    this.tabs.tabs({
+      select: (event, ui) => {
+        this.onTabSelected(event, ui);
+      }
+    });
+
     this.tabs.find('span.ui-icon-close').unbind();
 
     // Close icon: removing the tab on click
     this.tabs.find('span.ui-icon-close').on( "click", (event) => {
       this.removeTab(event);
+      this.saveTabConfiguration();
     });
   }
 
@@ -106,14 +158,17 @@ class TabController {
     return selectedTabsPanelId;
   }
 
-  addTab() {
-    var newTab = new Tab(this.defaultBibleTranslationId);
-    newTab.elementId = this.tabsElement + '-' + this.nextTabId;
-    this.metaTabs.push(newTab);
+  addTab(metaTab=undefined) {
+    if (metaTab === undefined) {
+      var metaTab = new Tab(this.defaultBibleTranslationId);
+    }
 
-    var li = $( this.tabTemplate.replace( /#\{href\}/g, "#" + newTab.elementId ).replace( /#\{label\}/g, this.defaultLabel ) );
+    metaTab.elementId = this.tabsElement + '-' + this.nextTabId;
+    this.metaTabs.push(metaTab);
+
+    var li = $( this.tabTemplate.replace( /#\{href\}/g, "#" + metaTab.elementId ).replace( /#\{label\}/g, this.defaultLabel ) );
     this.tabs.find(".ui-tabs-nav").append(li);
-    this.tabs.append("<div id='" + newTab.elementId + "' class='" + this.tabsPanelClass + "'>" + this.tabHtmlTemplate + "</div>");
+    this.tabs.append("<div id='" + metaTab.elementId + "' class='" + this.tabsPanelClass + "'>" + this.tabHtmlTemplate + "</div>");
     this.reloadTabs();
     this.tabs.tabs('select', this.tabCounter);
     this.tabCounter++;
@@ -150,6 +205,25 @@ class TabController {
     this.setCurrentTabTitle(this.defaultLabel);
   }
 
+  getMetaTabTitle(metaTab) {
+    var tabTitle = "";
+
+    if (metaTab.bookTitle != "") {
+      tabTitle = metaTab.bookTitle;
+    } else if (metaTab.tagTitleList != "") {
+      tabTitle = metaTab.tagTitleList;
+    }
+
+    return tabTitle;
+  }
+
+  setTabTitle(index, title) {
+    var tabsElement = $('#' + this.tabsElement);
+    var tab = $(tabsElement.find('li')[index]);
+    var link = $(tab.find('a')[0]);
+    link.text(title);
+  }
+
   setCurrentTabTitle(title) {
     var tabsElement = $('#' + this.tabsElement);
     var selectedTab = tabsElement.find('.ui-tabs-selected');
@@ -160,6 +234,7 @@ class TabController {
   setCurrentTabBook(bookCode, bookTitle) {
     var currentTabIndex = this.getSelectedTabIndex();
     this.metaTabs[currentTabIndex].book = bookCode;
+    this.metaTabs[currentTabIndex].bookTitle = bookTitle;
 
     if (bookTitle != undefined && bookTitle != null) {
       this.setCurrentTabTitle(bookTitle);
@@ -259,9 +334,11 @@ class TabController {
     bible_browser_controller.enableCurrentTranslationInfoButton();
   }
 
-  getCurrentBibleTranslationId() {
-    var currentTabIndex = this.getSelectedTabIndex();
-    return this.metaTabs[currentTabIndex].bibleTranslationId;
+  getCurrentBibleTranslationId(index=undefined) {
+    if (index === undefined) {
+      var index = this.getSelectedTabIndex();
+    }
+    return this.metaTabs[index].bibleTranslationId;
   }
 
   async getCurrentBibleTranslationName() {

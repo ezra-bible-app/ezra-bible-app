@@ -20,8 +20,8 @@ class NavigationPane {
   constructor() {
   }
 
-  getCurrentNavigationPane() {
-    var currentVerseListTabs = bible_browser_controller.getCurrentVerseListTabs();
+  getCurrentNavigationPane(tabIndex) {
+    var currentVerseListTabs = bible_browser_controller.getCurrentVerseListTabs(tabIndex);
     var navigationPane = currentVerseListTabs.find('.navigation-pane');
     return navigationPane;
   };
@@ -63,9 +63,9 @@ class NavigationPane {
     bible_browser_controller.tab_controller.setLastHighlightedNavElementIndex(navElementIndex);
   }
 
-  updateChapterNavigation() {
-    var navigationPane = this.getCurrentNavigationPane();
-    var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
+  updateChapterNavigation(tabIndex) {
+    var navigationPane = this.getCurrentNavigationPane(tabIndex);
+    var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook(tabIndex);
     var verse_counts = bible_chapter_verse_counts[currentBook];
     var i = 1;
 
@@ -85,9 +85,9 @@ class NavigationPane {
     }
   }
 
-  updateBookNavigation() {
-    var navigationPane = this.getCurrentNavigationPane();
-    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame();
+  updateBookNavigation(tabIndex) {
+    var navigationPane = this.getCurrentNavigationPane(tabIndex);
+    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
     var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
 
     for (var i = 0; i < bookHeaders.length; i++) {
@@ -106,24 +106,28 @@ class NavigationPane {
     }
   }
 
-  resetNavigationPane() {
-    var navigationPane = this.getCurrentNavigationPane();
+  resetNavigationPane(tabIndex) {
+    var navigationPane = this.getCurrentNavigationPane(tabIndex);
     navigationPane.children().remove();
   }
 
-  updateNavigation() {
-    this.resetNavigationPane();
+  updateNavigation(tabIndex=undefined) {
+    if (tabIndex === undefined) {
+      var tabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
+    }
 
-    var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
-    var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList();
+    this.resetNavigationPane(tabIndex);
+
+    var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook(tabIndex);
+    var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList(tabIndex);
 
     if (currentBook != null && bible_chapter_verse_counts != null) { // Update navigation based on book chapters
 
-      this.updateChapterNavigation();
+      this.updateChapterNavigation(tabIndex);
 
     } else if (currentTagIdList != null) { // Update navigation based on tagged verses books
 
-      this.updateBookNavigation();
+      this.updateBookNavigation(tabIndex);
     }
   }
 
