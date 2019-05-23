@@ -39,6 +39,7 @@ class TabController {
     this.tabCounter = 1;
     this.nextTabId = 2;
     this.metaTabs = [];
+    this.loadingCompleted = false;
   }
 
   init(tabsElement, tabsPanelClass, addTabElement, settings, tabHtmlTemplate, onTabSelected, onTabAdded, defaultBibleTranslationId) {
@@ -110,6 +111,9 @@ class TabController {
           i
         );
       }
+
+      this.onTabSelected();
+      this.loadingCompleted = true;
     }
 
     // FIXME: this may happen to early - figure out a different way
@@ -159,7 +163,9 @@ class TabController {
   }
 
   addTab(metaTab=undefined) {
+    var initialLoading = true;
     if (metaTab === undefined) {
+      initialLoading = false;
       var metaTab = new Tab(this.defaultBibleTranslationId);
     }
 
@@ -170,11 +176,14 @@ class TabController {
     this.tabs.find(".ui-tabs-nav").append(li);
     this.tabs.append("<div id='" + metaTab.elementId + "' class='" + this.tabsPanelClass + "'>" + this.tabHtmlTemplate + "</div>");
     this.reloadTabs();
-    this.tabs.tabs('select', this.tabCounter);
+    if (!initialLoading) {
+      this.tabs.tabs('select', this.tabCounter);
+    }
+
     this.tabCounter++;
     this.nextTabId++;
 
-    this.onTabAdded();
+    this.onTabAdded(this.tabCounter - 1);
   }
 
   removeTab(event) {
@@ -208,7 +217,7 @@ class TabController {
   getMetaTabTitle(metaTab) {
     var tabTitle = "";
 
-    if (metaTab.bookTitle != "") {
+    if (metaTab.bookTitle != null) {
       tabTitle = metaTab.bookTitle;
     } else if (metaTab.tagTitleList != "") {
       tabTitle = metaTab.tagTitleList;
