@@ -108,8 +108,8 @@ function BibleBrowserController() {
     this.taggedVerseExport = new TaggedVerseExport();
 
     this.init_book_selection_menu();
-    this.init_current_verse_list_menu();
-    this.init_tag_selection_menu();
+    this.init_tag_selection_menu(0);
+    this.init_current_verse_list_menu(0);
     // Not used
     //this.init_display_options_menu();
     this.init_tag_reference_box();
@@ -148,7 +148,7 @@ function BibleBrowserController() {
     bible_browser_controller.navigation_pane.clearHighlightedSearchResults();
   };
 
-  this.onTabSelected = async function(event, ui) {
+  this.onTabSelected = function(event = undefined, ui = { 'index' : 0}) {
     // Refresh tags view
     tags_controller.clear_verse_selection();
 
@@ -170,21 +170,21 @@ function BibleBrowserController() {
     bible_browser_controller.book_search.setVerseList(currentVerseList);
 
     // Re-configure bible translations menu for current verse list
-    await bible_browser_controller.translation_controller.initTranslationsMenu(ui.index);
+    bible_browser_controller.translation_controller.initTranslationsMenu(ui.index);
 
     // Toggle book statistics
     bible_browser_controller.toggle_book_tags_statistics_button(ui.index);
   };
 
-  this.onTabAdded = function() {
+  this.onTabAdded = function(tabIndex) {
     resize_app_container();
-    bible_browser_controller.init_tag_selection_menu();
-    bible_browser_controller.init_current_verse_list_menu();
+    bible_browser_controller.init_tag_selection_menu(tabIndex);
+    bible_browser_controller.init_current_verse_list_menu(tabIndex);
     bible_browser_controller.translation_controller.initBibleTranslationInfoButton();
 
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId(tabIndex);
     if (currentBibleTranslationId != null) {
-      bible_browser_controller.enableCurrentTranslationInfoButton();
+      bible_browser_controller.enableCurrentTranslationInfoButton(tabIndex);
     }
   };
 
@@ -244,19 +244,23 @@ function BibleBrowserController() {
     }
   };
 
-  this.init_current_verse_list_menu = function() {
+  // FIXME: Handle this per tabIndex
+  this.init_current_verse_list_menu = function(tabIndex=undefined) {
     //console.log("init_current_verse_list_menu");
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
+    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     var bookSelectButton = currentVerseListMenu.find('.book-select-button');
     bookSelectButton.bind('click', bible_browser_controller.handle_book_menu_click);
     $('.verse-list-menu').find('.fg-button').removeClass('events-configured');
     configure_button_styles('.verse-list-menu');
     bible_browser_controller.navigation_pane.updateNavigation();
-    bible_browser_controller.translation_controller.initTranslationsMenu();
+
+    if (bible_browser_controller.tab_controller.loadingCompleted) {
+      bible_browser_controller.translation_controller.initTranslationsMenu();
+    }
   };
 
-  this.init_tag_selection_menu = function() {
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
+  this.init_tag_selection_menu = function(tabIndex=undefined) {
+    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.tag-select-button').bind('click', bible_browser_controller.handle_tag_menu_click);
     $('#tag-selection-filter-input').bind('keyup', bible_browser_controller.handle_tag_search_input);
   };
@@ -1017,8 +1021,8 @@ function BibleBrowserController() {
     configure_button_styles('.verse-list-menu');
   }
 
-  this.enableCurrentTranslationInfoButton = function() {
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
+  this.enableCurrentTranslationInfoButton = function(tabIndex=undefined) {
+    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     var translationInfoButton = currentVerseListMenu.find('.bible-translation-info-button');
     translationInfoButton.removeClass('ui-state-disabled');
   }

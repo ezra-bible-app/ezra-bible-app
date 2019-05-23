@@ -26,11 +26,11 @@ class NavigationPane {
     return navigationPane;
   };
 
-  initNavigationPaneForCurrentView() {
-    var navigationPane = this.getCurrentNavigationPane();
+  initNavigationPaneForCurrentView(tabIndex=undefined) {
+    var navigationPane = this.getCurrentNavigationPane(tabIndex);
 
-    var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
-    var currentTagTitleList = bible_browser_controller.tab_controller.getCurrentTagTitleList();
+    var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook(tabIndex);
+    var currentTagTitleList = bible_browser_controller.tab_controller.getCurrentTagTitleList(tabIndex);
 
     if (currentBook != null) { // Book text mode
 
