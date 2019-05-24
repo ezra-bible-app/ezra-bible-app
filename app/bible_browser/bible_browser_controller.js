@@ -160,6 +160,7 @@ function BibleBrowserController() {
     }
 
     // Refresh tags selection menu (It's global!)
+    bible_browser_controller.reset_tag_menu();
     var currentTagTitleList = bible_browser_controller.tab_controller.getCurrentTagTitleList(ui.index);
     if (currentTagTitleList != "" && currentTagTitleList != null) {
         bible_browser_controller.communication_controller.request_tags_for_menu();
@@ -812,7 +813,8 @@ function BibleBrowserController() {
     }
 
     bible_browser_controller.navigation_pane.resetNavigationPane();
-    $('.export-tagged-verses-button').hide();
+    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
+    currentVerseListMenu.find('.export-tagged-verses-button').hide();
   };
 
   this.selected_tag_titles = function() {
@@ -933,8 +935,8 @@ function BibleBrowserController() {
   };
   
   this.reset_tag_menu = function() {
-    bible_browser_controller.tab_controller.setCurrentTagTitleList(null);
-    bible_browser_controller.tab_controller.setCurrentTagIdList("");
+    /*bible_browser_controller.tab_controller.setCurrentTagTitleList(null);
+    bible_browser_controller.tab_controller.setCurrentTagIdList("");*/
 
     var taglist_container = $('#tag-selection-taglist-global');
     var tag_cb_list = taglist_container.find('.tag-browser-tag-cb');
@@ -1004,20 +1006,20 @@ function BibleBrowserController() {
     }*/
   };
 
-  this.enableTaggedVersesExportButton = function() {
-    $('.export-tagged-verses-button').removeClass('ui-state-disabled');
-
-    var export_button = $('.export-tagged-verses-button');
-    export_button.unbind('click');
-    export_button.bind('click', function() {
+  this.enableTaggedVersesExportButton = function(tabIndex) {
+    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
+    var exportButton = currentVerseListMenu.find('.export-tagged-verses-button');
+    exportButton.removeClass('ui-state-disabled');
+    exportButton.unbind('click');
+    exportButton.bind('click', function() {
       bible_browser_controller.taggedVerseExport.runExport();
       
       /*var selected_tags = bible_browser_controller.selected_tags();
       var url = '/tags/' + selected_tags + '/tagged_verses.odt';
       location.href = url;*/
     });
-    export_button.show();
-    export_button.removeClass('events-configured');
+    exportButton.show();
+    exportButton.removeClass('events-configured');
     configure_button_styles('.verse-list-menu');
   }
 
