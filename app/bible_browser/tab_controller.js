@@ -81,7 +81,7 @@ class TabController {
   
   async loadTabConfiguration() {
     if (this.settings.has('tabConfiguration')) {
-      bible_browser_controller.translation_controller.showBibleTranslationLoadingIndicator();
+      bible_browser_controller.showVerseListLoadingIndicator();
 
       var savedMetaTabs = this.settings.get('tabConfiguration');
       console.log("Loading " + savedMetaTabs.length + " tabs from configuration!");
@@ -115,11 +115,10 @@ class TabController {
       }
 
       this.onTabSelected();
-      this.loadingCompleted = true;
-      bible_browser_controller.translation_controller.hideBibleTranslationLoadingIndicator();
+      bible_browser_controller.hideVerseListLoadingIndicator();
     }
 
-    // FIXME: this may happen to early - figure out a different way
+    this.loadingCompleted = true;
     this.persistanceEnabled = true;
   }
 

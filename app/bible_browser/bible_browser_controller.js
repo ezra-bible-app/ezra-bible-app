@@ -246,7 +246,6 @@ function BibleBrowserController() {
     }
   };
 
-  // FIXME: Handle this per tabIndex
   this.init_current_verse_list_menu = function(tabIndex=undefined) {
     //console.log("init_current_verse_list_menu");
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
@@ -350,17 +349,13 @@ function BibleBrowserController() {
 
       bible_browser_controller.hide_book_menu();
       bible_browser_controller.hide_tag_menu();
+      bible_browser_controller.reset_tag_menu();
 
       // Not needed at the moment
       //$('#outline-content').empty();
 
-      bible_browser_controller.settings.set('selected_book', {
-          code: book_code,
-          name: book_title
-      });
-
       // Set selected tags to null, since we just switched to a book
-      bible_browser_controller.settings.set('selected_tags', null);
+      bible_browser_controller.tab_controller.setCurrentTagIdList(null);
       bible_browser_controller.tab_controller.setCurrentTabBook(book_code, book_title);
 
       var currentVerseList = bible_browser_controller.getCurrentVerseList();
@@ -751,14 +746,9 @@ function BibleBrowserController() {
     bible_browser_controller.tab_controller.setCurrentTagIdList(currentTagIdList);
     bible_browser_controller.tab_controller.setCurrentTagTitleList(currentTagTitleList);
 
-    bible_browser_controller.settings.set('selected_tags', {
-      id_list: currentTagIdList,
-      title_list: currentTagTitleList
-    });
-
     // Set selected book to null, since we just switched to selected tags
     bible_browser_controller.tab_controller.setCurrentTabBook(null, null);
-    bible_browser_controller.settings.set('selected_book', null);
+    //bible_browser_controller.settings.set('selected_book', null);
 
     bible_browser_controller.get_tagged_verses();
   };
@@ -815,7 +805,7 @@ function BibleBrowserController() {
 
     bible_browser_controller.navigation_pane.resetNavigationPane();
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
-    currentVerseListMenu.find('.export-tagged-verses-button').hide();
+    currentVerseListMenu.find('.export-tagged-verses-button').addClass('ui-state-disabled');
   };
 
   this.selected_tag_titles = function() {

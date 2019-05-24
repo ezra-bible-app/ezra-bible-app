@@ -80,6 +80,7 @@ class TranslationController {
 
     this.updateAvailableBooks();
     this.initChapterVerseCounts();
+    this.initTranslationsMenu();
   }
 
   async initTranslationsMenu(tabIndex=undefined) {
