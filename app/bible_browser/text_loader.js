@@ -27,9 +27,10 @@ class TextLoader {
     if (resetView) {
       bible_browser_controller.resetVerseListView();
       bible_browser_controller.showVerseListLoadingIndicator();
-      var temporary_help = bible_browser_controller.getCurrentVerseListComposite().find('.temporary-help');
-      temporary_help.hide();
     }
+
+    var temporary_help = bible_browser_controller.getCurrentVerseListComposite(tabIndex).find('.temporary-help, .help-text');
+    temporary_help.hide();
 
     if (book != null) { // Book text mode
       $('#export-tagged-verses-button').addClass('ui-state-disabled');
