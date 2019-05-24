@@ -83,7 +83,7 @@ class TaggedVerseExport {
         var currentVerse = currentBlock[k];
       
         paragraph.addText(currentVerse.verseNr + "", { superscript: true });
-        paragraph.addText(" " + currentVerse.content);
+        paragraph.addText(" " + $(currentVerse.content).text());
         paragraph.addLineBreak();
       }
 
@@ -192,6 +192,7 @@ class TaggedVerseExport {
       var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList();
 
       bible_browser_controller.communication_controller.request_verses_for_selected_tags(
+        undefined,
         null,
         currentTagIdList,
         (bibleBooks, groupedVerseTags, verses) => { this.renderWordDocument(bibleBooks, groupedVerseTags, verses) },

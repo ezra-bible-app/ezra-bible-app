@@ -87,7 +87,7 @@ class TextLoader {
       }
 
       bible_browser_controller.enable_tagging_toolbox_only();
-      bible_browser_controller.enableTaggedVersesExportButton();
+      bible_browser_controller.enableTaggedVersesExportButton(tabIndex);
     }
 
     if (!initialRendering) {
