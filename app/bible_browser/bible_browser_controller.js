@@ -153,7 +153,8 @@ function BibleBrowserController() {
     tags_controller.clear_verse_selection();
 
     var currentTabBook = bible_browser_controller.tab_controller.getCurrentTabBook(ui.index);
-    if (currentTabBook != undefined && currentTabBook != null) {
+    var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList(ui.index);
+    if ((currentTabBook != undefined && currentTabBook != null) || currentTagIdList != null) {
       setTimeout(() => {
         tags_controller.communication_controller.request_tags(currentTabBook);
       }, 200);

@@ -81,6 +81,8 @@ class TabController {
   
   async loadTabConfiguration() {
     if (this.settings.has('tabConfiguration')) {
+      bible_browser_controller.translation_controller.showBibleTranslationLoadingIndicator();
+
       var savedMetaTabs = this.settings.get('tabConfiguration');
       console.log("Loading " + savedMetaTabs.length + " tabs from configuration!");
 
@@ -114,6 +116,7 @@ class TabController {
 
       this.onTabSelected();
       this.loadingCompleted = true;
+      bible_browser_controller.translation_controller.hideBibleTranslationLoadingIndicator();
     }
 
     // FIXME: this may happen to early - figure out a different way
