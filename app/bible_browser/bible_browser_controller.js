@@ -624,8 +624,10 @@ function BibleBrowserController() {
     }
 
     var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
+    var currentTabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
 
     bible_browser_controller.communication_controller.request_verses_for_selected_tags(
+      currentTabIndex,
       currentTabId,
       tag_id,
       bible_browser_controller.render_tagged_verse_list_in_reference_box,
@@ -1004,10 +1006,6 @@ function BibleBrowserController() {
     exportButton.unbind('click');
     exportButton.bind('click', function() {
       bible_browser_controller.taggedVerseExport.runExport();
-      
-      /*var selected_tags = bible_browser_controller.selected_tags();
-      var url = '/tags/' + selected_tags + '/tagged_verses.odt';
-      location.href = url;*/
     });
     exportButton.show();
     exportButton.removeClass('events-configured');
