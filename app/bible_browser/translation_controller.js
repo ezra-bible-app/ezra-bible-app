@@ -71,28 +71,19 @@ class TranslationController {
   }
 
   async loadSettings() {
-    var result = await models.BibleTranslation.findAndCountAll();
-    this.bibleTranslationCount = result.count;
-
-    if (bible_browser_controller.tab_controller.getCurrentBibleTranslationId() != null && result.rows.length > 0) {
-      bible_browser_controller.tab_controller.setCurrentBibleTranslationId(result.rows[0].id);
-    }
-
     this.updateAvailableBooks();
     this.initChapterVerseCounts();
-    this.initTranslationsMenu();
   }
 
-  async initTranslationsMenu(tabIndex=undefined) {
-    if (tabIndex === undefined) {
-      var tabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
-    }
-    //console.log("initTranslationsMenu " + tabIndex);
-
-    var languages = await models.BibleTranslation.getLanguages();
+  getBibleSelect(tabIndex) {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     var bibleSelect = currentVerseListMenu.find('select.bible-select');
-    bibleSelect.empty();
+    return bibleSelect;
+  }
+
+  async addLanguageGroupsToBibleSelectMenu(tabIndex) {
+    var bibleSelect = this.getBibleSelect(tabIndex);
+    var languages = await models.BibleTranslation.getLanguages();
 
     for (var i = 0; i < languages.length; i++) {
       var currentLang = languages[i];
@@ -100,14 +91,14 @@ class TranslationController {
       var newOptGroup = "<optgroup class='bible-select-" + currentLang + "-translations' label='" + currentLang + "'></optgroup>";
       bibleSelect.append(newOptGroup);
     }
+  }
 
-    var result = await models.BibleTranslation.findAndCountAll();
-    //console.log("Found " + result.count + " bible translations!");
-
+  updateUiBasedOnNumberOfTranslations(tabIndex, count) {
+    var bibleSelect = this.getBibleSelect(tabIndex);
     var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook(tabIndex);
     var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList(tabIndex);
 
-    if (result.count == 0) {
+    if (count == 0) {
       bibleSelect.attr('disabled','disabled');
       $('.book-select-button').addClass('ui-state-disabled');
       var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
@@ -121,10 +112,14 @@ class TranslationController {
         currentVerseList.find('.help-text').text(gettext_strings.help_text_translation_available);
       }
     }
+  }
 
-    for (var translation of result.rows) {
+  addTranslationsToBibleSelectMenu(tabIndex, dbResult) {
+    var bibleSelect = this.getBibleSelect(tabIndex);
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId(tabIndex);
+
+    for (var translation of dbResult.rows) {
       var selected = '';
-      var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId(tabIndex);
       if (currentBibleTranslationId == translation.id) {
         var selected = ' selected=\"selected\"';
       }
@@ -133,12 +128,28 @@ class TranslationController {
       var optGroup = bibleSelect.find('.bible-select-' + translation.language + '-translations');
       optGroup.append(current_translation_html);
     }
+  }
+
+  async initTranslationsMenu(tabIndex=undefined) {
+    if (tabIndex === undefined) {
+      var tabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
+    }
+    //console.log("initTranslationsMenu " + tabIndex);
+
+    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
+    var bibleSelect = currentVerseListMenu.find('select.bible-select');
+    bibleSelect.empty();
+
+    var result = await models.BibleTranslation.findAndCountAll();
+
+    await this.addLanguageGroupsToBibleSelectMenu(tabIndex);
+    this.updateUiBasedOnNumberOfTranslations(tabIndex, result.count);
+    this.addTranslationsToBibleSelectMenu(tabIndex, result);
 
     bibleSelect.selectmenu({
       change: (event) => {
         this.handleBibleTranslationChange(event);
-      },
-      maxHeight: 400
+      }
     });
   }
 

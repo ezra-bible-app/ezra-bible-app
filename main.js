@@ -52,6 +52,7 @@ function createWindow () {
   mainWindow = new BrowserWindow({width: 1024,
                                   height: 768,
                                   show: false,
+                                  frame: true,
                                   title: "Ezra Project " + app.getVersion()});
 
   mainWindow.setMenuBarVisibility(false);
