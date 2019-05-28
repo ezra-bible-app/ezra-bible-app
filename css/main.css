@@ -667,7 +667,7 @@ h2 {
 #add-tab-button {
   margin-top: 0.5em;
   margin-left: 1em;
-  height: 2em;
+  font-size: 130%;
   float: left;
 }
 

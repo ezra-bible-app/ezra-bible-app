@@ -339,6 +339,7 @@ class TabController {
   }
 
   setCurrentBibleTranslationId(bibleTranslationId) {
+    //console.log("Setting current bible translation id: " + bibleTranslationId);
     var currentTabIndex = this.getSelectedTabIndex();
     this.metaTabs[currentTabIndex].bibleTranslationId = bibleTranslationId;
     this.defaultBibleTranslationId = bibleTranslationId;
