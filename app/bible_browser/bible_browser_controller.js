@@ -254,10 +254,6 @@ function BibleBrowserController() {
     $('.verse-list-menu').find('.fg-button').removeClass('events-configured');
     configure_button_styles('.verse-list-menu');
     bible_browser_controller.navigation_pane.updateNavigation();
-
-    if (bible_browser_controller.tab_controller.loadingCompleted) {
-      bible_browser_controller.translation_controller.initTranslationsMenu();
-    }
   };
 
   this.init_tag_selection_menu = function(tabIndex=undefined) {
