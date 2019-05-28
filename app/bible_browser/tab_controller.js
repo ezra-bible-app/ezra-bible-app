@@ -114,6 +114,7 @@ class TabController {
         );
       }
 
+      this.onTabAdded();
       this.onTabSelected();
       bible_browser_controller.hideVerseListLoadingIndicator();
     }
