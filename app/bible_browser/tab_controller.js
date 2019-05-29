@@ -114,10 +114,12 @@ class TabController {
         );
       }
 
-      this.onTabAdded();
-      this.onTabSelected();
       bible_browser_controller.hideVerseListLoadingIndicator();
     }
+
+    // Call this methods explicitly to initialize the first tab
+    this.onTabAdded();
+    this.onTabSelected();
 
     this.loadingCompleted = true;
     this.persistanceEnabled = true;

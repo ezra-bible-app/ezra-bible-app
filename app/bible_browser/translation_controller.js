@@ -30,8 +30,8 @@ class TranslationController {
     this.initBibleTranslationInfoButton();
   }
 
-  updateAvailableBooks() {
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
+  updateAvailableBooks(tabIndex=undefined) {
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId(tabIndex);
     models.BibleTranslation.getBookList(currentBibleTranslationId).then(books => {
       var book_links = $('#book-selection-menu').find('li');
 
