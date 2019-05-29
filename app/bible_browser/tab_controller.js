@@ -117,7 +117,7 @@ class TabController {
       bible_browser_controller.hideVerseListLoadingIndicator();
     }
 
-    // Call this methods explicitly to initialize the first tab
+    // Call these methods explicitly to initialize the first tab 
     this.onTabAdded();
     this.onTabSelected();
 
