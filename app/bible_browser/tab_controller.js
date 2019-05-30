@@ -74,7 +74,7 @@ class TabController {
 
   saveTabConfiguration() {
     if (this.persistanceEnabled) {
-      console.log('Saving tab configuration');
+      //console.log('Saving tab configuration');
       this.settings.set('tabConfiguration', this.metaTabs);
     }
   }
@@ -346,7 +346,7 @@ class TabController {
     var currentTabIndex = this.getSelectedTabIndex();
     this.metaTabs[currentTabIndex].bibleTranslationId = bibleTranslationId;
     this.defaultBibleTranslationId = bibleTranslationId;
-    bible_browser_controller.enableCurrentTranslationInfoButton();
+    bible_browser_controller.translation_controller.enableCurrentTranslationInfoButton();
   }
 
   getCurrentBibleTranslationId(index=undefined) {

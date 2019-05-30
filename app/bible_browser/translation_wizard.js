@@ -278,7 +278,7 @@ class TranslationWizard {
 
           bible_browser_controller.tab_controller.setCurrentBibleTranslationId(translationCode);
           bible_browser_controller.translation_controller.updateAvailableBooks();
-          bible_browser_controller.enableCurrentTranslationInfoButton();
+          bible_browser_controller.translation_controller.enableCurrentTranslationInfoButton();
         }
 
         $('#bibleTranslationInstallIndicator').hide();
@@ -355,7 +355,7 @@ class TranslationWizard {
                 currentVerseListLoadingIndicator.hide();
                 var currentVerseList = bible_browser_controller.getCurrentVerseList();
                 currentVerseList.append("<div class='help-text'>To start using Ezra Project, select a book or a tag from the menu above.</div>");
-                bible_browser_controller.disableCurrentTranslationInfoButton();
+                bible_browser_controller.translation_controller.disableCurrentTranslationInfoButton();
                 bible_browser_controller.current_book = null;
                 $('.book-select-value').text("Select book");
               }

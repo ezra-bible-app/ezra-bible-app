@@ -229,6 +229,18 @@ class TranslationController {
     var bibleTranslationLoadingIndicator = this.getCurrentBibleTranslationLoadingIndicator();
     bibleTranslationLoadingIndicator.hide();
   }
+
+  enableCurrentTranslationInfoButton(tabIndex=undefined) {
+    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
+    var translationInfoButton = currentVerseListMenu.find('.bible-translation-info-button');
+    translationInfoButton.removeClass('ui-state-disabled');
+  }
+
+  disableCurrentTranslationInfoButton() {
+    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
+    var translationInfoButton = currentVerseListMenu.find('.bible-translation-info-button');
+    translationInfoButton.addClass('ui-state-disabled');
+  }
 }
 
 module.exports = TranslationController;
