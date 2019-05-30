@@ -22,7 +22,7 @@ All notable changes to Ezra Project are documented in this file.
   * Shows Bible books in case of a tagged verse list
 
 ### Changed
-* Optimized language display in bible installation wizard: Shows languages in multiple columns
+* Optimized language display in Bible installation wizard: Shows languages in multiple columns
 * Optimized formatting for Bible book selection menu
 
 ### Fixed
