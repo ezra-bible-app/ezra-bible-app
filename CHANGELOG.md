@@ -1,4 +1,4 @@
-# Changelog
+# Ezra Project - Changelog
 All notable changes to Ezra Project are documented in this file.
 
 ## [Unreleased]
