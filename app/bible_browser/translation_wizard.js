@@ -93,7 +93,7 @@ class TranslationWizard {
 
     $('#translation-settings-wizard').dialog({
       position: [offsetLeft, offsetTop],
-      title: "Configure bible translations",
+      title: "Configure Bible translations",
       dialogClass: 'ezra-dialog',
       width: wizardWidth,
       minHeight: 250
@@ -250,7 +250,7 @@ class TranslationWizard {
 
       var installPage = $("#translation-settings-wizard-add-p-3");
       installPage.empty();
-      installPage.append('<h3>Installing selected bible translations</h3>');
+      installPage.append('<h3>Installing selected Bible translations</h3>');
       installPage.append('<p>Note that it takes some time for each translation to be downloaded and then installed.</p>');
 
       for (var i = 0; i < translations.length; i++) {
@@ -274,7 +274,7 @@ class TranslationWizard {
 
         var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
         if (currentBibleTranslationId == "" || 
-            currentBibleTranslationId == null) { // Update UI after a bible translation becomes available
+            currentBibleTranslationId == null) { // Update UI after a Bible translation becomes available
 
           bible_browser_controller.tab_controller.setCurrentBibleTranslationId(translationCode);
           bible_browser_controller.translation_controller.updateAvailableBooks();
@@ -325,7 +325,7 @@ class TranslationWizard {
 
       var removalPage = $("#translation-settings-wizard-remove-p-1");
       removalPage.empty();
-      removalPage.append('<h3>Removing selected bible translations</h3>');
+      removalPage.append('<h3>Removing selected Bible translations</h3>');
       removalPage.append('<p>Note, that each removal takes some time.</p>');
 
       setTimeout(async () => {
@@ -346,7 +346,7 @@ class TranslationWizard {
                 bible_browser_controller.tab_controller.setCurrentBibleTranslationId(result.rows[0].id);
                 bible_browser_controller.onBibleTranslationChanged();
                 bible_browser_controller.navigation_pane.updateNavigation();
-              } else { // Re-init application to state without bible translations
+              } else { // Re-init application to state without Bible translations
                 bible_browser_controller.tab_controller.removeAllExtraTabs();
                 bible_browser_controller.tab_controller.setCurrentBibleTranslationId(null);
                 bible_browser_controller.tab_controller.resetCurrentTabTitle();
@@ -605,11 +605,11 @@ class TranslationWizard {
     wizardPage.empty();
 
     var introText = "<p style='margin-bottom: 2em;'>" +
-                    "Ezra Project works with bible translation modules provided by <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> " +
-                    "and the <a class='external' href='http://www.crosswire.org'>CrossWire bible society</a>.<br/><br/>" +
-                    "Below you see the list of SWORD repositories published by CrossWire. A repository is an internet storage location that contains a set of bible translation modules. " +
-                    "Next to each repository you see the total number of bible translation modules available from that repository.<br/><br/>" +
-                    "To install a bible translation module, select at least one repository from the list below. " +
+                    "Ezra Project works with Bible translation modules provided by <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> " +
+                    "and the <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a>.<br/><br/>" +
+                    "Below you see the list of SWORD repositories published by CrossWire. A repository is an internet storage location that contains a set of Bible translation modules. " +
+                    "Next to each repository you see the total number of Bible translation modules available from that repository.<br/><br/>" +
+                    "To install a Bible translation module, select at least one repository from the list below. " +
                     "The <i>CrossWire</i> and <i>eBible.org</i> repositories are a good place to start.</p>";
 
     wizardPage.append(introText);

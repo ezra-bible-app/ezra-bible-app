@@ -328,6 +328,22 @@ function TagsController() {
     tags_controller.update_tags_view_after_verse_selection(true);
   };
 
+  this.handle_tag_label_click = function(event) {
+    var checkbox_tag = $(this).closest('.checkbox-tag');
+    var checkbox = checkbox_tag.find('.tag-cb');
+
+    var current_verse_list = tags_controller.selected_verse_references;
+
+    if (!tags_controller.is_blocked && current_verse_list.length > 0) {
+      checkbox.prop('checked', !checkbox.prop('checked'));
+      tags_controller.handle_checkbox_tag_state_change(checkbox_tag);
+    }
+  };
+
+  // 2019-05-30
+  // FIXME
+  // This function is not used after we are using the label also for tag assignment
+  // We may use it again to quickly mark the tagged verses
   this.handle_tag_label_click__by_highlighting_tagged_verses = function() {
     var checkbox_tag = $(this).closest('.checkbox-tag');
     var checkbox_tag_id = checkbox_tag.find('.checkbox-tag-id').html();
@@ -353,8 +369,15 @@ function TagsController() {
     }
   };
 
-  this.handle_tag_cb_click = function() {
-    if (tags_controller.is_blocked) {
+  this.handle_tag_cb_click = function(event) {
+    var checkbox_tag = $(this).closest('.checkbox-tag');
+    tags_controller.handle_checkbox_tag_state_change(checkbox_tag);
+  };
+
+  this.handle_checkbox_tag_state_change = function(checkbox_tag) {
+    var current_verse_list = tags_controller.selected_verse_references;
+
+    if (tags_controller.is_blocked || current_verse_list.length == 0) {
       return;
     }
 
@@ -363,14 +386,12 @@ function TagsController() {
       tags_controller.is_blocked = false;
     }, 300);
 
-    var checkbox_tag = $(this).closest('.checkbox-tag');
     var id = checkbox_tag.find('.checkbox-tag-id:first').html();
     var cb = checkbox_tag.find('.tag-cb')[0];
     var cb_label = checkbox_tag.find('.cb-label').html();
     var checkbox_is_checked = $(cb).is(':checked');
     cb.blur();
 
-    var current_verse_list = tags_controller.selected_verse_references;
     var current_verse_selection = tags_controller.current_verse_selection_as_xml(); 
     var current_verse_ids = tags_controller.current_verse_selection_as_verse_ids();
 
@@ -383,37 +404,35 @@ function TagsController() {
       is_global = true;
     }
 
-    if (current_verse_list.length > 0) {
-      if (checkbox_is_checked) {
-        //checkbox_tag.append(tags_controller.loading_indicator);
+    if (checkbox_is_checked) {
+      //checkbox_tag.append(tags_controller.loading_indicator);
 
-        $(cb).attr('title', gettext_strings.remove_tag_assignment);
-        tags_controller.change_verse_list_tag_info(id,
-                                                   is_global,
-                                                   cb_label,
-                                                   $.create_xml_doc(current_verse_selection),
-                                                   "assign");
+      $(cb).attr('title', gettext_strings.remove_tag_assignment);
+      tags_controller.change_verse_list_tag_info(id,
+                                                  is_global,
+                                                  cb_label,
+                                                  $.create_xml_doc(current_verse_selection),
+                                                  "assign");
 
-        tags_controller.communication_controller.assign_tag_to_verses(id, current_verse_ids);
+      tags_controller.communication_controller.assign_tag_to_verses(id, current_verse_ids);
+    } else {
+
+      tags_controller.remove_tag_assignment_job = {
+        'id': id,
+        'is_global': is_global,
+        'cb_label': cb_label,
+        'checkbox_tag': checkbox_tag,
+        'verse_list': current_verse_list,
+        'verse_ids': current_verse_ids,
+        'xml_verse_selection': $.create_xml_doc(current_verse_selection),
+        'cb': $(cb)
+      };
+
+      if (current_verse_list.length > 1) {
+        $('#remove-tag-assignment-name').html(cb_label);
+        $('#remove-tag-assignment-confirmation-dialog').dialog('open');
       } else {
-
-        tags_controller.remove_tag_assignment_job = {
-          'id': id,
-          'is_global': is_global,
-          'cb_label': cb_label,
-          'checkbox_tag': checkbox_tag,
-          'verse_list': current_verse_list,
-          'verse_ids': current_verse_ids,
-          'xml_verse_selection': $.create_xml_doc(current_verse_selection),
-          'cb': $(cb)
-        };
-
-        if (current_verse_list.length > 1) {
-          $('#remove-tag-assignment-name').html(cb_label);
-          $('#remove-tag-assignment-confirmation-dialog').dialog('open');
-        } else {
-          tags_controller.remove_tag_assignment_after_confirmation();
-        }
+        tags_controller.remove_tag_assignment_after_confirmation();
       }
     }
   };
@@ -862,10 +881,19 @@ function TagsController() {
   this.bind_tag_events = function() {
     var app_container = $('#app-container');
 
+    // First unbind, so that previous handlers are removed
+    app_container.find('.tag-delete-button').unbind();
+    app_container.find('.meta-tag-assignment-button').unbind();
+    app_container.find('.tag-cb').unbind();
+    app_container.find('.cb-label').unbind();
+    app_container.find('.checkbox-tag').unbind();
+
+    // Now bind new event handlers
     app_container.find('.tag-delete-button').bind('click', tags_controller.handle_delete_tag_button_click);
     app_container.find('.meta-tag-assignment-button').bind('click', tags_controller.handle_meta_tag_assignment_button_click);
+
     app_container.find('.tag-cb').bind('click', tags_controller.handle_tag_cb_click);
-    app_container.find('.cb-label').bind('click', tags_controller.handle_tag_label_click__by_highlighting_tagged_verses);
+    app_container.find('.cb-label').bind('click', tags_controller.handle_tag_label_click);
 
     app_container.find('.checkbox-tag').bind('mouseover', tags_controller.handle_tag_mouseover);
     app_container.find('.checkbox-tag').bind('mouseout', tags_controller.handle_tag_mouseout);
