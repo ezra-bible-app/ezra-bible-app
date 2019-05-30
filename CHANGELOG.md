@@ -24,6 +24,7 @@ All notable changes to Ezra Project are documented in this file.
 ### Changed
 * Optimized language display in Bible installation wizard: Shows languages in multiple columns
 * Optimized formatting for Bible book selection menu
+* Usability: Verses can now be tagged/untagged also by clicking on the tag label (before this only worked with the checkbox)
 
 ### Fixed
 * Improved tag loading from database making performance in loading big books (like Psalms) significantly better
