@@ -69,6 +69,7 @@ class TabController {
   initFirstTab() {
     // Initialize the list with the first tab, which is there by default
     var newTab = new Tab(this.defaultBibleTranslationId);
+    newTab.elementId = this.tabsElement + '-1';
     this.metaTabs.push(newTab);
   }
 
