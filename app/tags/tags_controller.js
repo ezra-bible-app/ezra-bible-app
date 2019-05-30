@@ -476,7 +476,7 @@ function TagsController() {
     tag_assignment_count_element.text(new_label);
 
     // Update tag count in tag selection menu as well
-    bible_browser_controller.update_verse_count_in_tag_menu(tag_title, new_global_count);
+    bible_browser_controller.tag_selection_menu.update_verse_count_in_tag_menu(tag_title, new_global_count);
   };
 
   this.remove_tag_assignment_after_confirmation = function() {
@@ -885,6 +885,7 @@ function TagsController() {
     });
 
     $('.expand-button').filter(":not('.tag-events-configured')").bind('click', function() {
+      var currentTabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
       var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
       var current_reference = $(tags_controller.current_mouseover_verse_reference);
       var start_verse_box = current_reference.closest('.verse-box');
@@ -900,6 +901,7 @@ function TagsController() {
       tags_controller.context_verse = start_verse_box;
 
       bible_browser_controller.communication_controller.request_book_text(
+        currentTabIndex,
         currentTabId,
         current_book_title,
         tags_controller.load_verse_context,
@@ -1613,8 +1615,8 @@ function TagsController() {
     }
   };
 
-  this.init = function() {
-    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+  this.init = function(tabIndex=undefined) {
+    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
     if (currentVerseList.hasClass('ui-selectable')) {
       currentVerseList.selectable('destroy');
     }

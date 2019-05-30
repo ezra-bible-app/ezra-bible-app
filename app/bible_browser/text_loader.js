@@ -79,7 +79,7 @@ class TextLoader {
       }
 
       bible_browser_controller.enable_toolbox();
-      bible_browser_controller.reset_tag_menu();
+      bible_browser_controller.tag_selection_menu.reset_tag_menu();
 
     } else if (listType == 'tagged_verses') {
 

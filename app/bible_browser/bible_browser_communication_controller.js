@@ -64,12 +64,6 @@ class BibleBrowserCommunicationController {
     render_function(verses_as_html);
   }
 
-  request_tags_for_menu() {
-    models.Tag.getGlobalAndBookTags().then(tags => {
-      bible_browser_controller.render_tags_in_menu(tags);
-    });
-  }
-
   async request_verses_for_selected_tags(tab_index,
                                          current_tab_id,
                                          selected_tags,

@@ -81,9 +81,18 @@ class TaggedVerseExport {
 
       for (var k = 0; k < currentBlock.length; k++) {
         var currentVerse = currentBlock[k];
+        var currentVerseContent = "";
+        var currentVerseNodes = $(jQuery.parseHTML(currentVerse.content));
+        
+        for (var i = 0; i < currentVerseNodes.length; i++) {
+          var currentNode = $(currentVerseNodes[i]);
+          if (currentNode[0].nodeName == '#text') {
+            currentVerseContent += currentNode.text();
+          }
+        }
       
         paragraph.addText(currentVerse.verseNr + "", { superscript: true });
-        paragraph.addText(" " + $(currentVerse.content).text());
+        paragraph.addText(" " + currentVerseContent);
         paragraph.addLineBreak();
       }
 
