@@ -1,6 +1,6 @@
 {
   "name": "ezra-project",
-  "version": "0.8.0-Dev",
+  "version": "0.8.0",
   "description": "",
   "main": "main.js",
   "scripts": {
