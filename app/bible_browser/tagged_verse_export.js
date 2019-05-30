@@ -86,7 +86,10 @@ class TaggedVerseExport {
         
         for (var i = 0; i < currentVerseNodes.length; i++) {
           var currentNode = $(currentVerseNodes[i]);
-          if (currentNode[0].nodeName == '#text') {
+          var currentNodeName = currentNode[0].nodeName;
+          // We export everything that is not a DIV
+          // DIV elements contain markup that should not be in the word document
+          if (currentNodeName != 'DIV') {
             currentVerseContent += currentNode.text();
           }
         }
