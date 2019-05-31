@@ -5,7 +5,7 @@ FROM centos
 RUN yum update -y
 RUN yum install -y sudo
 
-RUN curl -sL https://rpm.nodesource.com/setup_6.x | sudo -E bash -
+RUN curl -sL https://rpm.nodesource.com/setup_10.x | sudo -E bash -
 RUN yum install -y centos-release-scl-rh
 RUN yum install -y devtoolset-3-gcc devtoolset-3-gcc-c++ make nodejs vim git
 RUN update-alternatives --install /usr/bin/gcc-4.9 gcc-4.9 /opt/rh/devtoolset-3/root/usr/bin/gcc 10
@@ -19,5 +19,3 @@ RUN npm install -g electron-installer-redhat
 RUN yum install -y rpm-build
 
 RUN echo "source scl_source enable devtoolset-3" >> /etc/profile
-
-ENTRYPOINT scl enable devtoolset-3 bash
