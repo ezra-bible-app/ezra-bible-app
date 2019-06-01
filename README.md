@@ -3,7 +3,7 @@
 
 Ezra Project is a bible study software focussing on topical study based on keywords/tags. This program helps the user to easily create and manage topical verse lists. Ezra Project works with [SWORD bible translation modules](http://www.crosswire.org/sword) and thus enables bible study in many languages. It runs on Linux and Windows. Click [here](https://github.com/tobias-klein/ezra-project/releases/latest) to get the latest release.
 
-![Ezra Project 0.6.0](/screenshots/ezra_project_0_6_0.png?raw=true "Ezra Project 0.6.0")
+![Ezra Project 0.8.0](/screenshots/ezra_project_0_8_0.png?raw=true "Ezra Project 0.8.0")
 
 ## Installation
 ### Windows
