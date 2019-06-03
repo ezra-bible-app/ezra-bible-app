@@ -10,9 +10,7 @@ Ezra Project is a bible study software focussing on topical study based on keywo
 Install Ezra Project by downloading the zip file and extracting it in a directory of your choice. After that, you can execute Ezra Project using the binary *ezra-project.exe* in the toplevel folder.
 
 ### Linux
-Before you can run Ezra Project you need to install the [SWORD library](http://www.crosswire.org/sword). On Debian/Ubuntu distributions the package is called [libsword11v5](https://pkgs.org/download/libsword11v5).
-
-Once the SWORD library is available install Ezra Project by downloading the tar.gz file and extracting it in a directory of your choice. After that, you can execute Ezra Project using the binary *ezra-project* in the toplevel folder.
+Install Ezra Project by downloading a package for your distribution. Debian packages (Ubuntu 18.04 + 19.04) and RPM packages (Fedora 29/30 + CentOS 7) are available. After installing the package you will find "Ezra Project" in your application menu.
 
 ## Usage / Howto
 
