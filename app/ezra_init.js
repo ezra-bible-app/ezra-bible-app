@@ -20,7 +20,8 @@ const app = require('electron').remote.app;
 const settings = require('electron-settings');
 
 var DbHelper = require('./app/db_helper.js');
-var databaseDir = new DbHelper(app).getDatabaseDir();
+var userDataDir = app.getPath('userData');
+var databaseDir = new DbHelper(userDataDir).getDatabaseDir();
 var models = require('./models')(databaseDir);
 
 current_section_start_toolbox = null;
