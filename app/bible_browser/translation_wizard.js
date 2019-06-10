@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const NodeSwordInterface = require('node-sword-interface');
-const ISO6391 = require('iso-639-1');
 
 class TranslationWizard {
   constructor() {
@@ -25,6 +24,8 @@ class TranslationWizard {
     this._translationInstallStatus = 'DONE';
     this._translationRemovalStatus = 'DONE';
     this._nodeSwordInterface = new NodeSwordInterface();
+    this.languageMapper = new LanguageMapper();
+
 
     var addButton = $('#add-bible-translations-button');
     var removeButton = $('#remove-bible-translations-button');
@@ -232,8 +233,7 @@ class TranslationWizard {
       var languageCodes = [];
 
       for (var i = 0; i < languages.length; i++) {
-        var currentLanguage = languages[i];
-        var currentCode = ISO6391.getCode(currentLanguage);
+        var currentCode = languages[i];
         languageCodes.push(currentCode);
       }
 
@@ -394,12 +394,13 @@ class TranslationWizard {
       var repoLanguages = this._nodeSwordInterface.getRepoLanguages(currentRepo);
 
       for (var j = 0; j < repoLanguages.length; j++) {
-        if (ISO6391.validate(repoLanguages[j])) {
-          var currentLanguageName = ISO6391.getName(repoLanguages[j]);
-          if (!knownLanguages.includes(currentLanguageName)) {
-            knownLanguages.push(currentLanguageName);
+        if (this.languageMapper.mappingExists(repoLanguages[j])) {
+          var currentLanguageCode = repoLanguages[j];
+          if (!knownLanguages.includes(currentLanguageCode)) {
+            knownLanguages.push(currentLanguageCode);
           }
         } else {
+          console.log("Unknown lang: " + repoLanguages[j]);
           if (!unknownLanguages.includes(repoLanguages[j])) {
             unknownLanguages.push(repoLanguages[j]);
           }
@@ -410,7 +411,7 @@ class TranslationWizard {
     knownLanguages.sort();
     unknownLanguages.sort();
 
-    return knownLanguages;
+    return [ knownLanguages, unknownLanguages ];
   }
 
   listLanguages(selectedRepositories) {
@@ -425,24 +426,44 @@ class TranslationWizard {
 
     wizardPage.append(introText);
 
-    var knownLanguages = this.getAvailableLanguagesFromSelectedRepos(selectedRepositories);
+    var availableLanguages = this.getAvailableLanguagesFromSelectedRepos(selectedRepositories);
+    var knownLanguages = availableLanguages[0];
+    var unknownLanguages = availableLanguages[1];
 
-    for (var i = 0; i < knownLanguages.length; i++) {
+    this.listLanguageArray(knownLanguages);
+
+    var otherLanguagesHeader = "<p style='padding-top: 2em; clear: both; font-weight: bold;'>Other languages</p>";
+
+    if (unknownLanguages.length > 0) {
+      wizardPage.append(otherLanguagesHeader);
+      this.listLanguageArray(unknownLanguages);
+    }
+
+    this.bindLabelEvents(wizardPage);
+  }
+
+  listLanguageArray(languageArray) {
+    var wizardPage = $('#translation-settings-wizard-add-p-1');
+
+    for (var i = 0; i < languageArray.length; i++) {
       var checkboxChecked = "";
-      if (this.hasLanguageBeenSelectedBefore(knownLanguages[i])) {
+      if (this.hasLanguageBeenSelectedBefore(languageArray[i])) {
         checkboxChecked = " checked";
       }
 
-      var currentLanguageCode = ISO6391.getCode(knownLanguages[i]);
+      var currentLanguageCode = languageArray[i];
+      var currentLanguageName = currentLanguageCode;
+      if (this.languageMapper.mappingExists(currentLanguageCode)) {
+        currentLanguageName = this.languageMapper.getLanguageName(currentLanguageCode);
+      }
+
       var currentLanguageTranslationCount = this.getLanguageTranslationCount(currentLanguageCode);
-      var currentLanguage = "<p style='float: left; width: 14em;'><input type='checkbox'" + checkboxChecked + "><span class='label' id='" + knownLanguages[i] + "'>";
-      currentLanguage += knownLanguages[i] + ' (' + currentLanguageTranslationCount + ')';
+      var currentLanguage = "<p style='float: left; width: 14em;'><input type='checkbox'" + checkboxChecked + "><span class='label' id='" + currentLanguageCode + "'>";
+      currentLanguage += currentLanguageName + ' (' + currentLanguageTranslationCount + ')';
       currentLanguage += "</span></p>";
 
       wizardPage.append(currentLanguage);
     }
-
-    this.bindLabelEvents(wizardPage);
   }
 
   getSelectedReposForUi() {
@@ -462,7 +483,11 @@ class TranslationWizard {
     var languagesPage = "#translation-settings-wizard-add-p-1";
     var uiLanguages = this.getSelectedSettingsWizardElements(languagesPage);
     for (var i = 0; i < uiLanguages.length; i++) {
-      uiLanguages[i] = "<b>" + uiLanguages[i] + "</b>";
+      var currentLanguageName = uiLanguages[i];
+      if (this.languageMapper.mappingExists(currentLanguageName)) {
+        currentLanguageName = this.languageMapper.getLanguageName(currentLanguageName);
+      }
+      uiLanguages[i] = "<b>" + currentLanguageName + "</b>";
     }
 
     var uiRepositories = this.getSelectedReposForUi();
@@ -493,7 +518,6 @@ class TranslationWizard {
       }
 
       currentLangModules = currentLangModules.sort(this.sortBy('description'));
-
       await this.listLanguageModules(currentUiLanguage, currentLangModules, renderHeader);
     }
 
@@ -658,7 +682,7 @@ class TranslationWizard {
     for (var i = 0; i < allRepoModules.length; i++) {
       var module = allRepoModules[i];
 
-      if (ISO6391.validate(module.language)) {
+      if (this.languageMapper.mappingExists(module.language)) {
         count += 1;
       }
     }

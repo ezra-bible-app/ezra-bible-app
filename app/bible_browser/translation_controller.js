@@ -17,12 +17,12 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const NodeSwordInterface = require('node-sword-interface');
-const ISO6391 = require('iso-639-1');
 
 class TranslationController {
   constructor() {
     this.bibleTranslationCount = 0;
     this.nodeSwordInterface = new NodeSwordInterface();
+    this.languageMapper = new LanguageMapper();
   }
 
   init(onBibleTranslationChanged) {
@@ -88,7 +88,7 @@ class TranslationController {
     for (var i = 0; i < languages.length; i++) {
       var currentLang = languages[i];
 
-      var newOptGroup = "<optgroup class='bible-select-" + currentLang + "-translations' label='" + currentLang + "'></optgroup>";
+      var newOptGroup = "<optgroup class='bible-select-" + currentLang.languageCode + "-translations' label='" + currentLang.languageName + "'></optgroup>";
       bibleSelect.append(newOptGroup);
     }
   }
@@ -125,7 +125,7 @@ class TranslationController {
       }
 
       var current_translation_html = "<option value='" + translation.id + "'" + selected + ">" + translation.name + "</option>"
-      var optGroup = bibleSelect.find('.bible-select-' + translation.language + '-translations');
+      var optGroup = bibleSelect.find('.bible-select-' + translation.languageCode + '-translations');
       optGroup.append(current_translation_html);
     }
   }
@@ -176,7 +176,7 @@ class TranslationController {
       bibleTranslationInfo += "<table>";
       bibleTranslationInfo += "<tr><td style='width: 9em;'>Name:</td><td>" + bibleTranslationModule.name + "</td></tr>";
       bibleTranslationInfo += "<tr><td>Version:</td><td>" + bibleTranslationModule.version + "</td></tr>";
-      bibleTranslationInfo += "<tr><td>Language:</td><td>" + ISO6391.getName(bibleTranslationModule.language) + "</td></tr>";
+      bibleTranslationInfo += "<tr><td>Language:</td><td>" + this.languageMapper.getLanguageName(bibleTranslationModule.language) + "</td></tr>";
       bibleTranslationInfo += "<tr><td>Strong's:</td><td>" + (bibleTranslationModule.hasStrongs ? "Yes" : "No") + "</td></tr>";
       bibleTranslationInfo += "<tr><td>Headings:</td><td>" + (bibleTranslationModule.hasHeadings ? "Yes" : "No") + "</td></tr>";
       bibleTranslationInfo += "<tr><td>Footnotes:</td><td>" + (bibleTranslationModule.hasFootnotes ? "Yes" : "No") + "</td></tr>";

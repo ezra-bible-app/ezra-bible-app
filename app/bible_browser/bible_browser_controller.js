@@ -25,6 +25,7 @@ const NavigationPane = require('./app/bible_browser/navigation_pane.js');
 const TextLoader = require('./app/bible_browser/text_loader.js');
 const TaggedVerseExport = require('./app/bible_browser/tagged_verse_export.js');
 const BibleBrowserCommunicationController = require('./app/bible_browser/bible_browser_communication_controller.js');
+const LanguageMapper = require('./app/bible_browser/language_mapper.js');
 
 function sleep(time)
 {
