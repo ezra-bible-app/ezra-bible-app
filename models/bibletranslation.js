@@ -17,13 +17,13 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const NodeSwordInterface = require('node-sword-interface');
-const ISO6391 = require('iso-639-1');
 
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var BibleTranslation = sequelize.define('BibleTranslation', {
     name: DataTypes.STRING,
-    language: DataTypes.STRING,
+    languageCode: DataTypes.STRING,
+    languageName: DataTypes.STRING,
     isFree: DataTypes.BOOLEAN,
     versification: DataTypes.ENUM('ENGLISH', 'HEBREW')
   }, {
@@ -35,13 +35,16 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   BibleTranslation.getLanguages = async function() {
-    var query = "SELECT * FROM BibleTranslations ORDER BY language ASC";
+    var query = "SELECT * FROM BibleTranslations ORDER BY languageName ASC";
     var translations = await sequelize.query(query, { model: models.BibleTranslation });
     var languages = [];
 
     for (var i = 0; i < translations.length; i++) {
-      if (!languages.includes(translations[i].language)) {
-        languages.push(translations[i].language);
+      if (!languages.includes(translations[i].languageName)) {
+        languages.push({
+          'languageName': translations[i].languageName,
+          'languageCode': translations[i].languageCode
+        });
       }
     }
 
@@ -49,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   BibleTranslation.getTranslations = async function() {
-    var query = "SELECT id FROM BibleTranslations ORDER BY language ASC";
+    var query = "SELECT id FROM BibleTranslations ORDER BY languageName ASC";
     var translationRecords = await sequelize.query(query, { model: models.BibleTranslation });
     var translations = [];
 
@@ -105,10 +108,14 @@ module.exports = (sequelize, DataTypes) => {
 
     var module = nodeSwordInterface.getLocalModule(translationCode);
 
+    var languageMapper = new LanguageMapper();
+    var languageName = languageMapper.getLanguageName(module.language);
+
     var translation = await models.BibleTranslation.create({
       id: translationCode,
       name: module.description,
-      language: ISO6391.getName(module.language),
+      languageCode: module.language,
+      languageName: languageName,
       isFree: 1,
       versification: "ENGLISH"
     });
