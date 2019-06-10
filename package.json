@@ -31,6 +31,7 @@
     "officegen": "^0.5.2",
     "pug": "^2.0.3",
     "sequelize": "^4.42.0",
+    "sequelize-cli": "^5.4.0",
     "sqlite3": "^4.0.6"
   },
   "devDependencies": {
