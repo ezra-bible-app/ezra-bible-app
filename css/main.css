@@ -526,6 +526,10 @@ h2 {
   text-align: center;
 }
 
+#translation-settings-wizard-add, #translation-settings-wizard-add .content {
+  min-height: 600px
+}
+
 #translation-settings-wizard .label {
   margin-left: 0.5em;
   cursor: default;

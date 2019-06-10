@@ -73,7 +73,7 @@ class TranslationWizard {
   }
 
   openWizard() {
-    var wizardWidth = 850;
+    var wizardWidth = 1000;
     var appContainerWidth = $(window).width() - 10;
     var offsetLeft = appContainerWidth - wizardWidth - 100;
     var offsetTop = 20;
@@ -153,7 +153,7 @@ class TranslationWizard {
     for (var i = 0; i < languages.length; i++) {
       var currentLang = languages[i];
 
-      var newLanguageBox = "<div><h2>" + currentLang + "</h2><div id='remove-translation-wizard-" + currentLang + "-translations'></div></div>";
+      var newLanguageBox = "<div><h2>" + currentLang.languageName + "</h2><div id='remove-translation-wizard-" + currentLang.languageCode + "-translations'></div></div>";
       wizardPage.append(newLanguageBox);
     }
 
@@ -162,7 +162,7 @@ class TranslationWizard {
         var current_translation_html = "<p><input type='checkbox'><span class='label' id='" + translation.id + "'>";
         current_translation_html += translation.name + " [" + translation.id + "]</span></p>";
 
-        var languageBox = $('#remove-translation-wizard-' + translation.language + '-translations');
+        var languageBox = $('#remove-translation-wizard-' + translation.languageCode + '-translations');
         languageBox.append(current_translation_html);
       }
 
@@ -394,22 +394,30 @@ class TranslationWizard {
       var repoLanguages = this._nodeSwordInterface.getRepoLanguages(currentRepo);
 
       for (var j = 0; j < repoLanguages.length; j++) {
-        if (this.languageMapper.mappingExists(repoLanguages[j])) {
-          var currentLanguageCode = repoLanguages[j];
+        var currentLanguageCode = repoLanguages[j];
+
+        if (this.languageMapper.mappingExists(currentLanguageCode)) {
           if (!knownLanguages.includes(currentLanguageCode)) {
-            knownLanguages.push(currentLanguageCode);
+            var currentLanguageName = this.languageMapper.getLanguageName(currentLanguageCode);
+            knownLanguages.push({
+              "languageCode": currentLanguageCode,
+              "languageName": currentLanguageName
+            });
           }
         } else {
-          console.log("Unknown lang: " + repoLanguages[j]);
-          if (!unknownLanguages.includes(repoLanguages[j])) {
-            unknownLanguages.push(repoLanguages[j]);
+          console.log("Unknown lang: " + currentLanguageCode);
+          if (!unknownLanguages.includes(currentLanguageCode)) {
+            unknownLanguages.push({
+              "languageCode": currentLanguageCode,
+              "languageName": currentLanguageCode
+            });
           }
         }
       }
     }
 
-    knownLanguages.sort();
-    unknownLanguages.sort();
+    knownLanguages = knownLanguages.sort(this.sortBy('languageName'));
+    unknownLanguages = unknownLanguages.sort(this.sortBy('languageCode'));
 
     return [ knownLanguages, unknownLanguages ];
   }
@@ -446,19 +454,17 @@ class TranslationWizard {
     var wizardPage = $('#translation-settings-wizard-add-p-1');
 
     for (var i = 0; i < languageArray.length; i++) {
+      var currentLanguage = languageArray[i];
+      var currentLanguageCode = currentLanguage.languageCode;
+      var currentLanguageName = currentLanguage.languageName;
+
       var checkboxChecked = "";
-      if (this.hasLanguageBeenSelectedBefore(languageArray[i])) {
+      if (this.hasLanguageBeenSelectedBefore(currentLanguageCode)) {
         checkboxChecked = " checked";
       }
 
-      var currentLanguageCode = languageArray[i];
-      var currentLanguageName = currentLanguageCode;
-      if (this.languageMapper.mappingExists(currentLanguageCode)) {
-        currentLanguageName = this.languageMapper.getLanguageName(currentLanguageCode);
-      }
-
       var currentLanguageTranslationCount = this.getLanguageTranslationCount(currentLanguageCode);
-      var currentLanguage = "<p style='float: left; width: 14em;'><input type='checkbox'" + checkboxChecked + "><span class='label' id='" + currentLanguageCode + "'>";
+      var currentLanguage = "<p style='float: left; width: 17em;'><input type='checkbox'" + checkboxChecked + "><span class='label' id='" + currentLanguageCode + "'>";
       currentLanguage += currentLanguageName + ' (' + currentLanguageTranslationCount + ')';
       currentLanguage += "</span></p>";
 
