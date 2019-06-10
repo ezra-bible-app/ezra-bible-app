@@ -9,9 +9,8 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return Promise.all([
-      queryInterface.removeColumn('BibleTranslations', 'languageCode'),
-      queryInterface.renameColumn('BibleTranslations', 'languageName', 'language'),
-    ]);
+    return queryInterface.removeColumn('BibleTranslations', 'languageCode').then(() => {
+      return queryInterface.renameColumn('BibleTranslations', 'languageName', 'language');
+    });
   }
 };

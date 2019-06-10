@@ -1,0 +1,87 @@
+/* This file is part of Ezra Project.
+
+   Copyright (C) 2019 Tobias Klein <contact@ezra-project.net>
+
+   Ezra Project is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   Ezra Project is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Ezra Project. See the file COPYING.
+   If not, see <http://www.gnu.org/licenses/>. */
+
+const fs = require('fs-extra');
+const {exec} = require('child_process');
+const path = require('path');
+const settings = require('electron-settings');
+
+class DbHelper {
+  constructor(userDataDir) {
+    if (userDataDir === undefined) {
+      console.log('Cannot initialize DbHelper with userDataDir "undefined"');
+    }
+
+    this.userDataDir = userDataDir;
+  }
+
+  initDbInUserDir() {
+    var dbPath = path.join(this.userDataDir, 'ezra.sqlite');
+  
+    if (!fs.existsSync(dbPath)) {
+      console.log('Database not yet existing in user directory! Setting up empty database from template.');
+  
+      var templatePath = path.join(__dirname, 'ezra.sqlite');
+      fs.copySync(templatePath, dbPath);
+    }
+  }
+
+  getDatabaseDir() {
+    var databaseDir = this.userDataDir;
+    
+    if (settings.has('custom_database_dir') &&
+      settings.get('custom_database_dir') != null) {
+
+      databaseDir = settings.get('custom_database_dir');
+      console.log('Using custom database dir ' + databaseDir + ' for database access!');
+    } else {
+      console.log('Using default database dir ' + databaseDir + ' for database access!');
+    }
+
+    return databaseDir;
+  }
+
+  async migrateDatabase() {
+    var dbDir = this.getDatabaseDir();
+    var dbPath = path.join(dbDir, 'ezra.sqlite');
+    var migrationCmd = 'sequelize db:migrate --url sqlite://' + dbPath;
+
+    console.log('Executing ' + migrationCmd);
+
+    await new Promise((resolve, reject) => {
+      const migrate = exec(
+        migrationCmd,
+        {env: process.env},
+        (err, stdout, stderr) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve();
+          }
+        }
+      );
+
+      // Forward stdout+stderr to this process
+      migrate.stdout.pipe(process.stdout);
+      migrate.stderr.pipe(process.stderr);
+    });
+  }
+}
+
+module.exports = DbHelper;
+
