@@ -20,6 +20,8 @@ const fs = require('fs-extra');
 const {exec} = require('child_process');
 const path = require('path');
 const settings = require('electron-settings');
+const Sequelize = require('sequelize');
+const Umzug = require("umzug");
 
 class DbHelper {
   constructor(userDataDir) {
@@ -56,29 +58,48 @@ class DbHelper {
     return databaseDir;
   }
 
-  async migrateDatabase() {
+  getDbFilePath() {
     var dbDir = this.getDatabaseDir();
     var dbPath = path.join(dbDir, 'ezra.sqlite');
-    var migrationCmd = 'sequelize db:migrate --url sqlite://' + dbPath;
+    return dbPath;
+  }
 
-    console.log('Executing ' + migrationCmd);
+  getSequelize() {
+    var config = {
+      "username": null,
+      "password": null,
+      "database": "ezra-project-ng",
+      "host": null,
+      "dialect": "sqlite",
+      "storage": this.getDbFilePath(),
+      "logging": false
+    };
+  
+    var sequelize = new Sequelize(config.database, config.username, config.password, config);
+    return sequelize;
+  }
 
-    await new Promise((resolve, reject) => {
-      const migrate = exec(
-        migrationCmd,
-        {env: process.env},
-        (err, stdout, stderr) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve();
-          }
-        }
-      );
+  async migrateDatabase() {
+    var sequelize = this.getSequelize();
 
-      // Forward stdout+stderr to this process
-      migrate.stdout.pipe(process.stdout);
-      migrate.stderr.pipe(process.stderr);
+    var umzug = new Umzug({
+      storage: 'sequelize',
+      storageOptions: {
+        sequelize: sequelize
+      },
+      migrations: {
+        params: [ sequelize.getQueryInterface(), Sequelize ],
+        // The path to the migrations directory.
+        path: process.cwd() + "/migrations"
+      }
+    });
+
+    umzug.up().then(function (migrations) {
+      if (migrations.length > 0) console.log("Executed the following migrations:");
+
+      for (var i = 0; i < migrations.length; i++) {
+        console.log(migrations[i].file);
+      }
     });
   }
 }
