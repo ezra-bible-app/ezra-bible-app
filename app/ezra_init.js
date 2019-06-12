@@ -422,7 +422,7 @@ async function initApplication()
 
   applicationLoaded = true;
   loadingIndicator.hide();
-  $('#main-content').fadeIn(500);
+  $('#main-content').show();
 }
 
 function unbind_events()
