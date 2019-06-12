@@ -19,7 +19,7 @@ module.exports = {
         var query = "UPDATE BibleTranslations SET languageCode='" + newLanguageCode + "' WHERE id='" + currentRecord.id + "'";
         var updateAction = queryInterface.sequelize.query(query);
 
-        console.log(query);
+        //console.log(query);
         updates.push(updateAction);
       }
 
