@@ -340,7 +340,6 @@ class TranslationWizard {
 
           var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
           if (currentBibleTranslationId == translationCode) {
-            settings.delete('bible_translation');
             models.BibleTranslation.findAndCountAll().then(result => {
               if (result.rows.length > 0) {
                 bible_browser_controller.tab_controller.setCurrentBibleTranslationId(result.rows[0].id);
@@ -349,8 +348,10 @@ class TranslationWizard {
               } else { // Re-init application to state without Bible translations
                 bible_browser_controller.tab_controller.removeAllExtraTabs();
                 bible_browser_controller.tab_controller.setCurrentBibleTranslationId(null);
+                bible_browser_controller.tab_controller.setCurrentTagIdList("");
+                bible_browser_controller.tab_controller.setCurrentTabBook(null, "");
                 bible_browser_controller.tab_controller.resetCurrentTabTitle();
-                bible_browser_controller.tab_controller.saveTabConfiguration();
+                bible_browser_controller.tab_controller.deleteTabConfiguration();
 
                 bible_browser_controller.resetVerseListView();
 

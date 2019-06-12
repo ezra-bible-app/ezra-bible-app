@@ -79,6 +79,13 @@ class TabController {
       this.settings.set('tabConfiguration', this.metaTabs);
     }
   }
+
+  deleteTabConfiguration() {
+    if (this.persistanceEnabled) {
+      //console.log('Saving tab configuration');
+      this.settings.delete('tabConfiguration');
+    }  
+  }
   
   async loadTabConfiguration() {
     if (this.settings.has('tabConfiguration')) {
@@ -343,7 +350,7 @@ class TabController {
   }
 
   setCurrentBibleTranslationId(bibleTranslationId) {
-    console.log("Setting current bible translation id: " + bibleTranslationId);
+    //console.log("Setting current bible translation id: " + bibleTranslationId);
     var currentTabIndex = this.getSelectedTabIndex();
     this.metaTabs[currentTabIndex].bibleTranslationId = bibleTranslationId;
     this.defaultBibleTranslationId = bibleTranslationId;
