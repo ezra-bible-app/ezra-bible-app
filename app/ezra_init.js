@@ -18,11 +18,9 @@
 
 const app = require('electron').remote.app;
 const settings = require('electron-settings');
+const DbHelper = require('./app/db_helper.js');
 
-var DbHelper = require('./app/db_helper.js');
-var userDataDir = app.getPath('userData');
-var databaseDir = new DbHelper(userDataDir).getDatabaseDir();
-var models = require('./models')(databaseDir);
+var models = null;
 
 current_section_start_toolbox = null;
 current_section_end_toolbox = null;
@@ -308,7 +306,6 @@ function initUi()
     require("electron").shell.openExternal(link);
   });
 
-  $('#main-content').fadeIn(500);
   resize_app_container();
 
   $(window).bind("resize", handle_window_resize);
@@ -387,13 +384,25 @@ function bind_click_to_checkbox_labels()
   }).addClass('events-configured');
 }
 
-async function initControllerAndUi()
+async function initApplication()
 {
-  console.log("Initializing controllers ...");
-  bible_browser_controller = new BibleBrowserController;
-  await bible_browser_controller.init(settings);
+  var loadingIndicator = $('#startup-loading-indicator');
+  loadingIndicator.find('.loader').show();
 
-  tags_controller = new TagsController;
+  var userDataDir = app.getPath('userData');
+  var dbHelper = new DbHelper(userDataDir);
+
+  console.log("Initializing database ...");
+  await dbHelper.initDatabase();
+
+  console.log("Initializing models ...");
+  models = require('./models')(dbHelper.getDatabaseDir());
+
+  console.log("Initializing controllers ...");
+  bible_browser_controller = new BibleBrowserController();
+  await bible_browser_controller.init();
+
+  tags_controller = new TagsController();
   tags_controller.init();
 
   // Disabled notes controller
@@ -404,6 +413,9 @@ async function initControllerAndUi()
 
   console.log("Loading settings ...");
   bible_browser_controller.loadSettings();
+
+  loadingIndicator.hide();
+  $('#main-content').fadeIn(1500);
 }
 
 function unbind_events()
@@ -413,6 +425,6 @@ function unbind_events()
 }
 
 $(document).ready(function() {
-  initControllerAndUi();
+  initApplication();
 });
 

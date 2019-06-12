@@ -64,11 +64,11 @@ function BibleBrowserController() {
     return -1;
   };
 
-  this.init = async function(settings) {
+  this.init = async function() {
     this.verse_list_menu_template = $($('.verse-list-menu')[0]).html();
     this.verse_list_composite_template = $($('.verse-list-composite')[0]).html();
 
-    this.settings = settings;
+    this.settings = require('electron-settings');
 
     this.tag_selection_menu = new TagSelectionMenu();
 
