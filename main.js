@@ -42,7 +42,10 @@ function createWindow () {
                                   height: 768,
                                   show: false,
                                   frame: true,
-                                  title: "Ezra Project " + app.getVersion()});
+                                  title: "Ezra Project " + app.getVersion(),
+                                  webPreferences: {
+                                    nodeIntegration: true
+                                  }});
 
   mainWindow.setMenuBarVisibility(false);
 
