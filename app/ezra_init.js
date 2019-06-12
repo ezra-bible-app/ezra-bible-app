@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const app = require('electron').remote.app;
-const settings = require('electron-settings');
 const DbHelper = require('./app/db_helper.js');
 
 var models = null;
@@ -386,8 +385,15 @@ function bind_click_to_checkbox_labels()
 
 async function initApplication()
 {
+  var applicationLoaded = false;
   var loadingIndicator = $('#startup-loading-indicator');
-  loadingIndicator.find('.loader').show();
+
+  setTimeout(() => {
+    if (!applicationLoaded) {
+      loadingIndicator.show();
+      loadingIndicator.find('.loader').show();
+    }
+  }, 500);
 
   var userDataDir = app.getPath('userData');
   var dbHelper = new DbHelper(userDataDir);
@@ -414,8 +420,9 @@ async function initApplication()
   console.log("Loading settings ...");
   bible_browser_controller.loadSettings();
 
+  applicationLoaded = true;
   loadingIndicator.hide();
-  $('#main-content').fadeIn(1500);
+  $('#main-content').fadeIn(500);
 }
 
 function unbind_events()

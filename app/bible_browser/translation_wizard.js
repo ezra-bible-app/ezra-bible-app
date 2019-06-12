@@ -350,13 +350,17 @@ class TranslationWizard {
                 bible_browser_controller.tab_controller.removeAllExtraTabs();
                 bible_browser_controller.tab_controller.setCurrentBibleTranslationId(null);
                 bible_browser_controller.tab_controller.resetCurrentTabTitle();
+                bible_browser_controller.tab_controller.saveTabConfiguration();
+
                 bible_browser_controller.resetVerseListView();
+
                 var currentVerseListLoadingIndicator = bible_browser_controller.getCurrentVerseListLoadingIndicator();
                 currentVerseListLoadingIndicator.hide();
+
                 var currentVerseList = bible_browser_controller.getCurrentVerseList();
                 currentVerseList.append("<div class='help-text'>To start using Ezra Project, select a book or a tag from the menu above.</div>");
                 bible_browser_controller.translation_controller.disableCurrentTranslationInfoButton();
-                bible_browser_controller.current_book = null;
+                
                 $('.book-select-value').text("Select book");
               }
 
