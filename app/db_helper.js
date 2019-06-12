@@ -32,13 +32,18 @@ class DbHelper {
     this.userDataDir = userDataDir;
   }
 
+  async initDatabase() {
+    this.initDbInUserDir();
+    await this.migrateDatabase();
+  }
+
   initDbInUserDir() {
     var dbPath = path.join(this.userDataDir, 'ezra.sqlite');
   
     if (!fs.existsSync(dbPath)) {
       console.log('Database not yet existing in user directory! Setting up empty database from template.');
   
-      var templatePath = path.join(__dirname, 'ezra.sqlite');
+      var templatePath = path.join(__dirname, '../ezra.sqlite');
       fs.copySync(templatePath, dbPath);
     }
   }
@@ -94,13 +99,12 @@ class DbHelper {
       }
     });
 
-    umzug.up().then(function (migrations) {
-      if (migrations.length > 0) console.log("Executed the following migrations:");
+    var migrations = await umzug.up();
 
-      for (var i = 0; i < migrations.length; i++) {
-        console.log(migrations[i].file);
-      }
-    });
+    if (migrations.length > 0) console.log("Executed the following migrations:");
+    for (var i = 0; i < migrations.length; i++) {
+      console.log(migrations[i].file);
+    }
   }
 }
 

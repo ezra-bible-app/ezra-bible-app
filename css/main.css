@@ -648,6 +648,16 @@ h2 {
   margin-right: auto;
 }
 
+#startup-loading-indicator {
+  font-size: 130%;
+  position: absolute;
+  height: 200px;
+  width: 400px;
+  margin: -100px 0 0 -100px;
+  top: 50%;
+  left: 50%;
+}
+
 .switch-box {
   clear: both;
   height: 2em;
