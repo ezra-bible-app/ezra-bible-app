@@ -4,12 +4,12 @@ FROM ubuntu:18.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update
-RUN apt-get install -y dialog apt-utils
-RUN apt-get install -y build-essential libsword-dev libsqlite3-0 libcurl4-gnutls-dev pkg-config
-RUN apt-get install -y git vim sudo
+RUN sed -i -e 's/:\/\/(archive.ubuntu.com\|security.ubuntu.com)/old-releases.ubuntu.com/g' /etc/apt/sources.list
 
-RUN apt-get install -y curl python3-software-properties
+RUN apt-get update
+RUN apt-get install -y dialog apt-utils build-essential libsword-dev libsqlite3-0 libcurl4-gnutls-dev libicu-dev \
+                       pkg-config icu-devtools subversion git vim sudo curl python3-software-properties cmake
+
 RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 RUN apt-get update
 RUN apt-get install -y nodejs
