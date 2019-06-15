@@ -2,6 +2,8 @@
 
 FROM ubuntu:19.04
 
+ARG HOST_USER
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get -y update
@@ -20,3 +22,4 @@ RUN apt-get install -y nodejs
 RUN npm install -g electron-packager
 RUN npm install -g electron-installer-debian
 
+RUN useradd -ms /bin/bash $HOST_USER
