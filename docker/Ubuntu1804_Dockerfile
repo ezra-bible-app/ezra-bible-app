@@ -2,6 +2,8 @@
 
 FROM ubuntu:18.04
 
+ARG HOST_USER
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN sed -i -e 's/:\/\/(archive.ubuntu.com\|security.ubuntu.com)/old-releases.ubuntu.com/g' /etc/apt/sources.list
@@ -17,3 +19,4 @@ RUN apt-get install -y nodejs
 RUN npm install -g electron-packager
 RUN npm install -g electron-installer-debian
 
+RUN useradd -ms /bin/bash $HOST_USER
