@@ -86,6 +86,7 @@ class DbHelper {
 
   async migrateDatabase() {
     var sequelize = this.getSequelize();
+    var migrationsDir = path.resolve(__dirname, '../migrations')
 
     var umzug = new Umzug({
       storage: 'sequelize',
@@ -95,7 +96,7 @@ class DbHelper {
       migrations: {
         params: [ sequelize.getQueryInterface(), Sequelize ],
         // The path to the migrations directory.
-        path: process.cwd() + "/migrations"
+        path: migrationsDir
       }
     });
 
