@@ -1,0 +1,18 @@
+# Dockerfile for Fedora Build Enviroment for Ezra Project
+
+FROM opensuse:42.3
+
+ARG HOST_USER
+
+RUN zypper update -y
+
+RUN zypper install -y sudo
+
+RUN zypper install -y gcc-c++ make nodejs vim git
+RUN zypper install -y sword-devel sqlite3-devel libicu-devel subversion cmake
+RUN zypper install -y npm
+
+RUN npm install -g electron-installer-redhat
+RUN zypper install -y rpm-build
+
+RUN useradd -ms /bin/bash $HOST_USER
