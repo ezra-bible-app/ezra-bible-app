@@ -335,6 +335,14 @@ h2 {
   cursor: auto;
 }
 
+.bible-sync-dialog .ui-dialog-titlebar-close {
+  display: none;
+}
+
+.ui-dialog #bible-sync-box {
+  font-size: 0.9em;
+}
+
 .odd-row {
   background-color: #EEEEEE;
 }
@@ -682,7 +690,7 @@ h2 {
 #add-tab-button {
   margin-top: 0.5em;
   margin-left: 1em;
-  font-size: 130%;
+  font-size: 1.2em;
   float: left;
 }
 

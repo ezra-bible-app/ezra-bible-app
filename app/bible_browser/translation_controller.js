@@ -25,6 +25,15 @@ class TranslationController {
     this.languageMapper = new LanguageMapper();
   }
 
+
+  sleep(time) {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve();
+      }, time);
+    });
+  }
+
   init(onBibleTranslationChanged) {
     this.onBibleTranslationChanged = onBibleTranslationChanged;
     this.initBibleTranslationInfoButton();
@@ -134,13 +143,14 @@ class TranslationController {
     if (tabIndex === undefined) {
       var tabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
     }
-    //console.log("initTranslationsMenu " + tabIndex);
+    console.log("initTranslationsMenu " + tabIndex);
 
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     var bibleSelect = currentVerseListMenu.find('select.bible-select');
     bibleSelect.empty();
 
     var result = await models.BibleTranslation.findAndCountAll();
+    console.log("Adding " + result.rows.length + " translations to menu");
 
     await this.addLanguageGroupsToBibleSelectMenu(tabIndex);
     this.updateUiBasedOnNumberOfTranslations(tabIndex, result.count);
@@ -212,6 +222,54 @@ class TranslationController {
     this.updateAvailableBooks();
     this.initChapterVerseCounts();
     this.onBibleTranslationChanged();
+  }
+
+  async getLocalModulesNotYetAvailableInDb() {
+    var localSwordModules = this.nodeSwordInterface.getAllLocalModules();
+    var dbModules = await models.BibleTranslation.findAndCountAll();
+    var modulesNotInDb = [];
+
+    for (var i = 0; i < localSwordModules.length; i++) {
+      var localSwordModuleName = localSwordModules[i].name;
+      var localModuleFound = false;
+
+      for (var dbTranslation of dbModules.rows) {
+        if (localSwordModuleName == dbTranslation.id) {
+          localModuleFound = true;
+          break;
+        }
+      }
+
+      if (!localModuleFound) {
+        modulesNotInDb.push(localSwordModuleName);
+        //console.log("The local module " + localSwordModuleName + " is not in the DB yet!");
+      }
+    }
+
+    return modulesNotInDb;
+  }
+
+  async syncSwordModules(htmlElementForMessages) {
+    var modulesNotInDb = await this.getLocalModulesNotYetAvailableInDb();
+
+    var initialMessage = "<p style='margin-bottom: 2em'>Synchronizing " + modulesNotInDb.length + " locally available Sword modules with Ezra Project database!</p>";
+    htmlElementForMessages.append(initialMessage);
+
+    for (var i = 0; i < modulesNotInDb.length; i++) {
+      var moduleDescription = this.nodeSwordInterface.getModuleDescription(modulesNotInDb[i]);
+      
+      var message = "<span>Synchronizing <i>" + moduleDescription + "</i> with database ...</span>";
+      htmlElementForMessages.append(message);
+      htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
+
+      await this.sleep(200);
+      await models.BibleTranslation.importSwordTranslation(modulesNotInDb[i]);
+      var doneMessage = "<span> done.</span><br/>";
+      htmlElementForMessages.append(doneMessage);
+      if (i < modulesNotInDb.length) await this.sleep(1000);
+    }
+
+    await this.sleep(2000);
   }
 
   getCurrentBibleTranslationLoadingIndicator() {
