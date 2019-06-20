@@ -270,7 +270,6 @@ class TranslationWizard {
         
         await this._nodeSwordInterface.installModule(translationCode);
         await models.BibleTranslation.importSwordTranslation(translationCode);
-        await models.BibleTranslation.updateVersification(translationCode);
 
         var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
         if (currentBibleTranslationId == "" || 

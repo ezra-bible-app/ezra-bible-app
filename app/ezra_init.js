@@ -417,12 +417,15 @@ async function initApplication()
   console.log("Initializing UI ...");
   initUi();
 
+  $('#main-content').show();
+
+  await bible_browser_controller.sync_sword_modules();
+
   console.log("Loading settings ...");
   bible_browser_controller.loadSettings();
 
   applicationLoaded = true;
   loadingIndicator.hide();
-  $('#main-content').show();
 }
 
 function unbind_events()

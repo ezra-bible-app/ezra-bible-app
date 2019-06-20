@@ -27,15 +27,6 @@ const TaggedVerseExport = require('./app/bible_browser/tagged_verse_export.js');
 const BibleBrowserCommunicationController = require('./app/bible_browser/bible_browser_communication_controller.js');
 const LanguageMapper = require('./app/bible_browser/language_mapper.js');
 
-function sleep(time)
-{
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, time);
-  });
-}
-
 function BibleBrowserController() {
   this.book_menu_is_opened = false;
   this.display_menu_is_opened = false;
@@ -113,6 +104,7 @@ function BibleBrowserController() {
     //this.init_display_options_menu();
     this.init_tag_reference_box();
     this.init_bible_translation_info_box();
+    this.init_bible_sync_box();
   };
 
   this.onSearchResultsAvailable = function(occurances) {
@@ -270,6 +262,16 @@ function BibleBrowserController() {
       dialogClass: 'ezra-dialog'
     });
   };
+
+  this.init_bible_sync_box = function() {
+    $('#bible-sync-box').dialog({
+      width: 600,
+      height: 300,
+      autoOpen: false,
+      title: "Synchronizing Sword modules",
+      dialogClass: 'bible-sync-dialog'
+    });
+  }
 
   this.getCurrentVerseListTabs = function(tabIndex=undefined) {
     var selectedTabId = bible_browser_controller.tab_controller.getSelectedTabId(tabIndex);
@@ -736,6 +738,23 @@ function BibleBrowserController() {
       width: 350,
       title: currentBookName + ' - tag statistics'
     });
+  };
+
+  this.sync_sword_modules = async function() {
+    var modulesNotInDb = await bible_browser_controller.translation_controller.getLocalModulesNotYetAvailableInDb();
+
+    if (modulesNotInDb.length > 0) {
+      var currentVerseList = bible_browser_controller.getCurrentVerseList();
+      var verse_list_position = currentVerseList.offset();
+
+      $('#bible-sync-box').dialog({
+        position: [verse_list_position.left + 50, verse_list_position.top + 10]
+      });
+
+      $('#bible-sync-box').dialog("open");
+      await bible_browser_controller.translation_controller.syncSwordModules($('#bible-sync-box'));
+      $('#bible-sync-box').dialog("close");
+    }
   };
 
   this.open_translation_settings_wizard = function() {

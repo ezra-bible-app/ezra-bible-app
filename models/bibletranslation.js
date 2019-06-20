@@ -38,13 +38,15 @@ module.exports = (sequelize, DataTypes) => {
     var query = "SELECT * FROM BibleTranslations ORDER BY languageName ASC";
     var translations = await sequelize.query(query, { model: models.BibleTranslation });
     var languages = [];
+    var languageCodes = [];
 
     for (var i = 0; i < translations.length; i++) {
-      if (!languages.includes(translations[i].languageName)) {
+      if (!languageCodes.includes(translations[i].languageCode)) {
         languages.push({
           'languageName': translations[i].languageName,
           'languageCode': translations[i].languageCode
         });
+        languageCodes.push(translations[i].languageCode);
       }
     }
 
@@ -121,6 +123,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     await models.Verse.bulkCreate(importVerses);
+    await models.BibleTranslation.updateVersification(translationCode);
   };
 
   BibleTranslation.removeFromDb = async function(translationCode) {
