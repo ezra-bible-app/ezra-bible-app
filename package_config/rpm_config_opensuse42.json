@@ -1,6 +1,7 @@
 {
   "dest": "release/packages/",
   "categories": [
+    "Education",
     "Utility",
     "Spirituality"
   ],
