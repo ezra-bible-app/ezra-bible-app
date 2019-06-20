@@ -143,14 +143,14 @@ class TranslationController {
     if (tabIndex === undefined) {
       var tabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
     }
-    console.log("initTranslationsMenu " + tabIndex);
+    //console.log("initTranslationsMenu " + tabIndex);
 
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     var bibleSelect = currentVerseListMenu.find('select.bible-select');
     bibleSelect.empty();
 
     var result = await models.BibleTranslation.findAndCountAll();
-    console.log("Adding " + result.rows.length + " translations to menu");
+    //console.log("Adding " + result.rows.length + " translations to menu");
 
     await this.addLanguageGroupsToBibleSelectMenu(tabIndex);
     this.updateUiBasedOnNumberOfTranslations(tabIndex, result.count);
