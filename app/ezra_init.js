@@ -397,12 +397,13 @@ async function initApplication()
 
   var userDataDir = app.getPath('userData');
   var dbHelper = new DbHelper(userDataDir);
+  var dbDir = dbHelper.getDatabaseDir();
 
   console.log("Initializing database ...");
-  await dbHelper.initDatabase();
+  await dbHelper.initDatabase(dbDir);
 
   console.log("Initializing models ...");
-  models = require('./models')(dbHelper.getDatabaseDir());
+  models = require('./models')(dbDir);
 
   console.log("Initializing controllers ...");
   bible_browser_controller = new BibleBrowserController();
@@ -414,7 +415,7 @@ async function initApplication()
   // Disabled notes controller
   //notes_controller = new NotesController;
 
-  console.log("Initializing UI ...");
+  console.log("Initializing user interface ...");
   initUi();
 
   $('#main-content').show();
