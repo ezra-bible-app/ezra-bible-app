@@ -1,6 +1,7 @@
 {
   "dest": "release/packages/",
   "categories": [
+    "Utility",
     "Spirituality"
   ],
   "name": "ezra-project",
