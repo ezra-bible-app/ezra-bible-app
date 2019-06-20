@@ -38,8 +38,8 @@ docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-p
 docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-centos7 centos.ezra:1.0 npm run rpm_centos7
 cp /tmp/ezra-packages/ezra-project-centos7/release/packages/ezra-project-${VERSION}.x86_64.rpm ezra-project_centos7_${VERSION}.x86_64.rpm
 
-echo ""
-echo "******** Building for OpenSuse 42 ******** "
-docker run --user $(id -u):$(id -g) -e CXX='/usr/bin/g++-4.9' -e CXXFLAGS='-std=c++0x' -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-opensuse42 opensuse.ezra:1.0 /tmp/ezra-packages/ezra-project-opensuse42/build.sh
-docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-opensuse42 opensuse.ezra:1.0 npm run rpm_opensuse42
-cp /tmp/ezra-packages/ezra-project-opensuse42/release/packages/ezra-project-${VERSION}.x86_64.rpm ezra-project_opensuse42_${VERSION}.x86_64.rpm
+#echo ""
+#echo "******** Building for OpenSuse 42 ******** "
+#docker run --user $(id -u):$(id -g) -e CXX='/usr/bin/g++-4.9' -e CXXFLAGS='-std=c++0x' -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-opensuse42 opensuse.ezra:1.0 /tmp/ezra-packages/ezra-project-opensuse42/build.sh
+#docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-opensuse42 opensuse.ezra:1.0 npm run rpm_opensuse42
+#cp /tmp/ezra-packages/ezra-project-opensuse42/release/packages/ezra-project-${VERSION}.x86_64.rpm ezra-project_opensuse42_${VERSION}.x86_64.rpm
