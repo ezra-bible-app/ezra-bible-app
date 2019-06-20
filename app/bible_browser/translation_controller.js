@@ -276,7 +276,7 @@ class TranslationController {
     htmlElementForMessages.append(completeMessage);
     htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
 
-    await this.sleep(3000);
+    await this.sleep(2000);
     htmlElementForMessages.dialog("close");
     bible_browser_controller.updateUiAfterBibleTranslationAvailable(modulesNotInDb[0]);
   }
