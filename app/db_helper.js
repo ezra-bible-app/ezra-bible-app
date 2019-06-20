@@ -32,9 +32,9 @@ class DbHelper {
     this.userDataDir = userDataDir;
   }
 
-  async initDatabase() {
+  async initDatabase(databaseDir) {
     this.initDbInUserDir();
-    await this.migrateDatabase();
+    await this.migrateDatabase(databaseDir);
   }
 
   initDbInUserDir() {
@@ -63,20 +63,19 @@ class DbHelper {
     return databaseDir;
   }
 
-  getDbFilePath() {
-    var dbDir = this.getDatabaseDir();
-    var dbPath = path.join(dbDir, 'ezra.sqlite');
+  getDbFilePath(databaseDir) {
+    var dbPath = path.join(databaseDir, 'ezra.sqlite');
     return dbPath;
   }
 
-  getSequelize() {
+  getSequelize(databaseDir) {
     var config = {
       "username": null,
       "password": null,
       "database": "ezra-project-ng",
       "host": null,
       "dialect": "sqlite",
-      "storage": this.getDbFilePath(),
+      "storage": this.getDbFilePath(databaseDir),
       "logging": false
     };
   
@@ -84,8 +83,8 @@ class DbHelper {
     return sequelize;
   }
 
-  async migrateDatabase() {
-    var sequelize = this.getSequelize();
+  async migrateDatabase(databaseDir) {
+    var sequelize = this.getSequelize(databaseDir);
     var migrationsDir = path.resolve(__dirname, '../migrations')
 
     var umzug = new Umzug({
