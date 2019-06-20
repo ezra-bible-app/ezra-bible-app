@@ -271,14 +271,7 @@ class TranslationWizard {
         await this._nodeSwordInterface.installModule(translationCode);
         await models.BibleTranslation.importSwordTranslation(translationCode);
 
-        var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
-        if (currentBibleTranslationId == "" || 
-            currentBibleTranslationId == null) { // Update UI after a Bible translation becomes available
-
-          bible_browser_controller.tab_controller.setCurrentBibleTranslationId(translationCode);
-          bible_browser_controller.translation_controller.updateAvailableBooks();
-          bible_browser_controller.translation_controller.enableCurrentTranslationInfoButton();
-        }
+        bible_browser_controller.updateUiAfterBibleTranslationAvailable(translationCode);
 
         $('#bibleTranslationInstallIndicator').hide();
         $('#bibleTranslationInstallIndicator').remove();
