@@ -746,16 +746,24 @@ function BibleBrowserController() {
     if (modulesNotInDb.length > 0) {
       var currentVerseList = bible_browser_controller.getCurrentVerseList();
       var verse_list_position = currentVerseList.offset();
-
       $('#bible-sync-box').dialog({
-        position: [verse_list_position.left + 50, verse_list_position.top + 10]
+        position: [verse_list_position.left + 50, verse_list_position.top + 30]
       });
 
-      $('#bible-sync-box').dialog("open");
       await bible_browser_controller.translation_controller.syncSwordModules($('#bible-sync-box'));
-      $('#bible-sync-box').dialog("close");
     }
   };
+
+  this.updateUiAfterBibleTranslationAvailable = function(translationCode) {
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
+    if (currentBibleTranslationId == "" || 
+        currentBibleTranslationId == null) { // Update UI after a Bible translation becomes available
+
+      bible_browser_controller.tab_controller.setCurrentBibleTranslationId(translationCode);
+      bible_browser_controller.translation_controller.updateAvailableBooks();
+      bible_browser_controller.translation_controller.enableCurrentTranslationInfoButton();
+    }
+  }
 
   this.open_translation_settings_wizard = function() {
     bible_browser_controller.translation_wizard.openWizard();

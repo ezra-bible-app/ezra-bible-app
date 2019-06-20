@@ -252,13 +252,16 @@ class TranslationController {
   async syncSwordModules(htmlElementForMessages) {
     var modulesNotInDb = await this.getLocalModulesNotYetAvailableInDb();
 
-    var initialMessage = "<p style='margin-bottom: 2em'>Synchronizing " + modulesNotInDb.length + " locally available Sword modules with Ezra Project database!</p>";
+    var initialMessage = "<p style='margin-bottom: 2em'>Synchronizing " + modulesNotInDb.length + "   Sword modules with Ezra Project database!</p>";
     htmlElementForMessages.append(initialMessage);
+
+    htmlElementForMessages.dialog("open");
+    await this.sleep(200);
 
     for (var i = 0; i < modulesNotInDb.length; i++) {
       var moduleDescription = this.nodeSwordInterface.getModuleDescription(modulesNotInDb[i]);
       
-      var message = "<span>Synchronizing <i>" + moduleDescription + "</i> with database ...</span>";
+      var message = "<span>Synchronizing <i>" + moduleDescription + "</i> ...</span>";
       htmlElementForMessages.append(message);
       htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
 
@@ -266,10 +269,16 @@ class TranslationController {
       await models.BibleTranslation.importSwordTranslation(modulesNotInDb[i]);
       var doneMessage = "<span> done.</span><br/>";
       htmlElementForMessages.append(doneMessage);
-      if (i < modulesNotInDb.length) await this.sleep(1000);
+      if (i < modulesNotInDb.length) await this.sleep(500);
     }
 
-    await this.sleep(2000);
+    var completeMessage = "<p style='margin-top: 2em;'>Synchronization completed!</p>";
+    htmlElementForMessages.append(completeMessage);
+    htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
+
+    await this.sleep(3000);
+    htmlElementForMessages.dialog("close");
+    bible_browser_controller.updateUiAfterBibleTranslationAvailable(modulesNotInDb[0]);
   }
 
   getCurrentBibleTranslationLoadingIndicator() {
