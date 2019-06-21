@@ -25,9 +25,10 @@ Ezra Project is a web-based desktop application based on [Electron](https://elec
 
 Furthermore, the following components are used (among others):
 * [Sequelize](http://docs.sequelizejs.com) [ORM](https://en.wikipedia.org/wiki/Object-relational_mapping) for handling database access
+* [Umzug](https://github.com/sequelize/umzug) Migration library for handling database schema upgrades
 * [Pug](https://pugjs.org) template engine for rendering verse list
 * [jQuery Steps](http://www.jquery-steps.com) for the bible translation wizard
-* [ISO-639-1](https://github.com/meikidd/iso-639-1) for turning bible translation language codes into readable language names
+* [ISO-639-3](https://github.com/wooorm/iso-639-3) for turning bible translation language codes into readable language names
 * [officegen](https://github.com/Ziv-Barber/officegen) for exporting tagged verse lists to Word documents
 * [SpinKit](https://github.com/tobiasahlin/SpinKit) for CSS-animated loading spinners
 
