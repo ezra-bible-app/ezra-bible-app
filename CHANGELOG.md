@@ -7,7 +7,7 @@ All notable changes to Ezra Project are documented in this file.
 
 ## [0.8.1] - 2019-06-21
 ### Added
-* Sync functionality for Sword modules that are already existing locally, on startup any modules not used by Ezra Project are imported into the database.
+* Sync functionality for Sword modules that are already existing locally: On startup any modules not yet used by Ezra Project are imported into the database.
 
 ### Changed
 * Link against static Sword library (version 1.8.1), so that dependency to package can be avoided.
