@@ -10,7 +10,11 @@ Ezra Project is a bible study tool focussing on topical study based on keywords/
 Install Ezra Project by downloading the zip file and extracting it in a directory of your choice. After that, you can execute Ezra Project using the binary *ezra-project.exe* in the toplevel folder.
 
 ### Linux
-Install Ezra Project by downloading a package for your distribution. Debian packages (Ubuntu 18.04 + 19.04) and RPM packages (Fedora 29/30 + CentOS 7) are available. After installing the package you will find "Ezra Project" in your application menu.
+Install Ezra Project by downloading a package for your distribution. After installing the package you will find "Ezra Project" in your application menu.
+
+* **Ubuntu 18.04 / 19.04:** Dowload the appropriate Debian package attached to the [latest release][latest] and install, e.g.: `sudo dpkg -i ezra-project_ubuntu1904_0.8.1_amd64.deb`.
+* **Fedora 29 / 30 & CentOS 7:** Download the appropriate RPM package package attached to the [latest release][latest] and install, e.g.: `sudo dnf localinstall ezra-project_fedora29_0.8.1_x86_64.rpm`.
+* **Arch Linux:** Use your favorite AUR package manager to install *[ezra-project](https://aur.archlinux.org/packages/ezra-project)* (or *[ezra-project-git](https://aur.archlinux.org/packages/ezra-project-git)*), e.g.: `yay -S ezra-project`.
 
 ## Usage / Howto
 
@@ -55,3 +59,5 @@ The application binary within that directory is named `ezra-project`.
 ## Feedback
 To give feedback (bug reports, feature requests) please use the Github issue system.
 Click [here](https://github.com/tobias-klein/ezra-project/issues/new) to file a new Issue for Ezra Project.
+
+[latest]: https://github.com/tobias-klein/ezra-project/releases/latest
