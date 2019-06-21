@@ -16,7 +16,7 @@ All notable changes to Ezra Project are documented in this file.
   * Loading indicator for slower systems
 
 ### Fixed
-* sword.conf file is not created anylonger. This "overwrote" the Sword module path in the previous releases.
+* sword.conf file is not created anylonger. This "overwrote" the Sword module path in the previous releases. ([#5][i5])
 * Support all languages of ISO-639-1/2/3 and with that all the modules of the Sword repositories
 
 
