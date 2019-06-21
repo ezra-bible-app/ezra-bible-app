@@ -19,6 +19,8 @@ All notable changes to Ezra Project are documented in this file.
 * sword.conf file is not created anylonger. This "overwrote" the Sword module path in the previous releases. ([#5][i5])
 * Support all languages of ISO-639-1/2/3 and with that all the modules of the Sword repositories
 
+[i5]: https://github.com/tobias-klein/ezra-project/issues/5
+
 
 ## [0.8.0] - 2019-05-30
 ### Added
