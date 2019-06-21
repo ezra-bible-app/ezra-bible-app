@@ -10,14 +10,14 @@ All notable changes to Ezra Project are documented in this file.
 * Sync functionality for Sword modules that are already existing locally: On startup any modules not yet used by Ezra Project are imported into the database.
 
 ### Changed
-* Link against static Sword library (version 1.8.1), so that dependency to package can be avoided.
+* Link with static Sword library (version 1.8.1), so that dependency to specific Sword package can be avoided.
 * Streamlined startup
   * Upgrade the database using migrations (based on Umzug library)
   * Loading indicator for slower systems
 
 ### Fixed
 * sword.conf file is not created anymore. This "overwrote" the Sword module path in the previous releases. On Windows, modules are found both in the user directory and the "all users" directory. ([#5][i5])
-* Support all languages of ISO-639-1/2/3 and with that all the modules of the Sword repositories
+* Support for all languages of ISO-639-1/2/3. This enables the usage of all the available Sword modules.
 
 [i5]: https://github.com/tobias-klein/ezra-project/issues/5
 
