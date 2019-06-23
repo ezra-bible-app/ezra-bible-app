@@ -20,6 +20,7 @@
   "author": "Tobias Klein",
   "license": "GPL-3.0",
   "dependencies": {
+    "@sentry/electron": "^0.17.1",
     "electron-debug": "^2.1.0",
     "electron-settings": "^3.2.0",
     "fast-csv": "^2.4.1",

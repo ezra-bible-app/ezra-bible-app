@@ -18,6 +18,14 @@
 
 const electron = require('electron');
 
+const { init } = require('@sentry/electron/dist/main')
+init({
+  debug: true,
+  dsn: 'https://977e321b83ec4e47b7d28ffcbdf0c6a1@sentry.io/1488321',
+  enableNative: true,
+  environment: process.env.NODE_ENV
+});
+
 require('electron-debug')({
     enabled: true,
     showDevTools: false,
@@ -44,7 +52,8 @@ function createWindow () {
                                   frame: true,
                                   title: "Ezra Project " + app.getVersion(),
                                   webPreferences: {
-                                    nodeIntegration: true
+                                    nodeIntegration: true,
+                                    preload: path.join(__dirname, 'app/sentry.js')
                                   }});
 
   mainWindow.setMenuBarVisibility(false);
