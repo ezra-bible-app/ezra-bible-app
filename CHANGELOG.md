@@ -3,6 +3,13 @@ All notable changes to Ezra Project are documented in this file.
 
 <!--
 ## [Unreleased]
+### Added
+* Automatic upload of crash information to Sentry.io in case of crashes
+
+### Fixed
+* Corrected bug with Sword paths on Windows and Unix. Now both the user path and the global path gets evaluated both on Windows and on Unix.
+* Only disable close button of first tab when it's the last one
+
 -->
 
 ## [0.8.1] - 2019-06-21
