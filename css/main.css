@@ -1004,6 +1004,7 @@ h2 {
 #tag-selection-menu {
   padding: 1em;
   width: 22em;
+  font-size: 0.9em;
 }
 
 #tag-selection-taglist-global {
