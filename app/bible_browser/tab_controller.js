@@ -86,6 +86,29 @@ class TabController {
       this.settings.delete('tabConfiguration');
     }  
   }
+
+  updateFirstTabCloseButton() {
+    if (this.metaTabs.length > 1) {
+      this.showFirstTabCloseButton();
+    } else {
+      this.hideFirstTabCloseButton();
+    }
+  }
+
+  getFirstTabCloseButton() {
+    var firstTabCloseButton = $($('#' + this.tabsElement).find('.ui-icon-close')[0]);
+    return firstTabCloseButton;
+  }
+
+  showFirstTabCloseButton() {
+    var firstTabCloseButton = this.getFirstTabCloseButton();
+    firstTabCloseButton.show();
+  }
+
+  hideFirstTabCloseButton() {
+    var firstTabCloseButton = this.getFirstTabCloseButton();
+    firstTabCloseButton.hide();
+  }
   
   async loadTabConfiguration() {
     if (this.settings.has('tabConfiguration')) {
@@ -169,7 +192,7 @@ class TabController {
       var index = this.getSelectedTabIndex();
     }
 
-    var allTabsPanels = $('#' + this.tabsElement).find('.' + this.tabsPanelClass);
+    var allTabsPanels = $("#" + this.tabsElement).find('.' + this.tabsPanelClass);
     var selectedTabsPanel = $(allTabsPanels[index]);
     var selectedTabsPanelId = selectedTabsPanel.attr('id');
     return selectedTabsPanelId;
@@ -196,6 +219,7 @@ class TabController {
     this.tabCounter++;
     this.nextTabId++;
 
+    this.updateFirstTabCloseButton();
     this.onTabAdded(this.tabCounter - 1);
   }
 
@@ -212,6 +236,8 @@ class TabController {
         break;
       }
     }
+
+    this.updateFirstTabCloseButton();
   }
 
   removeAllExtraTabs() {
