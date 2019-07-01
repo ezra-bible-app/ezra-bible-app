@@ -125,6 +125,7 @@ class TabController {
         if (i == 0) {
           currentMetaTab.elementId = this.metaTabs[0].elementId;
           this.metaTabs[0] = currentMetaTab;
+          this.updateFirstTabCloseButton();
         } else {
           this.addTab(currentMetaTab);
         }
