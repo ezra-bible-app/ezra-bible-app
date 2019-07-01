@@ -385,7 +385,7 @@ class TabController {
   }
 
   getCurrentBibleTranslationId(index=undefined) {
-    if (index === undefined) {
+    if (index === undefined || index >= this.metaTabs.length) {
       var index = this.getSelectedTabIndex();
     }
     return this.metaTabs[index].bibleTranslationId;
