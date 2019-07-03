@@ -1,6 +1,6 @@
 {
   "name": "ezra-project",
-  "version": "0.8.2-Dev2",
+  "version": "0.8.2-Dev3",
   "description": "Ezra Project is a bible study software focussing on topical study based on keywords/tags.",
   "main": "main.js",
   "scripts": {
