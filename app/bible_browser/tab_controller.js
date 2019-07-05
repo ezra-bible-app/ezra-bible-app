@@ -111,6 +111,10 @@ class TabController {
   }
   
   async loadTabConfiguration() {
+    if (this.settings.has('bible_translation')) {
+      this.defaultBibleTranslationId = this.settings.get('bible_translation');
+    }
+
     if (this.settings.has('tabConfiguration')) {
       bible_browser_controller.showVerseListLoadingIndicator();
 
