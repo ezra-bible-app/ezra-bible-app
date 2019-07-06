@@ -1,6 +1,6 @@
 {
   "name": "ezra-project",
-  "version": "0.8.2-Dev3",
+  "version": "0.8.2-Dev4",
   "description": "Ezra Project is a bible study software focussing on topical study based on keywords/tags.",
   "main": "main.js",
   "scripts": {
@@ -10,7 +10,9 @@
     "migrate-db": "sequelize db:migrate && sequelize db:seed:all",
     "package-linux": "electron-packager . ezra-project --overwrite --platform=linux --arch=x64 --prune=true --out=release --electron-version=4.2.0",
     "package-win": "electron-packager . ezra-project --overwrite --platform=win32 --arch=ia32 --prune=true --out=release --electron-version=4.2.0",
-    "package-mac": "rm -rf node_modules/node-sword-interface/sword node_modules/node-sword-interface/sword_build && electron-packager . ezra-project --overwrite --platform=darwin --arch=x64 --prune=true --out=release --electron-version=4.2.0 --app-bundle-id='net.ezra-project.electronapp' --osx-sign",
+    "package-mac": "./package_mac.sh",
+    "dmg-mac": "electron-installer-dmg release/Ezra\\ Project-darwin-x64/Ezra\\ Project.app ezra-project --out=release --overwrite",
+    "flat-mac": "electron-osx-flat release/Ezra\\ Project-darwin-x64/Ezra\\ Project.app --pkg=release/ezra-project.pkg",
     "show-mac-ids": "security find-identity -v -p codesigning",
     "deb_1804": "electron-installer-debian --src release/ezra-project-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_ubuntu1804.json",
     "deb_1904": "electron-installer-debian --src release/ezra-project-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_ubuntu1904.json",
@@ -41,6 +43,7 @@
   "devDependencies": {
     "electron": "^4.2.0",
     "electron-installer-debian": "^1.2.0",
+    "electron-installer-dmg": "^3.0.0",
     "electron-installer-redhat": "^2.0.0",
     "electron-osx-sign": "^0.4.11",
     "electron-packager": "^13.1.1",
