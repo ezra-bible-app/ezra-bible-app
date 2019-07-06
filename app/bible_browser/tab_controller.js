@@ -111,6 +111,10 @@ class TabController {
   }
   
   async loadTabConfiguration() {
+    if (this.settings.has('bible_translation')) {
+      this.defaultBibleTranslationId = this.settings.get('bible_translation');
+    }
+
     if (this.settings.has('tabConfiguration')) {
       bible_browser_controller.showVerseListLoadingIndicator();
 
@@ -385,7 +389,7 @@ class TabController {
   }
 
   getCurrentBibleTranslationId(index=undefined) {
-    if (index === undefined) {
+    if (index === undefined || index >= this.metaTabs.length) {
       var index = this.getSelectedTabIndex();
     }
     return this.metaTabs[index].bibleTranslationId;
