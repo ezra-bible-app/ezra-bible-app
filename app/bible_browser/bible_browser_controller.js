@@ -158,6 +158,9 @@ function BibleBrowserController() {
     // Update available books for current translation
     bible_browser_controller.translation_controller.updateAvailableBooks(ui.index);
 
+    // Highlight currently selected book
+    bible_browser_controller.highlightCurrentlySelectedBookInMenu(ui.index);
+
     // Toggle book statistics
     bible_browser_controller.toggle_book_tags_statistics_button(ui.index);
   };
@@ -172,6 +175,8 @@ function BibleBrowserController() {
     if (currentBibleTranslationId != null) {
       bible_browser_controller.translation_controller.enableCurrentTranslationInfoButton(tabIndex);
     }
+
+    bible_browser_controller.clearSelectedBookInMenu();
   };
 
   this.onBibleTranslationChanged = function() {
@@ -303,7 +308,30 @@ function BibleBrowserController() {
     return verseList;
   };
 
+  this.highlightCurrentlySelectedBookInMenu = function(tabIndex=undefined) {
+    var bookCode = bible_browser_controller.tab_controller.getCurrentTabBook(tabIndex);
+    if (bookCode != null) {
+      bible_browser_controller.highlightSelectedBookInMenu(bookCode);
+    }
+  }
+
+  this.clearSelectedBookInMenu = function() {
+    // Remove highlighting for previously selected book
+    $('.book-selected').removeClass('book-selected');
+  };
+
+  this.highlightSelectedBookInMenu = function(book_code) {
+    var bookId = '.book-' + book_code;
+
+    bible_browser_controller.clearSelectedBookInMenu();
+    
+    // Highlight the newly selected book
+    $('#book-selection-menu').find(bookId).addClass('book-selected');
+  };
+
   this.select_bible_book = function(book_code, book_title) {
+    bible_browser_controller.highlightSelectedBookInMenu(book_code);
+
     var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
     models.BibleTranslation.getBookList(currentBibleTranslationId).then(books => {
       if (!books.includes(book_code)) {

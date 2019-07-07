@@ -183,6 +183,7 @@ class TabController {
     // Close icon: removing the tab on click
     this.tabs.find('span.ui-icon-close').on( "click", (event) => {
       this.removeTab(event);
+      bible_browser_controller.highlightCurrentlySelectedBookInMenu();
       this.saveTabConfiguration();
     });
   }

@@ -631,6 +631,7 @@ h2 {
 .book-list-column li a:link, .book-list-column li.book-available a:visited, .book-list-column li.book-available a:hover, .book-list-column li.book-available a:focus {
   text-decoration: none;
   cursor: default;
+  border: 1px solid white;
   padding: 2px;
   margin: 1px;
 }
@@ -642,8 +643,17 @@ h2 {
 .book-list-column li.book-available a:hover, .book-list-column li.book-available a:focus {
   /*text-decoration: underline;*/
   border: 1px solid #74B2E2;
-  margin: 0px;
+  margin: 1px;
+  padding: 2px;
   border-radius: 4px;
+  background: #e4f1fb url(images/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
+}
+
+.book-list-column li.book-selected a:link, .book-list-column li.book-selected a:visited, .book-list-column li.book-selected a:focus {
+  border: 1px solid #74B2E2;
+  margin: 1px;
+  border-radius: 4px;
+  padding: 2px;
   background: #e4f1fb url(images/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
 }
 
