@@ -229,6 +229,10 @@ a.outline-reference:focus, a.outline-reference:hover {
   margin-top: 0.25em;
 }
 
+.cb-label, .cb-label-tag-assignment-count, .cb-label-postfix, .rename-tag-label {
+  margin-top: 0.1em;
+}
+
 .tag-cb, .cb-label, .cb-label-tag-assignment-count, .cb-label-postfix, .rename-tag-label, .meta-tag-title, .meta-tag-number-of-tags-container, .rename-meta-tag-label {
   float: left;
 }
