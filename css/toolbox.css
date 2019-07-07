@@ -207,6 +207,7 @@ a.outline-reference:focus, a.outline-reference:hover {
 }
 
 #tags-header {
+  margin-top: 0.3em;
   user-select: none;
 }
 
@@ -222,6 +223,10 @@ a.outline-reference:focus, a.outline-reference:hover {
 
 .checkbox-tag a {
   text-decoration: none;
+}
+
+.tag-cb {
+  margin-top: 0.25em;
 }
 
 .tag-cb, .cb-label, .cb-label-tag-assignment-count, .cb-label-postfix, .rename-tag-label, .meta-tag-title, .meta-tag-number-of-tags-container, .rename-meta-tag-label {
