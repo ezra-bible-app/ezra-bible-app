@@ -17,14 +17,17 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const electron = require('electron');
+const isDev = require('electron-is-dev');
 
-const { init } = require('@sentry/electron/dist/main')
-init({
-  debug: true,
-  dsn: 'https://977e321b83ec4e47b7d28ffcbdf0c6a1@sentry.io/1488321',
-  enableNative: true,
-  environment: process.env.NODE_ENV
-});
+if (!isDev) {
+  const { init } = require('@sentry/electron/dist/main')
+  init({
+    debug: true,
+    dsn: 'https://977e321b83ec4e47b7d28ffcbdf0c6a1@sentry.io/1488321',
+    enableNative: true,
+    environment: process.env.NODE_ENV
+  });
+}
 
 require('electron-debug')({
     enabled: true,
@@ -45,6 +48,11 @@ const url = require('url');
 let mainWindow;
 
 function createWindow () {
+  var preloadScript = '';
+  if (!isDev) {
+    preloadScript = path.join(__dirname, 'app/sentry.js')
+  }
+
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 1024,
                                   height: 768,
@@ -53,7 +61,7 @@ function createWindow () {
                                   title: "Ezra Project " + app.getVersion(),
                                   webPreferences: {
                                     nodeIntegration: true,
-                                    preload: path.join(__dirname, 'app/sentry.js')
+                                    preload: preloadScript
                                   }});
 
   mainWindow.setMenuBarVisibility(false);
@@ -69,9 +77,6 @@ function createWindow () {
     protocol: 'file:',
     slashes: true
   }))
-
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
