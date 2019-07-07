@@ -791,6 +791,8 @@ function TagsController() {
     if (currentBook != null) {
       tags_controller.update_book_tag_statistics_box(book_tag_statistics);
     }
+
+    tags_controller.hideTagListLoadingIndicator();
   };
 
   this.update_book_tag_statistics_box = function(book_tag_statistics) {
@@ -1858,6 +1860,17 @@ function TagsController() {
     $('#app-container').find('.rename-meta-tag-label').bind('click', tags_controller.handle_rename_meta_tag_click__by_opening_rename_dialog);
     configure_button_styles('#meta-tag-content');
     configure_button_styles('#meta-tag-assigned-tags');
+  };
+
+  this.showTagListLoadingIndicator = function() {
+    var loadingIndicator = $('#tags-loading-indicator');
+    loadingIndicator.find('.loader').show();
+    loadingIndicator.show();
+  };
+
+  this.hideTagListLoadingIndicator = function() {
+    var loadingIndicator = $('#tags-loading-indicator');
+    loadingIndicator.hide();
   };
 }
 

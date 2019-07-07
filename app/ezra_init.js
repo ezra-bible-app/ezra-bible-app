@@ -423,6 +423,10 @@ async function initApplication()
   await bible_browser_controller.sync_sword_modules();
 
   console.log("Loading settings ...");
+  if (await models.Tag.getTagCount() > 0) {
+    tags_controller.showTagListLoadingIndicator();
+  }
+
   bible_browser_controller.loadSettings();
 
   applicationLoaded = true;

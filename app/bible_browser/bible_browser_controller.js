@@ -370,6 +370,7 @@ function BibleBrowserController() {
   };
 
   this.updateTagsView = function(tabIndex) {
+    tags_controller.showTagListLoadingIndicator();
     tags_controller.clear_verse_selection();
     var currentTabBook = bible_browser_controller.tab_controller.getCurrentTabBook(tabIndex);
     var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList(tabIndex);
@@ -604,7 +605,6 @@ function BibleBrowserController() {
 
     if (currentTagIdList != "") {
       bible_browser_controller.text_loader.requestTextUpdate(currentTabId, null, currentTagIdList, true);
-
       tags_controller.communication_controller.request_tags();
       // PORTING DISABLED
       //tags_controller.communication_controller.request_meta_tags();
