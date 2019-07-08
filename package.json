@@ -8,6 +8,7 @@
     "rebuild": "electron-rebuild -f -w node-sword-interface -v 5.0.6",
     "rebuild-win": "node_modules\\.bin\\electron-rebuild.cmd --arch=ia32 -f -w sqlite3 -v 4.2.0",
     "migrate-db": "sequelize db:migrate && sequelize db:seed:all",
+    "purge-build-artifacts": "./purge_build_artifacts.sh",
     "package-linux": "electron-packager . ezra-project --overwrite --platform=linux --arch=x64 --prune=true --out=release --electron-version=5.0.6",
     "package-win": "electron-packager . ezra-project --overwrite --platform=win32 --arch=ia32 --prune=true --out=release --electron-version=5.0.6",
     "package-mac": "./package_mac.sh",
