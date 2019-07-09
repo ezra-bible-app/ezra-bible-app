@@ -193,6 +193,7 @@ class TranslationController {
       bibleTranslationInfo += "<tr><td>Cross references:</td><td>" + (bibleTranslationModule.hasCrossReferences ? "Yes" : "No") + "</td></tr>";
       bibleTranslationInfo += "<tr><td>Red letter words:</td><td>" + (bibleTranslationModule.hasRedLetterWords ? "Yes" : "No") + "</td></tr>";
       bibleTranslationInfo += "<tr><td>Size:</td><td>" + moduleSize + "</td></tr>";
+      bibleTranslationInfo += "<tr><td>Location:</td><td>" + bibleTranslationModule.location + "</td></tr>";
       bibleTranslationInfo += "</table>";
     } catch (ex) {
       console.error("Got exception while trying to get bible translation info: " + ex);
