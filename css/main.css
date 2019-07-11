@@ -553,7 +553,7 @@ h2 {
 }
 
 #display-options-menu {
-  width: 7em;
+  width: 14em;
   padding-top: 0.5em;
 }
 
@@ -680,7 +680,7 @@ h2 {
 .switch-box {
   clear: both;
   height: 2em;
-  width: 6em;
+  width: 13em;
   padding: 0.3em;
   margin-bottom: 0.5em;
   margin-left: auto;
