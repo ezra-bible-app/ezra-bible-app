@@ -245,9 +245,32 @@ function BibleBrowserController() {
     bible_browser_controller.navigation_pane.updateNavigation();
   };
 
-  // Not used
+
   this.init_display_options_menu = function() {
     $('#app-container').find('.display-options-button').bind('click', bible_browser_controller.handle_display_menu_click);
+
+    // Enable the tags display by default
+    $('#tags-switch').attr('checked', 'checked');
+    $('#tags-switch').removeAttr('disabled');
+    $('#tags-switch').bind('change', function() {
+      bible_browser_controller.show_or_hide_verse_tags_based_on_option();
+    });
+
+    $('#tags-column-switch').bind('change', function() {
+      bible_browser_controller.change_tags_layout_based_on_option();
+    });
+
+    /*$('#verse-notes-switch').bind('change', function() {
+      bible_browser_controller.show_or_hide_verse_notes_based_on_option();
+    });
+    $('#verse-notes-switch').removeAttr('disabled');
+
+    // Enable the cross reference display by default
+    $('#x-refs-switch').attr('checked', 'checked');
+    $('#x-refs-switch').removeAttr('disabled');
+    $('#x-refs-switch').bind('change', function() {
+      bible_browser_controller.show_or_hide_xrefs_based_on_option();
+    });*/
   };
 
   this.init_tag_reference_box = function() {
@@ -685,12 +708,25 @@ function BibleBrowserController() {
     }
   };
 
+  this.change_tags_layout_based_on_option = function() {
+    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+    if (bible_browser_controller.tags_column_switch_checked()) {
+      currentVerseList.addClass('verse-list-tags-column');
+    } else {
+      currentVerseList.removeClass('verse-list-tags-column');
+    }
+  }
+
   this.verse_notes_switch_checked = function() {
     return $('#verse-notes-switch').attr('checked');
   };
 
   this.tags_switch_checked = function() {
     return $('#tags-switch').attr('checked');
+  };
+
+  this.tags_column_switch_checked = function() {
+    return $('#tags-column-switch').attr('checked');
   };
 
   this.enable_toolbox = function() {
