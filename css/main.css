@@ -284,6 +284,16 @@ h2 {
   padding: 0.1em;
 }
 
+.verse-list-tags-column .verse-text {
+  width: 50%;
+}
+
+.verse-list-tags-column .tag-box {
+  padding-left: 0.5em;
+  float: right;
+  width: 50%;
+}
+
 .tag {
   display: inline;
   color: #808080;
@@ -553,7 +563,7 @@ h2 {
 }
 
 #display-options-menu {
-  width: 7em;
+  width: 12em;
   padding-top: 0.5em;
 }
 
@@ -601,10 +611,6 @@ h2 {
   cursor: pointer;
 }
 
-.display-options-button {
-  width: 7.5em;
-}
-
 .book-select-label {
   float: left;
 }
@@ -613,7 +619,7 @@ h2 {
   float: right;
 }
 
-.tag-select-button {
+.tag-select-button, .display-options-button {
   margin-left: 1em;
   width: 7em;
   padding-top: 0.2em;
@@ -680,7 +686,7 @@ h2 {
 .switch-box {
   clear: both;
   height: 2em;
-  width: 6em;
+  width: 11em;
   padding: 0.3em;
   margin-bottom: 0.5em;
   margin-left: auto;

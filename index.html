@@ -444,14 +444,18 @@ var bible_chapter_verse_counts = {};
   </div>
 
   <!-- Display options menu disabled for now -->
-  <!--
   <div id="display-options-menu" class="display-options-menu">
     <div id="tags-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default ui-state-active">
-      <input id="tags-switch" type="checkbox"></input>
-      <div id="tags-switch-label">Tags</div>
+      <input id="tags-switch" type="checkbox" checked="checked"></input>
+      <div id="tags-switch-label">Show tags</div>
     </div>
 
-    <div id="verse-notes-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
+    <div id="tags-column-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
+      <input id="tags-column-switch" type="checkbox"></input>
+      <div id="tags-column-switch-label">Use tags column</div>
+    </div>
+
+    <!--<div id="verse-notes-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
       <input id="verse-notes-switch" type="checkbox"></input>
       <div id="verse-notes-switch-label">Notes</div>
     </div>
@@ -459,9 +463,8 @@ var bible_chapter_verse_counts = {};
     <div id="x-refs-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default ui-state-active">
       <input id="x-refs-switch" type="checkbox"></input>
       <div id="x-refs-switch-label">X-Refs</div>
-    </div>
+    </div>-->
   </div>
-  -->
 
   <div id="translation-settings-wizard" title="Bible translation settings" style="display: none;">
     <div id="translation-settings-wizard-init">
@@ -558,12 +561,10 @@ var bible_chapter_verse_counts = {};
         </div>
 
         <!-- Display options menu disabled for now -->
-        <!--
         <div class="fg-button display-options-button ui-state-default ui-corner-all">
           <div class="ui-icon ui-icon-triangle-1-s"></div>
           <div id="display-options-label">Options</div>
         </div>
-        -->
 
         <div class="bible-select-block">
           <select name="bible-select" class="bible-select">
