@@ -7,8 +7,11 @@ All notable changes to Ezra Project are documented in this file.
 * macOS support
 * Automatic upload of crash information to Sentry.io in case of crashes
 
+### Changed
+* Added module location as another attribute to module information dialog
+
 ### Fixed
-* Corrected bug with Sword paths on Windows and Unix. Now both the user path and the global path gets evaluated both on Windows and on Unix.
+* Corrected bug with Sword paths on Windows and Unix. Now both the user path and the global path gets evaluated correctly both on Windows and on Unix.
 * Only disable close button of first tab when it's the last one
 * Remember the last selected bible translation and set that as a default for new tabs
 * Optimized package size (when packaging remove build artifacts not necessary for production)
