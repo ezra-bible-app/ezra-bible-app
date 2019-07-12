@@ -4,6 +4,8 @@ All notable changes to Ezra Project are documented in this file.
 <!--
 ## [Unreleased]
 ### Added
+* Tags can now be shown in a column next to the bible text. This is particularly useful when having a lot of tags, as it
+  gives more overview and makes it easier to focus on the text.
 * macOS support
 * Automatic upload of crash information to Sentry.io in case of crashes
 
