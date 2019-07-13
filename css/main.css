@@ -96,7 +96,7 @@ h2 {
 }
 
 .verse-list-composite {
-  margin-top: 3em;
+  margin-top: 3.1em;
 }
 
 .verse-list-frame { /* Needed because of selectable scroll bug */
@@ -281,17 +281,18 @@ h2 {
 
 .tag-box {
   line-height: 150%;
-  padding: 0.1em;
+  /* padding: 0.1em; */
 }
 
 .verse-list-tags-column .verse-text {
-  width: 50%;
+  width: 49%;
 }
 
 .verse-list-tags-column .tag-box {
   padding-left: 0.5em;
+  padding-bottom: 0.5em;
   float: right;
-  width: 50%;
+  width: 49%;
 }
 
 .tag {
@@ -303,7 +304,7 @@ h2 {
   font-weight: bold;
   padding: 0.1em;
   margin-right: 0.4em;
-  margin-bottom: 0.4em;
+  line-height: 2em;
   cursor: pointer;
   border-radius: 4px;
 }
@@ -338,7 +339,7 @@ h2 {
 
 .verse-text {
   cursor: pointer;
-  padding: 0.1em;
+  padding: 0.05em;
 }
 
 .ezra-dialog .verse-text {
@@ -720,7 +721,7 @@ h2 {
   padding: 0;
 }
 
-#indent-switch-label, #outline-switch-label, #tags-switch-label, .tag-select-label, #display-options-label, #verse-notes-switch-label, #x-refs-switch-label {
+#indent-switch-label, #outline-switch-label, #tags-switch-label, #tags-column-switch-label, .tag-select-label, #display-options-label, #verse-notes-switch-label, #x-refs-switch-label {
   margin: 0.2em;
   margin-left: 0.2em;
 }
