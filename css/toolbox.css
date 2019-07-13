@@ -132,8 +132,7 @@ a.outline-reference:focus, a.outline-reference:hover {
   padding-right: 0.5em;
   overflow-y: scroll;
   border: 1px solid #DDDDDD;
-  -moz-border-radius: 0px 0px 6px 6px;
-  -webkit-border-radius: 0px 0px 6px 6px;
+  border-radius: 0px 0px 6px 6px;
 }
 
 #meta-tag-content, #meta-tag-assigned-tags {
@@ -195,9 +194,8 @@ a.outline-reference:focus, a.outline-reference:hover {
   padding: 0.1em;
   border: 2px solid #AED0EA; 
   z-index: 99;
-  -moz-border-radius: 6px;
-  -webkit-border-radius: 6px;
-  -moz-box-shadow: 5px 5px 5px #A0A0A0;
+  border-radius: 6px;
+  box-shadow: 5px 5px 5px #A0A0A0;
   position: fixed;
   background-color: white;
 }
@@ -314,8 +312,7 @@ a.outline-reference:focus, a.outline-reference:hover {
   margin: 0.5em;
   border: 1px solid #AED0EA;
   padding: 0.3em;
-  -moz-border-radius: 6px;
-  -webkit-border-radius: 6px;
+  border-radius: 6px;
 }
 
 #note-session-menu {
@@ -328,9 +325,8 @@ a.outline-reference:focus, a.outline-reference:hover {
   border-left: 1px solid #AED0EA;
   border-right: 1px solid #AED0EA;
   border-bottom: 1px solid #AED0EA;
-  -moz-border-radius: 0px 0px 6px 6px;
-  -webkit-border-radius: 0px 0px 6px 6px;
-  -moz-box-shadow: 5px 5px 5px #A0A0A0;
+  border-radius: 0px 0px 6px 6px;
+  box-shadow: 5px 5px 5px #A0A0A0;
   padding: 0.2em;
 }
 
