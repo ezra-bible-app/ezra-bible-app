@@ -66,6 +66,8 @@ function BibleBrowserController() {
     this.translation_controller = new TranslationController();
     this.translation_controller.init(bible_browser_controller.onBibleTranslationChanged);
     this.translation_wizard = new TranslationWizard();
+    this.translation_wizard.init(bible_browser_controller.onAllTranslationsRemoved,
+                                 bible_browser_controller.onTranslationRemoved);
 
     this.text_loader = new TextLoader();
 
@@ -164,6 +166,7 @@ function BibleBrowserController() {
     // Toggle book statistics
     bible_browser_controller.toggle_book_tags_statistics_button(ui.index);
 
+    bible_browser_controller.show_or_hide_section_titles_based_on_option(ui.index);
     bible_browser_controller.show_or_hide_verse_tags_based_on_option(ui.index);
     bible_browser_controller.change_tags_layout_based_on_option(ui.index);
   };
@@ -194,6 +197,33 @@ function BibleBrowserController() {
                                                              currentTagIdList,
                                                              false);
     }
+  };
+
+  // Re-init application to state without Bible translations
+  this.onAllTranslationsRemoved = function() {
+    bible_browser_controller.tab_controller.removeAllExtraTabs();
+    bible_browser_controller.tab_controller.setCurrentBibleTranslationId(null);
+    bible_browser_controller.tab_controller.setCurrentTagIdList("");
+    bible_browser_controller.tab_controller.setCurrentTabBook(null, "");
+    bible_browser_controller.tab_controller.resetCurrentTabTitle();
+    bible_browser_controller.tab_controller.deleteTabConfiguration();
+
+    bible_browser_controller.resetVerseListView();
+
+    var currentVerseListLoadingIndicator = bible_browser_controller.getCurrentVerseListLoadingIndicator();
+    currentVerseListLoadingIndicator.hide();
+
+    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+    currentVerseList.append("<div class='help-text'>To start using Ezra Project, select a book or a tag from the menu above.</div>");
+    bible_browser_controller.translation_controller.disableCurrentTranslationInfoButton();
+    
+    $('.book-select-value').text("Select book");
+  };
+
+  this.onTranslationRemoved = function() {
+    $("select#bible-select").empty();
+    bible_browser_controller.translation_controller.initTranslationsMenu();
+    tags_controller.updateTagUiBasedOnTagAvailability();
   };
 
   this.getTabHtmlTemplate = function() {
@@ -252,6 +282,11 @@ function BibleBrowserController() {
   };
 
   this.load_display_options = function() {
+    var showSectionTitles = false;
+    if (bible_browser_controller.settings.has('showSectionTitles')) {
+      showSectionTitles = bible_browser_controller.settings.get('showSectionTitles');
+    }    
+
     // Enable the tags display by default
     var showTags = true;
     if (bible_browser_controller.settings.has('showTags')) {
@@ -261,6 +296,12 @@ function BibleBrowserController() {
     var useTagsColumn = false;
     if (bible_browser_controller.settings.has('useTagsColumn')) {
       useTagsColumn = bible_browser_controller.settings.get('useTagsColumn');
+    }
+
+    if (showSectionTitles) {
+      $('#section-title-switch').attr('checked', 'checked');
+      $('#section-title-switch').removeAttr('disabled');
+      $('#section-title-switch-box').addClass('ui-state-active');
     }
 
     if (showTags) {
@@ -275,6 +316,7 @@ function BibleBrowserController() {
       $('#tags-column-switch-box').addClass('ui-state-active');
     }   
     
+    bible_browser_controller.show_or_hide_section_titles_based_on_option();
     bible_browser_controller.show_or_hide_verse_tags_based_on_option();
     bible_browser_controller.change_tags_layout_based_on_option();
   }
@@ -282,6 +324,11 @@ function BibleBrowserController() {
   this.init_current_display_options_menu = function(tabIndex=undefined) {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.display-options-button').bind('click', bible_browser_controller.handle_display_menu_click);
+    
+    $('#section-title-switch').bind('change', function() {
+      bible_browser_controller.show_or_hide_section_titles_based_on_option();
+      bible_browser_controller.slowly_hide_display_menu();
+    });
 
     $('#tags-switch').bind('change', function() {
       bible_browser_controller.show_or_hide_verse_tags_based_on_option();
@@ -725,6 +772,30 @@ function BibleBrowserController() {
     return "<div class='tag-browser-verselist-book-header'>" + book_title + "</div>";
   };
 
+  this.show_or_hide_section_titles_based_on_option = function(tabIndex=undefined) {
+    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+    bible_browser_controller.settings.set('showSectionTitles', bible_browser_controller.section_title_switch_checked());
+
+    // The following code moves the sword-section-title elements before the verse-boxes
+    all_section_titles = currentVerseList.find('.sword-section-title');
+    for (var i = 0; i < all_section_titles.length; i++) {
+      var currentSectionTitle = $(all_section_titles[i]);
+      var currentParent = currentSectionTitle.parent();
+      console.log(currentParent.attr('class'));
+
+      if (currentParent.hasClass('verse-text')) {
+        var verseBox = currentSectionTitle.closest('.verse-box');
+        verseBox.before(currentSectionTitle);
+      }
+    }
+
+    if (bible_browser_controller.section_title_switch_checked()) {
+      currentVerseList.addClass('verse-list-with-section-titles');
+    } else {
+      currentVerseList.removeClass('verse-list-with-section-titles');
+    }
+  };
+
   this.show_or_hide_verse_tags_based_on_option = function(tabIndex=undefined) {
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
     bible_browser_controller.settings.set('showTags', bible_browser_controller.tags_switch_checked());
@@ -765,6 +836,10 @@ function BibleBrowserController() {
     return $('#verse-notes-switch').attr('checked');
   };
 
+  this.section_title_switch_checked = function() {
+    return $('#section-title-switch').attr('checked');
+  };
+
   this.tags_switch_checked = function() {
     return $('#tags-switch').attr('checked');
   };
@@ -803,6 +878,7 @@ function BibleBrowserController() {
     //notes_controller.init();
     tags_controller.init(tabIndex);
     bible_browser_controller.navigation_pane.updateNavigation(tabIndex);
+    bible_browser_controller.show_or_hide_section_titles_based_on_option(tabIndex);
     bible_browser_controller.bind_events_after_bible_text_loaded();
     bible_browser_controller.toggle_book_tags_statistics_button();
     tags_controller.bind_tag_events();

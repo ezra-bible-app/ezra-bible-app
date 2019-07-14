@@ -40,6 +40,11 @@ class TranslationWizard {
     });
   }
 
+  init(onAllTranslationsRemoved, onTranslationRemoved) {
+    this.onAllTranslationsRemoved = onAllTranslationsRemoved;
+    this.onTranslationRemoved = onTranslationRemoved;
+  }
+
   async isTranslationInstalled(translationCode) {
     if (this._installedTranslations == null) {
       this._installedTranslations = await models.BibleTranslation.getTranslations();
@@ -271,6 +276,7 @@ class TranslationWizard {
         await this._nodeSwordInterface.installModule(translationCode);
         await models.BibleTranslation.importSwordTranslation(translationCode);
 
+        // FIXME: Put this in a callback
         bible_browser_controller.updateUiAfterBibleTranslationAvailable(translationCode);
 
         $('#bibleTranslationInstallIndicator').hide();
@@ -334,32 +340,15 @@ class TranslationWizard {
           if (currentBibleTranslationId == translationCode) {
             models.BibleTranslation.findAndCountAll().then(result => {
               if (result.rows.length > 0) {
+                // FIXME: Also put this in a callback
                 bible_browser_controller.tab_controller.setCurrentBibleTranslationId(result.rows[0].id);
                 bible_browser_controller.onBibleTranslationChanged();
                 bible_browser_controller.navigation_pane.updateNavigation();
-              } else { // Re-init application to state without Bible translations
-                bible_browser_controller.tab_controller.removeAllExtraTabs();
-                bible_browser_controller.tab_controller.setCurrentBibleTranslationId(null);
-                bible_browser_controller.tab_controller.setCurrentTagIdList("");
-                bible_browser_controller.tab_controller.setCurrentTabBook(null, "");
-                bible_browser_controller.tab_controller.resetCurrentTabTitle();
-                bible_browser_controller.tab_controller.deleteTabConfiguration();
-
-                bible_browser_controller.resetVerseListView();
-
-                var currentVerseListLoadingIndicator = bible_browser_controller.getCurrentVerseListLoadingIndicator();
-                currentVerseListLoadingIndicator.hide();
-
-                var currentVerseList = bible_browser_controller.getCurrentVerseList();
-                currentVerseList.append("<div class='help-text'>To start using Ezra Project, select a book or a tag from the menu above.</div>");
-                bible_browser_controller.translation_controller.disableCurrentTranslationInfoButton();
-                
-                $('.book-select-value').text("Select book");
+              } else {
+                this.onAllTranslationsRemoved();
               }
 
-              $("select#bible-select").empty();
-              bible_browser_controller.translation_controller.initTranslationsMenu();
-              tags_controller.updateTagUiBasedOnTagAvailability();
+              this.onTranslationRemoved();
             });
           }
 

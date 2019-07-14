@@ -220,7 +220,7 @@ class TranslationController {
 
   async showBibleTranslationInfo() {
     var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
-    bibleTranslationInfo = this.getBibleTranslationInfo(currentBibleTranslationId);
+    var bibleTranslationInfo = this.getBibleTranslationInfo(currentBibleTranslationId);
 
     var currentBibleTranslationName = await bible_browser_controller.tab_controller.getCurrentBibleTranslationName();
     var offsetLeft = $(window).width() - 900;
