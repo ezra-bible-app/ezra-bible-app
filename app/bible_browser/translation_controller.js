@@ -172,12 +172,18 @@ class TranslationController {
     });
   }
 
-  async showBibleTranslationInfo() {
+  getBibleTranslationInfo(translationId, isRemote=false) {
     var bibleTranslationInfo = "No info available!";
 
     try {
-      var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
-      var bibleTranslationModule = this.nodeSwordInterface.getLocalModule(currentBibleTranslationId);
+      var bibleTranslationModule = null;
+
+      if (isRemote) {
+        bibleTranslationModule = this.nodeSwordInterface.getRepoModule(translationId);
+      } else {
+        bibleTranslationModule = this.nodeSwordInterface.getLocalModule(translationId);
+      }
+      
       var bibleTranslationInfo = "<b>About</b><br><br>";
       bibleTranslationInfo += bibleTranslationModule.about.replace(/\\par/g, "<br>");
       var moduleSize = Math.round(bibleTranslationModule.size / 1024) + " KB";
@@ -198,6 +204,11 @@ class TranslationController {
     } catch (ex) {
       console.error("Got exception while trying to get bible translation info: " + ex);
     }
+  }
+
+  async showBibleTranslationInfo() {
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
+    bibleTranslationInfo = this.getBibleTranslationInfo(currentBibleTranslationId);
 
     var currentBibleTranslationName = await bible_browser_controller.tab_controller.getCurrentBibleTranslationName();
     var offsetLeft = $(window).width() - 900;

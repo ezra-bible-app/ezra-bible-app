@@ -481,7 +481,10 @@ class TranslationWizard {
 
   async listModules(selectedLanguages) {
     var wizardPage = $('#translation-settings-wizard-add-p-2');
-    wizardPage.empty();
+    var translationList = wizardPage.find('#translation-list');
+    var translationInfo = wizardPage.find('#translation-info');
+    translationList.empty();
+    translationInfo.empty();
 
     var languagesPage = "#translation-settings-wizard-add-p-1";
     var uiLanguages = this.getSelectedSettingsWizardElements(languagesPage);
@@ -501,7 +504,7 @@ class TranslationWizard {
                     uiRepositories.join(', ') +
                     ".</p>";
 
-    wizardPage.append(introText);
+    translationList.append(introText);
 
     var renderHeader = false;
     if (selectedLanguages.length > 1) {
@@ -524,7 +527,13 @@ class TranslationWizard {
       await this.listLanguageModules(currentUiLanguage, currentLangModules, renderHeader);
     }
 
-    this.bindLabelEvents(wizardPage);
+    translationList.find('.bible-translation-info').bind('click', function() {
+      var translationCode = $(this).text();
+      var moduleInfo = bible_browser_controller.translation_controller.getBibleTranslationInfo(translationCode, true);
+      $('#translation-info').append(moduleInfo);
+    });
+
+    this.bindLabelEvents(translationList);
   }
 
   sortBy(field) {
@@ -540,10 +549,11 @@ class TranslationWizard {
 
   async listLanguageModules(lang, modules, renderHeader) {
     var wizardPage = $('#translation-settings-wizard-add-p-2');
+    var translationList = wizardPage.find('#translation-list');
 
     if (renderHeader) {
       var languageHeader = "<p style='font-weight: bold; margin-top: 2em;'>" + lang + "</p>";
-      wizardPage.append(languageHeader);
+      translationList.append(languageHeader);
     }
 
     for (var i = 0; i < modules.length; i++) {
@@ -563,9 +573,12 @@ class TranslationWizard {
 
       var currentModuleElement = "<p>";
       currentModuleElement += "<input type='checkbox' "+ checkboxDisabled + ">";
+      
       currentModuleElement += "<span " + moduleTitle + " class='" + labelClass + "' id='" + currentModule.name + "'>";
-      currentModuleElement += currentModule.description + " [" + currentModule.name + "]";
-      currentModuleElement += "</span>";
+      currentModuleElement += currentModule.description;
+      currentModuleElement += "</span>&nbsp;";
+
+      currentModuleElement += "[<span class='bible-translation-info'>" + currentModule.name + "</span>]";
 
       if (currentModule.locked) {
         var lockedIcon = "<img style='margin-left: 0.5em; margin-bottom: -0.4em;' src='images/lock.png' width='20' height='20'/>";
@@ -574,7 +587,7 @@ class TranslationWizard {
 
       currentModuleElement += "</p>";
 
-      wizardPage.append(currentModuleElement);
+      translationList.append(currentModuleElement);
     }
   }
 
@@ -641,7 +654,7 @@ class TranslationWizard {
 
     wizardPage.append(introText);
 
-    repositories = repositories.sort((a, b) => {
+    /*repositories = repositories.sort((a, b) => {
       var repoTranslationCountA = this.getRepoTranslationCount(a);
       var repoTranslationCountB = this.getRepoTranslationCount(b);
 
@@ -652,7 +665,7 @@ class TranslationWizard {
       }
 
       return 0;
-    });
+    });*/
 
     for (var i = 0; i < repositories.length; i++) {
       var currentRepoTranslationCount = this.getRepoTranslationCount(repositories[i]);

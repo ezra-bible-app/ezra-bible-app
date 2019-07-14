@@ -563,8 +563,18 @@ h2 {
   color: grey;
 }
 
-#translation-settings-wizard section {
+#translation-settings-wizard section.scrollable, #translation-settings-wizard div.scrollable {
   overflow-y: scroll;
+}
+
+#translation-list {
+  height: 100%;
+  width: 70%;
+  float: left;
+}
+
+#translation-info {
+  padding: 1em;
 }
 
 #display-options-menu {
