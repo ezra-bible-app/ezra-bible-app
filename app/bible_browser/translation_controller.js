@@ -184,7 +184,14 @@ class TranslationController {
         bibleTranslationModule = this.nodeSwordInterface.getLocalModule(translationId);
       }
       
-      var bibleTranslationInfo = "<b>About</b><br><br>";
+      var bibleTranslationInfo = "";
+      
+      if (isRemote) {
+        bibleTranslationInfo += "<b>" + bibleTranslationModule.description + "</b><br><br>";
+      } else {
+        bibleTranslationInfo += "<b>About</b><br><br>";
+      }
+
       bibleTranslationInfo += bibleTranslationModule.about.replace(/\\par/g, "<br>");
       var moduleSize = Math.round(bibleTranslationModule.size / 1024) + " KB";
 
@@ -199,11 +206,16 @@ class TranslationController {
       bibleTranslationInfo += "<tr><td>Cross references:</td><td>" + (bibleTranslationModule.hasCrossReferences ? "Yes" : "No") + "</td></tr>";
       bibleTranslationInfo += "<tr><td>Red letter words:</td><td>" + (bibleTranslationModule.hasRedLetterWords ? "Yes" : "No") + "</td></tr>";
       bibleTranslationInfo += "<tr><td>Size:</td><td>" + moduleSize + "</td></tr>";
-      bibleTranslationInfo += "<tr><td>Location:</td><td>" + bibleTranslationModule.location + "</td></tr>";
+      if (!isRemote) {
+        bibleTranslationInfo += "<tr><td>Location:</td><td>" + bibleTranslationModule.location + "</td></tr>";
+      }
+
       bibleTranslationInfo += "</table>";
     } catch (ex) {
       console.error("Got exception while trying to get bible translation info: " + ex);
     }
+
+    return bibleTranslationInfo;
   }
 
   async showBibleTranslationInfo() {

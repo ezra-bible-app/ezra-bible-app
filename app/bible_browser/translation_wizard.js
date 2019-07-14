@@ -73,7 +73,7 @@ class TranslationWizard {
   }
 
   openWizard() {
-    var wizardWidth = 1000;
+    var wizardWidth = 1100;
     var appContainerWidth = $(window).width() - 10;
     var offsetLeft = appContainerWidth - wizardWidth - 100;
     var offsetTop = 20;
@@ -484,7 +484,6 @@ class TranslationWizard {
     var translationList = wizardPage.find('#translation-list');
     var translationInfo = wizardPage.find('#translation-info');
     translationList.empty();
-    translationInfo.empty();
 
     var languagesPage = "#translation-settings-wizard-add-p-1";
     var uiLanguages = this.getSelectedSettingsWizardElements(languagesPage);
@@ -529,8 +528,14 @@ class TranslationWizard {
 
     translationList.find('.bible-translation-info').bind('click', function() {
       var translationCode = $(this).text();
-      var moduleInfo = bible_browser_controller.translation_controller.getBibleTranslationInfo(translationCode, true);
-      $('#translation-info').append(moduleInfo);
+      $('#translation-info').find('.loader').show();
+
+      setTimeout(() => {
+        var moduleInfo = bible_browser_controller.translation_controller.getBibleTranslationInfo(translationCode, true);
+        $('#translation-info').find('.loader').hide();
+        $('#translation-info').empty();
+        $('#translation-info').append(moduleInfo);
+      }, 200);
     });
 
     this.bindLabelEvents(translationList);
@@ -571,7 +576,7 @@ class TranslationWizard {
         moduleTitle = "title='This module is locked and requires that you purchase an unlock key from the content owner!'";
       }
 
-      var currentModuleElement = "<p>";
+      var currentModuleElement = "<p class='selectable-translation-module'>";
       currentModuleElement += "<input type='checkbox' "+ checkboxDisabled + ">";
       
       currentModuleElement += "<span " + moduleTitle + " class='" + labelClass + "' id='" + currentModule.name + "'>";

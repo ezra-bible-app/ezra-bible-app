@@ -550,7 +550,7 @@ h2 {
 }
 
 #translation-settings-wizard-add, #translation-settings-wizard-add .content {
-  min-height: 600px
+  min-height: 600px;
 }
 
 #translation-settings-wizard .label {
@@ -569,12 +569,18 @@ h2 {
 
 #translation-list {
   height: 100%;
-  width: 70%;
+  width: 45%;
   float: left;
 }
 
 #translation-info {
+  height: 100%;
   padding: 1em;
+}
+
+.selectable-translation-module {
+  text-indent: -20px;
+  padding-left: 20px;
 }
 
 #display-options-menu {
@@ -733,6 +739,11 @@ h2 {
   width: 2.2em;
   font-size: 120%;
   padding: 0;
+}
+
+.bible-translation-info {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 #indent-switch-label, #outline-switch-label, #tags-switch-label, #tags-column-switch-label, .tag-select-label, #display-options-label, #verse-notes-switch-label, #x-refs-switch-label {
