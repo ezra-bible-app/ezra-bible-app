@@ -62,3 +62,8 @@ To give feedback (bug reports, feature requests) please use the Github issue sys
 Click [here](https://github.com/tobias-klein/ezra-project/issues/new) to file a new Issue for Ezra Project.
 
 [latest]: https://github.com/tobias-klein/ezra-project/releases/latest
+
+## Contributing
+Your contributions to Ezra Project are very welcome!
+At the moment this is a small project with just one maintainer. It would be great to have a team developing this software.
+Ideally you should bring some experience in working with web-based frontends, specifically HTML, CSS, JavaScript. Furthermore, experience with relational database design is a plus. Feel free to drop me an email ([contact@tklein.info](mailto:contact@tklein.info)) if you are interested in joining the team!
