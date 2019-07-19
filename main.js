@@ -17,7 +17,16 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const electron = require('electron');
+const app = electron.app;
+const BrowserWindow = electron.BrowserWindow;
+
 const isDev = require('electron-is-dev');
+const path = require('path');
+const url = require('url');
+
+// Keep a global reference of the window object, if you don't, the window will
+// be closed automatically when the JavaScript object is garbage collected.
+let mainWindow;
 
 if (process.platform === 'win32') {
     // This is only needed for making the Windows installer work properly
@@ -27,7 +36,7 @@ if (process.platform === 'win32') {
 if (!isDev) {
   const { init } = require('@sentry/electron/dist/main')
   init({
-    debug: true,
+    debug: false,
     dsn: 'https://977e321b83ec4e47b7d28ffcbdf0c6a1@sentry.io/1488321',
     enableNative: true,
     environment: process.env.NODE_ENV
@@ -39,18 +48,6 @@ require('electron-debug')({
     showDevTools: false,
     devToolsMode: 'bottom',
 });
-
-// Module to control application life.
-const app = electron.app;
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow;
-
-const path = require('path');
-const url = require('url');
-
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
 
 function createWindow () {
   var preloadScript = '';
