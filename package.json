@@ -1,7 +1,7 @@
 {
   "name": "ezra-project",
   "version": "0.8.2",
-  "description": "Ezra Project is a bible study software focussing on topical study based on keywords/tags.",
+  "description": "Ezra Project is a bible study software focussing on topical study based on keywords/tags",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -12,6 +12,7 @@
     "package-linux": "electron-packager . ezra-project --overwrite --platform=linux --arch=x64 --prune=true --out=release --electron-version=4.2.6",
     "package-win": "electron-packager . ezra-project --overwrite --platform=win32 --arch=ia32 --prune=true --out=release --electron-version=4.2.6",
     "package-mac": "./package_mac.sh",
+    "installer-win": "node_modules\\.bin\\electron-installer-windows --src release\\ezra-project-win32-ia32 --dest release\\packages --config win_installer_config.json",
     "dmg-mac": "electron-installer-dmg release/Ezra\\ Project-darwin-x64/Ezra\\ Project.app ezra-project --out=release --overwrite",
     "flat-mac": "electron-osx-flat release/Ezra\\ Project-darwin-x64/Ezra\\ Project.app --pkg=release/ezra-project.pkg",
     "show-mac-ids": "security find-identity -v -p codesigning",
@@ -40,7 +41,8 @@
     "sequelize": "^4.42.0",
     "sequelize-cli": "^5.4.0",
     "sqlite3": "^4.0.9",
-    "umzug": "^2.2.0"
+    "umzug": "^2.2.0",
+    "electron-squirrel-startup": "^1.0.0"
   },
   "devDependencies": {
     "electron": "^4.2.6",

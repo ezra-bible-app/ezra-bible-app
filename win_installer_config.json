@@ -1,0 +1,10 @@
+{
+    "options.productName" : "Ezra Project",
+    "options.noMsi" : true,
+    "options.tags": [
+        "Bible study",
+        "Education",
+        "Theology",
+        "Bible"
+    ]
+}

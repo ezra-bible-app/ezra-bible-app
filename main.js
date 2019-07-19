@@ -19,6 +19,11 @@
 const electron = require('electron');
 const isDev = require('electron-is-dev');
 
+if (process.platform === 'win32') {
+    // This is only needed for making the Windows installer work properly
+    if (require('electron-squirrel-startup')) electron.app.quit();
+}
+
 if (!isDev) {
   const { init } = require('@sentry/electron/dist/main')
   init({
