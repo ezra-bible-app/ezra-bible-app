@@ -63,7 +63,7 @@ Click [here](https://github.com/tobias-klein/ezra-project/issues/new) to file a 
 
 [latest]: https://github.com/tobias-klein/ezra-project/releases/latest
 
-## Contributing
+## Join the team!
 Your contributions to Ezra Project are very welcome!
 At the moment this is a small project with just one maintainer. It would be great to have a team developing this software.
 Ideally you should bring some experience in working with web-based frontends, specifically HTML, CSS, JavaScript. Furthermore, experience with relational database design is a plus. Feel free to drop me an email ([contact@tklein.info](mailto:contact@tklein.info)) if you are interested in joining the team!
