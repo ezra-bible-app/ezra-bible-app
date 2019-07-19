@@ -1,4 +1,5 @@
 {
+    "options.name" : "Ezra Project",
     "options.productName" : "Ezra Project",
     "options.noMsi" : true,
     "options.tags": [
