@@ -51,7 +51,7 @@ class TagSelectionMenu {
       bible_browser_controller.handle_body_click();
     } else {
       bible_browser_controller.hide_book_menu();
-      bible_browser_controller.hide_display_menu();
+      bible_browser_controller.optionsMenu.hideDisplayMenu();
       tagSelectButton.addClass('ui-state-active');
 
       var tag_select_button_offset = tagSelectButton.offset();
