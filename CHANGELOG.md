@@ -8,6 +8,7 @@ All notable changes to Ezra Project are documented in this file.
   gives more overview and makes it easier to focus on the text.
 * Section titles (from SWORD modules) can now be shown/hidden based on an option in the menu.
 * Information about SWORD modules can now be shown before installation when using the bible translation wizard.
+* Installer for Windows app
 * macOS support
 * Automatic upload of crash information to Sentry.io in case of crashes
 
