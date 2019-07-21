@@ -153,22 +153,39 @@ class TranslationWizard {
     var wizardPage = $('#translation-settings-wizard-remove-p-0');
     wizardPage.empty();
 
+    var header = "<p>Select the bible translations that you would like to remove. " +
+                 "Disabled entries in the list are translations not installed in the users directory.</p>";
+    wizardPage.append(header);
+
     var languages = await models.BibleTranslation.getLanguages();
 
     for (var i = 0; i < languages.length; i++) {
       var currentLang = languages[i];
 
-      var newLanguageBox = "<div><h2>" + currentLang.languageName + "</h2><div id='remove-translation-wizard-" + currentLang.languageCode + "-translations'></div></div>";
+      var newLanguageBox = "<div>" +
+                           "<h2>" + currentLang.languageName + "</h2>" +
+                           "<div id='remove-translation-wizard-" + currentLang.languageCode + "-translations'></div>" +
+                           "</div>";
+
       wizardPage.append(newLanguageBox);
     }
 
     models.BibleTranslation.findAndCountAll().then(result => {
       for (var translation of result.rows) {
-        var current_translation_html = "<p><input type='checkbox'><span class='label' id='" + translation.id + "'>";
-        current_translation_html += translation.name + " [" + translation.id + "]</span></p>";
+        var checkboxDisabled = '';
+        var currentTranslationClass = "class='label' ";
+        
+        if (!this._nodeSwordInterface.isModuleInUserDir(translation.id)) {
+          checkboxDisabled = "disabled='disabled' ";
+          currentTranslationClass = "class='label disabled'";
+        }
+
+        var currentTranslationHtml = "<p><input type='checkbox'" + checkboxDisabled + ">" + 
+                                     "<span " + currentTranslationClass + " id='" + translation.id + "'>";
+        currentTranslationHtml += translation.name + " [" + translation.id + "]</span></p>";
 
         var languageBox = $('#remove-translation-wizard-' + translation.languageCode + '-translations');
-        languageBox.append(current_translation_html);
+        languageBox.append(currentTranslationHtml);
       }
 
       this.bindLabelEvents(wizardPage);

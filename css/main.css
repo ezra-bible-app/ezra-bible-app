@@ -557,6 +557,10 @@ h2 {
   cursor: default;
 }
 
+#translation-settings-wizard .disabled {
+  color: gray;
+}
+
 #translation-settings-wizard .disabled-label {
   margin-left: 0.5em;
   color: grey;
