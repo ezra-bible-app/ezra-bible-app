@@ -13,8 +13,8 @@
   "requires": [
       "libicu",
       "zlib",
-      "sqlite-devel",
-      "libcurl-devel"
+      "sqlite",
+      "libcurl"
   ],
   "homepage": "https://github.com/tobias-klein/ezra-project"
 }
