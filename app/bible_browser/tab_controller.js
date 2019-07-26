@@ -405,6 +405,24 @@ class TabController {
     var currentTab = this.metaTabs[currentTabIndex];
     return currentTab.book == null && currentTab.tagIdList == "";
   }
+
+  updateTabTitleAfterTagRenaming(old_title, new_title) {
+    for (var i = 0; i < this.metaTabs.length; i++) {
+      var currentMetaTab = this.metaTabs[i];
+      if (!currentMetaTab.textIsBook) {
+        var currentTagTitleList = currentMetaTab.tagTitleList;
+        var tag_list = currentTagTitleList.split(', ');
+        for (var j = 0; j < tag_list.length; j++) {
+          var current_tag = tag_list[j];
+          if (current_tag == old_title) {
+            tag_list[j] = new_title;
+            break;
+          }
+        }
+        this.setTabTitle(i, tag_list.join(', '));
+      }
+    }
+  }
 }
 
 module.exports = TabController;

@@ -213,7 +213,7 @@ function TagsController() {
     tags_controller.communication_controller.update_tag(tags_controller.rename_standard_tag_id, new_title);
     tags_controller.sort_tag_lists();
     bible_browser_controller.tag_selection_menu.request_tags_for_menu();
-    bible_browser_controller.update_tag_title_in_selection(tags_controller.rename_standard_tag_title, new_title);
+    bible_browser_controller.tab_controller.updateTabTitleAfterTagRenaming(tags_controller.rename_standard_tag_title, new_title);
   };
 
   this.rename_tag_in_view = function(id, title) {

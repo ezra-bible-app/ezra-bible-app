@@ -611,21 +611,6 @@ function BibleBrowserController() {
     $('#tag-reference-box-verse-list').html(htmlVerses);
   };
 
-  this.update_tag_title_in_selection = function(old_title, new_title) {
-    var currentTagTitleList = bible_browser_controller.tab_controller.getCurrentTagTitleList();
-    if (currentTagTitleList != null) {
-      var tag_list = currentTagTitleList.split(', ');
-      for (var i = 0; i < tag_list.length; i++) {
-        var current_tag = tag_list[i];
-        if (current_tag == old_title) {
-          tag_list[i] = new_title;
-          break;
-        }
-      }
-      bible_browser_controller.tab_controller.setCurrentTagTitleList(tag_list.join(', '));
-    }
-  };
-
   this.get_tagged_verses = function() {
     var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList();
     var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
