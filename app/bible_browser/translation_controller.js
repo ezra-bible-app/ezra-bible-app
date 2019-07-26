@@ -195,7 +195,7 @@ class TranslationController {
       bibleTranslationInfo += bibleTranslationModule.about.replace(/\\par/g, "<br>");
       var moduleSize = Math.round(bibleTranslationModule.size / 1024) + " KB";
 
-      bibleTranslationInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>Sword module info</p>";
+      bibleTranslationInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>SWORD module info</p>";
       bibleTranslationInfo += "<table>";
       bibleTranslationInfo += "<tr><td style='width: 9em;'>Name:</td><td>" + bibleTranslationModule.name + "</td></tr>";
       bibleTranslationInfo += "<tr><td>Version:</td><td>" + bibleTranslationModule.version + "</td></tr>";
@@ -211,6 +211,9 @@ class TranslationController {
       }
 
       bibleTranslationInfo += "</table>";
+
+      bibleTranslationInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>SWORD library info</p>";
+      bibleTranslationInfo += "<p>Using SWORD version <b>" + this.nodeSwordInterface.getSwordVersion() + "</b>.</p>";
     } catch (ex) {
       console.error("Got exception while trying to get bible translation info: " + ex);
     }

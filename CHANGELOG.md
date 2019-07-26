@@ -10,11 +10,12 @@ All notable changes to Ezra Project are documented in this file.
 * Information about SWORD modules can now be shown before installation when using the bible translation wizard.
 * Installer for Windows app
 * macOS support
-* Automatic upload of crash information to Sentry.io in case of crashes
+* Automatic upload of information to Sentry.io in case of JavaScript bugs
 
 ### Changed
 * Added module location as another attribute to module information dialog
 * Show number of tagged verses in title of tagged verse list popup
+* Show SWORD version in bible module info dialogue
 
 ### Fixed
 * Corrected bug with Sword paths on Windows and Unix. Now both the user path and the global path gets evaluated correctly both on Windows and on Unix.
