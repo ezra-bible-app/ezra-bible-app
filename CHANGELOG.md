@@ -14,11 +14,13 @@ All notable changes to Ezra Project are documented in this file.
 
 ### Changed
 * Added module location as another attribute to module information dialog
+* Show number of tagged verses in title of tagged verse list popup
 
 ### Fixed
 * Corrected bug with Sword paths on Windows and Unix. Now both the user path and the global path gets evaluated correctly both on Windows and on Unix.
 * Only disable close button of first tab when it's the last one
 * Remember the last selected bible translation and set that as a default for new tabs
+* Properly rename tab titles containing tags after tag has been renamed
 * Optimized package size (when packaging remove build artifacts not necessary for production)
 
 -->
