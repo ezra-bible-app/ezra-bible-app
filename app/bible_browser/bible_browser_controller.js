@@ -562,7 +562,7 @@ function BibleBrowserController() {
     return overlay_box_position;
   };
 
-  this.handle_tag_reference_click = function() {
+  this.handle_tag_reference_click = function(event) {
     var position = $(this).offset();
     var verse_box = $(this).closest('.verse-box');
     var verse_id = verse_box.find('.verse-id').text();
@@ -604,7 +604,10 @@ function BibleBrowserController() {
     $('#tag-reference-box').dialog("open");
   };
 
-  this.render_tagged_verse_list_in_reference_box = function(htmlVerses) {
+  this.render_tagged_verse_list_in_reference_box = function(htmlVerses, verseCount) {
+    var tagReferenceBoxTitle = $('#tag-reference-box').dialog('option', 'title');
+    tagReferenceBoxTitle += ' (' + verseCount + ')';
+    $('#tag-reference-box').dialog({ title: tagReferenceBoxTitle });
     $('#tag-reference-box-verse-list').html(htmlVerses);
   };
 

@@ -100,10 +100,7 @@ class BibleBrowserCommunicationController {
                                                    verses,
                                                    render_function,
                                                    renderVerseMetaInfo);
-      render_function(verses_as_html);
-
     } else if (render_type == "docx") {
-
       render_function(bibleBooks, groupedVerseTags, verses);
     }
   }
@@ -119,7 +116,7 @@ class BibleBrowserCommunicationController {
       reference_separator: reference_separator
     });
 
-    render_function(verses_as_html);
+    render_function(verses_as_html, verses.length);
   }
 }
 
