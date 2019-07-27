@@ -16,6 +16,7 @@ All notable changes to Ezra Project are documented in this file.
 * Added module location as another attribute to module information dialog
 * Show number of tagged verses in title of tagged verse list popup
 * Show SWORD version in bible module info dialogue
+* Added Windows build instructions ([#2][i2])
 
 ### Fixed
 * Corrected bug with Sword paths on Windows and Unix. Now both the user path and the global path gets evaluated correctly both on Windows and on Unix.
@@ -23,6 +24,8 @@ All notable changes to Ezra Project are documented in this file.
 * Remember the last selected bible translation and set that as a default for new tabs
 * Properly rename tab titles containing tags after tag has been renamed
 * Optimized package size (when packaging remove build artifacts not necessary for production)
+
+[i2]: https://github.com/tobias-klein/ezra-project/issues/2
 
 -->
 
