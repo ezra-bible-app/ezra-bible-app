@@ -621,7 +621,7 @@ h2 {
 }
 
 .book-select-button, .tag-select-button, .display-options-button, .note-session-select-button {
-  width: 5.5em;
+  width: 6em;
   padding: 0.5em;
   cursor: pointer;
   margin: 0 4px 0 0;
