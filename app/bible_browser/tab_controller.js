@@ -174,7 +174,9 @@ class TabController {
   bindEvents() {
     this.tabs.tabs({
       select: (event, ui) => {
-        this.onTabSelected(event, ui);
+        setTimeout(() => {
+          this.onTabSelected(event, ui);
+        }, 800);
       }
     });
 
