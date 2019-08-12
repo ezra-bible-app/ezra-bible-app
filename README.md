@@ -110,8 +110,8 @@ After performing these steps you can run Ezra Project by running this command in
 
 To create a release directory that contains all necessary files, run the following command in the project dir: `npm run package-mac`
 
-After the process is completed you will find a new directory `<project-dir>/release/ezra-project-linux-x64`.
-The application binary within that directory is named `ezra-project`.
+After the process is completed you will find a new directory `<project-dir>/release/Ezra Project-darwin-x64/`.
+In that directory you find an application package named `Ezra Project.app`.
 
 #### Signing and notarizing the app ####
 
