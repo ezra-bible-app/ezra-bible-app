@@ -110,8 +110,6 @@ After performing these steps you can run Ezra Project by running this command in
 
 To create a release directory that contains all necessary files, run the following command in the project dir: `npm run package-mac`
 
-You will be asked for your Apple ID and the corresponding password. The packaging script (package_mac.sh) will then create a release directory and afterwards sign and notarize the app. This is a lengthy process (may take 15-20 minutes).
-
 After the process is completed you will find a new directory `<project-dir>/release/ezra-project-linux-x64`.
 The application binary within that directory is named `ezra-project`.
 
