@@ -5,6 +5,10 @@ Ezra Project is an open source bible study tool focussing on topical study based
 
 ![Ezra Project 0.8.0](/screenshots/ezra_project_0_8_0.png?raw=true "Ezra Project 0.8.0")
 
+## Usage / Howto
+
+Watch [this video](https://www.youtube.com/watch?v=b8gScfa0MqM) to understand how to use Ezra Project.
+
 ## Installation
 ### Windows
 Install Ezra Project by downloading the zip file and extracting it in a directory of your choice. After that, you can execute Ezra Project using the binary *ezra-project.exe* in the toplevel folder.
@@ -15,10 +19,6 @@ Install Ezra Project by downloading a package for your distribution. After insta
 * **Ubuntu 18.04 / 19.04:** Dowload the appropriate Debian package attached to the [latest release][latest] and install, e.g.: `sudo dpkg -i ezra-project_ubuntu1904_0.8.1_amd64.deb`.
 * **Fedora 29 / 30 & CentOS 7:** Download the appropriate RPM package package attached to the [latest release][latest] and install, e.g.: `sudo dnf localinstall ezra-project_fedora29_0.8.1_x86_64.rpm`.
 * **Arch Linux:** Use your favorite AUR package manager to install *[ezra-project](https://aur.archlinux.org/packages/ezra-project)* (or *[ezra-project-git](https://aur.archlinux.org/packages/ezra-project-git)*), e.g.: `yay -S ezra-project`.
-
-## Usage / Howto
-
-Watch [this video howto](https://www.youtube.com/watch?v=b8gScfa0MqM) to understand how to use Ezra Project.
 
 ## Technology
 Ezra Project is a web-based desktop application based on [Electron](https://electronjs.org/). It is programmed in JavaScript, uses [SQLite](https://www.sqlite.org) as its database and HTML with [jQuery UI](https://jqueryui.com/) for its frontend. Bible translation modules are managed using [node-sword-interface](https://github.com/tobias-klein/node-sword-interface).
