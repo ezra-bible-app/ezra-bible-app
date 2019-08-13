@@ -9,7 +9,7 @@ All notable changes to Ezra Project are documented in this file.
 * Section titles (from SWORD modules) can now be shown/hidden based on an option in the menu.
 * Information about SWORD modules can now be shown before installation when using the bible translation wizard.
 * Installer for Windows app
-* macOS support
+* macOS support (macOS build produces signed & notarized DMGs compatible with macOS 10.14 Mojave)
 * Automatic upload of information to Sentry.io in case of JavaScript bugs
 
 ### Changed
