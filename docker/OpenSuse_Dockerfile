@@ -1,18 +1,13 @@
 # Dockerfile for OpenSuse Build Enviroment for Ezra Project
 
-FROM opensuse:42.3
+FROM opensuse/leap:15.1
 
 ARG HOST_USER
 
-# necessary for gcc49 support
-RUN zypper --non-interactive --quiet addrepo --refresh http://download.opensuse.org/repositories/home:/Ledest:/devel/openSUSE_Leap_42.3/home:Ledest:devel.repo
-# necessary for nodejs8
-RUN zypper --non-interactive --quiet addrepo --refresh http://download.opensuse.org/tumbleweed/repo/oss/ tumbleweed
-
 RUN zypper --gpg-auto-import-keys refresh
 
-RUN zypper install -y sudo gcc49-c++ make vim git subversion cmake nodejs8 npm rpm-build
-RUN zypper install -y libcurl-devel sqlite3-devel libicu-devel
+RUN zypper install -y sudo gcc-c++ make vim git subversion cmake nodejs npm rpm-build
+RUN zypper install -y libcurl-devel libicu-devel sqlite3-devel unzip
 
 RUN npm install -g electron-installer-redhat
 

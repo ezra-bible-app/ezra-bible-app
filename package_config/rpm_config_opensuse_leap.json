@@ -11,7 +11,9 @@
   "description": "Ezra Project is a Bible study tool focussing on topical study based on keywords/tags.",
   "productDescription": "Ezra Project is a Bible study tool focussing on topical study based on keywords/tags. This program helps the user to easily create and manage topical verse lists. Ezra Project works with SWORD Bible translation modules and thus enables Bible study in many languages.",
   "requires": [
-      "icu",
+      "libicu60_2",
+      "zlib",
+      "libsqlite3-0",
       "libcurl4"
   ],
   "homepage": "https://github.com/tobias-klein/ezra-project"
