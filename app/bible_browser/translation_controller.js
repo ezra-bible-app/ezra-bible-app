@@ -268,7 +268,7 @@ class TranslationController {
       }
 
       if (!localModuleFound) {
-        modulesNotInDb.push(localSwordModuleName);
+        modulesNotInDb.push(localSwordModules[i]);
         //console.log("The local module " + localSwordModuleName + " is not in the DB yet!");
       }
     }
@@ -285,15 +285,13 @@ class TranslationController {
     htmlElementForMessages.dialog("open");
     await this.sleep(200);
 
-    for (var i = 0; i < modulesNotInDb.length; i++) {
-      var moduleDescription = this.nodeSwordInterface.getModuleDescription(modulesNotInDb[i]);
-      
-      var message = "<span>Synchronizing <i>" + moduleDescription + "</i> ...</span>";
+    for (var i = 0; i < modulesNotInDb.length; i++) {     
+      var message = "<span>Synchronizing <i>" + modulesNotInDb[i].description + "</i> ...</span>";
       htmlElementForMessages.append(message);
       htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
 
       await this.sleep(200);
-      await models.BibleTranslation.importSwordTranslation(modulesNotInDb[i]);
+      await models.BibleTranslation.importSwordTranslation(modulesNotInDb[i].name);
       var doneMessage = "<span> done.</span><br/>";
       htmlElementForMessages.append(doneMessage);
       if (i < modulesNotInDb.length) await this.sleep(500);
@@ -305,7 +303,7 @@ class TranslationController {
 
     await this.sleep(2000);
     htmlElementForMessages.dialog("close");
-    bible_browser_controller.updateUiAfterBibleTranslationAvailable(modulesNotInDb[0]);
+    bible_browser_controller.updateUiAfterBibleTranslationAvailable(modulesNotInDb[0].name);
   }
 
   getCurrentBibleTranslationLoadingIndicator() {
