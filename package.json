@@ -20,6 +20,7 @@
     "installer-win": "node_modules\\.bin\\electron-installer-windows --src release\\ezra-project-win32-ia32 --dest release\\packages --config win_installer_config.json",
     "deb_1804": "electron-installer-debian --src release/ezra-project-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_ubuntu1804.json",
     "deb_1904": "electron-installer-debian --src release/ezra-project-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_ubuntu1904.json",
+    "deb_mint18": "electron-installer-debian --src release/ezra-project-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_mint18.json",
     "rpm_centos7": "electron-installer-redhat --src release/ezra-project-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_centos7.json",
     "rpm_fedora29": "electron-installer-redhat --src release/ezra-project-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_fedora29.json",
     "rpm_opensuse_leap": "electron-installer-redhat --src release/ezra-project-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_opensuse_leap.json"
