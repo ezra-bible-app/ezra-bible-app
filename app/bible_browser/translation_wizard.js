@@ -490,6 +490,10 @@ class TranslationWizard {
     var translationList = wizardPage.find('#translation-list');
     var translationInfo = wizardPage.find('#translation-info');
     translationList.empty();
+    var translationInfoContent = "Click on a translation code (link after translation name) " +
+                                 "to show detailed module information here.<br/>";
+                                 
+    $('#translation-info-content').html(translationInfoContent);
 
     var languagesPage = "#translation-settings-wizard-add-p-1";
     var uiLanguages = this.getSelectedSettingsWizardElements(languagesPage);
