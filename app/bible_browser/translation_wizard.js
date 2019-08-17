@@ -534,13 +534,13 @@ class TranslationWizard {
 
     translationList.find('.bible-translation-info').bind('click', function() {
       var translationCode = $(this).text();
+      $('#translation-info-content').empty();
       $('#translation-info').find('.loader').show();
 
       setTimeout(() => {
         var moduleInfo = bible_browser_controller.translation_controller.getBibleTranslationInfo(translationCode, true);
         $('#translation-info').find('.loader').hide();
-        $('#translation-info').empty();
-        $('#translation-info').append(moduleInfo);
+        $('#translation-info-content').append(moduleInfo);
       }, 200);
     });
 
