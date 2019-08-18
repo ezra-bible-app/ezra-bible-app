@@ -5,12 +5,12 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "rebuild": "electron-rebuild -f -w node-sword-interface -v 4.2.6",
-    "rebuild-win": "node_modules\\.bin\\electron-rebuild.cmd --arch=ia32 -f -w sqlite3 -v 4.2.6",
+    "rebuild": "electron-rebuild -f -w node-sword-interface -v 4.2.9",
+    "rebuild-win": "node_modules\\.bin\\electron-rebuild.cmd --arch=ia32 -f -w sqlite3 -v 4.2.9",
     "migrate-db": "sequelize db:migrate && sequelize db:seed:all",
     "purge-build-artifacts": "./purge_build_artifacts.sh",
-    "package-linux": "electron-packager . ezra-project --overwrite --platform=linux --arch=x64 --prune=true --out=release --electron-version=4.2.6",
-    "package-win": "electron-packager . ezra-project --overwrite --platform=win32 --arch=ia32 --prune=true --out=release --electron-version=4.2.6",
+    "package-linux": "electron-packager . ezra-project --overwrite --platform=linux --arch=x64 --prune=true --out=release --electron-version=4.2.9",
+    "package-win": "electron-packager . ezra-project --overwrite --platform=win32 --arch=ia32 --prune=true --out=release --electron-version=4.2.9",
     "package-mac": "./package_mac.sh",
     "sign-mac": "./sign_mac.sh",
     "notarize-mac": "./notarize_mac.sh",
@@ -49,7 +49,7 @@
     "umzug": "^2.2.0"
   },
   "devDependencies": {
-    "electron": "^4.2.6",
+    "electron": "^4.2.9",
     "electron-osx-sign": "^0.4.12",
     "electron-packager": "^14.0.4",
     "electron-rebuild": "^1.8.4",
