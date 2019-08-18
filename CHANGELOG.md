@@ -8,15 +8,18 @@ All notable changes to Ezra Project are documented in this file.
   gives more overview and makes it easier to focus on the text.
 * Section titles (from SWORD modules) can now be shown/hidden based on an option in the menu.
 * Information about SWORD modules can now be shown before installation when using the bible translation wizard.
-* Installer for Windows app
-* macOS support (macOS build produces signed & notarized DMGs compatible with macOS 10.14 Mojave)
 * Automatic upload of information to Sentry.io in case of JavaScript bugs
+* Additional packages/platforms:
+  - macOS support (macOS build produces signed & notarized DMGs compatible with macOS 10.14 Mojave)
+  - Installer for Windows app
+  - OpenSuse package
 
 ### Changed
 * Added module location as another attribute to module information dialog
 * Show number of tagged verses in title of tagged verse list popup
 * Show SWORD version in bible module info dialogue
 * Added Windows build instructions ([#2][i2])
+* Upgraded Electron from 4.2.6 to 4.2.9
 
 ### Fixed
 * Corrected bug with Sword paths on Windows and Unix. Now both the user path and the global path gets evaluated correctly both on Windows and on Unix.
