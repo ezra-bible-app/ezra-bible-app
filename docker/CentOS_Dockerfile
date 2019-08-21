@@ -17,7 +17,7 @@ RUN yum -y install epel-release
 RUN yum repolist
 RUN yum install -y sword-devel libsqlite3x-devel.x86_64 libicu-devel libcurl-devel subversion cmake
 
-RUN npm install -g electron-installer-redhat
+RUN npm install -g electron-installer-redhat@2.0.0
 RUN yum install -y rpm-build
 
 RUN echo "source scl_source enable devtoolset-3" >> /etc/profile
