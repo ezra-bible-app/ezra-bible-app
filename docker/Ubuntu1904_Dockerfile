@@ -21,5 +21,6 @@ RUN apt-get install -y nodejs
 
 RUN npm install -g electron-packager
 RUN npm install -g electron-installer-debian
+RUN apt-get install -y unzip
 
 RUN useradd -ms /bin/bash $HOST_USER
