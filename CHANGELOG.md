@@ -12,7 +12,9 @@ All notable changes to Ezra Project are documented in this file.
 * Additional packages/platforms:
   - macOS support (macOS build produces signed & notarized DMGs compatible with macOS 10.14 Mojave)
   - Installer for Windows app
-  - OpenSuse package
+  - OpenSuse Leap 15.1 package
+  - Debian 10 package
+  - Linux Mint 18 package
 
 ### Changed
 * Added module location as another attribute to module information dialog
@@ -26,6 +28,7 @@ All notable changes to Ezra Project are documented in this file.
 * Only disable close button of first tab when it's the last one
 * Remember the last selected bible translation and set that as a default for new tabs
 * Properly rename tab titles containing tags after tag has been renamed
+* Sword backend: Also retrieve empty verses, but only if corresponding bible book is generally existing (applies to John 5:4 for some translations)
 * Optimized package size (when packaging remove build artifacts not necessary for production)
 
 [i2]: https://github.com/tobias-klein/ezra-project/issues/2
