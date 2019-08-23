@@ -63,6 +63,7 @@ The following instructions have been verified on macOS _Mojave_. The assumption 
 2. Install Command Line Developer Tools (contains Compiler toolchain, svn, git, etc.) by running this command: `xcode-select --install`   
 2. Install the homebrew package manager by running this command: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 3. Install some packages with homebrew by running this command: `brew install pkg-config cmake npm`
+4. Install the macOS specific npm package electron-installer-dmg by running this command: `npm install -g electron-installer-dmg`
 
 ### Setup and build ####
 
