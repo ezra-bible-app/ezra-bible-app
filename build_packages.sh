@@ -55,6 +55,6 @@ cp /tmp/ezra-packages/ezra-project-centos7/release/packages/ezra-project-${VERSI
 echo ""
 echo "******** Building for OpenSuse Leap ******** "
 docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-opensuse-leap opensuse-leap.ezra:1.0 /tmp/ezra-packages/ezra-project-opensuse-leap/build.sh
-docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-opensuse-leap opensuse.ezra:1.0 npm run rpm_opensuse_leap
+docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-opensuse-leap opensuse-leap.ezra:1.0 npm run rpm_opensuse_leap
 cp /tmp/ezra-packages/ezra-project-opensuse-leap/release/packages/ezra-project-${VERSION}-1.x86_64.rpm ezra-project_opensuse_leap_${VERSION}.x86_64.rpm
 
