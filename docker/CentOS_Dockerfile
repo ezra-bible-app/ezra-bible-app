@@ -15,11 +15,15 @@ RUN update-alternatives --install /usr/bin/g++-4.9 g++-4.9 /opt/rh/devtoolset-3/
 
 RUN yum -y install epel-release
 RUN yum repolist
-RUN yum install -y sword-devel libsqlite3x-devel.x86_64 libicu-devel libcurl-devel subversion cmake unzip
+RUN yum install -y sword-devel libsqlite3x-devel.x86_64 libicu-devel libcurl-devel subversion unzip
 
 RUN npm install -g electron-installer-redhat@2.0.0
 RUN yum install -y rpm-build
+RUN yum install -y wget
 
-RUN echo "source scl_source enable devtoolset-3" >> /etc/profile
+RUN mkdir /root/cmake
+RUN wget -qO- https://github.com/Kitware/CMake/releases/download/v3.15.2/cmake-3.15.2.tar.gz | tar -xvz -C /root/cmake
+
+RUN source /opt/rh/devtoolset-3/enable && cd /root/cmake/cmake-3.15.2/ && ./configure && make -j4 && make install
 
 RUN useradd -ms /bin/bash $HOST_USER
