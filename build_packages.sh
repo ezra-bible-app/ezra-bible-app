@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION=0.8.2
+VERSION=0.9.0
 
 rm -rf /tmp/ezra-packages
 mkdir /tmp/ezra-packages
