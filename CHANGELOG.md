@@ -4,6 +4,15 @@ All notable changes to Ezra Project are documented in this file.
 <!--
 ## [Unreleased]
 ### Added
+
+### Changed
+
+### Fixed
+
+-->
+
+## [0.9.0] - 2019-08-23
+### Added
 * Tags can now be shown in a column next to the bible text. This is particularly useful when having a lot of tags, as it
   gives more overview and makes it easier to focus on the text.
 * Section titles (from SWORD modules) can now be shown/hidden based on an option in the menu.
@@ -32,8 +41,6 @@ All notable changes to Ezra Project are documented in this file.
 * Optimized package size (when packaging remove build artifacts not necessary for production)
 
 [i2]: https://github.com/tobias-klein/ezra-project/issues/2
-
--->
 
 ## [0.8.1] - 2019-06-21
 ### Added
