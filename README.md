@@ -11,14 +11,17 @@ Watch [this video](https://www.youtube.com/watch?v=b8gScfa0MqM) to understand ho
 
 ## Installation
 ### Windows
-Install Ezra Project by downloading the zip file and extracting it in a directory of your choice. After that, you can execute Ezra Project using the binary *ezra-project.exe* in the toplevel folder.
+Install Ezra Project by downloading the installer. The installer can then be executed with one click/double-click. Once installed, Ezra Project will open automatically and there will be a link available on your Desktop.
 
 ### Linux
 Install Ezra Project by downloading a package for your distribution. After installing the package you will find "Ezra Project" in your application menu.
 
-* **Ubuntu 18.04 / 19.04:** Dowload the appropriate Debian package attached to the [latest release][latest] and install, e.g.: `sudo dpkg -i ezra-project_ubuntu1904_0.8.1_amd64.deb`.
-* **Fedora 29 / 30 & CentOS 7:** Download the appropriate RPM package package attached to the [latest release][latest] and install, e.g.: `sudo dnf localinstall ezra-project_fedora29_0.8.1_x86_64.rpm`.
+* **Ubuntu 18.04 / 19.04 & Debian 10 & Linux Mint 18:** Download the appropriate Debian package attached to the [latest release][latest] and install, e.g.: `sudo dpkg -i ezra-project_ubuntu1904_0.9.0_amd64.deb`.
+* **Fedora 29 / 30 & CentOS 7 & OpenSuse 15.1:** Download the appropriate RPM package package attached to the [latest release][latest] and install, e.g.: `sudo dnf localinstall ezra-project_fedora29_0.9.0_x86_64.rpm`.
 * **Arch Linux:** Use your favorite AUR package manager to install *[ezra-project](https://aur.archlinux.org/packages/ezra-project)* (or *[ezra-project-git](https://aur.archlinux.org/packages/ezra-project-git)*), e.g.: `yay -S ezra-project`.
+
+### macOS
+Install Ezra Project by downloading the DMG file. After opening the DMG file from Finder you can either just test-run Ezra Project (double-click the icon), or drag-and-drop the icon to the Applications folder to install it. Note, that macOS may warn you that this is an app downloaded from the internet. That message must be acknowledged before you can run the application.
 
 ## Technology
 Ezra Project is a web-based desktop application based on [Electron](https://electronjs.org/). It is programmed in JavaScript, uses [SQLite](https://www.sqlite.org) as its database and HTML with [jQuery UI](https://jqueryui.com/) for its frontend. Bible translation modules are managed using [node-sword-interface](https://github.com/tobias-klein/node-sword-interface).
