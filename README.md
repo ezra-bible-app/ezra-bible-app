@@ -10,6 +10,8 @@ Ezra Project is an open source bible study tool focussing on topical study based
 Watch [this video](https://www.youtube.com/watch?v=b8gScfa0MqM) to understand how to use Ezra Project.
 
 ## Installation
+The latest installation packages for Windows, Linux and macOS can be found on [this page][latest]. Specific install instructions are below.
+
 ### Windows
 Install Ezra Project by downloading the installer. The installer can then be executed with one click/double-click. Once installed, Ezra Project will open automatically and there will be a link available on your Desktop.
 
