@@ -3,15 +3,16 @@ const i18nextBackend = require('i18next-node-fs-backend');
 const LanguageDetector = require('i18next-electron-language-detector');
 const jqueryI18next = require('jquery-i18next');
 const NodeSwordInterface = require('node-sword-interface');
+const path = require('path');
 
 const i18nextOptions = {
   debug: false,
   backend:{
     // path where resources get loaded from
-    loadPath: './locales/{{lng}}/{{ns}}.json',
+    loadPath: path.join(__dirname, '../locales/{{lng}}/{{ns}}.json'),
 
     // path to post missing resources
-    addPath: './locales/{{lng}}/{{ns}}.missing.json',
+    addPath: path.join(__dirname, '../locales/{{lng}}/{{ns}}.missing.json'),
 
     // jsonIndent to use when storing json files
     jsonIndent: 2,
