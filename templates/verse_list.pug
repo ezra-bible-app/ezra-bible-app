@@ -61,7 +61,7 @@ each bibleBook in bibleBooks
                 - var verseTagBibleBookIsNull = (verseTag.bibleBookId == "NULL" || verseTag.bibleBookId == null)
                 if !verseTagBibleBookIsNull
                   - current_tag_title += " *"
-                div.tag(title='Click to select all verses with this tag') !{current_tag_title}
+                div.tag(title=tagHint) !{current_tag_title}
         div.verse-text !{verse.content}
         div.cr-box
       div.verse-notes

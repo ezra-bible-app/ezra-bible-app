@@ -189,8 +189,8 @@ class TaggedVerseExport {
 
     var dialogOptions = {
       defaultPath: app.getPath('documents') + '/' + fileName,
-      title: "Export tagged verse list to Word document",
-      buttonLabel: "Run export"
+      title: i18n.t("tags.export-tagged-verse-list"),
+      buttonLabel: i18n.t("tags.run-export")
     }
 
     return dialogOptions;

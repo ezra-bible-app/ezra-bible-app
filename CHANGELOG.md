@@ -4,6 +4,8 @@ All notable changes to Ezra Project are documented in this file.
 <!--
 ## [Unreleased]
 ### Added
+* i18n support:
+    - Added German translation
 
 ### Changed
 

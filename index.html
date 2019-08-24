@@ -245,22 +245,18 @@ var bible_chapter_verse_counts = {};
 <div id="app-container">
   <div id="bible-browser-toolbox">
     <div id="tags-header" class="tab-component-menu">
-      <div id="selection-box"><span class="bold">Selection:</span> <span id="selected-verses">None</span></div>
+      <div id="selection-box"><span class="bold" i18n="bible-browser.selection"></span> <span id="selected-verses">None</span></div>
       <!-- <div id="clippy-box"></div> -->
 
       <div id="tags-toolbar">
         <!-- // Meta Tags disabled as long as they are not functional
         <button id="new-meta-tag-button" class="fg-button ui-state-default ui-corner-all" type="button">New meta tag</button>
         -->
-        <button id="new-standard-tag-button" class="fg-button ui-state-default ui-corner-all" type="button">New tag</button>
+        <button id="new-standard-tag-button" class="fg-button ui-state-default ui-corner-all" type="button" i18n="tags-toolbar.new-tag"></button>
 
-        <button id="show-book-tag-statistics-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled">
-        Tag statistics
-        </button>
+        <button id="show-book-tag-statistics-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="tags-toolbar.tag-statistics"></button>
 
-        <button id="show-translation-settings-button" class="fg-button ui-corner-all ui-state-default">
-        Configure translations
-        </button>
+        <button id="show-translation-settings-button" class="fg-button ui-corner-all ui-state-default" i18n="tags-toolbar.configure-translations"></button>
 
         <!-- // Book Tags disabled as long as they are not functional
         <button id="new-book-tag-button" class="fg-button ui-state-default ui-corner-all" type="button">New book tag</button>
@@ -273,7 +269,7 @@ var bible_chapter_verse_counts = {};
     </div>
 
     <div id="new-standard-tag-dialog" style="display: none; padding-top: 2em; padding-bottom: 2em;">
-      <span id="new-standard-tag-title-label">Title: </span><input id="new-standard-tag-title-input" type="text" maxlength="255" />
+      <span id="new-standard-tag-title-label" i18n="tags.tag-title"></span><input id="new-standard-tag-title-input" type="text" maxlength="255" />
     </div>
 
     <div id="new-book-tag-dialog" style="display: none;">
@@ -285,18 +281,18 @@ var bible_chapter_verse_counts = {};
     </div>
 
     <div id="delete-tag-confirmation-dialog" style="display: none;">
-      <p>Do you really want to delete the tag &quot;<span id="delete-tag-name"></span>&quot;?
-      The tag information would be deleted <span class="bold">for all associated verses!</span> (<span id="delete-tag-number-of-verses"></span>)</p>
+      <p><span i18n="tags.really-delete"></span>&quot;<span id="delete-tag-name"></span>&quot;</p>
+      <p><span i18n="[html]tags.tag-info-would-be-deleted"></span> (<span id="delete-tag-number-of-verses"></span>)</p>
     </div>
 
     <div id="remove-tag-assignment-confirmation-dialog" style="display: none;">
-      <p>Do you really want to remove the tag &quot;<span id="remove-tag-assignment-name" class="italic"></span>&quot; from the selected verses?</p>
+      <p i18n="[html]tags.really-remove-tag-assignment"></p>
     </div>
 
     <div id="filter-dialog">
-      <input type="radio" name="tag-filter" value="all" checked="checked">All tags</input><br/>
-      <input type="radio" name="tag-filter" value="assigned">Assigned tags</input><br/>
-      <input type="radio" name="tag-filter" value="unassigned">Unassigned tags</input><br/>
+      <input type="radio" name="tag-filter" value="all" checked="checked"><span i18n="tags.all-tags"></span></input><br/>
+      <input type="radio" name="tag-filter" value="assigned"><span i18n="tags.assigned-tags"></span></input><br/>
+      <input type="radio" name="tag-filter" value="unassigned"><span i18n="tags.unassigned-tags"></span></input><br/>
     </div>
 
     <div id="rename-standard-tag-dialog" style="display: none;">
@@ -324,7 +320,7 @@ var bible_chapter_verse_counts = {};
       <h3><a href="#">Tags</a></h3>
       <div id="tags-content-global">
         <div id="tags-loading-indicator" style="display: none; width: 15em; margin-top: 10em; margin-left: auto; margin-right: auto;">
-          <div style="float: left;">Loading tags</div>
+          <div style="float: left;" i18n="tags.loading-tags"></div>
 
           <div class="loader">
             <div class="bounce1"></div>
@@ -433,7 +429,7 @@ var bible_chapter_verse_counts = {};
     <!--<div class="book-selection-menu-footer">Hint: Recently opened books are highlighted with <span class="bold">bold</span> font</div>-->
 
     <div id="tag-selection-filter">
-      <span id="tag-selection-filter-label">Search: </span>
+      <span id="tag-selection-filter-label" i18n="tags.tag-filter"></span>
       <input id="tag-selection-filter-input" type="text" maxlength="30" />
     </div>
 
@@ -447,17 +443,17 @@ var bible_chapter_verse_counts = {};
   <div id="display-options-menu" class="display-options-menu">
     <div id="section-title-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
       <input id="section-title-switch" type="checkbox"></input>
-      <div class="switch-label" id="section-title-switch-label">Show section titles</div>
+      <div class="switch-label" id="section-title-switch-label" i18n="bible-browser.show-section-titles"></div>
     </div>
 
     <div id="tags-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default ui-state-active">
       <input id="tags-switch" type="checkbox" checked="checked"></input>
-      <div class="switch-label" id="tags-switch-label">Show tags</div>
+      <div class="switch-label" id="tags-switch-label" i18n="bible-browser.show-tags"></div>
     </div>
 
     <div id="tags-column-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
       <input id="tags-column-switch" type="checkbox"></input>
-      <div class="switch-label" id="tags-column-switch-label">Use tags column</div>
+      <div class="switch-label" id="tags-column-switch-label" i18n="bible-browser.use-tags-column"></div>
     </div>
 
     <!--<div id="verse-notes-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
@@ -473,34 +469,26 @@ var bible_chapter_verse_counts = {};
 
   <div id="translation-settings-wizard" title="Bible translation settings" style="display: none;">
     <div id="translation-settings-wizard-init">
-      <p style="margin-bottom: 2em;"><b>IMPORTANT NOTE</b><br/><br/>
-      Bible translation modules are installed using your internet connection.<br/>
-      If you are located in a country where Christians are persecuted,<br/>
-      you should <b>NOT</b> use this software due to a risk of detection!</p>
-      <button id="add-bible-translations-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled">
-      Add Bible translations
-      </button>
-      <button id="remove-bible-translations-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled">
-      Remove Bible translations
-      </button>
+      <p style="margin-bottom: 2em;" i18n="[html]translation-wizard.internet-usage-note"></p>
+      <button id="add-bible-translations-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="translation-wizard.add-translations"></button>
+      <button id="remove-bible-translations-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="translation-wizard.remove-translations"></button>
     </div>
     <div id="translation-settings-wizard-add" style="display: none;">
-      <h3>Repositories</h3>
+      <h3 i18n="translation-wizard.repositories"></h3>
       <section id="translation-repositories" class="scrollable">
       </section>
 
-      <h3>Languages</h3>
+      <h3 i18n="translation-wizard.languages"></h3>
       </h3>
       <section id="translation-languages" class="scrollable">
       </section>
 
-      <h3>Translations</h3>
+      <h3 i18n="translation-wizard.translations"></h3>
       <section id="translations">
         <div id="translation-list" class="scrollable"></div>
         <div id="translation-info" class="scrollable">
-          <div id="translation-info-content">
-          Click on a translation code (link after translation name) to show detailed module information here.<br/>
-          </div>
+          <div id="translation-info-content" i18n="translation-wizard.click-to-show-detailed-module-info"></div>
+          <br/>
           <div class="loader" style="margin-top: 1em;">
             <div class="bounce1"></div>
             <div class="bounce2"></div>
@@ -514,11 +502,11 @@ var bible_chapter_verse_counts = {};
       </section>
     </div>
     <div id="translation-settings-wizard-remove" style="display: none;">
-      <h3>Translations</h3>
+      <h3 i18n="translation-wizard.translations"></h3>
       <section id="translations" class="scrollable">
       </section>
 
-      <h3>Removal</h3>
+      <h3 i18n="translation-wizard.removal"></h3>
       <section id="uninstall" class="scrollable">
       </section>
     </div>
@@ -552,7 +540,7 @@ var bible_chapter_verse_counts = {};
   </div>
 
   <div id="verse-expand-box">
-    <div class="expand-button state-normal" title="Load the context of this verse"></div>
+    <div id="expand-button" class="state-normal" title=""></div>
   </div>
 
   <div id="verse-list-tabs">
@@ -568,18 +556,18 @@ var bible_chapter_verse_counts = {};
 
         <div class="fg-button book-select-button ui-state-default ui-corner-all">
           <div class="ui-icon ui-icon-triangle-1-s"></div>
-          <div class="book-select-value">Book</div>
+          <div class="book-select-value" i18n="verse-list-menu.book"></div>
         </div>
 
         <div class="fg-button tag-select-button ui-state-default ui-corner-all">
           <div class="ui-icon ui-icon-triangle-1-s"></div>
-          <div class="tag-select-label">Tags</div>
+          <div class="tag-select-label" i18n="verse-list-menu.tags"></div>
         </div>
 
         <!-- Display options menu disabled for now -->
         <div class="fg-button display-options-button ui-state-default ui-corner-all">
           <div class="ui-icon ui-icon-triangle-1-s"></div>
-          <div id="display-options-label">Options</div>
+          <div id="display-options-label" i18n="verse-list-menu.options"></div>
         </div>
 
         <div class="bible-select-block">
@@ -589,9 +577,7 @@ var bible_chapter_verse_counts = {};
 
         <button class="bible-translation-info-button fg-button ui-corner-all ui-state-default ui-state-disabled">i</button>
 
-        <button class="export-tagged-verses-button fg-button ui-corner-all events-configured ui-state-default ui-state-disabled">
-          Export
-        </button>
+        <button class="export-tagged-verses-button fg-button ui-corner-all events-configured ui-state-default ui-state-disabled" i18n="verse-list-menu.export"></button>
 
         <div class="loader" style="margin-left: 1em; margin-top: 0.3em">
           <div class="bounce1"></div>
@@ -607,7 +593,7 @@ var bible_chapter_verse_counts = {};
 
         <div class="verse-list-frame">
           <div class="verse-list-loading-indicator">
-            <div style="float: left;">Loading Bible text</div>
+            <div style="float: left;" i18n="bible-browser.loading-bible-text"></div>
 
             <div class="loader">
               <div class="bounce1"></div>
@@ -621,7 +607,6 @@ var bible_chapter_verse_counts = {};
 
           <div class="verse-list">
             <div class="help-text">
-            To start using Ezra Project, select a book or a tag from the menu above.
             </div>
           </div>
         </div> <!-- verse-list-frame -->

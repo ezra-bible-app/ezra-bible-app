@@ -18,6 +18,8 @@
 
 const app = require('electron').remote.app;
 const DbHelper = require('./app/db_helper.js');
+const I18nHelper = require('./app/i18n_helper.js');
+const i18n = require('i18next');
 
 var models = null;
 
@@ -383,6 +385,19 @@ function bind_click_to_checkbox_labels()
   }).addClass('events-configured');
 }
 
+async function initI18N()
+{
+  var i18nHelper = new I18nHelper();
+  await i18nHelper.init();
+  //await i18n.changeLanguage('de');
+  localizeUi();
+}
+
+async function localizeUi()
+{
+  $("#app-container").localize();
+}
+
 async function initApplication()
 {
   var applicationLoaded = false;
@@ -404,6 +419,9 @@ async function initApplication()
 
   console.log("Initializing models ...");
   models = require('./models')(dbDir);
+
+  console.log("Initializing i18n ...");
+  await initI18N();
 
   console.log("Initializing controllers ...");
   bible_browser_controller = new BibleBrowserController();

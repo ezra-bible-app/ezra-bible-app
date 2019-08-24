@@ -66,7 +66,7 @@ function TagsController() {
   $('#new-meta-tag-dialog').dialog(new_meta_tag_dlg_options);
 
   var new_standard_tag_dlg_options = {
-    title: gettext_strings.new_tag,
+    title: i18n.t("tags.new-tag"),
     width: 300,
     position: [60,180],
     autoOpen: false,
@@ -74,10 +74,10 @@ function TagsController() {
   };
 
   new_standard_tag_dlg_options.buttons = {};
-  new_standard_tag_dlg_options.buttons[gettext_strings.cancel] = function() {
+  new_standard_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {
     $(this).dialog("close");
   };
-  new_standard_tag_dlg_options.buttons[gettext_strings.create_tag] = function() {
+  new_standard_tag_dlg_options.buttons[i18n.t("tags.create-tag")] = function() {
     tags_controller.save_new_tag(this, "standard");
   };
 
@@ -120,7 +120,7 @@ function TagsController() {
   $('#delete-meta-tag-confirmation-dialog').dialog(delete_meta_tag_confirmation_dlg_options);
 
   var delete_tag_confirmation_dlg_options = {
-    title: gettext_strings.delete_tag,
+    title: i18n.t("tags.delete-tag"),
     width: 300,
     position: [60,180],
     autoOpen: false,
@@ -128,17 +128,17 @@ function TagsController() {
   };
 
   delete_tag_confirmation_dlg_options.buttons = {};
-  delete_tag_confirmation_dlg_options.buttons[gettext_strings.cancel] = function() {
+  delete_tag_confirmation_dlg_options.buttons[i18n.t("general.cancel")] = function() {
     $(this).dialog("close");
   };
-  delete_tag_confirmation_dlg_options.buttons[gettext_strings.delete_tag] = function() {
+  delete_tag_confirmation_dlg_options.buttons[i18n.t("tags.delete-tag")] = function() {
     tags_controller.delete_tag_after_confirmation();
   };
 
   $('#delete-tag-confirmation-dialog').dialog(delete_tag_confirmation_dlg_options);
 
   var remove_tag_assignment_confirmation_dlg_options = {
-    title: gettext_strings.remove_tag_assignment,
+    title: i18n.t("tags.remove-tag-assignment"),
     width: 360,
     position: [40,250],
     autoOpen: false,
@@ -146,30 +146,30 @@ function TagsController() {
   };
 
   remove_tag_assignment_confirmation_dlg_options.buttons = {};
-  remove_tag_assignment_confirmation_dlg_options.buttons[gettext_strings.cancel] = function() {
+  remove_tag_assignment_confirmation_dlg_options.buttons[i18n.t("general.cancel")] = function() {
     tags_controller.remove_tag_assignment_job.cb.attr('checked','checked');
     tags_controller.remove_tag_assignment_job = null;
 
     $(this).dialog("close");
   };
-  remove_tag_assignment_confirmation_dlg_options.buttons[gettext_strings.remove_tag_assignment] = function() {
+  remove_tag_assignment_confirmation_dlg_options.buttons[i18n.t("tags.remove-tag-assignment")] = function() {
     tags_controller.remove_tag_assignment_after_confirmation();
   };
 
   $('#remove-tag-assignment-confirmation-dialog').dialog(remove_tag_assignment_confirmation_dlg_options);
 
   var rename_standard_tag_dlg_options = {
-    title: gettext_strings.rename_tag,
+    title: i18n.t("general.rename"),
     width: 300,
     position: [40,250],
     autoOpen: false,
     dialogClass: 'ezra-dialog'
   };
   rename_standard_tag_dlg_options.buttons = {};
-  rename_standard_tag_dlg_options.buttons[gettext_strings.cancel] = function() {
+  rename_standard_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {
     $(this).dialog("close");
   };
-  rename_standard_tag_dlg_options.buttons[gettext_strings.rename_tag] = function() {
+  rename_standard_tag_dlg_options.buttons[i18n.t("general.rename")] = function() {
     tags_controller.close_dialog_and_rename_standard_tag();
   };
   $('#rename-standard-tag-dialog').dialog(rename_standard_tag_dlg_options);
@@ -649,7 +649,7 @@ function TagsController() {
 
   this.html_code_for_visible_tag = function(tag_title) {
     var tag_title_with_unbreakable_spaces = tag_title.replace(/ /g, '&nbsp;') + ' ';
-    return "<div class=\"tag\" title=\"" + gettext_strings.bible_browser_tag_hint + "\">" + 
+    return "<div class=\"tag\" title=\"" + i18n.t("bible-browser.tag-hint") + "\">" + 
            tag_title_with_unbreakable_spaces + "</div>";
   };
 
@@ -906,15 +906,17 @@ function TagsController() {
   this.init_verse_expand_box = function() {
     $('.verse-reference-content').filter(":not('.tag-events-configured')").bind('mouseover', tags_controller.mouse_over_verse_reference_content);
 
-    $('.expand-button').filter(":not('.tag-events-configured')").bind('mouseover', function() {
+    $("#expand-button").prop("title", i18n.t("bible-browser.load-verse-context"));
+
+    $('#expand-button').filter(":not('.tag-events-configured')").bind('mouseover', function() {
       $(this).addClass('state-highlighted');
     });
 
-    $('.expand-button').filter(":not('.tag-events-configured')").bind('mouseout', function() {
+    $('#expand-button').filter(":not('.tag-events-configured')").bind('mouseout', function() {
       $(this).removeClass('state-highlighted');
     });
 
-    $('.expand-button').filter(":not('.tag-events-configured')").bind('click', function() {
+    $('#expand-button').filter(":not('.tag-events-configured')").bind('click', function() {
       var currentTabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
       var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
       var current_reference = $(tags_controller.current_mouseover_verse_reference);
@@ -1247,7 +1249,7 @@ function TagsController() {
            "<span class=\"cb-label " + used_in_book_class + "\">" + title + "</span>" + 
            "<span class=\"cb-label-tag-assignment-count\">(" + tag_counts + ")</span>" +
            "<span class=\"cb-label-postfix\"></span>" +
-           "<span class=\"rename-tag-label\">[" + gettext_strings.rename + "]</span>" +
+           "<span class=\"rename-tag-label\">[" + i18n.t("general.rename") + "]</span>" +
            
            "</div>";
 
@@ -1633,10 +1635,10 @@ function TagsController() {
 
       if (translationCount > 0) {
         $('#new-standard-tag-button').removeClass('ui-state-disabled');
-        $('#tags-content-global').html(gettext_strings.help_text_no_tags_book_opened);
+        $('#tags-content-global').html(i18n.t("help.help-text-no-tags-book-opened"));
       } else {
         $('#new-standard-tag-button').addClass('ui-state-disabled');
-        $('#tags-content-global').html(gettext_strings.help_text_no_tags);
+        $('#tags-content-global').html(i18n.t("help.help-text-no-tags-no-book-opened"));
       }
     } else {
       $('.tag-select-button').removeClass('ui-state-disabled');

@@ -58,7 +58,8 @@ class BibleBrowserCommunicationController {
       bibleBooks: [bibleBook],
       verses: verses,
       verseTags: groupedVerseTags,
-      reference_separator: reference_separator
+      reference_separator: reference_separator,
+      tagHint: i18n.t("bible-browser.tag-hint")
     });
 
     render_function(verses_as_html);
@@ -113,7 +114,8 @@ class BibleBrowserCommunicationController {
       bibleBooks: bibleBooks,
       verses: verses,
       verseTags: groupedVerseTags,
-      reference_separator: reference_separator
+      reference_separator: reference_separator,
+      tagHint: i18n.t("bible-browser.tag-hint")
     });
 
     render_function(verses_as_html, verses.length);

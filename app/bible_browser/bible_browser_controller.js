@@ -596,7 +596,7 @@ function BibleBrowserController() {
     );
 
     var box_position = bible_browser_controller.get_overlay_verse_box_position(verse_box);
-    var title = gettext_strings.tagged_verses_for + ' "' + selected_tag + '"';
+    var title = i18n.t("tags.verses-tagged-with") + ' "' + selected_tag + '"';
 
     $('#tag-reference-box').dialog({
       position: [box_position.left, box_position.top],
@@ -723,7 +723,7 @@ function BibleBrowserController() {
     $('#book-tag-statistics-box').dialog({
       position: [verse_list_position.left + 50, verse_list_position.top + 50],
       width: 350,
-      title: currentBookName + ' - tag statistics'
+      title: currentBookName + ' - ' + i18n.t("bible-browser.tag-statistics")
     });
   };
 

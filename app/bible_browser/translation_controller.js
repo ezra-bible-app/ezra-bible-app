@@ -111,14 +111,14 @@ class TranslationController {
       bibleSelect.attr('disabled','disabled');
       $('.book-select-button').addClass('ui-state-disabled');
       var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
-      currentVerseList.find('.help-text').text(gettext_strings.help_text_no_translations);
+      currentVerseList.find('.help-text').text(i18n.t("help.help-text-no-translations"));
     } else {
       $('.bible-select').removeAttr('disabled');
       $('.book-select-button').removeClass('ui-state-disabled');
 
       if (currentBook == null && currentTagIdList == "")  {
         var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
-        currentVerseList.find('.help-text').text(gettext_strings.help_text_translation_available);
+        currentVerseList.find('.help-text').text(i18n.t("help.help-text-translation-available"));
       }
     }
   }
@@ -189,31 +189,34 @@ class TranslationController {
       if (isRemote) {
         bibleTranslationInfo += "<b>" + bibleTranslationModule.description + "</b><br><br>";
       } else {
-        bibleTranslationInfo += "<b>About</b><br><br>";
+        bibleTranslationInfo += "<b>" + i18n.t("general.module-about") + "</b><br><br>";
       }
 
       bibleTranslationInfo += bibleTranslationModule.about.replace(/\\par/g, "<br>");
       var moduleSize = Math.round(bibleTranslationModule.size / 1024) + " KB";
 
-      bibleTranslationInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>SWORD module info</p>";
+      var yes = i18n.t("general.yes");
+      var no = i18n.t("general.no");
+
+      bibleTranslationInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>" + i18n.t("general.sword-module-info") + "</p>";
       bibleTranslationInfo += "<table>";
-      bibleTranslationInfo += "<tr><td style='width: 9em;'>Name:</td><td>" + bibleTranslationModule.name + "</td></tr>";
-      bibleTranslationInfo += "<tr><td>Version:</td><td>" + bibleTranslationModule.version + "</td></tr>";
-      bibleTranslationInfo += "<tr><td>Language:</td><td>" + this.languageMapper.getLanguageName(bibleTranslationModule.language) + "</td></tr>";
-      bibleTranslationInfo += "<tr><td>Strong's:</td><td>" + (bibleTranslationModule.hasStrongs ? "Yes" : "No") + "</td></tr>";
-      bibleTranslationInfo += "<tr><td>Headings:</td><td>" + (bibleTranslationModule.hasHeadings ? "Yes" : "No") + "</td></tr>";
-      bibleTranslationInfo += "<tr><td>Footnotes:</td><td>" + (bibleTranslationModule.hasFootnotes ? "Yes" : "No") + "</td></tr>";
-      bibleTranslationInfo += "<tr><td>Cross references:</td><td>" + (bibleTranslationModule.hasCrossReferences ? "Yes" : "No") + "</td></tr>";
-      bibleTranslationInfo += "<tr><td>Red letter words:</td><td>" + (bibleTranslationModule.hasRedLetterWords ? "Yes" : "No") + "</td></tr>";
-      bibleTranslationInfo += "<tr><td>Size:</td><td>" + moduleSize + "</td></tr>";
+      bibleTranslationInfo += "<tr><td style='width: 9em;'>" + i18n.t("general.module-name") + ":</td><td>" + bibleTranslationModule.name + "</td></tr>";
+      bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-version") + ":</td><td>" + bibleTranslationModule.version + "</td></tr>";
+      bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-language") + ":</td><td>" + this.languageMapper.getLanguageName(bibleTranslationModule.language) + "</td></tr>";
+      bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-strongs") + ":</td><td>" + (bibleTranslationModule.hasStrongs ? yes : no) + "</td></tr>";
+      bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-headings") + ":</td><td>" + (bibleTranslationModule.hasHeadings ? yes : no) + "</td></tr>";
+      bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-footnotes") + ":</td><td>" + (bibleTranslationModule.hasFootnotes ? yes : no) + "</td></tr>";
+      bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-xrefs") + ":</td><td>" + (bibleTranslationModule.hasCrossReferences ? yes : no) + "</td></tr>";
+      bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-redletter") + ":</td><td>" + (bibleTranslationModule.hasRedLetterWords ? yes : no) + "</td></tr>";
+      bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-size") + ":</td><td>" + moduleSize + "</td></tr>";
       if (!isRemote) {
-        bibleTranslationInfo += "<tr><td>Location:</td><td>" + bibleTranslationModule.location + "</td></tr>";
+        bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-location") + ":</td><td>" + bibleTranslationModule.location + "</td></tr>";
       }
 
       bibleTranslationInfo += "</table>";
 
-      bibleTranslationInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>SWORD library info</p>";
-      bibleTranslationInfo += "<p>Using SWORD version <b>" + this.nodeSwordInterface.getSwordVersion() + "</b>.</p>";
+      bibleTranslationInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>" + i18n.t("general.sword-library-info") + "</p>";
+      bibleTranslationInfo += "<p>" + i18n.t("general.using-sword-version") + " <b>" + this.nodeSwordInterface.getSwordVersion() + "</b>.</p>";
     } catch (ex) {
       console.error("Got exception while trying to get bible translation info: " + ex);
     }

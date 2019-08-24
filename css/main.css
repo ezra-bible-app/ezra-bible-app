@@ -239,7 +239,7 @@ h2 {
   background-position: -160px -48px;
 }
 
-.expand-button {
+#expand-button {
   width: 18px;
   height: 25px;
   background-image:url(images/expand.gif);

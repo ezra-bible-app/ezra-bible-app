@@ -99,7 +99,7 @@ class TranslationWizard {
 
     $('#translation-settings-wizard').dialog({
       position: [offsetLeft, offsetTop],
-      title: "Configure Bible translations",
+      title: i18n.t("translation-wizard.header"),
       dialogClass: 'ezra-dialog',
       width: wizardWidth,
       minHeight: 250
@@ -120,7 +120,7 @@ class TranslationWizard {
       await this._nodeSwordInterface.updateRepositoryConfig();
     }
 
-    wizardPage.append('<p>Loading repositories ...</p>');
+    wizardPage.append('<p>' + i18n.t("translation-wizard.loading-repositories") + '</p>');
     setTimeout(() => this.listRepositories(), 800);
   }
 
@@ -141,7 +141,13 @@ class TranslationWizard {
       onStepChanging: (event, currentIndex, newIndex) => this.addTranslationWizardStepChanging(event, currentIndex, newIndex),
       onStepChanged: (event, currentIndex, priorIndex) => this.addTranslationWizardStepChanged(event, currentIndex, priorIndex),
       onFinishing: (event, currentIndex) => this.addTranslationWizardFinishing(event, currentIndex),
-      onFinished: (event, currentIndex) => this.addTranslationWizardFinished(event, currentIndex)
+      onFinished: (event, currentIndex) => this.addTranslationWizardFinished(event, currentIndex),
+      labels: {
+        cancel: i18n.t("general.cancel"),
+        finish: i18n.t("general.finish"),
+        next: i18n.t("general.next"),
+        previous: i18n.t("general.previous")
+      }
     });
   }
 
@@ -153,8 +159,7 @@ class TranslationWizard {
     var wizardPage = $('#translation-settings-wizard-remove-p-0');
     wizardPage.empty();
 
-    var header = "<p>Select the bible translations that you would like to remove. " +
-                 "Disabled entries in the list are translations not installed in the users directory.</p>";
+    var header = "<p>" + i18n.t("translation-wizard.select-translations-to-be-removed") + "</p>";
     wizardPage.append(header);
 
     var languages = await models.BibleTranslation.getLanguages();
@@ -209,7 +214,13 @@ class TranslationWizard {
       onStepChanging: (event, currentIndex, newIndex) => this.removeTranslationWizardStepChanging(event, currentIndex, newIndex),
       onStepChanged: (event, currentIndex, priorIndex) => this.removeTranslationWizardStepChanged(event, currentIndex, priorIndex),
       onFinishing: (event, currentIndex) => this.removeTranslationWizardFinishing(event, currentIndex),
-      onFinished: (event, currentIndex) => this.removeTranslationWizardFinished(event, currentIndex)
+      onFinished: (event, currentIndex) => this.removeTranslationWizardFinished(event, currentIndex),
+      labels: {
+        cancel: i18n.t("general.cancel"),
+        finish: i18n.t("general.finish"),
+        next: i18n.t("general.next"),
+        previous: i18n.t("general.previous")
+      }
     });
   }
 
@@ -243,7 +254,7 @@ class TranslationWizard {
 
       var languagesPage = $('#translation-settings-wizard-add-p-1');
       languagesPage.empty();
-      languagesPage.append("<p>Loading languages ...</p>");
+      languagesPage.append("<p>" + i18n.t("translation-wizard.loading-languages") + "</p>");
 
       setTimeout(() => this.listLanguages(this._selectedRepositories), 400);
 
@@ -272,14 +283,14 @@ class TranslationWizard {
 
       var installPage = $("#translation-settings-wizard-add-p-3");
       installPage.empty();
-      installPage.append('<h3>Installing selected Bible translations</h3>');
-      installPage.append('<p>Note that it takes some time for each translation to be downloaded and then installed.</p>');
+      installPage.append('<h3>' + i18n.t("translation-wizard.installing-translations") + '</h3>');
+      installPage.append('<p>' + i18n.t("translation-wizard.it-takes-time-to-install-translation") + '</p>');
 
       for (var i = 0; i < translations.length; i++) {
         var translationCode = translations[i];
         var translationName = this._nodeSwordInterface.getModuleDescription(translationCode);
 
-        installPage.append("<div style='float: left;'>Installing <i>" + translationName + "</i> ... </div>");
+        installPage.append("<div style='float: left;'>" + i18n.t("translation-wizard.installing") + " <i>" + translationName + "</i> ... </div>");
 
         var loader = "<div id='bibleTranslationInstallIndicator' class='loader'>" + 
                       "<div class='bounce1'></div>" +
@@ -299,7 +310,7 @@ class TranslationWizard {
         $('#bibleTranslationInstallIndicator').hide();
         $('#bibleTranslationInstallIndicator').remove();
 
-        installPage.append('<div>&nbsp;done.</div>');
+        installPage.append('<div>&nbsp;' + i18n.t("translation-wizard.done") + '.</div>');
         installPage.append('<br/>');
       }
 
@@ -340,15 +351,15 @@ class TranslationWizard {
 
       var removalPage = $("#translation-settings-wizard-remove-p-1");
       removalPage.empty();
-      removalPage.append('<h3>Removing selected Bible translations</h3>');
-      removalPage.append('<p>Note, that each removal takes some time.</p>');
+      removalPage.append('<h3>' + i18n.t("translation-wizard.removing-translations") + '</h3>');
+      removalPage.append('<p>' + i18n.t("translation-wizard.removal-takes-time") + '</p>');
 
       setTimeout(async () => {
         for (var i = 0; i < translations.length; i++) {
           var translationCode = translations[i];
           var translationName = this._nodeSwordInterface.getModuleDescription(translationCode);
 
-          removalPage.append('<span>Removing <i>' + translationName + '</i> ... </span>');
+          removalPage.append('<span>' + i18n.t("translation-wizard.removing") + ' <i>' + translationName + '</i> ... </span>');
           
           await this._nodeSwordInterface.uninstallModule(translationCode);
           await models.BibleTranslation.removeFromDb(translationCode);
@@ -369,7 +380,7 @@ class TranslationWizard {
             });
           }
 
-          removalPage.append('<span>done.</span>');
+          removalPage.append('<span>' + i18n.t("translation-wizard.done") + '.</span>');
           removalPage.append('<br/>');
         }
       }, 800);
@@ -431,7 +442,7 @@ class TranslationWizard {
 
     var uiRepositories = this.getSelectedReposForUi();
     var introText = "<p style='margin-bottom: 2em;'>" +
-                    "Please pick at least one of the languages available from " +
+                    i18n.t("translation-wizard.pick-languages-from-repos") +
                     uiRepositories.join(', ') +
                     ".</p>";
 
@@ -490,9 +501,8 @@ class TranslationWizard {
     var translationList = wizardPage.find('#translation-list');
     var translationInfo = wizardPage.find('#translation-info');
     translationList.empty();
-    var translationInfoContent = "Click on a translation code (link after translation name) " +
-                                 "to show detailed module information here.<br/>";
-                                 
+    var translationInfoContent = i18n.t("translation-wizard.click-to-show-detailed-module-info");
+
     $('#translation-info-content').html(translationInfoContent);
 
     var languagesPage = "#translation-settings-wizard-add-p-1";
@@ -508,10 +518,11 @@ class TranslationWizard {
     var uiRepositories = this.getSelectedReposForUi();
 
     var introText = "<p style='margin-bottom: 2em;'>" +
-                    uiLanguages.join(', ') +
-                    " translations available from " +
-                    uiRepositories.join(', ') +
-                    ".</p>";
+                    i18n.t("translation-wizard.the-selected-repositories") + " (" +
+                    uiRepositories.join(', ') + ") " +
+                    i18n.t("translation-wizard.contain-the-following-modules") + " (" +
+                    uiLanguages.join(', ') + ")" +
+                    ":</p>";
 
     translationList.append(introText);
 
@@ -660,12 +671,8 @@ class TranslationWizard {
     wizardPage.empty();
 
     var introText = "<p style='margin-bottom: 2em;'>" +
-                    "Ezra Project works with Bible translation modules provided by <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> " +
-                    "and the <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a>.<br/><br/>" +
-                    "Below you see the list of SWORD repositories published by CrossWire. A repository is an internet storage location that contains a set of Bible translation modules. " +
-                    "Next to each repository you see the total number of Bible translation modules available from that repository.<br/><br/>" +
-                    "To install a Bible translation module, select at least one repository from the list below. " +
-                    "The <i>CrossWire</i> and <i>eBible.org</i> repositories are a good place to start.</p>";
+                    i18n.t("translation-wizard.repo-selection-info-text") +
+                    "</p>";
 
     wizardPage.append(introText);
 
@@ -699,8 +706,8 @@ class TranslationWizard {
     }
 
     var additionalInfo = "<p style='margin-top: 2em;'>" +
-                         "You need more information about these repositories?<br/>" +
-                         "Have a look at the <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>.</p>";
+                         i18n.t("translation-wizard.more-repo-information-needed") +
+                         "</p>";
 
     wizardPage.append(additionalInfo);
     this.bindLabelEvents(wizardPage);
