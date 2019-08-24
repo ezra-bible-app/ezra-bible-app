@@ -2,9 +2,10 @@ const i18n = require('i18next');
 const i18nextBackend = require('i18next-node-fs-backend');
 const LanguageDetector = require('i18next-electron-language-detector');
 const jqueryI18next = require('jquery-i18next');
+const NodeSwordInterface = require('node-sword-interface');
 
 const i18nextOptions = {
-  debug: true,
+  debug: false,
   backend:{
     // path where resources get loaded from
     loadPath: './locales/{{lng}}/{{ns}}.json',
@@ -28,6 +29,7 @@ const i18nextOptions = {
 
 class I18nHelper {
   constructor() {
+    this._nodeSwordInterface = new NodeSwordInterface();
   }
 
   async init() {
@@ -46,6 +48,10 @@ class I18nHelper {
       useOptionsAttr: false, // see optionsAttr
       parseDefaultValueFromContent: true // parses default values from content ele.val or ele.text
     });
+  }
+
+  getSwordTranslation(originalString) {
+    return this._nodeSwordInterface.getSwordTranslation(originalString, i18n.language);
   }
 }
 

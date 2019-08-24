@@ -389,13 +389,21 @@ async function initI18N()
 {
   var i18nHelper = new I18nHelper();
   await i18nHelper.init();
-  //await i18n.changeLanguage('de');
-  localizeUi();
+  //await i18n.changeLanguage('fr');
+
+  $("#app-container").localize();
+  localizeBookSelectionMenu();
 }
 
-async function localizeUi()
+function localizeBookSelectionMenu()
 {
-  $("#app-container").localize();
+  var i18nHelper = new I18nHelper();
+  var aElements = $("#book-selection-menu").find('a');
+  for (var i = 0; i < aElements.length; i++) {
+    var currentBook = $(aElements[i]);
+    var currentBookTranslation = i18nHelper.getSwordTranslation(currentBook.text());
+    currentBook.text(currentBookTranslation);
+  }
 }
 
 async function initApplication()
