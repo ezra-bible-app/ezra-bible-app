@@ -1,6 +1,6 @@
 {
   "name": "ezra-project",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Ezra Project is a bible study software focussing on topical study based on keywords/tags",
   "main": "main.js",
   "scripts": {
@@ -40,7 +40,7 @@
     "minimist": "^1.2.0",
     "mousetrap": "^1.6.3",
     "node-addon-api": "^1.6.2",
-    "node-sword-interface": "^0.59.0",
+    "node-sword-interface": "^0.58.0",
     "officegen": "^0.5.2",
     "pug": "^2.0.3",
     "sequelize": "^4.42.0",
