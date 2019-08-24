@@ -32,9 +32,9 @@ The installer binary within that directory is named `ezra_project-x.y.z-setup.ex
 
 ## Linux
 
-The following build instructions are valid for Debian/Ubuntu based distributions.
-
 ### Install dependencies ####
+
+The following dependencies are valid for Debian/Ubuntu based distributions. Ezra Project has been successfully built for other distributions as well (Linux Mint 18, Debian 10, Fedora 29, OpenSuse, CentOS). To see how the dependencies look like for your distribution, have a look at the Docker files [here](https://github.com/tobias-klein/ezra-project/tree/master/docker).
 
 Install compiler/lib dependencies by running the following command: `sudo apt-get install build-essential npm nodejs libsqlite3-0 libcurl4-gnutls-dev libicu-dev pkg-config git cmake subversion`
 
@@ -53,7 +53,11 @@ To create a release directory that contains all necessary files, run the followi
 After running the above command you will find a new directory `<project-dir>/release/ezra-project-linux-x64`.
 The application binary within that directory is named `ezra-project`.
 
-## Mac
+### Generate a package ###
+
+<span style="color: red;">_TODO_</span>
+
+## macOS
 
 The following instructions have been verified on macOS _Mojave_. The assumption is that commands are run in the _Terminal_ application.
 
