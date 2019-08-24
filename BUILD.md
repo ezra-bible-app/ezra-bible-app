@@ -55,7 +55,7 @@ The application binary within that directory is named `ezra-project`.
 
 ### Generate a package ###
 
-<span style="color: red;">_TODO_</span>
+**TODO**
 
 ## macOS
 
