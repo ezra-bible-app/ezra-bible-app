@@ -37,6 +37,14 @@ Furthermore, the following components are used (among others):
 * [officegen](https://github.com/Ziv-Barber/officegen) for exporting tagged verse lists to Word documents
 * [SpinKit](https://github.com/tobiasahlin/SpinKit) for CSS-animated loading spinners
 
+To package Ezra Project, the following components are used:
+* [electron-packager](https://github.com/electron/electron-packager)
+* [electron-installer-windows](https://github.com/electron-userland/electron-installer-windows)
+* [electron-installer-debian](https://github.com/electron-userland/electron-installer-debian)
+* [electron-installer-redhat](https://github.com/electron-userland/electron-installer-redhat)
+* [electron-installer-dmg](https://github.com/electron-userland/electron-installer-dmg)
+* [electron-osx-sign](https://github.com/electron/electron-osx-sign)
+
 ## Building Ezra Project
 
 Have a look at the build instructions [here][build].
