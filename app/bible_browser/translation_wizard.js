@@ -310,7 +310,7 @@ class TranslationWizard {
         $('#bibleTranslationInstallIndicator').hide();
         $('#bibleTranslationInstallIndicator').remove();
 
-        installPage.append('<div>&nbsp;' + i18n.t("translation-wizard.done") + '.</div>');
+        installPage.append('<div>&nbsp;' + i18n.t("general.done") + '.</div>');
         installPage.append('<br/>');
       }
 
@@ -380,7 +380,7 @@ class TranslationWizard {
             });
           }
 
-          removalPage.append('<span>' + i18n.t("translation-wizard.done") + '.</span>');
+          removalPage.append('<span>' + i18n.t("general.done") + '.</span>');
           removalPage.append('<br/>');
         }
       }, 800);
