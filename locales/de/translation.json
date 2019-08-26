@@ -7,8 +7,12 @@
   "verse-list-menu": {
     "book": "Buch",
     "tags": "Tags",
+    "search": "Suche",
     "options": "Optionen",
     "export": "Exportieren"
+  },
+  "search-menu": {
+    "search": "Suche"
   },
   "translation-wizard": {
     "header": "Bibelübersetzungen konfigurieren",

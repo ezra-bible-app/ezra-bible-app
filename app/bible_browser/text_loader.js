@@ -20,7 +20,7 @@ class TextLoader {
   constructor() {
   }
 
-  async requestTextUpdate(tabId, book, tagIdList, resetView, tabIndex=undefined) {
+  async requestTextUpdate(tabId, book, tagIdList, searchResults, resetView, tabIndex=undefined) {
     bible_browser_controller.navigation_pane.initNavigationPaneForCurrentView(tabIndex);
     tags_controller.clear_verse_selection();
 
@@ -54,6 +54,15 @@ class TextLoader {
         tagIdList,
         (htmlVerseList) => {
           this.renderVerseList(htmlVerseList, 'tagged_verses', tabIndex);
+        }
+      );
+    } else if (searchResults != null) {
+      await bible_browser_controller.communication_controller.request_verses_for_search_results(
+        tabIndex,
+        tabId,
+        searchResults,
+        (htmlVerseList) => {
+          this.renderVerseList(htmlVerseList, 'search_results', tabIndex);
         }
       );
     }

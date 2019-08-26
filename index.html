@@ -439,7 +439,11 @@ var bible_chapter_verse_counts = {};
     </div>
   </div>
 
-  <!-- Display options menu disabled for now -->
+  <div id="module-search-menu" class=module-search-menu">
+    <input id="module-search-input" type="text" maxlength="30" />
+    <button id="start-module-search-button" class="fg-button ui-corner-all ui-state-default" i18n="search-menu.search"></button>
+  </div>
+
   <div id="display-options-menu" class="display-options-menu">
     <div id="section-title-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
       <input id="section-title-switch" type="checkbox"></input>
@@ -564,7 +568,11 @@ var bible_chapter_verse_counts = {};
           <div class="tag-select-label" i18n="verse-list-menu.tags"></div>
         </div>
 
-        <!-- Display options menu disabled for now -->
+        <div class="fg-button module-search-button ui-state-default ui-corner-all">
+          <div class="ui-icon ui-icon-triangle-1-s"></div>
+          <div class="module-search-label" i18n="verse-list-menu.search"></div>
+        </div>
+
         <div class="fg-button display-options-button ui-state-default ui-corner-all">
           <div class="ui-icon ui-icon-triangle-1-s"></div>
           <div id="display-options-label" i18n="verse-list-menu.options"></div>

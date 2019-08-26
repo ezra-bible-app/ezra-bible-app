@@ -7,8 +7,12 @@
   "verse-list-menu": {
     "book": "Book",
     "tags": "Tags",
+    "search": "Search",
     "options": "Options",
     "export": "Export"
+  },
+  "search-menu": {
+    "search": "Search"
   },
   "translation-wizard": {
     "header": "Configure Bible translations",

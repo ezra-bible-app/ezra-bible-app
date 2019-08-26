@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const TagSelectionMenu = require('./app/bible_browser/tag_selection_menu.js');
+const ModuleSearchMenu = require('./app/bible_browser/module_search_menu.js');
 const TranslationWizard = require('./app/bible_browser/translation_wizard.js');
 const TranslationController = require('./app/bible_browser/translation_controller.js');
 const BookSearch = require('./app/bible_browser/book_search.js');
@@ -62,6 +63,7 @@ function BibleBrowserController() {
     this.settings = require('electron-settings');
 
     this.tag_selection_menu = new TagSelectionMenu();
+    this.module_search_menu = new ModuleSearchMenu();
 
     this.translation_controller = new TranslationController();
     this.translation_controller.init(bible_browser_controller.onBibleTranslationChanged);
@@ -175,6 +177,7 @@ function BibleBrowserController() {
   this.onTabAdded = function(tabIndex=0) {
     resize_app_container();
     bible_browser_controller.tag_selection_menu.init_tag_selection_menu(tabIndex);
+    bible_browser_controller.module_search_menu.init_module_search_menu(tabIndex);
     bible_browser_controller.init_current_verse_list_menu(tabIndex);
     bible_browser_controller.translation_controller.initBibleTranslationInfoButton();
     bible_browser_controller.optionsMenu.initCurrentOptionsMenu(tabIndex);
@@ -373,6 +376,8 @@ function BibleBrowserController() {
       bible_browser_controller.hide_book_menu();
       bible_browser_controller.tag_selection_menu.hide_tag_menu();
       bible_browser_controller.tag_selection_menu.reset_tag_menu();
+      bible_browser_controller.module_search_menu.hide_search_menu();
+      bible_browser_controller.module_search_menu.reset_search_menu();
 
       // Not needed at the moment
       //$('#outline-content').empty();
@@ -439,6 +444,7 @@ function BibleBrowserController() {
     
     bible_browser_controller.hide_book_menu();
     bible_browser_controller.tag_selection_menu.hide_tag_menu();
+    bible_browser_controller.module_search_menu.hide_search_menu();
     bible_browser_controller.optionsMenu.hideDisplayMenu();
 
     if ($('#currently-edited-notes').length > 0) {
@@ -455,6 +461,7 @@ function BibleBrowserController() {
       bible_browser_controller.handle_body_click();
     } else {
       bible_browser_controller.tag_selection_menu.hide_tag_menu();
+      bible_browser_controller.module_search_menu.hide_search_menu();
       bible_browser_controller.optionsMenu.hideDisplayMenu();
       var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
       var book_button = currentVerseListMenu.find('.book-select-button');

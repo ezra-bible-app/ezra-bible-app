@@ -65,6 +65,52 @@ class BibleBrowserCommunicationController {
     render_function(verses_as_html);
   }
 
+  async request_verses_for_search_results(tab_index,
+                                          current_tab_id,
+                                          search_results,
+                                          render_function,
+                                          render_type='html',
+                                          renderVerseMetaInfo=true) {
+    if (search_results.length == 0) {
+      return;
+    }
+
+    var bibleTranslationId = null;
+    if (bible_browser_controller.tab_controller.getCurrentBibleTranslationId(tab_index) == null) {
+      bibleTranslationId = 1;
+    } else {
+      bibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId(tab_index);
+    }
+
+    var verses = [];
+    for (var i = 0; i < search_results.length; i++) {
+      var verseResult = await models.Verse.findBySearchResult(bibleTranslationId, search_results[i]);
+      verses.push(verseResult);
+    }
+
+    var verseIds = [];
+    for (var i = 0; i < verses.length; i++) {
+      var currentVerse = verses[i];
+      verseIds.push(currentVerse.id);
+    }
+
+    var bibleBooks = await models.BibleBook.findBySearchResults(search_results);
+    var verseTags = await models.VerseTag.findByVerseIds(bibleTranslationId, verseIds.join(','));
+    var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags);
+    
+    if (render_type == "html") {
+      
+      var verses_as_html = this.get_verses_as_html(current_tab_id,
+                                                   bibleBooks,
+                                                   groupedVerseTags,
+                                                   verses,
+                                                   render_function,
+                                                   renderVerseMetaInfo);
+    } else if (render_type == "docx") {
+      render_function(bibleBooks, groupedVerseTags, verses);
+    }
+  }
+
   async request_verses_for_selected_tags(tab_index,
                                          current_tab_id,
                                          selected_tags,

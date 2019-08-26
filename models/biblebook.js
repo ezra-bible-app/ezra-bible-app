@@ -102,5 +102,23 @@ module.exports = (sequelize, DataTypes) => {
     return sequelize.query(query, { model: models.BibleBook });
   };
 
+  BibleBook.findBySearchResults = function(searchResults) {
+    var shortTitleArray = [];
+    for (var i = 0; i < searchResults.length; i++) {
+      var currentShortTitle = "'" + searchResults[i].bibleBookShortTitle + "'";
+
+      if (!shortTitleArray.includes(currentShortTitle)) {
+        shortTitleArray.push(currentShortTitle);
+      }
+    }
+    var shortTitles = shortTitleArray.join(',');
+
+    var query = "SELECT b.* FROM BibleBooks b" +
+                " WHERE b.shortTitle IN (" + shortTitles + ")" +
+                " GROUP BY b.number ORDER BY b.number ASC";
+
+    return sequelize.query(query, { model: models.BibleBook });   
+  }
+
   return BibleBook;
 };

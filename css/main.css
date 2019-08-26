@@ -529,7 +529,7 @@ h2 {
   font-size: 0.9em;
 }
 
-.verse-selection-menu, #display-options-menu {
+.verse-selection-menu, #module-search-menu, #display-options-menu {
   position: fixed;
   border: 2px solid #DDDDDD;
   border-radius: 6px;
@@ -620,7 +620,7 @@ h2 {
   margin-bottom: 0.8em;
 }
 
-.book-select-button, .tag-select-button, .display-options-button, .note-session-select-button {
+.book-select-button, .tag-select-button, .module-search-button, .display-options-button, .note-session-select-button {
   width: 6em;
   padding: 0.5em;
   cursor: pointer;
@@ -639,11 +639,11 @@ h2 {
   float: left;
 }
 
-.book-select-button .ui-icon, .tag-select-button .ui-icon, .display-options-button .ui-icon, .note-session-select-button .ui-icon {
+.book-select-button .ui-icon, .tag-select-button .ui-icon, .module-search-button .ui-icon, .display-options-button .ui-icon, .note-session-select-button .ui-icon {
   float: right;
 }
 
-.tag-select-button, .display-options-button {
+.tag-select-button, .module-search-button, .display-options-button {
   margin-left: 1em;
   padding-top: 0.2em;
   padding-bottom: 0.8em;
@@ -721,7 +721,7 @@ h2 {
   margin: 0.4em;
 }
 
-#show-book-tag-statistics-button, #show-translation-settings-button, .export-tagged-verses-button, .bible-translation-info-button {
+#show-book-tag-statistics-button, #show-translation-settings-button, .export-tagged-verses-button, .bible-translation-info-button, #start-module-search-button {
   margin-left: 1em;
   height: 2.2em;
 }
@@ -748,7 +748,7 @@ h2 {
   text-decoration: underline;
 }
 
-.switch-label, #indent-switch-label, #outline-switch-label, #tags-switch-label, #tags-column-switch-label, .tag-select-label, #display-options-label, #verse-notes-switch-label, #x-refs-switch-label {
+.switch-label, #indent-switch-label, #outline-switch-label, #tags-switch-label, #tags-column-switch-label, .tag-select-label, .module-search-label, #display-options-label, #verse-notes-switch-label, #x-refs-switch-label {
   margin: 0.2em;
   margin-left: 0.2em;
 }
@@ -1059,6 +1059,12 @@ h2 {
   font-size: 0.9em;
 }
 
+#module-search-menu {
+  padding: 1em;
+  width: 25em;
+  font-size: 0.9em;
+}
+
 #tag-selection-taglist-global {
   margin-top: 1em;
   height: 400px;
@@ -1067,6 +1073,10 @@ h2 {
 
 #tag-selection-filter-input {
   width: 16em;
+}
+
+#module-search-input {
+  width: 18em;
 }
 
 .tag-browser-tag-id {
