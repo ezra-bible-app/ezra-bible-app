@@ -706,6 +706,14 @@ h2 {
   left: 50%;
 }
 
+.module-search-result-header {
+  display: none;
+  font-size: 130%;
+  font-weight: bold;
+  margin-left: 0.5em;
+  margin-top: 0.5em;
+}
+
 .switch-box {
   clear: both;
   height: 2em;

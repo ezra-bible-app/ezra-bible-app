@@ -51,7 +51,7 @@ class TagSelectionMenu {
       bible_browser_controller.handle_body_click();
     } else {
       bible_browser_controller.hide_book_menu();
-      bible_browser_controller.module_search_menu.hide_search_menu();
+      bible_browser_controller.module_search.hide_search_menu();
       bible_browser_controller.optionsMenu.hideDisplayMenu();
       tagSelectButton.addClass('ui-state-active');
 
@@ -216,6 +216,7 @@ class TagSelectionMenu {
     var currentTagTitleList = this.selected_tag_titles();
     bible_browser_controller.tab_controller.setCurrentTagIdList(currentTagIdList);
     bible_browser_controller.tab_controller.setCurrentTagTitleList(currentTagTitleList);
+    bible_browser_controller.tab_controller.setCurrentTextType('tagged_verses');
 
     // Set selected book to null, since we just switched to selected tags
     bible_browser_controller.tab_controller.setCurrentTabBook(null, null);

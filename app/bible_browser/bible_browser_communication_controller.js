@@ -82,11 +82,7 @@ class BibleBrowserCommunicationController {
       bibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId(tab_index);
     }
 
-    var verses = [];
-    for (var i = 0; i < search_results.length; i++) {
-      var verseResult = await models.Verse.findBySearchResult(bibleTranslationId, search_results[i]);
-      verses.push(verseResult);
-    }
+    var verses = await models.Verse.findBySearchResults(bibleTranslationId, search_results);
 
     var verseIds = [];
     for (var i = 0; i < verses.length; i++) {

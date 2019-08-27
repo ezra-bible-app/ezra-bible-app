@@ -25,7 +25,9 @@ class Tab {
     this.bookTitle = null;
     this.tagIdList = "";
     this.tagTitleList = "";
+    this.searchTerm = null;
     this.textIsBook = false;
+    this.textType = null;
     this.lastHighlightedNavElementIndex = null;
     this.bibleTranslationId = defaultBibleTranslationId;
   }
@@ -141,6 +143,7 @@ class TabController {
       for (var i = 0; i < savedMetaTabs.length; i++) {
         var currentMetaTab = savedMetaTabs[i];
         
+        bible_browser_controller.text_loader.prepareForNewText(false, i);
         await bible_browser_controller.text_loader.requestTextUpdate(
           currentMetaTab.elementId,
           currentMetaTab.book,
@@ -353,6 +356,41 @@ class TabController {
     }
 
     return tagTitleList;
+  }
+
+  setCurrentTabSearch(searchTerm) {
+    var currentTabIndex = this.getSelectedTabIndex();
+    this.metaTabs[currentTabIndex].searchTerm = searchTerm;
+
+    if (searchTerm != undefined && searchTerm != null) {
+      this.setCurrentTabTitle(i18n.t("verse-list-menu.search") + ": " + searchTerm);
+    }
+  }
+
+  getCurrentTabSearch(index=undefined) {
+    if (index === undefined) {
+      var index = this.getSelectedTabIndex();
+    }
+
+    var searchTerm = null;
+    if (index < this.metaTabs.length) {
+      searchTerm = this.metaTabs[index].searchTerm;
+    }
+
+    return searchTerm;
+  }
+
+  setCurrentTextType(textType) {
+    var currentTabIndex = this.getSelectedTabIndex();
+    this.metaTabs[currentTabIndex].textType = textType;
+  }
+
+  getCurrentTextType(index=undefined) {
+    if (index === undefined) {
+      var index = this.getSelectedTabIndex();
+    }
+
+    return this.metaTabs[index].textType;
   }
 
   setCurrentTextIsBook(isBook) {

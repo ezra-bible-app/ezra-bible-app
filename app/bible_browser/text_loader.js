@@ -20,7 +20,8 @@ class TextLoader {
   constructor() {
   }
 
-  async requestTextUpdate(tabId, book, tagIdList, searchResults, resetView, tabIndex=undefined) {
+  prepareForNewText(resetView, tabIndex=undefined) {
+    bible_browser_controller.module_search.hide_module_search_header();
     bible_browser_controller.navigation_pane.initNavigationPaneForCurrentView(tabIndex);
     tags_controller.clear_verse_selection();
 
@@ -31,7 +32,9 @@ class TextLoader {
 
     var temporary_help = bible_browser_controller.getCurrentVerseListComposite(tabIndex).find('.temporary-help, .help-text');
     temporary_help.hide();
+  }
 
+  async requestTextUpdate(tabId, book, tagIdList, searchResults, resetView, tabIndex=undefined) {
     if (book != null) { // Book text mode
       $('#export-tagged-verses-button').addClass('ui-state-disabled');
       bible_browser_controller.translation_controller.initChapterVerseCounts();
@@ -81,20 +84,29 @@ class TextLoader {
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
     currentVerseList.html(htmlVerseList);
 
-    if (listType == 'book') {
+    if (!initialRendering) {
+      bible_browser_controller.tab_controller.setCurrentTextType(listType);
+    }
 
+    if (listType == 'book') {
       if (!initialRendering) {
         bible_browser_controller.tab_controller.setCurrentTextIsBook(true);
       }
 
       bible_browser_controller.enable_toolbox();
       bible_browser_controller.tag_selection_menu.reset_tag_menu();
+      bible_browser_controller.module_search.reset_search();
 
     } else if (listType == 'tagged_verses') {
 
       if (!initialRendering) {
         bible_browser_controller.tab_controller.setCurrentTextIsBook(false);
       }
+
+      bible_browser_controller.module_search.reset_search();
+      bible_browser_controller.enable_tagging_toolbox_only();
+      bible_browser_controller.enableTaggedVersesExportButton(tabIndex);
+    } else if (listType == 'search_results') {
 
       bible_browser_controller.enable_tagging_toolbox_only();
       bible_browser_controller.enableTaggedVersesExportButton(tabIndex);

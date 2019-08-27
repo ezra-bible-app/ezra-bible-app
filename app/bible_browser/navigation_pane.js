@@ -31,13 +31,19 @@ class NavigationPane {
 
     var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook(tabIndex);
     var currentTagTitleList = bible_browser_controller.tab_controller.getCurrentTagTitleList(tabIndex);
+    var currentTextType = bible_browser_controller.tab_controller.getCurrentTextType(tabIndex);
 
-    if (currentBook != null) { // Book text mode
+    if (currentTextType == 'book' && currentBook != null) { // Book text mode
 
       navigationPane.removeClass('navigation-pane-books');
       navigationPane.addClass('navigation-pane-chapters');
 
-    } else if (currentTagTitleList != null) { // Tagged verse list mode
+    } else if (currentTextType == 'tagged_verses' && currentTagTitleList != null) { // Tagged verse list mode
+
+      navigationPane.removeClass('navigation-pane-chapters');
+      navigationPane.addClass('navigation-pane-books');
+
+    } else if (currentTextType == 'search_results') {
 
       navigationPane.removeClass('navigation-pane-chapters');
       navigationPane.addClass('navigation-pane-books');
@@ -120,12 +126,17 @@ class NavigationPane {
 
     var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook(tabIndex);
     var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList(tabIndex);
+    var currentTextType = bible_browser_controller.tab_controller.getCurrentTextType(tabIndex);
 
-    if (currentBook != null && bible_chapter_verse_counts != null) { // Update navigation based on book chapters
+    if (currentTextType == 'book' && bible_chapter_verse_counts != null) { // Update navigation based on book chapters
 
       this.updateChapterNavigation(tabIndex);
 
-    } else if (currentTagIdList != null) { // Update navigation based on tagged verses books
+    } else if (currentTextType == 'tagged_verses' && currentTagIdList != null) { // Update navigation based on tagged verses books
+
+      this.updateBookNavigation(tabIndex);
+
+    } else if (currentTextType == 'search_results') {
 
       this.updateBookNavigation(tabIndex);
     }

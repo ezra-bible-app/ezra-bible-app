@@ -103,18 +103,17 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   BibleBook.findBySearchResults = function(searchResults) {
-    var shortTitleArray = [];
+    var bibleBookIds = [];
     for (var i = 0; i < searchResults.length; i++) {
-      var currentShortTitle = "'" + searchResults[i].bibleBookShortTitle + "'";
+      var bibleBookId = models.BibleTranslation.swordBooktoEzraBook(searchResults[i].bibleBookShortTitle);
 
-      if (!shortTitleArray.includes(currentShortTitle)) {
-        shortTitleArray.push(currentShortTitle);
+      if (!bibleBookIds.includes(bibleBookId)) {
+        bibleBookIds.push(bibleBookId);
       }
     }
-    var shortTitles = shortTitleArray.join(',');
 
     var query = "SELECT b.* FROM BibleBooks b" +
-                " WHERE b.shortTitle IN (" + shortTitles + ")" +
+                " WHERE b.id IN (" + bibleBookIds.join(',') + ")" +
                 " GROUP BY b.number ORDER BY b.number ASC";
 
     return sequelize.query(query, { model: models.BibleBook });   

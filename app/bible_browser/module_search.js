@@ -18,7 +18,7 @@
 
 const NodeSwordInterface = require('node-sword-interface');
 
-class ModuleSearchMenu {
+class ModuleSearch {
   constructor() {
     this.search_menu_opened = false;
     this._nodeSwordInterface = new NodeSwordInterface();
@@ -28,7 +28,7 @@ class ModuleSearchMenu {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.module-search-button').bind('click', (event) => { this.handle_search_menu_click(event); });
     
-    $('#start-module-search-button').bind('click', (event) => { this.start_search(event); });
+    $('#start-module-search-button:not(.bound)').addClass('bound').bind('click', (event) => { this.start_search(event); });
   }
 
   hide_search_menu() {
@@ -41,8 +41,13 @@ class ModuleSearchMenu {
     }
   }
 
-  reset_search_menu() {
+  reset_search() {
+    $('#module-search-input').val('');
+    this.hide_module_search_header();
+  }
 
+  hide_module_search_header() {
+    this.getModuleSearchHeader().hide();
   }
 
   handle_search_menu_click(event) {
@@ -79,25 +84,49 @@ class ModuleSearchMenu {
     return $('#module-search-input').val();
   }
 
-  start_search(event) {
+  getModuleSearchHeader() {
+    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame();
+    return currentVerseListFrame.find('.module-search-result-header');
+  }
+
+  async start_search(event) {
+    event.stopPropagation();
     var searchTerm = this.getSearchTerm();
     
     var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
 
-    this._nodeSwordInterface.getModuleSearchResults(currentBibleTranslationId, searchTerm).then(searchResults => {  
+    bible_browser_controller.tab_controller.setCurrentTabSearch(searchTerm);
+    bible_browser_controller.tab_controller.setCurrentTextType('search_results');
+    bible_browser_controller.text_loader.prepareForNewText(true);
+
+    this._nodeSwordInterface.getModuleSearchResults(currentBibleTranslationId, searchTerm).then(async (searchResults) => {  
       var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
       var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList();
       var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
 
-      bible_browser_controller.text_loader.requestTextUpdate(currentTabId,
-                                                             null,
-                                                             null,
-                                                             searchResults,
-                                                             false);
-    });
+      if (searchResults.length > 0) {
+        await bible_browser_controller.text_loader.requestTextUpdate(currentTabId,
+                                                                    null,
+                                                                    null,
+                                                                    searchResults,
+                                                                    false);
+      } else {
+        bible_browser_controller.hideVerseListLoadingIndicator();
+      }
 
-    event.stopPropagation();
+      this.hide_search_menu();
+      var moduleSearchHeaderText;
+
+      if (searchResults.length > 0) {
+        moduleSearchHeaderText = i18n.t("bible-browser.search-result-header") + ' ' + '"' + searchTerm + '"';
+      } else {
+        moduleSearchHeaderText = i18n.t("bible-browser.no-search-results") + ' ' + '"' + searchTerm + '"';
+      }
+
+      this.getModuleSearchHeader().html(moduleSearchHeaderText);
+      this.getModuleSearchHeader().show();
+    });
   }
 }
 
-module.exports = ModuleSearchMenu;
+module.exports = ModuleSearch;

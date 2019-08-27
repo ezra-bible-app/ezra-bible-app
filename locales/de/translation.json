@@ -90,6 +90,8 @@
   "bible-browser": {
     "selection": "Auswahl: ",
     "loading-bible-text": "Lade Bibeltext",
+    "search-result-header": "Zeige Ergebnisse für die Suche",
+    "no-search-results": "Keine Ergebnisse gefunden für die Suche",
     "load-verse-context": "Lade den Kontext dieses Verses",
     "tag-hint": "Klicke hier, um alle Verse mit diesem Tag anzuzeigen",
     "show-section-titles": "Zeige Überschriften",
