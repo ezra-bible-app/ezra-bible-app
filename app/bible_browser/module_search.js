@@ -116,9 +116,9 @@ class ModuleSearch {
       this.currentSearchResults = searchResults;
     });
 
-    var requestedBookId = -1;
+    var requestedBookId = -1; // all books requested
     if (this.searchResultsExceedPerformanceLimit()) {
-      requestedBookId = 0;
+      requestedBookId = 0; // no books requested - only list headers at first
     }
 
     await this.renderCurrentSearchResults(requestedBookId);
