@@ -59,21 +59,10 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Verse.findBySearchResults = function(bibleTranslationId, searchResults) {
+  Verse.findBySearchResult = function(bibleTranslationId, searchResult) {
     return models.BibleTranslation.findByPk(bibleTranslationId).then(bibleTranslation => {
       var versificationPostfix = bibleTranslation.getVersificationPostfix();
-
-      var verseQueries = [];
-      for (var i = 0; i < searchResults.length; i++) {
-        var currentSearchResult = searchResults[i];
-        var bibleBookId = models.BibleTranslation.swordBooktoEzraBook(currentSearchResult.bibleBookShortTitle);
-        var verseQuery = "( v.bibleBookId=" + bibleBookId + 
-                         " AND v.chapter='" + currentSearchResult.chapter + "'" +
-                         " AND v.verseNr='" + currentSearchResult.verseNr + "'" + ")";
-        verseQueries.push(verseQuery);
-      }
-
-      var verseQueryList = "(" + verseQueries.join(' OR ') + ")";
+      var bibleBookId = models.BibleTranslation.swordBooktoEzraBook(searchResult.bibleBookShortTitle);
 
       var query = "SELECT v.*, " +
                   " b.shortTitle as bibleBookShortTitle, " +
@@ -86,9 +75,11 @@ module.exports = (sequelize, DataTypes) => {
                   " vr.absoluteVerseNr" + versificationPostfix + "=v.absoluteVerseNr" +
                   " AND vr.bibleBookId=v.bibleBookId" +
                   " WHERE v.bibleTranslationId='" + bibleTranslationId + "'" +
-                  " AND " + verseQueryList;
+                  " AND v.bibleBookId=" + bibleBookId + 
+                  " AND v.chapter='" + searchResult.chapter + "'" +
+                  " AND v.verseNr='" + searchResult.verseNr + "'" + " LIMIT 1";
 
-      return sequelize.query(query, { model: models.Verse, raw: true });
+      return sequelize.query(query, { model: models.Verse, raw: true, plain: true });
     });
   };
 

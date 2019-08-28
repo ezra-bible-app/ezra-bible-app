@@ -1655,7 +1655,7 @@ function TagsController() {
 
     currentVerseList.selectable({
       filter: '.verse-text',
-      cancel: '.verse-notes, #currently-edited-notes, .section-header-box, .verse-content-edited, .tag-box, .tag',
+      cancel: '.verse-notes, #currently-edited-notes, .section-header-box, .verse-content-edited, .tag-box, .tag, .load-book-results',
 
       start: function(event, ui) {
         tags_controller.selected_verse_references = new Array;

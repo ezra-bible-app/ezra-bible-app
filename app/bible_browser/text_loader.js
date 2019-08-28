@@ -34,7 +34,7 @@ class TextLoader {
     temporary_help.hide();
   }
 
-  async requestTextUpdate(tabId, book, tagIdList, searchResults, resetView, tabIndex=undefined) {
+  async requestTextUpdate(tabId, book, tagIdList, searchResults, resetView, tabIndex=undefined, requestedBookId=-1, target=undefined) {
     if (book != null) { // Book text mode
       $('#export-tagged-verses-button').addClass('ui-state-disabled');
       bible_browser_controller.translation_controller.initChapterVerseCounts();
@@ -65,13 +65,14 @@ class TextLoader {
         tabId,
         searchResults,
         (htmlVerseList) => {
-          this.renderVerseList(htmlVerseList, 'search_results', tabIndex);
-        }
+          this.renderVerseList(htmlVerseList, 'search_results', tabIndex, target);
+        },
+        requestedBookId
       );
     }
   }
 
-  renderVerseList(htmlVerseList, listType, tabIndex=undefined) {
+  renderVerseList(htmlVerseList, listType, tabIndex=undefined, target=undefined) {
     bible_browser_controller.translation_controller.hideBibleTranslationLoadingIndicator();
     bible_browser_controller.hideVerseListLoadingIndicator();
     var initialRendering = true;
@@ -81,8 +82,11 @@ class TextLoader {
       initialRendering = false;
     }
 
-    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
-    currentVerseList.html(htmlVerseList);
+    if (target === undefined) {
+      target = bible_browser_controller.getCurrentVerseList(tabIndex);
+    }
+
+    target.html(htmlVerseList);
 
     if (!initialRendering) {
       bible_browser_controller.tab_controller.setCurrentTextType(listType);

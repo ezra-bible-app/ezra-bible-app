@@ -2,12 +2,17 @@ each bibleBook in bibleBooks
   if renderBibleBookHeaders == true
     - var anchor = verseListId + " " + bibleBook.shortTitle;
     a(name=anchor)
-    div.tag-browser-verselist-book-header #{bibleBook.longTitle}
+    - var resultCount = 0
+    if bibleBookStats != null
+      - var resultCount = bibleBookStats[bibleBook.id]
+    div.tag-browser-verselist-book-header #{bibleBook.longTitle} (#{resultCount})
 
+  - var verse_count = 0
   each verse in verses
     unless verse.bibleBookId == bibleBook.id
-      // skip the verse if it does not match the current bibleBook
       - continue
+    
+    - verse_count += 1
 
     - var current_id_class = "verse-id-" + verse.id
     - var current_verse_reference_id_class = "verse-reference-id-" + verse.verseReferenceId
@@ -65,3 +70,8 @@ each bibleBook in bibleBooks
         div.verse-text !{verse.content}
         div.cr-box
       div.verse-notes
+
+  if verse_count == 0 && renderBibleBookHeaders == true
+    div.book-section(id=verseListId + "-book-section-" + bibleBook.id)
+      - var loadBookResultFunction = "javascript:bible_browser_controller.module_search.load_book_results(" + bibleBook.id + ")"
+      a.load-book-results(href=loadBookResultFunction) !{loadSearchResultsText}

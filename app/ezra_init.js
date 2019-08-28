@@ -21,6 +21,8 @@ const DbHelper = require('./app/db_helper.js');
 const I18nHelper = require('./app/i18n_helper.js');
 const i18n = require('i18next');
 
+require('log-timestamp');
+
 var models = null;
 
 current_section_start_toolbox = null;

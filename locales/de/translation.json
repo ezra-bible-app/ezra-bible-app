@@ -94,6 +94,8 @@
     "no-search-results": "Keine Ergebnisse gefunden für die Suche",
     "load-verse-context": "Lade den Kontext dieses Verses",
     "tag-hint": "Klicke hier, um alle Verse mit diesem Tag anzuzeigen",
+    "show-search-results": "Zeige Suchergebnisse",
+    "search-performance-hint": "Zeige auf Grund hoher Anzahl von Suchergebnissen vorerst nur Bücherliste. Sie können die Buchergebnisse pro Buch abrufen.",
     "show-section-titles": "Zeige Überschriften",
     "show-tags": "Zeige Tags",
     "use-tags-column": "Tags in Spalte",
