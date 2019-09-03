@@ -119,10 +119,10 @@ class ModuleSearch {
     if (tabIndex === undefined) {
       bible_browser_controller.tab_controller.setCurrentTabSearch(this.currentSearchTerm);
       bible_browser_controller.tab_controller.setCurrentTextType('search_results');
-      //tabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
     }
 
-    bible_browser_controller.text_loader.prepareForNewText(true, tabIndex);
+    // Only reset view if we got an event (in other words: not initially)
+    bible_browser_controller.text_loader.prepareForNewText(event != null, tabIndex);
 
     console.log("Starting search for " + this.currentSearchTerm + " on tab " + tabIndex);
 
@@ -132,7 +132,7 @@ class ModuleSearch {
     });
 
     var requestedBookId = -1; // all books requested
-    if (this.searchResultsExceedPerformanceLimit()) {
+    if (this.searchResultsExceedPerformanceLimit(tabIndex)) {
       requestedBookId = 0; // no books requested - only list headers at first
     }
 
