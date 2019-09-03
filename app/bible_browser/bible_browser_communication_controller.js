@@ -93,12 +93,12 @@ class BibleBrowserCommunicationController {
         bibleBookStats[bibleBookId] += 1;
       }
     }
-    console.log(bibleBookStats);
+    //console.log(bibleBookStats);
 
     var bibleBooks = await models.BibleBook.findBySearchResults(search_results);
-    console.log("Got results for " + bibleBooks.length + " books!");
+    //console.log("Got results for " + bibleBooks.length + " books!");
 
-    console.log("Finding verses by search result!");
+    //console.log("Finding verses by search result!");
     var verses = [];
 
     var firstBookId = models.BibleTranslation.swordBooktoEzraBook(search_results[0].bibleBookShortTitle);
@@ -115,7 +115,7 @@ class BibleBrowserCommunicationController {
       var currentVerse = await models.Verse.findBySearchResult(bibleTranslationId, currentResult);
       verses.push(currentVerse);
     }
-    console.log("Done!");
+    //console.log("Done!");
 
     var verseIds = [];
     for (var i = 0; i < verses.length; i++) {
@@ -165,6 +165,17 @@ class BibleBrowserCommunicationController {
       verseIds.push(currentVerse.id);
     }
 
+    var bibleBookStats = {};
+    for (var i = 0; i < verses.length; i++) {
+      var bibleBookId = verses[i].bibleBookId;
+      
+      if (bibleBookStats[bibleBookId] === undefined) {
+        bibleBookStats[bibleBookId] = 1;
+      } else {
+        bibleBookStats[bibleBookId] += 1;
+      }
+    }
+
     var bibleBooks = await models.BibleBook.findByTagIds(selected_tags);
     var verseTags = await models.VerseTag.findByVerseIds(bibleTranslationId, verseIds.join(','));
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags);
@@ -173,7 +184,7 @@ class BibleBrowserCommunicationController {
       
       var verses_as_html = this.get_verses_as_html(current_tab_id,
                                                    bibleBooks,
-                                                   null,
+                                                   bibleBookStats,
                                                    groupedVerseTags,
                                                    verses,
                                                    render_function,

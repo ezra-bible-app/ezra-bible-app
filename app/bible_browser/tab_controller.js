@@ -26,6 +26,7 @@ class Tab {
     this.tagIdList = "";
     this.tagTitleList = "";
     this.searchTerm = null;
+    this.searchResults = null;
     this.textIsBook = false;
     this.textType = null;
     this.lastHighlightedNavElementIndex = null;
@@ -78,7 +79,16 @@ class TabController {
   saveTabConfiguration() {
     if (this.persistanceEnabled) {
       //console.log('Saving tab configuration');
-      this.settings.set('tabConfiguration', this.metaTabs);
+
+      var savedMetaTabs = [];
+      
+      for (var i = 0; i < this.metaTabs.length; i++) {
+        var copiedMetaTab = Object.assign({}, this.metaTabs[i]); 
+        copiedMetaTab.searchResults = null;
+        savedMetaTabs.push(copiedMetaTab);
+      }
+
+      this.settings.set('tabConfiguration', savedMetaTabs);
     }
   }
 
@@ -142,15 +152,20 @@ class TabController {
 
       for (var i = 0; i < savedMetaTabs.length; i++) {
         var currentMetaTab = savedMetaTabs[i];
-        
-        bible_browser_controller.text_loader.prepareForNewText(false, i);
-        await bible_browser_controller.text_loader.requestTextUpdate(
-          currentMetaTab.elementId,
-          currentMetaTab.book,
-          currentMetaTab.tagIdList,
-          false,
-          i
-        );
+
+        if (currentMetaTab.textType == 'search_results') {
+          bible_browser_controller.module_search.start_search(null, i, currentMetaTab.searchTerm);
+        } else {        
+          bible_browser_controller.text_loader.prepareForNewText(false, i);
+          await bible_browser_controller.text_loader.requestTextUpdate(
+            currentMetaTab.elementId,
+            currentMetaTab.book,
+            currentMetaTab.tagIdList,
+            null,
+            false,
+            i
+          );
+        }
       }
 
       bible_browser_controller.hideVerseListLoadingIndicator();
@@ -267,10 +282,12 @@ class TabController {
   getMetaTabTitle(metaTab) {
     var tabTitle = "";
 
-    if (metaTab.bookTitle != null) {
+    if (metaTab.textType == 'book') {
       tabTitle = metaTab.bookTitle;
-    } else if (metaTab.tagTitleList != "") {
+    } else if (metaTab.textType == 'tagged_verses') {
       tabTitle = metaTab.tagTitleList;
+    } else if (metaTab.textType == 'search_results') {
+      tabTitle = this.getSearchTabTitle(metaTab.searchTerm);
     }
 
     return tabTitle;
@@ -358,13 +375,25 @@ class TabController {
     return tagTitleList;
   }
 
-  setCurrentTabSearch(searchTerm) {
-    var currentTabIndex = this.getSelectedTabIndex();
-    this.metaTabs[currentTabIndex].searchTerm = searchTerm;
+  setTabSearch(searchTerm, index=undefined) {
+    if (index === undefined) {
+      index = this.getSelectedTabIndex();
+    }
+    
+    this.metaTabs[index].searchTerm = searchTerm;
 
     if (searchTerm != undefined && searchTerm != null) {
-      this.setCurrentTabTitle(i18n.t("verse-list-menu.search") + ": " + searchTerm);
+      var searchTabTitle = this.getSearchTabTitle(searchTerm);
+      this.setTabTitle(index, searchTabTitle);
     }
+  }
+
+  getSearchTabTitle(searchTerm) {
+    return i18n.t("verse-list-menu.search") + ": " + searchTerm;
+  }
+
+  setCurrentTabSearch(searchTerm) {
+    this.setTabSearch(searchTerm);
   }
 
   getCurrentTabSearch(index=undefined) {
@@ -378,6 +407,22 @@ class TabController {
     }
 
     return searchTerm;
+  }
+
+  setTabSearchResults(searchResults, index=undefined) {
+    if (index === undefined) {
+      var index = this.getSelectedTabIndex();
+    }
+
+    this.metaTabs[index].searchResults = searchResults;
+  }
+
+  getCurrentTabSearchResults(index=undefined) {
+    if (index === undefined) {
+      var index = this.getSelectedTabIndex();
+    }
+
+    return this.metaTabs[index].searchResults;
   }
 
   setCurrentTextType(textType) {

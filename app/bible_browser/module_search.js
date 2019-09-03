@@ -21,7 +21,6 @@ const NodeSwordInterface = require('node-sword-interface');
 class ModuleSearch {
   constructor() {
     this.currentSearchTerm = null;
-    this.currentSearchResults = [];
     this.search_menu_opened = false;
     this._nodeSwordInterface = null;
   }
@@ -48,8 +47,8 @@ class ModuleSearch {
     this.hide_module_search_header();
   }
 
-  hide_module_search_header() {
-    this.getModuleSearchHeader().hide();
+  hide_module_search_header(tabIndex=undefined) {
+    this.getModuleSearchHeader(tabIndex).hide();
   }
 
   handle_search_menu_click(event) {
@@ -86,34 +85,50 @@ class ModuleSearch {
     return $('#module-search-input').val();
   }
 
-  getModuleSearchHeader() {
-    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame();
+  getModuleSearchHeader(tabIndex=undefined) {
+    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
     return currentVerseListFrame.find('.module-search-result-header');
   }
 
-  searchResultsExceedPerformanceLimit() {
-    return this.currentSearchResults.length > 500;
+  searchResultsExceedPerformanceLimit(index=undefined) {
+    if (index === undefined) {
+      index = bible_browser_controller.tab_controller.getSelectedTabIndex();
+    }
+
+    var currentSearchResults = bible_browser_controller.tab_controller.getCurrentTabSearchResults(index);
+    return currentSearchResults.length > 500;
   }
 
-  async start_search(event) {
-    event.stopPropagation();
+  async start_search(event, tabIndex=undefined, searchTerm=undefined) {
+    if (event != null) {
+      event.stopPropagation();
+    }
 
     if (this._nodeSwordInterface == null) {
       this._nodeSwordInterface = new NodeSwordInterface();
     }
 
-    this.currentSearchTerm = this.getSearchTerm();    
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
+    if (searchTerm !== undefined) {
+      this.currentSearchTerm = searchTerm;
+    } else {
+      this.currentSearchTerm = this.getSearchTerm();
+    }
 
-    bible_browser_controller.tab_controller.setCurrentTabSearch(this.currentSearchTerm);
-    bible_browser_controller.tab_controller.setCurrentTextType('search_results');
-    bible_browser_controller.text_loader.prepareForNewText(true);
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId(tabIndex);
 
-    console.log("Starting search for " + this.currentSearchTerm);
+    if (tabIndex === undefined) {
+      bible_browser_controller.tab_controller.setCurrentTabSearch(this.currentSearchTerm);
+      bible_browser_controller.tab_controller.setCurrentTextType('search_results');
+      //tabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
+    }
+
+    bible_browser_controller.text_loader.prepareForNewText(true, tabIndex);
+
+    console.log("Starting search for " + this.currentSearchTerm + " on tab " + tabIndex);
 
     await this._nodeSwordInterface.getModuleSearchResults(currentBibleTranslationId, this.currentSearchTerm).then(async (searchResults) => {  
       console.log("Got " + searchResults.length + " from Sword");
-      this.currentSearchResults = searchResults;
+      bible_browser_controller.tab_controller.setTabSearchResults(searchResults, tabIndex);
     });
 
     var requestedBookId = -1; // all books requested
@@ -121,19 +136,22 @@ class ModuleSearch {
       requestedBookId = 0; // no books requested - only list headers at first
     }
 
-    await this.renderCurrentSearchResults(requestedBookId);
+    await this.renderCurrentSearchResults(requestedBookId, tabIndex);
   }
 
-  async renderCurrentSearchResults(requestedBookId=-1, target=undefined) {
-    var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
+  async renderCurrentSearchResults(requestedBookId=-1, tabIndex=undefined, target=undefined) {
+    console.log("Rendering search results on tab " + tabIndex);
+    var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId(tabIndex);
+    var currentSearchTerm = bible_browser_controller.tab_controller.getCurrentTabSearch(tabIndex);
+    var currentSearchResults = bible_browser_controller.tab_controller.getCurrentTabSearchResults(tabIndex);
 
-    if (this.currentSearchResults.length > 0) {
+    if (currentSearchResults.length > 0) {
       await bible_browser_controller.text_loader.requestTextUpdate(currentTabId,
                                                                   null,
                                                                   null,
-                                                                  this.currentSearchResults,
+                                                                  currentSearchResults,
                                                                   false,
-                                                                  undefined,
+                                                                  tabIndex,
                                                                   requestedBookId,
                                                                   target);
     } else {
@@ -143,28 +161,28 @@ class ModuleSearch {
     this.hide_search_menu();
     var moduleSearchHeaderText;
 
-    if (this.currentSearchResults.length > 0) {
-      moduleSearchHeaderText = i18n.t("bible-browser.search-result-header") + ' ' + '"' + this.currentSearchTerm + '"' + ' (' + this.currentSearchResults.length + ')';
+    if (currentSearchResults.length > 0) {
+      moduleSearchHeaderText = i18n.t("bible-browser.search-result-header") + ' ' + '"' + currentSearchTerm + '"' + ' (' + currentSearchResults.length + ')';
     } else {
-      moduleSearchHeaderText = i18n.t("bible-browser.no-search-results") + ' ' + '"' + this.currentSearchTerm + '"';
+      moduleSearchHeaderText = i18n.t("bible-browser.no-search-results") + ' ' + '"' + currentSearchTerm + '"';
     }
 
     var header = "<div style='font-size: 130%; font-weight: bold;'>" + moduleSearchHeaderText + "</div>";
 
-    if (this.searchResultsExceedPerformanceLimit()) {
+    if (this.searchResultsExceedPerformanceLimit(tabIndex)) {
       var performanceHintText = i18n.t("bible-browser.search-performance-hint");
-      header += "<div>" + performanceHintText + "</div>";
+      header += "<div style='margin-top: 1em;'>" + performanceHintText + "</div>";
     }
 
-    this.getModuleSearchHeader().html(header);
-    this.getModuleSearchHeader().show();
+    this.getModuleSearchHeader(tabIndex).html(header);
+    this.getModuleSearchHeader(tabIndex).show();
   }
 
   load_book_results(bookId) {
     var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
     
     var bookSection = $('#' + currentTabId).find('#' + currentTabId + '-book-section-' + bookId);
-    this.renderCurrentSearchResults(bookId, bookSection);
+    this.renderCurrentSearchResults(bookId, undefined, bookSection);
   }
 }
 
