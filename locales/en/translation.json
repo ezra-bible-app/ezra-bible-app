@@ -90,8 +90,8 @@
   "bible-browser": {
     "selection": "Selection: ",
     "loading-bible-text": "Loading Bible text",
-    "search-result-header": "Showing results for the search",
-    "no-search-results": "No results found when searching for the term",
+    "search-result-header": "Showing search results for ",
+    "no-search-results": "No results found when searching for ",
     "load-verse-context": "Load the context of this verse",
     "tag-hint": "Click to show all verses with this tag",
     "show-search-results": "Show search results",
