@@ -113,7 +113,12 @@ class BibleBrowserCommunicationController {
       }
 
       var currentVerse = await models.Verse.findBySearchResult(bibleTranslationId, currentResult);
-      verses.push(currentVerse);
+      if (currentVerse != null) {
+        verses.push(currentVerse);
+      } else {
+        console.log("Could not find verse for the following search result: ")
+        console.log(currentResult);
+      }
     }
     //console.log("Done!");
 
