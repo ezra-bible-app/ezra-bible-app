@@ -118,7 +118,7 @@ function BibleBrowserController() {
       var verseBox = currentOccurance.closest('.verse-box');
       var currentTab = bible_browser_controller.tab_controller.getTab();
       var currentBook = currentTab.getBook();
-      var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList();
+      var currentTagIdList = currentTab.getTagIdList();
 
       if (currentBook != null) {
         // Highlight chapter if we are searching in a book
@@ -193,7 +193,7 @@ function BibleBrowserController() {
   this.onBibleTranslationChanged = function() {
     var currentTab = bible_browser_controller.tab_controller.getTab();
     var currentBook = currentTab.getBook();
-    var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList();
+    var currentTagIdList = currentTab.getTagIdList();
     var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
     var currentTabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
 
@@ -219,7 +219,7 @@ function BibleBrowserController() {
   this.onAllTranslationsRemoved = function() {
     bible_browser_controller.tab_controller.removeAllExtraTabs();
     bible_browser_controller.tab_controller.setCurrentBibleTranslationId(null);
-    bible_browser_controller.tab_controller.setCurrentTagIdList("");
+    bible_browser_controller.tab_controller.getTab().setTagIdList("");
     bible_browser_controller.tab_controller.setCurrentTabBook(null, "");
     bible_browser_controller.tab_controller.resetCurrentTabTitle();
     bible_browser_controller.tab_controller.deleteTabConfiguration();
@@ -396,7 +396,7 @@ function BibleBrowserController() {
       //$('#outline-content').empty();
 
       // Set selected tags to null, since we just switched to a book
-      bible_browser_controller.tab_controller.setCurrentTagIdList(null);
+      bible_browser_controller.tab_controller.getTab().setTagIdList(null);
       bible_browser_controller.tab_controller.setCurrentTabBook(book_code, book_title);
       bible_browser_controller.tab_controller.setCurrentTextType('book');
 
@@ -445,7 +445,7 @@ function BibleBrowserController() {
     tags_controller.clear_verse_selection();
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
     var currentTabBook = currentTab.getBook();
-    var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList(tabIndex);
+    var currentTagIdList = currentTab.getTagIdList();
     if ((currentTabBook != undefined && currentTabBook != null) || currentTagIdList != null) {
       setTimeout(() => {
         tags_controller.communication_controller.request_tags(currentTabBook);
@@ -527,7 +527,7 @@ function BibleBrowserController() {
   this.onVerseBoxMouseOver = function() {
     var currentTab = bible_browser_controller.tab_controller.getTab();
     var currentBook = currentTab.getBook();
-    var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList();
+    var currentTagIdList = currentTab.getTagIdList();
     var currentTextType = bible_browser_controller.tab_controller.getCurrentTextType();
 
     if (currentTextType == 'book' && currentBook != null) {
@@ -640,7 +640,7 @@ function BibleBrowserController() {
   };
 
   this.get_tagged_verses = function() {
-    var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList();
+    var currentTagIdList = bible_browser_controller.tab_controller.getTab().getTagIdList();
     var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
     var currentVerseList = bible_browser_controller.getCurrentVerseList();
 

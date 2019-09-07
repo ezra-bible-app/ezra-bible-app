@@ -106,7 +106,7 @@ class TranslationController {
     var bibleSelect = this.getBibleSelect(tabIndex);
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
     var currentBook = currentTab.getBook();
-    var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList(tabIndex);
+    var currentTagIdList = currentTab.getTagIdList();
 
     if (count == 0) {
       bibleSelect.attr('disabled','disabled');

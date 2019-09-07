@@ -166,7 +166,8 @@ class TagSelectionMenu {
   }
 
   is_tag_selected(tag_title) {
-    var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList();
+    var currentTab = bible_browser_controller.tab_controller.getTab();
+    var currentTagIdList = currentTab.getTagIdList();
     if (currentTagIdList != null) {
       var currentTagTitleList = bible_browser_controller.tab_controller.getCurrentTagTitleList();
       if (currentTagTitleList != null) {
@@ -214,7 +215,7 @@ class TagSelectionMenu {
   handle_bible_tag_cb_click(event) {
     var currentTagIdList = this.selected_tags();
     var currentTagTitleList = this.selected_tag_titles();
-    bible_browser_controller.tab_controller.setCurrentTagIdList(currentTagIdList);
+    bible_browser_controller.tab_controller.getTab().setTagIdList(currentTagIdList);
     bible_browser_controller.tab_controller.setCurrentTagTitleList(currentTagTitleList);
     bible_browser_controller.tab_controller.setCurrentTextType('tagged_verses');
 
@@ -234,9 +235,6 @@ class TagSelectionMenu {
   }
   
   reset_tag_menu() {
-    /*bible_browser_controller.tab_controller.setCurrentTagTitleList(null);
-    bible_browser_controller.tab_controller.setCurrentTagIdList("");*/
-
     var taglist_container = $('#tag-selection-taglist-global');
     var tag_cb_list = taglist_container.find('.tag-browser-tag-cb');
 

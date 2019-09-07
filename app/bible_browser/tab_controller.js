@@ -295,11 +295,6 @@ class TabController {
     }
   }
 
-  setCurrentTagIdList(tagIdList) {
-    var currentTabIndex = this.getSelectedTabIndex();
-    this.metaTabs[currentTabIndex].tagIdList = tagIdList;
-  }
-
   setCurrentTagTitleList(tagTitleList) {
     var currentTabIndex = this.getSelectedTabIndex();
     this.metaTabs[currentTabIndex].tagTitleList = tagTitleList;
@@ -312,19 +307,6 @@ class TabController {
         this.setCurrentTabTitle(tagTitleList);
       }
     }
-  }
-
-  getCurrentTagIdList(index=undefined) {
-    if (index === undefined) {
-      var index = this.getSelectedTabIndex();
-    }
-
-    var tagIdList = null;
-    if (index < this.metaTabs.length) {
-      tagIdList = this.metaTabs[index].tagIdList;
-    }
-
-    return tagIdList;
   }
 
   getCurrentTagTitleList(index=undefined) {

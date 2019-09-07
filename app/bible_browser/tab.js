@@ -57,6 +57,14 @@ class Tab {
   getBook() {
     return this.book;
   }
+
+  setTagIdList(tagIdList) {
+    this.tagIdList = tagIdList;
+  }
+
+  getTagIdList() {
+    return this.tagIdList;
+  }
 }
 
 Tab.fromJsonObject = function(jsonObject) {

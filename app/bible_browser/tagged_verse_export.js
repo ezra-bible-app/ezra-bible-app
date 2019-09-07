@@ -201,7 +201,8 @@ class TaggedVerseExport {
     this.exportFilePath = dialog.showSaveDialog(null, dialogOptions);
     
     if (this.exportFilePath != undefined) {
-      var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList();
+      var currentTab = bible_browser_controller.tab_controller.getTab();
+      var currentTagIdList = currentTab.getTagIdList();
 
       bible_browser_controller.communication_controller.request_verses_for_selected_tags(
         undefined,
