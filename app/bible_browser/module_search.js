@@ -44,11 +44,24 @@ class ModuleSearch {
 
   reset_search() {
     $('#module-search-input').val('');
+    $('#search-is-phrase').prop("checked", false);
+    $('#search-is-case-sensitive').prop("checked", false);
     this.hide_module_search_header();
   }
 
   hide_module_search_header(tabIndex=undefined) {
     this.getModuleSearchHeader(tabIndex).hide();
+  }
+
+  populateSearchMenu(tabIndex) {
+    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+    var isPhrase = currentTab.getSearchOptions()['exactPhrase'];
+    var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
+    var searchTerm = currentTab.getSearchTerm();
+
+    $('#search-is-phrase').prop("checked", isPhrase);
+    $('#search-is-case-sensitive').prop("checked", isCaseSensitive);
+    $('#module-search-input').val(searchTerm);
   }
 
   handle_search_menu_click(event) {
@@ -129,6 +142,7 @@ class ModuleSearch {
 
     if (tabIndex === undefined) {
       bible_browser_controller.tab_controller.setTabSearch(this.currentSearchTerm);
+      bible_browser_controller.tab_controller.getTab().setSearchOptions(this.isPhrase(), this.isCaseSensitive());
       bible_browser_controller.tab_controller.getTab().setTextType('search_results');
     }
 
@@ -137,12 +151,15 @@ class ModuleSearch {
 
     //console.log("Starting search for " + this.currentSearchTerm + " on tab " + tabIndex);
 
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
+    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+    var currentBibleTranslationId = currentTab.getBibleTranslationId();
+    var isPhrase = currentTab.getSearchOptions()['exactPhrase'];
+    var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
 
     await this._nodeSwordInterface.getModuleSearchResults(currentBibleTranslationId,
                                                           this.currentSearchTerm,
-                                                          this.isPhrase(),
-                                                          this.isCaseSensitive()).then(async (searchResults) => {
+                                                          isPhrase,
+                                                          isCaseSensitive).then(async (searchResults) => {
                                                             
       //console.log("Got " + searchResults.length + " from Sword");
       bible_browser_controller.tab_controller.getTab(tabIndex).setSearchResults(searchResults);

@@ -169,6 +169,9 @@ function BibleBrowserController() {
     // Toggle book statistics
     bible_browser_controller.toggle_book_tags_statistics_button(ui.index);
 
+    // Populate search menu based on last search (if any)
+    bible_browser_controller.module_search.populateSearchMenu(ui.index);
+
     bible_browser_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(ui.index);
     bible_browser_controller.optionsMenu.showOrHideVerseTagsBasedOnOption(ui.index);
     bible_browser_controller.optionsMenu.changeTagsLayoutBasedOnOption(ui.index);

@@ -25,6 +25,7 @@ class Tab {
     this.tagTitleList = "";
     this.searchTerm = null;
     this.searchResults = null;
+    this.searchOptions = {};
     this.textIsBook = false;
     this.textType = null;
     this.lastHighlightedNavElementIndex = null;
@@ -88,6 +89,15 @@ class Tab {
 
   getSearchResults() {
     return this.searchResults;
+  }
+
+  setSearchOptions(exactPhrase, caseSensitive) {
+    this.searchOptions['exactPhrase'] = exactPhrase;
+    this.searchOptions['caseSensitive'] = caseSensitive;
+  }
+
+  getSearchOptions() {
+    return this.searchOptions;
   }
 
   setTextType(textType) {

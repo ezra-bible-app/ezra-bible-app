@@ -126,8 +126,13 @@ class NavigationPane {
     this.resetNavigationPane(tabIndex);
 
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
-    var currentTagIdList = currentTab.getTagIdList();
-    var currentTextType = currentTab.getTextType();
+    var currentTagIdList = null;
+    var currentTextType = null;
+
+    if (currentTab != null) {
+      currentTagIdList = currentTab.getTagIdList();
+      currentTextType = currentTab.getTextType();
+    }
 
     if (currentTextType == 'book' && bible_chapter_verse_counts != null) { // Update navigation based on book chapters
 
