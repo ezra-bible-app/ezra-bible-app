@@ -620,6 +620,10 @@ h2 {
   margin-bottom: 0.8em;
 }
 
+.verse-list-menu .focused-button {
+  border: 1px dashed #2779aa;
+}
+
 .book-select-button, .tag-select-button, .module-search-button, .display-options-button, .note-session-select-button {
   width: 6em;
   padding: 0.5em;

@@ -36,10 +36,14 @@ class TextLoader {
 
   async requestTextUpdate(tabId, book, tagIdList, searchResults, resetView, tabIndex=undefined, requestedBookId=-1, target=undefined) {
     var textType = bible_browser_controller.tab_controller.getTab(tabIndex).getTextType();
+    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
+    var buttons = currentVerseListMenu.find('.fg-button');
+    buttons.removeClass('focused-button');
 
     if (textType == 'book') { // Book text mode
       $('#export-tagged-verses-button').addClass('ui-state-disabled');
       bible_browser_controller.translation_controller.initChapterVerseCounts();
+      currentVerseListMenu.find('.book-select-button').addClass('focused-button');
 
       await bible_browser_controller.communication_controller.request_book_text(
         tabIndex,
@@ -52,6 +56,7 @@ class TextLoader {
 
     } else if (textType == 'tagged_verses') { // Tagged verse list mode
       $('#show-book-tag-statistics-button').addClass('ui-state-disabled');
+      currentVerseListMenu.find('.tag-select-button').addClass('focused-button');
 
       await bible_browser_controller.communication_controller.request_verses_for_selected_tags(
         tabIndex,
@@ -63,6 +68,7 @@ class TextLoader {
       );
     } else if (textType == 'search_results') {
       $('#show-book-tag-statistics-button').addClass('ui-state-disabled');
+      currentVerseListMenu.find('.module-search-button').addClass('focused-button');
       
       await bible_browser_controller.communication_controller.request_verses_for_search_results(
         tabIndex,
