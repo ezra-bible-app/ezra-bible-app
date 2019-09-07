@@ -35,7 +35,9 @@ class TextLoader {
   }
 
   async requestTextUpdate(tabId, book, tagIdList, searchResults, resetView, tabIndex=undefined, requestedBookId=-1, target=undefined) {
-    if (book != null) { // Book text mode
+    var textType = bible_browser_controller.tab_controller.getTab(tabIndex).getTextType();
+
+    if (textType == 'book') { // Book text mode
       $('#export-tagged-verses-button').addClass('ui-state-disabled');
       bible_browser_controller.translation_controller.initChapterVerseCounts();
 
@@ -48,7 +50,7 @@ class TextLoader {
         }
       );
 
-    } else if (tagIdList != null) { // Tagged verse list mode
+    } else if (textType == 'tagged_verses') { // Tagged verse list mode
       $('#show-book-tag-statistics-button').addClass('ui-state-disabled');
 
       await bible_browser_controller.communication_controller.request_verses_for_selected_tags(
@@ -59,7 +61,9 @@ class TextLoader {
           this.renderVerseList(htmlVerseList, 'tagged_verses', tabIndex);
         }
       );
-    } else if (searchResults != null) {
+    } else if (textType == 'search_results') {
+      $('#show-book-tag-statistics-button').addClass('ui-state-disabled');
+      
       await bible_browser_controller.communication_controller.request_verses_for_search_results(
         tabIndex,
         tabId,
@@ -94,19 +98,11 @@ class TextLoader {
     }
 
     if (listType == 'book') {
-      if (!initialRendering) {
-        bible_browser_controller.tab_controller.setCurrentTextIsBook(true);
-      }
-
       bible_browser_controller.enable_toolbox();
       bible_browser_controller.tag_selection_menu.reset_tag_menu();
       bible_browser_controller.module_search.reset_search();
 
     } else if (listType == 'tagged_verses') {
-
-      if (!initialRendering) {
-        bible_browser_controller.tab_controller.setCurrentTextIsBook(false);
-      }
 
       bible_browser_controller.module_search.reset_search();
       bible_browser_controller.enable_tagging_toolbox_only();

@@ -323,24 +323,6 @@ class TabController {
     return i18n.t("verse-list-menu.search") + ": " + searchTerm;
   }
 
-  setCurrentTextIsBook(isBook) {
-    var currentTabIndex = this.getSelectedTabIndex();
-    this.metaTabs[currentTabIndex].textIsBook = isBook;
-  }
-
-  isCurrentTextBook(index=undefined) {
-    if (index === undefined) {
-      var index = this.getSelectedTabIndex();
-    }
-
-    var textIsBook = null;
-    if (index < this.metaTabs.length) {
-      textIsBook = this.metaTabs[index].textIsBook;
-    }
-
-    return textIsBook;
-  }
-
   setLastHighlightedNavElementIndex(index) {
     var currentTabIndex = this.getSelectedTabIndex();
     this.metaTabs[currentTabIndex].lastHighlightedNavElementIndex = index;

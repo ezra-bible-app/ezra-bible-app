@@ -710,7 +710,7 @@ function BibleBrowserController() {
     bible_browser_controller.navigation_pane.updateNavigation(tabIndex);
     bible_browser_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
     bible_browser_controller.bind_events_after_bible_text_loaded(tabIndex);
-    bible_browser_controller.toggle_book_tags_statistics_button();
+    bible_browser_controller.toggle_book_tags_statistics_button(tabIndex);
     tags_controller.bind_tag_events();
   };
 
@@ -720,7 +720,7 @@ function BibleBrowserController() {
       index = bible_browser_controller.tab_controller.getSelectedTabIndex();
     }
 
-    if (bible_browser_controller.tab_controller.isCurrentTextBook(index)) {
+    if (bible_browser_controller.tab_controller.getTab(index).getTextType() == 'book') {
       var tagsCount = await models.Tag.getTagCount();
 
       if (tagsCount > 0) {

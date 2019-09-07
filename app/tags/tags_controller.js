@@ -1661,6 +1661,7 @@ function TagsController() {
     var translations = await models.BibleTranslation.getTranslations();
     var translationCount = translations.length;
     var tagsCount = await models.Tag.getTagCount();
+    var textType = bible_browser_controller.tab_controller.getTab().getTextType();
 
     if (tagsCount == 0) {
       $('.tag-select-button').addClass('ui-state-disabled');
@@ -1676,7 +1677,10 @@ function TagsController() {
     } else {
       $('.tag-select-button').removeClass('ui-state-disabled');
       $('#new-standard-tag-button').removeClass('ui-state-disabled');
-      $('#show-book-tag-statistics-button').removeClass('ui-state-disabled');
+
+      if (textType == 'book') {
+        $('#show-book-tag-statistics-button').removeClass('ui-state-disabled');
+      }
     }
   };
 
