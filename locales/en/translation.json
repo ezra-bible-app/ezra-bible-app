@@ -42,6 +42,7 @@
     "removing": "Removing"
   },
   "general": {
+    "chapter-verse-separator": ":",
     "module-about": "About",
     "sword-module-info": "SWORD module info",
     "sword-library-info": "SWORD library info",

@@ -42,6 +42,7 @@
     "removing": "Entferne"
   },
   "general": {
+    "chapter-verse-separator": ",",
     "module-about": "Über",
     "sword-module-info": "SWORD Modulinformationen",
     "sword-library-info": "SWORD Bibliothek",
