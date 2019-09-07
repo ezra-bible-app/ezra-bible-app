@@ -4,12 +4,16 @@ All notable changes to Ezra Project are documented in this file.
 <!--
 ## [Unreleased]
 ### Added
-* i18n support:
-    - Added German translation
+* Module search functionality (based on SWORD library search function)
+* Internationalization support
+* German translation and handling of language-based chapter/verse separator for verse references
+* Use localized bible book names (based on SWORD translation functionality)
 
 ### Changed
+* Show bible translation id in tab titles
 
 ### Fixed
+* Also show currently selected verses in verse list mode (relevant for tagged verse lists or module search results)
 
 -->
 
