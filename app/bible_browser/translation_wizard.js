@@ -364,7 +364,7 @@ class TranslationWizard {
           await this._nodeSwordInterface.uninstallModule(translationCode);
           await models.BibleTranslation.removeFromDb(translationCode);
 
-          var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
+          var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
           if (currentBibleTranslationId == translationCode) {
             models.BibleTranslation.findAndCountAll().then(result => {
               if (result.rows.length > 0) {

@@ -97,6 +97,15 @@ class Tab {
   getTextType() {
     return this.textType;
   }
+
+  setBibleTranslationId(bibleTranslationId) {
+    this.bibleTranslationId = bibleTranslationId;
+    this.defaultBibleTranslationId = bibleTranslationId;
+  }
+
+  getBibleTranslationId() {
+    return this.bibleTranslationId;
+  }
 }
 
 Tab.fromJsonObject = function(jsonObject) {

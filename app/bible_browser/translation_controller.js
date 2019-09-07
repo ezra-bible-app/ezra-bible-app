@@ -40,7 +40,7 @@ class TranslationController {
   }
 
   updateAvailableBooks(tabIndex=undefined) {
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId(tabIndex);
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
     models.BibleTranslation.getBookList(currentBibleTranslationId).then(books => {
       var book_links = $('#book-selection-menu').find('li');
 
@@ -60,7 +60,7 @@ class TranslationController {
   }
 
   initChapterVerseCounts() {
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
     return models.BibleBook.getChapterVerseCounts(currentBibleTranslationId).then(verseCountEntries => {
       var lastBook = null;
 
@@ -126,7 +126,7 @@ class TranslationController {
 
   addTranslationsToBibleSelectMenu(tabIndex, dbResult) {
     var bibleSelect = this.getBibleSelect(tabIndex);
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId(tabIndex);
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
 
     for (var translation of dbResult.rows) {
       var selected = '';
@@ -226,7 +226,7 @@ class TranslationController {
   }
 
   async showBibleTranslationInfo() {
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
     var bibleTranslationInfo = this.getBibleTranslationInfo(currentBibleTranslationId);
 
     var currentBibleTranslationName = await bible_browser_controller.tab_controller.getCurrentBibleTranslationName();

@@ -334,22 +334,12 @@ class TabController {
   }
 
   setCurrentBibleTranslationId(bibleTranslationId) {
-    //console.log("Setting current bible translation id: " + bibleTranslationId);
-    var currentTabIndex = this.getSelectedTabIndex();
-    this.metaTabs[currentTabIndex].bibleTranslationId = bibleTranslationId;
-    this.defaultBibleTranslationId = bibleTranslationId;
+    this.getTab().setBibleTranslationId(bibleTranslationId);
     bible_browser_controller.translation_controller.enableCurrentTranslationInfoButton();
   }
 
-  getCurrentBibleTranslationId(index=undefined) {
-    if (index === undefined || index >= this.metaTabs.length) {
-      var index = this.getSelectedTabIndex();
-    }
-    return this.metaTabs[index].bibleTranslationId;
-  }
-
   async getCurrentBibleTranslationName() {
-    return await models.BibleTranslation.getName(this.getCurrentBibleTranslationId());
+    return await models.BibleTranslation.getName(this.getTab().getBibleTranslationId());
   }
 
   isCurrentTabEmpty() {

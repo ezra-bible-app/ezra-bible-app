@@ -34,7 +34,7 @@ class BibleBrowserCommunicationController {
                           start_verse_number=0,
                           number_of_verses=0) {
 
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId(tab_index);
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
 
     if (currentBibleTranslationId == null || 
         currentBibleTranslationId == "") {
@@ -77,10 +77,10 @@ class BibleBrowserCommunicationController {
     }
 
     var bibleTranslationId = null;
-    if (bible_browser_controller.tab_controller.getCurrentBibleTranslationId(tab_index) == null) {
+    if (bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId() == null) {
       bibleTranslationId = 1;
     } else {
-      bibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId(tab_index);
+      bibleTranslationId = bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
     }
 
     var bibleBookStats = {};
@@ -157,10 +157,10 @@ class BibleBrowserCommunicationController {
     }
 
     var bibleTranslationId = null;
-    if (bible_browser_controller.tab_controller.getCurrentBibleTranslationId(tab_index) == null) {
+    if (bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId() == null) {
       bibleTranslationId = 1;
     } else {
-      bibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId(tab_index);
+      bibleTranslationId = bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
     }
 
     var verses = await models.Verse.findByTagIds(bibleTranslationId, selected_tags);

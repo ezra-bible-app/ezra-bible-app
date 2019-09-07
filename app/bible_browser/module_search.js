@@ -137,7 +137,7 @@ class ModuleSearch {
 
     //console.log("Starting search for " + this.currentSearchTerm + " on tab " + tabIndex);
 
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId(tabIndex);
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
 
     await this._nodeSwordInterface.getModuleSearchResults(currentBibleTranslationId,
                                                           this.currentSearchTerm,

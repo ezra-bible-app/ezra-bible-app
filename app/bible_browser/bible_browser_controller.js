@@ -182,7 +182,7 @@ function BibleBrowserController() {
     bible_browser_controller.translation_controller.initBibleTranslationInfoButton();
     bible_browser_controller.optionsMenu.initCurrentOptionsMenu(tabIndex);
 
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId(tabIndex);
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
     if (currentBibleTranslationId != null) {
       bible_browser_controller.translation_controller.enableCurrentTranslationInfoButton(tabIndex);
     }
@@ -379,7 +379,7 @@ function BibleBrowserController() {
   this.select_bible_book = function(book_code, book_title) {
     bible_browser_controller.highlightSelectedBookInMenu(book_code);
 
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
     models.BibleTranslation.getBookList(currentBibleTranslationId).then(books => {
       if (!books.includes(book_code)) {
         return;
@@ -770,7 +770,7 @@ function BibleBrowserController() {
   };
 
   this.updateUiAfterBibleTranslationAvailable = function(translationCode) {
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId();
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
     if (currentBibleTranslationId == "" || 
         currentBibleTranslationId == null) { // Update UI after a Bible translation becomes available
 
