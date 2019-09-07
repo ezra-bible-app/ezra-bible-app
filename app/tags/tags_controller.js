@@ -457,7 +457,7 @@ function TagsController() {
     var current_book_count = 0;
     var current_global_count = 0;
 
-    var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
+    var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
 
     if (currentBook == null) {
       var current_global_count = parseInt(tag_assignment_count_values);
@@ -483,7 +483,7 @@ function TagsController() {
     checkbox_tag.find('.book-assignment-count').text(new_book_count);
     checkbox_tag.find('.global-assignment-count').text(new_global_count);
 
-    var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
+    var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
 
     var new_label = "";
     if (currentBook == null) {
@@ -786,7 +786,7 @@ function TagsController() {
 
     await tags_controller.updateTagUiBasedOnTagAvailability();
 
-    var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
+    var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
 
     if (currentBook != null) {
       tags_controller.update_book_tag_statistics_box(book_tag_statistics);
@@ -802,7 +802,7 @@ function TagsController() {
       }
     );
 
-    var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
+    var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
     var chapter_verse_counts = bible_chapter_verse_counts[currentBook];
 
     if (chapter_verse_counts != null) {
@@ -1160,7 +1160,7 @@ function TagsController() {
     var used_in_book_class = (is_used_in_current_book ? "cb-label-assigned" : "");
 
     var tag_counts = "";
-    var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
+    var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
     if (currentBook == null) {
       tag_counts = global_assignment_count;
     } else {
@@ -1237,7 +1237,7 @@ function TagsController() {
     */
 
     var tag_counts = "";
-    var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
+    var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
     if (currentBook == null) {
       tag_counts = global_assignment_count;
     } else {
@@ -1439,7 +1439,7 @@ function TagsController() {
 
     $('#tags-header').find('#selected-verses').html("");
     //$('#clippy-box').empty();
-    var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
+    var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
 
     var selectedBooks = [];
     for (var i = 0; i < tags_controller.selected_verse_boxes.length; i++) {
@@ -1575,7 +1575,7 @@ function TagsController() {
     var formatted_passage = "";
 
     if (start_reference != undefined && end_reference != undefined) {
-      var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
+      var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
       formatted_passage = format_passage_reference_for_view(currentBook,
                                                             start_reference,
                                                             end_reference);
@@ -1590,7 +1590,7 @@ function TagsController() {
 
   this.verse_reference_list_to_absolute_verse_nr_list = function(list) {
     var new_list = new Array;
-    var short_book_title = bible_browser_controller.tab_controller.getCurrentTabBook();
+    var short_book_title = bible_browser_controller.tab_controller.getTab().getBook();
 
     for (var i = 0; i < list.length; i++) {
       new_list.push(Number(reference_to_verse_nr(short_book_title, list[i])));

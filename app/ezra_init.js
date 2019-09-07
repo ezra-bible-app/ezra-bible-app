@@ -180,7 +180,8 @@ function reference_to_verse_nr(bible_book_short_title, reference, split_support)
 
 function verse_nr_to_reference(verse_nr)
 {
-  var bible_book_short_title = bible_browser_controller.tab_controller.getCurrentTabBook();
+  var currentTab = bible_browser_controller.tab_controller.getTab();
+  var bible_book_short_title = currentTab.getBook();
 
   var chapter = 0;
   var rest_verse_nr = verse_nr;

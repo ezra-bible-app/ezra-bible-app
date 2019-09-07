@@ -20,7 +20,7 @@ function TagsCommunicationController()
 {
   this.request_tags = function(currentBook=undefined) {
     if (currentBook === undefined) {
-      var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
+      var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
     }
 
     models.BibleBook.findOne({ where: { shortTitle: currentBook }}).then(bibleBook => {
@@ -62,7 +62,7 @@ function TagsCommunicationController()
 
     var bibleBookId = null;
     if (isBookTag) {
-      bibleBookId = bible_browser_controller.tab_controller.getCurrentTabBook();
+      bibleBookId = bible_browser_controller.tab_controller.getTab().getBook();
     }
 
     model.create({
@@ -109,7 +109,7 @@ function TagsCommunicationController()
   };
 
   this.param_for_xml_verse_selection = function(xml_verse_selection) {
-    var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
+    var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
     var xml_params = "<params>";
     xml_params += xml_verse_selection;
     xml_params += "<book-code>" + currentBook + "</book-code>";

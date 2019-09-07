@@ -48,6 +48,15 @@ class Tab {
   getSearchTabTitle(searchTerm) {
     return i18n.t("verse-list-menu.search") + ": " + searchTerm;
   }
+
+  setBook(bookCode, bookTitle) {
+    this.book = bookCode;
+    this.bookTitle = bookTitle;
+  }
+
+  getBook() {
+    return this.book;
+  }
 }
 
 Tab.fromJsonObject = function(jsonObject) {

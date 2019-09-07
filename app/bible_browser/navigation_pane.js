@@ -29,7 +29,8 @@ class NavigationPane {
   initNavigationPaneForCurrentView(tabIndex=undefined) {
     var navigationPane = this.getCurrentNavigationPane(tabIndex);
 
-    var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook(tabIndex);
+    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+    var currentBook = currentTab.getBook();
     var currentTagTitleList = bible_browser_controller.tab_controller.getCurrentTagTitleList(tabIndex);
     var currentTextType = bible_browser_controller.tab_controller.getCurrentTextType(tabIndex);
 
@@ -71,7 +72,8 @@ class NavigationPane {
 
   updateChapterNavigation(tabIndex) {
     var navigationPane = this.getCurrentNavigationPane(tabIndex);
-    var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook(tabIndex);
+    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+    var currentBook = currentTab.getBook();
     var verse_counts = bible_chapter_verse_counts[currentBook];
     var i = 1;
 
@@ -123,7 +125,6 @@ class NavigationPane {
 
     this.resetNavigationPane(tabIndex);
 
-    var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook(tabIndex);
     var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList(tabIndex);
     var currentTextType = bible_browser_controller.tab_controller.getCurrentTextType(tabIndex);
 

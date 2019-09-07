@@ -288,25 +288,11 @@ class TabController {
 
   setCurrentTabBook(bookCode, bookTitle) {
     var currentTabIndex = this.getSelectedTabIndex();
-    this.metaTabs[currentTabIndex].book = bookCode;
-    this.metaTabs[currentTabIndex].bookTitle = bookTitle;
+    this.metaTabs[currentTabIndex].setBook(bookCode, bookTitle);
 
     if (bookTitle != undefined && bookTitle != null) {
       this.setCurrentTabTitle(bookTitle);
     }
-  }
-
-  getCurrentTabBook(index=undefined) {
-    if (index === undefined) {
-      var index = this.getSelectedTabIndex();
-    }
-
-    var book = null;
-    if (index < this.metaTabs.length) {
-      book = this.metaTabs[index].book;
-    }
-
-    return book;
   }
 
   setCurrentTagIdList(tagIdList) {

@@ -104,7 +104,8 @@ class TranslationController {
 
   updateUiBasedOnNumberOfTranslations(tabIndex, count) {
     var bibleSelect = this.getBibleSelect(tabIndex);
-    var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook(tabIndex);
+    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+    var currentBook = currentTab.getBook();
     var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList(tabIndex);
 
     if (count == 0) {
