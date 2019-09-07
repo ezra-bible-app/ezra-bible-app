@@ -90,7 +90,7 @@ class TextLoader {
     target.html(htmlVerseList);
 
     if (!initialRendering) {
-      bible_browser_controller.tab_controller.setCurrentTextType(listType);
+      bible_browser_controller.tab_controller.getTab().setTextType(listType);
     }
 
     if (listType == 'book') {

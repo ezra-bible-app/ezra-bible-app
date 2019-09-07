@@ -32,7 +32,7 @@ class NavigationPane {
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
     var currentBook = currentTab.getBook();
     var currentTagTitleList = currentTab.getTagTitleList();
-    var currentTextType = bible_browser_controller.tab_controller.getCurrentTextType(tabIndex);
+    var currentTextType = currentTab.getTextType();
 
     if (currentTextType == 'book' && currentBook != null) { // Book text mode
 
@@ -127,7 +127,7 @@ class NavigationPane {
 
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
     var currentTagIdList = currentTab.getTagIdList();
-    var currentTextType = bible_browser_controller.tab_controller.getCurrentTextType(tabIndex);
+    var currentTextType = currentTab.getTextType();
 
     if (currentTextType == 'book' && bible_chapter_verse_counts != null) { // Update navigation based on book chapters
 

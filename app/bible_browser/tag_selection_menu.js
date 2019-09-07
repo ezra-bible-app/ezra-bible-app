@@ -215,9 +215,10 @@ class TagSelectionMenu {
   handle_bible_tag_cb_click(event) {
     var currentTagIdList = this.selected_tags();
     var currentTagTitleList = this.selected_tag_titles();
-    bible_browser_controller.tab_controller.getTab().setTagIdList(currentTagIdList);
+    var currentTab = bible_browser_controller.tab_controller.getTab();
+    currentTab.setTextType('tagged_verses');
+    currentTab.setTagIdList(currentTagIdList);
     bible_browser_controller.tab_controller.setCurrentTagTitleList(currentTagTitleList);
-    bible_browser_controller.tab_controller.setCurrentTextType('tagged_verses');
 
     // Set selected book to null, since we just switched to selected tags
     bible_browser_controller.tab_controller.setCurrentTabBook(null, null);

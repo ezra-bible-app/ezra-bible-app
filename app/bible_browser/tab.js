@@ -74,12 +74,12 @@ class Tab {
     return this.tagTitleList;
   }
 
-  getSearchTerm() {
-    return this.searchTerm;
-  }
-
   setSearchTerm(searchTerm) {
     this.searchTerm = searchTerm;
+  }
+
+  getSearchTerm() {
+    return this.searchTerm;
   }
 
   setSearchResults(searchResults) {
@@ -88,6 +88,14 @@ class Tab {
 
   getSearchResults() {
     return this.searchResults;
+  }
+
+  setTextType(textType) {
+    this.textType = textType;
+  }
+
+  getTextType() {
+    return this.textType;
   }
 }
 

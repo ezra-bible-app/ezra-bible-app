@@ -323,19 +323,6 @@ class TabController {
     return i18n.t("verse-list-menu.search") + ": " + searchTerm;
   }
 
-  setCurrentTextType(textType) {
-    var currentTabIndex = this.getSelectedTabIndex();
-    this.metaTabs[currentTabIndex].textType = textType;
-  }
-
-  getCurrentTextType(index=undefined) {
-    if (index === undefined) {
-      var index = this.getSelectedTabIndex();
-    }
-
-    return this.metaTabs[index].textType;
-  }
-
   setCurrentTextIsBook(isBook) {
     var currentTabIndex = this.getSelectedTabIndex();
     this.metaTabs[currentTabIndex].textIsBook = isBook;

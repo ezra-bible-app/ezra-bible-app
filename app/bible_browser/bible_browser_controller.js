@@ -194,10 +194,9 @@ function BibleBrowserController() {
     var currentTab = bible_browser_controller.tab_controller.getTab();
     var currentBook = currentTab.getBook();
     var currentTagIdList = currentTab.getTagIdList();
+    var currentTextType = currentTab.getTextType();
     var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
     var currentTabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
-
-    var currentTextType = bible_browser_controller.tab_controller.getCurrentTextType();
 
     if (currentTextType == 'search_results') {
       var currentSearchTerm = currentTab.getSearchTerm();
@@ -396,9 +395,10 @@ function BibleBrowserController() {
       //$('#outline-content').empty();
 
       // Set selected tags to null, since we just switched to a book
-      bible_browser_controller.tab_controller.getTab().setTagIdList(null);
+      var currentTab = bible_browser_controller.tab_controller.getTab();
+      currentTab.setTextType('book');
+      currentTab.setTagIdList(null);
       bible_browser_controller.tab_controller.setCurrentTabBook(book_code, book_title);
-      bible_browser_controller.tab_controller.setCurrentTextType('book');
 
       var currentVerseList = bible_browser_controller.getCurrentVerseList();
       bible_browser_controller.book_search.setVerseList(currentVerseList);
@@ -528,7 +528,7 @@ function BibleBrowserController() {
     var currentTab = bible_browser_controller.tab_controller.getTab();
     var currentBook = currentTab.getBook();
     var currentTagIdList = currentTab.getTagIdList();
-    var currentTextType = bible_browser_controller.tab_controller.getCurrentTextType();
+    var currentTextType = currentTab.getTextType();
 
     if (currentTextType == 'book' && currentBook != null) {
 
