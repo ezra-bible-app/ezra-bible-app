@@ -81,6 +81,14 @@ class Tab {
   setSearchTerm(searchTerm) {
     this.searchTerm = searchTerm;
   }
+
+  setSearchResults(searchResults) {
+    this.searchResults = searchResults;
+  }
+
+  getSearchResults() {
+    return this.searchResults;
+  }
 }
 
 Tab.fromJsonObject = function(jsonObject) {

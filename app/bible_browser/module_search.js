@@ -103,7 +103,7 @@ class ModuleSearch {
       index = bible_browser_controller.tab_controller.getSelectedTabIndex();
     }
 
-    var currentSearchResults = bible_browser_controller.tab_controller.getCurrentTabSearchResults(index);
+    var currentSearchResults = bible_browser_controller.tab_controller.getTab(index).getSearchResults();
     return currentSearchResults.length > 500;
   }
 
@@ -145,7 +145,7 @@ class ModuleSearch {
                                                           this.isCaseSensitive()).then(async (searchResults) => {
                                                             
       //console.log("Got " + searchResults.length + " from Sword");
-      bible_browser_controller.tab_controller.setTabSearchResults(searchResults, tabIndex);
+      bible_browser_controller.tab_controller.getTab(tabIndex).setSearchResults(searchResults);
     });
 
     var requestedBookId = -1; // all books requested
@@ -161,7 +161,7 @@ class ModuleSearch {
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
     var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId(tabIndex);
     var currentSearchTerm = currentTab.getSearchTerm();
-    var currentSearchResults = bible_browser_controller.tab_controller.getCurrentTabSearchResults(tabIndex);
+    var currentSearchResults = currentTab.getSearchResults();
 
     if (currentSearchResults.length > 0) {
       await bible_browser_controller.text_loader.requestTextUpdate(currentTabId,
