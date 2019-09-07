@@ -50,14 +50,14 @@
     "sequelize": "^4.42.0",
     "sequelize-cli": "^5.4.0",
     "sqlite3": "^4.0.9",
-    "umzug": "^2.2.0"
+    "umzug": "^2.2.0",
+    "log-timestamp": "^0.3.0"
   },
   "devDependencies": {
     "electron": "^4.2.9",
     "electron-osx-sign": "^0.4.12",
     "electron-packager": "^14.0.4",
     "electron-rebuild": "^1.8.4",
-    "log-timestamp": "^0.3.0",
     "node-gyp": "^3.8.0"
   },
   "repository": {
