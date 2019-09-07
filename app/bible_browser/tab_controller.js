@@ -125,7 +125,7 @@ class TabController {
       }
 
       var tabTitle = currentMetaTab.getTitle();
-      this.setTabTitle(tabTitle, i);
+      this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), i);
     }
   }
 
@@ -274,10 +274,10 @@ class TabController {
   }
 
   resetCurrentTabTitle() {
-    this.setCurrentTabTitle(this.defaultLabel);
+    this.setTabTitle(this.defaultLabel);
   }
 
-  setTabTitle(title, index=undefined) {
+  setTabTitle(title, bibleTranslationId=undefined, index=undefined) {
     if (index === undefined) {
       var index = this.getSelectedTabIndex();
     }
@@ -285,42 +285,58 @@ class TabController {
     var tabsElement = $('#' + this.tabsElement);
     var tab = $(tabsElement.find('li')[index]);
     var link = $(tab.find('a')[0]);
-    link.text(title);
+    var tabTitle = title;
+    if (bibleTranslationId !== undefined) {
+      tabTitle += ' [' + bibleTranslationId + ']';
+    }
+
+    link.text(tabTitle);
   }
 
-  setCurrentTabTitle(title) {
+  getTabTitle() {
+    var index = this.getSelectedTabIndex();
     var tabsElement = $('#' + this.tabsElement);
-    var selectedTab = tabsElement.find('.ui-tabs-selected');
-    var link = $(selectedTab.find('a')[0]);
-    link.text(title);
+    var tab = $(tabsElement.find('li')[index]);
+    var link = $(tab.find('a')[0]);
+    var linkText = link.text().split(" ");
+    linkText.pop();
+    return linkText.join(" ");
+  }
+
+  refreshBibleTranslationInTabTitle(bibleTranslationId) {
+    var currentTabTitle = this.getTabTitle();
+    this.setTabTitle(currentTabTitle, bibleTranslationId);
   }
 
   setCurrentTabBook(bookCode, bookTitle) {
     this.getTab().setBook(bookCode, bookTitle);
+    var currentTranslationId = this.getTab().getBibleTranslationId();
 
     if (bookTitle != undefined && bookTitle != null) {
-      this.setCurrentTabTitle(bookTitle);
+      this.setTabTitle(bookTitle, currentTranslationId);
     }
   }
 
   setCurrentTagTitleList(tagTitleList) {
     this.getTab().setTagTitleList(tagTitleList);
+    var currentTranslationId = this.getTab().getBibleTranslationId();
 
     if (tagTitleList != undefined && tagTitleList != null) {
       if (tagTitleList == "") {
         this.resetCurrentTabTitle();
       } else {
-        this.setCurrentTabTitle(tagTitleList);
+        this.setTabTitle(tagTitleList, currentTranslationId);
       }
     }
   }
 
   setTabSearch(searchTerm, index=undefined) {
     this.getTab(index).setSearchTerm(searchTerm);
+    var currentTranslationId = this.getTab().getBibleTranslationId();
 
     if (searchTerm != undefined && searchTerm != null) {
       var searchTabTitle = this.getSearchTabTitle(searchTerm);
-      this.setTabTitle(searchTabTitle, index);
+      this.setTabTitle(searchTabTitle, currentTranslationId, index);
     }
   }
 
@@ -369,7 +385,7 @@ class TabController {
             break;
           }
         }
-        this.setTabTitle(tag_list.join(', '), i);
+        this.setTabTitle(tag_list.join(', '), currentMetaTab.getBibleTranslationId(), i);
       }
     }
   }

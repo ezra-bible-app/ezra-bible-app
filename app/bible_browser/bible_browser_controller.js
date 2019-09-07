@@ -157,9 +157,6 @@ function BibleBrowserController() {
     var currentVerseList = bible_browser_controller.getCurrentVerseList(ui.index);
     bible_browser_controller.book_search.setVerseList(currentVerseList);
 
-    // Re-configure bible translations menu for current verse list
-    bible_browser_controller.translation_controller.initTranslationsMenu(ui.index);
-
     // Update available books for current translation
     bible_browser_controller.translation_controller.updateAvailableBooks(ui.index);
 
@@ -182,6 +179,7 @@ function BibleBrowserController() {
     bible_browser_controller.tag_selection_menu.init_tag_selection_menu(tabIndex);
     bible_browser_controller.module_search.init_module_search_menu(tabIndex);
     bible_browser_controller.init_current_verse_list_menu(tabIndex);
+    bible_browser_controller.translation_controller.initTranslationsMenu(tabIndex);
     bible_browser_controller.translation_controller.initBibleTranslationInfoButton();
     bible_browser_controller.optionsMenu.initCurrentOptionsMenu(tabIndex);
 
@@ -198,8 +196,10 @@ function BibleBrowserController() {
     var currentBook = currentTab.getBook();
     var currentTagIdList = currentTab.getTagIdList();
     var currentTextType = currentTab.getTextType();
+    var currentBibleTranslationId = currentTab.getBibleTranslationId();
     var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
     var currentTabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
+    bible_browser_controller.tab_controller.refreshBibleTranslationInTabTitle(currentBibleTranslationId);
 
     if (currentTextType == 'search_results') {
       var currentSearchTerm = currentTab.getSearchTerm();
@@ -209,10 +209,10 @@ function BibleBrowserController() {
       if (!bible_browser_controller.tab_controller.isCurrentTabEmpty()) {
         bible_browser_controller.text_loader.prepareForNewText(false);
         bible_browser_controller.text_loader.requestTextUpdate(currentTabId,
-                                                              currentBook,
-                                                              currentTagIdList,
-                                                              null, // TODO
-                                                              false);
+                                                               currentBook,
+                                                               currentTagIdList,
+                                                               null, // TODO
+                                                               false);
       }
     }
   };
