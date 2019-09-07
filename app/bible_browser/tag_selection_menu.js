@@ -224,6 +224,12 @@ class TagSelectionMenu {
     bible_browser_controller.tab_controller.setCurrentTabBook(null, null);
     //bible_browser_controller.settings.set('selected_book', null);
 
+    if (currentTagIdList != "") {
+      setTimeout(() => {
+        this.hide_tag_menu();
+      }, 700);
+    }
+
     bible_browser_controller.get_tagged_verses();
   }
 
