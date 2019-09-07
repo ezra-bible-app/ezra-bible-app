@@ -106,6 +106,48 @@ class TabController {
     var firstTabCloseButton = this.getFirstTabCloseButton();
     firstTabCloseButton.hide();
   }
+
+  loadMetaTabsFromSettings() {
+    var savedMetaTabs = this.settings.get('tabConfiguration');
+    console.log("Loading " + savedMetaTabs.length + " tabs from configuration!");
+
+    for (var i = 0; i < savedMetaTabs.length; i++) {
+      var currentMetaTab = Tab.fromJsonObject(savedMetaTabs[i]);
+      console.log("Creating tab " + i + " from saved entry ... ");
+      //console.log("Bible translation: " + currentMetaTab.bibleTranslationId);
+
+      if (i == 0) {
+        currentMetaTab.elementId = this.metaTabs[0].elementId;
+        this.metaTabs[0] = currentMetaTab;
+        this.updateFirstTabCloseButton();
+      } else {
+        this.addTab(currentMetaTab);
+      }
+
+      var tabTitle = currentMetaTab.getTitle();
+      this.setTabTitle(tabTitle, i);
+    }
+  }
+
+  async populateFromMetaTabs() {
+    for (var i = 0; i < this.metaTabs.length; i++) {
+      var currentMetaTab = this.metaTabs[i];
+
+      if (currentMetaTab.textType == 'search_results') {
+        bible_browser_controller.module_search.start_search(null, i, currentMetaTab.searchTerm);
+      } else {
+        bible_browser_controller.text_loader.prepareForNewText(false, i);
+        await bible_browser_controller.text_loader.requestTextUpdate(
+          currentMetaTab.elementId,
+          currentMetaTab.book,
+          currentMetaTab.tagIdList,
+          null,
+          false,
+          i
+        );
+      }
+    }
+  }
   
   async loadTabConfiguration() {
     if (this.settings.has('bible_translation')) {
@@ -114,45 +156,8 @@ class TabController {
 
     if (this.settings.has('tabConfiguration')) {
       bible_browser_controller.showVerseListLoadingIndicator();
-
-      var savedMetaTabs = this.settings.get('tabConfiguration');
-      console.log("Loading " + savedMetaTabs.length + " tabs from configuration!");
-
-      for (var i = 0; i < savedMetaTabs.length; i++) {
-        var currentMetaTab = Tab.fromJsonObject(savedMetaTabs[i]);
-        console.log("Creating tab " + i + " from saved entry ... ");
-        //console.log("Bible translation: " + currentMetaTab.bibleTranslationId);
-
-        if (i == 0) {
-          currentMetaTab.elementId = this.metaTabs[0].elementId;
-          this.metaTabs[0] = currentMetaTab;
-          this.updateFirstTabCloseButton();
-        } else {
-          this.addTab(currentMetaTab);
-        }
-
-        var tabTitle = currentMetaTab.getTitle();
-        this.setTabTitle(tabTitle, i);
-      }
-
-      for (var i = 0; i < savedMetaTabs.length; i++) {
-        var currentMetaTab = savedMetaTabs[i];
-
-        if (currentMetaTab.textType == 'search_results') {
-          bible_browser_controller.module_search.start_search(null, i, currentMetaTab.searchTerm);
-        } else {        
-          bible_browser_controller.text_loader.prepareForNewText(false, i);
-          await bible_browser_controller.text_loader.requestTextUpdate(
-            currentMetaTab.elementId,
-            currentMetaTab.book,
-            currentMetaTab.tagIdList,
-            null,
-            false,
-            i
-          );
-        }
-      }
-
+      this.loadMetaTabsFromSettings();
+      await this.populateFromMetaTabs();
       bible_browser_controller.hideVerseListLoadingIndicator();
     }
 
@@ -335,7 +340,7 @@ class TabController {
 
   setCurrentBibleTranslationId(bibleTranslationId) {
     this.getTab().setBibleTranslationId(bibleTranslationId);
-    
+
     if (bibleTranslationId != null) {
       bible_browser_controller.translation_controller.enableCurrentTranslationInfoButton();
     }
