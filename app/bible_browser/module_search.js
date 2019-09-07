@@ -135,7 +135,7 @@ class ModuleSearch {
     // Only reset view if we got an event (in other words: not initially)
     bible_browser_controller.text_loader.prepareForNewText(event != null, tabIndex);
 
-    console.log("Starting search for " + this.currentSearchTerm + " on tab " + tabIndex);
+    //console.log("Starting search for " + this.currentSearchTerm + " on tab " + tabIndex);
 
     var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId(tabIndex);
 
@@ -144,7 +144,7 @@ class ModuleSearch {
                                                           this.isPhrase(),
                                                           this.isCaseSensitive()).then(async (searchResults) => {
                                                             
-      console.log("Got " + searchResults.length + " from Sword");
+      //console.log("Got " + searchResults.length + " from Sword");
       bible_browser_controller.tab_controller.setTabSearchResults(searchResults, tabIndex);
     });
 
@@ -157,7 +157,7 @@ class ModuleSearch {
   }
 
   async renderCurrentSearchResults(requestedBookId=-1, tabIndex=undefined, target=undefined) {
-    console.log("Rendering search results on tab " + tabIndex);
+    //console.log("Rendering search results on tab " + tabIndex);
     var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId(tabIndex);
     var currentSearchTerm = bible_browser_controller.tab_controller.getCurrentTabSearch(tabIndex);
     var currentSearchResults = bible_browser_controller.tab_controller.getCurrentTabSearchResults(tabIndex);

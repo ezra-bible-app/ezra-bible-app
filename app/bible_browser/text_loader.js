@@ -83,7 +83,7 @@ class TextLoader {
     }
 
     if (target === undefined) {
-      console.log("Undefined target. Getting verse list target based on tabIndex " + tabIndex);
+      //console.log("Undefined target. Getting verse list target based on tabIndex " + tabIndex);
       target = bible_browser_controller.getCurrentVerseList(tabIndex);
     }
 
@@ -113,8 +113,7 @@ class TextLoader {
       bible_browser_controller.enableTaggedVersesExportButton(tabIndex);
     } else if (listType == 'search_results') {
 
-      console.log("Rendering search results verse list on tab " + tabIndex);
-
+      //console.log("Rendering search results verse list on tab " + tabIndex);
       bible_browser_controller.enable_tagging_toolbox_only();
       bible_browser_controller.enableTaggedVersesExportButton(tabIndex);
     }

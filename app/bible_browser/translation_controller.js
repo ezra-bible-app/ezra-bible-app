@@ -245,7 +245,7 @@ class TranslationController {
     bible_browser_controller.tab_controller.setCurrentBibleTranslationId(bibleSelect[0].value);
     bible_browser_controller.settings.set('bible_translation', bibleSelect[0].value);
     
-    if (!bible_browser_controller.tab_controller.isCurrentTabEmpty()) {
+    if (!bible_browser_controller.tab_controller.isCurrentTabEmpty() && bible_browser_controller.tab_controller.getCurrentTextType() != 'search_results') {
       this.showBibleTranslationLoadingIndicator();
     }
 

@@ -194,14 +194,23 @@ function BibleBrowserController() {
     var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
     var currentTagIdList = bible_browser_controller.tab_controller.getCurrentTagIdList();
     var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
+    var currentTabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
 
-    if (!bible_browser_controller.tab_controller.isCurrentTabEmpty()) {
-      bible_browser_controller.text_loader.prepareForNewText(false);
-      bible_browser_controller.text_loader.requestTextUpdate(currentTabId,
-                                                             currentBook,
-                                                             currentTagIdList,
-                                                             null, // TODO
-                                                             false);
+    var currentTextType = bible_browser_controller.tab_controller.getCurrentTextType();
+
+    if (currentTextType == 'search_results') {
+      var currentSearchTerm = bible_browser_controller.tab_controller.getCurrentTabSearch();
+      bible_browser_controller.text_loader.prepareForNewText(true);
+      bible_browser_controller.module_search.start_search(null, currentTabIndex, currentSearchTerm);
+    } else {
+      if (!bible_browser_controller.tab_controller.isCurrentTabEmpty()) {
+        bible_browser_controller.text_loader.prepareForNewText(false);
+        bible_browser_controller.text_loader.requestTextUpdate(currentTabId,
+                                                              currentBook,
+                                                              currentTagIdList,
+                                                              null, // TODO
+                                                              false);
+      }
     }
   };
 
