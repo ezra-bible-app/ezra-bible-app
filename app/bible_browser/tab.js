@@ -30,6 +30,30 @@ class Tab {
     this.lastHighlightedNavElementIndex = null;
     this.bibleTranslationId = defaultBibleTranslationId;
   }
+
+  getTitle() {
+    var tabTitle = "";
+
+    if (this.textType == 'book') {
+      tabTitle = this.bookTitle;
+    } else if (this.textType == 'tagged_verses') {
+      tabTitle = this.tagTitleList;
+    } else if (this.textType == 'search_results') {
+      tabTitle = this.getSearchTabTitle(this.searchTerm);
+    }
+
+    return tabTitle;
+  }
+
+  getSearchTabTitle(searchTerm) {
+    return i18n.t("verse-list-menu.search") + ": " + searchTerm;
+  }
+}
+
+Tab.fromJsonObject = function(jsonObject) {
+  tab = new Tab();
+  Object.assign(tab, jsonObject);
+  return tab;
 }
 
 module.exports = Tab;

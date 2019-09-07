@@ -119,7 +119,7 @@ class TabController {
       console.log("Loading " + savedMetaTabs.length + " tabs from configuration!");
 
       for (var i = 0; i < savedMetaTabs.length; i++) {
-        var currentMetaTab = savedMetaTabs[i];
+        var currentMetaTab = Tab.fromJsonObject(savedMetaTabs[i]);
         console.log("Creating tab " + i + " from saved entry ... ");
         //console.log("Bible translation: " + currentMetaTab.bibleTranslationId);
 
@@ -131,7 +131,7 @@ class TabController {
           this.addTab(currentMetaTab);
         }
 
-        var tabTitle = this.getMetaTabTitle(currentMetaTab);
+        var tabTitle = currentMetaTab.getTitle();
         this.setTabTitle(i, tabTitle);
       }
 
@@ -260,22 +260,16 @@ class TabController {
     }   
   }
 
-  resetCurrentTabTitle() {
-    this.setCurrentTabTitle(this.defaultLabel);
-  }
-
-  getMetaTabTitle(metaTab) {
-    var tabTitle = "";
-
-    if (metaTab.textType == 'book') {
-      tabTitle = metaTab.bookTitle;
-    } else if (metaTab.textType == 'tagged_verses') {
-      tabTitle = metaTab.tagTitleList;
-    } else if (metaTab.textType == 'search_results') {
-      tabTitle = this.getSearchTabTitle(metaTab.searchTerm);
+  getTab(index=undefined) {
+    if (index === undefined) {
+      var index = this.getSelectedTabIndex();
     }
 
-    return tabTitle;
+    return this.metaTabs[index];
+  }
+
+  resetCurrentTabTitle() {
+    this.setCurrentTabTitle(this.defaultLabel);
   }
 
   setTabTitle(index, title) {
