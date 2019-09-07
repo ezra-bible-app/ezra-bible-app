@@ -2,10 +2,11 @@ each bibleBook in bibleBooks
   if renderBibleBookHeaders == true
     - var anchor = verseListId + " " + bibleBook.shortTitle;
     a(name=anchor)
+    - var i18nLongTitle = i18nHelper.getSwordTranslation(bibleBook.longTitle);
     - var resultCount = 0
     if bibleBookStats != null
       - var resultCount = bibleBookStats[bibleBook.id]
-    div.tag-browser-verselist-book-header #{bibleBook.longTitle} (#{resultCount})
+    div.tag-browser-verselist-book-header(bookName=bibleBook.shortTitle) #{i18nLongTitle} (#{resultCount})
 
   - var verse_count = 0
   each verse in verses

@@ -18,8 +18,9 @@
 
 const app = require('electron').remote.app;
 const DbHelper = require('./app/db_helper.js');
-const I18nHelper = require('./app/i18n_helper.js');
 const i18n = require('i18next');
+const I18nHelper = require('./app/i18n_helper.js');
+const i18nHelper = new I18nHelper();
 
 require('log-timestamp');
 
@@ -389,9 +390,8 @@ function bind_click_to_checkbox_labels()
 
 async function initI18N()
 {
-  var i18nHelper = new I18nHelper();
   await i18nHelper.init();
-  await i18n.changeLanguage('de');
+  //await i18n.changeLanguage('de');
 
   $("#app-container").localize();
   localizeBookSelectionMenu();
