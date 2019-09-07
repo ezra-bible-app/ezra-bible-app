@@ -1379,7 +1379,7 @@ function TagsController() {
     return selected_verse_ids;
   };
 
-  this.update_tags_view_after_verse_selection = function(force) {
+  this.update_tags_view_after_verse_selection = async function(force) {
     //console.time('update_tags_view_after_verse_selection');
     if (tags_controller.verse_selection_blocked && force !== true) {
       return;
@@ -1441,18 +1441,51 @@ function TagsController() {
     //$('#clippy-box').empty();
     var currentBook = bible_browser_controller.tab_controller.getCurrentTabBook();
 
-    if (currentBook != null && tags_controller.selected_verse_references.length > 0) {
-      var currentBookName = bible_browser_controller.get_book_long_title(currentBook);
-      var formatted_verse_list = tags_controller.format_verse_list_for_view(tags_controller.selected_verse_references, true);
-      selected_verses_content = currentBookName + ' ' + formatted_verse_list;
-      $('#tags-header').find('#selected-verses').html(selected_verses_content);
+    var selectedBooks = [];
+    for (var i = 0; i < tags_controller.selected_verse_boxes.length; i++) {
+      var currentVerseBox = $(tags_controller.selected_verse_boxes[i]);
+      var currentBibleBookId = currentVerseBox.find('.verse-bible-book-id').text();
+      var currentBookShortName = await models.BibleBook.getShortTitleById(currentBibleBookId);
 
-      // PORTING disabled
-      /*if (tags_controller.selected_verse_references.length > 0) {
+      if (!selectedBooks.includes(currentBookShortName)) {
+        selectedBooks.push(currentBookShortName);
+      }
+    }
+
+    var selected_verses_content = [];
+    for (var i = 0; i < selectedBooks.length; i++) {
+      var currentBookShortName = selectedBooks[i];
+      var currentBookLongTitle = bible_browser_controller.get_book_long_title(currentBookShortName);
+      var currentBookName = i18nHelper.getSwordTranslation(currentBookLongTitle);
+
+      var currentBookVerseReferences = [];
+      for (var j = 0; j < tags_controller.selected_verse_boxes.length; j++) {
+        var currentVerseBox = $(tags_controller.selected_verse_boxes[j]);
+        var currentVerseBibleBookId = currentVerseBox.find('.verse-bible-book-id').text();
+        var currentVerseBibleBookShortName = await models.BibleBook.getShortTitleById(currentVerseBibleBookId);
+
+        if (currentVerseBibleBookShortName == currentBookShortName) {
+          var currentVerseReference = currentVerseBox.find('a:first').attr('name');
+          currentBookVerseReferences.push(currentVerseReference);
+        }
+      }
+
+      var formatted_verse_list = tags_controller.format_verse_list_for_view(currentBookVerseReferences, true);
+      var currentBookVerseReferenceDisplay = currentBookName + ' ' + formatted_verse_list;
+      selected_verses_content.push(currentBookVerseReferenceDisplay);
+    }
+
+    $('#tags-header').find('#selected-verses').html(selected_verses_content.join('; '));
+
+    // PORTING disabled
+    /*
+    if (currentBook != null && tags_controller.selected_verse_references.length > 0) {
+      
+      if (tags_controller.selected_verse_references.length > 0) {
         var verse_text = tags_controller.get_selected_verse_text() + $('#tags-header').find('#selected-verses').text();
         tags_controller.update_text_for_clipboard(escape(verse_text));
-      }*/
-    }
+      }
+    }*/
     //console.timeEnd('update_tags_view_after_verse_selection');
   };
 

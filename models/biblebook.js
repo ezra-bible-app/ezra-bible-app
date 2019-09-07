@@ -119,5 +119,10 @@ module.exports = (sequelize, DataTypes) => {
     return sequelize.query(query, { model: models.BibleBook });   
   }
 
+  BibleBook.getShortTitleById = async function(id) {
+    var bibleBook = await BibleBook.findByPk(id);
+    return bibleBook.shortTitle;
+  }
+
   return BibleBook;
 };
