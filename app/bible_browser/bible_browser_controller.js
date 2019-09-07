@@ -200,7 +200,7 @@ function BibleBrowserController() {
     var currentTextType = bible_browser_controller.tab_controller.getCurrentTextType();
 
     if (currentTextType == 'search_results') {
-      var currentSearchTerm = bible_browser_controller.tab_controller.getCurrentTabSearch();
+      var currentSearchTerm = currentTab.getSearchTerm();
       bible_browser_controller.text_loader.prepareForNewText(true);
       bible_browser_controller.module_search.start_search(null, currentTabIndex, currentSearchTerm);
     } else {

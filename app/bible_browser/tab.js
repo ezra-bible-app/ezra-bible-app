@@ -65,6 +65,22 @@ class Tab {
   getTagIdList() {
     return this.tagIdList;
   }
+
+  setTagTitleList(tagTitleList) {
+    this.tagTitleList = tagTitleList;
+  }
+
+  getTagTitleList(index=undefined) {
+    return this.tagTitleList;
+  }
+
+  getSearchTerm() {
+    return this.searchTerm;
+  }
+
+  setSearchTerm(searchTerm) {
+    this.searchTerm = searchTerm;
+  }
 }
 
 Tab.fromJsonObject = function(jsonObject) {

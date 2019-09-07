@@ -128,7 +128,7 @@ class ModuleSearch {
     }
 
     if (tabIndex === undefined) {
-      bible_browser_controller.tab_controller.setCurrentTabSearch(this.currentSearchTerm);
+      bible_browser_controller.tab_controller.setTabSearch(this.currentSearchTerm);
       bible_browser_controller.tab_controller.setCurrentTextType('search_results');
     }
 
@@ -158,8 +158,9 @@ class ModuleSearch {
 
   async renderCurrentSearchResults(requestedBookId=-1, tabIndex=undefined, target=undefined) {
     //console.log("Rendering search results on tab " + tabIndex);
+    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
     var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId(tabIndex);
-    var currentSearchTerm = bible_browser_controller.tab_controller.getCurrentTabSearch(tabIndex);
+    var currentSearchTerm = currentTab.getSearchTerm();
     var currentSearchResults = bible_browser_controller.tab_controller.getCurrentTabSearchResults(tabIndex);
 
     if (currentSearchResults.length > 0) {

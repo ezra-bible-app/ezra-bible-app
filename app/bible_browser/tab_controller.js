@@ -132,7 +132,7 @@ class TabController {
         }
 
         var tabTitle = currentMetaTab.getTitle();
-        this.setTabTitle(i, tabTitle);
+        this.setTabTitle(tabTitle, i);
       }
 
       for (var i = 0; i < savedMetaTabs.length; i++) {
@@ -272,7 +272,11 @@ class TabController {
     this.setCurrentTabTitle(this.defaultLabel);
   }
 
-  setTabTitle(index, title) {
+  setTabTitle(title, index=undefined) {
+    if (index === undefined) {
+      var index = this.getSelectedTabIndex();
+    }
+
     var tabsElement = $('#' + this.tabsElement);
     var tab = $(tabsElement.find('li')[index]);
     var link = $(tab.find('a')[0]);
@@ -287,8 +291,7 @@ class TabController {
   }
 
   setCurrentTabBook(bookCode, bookTitle) {
-    var currentTabIndex = this.getSelectedTabIndex();
-    this.metaTabs[currentTabIndex].setBook(bookCode, bookTitle);
+    this.getTab().setBook(bookCode, bookTitle);
 
     if (bookTitle != undefined && bookTitle != null) {
       this.setCurrentTabTitle(bookTitle);
@@ -296,11 +299,9 @@ class TabController {
   }
 
   setCurrentTagTitleList(tagTitleList) {
-    var currentTabIndex = this.getSelectedTabIndex();
-    this.metaTabs[currentTabIndex].tagTitleList = tagTitleList;
+    this.getTab().setTagTitleList(tagTitleList);
 
     if (tagTitleList != undefined && tagTitleList != null) {
-
       if (tagTitleList == "") {
         this.resetCurrentTabTitle();
       } else {
@@ -309,51 +310,17 @@ class TabController {
     }
   }
 
-  getCurrentTagTitleList(index=undefined) {
-    if (index === undefined) {
-      var index = this.getSelectedTabIndex();
-    }
-
-    var tagTitleList = null;
-    if (index < this.metaTabs.length) {
-      tagTitleList = this.metaTabs[index].tagTitleList;
-    }
-
-    return tagTitleList;
-  }
-
   setTabSearch(searchTerm, index=undefined) {
-    if (index === undefined) {
-      index = this.getSelectedTabIndex();
-    }
-    
-    this.metaTabs[index].searchTerm = searchTerm;
+    this.getTab(index).setSearchTerm(searchTerm);
 
     if (searchTerm != undefined && searchTerm != null) {
       var searchTabTitle = this.getSearchTabTitle(searchTerm);
-      this.setTabTitle(index, searchTabTitle);
+      this.setTabTitle(searchTabTitle, index);
     }
   }
 
   getSearchTabTitle(searchTerm) {
     return i18n.t("verse-list-menu.search") + ": " + searchTerm;
-  }
-
-  setCurrentTabSearch(searchTerm) {
-    this.setTabSearch(searchTerm);
-  }
-
-  getCurrentTabSearch(index=undefined) {
-    if (index === undefined) {
-      var index = this.getSelectedTabIndex();
-    }
-
-    var searchTerm = null;
-    if (index < this.metaTabs.length) {
-      searchTerm = this.metaTabs[index].searchTerm;
-    }
-
-    return searchTerm;
   }
 
   setTabSearchResults(searchResults, index=undefined) {
@@ -451,7 +418,7 @@ class TabController {
             break;
           }
         }
-        this.setTabTitle(i, tag_list.join(', '));
+        this.setTabTitle(tag_list.join(', '), i);
       }
     }
   }

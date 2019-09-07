@@ -105,7 +105,7 @@ class TaggedVerseExport {
   }
 
   renderWordDocument(bibleBooks, groupedVerseTags, verses) {
-    var currentTagTitleList = bible_browser_controller.tab_controller.getCurrentTagTitleList();
+    var currentTagTitleList = bible_browser_controller.tab_controller.getTab().getTagTitleList();
     var title = "Bible verses tagged with: " + currentTagTitleList;
 
     var docx = officegen({
@@ -168,7 +168,7 @@ class TaggedVerseExport {
   }
 
   getUnixTagTitleList() {
-    var currentTagTitleList = bible_browser_controller.tab_controller.getCurrentTagTitleList();
+    var currentTagTitleList = bible_browser_controller.tab_controller.getTab().getTagTitleList();
     var unixTagTitleList = currentTagTitleList.replace(/, /g, "__");
     unixTagTitleList = unixTagTitleList.replace(/ /g, "_");
 

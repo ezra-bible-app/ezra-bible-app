@@ -169,7 +169,7 @@ class TagSelectionMenu {
     var currentTab = bible_browser_controller.tab_controller.getTab();
     var currentTagIdList = currentTab.getTagIdList();
     if (currentTagIdList != null) {
-      var currentTagTitleList = bible_browser_controller.tab_controller.getCurrentTagTitleList();
+      var currentTagTitleList = bible_browser_controller.tab_controller.getTab().getTagTitleList();
       if (currentTagTitleList != null) {
         var tag_list = currentTagTitleList.split(', ');
         for (var i = 0; i < tag_list.length; i++) {
@@ -245,7 +245,7 @@ class TagSelectionMenu {
 
   updateTagSelectionMenu(tabIndex) {
     this.reset_tag_menu();
-    var currentTagTitleList = bible_browser_controller.tab_controller.getCurrentTagTitleList(tabIndex);
+    var currentTagTitleList = bible_browser_controller.tab_controller.getTab(tabIndex).getTagTitleList();
     if (currentTagTitleList != "" && currentTagTitleList != null) {
         this.request_tags_for_menu();
     }

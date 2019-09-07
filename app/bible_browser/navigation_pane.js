@@ -31,7 +31,7 @@ class NavigationPane {
 
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
     var currentBook = currentTab.getBook();
-    var currentTagTitleList = bible_browser_controller.tab_controller.getCurrentTagTitleList(tabIndex);
+    var currentTagTitleList = currentTab.getTagTitleList();
     var currentTextType = bible_browser_controller.tab_controller.getCurrentTextType(tabIndex);
 
     if (currentTextType == 'book' && currentBook != null) { // Book text mode
