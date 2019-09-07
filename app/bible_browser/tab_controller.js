@@ -17,22 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Mousetrap = require('mousetrap');
-
-class Tab {
-  constructor(defaultBibleTranslationId) {
-    this.elementId = null;
-    this.book = null;
-    this.bookTitle = null;
-    this.tagIdList = "";
-    this.tagTitleList = "";
-    this.searchTerm = null;
-    this.searchResults = null;
-    this.textIsBook = false;
-    this.textType = null;
-    this.lastHighlightedNavElementIndex = null;
-    this.bibleTranslationId = defaultBibleTranslationId;
-  }
-}
+const Tab = require('./tab.js');
 
 class TabController {
   constructor() {
