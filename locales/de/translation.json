@@ -12,7 +12,9 @@
     "export": "Exportieren"
   },
   "search-menu": {
-    "search": "Suche"
+    "search": "Suche",
+    "case-sensitive": "Groß- / Kleinschreibung beachten",
+    "exact-phrase": "Exakter Ausdruck"
   },
   "translation-wizard": {
     "header": "Bibelübersetzungen konfigurieren",

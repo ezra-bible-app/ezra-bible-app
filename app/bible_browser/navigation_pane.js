@@ -100,8 +100,13 @@ class NavigationPane {
       var bookNumber = i + 1;
       var currentBookHeader = $(bookHeaders[i]);
       var currentBookHeaderText = currentBookHeader.text();
-      var currentBook = bible_browser_controller.get_book_short_title(currentBookHeaderText);
 
+      // Remove last element of book header (number of verses/results)
+      var currentBookHeaderTextElements = currentBookHeaderText.split(' ');
+      currentBookHeaderTextElements.pop();
+      currentBookHeaderText = currentBookHeaderTextElements.join(' ');
+
+      var currentBook = bible_browser_controller.get_book_short_title(currentBookHeaderText);
       var currentBookLink = document.createElement('a');
       currentBookLink.setAttribute('class', 'navigation-link');
       var href = 'javascript:bible_browser_controller.navigation_pane.goToBook("' + currentBook + '",' + bookNumber + ')';

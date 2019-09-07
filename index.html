@@ -442,6 +442,12 @@ var bible_chapter_verse_counts = {};
   <div id="module-search-menu" class=module-search-menu">
     <input id="module-search-input" type="text" maxlength="30" />
     <button id="start-module-search-button" class="fg-button ui-corner-all ui-state-default" i18n="search-menu.search"></button>
+    <div style="margin-top: 1em;">
+        <input type="checkbox" id="search-is-case-sensitive">
+        <label for="search-is-case-sensitive" i18n="search-menu.case-sensitive"></label>
+        <input type="checkbox" id="search-is-phrase" style="margin-left: 1em;">
+        <label for="search-is-phrase" i18n="search-menu.exact-phrase"></label>
+    </div>
   </div>
 
   <div id="display-options-menu" class="display-options-menu">

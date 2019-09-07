@@ -85,6 +85,14 @@ class ModuleSearch {
     return $('#module-search-input').val();
   }
 
+  isCaseSensitive() {
+    return $('#search-is-case-sensitive').prop("checked");
+  }
+
+  isPhrase() {
+    return $('#search-is-phrase').prop("checked");
+  }
+
   getModuleSearchHeader(tabIndex=undefined) {
     var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
     return currentVerseListFrame.find('.module-search-result-header');
@@ -114,7 +122,10 @@ class ModuleSearch {
       this.currentSearchTerm = this.getSearchTerm();
     }
 
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId(tabIndex);
+    if (this.currentSearchTerm.length == 0) {
+      console.log("Got empty search term ... aborting search!");
+      return;
+    }
 
     if (tabIndex === undefined) {
       bible_browser_controller.tab_controller.setCurrentTabSearch(this.currentSearchTerm);
@@ -126,7 +137,13 @@ class ModuleSearch {
 
     console.log("Starting search for " + this.currentSearchTerm + " on tab " + tabIndex);
 
-    await this._nodeSwordInterface.getModuleSearchResults(currentBibleTranslationId, this.currentSearchTerm).then(async (searchResults) => {  
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getCurrentBibleTranslationId(tabIndex);
+
+    await this._nodeSwordInterface.getModuleSearchResults(currentBibleTranslationId,
+                                                          this.currentSearchTerm,
+                                                          this.isPhrase(),
+                                                          this.isCaseSensitive()).then(async (searchResults) => {
+                                                            
       console.log("Got " + searchResults.length + " from Sword");
       bible_browser_controller.tab_controller.setTabSearchResults(searchResults, tabIndex);
     });
@@ -162,9 +179,9 @@ class ModuleSearch {
     var moduleSearchHeaderText;
 
     if (currentSearchResults.length > 0) {
-      moduleSearchHeaderText = i18n.t("bible-browser.search-result-header") + ' ' + '"' + currentSearchTerm + '"' + ' (' + currentSearchResults.length + ')';
+      moduleSearchHeaderText = i18n.t("bible-browser.search-result-header") + ' <i>' + currentSearchTerm + '</i> (' + currentSearchResults.length + ')';
     } else {
-      moduleSearchHeaderText = i18n.t("bible-browser.no-search-results") + ' ' + '"' + currentSearchTerm + '"';
+      moduleSearchHeaderText = i18n.t("bible-browser.no-search-results") + ' <i>' + currentSearchTerm + '</i>';
     }
 
     var header = "<div style='font-size: 130%; font-weight: bold;'>" + moduleSearchHeaderText + "</div>";

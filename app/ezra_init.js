@@ -391,7 +391,7 @@ async function initI18N()
 {
   var i18nHelper = new I18nHelper();
   await i18nHelper.init();
-  //await i18n.changeLanguage('fr');
+  await i18n.changeLanguage('de');
 
   $("#app-container").localize();
   localizeBookSelectionMenu();
