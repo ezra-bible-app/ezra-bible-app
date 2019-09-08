@@ -358,6 +358,7 @@ class TabController {
     this.getTab().setBibleTranslationId(bibleTranslationId);
 
     if (bibleTranslationId != null) {
+      this.defaultBibleTranslationId = bibleTranslationId;
       bible_browser_controller.translation_controller.enableCurrentTranslationInfoButton();
     }
   }

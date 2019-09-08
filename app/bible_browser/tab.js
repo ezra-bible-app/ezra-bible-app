@@ -110,7 +110,6 @@ class Tab {
 
   setBibleTranslationId(bibleTranslationId) {
     this.bibleTranslationId = bibleTranslationId;
-    this.defaultBibleTranslationId = bibleTranslationId;
   }
 
   getBibleTranslationId() {
