@@ -25,21 +25,9 @@ const i18nHelper = new I18nHelper();
 require('log-timestamp');
 
 var models = null;
-
-current_section_start_toolbox = null;
-current_section_end_toolbox = null;
-
 bible_browser_controller = null;
 tags_controller = null;
-
-last_highlighted_listpoint = null;
-
 reference_separator = ':';
-
-function setCustomDatabaseDir(dir)
-{
-  // FIXME: Implement this
-}
 
 $.create_xml_doc = function(string)
 {
@@ -62,52 +50,6 @@ String.prototype.trim = function() {
   s = s.replace(/[ ]{2,}/gi," ");
   s = s.replace(/\n /,"\n");
   return s;
-}
-
-function format_passage_reference_for_view(book_short_title, start_reference, end_reference)
-{
-  // This first split is necessary, because there's a verse list id in the anchor that we do not
-  // want to show
-  start_reference = start_reference.split(" ")[1];
-  end_reference = end_reference.split(" ")[1];
-
-  var start_chapter = start_reference.split(reference_separator)[0];
-  var start_verse = start_reference.split(reference_separator)[1];
-  var end_chapter = end_reference.split(reference_separator)[0];
-  var end_verse = end_reference.split(reference_separator)[1];
-
-  var passage = start_chapter + reference_separator + start_verse;
-
-  if (start_verse == "1" &&
-      end_verse == bible_chapter_verse_counts[book_short_title][end_chapter]) {
-
-    /* Whole chapter sections */
-    
-    if (start_chapter == end_chapter) {
-      passage = 'Chap. ' + start_chapter;
-    } else {
-      passage = 'Chaps. ' + start_chapter + ' - ' + end_chapter;
-    }
-
-  } else {
-
-    /* Sections don't span whole chapters */
-
-    if (start_chapter == end_chapter) {
-      if (start_verse != end_verse) {
-        passage += '-' + end_verse;
-      }
-    } else {
-      passage += ' - ' + end_chapter + reference_separator + end_verse;
-    }
-  }
-
-  return passage;
-}
-
-function format_verse_reference(chapter, verse_nr)
-{
-  return chapter + reference_separator + verse_nr;
 }
 
 function adapt_verse_list() {
@@ -178,108 +120,6 @@ function reference_to_verse_nr(bible_book_short_title, reference, split_support)
   return verse_nr;
 }
 
-function verse_nr_to_reference(verse_nr)
-{
-  var currentTab = bible_browser_controller.tab_controller.getTab();
-  var bible_book_short_title = currentTab.getBook();
-
-  var chapter = 0;
-  var rest_verse_nr = verse_nr;
-  var reference = "";
-  
-  var book_chapter_count = 0;
-  for (var key in bible_chapter_verse_counts[bible_book_short_title]) {
-    if (key != 'nil') {
-      book_chapter_count += 1;
-    }
-  }
-
-  for (var i = 0; i < book_chapter_count - 1; i++) {
-    current_chapter_verse_count = bible_chapter_verse_counts[bible_book_short_title][i];
-    
-    if (rest_verse_nr - current_chapter_verse_count <= 0) {
-      reference = i + reference_separator + rest_verse_nr; 
-      break;
-    } else {
-      rest_verse_nr -= current_chapter_verse_count;
-    }
-  }
-
-  return reference;
-}
-
-function get_book_chapter_count(book_short_title)
-{
-  var book_chapter_count = 0;
-  for (var key in bible_chapter_verse_counts[book_short_title]) {
-    if (key != 'nil') {
-      book_chapter_count += 1;
-    }
-  }
-
-  return book_chapter_count;
-}
-
-function get_book_chapter_verse_count(book_short_title, chapter)
-{
-    var chapter_verse_count = bible_chapter_verse_counts[book_short_title][chapter - 1];
-    return chapter_verse_count;
-}
-
-function romanize(num)
-{
-  if (!num)
-    return false;
-
-  var	digits = String(+num).split("");
-
-  var key = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
-             "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
-             "","I","II","III","IV","V","VI","VII","VIII","IX"];
-
-  var roman = "";
-  var i = 3;
-
-  while (i--)
-    roman = (key[+digits.pop() + (i * 10)] || "") + roman;
-
-  return Array(+digits.join("") + 1).join("M") + roman;
-}
-
-function alphabetize(num, small_chars)
-{
-  if (!num || num > 676)
-    return num;
-
-  var rounds = Math.floor(num / 26);
-  var rest = num % 26;
-  if (rest == 0) rest = 26;
-  var prefix = "";
-
-  if (num > 26) {
-    prefix += get_char_from_number(rounds);
-  }
-
-  num = rest;
-
-  converted_char = prefix + get_char_from_number(num, small_chars);
-
-  return converted_char;
-}
-
-function get_char_from_number(num, small_chars)
-{
-  var offset = 64;
-  if (small_chars) {
-    offset = 96;
-  }
-
-  var char_code = num + offset;
-  var converted_char = String.fromCharCode(char_code);
-
-  return converted_char;
-}
-
 function handle_window_resize()
 {
   resize_app_container();
@@ -332,25 +172,6 @@ function handle_fg_button_mousedown(element, click_checkbox) {
       embedded_input[0].click();
     }
   }
-}
-
-function toggle_loading_indicator(text) {
-  if (text != undefined) {
-    $('.main-loading-indicator-label').html(text);
-  }
-
-  $('.main-loading-indicator').toggle();
-}
-
-function bind_click_to_checkbox_labels()
-{
-  $('.clickable-checkbox-label:not(.events-configured)').bind('click', function() {
-    var closest_input = $(this).prevAll('input:first');
-
-    if (closest_input.attr('type') == 'checkbox') {
-      closest_input[0].click();
-    }
-  }).addClass('events-configured');
 }
 
 async function initI18N()
@@ -410,16 +231,6 @@ function initUi()
     }
   });
 
-  $('.chapter-select').attr('disabled','disabled');
-
-  tags_controller.init_ui();
-
-  $('#show-translation-settings-button').bind('click', function() {
-    bible_browser_controller.open_translation_settings_wizard(); 
-  });
-
-  configure_button_styles();
-
   // Open links classified as external in the default web browser
   $('body').on('click', 'a.external', (event) => {
     event.preventDefault();
@@ -427,8 +238,13 @@ function initUi()
     require("electron").shell.openExternal(link);
   });
 
-  resize_app_container();
+  $('#show-translation-settings-button').bind('click', function() {
+    bible_browser_controller.open_translation_settings_wizard(); 
+  });
 
+  tags_controller.init_ui();
+  configure_button_styles();
+  resize_app_container();
   $(window).bind("resize", handle_window_resize);
 }
 
@@ -475,4 +291,3 @@ function unbind_events()
 $(document).ready(function() {
   initApplication();
 });
-

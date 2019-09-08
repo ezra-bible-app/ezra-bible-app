@@ -84,7 +84,17 @@ class TagSelectionMenu {
     this.reset_tags_in_menu();
     var taglist_container = $('#tag-selection-taglist-global');
     this.render_tag_list(tags, taglist_container, false);
-    bind_click_to_checkbox_labels();
+    this.bind_click_to_checkbox_labels();
+  }
+
+  bind_click_to_checkbox_labels() {
+    $('.clickable-checkbox-label:not(.events-configured)').bind('click', function() {
+      var closest_input = $(this).prevAll('input:first');
+
+      if (closest_input.attr('type') == 'checkbox') {
+        closest_input[0].click();
+      }
+    }).addClass('events-configured');
   }
 
   render_tag_list(tag_list, target_container, only_local) {

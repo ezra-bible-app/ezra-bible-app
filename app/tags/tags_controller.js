@@ -1584,6 +1584,47 @@ function TagsController() {
     return verse_list_for_view;
   };
 
+  this.format_passage_reference_for_view = function(book_short_title, start_reference, end_reference)
+  {
+    // This first split is necessary, because there's a verse list id in the anchor that we do not
+    // want to show
+    start_reference = start_reference.split(" ")[1];
+    end_reference = end_reference.split(" ")[1];
+  
+    var start_chapter = start_reference.split(reference_separator)[0];
+    var start_verse = start_reference.split(reference_separator)[1];
+    var end_chapter = end_reference.split(reference_separator)[0];
+    var end_verse = end_reference.split(reference_separator)[1];
+  
+    var passage = start_chapter + reference_separator + start_verse;
+  
+    if (start_verse == "1" &&
+        end_verse == bible_chapter_verse_counts[book_short_title][end_chapter]) {
+  
+      /* Whole chapter sections */
+      
+      if (start_chapter == end_chapter) {
+        passage = 'Chap. ' + start_chapter;
+      } else {
+        passage = 'Chaps. ' + start_chapter + ' - ' + end_chapter;
+      }
+  
+    } else {
+  
+      /* Sections don't span whole chapters */
+  
+      if (start_chapter == end_chapter) {
+        if (start_verse != end_verse) {
+          passage += '-' + end_verse;
+        }
+      } else {
+        passage += ' - ' + end_chapter + reference_separator + end_verse;
+      }
+    }
+  
+    return passage;
+  }
+
   this.format_single_verse_block = function(list, start_index, end_index, turn_into_link) {
     if (start_index > (list.length - 1)) start_index = list.length - 1;
     if (end_index > (list.length - 1)) end_index = list.length - 1;
@@ -1595,9 +1636,9 @@ function TagsController() {
 
     if (start_reference != undefined && end_reference != undefined) {
       var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
-      formatted_passage = format_passage_reference_for_view(currentBook,
-                                                            start_reference,
-                                                            end_reference);
+      formatted_passage = this.format_passage_reference_for_view(currentBook,
+                                                                 start_reference,
+                                                                 end_reference);
 
       if (turn_into_link) {
         formatted_passage = "<a href=\"javascript:bible_browser_controller.jump_to_reference('" + start_reference + "', true);\">" + formatted_passage + "</a>";

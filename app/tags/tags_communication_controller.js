@@ -108,18 +108,6 @@ function TagsCommunicationController()
     );
   };
 
-  this.param_for_xml_verse_selection = function(xml_verse_selection) {
-    var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
-    var xml_params = "<params>";
-    xml_params += xml_verse_selection;
-    xml_params += "<book-code>" + currentBook + "</book-code>";
-    xml_params += "</params>";
-
-    xml_params = $.create_xml_doc(xml_params);
-
-    return xml_params;
-  };
-
   this.assign_tag_to_verses = function(tagId, verseIds) {
     tags_controller.communication_controller.update_tags_on_verses(tagId, verseIds, "add");
   };
