@@ -185,7 +185,6 @@ class ModuleSearch {
                                                                   null,
                                                                   null,
                                                                   currentSearchResults,
-                                                                  false,
                                                                   tabIndex,
                                                                   requestedBookId,
                                                                   target);

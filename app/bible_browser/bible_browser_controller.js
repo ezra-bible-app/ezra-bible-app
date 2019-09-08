@@ -211,8 +211,7 @@ function BibleBrowserController() {
         bible_browser_controller.text_loader.requestTextUpdate(currentTabId,
                                                                currentBook,
                                                                currentTagIdList,
-                                                               null, // TODO
-                                                               false);
+                                                               null);
       }
     }
   };
@@ -415,7 +414,7 @@ function BibleBrowserController() {
       var currentBook = currentTab.getBook();
 
       bible_browser_controller.text_loader.prepareForNewText(true);
-      bible_browser_controller.text_loader.requestTextUpdate(currentTabId, currentBook, null, null, true);
+      bible_browser_controller.text_loader.requestTextUpdate(currentTabId, currentBook, null, null);
       tags_controller.communication_controller.request_tags();
     });
   };
@@ -655,7 +654,7 @@ function BibleBrowserController() {
 
     if (currentTagIdList != "") {
       bible_browser_controller.text_loader.prepareForNewText(true);
-      bible_browser_controller.text_loader.requestTextUpdate(currentTabId, null, currentTagIdList, null, true);
+      bible_browser_controller.text_loader.requestTextUpdate(currentTabId, null, currentTagIdList, null);
       tags_controller.communication_controller.request_tags();
       // PORTING DISABLED
       //tags_controller.communication_controller.request_meta_tags();

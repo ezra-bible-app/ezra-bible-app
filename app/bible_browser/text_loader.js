@@ -34,7 +34,7 @@ class TextLoader {
     temporary_help.hide();
   }
 
-  async requestTextUpdate(tabId, book, tagIdList, searchResults, resetView, tabIndex=undefined, requestedBookId=-1, target=undefined) {
+  async requestTextUpdate(tabId, book, tagIdList, searchResults, tabIndex=undefined, requestedBookId=-1, target=undefined) {
     var textType = bible_browser_controller.tab_controller.getTab(tabIndex).getTextType();
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     var buttons = currentVerseListMenu.find('.fg-button');
@@ -66,6 +66,7 @@ class TextLoader {
           this.renderVerseList(htmlVerseList, 'tagged_verses', tabIndex);
         }
       );
+
     } else if (textType == 'search_results') {
       $('#show-book-tag-statistics-button').addClass('ui-state-disabled');
       currentVerseListMenu.find('.module-search-button').addClass('focused-button');
@@ -113,6 +114,7 @@ class TextLoader {
       bible_browser_controller.module_search.reset_search();
       bible_browser_controller.enable_tagging_toolbox_only();
       bible_browser_controller.enableTaggedVersesExportButton(tabIndex);
+
     } else if (listType == 'search_results') {
 
       //console.log("Rendering search results verse list on tab " + tabIndex);

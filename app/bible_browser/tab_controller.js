@@ -142,7 +142,6 @@ class TabController {
           currentMetaTab.book,
           currentMetaTab.tagIdList,
           null,
-          false,
           i
         );
       }
