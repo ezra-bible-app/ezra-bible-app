@@ -86,40 +86,6 @@ function resize_app_container(e) {
   adapt_verse_list();
 }
 
-function reference_to_absolute_verse_nr(bible_book, chapter, verse)
-{
-  var verse_nr = 0;
-
-  for (var i = 0; i < chapter - 1; i++) {
-    if (bible_chapter_verse_counts[bible_book][i] != undefined) {
-      verse_nr += bible_chapter_verse_counts[bible_book][i];
-    }
-  }
-  
-  verse_nr += Number(verse);
-  return verse_nr;
-}
-
-function reference_to_verse_nr(bible_book_short_title, reference, split_support)
-{
-  if (reference == null) {
-    return;
-  }
-
-  var split_support = false;
-  if (reference.search(/b/) != -1) {
-    split_support = true;
-  }
-  reference = reference.replace(/[a-z]/g, '');
-  var ref_chapter = Number(reference.split(reference_separator)[0]);
-  var ref_verse = Number(reference.split(reference_separator)[1]);
-
-  verse_nr = reference_to_absolute_verse_nr(bible_book_short_title, ref_chapter, ref_verse);
-  if (split_support) verse_nr += 0.5;
-
-  return verse_nr;
-}
-
 function handle_window_resize()
 {
   resize_app_container();

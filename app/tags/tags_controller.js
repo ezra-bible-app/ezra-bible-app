@@ -922,6 +922,38 @@ function TagsController() {
     tags_controller.init_verse_expand_box();
   };
 
+  this.reference_to_absolute_verse_nr = function(bible_book, chapter, verse) {
+    var verse_nr = 0;
+  
+    for (var i = 0; i < chapter - 1; i++) {
+      if (bible_chapter_verse_counts[bible_book][i] != undefined) {
+        verse_nr += bible_chapter_verse_counts[bible_book][i];
+      }
+    }
+    
+    verse_nr += Number(verse);
+    return verse_nr;
+  };
+  
+  this.reference_to_verse_nr = function(bible_book_short_title, reference, split_support) {
+    if (reference == null) {
+      return;
+    }
+  
+    var split_support = false;
+    if (reference.search(/b/) != -1) {
+      split_support = true;
+    }
+    reference = reference.replace(/[a-z]/g, '');
+    var ref_chapter = Number(reference.split(reference_separator)[0]);
+    var ref_verse = Number(reference.split(reference_separator)[1]);
+  
+    verse_nr = tags_controller.reference_to_absolute_verse_nr(bible_book_short_title, ref_chapter, ref_verse);
+    if (split_support) verse_nr += 0.5;
+  
+    return verse_nr;
+  };
+
   this.init_verse_expand_box = function() {
     $('.verse-reference-content').filter(":not('.tag-events-configured')").bind('mouseover', tags_controller.mouse_over_verse_reference_content);
 
@@ -1584,8 +1616,7 @@ function TagsController() {
     return verse_list_for_view;
   };
 
-  this.format_passage_reference_for_view = function(book_short_title, start_reference, end_reference)
-  {
+  this.format_passage_reference_for_view = function(book_short_title, start_reference, end_reference) {
     // This first split is necessary, because there's a verse list id in the anchor that we do not
     // want to show
     start_reference = start_reference.split(" ")[1];
@@ -1623,7 +1654,7 @@ function TagsController() {
     }
   
     return passage;
-  }
+  };
 
   this.format_single_verse_block = function(list, start_index, end_index, turn_into_link) {
     if (start_index > (list.length - 1)) start_index = list.length - 1;
@@ -1636,9 +1667,9 @@ function TagsController() {
 
     if (start_reference != undefined && end_reference != undefined) {
       var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
-      formatted_passage = this.format_passage_reference_for_view(currentBook,
-                                                                 start_reference,
-                                                                 end_reference);
+      formatted_passage = tags_controller.format_passage_reference_for_view(currentBook,
+                                                                            start_reference,
+                                                                            end_reference);
 
       if (turn_into_link) {
         formatted_passage = "<a href=\"javascript:bible_browser_controller.jump_to_reference('" + start_reference + "', true);\">" + formatted_passage + "</a>";
