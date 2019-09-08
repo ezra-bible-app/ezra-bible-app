@@ -588,7 +588,7 @@ h2 {
 }
 
 #display-options-menu {
-  width: 14em;
+  width: 17em;
   padding-top: 0.5em;
 }
 
@@ -720,14 +720,20 @@ h2 {
   margin-top: 0.5em;
 }
 
+#show-translation-settings-button {
+  padding: 0.5em;
+}
+
 .switch-box {
   clear: both;
-  height: 2em;
-  width: 13em;
-  padding: 0.3em;
-  margin-bottom: 0.5em;
+  width: 80%;
+  margin-bottom: 1em;
   margin-left: auto;
   margin-right: auto;
+}
+
+.switch-box input, .switch-box button {
+  padding: 0.3em;
 }
 
 .switch-box input {
@@ -735,7 +741,7 @@ h2 {
   margin: 0.4em;
 }
 
-#show-book-tag-statistics-button, #show-translation-settings-button, .export-tagged-verses-button, .bible-translation-info-button, #start-module-search-button {
+#show-book-tag-statistics-button, .export-tagged-verses-button, .bible-translation-info-button, #start-module-search-button {
   margin-left: 1em;
   height: 2.2em;
 }

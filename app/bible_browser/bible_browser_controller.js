@@ -804,6 +804,7 @@ function BibleBrowserController() {
   }
 
   this.open_translation_settings_wizard = function() {
+    bible_browser_controller.optionsMenu.hideDisplayMenu();
     bible_browser_controller.translation_wizard.openWizard();
   };
 
