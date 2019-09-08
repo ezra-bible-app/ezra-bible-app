@@ -40,7 +40,8 @@
     "removal-takes-time": "Beachten Sie, dass das Entfernen jeder Übersetzung etwas Zeit benötigt.",
     "select-translations-to-be-removed": "Wählen Sie Bibelübersetzungen, die entfernt werden sollen. Ausgegraute Listeneinträge sind Übersetzungen, die nicht im Benutzerverzeichnis installiert sind.",
     "installing": "Installiere",
-    "removing": "Entferne"
+    "removing": "Entferne",
+    "installation": "Installation"
   },
   "module-sync": {
     "module-sync-header": "Synchronisiere SWORD Module",
