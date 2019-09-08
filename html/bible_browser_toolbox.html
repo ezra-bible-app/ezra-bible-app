@@ -1,0 +1,92 @@
+<div id="tags-header" class="tab-component-menu">
+  <div id="selection-box"><span class="bold" i18n="bible-browser.selection"></span> <span id="selected-verses"></span></div>
+  <!-- <div id="clippy-box"></div> -->
+
+  <div id="tags-toolbar">
+    <!-- // Meta Tags disabled as long as they are not functional
+    <button id="new-meta-tag-button" class="fg-button ui-state-default ui-corner-all" type="button">New meta tag</button>
+    -->
+    <button id="new-standard-tag-button" class="fg-button ui-state-default ui-corner-all" type="button" i18n="tags-toolbar.new-tag"></button>
+
+    <button id="show-book-tag-statistics-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="tags-toolbar.tag-statistics"></button>
+
+    <button id="show-translation-settings-button" class="fg-button ui-corner-all ui-state-default" i18n="tags-toolbar.configure-translations"></button>
+
+    <!-- // Book Tags disabled as long as they are not functional
+    <button id="new-book-tag-button" class="fg-button ui-state-default ui-corner-all" type="button">New book tag</button>
+    -->
+  </div>
+</div>
+
+<div id="new-meta-tag-dialog" style="display: none;">
+  <span id="new-meta-tag-title-label">Title: </span><input id="new-meta-tag-title-input" type="text" maxlength="255" />
+</div>
+
+<div id="new-standard-tag-dialog" style="display: none; padding-top: 2em; padding-bottom: 2em;">
+  <span id="new-standard-tag-title-label" i18n="tags.tag-title"></span><input id="new-standard-tag-title-input" type="text" maxlength="255" />
+</div>
+
+<div id="new-book-tag-dialog" style="display: none;">
+  <span id="new-book-tag-title-label">Title: </span><input id="new-book-tag-title-input" type="text" maxlength="255" />
+</div>
+
+<div id="delete-meta-tag-confirmation-dialog" style="display: none;">
+  <p>Do you really want to delete the meta tag &quot;<span id="delete-meta-tag-name"></span>&quot;?
+</div>
+
+<div id="delete-tag-confirmation-dialog" style="display: none;">
+  <p><span i18n="tags.really-delete"></span>&quot;<span id="delete-tag-name"></span>&quot;</p>
+  <p><span i18n="[html]tags.tag-info-would-be-deleted"></span> (<span id="delete-tag-number-of-verses"></span>)</p>
+</div>
+
+<div id="remove-tag-assignment-confirmation-dialog" style="display: none;">
+  <p i18n="[html]tags.really-remove-tag-assignment"></p>
+</div>
+
+<div id="filter-dialog">
+  <input type="radio" name="tag-filter" value="all" checked="checked"><span i18n="tags.all-tags"></span></input><br/>
+  <input type="radio" name="tag-filter" value="assigned"><span i18n="tags.assigned-tags"></span></input><br/>
+  <input type="radio" name="tag-filter" value="unassigned"><span i18n="tags.unassigned-tags"></span></input><br/>
+</div>
+
+<div id="rename-standard-tag-dialog" style="display: none;">
+  <span id="rename-standard-tag-title-label">Title: </span><input id="rename-standard-tag-title-input" type="text" maxlength="255" />
+</div>
+
+<div id="rename-meta-tag-dialog" style="display: none;">
+  <span id="rename-meta-tag-title-label">Title: </span><input id="rename-meta-tag-title-input" type="text" maxlength="255" />
+</div>
+
+<!-- // Meta Tags disabled as long as they are not functional -->
+<!--
+<div id='meta-tag-navigation' class='ui-state-active ui-corner-top'>
+  <a href='javascript:tags_controller.show_meta_tag_list();'>Meta Tags</a>
+  <div id='opened-meta-tag-info'> / <span id='opened-meta-tag-title'>&nbsp;&nbsp;[Click meta tag to see / edit assigned tags]</span></div>
+</div>
+
+<div id="meta-tag-content">
+</div>
+<div id="meta-tag-assigned-tags">
+</div>
+-->
+
+<div id="tags-content">
+  <h3><a href="#">Tags</a></h3>
+  <div id="tags-content-global">
+    <div id="tags-loading-indicator" style="display: none; width: 15em; margin-top: 10em; margin-left: auto; margin-right: auto;">
+      <div style="float: left;" i18n="tags.loading-tags"></div>
+
+      <div class="loader">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+    </div>
+  </div>
+
+  <!--
+  <h3><a href="#">Book tags</a></h3>
+  <div id="tags-content-book">
+  </div>
+  -->
+</div>

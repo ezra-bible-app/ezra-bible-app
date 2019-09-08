@@ -1,0 +1,76 @@
+<ul>
+  <li>
+    <a href="#verse-list-tabs-1">-------------</a>
+    <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span>
+  </li>
+</ul>
+
+<button id="add-tab-button" class="fg-button ui-corner-all ui-state-default">+</button>
+
+<div id="verse-list-tabs-1" class="verse-list-container">
+  <div class="verse-list-menu">
+
+    <div class="fg-button book-select-button ui-state-default ui-corner-all">
+      <div class="ui-icon ui-icon-triangle-1-s"></div>
+      <div class="book-select-value" i18n="verse-list-menu.book"></div>
+    </div>
+
+    <div class="fg-button tag-select-button ui-state-default ui-corner-all">
+      <div class="ui-icon ui-icon-triangle-1-s"></div>
+      <div class="tag-select-label" i18n="verse-list-menu.tags"></div>
+    </div>
+
+    <div class="fg-button module-search-button ui-state-default ui-corner-all">
+      <div class="ui-icon ui-icon-triangle-1-s"></div>
+      <div class="module-search-label" i18n="verse-list-menu.search"></div>
+    </div>
+
+    <div class="fg-button display-options-button ui-state-default ui-corner-all" style="padding-top: 2px;">
+      <img src="images/settings.svg" style="width: 20px; height: 20px;"/>
+    </div>
+
+    <div class="bible-select-block">
+      <select name="bible-select" class="bible-select">
+      </select>
+    </div>
+
+    <button class="bible-translation-info-button fg-button ui-corner-all ui-state-default ui-state-disabled">i</button>
+
+    <button class="export-tagged-verses-button fg-button ui-corner-all events-configured ui-state-default ui-state-disabled" i18n="verse-list-menu.export"></button>
+
+    <div class="loader" style="margin-left: 1em; margin-top: 0.3em">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+
+  </div> <!-- verse-list-menu -->
+
+  <div class="verse-list-composite">
+    <div class="navigation-pane navigation-pane-chapters">
+    </div>
+
+    <div class="verse-list-frame">
+      <div class="module-search-result-header">
+      </div>
+
+      <div class="verse-list-loading-indicator">
+        <div style="float: left;" i18n="bible-browser.loading-bible-text"></div>
+
+        <div class="loader">
+          <div class="bounce1"></div>
+          <div class="bounce2"></div>
+          <div class="bounce3"></div>
+        </div>
+      </div>
+
+      <div class="temporary-help">
+      </div>
+
+      <div class="verse-list">
+        <div class="help-text">
+        </div>
+      </div>
+    </div> <!-- verse-list-frame -->
+  </div> <!-- verse-list-composite -->
+</div> <!-- verse-list-container -->

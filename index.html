@@ -28,8 +28,9 @@
 <script src="app/tags/tags_communication_controller.js" type="text/javascript"></script>
 <script src="app/tags/tags_controller.js" type="text/javascript"></script>
 <script src="app/ezra_init.js" type="text/javascript"></script>
-
 </head>
+
+<!-- BODY STARTS HERE -->
 
 <body>
 
@@ -43,410 +44,53 @@
 </div>
 
 <div id="main-content">
+  <a name='top'></a>
 
-<a name='top'></a>
-
-<!-- Logo disabled for now -->
-<!--
-<div id="program-label">
-<img src="images/ezra_project_logo.jpg" alt="Ezra Project"/> 
-</div>
--->
-
-<div id="app-container">
-  <div id="bible-browser-toolbox">
-    <div id="tags-header" class="tab-component-menu">
-      <div id="selection-box"><span class="bold" i18n="bible-browser.selection"></span> <span id="selected-verses"></span></div>
-      <!-- <div id="clippy-box"></div> -->
-
-      <div id="tags-toolbar">
-        <!-- // Meta Tags disabled as long as they are not functional
-        <button id="new-meta-tag-button" class="fg-button ui-state-default ui-corner-all" type="button">New meta tag</button>
-        -->
-        <button id="new-standard-tag-button" class="fg-button ui-state-default ui-corner-all" type="button" i18n="tags-toolbar.new-tag"></button>
-
-        <button id="show-book-tag-statistics-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="tags-toolbar.tag-statistics"></button>
-
-        <button id="show-translation-settings-button" class="fg-button ui-corner-all ui-state-default" i18n="tags-toolbar.configure-translations"></button>
-
-        <!-- // Book Tags disabled as long as they are not functional
-        <button id="new-book-tag-button" class="fg-button ui-state-default ui-corner-all" type="button">New book tag</button>
-        -->
-      </div>
-    </div>
-
-    <div id="new-meta-tag-dialog" style="display: none;">
-      <span id="new-meta-tag-title-label">Title: </span><input id="new-meta-tag-title-input" type="text" maxlength="255" />
-    </div>
-
-    <div id="new-standard-tag-dialog" style="display: none; padding-top: 2em; padding-bottom: 2em;">
-      <span id="new-standard-tag-title-label" i18n="tags.tag-title"></span><input id="new-standard-tag-title-input" type="text" maxlength="255" />
-    </div>
-
-    <div id="new-book-tag-dialog" style="display: none;">
-      <span id="new-book-tag-title-label">Title: </span><input id="new-book-tag-title-input" type="text" maxlength="255" />
-    </div>
-
-    <div id="delete-meta-tag-confirmation-dialog" style="display: none;">
-      <p>Do you really want to delete the meta tag &quot;<span id="delete-meta-tag-name"></span>&quot;?
-    </div>
-
-    <div id="delete-tag-confirmation-dialog" style="display: none;">
-      <p><span i18n="tags.really-delete"></span>&quot;<span id="delete-tag-name"></span>&quot;</p>
-      <p><span i18n="[html]tags.tag-info-would-be-deleted"></span> (<span id="delete-tag-number-of-verses"></span>)</p>
-    </div>
-
-    <div id="remove-tag-assignment-confirmation-dialog" style="display: none;">
-      <p i18n="[html]tags.really-remove-tag-assignment"></p>
-    </div>
-
-    <div id="filter-dialog">
-      <input type="radio" name="tag-filter" value="all" checked="checked"><span i18n="tags.all-tags"></span></input><br/>
-      <input type="radio" name="tag-filter" value="assigned"><span i18n="tags.assigned-tags"></span></input><br/>
-      <input type="radio" name="tag-filter" value="unassigned"><span i18n="tags.unassigned-tags"></span></input><br/>
-    </div>
-
-    <div id="rename-standard-tag-dialog" style="display: none;">
-      <span id="rename-standard-tag-title-label">Title: </span><input id="rename-standard-tag-title-input" type="text" maxlength="255" />
-    </div>
-
-    <div id="rename-meta-tag-dialog" style="display: none;">
-      <span id="rename-meta-tag-title-label">Title: </span><input id="rename-meta-tag-title-input" type="text" maxlength="255" />
-    </div>
-
-    <!-- // Meta Tags disabled as long as they are not functional -->
-    <!--
-    <div id='meta-tag-navigation' class='ui-state-active ui-corner-top'>
-      <a href='javascript:tags_controller.show_meta_tag_list();'>Meta Tags</a>
-      <div id='opened-meta-tag-info'> / <span id='opened-meta-tag-title'>&nbsp;&nbsp;[Click meta tag to see / edit assigned tags]</span></div>
-    </div>
-
-    <div id="meta-tag-content">
-    </div>
-    <div id="meta-tag-assigned-tags">
-    </div>
-    -->
-
-    <div id="tags-content">
-      <h3><a href="#">Tags</a></h3>
-      <div id="tags-content-global">
-        <div id="tags-loading-indicator" style="display: none; width: 15em; margin-top: 10em; margin-left: auto; margin-right: auto;">
-          <div style="float: left;" i18n="tags.loading-tags"></div>
-
-          <div class="loader">
-            <div class="bounce1"></div>
-            <div class="bounce2"></div>
-            <div class="bounce3"></div>
-          </div>
-        </div>
-      </div>
-
-      <!--
-      <h3><a href="#">Book tags</a></h3>
-      <div id="tags-content-book">
-      </div>
-      -->
-    </div>
+  <!-- Logo disabled for now -->
+  <!--
+  <div id="program-label">
+  <img src="images/ezra_project_logo.jpg" alt="Ezra Project"/> 
   </div>
+  -->
 
-  <div id="book-selection-menu" class="verse-selection-menu">
-    <ul class="book-list-column">
-      <li class="book-Gen"><a href="Gen">Genesis</a></li>
-      <li class="book-Exo"><a href="Exo">Exodus</a></li>
-      <li class="book-Lev"><a href="Lev">Leviticus</a></li>
-      <li class="book-Num"><a href="Num">Numbers</a></li>
-      <li class="book-Deu"><a href="Deu">Deuteronomy</a></li>
-      <li class="book-Jos"><a href="Jos">Joshua</a></li>
-      <li class="book-Jdg"><a href="Jdg">Judges</a></li>
-      <li class="book-Rut"><a href="Rut">Ruth</a></li>
-      <li class="book-1Sa"><a href="1Sa">I Samuel</a></li>
-      <li class="book-2Sa"><a href="2Sa">II Samuel</a></li>
-      <li class="book-1Ki"><a href="1Ki">I Kings</a></li>
-      <li class="book-2Ki"><a href="2Ki">II Kings</a></li>
-      <li class="book-1Ch"><a href="1Ch">I Chronicles</a></li>
-      <li class="book-2Ch"><a href="2Ch">II Chronicles</a></li>
-   </ul>
-
-   <ul class="book-list-column">
-      <li class="book-Ezr"><a href="Ezr">Ezra</a></li>
-      <li class="book-Neh"><a href="Neh">Nehemiah</a></li>
-      <li class="book-Est"><a href="Est">Esther</a></li>
-      <li class="book-Job"><a href="Job">Job</a></li>
-      <li class="book-Psa"><a href="Psa">Psalms</a></li>
-      <li class="book-Pro"><a href="Pro">Proverbs</a></li>
-      <li class="book-Ecc"><a href="Ecc">Ecclesiastes</a></li>
-      <li class="book-Sol"><a href="Sol">Song of Solomon</a></li>
-      <li class="book-Isa"><a href="Isa">Isaiah</a></li>
-      <li class="book-Jer"><a href="Jer">Jeremiah</a></li>
-      <li class="book-Lam"><a href="Lam">Lamentations</a></li>
-      <li class="book-Eze"><a href="Eze">Ezekiel</a></li>
-      <li class="book-Dan"><a href="Dan">Daniel</a></li>
-      <li class="book-Hos"><a href="Hos">Hosea</a></li>
-    </ul>
-
-    <ul class="book-list-column">
-      <li class="book-Joe"><a href="Joe">Joel</a></li>
-      <li class="book-Amo"><a href="Amo">Amos</a></li>
-      <li class="book-Oba"><a href="Oba">Obadiah</a></li>
-      <li class="book-Jon"><a href="Jon">Jonah</a></li>
-      <li class="book-Mic"><a href="Mic">Micah</a></li>
-      <li class="book-Nah"><a href="Nah">Nahum</a></li>
-      <li class="book-Hab"><a href="Hab">Habakkuk</a></li>
-      <li class="book-Zep"><a href="Zep">Zephaniah</a></li>
-      <li class="book-Hag"><a href="Hag">Haggai</a></li>
-      <li class="book-Zec"><a href="Zec">Zechariah</a></li>
-      <li class="book-Mal"><a href="Mal">Malachi</a></li>
-    </ul>
-    
-    <ul class="book-list-column ot-nt-divider">
-      <li class="book-Mat"><a href="Mat">Matthew</a></li>
-      <li class="book-Mar"><a href="Mar">Mark</a></li>
-      <li class="book-Luk"><a href="Luk">Luke</a></li>
-      <li class="book-Joh"><a href="Joh">John</a></li>
-      <li class="book-Act"><a href="Act">Acts</a></li>
-      <li class="book-Rom"><a href="Rom">Romans</a></li>
-      <li class="book-1Co"><a href="1Co">I Corinthians</a></li>
-      <li class="book-2Co"><a href="2Co">II Corinthians</a></li>
-      <li class="book-Gal"><a href="Gal">Galatians</a></li>
-      <li class="book-Eph"><a href="Eph">Ephesians</a></li>
-      <li class="book-Phi"><a href="Phi">Philippians</a></li>
-      <li class="book-Col"><a href="Col">Colossians</a></li>
-      <li class="book-1Th"><a href="1Th">I Thessalonians</a></li>
-      <li class="book-2Th"><a href="2Th">II Thessalonians</a></li>
-    </ul>
-
-    <ul class="book-list-column">
-      <li class="book-1Ti"><a href="1Ti">I Timothy</a></li>
-      <li class="book-2Ti"><a href="2Ti">II Timothy</a></li>
-      <li class="book-Tit"><a href="Tit">Titus</a></li>
-      <li class="book-Phm"><a href="Phm">Philemon</a></li>
-      <li class="book-Heb"><a href="Heb">Hebrews</a></li>
-      <li class="book-Jam"><a href="Jam">James</a></li>
-      <li class="book-1Pe"><a href="1Pe">I Peter</a></li>
-      <li class="book-2Pe"><a href="2Pe">II Peter</a></li>
-      <li class="book-1Jo"><a href="1Jo">I John</a></li>
-      <li class="book-2Jo"><a href="2Jo">II John</a></li>
-      <li class="book-3Jo"><a href="3Jo">III John</a></li>
-      <li class="book-Jud"><a href="Jud">Jude</a></li>
-      <li class="book-Rev"><a href="Rev">Revelation of John</a></li>
-    </ul>
-
-    <div class="selection-menu-footer not-shown"></div>
-    <!--<div class="book-selection-menu-footer">Hint: Recently opened books are highlighted with <span class="bold">bold</span> font</div>-->
+  <div id="app-container">
+    <div id="bible-browser-toolbox"></div>
+    <div id="book-selection-menu" class="verse-selection-menu"></div>
+    <div id="tag-selection-menu" class="verse-selection-menu"></div>
+    <div id="module-search-menu" class=module-search-menu"></div>
+    <div id="display-options-menu" class="display-options-menu"></div>
+    <div id="translation-settings-wizard" style="display: none;"></div>
+    <div id="book-search"></div>
+    <div id="boxes"></div>
+    <div id="verse-list-tabs"></div>
   </div>
-
-  <div id="tag-selection-menu" class="verse-selection-menu">
-    <div class="selection-menu-footer not-shown"></div>
-    <!--<div class="book-selection-menu-footer">Hint: Recently opened books are highlighted with <span class="bold">bold</span> font</div>-->
-
-    <div id="tag-selection-filter">
-      <span id="tag-selection-filter-label" i18n="tags.tag-filter"></span>
-      <input id="tag-selection-filter-input" type="text" maxlength="30" />
-    </div>
-
-    <div id="tag-selection-taglist">
-      <div id="tag-selection-taglist-global">
-      </div>
-    </div>
-  </div>
-
-  <div id="module-search-menu" class=module-search-menu">
-    <input id="module-search-input" type="text" maxlength="30" />
-    <button id="start-module-search-button" class="fg-button ui-corner-all ui-state-default" i18n="search-menu.search"></button>
-    <div style="margin-top: 1em;">
-        <input type="checkbox" id="search-is-case-sensitive">
-        <label for="search-is-case-sensitive" i18n="search-menu.case-sensitive"></label>
-        <input type="checkbox" id="search-is-phrase" style="margin-left: 1em;">
-        <label for="search-is-phrase" i18n="search-menu.exact-phrase"></label>
-    </div>
-  </div>
-
-  <div id="display-options-menu" class="display-options-menu">
-    <div id="section-title-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-      <input id="section-title-switch" type="checkbox"></input>
-      <div class="switch-label" id="section-title-switch-label" i18n="bible-browser.show-section-titles"></div>
-    </div>
-
-    <div id="tags-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default ui-state-active">
-      <input id="tags-switch" type="checkbox" checked="checked"></input>
-      <div class="switch-label" id="tags-switch-label" i18n="bible-browser.show-tags"></div>
-    </div>
-
-    <div id="tags-column-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-      <input id="tags-column-switch" type="checkbox"></input>
-      <div class="switch-label" id="tags-column-switch-label" i18n="bible-browser.use-tags-column"></div>
-    </div>
-
-    <!--<div id="verse-notes-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-      <input id="verse-notes-switch" type="checkbox"></input>
-      <div class="switch-label" id="verse-notes-switch-label">Notes</div>
-    </div>
-
-    <div id="x-refs-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default ui-state-active">
-      <input id="x-refs-switch" type="checkbox"></input>
-      <div class="switch-label" id="x-refs-switch-label">X-Refs</div>
-    </div>-->
-  </div>
-
-  <div id="translation-settings-wizard" title="Bible translation settings" style="display: none;">
-    <div id="translation-settings-wizard-init">
-      <p style="margin-bottom: 2em;" i18n="[html]translation-wizard.internet-usage-note"></p>
-      <button id="add-bible-translations-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="translation-wizard.add-translations"></button>
-      <button id="remove-bible-translations-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="translation-wizard.remove-translations"></button>
-    </div>
-    <div id="translation-settings-wizard-add" style="display: none;">
-      <h3 i18n="translation-wizard.repositories"></h3>
-      <section id="translation-repositories" class="scrollable">
-      </section>
-
-      <h3 i18n="translation-wizard.languages"></h3>
-      </h3>
-      <section id="translation-languages" class="scrollable">
-      </section>
-
-      <h3 i18n="translation-wizard.translations"></h3>
-      <section id="translations">
-        <div id="translation-list" class="scrollable"></div>
-        <div id="translation-info" class="scrollable">
-          <div id="translation-info-content" i18n="translation-wizard.click-to-show-detailed-module-info"></div>
-          <br/>
-          <div class="loader" style="margin-top: 1em;">
-            <div class="bounce1"></div>
-            <div class="bounce2"></div>
-            <div class="bounce3"></div>
-          </div>
-        </div>
-      </section>
-
-      <h3>Installation</h3>
-      <section id="install" class="scrollable">
-      </section>
-    </div>
-    <div id="translation-settings-wizard-remove" style="display: none;">
-      <h3 i18n="translation-wizard.translations"></h3>
-      <section id="translations" class="scrollable">
-      </section>
-
-      <h3 i18n="translation-wizard.removal"></h3>
-      <section id="uninstall" class="scrollable">
-      </section>
-    </div>
-  </div>
-
-  <div id="book-search">
-    <input id="book-search-input" type="text" />
-    <div id="book-search-occurances"></div>
-    <span id="book-search-previous" class="book-search-nav">&#x25B2;</span>
-    <span id="book-search-next" class="book-search-nav">&#x25BC;</span>
-  </div>
-
-  <div id="tag-reference-box">
-    <div id="tag-reference-box-verse-list">
-    </div>
-  </div>
-
-  <div id="book-tag-statistics-box">
-    <div id="book-tag-statistics-box-content">
-    </div>
-  </div>
-
-  <div id="bible-translation-info-box">
-    <div id="bible-translation-info-box-content">
-    </div>
-  </div>
-
-  <div id="bible-sync-box">
-    <div id="bible-sync-box-content">
-    </div>
-  </div>
-
-  <div id="verse-expand-box">
-    <div id="expand-button" class="state-normal" title=""></div>
-  </div>
-
-  <div id="verse-list-tabs">
-    <ul>
-      <li>
-        <a href="#verse-list-tabs-1">-------------</a>
-        <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span>
-      </li>
-    </ul>
-    <button id="add-tab-button" class="fg-button ui-corner-all ui-state-default">+</button>
-    <div id="verse-list-tabs-1" class="verse-list-container">
-      <div class="verse-list-menu">
-
-        <div class="fg-button book-select-button ui-state-default ui-corner-all">
-          <div class="ui-icon ui-icon-triangle-1-s"></div>
-          <div class="book-select-value" i18n="verse-list-menu.book"></div>
-        </div>
-
-        <div class="fg-button tag-select-button ui-state-default ui-corner-all">
-          <div class="ui-icon ui-icon-triangle-1-s"></div>
-          <div class="tag-select-label" i18n="verse-list-menu.tags"></div>
-        </div>
-
-        <div class="fg-button module-search-button ui-state-default ui-corner-all">
-          <div class="ui-icon ui-icon-triangle-1-s"></div>
-          <div class="module-search-label" i18n="verse-list-menu.search"></div>
-        </div>
-
-        <div class="fg-button display-options-button ui-state-default ui-corner-all" style="padding-top: 2px;">
-          <img src="images/settings.svg" style="width: 20px; height: 20px;"/>
-        </div>
-
-        <div class="bible-select-block">
-          <select name="bible-select" class="bible-select">
-          </select>
-        </div>
-
-        <button class="bible-translation-info-button fg-button ui-corner-all ui-state-default ui-state-disabled">i</button>
-
-        <button class="export-tagged-verses-button fg-button ui-corner-all events-configured ui-state-default ui-state-disabled" i18n="verse-list-menu.export"></button>
-
-        <div class="loader" style="margin-left: 1em; margin-top: 0.3em">
-          <div class="bounce1"></div>
-          <div class="bounce2"></div>
-          <div class="bounce3"></div>
-        </div>
-
-      </div> <!-- verse-list-menu -->
-
-      <div class="verse-list-composite">
-        <div class="navigation-pane navigation-pane-chapters">
-        </div>
-
-        <div class="verse-list-frame">
-          <div class="module-search-result-header">
-          </div>
-
-          <div class="verse-list-loading-indicator">
-            <div style="float: left;" i18n="bible-browser.loading-bible-text"></div>
-
-            <div class="loader">
-              <div class="bounce1"></div>
-              <div class="bounce2"></div>
-              <div class="bounce3"></div>
-            </div>
-          </div>
-
-          <div class="temporary-help">
-          </div>
-
-          <div class="verse-list">
-            <div class="help-text">
-            </div>
-          </div>
-        </div> <!-- verse-list-frame -->
-      </div> <!-- verse-list-composite -->
-    </div> <!-- verse-list-container -->
-  </div> <!-- verse-list-tabs -->
-</div>
 
 </div>
 
 <script>
   require('./renderer.js')
-  // You can also require other files to run in this process
+
+  const path = require('path');
+  const fs = require('fs');
+
+  // This function loads the content of html fragments into the divs in the app-container
+  function loadFragment(filePath, elementId) {
+    var absoluteFilePath = path.join(__dirname, filePath);
+
+    fs.readFile(absoluteFilePath, (err, data) => {
+      document.getElementById(elementId).innerHTML = data;
+    });
+  }
+
+  loadFragment('html/book_selection_menu.html',           'book-selection-menu');
+  loadFragment('html/tag_selection_menu.html',            'tag-selection-menu');
+  loadFragment('html/bible_browser_toolbox.html',         'bible-browser-toolbox');
+  loadFragment('html/translation_settings_wizard.html',   'translation-settings-wizard');
+  loadFragment('html/book_search_form.html',              'book-search');
+  loadFragment('html/module_search_menu.html',            'module-search-menu');
+  loadFragment('html/display_options_menu.html',          'display-options-menu');
+  loadFragment('html/verse_list_tabs.html',               'verse-list-tabs');
+  loadFragment('html/boxes.html',                         'boxes');
 </script>
 
 </body>
