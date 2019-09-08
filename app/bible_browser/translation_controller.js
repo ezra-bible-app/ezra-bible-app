@@ -25,7 +25,6 @@ class TranslationController {
     this.languageMapper = new LanguageMapper();
   }
 
-
   sleep(time) {
     return new Promise(resolve => {
       setTimeout(() => {
@@ -280,34 +279,111 @@ class TranslationController {
     return modulesNotInDb;
   }
 
-  async syncSwordModules(htmlElementForMessages) {
+  async getDbModulesNotYetInstalled() {
+    var localSwordModules = this.nodeSwordInterface.getAllLocalModules();
+    var dbModules = await models.BibleTranslation.findAndCountAll();
+    var modulesNotInstalled = [];
+
+    for (var dbTranslation of dbModules.rows) {
+      var dbModuleName = dbTranslation.id;
+      var dbModuleFound = false;
+
+      if (!dbTranslation.isFree) {
+        continue;
+      }
+
+      for (var i = 0; i < localSwordModules.length; i++) {
+        var localSwordModuleName = localSwordModules[i].name;
+
+        if (dbModuleName == localSwordModuleName) {
+          dbModuleFound = true;
+          break;
+        }
+      }
+
+      if (!dbModuleFound) {
+        modulesNotInstalled.push(dbModuleName);
+        //console.log("The local module " + localSwordModuleName + " is not in the DB yet!");
+      }
+    }
+
+    return modulesNotInstalled;
+  }
+
+  async syncDbWithSwordModules(htmlElementForMessages) {
     var modulesNotInDb = await this.getLocalModulesNotYetAvailableInDb();
 
-    var initialMessage = "<p style='margin-bottom: 2em'>Synchronizing " + modulesNotInDb.length + "   Sword modules with Ezra Project database!</p>";
+    var initialMessage = "<p style='margin-bottom: 2em'>" + i18n.t("module-sync.synchronizing") 
+                          + " " + modulesNotInDb.length + " " + i18n.t("module-sync.modules-with-db") + "</p>";
+
     htmlElementForMessages.append(initialMessage);
 
-    htmlElementForMessages.dialog("open");
-    await this.sleep(200);
-
     for (var i = 0; i < modulesNotInDb.length; i++) {     
-      var message = "<span>Synchronizing <i>" + modulesNotInDb[i].description + "</i> ...</span>";
+      var message = "<span>" + i18n.t("module-sync.synchronizing") + " <i>" + modulesNotInDb[i].description + "</i> ...</span>";
       htmlElementForMessages.append(message);
       htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
 
       await this.sleep(200);
       await models.BibleTranslation.importSwordTranslation(modulesNotInDb[i].name);
-      var doneMessage = "<span> done.</span><br/>";
+      var doneMessage = "<span> " + i18n.t("general.done") + ".</span><br/>";
       htmlElementForMessages.append(doneMessage);
       if (i < modulesNotInDb.length) await this.sleep(500);
     }
 
-    var completeMessage = "<p style='margin-top: 2em;'>Synchronization completed!</p>";
+    var completeMessage = "<p style='margin-top: 2em;'>" + i18n.t("module-sync.sync-completed") + "</p>";
     htmlElementForMessages.append(completeMessage);
     htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
 
     await this.sleep(2000);
     htmlElementForMessages.dialog("close");
-    bible_browser_controller.updateUiAfterBibleTranslationAvailable(modulesNotInDb[0].name);
+
+    if (modulesNotInDb.length > 0) {
+      bible_browser_controller.updateUiAfterBibleTranslationAvailable(modulesNotInDb[0].name);
+    }
+  }
+
+  async getNotInstalledButAvailableModules() {
+    var modulesNotInstalled = await this.getDbModulesNotYetInstalled();
+    var modulesAvailable = [];
+
+    if (modulesNotInstalled.length > 0) {
+      for (var i = 0; i < modulesNotInstalled.length; i++) {
+        try {
+          this.nodeSwordInterface.getRepoModule(modulesNotInstalled[i]);
+          modulesAvailable.push(modulesNotInstalled[i]);
+        } catch (e) {
+          console.log("Module " + modulesNotInstalled[i] + " is not available from any repository!");
+        }
+      }
+    }
+
+    return modulesAvailable;
+  }
+
+  async syncSwordInstallationWithDb(htmlElementForMessages) {
+    var modulesAvailable = await this.getNotInstalledButAvailableModules();
+
+    var initialMessage = "<p style='margin-bottom: 2em'>" + i18n.t("module-sync.installing") 
+    + " " + modulesAvailable.length + " " + i18n.t("module-sync.existing-db-modules") + "</p>";
+    htmlElementForMessages.append(initialMessage);
+
+    for (var i = 0; i < modulesAvailable.length; i++) {     
+      var moduleInfo = this.nodeSwordInterface.getRepoModule(modulesAvailable[i]);
+      var message = "<span>" + i18n.t("module-sync.installing") + " <i>" + moduleInfo.description + "</i> ...</span>";
+      htmlElementForMessages.append(message);
+      htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
+
+      await this.sleep(200);
+      await this.nodeSwordInterface.installModule(modulesAvailable[i]);
+
+      var doneMessage = "<span> " + i18n.t("general.done") + ".</span><br/>";
+      htmlElementForMessages.append(doneMessage);
+      if (i < modulesAvailable.length) await this.sleep(500);
+    }
+
+    var completeMessage = "<p style='margin-top: 2em;'>" + i18n.t("module-sync.install-completed") + "</p>";
+    htmlElementForMessages.append(completeMessage);
+    htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
   }
 
   getCurrentBibleTranslationLoadingIndicator() {

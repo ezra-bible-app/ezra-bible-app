@@ -280,42 +280,6 @@ function get_char_from_number(num, small_chars)
   return converted_char;
 }
 
-function initUi()
-{
-  // Setup resizable function for divider between tags toolbox and verse list
-  $('#bible-browser-toolbox').resizable({
-    handles: 'e',
-    resize: function(event, ui) {
-      adapt_verse_list();
-    },
-    stop: function(event, ui) {
-      //console.log("Saving new tag list width: " + ui.size.width);
-      bible_browser_controller.settings.set('tag_list_width', ui.size.width);
-    }
-  });
-
-  $('.chapter-select').attr('disabled','disabled');
-
-  tags_controller.init_ui();
-
-  $('#show-translation-settings-button').bind('click', function() {
-    bible_browser_controller.open_translation_settings_wizard(); 
-  });
-
-  configure_button_styles();
-
-  // Open links classified as external in the default web browser
-  $('body').on('click', 'a.external', (event) => {
-    event.preventDefault();
-    let link = event.target.href;
-    require("electron").shell.openExternal(link);
-  });
-
-  resize_app_container();
-
-  $(window).bind("resize", handle_window_resize);
-}
-
 function handle_window_resize()
 {
   resize_app_container();
@@ -392,10 +356,10 @@ function bind_click_to_checkbox_labels()
 async function initI18N()
 {
   await i18nHelper.init();
-  await i18n.changeLanguage('en');
+  await i18n.changeLanguage('de');
 
   reference_separator = i18n.t('general.chapter-verse-separator');
-  $("#app-container").localize();
+  $("body").localize();
   localizeBookSelectionMenu();
 }
 
@@ -410,6 +374,64 @@ function localizeBookSelectionMenu()
   }
 }
 
+async function initDatabase()
+{
+  var userDataDir = app.getPath('userData');
+  var dbHelper = new DbHelper(userDataDir);
+  var dbDir = dbHelper.getDatabaseDir();
+
+  await dbHelper.initDatabase(dbDir);
+  models = require('./models')(dbDir);
+}
+
+async function initControllers()
+{
+  bible_browser_controller = new BibleBrowserController();
+  await bible_browser_controller.init();
+
+  tags_controller = new TagsController();
+  tags_controller.init();
+
+  // Disabled notes controller
+  //notes_controller = new NotesController;
+}
+
+function initUi()
+{
+  // Setup resizable function for divider between tags toolbox and verse list
+  $('#bible-browser-toolbox').resizable({
+    handles: 'e',
+    resize: function(event, ui) {
+      adapt_verse_list();
+    },
+    stop: function(event, ui) {
+      //console.log("Saving new tag list width: " + ui.size.width);
+      bible_browser_controller.settings.set('tag_list_width', ui.size.width);
+    }
+  });
+
+  $('.chapter-select').attr('disabled','disabled');
+
+  tags_controller.init_ui();
+
+  $('#show-translation-settings-button').bind('click', function() {
+    bible_browser_controller.open_translation_settings_wizard(); 
+  });
+
+  configure_button_styles();
+
+  // Open links classified as external in the default web browser
+  $('body').on('click', 'a.external', (event) => {
+    event.preventDefault();
+    let link = event.target.href;
+    require("electron").shell.openExternal(link);
+  });
+
+  resize_app_container();
+
+  $(window).bind("resize", handle_window_resize);
+}
+
 async function initApplication()
 {
   var applicationLoaded = false;
@@ -422,41 +444,22 @@ async function initApplication()
     }
   }, 500);
 
-  var userDataDir = app.getPath('userData');
-  var dbHelper = new DbHelper(userDataDir);
-  var dbDir = dbHelper.getDatabaseDir();
-
   console.log("Initializing database ...");
-  await dbHelper.initDatabase(dbDir);
-
-  console.log("Initializing models ...");
-  models = require('./models')(dbDir);
+  await initDatabase();
 
   console.log("Initializing i18n ...");
   await initI18N();
 
   console.log("Initializing controllers ...");
-  bible_browser_controller = new BibleBrowserController();
-  await bible_browser_controller.init();
-
-  tags_controller = new TagsController();
-  tags_controller.init();
-
-  // Disabled notes controller
-  //notes_controller = new NotesController;
+  await initControllers();
 
   console.log("Initializing user interface ...");
   initUi();
 
   $('#main-content').show();
-
   await bible_browser_controller.sync_sword_modules();
 
   console.log("Loading settings ...");
-  if (await models.Tag.getTagCount() > 0) {
-    tags_controller.showTagListLoadingIndicator();
-  }
-
   bible_browser_controller.loadSettings();
 
   applicationLoaded = true;

@@ -28,6 +28,7 @@
     "repo-selection-info-text": "Ezra Project works with Bible translation modules provided by <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> and the <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a>.<br/><br/>Below you see the list of SWORD repositories published by CrossWire. A repository is an internet storage location that contains a set of Bible translation modules. Next to each repository you see the total number of Bible translation modules available from that repository.<br/><br/>To install a Bible translation module, select at least one repository from the list below. The <i>CrossWire</i> and <i>eBible.org</i> repositories are a good place to start.",
     "more-repo-information-needed": "You need more information about these repositories?<br/>Have a look at the <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>.",
     "click-to-show-detailed-module-info": "Click on a translation code (link after translation name) to show detailed module information here.",
+    "updating-repository-data": "Updating repository data! This will take a few seconds ...",
     "loading-repositories": "Loading repositories ...",
     "loading-languages": "Loading languages ...",
     "pick-languages-from-repos": "Please pick at least one of the languages available from the following repositories: ",
@@ -40,6 +41,15 @@
     "select-translations-to-be-removed": "Select the bible translations that you would like to remove. Disabled entries in the list are translations not installed in the users directory.",
     "installing": "Installing",
     "removing": "Removing"
+  },
+  "module-sync": {
+    "module-sync-header": "Synchronizing Sword modules",
+    "synchronizing": "Synchronizing",
+    "modules-with-db": "SWORD modules with Ezra Project database!",
+    "sync-completed": "Synchronization completed!",
+    "installing": "Installing",
+    "existing-db-modules": "existing Ezra Project database modules!",
+    "install-completed": "Installation completed!"
   },
   "general": {
     "chapter-verse-separator": ":",
@@ -64,7 +74,8 @@
     "previous": "Previous",
     "finish": "Finish",
     "cancel": "Cancel",
-    "rename": "Rename"
+    "rename": "Rename",
+    "loading": "Loading"
   },
   "help": {
     "help-text-no-tags-book-opened": "To start working with tags, create your first tag by clicking on the button 'New&nbsp;tag' above. After that you can browse the Bible text, click or drag-select verses and then assign the tag you just created.",

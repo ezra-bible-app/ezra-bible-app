@@ -28,6 +28,7 @@
     "repo-selection-info-text": "Ezra Project benutzt Bibelübersetzungsmodule, die vom <a class='external' href='http://www.crosswire.org/sword'>SWORD Projekt</a> und von der <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> bereitgestellt werden.<br/><br/>Unten sehen Sie die von CrossWire bereitgestellte Liste von SWORD Internetarchiven. Jedes Internetarchiv enthält einen Satz von Bibelübersetzungsmodulen. Neben jedem Internetarchiv sehen Sie die Gesamtmenge der in diesem Archiv gespeicherten Bibelübersetzungen.<br/><br/>Um ein Bibelübersetzungsmodul zu installieren wählen Sie mindestens ein Archiv aus der Liste unten. <i>CrossWire</i> und <i>eBible.org</i> sind eine gute Auswahl für den Anfang.",
     "more-repo-information-needed": "Sie benötigen weitere Informationen zu diesen Internetarchiven?<br/>Werfen Sie einen Blick auf das <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> (Englisch).",
     "click-to-show-detailed-module-info": "Klicken Sie auf einen Übersetzungscode (Link hinter Übersetzungsname), um hier detaillierte Modulinformationen anzuzeigen.",
+    "updating-repository-data": "Aktualisiere Repositorydaten! Das dauert ein paar Sekunden ...",
     "loading-repositories": "Lade Internetarchive ...",
     "loading-languages": "Lade Sprachen ...",
     "pick-languages-from-repos": "Wählen Sie mindestens eine der Sprachen von folgenden Internetarchiven: ",
@@ -40,6 +41,15 @@
     "select-translations-to-be-removed": "Wählen Sie Bibelübersetzungen, die entfernt werden sollen. Ausgegraute Listeneinträge sind Übersetzungen, die nicht im Benutzerverzeichnis installiert sind.",
     "installing": "Installiere",
     "removing": "Entferne"
+  },
+  "module-sync": {
+    "module-sync-header": "Synchronisiere SWORD Module",
+    "synchronizing": "Synchronisiere",
+    "modules-with-db": "SWORD Module mit Ezra Project Datenbank!",
+    "sync-completed": "Synchronisierung abgeschlossen!",
+    "installing": "Installiere",
+    "existing-db-modules": "existierende Ezra Project Datenbankmodule!",
+    "install-completed": "Installation abgeschlossen!"
   },
   "general": {
     "chapter-verse-separator": ",",
@@ -64,7 +74,8 @@
     "previous": "Zurück",
     "finish": "Beenden",
     "cancel": "Abbrechen",
-    "rename": "Umbenennen"
+    "rename": "Umbenennen",
+    "loading": "Lade"
   },
   "help": {
     "help-text-no-tags-book-opened": "Sie wollen anfangen mit Tags zu arbeiten? Erstellen Sie Ihren ersten Tag, indem Sie oben auf den Button 'Neuer&nbsp;Tag' klicken. Danach können Sie beim Studium des Bibeltexts den Tag zuordnen, indem Sie auf den Vers klicken oder mehrere Verse mit gehaltener Maustaste auswählen und dann links die Auswahlbox neben dem gerade erstellten Tag anklicken.",

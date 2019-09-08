@@ -259,6 +259,10 @@ function BibleBrowserController() {
   };
 
   this.loadSettings = async function() {
+    if (await models.Tag.getTagCount() > 0) {
+      bible_browser_controller.tags_controller.showTagListLoadingIndicator();
+    }
+
     bible_browser_controller.optionsMenu.loadDisplayOptions();
 
     await this.tab_controller.loadTabConfiguration();
@@ -322,7 +326,7 @@ function BibleBrowserController() {
       width: 600,
       height: 300,
       autoOpen: false,
-      title: "Synchronizing Sword modules",
+      title: i18n.t("module-sync.module-sync-header"),
       dialogClass: 'bible-sync-dialog'
     });
   }
@@ -759,17 +763,40 @@ function BibleBrowserController() {
   };
 
   this.sync_sword_modules = async function() {
+    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+    var verse_list_position = currentVerseList.offset();
+    $('#bible-sync-box').dialog({
+      position: [verse_list_position.left + 50, verse_list_position.top + 30]
+    });
+
+    if (!bible_browser_controller.translation_controller.nodeSwordInterface.repositoryConfigExisting()) {
+      $('#bible-sync-box').dialog("open");
+      $('#bible-sync-box').append('<p>' + i18n.t('translation-wizard.updating-repository-data') + '</p>');
+
+      await bible_browser_controller.translation_controller.nodeSwordInterface.updateRepositoryConfig();
+    }
+
     var modulesNotInDb = await bible_browser_controller.translation_controller.getLocalModulesNotYetAvailableInDb();
+    var notInstalledButAvailableModules = await bible_browser_controller.translation_controller.getNotInstalledButAvailableModules();
+
+    if (modulesNotInDb.length > 0 || notInstalledButAvailableModules.length > 0) {
+      $('#bible-sync-box').dialog("open");
+      await bible_browser_controller.translation_controller.sleep(200);
+    }
 
     if (modulesNotInDb.length > 0) {
-      var currentVerseList = bible_browser_controller.getCurrentVerseList();
-      var verse_list_position = currentVerseList.offset();
-      $('#bible-sync-box').dialog({
-        position: [verse_list_position.left + 50, verse_list_position.top + 30]
-      });
-
-      await bible_browser_controller.translation_controller.syncSwordModules($('#bible-sync-box'));
+      await bible_browser_controller.translation_controller.syncDbWithSwordModules($('#bible-sync-box'));
     }
+
+    if (notInstalledButAvailableModules.length > 0) {
+      await bible_browser_controller.translation_controller.syncSwordInstallationWithDb($('#bible-sync-box'));
+    }
+
+    if (modulesNotInDb.length > 0 || notInstalledButAvailableModules.length > 0) {
+      await bible_browser_controller.translation_controller.sleep(2000);
+    }
+
+    $('#bible-sync-box').dialog("close");
   };
 
   this.updateUiAfterBibleTranslationAvailable = function(translationCode) {
