@@ -103,9 +103,10 @@ h2 {
   margin-top: 3.1em;
 }
 
-.verse-list-frame { /* Needed because of selectable scroll bug */
+.verse-list-frame {
   padding: 0.5em;
   overflow-y: scroll;
+  overflow-x: hidden; /* This prevents a horizontal scrollbar on small screens  */
   border: 1px solid #DDDDDD;
   border-radius: 6px;
   user-select: none;
