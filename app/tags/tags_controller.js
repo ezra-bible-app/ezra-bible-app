@@ -386,7 +386,7 @@ function TagsController() {
       tags_controller.is_blocked = false;
     }, 300);
 
-    var id = checkbox_tag.find('.checkbox-tag-id:first').html();
+    var id = parseInt(checkbox_tag.find('.checkbox-tag-id:first').html());
     var cb = checkbox_tag.find('.tag-cb')[0];
     var cb_label = checkbox_tag.find('.cb-label').html();
     var checkbox_is_checked = $(cb).is(':checked');
@@ -400,21 +400,40 @@ function TagsController() {
 
     var is_global = false;
     if (checkbox_tag.find('.is-global').html() == 'true') {
-    //if (checkbox_tag.parent().attr('id') == 'tags-content-global') {
       is_global = true;
     }
 
     if (checkbox_is_checked) {
-      //checkbox_tag.append(tags_controller.loading_indicator);
-
       $(cb).attr('title', gettext_strings.remove_tag_assignment);
-      tags_controller.change_verse_list_tag_info(id,
-                                                  is_global,
-                                                  cb_label,
-                                                  $.create_xml_doc(current_verse_selection),
-                                                  "assign");
 
-      tags_controller.communication_controller.assign_tag_to_verses(id, current_verse_ids);
+      filteredVerseIds = [];
+
+      // Create a list of filtered ids, that only contains the verses that do not have the selected tag yet
+      for (var i = 0; i < current_verse_ids.length; i++) {
+        var currentVerseId = current_verse_ids[i];
+        var currentVerseList = bible_browser_controller.getCurrentVerseList();
+        var currentVerseBox = currentVerseList.find('.verse-id-' + currentVerseId);
+        var existingTagIdElements = currentVerseBox.find('.tag-id');
+        var existingTagIds = [];
+        
+        for (var j = 0; j < existingTagIdElements.length; j++) {
+          var currentTagId = parseInt($(existingTagIdElements[j]).text());
+          existingTagIds.push(currentTagId);
+        }
+
+        if (!existingTagIds.includes(id)) {
+          filteredVerseIds.push(currentVerseId);
+        }
+      }
+
+      tags_controller.communication_controller.assign_tag_to_verses(id, filteredVerseIds);
+
+      tags_controller.change_verse_list_tag_info(id,
+                                                 is_global,
+                                                 cb_label,
+                                                 $.create_xml_doc(current_verse_selection),
+                                                 "assign"
+      );
     } else {
 
       tags_controller.remove_tag_assignment_job = {
@@ -504,13 +523,13 @@ function TagsController() {
     job.cb.attr('title', gettext_strings.assign_tag);
     job.checkbox_tag.append(tags_controller.loading_indicator);
 
+    tags_controller.communication_controller.remove_tag_from_verses(job.id, job.verse_ids);
+    
     tags_controller.change_verse_list_tag_info(job.id,
                                                job.is_global,
                                                job.cb_label,
                                                job.xml_verse_selection,
                                                "remove");
-
-    tags_controller.communication_controller.remove_tag_from_verses(job.id, job.verse_ids);
 
     tags_controller.remove_tag_assignment_job = null;
     $('#remove-tag-assignment-confirmation-dialog').dialog('close');
