@@ -260,7 +260,7 @@ function BibleBrowserController() {
 
   this.loadSettings = async function() {
     if (await models.Tag.getTagCount() > 0) {
-      bible_browser_controller.tags_controller.showTagListLoadingIndicator();
+      tags_controller.showTagListLoadingIndicator();
     }
 
     bible_browser_controller.optionsMenu.loadDisplayOptions();
