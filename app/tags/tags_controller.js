@@ -954,7 +954,7 @@ function TagsController() {
     return verse_nr;
   };
 
-  this.init_verse_expand_box = function() {
+  this.init_verse_expand_box = async function() {
     $('.verse-reference-content').filter(":not('.tag-events-configured')").bind('mouseover', tags_controller.mouse_over_verse_reference_content);
 
     $("#expand-button").prop("title", i18n.t("bible-browser.load-verse-context"));
@@ -967,12 +967,13 @@ function TagsController() {
       $(this).removeClass('state-highlighted');
     });
 
-    $('#expand-button').filter(":not('.tag-events-configured')").bind('click', function() {
+    $('#expand-button').filter(":not('.tag-events-configured')").bind('click', async function() {
       var currentTabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
       var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
       var current_reference = $(tags_controller.current_mouseover_verse_reference);
       var start_verse_box = current_reference.closest('.verse-box');
-      var current_book_title = start_verse_box.find('.verse-bible-book-short').html();
+      var current_bible_book_id = start_verse_box.find('.verse-bible-book-id').text();
+      var current_book_title = await models.BibleBook.getShortTitleById(current_bible_book_id);
       var start_verse_nr = tags_controller.reference_to_verse_nr(current_book_title, start_verse_box.find('.verse-reference-content').html(), false);
       start_verse_nr -= 3;
       if (start_verse_nr < 1) {
