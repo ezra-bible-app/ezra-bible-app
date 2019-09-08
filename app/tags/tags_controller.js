@@ -973,7 +973,7 @@ function TagsController() {
       var current_reference = $(tags_controller.current_mouseover_verse_reference);
       var start_verse_box = current_reference.closest('.verse-box');
       var current_book_title = start_verse_box.find('.verse-bible-book-short').html();
-      var start_verse_nr = reference_to_verse_nr(current_book_title, start_verse_box.find('.verse-reference-content').html(), false);
+      var start_verse_nr = tags_controller.reference_to_verse_nr(current_book_title, start_verse_box.find('.verse-reference-content').html(), false);
       start_verse_nr -= 3;
       if (start_verse_nr < 1) {
         start_verse_nr = 1;
@@ -1684,7 +1684,7 @@ function TagsController() {
     var short_book_title = bible_browser_controller.tab_controller.getTab().getBook();
 
     for (var i = 0; i < list.length; i++) {
-      new_list.push(Number(reference_to_verse_nr(short_book_title, list[i])));
+      new_list.push(Number(tags_controller.reference_to_verse_nr(short_book_title, list[i])));
     }
 
     return new_list;
