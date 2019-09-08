@@ -25,54 +25,6 @@
 
 <script>
 
-var gettext_strings = {
-  delete_outline                  : 'Delete outline',
-  untitled_section                : 'Untitled section',
-  new_meta_tag                    : 'New meta tag',
-  create_meta_tag                 : 'Create meta tag',
-  cancel                          : 'Cancel',
-  new_tag                         : 'New tag',
-  create_tag                      : 'Create tag',
-  new_book_tag                    : 'New book tag',
-  create_book_tag                 : 'Create book tag',
-  delete_meta_tag                 : 'Delete meta tag',
-  delete_tag                      : 'Delete tag',
-  remove_tag_assignment           : 'Remove tag assignment',
-  delete_tag_permanently          : 'Delete this tag permanently',
-  delete_meta_tag_permanently     : 'Delete this meta tag permanently',
-  remove_tag_from_meta_tag        : 'Remove this tag from meta tag',
-  assign_tag                      : 'Assign tag',
-  rename_tag                      : 'Rename tag',
-  rename_meta_tag                 : 'Rename meta tag',
-  click_meta_tag_action_hint      : 'Click meta tag to see / edit assigned tags',
-  add_tag_to_meta_tag             : 'Add this tag to opened meta tag',
-  tag_browser_book_menu_footer    : 'Hint: Books with book specific tags are highlighted. ' +
-                                    'Books without these tags are gray (disabled).',
-  bible_browser_tag_hint          : 'Click to select all verses with this tag',
-  new_note_session                : 'New note session',
-  create_note_session             : 'Create note session',
-  click_to_add_notes              : 'Click to add notes',
-  restore_original_verse          : 'Restore original verse',
-  group_sections_beginning_here   : 'Group sections beginning with this section',
-  group_sections_ending_here      : 'Group sections ending with this section',
-  start_section_here              : 'Start section beginning with this verse',
-  end_section_here                : 'End section at this verse',
-  printable_version               : 'Printable version',
-  edit                            : 'Edit',
-  rename                          : 'Rename',
-  none                            : 'None',
-  split_this_verse_question       : 'Split this verse?',
-  split_verse_instruction         : 'Please click on the last word of the first part!<br/>The verse will be splitted accordingly.',
-  click_to_edit                   : 'Click to edit',
-  bible_verses_tagged_with        : 'Bible verses tagged with',
-  book_select_label		            : 'Select book',
-  tagged_verses_for               : 'Verses tagged with ',
-  help_text_no_translations       : 'To start using Ezra Project, first install at least one Bible translation by clicking on "Configure translations" and then "Add Bible translation".',
-  help_text_translation_available : 'To start using Ezra Project, select a book or a tag from the menu above.',
-  help_text_no_tags               : 'To start working with tags, first select a Bible book to study.',
-  help_text_no_tags_book_opened   : 'To start working with tags, create your first tag by clicking on the button "New&nbsp;tag" above. After that you can browse the Bible text, click or drag-select verses and then assign the tag you just created.'
-};
-
 var bible_books = [
     { long_title : 'Genesis',
       short_title : "Gen" },
@@ -213,7 +165,6 @@ var bible_chapter_verse_counts = {};
 </script>
 
 <script src="app/bible_browser/bible_browser_controller.js" type="text/javascript"></script>
-
 <script src="app/tags/tags_communication_controller.js" type="text/javascript"></script>
 <script src="app/tags/tags_controller.js" type="text/javascript"></script>
 <script src="app/ezra_init.js" type="text/javascript"></script>

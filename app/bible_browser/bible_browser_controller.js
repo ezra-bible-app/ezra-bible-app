@@ -675,12 +675,6 @@ function BibleBrowserController() {
     currentVerseListMenu.find('.export-tagged-verses-button').addClass('ui-state-disabled');
   };
 
-  this.update_verse_list_headline = function() {
-    var selected_tags = bible_browser_controller.tag_selection_menu.selected_tag_titles();
-
-    $('#tag-browser-verselist-header-content').html(gettext_strings.bible_verses_tagged_with + ": " + selected_tags);
-  };
-
   this.wrap_book_with_html = function(book_title) {
     return "<div class='tag-browser-verselist-book-header'>" + book_title + "</div>";
   };

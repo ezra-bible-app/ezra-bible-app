@@ -47,7 +47,8 @@ function TagsController() {
   this.selected_verse_references = new Array;
   this.selected_verse_boxes = new Array;
 
-  var new_meta_tag_dlg_options = {
+  // DISABLED - There are not meta tags for now
+  /*var new_meta_tag_dlg_options = {
     title: gettext_strings.new_meta_tag,
     width: 300,
     position: [60,180],
@@ -63,7 +64,7 @@ function TagsController() {
     tags_controller.save_new_tag(this, "meta");
   };
 
-  $('#new-meta-tag-dialog').dialog(new_meta_tag_dlg_options);
+  $('#new-meta-tag-dialog').dialog(new_meta_tag_dlg_options);*/
 
   var new_standard_tag_dlg_options = {
     title: i18n.t("tags.new-tag"),
@@ -83,7 +84,8 @@ function TagsController() {
 
   $('#new-standard-tag-dialog').dialog(new_standard_tag_dlg_options);
 
-  var new_book_tag_dlg_options = {
+  // DISABLED - There are no book tags for now
+  /*var new_book_tag_dlg_options = {
     title: gettext_strings.new_book_tag,
     width: 300,
     position: [60,180],
@@ -99,8 +101,10 @@ function TagsController() {
     tags_controller.save_new_tag(this, "book");
   };
 
-  $('#new-book-tag-dialog').dialog(new_book_tag_dlg_options);
+  $('#new-book-tag-dialog').dialog(new_book_tag_dlg_options);*/
 
+  // DISABLED - There are no meta tags for now
+  /*
   var delete_meta_tag_confirmation_dlg_options = {
     title: gettext_strings.delete_meta_tag,
     width: 300,
@@ -117,7 +121,7 @@ function TagsController() {
     tags_controller.delete_meta_tag_after_confirmation();
   };
 
-  $('#delete-meta-tag-confirmation-dialog').dialog(delete_meta_tag_confirmation_dlg_options);
+  $('#delete-meta-tag-confirmation-dialog').dialog(delete_meta_tag_confirmation_dlg_options);*/
 
   var delete_tag_confirmation_dlg_options = {
     title: i18n.t("tags.delete-tag"),
@@ -174,6 +178,8 @@ function TagsController() {
   };
   $('#rename-standard-tag-dialog').dialog(rename_standard_tag_dlg_options);
 
+  // DISABLED - There are no meta tags for now
+  /*
   var rename_meta_tag_dlg_options = {
     title: gettext_strings.rename_meta_tag,
     width: 300,
@@ -192,7 +198,7 @@ function TagsController() {
 
   this.new_meta_tag_button.bind('click', function() {
     tags_controller.handle_new_tag_button_click($(this), "meta");
-  });
+  });*/
 
   this.new_standard_tag_button.bind('click', function() {
     tags_controller.handle_new_tag_button_click($(this), "standard");
@@ -404,7 +410,7 @@ function TagsController() {
     }
 
     if (checkbox_is_checked) {
-      $(cb).attr('title', gettext_strings.remove_tag_assignment);
+      $(cb).attr('title', i18n.t("tags.remove-tag-assignment"));
 
       filteredVerseIds = [];
 
@@ -520,7 +526,7 @@ function TagsController() {
   this.remove_tag_assignment_after_confirmation = function() {
     var job = tags_controller.remove_tag_assignment_job;
 
-    job.cb.attr('title', gettext_strings.assign_tag);
+    job.cb.attr('title', i18n.t("tags.assign-tag"));
     job.checkbox_tag.append(tags_controller.loading_indicator);
 
     tags_controller.communication_controller.remove_tag_from_verses(job.id, job.verse_ids);
@@ -1202,7 +1208,8 @@ function TagsController() {
     return tag_array;
   };
 
-  this.html_code_for_meta_tag_child_tag = function(title,
+  // DISABLED - No metatags for now
+  /*this.html_code_for_meta_tag_child_tag = function(title,
                                                    id,
                                                    is_used_in_current_book,
                                                    book_assignment_count,
@@ -1230,7 +1237,7 @@ function TagsController() {
            "<span class=\"cb-label-tag-assignment-count\">(" + tag_counts + ")</span>" +
 
            "</div>";
-  };
+  };*/
 
   this.html_code_for_tag = function(title,
                                     id,
@@ -1255,9 +1262,6 @@ function TagsController() {
       meta_tag_html += "</div>";
     }
 
-    var meta_tag_assignment_icon = "ui-icon-circle-arrow-n";
-    var meta_tag_assignment_title = gettext_strings.add_tag_to_meta_tag;
-
     var used_in_book_class = (is_used_in_current_book ? "cb-label-assigned" : "");
     var meta_tag_assignment_state = (is_meta_tag_assigned_tag ? "" : "ui-state-disabled");
 
@@ -1275,11 +1279,14 @@ function TagsController() {
 
            meta_tag_html +
 
-           "<div title=\"" + gettext_strings.delete_tag_permanently + "\" " +
+           "<div title=\"" + i18n.t("tags.delete-tag-permanently") + "\" " +
            "class=\"tag-delete-button fg-button fg-button-icon-left ui-state-default ui-corner-all\">" +
            "<span class=\"ui-icon ui-icon-closethick\"></span></div>";
 
     /* Disabled for now (Meta tags not functional)
+    var meta_tag_assignment_icon = "ui-icon-circle-arrow-n";
+    var meta_tag_assignment_title = gettext_strings.add_tag_to_meta_tag;
+
     if (is_global) {
       complete_tag_html +=
            "<div title=\"" + meta_tag_assignment_title + "\" " +
@@ -1445,10 +1452,10 @@ function TagsController() {
 
     var selected_verse_tags = tags_controller.current_verse_selection_tags();
 
-    var selected_verses_content = gettext_strings.none;
+    var selected_verses_content = i18n.t("tags.none-selected");
 
     $('#app-container').find('.tag-cb').removeAttr('checked');
-    $('#app-container').find('.tag-cb').attr('title', gettext_strings.assign_tag);
+    $('#app-container').find('.tag-cb').attr('title', i18n.t("tags.assign-tag"));
     $('#app-container').find('.cb-label').removeClass('underline');
     $('#app-container').find('.cb-label-postfix').html('');
 
@@ -1934,7 +1941,8 @@ function TagsController() {
     configure_button_styles();
   };
 
-  this.show_meta_tag_list = function() {
+  // DISABLED - There are no meta tags for now
+  /*this.show_meta_tag_list = function() {
     $('#app-container').find('.meta-tag-assignment-button').addClass('ui-state-disabled');
 
     $('#opened-meta-tag-title').html("&nbsp;&nbsp;[" + gettext_strings.click_meta_tag_action_hint + "]");
@@ -1991,7 +1999,7 @@ function TagsController() {
     $('#app-container').find('.rename-meta-tag-label').bind('click', tags_controller.handle_rename_meta_tag_click__by_opening_rename_dialog);
     configure_button_styles('#meta-tag-content');
     configure_button_styles('#meta-tag-assigned-tags');
-  };
+  };*/
 
   this.showTagListLoadingIndicator = function() {
     var loadingIndicator = $('#tags-loading-indicator');

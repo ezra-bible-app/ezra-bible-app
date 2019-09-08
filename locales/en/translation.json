@@ -99,7 +99,10 @@
     "loading-tags": "Loading tags",
     "export-tagged-verse-list": "Export tagged verse list to Word document",
     "run-export": "Run export",
-    "tag-filter": "Filter: "
+    "tag-filter": "Filter: ",
+    "assign-tag": "Assign tag",
+    "delete-tag-permanently": "Delete this tag permanently",
+    "none-selected": "None"
   },
   "bible-browser": {
     "selection": "Selection: ",
