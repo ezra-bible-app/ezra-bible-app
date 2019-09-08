@@ -628,11 +628,14 @@ h2 {
   width: 6em;
   padding: 0.5em;
   cursor: pointer;
-  margin: 0 4px 0 0;
   position: relative;
   text-align: center;
   float: left;
   height: 1.1em;
+}
+
+.display-options-button {
+  width: 2em;
 }
 
 .fg-button {
