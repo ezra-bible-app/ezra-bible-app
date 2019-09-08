@@ -356,7 +356,7 @@ function bind_click_to_checkbox_labels()
 async function initI18N()
 {
   await i18nHelper.init();
-  await i18n.changeLanguage('de');
+  //await i18n.changeLanguage('de');
 
   reference_separator = i18n.t('general.chapter-verse-separator');
   $("body").localize();
