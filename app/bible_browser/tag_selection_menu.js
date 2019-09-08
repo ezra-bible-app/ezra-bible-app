@@ -178,7 +178,8 @@ class TagSelectionMenu {
   is_tag_selected(tag_title) {
     var currentTab = bible_browser_controller.tab_controller.getTab();
     var currentTagIdList = currentTab.getTagIdList();
-    if (currentTagIdList != null) {
+    var currentTextType = currentTab.getTextType();
+    if (currentTextType == 'tagged_verses' && currentTagIdList != null) {
       var currentTagTitleList = bible_browser_controller.tab_controller.getTab().getTagTitleList();
       if (currentTagTitleList != null) {
         var tag_list = currentTagTitleList.split(', ');
@@ -262,8 +263,8 @@ class TagSelectionMenu {
 
   updateTagSelectionMenu(tabIndex) {
     this.reset_tag_menu();
-    var currentTagTitleList = bible_browser_controller.tab_controller.getTab(tabIndex).getTagTitleList();
-    if (currentTagTitleList != "" && currentTagTitleList != null) {
+    var currentTextType = bible_browser_controller.tab_controller.getTab(tabIndex).getTextType();
+    if (currentTextType == 'tagged_verses') {
         this.request_tags_for_menu();
     }
   }
