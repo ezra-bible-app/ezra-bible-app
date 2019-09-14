@@ -92,6 +92,7 @@
     "all-tags": "Alle Tags",
     "assigned-tags": "Zugeordnete Tags",
     "unassigned-tags": "Nicht zugeordnete Tags",
+    "recently-used-tags": "Kürzlich verwendete Tags",
     "really-delete": "Möchten Sie den folgenden Tag wirklich löschen: ",
     "tag-info-would-be-deleted": "Die Tagdaten würden <b>für alle verknüpften Verse</b> gelöscht werden!",
     "really-remove-tag-assignment": "Möchten Sie den Tag &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; wirklich von den gewählten Versen entfernen?",

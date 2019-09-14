@@ -44,8 +44,11 @@ function TagsController() {
 
   this.meta_tag_opened = false;
 
-  this.selected_verse_references = new Array;
-  this.selected_verse_boxes = new Array;
+  this.selected_verse_references = [];
+  this.selected_verse_boxes = [];
+
+  this.oldest_recent_timestamp = null;
+  this.latest_timestamp = null;
 
   // DISABLED - There are not meta tags for now
   /*var new_meta_tag_dlg_options = {
@@ -410,6 +413,11 @@ function TagsController() {
     }
 
     if (checkbox_is_checked) {
+      // Update last used timestamp
+      var current_timestamp = new Date(Date.now()).getTime();
+      checkbox_tag.find('.last-used-timestamp').text(current_timestamp);
+      tags_controller.update_tag_timestamps();
+
       $(cb).attr('title', i18n.t("tags.remove-tag-assignment"));
 
       filteredVerseIds = [];
@@ -732,7 +740,8 @@ function TagsController() {
 
     var book_tags_existing = false;
     var current_filter = $('#tags-search-input').val();
-    var book_tag_statistics = new Array();
+    var book_tag_statistics = [];
+    var all_timestamps = [];
 
     for (var i = 0; i < tag_list.length; i++) {
       var current_tag = tag_list[i];
@@ -751,6 +760,10 @@ function TagsController() {
 
       var current_book_tag_assignment_count = current_tag.bookAssignmentCount;
       var current_global_tag_assignment_count = current_tag.globalAssignmentCount;
+      var last_used_timestamp = Date.parse(current_tag.lastUsed);
+      if (!Number.isNaN(last_used_timestamp) && !all_timestamps.includes(last_used_timestamp)) {
+        all_timestamps.push(last_used_timestamp);
+      }
 
       var is_used_in_current_book = (current_book_tag_assignment_count > 0) ? true : false;
       var is_meta_tag_assigned_tag = false;
@@ -771,6 +784,7 @@ function TagsController() {
                                           current_meta_tag_ids,
                                           current_book_tag_assignment_count,
                                           current_global_tag_assignment_count,
+                                          last_used_timestamp,
                                           visible);
 
       if (!current_tag_book_id_is_null)  {
@@ -800,11 +814,11 @@ function TagsController() {
       }
     }
 
-    this.new_tag_created = false;
+    tags_controller.update_tag_timestamps_from_list(all_timestamps);
 
+    this.new_tag_created = false;
     tags_controller.bind_tag_events();
     configure_button_styles('#tags-content');
-
     //tags_controller.update_tag_count_after_rendering(); // FIXME: to be integrated!
     tags_controller.update_tags_view_after_verse_selection(true);
     tags_controller.show_meta_tag_assigned_tags(tags_controller.current_meta_tag_id);
@@ -812,12 +826,42 @@ function TagsController() {
     await tags_controller.updateTagUiBasedOnTagAvailability();
 
     var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
-
     if (currentBook != null) {
       tags_controller.update_book_tag_statistics_box(book_tag_statistics);
     }
 
     tags_controller.hideTagListLoadingIndicator();
+  };
+
+  this.update_tag_timestamps = function() {
+    var tags_content_global = $('#tags-content-global');
+    var all_timestamp_elements = tags_content_global.find('.last-used-timestamp');
+    var all_timestamps = [];
+
+    for (var i = 0; i < all_timestamp_elements.length; i++) {
+      var current_timestamp = parseInt($(all_timestamp_elements[i]).text());
+
+      if (!all_timestamps.includes(current_timestamp) && !Number.isNaN(current_timestamp)) {
+        all_timestamps.push(current_timestamp);
+      }
+    }
+
+    tags_controller.update_tag_timestamps_from_list(all_timestamps);
+  };
+
+  this.update_tag_timestamps_from_list = function(all_timestamps) {
+    if (all_timestamps.length > 0) {
+      all_timestamps.sort();
+      var recent_timestamps_range = 10;
+      var last_element_index = all_timestamps.length - 1;
+      var oldest_recent_element_index = last_element_index - (recent_timestamps_range - 1);
+      if (oldest_recent_element_index < 0) {
+        oldest_recent_element_index = 0;
+      }
+
+      tags_controller.latest_timestamp = all_timestamps[last_element_index];
+      tags_controller.oldest_recent_timestamp = all_timestamps[oldest_recent_element_index];
+    }
   };
 
   this.update_book_tag_statistics_box = function(book_tag_statistics) {
@@ -1247,6 +1291,7 @@ function TagsController() {
                                     meta_tag_ids,
                                     book_assignment_count,
                                     global_assignment_count,
+                                    last_used_timestamp,
                                     visible) {
     var meta_tag_html = "";
 
@@ -1263,7 +1308,8 @@ function TagsController() {
     }
 
     var used_in_book_class = (is_used_in_current_book ? "cb-label-assigned" : "");
-    var meta_tag_assignment_state = (is_meta_tag_assigned_tag ? "" : "ui-state-disabled");
+    // Disabled for now (Meta tags not functional)
+    //var meta_tag_assignment_state = (is_meta_tag_assigned_tag ? "" : "ui-state-disabled");
 
     var style = "";
     if (!visible) {
@@ -1276,6 +1322,7 @@ function TagsController() {
            "<div class=\"is-global\">" + is_global + "</div>" +
            "<div class=\"book-assignment-count\">" + book_assignment_count + "</div>" +
            "<div class=\"global-assignment-count\">" + global_assignment_count + "</div>" +
+           "<div class=\"last-used-timestamp\">" + last_used_timestamp + "</div>" +
 
            meta_tag_html +
 
@@ -1467,8 +1514,7 @@ function TagsController() {
 
       for (var i = 0; i < checkbox_tags.length; i++) {
         var current_tag_element = $(checkbox_tags[i]);
-        var current_parent = current_tag_element.parent();
-        var current_tag_is_global = (current_tag_element.find('.is-global').html() == 'true');//(current_parent.attr('id') == 'tags-content-global');
+        var current_tag_is_global = (current_tag_element.find('.is-global').html() == 'true');
         var current_checkbox = current_tag_element.find('.tag-cb');
         var current_title_element = current_tag_element.find('.cb-label');
         var current_title = current_title_element.html();
@@ -1496,7 +1542,6 @@ function TagsController() {
       $('.tag-cb').css('opacity', '0.3');
     }
 
-    $('#tags-header').find('#selected-verses').html("");
     //$('#clippy-box').empty();
     var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
 
@@ -1853,6 +1898,25 @@ function TagsController() {
       case "unassigned":
         tags_content_global.find('.checkbox-tag').filter(function(id) {
           return ($(this).find('.book-assignment-count').text() != '0');
+        }).hide();
+        $('#filter-button-active').show();
+        break;
+      
+      case "recently-used":
+        tags_content_global.find('.checkbox-tag').filter(function(id) {
+          var tag_timestamp = parseInt($(this).find('.last-used-timestamp').text());
+
+          if (!Number.isNaN(tag_timestamp) &&
+              !Number.isNaN(tags_controller.latest_timestamp) &&
+              !Number.isNaN(tags_controller.oldest_recent_timestamp)) {
+            
+            var timestampInRange = (tag_timestamp >= tags_controller.oldest_recent_timestamp &&
+                                    tag_timestamp <= tags_controller.latest_timestamp);
+
+            return !timestampInRange;
+          } else {
+            return true;
+          }
         }).hide();
         $('#filter-button-active').show();
         break;

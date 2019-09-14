@@ -8,6 +8,7 @@ All notable changes to Ezra Project are documented in this file.
 * Internationalization support
 * German translation and handling of language-based chapter/verse separator for verse references
 * Use localized bible book names (based on SWORD translation functionality)
+* Added filter function "Recently used tags" to tags menu (filters the list to the last 10 used tags)
 
 ### Changed
 * Show bible translation id in tab titles
