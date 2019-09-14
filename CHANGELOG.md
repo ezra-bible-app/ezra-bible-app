@@ -10,7 +10,7 @@ All notable changes to Ezra Project are documented in this file.
 * Use localized bible book names (based on SWORD translation functionality)
 
 ### Enablers
-* Internationalization support
+* Internationalization support (using [I18next][i18next])
 
 ### Enhancements
 * Show bible translation id in tab titles
@@ -18,6 +18,7 @@ All notable changes to Ezra Project are documented in this file.
 ### Fixes
 * Also show currently selected verses in verse list mode (relevant for tagged verse lists or module search results)
 
+[i18next]: https://www.i18next.com
 -->
 
 ## [0.9.0] - 2019-08-23
