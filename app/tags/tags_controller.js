@@ -1509,6 +1509,7 @@ function TagsController() {
     if (tags_controller.selected_verse_boxes.length > 0) {
       $('#app-container').find('.tag-cb').removeAttr('disabled');
       $('#app-container').find('.tag-cb').css('opacity', '1.0');
+      bible_browser_controller.translationComparison.enableComparisonButton();
       
       var checkbox_tags = $('#app-container').find('.checkbox-tag');
 
@@ -1540,6 +1541,8 @@ function TagsController() {
       $('.tag-cb').attr('disabled', 'disabled');
       $('.tag-cb').attr('title', '');
       $('.tag-cb').css('opacity', '0.3');
+
+      bible_browser_controller.translationComparison.disableComparisonButton();
     }
 
     //$('#clippy-box').empty();
