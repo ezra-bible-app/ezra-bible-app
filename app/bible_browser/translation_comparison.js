@@ -55,19 +55,44 @@ class TranslationComparison {
     });
   };
 
+  async getVerseHtmlByTranslationId(translationId, verseBox) {
+    var currentBookId = parseInt(verseBox.find('.verse-bible-book-id').text());
+    var currentAbsoluteVerseNr = parseInt(verseBox.find('.abs-verse-nr').text());
+    var currentTranslationVerse = await models.Verse.findByAbsoluteVerseNr(translationId,
+                                                                           currentBookId,
+                                                                           currentAbsoluteVerseNr);
+    
+    var currentVerseReference = currentTranslationVerse.chapter + 
+                                reference_separator + 
+                                currentTranslationVerse.verseNr;
+                                
+    var verseHtml = "<div class='verse-box'>";
+    verseHtml += "<div class='verse-reference'><div class='verse-reference-content'>" + 
+                currentVerseReference + "</div></div>";
+    verseHtml += "<div class='verse-content'><div class='verse-text'>" + 
+                currentTranslationVerse.content + "</div></div>";
+    verseHtml += "</div>";
+
+    return verseHtml;
+  }
+
   async handleButtonClick() {
     var selectedVerseBoxes = tags_controller.selected_verse_boxes;
     var compareTranslationContent = "";
     var allTranslations = await models.BibleTranslation.getTranslations();
 
-    for (var i = 0; i < allTranslations.length; i++) {
-      var currentTranslationId = allTranslations[i];
-      var currentTranslationName = await models.BibleTranslation.getName(currentTranslationId);
-      compareTranslationContent += "<h2>" + currentTranslationName + "</h2>";
-    }
-
     if (selectedVerseBoxes.length > 0) {
+      for (var i = 0; i < allTranslations.length; i++) {
+        var currentTranslationId = allTranslations[i];
+        var currentTranslationName = await models.BibleTranslation.getName(currentTranslationId);
+        compareTranslationContent += "<h2>" + currentTranslationName + "</h2>";
 
+        for (var j = 0; j < selectedVerseBoxes.length; j++) {
+          var currentVerseBox = $(selectedVerseBoxes[j]);
+          var verseHtml = await this.getVerseHtmlByTranslationId(currentTranslationId, currentVerseBox);
+          compareTranslationContent += verseHtml;
+        }
+      }
     }
 
     this.getBoxContent().html(compareTranslationContent);
