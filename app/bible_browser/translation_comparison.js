@@ -26,6 +26,18 @@ class TranslationComparison {
     return $('#show-parallel-translations-button');
   }
 
+  getBox() {
+    return $('#compare-translations-box');
+  }
+
+  getBoxContent() {
+    return $('#compare-translations-box-content');
+  }
+
+  getSelectedVersesLabel() {
+    return $('#selected-verses').text();
+  }
+
   enableComparisonButton() {
     this.getButton().removeClass('ui-state-disabled');
   }
@@ -34,9 +46,8 @@ class TranslationComparison {
     this.getButton().addClass('ui-state-disabled');
   }
 
-
   initCompareTranslationsBox() {
-    $('#compare-translations-box').dialog({
+    this.getBox().dialog({
       width: 800,
       height: 500,
       autoOpen: false,
@@ -45,7 +56,21 @@ class TranslationComparison {
   };
 
   handleButtonClick() {
-    console.log('Compare translations!');
+    var selectedVerseBoxes = tags_controller.selected_verse_boxes;
+    var compareTranslationContent = "COMPARE TRANSLATIONS";
+
+    if (selectedVerseBoxes.length > 0) {
+
+    }
+
+    this.getBoxContent().html(compareTranslationContent);
+
+    var boxTitle = i18n.t("bible-browser.comparing-translations-for") + " " + this.getSelectedVersesLabel();
+    this.getBox().dialog({
+      title: boxTitle
+    });
+
+    this.getBox().dialog("open");
   }
 }
 
