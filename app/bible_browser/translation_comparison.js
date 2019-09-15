@@ -116,7 +116,7 @@ class TranslationComparison {
         var currentTranslationId = allTranslations[i];
         var currentTranslationName = await models.BibleTranslation.getName(currentTranslationId);
         compareTranslationContent += "<tr class='compare-translation-row'>";
-        compareTranslationContent += "<td style='width: 20em; padding: 0.5em;'>" + currentTranslationName + "</td>";
+        compareTranslationContent += "<td style='width: 16em; padding: 0.5em;'>" + currentTranslationName + "</td>";
         compareTranslationContent += "<td style='padding: 0.5em;'>";
 
         for (var j = 0; j < selectedVerseBoxes.length; j++) {
