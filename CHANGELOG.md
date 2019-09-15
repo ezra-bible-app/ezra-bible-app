@@ -6,6 +6,7 @@ All notable changes to Ezra Project are documented in this file.
 ### Features
 * Module search functionality (based on SWORD library search function)
 * Added filter function "Recently used tags" to tags menu (filters the tag list to the last 10 used tags)
+* Added translation comparison function. The user can now quickly retrieve the selected verses in all the different available translations (in a popup).
 * German translation and handling of language-based chapter/verse separator for verse references
 * Use localized bible book names (based on SWORD translation functionality)
 
