@@ -17,14 +17,35 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 class TranslationComparison {
-  constructor() {}
+  constructor() {
+    this.initCompareTranslationsBox();
+    this.getButton().bind('click', () => { this.handleButtonClick(); });
+  }
+
+  getButton() {
+    return $('#show-parallel-translations-button');
+  }
 
   enableComparisonButton() {
-    $('#show-parallel-translations-button').removeClass('ui-state-disabled');
+    this.getButton().removeClass('ui-state-disabled');
   }
 
   disableComparisonButton() {
-    $('#show-parallel-translations-button').addClass('ui-state-disabled');
+    this.getButton().addClass('ui-state-disabled');
+  }
+
+
+  initCompareTranslationsBox() {
+    $('#compare-translations-box').dialog({
+      width: 800,
+      height: 500,
+      autoOpen: false,
+      dialogClass: 'ezra-dialog'
+    });
+  };
+
+  handleButtonClick() {
+    console.log('Compare translations!');
   }
 }
 
