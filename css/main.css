@@ -1200,5 +1200,5 @@ h2 {
 }
 
 .compare-translation-row td {
-  border-bottom: 1px solid gray;
+  border-bottom: 1px dashed gray;
 }

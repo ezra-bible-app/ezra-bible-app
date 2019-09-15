@@ -108,14 +108,19 @@ class TranslationComparison {
 
   async handleButtonClick() {
     var selectedVerseBoxes = tags_controller.selected_verse_boxes;
-    var compareTranslationContent = "<table style='border-collapse: collapse;'>";
+    var compareTranslationContent = "<table>";
     var allTranslations = await models.BibleTranslation.getTranslations();
 
     if (selectedVerseBoxes.length > 0) {
       for (var i = 0; i < allTranslations.length; i++) {
         var currentTranslationId = allTranslations[i];
         var currentTranslationName = await models.BibleTranslation.getName(currentTranslationId);
-        compareTranslationContent += "<tr class='compare-translation-row'>";
+        var cssClass = '';
+        if (i < allTranslations.length - 1) {
+          cssClass = 'compare-translation-row';
+        }
+
+        compareTranslationContent += "<tr class='" + cssClass + "'>";
         compareTranslationContent += "<td style='width: 16em; padding: 0.5em;'>" + currentTranslationName + "</td>";
         compareTranslationContent += "<td style='padding: 0.5em;'>";
 
