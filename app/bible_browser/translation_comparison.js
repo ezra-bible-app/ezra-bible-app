@@ -19,7 +19,7 @@
 class TranslationComparison {
   constructor() {
     this.initCompareTranslationsBox();
-    this.getButton().bind('click', () => { this.handleButtonClick(); });
+    this.getButton().bind('click', async () => { await this.handleButtonClick(); });
   }
 
   getButton() {
@@ -55,9 +55,16 @@ class TranslationComparison {
     });
   };
 
-  handleButtonClick() {
+  async handleButtonClick() {
     var selectedVerseBoxes = tags_controller.selected_verse_boxes;
-    var compareTranslationContent = "COMPARE TRANSLATIONS";
+    var compareTranslationContent = "";
+    var allTranslations = await models.BibleTranslation.getTranslations();
+
+    for (var i = 0; i < allTranslations.length; i++) {
+      var currentTranslationId = allTranslations[i];
+      var currentTranslationName = await models.BibleTranslation.getName(currentTranslationId);
+      compareTranslationContent += "<h2>" + currentTranslationName + "</h2>";
+    }
 
     if (selectedVerseBoxes.length > 0) {
 
