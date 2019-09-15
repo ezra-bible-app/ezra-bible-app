@@ -742,7 +742,7 @@ h2 {
   margin: 0.4em;
 }
 
-#show-book-tag-statistics-button, .export-tagged-verses-button, .bible-translation-info-button, #start-module-search-button {
+#show-book-tag-statistics-button, #show-parallel-translations-button, .export-tagged-verses-button, .bible-translation-info-button, #start-module-search-button {
   margin-left: 1em;
   height: 2.2em;
 }

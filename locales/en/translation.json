@@ -2,7 +2,8 @@
   "tags-toolbar": {
     "new-tag": "New tag",
     "tag-statistics": "Tag statistics",
-    "configure-translations": "Configure translations"
+    "configure-translations": "Configure translations",
+    "show-parallel-translations": "Compare translations"
   },
   "verse-list-menu": {
     "book": "Book",
