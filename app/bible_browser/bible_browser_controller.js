@@ -169,9 +169,8 @@ function BibleBrowserController() {
     // Populate search menu based on last search (if any)
     bible_browser_controller.module_search.populateSearchMenu(ui.index);
 
-    bible_browser_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(ui.index);
-    bible_browser_controller.optionsMenu.showOrHideVerseTagsBasedOnOption(ui.index);
-    bible_browser_controller.optionsMenu.changeTagsLayoutBasedOnOption(ui.index);
+    // Refresh the view based on the options selected
+    bible_browser_controller.optionsMenu.refreshViewBasedOnOptions(ui.index);
   };
 
   this.onTabAdded = function(tabIndex=0) {

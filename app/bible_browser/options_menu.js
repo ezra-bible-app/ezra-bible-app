@@ -193,6 +193,12 @@ class OptionsMenu {
     }
   }
 
+  refreshViewBasedOnOptions(tabIndex=undefined) {
+    this.showOrHideSectionTitlesBasedOnOption(tabIndex);
+    this.showOrHideVerseTagsBasedOnOption(tabIndex);
+    this.changeTagsLayoutBasedOnOption(tabIndex);
+  }
+
   verseNotesSwitchChecked() {
     return $('#verse-notes-switch').attr('checked');
   }
