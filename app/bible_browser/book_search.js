@@ -78,7 +78,7 @@ class BookSearch {
   initGlobalShortCuts() {
     Mousetrap.bind('ctrl+f', () => {
       this.searchForm.show();
-      this.inputField.focus()
+      this.inputField.focus();
       return false;
     });
 
