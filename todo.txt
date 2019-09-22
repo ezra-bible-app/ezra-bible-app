@@ -43,8 +43,8 @@
 [x] Jumping to chapter does not work in German
 [x] Recently used tags (show the 10 last used tags)
 [x] Parallel translation display for current version selection
-[ ] Integration with Wikipedia for places (show links, show summaries from pages, ...)
 [ ] Implement "copy verse(s) to clipboard"
+[ ] Integration with Wikipedia for places (show links, show summaries from pages, ...)
 [ ] Tagged verse list sharing
 [ ] Refactor tags_controller
 [ ] Implement Sword module unlocking
