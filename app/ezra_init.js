@@ -52,6 +52,14 @@ String.prototype.trim = function() {
   return s;
 }
 
+function getLineBreak() {
+  if (process.platform === 'win32') {
+    return "\r\n";
+  } else {
+    return "\n";
+  }
+}
+
 function adapt_verse_list() {
   var currentVerseListComposite = bible_browser_controller.getCurrentVerseListComposite();
   var currentVerseListFrame = currentVerseListComposite.find('.verse-list-frame');
