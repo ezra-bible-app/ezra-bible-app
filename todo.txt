@@ -39,6 +39,7 @@
 [x] Fully tested Apple version
 [x] Fix node-sword-interface build on CentOS 7: Add self-compiled cmake to Docker
 ------
+[x] Localization support
 [x] Jumping to chapter does not work in German
 [x] Recently used tags (show the 10 last used tags)
 [x] Parallel translation display for current version selection
@@ -63,5 +64,4 @@
 ------
 [ ] X-Refs
 [ ] Strongs support
-[ ] Localization support
 
