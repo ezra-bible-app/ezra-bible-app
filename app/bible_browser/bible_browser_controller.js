@@ -769,7 +769,7 @@ function BibleBrowserController() {
       book_tag_statistics_button.addClass('events-configured');
     }
 
-    configure_button_styles('.tags-header');
+    configure_button_styles('#tags-header');
   };
 
   this.open_book_tag_statistics = function() {
