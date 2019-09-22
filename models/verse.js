@@ -83,13 +83,35 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  Verse.findByAbsoluteVerseNr = function(bibleTranslationId, bibleBookId, absoluteVerseNr) {
+    return models.BibleTranslation.findByPk(bibleTranslationId).then(bibleTranslation => {
+      var versificationPostfix = bibleTranslation.getVersificationPostfix();
+
+      var query = "SELECT v.*, " +
+                  " b.shortTitle as bibleBookShortTitle, " +
+                  " b.longTitle AS bibleBookLongTitle, " +
+                  " vr.id AS verseReferenceId" +
+                  " FROM Verses v" +
+                  " INNER JOIN BibleBooks b ON" +
+                  " v.bibleBookId = b.id" +
+                  " LEFT JOIN VerseReferences vr ON" +
+                  " vr.absoluteVerseNr" + versificationPostfix + "=v.absoluteVerseNr" +
+                  " AND vr.bibleBookId=v.bibleBookId" +
+                  " WHERE v.bibleTranslationId='" + bibleTranslationId + "'" +
+                  " AND v.bibleBookId=" + bibleBookId +
+                  " AND v.absoluteVerseNr=" + absoluteVerseNr + " LIMIT 1";
+
+      return sequelize.query(query, { model: models.Verse, raw: true, plain: true });
+    });
+  };
+
   Verse.prototype.getBibleTranslation = function() {
     return models.BibleTranslation.findByPk(this.bibleTranslationId);
-  }
+  };
 
   Verse.prototype.getBibleBook = function() {
     return models.BibleBook.findByPk(this.bibleBookId);
-  }
+  };
 
   Verse.prototype.getVerseReference = function() {
     return this.getBibleTranslation().then(bibleTranslation => {

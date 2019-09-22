@@ -22,7 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     bibleBookId: DataTypes.INTEGER,
     globalAssignmentCount: DataTypes.VIRTUAL,
-    bookAssignmentCount: DataTypes.VIRTUAL
+    bookAssignmentCount: DataTypes.VIRTUAL,
+    lastUsed: DataTypes.VIRTUAL
   }, {});
 
   Tag.associate = function(models) {

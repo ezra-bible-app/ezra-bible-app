@@ -2,7 +2,8 @@
   "tags-toolbar": {
     "new-tag": "Neuer Tag",
     "tag-statistics": "Tag Statistiken",
-    "configure-translations": "Übersetzungen konfigurieren"
+    "configure-translations": "Übersetzungen konfigurieren",
+    "show-parallel-translations": "Übersetzungen vergleichen"
   },
   "verse-list-menu": {
     "book": "Buch",
@@ -92,6 +93,7 @@
     "all-tags": "Alle Tags",
     "assigned-tags": "Zugeordnete Tags",
     "unassigned-tags": "Nicht zugeordnete Tags",
+    "recently-used-tags": "Kürzlich verwendete Tags",
     "really-delete": "Möchten Sie den folgenden Tag wirklich löschen: ",
     "tag-info-would-be-deleted": "Die Tagdaten würden <b>für alle verknüpften Verse</b> gelöscht werden!",
     "really-remove-tag-assignment": "Möchten Sie den Tag &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; wirklich von den gewählten Versen entfernen?",
@@ -117,6 +119,7 @@
     "show-section-titles": "Zeige Überschriften",
     "show-tags": "Zeige Tags",
     "use-tags-column": "Tags in Spalte",
-    "tag-statistics": "Tag Statistiken"
+    "tag-statistics": "Tag Statistiken",
+    "comparing-translations-for": "Vergleiche Übersetzungen für"
   }
 }

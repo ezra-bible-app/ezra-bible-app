@@ -28,6 +28,7 @@ const TaggedVerseExport = require('./app/bible_browser/tagged_verse_export.js');
 const BibleBrowserCommunicationController = require('./app/bible_browser/bible_browser_communication_controller.js');
 const LanguageMapper = require('./app/bible_browser/language_mapper.js');
 const OptionsMenu = require('./app/bible_browser/options_menu.js');
+const TranslationComparison = require('./app/bible_browser/translation_comparison.js');
 const Mousetrap = require('mousetrap');
 const { clipboard } = require('electron');
 
@@ -105,6 +106,7 @@ function BibleBrowserController() {
     this.optionsMenu = new OptionsMenu();
     this.navigation_pane = new NavigationPane();
     this.taggedVerseExport = new TaggedVerseExport();
+    this.translationComparison = new TranslationComparison();
 
     this.init_book_selection_menu();
     // Not used

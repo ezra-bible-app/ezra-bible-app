@@ -155,7 +155,7 @@ class NavigationPane {
     var reference = '#top';
 
     if (chapter > 1) {
-      reference = '#' + currentTabId + ' ' + chapter + ':1';
+      reference = '#' + currentTabId + ' ' + chapter + reference_separator + '1';
       window.location = reference;
     } else {
       var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame();

@@ -101,8 +101,6 @@ class BibleBrowserCommunicationController {
     //console.log("Finding verses by search result!");
     var verses = [];
 
-    var firstBookId = models.BibleTranslation.swordBooktoEzraBook(search_results[0].bibleBookShortTitle);
-
     for (var i = 0; i < search_results.length; i++) {
       var currentResult = search_results[i];
       var currentBookId = models.BibleTranslation.swordBooktoEzraBook(search_results[i].bibleBookShortTitle);

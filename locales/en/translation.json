@@ -2,7 +2,8 @@
   "tags-toolbar": {
     "new-tag": "New tag",
     "tag-statistics": "Tag statistics",
-    "configure-translations": "Configure translations"
+    "configure-translations": "Configure translations",
+    "show-parallel-translations": "Compare translations"
   },
   "verse-list-menu": {
     "book": "Book",
@@ -92,6 +93,7 @@
     "all-tags": "All tags",
     "assigned-tags": "Assigned tags",
     "unassigned-tags": "Unassigned tags",
+    "recently-used-tags": "Recently used tags",
     "really-delete": "Do you really want to delete the following tag: ",
     "tag-info-would-be-deleted": "The tag information would be deleted <b>for all associated verses!</b>",
     "really-remove-tag-assignment": "Do you really want to remove the tag &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; from the selected verses?",
@@ -117,6 +119,7 @@
     "show-section-titles": "Show section titles",
     "show-tags": "Show tags",
     "use-tags-column": "Use tags column",
-    "tag-statistics": "tag statistics"
+    "tag-statistics": "tag statistics",
+    "comparing-translations-for": "Comparing translations for"
   }
 }

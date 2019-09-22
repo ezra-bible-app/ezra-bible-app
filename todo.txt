@@ -1,0 +1,67 @@
+[x] Offset handling for different versifications
+[x] Install translations
+[x] Uninstall translations
+[x] Add help text for empty tag list
+[x] Build for Windows
+[x] Detect the books that a translation contains and disable other books in the book selection menu
+-----
+[x] Add global search
+[x] Add global loading indicator
+[x] Fix highlighNavElement in regard to different tabs used (idea: Introduce new class that holds state for individual tabs)
+[x] Highlight search results in navigation pane
+[x] Show bible module information
+[x] Implement export of tagged verses list
+[x] Fix init_verse_expand_box / verse_expand_box for 2nd/3rd tab ...
+[x] Add "Add tab button"
+[x] Isolate tag list related functionality in a separate module
+[x] Better language code handling
+[x] Synchronize against already installed SWORD modules upon startup
+[x] Better sword.conf handling on Linux
+------
+[x] Only disable close button of first tab when it's the last one
+[x] Reduce font-size of tag selection menu
+[x] Correct path setting on Linux
+[x] Correct path setting on Windows
+[x] Fix bug: Remember the last selected bible translation and set that as default
+[x] Add loading indicator for tag list
+[x] Delete sqlite build/source files in release
+[x] Visualize current book in book selection menu
+[x] Add possibility for showing tags in a separate column next to the text
+[x] Sword module info: Add information on whether module is global or user module
+[x] Signed package for Mac
+[x] Installer for Windows
+[x] Remove the possibility of uninstalling global modules (It's not possible as a user anyway!)
+[x] Provide translation info before installing a module
+[x] Correct/update package dependencies
+[x] Tag amount displayed in tagged verses popup
+[x] Fix bug: Tab is renamed to -------- after renaming of tag
+[x] Add Sword version somewhere (About?)
+[x] Fully tested Apple version
+[x] Fix node-sword-interface build on CentOS 7: Add self-compiled cmake to Docker
+------
+[x] Localization support
+[x] Jumping to chapter does not work in German
+[x] Recently used tags (show the 10 last used tags)
+[x] Parallel translation display for current version selection
+[ ] Implement "copy verse(s) to clipboard"
+[ ] Integration with Wikipedia for places (show links, show summaries from pages, ...)
+[ ] Tagged verse list sharing
+[ ] Refactor tags_controller
+[ ] Implement Sword module unlocking
+[ ] Signed Windows installer
+[ ] Update tag statistics when adding tags
+[ ] Highlight module search results
+[ ] Put in-place search menu as a wider horizontal bar below the bible text
+[ ] Integrate sqlite VACUUM sql command
+[ ] Optimize startup time using V8 snapshots: http://peterforgacs.github.io/2018/09/12/How-to-create-a-V8-snapshot-of-your-javascript-file/
+------
+[ ] Synchronize tags across tabs
+[ ] Add 'x' to search input field
+[ ] Do not show navigationPane initially
+[ ] Remove double paragraph's in translation infos
+[ ] Filter out double tags (still valid??)
+
+------
+[ ] X-Refs
+[ ] Strongs support
+

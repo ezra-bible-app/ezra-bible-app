@@ -272,7 +272,7 @@ a.outline-reference:focus, a.outline-reference:hover {
   width: 16em;
 }
  
-.checkbox-tag-id, .book-assignment-count, .global-assignment-count {
+.checkbox-tag-id, .book-assignment-count, .global-assignment-count, .last-used-timestamp {
   display: none;
 }
 

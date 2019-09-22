@@ -36,6 +36,7 @@ Furthermore, the following components are used (among others):
 * [ISO-639-3](https://github.com/wooorm/iso-639-3) for turning bible translation language codes into readable language names
 * [officegen](https://github.com/Ziv-Barber/officegen) for exporting tagged verse lists to Word documents
 * [SpinKit](https://github.com/tobiasahlin/SpinKit) for CSS-animated loading spinners
+* [I18next](https://www.i18next.com/) for internationalization
 
 To package Ezra Project, the following components are used:
 * [electron-packager](https://github.com/electron/electron-packager)

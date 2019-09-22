@@ -3,22 +3,27 @@ All notable changes to Ezra Project are documented in this file.
 
 <!--
 ## [Unreleased]
-### Added
+### Features
 * Module search functionality (based on SWORD library search function)
-* Internationalization support
+* Added filter function "Recently used tags" to tags menu (filters the tag list to the last 10 used tags)
+* Added translation comparison function. The user can now quickly retrieve the selected verses in all the different available translations (in a popup).
 * German translation and handling of language-based chapter/verse separator for verse references
 * Use localized bible book names (based on SWORD translation functionality)
 
-### Changed
+### Enablers
+* Internationalization support (using [I18next][i18next])
+
+### Enhancements
 * Show bible translation id in tab titles
 
-### Fixed
+### Fixes
 * Also show currently selected verses in verse list mode (relevant for tagged verse lists or module search results)
 
+[i18next]: https://www.i18next.com
 -->
 
 ## [0.9.0] - 2019-08-23
-### Added
+### Features
 * Tags can now be shown in a column next to the bible text. This is particularly useful when having a lot of tags, as it
   gives more overview and makes it easier to focus on the text.
 * Section titles (from SWORD modules) can now be shown/hidden based on an option in the menu.
@@ -31,14 +36,14 @@ All notable changes to Ezra Project are documented in this file.
   - Debian 10 package
   - Linux Mint 18 package
 
-### Changed
+### Enhancements
 * Added module location as another attribute to module information dialog
 * Show number of tagged verses in title of tagged verse list popup
 * Show SWORD version in bible module info dialogue
 * Added Windows build instructions ([#2][i2])
 * Upgraded Electron from 4.2.6 to 4.2.9
 
-### Fixed
+### Fixes
 * Corrected bug with Sword paths on Windows and Unix. Now both the user path and the global path gets evaluated correctly both on Windows and on Unix.
 * Only disable close button of first tab when it's the last one
 * Remember the last selected bible translation and set that as a default for new tabs
@@ -49,16 +54,16 @@ All notable changes to Ezra Project are documented in this file.
 [i2]: https://github.com/tobias-klein/ezra-project/issues/2
 
 ## [0.8.1] - 2019-06-21
-### Added
+### Features
 * Sync functionality for Sword modules that are already existing locally: On startup any modules not yet used by Ezra Project are imported into the database.
 
-### Changed
+### Enhancements
 * Link with static Sword library (version 1.8.1), so that dependency to specific Sword package can be avoided.
 * Streamlined startup
   * Upgrade the database using migrations (based on Umzug library)
   * Loading indicator for slower systems
 
-### Fixed
+### Fixes
 * sword.conf file is not created anymore. This "overwrote" the Sword module path in the previous releases. On Windows, modules are found both in the user directory and the "all users" directory. ([#5][i5])
 * Support for all languages of ISO-639-1/2/3. This enables the usage of all the available Sword modules.
 
@@ -66,7 +71,7 @@ All notable changes to Ezra Project are documented in this file.
 
 
 ## [0.8.0] - 2019-05-30
-### Added
+### Features
 * Tabbed user interface
   * Each tab can hold Bible text or tagged verse lists
   * Tabs are saved after every change and loaded when starting Ezra Project
@@ -81,29 +86,29 @@ All notable changes to Ezra Project are documented in this file.
   * Shows chapters in case of a Bible book
   * Shows Bible books in case of a tagged verse list
 
-### Changed
+### Enhancements
 * Optimized language display in Bible installation wizard: Shows languages in multiple columns
 * Optimized formatting for Bible book selection menu
 * Usability: Verses can now be tagged/untagged also by clicking on the tag label (before this only worked with the checkbox)
 
-### Fixed
+### Fixes
 * Improved tag loading from database making performance in loading big books (like Psalms) significantly better
 
 
 ## [0.7.1] - 2019-02-24
-### Added
+### Features
 * Windows support
 
-### Changed
+### Enhancements
 * Improved layout of toolbar
 * Automatic detection of books available in the current Bible translation, with adaption of the book selection menu
 
-### Fixed
+### Fixes
 * Improved performance for Bible installation wizard (UI does not block anymore for certain actions)
 
 ## [0.6.0] - 2019-02-03
 This is the initial public release of Ezra Project for the Linux desktop.
-### Added
+### Features
 * Add/remove Bible translations from SWORD repositories
 * Browse Bible books
 * Create tags and assign them to verses
