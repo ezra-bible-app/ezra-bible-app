@@ -780,6 +780,7 @@ function BibleBrowserController() {
     var currentBookName = bible_browser_controller.get_book_long_title(currentBook);
 
     $('#book-tag-statistics-box').dialog({
+      dialogClass: 'ezra-dialog',
       position: [verse_list_position.left + 50, verse_list_position.top + 50],
       width: 350,
       title: currentBookName + ' - ' + i18n.t("bible-browser.tag-statistics")
