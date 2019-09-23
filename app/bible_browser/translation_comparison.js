@@ -40,6 +40,7 @@ class TranslationComparison {
 
   enableComparisonButton() {
     this.getButton().removeClass('ui-state-disabled');
+    configure_button_styles('#tags-toolbar');
   }
 
   disableComparisonButton() {
