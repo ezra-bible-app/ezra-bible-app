@@ -116,6 +116,7 @@ class NavigationPane {
   resetNavigationPane(tabIndex) {
     var navigationPane = this.getCurrentNavigationPane(tabIndex);
     navigationPane.children().remove();
+    navigationPane.show();
   }
 
   updateNavigation(tabIndex=undefined) {

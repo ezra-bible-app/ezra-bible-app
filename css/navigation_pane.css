@@ -26,6 +26,7 @@
   border: 1px solid #DDDDDD;
   border-radius: 6px;
   user-select: none;
+  display: none;
 }
 
 .navigation-pane-chapters {
