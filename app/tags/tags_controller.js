@@ -1075,7 +1075,10 @@ function TagsController() {
       $('#verse-expand-box').hide();
     }).addClass('tag-events-configured');
 
-    $('.verse-content').bind('mouseover', function() {
+    // The following classes are representing the elements that will cause the the verse expand box to disappear when hovering over them
+    var mouseOverHideClasses = '.verse-content, .tag-info, .navigation-pane, .tag-browser-verselist-book-header, .verse-list-menu';
+
+    $(mouseOverHideClasses).bind('mouseover', function() {
       tags_controller.hide_verse_expand_box();
     }).addClass('tag-events-configured');
   };
