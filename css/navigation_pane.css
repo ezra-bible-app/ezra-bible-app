@@ -33,7 +33,7 @@
 }
 
 .navigation-pane-books {
-  width: 14em;
+  min-width: 10em;
 }
 
 .navigation-pane::-webkit-scrollbar {
