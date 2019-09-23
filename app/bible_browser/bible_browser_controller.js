@@ -109,8 +109,6 @@ function BibleBrowserController() {
     this.translationComparison = new TranslationComparison();
 
     this.init_book_selection_menu();
-    // Not used
-    //this.init_display_options_menu();
     this.init_tag_reference_box();
     this.init_bible_translation_info_box();
     this.init_bible_sync_box();
