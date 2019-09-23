@@ -43,21 +43,22 @@
 [x] Jumping to chapter does not work in German
 [x] Recently used tags (show the 10 last used tags)
 [x] Parallel translation display for current version selection
-[ ] Implement "copy verse(s) to clipboard"
+[x] Implement "copy verse(s) to clipboard"
+[x] Update tag statistics when adding tags
+[x] Do not show navigationPane initially
+[x] Hide verse context button also when leaving the button towards the left side
+[ ] Put in-place search menu as a wider horizontal bar below the bible text
 [ ] Integration with Wikipedia for places (show links, show summaries from pages, ...)
 [ ] Tagged verse list sharing
 [ ] Refactor tags_controller
 [ ] Implement Sword module unlocking
 [ ] Signed Windows installer
-[ ] Update tag statistics when adding tags
 [ ] Highlight module search results
-[ ] Put in-place search menu as a wider horizontal bar below the bible text
 [ ] Integrate sqlite VACUUM sql command
 [ ] Optimize startup time using V8 snapshots: http://peterforgacs.github.io/2018/09/12/How-to-create-a-V8-snapshot-of-your-javascript-file/
 ------
 [ ] Synchronize tags across tabs
 [ ] Add 'x' to search input field
-[ ] Do not show navigationPane initially
 [ ] Remove double paragraph's in translation infos
 [ ] Filter out double tags (still valid??)
 
