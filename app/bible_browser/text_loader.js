@@ -25,6 +25,11 @@ class TextLoader {
     bible_browser_controller.navigation_pane.initNavigationPaneForCurrentView(tabIndex);
     tags_controller.clear_verse_selection();
 
+    var textType = bible_browser_controller.tab_controller.getTab(tabIndex).getTextType();    
+    if (textType != 'book') {
+      bible_browser_controller.clearSelectedBookInMenu();
+    }
+
     if (resetView) {
       bible_browser_controller.resetVerseListView();
       bible_browser_controller.showVerseListLoadingIndicator();
@@ -39,10 +44,6 @@ class TextLoader {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     var buttons = currentVerseListMenu.find('.fg-button');
     buttons.removeClass('focused-button');
-
-    if (textType != 'book') {
-      bible_browser_controller.clearSelectedBookInMenu();
-    }
 
     if (textType == 'book') { // Book text mode
       $('#export-tagged-verses-button').addClass('ui-state-disabled');
