@@ -40,6 +40,10 @@ class TextLoader {
     var buttons = currentVerseListMenu.find('.fg-button');
     buttons.removeClass('focused-button');
 
+    if (textType != 'book') {
+      bible_browser_controller.clearSelectedBookInMenu();
+    }
+
     if (textType == 'book') { // Book text mode
       $('#export-tagged-verses-button').addClass('ui-state-disabled');
       bible_browser_controller.translation_controller.initChapterVerseCounts();

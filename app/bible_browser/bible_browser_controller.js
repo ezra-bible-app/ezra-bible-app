@@ -163,8 +163,12 @@ function BibleBrowserController() {
     // Update available books for current translation
     bible_browser_controller.translation_controller.updateAvailableBooks(ui.index);
 
-    // Highlight currently selected book
-    bible_browser_controller.highlightCurrentlySelectedBookInMenu(ui.index);
+    // Highlight currently selected book (only in book mode)
+    bible_browser_controller.clearSelectedBookInMenu();
+    var textType = bible_browser_controller.tab_controller.getTab(ui.index).getTextType();
+    if (textType == 'book') {
+      bible_browser_controller.highlightCurrentlySelectedBookInMenu(ui.index);
+    }
 
     // Toggle book statistics
     bible_browser_controller.toggle_book_tags_statistics_button(ui.index);
