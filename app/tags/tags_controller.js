@@ -1711,7 +1711,8 @@ function TagsController() {
   
     var passage = start_chapter + reference_separator + start_verse;
   
-    if (start_verse == "1" &&
+    if (book_short_title != null &&
+        start_verse == "1" &&
         end_verse == bible_chapter_verse_counts[book_short_title][end_chapter]) {
   
       /* Whole chapter sections */
