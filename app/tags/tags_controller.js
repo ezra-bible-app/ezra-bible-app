@@ -211,6 +211,14 @@ function TagsController() {
     tags_controller.handle_new_tag_button_click($(this), "book");
   });
 
+  // Handle the enter key in the tag title field and create the tag when it is pressed
+  $('#new-standard-tag-title-input:not(.bound)').addClass('bound').on("keypress", (event) => {
+    if (event.which == 13) {
+      $('#new-standard-tag-dialog').dialog("close");
+      tags_controller.save_new_tag(event, "standard");
+    }
+  });
+
   this.close_dialog_and_rename_standard_tag = function() {
     $('#rename-standard-tag-dialog').dialog('close');
     var new_title = $('#rename-standard-tag-title-input').val();
