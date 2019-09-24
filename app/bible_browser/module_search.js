@@ -29,7 +29,15 @@ class ModuleSearch {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.module-search-button').bind('click', (event) => { this.handle_search_menu_click(event); });
     
+    // Handle the click on the search button
     $('#start-module-search-button:not(.bound)').addClass('bound').bind('click', (event) => { this.start_search(event); });
+
+    // Handle the enter key in the search field and start the search when it is pressed
+    $('#module-search-input:not(.bound)').addClass('bound').on("keypress", (event) => {
+      if (event.which == 13) {
+        this.start_search(event);
+      }
+    });
   }
 
   hide_search_menu() {
