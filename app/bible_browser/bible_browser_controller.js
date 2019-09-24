@@ -115,28 +115,29 @@ function BibleBrowserController() {
     this.initGlobalShortCuts();
   };
 
-  this.onSearchResultsAvailable = function(occurances) {
+  this.onSearchResultsAvailable = async function(occurances) {
     for (var i = 0; i < occurances.length; i++) {
       var currentOccurance = $(occurances[i]);
       var verseBox = currentOccurance.closest('.verse-box');
       var currentTab = bible_browser_controller.tab_controller.getTab();
-      var currentBook = currentTab.getBook();
-      var currentTagIdList = currentTab.getTagIdList();
+      var currentTextType = currentTab.getTextType();
 
-      if (currentBook != null) {
+      if (currentTextType == 'book') {
         // Highlight chapter if we are searching in a book
 
         var verseReferenceContent = verseBox.find('.verse-reference-content').text();
         var chapter = bible_browser_controller.getChapterFromReference(verseReferenceContent);
         bible_browser_controller.navigation_pane.highlightSearchResult(chapter);
 
-      } else if (currentTagIdList != null) {
+      } else {
 
         // Highlight bible book if we are searching in a tagged verses list
-        var book = verseBox.find('.verse-bible-book-short').text();
-        var bibleBookLongTitle = bible_browser_controller.get_book_long_title(book);
-        
-        var bibleBookNumber = bible_browser_controller.getTaggedVerseListBookNumber(bibleBookLongTitle);
+        var currentBookId = parseInt(verseBox.find('.verse-bible-book-id').text());
+        var currentBibleBookShortName = await models.BibleBook.getShortTitleById(currentBookId);
+        var currentBookLongTitle = bible_browser_controller.get_book_long_title(currentBibleBookShortName);
+        var currentBookName = i18nHelper.getSwordTranslation(currentBookLongTitle);
+
+        var bibleBookNumber = bible_browser_controller.getTaggedVerseListBookNumber(currentBookName);
         if (bibleBookNumber != -1) {
           bible_browser_controller.navigation_pane.highlightSearchResult(bibleBookNumber);
         }
@@ -556,7 +557,7 @@ function BibleBrowserController() {
       var currentBookHeader = $(bookHeaders[i]);
       var currentBookHeaderText = currentBookHeader.text();
 
-      if (currentBookHeaderText == bibleBookLongTitle) {
+      if (currentBookHeaderText.includes(bibleBookLongTitle)) {
         bibleBookNumber = i + 1;
         break;
       }
