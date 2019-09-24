@@ -22,7 +22,7 @@ class ModuleSearch {
   constructor() {
     this.currentSearchTerm = null;
     this.search_menu_opened = false;
-    this._nodeSwordInterface = null;
+    this._nodeSwordInterface = new NodeSwordInterface();
   }
 
   init_module_search_menu(tabIndex=undefined) {
@@ -125,11 +125,7 @@ class ModuleSearch {
     if (event != null) {
       event.stopPropagation();
     }
-
-    if (this._nodeSwordInterface == null) {
-      this._nodeSwordInterface = new NodeSwordInterface();
-    }
-
+    
     if (searchTerm !== undefined) {
       this.currentSearchTerm = searchTerm;
     } else {
