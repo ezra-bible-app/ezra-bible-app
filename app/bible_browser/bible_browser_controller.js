@@ -116,6 +116,9 @@ function BibleBrowserController() {
   };
 
   this.onSearchResultsAvailable = async function(occurances) {
+    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame();
+    var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
+
     for (var i = 0; i < occurances.length; i++) {
       var currentOccurance = $(occurances[i]);
       var verseBox = currentOccurance.closest('.verse-box');
@@ -137,12 +140,11 @@ function BibleBrowserController() {
         var currentBookLongTitle = bible_browser_controller.get_book_long_title(currentBibleBookShortName);
         var currentBookName = i18nHelper.getSwordTranslation(currentBookLongTitle);
 
-        var bibleBookNumber = bible_browser_controller.getTaggedVerseListBookNumber(currentBookName);
+        var bibleBookNumber = bible_browser_controller.getVerseListBookNumber(currentBookName, bookHeaders);
         if (bibleBookNumber != -1) {
           bible_browser_controller.navigation_pane.highlightSearchResult(bibleBookNumber);
         }
       }
-
     }
   };
 
@@ -548,10 +550,13 @@ function BibleBrowserController() {
     currentVerseList.find('.verse-box').bind('mouseover', bible_browser_controller.onVerseBoxMouseOver);
   };
 
-  this.getTaggedVerseListBookNumber = function(bibleBookLongTitle) {
+  this.getVerseListBookNumber = function(bibleBookLongTitle, bookHeaders=undefined) {
     var bibleBookNumber = -1;
-    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame();
-    var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
+
+    if (bookHeaders === undefined) {
+      var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame();
+      bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
+    }
 
     for (var i = 0; i < bookHeaders.length; i++) {
       var currentBookHeader = $(bookHeaders[i]);
@@ -583,7 +588,7 @@ function BibleBrowserController() {
       var mouseOverBook = $(this).find('.verse-bible-book-short').text();
       var bibleBookLongTitle = bible_browser_controller.get_book_long_title(mouseOverBook);
       
-      var bibleBookNumber = bible_browser_controller.getTaggedVerseListBookNumber(bibleBookLongTitle);
+      var bibleBookNumber = bible_browser_controller.getVerseListBookNumber(bibleBookLongTitle);
       if (bibleBookNumber != -1) {
         bible_browser_controller.navigation_pane.highlightNavElement(bibleBookNumber);
       }
