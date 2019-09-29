@@ -348,10 +348,9 @@ class TranslationController {
 
     if (modulesNotInstalled.length > 0) {
       for (var i = 0; i < modulesNotInstalled.length; i++) {
-        try {
-          this.nodeSwordInterface.getRepoModule(modulesNotInstalled[i]);
+        if (this.nodeSwordInterface.isModuleAvailableInRepo(modulesNotInstalled[i])) {
           modulesAvailable.push(modulesNotInstalled[i]);
-        } catch (e) {
+        } else {
           console.log("Module " + modulesNotInstalled[i] + " is not available from any repository!");
         }
       }
