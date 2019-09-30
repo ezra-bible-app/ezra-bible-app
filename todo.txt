@@ -47,6 +47,13 @@
 [x] Update tag statistics when adding tags
 [x] Do not show navigationPane initially
 [x] Hide verse context button also when leaving the button towards the left side
+[x] Do not show a book in the book selection menu anymore when a tagged verse list or search results are shown
+[x] Fix tags_controller.format_passage_reference_for_view for tags / search mode
+[x] Focus input field when opening module search menu
+[x] Respond to enter/return key in module search form
+[x] Respond to enter/return key in new tag form
+[x] Properly highlight search results in in-place search when using a tagged verse list or search results
+[ ] Add options to book search (case sensitivity, multi word)
 [ ] Put in-place search menu as a wider horizontal bar below the bible text
 [ ] Integration with Wikipedia for places (show links, show summaries from pages, ...)
 [ ] Tagged verse list sharing
