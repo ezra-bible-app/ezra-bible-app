@@ -385,6 +385,45 @@ class TranslationController {
     htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
   }
 
+  async sync_sword_modules() {
+    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+    var verse_list_position = currentVerseList.offset();
+    $('#bible-sync-box').dialog({
+      position: [verse_list_position.left + 50, verse_list_position.top + 30]
+    });
+
+    if (!this.nodeSwordInterface.repositoryConfigExisting()) {
+      $('#bible-sync-box').dialog("open");
+      $('#bible-sync-box').append('<p>' + i18n.t('translation-wizard.updating-repository-data') + '</p>');
+
+      await this.nodeSwordInterface.updateRepositoryConfig();
+    }
+
+    //console.log("Getting local modules not yet available in db ...");
+    var modulesNotInDb = await this.getLocalModulesNotYetAvailableInDb();
+    //console.log("Finding not installed, but available modules ...");
+    var notInstalledButAvailableModules = await this.getNotInstalledButAvailableModules();
+
+    if (modulesNotInDb.length > 0 || notInstalledButAvailableModules.length > 0) {
+      $('#bible-sync-box').dialog("open");
+      await this.sleep(200);
+    }
+
+    if (modulesNotInDb.length > 0) {
+      await this.syncDbWithSwordModules($('#bible-sync-box'));
+    }
+
+    if (notInstalledButAvailableModules.length > 0) {
+      await this.syncSwordInstallationWithDb($('#bible-sync-box'));
+    }
+
+    if (modulesNotInDb.length > 0 || notInstalledButAvailableModules.length > 0) {
+      await this.sleep(2000);
+    }
+
+    $('#bible-sync-box').dialog("close");
+  }
+
   getCurrentBibleTranslationLoadingIndicator() {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
     var loadingIndicator = currentVerseListMenu.find('.loader');

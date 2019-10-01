@@ -26,6 +26,7 @@ function BibleBrowserController() {
   this.current_cr_verse_id = null;
   this.communication_controller = new BibleBrowserCommunicationController();
 
+  // not used??
   this.get_book_short_title = function(book_long_title) {
     for (var i = 0; i < bible_books.length; i++) {
       var current_book = bible_books[i];
@@ -671,45 +672,6 @@ function BibleBrowserController() {
       width: 350,
       title: currentBookName + ' - ' + i18n.t("bible-browser.tag-statistics")
     });
-  };
-
-  this.sync_sword_modules = async function() {
-    var currentVerseList = bible_browser_controller.getCurrentVerseList();
-    var verse_list_position = currentVerseList.offset();
-    $('#bible-sync-box').dialog({
-      position: [verse_list_position.left + 50, verse_list_position.top + 30]
-    });
-
-    if (!bible_browser_controller.translation_controller.nodeSwordInterface.repositoryConfigExisting()) {
-      $('#bible-sync-box').dialog("open");
-      $('#bible-sync-box').append('<p>' + i18n.t('translation-wizard.updating-repository-data') + '</p>');
-
-      await bible_browser_controller.translation_controller.nodeSwordInterface.updateRepositoryConfig();
-    }
-
-    //console.log("Getting local modules not yet available in db ...");
-    var modulesNotInDb = await bible_browser_controller.translation_controller.getLocalModulesNotYetAvailableInDb();
-    //console.log("Finding not installed, but available modules ...");
-    var notInstalledButAvailableModules = await bible_browser_controller.translation_controller.getNotInstalledButAvailableModules();
-
-    if (modulesNotInDb.length > 0 || notInstalledButAvailableModules.length > 0) {
-      $('#bible-sync-box').dialog("open");
-      await bible_browser_controller.translation_controller.sleep(200);
-    }
-
-    if (modulesNotInDb.length > 0) {
-      await bible_browser_controller.translation_controller.syncDbWithSwordModules($('#bible-sync-box'));
-    }
-
-    if (notInstalledButAvailableModules.length > 0) {
-      await bible_browser_controller.translation_controller.syncSwordInstallationWithDb($('#bible-sync-box'));
-    }
-
-    if (modulesNotInDb.length > 0 || notInstalledButAvailableModules.length > 0) {
-      await bible_browser_controller.translation_controller.sleep(2000);
-    }
-
-    $('#bible-sync-box').dialog("close");
   };
 
   this.updateUiAfterBibleTranslationAvailable = function(translationCode) {

@@ -245,7 +245,7 @@ async function initApplication()
   $('#main-content').show();
 
   console.log("Syncing sword modules ...");
-  await bible_browser_controller.sync_sword_modules();
+  await bible_browser_controller.translation_controller.sync_sword_modules();
 
   console.log("Loading settings ...");
   bible_browser_controller.loadSettings();
