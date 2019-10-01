@@ -53,18 +53,18 @@
 [x] Respond to enter/return key in module search form
 [x] Respond to enter/return key in new tag form
 [x] Properly highlight search results in in-place search when using a tagged verse list or search results
+[ ] Synchronize tags across tabs
 [ ] Add options to book search (case sensitivity, multi word)
+[ ] Highlight module search results
+[ ] Implement Sword module unlocking
 [ ] Put in-place search menu as a wider horizontal bar below the bible text
 [ ] Integration with Wikipedia for places (show links, show summaries from pages, ...)
 [ ] Tagged verse list sharing
 [ ] Refactor tags_controller
-[ ] Implement Sword module unlocking
 [ ] Signed Windows installer
-[ ] Highlight module search results
 [ ] Integrate sqlite VACUUM sql command
 [ ] Optimize startup time using V8 snapshots: http://peterforgacs.github.io/2018/09/12/How-to-create-a-V8-snapshot-of-your-javascript-file/
 ------
-[ ] Synchronize tags across tabs
 [ ] Add 'x' to search input field
 [ ] Remove double paragraph's in translation infos
 [ ] Filter out double tags (still valid??)
