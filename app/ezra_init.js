@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const app = require('electron').remote.app;
-const DbHelper = require('./app/db_helper.js');
 const i18n = require('i18next');
 const I18nHelper = require('./app/i18n_helper.js');
 const i18nHelper = new I18nHelper();
@@ -157,7 +156,6 @@ async function initI18N()
 
 function localizeBookSelectionMenu()
 {
-  var i18nHelper = new I18nHelper();
   var aElements = $("#book-selection-menu").find('a');
   for (var i = 0; i < aElements.length; i++) {
     var currentBook = $(aElements[i]);
@@ -168,6 +166,8 @@ function localizeBookSelectionMenu()
 
 async function initDatabase()
 {
+  const DbHelper = require('./app/db_helper.js');
+
   var userDataDir = app.getPath('userData');
   var dbHelper = new DbHelper(userDataDir);
   var dbDir = dbHelper.getDatabaseDir();

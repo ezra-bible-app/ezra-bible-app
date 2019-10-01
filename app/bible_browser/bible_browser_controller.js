@@ -16,19 +16,8 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const TagSelectionMenu = require('./app/bible_browser/tag_selection_menu.js');
-const ModuleSearch = require('./app/bible_browser/module_search.js');
-const TranslationWizard = require('./app/bible_browser/translation_wizard.js');
-const TranslationController = require('./app/bible_browser/translation_controller.js');
-const BookSearch = require('./app/bible_browser/book_search.js');
-const TabController = require('./app/bible_browser/tab_controller.js');
-const NavigationPane = require('./app/bible_browser/navigation_pane.js');
-const TextLoader = require('./app/bible_browser/text_loader.js');
-const TaggedVerseExport = require('./app/bible_browser/tagged_verse_export.js');
 const BibleBrowserCommunicationController = require('./app/bible_browser/bible_browser_communication_controller.js');
 const LanguageMapper = require('./app/bible_browser/language_mapper.js');
-const OptionsMenu = require('./app/bible_browser/options_menu.js');
-const TranslationComparison = require('./app/bible_browser/translation_comparison.js');
 const Mousetrap = require('mousetrap');
 const { clipboard } = require('electron');
 
@@ -59,24 +48,39 @@ function BibleBrowserController() {
     return -1;
   };
 
+  this.init_component = function(componentClassName, componentName, componentPath) {
+    var expression = "";
+    expression += "const " + componentClassName + " = " + "require('" + componentPath + "');";
+    expression += "this." + componentName + " = new " + componentClassName + "();";
+    eval(expression);
+  };
+
   this.init = async function() {
     this.verse_list_menu_template = $($('.verse-list-menu')[0]).html();
     this.verse_list_composite_template = $($('.verse-list-composite')[0]).html();
-
     this.settings = require('electron-settings');
 
-    this.tag_selection_menu = new TagSelectionMenu();
-    this.module_search = new ModuleSearch();
+    this.init_component("TagSelectionMenu", "tag_selection_menu", "./app/bible_browser/tag_selection_menu.js");
+    this.init_component("ModuleSearch", "module_search", "./app/bible_browser/module_search.js");
+    this.init_component("TranslationController", "translation_controller", "./app/bible_browser/translation_controller.js");
+    this.init_component("TranslationWizard", "translation_wizard", "./app/bible_browser/translation_wizard.js");
+    this.init_component("TextLoader", "text_loader", "./app/bible_browser/text_loader.js");
+    this.init_component("BookSearch", "book_search", "./app/bible_browser/book_search.js");
+    this.init_component("TabController", "tab_controller", "./app/bible_browser/tab_controller.js");
+    this.init_component("OptionsMenu", "optionsMenu", "./app/bible_browser/options_menu.js");
+    this.init_component("NavigationPane", "navigation_pane", "./app/bible_browser/navigation_pane.js");
+    this.init_component("TaggedVerseExport", "taggedVerseExport", "./app/bible_browser/tagged_verse_export.js");
+    this.init_component("TranslationComparison", "translationComparison", "./app/bible_browser/translation_comparison.js");
 
-    this.translation_controller = new TranslationController();
+    this.init_book_selection_menu();
+    this.init_tag_reference_box();
+    this.init_bible_translation_info_box();
+    this.init_bible_sync_box();
+    this.initGlobalShortCuts();
+
     this.translation_controller.init(bible_browser_controller.onBibleTranslationChanged);
-    this.translation_wizard = new TranslationWizard();
     this.translation_wizard.init(bible_browser_controller.onAllTranslationsRemoved,
                                  bible_browser_controller.onTranslationRemoved);
-
-    this.text_loader = new TextLoader();
-
-    this.book_search = new BookSearch();
     this.book_search.init('#book-search',
                           '#book-search-input',
                           '#book-search-occurances',
@@ -85,15 +89,13 @@ function BibleBrowserController() {
                           bible_browser_controller.onSearchResultsAvailable,
                           bible_browser_controller.onSearchReset);
 
-    var tabHtmlTemplate = bible_browser_controller.getTabHtmlTemplate();
-
     var bibleTranslations = await models.BibleTranslation.findAndCountAll();
     var defaultBibleTranslationId = null;
     if (bibleTranslations.rows.length > 0) {
       var defaultBibleTranslationId = bibleTranslations.rows[0].id;
     }
 
-    this.tab_controller = new TabController();
+    var tabHtmlTemplate = bible_browser_controller.getTabHtmlTemplate();
     this.tab_controller.init('verse-list-tabs',
                              'verse-list-container',
                              'add-tab-button',
@@ -102,17 +104,6 @@ function BibleBrowserController() {
                              bible_browser_controller.onTabSelected,
                              bible_browser_controller.onTabAdded,
                              defaultBibleTranslationId);
-
-    this.optionsMenu = new OptionsMenu();
-    this.navigation_pane = new NavigationPane();
-    this.taggedVerseExport = new TaggedVerseExport();
-    this.translationComparison = new TranslationComparison();
-
-    this.init_book_selection_menu();
-    this.init_tag_reference_box();
-    this.init_bible_translation_info_box();
-    this.init_bible_sync_box();
-    this.initGlobalShortCuts();
   };
 
   this.onSearchResultsAvailable = async function(occurances) {

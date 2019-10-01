@@ -21,8 +21,6 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
 const isDev = require('electron-is-dev');
-const path = require('path');
-const url = require('url');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -50,6 +48,9 @@ require('electron-debug')({
 });
 
 function createWindow () {
+  const path = require('path');
+  const url = require('url');
+
   var preloadScript = '';
   if (!isDev) {
     preloadScript = path.join(__dirname, 'app/sentry.js')
