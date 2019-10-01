@@ -105,7 +105,9 @@
     "tag-filter": "Filter: ",
     "assign-tag": "Assign tag",
     "delete-tag-permanently": "Delete this tag permanently",
-    "none-selected": "None"
+    "none-selected": "None",
+    "rename-tag": "Rename tag",
+    "title": "Title"
   },
   "bible-browser": {
     "selection": "Selection: ",

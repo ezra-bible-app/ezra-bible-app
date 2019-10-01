@@ -123,7 +123,7 @@ function TagsController() {
   $('#remove-tag-assignment-confirmation-dialog').dialog(remove_tag_assignment_confirmation_dlg_options);
 
   var rename_standard_tag_dlg_options = {
-    title: i18n.t("general.rename"),
+    title: i18n.t("tags.rename-tag"),
     width: 300,
     position: [40,250],
     autoOpen: false,
