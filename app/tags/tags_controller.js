@@ -2002,66 +2002,6 @@ function TagsController() {
     configure_button_styles();
   };
 
-  // DISABLED - There are no meta tags for now
-  /*this.show_meta_tag_list = function() {
-    $('#app-container').find('.meta-tag-assignment-button').addClass('ui-state-disabled');
-
-    $('#opened-meta-tag-title').html("&nbsp;&nbsp;[" + gettext_strings.click_meta_tag_action_hint + "]");
-
-    $('#meta-tag-assigned-tags').hide();
-    $('#meta-tag-content').show();
-
-    tags_controller.current_meta_tag_id = null;
-    tags_controller.meta_tag_opened = false;
-  };
-
-  this.html_code_for_meta_tag = function(title, id, tag_count) {
-    var meta_tag_number_of_tags =
-          "<div class='meta-tag-number-of-tags-container'>(" +
-          "<span class='meta-tag-number-of-tags'>" + tag_count + "</span>" +
-          ")</div>";
-
-    return "<div class=\"checkbox-tag\">" +
-           "<div class=\"checkbox-tag-id\">" + id + "</div>" +
-
-           "<div title=\"" + gettext_strings.delete_meta_tag_permanently + "\" "+
-           "class=\"tag-delete-button fg-button fg-button-icon-left ui-state-default ui-corner-all\">" +
-           "<span class=\"ui-icon ui-icon-closethick\"></span></div>" +
-
-           "<a href=\"javascript:tags_controller.show_meta_tag_assigned_tags(" + id + ");\">" + 
-           "<div class=\"meta-tag-title\">" + title + "</div> " +
-           meta_tag_number_of_tags + 
-           "</a>" +
-           "<div class=\"rename-meta-tag-label\">[" + gettext_strings.rename + "]</div>" +
-           "</div>";
-  };
-
-  this.render_meta_tags = function(xml_tag_list) {
-    var meta_tag_list = $(xml_tag_list).find('meta-tags').children();
-    var meta_tag_content = $('#meta-tag-content');
-
-    meta_tag_content.empty();
-
-    for (var i = 0; i < meta_tag_list.length; i++) {
-      var current_meta_tag = $(meta_tag_list[i]);
-      var current_meta_tag_title = current_meta_tag.find('title').text();
-      var current_meta_tag_id = current_meta_tag.find('id').text();
-      var current_meta_tag_number_of_tags = current_meta_tag.find('tag-count').text();
-
-      var current_meta_tag_html_code = 
-        tags_controller.html_code_for_meta_tag(current_meta_tag_title,
-                                               current_meta_tag_id,
-                                               current_meta_tag_number_of_tags);
-
-      meta_tag_content.append(current_meta_tag_html_code);
-    }
-
-    tags_controller.bind_tag_events();
-    $('#app-container').find('.rename-meta-tag-label').bind('click', tags_controller.handle_rename_meta_tag_click__by_opening_rename_dialog);
-    configure_button_styles('#meta-tag-content');
-    configure_button_styles('#meta-tag-assigned-tags');
-  };*/
-
   this.showTagListLoadingIndicator = function() {
     var loadingIndicator = $('#tags-loading-indicator');
     loadingIndicator.find('.loader').show();
