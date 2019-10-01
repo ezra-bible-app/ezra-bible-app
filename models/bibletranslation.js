@@ -91,6 +91,7 @@ var bookMap = {
 module.exports = (sequelize, DataTypes) => {
   var BibleTranslation = sequelize.define('BibleTranslation', {
     name: DataTypes.STRING,
+    repository: DataTypes.STRING,
     languageCode: DataTypes.STRING,
     languageName: DataTypes.STRING,
     isFree: DataTypes.BOOLEAN,
