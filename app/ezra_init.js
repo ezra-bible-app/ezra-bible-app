@@ -217,6 +217,8 @@ function initUi()
   configure_button_styles();
   resize_app_container();
   $(window).bind("resize", handle_window_resize);
+
+  $('#main-content').show();
 }
 
 async function initApplication()
@@ -242,7 +244,6 @@ async function initApplication()
 
   console.log("Initializing user interface ...");
   initUi();
-  $('#main-content').show();
 
   console.log("Syncing sword modules ...");
   await bible_browser_controller.translation_controller.sync_sword_modules();
