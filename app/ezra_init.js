@@ -77,9 +77,6 @@ function resize_app_container(e) {
   $('#tags-view, #notes-view, #xrefs-view').css('height', new_app_container_height - 110);
   $('.verse-list-frame').css('height', new_app_container_height - 110);
   $('.navigation-pane').css('height', new_app_container_height - 110);
-
-  // Meta Tag stuff disabled for now
-  //$('#meta-tag-content, #meta-tag-assigned-tags').css('height', (new_app_container_height - 280) * 0.3);
   $('#tags-content-global').css('height', new_app_container_height - 145);
 
   // Book tags disabled

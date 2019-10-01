@@ -697,8 +697,6 @@ function BibleBrowserController() {
       bible_browser_controller.text_loader.prepareForNewText(true);
       bible_browser_controller.text_loader.requestTextUpdate(currentTabId, null, currentTagIdList, null);
       tags_controller.communication_controller.request_tags();
-      // PORTING DISABLED
-      //tags_controller.communication_controller.request_meta_tags();
     }
   };
 

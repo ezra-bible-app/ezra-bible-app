@@ -35,30 +35,10 @@ function TagsCommunicationController()
     });
   };
 
-  this.process_server_response_after_meta_tag_creation = function(response) {
-    if (response == "success") {
-      tags_controller.communication_controller.request_meta_tags();
-    } else {
-      alert('An error occurred while trying to save the new meta tag!');
-    }
-  };
-
-  this.process_server_response_after_meta_tag_destruction = function(response) {
-    if (response == "success") {
-      tags_controller.communication_controller.request_meta_tags();
-    } else {
-      alert('An error occurred while trying to delete the new meta tag!');
-    }
-  };
-
   this.create_new_tag = function(new_tag_title, type) {
     var isBookTag = (type == 'book' ? true : false);
-    var isMetaTag = (type == 'meta' ? true: false);
 
     var model = models.Tag;
-    if (isMetaTag) {
-      //
-    }
 
     var bibleBookId = null;
     if (isBookTag) {
@@ -73,15 +53,6 @@ function TagsCommunicationController()
       tags_controller.communication_controller.request_tags();
     }).catch(error => {
       alert('An error occurred while trying to save the new tag: ' + error);
-    });
-  };
-
-  this.destroy_meta_tag = function(id) {
-    $.ajax({
-      type: 'DELETE',
-      url: '/meta_tags/' + id,
-      processData: false,
-      success: tags_controller.communication_controller.process_server_response_after_meta_tag_destruction
     });
   };
 
@@ -135,23 +106,6 @@ function TagsCommunicationController()
     tags_controller.update_tag_verse_count(tagId, verseIds.length, increment);
   };
 
-  this.process_server_response_after_tag_changes = function(response) {
-    if (response != "success") {
-      alert('An error occurred while trying to assign the tags!');
-    }
-  };
-
-  this.request_assigned_tags = function(verse_reference_ids) {
-    var verse_references_url_param = verse_reference_ids.join(',');
-
-    $.ajax({
-      type: 'GET',
-      url: '/verse_references/' + verse_references_url_param + '/assigned_tags',
-      processData: false,
-      success: tags_controller.update_assigned_tags
-    });
-  };
-
   this.update_tag = function(id, title) {
     models.Tag.update(
       { title: title },
@@ -160,50 +114,6 @@ function TagsCommunicationController()
       tags_controller.rename_tag_in_view(id, title);
     }).catch(error => {
       alert("An error occurred while trying to rename the tag!");
-    });
-  };
-
-  this.update_meta_tag = function(id, title) {
-    var xml_param = "<meta_tag_attributes>";
-    xml_param += "<title>" + title + "</title>";
-    xml_param += "</meta_tag_attributes>";
-
-    xml_param = $.create_xml_doc(xml_param);
-
-    $.ajax({
-      type: 'PUT',
-      url: '/meta_tags/' + id,
-      contentType: "text/xml",
-      data: xml_param,
-      processData: false,
-      success: tags_controller.communication_controller.request_meta_tags
-    });
-  };
-
-  this.request_meta_tags = function() {
-    $.ajax({
-      type: 'GET',
-      url: '/meta_tags',
-      processData: false,
-      success: tags_controller.render_meta_tags
-    });
-  };
-
-  this.assign_meta_tag = function(meta_tag_id, tag_id) {
-    $.ajax({
-      type: 'PUT',
-      url: '/meta_tags/' + meta_tag_id + '/tags/' + tag_id,
-      processData: false,
-      success: tags_controller.communication_controller.process_server_response_after_tag_changes
-    });
-  };
-
-  this.remove_meta_tag_assignment = function(meta_tag_id, tag_id) {
-    $.ajax({
-      type: 'DELETE',
-      url: '/meta_tags/' + meta_tag_id + '/tags/' + tag_id,
-      processData: false,
-      success: tags_controller.communication_controller.process_server_response_after_tag_changes
     });
   };
 }

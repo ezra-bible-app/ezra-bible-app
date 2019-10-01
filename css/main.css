@@ -458,7 +458,7 @@ h2 {
   cursor: pointer;
 }
 
-.tag-delete-button, .meta-tag-assignment-button {
+.tag-delete-button {
   margin-right: 0.5em;
   float: left;
   display: block;

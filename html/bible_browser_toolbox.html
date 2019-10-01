@@ -3,9 +3,6 @@
   <!-- <div id="clippy-box"></div> -->
 
   <div id="tags-toolbar">
-    <!-- // Meta Tags disabled as long as they are not functional
-    <button id="new-meta-tag-button" class="fg-button ui-state-default ui-corner-all" type="button">New meta tag</button>
-    -->
     <button id="new-standard-tag-button" class="fg-button ui-state-default ui-corner-all" type="button" i18n="tags-toolbar.new-tag"></button>
 
     <button id="show-book-tag-statistics-button" class="fg-button ui-state-default ui-corner-all ui-state-disabled" i18n="tags-toolbar.tag-statistics"></button>
@@ -18,20 +15,12 @@
   </div>
 </div>
 
-<div id="new-meta-tag-dialog" style="display: none;">
-  <span id="new-meta-tag-title-label">Title: </span><input id="new-meta-tag-title-input" type="text" maxlength="255" />
-</div>
-
 <div id="new-standard-tag-dialog" style="display: none; padding-top: 2em; padding-bottom: 2em;">
   <span id="new-standard-tag-title-label" i18n="tags.tag-title"></span><input id="new-standard-tag-title-input" type="text" maxlength="255" />
 </div>
 
 <div id="new-book-tag-dialog" style="display: none;">
   <span id="new-book-tag-title-label">Title: </span><input id="new-book-tag-title-input" type="text" maxlength="255" />
-</div>
-
-<div id="delete-meta-tag-confirmation-dialog" style="display: none;">
-  <p>Do you really want to delete the meta tag &quot;<span id="delete-meta-tag-name"></span>&quot;?
 </div>
 
 <div id="delete-tag-confirmation-dialog" style="display: none;">
@@ -53,23 +42,6 @@
 <div id="rename-standard-tag-dialog" style="display: none;">
   <span id="rename-standard-tag-title-label">Title: </span><input id="rename-standard-tag-title-input" type="text" maxlength="255" />
 </div>
-
-<div id="rename-meta-tag-dialog" style="display: none;">
-  <span id="rename-meta-tag-title-label">Title: </span><input id="rename-meta-tag-title-input" type="text" maxlength="255" />
-</div>
-
-<!-- // Meta Tags disabled as long as they are not functional -->
-<!--
-<div id='meta-tag-navigation' class='ui-state-active ui-corner-top'>
-  <a href='javascript:tags_controller.show_meta_tag_list();'>Meta Tags</a>
-  <div id='opened-meta-tag-info'> / <span id='opened-meta-tag-title'>&nbsp;&nbsp;[Click meta tag to see / edit assigned tags]</span></div>
-</div>
-
-<div id="meta-tag-content">
-</div>
-<div id="meta-tag-assigned-tags">
-</div>
--->
 
 <div id="tags-content">
   <h3><a href="#">Tags</a></h3>
