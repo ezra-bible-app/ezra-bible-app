@@ -356,7 +356,7 @@ function TagsController() {
                                                  $.create_xml_doc(current_verse_selection),
                                                  "assign");
       
-      tags_controller.update_book_tag_statistics_box();
+      bible_browser_controller.tag_statistics.update_book_tag_statistics_box();
 
     } else {
 
@@ -455,7 +455,7 @@ function TagsController() {
                                                job.xml_verse_selection,
                                                "remove");
     
-    tags_controller.update_book_tag_statistics_box();
+    bible_browser_controller.tag_statistics.update_book_tag_statistics_box();
 
     tags_controller.remove_tag_assignment_job = null;
     $('#remove-tag-assignment-confirmation-dialog').dialog('close');
@@ -629,21 +629,6 @@ function TagsController() {
     return $('#tags-search-input')[0].empty();
   };
 
-  this.get_book_tag_statistics = function() {
-    var global_tags_box_el = $('#tags-content-global');
-    var checkbox_tags = global_tags_box_el.find('.checkbox-tag');
-    var book_tag_statistics = [];
-
-    for (var i = 0; i < checkbox_tags.length; i++) {
-      var current_checkbox_tag = $(checkbox_tags[i]);
-      var current_checkbox_title = current_checkbox_tag.find('.cb-label').text();
-      var current_book_assignment_count = parseInt(current_checkbox_tag.find('.book-assignment-count').text());
-      book_tag_statistics[current_checkbox_title] = current_book_assignment_count;
-    }
-
-    return book_tag_statistics;
-  };
-
   this.render_tags = async function(tag_list) {
     var book_content_header = $($('#tags-content').find('.ui-accordion-header')[1]);
     var global_tags_box = $('#tags-content-global');
@@ -740,7 +725,7 @@ function TagsController() {
 
     var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
     if (currentBook != null) {
-      tags_controller.update_book_tag_statistics_box(book_tag_statistics);
+      bible_browser_controller.tag_statistics.update_book_tag_statistics_box(book_tag_statistics);
     }
 
     tags_controller.hideTagListLoadingIndicator();
@@ -774,53 +759,6 @@ function TagsController() {
 
       tags_controller.latest_timestamp = all_timestamps[last_element_index];
       tags_controller.oldest_recent_timestamp = all_timestamps[oldest_recent_element_index];
-    }
-  };
-
-  this.update_book_tag_statistics_box = function(book_tag_statistics=undefined) {
-    if (book_tag_statistics === undefined) {
-      book_tag_statistics = tags_controller.get_book_tag_statistics();
-    }
-
-    var tags_by_verse_count = Object.keys(book_tag_statistics).sort(
-      function(a,b) {
-        return book_tag_statistics[b] - book_tag_statistics[a];
-      }
-    );
-
-    var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
-    var chapter_verse_counts = bible_chapter_verse_counts[currentBook];
-
-    if (chapter_verse_counts != null) {
-      var overall_verse_count = 0;
-      for (var chapter of chapter_verse_counts) {
-        if (chapter != 'nil') {
-          overall_verse_count += chapter;
-        }
-      }
-
-      var tag_statistics_html = "<table class='tag-statistics'>";
-      tag_statistics_html += "<tr><th style='text-align: left;'>Tag</th>"
-                          +  "<th style='text-align: left; width: 2em;'>#</th>"
-                          +  "<th style='text-align: left; width: 2em;'>%</th></tr>";
-
-      for (var i = 0; i < tags_by_verse_count.length; i++) {
-        var tag_title = tags_by_verse_count[i];
-        var tagged_verse_count = book_tag_statistics[tag_title];
-        var tagged_verse_percent = Math.round((tagged_verse_count / overall_verse_count) * 100);
-
-        var current_row_html = "<tr><td style='width: 20em;'>" + tag_title
-                                          + "</td><td>" 
-                                          + tagged_verse_count
-                                          + "</td><td>"
-                                          + tagged_verse_percent
-                                          + "</td></tr>";
-        tag_statistics_html += current_row_html;
-      }
-      tag_statistics_html += "</table>";
-
-      $('#book-tag-statistics-box-content').empty();
-      $('#book-tag-statistics-box-content').html(tag_statistics_html);
     }
   };
 
