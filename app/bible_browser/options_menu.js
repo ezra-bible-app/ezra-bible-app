@@ -73,7 +73,7 @@ class OptionsMenu {
     if (this.menuIsOpened) {
       bible_browser_controller.handle_body_click();
     } else {
-      bible_browser_controller.hide_book_menu();
+      bible_browser_controller.book_selection_menu.hide_book_menu();
       bible_browser_controller.tag_selection_menu.hide_tag_menu();
       bible_browser_controller.module_search.hide_search_menu();
       var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();

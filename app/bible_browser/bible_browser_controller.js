@@ -71,12 +71,14 @@ function BibleBrowserController() {
     this.init_component("NavigationPane", "navigation_pane", "./app/bible_browser/navigation_pane.js");
     this.init_component("TaggedVerseExport", "taggedVerseExport", "./app/bible_browser/tagged_verse_export.js");
     this.init_component("TranslationComparison", "translationComparison", "./app/bible_browser/translation_comparison.js");
+    this.init_component("BookSelectionMenu", "book_selection_menu", "./app/bible_browser/book_selection_menu.js");
 
-    this.init_book_selection_menu();
     this.init_tag_reference_box();
     this.init_bible_translation_info_box();
     this.init_bible_sync_box();
     this.initGlobalShortCuts();
+
+    this.book_selection_menu.init();
 
     this.translation_controller.init(bible_browser_controller.onBibleTranslationChanged);
     this.translation_wizard.init(bible_browser_controller.onAllTranslationsRemoved,
@@ -158,10 +160,10 @@ function BibleBrowserController() {
     bible_browser_controller.translation_controller.updateAvailableBooks(ui.index);
 
     // Highlight currently selected book (only in book mode)
-    bible_browser_controller.clearSelectedBookInMenu();
+    bible_browser_controller.book_selection_menu.clearSelectedBookInMenu();
     var textType = bible_browser_controller.tab_controller.getTab(ui.index).getTextType();
     if (textType == 'book') {
-      bible_browser_controller.highlightCurrentlySelectedBookInMenu(ui.index);
+      bible_browser_controller.book_selection_menu.highlightCurrentlySelectedBookInMenu(ui.index);
     }
 
     // Toggle book statistics
@@ -188,7 +190,7 @@ function BibleBrowserController() {
       bible_browser_controller.translation_controller.enableCurrentTranslationInfoButton(tabIndex);
     }
 
-    bible_browser_controller.clearSelectedBookInMenu();
+    bible_browser_controller.book_selection_menu.clearSelectedBookInMenu();
   };
 
   this.onBibleTranslationChanged = function() {
@@ -275,28 +277,11 @@ function BibleBrowserController() {
     }
   };
 
-  this.init_book_selection_menu = function() {
-    var menu = $('#app-container').find('#book-selection-menu');
-    var links = menu.find('a');
-
-    menu.bind('click', bible_browser_controller.handle_body_click);
-
-    for (var i = 0; i < links.length; i++) {
-      var current_link = $(links[i]);
-      var current_link_href = current_link.attr('href');
-      var current_book_title = current_link.html();
-      var new_link_href = "javascript:bible_browser_controller.select_bible_book('" + 
-                          current_link_href + "','" + current_book_title + "')";
-
-      current_link.attr('href', new_link_href);
-    }
-  };
-
   this.init_current_verse_list_menu = function(tabIndex=undefined) {
     //console.log("init_current_verse_list_menu " + tabIndex);
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     var bookSelectButton = currentVerseListMenu.find('.book-select-button');
-    bookSelectButton.bind('click', bible_browser_controller.handle_book_menu_click);
+    bookSelectButton.bind('click', (event) => { bible_browser_controller.book_selection_menu.handle_book_menu_click(event); });
     $('.verse-list-menu').find('.fg-button').removeClass('events-configured');
     configure_button_styles('.verse-list-menu');
     bible_browser_controller.navigation_pane.updateNavigation();
@@ -389,65 +374,6 @@ function BibleBrowserController() {
     return verseList;
   };
 
-  this.highlightCurrentlySelectedBookInMenu = function(tabIndex=undefined) {
-    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
-    var bookCode = currentTab.getBook();
-    if (bookCode != null) {
-      bible_browser_controller.highlightSelectedBookInMenu(bookCode);
-    }
-  };
-
-  this.clearSelectedBookInMenu = function() {
-    // Remove highlighting for previously selected book
-    $('.book-selected').removeClass('book-selected');
-  };
-
-  this.highlightSelectedBookInMenu = function(book_code) {
-    var bookId = '.book-' + book_code;
-
-    bible_browser_controller.clearSelectedBookInMenu();
-    
-    // Highlight the newly selected book
-    $('#book-selection-menu').find(bookId).addClass('book-selected');
-  };
-
-  this.select_bible_book = function(book_code, book_title) {
-    bible_browser_controller.highlightSelectedBookInMenu(book_code);
-
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
-    models.BibleTranslation.getBookList(currentBibleTranslationId).then(books => {
-      if (!books.includes(book_code)) {
-        return;
-      }
-
-      bible_browser_controller.hide_book_menu();
-      bible_browser_controller.tag_selection_menu.hide_tag_menu();
-      bible_browser_controller.tag_selection_menu.reset_tag_menu();
-      bible_browser_controller.module_search.hide_search_menu();
-      bible_browser_controller.module_search.reset_search();
-
-      // Not needed at the moment
-      //$('#outline-content').empty();
-
-      // Set selected tags to null, since we just switched to a book
-      var currentTab = bible_browser_controller.tab_controller.getTab();
-      currentTab.setTextType('book');
-      currentTab.setTagIdList(null);
-      bible_browser_controller.tab_controller.setCurrentTabBook(book_code, book_title);
-
-      var currentVerseList = bible_browser_controller.getCurrentVerseList();
-      bible_browser_controller.book_search.setVerseList(currentVerseList);
-      var currentTab = bible_browser_controller.tab_controller.getTab();
-
-      var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
-      var currentBook = currentTab.getBook();
-
-      bible_browser_controller.text_loader.prepareForNewText(true);
-      bible_browser_controller.text_loader.requestTextUpdate(currentTabId, currentBook, null, null);
-      tags_controller.communication_controller.request_tags();
-    });
-  };
-
   this.getCurrentVerseListLoadingIndicator = function() {
     var currentVerseListComposite = bible_browser_controller.getCurrentVerseListComposite();
     var loadingIndicator = currentVerseListComposite.find('.verse-list-loading-indicator');
@@ -463,16 +389,6 @@ function BibleBrowserController() {
   this.hideVerseListLoadingIndicator = function() {
     var loadingIndicator = bible_browser_controller.getCurrentVerseListLoadingIndicator();
     loadingIndicator.hide();
-  };
-
-  this.hide_book_menu = function() {
-    if (bible_browser_controller.book_menu_is_opened) {
-      $('#app-container').find('#book-selection-menu').hide();
-      bible_browser_controller.book_menu_is_opened = false;
-
-      var book_button = $('#app-container').find('.book-select-button');
-      book_button.removeClass('ui-state-active');
-    }
   };
 
   this.updateTagsView = function(tabIndex) {
@@ -494,42 +410,13 @@ function BibleBrowserController() {
       return;
     }
     
-    bible_browser_controller.hide_book_menu();
+    bible_browser_controller.book_selection_menu.hide_book_menu();
     bible_browser_controller.tag_selection_menu.hide_tag_menu();
     bible_browser_controller.module_search.hide_search_menu();
     bible_browser_controller.optionsMenu.hideDisplayMenu();
 
     if ($('#currently-edited-notes').length > 0) {
       notes_controller.restore_currently_edited_notes();
-    }
-  };
-
-  this.handle_book_menu_click = function(event) {
-    if ($('.book-select-button').hasClass('ui-state-disabled')) {
-      return;
-    }
-
-    if (bible_browser_controller.book_menu_is_opened) {
-      bible_browser_controller.handle_body_click();
-    } else {
-      bible_browser_controller.tag_selection_menu.hide_tag_menu();
-      bible_browser_controller.module_search.hide_search_menu();
-      bible_browser_controller.optionsMenu.hideDisplayMenu();
-      var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
-      var book_button = currentVerseListMenu.find('.book-select-button');
-      book_button.addClass('ui-state-active');
-
-      var book_button_offset = book_button.offset();
-      var menu = $('#app-container').find('#book-selection-menu');
-      var top_offset = book_button_offset.top + book_button.height() + 12;
-      var left_offset = book_button_offset.left;
-
-      menu.css('top', top_offset);
-      menu.css('left', left_offset);
-
-      $('#app-container').find('#book-selection-menu').slideDown();
-      bible_browser_controller.book_menu_is_opened = true;
-      event.stopPropagation();
     }
   };
 

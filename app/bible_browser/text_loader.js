@@ -27,7 +27,7 @@ class TextLoader {
 
     var textType = bible_browser_controller.tab_controller.getTab(tabIndex).getTextType();    
     if (textType != 'book') {
-      bible_browser_controller.clearSelectedBookInMenu();
+      bible_browser_controller.book_selection_menu.clearSelectedBookInMenu();
     }
 
     if (resetView) {

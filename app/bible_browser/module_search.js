@@ -83,7 +83,7 @@ class ModuleSearch {
     if (this.search_menu_opened) {
       bible_browser_controller.handle_body_click();
     } else {
-      bible_browser_controller.hide_book_menu();
+      bible_browser_controller.book_selection_menu.hide_book_menu();
       bible_browser_controller.tag_selection_menu.hide_tag_menu();
       bible_browser_controller.tag_selection_menu.reset_tag_menu();
       bible_browser_controller.optionsMenu.hideDisplayMenu();
