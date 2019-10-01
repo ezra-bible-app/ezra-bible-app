@@ -245,8 +245,9 @@ async function initApplication()
 
   console.log("Initializing user interface ...");
   initUi();
-
   $('#main-content').show();
+
+  console.log("Syncing sword modules ...");
   await bible_browser_controller.sync_sword_modules();
 
   console.log("Loading settings ...");
