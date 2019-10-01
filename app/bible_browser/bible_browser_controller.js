@@ -811,7 +811,9 @@ function BibleBrowserController() {
       await bible_browser_controller.translation_controller.nodeSwordInterface.updateRepositoryConfig();
     }
 
+    //console.log("Getting local modules not yet available in db ...");
     var modulesNotInDb = await bible_browser_controller.translation_controller.getLocalModulesNotYetAvailableInDb();
+    //console.log("Finding not installed, but available modules ...");
     var notInstalledButAvailableModules = await bible_browser_controller.translation_controller.getNotInstalledButAvailableModules();
 
     if (modulesNotInDb.length > 0 || notInstalledButAvailableModules.length > 0) {
