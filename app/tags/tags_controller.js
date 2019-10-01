@@ -1526,13 +1526,11 @@ function TagsController() {
     }
 
     tags_controller.verse_selection_blocked = true;
-
     setTimeout(function() {
       tags_controller.verse_selection_blocked = false;
     }, 300);
 
     var selected_verse_tags = tags_controller.current_verse_selection_tags();
-
     var selected_verses_content = i18n.t("tags.none-selected");
 
     $('#app-container').find('.tag-cb').removeAttr('checked');
@@ -1617,45 +1615,6 @@ function TagsController() {
     }
 
     $('#tags-header').find('#selected-verses').html(selected_verses_content.join('; '));
-
-    // PORTING disabled
-    /*
-    if (currentBook != null && tags_controller.selected_verse_references.length > 0) {
-      
-      if (tags_controller.selected_verse_references.length > 0) {
-        var verse_text = tags_controller.get_selected_verse_text() + $('#tags-header').find('#selected-verses').text();
-        tags_controller.update_text_for_clipboard(escape(verse_text));
-      }
-    }*/
-    //console.timeEnd('update_tags_view_after_verse_selection');
-  };
-
-  this.update_text_for_clipboard = function(text) {
-
-    var clippy = $('<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"'+
-        'width="110"'+
-        'height="14"'+
-        'id="clippy" >'+
-        '<param name="movie" value="/javascripts/lib/clippy.swf"/>'+
-        '<param name="allowScriptAccess" value="always" />'+
-        '<param name="quality" value="high" />'+
-        '<param name="scale" value="noscale" />'+
-        '<param NAME="FlashVars" value="text='+text+'">'+
-        '<param name="bgcolor" value="#fff">'+
-        '<embed src="lib/clippy.swf"'+
-        'width="110"'+
-        'height="14"'+
-        'name="clippy"'+
-        'quality="high"'+
-        'allowScriptAccess="always"'+
-        'type="application/x-shockwave-flash"'+
-        'pluginspage="http://www.macromedia.com/go/getswf/clippy/buildplayer"'+
-        'FlashVars="text='+text+'"'+
-        'bgcolor="#f3f3f3"'+
-        '/>'+
-        '</object>');
-    
-    $('#clippy-box').append(clippy);
   };
 
   this.format_verse_list_for_view = function(selected_verse_array, link_references) {
