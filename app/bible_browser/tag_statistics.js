@@ -36,7 +36,7 @@ class TagStatistics {
 
   update_book_tag_statistics_box(book_tag_statistics=undefined) {
     if (book_tag_statistics === undefined) {
-      book_tag_statistics = tags_controller.get_book_tag_statistics();
+      book_tag_statistics = this.get_book_tag_statistics();
     }
 
     var tags_by_verse_count = Object.keys(book_tag_statistics).sort(
