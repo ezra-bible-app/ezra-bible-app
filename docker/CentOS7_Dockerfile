@@ -1,4 +1,4 @@
-# Dockerfile for CentOS Build Enviroment for Ezra Project
+# Dockerfile for CentOS 7 Build Enviroment for Ezra Project
 
 FROM centos
 
