@@ -13,6 +13,7 @@ All notable changes to Ezra Project are documented in this file.
 
 ### Enablers
 * Internationalization support (using [I18next][i18next])
+* Implemented packaging support for CentOS 8
 
 ### Enhancements
 * Show bible translation id in tab titles
