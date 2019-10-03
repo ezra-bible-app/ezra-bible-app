@@ -2,6 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
+    // TODO: Remove duplicates
     return queryInterface.addIndex('VerseTags', { fields: ['verseReferenceId', 'tagId'], unique: true });
   },
 
