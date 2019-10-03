@@ -354,7 +354,7 @@ h2 {
   display: none;
 }
 
-.ui-dialog #bible-sync-box {
+.ui-dialog #bible-sync-box, .ui-dialog #new-release-info-box {
   font-size: 0.9em;
 }
 

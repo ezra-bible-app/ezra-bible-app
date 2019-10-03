@@ -77,7 +77,11 @@
     "finish": "Beenden",
     "cancel": "Abbrechen",
     "rename": "Umbenennen",
-    "loading": "Lade"
+    "loading": "Lade",
+    "new-release-available-title": "Neues Release verfügbar!",
+    "new-release-available-body": "Ein neues Release von Ezra Project ist verfügbar!",
+    "latest-version": "Neueste Version",
+    "release-notes-download": "Release Notes & Download"
   },
   "help": {
     "help-text-no-tags-book-opened": "Sie wollen anfangen mit Tags zu arbeiten? Erstellen Sie Ihren ersten Tag, indem Sie oben auf den Button 'Neuer&nbsp;Tag' klicken. Danach können Sie beim Studium des Bibeltexts den Tag zuordnen, indem Sie auf den Vers klicken oder mehrere Verse mit gehaltener Maustaste auswählen und dann links die Auswahlbox neben dem gerade erstellten Tag anklicken.",

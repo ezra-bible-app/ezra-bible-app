@@ -17,6 +17,7 @@ All notable changes to Ezra Project are documented in this file.
 ### Enhancements
 * Show bible translation id in tab titles
 * Optimized the needed width for the bible browser navigation pane
+* Availability of a new release is now indicated in a popup after startup
 
 ### Fixes
 * Also show currently selected verses in verse list mode (relevant for tagged verse lists or module search results)

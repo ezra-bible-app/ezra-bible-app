@@ -20,6 +20,7 @@ const app = require('electron').remote.app;
 const i18n = require('i18next');
 const I18nHelper = require('./app/i18n_helper.js');
 const i18nHelper = new I18nHelper();
+const NewReleaseChecker = require('./app/new_release_checker.js');
 
 require('log-timestamp');
 
@@ -250,6 +251,10 @@ async function initApplication()
 
   console.log("Loading settings ...");
   bible_browser_controller.loadSettings();
+
+  console.log("Checking for latest release ...");
+  var newReleaseChecker = new NewReleaseChecker('new-release-info-box');
+  await newReleaseChecker.check();
 
   applicationLoaded = true;
   loadingIndicator.hide();

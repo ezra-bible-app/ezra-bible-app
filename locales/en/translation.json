@@ -77,7 +77,11 @@
     "finish": "Finish",
     "cancel": "Cancel",
     "rename": "Rename",
-    "loading": "Loading"
+    "loading": "Loading",
+    "new-release-available-title": "New release available!",
+    "new-release-available-body": "A new release of Ezra Project is available!",
+    "latest-version": "Latest version",
+    "release-notes-download": "Release Notes & Download"
   },
   "help": {
     "help-text-no-tags-book-opened": "To start working with tags, create your first tag by clicking on the button 'New&nbsp;tag' above. After that you can browse the Bible text, click or drag-select verses and then assign the tag you just created.",
