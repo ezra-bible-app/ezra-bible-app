@@ -1,6 +1,6 @@
 # Dockerfile for CentOS 7 Build Enviroment for Ezra Project
 
-FROM centos7
+FROM centos:7
 
 ARG HOST_USER
 
