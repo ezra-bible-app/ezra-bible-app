@@ -1,4 +1,5 @@
 #!/bin/sh
+# This script deletes build artifacts generated during the build of node-sword-interface and sqlite3
 
 rm -rf node_modules/node-sword-interface/sword >/dev/null 2>&1
 rm -rf node_modules/node-sword-interface/sword_build >/dev/null 2>&1

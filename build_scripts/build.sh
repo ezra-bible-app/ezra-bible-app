@@ -1,4 +1,5 @@
 #!/bin/sh
+# This script triggers all the steps necessary for building and packaging Ezra Project on Linux.
 
 npm install
 npm run rebuild
