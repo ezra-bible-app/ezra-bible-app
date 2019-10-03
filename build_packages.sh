@@ -48,8 +48,8 @@ cp /tmp/ezra-packages/ezra-project-fedora29/release/packages/ezra-project-${VERS
 
 echo ""
 echo "******** Building for CentOS 7 ******** "
-docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-centos7 centos.ezra:1.0 scl enable devtoolset-3 \ /tmp/ezra-packages/ezra-project-centos7/build.sh
-docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-centos7 centos.ezra:1.0 npm run rpm_centos7
+docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-centos7 centos7.ezra:1.0 scl enable devtoolset-3 \ /tmp/ezra-packages/ezra-project-centos7/build.sh
+docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-centos7 centos7.ezra:1.0 npm run rpm_centos7
 cp /tmp/ezra-packages/ezra-project-centos7/release/packages/ezra-project-${VERSION}-1.x86_64.rpm ezra-project_centos7_${VERSION}.x86_64.rpm
 
 echo ""
