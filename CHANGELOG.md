@@ -20,10 +20,10 @@ All notable changes to Ezra Project are documented in this file.
 * Availability of a new release is now indicated in a popup after startup
 
 ### Fixes
+* Avoid duplicates when assigning tags to verses (ensure uniqueness in database + use validation in frontend).
 * Also show currently selected verses in verse list mode (relevant for tagged verse lists or module search results)
 * Update the tag statistics whenever a tag gets assigned or removed from a verse.
 * Fixed the font-size for the tag statistics popup (now like any other dialogue).
-* Avoid duplicates when assigning tags to verses (ensure uniqueness in database + use validation in frontend).
 
 [i18next]: https://www.i18next.com
 -->
