@@ -99,6 +99,7 @@ class TranslationWizard {
 
     $('#translation-settings-wizard').dialog({
       position: [offsetLeft, offsetTop],
+      modal: true,
       title: i18n.t("translation-wizard.header"),
       dialogClass: 'ezra-dialog',
       width: wizardWidth,
