@@ -4,27 +4,27 @@ All notable changes to Ezra Project are documented in this file.
 <!--
 ## [Unreleased]
 ### Features
-* Module search functionality (based on SWORD library search function)
-* Added function "Recently used tags" to tags filter menu (filters the tag list to the last 10 used tags)
+* Module search functionality (based on SWORD search function)
 * Added translation comparison function. The user can now quickly retrieve the selected verses in all the different available translations (in a popup).
+* Added function "Recently used tags" to tags filter menu (filters the tag list to the last 10 used tags)
 * Added support for clipboard copy functionality: Now you can copy the currently selected verses to the system clipboard using ctrl + c.
 * German translation and handling of language-based chapter/verse separator for verse references
 * Use localized bible book names (based on SWORD translation functionality)
 
-### Enablers
-* Internationalization support (using [I18next][i18next])
-* Implemented packaging support for CentOS 8
-
 ### Enhancements
 * Show bible translation id in tab titles
-* Optimized the needed width for the bible browser navigation pane
 * Availability of a new release is now indicated in a popup after startup
+* Optimized the needed width for the bible browser navigation pane
 
 ### Fixes
 * Avoid duplicates when assigning tags to verses (ensure uniqueness in database + use validation in frontend).
 * Also show currently selected verses in verse list mode (relevant for tagged verse lists or module search results)
 * Update the tag statistics whenever a tag gets assigned or removed from a verse.
 * Fixed the font-size for the tag statistics popup (now like any other dialogue).
+
+### Enablers
+* Internationalization support (using [I18next][i18next])
+* Implemented packaging support for CentOS 8
 
 [i18next]: https://www.i18next.com
 -->
