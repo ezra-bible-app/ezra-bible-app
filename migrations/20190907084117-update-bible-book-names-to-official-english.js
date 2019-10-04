@@ -32,8 +32,6 @@ module.exports = {
       var newLongTitle = bibleBookLongTitleUpdates[i].newLongTitle;
       var query = "UPDATE BibleBooks SET longTitle='" + newLongTitle + "' WHERE shortTitle='" + shortTitle + "'";
       var updateAction = queryInterface.sequelize.query(query);
-
-      //console.log(query);
       updates.push(updateAction);
     }
 
