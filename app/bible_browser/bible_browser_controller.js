@@ -76,8 +76,6 @@ function BibleBrowserController() {
     this.init_component("TagStatistics", "tag_statistics", "./app/bible_browser/tag_statistics.js");
 
     this.init_tag_reference_box();
-    this.init_bible_translation_info_box();
-    this.init_bible_sync_box();
     this.initGlobalShortCuts();
 
     this.book_selection_menu.init();
@@ -295,25 +293,6 @@ function BibleBrowserController() {
       position: [200,200],
       autoOpen: false,
       dialogClass: 'ezra-dialog'
-    });
-  };
-
-  this.init_bible_translation_info_box = function() {
-    $('#bible-translation-info-box').dialog({
-      width: 800,
-      height: 500,
-      autoOpen: false,
-      dialogClass: 'ezra-dialog'
-    });
-  };
-
-  this.init_bible_sync_box = function() {
-    $('#bible-sync-box').dialog({
-      width: 600,
-      height: 300,
-      autoOpen: false,
-      title: i18n.t("module-sync.module-sync-header"),
-      dialogClass: 'bible-sync-dialog'
     });
   };
 

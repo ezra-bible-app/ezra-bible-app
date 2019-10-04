@@ -36,6 +36,28 @@ class TranslationController {
   init(onBibleTranslationChanged) {
     this.onBibleTranslationChanged = onBibleTranslationChanged;
     this.initBibleTranslationInfoButton();
+    this.initBibleSyncBox();
+    this.initBibleTranslationInfoBox();
+  }
+
+  initBibleSyncBox() {
+    $('#bible-sync-box').dialog({
+      width: 600,
+      height: 300,
+      autoOpen: false,
+      modal: true,
+      title: i18n.t("module-sync.module-sync-header"),
+      dialogClass: 'bible-sync-dialog'
+    });
+  }
+
+  initBibleTranslationInfoBox() {
+    $('#bible-translation-info-box').dialog({
+      width: 800,
+      height: 500,
+      autoOpen: false,
+      dialogClass: 'ezra-dialog'
+    });
   }
 
   updateAvailableBooks(tabIndex=undefined) {
