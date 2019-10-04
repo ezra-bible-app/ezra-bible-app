@@ -254,7 +254,7 @@ async function initApplication()
 
   console.log("Checking for latest release ...");
   var newReleaseChecker = new NewReleaseChecker('new-release-info-box');
-  await newReleaseChecker.check();
+  newReleaseChecker.check();
 
   applicationLoaded = true;
   loadingIndicator.hide();
