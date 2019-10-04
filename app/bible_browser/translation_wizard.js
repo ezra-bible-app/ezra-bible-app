@@ -300,7 +300,7 @@ class TranslationWizard {
         installPage.append(loader);
         $('#bibleTranslationInstallIndicator').show();
         
-        // TODO: Implement error handling for the next two steps
+        // FIXME: Implement error handling for the next two steps
         await this._nodeSwordInterface.installModule(translationCode);
         await models.BibleTranslation.importSwordTranslation(translationCode);
 
