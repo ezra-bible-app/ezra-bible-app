@@ -78,7 +78,7 @@ class NewReleaseChecker {
       } else {
         bible_browser_controller.settings.delete('noNewReleaseInfo');
       }
-    })
+    });
   }
 
   isNewReleaseAvailable() {
