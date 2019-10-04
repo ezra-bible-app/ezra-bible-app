@@ -196,6 +196,9 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Verse.prototype.getOffsetTables = function() {
+    // The following mapping tables define offsets for various books.
+    // The defined offsets are always from the perspective of the ENGLISH versification compared to the HEBREW versification
+
     var offset_table_1_samuel = [
       { 'start'   : '21:1',
         'end'     : '26:25',
@@ -307,6 +310,13 @@ module.exports = (sequelize, DataTypes) => {
       }
     ];
 
+    var offset_table_acts = [
+      { 'start'  : '19:41',
+        'end'    : '28:31',
+        'offset' : -1
+      }
+    ];
+
     var offset_table_2co = [
       { 'start'  : '13:13',
         'end'    : '13:14',
@@ -315,7 +325,7 @@ module.exports = (sequelize, DataTypes) => {
     ];
 
     var offset_table_revelation = [
-      { 'start'  : '13:1',
+      { 'start'  : '12:17',
         'end'    : '22:21',
         'offset' : +1
       }
@@ -329,6 +339,7 @@ module.exports = (sequelize, DataTypes) => {
       'Neh' : offset_table_nehemiah,
       'Psa' : offset_table_psalms,
       'Isa' : offset_table_isaiah,
+      'Act' : offset_table_acts,
       '2Co' : offset_table_2co,
       'Rev' : offset_table_revelation
     };
