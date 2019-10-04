@@ -29,19 +29,29 @@ class NewReleaseChecker {
 
   initNewReleaseBox() {
     this.getInfoBox().dialog({
-      width: 400,
-      height: 200,
+      width: 350,
+      height: 250,
       autoOpen: false,
-      title: i18n.t("general.new-release-available-title")
+      modal: true,
+      title: i18n.t("general.new-release-available-title"),
+      buttons: {
+        Ok: function() {
+          $(this).dialog("close");
+        }
+      }
     });
   };
 
-  async check() {
-    this.latestRelease = await this.getLatestReleaseFromGitHub();
+  check() {
+    this.getLatestReleaseFromGitHub().then(latestRelease => {
+      this.latestRelease = latestRelease;
 
-    if (this.isNewReleaseAvailable()) {
-      this.showNewRelease();
-    }
+      if (this.isNewReleaseAvailable() && this.isInfoWanted()) {
+        this.showNewRelease();
+      }
+    }).catch((error) => {
+      console.error("Could not get latest release info from GitHub. Offline?");
+    });
   }
 
   showNewRelease() {
@@ -50,15 +60,25 @@ class NewReleaseChecker {
     var infoBox = this.getInfoBox();
 
     infoBox.dialog({
-      position: [verse_list_position.left + 50, verse_list_position.top + 30]
+      position: [verse_list_position.left + 150, verse_list_position.top + 30]
     });
 
     infoBox.dialog("open");
     infoBox.append('<p>' + i18n.t('general.new-release-available-body') + '</p>');
     infoBox.append('<p>' + i18n.t('general.latest-version') + ': ' + this.latestRelease.tag + '</p>');
-
     var latestReleaseLink = "<a class='external' href='" + this.latestRelease.url + "'>" + i18n.t('general.release-notes-download') + "</a>";
-    infoBox.append('<p>' + latestReleaseLink + '</p>');
+    infoBox.append('<p>' + latestReleaseLink + '</p><br/>');
+
+    infoBox.append("<input id='no-new-release-info' type='checkbox'></input>");
+    infoBox.append("<label style='margin-left: 0.5em;' for='no-new-release-info'>" + i18n.t('general.no-repeated-info') + "</label>");
+
+    infoBox.find('#no-new-release-info').bind('click', () => {
+      if ($('#no-new-release-info').prop("checked")) {
+        bible_browser_controller.settings.set('noNewReleaseInfo', this.latestRelease.tag);
+      } else {
+        bible_browser_controller.settings.delete('noNewReleaseInfo');
+      }
+    })
   }
 
   isNewReleaseAvailable() {
@@ -66,6 +86,17 @@ class NewReleaseChecker {
     var latestVersion = this.latestRelease.tag;
 
     return this.compareVersion(latestVersion, currentVersion) > 0;
+  }
+
+  isInfoWanted() {
+    var latestVersion = this.latestRelease.tag;
+
+    if (bible_browser_controller.settings.has('noNewReleaseInfo')) {
+      var noNewReleaseInfo = bible_browser_controller.settings.get('noNewReleaseInfo');
+      return noNewReleaseInfo != latestVersion;
+    } else {
+      return true;
+    }
   }
 
   getLatestRelease() {
@@ -92,13 +123,8 @@ class NewReleaseChecker {
     return v1.length == v2.length ? 0: (v1.length < v2.length ? -1 : 1);
   }
 
-  async getLatestReleaseFromGitHub() {
-    var latestRelease = await this.getLatestReleaseFromGitHubPromise();
-    return latestRelease;
-  }
-
-  getLatestReleaseFromGitHubPromise() {
-    return new Promise(resolve => {
+  getLatestReleaseFromGitHub() {
+    return new Promise((resolve, reject) => {
       this.requestReleaseDataFromGitHub((data) => {
         var latestRelease = {
           "name": data["name"],
@@ -108,13 +134,15 @@ class NewReleaseChecker {
         };
 
         resolve(latestRelease);
+      }, () => {
+        reject();
       });
     });
   }
 
-  requestReleaseDataFromGitHub(callback) {
+  requestReleaseDataFromGitHub(successCallback, errorCallback) {
     var githubUrl = "https://api.github.com/repos/tobias-klein/ezra-project/releases/latest";
-    $.getJSON(githubUrl, callback);
+    return $.getJSON(githubUrl).done(successCallback).error(errorCallback);
   }
 }
 
