@@ -56,8 +56,11 @@
 [x] Implement a new release info functionality
 [x] Cleanup gyp shebang
 [x] Package for CentOS 8
+[ ] Fix bug: Tag label click's cannot handle &
+[ ] Add recently used tags filter to Tags menu
 [ ] Put all build scripts in one folder
 [ ] Synchronize tags across tabs
+[ ] Understand differences in NT versification and handle it correctly in the software
 [ ] Add options to book search (case sensitivity, multi word)
 [ ] Highlight module search results
 [ ] Implement Sword module unlocking
