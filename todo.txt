@@ -54,6 +54,9 @@
 [x] Respond to enter/return key in new tag form
 [x] Properly highlight search results in in-place search when using a tagged verse list or search results
 [x] Implement a new release info functionality
+[x] Cleanup gyp shebang
+[x] Package for CentOS 8
+[ ] Put all build scripts in one folder
 [ ] Synchronize tags across tabs
 [ ] Add options to book search (case sensitivity, multi word)
 [ ] Highlight module search results
