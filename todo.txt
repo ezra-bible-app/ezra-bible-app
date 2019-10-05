@@ -58,6 +58,7 @@
 [x] Package for CentOS 8
 [ ] Fix bug: Tag label click's cannot handle &
 [ ] Add recently used tags filter to Tags menu
+[ ] Add filter in Tag list popup: Only show current book
 [ ] Put all build scripts in one folder
 [ ] Synchronize tags across tabs
 [ ] Understand differences in NT versification and handle it correctly in the software
