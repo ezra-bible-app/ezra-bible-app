@@ -478,24 +478,8 @@ function TagsController() {
 
     for (var i = 0; i < selected_verses.length; i++) {
       var current_verse_id = $(selected_verses[i]).find('verse-id').text();
-      var current_verse_part = $(selected_verses[i]).find('verse-part').text();
-
       var current_verse_box = $('.verse-id-' + current_verse_id);
-      if (current_verse_box.length > 1) {
-        switch(current_verse_part) {
-          case "FIRST_PART":
-            current_verse_box = $(current_verse_box[0]);
-            break;
-
-          case "SECOND_PART":
-            current_verse_box = $(current_verse_box[1]);
-            break;
-
-          default:
-            break;
-        }
-      }
-
+      
       var current_tag_data_container = current_verse_box.find('.tag-data');
       var current_tag_info = current_verse_box.find('.tag-info');
       var current_tag_info_title = current_tag_info.attr('title');
@@ -534,6 +518,10 @@ function TagsController() {
           break;
       }
 
+      if (already_there) {
+        continue;
+      }
+
       if (current_tag_info_title_array.length > 1) {
         current_tag_info_title = current_tag_info_title_array.join(', ');
       } else {
@@ -542,10 +530,6 @@ function TagsController() {
         } else {
           current_tag_info_title = "";
         }
-      }
-
-      if (already_there) {
-        continue;
       }
 
       current_tag_info.attr('title', current_tag_info_title);
