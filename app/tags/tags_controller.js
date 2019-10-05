@@ -232,7 +232,6 @@ function TagsController() {
     var verse_list = $.create_xml_doc(tags_controller.element_list_to_xml_verse_list(tag_data_elements));
 
     tags_controller.change_verse_list_tag_info(tag_id,
-                                               tag_is_global,
                                                tag_title,
                                                verse_list,
                                                "remove");
@@ -351,7 +350,6 @@ function TagsController() {
       tags_controller.communication_controller.assign_tag_to_verses(id, filteredVerseIds);
 
       tags_controller.change_verse_list_tag_info(id,
-                                                 is_global,
                                                  cb_label,
                                                  $.create_xml_doc(current_verse_selection),
                                                  "assign");
@@ -450,7 +448,6 @@ function TagsController() {
     tags_controller.communication_controller.remove_tag_from_verses(job.id, job.verse_ids);
     
     tags_controller.change_verse_list_tag_info(job.id,
-                                               job.is_global,
                                                job.cb_label,
                                                job.xml_verse_selection,
                                                "remove");
@@ -461,102 +458,120 @@ function TagsController() {
     $('#remove-tag-assignment-confirmation-dialog').dialog('close');
   };
 
+  /**
+   * This function updates the tag info in existing verse lists after tags have been assigned/removed
+   */
   this.change_verse_list_tag_info = function(tag_id,
-                                             tag_is_global,
                                              tag_title,
                                              verse_selection,
                                              action) {
 
     verse_selection = $(verse_selection);
-
-    var tag_class = "tag-global";
-    if (!tag_is_global) {
-      tag_class = "tag-book";
-    }
-
     var selected_verses = verse_selection.find('verse');
 
     for (var i = 0; i < selected_verses.length; i++) {
       var current_verse_id = $(selected_verses[i]).find('verse-id').text();
       var current_verse_box = $('.verse-id-' + current_verse_id);
-      
-      var current_tag_data_container = current_verse_box.find('.tag-data');
-      var current_tag_info = current_verse_box.find('.tag-info');
-      var current_tag_info_title = current_tag_info.attr('title');
-      var current_tag_info_text = tag_title;
-      if (!tag_is_global) current_tag_info_text += '*';
-      var already_there = false;
 
-      var current_tag_info_title_array = new Array;
-      if (current_tag_info_title != "" && current_tag_info_title != undefined) {
-        current_tag_info_title_array = current_tag_info_title.split(', ');
-      }
-
-      switch (action) {
-        case "assign":
-          for (var j = 0; j < current_tag_info_title_array.length; j++) {
-            if (current_tag_info_title_array[j] == current_tag_info_text) {
-              already_there = true;
-              break;
-            }
-          }
-
-          if (!already_there) {
-            current_tag_info_title_array.push(current_tag_info_text);
-            current_tag_info_title_array.sort();
-          }
-          break;
-
-        case "remove":
-          for (var j = 0; j < current_tag_info_title_array.length; j++) {
-            if (current_tag_info_title_array[j] == current_tag_info_text) {
-              current_tag_info_title_array.splice(j, 1);
-              break;
-            }
-          }
-          
-          break;
-      }
-
-      if (already_there) {
-        continue;
-      }
-
-      if (current_tag_info_title_array.length > 1) {
-        current_tag_info_title = current_tag_info_title_array.join(', ');
-      } else {
-        if (current_tag_info_title_array.length == 1) {
-          current_tag_info_title = current_tag_info_title_array[0];
-        } else {
-          current_tag_info_title = "";
-        }
-      }
-
-      current_tag_info.attr('title', current_tag_info_title);
-      if (current_tag_info_title != "") {
-        current_tag_info.addClass('visible');
-      } else {
-        current_tag_info.removeClass('visible');
-      }
-
-      switch (action) {
-        case "assign":
-          var new_tag_data_div = tags_controller.new_tag_data_html(tag_class, tag_title, tag_id);
-          current_tag_data_container.append(new_tag_data_div);
-          break;
-
-        case "remove":
-          var existing_tag_data_div = current_tag_data_container.find('.tag-id').filter(function(index){
-            return ($(this).html() == tag_id);
-          }).parent();
-          
-          existing_tag_data_div.detach();
-          break;
-      }
-
-      tags_controller.update_visible_tags_of_verse_box(current_verse_box, current_tag_info_title_array);
+      tags_controller.change_verse_list_tag_info_for_verse_box(current_verse_box, tag_id, tag_title, action);
     }
   };
+
+  this.change_verse_list_tag_info_for_verse_box = function(verse_box, tag_id, tag_title, action) {
+    var current_tag_info = verse_box.find('.tag-info');
+    var current_tag_info_title = current_tag_info.attr('title');
+
+    new_tag_info_title_array = tags_controller.get_new_tag_info_title_array(current_tag_info_title, tag_title, action);
+    var updated = tags_controller.update_tag_info_title(current_tag_info, new_tag_info_title_array, current_tag_info_title);
+
+    if (updated) {
+      tags_controller.update_tag_data_container(verse_box, tag_id, tag_title, action);
+      tags_controller.update_visible_tags_of_verse_box(verse_box, new_tag_info_title_array);
+    }
+  };
+
+  this.get_new_tag_info_title_array = function(tag_info_title, tag_title, action) {
+    var already_there = false;
+    var current_tag_info_title_array = new Array;
+    if (tag_info_title != "" && tag_info_title != undefined) {
+      current_tag_info_title_array = tag_info_title.split(', ');
+    }
+
+    switch (action) {
+      case "assign":
+        for (var j = 0; j < current_tag_info_title_array.length; j++) {
+          if (current_tag_info_title_array[j] == tag_title) {
+            already_there = true;
+            break;
+          }
+        }
+
+        if (!already_there) {
+          current_tag_info_title_array.push(tag_title);
+          current_tag_info_title_array.sort();
+        }
+        break;
+
+      case "remove":
+        for (var j = 0; j < current_tag_info_title_array.length; j++) {
+          if (current_tag_info_title_array[j] == tag_title) {
+            current_tag_info_title_array.splice(j, 1);
+            break;
+          }
+        }
+        
+        break;
+    }
+
+    return current_tag_info_title_array;
+  };
+
+  this.update_tag_info_title = function(tag_info, new_title_array, old_title) {
+    var new_tag_info_title = "";
+
+    if (new_title_array.length > 1) {
+      new_tag_info_title = new_title_array.join(', ');
+    } else {
+      if (new_title_array.length == 1) {
+        new_tag_info_title = new_title_array[0];
+      } else {
+        new_tag_info_title = "";
+      }
+    }
+
+    if (new_tag_info_title == old_title) {
+      return false;
+
+    } else {
+      tag_info.attr('title', new_tag_info_title);
+      if (new_tag_info_title != "") {
+        tag_info.addClass('visible');
+      } else {
+        tag_info.removeClass('visible');
+      }
+
+      return true;
+    }
+  };
+
+  this.update_tag_data_container = function(verse_box, tag_id, tag_title, action) {
+    var current_tag_data_container = verse_box.find('.tag-data');
+
+    switch (action) {
+      case "assign":
+        var new_tag_data_div = tags_controller.new_tag_data_html("tag-global", tag_title, tag_id);
+        current_tag_data_container.append(new_tag_data_div);
+        break;
+
+      case "remove":
+        var existing_tag_data_div = current_tag_data_container.find('.tag-id').filter(function(index){
+          return ($(this).html() == tag_id);
+        }).parent();
+        
+        existing_tag_data_div.detach();
+        break;
+    }
+  }
 
   this.update_visible_tags_of_verse_box = function(verse_box, tag_title_array) {
     var tag_box = $(verse_box).find('.tag-box');
