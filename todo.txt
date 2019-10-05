@@ -56,6 +56,7 @@
 [x] Implement a new release info functionality
 [x] Cleanup gyp shebang
 [x] Package for CentOS 8
+[ ] Add loading indicator to tag list popup, because initial loading may be slow
 [ ] Fix bug: Tag label click's cannot handle &
 [ ] Add recently used tags filter to Tags menu
 [ ] Add filter in Tag list popup: Only show current book
