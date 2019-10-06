@@ -450,44 +450,47 @@ function TagsController() {
 
     verse_selection = $(verse_selection);
     var selected_verses = verse_selection.find('verse');
-
-    var current_tab_index = bible_browser_controller.tab_controller.getSelectedTabIndex();
-    var tab_count = bible_browser_controller.tab_controller.getTabCount();
     var current_verse_list = bible_browser_controller.getCurrentVerseList();
 
     for (var i = 0; i < selected_verses.length; i++) {
       var current_verse_id = $(selected_verses[i]).find('verse-id').text();
       var current_verse_box = current_verse_list.find('.verse-id-' + current_verse_id);
-      var current_verse_bible_book_id = current_verse_box.find('.verse-bible-book-id').text();
-
       var current_db_verse = await models.Verse.findByPk(current_verse_id);
-      var absolute_verse_nrs = await current_db_verse.getAbsoluteVerseNrs();
 
       tags_controller.change_verse_list_tag_info_for_verse_box(current_verse_box, tag_id, tag_title, action);
+      tags_controller.change_verse_list_tag_info_for_verse_boxes_in_other_tabs(current_db_verse, tag_id, tag_title, action);
+    }
+  };
 
-      for (var j = 0; j < tab_count; j++) {
-        if (j != current_tab_index) {
-          var current_tab_translation = bible_browser_controller.tab_controller.getTab(j).getBibleTranslationId();
-          var current_db_bible_translation = await models.BibleTranslation.findByPk(current_tab_translation);
-          var current_versification = current_db_bible_translation.versification;
-          var current_target_verse_nr = "";
+  this.change_verse_list_tag_info_for_verse_boxes_in_other_tabs = async function(db_verse, tag_id, tag_title, action) {
+    var current_tab_index = bible_browser_controller.tab_controller.getSelectedTabIndex();
+    var tab_count = bible_browser_controller.tab_controller.getTabCount();
+    var absolute_verse_nrs = await db_verse.getAbsoluteVerseNrs();
 
-          if (current_versification == 'ENGLISH') {
-            current_target_verse_nr = absolute_verse_nrs["absoluteVerseNrEng"];
-          } else {
-            current_target_verse_nr = absolute_verse_nrs["absoluteVerseNrHeb"];
-          }
+    for (var i = 0; i < tab_count; i++) {
+      if (i != current_tab_index) {
+        var current_tab_translation = bible_browser_controller.tab_controller.getTab(i).getBibleTranslationId();
+        var current_db_bible_translation = await models.BibleTranslation.findByPk(current_tab_translation);
+        var current_versification = current_db_bible_translation.versification;
+        var current_target_verse_nr = "";
 
-          var target_verse_list = bible_browser_controller.getCurrentVerseList(j);
-          var target_verse_box = target_verse_list.find('.verse-nr-' + current_target_verse_nr);
+        if (current_versification == 'HEBREW') {
+          current_target_verse_nr = absolute_verse_nrs["absoluteVerseNrHeb"];
+        } else {
+          current_target_verse_nr = absolute_verse_nrs["absoluteVerseNrEng"];
+        }
 
-          for (var k = 0; k < target_verse_box.length; k++) {
-            var specific_target_verse_box = $(target_verse_box[k]);
-            var target_verse_box_bible_book_id = specific_target_verse_box.find('.verse-bible-book-id').text();
+        var target_verse_list = bible_browser_controller.getCurrentVerseList(i);
+        var target_verse_box = target_verse_list.find('.verse-nr-' + current_target_verse_nr);
 
-            if (target_verse_box_bible_book_id == current_verse_bible_book_id) {
-              tags_controller.change_verse_list_tag_info_for_verse_box(specific_target_verse_box, tag_id, tag_title, action);
-            }
+        // There are potentially multiple verse boxes returned (could be the case for a tagged verse list or a search results list)
+        // Therefore we have to go through all of them and check for each of them whether the book is matching our reference book
+        for (var j = 0; j < target_verse_box.length; j++) {
+          var specific_target_verse_box = $(target_verse_box[j]);
+          var target_verse_box_bible_book_id = specific_target_verse_box.find('.verse-bible-book-id').text();
+
+          if (target_verse_box_bible_book_id == db_verse.bibleBookId) {
+            tags_controller.change_verse_list_tag_info_for_verse_box(specific_target_verse_box, tag_id, tag_title, action);
           }
         }
       }
