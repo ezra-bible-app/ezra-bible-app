@@ -58,6 +58,7 @@
 [x] Package for CentOS 8
 [x] Synchronize tags across tabs
 [ ] Refresh tagged verse lists in other tabs if a relevant tag is assigned/removed in the current tab
+[ ] Optimize resize_app_container performance by making it tab-specific
 [ ] Add loading indicator to tag list popup, because initial loading may be slow
 [ ] Fix bug: Tag label click's cannot handle &
 [ ] Add recently used tags filter to Tags menu
