@@ -70,6 +70,7 @@ function adapt_verse_list() {
   }
 }
 
+// FIXME: Optimize this to be tab-specific
 function resize_app_container(e) {
   var new_app_container_height = $(window).height() - 10;
   $("#app-container").css("height", new_app_container_height);
