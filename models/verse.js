@@ -126,10 +126,9 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Verse.prototype.findOrCreateVerseReference = function() {
+  Verse.prototype.getAbsoluteVerseNrs = function() {
     return this.getBibleBook().then(bibleBook => {
       return this.getBibleTranslation().then(bibleTranslation => {
-
         var absoluteVerseNrEng = null;
         var absoluteVerseNrHeb = null;
 
@@ -141,24 +140,33 @@ module.exports = (sequelize, DataTypes) => {
           absoluteVerseNrEng = this.getAbsoluteVerseNrEngFromHeb(bibleBook.shortTitle, absoluteVerseNrHeb);
         }
 
-        var newVerseReference = {
-          bibleBookId: this.bibleBookId,
-          chapter: this.chapter,
-          verseNr: this.verseNr,
-          absoluteVerseNrEng: absoluteVerseNrEng,
-          absoluteVerseNrHeb: absoluteVerseNrHeb
+        return {
+          "absoluteVerseNrEng": absoluteVerseNrEng,
+          "absoluteVerseNrHeb": absoluteVerseNrHeb
         };
+      });
+    });
+  };
 
-        return this.getVerseReference().then(verseReference => {
-          if (verseReference == undefined) {
-            return models.VerseReference.create(newVerseReference).then(() => {
-              // TODO: Update the verse reference also for the corresponding verses of all other bible translations
-              return this.getVerseReference();
-            });
-          } else {
-            return verseReference;
-          }
-        });
+  Verse.prototype.findOrCreateVerseReference = function() {
+    return this.getAbsoluteVerseNrs().then(absoluteVerseNrs => {
+      var newVerseReference = {
+        bibleBookId: this.bibleBookId,
+        chapter: this.chapter,
+        verseNr: this.verseNr,
+        absoluteVerseNrEng: absoluteVerseNrs["absoluteVerseNrEng"],
+        absoluteVerseNrHeb: absoluteVerseNrs["absoluteVerseNrHeb"]
+      };
+
+      return this.getVerseReference().then(verseReference => {
+        if (verseReference == undefined) {
+          return models.VerseReference.create(newVerseReference).then(() => {
+            // TODO: Update the verse reference also for the corresponding verses of all other bible translations
+            return this.getVerseReference();
+          });
+        } else {
+          return verseReference;
+        }
       });
     });
   };
