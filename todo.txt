@@ -56,12 +56,13 @@
 [x] Implement a new release info functionality
 [x] Cleanup gyp shebang
 [x] Package for CentOS 8
+[x] Synchronize tags across tabs
 [ ] Add loading indicator to tag list popup, because initial loading may be slow
 [ ] Fix bug: Tag label click's cannot handle &
 [ ] Add recently used tags filter to Tags menu
 [ ] Add filter in Tag list popup: Only show current book
 [ ] Put all build scripts in one folder
-[ ] Synchronize tags across tabs
+[ ] Add link to verse references in verse lists, so that the user can jump directly to the full context of a verse
 [ ] Understand differences in NT versification and handle it correctly in the software
 [ ] Add options to book search (case sensitivity, multi word)
 [ ] Highlight module search results
