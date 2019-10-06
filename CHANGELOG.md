@@ -21,6 +21,7 @@ All notable changes to Ezra Project are documented in this file.
 * Also show currently selected verses in verse list mode (relevant for tagged verse lists or module search results)
 * Update the tag statistics whenever a tag gets assigned or removed from a verse.
 * Fixed the font-size for the tag statistics popup (now like any other dialogue).
+* When adding/removing tags, also update the frontend verse box in all other tabs besides the currently opened one.
 
 ### Enablers
 * Internationalization support (using [I18next][i18next])
