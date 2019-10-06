@@ -61,6 +61,10 @@ class TabController {
     this.metaTabs.push(newTab);
   }
 
+  getTabCount() {
+    return this.metaTabs.length;
+  }
+
   saveTabConfiguration() {
     if (this.persistanceEnabled) {
       //console.log('Saving tab configuration');
