@@ -57,10 +57,10 @@
 [x] Cleanup gyp shebang
 [x] Package for CentOS 8
 [x] Synchronize tags across tabs
-[ ] Refresh tagged verse lists in other tabs if a relevant tag is assigned/removed in the current tab
-[ ] Optimize resize_app_container performance by making it tab-specific
-[ ] Add loading indicator to tag list popup, because initial loading may be slow
+[x] Optimize resize_app_container performance by making it tab-specific
 [ ] Fix bug: Tag label click's cannot handle &
+[ ] Refresh tagged verse lists in other tabs if a relevant tag is assigned/removed in the current tab
+[ ] Add loading indicator to tag list popup, because initial loading may be slow
 [ ] Add recently used tags filter to Tags menu
 [ ] Add filter in Tag list popup: Only show current book
 [ ] Put all build scripts in one folder
