@@ -28,6 +28,7 @@ var models = null;
 bible_browser_controller = null;
 tags_controller = null;
 reference_separator = ':';
+app_container_height = null;
 
 $.create_xml_doc = function(string)
 {
@@ -60,42 +61,39 @@ function getLineBreak() {
   }
 }
 
-function adapt_verse_list() {
-  var currentVerseListComposite = bible_browser_controller.getCurrentVerseListComposite();
-  var currentVerseListFrame = currentVerseListComposite.find('.verse-list-frame');
-  if (currentVerseListFrame.width() < 650) {
-    currentVerseListFrame.addClass('verse-list-frame-small-screen');
+function adapt_verse_list(verseListFrame=undefined) {
+  if (verseListFrame === undefined) {
+    verseListFrame = bible_browser_controller.getCurrentVerseListFrame();
+  }
+  
+  if (verseListFrame.width() < 650) {
+    verseListFrame.addClass('verse-list-frame-small-screen');
   } else {
-    currentVerseListFrame.removeClass('verse-list-frame-small-screen');
+    verseListFrame.removeClass('verse-list-frame-small-screen');
   }
 }
 
 // FIXME: Optimize this to be tab-specific
 function resize_app_container(e) {
-  var new_app_container_height = $(window).height() - 10;
-  $("#app-container").css("height", new_app_container_height);
-
-  $('#tags-view, #notes-view, #xrefs-view').css('height', new_app_container_height - 110);
-  $('.verse-list-frame').css('height', new_app_container_height - 110);
-  $('.navigation-pane').css('height', new_app_container_height - 110);
-  $('#tags-content-global').css('height', new_app_container_height - 145);
-
-  // Book tags disabled
-  //$('#tags-content-book').css('height', new_app_container_height - 220);
-
+  app_container_height = $(window).height() - 10;
+  $("#app-container").css("height", app_container_height);
   // Notes disabled
   // $('#general-notes-textarea').css('height', new_app_container_height - 210);
+  $('#tags-content-global').css('height', app_container_height - 145);
+  resize_verse_list();
+}
 
-  $('#tag-browser-taglist').css('height', new_app_container_height - 110);
-  $('#tag-browser-taglist-global, #tag-browser-taglist-book').css('height', new_app_container_height - 140);
-
-  adapt_verse_list();
+function resize_verse_list() {
+  var verseListComposite = bible_browser_controller.getCurrentVerseListComposite();
+  verseListComposite.find('.navigation-pane').css('height', app_container_height - 110);
+  var verseListFrame = verseListComposite.find('.verse-list-frame');
+  verseListFrame.css('height', app_container_height - 110);
+  adapt_verse_list(verseListFrame);
 }
 
 function handle_window_resize()
 {
   resize_app_container();
-  adapt_verse_list();
 }
 
 function configure_button_styles(context = null)

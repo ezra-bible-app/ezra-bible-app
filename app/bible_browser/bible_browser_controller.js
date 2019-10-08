@@ -177,10 +177,11 @@ function BibleBrowserController() {
   };
 
   this.onTabAdded = function(tabIndex=0) {
-    resize_app_container();
+    resize_verse_list();
+    
+    bible_browser_controller.init_current_verse_list_menu(tabIndex);
     bible_browser_controller.tag_selection_menu.init_tag_selection_menu(tabIndex);
     bible_browser_controller.module_search.init_module_search_menu(tabIndex);
-    bible_browser_controller.init_current_verse_list_menu(tabIndex);
     bible_browser_controller.translation_controller.initTranslationsMenu(tabIndex);
     bible_browser_controller.translation_controller.initBibleTranslationInfoButton();
     bible_browser_controller.optionsMenu.initCurrentOptionsMenu(tabIndex);
