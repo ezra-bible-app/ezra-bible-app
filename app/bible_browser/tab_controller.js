@@ -379,7 +379,7 @@ class TabController {
   updateTabTitleAfterTagRenaming(old_title, new_title) {
     for (var i = 0; i < this.metaTabs.length; i++) {
       var currentMetaTab = this.metaTabs[i];
-      if (!currentMetaTab.textIsBook) {
+      if (currentMetaTab.getTextType() == 'tagged_verses') {
         var currentTagTitleList = currentMetaTab.tagTitleList;
         var tag_list = currentTagTitleList.split(', ');
         for (var j = 0; j < tag_list.length; j++) {

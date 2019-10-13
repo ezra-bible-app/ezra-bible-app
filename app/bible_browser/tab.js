@@ -26,7 +26,6 @@ class Tab {
     this.searchTerm = null;
     this.searchResults = null;
     this.searchOptions = {};
-    this.textIsBook = false;
     this.textType = null;
     this.lastHighlightedNavElementIndex = null;
     this.bibleTranslationId = defaultBibleTranslationId;
