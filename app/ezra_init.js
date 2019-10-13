@@ -83,11 +83,17 @@ function resize_app_container(e) {
   resize_verse_list();
 }
 
-function resize_verse_list() {
-  var verseListComposite = bible_browser_controller.getCurrentVerseListComposite();
+function resize_verse_list(tabIndex=undefined) {
+  if (tabIndex === undefined) {
+    tabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
+  }
+
+  var verseListComposite = bible_browser_controller.getCurrentVerseListComposite(tabIndex);
   verseListComposite.find('.navigation-pane').css('height', app_container_height - 110);
+
   var verseListFrame = verseListComposite.find('.verse-list-frame');
   verseListFrame.css('height', app_container_height - 110);
+  
   adapt_verse_list(verseListFrame);
 }
 

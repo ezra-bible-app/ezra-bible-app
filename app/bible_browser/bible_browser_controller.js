@@ -177,7 +177,7 @@ function BibleBrowserController() {
   };
 
   this.onTabAdded = function(tabIndex=0) {
-    resize_verse_list();
+    resize_verse_list(tabIndex);
     
     bible_browser_controller.init_current_verse_list_menu(tabIndex);
     bible_browser_controller.tag_selection_menu.init_tag_selection_menu(tabIndex);
