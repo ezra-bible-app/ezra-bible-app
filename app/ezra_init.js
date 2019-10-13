@@ -80,7 +80,17 @@ function resize_app_container(e) {
   // Notes disabled
   // $('#general-notes-textarea').css('height', new_app_container_height - 210);
   $('#tags-content-global').css('height', app_container_height - 145);
-  resize_verse_list();
+
+  if (e === undefined) {
+    // If there was no event then we don't react after the window was resized
+    resize_verse_list();
+  } else {
+    // If the window was resized we get an event. In this case we need to resize all verse lists in all tabs
+    var tabCount = bible_browser_controller.tab_controller.getTabCount();
+    for (var i = 0; i < tabCount; i++) {
+      resize_verse_list(i);
+    }
+  }
 }
 
 function resize_verse_list(tabIndex=undefined) {
@@ -97,11 +107,6 @@ function resize_verse_list(tabIndex=undefined) {
   verseListFrame.css('height', newVerseListHeight);
 
   adapt_verse_list(verseListFrame);
-}
-
-function handle_window_resize()
-{
-  resize_app_container();
 }
 
 function configure_button_styles(context = null)
@@ -224,7 +229,7 @@ function initUi()
   tags_controller.init_ui();
   configure_button_styles();
   resize_app_container();
-  $(window).bind("resize", handle_window_resize);
+  $(window).bind("resize", resize_app_container);
 
   $('#main-content').show();
 }
