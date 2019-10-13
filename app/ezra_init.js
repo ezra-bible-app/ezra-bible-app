@@ -89,11 +89,13 @@ function resize_verse_list(tabIndex=undefined) {
   }
 
   var verseListComposite = bible_browser_controller.getCurrentVerseListComposite(tabIndex);
-  verseListComposite.find('.navigation-pane').css('height', app_container_height - 110);
-
+  var navigationPane = verseListComposite.find('.navigation-pane');
   var verseListFrame = verseListComposite.find('.verse-list-frame');
-  verseListFrame.css('height', app_container_height - 110);
-  
+
+  var newVerseListHeight = app_container_height - 110;
+  navigationPane.css('height', newVerseListHeight);
+  verseListFrame.css('height', newVerseListHeight);
+
   adapt_verse_list(verseListFrame);
 }
 
