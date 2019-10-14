@@ -455,9 +455,12 @@ function TagsController() {
     for (var i = 0; i < selected_verses.length; i++) {
       var current_verse_id = $(selected_verses[i]).find('verse-id').text();
       var current_verse_box = current_verse_list.find('.verse-id-' + current_verse_id);
-      var current_db_verse = await models.Verse.findByPk(current_verse_id);
-
       tags_controller.change_verse_list_tag_info_for_verse_box(current_verse_box, tag_id, tag_title, action);
+    }
+
+    for (var i = 0; i < selected_verses.length; i++) {
+      var current_verse_id = $(selected_verses[i]).find('verse-id').text();
+      var current_db_verse = await models.Verse.findByPk(current_verse_id);
       tags_controller.change_verse_list_tag_info_for_verse_boxes_in_other_tabs(current_db_verse, tag_id, tag_title, action);
     }
   };
