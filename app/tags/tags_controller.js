@@ -1255,6 +1255,10 @@ function TagsController() {
     var selectedBooks = [];
     for (var i = 0; i < tags_controller.selected_verse_boxes.length; i++) {
       var currentVerseBox = $(tags_controller.selected_verse_boxes[i]);
+      if (currentVerseBox.length > 1) {
+        currentVerseBox = $(currentVerseBox[0]);
+      }
+
       var currentBibleBookId = currentVerseBox.find('.verse-bible-book-id').text();
       var currentBookShortName = await models.BibleBook.getShortTitleById(currentBibleBookId);
 
@@ -1272,6 +1276,10 @@ function TagsController() {
       var currentBookVerseReferences = [];
       for (var j = 0; j < tags_controller.selected_verse_boxes.length; j++) {
         var currentVerseBox = $(tags_controller.selected_verse_boxes[j]);
+        if (currentVerseBox.length > 1) {
+          currentVerseBox = $(currentVerseBox[0]);
+        }
+        
         var currentVerseBibleBookId = currentVerseBox.find('.verse-bible-book-id').text();
         var currentVerseBibleBookShortName = await models.BibleBook.getShortTitleById(currentVerseBibleBookId);
 
