@@ -13,7 +13,7 @@ export APPLE_ID="${APPLE_ID}"
 export APPLE_ID_PW="${APPLE_ID_PW}"
 
 echo "Notarizing app ..."
-node notarize_mac.js
+node build_scripts/notarize_mac.js
 
 if [ $? -eq 0 ]; then
     echo "App was notarized successfully!"
