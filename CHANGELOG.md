@@ -4,6 +4,20 @@ All notable changes to Ezra Project are documented in this file.
 <!--
 ## [Unreleased]
 ### Features
+* todo
+
+### Enhancements
+* todo
+
+### Fixes
+* todo
+
+### Enablers
+* todo
+-->
+
+## [0.10.0] - 2019-10-15
+### Features
 * Module search functionality (based on SWORD search function)
 * Added translation comparison function. The user can now quickly retrieve the selected verses in all the different available translations (in a popup).
 * Added function "Recently used tags" to tags filter menu (filters the tag list to the last 10 used tags)
@@ -28,7 +42,6 @@ All notable changes to Ezra Project are documented in this file.
 * Implemented packaging support for CentOS 8
 
 [i18next]: https://www.i18next.com
--->
 
 ## [0.9.0] - 2019-08-23
 ### Features
