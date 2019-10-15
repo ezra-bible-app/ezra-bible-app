@@ -134,7 +134,7 @@ class TranslationController {
       $('.book-select-button').addClass('ui-state-disabled');
       var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
       // FIXME: This needs to be adjusted based on the new menu
-      currentVerseList.find('.help-text').text(i18n.t("help.help-text-no-translations"));
+      currentVerseList.find('.help-text').html(i18n.t("help.help-text-no-translations", { interpolation: {escapeValue: false} }));
     } else {
       $('.bible-select').removeAttr('disabled');
       $('.book-select-button').removeClass('ui-state-disabled');
