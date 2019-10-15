@@ -6,5 +6,5 @@ node_modules/.bin/electron-osx-sign ./release/Ezra\ Project-darwin-x64/Ezra\ Pro
 --type='distribution' \
 --hardened-runtime \
 --no-gatekeeper-assess \
---entitlements='./entitlements.plist' \
---entitlements-inherit='./entitlements.plist'
+--entitlements='./build_scripts/entitlements.plist' \
+--entitlements-inherit='./build_scripts/entitlements.plist'
