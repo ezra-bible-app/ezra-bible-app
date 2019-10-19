@@ -270,7 +270,7 @@ class TranslationWizard {
   }
 
   async addTranslationWizardStepChanged(event, currentIndex, priorIndex) {
-    if (priorIndex == 0) {
+    if (priorIndex == 0 && currentIndex == 1) {
 
       // Repositories have been selected
       var wizardPage = "#translation-settings-wizard-add-p-0";
@@ -283,7 +283,7 @@ class TranslationWizard {
 
       setTimeout(() => this.listLanguages(this._selectedRepositories), 400);
 
-    } else if (priorIndex == 1) {
+    } else if (priorIndex == 1 && currentIndex == 2) {
 
       // Languages have been selected
       var wizardPage = "#translation-settings-wizard-add-p-1";
@@ -298,7 +298,7 @@ class TranslationWizard {
       bible_browser_controller.settings.set('selected_languages', languages);
       await this.listModules(languageCodes);
 
-    } else if (priorIndex == 2) {
+    } else if (currentIndex == 3) {
       
       // Bible translations have been selected
 
