@@ -101,10 +101,12 @@ class TranslationWizard {
       position: [offsetLeft, offsetTop],
       modal: true,
       title: i18n.t("translation-wizard.header"),
-      dialogClass: 'ezra-dialog',
+      dialogClass: 'ezra-dialog translation-wizard-dialog',
       width: wizardWidth,
       minHeight: 250
     });
+
+    this.unlockDialog();
   }
 
   async openAddTranslationWizard() {
@@ -244,6 +246,29 @@ class TranslationWizard {
     return true;
   }
 
+  lockDialogForAction(wizardId) {
+    wizardId = '#' + wizardId;
+
+    // Disable close button of dialog, at this point we don't allow the user to close the dialog any longer
+    $('.translation-wizard-dialog').find('.ui-dialog-titlebar-close').hide();
+
+    // Disable the back button, there is no way back from here
+    $($(wizardId).find('.actions').find('li')[0]).addClass('disabled')
+
+    // Disable the finish button as long as we haven't finished
+    $($(wizardId).find('.actions').find('li')[2]).addClass('disabled')
+  }
+
+  unlockDialog(wizardId) {
+    wizardId = '#' + wizardId;
+    
+    // Enable the finish button
+    $($(wizardId).find('.actions').find('li')[2]).removeClass('disabled');
+
+    // Enable close button of dialog
+    $('.translation-wizard-dialog').find('.ui-dialog-titlebar-close').show();
+  }
+
   async addTranslationWizardStepChanged(event, currentIndex, priorIndex) {
     if (priorIndex == 0) {
 
@@ -276,6 +301,9 @@ class TranslationWizard {
     } else if (priorIndex == 2) {
       
       // Bible translations have been selected
+
+      this.lockDialogForAction('translation-settings-wizard-add');
+
       var translationsPage = "#translation-settings-wizard-add-p-2";
       var translations = this.getSelectedSettingsWizardElements(translationsPage);
 
@@ -316,6 +344,7 @@ class TranslationWizard {
       }
 
       this._translationInstallStatus = 'DONE';
+      this.unlockDialog('translation-settings-wizard-add');
     }
   }
 
@@ -344,6 +373,8 @@ class TranslationWizard {
 
   async removeTranslationWizardStepChanged(event, currentIndex, priorIndex) {
     if (priorIndex == 0) {
+      this.lockDialogForAction('translation-settings-wizard-remove');
+
       // Bible translations have been selected
       var translationsPage = "#translation-settings-wizard-remove-p-0";
       var translations = this.getSelectedSettingsWizardElements(translationsPage);
@@ -384,9 +415,10 @@ class TranslationWizard {
           removalPage.append('<span>' + i18n.t("general.done") + '.</span>');
           removalPage.append('<br/>');
         }
-      }, 800);
 
-      this._translationRemovalStatus = 'DONE';
+        this._translationRemovalStatus = 'DONE';
+        this.unlockDialog('translation-settings-wizard-remove');
+      }, 800);
     }
   }
 
