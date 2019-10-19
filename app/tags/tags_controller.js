@@ -1490,7 +1490,7 @@ function TagsController() {
 
       if (translationCount > 0) {
         $('#new-standard-tag-button').removeClass('ui-state-disabled');
-        $('#tags-content-global').html(i18n.t("help.help-text-no-tags-book-opened"));
+        $('#tags-content-global').html(i18n.t("help.help-text-no-tags-book-opened", { interpolation: {escapeValue: false} }));
       } else {
         $('#new-standard-tag-button').addClass('ui-state-disabled');
         $('#tags-content-global').html(i18n.t("help.help-text-no-tags-no-book-opened"));
