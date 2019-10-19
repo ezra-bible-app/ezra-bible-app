@@ -419,9 +419,6 @@ class TranslationController {
     });
 
     if (!this.nodeSwordInterface.repositoryConfigExisting()) {
-      $('#bible-sync-box').dialog("open");
-      $('#bible-sync-box').append('<p>' + i18n.t('translation-wizard.updating-repository-data') + '</p>');
-
       await this.nodeSwordInterface.updateRepositoryConfig();
     }
 
