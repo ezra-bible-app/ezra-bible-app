@@ -7,10 +7,10 @@ All notable changes to Ezra Project are documented in this file.
 * todo
 
 ### Enhancements
-* todo
+* Lock wizard dialog once installation or uninstallation of translation has started.
 
 ### Fixes
-* todo
+* Fixed some locales.
 
 ### Enablers
 * todo
