@@ -411,7 +411,7 @@ class TranslationController {
     htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
   }
 
-  async sync_sword_modules() {
+  async syncSwordModules() {
     var currentVerseList = bible_browser_controller.getCurrentVerseList();
     var verse_list_position = currentVerseList.offset();
     $('#bible-sync-box').dialog({

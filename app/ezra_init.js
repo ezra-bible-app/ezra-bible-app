@@ -259,7 +259,7 @@ async function initApplication()
   initUi();
 
   console.log("Syncing sword modules ...");
-  await bible_browser_controller.translation_controller.sync_sword_modules();
+  await bible_browser_controller.translation_controller.syncSwordModules();
 
   console.log("Loading settings ...");
   bible_browser_controller.loadSettings();
