@@ -237,7 +237,7 @@ function BibleBrowserController() {
     currentVerseList.append("<div class='help-text'>To start using Ezra Project, select a book or a tag from the menu above.</div>");
     bible_browser_controller.translation_controller.disableCurrentTranslationInfoButton();
     
-    $('.book-select-value').text("Select book");
+    $('.book-select-value').text(i18n.t("verse-list-menu.book"));
   };
 
   this.onTranslationRemoved = function() {
