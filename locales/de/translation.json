@@ -86,9 +86,9 @@
   },
   "help": {
     "help-text-no-tags-book-opened": "Sie wollen anfangen mit Tags zu arbeiten?<br/><br/>Erstellen Sie Ihren ersten Tag, indem Sie oben auf den Button <i>Neuer&nbsp;Tag</i> klicken.<br/><br/>Danach können Sie beim Studium des Bibeltexts den Tag zuordnen, indem Sie auf den Vers klicken oder mehrere Verse mit gehaltener Maustaste auswählen und dann links die Auswahlbox neben dem gerade erstellten Tag anklicken.",
-    "help-text-no-tags-no-book-opened": "Sie wollen anfangen mit Tags zu arbeiten? Wählen Sie zunächst ein Buch, dass Sie studieren wollen.",
+    "help-text-no-tags-no-book-opened": "Sie wollen anfangen mit Tags zu arbeiten?<br/><br/>Wählen Sie zunächst ein Buch, dass Sie studieren wollen.",
     "help-text-translation-available": "Legen Sie los, indem Sie ein Buch oder einen Tag über das Menü oben auswählen.",
-    "help-text-no-translations": "Legen Sie los, indem Sie zunächst eine Bibelübersetzung installieren. <br/><br/>Klicken Sie auf das Einstellungssymbol und dann auf den Button <i>Übersetzungen konfigurieren</i>.<br/>Im Anschluss klicken Sie auf den Button <i>Bibelübersetzungen hinzufügen</i>."
+    "help-text-no-translations": "Legen Sie los, indem Sie zunächst eine Bibelübersetzung installieren. <br/><br/>Klicken Sie auf das Einstellungssymbol und dann auf den Button <i>Übersetzungen konfigurieren</i>."
   },
   "tags": {
     "new-tag": "Neuer Tag",
