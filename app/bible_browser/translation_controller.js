@@ -132,12 +132,15 @@ class TranslationController {
     if (count == 0) {
       bibleSelect.attr('disabled','disabled');
       $('.book-select-button').addClass('ui-state-disabled');
+      $('.module-search-button').addClass('ui-state-disabled');
+
       var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
       // FIXME: This needs to be adjusted based on the new menu
       currentVerseList.find('.help-text').html(i18n.t("help.help-text-no-translations", { interpolation: {escapeValue: false} }));
     } else {
       $('.bible-select').removeAttr('disabled');
       $('.book-select-button').removeClass('ui-state-disabled');
+      $('.module-search-button').removeClass('ui-state-disabled');
 
       if (currentBook == null && currentTagIdList == "")  {
         var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
