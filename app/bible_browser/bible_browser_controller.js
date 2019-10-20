@@ -409,6 +409,8 @@ function BibleBrowserController() {
     currentVerseList.find('.tag-box').filter(":not('.tag-events-configured')").bind('click', tags_controller.clear_verse_selection).addClass('tag-events-configured');
     currentVerseList.find('.tag').filter(":not('.tag-events-configured')").bind('click', bible_browser_controller.handle_tag_reference_click).addClass('tag-events-configured');
     currentVerseList.find('.verse-box').bind('mouseover', bible_browser_controller.onVerseBoxMouseOver);
+
+    bible_browser_controller.strongs_controller.bindAfterBibleTextLoaded(tabIndex);
   };
 
   this.getVerseListBookNumber = function(bibleBookLongTitle, bookHeaders=undefined) {

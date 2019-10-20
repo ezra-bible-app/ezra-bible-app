@@ -19,6 +19,22 @@
    class StrongsController {
     constructor() {
     }
+
+    bindAfterBibleTextLoaded(tabIndex=undefined) {
+      var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+      var currentBibleTranslationId = currentTab.getBibleTranslationId();
+
+      if (bible_browser_controller.translation_controller.hasBibleTranslationStrongs(currentBibleTranslationId)) {
+        var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+        currentVerseList.find('w').bind('mouseover', (e) => {
+          this.handleMouseOver(e);
+        });
+      }
+    }
+
+    handleMouseOver(event) {
+      //console.log("Strongs mouse over: " + event);
+    }
   }
   
   module.exports = StrongsController;

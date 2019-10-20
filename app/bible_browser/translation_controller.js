@@ -265,6 +265,15 @@ class TranslationController {
     $('#bible-translation-info-box').dialog("open");
   }
 
+  hasBibleTranslationStrongs(translationId) {
+    try {
+      var bibleTranslationModule = this.nodeSwordInterface.getLocalModule(translationId);
+      return bibleTranslationModule.hasStrongs;
+    } catch (e) {
+      return false;
+    }
+  }
+
   async handleBibleTranslationChange(event) {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
     var bibleSelect = currentVerseListMenu.find('select.bible-select');
