@@ -18,6 +18,8 @@
 
    class StrongsController {
     constructor() {
+      this.currentStrongsElement = null;
+      this.strongsBox = $('#strongs-box');
     }
 
     bindAfterBibleTextLoaded(tabIndex=undefined) {
@@ -33,7 +35,24 @@
     }
 
     handleMouseOver(event) {
-      //console.log("Strongs mouse over: " + event);
+      if (this.currentStrongsElement != null) {
+        this.currentStrongsElement.css('backgroundColor', 'inherit');
+      }
+
+      this.currentStrongsElement = $(event.target);
+      this.currentStrongsElement.css('backgroundColor', 'yellow');
+      
+      this.strongsBox.css({
+        'width': this.currentStrongsElement.width() + 4,
+        'height': this.currentStrongsElement.height() * 2 + 4
+      });
+
+      this.strongsBox.position({
+        at: "center bottom",
+        of: event.target
+      });
+
+      this.strongsBox.show();
     }
   }
   

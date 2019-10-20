@@ -1205,4 +1205,8 @@ h2 {
 
 #strongs-box {
   display: none;
+  border: 1px solid gray;
+  border-radius: 5px;
+  background-color: yellow;
+  vertical-align: bottom;
 }
