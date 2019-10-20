@@ -74,6 +74,7 @@ function BibleBrowserController() {
     this.init_component("TranslationComparison", "translationComparison", "./app/bible_browser/translation_comparison.js");
     this.init_component("BookSelectionMenu", "book_selection_menu", "./app/bible_browser/book_selection_menu.js");
     this.init_component("TagStatistics", "tag_statistics", "./app/bible_browser/tag_statistics.js");
+    this.init_component("StrongsController", "strongs_controller", "./app/bible_browser/strongs_controller.js");
 
     this.init_tag_reference_box();
     this.initGlobalShortCuts();
