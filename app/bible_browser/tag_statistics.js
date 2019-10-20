@@ -87,8 +87,10 @@ class TagStatistics {
     if (index === undefined) {
       index = bible_browser_controller.tab_controller.getSelectedTabIndex();
     }
+    
+    var currentTab = bible_browser_controller.tab_controller.getTab(index);
 
-    if (bible_browser_controller.tab_controller.getTab(index).getTextType() == 'book') {
+    if (currentTab != null && currentTab.getTextType() == 'book') {
       var tagsCount = await models.Tag.getTagCount();
 
       if (tagsCount > 0) {
