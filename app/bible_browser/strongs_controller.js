@@ -16,63 +16,64 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-   class StrongsController {
-    constructor() {
-      this.currentStrongsElement = null;
-      this.strongsBox = $('#strongs-box');
 
-      this.strongsBox.bind('mouseout', () => {
-        this.hideStrongsBox();
-      });
+class StrongsController {
+  constructor() {
+    this.currentStrongsElement = null;
+    this.strongsBox = $('#strongs-box');
+
+    this.strongsBox.bind('mouseout', () => {
+      this.hideStrongsBox();
+    });
+  }
+
+  hideStrongsBox() {
+    if (this.currentStrongsElement != null) {
+      this.currentStrongsElement.css('visibility', 'visible');
     }
 
-    hideStrongsBox() {
-      if (this.currentStrongsElement != null) {
-        this.currentStrongsElement.css('visibility', 'visible');
-      }
+    this.strongsBox.hide();
+  }
 
-      this.strongsBox.hide();
-    }
+  bindAfterBibleTextLoaded(tabIndex=undefined) {
+    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+    var currentBibleTranslationId = currentTab.getBibleTranslationId();
 
-    bindAfterBibleTextLoaded(tabIndex=undefined) {
-      var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
-      var currentBibleTranslationId = currentTab.getBibleTranslationId();
-
-      if (bible_browser_controller.translation_controller.hasBibleTranslationStrongs(currentBibleTranslationId)) {
-        var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
-        currentVerseList.find('w').bind('mouseover', (e) => {
-          this.handleMouseOver(e);
-        });
-      }
-    }
-
-    handleMouseOver(event) {
-      if (this.currentStrongsElement != null) {
-        this.currentStrongsElement.css('visibility', 'visible');
-      }
-
-      this.currentStrongsElement = $(event.target);
-      this.currentStrongsElement.css('visibility', 'hidden');
-      var currentStrongsId = this.currentStrongsElement.attr('lemma').split(':')[1];
-      console.log(currentStrongsId);
-      
-      this.strongsBox.css({
-        'width': this.currentStrongsElement.width() * 1.5 + 4,
-        'height': '40px',
-        'fontSize': this.currentStrongsElement.css('fontSize')
-      });
-
-      var text = this.currentStrongsElement.text();
-      text += "<br/>" + "test";
-
-      this.strongsBox.html(text);
-      this.strongsBox.show();
-
-      this.strongsBox.position({
-        at: "center bottom",
-        of: this.currentStrongsElement
+    if (bible_browser_controller.translation_controller.hasBibleTranslationStrongs(currentBibleTranslationId)) {
+      var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+      currentVerseList.find('w').bind('mouseover', (e) => {
+        this.handleMouseOver(e);
       });
     }
   }
-  
-  module.exports = StrongsController;
+
+  handleMouseOver(event) {
+    if (this.currentStrongsElement != null) {
+      this.currentStrongsElement.css('visibility', 'visible');
+    }
+
+    this.currentStrongsElement = $(event.target);
+    this.currentStrongsElement.css('visibility', 'hidden');
+    var currentStrongsId = this.currentStrongsElement.attr('lemma').split(':')[1];
+    console.log(currentStrongsId);
+    
+    this.strongsBox.css({
+      'width': this.currentStrongsElement.width() * 1.5 + 4,
+      'height': '40px',
+      'fontSize': this.currentStrongsElement.css('fontSize')
+    });
+
+    var text = this.currentStrongsElement.text();
+    text += "<br/>" + "test";
+
+    this.strongsBox.html(text);
+    this.strongsBox.show();
+
+    this.strongsBox.position({
+      at: "center bottom",
+      of: this.currentStrongsElement
+    });
+  }
+}
+
+module.exports = StrongsController;
