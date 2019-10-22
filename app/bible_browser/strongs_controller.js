@@ -19,9 +19,7 @@
    class StrongsController {
     constructor() {
       this.currentStrongsElement = null;
-
       this.strongsBox = $('#strongs-box');
-      this.strongsBoxContent = $('#strongs-box-content');
 
       this.strongsBox.bind('mouseout', () => {
         this.hideStrongsBox();
@@ -58,10 +56,14 @@
       
       this.strongsBox.css({
         'width': this.currentStrongsElement.width() * 1.5 + 4,
-        'height': this.currentStrongsElement.height() * 2.5 + 4
+        'height': this.currentStrongsElement.height() * 2 + 4,
+        'fontSize': this.currentStrongsElement.css('fontSize')
       });
 
-      this.strongsBoxContent.text('test');
+      var text = this.currentStrongsElement.text();
+      text += "<br/>" + "test";
+
+      this.strongsBox.html(text);
       this.strongsBox.show();
 
       this.strongsBox.position({
