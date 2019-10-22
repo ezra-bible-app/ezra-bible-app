@@ -19,7 +19,19 @@
    class StrongsController {
     constructor() {
       this.currentStrongsElement = null;
+
       this.strongsBox = $('#strongs-box');
+      this.strongsBox.bind('mouseout', () => {
+        this.hideStrongsBox();
+      });
+    }
+
+    hideStrongsBox() {
+      if (this.currentStrongsElement != null) {
+        this.currentStrongsElement.css('backgroundColor', 'inherit');
+      }
+
+      this.strongsBox.hide();
     }
 
     bindAfterBibleTextLoaded(tabIndex=undefined) {
@@ -47,12 +59,12 @@
         'height': this.currentStrongsElement.height() * 2 + 4
       });
 
+      this.strongsBox.show();
+
       this.strongsBox.position({
         at: "center bottom",
-        of: event.target
+        of: this.currentStrongsElement
       });
-
-      this.strongsBox.show();
     }
   }
   

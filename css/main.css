@@ -1209,4 +1209,7 @@ h2 {
   border-radius: 5px;
   background-color: yellow;
   vertical-align: bottom;
+  z-index: 100;
+  opacity: 0.5;
+  position: fixed;
 }
