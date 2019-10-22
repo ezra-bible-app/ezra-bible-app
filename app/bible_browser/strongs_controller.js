@@ -21,6 +21,8 @@
       this.currentStrongsElement = null;
 
       this.strongsBox = $('#strongs-box');
+      this.strongsBoxContent = $('#strongs-box-content');
+
       this.strongsBox.bind('mouseout', () => {
         this.hideStrongsBox();
       });
@@ -55,10 +57,11 @@
       this.currentStrongsElement.css('backgroundColor', 'yellow');
       
       this.strongsBox.css({
-        'width': this.currentStrongsElement.width() + 4,
-        'height': this.currentStrongsElement.height() * 2 + 4
+        'width': this.currentStrongsElement.width() * 1.5 + 4,
+        'height': this.currentStrongsElement.height() * 2.5 + 4
       });
 
+      this.strongsBoxContent.text('test');
       this.strongsBox.show();
 
       this.strongsBox.position({
