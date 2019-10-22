@@ -28,7 +28,7 @@
 
     hideStrongsBox() {
       if (this.currentStrongsElement != null) {
-        this.currentStrongsElement.css('backgroundColor', 'inherit');
+        this.currentStrongsElement.css('visibility', 'visible');
       }
 
       this.strongsBox.hide();
@@ -48,15 +48,17 @@
 
     handleMouseOver(event) {
       if (this.currentStrongsElement != null) {
-        this.currentStrongsElement.css('backgroundColor', 'inherit');
+        this.currentStrongsElement.css('visibility', 'visible');
       }
 
       this.currentStrongsElement = $(event.target);
-      this.currentStrongsElement.css('backgroundColor', 'yellow');
+      this.currentStrongsElement.css('visibility', 'hidden');
+      var currentStrongsId = this.currentStrongsElement.attr('lemma').split(':')[1];
+      console.log(currentStrongsId);
       
       this.strongsBox.css({
         'width': this.currentStrongsElement.width() * 1.5 + 4,
-        'height': this.currentStrongsElement.height() * 2 + 4,
+        'height': '40px',
         'fontSize': this.currentStrongsElement.css('fontSize')
       });
 
