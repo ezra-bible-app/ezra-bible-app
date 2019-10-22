@@ -16,6 +16,7 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const strongs = require('strongs');
 
 class StrongsController {
   constructor() {
@@ -54,17 +55,16 @@ class StrongsController {
 
     this.currentStrongsElement = $(event.target);
     this.currentStrongsElement.css('visibility', 'hidden');
-    var currentStrongsId = this.currentStrongsElement.attr('lemma').split(':')[1];
-    console.log(currentStrongsId);
+    var rawStrongsId = this.currentStrongsElement.attr('lemma');
+    var strongsId = rawStrongsId.split(' ')[0].split(':')[1];
     
     this.strongsBox.css({
-      'width': this.currentStrongsElement.width() * 1.5 + 4,
-      'height': '40px',
+      'height': '35px',
       'fontSize': this.currentStrongsElement.css('fontSize')
     });
 
     var text = this.currentStrongsElement.text();
-    text += "<br/>" + "test";
+    text += "<br/>" + strongs[strongsId].lemma;
 
     this.strongsBox.html(text);
     this.strongsBox.show();

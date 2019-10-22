@@ -1205,13 +1205,15 @@ h2 {
 
 #strongs-box {
   display: none;
+  text-align: center;
+  padding-top: 3px;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
   border: 1px solid gray;
   border-radius: 5px;
-  background-color: yellow;
-  vertical-align: bottom;
+  background-color: #e4f1fb;
   z-index: 100;
   opacity: 0.8;
+  user-select: none;
   position: fixed;
-  text-align: center;
-  padding-top: 8px;
 }
