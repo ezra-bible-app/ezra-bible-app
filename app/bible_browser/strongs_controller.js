@@ -152,6 +152,11 @@ class StrongsController {
     extendedStrongsInfo += strongsShortInfo;
     extendedStrongsInfo += "<br/><br/>";
     extendedStrongsInfo += strongsEntry.definition;
+    extendedStrongsInfo += "<br/><br/>";
+
+    for (var i = 0;  i < strongsEntry.references.length; i++) {
+      extendedStrongsInfo += strongsEntry.references[i] + "<br/>";
+    }
     
     return extendedStrongsInfo;
   }
