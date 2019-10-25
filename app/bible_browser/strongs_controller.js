@@ -24,6 +24,7 @@ class StrongsController {
     this.nodeSwordInterface = new NodeSwordInterface();
     this.currentStrongsElement = null;
     this.strongsBox = $('#strongs-box');
+    this.dictionaryInfoBox = $('#dictionary-info-box');
 
     this.strongsBox.bind('mouseout', () => {
       this.hideStrongsBox();
@@ -67,18 +68,23 @@ class StrongsController {
     });
 
     if (this.nodeSwordInterface.strongsAvailable()) {
-      var strongsInfo = strongs[strongsId].lemma;
+      var lemma = strongs[strongsId].lemma;
+      var strongsShortInfo = lemma;
 
       try {
         var strongsEntry = this.nodeSwordInterface.getStrongsEntry(strongsId);
-        strongsInfo = strongsEntry.key + ": " + strongsEntry.transcription + " &mdash; " + strongsInfo;
-        this.strongsBox.html(strongsInfo);
+        strongsShortInfo = strongsEntry.key + ": " + strongsEntry.transcription + " &mdash; " + strongsShortInfo;
+        this.strongsBox.html(strongsShortInfo);
+
+        var extendedStrongsInfo = this.getExtendedStrongsInfo(strongsEntry, lemma);
+        this.dictionaryInfoBox.html(extendedStrongsInfo);
       } catch (e) {
         console.log(e);
       }
 
       this.currentStrongsElement.bind('mouseout', () => {
         this.hideStrongsBox();
+        //this.dictionaryInfoBox.empty();
       });
   
       this.strongsBox.show().position({
@@ -87,6 +93,32 @@ class StrongsController {
         of: this.currentStrongsElement
       });
     }
+  }
+
+  getExtendedStrongsInfo(strongsEntry, lemma) {
+    var extendedStrongsInfo = "";
+    var language;
+
+    if (strongsEntry.key[0] == 'G') {
+      language = "Greek";
+    } else {
+      language = "Hebrew";
+    }
+
+    var strongsShortInfo = strongsEntry.key + ": " + 
+                           strongsEntry.transcription + " &mdash; " + 
+                           strongsEntry.phoneticTranscription + " &mdash; " + 
+                           lemma;
+
+    extendedStrongsInfo += "<b>Strong's " + language + "</b>";
+    extendedStrongsInfo += "<br/><br/>";
+    extendedStrongsInfo += strongsShortInfo;
+    extendedStrongsInfo += "<br/><br/>";
+    extendedStrongsInfo += "<u>Definition</u>";
+    extendedStrongsInfo += "<br/>";
+    extendedStrongsInfo += strongsEntry.definition;
+    
+    return extendedStrongsInfo;
   }
 }
 

@@ -168,6 +168,16 @@ a.outline-reference:focus, a.outline-reference:hover {
   margin-right: 0.5em;
 }
 
+#dictionary-info-box {
+  margin-top: 0.5em;
+  clear: both;
+  padding: 0.5em;
+  user-select: none;
+  border: 1px solid #DDDDDD;
+  border-radius: 6px;
+  overflow-y: scroll;
+}
+
 #filter-button {
   width: 16px;
   height: 16px;
