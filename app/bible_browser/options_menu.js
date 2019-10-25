@@ -30,6 +30,11 @@ class OptionsMenu {
       this.slowlyHideDisplayMenu();
     });
 
+    $('#strongs-switch').bind('change', () => {
+      this.showOrHideStrongsBasedOnOption();
+      this.slowlyHideDisplayMenu();
+    });
+
     $('#tags-switch').bind('change', () => {
       this.showOrHideVerseTagsBasedOnOption();
       this.slowlyHideDisplayMenu();
@@ -98,7 +103,12 @@ class OptionsMenu {
     var showSectionTitles = false;
     if (bible_browser_controller.settings.has('showSectionTitles')) {
       showSectionTitles = bible_browser_controller.settings.get('showSectionTitles');
-    }    
+    }
+
+    var showStrongs = false;
+    if (bible_browser_controller.settings.has('showStrongs')) {
+      showStrongs = bible_browser_controller.settings.get('showStrongs');
+    }
 
     // Enable the tags display by default
     var showTags = true;
@@ -117,6 +127,12 @@ class OptionsMenu {
       $('#section-title-switch-box').addClass('ui-state-active');
     }
 
+    if (showStrongs) {
+      $('#strongs-switch').attr('checked', 'checked');
+      $('#strongs-switch').removeAttr('disabled');
+      $('#strongs-switch-box').addClass('ui-state-active');      
+    }
+
     if (showTags) {
       $('#tags-switch').attr('checked', 'checked');
       $('#tags-switch').removeAttr('disabled');
@@ -130,6 +146,7 @@ class OptionsMenu {
     }   
     
     this.showOrHideSectionTitlesBasedOnOption();
+    this.showOrHideStrongsBasedOnOption();
     this.showOrHideVerseTagsBasedOnOption();
     this.changeTagsLayoutBasedOnOption();
   }
@@ -155,6 +172,11 @@ class OptionsMenu {
     } else {
       currentVerseList.removeClass('verse-list-with-section-titles');
     }
+  }
+
+  showOrHideStrongsBasedOnOption(tabIndex=undefined) {
+    bible_browser_controller.settings.set('showStrongs', this.strongsSwitchChecked());
+    resize_app_container();
   }
 
   showOrHideVerseTagsBasedOnOption(tabIndex=undefined) {
@@ -205,6 +227,10 @@ class OptionsMenu {
 
   sectionTitleSwitchChecked() {
     return $('#section-title-switch').attr('checked');
+  }
+
+  strongsSwitchChecked() {
+    return $('#strongs-switch').attr('checked');
   }
 
   tagsSwitchChecked() {

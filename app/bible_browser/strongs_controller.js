@@ -52,6 +52,10 @@ class StrongsController {
   }
 
   handleMouseOver(event) {
+    if (!bible_browser_controller.optionsMenu.strongsSwitchChecked()) {
+      return;
+    }
+
     if (this.currentStrongsElement != null) {
       this.currentStrongsElement.removeClass('strongs-hl');
     }
@@ -114,8 +118,6 @@ class StrongsController {
     extendedStrongsInfo += "<br/><br/>";
     extendedStrongsInfo += strongsShortInfo;
     extendedStrongsInfo += "<br/><br/>";
-    extendedStrongsInfo += "<u>Definition</u>";
-    extendedStrongsInfo += "<br/>";
     extendedStrongsInfo += strongsEntry.definition;
     
     return extendedStrongsInfo;

@@ -79,10 +79,13 @@ function resize_app_container(e) {
   $("#app-container").css("height", app_container_height);
   // Notes disabled
   // $('#general-notes-textarea').css('height', new_app_container_height - 210);
-  
-  //$('#tags-content-global').css('height', app_container_height - 145);
-  $('#tags-content-global').css('height', app_container_height - 450);
-  $('#dictionary-info-box').css('height', 280);
+
+  if (bible_browser_controller.optionsMenu.strongsSwitchChecked()) {
+    $('#tags-content-global').css('height', app_container_height - 450);
+    $('#dictionary-info-box').css('height', 280);
+  } else {
+    $('#tags-content-global').css('height', app_container_height - 145);
+  }
 
   if (e === undefined) {
     // If there was no event then we don't react after the window was resized
