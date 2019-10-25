@@ -136,13 +136,6 @@ class StrongsController {
 
   getExtendedStrongsInfo(strongsEntry, lemma) {
     var extendedStrongsInfo = "";
-    var language;
-
-    if (strongsEntry.key[0] == 'G') {
-      language = "Greek";
-    } else {
-      language = "Hebrew";
-    }
 
     var strongsShortInfo = strongsEntry.key + ": " + 
                            strongsEntry.transcription + " &mdash; " + 
