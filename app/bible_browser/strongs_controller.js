@@ -68,11 +68,13 @@ class StrongsController {
     var text = this.currentStrongsElement.text();
     var strongsValue = strongs[strongsId].lemma;
 
-    try {
-      var strongsEntry = this.nodeSwordInterface.getStrongsEntry(strongsId);
-      strongsValue = strongsEntry.transcription + " - " + strongsValue;
-    } catch (e) {
-      console.log(e);
+    if (this.nodeSwordInterface.strongsAvailable()) {
+      try {
+        var strongsEntry = this.nodeSwordInterface.getStrongsEntry(strongsId);
+        strongsValue = strongsEntry.transcription + " - " + strongsValue;
+      } catch (e) {
+        console.log(e);
+      }
     }
 
     text += "<br/>" + strongsValue;
