@@ -17,9 +17,11 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const strongs = require('strongs');
+const NodeSwordInterface = require('node-sword-interface');
 
 class StrongsController {
   constructor() {
+    this.nodeSwordInterface = new NodeSwordInterface();
     this.currentStrongsElement = null;
     this.strongsBox = $('#strongs-box');
 
@@ -55,7 +57,7 @@ class StrongsController {
 
     this.currentStrongsElement = $(event.target);
     this.currentStrongsElement.css('visibility', 'hidden');
-    var rawStrongsId = this.currentStrongsElement.attr('lemma');
+    var rawStrongsId = this.currentStrongsElement.attr('class');
     var strongsId = rawStrongsId.split(' ')[0].split(':')[1];
     
     this.strongsBox.css({
@@ -64,7 +66,16 @@ class StrongsController {
     });
 
     var text = this.currentStrongsElement.text();
-    text += "<br/>" + strongs[strongsId].lemma;
+    var strongsValue = strongs[strongsId].lemma;
+
+    try {
+      var strongsEntry = this.nodeSwordInterface.getStrongsEntry(strongsId);
+      strongsValue = strongsEntry.transcription + " - " + strongsValue;
+    } catch (e) {
+      console.log(e);
+    }
+
+    text += "<br/>" + strongsValue;
 
     this.strongsBox.html(text);
     this.strongsBox.show();
