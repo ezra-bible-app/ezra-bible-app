@@ -128,5 +128,11 @@
     "use-tags-column": "Tags in Spalte",
     "tag-statistics": "Tag Statistiken",
     "comparing-translations-for": "Vergleiche Übersetzungen für"
+  },
+  "dictionary-info-box": {
+    "greek": "Griechisch",
+    "hebrew": "Hebräisch",
+    "help-instruction": "Öffnen Sie zunächst eine Übersetzung mit Strongs. Bewegen Sie dann den Mauszeiger über individuelle Worte eines Verses, um die Strongs Informationen hier anzuzeigen.",
+    "lock-instruction": "Halten Sie die SHIFT Taste, um den Inhalt unten zu fixieren."
   }
 }

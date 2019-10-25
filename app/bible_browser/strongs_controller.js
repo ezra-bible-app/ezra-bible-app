@@ -18,16 +18,30 @@
 
 const strongs = require('strongs');
 const NodeSwordInterface = require('node-sword-interface');
+const Mousetrap = require('mousetrap');
 
 class StrongsController {
   constructor() {
     this.nodeSwordInterface = new NodeSwordInterface();
     this.currentStrongsElement = null;
     this.strongsBox = $('#strongs-box');
-    this.dictionaryInfoBox = $('#dictionary-info-box');
+    this.dictionaryInfoBoxHeader = $('#dictionary-info-box-header');
+    this.dictionaryInfoBoxLock = $('#dictionary-info-box-lock');
+    this.dictionaryInfoBox = $('#dictionary-info-box-content');
+    this.shiftKeyPressed = false;
 
     this.strongsBox.bind('mouseout', () => {
       this.hideStrongsBox();
+    });
+
+    Mousetrap.bind('shift', () => {
+      this.shiftKeyPressed = true;
+    });
+
+    $(document).on('keyup', (e) => {
+      if (e.key == 'Shift') {
+        this.shiftKeyPressed = false;
+      }
     });
   }
 
@@ -56,6 +70,10 @@ class StrongsController {
       return;
     }
 
+    if (this.shiftKeyPressed) {
+      return;
+    }
+
     if (this.currentStrongsElement != null) {
       this.currentStrongsElement.removeClass('strongs-hl');
     }
@@ -80,6 +98,10 @@ class StrongsController {
         strongsShortInfo = strongsEntry.key + ": " + strongsEntry.transcription + " &mdash; " + strongsShortInfo;
         this.strongsBox.html(strongsShortInfo);
 
+        var dictInfoHeader = this.getDictInfoHeader(strongsEntry);
+        this.dictionaryInfoBoxHeader.html(dictInfoHeader);
+        this.dictionaryInfoBoxLock.show();
+
         var extendedStrongsInfo = this.getExtendedStrongsInfo(strongsEntry, lemma);
         this.dictionaryInfoBox.html(extendedStrongsInfo);
       } catch (e) {
@@ -88,7 +110,6 @@ class StrongsController {
 
       this.currentStrongsElement.bind('mouseout', () => {
         this.hideStrongsBox();
-        //this.dictionaryInfoBox.empty();
       });
   
       this.strongsBox.show().position({
@@ -97,6 +118,20 @@ class StrongsController {
         of: this.currentStrongsElement
       });
     }
+  }
+
+  getDictInfoHeader(strongsEntry) {
+    var infoHeader = "";
+    var language;
+
+    if (strongsEntry.key[0] == 'G') {
+      language = i18n.t('dictionary-info-box.greek');
+    } else {
+      language = i18n.t('dictionary-info-box.hebrew');
+    }
+
+    infoHeader += "<b>Strong's " + language + "</b>";
+    return infoHeader;
   }
 
   getExtendedStrongsInfo(strongsEntry, lemma) {
@@ -114,8 +149,6 @@ class StrongsController {
                            strongsEntry.phoneticTranscription + " &mdash; " + 
                            lemma;
 
-    extendedStrongsInfo += "<b>Strong's " + language + "</b>";
-    extendedStrongsInfo += "<br/><br/>";
     extendedStrongsInfo += strongsShortInfo;
     extendedStrongsInfo += "<br/><br/>";
     extendedStrongsInfo += strongsEntry.definition;

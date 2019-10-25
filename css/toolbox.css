@@ -171,11 +171,20 @@ a.outline-reference:focus, a.outline-reference:hover {
 #dictionary-info-box {
   margin-top: 0.5em;
   clear: both;
-  padding: 0.5em;
   user-select: none;
   border: 1px solid #DDDDDD;
   border-radius: 6px;
   overflow-y: scroll;
+}
+
+#dictionary-info-box-lock {
+  font-style: italic;
+  color: grey;
+  display: none;
+}
+
+#dictionary-info-box div {
+  padding: 0.5em;
 }
 
 #filter-button {

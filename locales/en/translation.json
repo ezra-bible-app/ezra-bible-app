@@ -128,5 +128,11 @@
     "use-tags-column": "Use tags column",
     "tag-statistics": "tag statistics",
     "comparing-translations-for": "Comparing translations for"
+  },
+  "dictionary-info-box": {
+    "greek": "Greek",
+    "hebrew": "Hebrew",
+    "help-instruction": "Open a translation with Strong's and then move your mouse over the individual words and phrases to see Strong's infos here.",
+    "lock-instruction": "Hold the SHIFT key to lock the content below."
   }
 }
