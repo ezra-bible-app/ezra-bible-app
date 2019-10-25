@@ -32,7 +32,7 @@ class StrongsController {
 
   hideStrongsBox() {
     if (this.currentStrongsElement != null) {
-      this.currentStrongsElement.css('visibility', 'visible');
+      this.currentStrongsElement.removeClass('strongs-hl');
     }
 
     this.strongsBox.hide();
@@ -52,40 +52,41 @@ class StrongsController {
 
   handleMouseOver(event) {
     if (this.currentStrongsElement != null) {
-      this.currentStrongsElement.css('visibility', 'visible');
+      this.currentStrongsElement.removeClass('strongs-hl');
     }
 
     this.currentStrongsElement = $(event.target);
-    this.currentStrongsElement.css('visibility', 'hidden');
+    this.currentStrongsElement.addClass('strongs-hl');
     var rawStrongsId = this.currentStrongsElement.attr('class');
     var strongsId = rawStrongsId.split(' ')[0].split(':')[1];
+    var strongsNumber = parseInt(strongsId.substring(1));
+    strongsId = strongsId[0] + strongsNumber;
     
     this.strongsBox.css({
-      'height': '35px',
       'fontSize': this.currentStrongsElement.css('fontSize')
     });
 
-    var text = this.currentStrongsElement.text();
-    var strongsValue = strongs[strongsId].lemma;
-
     if (this.nodeSwordInterface.strongsAvailable()) {
+      var strongsInfo = strongs[strongsId].lemma;
+
       try {
         var strongsEntry = this.nodeSwordInterface.getStrongsEntry(strongsId);
-        strongsValue = strongsEntry.transcription + " - " + strongsValue;
+        strongsInfo = strongsEntry.key + " &mdash; " + strongsEntry.transcription + " &mdash; " + strongsInfo;
+        this.strongsBox.html(strongsInfo);
       } catch (e) {
         console.log(e);
       }
+
+      this.currentStrongsElement.bind('mouseout', () => {
+        this.hideStrongsBox();
+      });
+  
+      this.strongsBox.show().position({
+        my: "bottom",
+        at: "center top",
+        of: this.currentStrongsElement
+      });
     }
-
-    text += "<br/>" + strongsValue;
-
-    this.strongsBox.html(text);
-    this.strongsBox.show();
-
-    this.strongsBox.position({
-      at: "center bottom",
-      of: this.currentStrongsElement
-    });
   }
 }
 
