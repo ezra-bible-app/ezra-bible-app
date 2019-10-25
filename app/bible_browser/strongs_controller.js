@@ -71,7 +71,7 @@ class StrongsController {
 
       try {
         var strongsEntry = this.nodeSwordInterface.getStrongsEntry(strongsId);
-        strongsInfo = strongsEntry.key + " &mdash; " + strongsEntry.transcription + " &mdash; " + strongsInfo;
+        strongsInfo = strongsEntry.key + ": " + strongsEntry.transcription + " &mdash; " + strongsInfo;
         this.strongsBox.html(strongsInfo);
       } catch (e) {
         console.log(e);
