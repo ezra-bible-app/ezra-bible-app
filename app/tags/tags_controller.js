@@ -905,12 +905,6 @@ function TagsController() {
         number_of_verses
       );
 
-      /*tags_controller.communication_controller.request_verse_context(
-        current_book_title,
-        start_verse_nr,
-        number_of_verses
-      );*/
-
       $('#verse-expand-box').hide();
     }).addClass('tag-events-configured');
 
