@@ -82,7 +82,7 @@ function resize_app_container(e) {
 
   if (bible_browser_controller.optionsMenu.strongsSwitchChecked()) {
     $('#tags-content-global').css('height', app_container_height - 450);
-    $('#dictionary-info-box').css('height', 280);
+    $('#dictionary-info-box').css('height', 295);
   } else {
     $('#tags-content-global').css('height', app_container_height - 145);
   }
