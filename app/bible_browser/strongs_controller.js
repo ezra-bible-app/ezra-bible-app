@@ -46,9 +46,9 @@ class StrongsController {
   }
 
   hideStrongsBox() {
-    if (this.currentStrongsElement != null) {
+    /*if (this.currentStrongsElement != null) {
       this.currentStrongsElement.removeClass('strongs-hl');
-    }
+    }*/
 
     this.strongsBox.hide();
   }
