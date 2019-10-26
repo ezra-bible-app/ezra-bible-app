@@ -187,6 +187,10 @@ a.outline-reference:focus, a.outline-reference:hover {
   padding: 0.5em;
 }
 
+#dictionary-info-box-header {
+  float: left;
+}
+
 #filter-button {
   width: 16px;
   height: 16px;

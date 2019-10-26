@@ -28,6 +28,10 @@ class StrongsController {
     this.dictionaryInfoBoxHeader = $('#dictionary-info-box-header');
     this.dictionaryInfoBoxLock = $('#dictionary-info-box-lock');
     this.dictionaryInfoBox = $('#dictionary-info-box-content');
+    this.dictionaryInfoBoxBreadcrumbs = $('#dictionary-info-box-breadcrumbs');
+    this.dictionaryInfoBoxStack = [];
+    this.currentStrongsEntry = null;
+    this.currentLemma = null;
     this.shiftKeyPressed = false;
 
     this.strongsBox.bind('mouseout', () => {
@@ -97,6 +101,7 @@ class StrongsController {
         var strongsEntry = this.nodeSwordInterface.getStrongsEntry(strongsId);
         strongsShortInfo = strongsEntry.key + ": " + strongsEntry.transcription + " &mdash; " + strongsShortInfo;
         this.strongsBox.html(strongsShortInfo);
+        this.dictionaryInfoBoxStack = [ strongsId ];
         this.updateDictInfoBox(strongsEntry, lemma);
       } catch (e) {
         console.log(e);
@@ -114,9 +119,43 @@ class StrongsController {
     }
   }
 
+  getCurrentDictInfoBreadcrumbs() {
+    var crumbArray = [];
+
+    for (var i = 0; i < this.dictionaryInfoBoxStack.length; i++) {
+      if (i < this.dictionaryInfoBoxStack.length - 1) {
+        var currentRewindNumber = this.dictionaryInfoBoxStack.length - i - 1;
+        var currentCrumb = "<a href='javascript:bible_browser_controller.strongs_controller.rewindDictInfo(" + currentRewindNumber + ")'>";
+        currentCrumb += this.dictionaryInfoBoxStack[i];
+        currentCrumb += "</a>";
+      } else {
+        currentCrumb = "<b>" + this.dictionaryInfoBoxStack[i] + "</b>";
+      }
+
+      crumbArray.push(currentCrumb);
+    }
+
+    return crumbArray.join(' &rarr; ');
+  }
+
+  rewindDictInfo(rewindNumber) {
+    for (var i = 0; i < rewindNumber; i++) {
+      this.dictionaryInfoBoxStack.pop();
+      var key = this.dictionaryInfoBoxStack[this.dictionaryInfoBoxStack.length - 1];
+      this.currentStrongsEntry = this.nodeSwordInterface.getStrongsEntry(key);
+      this.currentLemma = jsStrongs[key].lemma;
+    }
+
+    this.updateDictInfoBox(this.currentStrongsEntry, this.currentLemma);
+  }
+
   updateDictInfoBox(strongsEntry, lemma) {
+    this.currentStrongsEntry = strongsEntry;
+    this.currentLemma = lemma;
+
     var dictInfoHeader = this.getDictInfoHeader(strongsEntry);
     this.dictionaryInfoBoxHeader.html(dictInfoHeader);
+    this.dictionaryInfoBoxBreadcrumbs.html(this.getCurrentDictInfoBreadcrumbs());
     this.dictionaryInfoBoxLock.show();
 
     var extendedStrongsInfo = this.getExtendedStrongsInfo(strongsEntry, lemma);
@@ -140,8 +179,7 @@ class StrongsController {
   getExtendedStrongsInfo(strongsEntry, lemma) {
     var extendedStrongsInfo = "";
 
-    var strongsShortInfo = strongsEntry.key + ": " + 
-                           strongsEntry.transcription + " &mdash; " + 
+    var strongsShortInfo = strongsEntry.transcription + " &mdash; " + 
                            strongsEntry.phoneticTranscription + " &mdash; " + 
                            lemma;
 
@@ -165,7 +203,15 @@ class StrongsController {
     try {
       var strongsEntry = this.nodeSwordInterface.getStrongsEntry(key);
       var lemma = jsStrongs[key].lemma;
-      this.updateDictInfoBox(strongsEntry, lemma);
+
+      // If the last element of the stack is the one that we want to navigate to ... just pop the stack
+      if (this.dictionaryInfoBoxStack.length >= 2 && this.dictionaryInfoBoxStack[this.dictionaryInfoBoxStack.length - 2] == key) {
+        this.rewindDictInfo(1);
+      } else {
+        // Otherwise push on the stack
+        this.dictionaryInfoBoxStack.push(key);
+        this.updateDictInfoBox(strongsEntry, lemma);
+      }
     } catch (e) {
       console.log(e);
     }
