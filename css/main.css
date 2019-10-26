@@ -68,6 +68,15 @@ h2 {
   font-size: 1.2em;
 }
 
+a:link {
+  text-decoration: none;
+  color: #2779aa;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 #main-content {
   font-size: 0.9em;
   display: none;
