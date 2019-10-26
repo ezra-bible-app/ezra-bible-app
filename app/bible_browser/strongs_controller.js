@@ -176,23 +176,36 @@ class StrongsController {
     return infoHeader;
   }
 
-  getExtendedStrongsInfo(strongsEntry, lemma) {
-    var extendedStrongsInfo = "";
-
+  getShortInfo(strongsEntry, lemma) {
     var strongsShortInfo = strongsEntry.transcription + " &mdash; " + 
                            strongsEntry.phoneticTranscription + " &mdash; " + 
                            lemma;
+    return strongsShortInfo;
+  }
+
+  getExtendedStrongsInfo(strongsEntry, lemma) {
+    var extendedStrongsInfo = "";
+
+    var strongsShortInfo = this.getShortInfo(strongsEntry, lemma);
 
     extendedStrongsInfo += strongsShortInfo;
     extendedStrongsInfo += "<br/><br/>";
     extendedStrongsInfo += strongsEntry.definition;
-    extendedStrongsInfo += "<br/><br/>";
+
+    if (strongsEntry.references.length > 0) {
+      extendedStrongsInfo += "<br/><br/>";
+      extendedStrongsInfo += "Related Strong's:<br/>";
+    }
 
     for (var i = 0;  i < strongsEntry.references.length; i++) {
       var referenceKey = strongsEntry.references[i].key;
+      var referenceStrongsEntry = this.nodeSwordInterface.getStrongsEntry(referenceKey);
+      var referenceStrongsLemma = jsStrongs[referenceKey].lemma;
+      var currentShortInfo = this.getShortInfo(referenceStrongsEntry, referenceStrongsLemma);
+      var referenceLinkText = referenceKey + ': ' + currentShortInfo;
       var referenceLink = "<a href=\"javascript:bible_browser_controller.strongs_controller.openStrongsReference('";
       referenceLink += referenceKey;
-      referenceLink += "')\">" + strongsEntry.references[i].text + "</a>";
+      referenceLink += "')\">" + referenceLinkText + "</a>";
       extendedStrongsInfo += referenceLink + "<br/>";
     }
     
