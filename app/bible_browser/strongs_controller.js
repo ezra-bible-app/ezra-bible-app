@@ -16,7 +16,7 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const strongs = require('strongs');
+const jsStrongs = require('strongs');
 const NodeSwordInterface = require('node-sword-interface');
 const Mousetrap = require('mousetrap');
 
@@ -60,12 +60,12 @@ class StrongsController {
     if (bible_browser_controller.translation_controller.hasBibleTranslationStrongs(currentBibleTranslationId)) {
       var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
       currentVerseList.find('w').bind('mouseover', (e) => {
-        this.handleMouseOver(e);
+        this.handleStrongsMouseOver(e);
       });
     }
   }
 
-  handleMouseOver(event) {
+  handleStrongsMouseOver(event) {
     if (!bible_browser_controller.optionsMenu.strongsSwitchChecked()) {
       return;
     }
@@ -90,20 +90,14 @@ class StrongsController {
     });
 
     if (this.nodeSwordInterface.strongsAvailable()) {
-      var lemma = strongs[strongsId].lemma;
+      var lemma = jsStrongs[strongsId].lemma;
       var strongsShortInfo = lemma;
 
       try {
         var strongsEntry = this.nodeSwordInterface.getStrongsEntry(strongsId);
         strongsShortInfo = strongsEntry.key + ": " + strongsEntry.transcription + " &mdash; " + strongsShortInfo;
         this.strongsBox.html(strongsShortInfo);
-
-        var dictInfoHeader = this.getDictInfoHeader(strongsEntry);
-        this.dictionaryInfoBoxHeader.html(dictInfoHeader);
-        this.dictionaryInfoBoxLock.show();
-
-        var extendedStrongsInfo = this.getExtendedStrongsInfo(strongsEntry, lemma);
-        this.dictionaryInfoBox.html(extendedStrongsInfo);
+        this.updateDictInfoBox(strongsEntry, lemma);
       } catch (e) {
         console.log(e);
       }
@@ -118,6 +112,15 @@ class StrongsController {
         of: this.currentStrongsElement
       });
     }
+  }
+
+  updateDictInfoBox(strongsEntry, lemma) {
+    var dictInfoHeader = this.getDictInfoHeader(strongsEntry);
+    this.dictionaryInfoBoxHeader.html(dictInfoHeader);
+    this.dictionaryInfoBoxLock.show();
+
+    var extendedStrongsInfo = this.getExtendedStrongsInfo(strongsEntry, lemma);
+    this.dictionaryInfoBox.html(extendedStrongsInfo);
   }
 
   getDictInfoHeader(strongsEntry) {
@@ -148,10 +151,24 @@ class StrongsController {
     extendedStrongsInfo += "<br/><br/>";
 
     for (var i = 0;  i < strongsEntry.references.length; i++) {
-      extendedStrongsInfo += strongsEntry.references[i] + "<br/>";
+      var referenceKey = strongsEntry.references[i].key;
+      var referenceLink = "<a href=\"javascript:bible_browser_controller.strongs_controller.openStrongsReference('";
+      referenceLink += referenceKey;
+      referenceLink += "')\">" + strongsEntry.references[i].text + "</a>";
+      extendedStrongsInfo += referenceLink + "<br/>";
     }
     
     return extendedStrongsInfo;
+  }
+
+  openStrongsReference(key) {
+    try {
+      var strongsEntry = this.nodeSwordInterface.getStrongsEntry(key);
+      var lemma = jsStrongs[key].lemma;
+      this.updateDictInfoBox(strongsEntry, lemma);
+    } catch (e) {
+      console.log(e);
+    }
   }
 }
 
