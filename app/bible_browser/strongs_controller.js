@@ -57,6 +57,11 @@ class StrongsController {
     this.strongsBox.hide();
   }
 
+  clearDictInfoBox() {
+    $('#dictionary-info-box').find('div').empty();
+    this.dictionaryInfoBoxHeader.text(i18n.t("dictionary-info-box.help-instruction"));
+  }
+
   bindAfterBibleTextLoaded(tabIndex=undefined) {
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
     var currentBibleTranslationId = currentTab.getBibleTranslationId();
