@@ -191,6 +191,19 @@ a.outline-reference:focus, a.outline-reference:hover {
   float: left;
 }
 
+table.strongs-refs {
+  border-collapse: collapse;
+  margin-top: 0.5em;
+}
+
+table.strongs-refs td {
+  padding: 0.3em;
+}
+
+tr.td-underline td {
+  border-bottom: 1px solid #DDDDDD;
+}
+
 #filter-button {
   width: 16px;
   height: 16px;

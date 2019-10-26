@@ -108,7 +108,9 @@ class StrongsController {
       }
 
       this.currentStrongsElement.bind('mouseout', () => {
-        this.hideStrongsBox();
+        if (!this.shiftKeyPressed) {
+          this.hideStrongsBox();
+        }
       });
   
       this.strongsBox.show().position({
@@ -195,20 +197,33 @@ class StrongsController {
     if (strongsEntry.references.length > 0) {
       extendedStrongsInfo += "<br/><br/>";
       extendedStrongsInfo += "Related Strong's:<br/>";
-    }
 
-    for (var i = 0;  i < strongsEntry.references.length; i++) {
-      var referenceKey = strongsEntry.references[i].key;
-      var referenceStrongsEntry = this.nodeSwordInterface.getStrongsEntry(referenceKey);
-      var referenceStrongsLemma = jsStrongs[referenceKey].lemma;
-      var currentShortInfo = this.getShortInfo(referenceStrongsEntry, referenceStrongsLemma);
-      var referenceLinkText = referenceKey + ': ' + currentShortInfo;
-      var referenceLink = "<a href=\"javascript:bible_browser_controller.strongs_controller.openStrongsReference('";
-      referenceLink += referenceKey;
-      referenceLink += "')\">" + referenceLinkText + "</a>";
-      extendedStrongsInfo += referenceLink + "<br/>";
-    }
-    
+      extendedStrongsInfo += "<table class='strongs-refs'>";
+
+      for (var i = 0;  i < strongsEntry.references.length; i++) {
+        var referenceKey = strongsEntry.references[i].key;
+        var referenceStrongsEntry = this.nodeSwordInterface.getStrongsEntry(referenceKey);
+        var referenceStrongsLemma = jsStrongs[referenceKey].lemma;
+
+        var referenceLink = "<a href=\"javascript:bible_browser_controller.strongs_controller.openStrongsReference('";
+        referenceLink += referenceKey;
+        referenceLink += "')\">" + referenceKey + "</a>";
+
+        var trClass = '';
+        if (i != strongsEntry.references.length - 1) {
+          trClass = "class='td-underline'";
+        }
+
+        extendedStrongsInfo += "<tr + " + trClass + ">" +
+                               "<td>" + referenceLink + "</td>" + 
+                               "<td>" + referenceStrongsEntry.transcription + "</td>" +
+                               "<td>" + referenceStrongsEntry.phoneticTranscription + "</td>" + 
+                               "<td>" + referenceStrongsLemma + "</td>" +
+                               "</tr>";
+      }
+
+      extendedStrongsInfo += "</table>";
+    }    
     return extendedStrongsInfo;
   }
 
