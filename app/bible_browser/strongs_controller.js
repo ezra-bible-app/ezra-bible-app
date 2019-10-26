@@ -49,10 +49,10 @@ class StrongsController {
     });
   }
 
-  hideStrongsBox() {
-    /*if (this.currentStrongsElement != null) {
+  hideStrongsBox(removeHl=false) {
+    if (this.currentStrongsElement != null && removeHl) {
       this.currentStrongsElement.removeClass('strongs-hl');
-    }*/
+    }
 
     this.strongsBox.hide();
   }

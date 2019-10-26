@@ -176,6 +176,7 @@ class OptionsMenu {
 
   showOrHideStrongsBasedOnOption(tabIndex=undefined) {
     bible_browser_controller.settings.set('showStrongs', this.strongsSwitchChecked());
+    if (!this.strongsSwitchChecked()) { bible_browser_controller.strongs_controller.hideStrongsBox(true); }
     resize_app_container();
   }
 
