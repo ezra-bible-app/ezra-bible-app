@@ -74,6 +74,41 @@ class StrongsController {
     }
   }
 
+  getStrongsIdFromStrongsElement(strongsElement) {
+    var rawStrongsId = strongsElement.attr('class');
+    var strongsId = rawStrongsId.split(' ')[0].split(':')[1];
+    var strongsNumber = parseInt(strongsId.substring(1));
+    strongsId = strongsId[0] + strongsNumber;
+    return strongsId;
+  }
+
+  showStrongsInfo(strongsId) {
+    var lemma = jsStrongs[strongsId].lemma;
+    var strongsShortInfo = lemma;
+
+    try {
+      var strongsEntry = this.nodeSwordInterface.getStrongsEntry(strongsId);
+      strongsShortInfo = strongsEntry.key + ": " + strongsEntry.transcription + " &mdash; " + strongsShortInfo;
+      this.strongsBox.html(strongsShortInfo);
+      this.dictionaryInfoBoxStack = [ strongsId ];
+      this.updateDictInfoBox(strongsEntry, lemma);
+    } catch (e) {
+      console.log(e);
+    }
+
+    this.currentStrongsElement.bind('mouseout', () => {
+      if (!this.shiftKeyPressed) {
+        this.hideStrongsBox();
+      }
+    });
+
+    this.strongsBox.show().position({
+      my: "bottom",
+      at: "center top",
+      of: this.currentStrongsElement
+    });
+  }
+
   handleStrongsMouseOver(event) {
     if (!bible_browser_controller.optionsMenu.strongsSwitchChecked()) {
       return;
@@ -88,41 +123,14 @@ class StrongsController {
     }
 
     this.currentStrongsElement = $(event.target);
-    this.currentStrongsElement.addClass('strongs-hl');
-    var rawStrongsId = this.currentStrongsElement.attr('class');
-    var strongsId = rawStrongsId.split(' ')[0].split(':')[1];
-    var strongsNumber = parseInt(strongsId.substring(1));
-    strongsId = strongsId[0] + strongsNumber;
-    
+    this.currentStrongsElement.addClass('strongs-hl');    
     this.strongsBox.css({
       'fontSize': this.currentStrongsElement.css('fontSize')
     });
 
     if (this.nodeSwordInterface.strongsAvailable()) {
-      var lemma = jsStrongs[strongsId].lemma;
-      var strongsShortInfo = lemma;
-
-      try {
-        var strongsEntry = this.nodeSwordInterface.getStrongsEntry(strongsId);
-        strongsShortInfo = strongsEntry.key + ": " + strongsEntry.transcription + " &mdash; " + strongsShortInfo;
-        this.strongsBox.html(strongsShortInfo);
-        this.dictionaryInfoBoxStack = [ strongsId ];
-        this.updateDictInfoBox(strongsEntry, lemma);
-      } catch (e) {
-        console.log(e);
-      }
-
-      this.currentStrongsElement.bind('mouseout', () => {
-        if (!this.shiftKeyPressed) {
-          this.hideStrongsBox();
-        }
-      });
-  
-      this.strongsBox.show().position({
-        my: "bottom",
-        at: "center top",
-        of: this.currentStrongsElement
-      });
+      var strongsId = this.getStrongsIdFromStrongsElement(this.currentStrongsElement);
+      this.showStrongsInfo(strongsId);
     }
   }
 
