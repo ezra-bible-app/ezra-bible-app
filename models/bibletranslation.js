@@ -209,13 +209,13 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   BibleTranslation.removeFromDb = async function(translationCode) {
-    await modelsInstance.Verse.destroy({
+    await models.Verse.destroy({
       where: {
         bibleTranslationId: translationCode
       }
     });
 
-    await modelsInstance.BibleTranslation.destroy({
+    await models.BibleTranslation.destroy({
       where: {
         id: translationCode
       }

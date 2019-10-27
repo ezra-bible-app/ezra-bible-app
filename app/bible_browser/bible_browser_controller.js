@@ -18,6 +18,7 @@
 
 const BibleBrowserCommunicationController = require('./app/bible_browser/bible_browser_communication_controller.js');
 const LanguageMapper = require('./app/bible_browser/language_mapper.js');
+const TranslationWizardHelper = require('./app/bible_browser/translation_wizard_helper.js');
 const Mousetrap = require('mousetrap');
 const { clipboard } = require('electron');
 
@@ -65,6 +66,7 @@ function BibleBrowserController() {
     this.init_component("ModuleSearch", "module_search", "./app/bible_browser/module_search.js");
     this.init_component("TranslationController", "translation_controller", "./app/bible_browser/translation_controller.js");
     this.init_component("InstallTranslationWizard", "install_translation_wizard", "./app/bible_browser/install_translation_wizard.js");
+    this.init_component("RemoveTranslationWizard", "remove_translation_wizard", "./app/bible_browser/remove_translation_wizard.js");
     this.init_component("TextLoader", "text_loader", "./app/bible_browser/text_loader.js");
     this.init_component("BookSearch", "book_search", "./app/bible_browser/book_search.js");
     this.init_component("TabController", "tab_controller", "./app/bible_browser/tab_controller.js");
@@ -82,8 +84,9 @@ function BibleBrowserController() {
     this.book_selection_menu.init();
 
     this.translation_controller.init(bible_browser_controller.onBibleTranslationChanged);
-    this.install_translation_wizard.init(bible_browser_controller.onAllTranslationsRemoved,
-                                         bible_browser_controller.onTranslationRemoved);
+    this.remove_translation_wizard.init(bible_browser_controller.onAllTranslationsRemoved,
+                                        bible_browser_controller.onTranslationRemoved);
+
     this.book_search.init('#book-search',
                           '#book-search-input',
                           '#book-search-occurances',
