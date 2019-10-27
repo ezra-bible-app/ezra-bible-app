@@ -342,6 +342,18 @@ class TranslationController {
     return modulesNotInstalled;
   }
 
+  async isStrongsTranslationInDb() {
+    var dbModules = await models.BibleTranslation.findAndCountAll();
+
+    for (var dbTranslation of dbModules.rows) {
+      if (dbTranslation.hasStrongs) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   async syncDbWithSwordModules(htmlElementForMessages) {
     var modulesNotInDb = await this.getLocalModulesNotYetAvailableInDb();
 
@@ -405,16 +417,38 @@ class TranslationController {
       htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
 
       await this.sleep(200);
-      await nsi.installModule(modulesAvailable[i]);
 
-      var doneMessage = "<span> " + i18n.t("general.done") + ".</span><br/>";
-      htmlElementForMessages.append(doneMessage);
+      try {
+        await nsi.installModule(modulesAvailable[i]);
+        var doneMessage = "<span> " + i18n.t("general.done") + ".</span><br/>";
+        htmlElementForMessages.append(doneMessage);
+      } catch(e) {
+        var errorMessage = "<span> " + i18n.t("general.module-install-failed") + ".</span><br/>";
+        htmlElementForMessages.append(errorMessage);
+      }
+
       if (i < modulesAvailable.length) await this.sleep(500);
     }
 
     var completeMessage = "<p style='margin-top: 2em;'>" + i18n.t("module-sync.install-completed") + "</p>";
     htmlElementForMessages.append(completeMessage);
     htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
+  }
+
+  async installStrongs(htmlElementForMessages) {
+    var message = "<span>" + i18n.t("general.installing-strongs") + " ...</span>";
+    htmlElementForMessages.append(message);
+
+    try {
+      await nsi.installModule("StrongsHebrew");
+      await nsi.installModule("StrongsGreek");
+      bible_browser_controller.strongs_controller.runAvailabilityCheck();
+      var doneMessage = "<span> " + i18n.t("general.done") + ".</span><br/>";
+      htmlElementForMessages.append(doneMessage);
+    } catch(e) {
+      var errorMessage = "<span> " + i18n.t("general.module-install-failed") + ".</span><br/>";
+      htmlElementForMessages.append(errorMessage);
+    }
   }
 
   async syncSwordModules() {
@@ -428,12 +462,11 @@ class TranslationController {
       await nsi.updateRepositoryConfig();
     }
 
-    //console.log("Getting local modules not yet available in db ...");
     var modulesNotInDb = await this.getLocalModulesNotYetAvailableInDb();
-    //console.log("Finding not installed, but available modules ...");
     var notInstalledButAvailableModules = await this.getNotInstalledButAvailableModules();
+    var strongsInstallNeeded = await this.isStrongsTranslationInDb() && !nsi.strongsAvailable();
 
-    if (modulesNotInDb.length > 0 || notInstalledButAvailableModules.length > 0) {
+    if (modulesNotInDb.length > 0 || notInstalledButAvailableModules.length > 0 || strongsInstallNeeded) {
       $('#bible-sync-box').dialog("open");
       await this.sleep(200);
     }
@@ -446,7 +479,11 @@ class TranslationController {
       await this.syncSwordInstallationWithDb($('#bible-sync-box'));
     }
 
-    if (modulesNotInDb.length > 0 || notInstalledButAvailableModules.length > 0) {
+    if (strongsInstallNeeded) {
+      await this.installStrongs($('#bible-sync-box'));
+    }
+
+    if (modulesNotInDb.length > 0 || notInstalledButAvailableModules.length > 0 || strongsInstallNeeded) {
       await this.sleep(2000);
     }
 

@@ -41,10 +41,8 @@
     "removal-takes-time": "Beachten Sie, dass das Entfernen jeder Übersetzung etwas Zeit benötigt.",
     "select-translations-to-be-removed": "Wählen Sie Bibelübersetzungen, die entfernt werden sollen.<br/><br/>Ausgegraute Listeneinträge sind Übersetzungen, die nicht im Benutzerverzeichnis installiert sind.",
     "installing": "Installiere",
-    "installing-strongs": "Installiere <i>Strong's Wörterbücher</i>",
     "removing": "Entferne",
-    "installation": "Installation",
-    "module-install-failed": "fehlgeschlagen. Sind Sie mit dem Internet verbunden?"
+    "installation": "Installation"
   },
   "module-sync": {
     "module-sync-header": "Synchronisiere SWORD Module",
@@ -84,7 +82,9 @@
     "new-release-available-body": "Ein neues Release von Ezra Project ist verfügbar!",
     "latest-version": "Neueste Version",
     "release-notes-download": "Release Notes & Download",
-    "no-repeated-info": "Diesen Hinweis nicht noch einmal zeigen"
+    "no-repeated-info": "Diesen Hinweis nicht noch einmal zeigen",
+    "module-install-failed": "fehlgeschlagen. Sind Sie mit dem Internet verbunden?",
+    "installing-strongs": "Installiere <i>Strong's Wörterbücher</i>"
   },
   "help": {
     "help-text-no-tags-book-opened": "Sie wollen anfangen mit Tags zu arbeiten?<br/><br/>Erstellen Sie Ihren ersten Tag, indem Sie oben auf den Button <i>Neuer&nbsp;Tag</i> klicken.<br/><br/>Danach können Sie beim Studium des Bibeltexts den Tag zuordnen, indem Sie auf den Vers klicken oder mehrere Verse mit gehaltener Maustaste auswählen und dann links die Auswahlbox neben dem gerade erstellten Tag anklicken.",

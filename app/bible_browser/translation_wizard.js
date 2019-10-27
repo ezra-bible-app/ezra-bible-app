@@ -347,7 +347,7 @@ class TranslationWizard {
 
           if (swordModule.hasStrongs) {
             if (!nsi.strongsAvailable()) {
-              installPage.append("<div style='float: left;'>" + i18n.t("translation-wizard.installing-strongs") + " ... </div>");
+              installPage.append("<div style='float: left;'>" + i18n.t("general.installing-strongs") + " ... </div>");
 
               var loader = "<div id='bibleTranslationInstallIndicator' class='loader'>" + 
                           "<div class='bounce1'></div>" +
@@ -381,13 +381,13 @@ class TranslationWizard {
                 installPage.append('<div>&nbsp;' + i18n.t("general.done") + '.</div>');
                 installPage.append('<br/>');
               } else {
-                installPage.append('<div>&nbsp;' + i18n.t("translation-wizard.module-install-failed") + '</div>');
+                installPage.append('<div>&nbsp;' + i18n.t("general.module-install-failed") + '</div>');
                 installPage.append('<br/>');
               }
             }
           }
         } else {
-          installPage.append('<div>&nbsp;' + i18n.t("translation-wizard.module-install-failed") + '</div>');
+          installPage.append('<div>&nbsp;' + i18n.t("general.module-install-failed") + '</div>');
           installPage.append('<br/>');
         }
       }
