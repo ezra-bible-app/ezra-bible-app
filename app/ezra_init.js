@@ -17,16 +17,26 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const app = require('electron').remote.app;
+
+// i18n
 const i18n = require('i18next');
 const I18nHelper = require('./app/i18n_helper.js');
 const i18nHelper = new I18nHelper();
+
+// This module checks for new releases on startup
 const NewReleaseChecker = require('./app/new_release_checker.js');
+
+// DB-related stuff
 const DbHelper = require('./app/db_helper.js');
-const NodeSwordInterface = require('node-sword-interface');
+const userDataDir = app.getPath('userData');
+const dbHelper = new DbHelper(userDataDir);
+const dbDir = dbHelper.getDatabaseDir();
 
 // Global instance of NodeSwordInterface used in many places
+const NodeSwordInterface = require('node-sword-interface');
 const nsi = new NodeSwordInterface();
 
+// This module will modify the standard console.log function and add a timestamp as a prefix for all log calls
 require('log-timestamp');
 
 var models = null;
@@ -190,10 +200,6 @@ function localizeBookSelectionMenu()
 
 async function initDatabase()
 {
-  var userDataDir = app.getPath('userData');
-  var dbHelper = new DbHelper(userDataDir);
-  var dbDir = dbHelper.getDatabaseDir();
-
   await dbHelper.initDatabase(dbDir);
   models = require('./models')(dbDir);
 }
