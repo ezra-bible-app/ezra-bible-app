@@ -16,8 +16,6 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const NodeSwordInterface = require('node-sword-interface');
-
 var bookMap = {
   "Gen"    : 1,
   "Exod"   : 2,
@@ -95,6 +93,7 @@ module.exports = (sequelize, DataTypes) => {
     languageCode: DataTypes.STRING,
     languageName: DataTypes.STRING,
     isFree: DataTypes.BOOLEAN,
+    hasStrongs: DataTypes.BOOLEAN,
     versification: DataTypes.ENUM('ENGLISH', 'HEBREW')
   }, {
     timestamps: false
@@ -147,10 +146,9 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   BibleTranslation.importSwordTranslation = async function(translationCode) {
-    var nodeSwordInterface = new NodeSwordInterface();
-    nodeSwordInterface.enableMarkup();
+    nsi.enableMarkup();
 
-    var bibleText = nodeSwordInterface.getBibleText(translationCode);
+    var bibleText = nsi.getBibleText(translationCode);
     if (bibleText.length == 0) {
       console.log("ERROR: Bible text for " + translationCode + " has 0 verses!");
     }
@@ -178,7 +176,7 @@ module.exports = (sequelize, DataTypes) => {
       lastBook = book;
     }
 
-    var module = nodeSwordInterface.getLocalModule(translationCode);
+    var module = nsi.getLocalModule(translationCode);
 
     var languageMapper = new LanguageMapper();
     var languageName = languageMapper.getLanguageName(module.language);
@@ -189,6 +187,7 @@ module.exports = (sequelize, DataTypes) => {
       languageCode: module.language,
       languageName: languageName,
       isFree: 1,
+      hasStrongs: module.hasStrongs,
       versification: "ENGLISH"
     });
 
