@@ -20,7 +20,6 @@ const i18n = require('i18next');
 const i18nextBackend = require('i18next-node-fs-backend');
 const LanguageDetector = require('i18next-electron-language-detector');
 const jqueryI18next = require('jquery-i18next');
-const NodeSwordInterface = require('node-sword-interface');
 const path = require('path');
 
 const i18nextOptions = {
@@ -48,7 +47,6 @@ const i18nextOptions = {
 
 class I18nHelper {
   constructor() {
-    this._nodeSwordInterface = new NodeSwordInterface();
   }
 
   async init() {
@@ -70,7 +68,7 @@ class I18nHelper {
   }
 
   getSwordTranslation(originalString) {
-    return this._nodeSwordInterface.getSwordTranslation(originalString, i18n.language);
+    return nsi.getSwordTranslation(originalString, i18n.language);
   }
 }
 

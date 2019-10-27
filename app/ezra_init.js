@@ -21,6 +21,8 @@ const i18n = require('i18next');
 const I18nHelper = require('./app/i18n_helper.js');
 const i18nHelper = new I18nHelper();
 const NewReleaseChecker = require('./app/new_release_checker.js');
+const NodeSwordInterface = require('node-sword-interface');
+const nsi = new NodeSwordInterface();
 
 require('log-timestamp');
 

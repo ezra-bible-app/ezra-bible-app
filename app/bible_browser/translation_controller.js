@@ -16,12 +16,9 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const NodeSwordInterface = require('node-sword-interface');
-
 class TranslationController {
   constructor() {
     this.bibleTranslationCount = 0;
-    this.nodeSwordInterface = new NodeSwordInterface();
     this.languageMapper = new LanguageMapper();
   }
 
@@ -205,9 +202,9 @@ class TranslationController {
       var bibleTranslationModule = null;
 
       if (isRemote) {
-        bibleTranslationModule = this.nodeSwordInterface.getRepoModule(translationId);
+        bibleTranslationModule = nsi.getRepoModule(translationId);
       } else {
-        bibleTranslationModule = this.nodeSwordInterface.getLocalModule(translationId);
+        bibleTranslationModule = nsi.getLocalModule(translationId);
       }
       
       var bibleTranslationInfo = "";
@@ -242,7 +239,7 @@ class TranslationController {
       bibleTranslationInfo += "</table>";
 
       bibleTranslationInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>" + i18n.t("general.sword-library-info") + "</p>";
-      bibleTranslationInfo += "<p>" + i18n.t("general.using-sword-version") + " <b>" + this.nodeSwordInterface.getSwordVersion() + "</b>.</p>";
+      bibleTranslationInfo += "<p>" + i18n.t("general.using-sword-version") + " <b>" + nsi.getSwordVersion() + "</b>.</p>";
     } catch (ex) {
       console.error("Got exception while trying to get bible translation info: " + ex);
     }
@@ -267,7 +264,7 @@ class TranslationController {
 
   hasBibleTranslationStrongs(translationId) {
     try {
-      var bibleTranslationModule = this.nodeSwordInterface.getLocalModule(translationId);
+      var bibleTranslationModule = nsi.getLocalModule(translationId);
       return bibleTranslationModule.hasStrongs;
     } catch (e) {
       return false;
@@ -290,7 +287,7 @@ class TranslationController {
   }
 
   async getLocalModulesNotYetAvailableInDb() {
-    var localSwordModules = this.nodeSwordInterface.getAllLocalModules();
+    var localSwordModules = nsi.getAllLocalModules();
     var dbModules = await models.BibleTranslation.findAndCountAll();
     var modulesNotInDb = [];
 
@@ -315,7 +312,7 @@ class TranslationController {
   }
 
   async getDbModulesNotYetInstalled() {
-    var localSwordModules = this.nodeSwordInterface.getAllLocalModules();
+    var localSwordModules = nsi.getAllLocalModules();
     var dbModules = await models.BibleTranslation.findAndCountAll();
     var modulesNotInstalled = [];
 
@@ -383,7 +380,7 @@ class TranslationController {
 
     if (modulesNotInstalled.length > 0) {
       for (var i = 0; i < modulesNotInstalled.length; i++) {
-        if (this.nodeSwordInterface.isModuleAvailableInRepo(modulesNotInstalled[i])) {
+        if (nsi.isModuleAvailableInRepo(modulesNotInstalled[i])) {
           modulesAvailable.push(modulesNotInstalled[i]);
         } else {
           console.log("Module " + modulesNotInstalled[i] + " is not available from any repository!");
@@ -402,13 +399,13 @@ class TranslationController {
     htmlElementForMessages.append(initialMessage);
 
     for (var i = 0; i < modulesAvailable.length; i++) {     
-      var moduleInfo = this.nodeSwordInterface.getRepoModule(modulesAvailable[i]);
+      var moduleInfo = nsi.getRepoModule(modulesAvailable[i]);
       var message = "<span>" + i18n.t("module-sync.installing") + " <i>" + moduleInfo.description + "</i> ...</span>";
       htmlElementForMessages.append(message);
       htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
 
       await this.sleep(200);
-      await this.nodeSwordInterface.installModule(modulesAvailable[i]);
+      await nsi.installModule(modulesAvailable[i]);
 
       var doneMessage = "<span> " + i18n.t("general.done") + ".</span><br/>";
       htmlElementForMessages.append(doneMessage);
@@ -427,8 +424,8 @@ class TranslationController {
       position: [verse_list_position.left + 50, verse_list_position.top + 30]
     });
 
-    if (!this.nodeSwordInterface.repositoryConfigExisting()) {
-      await this.nodeSwordInterface.updateRepositoryConfig();
+    if (!nsi.repositoryConfigExisting()) {
+      await nsi.updateRepositoryConfig();
     }
 
     //console.log("Getting local modules not yet available in db ...");

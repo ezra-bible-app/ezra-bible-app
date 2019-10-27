@@ -17,12 +17,10 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const jsStrongs = require('strongs');
-const NodeSwordInterface = require('node-sword-interface');
 const Mousetrap = require('mousetrap');
 
 class StrongsController {
   constructor() {
-    this.nodeSwordInterface = new NodeSwordInterface();
     this.currentStrongsElement = null;
     this.strongsBox = $('#strongs-box');
     this.dictionaryInfoBoxHeader = $('#dictionary-info-box-header');
@@ -53,7 +51,7 @@ class StrongsController {
   }
 
   runAvailabilityCheck() {
-    this.strongsAvailable = this.nodeSwordInterface.strongsAvailable();
+    this.strongsAvailable = nsi.strongsAvailable();
   }
 
   hideStrongsBox(removeHl=false) {
@@ -94,7 +92,7 @@ class StrongsController {
     var strongsShortInfo = lemma;
 
     try {
-      var strongsEntry = this.nodeSwordInterface.getStrongsEntry(strongsId);
+      var strongsEntry = nsi.getStrongsEntry(strongsId);
       strongsShortInfo = strongsEntry.key + ": " + strongsEntry.transcription + " &mdash; " + strongsShortInfo;
       this.strongsBox.html(strongsShortInfo);
       this.dictionaryInfoBoxStack = [ strongsId ];
@@ -164,7 +162,7 @@ class StrongsController {
     for (var i = 0; i < rewindNumber; i++) {
       this.dictionaryInfoBoxStack.pop();
       var key = this.dictionaryInfoBoxStack[this.dictionaryInfoBoxStack.length - 1];
-      this.currentStrongsEntry = this.nodeSwordInterface.getStrongsEntry(key);
+      this.currentStrongsEntry = nsi.getStrongsEntry(key);
       this.currentLemma = jsStrongs[key].lemma;
     }
 
@@ -222,7 +220,7 @@ class StrongsController {
 
       for (var i = 0;  i < strongsEntry.references.length; i++) {
         var referenceKey = strongsEntry.references[i].key;
-        var referenceStrongsEntry = this.nodeSwordInterface.getStrongsEntry(referenceKey);
+        var referenceStrongsEntry = nsi.getStrongsEntry(referenceKey);
         var referenceStrongsLemma = jsStrongs[referenceKey].lemma;
 
         var referenceLink = "<a href=\"javascript:bible_browser_controller.strongs_controller.openStrongsReference('";
@@ -249,7 +247,7 @@ class StrongsController {
 
   openStrongsReference(key) {
     try {
-      var strongsEntry = this.nodeSwordInterface.getStrongsEntry(key);
+      var strongsEntry = nsi.getStrongsEntry(key);
       var lemma = jsStrongs[key].lemma;
 
       // If the last element of the stack is the one that we want to navigate to ... just pop the stack

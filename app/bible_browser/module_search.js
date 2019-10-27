@@ -16,13 +16,10 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const NodeSwordInterface = require('node-sword-interface');
-
 class ModuleSearch {
   constructor() {
     this.currentSearchTerm = null;
     this.search_menu_opened = false;
-    this._nodeSwordInterface = new NodeSwordInterface();
   }
 
   init_module_search_menu(tabIndex=undefined) {
@@ -162,10 +159,10 @@ class ModuleSearch {
     var isPhrase = currentTab.getSearchOptions()['exactPhrase'];
     var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
 
-    await this._nodeSwordInterface.getModuleSearchResults(currentBibleTranslationId,
-                                                          this.currentSearchTerm,
-                                                          isPhrase,
-                                                          isCaseSensitive).then(async (searchResults) => {
+    await nsi.getModuleSearchResults(currentBibleTranslationId,
+                                     this.currentSearchTerm,
+                                     isPhrase,
+                                     isCaseSensitive).then(async (searchResults) => {
                                                             
       //console.log("Got " + searchResults.length + " from Sword");
       bible_browser_controller.tab_controller.getTab(tabIndex).setSearchResults(searchResults);
