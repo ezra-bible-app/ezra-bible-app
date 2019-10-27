@@ -80,11 +80,15 @@ class StrongsController {
   }
 
   getStrongsIdFromStrongsElement(strongsElement) {
-    var rawStrongsId = strongsElement.attr('class');
-    var strongsId = rawStrongsId.split(' ')[0].split(':')[1];
-    var strongsNumber = parseInt(strongsId.substring(1));
-    strongsId = strongsId[0] + strongsNumber;
-    return strongsId;
+    try {
+      var rawStrongsId = strongsElement.attr('class');
+      var strongsId = rawStrongsId.split(' ')[0].split(':')[1];
+      var strongsNumber = parseInt(strongsId.substring(1));
+      strongsId = strongsId[0] + strongsNumber;
+      return strongsId;
+    } catch (e) {
+      return "";
+    }
   }
 
   showStrongsInfo(strongsId) {
@@ -128,14 +132,18 @@ class StrongsController {
     }
 
     this.currentStrongsElement = $(event.target);
-    this.currentStrongsElement.addClass('strongs-hl');    
-    this.strongsBox.css({
-      'fontSize': this.currentStrongsElement.css('fontSize')
-    });
 
-    if (this.strongsAvailable) {
+    if (this.strongsAvailable) {  
       var strongsId = this.getStrongsIdFromStrongsElement(this.currentStrongsElement);
-      this.showStrongsInfo(strongsId);
+
+      if (strongsId != "") {
+        this.currentStrongsElement.addClass('strongs-hl');    
+        this.strongsBox.css({
+          'fontSize': this.currentStrongsElement.css('fontSize')
+        });
+
+        this.showStrongsInfo(strongsId);
+      }
     }
   }
 
