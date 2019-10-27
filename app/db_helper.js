@@ -99,6 +99,12 @@ class DbHelper {
       }
     });
 
+    var pendingMigrations = await umzug.pending();
+    if (pendingMigrations.length > 0) {
+      $('#loading-subtitle').text(i18n.t("general.applying-migrations"));
+    }
+
+    // Execute all pending migrations
     var migrations = await umzug.up();
 
     if (migrations.length > 0) console.log("Executed the following migrations:");

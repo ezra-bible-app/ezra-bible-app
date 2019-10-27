@@ -84,7 +84,8 @@
     "release-notes-download": "Release Notes & Download",
     "no-repeated-info": "Diesen Hinweis nicht noch einmal zeigen",
     "module-install-failed": "fehlgeschlagen. Sind Sie mit dem Internet verbunden?",
-    "installing-strongs": "Installiere <i>Strong's Wörterbücher</i>"
+    "installing-strongs": "Installiere <i>Strong's Wörterbücher</i>",
+    "applying-migrations": "Migriere Datenbank auf neue Version"
   },
   "help": {
     "help-text-no-tags-book-opened": "Sie wollen anfangen mit Tags zu arbeiten?<br/><br/>Erstellen Sie Ihren ersten Tag, indem Sie oben auf den Button <i>Neuer&nbsp;Tag</i> klicken.<br/><br/>Danach können Sie beim Studium des Bibeltexts den Tag zuordnen, indem Sie auf den Vers klicken oder mehrere Verse mit gehaltener Maustaste auswählen und dann links die Auswahlbox neben dem gerade erstellten Tag anklicken.",

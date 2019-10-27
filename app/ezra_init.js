@@ -21,7 +21,10 @@ const i18n = require('i18next');
 const I18nHelper = require('./app/i18n_helper.js');
 const i18nHelper = new I18nHelper();
 const NewReleaseChecker = require('./app/new_release_checker.js');
+const DbHelper = require('./app/db_helper.js');
 const NodeSwordInterface = require('node-sword-interface');
+
+// Global instance of NodeSwordInterface used in many places
 const nsi = new NodeSwordInterface();
 
 require('log-timestamp');
@@ -187,8 +190,6 @@ function localizeBookSelectionMenu()
 
 async function initDatabase()
 {
-  const DbHelper = require('./app/db_helper.js');
-
   var userDataDir = app.getPath('userData');
   var dbHelper = new DbHelper(userDataDir);
   var dbDir = dbHelper.getDatabaseDir();
@@ -252,13 +253,13 @@ async function initApplication()
       loadingIndicator.show();
       loadingIndicator.find('.loader').show();
     }
-  }, 500);
-
-  console.log("Initializing database ...");
-  await initDatabase();
+  }, 1000);
 
   console.log("Initializing i18n ...");
   await initI18N();
+
+  console.log("Initializing database ...");
+  await initDatabase();
 
   console.log("Initializing controllers ...");
   await initControllers();
