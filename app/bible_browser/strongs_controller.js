@@ -65,6 +65,8 @@ class StrongsController {
   clearDictInfoBox() {
     $('#dictionary-info-box').find('div').empty();
     this.dictionaryInfoBoxHeader.text(i18n.t("dictionary-info-box.help-instruction"));
+    this.dictionaryInfoBoxLock.text(i18n.t("dictionary-info-box.lock-instruction"));
+    this.dictionaryInfoBoxLock.hide();
   }
 
   bindAfterBibleTextLoaded(tabIndex=undefined) {
