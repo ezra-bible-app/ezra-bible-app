@@ -33,6 +33,7 @@ class StrongsController {
     this.currentStrongsEntry = null;
     this.currentLemma = null;
     this.shiftKeyPressed = false;
+    this.strongsAvailable = false;
 
     this.strongsBox.bind('mouseout', () => {
       this.hideStrongsBox();
@@ -47,6 +48,12 @@ class StrongsController {
         this.shiftKeyPressed = false;
       }
     });
+
+    this.runAvailabilityCheck();
+  }
+
+  runAvailabilityCheck() {
+    this.strongsAvailable = this.nodeSwordInterface.strongsAvailable();
   }
 
   hideStrongsBox(removeHl=false) {
@@ -128,7 +135,7 @@ class StrongsController {
       'fontSize': this.currentStrongsElement.css('fontSize')
     });
 
-    if (this.nodeSwordInterface.strongsAvailable()) {
+    if (this.strongsAvailable) {
       var strongsId = this.getStrongsIdFromStrongsElement(this.currentStrongsElement);
       this.showStrongsInfo(strongsId);
     }
