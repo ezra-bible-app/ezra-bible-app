@@ -16,14 +16,11 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const NodeSwordInterface = require('node-sword-interface');
-
 class TranslationWizard {
   constructor() {
     this._installedTranslations = null;
     this._translationInstallStatus = 'DONE';
     this._translationRemovalStatus = 'DONE';
-    this._nodeSwordInterface = new NodeSwordInterface();
     this.languageMapper = new LanguageMapper();
 
 
@@ -117,9 +114,9 @@ class TranslationWizard {
     var wizardPage = $('#translation-settings-wizard-add-p-0');
     wizardPage.empty();
 
-    if (!this._nodeSwordInterface.repositoryConfigExisting()) {
+    if (!nsi.repositoryConfigExisting()) {
       wizardPage.append('<p>' + i18n.t('translation-wizard.updating-repository-data') + '</p>');
-      await this._nodeSwordInterface.updateRepositoryConfig();
+      await nsi.updateRepositoryConfig();
     }
 
     wizardPage.append('<p>' + i18n.t("translation-wizard.loading-repositories") + '</p>');
@@ -182,7 +179,7 @@ class TranslationWizard {
         var checkboxDisabled = '';
         var currentTranslationClass = "class='label' ";
         
-        if (!this._nodeSwordInterface.isModuleInUserDir(translation.id)) {
+        if (!nsi.isModuleInUserDir(translation.id)) {
           checkboxDisabled = "disabled='disabled' ";
           currentTranslationClass = "class='label disabled'";
         }
@@ -316,31 +313,83 @@ class TranslationWizard {
 
       for (var i = 0; i < translations.length; i++) {
         var translationCode = translations[i];
-        var translationName = this._nodeSwordInterface.getModuleDescription(translationCode);
+        var swordModule = nsi.getRepoModule(translationCode);
 
-        installPage.append("<div style='float: left;'>" + i18n.t("translation-wizard.installing") + " <i>" + translationName + "</i> ... </div>");
+        installPage.append("<div style='float: left;'>" + i18n.t("translation-wizard.installing") + " <i>" + swordModule.description + "</i> ... </div>");
 
         var loader = "<div id='bibleTranslationInstallIndicator' class='loader'>" + 
                       "<div class='bounce1'></div>" +
                       "<div class='bounce2'></div>" +
                       "<div class='bounce3'></div>" +
-                      "</div>"
+                      "</div>";
 
         installPage.append(loader);
         $('#bibleTranslationInstallIndicator').show();
-        
-        // FIXME: Implement error handling for the next two steps
-        await this._nodeSwordInterface.installModule(translationCode);
-        await models.BibleTranslation.importSwordTranslation(translationCode);
 
-        // FIXME: Put this in a callback
-        bible_browser_controller.updateUiAfterBibleTranslationAvailable(translationCode);
+        var installSuccessful = true;
+        
+        try {
+          await nsi.installModule(translationCode);
+          await models.BibleTranslation.importSwordTranslation(translationCode);
+
+          // FIXME: Put this in a callback
+          bible_browser_controller.updateUiAfterBibleTranslationAvailable(translationCode);
+        } catch (e) {
+          installSuccessful = false;
+        }
 
         $('#bibleTranslationInstallIndicator').hide();
         $('#bibleTranslationInstallIndicator').remove();
 
-        installPage.append('<div>&nbsp;' + i18n.t("general.done") + '.</div>');
-        installPage.append('<br/>');
+        if (installSuccessful) {
+          installPage.append('<div>&nbsp;' + i18n.t("general.done") + '.</div>');
+          installPage.append('<br/>');
+
+          if (swordModule.hasStrongs) {
+            if (!nsi.strongsAvailable()) {
+              installPage.append("<div style='float: left;'>" + i18n.t("translation-wizard.installing-strongs") + " ... </div>");
+
+              var loader = "<div id='bibleTranslationInstallIndicator' class='loader'>" + 
+                          "<div class='bounce1'></div>" +
+                          "<div class='bounce2'></div>" +
+                          "<div class='bounce3'></div>" +
+                          "</div>";
+
+              installPage.append(loader);
+              $('#bibleTranslationInstallIndicator').show();
+
+              var strongsInstallSuccessful = true;
+
+              try {
+                if (!nsi.hebrewStrongsAvailable()) {
+                  await nsi.installModule("StrongsHebrew");
+                }
+
+                if (!nsi.greekStrongsAvailable()) {
+                  await nsi.installModule("StrongsGreek");
+                }
+              } catch (e) {
+                strongsInstallSuccessful = false;
+              }
+
+              $('#bibleTranslationInstallIndicator').hide();
+              $('#bibleTranslationInstallIndicator').remove();
+
+              if (strongsInstallSuccessful) {
+                bible_browser_controller.strongs_controller.runAvailabilityCheck();
+                
+                installPage.append('<div>&nbsp;' + i18n.t("general.done") + '.</div>');
+                installPage.append('<br/>');
+              } else {
+                installPage.append('<div>&nbsp;' + i18n.t("translation-wizard.module-install-failed") + '</div>');
+                installPage.append('<br/>');
+              }
+            }
+          }
+        } else {
+          installPage.append('<div>&nbsp;' + i18n.t("translation-wizard.module-install-failed") + '</div>');
+          installPage.append('<br/>');
+        }
       }
 
       this._translationInstallStatus = 'DONE';
@@ -389,11 +438,11 @@ class TranslationWizard {
       setTimeout(async () => {
         for (var i = 0; i < translations.length; i++) {
           var translationCode = translations[i];
-          var translationName = this._nodeSwordInterface.getModuleDescription(translationCode);
+          var translationName = nsi.getModuleDescription(translationCode);
 
           removalPage.append('<span>' + i18n.t("translation-wizard.removing") + ' <i>' + translationName + '</i> ... </span>');
           
-          await this._nodeSwordInterface.uninstallModule(translationCode);
+          await nsi.uninstallModule(translationCode);
           await models.BibleTranslation.removeFromDb(translationCode);
 
           var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
@@ -438,7 +487,7 @@ class TranslationWizard {
 
     for (var i = 0;  i < selectedRepositories.length; i++) {
       var currentRepo = selectedRepositories[i];
-      var repoLanguages = this._nodeSwordInterface.getRepoLanguages(currentRepo);
+      var repoLanguages = nsi.getRepoLanguages(currentRepo);
 
       for (var j = 0; j < repoLanguages.length; j++) {
         var currentLanguageCode = repoLanguages[j];
@@ -571,7 +620,7 @@ class TranslationWizard {
 
       for (var j = 0; j < this._selectedRepositories.length; j++) {
         var currentRepo = this._selectedRepositories[j];
-        var currentRepoLangModules = this._nodeSwordInterface.getRepoModulesByLang(currentRepo, currentLanguage);
+        var currentRepoLangModules = nsi.getRepoModulesByLang(currentRepo, currentLanguage);
         // Append this repo's modules to the overall language list
         currentLangModules = currentLangModules.concat(currentRepoLangModules);
       }
@@ -655,7 +704,7 @@ class TranslationWizard {
 
     for (var i = 0; i < this._selectedRepositories.length; i++) {
       var currentRepo = this._selectedRepositories[i];
-      count += this._nodeSwordInterface.getRepoLanguageTranslationCount(currentRepo, language);
+      count += nsi.getRepoLanguageTranslationCount(currentRepo, language);
     }
 
     return count;
@@ -700,7 +749,7 @@ class TranslationWizard {
   listRepositories() {
     var wizardPage = $('#translation-settings-wizard-add-p-0');
 
-    var repositories = this._nodeSwordInterface.getRepoNames();
+    var repositories = nsi.getRepoNames();
     wizardPage.empty();
 
     var introText = "<p style='margin-bottom: 2em;'>" +
@@ -748,7 +797,7 @@ class TranslationWizard {
 
   getRepoTranslationCount(repo) {
     var count = 0;
-    var allRepoModules = this._nodeSwordInterface.getAllRepoModules(repo);
+    var allRepoModules = nsi.getAllRepoModules(repo);
 
     for (var i = 0; i < allRepoModules.length; i++) {
       var module = allRepoModules[i];

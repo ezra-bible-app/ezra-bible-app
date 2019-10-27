@@ -41,8 +41,10 @@
     "removal-takes-time": "Note, that each removal takes some time.",
     "select-translations-to-be-removed": "Select the bible translations that you would like to remove.<br/><br/>Disabled entries in the list are translations not installed in the users directory.",
     "installing": "Installing",
+    "installing-strongs": "Installing <i>Strong's dictionaries</i>",
     "removing": "Removing",
-    "installation": "Installation"
+    "installation": "Installation",
+    "module-install-failed": "failed. Are you connected to the Internet?"
   },
   "module-sync": {
     "module-sync-header": "Synchronizing Sword modules",
