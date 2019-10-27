@@ -138,6 +138,31 @@ class InstallTranslationWizard {
     return true;
   }
 
+  async addTranslationWizardStepChanged(event, currentIndex, priorIndex) {
+    if (priorIndex == 0 && currentIndex == 1) {
+      this.initLanguagesPage();
+
+    } else if (priorIndex == 1 && currentIndex == 2) {
+
+      this.initModulesPage();
+
+    } else if (currentIndex == 3) {
+
+      this.installSelectedTranslations();
+    }
+  }
+
+  addTranslationWizardFinishing(event, currentIndex) {
+    return this._translationInstallStatus != 'IN_PROGRESS';
+  }
+
+  async addTranslationWizardFinished(event, currentIndex) {
+    $('#translation-settings-wizard').dialog('close');
+    this._installedTranslations = await models.BibleTranslation.getTranslations();
+    await bible_browser_controller.translation_controller.initTranslationsMenu();
+    await tags_controller.updateTagUiBasedOnTagAvailability();
+  }
+
   initLanguagesPage() {
     // Repositories have been selected
     var wizardPage = "#translation-settings-wizard-add-p-0";
@@ -264,31 +289,6 @@ class InstallTranslationWizard {
 
     this._translationInstallStatus = 'DONE';
     this._helper.unlockDialog('translation-settings-wizard-add');
-  }
-
-  async addTranslationWizardStepChanged(event, currentIndex, priorIndex) {
-    if (priorIndex == 0 && currentIndex == 1) {
-      this.initLanguagesPage();
-
-    } else if (priorIndex == 1 && currentIndex == 2) {
-
-      this.initModulesPage();
-
-    } else if (currentIndex == 3) {
-
-      this.installSelectedTranslations();
-    }
-  }
-
-  addTranslationWizardFinishing(event, currentIndex) {
-    return this._translationInstallStatus != 'IN_PROGRESS';
-  }
-
-  async addTranslationWizardFinished(event, currentIndex) {
-    $('#translation-settings-wizard').dialog('close');
-    this._installedTranslations = await models.BibleTranslation.getTranslations();
-    await bible_browser_controller.translation_controller.initTranslationsMenu();
-    await tags_controller.updateTagUiBasedOnTagAvailability();
   }
 
   getAvailableLanguagesFromSelectedRepos(selectedRepositories) {
