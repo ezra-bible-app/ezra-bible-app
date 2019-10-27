@@ -191,6 +191,15 @@ a.outline-reference:focus, a.outline-reference:hover {
   float: left;
 }
 
+#dictionary-info-box a:link {
+  text-decoration: none;
+  color: #2779aa;
+}
+
+#dictionary-info-box a:hover {
+  text-decoration: underline;
+}
+
 table.strongs-refs {
   border-collapse: collapse;
   margin-top: 0.5em;
