@@ -145,7 +145,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
 
-  BibleTranslation.importSwordTranslation = async function(translationCode) {
+  BibleTranslation.importSwordTranslation = async function(translationCode, modelsInstance=undefined) {
+    var reImport = false;
+    
+    if (modelsInstance === undefined) {
+      modelsInstance = models;
+    } else {
+      reImport = true;
+    }
+
     nsi.enableMarkup();
 
     var bibleText = nsi.getBibleText(translationCode);
@@ -168,7 +176,7 @@ module.exports = (sequelize, DataTypes) => {
         absoluteVerseNr += 1;
       }
 
-      verseObject['bibleBookId'] = models.BibleTranslation.swordBooktoEzraBook(book);
+      verseObject['bibleBookId'] = modelsInstance.BibleTranslation.swordBooktoEzraBook(book);
       verseObject['bibleTranslationId'] = translationCode;
       verseObject['absoluteVerseNr'] = absoluteVerseNr;
 
@@ -181,28 +189,33 @@ module.exports = (sequelize, DataTypes) => {
     var languageMapper = new LanguageMapper();
     var languageName = languageMapper.getLanguageName(module.language);
 
-    var translation = await models.BibleTranslation.create({
-      id: translationCode,
-      name: module.description,
-      languageCode: module.language,
-      languageName: languageName,
-      isFree: 1,
-      hasStrongs: module.hasStrongs,
-      versification: "ENGLISH"
-    });
+    if (!reImport) {
+      var translation = await modelsInstance.BibleTranslation.create({
+        id: translationCode,
+        name: module.description,
+        languageCode: module.language,
+        languageName: languageName,
+        isFree: 1,
+        hasStrongs: module.hasStrongs,
+        versification: "ENGLISH"
+      });
+    }
 
-    await models.Verse.bulkCreate(importVerses);
-    await models.BibleTranslation.updateVersification(translationCode);
+    await modelsInstance.Verse.bulkCreate(importVerses);
+
+    if (!reImport) {
+      await modelsInstance.BibleTranslation.updateVersification(translationCode);
+    }
   };
 
   BibleTranslation.removeFromDb = async function(translationCode) {
-    await models.Verse.destroy({
+    await modelsInstance.Verse.destroy({
       where: {
         bibleTranslationId: translationCode
       }
     });
 
-    await models.BibleTranslation.destroy({
+    await modelsInstance.BibleTranslation.destroy({
       where: {
         id: translationCode
       }
