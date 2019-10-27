@@ -16,7 +16,7 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-class TranslationWizard {
+class InstallTranslationWizard {
   constructor() {
     this._installedTranslations = null;
     this._translationInstallStatus = 'DONE';
@@ -266,134 +266,145 @@ class TranslationWizard {
     $('.translation-wizard-dialog').find('.ui-dialog-titlebar-close').show();
   }
 
+  initLanguagesPage() {
+    // Repositories have been selected
+    var wizardPage = "#translation-settings-wizard-add-p-0";
+    this._selectedRepositories = this.getSelectedSettingsWizardElements(wizardPage);
+    bible_browser_controller.settings.set('selected_repositories', this._selectedRepositories);
+
+    var languagesPage = $('#translation-settings-wizard-add-p-1');
+    languagesPage.empty();
+    languagesPage.append("<p>" + i18n.t("translation-wizard.loading-languages") + "</p>");
+
+    setTimeout(() => this.listLanguages(this._selectedRepositories), 400);
+  }
+
+  async initModulesPage() {
+    // Languages have been selected
+    var wizardPage = "#translation-settings-wizard-add-p-1";
+    var languages = this.getSelectedSettingsWizardElements(wizardPage);
+    var languageCodes = [];
+
+    for (var i = 0; i < languages.length; i++) {
+      var currentCode = languages[i];
+      languageCodes.push(currentCode);
+    }
+
+    bible_browser_controller.settings.set('selected_languages', languages);
+    await this.listModules(languageCodes);
+  }
+
+  async installSelectedTranslations() {
+    // Bible translations have been selected
+
+    this.lockDialogForAction('translation-settings-wizard-add');
+
+    var translationsPage = "#translation-settings-wizard-add-p-2";
+    var translations = this.getSelectedSettingsWizardElements(translationsPage);
+
+    this._translationInstallStatus = 'IN_PROGRESS';
+
+    var installPage = $("#translation-settings-wizard-add-p-3");
+    installPage.empty();
+    installPage.append('<h3>' + i18n.t("translation-wizard.installing-translations") + '</h3>');
+    installPage.append('<p>' + i18n.t("translation-wizard.it-takes-time-to-install-translation") + '</p>');
+
+    for (var i = 0; i < translations.length; i++) {
+      var translationCode = translations[i];
+      var swordModule = nsi.getRepoModule(translationCode);
+
+      installPage.append("<div style='float: left;'>" + i18n.t("translation-wizard.installing") + " <i>" + swordModule.description + "</i> ... </div>");
+
+      var loader = "<div id='bibleTranslationInstallIndicator' class='loader'>" + 
+                    "<div class='bounce1'></div>" +
+                    "<div class='bounce2'></div>" +
+                    "<div class='bounce3'></div>" +
+                    "</div>";
+
+      installPage.append(loader);
+      $('#bibleTranslationInstallIndicator').show();
+
+      var installSuccessful = true;
+      
+      try {
+        await nsi.installModule(translationCode);
+        await models.BibleTranslation.importSwordTranslation(translationCode);
+
+        // FIXME: Put this in a callback
+        bible_browser_controller.updateUiAfterBibleTranslationAvailable(translationCode);
+      } catch (e) {
+        installSuccessful = false;
+      }
+
+      $('#bibleTranslationInstallIndicator').hide();
+      $('#bibleTranslationInstallIndicator').remove();
+
+      if (installSuccessful) {
+        installPage.append('<div>&nbsp;' + i18n.t("general.done") + '.</div>');
+        installPage.append('<br/>');
+
+        if (swordModule.hasStrongs) {
+          if (!nsi.strongsAvailable()) {
+            installPage.append("<div style='float: left;'>" + i18n.t("general.installing-strongs") + " ... </div>");
+
+            var loader = "<div id='bibleTranslationInstallIndicator' class='loader'>" + 
+                        "<div class='bounce1'></div>" +
+                        "<div class='bounce2'></div>" +
+                        "<div class='bounce3'></div>" +
+                        "</div>";
+
+            installPage.append(loader);
+            $('#bibleTranslationInstallIndicator').show();
+
+            var strongsInstallSuccessful = true;
+
+            try {
+              if (!nsi.hebrewStrongsAvailable()) {
+                await nsi.installModule("StrongsHebrew");
+              }
+
+              if (!nsi.greekStrongsAvailable()) {
+                await nsi.installModule("StrongsGreek");
+              }
+            } catch (e) {
+              strongsInstallSuccessful = false;
+            }
+
+            $('#bibleTranslationInstallIndicator').hide();
+            $('#bibleTranslationInstallIndicator').remove();
+
+            if (strongsInstallSuccessful) {
+              bible_browser_controller.strongs_controller.runAvailabilityCheck();
+              
+              installPage.append('<div>&nbsp;' + i18n.t("general.done") + '.</div>');
+              installPage.append('<br/>');
+            } else {
+              installPage.append('<div>&nbsp;' + i18n.t("general.module-install-failed") + '</div>');
+              installPage.append('<br/>');
+            }
+          }
+        }
+      } else {
+        installPage.append('<div>&nbsp;' + i18n.t("general.module-install-failed") + '</div>');
+        installPage.append('<br/>');
+      }
+    }
+
+    this._translationInstallStatus = 'DONE';
+    this.unlockDialog('translation-settings-wizard-add');
+  }
+
   async addTranslationWizardStepChanged(event, currentIndex, priorIndex) {
     if (priorIndex == 0 && currentIndex == 1) {
-
-      // Repositories have been selected
-      var wizardPage = "#translation-settings-wizard-add-p-0";
-      this._selectedRepositories = this.getSelectedSettingsWizardElements(wizardPage);
-      bible_browser_controller.settings.set('selected_repositories', this._selectedRepositories);
-
-      var languagesPage = $('#translation-settings-wizard-add-p-1');
-      languagesPage.empty();
-      languagesPage.append("<p>" + i18n.t("translation-wizard.loading-languages") + "</p>");
-
-      setTimeout(() => this.listLanguages(this._selectedRepositories), 400);
+      this.initLanguagesPage();
 
     } else if (priorIndex == 1 && currentIndex == 2) {
 
-      // Languages have been selected
-      var wizardPage = "#translation-settings-wizard-add-p-1";
-      var languages = this.getSelectedSettingsWizardElements(wizardPage);
-      var languageCodes = [];
-
-      for (var i = 0; i < languages.length; i++) {
-        var currentCode = languages[i];
-        languageCodes.push(currentCode);
-      }
-
-      bible_browser_controller.settings.set('selected_languages', languages);
-      await this.listModules(languageCodes);
+      this.initModulesPage();
 
     } else if (currentIndex == 3) {
-      
-      // Bible translations have been selected
 
-      this.lockDialogForAction('translation-settings-wizard-add');
-
-      var translationsPage = "#translation-settings-wizard-add-p-2";
-      var translations = this.getSelectedSettingsWizardElements(translationsPage);
-
-      this._translationInstallStatus = 'IN_PROGRESS';
-
-      var installPage = $("#translation-settings-wizard-add-p-3");
-      installPage.empty();
-      installPage.append('<h3>' + i18n.t("translation-wizard.installing-translations") + '</h3>');
-      installPage.append('<p>' + i18n.t("translation-wizard.it-takes-time-to-install-translation") + '</p>');
-
-      for (var i = 0; i < translations.length; i++) {
-        var translationCode = translations[i];
-        var swordModule = nsi.getRepoModule(translationCode);
-
-        installPage.append("<div style='float: left;'>" + i18n.t("translation-wizard.installing") + " <i>" + swordModule.description + "</i> ... </div>");
-
-        var loader = "<div id='bibleTranslationInstallIndicator' class='loader'>" + 
-                      "<div class='bounce1'></div>" +
-                      "<div class='bounce2'></div>" +
-                      "<div class='bounce3'></div>" +
-                      "</div>";
-
-        installPage.append(loader);
-        $('#bibleTranslationInstallIndicator').show();
-
-        var installSuccessful = true;
-        
-        try {
-          await nsi.installModule(translationCode);
-          await models.BibleTranslation.importSwordTranslation(translationCode);
-
-          // FIXME: Put this in a callback
-          bible_browser_controller.updateUiAfterBibleTranslationAvailable(translationCode);
-        } catch (e) {
-          installSuccessful = false;
-        }
-
-        $('#bibleTranslationInstallIndicator').hide();
-        $('#bibleTranslationInstallIndicator').remove();
-
-        if (installSuccessful) {
-          installPage.append('<div>&nbsp;' + i18n.t("general.done") + '.</div>');
-          installPage.append('<br/>');
-
-          if (swordModule.hasStrongs) {
-            if (!nsi.strongsAvailable()) {
-              installPage.append("<div style='float: left;'>" + i18n.t("general.installing-strongs") + " ... </div>");
-
-              var loader = "<div id='bibleTranslationInstallIndicator' class='loader'>" + 
-                          "<div class='bounce1'></div>" +
-                          "<div class='bounce2'></div>" +
-                          "<div class='bounce3'></div>" +
-                          "</div>";
-
-              installPage.append(loader);
-              $('#bibleTranslationInstallIndicator').show();
-
-              var strongsInstallSuccessful = true;
-
-              try {
-                if (!nsi.hebrewStrongsAvailable()) {
-                  await nsi.installModule("StrongsHebrew");
-                }
-
-                if (!nsi.greekStrongsAvailable()) {
-                  await nsi.installModule("StrongsGreek");
-                }
-              } catch (e) {
-                strongsInstallSuccessful = false;
-              }
-
-              $('#bibleTranslationInstallIndicator').hide();
-              $('#bibleTranslationInstallIndicator').remove();
-
-              if (strongsInstallSuccessful) {
-                bible_browser_controller.strongs_controller.runAvailabilityCheck();
-                
-                installPage.append('<div>&nbsp;' + i18n.t("general.done") + '.</div>');
-                installPage.append('<br/>');
-              } else {
-                installPage.append('<div>&nbsp;' + i18n.t("general.module-install-failed") + '</div>');
-                installPage.append('<br/>');
-              }
-            }
-          }
-        } else {
-          installPage.append('<div>&nbsp;' + i18n.t("general.module-install-failed") + '</div>');
-          installPage.append('<br/>');
-        }
-      }
-
-      this._translationInstallStatus = 'DONE';
-      this.unlockDialog('translation-settings-wizard-add');
+      this.installSelectedTranslations();
     }
   }
 
@@ -818,5 +829,5 @@ class TranslationWizard {
   }
 }
 
-module.exports = TranslationWizard;
+module.exports = InstallTranslationWizard;
 
