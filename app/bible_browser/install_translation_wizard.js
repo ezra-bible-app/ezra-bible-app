@@ -391,7 +391,6 @@ class InstallTranslationWizard {
   async listModules(selectedLanguages) {
     var wizardPage = $('#translation-settings-wizard-add-p-2');
     var translationList = wizardPage.find('#translation-list');
-    var translationInfo = wizardPage.find('#translation-info');
     translationList.empty();
     var translationInfoContent = i18n.t("translation-wizard.click-to-show-detailed-module-info");
 
