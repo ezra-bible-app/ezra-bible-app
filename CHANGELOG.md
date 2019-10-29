@@ -10,6 +10,7 @@ All notable changes to Ezra Project are documented in this file.
 
 ### Enhancements
 * Lock wizard dialog once installation or uninstallation of translation has started.
+* Show a message while migrations are executed on start-up.
 
 ### Fixes
 * Fixed some locales.
