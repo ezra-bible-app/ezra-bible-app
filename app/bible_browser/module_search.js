@@ -159,9 +159,14 @@ class ModuleSearch {
     var isPhrase = currentTab.getSearchOptions()['exactPhrase'];
     var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
 
+    var searchType = "multiWord";
+    if (isPhrase) {
+      searchType = "phrase";
+    }
+
     await nsi.getModuleSearchResults(currentBibleTranslationId,
                                      this.currentSearchTerm,
-                                     isPhrase,
+                                     searchType,
                                      isCaseSensitive).then(async (searchResults) => {
                                                             
       //console.log("Got " + searchResults.length + " from Sword");
