@@ -19,7 +19,7 @@
   },
   "translation-wizard": {
     "header": "Configurer les traductions de la Bible",
-    "internet-usage-note": "<b>NOTE IMPORTANTE</b><br/><br/>Les modules de traductions de la Bible sont installés via une connexion internet.<br/>Si vous êtes situés dans un régions où les chrétiens sont persécutés, vous <br/>devez savoir <b>NOT</b> que l’utilisation de cette application implique un risque de détection !",
+    "internet-usage-note": "<b>NOTE IMPORTANTE</b><br/><br/>Les modules de traductions de la Bible sont installés via une connexion internet.<br/>Si vous êtes situés dans un régions où les chrétiens sont persécutés, vous<br/>ne devez <b>PAS</b> utiliser cette application en raison d'un risque de détection !",
     "add-translations": "Ajouter des traductions de la Bible",
     "remove-translations": "Supprimer des traductions de la Bible",
     "repositories": "Dépôts",
@@ -39,7 +39,7 @@
     "removing-translations": "Suppression des traductions de la Bible sélectionnées",
     "it-takes-time-to-install-translation": "Notez qu'il faut un certain temps pour que chaque traduction soit téléchargée puis installée.",
     "removal-takes-time": "Notez que chaque suppression prend du temps.",
-    "select-translations-to-be-removed": "Sélectionnez les traductions de la bible que vous souhaitez supprimer.<b/><b/>Les entrées désactivées de la liste sont des traductions non installées dans le répertoire des utilisateurs.",
+    "select-translations-to-be-removed": "Sélectionnez les traductions de la bible que vous souhaitez supprimer.<br/><br/>Les entrées désactivées de la liste sont des traductions non installées dans le répertoire des utilisateurs.",
     "installing": "Installation",
     "removing": "Suppression",
     "installation": "Installation"
@@ -108,7 +108,7 @@
     "verses-tagged-with": "Versets étiquetés avec ",
     "loading-tags": "Chargement de étiquettes",
     "export-tagged-verse-list": "Exporter la liste des versets vers un document de traitement de texte",
-    "run-export": "Exécuter l'exportation",
+    "run-export": "Exporter",
     "tag-filter": "Filtre : ",
     "assign-tag": "Étiquette attribuée",
     "delete-tag-permanently": "Supprimer définitivement cette étiquette",
