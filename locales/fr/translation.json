@@ -46,19 +46,19 @@
   },
   "module-sync": {
     "module-sync-header": "Synchronisation des modules Sword",
-    "synchronizing": "Synchronisation",
-    "modules-with-db": "Module SWORD avec base de données du projet Ezra !",
-    "sync-completed": "Synchronisation terminée!",
+    "synchronizing": "Synchronisation de",
+    "modules-with-db": "module SWORD avec la base de données du projet Ezra !",
+    "sync-completed": "Synchronisation terminée !",
     "installing": "Installation",
     "existing-db-modules": "base de données de modules du projet Ezra existantes !",
     "install-completed": "Installation terminée !"
   },
   "general": {
     "chapter-verse-separator": ",",
-    "module-about": "Au sujet",
+    "module-about": "Informations",
     "sword-module-info": "Informations sur le module SWORD",
     "sword-library-info": "Information sur la bibliothèque SWORD",
-    "using-sword-version": "Utilisation de la version de SWORD",
+    "using-sword-version": "Utilisation de la version SWORD",
     "module-name": "Nom",
     "module-version": "Version",
     "module-language": "Langue",
@@ -114,10 +114,10 @@
     "delete-tag-permanently": "Supprimer définitivement cette étiquette",
     "none-selected": "Aucun",
     "rename-tag": "Renommer l'étiquette",
-    "title": "Titre"
+    "title": "Titre "
   },
   "bible-browser": {
-    "selection": "Selection : ",
+    "selection": "Sélection : ",
     "loading-bible-text": "Chargement du texte biblique",
     "search-result-header": "Affichage le résultat de la recherche pour ",
     "no-search-results": "Aucun résultat trouvé lors de la recherche de ",
@@ -135,7 +135,7 @@
   "dictionary-info-box": {
     "greek": "Grec",
     "hebrew": "Hébreux",
-    "help-instruction": "Ouvrez une traduction avec les nombre de Strong, puis déplacez votre souris sur les mots et expressions individuels pour afficher les informations relatives à Strong ici.",
+    "help-instruction": "Ouvrez une traduction avec les nombre de Strong, puis déplacez votre souris sur les mots et expressions individuels pour afficher ici les informations relatives à Strong.",
     "lock-instruction": "Appuyer sur la touche SHIFT pour verrouiller le contenu plus bas."
   }
 }
