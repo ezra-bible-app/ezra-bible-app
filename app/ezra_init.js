@@ -95,11 +95,13 @@ function resize_app_container(e) {
   // Notes disabled
   // $('#general-notes-textarea').css('height', new_app_container_height - 210);
 
+  var tagsToolBarHeight = $('#tags-toolbar').height();
+
   if (bible_browser_controller.optionsMenu.strongsSwitchChecked()) {
-    $('#tags-content-global').css('height', app_container_height - 450);
+    $('#tags-content-global').css('height', app_container_height - tagsToolBarHeight - 420);
     $('#dictionary-info-box').css('height', 295);
   } else {
-    $('#tags-content-global').css('height', app_container_height - 145);
+    $('#tags-content-global').css('height', app_container_height - tagsToolBarHeight - 115);
   }
 
   if (e === undefined) {
@@ -181,7 +183,7 @@ function handle_fg_button_mousedown(element, click_checkbox) {
 async function initI18N()
 {
   await i18nHelper.init();
-  //await i18n.changeLanguage('de');
+  await i18n.changeLanguage('fr');
 
   reference_separator = i18n.t('general.chapter-verse-separator');
   $("body").localize();
