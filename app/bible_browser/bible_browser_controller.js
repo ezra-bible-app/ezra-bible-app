@@ -265,21 +265,21 @@ function BibleBrowserController() {
   };
 
   this.loadSettings = async function() {
+    if (bible_browser_controller.settings.get('tag_list_width') &&
+        bible_browser_controller.settings.get('tag_list_width') != null) {
+
+      $('#bible-browser-toolbox').css('width', bible_browser_controller.settings.get('tag_list_width'));
+      resize_app_container();
+    }
+
     if (await models.Tag.getTagCount() > 0) {
       tags_controller.showTagListLoadingIndicator();
     }
 
     bible_browser_controller.optionsMenu.loadDisplayOptions();
-
     await this.tab_controller.loadTabConfiguration();
     await bible_browser_controller.translation_controller.loadSettings();
     this.tab_controller.bindEvents();
-
-    if (bible_browser_controller.settings.get('tag_list_width') &&
-        bible_browser_controller.settings.get('tag_list_width') != null) {
-
-      $('#bible-browser-toolbox').css('width', bible_browser_controller.settings.get('tag_list_width'));
-    }
   };
 
   this.init_current_verse_list_menu = function(tabIndex=undefined) {
