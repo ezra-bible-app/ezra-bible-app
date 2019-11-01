@@ -25,7 +25,8 @@ class StrongsController {
     this.strongsBox = $('#strongs-box');
     this.dictionaryInfoBoxHeader = $('#dictionary-info-box-header');
     this.dictionaryInfoBoxLock = $('#dictionary-info-box-lock');
-    this.dictionaryInfoBox = $('#dictionary-info-box-content');
+    this.dictionaryInfoBox = $('#dictionary-info-box');
+    this.dictionaryInfoBoxContent = $('#dictionary-info-box-content');
     this.dictionaryInfoBoxBreadcrumbs = $('#dictionary-info-box-breadcrumbs');
     this.dictionaryInfoBoxStack = [];
     this.currentStrongsEntry = null;
@@ -63,7 +64,7 @@ class StrongsController {
   }
 
   clearDictInfoBox() {
-    $('#dictionary-info-box').find('div').empty();
+    this.dictionaryInfoBox.find('div').empty();
     this.dictionaryInfoBoxHeader.text(i18n.t("dictionary-info-box.help-instruction"));
     this.dictionaryInfoBoxLock.text(i18n.t("dictionary-info-box.lock-instruction"));
     this.dictionaryInfoBoxLock.hide();
@@ -189,7 +190,7 @@ class StrongsController {
     this.dictionaryInfoBoxLock.show();
 
     var extendedStrongsInfo = this.getExtendedStrongsInfo(strongsEntry, lemma);
-    this.dictionaryInfoBox.html(extendedStrongsInfo);
+    this.dictionaryInfoBoxContent.html(extendedStrongsInfo);
   }
 
   getDictInfoHeader(strongsEntry) {
