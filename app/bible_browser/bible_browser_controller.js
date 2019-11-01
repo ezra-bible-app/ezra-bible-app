@@ -381,12 +381,15 @@ function BibleBrowserController() {
     tags_controller.showTagListLoadingIndicator();
     tags_controller.clear_verse_selection();
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
-    var currentTabBook = currentTab.getBook();
-    var currentTagIdList = currentTab.getTagIdList();
-    if ((currentTabBook != undefined && currentTabBook != null) || currentTagIdList != null) {
-      setTimeout(() => {
-        tags_controller.communication_controller.request_tags(currentTabBook);
-      }, 200);
+
+    if (currentTab !== undefined) {
+      var currentTabBook = currentTab.getBook();
+      var currentTagIdList = currentTab.getTagIdList();
+      if ((currentTabBook != undefined && currentTabBook != null) || currentTagIdList != null) {
+        setTimeout(() => {
+          tags_controller.communication_controller.request_tags(currentTabBook);
+        }, 200);
+      }
     }
   };
 
