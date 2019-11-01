@@ -63,7 +63,8 @@ class TaggedVerseExport {
       var lastVerse = currentBlock[currentBlock.length - 1];
       
       // Output the verse reference of this block
-      paragraph.addText(bibleBook.longTitle);
+      var bookTitle = i18nHelper.getSwordTranslation(bibleBook.longTitle);
+      paragraph.addText(bookTitle);
       paragraph.addText(" " + firstVerse.chapter + reference_separator + firstVerse.verseNr);
 
       if (currentBlock.length >= 2) { // At least 2 verses, a bigger block
@@ -106,7 +107,7 @@ class TaggedVerseExport {
 
   renderWordDocument(bibleBooks, groupedVerseTags, verses) {
     var currentTagTitleList = bible_browser_controller.tab_controller.getTab().getTagTitleList();
-    var title = "Bible verses tagged with: " + currentTagTitleList;
+    var title = i18n.t("tags.verses-tagged-with") + currentTagTitleList;
 
     var docx = officegen({
       type: 'docx',
@@ -131,14 +132,17 @@ class TaggedVerseExport {
     });
     
     var p = docx.createP();
-    p.addText(title, { font_size: 14, bold: true });
+    var versesTaggedWith = i18n.t("tags.verses-tagged-with") + " ";
+    p.addText(versesTaggedWith, { font_size: 14, bold: true });
+    p.addText(currentTagTitleList, { font_size: 14, bold: true, italic: true });
     p.addLineBreak();
     p.addLineBreak();
 
     for (var i = 0; i < bibleBooks.length; i++) {
       var currentBook = bibleBooks[i];
+      var bookTitle = i18nHelper.getSwordTranslation(currentBook.longTitle);
 
-      p.addText(currentBook.longTitle, { bold: true });
+      p.addText(bookTitle, { bold: true });
       p.addLineBreak();
 
       var allBlocks = this.getBibleBookVerseBlocks(currentBook, verses);
