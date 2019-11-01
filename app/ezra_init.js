@@ -183,7 +183,7 @@ function handle_fg_button_mousedown(element, click_checkbox) {
 async function initI18N()
 {
   await i18nHelper.init();
-  await i18n.changeLanguage('fr');
+  //await i18n.changeLanguage('de');
 
   reference_separator = i18n.t('general.chapter-verse-separator');
   $("body").localize();
