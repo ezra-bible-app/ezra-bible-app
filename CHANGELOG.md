@@ -7,6 +7,7 @@ All notable changes to Ezra Project are documented in this file.
 * Strong's support
   - Strong's transcriptions/original word are displayed as little hint/pop-up above the word when hovering the mouse over the corresponding word.
   - Detailed Strong's information is shown on the bottom left in a new area below the tags list
+* French translation
 
 ### Enhancements
 * Lock wizard dialog once installation or uninstallation of translation has started.
