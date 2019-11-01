@@ -14,7 +14,7 @@ Watch [this video](https://www.youtube.com/watch?v=b8gScfa0MqM) to understand ho
 Ezra Project comes with the following functionality:
 * Bible browsing functionality
   * Books are opened entirely and you can scroll through the chapters seemlessly.
-  * You can compare the the bible translations of the selected verses
+  * You can compare the bible translations of the selected verses
   * Access to all bible translations available from [CrossWire's](http://www.crosswire.org) repositories
 * Tagging functionality - topical verse lists
   * Tag within the currently opened book or verse list
