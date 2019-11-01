@@ -169,6 +169,7 @@ a.outline-reference:focus, a.outline-reference:hover {
 }
 
 #dictionary-info-box {
+  display: none;
   margin-top: 0.5em;
   clear: both;
   user-select: none;
