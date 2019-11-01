@@ -9,6 +9,28 @@ Ezra Project is an open source bible study tool focussing on topical study based
 
 Watch [this video](https://www.youtube.com/watch?v=b8gScfa0MqM) to understand how to use Ezra Project.
 
+## Features
+
+Ezra Project comes with the following functionality:
+* Bible browsing functionality
+  * Books are opened entirely and you can scroll through the chapters seemlessly.
+  * You can compare the the bible translations of the selected verses
+  * Access to all bible translations available from [CrossWire's](http://www.crosswire.org) repositories
+* Tagging functionality - topical verse lists
+  * Tag within the currently opened book or verse list
+  * Lookup all verses of a tag (show verses in the main browsing window)
+  * Lookup all verses of a tag in the context of a book or verse list (show verses in small popup)
+  * Export a tagged verse list to a document
+  * Show tag statistics for the currently opened book
+* Search
+  * Search within the currently opened book or verse list (CTRL + f)
+  * Search within the full bible translation  
+* Tabbed user interface
+  * Each tab either shows a book, a tagged verse list or search results
+  * Previously opened tabs are loaded again on program start
+* User interface available in the following languages:
+  * English, German
+
 ## Installation
 The latest installation packages for Windows, Linux and macOS can be found on [this page][latest]. Specific install instructions are below.
 
