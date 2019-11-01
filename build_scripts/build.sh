@@ -4,7 +4,7 @@
 npm install
 npm run install-node-prune
 npm run rebuild
-npm run prune-nude-modules
+npm run prune-node-modules
 rm -rf /tmp/electron-packager &> /dev/null
 npm run purge-build-artifacts
 npm run cleanup-gyp-shebang
