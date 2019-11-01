@@ -19,7 +19,7 @@
     "dmg-mac": "electron-installer-dmg release/Ezra\\ Project-darwin-x64/Ezra\\ Project.app ezra-project --out=release --overwrite",
     "flat-mac": "electron-osx-flat release/Ezra\\ Project-darwin-x64/Ezra\\ Project.app --platform=darwin --pkg=release/ezra-project.pkg",
     "show-mac-ids": "security find-identity -v -p codesigning",
-    "installer-win": "node_modules\\.bin\\electron-installer-windows --src release\\ezra-project-win32-ia32 --dest release\\packages --config win_installer_config.json",
+    "installer-win": "node_modules\\.bin\\electron-installer-windows --src release\\ezra-project-win32-ia32 --dest release\\packages --config package_config\\win_installer_config.json",
     "deb_1804": "electron-installer-debian --src release/ezra-project-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_ubuntu1804.json",
     "deb_1904": "electron-installer-debian --src release/ezra-project-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_ubuntu1904.json",
     "deb_mint18": "electron-installer-debian --src release/ezra-project-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_mint18.json",
