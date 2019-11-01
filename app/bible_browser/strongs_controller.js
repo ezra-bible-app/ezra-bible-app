@@ -257,20 +257,24 @@ class StrongsController {
   }
 
   openStrongsReference(key) {
-    try {
-      var strongsEntry = nsi.getStrongsEntry(key);
-      var lemma = jsStrongs[key].lemma;
+    if (key == "" || key == null) {
+      return;
+    } else {
+      try {
+        // If the last element of the stack is the one that we want to navigate to ... just pop the stack
+        if (this.dictionaryInfoBoxStack.length >= 2 && this.dictionaryInfoBoxStack[this.dictionaryInfoBoxStack.length - 2] == key) {
+          this.rewindDictInfo(1);
+        } else {
+          var strongsEntry = nsi.getStrongsEntry(key);
+          var lemma = jsStrongs[key].lemma;
 
-      // If the last element of the stack is the one that we want to navigate to ... just pop the stack
-      if (this.dictionaryInfoBoxStack.length >= 2 && this.dictionaryInfoBoxStack[this.dictionaryInfoBoxStack.length - 2] == key) {
-        this.rewindDictInfo(1);
-      } else {
-        // Otherwise push on the stack
-        this.dictionaryInfoBoxStack.push(key);
-        this.updateDictInfoBox(strongsEntry, lemma);
+          // Otherwise push on the stack
+          this.dictionaryInfoBoxStack.push(key);
+          this.updateDictInfoBox(strongsEntry, lemma);
+        }
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
     }
   }
 }
