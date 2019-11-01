@@ -5,7 +5,7 @@
     "configure-translations": "Übersetzungen konfigurieren",
     "show-parallel-translations": "Übersetzungen vergleichen"
   },
-  "verse-list-menu": {
+  "menu": {
     "book": "Buch",
     "tags": "Tags",
     "search": "Suche",

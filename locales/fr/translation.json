@@ -5,7 +5,7 @@
     "configure-translations": "Configurer des traductions",
     "show-parallel-translations": "Comparer traductions"
   },
-  "verse-list-menu": {
+  "menu": {
     "book": "Livre",
     "tags": "Étiquettes",
     "search": "Rechercher",

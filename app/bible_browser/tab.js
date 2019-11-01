@@ -46,7 +46,7 @@ class Tab {
   }
 
   getSearchTabTitle(searchTerm) {
-    return i18n.t("verse-list-menu.search") + ": " + searchTerm;
+    return i18n.t("menu.search") + ": " + searchTerm;
   }
 
   setBook(bookCode, bookTitle) {
