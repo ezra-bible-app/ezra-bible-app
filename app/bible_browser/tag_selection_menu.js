@@ -263,9 +263,11 @@ class TagSelectionMenu {
 
   updateTagSelectionMenu(tabIndex) {
     this.reset_tag_menu();
-    var currentTextType = bible_browser_controller.tab_controller.getTab(tabIndex).getTextType();
-    if (currentTextType == 'tagged_verses') {
-        this.request_tags_for_menu();
+    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+    if (currentTab != null) {
+      if (currentTab.getTextType() == 'tagged_verses') {
+          this.request_tags_for_menu();
+      }
     }
   }
 
