@@ -98,8 +98,8 @@ function resize_app_container(e) {
   var tagsToolBarHeight = $('#tags-toolbar').height();
 
   if (bible_browser_controller.optionsMenu.strongsSwitchChecked()) {
-    $('#tags-content-global').css('height', app_container_height - tagsToolBarHeight - 420);
-    $('#dictionary-info-box').css('height', 295);
+    $('#tags-content-global').css('height', app_container_height - tagsToolBarHeight - 475);
+    $('#dictionary-info-box').css('height', 350);
   } else {
     $('#tags-content-global').css('height', app_container_height - tagsToolBarHeight - 115);
   }
