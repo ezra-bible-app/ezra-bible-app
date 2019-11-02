@@ -178,6 +178,10 @@ a.outline-reference:focus, a.outline-reference:hover {
   overflow-y: scroll;
 }
 
+#dictionary-info-box-content .strongsDefinition {
+  font-size: 120%;
+}
+
 #dictionary-info-box-lock {
   font-style: italic;
   color: grey;

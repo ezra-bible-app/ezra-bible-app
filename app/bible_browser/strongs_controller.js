@@ -126,7 +126,7 @@ class StrongsController {
       return;
     }
 
-    if (this.shiftKeyPressed) {
+    if (!this.shiftKeyPressed) {
       return;
     }
 
@@ -231,7 +231,7 @@ class StrongsController {
                          "<td>" + referenceStrongsEntry.phoneticTranscription + "</td>" + 
                          "<td>" + referenceStrongsLemma + "</td>" +
                          "</tr>";
-                         
+
     return referenceTableRow;
   }
 
@@ -240,17 +240,16 @@ class StrongsController {
     var strongsShortInfo = this.getShortInfo(strongsEntry, lemma);
 
     extendedStrongsInfo += strongsShortInfo;
-    extendedStrongsInfo += "<br/><br/>";
+    extendedStrongsInfo += "<pre class='strongsDefinition'>";
     extendedStrongsInfo += strongsEntry.definition;
+    extendedStrongsInfo += "</pre>";
 
     if (strongsEntry.references.length > 0) {
-      extendedStrongsInfo += "<br/><br/>";
       extendedStrongsInfo += "Related Strong's:<br/>";
-
       extendedStrongsInfo += "<table class='strongs-refs'>";
 
       for (var i = 0;  i < strongsEntry.references.length; i++) {
-        var isLastRow = (i == strongsEntry.references[i].length - 1);
+        var isLastRow = (i == (strongsEntry.references.length - 1));
         var referenceTableRow = this.getStrongsReferenceTableRow(strongsEntry.references[i], isLastRow);
         extendedStrongsInfo += referenceTableRow;
       }
