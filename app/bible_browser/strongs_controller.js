@@ -214,9 +214,29 @@ class StrongsController {
     return strongsShortInfo;
   }
 
+  getStrongsReferenceTableRow(strongsReference, isLastRow=false) {
+    var referenceTableRow = "";
+    var referenceKey = strongsReference.key;
+    var referenceStrongsEntry = nsi.getStrongsEntry(referenceKey);
+    var referenceStrongsLemma = jsStrongs[referenceKey].lemma;
+
+    var referenceLink = "<a href=\"javascript:bible_browser_controller.strongs_controller.openStrongsReference('";
+    referenceLink += referenceKey;
+    referenceLink += "')\">" + referenceKey + "</a>";
+    var trClass = (isLastRow ? "" : "class='td-underline'");
+
+    referenceTableRow += "<tr + " + trClass + ">" +
+                         "<td>" + referenceLink + "</td>" + 
+                         "<td>" + referenceStrongsEntry.transcription + "</td>" +
+                         "<td>" + referenceStrongsEntry.phoneticTranscription + "</td>" + 
+                         "<td>" + referenceStrongsLemma + "</td>" +
+                         "</tr>";
+                         
+    return referenceTableRow;
+  }
+
   getExtendedStrongsInfo(strongsEntry, lemma) {
     var extendedStrongsInfo = "";
-
     var strongsShortInfo = this.getShortInfo(strongsEntry, lemma);
 
     extendedStrongsInfo += strongsShortInfo;
@@ -230,25 +250,9 @@ class StrongsController {
       extendedStrongsInfo += "<table class='strongs-refs'>";
 
       for (var i = 0;  i < strongsEntry.references.length; i++) {
-        var referenceKey = strongsEntry.references[i].key;
-        var referenceStrongsEntry = nsi.getStrongsEntry(referenceKey);
-        var referenceStrongsLemma = jsStrongs[referenceKey].lemma;
-
-        var referenceLink = "<a href=\"javascript:bible_browser_controller.strongs_controller.openStrongsReference('";
-        referenceLink += referenceKey;
-        referenceLink += "')\">" + referenceKey + "</a>";
-
-        var trClass = '';
-        if (i != strongsEntry.references.length - 1) {
-          trClass = "class='td-underline'";
-        }
-
-        extendedStrongsInfo += "<tr + " + trClass + ">" +
-                               "<td>" + referenceLink + "</td>" + 
-                               "<td>" + referenceStrongsEntry.transcription + "</td>" +
-                               "<td>" + referenceStrongsEntry.phoneticTranscription + "</td>" + 
-                               "<td>" + referenceStrongsLemma + "</td>" +
-                               "</tr>";
+        var isLastRow = (i == strongsEntry.references[i].length - 1);
+        var referenceTableRow = this.getStrongsReferenceTableRow(strongsEntry.references[i], isLastRow);
+        extendedStrongsInfo += referenceTableRow;
       }
 
       extendedStrongsInfo += "</table>";
