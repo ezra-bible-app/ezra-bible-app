@@ -168,6 +168,14 @@ a.outline-reference:focus, a.outline-reference:hover {
   margin-right: 0.5em;
 }
 
+#tags-content .ui-icon-triangle-1-s {
+  display: none;
+}
+
+#tags-content .ui-accordion-header a {
+  padding-left: 1em;
+}
+
 #dictionary-info-box {
   display: none;
   margin-top: 0.5em;
