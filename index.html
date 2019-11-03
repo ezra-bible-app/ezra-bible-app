@@ -78,10 +78,8 @@
   // This function loads the content of html fragments into the divs in the app-container
   function loadFragment(filePath, elementId) {
     var absoluteFilePath = path.join(__dirname, filePath);
-
-    fs.readFile(absoluteFilePath, (err, data) => {
-      document.getElementById(elementId).innerHTML = data;
-    });
+    var fileContent = fs.readFileSync(absoluteFilePath);
+    document.getElementById(elementId).innerHTML = fileContent;
   }
 
   loadFragment('html/book_selection_menu.html',           'book-selection-menu');
