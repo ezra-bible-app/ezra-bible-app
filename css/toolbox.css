@@ -197,6 +197,10 @@ a.outline-reference:focus, a.outline-reference:hover {
   float: left;
 }
 
+#dictionary-info-box-help {
+  margin-top: 2em;
+}
+
 #dictionary-info-box a:link {
   text-decoration: none;
   color: #2779aa;

@@ -23,9 +23,9 @@ class StrongsController {
   constructor() {
     this.currentStrongsElement = null;
     this.strongsBox = $('#strongs-box');
-    this.dictionaryInfoBoxHeader = $('#dictionary-info-box-header');
-    this.dictionaryInfoBoxLock = $('#dictionary-info-box-lock');
     this.dictionaryInfoBox = $('#dictionary-info-box');
+    this.dictionaryInfoBoxHeader = $('#dictionary-info-box-header');
+    this.dictionaryInfoBoxHelp = $('#dictionary-info-box-help');
     this.dictionaryInfoBoxContent = $('#dictionary-info-box-content');
     this.dictionaryInfoBoxBreadcrumbs = $('#dictionary-info-box-breadcrumbs');
     this.dictionaryInfoBoxStack = [];
@@ -65,9 +65,9 @@ class StrongsController {
 
   clearDictInfoBox() {
     this.dictionaryInfoBox.find('div').empty();
-    this.dictionaryInfoBoxHeader.text(i18n.t("dictionary-info-box.help-instruction"));
-    this.dictionaryInfoBoxLock.text(i18n.t("dictionary-info-box.lock-instruction"));
-    this.dictionaryInfoBoxLock.hide();
+    this.dictionaryInfoBoxHeader.html(i18n.t("dictionary-info-box.default-header", { interpolation: {escapeValue: false} }));
+    this.dictionaryInfoBoxHelp.html(i18n.t("dictionary-info-box.help-instruction", { interpolation: {escapeValue: false} }));
+    this.dictionaryInfoBoxHelp.show();
   }
 
   bindAfterBibleTextLoaded(tabIndex=undefined) {
@@ -186,8 +186,8 @@ class StrongsController {
 
     var dictInfoHeader = this.getDictInfoHeader(strongsEntry);
     this.dictionaryInfoBoxHeader.html(dictInfoHeader);
+    this.dictionaryInfoBoxHelp.hide();
     this.dictionaryInfoBoxBreadcrumbs.html(this.getCurrentDictInfoBreadcrumbs());
-    this.dictionaryInfoBoxLock.show();
 
     var extendedStrongsInfo = this.getExtendedStrongsInfo(strongsEntry, lemma);
     this.dictionaryInfoBoxContent.html(extendedStrongsInfo);
