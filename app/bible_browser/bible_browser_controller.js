@@ -321,13 +321,13 @@ function BibleBrowserController() {
       var currentText = currentVerseBox.find('.verse-text').clone();
       currentText.find('.sword-markup').remove();
 
-      selectedText += currentVerseNr + " " + currentText.text().trim() + " ";
+      selectedText += "<sup>" + currentVerseNr + "</sup> " + currentText.text().trim() + " ";
     }
 
     selectedText = selectedText.trim();
     selectedText += " " + getLineBreak() + $('#selected-verses').text();
 
-    clipboard.writeText(selectedText);
+    clipboard.writeHTML(selectedText);
   };
 
   this.getCurrentVerseListTabs = function(tabIndex=undefined) {
