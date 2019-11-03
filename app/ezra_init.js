@@ -186,7 +186,7 @@ async function initI18N()
   //await i18n.changeLanguage('de');
 
   reference_separator = i18n.t('general.chapter-verse-separator');
-  $("body").localize();
+  $(document).localize();
   localizeBookSelectionMenu();
 }
 
@@ -247,8 +247,6 @@ function initUi()
   configure_button_styles();
   resize_app_container();
   $(window).bind("resize", resize_app_container);
-
-  $('#main-content').show();
 }
 
 async function initApplication()
@@ -275,6 +273,9 @@ async function initApplication()
   console.log("Initializing user interface ...");
   initUi();
 
+  // Show main content
+  $('#main-content').show();
+
   console.log("Syncing sword modules ...");
   await bible_browser_controller.translation_controller.syncSwordModules();
 
@@ -287,12 +288,6 @@ async function initApplication()
 
   applicationLoaded = true;
   loadingIndicator.hide();
-}
-
-function unbind_events()
-{
-  var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame();
-  currentVerseListFrame.find('div').unbind();
 }
 
 $(document).ready(function() {
