@@ -262,11 +262,11 @@ class TranslationController {
     $('#bible-translation-info-box').dialog("open");
   }
 
-  hasBibleTranslationStrongs(translationId) {
-    try {
-      var bibleTranslationModule = nsi.getLocalModule(translationId);
-      return bibleTranslationModule.hasStrongs;
-    } catch (e) {
+  async hasBibleTranslationStrongs(translationId) {
+    var bibleTranslation = await models.BibleTranslation.getById(translationId);
+    if (bibleTranslation != null) {
+      return bibleTranslation.hasStrongs;
+    } else {
       return false;
     }
   }

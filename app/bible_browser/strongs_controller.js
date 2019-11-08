@@ -70,11 +70,11 @@ class StrongsController {
     this.dictionaryInfoBoxHelp.show();
   }
 
-  bindAfterBibleTextLoaded(tabIndex=undefined) {
+  async bindAfterBibleTextLoaded(tabIndex=undefined) {
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
     var currentBibleTranslationId = currentTab.getBibleTranslationId();
 
-    if (bible_browser_controller.translation_controller.hasBibleTranslationStrongs(currentBibleTranslationId)) {
+    if (await bible_browser_controller.translation_controller.hasBibleTranslationStrongs(currentBibleTranslationId)) {
       var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
       currentVerseList.find('w').bind('mouseover', (e) => {
         this.handleStrongsMouseOver(e);
