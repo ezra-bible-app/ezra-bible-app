@@ -145,6 +145,17 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
 
+  BibleTranslation.getById = async function(id) {
+    var query = "SELECT * FROM BibleTranslations WHERE id='" + id + "'";
+    var translationRecords = await sequelize.query(query, { model: models.BibleTranslation });
+
+    if (translationRecords.length > 0) {
+      return translationRecords[0];
+    } else {
+      return null;
+    }
+  };
+
   BibleTranslation.importSwordTranslation = async function(translationCode, modelsInstance=undefined) {
     var reImport = false;
     
