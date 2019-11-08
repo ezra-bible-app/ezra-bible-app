@@ -48,7 +48,7 @@
     "minimist": "^1.2.0",
     "mousetrap": "^1.6.3",
     "node-addon-api": "^1.6.2",
-    "node-sword-interface": "^0.85.0",
+    "node-sword-interface": "^0.86.0",
     "officegen": "^0.5.2",
     "pug": "^2.0.3",
     "sequelize": "^4.42.0",
