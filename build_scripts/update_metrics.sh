@@ -21,8 +21,9 @@ cloc --md app \
           *.md | tail -n +4 >> LOC_METRICS.md
 
 echo "" >> LOC_METRICS.md
-echo "The above metrics include both the frontend (mostly JavaScript) and the backend (mostly C++)." >> LOC_METRICS.md
+echo "The above metrics include both the frontend (mostly JavaScript) \
+and the [backend](https://github.com/tobias-klein/node-sword-interface) (mostly C++)." >> LOC_METRICS.md
 
 DATE=`date`
 echo "" >> LOC_METRICS.md
-printf "Generated on ${DATE} using [cloc](https://github.com/AlDanial/cloc)" >> LOC_METRICS.md
+printf "Generated on ${DATE} using [cloc](https://github.com/AlDanial/cloc)." >> LOC_METRICS.md
