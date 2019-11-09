@@ -31,6 +31,13 @@ Ezra Project comes with the following functionality:
 * User interface available in the following languages:
   * English, German
 
+## Upcoming Features
+
+Ezra Project is currently on a bi-monthly release schedule. The next release [0.11.0](https://github.com/tobias-klein/ezra-project/milestone/1) is planned for December 2019 with the following new features:
+
+* Strong's support
+* French translation
+
 ## Installation
 The latest installation packages for Windows, Linux and macOS can be found on [this page][latest]. Specific install instructions are below.
 
