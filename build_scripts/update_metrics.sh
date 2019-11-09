@@ -13,6 +13,7 @@ cloc --md app \
           templates \
           index.html \
           main.js \
+          package.json \
           node_modules/node-sword-interface/src \
           node_modules/node-sword-interface/*.md \
           node_modules/node-sword-interface/*.sh \
