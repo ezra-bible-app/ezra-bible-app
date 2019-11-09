@@ -27,7 +27,8 @@
     "rpm_centos": "electron-installer-redhat --src release/ezra-project-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_centos.json",
     "rpm_fedora29": "electron-installer-redhat --src release/ezra-project-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_fedora29.json",
     "rpm_opensuse_leap": "electron-installer-redhat --src release/ezra-project-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_opensuse_leap.json",
-    "install-node-prune": "curl -sfL https://raw.githubusercontent.com/tobias-klein/node-prune/master/godownloader.sh | bash -s -- -b node_modules/.bin"
+    "install-node-prune": "curl -sfL https://raw.githubusercontent.com/tobias-klein/node-prune/master/godownloader.sh | bash -s -- -b node_modules/.bin",
+    "update-metrics": "./build_scripts/update_metrics.sh"
   },
   "author": "Tobias Klein",
   "license": "GPL-3.0",
