@@ -20,6 +20,7 @@ cloc --md app \
           node_modules/node-sword-interface/*.sh \
           node_modules/node-sword-interface/*.bat \
           node_modules/node-sword-interface/*.js \
+          node_modules/node-sword-interface/*.json \
           *.md | tail -n +4 >> LOC_METRICS.md
 
 echo "" >> LOC_METRICS.md
