@@ -4,6 +4,7 @@ echo '# Ezra Project LOC Metrics' > LOC_METRICS.md
 cloc --md app \
           build_scripts \
           css \
+          docker \
           html \
           locales \
           models \
