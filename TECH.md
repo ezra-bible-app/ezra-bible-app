@@ -19,3 +19,7 @@ To package Ezra Project, the following components are used:
 * [electron-installer-redhat](https://github.com/electron-userland/electron-installer-redhat)
 * [electron-installer-dmg](https://github.com/electron-userland/electron-installer-dmg)
 * [electron-osx-sign](https://github.com/electron/electron-osx-sign)
+
+Code metrics of Ezra Projects are available [here][metrics].
+
+[metrics]: https://github.com/tobias-klein/ezra-project/blob/master/LOC_METRICS.md
