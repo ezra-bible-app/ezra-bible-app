@@ -10,7 +10,8 @@
     "tags": "Étiquettes",
     "search": "Rechercher",
     "options": "Options",
-    "export": "Exporter"
+    "export": "Export to text document",
+    "show-module-info": "Show module info"
   },
   "search-menu": {
     "search": "Rechercher",

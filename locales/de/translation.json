@@ -10,7 +10,8 @@
     "tags": "Tags",
     "search": "Suche",
     "options": "Optionen",
-    "export": "Exportieren"
+    "export": "Exportieren in Textdokument",
+    "show-module-info": "Zeige Modulinfos"
   },
   "search-menu": {
     "search": "Suche",
