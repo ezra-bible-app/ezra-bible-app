@@ -151,7 +151,7 @@ a.outline-reference:focus, a.outline-reference:hover {
   display: inline;
 }
 
-#tags-content {
+.accordion-panel {
   margin-top: 0.2em;
   clear: both;
   padding: 0.2em;
@@ -160,19 +160,19 @@ a.outline-reference:focus, a.outline-reference:hover {
   user-select: none;
 }
 
-#tags-content .ui-accordion-header {
+.accordion-panel .ui-accordion-header {
   height: 2.2em;
 }
 
-#tags-content input, #meta-tag-assigned-tags input {
+.accordion-panel input, #meta-tag-assigned-tags input {
   margin-right: 0.5em;
 }
 
-#tags-content .ui-icon-triangle-1-s {
+.accordion-panel .ui-icon-triangle-1-s {
   display: none;
 }
 
-#tags-content .ui-accordion-header a {
+.accordion-panel .ui-accordion-header a {
   padding-left: 1em;
 }
 
@@ -181,8 +181,10 @@ a.outline-reference:focus, a.outline-reference:hover {
   margin-top: 0.5em;
   clear: both;
   user-select: none;
-  border: 1px solid #DDDDDD;
-  border-radius: 6px;
+}
+
+#dictionary-info-box-panel {
+  clear: both;
   overflow-y: scroll;
 }
 
@@ -209,12 +211,12 @@ a.outline-reference:focus, a.outline-reference:hover {
   margin-top: 2em;
 }
 
-#dictionary-info-box a:link {
+#dictionary-info-box-panel a:link {
   text-decoration: none;
   color: #2779aa;
 }
 
-#dictionary-info-box a:hover {
+#dictionary-info-box-panel a:hover {
   text-decoration: underline;
 }
 
