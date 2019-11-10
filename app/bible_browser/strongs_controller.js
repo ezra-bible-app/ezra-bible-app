@@ -24,6 +24,7 @@ class StrongsController {
     this.currentStrongsElement = null;
     this.strongsBox = $('#strongs-box');
     this.dictionaryInfoBox = $('#dictionary-info-box');
+    this.dictionaryInfoBoxPanel = $('#dictionary-info-box-panel');
     this.dictionaryInfoBoxHeader = $('#dictionary-info-box-header');
     this.dictionaryInfoBoxHelp = $('#dictionary-info-box-help');
     this.dictionaryInfoBoxContent = $('#dictionary-info-box-content');
@@ -33,6 +34,8 @@ class StrongsController {
     this.currentLemma = null;
     this.shiftKeyPressed = false;
     this.strongsAvailable = false;
+
+    $('#dictionary-info-box').accordion();
 
     this.strongsBox.bind('mouseout', () => {
       this.hideStrongsBox();
@@ -64,7 +67,7 @@ class StrongsController {
   }
 
   clearDictInfoBox() {
-    this.dictionaryInfoBox.find('div').empty();
+    this.dictionaryInfoBoxPanel.find('div').empty();
     this.dictionaryInfoBoxHeader.html(i18n.t("dictionary-info-box.default-header", { interpolation: {escapeValue: false} }));
     this.dictionaryInfoBoxHelp.html(i18n.t("dictionary-info-box.help-instruction", { interpolation: {escapeValue: false} }));
     this.dictionaryInfoBoxHelp.show();

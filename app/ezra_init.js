@@ -99,7 +99,7 @@ function resize_app_container(e) {
 
   if (bible_browser_controller.optionsMenu.strongsSwitchChecked()) {
     $('#tags-content-global').css('height', app_container_height - tagsToolBarHeight - 475);
-    $('#dictionary-info-box').css('height', 350);
+    $('#dictionary-info-box-panel').css('height', 302);
   } else {
     $('#tags-content-global').css('height', app_container_height - tagsToolBarHeight - 115);
   }
@@ -183,7 +183,7 @@ function handle_fg_button_mousedown(element, click_checkbox) {
 async function initI18N()
 {
   await i18nHelper.init();
-  //await i18n.changeLanguage('de');
+  await i18n.changeLanguage('de');
 
   reference_separator = i18n.t('general.chapter-verse-separator');
   $(document).localize();
