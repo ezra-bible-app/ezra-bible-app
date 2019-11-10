@@ -242,6 +242,14 @@ class StrongsController {
     return strongsShortInfo;
   }
 
+  getFindAllLink(strongsEntry) {
+    var functionCall = "javascript:bible_browser_controller.strongs_controller.findAllOccurrences('" + strongsEntry.key + "')";
+    var link = "<p><a href=\"" + functionCall + "\">" + 
+               i18n.t("dictionary-info-box.find-all-occurrances") + 
+               "</a></p>";
+    return link;
+  }
+
   getStrongsReferenceTableRow(strongsReference, isLastRow=false) {
     var referenceTableRow = "";
     var referenceKey = strongsReference.key;
@@ -265,9 +273,11 @@ class StrongsController {
 
   getExtendedStrongsInfo(strongsEntry, lemma) {
     var extendedStrongsInfo = "";
-    var strongsShortInfo = "<span class='strongs-short-info'>" + this.getShortInfo(strongsEntry, lemma) + "</span>";
+    var strongsShortInfo = this.getShortInfo(strongsEntry, lemma);
+    var findAllLink = this.getFindAllLink(strongsEntry);
 
     extendedStrongsInfo += strongsShortInfo;
+    extendedStrongsInfo += findAllLink;
     extendedStrongsInfo += "<pre class='strongs-definition'>";
     extendedStrongsInfo += strongsEntry.definition;
     extendedStrongsInfo += "</pre>";
@@ -307,6 +317,11 @@ class StrongsController {
         console.log(e);
       }
     }
+  }
+
+  findAllOccurrences(key) {
+    console.log("Finding all occurrances for " + key);
+    bible_browser_controller.tab_controller.addTab();
   }
 }
 

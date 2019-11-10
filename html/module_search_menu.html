@@ -1,8 +1,11 @@
 <input id="module-search-input" type="text" maxlength="30" />
 <button id="start-module-search-button" class="fg-button ui-corner-all ui-state-default" i18n="search-menu.search"></button>
 <div style="margin-top: 1em;">
+  <select id="search-type">
+    <option name="multi-word" i18n="search-menu.multi-word"></option>
+    <option name="exact-phrase" i18n="search-menu.exact-phrase"></option>
+    <option name="strongs" i18n="search-menu.strongs"></option>
+  </select>
   <input type="checkbox" id="search-is-case-sensitive">
   <label for="search-is-case-sensitive" i18n="search-menu.case-sensitive"></label>
-  <input type="checkbox" id="search-is-phrase" style="margin-left: 1em;">
-  <label for="search-is-phrase" i18n="search-menu.exact-phrase"></label>
 </div>
