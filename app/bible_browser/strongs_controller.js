@@ -243,7 +243,7 @@ class StrongsController {
     var strongsShortInfo = this.getShortInfo(strongsEntry, lemma);
 
     extendedStrongsInfo += strongsShortInfo;
-    extendedStrongsInfo += "<pre class='strongsDefinition'>";
+    extendedStrongsInfo += "<pre class='strongs-definition'>";
     extendedStrongsInfo += strongsEntry.definition;
     extendedStrongsInfo += "</pre>";
 
