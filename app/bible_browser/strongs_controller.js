@@ -22,6 +22,7 @@ const Mousetrap = require('mousetrap');
 class StrongsController {
   constructor() {
     this.currentStrongsElement = null;
+    this.currentVerseText = null;
     this.strongsBox = $('#strongs-box');
     this.dictionaryInfoBox = $('#dictionary-info-box');
     this.dictionaryInfoBoxPanel = $('#dictionary-info-box-panel');
@@ -79,8 +80,11 @@ class StrongsController {
 
     if (await bible_browser_controller.translation_controller.hasBibleTranslationStrongs(currentBibleTranslationId)) {
       var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
-      currentVerseList.find('w').bind('mouseover', (e) => {
-        this.handleStrongsMouseOver(e);
+      currentVerseList.find('w').bind('mousemove', (e) => {
+        this.handleStrongsMouseMove(e);
+      });
+      currentVerseList.find('.verse-text').bind('mousemove', (e) => {
+        this.handleVerseMouseMove(e);
       });
     }
   }
@@ -124,7 +128,7 @@ class StrongsController {
     });
   }
 
-  handleStrongsMouseOver(event) {
+  handleStrongsMouseMove(event) {
     if (!bible_browser_controller.optionsMenu.strongsSwitchChecked()) {
       return;
     }
@@ -151,6 +155,23 @@ class StrongsController {
         this.showStrongsInfo(strongsId);
       }
     }
+  }
+
+  handleVerseMouseMove(event) {
+    if (!bible_browser_controller.optionsMenu.strongsSwitchChecked()) {
+      return;
+    }
+
+    if (!this.shiftKeyPressed) {
+      return;
+    }
+
+    if (this.currentVerseText != null) {
+      this.currentVerseText.find('w').css('color', 'black');
+    }
+
+    this.currentVerseText = $(event.target).closest('.verse-text');
+    this.currentVerseText.find('w').css('color', 'blue');
   }
 
   getCurrentDictInfoBreadcrumbs() {
