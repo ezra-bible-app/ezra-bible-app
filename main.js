@@ -60,15 +60,13 @@ function createWindow () {
                                   show: false,
                                   frame: true,
                                   title: "Ezra Project " + app.getVersion(),
-                                  autoHideMenuBar: true,
                                   webPreferences: {
                                     nodeIntegration: true,
                                     preload: preloadScript
                                   }});
   
-  if (!isDev) {
-    Menu.setApplicationMenu(null);
-  }
+  // Disable the application menu
+  Menu.setApplicationMenu(null);
 
   mainWindow.once('ready-to-show', () => {
     mainWindow.maximize();
