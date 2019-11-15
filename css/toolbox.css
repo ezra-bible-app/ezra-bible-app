@@ -188,6 +188,10 @@ a.outline-reference:focus, a.outline-reference:hover {
   overflow-y: scroll;
 }
 
+.strongs-short-info {
+  font-weight: bold;
+}
+
 #dictionary-info-box-content .strongs-definition {
   font-size: 120%;
   white-space: pre-wrap;
