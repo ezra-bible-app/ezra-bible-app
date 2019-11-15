@@ -16,9 +16,7 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const electron = require('electron');
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
+const { app, BrowserWindow, Menu } = require('electron');
 
 const isDev = require('electron-is-dev');
 
@@ -62,12 +60,15 @@ function createWindow () {
                                   show: false,
                                   frame: true,
                                   title: "Ezra Project " + app.getVersion(),
+                                  autoHideMenuBar: true,
                                   webPreferences: {
                                     nodeIntegration: true,
                                     preload: preloadScript
                                   }});
-
-  mainWindow.setMenuBarVisibility(false);
+  
+  if (!isDev) {
+    Menu.setApplicationMenu(null);
+  }
 
   mainWindow.once('ready-to-show', () => {
     mainWindow.maximize();
