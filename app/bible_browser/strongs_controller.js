@@ -16,8 +16,8 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const jsStrongs = require('strongs');
 const Mousetrap = require('mousetrap');
+let jsStrongs = null;
 
 class StrongsController {
   constructor() {
@@ -75,6 +75,10 @@ class StrongsController {
   }
 
   async bindAfterBibleTextLoaded(tabIndex=undefined) {
+    if (jsStrongs == null) {
+      jsStrongs = require('strongs');
+    }
+
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
     var currentBibleTranslationId = currentTab.getBibleTranslationId();
 

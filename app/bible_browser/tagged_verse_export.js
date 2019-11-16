@@ -16,12 +16,6 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const officegen = require('officegen');
-const fs = require('fs');
-const app = require('electron').remote.app;
-const dialog = require('electron').remote.dialog;
-const shell = require('electron').remote.shell;
-
 class TaggedVerseExport {
   constructor() {
     this.exportFilePath = null;
@@ -106,6 +100,10 @@ class TaggedVerseExport {
   }
 
   renderWordDocument(bibleBooks, groupedVerseTags, verses) {
+    const officegen = require('officegen');
+    const fs = require('fs');
+    const shell = require('electron').remote.shell;
+
     var currentTagTitleList = bible_browser_controller.tab_controller.getTab().getTagTitleList();
     var title = i18n.t("tags.verses-tagged-with") + currentTagTitleList;
 
@@ -184,6 +182,7 @@ class TaggedVerseExport {
   }
 
   getExportDialogOptions() {
+    const app = require('electron').remote.app;
     var today = new Date();
     var month = this.getPaddedNumber(today.getMonth()+1);
     var day = this.getPaddedNumber(today.getDate());
@@ -201,6 +200,7 @@ class TaggedVerseExport {
   }
 
   runExport() {
+    const dialog = require('electron').remote.dialog;
     var dialogOptions = this.getExportDialogOptions();
     this.exportFilePath = dialog.showSaveDialog(null, dialogOptions);
     

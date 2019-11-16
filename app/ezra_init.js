@@ -213,7 +213,6 @@ async function initControllers()
 
   tags_controller = new TagsController();
   tags_controller.init();
-
   // Disabled notes controller
   //notes_controller = new NotesController;
 }
