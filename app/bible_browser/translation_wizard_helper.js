@@ -18,7 +18,6 @@
 
 class TranslationWizardHelper {
   constructor() {
-
   }
 
   getSelectedSettingsWizardElements(wizardPage) {
