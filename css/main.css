@@ -743,7 +743,7 @@ h2 {
 }
 
 #show-book-tag-statistics-button, #show-parallel-translations-button, .export-tagged-verses-button, .bible-translation-info-button, #start-module-search-button {
-  margin-left: 1em;
+  margin-left: 0.5em;
   height: 2.2em;
 }
 
