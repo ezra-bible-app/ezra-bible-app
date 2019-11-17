@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const fs = require('fs-extra');
-const {exec} = require('child_process');
 const path = require('path');
 const settings = require('electron-settings');
 const Sequelize = require('sequelize');
