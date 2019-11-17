@@ -75,14 +75,14 @@ class StrongsController {
   }
 
   async bindAfterBibleTextLoaded(tabIndex=undefined) {
-    if (jsStrongs == null) {
-      jsStrongs = require('strongs');
-    }
-
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
     var currentBibleTranslationId = currentTab.getBibleTranslationId();
 
     if (await bible_browser_controller.translation_controller.hasBibleTranslationStrongs(currentBibleTranslationId)) {
+      if (jsStrongs == null) {
+        jsStrongs = require('strongs');
+      }
+
       var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
       currentVerseList.find('w').bind('mousemove', (e) => {
         this.handleStrongsMouseMove(e);
