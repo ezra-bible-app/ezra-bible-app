@@ -18,19 +18,6 @@
 
 class BibleBrowserCommunicationController {
   constructor() {
-    this.verseListTemplate = null;
-  }
-
-  getTemplate() {
-    if (this.verseListTemplate == null) {
-      var pug = require('pug');
-      var path = require('path');
-      
-      var verse_list_template_file = path.join(__dirname, '../../templates/verse_list.pug');
-      this.verseListTemplate = pug.compileFile(verse_list_template_file);
-    }
-
-    return this.verseListTemplate;
   }
 
   async request_book_text(tab_index,
@@ -56,8 +43,6 @@ class BibleBrowserCommunicationController {
 
     var verseTags = await bibleBook.getVerseTags(currentBibleTranslationId);
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags);
-
-    var verseListTemplate = this.getTemplate();
 
     var verses_as_html = verseListTemplate({
       verseListId: current_tab_id,
@@ -209,8 +194,6 @@ class BibleBrowserCommunicationController {
   }
 
   get_verses_as_html(current_tab_id, bibleBooks, bibleBookStats, groupedVerseTags, verses, render_function, renderBibleBookHeaders=true, renderVerseMetaInfo=true) {
-    var verseListTemplate = this.getTemplate();
-
     var verses_as_html = verseListTemplate({
       verseListId: current_tab_id,
       renderBibleBookHeaders: renderBibleBookHeaders,

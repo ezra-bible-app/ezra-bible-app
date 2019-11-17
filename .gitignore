@@ -3,3 +3,4 @@
 package-lock.json
 *.code-workspace
 /.vscode
+/templates/verse_list.js

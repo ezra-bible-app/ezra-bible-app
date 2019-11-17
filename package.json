@@ -5,6 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "compile-pug": "./node_modules/.bin/pug --client --no-debug --pretty -n verseListTemplate templates/verse_list.pug",
+    "postinstall": "npm run compile-pug",
     "rebuild": "electron-rebuild -f -w node-sword-interface -v 7.1.1",
     "rebuild-win": "node_modules\\.bin\\electron-rebuild.cmd --arch=ia32 -f -w sqlite3 -v 7.1.1",
     "migrate-db": "sequelize db:migrate && sequelize db:seed:all",
@@ -52,6 +54,7 @@
     "node-sword-interface": "^0.90.0",
     "officegen": "^0.5.2",
     "pug": "^2.0.3",
+    "pug-cli": "^1.0.0-alpha6",
     "sequelize": "^5.21.2",
     "sequelize-cli": "^5.5.1",
     "sqlite3": "^4.0.9",
