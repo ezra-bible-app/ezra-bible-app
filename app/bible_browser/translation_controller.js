@@ -350,8 +350,8 @@ class TranslationController {
     return false;
   }
 
-  async syncDbWithSwordModules(htmlElementForMessages) {
-    var modulesNotInDb = await this.getLocalModulesNotYetAvailableInDb();
+  async syncDbWithSwordModules(htmlElementForMessages, dbModules, localSwordModules) {
+    var modulesNotInDb = await this.getLocalModulesNotYetAvailableInDb(dbModules, localSwordModules);
 
     var initialMessage = "<p style='margin-bottom: 2em'>" + i18n.t("module-sync.synchronizing") 
                           + " " + modulesNotInDb.length + " " + i18n.t("module-sync.modules-with-db") + "</p>";
@@ -472,7 +472,7 @@ class TranslationController {
     }
 
     if (modulesNotInDb.length > 0) {
-      await this.syncDbWithSwordModules($('#bible-sync-box'));
+      await this.syncDbWithSwordModules($('#bible-sync-box'), dbModules, localSwordModules);
     }
 
     if (notInstalledButAvailableModules.length > 0) {
