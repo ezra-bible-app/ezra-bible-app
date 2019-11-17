@@ -16,15 +16,21 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const pug = require('pug');
-const path = require('path');
-
-var verse_list_template_file = path.join(__dirname, '../../templates/verse_list.pug');
-const verseListTemplate = pug.compileFile(verse_list_template_file);
-
 class BibleBrowserCommunicationController {
   constructor() {
+    this.verseListTemplate = null;
+  }
 
+  getTemplate() {
+    if (this.verseListTemplate == null) {
+      var pug = require('pug');
+      var path = require('path');
+      
+      var verse_list_template_file = path.join(__dirname, '../../templates/verse_list.pug');
+      this.verseListTemplate = pug.compileFile(verse_list_template_file);
+    }
+
+    return this.verseListTemplate;
   }
 
   async request_book_text(tab_index,
@@ -50,6 +56,8 @@ class BibleBrowserCommunicationController {
 
     var verseTags = await bibleBook.getVerseTags(currentBibleTranslationId);
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags);
+
+    var verseListTemplate = this.getTemplate();
 
     var verses_as_html = verseListTemplate({
       verseListId: current_tab_id,
@@ -131,14 +139,15 @@ class BibleBrowserCommunicationController {
     
     if (render_type == "html") {
       
-      var verses_as_html = this.get_verses_as_html(current_tab_id,
-                                                   bibleBooks,
-                                                   bibleBookStats,
-                                                   groupedVerseTags,
-                                                   verses,
-                                                   render_function,
-                                                   requestedBookId <= 0,
-                                                   renderVerseMetaInfo);
+      this.get_verses_as_html(current_tab_id,
+                              bibleBooks,
+                              bibleBookStats,
+                              groupedVerseTags,
+                              verses,
+                              render_function,
+                              requestedBookId <= 0,
+                              renderVerseMetaInfo);
+      
     } else if (render_type == "docx") {
       render_function(bibleBooks, groupedVerseTags, verses);
     }
@@ -185,20 +194,23 @@ class BibleBrowserCommunicationController {
 
     if (render_type == "html") {
       
-      var verses_as_html = this.get_verses_as_html(current_tab_id,
-                                                   bibleBooks,
-                                                   bibleBookStats,
-                                                   groupedVerseTags,
-                                                   verses,
-                                                   render_function,
-                                                   true,
-                                                   renderVerseMetaInfo);
+      this.get_verses_as_html(current_tab_id,
+                              bibleBooks,
+                              bibleBookStats,
+                              groupedVerseTags,
+                              verses,
+                              render_function,
+                              true,
+                              renderVerseMetaInfo);
+    
     } else if (render_type == "docx") {
       render_function(bibleBooks, groupedVerseTags, verses);
     }
   }
 
   get_verses_as_html(current_tab_id, bibleBooks, bibleBookStats, groupedVerseTags, verses, render_function, renderBibleBookHeaders=true, renderVerseMetaInfo=true) {
+    var verseListTemplate = this.getTemplate();
+
     var verses_as_html = verseListTemplate({
       verseListId: current_tab_id,
       renderBibleBookHeaders: renderBibleBookHeaders,
