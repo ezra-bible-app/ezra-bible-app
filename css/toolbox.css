@@ -188,9 +188,14 @@ a.outline-reference:focus, a.outline-reference:hover {
   overflow-y: scroll;
 }
 
-#dictionary-info-box-content .strongsDefinition {
-  font-size: 120%;
+.strongs-short-info {
+  font-weight: bold;
+}
+
+#dictionary-info-box-content .strongs-definition {
+  font-size: 110%;
   white-space: pre-wrap;
+  color: black;
 }
 
 #dictionary-info-box-lock {

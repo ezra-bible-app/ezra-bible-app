@@ -213,7 +213,6 @@ async function initControllers()
 
   tags_controller = new TagsController();
   tags_controller.init();
-
   // Disabled notes controller
   //notes_controller = new NotesController;
 }
@@ -251,6 +250,7 @@ function initUi()
 
 async function initApplication()
 {
+  //console.time("application-startup");
   var applicationLoaded = false;
   var loadingIndicator = $('#startup-loading-indicator');
 
@@ -288,6 +288,7 @@ async function initApplication()
 
   applicationLoaded = true;
   loadingIndicator.hide();
+  //console.timeEnd("application-startup");
 }
 
 $(document).ready(function() {
