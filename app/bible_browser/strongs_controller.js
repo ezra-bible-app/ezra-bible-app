@@ -16,12 +16,13 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const jsStrongs = require('strongs');
 const Mousetrap = require('mousetrap');
+let jsStrongs = null;
 
 class StrongsController {
   constructor() {
     this.currentStrongsElement = null;
+    this.currentVerseText = null;
     this.strongsBox = $('#strongs-box');
     this.dictionaryInfoBox = $('#dictionary-info-box');
     this.dictionaryInfoBoxPanel = $('#dictionary-info-box-panel');
@@ -78,9 +79,16 @@ class StrongsController {
     var currentBibleTranslationId = currentTab.getBibleTranslationId();
 
     if (await bible_browser_controller.translation_controller.hasBibleTranslationStrongs(currentBibleTranslationId)) {
+      if (jsStrongs == null) {
+        jsStrongs = require('strongs');
+      }
+
       var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
-      currentVerseList.find('w').bind('mouseover', (e) => {
-        this.handleStrongsMouseOver(e);
+      currentVerseList.find('w').bind('mousemove', (e) => {
+        this.handleStrongsMouseMove(e);
+      });
+      currentVerseList.find('.verse-text').bind('mousemove', (e) => {
+        this.handleVerseMouseMove(e);
       });
     }
   }
@@ -124,7 +132,7 @@ class StrongsController {
     });
   }
 
-  handleStrongsMouseOver(event) {
+  handleStrongsMouseMove(event) {
     if (!bible_browser_controller.optionsMenu.strongsSwitchChecked()) {
       return;
     }
@@ -151,6 +159,23 @@ class StrongsController {
         this.showStrongsInfo(strongsId);
       }
     }
+  }
+
+  handleVerseMouseMove(event) {
+    if (!bible_browser_controller.optionsMenu.strongsSwitchChecked()) {
+      return;
+    }
+
+    if (!this.shiftKeyPressed) {
+      return;
+    }
+
+    if (this.currentVerseText != null) {
+      this.currentVerseText.find('w').css('color', 'black');
+    }
+
+    this.currentVerseText = $(event.target).closest('.verse-text');
+    this.currentVerseText.find('w').css('color', 'blue');
   }
 
   getCurrentDictInfoBreadcrumbs() {
@@ -240,10 +265,10 @@ class StrongsController {
 
   getExtendedStrongsInfo(strongsEntry, lemma) {
     var extendedStrongsInfo = "";
-    var strongsShortInfo = this.getShortInfo(strongsEntry, lemma);
+    var strongsShortInfo = "<span class='strongs-short-info'>" + this.getShortInfo(strongsEntry, lemma) + "</span>";
 
     extendedStrongsInfo += strongsShortInfo;
-    extendedStrongsInfo += "<pre class='strongsDefinition'>";
+    extendedStrongsInfo += "<pre class='strongs-definition'>";
     extendedStrongsInfo += strongsEntry.definition;
     extendedStrongsInfo += "</pre>";
 
