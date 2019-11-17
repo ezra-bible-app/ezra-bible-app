@@ -1459,11 +1459,6 @@ function TagsController() {
     });
     $('#filter-dialog').find('input').bind('click', tags_controller.handle_tag_filter_type_click);
 
-    /*$('#new-tag-title-input').clickOnEnter();
-    $('#new-tag-title-input').listenForEnter().bind('pressedEnter', function() {
-      tags_controller.save_new_tag($('#new-tag-dialog'));
-    });*/
-
     $('#tags-search-input').bind('keyup', tags_controller.handle_tag_search_input);
     $('#tags-search-input').bind('keydown', function(e) {
       e.stopPropagation(); 
