@@ -19,6 +19,9 @@
 const { app, BrowserWindow, Menu } = require('electron');
 const isDev = require('electron-is-dev');
 
+// Disable security warnings
+process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
