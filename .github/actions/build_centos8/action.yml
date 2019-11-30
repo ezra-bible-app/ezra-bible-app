@@ -1,0 +1,6 @@
+# action.yml
+name: 'build-centos8'
+description: 'Build Ezra Project for CentOS 8'
+runs:
+    using: 'docker'
+    image: 'Dockerfile'
