@@ -4,7 +4,7 @@ on: repository_dispatch
 
 jobs:
     build-ubuntu-1804:
-        name: Build Ezra Project for Ubuntu 18.04
+        name: Build Ubuntu 18.04 package
         runs-on: ubuntu-latest
         steps:
         - uses: actions/checkout@v1
@@ -17,7 +17,7 @@ jobs:
             path: ezra-project_latest.deb
 
     build-ubuntu-1904:
-        name: Build Ezra Project for Ubuntu 19.04
+        name: Build Ubuntu 19.04 package
         runs-on: ubuntu-latest
         steps:
         - uses: actions/checkout@v1
@@ -27,5 +27,18 @@ jobs:
           uses: actions/upload-artifact@master
           with:
             name: ezra-project_ubuntu1904_latest.deb
+            path: ezra-project_latest.deb
+
+    build-mint18:
+        name: Build Mint 18 package
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v1
+        - name: Build
+          uses: ./.github/actions/build_mint18
+        - name: Upload deb file
+          uses: actions/upload-artifact@master
+          with:
+            name: ezra-project_mint18_latest.deb
             path: ezra-project_latest.deb
 
