@@ -14,4 +14,4 @@ jobs:
           uses: actions/upload-artifact@master
           with:
             name: ezra-project_ubuntu1804.deb
-            path: release/ezra-project-linux-x64/*.deb
+            path: *.deb
