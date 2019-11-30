@@ -16,3 +16,16 @@ jobs:
             name: ezra-project_ubuntu1804_latest.deb
             path: ezra-project_latest.deb
 
+    build-ubuntu-1904:
+        name: Build Ezra Project for Ubuntu 19.04
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v1
+        - name: Build
+          uses: ./.github/actions/build_ubuntu1904
+        - name: Upload deb file
+          uses: actions/upload-artifact@master
+          with:
+            name: ezra-project_ubuntu1904_latest.deb
+            path: ezra-project_latest.deb
+
