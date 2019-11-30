@@ -1,0 +1,6 @@
+# action.yml
+name: 'build-buster'
+description: 'Build Ezra Project for Debian Buster'
+runs:
+    using: 'docker'
+    image: 'Dockerfile'
