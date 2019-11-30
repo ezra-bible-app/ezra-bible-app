@@ -4,7 +4,8 @@ on: repository_dispatch
 
 jobs:
     build:
+        name: Build Ezra Project
         runs-on: ubuntu-latest
         steps:
         - name: Build Ubuntu 18.04
-        - uses: ./.github/actions/build_ubuntu1804
+          uses: ./.github/actions/build_ubuntu1804
