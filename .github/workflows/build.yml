@@ -43,7 +43,7 @@ jobs:
             path: ezra-project_latest.deb
 
     build-buster:
-        name: Build Debian 10 Buster package
+        name: Build Debian 10 package
         runs-on: ubuntu-latest
         steps:
         - uses: actions/checkout@v1
@@ -52,7 +52,7 @@ jobs:
         - name: Upload deb file
           uses: actions/upload-artifact@master
           with:
-            name: ezra-project_buster_latest.deb
+            name: ezra-project_debian10_latest.deb
             path: ezra-project_latest.deb
 
     build-fedora29:
