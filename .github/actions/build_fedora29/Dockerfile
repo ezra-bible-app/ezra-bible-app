@@ -1,0 +1,17 @@
+# Dockerfile for Fedora Build Enviroment for Ezra Project
+
+FROM fedora:29
+
+RUN yum update -y
+RUN yum install -y sudo
+
+RUN curl -sL https://rpm.nodesource.com/setup_10.x | sudo -E bash -
+RUN yum install -y gcc-c++ make nodejs vim git
+RUN yum install -y sword-devel libsqlite3x-devel.x86_64 libicu-devel libcurl-devel subversion cmake unzip
+
+RUN npm install -g electron-installer-redhat
+RUN yum install -y rpm-build
+
+COPY build.sh /build.sh
+
+ENTRYPOINT ["/build.sh"]

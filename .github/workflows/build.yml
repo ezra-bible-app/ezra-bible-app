@@ -55,3 +55,16 @@ jobs:
             name: ezra-project_buster_latest.deb
             path: ezra-project_latest.deb
 
+    build-fedora29:
+        name: Build Fedora 29 package
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v1
+        - name: Build
+          uses: ./.github/actions/build_fedora29
+        - name: Upload rpm file
+          uses: actions/upload-artifact@master
+          with:
+            name: ezra-project_fedora29_latest.rpm
+            path: ezra-project_latest.rpm
+
