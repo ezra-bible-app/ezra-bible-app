@@ -13,7 +13,7 @@ jobs:
         - name: Upload deb file
           uses: actions/upload-artifact@master
           with:
-            name: ezra-project_ubuntu1804_latest.deb
+            name: ezra-project_ubuntu1804_latest
             path: ezra-project_latest.deb
 
     build-ubuntu-1904:
@@ -26,7 +26,7 @@ jobs:
         - name: Upload deb file
           uses: actions/upload-artifact@master
           with:
-            name: ezra-project_ubuntu1904_latest.deb
+            name: ezra-project_ubuntu1904_latest
             path: ezra-project_latest.deb
 
     build-mint18:
@@ -39,7 +39,7 @@ jobs:
         - name: Upload deb file
           uses: actions/upload-artifact@master
           with:
-            name: ezra-project_mint18_latest.deb
+            name: ezra-project_mint18_latest
             path: ezra-project_latest.deb
 
     build-buster:
@@ -52,7 +52,7 @@ jobs:
         - name: Upload deb file
           uses: actions/upload-artifact@master
           with:
-            name: ezra-project_debian10_latest.deb
+            name: ezra-project_debian10_latest
             path: ezra-project_latest.deb
 
     build-fedora29:
@@ -65,7 +65,7 @@ jobs:
         - name: Upload rpm file
           uses: actions/upload-artifact@master
           with:
-            name: ezra-project_fedora29_latest.rpm
+            name: ezra-project_fedora29_latest
             path: ezra-project_latest.rpm
 
     build-centos8:
@@ -78,7 +78,7 @@ jobs:
         - name: Upload rpm file
           uses: actions/upload-artifact@master
           with:
-            name: ezra-project_centos8_latest.rpm
+            name: ezra-project_centos8_latest
             path: ezra-project_latest.rpm
 
     build-opensuse-leap:
@@ -91,6 +91,6 @@ jobs:
         - name: Upload rpm file
           uses: actions/upload-artifact@master
           with:
-            name: ezra-project_opensuse_leap_latest.rpm
+            name: ezra-project_opensuse_leap_latest
             path: ezra-project_latest.rpm
 
