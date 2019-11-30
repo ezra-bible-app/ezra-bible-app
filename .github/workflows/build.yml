@@ -1,6 +1,6 @@
 name: Build Ezra Project packages
 
-on: repository_dispatch | push
+on: [ repository_dispatch, push ]
 
 jobs:
     build-ubuntu-1804:
