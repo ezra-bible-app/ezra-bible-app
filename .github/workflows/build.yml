@@ -8,5 +8,5 @@ jobs:
         name: Build Ezra Project for Ubuntu 18.04
         steps:
         - name: Build Ubuntu 18.04
+          uses: ./.github/actions/build_ubuntu1804
           id: build-ubuntu-1804
-          uses: actions/build_ubuntu1804@v1
