@@ -68,3 +68,16 @@ jobs:
             name: ezra-project_fedora29_latest.rpm
             path: ezra-project_latest.rpm
 
+    build-centos8:
+        name: Build CentOS 8 package
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v1
+        - name: Build
+          uses: ./.github/actions/build_centos8
+        - name: Upload rpm file
+          uses: actions/upload-artifact@master
+          with:
+            name: ezra-project_centos8_latest.rpm
+            path: ezra-project_latest.rpm
+
