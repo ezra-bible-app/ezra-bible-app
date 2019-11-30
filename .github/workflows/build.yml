@@ -13,5 +13,5 @@ jobs:
         - name: Upload deb file
           uses: actions/upload-artifact@master
           with:
-            name: release/ezra-project-linux-x64
-            path: release/ezra-project-linux-x64
+            name: ezra-project_ubuntu1804.deb
+            path: release/ezra-project-linux-x64/*.deb
