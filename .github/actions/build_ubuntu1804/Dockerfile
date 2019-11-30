@@ -18,6 +18,6 @@ RUN npm install -g electron-packager
 RUN npm install -g electron-installer-debian
 RUN apt-get install -y unzip
 
-COPY ../../../build_scripts/build.sh /build.sh
+COPY build.sh /build.sh
 
 ENTRYPOINT ["/build.sh"]
