@@ -42,3 +42,16 @@ jobs:
             name: ezra-project_mint18_latest.deb
             path: ezra-project_latest.deb
 
+    build-buster:
+        name: Build Debian 10 Buster package
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v1
+        - name: Build
+          uses: ./.github/actions/build_buster
+        - name: Upload deb file
+          uses: actions/upload-artifact@master
+          with:
+            name: ezra-project_buster_latest.deb
+            path: ezra-project_latest.deb
+
