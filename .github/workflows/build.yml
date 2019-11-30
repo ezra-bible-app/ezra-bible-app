@@ -1,0 +1,12 @@
+name: Build Ezra Project
+
+on: repository_dispatch
+
+jobs:
+    build_ubuntu1804:
+        runs-on: ubuntu-latest
+        name: Build Ezra Project for Ubuntu 18.04
+        steps:
+        - name: Build Ubuntu 18.04
+          id: build-ubuntu-1804
+          uses: actions/build_ubuntu1804@v1
