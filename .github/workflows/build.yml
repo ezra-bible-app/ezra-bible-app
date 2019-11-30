@@ -1,4 +1,4 @@
-name: Build Ezra Project
+name: Build Ezra Project packages
 
 on: repository_dispatch
 
@@ -79,5 +79,18 @@ jobs:
           uses: actions/upload-artifact@master
           with:
             name: ezra-project_centos8_latest.rpm
+            path: ezra-project_latest.rpm
+
+    build-opensuse-leap:
+        name: Build OpenSuse Leap package
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v1
+        - name: Build
+          uses: ./.github/actions/build_opensuseleap
+        - name: Upload rpm file
+          uses: actions/upload-artifact@master
+          with:
+            name: ezra-project_opensuse_leap_latest.rpm
             path: ezra-project_latest.rpm
 
