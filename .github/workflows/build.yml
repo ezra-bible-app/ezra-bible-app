@@ -8,5 +8,5 @@ jobs:
         runs-on: ubuntu-latest
         steps:
         - uses: actions/checkout@v1
-        - name: Build Ubuntu 18.04
+        - name: Build Ezra Project for Ubuntu 18.04
           uses: ./.github/actions/build_ubuntu1804
