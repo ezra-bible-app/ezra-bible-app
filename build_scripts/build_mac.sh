@@ -8,4 +8,6 @@ npm run rebuild
 npm run prune-node-modules
 npm run purge-build-artifacts
 npm run package-mac
+
+electron-rebuild -f -w macos-alias -v 7.1.1
 npm run dmg-mac
