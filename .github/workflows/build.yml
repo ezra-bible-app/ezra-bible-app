@@ -34,6 +34,8 @@ jobs:
           run: npm install electron-installer-dmg
         - name: Build
           run: npm run build-mac
+        - name: List build contents
+          run: ls -lh release
 
     build-ubuntu-1804:
         name: Build Ubuntu 18.04 package
