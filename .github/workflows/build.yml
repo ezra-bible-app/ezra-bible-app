@@ -15,7 +15,7 @@ jobs:
         - name: Build
           run: powershell .\build_scripts\build_win32.bat
         - name: Rename installer
-          run: Get-ChildItem release\packages\ | rename-item -NewName { "ezra-project_win32_setup_latest.exe" }
+          run: Get-ChildItem release\packages\*setup.exe | rename-item -NewName { "ezra-project_win32_setup_latest.exe" }
           shell: pwsh
         - name: Upload installer
           uses: actions/upload-artifact@master
