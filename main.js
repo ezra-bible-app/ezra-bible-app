@@ -28,7 +28,7 @@ let mainWindow;
 
 if (process.platform === 'win32') {
     // This is only needed for making the Windows installer work properly
-    if (require('electron-squirrel-startup')) electron.app.quit();
+    if (require('electron-squirrel-startup')) app.quit();
 }
 
 if (!isDev) {
