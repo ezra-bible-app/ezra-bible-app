@@ -29,7 +29,7 @@ jobs:
         steps:
         - uses: actions/checkout@v1
         - name: Install pkg-config and npm
-          run: brew install pkg-config npm
+          run: brew unlink node@12 && brew install pkg-config npm
         - name: Install electron-installer-dmg
           run: npm install electron-installer-dmg
         - name: Build
