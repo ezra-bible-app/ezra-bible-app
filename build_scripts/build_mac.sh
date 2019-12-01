@@ -8,5 +8,3 @@ npm run rebuild
 npm run prune-node-modules
 npm run purge-build-artifacts
 npm run package-mac
-npm install macos-alias ds-store
-npm run dmg-mac
