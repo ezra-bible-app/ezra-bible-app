@@ -9,5 +9,5 @@ npm run prune-node-modules
 npm run purge-build-artifacts
 npm run package-mac
 rm -rf node_modules/macos-alias
-npm install macos-alias
+npm install macos-alias ds-store
 npm run dmg-mac
