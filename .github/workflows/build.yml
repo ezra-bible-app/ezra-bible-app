@@ -28,6 +28,8 @@ jobs:
         runs-on: macos-latest
         steps:
         - uses: actions/checkout@v1
+        - name: Install dependencies
+          run: brew install pkg-config cmake
         - name: Install electron-installer-dmg
           run: npm install electron-installer-dmg
         - name: Build
