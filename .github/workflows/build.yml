@@ -34,8 +34,11 @@ jobs:
           run: npm install electron-installer-dmg
         - name: Build
           run: npm run build-mac
-        - name: List build contents
-          run: ls -lh release
+        - name: Upload dmg
+          uses: actions/upload-artifact@master
+          with:
+            name: ezra-project_macos_latest
+            path: release\ezra-project.dmg
 
     build-ubuntu-1804:
         name: Build Ubuntu 18.04 package
