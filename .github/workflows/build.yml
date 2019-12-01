@@ -10,8 +10,17 @@ jobs:
         - uses: actions/checkout@v1
         - name: Install Windows build tools
           run: powershell npm install windows-build-tools --vs2015
+        - name: Install electron-installer-windows
+          run: powershell npm install electron-installer-windows
         - name: Build
           run: powershell .\build_scripts\build_win32.bat
+        - name: Rename installer
+          run: powershell Get-ChildItem release\packages\*setup.exe | rename-item -NewName { "ezra-project_win32_setup_latest.exe" }
+        - name: Upload installer
+          uses: actions/upload-artifact@master
+          with:
+            name: ezra-project_win32_latest
+            path: release\packages\ezra-project_win32_setup_latest.exe
 
     build-ubuntu-1804:
         name: Build Ubuntu 18.04 package
