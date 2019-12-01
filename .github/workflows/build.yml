@@ -28,8 +28,8 @@ jobs:
         runs-on: macos-latest
         steps:
         - uses: actions/checkout@v1
-        - name: Install pkg-config
-          run: brew install pkg-config
+        - name: Install pkg-config and npm
+          run: brew install pkg-config npm
         - name: Install electron-installer-dmg
           run: npm install electron-installer-dmg
         - name: Build
