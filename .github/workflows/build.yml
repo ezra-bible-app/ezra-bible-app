@@ -3,6 +3,15 @@ name: Build Ezra Project packages
 on: [ repository_dispatch, push ]
 
 jobs:
+    build-win32:
+        name: Build Windows installer
+        runs-on: windows-latest
+        steps:
+        - name: Checkout code
+        - uses: actions/checkout@v1
+        - name: Build for Windows
+          run: powershell .\build_scripts\build_win32.bat
+
     build-ubuntu-1804:
         name: Build Ubuntu 18.04 package
         runs-on: ubuntu-latest
