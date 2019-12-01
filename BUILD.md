@@ -6,13 +6,17 @@ On Windows Ezra Project is built using a pre-built SWORD library from the reposi
 ### Setup and build
 
 1. Install [git](https://git-scm.com/download/win) and [nodejs](https://nodejs.org).
-2. Install [windows-build-tools][windows-build-tools] (VS 2015 Compiler) by running the following command in an administrator powershell: `npm install --vs2015 --global windows-build-tools`.
-3. Clone Ezra Project from git repo or unpack sources from release
-4. Install dependencies and rebuild native extensions by running this command in the project dir: `.\build_win32.bat`
+2. Install [windows-build-tools][windows-build-tools] (VS 2015 Compiler) by running the following command in an administrator powershell:\
+`npm install --vs2015 --global windows-build-tools`
+3. Install [electron-installer-windows][electron-installer-windows] by running the following command in an administrator powershell:\
+`npm install --global electron-installer-windows`
+4. Clone Ezra Project from git repo or unpack sources from release
+5. Install dependencies and rebuild native extensions by running this command in the project dir: `.\build_win32.bat`
 
 After performing these steps you can run Ezra Project by running this command in the project dir: `npm start`
 
 [windows-build-tools]: https://www.npmjs.com/package/windows-build-tools
+[electron-installer-windows]: https://www.npmjs.com/package/electron-installer-windows
 
 ### Create a release directory
 
