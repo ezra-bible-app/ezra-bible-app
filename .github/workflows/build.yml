@@ -15,12 +15,23 @@ jobs:
         - name: Build
           run: powershell .\build_scripts\build_win32.bat
         - name: Rename installer
-          run: powershell Get-ChildItem release\packages\*setup.exe | rename-item -NewName { "ezra-project_win32_setup_latest.exe" }
+          run: Get-ChildItem release\packages\ | rename-item -NewName { "ezra-project_win32_setup_latest.exe" }
+            shell: powershell
         - name: Upload installer
           uses: actions/upload-artifact@master
           with:
             name: ezra-project_win32_latest
             path: release\packages\ezra-project_win32_setup_latest.exe
+
+    build-mac:
+        name: Build macOS DMG file
+        runs-on: macos-latest
+        steps:
+        - uses: actions/checkout@v1
+        - name: Install electron-installer-dmg
+          run: npm install electron-installer-dmg
+        - name: Build
+          run: npm run build-mac
 
     build-ubuntu-1804:
         name: Build Ubuntu 18.04 package
