@@ -155,30 +155,33 @@ class ModuleSearch {
     //console.log("Starting search for " + this.currentSearchTerm + " on tab " + tabIndex);
 
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
-    var currentBibleTranslationId = currentTab.getBibleTranslationId();
-    var isPhrase = currentTab.getSearchOptions()['exactPhrase'];
-    var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
 
-    var searchType = "multiWord";
-    if (isPhrase) {
-      searchType = "phrase";
+    if (currentTab != null) {
+      var currentBibleTranslationId = currentTab.getBibleTranslationId();
+      var isPhrase = currentTab.getSearchOptions()['exactPhrase'];
+      var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
+
+      var searchType = "multiWord";
+      if (isPhrase) {
+        searchType = "phrase";
+      }
+
+      await nsi.getModuleSearchResults(currentBibleTranslationId,
+                                      this.currentSearchTerm,
+                                      searchType,
+                                      isCaseSensitive).then(async (searchResults) => {
+                                                              
+        //console.log("Got " + searchResults.length + " from Sword");
+        currentTab.setSearchResults(searchResults);
+      });
+
+      var requestedBookId = -1; // all books requested
+      if (this.searchResultsExceedPerformanceLimit(tabIndex)) {
+        requestedBookId = 0; // no books requested - only list headers at first
+      }
+
+      await this.renderCurrentSearchResults(requestedBookId, tabIndex);
     }
-
-    await nsi.getModuleSearchResults(currentBibleTranslationId,
-                                     this.currentSearchTerm,
-                                     searchType,
-                                     isCaseSensitive).then(async (searchResults) => {
-                                                            
-      //console.log("Got " + searchResults.length + " from Sword");
-      bible_browser_controller.tab_controller.getTab(tabIndex).setSearchResults(searchResults);
-    });
-
-    var requestedBookId = -1; // all books requested
-    if (this.searchResultsExceedPerformanceLimit(tabIndex)) {
-      requestedBookId = 0; // no books requested - only list headers at first
-    }
-
-    await this.renderCurrentSearchResults(requestedBookId, tabIndex);
   }
 
   async renderCurrentSearchResults(requestedBookId=-1, tabIndex=undefined, target=undefined) {
