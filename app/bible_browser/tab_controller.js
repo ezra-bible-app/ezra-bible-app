@@ -203,6 +203,10 @@ class TabController {
 
   getSelectedTabIndex() {
     var selectedTabIndex = this.tabs.tabs("option").selected;
+    if (selectedTabIndex == null) {
+      selectedTabIndex = 0;
+    }
+    
     return selectedTabIndex;
   }
 
