@@ -93,7 +93,7 @@ class OptionsMenu {
       menu.css('top', top_offset);
       menu.css('left', left_offset);
 
-      $('#app-container').find('#display-options-menu').slideDown();
+      $('#app-container').find('#display-options-menu').slideDown(300);
       this.menuIsOpened = true;
       event.stopPropagation();
     }
