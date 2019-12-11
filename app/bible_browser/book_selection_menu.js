@@ -108,7 +108,7 @@ class BookSelectionMenu {
       menu.css('top', top_offset);
       menu.css('left', left_offset);
 
-      $('#app-container').find('#book-selection-menu').slideDown();
+      $('#app-container').find('#book-selection-menu').slideDown(300);
       this.book_menu_is_opened = true;
       event.stopPropagation();
     }
