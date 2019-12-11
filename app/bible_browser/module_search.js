@@ -94,7 +94,7 @@ class ModuleSearch {
       menu.css('top', top_offset);
       menu.css('left', left_offset);
 
-      $('#app-container').find('#module-search-menu').slideDown();
+      $('#app-container').find('#module-search-menu').slideDown(300);
       $('#module-search-input').focus();
       this.search_menu_opened = true;
       event.stopPropagation();
