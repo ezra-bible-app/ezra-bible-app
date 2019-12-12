@@ -831,23 +831,14 @@ function TagsController() {
     var tag_delete_buttons = app_container_element.querySelectorAll('.tag-delete-button');
     var tag_cbs = app_container_element.querySelectorAll('.tag-cb');
     var cb_labels = app_container_element.querySelectorAll('.cb-label');
-
-    // First unbind, so that previous handlers are removed
-    /*tags_controller.removeEventListeners(tag_delete_buttons, 'click', tags_controller.handle_delete_tag_button_click);
-    tags_controller.removeEventListeners(tag_cbs, 'click', tags_controller.handle_tag_cb_click);
-    tags_controller.removeEventListeners(cb_labels, 'click', tags_controller.handle_tag_label_click);*/
-
     var checkbox_tags = app_container_element.querySelectorAll('.checkbox-tag');
-    /*tags_controller.removeEventListeners(checkbox_tags, 'mouseover', tags_controller.handle_tag_mouseover);
-    tags_controller.removeEventListeners(checkbox_tags, 'mouseout', tags_controller.handle_tag_mouseout);*/
 
-    // Now bind new event handlers
     tags_controller.addEventListeners(tag_delete_buttons, 'click', tags_controller.handle_delete_tag_button_click);
     tags_controller.addEventListeners(tag_cbs, 'click', tags_controller.handle_tag_cb_click);
     tags_controller.addEventListeners(cb_labels, 'click', tags_controller.handle_tag_label_click);
     tags_controller.addEventListeners(checkbox_tags, 'mouseover', tags_controller.handle_tag_mouseover);
     tags_controller.addEventListeners(checkbox_tags, 'mouseout', tags_controller.handle_tag_mouseout);
-
+    
     tags_controller.init_verse_expand_box();
   };
 
