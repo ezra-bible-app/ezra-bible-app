@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     var query = "SELECT t.*," +
                  " SUM(CASE WHEN vt.tagId IS NULL THEN 0 ELSE 1 END) AS globalAssignmentCount," +
                  " SUM(CASE WHEN vr.bibleBookId=" + bibleBookId + " THEN 1 ELSE 0 END) AS bookAssignmentCount," +
-                 " MAX(vt.updatedAt) AS lastUsed" +
+                 " strftime('%s', MAX(vt.updatedAt)) AS lastUsed" +
                  " FROM Tags t" +
                  " LEFT JOIN VerseTags vt ON vt.tagId = t.id" +
                  " LEFT JOIN VerseReferences vr ON vt.verseReferenceId = vr.id" +
