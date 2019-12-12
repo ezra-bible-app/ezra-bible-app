@@ -255,9 +255,11 @@ class TagSelectionMenu {
 
   bindTagCbEvents() {
     var cbs = document.querySelectorAll('.tag-browser-tag-cb');
-    cbs.addEventListener('click', (event) => { this.handleTagCbClick(event); });
-    cbs.removeAttribute('checked');
-    cbs.removeAttribute('disabled');
+    for (var i = 0; i < cbs.length; i++) {
+      cbs[i].addEventListener('click', (event) => { this.handleTagCbClick(event); });
+      cbs[i].removeAttribute('checked');
+      cbs[i].removeAttribute('disabled');
+    }
   }
   
   resetTagMenu() {
