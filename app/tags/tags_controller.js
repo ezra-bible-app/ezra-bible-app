@@ -714,7 +714,9 @@ function TagsController() {
       }
 
       var current_box = current_tag_book_id_is_null ? global_tags_box : book_tags_box;
-      current_box.append(current_tag_html_code);
+
+      var tagElement = htmlToElement(current_tag_html_code);
+      current_box[0].appendChild(tagElement);
     }
 
     if (book_tags_existing) {
