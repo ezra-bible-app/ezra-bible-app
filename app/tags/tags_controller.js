@@ -145,7 +145,7 @@ function TagsController() {
     tags_controller.update_tag_titles_in_verse_list(tags_controller.rename_standard_tag_id, is_global, new_title);
     tags_controller.communication_controller.update_tag(tags_controller.rename_standard_tag_id, new_title);
     tags_controller.sort_tag_lists();
-    bible_browser_controller.tag_selection_menu.request_tags_for_menu();
+    bible_browser_controller.tag_selection_menu.requestTagsForMenu();
     bible_browser_controller.tab_controller.updateTabTitleAfterTagRenaming(tags_controller.rename_standard_tag_title, new_title);
   };
 
@@ -417,7 +417,7 @@ function TagsController() {
     tag_assignment_count_element.text(new_label);
 
     // Update tag count in tag selection menu as well
-    bible_browser_controller.tag_selection_menu.update_verse_count_in_tag_menu(tag_title, new_global_count);
+    bible_browser_controller.tag_selection_menu.updateVerseCountInTagMenu(tag_title, new_global_count);
   };
 
   this.remove_tag_assignment_after_confirmation = function() {

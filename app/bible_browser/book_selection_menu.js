@@ -48,8 +48,8 @@ class BookSelectionMenu {
       }
 
       bible_browser_controller.book_selection_menu.hide_book_menu();
-      bible_browser_controller.tag_selection_menu.hide_tag_menu();
-      bible_browser_controller.tag_selection_menu.reset_tag_menu();
+      bible_browser_controller.tag_selection_menu.hideTagMenu();
+      bible_browser_controller.tag_selection_menu.resetTagMenu();
       bible_browser_controller.module_search.hide_search_menu();
       bible_browser_controller.module_search.reset_search();
 
@@ -93,7 +93,7 @@ class BookSelectionMenu {
     if (this.book_menu_is_opened) {
       bible_browser_controller.handle_body_click();
     } else {
-      bible_browser_controller.tag_selection_menu.hide_tag_menu();
+      bible_browser_controller.tag_selection_menu.hideTagMenu();
       bible_browser_controller.module_search.hide_search_menu();
       bible_browser_controller.optionsMenu.hideDisplayMenu();
       var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();

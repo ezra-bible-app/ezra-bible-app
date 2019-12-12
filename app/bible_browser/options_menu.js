@@ -79,7 +79,7 @@ class OptionsMenu {
       bible_browser_controller.handle_body_click();
     } else {
       bible_browser_controller.book_selection_menu.hide_book_menu();
-      bible_browser_controller.tag_selection_menu.hide_tag_menu();
+      bible_browser_controller.tag_selection_menu.hideTagMenu();
       bible_browser_controller.module_search.hide_search_menu();
       var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
       var display_options_button = currentVerseListMenu.find('.display-options-button');
