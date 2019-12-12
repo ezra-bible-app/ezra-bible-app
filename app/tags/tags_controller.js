@@ -654,51 +654,42 @@ function TagsController() {
     //console.time("render_tags");
     var old_tags_search_input_value = $('#tags-search-input')[0].value;
     var global_tags_box_el = document.getElementById('tags-content-global');
-
-    while (global_tags_box_el.firstChild) {
-      global_tags_box_el.removeChild(global_tags_box_el.firstChild);
-    }
-
+    var current_book = bible_browser_controller.tab_controller.getTab().getBook();
+    var rename_tag_label = i18n.t("general.rename");
+    var delete_tag_label = i18n.t("tags.delete-tag-permanently");
     var current_filter = $('#tags-search-input').val();
     var book_tag_statistics = [];
     var all_timestamps = [];
     var all_tags_html = "";
 
-    var current_book = bible_browser_controller.tab_controller.getTab().getBook();
-    var rename_tag_label = i18n.t("general.rename");
-    var delete_tag_label = i18n.t("tags.delete-tag-permanently");
+    // Empty global tags element
+    global_tags_box_el.innerHTML = '';
 
     for (var i = 0; i < tag_list.length; i++) {
       var current_tag = tag_list[i];
-      var current_tag_title = current_tag.title;
-      var current_tag_id = current_tag.id;
-      var current_tag_book_id = current_tag.bibleBookId;
-      var current_tag_book_id_is_null = (current_tag_book_id == "NULL" || current_tag_book_id == null);
-
-      var current_book_tag_assignment_count = current_tag.bookAssignmentCount;
-      var current_global_tag_assignment_count = current_tag.globalAssignmentCount;
+      var current_tag_book_id_is_null = (current_tag.bibleBookId == "NULL" || current_tag.bibleBookId == null);
       var last_used_timestamp = parseInt(current_tag.lastUsed);
+      var is_used_in_current_book = (current_tag.bookAssignmentCount > 0) ? true : false;
+      var visible = tags_controller.tag_title_matches_filter(current_tag.title, current_filter);
+
       if (!Number.isNaN(last_used_timestamp) && !all_timestamps.includes(last_used_timestamp)) {
         all_timestamps.push(last_used_timestamp);
       }
 
-      var is_used_in_current_book = (current_book_tag_assignment_count > 0) ? true : false;
-      var visible = tags_controller.tag_title_matches_filter(current_tag_title, current_filter);
-
       if (is_used_in_current_book) {
-        book_tag_statistics[current_tag_title] = parseInt(current_book_tag_assignment_count);
+        book_tag_statistics[current_tag.title] = parseInt(current_tag.bookAssignmentCount);
       }
 
       var current_tag_html_code =
-        tags_controller.html_code_for_tag(current_tag_title,
-                                          current_tag_id,
+        tags_controller.html_code_for_tag(current_tag.title,
+                                          current_tag.id,
                                           current_book,
                                           rename_tag_label,
                                           delete_tag_label,
                                           current_tag_book_id_is_null,
                                           is_used_in_current_book,
-                                          current_book_tag_assignment_count,
-                                          current_global_tag_assignment_count,
+                                          current_tag.bookAssignmentCount,
+                                          current_tag.globalAssignmentCount,
                                           last_used_timestamp,
                                           visible);
 
