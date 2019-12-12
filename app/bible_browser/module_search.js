@@ -145,8 +145,9 @@ class ModuleSearch {
 
     if (tabIndex === undefined) {
       bible_browser_controller.tab_controller.setTabSearch(this.currentSearchTerm);
-      bible_browser_controller.tab_controller.getTab().setSearchOptions(this.isPhrase(), this.isCaseSensitive());
-      bible_browser_controller.tab_controller.getTab().setTextType('search_results');
+      var tab = bible_browser_controller.tab_controller.getTab();
+      tab.setSearchOptions(this.isPhrase(), this.isCaseSensitive());
+      tab.setTextType('search_results');
     }
 
     // Only reset view if we got an event (in other words: not initially)
