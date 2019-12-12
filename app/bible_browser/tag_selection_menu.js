@@ -23,13 +23,13 @@ class TagSelectionMenu {
     this.tag_menu_populated = false;
   }
 
-  init_tag_selection_menu(tabIndex=undefined) {
+  init(tabIndex=undefined) {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
-    currentVerseListMenu.find('.tag-select-button').bind('click', (event) => { this.handle_tag_menu_click(event); });
-    $('#tag-selection-filter-input').bind('keyup', this.handle_tag_search_input);
+    currentVerseListMenu.find('.tag-select-button').bind('click', (event) => { this.handleTagMenuClick(event); });
+    $('#tag-selection-filter-input').bind('keyup', this.handleTagSearchInput);
   }
 
-  hide_tag_menu() {
+  hideTagMenu() {
     if (this.tag_menu_is_opened) {
       $('#app-container').find('#tag-selection-menu').hide();
       this.tag_menu_is_opened = false;
@@ -39,7 +39,7 @@ class TagSelectionMenu {
     }
   }
 
-  handle_tag_menu_click(event) {
+  handleTagMenuClick(event) {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
     var tagSelectButton = currentVerseListMenu.find('.tag-select-button');
 
@@ -74,21 +74,21 @@ class TagSelectionMenu {
     }
   }
 
-  request_tags_for_menu() {
+  requestTagsForMenu() {
     models.Tag.getGlobalAndBookTags().then(tags => {
-      this.render_tags_in_menu(tags);
+      this.renderTagsInMenu(tags);
       this.tag_menu_populated = true;
     });
   }
 
-  render_tags_in_menu(tags) {
-    this.reset_tags_in_menu();
+  renderTagsInMenu(tags) {
+    this.resetTagsInMenu();
     var taglist_container = $('#tag-selection-taglist-global');
-    this.render_tag_list(tags, taglist_container, false);
-    this.bind_click_to_checkbox_labels();
+    this.renderTagList(tags, taglist_container, false);
+    this.bindClickToCheckboxLabels();
   }
 
-  bind_click_to_checkbox_labels() {
+  bindClickToCheckboxLabels() {
     $('.clickable-checkbox-label:not(.events-configured)').bind('click', function() {
       var closest_input = $(this).prevAll('input:first');
 
@@ -98,7 +98,7 @@ class TagSelectionMenu {
     }).addClass('events-configured');
   }
 
-  render_tag_list(tag_list, target_container, only_local) {
+  renderTagList(tag_list, target_container, only_local) {
     for (var i = 0; i < tag_list.length; i++) {
       var current_tag = tag_list[i];
       var current_tag_title = current_tag.title;
@@ -110,16 +110,16 @@ class TagSelectionMenu {
         continue;
       }
 
-      var current_tag_html = this.get_html_for_tag(current_tag_id,
+      var current_tag_html = this.getHtmlForTag(current_tag_id,
                                                    current_tag_title,
                                                    current_assignment_count);
       target_container.append(current_tag_html);
     }
 
-    this.bind_tag_cb_events();
+    this.bindTagCbEvents();
   }
 
-  update_checked_tags(target_container) {
+  updateCheckedTags(target_container) {
     var selected_tag_list = this.getSelectedTagList();
 
     // Check all the previously selected tags in the list
@@ -144,7 +144,7 @@ class TagSelectionMenu {
     }
   }
 
-  get_html_for_tag(tag_id, tag_title, tag_assignment_count) {
+  getHtmlForTag(tag_id, tag_title, tag_assignment_count) {
     return "<div id='tag-browser-tag-" + tag_id + 
            "' class='tag-browser-tag'>" + 
            "<div class='tag-browser-tag-id'>" + tag_id + "</div>" +
@@ -156,7 +156,7 @@ class TagSelectionMenu {
            "</div>";
   }
 
-  handle_tag_search_input(e) {
+  handleTagSearchInput(e) {
     clearTimeout(this.tag_search_timeout);
     var search_value = $(this).val();
 
@@ -177,7 +177,7 @@ class TagSelectionMenu {
     }, 300);
   }
 
-  reset_tags_in_menu() {
+  resetTagsInMenu() {
     var taglist_container = $('#tag-selection-taglist-global');
     while (taglist_container.firstChild) {
       taglist_container.removeChild(taglist_container.firstChild);
@@ -200,7 +200,7 @@ class TagSelectionMenu {
     return null;
   }
 
-  selected_tags() {
+  selectedTagIds() {
     var checked_cbs = $('.tag-browser-tag-cb:checked');
     var tag_list = "";
 
@@ -214,7 +214,7 @@ class TagSelectionMenu {
     return tag_list;
   }
 
-  selected_tag_titles() {
+  selectedTagTitles() {
     var checked_cbs = $('.tag-browser-tag-cb:checked');
     var tag_list = "";
 
@@ -228,9 +228,9 @@ class TagSelectionMenu {
     return tag_list;
   }
 
-  handle_bible_tag_cb_click(event) {
-    var currentTagIdList = this.selected_tags();
-    var currentTagTitleList = this.selected_tag_titles();
+  handleTagCbClick(event) {
+    var currentTagIdList = this.selectedTagIds();
+    var currentTagTitleList = this.selectedTagTitles();
     var currentTab = bible_browser_controller.tab_controller.getTab();
     currentTab.setTextType('tagged_verses');
     currentTab.setTagIdList(currentTagIdList);
@@ -242,22 +242,21 @@ class TagSelectionMenu {
 
     if (currentTagIdList != "") {
       setTimeout(() => {
-        this.hide_tag_menu();
+        this.hideTagMenu();
       }, 700);
     }
 
     bible_browser_controller.get_tagged_verses();
   }
 
-  bind_tag_cb_events() {
+  bindTagCbEvents() {
     var cbs = $('.tag-browser-tag-cb');
-
-    cbs.bind('click', (event) => { this.handle_bible_tag_cb_click(event); });
+    cbs.bind('click', (event) => { this.handleTagCbClick(event); });
     cbs.removeAttr('checked');
     cbs.removeAttr('disabled');
   }
   
-  reset_tag_menu() {
+  resetTagMenu() {
     var taglist_container = $('#tag-selection-taglist-global');
     var tag_cb_list = taglist_container.find('.tag-browser-tag-cb');
 
@@ -268,14 +267,14 @@ class TagSelectionMenu {
 
   updateTagSelectionMenu(tabIndex) {
     if (!this.tag_menu_populated) {
-      this.request_tags_for_menu();
+      this.requestTagsForMenu();
     }
 
     var taglist_container = $('#tag-selection-taglist-global');
-    this.update_checked_tags(taglist_container);
+    this.updateCheckedTags(taglist_container);
   }
 
-  update_verse_count_in_tag_menu(tag_title, new_count) {
+  updateVerseCountInTagMenu(tag_title, new_count) {
     var tag_list = $('.tag-browser-tag');
 
     for (var i = 0; i < tag_list.length; i++) {

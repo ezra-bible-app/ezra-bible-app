@@ -184,7 +184,7 @@ function BibleBrowserController() {
     resize_verse_list(tabIndex);
     
     bible_browser_controller.init_current_verse_list_menu(tabIndex);
-    bible_browser_controller.tag_selection_menu.init_tag_selection_menu(tabIndex);
+    bible_browser_controller.tag_selection_menu.init(tabIndex);
     bible_browser_controller.module_search.init_module_search_menu(tabIndex);
     bible_browser_controller.translation_controller.initTranslationsMenu(tabIndex);
     bible_browser_controller.translation_controller.initBibleTranslationInfoButton();
@@ -400,7 +400,7 @@ function BibleBrowserController() {
     }
     
     bible_browser_controller.book_selection_menu.hide_book_menu();
-    bible_browser_controller.tag_selection_menu.hide_tag_menu();
+    bible_browser_controller.tag_selection_menu.hideTagMenu();
     bible_browser_controller.module_search.hide_search_menu();
     bible_browser_controller.optionsMenu.hideDisplayMenu();
 

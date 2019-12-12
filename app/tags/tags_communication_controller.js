@@ -49,7 +49,7 @@ function TagsCommunicationController()
       title: new_tag_title,
       bibleBookId: bibleBookId
     }).then(tag => {
-      bible_browser_controller.tag_selection_menu.request_tags_for_menu();
+      bible_browser_controller.tag_selection_menu.requestTagsForMenu();
       tags_controller.communication_controller.request_tags();
     }).catch(error => {
       alert('An error occurred while trying to save the new tag: ' + error);
@@ -71,7 +71,7 @@ function TagsCommunicationController()
                                          tags_controller.tag_to_be_deleted_is_global,
                                          tags_controller.tag_to_be_deleted_title);
 
-        bible_browser_controller.tag_selection_menu.request_tags_for_menu();
+        bible_browser_controller.tag_selection_menu.requestTagsForMenu();
 
       }).catch(error => {
         alert('An error occurred while trying to delete the tag with id ' + id + ': ' + error);

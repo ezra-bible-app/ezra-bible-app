@@ -111,7 +111,7 @@ class TextLoader {
 
     if (listType == 'book') {
       bible_browser_controller.enable_toolbox();
-      bible_browser_controller.tag_selection_menu.reset_tag_menu();
+      bible_browser_controller.tag_selection_menu.resetTagMenu();
       bible_browser_controller.module_search.reset_search();
 
     } else if (listType == 'tagged_verses') {
