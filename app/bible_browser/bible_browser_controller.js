@@ -171,9 +171,7 @@ function BibleBrowserController() {
     }
 
     // Toggle book statistics
-    if (event !== undefined) {
-      bible_browser_controller.tag_statistics.toggle_book_tags_statistics_button(ui.index);
-    }
+    bible_browser_controller.tag_statistics.toggle_book_tags_statistics_button(ui.index);
 
     // Populate search menu based on last search (if any)
     bible_browser_controller.module_search.populateSearchMenu(ui.index);
