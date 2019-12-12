@@ -722,8 +722,7 @@ function TagsController() {
     tags_controller.update_tags_view_after_verse_selection(true);
     await tags_controller.updateTagUiBasedOnTagAvailability(tag_list.length);
 
-    var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
-    if (currentBook != null) {
+    if (current_book != null) {
       bible_browser_controller.tag_statistics.update_book_tag_statistics_box(book_tag_statistics);
     }
 
