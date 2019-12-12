@@ -68,6 +68,13 @@ String.prototype.trim = function() {
   return s;
 }
 
+function htmlToElement(html) {
+  var template = document.createElement('template');
+  html = html.trim(); // Never return a text node of whitespace as the result
+  template.innerHTML = html;
+  return template.content.firstChild;
+}
+
 function getLineBreak() {
   if (process.platform === 'win32') {
     return "\r\n";
