@@ -99,6 +99,8 @@ class TagSelectionMenu {
   }
 
   renderTagList(tag_list, target_container, only_local) {
+    var target_element = target_container[0];
+
     for (var i = 0; i < tag_list.length; i++) {
       var current_tag = tag_list[i];
       var current_tag_title = current_tag.title;
@@ -111,9 +113,10 @@ class TagSelectionMenu {
       }
 
       var current_tag_html = this.getHtmlForTag(current_tag_id,
-                                                   current_tag_title,
-                                                   current_assignment_count);
-      target_container.append(current_tag_html);
+                                                current_tag_title,
+                                                current_assignment_count);
+
+      target_element.appendChild(htmlToElement(current_tag_html));
     }
 
     this.bindTagCbEvents();

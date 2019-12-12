@@ -652,28 +652,14 @@ function TagsController() {
   };
 
   this.render_tags = async function(tag_list) {
-    console.time('render_tags');
-    var book_content_header = $($('#tags-content').find('.ui-accordion-header')[1]);
-    var global_tags_box = $('#tags-content-global');
-    var book_tags_box = $('#tags-content-book');
-
-    var update = false;
+    console.time("render_tags");
     var old_tags_search_input_value = $('#tags-search-input')[0].value;
-
     var global_tags_box_el = document.getElementById('tags-content-global');
-    var book_tags_box_el = document.getElementById('tags-content-book');
 
     while (global_tags_box_el.firstChild) {
       global_tags_box_el.removeChild(global_tags_box_el.firstChild);
     }
-    /* Book tags disabled for now */
-    /*
-    while(book_tags_box_el.firstChild) {
-      book_tags_box_el.removeChild(book_tags_box_el.firstChild);
-    }
-    */
 
-    var book_tags_existing = false;
     var current_filter = $('#tags-search-input').val();
     var book_tag_statistics = [];
     var all_timestamps = [];
@@ -709,23 +695,13 @@ function TagsController() {
                                           last_used_timestamp,
                                           visible);
 
-      if (!current_tag_book_id_is_null)  {
-        book_tags_existing = true;
-      }
-
-      var current_box = current_tag_book_id_is_null ? global_tags_box : book_tags_box;
-
       var tagElement = htmlToElement(current_tag_html_code);
-      current_box[0].appendChild(tagElement);
+      global_tags_box_el.appendChild(tagElement);
     }
 
-    if (book_tags_existing) {
-      book_content_header.removeClass('ui-state-disabled');
-    } else {
-      book_content_header.addClass('ui-state-disabled');
-    }
-
-    $('#tags-content').find('.rename-tag-label').bind('click', tags_controller.handle_rename_tag_click__by_opening_rename_dialog);
+    document.querySelector("#tags-content").querySelector('.rename-tag-label').addEventListener("click", 
+      tags_controller.handle_rename_tag_click__by_opening_rename_dialog
+    );
 
     if (this.new_tag_created && old_tags_search_input_value != "") {
       // If the newly created tag doesn't match the current search input
@@ -744,9 +720,9 @@ function TagsController() {
     tags_controller.bind_tag_events();
     configure_button_styles('#tags-content');
     //tags_controller.update_tag_count_after_rendering(); // FIXME: to be integrated!
-    tags_controller.update_tags_view_after_verse_selection(true);
 
-    await tags_controller.updateTagUiBasedOnTagAvailability();
+    tags_controller.update_tags_view_after_verse_selection(true);
+    await tags_controller.updateTagUiBasedOnTagAvailability(tag_list.length);
 
     var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
     if (currentBook != null) {
@@ -754,7 +730,7 @@ function TagsController() {
     }
 
     tags_controller.hideTagListLoadingIndicator();
-    console.timeEnd('render_tags');
+    console.timeEnd("render_tags");
   };
 
   this.update_tag_timestamps = function() {
@@ -820,20 +796,21 @@ function TagsController() {
   };
 
   this.bind_tag_events = function() {
-    var app_container = $('#app-container');
+    var app_container_element = document.getElementById('app-container');
 
     // First unbind, so that previous handlers are removed
-    app_container.find('.tag-delete-button').unbind();
-    app_container.find('.tag-cb').unbind();
-    app_container.find('.cb-label').unbind();
-    app_container.find('.checkbox-tag').unbind();
+    app_container_element.querySelector('.tag-delete-button').removeEventListener('click', tags_controller.handle_delete_tag_button_click);
+    app_container_element.querySelector('.tag-cb').removeEventListener('click', tags_controller.handle_tag_cb_click);
+    app_container_element.querySelector('.cb-label').removeEventListener('click', tags_controller.handle_tag_label_click);
+    app_container_element.querySelector('.checkbox-tag').removeEventListener('click', tags_controller.handle_tag_mouseover);
+    app_container_element.querySelector('.checkbox-tag').removeEventListener('click', tags_controller.handle_tag_mouseout);
 
     // Now bind new event handlers
-    app_container.find('.tag-delete-button').bind('click', tags_controller.handle_delete_tag_button_click);
-    app_container.find('.tag-cb').bind('click', tags_controller.handle_tag_cb_click);
-    app_container.find('.cb-label').bind('click', tags_controller.handle_tag_label_click);
-    app_container.find('.checkbox-tag').bind('mouseover', tags_controller.handle_tag_mouseover);
-    app_container.find('.checkbox-tag').bind('mouseout', tags_controller.handle_tag_mouseout);
+    app_container_element.querySelector('.tag-delete-button').addEventListener('click', tags_controller.handle_delete_tag_button_click);
+    app_container_element.querySelector('.tag-cb').addEventListener('click', tags_controller.handle_tag_cb_click);
+    app_container_element.querySelector('.cb-label').addEventListener('click', tags_controller.handle_tag_label_click);
+    app_container_element.querySelector('.checkbox-tag').addEventListener('mouseover', tags_controller.handle_tag_mouseover);
+    app_container_element.querySelector('.checkbox-tag').addEventListener('mouseout', tags_controller.handle_tag_mouseout);
 
     tags_controller.init_verse_expand_box();
   };
@@ -1468,16 +1445,18 @@ function TagsController() {
       e.stopPropagation(); 
     });
 
-    await tags_controller.updateTagUiBasedOnTagAvailability();
+    //await tags_controller.updateTagUiBasedOnTagAvailability();
   };
 
-  this.updateTagUiBasedOnTagAvailability = async function() {
-    var translations = await models.BibleTranslation.getTranslations();
-    var translationCount = translations.length;
-    var tagsCount = await models.Tag.getTagCount();
+  this.updateTagUiBasedOnTagAvailability = async function(tagCount=undefined) {
+    var translationCount = bible_browser_controller.translation_controller.getTranslationCount();
+    if (tagCount === undefined) {
+      tagCount = await models.Tag.getTagCount();
+    }
+
     var textType = bible_browser_controller.tab_controller.getTab().getTextType();
 
-    if (tagsCount == 0) {
+    if (tagCount == 0) {
       $('.tag-select-button').addClass('ui-state-disabled');
       $('#show-book-tag-statistics-button').addClass('ui-state-disabled');
 
