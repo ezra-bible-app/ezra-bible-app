@@ -103,7 +103,7 @@ class TextLoader {
       target = bible_browser_controller.getCurrentVerseList(tabIndex);
     }
 
-    target.html(htmlVerseList);
+    target[0].innerHTML = htmlVerseList;
 
     if (!initialRendering) {
       bible_browser_controller.tab_controller.getTab().setTextType(listType);

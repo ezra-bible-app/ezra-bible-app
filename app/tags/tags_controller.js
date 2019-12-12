@@ -664,6 +664,8 @@ function TagsController() {
     var book_tag_statistics = [];
     var all_timestamps = [];
 
+    var all_tags_html = "";
+
     for (var i = 0; i < tag_list.length; i++) {
       var current_tag = tag_list[i];
       var current_tag_title = current_tag.title;
@@ -695,9 +697,10 @@ function TagsController() {
                                           last_used_timestamp,
                                           visible);
 
-      var tagElement = htmlToElement(current_tag_html_code);
-      global_tags_box_el.appendChild(tagElement);
+      all_tags_html += current_tag_html_code;
     }
+    
+    global_tags_box_el.innerHTML = all_tags_html;
 
     document.querySelector("#tags-content").querySelector('.rename-tag-label').addEventListener("click", 
       tags_controller.handle_rename_tag_click__by_opening_rename_dialog

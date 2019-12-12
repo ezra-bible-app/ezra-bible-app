@@ -100,6 +100,7 @@ class TagSelectionMenu {
 
   renderTagList(tag_list, target_container, only_local) {
     var target_element = target_container[0];
+    var all_tags_html = "";
 
     for (var i = 0; i < tag_list.length; i++) {
       var current_tag = tag_list[i];
@@ -115,10 +116,10 @@ class TagSelectionMenu {
       var current_tag_html = this.getHtmlForTag(current_tag_id,
                                                 current_tag_title,
                                                 current_assignment_count);
-
-      target_element.appendChild(htmlToElement(current_tag_html));
+      all_tags_html += current_tag_html;
     }
 
+    target_element.innerHTML = all_tags_html;
     this.bindTagCbEvents();
   }
 
@@ -253,10 +254,10 @@ class TagSelectionMenu {
   }
 
   bindTagCbEvents() {
-    var cbs = $('.tag-browser-tag-cb');
-    cbs.bind('click', (event) => { this.handleTagCbClick(event); });
-    cbs.removeAttr('checked');
-    cbs.removeAttr('disabled');
+    var cbs = document.querySelectorAll('.tag-browser-tag-cb');
+    cbs.addEventListener('click', (event) => { this.handleTagCbClick(event); });
+    cbs.removeAttribute('checked');
+    cbs.removeAttribute('disabled');
   }
   
   resetTagMenu() {
