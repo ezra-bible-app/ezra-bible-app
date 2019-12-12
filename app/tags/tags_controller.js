@@ -243,7 +243,6 @@ function TagsController() {
   // We may use it again to quickly mark the tagged verses
   this.handle_tag_label_click__by_highlighting_tagged_verses = function() {
     var checkbox_tag = $(this).closest('.checkbox-tag');
-    var checkbox_tag_id = checkbox_tag.find('.checkbox-tag-id').html();
     var cb_label = checkbox_tag.find('.cb-label').html();
     var cb_is_global = (checkbox_tag.find('.is-global').html() == 'true');
 
@@ -663,8 +662,11 @@ function TagsController() {
     var current_filter = $('#tags-search-input').val();
     var book_tag_statistics = [];
     var all_timestamps = [];
-
     var all_tags_html = "";
+
+    var current_book = bible_browser_controller.tab_controller.getTab().getBook();
+    var rename_tag_label = i18n.t("general.rename");
+    var delete_tag_label = i18n.t("tags.delete-tag-permanently");
 
     for (var i = 0; i < tag_list.length; i++) {
       var current_tag = tag_list[i];
@@ -687,9 +689,12 @@ function TagsController() {
         book_tag_statistics[current_tag_title] = parseInt(current_book_tag_assignment_count);
       }
 
-      var current_tag_html_code = 
+      var current_tag_html_code =
         tags_controller.html_code_for_tag(current_tag_title,
                                           current_tag_id,
+                                          current_book,
+                                          rename_tag_label,
+                                          delete_tag_label,
                                           current_tag_book_id_is_null,
                                           is_used_in_current_book,
                                           current_book_tag_assignment_count,
@@ -699,12 +704,11 @@ function TagsController() {
 
       all_tags_html += current_tag_html_code;
     }
-    
+
     global_tags_box_el.innerHTML = all_tags_html;
 
-    document.querySelector("#tags-content").querySelector('.rename-tag-label').addEventListener("click", 
-      tags_controller.handle_rename_tag_click__by_opening_rename_dialog
-    );
+    var rename_tag_labels = document.querySelector("#tags-content").querySelectorAll('.rename-tag-label');
+    tags_controller.addEventListeners(rename_tag_labels, "click", tags_controller.handle_rename_tag_click__by_opening_rename_dialog);
 
     if (this.new_tag_created && old_tags_search_input_value != "") {
       // If the newly created tag doesn't match the current search input
@@ -718,9 +722,10 @@ function TagsController() {
     }
 
     tags_controller.update_tag_timestamps_from_list(all_timestamps);
-
     this.new_tag_created = false;
     tags_controller.bind_tag_events();
+
+    // FIXME: This function takes a lot of time!
     configure_button_styles('#tags-content');
     //tags_controller.update_tag_count_after_rendering(); // FIXME: to be integrated!
 
@@ -798,22 +803,39 @@ function TagsController() {
     book_header.html('Book tags (' + book_tag_count + ')');
   };
 
+  this.removeEventListeners = function(element_list, type, listener) {
+    for (var i = 0; i < element_list.length; i++) {
+      element_list[i].removeEventListener(type, listener);
+    }
+  };
+
+  this.addEventListeners = function(element_list, type, listener) {
+    for (var i = 0; i < element_list.length; i++) {
+      element_list[i].addEventListener(type, listener);
+    }
+  };
+
   this.bind_tag_events = function() {
     var app_container_element = document.getElementById('app-container');
+    var tag_delete_buttons = app_container_element.querySelectorAll('.tag-delete-button');
+    var tag_cbs = app_container_element.querySelectorAll('.tag-cb');
+    var cb_labels = app_container_element.querySelectorAll('.cb-label');
 
     // First unbind, so that previous handlers are removed
-    app_container_element.querySelector('.tag-delete-button').removeEventListener('click', tags_controller.handle_delete_tag_button_click);
-    app_container_element.querySelector('.tag-cb').removeEventListener('click', tags_controller.handle_tag_cb_click);
-    app_container_element.querySelector('.cb-label').removeEventListener('click', tags_controller.handle_tag_label_click);
-    app_container_element.querySelector('.checkbox-tag').removeEventListener('click', tags_controller.handle_tag_mouseover);
-    app_container_element.querySelector('.checkbox-tag').removeEventListener('click', tags_controller.handle_tag_mouseout);
+    tags_controller.removeEventListeners(tag_delete_buttons, 'click', tags_controller.handle_delete_tag_button_click);
+    tags_controller.removeEventListeners(tag_cbs, 'click', tags_controller.handle_tag_cb_click);
+    tags_controller.removeEventListeners(cb_labels, 'click', tags_controller.handle_tag_label_click);
+
+    var checkbox_tags = app_container_element.querySelectorAll('.checkbox-tag');
+    tags_controller.removeEventListeners(checkbox_tags, 'mouseover', tags_controller.handle_tag_mouseover);
+    tags_controller.removeEventListeners(checkbox_tags, 'mouseout', tags_controller.handle_tag_mouseout);
 
     // Now bind new event handlers
-    app_container_element.querySelector('.tag-delete-button').addEventListener('click', tags_controller.handle_delete_tag_button_click);
-    app_container_element.querySelector('.tag-cb').addEventListener('click', tags_controller.handle_tag_cb_click);
-    app_container_element.querySelector('.cb-label').addEventListener('click', tags_controller.handle_tag_label_click);
-    app_container_element.querySelector('.checkbox-tag').addEventListener('mouseover', tags_controller.handle_tag_mouseover);
-    app_container_element.querySelector('.checkbox-tag').addEventListener('mouseout', tags_controller.handle_tag_mouseout);
+    tags_controller.addEventListeners(tag_delete_buttons, 'click', tags_controller.handle_tag_cb_click);
+    tags_controller.addEventListeners(tag_cbs, 'click', tags_controller.handle_tag_cb_click);
+    tags_controller.addEventListeners(cb_labels, 'click', tags_controller.handle_tag_label_click);
+    tags_controller.addEventListeners(checkbox_tags, 'mouseover', tags_controller.handle_tag_mouseover);
+    tags_controller.addEventListeners(checkbox_tags, 'mouseout', tags_controller.handle_tag_mouseout);
 
     tags_controller.init_verse_expand_box();
   };
@@ -1005,6 +1027,9 @@ function TagsController() {
 
   this.html_code_for_tag = function(title,
                                     id,
+                                    current_book,
+                                    rename_tag_label,
+                                    delete_tag_label,
                                     is_global,
                                     is_used_in_current_book,
                                     book_assignment_count,
@@ -1026,13 +1051,12 @@ function TagsController() {
            "<div class=\"book-assignment-count\">" + book_assignment_count + "</div>" +
            "<div class=\"global-assignment-count\">" + global_assignment_count + "</div>" +
            "<div class=\"last-used-timestamp\">" + last_used_timestamp + "</div>" +
-           "<div title=\"" + i18n.t("tags.delete-tag-permanently") + "\" " +
+           "<div title=\"" + delete_tag_label + "\" " +
            "class=\"tag-delete-button fg-button fg-button-icon-left ui-state-default ui-corner-all\">" +
            "<span class=\"ui-icon ui-icon-closethick\"></span></div>";
 
     var tag_counts = "";
-    var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
-    if (currentBook == null) {
+    if (current_book == null) {
       tag_counts = global_assignment_count;
     } else {
       tag_counts = book_assignment_count + " | " + global_assignment_count
@@ -1043,7 +1067,7 @@ function TagsController() {
            "<span class=\"cb-label " + used_in_book_class + "\">" + title + "</span>" + 
            "<span class=\"cb-label-tag-assignment-count\">(" + tag_counts + ")</span>" +
            "<span class=\"cb-label-postfix\"></span>" +
-           "<span class=\"rename-tag-label\">[" + i18n.t("general.rename") + "]</span>" +
+           "<span class=\"rename-tag-label\">[" + rename_tag_label + "]</span>" +
            "</div>";
 
     return complete_tag_html;
@@ -1186,25 +1210,43 @@ function TagsController() {
     var selected_verse_tags = tags_controller.current_verse_selection_tags();
     var selected_verses_content = i18n.t("tags.none-selected");
 
-    $('#app-container').find('.tag-cb').removeAttr('checked');
-    $('#app-container').find('.tag-cb').attr('title', i18n.t("tags.assign-tag"));
-    $('#app-container').find('.cb-label').removeClass('underline');
-    $('#app-container').find('.cb-label-postfix').html('');
+    var app_container = document.getElementById('app-container');
+    var assign_tag_label = i18n.t("tags.assign-tag");
+
+    var all_tag_cbs = app_container.querySelectorAll('.tag-cb');
+    if (all_tag_cbs.length > 0) {
+      for (var i = 0; i < all_tag_cbs.length; i++) {
+        all_tag_cbs[i].removeAttribute('checked');
+        all_tag_cbs[i].setAttribute('title', assign_tag_label);
+      }
+
+      var all_cb_labels = app_container.querySelectorAll('.cb-label');
+      var cb_label_postfixes = app_container.querySelectorAll('.cb-label-postfix');
+      for (var i = 0; i < all_cb_labels.length; i++) {
+        all_cb_labels[i].classList.remove('underline');
+        cb_label_postfixes[i].innerHTML = '';
+      }
+    }
 
     if (tags_controller.selected_verse_boxes.length > 0) {
-      $('#app-container').find('.tag-cb').removeAttr('disabled');
-      $('#app-container').find('.tag-cb').css('opacity', '1.0');
+      if (all_tag_cbs.length > 0) {
+        for (var i = 0; i < all_tag_cbs.length; i++) {
+          all_tag_cbs[i].removeAttribute('disabled');
+          all_tag_cbs[i].style.opacity = '1.0';
+        }
+      }
+
       bible_browser_controller.translationComparison.enableComparisonButton();
       
-      var checkbox_tags = $('#app-container').find('.checkbox-tag');
+      var checkbox_tags = app_container.querySelectorAll('.checkbox-tag');
 
       for (var i = 0; i < checkbox_tags.length; i++) {
-        var current_tag_element = $(checkbox_tags[i]);
-        var current_tag_is_global = (current_tag_element.find('.is-global').html() == 'true');
-        var current_checkbox = current_tag_element.find('.tag-cb');
-        var current_title_element = current_tag_element.find('.cb-label');
-        var current_title = current_title_element.html();
-        var current_title_element_postfix = current_tag_element.find('.cb-label-postfix');
+        var current_tag_element = checkbox_tags[i];
+        var current_tag_is_global = current_tag_element.querySelector('.is-global').innerHTML == 'true';
+        var current_checkbox = current_tag_element.querySelector('.tag-cb');
+        var current_title_element = current_tag_element.querySelector('.cb-label');
+        var current_title = current_title_element.innerHTML;
+        var current_title_element_postfix = current_tag_element.querySelector('.cb-label-postfix');
         
         for (var j = 0; j < selected_verse_tags.length; j++) {
           var current_tag_obj = selected_verse_tags[j];
@@ -1213,19 +1255,24 @@ function TagsController() {
           if (current_tag_obj.title == current_title &&
               current_tag_obj_is_global == current_tag_is_global ) {
             if (current_tag_obj.complete) {
-              current_checkbox.attr('checked', 'checked');
-              current_checkbox.attr('title', 'Remove tag assignment');
+              current_checkbox.setAttribute('checked', 'checked');
+              current_checkbox.setAttribute('title', 'Remove tag assignment');
             } else {
-              current_title_element_postfix.html('&nbsp;*');
-              current_title_element.addClass('underline');
+              current_title_element_postfix.innerHTML = '&nbsp;*';
+              current_title_element.classList.add('underline');
             }
           }
         }
       }
     } else {
-      $('.tag-cb').attr('disabled', 'disabled');
-      $('.tag-cb').attr('title', '');
-      $('.tag-cb').css('opacity', '0.3');
+      var all_tag_cbs = document.querySelectorAll('.tag-cb');
+      if (all_tag_cbs.length > 0) {
+        for (var i = 0; i < all_tag_cbs.length; i++) {
+          all_tag_cbs[i].setAttribute('disabled', 'disabled');
+          all_tag_cbs[i].setAttribute('title', '');
+          all_tag_cbs[i].style.opacity = '0.3';
+        }
+      }
 
       bible_browser_controller.translationComparison.disableComparisonButton();
     }

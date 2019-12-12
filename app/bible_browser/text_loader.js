@@ -23,7 +23,10 @@ class TextLoader {
   prepareForNewText(resetView, tabIndex=undefined) {
     bible_browser_controller.module_search.hide_module_search_header();
     bible_browser_controller.navigation_pane.initNavigationPaneForCurrentView(tabIndex);
-    tags_controller.clear_verse_selection();
+
+    if (tabIndex === undefined) {
+      tags_controller.clear_verse_selection();
+    }
 
     var textType = bible_browser_controller.tab_controller.getTab(tabIndex).getTextType();    
     if (textType != 'book') {
