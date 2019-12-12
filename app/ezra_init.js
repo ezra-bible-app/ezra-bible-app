@@ -139,7 +139,6 @@ function resize_verse_list(tabIndex=undefined) {
   adapt_verse_list(verseListFrame);
 }
 
-// FIXME: This function could be performance-optimized with Vanilla JS
 function configure_button_styles(context = null)
 {
   if (context == null) {

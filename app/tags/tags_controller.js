@@ -651,7 +651,7 @@ function TagsController() {
   };
 
   this.render_tags = async function(tag_list) {
-    console.time("render_tags");
+    //console.time("render_tags");
     var old_tags_search_input_value = $('#tags-search-input')[0].value;
     var global_tags_box_el = document.getElementById('tags-content-global');
 
@@ -668,7 +668,6 @@ function TagsController() {
     var rename_tag_label = i18n.t("general.rename");
     var delete_tag_label = i18n.t("tags.delete-tag-permanently");
 
-    console.time("Generate tag html");
     for (var i = 0; i < tag_list.length; i++) {
       var current_tag = tag_list[i];
       var current_tag_title = current_tag.title;
@@ -705,14 +704,11 @@ function TagsController() {
 
       all_tags_html += current_tag_html_code;
     }
-    console.timeEnd("Generate tag html");
 
     global_tags_box_el.innerHTML = all_tags_html;
 
-    console.time("Rename tag labels");
     var rename_tag_labels = document.querySelector("#tags-content").querySelectorAll('.rename-tag-label');
     tags_controller.addEventListeners(rename_tag_labels, "click", tags_controller.handle_rename_tag_click__by_opening_rename_dialog);
-    console.timeEnd("Rename tag labels");
 
     if (this.new_tag_created && old_tags_search_input_value != "") {
       // If the newly created tag doesn't match the current search input
@@ -725,20 +721,12 @@ function TagsController() {
       }
     }
 
-    console.time("Update time stamps");
     tags_controller.update_tag_timestamps_from_list(all_timestamps);
     this.new_tag_created = false;
-    console.timeEnd("Update time stamps");
 
-    console.time("Bind tag events");
     tags_controller.bind_tag_events();
-    console.timeEnd("Bind tag events");
-
-    console.time("Configure button styles");
-    // FIXME: This function takes a lot of time!
     configure_button_styles('#tags-content');
     //tags_controller.update_tag_count_after_rendering(); // FIXME: to be integrated!
-    console.timeEnd("Configure button styles");
 
     tags_controller.update_tags_view_after_verse_selection(true);
     await tags_controller.updateTagUiBasedOnTagAvailability(tag_list.length);
@@ -749,7 +737,7 @@ function TagsController() {
     }
 
     tags_controller.hideTagListLoadingIndicator();
-    console.timeEnd("render_tags");
+    //console.timeEnd("render_tags");
   };
 
   this.update_tag_timestamps = function() {
