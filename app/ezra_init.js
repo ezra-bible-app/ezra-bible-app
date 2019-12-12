@@ -176,30 +176,6 @@ function configure_button_styles(context = null)
       currentButton.classList.add('events-configured');
     }
   }
-
-  /*$(".fg-button:not(.ui-state-disabled, .events-configured)", context).hover(
-    function(){ 
-      $(this).addClass("ui-state-hover"); 
-    },
-    function(){ 
-      $(this).removeClass("ui-state-hover"); 
-    }
-  )
-  .mousedown(function(){
-    handle_fg_button_mousedown(this, true);
-  })
-  .mouseup(function(){
-    if(! $(this).is('.fg-button-toggleable, .fg-buttonset-single .fg-button,  .fg-buttonset-multi .fg-button') ){
-      $(this).removeClass("ui-state-active");
-    }
-  }).addClass('events-configured');*/
-
-  /*$(".fg-button", context).find("input:not('.events-configured')").mousedown(function(e) {
-    if ($(this).attr('type') == 'checkbox') {
-      e.stopPropagation();
-      handle_fg_button_mousedown($(this).parent(), false);
-    }
-  }).addClass('events-configured');*/
 }
 
 function handle_fg_button_mousedown(element, click_checkbox) {

@@ -49,7 +49,7 @@ class TextLoader {
     buttons.removeClass('focused-button');
 
     if (textType == 'book') { // Book text mode
-      $('#export-tagged-verses-button').addClass('ui-state-disabled');
+      if (tabIndex === undefined) { $('#export-tagged-verses-button').addClass('ui-state-disabled'); }
       bible_browser_controller.translation_controller.initChapterVerseCounts();
       currentVerseListMenu.find('.book-select-button').addClass('focused-button');
 
@@ -63,7 +63,7 @@ class TextLoader {
       );
 
     } else if (textType == 'tagged_verses') { // Tagged verse list mode
-      $('#show-book-tag-statistics-button').addClass('ui-state-disabled');
+      if (tabIndex === undefined) { $('#show-book-tag-statistics-button').addClass('ui-state-disabled'); }
       currentVerseListMenu.find('.tag-select-button').addClass('focused-button');
 
       await bible_browser_controller.communication_controller.request_verses_for_selected_tags(
@@ -76,7 +76,7 @@ class TextLoader {
       );
 
     } else if (textType == 'search_results') {
-      $('#show-book-tag-statistics-button').addClass('ui-state-disabled');
+      if (tabIndex === undefined) { $('#show-book-tag-statistics-button').addClass('ui-state-disabled'); }
       currentVerseListMenu.find('.module-search-button').addClass('focused-button');
       
       await bible_browser_controller.communication_controller.request_verses_for_search_results(
