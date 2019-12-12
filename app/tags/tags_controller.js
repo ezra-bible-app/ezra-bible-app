@@ -652,6 +652,7 @@ function TagsController() {
   };
 
   this.render_tags = async function(tag_list) {
+    console.time('render_tags');
     var book_content_header = $($('#tags-content').find('.ui-accordion-header')[1]);
     var global_tags_box = $('#tags-content-global');
     var book_tags_box = $('#tags-content-book');
@@ -686,7 +687,7 @@ function TagsController() {
 
       var current_book_tag_assignment_count = current_tag.bookAssignmentCount;
       var current_global_tag_assignment_count = current_tag.globalAssignmentCount;
-      var last_used_timestamp = Date.parse(current_tag.lastUsed);
+      var last_used_timestamp = parseInt(current_tag.lastUsed);
       if (!Number.isNaN(last_used_timestamp) && !all_timestamps.includes(last_used_timestamp)) {
         all_timestamps.push(last_used_timestamp);
       }
@@ -751,6 +752,7 @@ function TagsController() {
     }
 
     tags_controller.hideTagListLoadingIndicator();
+    console.timeEnd('render_tags');
   };
 
   this.update_tag_timestamps = function() {
