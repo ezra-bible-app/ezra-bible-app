@@ -1576,7 +1576,7 @@ function TagsController() {
     } else {
       filter_dialog.css('top', position.top + 20);
       filter_dialog.css('left', position.left);
-      filter_dialog.slideDown(300);
+      filter_dialog.show();
     }
   };
 

@@ -68,7 +68,7 @@ class TagSelectionMenu {
       }
 
       var tagSelectionMenu = $('#tag-selection-menu');
-      tagSelectionMenu.slideDown(300);
+      tagSelectionMenu.show();
       this.tag_menu_is_opened = true;
       event.stopPropagation();
     }
