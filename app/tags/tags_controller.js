@@ -668,6 +668,7 @@ function TagsController() {
     var rename_tag_label = i18n.t("general.rename");
     var delete_tag_label = i18n.t("tags.delete-tag-permanently");
 
+    console.time("Generate tag html");
     for (var i = 0; i < tag_list.length; i++) {
       var current_tag = tag_list[i];
       var current_tag_title = current_tag.title;
@@ -704,11 +705,14 @@ function TagsController() {
 
       all_tags_html += current_tag_html_code;
     }
+    console.timeEnd("Generate tag html");
 
     global_tags_box_el.innerHTML = all_tags_html;
 
+    console.time("Rename tag labels");
     var rename_tag_labels = document.querySelector("#tags-content").querySelectorAll('.rename-tag-label');
     tags_controller.addEventListeners(rename_tag_labels, "click", tags_controller.handle_rename_tag_click__by_opening_rename_dialog);
+    console.timeEnd("Rename tag labels");
 
     if (this.new_tag_created && old_tags_search_input_value != "") {
       // If the newly created tag doesn't match the current search input
@@ -721,13 +725,20 @@ function TagsController() {
       }
     }
 
+    console.time("Update time stamps");
     tags_controller.update_tag_timestamps_from_list(all_timestamps);
     this.new_tag_created = false;
-    tags_controller.bind_tag_events();
+    console.timeEnd("Update time stamps");
 
+    console.time("Bind tag events");
+    tags_controller.bind_tag_events();
+    console.timeEnd("Bind tag events");
+
+    console.time("Configure button styles");
     // FIXME: This function takes a lot of time!
     configure_button_styles('#tags-content');
     //tags_controller.update_tag_count_after_rendering(); // FIXME: to be integrated!
+    console.timeEnd("Configure button styles");
 
     tags_controller.update_tags_view_after_verse_selection(true);
     await tags_controller.updateTagUiBasedOnTagAvailability(tag_list.length);
@@ -822,16 +833,16 @@ function TagsController() {
     var cb_labels = app_container_element.querySelectorAll('.cb-label');
 
     // First unbind, so that previous handlers are removed
-    tags_controller.removeEventListeners(tag_delete_buttons, 'click', tags_controller.handle_delete_tag_button_click);
+    /*tags_controller.removeEventListeners(tag_delete_buttons, 'click', tags_controller.handle_delete_tag_button_click);
     tags_controller.removeEventListeners(tag_cbs, 'click', tags_controller.handle_tag_cb_click);
-    tags_controller.removeEventListeners(cb_labels, 'click', tags_controller.handle_tag_label_click);
+    tags_controller.removeEventListeners(cb_labels, 'click', tags_controller.handle_tag_label_click);*/
 
     var checkbox_tags = app_container_element.querySelectorAll('.checkbox-tag');
-    tags_controller.removeEventListeners(checkbox_tags, 'mouseover', tags_controller.handle_tag_mouseover);
-    tags_controller.removeEventListeners(checkbox_tags, 'mouseout', tags_controller.handle_tag_mouseout);
+    /*tags_controller.removeEventListeners(checkbox_tags, 'mouseover', tags_controller.handle_tag_mouseover);
+    tags_controller.removeEventListeners(checkbox_tags, 'mouseout', tags_controller.handle_tag_mouseout);*/
 
     // Now bind new event handlers
-    tags_controller.addEventListeners(tag_delete_buttons, 'click', tags_controller.handle_tag_cb_click);
+    tags_controller.addEventListeners(tag_delete_buttons, 'click', tags_controller.handle_delete_tag_button_click);
     tags_controller.addEventListeners(tag_cbs, 'click', tags_controller.handle_tag_cb_click);
     tags_controller.addEventListeners(cb_labels, 'click', tags_controller.handle_tag_label_click);
     tags_controller.addEventListeners(checkbox_tags, 'mouseover', tags_controller.handle_tag_mouseover);
