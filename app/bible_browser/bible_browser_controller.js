@@ -619,7 +619,6 @@ function BibleBrowserController() {
     bible_browser_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
     bible_browser_controller.bind_events_after_bible_text_loaded(tabIndex);
     bible_browser_controller.tag_statistics.toggle_book_tags_statistics_button(tabIndex);
-    tags_controller.bind_tag_events();
   };
 
   this.updateUiAfterBibleTranslationAvailable = function(translationCode) {

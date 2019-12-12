@@ -20,6 +20,11 @@ class TranslationController {
   constructor() {
     this.bibleTranslationCount = 0;
     this.languageMapper = new LanguageMapper();
+    this.translationCount = null;
+  }
+
+  getTranslationCount() {
+    return this.translationCount;
   }
 
   sleep(time) {
@@ -181,6 +186,7 @@ class TranslationController {
     bibleSelect.empty();
 
     var result = await models.BibleTranslation.findAndCountAll();
+    this.translationCount = result.rows.length;
     //console.log("Adding " + result.rows.length + " translations to menu");
 
     await this.addLanguageGroupsToBibleSelectMenu(tabIndex);
