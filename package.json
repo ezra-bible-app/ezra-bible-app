@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "compile-pug": "./node_modules/.bin/pug --client --no-debug --pretty -n verseListTemplate templates/verse_list.pug && ./node_modules/.bin/pug --client --no-debug --pretty -n tagListTemplate templates/tag_list.pug",
+    "compile-pug": "pug --client --no-debug --pretty -n verseListTemplate templates/verse_list.pug && pug --client --no-debug --pretty -n tagListTemplate templates/tag_list.pug",
     "postinstall": "npm run compile-pug",
     "rebuild": "electron-rebuild -f -w node-sword-interface -v 7.1.1",
     "rebuild-win": "node_modules\\.bin\\electron-rebuild.cmd --arch=ia32 -f -w sqlite3 -v 7.1.1",
