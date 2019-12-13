@@ -179,8 +179,8 @@ function TagsController() {
     $('#new-' + type + '-tag-title-input').focus();
   };
 
-  this.handle_delete_tag_button_click = function() {
-    var checkbox_tag = $(this).closest('.checkbox-tag');
+  this.handle_delete_tag_button_click = function(event) {
+    var checkbox_tag = $(event.target).closest('.checkbox-tag');
     var tag_id = checkbox_tag.find('.checkbox-tag-id:first').html();
     var parent_id = checkbox_tag.parent().attr('id');
     var label = checkbox_tag.find('.cb-label').html();
@@ -226,7 +226,7 @@ function TagsController() {
   };
 
   this.handle_tag_label_click = function(event) {
-    var checkbox_tag = $(this).closest('.checkbox-tag');
+    var checkbox_tag = $(event.target).closest('.checkbox-tag');
     var checkbox = checkbox_tag.find('.tag-cb');
 
     var current_verse_list = tags_controller.selected_verse_references;
@@ -266,7 +266,7 @@ function TagsController() {
   };
 
   this.handle_tag_cb_click = function(event) {
-    var checkbox_tag = $(this).closest('.checkbox-tag');
+    var checkbox_tag = $(event.target).closest('.checkbox-tag');
     tags_controller.handle_checkbox_tag_state_change(checkbox_tag);
   };
 
@@ -650,57 +650,56 @@ function TagsController() {
     return $('#tags-search-input')[0].empty();
   };
 
-  this.render_tags = async function(tag_list) {
-    //console.time("render_tags");
-    var old_tags_search_input_value = $('#tags-search-input')[0].value;
-    var global_tags_box_el = document.getElementById('tags-content-global');
-    var current_book = bible_browser_controller.tab_controller.getTab().getBook();
-    var rename_tag_label = i18n.t("general.rename");
-    var delete_tag_label = i18n.t("tags.delete-tag-permanently");
-    var current_filter = $('#tags-search-input').val();
+  this.refresh_timestamps_and_book_tag_statistics = function(tag_list, current_book) {
     var book_tag_statistics = [];
     var all_timestamps = [];
-    var all_tags_html = "";
-
-    // Empty global tags element
-    global_tags_box_el.innerHTML = '';
-
+    
     for (var i = 0; i < tag_list.length; i++) {
       var current_tag = tag_list[i];
-      var current_tag_book_id_is_null = (current_tag.bibleBookId == "NULL" || current_tag.bibleBookId == null);
-      var last_used_timestamp = parseInt(current_tag.lastUsed);
       var is_used_in_current_book = (current_tag.bookAssignmentCount > 0) ? true : false;
-      var visible = tags_controller.tag_title_matches_filter(current_tag.title, current_filter);
+      var last_used_timestamp = parseInt(current_tag.lastUsed);
 
       if (!Number.isNaN(last_used_timestamp) && !all_timestamps.includes(last_used_timestamp)) {
         all_timestamps.push(last_used_timestamp);
       }
 
-      if (is_used_in_current_book) {
+      if (current_book != null && is_used_in_current_book) {
         book_tag_statistics[current_tag.title] = parseInt(current_tag.bookAssignmentCount);
       }
-
-      var current_tag_html_code =
-        tags_controller.html_code_for_tag(current_tag.title,
-                                          current_tag.id,
-                                          current_book,
-                                          rename_tag_label,
-                                          delete_tag_label,
-                                          current_tag_book_id_is_null,
-                                          is_used_in_current_book,
-                                          current_tag.bookAssignmentCount,
-                                          current_tag.globalAssignmentCount,
-                                          last_used_timestamp,
-                                          visible);
-
-      all_tags_html += current_tag_html_code;
     }
+
+    tags_controller.update_tag_timestamps_from_list(all_timestamps);
+    if (current_book != null) {
+      bible_browser_controller.tag_statistics.update_book_tag_statistics_box(book_tag_statistics);
+    }
+  };
+
+  this.render_tags = async function(tag_list) {
+    //console.time("render_tags");
+    var current_book = bible_browser_controller.tab_controller.getTab().getBook();
+    var global_tags_box_el = document.getElementById('tags-content-global');
+
+    // Empty global tags element
+    global_tags_box_el.innerHTML = '';
+
+    var all_tags_html = tagListTemplate({
+      tags: tag_list,
+      current_book: current_book,
+      current_filter: $('#tags-search-input').val(),
+      rename_tag_label: i18n.t("general.rename"),
+      delete_tag_label: i18n.t("tags.delete-tag-permanently"),
+    });
 
     global_tags_box_el.innerHTML = all_tags_html;
 
-    var rename_tag_labels = document.querySelector("#tags-content").querySelectorAll('.rename-tag-label');
-    tags_controller.addEventListeners(rename_tag_labels, "click", tags_controller.handle_rename_tag_click__by_opening_rename_dialog);
+    tags_controller.refresh_timestamps_and_book_tag_statistics(tag_list, current_book);
+    configure_button_styles('#tags-content');
+    //tags_controller.update_tag_count_after_rendering(); // FIXME: to be integrated!
 
+    tags_controller.update_tags_view_after_verse_selection(true);
+    await tags_controller.updateTagUiBasedOnTagAvailability(tag_list.length);
+
+    var old_tags_search_input_value = $('#tags-search-input')[0].value;    
     if (this.new_tag_created && old_tags_search_input_value != "") {
       // If the newly created tag doesn't match the current search input
       // we remove the current search condition. Otherwise the new tag
@@ -710,21 +709,8 @@ function TagsController() {
         $('#tags-search-input')[0].value = "";
         old_tags_search_input_value = "";
       }
-    }
-
-    tags_controller.update_tag_timestamps_from_list(all_timestamps);
+    }    
     this.new_tag_created = false;
-
-    tags_controller.bind_tag_events();
-    configure_button_styles('#tags-content');
-    //tags_controller.update_tag_count_after_rendering(); // FIXME: to be integrated!
-
-    tags_controller.update_tags_view_after_verse_selection(true);
-    await tags_controller.updateTagUiBasedOnTagAvailability(tag_list.length);
-
-    if (current_book != null) {
-      bible_browser_controller.tag_statistics.update_book_tag_statistics_box(book_tag_statistics);
-    }
 
     tags_controller.hideTagListLoadingIndicator();
     //console.timeEnd("render_tags");
@@ -761,8 +747,8 @@ function TagsController() {
     }
   };
 
-  this.handle_rename_tag_click__by_opening_rename_dialog = function() {
-    var checkbox_tag = $(this).closest('.checkbox-tag');
+  this.handle_rename_tag_click__by_opening_rename_dialog = function(event) {
+    var checkbox_tag = $(event.target).closest('.checkbox-tag');
     var cb_label = checkbox_tag.find('.cb-label').text();
 
     $('#rename-standard-tag-title-input').val(cb_label);
@@ -805,17 +791,52 @@ function TagsController() {
   };
 
   this.bind_tag_events = function() {
-    var app_container_element = document.getElementById('app-container');
-    var tag_delete_buttons = app_container_element.querySelectorAll('.tag-delete-button');
-    var tag_cbs = app_container_element.querySelectorAll('.tag-cb');
-    var cb_labels = app_container_element.querySelectorAll('.cb-label');
-    var checkbox_tags = app_container_element.querySelectorAll('.checkbox-tag');
+    var tags_box = document.getElementById('tags-content-global');
 
-    tags_controller.addEventListeners(tag_delete_buttons, 'click', tags_controller.handle_delete_tag_button_click);
-    tags_controller.addEventListeners(tag_cbs, 'click', tags_controller.handle_tag_cb_click);
-    tags_controller.addEventListeners(cb_labels, 'click', tags_controller.handle_tag_label_click);
-    tags_controller.addEventListeners(checkbox_tags, 'mouseover', tags_controller.handle_tag_mouseover);
-    tags_controller.addEventListeners(checkbox_tags, 'mouseout', tags_controller.handle_tag_mouseout);
+    tags_box.addEventListener('click', function(event) {
+      if (event.target.matches('.tag-delete-icon')) {
+        tags_controller.handle_delete_tag_button_click(event);
+      } else if (event.target.matches('.rename-tag-label')) {
+        tags_controller.handle_rename_tag_click__by_opening_rename_dialog(event);
+      } else if (event.target.matches('.tag-cb')) {
+        tags_controller.handle_tag_cb_click(event);
+      } else if (event.target.matches('.cb-label')) {
+        tags_controller.handle_tag_label_click(event);
+      } else {
+        return;
+      }
+    }, false);
+
+    tags_box.addEventListener('mouseover', function(event) {
+      if (event.target.matches('.cb-label') ||
+          event.target.matches('.cb-label-tag-assignment-count') ||
+          event.target.matches('.checkbox-tag')) {
+
+        var current_id = $(event.target).find('.checkbox-tag-id').text();
+
+        if (tags_controller.last_mouseover_id !== undefined && 
+            tags_controller.last_mouseover_element !== undefined &&
+            current_id != tags_controller.last_mouseover_id) {
+              
+          $(tags_controller.last_mouseover_element).find('.rename-tag-label').hide();
+        }
+
+        if (current_id != tags_controller.last_mouseover_id) {
+          $(event.target).closest('.checkbox-tag').find('.rename-tag-label').show();
+        }
+
+        tags_controller.last_mouseover_element = $(event.target).closest('.checkbox-tag');
+        tags_controller.last_mouseover_id = $(event.target).closest('.checkbox-tag').find('.checkbox-tag-id').text();
+      }
+    }, false);
+
+    tags_box.addEventListener('mouseout', function(event) {
+      if (event.target.matches('.tags-content-global')) {
+        if (tags_controller.last_mouseover_element !== undefined) {
+          $(tags_controller.last_mouseover_element).find('.rename-tag-label').hide();
+        }
+      }
+    }, false);
     
     tags_controller.init_verse_expand_box();
   };
@@ -952,14 +973,6 @@ function TagsController() {
     }
   }
 
-  this.handle_tag_mouseover = function() {
-    $(this).find('.rename-tag-label').show();
-  };
-
-  this.handle_tag_mouseout = function() {
-    $(this).find('.rename-tag-label').hide();
-  };
-
   this.update_tag_titles_in_verse_list = function(tag_id, is_global, title) {
     var tag_class = is_global ? "tag-global" : "tag-book";
 
@@ -1003,54 +1016,6 @@ function TagsController() {
 
   this.update_tags_title = function(verse_box) {
     verse_box.find('.tag-info').attr('title', tags_controller.get_tag_title_from_tag_data(verse_box));
-  };
-
-  this.html_code_for_tag = function(title,
-                                    id,
-                                    current_book,
-                                    rename_tag_label,
-                                    delete_tag_label,
-                                    is_global,
-                                    is_used_in_current_book,
-                                    book_assignment_count,
-                                    global_assignment_count,
-                                    last_used_timestamp,
-                                    visible) {
-
-    var used_in_book_class = (is_used_in_current_book ? "cb-label-assigned" : "");
-
-    var style = "";
-    if (!visible) {
-      style = " style=\"display: none;\"";
-    }
-
-    var complete_tag_html =
-           "<div class=\"checkbox-tag\"" + style + ">" + 
-           "<div class=\"checkbox-tag-id\">" + id + "</div>" +
-           "<div class=\"is-global\">" + is_global + "</div>" +
-           "<div class=\"book-assignment-count\">" + book_assignment_count + "</div>" +
-           "<div class=\"global-assignment-count\">" + global_assignment_count + "</div>" +
-           "<div class=\"last-used-timestamp\">" + last_used_timestamp + "</div>" +
-           "<div title=\"" + delete_tag_label + "\" " +
-           "class=\"tag-delete-button fg-button fg-button-icon-left ui-state-default ui-corner-all\">" +
-           "<span class=\"ui-icon ui-icon-closethick\"></span></div>";
-
-    var tag_counts = "";
-    if (current_book == null) {
-      tag_counts = global_assignment_count;
-    } else {
-      tag_counts = book_assignment_count + " | " + global_assignment_count
-    }
-
-    complete_tag_html +=
-           "<input class=\"tag-cb\" type=\"checkbox\" />" +
-           "<span class=\"cb-label " + used_in_book_class + "\">" + title + "</span>" + 
-           "<span class=\"cb-label-tag-assignment-count\">(" + tag_counts + ")</span>" +
-           "<span class=\"cb-label-postfix\"></span>" +
-           "<span class=\"rename-tag-label\">[" + rename_tag_label + "]</span>" +
-           "</div>";
-
-    return complete_tag_html;
   };
 
   this.current_verse_selection_tags = function() {
@@ -1222,7 +1187,6 @@ function TagsController() {
 
       for (var i = 0; i < checkbox_tags.length; i++) {
         var current_tag_element = checkbox_tags[i];
-        var current_tag_is_global = current_tag_element.querySelector('.is-global').innerHTML == 'true';
         var current_checkbox = current_tag_element.querySelector('.tag-cb');
         var current_title_element = current_tag_element.querySelector('.cb-label');
         var current_title = current_title_element.innerHTML;
@@ -1232,8 +1196,7 @@ function TagsController() {
           var current_tag_obj = selected_verse_tags[j];
           var current_tag_obj_is_global = (current_tag_obj.category == 'tag-global');
 
-          if (current_tag_obj.title == current_title &&
-              current_tag_obj_is_global == current_tag_is_global ) {
+          if (current_tag_obj.title == current_title) {
             if (current_tag_obj.complete) {
               current_checkbox.setAttribute('checked', 'checked');
               current_checkbox.setAttribute('title', 'Remove tag assignment');
@@ -1476,6 +1439,8 @@ function TagsController() {
     });
 
     //await tags_controller.updateTagUiBasedOnTagAvailability();
+
+    tags_controller.bind_tag_events();
   };
 
   this.updateTagUiBasedOnTagAvailability = async function(tagCount=undefined) {
