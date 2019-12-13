@@ -1,0 +1,29 @@
+each tag in tags
+  - var used_in_book_class = (tag.bookAssignmentCount > 0 ? "cb-label-assigned" : "")
+  
+  - var visible = true
+  if current_filter != ''
+    - var visible = tags_controller.tag_title_matches_filter(tag.title, current_filter);
+
+  - var visibility = "";
+  if !visible
+    - visibility = "display: none;"
+
+  div.checkbox-tag(style=visibility)
+    div.checkbox-tag-id #{tag.id}
+    div.book-assignment-count #{tag.bookAssignmentCount}
+    div.global-assignment-count #{tag.globalAssignmentCount}
+    - var last_used_timestamp = parseInt(tag.lastUsed);
+    div.last-used-timestamp #{last_used_timestamp}
+    div(title=delete_tag_label class='tag-delete-button fg-button fg-button-icon-left ui-state-default ui-corner-all')
+      span(class='ui-icon ui-icon-closethick tag-delete-icon')
+    
+    - var tag_counts = tag.globalAssignmentCount
+    if current_book != null
+      - tag_counts = tag.bookAssignmentCount + " | " + tag.globalAssignmentCount
+    
+    input(class='tag-cb' type='checkbox' checked=false)
+    span(class='cb-label' class=used_in_book_class) #{tag.title}
+    span.cb-label-tag-assignment-count (#{tag_counts})
+    span.cb-label-postfix
+    span.rename-tag-label [#{rename_tag_label}]

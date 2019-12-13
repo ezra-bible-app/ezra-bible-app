@@ -287,7 +287,8 @@ tr.td-underline td {
 }
 
 .checkbox-tag {
-  padding: 1em 0;
+  height: 1em;
+  margin-bottom: 1em;
 }
 
 .checkbox-tag a {
