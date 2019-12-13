@@ -154,21 +154,21 @@ function configure_button_styles(context = null)
     var currentButtonClasses = currentButton.classList;
 
     if (!currentButtonClasses.contains("ui-state-disabled") && !currentButtonClasses.contains("events-configured")) {
-      currentButton.addEventListener('mouseover', (e) => {
-        currentButton.classList.add('ui-state-hover');
+      currentButton.addEventListener('mouseover', function(e) {
+        $(e.target).closest('.fg-button').addClass('ui-state-hover');
       });
 
-      currentButton.addEventListener('mouseout', (e) => {
-        currentButton.classList.remove('ui-state-hover');
+      currentButton.addEventListener('mouseout', function(e) {
+        $(e.target).closest('.fg-button').removeClass('ui-state-hover');
       });
 
-      currentButton.addEventListener('mousedown', function() {
-        handle_fg_button_mousedown(this, true);
+      currentButton.addEventListener('mousedown', function(e) {
+        handle_fg_button_mousedown($(e.target).closest('.fg-button'), true);
       });
 
-      currentButton.addEventListener('mouseup', function() {
-        if(!$(this).is('.fg-button-toggleable, .fg-buttonset-single .fg-button,  .fg-buttonset-multi .fg-button') ){
-          $(this).removeClass("ui-state-active");
+      currentButton.addEventListener('mouseup', function(e) {
+        if(!$(e.target).closest('.fg-button').is('.fg-button-toggleable, .fg-buttonset-single .fg-button,  .fg-buttonset-multi .fg-button') ){
+          $(e.target).closest('.fg-button').removeClass("ui-state-active");
         }
       });
 
