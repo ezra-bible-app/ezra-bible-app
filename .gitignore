@@ -5,3 +5,4 @@ package-lock.json
 /.vscode
 /templates/verse_list.js
 /templates/tag_list.js
+strongs_todo.txt
