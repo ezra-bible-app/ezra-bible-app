@@ -1,7 +1,0 @@
-electron-installer-windows
-electron-installer-redhat
-electron-installer-debian
-electron-installer-redhat
-
-electron-installer-dmg
-electron-osx-sign
