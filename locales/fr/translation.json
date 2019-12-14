@@ -16,7 +16,9 @@
   "search-menu": {
     "search": "Rechercher",
     "case-sensitive": "Sensible à la casse",
-    "exact-phrase": "Phrase exacte"
+    "exact-phrase": "Phrase exacte",
+    "multi-word": "Multiple words",
+    "strongs": "Strong's key"
   },
   "translation-wizard": {
     "header": "Configurer les traductions de la Bible",
