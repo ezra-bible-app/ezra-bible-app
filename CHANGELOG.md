@@ -2,25 +2,39 @@
 All notable changes to Ezra Project are documented in this file.
 
 <!--
-## [0.11.0]
+## [Next release]
 ### Features
-* Strong's support
+
+### Enhancements
+
+### Fixes
+
+### Enablers
+-->
+
+## [0.11.0] - 2019-12-x
+### Features
+* Strong's support ([#10][i10])
   - Strong's transcriptions/original word are displayed as little hint/pop-up above the word when hovering the mouse over the corresponding word.
   - Detailed Strong's information is shown on the bottom left in a new area below the tags list
-* French translation
+* French translation ([#11][i11])
 
 ### Enhancements
 * Lock wizard dialog once installation or uninstallation of translation has started.
 * Show a message while migrations are executed on start-up.
+* Use a loading indicator in tagged verses popup, since tagged verses loading may take some time if there are many verses for one tag.
 * Performance optimization for rendering of tag lists.
 
 ### Fixes
 * Fixed some locales.
-* Added error handling for bible translation install wizard
+* Added error handling for bible translation install wizard.
 
 ### Enablers
-* todo
--->
+* Implemented Strong's parsing in [node-sword-interface](https://github.com/tobias-klein/node-sword-interface).
+* Implemented GitHub Continuous Integration - now there's dev packages available for all supported targets (Windows, Linux, macOS) after every push to GitHub.
+
+[i10]: https://github.com/tobias-klein/ezra-project/issues/10
+[i11]: https://github.com/tobias-klein/ezra-project/issues/11
 
 ## [0.10.0] - 2019-10-15
 ### Features
