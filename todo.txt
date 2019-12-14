@@ -58,12 +58,12 @@
 [x] Package for CentOS 8
 [x] Synchronize tags across tabs
 [x] Optimize resize_app_container performance by making it tab-specific
+[x] Put all build scripts in one folder
+[x] Add loading indicator to tag list popup, because initial loading may be slow
 [ ] Fix bug: Tag label click's cannot handle &
 [ ] Refresh tagged verse lists in other tabs if a relevant tag is assigned/removed in the current tab
-[ ] Add loading indicator to tag list popup, because initial loading may be slow
 [ ] Add recently used tags filter to Tags menu
 [ ] Add filter in Tag list popup: Only show current book
-[ ] Put all build scripts in one folder
 [ ] Add link to verse references in verse lists, so that the user can jump directly to the full context of a verse
 [ ] Understand differences in NT versification and handle it correctly in the software
 [ ] Add options to book search (case sensitivity, multi word)
