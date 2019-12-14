@@ -505,9 +505,7 @@ function BibleBrowserController() {
   };
 
   this.handle_tag_reference_click = function(event) {
-    var position = $(this).offset();
     var verse_box = $(this).closest('.verse-box');
-    var verse_id = verse_box.find('.verse-id').text();
     var selected_tag = $(this).html().trim();
     selected_tag = selected_tag.replace(/&nbsp;/g, ' ');
     var tag_id = null;
@@ -542,15 +540,21 @@ function BibleBrowserController() {
       position: [box_position.left, box_position.top],
       title: title
     });
+
+    $('#tag-reference-box-verse-list').hide();
     $('#tag-reference-box-verse-list').empty();
+    $('#tag-references-loading-indicator').find('.loader').show();
+    $('#tag-references-loading-indicator').show();
     $('#tag-reference-box').dialog("open");
   };
 
   this.render_tagged_verse_list_in_reference_box = function(htmlVerses, verseCount) {
+    $('#tag-references-loading-indicator').hide();
     var tagReferenceBoxTitle = $('#tag-reference-box').dialog('option', 'title');
     tagReferenceBoxTitle += ' (' + verseCount + ')';
     $('#tag-reference-box').dialog({ title: tagReferenceBoxTitle });
     $('#tag-reference-box-verse-list').html(htmlVerses);
+    $('#tag-reference-box-verse-list').show();
   };
 
   this.get_tagged_verses = function() {
