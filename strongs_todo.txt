@@ -1,9 +1,0 @@
-[X] Filter out duplicates
-[X] Install and sync Strong's dictionaries automatically when installing a translation with Strong's
-[X] Install and sync Strong's dictionaries automatically on startup, if translations present, but dictionaries not installed yet
-[X] Migration script to re-sync Strong's translations (due to node-sword-interface updates)
-[ ] Properly deal with words that have multiple Sword entries
-[ ] Use same jquery-ui concept for Strong's box as for tag's list
-[ ] Possibility to filter for Strong's translations in install wizard
-[ ] Show titles in breadcrumb navigation
-[ ] Implement Strong's based word search
