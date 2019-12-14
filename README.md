@@ -14,20 +14,20 @@ Watch [this video](https://www.youtube.com/watch?v=b8gScfa0MqM) to understand ho
 Ezra Project comes with the following functionality:
 * Bible browsing functionality
   * Books are opened entirely and you can scroll through the chapters seemlessly.
-  * You can compare the bible translations of the selected verses
-  * Access to all bible translations available from [CrossWire's](http://www.crosswire.org) repositories
+  * You can compare the bible translations of the selected verses.
+  * Access to all bible translations available from [CrossWire's](http://www.crosswire.org) repositories.
 * Tagging functionality - topical verse lists
-  * Tag within the currently opened book or verse list
-  * Lookup all verses of a tag (show verses in the main browsing window)
-  * Lookup all verses of a tag in the context of a book or verse list (show verses in small popup)
-  * Export a tagged verse list to a document
-  * Show tag statistics for the currently opened book
+  * Tag within the currently opened book or verse list.
+  * Lookup all verses of a tag (show verses in the main browsing window).
+  * Lookup all verses of a tag in the context of a book or verse list (show verses in small popup).
+  * Export a tagged verse list to a document.
+  * Show tag statistics for the currently opened book.
 * Search
-  * Search within the currently opened book or verse list (CTRL + f)
-  * Search within the full bible translation  
+  * Search within the currently opened book or verse list (CTRL + f).
+  * Search within the full bible translation.
 * Tabbed user interface
-  * Each tab either shows a book, a tagged verse list or search results
-  * Previously opened tabs are loaded again on program start
+  * Each tab either shows a book, a tagged verse list or search results.
+  * Previously opened tabs are loaded again on program start.
 * User interface available in the following languages:
   * English, German
 
@@ -76,4 +76,6 @@ Click [here](https://github.com/tobias-klein/ezra-project/issues/new) to file a 
 ## Join the team!
 Your contributions to Ezra Project are very welcome!
 At the moment this is a small project with just one maintainer. It would be great to have a team developing this software.
-Ideally you should bring some experience in working with web-based frontends, specifically HTML, CSS, JavaScript. Furthermore, experience with relational database design is a plus. Feel free to drop me an email ([contact@tklein.info](mailto:contact@tklein.info)) if you are interested in joining the team!
+Ideally you should bring some experience in working with web-based frontends, specifically HTML, CSS, JavaScript. Furthermore, experience with relational database design is a plus. However, if you're not a developer you can still help with testing, translation and user documentation!
+
+Feel free to drop me an email ([contact@tklein.info](mailto:contact@tklein.info)) if you are interested in joining the team!
