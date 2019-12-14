@@ -38,35 +38,34 @@ All notable changes to Ezra Project are documented in this file.
 
 ## [0.10.0] - 2019-10-15
 ### Features
-* Module search functionality (based on SWORD search function)
+* Module search functionality (based on SWORD search function).
 * Added translation comparison function. The user can now quickly retrieve the selected verses in all the different available translations (in a popup).
-* Added function "Recently used tags" to tags filter menu (filters the tag list to the last 10 used tags)
+* Added function "Recently used tags" to tags filter menu (filters the tag list to the last 10 used tags).
 * Added support for clipboard copy functionality: Now you can copy the currently selected verses to the system clipboard using ctrl + c.
-* German translation and handling of language-based chapter/verse separator for verse references
-* Use localized bible book names (based on SWORD translation functionality)
+* German translation and handling of language-based chapter/verse separator for verse references.
+* Use localized bible book names (based on SWORD translation functionality).
 
 ### Enhancements
-* Show bible translation id in tab titles
-* Availability of a new release is now indicated in a popup after startup
-* Optimized the needed width for the bible browser navigation pane
+* Show bible translation id in tab titles.
+* Availability of a new release is now indicated in a popup after startup.
+* Optimized the needed width for the bible browser navigation pane.
 
 ### Fixes
 * Avoid duplicates when assigning tags to verses (ensure uniqueness in database + use validation in frontend).
-* Also show currently selected verses in verse list mode (relevant for tagged verse lists or module search results)
+* Also show currently selected verses in verse list mode (relevant for tagged verse lists or module search results).
 * Update the tag statistics whenever a tag gets assigned or removed from a verse.
 * Fixed the font-size for the tag statistics popup (now like any other dialogue).
 * When adding/removing tags, also update the frontend verse box in all other tabs besides the currently opened one.
 
 ### Enablers
-* Internationalization support (using [I18next][i18next])
-* Implemented packaging support for CentOS 8
+* Internationalization support (using [I18next][i18next]).
+* Implemented packaging support for CentOS 8.
 
 [i18next]: https://www.i18next.com
 
 ## [0.9.0] - 2019-08-23
 ### Features
-* Tags can now be shown in a column next to the bible text. This is particularly useful when having a lot of tags, as it
-  gives more overview and makes it easier to focus on the text.
+* Tags can now be shown in a column next to the bible text. This is particularly useful when having a lot of tags, as it gives more overview and makes it easier to focus on the text.
 * Section titles (from SWORD modules) can now be shown/hidden based on an option in the menu.
 * Information about SWORD modules can now be shown before installation when using the bible translation wizard.
 * Automatic upload of information to Sentry.io in case of JavaScript bugs
@@ -78,19 +77,19 @@ All notable changes to Ezra Project are documented in this file.
   - Linux Mint 18 package
 
 ### Enhancements
-* Added module location as another attribute to module information dialog
-* Show number of tagged verses in title of tagged verse list popup
-* Show SWORD version in bible module info dialogue
-* Added Windows build instructions ([#2][i2])
-* Upgraded Electron from 4.2.6 to 4.2.9
+* Added module location as another attribute to module information dialog.
+* Show number of tagged verses in title of tagged verse list popup.
+* Show SWORD version in bible module info dialogue.
+* Added Windows build instructions ([#2][i2]).
+* Upgraded Electron from 4.2.6 to 4.2.9.
 
 ### Fixes
 * Corrected bug with Sword paths on Windows and Unix. Now both the user path and the global path gets evaluated correctly both on Windows and on Unix.
-* Only disable close button of first tab when it's the last one
-* Remember the last selected bible translation and set that as a default for new tabs
-* Properly rename tab titles containing tags after tag has been renamed
-* Sword backend: Also retrieve empty verses, but only if corresponding bible book is generally existing (applies to John 5:4 for some translations)
-* Optimized package size (when packaging remove build artifacts not necessary for production)
+* Only disable close button of first tab when it's the last one.
+* Remember the last selected bible translation and set that as a default for new tabs.
+* Properly rename tab titles containing tags after tag has been renamed.
+* Sword backend: Also retrieve empty verses, but only if corresponding bible book is generally existing (applies to John 5:4 for some translations).
+* Optimized package size (when packaging remove build artifacts not necessary for production).
 
 [i2]: https://github.com/tobias-klein/ezra-project/issues/2
 
@@ -128,12 +127,12 @@ All notable changes to Ezra Project are documented in this file.
   * Shows Bible books in case of a tagged verse list
 
 ### Enhancements
-* Optimized language display in Bible installation wizard: Shows languages in multiple columns
-* Optimized formatting for Bible book selection menu
-* Usability: Verses can now be tagged/untagged also by clicking on the tag label (before this only worked with the checkbox)
+* Optimized language display in Bible installation wizard: Shows languages in multiple columns.
+* Optimized formatting for Bible book selection menu.
+* Usability: Verses can now be tagged/untagged also by clicking on the tag label (before this only worked with the checkbox).
 
 ### Fixes
-* Improved tag loading from database making performance in loading big books (like Psalms) significantly better
+* Improved tag loading from database making performance in loading big books (like Psalms) significantly better.
 
 
 ## [0.7.1] - 2019-02-24
