@@ -328,7 +328,7 @@ class StrongsController {
     bible_browser_controller.module_search.populateSearchMenu();
 
     bible_browser_controller.text_loader.prepareForNewText(true);
-    bible_browser_controller.module_search.start_search(null, undefined, key);
+    bible_browser_controller.module_search.startSearch(null, undefined, key);
   }
 }
 

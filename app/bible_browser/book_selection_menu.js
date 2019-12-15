@@ -50,8 +50,8 @@ class BookSelectionMenu {
       bible_browser_controller.book_selection_menu.hide_book_menu();
       bible_browser_controller.tag_selection_menu.hideTagMenu();
       bible_browser_controller.tag_selection_menu.resetTagMenu();
-      bible_browser_controller.module_search.hide_search_menu();
-      bible_browser_controller.module_search.reset_search();
+      bible_browser_controller.module_search.hideSearchMenu();
+      bible_browser_controller.module_search.resetSearch();
 
       // Not needed at the moment
       //$('#outline-content').empty();
@@ -96,7 +96,7 @@ class BookSelectionMenu {
       bible_browser_controller.handle_body_click();
     } else {
       bible_browser_controller.tag_selection_menu.hideTagMenu();
-      bible_browser_controller.module_search.hide_search_menu();
+      bible_browser_controller.module_search.hideSearchMenu();
       bible_browser_controller.optionsMenu.hideDisplayMenu();
       var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
       var book_button = currentVerseListMenu.find('.book-select-button');

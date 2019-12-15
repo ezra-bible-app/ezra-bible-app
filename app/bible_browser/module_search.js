@@ -22,22 +22,22 @@ class ModuleSearch {
     this.search_menu_opened = false;
   }
 
-  init_module_search_menu(tabIndex=undefined) {
+  initModuleSearchMenu(tabIndex=undefined) {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
-    currentVerseListMenu.find('.module-search-button').bind('click', (event) => { this.handle_search_menu_click(event); });
+    currentVerseListMenu.find('.module-search-button').bind('click', (event) => { this.handleSearchMenuClick(event); });
     
     // Handle the click on the search button
-    $('#start-module-search-button:not(.bound)').addClass('bound').bind('click', (event) => { this.start_search(event); });
+    $('#start-module-search-button:not(.bound)').addClass('bound').bind('click', (event) => { this.startSearch(event); });
 
     // Handle the enter key in the search field and start the search when it is pressed
     $('#module-search-input:not(.bound)').addClass('bound').on("keypress", (event) => {
       if (event.which == 13) {
-        this.start_search(event);
+        this.startSearch(event);
       }
     });
   }
 
-  hide_search_menu() {
+  hideSearchMenu() {
     if (this.search_menu_opened) {
       $('#app-container').find('#module-search-menu').hide();
       this.search_menu_opened = false;
@@ -47,14 +47,14 @@ class ModuleSearch {
     }
   }
 
-  reset_search() {
+  resetSearch() {
     $('#module-search-input').val('');
     $('#search-type')[0].value = "multiWord";
     $('#search-is-case-sensitive').prop("checked", false);
-    this.hide_module_search_header();
+    this.hideModuleSearchHeader();
   }
 
-  hide_module_search_header(tabIndex=undefined) {
+  hideModuleSearchHeader(tabIndex=undefined) {
     this.getModuleSearchHeader(tabIndex).hide();
   }
 
@@ -69,7 +69,7 @@ class ModuleSearch {
     $('#module-search-input').val(searchTerm);
   }
 
-  handle_search_menu_click(event) {
+  handleSearchMenuClick(event) {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
     var moduleSearchButton = currentVerseListMenu.find('.module-search-button');
 
@@ -129,7 +129,7 @@ class ModuleSearch {
     return currentSearchResults.length > 500;
   }
 
-  async start_search(event, tabIndex=undefined, searchTerm=undefined) {
+  async startSearch(event, tabIndex=undefined, searchTerm=undefined) {
     if (event != null) {
       event.stopPropagation();
     }
@@ -201,7 +201,7 @@ class ModuleSearch {
       bible_browser_controller.hideVerseListLoadingIndicator();
     }
 
-    this.hide_search_menu();
+    this.hideSearchMenu();
     var moduleSearchHeaderText;
 
     if (currentSearchResults.length > 0) {
@@ -221,7 +221,7 @@ class ModuleSearch {
     this.getModuleSearchHeader(tabIndex).show();
   }
 
-  load_book_results(bookId) {
+  loadBookResults(bookId) {
     var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
     
     var bookSection = $('#' + currentTabId).find('#' + currentTabId + '-book-section-' + bookId);

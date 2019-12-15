@@ -138,7 +138,7 @@ class TabController {
       var currentMetaTab = this.metaTabs[i];
 
       if (currentMetaTab.textType == 'search_results') {
-        bible_browser_controller.module_search.start_search(null, i, currentMetaTab.searchTerm);
+        bible_browser_controller.module_search.startSearch(null, i, currentMetaTab.searchTerm);
       } else {
         bible_browser_controller.text_loader.prepareForNewText(false, i);
         await bible_browser_controller.text_loader.requestTextUpdate(
