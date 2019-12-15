@@ -1235,3 +1235,7 @@ h2 {
 .strongs-hl {
   background-color: #e4f1fb;
 }
+
+#translation-feature-filter label {
+  margin-right: 1em;
+}
