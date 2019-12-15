@@ -399,13 +399,13 @@ class InstallTranslationWizard {
     var featureFilter = "";
     featureFilter += "<p><b>Feature Filter</b></p>" +
                      "<p id='translation-feature-filter' style='margin-bottom: 1em'>" +
-                     "<input id='strongs-feature-filter' type='checkbox'></input> <label id='strongs-feature-filter-label' for='strongs-feature-filter'></label>" +
                      "<input id='headings-feature-filter' type='checkbox'></input> <label id='headings-feature-filter-label' for='headings-feature-filter'></label>" +
+                     "<input id='strongs-feature-filter' type='checkbox'></input> <label id='strongs-feature-filter-label' for='strongs-feature-filter'></label>" +
                      "</p>";
     translationList.append(featureFilter);
 
-    $('#strongs-feature-filter-label').text(i18n.t('general.module-strongs'));
     $('#headings-feature-filter-label').text(i18n.t('general.module-headings'));
+    $('#strongs-feature-filter-label').text(i18n.t('general.module-strongs'));
 
     var languagesPage = "#translation-settings-wizard-add-p-1";
     var uiLanguages = this._helper.getSelectedSettingsWizardElements(languagesPage);
@@ -427,6 +427,27 @@ class InstallTranslationWizard {
 
     translationList.append(introText);
 
+    var filteredTranslationList = "<div id='filtered-translation-list'></div>";
+    translationList.append(filteredTranslationList);
+
+    $('#headings-feature-filter').bind('click', async () => {
+      await this.listFilteredModules(selectedLanguages, uiLanguages);      
+    });
+
+    $('#strongs-feature-filter').bind('click', async () => {
+      await this.listFilteredModules(selectedLanguages, uiLanguages);      
+    });
+
+    await this.listFilteredModules(selectedLanguages, uiLanguages);
+  }
+
+  async listFilteredModules(selectedLanguages, uiLanguages) {
+    var filteredTranslationList = $('#filtered-translation-list');
+    filteredTranslationList.empty();
+
+    var headingsFilter = $('#headings-feature-filter').prop('checked');
+    var strongsFilter = $('#strongs-feature-filter').prop('checked');
+
     var renderHeader = false;
     if (selectedLanguages.length > 1) {
       renderHeader = true;
@@ -439,7 +460,7 @@ class InstallTranslationWizard {
 
       for (var j = 0; j < this._selectedRepositories.length; j++) {
         var currentRepo = this._selectedRepositories[j];
-        var currentRepoLangModules = nsi.getRepoModulesByLang(currentRepo, currentLanguage);
+        var currentRepoLangModules = nsi.getRepoModulesByLang(currentRepo, currentLanguage, headingsFilter, strongsFilter);
         // Append this repo's modules to the overall language list
         currentLangModules = currentLangModules.concat(currentRepoLangModules);
       }
@@ -448,7 +469,7 @@ class InstallTranslationWizard {
       await this.listLanguageModules(currentUiLanguage, currentLangModules, renderHeader);
     }
 
-    translationList.find('.bible-translation-info').bind('click', function() {
+    filteredTranslationList.find('.bible-translation-info').bind('click', function() {
       var translationCode = $(this).text();
       $('#translation-info-content').empty();
       $('#translation-info').find('.loader').show();
@@ -460,7 +481,7 @@ class InstallTranslationWizard {
       }, 200);
     });
 
-    this._helper.bindLabelEvents(translationList);
+    this._helper.bindLabelEvents(filteredTranslationList);    
   }
 
   sortBy(field) {
@@ -476,7 +497,7 @@ class InstallTranslationWizard {
 
   async listLanguageModules(lang, modules, renderHeader) {
     var wizardPage = $('#translation-settings-wizard-add-p-2');
-    var translationList = wizardPage.find('#translation-list');
+    var translationList = wizardPage.find('#filtered-translation-list');
 
     if (renderHeader) {
       var languageHeader = "<p style='font-weight: bold; margin-top: 2em;'>" + lang + "</p>";
