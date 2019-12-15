@@ -276,7 +276,7 @@ class StrongsController {
     var strongsShortInfo = this.getShortInfo(strongsEntry, lemma);
     var findAllLink = this.getFindAllLink(strongsEntry);
 
-    extendedStrongsInfo += strongsShortInfo;
+    extendedStrongsInfo += "<b>" + strongsShortInfo + "</b>";
     extendedStrongsInfo += findAllLink;
     extendedStrongsInfo += "<pre class='strongs-definition'>";
     extendedStrongsInfo += strongsEntry.definition;
