@@ -49,7 +49,7 @@ class ModuleSearch {
 
   reset_search() {
     $('#module-search-input').val('');
-    $('#search-is-phrase').prop("checked", false);
+    $('#search-type')[0].value = "multiWord";
     $('#search-is-case-sensitive').prop("checked", false);
     this.hide_module_search_header();
   }
@@ -64,7 +64,7 @@ class ModuleSearch {
     var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
     var searchTerm = currentTab.getSearchTerm();
 
-    document.getElementById('module-search-menu').querySelector('#search-type').value = searchType;
+    $('#search-type')[0].value = searchType;
     $('#search-is-case-sensitive').prop("checked", isCaseSensitive);
     $('#module-search-input').val(searchTerm);
   }
