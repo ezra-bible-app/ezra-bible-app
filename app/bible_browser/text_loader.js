@@ -35,7 +35,17 @@ class TextLoader {
 
     if (resetView) {
       bible_browser_controller.resetVerseListView();
-      bible_browser_controller.showVerseListLoadingIndicator();
+      var loadingMessage = "";
+
+      if (isSearch) {
+        var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+        var searchTerm = currentTab.getSearchTerm();
+        loadingMessage = i18n.t("bible-browser.searching-for") + " <i>" + searchTerm + "</i>";
+      } else {
+        loadingMessage = i18n.t("bible-browser.loading-bible-text");
+      }
+
+      bible_browser_controller.showVerseListLoadingIndicator(loadingMessage);
     }
 
     var temporary_help = bible_browser_controller.getCurrentVerseListComposite(tabIndex).find('.temporary-help, .help-text');

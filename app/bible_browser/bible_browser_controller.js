@@ -366,8 +366,14 @@ function BibleBrowserController() {
     return loadingIndicator;
   };
 
-  this.showVerseListLoadingIndicator = function() {
+  this.showVerseListLoadingIndicator = function(message=undefined) {
     var loadingIndicator = bible_browser_controller.getCurrentVerseListLoadingIndicator();
+    var loadingText = loadingIndicator.find('.verse-list-loading-indicator-text');
+    if (message === undefined) {
+      message = i18n.t("bible-browser.loading-bible-text");
+    }
+
+    loadingText.html(message);
     loadingIndicator.find('.loader').show();
     loadingIndicator.show();
   };

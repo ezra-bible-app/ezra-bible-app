@@ -140,6 +140,8 @@ class ModuleSearch {
       this.currentSearchTerm = this.getSearchTerm();
     }
 
+    this.hideSearchMenu();
+
     if (this.currentSearchTerm.length == 0) {
       console.log("Got empty search term ... aborting search!");
       return;
