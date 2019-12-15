@@ -106,6 +106,10 @@ class StrongsController {
   }
 
   showStrongsInfo(strongsId) {
+    if (jsStrongs == null) {
+      jsStrongs = require('strongs');
+    }
+
     var lemma = jsStrongs[strongsId].lemma;
     var strongsShortInfo = lemma;
 
@@ -119,17 +123,19 @@ class StrongsController {
       console.log(e);
     }
 
-    this.currentStrongsElement.bind('mouseout', () => {
-      if (!this.shiftKeyPressed) {
-        this.hideStrongsBox();
-      }
-    });
+    if (this.currentStrongsElement != null) {
+      this.currentStrongsElement.bind('mouseout', () => {
+        if (!this.shiftKeyPressed) {
+          this.hideStrongsBox();
+        }
+      });
 
-    this.strongsBox.show().position({
-      my: "bottom",
-      at: "center top",
-      of: this.currentStrongsElement
-    });
+      this.strongsBox.show().position({
+        my: "bottom",
+        at: "center top",
+        of: this.currentStrongsElement
+      });
+    }
   }
 
   handleStrongsMouseMove(event) {
@@ -298,6 +304,10 @@ class StrongsController {
   }
 
   openStrongsReference(key) {
+    if (jsStrongs == null) {
+      jsStrongs = require('strongs');
+    }
+
     if (key == "" || key == null) {
       return;
     } else {
