@@ -20,7 +20,7 @@ class TextLoader {
   constructor() {
   }
 
-  prepareForNewText(resetView, tabIndex=undefined) {
+  prepareForNewText(resetView, isSearch=false, tabIndex=undefined) {
     bible_browser_controller.module_search.hideModuleSearchHeader();
     bible_browser_controller.navigation_pane.initNavigationPaneForCurrentView(tabIndex);
 
