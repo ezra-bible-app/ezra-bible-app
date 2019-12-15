@@ -210,11 +210,11 @@ function BibleBrowserController() {
 
     if (currentTextType == 'search_results') {
       var currentSearchTerm = currentTab.getSearchTerm();
-      bible_browser_controller.text_loader.prepareForNewText(true);
+      bible_browser_controller.text_loader.prepareForNewText(true, true);
       bible_browser_controller.module_search.startSearch(null, currentTabIndex, currentSearchTerm);
     } else {
       if (!bible_browser_controller.tab_controller.isCurrentTabEmpty()) {
-        bible_browser_controller.text_loader.prepareForNewText(false);
+        bible_browser_controller.text_loader.prepareForNewText(false, false);
         bible_browser_controller.text_loader.requestTextUpdate(currentTabId,
                                                                currentBook,
                                                                currentTagIdList,
@@ -565,7 +565,7 @@ function BibleBrowserController() {
     bible_browser_controller.book_search.setVerseList(currentVerseList);
 
     if (currentTagIdList != "") {
-      bible_browser_controller.text_loader.prepareForNewText(true);
+      bible_browser_controller.text_loader.prepareForNewText(true, false);
       bible_browser_controller.text_loader.requestTextUpdate(currentTabId, null, currentTagIdList, null);
       tags_controller.communication_controller.request_tags();
     }

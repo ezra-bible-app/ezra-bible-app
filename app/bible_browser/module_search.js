@@ -153,7 +153,7 @@ class ModuleSearch {
     }
 
     // Only reset view if we got an event (in other words: not initially)
-    bible_browser_controller.text_loader.prepareForNewText(event != null, tabIndex);
+    bible_browser_controller.text_loader.prepareForNewText(event != null, true, tabIndex);
 
     //console.log("Starting search for " + this.currentSearchTerm + " on tab " + tabIndex);
 

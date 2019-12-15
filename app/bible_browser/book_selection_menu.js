@@ -71,7 +71,7 @@ class BookSelectionMenu {
       var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
       var currentBook = currentTab.getBook();
 
-      bible_browser_controller.text_loader.prepareForNewText(true);
+      bible_browser_controller.text_loader.prepareForNewText(true, false);
       bible_browser_controller.text_loader.requestTextUpdate(currentTabId, currentBook, null, null);
       tags_controller.communication_controller.request_tags();
     });
