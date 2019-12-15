@@ -396,6 +396,17 @@ class InstallTranslationWizard {
 
     $('#translation-info-content').html(translationInfoContent);
 
+    var featureFilter = "";
+    featureFilter += "<p><b>Feature Filter</b></p>" +
+                     "<p id='translation-feature-filter' style='margin-bottom: 1em'>" +
+                     "<input id='strongs-feature-filter' type='checkbox'></input> <label id='strongs-feature-filter-label' for='strongs-feature-filter'></label>" +
+                     "<input id='headings-feature-filter' type='checkbox'></input> <label id='headings-feature-filter-label' for='headings-feature-filter'></label>" +
+                     "</p>";
+    translationList.append(featureFilter);
+
+    $('#strongs-feature-filter-label').text(i18n.t('general.module-strongs'));
+    $('#headings-feature-filter-label').text(i18n.t('general.module-headings'));
+
     var languagesPage = "#translation-settings-wizard-add-p-1";
     var uiLanguages = this._helper.getSelectedSettingsWizardElements(languagesPage);
     for (var i = 0; i < uiLanguages.length; i++) {
@@ -407,7 +418,6 @@ class InstallTranslationWizard {
     }
 
     var uiRepositories = this.getSelectedReposForUi();
-
     var introText = "<p style='margin-bottom: 2em;'>" +
                     i18n.t("translation-wizard.the-selected-repositories") + " (" +
                     uiRepositories.join(', ') + ") " +
