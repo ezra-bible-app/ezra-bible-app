@@ -168,6 +168,10 @@ class ModuleSearch {
       var searchType = currentTab.getSearchOptions()['searchType'];
       var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
 
+      if (searchType == "strongsNumber") {
+        bible_browser_controller.strongs_controller.showStrongsInfo(this.currentSearchTerm);
+      }
+
       await nsi.getModuleSearchResults(currentBibleTranslationId,
                                       this.currentSearchTerm,
                                       searchType,
