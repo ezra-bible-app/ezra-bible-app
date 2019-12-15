@@ -292,6 +292,8 @@ class InstallTranslationWizard {
   }
 
   getAvailableLanguagesFromSelectedRepos(selectedRepositories) {
+    var knownLanguageCodes = [];
+    var unknownLanguageCodes = [];
     var knownLanguages = [];
     var unknownLanguages = [];
 
@@ -303,8 +305,9 @@ class InstallTranslationWizard {
         var currentLanguageCode = repoLanguages[j];
 
         if (this.languageMapper.mappingExists(currentLanguageCode)) {
-          if (!knownLanguages.includes(currentLanguageCode)) {
+          if (!knownLanguageCodes.includes(currentLanguageCode)) {
             var currentLanguageName = this.languageMapper.getLanguageName(currentLanguageCode);
+            knownLanguageCodes.push(currentLanguageCode);
             knownLanguages.push({
               "languageCode": currentLanguageCode,
               "languageName": currentLanguageName
@@ -312,7 +315,8 @@ class InstallTranslationWizard {
           }
         } else {
           console.log("Unknown lang: " + currentLanguageCode);
-          if (!unknownLanguages.includes(currentLanguageCode)) {
+          if (!unknownLanguageCodes.includes(currentLanguageCode)) {
+            unknownLanguageCodes.push(currentLanguageCode);
             unknownLanguages.push({
               "languageCode": currentLanguageCode,
               "languageName": currentLanguageCode
