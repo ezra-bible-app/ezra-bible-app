@@ -56,11 +56,13 @@ class BookSelectionMenu {
       // Not needed at the moment
       //$('#outline-content').empty();
 
-      // Set selected tags to null, since we just switched to a book
       var currentTab = bible_browser_controller.tab_controller.getTab();
       currentTab.setTextType('book');
-      currentTab.setTagIdList(null);
       bible_browser_controller.tab_controller.setCurrentTabBook(book_code, book_title);
+
+      // Set selected tags and search term to null, since we just switched to a book      
+      currentTab.setTagIdList(null);
+      currentTab.setSearchTerm(null);
 
       var currentVerseList = bible_browser_controller.getCurrentVerseList();
       bible_browser_controller.book_search.setVerseList(currentVerseList);
