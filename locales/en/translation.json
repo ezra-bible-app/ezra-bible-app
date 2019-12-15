@@ -18,7 +18,7 @@
     "case-sensitive": "Case sensitive",
     "exact-phrase": "Exact phrase",
     "multi-word": "Multiple words",
-    "strongs": "Strong's key"
+    "strongs": "Strong's number"
   },
   "translation-wizard": {
     "header": "Configure Bible translations",
