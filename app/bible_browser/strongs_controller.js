@@ -320,8 +320,15 @@ class StrongsController {
   }
 
   findAllOccurrences(key) {
-    console.log("Finding all occurrances for " + key);
     bible_browser_controller.tab_controller.addTab();
+    var currentTab = bible_browser_controller.tab_controller.getTab();
+    currentTab.setSearchOptions('strongsNumber', false);
+
+    bible_browser_controller.tab_controller.setTabSearch(key);
+    bible_browser_controller.module_search.populateSearchMenu();
+
+    bible_browser_controller.text_loader.prepareForNewText(true);
+    bible_browser_controller.module_search.start_search(null, undefined, key);
   }
 }
 
