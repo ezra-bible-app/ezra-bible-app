@@ -403,14 +403,18 @@ function BibleBrowserController() {
       return;
     }
     
-    bible_browser_controller.book_selection_menu.hide_book_menu();
-    bible_browser_controller.tag_selection_menu.hideTagMenu();
-    bible_browser_controller.module_search.hideSearchMenu();
-    bible_browser_controller.optionsMenu.hideDisplayMenu();
+    bible_browser_controller.hideAllMenus();
 
     if ($('#currently-edited-notes').length > 0) {
       notes_controller.restore_currently_edited_notes();
     }
+  };
+
+  this.hideAllMenus = function() {
+    bible_browser_controller.book_selection_menu.hide_book_menu();
+    bible_browser_controller.tag_selection_menu.hideTagMenu();
+    bible_browser_controller.module_search.hideSearchMenu();
+    bible_browser_controller.optionsMenu.hideDisplayMenu();
   };
 
   this.bind_events_after_bible_text_loaded = async function(tabIndex=undefined) {

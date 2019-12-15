@@ -198,12 +198,17 @@ class TranslationController {
         this.handleBibleTranslationChange(event);
       }
     });
+
+    $('.bible-select-block').find('.ui-selectmenu').bind('click', () => {
+      bible_browser_controller.hideAllMenus();
+    });
   }
 
   initBibleTranslationInfoButton() {
     $('.bible-translation-info-button').unbind('click');
     $('.bible-translation-info-button').bind('click', async () => {
       if (!$(this).hasClass('ui-state-disabled')) {
+        bible_browser_controller.hideAllMenus();
         await this.showBibleTranslationInfo();
       }
     });
