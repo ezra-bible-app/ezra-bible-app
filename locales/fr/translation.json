@@ -122,6 +122,7 @@
   "bible-browser": {
     "selection": "Sélection : ",
     "loading-bible-text": "Chargement du texte biblique",
+    "searching-for": "Searching for",
     "search-result-header": "Affichage le résultat de la recherche pour ",
     "no-search-results": "Aucun résultat trouvé lors de la recherche de ",
     "load-verse-context": "Charger le contexte de ce verset",
