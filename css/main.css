@@ -722,6 +722,11 @@ h2 {
   margin-top: 3em;
 }
 
+.loading-indicator-text {
+  font-weight: bold;
+  color: #808080;
+}
+
 .module-search-result-header {
   display: none;
   margin-left: 0.5em;
