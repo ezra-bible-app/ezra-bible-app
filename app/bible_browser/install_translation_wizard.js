@@ -399,8 +399,8 @@ class InstallTranslationWizard {
     var featureFilter = "";
     featureFilter += "<p><b>" + i18n.t("translation-wizard.translation-feature-filter") + "</b></p>" +
                      "<p id='translation-feature-filter' style='margin-bottom: 1em'>" +
-                     "<input id='headings-feature-filter' type='checkbox'></input> <label id='headings-feature-filter-label' for='headings-feature-filter'></label>" +
-                     "<input id='strongs-feature-filter' type='checkbox'></input> <label id='strongs-feature-filter-label' for='strongs-feature-filter'></label>" +
+                     "<input id='headings-feature-filter' class='translation-feature-filter' type='checkbox'></input> <label id='headings-feature-filter-label' for='headings-feature-filter'></label>" +
+                     "<input id='strongs-feature-filter' class='translation-feature-filter' type='checkbox'></input> <label id='strongs-feature-filter-label' for='strongs-feature-filter'></label>" +
                      "</p>";
     translationList.append(featureFilter);
 
@@ -430,11 +430,7 @@ class InstallTranslationWizard {
     var filteredTranslationList = "<div id='filtered-translation-list'></div>";
     translationList.append(filteredTranslationList);
 
-    $('#headings-feature-filter').bind('click', async () => {
-      await this.listFilteredModules(selectedLanguages, uiLanguages);      
-    });
-
-    $('#strongs-feature-filter').bind('click', async () => {
+    $('.translation-feature-filter').bind('click', async () => {
       await this.listFilteredModules(selectedLanguages, uiLanguages);      
     });
 
