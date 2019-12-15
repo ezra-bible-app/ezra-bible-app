@@ -90,8 +90,8 @@ class Tab {
     return this.searchResults;
   }
 
-  setSearchOptions(exactPhrase, caseSensitive) {
-    this.searchOptions['exactPhrase'] = exactPhrase;
+  setSearchOptions(searchType, caseSensitive) {
+    this.searchOptions['searchType'] = searchType;
     this.searchOptions['caseSensitive'] = caseSensitive;
   }
 

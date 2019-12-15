@@ -60,11 +60,11 @@ class ModuleSearch {
 
   populateSearchMenu(tabIndex) {
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
-    var isPhrase = currentTab.getSearchOptions()['exactPhrase'];
+    var searchType = currentTab.getSearchOptions()['searchType'];
     var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
     var searchTerm = currentTab.getSearchTerm();
 
-    $('#search-is-phrase').prop("checked", isPhrase);
+    document.getElementById('module-search-menu').querySelector('#search-type').value = searchType;
     $('#search-is-case-sensitive').prop("checked", isCaseSensitive);
     $('#module-search-input').val(searchTerm);
   }
@@ -105,12 +105,14 @@ class ModuleSearch {
     return $('#module-search-input').val();
   }
 
-  isCaseSensitive() {
-    return $('#search-is-case-sensitive').prop("checked");
+  getSearchType() {
+    var selectField = document.getElementById('module-search-menu').querySelector('#search-type');
+    var selectedValue = selectField.options[selectField.selectedIndex].value;
+    return selectedValue;
   }
 
-  isPhrase() {
-    return $('#search-is-phrase').prop("checked");
+  isCaseSensitive() {
+    return $('#search-is-case-sensitive').prop("checked");
   }
 
   getModuleSearchHeader(tabIndex=undefined) {
@@ -146,7 +148,7 @@ class ModuleSearch {
     if (tabIndex === undefined) {
       bible_browser_controller.tab_controller.setTabSearch(this.currentSearchTerm);
       var tab = bible_browser_controller.tab_controller.getTab();
-      tab.setSearchOptions(this.isPhrase(), this.isCaseSensitive());
+      tab.setSearchOptions(this.getSearchType(), this.isCaseSensitive());
       tab.setTextType('search_results');
     }
 
@@ -159,13 +161,8 @@ class ModuleSearch {
 
     if (currentTab != null) {
       var currentBibleTranslationId = currentTab.getBibleTranslationId();
-      var isPhrase = currentTab.getSearchOptions()['exactPhrase'];
+      var searchType = currentTab.getSearchOptions()['searchType'];
       var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
-
-      var searchType = "multiWord";
-      if (isPhrase) {
-        searchType = "phrase";
-      }
 
       await nsi.getModuleSearchResults(currentBibleTranslationId,
                                       this.currentSearchTerm,
