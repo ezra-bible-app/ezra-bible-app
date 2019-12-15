@@ -397,7 +397,7 @@ class InstallTranslationWizard {
     $('#translation-info-content').html(translationInfoContent);
 
     var featureFilter = "";
-    featureFilter += "<p><b>Feature Filter</b></p>" +
+    featureFilter += "<p><b>" + i18n.t("translation-wizard.translation-feature-filter") + "</b></p>" +
                      "<p id='translation-feature-filter' style='margin-bottom: 1em'>" +
                      "<input id='headings-feature-filter' type='checkbox'></input> <label id='headings-feature-filter-label' for='headings-feature-filter'></label>" +
                      "<input id='strongs-feature-filter' type='checkbox'></input> <label id='strongs-feature-filter-label' for='strongs-feature-filter'></label>" +
