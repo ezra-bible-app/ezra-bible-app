@@ -64,7 +64,7 @@ class ModuleSearch {
     var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
     var searchTerm = currentTab.getSearchTerm();
 
-    $('#search-type')[0].value = searchType;
+    $('#search-type').val(searchType);
     $('#search-is-case-sensitive').prop("checked", isCaseSensitive);
     $('#module-search-input').val(searchTerm);
   }
