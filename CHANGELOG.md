@@ -16,10 +16,12 @@ All notable changes to Ezra Project are documented in this file.
 ### Features
 * Strong's support ([#10][i10])
   - Strong's transcriptions/original word are displayed as little hint/pop-up above the word when hovering the mouse over the corresponding word.
-  - Detailed Strong's information is shown on the bottom left in a new area below the tags list
+  - Detailed Strong's information is shown on the bottom left in a new area below the tags list.
+  - Strong's based search with link 'Find all occurrances' in info box.
 * French translation ([#11][i11])
 
 ### Enhancements
+* Possibility to quickly filter translations in bible installation wizard for Strong's feature.
 * Lock wizard dialog once installation or uninstallation of translation has started.
 * Show a message while migrations are executed on start-up.
 * Use a loading indicator in tagged verses popup, since tagged verses loading may take some time if there are many verses for one tag.
