@@ -92,6 +92,12 @@ module.exports = (sequelize, DataTypes) => {
     return -1;
   };
 
+  BibleBook.getBookTitleTranslation = function(shortName) {
+    var currentBookLongTitle = models.BibleBook.getBookLongTitle(shortName);
+    var currentBookName = i18nHelper.getSwordTranslation(currentBookLongTitle); 
+    return currentBookName;   
+  };
+
   BibleBook.getChapterVerseCounts = function(bibleTranslationId='KJV') {
     var query = "SELECT b.*, v.chapter, COUNT(v.verseNr) AS verseCount " +
                 "FROM Verses v " +

@@ -1238,10 +1238,8 @@ function TagsController() {
     var selected_verses_content = [];
     for (var i = 0; i < selectedBooks.length; i++) {
       var currentBookShortName = selectedBooks[i];
-      var currentBookLongTitle = models.BibleBook.getBookLongTitle(currentBookShortName);
-      var currentBookName = i18nHelper.getSwordTranslation(currentBookLongTitle);
-
       var currentBookVerseReferences = [];
+      
       for (var j = 0; j < tags_controller.selected_verse_boxes.length; j++) {
         var currentVerseBox = $(tags_controller.selected_verse_boxes[j]);
         if (currentVerseBox.length > 1) {
@@ -1258,6 +1256,7 @@ function TagsController() {
       }
 
       var formatted_verse_list = tags_controller.format_verse_list_for_view(currentBookVerseReferences, true);
+      var currentBookName = models.BibleBook.getBookTitleTranslation(currentBookShortName);
       var currentBookVerseReferenceDisplay = currentBookName + ' ' + formatted_verse_list;
       selected_verses_content.push(currentBookVerseReferenceDisplay);
     }
