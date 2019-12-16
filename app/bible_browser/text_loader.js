@@ -123,20 +123,20 @@ class TextLoader {
     }
 
     if (listType == 'book') {
-      bible_browser_controller.enable_toolbox();
+      bible_browser_controller.enableToolbox();
       bible_browser_controller.tag_selection_menu.resetTagMenu();
       bible_browser_controller.module_search.resetSearch();
 
     } else if (listType == 'tagged_verses') {
 
       bible_browser_controller.module_search.resetSearch();
-      bible_browser_controller.enable_tagging_toolbox_only();
+      bible_browser_controller.enableTaggingToolboxOnly();
       bible_browser_controller.enableTaggedVersesExportButton(tabIndex);
 
     } else if (listType == 'search_results') {
 
       //console.log("Rendering search results verse list on tab " + tabIndex);
-      bible_browser_controller.enable_tagging_toolbox_only();
+      bible_browser_controller.enableTaggingToolboxOnly();
       bible_browser_controller.enableTaggedVersesExportButton(tabIndex);
     }
 

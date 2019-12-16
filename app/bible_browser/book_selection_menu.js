@@ -25,7 +25,7 @@ class BookSelectionMenu {
     var menu = $('#app-container').find('#book-selection-menu');
     var links = menu.find('a');
 
-    menu.bind('click', bible_browser_controller.handle_body_click);
+    menu.bind('click', bible_browser_controller.handleBodyClick);
 
     for (var i = 0; i < links.length; i++) {
       var current_link = $(links[i]);
@@ -93,7 +93,7 @@ class BookSelectionMenu {
     }
 
     if (this.book_menu_is_opened) {
-      bible_browser_controller.handle_body_click();
+      bible_browser_controller.handleBodyClick();
     } else {
       bible_browser_controller.tag_selection_menu.hideTagMenu();
       bible_browser_controller.module_search.hideSearchMenu();

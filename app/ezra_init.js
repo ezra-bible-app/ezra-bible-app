@@ -253,7 +253,7 @@ function initUi()
   });
 
   $('#show-translation-settings-button').bind('click', function() {
-    bible_browser_controller.open_translation_settings_wizard(); 
+    bible_browser_controller.openTranslationSettingsWizard(); 
   });
 
   tags_controller.init_ui();
