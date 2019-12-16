@@ -203,22 +203,11 @@ class BibleBrowserController {
 
   // Re-init application to state without Bible translations
   onAllTranslationsRemoved() {
-    this.tab_controller.removeAllExtraTabs();
-    this.tab_controller.setCurrentBibleTranslationId(null);
-    this.tab_controller.getTab().setTagIdList("");
-    this.tab_controller.setCurrentTabBook(null, "");
-    this.tab_controller.resetCurrentTabTitle();
-    this.tab_controller.deleteTabConfiguration();
-
+    this.tab_controller.reset();
     this.resetVerseListView();
-
-    var currentVerseListLoadingIndicator = this.getCurrentVerseListLoadingIndicator();
-    currentVerseListLoadingIndicator.hide();
-
-    var currentVerseList = this.getCurrentVerseList();
-    currentVerseList.append("<div class='help-text'>To start using Ezra Project, select a book or a tag from the menu above.</div>");
-    this.translation_controller.disableCurrentTranslationInfoButton();
-    
+    this.hideVerseListLoadingIndicator();
+    this.getCurrentVerseList().append("<div class='help-text'>" + i18n.t("help.help-text-no-translations") + "</div>");
+    this.translation_controller.disableCurrentTranslationInfoButton();    
     $('.book-select-value').text(i18n.t("menu.book"));
   }
 
