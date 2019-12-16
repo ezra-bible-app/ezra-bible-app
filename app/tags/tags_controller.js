@@ -1238,7 +1238,7 @@ function TagsController() {
     var selected_verses_content = [];
     for (var i = 0; i < selectedBooks.length; i++) {
       var currentBookShortName = selectedBooks[i];
-      var currentBookLongTitle = bible_browser_controller.get_book_long_title(currentBookShortName);
+      var currentBookLongTitle = models.BibleBook.getBookLongTitle(currentBookShortName);
       var currentBookName = i18nHelper.getSwordTranslation(currentBookLongTitle);
 
       var currentBookVerseReferences = [];

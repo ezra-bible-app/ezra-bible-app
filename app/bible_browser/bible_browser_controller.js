@@ -27,29 +27,6 @@ function BibleBrowserController() {
   this.current_cr_verse_id = null;
   this.communication_controller = new BibleBrowserCommunicationController();
 
-  // not used??
-  this.get_book_short_title = function(book_long_title) {
-    for (var i = 0; i < bible_books.length; i++) {
-      var current_book = bible_books[i];
-      if (current_book.long_title == book_long_title) {
-        return current_book.short_title;
-      }
-    }
-
-    return -1;
-  };
-
-  this.get_book_long_title = function(book_short_title) {
-    for (var i = 0; i < bible_books.length; i++) {
-      var current_book = bible_books[i];
-      if (current_book.short_title == book_short_title) {
-        return current_book.long_title;
-      }
-    }
-
-    return -1;
-  };
-
   this.init_component = function(componentClassName, componentName, componentPath) {
     var expression = "";
     expression += "const " + componentClassName + " = " + "require('" + componentPath + "');";
@@ -134,7 +111,7 @@ function BibleBrowserController() {
         // Highlight bible book if we are searching in a tagged verses list
         var currentBookId = parseInt(verseBox.find('.verse-bible-book-id').text());
         var currentBibleBookShortName = await models.BibleBook.getShortTitleById(currentBookId);
-        var currentBookLongTitle = bible_browser_controller.get_book_long_title(currentBibleBookShortName);
+        var currentBookLongTitle = models.BibleBook.getBookLongTitle(currentBibleBookShortName);
         var currentBookName = i18nHelper.getSwordTranslation(currentBookLongTitle);
 
         var bibleBookNumber = bible_browser_controller.getVerseListBookNumber(currentBookName, bookHeaders);
@@ -463,7 +440,7 @@ function BibleBrowserController() {
     } else if (currentTextType == 'tagged_verses' && currentTagIdList != null || currentTextType == 'search_results') {
 
       var mouseOverBook = $(this).find('.verse-bible-book-short').text();
-      var bibleBookLongTitle = bible_browser_controller.get_book_long_title(mouseOverBook);
+      var bibleBookLongTitle = models.BibleBook.getBookLongTitle(mouseOverBook);
       
       var bibleBookNumber = bible_browser_controller.getVerseListBookNumber(bibleBookLongTitle);
       if (bibleBookNumber != -1) {

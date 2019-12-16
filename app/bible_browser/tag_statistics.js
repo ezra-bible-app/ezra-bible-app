@@ -115,7 +115,7 @@ class TagStatistics {
     var verse_list_position = currentVerseList.offset();
     var currentTab = bible_browser_controller.tab_controller.getTab();
     var currentBook = currentTab.getBook();
-    var currentBookName = bible_browser_controller.get_book_long_title(currentBook);
+    var currentBookName = models.BibleBook.getBookLongTitle(currentBook);
     var currentBookTranslation = i18nHelper.getSwordTranslation(currentBookName);
 
     $('#book-tag-statistics-box').dialog({
