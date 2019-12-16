@@ -111,8 +111,7 @@ function BibleBrowserController() {
         // Highlight bible book if we are searching in a tagged verses list
         var currentBookId = parseInt(verseBox.find('.verse-bible-book-id').text());
         var currentBibleBookShortName = await models.BibleBook.getShortTitleById(currentBookId);
-        var currentBookLongTitle = models.BibleBook.getBookLongTitle(currentBibleBookShortName);
-        var currentBookName = i18nHelper.getSwordTranslation(currentBookLongTitle);
+        var currentBookName = models.BibleBook.getBookTitleTranslation(currentBibleBookShortName);
 
         var bibleBookNumber = bible_browser_controller.getVerseListBookNumber(currentBookName, bookHeaders);
         if (bibleBookNumber != -1) {
