@@ -654,7 +654,7 @@ class BibleBrowserController {
     var exportButton = currentVerseListMenu.find('.export-tagged-verses-button');
     exportButton.removeClass('ui-state-disabled');
     exportButton.unbind('click');
-    exportButton.bind('click', function() {
+    exportButton.bind('click', () => {
       this.taggedVerseExport.runExport();
     });
     exportButton.show();
