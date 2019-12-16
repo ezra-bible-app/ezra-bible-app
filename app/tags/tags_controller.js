@@ -261,7 +261,7 @@ function TagsController() {
                                         .find('.verse-reference-content').html();
 
       tags_controller.update_tags_view_after_verse_selection(true);
-      bible_browser_controller.jump_to_reference(current_verse_reference, false);
+      bible_browser_controller.jumpToReference(current_verse_reference, false);
     }
   };
 
@@ -607,7 +607,7 @@ function TagsController() {
 
     if (tag_title_array.length > 0) {
       tag_box.show();
-      $(verse_box).find('.tag').bind('click', bible_browser_controller.handle_tag_reference_click);
+      $(verse_box).find('.tag').bind('click', bible_browser_controller.handleTagReferenceClick);
     } else {
       tag_box.hide();
     }
@@ -950,7 +950,7 @@ function TagsController() {
     /* Update the tags view after the selection */
     tags_controller.update_tags_view_after_verse_selection(true);
 
-    bible_browser_controller.bind_events_after_bible_text_loaded();
+    bible_browser_controller.bindEventsAfterBibleTextLoaded();
   };
 
   this.hide_verse_expand_box = function() {
@@ -1369,7 +1369,7 @@ function TagsController() {
                                                                             end_reference);
 
       if (turn_into_link) {
-        formatted_passage = "<a href=\"javascript:bible_browser_controller.jump_to_reference('" + start_reference + "', true);\">" + formatted_passage + "</a>";
+        formatted_passage = "<a href=\"javascript:bible_browser_controller.jumpToReference('" + start_reference + "', true);\">" + formatted_passage + "</a>";
       }
     }
 

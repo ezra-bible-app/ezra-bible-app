@@ -57,7 +57,7 @@ class BibleBrowserController {
     this.init_component("TagStatistics", "tag_statistics", "./app/bible_browser/tag_statistics.js");
     this.init_component("StrongsController", "strongs_controller", "./app/bible_browser/strongs_controller.js");
 
-    this.init_tag_reference_box();
+    this.initTagReferenceBox();
     this.initGlobalShortCuts();
 
     this.book_selection_menu.init();
@@ -161,7 +161,7 @@ class BibleBrowserController {
   onTabAdded(tabIndex=0) {
     resize_verse_list(tabIndex);
     
-    this.init_current_verse_list_menu(tabIndex);
+    this.initCurrentVerseListMenu(tabIndex);
     this.tag_selection_menu.init(tabIndex);
     this.module_search.initModuleSearchMenu(tabIndex);
     this.translation_controller.initTranslationsMenu(tabIndex);
@@ -260,8 +260,7 @@ class BibleBrowserController {
     this.tab_controller.bindEvents();
   }
 
-  init_current_verse_list_menu(tabIndex=undefined) {
-    console.log("init_current_verse_list_menu " + tabIndex);
+  initCurrentVerseListMenu(tabIndex=undefined) {
     var currentVerseListMenu = this.getCurrentVerseListMenu(tabIndex);
     var bookSelectButton = currentVerseListMenu.find('.book-select-button');
     bookSelectButton.bind('click', (event) => { this.book_selection_menu.handle_book_menu_click(event); });
@@ -270,7 +269,7 @@ class BibleBrowserController {
     this.navigation_pane.updateNavigation();
   }
 
-  init_tag_reference_box() {
+  initTagReferenceBox() {
     $('#tag-reference-box').dialog({
       width: 620,
       position: [200,200],
@@ -375,13 +374,13 @@ class BibleBrowserController {
     }
   }
 
-  handle_body_click(event) {
+  handleBodyClick(event) {
     if($(this).hasClass('verse-selection-menu')) {
       event.stopPropagation();
       return;
     }
     
-    this.hideAllMenus();
+    bible_browser_controller.hideAllMenus();
 
     if ($('#currently-edited-notes').length > 0) {
       notes_controller.restore_currently_edited_notes();
@@ -395,12 +394,12 @@ class BibleBrowserController {
     this.optionsMenu.hideDisplayMenu();
   }
 
-  bind_events_after_bible_text_loaded = async function(tabIndex=undefined) {
+  bindEventsAfterBibleTextLoaded = async function(tabIndex=undefined) {
     var currentVerseList = this.getCurrentVerseList(tabIndex);
 
     currentVerseList.find('.tag-box').filter(":not('.tag-events-configured')").bind('click', tags_controller.clear_verse_selection).addClass('tag-events-configured');
     currentVerseList.find('.tag').filter(":not('.tag-events-configured')").bind('click', (event) => {
-      this.handle_tag_reference_click(event);
+      this.handleTagReferenceClick(event);
     }).addClass('tag-events-configured');
 
     currentVerseList.find('.verse-box').bind('mouseover', (e) => { this.onVerseBoxMouseOver(e); });
@@ -453,7 +452,7 @@ class BibleBrowserController {
     }
   }
 
-  get_overlay_verse_box_position(verse_box) {
+  getOverlayVerseBoxPosition(verse_box) {
     var currentVerseListComposite = this.getCurrentVerseListComposite();
 
     var verse_box_position = verse_box.offset();
@@ -495,7 +494,7 @@ class BibleBrowserController {
     return overlay_box_position;
   }
 
-  handle_tag_reference_click(event) {
+  handleTagReferenceClick(event) {
     var verse_box = $(event.target).closest('.verse-box');
     var selected_tag = $(event.target).html().trim();
     selected_tag = selected_tag.replace(/&nbsp;/g, ' ');
@@ -519,12 +518,12 @@ class BibleBrowserController {
       currentTabIndex,
       currentTabId,
       tag_id,
-      this.render_tagged_verse_list_in_reference_box,
+      this.renderTaggedVerseListInReferenceBox,
       'html',
       false
     );
 
-    var box_position = this.get_overlay_verse_box_position(verse_box);
+    var box_position = this.getOverlayVerseBoxPosition(verse_box);
     var title = i18n.t("tags.verses-tagged-with") + ' "' + selected_tag + '"';
 
     $('#tag-reference-box').dialog({
@@ -539,7 +538,7 @@ class BibleBrowserController {
     $('#tag-reference-box').dialog("open");
   }
 
-  render_tagged_verse_list_in_reference_box(htmlVerses, verseCount) {
+  renderTaggedVerseListInReferenceBox(htmlVerses, verseCount) {
     $('#tag-references-loading-indicator').hide();
     var tagReferenceBoxTitle = $('#tag-reference-box').dialog('option', 'title');
     tagReferenceBoxTitle += ' (' + verseCount + ')';
@@ -548,7 +547,7 @@ class BibleBrowserController {
     $('#tag-reference-box-verse-list').show();
   }
 
-  get_tagged_verses() {
+  getTaggedVerses() {
     var currentTagIdList = this.tab_controller.getTab().getTagIdList();
     var currentTabId = this.tab_controller.getSelectedTabId();
     var currentVerseList = this.getCurrentVerseList();
@@ -575,15 +574,15 @@ class BibleBrowserController {
     currentVerseListMenu.find('.export-tagged-verses-button').addClass('ui-state-disabled');
   }
 
-  wrap_book_with_html(book_title) {
+  wrapBookWithHtml(book_title) {
     return "<div class='tag-browser-verselist-book-header'>" + book_title + "</div>";
   }
 
-  enable_toolbox() {
+  enableToolbox() {
     $('#bible-browser-toolbox').find('.ui-tabs-nav').find('li').removeClass('ui-state-disabled');
   }
 
-  enable_tagging_toolbox_only() {
+  enableTaggingToolboxOnly() {
     var menu_items = $('#bible-browser-toolbox').find('.ui-tabs-nav').find('li');
     for (var i = 0; i < menu_items.length; i++) {
       var current_item = $(menu_items[i]);
@@ -594,10 +593,6 @@ class BibleBrowserController {
       }
     }
     $('#bible-browser-toolbox').tabs('select', 1);
-  }
-
-  disable_toolbox() {
-    $('#bible-browser-toolbox').find('.ui-tabs-nav').find('li').addClass('ui-state-disabled');
   }
 
   initApplicationForVerseList(tabIndex=undefined) {
@@ -615,7 +610,7 @@ class BibleBrowserController {
     tags_controller.init(tabIndex);
     this.navigation_pane.updateNavigation(tabIndex);
     this.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
-    this.bind_events_after_bible_text_loaded(tabIndex);
+    this.bindEventsAfterBibleTextLoaded(tabIndex);
   }
 
   updateUiAfterBibleTranslationAvailable(translationCode) {
@@ -629,7 +624,7 @@ class BibleBrowserController {
     }
   }
 
-  open_translation_settings_wizard() {
+  openTranslationSettingsWizard() {
     this.optionsMenu.hideDisplayMenu();
     this.install_translation_wizard.openWizard();
   }
@@ -644,7 +639,7 @@ class BibleBrowserController {
     return verse;
   }
 
-  jump_to_reference(reference, highlight) {
+  jumpToReference(reference, highlight) {
     var currentTabId = this.tab_controller.getSelectedTabId();
     var chapter = this.getChapterFromReference(reference);
     var verse = this.getVerseFromReference(reference);
