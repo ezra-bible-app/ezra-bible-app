@@ -272,6 +272,18 @@ class TabController {
     }   
   }
 
+  /**
+   * Resets the state of TabController to the initial state (corresponds to the state right after first installation)
+   */
+  reset() {
+    this.removeAllExtraTabs();
+    this.setCurrentBibleTranslationId(null);
+    this.getTab().setTagIdList("");
+    this.setCurrentTabBook(null, "");
+    this.resetCurrentTabTitle();
+    this.deleteTabConfiguration();
+  }
+
   getTab(index=undefined) {
     if (index === undefined) {
       var index = this.getSelectedTabIndex();
