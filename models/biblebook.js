@@ -81,6 +81,17 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  BibleBook.getBookLongTitle = function(book_short_title) {
+    for (var i = 0; i < bible_books.length; i++) {
+      var current_book = bible_books[i];
+      if (current_book.short_title == book_short_title) {
+        return current_book.long_title;
+      }
+    }
+
+    return -1;
+  };
+
   BibleBook.getChapterVerseCounts = function(bibleTranslationId='KJV') {
     var query = "SELECT b.*, v.chapter, COUNT(v.verseNr) AS verseCount " +
                 "FROM Verses v " +
