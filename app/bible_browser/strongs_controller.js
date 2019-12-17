@@ -21,6 +21,7 @@ let jsStrongs = null;
 
 class StrongsController {
   constructor() {
+    this.currentStrongsId = null;
     this.currentStrongsElement = null;
     this.currentVerseText = null;
     this.strongsBox = $('#strongs-box');
@@ -160,14 +161,19 @@ class StrongsController {
       return;
     }
 
-    if (this.currentStrongsElement != null) {
-      this.currentStrongsElement.removeClass('strongs-hl');
-    }
+    if (this.strongsAvailable) {
+      var strongsId = this.getStrongsIdFromStrongsElement($(event.target));
+      if (strongsId == this.currentStrongsId) {
+        return;
+      }
 
-    this.currentStrongsElement = $(event.target);
+      this.currentStrongsId = strongsId;
 
-    if (this.strongsAvailable) {  
-      var strongsId = this.getStrongsIdFromStrongsElement(this.currentStrongsElement);
+      if (this.currentStrongsElement != null) {
+        this.currentStrongsElement.removeClass('strongs-hl');
+      }
+        
+      this.currentStrongsElement = $(event.target);
 
       if (strongsId != "") {
         this.currentStrongsElement.addClass('strongs-hl');    
