@@ -34,6 +34,10 @@ class ModuleSearch {
       if (event.which == 13) {
         this.startSearch(event);
       }
+    }).on("keyup", () => {
+      if (this.getSearchType() == "strongsNumber") {
+        this.validateStrongsKey();
+      }
     });
   }
 
@@ -42,7 +46,7 @@ class ModuleSearch {
       $('#app-container').find('#module-search-menu').hide();
       this.search_menu_opened = false;
 
-      var module_search_button = $('#app-container').find('.module-search-button');
+      var module_search_button = $('#app-container').find('#start-module-search-button');
       module_search_button.removeClass('ui-state-active');
     }
   }
@@ -131,6 +135,18 @@ class ModuleSearch {
     return currentSearchResults.length > 500;
   }
 
+  validateStrongsKey() {
+    if (!bible_browser_controller.strongs_controller.isValidStrongsKey(this.getSearchTerm())) {
+      $('#module-search-validation-message').css('visibility', 'visible');
+      $('#module-search-validation-message').prop('title', i18n.t('bible-browser.strongs-number-not-valid'));
+      $('#start-module-search-button').addClass('ui-state-disabled');
+    } else {
+      $('#module-search-validation-message').css('visibility', 'hidden');
+      $('#module-search-validation-message').prop('title', '');
+      $('#start-module-search-button').removeClass('ui-state-disabled');
+    }
+  }
+
   async startSearch(event, tabIndex=undefined, searchTerm=undefined) {
     if (event != null) {
       event.stopPropagation();
@@ -143,19 +159,16 @@ class ModuleSearch {
     }
 
     if (this.currentSearchTerm.length == 0) {
-      console.log("Got empty search term ... aborting search!");
       return;
     }
 
     if (tabIndex === undefined) {
-      bible_browser_controller.tab_controller.setTabSearch(this.currentSearchTerm);
       var tab = bible_browser_controller.tab_controller.getTab();
       tab.setSearchOptions(this.getSearchType(), this.isCaseSensitive());
       tab.setTextType('search_results');
     }
 
     //console.log("Starting search for " + this.currentSearchTerm + " on tab " + tabIndex);
-
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
 
     if (currentTab != null) {
@@ -165,13 +178,13 @@ class ModuleSearch {
 
       if (searchType == "strongsNumber") {
         if (!bible_browser_controller.strongs_controller.isValidStrongsKey(this.currentSearchTerm)) {
-          console.log(this.currentSearchTerm + " is not a valid Strong's key!");
           return;
         }
 
         bible_browser_controller.strongs_controller.showStrongsInfo(this.currentSearchTerm);
       }
 
+      bible_browser_controller.tab_controller.setTabSearch(this.currentSearchTerm);
       this.hideSearchMenu();
 
       // Only reset view if we got an event (in other words: not initially)
