@@ -142,8 +142,6 @@ class ModuleSearch {
       this.currentSearchTerm = this.getSearchTerm();
     }
 
-    this.hideSearchMenu();
-
     if (this.currentSearchTerm.length == 0) {
       console.log("Got empty search term ... aborting search!");
       return;
@@ -156,9 +154,6 @@ class ModuleSearch {
       tab.setTextType('search_results');
     }
 
-    // Only reset view if we got an event (in other words: not initially)
-    bible_browser_controller.text_loader.prepareForNewText(event != null, true, tabIndex);
-
     //console.log("Starting search for " + this.currentSearchTerm + " on tab " + tabIndex);
 
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
@@ -169,24 +164,37 @@ class ModuleSearch {
       var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
 
       if (searchType == "strongsNumber") {
+        if (!bible_browser_controller.strongs_controller.isValidStrongsKey(this.currentSearchTerm)) {
+          console.log(this.currentSearchTerm + " is not a valid Strong's key!");
+          return;
+        }
+
         bible_browser_controller.strongs_controller.showStrongsInfo(this.currentSearchTerm);
       }
 
-      await nsi.getModuleSearchResults(currentBibleTranslationId,
-                                      this.currentSearchTerm,
-                                      searchType,
-                                      isCaseSensitive).then(async (searchResults) => {
+      this.hideSearchMenu();
+
+      // Only reset view if we got an event (in other words: not initially)
+      bible_browser_controller.text_loader.prepareForNewText(event != null, true, tabIndex);
+
+      nsi.getModuleSearchResults(currentBibleTranslationId,
+                                 this.currentSearchTerm,
+                                 searchType,
+                                 isCaseSensitive).then(async (searchResults) => {
                                                               
         //console.log("Got " + searchResults.length + " from Sword");
         currentTab.setSearchResults(searchResults);
+
+        var requestedBookId = -1; // all books requested
+        if (this.searchResultsExceedPerformanceLimit(tabIndex)) {
+          requestedBookId = 0; // no books requested - only list headers at first
+        }
+  
+        return this.renderCurrentSearchResults(requestedBookId, tabIndex);
+      }).catch(error => {
+        console.log(error);
+        bible_browser_controller.hideVerseListLoadingIndicator();
       });
-
-      var requestedBookId = -1; // all books requested
-      if (this.searchResultsExceedPerformanceLimit(tabIndex)) {
-        requestedBookId = 0; // no books requested - only list headers at first
-      }
-
-      await this.renderCurrentSearchResults(requestedBookId, tabIndex);
     }
   }
 

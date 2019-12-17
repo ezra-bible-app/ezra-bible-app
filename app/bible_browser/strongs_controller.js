@@ -105,9 +105,22 @@ class StrongsController {
     }
   }
 
+  isValidStrongsKey(strongsKey) {
+    if (jsStrongs == null) {
+      jsStrongs = require('strongs');
+    }
+    
+    return strongsKey in jsStrongs;
+  }
+
   showStrongsInfo(strongsId) {
     if (jsStrongs == null) {
       jsStrongs = require('strongs');
+    }
+
+    if (!this.isValidStrongsKey(strongsId)) {
+      console.log(strongsId + " is not a valid Strong's key!");
+      return;
     }
 
     var lemma = jsStrongs[strongsId].lemma;
