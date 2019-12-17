@@ -37,6 +37,8 @@ class ModuleSearch {
     }).on("keyup", () => {
       if (this.getSearchType() == "strongsNumber") {
         this.validateStrongsKey();
+      } else {
+        this.setModuleSearchValid();
       }
     });
   }
@@ -141,10 +143,14 @@ class ModuleSearch {
       $('#module-search-validation-message').prop('title', i18n.t('bible-browser.strongs-number-not-valid'));
       $('#start-module-search-button').addClass('ui-state-disabled');
     } else {
-      $('#module-search-validation-message').css('visibility', 'hidden');
-      $('#module-search-validation-message').prop('title', '');
-      $('#start-module-search-button').removeClass('ui-state-disabled');
+      this.setModuleSearchValid();
     }
+  }
+
+  setModuleSearchValid() {
+    $('#module-search-validation-message').css('visibility', 'hidden');
+    $('#module-search-validation-message').prop('title', '');
+    $('#start-module-search-button').removeClass('ui-state-disabled');
   }
 
   async startSearch(event, tabIndex=undefined, searchTerm=undefined) {
