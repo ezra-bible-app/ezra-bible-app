@@ -202,7 +202,7 @@ class TaggedVerseExport {
   runExport() {
     const dialog = require('electron').remote.dialog;
     var dialogOptions = this.getExportDialogOptions();
-    this.exportFilePath = dialog.showSaveDialog(null, dialogOptions);
+    this.exportFilePath = dialog.showSaveDialogSync(null, dialogOptions);
     
     if (this.exportFilePath != undefined) {
       var currentTab = bible_browser_controller.tab_controller.getTab();
