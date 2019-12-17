@@ -136,7 +136,8 @@
     "show-tags": "Montrer les étiquettes",
     "use-tags-column": "Utiliser des colonnes d'étiquettes",
     "tag-statistics": "Statistiques des étiquettes",
-    "comparing-translations-for": "Comparaison des traductions pour"
+    "comparing-translations-for": "Comparaison des traductions pour",
+    "strongs-number-not-valid": "This is not a valid Strong's number!"
   },
   "dictionary-info-box": {
     "greek": "Grec",
