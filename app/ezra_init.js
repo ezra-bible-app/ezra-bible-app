@@ -40,10 +40,11 @@ const nsi = new NodeSwordInterface();
 require('log-timestamp');
 
 var models = null;
-bible_browser_controller = null;
-tags_controller = null;
-reference_separator = ':';
-app_container_height = null;
+var bible_browser_controller = null;
+var tags_controller = null;
+var reference_separator = ':';
+var app_container_height = null;
+var bible_chapter_verse_counts = {};
 
 $.create_xml_doc = function(string)
 {
