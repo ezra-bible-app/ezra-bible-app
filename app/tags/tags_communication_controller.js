@@ -16,9 +16,11 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-function TagsCommunicationController()
+class TagsCommunicationController
 {
-  this.request_tags = function(currentBook=undefined) {
+  constructor() {  }
+
+  request_tags(currentBook=undefined) {
     if (currentBook === undefined) {
       var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
     }
@@ -33,9 +35,9 @@ function TagsCommunicationController()
         tags_controller.render_tags(tags);
       });
     });
-  };
+  }
 
-  this.create_new_tag = function(new_tag_title, type) {
+  create_new_tag(new_tag_title, type) {
     var isBookTag = (type == 'book' ? true : false);
 
     var model = models.Tag;
@@ -54,9 +56,9 @@ function TagsCommunicationController()
     }).catch(error => {
       alert('An error occurred while trying to save the new tag: ' + error);
     });
-  };
+  }
 
-  this.destroy_tag = async function(id) {
+  destroy_tag = async function(id) {
     models.VerseTag.destroy({
       where: {
         tagId: id
@@ -77,17 +79,17 @@ function TagsCommunicationController()
         alert('An error occurred while trying to delete the tag with id ' + id + ': ' + error);
       })
     );
-  };
+  }
 
-  this.assign_tag_to_verses = function(tagId, verseIds) {
+  assign_tag_to_verses(tagId, verseIds) {
     tags_controller.communication_controller.update_tags_on_verses(tagId, verseIds, "add");
-  };
+  }
 
-  this.remove_tag_from_verses = function(tagId, verseIds) {
+  remove_tag_from_verses(tagId, verseIds) {
     tags_controller.communication_controller.update_tags_on_verses(tagId, verseIds, "remove");
-  };
+  }
 
-  this.update_tags_on_verses = function(tagId, verseIds, action) {
+  update_tags_on_verses(tagId, verseIds, action) {
     models.Tag.findByPk(tagId).then(tag => {
       for (vId of verseIds) {
         models.Verse.findByPk(vId).then(verse => {
@@ -104,9 +106,9 @@ function TagsCommunicationController()
 
     var increment = (action == "add" ? true : false);
     tags_controller.update_tag_verse_count(tagId, verseIds.length, increment);
-  };
+  }
 
-  this.update_tag = function(id, title) {
+  update_tag(id, title) {
     models.Tag.update(
       { title: title },
       { where: { id: id }}
@@ -115,6 +117,7 @@ function TagsCommunicationController()
     }).catch(error => {
       alert("An error occurred while trying to rename the tag!");
     });
-  };
+  }
 }
 
+module.exports = TagsCommunicationController;
