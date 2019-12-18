@@ -457,7 +457,7 @@ class TranslationController {
     try {
       await nsi.installModule("StrongsHebrew");
       await nsi.installModule("StrongsGreek");
-      bible_browser_controller.strongs_controller.runAvailabilityCheck();
+      bible_browser_controller.strongs.runAvailabilityCheck();
       var doneMessage = "<span> " + i18n.t("general.done") + ".</span><br/>";
       htmlElementForMessages.append(doneMessage);
     } catch(e) {

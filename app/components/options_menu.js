@@ -177,11 +177,11 @@ class OptionsMenu {
   showOrHideStrongsBasedOnOption(tabIndex=undefined) {
     bible_browser_controller.settings.set('showStrongs', this.strongsSwitchChecked());
     if (!this.strongsSwitchChecked()) { 
-      bible_browser_controller.strongs_controller.dictionaryInfoBox.hide();
-      bible_browser_controller.strongs_controller.clearDictInfoBox();
-      bible_browser_controller.strongs_controller.hideStrongsBox(true);
+      bible_browser_controller.strongs.dictionaryInfoBox.hide();
+      bible_browser_controller.strongs.clearDictInfoBox();
+      bible_browser_controller.strongs.hideStrongsBox(true);
     } else {
-      bible_browser_controller.strongs_controller.dictionaryInfoBox.show();
+      bible_browser_controller.strongs.dictionaryInfoBox.show();
     }
     resize_app_container();
   }

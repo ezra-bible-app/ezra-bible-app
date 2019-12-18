@@ -53,7 +53,7 @@ class BibleBrowserController {
     this.init_component("TranslationComparison", "translationComparison", "./app/components/translation_comparison.js");
     this.init_component("BookSelectionMenu", "book_selection_menu", "./app/components/book_selection_menu.js");
     this.init_component("TagStatistics", "tag_statistics", "./app/tags/tag_statistics.js");
-    this.init_component("StrongsController", "strongs_controller", "./app/bible_browser/strongs_controller.js");
+    this.init_component("Strongs", "strongs", "./app/bible_browser/strongs.js");
 
     this.initTagReferenceBox();
     this.initGlobalShortCuts();
@@ -156,7 +156,7 @@ class BibleBrowserController {
     this.optionsMenu.refreshViewBasedOnOptions(ui.index);
 
     // Hide Strong's box
-    this.strongs_controller.hideStrongsBox();
+    this.strongs.hideStrongsBox();
   }
 
   onTabAdded(tabIndex=0) {
@@ -393,7 +393,7 @@ class BibleBrowserController {
 
     currentVerseList.find('.verse-box').bind('mouseover', (e) => { this.onVerseBoxMouseOver(e); });
 
-    await this.strongs_controller.bindAfterBibleTextLoaded(tabIndex);
+    await this.strongs.bindAfterBibleTextLoaded(tabIndex);
   }
 
   getVerseListBookNumber(bibleBookLongTitle, bookHeaders=undefined) {

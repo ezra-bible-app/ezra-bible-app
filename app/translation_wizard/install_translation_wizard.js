@@ -271,7 +271,7 @@ class InstallTranslationWizard {
             $('#bibleTranslationInstallIndicator').remove();
 
             if (strongsInstallSuccessful) {
-              bible_browser_controller.strongs_controller.runAvailabilityCheck();
+              bible_browser_controller.strongs.runAvailabilityCheck();
               
               installPage.append('<div>&nbsp;' + i18n.t("general.done") + '.</div>');
               installPage.append('<br/>');
