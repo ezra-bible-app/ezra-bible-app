@@ -16,7 +16,7 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const LanguageMapper = require('./app/bible_browser/language_mapper.js');
+const LanguageMapper = require('./app/helpers/language_mapper.js');
 const TranslationWizardHelper = require('./app/translation_wizard/translation_wizard_helper.js');
 const Mousetrap = require('mousetrap');
 const { clipboard } = require('electron');
