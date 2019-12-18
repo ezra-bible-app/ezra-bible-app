@@ -21,10 +21,7 @@ class TagsController {
     this.communication_controller = new TagsCommunicationController();
 
     this.new_standard_tag_button = $('#new-standard-tag-button');
-    this.new_book_tag_button = $('#new-book-tag-button');
-  
     this.tag_title_changed = false;
-  
     this.verse_selection_blocked = false;
   
     this.tag_to_be_deleted = null;
@@ -121,10 +118,6 @@ class TagsController {
 
     this.new_standard_tag_button.bind('click', function() {
       tags_controller.handle_new_tag_button_click($(this), "standard");
-    });
-  
-    this.new_book_tag_button.bind('click', function() {
-      tags_controller.handle_new_tag_button_click($(this), "book");
     });
   
     // Handle the enter key in the tag title field and create the tag when it is pressed
@@ -639,13 +632,11 @@ class TagsController {
 
   sort_tag_lists() {
     var global_tags_box = $('#tags-content-global');
-    var book_tags_box = $('#tags-content-book');
     var sort_function = function(a,b) {
       return ($(a).find('.cb-label').text().toLowerCase() > $(b).find('.cb-label').text().toLowerCase()) ? 1 : -1;
     };
 
     global_tags_box.find('.checkbox-tag').sort_elements(sort_function);
-    book_tags_box.find('.checkbox-tag').sort_elements(sort_function);
   }
 
   tags_search_input_is_empty() {
@@ -764,20 +755,16 @@ class TagsController {
   update_tag_count_after_rendering() {
     // FIXME: to be integrated
     var global_tag_count = $('#tags-content-global').find('.checkbox-tag').length;
-    var book_tag_count = $('#tags-content-book').find('.checkbox-tag').length;
 
     var global_used_tag_count = $('#tags-content-global').find('.tag-show-selected-button:not(.ui-state-disabled)').length;
 
     var global_header = $($('#tags-content').find('.ui-accordion-header').find('a')[0]);
-    var book_header = $($('#tags-content').find('.ui-accordion-header').find('a')[1]);
 
     global_header.html('Universal tags (' + 
                        global_used_tag_count +
                        ' used / ' +
                        global_tag_count +
                        ' total)');
-
-    book_header.html('Book tags (' + book_tag_count + ')');
   }
 
   removeEventListeners(element_list, type, listener) {
