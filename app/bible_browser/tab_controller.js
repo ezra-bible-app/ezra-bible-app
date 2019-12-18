@@ -136,11 +136,13 @@ class TabController {
   async populateFromMetaTabs() {
     for (var i = 0; i < this.metaTabs.length; i++) {
       var currentMetaTab = this.metaTabs[i];
+      var isSearch = (currentMetaTab.textType == 'search_results');
+
+      bible_browser_controller.text_loader.prepareForNewText(true, isSearch, i);
 
       if (currentMetaTab.textType == 'search_results') {
-        bible_browser_controller.module_search.startSearch(null, i, currentMetaTab.searchTerm);
+        await bible_browser_controller.module_search.startSearch(null, i, currentMetaTab.searchTerm);
       } else {
-        bible_browser_controller.text_loader.prepareForNewText(false, false, i);
         await bible_browser_controller.text_loader.requestTextUpdate(
           currentMetaTab.elementId,
           currentMetaTab.book,
@@ -161,7 +163,7 @@ class TabController {
       bible_browser_controller.showVerseListLoadingIndicator();
       this.loadMetaTabsFromSettings();
       await this.populateFromMetaTabs();
-      bible_browser_controller.hideVerseListLoadingIndicator();
+      // bible_browser_controller.hideVerseListLoadingIndicator();
     }
 
     // Call these methods explicitly to initialize the first tab 
