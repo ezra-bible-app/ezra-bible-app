@@ -25,6 +25,7 @@ All notable changes to Ezra Project are documented in this file.
 * Lock wizard dialog once installation or uninstallation of translation has started.
 * Show a message while migrations are executed on start-up.
 * Use a loading indicator in tagged verses popup, since tagged verses loading may take some time if there are many verses for one tag.
+* Show statistics in title bar of tag list.
 * Performance optimization for rendering of tag lists.
 
 ### Fixes
