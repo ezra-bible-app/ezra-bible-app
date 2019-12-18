@@ -240,10 +240,10 @@ class TagSelectionMenu {
     currentTab.setTagIdList(currentTagIdList);
     bible_browser_controller.tab_controller.setCurrentTagTitleList(currentTagTitleList);
 
-    // Set selected book to null, since we just switched to selected tags
-    bible_browser_controller.tab_controller.setCurrentTabBook(null, null);
-    //bible_browser_controller.settings.set('selected_book', null);
-
+    // Set book and search term to null, since we just switched to a tag
+    currentTab.setBook(null, null);
+    currentTab.setSearchTerm(null);
+    
     if (currentTagIdList != "") {
       setTimeout(() => {
         this.hideTagMenu();
