@@ -417,7 +417,8 @@ class BibleBrowserController {
     return bibleBookNumber;
   }
 
-  onVerseBoxMouseOver(event) {
+  async onVerseBoxMouseOver(event) {
+    var verseBox = $(event.target).closest('.verse-box');
     var currentTab = this.tab_controller.getTab();
     var currentBook = currentTab.getBook();
     var currentTagIdList = currentTab.getTagIdList();
@@ -425,14 +426,15 @@ class BibleBrowserController {
 
     if (currentTextType == 'book' && currentBook != null) {
 
-      var verseReferenceContent = $(event.target).find('.verse-reference-content').text();
+      var verseReferenceContent = verseBox.find('.verse-reference-content').text();
       var mouseOverChapter = this.getChapterFromReference(verseReferenceContent);
       this.navigation_pane.highlightNavElement(mouseOverChapter);
 
     } else if (currentTextType == 'tagged_verses' && currentTagIdList != null || currentTextType == 'search_results') {
 
-      var mouseOverBook = $(event.target).find('.verse-bible-book-short').text();
-      var bibleBookLongTitle = models.BibleBook.getBookLongTitle(mouseOverBook);
+      var mouseOverBook = verseBox.find('.verse-bible-book-id').text();
+      var bibleBookShortTitle = await models.BibleBook.getShortTitleById(mouseOverBook);
+      var bibleBookLongTitle = models.BibleBook.getBookLongTitle(bibleBookShortTitle);
       
       var bibleBookNumber = this.getVerseListBookNumber(bibleBookLongTitle);
       if (bibleBookNumber != -1) {
