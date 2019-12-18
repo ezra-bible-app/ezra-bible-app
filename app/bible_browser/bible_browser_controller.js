@@ -69,7 +69,7 @@ class BibleBrowserController {
                           '#book-search-occurances',
                           '#book-search-previous',
                           '#book-search-next',
-                          () => { this.onSearchResultsAvailable(); },
+                          (occurances) => { this.onSearchResultsAvailable(occurances); },
                           () => { this.onSearchReset(); });
 
     var bibleTranslations = await models.BibleTranslation.findAndCountAll();
