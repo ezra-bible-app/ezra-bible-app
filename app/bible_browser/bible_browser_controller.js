@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const LanguageMapper = require('./app/bible_browser/language_mapper.js');
-const TranslationWizardHelper = require('./app/bible_browser/translation_wizard_helper.js');
+const TranslationWizardHelper = require('./app/translation_wizard/translation_wizard_helper.js');
 const Mousetrap = require('mousetrap');
 const { clipboard } = require('electron');
 
@@ -42,8 +42,8 @@ class BibleBrowserController {
     this.init_component("TagSelectionMenu", "tag_selection_menu", "./app/bible_browser/tag_selection_menu.js");
     this.init_component("ModuleSearch", "module_search", "./app/bible_browser/module_search.js");
     this.init_component("TranslationController", "translation_controller", "./app/bible_browser/translation_controller.js");
-    this.init_component("InstallTranslationWizard", "install_translation_wizard", "./app/bible_browser/install_translation_wizard.js");
-    this.init_component("RemoveTranslationWizard", "remove_translation_wizard", "./app/bible_browser/remove_translation_wizard.js");
+    this.init_component("InstallTranslationWizard", "install_translation_wizard", "./app/translation_wizard/install_translation_wizard.js");
+    this.init_component("RemoveTranslationWizard", "remove_translation_wizard", "./app/translation_wizard/remove_translation_wizard.js");
     this.init_component("TextLoader", "text_loader", "./app/bible_browser/text_loader.js");
     this.init_component("BookSearch", "book_search", "./app/bible_browser/book_search.js");
     this.init_component("TabController", "tab_controller", "./app/bible_browser/tab_controller.js");
