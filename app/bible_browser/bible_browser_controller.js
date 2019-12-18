@@ -40,18 +40,18 @@ class BibleBrowserController {
     this.settings = require('electron-settings');
 
     this.init_component("TagSelectionMenu", "tag_selection_menu", "./app/tags/tag_selection_menu.js");
-    this.init_component("ModuleSearch", "module_search", "./app/bible_browser/module_search.js");
+    this.init_component("ModuleSearch", "module_search", "./app/components/module_search.js");
     this.init_component("TranslationController", "translation_controller", "./app/bible_browser/translation_controller.js");
     this.init_component("InstallTranslationWizard", "install_translation_wizard", "./app/translation_wizard/install_translation_wizard.js");
     this.init_component("RemoveTranslationWizard", "remove_translation_wizard", "./app/translation_wizard/remove_translation_wizard.js");
     this.init_component("TextLoader", "text_loader", "./app/bible_browser/text_loader.js");
-    this.init_component("BookSearch", "book_search", "./app/bible_browser/book_search.js");
+    this.init_component("BookSearch", "book_search", "./app/components/book_search.js");
     this.init_component("TabController", "tab_controller", "./app/bible_browser/tab_controller.js");
-    this.init_component("OptionsMenu", "optionsMenu", "./app/bible_browser/options_menu.js");
-    this.init_component("NavigationPane", "navigation_pane", "./app/bible_browser/navigation_pane.js");
+    this.init_component("OptionsMenu", "optionsMenu", "./app/components/options_menu.js");
+    this.init_component("NavigationPane", "navigation_pane", "./app/components/navigation_pane.js");
     this.init_component("TaggedVerseExport", "taggedVerseExport", "./app/tags/tagged_verse_export.js");
-    this.init_component("TranslationComparison", "translationComparison", "./app/bible_browser/translation_comparison.js");
-    this.init_component("BookSelectionMenu", "book_selection_menu", "./app/bible_browser/book_selection_menu.js");
+    this.init_component("TranslationComparison", "translationComparison", "./app/components/translation_comparison.js");
+    this.init_component("BookSelectionMenu", "book_selection_menu", "./app/components/book_selection_menu.js");
     this.init_component("TagStatistics", "tag_statistics", "./app/tags/tag_statistics.js");
     this.init_component("StrongsController", "strongs_controller", "./app/bible_browser/strongs_controller.js");
 
