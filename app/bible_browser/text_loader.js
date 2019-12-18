@@ -33,7 +33,7 @@ class TextLoader {
       bible_browser_controller.book_selection_menu.clearSelectedBookInMenu();
     }
 
-    if (resetView) {
+    if (resetView && (tabIndex == 0 || tabIndex == undefined)) {
       bible_browser_controller.resetVerseListView();
       var loadingMessage = "";
 
@@ -85,7 +85,7 @@ class TextLoader {
         }
       );
 
-    } else if (textType == 'search_results') {
+    } else if (textType == 'search_results') { // Search result mode
       if (tabIndex === undefined) { $('#show-book-tag-statistics-button').addClass('ui-state-disabled'); }
       currentVerseListMenu.find('.module-search-button').addClass('focused-button');
       

@@ -48,7 +48,7 @@ class ModuleSearch {
       $('#app-container').find('#module-search-menu').hide();
       this.search_menu_opened = false;
 
-      var module_search_button = $('#app-container').find('#start-module-search-button');
+      var module_search_button = $('#app-container').find('.module-search-button');
       module_search_button.removeClass('ui-state-active');
     }
   }
@@ -190,17 +190,18 @@ class ModuleSearch {
         bible_browser_controller.strongs.showStrongsInfo(this.currentSearchTerm);
       }
 
-      bible_browser_controller.tab_controller.setTabSearch(this.currentSearchTerm);
+      bible_browser_controller.tab_controller.setTabSearch(this.currentSearchTerm, tabIndex);
       this.hideSearchMenu();
 
       // Only reset view if we got an event (in other words: not initially)
       bible_browser_controller.text_loader.prepareForNewText(event != null, true, tabIndex);
 
-      nsi.getModuleSearchResults(currentBibleTranslationId,
-                                 this.currentSearchTerm,
-                                 searchType,
-                                 isCaseSensitive).then(async (searchResults) => {
-                                                              
+      try {
+        var searchResults = await nsi.getModuleSearchResults(currentBibleTranslationId,
+                                                             this.currentSearchTerm,
+                                                             searchType,
+                                                             isCaseSensitive);
+
         //console.log("Got " + searchResults.length + " from Sword");
         currentTab.setSearchResults(searchResults);
 
@@ -209,11 +210,11 @@ class ModuleSearch {
           requestedBookId = 0; // no books requested - only list headers at first
         }
   
-        return this.renderCurrentSearchResults(requestedBookId, tabIndex);
-      }).catch(error => {
+        await this.renderCurrentSearchResults(requestedBookId, tabIndex);
+      } catch (error) {
         console.log(error);
         bible_browser_controller.hideVerseListLoadingIndicator();
-      });
+      }
     }
   }
 
