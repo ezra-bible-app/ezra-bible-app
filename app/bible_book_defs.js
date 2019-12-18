@@ -16,4 +16,3 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-var bible_chapter_verse_counts = {};
