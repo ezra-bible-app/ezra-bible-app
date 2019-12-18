@@ -16,126 +16,127 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-function TagsController() {
-  this.communication_controller = new TagsCommunicationController;
+class TagsController {
+  constructor() {
+    this.communication_controller = new TagsCommunicationController();
 
-  this.new_standard_tag_button = $('#new-standard-tag-button');
-  this.new_book_tag_button = $('#new-book-tag-button');
+    this.new_standard_tag_button = $('#new-standard-tag-button');
+    this.new_book_tag_button = $('#new-book-tag-button');
+  
+    this.tag_title_changed = false;
+  
+    this.verse_selection_blocked = false;
+  
+    this.tag_to_be_deleted = null;
+    this.tag_to_be_deleted_title = null;
+    this.tag_to_be_deleted_is_global = false;
+  
+    this.remove_tag_assignment_job = null;
+    this.new_tag_created = false;
+    this.last_created_tag = "";
+  
+    this.rename_standard_tag_id = null;
+  
+    //this.xml_tag_statistics = null; // FIXME
+    this.loading_indicator = "<img class=\"loading-indicator\" style=\"float: left; margin-left: 0.5em;\" " +
+                             "width=\"16\" height=\"16\" src=\"images/loading_animation.gif\" />";
+  
+    this.selected_verse_references = [];
+    this.selected_verse_boxes = [];
+  
+    this.oldest_recent_timestamp = null;
+    this.latest_timestamp = null;
 
-  this.tag_title_changed = false;
+    var new_standard_tag_dlg_options = {
+      title: i18n.t("tags.new-tag"),
+      width: 300,
+      position: [60,180],
+      autoOpen: false,
+      dialogClass: 'ezra-dialog'
+    };
+  
+    new_standard_tag_dlg_options.buttons = {};
+    new_standard_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {
+      $(this).dialog("close");
+    };
+    new_standard_tag_dlg_options.buttons[i18n.t("tags.create-tag")] = function() {
+      tags_controller.save_new_tag(this, "standard");
+    };
+  
+    $('#new-standard-tag-dialog').dialog(new_standard_tag_dlg_options);
 
-  this.verse_selection_blocked = false;
+    var delete_tag_confirmation_dlg_options = {
+      title: i18n.t("tags.delete-tag"),
+      width: 300,
+      position: [60,180],
+      autoOpen: false,
+      dialogClass: 'ezra-dialog'
+    };
+  
+    delete_tag_confirmation_dlg_options.buttons = {};
+    delete_tag_confirmation_dlg_options.buttons[i18n.t("general.cancel")] = function() {
+      $(this).dialog("close");
+    };
+    delete_tag_confirmation_dlg_options.buttons[i18n.t("tags.delete-tag")] = function() {
+      tags_controller.delete_tag_after_confirmation();
+    };
 
-  this.tag_to_be_deleted = null;
-  this.tag_to_be_deleted_title = null;
-  this.tag_to_be_deleted_is_global = false;
+    $('#delete-tag-confirmation-dialog').dialog(delete_tag_confirmation_dlg_options);
 
-  this.remove_tag_assignment_job = null;
-  this.new_tag_created = false;
-  this.last_created_tag = "";
+    var remove_tag_assignment_confirmation_dlg_options = {
+      title: i18n.t("tags.remove-tag-assignment"),
+      width: 360,
+      position: [40,250],
+      autoOpen: false,
+      dialogClass: 'ezra-dialog'
+    };
+  
+    remove_tag_assignment_confirmation_dlg_options.buttons = {};
+    remove_tag_assignment_confirmation_dlg_options.buttons[i18n.t("general.cancel")] = function() {
+      tags_controller.remove_tag_assignment_job.cb.attr('checked','checked');
+      tags_controller.remove_tag_assignment_job = null;
+  
+      $(this).dialog("close");
+    };
+    remove_tag_assignment_confirmation_dlg_options.buttons[i18n.t("tags.remove-tag-assignment")] = function() {
+      tags_controller.remove_tag_assignment_after_confirmation();
+    };  
+    $('#remove-tag-assignment-confirmation-dialog').dialog(remove_tag_assignment_confirmation_dlg_options);
 
-  this.rename_standard_tag_id = null;
+    var rename_standard_tag_dlg_options = {
+      title: i18n.t("tags.rename-tag"),
+      width: 300,
+      position: [40,250],
+      autoOpen: false,
+      dialogClass: 'ezra-dialog'
+    };
+    rename_standard_tag_dlg_options.buttons = {};
+    rename_standard_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {
+      $(this).dialog("close");
+    };
+    rename_standard_tag_dlg_options.buttons[i18n.t("general.rename")] = function() {
+      tags_controller.close_dialog_and_rename_standard_tag();
+    };
+    $('#rename-standard-tag-dialog').dialog(rename_standard_tag_dlg_options);
 
-  //this.xml_tag_statistics = null; // FIXME
-  this.loading_indicator = "<img class=\"loading-indicator\" style=\"float: left; margin-left: 0.5em;\" " +
-                           "width=\"16\" height=\"16\" src=\"images/loading_animation.gif\" />";
+    this.new_standard_tag_button.bind('click', function() {
+      tags_controller.handle_new_tag_button_click($(this), "standard");
+    });
+  
+    this.new_book_tag_button.bind('click', function() {
+      tags_controller.handle_new_tag_button_click($(this), "book");
+    });
+  
+    // Handle the enter key in the tag title field and create the tag when it is pressed
+    $('#new-standard-tag-title-input:not(.bound)').addClass('bound').on("keypress", (event) => {
+      if (event.which == 13) {
+        $('#new-standard-tag-dialog').dialog("close");
+        tags_controller.save_new_tag(event, "standard");
+      }
+    });
+  }
 
-  this.selected_verse_references = [];
-  this.selected_verse_boxes = [];
-
-  this.oldest_recent_timestamp = null;
-  this.latest_timestamp = null;
-
-  var new_standard_tag_dlg_options = {
-    title: i18n.t("tags.new-tag"),
-    width: 300,
-    position: [60,180],
-    autoOpen: false,
-    dialogClass: 'ezra-dialog'
-  };
-
-  new_standard_tag_dlg_options.buttons = {};
-  new_standard_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {
-    $(this).dialog("close");
-  };
-  new_standard_tag_dlg_options.buttons[i18n.t("tags.create-tag")] = function() {
-    tags_controller.save_new_tag(this, "standard");
-  };
-
-  $('#new-standard-tag-dialog').dialog(new_standard_tag_dlg_options);
-
-  var delete_tag_confirmation_dlg_options = {
-    title: i18n.t("tags.delete-tag"),
-    width: 300,
-    position: [60,180],
-    autoOpen: false,
-    dialogClass: 'ezra-dialog'
-  };
-
-  delete_tag_confirmation_dlg_options.buttons = {};
-  delete_tag_confirmation_dlg_options.buttons[i18n.t("general.cancel")] = function() {
-    $(this).dialog("close");
-  };
-  delete_tag_confirmation_dlg_options.buttons[i18n.t("tags.delete-tag")] = function() {
-    tags_controller.delete_tag_after_confirmation();
-  };
-
-  $('#delete-tag-confirmation-dialog').dialog(delete_tag_confirmation_dlg_options);
-
-  var remove_tag_assignment_confirmation_dlg_options = {
-    title: i18n.t("tags.remove-tag-assignment"),
-    width: 360,
-    position: [40,250],
-    autoOpen: false,
-    dialogClass: 'ezra-dialog'
-  };
-
-  remove_tag_assignment_confirmation_dlg_options.buttons = {};
-  remove_tag_assignment_confirmation_dlg_options.buttons[i18n.t("general.cancel")] = function() {
-    tags_controller.remove_tag_assignment_job.cb.attr('checked','checked');
-    tags_controller.remove_tag_assignment_job = null;
-
-    $(this).dialog("close");
-  };
-  remove_tag_assignment_confirmation_dlg_options.buttons[i18n.t("tags.remove-tag-assignment")] = function() {
-    tags_controller.remove_tag_assignment_after_confirmation();
-  };
-
-  $('#remove-tag-assignment-confirmation-dialog').dialog(remove_tag_assignment_confirmation_dlg_options);
-
-  var rename_standard_tag_dlg_options = {
-    title: i18n.t("tags.rename-tag"),
-    width: 300,
-    position: [40,250],
-    autoOpen: false,
-    dialogClass: 'ezra-dialog'
-  };
-  rename_standard_tag_dlg_options.buttons = {};
-  rename_standard_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {
-    $(this).dialog("close");
-  };
-  rename_standard_tag_dlg_options.buttons[i18n.t("general.rename")] = function() {
-    tags_controller.close_dialog_and_rename_standard_tag();
-  };
-  $('#rename-standard-tag-dialog').dialog(rename_standard_tag_dlg_options);
-
-  this.new_standard_tag_button.bind('click', function() {
-    tags_controller.handle_new_tag_button_click($(this), "standard");
-  });
-
-  this.new_book_tag_button.bind('click', function() {
-    tags_controller.handle_new_tag_button_click($(this), "book");
-  });
-
-  // Handle the enter key in the tag title field and create the tag when it is pressed
-  $('#new-standard-tag-title-input:not(.bound)').addClass('bound').on("keypress", (event) => {
-    if (event.which == 13) {
-      $('#new-standard-tag-dialog').dialog("close");
-      tags_controller.save_new_tag(event, "standard");
-    }
-  });
-
-  this.close_dialog_and_rename_standard_tag = function() {
+  close_dialog_and_rename_standard_tag() {
     $('#rename-standard-tag-dialog').dialog('close');
     var new_title = $('#rename-standard-tag-title-input').val();
     var checkbox_tag = $('#tags-content').find('.checkbox-tag-id').filter(function(id) {
@@ -147,9 +148,9 @@ function TagsController() {
     tags_controller.sort_tag_lists();
     bible_browser_controller.tag_selection_menu.requestTagsForMenu();
     bible_browser_controller.tab_controller.updateTabTitleAfterTagRenaming(tags_controller.rename_standard_tag_title, new_title);
-  };
+  }
 
-  this.rename_tag_in_view = function(id, title) {
+  rename_tag_in_view(id, title) {
     // Rename tag in tag list on the left side
     var checkbox_tag = tags_controller.get_checkbox_tag(id);
     var label = checkbox_tag.find('.cb-label');
@@ -160,16 +161,15 @@ function TagsController() {
     tag_selection_entry.text(title);
   }
 
-  this.save_new_tag = function(e, type) {
+  save_new_tag(e, type) {
     var new_tag_title = $('#new-' + type + '-tag-title-input').val();
-    var is_book_tag = $('#new-tag-booktag-cb').is(':checked');
-    this.new_tag_created = true;
+    tags_controller.new_tag_created = true;
     this.last_created_tag = new_tag_title;
     tags_controller.communication_controller.create_new_tag(new_tag_title, type);
     $(e).dialog("close");
-  };
+  }
 
-  this.handle_new_tag_button_click = function(button, type) {
+  handle_new_tag_button_click(button, type) {
     if ($(button).hasClass('ui-state-disabled')) {
       return;
     }
@@ -177,9 +177,9 @@ function TagsController() {
     $('#new-' + type + '-tag-title-input').val(''); 
     $('#new-' + type + '-tag-dialog').dialog('open');
     $('#new-' + type + '-tag-title-input').focus();
-  };
+  }
 
-  this.handle_delete_tag_button_click = function(event) {
+  handle_delete_tag_button_click(event) {
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
     var tag_id = checkbox_tag.find('.checkbox-tag-id:first').html();
     var parent_id = checkbox_tag.parent().attr('id');
@@ -194,15 +194,15 @@ function TagsController() {
     $('#delete-tag-name').html(label);
     $('#delete-tag-number-of-verses').html(number_of_tagged_verses); // FIXME
     $('#delete-tag-confirmation-dialog').dialog('open');
-  };
+  }
 
-  this.delete_tag_after_confirmation = async function() {
+  async delete_tag_after_confirmation() {
     await tags_controller.communication_controller.destroy_tag(tags_controller.tag_to_be_deleted);
     await tags_controller.updateTagUiBasedOnTagAvailability();
     $('#delete-tag-confirmation-dialog').dialog('close');
-  };
+  }
 
-  this.remove_tag_by_id = function(tag_id, tag_is_global, tag_title) {
+  remove_tag_by_id(tag_id, tag_is_global, tag_title) {
     var checkbox_tag = tags_controller.get_checkbox_tag(tag_id);
     checkbox_tag.detach();
 
@@ -216,16 +216,16 @@ function TagsController() {
                                                tag_title,
                                                verse_list,
                                                "remove");
-  };
+  }
 
-  this.clear_verse_selection = function() {
+  clear_verse_selection() {
     tags_controller.selected_verse_references = new Array;
     tags_controller.selected_verse_boxes = new Array;
     $('.verse-text').removeClass('ui-selectee ui-selected ui-state-highlight');
     tags_controller.update_tags_view_after_verse_selection(true);
-  };
+  }
 
-  this.handle_tag_label_click = function(event) {
+  handle_tag_label_click(event) {
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
     var checkbox = checkbox_tag.find('.tag-cb');
 
@@ -235,13 +235,13 @@ function TagsController() {
       checkbox.prop('checked', !checkbox.prop('checked'));
       tags_controller.handle_checkbox_tag_state_change(checkbox_tag);
     }
-  };
+  }
 
   // 2019-05-30
   // FIXME
   // This function is not used after we are using the label also for tag assignment
   // We may use it again to quickly mark the tagged verses
-  this.handle_tag_label_click__by_highlighting_tagged_verses = function() {
+  handle_tag_label_click__by_highlighting_tagged_verses() {
     var checkbox_tag = $(this).closest('.checkbox-tag');
     var cb_label = checkbox_tag.find('.cb-label').html();
     var cb_is_global = (checkbox_tag.find('.is-global').html() == 'true');
@@ -263,14 +263,14 @@ function TagsController() {
       tags_controller.update_tags_view_after_verse_selection(true);
       bible_browser_controller.jumpToReference(current_verse_reference, false);
     }
-  };
+  }
 
-  this.handle_tag_cb_click = function(event) {
+  handle_tag_cb_click(event) {
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
     tags_controller.handle_checkbox_tag_state_change(checkbox_tag);
-  };
+  }
 
-  this.handle_checkbox_tag_state_change = function(checkbox_tag) {
+  handle_checkbox_tag_state_change(checkbox_tag) {
     var current_verse_list = tags_controller.selected_verse_references;
 
     if (tags_controller.is_blocked || current_verse_list.length == 0) {
@@ -307,7 +307,7 @@ function TagsController() {
 
       $(cb).attr('title', i18n.t("tags.remove-tag-assignment"));
 
-      filteredVerseIds = [];
+      var filteredVerseIds = [];
 
       // Create a list of filtered ids, that only contains the verses that do not have the selected tag yet
       for (var i = 0; i < current_verse_ids.length; i++) {
@@ -356,17 +356,17 @@ function TagsController() {
         tags_controller.remove_tag_assignment_after_confirmation();
       }
     }
-  };
+  }
   
-  this.get_checkbox_tag = function(id) {
+  get_checkbox_tag(id) {
     var checkbox_tag = $('#tags-content').find('.checkbox-tag').filter(function(element) {
       return ($(this).find('.checkbox-tag-id').text() == id);
     });
 
     return checkbox_tag;
-  };
+  }
 
-  this.update_tag_verse_count = function(id, count, to_increment) {
+  update_tag_verse_count(id, count, to_increment) {
     var checkbox_tag = tags_controller.get_checkbox_tag(id);
     var cb_label_element = checkbox_tag.find('.cb-label');
     var tag_title = cb_label_element.text();
@@ -417,9 +417,9 @@ function TagsController() {
 
     // Update tag count in tag selection menu as well
     bible_browser_controller.tag_selection_menu.updateVerseCountInTagMenu(tag_title, new_global_count);
-  };
+  }
 
-  this.remove_tag_assignment_after_confirmation = function() {
+  remove_tag_assignment_after_confirmation() {
     var job = tags_controller.remove_tag_assignment_job;
 
     job.cb.attr('title', i18n.t("tags.assign-tag"));
@@ -436,16 +436,16 @@ function TagsController() {
 
     tags_controller.remove_tag_assignment_job = null;
     $('#remove-tag-assignment-confirmation-dialog').dialog('close');
-  };
+  }
 
   /**
    * This function updates the tag info in existing verse lists after tags have been assigned/removed.
    * It does this for the currently opened tab and also within all other tabs where the corresponding verse is loaded.
    */
-  this.change_verse_list_tag_info = async function(tag_id,
-                                                   tag_title,
-                                                   verse_selection,
-                                                   action) {
+  async change_verse_list_tag_info(tag_id,
+                                   tag_title,
+                                   verse_selection,
+                                   action) {
 
     verse_selection = $(verse_selection);
     var selected_verses = verse_selection.find('verse');
@@ -462,9 +462,9 @@ function TagsController() {
       var current_db_verse = await models.Verse.findByPk(current_verse_id);
       tags_controller.change_verse_list_tag_info_for_verse_boxes_in_other_tabs(current_db_verse, tag_id, tag_title, action);
     }
-  };
+  }
 
-  this.change_verse_list_tag_info_for_verse_boxes_in_other_tabs = async function(db_verse, tag_id, tag_title, action) {
+  async change_verse_list_tag_info_for_verse_boxes_in_other_tabs(db_verse, tag_id, tag_title, action) {
     var current_tab_index = bible_browser_controller.tab_controller.getSelectedTabIndex();
     var tab_count = bible_browser_controller.tab_controller.getTabCount();
     var absolute_verse_nrs = await db_verse.getAbsoluteVerseNrs();
@@ -497,22 +497,22 @@ function TagsController() {
         }
       }
     }
-  };
+  }
 
-  this.change_verse_list_tag_info_for_verse_box = function(verse_box, tag_id, tag_title, action) {
+  change_verse_list_tag_info_for_verse_box(verse_box, tag_id, tag_title, action) {
     var current_tag_info = verse_box.find('.tag-info');
     var current_tag_info_title = current_tag_info.attr('title');
 
-    new_tag_info_title_array = tags_controller.get_new_tag_info_title_array(current_tag_info_title, tag_title, action);
+    var new_tag_info_title_array = tags_controller.get_new_tag_info_title_array(current_tag_info_title, tag_title, action);
     var updated = tags_controller.update_tag_info_title(current_tag_info, new_tag_info_title_array, current_tag_info_title);
 
     if (updated) {
       tags_controller.update_tag_data_container(verse_box, tag_id, tag_title, action);
       tags_controller.update_visible_tags_of_verse_box(verse_box, new_tag_info_title_array);
     }
-  };
+  }
 
-  this.get_new_tag_info_title_array = function(tag_info_title, tag_title, action) {
+  get_new_tag_info_title_array(tag_info_title, tag_title, action) {
     var already_there = false;
     var current_tag_info_title_array = new Array;
     if (tag_info_title != "" && tag_info_title != undefined) {
@@ -546,9 +546,9 @@ function TagsController() {
     }
 
     return current_tag_info_title_array;
-  };
+  }
 
-  this.update_tag_info_title = function(tag_info, new_title_array, old_title) {
+  update_tag_info_title(tag_info, new_title_array, old_title) {
     var new_tag_info_title = "";
 
     if (new_title_array.length > 1) {
@@ -574,9 +574,9 @@ function TagsController() {
 
       return true;
     }
-  };
+  }
 
-  this.update_tag_data_container = function(verse_box, tag_id, tag_title, action) {
+  update_tag_data_container(verse_box, tag_id, tag_title, action) {
     var current_tag_data_container = verse_box.find('.tag-data');
 
     switch (action) {
@@ -595,7 +595,7 @@ function TagsController() {
     }
   }
 
-  this.update_visible_tags_of_verse_box = function(verse_box, tag_title_array) {
+  update_visible_tags_of_verse_box(verse_box, tag_title_array) {
     var tag_box = $(verse_box).find('.tag-box');
     tag_box.empty();
 
@@ -613,46 +613,46 @@ function TagsController() {
     } else {
       tag_box.hide();
     }
-  };
+  }
 
-  this.html_code_for_visible_tag = function(tag_title) {
+  html_code_for_visible_tag(tag_title) {
     var tag_title_with_unbreakable_spaces = tag_title.replace(/ /g, '&nbsp;') + ' ';
     return "<div class=\"tag\" title=\"" + i18n.t("bible-browser.tag-hint") + "\">" + 
            tag_title_with_unbreakable_spaces + "</div>";
-  };
+  }
 
-  this.new_tag_data_html = function(tag_class, title, id) {
+  new_tag_data_html(tag_class, title, id) {
     var new_tag_data_div = "<div class='" + tag_class + "'>";
     new_tag_data_div += "<div class='tag-title'>" + title + "</div>";
     new_tag_data_div += "<div class='tag-id'>" + id + "</div>";
     new_tag_data_div += "</div>";
 
     return new_tag_data_div;
-  };
+  }
 
-  this.edit_tag_title = function(value, settings) {
+  edit_tag_title(value, settings) {
     var old_value = $(this)[0].revert;
     tags_controller.tag_title_changed = (old_value != value);
 
     return value;
-  };
+  }
 
-  this.sort_tag_lists = function() {
+  sort_tag_lists() {
     var global_tags_box = $('#tags-content-global');
     var book_tags_box = $('#tags-content-book');
     var sort_function = function(a,b) {
       return ($(a).find('.cb-label').text().toLowerCase() > $(b).find('.cb-label').text().toLowerCase()) ? 1 : -1;
-    }
+    };
 
     global_tags_box.find('.checkbox-tag').sort_elements(sort_function);
     book_tags_box.find('.checkbox-tag').sort_elements(sort_function);
-  };
+  }
 
-  this.tags_search_input_is_empty = function() {
+  tags_search_input_is_empty() {
     return $('#tags-search-input')[0].empty();
-  };
+  }
 
-  this.refresh_timestamps_and_book_tag_statistics = function(tag_list, current_book) {
+  refresh_timestamps_and_book_tag_statistics(tag_list, current_book) {
     var book_tag_statistics = [];
     var all_timestamps = [];
     
@@ -674,9 +674,9 @@ function TagsController() {
     if (current_book != null) {
       bible_browser_controller.tag_statistics.update_book_tag_statistics_box(book_tag_statistics);
     }
-  };
+  }
 
-  this.render_tags = async function(tag_list) {
+  async render_tags(tag_list) {
     //console.time("render_tags");
     var current_book = bible_browser_controller.tab_controller.getTab().getBook();
     var global_tags_box_el = document.getElementById('tags-content-global');
@@ -716,9 +716,9 @@ function TagsController() {
 
     tags_controller.hideTagListLoadingIndicator();
     //console.timeEnd("render_tags");
-  };
+  }
 
-  this.update_tag_timestamps = function() {
+  update_tag_timestamps() {
     var tags_content_global = $('#tags-content-global');
     var all_timestamp_elements = tags_content_global.find('.last-used-timestamp');
     var all_timestamps = [];
@@ -732,9 +732,9 @@ function TagsController() {
     }
 
     tags_controller.update_tag_timestamps_from_list(all_timestamps);
-  };
+  }
 
-  this.update_tag_timestamps_from_list = function(all_timestamps) {
+  update_tag_timestamps_from_list(all_timestamps) {
     if (all_timestamps.length > 0) {
       all_timestamps.sort();
       var recent_timestamps_range = 10;
@@ -747,9 +747,9 @@ function TagsController() {
       tags_controller.latest_timestamp = all_timestamps[last_element_index];
       tags_controller.oldest_recent_timestamp = all_timestamps[oldest_recent_element_index];
     }
-  };
+  }
 
-  this.handle_rename_tag_click__by_opening_rename_dialog = function(event) {
+  handle_rename_tag_click__by_opening_rename_dialog(event) {
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
     var cb_label = checkbox_tag.find('.cb-label').text();
 
@@ -759,9 +759,9 @@ function TagsController() {
 
     tags_controller.rename_standard_tag_id =  checkbox_tag.find('.checkbox-tag-id').text();
     tags_controller.rename_standard_tag_title = cb_label;
-  };
+  }
 
-  this.update_tag_count_after_rendering = function() {
+  update_tag_count_after_rendering() {
     // FIXME: to be integrated
     var global_tag_count = $('#tags-content-global').find('.checkbox-tag').length;
     var book_tag_count = $('#tags-content-book').find('.checkbox-tag').length;
@@ -778,21 +778,21 @@ function TagsController() {
                        ' total)');
 
     book_header.html('Book tags (' + book_tag_count + ')');
-  };
+  }
 
-  this.removeEventListeners = function(element_list, type, listener) {
+  removeEventListeners(element_list, type, listener) {
     for (var i = 0; i < element_list.length; i++) {
       element_list[i].removeEventListener(type, listener);
     }
-  };
+  }
 
-  this.addEventListeners = function(element_list, type, listener) {
+  addEventListeners(element_list, type, listener) {
     for (var i = 0; i < element_list.length; i++) {
       element_list[i].addEventListener(type, listener);
     }
-  };
+  }
 
-  this.bind_tag_events = function() {
+  bind_tag_events() {
     var tags_box = document.getElementById('tags-content-global');
 
     tags_box.addEventListener('click', function(event) {
@@ -841,9 +841,9 @@ function TagsController() {
     }, false);
     
     tags_controller.init_verse_expand_box();
-  };
+  }
 
-  this.reference_to_absolute_verse_nr = function(bible_book, chapter, verse) {
+  reference_to_absolute_verse_nr(bible_book, chapter, verse) {
     var verse_nr = 0;
   
     for (var i = 0; i < chapter - 1; i++) {
@@ -854,9 +854,9 @@ function TagsController() {
     
     verse_nr += Number(verse);
     return verse_nr;
-  };
+  }
   
-  this.reference_to_verse_nr = function(bible_book_short_title, reference, split_support) {
+  reference_to_verse_nr(bible_book_short_title, reference, split_support) {
     if (reference == null) {
       return;
     }
@@ -869,13 +869,13 @@ function TagsController() {
     var ref_chapter = Number(reference.split(reference_separator)[0]);
     var ref_verse = Number(reference.split(reference_separator)[1]);
   
-    verse_nr = tags_controller.reference_to_absolute_verse_nr(bible_book_short_title, ref_chapter, ref_verse);
+    var verse_nr = tags_controller.reference_to_absolute_verse_nr(bible_book_short_title, ref_chapter, ref_verse);
     if (split_support) verse_nr += 0.5;
   
     return verse_nr;
-  };
+  }
 
-  this.init_verse_expand_box = async function() {
+  init_verse_expand_box() {
     $('.verse-reference-content').filter(":not('.tag-events-configured')").bind('mouseover', tags_controller.mouse_over_verse_reference_content);
 
     $("#expand-button").prop("title", i18n.t("bible-browser.load-verse-context"));
@@ -923,9 +923,9 @@ function TagsController() {
     $(mouseOverHideClasses).bind('mouseover', function() {
       tags_controller.hide_verse_expand_box();
     }).addClass('tag-events-configured');
-  };
+  }
 
-  this.load_verse_context = function(verse_list) {
+  load_verse_context(verse_list) {
     /* First remove existing verse boxes to avoid duplication */
     var context_verse_id = $(tags_controller.context_verse).find('.verse-id').text();
 
@@ -953,14 +953,14 @@ function TagsController() {
     tags_controller.update_tags_view_after_verse_selection(true);
 
     bible_browser_controller.bindEventsAfterBibleTextLoaded();
-  };
+  }
 
-  this.hide_verse_expand_box = function() {
+  hide_verse_expand_box() {
     $('#verse-expand-box').hide();
     tags_controller.current_mouseover_verse_reference = null;
-  };
+  }
 
-  this.mouse_over_verse_reference_content = function() {
+  mouse_over_verse_reference_content() {
     if ($(this)[0] != tags_controller.current_mouseover_verse_reference) {
       tags_controller.current_mouseover_verse_reference = $(this)[0];
       var verse_reference_position = $(this).offset();
@@ -975,7 +975,7 @@ function TagsController() {
     }
   }
 
-  this.update_tag_titles_in_verse_list = function(tag_id, is_global, title) {
+  update_tag_titles_in_verse_list(tag_id, is_global, title) {
     var tag_class = is_global ? "tag-global" : "tag-book";
 
     var tag_data_elements = $('.tag-id').filter(function(index) {
@@ -990,14 +990,14 @@ function TagsController() {
 
       tags_controller.update_visible_tags_of_verse_box(current_verse_box, current_verse_box.find('.tag-info').attr('title').split(', '));
     }
-  };
+  }
 
-  this.update_tag_tooltip_of_verse_box = function(verse_box) {
+  update_tag_tooltip_of_verse_box(verse_box) {
     var new_tooltip = tags_controller.get_tag_title_from_tag_data(verse_box);
     verse_box.find('.tag-info').attr('title', new_tooltip);
-  };
+  }
 
-  this.get_tag_title_from_tag_data = function(verse_box) {
+  get_tag_title_from_tag_data(verse_box) {
     var tag_elements = verse_box.find('.tag-global, .tag-book');
 
     var tag_title_array = Array();
@@ -1014,13 +1014,13 @@ function TagsController() {
     tag_title_array.sort();
 
     return tag_title_array.join(', ');
-  };
+  }
 
-  this.update_tags_title = function(verse_box) {
+  update_tags_title(verse_box) {
     verse_box.find('.tag-info').attr('title', tags_controller.get_tag_title_from_tag_data(verse_box));
-  };
+  }
 
-  this.current_verse_selection_tags = function() {
+  current_verse_selection_tags() {
     var verse_selection_tags = new Array;
 
     for (var i = 0; i < tags_controller.selected_verse_boxes.length; i++) {
@@ -1063,9 +1063,9 @@ function TagsController() {
     }
 
     return verse_selection_tags;
-  };
+  }
 
-  this.element_list_to_xml_verse_list = function(element_list) {
+  element_list_to_xml_verse_list(element_list) {
     var xml_verse_list = "<verse-list>";
 
     for (var i = 0; i < element_list.length; i++) {
@@ -1097,15 +1097,15 @@ function TagsController() {
     xml_verse_list += "</verse-list>";
 
     return xml_verse_list;
-  };
+  }
 
-  this.current_verse_selection_as_xml = function() {
+  current_verse_selection_as_xml() {
     var selected_verse_elements = tags_controller.selected_verse_boxes;
 
     return (tags_controller.element_list_to_xml_verse_list(selected_verse_elements));
-  };
+  }
 
-  this.get_selected_verse_text = function() {
+  get_selected_verse_text() {
     var verse_text = "";
 
     for (var i = 0; i < tags_controller.selected_verse_boxes.length; i++) {
@@ -1113,9 +1113,9 @@ function TagsController() {
     }
 
     return verse_text;
-  };
+  }
 
-  this.current_verse_selection_as_verse_ids = function() {
+  current_verse_selection_as_verse_ids() {
     var selected_verse_ids = new Array;
     var selected_verse_elements = tags_controller.selected_verse_boxes;
     
@@ -1127,9 +1127,9 @@ function TagsController() {
     }
 
     return selected_verse_ids;
-  };
+  }
 
-  this.current_verse_selection_as_verse_ids = function() {
+  current_verse_selection_as_verse_ids() {
     var selected_verse_ids = new Array;
     var selected_verse_elements = tags_controller.selected_verse_boxes;
     
@@ -1141,9 +1141,9 @@ function TagsController() {
     }
 
     return selected_verse_ids;
-  };
+  }
 
-  this.update_tags_view_after_verse_selection = async function(force) {
+  async update_tags_view_after_verse_selection(force) {
     //console.time('update_tags_view_after_verse_selection');
     if (tags_controller.verse_selection_blocked && force !== true) {
       return;
@@ -1264,9 +1264,9 @@ function TagsController() {
     }
 
     $('#tags-header').find('#selected-verses').html(selected_verses_content.join('; '));
-  };
+  }
 
-  this.format_verse_list_for_view = function(selected_verse_array, link_references) {
+  format_verse_list_for_view(selected_verse_array, link_references) {
     var absolute_nr_list = tags_controller.verse_reference_list_to_absolute_verse_nr_list(selected_verse_array);
     var verse_list_for_view = "";
 
@@ -1312,9 +1312,9 @@ function TagsController() {
     }
 
     return verse_list_for_view;
-  };
+  }
 
-  this.format_passage_reference_for_view = function(book_short_title, start_reference, end_reference) {
+  format_passage_reference_for_view(book_short_title, start_reference, end_reference) {
     // This first split is necessary, because there's a verse list id in the anchor that we do not
     // want to show
     start_reference = start_reference.split(" ")[1];
@@ -1353,9 +1353,9 @@ function TagsController() {
     }
   
     return passage;
-  };
+  }
 
-  this.format_single_verse_block = function(list, start_index, end_index, turn_into_link) {
+  format_single_verse_block(list, start_index, end_index, turn_into_link) {
     if (start_index > (list.length - 1)) start_index = list.length - 1;
     if (end_index > (list.length - 1)) end_index = list.length - 1;
 
@@ -1376,9 +1376,9 @@ function TagsController() {
     }
 
     return formatted_passage;
-  };
+  }
 
-  this.verse_reference_list_to_absolute_verse_nr_list = function(list) {
+  verse_reference_list_to_absolute_verse_nr_list(list) {
     var new_list = new Array;
     var short_book_title = bible_browser_controller.tab_controller.getTab().getBook();
 
@@ -1387,9 +1387,9 @@ function TagsController() {
     }
 
     return new_list;
-  };
+  }
 
-  this.verse_list_has_gaps = function(list) {
+  verse_list_has_gaps(list) {
     var has_gaps = false;
 
     for (var i = 1; i < list.length; i++) {
@@ -1400,16 +1400,16 @@ function TagsController() {
     }
 
     return has_gaps;
-  };
+  }
 
-  this.handle_tag_accordion_change = function() {
+  handle_tag_accordion_change() {
     var new_reference_link = $('#tags-content').find('.ui-state-active').find('a');
     var tags_search_input = $('#tags-search-input');
 
     new_reference_link.append(tags_search_input);
-  };
+  }
 
-  this.init_ui = async function() {
+  init_ui() {
     $('#tags-content').accordion({
       autoHeight: false,
       animated: false,
@@ -1442,9 +1442,9 @@ function TagsController() {
     //await tags_controller.updateTagUiBasedOnTagAvailability();
 
     tags_controller.bind_tag_events();
-  };
+  }
 
-  this.updateTagUiBasedOnTagAvailability = async function(tagCount=undefined) {
+  async updateTagUiBasedOnTagAvailability(tagCount=undefined) {
     var translationCount = bible_browser_controller.translation_controller.getTranslationCount();
     if (tagCount === undefined) {
       tagCount = await models.Tag.getTagCount();
@@ -1471,9 +1471,9 @@ function TagsController() {
         $('#show-book-tag-statistics-button').removeClass('ui-state-disabled');
       }
     }
-  };
+  }
 
-  this.init = function(tabIndex=undefined) {
+  init(tabIndex=undefined) {
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
     if (currentVerseList.hasClass('ui-selectable')) {
       currentVerseList.selectable('destroy');
@@ -1502,18 +1502,18 @@ function TagsController() {
         tags_controller.selected_verse_boxes.push(verse_box);
       }
     });
-  };
+  }
 
-  this.string_matches = function(search_string, search_value) {
+  string_matches(search_string, search_value) {
     if (search_value == "") {
       return true;
     }
 
     var result = eval("search_string.search(/" + search_value + "/i)");
     return result != -1;
-  };
+  }
 
-  this.handle_filter_button_click = function(e) {
+  handle_filter_button_click(e) {
     var position = $(this).offset();
     var filter_dialog = $('#filter-dialog');
 
@@ -1524,9 +1524,9 @@ function TagsController() {
       filter_dialog.css('left', position.left);
       filter_dialog.show();
     }
-  };
+  }
 
-  this.handle_tag_filter_type_click = function(e) {
+  handle_tag_filter_type_click(e) {
     var selected_type = $(this)[0].value;
     var tags_content_global = $('#tags-content-global');
     tags_content_global.find('.checkbox-tag').show();
@@ -1570,13 +1570,13 @@ function TagsController() {
       default:
         break;
     }
-  };
+  }
 
-  this.tag_title_matches_filter = function(tag_title, filter) {
+  tag_title_matches_filter(tag_title, filter) {
       return tag_title.toLowerCase().indexOf(filter.toLowerCase()) != -1;
-  };
+  }
 
-  this.handle_tag_search_input = function(e) {
+  handle_tag_search_input(e) {
     clearTimeout(tags_controller.tag_search_timeout);
     var search_value = $(this).val();
 
@@ -1589,22 +1589,23 @@ function TagsController() {
         var current_label = $(tag_labels[i]);
 
         if (tags_controller.tag_title_matches_filter(current_label.text(), search_value)) {
-          current_tag_container = $(current_label.closest('.checkbox-tag')).show();
+          $(current_label.closest('.checkbox-tag')).show();
         }
       }
       //console.timeEnd('filter-tag-list');
     }, 200);
-  };
+  }
 
-  this.showTagListLoadingIndicator = function() {
+  showTagListLoadingIndicator() {
     var loadingIndicator = $('#tags-loading-indicator');
     loadingIndicator.find('.loader').show();
     loadingIndicator.show();
-  };
+  }
 
-  this.hideTagListLoadingIndicator = function() {
+  hideTagListLoadingIndicator() {
     var loadingIndicator = $('#tags-loading-indicator');
     loadingIndicator.hide();
-  };
+  }
 }
 
+module.exports = TagsController;
