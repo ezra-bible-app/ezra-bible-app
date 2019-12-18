@@ -53,7 +53,7 @@ class BibleBrowserController {
     this.init_component("TranslationComparison", "translationComparison", "./app/components/translation_comparison.js");
     this.init_component("BookSelectionMenu", "book_selection_menu", "./app/components/book_selection_menu.js");
     this.init_component("TagStatistics", "tag_statistics", "./app/tags/tag_statistics.js");
-    this.init_component("Strongs", "strongs", "./app/bible_browser/strongs.js");
+    this.init_component("Strongs", "strongs", "./app/components/strongs.js");
 
     this.initTagReferenceBox();
     this.initGlobalShortCuts();
