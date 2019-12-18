@@ -357,7 +357,8 @@ class BibleBrowserController {
     if (currentTab !== undefined) {
       var currentTabBook = currentTab.getBook();
       var currentTagIdList = currentTab.getTagIdList();
-      if ((currentTabBook != undefined && currentTabBook != null) || currentTagIdList != null) {
+      var currentSearchTerm = currentTab.getSearchTerm();
+      if ((currentTabBook != undefined && currentTabBook != null) || currentTagIdList != null || currentSearchTerm != null) {
         tags_controller.communication_controller.request_tags(currentTabBook);
       }
     }
