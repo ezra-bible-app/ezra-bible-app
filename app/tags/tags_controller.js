@@ -905,7 +905,7 @@ function TagsController() {
 
       tags_controller.context_verse = start_verse_box;
 
-      bible_browser_controller.communication_controller.request_book_text(
+      bible_browser_controller.text_loader.requestBookText(
         currentTabIndex,
         currentTabId,
         current_book_title,
