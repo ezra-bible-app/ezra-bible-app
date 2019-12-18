@@ -118,7 +118,9 @@
     "delete-tag-permanently": "Supprimer définitivement cette étiquette",
     "none-selected": "Aucun",
     "rename-tag": "Renommer l'étiquette",
-    "title": "Titre "
+    "title": "Titre ",
+    "stats-used": "used",
+    "stats-total": "total"
   },
   "bible-browser": {
     "selection": "Sélection : ",

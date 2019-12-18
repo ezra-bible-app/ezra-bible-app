@@ -118,7 +118,9 @@
     "delete-tag-permanently": "Diesen Tag dauerhaft löschen",
     "none-selected": "Keine",
     "rename-tag": "Tag umbenennen",
-    "title": "Titel"
+    "title": "Titel",
+    "stats-used": "benutzt",
+    "stats-total": "gesamt"
   },
   "bible-browser": {
     "selection": "Auswahl: ",

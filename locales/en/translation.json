@@ -118,7 +118,9 @@
     "delete-tag-permanently": "Delete this tag permanently",
     "none-selected": "None",
     "rename-tag": "Rename tag",
-    "title": "Title"
+    "title": "Title",
+    "stats-used": "used",
+    "stats-total": "total"
   },
   "bible-browser": {
     "selection": "Selection: ",
