@@ -191,6 +191,10 @@ class ModuleSearch {
       }
 
       bible_browser_controller.tab_controller.setTabSearch(this.currentSearchTerm, tabIndex);
+      // Set book and tagIdList to null, since we just switched to search content
+      currentTab.setBook(null, null);
+      currentTab.setTagIdList("");
+
       this.hideSearchMenu();
 
       // Only reset view if we got an event (in other words: not initially)
