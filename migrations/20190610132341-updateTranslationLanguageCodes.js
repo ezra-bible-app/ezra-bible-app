@@ -1,7 +1,6 @@
 'use strict';
 
-const LanguageMapper = require('../app/bible_browser/language_mapper.js');
-
+const LanguageMapper = require('../app/bible_browser/helpers/language_mapper.js');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
