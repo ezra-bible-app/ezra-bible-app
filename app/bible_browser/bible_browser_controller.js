@@ -156,6 +156,9 @@ class BibleBrowserController {
 
     // Refresh the view based on the options selected
     this.optionsMenu.refreshViewBasedOnOptions(ui.index);
+
+    // Hide Strong's box
+    this.strongs_controller.hideStrongsBox();
   }
 
   onTabAdded(tabIndex=0) {
@@ -166,13 +169,12 @@ class BibleBrowserController {
     this.module_search.initModuleSearchMenu(tabIndex);
     this.translation_controller.initTranslationsMenu(tabIndex);
     this.translation_controller.initBibleTranslationInfoButton();
-    this.optionsMenu.initCurrentOptionsMenu(tabIndex);
-
     var currentBibleTranslationId = this.tab_controller.getTab(tabIndex).getBibleTranslationId();
     if (currentBibleTranslationId != null) {
       this.translation_controller.enableCurrentTranslationInfoButton(tabIndex);
     }
 
+    this.optionsMenu.initCurrentOptionsMenu(tabIndex);
     this.book_selection_menu.clearSelectedBookInMenu();
   }
 
