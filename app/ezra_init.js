@@ -20,14 +20,14 @@ const app = require('electron').remote.app;
 
 // i18n
 const i18n = require('i18next');
-const I18nHelper = require('./app/i18n_helper.js');
+const I18nHelper = require('./app/helpers/i18n_helper.js');
 const i18nHelper = new I18nHelper();
 
 // This module checks for new releases on startup
-const NewReleaseChecker = require('./app/new_release_checker.js');
+const NewReleaseChecker = require('./app/helpers/new_release_checker.js');
 
 // DB-related stuff
-const DbHelper = require('./app/db_helper.js');
+const DbHelper = require('./app/helpers/db_helper.js');
 const userDataDir = app.getPath('userData');
 const dbHelper = new DbHelper(userDataDir);
 const dbDir = dbHelper.getDatabaseDir();

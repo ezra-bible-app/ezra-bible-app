@@ -53,7 +53,7 @@ function createWindow () {
 
   var preloadScript = '';
   if (!isDev) {
-    preloadScript = path.join(__dirname, 'app/sentry.js')
+    preloadScript = path.join(__dirname, 'app/helpers/sentry.js')
   }
 
   // Create the browser window.
