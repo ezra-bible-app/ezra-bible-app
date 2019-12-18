@@ -19,7 +19,7 @@
 const Mousetrap = require('mousetrap');
 let jsStrongs = null;
 
-class StrongsController {
+class Strongs {
   constructor() {
     this.currentStrongsId = null;
     this.currentStrongsElement = null;
@@ -209,7 +209,7 @@ class StrongsController {
     for (var i = 0; i < this.dictionaryInfoBoxStack.length; i++) {
       if (i < this.dictionaryInfoBoxStack.length - 1) {
         var currentRewindNumber = this.dictionaryInfoBoxStack.length - i - 1;
-        var currentCrumb = "<a href='javascript:bible_browser_controller.strongs_controller.rewindDictInfo(" + currentRewindNumber + ")'>";
+        var currentCrumb = "<a href='javascript:bible_browser_controller.strongs.rewindDictInfo(" + currentRewindNumber + ")'>";
         currentCrumb += this.dictionaryInfoBoxStack[i];
         currentCrumb += "</a>";
       } else {
@@ -268,7 +268,7 @@ class StrongsController {
   }
 
   getFindAllLink(strongsEntry) {
-    var functionCall = "javascript:bible_browser_controller.strongs_controller.findAllOccurrences('" + strongsEntry.key + "')";
+    var functionCall = "javascript:bible_browser_controller.strongs.findAllOccurrences('" + strongsEntry.key + "')";
     var link = "<p><a href=\"" + functionCall + "\">" + 
                i18n.t("dictionary-info-box.find-all-occurrances") + 
                "</a></p>";
@@ -281,7 +281,7 @@ class StrongsController {
     var referenceStrongsEntry = nsi.getStrongsEntry(referenceKey);
     var referenceStrongsLemma = jsStrongs[referenceKey].lemma;
 
-    var referenceLink = "<a href=\"javascript:bible_browser_controller.strongs_controller.openStrongsReference('";
+    var referenceLink = "<a href=\"javascript:bible_browser_controller.strongs.openStrongsReference('";
     referenceLink += referenceKey;
     referenceLink += "')\">" + referenceKey + "</a>";
     var trClass = (isLastRow ? "" : "class='td-underline'");
@@ -361,4 +361,4 @@ class StrongsController {
   }
 }
 
-module.exports = StrongsController;
+module.exports = Strongs;
