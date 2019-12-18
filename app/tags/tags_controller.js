@@ -199,6 +199,8 @@ class TagsController {
     var checkbox_tag = tags_controller.get_checkbox_tag(tag_id);
     checkbox_tag.detach();
 
+    tags_controller.update_tag_count_after_rendering();
+
     var tag_data_elements = $('.tag-id').filter(function(index){
       return ($(this).html() == tag_id);
     });
@@ -326,6 +328,8 @@ class TagsController {
                                                  cb_label,
                                                  $.create_xml_doc(current_verse_selection),
                                                  "assign");
+
+      tags_controller.update_tag_count_after_rendering();
       
       bible_browser_controller.tag_statistics.update_book_tag_statistics_box();
 
@@ -424,6 +428,8 @@ class TagsController {
                                                job.cb_label,
                                                job.xml_verse_selection,
                                                "remove");
+
+    tags_controller.update_tag_count_after_rendering();
     
     bible_browser_controller.tag_statistics.update_book_tag_statistics_box();
 
@@ -687,7 +693,7 @@ class TagsController {
 
     tags_controller.refresh_timestamps_and_book_tag_statistics(tag_list, current_book);
     configure_button_styles('#tags-content');
-    //tags_controller.update_tag_count_after_rendering(); // FIXME: to be integrated!
+    tags_controller.update_tag_count_after_rendering();
 
     tags_controller.update_tags_view_after_verse_selection(true);
     await tags_controller.updateTagUiBasedOnTagAvailability(tag_list.length);
@@ -753,18 +759,14 @@ class TagsController {
   }
 
   update_tag_count_after_rendering() {
-    // FIXME: to be integrated
     var global_tag_count = $('#tags-content-global').find('.checkbox-tag').length;
+    var global_used_tag_count = $('#tags-content-global').find('.cb-label-assigned').length;
+    var tag_list_stats = $($('#tags-content').find('#tag-list-stats'));
 
-    var global_used_tag_count = $('#tags-content-global').find('.tag-show-selected-button:not(.ui-state-disabled)').length;
-
-    var global_header = $($('#tags-content').find('.ui-accordion-header').find('a')[0]);
-
-    global_header.html('Universal tags (' + 
-                       global_used_tag_count +
-                       ' used / ' +
-                       global_tag_count +
-                       ' total)');
+    tag_list_stats.html(global_used_tag_count +
+                        ' ' + i18n.t('tags.stats-used') + ' / ' +
+                        global_tag_count +
+                        ' ' + i18n.t('tags.stats-total'));
   }
 
   removeEventListeners(element_list, type, listener) {
@@ -1405,6 +1407,7 @@ class TagsController {
 
     var filter_button = $("<img id=\"filter-button\" src=\"images/filter.png\"/>");
     var filter_active_symbol = $("<span id=\"filter-button-active\">*</span>");
+    var tag_list_stats = $("<span id='tag-list-stats' style='margin-left: 1em;'></span>");
     var tags_search_input = $("<input type='text' id='tags-search-input'></input>");
     var reference_link = $($('#tags-content').find('a')[0]);
     var reference_link_text = reference_link.text();
@@ -1412,6 +1415,7 @@ class TagsController {
     reference_link.append("<span style=\"float: left;\">" + reference_link_text + "</span>");
     reference_link.append(filter_button);
     reference_link.append(filter_active_symbol);
+    reference_link.append(tag_list_stats);
     reference_link.append(tags_search_input);
 
     reference_link.find('#filter-button').bind('click', tags_controller.handle_filter_button_click);
