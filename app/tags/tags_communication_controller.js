@@ -91,7 +91,7 @@ class TagsCommunicationController
 
   update_tags_on_verses(tagId, verseIds, action) {
     models.Tag.findByPk(tagId).then(tag => {
-      for (vId of verseIds) {
+      for (var vId of verseIds) {
         models.Verse.findByPk(vId).then(verse => {
           verse.findOrCreateVerseReference().then(vr => {
             if (action == "add") {
