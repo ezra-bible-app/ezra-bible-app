@@ -16,7 +16,6 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const BibleBrowserCommunicationController = require('./app/bible_browser/bible_browser_communication_controller.js');
 const LanguageMapper = require('./app/bible_browser/language_mapper.js');
 const TranslationWizardHelper = require('./app/bible_browser/translation_wizard_helper.js');
 const Mousetrap = require('mousetrap');
@@ -26,7 +25,6 @@ class BibleBrowserController {
   constructor() {
     this.book_menu_is_opened = false;
     this.current_cr_verse_id = null;
-    this.communication_controller = new BibleBrowserCommunicationController();
   }
 
   init_component(componentClassName, componentName, componentPath) {
