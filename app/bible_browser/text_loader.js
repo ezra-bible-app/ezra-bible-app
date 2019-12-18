@@ -76,7 +76,7 @@ class TextLoader {
       if (tabIndex === undefined) { $('#show-book-tag-statistics-button').addClass('ui-state-disabled'); }
       currentVerseListMenu.find('.tag-select-button').addClass('focused-button');
 
-      await bible_browser_controller.communication_controller.request_verses_for_selected_tags(
+      await this.requestVersesForSelectedTags(
         tabIndex,
         tabId,
         tagIdList,
@@ -89,7 +89,7 @@ class TextLoader {
       if (tabIndex === undefined) { $('#show-book-tag-statistics-button').addClass('ui-state-disabled'); }
       currentVerseListMenu.find('.module-search-button').addClass('focused-button');
       
-      await bible_browser_controller.communication_controller.request_verses_for_search_results(
+      await this.requestVersesForSearchResults(
         tabIndex,
         tabId,
         searchResults,
@@ -137,6 +137,158 @@ class TextLoader {
     });
 
     render_function(verses_as_html);
+  }
+
+  async requestVersesForSearchResults(tab_index,
+                                      current_tab_id,
+                                      search_results,
+                                      render_function,
+                                      requestedBookId=-1,
+                                      render_type='html',
+                                      renderVerseMetaInfo=true) {
+    if (search_results.length == 0) {
+      return;
+    }
+
+    var bibleTranslationId = null;
+    if (bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId() == null) {
+      bibleTranslationId = 1;
+    } else {
+      bibleTranslationId = bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
+    }
+
+    var bibleBookStats = {};
+    for (var i = 0; i < search_results.length; i++) {
+      var bibleBookId = models.BibleTranslation.swordBooktoEzraBook(search_results[i].bibleBookShortTitle);
+      
+      if (bibleBookStats[bibleBookId] === undefined) {
+        bibleBookStats[bibleBookId] = 1;
+      } else {
+        bibleBookStats[bibleBookId] += 1;
+      }
+    }
+    //console.log(bibleBookStats);
+
+    var bibleBooks = await models.BibleBook.findBySearchResults(search_results);
+    //console.log("Got results for " + bibleBooks.length + " books!");
+
+    //console.log("Finding verses by search result!");
+    var verses = [];
+
+    for (var i = 0; i < search_results.length; i++) {
+      var currentResult = search_results[i];
+      var currentBookId = models.BibleTranslation.swordBooktoEzraBook(search_results[i].bibleBookShortTitle);
+
+      if (requestedBookId != -1 && currentBookId != requestedBookId) {
+        // Skip the books that are not requested;
+        continue;
+      }
+
+      var currentVerse = await models.Verse.findBySearchResult(bibleTranslationId, currentResult);
+      if (currentVerse != null) {
+        verses.push(currentVerse);
+      } else {
+        console.log("Could not find verse for the following search result: ")
+        console.log(currentResult);
+      }
+    }
+    //console.log("Done!");
+
+    var verseIds = [];
+    for (var i = 0; i < verses.length; i++) {
+      var currentVerse = verses[i];
+      verseIds.push(currentVerse.id);
+    }
+
+    var verseTags = await models.VerseTag.findByVerseIds(bibleTranslationId, verseIds.join(','));
+    var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags);
+    
+    if (render_type == "html") {
+      
+      this.getVersesAsHtml(current_tab_id,
+                           bibleBooks,
+                           bibleBookStats,
+                           groupedVerseTags,
+                           verses,
+                           render_function,
+                           requestedBookId <= 0,
+                           renderVerseMetaInfo);
+      
+    } else if (render_type == "docx") {
+      render_function(bibleBooks, groupedVerseTags, verses);
+    }
+  }
+
+  async requestVersesForSelectedTags(tab_index,
+                                     current_tab_id,
+                                     selected_tags,
+                                     render_function,
+                                     render_type='html',
+                                     renderVerseMetaInfo=true) {
+    if (selected_tags == '') {
+      return;
+    }
+
+    var bibleTranslationId = null;
+    if (bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId() == null) {
+      bibleTranslationId = 1;
+    } else {
+      bibleTranslationId = bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
+    }
+
+    var verses = await models.Verse.findByTagIds(bibleTranslationId, selected_tags);
+    var verseIds = [];
+    for (var i = 0; i < verses.length; i++) {
+      var currentVerse = verses[i];
+      verseIds.push(currentVerse.id);
+    }
+
+    var bibleBookStats = {};
+    for (var i = 0; i < verses.length; i++) {
+      var bibleBookId = verses[i].bibleBookId;
+      
+      if (bibleBookStats[bibleBookId] === undefined) {
+        bibleBookStats[bibleBookId] = 1;
+      } else {
+        bibleBookStats[bibleBookId] += 1;
+      }
+    }
+
+    var bibleBooks = await models.BibleBook.findByTagIds(selected_tags);
+    var verseTags = await models.VerseTag.findByVerseIds(bibleTranslationId, verseIds.join(','));
+    var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags);
+
+    if (render_type == "html") {
+      
+      this.getVersesAsHtml(current_tab_id,
+                           bibleBooks,
+                           bibleBookStats,
+                           groupedVerseTags,
+                           verses,
+                           render_function,
+                           true,
+                           renderVerseMetaInfo);
+    
+    } else if (render_type == "docx") {
+      render_function(bibleBooks, groupedVerseTags, verses);
+    }
+  }
+
+  getVersesAsHtml(current_tab_id, bibleBooks, bibleBookStats, groupedVerseTags, verses, render_function, renderBibleBookHeaders=true, renderVerseMetaInfo=true) {
+    var verses_as_html = verseListTemplate({
+      verseListId: current_tab_id,
+      renderBibleBookHeaders: renderBibleBookHeaders,
+      renderVerseMetaInfo: renderVerseMetaInfo,
+      bibleBooks: bibleBooks,
+      bibleBookStats: bibleBookStats,
+      verses: verses,
+      verseTags: groupedVerseTags,
+      reference_separator: reference_separator,
+      tagHint: i18n.t("bible-browser.tag-hint"),
+      loadSearchResultsText: i18n.t("bible-browser.show-search-results")
+    });
+
+    render_function(verses_as_html, verses.length);
   }
 
   renderVerseList(htmlVerseList, listType, tabIndex=undefined, target=undefined) {

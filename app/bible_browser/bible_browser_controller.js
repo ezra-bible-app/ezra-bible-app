@@ -505,7 +505,7 @@ class BibleBrowserController {
     var currentTabId = this.tab_controller.getSelectedTabId();
     var currentTabIndex = this.tab_controller.getSelectedTabIndex();
 
-    this.communication_controller.request_verses_for_selected_tags(
+    this.text_loader.requestVersesForSelectedTags(
       currentTabIndex,
       currentTabId,
       tag_id,
