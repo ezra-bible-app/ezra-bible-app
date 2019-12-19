@@ -60,6 +60,7 @@
 [x] Optimize resize_app_container performance by making it tab-specific
 [x] Put all build scripts in one folder
 [x] Add loading indicator to tag list popup, because initial loading may be slow
+[ ] Fix bug: Selected tag is not updated in menu after start
 [ ] Fix bug: Tag label click's cannot handle &
 [ ] Refresh tagged verse lists in other tabs if a relevant tag is assigned/removed in the current tab
 [ ] Add recently used tags filter to Tags menu
