@@ -112,7 +112,7 @@ a.outline-reference:focus, a.outline-reference:hover {
 }
 
 #tags-search-input {
-  width: 50%;
+  width: 13em;
 }
 
 #meta-tag-navigation {
