@@ -1050,7 +1050,7 @@ class TagsController {
     var all_tag_cbs = app_container.querySelectorAll('.tag-cb');
     if (all_tag_cbs.length > 0) {
       for (var i = 0; i < all_tag_cbs.length; i++) {
-        all_tag_cbs[i].removeAttribute('checked');
+        all_tag_cbs[i].checked = false;
         all_tag_cbs[i].setAttribute('title', assign_tag_label);
       }
 
@@ -1062,7 +1062,7 @@ class TagsController {
       }
     }
 
-    if (tags_controller.selected_verse_boxes.length > 0) {
+    if (tags_controller.selected_verse_boxes.length > 0) { // Verses are selected!
       if (all_tag_cbs.length > 0) {
         for (var i = 0; i < all_tag_cbs.length; i++) {
           all_tag_cbs[i].removeAttribute('disabled');
@@ -1083,11 +1083,10 @@ class TagsController {
         
         for (var j = 0; j < selected_verse_tags.length; j++) {
           var current_tag_obj = selected_verse_tags[j];
-          var current_tag_obj_is_global = (current_tag_obj.category == 'tag-global');
 
           if (current_tag_obj.title == current_title) {
             if (current_tag_obj.complete) {
-              current_checkbox.setAttribute('checked', 'checked');
+              current_checkbox.checked = true;
               current_checkbox.setAttribute('title', 'Remove tag assignment');
             } else {
               current_title_element_postfix.innerHTML = '&nbsp;*';
@@ -1096,7 +1095,7 @@ class TagsController {
           }
         }
       }
-    } else {
+    } else { // No verses are selected!
       var all_tag_cbs = document.querySelectorAll('.tag-cb');
       if (all_tag_cbs.length > 0) {
         for (var i = 0; i < all_tag_cbs.length; i++) {
