@@ -111,7 +111,7 @@ class VerseContextLoader {
 
   hide_verse_expand_box() {
     $('#verse-expand-box').hide();
-    tags_controller.current_mouseover_verse_reference = null;
+    bible_browser_controller.verse_context_loader.current_mouseover_verse_reference = null;
   }
 
   mouse_over_verse_reference_content() {
@@ -122,10 +122,9 @@ class VerseContextLoader {
       $('#verse-expand-box').css('top', verse_reference_position.top - 7);
       $('#verse-expand-box').css('left', verse_reference_position.left + 30);
 
-      var currentTagIdList = bible_browser_controller.tab_controller.getTab().getTagIdList();
-      var currentSearchTerm = bible_browser_controller.tab_controller.getTab().getSearchTerm();
+      var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
 
-      if ((currentTagIdList != null && currentTagIdList != "") || currentSearchTerm != "") {
+      if (currentBook == null) {
         $('#verse-expand-box').show();
       }
     }
