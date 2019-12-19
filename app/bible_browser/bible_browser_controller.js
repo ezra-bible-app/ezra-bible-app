@@ -280,7 +280,7 @@ class BibleBrowserController {
   }
 
   copySelectedVersesToClipboard() {
-    var selectedVerseBoxes = tags_controller.selected_verse_boxes;
+    var selectedVerseBoxes = bible_browser_controller.verse_selection.selected_verse_boxes;
     
     var selectedText = "";
 

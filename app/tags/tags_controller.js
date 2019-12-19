@@ -217,7 +217,7 @@ class TagsController {
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
     var checkbox = checkbox_tag.find('.tag-cb');
 
-    var current_verse_list = tags_controller.selected_verse_references;
+    var current_verse_list = bible_browser_controller.verse_selection.selected_verse_references;
 
     if (!tags_controller.is_blocked && current_verse_list.length > 0) {
       checkbox.prop('checked', !checkbox.prop('checked'));
@@ -257,7 +257,7 @@ class TagsController {
   }
 
   handle_checkbox_tag_state_change(checkbox_tag) {
-    var current_verse_list = tags_controller.selected_verse_references;
+    var current_verse_list = bible_browser_controller.verse_selection.selected_verse_references;
 
     if (tags_controller.is_blocked || current_verse_list.length == 0) {
       return;
@@ -873,8 +873,10 @@ class TagsController {
       return verse_selection_tags;
     }
 
-    for (var i = 0; i < bible_browser_controller.verse_selection.selected_verse_boxes.length; i++) {
-      var current_verse_box = $(bible_browser_controller.verse_selection.selected_verse_boxes[i]);
+    var selected_verse_boxes = bible_browser_controller.verse_selection.selected_verse_boxes;
+
+    for (var i = 0; i < selected_verse_boxes.length; i++) {
+      var current_verse_box = $(selected_verse_boxes[i]);
       var current_tag_list = current_verse_box.find('.tag-data').children();
 
       for (var j = 0; j < current_tag_list.length; j++) {
@@ -909,7 +911,7 @@ class TagsController {
 
     for (var i = 0; i < verse_selection_tags.length; i++) {
       var current_tag_obj = verse_selection_tags[i];
-      current_tag_obj.complete = (current_tag_obj.count == tags_controller.selected_verse_boxes.length);
+      current_tag_obj.complete = (current_tag_obj.count == selected_verse_boxes.length);
     }
 
     return verse_selection_tags;
@@ -945,7 +947,7 @@ class TagsController {
       }
     }
 
-    if (tags_controller.selected_verse_boxes.length > 0) { // Verses are selected!
+    if (bible_browser_controller.verse_selection.selected_verse_boxes.length > 0) { // Verses are selected!
       if (all_tag_cbs.length > 0) {
         for (var i = 0; i < all_tag_cbs.length; i++) {
           all_tag_cbs[i].removeAttribute('disabled');
@@ -1059,36 +1061,6 @@ class TagsController {
         $('#show-book-tag-statistics-button').removeClass('ui-state-disabled');
       }
     }
-  }
-
-  init(tabIndex=undefined) {
-    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
-    if (currentVerseList.hasClass('ui-selectable')) {
-      currentVerseList.selectable('destroy');
-    }
-
-    currentVerseList.selectable({
-      filter: '.verse-text',
-      cancel: '.verse-notes, #currently-edited-notes, .section-header-box, .verse-content-edited, .tag-box, .tag, .load-book-results',
-
-      start: function(event, ui) {
-        tags_controller.selected_verse_references = new Array;
-        tags_controller.selected_verse_boxes = new Array;
-        // Notes controller disabled
-        //notes_controller.restore_currently_edited_notes();
-      },
-
-      stop: function(event, ui) {
-        tags_controller.update_tags_view_after_verse_selection(false);
-      },
-
-      selected: function(event, ui) {
-        var verse_box = $(ui.selected).closest('.verse-box');
-        var verse_reference = verse_box.find('a:first').attr('name');
-        tags_controller.selected_verse_references.push(verse_reference);
-        tags_controller.selected_verse_boxes.push(verse_box);
-      }
-    });
   }
 
   string_matches(search_string, search_value) {
