@@ -100,7 +100,7 @@ class VerseContextLoader {
 
     // Select/highlight the tagged verse
     var selected_verse_box = $('.verse-id-' + context_verse_id);
-    tags_controller.selected_verse_boxes.push(selected_verse_box);
+    bible_browser_controller.verse_selection.selected_verse_boxes.push(selected_verse_box);
     selected_verse_box.find('.verse-text').addClass('ui-selected');
 
     // Update the tags view after the selection
