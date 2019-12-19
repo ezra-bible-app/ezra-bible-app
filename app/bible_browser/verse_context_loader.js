@@ -23,8 +23,10 @@ class VerseContextLoader {
     this.current_mouseover_verse_reference = null;
   }
 
-  init_verse_expand_box() {
-    $('.verse-reference-content').filter(":not('.tag-events-configured')").bind('mouseover',
+  init_verse_expand_box(tabIndex=undefined) {
+    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+
+    currentVerseList.find('.verse-reference-content').filter(":not('.tag-events-configured')").bind('mouseover',
       this.mouse_over_verse_reference_content
     );
 
@@ -72,7 +74,7 @@ class VerseContextLoader {
     // The following classes are representing the elements that will cause the the verse expand box to disappear when hovering over them
     var mouseOverHideClasses = '.verse-content, .tag-info, .navigation-pane, .tag-browser-verselist-book-header, .verse-list-menu';
 
-    $(mouseOverHideClasses).bind('mouseover', function() {
+    currentVerseList.find(mouseOverHideClasses).bind('mouseover', function() {
       bible_browser_controller.verse_context_loader.hide_verse_expand_box();
     }).addClass('tag-events-configured');
   }
@@ -121,7 +123,9 @@ class VerseContextLoader {
       $('#verse-expand-box').css('left', verse_reference_position.left + 30);
 
       var currentTagIdList = bible_browser_controller.tab_controller.getTab().getTagIdList();
-      if (currentTagIdList != null && currentTagIdList != "") {
+      var currentSearchTerm = bible_browser_controller.tab_controller.getTab().getSearchTerm();
+
+      if ((currentTagIdList != null && currentTagIdList != "") || currentSearchTerm != "") {
         $('#verse-expand-box').show();
       }
     }
