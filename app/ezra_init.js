@@ -227,7 +227,6 @@ async function initControllers()
   await bible_browser_controller.init();
 
   tags_controller = new TagsController();
-  tags_controller.init();
   // Disabled notes controller
   //notes_controller = new NotesController;
 }
