@@ -88,7 +88,6 @@ class ModuleSearch {
     } else {
       bible_browser_controller.book_selection_menu.hide_book_menu();
       bible_browser_controller.tag_selection_menu.hideTagMenu();
-      bible_browser_controller.tag_selection_menu.resetTagMenu();
       bible_browser_controller.optionsMenu.hideDisplayMenu();
       moduleSearchButton.addClass('ui-state-active');
 
@@ -194,6 +193,7 @@ class ModuleSearch {
       // Set book and tagIdList to null, since we just switched to search content
       currentTab.setBook(null, null);
       currentTab.setTagIdList("");
+      bible_browser_controller.tag_selection_menu.resetTagMenu();
 
       this.hideSearchMenu();
 
