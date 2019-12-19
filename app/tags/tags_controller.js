@@ -1385,7 +1385,6 @@ class TagsController {
       selected: function(event, ui) {
         var verse_box = $(ui.selected).closest('.verse-box');
         var verse_reference = verse_box.find('a:first').attr('name');
-        var verse_reference_id = verse_box.find('.verse-reference-id').text();
         tags_controller.selected_verse_references.push(verse_reference);
         tags_controller.selected_verse_boxes.push(verse_box);
       }
