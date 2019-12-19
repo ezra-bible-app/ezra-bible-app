@@ -80,7 +80,7 @@ class VerseContextLoader {
   }
 
   load_verse_context(verse_list) {
-    /* First remove existing verse boxes to avoid duplication */
+    // First remove existing verse boxes to avoid duplication
     var context_verse_id = $(bible_browser_controller.verse_context_loader.context_verse).find('.verse-id').text();
 
     for (var i = 0; i < $(verse_list).length; i++) {
@@ -92,18 +92,18 @@ class VerseContextLoader {
       }
     }
 
-    /* Replace the verse with its full context */
+    // Replace the verse with its full context
     $(bible_browser_controller.verse_context_loader.context_verse).replaceWith(verse_list);
 
-    /* Clear the potentially existing verse selection */
+    // Clear the potentially existing verse selection
     tags_controller.clear_verse_selection();
 
-    /* Select/highlight the tagged verse */
+    // Select/highlight the tagged verse
     var selected_verse_box = $('.verse-id-' + context_verse_id);
     tags_controller.selected_verse_boxes.push(selected_verse_box);
     selected_verse_box.find('.verse-text').addClass('ui-selected');
 
-    /* Update the tags view after the selection */
+    // Update the tags view after the selection
     tags_controller.update_tags_view_after_verse_selection(true);
 
     bible_browser_controller.bindEventsAfterBibleTextLoaded();
