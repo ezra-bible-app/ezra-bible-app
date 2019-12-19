@@ -25,7 +25,9 @@ class TextLoader {
     bible_browser_controller.navigation_pane.initNavigationPaneForCurrentView(tabIndex);
 
     if (tabIndex === undefined) {
-      tags_controller.clear_verse_selection();
+      if (bible_browser_controller.verse_selection != null) {
+        bible_browser_controller.verse_selection.clear_verse_selection();
+      }
     }
 
     var textType = bible_browser_controller.tab_controller.getTab(tabIndex).getTextType();    

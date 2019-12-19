@@ -96,7 +96,7 @@ class VerseContextLoader {
     $(bible_browser_controller.verse_context_loader.context_verse).replaceWith(verse_list);
 
     // Clear the potentially existing verse selection
-    tags_controller.clear_verse_selection();
+    bible_browser_controller.verse_selection.clear_verse_selection();
 
     // Select/highlight the tagged verse
     var selected_verse_box = $('.verse-id-' + context_verse_id);
