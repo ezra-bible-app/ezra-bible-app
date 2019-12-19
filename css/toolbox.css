@@ -198,6 +198,10 @@ a.outline-reference:focus, a.outline-reference:hover {
   color: black;
 }
 
+.OSX #dictionary-info-box-content .strongs-definition {
+  font-size: 120%;
+}
+
 #dictionary-info-box-lock {
   font-style: italic;
   color: grey;
