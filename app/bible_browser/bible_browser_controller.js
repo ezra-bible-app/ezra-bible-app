@@ -45,6 +45,7 @@ class BibleBrowserController {
     this.init_component("InstallTranslationWizard", "install_translation_wizard", "./app/translation_wizard/install_translation_wizard.js");
     this.init_component("RemoveTranslationWizard", "remove_translation_wizard", "./app/translation_wizard/remove_translation_wizard.js");
     this.init_component("TextLoader", "text_loader", "./app/bible_browser/text_loader.js");
+    this.init_component("VerseContextLoader", "verse_context_loader", "./app/bible_browser/verse_context_loader.js");
     this.init_component("BookSearch", "book_search", "./app/components/book_search.js");
     this.init_component("TabController", "tab_controller", "./app/bible_browser/tab_controller.js");
     this.init_component("OptionsMenu", "optionsMenu", "./app/components/options_menu.js");
@@ -155,8 +156,9 @@ class BibleBrowserController {
     // Refresh the view based on the options selected
     this.optionsMenu.refreshViewBasedOnOptions(ui.index);
 
-    // Hide Strong's box
+    // Hide elements present from previous tab's usage
     this.strongs.hideStrongsBox();
+    this.verse_context_loader.hide_verse_expand_box();
   }
 
   onTabAdded(tabIndex=0) {
@@ -393,10 +395,8 @@ class BibleBrowserController {
     }).addClass('tag-events-configured');
 
     currentVerseList.find('.verse-box').bind('mouseover', (e) => { this.onVerseBoxMouseOver(e); });
-
     await this.strongs.bindAfterBibleTextLoaded(tabIndex);
-
-    tags_controller.bind_tag_events();
+    this.verse_context_loader.init_verse_expand_box();
   }
 
   getVerseListBookNumber(bibleBookLongTitle, bookHeaders=undefined) {
