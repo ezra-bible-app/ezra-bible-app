@@ -233,6 +233,10 @@ async function initControllers()
 
 function initUi()
 {
+  if (navigator.platform.match('Mac') !== null) {
+    document.body.classList.add('OSX');
+  }
+
   // Setup resizable function for divider between tags toolbox and verse list
   $('#bible-browser-toolbox').resizable({
     handles: 'e',
