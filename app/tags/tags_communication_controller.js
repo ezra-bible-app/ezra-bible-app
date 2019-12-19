@@ -58,7 +58,7 @@ class TagsCommunicationController
     });
   }
 
-  destroy_tag = async function(id) {
+  async destroy_tag(id) {
     models.VerseTag.destroy({
       where: {
         tagId: id
