@@ -108,7 +108,7 @@ class TranslationComparison {
   }
 
   async getCompareTranslationContent() {
-    var selectedVerseBoxes = tags_controller.selected_verse_boxes;
+    var selectedVerseBoxes = bible_browser_controller.verse_selection.selected_verse_boxes;
     var compareTranslationContent = "<table>";
     var allTranslations = await models.BibleTranslation.getTranslations();
 
