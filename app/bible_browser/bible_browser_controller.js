@@ -126,12 +126,12 @@ class BibleBrowserController {
     this.navigation_pane.clearHighlightedSearchResults();
   }
 
-  onTabSelected(event = undefined, ui = { 'index' : 0}) {
+  async onTabSelected(event = undefined, ui = { 'index' : 0}) {
     // Refresh tags view
     this.updateTagsView(ui.index);
 
     // Refresh tags selection menu (It's global!)
-    this.tag_selection_menu.updateTagSelectionMenu(ui.index);
+    await this.tag_selection_menu.updateTagSelectionMenu(ui.index);
 
     // Re-configure book search for current verse list
     var currentVerseList = this.getCurrentVerseList(ui.index);

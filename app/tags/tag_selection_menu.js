@@ -39,7 +39,7 @@ class TagSelectionMenu {
     }
   }
 
-  handleTagMenuClick(event) {
+  async handleTagMenuClick(event) {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
     var tagSelectButton = currentVerseListMenu.find('.tag-select-button');
 
@@ -64,7 +64,7 @@ class TagSelectionMenu {
       menu.css('left', left_offset);
 
       if (!this.tag_menu_populated) {
-        this.updateTagSelectionMenu();
+        await this.updateTagSelectionMenu();
       }
 
       var tagSelectionMenu = $('#tag-selection-menu');
@@ -74,11 +74,10 @@ class TagSelectionMenu {
     }
   }
 
-  requestTagsForMenu() {
-    models.Tag.getGlobalAndBookTags().then(tags => {
-      this.renderTagsInMenu(tags);
-      this.tag_menu_populated = true;
-    });
+  async requestTagsForMenu() {
+    var tags = await models.Tag.getGlobalAndBookTags();
+    this.renderTagsInMenu(tags);
+    this.tag_menu_populated = true;
   }
 
   renderTagsInMenu(tags) {
@@ -271,9 +270,9 @@ class TagSelectionMenu {
     }
   }
 
-  updateTagSelectionMenu(tabIndex) {
+  async updateTagSelectionMenu(tabIndex) {
     if (!this.tag_menu_populated) {
-      this.requestTagsForMenu();
+      await this.requestTagsForMenu();
     }
 
     var taglist_container = $('#tag-selection-taglist-global');
