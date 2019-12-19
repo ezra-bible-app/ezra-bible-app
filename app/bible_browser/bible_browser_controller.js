@@ -39,6 +39,7 @@ class BibleBrowserController {
     this.verse_list_composite_template = $($('.verse-list-composite')[0]).html();
     this.settings = require('electron-settings');
 
+    this.init_component("VerseSelection", "verse_selection", "./app/components/verse_selection.js");
     this.init_component("TagSelectionMenu", "tag_selection_menu", "./app/tags/tag_selection_menu.js");
     this.init_component("ModuleSearch", "module_search", "./app/components/module_search.js");
     this.init_component("TranslationController", "translation_controller", "./app/bible_browser/translation_controller.js");
@@ -58,7 +59,6 @@ class BibleBrowserController {
 
     this.initTagReferenceBox();
     this.initGlobalShortCuts();
-
     this.book_selection_menu.init();
 
     this.translation_controller.init(() => { this.onBibleTranslationChanged(); });
@@ -127,6 +127,9 @@ class BibleBrowserController {
   }
 
   async onTabSelected(event = undefined, ui = { 'index' : 0}) {
+    // Clear verse selection
+    this.verse_selection.clear_verse_selection();
+
     // Refresh tags view
     this.updateTagsView(ui.index);
 
@@ -353,7 +356,6 @@ class BibleBrowserController {
 
   updateTagsView(tabIndex) {
     tags_controller.showTagListLoadingIndicator();
-    tags_controller.clear_verse_selection();
     var currentTab = this.tab_controller.getTab(tabIndex);
 
     if (currentTab !== undefined) {
@@ -601,7 +603,7 @@ class BibleBrowserController {
       this.tag_statistics.toggle_book_tags_statistics_button(tabIndex);
     }
 
-    tags_controller.init(tabIndex);
+    this.verse_selection.init(tabIndex);
     this.navigation_pane.updateNavigation(tabIndex);
     this.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
     this.bindEventsAfterBibleTextLoaded(tabIndex);
