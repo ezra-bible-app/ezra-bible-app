@@ -395,6 +395,8 @@ class BibleBrowserController {
     currentVerseList.find('.verse-box').bind('mouseover', (e) => { this.onVerseBoxMouseOver(e); });
 
     await this.strongs.bindAfterBibleTextLoaded(tabIndex);
+
+    tags_controller.bind_tag_events();
   }
 
   getVerseListBookNumber(bibleBookLongTitle, bookHeaders=undefined) {
