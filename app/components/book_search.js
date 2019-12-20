@@ -61,6 +61,7 @@ class BookSearch {
       }
 
       this.searchTimeout = setTimeout(() => {
+        bible_browser_controller.verse_selection.clear_verse_selection(false);
         this.onSearchReset();
         this.doSearch(searchString);
         this.inputField.focus();
