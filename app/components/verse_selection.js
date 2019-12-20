@@ -45,18 +45,25 @@ class VerseSelection {
 
       selected: (event, ui) => {
         var verse_box = $(ui.selected).closest('.verse-box');
-        var verse_reference = verse_box.find('a:first').attr('name');
-        this.selected_verse_references.push(verse_reference);
-        this.selected_verse_boxes.push(verse_box);
+        this.addVerseToSelected(verse_box);
       }
     });
   }
 
-  clear_verse_selection() {
+  addVerseToSelected(verse_box) {
+    var verse_reference = verse_box.find('a:first').attr('name');
+    this.selected_verse_references.push(verse_reference);
+    this.selected_verse_boxes.push(verse_box);
+  }
+
+  clear_verse_selection(updateViews=true) {
     this.selected_verse_references = new Array;
     this.selected_verse_boxes = new Array;
     $('.verse-text').removeClass('ui-selectee ui-selected ui-state-highlight');
-    this.updateViewsAfterVerseSelection();
+
+    if (updateViews) {
+      this.updateViewsAfterVerseSelection();
+    }
   }
 
   async getSelectedBooks() {

@@ -55,13 +55,17 @@ class BookSearch {
         return;
       }
 
-      var searchString = this.inputField.val();
       clearTimeout(this.searchTimeout);
+
+      var searchString = this.inputField.val();
+      if (searchString.length < 3) {
+        return;
+      }
 
       this.searchTimeout = setTimeout(() => {
         this.onSearchReset();
         this.doSearch(searchString);
-      }, 200);
+      }, 300);
     });
   }
 
@@ -125,24 +129,32 @@ class BookSearch {
       }
     }
 
+    this.jumpToCurrentOccurance();
+    this.highlightCurrentOccurance();
+    //this.inputField.focus();
+  }
+
+  jumpToCurrentOccurance() {
     // Jump to occurance in window
     this.currentOccuranceElement = $(this.allOccurances[this.currentOccuranceIndex]);
     var currentOccuranceVerseBox = this.currentOccuranceElement.closest('.verse-box');
     var currentOccuranceAnchor = '#' + $(currentOccuranceVerseBox.find('a')[0]).attr('name');
     window.location = currentOccuranceAnchor;
-
-    this.highlightCurrentOccurance();
-    this.inputField.focus();
   }
 
   highlightCurrentOccurance() {
     // Update highlighting
     if (this.previousOccuranceElement != null) {
       this.previousOccuranceElement.removeClass('current-hl');
+      this.previousOccuranceElement.closest('.verse-box').find('.verse-text').removeClass('ui-selected');
+      bible_browser_controller.verse_selection.clear_verse_selection(false);
     }
 
     if (this.currentOccuranceElement != null) {
       this.currentOccuranceElement.addClass('current-hl');
+      this.currentOccuranceElement.closest('.verse-box').find('.verse-text').addClass('ui-selected');
+      bible_browser_controller.verse_selection.addVerseToSelected(this.currentOccuranceElement.closest('.verse-box'));
+      bible_browser_controller.verse_selection.updateViewsAfterVerseSelection();
     }
 
     // Update occurances label
@@ -178,6 +190,8 @@ class BookSearch {
 
     this.allOccurances = this.verseList.find('.search-hl');
     this.currentOccuranceElement = $(this.allOccurances[this.currentOccuranceIndex]);
+
+    this.jumpToCurrentOccurance();
     this.highlightCurrentOccurance();
 
     this.onSearchResultsAvailable(this.allOccurances);
