@@ -19,7 +19,11 @@
 class TranslationComparison {
   constructor() {
     this.initCompareTranslationsBox();
-    this.getButton().bind('click', async () => { await this.handleButtonClick(); });
+    this.getButton().bind('click', async () => {
+      if (this.isButtonEnabled()) {
+        await this.handleButtonClick();
+      }
+    });
   }
 
   getButton() {
@@ -36,6 +40,10 @@ class TranslationComparison {
 
   getSelectedVersesLabel() {
     return $('#selected-verses').text();
+  }
+
+  isButtonEnabled() {
+    return !(this.getButton().hasClass('ui-state-disabled'));
   }
 
   enableComparisonButton() {
