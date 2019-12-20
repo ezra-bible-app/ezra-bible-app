@@ -65,7 +65,7 @@
 [x] Refactoring: Extract verse selection functionality into its own component/class
 [x] Fix bug: Compare translation button still opens a window even though disabled
 [x] Fix bug: Export verse list still opens a window even though disabled
-[ ] Fix bug: Tag statistics are not available anymore (after click nothing happens)
+[x] Fix bug: Tag statistics are not available anymore (after click nothing happens)
 [ ] In a long book, automatically scroll to the right position in chapter navigation
 [ ] Automatically select the current verse when switching from one book search result to another
 [ ] Fix bug: Tag label click's cannot handle &

@@ -97,8 +97,10 @@ class TagStatistics {
         book_tag_statistics_button.removeClass('events-configured');
       }
 
-      book_tag_statistics_button.bind('click', () => {
-        this.open_book_tag_statistics(); 
+      book_tag_statistics_button.bind('click', (event) => {
+        if (!$(event.target).hasClass('ui-state-disabled')) {
+          this.open_book_tag_statistics();
+        }
       });
       book_tag_statistics_button.show();
     } else {
