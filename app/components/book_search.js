@@ -42,8 +42,6 @@ class BookSearch {
   }
 
   initInputField() {
-    this.inputField.bind('focus', function() { $(this).select(); });
-
     this.inputField.bind('keyup', (e) => {
       if (e.key == 'Escape') {
         this.clearSearch();
@@ -65,6 +63,7 @@ class BookSearch {
       this.searchTimeout = setTimeout(() => {
         this.onSearchReset();
         this.doSearch(searchString);
+        this.inputField.focus();
       }, 300);
     });
   }
@@ -131,7 +130,6 @@ class BookSearch {
 
     this.jumpToCurrentOccurance();
     this.highlightCurrentOccurance();
-    //this.inputField.focus();
   }
 
   jumpToCurrentOccurance() {
