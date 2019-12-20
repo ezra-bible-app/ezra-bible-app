@@ -1188,7 +1188,8 @@ h2 {
 .book-search-nav {
   float: left;
   margin-right: 0.5em;
-  cursor: default;
+  cursor: pointer;
+  user-select: none;
 }
 
 #book-search-occurances {
