@@ -323,13 +323,13 @@ class TextLoader {
 
       bible_browser_controller.module_search.resetSearch();
       bible_browser_controller.enableTaggingToolboxOnly();
-      bible_browser_controller.enableTaggedVersesExportButton(tabIndex);
+      bible_browser_controller.taggedVerseExport.enableTaggedVersesExportButton(tabIndex);
 
     } else if (listType == 'search_results') {
 
       //console.log("Rendering search results verse list on tab " + tabIndex);
       bible_browser_controller.enableTaggingToolboxOnly();
-      bible_browser_controller.enableTaggedVersesExportButton(tabIndex);
+      bible_browser_controller.taggedVerseExport.enableTaggedVersesExportButton(tabIndex);
     }
 
     if (!initialRendering) {
