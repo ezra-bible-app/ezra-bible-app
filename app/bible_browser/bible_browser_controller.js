@@ -127,6 +127,12 @@ class BibleBrowserController {
   }
 
   async onTabSelected(event = undefined, ui = { 'index' : 0}) {
+    // The ui.index may be higher as the actual available index. This happens after a tab was removed.
+    if (ui.index > (this.tab_controller.getTabCount() - 1)) {
+      // In this case we simply adjust the index to the last available index.
+      ui.index = this.tab_controller.getTabCount() - 1;
+    }
+
     // Clear verse selection
     this.verse_selection.clear_verse_selection();
 
@@ -594,14 +600,21 @@ class BibleBrowserController {
   }
 
   initApplicationForVerseList(tabIndex=undefined) {
+    var selectedTabIndex = this.tab_controller.getSelectedTabIndex();
+    var tabIsCurrentTab = false;
+
+    if (tabIndex == selectedTabIndex) {
+      tabIsCurrentTab = true;
+    }
+
     if (tabIndex === undefined) {
-      var tabIndex = this.tab_controller.getSelectedTabIndex();
+      var tabIndex = selectedTabIndex;
     }
 
     // Disabled notes controller
     //notes_controller.init();
 
-    if (tabIndex === undefined) {
+    if (tabIsCurrentTab) {
       this.tag_statistics.toggle_book_tags_statistics_button(tabIndex);
     }
 
