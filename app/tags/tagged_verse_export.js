@@ -21,6 +21,26 @@ class TaggedVerseExport {
     this.exportFilePath = null;
   }
 
+  enableTaggedVersesExportButton(tabIndex) {
+    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
+    var exportButton = currentVerseListMenu.find('.export-tagged-verses-button');
+    exportButton.removeClass('ui-state-disabled');
+    exportButton.unbind('click');
+    exportButton.bind('click', (event) => {
+      if (!$(event.target).hasClass('ui-state-disabled')) {
+        this.runExport();
+      }
+    });
+    exportButton.show();
+    exportButton.removeClass('events-configured');
+    configure_button_styles('.verse-list-menu');
+  }
+
+  disableTaggedVersesExportButton(tabIndex=undefined) {
+    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
+    currentVerseListMenu.find('.export-tagged-verses-button').addClass('ui-state-disabled');
+  }
+
   getBibleBookVerseBlocks(bibleBook, verses) {
     var lastVerseNr = 0;
     var allBlocks = [];
@@ -202,21 +222,24 @@ class TaggedVerseExport {
   runExport() {
     const dialog = require('electron').remote.dialog;
     var dialogOptions = this.getExportDialogOptions();
-    this.exportFilePath = dialog.showSaveDialogSync(null, dialogOptions);
-    
-    if (this.exportFilePath != undefined) {
-      var currentTab = bible_browser_controller.tab_controller.getTab();
-      var currentTagIdList = currentTab.getTagIdList();
 
-      bible_browser_controller.text_loader.requestVersesForSelectedTags(
-        undefined,
-        null,
-        currentTagIdList,
-        (bibleBooks, groupedVerseTags, verses) => { this.renderWordDocument(bibleBooks, groupedVerseTags, verses) },
-        'docx',
-        false
-      );
-    }
+    dialog.showSaveDialog(null, dialogOptions).then(result => {
+      this.exportFilePath = result.filePath;
+
+      if (!result.canceled && this.exportFilePath != undefined) {
+        var currentTab = bible_browser_controller.tab_controller.getTab();
+        var currentTagIdList = currentTab.getTagIdList();
+  
+        bible_browser_controller.text_loader.requestVersesForSelectedTags(
+          undefined,
+          null,
+          currentTagIdList,
+          (bibleBooks, groupedVerseTags, verses) => { this.renderWordDocument(bibleBooks, groupedVerseTags, verses) },
+          'docx',
+          false
+        );
+      }
+    });
   }
 }
 

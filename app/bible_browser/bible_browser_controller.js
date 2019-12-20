@@ -566,8 +566,10 @@ class BibleBrowserController {
     }
 
     this.navigation_pane.resetNavigationPane();
-    var currentVerseListMenu = this.getCurrentVerseListMenu();
-    currentVerseListMenu.find('.export-tagged-verses-button').addClass('ui-state-disabled');
+
+    if (this.taggedVerseExport != null) {
+      this.taggedVerseExport.disableTaggedVersesExportButton();
+    }
   }
 
   wrapBookWithHtml(book_title) {
@@ -654,19 +656,6 @@ class BibleBrowserController {
     /*if (highlight) { // FIXME
       original_verse_box.glow();
     }*/
-  }
-
-  enableTaggedVersesExportButton(tabIndex) {
-    var currentVerseListMenu = this.getCurrentVerseListMenu(tabIndex);
-    var exportButton = currentVerseListMenu.find('.export-tagged-verses-button');
-    exportButton.removeClass('ui-state-disabled');
-    exportButton.unbind('click');
-    exportButton.bind('click', () => {
-      this.taggedVerseExport.runExport();
-    });
-    exportButton.show();
-    exportButton.removeClass('events-configured');
-    configure_button_styles('.verse-list-menu');
   }
 }
 
