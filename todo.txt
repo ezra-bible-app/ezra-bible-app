@@ -66,8 +66,8 @@
 [x] Fix bug: Compare translation button still opens a window even though disabled
 [x] Fix bug: Export verse list still opens a window even though disabled
 [x] Fix bug: Tag statistics are not available anymore (after click nothing happens)
+[x] Automatically select the current verse when switching from one book search result to another
 [ ] In a long book, automatically scroll to the right position in chapter navigation
-[ ] Automatically select the current verse when switching from one book search result to another
 [ ] Fix bug: Tag label click's cannot handle &
 [ ] Refresh tagged verse lists in other tabs if a relevant tag is assigned/removed in the current tab
 [ ] Add recently used tags filter to Tags menu
