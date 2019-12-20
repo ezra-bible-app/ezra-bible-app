@@ -59,9 +59,10 @@
 [x] Synchronize tags across tabs
 [x] Optimize resize_app_container performance by making it tab-specific
 [x] Put all build scripts in one folder
+[x] Strongs support
 [x] Add loading indicator to tag list popup, because initial loading may be slow
-[ ] Fix bug: Selected tag is not updated in menu after start
-[ ] Refactoring: Extract verse selection functionality into its own component/class
+[x] Fix bug: Selected tag is not updated in menu after start
+[x] Refactoring: Extract verse selection functionality into its own component/class
 [ ] Fix bug: Tag label click's cannot handle &
 [ ] Refresh tagged verse lists in other tabs if a relevant tag is assigned/removed in the current tab
 [ ] Add recently used tags filter to Tags menu
@@ -70,6 +71,7 @@
 [ ] Understand differences in NT versification and handle it correctly in the software
 [ ] Add options to book search (case sensitivity, multi word)
 [ ] Highlight module search results
+[ ] Chapter headers in Psalms
 [ ] Implement Sword module unlocking
 [ ] Put in-place search menu as a wider horizontal bar below the bible text
 [ ] Integration with Wikipedia for places (show links, show summaries from pages, ...)
@@ -85,5 +87,4 @@
 
 ------
 [ ] X-Refs
-[ ] Strongs support
 
