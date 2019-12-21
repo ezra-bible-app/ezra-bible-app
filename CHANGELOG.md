@@ -23,6 +23,7 @@ All notable changes to Ezra Project are documented in this file.
   - Strong's transcriptions/original word are displayed as little hint/pop-up above the word when hovering the mouse over the corresponding word.
   - Detailed Strong's information is shown on the bottom left in a new area below the tags list.
   - Strong's based search with link 'Find all occurrances' in info box.
+* Dutch translation (Thanks to Tom Lemmens)
 
 ### Enhancements
 * Possibility to quickly filter translations in bible installation wizard for Strong's feature.
