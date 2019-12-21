@@ -228,8 +228,13 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   BibleBook.getBookTitleTranslation = function(shortName) {
-    var currentBookLongTitle = models.BibleBook.getBookLongTitle(shortName);
-    var currentBookName = i18nHelper.getSwordTranslation(currentBookLongTitle); 
+    if (shortName == null || shortName.length == 0) {
+      return null;
+    } else {
+      var currentBookLongTitle = models.BibleBook.getBookLongTitle(shortName);
+      var currentBookName = i18nHelper.getSwordTranslation(currentBookLongTitle);
+    }
+    
     return currentBookName;   
   };
 
