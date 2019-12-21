@@ -272,8 +272,12 @@ module.exports = (sequelize, DataTypes) => {
   }
 
   BibleBook.getShortTitleById = async function(id) {
-    var bibleBook = await BibleBook.findByPk(id);
-    return bibleBook.shortTitle;
+    if (id == null || id.length == 0) {
+      return null;
+    } else {
+      var bibleBook = await BibleBook.findByPk(id);
+      return bibleBook.shortTitle;
+    }
   }
 
   return BibleBook;
