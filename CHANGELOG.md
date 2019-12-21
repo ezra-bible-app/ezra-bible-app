@@ -24,6 +24,7 @@ All notable changes to Ezra Project are documented in this file.
 * Possibility to quickly filter translations in bible installation wizard for Strong's feature.
 * Lock wizard dialog once installation or uninstallation of translation has started.
 * Show a message while migrations are executed on start-up.
+* Show chapter headers (can be shown / hidden with existing option 'Show headers').
 * Use a loading indicator in tagged verses popup, since tagged verses loading may take some time if there are many verses for one tag.
 * Show statistics in title bar of tag list.
 * Performance optimization for rendering of tag lists.
