@@ -123,6 +123,8 @@
     "stats-total": "gesamt"
   },
   "bible-browser": {
+    "chapter": "Kapitel",
+    "psalm": "Psalm",
     "selection": "Auswahl: ",
     "loading-bible-text": "Lade Bibeltext",
     "loading-tagged-verses": "Lade Verse mit gewähltem Tag",

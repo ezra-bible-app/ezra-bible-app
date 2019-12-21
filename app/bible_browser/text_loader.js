@@ -127,6 +127,12 @@ class TextLoader {
     var verseTags = await bibleBook.getVerseTags(currentBibleTranslationId);
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags);
 
+    var chapterText = i18n.t("bible-browser.chapter");
+
+    if (book_short_title == 'Psa') {
+      chapterText = i18n.t("bible-browser.psalm");
+    }
+
     var verses_as_html = verseListTemplate({
       verseListId: current_tab_id,
       renderVerseMetaInfo: true,
@@ -135,6 +141,7 @@ class TextLoader {
       verses: verses,
       verseTags: groupedVerseTags,
       reference_separator: reference_separator,
+      chapterText: chapterText,
       tagHint: i18n.t("bible-browser.tag-hint")
     });
 
@@ -287,6 +294,7 @@ class TextLoader {
       verseTags: groupedVerseTags,
       reference_separator: reference_separator,
       tagHint: i18n.t("bible-browser.tag-hint"),
+      chapterText: i18n.t("bible-browser.chapter"),
       loadSearchResultsText: i18n.t("bible-browser.show-search-results")
     });
 
