@@ -63,9 +63,7 @@ class BookSearch {
       this.searchTimeout = setTimeout(() => {
         bible_browser_controller.verse_selection.clear_verse_selection(false);
         this.onSearchReset();
-        console.time("doSearch");
         this.doSearch(searchString);
-        console.timeEnd("doSearch");
         this.inputField.focus();
       }, 300);
     });
@@ -346,4 +344,3 @@ class BookSearch {
 }
 
 module.exports = BookSearch;
-
