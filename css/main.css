@@ -912,6 +912,14 @@ h2 {
   margin-left: 0.2em;
 }
 
+.chapter-header {
+  display: none;
+}
+
+.verse-list-with-section-titles .chapter-header {
+  display: block;
+}
+
 .verse-list-with-notes .verse-notes {
   display: block;
 }

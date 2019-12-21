@@ -33,7 +33,7 @@ each bibleBook in bibleBooks
   each verse in verses
     unless verse.bibleBookId == bibleBook.id
       - continue
-    
+
     - verse_count += 1
 
     - var new_chapter = false
@@ -41,7 +41,9 @@ each bibleBook in bibleBooks
       - new_chapter = true
       - var anchor = verseListId + " " + verse.chapter;
       a(name=anchor)
-      h1 #{chapterText} #{verse.chapter}
+      if chapterText != null
+        h2(class='chapter-header') #{chapterText} #{verse.chapter}
+
       - old_chapter = verse.chapter
 
     - var current_id_class = "verse-id-" + verse.id

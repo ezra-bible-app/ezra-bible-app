@@ -128,7 +128,6 @@ class TextLoader {
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags);
 
     var chapterText = i18n.t("bible-browser.chapter");
-
     if (book_short_title == 'Psa') {
       chapterText = i18n.t("bible-browser.psalm");
     }
@@ -294,7 +293,6 @@ class TextLoader {
       verseTags: groupedVerseTags,
       reference_separator: reference_separator,
       tagHint: i18n.t("bible-browser.tag-hint"),
-      chapterText: i18n.t("bible-browser.chapter"),
       loadSearchResultsText: i18n.t("bible-browser.show-search-results")
     });
 
