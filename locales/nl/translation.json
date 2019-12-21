@@ -123,6 +123,8 @@
     "stats-total": "totaal"
   },
   "bible-browser": {
+    "chapter": "Hoofdstuk",
+    "psalm": "Psalm",
     "selection": "Selectie: ",
     "loading-bible-text": "Bijbeltekst laden",
     "loading-tagged-verses": "Getagde verzen laden",
