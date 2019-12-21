@@ -29,11 +29,23 @@ each bibleBook in bibleBooks
     div.tag-browser-verselist-book-header(bookName=bibleBook.shortTitle) #{i18nLongTitle} (#{resultCount})
 
   - var verse_count = 0
+  - var old_chapter = null;
+  
   each verse in verses
     unless verse.bibleBookId == bibleBook.id
       - continue
-    
+
     - verse_count += 1
+
+    - var new_chapter = false
+    if verse.chapter != old_chapter
+      - new_chapter = true
+      - var anchor = verseListId + " " + verse.chapter;
+      a(name=anchor)
+      if chapterText != null
+        h2(class='chapter-header') #{chapterText} #{verse.chapter}
+
+      - old_chapter = verse.chapter
 
     - var current_id_class = "verse-id-" + verse.id
     - var current_verse_reference_id_class = "verse-reference-id-" + verse.verseReferenceId
@@ -60,6 +72,7 @@ each bibleBook in bibleBooks
       div.verse-reference-id #{verse.verseReferenceId}
       div.abs-verse-nr #{verse.absoluteVerseNr}
       div.verse-bible-book-id #{verse.bibleBookId}
+
       div.verse-reference
         if renderVerseMetaInfo == true
           //- div.notes-info N
@@ -77,6 +90,7 @@ each bibleBook in bibleBooks
                   div.tag-title #{verseTag.tagTitle}
                   div.tag-id #{verseTag.tagId}
         div.verse-reference-content #{verseReference}
+
       div.verse-content
         if renderVerseMetaInfo == true
           div.tag-box
@@ -88,8 +102,10 @@ each bibleBook in bibleBooks
                 if !verseTagBibleBookIsNull
                   - current_tag_title += " *"
                 div.tag(title=tagHint) !{current_tag_title}
+
         div.verse-text !{verse.content}
         div.cr-box
+
       div.verse-notes
 
   if verse_count == 0 && renderBibleBookHeaders == true
