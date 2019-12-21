@@ -5,11 +5,16 @@ All notable changes to Ezra Project are documented in this file.
 ## [Next release]
 ### Features
 
+* French translation ([#11][i11])
+
 ### Enhancements
 
 ### Fixes
 
 ### Enablers
+
+[i11]: https://github.com/tobias-klein/ezra-project/issues/11
+
 -->
 
 ## [0.11.0] - 2019-12-x
@@ -18,7 +23,6 @@ All notable changes to Ezra Project are documented in this file.
   - Strong's transcriptions/original word are displayed as little hint/pop-up above the word when hovering the mouse over the corresponding word.
   - Detailed Strong's information is shown on the bottom left in a new area below the tags list.
   - Strong's based search with link 'Find all occurrances' in info box.
-* French translation ([#11][i11])
 
 ### Enhancements
 * Possibility to quickly filter translations in bible installation wizard for Strong's feature.
@@ -38,7 +42,6 @@ All notable changes to Ezra Project are documented in this file.
 * Implemented GitHub Continuous Integration - now there's dev packages available for all supported targets (Windows, Linux, macOS) after every push to GitHub.
 
 [i10]: https://github.com/tobias-klein/ezra-project/issues/10
-[i11]: https://github.com/tobias-klein/ezra-project/issues/11
 
 ## [0.10.0] - 2019-10-15
 ### Features
