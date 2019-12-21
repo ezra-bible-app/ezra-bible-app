@@ -56,6 +56,7 @@
 [x] Implement a new release info functionality
 [x] Cleanup gyp shebang
 [x] Package for CentOS 8
+------
 [x] Synchronize tags across tabs
 [x] Optimize resize_app_container performance by making it tab-specific
 [x] Put all build scripts in one folder
@@ -65,9 +66,10 @@
 [x] Refactoring: Extract verse selection functionality into its own component/class
 [x] Fix bug: Compare translation button still opens a window even though disabled
 [x] Fix bug: Export verse list still opens a window even though disabled
-[x] Fix bug: Tag statistics are not available anymore (after click nothing happens)
 [x] Automatically select the current verse when switching from one book search result to another
 [x] Chapter headers
+------
+[ ] Implement Sword module unlocking
 [ ] In a long book, automatically scroll to the right position in chapter navigation
 [ ] Fix bug: Tag label click's cannot handle &
 [ ] Refresh tagged verse lists in other tabs if a relevant tag is assigned/removed in the current tab
@@ -77,7 +79,6 @@
 [ ] Understand differences in NT versification and handle it correctly in the software
 [ ] Add options to book search (case sensitivity, multi word)
 [ ] Highlight module search results
-[ ] Implement Sword module unlocking
 [ ] Put in-place search menu as a wider horizontal bar below the bible text
 [ ] Integration with Wikipedia for places (show links, show summaries from pages, ...)
 [ ] Tagged verse list sharing
