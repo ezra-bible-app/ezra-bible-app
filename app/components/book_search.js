@@ -63,7 +63,9 @@ class BookSearch {
       this.searchTimeout = setTimeout(() => {
         bible_browser_controller.verse_selection.clear_verse_selection(false);
         this.onSearchReset();
+        console.time("doSearch");
         this.doSearch(searchString);
+        console.timeEnd("doSearch");
         this.inputField.focus();
       }, 300);
     });
@@ -172,7 +174,7 @@ class BookSearch {
   }
 
   doSearch(searchString) {
-    var allVerses = this.verseList.find('.verse-text');
+    var allVerses = this.verseList[0].querySelectorAll('.verse-text');
 
     this.currentOccuranceIndex = 0;
     this.currentOccurancesCount = 0;
@@ -181,13 +183,12 @@ class BookSearch {
     //console.log("Found " + allVerses.length + " verses to search in.");
 
     for (var i = 0; i < allVerses.length; i++) {
-      var currentVerse = $(allVerses[i]);
+      var currentVerse = allVerses[i];
       var verseOccurancesCount = this.doVerseSearch(currentVerse, searchString);
-
       this.currentOccurancesCount += verseOccurancesCount;
     }
 
-    this.allOccurances = this.verseList.find('.search-hl');
+    this.allOccurances = this.verseList[0].querySelectorAll('.search-hl');
     this.currentOccuranceElement = $(this.allOccurances[this.currentOccuranceIndex]);
 
     this.jumpToCurrentOccurance();
@@ -213,7 +214,7 @@ class BookSearch {
     var searchStringLength = searchString.length;
 
     if (searchStringLength > 0) {
-      var verseHtml = verseElement.html();
+      var verseHtml = verseElement.innerHTML;
       var currentIndex = 0;
 
       while (true) {
@@ -295,7 +296,7 @@ class BookSearch {
   }
 
   highlightOccurancesInVerse(verseElement, searchString, occurances) {
-    var verseHtml = verseElement.html()
+    var verseHtml = verseElement.innerHTML;
     searchString = this.escapeRegExp(searchString);
 
     var regexSearchString = new RegExp(searchString, 'g');
@@ -307,7 +308,7 @@ class BookSearch {
       }
     });
 
-    verseElement.html(highlightedVerseText);
+    verseElement.innerHTML = highlightedVerseText;
   }
 
   getHighlightedSearchString(searchString) {
@@ -315,14 +316,14 @@ class BookSearch {
   }
 
   removeHighlightingFromVerse(verseElement) {
-    var searchHl = verseElement.find('.search-hl, .current-hl');
+    var searchHl = $(verseElement).find('.search-hl, .current-hl');
     for (var i = 0; i < searchHl.length; i++) {
       var highlightedText = $(searchHl[i]);
       var text = highlightedText.text();
       highlightedText.replaceWith(text);
     }
 
-    var verseElementHtml = verseElement.html();
+    var verseElementHtml = verseElement.innerHTML;
 
     /* Remove line breaks between strings, that resulted from inserting the 
        search-hl / current-hl elements before. If these linebreaks are not removed
@@ -340,7 +341,7 @@ class BookSearch {
 
      */
     verseElementHtml = verseElementHtml.replace("\"\n\"", "");
-    verseElement.html(verseElementHtml);
+    verseElement.innerHTML = verseElementHtml;
   }
 }
 
