@@ -50,7 +50,7 @@
   },
   "module-sync": {
     "module-sync-header": "SWORD-modules synchroniseren",
-    "synchronizing": "Synchroniseren",
+    "synchronizing": "Synchroniseren van",
     "modules-with-db": "SWORD-modules met Ezra Project-databank!",
     "sync-completed": "Synchronisatie voltooid!",
     "installing": "Installeren",
