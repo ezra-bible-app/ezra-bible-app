@@ -17,7 +17,7 @@ All notable changes to Ezra Project are documented in this file.
 
 -->
 
-## [0.11.0] - 2019-12-x
+## [0.11.0] - 2019-12-23
 ### Features
 * Strong's support ([#10][i10])
   - Strong's transcriptions/original word are displayed as little hint/pop-up above the word when hovering the mouse over the corresponding word.
