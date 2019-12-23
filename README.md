@@ -25,18 +25,23 @@ Ezra Project comes with the following functionality:
 * Search
   * Search within the currently opened book or verse list (CTRL + f).
   * Search within the full bible translation.
+  * Search with multiple words, exact phrase or Strong's number.
+* Strong's dictionary
+  - Strong's transcriptions/original word are displayed as hint/pop-up above the word when hovering the mouse over the corresponding word while pressing SHIFT.
+  - Detailed Strong's information is shown on the bottom left in a separate box.
+  - Strong's based search with link 'Find all occurrances'.
 * Tabbed user interface
   * Each tab either shows a book, a tagged verse list or search results.
   * Previously opened tabs are loaded again on program start.
 * User interface available in the following languages:
-  * English, German
+  * English, German, Dutch
 
 ## Upcoming Features
 
-Ezra Project is currently on a bi-monthly release schedule. The next release [0.11.0](https://github.com/tobias-klein/ezra-project/milestone/1) is planned for December 2019 with the following new features:
+Ezra Project is currently on a bi-monthly release schedule. The next release [0.12.0](https://github.com/tobias-klein/ezra-project/milestone/2) is planned for February 2020 with the following new features:
 
-* Strong's support
 * French translation
+* Sword module unlock support
 
 ## Installation
 The latest installation packages for Windows, Linux and macOS can be found on [this page][latest]. Specific install instructions are below.
