@@ -205,7 +205,9 @@ class TagsController {
       return ($(this).html() == tag_id);
     });
 
-    var verse_list = $.create_xml_doc(tags_controller.element_list_to_xml_verse_list(tag_data_elements));
+    var verse_list = $.create_xml_doc(
+      bible_browser_controller.verse_selection.element_list_to_xml_verse_list(tag_data_elements)
+    );
 
     tags_controller.change_verse_list_tag_info(tag_id,
                                                tag_title,
