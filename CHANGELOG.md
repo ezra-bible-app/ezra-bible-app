@@ -41,6 +41,7 @@ All notable changes to Ezra Project are documented in this file.
 ### Enablers
 * Implemented Strong's parsing in [node-sword-interface](https://github.com/tobias-klein/node-sword-interface).
 * Implemented GitHub Continuous Integration - now there's dev packages available for all supported targets (Windows, Linux, macOS) after every push to GitHub.
+* Upgraded Electron from 4.2.9 to 7.1.1.
 
 [i10]: https://github.com/tobias-klein/ezra-project/issues/10
 
