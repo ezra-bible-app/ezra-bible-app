@@ -133,6 +133,11 @@ class BibleBrowserController {
       ui.index = this.tab_controller.getTabCount() - 1;
     }
 
+    // Re-configure book search
+    this.book_search.resetSearch();
+    var currentVerseList = this.getCurrentVerseList(ui.index);
+    this.book_search.setVerseList(currentVerseList);
+
     // Clear verse selection
     this.verse_selection.clear_verse_selection();
 
@@ -141,10 +146,6 @@ class BibleBrowserController {
 
     // Refresh tags selection menu (It's global!)
     await this.tag_selection_menu.updateTagSelectionMenu(ui.index);
-
-    // Re-configure book search for current verse list
-    var currentVerseList = this.getCurrentVerseList(ui.index);
-    this.book_search.setVerseList(currentVerseList);
 
     // Update available books for current translation
     this.translation_controller.updateAvailableBooks(ui.index);

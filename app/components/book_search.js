@@ -44,7 +44,7 @@ class BookSearch {
   initInputField() {
     this.inputField.bind('keyup', (e) => {
       if (e.key == 'Escape') {
-        this.clearSearch();
+        this.resetSearch();
         return;
       }
 
@@ -87,7 +87,7 @@ class BookSearch {
     });
 
     Mousetrap.bind('esc', () => {
-      this.clearSearch();
+      this.resetSearch();
       return false;
     });
   }
@@ -96,7 +96,7 @@ class BookSearch {
     this.verseList = verseList;
   }
 
-  clearSearch() {
+  resetSearch() {
     this.onSearchReset();
     this.searchForm.hide();
     this.doSearch("");
@@ -172,6 +172,10 @@ class BookSearch {
   }
 
   doSearch(searchString) {
+    if (this.verseList == null) {
+      return;
+    }
+    
     var allVerses = this.verseList[0].querySelectorAll('.verse-text');
 
     this.currentOccuranceIndex = 0;
@@ -189,8 +193,10 @@ class BookSearch {
     this.allOccurances = this.verseList[0].querySelectorAll('.search-hl');
     this.currentOccuranceElement = $(this.allOccurances[this.currentOccuranceIndex]);
 
-    this.jumpToCurrentOccurance();
-    this.highlightCurrentOccurance();
+    if (this.allOccurances.length > 0) {
+      this.jumpToCurrentOccurance();
+      this.highlightCurrentOccurance();
+    }
 
     this.onSearchResultsAvailable(this.allOccurances);
   }
