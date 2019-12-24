@@ -13,7 +13,6 @@ cp -a ezra-project ezra-project-ubuntu1904
 cp -a ezra-project ezra-project-linux-mint18
 cp -a ezra-project ezra-project-buster
 cp -a ezra-project ezra-project-fedora29
-cp -a ezra-project ezra-project-centos7
 cp -a ezra-project ezra-project-centos8
 cp -a ezra-project ezra-project-opensuse-leap
 
@@ -46,12 +45,6 @@ echo "******** Building for Fedora 29 ******** "
 docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-fedora29 fedora.ezra:1.0 /tmp/ezra-packages/ezra-project-fedora29/build_scripts/build.sh
 docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-fedora29 fedora.ezra:1.0 npm run rpm_fedora29
 cp /tmp/ezra-packages/ezra-project-fedora29/release/packages/ezra-project-${VERSION}-1.x86_64.rpm ezra-project_fedora29_${VERSION}.x86_64.rpm
-
-echo ""
-echo "******** Building for CentOS 7 ******** "
-docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-centos7 centos7.ezra:1.0 scl enable devtoolset-3 \ /tmp/ezra-packages/ezra-project-centos7/build_scripts/build.sh
-docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-centos7 centos7.ezra:1.0 npm run rpm_centos
-cp /tmp/ezra-packages/ezra-project-centos7/release/packages/ezra-project-${VERSION}-1.x86_64.rpm ezra-project_centos7_${VERSION}.x86_64.rpm
 
 echo ""
 echo "******** Building for CentOS 8 ******** "
