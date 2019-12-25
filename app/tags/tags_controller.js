@@ -1143,8 +1143,9 @@ class TagsController {
 
     tags_controller.tag_search_timeout = setTimeout(function filter_tag_list() {
       //console.time('filter-tag-list');
-      var tag_labels = $('#tags-content').find('.cb-label');
-      $('#tags-content').find('.checkbox-tag').hide();
+      var tags_content = document.getElementById('tags-content');
+      var tag_labels = tags_content.querySelectorAll('.cb-label');
+      $(tags_content).find('.checkbox-tag').hide();
 
       for (var i = 0; i < tag_labels.length; i++) {
         var current_label = $(tag_labels[i]);
