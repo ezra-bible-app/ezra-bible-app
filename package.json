@@ -51,11 +51,7 @@
     "log-timestamp": "^0.3.0",
     "mousetrap": "^1.6.3",
     "node-addon-api": "^1.7.1",
-<<<<<<< HEAD
     "node-sword-interface": "^0.101.0",
-=======
-    "node-sword-interface": "^0.100.0",
->>>>>>> fb55f85fc4dcbf1e0f39426c03eba13690d9f962
     "officegen": "^0.5.2",
     "pug": "^2.0.4",
     "sequelize": "^5.21.2",
