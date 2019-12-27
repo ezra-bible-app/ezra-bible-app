@@ -47,7 +47,9 @@ class VerseContextLoader {
       var start_verse_box = current_reference.closest('.verse-box');
       var current_bible_book_id = start_verse_box.find('.verse-bible-book-id').text();
       var current_book_title = await models.BibleBook.getShortTitleById(current_bible_book_id);
-      var start_verse_nr = tags_controller.reference_to_verse_nr(current_book_title, start_verse_box.find('.verse-reference-content').html(), false);
+      var start_verse_nr = bible_browser_controller.verse_selection.reference_to_verse_nr(current_book_title,
+                                                                                          start_verse_box.find('.verse-reference-content').html(),
+                                                                                          false);
       start_verse_nr -= 3;
       if (start_verse_nr < 1) {
         start_verse_nr = 1;
