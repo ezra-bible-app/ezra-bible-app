@@ -598,19 +598,6 @@ class InstallTranslationWizard {
 
     wizardPage.append(introText);
 
-    /*repositories = repositories.sort((a, b) => {
-      var repoTranslationCountA = this.getRepoTranslationCount(a);
-      var repoTranslationCountB = this.getRepoTranslationCount(b);
-
-      if (repoTranslationCountA >= repoTranslationCountB) {
-        return -1;
-      } else if (repoTranslationCountA < repoTranslationCountB) {
-        return 1;
-      }
-
-      return 0;
-    });*/
-
     for (var i = 0; i < repositories.length; i++) {
       var currentRepoTranslationCount = this.getRepoTranslationCount(repositories[i]);
 
