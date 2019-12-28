@@ -111,10 +111,6 @@ a.outline-reference:focus, a.outline-reference:hover {
   margin-left: 1em;
 }
 
-#tags-search-input {
-  width: 12em;
-}
-
 #meta-tag-navigation {
   clear: both;
   font-weight: bold;
@@ -261,7 +257,7 @@ tr.td-underline td {
   margin: 0;
   margin-top: -0.2em;
   float: right;
-  height: 1em;
+  width: 12em;
 }
 
 #filter-dialog {
