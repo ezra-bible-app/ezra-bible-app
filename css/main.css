@@ -300,11 +300,12 @@ h2 {
 
 .tag {
   display: inline;
-  color: #808080;
+  color: black;
+  font-weight: normal;
+  background-color: lightyellow;
   border: 1px solid #AED0EA;
   /*border: 1px solid #808080;*/
   font-size: 0.85em;
-  font-weight: bold;
   padding: 0.1em;
   margin-right: 0.4em;
   line-height: 2em;
