@@ -91,9 +91,13 @@ class BibleBrowserController {
   }
 
   onSearchResultsAvailable = async function(occurances) {
+    // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
+    this.strongs.bindAfterBibleTextLoaded();
+
     var currentVerseListFrame = this.getCurrentVerseListFrame();
     var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
 
+    // Highlight occurances in navigation pane
     for (var i = 0; i < occurances.length; i++) {
       var currentOccurance = $(occurances[i]);
       var verseBox = currentOccurance.closest('.verse-box');
@@ -124,6 +128,9 @@ class BibleBrowserController {
 
   onSearchReset() {
     this.navigation_pane.clearHighlightedSearchResults();
+
+    // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
+    this.strongs.bindAfterBibleTextLoaded();
   }
 
   async onTabSelected(event = undefined, ui = { 'index' : 0}) {

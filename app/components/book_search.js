@@ -57,6 +57,7 @@ class BookSearch {
 
       var searchString = this.inputField.val();
       if (searchString.length < 3) {
+        this.resetOccurances();
         return;
       }
 
@@ -96,10 +97,19 @@ class BookSearch {
     this.verseList = verseList;
   }
 
-  resetSearch() {
+  resetOccurances() {
+    if (this.currentOccurancesCount > 0) {
+      this.removeAllHighlighting();
+    }
+    
+    this.currentOccurancesCount = 0;
+    this.updateOccurancesLabel();
     this.onSearchReset();
+  }
+
+  resetSearch() {
+    this.resetOccurances();
     this.searchForm.hide();
-    this.doSearch("");
   }
 
   jumpToNextOccurance(forward=true) {
@@ -317,6 +327,17 @@ class BookSearch {
 
   getHighlightedSearchString(searchString) {
     return "<span class='search-hl'>" + searchString + "</span>";
+  }
+
+  removeAllHighlighting() {
+    if (this.verseList != null) {
+      var allVerses = this.verseList[0].querySelectorAll('.verse-text');
+
+      for (var i = 0; i < allVerses.length; i++) {
+        var currentVerse = allVerses[i];
+        this.removeHighlightingFromVerse(currentVerse);
+      }
+    }
   }
 
   removeHighlightingFromVerse(verseElement) {
