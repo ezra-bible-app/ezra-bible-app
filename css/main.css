@@ -303,7 +303,7 @@ h2 {
   color: black;
   font-weight: normal;
   background-color: lightyellow;
-  border: 1px solid #AED0EA;
+  border: 1px solid lightgray;
   /*border: 1px solid #808080;*/
   font-size: 0.85em;
   padding: 0.1em;
