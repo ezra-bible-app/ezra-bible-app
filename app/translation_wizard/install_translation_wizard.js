@@ -60,6 +60,8 @@ class InstallTranslationWizard {
       } else {
         $('#remove-bible-translations-button').addClass('ui-state-disabled');
       }
+
+      configure_button_styles('#translation-settings-wizard-init');
     });
 
     $('#translation-settings-wizard').dialog({
@@ -622,8 +624,16 @@ class InstallTranslationWizard {
       lastUpdate = new Date(Date.parse(lastUpdate)).toLocaleDateString(i18n.language);
     }
 
-    var lastUpdateInfo = "<p style='margin-top: 2em;'>" + i18n.t("translation-wizard.repo-data-last-updated") + " " + lastUpdate + ".</p>";
+    var lastUpdateInfo = "<p style='margin-top: 2em;'>" +
+                         i18n.t("translation-wizard.repo-data-last-updated", { date: lastUpdate }) + " " +
+                         "<button class='fg-button ui-state-default ui-corner-all'>" +
+                         i18n.t("translation-wizard.update-now") +
+                         "</button>" +
+                         "</p>";
+
     wizardPage.append(lastUpdateInfo);
+
+    configure_button_styles('#translation-settings-wizard-add-p-0');
 
     var additionalInfo = "<p style='margin-top: 2em;'>" +
                          i18n.t("translation-wizard.more-repo-information-needed") +
