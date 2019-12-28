@@ -81,15 +81,22 @@ class InstallTranslationWizard {
     wizardPage.empty();
 
     var lastSwordRepoUpdateSaved = bible_browser_controller.settings.has("lastSwordRepoUpdate");
+    var listRepoTimeoutMs = 800;
 
     if (!nsi.repositoryConfigExisting() || !lastSwordRepoUpdateSaved || force) {
       wizardPage.append('<p>' + i18n.t('translation-wizard.updating-repository-data') + '</p>');
-      await nsi.updateRepositoryConfig();
-      bible_browser_controller.settings.set("lastSwordRepoUpdate", new Date());
+
+      try {
+        await nsi.updateRepositoryConfig();
+        bible_browser_controller.settings.set("lastSwordRepoUpdate", new Date());
+      } catch(e) {
+        listRepoTimeoutMs = 3000;
+        wizardPage.append('<p>' + i18n.t('translation-wizard.update-repository-data-failed') + '</p>');
+      }
     }
 
     wizardPage.append('<p>' + i18n.t("translation-wizard.loading-repositories") + '</p>');
-    setTimeout(() => this.listRepositories(), 800);
+    setTimeout(() => this.listRepositories(), listRepoTimeoutMs);
   }
 
   async openAddTranslationWizard() {
@@ -637,8 +644,8 @@ class InstallTranslationWizard {
 
     wizardPage.append(lastUpdateInfo);
 
-    $('#update-repo-data').bind('click', () => {
-      this.updateRepositoryConfig(true);
+    $('#update-repo-data').bind('click', async () => {
+      await this.updateRepositoryConfig(true);
     });
 
     configure_button_styles('#translation-settings-wizard-add-p-0');

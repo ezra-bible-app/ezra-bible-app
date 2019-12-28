@@ -36,6 +36,7 @@
     "more-repo-information-needed": "Vous avez besoin de plus d'informations sur ces dépôts ?<br/>Consultez le <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>Wiki de CrossWire</a>.",
     "click-to-show-detailed-module-info": "Cliquez sur un code de traduction (lien après le nom de la traduction) pour afficher ici des informations détaillées sur le module.",
     "updating-repository-data": "Mise à jour des données du dépôt ! Cela prendra quelques secondes…",
+    "update-repository-data-failed": "Updating repository data failed! Are you offline?",
     "loading-repositories": "Chargement des dépôts…",
     "loading-languages": "Chargement des langues…",
     "pick-languages-from-repos": "Veuillez sélectionner au moins une des langues disponibles dans les dépôts suivants : ",
