@@ -331,16 +331,18 @@ class BookSearch {
 
   removeAllHighlighting() {
     if (this.verseList != null) {
-      var allVerses = this.verseList[0].querySelectorAll('.verse-text');
-
-      for (var i = 0; i < allVerses.length; i++) {
-        var currentVerse = allVerses[i];
-        this.removeHighlightingFromVerse(currentVerse);
+      for (var i = 0; i < this.allOccurances.length; i++) {
+        var currentOccuranceVerseBox = $(this.allOccurances[i]).closest('.verse-text')[0];
+        this.removeHighlightingFromVerse(currentOccuranceVerseBox);
       }
     }
   }
 
   removeHighlightingFromVerse(verseElement) {
+    if (verseElement == null) {
+      return;
+    }
+    
     var searchHl = $(verseElement).find('.search-hl, .current-hl');
     for (var i = 0; i < searchHl.length; i++) {
       var highlightedText = $(searchHl[i]);
