@@ -76,17 +76,13 @@ class InstallTranslationWizard {
     this._helper.unlockDialog();
   }
 
-  async openAddTranslationWizard() {
-    $('#translation-settings-wizard-init').hide();
-    this.initAddTranslationWizard();
-    $('#translation-settings-wizard-add').show();
-
+  async updateRepositoryConfig(force=false) {
     var wizardPage = $('#translation-settings-wizard-add-p-0');
     wizardPage.empty();
 
     var lastSwordRepoUpdateSaved = bible_browser_controller.settings.has("lastSwordRepoUpdate");
 
-    if (!nsi.repositoryConfigExisting() || !lastSwordRepoUpdateSaved) {
+    if (!nsi.repositoryConfigExisting() || !lastSwordRepoUpdateSaved || force) {
       wizardPage.append('<p>' + i18n.t('translation-wizard.updating-repository-data') + '</p>');
       await nsi.updateRepositoryConfig();
       bible_browser_controller.settings.set("lastSwordRepoUpdate", new Date());
@@ -94,6 +90,14 @@ class InstallTranslationWizard {
 
     wizardPage.append('<p>' + i18n.t("translation-wizard.loading-repositories") + '</p>');
     setTimeout(() => this.listRepositories(), 800);
+  }
+
+  async openAddTranslationWizard() {
+    $('#translation-settings-wizard-init').hide();
+    this.initAddTranslationWizard();
+    $('#translation-settings-wizard-add').show();
+
+    await this.updateRepositoryConfig();
   }
 
   initAddTranslationWizard() {
@@ -626,12 +630,16 @@ class InstallTranslationWizard {
 
     var lastUpdateInfo = "<p style='margin-top: 2em;'>" +
                          i18n.t("translation-wizard.repo-data-last-updated", { date: lastUpdate }) + " " +
-                         "<button class='fg-button ui-state-default ui-corner-all'>" +
+                         "<button id='update-repo-data' class='fg-button ui-state-default ui-corner-all'>" +
                          i18n.t("translation-wizard.update-now") +
                          "</button>" +
                          "</p>";
 
     wizardPage.append(lastUpdateInfo);
+
+    $('#update-repo-data').bind('click', () => {
+      this.updateRepositoryConfig(true);
+    });
 
     configure_button_styles('#translation-settings-wizard-add-p-0');
 
