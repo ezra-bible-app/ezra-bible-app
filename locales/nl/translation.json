@@ -26,6 +26,7 @@
     "add-translations": "Voeg Bijbelvertalingen toe",
     "remove-translations": "Verwijder Bijbelvertalingen",
     "repositories": "Depots",
+    "repo-data-last-updated": "Repository data was last updated on",
     "languages": "Talen",
     "translations": "Vertalingen",
     "removal": "Verwijdering",

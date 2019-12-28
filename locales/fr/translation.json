@@ -26,6 +26,7 @@
     "add-translations": "Ajouter des traductions de la Bible",
     "remove-translations": "Supprimer des traductions de la Bible",
     "repositories": "Dépôts",
+    "repo-data-last-updated": "Repository data was last updated on",
     "languages": "Langues",
     "translations": "Traductions",
     "removal": "Suppression",
