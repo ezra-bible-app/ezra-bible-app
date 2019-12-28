@@ -197,24 +197,17 @@ class BibleBrowserController {
 
   onBibleTranslationChanged() {
     var currentTab = this.tab_controller.getTab();
-    var currentBook = currentTab.getBook();
-    var currentTagIdList = currentTab.getTagIdList();
-    var currentTextType = currentTab.getTextType();
-    var currentBibleTranslationId = currentTab.getBibleTranslationId();
-    var currentTabId = this.tab_controller.getSelectedTabId();
-    var currentTabIndex = this.tab_controller.getSelectedTabIndex();
-    this.tab_controller.refreshBibleTranslationInTabTitle(currentBibleTranslationId);
+    this.tab_controller.refreshBibleTranslationInTabTitle(currentTab.getBibleTranslationId());
 
-    if (currentTextType == 'search_results') {
-      var currentSearchTerm = currentTab.getSearchTerm();
+    if (currentTab.getTextType() == 'search_results') {
       this.text_loader.prepareForNewText(true, true);
-      this.module_search.startSearch(null, currentTabIndex, currentSearchTerm);
+      this.module_search.startSearch(null, this.tab_controller.getSelectedTabIndex(), currentTab.getSearchTerm());
     } else {
       if (!this.tab_controller.isCurrentTabEmpty()) {
         this.text_loader.prepareForNewText(false, false);
-        this.text_loader.requestTextUpdate(currentTabId,
-                                           currentBook,
-                                           currentTagIdList,
+        this.text_loader.requestTextUpdate(this.tab_controller.getSelectedTabId(),
+                                           currentTab.getBook(),
+                                           currentTab.getTagIdList(),
                                            null);
       }
     }
