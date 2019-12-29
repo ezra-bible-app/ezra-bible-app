@@ -914,6 +914,10 @@ h2 {
   display: none;
 }
 
+.book-intro {
+  display: none;
+}
+
 .verse-list-with-section-titles .chapter-header {
   display: block;
 }

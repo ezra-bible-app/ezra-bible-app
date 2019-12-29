@@ -132,10 +132,18 @@ class TextLoader {
       chapterText = i18n.t("bible-browser.psalm");
     }
 
+    var bookIntroduction = null;
+    var localSwordModule = nsi.getLocalModule(currentBibleTranslationId);
+    
+    if (localSwordModule != null && localSwordModule.hasHeadings) {
+      bookIntroduction = nsi.getBookIntroduction(currentBibleTranslationId, book_short_title);
+    }
+
     var verses_as_html = verseListTemplate({
       verseListId: current_tab_id,
       renderVerseMetaInfo: true,
       renderBibleBookHeaders: false,
+      bookIntroduction: bookIntroduction,
       bibleBooks: [bibleBook],
       verses: verses,
       verseTags: groupedVerseTags,

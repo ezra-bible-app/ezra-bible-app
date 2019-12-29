@@ -25,6 +25,11 @@ class OptionsMenu {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.display-options-button').bind('click', (event) => { this.handleMenuClick(event); });
     
+    $('#book-intro-switch').bind('change', () => {
+      this.showOrHideBookIntroductionBasedOnOption();
+      this.slowlyHideDisplayMenu();
+    });
+
     $('#section-title-switch').bind('change', () => {
       this.showOrHideSectionTitlesBasedOnOption();
       this.slowlyHideDisplayMenu();
@@ -99,7 +104,18 @@ class OptionsMenu {
     }
   }
 
+  enableOption(optionId) {
+    $('#' + optionId).attr('checked', 'checked');
+    $('#' + optionId).removeAttr('disabled');
+    $('#' + optionId + '-box').addClass('ui-state-active'); 
+  }
+
   loadDisplayOptions() {
+    var showBookIntro = false;
+    if (bible_browser_controller.settings.has('showBookIntro')) {
+      showBookIntro = bible_browser_controller.settings.get('showBookIntro');
+    }
+
     var showSectionTitles = false;
     if (bible_browser_controller.settings.has('showSectionTitles')) {
       showSectionTitles = bible_browser_controller.settings.get('showSectionTitles');
@@ -121,34 +137,57 @@ class OptionsMenu {
       useTagsColumn = bible_browser_controller.settings.get('useTagsColumn');
     }
 
+    if (showBookIntro) {
+      this.enableOption('book-intro-switch');
+    }
+
     if (showSectionTitles) {
-      $('#section-title-switch').attr('checked', 'checked');
-      $('#section-title-switch').removeAttr('disabled');
-      $('#section-title-switch-box').addClass('ui-state-active');
+      this.enableOption('section-title-switch');
     }
 
     if (showStrongs) {
-      $('#strongs-switch').attr('checked', 'checked');
-      $('#strongs-switch').removeAttr('disabled');
-      $('#strongs-switch-box').addClass('ui-state-active');      
+      this.enableOption('strongs-switch');
     }
 
     if (showTags) {
-      $('#tags-switch').attr('checked', 'checked');
-      $('#tags-switch').removeAttr('disabled');
-      $('#tags-switch-box').addClass('ui-state-active');
+      this.enableOption('tags-switch');
     }
 
     if (useTagsColumn) {
-      $('#tags-column-switch').attr('checked', 'checked');
-      $('#tags-column-switch').removeAttr('disabled');
-      $('#tags-column-switch-box').addClass('ui-state-active');
+      this.enableOption('tags-column-switch');
     }   
     
+    this.showOrHideBookIntroductionBasedOnOption();
     this.showOrHideSectionTitlesBasedOnOption();
     this.showOrHideStrongsBasedOnOption();
     this.showOrHideVerseTagsBasedOnOption();
     this.changeTagsLayoutBasedOnOption();
+  }
+
+  showOrHideBookIntroductionBasedOnOption(tabIndex=undefined) {
+    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+    bible_browser_controller.settings.set('showBookIntro', this.bookIntroductionSwitchChecked());
+
+    var bookIntro = currentVerseList.find('.book-intro');
+
+    var paragraphElements = bookIntro.find("div[type='paragraph']");
+
+    if (paragraphElements.length > 1) {
+      for (var i = 0; i < paragraphElements.length - 1; i++) {
+        var currentParagraph = $(paragraphElements[i]);
+
+        if (!currentParagraph.hasClass('processed') && currentParagraph[0].hasAttribute('eid')) {
+          currentParagraph.addClass('processed');
+          currentParagraph.append('<br/>');
+        }
+      }
+    }
+
+    if (this.bookIntroductionSwitchChecked()) {
+      bookIntro.show();
+    } else {
+      bookIntro.hide();
+    }
   }
 
   showOrHideSectionTitlesBasedOnOption(tabIndex=undefined) {
@@ -223,6 +262,7 @@ class OptionsMenu {
   }
 
   refreshViewBasedOnOptions(tabIndex=undefined) {
+    this.showOrHideBookIntroductionBasedOnOption(tabIndex);
     this.showOrHideSectionTitlesBasedOnOption(tabIndex);
     this.showOrHideVerseTagsBasedOnOption(tabIndex);
     this.changeTagsLayoutBasedOnOption(tabIndex);
@@ -231,6 +271,10 @@ class OptionsMenu {
 
   verseNotesSwitchChecked() {
     return $('#verse-notes-switch').attr('checked');
+  }
+
+  bookIntroductionSwitchChecked() {
+    return $('#book-intro-switch').attr('checked');
   }
 
   sectionTitleSwitchChecked() {

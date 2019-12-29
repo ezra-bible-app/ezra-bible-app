@@ -18,6 +18,9 @@
   If not, see <http://www.gnu.org/licenses/>.
 //
 
+if bookIntroduction != null && bookIntroduction.length > 0
+  div(class='book-intro') !{bookIntroduction}
+
 each bibleBook in bibleBooks
   if renderBibleBookHeaders == true
     - var anchor = verseListId + " " + bibleBook.shortTitle;
