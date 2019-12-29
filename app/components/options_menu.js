@@ -169,11 +169,10 @@ class OptionsMenu {
     bible_browser_controller.settings.set('showBookIntro', this.bookIntroductionSwitchChecked());
 
     var bookIntro = currentVerseList.find('.book-intro');
-
     var paragraphElements = bookIntro.find("div[type='paragraph']");
 
     if (paragraphElements.length > 1) {
-      for (var i = 0; i < paragraphElements.length - 1; i++) {
+      for (var i = 0; i < paragraphElements.length; i++) {
         var currentParagraph = $(paragraphElements[i]);
 
         if (!currentParagraph.hasClass('processed') && currentParagraph[0].hasAttribute('eid')) {

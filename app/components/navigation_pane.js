@@ -157,7 +157,7 @@ class NavigationPane {
     var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
     var reference = '#top';
 
-    if (chapter > 1) {
+    if (chapter > 1 || bible_browser_controller.optionsMenu.bookIntroductionSwitchChecked()) {
       reference = '#' + currentTabId + ' ' + chapter;
       window.location = reference;
     } else {

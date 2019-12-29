@@ -916,6 +916,8 @@ h2 {
 
 .book-intro {
   display: none;
+  font-style: italic;
+  line-height: 1.5em;
 }
 
 .verse-list-with-section-titles .chapter-header {
