@@ -198,9 +198,20 @@ class OptionsMenu {
     for (var i = 0; i < all_section_titles.length; i++) {
       var currentSectionTitle = $(all_section_titles[i]);
       var currentParent = currentSectionTitle.parent();
+      var closestChapterHeader = currentSectionTitle.closest('.chapter-header');
 
       if (currentParent.hasClass('verse-text')) {
         var verseBox = currentSectionTitle.closest('.verse-box');
+        var closestChapterHeader = verseBox.prev();
+
+        // Check if the section title contains the text from the chapter header
+        // In this case we hide the section title, because we would otherwise show redundant information
+        if (closestChapterHeader.text().length > 0 &&
+            currentSectionTitle.text().toUpperCase().indexOf(closestChapterHeader.text().toUpperCase()) != -1) {
+
+          currentSectionTitle.hide();
+        }
+
         verseBox.before(currentSectionTitle);
       }
     }
