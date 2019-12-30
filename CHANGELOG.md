@@ -15,7 +15,25 @@ All notable changes to Ezra Project are documented in this file.
 
 [i11]: https://github.com/tobias-klein/ezra-project/issues/11
 
+
+## [0.11.1]
+
+### Enhancements
+
+* Support on-demand update of repository configuration (in Bible Install Wizard).
+* Use lightyellow bg color for tags in bible browser to make them more visible / easier to read.
+* Optimized performance of tag list filter function.
+
+### Fixes
+
+* Properly render chapter headlines and book introduction ([#15][i15]).
+* Re-initialize Strong's mouseover function after performing book search.
+* Verse context loading: Fixed regression bug that resulted from refactoring in 0.11.0.
+
+[i15]: https://github.com/tobias-klein/ezra-project/issues/15
+
 -->
+
 
 ## [0.11.0] - 2019-12-23
 ### Features
