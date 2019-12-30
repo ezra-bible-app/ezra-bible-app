@@ -5,7 +5,13 @@ module.exports = {
     try {
         const NodeSwordInterface = require('node-sword-interface');
         const nsi = new NodeSwordInterface();
-        const models = require('../models')(dbDir);
+        let models;
+
+        try {
+          models = require('../models')(dbDir);
+        } catch (e) {
+          return;
+        }
   
         var localSwordModules = nsi.getAllLocalModules();
         var dbModules = await models.BibleTranslation.findAndCountAll();
