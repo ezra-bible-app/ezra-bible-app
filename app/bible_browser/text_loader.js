@@ -133,10 +133,15 @@ class TextLoader {
     }
 
     var bookIntroduction = null;
-    var localSwordModule = nsi.getLocalModule(currentBibleTranslationId);
     
-    if (localSwordModule != null && localSwordModule.hasHeadings) {
-      bookIntroduction = nsi.getBookIntroduction(currentBibleTranslationId, book_short_title);
+    try {
+      var localSwordModule = nsi.getLocalModule(currentBibleTranslationId);
+      
+      if (localSwordModule != null && localSwordModule.hasHeadings) {
+        bookIntroduction = nsi.getBookIntroduction(currentBibleTranslationId, book_short_title);
+      }
+    } catch (e) {
+      console.log("Could not retrieve book introduction for module " + currentBibleTranslationId);
     }
 
     var verses_as_html = verseListTemplate({
