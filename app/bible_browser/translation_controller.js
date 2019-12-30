@@ -467,8 +467,13 @@ class TranslationController {
   }
 
   async syncSwordModules() {
-    if (!nsi.repositoryConfigExisting()) {
-      await nsi.updateRepositoryConfig();
+    try {
+      if (!nsi.repositoryConfigExisting()) {
+        await nsi.updateRepositoryConfig();
+      }
+    } catch (e) {
+      // This happens when we're offline. In this case we simply return.
+      return;
     }
 
     //console.time("get sync infos");
