@@ -15,8 +15,9 @@ All notable changes to Ezra Project are documented in this file.
 
 [i11]: https://github.com/tobias-klein/ezra-project/issues/11
 
+-->
 
-## [0.11.1]
+## [0.11.1 - 20xx-xx-xx]
 
 ### Enhancements
 
@@ -31,8 +32,6 @@ All notable changes to Ezra Project are documented in this file.
 * Verse context loading: Fixed regression bug that resulted from refactoring in 0.11.0.
 
 [i15]: https://github.com/tobias-klein/ezra-project/issues/15
-
--->
 
 
 ## [0.11.0] - 2019-12-23
