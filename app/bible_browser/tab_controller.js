@@ -113,14 +113,18 @@ class TabController {
 
   loadMetaTabsFromSettings() {
     var savedMetaTabs = this.settings.get('tabConfiguration');
-    console.log("Loading " + savedMetaTabs.length + " tabs from configuration!");
+    var loadedTabCount = 0;
 
     for (var i = 0; i < savedMetaTabs.length; i++) {
       var currentMetaTab = Tab.fromJsonObject(savedMetaTabs[i]);
-      console.log("Creating tab " + i + " from saved entry ... ");
-      //console.log("Bible translation: " + currentMetaTab.bibleTranslationId);
+      if (!currentMetaTab.isValid()) {
+        // We ignore the meta tab if it is invalid
+        continue;
+      }
 
-      if (i == 0) {
+      console.log("Creating tab " + loadedTabCount + " from saved entry ... ");
+
+      if (loadedTabCount == 0) {
         currentMetaTab.elementId = this.metaTabs[0].elementId;
         this.metaTabs[0] = currentMetaTab;
         this.updateFirstTabCloseButton();
@@ -129,8 +133,15 @@ class TabController {
       }
 
       var tabTitle = currentMetaTab.getTitle();
-      this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), i);
+      this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), loadedTabCount);
+      loadedTabCount += 1;
     }
+
+    if (loadedTabCount > 0) {
+      console.log("Loaded " + loadedTabCount + " tabs from configuration!");
+    }
+
+    return loadedTabCount;
   }
 
   async populateFromMetaTabs() {
@@ -161,9 +172,13 @@ class TabController {
 
     if (this.settings.has('tabConfiguration')) {
       bible_browser_controller.showVerseListLoadingIndicator();
-      this.loadMetaTabsFromSettings();
-      await this.populateFromMetaTabs();
-      // bible_browser_controller.hideVerseListLoadingIndicator();
+      var loadedTabCount = this.loadMetaTabsFromSettings();
+
+      if (loadedTabCount > 0) {
+        await this.populateFromMetaTabs();
+      } else {
+        bible_browser_controller.hideVerseListLoadingIndicator();
+      }
     }
 
     // Call these methods explicitly to initialize the first tab 

@@ -31,6 +31,13 @@ class Tab {
     this.bibleTranslationId = defaultBibleTranslationId;
   }
 
+  isValid() {
+    return this.getBibleTranslationId() != null &&
+           (this.getBook() != null ||
+            this.getTagIdList() != "" ||
+            this.getSearchTerm() != null);
+  }
+
   getTitle() {
     var tabTitle = "";
 
