@@ -32,7 +32,8 @@
     "install-node-prune": "curl -sfL https://raw.githubusercontent.com/tobias-klein/node-prune/master/godownloader.sh | bash -s -- -b node_modules/.bin",
     "build-linux": "./build_scripts/build.sh",
     "build-mac": "./build_scripts/build_mac.sh",
-    "update-metrics": "./build_scripts/update_metrics.sh"
+    "update-loc-metrics": "./build_scripts/update_loc_metrics.sh",
+    "update-cc-metrics": "./build_scripts/update_complexity_metrics.sh"
   },
   "author": "Tobias Klein",
   "license": "GPL-3.0",
