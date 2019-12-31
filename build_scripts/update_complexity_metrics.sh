@@ -1,6 +1,7 @@
 #!/bin/sh
 
-lizard -H app \
+lizard -H -Tcyclomatic_complexity=10 \
+          app \
           build_scripts \
           models \
           migrations \
