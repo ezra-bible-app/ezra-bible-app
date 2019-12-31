@@ -7,3 +7,4 @@ package-lock.json
 /templates/tag_list.js
 strongs_todo.txt
 .DS_Store
+complexity_metrics.html
