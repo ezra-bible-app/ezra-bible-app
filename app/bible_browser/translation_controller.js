@@ -142,6 +142,7 @@ class TranslationController {
     if (count == 0) {
       bibleSelect.attr('disabled','disabled');
       $('.book-select-button').addClass('ui-state-disabled');
+      $('.tag-select-button').addClass('ui-state-disabled');
       $('.module-search-button').addClass('ui-state-disabled');
 
       var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
