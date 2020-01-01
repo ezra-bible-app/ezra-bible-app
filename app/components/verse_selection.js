@@ -360,7 +360,7 @@ class VerseSelection {
     var selectedVerseDisplayText = await this.getSelectedVerseDisplayText();
     $('#selected-verses').html(selectedVerseDisplayText);
 
-    tags_controller.update_tags_view_after_verse_selection(false);
+    await tags_controller.update_tags_view_after_verse_selection(false);
 
     if (this.selected_verse_boxes.length > 0) { // Verses are selected!
       bible_browser_controller.translationComparison.enableComparisonButton();

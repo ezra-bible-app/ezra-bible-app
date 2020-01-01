@@ -930,33 +930,14 @@ class TagsController {
       tags_controller.verse_selection_blocked = false;
     }, 300);
 
-    var selected_verse_tags = tags_controller.current_verse_selection_tags();
     var app_container = document.getElementById('app-container');
     var assign_tag_label = i18n.t("tags.assign-tag");
-
-    var all_tag_cbs = app_container.querySelectorAll('.tag-cb');
-    if (all_tag_cbs.length > 0) {
-      for (var i = 0; i < all_tag_cbs.length; i++) {
-        all_tag_cbs[i].checked = false;
-        all_tag_cbs[i].setAttribute('title', assign_tag_label);
-      }
-
-      var all_cb_labels = app_container.querySelectorAll('.cb-label');
-      var cb_label_postfixes = app_container.querySelectorAll('.cb-label-postfix');
-      for (var i = 0; i < all_cb_labels.length; i++) {
-        all_cb_labels[i].classList.remove('underline');
-        cb_label_postfixes[i].innerHTML = '';
-      }
-    }
+    var unassign_tag_label = i18n.t("tags.remove-tag-assignment");
 
     if (bible_browser_controller.verse_selection.selected_verse_boxes.length > 0) { // Verses are selected!
-      if (all_tag_cbs.length > 0) {
-        for (var i = 0; i < all_tag_cbs.length; i++) {
-          all_tag_cbs[i].removeAttribute('disabled');
-          all_tag_cbs[i].style.opacity = '1.0';
-        }
-      }
+      console.time("Update status of checkbox tags");
 
+      var selected_verse_tags = tags_controller.current_verse_selection_tags();
       var checkbox_tags = app_container.querySelectorAll('.checkbox-tag');
 
       for (var i = 0; i < checkbox_tags.length; i++) {
@@ -965,28 +946,43 @@ class TagsController {
         var current_title_element = current_tag_element.querySelector('.cb-label');
         var current_title = current_title_element.innerHTML;
         var current_title_element_postfix = current_tag_element.querySelector('.cb-label-postfix');
-        
+        var match_found = false;
+
         for (var j = 0; j < selected_verse_tags.length; j++) {
           var current_tag_obj = selected_verse_tags[j];
 
           if (current_tag_obj.title == current_title) {
             if (current_tag_obj.complete) {
               current_checkbox.checked = true;
-              current_checkbox.setAttribute('title', 'Remove tag assignment');
+              current_checkbox.setAttribute('title', unassign_tag_label);
             } else {
               current_title_element_postfix.innerHTML = '&nbsp;*';
               current_title_element.classList.add('underline');
             }
+
+            match_found = true;
           }
         }
+
+        if (!match_found) {
+          current_checkbox.checked = false;
+          current_checkbox.setAttribute('title', assign_tag_label);
+          current_title_element.classList.remove('underline');
+          current_title_element_postfix.innerHTML = '';
+        }
+
+        current_checkbox.removeAttribute('disabled');
+        current_checkbox.style.opacity = '1.0';
       }
+      console.timeEnd("Update status of checkbox tags");
     } else { // No verses are selected!
       var all_tag_cbs = document.querySelectorAll('.tag-cb');
       if (all_tag_cbs.length > 0) {
         for (var i = 0; i < all_tag_cbs.length; i++) {
-          all_tag_cbs[i].setAttribute('disabled', 'disabled');
-          all_tag_cbs[i].setAttribute('title', '');
-          all_tag_cbs[i].style.opacity = '0.3';
+          var current_cb = all_tag_cbs[i];
+          current_cb.setAttribute('disabled', 'disabled');
+          current_cb.setAttribute('title', '');
+          current_cb.style.opacity = '0.3';
         }
       }
     }
