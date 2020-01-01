@@ -69,7 +69,8 @@
 [x] Automatically select the current verse when switching from one book search result to another
 [x] Chapter headers
 ------
-[ ] Hide book searchbox and reset search when reloading translation
+[x] Hide book searchbox and reset search when reloading translation
+------
 [ ] Resort tag list after renaming tag
 [ ] Update actual used tag count for tagged verse lists and search results
 [ ] Implement Sword module unlocking

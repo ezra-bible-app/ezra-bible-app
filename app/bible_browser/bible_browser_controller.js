@@ -196,6 +196,9 @@ class BibleBrowserController {
   }
 
   onBibleTranslationChanged() {
+    // The book search is not valid anymore if the translation is changing. Therefore we reset it.
+    this.book_search.resetSearch();
+
     var currentTab = this.tab_controller.getTab();
     this.tab_controller.refreshBibleTranslationInTabTitle(currentTab.getBibleTranslationId());
 
