@@ -23,6 +23,7 @@ class VerseSelection {
   }
 
   init(tabIndex) {
+    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
     if (currentVerseList.hasClass('ui-selectable')) {
       currentVerseList.selectable('destroy');
@@ -46,6 +47,17 @@ class VerseSelection {
       selected: (event, ui) => {
         var verse_box = $(ui.selected).closest('.verse-box');
         this.addVerseToSelected(verse_box);
+      }
+    });
+
+    // This event handler ensures that the selection is cancelled
+    // if the user clicks somewhere else in the verse list
+    currentVerseListFrame.bind('click', (e) => {
+      if (e.target.matches('.tag-box') ||
+          e.target.matches('.verse-box') ||
+          e.target.matches('.verse-list-frame')) {
+        
+        this.clear_verse_selection();
       }
     });
   }

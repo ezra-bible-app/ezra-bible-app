@@ -30,6 +30,8 @@ All notable changes to Ezra Project are documented in this file.
 * Properly render chapter headlines and book introduction ([#15][i15]).
 * Re-initialize Strong's mouseover function after performing book search.
 * Verse context loading: Fixed regression bug that resulted from refactoring in 0.11.0.
+* Make it easier to unselect a verse by clicking into an empty area inside the verse list.
+* Hide book searchbox and reset search when reloading translation.
 
 [i15]: https://github.com/tobias-klein/ezra-project/issues/15
 
