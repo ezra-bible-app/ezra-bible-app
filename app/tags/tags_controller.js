@@ -23,6 +23,7 @@ class TagsController {
     this.new_standard_tag_button = $('#new-standard-tag-button');
     this.tag_title_changed = false;
     this.verse_selection_blocked = false;
+    this.verses_were_selected_before = false;
   
     this.tag_to_be_deleted = null;
     this.tag_to_be_deleted_title = null;
@@ -934,8 +935,7 @@ class TagsController {
     var assign_tag_label = i18n.t("tags.assign-tag");
     var unassign_tag_label = i18n.t("tags.remove-tag-assignment");
 
-    if (bible_browser_controller.verse_selection.selected_verse_boxes.length > 0) { // Verses are selected!
-      console.time("Update status of checkbox tags");
+    if (bible_browser_controller.verse_selection.selected_verse_boxes.length > 0) { // Verses are selected
 
       var selected_verse_tags = tags_controller.current_verse_selection_tags();
       var checkbox_tags = app_container.querySelectorAll('.checkbox-tag');
@@ -964,27 +964,36 @@ class TagsController {
           }
         }
 
-        if (!match_found) {
+        if (!match_found && current_checkbox.checked) {
           current_checkbox.checked = false;
           current_checkbox.setAttribute('title', assign_tag_label);
           current_title_element.classList.remove('underline');
           current_title_element_postfix.innerHTML = '';
         }
 
-        current_checkbox.removeAttribute('disabled');
-        current_checkbox.style.opacity = '1.0';
-      }
-      console.timeEnd("Update status of checkbox tags");
-    } else { // No verses are selected!
-      var all_tag_cbs = document.querySelectorAll('.tag-cb');
-      if (all_tag_cbs.length > 0) {
-        for (var i = 0; i < all_tag_cbs.length; i++) {
-          var current_cb = all_tag_cbs[i];
-          current_cb.setAttribute('disabled', 'disabled');
-          current_cb.setAttribute('title', '');
-          current_cb.style.opacity = '0.3';
+        if (!this.verses_were_selected_before) {
+          current_checkbox.removeAttribute('disabled');
+          current_checkbox.style.opacity = '1.0';
         }
       }
+
+      this.verses_were_selected_before = true;
+
+    } else { // No verses are selected!
+
+      if (this.verses_were_selected_before) {
+        var all_tag_cbs = document.querySelectorAll('.tag-cb');
+        if (all_tag_cbs.length > 0) {
+          for (var i = 0; i < all_tag_cbs.length; i++) {
+            var current_cb = all_tag_cbs[i];
+            current_cb.setAttribute('disabled', 'disabled');
+            current_cb.setAttribute('title', '');
+            current_cb.style.opacity = '0.3';
+          }
+        }
+      }
+
+      this.verses_were_selected_before = false;
     }
   }
 
