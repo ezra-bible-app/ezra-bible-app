@@ -65,10 +65,9 @@ class TranslationComparison {
   };
 
   async getVerseHtmlByTranslationId(translationId, verseBox) {
-    var currentBookId = parseInt(verseBox.find('.verse-bible-book-id').text());
+    var bibleBookShortTitle = verseBox.find('.verse-bible-book-short').text();
     var currentVerseId = parseInt(verseBox.find('.verse-id').text());
     var currentDbVerse = await models.Verse.findByPk(currentVerseId);
-    var sourceDbBook = await models.BibleBook.findByPk(currentBookId);
     var sourceBibleTranslationId = currentDbVerse.bibleTranslationId;
     var sourceBibleTranslation = await models.BibleTranslation.findByPk(sourceBibleTranslationId);
     var targetBibleTranslation = await models.BibleTranslation.findByPk(translationId);
@@ -78,10 +77,10 @@ class TranslationComparison {
 
     if (sourceBibleTranslation.versification == 'ENGLISH') {
       absoluteVerseNrEng = currentDbVerse.absoluteVerseNr;
-      absoluteVerseNrHeb = currentDbVerse.getAbsoluteVerseNrHebFromEng(sourceDbBook.shortTitle, absoluteVerseNrEng);
+      absoluteVerseNrHeb = currentDbVerse.getAbsoluteVerseNrHebFromEng(bibleBookShortTitle, absoluteVerseNrEng);
     } else if (sourceBibleTranslation.versification == 'HEBREW') {
       absoluteVerseNrHeb = currentDbVerse.absoluteVerseNr;
-      absoluteVerseNrEng = currentDbVerse.getAbsoluteVerseNrEngFromHeb(sourceDbBook.shortTitle, absoluteVerseNrHeb);
+      absoluteVerseNrEng = currentDbVerse.getAbsoluteVerseNrEngFromHeb(bibleBookShortTitle, absoluteVerseNrHeb);
     }
 
     var currentAbsoluteVerseNr = null;
@@ -91,6 +90,7 @@ class TranslationComparison {
       currentAbsoluteVerseNr = absoluteVerseNrHeb;
     }
 
+    var currentBookId = parseInt(verseBox.find('.verse-bible-book-id').text());
     var targetTranslationVerse = await models.Verse.findByAbsoluteVerseNr(translationId,
                                                                           currentBookId,
                                                                           currentAbsoluteVerseNr);
