@@ -98,9 +98,7 @@ class VerseSelection {
   }
 
   async getSelectedVerseDisplayText() {
-    console.time("books");
     var selectedBooks = await this.getSelectedBooks();
-    console.timeEnd("books");
     var selected_verses_content = [];
 
     for (var i = 0; i < selectedBooks.length; i++) {
@@ -357,10 +355,8 @@ class VerseSelection {
   }
 
   async updateViewsAfterVerseSelection() {
-    console.time("update selected");
     var selectedVerseDisplayText = await this.getSelectedVerseDisplayText();
     $('#selected-verses').html(selectedVerseDisplayText);
-    console.timeEnd("update selected");
 
     await tags_controller.update_tags_view_after_verse_selection(false);
 

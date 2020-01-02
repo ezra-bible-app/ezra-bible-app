@@ -71,6 +71,7 @@
 ------
 [x] Hide book searchbox and reset search when reloading translation
 [x] Make it easier to unselect a verse by clicking into an empty area
+[ ] Do not show section headers for tagged verse lists or search results
 ------
 [ ] Resort tag list after renaming tag
 [ ] Update actual used tag count for tagged verse lists and search results
