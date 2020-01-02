@@ -902,7 +902,7 @@ h2 {
   margin-bottom: 1em;
 }
 
-.verse-list-with-section-titles .sword-section-title {
+.verse-list-book.verse-list-with-section-titles .sword-section-title {
   display: block;
   font-weight: bold;
   margin-top: 1em;

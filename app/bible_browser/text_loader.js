@@ -326,15 +326,13 @@ class TextLoader {
       initialRendering = false;
     }
 
+    if (!initialRendering) {
+      bible_browser_controller.tab_controller.getTab().setTextType(listType);
+    }
+
     if (target === undefined) {
       //console.log("Undefined target. Getting verse list target based on tabIndex " + tabIndex);
       target = bible_browser_controller.getCurrentVerseList(tabIndex);
-    }
-
-    target.html(htmlVerseList);
-
-    if (!initialRendering) {
-      bible_browser_controller.tab_controller.getTab().setTextType(listType);
     }
 
     if (listType == 'book') {
@@ -342,22 +340,30 @@ class TextLoader {
       bible_browser_controller.tag_selection_menu.resetTagMenu();
       bible_browser_controller.module_search.resetSearch();
 
+      target.addClass('verse-list-book');
+
     } else if (listType == 'tagged_verses') {
 
       bible_browser_controller.module_search.resetSearch();
       bible_browser_controller.enableTaggingToolboxOnly();
       bible_browser_controller.taggedVerseExport.enableTaggedVersesExportButton(tabIndex);
 
+      target.removeClass('verse-list-book');
+
     } else if (listType == 'search_results') {
 
       //console.log("Rendering search results verse list on tab " + tabIndex);
       bible_browser_controller.enableTaggingToolboxOnly();
       bible_browser_controller.taggedVerseExport.enableTaggedVersesExportButton(tabIndex);
+
+      target.removeClass('verse-list-book');
     }
 
     if (!initialRendering) {
       bible_browser_controller.tab_controller.saveTabConfiguration();
     }
+
+    target.html(htmlVerseList);
 
     bible_browser_controller.initApplicationForVerseList(tabIndex);
   }
