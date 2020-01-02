@@ -107,7 +107,7 @@ class TextLoader {
                         current_tab_id,
                         book_short_title,
                         render_function,
-                        start_verse_number=0,
+                        start_verse_number=-1,
                         number_of_verses=0) {
 
     var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
@@ -124,7 +124,7 @@ class TextLoader {
                                            start_verse_number,
                                            number_of_verses);
 
-    var verseTags = await bibleBook.getVerseTags(currentBibleTranslationId);
+    var verseTags = await bibleBook.getVerseTags();
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags);
 
     var chapterText = i18n.t("bible-browser.chapter");
@@ -133,15 +133,17 @@ class TextLoader {
     }
 
     var bookIntroduction = null;
-    
-    try {
-      var localSwordModule = nsi.getLocalModule(currentBibleTranslationId);
-      
-      if (localSwordModule != null && localSwordModule.hasHeadings) {
-        bookIntroduction = nsi.getBookIntroduction(currentBibleTranslationId, book_short_title);
+
+    if (start_verse_number == -1) { // Only load book introduction if the whole book is requested
+      try {
+        var localSwordModule = nsi.getLocalModule(currentBibleTranslationId);
+        
+        if (localSwordModule != null && localSwordModule.hasHeadings) {
+          bookIntroduction = nsi.getBookIntroduction(currentBibleTranslationId, book_short_title);
+        }
+      } catch (e) {
+        console.log("Could not retrieve book introduction for module " + currentBibleTranslationId);
       }
-    } catch (e) {
-      console.log("Could not retrieve book introduction for module " + currentBibleTranslationId);
     }
 
     var verses_as_html = verseListTemplate({

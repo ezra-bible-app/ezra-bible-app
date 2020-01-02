@@ -167,7 +167,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   BibleBook.prototype.getVerses = function(bibleTranslationId,
-                                           startVerseNumber = 0,
+                                           startVerseNumber = -1,
                                            numberOfVerses = 0) {
 
     return models.BibleTranslation.findByPk(bibleTranslationId).then(bibleTranslation => {
@@ -188,7 +188,7 @@ module.exports = (sequelize, DataTypes) => {
                   " WHERE v.bibleTranslationId='" + bibleTranslationId + "'" +
                   " AND v.bibleBookId=" + this.id;
 
-      if (startVerseNumber != 0) {
+      if (startVerseNumber != -1) {
         var maxVerseNumber = startVerseNumber + numberOfVerses - 1;
 
         query += " AND v.absoluteVerseNr >= " + startVerseNumber +
@@ -201,23 +201,15 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  BibleBook.prototype.getVerseTags = function(bibleTranslationId) {
-    return models.BibleTranslation.findByPk(bibleTranslationId).then(bibleTranslation => {
+  BibleBook.prototype.getVerseTags = function() {
+    var query = "SELECT t.title AS tagTitle, t.bibleBookId AS bibleBookId, vt.*" + 
+                " FROM VerseReferences vr " +
+                " INNER JOIN VerseTags vt ON vt.verseReferenceId = vr.id" +
+                " INNER JOIN Tags t ON t.id = vt.tagId" +
+                " WHERE vr.bibleBookId=" + this.id +
+                " ORDER BY t.title ASC";
 
-      var versificationPostfix = "Eng";
-      if (bibleTranslation.versification == 'HEBREW') {
-        versificationPostfix = "Heb";
-      }
-
-      var query = "SELECT t.title AS tagTitle, t.bibleBookId AS bibleBookId, vt.*" + 
-                  " FROM VerseReferences vr " +
-                  " INNER JOIN VerseTags vt ON vt.verseReferenceId = vr.id" +
-                  " INNER JOIN Tags t ON t.id = vt.tagId" +
-                  " WHERE vr.bibleBookId=" + this.id +
-                  " ORDER BY t.title ASC";
-
-      return sequelize.query(query, { model: models.VerseTag });
-    });
+    return sequelize.query(query, { model: models.VerseTag });
   };
 
   BibleBook.getBookLongTitle = function(book_short_title) {
