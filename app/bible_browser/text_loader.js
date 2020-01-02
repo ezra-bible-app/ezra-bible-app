@@ -192,12 +192,8 @@ class TextLoader {
         bibleBookStats[bibleBookId] += 1;
       }
     }
-    //console.log(bibleBookStats);
 
     var bibleBooks = await models.BibleBook.findBySearchResults(search_results);
-    //console.log("Got results for " + bibleBooks.length + " books!");
-
-    //console.log("Finding verses by search result!");
     var verses = [];
 
     for (var i = 0; i < search_results.length; i++) {
@@ -217,7 +213,6 @@ class TextLoader {
         console.log(currentResult);
       }
     }
-    //console.log("Done!");
 
     var verseIds = [];
     for (var i = 0; i < verses.length; i++) {
