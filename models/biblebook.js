@@ -174,6 +174,7 @@ module.exports = (sequelize, DataTypes) => {
       var versificationPostfix = bibleTranslation.getVersificationPostfix();
 
       var query = "SELECT v.*, " +
+                  " b.shortTitle as bibleBookShortTitle, " +
 
                   "( SELECT id FROM VerseReferences vr " +
                   " WHERE vr.bibleBookId = v.bibleBookId " +
@@ -181,6 +182,9 @@ module.exports = (sequelize, DataTypes) => {
                   "verseReferenceId" +
 
                   " FROM Verses v " +
+                  " INNER JOIN BibleBooks b ON" +
+                  " v.bibleBookId = b.id" +
+
                   " WHERE v.bibleTranslationId='" + bibleTranslationId + "'" +
                   " AND v.bibleBookId=" + this.id;
 

@@ -87,8 +87,7 @@ class VerseSelection {
         currentVerseBox = $(currentVerseBox[0]);
       }
 
-      var currentBibleBookId = currentVerseBox.find('.verse-bible-book-id').text();
-      var currentBookShortName = await models.BibleBook.getShortTitleById(currentBibleBookId);
+      var currentBookShortName = currentVerseBox.find('.verse-bible-book-short').text();
 
       if (!selectedBooks.includes(currentBookShortName)) {
         selectedBooks.push(currentBookShortName);
@@ -99,7 +98,9 @@ class VerseSelection {
   }
 
   async getSelectedVerseDisplayText() {
+    console.time("books");
     var selectedBooks = await this.getSelectedBooks();
+    console.timeEnd("books");
     var selected_verses_content = [];
 
     for (var i = 0; i < selectedBooks.length; i++) {
@@ -111,9 +112,8 @@ class VerseSelection {
         if (currentVerseBox.length > 1) {
           currentVerseBox = $(currentVerseBox[0]);
         }
-        
-        var currentVerseBibleBookId = currentVerseBox.find('.verse-bible-book-id').text();
-        var currentVerseBibleBookShortName = await models.BibleBook.getShortTitleById(currentVerseBibleBookId);
+
+        var currentVerseBibleBookShortName = currentVerseBox.find('.verse-bible-book-short').text();
 
         if (currentVerseBibleBookShortName == currentBookShortName) {
           var currentVerseReference = currentVerseBox.find('a:first').attr('name');
@@ -357,8 +357,10 @@ class VerseSelection {
   }
 
   async updateViewsAfterVerseSelection() {
+    console.time("update selected");
     var selectedVerseDisplayText = await this.getSelectedVerseDisplayText();
     $('#selected-verses').html(selectedVerseDisplayText);
+    console.timeEnd("update selected");
 
     await tags_controller.update_tags_view_after_verse_selection(false);
 

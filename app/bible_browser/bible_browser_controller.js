@@ -114,8 +114,7 @@ class BibleBrowserController {
       } else {
 
         // Highlight bible book if we are searching in a tagged verses list
-        var currentBookId = parseInt(verseBox.find('.verse-bible-book-id').text());
-        var currentBibleBookShortName = await models.BibleBook.getShortTitleById(currentBookId);
+        var currentBibleBookShortName = verseBox.find('.verse-bible-book-short').text();
         var currentBookName = models.BibleBook.getBookTitleTranslation(currentBibleBookShortName);
 
         var bibleBookNumber = this.getVerseListBookNumber(currentBookName, bookHeaders);
@@ -447,11 +446,10 @@ class BibleBrowserController {
 
     } else if (currentTextType == 'tagged_verses' && currentTagIdList != null || currentTextType == 'search_results') {
 
-      var mouseOverBook = verseBox.find('.verse-bible-book-id').text();
-      var bibleBookShortTitle = await models.BibleBook.getShortTitleById(mouseOverBook);
-      var bibleBookLongTitle = models.BibleBook.getBookLongTitle(bibleBookShortTitle);
+      var bibleBookShortTitle = verseBox.find('.verse-bible-book-short').text();
+      var currentBookName = models.BibleBook.getBookTitleTranslation(bibleBookShortTitle);
       
-      var bibleBookNumber = this.getVerseListBookNumber(bibleBookLongTitle);
+      var bibleBookNumber = this.getVerseListBookNumber(currentBookName);
       if (bibleBookNumber != -1) {
         this.navigation_pane.highlightNavElement(bibleBookNumber);
       }
