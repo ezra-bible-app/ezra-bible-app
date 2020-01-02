@@ -150,6 +150,8 @@ class TextLoader {
       verseListId: current_tab_id,
       renderVerseMetaInfo: true,
       renderBibleBookHeaders: false,
+      // only render chapter headers with the full book requested
+      renderChapterHeaders: (start_verse_number == -1),
       bookIntroduction: bookIntroduction,
       bibleBooks: [bibleBook],
       verses: verses,

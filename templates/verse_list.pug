@@ -45,7 +45,7 @@ each bibleBook in bibleBooks
       - new_chapter = true
       - var anchor = verseListId + " " + verse.chapter;
       a(name=anchor)
-      if chapterText != null
+      if renderChapterHeaders == true && chapterText != null
         h2(class='chapter-header') #{chapterText} #{verse.chapter}
 
       - old_chapter = verse.chapter
