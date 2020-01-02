@@ -175,6 +175,8 @@ class BibleBrowserController {
     // Hide elements present from previous tab's usage
     this.strongs.hideStrongsBox();
     this.verse_context_loader.hide_verse_expand_box();
+
+    configure_button_styles('.verse-list-menu');
   }
 
   onTabAdded(tabIndex=0) {
