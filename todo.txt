@@ -71,7 +71,9 @@
 ------
 [x] Hide book searchbox and reset search when reloading translation
 [x] Make it easier to unselect a verse by clicking into an empty area
-[ ] Do not show section headers for tagged verse lists or search results
+[x] Do not show section headers for tagged verse lists or search results
+[x] Fix bug: Tag label click's cannot handle &
+[ ] Bug: Exporting search results in document does not work
 ------
 [ ] Resort tag list after renaming tag
 [ ] Update actual used tag count for tagged verse lists and search results
@@ -79,7 +81,6 @@
 [ ] In a long book, automatically scroll to the right position in chapter navigation
 [ ] Establish new verse context tool bar right above bible browser 
     (Current selection, compare translations, show verse context, copy to clipboard)
-[ ] Fix bug: Tag label click's cannot handle &
 [ ] Refresh tagged verse lists in other tabs if a relevant tag is assigned/removed in the current tab
 [ ] Add recently used tags filter to Tags menu
 [ ] Add filter in Tag list popup: Only show current book

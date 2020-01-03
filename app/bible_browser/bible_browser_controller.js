@@ -504,6 +504,7 @@ class BibleBrowserController {
     var verse_box = $(event.target).closest('.verse-box');
     var selected_tag = $(event.target).html().trim();
     selected_tag = selected_tag.replace(/&nbsp;/g, ' ');
+    selected_tag = selected_tag.replace(/&amp;/g, '&');
     var tag_id = null;
 
     var tag_info_list = verse_box.find('.tag-global');
