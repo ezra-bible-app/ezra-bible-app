@@ -25,6 +25,11 @@ class OptionsMenu {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.display-options-button').bind('click', (event) => { this.handleMenuClick(event); });
     
+    $('#tag-list-switch').bind('change', () => {
+      this.showOrHideTagListBasedOnOption();
+      this.slowlyHideDisplayMenu();
+    });
+
     $('#book-intro-switch').bind('change', () => {
       this.showOrHideBookIntroductionBasedOnOption();
       this.slowlyHideDisplayMenu();
@@ -66,7 +71,7 @@ class OptionsMenu {
   slowlyHideDisplayMenu() {
     setTimeout(() => {
       this.hideDisplayMenu();
-    }, 500);
+    }, 300);
   }
 
   hideDisplayMenu() {
@@ -111,6 +116,12 @@ class OptionsMenu {
   }
 
   loadDisplayOptions() {
+    // Enable the tag list by default
+    var showTagList = true;
+    if (bible_browser_controller.settings.has('showTagList')) {
+      showTagList = bible_browser_controller.settings.get('showTagList');
+    }    
+
     var showBookIntro = false;
     if (bible_browser_controller.settings.has('showBookIntro')) {
       showBookIntro = bible_browser_controller.settings.get('showBookIntro');
@@ -137,6 +148,10 @@ class OptionsMenu {
       useTagsColumn = bible_browser_controller.settings.get('useTagsColumn');
     }
 
+    if (showTagList) {
+      this.enableOption('tag-list-switch');
+    }
+
     if (showBookIntro) {
       this.enableOption('book-intro-switch');
     }
@@ -157,11 +172,27 @@ class OptionsMenu {
       this.enableOption('tags-column-switch');
     }   
     
+    this.showOrHideTagListBasedOnOption();
     this.showOrHideBookIntroductionBasedOnOption();
     this.showOrHideSectionTitlesBasedOnOption();
     this.showOrHideStrongsBasedOnOption();
     this.showOrHideVerseTagsBasedOnOption();
     this.changeTagsLayoutBasedOnOption();
+  }
+
+  showOrHideTagListBasedOnOption(tabIndex=undefined) {
+    var currentTagList = $('#bible-browser-toolbox');
+    bible_browser_controller.settings.set('showTagList', this.tagListSwitchChecked());
+
+    setTimeout(() => {
+      if (this.tagListSwitchChecked()) {
+      
+        currentTagList.show();
+        resize_app_container();
+      } else {
+        currentTagList.hide();
+      }
+    }, 400);   
   }
 
   showOrHideBookIntroductionBasedOnOption(tabIndex=undefined) {
@@ -272,11 +303,16 @@ class OptionsMenu {
   }
 
   refreshViewBasedOnOptions(tabIndex=undefined) {
+    this.showOrHideTagListBasedOnOption(tabIndex);
     this.showOrHideBookIntroductionBasedOnOption(tabIndex);
     this.showOrHideSectionTitlesBasedOnOption(tabIndex);
     this.showOrHideVerseTagsBasedOnOption(tabIndex);
     this.changeTagsLayoutBasedOnOption(tabIndex);
     this.showOrHideStrongsBasedOnOption(tabIndex);
+  }
+
+  tagListSwitchChecked() {
+    return $('#tag-list-switch').attr('checked');    
   }
 
   verseNotesSwitchChecked() {
