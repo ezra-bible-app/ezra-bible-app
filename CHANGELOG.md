@@ -17,7 +17,7 @@ All notable changes to Ezra Project are documented in this file.
 
 -->
 
-## [0.11.1 - 20xx-xx-xx]
+## [0.11.1 - 2020-01-06]
 
 ### Enhancements
 
