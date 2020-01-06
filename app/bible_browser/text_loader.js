@@ -164,46 +164,6 @@ class TextLoader {
     render_function(verses_as_html);
   }
 
-  getBibleBookStatsFromSearchResults(search_results) {
-    var bibleBookStats = {};
-
-    for (var i = 0; i < search_results.length; i++) {
-      var bibleBookId = models.BibleTranslation.swordBooktoEzraBook(search_results[i].bibleBookShortTitle);
-      
-      if (bibleBookStats[bibleBookId] === undefined) {
-        bibleBookStats[bibleBookId] = 1;
-      } else {
-        bibleBookStats[bibleBookId] += 1;
-      }
-    }
-
-    return bibleBookStats;
-  }
-
-  async getDbVersesFromSearchResults(bibleTranslationId, requestedBookId, search_results) {
-    var verses = [];
-
-    for (var i = 0; i < search_results.length; i++) {
-      var currentResult = search_results[i];
-      var currentBookId = models.BibleTranslation.swordBooktoEzraBook(search_results[i].bibleBookShortTitle);
-
-      if (requestedBookId != -1 && currentBookId != requestedBookId) {
-        // Skip the books that are not requested;
-        continue;
-      }
-
-      var currentVerse = await models.Verse.findBySearchResult(bibleTranslationId, currentResult);
-      if (currentVerse != null) {
-        verses.push(currentVerse);
-      } else {
-        console.log("Could not find verse for the following search result: ")
-        console.log(currentResult);
-      }
-    }
-
-    return verses;
-  }
-
   async requestVersesForSearchResults(tab_index,
                                       current_tab_id,
                                       search_results,
@@ -223,8 +183,8 @@ class TextLoader {
     }
 
     var bibleBooks = await models.BibleBook.findBySearchResults(search_results);
-    var bibleBookStats = this.getBibleBookStatsFromSearchResults(search_results);
-    var verses = await this.getDbVersesFromSearchResults(bibleTranslationId, requestedBookId, search_results);
+    var bibleBookStats = bible_browser_controller.module_search.getBibleBookStatsFromSearchResults(search_results);
+    var verses = await bible_browser_controller.module_search.getDbVersesFromSearchResults(bibleTranslationId, requestedBookId, search_results);
 
     var verseIds = [];
     for (var i = 0; i < verses.length; i++) {
