@@ -101,11 +101,11 @@ h2 {
 }
 
 .verse-list-menu-line2 {
-  margin-top: 2.5em;
+  margin-top: 2.7em;
 }
 
 .verse-list-composite {
-  margin-top: 5.1em;
+  margin-top: 5.2em;
 }
 
 .verse-list-frame {
@@ -758,7 +758,7 @@ h2 {
   margin: 0.4em;
 }
 
-#show-book-tag-statistics-button, #show-parallel-translations-button, .export-tagged-verses-button, .bible-translation-info-button, #start-module-search-button {
+.show-book-tag-statistics-button, .show-parallel-translations-button, .export-tagged-verses-button, .bible-translation-info-button, #start-module-search-button {
   margin-left: 0.5em;
   height: 2.2em;
 }

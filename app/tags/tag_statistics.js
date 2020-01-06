@@ -82,7 +82,7 @@ class TagStatistics {
   }
 
   async toggle_book_tags_statistics_button(index=undefined) {
-    var book_tag_statistics_button = $('#show-book-tag-statistics-button');
+    var book_tag_statistics_button = $('.show-book-tag-statistics-button');
     if (index === undefined) {
       index = bible_browser_controller.tab_controller.getSelectedTabIndex();
     }

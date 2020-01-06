@@ -75,7 +75,7 @@ class TextLoader {
       );
 
     } else if (textType == 'tagged_verses') { // Tagged verse list mode
-      if (tabIndex === undefined) { $('#show-book-tag-statistics-button').addClass('ui-state-disabled'); }
+      if (tabIndex === undefined) { $('.show-book-tag-statistics-button').addClass('ui-state-disabled'); }
       currentVerseListMenu.find('.tag-select-button').addClass('focused-button');
 
       await this.requestVersesForSelectedTags(
@@ -88,7 +88,7 @@ class TextLoader {
       );
 
     } else if (textType == 'search_results') { // Search result mode
-      if (tabIndex === undefined) { $('#show-book-tag-statistics-button').addClass('ui-state-disabled'); }
+      if (tabIndex === undefined) { $('.show-book-tag-statistics-button').addClass('ui-state-disabled'); }
       currentVerseListMenu.find('.module-search-button').addClass('focused-button');
       
       await this.requestVersesForSearchResults(

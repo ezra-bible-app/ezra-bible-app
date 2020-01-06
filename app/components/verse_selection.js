@@ -365,6 +365,9 @@ class VerseSelection {
     } else { // No verses selected!
       bible_browser_controller.translationComparison.disableComparisonButton();
     }
+
+    var currentTabNumber = bible_browser_controller.tab_controller.getSelectedTabIndex() + 1;
+    configure_button_styles('#verse-list-tabs-' + currentTabNumber);
   }
 }
 

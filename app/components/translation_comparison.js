@@ -19,15 +19,18 @@
 class TranslationComparison {
   constructor() {
     this.initCompareTranslationsBox();
+  }
+
+  getButton() {
+    return $('.show-parallel-translations-button');
+  }
+
+  initButtonEvents() {
     this.getButton().bind('click', async () => {
       if (this.isButtonEnabled()) {
         await this.handleButtonClick();
       }
     });
-  }
-
-  getButton() {
-    return $('#show-parallel-translations-button');
   }
 
   getBox() {
@@ -48,7 +51,6 @@ class TranslationComparison {
 
   enableComparisonButton() {
     this.getButton().removeClass('ui-state-disabled');
-    configure_button_styles('.verse-list-menu');
   }
 
   disableComparisonButton() {

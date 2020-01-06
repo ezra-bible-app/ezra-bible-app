@@ -269,10 +269,22 @@ class BibleBrowserController {
 
   initCurrentVerseListMenu(tabIndex=undefined) {
     var currentVerseListMenu = this.getCurrentVerseListMenu(tabIndex);
+
+    currentVerseListMenu.find('.fg-button').removeClass('events-configured');
+    
     var bookSelectButton = currentVerseListMenu.find('.book-select-button');
-    bookSelectButton.bind('click', (event) => { this.book_selection_menu.handle_book_menu_click(event); });
-    $('.verse-list-menu').find('.fg-button').removeClass('events-configured');
-    configure_button_styles('.verse-list-menu');
+    bookSelectButton.bind('click', (event) => {
+      this.book_selection_menu.handle_book_menu_click(event);
+    });
+
+    currentVerseListMenu.find('.new-standard-tag-button').bind('click', function() {
+      tags_controller.handle_new_tag_button_click($(this), "standard");
+    });
+
+    this.translationComparison.initButtonEvents();
+
+    var tabNumber = parseInt(tabIndex) + 1;
+    configure_button_styles('#verse-list-tabs-' + tabNumber);
     this.navigation_pane.updateNavigation();
   }
 

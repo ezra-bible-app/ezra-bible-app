@@ -119,10 +119,6 @@ class TagsController {
       tags_controller.close_dialog_and_rename_standard_tag();
     };
     $('#rename-standard-tag-dialog').dialog(rename_standard_tag_dlg_options);
-
-    this.new_standard_tag_button.bind('click', function() {
-      tags_controller.handle_new_tag_button_click($(this), "standard");
-    });
   
     // Handle the enter key in the tag title field and create the tag when it is pressed
     $('#new-standard-tag-title-input:not(.bound)').addClass('bound').on("keypress", (event) => {
@@ -1073,7 +1069,7 @@ class TagsController {
 
     if (tagCount == 0) {
       $('.tag-select-button').addClass('ui-state-disabled');
-      $('#show-book-tag-statistics-button').addClass('ui-state-disabled');
+      $('.show-book-tag-statistics-button').addClass('ui-state-disabled');
 
       if (translationCount > 0) {
         $('#new-standard-tag-button').removeClass('ui-state-disabled');
@@ -1087,7 +1083,7 @@ class TagsController {
       $('#new-standard-tag-button').removeClass('ui-state-disabled');
 
       if (textType == 'book') {
-        $('#show-book-tag-statistics-button').removeClass('ui-state-disabled');
+        $('.show-book-tag-statistics-button').removeClass('ui-state-disabled');
       }
     }
   }
