@@ -100,8 +100,12 @@ h2 {
   user-select: none;
 }
 
+.verse-list-menu-line2 {
+  margin-top: 2.5em;
+}
+
 .verse-list-composite {
-  margin-top: 3.1em;
+  margin-top: 5.1em;
 }
 
 .verse-list-frame {
@@ -526,7 +530,7 @@ h2 {
   background: none;
 }*/
 
-.ui-widget, .ui-widget .ui-widget, .fg-button, .ui-selectmenu-menu {
+.ui-widget, .ui-widget .ui-widget, .ui-widget button, .fg-button, .ui-selectmenu-menu {
   font-size: 0.9em;
 }
 

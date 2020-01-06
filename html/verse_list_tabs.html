@@ -10,41 +10,51 @@
 <div id="verse-list-tabs-1" class="verse-list-container">
   <div class="verse-list-menu">
 
-    <div class="fg-button book-select-button ui-state-default ui-corner-all">
-      <div class="ui-icon ui-icon-triangle-1-s"></div>
-      <div class="book-select-value" i18n="menu.book"></div>
-    </div>
+    <div class="verse-list-menu-line1">
 
-    <div class="fg-button tag-select-button ui-state-default ui-corner-all">
-      <div class="ui-icon ui-icon-triangle-1-s"></div>
-      <div class="tag-select-label" i18n="menu.tags"></div>
-    </div>
+      <div class="fg-button book-select-button ui-state-default ui-corner-all">
+        <div class="ui-icon ui-icon-triangle-1-s"></div>
+        <div class="book-select-value" i18n="menu.book"></div>
+      </div>
 
-    <div class="fg-button module-search-button ui-state-default ui-corner-all">
-      <div class="ui-icon ui-icon-triangle-1-s"></div>
-      <div class="module-search-label" i18n="menu.search"></div>
-    </div>
+      <div class="fg-button tag-select-button ui-state-default ui-corner-all">
+        <div class="ui-icon ui-icon-triangle-1-s"></div>
+        <div class="tag-select-label" i18n="menu.tags"></div>
+      </div>
 
-    <div class="fg-button display-options-button ui-state-default ui-corner-all" style="padding-top: 2px;" i18n="[title]menu.options">
-      <img src="images/settings.svg" style="width: 20px; height: 20px;"/>
-    </div>
+      <div class="fg-button module-search-button ui-state-default ui-corner-all">
+        <div class="ui-icon ui-icon-triangle-1-s"></div>
+        <div class="module-search-label" i18n="menu.search"></div>
+      </div>
 
-    <div class="bible-select-block">
-      <select name="bible-select" class="bible-select">
-      </select>
-    </div>
+      <div class="fg-button display-options-button ui-state-default ui-corner-all" style="padding-top: 2px;" i18n="[title]menu.options">
+        <img src="images/settings.svg" style="width: 20px; height: 20px;"/>
+      </div>
 
-    <button class="bible-translation-info-button fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="[title]menu.show-module-info">i</button>
+      <div class="bible-select-block">
+        <select name="bible-select" class="bible-select">
+        </select>
+      </div>
 
-    <button class="export-tagged-verses-button fg-button ui-corner-all events-configured ui-state-default ui-state-disabled" style="padding-top: 2px;"
-            i18n="[title]menu.export">
-      <img src="images/export.png" style="width: 20px; height: 20px;"/>
-    </button>
+      <button class="bible-translation-info-button fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="[title]menu.show-module-info">i</button>
 
-    <div class="loader" style="margin-left: 1em; margin-top: 0.3em">
-      <div class="bounce1"></div>
-      <div class="bounce2"></div>
-      <div class="bounce3"></div>
+      <button class="export-tagged-verses-button fg-button ui-corner-all events-configured ui-state-default ui-state-disabled" style="padding-top: 2px;"
+              i18n="[title]menu.export">
+        <img src="images/export.png" style="width: 20px; height: 20px;"/>
+      </button>
+
+      <div class="loader" style="margin-left: 1em; margin-top: 0.3em">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+
+    </div> <!-- verse-list-menu-line1 -->
+
+    <div class="verse-list-menu-line2">
+      <button id="new-standard-tag-button" class="fg-button ui-state-default ui-corner-all" type="button" i18n="tags-toolbar.new-tag"></button>
+      <button id="show-book-tag-statistics-button" class="fg-button ui-state-default ui-corner-all ui-state-disabled" i18n="tags-toolbar.tag-statistics"></button>
+      <button id="show-parallel-translations-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="tags-toolbar.show-parallel-translations"></button>
     </div>
 
   </div> <!-- verse-list-menu -->

@@ -109,7 +109,7 @@ class TagStatistics {
       book_tag_statistics_button.addClass('events-configured');
     }
 
-    configure_button_styles('#tags-header');
+    configure_button_styles('.verse-list-menu');
   };
 
   open_book_tag_statistics() {

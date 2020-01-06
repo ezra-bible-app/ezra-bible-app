@@ -96,14 +96,7 @@ a.outline-reference:focus, a.outline-reference:hover {
   width: 98%;
 }
 
-#tags-toolbar {
-  clear: both;
-  margin-top: 2em;
-}
-
-#new-meta-tag-button, #new-standard-tag-button, #new-book-tag-button {
-  float: left;
-  margin-right: 0.5em;
+#new-standard-tag-button {
   height: 2.2em;
 }
 
