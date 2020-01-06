@@ -286,7 +286,12 @@ class BibleBrowserController {
   }
 
   initGlobalShortCuts() {
-    Mousetrap.bind('ctrl+c', () => {
+    var shortCut = 'ctrl+c';
+    if (isMac()) {
+      shortCut = 'command+c';
+    }
+
+    Mousetrap.bind(shortCut, () => {
       this.copySelectedVersesToClipboard();
       return false;
     });

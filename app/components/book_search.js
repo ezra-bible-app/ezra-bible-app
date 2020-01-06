@@ -81,7 +81,12 @@ class BookSearch {
   }
 
   initGlobalShortCuts() {
-    Mousetrap.bind('ctrl+f', () => {
+    var shortCut = 'ctrl+f';
+    if (isMac()) {
+      shortCut = 'command+f';
+    }
+
+    Mousetrap.bind(shortCut, () => {
       this.searchForm.show();
       this.inputField.focus();
       return false;

@@ -231,9 +231,14 @@ async function initControllers()
   //notes_controller = new NotesController;
 }
 
+function isMac()
+{
+  return navigator.platform.match('Mac') !== null;
+}
+
 function initUi()
 {
-  if (navigator.platform.match('Mac') !== null) {
+  if (isMac()) {
     document.body.classList.add('OSX');
   }
 
