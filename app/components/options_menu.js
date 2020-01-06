@@ -127,7 +127,8 @@ class OptionsMenu {
       showBookIntro = bible_browser_controller.settings.get('showBookIntro');
     }
 
-    var showSectionTitles = false;
+    // Enable section titles by default
+    var showSectionTitles = true;
     if (bible_browser_controller.settings.has('showSectionTitles')) {
       showSectionTitles = bible_browser_controller.settings.get('showSectionTitles');
     }
@@ -170,22 +171,17 @@ class OptionsMenu {
 
     if (useTagsColumn) {
       this.enableOption('tags-column-switch');
-    }   
-    
-    this.showOrHideToolBarBasedOnOption();
-    this.showOrHideBookIntroductionBasedOnOption();
-    this.showOrHideSectionTitlesBasedOnOption();
-    this.showOrHideStrongsBasedOnOption();
-    this.showOrHideVerseTagsBasedOnOption();
-    this.changeTagsLayoutBasedOnOption();
+    }
+
+    this.refreshViewBasedOnOptions();
   }
 
   showOrHideToolBarBasedOnOption(tabIndex=undefined) {
     var currentToolBar = $('#bible-browser-toolbox');
-    bible_browser_controller.settings.set('showToolBar', this.ToolBarSwitchChecked());
+    bible_browser_controller.settings.set('showToolBar', this.toolBarSwitchChecked());
 
     setTimeout(() => {
-      if (this.ToolBarSwitchChecked()) {
+      if (this.toolBarSwitchChecked()) {
       
         currentToolBar.show();
         resize_app_container();
@@ -311,32 +307,32 @@ class OptionsMenu {
     this.showOrHideStrongsBasedOnOption(tabIndex);
   }
 
-  ToolBarSwitchChecked() {
-    return $('#tool-bar-switch').attr('checked');    
+  toolBarSwitchChecked() {
+    return $('#tool-bar-switch').prop('checked');    
   }
 
   verseNotesSwitchChecked() {
-    return $('#verse-notes-switch').attr('checked');
+    return $('#verse-notes-switch').prop('checked');
   }
 
   bookIntroductionSwitchChecked() {
-    return $('#book-intro-switch').attr('checked');
+    return $('#book-intro-switch').prop('checked');
   }
 
   sectionTitleSwitchChecked() {
-    return $('#section-title-switch').attr('checked');
+    return $('#section-title-switch').prop('checked');
   }
 
   strongsSwitchChecked() {
-    return $('#strongs-switch').attr('checked');
+    return $('#strongs-switch').prop('checked');
   }
 
   tagsSwitchChecked() {
-    return $('#tags-switch').attr('checked');
+    return $('#tags-switch').prop('checked');
   }
 
   tagsColumnSwitchChecked() {
-    return $('#tags-column-switch').attr('checked');
+    return $('#tags-column-switch').prop('checked');
   }
 }
 

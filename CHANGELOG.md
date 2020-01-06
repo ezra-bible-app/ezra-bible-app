@@ -9,6 +9,8 @@ All notable changes to Ezra Project are documented in this file.
 
 ### Enhancements
 
+* Enable section titles by default.
+
 ### Fixes
 
 ### Enablers
