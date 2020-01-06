@@ -1126,7 +1126,7 @@ h2 {
   padding-right: 20px;
 }
 
-#tag-selection-menu {
+#tag-selection-menu, #tag-assignment-menu {
   padding: 1em;
   width: 22em;
   font-size: 0.9em;

@@ -89,6 +89,7 @@ class ModuleSearch {
       bible_browser_controller.book_selection_menu.hide_book_menu();
       bible_browser_controller.tag_selection_menu.hideTagMenu();
       bible_browser_controller.optionsMenu.hideDisplayMenu();
+      bible_browser_controller.tag_assignment_menu.hideTagAssignmentMenu();
       moduleSearchButton.addClass('ui-state-active');
 
       var module_search_button_offset = moduleSearchButton.offset();

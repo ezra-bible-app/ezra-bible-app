@@ -53,8 +53,9 @@ class TagSelectionMenu {
       bible_browser_controller.book_selection_menu.hide_book_menu();
       bible_browser_controller.module_search.hideSearchMenu();
       bible_browser_controller.optionsMenu.hideDisplayMenu();
-      tagSelectButton.addClass('ui-state-active');
+      bible_browser_controller.tag_assignment_menu.hideTagAssignmentMenu();
 
+      tagSelectButton.addClass('ui-state-active');
       var tag_select_button_offset = tagSelectButton.offset();
       var menu = $('#app-container').find('#tag-selection-menu');
       var top_offset = tag_select_button_offset.top + tagSelectButton.height() + 12;

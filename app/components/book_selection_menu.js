@@ -52,6 +52,7 @@ class BookSelectionMenu {
       bible_browser_controller.tag_selection_menu.resetTagMenu();
       bible_browser_controller.module_search.hideSearchMenu();
       bible_browser_controller.module_search.resetSearch();
+      bible_browser_controller.tag_assignment_menu.hideTagAssignmentMenu();
 
       // Not needed at the moment
       //$('#outline-content').empty();
@@ -98,6 +99,8 @@ class BookSelectionMenu {
       bible_browser_controller.tag_selection_menu.hideTagMenu();
       bible_browser_controller.module_search.hideSearchMenu();
       bible_browser_controller.optionsMenu.hideDisplayMenu();
+      bible_browser_controller.tag_assignment_menu.hideTagAssignmentMenu();
+      
       var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
       var book_button = currentVerseListMenu.find('.book-select-button');
       book_button.addClass('ui-state-active');

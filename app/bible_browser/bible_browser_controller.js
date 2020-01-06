@@ -41,6 +41,7 @@ class BibleBrowserController {
 
     this.init_component("VerseSelection", "verse_selection", "./app/components/verse_selection.js");
     this.init_component("TagSelectionMenu", "tag_selection_menu", "./app/tags/tag_selection_menu.js");
+    this.init_component("TagAssignmentMenu", "tag_assignment_menu", "./app/tags/tag_assignment_menu.js");
     this.init_component("ModuleSearch", "module_search", "./app/components/module_search.js");
     this.init_component("TranslationController", "translation_controller", "./app/bible_browser/translation_controller.js");
     this.init_component("InstallTranslationWizard", "install_translation_wizard", "./app/translation_wizard/install_translation_wizard.js");
@@ -186,6 +187,7 @@ class BibleBrowserController {
     
     this.initCurrentVerseListMenu(tabIndex);
     this.tag_selection_menu.init(tabIndex);
+    this.tag_assignment_menu.init(tabIndex);
     this.module_search.initModuleSearchMenu(tabIndex);
     this.translation_controller.initTranslationsMenu(tabIndex);
     this.translation_controller.initBibleTranslationInfoButton();
@@ -417,6 +419,7 @@ class BibleBrowserController {
   hideAllMenus() {
     this.book_selection_menu.hide_book_menu();
     this.tag_selection_menu.hideTagMenu();
+    this.tag_assignment_menu.hideTagAssignmentMenu();
     this.module_search.hideSearchMenu();
     this.optionsMenu.hideDisplayMenu();
   }
