@@ -31,6 +31,12 @@ class TagAssignmentMenu {
     return $('#app-container').find('#tag-assignment-menu');
   }
 
+  getCurrentMenuButton() {
+    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
+    var assignTagMenuButton = currentVerseListMenu.find('.assign-tag-menu-button');
+    return assignTagMenuButton;  
+  }
+
   hideTagAssignmentMenu() {
     if (this.menuIsOpened) {
       this.getMenu().hide();
@@ -42,8 +48,7 @@ class TagAssignmentMenu {
   }
 
   async handleMenuClick(event) {
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
-    var assignTagMenuButton = currentVerseListMenu.find('.assign-tag-menu-button');
+    var assignTagMenuButton = this.getCurrentMenuButton();
 
     if (assignTagMenuButton.hasClass('ui-state-disabled')) {
       return;
@@ -88,10 +93,14 @@ class TagAssignmentMenu {
     var toolBarId = 'tags-content';
     var menuId = 'tag-assignment-taglist';
 
+    var assignTagMenuButton = this.getCurrentMenuButton();
+
     if (parentId == toolBarId && moveToMenu) {
       var menu = document.getElementById(menuId);
       menu.appendChild(tagsContainer);
+      assignTagMenuButton.show();
     } else if (parentId == menuId && !moveToMenu) {
+      assignTagMenuButton.hide();
       var toolBar = document.getElementById(toolBarId);
       toolBar.appendChild(tagsContainer);
     }
