@@ -1132,6 +1132,19 @@ h2 {
   font-size: 0.9em;
 }
 
+#tag-assignment-menu {
+  width: 35em;
+}
+
+#tag-assignment-taglist {
+  height: 400px;
+  overflow-y: scroll;
+}
+
+#tag-assignment-taglist .ui-widget-content {
+  border: 0;
+}
+
 #module-search-menu {
   padding: 1em;
   width: 30em;

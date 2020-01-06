@@ -185,10 +185,12 @@ class OptionsMenu {
     setTimeout(() => {
       if (this.toolBarSwitchChecked()) {
       
+        bible_browser_controller.tag_assignment_menu.moveTagAssignmentList(false);
         currentToolBar.show();
         resize_app_container();
       } else {
         currentToolBar.hide();
+        bible_browser_controller.tag_assignment_menu.moveTagAssignmentList(true);
       }
     }, 400);   
   }

@@ -27,9 +27,13 @@ class TagAssignmentMenu {
     currentVerseListMenu.find('.assign-tag-menu-button').bind('click', (event) => { this.handleMenuClick(event); });
   }
 
+  getMenu() {
+    return $('#app-container').find('#tag-assignment-menu');
+  }
+
   hideTagAssignmentMenu() {
     if (this.menuIsOpened) {
-      $('#app-container').find('#tag-assignment-menu').hide();
+      this.getMenu().hide();
       this.menuIsOpened = false;
 
       var assignTagMenuButton = $('#app-container').find('.assign-tag-menu-button');
@@ -55,20 +59,41 @@ class TagAssignmentMenu {
 
       assignTagMenuButton.addClass('ui-state-active');
       var buttonOffset = assignTagMenuButton.offset();
-      var menu = $('#app-container').find('#tag-assignment-menu');
+      var menu = this.getMenu();
       var topOffset = buttonOffset.top + assignTagMenuButton.height() + 12;
       var leftOffset = buttonOffset.left;
 
       menu.css('top', topOffset);
       menu.css('left', leftOffset);
 
-      /*if (!this.tag_menu_populated) {
-        await this.updateTagSelectionMenu();
-      }*/
-
       menu.show();
       this.menuIsOpened = true;
       event.stopPropagation();
+    }
+  }
+
+  getTagsContainer() {
+    return document.getElementById('tags-content-global');
+  }
+
+  getTagsContainerParentId() {
+    var tagsContainer = this.getTagsContainer();
+    return tagsContainer.parentNode.getAttribute('id');
+  }
+
+  moveTagAssignmentList(moveToMenu=false) {
+    var tagsContainer = this.getTagsContainer();
+
+    var parentId = this.getTagsContainerParentId();
+    var toolBarId = 'tags-content';
+    var menuId = 'tag-assignment-taglist';
+
+    if (parentId == toolBarId && moveToMenu) {
+      var menu = document.getElementById(menuId);
+      menu.appendChild(tagsContainer);
+    } else if (parentId == menuId && !moveToMenu) {
+      var toolBar = document.getElementById(toolBarId);
+      toolBar.appendChild(tagsContainer);
     }
   }
 }
