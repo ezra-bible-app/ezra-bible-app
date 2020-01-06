@@ -537,7 +537,9 @@ class TranslationController {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     var translationInfoButton = currentVerseListMenu.find('.bible-translation-info-button');
     translationInfoButton.removeClass('ui-state-disabled');
-    configure_button_styles('#verse-list-tabs');
+
+    var currentTabNumber = parseInt(tabIndex) + 1;
+    configure_button_styles('#verse-list-tabs-' + currentTabNumber);
   }
 
   disableCurrentTranslationInfoButton() {
