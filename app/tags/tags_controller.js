@@ -692,6 +692,8 @@ class TagsController {
     configure_button_styles('#tags-content');
     tags_controller.update_tag_count_after_rendering();
 
+    // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
+    this.verses_were_selected_before = true;
     tags_controller.update_tags_view_after_verse_selection(true);
     await tags_controller.updateTagUiBasedOnTagAvailability(tag_list.length);
 

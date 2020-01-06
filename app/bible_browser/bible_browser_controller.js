@@ -148,6 +148,8 @@ class BibleBrowserController {
     this.verse_selection.clear_verse_selection();
 
     // Refresh tags view
+    // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
+    tags_controller.verses_were_selected_before = true;
     this.updateTagsView(ui.index);
 
     // Refresh tags selection menu (It's global!)
