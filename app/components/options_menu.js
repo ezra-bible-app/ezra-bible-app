@@ -25,8 +25,8 @@ class OptionsMenu {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.display-options-button').bind('click', (event) => { this.handleMenuClick(event); });
     
-    $('#tag-list-switch').bind('change', () => {
-      this.showOrHideTagListBasedOnOption();
+    $('#tool-bar-switch').bind('change', () => {
+      this.showOrHideToolBarBasedOnOption();
       this.slowlyHideDisplayMenu();
     });
 
@@ -117,9 +117,9 @@ class OptionsMenu {
 
   loadDisplayOptions() {
     // Enable the tag list by default
-    var showTagList = true;
-    if (bible_browser_controller.settings.has('showTagList')) {
-      showTagList = bible_browser_controller.settings.get('showTagList');
+    var showToolBar = true;
+    if (bible_browser_controller.settings.has('showToolBar')) {
+      showToolBar = bible_browser_controller.settings.get('showToolBar');
     }    
 
     var showBookIntro = false;
@@ -148,8 +148,8 @@ class OptionsMenu {
       useTagsColumn = bible_browser_controller.settings.get('useTagsColumn');
     }
 
-    if (showTagList) {
-      this.enableOption('tag-list-switch');
+    if (showToolBar) {
+      this.enableOption('tool-bar-switch');
     }
 
     if (showBookIntro) {
@@ -172,7 +172,7 @@ class OptionsMenu {
       this.enableOption('tags-column-switch');
     }   
     
-    this.showOrHideTagListBasedOnOption();
+    this.showOrHideToolBarBasedOnOption();
     this.showOrHideBookIntroductionBasedOnOption();
     this.showOrHideSectionTitlesBasedOnOption();
     this.showOrHideStrongsBasedOnOption();
@@ -180,17 +180,17 @@ class OptionsMenu {
     this.changeTagsLayoutBasedOnOption();
   }
 
-  showOrHideTagListBasedOnOption(tabIndex=undefined) {
-    var currentTagList = $('#bible-browser-toolbox');
-    bible_browser_controller.settings.set('showTagList', this.tagListSwitchChecked());
+  showOrHideToolBarBasedOnOption(tabIndex=undefined) {
+    var currentToolBar = $('#bible-browser-toolbox');
+    bible_browser_controller.settings.set('showToolBar', this.ToolBarSwitchChecked());
 
     setTimeout(() => {
-      if (this.tagListSwitchChecked()) {
+      if (this.ToolBarSwitchChecked()) {
       
-        currentTagList.show();
+        currentToolBar.show();
         resize_app_container();
       } else {
-        currentTagList.hide();
+        currentToolBar.hide();
       }
     }, 400);   
   }
@@ -303,7 +303,7 @@ class OptionsMenu {
   }
 
   refreshViewBasedOnOptions(tabIndex=undefined) {
-    this.showOrHideTagListBasedOnOption(tabIndex);
+    this.showOrHideToolBarBasedOnOption(tabIndex);
     this.showOrHideBookIntroductionBasedOnOption(tabIndex);
     this.showOrHideSectionTitlesBasedOnOption(tabIndex);
     this.showOrHideVerseTagsBasedOnOption(tabIndex);
@@ -311,8 +311,8 @@ class OptionsMenu {
     this.showOrHideStrongsBasedOnOption(tabIndex);
   }
 
-  tagListSwitchChecked() {
-    return $('#tag-list-switch').attr('checked');    
+  ToolBarSwitchChecked() {
+    return $('#tool-bar-switch').attr('checked');    
   }
 
   verseNotesSwitchChecked() {
