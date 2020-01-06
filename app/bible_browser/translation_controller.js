@@ -468,8 +468,12 @@ class TranslationController {
   }
 
   async syncSwordModules() {
+    //console.time("get sync infos");
+    var dbModules = await models.BibleTranslation.findAndCountAll();
+
     try {
-      if (!nsi.repositoryConfigExisting()) {
+      // We only update the repository config if there is none yet and if there are some existing database modules (to be synced with).
+      if (!nsi.repositoryConfigExisting() && dbModules.count > 0) {
         await nsi.updateRepositoryConfig();
       }
     } catch (e) {
@@ -477,9 +481,7 @@ class TranslationController {
       return;
     }
 
-    //console.time("get sync infos");
-    var localSwordModules = nsi.getAllLocalModules();
-    var dbModules = await models.BibleTranslation.findAndCountAll();
+    var localSwordModules = nsi.getAllLocalModules();    
     var modulesNotInDb = await this.getLocalModulesNotYetAvailableInDb(dbModules, localSwordModules);
     var notInstalledButAvailableModules = await this.getNotInstalledButAvailableModules(dbModules, localSwordModules);
     var strongsInstallNeeded = await this.isStrongsTranslationInDb() && !nsi.strongsAvailable();
