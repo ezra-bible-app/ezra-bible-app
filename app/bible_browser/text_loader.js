@@ -164,25 +164,9 @@ class TextLoader {
     render_function(verses_as_html);
   }
 
-  async requestVersesForSearchResults(tab_index,
-                                      current_tab_id,
-                                      search_results,
-                                      render_function,
-                                      requestedBookId=-1,
-                                      render_type='html',
-                                      renderVerseMetaInfo=true) {
-    if (search_results.length == 0) {
-      return;
-    }
-
-    var bibleTranslationId = null;
-    if (bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId() == null) {
-      bibleTranslationId = 1;
-    } else {
-      bibleTranslationId = bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
-    }
-
+  getBibleBookStatsFromSearchResults(search_results) {
     var bibleBookStats = {};
+
     for (var i = 0; i < search_results.length; i++) {
       var bibleBookId = models.BibleTranslation.swordBooktoEzraBook(search_results[i].bibleBookShortTitle);
       
@@ -193,7 +177,10 @@ class TextLoader {
       }
     }
 
-    var bibleBooks = await models.BibleBook.findBySearchResults(search_results);
+    return bibleBookStats;
+  }
+
+  async getDbVersesFromSearchResults(bibleTranslationId, requestedBookId, search_results) {
     var verses = [];
 
     for (var i = 0; i < search_results.length; i++) {
@@ -213,6 +200,31 @@ class TextLoader {
         console.log(currentResult);
       }
     }
+
+    return verses;
+  }
+
+  async requestVersesForSearchResults(tab_index,
+                                      current_tab_id,
+                                      search_results,
+                                      render_function,
+                                      requestedBookId=-1,
+                                      render_type='html',
+                                      renderVerseMetaInfo=true) {
+    if (search_results.length == 0) {
+      return;
+    }
+
+    var bibleTranslationId = null;
+    if (bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId() == null) {
+      bibleTranslationId = 1;
+    } else {
+      bibleTranslationId = bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
+    }
+
+    var bibleBooks = await models.BibleBook.findBySearchResults(search_results);
+    var bibleBookStats = this.getBibleBookStatsFromSearchResults(search_results);
+    var verses = await this.getDbVersesFromSearchResults(bibleTranslationId, requestedBookId, search_results);
 
     var verseIds = [];
     for (var i = 0; i < verses.length; i++) {
