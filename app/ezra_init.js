@@ -164,7 +164,7 @@ function configure_button_styles(context = null)
       });
 
       currentButton.addEventListener('mousedown', function(e) {
-        handle_fg_button_mousedown($(e.target).closest('.fg-button'), true);
+        handle_fg_button_mousedown($(e.target).closest('.fg-button'), e.target.nodeName != 'INPUT');
       });
 
       currentButton.addEventListener('mouseup', function(e) {
