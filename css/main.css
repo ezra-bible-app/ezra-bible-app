@@ -1132,17 +1132,27 @@ h2 {
   font-size: 0.9em;
 }
 
-#tag-assignment-menu {
-  width: 35em;
+#tag-assignment-menu #tag-assignment-menu-filter input {
+  font-size: 1em;
 }
 
-#tag-assignment-taglist {
+#tag-assignment-menu {
+  width: 38em;
+}
+
+#tag-assignment-menu-taglist {
+  margin-top: 0.5em;
   height: 400px;
   overflow-y: scroll;
 }
 
-#tag-assignment-taglist .ui-widget-content {
+#tag-assignment-menu-taglist .ui-widget-content {
   border: 0;
+}
+
+#tag-assignment-menu #tags-search-input {
+  float: none;
+  width: 20em;
 }
 
 #module-search-menu {
@@ -1235,6 +1245,7 @@ h2 {
   background-color: white;
   width: 150px;
   margin-right: 1em;
+  font-size: 1em;
 }
 
 .book-search-nav {

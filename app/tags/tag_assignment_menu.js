@@ -88,18 +88,23 @@ class TagAssignmentMenu {
 
   moveTagAssignmentList(moveToMenu=false) {
     var tagsContainer = this.getTagsContainer();
+    var tagsSearchInput = document.getElementById('tags-search-input');
 
     var parentId = this.getTagsContainerParentId();
     var toolBarId = 'tags-content';
-    var menuId = 'tag-assignment-taglist';
+    var menuId = 'tag-assignment-menu-taglist';
+    var filterId = 'tag-assignment-menu-filter';
 
     var assignTagMenuButton = this.getCurrentMenuButton();
 
     if (parentId == toolBarId && moveToMenu) {
       var menu = document.getElementById(menuId);
       menu.appendChild(tagsContainer);
+      var filter = document.getElementById(filterId);
+      filter.appendChild(tagsSearchInput);
       assignTagMenuButton.show();
     } else if (parentId == menuId && !moveToMenu) {
+      tags_controller.handle_tag_accordion_change();
       assignTagMenuButton.hide();
       var toolBar = document.getElementById(toolBarId);
       toolBar.appendChild(tagsContainer);

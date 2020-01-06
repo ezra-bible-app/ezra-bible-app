@@ -1018,7 +1018,6 @@ class TagsController {
   handle_tag_accordion_change() {
     var new_reference_link = $('#tags-content').find('.ui-state-active').find('a');
     var tags_search_input = $('#tags-search-input');
-
     new_reference_link.append(tags_search_input);
   }
 
@@ -1166,7 +1165,7 @@ class TagsController {
 
     tags_controller.tag_search_timeout = setTimeout(function filter_tag_list() {
       //console.time('filter-tag-list');
-      var tags_content = document.getElementById('tags-content');
+      var tags_content = document.getElementById('tags-content-global');
       var tag_labels = tags_content.querySelectorAll('.cb-label');
       $(tags_content).find('.checkbox-tag').hide();
 
