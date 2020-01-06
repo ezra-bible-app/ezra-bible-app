@@ -15,6 +15,8 @@ All notable changes to Ezra Project are documented in this file.
 
 ### Enablers
 
+* Upgraded Electron from 7.1.1 to 7.1.7.
+
 [i11]: https://github.com/tobias-klein/ezra-project/issues/11
 
 -->
