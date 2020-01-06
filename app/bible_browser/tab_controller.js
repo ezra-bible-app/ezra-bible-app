@@ -191,6 +191,7 @@ class TabController {
 
   initTabs() {
     this.tabs = $("#" + this.tabsElement).tabs();
+    this.updateFirstTabCloseButton();
   }
 
   reloadTabs() {
