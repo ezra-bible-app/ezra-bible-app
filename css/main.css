@@ -781,7 +781,7 @@ h2 {
   text-decoration: underline;
 }
 
-.switch-label, #indent-switch-label, #outline-switch-label, #tags-switch-label, #tags-column-switch-label, #strongs-switch-label, .tag-select-label, .module-search-label, #display-options-label, #verse-notes-switch-label, #x-refs-switch-label {
+.switch-label, #indent-switch-label, #outline-switch-label, #tag-list-switch-label, #tags-switch-label, #tags-column-switch-label, #strongs-switch-label, .tag-select-label, .module-search-label, #display-options-label, #verse-notes-switch-label, #x-refs-switch-label {
   margin: 0.2em;
   margin-left: 0.2em;
 }

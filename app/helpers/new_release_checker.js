@@ -65,7 +65,7 @@ class NewReleaseChecker {
 
     infoBox.dialog("open");
     infoBox.append('<p>' + i18n.t('general.new-release-available-body') + '</p>');
-    infoBox.append('<p>' + i18n.t('general.latest-version') + ': ' + this.latestRelease.tag + '</p>');
+    infoBox.append('<p>' + i18n.t('general.latest-version') + ': <b>' + this.latestRelease.tag + '</b></p>');
     var latestReleaseLink = "<a class='external' href='" + this.latestRelease.url + "'>" + i18n.t('general.release-notes-download') + "</a>";
     infoBox.append('<p>' + latestReleaseLink + '</p><br/>');
 
