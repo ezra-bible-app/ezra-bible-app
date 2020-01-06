@@ -106,10 +106,10 @@ function resize_app_container(e) {
   var tagsToolBarHeight = $('#tags-toolbar').height();
 
   if (bible_browser_controller.optionsMenu.strongsSwitchChecked()) {
-    $('#tags-content-global').css('height', app_container_height - tagsToolBarHeight - 475);
+    $('#tags-content-global').css('height', app_container_height - tagsToolBarHeight - 415);
     $('#dictionary-info-box-panel').css('height', 302);
   } else {
-    $('#tags-content-global').css('height', app_container_height - tagsToolBarHeight - 115);
+    $('#tags-content-global').css('height', app_container_height - tagsToolBarHeight - 55);
   }
 
   if (e === undefined) {
@@ -133,7 +133,7 @@ function resize_verse_list(tabIndex=undefined) {
   var navigationPane = verseListComposite.find('.navigation-pane');
   var verseListFrame = verseListComposite.find('.verse-list-frame');
 
-  var newVerseListHeight = app_container_height - 110;
+  var newVerseListHeight = app_container_height - 135;
   navigationPane.css('height', newVerseListHeight);
   verseListFrame.css('height', newVerseListHeight);
 

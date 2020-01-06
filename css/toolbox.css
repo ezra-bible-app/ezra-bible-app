@@ -19,6 +19,7 @@
 #bible-browser-toolbox {
   width: 30em;
   padding: 0.5em;
+  padding-top: 0;
   float: left;
   margin-right: 0.5em;
   /* margin-top disabled as long as we don't have a logo */
@@ -141,7 +142,6 @@ a.outline-reference:focus, a.outline-reference:hover {
 }
 
 .accordion-panel {
-  margin-top: 0.2em;
   clear: both;
   padding: 0.2em;
   margin-left: auto;
@@ -266,11 +266,6 @@ tr.td-underline td {
 
 #filter-dialog input {
   margin: 0.5em;
-}
-
-#tags-header {
-  margin-top: 0.3em;
-  user-select: none;
 }
 
 #tags-content-global, #tags-content-book {
@@ -502,10 +497,7 @@ tr.td-underline td {
   display: none;
 }
 
-#selection-box, #clippy-box {
-  float: left;
-}
-
-#clippy-box {
-  margin-left: 2em;
+.selection-box {
+  display: inline-block;
+  margin-left: 0.5em;
 }

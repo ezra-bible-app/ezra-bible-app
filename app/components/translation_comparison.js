@@ -41,10 +41,6 @@ class TranslationComparison {
     return $('#compare-translations-box-content');
   }
 
-  getSelectedVersesLabel() {
-    return $('#selected-verses').text();
-  }
-
   isButtonEnabled() {
     return !(this.getButton().hasClass('ui-state-disabled'));
   }
@@ -154,7 +150,7 @@ class TranslationComparison {
     var compareTranslationContent = await this.getCompareTranslationContent();
     this.getBoxContent().html(compareTranslationContent);
 
-    var boxTitle = i18n.t("bible-browser.comparing-translations-for") + " " + this.getSelectedVersesLabel();
+    var boxTitle = i18n.t("bible-browser.comparing-translations-for") + " " + bible_browser_controller.verse_selection.getSelectedVersesLabel().text();
     this.getBox().dialog({
       title: boxTitle
     });

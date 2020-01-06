@@ -356,7 +356,7 @@ class VerseSelection {
 
   async updateViewsAfterVerseSelection() {
     var selectedVerseDisplayText = await this.getSelectedVerseDisplayText();
-    $('#selected-verses').html(selectedVerseDisplayText);
+    this.getSelectedVersesLabel().html(selectedVerseDisplayText);
 
     await tags_controller.update_tags_view_after_verse_selection(false);
 
@@ -368,6 +368,11 @@ class VerseSelection {
 
     var currentTabNumber = bible_browser_controller.tab_controller.getSelectedTabIndex() + 1;
     configure_button_styles('#verse-list-tabs-' + currentTabNumber);
+  }
+
+  getSelectedVersesLabel() {
+    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
+    return $(currentVerseListMenu.find('.selected-verses')[0]);
   }
 }
 

@@ -326,7 +326,7 @@ class BibleBrowserController {
     }
 
     selectedText = selectedText.trim();
-    selectedText += " " + getLineBreak() + $('#selected-verses').text();
+    selectedText += " " + getLineBreak() + this.verse_selection.getSelectedVersesLabel().text();
 
     clipboard.writeHTML(selectedText);
   }
