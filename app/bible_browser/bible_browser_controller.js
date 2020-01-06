@@ -283,8 +283,11 @@ class BibleBrowserController {
 
     this.translationComparison.initButtonEvents();
 
-    var tabNumber = parseInt(tabIndex) + 1;
-    configure_button_styles('#verse-list-tabs-' + tabNumber);
+    var tabId = this.tab_controller.getSelectedTabId(tabIndex);
+    if (tabId !== undefined) {
+      configure_button_styles('#' + tabId);
+    }
+
     this.navigation_pane.updateNavigation();
   }
 
