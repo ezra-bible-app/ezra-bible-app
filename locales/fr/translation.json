@@ -10,15 +10,15 @@
     "tags": "Étiquettes",
     "search": "Rechercher",
     "options": "Options",
-    "export": "Export to text document",
-    "show-module-info": "Show module info"
+    "export": "Exporter en document texte",
+    "show-module-info": "Montrer les informations sur le module"
   },
   "search-menu": {
     "search": "Rechercher",
     "case-sensitive": "Sensible à la casse",
     "exact-phrase": "Phrase exacte",
-    "multi-word": "Multiple words",
-    "strongs": "Strong's number"
+    "multi-word": "Mots multiples",
+    "strongs": "Nombre de Strong"
   },
   "translation-wizard": {
     "header": "Configurer les traductions de la Bible",
@@ -26,12 +26,12 @@
     "add-translations": "Ajouter des traductions de la Bible",
     "remove-translations": "Supprimer des traductions de la Bible",
     "repositories": "Dépôts",
-    "repo-data-last-updated": "Repository data was last updated on {{date}}.",
-    "update-now": "Update now",
+    "repo-data-last-updated": "La dernière mise à jour du dépôt de données a eu lieu le {{date}}.",
+    "update-now": "Mettre à jour maintenant",
     "languages": "Langues",
     "translations": "Traductions",
     "removal": "Suppression",
-    "translation-feature-filter": "Feature filter",
+    "translation-feature-filter": "Filtre des options",
     "repo-selection-info-text": "Le projet Ezra fonctionne avec les modules de traduction de la Bible fournis par <a class='external' href='http://www.crosswire.org/sword'>le projet SWORD</a> et la <a class='external' href='http://www.crosswire.org'>Société biblique CrossWire</a>. <b/><b/>Vous trouverez ci-dessous la liste des dépôts SWORD publiés par CrossWire. Un dépôt est un emplacement de stockage Internet contenant un ensemble de modules de traduction de la Bible. À côté de chaque dépôt, vous pouvez voir le nombre total de modules de traduction de la Bible disponibles dans ce dépôt.<b/><b/> Pour installer un module traduction de la Bible, sélectionnez au moins un dépôt dans la liste ci-dessous. Les dépôts <i>CrossWire</i> et <i>eBible.org</i> constituent un bon point de départ.",
     "more-repo-information-needed": "Vous avez besoin de plus d'informations sur ces dépôts ?<br/>Consultez le <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>Wiki de CrossWire</a>.",
     "click-to-show-detailed-module-info": "Cliquez sur un code de traduction (lien après le nom de la traduction) pour afficher ici des informations détaillées sur le module.",
@@ -122,36 +122,36 @@
     "none-selected": "Aucun",
     "rename-tag": "Renommer l'étiquette",
     "title": "Titre ",
-    "stats-used": "used",
+    "stats-used": "utilisée",
     "stats-total": "total"
   },
   "bible-browser": {
-    "chapter": "Chapter",
-    "psalm": "Psalm",
+    "chapter": "Chapitre",
+    "psalm": "Psaume",
     "selection": "Sélection : ",
     "loading-bible-text": "Chargement du texte biblique",
-    "loading-tagged-verses": "Loading tagged verses",
-    "searching-for": "Searching for",
-    "search-result-header": "Search results for ",
+    "loading-tagged-verses": "Chargement des versets étiquetés",
+    "searching-for": "Recherche",
+    "search-result-header": "Résultat des recherches pour ",
     "no-search-results": "Aucun résultat trouvé lors de la recherche de ",
     "load-verse-context": "Charger le contexte de ce verset",
     "tag-hint": "Cliquez pour afficher tous les versets liés à cette étiquette",
     "show-search-results": "Afficher les résultats de la recherche",
     "search-performance-hint": "Afficher uniquement la liste des livres pour l'instant en raison du nombre élevé de résultats de recherche. Vous pouvez demander les résultats de recherche pour chaque livre individuellement.",
-    "show-tool-bar": "Show tool bar",
-    "show-book-intro": "Show book introduction",
+    "show-tool-bar": "Afficher la barre d'outil'",
+    "show-book-intro": "Affichintroduction du livre",
     "show-section-titles": "Montrer les titres de sections",
     "show-strongs": "Montrer les nombres de Strong",
     "show-tags": "Montrer les étiquettes",
     "use-tags-column": "Utiliser des colonnes d'étiquettes",
     "tag-statistics": "Statistiques des étiquettes",
     "comparing-translations-for": "Comparaison des traductions pour",
-    "strongs-number-not-valid": "This is not a valid Strong's number!"
+    "strongs-number-not-valid": "Ceci n'est pas un nombre de Strong valide !"
   },
   "dictionary-info-box": {
     "greek": "Grec",
     "hebrew": "Hébreux",
-    "default-header": "<b>Strong's Dictionary</b>",
-    "help-instruction": "<p>How to show Strong's here:</p><ol><li>First open a translation with the Strong's feature.</li><li>While you press the SHIFT key you can move your mouse over the individual words and phrases to see Strong's infos here.</li><ol>"
+    "default-header": "<b>Dictionnaire de Strong</b>",
+    "help-instruction": "<p>Comment affichier les nombres de Strong ici :</p><ol><li>Commencer par ouvrir une traduction avec la fonctionnalité des nombre de Strong.</li><li>En pressant la touche SHIFT vous pouvez déplacer votre souris sur chaque mot en particulier ou sur une phrase pour y voir les informations liées au nombre de Strong.</li><ol>"
   }
 }
