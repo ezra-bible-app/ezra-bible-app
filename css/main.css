@@ -629,7 +629,12 @@ h2 {
   border: 1px dashed #2779aa;
 }
 
-.book-select-button, .tag-select-button, .module-search-button, .display-options-button, .note-session-select-button {
+.book-select-button,
+.tag-select-button,
+.module-search-button,
+.display-options-button,
+.assign-tag-menu-button,
+.note-session-select-button {
   width: 7.5em;
   padding: 0.5em;
   cursor: pointer;
@@ -637,6 +642,14 @@ h2 {
   text-align: center;
   float: left;
   height: 1.1em;
+}
+
+.assign-tag-menu-button {
+  margin-left: 0.5em;
+  float: none;
+  display: inline-block;
+  width: 10em;
+  height: 1em;
 }
 
 .display-options-button {
@@ -651,7 +664,12 @@ h2 {
   float: left;
 }
 
-.book-select-button .ui-icon, .tag-select-button .ui-icon, .module-search-button .ui-icon, .display-options-button .ui-icon, .note-session-select-button .ui-icon {
+.book-select-button .ui-icon,
+.tag-select-button .ui-icon,
+.module-search-button .ui-icon,
+.display-options-button .ui-icon,
+.assign-tag-menu-button .ui-icon,
+.note-session-select-button .ui-icon {
   float: right;
 }
 
@@ -758,7 +776,11 @@ h2 {
   margin: 0.4em;
 }
 
-.show-book-tag-statistics-button, .show-parallel-translations-button, .export-tagged-verses-button, .bible-translation-info-button, #start-module-search-button {
+.show-book-tag-statistics-button,
+.show-parallel-translations-button,
+.export-tagged-verses-button,
+.bible-translation-info-button,
+#start-module-search-button {
   margin-left: 0.5em;
   height: 2.2em;
 }
