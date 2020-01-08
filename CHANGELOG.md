@@ -10,6 +10,12 @@ All notable changes to Ezra Project are documented in this file.
 ### Enhancements
 
 * Enable section titles by default.
+* New context toolbar right above text browser. 
+  This toolbar now holds all the buttons / menus relevant for working with the text.
+  These buttons were formerly shown above the tag list on the left side.
+* Option to show/hide the toolbar (on the left side).
+  Based on this option Ezra Project can now also be used on tablets in vertical mode where the horizontal space
+  is limited.
 
 ### Fixes
 
