@@ -29,6 +29,7 @@ class Tab {
     this.textType = null;
     this.lastHighlightedNavElementIndex = null;
     this.bibleTranslationId = defaultBibleTranslationId;
+    this.selectCount = 0;
   }
 
   isValid() {

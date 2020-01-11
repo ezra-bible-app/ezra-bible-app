@@ -117,12 +117,15 @@ class TabController {
 
     for (var i = 0; i < savedMetaTabs.length; i++) {
       var currentMetaTab = Tab.fromJsonObject(savedMetaTabs[i]);
+
       if (!currentMetaTab.isValid()) {
         // We ignore the meta tab if it is invalid
         continue;
       }
 
       console.log("Creating tab " + loadedTabCount + " from saved entry ... ");
+
+      currentMetaTab.selectCount = 0;
 
       if (loadedTabCount == 0) {
         currentMetaTab.elementId = this.metaTabs[0].elementId;

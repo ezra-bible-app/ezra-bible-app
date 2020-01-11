@@ -140,7 +140,18 @@ class BibleBrowserController {
       ui.index = this.tab_controller.getTabCount() - 1;
     }
 
-    this.hideAllMenus();
+    var metaTab = this.tab_controller.getTab(ui.index);
+    metaTab.selectCount += 1;
+
+    if (metaTab.selectCount >= 2) {
+      // Only perform the following actions from the 2nd select (The first is done when the tab is created)
+
+      this.hideAllMenus();
+      // Refresh the view based on the options selected
+      this.optionsMenu.refreshViewBasedOnOptions(ui.index);
+
+      this.book_selection_menu.clearSelectedBookInMenu();
+    }
 
     // Re-configure book search
     this.book_search.resetSearch();
@@ -162,7 +173,6 @@ class BibleBrowserController {
     this.translation_controller.updateAvailableBooks(ui.index);
 
     // Highlight currently selected book (only in book mode)
-    this.book_selection_menu.clearSelectedBookInMenu();
     var textType = this.tab_controller.getTab(ui.index).getTextType();
     if (textType == 'book') {
       this.book_selection_menu.highlightCurrentlySelectedBookInMenu(ui.index);
@@ -174,9 +184,6 @@ class BibleBrowserController {
     // Populate search menu based on last search (if any)
     this.module_search.populateSearchMenu(ui.index);
 
-    // Refresh the view based on the options selected
-    this.optionsMenu.refreshViewBasedOnOptions(ui.index);
-
     // Hide elements present from previous tab's usage
     this.strongs.hideStrongsBox();
     this.verse_context_loader.hide_verse_expand_box();
@@ -186,6 +193,8 @@ class BibleBrowserController {
 
   onTabAdded(tabIndex=0) {
     this.hideAllMenus();
+    // Refresh the view based on the options selected
+    this.optionsMenu.refreshViewBasedOnOptions(tabIndex);
     resize_verse_list(tabIndex);
     
     this.initCurrentVerseListMenu(tabIndex);
