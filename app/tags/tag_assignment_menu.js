@@ -97,15 +97,19 @@ class TagAssignmentMenu {
 
     var assignTagMenuButton = this.getCurrentMenuButton();
 
+    if (moveToMenu) {
+      assignTagMenuButton.show();
+    } else {
+      assignTagMenuButton.hide();
+    }
+
     if (parentId == toolBarId && moveToMenu) {
       var menu = document.getElementById(menuId);
       menu.appendChild(tagsContainer);
       var filter = document.getElementById(filterId);
       filter.appendChild(tagsSearchInput);
-      assignTagMenuButton.show();
     } else if (parentId == menuId && !moveToMenu) {
       tags_controller.handle_tag_accordion_change();
-      assignTagMenuButton.hide();
       var toolBar = document.getElementById(toolBarId);
       toolBar.appendChild(tagsContainer);
     }
