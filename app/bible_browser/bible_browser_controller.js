@@ -140,6 +140,8 @@ class BibleBrowserController {
       ui.index = this.tab_controller.getTabCount() - 1;
     }
 
+    this.hideAllMenus();
+
     // Re-configure book search
     this.book_search.resetSearch();
     var currentVerseList = this.getCurrentVerseList(ui.index);
@@ -183,6 +185,7 @@ class BibleBrowserController {
   }
 
   onTabAdded(tabIndex=0) {
+    this.hideAllMenus();
     resize_verse_list(tabIndex);
     
     this.initCurrentVerseListMenu(tabIndex);
