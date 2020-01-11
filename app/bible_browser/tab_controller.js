@@ -208,7 +208,7 @@ class TabController {
       select: (event, ui) => {
         setTimeout(() => {
           this.onTabSelected(event, ui);
-        }, 800);
+        }, 500);
       }
     });
 
@@ -217,8 +217,11 @@ class TabController {
     // Close icon: removing the tab on click
     this.tabs.find('span.ui-icon-close').on( "click", (event) => {
       this.removeTab(event);
-      bible_browser_controller.book_selection_menu.highlightCurrentlySelectedBookInMenu();
-      this.saveTabConfiguration();
+
+      setTimeout(() => {
+        bible_browser_controller.book_selection_menu.highlightCurrentlySelectedBookInMenu();
+        this.saveTabConfiguration();
+      }, 250);
     });
   }
 
