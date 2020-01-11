@@ -255,6 +255,7 @@ class TabController {
     var li = $( this.tabTemplate.replace( /#\{href\}/g, "#" + metaTab.elementId ).replace( /#\{label\}/g, this.defaultLabel ) );
     this.tabs.find(".ui-tabs-nav").append(li);
     this.tabs.append("<div id='" + metaTab.elementId + "' class='" + this.tabsPanelClass + "'>" + this.tabHtmlTemplate + "</div>");
+
     this.reloadTabs();
     if (!initialLoading) {
       this.tabs.tabs('select', this.tabCounter);
@@ -264,7 +265,10 @@ class TabController {
     this.nextTabId++;
 
     this.updateFirstTabCloseButton();
-    this.onTabAdded(this.tabCounter - 1);
+
+    setTimeout(() => {
+      this.onTabAdded(this.tabCounter - 1);
+    }, 250);
   }
 
   removeTab(event) {

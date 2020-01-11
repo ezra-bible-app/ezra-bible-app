@@ -134,6 +134,7 @@ class BibleBrowserController {
   }
 
   async onTabSelected(event = undefined, ui = { 'index' : 0}) {
+    console.time('onTabSelected');
     // The ui.index may be higher as the actual available index. This happens after a tab was removed.
     if (ui.index > (this.tab_controller.getTabCount() - 1)) {
       // In this case we simply adjust the index to the last available index.
@@ -189,9 +190,11 @@ class BibleBrowserController {
     this.verse_context_loader.hide_verse_expand_box();
 
     configure_button_styles('.verse-list-menu');
+    console.timeEnd('onTabSelected');
   }
 
   onTabAdded(tabIndex=0) {
+    console.time('onTabAdded');
     this.hideAllMenus();
     // Refresh the view based on the options selected
     this.optionsMenu.refreshViewBasedOnOptions(tabIndex);
@@ -210,6 +213,7 @@ class BibleBrowserController {
 
     this.optionsMenu.initCurrentOptionsMenu(tabIndex);
     this.book_selection_menu.clearSelectedBookInMenu();
+    console.timeEnd('onTabAdded');
   }
 
   onBibleTranslationChanged() {

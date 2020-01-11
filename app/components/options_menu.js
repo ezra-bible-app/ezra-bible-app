@@ -26,31 +26,37 @@ class OptionsMenu {
     currentVerseListMenu.find('.display-options-button').bind('click', (event) => { this.handleMenuClick(event); });
     
     $('#tool-bar-switch').bind('change', () => {
+      bible_browser_controller.settings.set('showToolBar', this.toolBarSwitchChecked());
       this.showOrHideToolBarBasedOnOption();
       this.slowlyHideDisplayMenu();
     });
 
     $('#book-intro-switch').bind('change', () => {
+      bible_browser_controller.settings.set('showBookIntro', this.bookIntroductionSwitchChecked());
       this.showOrHideBookIntroductionBasedOnOption();
       this.slowlyHideDisplayMenu();
     });
 
     $('#section-title-switch').bind('change', () => {
+      bible_browser_controller.settings.set('showSectionTitles', this.sectionTitleSwitchChecked());
       this.showOrHideSectionTitlesBasedOnOption();
       this.slowlyHideDisplayMenu();
     });
 
     $('#strongs-switch').bind('change', () => {
+      bible_browser_controller.settings.set('showStrongs', this.strongsSwitchChecked());
       this.showOrHideStrongsBasedOnOption();
       this.slowlyHideDisplayMenu();
     });
 
     $('#tags-switch').bind('change', () => {
+      bible_browser_controller.settings.set('showTags', this.tagsSwitchChecked());
       this.showOrHideVerseTagsBasedOnOption();
       this.slowlyHideDisplayMenu();
     });
 
     $('#tags-column-switch').bind('change', () => {
+      bible_browser_controller.settings.set('useTagsColumn', this.tagsColumnSwitchChecked());
       this.changeTagsLayoutBasedOnOption();
       this.slowlyHideDisplayMenu();
     });
@@ -180,7 +186,6 @@ class OptionsMenu {
 
   showOrHideToolBarBasedOnOption(tabIndex=undefined) {
     var currentToolBar = $('#bible-browser-toolbox');
-    bible_browser_controller.settings.set('showToolBar', this.toolBarSwitchChecked());
 
     setTimeout(() => {
       if (this.toolBarSwitchChecked()) {
@@ -197,7 +202,6 @@ class OptionsMenu {
 
   showOrHideBookIntroductionBasedOnOption(tabIndex=undefined) {
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
-    bible_browser_controller.settings.set('showBookIntro', this.bookIntroductionSwitchChecked());
 
     var bookIntro = currentVerseList.find('.book-intro');
     var paragraphElements = bookIntro.find("div[type='paragraph']");
@@ -222,7 +226,6 @@ class OptionsMenu {
 
   showOrHideSectionTitlesBasedOnOption(tabIndex=undefined) {
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
-    bible_browser_controller.settings.set('showSectionTitles', this.sectionTitleSwitchChecked());
 
     // The following code moves the sword-section-title elements before the verse-boxes
     var all_section_titles = currentVerseList.find('.sword-section-title');
@@ -255,7 +258,6 @@ class OptionsMenu {
   }
 
   showOrHideStrongsBasedOnOption(tabIndex=undefined) {
-    bible_browser_controller.settings.set('showStrongs', this.strongsSwitchChecked());
     if (!this.strongsSwitchChecked()) { 
       bible_browser_controller.strongs.dictionaryInfoBox.hide();
       bible_browser_controller.strongs.clearDictInfoBox();
@@ -268,7 +270,6 @@ class OptionsMenu {
 
   showOrHideVerseTagsBasedOnOption(tabIndex=undefined) {
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
-    bible_browser_controller.settings.set('showTags', this.tagsSwitchChecked());
 
     if (this.tagsSwitchChecked()) {
       currentVerseList.removeClass('verse-list-without-tags');
@@ -293,7 +294,6 @@ class OptionsMenu {
 
   changeTagsLayoutBasedOnOption(tabIndex=undefined) {
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
-    bible_browser_controller.settings.set('useTagsColumn', this.tagsColumnSwitchChecked());
 
     if (this.tagsColumnSwitchChecked()) {
       currentVerseList.addClass('verse-list-tags-column');
