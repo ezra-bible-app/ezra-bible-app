@@ -63,8 +63,9 @@
   "general": {
     "chapter-verse-separator": ":",
     "module-about": "About",
-    "sword-module-info": "SWORD module info",
-    "sword-library-info": "SWORD library info",
+    "sword-module-info": "SWORD Module Info",
+    "sword-unlock-info": "SWORD Unlock Info",
+    "sword-library-info": "SWORD Library Info",
     "using-sword-version": "Using SWORD version",
     "module-name": "Name",
     "module-version": "Version",

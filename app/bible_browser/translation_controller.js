@@ -258,6 +258,11 @@ class TranslationController {
 
       bibleTranslationInfo += "</table>";
 
+      if (isRemote && bibleTranslationModule.locked && bibleTranslationModule.unlockInfo != "") {
+        bibleTranslationInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>" + i18n.t("general.sword-unlock-info") + "</p>";
+        bibleTranslationInfo += "<p class='external'>" + bibleTranslationModule.unlockInfo + "</p>";
+      }
+
       bibleTranslationInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>" + i18n.t("general.sword-library-info") + "</p>";
       bibleTranslationInfo += "<p>" + i18n.t("general.using-sword-version") + " <b>" + nsi.getSwordVersion() + "</b>.</p>";
     } catch (ex) {

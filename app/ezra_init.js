@@ -255,7 +255,7 @@ function initUi()
   });
 
   // Open links classified as external in the default web browser
-  $('body').on('click', 'a.external', (event) => {
+  $('body').on('click', 'a.external, p.external a', (event) => {
     event.preventDefault();
     let link = event.target.href;
     require("electron").shell.openExternal(link);
