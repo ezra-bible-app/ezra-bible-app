@@ -156,6 +156,7 @@ class InstallTranslationWizard {
 
   async addTranslationWizardStepChanged(event, currentIndex, priorIndex) {
     if (priorIndex == 0 && currentIndex == 1) {
+
       this.initLanguagesPage();
 
     } else if (priorIndex == 1 && currentIndex == 2) {
@@ -502,7 +503,34 @@ class InstallTranslationWizard {
       }, 200);
     });
 
-    this._helper.bindLabelEvents(filteredTranslationList);    
+    this._helper.bindLabelEvents(filteredTranslationList);
+
+    filteredTranslationList.find('.module-checkbox').bind('mousedown', function() {
+      var moduleId = $(this).parent().find('.bible-translation-info').text();
+      var swordModule = nsi.getRepoModule(moduleId);
+
+      if (swordModule.unlockInfo != "") {
+        $('#dialog-unlock-info').html(swordModule.unlockInfo);
+      }
+
+      var unlockDialogOptions = {
+        modal: true,
+        title: i18n.t("translation-wizard.enter-unlock-key", { moduleId: moduleId }),
+        dialogClass: 'ezra-dialog',
+        width: 400,
+        minHeight: 200
+      };
+
+      unlockDialogOptions.buttons = {};
+      unlockDialogOptions.buttons[i18n.t("general.cancel")] = function() {
+        $(this).dialog("close");
+      };
+      unlockDialogOptions.buttons[i18n.t("general.ok")] = function() {
+        //tags_controller.save_new_tag(this, "standard");
+      };
+      
+      $('#translation-settings-wizard-unlock').dialog(unlockDialogOptions);
+    });
   }
 
   sortBy(field) {
@@ -541,7 +569,7 @@ class InstallTranslationWizard {
       }
 
       var currentModuleElement = "<p class='selectable-translation-module'>";
-      currentModuleElement += "<input type='checkbox' "+ checkboxDisabled + ">";
+      currentModuleElement += "<input class='module-checkbox' type='checkbox' "+ checkboxDisabled + ">";
       
       currentModuleElement += "<span " + moduleTitle + " class='" + labelClass + "' id='" + currentModule.name + "'>";
       currentModuleElement += currentModule.description;

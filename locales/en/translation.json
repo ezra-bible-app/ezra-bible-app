@@ -49,7 +49,9 @@
     "select-translations-to-be-removed": "Select the bible translations that you would like to remove.<br/><br/>Disabled entries in the list are translations not installed in the users directory.",
     "installing": "Installing",
     "removing": "Removing",
-    "installation": "Installation"
+    "installation": "Installation",
+    "unlock-key": "Unlock key",
+    "enter-unlock-key": "{{moduleId}} is license protected. Please enter the unlock key!"
   },
   "module-sync": {
     "module-sync-header": "Synchronizing Sword modules",
@@ -79,6 +81,7 @@
     "module-location": "Location",
     "yes": "Yes",
     "no": "No",
+    "ok": "Ok",
     "done": "done",
     "next": "Next",
     "previous": "Previous",

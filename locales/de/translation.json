@@ -49,7 +49,9 @@
     "select-translations-to-be-removed": "Wählen Sie Bibelübersetzungen, die entfernt werden sollen.<br/><br/>Ausgegraute Listeneinträge sind Übersetzungen, die nicht im Benutzerverzeichnis installiert sind.",
     "installing": "Installiere",
     "removing": "Entferne",
-    "installation": "Installation"
+    "installation": "Installation",
+    "unlock-key": "Freischaltschlüssel",
+    "enter-unlock-key": "{{moduleId}} ist lizenzgeschützt. Bitte geben Sie den Freischaltschlüssel ein!"
   },
   "module-sync": {
     "module-sync-header": "Synchronisiere SWORD Module",
@@ -64,7 +66,7 @@
     "chapter-verse-separator": ",",
     "module-about": "Über",
     "sword-module-info": "SWORD Modulinformationen",
-    "sword-unlock-info": "SWORD Unlock Info",
+    "sword-unlock-info": "SWORD Freischaltinfo",
     "sword-library-info": "SWORD Bibliothek",
     "using-sword-version": "Benutze SWORD Version",
     "module-name": "Name",
@@ -79,6 +81,7 @@
     "module-location": "Verzeichnis",
     "yes": "Ja",
     "no": "Nein",
+    "ok": "Ok",
     "done": "fertig",
     "next": "Weiter",
     "previous": "Zurück",

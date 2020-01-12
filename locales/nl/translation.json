@@ -49,7 +49,9 @@
     "select-translations-to-be-removed": "Selecteer de bijbelvertalingen die u wilt verwijderen.<br/><br/>Uitgeschakelde elementen in de lijst zijn vertalingen die niet in de gebruikersmap zijn geïnstalleerd.",
     "installing": "Installeren",
     "removing": "Verwijderen",
-    "installation": "Installatie"
+    "installation": "Installatie",
+    "unlock-key": "Unlock key",
+    "enter-unlock-key": "{{moduleId}} is license protected. Please enter the unlock key!"
   },
   "module-sync": {
     "module-sync-header": "SWORD-modules synchroniseren",
@@ -79,6 +81,7 @@
     "module-location": "Locatie",
     "yes": "Ja",
     "no": "Nee",
+    "ok": "Ok",
     "done": "Klaar",
     "next": "Volgende",
     "previous": "Vorige",
