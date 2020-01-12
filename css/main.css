@@ -780,6 +780,7 @@ h2 {
 .show-parallel-translations-button,
 .export-tagged-verses-button,
 .bible-translation-info-button,
+#translation-settings-wizard-init button,
 #start-module-search-button {
   margin-left: 0.5em;
   height: 2.2em;
