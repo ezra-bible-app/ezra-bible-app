@@ -504,8 +504,8 @@ class InstallTranslationWizard {
     });
 
     this._helper.bindLabelEvents(filteredTranslationList);
-
-    filteredTranslationList.find('.module-checkbox').bind('mousedown', (event) => {
+    
+    filteredTranslationList.find('.module-checkbox, .label').bind('mousedown', (event) => {
       var moduleId = $(event.target).parent().find('.bible-translation-info').text();
       var swordModule = nsi.getRepoModule(moduleId);
 
