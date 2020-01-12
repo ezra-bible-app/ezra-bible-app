@@ -528,7 +528,7 @@ class InstallTranslationWizard {
       minHeight: 200
     };
 
-    var unlockDialog = $('#translation-settings-wizard-unlock');
+    var unlockDialog = $('#translation-settings-wizard-unlock-dialog');
 
     unlockDialogOptions.buttons = {};
     
