@@ -520,6 +520,7 @@ class InstallTranslationWizard {
       $('#dialog-unlock-info').html(swordModule.unlockInfo);
     }
 
+    var unlockDialog = $('#translation-settings-wizard-unlock-dialog');
     var unlockDialogOptions = {
       modal: true,
       title: i18n.t("translation-wizard.enter-unlock-key", { moduleId: swordModule.name }),
@@ -528,17 +529,9 @@ class InstallTranslationWizard {
       minHeight: 200
     };
 
-    var unlockDialog = $('#translation-settings-wizard-unlock-dialog');
-
-    unlockDialogOptions.buttons = {};
-    
-    unlockDialogOptions.buttons[i18n.t("general.cancel")] = (event) => {
-      unlockDialog.dialog("close");
-    };
-
-    unlockDialogOptions.buttons[i18n.t("general.ok")] = (event) => {
-      unlockDialog.dialog("close");
-    };
+    unlockDialogOptions.buttons = {};    
+    unlockDialogOptions.buttons[i18n.t("general.cancel")] = (event) => { unlockDialog.dialog("close"); };
+    unlockDialogOptions.buttons[i18n.t("general.ok")] = (event) => { unlockDialog.dialog("close"); };
     
     unlockDialog.dialog(unlockDialogOptions);
     $('#unlock-key-input').focus();
