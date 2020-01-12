@@ -541,6 +541,7 @@ class InstallTranslationWizard {
     };
     
     unlockDialog.dialog(unlockDialogOptions);
+    $('#unlock-key-input').focus();
   }
 
   sortBy(field) {
