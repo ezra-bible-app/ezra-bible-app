@@ -50,6 +50,7 @@
     "installing": "Installiere",
     "removing": "Entferne",
     "installation": "Installation",
+    "module-lock-info": "Dieses Modul ist lizenzgeschützt und setzt voraus dass Sie einen Freischaltschlüssel vom Rechtehalter erwerben!",
     "unlock-key": "Freischaltschlüssel",
     "enter-unlock-key": "{{moduleId}} ist lizenzgeschützt. Bitte geben Sie den Freischaltschlüssel ein!"
   },

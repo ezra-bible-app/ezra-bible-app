@@ -505,32 +505,42 @@ class InstallTranslationWizard {
 
     this._helper.bindLabelEvents(filteredTranslationList);
 
-    filteredTranslationList.find('.module-checkbox').bind('mousedown', function() {
-      var moduleId = $(this).parent().find('.bible-translation-info').text();
+    filteredTranslationList.find('.module-checkbox').bind('mousedown', (event) => {
+      var moduleId = $(event.target).parent().find('.bible-translation-info').text();
       var swordModule = nsi.getRepoModule(moduleId);
 
-      if (swordModule.unlockInfo != "") {
-        $('#dialog-unlock-info').html(swordModule.unlockInfo);
+      if (swordModule.locked) {
+        this.showUnlockDialog(swordModule);
       }
-
-      var unlockDialogOptions = {
-        modal: true,
-        title: i18n.t("translation-wizard.enter-unlock-key", { moduleId: moduleId }),
-        dialogClass: 'ezra-dialog',
-        width: 400,
-        minHeight: 200
-      };
-
-      unlockDialogOptions.buttons = {};
-      unlockDialogOptions.buttons[i18n.t("general.cancel")] = function() {
-        $(this).dialog("close");
-      };
-      unlockDialogOptions.buttons[i18n.t("general.ok")] = function() {
-        //tags_controller.save_new_tag(this, "standard");
-      };
-      
-      $('#translation-settings-wizard-unlock').dialog(unlockDialogOptions);
     });
+  }
+
+  showUnlockDialog(swordModule) {
+    if (swordModule.unlockInfo != "") {
+      $('#dialog-unlock-info').html(swordModule.unlockInfo);
+    }
+
+    var unlockDialogOptions = {
+      modal: true,
+      title: i18n.t("translation-wizard.enter-unlock-key", { moduleId: swordModule.name }),
+      dialogClass: 'ezra-dialog',
+      width: 450,
+      minHeight: 200
+    };
+
+    var unlockDialog = $('#translation-settings-wizard-unlock');
+
+    unlockDialogOptions.buttons = {};
+    
+    unlockDialogOptions.buttons[i18n.t("general.cancel")] = (event) => {
+      unlockDialog.dialog("close");
+    };
+
+    unlockDialogOptions.buttons[i18n.t("general.ok")] = (event) => {
+      unlockDialog.dialog("close");
+    };
+    
+    unlockDialog.dialog(unlockDialogOptions);
   }
 
   sortBy(field) {
@@ -565,7 +575,8 @@ class InstallTranslationWizard {
 
       var moduleTitle = "";
       if (currentModule.locked) {
-        moduleTitle = "title='This module is locked and requires that you purchase an unlock key from the content owner!'";
+        var moduleLockInfo = i18n.t("translation-wizard.module-lock-info");
+        moduleTitle = "title='" + moduleLockInfo + "'";
       }
 
       var currentModuleElement = "<p class='selectable-translation-module'>";

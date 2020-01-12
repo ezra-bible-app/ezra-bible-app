@@ -50,6 +50,7 @@
     "installing": "Installation",
     "removing": "Suppression",
     "installation": "Installation",
+    "module-lock-info": "This module is license-protected and requires that you purchase an unlock key from the content owner!",
     "unlock-key": "Unlock key",
     "enter-unlock-key": "{{moduleId}} is license protected. Please enter the unlock key!"
   },
