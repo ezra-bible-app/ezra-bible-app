@@ -84,7 +84,9 @@
 [ ] Refresh tagged verse lists in other tabs if a relevant tag is assigned/removed in the current tab
 [ ] Add recently used tags filter to Tags menu
 [ ] Add filter in Tag list popup: Only show current book
+[ ] Fix book search: Support searching within Strong's elements (with &nbsp; between words)
 ------
+[ ] Create functionality for rendering tag-based outline
 [ ] Add link to verse references in verse lists, so that the user can jump directly to the full context of a verse
 [ ] Understand differences in NT versification and handle it correctly in the software
 [ ] Add options to book search (case sensitivity, multi word)
