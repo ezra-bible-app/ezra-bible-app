@@ -19,6 +19,8 @@ All notable changes to Ezra Project are documented in this file.
 
 ### Fixes
 
+* Tag checkbox handling: Fixed regression bug that resulted from refactoring in 0.11.0.
+
 ### Enablers
 
 * Upgraded Electron from 7.1.1 to 7.1.7.
