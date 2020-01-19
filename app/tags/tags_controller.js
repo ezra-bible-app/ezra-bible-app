@@ -968,11 +968,13 @@ class TagsController {
 
       if (current_tag_obj.title == current_title) {
         if (current_tag_obj.complete) {
-          current_checkbox.checked = true;
           current_checkbox.setAttribute('title', this.unassign_tag_label);
+          current_checkbox.checked = true;
           current_title_element_postfix.innerHTML = '';
           current_title_element.classList.remove('underline');
         } else {
+          current_checkbox.setAttribute('title', this.assign_tag_label);
+          current_checkbox.checked = false;
           current_title_element_postfix.innerHTML = '&nbsp;*';
           current_title_element.classList.add('underline');
         }
