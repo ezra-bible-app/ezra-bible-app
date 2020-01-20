@@ -121,9 +121,12 @@ class BookSelectionMenu {
 
   highlightCurrentlySelectedBookInMenu(tabIndex=undefined) {
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
-    var bookCode = currentTab.getBook();
-    if (bookCode != null) {
-      this.highlightSelectedBookInMenu(bookCode);
+    
+    if (currentTab != null) {
+      var bookCode = currentTab.getBook();
+      if (bookCode != null) {
+        this.highlightSelectedBookInMenu(bookCode);
+      }
     }
   }
 
