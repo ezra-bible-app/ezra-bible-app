@@ -66,7 +66,7 @@ class BookSearch {
         this.onSearchReset();
         this.doSearch(searchString);
         this.inputField.focus();
-      }, 300);
+      }, 800);
     });
   }
 
@@ -222,7 +222,7 @@ class BookSearch {
     var occurances = this.getOccurancesInVerse(verseElement, searchString);
     var occurancesCount = occurances.length;
     if (occurancesCount > 0) {
-      this.highlightOccurancesInVerse(verseElement, searchString, occurances);
+      this.highlightOccurancesInVerse(verseElement, searchString);
     }
 
     return occurancesCount;
@@ -233,19 +233,21 @@ class BookSearch {
     var searchStringLength = searchString.length;
 
     if (searchStringLength > 0) {
-      var verseHtml = verseElement.innerHTML;
+      var verseText = verseElement.textContent;
+      if (searchString.indexOf(" ") != -1) {
+        // Replace all white space with regular spaces
+        var verseText = verseText.replace(/\s/g, " ");
+      }
+
       var currentIndex = 0;
 
       while (true) {
-        var nextOccurance = verseHtml.indexOf(searchString, currentIndex);
+        var nextOccurance = verseText.indexOf(searchString, currentIndex);
 
         if (nextOccurance == -1) {
           break;
         } else {
-          if (this.isOccuranceValid(searchString, nextOccurance, verseHtml)) {
-            occurances.push(nextOccurance);
-          }
-
+          occurances.push(nextOccurance);
           currentIndex = nextOccurance + searchStringLength;
         }
       }
@@ -314,8 +316,13 @@ class BookSearch {
     return matchIsValid;
   }
 
-  highlightOccurancesInVerse(verseElement, searchString, occurances) {
+  highlightOccurancesInVerse(verseElement, searchString) {
     var verseHtml = verseElement.innerHTML;
+    // Replace all &nbsp; occurances with space. This is necessary in case of Strong's verse content.
+    // Otherwise we don't find the user's searchString if it contains spaces.
+    // Later we need to undo this!
+    verseHtml = verseHtml.replace(/&nbsp;/g, ' ');
+
     searchString = this.escapeRegExp(searchString);
 
     var regexSearchString = new RegExp(searchString, 'g');
@@ -374,6 +381,13 @@ class BookSearch {
      */
     verseElementHtml = verseElementHtml.replace("\"\n\"", "");
     verseElement.innerHTML = verseElementHtml;
+
+    var strongsElements = verseElement.querySelectorAll('w');
+    for (var i = 0; i < strongsElements.length; i++) {
+      var strongsHtml = strongsElements[i].innerHTML;
+      strongsHtml = strongsHtml.replace(/ /g, '&nbsp;');
+      strongsElements[i].innerHTML = strongsHtml;
+    }
   }
 }
 
