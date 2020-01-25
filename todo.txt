@@ -75,16 +75,17 @@
 [x] Fix bug: Tag label click's cannot handle &
 [ ] Bug: Exporting search results in document does not work
 ------
-[ ] Resort tag list after renaming tag
-[ ] Update actual used tag count for tagged verse lists and search results
 [ ] Implement Sword module unlocking
+[ ] Provide possibility to limit module search to specific books or NT/OT
+[ ] Update actual used tag count for tagged verse lists and search results
+[ ] Fix book search: Support searching within Strong's elements (with &nbsp; between words)
+[ ] Resort tag list after renaming tag
 [ ] In a long book, automatically scroll to the right position in chapter navigation
 [ ] Establish new verse context tool bar right above bible browser 
     (Current selection, compare translations, show verse context, copy to clipboard)
 [ ] Refresh tagged verse lists in other tabs if a relevant tag is assigned/removed in the current tab
 [ ] Add recently used tags filter to Tags menu
 [ ] Add filter in Tag list popup: Only show current book
-[ ] Fix book search: Support searching within Strong's elements (with &nbsp; between words)
 ------
 [ ] Create functionality for rendering tag-based outline
 [ ] Add link to verse references in verse lists, so that the user can jump directly to the full context of a verse
