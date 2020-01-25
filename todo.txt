@@ -73,12 +73,13 @@
 [x] Make it easier to unselect a verse by clicking into an empty area
 [x] Do not show section headers for tagged verse lists or search results
 [x] Fix bug: Tag label click's cannot handle &
-[ ] Bug: Exporting search results in document does not work
 ------
+[x] Fix book search: Support searching within Strong's elements (with &nbsp; between words)
+[ ] Fix book search: Support searching across Strong's elements boundaries
+[ ] Bug: Exporting search results in document does not work
 [ ] Implement Sword module unlocking
 [ ] Provide possibility to limit module search to specific books or NT/OT
 [ ] Update actual used tag count for tagged verse lists and search results
-[ ] Fix book search: Support searching within Strong's elements (with &nbsp; between words)
 [ ] Resort tag list after renaming tag
 [ ] In a long book, automatically scroll to the right position in chapter navigation
 [ ] Establish new verse context tool bar right above bible browser 
