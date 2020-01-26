@@ -115,6 +115,7 @@ class TabSearch {
   resetSearch() {
     this.resetOccurances();
     this.searchForm.hide();
+    this.inputField[0].value = '';
   }
 
   jumpToNextOccurance(forward=true) {
