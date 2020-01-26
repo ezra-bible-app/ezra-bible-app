@@ -17,8 +17,7 @@ cloc --md app \
           package.json \
           node_modules/node-sword-interface/src \
           node_modules/node-sword-interface/*.md \
-          node_modules/node-sword-interface/*.sh \
-          node_modules/node-sword-interface/*.bat \
+          node_modules/node-sword-interface/scripts \
           node_modules/node-sword-interface/*.js \
           node_modules/node-sword-interface/*.json \
           *.md | tail -n +4 >> LOC_METRICS.md
