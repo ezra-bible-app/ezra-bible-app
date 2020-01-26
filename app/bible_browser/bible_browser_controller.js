@@ -48,7 +48,7 @@ class BibleBrowserController {
     this.init_component("RemoveTranslationWizard", "remove_translation_wizard", "./app/translation_wizard/remove_translation_wizard.js");
     this.init_component("TextLoader", "text_loader", "./app/bible_browser/text_loader.js");
     this.init_component("VerseContextLoader", "verse_context_loader", "./app/bible_browser/verse_context_loader.js");
-    this.init_component("BookSearch", "book_search", "./app/components/book_search.js");
+    this.init_component("BookSearch", "tab_search", "./app/components/tab_search.js");
     this.init_component("TabController", "tab_controller", "./app/bible_browser/tab_controller.js");
     this.init_component("OptionsMenu", "optionsMenu", "./app/components/options_menu.js");
     this.init_component("NavigationPane", "navigation_pane", "./app/components/navigation_pane.js");
@@ -66,11 +66,11 @@ class BibleBrowserController {
     this.remove_translation_wizard.init(() => { this.onAllTranslationsRemoved(); },
                                         () => { this.onTranslationRemoved(); });
 
-    this.book_search.init('#book-search',
-                          '#book-search-input',
-                          '#book-search-occurances',
-                          '#book-search-previous',
-                          '#book-search-next',
+    this.tab_search.init('#tab-search',
+                          '#tab-search-input',
+                          '#tab-search-occurances',
+                          '#tab-search-previous',
+                          '#tab-search-next',
                           (occurances) => { this.onSearchResultsAvailable(occurances); },
                           () => { this.onSearchReset(); });
 
@@ -153,10 +153,10 @@ class BibleBrowserController {
       this.book_selection_menu.clearSelectedBookInMenu();
     }
 
-    // Re-configure book search
-    this.book_search.resetSearch();
+    // Re-configure tab search
+    this.tab_search.resetSearch();
     var currentVerseList = this.getCurrentVerseList(ui.index);
-    this.book_search.setVerseList(currentVerseList);
+    this.tab_search.setVerseList(currentVerseList);
 
     // Clear verse selection
     this.verse_selection.clear_verse_selection();
@@ -213,8 +213,8 @@ class BibleBrowserController {
   }
 
   onBibleTranslationChanged() {
-    // The book search is not valid anymore if the translation is changing. Therefore we reset it.
-    this.book_search.resetSearch();
+    // The tab search is not valid anymore if the translation is changing. Therefore we reset it.
+    this.tab_search.resetSearch();
 
     var currentTab = this.tab_controller.getTab();
     this.tab_controller.refreshBibleTranslationInTabTitle(currentTab.getBibleTranslationId());
@@ -596,7 +596,7 @@ class BibleBrowserController {
     var currentTabId = this.tab_controller.getSelectedTabId();
     var currentVerseList = this.getCurrentVerseList();
 
-    this.book_search.setVerseList(currentVerseList);
+    this.tab_search.setVerseList(currentVerseList);
 
     if (currentTagIdList != "") {
       this.text_loader.prepareForNewText(true, false);

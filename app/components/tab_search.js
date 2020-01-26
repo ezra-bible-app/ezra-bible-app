@@ -18,7 +18,7 @@
 
 const Mousetrap = require('mousetrap');
 
-class BookSearch {
+class TabSearch {
   constructor() {
   }
 
@@ -391,4 +391,4 @@ class BookSearch {
   }
 }
 
-module.exports = BookSearch;
+module.exports = TabSearch;

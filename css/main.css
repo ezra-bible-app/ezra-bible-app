@@ -1055,7 +1055,7 @@ h2 {
   border-bottom: 1px solid black;
 }
 
-.book-search-results {
+.tab-search-results {
   margin-bottom: 1em;
 }
 
@@ -1232,7 +1232,7 @@ h2 {
   display: none;
 }
 
-#book-search {
+#tab-search {
   position: fixed;
   top: 80px;
   right: 20px;
@@ -1244,7 +1244,7 @@ h2 {
   z-index: 10;
 }
 
-#book-search-input {
+#tab-search-input {
   float: left;
   background-color: white;
   width: 150px;
@@ -1252,14 +1252,14 @@ h2 {
   font-size: 1em;
 }
 
-.book-search-nav {
+.tab-search-nav {
   float: left;
   margin-right: 0.5em;
   cursor: pointer;
   user-select: none;
 }
 
-#book-search-occurances {
+#tab-search-occurances {
   float: left;
   margin-left: 0.5em;
   margin-right: 1.5em;

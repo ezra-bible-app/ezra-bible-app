@@ -66,7 +66,7 @@ class BookSelectionMenu {
       currentTab.setSearchTerm(null);
 
       var currentVerseList = bible_browser_controller.getCurrentVerseList();
-      bible_browser_controller.book_search.setVerseList(currentVerseList);
+      bible_browser_controller.tab_search.setVerseList(currentVerseList);
       var currentTab = bible_browser_controller.tab_controller.getTab();
 
       var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();

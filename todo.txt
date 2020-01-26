@@ -66,16 +66,19 @@
 [x] Refactoring: Extract verse selection functionality into its own component/class
 [x] Fix bug: Compare translation button still opens a window even though disabled
 [x] Fix bug: Export verse list still opens a window even though disabled
-[x] Automatically select the current verse when switching from one book search result to another
+[x] Automatically select the current verse when switching from one tab search result to another
 [x] Chapter headers
 ------
-[x] Hide book searchbox and reset search when reloading translation
+[x] Hide tab searchbox and reset search when reloading translation
 [x] Make it easier to unselect a verse by clicking into an empty area
 [x] Do not show section headers for tagged verse lists or search results
 [x] Fix bug: Tag label click's cannot handle &
 ------
-[x] Fix book search: Support searching within Strong's elements (with &nbsp; between words)
-[ ] Fix book search: Support searching across Strong's elements boundaries
+[x] Fix tab search: Support searching within Strong's elements (with &nbsp; between words)
+[ ] Fix tab search: Support searching across Strong's elements boundaries
+[ ] Delete tab search term on Escape
+[ ] Rename book_search.js into tab_search.js
+[ ] Keep jumping to next tab search result when pressing Enter
 [ ] Bug: Exporting search results in document does not work
 [ ] Implement Sword module unlocking
 [ ] Provide possibility to limit module search to specific books or NT/OT
@@ -91,7 +94,7 @@
 [ ] Create functionality for rendering tag-based outline
 [ ] Add link to verse references in verse lists, so that the user can jump directly to the full context of a verse
 [ ] Understand differences in NT versification and handle it correctly in the software
-[ ] Add options to book search (case sensitivity, multi word)
+[ ] Add options to tab search (case sensitivity, multi word)
 [ ] Highlight module search results
 [ ] Put in-place search menu as a wider horizontal bar below the bible text
 [ ] Integration with Wikipedia for places (show links, show summaries from pages, ...)
