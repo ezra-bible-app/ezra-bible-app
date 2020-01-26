@@ -16,6 +16,7 @@ All notable changes to Ezra Project are documented in this file.
 * Option to show/hide the toolbar (on the left side).
   Based on this option Ezra Project can now also be used on tablets in vertical mode where the horizontal space
   is limited.
+* Tab search usability: Jump to next occurance by pressing enter.
 
 ### Fixes
 

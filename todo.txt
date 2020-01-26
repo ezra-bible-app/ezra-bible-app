@@ -75,9 +75,9 @@
 [x] Fix bug: Tag label click's cannot handle &
 ------
 [x] Fix tab search: Support searching within Strong's elements (with &nbsp; between words)
+[x] Rename book_search.js into tab_search.js
 [ ] Fix tab search: Support searching across Strong's elements boundaries
 [ ] Delete tab search term on Escape
-[ ] Rename book_search.js into tab_search.js
 [ ] Keep jumping to next tab search result when pressing Enter
 [ ] Bug: Exporting search results in document does not work
 [ ] Implement Sword module unlocking

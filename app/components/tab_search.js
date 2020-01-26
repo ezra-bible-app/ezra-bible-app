@@ -81,12 +81,12 @@ class TabSearch {
   }
 
   initGlobalShortCuts() {
-    var shortCut = 'ctrl+f';
+    var searchShortCut = 'ctrl+f';
     if (isMac()) {
-      shortCut = 'command+f';
+      searchShortCut = 'command+f';
     }
 
-    Mousetrap.bind(shortCut, () => {
+    Mousetrap.bind(searchShortCut, () => {
       this.searchForm.show();
       this.inputField.focus();
       return false;
@@ -94,6 +94,11 @@ class TabSearch {
 
     Mousetrap.bind('esc', () => {
       this.resetSearch();
+      return false;
+    });
+
+    Mousetrap.bind('enter', () => {
+      this.jumpToNextOccurance();
       return false;
     });
   }
@@ -119,6 +124,10 @@ class TabSearch {
   }
 
   jumpToNextOccurance(forward=true) {
+    if (this.currentOccurancesCount == 0) {
+      return;
+    }
+
     this.previousOccuranceElement = $(this.allOccurances[this.currentOccuranceIndex]);
 
     var increment = 1;
