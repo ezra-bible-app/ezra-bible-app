@@ -17,6 +17,10 @@ Ezra Project comes with the following functionality:
   * The text is shown with book introductions and section headers.
   * You can compare the bible translations of the selected verses.
   * Access to all bible translations available from [CrossWire's](http://www.crosswire.org) repositories.
+  * Note that Ezra Project uses the local Sword directories as any other Sword frontend. Bible modules
+    installed from another Sword frontend are automatically detected by Ezra Project and then imported
+    into its own database. The database is used for historic reasons, because the original design of
+    Ezra Project did not involve Sword integration.
 * Tagging functionality - topical verse lists
   * Tag within the currently opened book or verse list.
   * Lookup all verses of a tag (show verses in the main browsing window).
