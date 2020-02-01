@@ -23,6 +23,8 @@ class InstallTranslationWizard {
     this._translationInstallStatus = 'DONE';
     this._translationRemovalStatus = 'DONE';
     this._unlockKeys = {};
+    this._unlockDialogOpened = false;
+    this._unlockCancelled = false;
     this.languageMapper = new LanguageMapper();
 
     var addButton = $('#add-bible-translations-button');
@@ -225,7 +227,33 @@ class InstallTranslationWizard {
     installPage.append('<p>' + i18n.t("translation-wizard.it-takes-time-to-install-translation") + '</p>');
 
     for (var i = 0; i < translations.length; i++) {
-      await this.installTranslation(installPage, translations[i]);
+      var currentTranslation = translations[i];
+      var swordModule = nsi.getRepoModule(currentTranslation);
+      var unlockFailed = true;
+
+      while (unlockFailed) {
+        try {
+          await this.installTranslation(installPage, currentTranslation);
+          unlockFailed = false;
+
+        } catch (e) {
+          if (e == "UnlockError") {
+            unlockFailed = true;
+          }
+        }
+
+        if (unlockFailed) {
+          this.showUnlockDialog(swordModule);
+
+          while (this._unlockDialogOpened) {
+            await sleep(200);
+          }
+
+          if (this._unlockCancelled) {
+            break;
+          }
+        }
+      }
     }
 
     this._translationInstallStatus = 'DONE';
@@ -246,15 +274,42 @@ class InstallTranslationWizard {
     installPage.append(loader);
     $('#bibleTranslationInstallIndicator').show();
 
+    await sleep(200);
+
     var installSuccessful = true;
+    var unlockSuccessful = true;
     
     try {
-      await nsi.installModule(translationCode);
+      var moduleInstalled = false;
+      try {
+        nsi.getLocalModule(translationCode);
+        moduleInstalled = true;
+      } catch (e) {
+        moduleInstalled = false;
+      }
+
+      if (!moduleInstalled) {
+        console.log("Module " + translationCode + " not installed. Installing it ...");
+        await nsi.installModule(translationCode);
+      }
+
+      if (swordModule.locked) {
+        var unlockKey = this._unlockKeys[translationCode];
+        nsi.saveModuleUnlockKey(translationCode, unlockKey);
+
+        if (!nsi.isModuleReadable(translationCode)) {
+          unlockSuccessful = false;
+          var errorMessage = "Locked module is not readable! Wrong unlock key?";
+          throw errorMessage;
+        }
+      }
+
       await models.BibleTranslation.importSwordTranslation(translationCode);
 
       // FIXME: Put this in a callback
       bible_browser_controller.updateUiAfterBibleTranslationAvailable(translationCode);
     } catch (e) {
+      console.log(e);
       installSuccessful = false;
     }
 
@@ -269,8 +324,20 @@ class InstallTranslationWizard {
         await this.installStrongsModules(installPage);
       }
     } else {
-      installPage.append('<div>&nbsp;' + i18n.t("general.module-install-failed") + '</div>');
+      var errorMessage = "";
+
+      if (!unlockSuccessful) {
+        errorMessage = i18n.t("general.module-unlock-failed");
+      } else {
+        errorMessage = i18n.t("general.module-install-failed");
+      }
+
+      installPage.append('<div>&nbsp;' + errorMessage + '</div>');
       installPage.append('<br/>');
+    }
+
+    if (swordModule.locked && !unlockSuccessful) {
+      throw "UnlockError";
     }
   }
 
@@ -507,7 +574,14 @@ class InstallTranslationWizard {
     this._helper.bindLabelEvents(filteredTranslationList);
     
     filteredTranslationList.find('.module-checkbox, .label').bind('mousedown', (event) => {
-      var checkbox = $(event.target);
+      var checkbox = null;
+
+      if (event.target.classList.contains('module-checkbox')) {
+        checkbox = $(event.target);
+      } else {
+        checkbox = $(event.target).closest('.selectable-translation-module').find('.module-checkbox');
+      }
+      
       var moduleId = checkbox.parent().find('.bible-translation-info').text();
       var swordModule = nsi.getRepoModule(moduleId);
 
@@ -526,12 +600,23 @@ class InstallTranslationWizard {
     });
   }
 
-  showUnlockDialog(swordModule, checkbox) {
+  showUnlockDialog(swordModule, checkbox=undefined) {
+    this._unlockDialogOpened = true;
+    this._unlockCancelled = false;
+
     if (swordModule.unlockInfo != "") {
       $('#dialog-unlock-info').html(swordModule.unlockInfo);
     }
 
     var unlockDialog = $('#translation-settings-wizard-unlock-dialog');
+    var unlockFailedMsg = $('#unlock-failed-msg');
+
+    if (checkbox === undefined) {
+      unlockFailedMsg.show();
+    } else {
+      unlockFailedMsg.hide();
+    }
+
     var unlockDialogOptions = {
       modal: true,
       title: i18n.t("translation-wizard.enter-unlock-key", { moduleId: swordModule.name }),
@@ -541,14 +626,24 @@ class InstallTranslationWizard {
     };
 
     unlockDialogOptions.buttons = {};    
-    unlockDialogOptions.buttons[i18n.t("general.cancel")] = (event) => { unlockDialog.dialog("close"); };
+    unlockDialogOptions.buttons[i18n.t("general.cancel")] = (event) => {
+      unlockDialog.dialog("close");
+      this._unlockDialogOpened = false;
+      this._unlockCancelled = true;
+    };
+
     unlockDialogOptions.buttons[i18n.t("general.ok")] = (event) => {
       var unlockKey = $('#unlock-key-input').val().trim();
 
       if (unlockKey.length > 0) {
         this._unlockKeys[swordModule.name] = unlockKey;
-        checkbox.prop('checked', true);
+
+        if (checkbox !== undefined) {
+          checkbox.prop('checked', true);
+        }
+
         unlockDialog.dialog("close");
+        this._unlockDialogOpened = false;
       }
     };
     

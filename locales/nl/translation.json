@@ -52,7 +52,8 @@
     "installation": "Installatie",
     "module-lock-info": "This module is license-protected and requires that you purchase an unlock key from the content owner!",
     "unlock-key": "Unlock key",
-    "enter-unlock-key": "{{moduleId}} is license protected. Please enter the unlock key!"
+    "enter-unlock-key": "{{moduleId}} is license protected. Please enter the unlock key!",
+    "unlock-failed": "Unlock failed! Please enter the correct unlock key."
   },
   "module-sync": {
     "module-sync-header": "SWORD-modules synchroniseren",
@@ -96,6 +97,7 @@
     "release-notes-download": "Uitgave-opmerkingen & download",
     "no-repeated-info": "Laat dit niet nog eens zien",
     "module-install-failed": "gefaald. Bent u verbonden met het internet?",
+    "module-unlock-failed": "failed (Unlock issue).",
     "installing-strongs": "<i>Strongs woordenboeken</i> installeren",
     "applying-migrations": "Databank migreren naar nieuwe versie"
   },

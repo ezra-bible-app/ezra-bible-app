@@ -52,7 +52,8 @@
     "installation": "Installation",
     "module-lock-info": "Dieses Modul ist lizenzgeschützt und setzt voraus dass Sie einen Freischaltschlüssel vom Rechtehalter erwerben!",
     "unlock-key": "Freischaltschlüssel",
-    "enter-unlock-key": "{{moduleId}} ist lizenzgeschützt. Bitte geben Sie den Freischaltschlüssel ein!"
+    "enter-unlock-key": "{{moduleId}} ist lizenzgeschützt. Bitte geben Sie den Freischaltschlüssel ein!",
+    "unlock-failed": "Freischalten fehlgeschlagen! Bitte geben Sie den korrekten Freischaltschlüssel ein."
   },
   "module-sync": {
     "module-sync-header": "Synchronisiere SWORD Module",
@@ -96,6 +97,7 @@
     "release-notes-download": "Release Notes & Download",
     "no-repeated-info": "Diesen Hinweis nicht noch einmal zeigen",
     "module-install-failed": "fehlgeschlagen. Sind Sie mit dem Internet verbunden?",
+    "module-unlock-failed": "fehlgeschlagen (Freischaltfehler).",
     "installing-strongs": "Installiere <i>Strong's Wörterbücher</i>",
     "applying-migrations": "Migriere Datenbank auf neue Version"
   },

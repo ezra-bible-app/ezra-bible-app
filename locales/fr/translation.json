@@ -52,7 +52,8 @@
     "installation": "Installation",
     "module-lock-info": "This module is license-protected and requires that you purchase an unlock key from the content owner!",
     "unlock-key": "Unlock key",
-    "enter-unlock-key": "{{moduleId}} is license protected. Please enter the unlock key!"
+    "enter-unlock-key": "{{moduleId}} is license protected. Please enter the unlock key!",
+    "unlock-failed": "Unlock failed! Please enter the correct unlock key."
   },
   "module-sync": {
     "module-sync-header": "Synchronisation des modules Sword",
@@ -96,6 +97,7 @@
     "release-notes-download": "Notes de version & téléchargement",
     "no-repeated-info": "Ne plus afficher",
     "module-install-failed": "échec. Êtes-vous connecté à Internet ?",
+    "module-unlock-failed": "failed (Unlock issue).",
     "installing-strongs": "Installation du <i>dictionnaire de Strong</i>",
     "applying-migrations": "Migration de la base de données vers la nouvelle version"
   },
