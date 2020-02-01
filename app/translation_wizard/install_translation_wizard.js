@@ -22,6 +22,7 @@ class InstallTranslationWizard {
     this._installedTranslations = null;
     this._translationInstallStatus = 'DONE';
     this._translationRemovalStatus = 'DONE';
+    this._unlockKeys = {};
     this.languageMapper = new LanguageMapper();
 
     var addButton = $('#add-bible-translations-button');
@@ -506,16 +507,26 @@ class InstallTranslationWizard {
     this._helper.bindLabelEvents(filteredTranslationList);
     
     filteredTranslationList.find('.module-checkbox, .label').bind('mousedown', (event) => {
-      var moduleId = $(event.target).parent().find('.bible-translation-info').text();
+      var checkbox = $(event.target);
+      var moduleId = checkbox.parent().find('.bible-translation-info').text();
       var swordModule = nsi.getRepoModule(moduleId);
 
-      if (swordModule.locked) {
-        this.showUnlockDialog(swordModule);
+      if (checkbox.prop('checked') == false) {
+        if (swordModule.locked) {
+          this.showUnlockDialog(swordModule, checkbox);
+        }
+      } else {
+        if (swordModule.locked) {
+          // Checkbox unchecked!
+          // Reset the unlock key for this module
+          $('#unlock-key-input').val('');
+          this._unlockKeys[moduleId] = '';
+        }
       }
     });
   }
 
-  showUnlockDialog(swordModule) {
+  showUnlockDialog(swordModule, checkbox) {
     if (swordModule.unlockInfo != "") {
       $('#dialog-unlock-info').html(swordModule.unlockInfo);
     }
@@ -531,7 +542,15 @@ class InstallTranslationWizard {
 
     unlockDialogOptions.buttons = {};    
     unlockDialogOptions.buttons[i18n.t("general.cancel")] = (event) => { unlockDialog.dialog("close"); };
-    unlockDialogOptions.buttons[i18n.t("general.ok")] = (event) => { unlockDialog.dialog("close"); };
+    unlockDialogOptions.buttons[i18n.t("general.ok")] = (event) => {
+      var unlockKey = $('#unlock-key-input').val().trim();
+
+      if (unlockKey.length > 0) {
+        this._unlockKeys[swordModule.name] = unlockKey;
+        checkbox.prop('checked', true);
+        unlockDialog.dialog("close");
+      }
+    };
     
     unlockDialog.dialog(unlockDialogOptions);
     $('#unlock-key-input').focus();
