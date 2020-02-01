@@ -84,6 +84,14 @@ function getLineBreak() {
   }
 }
 
+function sleep(time) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+}
+
 function adapt_verse_list(verseListFrame=undefined) {
   if (verseListFrame === undefined) {
     verseListFrame = bible_browser_controller.getCurrentVerseListFrame();

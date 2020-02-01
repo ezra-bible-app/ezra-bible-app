@@ -27,14 +27,6 @@ class TranslationController {
     return this.translationCount;
   }
 
-  sleep(time) {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve();
-      }, time);
-    });
-  }
-
   init(onBibleTranslationChanged) {
     this.onBibleTranslationChanged = onBibleTranslationChanged;
     this.initBibleTranslationInfoButton();
@@ -388,18 +380,18 @@ class TranslationController {
       htmlElementForMessages.append(message);
       htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
 
-      await this.sleep(200);
+      await sleep(200);
       await models.BibleTranslation.importSwordTranslation(modulesNotInDb[i].name);
       var doneMessage = "<span> " + i18n.t("general.done") + ".</span><br/>";
       htmlElementForMessages.append(doneMessage);
-      if (i < modulesNotInDb.length) await this.sleep(500);
+      if (i < modulesNotInDb.length) await sleep(500);
     }
 
     var completeMessage = "<p style='margin-top: 2em;'>" + i18n.t("module-sync.sync-completed") + "</p>";
     htmlElementForMessages.append(completeMessage);
     htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
 
-    await this.sleep(2000);
+    await sleep(2000);
     htmlElementForMessages.dialog("close");
 
     if (modulesNotInDb.length > 0) {
@@ -437,7 +429,7 @@ class TranslationController {
       htmlElementForMessages.append(message);
       htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
 
-      await this.sleep(200);
+      await sleep(200);
 
       try {
         await nsi.installModule(modulesAvailable[i]);
@@ -448,7 +440,7 @@ class TranslationController {
         htmlElementForMessages.append(errorMessage);
       }
 
-      if (i < modulesAvailable.length) await this.sleep(500);
+      if (i < modulesAvailable.length) await sleep(500);
     }
 
     var completeMessage = "<p style='margin-top: 2em;'>" + i18n.t("module-sync.install-completed") + "</p>";
@@ -500,7 +492,7 @@ class TranslationController {
       });
 
       $('#bible-sync-box').dialog("open");
-      await this.sleep(200);
+      await sleep(200);
     }
 
     if (modulesNotInDb.length > 0) {
@@ -516,7 +508,7 @@ class TranslationController {
     }
 
     if (modulesNotInDb.length > 0 || notInstalledButAvailableModules.length > 0 || strongsInstallNeeded) {
-      await this.sleep(2000);
+      await sleep(2000);
     }
 
     $('#bible-sync-box').dialog("close");
