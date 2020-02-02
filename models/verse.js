@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   var Verse = sequelize.define('Verse', {
     chapter: DataTypes.INTEGER,
     verseNr: DataTypes.INTEGER,
-    content: DataTypes.STRING,
+    content: DataTypes.TEXT,
     absoluteVerseNr: DataTypes.INTEGER,
     bibleBookId: DataTypes.INTEGER,
     bibleTranslationId: DataTypes.STRING(5),
