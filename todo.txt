@@ -76,11 +76,12 @@
 ------
 [x] Fix tab search: Support searching within Strong's elements (with &nbsp; between words)
 [x] Rename book_search.js into tab_search.js
+[x] Delete tab search term on Escape
+[x] Keep jumping to next tab search result when pressing Enter
+[x] Implement Sword module unlocking
+[ ] Handle unlocking for startup synchronization
 [ ] Fix tab search: Support searching across Strong's elements boundaries
-[ ] Delete tab search term on Escape
-[ ] Keep jumping to next tab search result when pressing Enter
 [ ] Bug: Exporting search results in document does not work
-[ ] Implement Sword module unlocking
 [ ] Provide possibility to limit module search to specific books or NT/OT
 [ ] Update actual used tag count for tagged verse lists and search results
 [ ] Resort tag list after renaming tag
