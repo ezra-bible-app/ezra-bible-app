@@ -6,6 +6,7 @@ All notable changes to Ezra Project are documented in this file.
 ### Features
 
 * French translation ([#11][i11])
+* Unlock support ([#18][i18])
 
 ### Enhancements
 
@@ -27,6 +28,7 @@ All notable changes to Ezra Project are documented in this file.
 * Upgraded Electron from 7.1.1 to 7.1.7.
 
 [i11]: https://github.com/tobias-klein/ezra-project/issues/11
+[i18]: https://github.com/tobias-klein/ezra-project/issues/18
 
 -->
 
