@@ -1280,6 +1280,10 @@ h2 {
   display: none;
 }
 
+s {
+  text-decoration: none;
+}
+
 .compare-translation-row td {
   border-bottom: 1px dashed gray;
 }
