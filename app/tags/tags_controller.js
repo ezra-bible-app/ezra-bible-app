@@ -349,7 +349,7 @@ class TagsController {
   }
   
   get_checkbox_tag(id) {
-    var checkbox_tag = $('#tags-content').find('.checkbox-tag').filter(function(element) {
+    var checkbox_tag = $('#tags-content-global').find('.checkbox-tag').filter(function(element) {
       return ($(this).find('.checkbox-tag-id').text() == id);
     });
 
