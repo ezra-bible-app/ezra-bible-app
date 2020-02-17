@@ -104,14 +104,14 @@ class TextLoader {
   }
 
   isValidSyntax(text) {
-    var libxmljs = require("libxmljs");
+    /*var libxmljs = require("libxmljs");
     text = '<?xml version="1.0" encoding="UTF-8"?>' + '<root>' + text + '</root>';
 
     try {
       libxmljs.parseXml(text);
     } catch (e) {
       return false;
-    }
+    }*/
 
     return true;
   }
