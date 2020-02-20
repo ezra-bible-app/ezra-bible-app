@@ -103,19 +103,6 @@ class TextLoader {
     }
   }
 
-  isValidSyntax(text) {
-    /*var libxmljs = require("libxmljs");
-    text = '<?xml version="1.0" encoding="UTF-8"?>' + '<root>' + text + '</root>';
-
-    try {
-      libxmljs.parseXml(text);
-    } catch (e) {
-      return false;
-    }*/
-
-    return true;
-  }
-
   async requestBookText(tab_index,
                         current_tab_id,
                         book_short_title,
@@ -154,10 +141,8 @@ class TextLoader {
         if (localSwordModule != null && localSwordModule.hasHeadings) {
           bookIntroduction = nsi.getBookIntroduction(currentBibleTranslationId, book_short_title);
 
-          if (!this.isValidSyntax(bookIntroduction)) {
-            console.log("Got invalid book introduction for " + book_short_title);
-            bookIntroduction = null;
-          }
+          var sanitizeHtml = require('sanitize-html');
+          bookIntroduction = sanitizeHtml(bookIntroduction);
         }
       } catch (e) {
         console.log("Could not retrieve book introduction for module " + currentBibleTranslationId);
