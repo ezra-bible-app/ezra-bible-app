@@ -120,12 +120,15 @@ class TextLoader {
     }
 
     var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: book_short_title }});
-    var verses = await bibleBook.getVerses(currentBibleTranslationId,
+
+    var verses = nsi.getBookText(currentBibleTranslationId, book_short_title);
+
+    /*var verses = await bibleBook.getVerses(currentBibleTranslationId,
                                            start_verse_number,
-                                           number_of_verses);
+                                           number_of_verses);*/
 
     var verseTags = await bibleBook.getVerseTags();
-    var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags);
+    var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, book_short_title.toLowerCase());
 
     var chapterText = i18n.t("bible-browser.chapter");
     if (book_short_title == 'Psa') {

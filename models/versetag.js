@@ -23,24 +23,27 @@ module.exports = (sequelize, DataTypes) => {
     tagId: DataTypes.INTEGER,
     tagTitle: DataTypes.VIRTUAL,
     verseId: DataTypes.VIRTUAL,
-    bibleBookId: DataTypes.VIRTUAL
+    bibleBookId: DataTypes.VIRTUAL,
+    absoluteVerseNrEng: DataTypes.VIRTUAL,
+    absoluteVerseNrHeb: DataTypes.VIRTUAL
   }, {});
 
   VerseTag.associate = function(models) {
     // associations can be defined here
   };
 
-  VerseTag.groupVerseTagsByVerse = function(verseTags) {
+  VerseTag.groupVerseTagsByVerse = function(verseTags, bibleBookId) {
     var groupedVerseTags = {};
 
     for (var i = 0; i < verseTags.length; i++) {
       var vt = verseTags[i];
+      var verseReferenceId = bibleBookId + '-' + vt.absoluteVerseNrEng;
 
-      if (groupedVerseTags[vt.verseReferenceId] == null) {
-        groupedVerseTags[vt.verseReferenceId] = [];
+      if (groupedVerseTags[verseReferenceId] == null) {
+        groupedVerseTags[verseReferenceId] = [];
       }
 
-      groupedVerseTags[vt.verseReferenceId].push(vt);
+      groupedVerseTags[verseReferenceId].push(vt);
     }
 
     return groupedVerseTags;

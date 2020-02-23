@@ -33,10 +33,12 @@ each bibleBook in bibleBooks
 
   - var verse_count = 0
   - var old_chapter = null;
+
+  - var bibleBookId = bibleBook.shortTitle.toLowerCase()
   
   each verse in verses
-    unless verse.bibleBookId == bibleBook.id
-      - continue
+    //-unless verse.bibleBookId == bibleBook.id
+    //-  - continue
 
     - verse_count += 1
 
@@ -49,16 +51,19 @@ each bibleBook in bibleBooks
         h2(class='chapter-header') #{chapterText} #{verse.chapter}
 
       - old_chapter = verse.chapter
+    
+    - var current_verse_id = bibleBookId + '-' + verse.chapter + '-' + verse.verseNr
+    - var current_verse_reference_id = bibleBookId + '-' + verse.absoluteVerseNr
 
-    - var current_id_class = "verse-id-" + verse.id
-    - var current_verse_reference_id_class = "verse-reference-id-" + verse.verseReferenceId
+    - var current_id_class = "verse-id-" + current_verse_id
+    - var current_verse_reference_id_class = "verse-reference-id-" + current_verse_reference_id
     - var current_verse_nr_class = "verse-nr-" + verse.absoluteVerseNr
     - var div_classes = "verse-box " + current_id_class + " " + current_verse_reference_id_class + " " + current_verse_nr_class
 
     if renderVerseMetaInfo == false
       - div_classes += " slim-verse-reference"
-
-    - var current_verse_tags = verseTags[verse.verseReferenceId]
+    
+    - var current_verse_tags = verseTags[current_verse_reference_id]
     - var current_tooltip_tag_list = []
     - var current_tag_info_class = "tag-info"
 
