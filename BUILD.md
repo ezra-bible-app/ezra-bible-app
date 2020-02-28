@@ -40,7 +40,7 @@ The installer binary within that directory is named `ezra_project-x.y.z-setup.ex
 
 The following dependencies are valid for Debian/Ubuntu based distributions. Ezra Project has been successfully built for other distributions as well (Linux Mint 18, Debian 10, Fedora 29, OpenSuse, CentOS). To see how the dependencies look like for your distribution, have a look at the Docker files [here](https://github.com/tobias-klein/ezra-project/tree/master/docker).
 
-Install compiler/lib dependencies by running the following command: `sudo apt-get install build-essential npm nodejs libsqlite3-0 libcurl4-gnutls-dev libicu-dev pkg-config git cmake subversion`
+Install compiler/lib dependencies by running the following command: `sudo apt-get install build-essential npm nodejs libsqlite3-0 libcurl4-gnutls-dev libicu-dev pkg-config git cmake`
 
 ### Setup and build
 
