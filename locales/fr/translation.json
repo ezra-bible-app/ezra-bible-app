@@ -22,7 +22,7 @@
   },
   "translation-wizard": {
     "header": "Configurer les traductions de la Bible",
-    "internet-usage-note": "<b>NOTE IMPORTANTE</b><br/><br/>Les modules de traductions de la Bible sont installés via une connexion internet.<br/>Si vous êtes situés dans un régions où les chrétiens sont persécutés, vous<br/>ne devez <b>PAS</b> utiliser cette application en raison d'un risque de détection !",
+    "internet-usage-note": "<b>NOTE IMPORTANTE</b><br/><br/>Les modules de traductions de la Bible sont installés via une connexion internet.<br/>Si vous êtes situés dans un région où les chrétiens sont persécutés, vous<br/>ne devez <b>PAS</b> utiliser cette application en raison d'un risque de détection !",
     "add-translations": "Ajouter des traductions de la Bible",
     "remove-translations": "Supprimer des traductions de la Bible",
     "repositories": "Dépôts",
@@ -36,7 +36,7 @@
     "more-repo-information-needed": "Vous avez besoin de plus d'informations sur ces dépôts ?<br/>Consultez le <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>Wiki de CrossWire</a>.",
     "click-to-show-detailed-module-info": "Cliquez sur un code de traduction (lien après le nom de la traduction) pour afficher ici des informations détaillées sur le module.",
     "updating-repository-data": "Mise à jour des données du dépôt ! Cela prendra quelques secondes…",
-    "update-repository-data-failed": "Updating repository data failed! Are you offline?",
+    "update-repository-data-failed": "Mise à jour des données du dépôt a échoué ! Êtes-vous hors ligne ?",
     "loading-repositories": "Chargement des dépôts…",
     "loading-languages": "Chargement des langues…",
     "pick-languages-from-repos": "Veuillez sélectionner au moins une des langues disponibles dans les dépôts suivants : ",
@@ -50,10 +50,10 @@
     "installing": "Installation",
     "removing": "Suppression",
     "installation": "Installation",
-    "module-lock-info": "This module is license-protected and requires that you purchase an unlock key from the content owner!",
-    "unlock-key": "Unlock key",
-    "enter-unlock-key": "{{moduleId}} is license protected. Please enter the unlock key!",
-    "unlock-failed": "Unlock failed! Please enter the correct unlock key."
+    "module-lock-info": "Ce module est protégé par une licence. Vous devez acheter une clé de déverrouillage auprès du propriétaire du contenu !",
+    "unlock-key": "Clé de déverrouillage",
+    "enter-unlock-key": "{{moduleId}} est protégé par une licence. Veuillez entrer la clé de déverrouillage !",
+    "unlock-failed": "Le déverrouillage a échoué ! Veuillez entrer la bonne clé de déverrouillage."
   },
   "module-sync": {
     "module-sync-header": "Synchronisation des modules Sword",
@@ -68,7 +68,7 @@
     "chapter-verse-separator": ",",
     "module-about": "Informations",
     "sword-module-info": "Informations sur le module SWORD",
-    "sword-unlock-info": "SWORD Unlock Info",
+    "sword-unlock-info": "Informations sur le déverrouillage SWORD",
     "sword-library-info": "Information sur la bibliothèque SWORD",
     "using-sword-version": "Utilisation de la version SWORD",
     "module-name": "Nom",
@@ -97,7 +97,7 @@
     "release-notes-download": "Notes de version & téléchargement",
     "no-repeated-info": "Ne plus afficher",
     "module-install-failed": "échec. Êtes-vous connecté à Internet ?",
-    "module-unlock-failed": "failed (Unlock issue).",
+    "module-unlock-failed": "échec (problème de déverrouillage).",
     "installing-strongs": "Installation du <i>dictionnaire de Strong</i>",
     "applying-migrations": "Migration de la base de données vers la nouvelle version"
   },
