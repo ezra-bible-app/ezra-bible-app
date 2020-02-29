@@ -43,7 +43,7 @@ Ezra Project comes with the following functionality:
 
 ## Upcoming Features
 
-Ezra Project is currently on a bi-monthly release schedule. The next release [0.12.0](https://github.com/tobias-klein/ezra-project/milestone/2) is planned for February 2020 with the following new features:
+Ezra Project is currently on a bi-monthly release schedule. The next release [0.12.0](https://github.com/tobias-klein/ezra-project/milestone/2) is planned for March 2020 with the following new features:
 
 * French translation
 * Sword module unlock support
