@@ -81,31 +81,55 @@ class TagsCommunicationController
     );
   }
 
-  assign_tag_to_verses(tagId, verseIds) {
-    tags_controller.communication_controller.update_tags_on_verses(tagId, verseIds, "add");
+  assign_tag_to_verses(tagId, verseBoxes) {
+    tags_controller.communication_controller.update_tags_on_verses(tagId, verseBoxes, "add");
   }
 
-  remove_tag_from_verses(tagId, verseIds) {
-    tags_controller.communication_controller.update_tags_on_verses(tagId, verseIds, "remove");
+  remove_tag_from_verses(tagId, verseBoxes) {
+    tags_controller.communication_controller.update_tags_on_verses(tagId, verseBoxes, "remove");
   }
 
-  update_tags_on_verses(tagId, verseIds, action) {
-    models.Tag.findByPk(tagId).then(tag => {
-      for (var vId of verseIds) {
-        models.Verse.findByPk(vId).then(verse => {
-          verse.findOrCreateVerseReference().then(vr => {
-            if (action == "add") {
-              vr.addTag(tag.id);
-            } else if (action == "remove") {
-              vr.removeTag(tag.id);
-            }
+  update_tags_on_verses(tagId, verseBoxes, action) {
+    var translationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
+    models.BibleTranslation.findByPk(translationId).then(translation => {
+      models.Tag.findByPk(tagId).then(tag => {
+        for (var verseBox of verseBoxes) {
+
+          var vId = verseBox.find('.verse-reference-id').text();
+          var bibleBookShortTitle = verseBox.find('.verse-bible-book-short').text();
+          var splittedId = vId.split('-');
+          var bibleBookId = splittedId[1];
+          var absoluteVerseNr = parseInt(splittedId[2]);
+          var verseReferenceContent = verseBox.find('.verse-reference-content').text();
+          var chapter = parseInt(verseReferenceContent.split(reference_separator)[0]);
+          var verseNr = parseInt(verseReferenceContent.split(reference_separator)[1]);
+
+          models.BibleBook.findOne({ where: { shortTitle: bibleBookShortTitle } }).then(bibleBook => {
+            var absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(translation, bibleBookId, absoluteVerseNr, chapter, verseNr);
+
+            models.VerseReference.findOrCreate({
+              where: { bibleBookId: bibleBook.id, absoluteVerseNrEng: absoluteVerseNr },
+              defaults: {
+                bibleBookId: bibleBook.id,
+                chapter: chapter,
+                verseNr: verseNr,
+                absoluteVerseNrEng: absoluteVerseNrs["absoluteVerseNrEng"],
+                absoluteVerseNrHeb: absoluteVerseNrs["absoluteVerseNrHeb"]
+              }
+            }).then(vr => {
+              if (action == "add") {
+                vr[0].addTag(tag.id);
+              } else if (action == "remove") {
+                vr[0].removeTag(tag.id);
+              }
+            });
           });
-        });
-      }
+        }
+      });
     });
 
     var increment = (action == "add" ? true : false);
-    tags_controller.update_tag_verse_count(tagId, verseIds.length, increment);
+    tags_controller.update_tag_verse_count(tagId, verseBoxes.length, increment);
   }
 
   update_tag(id, title) {

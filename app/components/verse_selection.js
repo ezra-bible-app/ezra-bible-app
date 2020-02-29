@@ -312,8 +312,8 @@ class VerseSelection {
       }
       var verse_id = verse_box.find('.verse-id').html();
       var verse_bible_book = "";
-      if (verse_box.find('.verse-bible-book').length > 0) {
-        verse_bible_book = verse_box.find('.verse-bible-book').html();
+      if (verse_box.find('.verse-bible-book-short').length > 0) {
+        verse_bible_book = verse_box.find('.verse-bible-book-short').html();
       }
 
       var verse_part = verse_box.find('.verse-part').html();
@@ -340,15 +340,15 @@ class VerseSelection {
     return (this.element_list_to_xml_verse_list(selected_verse_elements));
   }
 
-  current_verse_selection_as_verse_ids() {
+  current_verse_selection_as_verse_reference_ids() {
     var selected_verse_ids = new Array;
     var selected_verse_elements = this.selected_verse_boxes;
     
     for (var i = 0; i < selected_verse_elements.length; i++) {
       var verse_box = $(selected_verse_elements[i]);
-      var verse_id = verse_box.find('.verse-id').html();
+      var verse_reference_id = verse_box.find('.verse-reference-id').html();
 
-      selected_verse_ids.push(verse_id);
+      selected_verse_ids.push(verse_reference_id);
     }
 
     return selected_verse_ids;
