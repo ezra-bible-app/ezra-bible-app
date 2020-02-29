@@ -119,6 +119,9 @@ class TextLoader {
       return;
     }
 
+    var dbBibleTranslation = await models.BibleTranslation.findByPk(currentBibleTranslationId);
+    var versification = (dbBibleTranslation.versification == 'ENGLISH' ? 'eng' : 'heb');
+
     var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: book_short_title }});
 
     var verses = nsi.getBookText(currentBibleTranslationId, book_short_title);
@@ -128,7 +131,7 @@ class TextLoader {
                                            number_of_verses);*/
 
     var verseTags = await bibleBook.getVerseTags();
-    var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, book_short_title.toLowerCase());
+    var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification, book_short_title.toLowerCase());
 
     var chapterText = i18n.t("bible-browser.chapter");
     if (book_short_title == 'Psa') {
@@ -153,6 +156,7 @@ class TextLoader {
     }
 
     var verses_as_html = verseListTemplate({
+      versification: versification,
       verseListId: current_tab_id,
       renderVerseMetaInfo: true,
       renderBibleBookHeaders: false,

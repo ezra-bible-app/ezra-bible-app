@@ -32,12 +32,14 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
   };
 
-  VerseTag.groupVerseTagsByVerse = function(verseTags, bibleBookId) {
+  VerseTag.groupVerseTagsByVerse = function(verseTags, versification, bibleBookId) {
     var groupedVerseTags = {};
 
     for (var i = 0; i < verseTags.length; i++) {
       var vt = verseTags[i];
-      var verseReferenceId = bibleBookId + '-' + vt.absoluteVerseNrEng;
+
+      var absoluteVerseNr = (versification == 'eng' ? vt.absoluteVerseNrEng : vt.absoluteVerseNrHeb);
+      var verseReferenceId = versification + '-' + bibleBookId + '-' + absoluteVerseNr;
 
       if (groupedVerseTags[verseReferenceId] == null) {
         groupedVerseTags[verseReferenceId] = [];

@@ -53,7 +53,7 @@ each bibleBook in bibleBooks
       - old_chapter = verse.chapter
     
     - var current_verse_id = bibleBookId + '-' + verse.chapter + '-' + verse.verseNr
-    - var current_verse_reference_id = bibleBookId + '-' + verse.absoluteVerseNr
+    - var current_verse_reference_id = versification + '-' + bibleBookId + '-' + verse.absoluteVerseNr
 
     - var current_id_class = "verse-id-" + current_verse_id
     - var current_verse_reference_id_class = "verse-reference-id-" + current_verse_reference_id
@@ -77,7 +77,7 @@ each bibleBook in bibleBooks
       - var anchor = verseListId + " " + verseReference;
       a(name=anchor)
       div.verse-id #{verse.id}
-      div.verse-reference-id #{verse.verseReferenceId}
+      div.verse-reference-id #{current_verse_reference_id}
       div.abs-verse-nr #{verse.absoluteVerseNr}
       div.verse-bible-book-id #{verse.bibleBookId}
       div.verse-bible-book-short #{verse.bibleBookShortTitle}
