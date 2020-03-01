@@ -32,11 +32,12 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
   };
 
-  VerseTag.groupVerseTagsByVerse = function(verseTags, versification, bibleBookId) {
+  VerseTag.groupVerseTagsByVerse = function(verseTags, versification) {
     var groupedVerseTags = {};
 
     for (var i = 0; i < verseTags.length; i++) {
       var vt = verseTags[i];
+      var bibleBookId = vt.bibleBookId.toLowerCase()
 
       var absoluteVerseNr = (versification == 'eng' ? vt.absoluteVerseNrEng : vt.absoluteVerseNrHeb);
       var verseReferenceId = versification + '-' + bibleBookId + '-' + absoluteVerseNr;
@@ -51,22 +52,16 @@ module.exports = (sequelize, DataTypes) => {
     return groupedVerseTags;
   };
 
-  VerseTag.findByVerseIds = function(bibleTranslationId, verseIds) {
-    return models.BibleTranslation.findByPk(bibleTranslationId).then(bibleTranslation => {
-      var versificationPostfix = bibleTranslation.getVersificationPostfix();
+  VerseTag.findByVerseReferenceIds = function(verseReferenceIds) {
+    var query = "SELECT vr.id AS verseReferenceId, t.title AS tagTitle, b.shortTitle AS bibleBookId, vt.*, " +
+                " vr.absoluteVerseNrEng, vr.absoluteVerseNrHeb FROM VerseReferences vr" +
+                " INNER JOIN VerseTags vt ON vt.verseReferenceId = vr.id" +
+                " INNER JOIN Tags t ON t.id = vt.tagId" +
+                " INNER JOIN BibleBooks b ON vr.bibleBookId = b.id" +
+                " WHERE vr.id IN (" + verseReferenceIds + ")" +
+                " ORDER BY b.number ASC, vr.absoluteVerseNrEng ASC, t.title ASC";
 
-      var query = "SELECT v.id AS verseId, t.title AS tagTitle, t.bibleBookId AS bibleBookId, vt.* FROM Verses v" +
-                  " INNER JOIN VerseReferences vr ON" +
-                  " vr.absoluteVerseNr" + versificationPostfix + " = v.absoluteVerseNr" +
-                  " AND vr.bibleBookId=v.bibleBookId" +
-                  " INNER JOIN VerseTags vt ON vt.verseReferenceId = vr.id" +
-                  " INNER JOIN Tags t ON t.id = vt.tagId" +
-                  " INNER JOIN BibleBooks b ON vr.bibleBookId = b.id" +
-                  " WHERE v.id IN (" + verseIds + ")" +
-                  " ORDER BY b.number ASC, vr.absoluteVerseNrEng ASC, t.title ASC";
-
-      return sequelize.query(query, { model: models.VerseTag });
-    });
+    return sequelize.query(query, { model: models.VerseTag });
   };
 
   return VerseTag;

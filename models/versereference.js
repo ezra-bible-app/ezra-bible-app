@@ -23,7 +23,9 @@ module.exports = (sequelize, DataTypes) => {
     chapter: DataTypes.INTEGER,
     verseNr: DataTypes.INTEGER,
     absoluteVerseNrEng: DataTypes.INTEGER,
-    absoluteVerseNrHeb: DataTypes.INTEGER
+    absoluteVerseNrHeb: DataTypes.INTEGER,
+    bibleBookShortTitle: DataTypes.VIRTUAL,
+    bibleBookLongTitle: DataTypes.VIRTUAL
   }, {
     timestamps: false
   });
@@ -35,6 +37,21 @@ module.exports = (sequelize, DataTypes) => {
 
   VerseReference.prototype.getBibleBook = function() {
     return models.BibleBook.findByPk(this.bibleBookId);
+  };
+
+  VerseReference.findByTagIds = function(tagIds) {
+    var query = "SELECT vr.*, " +
+                " b.shortTitle as bibleBookShortTitle, " +
+                " b.longTitle AS bibleBookLongTitle" +
+                " FROM VerseReferences vr" +
+                " INNER JOIN BibleBooks b ON" +
+                " vr.bibleBookId = b.id" +
+                " INNER JOIN VerseTags vt ON" +
+                " vt.verseReferenceId = vr.id" +
+                " WHERE vt.tagId IN (" + tagIds + ")" +
+                " ORDER BY vr.absoluteVerseNrEng ASC";
+
+    return sequelize.query(query, { model: models.VerseReference });
   };
 
   VerseReference.getAbsoluteVerseNrs = function(bibleTranslation, bibleBook, absoluteVerseNr, chapter, verseNr) {

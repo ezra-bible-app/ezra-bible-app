@@ -28,7 +28,7 @@ each bibleBook in bibleBooks
     - var i18nLongTitle = i18nHelper.getSwordTranslation(bibleBook.longTitle);
     - var resultCount = 0
     if bibleBookStats != null
-      - var resultCount = bibleBookStats[bibleBook.id]
+      - var resultCount = bibleBookStats[bibleBook.shortTitle]
     div.tag-browser-verselist-book-header(bookName=bibleBook.shortTitle) #{i18nLongTitle} (#{resultCount})
 
   - var verse_count = 0
@@ -37,8 +37,8 @@ each bibleBook in bibleBooks
   - var bibleBookId = bibleBook.shortTitle.toLowerCase()
   
   each verse in verses
-    //-unless verse.bibleBookId == bibleBook.id
-    //-  - continue
+    unless verse.bibleBookShortTitle.toLowerCase() == bibleBookId
+      - continue
 
     - verse_count += 1
 
@@ -90,12 +90,7 @@ each bibleBook in bibleBooks
           div.tag-data
             if current_verse_tags != null
               each verseTag in current_verse_tags
-                - var verseTagBibleBookIsNull = (verseTag.bibleBookId == "NULL" || verseTag.bibleBookId == null);
-                if verseTagBibleBookIsNull
-                  - var tag_category_class = "tag-global"
-                else
-                  - var tag_category_class = "tag-book"
-                div(class=tag_category_class)
+                div(class="tag-global")
                   div.tag-title #{verseTag.tagTitle}
                   div.tag-id #{verseTag.tagId}
         div.verse-reference-content #{verseReference}
@@ -107,9 +102,6 @@ each bibleBook in bibleBooks
               each verseTag in current_verse_tags
                 //- var current_tag_title = verseTag.tagTitle.replace(/ /g, "&nbsp;")
                 - var current_tag_title = verseTag.tagTitle
-                - var verseTagBibleBookIsNull = (verseTag.bibleBookId == "NULL" || verseTag.bibleBookId == null)
-                if !verseTagBibleBookIsNull
-                  - current_tag_title += " *"
                 div.tag(title=tagHint) !{current_tag_title}
 
         div.verse-text !{verse.content}

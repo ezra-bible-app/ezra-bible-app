@@ -202,10 +202,11 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   BibleBook.prototype.getVerseTags = function() {
-    var query = "SELECT t.title AS tagTitle, t.bibleBookId AS bibleBookId, vt.*, vr.absoluteVerseNrEng, vr.absoluteVerseNrHeb" + 
+    var query = "SELECT t.title AS tagTitle, b.shortTitle AS bibleBookId, vt.*, vr.absoluteVerseNrEng, vr.absoluteVerseNrHeb" + 
                 " FROM VerseReferences vr " +
                 " INNER JOIN VerseTags vt ON vt.verseReferenceId = vr.id" +
                 " INNER JOIN Tags t ON t.id = vt.tagId" +
+                " INNER JOIN BibleBooks b ON vr.bibleBookId = b.id" +
                 " WHERE vr.bibleBookId=" + this.id +
                 " ORDER BY t.title ASC";
 
