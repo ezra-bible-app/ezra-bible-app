@@ -39,6 +39,22 @@ module.exports = (sequelize, DataTypes) => {
     return models.BibleBook.findByPk(this.bibleBookId);
   };
 
+  VerseReference.findByBookAndAbsoluteVerseNumber = function(bookShortTitle, absoluteVerseNr, versification) {
+    var absoluteVerseNrField = (versification == 'eng' ? 'absoluteVerseNrEng' : 'absoluteVerseNrHeb');
+
+    var query = "SELECT vr.*, " +
+                " b.shortTitle as bibleBookShortTitle, " +
+                " b.longTitle AS bibleBookLongTitle" +
+                " FROM VerseReferences vr" +
+                " INNER JOIN BibleBooks b ON" +
+                " vr.bibleBookId = b.id" +
+                " WHERE b.shortTitle = '" + bookShortTitle + "'" +
+                " AND vr." + absoluteVerseNrField + "=" + absoluteVerseNr;
+                " ORDER BY vr.absoluteVerseNrEng ASC";
+
+    return sequelize.query(query, { model: models.VerseReference });    
+  }
+
   VerseReference.findByTagIds = function(tagIds) {
     var query = "SELECT vr.*, " +
                 " b.shortTitle as bibleBookShortTitle, " +

@@ -188,20 +188,37 @@ class TextLoader {
       bibleTranslationId = bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
     }
 
-    var bibleBooks = await models.BibleBook.findBySearchResults(search_results);
-    var bibleBookStats = bible_browser_controller.module_search.getBibleBookStatsFromSearchResults(search_results);
-    var verses = await bible_browser_controller.module_search.getDbVersesFromSearchResults(bibleTranslationId, requestedBookId, search_results);
-
-    var verseIds = [];
-    for (var i = 0; i < verses.length; i++) {
-      var currentVerse = verses[i];
-      verseIds.push(currentVerse.id);
-    }
-
     var dbBibleTranslation = await models.BibleTranslation.findByPk(bibleTranslationId);
     var versification = (dbBibleTranslation.versification == 'ENGLISH' ? 'eng' : 'heb');
 
-    var verseTags = await models.VerseTag.findByVerseIds(bibleTranslationId, verseIds.join(','));
+    var bibleBooks = await models.BibleBook.findBySearchResults(search_results);
+    var bibleBookStats = bible_browser_controller.module_search.getBibleBookStatsFromSearchResults(search_results);
+    var verses = [];
+
+    for (var i = 0; i < search_results.length; i++) {
+      var currentVerse = search_results[i];
+      var currentBookId = currentVerse.bibleBookShortTitle;
+
+      if (requestedBookId != -1 && currentBookId != requestedBookId) {
+        // Skip the books that are not requested;
+        continue;
+      }
+
+      verses.push(currentVerse);
+    }
+
+    var verseReferenceIds = [];
+    for (var i = 0; i < verses.length; i++) {
+      var currentVerse = verses[i];
+      var currentVerseReference = await models.VerseReference.findByBookAndAbsoluteVerseNumber(currentVerse.bibleBookShortTitle,
+                                                                                               currentVerse.absoluteVerseNr,
+                                                                                               versification);
+      if (currentVerseReference.length > 0) {
+        verseReferenceIds.push(currentVerseReference[0].id);
+      }
+    }
+
+    var verseTags = await models.VerseTag.findByVerseReferenceIds(verseReferenceIds.join(','));
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
     
     if (render_type == "html") {

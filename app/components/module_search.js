@@ -232,12 +232,12 @@ class ModuleSearch {
 
     if (currentSearchResults.length > 0) {
       await bible_browser_controller.text_loader.requestTextUpdate(currentTabId,
-                                                                  null,
-                                                                  null,
-                                                                  currentSearchResults,
-                                                                  tabIndex,
-                                                                  requestedBookId,
-                                                                  target);
+                                                                   null,
+                                                                   null,
+                                                                   currentSearchResults,
+                                                                   tabIndex,
+                                                                   requestedBookId,
+                                                                   target);
     } else {
       bible_browser_controller.hideVerseListLoadingIndicator();
     }
@@ -266,8 +266,8 @@ class ModuleSearch {
     var bibleBookStats = {};
 
     for (var i = 0; i < search_results.length; i++) {
-      var bibleBookId = models.BibleTranslation.swordBooktoEzraBook(search_results[i].bibleBookShortTitle);
-      
+      var bibleBookId = search_results[i].bibleBookShortTitle;
+
       if (bibleBookStats[bibleBookId] === undefined) {
         bibleBookStats[bibleBookId] = 1;
       } else {

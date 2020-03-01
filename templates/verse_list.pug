@@ -110,6 +110,6 @@ each bibleBook in bibleBooks
       div.verse-notes
 
   if verse_count == 0 && renderBibleBookHeaders == true
-    div.book-section(id=verseListId + "-book-section-" + bibleBook.id)
-      - var loadBookResultFunction = "javascript:bible_browser_controller.module_search.loadBookResults(" + bibleBook.id + ")"
+    div.book-section(id=verseListId + "-book-section-" + bibleBook.shortTitle)
+      - var loadBookResultFunction = "javascript:bible_browser_controller.module_search.loadBookResults('" + bibleBook.shortTitle + "')"
       a.load-book-results(href=loadBookResultFunction) !{loadSearchResultsText}
