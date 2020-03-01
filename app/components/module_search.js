@@ -53,11 +53,11 @@ class ModuleSearch {
     }
   }
 
-  resetSearch() {
+  resetSearch(tabIndex=undefined) {
     $('#module-search-input').val('');
     $('#search-type')[0].value = "multiWord";
     $('#search-is-case-sensitive').prop("checked", false);
-    this.hideModuleSearchHeader();
+    this.hideModuleSearchHeader(tabIndex);
   }
 
   hideModuleSearchHeader(tabIndex=undefined) {

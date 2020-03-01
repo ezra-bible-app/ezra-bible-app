@@ -21,7 +21,7 @@ class TextLoader {
   }
 
   prepareForNewText(resetView, isSearch=false, tabIndex=undefined) {
-    bible_browser_controller.module_search.hideModuleSearchHeader();
+    bible_browser_controller.module_search.hideModuleSearchHeader(tabIndex);
     bible_browser_controller.navigation_pane.initNavigationPaneForCurrentView(tabIndex);
 
     if (tabIndex === undefined) {
@@ -347,13 +347,13 @@ class TextLoader {
     if (listType == 'book') {
       bible_browser_controller.enableToolbox();
       bible_browser_controller.tag_selection_menu.resetTagMenu();
-      bible_browser_controller.module_search.resetSearch();
+      bible_browser_controller.module_search.resetSearch(tabIndex);
 
       target.addClass('verse-list-book');
 
     } else if (listType == 'tagged_verses') {
 
-      bible_browser_controller.module_search.resetSearch();
+      bible_browser_controller.module_search.resetSearch(tabIndex);
       bible_browser_controller.enableTaggingToolboxOnly();
       bible_browser_controller.taggedVerseExport.enableTaggedVersesExportButton(tabIndex);
 
