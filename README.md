@@ -47,6 +47,7 @@ Ezra Project is currently on a bi-monthly release schedule. The next release [0.
 
 * French translation
 * Sword module unlock support
+* Design change: Use sword modules directly (instead of text in database)
 
 ## Installation
 The latest installation packages for Windows, Linux and macOS can be found on [this page][latest]. Specific install instructions are below.
