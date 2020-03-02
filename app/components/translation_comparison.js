@@ -62,41 +62,34 @@ class TranslationComparison {
     });
   };
 
-  async getVerseHtmlByTranslationId(translationId, verseBox) {
+  async getVerseHtmlByTranslationId(sourceBibleTranslationId, targetTranslationId, verseBox) {
     var bibleBookShortTitle = verseBox.find('.verse-bible-book-short').text();
-    var currentVerseId = parseInt(verseBox.find('.verse-id').text());
-    var currentDbVerse = await models.Verse.findByPk(currentVerseId);
-    var sourceBibleTranslationId = currentDbVerse.bibleTranslationId;
+    var absoluteVerseNr = parseInt(verseBox.find('.abs-verse-nr').text());
+    var verseReference = verseBox.find('.verse-reference-content').text();
+    var splittedReference = verseReference.split(reference_separator);
+    var chapter = parseInt(splittedReference[0]);
+    var verseNr = parseInt(splittedReference[1]);
     var sourceBibleTranslation = await models.BibleTranslation.findByPk(sourceBibleTranslationId);
-    var targetBibleTranslation = await models.BibleTranslation.findByPk(translationId);
+    var targetBibleTranslation = await models.BibleTranslation.findByPk(targetTranslationId);
 
-    var absoluteVerseNrEng = null;
-    var absoluteVerseNrHeb = null;
-
-    if (sourceBibleTranslation.versification == 'ENGLISH') {
-      absoluteVerseNrEng = currentDbVerse.absoluteVerseNr;
-      absoluteVerseNrHeb = currentDbVerse.getAbsoluteVerseNrHebFromEng(bibleBookShortTitle, absoluteVerseNrEng);
-    } else if (sourceBibleTranslation.versification == 'HEBREW') {
-      absoluteVerseNrHeb = currentDbVerse.absoluteVerseNr;
-      absoluteVerseNrEng = currentDbVerse.getAbsoluteVerseNrEngFromHeb(bibleBookShortTitle, absoluteVerseNrHeb);
-    }
+    var absoluteVerseNumbers = models.VerseReference.getAbsoluteVerseNrs(sourceBibleTranslation, bibleBookShortTitle, absoluteVerseNr, chapter, verseNr);
 
     var currentAbsoluteVerseNr = null;
     if (targetBibleTranslation.versification == 'ENGLISH') {
-      currentAbsoluteVerseNr = absoluteVerseNrEng;
+      currentAbsoluteVerseNr = absoluteVerseNumbers.absoluteVerseNrEng;
     } else if (targetBibleTranslation.versification == 'HEBREW') {
-      currentAbsoluteVerseNr = absoluteVerseNrHeb;
+      currentAbsoluteVerseNr = absoluteVerseNumbers.absoluteVerseNrHeb;
     }
 
-    var currentBookId = parseInt(verseBox.find('.verse-bible-book-id').text());
-    var targetTranslationVerse = await models.Verse.findByAbsoluteVerseNr(translationId,
-                                                                          currentBookId,
-                                                                          currentAbsoluteVerseNr);
+    var targetTranslationVerse = nsi.getBookText(targetTranslationId,
+                                                 bibleBookShortTitle,
+                                                 currentAbsoluteVerseNr,
+                                                 1)[0];
     
     var verseHtml = "<div class='verse-box'>";
     
     if (targetTranslationVerse == null) {
-      console.log("Couldn't get verse " + currentBookId + ' / ' + currentAbsoluteVerseNr + " for " + translationId);
+      console.log("Couldn't get verse " + bibleBookShortTitle + ' / ' + currentAbsoluteVerseNr + " for " + targetTranslationId);
     } else {
       var targetVerseReference = targetTranslationVerse.chapter + 
                                 reference_separator + 
@@ -114,6 +107,7 @@ class TranslationComparison {
   }
 
   async getCompareTranslationContent() {
+    var sourceTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
     var selectedVerseBoxes = bible_browser_controller.verse_selection.selected_verse_boxes;
     var compareTranslationContent = "<table>";
     var allTranslations = await models.BibleTranslation.getTranslations();
@@ -133,7 +127,7 @@ class TranslationComparison {
 
         for (var j = 0; j < selectedVerseBoxes.length; j++) {
           var currentVerseBox = $(selectedVerseBoxes[j]);
-          var verseHtml = await this.getVerseHtmlByTranslationId(currentTranslationId, currentVerseBox);
+          var verseHtml = await this.getVerseHtmlByTranslationId(sourceTranslationId, currentTranslationId, currentVerseBox);
           compareTranslationContent += verseHtml;
         }
 
