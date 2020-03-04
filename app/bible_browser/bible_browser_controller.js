@@ -217,7 +217,6 @@ class BibleBrowserController {
     this.tab_search.resetSearch();
 
     var currentTab = this.tab_controller.getTab();
-    this.tab_controller.refreshBibleTranslationInTabTitle(currentTab.getBibleTranslationId());
 
     if (currentTab.getTextType() == 'search_results') {
       this.text_loader.prepareForNewText(true, true);

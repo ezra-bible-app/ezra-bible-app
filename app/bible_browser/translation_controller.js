@@ -177,6 +177,12 @@ class TranslationController {
           this.showBibleTranslationLoadingIndicator();
         }
 
+        var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
+        var bibleSelect = currentVerseListMenu.find('select.bible-select');
+        bible_browser_controller.tab_controller.setCurrentBibleTranslationId(bibleSelect[0].value);
+        bible_browser_controller.settings.set('bible_translation', bibleSelect[0].value);
+        bible_browser_controller.tab_controller.refreshBibleTranslationInTabTitle(bibleSelect[0].value);
+
         setTimeout(() => {
           this.handleBibleTranslationChange()
         }, 50);
@@ -280,11 +286,6 @@ class TranslationController {
   }
 
   async handleBibleTranslationChange() {
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
-    var bibleSelect = currentVerseListMenu.find('select.bible-select');
-    bible_browser_controller.tab_controller.setCurrentBibleTranslationId(bibleSelect[0].value);
-    bible_browser_controller.settings.set('bible_translation', bibleSelect[0].value);
-
     this.updateAvailableBooks();
     this.initChapterVerseCounts();
     this.onBibleTranslationChanged();

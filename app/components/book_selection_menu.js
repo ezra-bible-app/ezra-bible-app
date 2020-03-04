@@ -41,6 +41,11 @@ class BookSelectionMenu {
   select_bible_book(book_code, book_title) {
     bible_browser_controller.book_selection_menu.hide_book_menu();
     bible_browser_controller.book_selection_menu.highlightSelectedBookInMenu(book_code);
+
+    var currentTab = bible_browser_controller.tab_controller.getTab();
+    currentTab.setTextType('book');
+    bible_browser_controller.tab_controller.setCurrentTabBook(book_code, book_title);
+
     bible_browser_controller.text_loader.prepareForNewText(true, false);
 
     setTimeout(() => {
@@ -56,20 +61,13 @@ class BookSelectionMenu {
         bible_browser_controller.module_search.resetSearch();
         bible_browser_controller.tag_assignment_menu.hideTagAssignmentMenu();
   
-        // Not needed at the moment
-        //$('#outline-content').empty();
-  
+        // Set selected tags and search term to null, since we just switched to a book
         var currentTab = bible_browser_controller.tab_controller.getTab();
-        currentTab.setTextType('book');
-        bible_browser_controller.tab_controller.setCurrentTabBook(book_code, book_title);
-  
-        // Set selected tags and search term to null, since we just switched to a book      
         currentTab.setTagIdList(null);
         currentTab.setSearchTerm(null);
   
         var currentVerseList = bible_browser_controller.getCurrentVerseList();
         bible_browser_controller.tab_search.setVerseList(currentVerseList);
-        var currentTab = bible_browser_controller.tab_controller.getTab();
   
         var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
         var currentBook = currentTab.getBook();
