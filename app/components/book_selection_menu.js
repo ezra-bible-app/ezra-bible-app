@@ -39,43 +39,45 @@ class BookSelectionMenu {
   }
 
   select_bible_book(book_code, book_title) {
+    bible_browser_controller.book_selection_menu.hide_book_menu();
     bible_browser_controller.book_selection_menu.highlightSelectedBookInMenu(book_code);
+    bible_browser_controller.text_loader.prepareForNewText(true, false);
 
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
-    models.BibleTranslation.getBookList(currentBibleTranslationId).then(books => {
-      if (!books.includes(book_code)) {
-        return;
-      }
-
-      bible_browser_controller.book_selection_menu.hide_book_menu();
-      bible_browser_controller.tag_selection_menu.hideTagMenu();
-      bible_browser_controller.tag_selection_menu.resetTagMenu();
-      bible_browser_controller.module_search.hideSearchMenu();
-      bible_browser_controller.module_search.resetSearch();
-      bible_browser_controller.tag_assignment_menu.hideTagAssignmentMenu();
-
-      // Not needed at the moment
-      //$('#outline-content').empty();
-
-      var currentTab = bible_browser_controller.tab_controller.getTab();
-      currentTab.setTextType('book');
-      bible_browser_controller.tab_controller.setCurrentTabBook(book_code, book_title);
-
-      // Set selected tags and search term to null, since we just switched to a book      
-      currentTab.setTagIdList(null);
-      currentTab.setSearchTerm(null);
-
-      var currentVerseList = bible_browser_controller.getCurrentVerseList();
-      bible_browser_controller.tab_search.setVerseList(currentVerseList);
-      var currentTab = bible_browser_controller.tab_controller.getTab();
-
-      var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
-      var currentBook = currentTab.getBook();
-
-      bible_browser_controller.text_loader.prepareForNewText(true, false);
-      bible_browser_controller.text_loader.requestTextUpdate(currentTabId, currentBook, null, null);
-      tags_controller.communication_controller.request_tags();
-    });
+    setTimeout(() => {
+      var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
+      models.BibleTranslation.getBookList(currentBibleTranslationId).then(books => {
+        if (!books.includes(book_code)) {
+          return;
+        }
+  
+        bible_browser_controller.tag_selection_menu.hideTagMenu();
+        bible_browser_controller.tag_selection_menu.resetTagMenu();
+        bible_browser_controller.module_search.hideSearchMenu();
+        bible_browser_controller.module_search.resetSearch();
+        bible_browser_controller.tag_assignment_menu.hideTagAssignmentMenu();
+  
+        // Not needed at the moment
+        //$('#outline-content').empty();
+  
+        var currentTab = bible_browser_controller.tab_controller.getTab();
+        currentTab.setTextType('book');
+        bible_browser_controller.tab_controller.setCurrentTabBook(book_code, book_title);
+  
+        // Set selected tags and search term to null, since we just switched to a book      
+        currentTab.setTagIdList(null);
+        currentTab.setSearchTerm(null);
+  
+        var currentVerseList = bible_browser_controller.getCurrentVerseList();
+        bible_browser_controller.tab_search.setVerseList(currentVerseList);
+        var currentTab = bible_browser_controller.tab_controller.getTab();
+  
+        var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
+        var currentBook = currentTab.getBook();
+  
+        bible_browser_controller.text_loader.requestTextUpdate(currentTabId, currentBook, null, null);
+        tags_controller.communication_controller.request_tags();
+      });
+    }, 50);
   }
 
   hide_book_menu() {
