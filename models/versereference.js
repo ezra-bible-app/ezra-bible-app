@@ -31,7 +31,6 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   VerseReference.associate = function(models) {
-    VerseReference.hasMany(models.Verse);
     VerseReference.belongsToMany(models.Tag, {through: 'VerseTags'});
   };
 

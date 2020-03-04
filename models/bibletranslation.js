@@ -99,10 +99,6 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   });
 
-  BibleTranslation.associate = function(models) {
-    BibleTranslation.hasMany(models.Verse);
-  };
-
   BibleTranslation.getLanguages = async function() {
     var query = "SELECT * FROM BibleTranslations ORDER BY languageName ASC";
     var translations = await sequelize.query(query, { model: models.BibleTranslation });

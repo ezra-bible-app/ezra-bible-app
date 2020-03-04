@@ -162,7 +162,6 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   BibleBook.associate = function(models) {
-    BibleBook.hasMany(models.Verse);
     BibleBook.hasMany(models.VerseReference);
   };
 
