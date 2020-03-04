@@ -83,22 +83,7 @@ class TranslationController {
 
     if (currentTab != null) {
       var currentBibleTranslationId = currentTab.getBibleTranslationId();
-      return models.BibleBook.getChapterVerseCounts(currentBibleTranslationId).then(verseCountEntries => {
-        var lastBook = null;
-
-        for (var entry of verseCountEntries) {
-          var currentBook = entry.shortTitle;
-
-          if (currentBook != lastBook) {
-            bible_chapter_verse_counts[currentBook] = [];
-          }
-
-          var current_chapter = entry.verseCount;
-          bible_chapter_verse_counts[currentBook].push(current_chapter);
-
-          lastBook = currentBook;
-        }
-      });
+      bible_chapter_verse_counts = nsi.getBibleChapterVerseCounts(currentBibleTranslationId);
     }
   }
 
