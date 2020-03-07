@@ -59,22 +59,21 @@ class TranslationController {
 
     if (currentTab != null) {
       var currentBibleTranslationId = currentTab.getBibleTranslationId();
-      models.BibleTranslation.getBookList(currentBibleTranslationId).then(books => {
-        var book_links = $('#book-selection-menu').find('li');
+      var books = nsi.getBookList(currentBibleTranslationId);
+      var book_links = $('#book-selection-menu').find('li');
 
-        for (var i = 0; i < book_links.length; i++) {
-          var current_book_link = $(book_links[i]);
-          var current_link_book = current_book_link.attr('class').split(' ')[0];
-          var current_book_id = current_link_book.split('-')[1];
-          if (books.includes(current_book_id)) {
-            current_book_link.removeClass('book-unavailable');
-            current_book_link.addClass('book-available');
-          } else {
-            current_book_link.addClass('book-unavailable');
-            current_book_link.removeClass('book-available');
-          }
+      for (var i = 0; i < book_links.length; i++) {
+        var current_book_link = $(book_links[i]);
+        var current_link_book = current_book_link.attr('class').split(' ')[0];
+        var current_book_id = current_link_book.split('-')[1];
+        if (books.includes(current_book_id)) {
+          current_book_link.removeClass('book-unavailable');
+          current_book_link.addClass('book-available');
+        } else {
+          current_book_link.addClass('book-unavailable');
+          current_book_link.removeClass('book-available');
         }
-      });
+      }
     }
   }
 

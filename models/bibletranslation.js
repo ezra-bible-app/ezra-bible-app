@@ -277,22 +277,5 @@ module.exports = (sequelize, DataTypes) => {
     await this.save();
   };
 
-  BibleTranslation.getBookList = async function(translationCode) {
-    var booklistQuery = "SELECT b.* FROM Verses v INNER JOIN BibleBooks b " +
-                        " ON v.bibleBookId = b.id " +
-                        " WHERE bibleTranslationId='" + translationCode + "'" +
-                        " GROUP BY bibleBookId";
-    var books = await sequelize.query(booklistQuery, { model: models.BibleBook });
-    var bookList = [];
-
-    for (var i = 0; i < books.length; i++) {
-      if (!bookList.includes(books[i].shortTitle)) {
-        bookList.push(books[i].shortTitle);
-      }
-    }
-
-    return bookList;
-  };
-
   return BibleTranslation;
 };

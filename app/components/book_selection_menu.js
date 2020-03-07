@@ -50,31 +50,31 @@ class BookSelectionMenu {
 
     setTimeout(() => {
       var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
-      models.BibleTranslation.getBookList(currentBibleTranslationId).then(books => {
-        if (!books.includes(book_code)) {
-          return;
-        }
-  
-        bible_browser_controller.tag_selection_menu.hideTagMenu();
-        bible_browser_controller.tag_selection_menu.resetTagMenu();
-        bible_browser_controller.module_search.hideSearchMenu();
-        bible_browser_controller.module_search.resetSearch();
-        bible_browser_controller.tag_assignment_menu.hideTagAssignmentMenu();
-  
-        // Set selected tags and search term to null, since we just switched to a book
-        var currentTab = bible_browser_controller.tab_controller.getTab();
-        currentTab.setTagIdList(null);
-        currentTab.setSearchTerm(null);
-  
-        var currentVerseList = bible_browser_controller.getCurrentVerseList();
-        bible_browser_controller.tab_search.setVerseList(currentVerseList);
-  
-        var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
-        var currentBook = currentTab.getBook();
-  
-        bible_browser_controller.text_loader.requestTextUpdate(currentTabId, currentBook, null, null);
-        tags_controller.communication_controller.request_tags();
-      });
+      var books = nsi.getBookList(currentBibleTranslationId);
+
+      if (!books.includes(book_code)) {
+        return;
+      }
+
+      bible_browser_controller.tag_selection_menu.hideTagMenu();
+      bible_browser_controller.tag_selection_menu.resetTagMenu();
+      bible_browser_controller.module_search.hideSearchMenu();
+      bible_browser_controller.module_search.resetSearch();
+      bible_browser_controller.tag_assignment_menu.hideTagAssignmentMenu();
+
+      // Set selected tags and search term to null, since we just switched to a book
+      var currentTab = bible_browser_controller.tab_controller.getTab();
+      currentTab.setTagIdList(null);
+      currentTab.setSearchTerm(null);
+
+      var currentVerseList = bible_browser_controller.getCurrentVerseList();
+      bible_browser_controller.tab_search.setVerseList(currentVerseList);
+
+      var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
+      var currentBook = currentTab.getBook();
+
+      bible_browser_controller.text_loader.requestTextUpdate(currentTabId, currentBook, null, null);
+      tags_controller.communication_controller.request_tags();
     }, 50);
   }
 
