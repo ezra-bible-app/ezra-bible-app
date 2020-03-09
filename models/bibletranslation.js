@@ -161,36 +161,6 @@ module.exports = (sequelize, DataTypes) => {
       reImport = true;
     }
 
-    nsi.enableMarkup();
-
-    var bibleText = nsi.getBibleText(translationCode);
-    if (bibleText.length == 0) {
-      console.log("ERROR: Bible text for " + translationCode + " has 0 verses!");
-    }
-
-    var importVerses = [];
-    var lastBook = "";
-    var absoluteVerseNr = 1;
-
-    for (var i = 0; i < bibleText.length; i++) {
-      var verseObject = bibleText[i];
-
-      var book = verseObject['bibleBookShortTitle'];
-      
-      if (book != lastBook) {
-        absoluteVerseNr = 1;
-      } else {
-        absoluteVerseNr += 1;
-      }
-
-      verseObject['bibleBookId'] = modelsInstance.BibleTranslation.swordBooktoEzraBook(book);
-      verseObject['bibleTranslationId'] = translationCode;
-      verseObject['absoluteVerseNr'] = absoluteVerseNr;
-
-      importVerses.push(verseObject);
-      lastBook = book;
-    }
-
     var module = nsi.getLocalModule(translationCode);
 
     var languageMapper = new LanguageMapper();
@@ -207,8 +177,6 @@ module.exports = (sequelize, DataTypes) => {
         versification: "ENGLISH"
       });
     }
-
-    await modelsInstance.Verse.bulkCreate(importVerses);
 
     if (!reImport) {
       await modelsInstance.BibleTranslation.updateVersification(translationCode);
@@ -245,20 +213,8 @@ module.exports = (sequelize, DataTypes) => {
   // This function tests the versification by checking passages in Psalms and Revelation that
   // are having different numbers of verses in English and Hebrew versification
   BibleTranslation.prototype.updateVersification = async function() {
-    var psalm3Query = "SELECT * FROM Verses v INNER JOIN BibleBooks b ON " +
-                      " b.id = v.bibleBookId" +
-                      " WHERE v.bibleTranslationId='" + this.id + "'" +
-                      " AND b.shortTitle='Psa'" +
-                      " AND v.chapter=3";
-
-    var revelationQuery = "SELECT * FROM Verses v INNER JOIN BibleBooks b ON " +
-                          " b.id = v.bibleBookId" +
-                          " WHERE v.bibleTranslationId='" + this.id + "'" +
-                          " AND b.shortTitle='Rev'" +
-                          " AND v.chapter=12";
-
-    var psalm3Verses = await sequelize.query(psalm3Query, { model: models.Verse });
-    var revelation12Verses = await sequelize.query(revelationQuery, { model: models.Verse });
+    var psalm3Verses = nsi.getChapterText(this.id, 'Psa', 3);
+    var revelation12Verses = nsi.getChapterText(this.id, 'Rev', 12);
 
     if (psalm3Verses.length == 8 || revelation12Verses.length == 17) { // ENGLISH versification
       this.versification = "ENGLISH";
