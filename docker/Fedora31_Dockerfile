@@ -13,8 +13,6 @@ RUN yum install -y sword-devel libsqlite3x-devel.x86_64 libicu-devel libcurl-dev
 
 RUN npm install -g electron-installer-redhat
 RUN yum install -y rpm-build
-
-# This is necessary for gyp to keep working
 RUN yum install -y python
 
 RUN useradd -ms /bin/bash $HOST_USER
