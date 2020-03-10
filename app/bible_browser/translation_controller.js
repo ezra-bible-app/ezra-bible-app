@@ -197,7 +197,7 @@ class TranslationController {
     $('.bible-translation-info-button').bind('click', async () => {
       if (!$(this).hasClass('ui-state-disabled')) {
         bible_browser_controller.hideAllMenus();
-        await this.showBibleTranslationInfo();
+        this.showBibleTranslationInfo();
       }
     });
   }
@@ -259,11 +259,11 @@ class TranslationController {
     return bibleTranslationInfo;
   }
 
-  async showBibleTranslationInfo() {
+  showBibleTranslationInfo() {
     var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
     var bibleTranslationInfo = this.getBibleTranslationInfo(currentBibleTranslationId);
 
-    var currentBibleTranslationName = await bible_browser_controller.tab_controller.getCurrentBibleTranslationName();
+    var currentBibleTranslationName = bible_browser_controller.tab_controller.getCurrentBibleTranslationName();
     var offsetLeft = $(window).width() - 900;
     $('#bible-translation-info-box').dialog({
       title: currentBibleTranslationName,
