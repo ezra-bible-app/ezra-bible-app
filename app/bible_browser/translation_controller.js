@@ -275,8 +275,9 @@ class TranslationController {
     $('#bible-translation-info-box').dialog("open");
   }
 
-  async hasBibleTranslationStrongs(translationId) {
-    var bibleTranslation = await models.BibleTranslation.getById(translationId);
+  hasBibleTranslationStrongs(translationId) {
+    var bibleTranslation = nsi.getLocalModule(translationId);
+
     if (bibleTranslation != null) {
       return bibleTranslation.hasStrongs;
     } else {

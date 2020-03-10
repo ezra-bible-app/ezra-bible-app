@@ -444,7 +444,7 @@ class BibleBrowserController {
     }).addClass('tag-events-configured');
 
     currentVerseList.find('.verse-box').bind('mouseover', (e) => { this.onVerseBoxMouseOver(e); });
-    await this.strongs.bindAfterBibleTextLoaded(tabIndex);
+    this.strongs.bindAfterBibleTextLoaded(tabIndex);
     this.verse_context_loader.init_verse_expand_box(tabIndex);
   }
 

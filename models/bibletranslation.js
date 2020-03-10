@@ -124,34 +124,21 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   BibleTranslation.getTranslations = async function() {
-    var query = "SELECT id FROM BibleTranslations ORDER BY languageName ASC";
-    var translationRecords = await sequelize.query(query, { model: models.BibleTranslation });
+    var localModules = nsi.getAllLocalModules();
     var translations = [];
 
-    for (var i = 0; i < translationRecords.length; i++) {
-      translations.push(translationRecords[i].id);
+    for (var i = 0; i < localModules.length; i++) {
+      translations.push(localModules[i].name);
     }
 
     return translations;
   };
 
   BibleTranslation.getName = async function(id) {
-    var query = "SELECT name FROM BibleTranslations WHERE id='" + id + "'";
-    var translationRecords = await sequelize.query(query, { model: models.BibleTranslation });
+    var localModule = nsi.getLocalModule(id);
 
-    if (translationRecords.length > 0) {
-      return translationRecords[0].name;
-    } else {
-      return null;
-    }
-  };
-
-  BibleTranslation.getById = async function(id) {
-    var query = "SELECT * FROM BibleTranslations WHERE id='" + id + "'";
-    var translationRecords = await sequelize.query(query, { model: models.BibleTranslation });
-
-    if (translationRecords.length > 0) {
-      return translationRecords[0];
+    if (localModule != null) {
+      return localModule.description;
     } else {
       return null;
     }
