@@ -119,9 +119,7 @@ class TextLoader {
       return;
     }
 
-    var dbBibleTranslation = await models.BibleTranslation.findByPk(currentBibleTranslationId);
-    var versification = (dbBibleTranslation.versification == 'ENGLISH' ? 'eng' : 'heb');
-
+    var versification = (models.BibleTranslation.getVersification(currentBibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
     var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: book_short_title }});
     
     nsi.enableMarkup();
@@ -189,8 +187,7 @@ class TextLoader {
       bibleTranslationId = bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
     }
 
-    var dbBibleTranslation = await models.BibleTranslation.findByPk(bibleTranslationId);
-    var versification = (dbBibleTranslation.versification == 'ENGLISH' ? 'eng' : 'heb');
+    var versification = (models.BibleTranslation.getVersification(currentBibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
 
     var bibleBooks = await models.BibleBook.findBySearchResults(search_results);
     var bibleBookStats = bible_browser_controller.module_search.getBibleBookStatsFromSearchResults(search_results);
@@ -250,16 +247,14 @@ class TextLoader {
     }
 
     var bibleTranslationId = null;
-    var dbBibleTranslation = null;
-    
+        
     if (bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId() == null) {
-      bibleTranslationId = 1;
+      bibleTranslationId = bible_browser_controller.tab_controller.defaultBibleTranslationId;
     } else {
       bibleTranslationId = bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
     }
 
-    dbBibleTranslation = await models.BibleTranslation.findByPk(bibleTranslationId);
-    var versification = (dbBibleTranslation.versification == 'ENGLISH' ? 'eng' : 'heb');
+    var versification = (models.BibleTranslation.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
 
     var verseReferences = await models.VerseReference.findByTagIds(selected_tags);
     var verseReferenceIds = [];
@@ -273,7 +268,7 @@ class TextLoader {
 
       var currentAbsoluteVerseNumber = versification == 'eng' ? currentVerseReference.absoluteVerseNrEng : currentVerseReference.absoluteVerseNrHeb;
       
-      var verse = nsi.getBookText(dbBibleTranslation.id,
+      var verse = nsi.getBookText(bibleTranslationId,
                                   currentVerseReference.bibleBookShortTitle,
                                   currentAbsoluteVerseNumber,
                                   1)[0];

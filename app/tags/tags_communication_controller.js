@@ -105,7 +105,7 @@ class TagsCommunicationController
           var verseNr = parseInt(verseReferenceContent.split(reference_separator)[1]);
 
           models.BibleBook.findOne({ where: { shortTitle: bibleBookShortTitle } }).then(bibleBook => {
-            var absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(translation, bibleBookId, absoluteVerseNr, chapter, verseNr);
+            var absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(translation.versification, bibleBookId, absoluteVerseNr, chapter, verseNr);
 
             models.VerseReference.findOrCreate({
               where: { bibleBookId: bibleBook.id, absoluteVerseNrEng: absoluteVerseNr },

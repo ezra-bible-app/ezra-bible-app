@@ -62,23 +62,23 @@ class TranslationComparison {
     });
   };
 
-  async getVerseHtmlByTranslationId(sourceBibleTranslationId, targetTranslationId, verseBox) {
+  getVerseHtmlByTranslationId(sourceBibleTranslationId, targetTranslationId, verseBox) {
     var bibleBookShortTitle = verseBox.find('.verse-bible-book-short').text();
     var absoluteVerseNr = parseInt(verseBox.find('.abs-verse-nr').text());
     var verseReference = verseBox.find('.verse-reference-content').text();
     var splittedReference = verseReference.split(reference_separator);
     var chapter = parseInt(splittedReference[0]);
     var verseNr = parseInt(splittedReference[1]);
-    var sourceBibleTranslation = await models.BibleTranslation.findByPk(sourceBibleTranslationId);
-    var targetBibleTranslation = await models.BibleTranslation.findByPk(targetTranslationId);
+    var sourceVersification = models.BibleTranslation.getVersification(sourceBibleTranslationId);
+    var targetVersification = models.BibleTranslation.getVersification(targetTranslationId);
 
-    var absoluteVerseNumbers = models.VerseReference.getAbsoluteVerseNrs(sourceBibleTranslation, bibleBookShortTitle, absoluteVerseNr, chapter, verseNr);
+    var absoluteVerseNumbers = models.VerseReference.getAbsoluteVerseNrs(sourceVersification, bibleBookShortTitle, absoluteVerseNr, chapter, verseNr);
 
     var currentAbsoluteVerseNr = null;
-    if (targetBibleTranslation.versification == 'ENGLISH') {
-      currentAbsoluteVerseNr = absoluteVerseNumbers.absoluteVerseNrEng;
-    } else if (targetBibleTranslation.versification == 'HEBREW') {
+    if (targetVersification == 'HEBREW') {
       currentAbsoluteVerseNr = absoluteVerseNumbers.absoluteVerseNrHeb;
+    } else {
+      currentAbsoluteVerseNr = absoluteVerseNumbers.absoluteVerseNrEng;
     }
 
     var targetTranslationVerse = nsi.getBookText(targetTranslationId,
@@ -110,12 +110,12 @@ class TranslationComparison {
     var sourceTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
     var selectedVerseBoxes = bible_browser_controller.verse_selection.selected_verse_boxes;
     var compareTranslationContent = "<table>";
-    var allTranslations = await models.BibleTranslation.getTranslations();
+    var allTranslations = nsi.getAllLocalModules();
 
     if (selectedVerseBoxes.length > 0) {
       for (var i = 0; i < allTranslations.length; i++) {
-        var currentTranslationId = allTranslations[i];
-        var currentTranslationName = await models.BibleTranslation.getName(currentTranslationId);
+        var currentTranslationId = allTranslations[i].name;
+        var currentTranslationName = allTranslations[i].description;
         var cssClass = '';
         if (i < allTranslations.length - 1) {
           cssClass = 'compare-translation-row';
@@ -127,7 +127,7 @@ class TranslationComparison {
 
         for (var j = 0; j < selectedVerseBoxes.length; j++) {
           var currentVerseBox = $(selectedVerseBoxes[j]);
-          var verseHtml = await this.getVerseHtmlByTranslationId(sourceTranslationId, currentTranslationId, currentVerseBox);
+          var verseHtml = this.getVerseHtmlByTranslationId(sourceTranslationId, currentTranslationId, currentVerseBox);
           compareTranslationContent += verseHtml;
         }
 

@@ -471,7 +471,6 @@ class TagsController {
     var tab_count = bible_browser_controller.tab_controller.getTabCount();
 
     var bibleBook = verse_box.find('.verse-bible-book-short').text();
-    var dbBibleBook = await models.BibleBook.findOne({ where: { shortTitle: bibleBook } });
     var absoluteVerseNr = parseInt(verse_box.find('.abs-verse-nr').text());
     var verseReferenceContent = verse_box.find('.verse-reference-content').text();
     var chapter = parseInt(verseReferenceContent.split(reference_separator)[0]);
@@ -480,11 +479,10 @@ class TagsController {
     for (var i = 0; i < tab_count; i++) {
       if (i != current_tab_index) {
         var current_tab_translation = bible_browser_controller.tab_controller.getTab(i).getBibleTranslationId();
-        var current_db_bible_translation = await models.BibleTranslation.findByPk(current_tab_translation);
-        var current_versification = current_db_bible_translation.versification;
+        var current_versification = models.BibleTranslation.getVersification(current_tab_translation);
         var current_target_verse_nr = "";
 
-        var absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(current_db_bible_translation, bibleBook, absoluteVerseNr, chapter, verseNr);
+        var absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(current_versification, bibleBook, absoluteVerseNr, chapter, verseNr);
 
         if (current_versification == 'HEBREW') {
           current_target_verse_nr = absoluteVerseNrs.absoluteVerseNrHeb;

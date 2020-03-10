@@ -202,27 +202,39 @@ module.exports = (sequelize, DataTypes) => {
     return versificationPostfix;
   };
 
+  BibleTranslation.getVersification = function(translationCode) {
+    var versification = null;
+
+    var psalm3Verses = nsi.getChapterText(translationCode, 'Psa', 3);
+    var revelation12Verses = nsi.getChapterText(translationCode, 'Rev', 12);
+
+    if (psalm3Verses.length == 8 || revelation12Verses.length == 17) { // ENGLISH versification
+      versification = "ENGLISH";
+
+    } else if (psalm3Verses.length == 9 || revelation12Verses.length == 18) { // HEBREW versification
+      versification = "HEBREW";
+
+    } else { // Unknown versification
+
+      versification = "UNKNOWN"
+
+      /*console.log("Unknown versification!");
+      console.log("Psalm 3 has " + psalm3Verses.length + " verses.");
+      console.log("Revelation 12 has " + revelation12Verses.length + " verses.");*/
+    }
+
+    return versification;
+  };
+
   // This function tests the versification by checking passages in Psalms and Revelation that
   // are having different numbers of verses in English and Hebrew versification
   BibleTranslation.prototype.updateVersification = async function() {
-    var psalm3Verses = nsi.getChapterText(this.id, 'Psa', 3);
-    var revelation12Verses = nsi.getChapterText(this.id, 'Rev', 12);
+    var versification = BibleTranslation.getVersification(this.id);
 
-    if (psalm3Verses.length == 8 || revelation12Verses.length == 17) { // ENGLISH versification
-      this.versification = "ENGLISH";
-      console.log("Updated versification of " + this.id + " to ENGLISH!");
-
-    } else if (psalm3Verses.length == 9 || revelation12Verses.length == 18) { // HEBREW versification
-      this.versification = "HEBREW";
-      console.log("Updated versification of " + this.id + " to HEBREW!");
-
-    } else { // Unknown versification
-      console.log("Unknown versification!");
-      console.log("Psalm 3 has " + psalm3Verses.length + " verses.");
-      console.log("Revelation 12 has " + revelation12Verses.length + " verses.");
+    if (versification != "UNKNOWN") {
+      this.versification = versification;
+      await this.save();
     }
-
-    await this.save();
   };
 
   return BibleTranslation;

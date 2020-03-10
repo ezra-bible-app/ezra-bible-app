@@ -343,9 +343,9 @@ class TranslationController {
   }
 
   async isStrongsTranslationInDb() {
-    var dbModules = await models.BibleTranslation.findAndCountAll();
+    var allTranslations = nsi.getAllLocalModules();
 
-    for (var dbTranslation of dbModules.rows) {
+    for (var dbTranslation of allTranslations) {
       if (dbTranslation.hasStrongs) {
         return true;
       }

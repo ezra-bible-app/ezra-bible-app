@@ -69,16 +69,16 @@ module.exports = (sequelize, DataTypes) => {
     return sequelize.query(query, { model: models.VerseReference });
   };
 
-  VerseReference.getAbsoluteVerseNrs = function(bibleTranslation, bibleBook, absoluteVerseNr, chapter, verseNr) {
+  VerseReference.getAbsoluteVerseNrs = function(versification, bibleBook, absoluteVerseNr, chapter, verseNr) {
     var absoluteVerseNrEng = null;
     var absoluteVerseNrHeb = null;
 
-    if (bibleTranslation.versification == 'ENGLISH') {
-      absoluteVerseNrEng = absoluteVerseNr;
-      absoluteVerseNrHeb = this.getAbsoluteVerseNrHebFromEng(bibleBook, absoluteVerseNrEng, chapter, verseNr);
-    } else if (bibleTranslation.versification == 'HEBREW') {
+    if (versification == 'HEBREW') {
       absoluteVerseNrHeb = absoluteVerseNr;
       absoluteVerseNrEng = this.getAbsoluteVerseNrEngFromHeb(bibleBook, absoluteVerseNrHeb, chapter, verseNr);
+    } else {
+      absoluteVerseNrEng = absoluteVerseNr;
+      absoluteVerseNrHeb = this.getAbsoluteVerseNrHebFromEng(bibleBook, absoluteVerseNrEng, chapter, verseNr);
     }
 
     return {
