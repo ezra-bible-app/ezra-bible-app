@@ -797,13 +797,13 @@ class TagsController {
   bind_tag_events() {
     var tags_box = document.getElementById('tags-content-global');
 
-    tags_box.addEventListener('click', function(event) {
+    tags_box.addEventListener('click', async function(event) {
       if (event.target.matches('.tag-delete-icon')) {
         tags_controller.handle_delete_tag_button_click(event);
       } else if (event.target.matches('.rename-tag-label')) {
         tags_controller.handle_rename_tag_click__by_opening_rename_dialog(event);
       } else if (event.target.matches('.tag-cb')) {
-        tags_controller.handle_tag_cb_click(event);
+        await tags_controller.handle_tag_cb_click(event);
       } else if (event.target.matches('.cb-label')) {
         tags_controller.handle_tag_label_click(event);
       } else {
