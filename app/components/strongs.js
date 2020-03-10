@@ -75,11 +75,11 @@ class Strongs {
     this.dictionaryInfoBoxHelp.show();
   }
 
-  async bindAfterBibleTextLoaded(tabIndex=undefined) {
+  bindAfterBibleTextLoaded(tabIndex=undefined) {
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
     var currentBibleTranslationId = currentTab.getBibleTranslationId();
 
-    if (await bible_browser_controller.translation_controller.hasBibleTranslationStrongs(currentBibleTranslationId)) {
+    if (bible_browser_controller.translation_controller.hasBibleTranslationStrongs(currentBibleTranslationId)) {
       if (jsStrongs == null) {
         jsStrongs = require('strongs');
       }
