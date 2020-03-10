@@ -90,6 +90,9 @@ class TagsCommunicationController
   }
 
   async update_tags_on_verses(tagId, verseBoxes, action) {
+    var increment = (action == "add" ? true : false);
+    tags_controller.update_tag_verse_count(tagId, verseBoxes.length, increment);
+
     var translationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
     var versification = models.BibleTranslation.getVersification(translationId);
     var tag = await models.Tag.findByPk(tagId);
@@ -125,9 +128,6 @@ class TagsCommunicationController
         await verseReference.removeTag(tag.id);
       }
     }
-
-    var increment = (action == "add" ? true : false);
-    tags_controller.update_tag_verse_count(tagId, verseBoxes.length, increment);
   }
 
   update_tag(id, title) {
