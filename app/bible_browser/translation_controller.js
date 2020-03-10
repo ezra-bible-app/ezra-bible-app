@@ -136,18 +136,18 @@ class TranslationController {
     }
   }
 
-  addTranslationsToBibleSelectMenu(tabIndex, dbResult) {
+  addTranslationsToBibleSelectMenu(tabIndex, translations) {
     var bibleSelect = this.getBibleSelect(tabIndex);
     var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
 
-    for (var translation of dbResult.rows) {
+    for (var translation of translations) {
       var selected = '';
-      if (currentBibleTranslationId == translation.id) {
+      if (currentBibleTranslationId == translation.name) {
         var selected = ' selected=\"selected\"';
       }
 
-      var current_translation_html = "<option value='" + translation.id + "'" + selected + ">" + translation.name + "</option>"
-      var optGroup = bibleSelect.find('.bible-select-' + translation.languageCode + '-translations');
+      var current_translation_html = "<option value='" + translation.name + "'" + selected + ">" + translation.description + "</option>"
+      var optGroup = bibleSelect.find('.bible-select-' + translation.language + '-translations');
       optGroup.append(current_translation_html);
     }
   }
@@ -162,13 +162,12 @@ class TranslationController {
     var bibleSelect = currentVerseListMenu.find('select.bible-select');
     bibleSelect.empty();
 
-    var result = await models.BibleTranslation.findAndCountAll();
-    this.translationCount = result.rows.length;
-    //console.log("Adding " + result.rows.length + " translations to menu");
+    var translations = nsi.getAllLocalModules();
+    this.translationCount = translations.length;
 
     await this.addLanguageGroupsToBibleSelectMenu(tabIndex);
-    this.updateUiBasedOnNumberOfTranslations(tabIndex, result.count);
-    this.addTranslationsToBibleSelectMenu(tabIndex, result);
+    this.updateUiBasedOnNumberOfTranslations(tabIndex, translations.length);
+    this.addTranslationsToBibleSelectMenu(tabIndex, translations);
 
     bibleSelect.selectmenu({
       change: () => {
