@@ -74,10 +74,10 @@ class BibleBrowserController {
                           (occurances) => { this.onSearchResultsAvailable(occurances); },
                           () => { this.onSearchReset(); });
 
-    var bibleTranslations = await models.BibleTranslation.findAndCountAll();
+    var bibleTranslations = nsi.getAllLocalModules();
     var defaultBibleTranslationId = null;
-    if (bibleTranslations.rows.length > 0) {
-      var defaultBibleTranslationId = bibleTranslations.rows[0].id;
+    if (bibleTranslations.length > 0) {
+      var defaultBibleTranslationId = bibleTranslations[0].name;
     }
 
     var tabHtmlTemplate = this.getTabHtmlTemplate();
