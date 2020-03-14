@@ -53,11 +53,11 @@ class ModuleSearch {
     }
   }
 
-  resetSearch() {
+  resetSearch(tabIndex=undefined) {
     $('#module-search-input').val('');
     $('#search-type')[0].value = "multiWord";
     $('#search-is-case-sensitive').prop("checked", false);
-    this.hideModuleSearchHeader();
+    this.hideModuleSearchHeader(tabIndex);
   }
 
   hideModuleSearchHeader(tabIndex=undefined) {
@@ -232,12 +232,12 @@ class ModuleSearch {
 
     if (currentSearchResults.length > 0) {
       await bible_browser_controller.text_loader.requestTextUpdate(currentTabId,
-                                                                  null,
-                                                                  null,
-                                                                  currentSearchResults,
-                                                                  tabIndex,
-                                                                  requestedBookId,
-                                                                  target);
+                                                                   null,
+                                                                   null,
+                                                                   currentSearchResults,
+                                                                   tabIndex,
+                                                                   requestedBookId,
+                                                                   target);
     } else {
       bible_browser_controller.hideVerseListLoadingIndicator();
     }
@@ -266,8 +266,8 @@ class ModuleSearch {
     var bibleBookStats = {};
 
     for (var i = 0; i < search_results.length; i++) {
-      var bibleBookId = models.BibleTranslation.swordBooktoEzraBook(search_results[i].bibleBookShortTitle);
-      
+      var bibleBookId = search_results[i].bibleBookShortTitle;
+
       if (bibleBookStats[bibleBookId] === undefined) {
         bibleBookStats[bibleBookId] = 1;
       } else {
@@ -276,30 +276,6 @@ class ModuleSearch {
     }
 
     return bibleBookStats;
-  }
-
-  async getDbVersesFromSearchResults(bibleTranslationId, requestedBookId, search_results) {
-    var verses = [];
-
-    for (var i = 0; i < search_results.length; i++) {
-      var currentResult = search_results[i];
-      var currentBookId = models.BibleTranslation.swordBooktoEzraBook(search_results[i].bibleBookShortTitle);
-
-      if (requestedBookId != -1 && currentBookId != requestedBookId) {
-        // Skip the books that are not requested;
-        continue;
-      }
-
-      var currentVerse = await models.Verse.findBySearchResult(bibleTranslationId, currentResult);
-      if (currentVerse != null) {
-        verses.push(currentVerse);
-      } else {
-        console.log("Could not find verse for the following search result: ")
-        console.log(currentResult);
-      }
-    }
-
-    return verses;
   }
 
   loadBookResults(bookId) {

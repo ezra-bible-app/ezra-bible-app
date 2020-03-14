@@ -74,10 +74,10 @@ class BibleBrowserController {
                           (occurances) => { this.onSearchResultsAvailable(occurances); },
                           () => { this.onSearchReset(); });
 
-    var bibleTranslations = await models.BibleTranslation.findAndCountAll();
+    var bibleTranslations = nsi.getAllLocalModules();
     var defaultBibleTranslationId = null;
-    if (bibleTranslations.rows.length > 0) {
-      var defaultBibleTranslationId = bibleTranslations.rows[0].id;
+    if (bibleTranslations.length > 0) {
+      var defaultBibleTranslationId = bibleTranslations[0].name;
     }
 
     var tabHtmlTemplate = this.getTabHtmlTemplate();
@@ -217,7 +217,6 @@ class BibleBrowserController {
     this.tab_search.resetSearch();
 
     var currentTab = this.tab_controller.getTab();
-    this.tab_controller.refreshBibleTranslationInTabTitle(currentTab.getBibleTranslationId());
 
     if (currentTab.getTextType() == 'search_results') {
       this.text_loader.prepareForNewText(true, true);
@@ -445,7 +444,7 @@ class BibleBrowserController {
     }).addClass('tag-events-configured');
 
     currentVerseList.find('.verse-box').bind('mouseover', (e) => { this.onVerseBoxMouseOver(e); });
-    await this.strongs.bindAfterBibleTextLoaded(tabIndex);
+    this.strongs.bindAfterBibleTextLoaded(tabIndex);
     this.verse_context_loader.init_verse_expand_box(tabIndex);
   }
 

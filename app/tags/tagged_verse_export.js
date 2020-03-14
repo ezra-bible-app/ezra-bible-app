@@ -50,7 +50,7 @@ class TaggedVerseExport {
     for (var j = 0; j < verses.length; j++) {
       var currentVerse = verses[j];
 
-      if (currentVerse.bibleBookId == bibleBook.id) {
+      if (currentVerse.bibleBookShortTitle == bibleBook.shortTitle) {
 
         if (currentVerse.absoluteVerseNr > (lastVerseNr + 1)) {
           if (currentBlock.length > 0) {

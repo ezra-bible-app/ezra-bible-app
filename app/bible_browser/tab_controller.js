@@ -410,8 +410,9 @@ class TabController {
     }
   }
 
-  async getCurrentBibleTranslationName() {
-    return await models.BibleTranslation.getName(this.getTab().getBibleTranslationId());
+  getCurrentBibleTranslationName() {
+    var module = nsi.getLocalModule(this.getTab().getBibleTranslationId());
+    return module.description;
   }
 
   isCurrentTabEmpty() {

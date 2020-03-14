@@ -22,20 +22,28 @@ if bookIntroduction != null && bookIntroduction.length > 0
   div(class='book-intro') !{bookIntroduction}
 
 each bibleBook in bibleBooks
+  - var resultCount = 0
+  if bibleBookStats != null
+    - var resultCount = bibleBookStats[bibleBook.shortTitle]
+    if resultCount == 0 || resultCount == undefined
+      //- Skip the current book if no verses are available. This could be the case if the selected translation
+      //- does not contain some of the verses that should be rendered.
+      - continue
+
   if renderBibleBookHeaders == true
     - var anchor = verseListId + " " + bibleBook.shortTitle;
     a(name=anchor)
     - var i18nLongTitle = i18nHelper.getSwordTranslation(bibleBook.longTitle);
-    - var resultCount = 0
-    if bibleBookStats != null
-      - var resultCount = bibleBookStats[bibleBook.id]
+    
     div.tag-browser-verselist-book-header(bookName=bibleBook.shortTitle) #{i18nLongTitle} (#{resultCount})
 
   - var verse_count = 0
   - var old_chapter = null;
+
+  - var bibleBookId = bibleBook.shortTitle.toLowerCase()
   
   each verse in verses
-    unless verse.bibleBookId == bibleBook.id
+    unless verse.bibleBookShortTitle.toLowerCase() == bibleBookId
       - continue
 
     - verse_count += 1
@@ -49,16 +57,19 @@ each bibleBook in bibleBooks
         h2(class='chapter-header') #{chapterText} #{verse.chapter}
 
       - old_chapter = verse.chapter
+    
+    - var current_verse_id = bibleBookId + '-' + verse.chapter + '-' + verse.verseNr
+    - var current_verse_reference_id = versification + '-' + bibleBookId + '-' + verse.absoluteVerseNr
 
-    - var current_id_class = "verse-id-" + verse.id
-    - var current_verse_reference_id_class = "verse-reference-id-" + verse.verseReferenceId
+    - var current_id_class = "verse-id-" + current_verse_id
+    - var current_verse_reference_id_class = "verse-reference-id-" + current_verse_reference_id
     - var current_verse_nr_class = "verse-nr-" + verse.absoluteVerseNr
     - var div_classes = "verse-box " + current_id_class + " " + current_verse_reference_id_class + " " + current_verse_nr_class
 
     if renderVerseMetaInfo == false
       - div_classes += " slim-verse-reference"
-
-    - var current_verse_tags = verseTags[verse.verseReferenceId]
+    
+    - var current_verse_tags = verseTags[current_verse_reference_id]
     - var current_tooltip_tag_list = []
     - var current_tag_info_class = "tag-info"
 
@@ -72,7 +83,7 @@ each bibleBook in bibleBooks
       - var anchor = verseListId + " " + verseReference;
       a(name=anchor)
       div.verse-id #{verse.id}
-      div.verse-reference-id #{verse.verseReferenceId}
+      div.verse-reference-id #{current_verse_reference_id}
       div.abs-verse-nr #{verse.absoluteVerseNr}
       div.verse-bible-book-id #{verse.bibleBookId}
       div.verse-bible-book-short #{verse.bibleBookShortTitle}
@@ -85,12 +96,7 @@ each bibleBook in bibleBooks
           div.tag-data
             if current_verse_tags != null
               each verseTag in current_verse_tags
-                - var verseTagBibleBookIsNull = (verseTag.bibleBookId == "NULL" || verseTag.bibleBookId == null);
-                if verseTagBibleBookIsNull
-                  - var tag_category_class = "tag-global"
-                else
-                  - var tag_category_class = "tag-book"
-                div(class=tag_category_class)
+                div(class="tag-global")
                   div.tag-title #{verseTag.tagTitle}
                   div.tag-id #{verseTag.tagId}
         div.verse-reference-content #{verseReference}
@@ -102,9 +108,6 @@ each bibleBook in bibleBooks
               each verseTag in current_verse_tags
                 //- var current_tag_title = verseTag.tagTitle.replace(/ /g, "&nbsp;")
                 - var current_tag_title = verseTag.tagTitle
-                - var verseTagBibleBookIsNull = (verseTag.bibleBookId == "NULL" || verseTag.bibleBookId == null)
-                if !verseTagBibleBookIsNull
-                  - current_tag_title += " *"
                 div.tag(title=tagHint) !{current_tag_title}
 
         div.verse-text !{verse.content}
@@ -113,6 +116,6 @@ each bibleBook in bibleBooks
       div.verse-notes
 
   if verse_count == 0 && renderBibleBookHeaders == true
-    div.book-section(id=verseListId + "-book-section-" + bibleBook.id)
-      - var loadBookResultFunction = "javascript:bible_browser_controller.module_search.loadBookResults(" + bibleBook.id + ")"
+    div.book-section(id=verseListId + "-book-section-" + bibleBook.shortTitle)
+      - var loadBookResultFunction = "javascript:bible_browser_controller.module_search.loadBookResults('" + bibleBook.shortTitle + "')"
       a.load-book-results(href=loadBookResultFunction) !{loadSearchResultsText}

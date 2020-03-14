@@ -99,23 +99,24 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   });
 
-  BibleTranslation.associate = function(models) {
-    BibleTranslation.hasMany(models.Verse);
-  };
-
-  BibleTranslation.getLanguages = async function() {
-    var query = "SELECT * FROM BibleTranslations ORDER BY languageName ASC";
-    var translations = await sequelize.query(query, { model: models.BibleTranslation });
+  BibleTranslation.getLanguages = function() {
+    var localModules = nsi.getAllLocalModules();
+    
     var languages = [];
     var languageCodes = [];
 
-    for (var i = 0; i < translations.length; i++) {
-      if (!languageCodes.includes(translations[i].languageCode)) {
+    var languageMapper = new LanguageMapper();
+
+    for (var i = 0; i < localModules.length; i++) {
+      var module = localModules[i];
+      var languageName = languageMapper.getLanguageName(module.language);
+
+      if (!languageCodes.includes(module.language)) {
         languages.push({
-          'languageName': translations[i].languageName,
-          'languageCode': translations[i].languageCode
+          'languageName': languageName,
+          'languageCode': module.language
         });
-        languageCodes.push(translations[i].languageCode);
+        languageCodes.push(module.language);
       }
     }
 
@@ -123,34 +124,21 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   BibleTranslation.getTranslations = async function() {
-    var query = "SELECT id FROM BibleTranslations ORDER BY languageName ASC";
-    var translationRecords = await sequelize.query(query, { model: models.BibleTranslation });
+    var localModules = nsi.getAllLocalModules();
     var translations = [];
 
-    for (var i = 0; i < translationRecords.length; i++) {
-      translations.push(translationRecords[i].id);
+    for (var i = 0; i < localModules.length; i++) {
+      translations.push(localModules[i].name);
     }
 
     return translations;
   };
 
   BibleTranslation.getName = async function(id) {
-    var query = "SELECT name FROM BibleTranslations WHERE id='" + id + "'";
-    var translationRecords = await sequelize.query(query, { model: models.BibleTranslation });
+    var localModule = nsi.getLocalModule(id);
 
-    if (translationRecords.length > 0) {
-      return translationRecords[0].name;
-    } else {
-      return null;
-    }
-  };
-
-  BibleTranslation.getById = async function(id) {
-    var query = "SELECT * FROM BibleTranslations WHERE id='" + id + "'";
-    var translationRecords = await sequelize.query(query, { model: models.BibleTranslation });
-
-    if (translationRecords.length > 0) {
-      return translationRecords[0];
+    if (localModule != null) {
+      return localModule.description;
     } else {
       return null;
     }
@@ -163,36 +151,6 @@ module.exports = (sequelize, DataTypes) => {
       modelsInstance = models;
     } else {
       reImport = true;
-    }
-
-    nsi.enableMarkup();
-
-    var bibleText = nsi.getBibleText(translationCode);
-    if (bibleText.length == 0) {
-      console.log("ERROR: Bible text for " + translationCode + " has 0 verses!");
-    }
-
-    var importVerses = [];
-    var lastBook = "";
-    var absoluteVerseNr = 1;
-
-    for (var i = 0; i < bibleText.length; i++) {
-      var verseObject = bibleText[i];
-
-      var book = verseObject['bibleBookShortTitle'];
-      
-      if (book != lastBook) {
-        absoluteVerseNr = 1;
-      } else {
-        absoluteVerseNr += 1;
-      }
-
-      verseObject['bibleBookId'] = modelsInstance.BibleTranslation.swordBooktoEzraBook(book);
-      verseObject['bibleTranslationId'] = translationCode;
-      verseObject['absoluteVerseNr'] = absoluteVerseNr;
-
-      importVerses.push(verseObject);
-      lastBook = book;
     }
 
     var module = nsi.getLocalModule(translationCode);
@@ -212,20 +170,12 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
-    await modelsInstance.Verse.bulkCreate(importVerses);
-
     if (!reImport) {
       await modelsInstance.BibleTranslation.updateVersification(translationCode);
     }
   };
 
   BibleTranslation.removeFromDb = async function(translationCode) {
-    await models.Verse.destroy({
-      where: {
-        bibleTranslationId: translationCode
-      }
-    });
-
     await models.BibleTranslation.destroy({
       where: {
         id: translationCode
@@ -252,56 +202,39 @@ module.exports = (sequelize, DataTypes) => {
     return versificationPostfix;
   };
 
+  BibleTranslation.getVersification = function(translationCode) {
+    var versification = null;
+
+    var psalm3Verses = nsi.getChapterText(translationCode, 'Psa', 3);
+    var revelation12Verses = nsi.getChapterText(translationCode, 'Rev', 12);
+
+    if (psalm3Verses.length == 8 || revelation12Verses.length == 17) { // ENGLISH versification
+      versification = "ENGLISH";
+
+    } else if (psalm3Verses.length == 9 || revelation12Verses.length == 18) { // HEBREW versification
+      versification = "HEBREW";
+
+    } else { // Unknown versification
+
+      versification = "UNKNOWN"
+
+      /*console.log("Unknown versification!");
+      console.log("Psalm 3 has " + psalm3Verses.length + " verses.");
+      console.log("Revelation 12 has " + revelation12Verses.length + " verses.");*/
+    }
+
+    return versification;
+  };
+
   // This function tests the versification by checking passages in Psalms and Revelation that
   // are having different numbers of verses in English and Hebrew versification
   BibleTranslation.prototype.updateVersification = async function() {
-    var psalm3Query = "SELECT * FROM Verses v INNER JOIN BibleBooks b ON " +
-                      " b.id = v.bibleBookId" +
-                      " WHERE v.bibleTranslationId='" + this.id + "'" +
-                      " AND b.shortTitle='Psa'" +
-                      " AND v.chapter=3";
+    var versification = BibleTranslation.getVersification(this.id);
 
-    var revelationQuery = "SELECT * FROM Verses v INNER JOIN BibleBooks b ON " +
-                          " b.id = v.bibleBookId" +
-                          " WHERE v.bibleTranslationId='" + this.id + "'" +
-                          " AND b.shortTitle='Rev'" +
-                          " AND v.chapter=12";
-
-    var psalm3Verses = await sequelize.query(psalm3Query, { model: models.Verse });
-    var revelation12Verses = await sequelize.query(revelationQuery, { model: models.Verse });
-
-    if (psalm3Verses.length == 8 || revelation12Verses.length == 17) { // ENGLISH versification
-      this.versification = "ENGLISH";
-      console.log("Updated versification of " + this.id + " to ENGLISH!");
-
-    } else if (psalm3Verses.length == 9 || revelation12Verses.length == 18) { // HEBREW versification
-      this.versification = "HEBREW";
-      console.log("Updated versification of " + this.id + " to HEBREW!");
-
-    } else { // Unknown versification
-      console.log("Unknown versification!");
-      console.log("Psalm 3 has " + psalm3Verses.length + " verses.");
-      console.log("Revelation 12 has " + revelation12Verses.length + " verses.");
+    if (versification != "UNKNOWN") {
+      this.versification = versification;
+      await this.save();
     }
-
-    await this.save();
-  };
-
-  BibleTranslation.getBookList = async function(translationCode) {
-    var booklistQuery = "SELECT b.* FROM Verses v INNER JOIN BibleBooks b " +
-                        " ON v.bibleBookId = b.id " +
-                        " WHERE bibleTranslationId='" + translationCode + "'" +
-                        " GROUP BY bibleBookId";
-    var books = await sequelize.query(booklistQuery, { model: models.BibleBook });
-    var bookList = [];
-
-    for (var i = 0; i < books.length; i++) {
-      if (!bookList.includes(books[i].shortTitle)) {
-        bookList.push(books[i].shortTitle);
-      }
-    }
-
-    return bookList;
   };
 
   return BibleTranslation;

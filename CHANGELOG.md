@@ -5,8 +5,9 @@ All notable changes to Ezra Project are documented in this file.
 ## [Next release]
 ### Features
 
-* French translation ([#11][i11])
 * Unlock support ([#18][i18])
+* French translation ([#11][i11])
+* Load bible texts directly from SWORD modules (instead from the database) ([#28][i28])
 
 ### Enhancements
 
@@ -29,6 +30,7 @@ All notable changes to Ezra Project are documented in this file.
 
 [i11]: https://github.com/tobias-klein/ezra-project/issues/11
 [i18]: https://github.com/tobias-klein/ezra-project/issues/18
+[i28]: https://github.com/tobias-klein/ezra-project/issues/28
 
 -->
 

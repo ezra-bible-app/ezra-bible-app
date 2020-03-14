@@ -277,7 +277,7 @@ class TagsController {
     cb.blur();
 
     var current_verse_selection = bible_browser_controller.verse_selection.current_verse_selection_as_xml(); 
-    var current_verse_ids = bible_browser_controller.verse_selection.current_verse_selection_as_verse_ids();
+    var current_verse_reference_ids = bible_browser_controller.verse_selection.current_verse_selection_as_verse_reference_ids();
 
     checkbox_tag.find('.cb-label').removeClass('underline');
     checkbox_tag.find('.cb-label-postfix').html('');
@@ -295,13 +295,13 @@ class TagsController {
 
       $(cb).attr('title', i18n.t("tags.remove-tag-assignment"));
 
-      var filteredVerseIds = [];
+      var filteredVerseBoxes = [];
+      var currentVerseList = bible_browser_controller.getCurrentVerseList();
 
       // Create a list of filtered ids, that only contains the verses that do not have the selected tag yet
-      for (var i = 0; i < current_verse_ids.length; i++) {
-        var currentVerseId = current_verse_ids[i];
-        var currentVerseList = bible_browser_controller.getCurrentVerseList();
-        var currentVerseBox = currentVerseList.find('.verse-id-' + currentVerseId);
+      for (var i = 0; i < current_verse_reference_ids.length; i++) {
+        var currentVerseReferenceId = current_verse_reference_ids[i];
+        var currentVerseBox = currentVerseList.find('.verse-reference-id-' + currentVerseReferenceId);
         var existingTagIdElements = currentVerseBox.find('.tag-id');
         var existingTagIds = [];
         
@@ -311,11 +311,11 @@ class TagsController {
         }
 
         if (!existingTagIds.includes(id)) {
-          filteredVerseIds.push(currentVerseId);
+          filteredVerseBoxes.push(currentVerseBox);
         }
       }
 
-      tags_controller.communication_controller.assign_tag_to_verses(id, filteredVerseIds);
+      tags_controller.communication_controller.assign_tag_to_verses(id, filteredVerseBoxes);
 
       tags_controller.change_verse_list_tag_info(id,
                                                  cb_label,
@@ -334,7 +334,7 @@ class TagsController {
         'cb_label': cb_label,
         'checkbox_tag': checkbox_tag,
         'verse_list': current_verse_list,
-        'verse_ids': current_verse_ids,
+        'verse_ids': current_verse_reference_ids,
         'xml_verse_selection': $.create_xml_doc(current_verse_selection),
         'cb': $(cb)
       };
@@ -415,7 +415,17 @@ class TagsController {
     job.cb.attr('title', i18n.t("tags.assign-tag"));
     job.checkbox_tag.append(tags_controller.loading_indicator);
 
-    tags_controller.communication_controller.remove_tag_from_verses(job.id, job.verse_ids);
+    var verse_boxes = [];
+
+    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+
+    for (var i = 0; i < job.verse_ids.length; i++) {
+      var currentVerseReferenceId = job.verse_ids[i];
+      var currentVerseBox = currentVerseList.find('.verse-reference-id-' + currentVerseReferenceId);
+      verse_boxes.push(currentVerseBox);
+    }
+
+    tags_controller.communication_controller.remove_tag_from_verses(job.id, verse_boxes);
     
     tags_controller.change_verse_list_tag_info(job.id,
                                                job.cb_label,
@@ -444,34 +454,40 @@ class TagsController {
     var current_verse_list = bible_browser_controller.getCurrentVerseList();
 
     for (var i = 0; i < selected_verses.length; i++) {
-      var current_verse_id = $(selected_verses[i]).find('verse-id').text();
-      var current_verse_box = current_verse_list.find('.verse-id-' + current_verse_id);
+      var current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
+      var current_verse_box = current_verse_list.find('.verse-reference-id-' + current_verse_reference_id);
       tags_controller.change_verse_list_tag_info_for_verse_box(current_verse_box, tag_id, tag_title, action);
     }
 
     for (var i = 0; i < selected_verses.length; i++) {
-      var current_verse_id = $(selected_verses[i]).find('verse-id').text();
-      var current_db_verse = await models.Verse.findByPk(current_verse_id);
-      tags_controller.change_verse_list_tag_info_for_verse_boxes_in_other_tabs(current_db_verse, tag_id, tag_title, action);
+      var current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
+      var current_verse_box = current_verse_list.find('.verse-reference-id-' + current_verse_reference_id);
+      tags_controller.change_verse_list_tag_info_for_verse_boxes_in_other_tabs(current_verse_box, tag_id, tag_title, action);
     }
   }
 
-  async change_verse_list_tag_info_for_verse_boxes_in_other_tabs(db_verse, tag_id, tag_title, action) {
+  async change_verse_list_tag_info_for_verse_boxes_in_other_tabs(verse_box, tag_id, tag_title, action) {
     var current_tab_index = bible_browser_controller.tab_controller.getSelectedTabIndex();
     var tab_count = bible_browser_controller.tab_controller.getTabCount();
-    var absolute_verse_nrs = await db_verse.getAbsoluteVerseNrs();
+
+    var bibleBook = verse_box.find('.verse-bible-book-short').text();
+    var absoluteVerseNr = parseInt(verse_box.find('.abs-verse-nr').text());
+    var verseReferenceContent = verse_box.find('.verse-reference-content').text();
+    var chapter = parseInt(verseReferenceContent.split(reference_separator)[0]);
+    var verseNr = parseInt(verseReferenceContent.split(reference_separator)[1]);
 
     for (var i = 0; i < tab_count; i++) {
       if (i != current_tab_index) {
         var current_tab_translation = bible_browser_controller.tab_controller.getTab(i).getBibleTranslationId();
-        var current_db_bible_translation = await models.BibleTranslation.findByPk(current_tab_translation);
-        var current_versification = current_db_bible_translation.versification;
+        var current_versification = models.BibleTranslation.getVersification(current_tab_translation);
         var current_target_verse_nr = "";
 
+        var absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(current_versification, bibleBook, absoluteVerseNr, chapter, verseNr);
+
         if (current_versification == 'HEBREW') {
-          current_target_verse_nr = absolute_verse_nrs["absoluteVerseNrHeb"];
+          current_target_verse_nr = absoluteVerseNrs.absoluteVerseNrHeb;
         } else {
-          current_target_verse_nr = absolute_verse_nrs["absoluteVerseNrEng"];
+          current_target_verse_nr = absoluteVerseNrs.absoluteVerseNrEng;
         }
 
         var target_verse_list = bible_browser_controller.getCurrentVerseList(i);
@@ -481,9 +497,11 @@ class TagsController {
         // Therefore we have to go through all of them and check for each of them whether the book is matching our reference book
         for (var j = 0; j < target_verse_box.length; j++) {
           var specific_target_verse_box = $(target_verse_box[j]);
-          var target_verse_box_bible_book_id = specific_target_verse_box.find('.verse-bible-book-id').text();
+          var target_verse_box_bible_book_short_title = specific_target_verse_box.find('.verse-bible-book-short').text();
+          var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: target_verse_box_bible_book_short_title } });
+          var target_verse_bible_book_id = bibleBook.id;
 
-          if (target_verse_box_bible_book_id == db_verse.bibleBookId) {
+          if (target_verse_bible_book_id == bibleBook.id) {
             tags_controller.change_verse_list_tag_info_for_verse_box(specific_target_verse_box, tag_id, tag_title, action);
           }
         }
@@ -779,13 +797,13 @@ class TagsController {
   bind_tag_events() {
     var tags_box = document.getElementById('tags-content-global');
 
-    tags_box.addEventListener('click', function(event) {
+    tags_box.addEventListener('click', async function(event) {
       if (event.target.matches('.tag-delete-icon')) {
         tags_controller.handle_delete_tag_button_click(event);
       } else if (event.target.matches('.rename-tag-label')) {
         tags_controller.handle_rename_tag_click__by_opening_rename_dialog(event);
       } else if (event.target.matches('.tag-cb')) {
-        tags_controller.handle_tag_cb_click(event);
+        await tags_controller.handle_tag_cb_click(event);
       } else if (event.target.matches('.cb-label')) {
         tags_controller.handle_tag_label_click(event);
       } else {
