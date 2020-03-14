@@ -187,7 +187,7 @@ class TextLoader {
       bibleTranslationId = bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
     }
 
-    var versification = (models.BibleTranslation.getVersification(currentBibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
+    var versification = (models.BibleTranslation.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
 
     var bibleBooks = await models.BibleBook.findBySearchResults(search_results);
     var bibleBookStats = bible_browser_controller.module_search.getBibleBookStatsFromSearchResults(search_results);
