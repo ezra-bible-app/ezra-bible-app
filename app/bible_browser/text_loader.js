@@ -272,11 +272,18 @@ class TextLoader {
                                   currentVerseReference.bibleBookShortTitle,
                                   currentAbsoluteVerseNumber,
                                   1)[0];
-      verses.push(verse);
+
+      if (verse !== undefined) {
+        verses.push(verse);
+      }
     }
 
     var bibleBookStats = {};
     for (var i = 0; i < verses.length; i++) {
+      if (verses[i] === undefined) {
+        continue;
+      }
+
       var bibleBookShortTitle = verses[i].bibleBookShortTitle;
       
       if (bibleBookStats[bibleBookShortTitle] === undefined) {
