@@ -1,0 +1,4 @@
+[ ] Remove dependency to BibleTranslation model
+[ ] Remove dependency to BibleBook model
+[ ] Remove all module synchronization code
+[ ] Create migration to remove Verses, BibleTranslations, BibleBooks
