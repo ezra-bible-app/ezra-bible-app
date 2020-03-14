@@ -22,13 +22,19 @@ if bookIntroduction != null && bookIntroduction.length > 0
   div(class='book-intro') !{bookIntroduction}
 
 each bibleBook in bibleBooks
+  - var resultCount = 0
+  if bibleBookStats != null
+    - var resultCount = bibleBookStats[bibleBook.shortTitle]
+    if resultCount == 0 || resultCount == undefined
+      //- Skip the current book if no verses are available. This could be the case if the selected translation
+      //- does not contain some of the verses that should be rendered.
+      - continue
+
   if renderBibleBookHeaders == true
     - var anchor = verseListId + " " + bibleBook.shortTitle;
     a(name=anchor)
     - var i18nLongTitle = i18nHelper.getSwordTranslation(bibleBook.longTitle);
-    - var resultCount = 0
-    if bibleBookStats != null
-      - var resultCount = bibleBookStats[bibleBook.shortTitle]
+    
     div.tag-browser-verselist-book-header(bookName=bibleBook.shortTitle) #{i18nLongTitle} (#{resultCount})
 
   - var verse_count = 0
