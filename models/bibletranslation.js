@@ -193,15 +193,6 @@ module.exports = (sequelize, DataTypes) => {
     return bookMap[swordBook];
   };
 
-  BibleTranslation.prototype.getVersificationPostfix = function() {
-    var versificationPostfix = "Eng";
-    if (this.versification == 'HEBREW') {
-      versificationPostfix = "Heb";
-    }
-
-    return versificationPostfix;
-  };
-
   BibleTranslation.getVersification = function(translationCode) {
     var versification = null;
 
