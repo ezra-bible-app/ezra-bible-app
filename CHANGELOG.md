@@ -7,10 +7,10 @@ All notable changes to Ezra Project are documented in this file.
 
 * Unlock support ([#18][i18])
 * French translation ([#11][i11])
-* Load bible texts directly from SWORD modules (instead from the database) ([#28][i28])
 
 ### Enhancements
 
+* Load bible texts directly from SWORD modules (instead from the database) ([#28][i28])
 * Enable section titles by default.
 * New context toolbar right above text browser. 
   This toolbar now holds all the buttons / menus relevant for working with the text.
