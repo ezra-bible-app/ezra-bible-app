@@ -290,59 +290,7 @@ class TranslationController {
     this.onBibleTranslationChanged();
   }
 
-  async getLocalModulesNotYetAvailableInDb(dbModules, localSwordModules) {
-    var modulesNotInDb = [];
-
-    for (var i = 0; i < localSwordModules.length; i++) {
-      var localSwordModuleName = localSwordModules[i].name;
-      var localModuleFound = false;
-
-      for (var dbTranslation of dbModules.rows) {
-        if (localSwordModuleName == dbTranslation.id) {
-          localModuleFound = true;
-          break;
-        }
-      }
-
-      if (!localModuleFound) {
-        modulesNotInDb.push(localSwordModules[i]);
-        //console.log("The local module " + localSwordModuleName + " is not in the DB yet!");
-      }
-    }
-
-    return modulesNotInDb;
-  }
-
-  async getDbModulesNotYetInstalled(dbModules, localSwordModules) {
-    var modulesNotInstalled = [];
-
-    for (var dbTranslation of dbModules.rows) {
-      var dbModuleName = dbTranslation.id;
-      var dbModuleFound = false;
-
-      if (!dbTranslation.isFree) {
-        continue;
-      }
-
-      for (var i = 0; i < localSwordModules.length; i++) {
-        var localSwordModuleName = localSwordModules[i].name;
-
-        if (dbModuleName == localSwordModuleName) {
-          dbModuleFound = true;
-          break;
-        }
-      }
-
-      if (!dbModuleFound) {
-        modulesNotInstalled.push(dbModuleName);
-        //console.log("The local module " + localSwordModuleName + " is not in the DB yet!");
-      }
-    }
-
-    return modulesNotInstalled;
-  }
-
-  async isStrongsTranslationInDb() {
+  isStrongsTranslationInDb() {
     var allTranslations = nsi.getAllLocalModules();
 
     for (var dbTranslation of allTranslations) {
@@ -352,87 +300,6 @@ class TranslationController {
     }
 
     return false;
-  }
-
-  async syncDbWithSwordModules(htmlElementForMessages, dbModules, localSwordModules) {
-    var modulesNotInDb = await this.getLocalModulesNotYetAvailableInDb(dbModules, localSwordModules);
-
-    var initialMessage = "<p style='margin-bottom: 2em'>" + i18n.t("module-sync.synchronizing") 
-                          + " " + modulesNotInDb.length + " " + i18n.t("module-sync.modules-with-db") + "</p>";
-
-    htmlElementForMessages.append(initialMessage);
-
-    for (var i = 0; i < modulesNotInDb.length; i++) {     
-      var message = "<span>" + i18n.t("module-sync.synchronizing") + " <i>" + modulesNotInDb[i].description + "</i> ...</span>";
-      htmlElementForMessages.append(message);
-      htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
-
-      await sleep(200);
-      await models.BibleTranslation.importSwordTranslation(modulesNotInDb[i].name);
-      var doneMessage = "<span> " + i18n.t("general.done") + ".</span><br/>";
-      htmlElementForMessages.append(doneMessage);
-      if (i < modulesNotInDb.length) await sleep(500);
-    }
-
-    var completeMessage = "<p style='margin-top: 2em;'>" + i18n.t("module-sync.sync-completed") + "</p>";
-    htmlElementForMessages.append(completeMessage);
-    htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
-
-    await sleep(2000);
-    htmlElementForMessages.dialog("close");
-
-    if (modulesNotInDb.length > 0) {
-      bible_browser_controller.updateUiAfterBibleTranslationAvailable(modulesNotInDb[0].name);
-    }
-  }
-
-  async getNotInstalledButAvailableModules(dbModules, localSwordModules) {
-    var modulesNotInstalled = await this.getDbModulesNotYetInstalled(dbModules, localSwordModules);
-    var modulesAvailable = [];
-
-    if (modulesNotInstalled.length > 0) {
-      for (var i = 0; i < modulesNotInstalled.length; i++) {
-        if (nsi.isModuleAvailableInRepo(modulesNotInstalled[i])) {
-          modulesAvailable.push(modulesNotInstalled[i]);
-        } else {
-          console.log("Module " + modulesNotInstalled[i] + " is not available from any repository!");
-        }
-      }
-    }
-
-    return modulesAvailable;
-  }
-
-  async syncSwordInstallationWithDb(dbModules, localSwordModules, htmlElementForMessages) {
-    var modulesAvailable = await this.getNotInstalledButAvailableModules(dbModules, localSwordModules);
-
-    var initialMessage = "<p style='margin-bottom: 2em'>" + i18n.t("module-sync.installing") 
-    + " " + modulesAvailable.length + " " + i18n.t("module-sync.existing-db-modules") + "</p>";
-    htmlElementForMessages.append(initialMessage);
-
-    for (var i = 0; i < modulesAvailable.length; i++) {     
-      var moduleInfo = nsi.getRepoModule(modulesAvailable[i]);
-      var message = "<span>" + i18n.t("module-sync.installing") + " <i>" + moduleInfo.description + "</i> ...</span>";
-      htmlElementForMessages.append(message);
-      htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
-
-      await sleep(200);
-
-      try {
-        await nsi.installModule(modulesAvailable[i]);
-        var doneMessage = "<span> " + i18n.t("general.done") + ".</span><br/>";
-        htmlElementForMessages.append(doneMessage);
-      } catch(e) {
-        var errorMessage = "<span> " + i18n.t("general.module-install-failed") + ".</span><br/>";
-        htmlElementForMessages.append(errorMessage);
-      }
-
-      if (i < modulesAvailable.length) await sleep(500);
-    }
-
-    var completeMessage = "<p style='margin-top: 2em;'>" + i18n.t("module-sync.install-completed") + "</p>";
-    htmlElementForMessages.append(completeMessage);
-    htmlElementForMessages.scrollTop(htmlElementForMessages.prop("scrollHeight"));
   }
 
   async installStrongs(htmlElementForMessages) {
@@ -451,27 +318,12 @@ class TranslationController {
     }
   }
 
-  async syncSwordModules() {
-    //console.time("get sync infos");
-    var dbModules = await models.BibleTranslation.findAndCountAll();
-
-    try {
-      // We only update the repository config if there is none yet and if there are some existing database modules (to be synced with).
-      if (!nsi.repositoryConfigExisting() && dbModules.count > 0) {
-        await nsi.updateRepositoryConfig();
-      }
-    } catch (e) {
-      // This happens when we're offline. In this case we simply return.
-      return;
-    }
-
-    var localSwordModules = nsi.getAllLocalModules();    
-    var modulesNotInDb = await this.getLocalModulesNotYetAvailableInDb(dbModules, localSwordModules);
-    var notInstalledButAvailableModules = await this.getNotInstalledButAvailableModules(dbModules, localSwordModules);
-    var strongsInstallNeeded = await this.isStrongsTranslationInDb() && !nsi.strongsAvailable();
+  async installStrongsIfNeeded() {
+    //console.time("get sync infos");   
+    var strongsInstallNeeded = this.isStrongsTranslationInDb() && !nsi.strongsAvailable();
     //console.timeEnd("get sync infos");
 
-    if (modulesNotInDb.length > 0 || notInstalledButAvailableModules.length > 0 || strongsInstallNeeded) {
+    if (strongsInstallNeeded) {
       var currentVerseList = bible_browser_controller.getCurrentVerseList();
       var verse_list_position = currentVerseList.offset();
       $('#bible-sync-box').dialog({
@@ -482,19 +334,11 @@ class TranslationController {
       await sleep(200);
     }
 
-    if (modulesNotInDb.length > 0) {
-      await this.syncDbWithSwordModules($('#bible-sync-box'), dbModules, localSwordModules);
-    }
-
-    if (notInstalledButAvailableModules.length > 0) {
-      await this.syncSwordInstallationWithDb(dbModules, localSwordModules, $('#bible-sync-box'));
-    }
-
     if (strongsInstallNeeded) {
       await this.installStrongs($('#bible-sync-box'));
     }
 
-    if (modulesNotInDb.length > 0 || notInstalledButAvailableModules.length > 0 || strongsInstallNeeded) {
+    if (strongsInstallNeeded) {
       await sleep(2000);
     }
 

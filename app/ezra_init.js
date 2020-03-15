@@ -307,8 +307,7 @@ async function initApplication()
   // Show main content
   $('#main-content').show();
 
-  console.log("Syncing sword modules ...");
-  await bible_browser_controller.translation_controller.syncSwordModules();
+  await bible_browser_controller.translation_controller.installStrongsIfNeeded();
 
   console.log("Loading settings ...");
   bible_browser_controller.loadSettings();
