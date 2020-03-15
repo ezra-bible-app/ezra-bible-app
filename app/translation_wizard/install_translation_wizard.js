@@ -304,8 +304,6 @@ class InstallTranslationWizard {
         }
       }
 
-      await models.BibleTranslation.importSwordTranslation(translationCode);
-
       // FIXME: Put this in a callback
       bible_browser_controller.updateUiAfterBibleTranslationAvailable(translationCode);
     } catch (e) {
