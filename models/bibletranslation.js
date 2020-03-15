@@ -30,17 +30,6 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   });
 
-  BibleTranslation.getTranslations = async function() {
-    var localModules = nsi.getAllLocalModules();
-    var translations = [];
-
-    for (var i = 0; i < localModules.length; i++) {
-      translations.push(localModules[i].name);
-    }
-
-    return translations;
-  };
-
   BibleTranslation.getName = async function(id) {
     var localModule = nsi.getLocalModule(id);
 

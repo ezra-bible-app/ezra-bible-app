@@ -177,9 +177,9 @@ class RemoveTranslationWizard {
     return this._translationRemovalStatus != 'IN_PROGRESS';
   }
 
-  async removeTranslationWizardFinished(event, currentIndex) {
+  removeTranslationWizardFinished(event, currentIndex) {
     $('#translation-settings-wizard').dialog('close');
-    this._installedTranslations = await models.BibleTranslation.getTranslations();
+    this._installedTranslations = bible_browser_controller.translation_controller.getTranslations();
     bible_browser_controller.translation_controller.initTranslationsMenu();
   }
 }

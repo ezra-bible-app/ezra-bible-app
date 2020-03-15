@@ -557,6 +557,17 @@ class TranslationController {
 
     return languages;
   }
+
+  getTranslations = function() {
+    var localModules = nsi.getAllLocalModules();
+    var translations = [];
+
+    for (var i = 0; i < localModules.length; i++) {
+      translations.push(localModules[i].name);
+    }
+
+    return translations;
+  }
 }
 
 module.exports = TranslationController;

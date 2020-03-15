@@ -31,9 +31,9 @@ class InstallTranslationWizard {
     addButton.bind('click', () => this.openAddTranslationWizard());
   }
 
-  async isTranslationInstalled(translationCode) {
+  isTranslationInstalled(translationCode) {
     if (this._installedTranslations == null) {
-      this._installedTranslations = await models.BibleTranslation.getTranslations();
+      this._installedTranslations = bible_browser_controller.translation_controller.getTranslations();
     }
 
     for (var i = 0; i < this._installedTranslations.length; i++) {
@@ -157,7 +157,7 @@ class InstallTranslationWizard {
     return true;
   }
 
-  async addTranslationWizardStepChanged(event, currentIndex, priorIndex) {
+  addTranslationWizardStepChanged(event, currentIndex, priorIndex) {
     if (priorIndex == 0 && currentIndex == 1) {
 
       this.initLanguagesPage();
@@ -178,8 +178,8 @@ class InstallTranslationWizard {
 
   async addTranslationWizardFinished(event, currentIndex) {
     $('#translation-settings-wizard').dialog('close');
-    this._installedTranslations = await models.BibleTranslation.getTranslations();
-    await bible_browser_controller.translation_controller.initTranslationsMenu();
+    this._installedTranslations = bible_browser_controller.translation_controller.getTranslations();
+    bible_browser_controller.translation_controller.initTranslationsMenu();
     await tags_controller.updateTagUiBasedOnTagAvailability();
   }
 
@@ -196,7 +196,7 @@ class InstallTranslationWizard {
     setTimeout(() => this.listLanguages(this._selectedRepositories), 400);
   }
 
-  async initModulesPage() {
+  initModulesPage() {
     // Languages have been selected
     var wizardPage = "#translation-settings-wizard-add-p-1";
     var languages = this._helper.getSelectedSettingsWizardElements(wizardPage);
@@ -208,7 +208,7 @@ class InstallTranslationWizard {
     }
 
     bible_browser_controller.settings.set('selected_languages', languages);
-    await this.listModules(languageCodes);
+    this.listModules(languageCodes);
   }
 
   async installSelectedTranslations() {
@@ -482,7 +482,7 @@ class InstallTranslationWizard {
     return uiRepositories;
   }
 
-  async listModules(selectedLanguages) {
+  listModules(selectedLanguages) {
     var wizardPage = $('#translation-settings-wizard-add-p-2');
     var translationList = wizardPage.find('#translation-list');
     translationList.empty();
@@ -525,13 +525,13 @@ class InstallTranslationWizard {
     translationList.append(filteredTranslationList);
 
     $('.translation-feature-filter').bind('click', async () => {
-      await this.listFilteredModules(selectedLanguages, uiLanguages);      
+      this.listFilteredModules(selectedLanguages, uiLanguages);      
     });
 
-    await this.listFilteredModules(selectedLanguages, uiLanguages);
+    this.listFilteredModules(selectedLanguages, uiLanguages);
   }
 
-  async listFilteredModules(selectedLanguages, uiLanguages) {
+  listFilteredModules(selectedLanguages, uiLanguages) {
     var filteredTranslationList = $('#filtered-translation-list');
     filteredTranslationList.empty();
 
@@ -556,7 +556,7 @@ class InstallTranslationWizard {
       }
 
       currentLangModules = currentLangModules.sort(this.sortBy('description'));
-      await this.listLanguageModules(currentUiLanguage, currentLangModules, renderHeader);
+      this.listLanguageModules(currentUiLanguage, currentLangModules, renderHeader);
     }
 
     filteredTranslationList.find('.bible-translation-info').bind('click', function() {
@@ -662,7 +662,7 @@ class InstallTranslationWizard {
     };
   }
 
-  async listLanguageModules(lang, modules, renderHeader) {
+  listLanguageModules(lang, modules, renderHeader) {
     var wizardPage = $('#translation-settings-wizard-add-p-2');
     var translationList = wizardPage.find('#filtered-translation-list');
 
@@ -676,7 +676,7 @@ class InstallTranslationWizard {
       var checkboxDisabled = "";
       var labelClass = "label";
 
-      if (await this.isTranslationInstalled(currentModule.name) == true) {
+      if (this.isTranslationInstalled(currentModule.name) == true) {
         checkboxDisabled = "disabled='disabled' checked";
         labelClass = "disabled-label";
       }
