@@ -97,9 +97,9 @@ class TranslationController {
     return bibleSelect;
   }
 
-  async addLanguageGroupsToBibleSelectMenu(tabIndex) {
+  addLanguageGroupsToBibleSelectMenu(tabIndex) {
     var bibleSelect = this.getBibleSelect(tabIndex);
-    var languages = await models.BibleTranslation.getLanguages();
+    var languages = this.getLanguages();
 
     for (var i = 0; i < languages.length; i++) {
       var currentLang = languages[i];
@@ -152,7 +152,7 @@ class TranslationController {
     }
   }
 
-  async initTranslationsMenu(tabIndex=undefined) {
+  initTranslationsMenu(tabIndex=undefined) {
     if (tabIndex === undefined) {
       var tabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
     }
@@ -165,7 +165,7 @@ class TranslationController {
     var translations = nsi.getAllLocalModules();
     this.translationCount = translations.length;
 
-    await this.addLanguageGroupsToBibleSelectMenu(tabIndex);
+    this.addLanguageGroupsToBibleSelectMenu(tabIndex);
     this.updateUiBasedOnNumberOfTranslations(tabIndex, translations.length);
     this.addTranslationsToBibleSelectMenu(tabIndex, translations);
 
@@ -532,6 +532,30 @@ class TranslationController {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
     var translationInfoButton = currentVerseListMenu.find('.bible-translation-info-button');
     translationInfoButton.addClass('ui-state-disabled');
+  }
+
+  getLanguages = function() {
+    var localModules = nsi.getAllLocalModules();
+    
+    var languages = [];
+    var languageCodes = [];
+
+    var languageMapper = new LanguageMapper();
+
+    for (var i = 0; i < localModules.length; i++) {
+      var module = localModules[i];
+      var languageName = languageMapper.getLanguageName(module.language);
+
+      if (!languageCodes.includes(module.language)) {
+        languages.push({
+          'languageName': languageName,
+          'languageCode': module.language
+        });
+        languageCodes.push(module.language);
+      }
+    }
+
+    return languages;
   }
 }
 

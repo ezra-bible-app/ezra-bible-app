@@ -37,7 +37,7 @@ class RemoveTranslationWizard {
     this.onTranslationRemoved = onTranslationRemoved;
   }
 
-  async openRemoveTranslationWizard() {
+  openRemoveTranslationWizard() {
     $('#translation-settings-wizard-init').hide();
     this.initRemoveTranslationWizard();
     $('#translation-settings-wizard-remove').show();
@@ -48,7 +48,7 @@ class RemoveTranslationWizard {
     var header = "<p>" + i18n.t("translation-wizard.select-translations-to-be-removed") + "</p>";
     wizardPage.append(header);
 
-    var languages = await models.BibleTranslation.getLanguages();
+    var languages = bible_browser_controller.translation_controller.getLanguages();
 
     for (var i = 0; i < languages.length; i++) {
       var currentLang = languages[i];
