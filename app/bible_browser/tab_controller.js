@@ -137,6 +137,7 @@ class TabController {
 
       var tabTitle = currentMetaTab.getTitle();
       this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), loadedTabCount);
+      this.onTabAdded(i);
       loadedTabCount += 1;
     }
 
@@ -184,8 +185,7 @@ class TabController {
       }
     }
 
-    // Call these methods explicitly to initialize the first tab 
-    this.onTabAdded();
+    // Call this method explicitly to initialize the first tab
     this.onTabSelected();
 
     this.loadingCompleted = true;

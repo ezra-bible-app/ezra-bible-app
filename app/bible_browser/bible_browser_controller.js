@@ -276,7 +276,7 @@ class BibleBrowserController {
 
     this.optionsMenu.loadDisplayOptions();
     await this.tab_controller.loadTabConfiguration();
-    await this.translation_controller.loadSettings();
+    this.translation_controller.loadSettings();
     this.tab_controller.bindEvents();
   }
 

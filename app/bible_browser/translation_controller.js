@@ -86,7 +86,7 @@ class TranslationController {
     }
   }
 
-  async loadSettings() {
+  loadSettings() {
     this.updateAvailableBooks();
     this.initChapterVerseCounts();
   }
