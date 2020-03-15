@@ -479,7 +479,7 @@ class TagsController {
     for (var i = 0; i < tab_count; i++) {
       if (i != current_tab_index) {
         var current_tab_translation = bible_browser_controller.tab_controller.getTab(i).getBibleTranslationId();
-        var current_versification = models.BibleTranslation.getVersification(current_tab_translation);
+        var current_versification = bible_browser_controller.translation_controller.getVersification(current_tab_translation);
         var current_target_verse_nr = "";
 
         var absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(current_versification, bibleBook, absoluteVerseNr, chapter, verseNr);

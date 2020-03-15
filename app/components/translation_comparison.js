@@ -69,8 +69,8 @@ class TranslationComparison {
     var splittedReference = verseReference.split(reference_separator);
     var chapter = parseInt(splittedReference[0]);
     var verseNr = parseInt(splittedReference[1]);
-    var sourceVersification = models.BibleTranslation.getVersification(sourceBibleTranslationId);
-    var targetVersification = models.BibleTranslation.getVersification(targetTranslationId);
+    var sourceVersification = bible_browser_controller.translation_controller.getVersification(sourceBibleTranslationId);
+    var targetVersification = bible_browser_controller.translation_controller.getVersification(targetTranslationId);
 
     var absoluteVerseNumbers = models.VerseReference.getAbsoluteVerseNrs(sourceVersification, bibleBookShortTitle, absoluteVerseNr, chapter, verseNr);
 
