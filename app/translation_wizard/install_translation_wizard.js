@@ -55,17 +55,17 @@ class InstallTranslationWizard {
     $('#translation-settings-wizard-remove').hide();
     $('#translation-settings-wizard-init').show();
 
-    models.BibleTranslation.findAndCountAll().then(result => {
-      $('#add-bible-translations-button').removeClass('ui-state-disabled');
+    var translations = bible_browser_controller.translation_controller.getTranslations();
 
-      if (result.count > 0) {
-        $('#remove-bible-translations-button').removeClass('ui-state-disabled');
-      } else {
-        $('#remove-bible-translations-button').addClass('ui-state-disabled');
-      }
+    $('#add-bible-translations-button').removeClass('ui-state-disabled');
 
-      configure_button_styles('#translation-settings-wizard-init');
-    });
+    if (translations.length > 0) {
+      $('#remove-bible-translations-button').removeClass('ui-state-disabled');
+    } else {
+      $('#remove-bible-translations-button').addClass('ui-state-disabled');
+    }
+
+    configure_button_styles('#translation-settings-wizard-init');
 
     $('#translation-settings-wizard').dialog({
       position: [offsetLeft, offsetTop],

@@ -24,9 +24,9 @@ class RemoveTranslationWizard {
 
     var removeButton = $('#remove-bible-translations-button');
 
-    removeButton.bind('click', async () => {
-      var result = await models.BibleTranslation.findAndCountAll();
-      if (result.count > 0) {
+    removeButton.bind('click', () => {
+      var translations = bible_browser_controller.translation_controller.getTranslations();
+      if (translations.length > 0) {
         this.openRemoveTranslationWizard();
       }
     });
@@ -61,26 +61,26 @@ class RemoveTranslationWizard {
       wizardPage.append(newLanguageBox);
     }
 
-    models.BibleTranslation.findAndCountAll().then(result => {
-      for (var translation of result.rows) {
-        var checkboxDisabled = '';
-        var currentTranslationClass = "class='label' ";
-        
-        if (!nsi.isModuleInUserDir(translation.id)) {
-          checkboxDisabled = "disabled='disabled' ";
-          currentTranslationClass = "class='label disabled'";
-        }
+    var translations = nsi.getAllLocalModules();
 
-        var currentTranslationHtml = "<p><input type='checkbox'" + checkboxDisabled + ">" + 
-                                     "<span " + currentTranslationClass + " id='" + translation.id + "'>";
-        currentTranslationHtml += translation.name + " [" + translation.id + "]</span></p>";
-
-        var languageBox = $('#remove-translation-wizard-' + translation.languageCode + '-translations');
-        languageBox.append(currentTranslationHtml);
+    for (var translation of translations) {
+      var checkboxDisabled = '';
+      var currentTranslationClass = "class='label' ";
+      
+      if (!nsi.isModuleInUserDir(translation.name)) {
+        checkboxDisabled = "disabled='disabled' ";
+        currentTranslationClass = "class='label disabled'";
       }
 
-      this._helper.bindLabelEvents(wizardPage);
-    });
+      var currentTranslationHtml = "<p><input type='checkbox'" + checkboxDisabled + ">" + 
+                                    "<span " + currentTranslationClass + " id='" + translation.name + "'>";
+      currentTranslationHtml += translation.description + " [" + translation.name + "]</span></p>";
+
+      var languageBox = $('#remove-translation-wizard-' + translation.language + '-translations');
+      languageBox.append(currentTranslationHtml);
+    }
+
+    this._helper.bindLabelEvents(wizardPage);
   }
 
   initRemoveTranslationWizard() {
@@ -148,18 +148,18 @@ class RemoveTranslationWizard {
 
           var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
           if (currentBibleTranslationId == translationCode) {
-            models.BibleTranslation.findAndCountAll().then(result => {
-              if (result.rows.length > 0) {
-                // FIXME: Also put this in a callback
-                bible_browser_controller.tab_controller.setCurrentBibleTranslationId(result.rows[0].id);
-                bible_browser_controller.onBibleTranslationChanged();
-                bible_browser_controller.navigation_pane.updateNavigation();
-              } else {
-                this.onAllTranslationsRemoved();
-              }
+            var translations = bible_browser_controller.translation_controller.getTranslations();
 
-              this.onTranslationRemoved();
-            });
+            if (translations.length > 0) {
+              // FIXME: Also put this in a callback
+              bible_browser_controller.tab_controller.setCurrentBibleTranslationId(translations[0]);
+              bible_browser_controller.onBibleTranslationChanged();
+              bible_browser_controller.navigation_pane.updateNavigation();
+            } else {
+              this.onAllTranslationsRemoved();
+            }
+
+            this.onTranslationRemoved();
           }
 
           removalPage.append('<span>' + i18n.t("general.done") + '.</span>');
