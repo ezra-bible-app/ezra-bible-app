@@ -30,60 +30,12 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   });
 
-  BibleTranslation.importSwordTranslation = async function(translationCode, modelsInstance=undefined) {
-    var reImport = false;
-    
-    if (modelsInstance === undefined) {
-      modelsInstance = models;
-    } else {
-      reImport = true;
-    }
-
-    var module = nsi.getLocalModule(translationCode);
-
-    var languageMapper = new LanguageMapper();
-    var languageName = languageMapper.getLanguageName(module.language);
-
-    if (!reImport) {
-      var translation = await modelsInstance.BibleTranslation.create({
-        id: translationCode,
-        name: module.description,
-        languageCode: module.language,
-        languageName: languageName,
-        isFree: 1,
-        hasStrongs: module.hasStrongs,
-        versification: "ENGLISH"
-      });
-    }
-
-    if (!reImport) {
-      await modelsInstance.BibleTranslation.updateVersification(translationCode);
-    }
-  };
-
   BibleTranslation.removeFromDb = async function(translationCode) {
     await models.BibleTranslation.destroy({
       where: {
         id: translationCode
       }
     });
-  };
-
-  BibleTranslation.updateVersification = async function(translationCode) {
-    models.BibleTranslation.findByPk(translationCode).then(translation => {
-      translation.updateVersification();
-    });
-  };
-
-  // This function tests the versification by checking passages in Psalms and Revelation that
-  // are having different numbers of verses in English and Hebrew versification
-  BibleTranslation.prototype.updateVersification = async function() {
-    var versification = BibleTranslation.getVersification(this.id);
-
-    if (versification != "UNKNOWN") {
-      this.versification = versification;
-      await this.save();
-    }
   };
 
   return BibleTranslation;
