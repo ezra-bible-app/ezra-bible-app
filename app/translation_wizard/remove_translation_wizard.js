@@ -128,7 +128,7 @@ class RemoveTranslationWizard {
 
       // Bible translations have been selected
       var translationsPage = "#translation-settings-wizard-remove-p-0";
-      var translations = this._helper.getSelectedSettingsWizardElements(translationsPage);
+      this._uninstallTranslations = this._helper.getSelectedSettingsWizardElements(translationsPage);
 
       this._translationRemovalStatus = 'IN_PROGRESS';
 
@@ -138,8 +138,8 @@ class RemoveTranslationWizard {
       removalPage.append('<p>' + i18n.t("translation-wizard.removal-takes-time") + '</p>');
 
       setTimeout(async () => {
-        for (var i = 0; i < translations.length; i++) {
-          var translationCode = translations[i];
+        for (var i = 0; i < this._uninstallTranslations.length; i++) {
+          var translationCode = this._uninstallTranslations[i];
           var translationName = nsi.getModuleDescription(translationCode);
 
           removalPage.append('<span>' + i18n.t("translation-wizard.removing") + ' <i>' + translationName + '</i> ... </span>');
