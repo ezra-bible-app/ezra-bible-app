@@ -310,7 +310,7 @@ class VerseSelection {
       if (verse_box.find('.verse-reference-id').length > 0) {
         verse_reference_id = verse_box.find('.verse-reference-id').html();
       }
-      var verse_id = verse_box.find('.verse-id').html();
+
       var verse_bible_book = "";
       if (verse_box.find('.verse-bible-book-short').length > 0) {
         verse_bible_book = verse_box.find('.verse-bible-book-short').html();
@@ -320,7 +320,6 @@ class VerseSelection {
       var abs_verse_nr = verse_box.find('.abs-verse-nr').html();
 
       xml_verse_list += "<verse>";
-      xml_verse_list += "<verse-id>" + verse_id + "</verse-id>";
       xml_verse_list += "<verse-bible-book>" + verse_bible_book + "</verse-bible-book>";
       xml_verse_list += "<verse-reference>" + verse_reference + "</verse-reference>";
       xml_verse_list += "<verse-reference-id>" + verse_reference_id + "</verse-reference-id>";

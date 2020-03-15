@@ -61,10 +61,9 @@ each bibleBook in bibleBooks
     - var current_verse_id = bibleBookId + '-' + verse.chapter + '-' + verse.verseNr
     - var current_verse_reference_id = versification + '-' + bibleBookId + '-' + verse.absoluteVerseNr
 
-    - var current_id_class = "verse-id-" + current_verse_id
     - var current_verse_reference_id_class = "verse-reference-id-" + current_verse_reference_id
     - var current_verse_nr_class = "verse-nr-" + verse.absoluteVerseNr
-    - var div_classes = "verse-box " + current_id_class + " " + current_verse_reference_id_class + " " + current_verse_nr_class
+    - var div_classes = "verse-box " + current_verse_reference_id_class + " " + current_verse_nr_class
 
     if renderVerseMetaInfo == false
       - div_classes += " slim-verse-reference"
@@ -82,7 +81,6 @@ each bibleBook in bibleBooks
       - var verseReference = verse.chapter + reference_separator + verse.verseNr;
       - var anchor = verseListId + " " + verseReference;
       a(name=anchor)
-      div.verse-id #{verse.id}
       div.verse-reference-id #{current_verse_reference_id}
       div.abs-verse-nr #{verse.absoluteVerseNr}
       div.verse-bible-book-id #{verse.bibleBookId}
