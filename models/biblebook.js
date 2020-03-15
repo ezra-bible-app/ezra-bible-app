@@ -283,7 +283,7 @@ module.exports = (sequelize, DataTypes) => {
     for (var i = 0; i < searchResults.length; i++) {
       var bibleBookId = BibleBook.swordBooktoEzraBook(searchResults[i].bibleBookShortTitle);
 
-      if (!bibleBookIds.includes(bibleBookId)) {
+      if (bibleBookId !== undefined && !bibleBookIds.includes(bibleBookId)) {
         bibleBookIds.push(bibleBookId);
       }
     }
