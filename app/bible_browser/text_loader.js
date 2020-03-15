@@ -121,6 +121,12 @@ class TextLoader {
 
     var versification = (bible_browser_controller.translation_controller.getVersification(currentBibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
     var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: book_short_title }});
+
+    // Only necessary because old saved short titles may not be found directly
+    if (bibleBook == null) {
+      book_short_title = models.BibleBook.findBookTitle(book_short_title);
+      bibleBook = await models.BibleBook.findOne({ where: { shortTitle: book_short_title }});
+    }
     
     nsi.enableMarkup();
     var verses = nsi.getBookText(currentBibleTranslationId, book_short_title, start_verse_number, number_of_verses);
