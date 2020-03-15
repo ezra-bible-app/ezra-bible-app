@@ -82,13 +82,13 @@ class VerseContextLoader {
 
   load_verse_context(verse_list) {
     // First remove existing verse boxes to avoid duplication
-    var context_verse_id = $(bible_browser_controller.verse_context_loader.context_verse).find('.verse-id').text();
+    var context_verse_id = $(bible_browser_controller.verse_context_loader.context_verse).find('.verse-reference-id').text();
 
     for (var i = 0; i < $(verse_list).length; i++) {
-      var current_id = $($(verse_list)[i]).find('.verse-id').text();
+      var current_id = $($(verse_list)[i]).find('.verse-reference-id').text();
 
       if (current_id != "" && current_id != context_verse_id) {
-        var existing_verse_box = $('.verse-id-' + current_id);
+        var existing_verse_box = $('.verse-reference-id-' + current_id);
         existing_verse_box.remove();
       }
     }
@@ -100,7 +100,7 @@ class VerseContextLoader {
     bible_browser_controller.verse_selection.clear_verse_selection();
 
     // Select/highlight the tagged verse
-    var selected_verse_box = $('.verse-id-' + context_verse_id);
+    var selected_verse_box = $('.verse-reference-id-' + context_verse_id);
     bible_browser_controller.verse_selection.selected_verse_boxes.push(selected_verse_box);
     selected_verse_box.find('.verse-text').addClass('ui-selected');
 
