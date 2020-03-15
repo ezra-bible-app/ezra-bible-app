@@ -102,7 +102,7 @@
     "applying-migrations": "Migration de la base de données vers la nouvelle version"
   },
   "help": {
-    "help-text-no-tags-book-opened": "Pour commencer à utiliser les étiquettes, créez votre première étiquette en cliquant sur le bouton <i>Nouvelle étiquette</i> ci-dessus.<br/><br/>Ensuite, vous pouvez parcourir le texte biblique, cliquer ou faire glisser les versets, puis attribuer l'étiquette que vous venez de créer.",
+    "help-text-no-tags-book-opened": "Pour commencer à utiliser les étiquettes, créez votre première étiquette en cliquant sur le bouton <i>Nouvelle étiquette</i>.<br/><br/>Ensuite, vous pouvez parcourir le texte biblique, cliquer ou faire glisser les versets, puis attribuer l'étiquette que vous venez de créer.",
     "help-text-no-tags-no-book-opened": "Pour commencer à travailler avec des étiquettes, sélectionnez d’abord un livre biblique à étudier.",
     "help-text-translation-available": "Pour commencer, sélectionnez un livre ou une étiquette dans le menu ci-dessus.",
     "help-text-no-translations": "Pour commencer, installez d’abord au moins une traduction de la Bible.<br/><br/>Vous pouvez ouvrir l'assistant d'installation en cliquant sur l'icône des paramètres, puis sur <i>Configurer les traductions</i>."
