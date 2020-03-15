@@ -145,7 +145,6 @@ class RemoveTranslationWizard {
           removalPage.append('<span>' + i18n.t("translation-wizard.removing") + ' <i>' + translationName + '</i> ... </span>');
           
           await nsi.uninstallModule(translationCode);
-          await models.BibleTranslation.removeFromDb(translationCode);
 
           var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
           if (currentBibleTranslationId == translationCode) {
