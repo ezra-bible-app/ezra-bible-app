@@ -94,7 +94,7 @@ class TagsCommunicationController
     tags_controller.update_tag_verse_count(tagId, verseBoxes.length, increment);
 
     var translationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
-    var versification = models.BibleTranslation.getVersification(translationId);
+    var versification = bible_browser_controller.translation_controller.getVersification(translationId);
     var tag = await models.Tag.findByPk(tagId);
 
     for (var verseBox of verseBoxes) {
