@@ -22,7 +22,7 @@ All notable changes to Ezra Project are documented in this file.
 
 -->
 
-## [0.12.0 - 2020-03-xx]
+## [0.12.0 - 2020-03-17]
 ### Features
 
 * Unlock support ([#18][i18])
