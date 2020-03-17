@@ -5,6 +5,26 @@ All notable changes to Ezra Project are documented in this file.
 ## [Next release]
 ### Features
 
+* Fe1
+* Fe2
+
+### Enhancements
+
+* E1
+
+### Fixes
+
+* Fx1
+
+### Enablers
+
+* En1
+
+-->
+
+## [0.12.0 - 2020-03-xx]
+### Features
+
 * Unlock support ([#18][i18])
 * French translation ([#11][i11])
 
@@ -31,8 +51,6 @@ All notable changes to Ezra Project are documented in this file.
 [i11]: https://github.com/tobias-klein/ezra-project/issues/11
 [i18]: https://github.com/tobias-klein/ezra-project/issues/18
 [i28]: https://github.com/tobias-klein/ezra-project/issues/28
-
--->
 
 ## [0.11.1 - 2020-01-06]
 
