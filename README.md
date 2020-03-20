@@ -42,8 +42,11 @@ Ezra Project comes with the following functionality:
 
 Ezra Project is currently on a bi-monthly release schedule. The next release [0.13.0](https://github.com/tobias-klein/ezra-project/milestone/3) is planned for May 2020 with the following new features:
 
-* Bible browser: Parallel translation mode (#30)
-* Install wizard: Upgrade functionality (#31)
+* Bible browser: Parallel translation mode ([#30][i30])
+* Install wizard: Upgrade functionality ([#31][i31])
+
+[i30]: https://github.com/tobias-klein/ezra-project/issues/30
+[i31]: https://github.com/tobias-klein/ezra-project/issues/31
 
 ## Installation
 The latest installation packages for Windows, Linux and macOS can be found on [this page][latest]. Specific install instructions are below.
