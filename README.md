@@ -58,7 +58,7 @@ Install Ezra Project by downloading the installer. The installer can then be exe
 Install Ezra Project by downloading a package for your distribution. After installing the package you will find "Ezra Project" in your application menu.
 
 * **Ubuntu 18.04 / 19.04 & Debian 10 & Linux Mint 18:** Download the appropriate Debian package attached to the [latest release][latest] and install, e.g.: `sudo dpkg -i ezra-project_ubuntu1904_0.9.0_amd64.deb`.
-* **Fedora 29 / 30 & CentOS 7 & OpenSuse 15.1:** Download the appropriate RPM package package attached to the [latest release][latest] and install, e.g.: `sudo dnf localinstall ezra-project_fedora29_0.9.0_x86_64.rpm`.
+* **Fedora 29 / 30 & CentOS 8 & OpenSuse 15.1:** Download the appropriate RPM package package attached to the [latest release][latest] and install, e.g.: `sudo dnf localinstall ezra-project_fedora29_0.9.0_x86_64.rpm`.
 * **Arch Linux:** Use your favorite AUR package manager to install *[ezra-project](https://aur.archlinux.org/packages/ezra-project)* (or *[ezra-project-git](https://aur.archlinux.org/packages/ezra-project-git)*), e.g.: `yay -S ezra-project`.
 
 ### macOS
