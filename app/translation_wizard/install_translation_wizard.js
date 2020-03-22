@@ -19,16 +19,19 @@
 class InstallTranslationWizard {
   constructor() {
     this._helper = new TranslationWizardHelper();
+    this.languageMapper = new LanguageMapper();
+
+    var addButton = $('#add-bible-translations-button');
+    addButton.bind('click', () => this.openAddTranslationWizard());
+  }
+
+  init() {
     this._installedTranslations = null;
     this._translationInstallStatus = 'DONE';
     this._translationRemovalStatus = 'DONE';
     this._unlockKeys = {};
     this._unlockDialogOpened = false;
     this._unlockCancelled = false;
-    this.languageMapper = new LanguageMapper();
-
-    var addButton = $('#add-bible-translations-button');
-    addButton.bind('click', () => this.openAddTranslationWizard());
   }
 
   isTranslationInstalled(translationCode) {
@@ -46,6 +49,8 @@ class InstallTranslationWizard {
   }
 
   openWizard() {
+    this.init();
+
     var wizardWidth = 1100;
     var appContainerWidth = $(window).width() - 10;
     var offsetLeft = appContainerWidth - wizardWidth - 100;
@@ -79,6 +84,21 @@ class InstallTranslationWizard {
     this._helper.unlockDialog();
   }
 
+  initProgressBar(progressBarId) {
+    var progressbar = $(progressBarId);
+    var progressLabel = progressbar.find(".progress-label");
+
+    progressbar.progressbar({
+      value: false,
+      change: function() {
+        progressLabel.text( progressbar.progressbar( "value" ) + "%" );
+      },
+      complete: function() {
+        progressLabel.text(i18n.t('general.completed'));
+      }
+    });
+  }
+
   async updateRepositoryConfig(force=false) {
     var wizardPage = $('#translation-settings-wizard-add-p-0');
     wizardPage.empty();
@@ -90,21 +110,9 @@ class InstallTranslationWizard {
       wizardPage.append('<p>' + i18n.t('translation-wizard.updating-repository-data') + '</p>');
 
       var loadingText = i18n.t('translation-wizard.updating');
-      var progressBar = "<div id='repo-update-progress-bar'><div class='progress-label'>" + loadingText + "</div></div>";
+      var progressBar = "<div id='repo-update-progress-bar' class='progress-bar'><div class='progress-label'>" + loadingText + "</div></div>";
       wizardPage.append(progressBar);
-
-      var progressbar = $("#repo-update-progress-bar"),
-      progressLabel = $( ".progress-label" );
- 
-      progressbar.progressbar({
-        value: false,
-        change: function() {
-          progressLabel.text( progressbar.progressbar( "value" ) + "%" );
-        },
-        complete: function() {
-          progressLabel.text(i18n.t('general.completed'));
-        }
-      });
+      this.initProgressBar('#repo-update-progress-bar');
 
       try {
         await nsi.updateRepositoryConfig((progress) => {
@@ -284,17 +292,35 @@ class InstallTranslationWizard {
   async installTranslation(installPage, translationCode) {
     var swordModule = nsi.getRepoModule(translationCode);
 
-    installPage.append("<div style='float: left;'>" + i18n.t("translation-wizard.installing") + " <i>" + swordModule.description + "</i> ... </div>");
+    var existingProgressBar = $('#module-install-progress-bar');
 
+    var installingModuleText = "<div style='float: left;'>" + i18n.t("translation-wizard.installing") + " <i>" + swordModule.description + "</i> ... </div>";
+    
     var loader = "<div id='bibleTranslationInstallIndicator' class='loader'>" + 
-                  "<div class='bounce1'></div>" +
-                  "<div class='bounce2'></div>" +
-                  "<div class='bounce3'></div>" +
-                  "</div>";
+                 "<div class='bounce1'></div>" +
+                 "<div class='bounce2'></div>" +
+                 "<div class='bounce3'></div>" +
+                 "</div>";
 
-    installPage.append(loader);
+    if (existingProgressBar.length == 0) {
+      installPage.append(installingModuleText);
+      //installPage.append(loader);
+    } else {
+      existingProgressBar.before("<br/>");
+      existingProgressBar.before(installingModuleText);
+      //existingProgressBar.before(loader);
+    }
+
     $('#bibleTranslationInstallIndicator').show();
 
+    var installingText = i18n.t('translation-wizard.installing');
+
+    if (document.getElementById('module-install-progress-bar') == null) {
+      var progressBar = "<div id='module-install-progress-bar' class='progress-bar'><div class='progress-label'>" + installingText + "</div></div>";
+      installPage.append(progressBar);
+    }
+
+    this.initProgressBar('#module-install-progress-bar');
     await sleep(200);
 
     var installSuccessful = true;
@@ -311,7 +337,12 @@ class InstallTranslationWizard {
 
       if (!moduleInstalled) {
         console.log("Module " + translationCode + " not installed. Installing it ...");
-        await nsi.installModule(translationCode);
+        await nsi.installModule(translationCode, (progress) => {
+          console.log(progress);
+          var progressbar = $('#module-install-progress-bar');
+          var progressPercent = progress.totalPercent;
+          progressbar.progressbar("value", progressPercent);
+        });
       }
 
       if (swordModule.locked) {
@@ -336,8 +367,8 @@ class InstallTranslationWizard {
     $('#bibleTranslationInstallIndicator').remove();
 
     if (installSuccessful) {
-      installPage.append('<div>&nbsp;' + i18n.t("general.done") + '.</div>');
-      installPage.append('<br/>');
+      //installPage.append('<div>&nbsp;' + i18n.t("general.done") + '.</div>');
+      //installPage.append('<br/>');
 
       if (swordModule.hasStrongs && !nsi.strongsAvailable()) {
         await this.installStrongsModules(installPage);
