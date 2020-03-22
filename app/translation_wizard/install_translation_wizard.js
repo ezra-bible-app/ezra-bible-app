@@ -33,7 +33,6 @@ class InstallTranslationWizard {
     this._unlockKeys = {};
     this._unlockDialogOpened = false;
     this._unlockCancelled = false;
-    this._selectedRepositories = [];
   }
 
   isTranslationInstalled(translationCode) {
