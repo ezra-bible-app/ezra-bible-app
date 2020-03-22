@@ -20,6 +20,7 @@ class InstallTranslationWizard {
   constructor() {
     this._helper = new TranslationWizardHelper();
     this.languageMapper = new LanguageMapper();
+    this._addTranslationWizardOriginalContent = undefined;
 
     var addButton = $('#add-bible-translations-button');
     addButton.bind('click', () => this.openAddTranslationWizard());
@@ -32,6 +33,7 @@ class InstallTranslationWizard {
     this._unlockKeys = {};
     this._unlockDialogOpened = false;
     this._unlockCancelled = false;
+    this._selectedRepositories = [];
   }
 
   isTranslationInstalled(translationCode) {
