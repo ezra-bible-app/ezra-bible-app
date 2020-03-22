@@ -1312,12 +1312,13 @@ s {
   margin-right: 1em;
 }
 
-#repo-update-progress-bar {
+.progress-bar {
+  margin-top: 3em;
   height: 2em;
-  text-align: center;
+  clear: both;
 }
 
-#repo-update-progress-bar div {
+.progress-bar div {
   height: 95%;
 }
 
