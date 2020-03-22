@@ -89,8 +89,29 @@ class InstallTranslationWizard {
     if (!nsi.repositoryConfigExisting() || !lastSwordRepoUpdateSaved || force) {
       wizardPage.append('<p>' + i18n.t('translation-wizard.updating-repository-data') + '</p>');
 
+      var loadingText = i18n.t('translation-wizard.updating');
+      var progressBar = "<div id='repo-update-progress-bar'><div class='progress-label'>" + loadingText + "</div></div>";
+      wizardPage.append(progressBar);
+
+      var progressbar = $("#repo-update-progress-bar"),
+      progressLabel = $( ".progress-label" );
+ 
+      progressbar.progressbar({
+        value: false,
+        change: function() {
+          progressLabel.text( progressbar.progressbar( "value" ) + "%" );
+        },
+        complete: function() {
+          progressLabel.text(i18n.t('general.completed'));
+        }
+      });
+
       try {
-        await nsi.updateRepositoryConfig();
+        await nsi.updateRepositoryConfig((progress) => {
+          var progressPercent = progress.totalPercent;
+          progressbar.progressbar("value", progressPercent);
+        });
+
         bible_browser_controller.settings.set("lastSwordRepoUpdate", new Date());
       } catch(e) {
         listRepoTimeoutMs = 3000;
