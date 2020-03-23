@@ -140,7 +140,8 @@ class RemoveTranslationWizard {
       setTimeout(async () => {
         for (var i = 0; i < this._uninstallTranslations.length; i++) {
           var translationCode = this._uninstallTranslations[i];
-          var translationName = nsi.getModuleDescription(translationCode);
+          var localModule = nsi.getLocalModule(translationCode);
+          var translationName = localModule.description;
 
           removalPage.append('<span>' + i18n.t("translation-wizard.removing") + ' <i>' + translationName + '</i> ... </span>');
           
