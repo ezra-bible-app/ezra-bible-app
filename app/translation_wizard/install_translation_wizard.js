@@ -117,6 +117,7 @@ class InstallTranslationWizard {
 
       try {
         await nsi.updateRepositoryConfig((progress) => {
+          var progressbar = $('#repo-update-progress-bar');
           var progressPercent = progress.totalPercent;
           progressbar.progressbar("value", progressPercent);
         });
