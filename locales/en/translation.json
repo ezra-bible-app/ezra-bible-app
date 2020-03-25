@@ -49,6 +49,8 @@
     "removal-takes-time": "Note, that each removal takes some time.",
     "select-translations-to-be-removed": "Select the bible translations that you would like to remove.<br/><br/>Disabled entries in the list are translations not installed in the users directory.",
     "installing": "Installing",
+    "downloading": "Downloading",
+    "part-of-total": "of",
     "removing": "Removing",
     "installation": "Installation",
     "module-lock-info": "This module is license-protected and requires that you purchase an unlock key from the content owner!",

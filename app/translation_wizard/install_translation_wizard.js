@@ -291,16 +291,53 @@ class InstallTranslationWizard {
     this._helper.unlockDialog('translation-settings-wizard-add');
   }
 
+  localizeModuleInstallProgressMessage(rawMessage) {
+    // rawMessage: Downloading (1 of 6): nt.bzz
+    rawMessage = rawMessage.replace("Downloading ", "");
+    var splittedMessage = rawMessage.split(": ");
+
+    var partOfTotal = splittedMessage[0];
+    partOfTotal = partOfTotal.replace("(", "");
+    partOfTotal = partOfTotal.replace(")", "");
+    var fileName = splittedMessage[1];
+
+    var splittedPartOfTotal = partOfTotal.split(" of ");
+    var part = splittedPartOfTotal[0];
+    var total = splittedPartOfTotal[1];
+
+    var localizedMessage = i18n.t("translation-wizard.downloading") + " (" + part + " " + i18n.t("translation-wizard.part-of-total") + " " + total + "): " + fileName;
+
+    return localizedMessage;
+  }
+
+  handleModuleInstallProgress(progress) {
+    var progressPercent = progress.totalPercent;
+    var progressMessage = progress.message;
+
+    var progressMessageBox = $('#module-install-progress-msg');
+    var progressbar = $('#module-install-progress-bar');
+
+    progressbar.progressbar("value", progressPercent);
+
+    if (progressMessage != '') {
+      var localizedMessage = this.localizeModuleInstallProgressMessage(progressMessage);
+      progressMessageBox.text(localizedMessage);
+    }
+    
+    if (progressPercent == 100) {
+      progressMessageBox.empty();
+    }
+  }
+
   async installTranslation(installPage, translationCode) {
     var swordModule = nsi.getRepoModule(translationCode);
 
     var existingProgressBar = $('#module-install-progress-bar');
-    var installingModuleText = "<div style='float: left;'>" + i18n.t("translation-wizard.installing") + " <i>" + swordModule.description + "</i> ... </div>";
+    var installingModuleText = "<div style='float: left; margin-bottom: 1em;'>" + i18n.t("translation-wizard.installing") + " <i>" + swordModule.description + "</i> ... </div>";
 
     if (existingProgressBar.length == 0) {
       installPage.append(installingModuleText);
     } else {
-      existingProgressBar.before("<br/>");
       existingProgressBar.before(installingModuleText);
     }
 
@@ -315,7 +352,6 @@ class InstallTranslationWizard {
 
     this.initProgressBar('#module-install-progress-bar');
     var existingProgressBar = $('#module-install-progress-bar');
-    //await sleep(100);
 
     var installSuccessful = true;
     var unlockSuccessful = true;
@@ -330,26 +366,9 @@ class InstallTranslationWizard {
       }
 
       if (!moduleInstalled) {
-        //console.log("Module " + translationCode + " not installed. Installing it ...");
-
-        var progressbar = $('#module-install-progress-bar');
         var progressMessageBox = $('#module-install-progress-msg');
         progressMessageBox.empty();
-
-        await nsi.installModule(translationCode, (progress) => {
-          var progressPercent = progress.totalPercent;
-          var progressMessage = progress.message;
-
-          progressbar.progressbar("value", progressPercent);
-
-          if (progressMessage != '') {
-            progressMessageBox.text(progressMessage);
-          }
-          
-          if (progressPercent == 100) {
-            progressMessageBox.empty();
-          }
-        });
+        await nsi.installModule(translationCode, (progress) => { this.handleModuleInstallProgress(progress); });
       }
 
       // Sleep a bit after installation. This is actually a hack to prevent
@@ -376,11 +395,8 @@ class InstallTranslationWizard {
       installSuccessful = false;
     }
 
-    /*$('#bibleTranslationInstallIndicator').hide();
-    $('#bibleTranslationInstallIndicator').remove();*/
-
     if (installSuccessful) {
-      existingProgressBar.before('<div>&nbsp;' + i18n.t("general.done") + '.</div>');
+      existingProgressBar.before('<div style="margin-bottom: 1em;">&nbsp;' + i18n.t("general.done") + '.</div>');
 
       if (swordModule.hasStrongs && !nsi.strongsAvailable()) {
         await this.installStrongsModules(installPage);
@@ -394,8 +410,7 @@ class InstallTranslationWizard {
         errorMessage = i18n.t("general.module-install-failed");
       }
 
-      existingProgressBar.before('<div>&nbsp;' + errorMessage + '</div>');
-      //installPage.append('<br/>');
+      existingProgressBar.before('<div style="margin-bottom: 1em;">&nbsp;' + errorMessage + '</div>');
     }
 
     if (swordModule.locked && !unlockSuccessful) {
@@ -404,42 +419,30 @@ class InstallTranslationWizard {
   }
 
   async installStrongsModules(installPage) {
-    installPage.append("<div style='float: left;'>" + i18n.t("general.installing-strongs") + " ... </div>");
 
-    var loader = "<div id='bibleTranslationInstallIndicator' class='loader'>" + 
-                "<div class='bounce1'></div>" +
-                "<div class='bounce2'></div>" +
-                "<div class='bounce3'></div>" +
-                "</div>";
-
-    installPage.append(loader);
-    $('#bibleTranslationInstallIndicator').show();
+    var existingProgressBar = $('#module-install-progress-bar');
+    existingProgressBar.before("<div style='float: left; margin-bottom: 1em;'>" + i18n.t("general.installing-strongs") + " ... </div>");
 
     var strongsInstallSuccessful = true;
 
     try {
       if (!nsi.hebrewStrongsAvailable()) {
-        await nsi.installModule("StrongsHebrew");
+        await nsi.installModule("StrongsHebrew", (progress) => { this.handleModuleInstallProgress(progress); });
       }
 
       if (!nsi.greekStrongsAvailable()) {
-        await nsi.installModule("StrongsGreek");
+        await nsi.installModule("StrongsGreek", (progress) => { this.handleModuleInstallProgress(progress); });
       }
     } catch (e) {
       strongsInstallSuccessful = false;
     }
 
-    $('#bibleTranslationInstallIndicator').hide();
-    $('#bibleTranslationInstallIndicator').remove();
-
     if (strongsInstallSuccessful) {
       bible_browser_controller.strongs.runAvailabilityCheck();
       
-      installPage.append('<div>&nbsp;' + i18n.t("general.done") + '.</div>');
-      installPage.append('<br/>');
+      existingProgressBar.before('<div style="margin-bottom: 1em;">&nbsp;' + i18n.t("general.done") + '.</div>');
     } else {
-      installPage.append('<div>&nbsp;' + i18n.t("general.module-install-failed") + '</div>');
-      installPage.append('<br/>');
+      existingProgressBar.before('<div style="margin-bottom: 1em;">&nbsp;' + i18n.t("general.module-install-failed") + '</div>');
     }
   }
 

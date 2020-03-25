@@ -49,6 +49,8 @@
     "removal-takes-time": "Houd er rekening mee dat elke verwijdering enige tijd kost.",
     "select-translations-to-be-removed": "Selecteer de bijbelvertalingen die u wilt verwijderen.<br/><br/>Uitgeschakelde elementen in de lijst zijn vertalingen die niet in de gebruikersmap zijn geïnstalleerd.",
     "installing": "Installeren",
+    "downloading": "Downloading",
+    "part-of-total": "of",
     "removing": "Verwijderen",
     "installation": "Installatie",
     "module-lock-info": "Deze module is licentie-beschermd en vereist dat u een ontgrendelingssleutel van de inhoudseigenaar koopt!",

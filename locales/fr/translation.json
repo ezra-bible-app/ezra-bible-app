@@ -49,6 +49,8 @@
     "removal-takes-time": "Notez que chaque suppression prend du temps.",
     "select-translations-to-be-removed": "Sélectionnez les traductions de la bible que vous souhaitez supprimer.<br/><br/>Les entrées désactivées de la liste sont des traductions non installées dans le répertoire des utilisateurs.",
     "installing": "Installation",
+    "downloading": "Downloading",
+    "part-of-total": "of",
     "removing": "Suppression",
     "installation": "Installation",
     "module-lock-info": "Ce module est protégé par une licence. Vous devez acheter une clé de déverrouillage auprès du propriétaire du contenu !",
