@@ -352,7 +352,13 @@ class InstallTranslationWizard {
         });
       }
 
+      // Sleep a bit after installation. This is actually a hack to prevent
+      // a "white screen error" right after module installation. The exact reason
+      // for that error is unclear, but the sleeping prevents it.
+      await sleep(100);
+
       if (swordModule.locked) {
+        console.log("Module is locked ... saving unlock key");
         var unlockKey = this._unlockKeys[translationCode];
         nsi.saveModuleUnlockKey(translationCode, unlockKey);
 
