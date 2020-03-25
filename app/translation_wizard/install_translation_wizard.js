@@ -255,7 +255,7 @@ class InstallTranslationWizard {
     var installPage = $("#translation-settings-wizard-add-p-3");
     installPage.empty();
     installPage.append('<h3>' + i18n.t("translation-wizard.installing-translations") + '</h3>');
-    installPage.append('<p>' + i18n.t("translation-wizard.it-takes-time-to-install-translation") + '</p>');
+    installPage.append('<p style="margin-bottom: 2em;">' + i18n.t("translation-wizard.it-takes-time-to-install-translation") + '</p>');
 
     for (var i = 0; i < translations.length; i++) {
       var currentTranslation = translations[i];
