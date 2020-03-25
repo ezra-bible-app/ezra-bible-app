@@ -135,7 +135,7 @@ class RemoveTranslationWizard {
       var removalPage = $("#translation-settings-wizard-remove-p-1");
       removalPage.empty();
       removalPage.append('<h3>' + i18n.t("translation-wizard.removing-translations") + '</h3>');
-      removalPage.append('<p>' + i18n.t("translation-wizard.removal-takes-time") + '</p>');
+      removalPage.append('<p style="margin-bottom: 2em;">' + i18n.t("translation-wizard.removal-takes-time") + '</p>');
 
       setTimeout(async () => {
         for (var i = 0; i < this._uninstallTranslations.length; i++) {
@@ -164,7 +164,7 @@ class RemoveTranslationWizard {
           }
 
           removalPage.append('<span>' + i18n.t("general.done") + '.</span>');
-          removalPage.append('<br/>');
+          removalPage.append('<br/><br/>');
         }
 
         this._translationRemovalStatus = 'DONE';
