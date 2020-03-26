@@ -1333,3 +1333,7 @@ s {
   font-weight: bold;
   text-shadow: 1px 1px 0 #fff;
 }
+
+.search-progress-bar {
+  display: none
+}

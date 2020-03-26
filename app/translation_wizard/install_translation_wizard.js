@@ -85,21 +85,6 @@ class InstallTranslationWizard {
     this._helper.unlockDialog();
   }
 
-  initProgressBar(progressBarId) {
-    var progressbar = $(progressBarId);
-    var progressLabel = progressbar.find(".progress-label");
-
-    progressbar.progressbar({
-      value: false,
-      change: function() {
-        progressLabel.text( progressbar.progressbar( "value" ) + "%" );
-      },
-      complete: function() {
-        progressLabel.text(i18n.t('general.completed'));
-      }
-    });
-  }
-
   async updateRepositoryConfig(force=false) {
     var wizardPage = $('#translation-settings-wizard-add-p-0');
     wizardPage.empty();
@@ -113,7 +98,8 @@ class InstallTranslationWizard {
       var loadingText = i18n.t('translation-wizard.updating');
       var progressBar = "<div id='repo-update-progress-bar' class='progress-bar'><div class='progress-label'>" + loadingText + "</div></div>";
       wizardPage.append(progressBar);
-      this.initProgressBar('#repo-update-progress-bar');
+
+      initProgressBar($('#repo-update-progress-bar'));
 
       try {
         await nsi.updateRepositoryConfig((progress) => {
@@ -350,7 +336,7 @@ class InstallTranslationWizard {
       installPage.append(progressMessage);
     }
 
-    this.initProgressBar('#module-install-progress-bar');
+    initProgressBar($('#module-install-progress-bar'));
     var existingProgressBar = $('#module-install-progress-bar');
 
     var installSuccessful = true;

@@ -203,6 +203,20 @@ function handle_fg_button_mousedown(element, click_checkbox) {
   }
 }
 
+function initProgressBar(progressBar) {
+  var progressLabel = progressBar.find(".progress-label");
+
+  progressBar.progressbar({
+    value: false,
+    change: function() {
+      progressLabel.text( progressBar.progressbar( "value" ) + "%" );
+    },
+    complete: function() {
+      progressLabel.text(i18n.t('general.completed'));
+    }
+  });
+}
+
 async function initI18N()
 {
   await i18nHelper.init();

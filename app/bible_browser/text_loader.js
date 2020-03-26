@@ -47,7 +47,7 @@ class TextLoader {
         loadingMessage = i18n.t("bible-browser.loading-bible-text");
       }
 
-      bible_browser_controller.showVerseListLoadingIndicator(loadingMessage);
+      bible_browser_controller.showVerseListLoadingIndicator(loadingMessage, !isSearch /* Only show loader visualization if we are not searching */ );
     }
 
     var temporary_help = bible_browser_controller.getCurrentVerseListComposite(tabIndex).find('.temporary-help, .help-text');
@@ -341,6 +341,7 @@ class TextLoader {
   renderVerseList(htmlVerseList, listType, tabIndex=undefined, target=undefined) {
     bible_browser_controller.translation_controller.hideBibleTranslationLoadingIndicator();
     bible_browser_controller.hideVerseListLoadingIndicator();
+    bible_browser_controller.hideSearchProgressBar();
     var initialRendering = true;
 
     if (tabIndex === undefined) {

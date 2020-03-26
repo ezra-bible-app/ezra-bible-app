@@ -383,7 +383,13 @@ class BibleBrowserController {
     return loadingIndicator;
   }
 
-  showVerseListLoadingIndicator(message=undefined) {
+  getCurrentSearchProgressBar() {
+    var currentVerseListComposite = this.getCurrentVerseListComposite();
+    var searchProgressBar = currentVerseListComposite.find('.search-progress-bar');
+    return searchProgressBar;
+  }
+
+  showVerseListLoadingIndicator(message=undefined, withLoader=true) {
     var loadingIndicator = this.getCurrentVerseListLoadingIndicator();
     var loadingText = loadingIndicator.find('.verse-list-loading-indicator-text');
     if (message === undefined) {
@@ -391,13 +397,24 @@ class BibleBrowserController {
     }
 
     loadingText.html(message);
-    loadingIndicator.find('.loader').show();
+
+    if (withLoader) {
+      loadingIndicator.find('.loader').show();
+    } else {
+      loadingIndicator.find('.loader').hide();
+    }
+
     loadingIndicator.show();
   }
 
   hideVerseListLoadingIndicator() {
     var loadingIndicator = this.getCurrentVerseListLoadingIndicator();
     loadingIndicator.hide();
+  }
+
+  hideSearchProgressBar() {
+    var searchProgressBar = this.getCurrentSearchProgressBar();
+    searchProgressBar.hide();
   }
 
   updateTagsView(tabIndex) {
