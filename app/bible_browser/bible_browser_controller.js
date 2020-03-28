@@ -89,6 +89,11 @@ class BibleBrowserController {
                              (event = undefined, ui = { 'index' : 0}) => { this.onTabSelected(event, ui); },
                              (tabIndex) => { this.onTabAdded(tabIndex); },
                              defaultBibleTranslationId);
+
+    if (bibleTranslations.length == 0) {
+      this.translation_controller.initTranslationsMenu(0);
+      this.optionsMenu.initCurrentOptionsMenu(0);
+    }
   }
 
   onSearchResultsAvailable = async function(occurances) {
