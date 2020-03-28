@@ -248,6 +248,7 @@ class ModuleSearch {
                                                                    target);
     } else {
       bible_browser_controller.hideVerseListLoadingIndicator();
+      bible_browser_controller.hideSearchProgressBar();
     }
 
     this.hideSearchMenu();
