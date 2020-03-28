@@ -283,10 +283,6 @@ function initUi()
     require("electron").shell.openExternal(link);
   });
 
-  $('#show-translation-settings-button').bind('click', function() {
-    bible_browser_controller.openTranslationSettingsWizard(); 
-  });
-
   tags_controller.init_ui();
   configure_button_styles();
   resize_app_container();

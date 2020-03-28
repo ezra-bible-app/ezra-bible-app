@@ -174,16 +174,21 @@ class TabController {
       this.defaultBibleTranslationId = this.settings.get('bible_translation');
     }
 
+    var loadedTabCount = 0;
+
     if (this.settings.has('tabConfiguration')) {
       bible_browser_controller.showVerseListLoadingIndicator();
-      var loadedTabCount = this.loadMetaTabsFromSettings();
+      loadedTabCount = this.loadMetaTabsFromSettings();
 
       if (loadedTabCount > 0) {
         await this.populateFromMetaTabs();
       } else {
         bible_browser_controller.hideVerseListLoadingIndicator();
-        this.onTabAdded(0);
       }
+    }
+
+    if (loadedTabCount == 0) {
+      this.onTabAdded(0);
     }
 
     // Call this method explicitly to initialize the first tab

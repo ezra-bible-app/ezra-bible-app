@@ -24,6 +24,10 @@ class OptionsMenu {
   initCurrentOptionsMenu(tabIndex=undefined) {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.display-options-button').bind('click', (event) => { this.handleMenuClick(event); });
+
+    $('#show-translation-settings-button').bind('click', function() {
+      bible_browser_controller.openTranslationSettingsWizard(); 
+    });
     
     $('#tool-bar-switch').bind('change', () => {
       bible_browser_controller.settings.set('showToolBar', this.toolBarSwitchChecked());
