@@ -182,6 +182,7 @@ class TabController {
         await this.populateFromMetaTabs();
       } else {
         bible_browser_controller.hideVerseListLoadingIndicator();
+        this.onTabAdded(0);
       }
     }
 
