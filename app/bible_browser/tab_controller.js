@@ -275,9 +275,11 @@ class TabController {
 
     this.updateFirstTabCloseButton();
 
-    setTimeout(() => {
-      this.onTabAdded(this.tabCounter - 1);
-    }, 250);
+    if (!initialLoading) {
+      setTimeout(() => {
+        this.onTabAdded(this.tabCounter - 1);
+      }, 250);
+    }
   }
 
   removeTab(event) {
