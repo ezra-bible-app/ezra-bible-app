@@ -38,6 +38,10 @@ This is a bugfix release.
 [i34]: https://github.com/tobias-klein/ezra-project/issues/34
 [i37]: https://github.com/tobias-klein/ezra-project/issues/37
 
+### Enablers
+
+* Upgraded Electron from 8.1.1 to 8.2.0.
+
 
 ## [0.12.0 - 2020-03-17]
 ### Features
