@@ -22,6 +22,23 @@ All notable changes to Ezra Project are documented in this file.
 
 -->
 
+## [0.12.1 - 2020-03-xx]
+This is a bugfix release.
+
+### Enhancements
+
+* Show progress bars for long-running operations (repo config update, module installation, module search). ([#32][i32])
+* Optimize chapter headlines (localize headlines according to translation). ([#34][i34])
+
+### Fixes
+
+* Tab management: Fixed regression bug introduced in the last release. ([#37][i37])
+
+[i32]: https://github.com/tobias-klein/ezra-project/issues/32
+[i34]: https://github.com/tobias-klein/ezra-project/issues/34
+[i37]: https://github.com/tobias-klein/ezra-project/issues/37
+
+
 ## [0.12.0 - 2020-03-17]
 ### Features
 
@@ -51,6 +68,7 @@ All notable changes to Ezra Project are documented in this file.
 [i11]: https://github.com/tobias-klein/ezra-project/issues/11
 [i18]: https://github.com/tobias-klein/ezra-project/issues/18
 [i28]: https://github.com/tobias-klein/ezra-project/issues/28
+
 
 ## [0.11.1 - 2020-01-06]
 
@@ -99,6 +117,7 @@ All notable changes to Ezra Project are documented in this file.
 
 [i10]: https://github.com/tobias-klein/ezra-project/issues/10
 
+
 ## [0.10.0] - 2019-10-15
 ### Features
 * Module search functionality (based on SWORD search function).
@@ -125,6 +144,7 @@ All notable changes to Ezra Project are documented in this file.
 * Implemented packaging support for CentOS 8.
 
 [i18next]: https://www.i18next.com
+
 
 ## [0.9.0] - 2019-08-23
 ### Features
@@ -155,6 +175,7 @@ All notable changes to Ezra Project are documented in this file.
 * Optimized package size (when packaging remove build artifacts not necessary for production).
 
 [i2]: https://github.com/tobias-klein/ezra-project/issues/2
+
 
 ## [0.8.1] - 2019-06-21
 ### Features
@@ -211,6 +232,7 @@ All notable changes to Ezra Project are documented in this file.
 
 ## [0.6.0] - 2019-02-03
 This is the initial public release of Ezra Project for the Linux desktop.
+
 ### Features
 * Add/remove Bible translations from SWORD repositories
 * Browse Bible books
