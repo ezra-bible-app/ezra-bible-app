@@ -70,6 +70,24 @@ class I18nHelper {
   getSwordTranslation(originalString) {
     return nsi.getSwordTranslation(originalString, i18n.language);
   }
+
+  async getSpecificTranslation(lang, key) {
+    var origLang = i18n.language;
+
+    await i18n.changeLanguage(lang);
+    var specificTranslation = i18n.t(key);
+    await i18n.changeLanguage(origLang);
+
+    return specificTranslation;
+  }
+
+  async getChapterTranslation(lang) {
+    return await this.getSpecificTranslation(lang, 'bible-browser.chapter');
+  }
+
+  async getPsalmTranslation(lang) {
+    return await this.getSpecificTranslation(lang, 'bible-browser.psalm');
+  }
 }
 
 module.exports = I18nHelper;

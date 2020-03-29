@@ -134,17 +134,22 @@ class TextLoader {
     var verseTags = await bibleBook.getVerseTags();
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
 
-    var chapterText = i18n.t("bible-browser.chapter");
-    if (book_short_title == 'Psa') {
-      chapterText = i18n.t("bible-browser.psalm");
+    var localSwordModule = nsi.getLocalModule(currentBibleTranslationId);
+
+    var moduleLang = i18n.language;
+    if (localSwordModule != null) {
+      var moduleLang = localSwordModule.language;
+    }
+
+    var chapterText = await i18nHelper.getChapterTranslation(moduleLang);
+    if (book_short_title == 'Ps') {
+      chapterText = await i18nHelper.getPsalmTranslation(moduleLang);
     }
 
     var bookIntroduction = null;
 
     if (start_verse_number == -1) { // Only load book introduction if the whole book is requested
-      try {
-        var localSwordModule = nsi.getLocalModule(currentBibleTranslationId);
-        
+      try {        
         if (localSwordModule != null && localSwordModule.hasHeadings) {
           bookIntroduction = nsi.getBookIntroduction(currentBibleTranslationId, book_short_title);
 
