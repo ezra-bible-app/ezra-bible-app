@@ -198,9 +198,11 @@ class ModuleSearch {
 
       this.hideSearchMenu();
 
-      var searchProgressBar = bible_browser_controller.getCurrentSearchProgressBar();
-      initProgressBar(searchProgressBar);
-      searchProgressBar.show();
+      if (tabIndex == undefined) {
+        var searchProgressBar = bible_browser_controller.getCurrentSearchProgressBar();
+        initProgressBar(searchProgressBar);
+        searchProgressBar.show();
+      }
 
       // Only reset view if we got an event (in other words: not initially)
       bible_browser_controller.text_loader.prepareForNewText(event != null, true, tabIndex);
