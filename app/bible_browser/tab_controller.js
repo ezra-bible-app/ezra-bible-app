@@ -187,6 +187,7 @@ class TabController {
       }
     }
 
+    // If no tabs are loaded from a previous session we need to explicitly invoke the onTabAdded callback on the first tab
     if (loadedTabCount == 0) {
       this.onTabAdded(0);
     }
@@ -251,7 +252,7 @@ class TabController {
     return selectedTabsPanelId;
   }
 
-  addTab(metaTab=undefined) {
+  addTab(metaTab=undefined, nonInteractive=false) {
     var initialLoading = true;
     if (metaTab === undefined) {
       initialLoading = false;
@@ -276,9 +277,17 @@ class TabController {
     this.updateFirstTabCloseButton();
 
     if (!initialLoading) {
-      setTimeout(() => {
+      var onTabAddedCall = () => {
         this.onTabAdded(this.tabCounter - 1);
-      }, 250);
+      };
+
+      if (nonInteractive) {
+        onTabAddedCall();
+      } else {
+        setTimeout(() => {
+          onTabAddedCall();
+        }, 250);
+      }
     }
   }
 
