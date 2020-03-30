@@ -349,15 +349,24 @@ class Strongs {
   }
 
   findAllOccurrences(key) {
+    // First set the default bible translation to the current one to ensure that the translation in the
+    // newly opened tab matches the one in the current tab
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
+    bible_browser_controller.tab_controller.defaultBibleTranslationId = currentBibleTranslationId;
+
+    // Add a new tab and set the search option
     bible_browser_controller.tab_controller.addTab(undefined, true);
     var currentTab = bible_browser_controller.tab_controller.getTab();
     currentTab.setSearchOptions('strongsNumber', false);
 
+    // Set the search key and populate the search menu
     bible_browser_controller.tab_controller.setTabSearch(key);
     bible_browser_controller.module_search.populateSearchMenu();
 
+    // Prepare for the next text to be loaded
     bible_browser_controller.text_loader.prepareForNewText(true, true);
 
+    // Start the search after some timeout
     setTimeout(() => {
       bible_browser_controller.module_search.startSearch(null, undefined, key);
     }, 500);
