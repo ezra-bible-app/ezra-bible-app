@@ -33,10 +33,12 @@ This is a bugfix release.
 ### Fixes
 
 * Tab management: Fixed regression bug introduced in the last release. ([#37][i37])
+* Fixed crash after clicking "Find all occurances" for a Strong's number. ([#38][i38])
 
 [i32]: https://github.com/tobias-klein/ezra-project/issues/32
 [i34]: https://github.com/tobias-klein/ezra-project/issues/34
 [i37]: https://github.com/tobias-klein/ezra-project/issues/37
+[i38]: https://github.com/tobias-klein/ezra-project/issues/38
 
 ### Enablers
 
