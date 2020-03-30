@@ -349,7 +349,7 @@ class Strongs {
   }
 
   findAllOccurrences(key) {
-    bible_browser_controller.tab_controller.addTab();
+    bible_browser_controller.tab_controller.addTab(undefined, true);
     var currentTab = bible_browser_controller.tab_controller.getTab();
     currentTab.setSearchOptions('strongsNumber', false);
 
@@ -357,7 +357,10 @@ class Strongs {
     bible_browser_controller.module_search.populateSearchMenu();
 
     bible_browser_controller.text_loader.prepareForNewText(true, true);
-    bible_browser_controller.module_search.startSearch(null, undefined, key);
+
+    setTimeout(() => {
+      bible_browser_controller.module_search.startSearch(null, undefined, key);
+    }, 500);
   }
 }
 
