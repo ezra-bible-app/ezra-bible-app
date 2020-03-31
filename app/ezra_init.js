@@ -61,14 +61,6 @@ function htmlToElement(html) {
   return template.content.firstChild;
 }
 
-function getLineBreak() {
-  if (process.platform === 'win32') {
-    return "\r\n";
-  } else {
-    return "\n";
-  }
-}
-
 function sleep(time) {
   return new Promise(resolve => {
     setTimeout(() => {

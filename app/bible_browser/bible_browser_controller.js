@@ -324,6 +324,14 @@ class BibleBrowserController {
       return false;
     });
   }
+  
+  getLineBreak() {
+    if (process.platform === 'win32') {
+      return "\r\n";
+    } else {
+      return "\n";
+    }
+  }
 
   copySelectedVersesToClipboard() {
     var selectedVerseBoxes = bible_browser_controller.verse_selection.selected_verse_boxes;
@@ -342,7 +350,7 @@ class BibleBrowserController {
     }
 
     selectedText = selectedText.trim();
-    selectedText += " " + getLineBreak() + this.verse_selection.getSelectedVersesLabel().text();
+    selectedText += " " + this.getLineBreak() + this.verse_selection.getSelectedVersesLabel().text();
 
     clipboard.writeHTML(selectedText);
   }
