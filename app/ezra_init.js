@@ -46,21 +46,6 @@ var reference_separator = ':';
 var app_container_height = null;
 var bible_chapter_verse_counts = {};
 
-$.create_xml_doc = function(string)
-{
-  var doc;
-
-  if ($.browser.msie) {
-    doc = new ActiveXObject('Microsoft.XMLDOM');
-    doc.async = 'false'
-    doc.loadXML(string);
-  } else {
-    doc = (new DOMParser()).parseFromString(string, 'text/xml');
-  }
-
-  return doc;
-}
-
 String.prototype.trim = function() {
   var s = this;
   s = s.replace(/(^\s*)|(\s*$)/gi,"");
