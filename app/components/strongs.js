@@ -268,7 +268,8 @@ class Strongs {
   }
 
   getFindAllLink(strongsEntry) {
-    var functionCall = "javascript:bible_browser_controller.strongs.findAllOccurrences('" + strongsEntry.key + "')";
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
+    var functionCall = "javascript:bible_browser_controller.strongs.findAllOccurrences('" + strongsEntry.key + "','" + currentBibleTranslationId + "')";
     var link = "<p><a href=\"" + functionCall + "\">" + 
                i18n.t("dictionary-info-box.find-all-occurrances") + 
                "</a></p>";
@@ -348,11 +349,10 @@ class Strongs {
     }
   }
 
-  findAllOccurrences(key) {
-    // First set the default bible translation to the current one to ensure that the translation in the
+  findAllOccurrences(key, bibleTranslationId) {
+    // First set the default bible translation to the given one to ensure that the translation in the
     // newly opened tab matches the one in the current tab
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
-    bible_browser_controller.tab_controller.defaultBibleTranslationId = currentBibleTranslationId;
+    bible_browser_controller.tab_controller.defaultBibleTranslationId = bibleTranslationId;
 
     // Add a new tab and set the search option
     bible_browser_controller.tab_controller.addTab(undefined, true);
