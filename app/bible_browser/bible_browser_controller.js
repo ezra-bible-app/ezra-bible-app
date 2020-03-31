@@ -644,27 +644,6 @@ class BibleBrowserController {
     }
   }
 
-  wrapBookWithHtml(book_title) {
-    return "<div class='tag-browser-verselist-book-header'>" + book_title + "</div>";
-  }
-
-  enableToolbox() {
-    $('#bible-browser-toolbox').find('.ui-tabs-nav').find('li').removeClass('ui-state-disabled');
-  }
-
-  enableTaggingToolboxOnly() {
-    var menu_items = $('#bible-browser-toolbox').find('.ui-tabs-nav').find('li');
-    for (var i = 0; i < menu_items.length; i++) {
-      var current_item = $(menu_items[i]);
-      if (current_item.find('a').attr('href') == '#tags-view') {
-        current_item.removeClass('ui-state-disabled');
-      } else {
-        current_item.addClass('ui-state-disabled');
-      }
-    }
-    $('#bible-browser-toolbox').tabs('select', 1);
-  }
-
   initApplicationForVerseList(tabIndex=undefined) {
     var selectedTabIndex = this.tab_controller.getSelectedTabIndex();
     var tabIsCurrentTab = false;

@@ -364,7 +364,6 @@ class TextLoader {
     }
 
     if (listType == 'book') {
-      bible_browser_controller.enableToolbox();
       bible_browser_controller.tag_selection_menu.resetTagMenu();
       bible_browser_controller.module_search.resetSearch(tabIndex);
 
@@ -373,7 +372,6 @@ class TextLoader {
     } else if (listType == 'tagged_verses') {
 
       bible_browser_controller.module_search.resetSearch(tabIndex);
-      bible_browser_controller.enableTaggingToolboxOnly();
       bible_browser_controller.taggedVerseExport.enableTaggedVersesExportButton(tabIndex);
 
       target.removeClass('verse-list-book');
@@ -381,7 +379,6 @@ class TextLoader {
     } else if (listType == 'search_results') {
 
       //console.log("Rendering search results verse list on tab " + tabIndex);
-      bible_browser_controller.enableTaggingToolboxOnly();
       bible_browser_controller.taggedVerseExport.enableTaggedVersesExportButton(tabIndex);
 
       target.removeClass('verse-list-book');
