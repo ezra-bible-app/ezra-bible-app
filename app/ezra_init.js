@@ -80,17 +80,6 @@ async function initI18N()
 
   reference_separator = i18n.t('general.chapter-verse-separator');
   $(document).localize();
-  localizeBookSelectionMenu();
-}
-
-function localizeBookSelectionMenu()
-{
-  var aElements = $("#book-selection-menu").find('a');
-  for (var i = 0; i < aElements.length; i++) {
-    var currentBook = $(aElements[i]);
-    var currentBookTranslation = i18nHelper.getSwordTranslation(currentBook.text());
-    currentBook.text(currentBookTranslation);
-  }
 }
 
 async function initDatabase()

@@ -36,6 +36,17 @@ class BookSelectionMenu {
 
       current_link.attr('href', new_link_href);
     }
+
+    this.localizeBookSelectionMenu();
+  }
+
+  localizeBookSelectionMenu() {
+    var aElements = $("#book-selection-menu").find('a');
+    for (var i = 0; i < aElements.length; i++) {
+      var currentBook = $(aElements[i]);
+      var currentBookTranslation = i18nHelper.getSwordTranslation(currentBook.text());
+      currentBook.text(currentBookTranslation);
+    }
   }
 
   select_bible_book(book_code, book_title) {
