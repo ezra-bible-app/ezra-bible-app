@@ -137,7 +137,7 @@ function initUi()
   tags_controller.init_ui();
   uiHelper.configureButtonStyles();
   uiHelper.resizeAppContainer();
-  $(window).bind("resize", uiHelper.resizeAppContainer);
+  $(window).bind("resize", () => { uiHelper.resizeAppContainer(); });
 }
 
 async function initApplication()
