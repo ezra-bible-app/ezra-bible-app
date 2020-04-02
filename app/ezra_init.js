@@ -75,16 +75,7 @@ function sleep(time) {
 
 $.create_xml_doc = function(string)
 {
-  var doc;
-
-  if ($.browser.msie) {
-    doc = new ActiveXObject('Microsoft.XMLDOM');
-    doc.async = 'false'
-    doc.loadXML(string);
-  } else {
-    doc = (new DOMParser()).parseFromString(string, 'text/xml');
-  }
-
+  var doc = (new DOMParser()).parseFromString(string, 'text/xml');
   return doc;
 }
 
