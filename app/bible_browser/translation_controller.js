@@ -377,7 +377,7 @@ class TranslationController {
 
     var tabId = bible_browser_controller.tab_controller.getSelectedTabId(tabIndex);
     if (tabId !== undefined) {
-      configure_button_styles('#' + tabId);
+      uiHelper.configureButtonStyles('#' + tabId);
     }
   }
 

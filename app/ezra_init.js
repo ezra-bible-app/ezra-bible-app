@@ -36,6 +36,10 @@ const dbDir = dbHelper.getDatabaseDir();
 const NodeSwordInterface = require('node-sword-interface');
 const nsi = new NodeSwordInterface();
 
+// UI Helper
+const UiHelper = require('./app/helpers/ui_helper.js');
+const uiHelper = new UiHelper();
+
 // This module will modify the standard console.log function and add a timestamp as a prefix for all log calls
 require('log-timestamp');
 
@@ -66,131 +70,6 @@ function sleep(time) {
     setTimeout(() => {
       resolve();
     }, time);
-  });
-}
-
-function adapt_verse_list(verseListFrame=undefined) {
-  if (verseListFrame === undefined) {
-    verseListFrame = bible_browser_controller.getCurrentVerseListFrame();
-  }
-  
-  if (verseListFrame.width() < 650) {
-    verseListFrame.addClass('verse-list-frame-small-screen');
-  } else {
-    verseListFrame.removeClass('verse-list-frame-small-screen');
-  }
-}
-
-// FIXME: Optimize this to be tab-specific
-function resize_app_container(e) {
-  app_container_height = $(window).height() - 10;
-  $("#app-container").css("height", app_container_height);
-  // Notes disabled
-  // $('#general-notes-textarea').css('height', new_app_container_height - 210);
-
-  var tagsToolBarHeight = $('#tags-toolbar').height();
-
-  if (bible_browser_controller.optionsMenu.strongsSwitchChecked()) {
-    $('#tags-content-global').css('height', app_container_height - tagsToolBarHeight - 415);
-    $('#dictionary-info-box-panel').css('height', 302);
-  } else {
-    $('#tags-content-global').css('height', app_container_height - tagsToolBarHeight - 55);
-  }
-
-  if (e === undefined) {
-    // If there was no event then we don't react after the window was resized
-    resize_verse_list();
-  } else {
-    // If the window was resized we get an event. In this case we need to resize all verse lists in all tabs
-    var tabCount = bible_browser_controller.tab_controller.getTabCount();
-    for (var i = 0; i < tabCount; i++) {
-      resize_verse_list(i);
-    }
-  }
-}
-
-function resize_verse_list(tabIndex=undefined) {
-  if (tabIndex === undefined) {
-    tabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
-  }
-
-  var verseListComposite = bible_browser_controller.getCurrentVerseListComposite(tabIndex);
-  var navigationPane = verseListComposite.find('.navigation-pane');
-  var verseListFrame = verseListComposite.find('.verse-list-frame');
-
-  var newVerseListHeight = app_container_height - 135;
-  navigationPane.css('height', newVerseListHeight);
-  verseListFrame.css('height', newVerseListHeight);
-
-  adapt_verse_list(verseListFrame);
-}
-
-function configure_button_styles(context = null)
-{
-  if (context == null) {
-    context = document;
-  } else {
-    var context = document.querySelector(context);
-  }
-
-  var buttons = context.querySelectorAll('.fg-button');
-
-  for (var i = 0; i < buttons.length; i++) {
-    var currentButton = buttons[i];
-    var currentButtonClasses = currentButton.classList;
-
-    if (!currentButtonClasses.contains("ui-state-disabled") && !currentButtonClasses.contains("events-configured")) {
-      currentButton.addEventListener('mouseover', function(e) {
-        $(e.target).closest('.fg-button').addClass('ui-state-hover');
-      });
-
-      currentButton.addEventListener('mouseout', function(e) {
-        $(e.target).closest('.fg-button').removeClass('ui-state-hover');
-      });
-
-      currentButton.addEventListener('mousedown', function(e) {
-        handle_fg_button_mousedown($(e.target).closest('.fg-button'), e.target.nodeName != 'INPUT');
-      });
-
-      currentButton.addEventListener('mouseup', function(e) {
-        if(!$(e.target).closest('.fg-button').is('.fg-button-toggleable, .fg-buttonset-single .fg-button,  .fg-buttonset-multi .fg-button') ){
-          $(e.target).closest('.fg-button').removeClass("ui-state-active");
-        }
-      });
-
-      currentButton.classList.add('events-configured');
-    }
-  }
-}
-
-function handle_fg_button_mousedown(element, click_checkbox) {
-  $(element).parents('.fg-buttonset-single:first').find(".fg-button.ui-state-active").removeClass("ui-state-active");
-  if ($(element).is('.ui-state-active.fg-button-toggleable, .fg-buttonset-multi .ui-state-active')) {
-    $(element).removeClass("ui-state-active");
-  } else { 
-    $(element).addClass("ui-state-active");
-  }
-
-  if (click_checkbox) {
-    var embedded_input = $(element).find('input:first');
-
-    if (embedded_input.attr('type') == 'checkbox') {
-      embedded_input[0].click();
-    }
-  }
-}
-
-function initProgressBar(progressBar) {
-  var progressLabel = progressBar.find(".progress-label");
-
-  progressBar.progressbar({
-    value: false,
-    change: function() {
-      progressLabel.text( progressBar.progressbar( "value" ) + "%" );
-    },
-    complete: function() {
-      progressLabel.text(i18n.t('general.completed'));
-    }
   });
 }
 
@@ -245,7 +124,7 @@ function initUi()
   $('#bible-browser-toolbox').resizable({
     handles: 'e',
     resize: function(event, ui) {
-      adapt_verse_list();
+      uiHelper.adaptVerseList();
     },
     stop: function(event, ui) {
       //console.log("Saving new tag list width: " + ui.size.width);
@@ -261,9 +140,9 @@ function initUi()
   });
 
   tags_controller.init_ui();
-  configure_button_styles();
-  resize_app_container();
-  $(window).bind("resize", resize_app_container);
+  uiHelper.configureButtonStyles();
+  uiHelper.resizeAppContainer();
+  $(window).bind("resize", uiHelper.resizeAppContainer);
 }
 
 async function initApplication()

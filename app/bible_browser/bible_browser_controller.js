@@ -189,14 +189,14 @@ class BibleBrowserController {
     this.strongs.hideStrongsBox();
     this.verse_context_loader.hide_verse_expand_box();
 
-    configure_button_styles('.verse-list-menu');
+    uiHelper.configureButtonStyles('.verse-list-menu');
   }
 
   onTabAdded(tabIndex=0) {
     this.hideAllMenus();
     // Refresh the view based on the options selected
     this.optionsMenu.refreshViewBasedOnOptions(tabIndex);
-    resize_verse_list(tabIndex);
+    uiHelper.resizeVerseList(tabIndex);
     
     this.initCurrentVerseListMenu(tabIndex);
     this.tag_selection_menu.init(tabIndex);
@@ -268,7 +268,7 @@ class BibleBrowserController {
         this.settings.get('tag_list_width') != null) {
 
       $('#bible-browser-toolbox').css('width', this.settings.get('tag_list_width'));
-      resize_app_container();
+      uiHelper.resizeAppContainer();
     }
 
     if (await models.Tag.getTagCount() > 0) {
@@ -299,7 +299,7 @@ class BibleBrowserController {
 
     var tabId = this.tab_controller.getSelectedTabId(tabIndex);
     if (tabId !== undefined) {
-      configure_button_styles('#' + tabId);
+      uiHelper.configureButtonStyles('#' + tabId);
     }
 
     this.navigation_pane.updateNavigation();

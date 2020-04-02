@@ -196,7 +196,7 @@ class OptionsMenu {
       
         bible_browser_controller.tag_assignment_menu.moveTagAssignmentList(false);
         currentToolBar.show();
-        resize_app_container();
+        uiHelper.resizeAppContainer();
       } else {
         currentToolBar.hide();
         bible_browser_controller.tag_assignment_menu.moveTagAssignmentList(true);
@@ -269,7 +269,7 @@ class OptionsMenu {
     } else {
       bible_browser_controller.strongs.dictionaryInfoBox.show();
     }
-    resize_app_container();
+    uiHelper.resizeAppContainer();
   }
 
   showOrHideVerseTagsBasedOnOption(tabIndex=undefined) {

@@ -367,7 +367,7 @@ class VerseSelection {
 
     var tabId = bible_browser_controller.tab_controller.getSelectedTabId();
     if (tabId !== undefined) {
-      configure_button_styles('#' + tabId);
+      uiHelper.configureButtonStyles('#' + tabId);
     }
   }
 

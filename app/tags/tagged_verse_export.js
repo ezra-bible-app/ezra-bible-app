@@ -33,7 +33,7 @@ class TaggedVerseExport {
     });
     exportButton.show();
     exportButton.removeClass('events-configured');
-    configure_button_styles('.verse-list-menu');
+    uiHelper.configureButtonStyles('.verse-list-menu');
   }
 
   disableTaggedVersesExportButton(tabIndex=undefined) {

@@ -200,7 +200,7 @@ class ModuleSearch {
 
       if (tabIndex == 0 || tabIndex == undefined) {
         var searchProgressBar = bible_browser_controller.getCurrentSearchProgressBar();
-        initProgressBar(searchProgressBar);
+        uiHelper.initProgressBar(searchProgressBar);
         searchProgressBar.show();
       }
 

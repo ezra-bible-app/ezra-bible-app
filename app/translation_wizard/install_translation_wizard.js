@@ -71,7 +71,7 @@ class InstallTranslationWizard {
       $('#remove-bible-translations-button').addClass('ui-state-disabled');
     }
 
-    configure_button_styles('#translation-settings-wizard-init');
+    uiHelper.configureButtonStyles('#translation-settings-wizard-init');
 
     $('#translation-settings-wizard').dialog({
       position: [offsetLeft, offsetTop],
@@ -99,7 +99,7 @@ class InstallTranslationWizard {
       var progressBar = "<div id='repo-update-progress-bar' class='progress-bar'><div class='progress-label'>" + loadingText + "</div></div>";
       wizardPage.append(progressBar);
 
-      initProgressBar($('#repo-update-progress-bar'));
+      uiHelper.initProgressBar($('#repo-update-progress-bar'));
 
       try {
         await nsi.updateRepositoryConfig((progress) => {
@@ -336,7 +336,7 @@ class InstallTranslationWizard {
       installPage.append(progressMessage);
     }
 
-    initProgressBar($('#module-install-progress-bar'));
+    uiHelper.initProgressBar($('#module-install-progress-bar'));
     var existingProgressBar = $('#module-install-progress-bar');
 
     var installSuccessful = true;
@@ -851,7 +851,7 @@ class InstallTranslationWizard {
       await this.updateRepositoryConfig(true);
     });
 
-    configure_button_styles('#translation-settings-wizard-add-p-0');
+    uiHelper.configureButtonStyles('#translation-settings-wizard-add-p-0');
 
     var additionalInfo = "<p style='margin-top: 2em;'>" +
                          i18n.t("translation-wizard.more-repo-information-needed") +

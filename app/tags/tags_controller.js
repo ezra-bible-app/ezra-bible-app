@@ -703,7 +703,7 @@ class TagsController {
     global_tags_box_el.innerHTML = all_tags_html;
 
     tags_controller.refresh_timestamps_and_book_tag_statistics(tag_list, current_book);
-    configure_button_styles('#tags-content');
+    uiHelper.configureButtonStyles('#tags-content');
     tags_controller.update_tag_count_after_rendering();
 
     // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
