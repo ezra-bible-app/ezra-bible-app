@@ -40,6 +40,8 @@ const nsi = new NodeSwordInterface();
 const UiHelper = require('./app/helpers/ui_helper.js');
 const uiHelper = new UiHelper();
 
+const bodyScrollLock = require('body-scroll-lock');
+
 // This module will modify the standard console.log function and add a timestamp as a prefix for all log calls
 require('log-timestamp');
 
@@ -167,6 +169,9 @@ async function initApplication()
 
   // Show main content
   $('#main-content').show();
+
+  // Disable scrolling on body element level (relevant for touch use on Windows)
+  bodyScrollLock.disableBodyScroll(document.body);
 
   await bible_browser_controller.translation_controller.installStrongsIfNeeded();
 

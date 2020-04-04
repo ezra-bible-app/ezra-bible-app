@@ -39,6 +39,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "@sentry/electron": "^1.0.0",
+    "body-scroll-lock": "^3.0.1",
     "electron-debug": "^2.1.0",
     "electron-is-dev": "^1.1.0",
     "electron-settings": "^3.2.0",
