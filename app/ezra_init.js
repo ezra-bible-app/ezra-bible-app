@@ -35,6 +35,7 @@ const dbDir = dbHelper.getDatabaseDir();
 // Global instance of NodeSwordInterface used in many places
 const NodeSwordInterface = require('node-sword-interface');
 const nsi = new NodeSwordInterface();
+nsi.enableMarkup();
 
 // UI Helper
 const UiHelper = require('./app/helpers/ui_helper.js');

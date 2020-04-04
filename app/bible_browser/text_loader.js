@@ -128,7 +128,6 @@ class TextLoader {
       bibleBook = await models.BibleBook.findOne({ where: { shortTitle: book_short_title }});
     }
     
-    nsi.enableMarkup();
     var verses = nsi.getBookText(currentBibleTranslationId, book_short_title, start_verse_number, number_of_verses);
 
     var verseTags = await bibleBook.getVerseTags();
@@ -270,8 +269,6 @@ class TextLoader {
     var verseReferences = await models.VerseReference.findByTagIds(selected_tags);
     var verseReferenceIds = [];
     var verses = [];
-
-    nsi.enableMarkup();
 
     for (var i = 0; i < verseReferences.length; i++) {
       var currentVerseReference = verseReferences[i];
