@@ -618,7 +618,7 @@ class TagsController {
     if (tag_title_array.length > 0) {
       tag_box.show();
       $(verse_box).find('.tag').bind('click', (e) => {
-        bible_browser_controller.handleTagReferenceClick(e);
+        bible_browser_controller.tag_reference_box.handleTagReferenceClick(e);
       });
     } else {
       tag_box.hide();
