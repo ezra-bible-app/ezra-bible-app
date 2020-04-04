@@ -111,9 +111,17 @@ class TextLoader {
                         number_of_verses=-1) {
 
     var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
+    var localSwordModule = null;
+
+    try {
+      localSwordModule = nsi.getLocalModule(currentBibleTranslationId);
+    } catch (e) {
+      console.log("ERROR: Could not get local Sword module for " + currentBibleTranslationId);
+    }
 
     if (currentBibleTranslationId == null || 
-        currentBibleTranslationId == "") {
+        currentBibleTranslationId == "" ||
+        localSwordModule == null) {
 
       $('#verse-list-loading-indicator').hide();
       return;
@@ -132,8 +140,6 @@ class TextLoader {
 
     var verseTags = await bibleBook.getVerseTags();
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
-
-    var localSwordModule = nsi.getLocalModule(currentBibleTranslationId);
 
     var moduleLang = i18n.language;
     if (localSwordModule != null) {

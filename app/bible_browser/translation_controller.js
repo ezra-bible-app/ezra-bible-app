@@ -284,7 +284,14 @@ class TranslationController {
       return false;
     }
 
-    var bibleTranslation = nsi.getLocalModule(translationId);
+    var bibleTranslation = null;
+
+    try {
+      bibleTranslation = nsi.getLocalModule(translationId);
+    } catch (e) {
+      console.log("Could not get local sword module for " + translationId);
+      return false;
+    }
 
     if (bibleTranslation != null) {
       return bibleTranslation.hasStrongs;
