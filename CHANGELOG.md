@@ -44,6 +44,7 @@ This is a bugfix release.
 
 ### Enablers
 
+* Add deb package for Linux Mint 19.
 * Upgraded Electron from 8.1.1 to 8.2.0.
 
 
