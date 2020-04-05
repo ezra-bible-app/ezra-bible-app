@@ -14,11 +14,13 @@ All notable changes to Ezra Project are documented in this file.
 
 ### Fixes
 
-* Fx1
+* Properly localize book names in tab titles. ([#41][i41])
 
 ### Enablers
 
 * En1
+
+[i41]: https://github.com/tobias-klein/ezra-project/issues/41
 
 -->
 

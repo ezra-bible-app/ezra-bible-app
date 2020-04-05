@@ -22,6 +22,8 @@ class BookSelectionMenu {
   }
 
   init() {
+    this.localizeBookSelectionMenu();
+
     var menu = $('#app-container').find('#book-selection-menu');
     var links = menu.find('a');
 
@@ -36,8 +38,6 @@ class BookSelectionMenu {
 
       current_link.attr('href', new_link_href);
     }
-
-    this.localizeBookSelectionMenu();
   }
 
   localizeBookSelectionMenu() {
