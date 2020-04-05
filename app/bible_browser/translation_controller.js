@@ -116,9 +116,6 @@ class TranslationController {
 
   updateUiBasedOnNumberOfTranslations(tabIndex, count) {
     var bibleSelect = this.getBibleSelect(tabIndex);
-    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
-    var currentBook = currentTab.getBook();
-    var currentTagIdList = currentTab.getTagIdList();
 
     if (count == 0) {
       bibleSelect.attr('disabled','disabled');
@@ -133,6 +130,15 @@ class TranslationController {
       $('.bible-select').removeAttr('disabled');
       $('.book-select-button').removeClass('ui-state-disabled');
       $('.module-search-button').removeClass('ui-state-disabled');
+
+      var currentBook = null;
+      var currentTagIdList = "";
+
+      var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+      if (currentTab != null) {
+        currentBook = currentTab.getBook();
+        currentTagIdList = currentTab.getTagIdList();
+      }
 
       if (currentBook == null && currentTagIdList == "")  {
         var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
