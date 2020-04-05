@@ -1346,7 +1346,7 @@ s {
   display: none
 }
 
-.darkmode--activated a:link, .darkmode--activated a:visited, .darkmode--activated p, .darkmode--activated li, .darkmode--activated .verse-list-composite {
+.darkmode--activated a:link, .darkmode--activated a:visited, .darkmode--activated p, .darkmode--activated .verse-list-composite {
   color: whitesmoke;
 }
 
@@ -1354,7 +1354,7 @@ s {
   mix-blend-mode: difference;
 }
 
-.darkmode--activated .ui-widget-content, .darkmode--activated section {
+.darkmode--activated section {
   background: none;
   background-color: black;
   color: whitesmoke;
@@ -1372,8 +1372,8 @@ s {
   background-color: gray;
 }
 
-.darkmode--activated .ui-selectmenu-item-selected, .darkmode--activated .ui-state-hover, .darkmode--activated .ui-state-focus {
+/*.darkmode--activated .ui-state-focus {
   color: whitesmoke;
   background: none;
   background-color: black;
-}
+}*/
