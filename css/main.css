@@ -464,6 +464,10 @@ h2 {
   border-radius: 4px;
 }
 
+.darkmode--activated .ui-selected, .darkmode--activated .ui-selecting {
+  background-color: #00396a;
+}
+
 .ui-state-hover {
   cursor: pointer;
 }
@@ -1334,6 +1338,42 @@ s {
   text-shadow: 1px 1px 0 #fff;
 }
 
+.darkmode--activated .progress-label {
+  text-shadow: none;
+}
+
 .search-progress-bar {
   display: none
+}
+
+.darkmode--activated a:link, .darkmode--activated a:visited, .darkmode--activated p, .darkmode--activated li, .darkmode--activated .verse-list-composite {
+  color: whitesmoke;
+}
+
+.darkmode--activated .logo {
+  mix-blend-mode: difference;
+}
+
+.darkmode--activated .ui-widget-content, .darkmode--activated section {
+  background: none;
+  background-color: black;
+  color: whitesmoke;
+}
+
+.darkmode--activated .ui-dialog-titlebar {
+  background: none;
+  background-color: #003664;
+}
+
+.darkmode--activated .wizard > .steps .disabled a,
+.darkmode--activated .wizard > .steps .disabled a:hover,
+.darkmode--activated .wizard > .steps .disabled a:active {
+  background: none;
+  background-color: gray;
+}
+
+.darkmode--activated .ui-selectmenu-item-selected, .darkmode--activated .ui-state-hover, .darkmode--activated .ui-state-focus {
+  color: whitesmoke;
+  background: none;
+  background-color: black;
 }

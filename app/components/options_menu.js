@@ -16,9 +16,12 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const Darkmode = require('darkmode-js');
+
 class OptionsMenu {
   constructor() {
     this.menuIsOpened = false;
+    this.darkMode = null;
   }
 
   initCurrentOptionsMenu(tabIndex=undefined) {
@@ -62,6 +65,12 @@ class OptionsMenu {
     $('#tags-column-switch').bind('change', () => {
       bible_browser_controller.settings.set('useTagsColumn', this.tagsColumnSwitchChecked());
       this.changeTagsLayoutBasedOnOption();
+      this.slowlyHideDisplayMenu();
+    });
+
+    $('#night-mode-switch').bind('change', () => {
+      bible_browser_controller.settings.set('useNightMode', this.nightModeSwitchChecked());
+      this.useNightModeBasedOnOption();
       this.slowlyHideDisplayMenu();
     });
 
@@ -306,6 +315,18 @@ class OptionsMenu {
     }
   }
 
+  useNightModeBasedOnOption() {
+    if (this.darkMode == null) {
+      this.darkMode = new Darkmode();
+    }
+
+    if (this.nightModeSwitchChecked() && !this.darkMode.isActivated() ||
+        !this.nightModeSwitchChecked() && this.darkMode.isActivated()) {
+          
+      this.darkMode.toggle();
+    }
+  }
+
   refreshViewBasedOnOptions(tabIndex=undefined) {
     this.showOrHideToolBarBasedOnOption(tabIndex);
     this.showOrHideBookIntroductionBasedOnOption(tabIndex);
@@ -313,6 +334,7 @@ class OptionsMenu {
     this.showOrHideVerseTagsBasedOnOption(tabIndex);
     this.changeTagsLayoutBasedOnOption(tabIndex);
     this.showOrHideStrongsBasedOnOption(tabIndex);
+    this.useNightModeBasedOnOption();
   }
 
   toolBarSwitchChecked() {
@@ -341,6 +363,10 @@ class OptionsMenu {
 
   tagsColumnSwitchChecked() {
     return $('#tags-column-switch').prop('checked');
+  }
+
+  nightModeSwitchChecked() {
+    return $('#night-mode-switch').prop('checked');
   }
 }
 
