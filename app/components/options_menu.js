@@ -70,8 +70,12 @@ class OptionsMenu {
 
     $('#night-mode-switch').bind('change', () => {
       bible_browser_controller.settings.set('useNightMode', this.nightModeSwitchChecked());
-      this.useNightModeBasedOnOption();
-      this.slowlyHideDisplayMenu();
+      this.hideDisplayMenu();
+      showGlobalLoadingIndicator();
+
+      setTimeout(() => {
+        this.useNightModeBasedOnOption();
+      }, 100);
     });
 
     /*$('#verse-notes-switch').bind('change', function() {
@@ -333,6 +337,10 @@ class OptionsMenu {
           
       this.darkMode.toggle();
     }
+
+    setTimeout(() => {
+      hideGlobalLoadingIndicator();
+    }, 50);
   }
 
   refreshViewBasedOnOptions(tabIndex=undefined) {

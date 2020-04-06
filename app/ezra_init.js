@@ -141,6 +141,19 @@ function initUi()
   $(window).bind("resize", () => { uiHelper.resizeAppContainer(); });
 }
 
+function showGlobalLoadingIndicator() {
+  $('#main-content').hide();
+  var loadingIndicator = $('#startup-loading-indicator');
+  loadingIndicator.show();
+  loadingIndicator.find('.loader').show();
+}
+
+function hideGlobalLoadingIndicator() {
+  var loadingIndicator = $('#startup-loading-indicator');
+  loadingIndicator.hide();
+  $('#main-content').show();
+}
+
 async function initApplication()
 {
   //console.time("application-startup");
