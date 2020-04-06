@@ -316,6 +316,14 @@ class OptionsMenu {
   }
 
   useNightModeBasedOnOption() {
+    if (this.nightModeSwitchChecked()) {
+      // Switch to dark-hive theme
+      document.querySelector("#theme-css").href = 'css/jquery-ui/dark-hive/jquery-ui.css';
+    } else {
+      // Switch to cupertino theme
+      document.querySelector("#theme-css").href = 'css/jquery-ui/cupertino/jquery-ui.css';
+    }
+
     if (this.darkMode == null) {
       this.darkMode = new Darkmode();
     }

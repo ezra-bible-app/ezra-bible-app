@@ -1360,20 +1360,9 @@ s {
   color: whitesmoke;
 }
 
-.darkmode--activated .ui-dialog-titlebar {
-  background: none;
-  background-color: #003664;
-}
-
 .darkmode--activated .wizard > .steps .disabled a,
 .darkmode--activated .wizard > .steps .disabled a:hover,
 .darkmode--activated .wizard > .steps .disabled a:active {
   background: none;
   background-color: gray;
 }
-
-/*.darkmode--activated .ui-state-focus {
-  color: whitesmoke;
-  background: none;
-  background-color: black;
-}*/
