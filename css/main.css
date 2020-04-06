@@ -832,6 +832,12 @@ h2 {
   float: left;
 }
 
+.darkmode--activated .export-tagged-verses-button,
+.darkmode--activated .display-options-button {
+  background: none;
+  background-color: slategray;
+}
+
 .bible-translation-info-button {
   width: 2.2em;
   font-size: 120%;
