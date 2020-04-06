@@ -322,6 +322,12 @@ h2 {
   border-radius: 4px;
 }
 
+.darkmode--activated .tag {
+  border: 0px;
+  color: whitesmoke;
+  background-color: darkslategray;
+}
+
 #tag-reference-box, #book-tag-statistics-box, #bible-translation-info-box {
   display: none;
 }

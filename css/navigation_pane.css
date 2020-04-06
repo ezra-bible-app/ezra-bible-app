@@ -77,6 +77,20 @@ a.hl-nav-element:link, a.navigation-link:hover, a.navigation-link:focus {
   color: black;
 }
 
+.darkmode--activated a.navigation-link:link,
+.darkmode--activated a.navigation-link:focus {
+  background: #222222 url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_35_222222_1x100.png) 50% 50% repeat-x;
+  color: whitesmoke;
+  border: 1px solid #444444;
+}
+
+.darkmode--activated a.hl-nav-element:hover,
+.darkmode--activated a.hl-nav-element:link,
+.darkmode--activated a.navigation-link:hover {
+  border: 1px solid #0b93d5;
+  background: #003147 url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
+}
+
 a.hl-search-result:link {
   border: 1px solid orange;
   border-radius: 4px;
