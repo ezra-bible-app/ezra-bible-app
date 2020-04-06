@@ -16,9 +16,12 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const Darkmode = require('darkmode-js');
+
 class OptionsMenu {
   constructor() {
     this.menuIsOpened = false;
+    this.darkMode = null;
   }
 
   initCurrentOptionsMenu(tabIndex=undefined) {
@@ -63,6 +66,16 @@ class OptionsMenu {
       bible_browser_controller.settings.set('useTagsColumn', this.tagsColumnSwitchChecked());
       this.changeTagsLayoutBasedOnOption();
       this.slowlyHideDisplayMenu();
+    });
+
+    $('#night-mode-switch').bind('change', () => {
+      bible_browser_controller.settings.set('useNightMode', this.nightModeSwitchChecked());
+      this.hideDisplayMenu();
+      showGlobalLoadingIndicator();
+
+      setTimeout(() => {
+        this.useNightModeBasedOnOption();
+      }, 100);
     });
 
     /*$('#verse-notes-switch').bind('change', function() {
@@ -161,6 +174,11 @@ class OptionsMenu {
       useTagsColumn = bible_browser_controller.settings.get('useTagsColumn');
     }
 
+    var useNightMode = false;
+    if (bible_browser_controller.settings.has('useNightMode')) {
+      useNightMode = bible_browser_controller.settings.get('useNightMode');
+    }
+
     if (showToolBar) {
       this.enableOption('tool-bar-switch');
     }
@@ -183,6 +201,10 @@ class OptionsMenu {
 
     if (useTagsColumn) {
       this.enableOption('tags-column-switch');
+    }
+
+    if (useNightMode) {
+      this.enableOption('night-mode-switch');
     }
 
     this.refreshViewBasedOnOptions();
@@ -306,6 +328,30 @@ class OptionsMenu {
     }
   }
 
+  useNightModeBasedOnOption(force=false) {
+    if (this.nightModeSwitchChecked(force)) {
+      switchToDarkTheme();
+    } else {
+      switchToRegularTheme();
+    }
+
+    if (this.darkMode == null) {
+      this.darkMode = new Darkmode();
+    }
+
+    if (this.nightModeSwitchChecked(force) && !this.darkMode.isActivated() ||
+        !this.nightModeSwitchChecked(force) && this.darkMode.isActivated()) {
+          
+      this.darkMode.toggle();
+    }
+
+    if (!force) {
+      setTimeout(() => {
+        hideGlobalLoadingIndicator();
+      }, 50);
+    }
+  }
+
   refreshViewBasedOnOptions(tabIndex=undefined) {
     this.showOrHideToolBarBasedOnOption(tabIndex);
     this.showOrHideBookIntroductionBasedOnOption(tabIndex);
@@ -313,6 +359,7 @@ class OptionsMenu {
     this.showOrHideVerseTagsBasedOnOption(tabIndex);
     this.changeTagsLayoutBasedOnOption(tabIndex);
     this.showOrHideStrongsBasedOnOption(tabIndex);
+    this.useNightModeBasedOnOption();
   }
 
   toolBarSwitchChecked() {
@@ -341,6 +388,14 @@ class OptionsMenu {
 
   tagsColumnSwitchChecked() {
     return $('#tags-column-switch').prop('checked');
+  }
+
+  nightModeSwitchChecked(force=false) {
+    if (force) {
+      return true;
+    } else {
+      return $('#night-mode-switch').prop('checked');
+    }
   }
 }
 

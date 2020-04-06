@@ -264,6 +264,11 @@ tr.td-underline td {
   background-color: white;
 }
 
+.darkmode--activated #filter-dialog {
+  background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat;
+  color: whitesmoke;
+}
+
 #filter-dialog input {
   margin: 0.5em;
 }

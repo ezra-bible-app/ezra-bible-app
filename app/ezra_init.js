@@ -141,6 +141,48 @@ function initUi()
   $(window).bind("resize", () => { uiHelper.resizeAppContainer(); });
 }
 
+function showGlobalLoadingIndicator() {
+  $('#main-content').hide();
+  var loadingIndicator = $('#startup-loading-indicator');
+  loadingIndicator.show();
+  loadingIndicator.find('.loader').show();
+}
+
+function hideGlobalLoadingIndicator() {
+  var loadingIndicator = $('#startup-loading-indicator');
+  loadingIndicator.hide();
+  $('#main-content').show();
+}
+
+function switchToDarkTheme() {
+  switchToTheme('css/jquery-ui/dark-hive/jquery-ui.css');
+}
+
+function switchToRegularTheme() {
+  switchToTheme('css/jquery-ui/cupertino/jquery-ui.css');
+}
+
+function switchToTheme(theme) {
+  var currentTheme = document.querySelector("#theme-css").href;
+
+  if (currentTheme.indexOf(theme) == -1) { // Only switch the theme if it is different from the current theme
+    document.querySelector("#theme-css").href = theme;
+  }
+}
+
+function initNightMode() {
+  var useNightMode = false;
+
+  if (bible_browser_controller.settings.has('useNightMode')) {
+    useNightMode = bible_browser_controller.settings.get('useNightMode');
+
+    if (useNightMode) {
+      console.log("Initializing night mode ...");
+      bible_browser_controller.optionsMenu.useNightModeBasedOnOption(true);
+    }
+  }
+}
+
 async function initApplication()
 {
   //console.time("application-startup");
@@ -152,7 +194,7 @@ async function initApplication()
       loadingIndicator.show();
       loadingIndicator.find('.loader').show();
     }
-  }, 1000);
+  }, 500);
 
   console.log("Initializing i18n ...");
   await initI18N();
@@ -165,6 +207,8 @@ async function initApplication()
 
   console.log("Initializing user interface ...");
   initUi();
+
+  initNightMode();
 
   // Show main content
   $('#main-content').show();

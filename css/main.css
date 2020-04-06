@@ -322,6 +322,12 @@ h2 {
   border-radius: 4px;
 }
 
+.darkmode--activated .tag {
+  border: 0px;
+  color: whitesmoke;
+  background-color: darkslategray;
+}
+
 #tag-reference-box, #book-tag-statistics-box, #bible-translation-info-box {
   display: none;
 }
@@ -464,6 +470,10 @@ h2 {
   border-radius: 4px;
 }
 
+.darkmode--activated .ui-selected, .darkmode--activated .ui-selecting {
+  background-color: #00396a;
+}
+
 .ui-state-hover {
   cursor: pointer;
 }
@@ -534,6 +544,7 @@ h2 {
 }*/
 
 .ui-widget, .ui-widget .ui-widget, .ui-widget button, .fg-button, .ui-selectmenu-menu {
+  font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
   font-size: 0.9em;
 }
 
@@ -557,7 +568,7 @@ h2 {
 }
 
 #translation-settings-wizard-add, #translation-settings-wizard-add .content {
-  min-height: 600px;
+  min-height: 620px;
 }
 
 #translation-settings-wizard .label {
@@ -698,6 +709,13 @@ h2 {
   margin: 1px;
 }
 
+.darkmode--activated .book-list-column li a:link,
+.darkmode--activated .book-list-column li.book-available a:visited,
+.darkmode--activated .book-list-column li.book-available a:hover,
+.darkmode--activated .book-list-column li.book-available a:focus {
+  border: 1px;
+}
+
 .book-list-column li.book-available a:link, .book-list-column li.book-available a:visited {
   cursor: pointer;
 }
@@ -711,12 +729,26 @@ h2 {
   background: #e4f1fb url(images/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
 }
 
+.darkmode--activated .book-list-column li.book-available a:hover,
+.darkmode--activated .book-list-column li.book-available a:focus {
+  background: none;
+  background-color: #00396a;
+}
+
 .book-list-column li.book-selected a:link, .book-list-column li.book-selected a:visited, .book-list-column li.book-selected a:focus {
   border: 1px solid #74B2E2;
   margin: 1px;
   border-radius: 4px;
   padding: 2px;
   background: #e4f1fb url(images/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
+}
+
+.darkmode--activated .book-list-column li.book-selected a:link,
+.darkmode--activated .book-list-column li.book-selected a:visited,
+.darkmode--activated .book-list-column li.book-selected a:focus {
+  background: none;
+  background-color: #00396a;
+  border: 1px solid #00396a;
 }
 
 .verse-list-loading-indicator, .loading-indicator {
@@ -798,6 +830,12 @@ h2 {
 
 .export-tagged-verses-button, .bible-translation-info-button {
   float: left;
+}
+
+.darkmode--activated .export-tagged-verses-button,
+.darkmode--activated .display-options-button {
+  background: none;
+  background-color: slategray;
 }
 
 .bible-translation-info-button {
@@ -1165,6 +1203,14 @@ h2 {
   font-size: 0.9em;
 }
 
+.darkmode--activated #module-search-menu, .darkmode--activated .verse-selection-menu, .darkmode--activated #display-options-menu {
+  background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat;
+}
+
+.darkmode--activated .verse-selection-menu span {
+  color: whitesmoke;
+}
+
 #tag-selection-taglist-global {
   margin-top: 1em;
   height: 400px;
@@ -1334,6 +1380,31 @@ s {
   text-shadow: 1px 1px 0 #fff;
 }
 
+.darkmode--activated .progress-label {
+  text-shadow: none;
+}
+
 .search-progress-bar {
   display: none
+}
+
+.darkmode--activated a:link, .darkmode--activated a:visited, .darkmode--activated p, .darkmode--activated .verse-list-composite {
+  color: whitesmoke;
+}
+
+.darkmode--activated .logo {
+  mix-blend-mode: difference;
+}
+
+.darkmode--activated section {
+  background: none;
+  background-color: black;
+  color: whitesmoke;
+}
+
+.darkmode--activated .wizard > .steps .disabled a,
+.darkmode--activated .wizard > .steps .disabled a:hover,
+.darkmode--activated .wizard > .steps .disabled a:active {
+  background: none;
+  background-color: gray;
 }
