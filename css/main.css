@@ -538,6 +538,7 @@ h2 {
 }*/
 
 .ui-widget, .ui-widget .ui-widget, .ui-widget button, .fg-button, .ui-selectmenu-menu {
+  font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
   font-size: 0.9em;
 }
 
