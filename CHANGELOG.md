@@ -10,7 +10,7 @@ All notable changes to Ezra Project are documented in this file.
 
 ### Enhancements
 
-* E1
+* Added switchable night-mode / darker color scheme ([#43][i43])
 
 ### Fixes
 
@@ -21,6 +21,7 @@ All notable changes to Ezra Project are documented in this file.
 * En1
 
 [i41]: https://github.com/tobias-klein/ezra-project/issues/41
+[i43]: https://github.com/tobias-klein/ezra-project/issues/43
 
 -->
 
