@@ -174,6 +174,11 @@ class OptionsMenu {
       useTagsColumn = bible_browser_controller.settings.get('useTagsColumn');
     }
 
+    var useNightMode = false;
+    if (bible_browser_controller.settings.has('useNightMode')) {
+      useNightMode = bible_browser_controller.settings.get('useNightMode');
+    }
+
     if (showToolBar) {
       this.enableOption('tool-bar-switch');
     }
@@ -196,6 +201,10 @@ class OptionsMenu {
 
     if (useTagsColumn) {
       this.enableOption('tags-column-switch');
+    }
+
+    if (useNightMode) {
+      this.enableOption('night-mode-switch');
     }
 
     this.refreshViewBasedOnOptions();
@@ -319,28 +328,28 @@ class OptionsMenu {
     }
   }
 
-  useNightModeBasedOnOption() {
-    if (this.nightModeSwitchChecked()) {
-      // Switch to dark-hive theme
-      document.querySelector("#theme-css").href = 'css/jquery-ui/dark-hive/jquery-ui.css';
+  useNightModeBasedOnOption(force=false) {
+    if (this.nightModeSwitchChecked(force)) {
+      switchToDarkTheme();
     } else {
-      // Switch to cupertino theme
-      document.querySelector("#theme-css").href = 'css/jquery-ui/cupertino/jquery-ui.css';
+      switchToRegularTheme();
     }
 
     if (this.darkMode == null) {
       this.darkMode = new Darkmode();
     }
 
-    if (this.nightModeSwitchChecked() && !this.darkMode.isActivated() ||
-        !this.nightModeSwitchChecked() && this.darkMode.isActivated()) {
+    if (this.nightModeSwitchChecked(force) && !this.darkMode.isActivated() ||
+        !this.nightModeSwitchChecked(force) && this.darkMode.isActivated()) {
           
       this.darkMode.toggle();
     }
 
-    setTimeout(() => {
-      hideGlobalLoadingIndicator();
-    }, 50);
+    if (!force) {
+      setTimeout(() => {
+        hideGlobalLoadingIndicator();
+      }, 50);
+    }
   }
 
   refreshViewBasedOnOptions(tabIndex=undefined) {
@@ -381,8 +390,12 @@ class OptionsMenu {
     return $('#tags-column-switch').prop('checked');
   }
 
-  nightModeSwitchChecked() {
-    return $('#night-mode-switch').prop('checked');
+  nightModeSwitchChecked(force=false) {
+    if (force) {
+      return true;
+    } else {
+      return $('#night-mode-switch').prop('checked');
+    }
   }
 }
 
