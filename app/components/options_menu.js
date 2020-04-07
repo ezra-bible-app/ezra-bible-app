@@ -78,11 +78,13 @@ class OptionsMenu {
       }, 100);
     });
 
-    /*$('#verse-notes-switch').bind('change', function() {
-      bible_browser_controller.show_or_hide_verse_notes_based_on_option();
+    $('#verse-notes-switch').bind('change', () => {
+      bible_browser_controller.settings.set('showNotes', this.verseNotesSwitchChecked());
+      this.showOrHideVerseNotesBasedOnOption();
+      this.slowlyHideDisplayMenu();
     });
-    $('#verse-notes-switch').removeAttr('disabled');
 
+    /*
     // Enable the cross reference display by default
     $('#x-refs-switch').attr('checked', 'checked');
     $('#x-refs-switch').removeAttr('disabled');
