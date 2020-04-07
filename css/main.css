@@ -279,7 +279,7 @@ h2 {
 }
 
 .verse-content {
-  margin-left: 6em; /* Needs to be bigger to support notes and x-refs, aligned with .verse-reference */
+  margin-left: 8em; /* Needs to be bigger to support notes and x-refs, aligned with .verse-reference */
   padding: 0.2em;
 }
 
