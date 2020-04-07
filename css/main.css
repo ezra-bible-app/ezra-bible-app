@@ -268,6 +268,10 @@ h2 {
   color: #808080;
 }
 
+.darkmode--activated .verse-reference {
+  color: whitesmoke;
+}
+
 .verse-reference-content {
   text-align: left;
   margin-left: 0.5em;
@@ -509,7 +513,12 @@ h2 {
   float: left;
 }
 
-.visible {
+.darkmode--activated .tag-info,
+.darkmode--activated .notes-info {
+  color: gray;
+}
+
+.visible, .darkmode--activated .visible {
   color: #2779AA;
   /*visibility: visible;*/
 }
