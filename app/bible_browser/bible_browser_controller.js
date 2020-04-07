@@ -58,6 +58,7 @@ class BibleBrowserController {
     this.init_component("BookSelectionMenu", "book_selection_menu", "./app/components/book_selection_menu.js");
     this.init_component("TagStatistics", "tag_statistics", "./app/tags/tag_statistics.js");
     this.init_component("Strongs", "strongs", "./app/components/strongs.js");
+    this.init_component("NotesController", "notes_controller", "./app/bible_browser/notes_controller.js");
 
     this.tag_reference_box.initTagReferenceBox();
     this.initGlobalShortCuts();
@@ -564,6 +565,7 @@ class BibleBrowserController {
     this.optionsMenu.showOrHideBookIntroductionBasedOnOption(tabIndex);
     this.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
     this.bindEventsAfterBibleTextLoaded(tabIndex);
+    this.notes_controller.initForTab(tabIndex);
   }
 
   updateUiAfterBibleTranslationAvailable(translationCode) {
