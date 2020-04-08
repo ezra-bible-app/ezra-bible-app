@@ -948,6 +948,10 @@ h2 {
   border: 1px solid #AED0EA;
 }
 
+.darkmode--activated .verse-notes:not(.verse-notes-empty) {
+  background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat
+}
+
 .verse-notes-empty {
   min-height: 1.9em;
   border: 1px solid #DDDDDD;

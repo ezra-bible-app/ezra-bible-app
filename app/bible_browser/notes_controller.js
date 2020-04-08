@@ -51,17 +51,28 @@ class NotesController {
 
   getRenderedEditorContent() {
     var editorContent = this.currentEditor.getValue();
-    var renderedContent = md.render(editorContent);
+    var renderedContent = "";
+
+    if (editorContent != "") {
+      renderedContent = md.render(editorContent);
+    }
+
     return renderedContent;
   }
 
   restoreCurrentlyEditedNotes() {
     this.saveEditorContent();
-    
+
     if (this.currentlyEditedNotes != null) {
       var renderedContent = this.getRenderedEditorContent();
       this.currentlyEditedNotes.style.removeProperty('height');
       this.currentlyEditedNotes.innerHTML = renderedContent;
+
+      if (renderedContent == '') {
+        this.currentlyEditedNotes.classList.add('verse-notes-empty');
+      } else {
+        this.currentlyEditedNotes.classList.remove('verse-notes-empty');
+      }
     }
 
     this.reset();
@@ -78,6 +89,7 @@ class NotesController {
       this.currentVerseReferenceId = verseReferenceId;
       this.currentlyEditedNotes = $(event.target).closest('.verse-notes')[0];
       this.currentlyEditedNotes.style.height = '15em';
+      this.currentlyEditedNotes.classList.remove('verse-notes-empty');
       this.currentEditor = this.createEditor(this.currentlyEditedNotes);
     }
   }
@@ -113,6 +125,7 @@ class NotesController {
       lineNumbers: false,
       lineDecorationsWidth: '0px',
       lineNumbersMinChars: 0,
+      contextmenu: false,
       automaticLayout: true,
       theme: theme,
       minimap: {
