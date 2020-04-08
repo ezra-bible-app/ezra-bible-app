@@ -149,11 +149,14 @@ class BibleBrowserController {
       // Only perform the following actions from the 2nd select (The first is done when the tab is created)
 
       this.hideAllMenus();
-      // Refresh the view based on the options selected
-      this.optionsMenu.refreshViewBasedOnOptions(ui.index);
 
       this.book_selection_menu.clearSelectedBookInMenu();
     }
+
+    // Refresh the view based on the options selected
+    this.optionsMenu.refreshViewBasedOnOptions(ui.index);
+
+    this.notes_controller.restoreCurrentlyEditedNotes();
 
     // Re-configure tab search
     this.tab_search.resetSearch();
