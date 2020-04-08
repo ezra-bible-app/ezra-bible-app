@@ -156,10 +156,12 @@ function hideGlobalLoadingIndicator() {
 
 function switchToDarkTheme() {
   switchToTheme('css/jquery-ui/dark-hive/jquery-ui.css');
+  bible_browser_controller.notes_controller.setDarkTheme();
 }
 
 function switchToRegularTheme() {
   switchToTheme('css/jquery-ui/cupertino/jquery-ui.css');
+  bible_browser_controller.notes_controller.setLightTheme();
 }
 
 function switchToTheme(theme) {

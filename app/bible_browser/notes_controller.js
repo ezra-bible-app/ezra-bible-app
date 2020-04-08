@@ -16,6 +16,9 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const MarkdownIt = require('markdown-it');
+const md = new MarkdownIt();
+
 class NotesController {
   constructor() {
     this.currentVerseReferenceId = null;
@@ -34,38 +37,87 @@ class NotesController {
     }
   }
 
+  saveEditorContent() {
+    if (this.currentlyEditedNotes != null) {
+      this.currentlyEditedNotes.setAttribute('notes-content', this.currentEditor.getValue());
+    }
+  }
+
+  getRenderedEditorContent() {
+    var editorContent = this.currentEditor.getValue();
+    var renderedContent = md.render(editorContent);
+    return renderedContent;
+  }
+
+  restoreCurrentlyEditedNotes() {
+    if (this.currentlyEditedNotes != null) {
+      var renderedContent = this.getRenderedEditorContent();
+      this.currentlyEditedNotes.style.removeProperty('height');
+      this.currentlyEditedNotes.innerHTML = renderedContent;
+    }
+  }
+
   handleNotesClick(event) {
-    console.log('Notes click!');
+    event.stopPropagation();
 
     var verseBox = $(event.target).closest('.verse-box');
     var verseReferenceId = verseBox.find('.verse-reference-id').text();
 
     if (verseReferenceId != this.currentVerseReferenceId) {
-
-      if (this.currentlyEditedNotes != null) { // Clean the currently edited notes
-        this.currentlyEditedNotes.innerHTML = '';
-      }
-
+      this.saveEditorContent();
+      this.restoreCurrentlyEditedNotes();
       this.currentVerseReferenceId = verseReferenceId;
-      this.currentlyEditedNotes = event.target;
+      this.currentlyEditedNotes = $(event.target).closest('.verse-notes')[0];
+      this.currentlyEditedNotes.style.height = '15em';
       this.currentEditor = this.createEditor(this.currentlyEditedNotes);
     }
   }
 
+  getNotesElementContent(notesElement) {
+    var notesContent = "";
+    if (notesElement.hasAttribute('notes-content')) {
+      notesContent = notesElement.getAttribute('notes-content')
+    }
+    
+    return notesContent;
+  }
+
+  getCurrentTheme() {
+    var theme = 'vs';
+    if (bible_browser_controller.optionsMenu.nightModeSwitchChecked()) {
+      theme = 'vs-dark';
+    }
+
+    return theme;
+  }
+
   createEditor(notesElement) {
+    var theme = this.getCurrentTheme();
+    var notesContent = this.getNotesElementContent(notesElement);
+
+    // Remove the existing html content from the element
+    notesElement.innerHTML = '';
+
     return monaco.editor.create(notesElement, {
-      value: [
-        '# TEST'
-      ].join('\n'),
+      value: notesContent,
       language: 'markdown',
       lineNumbers: false,
       lineDecorationsWidth: '0px',
       lineNumbersMinChars: 0,
       automaticLayout: true,
+      theme: theme,
       minimap: {
         enabled: false
       }
     });
+  }
+
+  setLightTheme() {
+    monaco.editor.setTheme('vs');
+  }
+
+  setDarkTheme() {
+    monaco.editor.setTheme('vs-dark');
   }
 }
 
