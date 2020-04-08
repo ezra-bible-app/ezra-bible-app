@@ -21,12 +21,18 @@ const md = new MarkdownIt();
 
 class NotesController {
   constructor() {
+    this.reset();
+  }
+
+  reset() {
     this.currentVerseReferenceId = null;
     this.currentlyEditedNotes = null;
     this.currentEditor = null;
   }
 
   initForTab(tabIndex=undefined) {
+    this.reset();
+
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
 
     var notes = currentVerseList[0].querySelectorAll('.verse-notes');
@@ -50,11 +56,15 @@ class NotesController {
   }
 
   restoreCurrentlyEditedNotes() {
+    this.saveEditorContent();
+    
     if (this.currentlyEditedNotes != null) {
       var renderedContent = this.getRenderedEditorContent();
       this.currentlyEditedNotes.style.removeProperty('height');
       this.currentlyEditedNotes.innerHTML = renderedContent;
     }
+
+    this.reset();
   }
 
   handleNotesClick(event) {
@@ -64,7 +74,6 @@ class NotesController {
     var verseReferenceId = verseBox.find('.verse-reference-id').text();
 
     if (verseReferenceId != this.currentVerseReferenceId) {
-      this.saveEditorContent();
       this.restoreCurrentlyEditedNotes();
       this.currentVerseReferenceId = verseReferenceId;
       this.currentlyEditedNotes = $(event.target).closest('.verse-notes')[0];
