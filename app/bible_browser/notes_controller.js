@@ -98,7 +98,7 @@ class NotesController {
     // Remove the existing html content from the element
     notesElement.innerHTML = '';
 
-    return monaco.editor.create(notesElement, {
+    var editor = monaco.editor.create(notesElement, {
       value: notesContent,
       language: 'markdown',
       lineNumbers: false,
@@ -110,6 +110,13 @@ class NotesController {
         enabled: false
       }
     });
+
+    setTimeout(() => {
+      editor.setSelection(new monaco.Selection(1,1,1,1));
+      editor.focus();
+    }, 100);
+
+    return editor;
   }
 
   setLightTheme() {
