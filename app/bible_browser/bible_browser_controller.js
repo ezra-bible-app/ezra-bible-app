@@ -439,10 +439,7 @@ class BibleBrowserController {
     }
     
     bible_browser_controller.hideAllMenus();
-
-    if ($('#currently-edited-notes').length > 0) {
-      notes_controller.restore_currently_edited_notes();
-    }
+    bible_browser_controller.notes_controller.restoreCurrentlyEditedNotes();
   }
 
   hideAllMenus() {
