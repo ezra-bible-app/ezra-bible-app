@@ -181,6 +181,11 @@ class OptionsMenu {
       useNightMode = bible_browser_controller.settings.get('useNightMode');
     }
 
+    var showNotes = false;
+    if (bible_browser_controller.settings.has('showNotes')) {
+      showNotes = bible_browser_controller.settings.get('showNotes');
+    }
+
     if (showToolBar) {
       this.enableOption('tool-bar-switch');
     }
@@ -199,6 +204,10 @@ class OptionsMenu {
 
     if (showTags) {
       this.enableOption('tags-switch');
+    }
+
+    if (showNotes) {
+      this.enableOption('verse-notes-switch');
     }
 
     if (useTagsColumn) {
@@ -361,6 +370,7 @@ class OptionsMenu {
     this.showOrHideVerseTagsBasedOnOption(tabIndex);
     this.changeTagsLayoutBasedOnOption(tabIndex);
     this.showOrHideStrongsBasedOnOption(tabIndex);
+    this.showOrHideVerseNotesBasedOnOption(tabIndex);
     this.useNightModeBasedOnOption();
   }
 
