@@ -36,8 +36,8 @@ class VerseSelection {
       start: (event, ui) => {
         this.selected_verse_references = new Array;
         this.selected_verse_boxes = new Array;
-        // Notes controller disabled
-        //notes_controller.restore_currently_edited_notes();
+
+        bible_browser_controller.handleBodyClick(event);
       },
 
       stop: (event, ui) => {
@@ -58,6 +58,7 @@ class VerseSelection {
           e.target.matches('.verse-list-frame')) {
         
         this.clear_verse_selection();
+        bible_browser_controller.handleBodyClick(e);
       }
     });
   }
