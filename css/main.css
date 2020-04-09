@@ -930,8 +930,7 @@ h2 {
 div.CodeMirror {
   font-family: monospace;
   font-size: 130%;
-
-  /* height: auto; */
+  height: 15em;
 }
 
 .verse-notes {
