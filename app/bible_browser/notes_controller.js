@@ -123,7 +123,6 @@ class NotesController {
     targetElement.value = this.getNotesElementContent(notesElement);
 
     var editor = CodeMirror.fromTextArea(targetElement, {
-      //various options - see CodeMirror docs
       mode: 'gfm',
       autoCloseBrackets: true,
       autoCloseTags: true,
@@ -133,6 +132,10 @@ class NotesController {
       autofocus: true,
       theme: this.theme
     });
+
+    setTimeout(() => {
+      editor.getInputField().focus();
+    }, 100);
 
     return editor;
   }
