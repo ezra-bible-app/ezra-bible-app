@@ -91,7 +91,7 @@ class NotesController {
       this.currentlyEditedNotes = $(event.target).closest('.verse-notes')[0];
       //this.currentlyEditedNotes.style.height = '15em';
       this.currentlyEditedNotes.classList.remove('verse-notes-empty');
-      this.currentEditor = this.createEditor(this.currentlyEditedNotes);
+      this.createEditor(this.currentlyEditedNotes);
     }
   }
 
@@ -133,21 +133,34 @@ class NotesController {
       theme: this.theme
     });
 
-    setTimeout(() => {
-      editor.getInputField().focus();
-    }, 100);
+    this.currentEditor = editor;
+    this.focusEditor();
+  }
 
-    return editor;
+  focusEditor() {
+    if (this.currentEditor != null) {
+      setTimeout(() => {
+        this.currentEditor.getInputField().focus();
+        this.currentEditor.refresh();
+      }, 200);
+    }
   }
 
   setLightTheme() {
     this.theme = 'default';
-    this.restoreCurrentlyEditedNotes();
+    this.refreshTheme();
   }
 
   setDarkTheme() {
     this.theme = 'mbo';
-    this.restoreCurrentlyEditedNotes();
+    this.refreshTheme();
+  }
+
+  refreshTheme() {
+    if (this.currentEditor != null) {
+      this.currentEditor.setOption("theme", this.theme);
+      this.focusEditor();
+    }
   }
 }
 
