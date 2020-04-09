@@ -927,6 +927,11 @@ h2 {
   border: 1px solid black;
 }
 
+div.CodeMirror {
+  font-family: monospace;
+  font-size: 130%;
+}
+
 .verse-notes {
   float: left;
   width: 35%;

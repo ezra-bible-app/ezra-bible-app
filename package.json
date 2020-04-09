@@ -52,7 +52,6 @@
     "jquery-i18next": "^1.2.1",
     "log-timestamp": "^0.3.0",
     "markdown-it": "^10.0.0",
-    "monaco-editor": "^0.20.0",
     "mousetrap": "^1.6.3",
     "node-addon-api": "^1.7.1",
     "node-sword-interface": "^0.126.0",

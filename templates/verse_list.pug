@@ -112,6 +112,7 @@ each bibleBook in bibleBooks
         div.cr-box
 
       div(class='verse-notes verse-notes-empty')
+        textarea(class='editor', style='display: none; width: 100%; height: 100%;')
 
   if verse_count == 0 && renderBibleBookHeaders == true
     div.book-section(id=verseListId + "-book-section-" + bibleBook.shortTitle)

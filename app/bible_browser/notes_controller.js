@@ -45,12 +45,12 @@ class NotesController {
 
   saveEditorContent() {
     if (this.currentlyEditedNotes != null) {
-      this.currentlyEditedNotes.setAttribute('notes-content', this.currentEditor.getValue());
+      this.currentlyEditedNotes.setAttribute('notes-content', this.currentEditor.codemirror.getValue());
     }
   }
 
   getRenderedEditorContent() {
-    var editorContent = this.currentEditor.getValue();
+    var editorContent = this.currentEditor.codemirror.getValue();
     var renderedContent = "";
 
     if (editorContent != "") {
@@ -113,40 +113,30 @@ class NotesController {
   }
 
   createEditor(notesElement) {
-    var theme = this.getCurrentTheme();
-    var notesContent = this.getNotesElementContent(notesElement);
-
-    // Remove the existing html content from the element
     notesElement.innerHTML = '';
 
-    var editor = monaco.editor.create(notesElement, {
-      value: notesContent,
-      language: 'markdown',
-      lineNumbers: false,
-      lineDecorationsWidth: '0px',
-      lineNumbersMinChars: 0,
-      contextmenu: false,
-      automaticLayout: true,
-      theme: theme,
-      minimap: {
-        enabled: false
-      }
+    var textArea = htmlToElement('<textarea class="editor"></textarea>');
+    notesElement.append(textArea);
+
+    var targetElement = notesElement.querySelector('.editor');
+    targetElement.value = this.getNotesElementContent(notesElement);
+
+    var editor = new Editor({
+      element: targetElement,
+      toolbar: [],
+      status: false
     });
 
-    setTimeout(() => {
-      editor.setSelection(new monaco.Selection(1,1,1,1));
-      editor.focus();
-    }, 100);
-
+    editor.render();
     return editor;
   }
 
   setLightTheme() {
-    monaco.editor.setTheme('vs');
+    //monaco.editor.setTheme('vs');
   }
 
   setDarkTheme() {
-    monaco.editor.setTheme('vs-dark');
+    //monaco.editor.setTheme('vs-dark');
   }
 }
 
