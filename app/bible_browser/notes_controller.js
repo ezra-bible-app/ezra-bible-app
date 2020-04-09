@@ -21,6 +21,7 @@ const md = new MarkdownIt();
 
 class NotesController {
   constructor() {
+    this.theme = this.getCurrentTheme();
     this.reset();
   }
 
@@ -45,12 +46,12 @@ class NotesController {
 
   saveEditorContent() {
     if (this.currentlyEditedNotes != null) {
-      this.currentlyEditedNotes.setAttribute('notes-content', this.currentEditor.codemirror.getValue());
+      this.currentlyEditedNotes.setAttribute('notes-content', this.currentEditor.getValue());
     }
   }
 
   getRenderedEditorContent() {
-    var editorContent = this.currentEditor.codemirror.getValue();
+    var editorContent = this.currentEditor.getValue();
     var renderedContent = "";
 
     if (editorContent != "") {
@@ -88,7 +89,7 @@ class NotesController {
       this.restoreCurrentlyEditedNotes();
       this.currentVerseReferenceId = verseReferenceId;
       this.currentlyEditedNotes = $(event.target).closest('.verse-notes')[0];
-      this.currentlyEditedNotes.style.height = '15em';
+      //this.currentlyEditedNotes.style.height = '15em';
       this.currentlyEditedNotes.classList.remove('verse-notes-empty');
       this.currentEditor = this.createEditor(this.currentlyEditedNotes);
     }
@@ -104,9 +105,9 @@ class NotesController {
   }
 
   getCurrentTheme() {
-    var theme = 'vs';
+    var theme = 'default';
     if (bible_browser_controller.optionsMenu.nightModeSwitchChecked()) {
-      theme = 'vs-dark';
+      theme = 'mbo';
     }
 
     return theme;
@@ -121,22 +122,29 @@ class NotesController {
     var targetElement = notesElement.querySelector('.editor');
     targetElement.value = this.getNotesElementContent(notesElement);
 
-    var editor = new Editor({
-      element: targetElement,
-      toolbar: [],
-      status: false
+    var editor = CodeMirror.fromTextArea(targetElement, {
+      //various options - see CodeMirror docs
+      mode: 'gfm',
+      autoCloseBrackets: true,
+      autoCloseTags: true,
+      lineNumbers: false,
+      lineWrapping: true,
+      viewportMargin: Infinity,
+      autofocus: true,
+      theme: this.theme
     });
 
-    editor.render();
     return editor;
   }
 
   setLightTheme() {
-    //monaco.editor.setTheme('vs');
+    this.theme = 'default';
+    this.restoreCurrentlyEditedNotes();
   }
 
   setDarkTheme() {
-    //monaco.editor.setTheme('vs-dark');
+    this.theme = 'mbo';
+    this.restoreCurrentlyEditedNotes();
   }
 }
 
