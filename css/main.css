@@ -63,14 +63,16 @@ form, input {
 }
 
 h1 {
+  padding-top: 0.5em;
   font-size: 1.3em;
-  margin-left: 0.2em;
+  margin-left: 0.5em;
   clear: both;
 }
 
 h2 {
+  padding-top: 0.5em;
   font-size: 1.2em;
-  margin-left: 0.2em;
+  margin-left: 0.5em;
   clear: both;
 }
 
@@ -114,7 +116,6 @@ h2 {
 }
 
 .verse-list-frame {
-  padding: 0.5em;
   overflow-y: scroll;
   overflow-x: hidden; /* This prevents a horizontal scrollbar on small screens  */
   border: 1px solid #DDDDDD;
@@ -123,10 +124,14 @@ h2 {
 }
 
 .verse-list {
-  padding-left: 0.5em;
+  padding: 0.5em;
   font-family: Arial, Sans-Serif;
   /*height: 100%;         // Needed because of selectable scroll-bug
   overflow-y: scroll;*/
+}
+
+.verse-list-with-section-titles {
+  padding-top: 0;
 }
 
 .verse-list .help-text {
@@ -933,11 +938,12 @@ div.CodeMirror {
   font-family: monospace;
   font-size: 130%;
   height: 15em;
+  background-color: inherit;
 }
 
 .verse-notes {
   float: left;
-  width: 35%;
+  width: 40%;
   padding: 0.5em;
   margin-bottom: 0.5em;
   min-height: 4em;
@@ -975,32 +981,33 @@ div.CodeMirror {
   text-decoration: none;
   font-size: 1.4em;
   font-weight: bold;
-  margin-top: 0.5em;
-  margin-bottom: 1em;
+  padding-top: 0.5em;
+  margin: 0;
 }
 
 .verse-notes h2 {
   text-decoration: none;
   font-size: 1.3em;
   font-weight: bold;
-  margin-top: 0.5em;
-  margin-bottom: 1em;
+  padding-top: 0.5em;
+  margin: 0;
 }
 
 .verse-notes h3 {
   text-decoration: none;
   font-size: 1.1em;
   font-weight: bold;
-  margin-top: 0.5em;
-  margin-bottom: 1em;
+  padding-top: 0.5em;
+  margin: 0;
 }
 
 .verse-list-book.verse-list-with-section-titles .sword-section-title {
+  clear: both;
   display: block;
   font-weight: bold;
-  margin-top: 1em;
-  margin-bottom: 0.5em;
-  margin-left: 0.2em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  margin-left: 0.7em;
 }
 
 .chapter-header {
@@ -1282,8 +1289,9 @@ div.CodeMirror {
 .tag-browser-verselist-book-header {
   font-weight: bold;
   font-size: 1.1em;
-  margin-top: 1em;
-  margin-bottom: 0.5em;
+  padding-top: 1em;
+  padding-left: 1em;
+  padding-bottom: 0.5em;
   clear: both;
 }
 
