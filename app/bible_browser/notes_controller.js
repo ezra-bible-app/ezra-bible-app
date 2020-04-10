@@ -89,7 +89,6 @@ class NotesController {
       this.restoreCurrentlyEditedNotes();
       this.currentVerseReferenceId = verseReferenceId;
       this.currentlyEditedNotes = $(event.target).closest('.verse-notes')[0];
-      //this.currentlyEditedNotes.style.height = '15em';
       this.currentlyEditedNotes.classList.remove('verse-notes-empty');
       this.createEditor(this.currentlyEditedNotes);
     }
