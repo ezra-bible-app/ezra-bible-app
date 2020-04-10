@@ -1,139 +1,21 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="64"
-   height="64"
-   viewBox="0 0 16.933333 16.933333"
-   version="1.1"
-   id="svg8"
-   inkscape:export-filename="/home/tobi/dev/ezra_project/ezra-project-git/icons/ezra.png"
-   inkscape:export-xdpi="96.000008"
-   inkscape:export-ydpi="96.000008"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)"
-   sodipodi:docname="ezra.svg">
-  <defs
-     id="defs2" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="5.908037"
-     inkscape:cx="-12.996311"
-     inkscape:cy="25.699746"
-     inkscape:document-units="mm"
-     inkscape:current-layer="layer2"
-     showgrid="true"
-     showguides="false"
-     inkscape:guide-bbox="true"
-     fit-margin-top="2"
-     fit-margin-left="2"
-     fit-margin-right="2"
-     fit-margin-bottom="2"
-     units="px"
-     inkscape:pagecheckerboard="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1141"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:showpageshadow="false"
-     showborder="true">
-    <inkscape:grid
-       type="xygrid"
-       id="grid3713"
-       originx="-0.024909729"
-       originy="-288.11921" />
-  </sodipodi:namedview>
-  <metadata
-     id="metadata5">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g
-     inkscape:groupmode="layer"
-     id="layer2"
-     inkscape:label="Background"
-     transform="translate(0,8.2983562)">
-    <rect
-       style="fill:#e8f4ff;fill-opacity:0.78769232;stroke:#000000;stroke-width:0.52911532;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect4579"
-       width="16.395008"
-       height="16.410147"
-       x="0.27655092"
-       y="-8.0455427"
-       ry="4"
-       rx="4" />
+<svg width="64" height="64" version="1.1" viewBox="0 0 16.933 16.933" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(0 8.2984)">
+    <rect x=".27655" y="-8.0455" width="16.395" height="16.41" rx="4" ry="4" fill="#e8f4ff" fill-opacity=".78769" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".52912"/>
   </g>
-  <g
-     inkscape:label="Ebene 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(-0.02490974,8.0525506)">
-    <g
-       id="g4597"
-       transform="translate(0.08240278,-0.01499144)">
-      <text
-         id="text3717"
-         y="-0.12087331"
-         x="1.8483073"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.92806196px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.3964031px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         xml:space="preserve"><tspan
-           id="tspan3723"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.92806196px;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.3964031px"
-           y="-0.12087331"
-           x="1.8483073"
-           sodipodi:role="line">E</tspan></text>
-      <text
-         id="text3717-0"
-         y="-0.10898132"
-         x="7.4681277"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.92806196px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.3964031px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         xml:space="preserve"><tspan
-           id="tspan3723-0"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.92806196px;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.3964031px"
-           y="-0.10898132"
-           x="7.4681277"
-           sodipodi:role="line">Z</tspan></text>
-      <text
-         id="text3717-0-8"
-         y="6.4435935"
-         x="3.5259771"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.92806196px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';letter-spacing:0px;word-spacing:0px;fill:#003380;fill-opacity:1;stroke:none;stroke-width:0.3964031px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         xml:space="preserve"><tspan
-           id="tspan3723-0-9"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.92806196px;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#003380;stroke-width:0.3964031px"
-           y="6.4435935"
-           x="3.5259771"
-           sodipodi:role="line">R</tspan></text>
-      <text
-         id="text3717-0-8-9"
-         y="6.4556756"
-         x="9.1101227"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.92806196px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';letter-spacing:0px;word-spacing:0px;fill:#003380;fill-opacity:1;stroke:none;stroke-width:0.3964031px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         xml:space="preserve"><tspan
-           id="tspan3723-0-9-8"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.92806196px;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#003380;stroke-width:0.3964031px"
-           y="6.4556756"
-           x="9.1101227"
-           sodipodi:role="line">A</tspan></text>
+  <g stroke-width=".3964px">
+    <g aria-label="E">
+      <path d="m2.5876 7.9167v-5.4942h3.3536v0.65803h-2.5846v1.6332h2.2991v0.64218h-2.2991v1.9027h2.7828v0.65803z" stroke-width=".3964px" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal"/>
+    </g>
+    <g aria-label="Z">
+      <path d="m11.696 3.0449q-0.18235 0.20613-0.42812 0.49947-0.23784 0.28541-0.5074 0.64218-0.26956 0.34884-0.55497 0.74524-0.28541 0.38848-0.5629 0.79281-0.26956 0.3964-0.51533 0.79281t-0.44397 0.75317h3.092v0.65803h-3.9878v-0.51533q0.16649-0.31712 0.38848-0.69767 0.22991-0.38055 0.48361-0.77695 0.26163-0.3964 0.53911-0.80074 0.27748-0.40433 0.54704-0.77695 0.27748-0.37262 0.53118-0.69767 0.26163-0.32505 0.47569-0.57082h-2.8224v-0.65803h3.7658z" stroke-width=".3964px" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal"/>
+    </g>
+    <g fill="#003380" aria-label="R">
+      <path d="m6.9529 12.182q0.12685 0.15856 0.31712 0.42019 0.1982 0.2537 0.40433 0.57082 0.20613 0.3092 0.40433 0.6501 0.20613 0.34091 0.34884 0.65803h-0.84038q-0.15856-0.30127-0.34884-0.61046-0.18235-0.3092-0.37262-0.58668-0.19027-0.28541-0.38055-0.53118-0.18235-0.24577-0.33298-0.42812-0.10307 0.0079-0.21406 0.0079-0.10307 0-0.21406 0h-0.68974v2.1485h-0.76903v-5.4149q0.32505-0.079281 0.72146-0.10307 0.40433-0.031712 0.73731-0.031712 1.1575 0 1.76 0.43605 0.61046 0.43605 0.61046 1.3002 0 0.54704-0.29334 0.93552-0.28541 0.38848-0.84831 0.57875zm-1.1654-2.5766q-0.49154 0-0.75317 0.023784v2.0692h0.54704q0.3964 0 0.71353-0.03964t0.53118-0.15063q0.22199-0.11099 0.34091-0.3092 0.11892-0.20613 0.11892-0.53911 0-0.3092-0.11892-0.51533-0.11892-0.20613-0.32505-0.32505-0.1982-0.11892-0.47569-0.16649-0.26956-0.047569-0.57875-0.047569z" fill="#003380" stroke-width=".3964px" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal"/>
+    </g>
+    <g fill="#003380" aria-label="A">
+      <path d="m13.52 14.493q-0.13478-0.35676-0.2537-0.69767-0.11892-0.34884-0.24577-0.7056h-2.4894l-0.49947 1.4033h-0.80074q0.31712-0.87209 0.59461-1.6094 0.27748-0.74524 0.53911-1.4112 0.26956-0.66596 0.53118-1.2685 0.26163-0.61046 0.54704-1.2051h0.7056q0.28541 0.59461 0.54704 1.2051 0.26163 0.60254 0.52326 1.2685 0.26956 0.66596 0.54704 1.4112 0.27748 0.73731 0.59461 1.6094zm-0.72146-2.0375q-0.2537-0.68974-0.5074-1.3319-0.24577-0.6501-0.51533-1.2447-0.27748 0.59461-0.53118 1.2447-0.24577 0.64218-0.49154 1.3319z" fill="#003380" stroke-width=".3964px" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal"/>
     </g>
   </g>
 </svg>
