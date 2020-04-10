@@ -121,6 +121,7 @@ h2 {
   border: 1px solid #DDDDDD;
   border-radius: 6px;
   user-select: none;
+  padding-bottom: 1em;
 }
 
 .verse-list {
