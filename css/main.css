@@ -65,11 +65,13 @@ form, input {
 h1 {
   font-size: 1.3em;
   margin-left: 0.2em;
+  clear: both;
 }
 
 h2 {
   font-size: 1.2em;
   margin-left: 0.2em;
+  clear: both;
 }
 
 #main-content {
