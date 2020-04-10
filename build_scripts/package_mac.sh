@@ -6,4 +6,4 @@ node_modules/.bin/electron-packager . 'Ezra Project' --overwrite --platform=darw
 --executable-name='ezra-project' \
 --app-bundle-id='net.ezra-project.electronapp' \
 --app-category-type='public.app-category.education' \
---icon=icons/ezra.icns
+--icon=icons/ezra-project.icns
