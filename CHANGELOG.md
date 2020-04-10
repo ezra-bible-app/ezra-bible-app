@@ -10,6 +10,7 @@ All notable changes to Ezra Project are documented in this file.
 
 ### Enhancements
 
+* Added basic icon. Note that this is just a start and we still need a nicer one than this! ([#26][i26])
 * Added switchable night-mode / darker color scheme ([#43][i43])
 
 ### Fixes
@@ -20,6 +21,7 @@ All notable changes to Ezra Project are documented in this file.
 
 * En1
 
+[i26]: https://github.com/tobias-klein/ezra-project/issues/26
 [i41]: https://github.com/tobias-klein/ezra-project/issues/41
 [i43]: https://github.com/tobias-klein/ezra-project/issues/43
 
