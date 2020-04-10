@@ -123,13 +123,13 @@ class NotesController {
     targetElement.value = this.getNotesElementContent(notesElement);
 
     var editor = CodeMirror.fromTextArea(targetElement, {
-      mode: 'gfm',
+      mode: 'markdown',
       autoCloseBrackets: true,
-      autoCloseTags: true,
       lineNumbers: false,
       lineWrapping: true,
       viewportMargin: Infinity,
       autofocus: true,
+      extraKeys: {"Enter": "newlineAndIndentContinueMarkdownList"},
       theme: this.theme
     });
 
