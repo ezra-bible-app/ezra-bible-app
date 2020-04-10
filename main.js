@@ -65,7 +65,9 @@ function createWindow () {
                                   webPreferences: {
                                     nodeIntegration: true,
                                     preload: preloadScript
-                                  }});
+                                  },
+                                  icon: path.join(__dirname, 'icons/ezra.png')
+                                  });
   
   // Disable the application menu
   Menu.setApplicationMenu(null);
