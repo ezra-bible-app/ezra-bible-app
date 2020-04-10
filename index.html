@@ -89,13 +89,13 @@
 </div>
 
 <script>
-  const _path = require('path');
-  const _fs = require('fs');
+  const path = require('path');
+  const fs = require('fs');
 
   // This function loads the content of html fragments into the divs in the app-container
   function loadFragment(filePath, elementId) {
-    var absoluteFilePath = _path.join(__dirname, filePath);
-    var fileContent = _fs.readFileSync(absoluteFilePath);
+    var absoluteFilePath = path.join(__dirname, filePath);
+    var fileContent = fs.readFileSync(absoluteFilePath);
     document.getElementById(elementId).innerHTML = fileContent;
   }
 
