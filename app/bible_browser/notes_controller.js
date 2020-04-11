@@ -16,8 +16,7 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const MarkdownIt = require('markdown-it');
-const md = new MarkdownIt();
+const marked = require("marked");
 
 class NotesController {
   constructor() {
@@ -55,7 +54,7 @@ class NotesController {
     var renderedContent = "";
 
     if (editorContent != "") {
-      renderedContent = md.render(editorContent);
+      renderedContent = marked(editorContent);
     }
 
     return renderedContent;
@@ -122,7 +121,7 @@ class NotesController {
     targetElement.value = this.getNotesElementContent(notesElement);
 
     var editor = CodeMirror.fromTextArea(targetElement, {
-      mode: 'markdown',
+      mode: 'gfm',
       autoCloseBrackets: true,
       lineNumbers: false,
       lineWrapping: true,
