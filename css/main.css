@@ -936,8 +936,9 @@ h2 {
 }
 
 div.CodeMirror {
-  font-family: monospace;
-  font-size: 110%;
+  font-family: sans-serif;
+  /*font-family: monospace;
+  font-size: 110%;*/
   height: 15em;
   background-color: inherit;
 }
@@ -978,28 +979,30 @@ div.CodeMirror {
   color: #A0A0A0;
 }
 
-.verse-notes h1 {
-  text-decoration: none;
-  font-size: 1.4em;
-  font-weight: bold;
-  padding-top: 0.5em;
-  margin: 0;
-}
-
-.verse-notes h2 {
-  text-decoration: none;
-  font-size: 1.3em;
-  font-weight: bold;
-  padding-top: 0.5em;
-  margin: 0;
-}
-
+.verse-notes h1,
+.verse-notes h2,
 .verse-notes h3 {
   text-decoration: none;
-  font-size: 1.1em;
   font-weight: bold;
   padding-top: 0.5em;
-  margin: 0;
+  margin-top: 0;
+  margin-left: 0;
+}
+
+.verse-notes h1, .cm-header-1 {
+  font-size: 1.4em;
+}
+
+.verse-notes h2, .cm-header-2 {
+  font-size: 1.3em;
+}
+
+.verse-notes h3, .cm-header-3 {
+  font-size: 1.1em;
+}
+
+.verse-notes ul {
+  padding-inline-start: 20px;
 }
 
 .verse-list-book.verse-list-with-section-titles .sword-section-title {
