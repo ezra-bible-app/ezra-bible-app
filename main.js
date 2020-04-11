@@ -66,7 +66,7 @@ function createWindow () {
                                     nodeIntegration: true,
                                     preload: preloadScript
                                   },
-                                  icon: path.join(__dirname, 'icons/ezra.png')
+                                  icon: path.join(__dirname, 'icons/ezra-project.png')
                                   });
   
   // Disable the application menu
