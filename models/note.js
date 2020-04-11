@@ -20,11 +20,30 @@
 module.exports = (sequelize, DataTypes) => {
   const Note = sequelize.define('Note', {
     verseReferenceId: DataTypes.INTEGER,
-    text: DataTypes.TEXT
+    text: DataTypes.TEXT,
+    bibleBookId: DataTypes.VIRTUAL,
+    absoluteVerseNrEng: DataTypes.VIRTUAL,
+    absoluteVerseNrHeb: DataTypes.VIRTUAL
   }, {});
 
   Note.associate = function(models) {
     Note.belongsTo(models.VerseReference);
+  };
+
+  Note.groupNotesByVerse = function(notes, versification) {
+    var groupedVerseNotes = {};
+
+    for (var i = 0; i < notes.length; i++) {
+      var note = notes[i];
+      var bibleBookId = note.bibleBookId.toLowerCase()
+
+      var absoluteVerseNr = (versification == 'eng' ? note.absoluteVerseNrEng : note.absoluteVerseNrHeb);
+      var verseReferenceId = versification + '-' + bibleBookId + '-' + absoluteVerseNr;
+      
+      groupedVerseNotes[verseReferenceId] = note;
+    }
+
+    return groupedVerseNotes;
   };
   
   return Note;

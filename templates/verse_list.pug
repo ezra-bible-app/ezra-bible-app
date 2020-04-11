@@ -69,6 +69,7 @@ each bibleBook in bibleBooks
       - div_classes += " slim-verse-reference"
     
     - var current_verse_tags = verseTags[current_verse_reference_id]
+    - var current_verse_note = verseNotes[current_verse_reference_id]
     - var current_tooltip_tag_list = []
     - var current_tag_info_class = "tag-info"
 
@@ -111,8 +112,11 @@ each bibleBook in bibleBooks
         div.verse-text !{verse.content}
         div.cr-box
 
-      div(class='verse-notes verse-notes-empty')
-        textarea(class='editor', style='display: none; width: 100%; height: 100%;')
+      if current_verse_note != null && current_verse_note.text != ''
+        div(class='verse-notes', notes-content=current_verse_note.text) !{marked(current_verse_note.text)}
+      else
+        div(class='verse-notes verse-notes-empty')
+          textarea(class='editor', style='display: none; width: 100%; height: 100%;')
 
   if verse_count == 0 && renderBibleBookHeaders == true
     div.book-section(id=verseListId + "-book-section-" + bibleBook.shortTitle)

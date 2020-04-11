@@ -246,6 +246,16 @@ module.exports = (sequelize, DataTypes) => {
     return sequelize.query(query, { model: models.VerseTag });
   };
 
+  BibleBook.prototype.getNotes = function() {
+    var query = "SELECT n.*, b.shortTitle AS bibleBookId, vr.absoluteVerseNrEng, vr.absoluteVerseNrHeb" + 
+                " FROM VerseReferences vr " +
+                " INNER JOIN BibleBooks b ON vr.bibleBookId = b.id" +
+                " INNER JOIN Notes n ON n.verseReferenceId = vr.id" +
+                " WHERE vr.bibleBookId=" + this.id;
+    
+    return sequelize.query(query, { model: models.Note });
+  };
+
   BibleBook.getBookLongTitle = function(book_short_title) {
     for (var i = 0; i < bible_books.length; i++) {
       var current_book = bible_books[i];

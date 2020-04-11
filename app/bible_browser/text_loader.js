@@ -16,6 +16,8 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const marked = require("marked");
+
 class TextLoader {
   constructor() {
   }
@@ -140,6 +142,8 @@ class TextLoader {
 
     var verseTags = await bibleBook.getVerseTags();
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
+    var verseNotes = await bibleBook.getNotes();
+    var groupedVerseNotes = models.Note.groupNotesByVerse(verseNotes, versification);
 
     var moduleLang = i18n.language;
     if (localSwordModule != null) {
@@ -177,6 +181,8 @@ class TextLoader {
       bibleBooks: [bibleBook],
       verses: verses,
       verseTags: groupedVerseTags,
+      verseNotes: groupedVerseNotes,
+      marked: marked,
       reference_separator: reference_separator,
       chapterText: chapterText,
       tagHint: i18n.t("bible-browser.tag-hint")
@@ -338,6 +344,8 @@ class TextLoader {
       bibleBookStats: bibleBookStats,
       verses: verses,
       verseTags: groupedVerseTags,
+      verseNotes: [],
+      marked: marked,
       reference_separator: reference_separator,
       tagHint: i18n.t("bible-browser.tag-hint"),
       loadSearchResultsText: i18n.t("bible-browser.show-search-results")
