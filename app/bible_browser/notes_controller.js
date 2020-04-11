@@ -102,15 +102,6 @@ class NotesController {
     return notesContent;
   }
 
-  getCurrentTheme() {
-    var theme = 'default';
-    if (bible_browser_controller.optionsMenu.nightModeSwitchChecked()) {
-      theme = 'mbo';
-    }
-
-    return theme;
-  }
-
   createEditor(notesElement) {
     notesElement.innerHTML = '';
 
@@ -142,6 +133,15 @@ class NotesController {
         this.currentEditor.refresh();
       }, 200);
     }
+  }
+
+  getCurrentTheme() {
+    var theme = 'default';
+    if (bible_browser_controller.optionsMenu.nightModeSwitchChecked()) {
+      theme = 'mbo';
+    }
+
+    return theme;
   }
 
   setLightTheme() {
