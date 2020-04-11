@@ -30,6 +30,17 @@ module.exports = (sequelize, DataTypes) => {
     Note.belongsTo(models.VerseReference);
   };
 
+  Note.findByVerseReferenceIds = function(verseReferenceIds) {
+    var query = "SELECT n.*, b.shortTitle AS bibleBookId, vr.absoluteVerseNrEng, vr.absoluteVerseNrHeb" + 
+                " FROM VerseReferences vr " +
+                " INNER JOIN BibleBooks b ON vr.bibleBookId = b.id" +
+                " INNER JOIN Notes n ON n.verseReferenceId = vr.id" +
+                " WHERE vr.id IN (" + verseReferenceIds + ")" +
+                " ORDER BY b.number ASC, vr.absoluteVerseNrEng ASC";
+
+    return sequelize.query(query, { model: models.Note });
+  };
+
   Note.groupNotesByVerse = function(notes, versification) {
     var groupedVerseNotes = {};
 
