@@ -36,23 +36,24 @@ class NotesController {
 
     var notes = currentVerseList[0].querySelectorAll('.verse-notes');
     for (var i = 0; i < notes.length; i++) {
-      notes[i].addEventListener('mousedown', async (event) => {
-        await this.handleNotesClick(event);
+      notes[i].addEventListener('mousedown', (event) => {
+        this.handleNotesClick(event);
       });
     }
   }
 
-  async saveEditorContent() {
+  saveEditorContent() {
     if (this.currentlyEditedNotes != null) {
       var currentNoteValue = this.currentEditor.getValue();
       this.currentlyEditedNotes.setAttribute('notes-content', currentNoteValue);
 
       var currentVerseBox = $('.verse-reference-id-' + this.currentVerseReferenceId);
-      var verseReference = await models.VerseReference.findOrCreateFromVerseBox(currentVerseBox);
-
-      var note = await verseReference.getOrCreateNote();
-      note.text = currentNoteValue;
-      await note.save();
+      models.VerseReference.findOrCreateFromVerseBox(currentVerseBox).then(vr => {
+        vr.getOrCreateNote().then(n => {
+          n.text = currentNoteValue;
+          n.save();
+        })
+      });
     }
   }
 
@@ -67,8 +68,8 @@ class NotesController {
     return renderedContent;
   }
 
-  async restoreCurrentlyEditedNotes() {
-    await this.saveEditorContent();
+  restoreCurrentlyEditedNotes() {
+    this.saveEditorContent();
 
     if (this.currentlyEditedNotes != null) {
       var renderedContent = this.getRenderedEditorContent();
@@ -85,14 +86,14 @@ class NotesController {
     this.reset();
   }
 
-  async handleNotesClick(event) {
+  handleNotesClick(event) {
     event.stopPropagation();
 
     var verseBox = $(event.target).closest('.verse-box');
     var verseReferenceId = verseBox.find('.verse-reference-id').text();
 
     if (verseReferenceId != this.currentVerseReferenceId) {
-      await this.restoreCurrentlyEditedNotes();
+      this.restoreCurrentlyEditedNotes();
       this.currentVerseReferenceId = verseReferenceId;
       this.currentlyEditedNotes = $(event.target).closest('.verse-notes')[0];
       this.currentlyEditedNotes.classList.remove('verse-notes-empty');
