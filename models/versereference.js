@@ -32,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
 
   VerseReference.associate = function(models) {
     VerseReference.belongsToMany(models.Tag, {through: 'VerseTags'});
+    VerseReference.hasOne(models.Note);
   };
 
   VerseReference.prototype.getBibleBook = function() {
