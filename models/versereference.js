@@ -18,7 +18,7 @@
 
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var VerseReference = sequelize.define('VerseReference', {
+  const VerseReference = sequelize.define('VerseReference', {
     bibleBookId: DataTypes.INTEGER,
     chapter: DataTypes.INTEGER,
     verseNr: DataTypes.INTEGER,

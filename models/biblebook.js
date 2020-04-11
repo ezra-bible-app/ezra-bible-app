@@ -222,7 +222,7 @@ var bible_books = [
 
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var BibleBook = sequelize.define('BibleBook', {
+  const BibleBook = sequelize.define('BibleBook', {
     number: DataTypes.INTEGER,
     shortTitle: DataTypes.STRING,
     longTitle: DataTypes.STRING
