@@ -946,7 +946,7 @@ div.CodeMirror {
 
 .verse-notes {
   float: left;
-  width: 40%;
+  width: 35%;
   padding: 0.5em;
   margin-bottom: 0.5em;
   min-height: 4em;
@@ -1037,7 +1037,7 @@ div.CodeMirror {
 
 .verse-list-with-notes .verse-content {
   float: left;
-  width: 40%;
+  width: 50%;
   margin-left: 0;
   margin-right: 0.5em;
 }
