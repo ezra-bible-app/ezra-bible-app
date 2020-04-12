@@ -1302,6 +1302,10 @@ div.CodeMirror {
   clear: both;
 }
 
+#tag-reference-box .tag-browser-verselist-book-header {
+  padding-left: 0;
+}
+
 .tag-browser-verselist-passage {
   clear: both;
   margin-top: 0.5em;
