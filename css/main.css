@@ -1023,7 +1023,8 @@ div.CodeMirror {
   display: none;
   font-style: italic;
   line-height: 1.5em;
-  margin-top: 0.5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
   margin-left: 0.5em;
 }
 
