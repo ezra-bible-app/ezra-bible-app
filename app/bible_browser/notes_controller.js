@@ -48,18 +48,7 @@ class NotesController {
       this.currentlyEditedNotes.setAttribute('notes-content', currentNoteValue);
 
       var currentVerseBox = $('.verse-reference-id-' + this.currentVerseReferenceId);
-      models.VerseReference.findOrCreateFromVerseBox(currentVerseBox).then(vr => {
-        vr.getOrCreateNote().then(n => {
-          if (currentNoteValue != "") {
-            // Save the note if it has content
-            n.text = currentNoteValue;
-            n.save();
-          } else {
-            // Delete the note if it does not have any content
-            n.destroy();
-          }
-        })
-      });
+      models.Note.persistNote(currentNoteValue, currentVerseBox);
     }
   }
 

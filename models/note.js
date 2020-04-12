@@ -56,6 +56,21 @@ module.exports = (sequelize, DataTypes) => {
 
     return groupedVerseNotes;
   };
+
+  Note.persistNote = function(noteValue, verseBox) {
+    models.VerseReference.findOrCreateFromVerseBox(verseBox).then(vr => {
+      vr.getOrCreateNote().then(n => {
+        if (noteValue != "") {
+          // Save the note if it has content
+          n.text = noteValue;
+          n.save();
+        } else {
+          // Delete the note if it does not have any content
+          n.destroy();
+        }
+      })
+    });
+  };
   
   return Note;
 };
