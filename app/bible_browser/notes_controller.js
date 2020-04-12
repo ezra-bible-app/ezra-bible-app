@@ -132,8 +132,8 @@ class NotesController {
   focusEditor() {
     if (this.currentEditor != null) {
       setTimeout(() => {
-        this.currentEditor.getInputField().focus();
         this.currentEditor.refresh();
+        this.currentEditor.getInputField().focus();
       }, 200);
     }
   }
