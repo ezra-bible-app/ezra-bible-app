@@ -5,12 +5,12 @@ All notable changes to Ezra Project are documented in this file.
 ## [0.13.0 - 2020-06-xx]
 ### Features
 
-* Added basic note taking functionality. Notes can be added for individual verses using Markdown syntax. ([#45][i45])
+* Basic note taking functionality. Notes can be added for individual verses using Markdown syntax. ([#45][i45])
 
 ### Enhancements
 
-* Added basic icon. Note that this is just a start and we still need a nicer one than this! ([#26][i26])
-* Added switchable night-mode / darker color scheme ([#43][i43])
+* Basic icon. Note that this is just a start and we still need a nicer one than this! ([#26][i26])
+* Switchable night-mode / darker color scheme ([#43][i43])
 
 ### Fixes
 
