@@ -63,13 +63,17 @@ form, input {
 }
 
 h1 {
+  padding-top: 0.5em;
   font-size: 1.3em;
-  margin-left: 0.2em;
+  margin-left: 0.5em;
+  clear: both;
 }
 
 h2 {
+  padding-top: 0.5em;
   font-size: 1.2em;
-  margin-left: 0.2em;
+  margin-left: 0.5em;
+  clear: both;
 }
 
 #main-content {
@@ -112,19 +116,23 @@ h2 {
 }
 
 .verse-list-frame {
-  padding: 0.5em;
   overflow-y: scroll;
   overflow-x: hidden; /* This prevents a horizontal scrollbar on small screens  */
   border: 1px solid #DDDDDD;
   border-radius: 6px;
   user-select: none;
+  padding-bottom: 1em;
 }
 
 .verse-list {
-  padding-left: 0.5em;
+  padding: 0.5em;
   font-family: Arial, Sans-Serif;
   /*height: 100%;         // Needed because of selectable scroll-bug
   overflow-y: scroll;*/
+}
+
+.verse-list-with-section-titles {
+  padding-top: 0;
 }
 
 .verse-list .help-text {
@@ -259,13 +267,17 @@ h2 {
 
 .verse-reference {
   padding-top: 0.3em;
-  width: 6em; /* Needs to be bigger to support notes and x-refs, aligned with .verse-content */
+  width: 8em; /* Needs to be bigger to support notes and x-refs, aligned with .verse-content */
   /*height: 1.5em;*/
   float: left;
   z-index: 100;
 
   /*padding-top: 0.1em;*/
   color: #808080;
+}
+
+.darkmode--activated .verse-reference {
+  color: whitesmoke;
 }
 
 .verse-reference-content {
@@ -275,7 +287,7 @@ h2 {
 }
 
 .verse-content {
-  margin-left: 6em; /* Needs to be bigger to support notes and x-refs, aligned with .verse-reference */
+  margin-left: 8em; /* Needs to be bigger to support notes and x-refs, aligned with .verse-reference */
   padding: 0.2em;
 }
 
@@ -509,7 +521,12 @@ h2 {
   float: left;
 }
 
-.visible {
+.darkmode--activated .tag-info,
+.darkmode--activated .notes-info {
+  color: gray;
+}
+
+.visible, .darkmode--activated .visible {
   color: #2779AA;
   /*visibility: visible;*/
 }
@@ -918,6 +935,15 @@ h2 {
   border: 1px solid black;
 }
 
+div.CodeMirror {
+  font-family: sans-serif;
+  /*font-family: monospace;
+  font-size: 110%;*/
+  height: 15em;
+  background-color: inherit;
+  resize: vertical;
+}
+
 .verse-notes {
   float: left;
   width: 35%;
@@ -925,6 +951,8 @@ h2 {
   margin-bottom: 0.5em;
   min-height: 4em;
   display: none;
+  resize: vertical;
+  /*overflow: hidden;*/
 
   /* YELLOW */
   /*border: 1px solid #FFF500;
@@ -935,6 +963,10 @@ h2 {
   /* BLUEISH */
   background-color: #DEEDF7;
   border: 1px solid #AED0EA;
+}
+
+.darkmode--activated .verse-notes:not(.verse-notes-empty) {
+  background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat
 }
 
 .verse-notes-empty {
@@ -948,36 +980,39 @@ h2 {
   color: #A0A0A0;
 }
 
-.verse-notes h1 {
-  text-decoration: none;
-  font-size: 1.4em;
-  font-weight: bold;
-  margin-top: 0.5em;
-  margin-bottom: 1em;
-}
-
-.verse-notes h2 {
-  text-decoration: none;
-  font-size: 1.3em;
-  font-weight: bold;
-  margin-top: 0.5em;
-  margin-bottom: 1em;
-}
-
+.verse-notes h1,
+.verse-notes h2,
 .verse-notes h3 {
   text-decoration: none;
-  font-size: 1.1em;
   font-weight: bold;
-  margin-top: 0.5em;
-  margin-bottom: 1em;
+  padding-top: 0.5em;
+  margin-top: 0;
+  margin-left: 0;
+}
+
+.verse-notes h1, .cm-header-1 {
+  font-size: 1.4em;
+}
+
+.verse-notes h2, .cm-header-2 {
+  font-size: 1.3em;
+}
+
+.verse-notes h3, .cm-header-3 {
+  font-size: 1.1em;
+}
+
+.verse-notes ul, .verse-notes ol {
+  padding-inline-start: 20px;
 }
 
 .verse-list-book.verse-list-with-section-titles .sword-section-title {
+  clear: both;
   display: block;
   font-weight: bold;
-  margin-top: 1em;
-  margin-bottom: 0.5em;
-  margin-left: 0.2em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  margin-left: 0.7em;
 }
 
 .chapter-header {
@@ -988,6 +1023,8 @@ h2 {
   display: none;
   font-style: italic;
   line-height: 1.5em;
+  margin-top: 0.5em;
+  margin-left: 0.5em;
 }
 
 .verse-list-with-section-titles .chapter-header {
@@ -1000,7 +1037,7 @@ h2 {
 
 .verse-list-with-notes .verse-content {
   float: left;
-  width: 40%;
+  width: 50%;
   margin-left: 0;
   margin-right: 0.5em;
 }
@@ -1259,8 +1296,9 @@ h2 {
 .tag-browser-verselist-book-header {
   font-weight: bold;
   font-size: 1.1em;
-  margin-top: 1em;
-  margin-bottom: 0.5em;
+  padding-top: 1em;
+  padding-left: 1em;
+  padding-bottom: 0.5em;
   clear: both;
 }
 

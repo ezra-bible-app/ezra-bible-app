@@ -222,7 +222,7 @@ var bible_books = [
 
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var BibleBook = sequelize.define('BibleBook', {
+  const BibleBook = sequelize.define('BibleBook', {
     number: DataTypes.INTEGER,
     shortTitle: DataTypes.STRING,
     longTitle: DataTypes.STRING
@@ -244,6 +244,16 @@ module.exports = (sequelize, DataTypes) => {
                 " ORDER BY t.title ASC";
 
     return sequelize.query(query, { model: models.VerseTag });
+  };
+
+  BibleBook.prototype.getNotes = function() {
+    var query = "SELECT n.*, b.shortTitle AS bibleBookId, vr.absoluteVerseNrEng, vr.absoluteVerseNrHeb" + 
+                " FROM VerseReferences vr " +
+                " INNER JOIN BibleBooks b ON vr.bibleBookId = b.id" +
+                " INNER JOIN Notes n ON n.verseReferenceId = vr.id" +
+                " WHERE vr.bibleBookId=" + this.id;
+    
+    return sequelize.query(query, { model: models.Note });
   };
 
   BibleBook.getBookLongTitle = function(book_short_title) {

@@ -2,11 +2,10 @@
 All notable changes to Ezra Project are documented in this file.
 
 <!--
-## [Next release]
+## [0.13.0 - 2020-06-xx]
 ### Features
 
-* Fe1
-* Fe2
+* Added basic note taking functionality. Notes can be added for individual verses using Markdown syntax. ([#45][i45])
 
 ### Enhancements
 
@@ -17,13 +16,10 @@ All notable changes to Ezra Project are documented in this file.
 
 * Properly localize book names in tab titles. ([#41][i41])
 
-### Enablers
-
-* En1
-
 [i26]: https://github.com/tobias-klein/ezra-project/issues/26
 [i41]: https://github.com/tobias-klein/ezra-project/issues/41
 [i43]: https://github.com/tobias-klein/ezra-project/issues/43
+[i45]: https://github.com/tobias-klein/ezra-project/issues/45
 
 -->
 

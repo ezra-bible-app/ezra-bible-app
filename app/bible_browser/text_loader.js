@@ -16,6 +16,8 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const marked = require("marked");
+
 class TextLoader {
   constructor() {
   }
@@ -140,6 +142,8 @@ class TextLoader {
 
     var verseTags = await bibleBook.getVerseTags();
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
+    var verseNotes = await bibleBook.getNotes();
+    var groupedVerseNotes = models.Note.groupNotesByVerse(verseNotes, versification);
 
     var moduleLang = i18n.language;
     if (localSwordModule != null) {
@@ -177,6 +181,8 @@ class TextLoader {
       bibleBooks: [bibleBook],
       verses: verses,
       verseTags: groupedVerseTags,
+      verseNotes: groupedVerseNotes,
+      marked: marked,
       reference_separator: reference_separator,
       chapterText: chapterText,
       tagHint: i18n.t("bible-browser.tag-hint")
@@ -234,6 +240,9 @@ class TextLoader {
 
     var verseTags = await models.VerseTag.findByVerseReferenceIds(verseReferenceIds.join(','));
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
+
+    var verseNotes = await models.Note.findByVerseReferenceIds(verseReferenceIds.join(','));
+    var groupedVerseNotes = models.Note.groupNotesByVerse(verseNotes, versification);
     
     if (render_type == "html") {
       
@@ -241,6 +250,7 @@ class TextLoader {
                            bibleBooks,
                            bibleBookStats,
                            groupedVerseTags,
+                           groupedVerseNotes,
                            verses,
                            versification,
                            render_function,
@@ -311,12 +321,16 @@ class TextLoader {
     var verseTags = await models.VerseTag.findByVerseReferenceIds(verseReferenceIds.join(','));
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
 
+    var verseNotes = await models.Note.findByVerseReferenceIds(verseReferenceIds.join(','));
+    var groupedVerseNotes = models.Note.groupNotesByVerse(verseNotes, versification);
+
     if (render_type == "html") {
       
       this.getVersesAsHtml(current_tab_id,
                            bibleBooks,
                            bibleBookStats,
                            groupedVerseTags,
+                           groupedVerseNotes,
                            verses,
                            versification,
                            render_function,
@@ -328,7 +342,7 @@ class TextLoader {
     }
   }
 
-  getVersesAsHtml(current_tab_id, bibleBooks, bibleBookStats, groupedVerseTags, verses, versification, render_function, renderBibleBookHeaders=true, renderVerseMetaInfo=true) {
+  getVersesAsHtml(current_tab_id, bibleBooks, bibleBookStats, groupedVerseTags, groupedVerseNotes, verses, versification, render_function, renderBibleBookHeaders=true, renderVerseMetaInfo=true) {
     var verses_as_html = verseListTemplate({
       versification: versification,
       verseListId: current_tab_id,
@@ -338,6 +352,8 @@ class TextLoader {
       bibleBookStats: bibleBookStats,
       verses: verses,
       verseTags: groupedVerseTags,
+      verseNotes: groupedVerseNotes,
+      marked: marked,
       reference_separator: reference_separator,
       tagHint: i18n.t("bible-browser.tag-hint"),
       loadSearchResultsText: i18n.t("bible-browser.show-search-results")

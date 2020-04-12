@@ -18,7 +18,7 @@
 
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var VerseReference = sequelize.define('VerseReference', {
+  const VerseReference = sequelize.define('VerseReference', {
     bibleBookId: DataTypes.INTEGER,
     chapter: DataTypes.INTEGER,
     verseNr: DataTypes.INTEGER,
@@ -32,10 +32,50 @@ module.exports = (sequelize, DataTypes) => {
 
   VerseReference.associate = function(models) {
     VerseReference.belongsToMany(models.Tag, {through: 'VerseTags'});
+    VerseReference.hasOne(models.Note);
   };
 
   VerseReference.prototype.getBibleBook = function() {
     return models.BibleBook.findByPk(this.bibleBookId);
+  };
+
+  VerseReference.prototype.getOrCreateNote = async function() {
+    var note = await this.getNote();
+    if (note == null) { // create the note if it does not exist yet
+      note = await this.createNote();
+    }
+
+    return note;
+  };
+
+  VerseReference.findOrCreateFromVerseBox = async function(verseBox) {
+    var translationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
+    var versification = bible_browser_controller.translation_controller.getVersification(translationId);
+
+    var vId = verseBox.find('.verse-reference-id').text();
+    var bibleBookShortTitle = verseBox.find('.verse-bible-book-short').text();
+    var splittedId = vId.split('-');
+    var bibleBookId = splittedId[1];
+    var absoluteVerseNr = parseInt(splittedId[2]);
+    var verseReferenceContent = verseBox.find('.verse-reference-content').text();
+    var chapter = parseInt(verseReferenceContent.split(reference_separator)[0]);
+    var verseNr = parseInt(verseReferenceContent.split(reference_separator)[1]);
+
+    var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: bibleBookShortTitle } });
+    var absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(versification, bibleBookId, absoluteVerseNr, chapter, verseNr);
+
+    const [ verseReference, created ] = await models.VerseReference.findOrCreate({
+      where: { bibleBookId: bibleBook.id, absoluteVerseNrEng: absoluteVerseNr },
+      defaults: {
+        bibleBookId: bibleBook.id,
+        chapter: chapter,
+        verseNr: verseNr,
+        absoluteVerseNrEng: absoluteVerseNrs["absoluteVerseNrEng"],
+        absoluteVerseNrHeb: absoluteVerseNrs["absoluteVerseNrHeb"]
+      }
+    });
+
+    return verseReference;
   };
 
   VerseReference.findByBookAndAbsoluteVerseNumber = function(bookShortTitle, absoluteVerseNr, versification) {

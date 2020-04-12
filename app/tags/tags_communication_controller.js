@@ -92,35 +92,10 @@ class TagsCommunicationController
   async update_tags_on_verses(tagId, verseBoxes, action) {
     var increment = (action == "add" ? true : false);
     tags_controller.update_tag_verse_count(tagId, verseBoxes.length, increment);
-
-    var translationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
-    var versification = bible_browser_controller.translation_controller.getVersification(translationId);
     var tag = await models.Tag.findByPk(tagId);
 
     for (var verseBox of verseBoxes) {
-
-      var vId = verseBox.find('.verse-reference-id').text();
-      var bibleBookShortTitle = verseBox.find('.verse-bible-book-short').text();
-      var splittedId = vId.split('-');
-      var bibleBookId = splittedId[1];
-      var absoluteVerseNr = parseInt(splittedId[2]);
-      var verseReferenceContent = verseBox.find('.verse-reference-content').text();
-      var chapter = parseInt(verseReferenceContent.split(reference_separator)[0]);
-      var verseNr = parseInt(verseReferenceContent.split(reference_separator)[1]);
-
-      var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: bibleBookShortTitle } });
-      var absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(versification, bibleBookId, absoluteVerseNr, chapter, verseNr);
-
-      const [ verseReference, created ] = await models.VerseReference.findOrCreate({
-        where: { bibleBookId: bibleBook.id, absoluteVerseNrEng: absoluteVerseNr },
-        defaults: {
-          bibleBookId: bibleBook.id,
-          chapter: chapter,
-          verseNr: verseNr,
-          absoluteVerseNrEng: absoluteVerseNrs["absoluteVerseNrEng"],
-          absoluteVerseNrHeb: absoluteVerseNrs["absoluteVerseNrHeb"]
-        }
-      });
+      var verseReference = await models.VerseReference.findOrCreateFromVerseBox(verseBox);
       
       if (action == "add") {
         await verseReference.addTag(tag.id);

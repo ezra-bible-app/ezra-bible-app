@@ -18,7 +18,7 @@
 
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var VerseTag = sequelize.define('VerseTag', {
+  const VerseTag = sequelize.define('VerseTag', {
     verseReferenceId: DataTypes.INTEGER,
     tagId: DataTypes.INTEGER,
     tagTitle: DataTypes.VIRTUAL,

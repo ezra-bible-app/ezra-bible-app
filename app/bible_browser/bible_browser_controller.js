@@ -58,6 +58,7 @@ class BibleBrowserController {
     this.init_component("BookSelectionMenu", "book_selection_menu", "./app/components/book_selection_menu.js");
     this.init_component("TagStatistics", "tag_statistics", "./app/tags/tag_statistics.js");
     this.init_component("Strongs", "strongs", "./app/components/strongs.js");
+    this.init_component("NotesController", "notes_controller", "./app/bible_browser/notes_controller.js");
 
     this.tag_reference_box.initTagReferenceBox();
     this.initGlobalShortCuts();
@@ -148,11 +149,14 @@ class BibleBrowserController {
       // Only perform the following actions from the 2nd select (The first is done when the tab is created)
 
       this.hideAllMenus();
-      // Refresh the view based on the options selected
-      this.optionsMenu.refreshViewBasedOnOptions(ui.index);
 
       this.book_selection_menu.clearSelectedBookInMenu();
     }
+
+    // Refresh the view based on the options selected
+    this.optionsMenu.refreshViewBasedOnOptions(ui.index);
+
+    this.notes_controller.restoreCurrentlyEditedNotes();
 
     // Re-configure tab search
     this.tab_search.resetSearch();
@@ -438,10 +442,7 @@ class BibleBrowserController {
     }
     
     bible_browser_controller.hideAllMenus();
-
-    if ($('#currently-edited-notes').length > 0) {
-      notes_controller.restore_currently_edited_notes();
-    }
+    bible_browser_controller.notes_controller.restoreCurrentlyEditedNotes();
   }
 
   hideAllMenus() {
@@ -564,6 +565,7 @@ class BibleBrowserController {
     this.optionsMenu.showOrHideBookIntroductionBasedOnOption(tabIndex);
     this.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
     this.bindEventsAfterBibleTextLoaded(tabIndex);
+    this.notes_controller.initForTab(tabIndex);
   }
 
   updateUiAfterBibleTranslationAvailable(translationCode) {

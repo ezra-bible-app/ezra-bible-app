@@ -78,11 +78,13 @@ class OptionsMenu {
       }, 100);
     });
 
-    /*$('#verse-notes-switch').bind('change', function() {
-      bible_browser_controller.show_or_hide_verse_notes_based_on_option();
+    $('#verse-notes-switch').bind('change', () => {
+      bible_browser_controller.settings.set('showNotes', this.verseNotesSwitchChecked());
+      this.showOrHideVerseNotesBasedOnOption();
+      this.slowlyHideDisplayMenu();
     });
-    $('#verse-notes-switch').removeAttr('disabled');
 
+    /*
     // Enable the cross reference display by default
     $('#x-refs-switch').attr('checked', 'checked');
     $('#x-refs-switch').removeAttr('disabled');
@@ -179,6 +181,11 @@ class OptionsMenu {
       useNightMode = bible_browser_controller.settings.get('useNightMode');
     }
 
+    var showNotes = false;
+    if (bible_browser_controller.settings.has('showNotes')) {
+      showNotes = bible_browser_controller.settings.get('showNotes');
+    }
+
     if (showToolBar) {
       this.enableOption('tool-bar-switch');
     }
@@ -197,6 +204,10 @@ class OptionsMenu {
 
     if (showTags) {
       this.enableOption('tags-switch');
+    }
+
+    if (showNotes) {
+      this.enableOption('verse-notes-switch');
     }
 
     if (useTagsColumn) {
@@ -359,6 +370,7 @@ class OptionsMenu {
     this.showOrHideVerseTagsBasedOnOption(tabIndex);
     this.changeTagsLayoutBasedOnOption(tabIndex);
     this.showOrHideStrongsBasedOnOption(tabIndex);
+    this.showOrHideVerseNotesBasedOnOption(tabIndex);
     this.useNightModeBasedOnOption();
   }
 
