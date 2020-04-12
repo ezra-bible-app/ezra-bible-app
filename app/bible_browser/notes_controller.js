@@ -129,13 +129,13 @@ class NotesController {
     this.focusEditor();
   }
 
-  focusEditor() {
-    if (this.currentEditor != null) {
-      setTimeout(() => {
+  focusEditor() {    
+    setTimeout(() => {
+      if (this.currentEditor != null) {
         this.currentEditor.refresh();
         this.currentEditor.getInputField().focus();
-      }, 200);
-    }
+      }
+    }, 200);
   }
 
   getCurrentTheme() {
