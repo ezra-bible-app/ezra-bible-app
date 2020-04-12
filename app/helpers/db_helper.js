@@ -69,13 +69,20 @@ class DbHelper {
 
   getSequelize(databaseDir) {
     var config = {
-      "username": null,
-      "password": null,
-      "database": "ezra-project-ng",
-      "host": null,
-      "dialect": "sqlite",
-      "storage": this.getDbFilePath(databaseDir),
-      "logging": false
+      username: null,
+      password: null,
+      database: "ezra-project-ng",
+      host: null,
+      dialect: "sqlite",
+      storage: this.getDbFilePath(databaseDir),
+      logging: false,
+      retry: {
+        match: [
+          /SQLITE_BUSY/,
+        ],
+        name: 'query',
+        max: 5
+      }
     };
   
     var sequelize = new Sequelize(config.database, config.username, config.password, config);
