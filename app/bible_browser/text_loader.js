@@ -240,6 +240,9 @@ class TextLoader {
 
     var verseTags = await models.VerseTag.findByVerseReferenceIds(verseReferenceIds.join(','));
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
+
+    var verseNotes = await models.Note.findByVerseReferenceIds(verseReferenceIds.join(','));
+    var groupedVerseNotes = models.Note.groupNotesByVerse(verseNotes, versification);
     
     if (render_type == "html") {
       
@@ -247,7 +250,7 @@ class TextLoader {
                            bibleBooks,
                            bibleBookStats,
                            groupedVerseTags,
-                           [],
+                           groupedVerseNotes,
                            verses,
                            versification,
                            render_function,
