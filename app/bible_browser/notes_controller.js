@@ -42,12 +42,27 @@ class NotesController {
     }
   }
 
+  getCurrentVerseBox() {
+    return $('.verse-reference-id-' + this.currentVerseReferenceId);
+  }
+
+  refreshNotesInfo(noteValue) {
+    var currentVerseBox = this.getCurrentVerseBox();
+    var notesInfo = currentVerseBox.find('.notes-info');
+    if (noteValue != '') {
+      notesInfo.addClass('visible');
+    } else {
+      notesInfo.removeClass('visible');
+    }    
+  }
+
   saveEditorContent() {
     if (this.currentlyEditedNotes != null) {
       var currentNoteValue = this.currentEditor.getValue().trim();
       this.currentlyEditedNotes.setAttribute('notes-content', currentNoteValue);
+      this.refreshNotesInfo(currentNoteValue);
 
-      var currentVerseBox = $('.verse-reference-id-' + this.currentVerseReferenceId);
+      var currentVerseBox = this.getCurrentVerseBox();
       models.Note.persistNote(currentNoteValue, currentVerseBox);
     }
   }
