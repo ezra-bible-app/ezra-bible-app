@@ -59,7 +59,7 @@ class BookSelectionMenu {
 
     bible_browser_controller.text_loader.prepareForNewText(true, false);
 
-    setTimeout(() => {
+    setTimeout(async () => {
       var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
       var books = nsi.getBookList(currentBibleTranslationId);
 
@@ -84,8 +84,8 @@ class BookSelectionMenu {
       var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
       var currentBook = currentTab.getBook();
 
-      bible_browser_controller.text_loader.requestTextUpdate(currentTabId, currentBook, null, null);
-      tags_controller.communication_controller.request_tags();
+      await bible_browser_controller.text_loader.requestTextUpdate(currentTabId, currentBook, null, null);
+      await tags_controller.communication_controller.request_tags();
     }, 50);
   }
 

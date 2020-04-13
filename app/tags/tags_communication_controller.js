@@ -20,21 +20,20 @@ class TagsCommunicationController
 {
   constructor() {  }
 
-  request_tags(currentBook=undefined) {
+  async request_tags(currentBook=undefined) {
     if (currentBook === undefined) {
       var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
     }
 
-    models.BibleBook.findOne({ where: { shortTitle: currentBook }}).then(bibleBook => {
-      var bibleBookId = null;
-      if (bibleBook != null) {
-        bibleBookId = bibleBook.id;
-      }
+    var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: currentBook }});
+    
+    var bibleBookId = null;
+    if (bibleBook != null) {
+      bibleBookId = bibleBook.id;
+    }
 
-      models.Tag.getGlobalAndBookTags(bibleBookId).then(tags => {
-        tags_controller.render_tags(tags);
-      });
-    });
+    var tags = await models.Tag.getGlobalAndBookTags(bibleBookId);
+    tags_controller.render_tags(tags);
   }
 
   create_new_tag(new_tag_title, type) {

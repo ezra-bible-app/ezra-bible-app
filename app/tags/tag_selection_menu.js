@@ -232,7 +232,7 @@ class TagSelectionMenu {
     return tag_list;
   }
 
-  handleTagCbClick(event) {
+  async handleTagCbClick(event) {
     var currentTagIdList = this.selectedTagIds();
     var currentTagTitleList = this.selectedTagTitles();
     var currentTab = bible_browser_controller.tab_controller.getTab();
@@ -250,13 +250,13 @@ class TagSelectionMenu {
       }, 700);
     }
 
-    bible_browser_controller.getTaggedVerses();
+    await bible_browser_controller.getTaggedVerses();
   }
 
   bindTagCbEvents() {
     var cbs = document.querySelectorAll('.tag-browser-tag-cb');
     for (var i = 0; i < cbs.length; i++) {
-      cbs[i].addEventListener('click', (event) => { this.handleTagCbClick(event); });
+      cbs[i].addEventListener('click', async (event) => { await this.handleTagCbClick(event); });
       cbs[i].removeAttribute('checked');
       cbs[i].removeAttribute('disabled');
     }

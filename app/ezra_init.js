@@ -218,7 +218,7 @@ async function initApplication()
   await bible_browser_controller.translation_controller.installStrongsIfNeeded();
 
   console.log("Loading settings ...");
-  bible_browser_controller.loadSettings();
+  await bible_browser_controller.loadSettings();
 
   console.log("Checking for latest release ...");
   var newReleaseChecker = new NewReleaseChecker('new-release-info-box');

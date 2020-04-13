@@ -169,7 +169,7 @@ class BibleBrowserController {
     // Refresh tags view
     // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
     tags_controller.verses_were_selected_before = true;
-    this.updateTagsView(ui.index);
+    await this.updateTagsView(ui.index);
 
     // Refresh tags selection menu (It's global!)
     await this.tag_selection_menu.updateTagSelectionMenu(ui.index);
@@ -421,7 +421,7 @@ class BibleBrowserController {
     searchProgressBar.hide();
   }
 
-  updateTagsView(tabIndex) {
+  async updateTagsView(tabIndex) {
     tags_controller.showTagListLoadingIndicator();
     var currentTab = this.tab_controller.getTab(tabIndex);
 
@@ -430,7 +430,7 @@ class BibleBrowserController {
       var currentTagIdList = currentTab.getTagIdList();
       var currentSearchTerm = currentTab.getSearchTerm();
       if ((currentTabBook != undefined && currentTabBook != null) || currentTagIdList != null || currentSearchTerm != null) {
-        tags_controller.communication_controller.request_tags(currentTabBook);
+        await tags_controller.communication_controller.request_tags(currentTabBook);
       }
     }
   }
@@ -512,7 +512,7 @@ class BibleBrowserController {
     }
   }
 
-  getTaggedVerses() {
+  async getTaggedVerses() {
     var currentTagIdList = this.tab_controller.getTab().getTagIdList();
     var currentTabId = this.tab_controller.getSelectedTabId();
     var currentVerseList = this.getCurrentVerseList();
@@ -522,7 +522,7 @@ class BibleBrowserController {
     if (currentTagIdList != "") {
       this.text_loader.prepareForNewText(true, false);
       this.text_loader.requestTextUpdate(currentTabId, null, currentTagIdList, null);
-      tags_controller.communication_controller.request_tags();
+      await tags_controller.communication_controller.request_tags();
     }
   }
 
