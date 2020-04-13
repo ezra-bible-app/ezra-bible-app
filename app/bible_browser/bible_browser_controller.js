@@ -554,9 +554,6 @@ class BibleBrowserController {
       var tabIndex = selectedTabIndex;
     }
 
-    // Disabled notes controller
-    //notes_controller.init();
-
     if (tabIsCurrentTab) {
       this.tag_statistics.toggle_book_tags_statistics_button(tabIndex);
     }

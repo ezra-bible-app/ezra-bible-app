@@ -106,8 +106,6 @@ async function initControllers()
   await bible_browser_controller.init();
 
   tags_controller = new TagsController();
-  // Disabled notes controller
-  //notes_controller = new NotesController;
 }
 
 function isMac()
