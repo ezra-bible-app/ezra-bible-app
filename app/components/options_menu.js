@@ -320,11 +320,7 @@ class OptionsMenu {
     if (this.verseNotesSwitchChecked()) {
       currentVerseList.addClass('verse-list-with-notes');
     } else {
-      if ($('#currently-edited-notes').length > 0) {
-        // If the user wants to hide the notes the currently edited note
-        // has to be restored as well
-        notes_controller.restore_currently_edited_notes();
-      }
+      bible_browser_controller.notes_controller.restoreCurrentlyEditedNotes();
       currentVerseList.removeClass('verse-list-with-notes');
     }
   }
