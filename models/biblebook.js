@@ -236,10 +236,10 @@ module.exports = (sequelize, DataTypes) => {
 
   BibleBook.prototype.getVerseTags = function() {
     var query = "SELECT t.title AS tagTitle, b.shortTitle AS bibleBookId, vt.*, vr.absoluteVerseNrEng, vr.absoluteVerseNrHeb" + 
-                " FROM VerseReferences vr " +
-                " INNER JOIN VerseTags vt ON vt.verseReferenceId = vr.id" +
-                " INNER JOIN Tags t ON t.id = vt.tagId" +
+                " FROM VerseTags vt " +
+                " INNER JOIN VerseReferences vr ON vt.verseReferenceId = vr.id" +
                 " INNER JOIN BibleBooks b ON vr.bibleBookId = b.id" +
+                " INNER JOIN Tags t ON t.id = vt.tagId" +
                 " WHERE vr.bibleBookId=" + this.id +
                 " ORDER BY t.title ASC";
 
@@ -248,9 +248,9 @@ module.exports = (sequelize, DataTypes) => {
 
   BibleBook.prototype.getNotes = function() {
     var query = "SELECT n.*, b.shortTitle AS bibleBookId, vr.absoluteVerseNrEng, vr.absoluteVerseNrHeb" + 
-                " FROM VerseReferences vr " +
+                " FROM Notes n " +
+                " INNER JOIN VerseReferences vr ON n.verseReferenceId = vr.id" +
                 " INNER JOIN BibleBooks b ON vr.bibleBookId = b.id" +
-                " INNER JOIN Notes n ON n.verseReferenceId = vr.id" +
                 " WHERE vr.bibleBookId=" + this.id;
     
     return sequelize.query(query, { model: models.Note });
