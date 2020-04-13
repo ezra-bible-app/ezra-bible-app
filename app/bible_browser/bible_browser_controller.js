@@ -19,7 +19,6 @@
 const LanguageMapper = require('./app/helpers/language_mapper.js');
 const TranslationWizardHelper = require('./app/translation_wizard/translation_wizard_helper.js');
 const Mousetrap = require('mousetrap');
-const { clipboard } = require('electron');
 
 class BibleBrowserController {
   constructor() {
@@ -330,6 +329,8 @@ class BibleBrowserController {
   }
 
   copySelectedVersesToClipboard() {
+    const { clipboard } = require('electron');
+    
     var selectedVerseBoxes = bible_browser_controller.verse_selection.selected_verse_boxes;
     
     var selectedText = "";
