@@ -18,6 +18,9 @@
 
 const app = require('electron').remote.app;
 
+// This module will modify the standard console.log function and add a timestamp as a prefix for all log calls
+require('log-timestamp');
+
 // i18n
 const i18n = require('i18next');
 const I18nHelper = require('./app/helpers/i18n_helper.js');
@@ -40,9 +43,6 @@ nsi.enableMarkup();
 // UI Helper
 const UiHelper = require('./app/helpers/ui_helper.js');
 const uiHelper = new UiHelper();
-
-// This module will modify the standard console.log function and add a timestamp as a prefix for all log calls
-require('log-timestamp');
 
 var models = null;
 var bible_browser_controller = null;
