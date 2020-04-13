@@ -36,9 +36,7 @@ const dbHelper = new DbHelper(userDataDir);
 const dbDir = dbHelper.getDatabaseDir();
 
 // Global instance of NodeSwordInterface used in many places
-const NodeSwordInterface = require('node-sword-interface');
-const nsi = new NodeSwordInterface();
-nsi.enableMarkup();
+let nsi = null;
 
 // UI Helper
 const UiHelper = require('./app/helpers/ui_helper.js');
@@ -87,6 +85,13 @@ async function initI18N()
 
   reference_separator = i18n.t('general.chapter-verse-separator');
   $(document).localize();
+}
+
+function initNSI()
+{
+  const NodeSwordInterface = require('node-sword-interface');
+  nsi = new NodeSwordInterface();
+  nsi.enableMarkup();
 }
 
 async function initDatabase()
@@ -203,6 +208,9 @@ async function initApplication()
 
   console.log("Initializing database ...");
   await initDatabase();
+
+  console.log("Initializing node-sword-interface ...");
+  initNSI();
 
   console.log("Initializing controllers ...");
   await initControllers();
