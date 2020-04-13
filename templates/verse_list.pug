@@ -116,7 +116,7 @@ each bibleBook in bibleBooks
         div.verse-text !{verse.content}
         div.cr-box
 
-      if current_verse_note != null && current_verse_note.text != ''
+      if current_verse_note != null && current_verse_note.text != null && current_verse_note.text != ''
         div(class='verse-notes', notes-content=current_verse_note.text) !{marked(current_verse_note.text)}
       else
         div(class='verse-notes verse-notes-empty')
