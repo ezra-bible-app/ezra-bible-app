@@ -230,10 +230,14 @@ class TranslationController {
       if (isRemote) {
         bibleTranslationInfo += "<b>" + bibleTranslationModule.description + "</b><br><br>";
       } else {
-        bibleTranslationInfo += "<b>" + i18n.t("general.module-about") + "</b><br><br>";
+        bibleTranslationInfo += "<b>" + i18n.t("general.module-about") + "</b>";
       }
 
-      bibleTranslationInfo += bibleTranslationModule.about.replace(/\\par/g, "<br>");
+      bibleTranslationInfo += "<p class='external'>";
+      var about = bibleTranslationModule.about.replace(/\\pard/g, "").replace(/\\par/g, "<br>");
+      bibleTranslationInfo += about;
+      bibleTranslationInfo += "</p>";
+
       var moduleSize = Math.round(bibleTranslationModule.size / 1024) + " KB";
 
       var yes = i18n.t("general.yes");
@@ -244,6 +248,7 @@ class TranslationController {
       bibleTranslationInfo += "<tr><td style='width: 9em;'>" + i18n.t("general.module-name") + ":</td><td>" + bibleTranslationModule.name + "</td></tr>";
       bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-version") + ":</td><td>" + bibleTranslationModule.version + "</td></tr>";
       bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-language") + ":</td><td>" + this.languageMapper.getLanguageName(bibleTranslationModule.language) + "</td></tr>";
+      bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-license") + ":</td><td>" + bibleTranslationModule.distributionLicense + "</td></tr>";
       bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-strongs") + ":</td><td>" + (bibleTranslationModule.hasStrongs ? yes : no) + "</td></tr>";
       bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-headings") + ":</td><td>" + (bibleTranslationModule.hasHeadings ? yes : no) + "</td></tr>";
       bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-footnotes") + ":</td><td>" + (bibleTranslationModule.hasFootnotes ? yes : no) + "</td></tr>";

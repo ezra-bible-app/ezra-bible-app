@@ -77,6 +77,7 @@
     "module-name": "Naam",
     "module-version": "Versie",
     "module-language": "Taal",
+    "module-license": "License",
     "module-strongs": "Strongs",
     "module-headings": "Hoofdingen",
     "module-footnotes": "Voetnoten",

@@ -77,6 +77,7 @@
     "module-name": "Name",
     "module-version": "Version",
     "module-language": "Sprache",
+    "module-license": "Lizenz",
     "module-strongs": "Strong's",
     "module-headings": "Überschriften",
     "module-footnotes": "Fußnoten",
