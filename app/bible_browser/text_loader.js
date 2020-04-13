@@ -18,6 +18,7 @@
 
 class TextLoader {
   constructor() {
+    this.marked = require("marked");
   }
 
   prepareForNewText(resetView, isSearch=false, tabIndex=undefined) {
@@ -168,11 +169,6 @@ class TextLoader {
       }
     }
 
-    var marked = null;
-    if (verseNotes.length > 0) {
-      marked = require("marked");
-    }
-
     var verses_as_html = verseListTemplate({
       versification: versification,
       verseListId: current_tab_id,
@@ -185,7 +181,7 @@ class TextLoader {
       verses: verses,
       verseTags: groupedVerseTags,
       verseNotes: groupedVerseNotes,
-      marked: marked,
+      marked: this.marked,
       reference_separator: reference_separator,
       chapterText: chapterText,
       tagHint: i18n.t("bible-browser.tag-hint")
@@ -356,7 +352,7 @@ class TextLoader {
       verses: verses,
       verseTags: groupedVerseTags,
       verseNotes: groupedVerseNotes,
-      marked: marked,
+      marked: this.marked,
       reference_separator: reference_separator,
       tagHint: i18n.t("bible-browser.tag-hint"),
       loadSearchResultsText: i18n.t("bible-browser.show-search-results")
