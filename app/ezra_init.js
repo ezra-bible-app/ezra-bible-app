@@ -17,6 +17,8 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const app = require('electron').remote.app;
+const path = require('path');
+const fs = require('fs');
 
 // This module will modify the standard console.log function and add a timestamp as a prefix for all log calls
 require('log-timestamp');
@@ -188,18 +190,66 @@ function initNightMode() {
   }
 }
 
+function loadScript(src)
+{
+  var script = document.createElement('script');
+  script.src = src;
+  document.getElementsByTagName('head')[0].appendChild(script);
+}
+
+function loadScriptFileList(list)
+{
+  for (var i = 0; i < list.length; i++) {
+    var script = list[i];
+    loadScript(script);
+  }
+}
+
+function loadAllScriptFiles()
+{
+  var appJsFiles = [
+    "app/bible_browser/bible_browser_controller.js",
+    "app/tags/tags_communication_controller.js",
+    "app/tags/tags_controller.js",
+    "templates/verse_list.js",
+    "templates/tag_list.js"
+  ];
+
+  loadScriptFileList(appJsFiles);
+}
+
+// This function loads the content of html fragments into the divs in the app-container
+function loadFragment(filePath, elementId) {
+  var absoluteFilePath = path.join(__dirname, filePath);
+  var fileContent = fs.readFileSync(absoluteFilePath);
+  document.getElementById(elementId).innerHTML = fileContent;
+}
+
+function loadHTML()
+{
+  loadFragment('html/book_selection_menu.html',           'book-selection-menu');
+  loadFragment('html/tag_selection_menu.html',            'tag-selection-menu');
+  loadFragment('html/bible_browser_toolbox.html',         'bible-browser-toolbox');
+  loadFragment('html/translation_settings_wizard.html',   'translation-settings-wizard');
+  loadFragment('html/tab_search_form.html',               'tab-search');
+  loadFragment('html/module_search_menu.html',            'module-search-menu');
+  loadFragment('html/display_options_menu.html',          'display-options-menu');
+  loadFragment('html/verse_list_tabs.html',               'verse-list-tabs');
+  loadFragment('html/boxes.html',                         'boxes');
+}
+
 async function initApplication()
 {
   //console.time("application-startup");
-  var applicationLoaded = false;
   var loadingIndicator = $('#startup-loading-indicator');
+  loadingIndicator.show();
+  loadingIndicator.find('.loader').show();
 
-  setTimeout(() => {
-    if (!applicationLoaded) {
-      loadingIndicator.show();
-      loadingIndicator.find('.loader').show();
-    }
-  }, 500);
+  console.log("Loading HTML fragments");
+  loadHTML();
+
+  console.log("Loading all script files");
+  loadAllScriptFiles();
 
   console.log("Initializing i18n ...");
   await initI18N();
@@ -230,7 +280,6 @@ async function initApplication()
   var newReleaseChecker = new NewReleaseChecker('new-release-info-box');
   newReleaseChecker.check();
 
-  applicationLoaded = true;
   loadingIndicator.hide();
   //console.timeEnd("application-startup");
 }

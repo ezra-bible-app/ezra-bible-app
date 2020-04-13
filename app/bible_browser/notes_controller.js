@@ -16,8 +16,18 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+let CodeMirror = null;
+
 class NotesController {
   constructor() {
+    CodeMirror = require('codemirror/lib/codemirror.js');
+    require("codemirror/addon/edit/continuelist.js");
+    require("codemirror/mode/markdown/markdown.js");
+    require("codemirror/addon/mode/overlay.js");
+    require("codemirror/mode/markdown/markdown.js");
+    require("codemirror/mode/gfm/gfm.js");
+    require("codemirror/mode/htmlmixed/htmlmixed.js");
+
     this.theme = this.getCurrentTheme();
     this.reset();
   }
