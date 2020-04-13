@@ -32,7 +32,7 @@ class TagsCommunicationController
       bibleBookId = bibleBook.id;
     }
 
-    var tags = await models.Tag.getGlobalAndBookTags(bibleBookId);
+    var tags = await models.Tag.getAllTags(bibleBookId);
     tags_controller.render_tags(tags);
   }
 

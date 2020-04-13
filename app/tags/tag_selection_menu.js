@@ -76,7 +76,7 @@ class TagSelectionMenu {
   }
 
   async requestTagsForMenu() {
-    var tags = await models.Tag.getGlobalAndBookTags();
+    var tags = await models.Tag.getAllTags();
     this.renderTagsInMenu(tags);
     this.tag_menu_populated = true;
   }

@@ -30,19 +30,26 @@ module.exports = (sequelize, DataTypes) => {
     Tag.belongsToMany(models.VerseReference, {through: 'VerseTags'});
   };
 
-  Tag.getGlobalAndBookTags = function(bibleBookId = 0, lastUsed=false) {
-    var query = "SELECT t.*," +
+  Tag.getAllTags = function(bibleBookId = 0, lastUsed=false, onlyStats=false) {
+    var attributes = "t.*";
+    if (onlyStats) {
+      attributes = "t.id";
+    }
+
+    var query = "SELECT " + attributes + "," +
                  " SUM(CASE WHEN vt.tagId IS NULL THEN 0 ELSE 1 END) AS globalAssignmentCount," +
-                 " SUM(CASE WHEN vr.bibleBookId=" + bibleBookId + " THEN 1 ELSE 0 END) AS bookAssignmentCount," +
-                 " strftime('%s', MAX(vt.updatedAt)) AS lastUsed" +
-                 " FROM Tags t" +
-                 " LEFT JOIN VerseTags vt ON vt.tagId = t.id" +
-                 " LEFT JOIN VerseReferences vr ON vt.verseReferenceId = vr.id" +
-                 " GROUP BY t.id";
+                 " SUM(CASE WHEN vr.bibleBookId=" + bibleBookId + " THEN 1 ELSE 0 END) AS bookAssignmentCount";
+
+    if (!onlyStats) query += ", strftime('%s', MAX(vt.updatedAt)) AS lastUsed";
+
+    query += " FROM Tags t" +
+             " LEFT JOIN VerseTags vt ON vt.tagId = t.id" +
+             " LEFT JOIN VerseReferences vr ON vt.verseReferenceId = vr.id" +
+             " GROUP BY t.id";
     
     if (lastUsed) {
       query += " ORDER BY lastUsed DESC limit 5";
-    } else {
+    } else if (!onlyStats) {
       query += " ORDER BY t.title ASC";
     }
 
