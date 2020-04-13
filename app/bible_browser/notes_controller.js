@@ -16,8 +16,6 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const marked = require("marked");
-
 class NotesController {
   constructor() {
     this.theme = this.getCurrentTheme();
@@ -68,6 +66,8 @@ class NotesController {
   }
 
   getRenderedEditorContent() {
+    const marked = require("marked");
+
     var editorContent = this.currentEditor.getValue();
     var renderedContent = "";
 

@@ -16,8 +16,6 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const marked = require("marked");
-
 class TextLoader {
   constructor() {
   }
@@ -168,6 +166,11 @@ class TextLoader {
       } catch (e) {
         console.log("Could not retrieve book introduction for module " + currentBibleTranslationId);
       }
+    }
+
+    var marked = null;
+    if (verseNotes.length > 0) {
+      marked = require("marked");
     }
 
     var verses_as_html = verseListTemplate({
