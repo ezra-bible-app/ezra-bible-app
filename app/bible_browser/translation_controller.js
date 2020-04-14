@@ -231,8 +231,6 @@ class TranslationController {
       
       if (isRemote) {
         bibleTranslationInfo += "<b>" + bibleTranslationModule.description + "</b><br><br>";
-      } else {
-        bibleTranslationInfo += "<b>" + i18n.t("general.module-about") + "</b>";
       }
 
       bibleTranslationInfo += "<p class='external'>";
