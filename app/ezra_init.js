@@ -48,11 +48,11 @@ const uiHelper = new UiHelper();
 const BibleBrowserController = require('./app/bible_browser/bible_browser_controller.js');
 const TagsController = require('./app/tags/tags_controller.js');
 
-var models = null;
-var bible_browser_controller = null;
-var tags_controller = null;
-var reference_separator = ':';
-var bible_chapter_verse_counts = {};
+let models = null;
+let bible_browser_controller = null;
+let tags_controller = null;
+let reference_separator = ':';
+let bible_chapter_verse_counts = {};
 
 String.prototype.trim = function() {
   var s = this;
