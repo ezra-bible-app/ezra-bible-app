@@ -16,8 +16,6 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const LanguageMapper = require('./app/helpers/language_mapper.js');
-const TranslationWizardHelper = require('./app/translation_wizard/translation_wizard_helper.js');
 const Mousetrap = require('mousetrap');
 
 class BibleBrowserController {
@@ -38,26 +36,26 @@ class BibleBrowserController {
     this.verse_list_composite_template = $($('.verse-list-composite')[0]).html();
     this.settings = require('electron-settings');
 
-    this.init_component("VerseSelection", "verse_selection", "./app/components/verse_selection.js");
-    this.init_component("TagSelectionMenu", "tag_selection_menu", "./app/tags/tag_selection_menu.js");
-    this.init_component("TagReferenceBox", "tag_reference_box", "./app/tags/tag_reference_box.js");
-    this.init_component("TagAssignmentMenu", "tag_assignment_menu", "./app/tags/tag_assignment_menu.js");
-    this.init_component("ModuleSearch", "module_search", "./app/components/module_search.js");
-    this.init_component("TranslationController", "translation_controller", "./app/bible_browser/translation_controller.js");
-    this.init_component("InstallTranslationWizard", "install_translation_wizard", "./app/translation_wizard/install_translation_wizard.js");
-    this.init_component("RemoveTranslationWizard", "remove_translation_wizard", "./app/translation_wizard/remove_translation_wizard.js");
-    this.init_component("TextLoader", "text_loader", "./app/bible_browser/text_loader.js");
-    this.init_component("VerseContextLoader", "verse_context_loader", "./app/bible_browser/verse_context_loader.js");
-    this.init_component("BookSearch", "tab_search", "./app/components/tab_search.js");
-    this.init_component("TabController", "tab_controller", "./app/bible_browser/tab_controller.js");
-    this.init_component("OptionsMenu", "optionsMenu", "./app/components/options_menu.js");
-    this.init_component("NavigationPane", "navigation_pane", "./app/components/navigation_pane.js");
-    this.init_component("TaggedVerseExport", "taggedVerseExport", "./app/tags/tagged_verse_export.js");
-    this.init_component("TranslationComparison", "translationComparison", "./app/components/translation_comparison.js");
-    this.init_component("BookSelectionMenu", "book_selection_menu", "./app/components/book_selection_menu.js");
-    this.init_component("TagStatistics", "tag_statistics", "./app/tags/tag_statistics.js");
-    this.init_component("Strongs", "strongs", "./app/components/strongs.js");
-    this.init_component("NotesController", "notes_controller", "./app/bible_browser/notes_controller.js");
+    this.init_component("VerseSelection", "verse_selection", "../components/verse_selection.js");
+    this.init_component("TagSelectionMenu", "tag_selection_menu", "../tags/tag_selection_menu.js");
+    this.init_component("TagReferenceBox", "tag_reference_box", "../tags/tag_reference_box.js");
+    this.init_component("TagAssignmentMenu", "tag_assignment_menu", "../tags/tag_assignment_menu.js");
+    this.init_component("ModuleSearch", "module_search", "../components/module_search.js");
+    this.init_component("TranslationController", "translation_controller", "./translation_controller.js");
+    this.init_component("InstallTranslationWizard", "install_translation_wizard", "../translation_wizard/install_translation_wizard.js");
+    this.init_component("RemoveTranslationWizard", "remove_translation_wizard", "../translation_wizard/remove_translation_wizard.js");
+    this.init_component("TextLoader", "text_loader", "./text_loader.js");
+    this.init_component("VerseContextLoader", "verse_context_loader", "./verse_context_loader.js");
+    this.init_component("BookSearch", "tab_search", "../components/tab_search.js");
+    this.init_component("TabController", "tab_controller", "./tab_controller.js");
+    this.init_component("OptionsMenu", "optionsMenu", "../components/options_menu.js");
+    this.init_component("NavigationPane", "navigation_pane", "../components/navigation_pane.js");
+    this.init_component("TaggedVerseExport", "taggedVerseExport", "../tags/tagged_verse_export.js");
+    this.init_component("TranslationComparison", "translationComparison", "../components/translation_comparison.js");
+    this.init_component("BookSelectionMenu", "book_selection_menu", "../components/book_selection_menu.js");
+    this.init_component("TagStatistics", "tag_statistics", "../tags/tag_statistics.js");
+    this.init_component("Strongs", "strongs", "../components/strongs.js");
+    this.init_component("NotesController", "notes_controller", "./notes_controller.js");
 
     this.tag_reference_box.initTagReferenceBox();
     this.initGlobalShortCuts();

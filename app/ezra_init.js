@@ -44,6 +44,10 @@ let nsi = null;
 const UiHelper = require('./app/helpers/ui_helper.js');
 const uiHelper = new UiHelper();
 
+// Controllers
+const BibleBrowserController = require('./app/bible_browser/bible_browser_controller.js');
+const TagsController = require('./app/tags/tags_controller.js');
+
 var models = null;
 var bible_browser_controller = null;
 var tags_controller = null;
@@ -197,27 +201,6 @@ function loadScript(src)
   document.getElementsByTagName('head')[0].appendChild(script);
 }
 
-function loadScriptFileList(list)
-{
-  for (var i = 0; i < list.length; i++) {
-    var script = list[i];
-    loadScript(script);
-  }
-}
-
-function loadAllScriptFiles()
-{
-  var appJsFiles = [
-    "app/bible_browser/bible_browser_controller.js",
-    "app/tags/tags_communication_controller.js",
-    "app/tags/tags_controller.js",
-    "templates/verse_list.js",
-    "templates/tag_list.js"
-  ];
-
-  loadScriptFileList(appJsFiles);
-}
-
 // This function loads the content of html fragments into the divs in the app-container
 function loadFragment(filePath, elementId) {
   var absoluteFilePath = path.join(__dirname, filePath);
@@ -247,9 +230,6 @@ async function initApplication()
 
   console.log("Loading HTML fragments");
   loadHTML();
-
-  console.log("Loading all script files");
-  loadAllScriptFiles();
 
   console.log("Initializing i18n ...");
   await initI18N();

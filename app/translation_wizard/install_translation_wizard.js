@@ -16,6 +16,9 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const LanguageMapper = require('../helpers/language_mapper.js');
+const TranslationWizardHelper = require('./translation_wizard_helper.js');
+
 class InstallTranslationWizard {
   constructor() {
     this._helper = new TranslationWizardHelper();

@@ -18,6 +18,7 @@
 
 class TextLoader {
   constructor() {
+    loadScript("templates/verse_list.js");
     this.marked = require("marked");
   }
 
