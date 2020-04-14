@@ -18,7 +18,9 @@
 
 
 class UiHelper {
-  constructor() {}
+  constructor() {
+    this.app_container_height = null;
+  }
 
   configureButtonStyles(context = null) {
     if (context == null) {
@@ -109,7 +111,7 @@ class UiHelper {
     var navigationPane = verseListComposite.find('.navigation-pane');
     var verseListFrame = verseListComposite.find('.verse-list-frame');
   
-    var newVerseListHeight = app_container_height - 135;
+    var newVerseListHeight = this.app_container_height - 135;
     navigationPane.css('height', newVerseListHeight);
     verseListFrame.css('height', newVerseListHeight);
   
@@ -118,18 +120,18 @@ class UiHelper {
   
   // FIXME: Optimize this to be tab-specific
   resizeAppContainer(e) {
-    app_container_height = $(window).height() - 10;
-    $("#app-container").css("height", app_container_height);
+    this.app_container_height = $(window).height() - 10;
+    $("#app-container").css("height", this.app_container_height);
     // Notes disabled
     // $('#general-notes-textarea').css('height', new_app_container_height - 210);
   
     var tagsToolBarHeight = $('#tags-toolbar').height();
   
     if (bible_browser_controller.optionsMenu.strongsSwitchChecked()) {
-      $('#tags-content-global').css('height', app_container_height - tagsToolBarHeight - 415);
+      $('#tags-content-global').css('height', this.app_container_height - tagsToolBarHeight - 415);
       $('#dictionary-info-box-panel').css('height', 302);
     } else {
-      $('#tags-content-global').css('height', app_container_height - tagsToolBarHeight - 55);
+      $('#tags-content-global').css('height', this.app_container_height - tagsToolBarHeight - 55);
     }
   
     if (e === undefined) {

@@ -52,7 +52,6 @@ var models = null;
 var bible_browser_controller = null;
 var tags_controller = null;
 var reference_separator = ':';
-var app_container_height = null;
 var bible_chapter_verse_counts = {};
 
 String.prototype.trim = function() {
