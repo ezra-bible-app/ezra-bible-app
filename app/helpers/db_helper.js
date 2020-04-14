@@ -16,7 +16,7 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const fs = require('fs-extra');
+const fs = require('fs');
 const path = require('path');
 const settings = require('electron-settings');
 const Sequelize = require('sequelize');

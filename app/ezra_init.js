@@ -17,8 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const app = require('electron').remote.app;
-const path = require('path');
-const fs = require('fs');
 
 // This module will modify the standard console.log function and add a timestamp as a prefix for all log calls
 require('log-timestamp');
@@ -32,10 +30,8 @@ const i18nHelper = new I18nHelper();
 const NewReleaseChecker = require('./app/helpers/new_release_checker.js');
 
 // DB-related stuff
-const DbHelper = require('./app/helpers/db_helper.js');
-const userDataDir = app.getPath('userData');
-const dbHelper = new DbHelper(userDataDir);
-const dbDir = dbHelper.getDatabaseDir();
+let dbHelper = null;
+let dbDir = null;
 
 // Global instance of NodeSwordInterface used in many places
 let nsi = null;
@@ -77,6 +73,14 @@ function sleep(time) {
   });
 }
 
+function waitUntilIdle() {
+  return new Promise(resolve => {
+    window.requestIdleCallback(() => {
+      resolve();
+    });
+  });
+}
+
 $.create_xml_doc = function(string)
 {
   var doc = (new DOMParser()).parseFromString(string, 'text/xml');
@@ -101,6 +105,11 @@ function initNSI()
 
 async function initDatabase()
 {
+  const DbHelper = require('./app/helpers/db_helper.js');
+  const userDataDir = app.getPath('userData');
+  dbHelper = new DbHelper(userDataDir);
+  dbDir = dbHelper.getDatabaseDir();
+
   await dbHelper.initDatabase(dbDir);
   models = require('./models')(dbDir);
 }
@@ -202,6 +211,9 @@ function loadScript(src)
 
 // This function loads the content of html fragments into the divs in the app-container
 function loadFragment(filePath, elementId) {
+  const path = require('path');
+  const fs = require('fs');
+
   var absoluteFilePath = path.join(__dirname, filePath);
   var fileContent = fs.readFileSync(absoluteFilePath);
   document.getElementById(elementId).innerHTML = fileContent;
@@ -223,21 +235,24 @@ function loadHTML()
 async function initApplication()
 {
   //console.time("application-startup");
+  console.log("Loading HTML fragments");
+  loadHTML();
+
   var loadingIndicator = $('#startup-loading-indicator');
   loadingIndicator.show();
   loadingIndicator.find('.loader').show();
 
-  console.log("Loading HTML fragments");
-  loadHTML();
-
   console.log("Initializing i18n ...");
   await initI18N();
 
-  console.log("Initializing database ...");
-  await initDatabase();
+  // Wait for the UI to render
+  await waitUntilIdle();
 
   console.log("Initializing node-sword-interface ...");
   initNSI();
+
+  console.log("Initializing database ...");
+  await initDatabase();
 
   console.log("Initializing controllers ...");
   await initControllers();
@@ -247,19 +262,22 @@ async function initApplication()
 
   initNightMode();
 
+  console.log("Loading settings ...");
+  await bible_browser_controller.loadSettings();
+
+  // Wait for the UI to render, before we hide the loading indicator
+  await waitUntilIdle();
+  loadingIndicator.hide();
+
   // Show main content
   $('#main-content').show();
 
   await bible_browser_controller.translation_controller.installStrongsIfNeeded();
 
-  console.log("Loading settings ...");
-  await bible_browser_controller.loadSettings();
-
   console.log("Checking for latest release ...");
   var newReleaseChecker = new NewReleaseChecker('new-release-info-box');
   newReleaseChecker.check();
 
-  loadingIndicator.hide();
   //console.timeEnd("application-startup");
 }
 

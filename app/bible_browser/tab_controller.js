@@ -192,8 +192,13 @@ class TabController {
       this.onTabAdded(0);
     }
 
+    // Give the UI some time to render
+    await waitUntilIdle();
+
     // Call this method explicitly to initialize the first tab
-    this.onTabSelected();
+    await this.onTabSelected();
+
+    await waitUntilIdle();
 
     this.loadingCompleted = true;
     this.persistanceEnabled = true;

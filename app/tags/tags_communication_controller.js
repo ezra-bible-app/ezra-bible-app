@@ -34,6 +34,7 @@ class TagsCommunicationController
 
     var tags = await models.Tag.getAllTags(bibleBookId);
     tags_controller.render_tags(tags);
+    await waitUntilIdle();
   }
 
   create_new_tag(new_tag_title, type) {
