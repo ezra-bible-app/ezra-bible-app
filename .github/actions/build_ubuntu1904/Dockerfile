@@ -1,6 +1,6 @@
-# Dockerfile for Ubuntu 19.04 Build Enviroment for Ezra Project
+# Dockerfile for Ubuntu 19.10 Build Enviroment for Ezra Project
 
-FROM ubuntu:19.04
+FROM ubuntu:19.10
 
 ENV DEBIAN_FRONTEND=noninteractive
 
