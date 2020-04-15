@@ -53,17 +53,17 @@ jobs:
             name: ezra-project_ubuntu1804_latest
             path: ezra-project_latest.deb
 
-    build-ubuntu-1904:
-        name: Build Ubuntu 19.04 package
+    build-ubuntu-1910:
+        name: Build Ubuntu 19.10 package
         runs-on: ubuntu-latest
         steps:
         - uses: actions/checkout@v1
         - name: Build
-          uses: ./.github/actions/build_ubuntu1904
+          uses: ./.github/actions/build_ubuntu1910
         - name: Upload deb file
           uses: actions/upload-artifact@master
           with:
-            name: ezra-project_ubuntu1904_latest
+            name: ezra-project_ubuntu1910_latest
             path: ezra-project_latest.deb
 
     build-mint18:
