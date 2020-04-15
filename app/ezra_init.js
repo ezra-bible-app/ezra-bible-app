@@ -18,16 +18,10 @@
 
 const app = require('electron').remote.app;
 
-// This module will modify the standard console.log function and add a timestamp as a prefix for all log calls
-require('log-timestamp');
-
 // i18n
-const i18n = require('i18next');
-const I18nHelper = require('./app/helpers/i18n_helper.js');
-const i18nHelper = new I18nHelper();
-
-// This module checks for new releases on startup
-const NewReleaseChecker = require('./app/helpers/new_release_checker.js');
+let i18n = null;
+let I18nHelper = null;
+let i18nHelper = null;
 
 // DB-related stuff
 let dbHelper = null;
@@ -39,10 +33,6 @@ let nsi = null;
 // UI Helper
 const UiHelper = require('./app/helpers/ui_helper.js');
 const uiHelper = new UiHelper();
-
-// Controllers
-const BibleBrowserController = require('./app/bible_browser/bible_browser_controller.js');
-const TagsController = require('./app/tags/tags_controller.js');
 
 let models = null;
 let bible_browser_controller = null;
@@ -89,6 +79,10 @@ $.create_xml_doc = function(string)
 
 async function initI18N()
 {
+  i18n = require('i18next');
+  I18nHelper = require('./app/helpers/i18n_helper.js');
+  i18nHelper = new I18nHelper();
+
   await i18nHelper.init();
   //await i18n.changeLanguage('de');
 
@@ -116,6 +110,9 @@ async function initDatabase()
 
 async function initControllers()
 {
+  const BibleBrowserController = require('./app/bible_browser/bible_browser_controller.js');
+  const TagsController = require('./app/tags/tags_controller.js');
+
   bible_browser_controller = new BibleBrowserController();
   await bible_browser_controller.init();
 
@@ -234,6 +231,9 @@ function loadHTML()
 
 async function initApplication()
 {
+  // This module will modify the standard console.log function and add a timestamp as a prefix for all log calls
+  require('log-timestamp');
+
   //console.time("application-startup");
   console.log("Loading HTML fragments");
   loadHTML();
@@ -275,6 +275,7 @@ async function initApplication()
   await bible_browser_controller.translation_controller.installStrongsIfNeeded();
 
   console.log("Checking for latest release ...");
+  const NewReleaseChecker = require('./app/helpers/new_release_checker.js');
   var newReleaseChecker = new NewReleaseChecker('new-release-info-box');
   newReleaseChecker.check();
 
