@@ -3,4 +3,4 @@ name: 'build-ubuntu-1910'
 description: 'Build Ezra Project for Ubuntu 19.10'
 runs:
     using: 'docker'
-    image: 'Dockerfile'
+    image: 'docker://toklein/ezra-ubuntu-1910:latest'
