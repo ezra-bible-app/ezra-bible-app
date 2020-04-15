@@ -3,4 +3,4 @@ name: 'build-fedora-29'
 description: 'Build Ezra Project for Fedora 29'
 runs:
     using: 'docker'
-    image: 'Dockerfile'
+    image: 'docker://toklein/ezra-fedora29:latest'

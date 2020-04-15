@@ -3,4 +3,4 @@ name: 'build-buster'
 description: 'Build Ezra Project for Debian Buster'
 runs:
     using: 'docker'
-    image: 'Dockerfile'
+    image: 'docker://toklein/ezra-buster:latest'
