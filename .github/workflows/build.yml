@@ -184,6 +184,14 @@ jobs:
           mkdir packages
           mv ezra-project_win32_latest/ezra-project_win32_setup_latest.exe packages/ezra-project_win32_setup-${GITHUB_REF##*/}.exe
           mv ezra-project_ubuntu1804_latest/ezra-project_latest.deb packages/ezra-project_ubuntu1804-${GITHUB_REF##*/}.deb
+          mv ezra-project_ubuntu1910_latest/ezra-project_latest.deb packages/ezra-project_ubuntu1910-${GITHUB_REF##*/}.deb
+          mv ezra-project_mint18_latest/ezra-project_latest.deb packages/ezra-project_mint18-${GITHUB_REF##*/}.deb
+          mv ezra-project_mint19_latest/ezra-project_latest.deb packages/ezra-project_mint19-${GITHUB_REF##*/}.deb
+          mv ezra-project_debian10_latest/ezra-project_latest.deb packages/ezra-project_debian10-${GITHUB_REF##*/}.deb
+          mv ezra-project_fedora29_latest/ezra-project_latest.rpm packages/ezra-project_fedora29-${GITHUB_REF##*/}.rpm
+          mv ezra-project_fedora31_latest/ezra-project_latest.rpm packages/ezra-project_fedora31-${GITHUB_REF##*/}.rpm
+          mv ezra-project_centos8_latest/ezra-project_latest.rpm packages/ezra-project_centos8-${GITHUB_REF##*/}.rpm
+          mv ezra-project_opensuse_leap_latest/ezra-project_latest.rpm packages/ezra-project_opensuse_leap-${GITHUB_REF##*/}.rpm
 
       - name: Publish artifacts
         uses: skx/github-action-publish-binaries@master
