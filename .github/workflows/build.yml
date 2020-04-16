@@ -178,6 +178,46 @@ jobs:
         with:
           name: ezra-project_ubuntu1804_latest
 
+      - name: Download ubuntu-1910 package
+        uses: actions/download-artifact@master
+        with:
+          name: ezra-project_ubuntu1910_latest
+
+      - name: Download mint18 package
+        uses: actions/download-artifact@master
+        with:
+          name: ezra-project_mint18_latest
+
+      - name: Download mint19 package
+        uses: actions/download-artifact@master
+        with:
+          name: ezra-project_mint19_latest
+
+      - name: Download debian10 package
+        uses: actions/download-artifact@master
+        with:
+          name: ezra-project_debian10_latest
+
+      - name: Download fedora29 package
+        uses: actions/download-artifact@master
+        with:
+          name: ezra-project_fedora29_latest
+
+      - name: Download fedora31 package
+        uses: actions/download-artifact@master
+        with:
+          name: ezra-project_fedora31_latest
+
+      - name: Download centos8 package
+        uses: actions/download-artifact@master
+        with:
+          name: ezra-project_centos8_latest
+
+      - name: Download opensuse leap package
+        uses: actions/download-artifact@master
+        with:
+          name: ezra-project_opensuse_leap_latest
+
       - name: Rename artifacts for publishing
         shell: bash
         run: |
