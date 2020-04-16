@@ -1,6 +1,9 @@
 name: Build Ezra Project packages
 
-on: [ repository_dispatch, push ]
+on:
+  push
+  release:
+    types: published
 
 jobs:
     build-win32:
@@ -156,4 +159,20 @@ jobs:
           with:
             name: ezra-project_opensuse_leap_latest
             path: ezra-project_latest.rpm
+
+    release:
+      if: "github.event.release"
+      name: Publish release artifacts
+      needs: [ build-win32, build-ubuntu-1804, build-ubuntu-1910, build-mint18, build-mint19, build-buster, build-fedora29, build-fedora31, build-centos8, build-opensuse-leap ]
+
+      steps:
+      - name: Download win32 package
+        uses: actions/download-artifact@master
+        with:
+          name: ezra-project_win32_latest
+
+      - name: Download ubuntu-1804 package
+        uses: actions/download-artifact@master
+        with:
+          name: ezra-project_ubuntu1804_latest
 
