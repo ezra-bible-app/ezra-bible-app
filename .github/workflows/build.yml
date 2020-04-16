@@ -178,3 +178,17 @@ jobs:
         with:
           name: ezra-project_ubuntu1804_latest
 
+      - name: Rename artifacts for publishing
+        shell: bash
+        run: |
+          mkdir packages
+          mv ezra-project_win32_latest/ezra-project_win32_setup_latest.exe packages/ezra-project_win32_setup-${GITHUB_REF##*/}.exe
+          mv ezra-project_ubuntu1804_latest/ezra-project_ubuntu1804_latest.deb packages/ezra-project_ubuntu1804-${GITHUB_REF##*/}.deb
+
+      - name: Publish artifacts
+        uses: skx/github-action-publish-binaries@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: 'packages/*.*'
+
