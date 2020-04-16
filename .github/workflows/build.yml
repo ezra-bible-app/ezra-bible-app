@@ -1,9 +1,10 @@
 name: Build Ezra Project packages
 
 on:
-  push
+  push:
   release:
-    types: published
+    types:
+      - published
 
 jobs:
     build-win32:
