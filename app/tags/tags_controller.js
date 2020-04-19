@@ -479,14 +479,15 @@ class TagsController {
     var verseReferenceContent = verse_box.find('.verse-reference-content').text();
     var chapter = parseInt(verseReferenceContent.split(reference_separator)[0]);
     var verseNr = parseInt(verseReferenceContent.split(reference_separator)[1]);
+    var source_tab_translation = bible_browser_controller.tab_controller.getTab(current_tab_index).getBibleTranslationId();
+    var source_versification = bible_browser_controller.translation_controller.getVersification(source_tab_translation);
+    var absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(source_versification, bibleBook, absoluteVerseNr, chapter, verseNr);
 
     for (var i = 0; i < tab_count; i++) {
       if (i != current_tab_index) {
         var current_tab_translation = bible_browser_controller.tab_controller.getTab(i).getBibleTranslationId();
         var current_versification = bible_browser_controller.translation_controller.getVersification(current_tab_translation);
         var current_target_verse_nr = "";
-
-        var absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(current_versification, bibleBook, absoluteVerseNr, chapter, verseNr);
 
         if (current_versification == 'HEBREW') {
           current_target_verse_nr = absoluteVerseNrs.absoluteVerseNrHeb;
