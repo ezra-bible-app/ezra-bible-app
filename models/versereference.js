@@ -258,16 +258,16 @@ module.exports = (sequelize, DataTypes) => {
     ];
 
     var offset_tables = {
-      '1Sa' : offset_table_1_samuel,
-      '1Ki' : offset_table_1_kings,
-      '2Ki' : offset_table_2_kings,
-      '1Ch' : offset_table_1_chronicles,
-      'Neh' : offset_table_nehemiah,
-      'Psa' : offset_table_psalms,
-      'Isa' : offset_table_isaiah,
-      'Act' : offset_table_acts,
-      '2Co' : offset_table_2co,
-      'Rev' : offset_table_revelation
+      '1Sam' : offset_table_1_samuel,
+      '1Kgs' : offset_table_1_kings,
+      '2Kgs' : offset_table_2_kings,
+      '1Chr' : offset_table_1_chronicles,
+      'Neh'  : offset_table_nehemiah,
+      'Ps'   : offset_table_psalms,
+      'Isa'  : offset_table_isaiah,
+      'Acts' : offset_table_acts,
+      '2Cor' : offset_table_2co,
+      'Rev'  : offset_table_revelation
     };
 
     return offset_tables;
