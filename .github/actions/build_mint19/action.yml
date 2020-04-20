@@ -1,0 +1,6 @@
+# action.yml
+name: 'build-linux-mint-19'
+description: 'Build Ezra Project for Linux Mint 19'
+runs:
+    using: 'docker'
+    image: 'docker://toklein/ezra-mint-19:latest'
