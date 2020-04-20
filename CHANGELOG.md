@@ -23,7 +23,7 @@ All notable changes to Ezra Project are documented in this file.
 -->
 
 ## [0.12.2 - 2020-04-20]
-This is a bugfix release.
+This is a bugfix release. This release is mostly relevant for macOS.
 
 ### Fixes
 
@@ -32,11 +32,6 @@ This is a bugfix release.
 
 [i48]: https://github.com/tobias-klein/ezra-project/issues/48
 [i49]: https://github.com/tobias-klein/ezra-project/issues/49
-
-### Enablers
-
-* en1
-
 
 ## [0.12.1 - 2020-04-04]
 This is a bugfix release.
