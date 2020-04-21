@@ -308,15 +308,12 @@ h2 {
   /* padding: 0.1em; */
 }
 
-.verse-list-tags-column .verse-text {
-  width: 49%;
-}
-
 .verse-list-tags-column .tag-box {
   padding-left: 0.5em;
+  padding-right: 0.5em;
   padding-bottom: 0.5em;
   float: right;
-  width: 49%;
+  width: 25%;
 }
 
 .tag {
@@ -945,8 +942,8 @@ div.CodeMirror {
 }
 
 .verse-notes {
-  float: left;
-  width: 35%;
+  float: right;
+  width: 30%;
   padding: 0.5em;
   margin-bottom: 0.5em;
   min-height: 4em;
@@ -1038,7 +1035,7 @@ div.CodeMirror {
 
 .verse-list-with-notes .verse-content {
   float: left;
-  width: 50%;
+  width: 85%;
   margin-left: 0;
   margin-right: 0.5em;
 }

@@ -105,6 +105,12 @@ each bibleBook in bibleBooks
         div.verse-reference-content #{verseReference}
 
       div.verse-content
+        if current_verse_note != null && current_verse_note.text != null && current_verse_note.text != ''
+          div(class='verse-notes', notes-content=current_verse_note.text) !{marked(current_verse_note.text)}
+        else
+          div(class='verse-notes verse-notes-empty')
+            textarea(class='editor', style='display: none; width: 100%; height: 100%;')
+
         if renderVerseMetaInfo == true
           div.tag-box
             if current_verse_tags != null
@@ -115,12 +121,6 @@ each bibleBook in bibleBooks
 
         div.verse-text !{verse.content}
         div.cr-box
-
-      if current_verse_note != null && current_verse_note.text != null && current_verse_note.text != ''
-        div(class='verse-notes', notes-content=current_verse_note.text) !{marked(current_verse_note.text)}
-      else
-        div(class='verse-notes verse-notes-empty')
-          textarea(class='editor', style='display: none; width: 100%; height: 100%;')
 
   if verse_count == 0 && renderBibleBookHeaders == true
     div.book-section(id=verseListId + "-book-section-" + bibleBook.shortTitle)
