@@ -23,6 +23,19 @@ All notable changes to Ezra Project are documented in this file.
 
 -->
 
+
+## [0.12.2 - 2020-04-20]
+This is a bugfix release. This release is mostly relevant for macOS.
+
+### Fixes
+
+* Fixed white screen error on macOS due to dependency issue with icu4c. ([#48][i48])
+* Fixed broken English/Hebrew versification mapping. ([#49][i49])
+
+[i48]: https://github.com/tobias-klein/ezra-project/issues/48
+[i49]: https://github.com/tobias-klein/ezra-project/issues/49
+
+
 ## [0.12.1 - 2020-04-04]
 This is a bugfix release.
 
@@ -239,6 +252,7 @@ This is a bugfix release.
 
 ### Fixes
 * Improved performance for Bible installation wizard (UI does not block anymore for certain actions)
+
 
 ## [0.6.0] - 2019-02-03
 This is the initial public release of Ezra Project for the Linux desktop.
