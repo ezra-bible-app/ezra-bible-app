@@ -120,7 +120,6 @@ each bibleBook in bibleBooks
                 div.tag(title=tagHint) !{current_tag_title}
 
         div.verse-text !{verse.content}
-        div.cr-box
 
   if verse_count == 0 && renderBibleBookHeaders == true
     div.book-section(id=verseListId + "-book-section-" + bibleBook.shortTitle)
