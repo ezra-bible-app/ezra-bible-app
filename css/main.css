@@ -276,6 +276,10 @@ h2 {
   color: #808080;
 }
 
+.verse-list:not(.verse-list-tags-column).verse-list-with-notes .verse-reference {
+  height: 4em;
+}
+
 .darkmode--activated .verse-reference {
   color: whitesmoke;
 }
@@ -306,11 +310,6 @@ h2 {
 .tag-box {
   line-height: 150%;
   /* padding: 0.1em; */
-}
-
-.verse-list:not(.verse-list-tags-column).verse-list-with-notes .tag-box {
-  margin-left: 8em;
-  width: 55%;
 }
 
 .verse-list-tags-column .tag-box {
@@ -374,24 +373,7 @@ h2 {
 .verse-text {
   cursor: pointer;
   padding: 0.05em;
-}
-
-/* Verse list with tags column (but no notes!) */
-.verse-list-tags-column:not(.verse-list-with-notes):not(.verse-list-without-tags) .verse-text {
-  width: 75%;
-}
-
-/* Verse list with notes column (but no tags column) */
-.verse-list-with-notes:not(.verse-list-tags-column) .verse-text,
-.verse-list-with-notes.verse-list-without-tags .verse-text {
-  width: 55%;
-  margin-left: 8em;
-}
-
-/* Verse list with notes and tags column */
-.verse-list-with-notes.verse-list-tags-column:not(.verse-list-without-tags) .verse-text {
-  width: 35%;
-  margin-left: 8em;
+  display: table-cell;
 }
 
 .ezra-dialog .verse-text {
@@ -968,6 +950,7 @@ div.CodeMirror {
   float: right;
   width: 30%;
   padding: 0.5em;
+  margin-left: 1em;
   margin-bottom: 0.5em;
   min-height: 4em;
   display: none;
