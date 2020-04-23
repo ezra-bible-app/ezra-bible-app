@@ -308,12 +308,17 @@ h2 {
   /* padding: 0.1em; */
 }
 
+.verse-list:not(.verse-list-tags-column).verse-list-with-notes .tag-box {
+  margin-left: 8em;
+  width: 55%;
+}
+
 .verse-list-tags-column .tag-box {
   padding-left: 0.5em;
   padding-right: 0.5em;
   padding-bottom: 0.5em;
   float: right;
-  width: 25%;
+  width: 22%;
 }
 
 .tag {
@@ -369,6 +374,24 @@ h2 {
 .verse-text {
   cursor: pointer;
   padding: 0.05em;
+}
+
+/* Verse list with tags column (but no notes!) */
+.verse-list-tags-column:not(.verse-list-with-notes):not(.verse-list-without-tags) .verse-text {
+  width: 75%;
+}
+
+/* Verse list with notes column (but no tags column) */
+.verse-list-with-notes:not(.verse-list-tags-column) .verse-text,
+.verse-list-with-notes.verse-list-without-tags .verse-text {
+  width: 55%;
+  margin-left: 8em;
+}
+
+/* Verse list with notes and tags column */
+.verse-list-with-notes.verse-list-tags-column:not(.verse-list-without-tags) .verse-text {
+  width: 35%;
+  margin-left: 8em;
 }
 
 .ezra-dialog .verse-text {
@@ -1038,8 +1061,6 @@ div.CodeMirror {
 }
 
 .verse-list-with-notes .verse-content {
-  float: left;
-  width: 85%;
   margin-left: 0;
   margin-right: 0.5em;
 }
