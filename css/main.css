@@ -1060,6 +1060,10 @@ div.CodeMirror {
   background-color: black;
 }
 
+.darkmode--activated .ui-selectable-helper {
+  background-color: white;
+}
+
 .clickable-checkbox-label {
   cursor: default;
 }
@@ -1339,6 +1343,10 @@ div.CodeMirror {
   z-index: 10;
 }
 
+.darkmode--activated #tab-search {
+  background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat
+}
+
 #tab-search-input {
   float: left;
   background-color: white;
@@ -1354,12 +1362,21 @@ div.CodeMirror {
   user-select: none;
 }
 
-#tab-search-occurances {
+.darkmode--activated .tab-search-nav {
+  color: whitesmoke;
+}
+
+.tab-search-occurances {
   float: left;
   margin-left: 0.5em;
   margin-right: 1.5em;
   width: 2em;
+  color: whitesmoke;
+}
+
+:not(.darkmode--activated) .tab-search-occurances {
   border: 1px solid white;
+  color: black;
 }
 
 .search-hl {
