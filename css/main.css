@@ -1344,7 +1344,8 @@ div.CodeMirror {
 }
 
 .darkmode--activated #tab-search {
-  background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat
+  background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat;
+  color: whitesmoke;
 }
 
 #tab-search-input {
@@ -1353,6 +1354,7 @@ div.CodeMirror {
   width: 150px;
   margin-right: 1em;
   font-size: 1em;
+  border: 1px solid lightgray;
 }
 
 .tab-search-nav {
@@ -1362,16 +1364,11 @@ div.CodeMirror {
   user-select: none;
 }
 
-.darkmode--activated .tab-search-nav {
-  color: whitesmoke;
-}
-
 .tab-search-occurances {
   float: left;
   margin-left: 0.5em;
   margin-right: 1.5em;
   width: 2em;
-  color: whitesmoke;
 }
 
 :not(.darkmode--activated) .tab-search-occurances {
@@ -1383,8 +1380,16 @@ div.CodeMirror {
   background-color: yellow;
 }
 
+.darkmode--activated .search-hl {
+  background-color: darkgreen;
+}
+
 .current-hl {
   background-color: orange;
+}
+
+.darkmode--activated .current-hl {
+  background-color: forestgreen;
 }
 
 /* Sword markup disabled by default */

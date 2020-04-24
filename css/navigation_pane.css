@@ -96,3 +96,7 @@ a.hl-search-result:link {
   border-radius: 4px;
 }
 
+.darkmode--activated a.hl-search-result:link {
+  border: 1px solid forestgreen;
+}
+
