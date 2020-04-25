@@ -12,6 +12,7 @@ All notable changes to Ezra Project are documented in this file.
 * Basic icon. Note that this is just a start and we still need a nicer one than this! ([#26][i26])
 * Switchable night-mode / darker color scheme ([#43][i43])
 * Show license information in module info dialogue ([#51][i51])
+* Enhance width of new tag / rename tag dialogues and input fields ([#53][i53])
 
 ### Fixes
 
@@ -22,6 +23,7 @@ All notable changes to Ezra Project are documented in this file.
 [i43]: https://github.com/tobias-klein/ezra-project/issues/43
 [i45]: https://github.com/tobias-klein/ezra-project/issues/45
 [i51]: https://github.com/tobias-klein/ezra-project/issues/51
+[i53]: https://github.com/tobias-klein/ezra-project/issues/53
 
 -->
 

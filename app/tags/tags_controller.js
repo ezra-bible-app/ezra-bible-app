@@ -54,7 +54,7 @@ class TagsController {
 
     var new_standard_tag_dlg_options = {
       title: i18n.t("tags.new-tag"),
-      width: 300,
+      width: 400,
       position: [60,180],
       autoOpen: false,
       dialogClass: 'ezra-dialog'
@@ -110,7 +110,7 @@ class TagsController {
 
     var rename_standard_tag_dlg_options = {
       title: i18n.t("tags.rename-tag"),
-      width: 300,
+      width: 400,
       position: [40,250],
       autoOpen: false,
       dialogClass: 'ezra-dialog'

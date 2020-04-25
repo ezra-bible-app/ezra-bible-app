@@ -334,7 +334,7 @@ tr.td-underline td {
 }
 
 #new-standard-tag-title-input, #new-meta-tag-title-input, #new-book-tag-title-input, #rename-standard-tag-title-input, #rename-meta-tag-title-input {
-  width: 16em;
+  width: 25em;
 }
  
 .checkbox-tag-id, .book-assignment-count, .global-assignment-count, .last-used-timestamp {
