@@ -262,7 +262,7 @@ class ModuleSearch {
       moduleSearchHeaderText = i18n.t("bible-browser.no-search-results") + ' <i>' + currentSearchTerm + '</i>';
     }
 
-    var header = "<div style='font-size: 130%; font-weight: bold;'>" + moduleSearchHeaderText + "</div>";
+    var header = "<h2>" + moduleSearchHeaderText + "</h2>";
 
     if (this.searchResultsExceedPerformanceLimit(tabIndex)) {
       var performanceHintText = i18n.t("bible-browser.search-performance-hint");
