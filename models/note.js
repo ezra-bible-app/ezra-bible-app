@@ -64,19 +64,19 @@ module.exports = (sequelize, DataTypes) => {
           // Save the note if it has content
           n.text = noteValue;
           n.save().catch(function () {
-            console.log("ERROR: Could not save note!");
+            alert("ERROR: Could not save note!");
           });
         } else {
           // Delete the note if it does not have any content
           n.destroy().catch(function () {
-            console.log("ERROR: Could not delete note!");
+            alert("ERROR: Could not delete note!");
           });
         }
       }).catch(function () {
-        console.log("ERROR: Could not get or create note!");
+        alert("ERROR: Could not get or create note!");
       });
     }).catch(function() {
-      console.log("ERROR: Could not find or create verse reference!");
+      alert("ERROR: Could not find or create verse reference!");
     });
   };
   
