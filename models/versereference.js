@@ -64,8 +64,13 @@ module.exports = (sequelize, DataTypes) => {
     var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: bibleBookShortTitle } });
     var absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(versification, bibleBookId, absoluteVerseNr, chapter, verseNr);
 
+    var conditions = { bibleBookId: bibleBook.id, absoluteVerseNrEng: absoluteVerseNr };
+    if (versification == 'HEBREW') {
+      conditions = { bibleBookId: bibleBook.id, absoluteVerseNrHeb: absoluteVerseNr };
+    }
+
     const [ verseReference, created ] = await models.VerseReference.findOrCreate({
-      where: { bibleBookId: bibleBook.id, absoluteVerseNrEng: absoluteVerseNr },
+      where: conditions,
       defaults: {
         bibleBookId: bibleBook.id,
         chapter: chapter,
@@ -139,11 +144,21 @@ module.exports = (sequelize, DataTypes) => {
     return absoluteVerseNrEng;
   };
 
-  VerseReference.getOffsetForVerseReference = function(bibleBookShortTitle, chapter, verseNr) {
-    var offset_tables = models.VerseReference.getOffsetTables();
+  VerseReference.getOffsetTable = function(bibleBookShortTitle) {
+    var offset_tables = models.VerseReference.getAllOffsetTables();
 
-    var offset = 0
-    var offset_table = offset_tables[bibleBookShortTitle]
+    for (var key in offset_tables) {
+      if (key.toLowerCase() == bibleBookShortTitle.toLowerCase()) {
+        return offset_tables[key];
+      }
+    }
+
+    return null;
+  }
+
+  VerseReference.getOffsetForVerseReference = function(bibleBookShortTitle, chapter, verseNr) {
+    var offset = 0;
+    var offset_table = models.VerseReference.getOffsetTable(bibleBookShortTitle);
 
     if (offset_table != undefined) {
       for (var i = 0; i < offset_table.length; i++) {
@@ -159,7 +174,7 @@ module.exports = (sequelize, DataTypes) => {
     return offset;
   };
 
-  VerseReference.getOffsetTables = function() {
+  VerseReference.getAllOffsetTables = function() {
     // The following mapping tables define offsets for various books.
     // The defined offsets are always from the perspective of the ENGLISH versification compared to the HEBREW versification
 
