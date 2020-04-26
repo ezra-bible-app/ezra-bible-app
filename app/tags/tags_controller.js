@@ -306,6 +306,9 @@ class TagsController {
       checkbox_tag.find('.last-used-timestamp').text(current_timestamp);
       tags_controller.update_tag_timestamps();
 
+      bible_browser_controller.tag_selection_menu.updateLastUsedTimestamp(id, current_timestamp);
+      bible_browser_controller.tag_selection_menu.applyCurrentFilters();
+
       $(cb).attr('title', i18n.t("tags.remove-tag-assignment"));
 
       var filteredVerseBoxes = [];

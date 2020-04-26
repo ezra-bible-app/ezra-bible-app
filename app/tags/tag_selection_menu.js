@@ -26,19 +26,25 @@ class TagSelectionMenu {
   init(tabIndex=undefined) {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.tag-select-button').bind('click', (event) => { this.handleTagMenuClick(event); });
-    $('#tag-selection-filter-input').bind('keyup', this.handleTagSearchInput);
-    $('#tag-selection-recently-used-checkbox').bind('click', (event) => {
+    $('#tag-selection-filter-input').bind('keyup', () => { this.handleTagSearchInput(); });
 
-      if ($('#tag-selection-recently-used-checkbox').prop('checked') == true) {
-        this.filterRecentlyUsed();
-      } else {
-        this.showAllTags();
-      }
+    $('#tag-selection-recently-used-checkbox').bind('click', (event) => {
+      this.applyCurrentFilters();
     });
   }
 
   getTagListContainer() {
     return $('#tag-selection-taglist-global');
+  }
+
+  applyCurrentFilters() {
+    this.showAllTags();
+    
+    this.applyTagSearchFilter();
+
+    if ($('#tag-selection-recently-used-checkbox').prop('checked') == true) {
+      this.filterRecentlyUsed();
+    }
   }
 
   filterRecentlyUsed() {
@@ -188,27 +194,29 @@ class TagSelectionMenu {
            "</div>";
   }
 
-  handleTagSearchInput(e) {
-    clearTimeout(this.tag_search_timeout);
-    var search_value = $(this).val();
+  applyTagSearchFilter() {
+    //console.time('filter-tag-list');
+    
+    var search_value = $('#tag-selection-filter-input').val();
+    var tagListContainer = this.getTagListContainer();
 
-    this.tag_search_timeout = setTimeout(() => {
-      //console.time('filter-tag-list');
-      var tagListContainer = this.getTagListContainer();
+    var labels = tagListContainer.find('.tag-browser-tag-title-content');
+    tagListContainer.find('.tag-browser-tag').hide();
 
-      var labels = tagListContainer.find('.tag-browser-tag-title-content');
-      tagListContainer.find('.tag-browser-tag').hide();
+    for (var i = 0; i < labels.length; i++) {
+      var current_label = $(labels[i]);
 
-      for (var i = 0; i < labels.length; i++) {
-        var current_label = $(labels[i]);
-
-        if (current_label.text().toLowerCase().indexOf(search_value.toLowerCase()) != -1) {
-          var current_tag_box = current_label.closest('.tag-browser-tag');
-          current_tag_box.show();
-        }
+      if (current_label.text().toLowerCase().indexOf(search_value.toLowerCase()) != -1) {
+        var current_tag_box = current_label.closest('.tag-browser-tag');
+        current_tag_box.show();
       }
-      //console.timeEnd('filter-tag-list');
-    }, 300);
+    }
+    //console.timeEnd('filter-tag-list');
+  }
+
+  handleTagSearchInput() {
+    clearTimeout(this.tag_search_timeout);
+    this.tag_search_timeout = setTimeout(() => { this.applyCurrentFilters(); }, 300);
   }
 
   resetTagsInMenu() {
@@ -320,6 +328,11 @@ class TagSelectionMenu {
         break;
       }
     }
+  }
+
+  updateLastUsedTimestamp(tagId, timestamp) {
+    var tagElement = $('#tag-browser-tag-' + tagId);
+    tagElement.find('.last-used-timestamp').text(timestamp);
   }
 }
 
