@@ -31,12 +31,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Tag.getAllTags = function(bibleBookId = 0, lastUsed=false, onlyStats=false) {
-    var attributes = "t.*";
-    if (onlyStats) {
-      attributes = "t.id";
-    }
-
-    var query = "SELECT " + attributes + "," +
+    var query = "SELECT t.*," +
                  " SUM(CASE WHEN vt.tagId IS NULL THEN 0 ELSE 1 END) AS globalAssignmentCount," +
                  " SUM(CASE WHEN vr.bibleBookId=" + bibleBookId + " THEN 1 ELSE 0 END) AS bookAssignmentCount";
 

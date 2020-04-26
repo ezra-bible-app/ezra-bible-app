@@ -17,12 +17,14 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const TagsCommunicationController = require('./tags_communication_controller.js');
+const TagStore = require('./tag_store.js');
 
 class TagsController {
   constructor() {
     loadScript("templates/tag_list.js");
 
     this.communication_controller = new TagsCommunicationController();
+    this.tag_store = new TagStore();
 
     this.new_standard_tag_button = $('#new-standard-tag-button');
     this.tag_title_changed = false;
@@ -129,6 +131,13 @@ class TagsController {
       if (event.which == 13) {
         $('#new-standard-tag-dialog').dialog("close");
         tags_controller.save_new_tag(event, "standard");
+      }
+    });
+
+    // Handle the enter key in the tag title field and rename the tag when it is pressed
+    $('#rename-standard-tag-title-input:not(.bound)').addClass('bound').on("keypress", (event) => {
+      if (event.which == 13) {
+        tags_controller.close_dialog_and_rename_standard_tag();
       }
     });
   }
@@ -669,17 +678,17 @@ class TagsController {
     var book_tag_statistics = [];
     var all_timestamps = [];
     
-    for (var i = 0; i < tag_list.length; i++) {
-      var current_tag = tag_list[i];
-      var is_used_in_current_book = (current_tag.bookAssignmentCount > 0) ? true : false;
-      var last_used_timestamp = parseInt(current_tag.lastUsed);
+    for (var tagId in tag_list) {
+      var currentTag = tag_list[tagId];
+      var is_used_in_current_book = (currentTag.bookAssignmentCount > 0) ? true : false;
+      var last_used_timestamp = parseInt(currentTag.lastUsed);
 
       if (!Number.isNaN(last_used_timestamp) && !all_timestamps.includes(last_used_timestamp)) {
         all_timestamps.push(last_used_timestamp);
       }
 
       if (current_book != null && is_used_in_current_book) {
-        book_tag_statistics[current_tag.title] = parseInt(current_tag.bookAssignmentCount);
+        book_tag_statistics[currentTag.title] = parseInt(currentTag.bookAssignmentCount);
       }
     }
 
@@ -689,7 +698,19 @@ class TagsController {
     }
   }
 
-  async render_tags(tag_list) {
+  async get_tag_list(forceRefresh=true) {
+    var tagList = await this.tag_store.getTagList(forceRefresh);
+    return tagList;
+  }
+
+  async update_tag_list(currentBook, forceRefresh=false) {
+    var tagList = await this.tag_store.getTagList(forceRefresh);
+    var tagStatistics = await this.tag_store.getBookTagStatistics(currentBook, forceRefresh);
+    await this.render_tags(tagList, tagStatistics);
+    await waitUntilIdle();
+  }
+
+  async render_tags(tag_list, tag_statistics) {
     //console.time("render_tags");
     var current_book = bible_browser_controller.tab_controller.getTab().getBook();
     var global_tags_box_el = document.getElementById('tags-content-global');
@@ -699,6 +720,7 @@ class TagsController {
 
     var all_tags_html = tagListTemplate({
       tags: tag_list,
+      tagStatistics: tag_statistics,
       current_book: current_book,
       current_filter: $('#tags-search-input').val(),
       rename_tag_label: i18n.t("general.rename"),
@@ -707,7 +729,7 @@ class TagsController {
 
     global_tags_box_el.innerHTML = all_tags_html;
 
-    tags_controller.refresh_timestamps_and_book_tag_statistics(tag_list, current_book);
+    tags_controller.refresh_timestamps_and_book_tag_statistics(tag_statistics, current_book);
     uiHelper.configureButtonStyles('#tags-content');
     tags_controller.update_tag_count_after_rendering();
 

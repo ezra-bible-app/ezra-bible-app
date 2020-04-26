@@ -19,7 +19,11 @@
 //
 
 each tag in tags
-  - var used_in_book_class = (tag.bookAssignmentCount > 0 ? "cb-label-assigned" : "")
+  - var currentStats = null
+  if tagStatistics != null
+    - var currentStats = tagStatistics[tag.id]
+
+  - var used_in_book_class = (currentStats != null && currentStats.bookAssignmentCount > 0 ? "cb-label-assigned" : "")
   
   - var visible = true
   if current_filter != ''
@@ -31,19 +35,26 @@ each tag in tags
 
   div.checkbox-tag(style=visibility)
     div.checkbox-tag-id #{tag.id}
-    div.book-assignment-count #{tag.bookAssignmentCount}
-    div.global-assignment-count #{tag.globalAssignmentCount}
-    - var last_used_timestamp = parseInt(tag.lastUsed);
-    div.last-used-timestamp #{last_used_timestamp}
+
+    if currentStats != null
+      div.book-assignment-count #{currentStats.bookAssignmentCount}
+      div.global-assignment-count #{currentStats.globalAssignmentCount}
+      - var last_used_timestamp = parseInt(currentStats.lastUsed);
+      div.last-used-timestamp #{last_used_timestamp}
+
     div(title=delete_tag_label class='tag-delete-button fg-button fg-button-icon-left ui-state-default ui-corner-all')
       span(class='ui-icon ui-icon-closethick tag-delete-icon')
     
-    - var tag_counts = tag.globalAssignmentCount
-    if current_book != null
-      - tag_counts = tag.bookAssignmentCount + " | " + tag.globalAssignmentCount
+    if currentStats != null
+      - var tag_counts = currentStats.globalAssignmentCount
+      if current_book != null
+        - tag_counts = currentStats.bookAssignmentCount + " | " + currentStats.globalAssignmentCount
     
     input(class='tag-cb' type='checkbox' checked=false)
     span(class='cb-label' class=used_in_book_class) #{tag.title}
-    span.cb-label-tag-assignment-count (#{tag_counts})
+
+    if currentStats != null
+      span.cb-label-tag-assignment-count (#{tag_counts})
+
     span.cb-label-postfix
     span.rename-tag-label [#{rename_tag_label}]

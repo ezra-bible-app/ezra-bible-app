@@ -18,24 +18,7 @@
 
 class TagsCommunicationController
 {
-  constructor() {  }
-
-  async request_tags(currentBook=undefined) {
-    if (currentBook === undefined) {
-      var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
-    }
-
-    var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: currentBook }});
-    
-    var bibleBookId = null;
-    if (bibleBook != null) {
-      bibleBookId = bibleBook.id;
-    }
-
-    var tags = await models.Tag.getAllTags(bibleBookId);
-    tags_controller.render_tags(tags);
-    await waitUntilIdle();
-  }
+  constructor() {}
 
   create_new_tag(new_tag_title, type) {
     var isBookTag = (type == 'book' ? true : false);
@@ -51,8 +34,8 @@ class TagsCommunicationController
       title: new_tag_title,
       bibleBookId: bibleBookId
     }).then(tag => {
-      bible_browser_controller.tag_selection_menu.requestTagsForMenu();
-      tags_controller.communication_controller.request_tags();
+      bible_browser_controller.tag_selection_menu.requestTagsForMenu(true);
+      tags_controller.update_tag_list(0, true);
     }).catch(error => {
       alert('An error occurred while trying to save the new tag: ' + error);
     });
@@ -73,7 +56,7 @@ class TagsCommunicationController
                                          tags_controller.tag_to_be_deleted_is_global,
                                          tags_controller.tag_to_be_deleted_title);
 
-        bible_browser_controller.tag_selection_menu.requestTagsForMenu();
+        bible_browser_controller.tag_selection_menu.requestTagsForMenu(true);
 
       }).catch(error => {
         alert('An error occurred while trying to delete the tag with id ' + id + ': ' + error);
