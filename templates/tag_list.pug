@@ -39,8 +39,9 @@ each tag in tags
     if currentStats != null
       div.book-assignment-count #{currentStats.bookAssignmentCount}
       div.global-assignment-count #{currentStats.globalAssignmentCount}
-      - var last_used_timestamp = parseInt(currentStats.lastUsed);
-      div.last-used-timestamp #{last_used_timestamp}
+
+    - var last_used_timestamp = parseInt(tag.lastUsed);
+    div.last-used-timestamp #{last_used_timestamp}
 
     div(title=delete_tag_label class='tag-delete-button fg-button fg-button-icon-left ui-state-default ui-corner-all')
       span(class='ui-icon ui-icon-closethick tag-delete-icon')
