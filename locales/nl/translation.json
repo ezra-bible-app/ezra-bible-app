@@ -128,6 +128,7 @@
     "export-tagged-verse-list": "Exporteer getagde verslijst naar Word-document",
     "run-export": "Export draaien",
     "tag-filter": "Filter: ",
+    "recently-used-filter": "Filter recently used",
     "assign-tag": "Wijs tag toe",
     "delete-tag-permanently": "Deze tag permanent verwijderen",
     "none-selected": "Geen",

@@ -128,6 +128,7 @@
     "export-tagged-verse-list": "Versliste als Word Dokument exportieren",
     "run-export": "Export starten",
     "tag-filter": "Filter: ",
+    "recently-used-filter": "Nur kürzlich verwendete Tags",
     "assign-tag": "Tag zuweisen",
     "delete-tag-permanently": "Diesen Tag dauerhaft löschen",
     "none-selected": "Keine",

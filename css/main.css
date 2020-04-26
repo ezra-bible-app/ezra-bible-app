@@ -1261,6 +1261,8 @@ div.CodeMirror {
 
 #tag-selection-taglist-global {
   margin-top: 1em;
+  padding-top: 0.5em;
+  border-top: 1px solid #DDDDDD;
   height: 400px;
   overflow-y: scroll;
 }
@@ -1273,7 +1275,7 @@ div.CodeMirror {
   width: 21em;
 }
 
-.tag-browser-tag-id {
+.tag-browser-tag-id, .last-used-timestamp {
   display: none;
 }
 

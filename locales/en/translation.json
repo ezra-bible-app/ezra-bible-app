@@ -128,6 +128,7 @@
     "export-tagged-verse-list": "Export tagged verse list to Word document",
     "run-export": "Run export",
     "tag-filter": "Filter: ",
+    "recently-used-filter": "Filter recently used",
     "assign-tag": "Assign tag",
     "delete-tag-permanently": "Delete this tag permanently",
     "none-selected": "None",

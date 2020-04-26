@@ -13,6 +13,7 @@ All notable changes to Ezra Project are documented in this file.
 * Switchable night-mode / darker color scheme ([#43][i43])
 * Show license information in module info dialogue ([#51][i51])
 * Enhance width of new tag / rename tag dialogues and input fields ([#53][i53])
+* Recently used tags filter in tag selection menu ([#50][i50])
 
 ### Fixes
 
@@ -24,6 +25,7 @@ All notable changes to Ezra Project are documented in this file.
 [i45]: https://github.com/tobias-klein/ezra-project/issues/45
 [i51]: https://github.com/tobias-klein/ezra-project/issues/51
 [i53]: https://github.com/tobias-klein/ezra-project/issues/53
+[i50]: https://github.com/tobias-klein/ezra-project/issues/50
 
 -->
 

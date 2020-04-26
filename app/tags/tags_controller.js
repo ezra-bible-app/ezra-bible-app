@@ -1156,6 +1156,22 @@ class TagsController {
     }
   }
 
+  filter_recently_used_tags(element) {
+    var tag_timestamp = parseInt($(element).find('.last-used-timestamp').text());
+
+    if (!Number.isNaN(tag_timestamp) &&
+        !Number.isNaN(tags_controller.latest_timestamp) &&
+        !Number.isNaN(tags_controller.oldest_recent_timestamp)) {
+      
+      var timestampInRange = (tag_timestamp >= tags_controller.oldest_recent_timestamp &&
+                              tag_timestamp <= tags_controller.latest_timestamp);
+
+      return !timestampInRange;
+    } else {
+      return true;
+    }
+  }
+
   handle_tag_filter_type_click(e) {
     var selected_type = $(this)[0].value;
     var tags_content_global = $('#tags-content-global');
@@ -1178,20 +1194,8 @@ class TagsController {
         break;
       
       case "recently-used":
-        tags_content_global.find('.checkbox-tag').filter(function(id) {
-          var tag_timestamp = parseInt($(this).find('.last-used-timestamp').text());
-
-          if (!Number.isNaN(tag_timestamp) &&
-              !Number.isNaN(tags_controller.latest_timestamp) &&
-              !Number.isNaN(tags_controller.oldest_recent_timestamp)) {
-            
-            var timestampInRange = (tag_timestamp >= tags_controller.oldest_recent_timestamp &&
-                                    tag_timestamp <= tags_controller.latest_timestamp);
-
-            return !timestampInRange;
-          } else {
-            return true;
-          }
+        tags_content_global.find('.checkbox-tag').filter(function() {
+          return tags_controller.filter_recently_used_tags(this);
         }).hide();
         $('#filter-button-active').show();
         break;

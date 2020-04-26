@@ -128,6 +128,7 @@
     "export-tagged-verse-list": "Exporter la liste des versets vers un document de traitement de texte",
     "run-export": "Exporter",
     "tag-filter": "Filtre : ",
+    "recently-used-filter": "Filter recently used",
     "assign-tag": "Étiquette attribuée",
     "delete-tag-permanently": "Supprimer définitivement cette étiquette",
     "none-selected": "Aucun",

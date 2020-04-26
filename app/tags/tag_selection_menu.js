@@ -27,6 +27,31 @@ class TagSelectionMenu {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.tag-select-button').bind('click', (event) => { this.handleTagMenuClick(event); });
     $('#tag-selection-filter-input').bind('keyup', this.handleTagSearchInput);
+    $('#tag-selection-recently-used-checkbox').bind('click', (event) => {
+
+      if ($('#tag-selection-recently-used-checkbox').prop('checked') == true) {
+        this.filterRecentlyUsed();
+      } else {
+        this.showAllTags();
+      }
+    });
+  }
+
+  getTagListContainer() {
+    return $('#tag-selection-taglist-global');
+  }
+
+  filterRecentlyUsed() {
+    var tagListContainer = this.getTagListContainer();
+
+    tagListContainer.find('.tag-browser-tag').filter(function() {
+      return tags_controller.filter_recently_used_tags(this);
+    }).hide();
+  }
+
+  showAllTags() {
+    var tagListContainer = this.getTagListContainer();
+    tagListContainer.find('.tag-browser-tag').show();
   }
 
   hideTagMenu() {
@@ -83,7 +108,7 @@ class TagSelectionMenu {
 
   renderTagsInMenu(tags) {
     this.resetTagsInMenu();
-    var taglist_container = $('#tag-selection-taglist-global');
+    var taglist_container = this.getTagListContainer();
     this.renderTagList(tags, taglist_container, false);
     this.bindClickToCheckboxLabels();
   }
@@ -108,6 +133,7 @@ class TagSelectionMenu {
       var current_tag_id = current_tag.id;
       var current_book_id = current_tag.bibleBookId;
       var current_assignment_count = current_tag.globalAssignmentCount;
+      var current_tag_last_used = current_tag.lastUsed;
 
       if (only_local && (current_book_id == null)) {
         continue;
@@ -115,7 +141,8 @@ class TagSelectionMenu {
 
       var current_tag_html = this.getHtmlForTag(current_tag_id,
                                                 current_tag_title,
-                                                current_assignment_count);
+                                                current_assignment_count,
+                                                current_tag_last_used);
       all_tags_html += current_tag_html;
     }
 
@@ -148,10 +175,11 @@ class TagSelectionMenu {
     }
   }
 
-  getHtmlForTag(tag_id, tag_title, tag_assignment_count) {
+  getHtmlForTag(tag_id, tag_title, tag_assignment_count, tag_last_used) {
     return "<div id='tag-browser-tag-" + tag_id + 
            "' class='tag-browser-tag'>" + 
            "<div class='tag-browser-tag-id'>" + tag_id + "</div>" +
+           "<div class='last-used-timestamp'>" + tag_last_used + "</div>" +
            "<input class='tag-browser-tag-cb' type='checkbox'></input>" +
            "<div class='tag-browser-tag-title clickable-checkbox-label'>" +
            "<span class='tag-browser-tag-title-content'>" + tag_title + "</span>" +
@@ -164,10 +192,12 @@ class TagSelectionMenu {
     clearTimeout(this.tag_search_timeout);
     var search_value = $(this).val();
 
-    this.tag_search_timeout = setTimeout(function filter_tag_list() {
+    this.tag_search_timeout = setTimeout(() => {
       //console.time('filter-tag-list');
-      var labels = $('#tag-selection-taglist-global').find('.tag-browser-tag-title-content');
-      $('#tag-selection-taglist-global').find('.tag-browser-tag').hide();
+      var tagListContainer = this.getTagListContainer();
+
+      var labels = tagListContainer.find('.tag-browser-tag-title-content');
+      tagListContainer.find('.tag-browser-tag').hide();
 
       for (var i = 0; i < labels.length; i++) {
         var current_label = $(labels[i]);
@@ -182,7 +212,7 @@ class TagSelectionMenu {
   }
 
   resetTagsInMenu() {
-    var taglist_container = $('#tag-selection-taglist-global');
+    var taglist_container = this.getTagListContainer();
     while (taglist_container.firstChild) {
       taglist_container.removeChild(taglist_container.firstChild);
     }
@@ -263,7 +293,7 @@ class TagSelectionMenu {
   }
   
   resetTagMenu() {
-    var taglist_container = $('#tag-selection-taglist-global');
+    var taglist_container = this.getTagListContainer();
     var tag_cb_list = taglist_container.find('.tag-browser-tag-cb');
 
     for (var i = 0; i < tag_cb_list.length; i++) {
@@ -276,7 +306,7 @@ class TagSelectionMenu {
       await this.requestTagsForMenu();
     }
 
-    var taglist_container = $('#tag-selection-taglist-global');
+    var taglist_container = this.getTagListContainer();
     this.updateCheckedTags(taglist_container);
   }
 
