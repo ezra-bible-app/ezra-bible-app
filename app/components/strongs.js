@@ -77,6 +77,10 @@ class Strongs {
 
   bindAfterBibleTextLoaded(tabIndex=undefined) {
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+    if (currentTab == null) {
+      return;
+    }
+    
     var currentBibleTranslationId = currentTab.getBibleTranslationId();
 
     if (bible_browser_controller.translation_controller.hasBibleTranslationStrongs(currentBibleTranslationId)) {
