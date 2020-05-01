@@ -41,6 +41,9 @@ class NotesController {
   initForTab(tabIndex=undefined) {
     this.reset();
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+    if (currentVerseList == null) {
+      return;
+    }
 
     var notes = currentVerseList[0].querySelectorAll('.verse-notes');
     for (var i = 0; i < notes.length; i++) {
