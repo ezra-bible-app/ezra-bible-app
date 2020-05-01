@@ -1222,6 +1222,10 @@ div.CodeMirror {
   font-size: 0.9em;
 }
 
+.darkmode--activated #tag-selection-menu {
+  color: whitesmoke;
+}
+
 #tag-assignment-menu #tag-assignment-menu-filter input {
   font-size: 1em;
 }
