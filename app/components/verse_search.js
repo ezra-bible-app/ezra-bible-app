@@ -19,11 +19,44 @@
 class VerseSearch {
   constructor() {}
 
-  doVerseSearch(verseElement, searchString) {
-    var occurances = this.getOccurancesInVerse(verseElement, searchString);
-    var occurancesCount = occurances.length;
-    if (occurancesCount > 0) {
-      this.highlightOccurancesInVerse(verseElement, searchString);
+  doVerseSearch(verseElement, searchString, searchType, caseSensitive=false) {
+    var searchTermList = null;
+
+    if (searchType == "phrase") {
+
+      searchTermList = [ searchString ];
+
+    } else if (searchType == "multiWord") {
+
+      searchTermList = searchString.split(' ');
+
+    } else {
+      console.error("VerseSearch: Unknown search type!");
+      return 0;
+    }
+
+    var occurancesCount = 0;
+    var allTermsFound = true;
+
+    for (var i = 0; i < searchTermList.length; i++) {
+      var currentSearchTerm = searchTermList[i];
+
+      var occurances = this.getOccurancesInVerse(verseElement, currentSearchTerm, caseSensitive);
+      var currentOccurancesCount = occurances.length;
+      occurancesCount += currentOccurancesCount;
+
+      if (currentOccurancesCount == 0) {
+        allTermsFound = false;
+        occurancesCount = 0;
+        break;
+      }
+    }
+
+    if (allTermsFound) {
+      for (var i = 0; i < searchTermList.length; i++) {
+        var currentSearchTerm = searchTermList[i];
+        this.highlightOccurancesInVerse(verseElement, currentSearchTerm, caseSensitive);
+      }
     }
 
     return occurancesCount;

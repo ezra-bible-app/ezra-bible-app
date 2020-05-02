@@ -23,13 +23,23 @@ class TabSearch {
   constructor() {
   }
 
-  init(searchForm, searchInput, searchOccurancesElement, prevButton, nextButton, caseSensitiveCheckbox, onSearchResultsAvailable, onSearchReset) {
+  init(searchForm,
+       searchInput,
+       searchOccurancesElement,
+       prevButton,
+       nextButton,
+       caseSensitiveCheckbox,
+       searchTypeSelect,
+       onSearchResultsAvailable,
+       onSearchReset) {
+
     this.searchForm = $(searchForm);
     this.inputField = $(searchInput);
     this.searchOccurancesElement = $(searchOccurancesElement);
     this.prevButton = $(prevButton);
     this.nextButton = $(nextButton);
     this.caseSensitiveCheckbox = $(caseSensitiveCheckbox);
+    this.searchTypeSelect = $(searchTypeSelect);
     this.currentOccuranceIndex = 0;
     this.currentOccurancesCount = 0;
     this.allOccurances = [];
@@ -63,6 +73,10 @@ class TabSearch {
 
   initSearchOptionControls() {
     this.caseSensitiveCheckbox.bind('change', () => {
+      this.triggerDelayedSearch();
+    });
+
+    this.searchTypeSelect.bind('change', () => {
       this.triggerDelayedSearch();
     });
   }
@@ -105,8 +119,7 @@ class TabSearch {
   }
 
   getSearchType() {
-    var selectField = document.getElementById('tab-search-type');
-    var selectedValue = selectField.options[selectField.selectedIndex].value;
+    var selectedValue = this.searchTypeSelect[0].options[this.searchTypeSelect[0].selectedIndex].value;
     return selectedValue;
   }
 
@@ -126,7 +139,7 @@ class TabSearch {
     this.searchTimeout = setTimeout(() => {
       bible_browser_controller.verse_selection.clear_verse_selection(false);
       this.onSearchReset();
-      this.doSearch(searchString, this.isCaseSensitive());
+      this.doSearch(searchString);
       this.inputField.focus();
     }, 800);
   }
@@ -220,10 +233,13 @@ class TabSearch {
     this.searchOccurancesElement.html(occurancesString);
   }
 
-  doSearch(searchString, caseSensitive=false) {
+  doSearch(searchString) {
     if (this.verseList == null) {
       return;
     }
+
+    var searchType = this.getSearchType();
+    var caseSensitive = this.isCaseSensitive();
     
     var allVerses = this.verseList[0].querySelectorAll('.verse-text');
 
@@ -236,7 +252,7 @@ class TabSearch {
     for (var i = 0; i < allVerses.length; i++) {
       var currentVerse = allVerses[i];
       this.removeHighlightingFromVerse(currentVerse);
-      this.currentOccurancesCount += this.verseSearch.doVerseSearch(currentVerse, searchString, caseSensitive);
+      this.currentOccurancesCount += this.verseSearch.doVerseSearch(currentVerse, searchString, searchType, caseSensitive);
     }
 
     this.allOccurances = this.verseList[0].querySelectorAll('.search-hl');

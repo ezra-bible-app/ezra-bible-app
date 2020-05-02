@@ -71,6 +71,7 @@ class BibleBrowserController {
                           '#tab-search-previous',
                           '#tab-search-next',
                           '#tab-search-is-case-sensitive',
+                          '#tab-search-type',
                           (occurances) => { this.onSearchResultsAvailable(occurances); },
                           () => { this.onSearchReset(); });
 
