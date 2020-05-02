@@ -10,12 +10,12 @@ All notable changes to Ezra Project are documented in this file.
 ### Enhancements
 
 * Basic icon. Note that this is just a start and we still need a nicer one than this! ([#26][i26])
-* Switchable night-mode / darker color scheme ([#43][i43])
-* Show license information in module info dialogue ([#51][i51])
-* Enhance width of new tag / rename tag dialogues and input fields ([#53][i53])
-* Recently used tags filter in tag selection menu ([#50][i50])
-* Highlight module search results ([#52][i52])
-* Support advanced search options in tab search ([#56][i56])
+* Switchable night-mode / darker color scheme. ([#43][i43])
+* Show license information in module info dialogue. ([#51][i51])
+* Enhance width of new tag / rename tag dialogues and input fields. ([#53][i53])
+* Recently used tags filter in tag selection menu. ([#50][i50])
+* Highlight module search results. ([#52][i52])
+* Support advanced search options in tab search. ([#56][i56])
 
 ### Fixes
 
