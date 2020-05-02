@@ -1465,6 +1465,10 @@ s {
   display: none
 }
 
+.load-book-results {
+  margin-left: 1em;
+}
+
 .darkmode--activated a:link, .darkmode--activated a:visited, .darkmode--activated p, .darkmode--activated .verse-list-composite {
   color: whitesmoke;
 }
