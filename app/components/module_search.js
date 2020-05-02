@@ -236,8 +236,8 @@ class ModuleSearch {
     }
   }
 
-  highlightSearchResults(searchTerm) {
-    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+  highlightSearchResults(searchTerm, tabIndex=undefined) {
+    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
     var verses = currentVerseList[0].querySelectorAll('.verse-text');
 
     for (var i = 0; i < verses.length; i++) {
@@ -262,7 +262,7 @@ class ModuleSearch {
                                                                    tabIndex,
                                                                    requestedBookId,
                                                                    target);
-      this.highlightSearchResults(currentSearchTerm);
+      this.highlightSearchResults(currentSearchTerm, tabIndex);
     } else {
       bible_browser_controller.hideVerseListLoadingIndicator();
       bible_browser_controller.hideSearchProgressBar();
