@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Mousetrap = require('mousetrap');
+const VerseSearch = require('./verse_search.js');
 
 class TabSearch {
   constructor() {
@@ -35,6 +36,7 @@ class TabSearch {
     this.currentOccuranceElement = null;
     this.onSearchResultsAvailable = onSearchResultsAvailable;
     this.onSearchReset = onSearchReset;
+    this.verseSearch = new VerseSearch();
 
     this.initInputField();
     this.initNavigationButtons();
@@ -211,8 +213,8 @@ class TabSearch {
 
     for (var i = 0; i < allVerses.length; i++) {
       var currentVerse = allVerses[i];
-      var verseOccurancesCount = this.doVerseSearch(currentVerse, searchString);
-      this.currentOccurancesCount += verseOccurancesCount;
+      this.removeHighlightingFromVerse(currentVerse);
+      this.currentOccurancesCount += this.verseSearch.doVerseSearch(currentVerse, searchString);
     }
 
     this.allOccurances = this.verseList[0].querySelectorAll('.search-hl');
@@ -224,131 +226,6 @@ class TabSearch {
     }
 
     this.onSearchResultsAvailable(this.allOccurances);
-  }
-
-  doVerseSearch(verseElement, searchString) {
-    this.removeHighlightingFromVerse(verseElement);
-
-    var occurances = this.getOccurancesInVerse(verseElement, searchString);
-    var occurancesCount = occurances.length;
-    if (occurancesCount > 0) {
-      this.highlightOccurancesInVerse(verseElement, searchString);
-    }
-
-    return occurancesCount;
-  }
-
-  getOccurancesInVerse(verseElement, searchString) {
-    var occurances = [];
-    var searchStringLength = searchString.length;
-
-    if (searchStringLength > 0) {
-      var verseText = verseElement.textContent;
-      if (searchString.indexOf(" ") != -1) {
-        // Replace all white space with regular spaces
-        var verseText = verseText.replace(/\s/g, " ");
-      }
-
-      var currentIndex = 0;
-
-      while (true) {
-        var nextOccurance = verseText.indexOf(searchString, currentIndex);
-
-        if (nextOccurance == -1) {
-          break;
-        } else {
-          occurances.push(nextOccurance);
-          currentIndex = nextOccurance + searchStringLength;
-        }
-      }
-    }
-
-    return occurances;
-  }
-
-  // based on https://stackoverflow.com/questions/3115150/how-to-escape-regular-expression-special-characters-using-javascript
-  escapeRegExp(text) {
-    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
-  }
-
-  isOccuranceValid(match, offset, string) {
-    var offsetAfterMatch = offset + match.length;
-    var lengthAfterMatch = string.length - offset;
-    var foundOpeningAngleBracketIndex = -1;
-    var foundClosingAngleBracketIndex = -1;
-    var matchIsValid = true;
-
-    for (var i = offsetAfterMatch; i < (offsetAfterMatch + lengthAfterMatch); i++) {
-      var currentChar = string[i];
-
-      if (foundOpeningAngleBracketIndex == (i - 1)) {
-        // We found an opening angle bracket in the previous iteration
-        // Next we will be looking for '/'
-
-        if (currentChar == '/') {
-          // Found closing angle bracket - so essential we found '</' now.
-          foundClosingAngleBracketIndex = i;
-
-        } else if (currentChar == 'd') {
-          // Some other markup is starting (with a div), it's not a closing one, so the match is not surrounded by markup.
-          // In this case we cancel the search and the match is considered valid.
-          break;
-        }
-      }
-
-      if (foundClosingAngleBracketIndex == (i - 1)) {
-        // We previously found a closing angle bracket ('</').
-
-        if (currentChar == 'd') {
-          // Now it's clear that the closing element is a div. (No other element starting with 'd')
-          // This means that the match is within special markup and must be ignored (invalid match)
-          // We're cancelling the search and are now done.
-
-          matchIsValid = false;
-          break;
-        }
-      }
-      
-      if (currentChar == '<') {
-        foundOpeningAngleBracketIndex = i;
-      }
-
-      if (currentChar == '>' && foundOpeningAngleBracketIndex == -1) {
-        // If we find a closing angle bracket and have not found a opening angle bracket before,
-        // it's clear that the occurance is within special markup and is invalid.
-        // We're cancelling the search and are now done.
-
-        matchIsValid = false;
-        break;
-      }
-    }
-    
-    return matchIsValid;
-  }
-
-  highlightOccurancesInVerse(verseElement, searchString) {
-    var verseHtml = verseElement.innerHTML;
-    // Replace all &nbsp; occurances with space. This is necessary in case of Strong's verse content.
-    // Otherwise we don't find the user's searchString if it contains spaces.
-    // Later we need to undo this!
-    verseHtml = verseHtml.replace(/&nbsp;/g, ' ');
-
-    searchString = this.escapeRegExp(searchString);
-
-    var regexSearchString = new RegExp(searchString, 'g');
-    var highlightedVerseText = verseHtml.replace(regexSearchString, (match, offset, string) => {
-      if (this.isOccuranceValid(match, offset, string)) {
-        return this.getHighlightedSearchString(match);
-      } else {
-        return match;
-      }
-    });
-
-    verseElement.innerHTML = highlightedVerseText;
-  }
-
-  getHighlightedSearchString(searchString) {
-    return "<span class='search-hl'>" + searchString + "</span>";
   }
 
   removeAllHighlighting() {
