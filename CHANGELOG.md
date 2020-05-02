@@ -14,6 +14,8 @@ All notable changes to Ezra Project are documented in this file.
 * Show license information in module info dialogue ([#51][i51])
 * Enhance width of new tag / rename tag dialogues and input fields ([#53][i53])
 * Recently used tags filter in tag selection menu ([#50][i50])
+* Highlight module search results ([#52][i52])
+* Support advanced search options in tab search ([#56][i56])
 
 ### Fixes
 
@@ -28,6 +30,8 @@ All notable changes to Ezra Project are documented in this file.
 [i53]: https://github.com/tobias-klein/ezra-project/issues/53
 [i50]: https://github.com/tobias-klein/ezra-project/issues/50
 [i54]: https://github.com/tobias-klein/ezra-project/issues/54
+[i52]: https://github.com/tobias-klein/ezra-project/issues/52
+[i56]: https://github.com/tobias-klein/ezra-project/issues/56
 
 -->
 
