@@ -16,10 +16,13 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const VerseSearch = require('./verse_search.js');
+
 class ModuleSearch {
   constructor() {
     this.currentSearchTerm = null;
     this.search_menu_opened = false;
+    this.verseSearch = new VerseSearch();
   }
 
   initModuleSearchMenu(tabIndex=undefined) {
@@ -55,7 +58,7 @@ class ModuleSearch {
 
   resetSearch(tabIndex=undefined) {
     $('#module-search-input').val('');
-    $('#search-type')[0].value = "multiWord";
+    $('#search-type')[0].value = "phrase";
     $('#search-is-case-sensitive').prop("checked", false);
     this.hideModuleSearchHeader(tabIndex);
   }
@@ -233,6 +236,17 @@ class ModuleSearch {
     }
   }
 
+  highlightSearchResults(searchTerm) {
+    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+    var verses = currentVerseList[0].querySelectorAll('.verse-text');
+
+    for (var i = 0; i < verses.length; i++) {
+      var currentVerse = verses[i];
+      var searchType = this.getSearchType();
+      this.verseSearch.doVerseSearch(currentVerse, searchTerm, searchType);
+    }
+  }
+
   async renderCurrentSearchResults(requestedBookId=-1, tabIndex=undefined, target=undefined) {
     //console.log("Rendering search results on tab " + tabIndex);
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
@@ -248,6 +262,7 @@ class ModuleSearch {
                                                                    tabIndex,
                                                                    requestedBookId,
                                                                    target);
+      this.highlightSearchResults(currentSearchTerm);
     } else {
       bible_browser_controller.hideVerseListLoadingIndicator();
       bible_browser_controller.hideSearchProgressBar();
@@ -266,7 +281,7 @@ class ModuleSearch {
 
     if (this.searchResultsExceedPerformanceLimit(tabIndex)) {
       var performanceHintText = i18n.t("bible-browser.search-performance-hint");
-      header += "<div style='margin-top: 1em;'>" + performanceHintText + "</div>";
+      header += "<div style='margin-left: 0.6em; margin-top: 1em;'>" + performanceHintText + "</div>";
     }
 
     this.getModuleSearchHeader(tabIndex).html(header);
