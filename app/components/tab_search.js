@@ -23,12 +23,13 @@ class TabSearch {
   constructor() {
   }
 
-  init(searchForm, searchInput, searchOccurancesElement, prevButton, nextButton, onSearchResultsAvailable, onSearchReset) {
+  init(searchForm, searchInput, searchOccurancesElement, prevButton, nextButton, caseSensitiveCheckbox, onSearchResultsAvailable, onSearchReset) {
     this.searchForm = $(searchForm);
     this.inputField = $(searchInput);
     this.searchOccurancesElement = $(searchOccurancesElement);
     this.prevButton = $(prevButton);
     this.nextButton = $(nextButton);
+    this.caseSensitiveCheckbox = $(caseSensitiveCheckbox);
     this.currentOccuranceIndex = 0;
     this.currentOccurancesCount = 0;
     this.allOccurances = [];
@@ -39,6 +40,7 @@ class TabSearch {
     this.verseSearch = new VerseSearch();
 
     this.initInputField();
+    this.initSearchOptionControls();
     this.initNavigationButtons();
     this.initGlobalShortCuts();
   }
@@ -55,20 +57,13 @@ class TabSearch {
         return;
       }
 
-      clearTimeout(this.searchTimeout);
+      this.triggerDelayedSearch();
+    });
+  }
 
-      var searchString = this.inputField.val();
-      if (searchString.length < 3) {
-        this.resetOccurances();
-        return;
-      }
-
-      this.searchTimeout = setTimeout(() => {
-        bible_browser_controller.verse_selection.clear_verse_selection(false);
-        this.onSearchReset();
-        this.doSearch(searchString);
-        this.inputField.focus();
-      }, 800);
+  initSearchOptionControls() {
+    this.caseSensitiveCheckbox.bind('change', () => {
+      this.triggerDelayedSearch();
     });
   }
 
@@ -107,6 +102,33 @@ class TabSearch {
 
   setVerseList(verseList) {
     this.verseList = verseList;
+  }
+
+  getSearchType() {
+    var selectField = document.getElementById('tab-search-type');
+    var selectedValue = selectField.options[selectField.selectedIndex].value;
+    return selectedValue;
+  }
+
+  isCaseSensitive() {
+    return this.caseSensitiveCheckbox.prop("checked");
+  }
+
+  triggerDelayedSearch() {
+    clearTimeout(this.searchTimeout);
+
+    var searchString = this.inputField.val();
+    if (searchString.length < 3) {
+      this.resetOccurances();
+      return;
+    }
+
+    this.searchTimeout = setTimeout(() => {
+      bible_browser_controller.verse_selection.clear_verse_selection(false);
+      this.onSearchReset();
+      this.doSearch(searchString, this.isCaseSensitive());
+      this.inputField.focus();
+    }, 800);
   }
 
   resetOccurances() {
@@ -198,7 +220,7 @@ class TabSearch {
     this.searchOccurancesElement.html(occurancesString);
   }
 
-  doSearch(searchString) {
+  doSearch(searchString, caseSensitive=false) {
     if (this.verseList == null) {
       return;
     }
@@ -214,7 +236,7 @@ class TabSearch {
     for (var i = 0; i < allVerses.length; i++) {
       var currentVerse = allVerses[i];
       this.removeHighlightingFromVerse(currentVerse);
-      this.currentOccurancesCount += this.verseSearch.doVerseSearch(currentVerse, searchString);
+      this.currentOccurancesCount += this.verseSearch.doVerseSearch(currentVerse, searchString, caseSensitive);
     }
 
     this.allOccurances = this.verseList[0].querySelectorAll('.search-hl');
@@ -223,6 +245,8 @@ class TabSearch {
     if (this.allOccurances.length > 0) {
       this.jumpToCurrentOccurance();
       this.highlightCurrentOccurance();
+    } else {
+      this.resetOccurances();
     }
 
     this.onSearchResultsAvailable(this.allOccurances);

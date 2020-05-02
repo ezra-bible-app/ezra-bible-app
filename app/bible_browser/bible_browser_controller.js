@@ -70,6 +70,7 @@ class BibleBrowserController {
                           '#tab-search-occurances',
                           '#tab-search-previous',
                           '#tab-search-next',
+                          '#tab-search-is-case-sensitive',
                           (occurances) => { this.onSearchResultsAvailable(occurances); },
                           () => { this.onSearchReset(); });
 
