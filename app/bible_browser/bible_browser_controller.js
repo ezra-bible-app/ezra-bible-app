@@ -135,14 +135,9 @@ class BibleBrowserController {
   }
 
   async onTabSelected(event = undefined, ui = { 'index' : 0}) {
-    // The ui.index may be higher as the actual available index. This happens after a tab was removed.
-    if (ui.index > (this.tab_controller.getTabCount() - 1)) {
-      // In this case we simply adjust the index to the last available index.
-      ui.index = this.tab_controller.getTabCount() - 1;
-    }
+    await waitUntilIdle();
 
     var metaTab = this.tab_controller.getTab(ui.index);
-    metaTab.selectCount += 1;
 
     if (metaTab.selectCount >= 2) {
       // Only perform the following actions from the 2nd select (The first is done when the tab is created)

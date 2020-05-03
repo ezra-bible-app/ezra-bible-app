@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 class Tab {
-  constructor(defaultBibleTranslationId) {
+  constructor(defaultBibleTranslationId, interactive=true) {
     this.elementId = null;
     this.book = null;
     this.bookTitle = null;
@@ -30,6 +30,7 @@ class Tab {
     this.lastHighlightedNavElementIndex = null;
     this.bibleTranslationId = defaultBibleTranslationId;
     this.selectCount = 0;
+    this.addedInteractively = interactive;
   }
 
   isValid() {

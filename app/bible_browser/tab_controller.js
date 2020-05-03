@@ -218,9 +218,19 @@ class TabController {
   bindEvents() {
     this.tabs.tabs({
       select: (event, ui) => {
-        setTimeout(() => {
+        // The ui.index may be higher as the actual available index. This happens after a tab was removed.
+        if (ui.index > (this.getTabCount() - 1)) {
+          // In this case we simply adjust the index to the last available index.
+          ui.index = this.getTabCount() - 1;
+        }
+
+        var metaTab = this.getTab(ui.index);
+        metaTab.selectCount += 1;
+
+        if (metaTab.addedInteractively) { // We only run the onTabSelected callback
+                                              // if the tab has been added interactively
           this.onTabSelected(event, ui);
-        }, 500);
+        }
       }
     });
 
@@ -257,11 +267,11 @@ class TabController {
     return selectedTabsPanelId;
   }
 
-  addTab(metaTab=undefined, nonInteractive=false) {
+  addTab(metaTab=undefined, interactive=true) {
     var initialLoading = true;
     if (metaTab === undefined) {
       initialLoading = false;
-      var metaTab = new Tab(this.defaultBibleTranslationId);
+      var metaTab = new Tab(this.defaultBibleTranslationId, interactive);
     }
 
     metaTab.elementId = this.tabsElement + '-' + this.nextTabId;
@@ -286,12 +296,12 @@ class TabController {
         this.onTabAdded(this.tabCounter - 1);
       };
 
-      if (nonInteractive) {
-        onTabAddedCall();
-      } else {
+      if (interactive) {
         setTimeout(() => {
           onTabAddedCall();
         }, 250);
+      } else {
+        onTabAddedCall();
       }
     }
   }

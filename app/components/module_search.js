@@ -185,12 +185,12 @@ class ModuleSearch {
       var searchType = currentTab.getSearchOptions()['searchType'];
       var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
 
-      if (searchType == "strongsNumber") {
+      if (searchType == "strongsNumber" && event != null) {
         if (!bible_browser_controller.strongs.isValidStrongsKey(this.currentSearchTerm)) {
           return;
         }
 
-        bible_browser_controller.strongs.showStrongsInfo(this.currentSearchTerm);
+        bible_browser_controller.strongs.showStrongsInfo(this.currentSearchTerm, false /* do not show strongs box */);
       }
 
       bible_browser_controller.tab_controller.setTabSearch(this.currentSearchTerm, tabIndex);

@@ -118,7 +118,7 @@ class Strongs {
     return strongsKey in jsStrongs;
   }
 
-  showStrongsInfo(strongsId) {
+  showStrongsInfo(strongsId, showStrongsBox=true) {
     if (jsStrongs == null) {
       jsStrongs = require('strongs');
     }
@@ -148,11 +148,13 @@ class Strongs {
         }
       });
 
-      this.strongsBox.show().position({
-        my: "bottom",
-        at: "center top",
-        of: this.currentStrongsElement
-      });
+      if (showStrongsBox) {
+        this.strongsBox.show().position({
+          my: "bottom",
+          at: "center top",
+          of: this.currentStrongsElement
+        });
+      }
     }
   }
 
@@ -353,27 +355,31 @@ class Strongs {
     }
   }
 
-  findAllOccurrences(key, bibleTranslationId) {
+  async findAllOccurrences(strongsKey, bibleTranslationId) {
     // First set the default bible translation to the given one to ensure that the translation in the
     // newly opened tab matches the one in the current tab
     bible_browser_controller.tab_controller.defaultBibleTranslationId = bibleTranslationId;
 
     // Add a new tab and set the search option
-    bible_browser_controller.tab_controller.addTab(undefined, true);
+    bible_browser_controller.tab_controller.addTab(undefined, false);
     var currentTab = bible_browser_controller.tab_controller.getTab();
     currentTab.setSearchOptions('strongsNumber', false);
 
     // Set the search key and populate the search menu
-    bible_browser_controller.tab_controller.setTabSearch(key);
+    bible_browser_controller.tab_controller.setTabSearch(strongsKey);
     bible_browser_controller.module_search.populateSearchMenu();
 
     // Prepare for the next text to be loaded
     bible_browser_controller.text_loader.prepareForNewText(true, true);
 
-    // Start the search after some timeout
-    setTimeout(() => {
-      bible_browser_controller.module_search.startSearch(null, undefined, key);
-    }, 500);
+    // Perform the Strong's search
+    await bible_browser_controller.module_search.startSearch(/* event */      null,
+                                                             /* tabIndex */   undefined,
+                                                             /* searchTerm */ strongsKey);
+
+    // Run the onTabSelected actions at the end, because we added a tab
+    var ui = { 'index' : bible_browser_controller.tab_controller.getSelectedTabIndex()};
+    await bible_browser_controller.onTabSelected(undefined, ui);
   }
 }
 
