@@ -1257,6 +1257,7 @@ div.CodeMirror {
 
 .darkmode--activated #module-search-menu, .darkmode--activated .verse-selection-menu, .darkmode--activated #display-options-menu {
   background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat;
+  color: whitesmoke;
 }
 
 .darkmode--activated .verse-selection-menu span {
@@ -1429,6 +1430,18 @@ s {
 
 .strongs-hl {
   background-color: #e4f1fb;
+}
+
+.darkmode--activated .strongs-hl {
+  background-color: gray;
+}
+
+.strongs-current-verse w {
+  color: blue;
+}
+
+.darkmode--activated .strongs-current-verse w {
+  color: lightgreen;
 }
 
 #translation-feature-filter label {

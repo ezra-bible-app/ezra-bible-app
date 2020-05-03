@@ -191,6 +191,10 @@ a.outline-reference:focus, a.outline-reference:hover {
   font-size: 120%;
 }
 
+.darkmode--activated #dictionary-info-box-content .strongs-definition {
+  color: whitesmoke;
+}
+
 #dictionary-info-box-lock {
   font-style: italic;
   color: grey;

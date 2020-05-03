@@ -200,11 +200,11 @@ class Strongs {
     }
 
     if (this.currentVerseText != null) {
-      this.currentVerseText.find('w').css('color', 'black');
+      this.currentVerseText.removeClass('strongs-current-verse');
     }
 
     this.currentVerseText = $(event.target).closest('.verse-text');
-    this.currentVerseText.find('w').css('color', 'blue');
+    this.currentVerseText.addClass('strongs-current-verse');
   }
 
   getCurrentDictInfoBreadcrumbs() {
