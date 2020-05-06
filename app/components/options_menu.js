@@ -24,6 +24,20 @@ class OptionsMenu {
     this.darkMode = null;
   }
 
+  toggleDarkModeIfNeeded() {
+    if (isMac()) {
+      const nativeTheme = require('electron').remote.nativeTheme;
+
+      if (nativeTheme.shouldUseDarkColors) {
+        this.enableOption('night-mode-switch');
+      } else {
+        this.disableOption('night-mode-switch');
+      }
+
+      this.useNightModeBasedOnOption();
+    }
+  }
+
   initCurrentOptionsMenu(tabIndex=undefined) {
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.display-options-button').bind('click', (event) => { this.handleMenuClick(event); });
@@ -140,6 +154,12 @@ class OptionsMenu {
     $('#' + optionId).attr('checked', 'checked');
     $('#' + optionId).removeAttr('disabled');
     $('#' + optionId + '-box').addClass('ui-state-active'); 
+  }
+
+  disableOption(optionId) {
+    $('#' + optionId).removeAttr('checked');
+    //$('#' + optionId).removeAttr('disabled');
+    $('#' + optionId + '-box').removeClass('ui-state-active');    
   }
 
   loadDisplayOptions() {

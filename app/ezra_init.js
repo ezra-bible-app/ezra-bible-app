@@ -187,14 +187,35 @@ function switchToTheme(theme) {
 }
 
 function initNightMode() {
-  var useNightMode = false;
+  if (isMac()) { // On macOS we initialize night mode based on the system settings
 
-  if (bible_browser_controller.settings.has('useNightMode')) {
-    useNightMode = bible_browser_controller.settings.get('useNightMode');
+    const nativeTheme = require('electron').remote.nativeTheme;
 
-    if (useNightMode) {
-      console.log("Initializing night mode ...");
-      bible_browser_controller.optionsMenu.useNightModeBasedOnOption(true);
+    // Set up a listener to react when the native theme has changed
+    nativeTheme.on('updated', () => {
+      if (nativeTheme.shouldUseDarkColors != bible_browser_controller.optionsMenu.nightModeSwitchChecked()) {
+        showGlobalLoadingIndicator();
+
+        setTimeout(() => {
+          bible_browser_controller.optionsMenu.toggleDarkModeIfNeeded();
+        }, 100);
+      }
+    });
+
+    if (nativeTheme.shouldUseDarkColors != bible_browser_controller.optionsMenu.nightModeSwitchChecked()) {
+      console.log("Initializing night mode based on system settings ...");
+      bible_browser_controller.optionsMenu.toggleDarkModeIfNeeded();
+    }
+
+  } else { // On other systems we initialize night mode based on the application settings
+
+    if (bible_browser_controller.settings.has('useNightMode')) {
+      var useNightMode = bible_browser_controller.settings.get('useNightMode');
+  
+      if (useNightMode) {
+        console.log("Initializing night mode based on app settings ...");
+        bible_browser_controller.optionsMenu.useNightModeBasedOnOption(true);
+      }
     }
   }
 }
