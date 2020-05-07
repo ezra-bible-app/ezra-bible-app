@@ -156,6 +156,7 @@ class TabController {
       bible_browser_controller.text_loader.prepareForNewText(true, isSearch, i);
 
       if (currentMetaTab.textType == 'search_results') {
+        await bible_browser_controller.module_search.populateSearchMenu(i);
         await bible_browser_controller.module_search.startSearch(null, i, currentMetaTab.searchTerm);
       } else {
         await bible_browser_controller.text_loader.requestTextUpdate(
