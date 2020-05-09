@@ -318,6 +318,10 @@ module.exports = (sequelize, DataTypes) => {
     return bookMap[swordBook];
   };
 
+  BibleBook.getBookMap = function() {
+    return bookMap;
+  };
+
   BibleBook.findBookTitle = function(title) {
     for (entry of bible_books) {
       if (entry.short_title.indexOf(title) != -1) {

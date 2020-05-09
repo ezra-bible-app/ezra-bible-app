@@ -803,10 +803,15 @@ h2 {
   color: #808080;
 }
 
-.module-search-result-header {
+.module-search-result-header, .verse-statistics-chart-container {
   display: none;
   margin-left: 1em;
   margin-top: 0.5em;
+}
+
+.verse-statistics-chart-container {
+  width: 95%;
+  height: 15em;
 }
 
 #show-translation-settings-button {

@@ -62,10 +62,15 @@ class ModuleSearch {
     $('#search-is-case-sensitive').prop("checked", false);
     $('#search-extended-verse-boundaries').prop("checked", false);
     this.hideModuleSearchHeader(tabIndex);
+    this.resetVerseStatisticsChart(tabIndex);
   }
 
   hideModuleSearchHeader(tabIndex=undefined) {
     this.getModuleSearchHeader(tabIndex).hide();
+  }
+
+  resetVerseStatisticsChart(tabIndex=undefined) {
+    this.getVerseStatisticsChart(tabIndex).empty();
   }
 
   populateSearchMenu(tabIndex) {
@@ -136,6 +141,11 @@ class ModuleSearch {
   getModuleSearchHeader(tabIndex=undefined) {
     var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
     return currentVerseListFrame.find('.module-search-result-header');
+  }
+
+  getVerseStatisticsChart(tabIndex=undefined) {
+    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
+    return currentVerseListFrame.find('.verse-statistics-chart');
   }
 
   searchResultsExceedPerformanceLimit(index=undefined) {
@@ -299,6 +309,65 @@ class ModuleSearch {
 
     this.getModuleSearchHeader(tabIndex).html(header);
     this.getModuleSearchHeader(tabIndex).show();
+
+    this.updateVerseStatisticsChart(tabIndex);
+  }
+
+  updateVerseStatisticsChart(tabIndex=undefined) {
+    this.resetVerseStatisticsChart(tabIndex);
+
+    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+    var currentSearchResults = currentTab.getSearchResults();
+    var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
+
+    var labels = [];
+    var dataRow = [];
+
+    var bookMap = models.BibleBook.getBookMap();
+
+    for (var book in bookMap) {
+      labels.push(book);
+
+      var value = 0;
+      if (book in bibleBookStats) {
+        value = bibleBookStats[book];
+      }
+
+      dataRow.push(value);
+    }
+
+    var data = {
+      labels: labels,
+      datasets: [{
+          data: dataRow,
+          borderWidth: 1
+      }]
+    };
+
+    var chartElement = this.getVerseStatisticsChart(tabIndex);
+    
+    var verseStatisticsBarChart = new Chart(chartElement, {
+      type: 'bar',
+      data: data,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+          display: false
+        },
+        scaleShowValues: true,
+        scales: {
+          xAxes: [{
+            ticks: {
+              autoSkip: false,
+              fontSize: 8
+            }
+          }]
+        }
+      }
+    });
+
+    $(chartElement).parent().show();
   }
 
   getBibleBookStatsFromSearchResults(search_results) {
