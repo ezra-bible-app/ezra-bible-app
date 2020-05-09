@@ -36,7 +36,7 @@ Ezra Project comes with the following functionality:
   * Each tab either shows a book, a tagged verse list or search results.
   * Previously opened tabs are loaded again on program start.
 * User interface available in the following languages:
-  * English, German, Dutch
+  * English, German, Dutch, French
 
 ## Upcoming Features
 
