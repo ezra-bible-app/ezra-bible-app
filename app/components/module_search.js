@@ -70,7 +70,14 @@ class ModuleSearch {
   }
 
   resetVerseStatisticsChart(tabIndex=undefined) {
-    this.getVerseStatisticsChart(tabIndex).empty();
+    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
+    var container = currentVerseListFrame.find('.verse-statistics-chart-container');
+
+    container.hide();
+    container.empty();
+
+    var canvasElement = "<canvas class='verse-statistics-chart'></canvas>";
+    container.append(canvasElement);
   }
 
   populateSearchMenu(tabIndex) {
@@ -187,6 +194,8 @@ class ModuleSearch {
     if (this.currentSearchTerm.length == 0) {
       return;
     }
+
+    this.resetVerseStatisticsChart(tabIndex);
 
     if (tabIndex === undefined) {
       var tab = bible_browser_controller.tab_controller.getTab();
@@ -314,8 +323,6 @@ class ModuleSearch {
   }
 
   updateVerseStatisticsChart(tabIndex=undefined) {
-    this.resetVerseStatisticsChart(tabIndex);
-
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
     var currentSearchResults = currentTab.getSearchResults();
     var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
