@@ -43,7 +43,6 @@ Ezra Project comes with the following functionality:
 Ezra Project is currently on a bi-monthly release schedule. The next release [0.13.0](https://github.com/tobias-klein/ezra-project/projects/1) is planned for June 2020 with the following new features:
 
 * Bible browser: Annotations/notes for individual verses ([#45][i45])
-* Bible browser: Parallel translation mode ([#30][i30])
 * Install wizard: Upgrade functionality ([#31][i31])
 * Switchable night-mode / darker color scheme ([#43][i43])
 * Highlight module search results ([#52][i52])
@@ -51,7 +50,6 @@ Ezra Project is currently on a bi-monthly release schedule. The next release [0.
 * Recently used tags filter in tag selection menu ([#50][i50])
 * New module search option: Search with extended verse boundaries ([#58][i58])
 
-[i30]: https://github.com/tobias-klein/ezra-project/issues/30
 [i31]: https://github.com/tobias-klein/ezra-project/issues/31
 [i43]: https://github.com/tobias-klein/ezra-project/issues/43
 [i45]: https://github.com/tobias-klein/ezra-project/issues/45
