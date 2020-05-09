@@ -40,7 +40,7 @@ Ezra Project comes with the following functionality:
 
 ## Upcoming Features
 
-Ezra Project is currently on a bi-monthly release schedule. The next release [0.13.0](https://github.com/tobias-klein/ezra-project/milestone/3) is planned for June 2020 with the following new features:
+Ezra Project is currently on a bi-monthly release schedule. The next release [0.13.0](https://github.com/tobias-klein/ezra-project/projects/1) is planned for June 2020 with the following new features:
 
 * Bible browser: Annotations/notes for individual verses ([#45][i45])
 * Bible browser: Parallel translation mode ([#30][i30])
