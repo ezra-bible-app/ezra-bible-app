@@ -45,10 +45,20 @@ Ezra Project is currently on a bi-monthly release schedule. The next release [0.
 * Bible browser: Annotations/notes for individual verses ([#45][i45])
 * Bible browser: Parallel translation mode ([#30][i30])
 * Install wizard: Upgrade functionality ([#31][i31])
+* Switchable night-mode / darker color scheme ([#43][i43])
+* Highlight module search results ([#52][i52])
+* Support advanced search options in tab search ([#56][i56])
+* Recently used tags filter in tag selection menu ([#50][i50])
+* New module search option: Search with extended verse boundaries ([#58][i58])
 
 [i30]: https://github.com/tobias-klein/ezra-project/issues/30
 [i31]: https://github.com/tobias-klein/ezra-project/issues/31
+[i43]: https://github.com/tobias-klein/ezra-project/issues/43
 [i45]: https://github.com/tobias-klein/ezra-project/issues/45
+[i50]: https://github.com/tobias-klein/ezra-project/issues/50
+[i52]: https://github.com/tobias-klein/ezra-project/issues/52
+[i56]: https://github.com/tobias-klein/ezra-project/issues/56
+[i58]: https://github.com/tobias-klein/ezra-project/issues/58
 
 ## Installation
 The latest installation packages for Windows, Linux and macOS can be found on [this page][latest]. Specific install instructions are below.
