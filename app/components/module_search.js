@@ -319,7 +319,9 @@ class ModuleSearch {
     this.getModuleSearchHeader(tabIndex).html(header);
     this.getModuleSearchHeader(tabIndex).show();
 
-    this.updateVerseStatisticsChart(tabIndex);
+    if (currentSearchResults.length > 0) {
+      this.updateVerseStatisticsChart(tabIndex);
+    }
   }
 
   updateVerseStatisticsChart(tabIndex=undefined) {
