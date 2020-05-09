@@ -369,7 +369,7 @@ class ModuleSearch {
           xAxes: [{
             ticks: {
               autoSkip: false,
-              fontSize: 8
+              fontSize: 9
             }
           }]
         }
