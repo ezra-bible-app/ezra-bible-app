@@ -41,7 +41,7 @@ class NotesController {
   initForTab(tabIndex=undefined) {
     this.reset();
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
-    if (currentVerseList == null) {
+    if (currentVerseList == null || currentVerseList.length == 0) {
       return;
     }
 
