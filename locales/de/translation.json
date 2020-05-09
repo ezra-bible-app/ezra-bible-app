@@ -18,7 +18,8 @@
     "case-sensitive": "Groß- / Kleinschreibung beachten",
     "exact-phrase": "Exakter Ausdruck",
     "multi-word": "Mehrere Worte",
-    "strongs": "Strongs Nr."
+    "strongs": "Strongs Nr.",
+    "extended-verse-boundaries": "Erweiterte Versgrenzen (Zwei Verse)"
   },
   "translation-wizard": {
     "header": "Bibelübersetzungen konfigurieren",

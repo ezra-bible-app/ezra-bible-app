@@ -60,6 +60,7 @@ class ModuleSearch {
     $('#module-search-input').val('');
     $('#search-type')[0].value = "phrase";
     $('#search-is-case-sensitive').prop("checked", false);
+    $('#search-extended-verse-boundaries').prop("checked", false);
     this.hideModuleSearchHeader(tabIndex);
   }
 
@@ -71,10 +72,12 @@ class ModuleSearch {
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
     var searchType = currentTab.getSearchOptions()['searchType'];
     var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
+    var useExtendedVerseBoundaries = currentTab.getSearchOptions()['extendedVerseBoundaries'];
     var searchTerm = currentTab.getSearchTerm();
 
     $('#search-type').val(searchType);
     $('#search-is-case-sensitive').prop("checked", isCaseSensitive);
+    $('#search-extended-verse-boundaries').prop("checked", useExtendedVerseBoundaries);
     $('#module-search-input').val(searchTerm);
   }
 
@@ -126,6 +129,10 @@ class ModuleSearch {
     return $('#search-is-case-sensitive').prop("checked");
   }
 
+  useExtendedVerseBoundaries() {
+    return $('#search-extended-verse-boundaries').prop("checked");
+  }
+
   getModuleSearchHeader(tabIndex=undefined) {
     var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
     return currentVerseListFrame.find('.module-search-result-header');
@@ -173,7 +180,7 @@ class ModuleSearch {
 
     if (tabIndex === undefined) {
       var tab = bible_browser_controller.tab_controller.getTab();
-      tab.setSearchOptions(this.getSearchType(), this.isCaseSensitive());
+      tab.setSearchOptions(this.getSearchType(), this.isCaseSensitive(), this.useExtendedVerseBoundaries());
       tab.setTextType('search_results');
     }
 
@@ -184,6 +191,7 @@ class ModuleSearch {
       var currentBibleTranslationId = currentTab.getBibleTranslationId();
       var searchType = currentTab.getSearchOptions()['searchType'];
       var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
+      var useExtendedVerseBoundaries = currentTab.getSearchOptions()['extendedVerseBoundaries'];
 
       if (searchType == "strongsNumber" && event != null) {
         if (!bible_browser_controller.strongs.isValidStrongsKey(this.currentSearchTerm)) {
@@ -218,7 +226,8 @@ class ModuleSearch {
                                                               searchProgressBar.progressbar("value", progressPercent);
                                                              },
                                                              searchType,
-                                                             isCaseSensitive);
+                                                             isCaseSensitive,
+                                                             useExtendedVerseBoundaries);
 
         //console.log("Got " + searchResults.length + " from Sword");
         currentTab.setSearchResults(searchResults);
@@ -243,7 +252,9 @@ class ModuleSearch {
     for (var i = 0; i < verses.length; i++) {
       var currentVerse = verses[i];
       var searchType = this.getSearchType();
-      this.verseSearch.doVerseSearch(currentVerse, searchTerm, searchType);
+      var isCaseSensitive = this.isCaseSensitive();
+      var useExtendedVerseBoundaries = this.useExtendedVerseBoundaries();
+      this.verseSearch.doVerseSearch(currentVerse, searchTerm, searchType, isCaseSensitive, useExtendedVerseBoundaries);
     }
   }
 

@@ -18,7 +18,8 @@
     "case-sensitive": "Hoofdlettergevoelig",
     "exact-phrase": "Exacte zin",
     "multi-word": "Meerdere woorden",
-    "strongs": "Strongs nummer"
+    "strongs": "Strongs nummer",
+    "extended-verse-boundaries": "Extended verse boundaries (Two verses)"
   },
   "translation-wizard": {
     "header": "Configureer Bijbelvertalingen",

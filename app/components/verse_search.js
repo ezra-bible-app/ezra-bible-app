@@ -19,7 +19,7 @@
 class VerseSearch {
   constructor() {}
 
-  doVerseSearch(verseElement, searchString, searchType, caseSensitive=false) {
+  doVerseSearch(verseElement, searchString, searchType, caseSensitive=false, extendedVerseBoundaries=false) {
     var searchTermList = null;
 
     if (searchType == "phrase") {
@@ -47,12 +47,15 @@ class VerseSearch {
 
       if (currentOccurancesCount == 0) {
         allTermsFound = false;
-        occurancesCount = 0;
-        break;
+
+        if (!extendedVerseBoundaries) {
+          occurancesCount = 0;
+          break;
+        }
       }
     }
 
-    if (allTermsFound) {
+    if (allTermsFound || extendedVerseBoundaries) {
       for (var i = 0; i < searchTermList.length; i++) {
         var currentSearchTerm = searchTermList[i];
         this.highlightOccurancesInVerse(verseElement, currentSearchTerm, caseSensitive);

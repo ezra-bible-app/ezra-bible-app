@@ -18,7 +18,8 @@
     "case-sensitive": "Case sensitive",
     "exact-phrase": "Exact phrase",
     "multi-word": "Multiple words",
-    "strongs": "Strong's number"
+    "strongs": "Strong's number",
+    "extended-verse-boundaries": "Extended verse boundaries (Two verses)"
   },
   "translation-wizard": {
     "header": "Configure Bible translations",

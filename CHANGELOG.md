@@ -16,6 +16,7 @@ All notable changes to Ezra Project are documented in this file.
 * Recently used tags filter in tag selection menu. ([#50][i50])
 * Highlight module search results. ([#52][i52])
 * Support advanced search options in tab search. ([#56][i56])
+* Add new module search option: Search with extended verse boundaries ([#58][i58])
 
 ### Fixes
 
@@ -32,6 +33,7 @@ All notable changes to Ezra Project are documented in this file.
 [i54]: https://github.com/tobias-klein/ezra-project/issues/54
 [i52]: https://github.com/tobias-klein/ezra-project/issues/52
 [i56]: https://github.com/tobias-klein/ezra-project/issues/56
+[i58]: https://github.com/tobias-klein/ezra-project/issues/58
 
 -->
 
