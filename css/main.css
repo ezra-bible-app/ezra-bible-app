@@ -948,6 +948,7 @@ div.CodeMirror {
   /*font-family: monospace;
   font-size: 110%;*/
   height: 15em;
+  margin-bottom: 0.5em;
   background-color: inherit;
   resize: vertical;
 }
@@ -972,6 +973,18 @@ div.CodeMirror {
   /* BLUEISH */
   background-color: #DEEDF7;
   border: 1px solid #AED0EA;
+
+  position: relative;
+}
+
+.verse-notes-text {
+  padding-bottom: 1em;
+}
+
+.verse-notes-timestamp {
+  position: absolute;
+  bottom: 0.5em;
+  right: 0.5em;
 }
 
 .verse-notes:not(.verse-notes-empty) {

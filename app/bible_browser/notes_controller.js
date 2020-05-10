@@ -101,7 +101,7 @@ class NotesController {
     if (this.currentlyEditedNotes != null) {
       var renderedContent = this.getRenderedEditorContent();
       this.currentlyEditedNotes.style.removeProperty('height');
-      this.currentlyEditedNotes.innerHTML = renderedContent;
+      this.currentlyEditedNotes.querySelector('.verse-notes-text').innerHTML = renderedContent;
 
       if (renderedContent == '') {
         this.currentlyEditedNotes.classList.add('verse-notes-empty');
@@ -138,12 +138,13 @@ class NotesController {
   }
 
   createEditor(notesElement) {
-    notesElement.innerHTML = '';
+    var notesElementText = notesElement.querySelector('.verse-notes-text');
+    notesElementText.innerHTML = '';
 
     var textArea = htmlToElement('<textarea class="editor"></textarea>');
-    notesElement.append(textArea);
+    notesElementText.append(textArea);
 
-    var targetElement = notesElement.querySelector('.editor');
+    var targetElement = notesElementText.querySelector('.editor');
     targetElement.value = this.getNotesElementContent(notesElement);
 
     var editor = CodeMirror.fromTextArea(targetElement, {
