@@ -220,7 +220,7 @@ jobs:
         shell: bash
         run: |
           mkdir packages
-          mv ezra-project_win32_latest/ezra-project_win32_setup_latest.exe packages/ezra-project_win32_setup-${GITHUB_REF##*/}.exe
+          mv ezra-project_win32_latest/ezra-project_win32_latest.exe packages/ezra-project_win32_setup-${GITHUB_REF##*/}.exe
           mv ezra-project_ubuntu1804_latest/ezra-project_latest.deb packages/ezra-project_ubuntu1804-${GITHUB_REF##*/}.deb
           mv ezra-project_ubuntu1910_latest/ezra-project_latest.deb packages/ezra-project_ubuntu1910-${GITHUB_REF##*/}.deb
           mv ezra-project_mint18_latest/ezra-project_latest.deb packages/ezra-project_mint18-${GITHUB_REF##*/}.deb
