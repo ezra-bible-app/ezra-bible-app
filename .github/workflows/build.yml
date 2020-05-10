@@ -20,7 +20,7 @@ jobs:
           run: Get-ChildItem release\packages\*setup.exe | rename-item -NewName { "ezra-project_win32_setup_latest.exe" }
           shell: pwsh
         - name: Upload installer
-          uses: actions/upload-artifact@master
+          uses: actions/upload-artifact@v1.0.0
           with:
             name: ezra-project_win32_latest
             path: release\packages\ezra-project_win32_setup_latest.exe
@@ -37,7 +37,7 @@ jobs:
         - name: Generate dmg
           run: npm install electron-installer-dmg macos-alias ds-store && npm run dmg-mac
         - name: Upload dmg
-          uses: actions/upload-artifact@master
+          uses: actions/upload-artifact@v1.0.0
           with:
             name: ezra-project_macos_latest
             path: release/ezra-project.dmg
@@ -50,7 +50,7 @@ jobs:
         - name: Build
           uses: ./.github/actions/build_ubuntu1804
         - name: Upload deb file
-          uses: actions/upload-artifact@master
+          uses: actions/upload-artifact@v1.0.0
           with:
             name: ezra-project_ubuntu1804_latest
             path: ezra-project_latest.deb
@@ -63,7 +63,7 @@ jobs:
         - name: Build
           uses: ./.github/actions/build_ubuntu1910
         - name: Upload deb file
-          uses: actions/upload-artifact@master
+          uses: actions/upload-artifact@v1.0.0
           with:
             name: ezra-project_ubuntu1910_latest
             path: ezra-project_latest.deb
@@ -76,7 +76,7 @@ jobs:
         - name: Build
           uses: ./.github/actions/build_mint18
         - name: Upload deb file
-          uses: actions/upload-artifact@master
+          uses: actions/upload-artifact@v1.0.0
           with:
             name: ezra-project_mint18_latest
             path: ezra-project_latest.deb
@@ -89,7 +89,7 @@ jobs:
         - name: Build
           uses: ./.github/actions/build_mint19
         - name: Upload deb file
-          uses: actions/upload-artifact@master
+          uses: actions/upload-artifact@v1.0.0
           with:
             name: ezra-project_mint19_latest
             path: ezra-project_latest.deb
@@ -102,7 +102,7 @@ jobs:
         - name: Build
           uses: ./.github/actions/build_buster
         - name: Upload deb file
-          uses: actions/upload-artifact@master
+          uses: actions/upload-artifact@v1.0.0
           with:
             name: ezra-project_debian10_latest
             path: ezra-project_latest.deb
@@ -115,7 +115,7 @@ jobs:
         - name: Build
           uses: ./.github/actions/build_fedora29
         - name: Upload rpm file
-          uses: actions/upload-artifact@master
+          uses: actions/upload-artifact@v1.0.0
           with:
             name: ezra-project_fedora29_latest
             path: ezra-project_latest.rpm
@@ -128,7 +128,7 @@ jobs:
         - name: Build
           uses: ./.github/actions/build_fedora31
         - name: Upload rpm file
-          uses: actions/upload-artifact@master
+          uses: actions/upload-artifact@v1.0.0
           with:
             name: ezra-project_fedora31_latest
             path: ezra-project_latest.rpm
@@ -141,7 +141,7 @@ jobs:
         - name: Build
           uses: ./.github/actions/build_centos8
         - name: Upload rpm file
-          uses: actions/upload-artifact@master
+          uses: actions/upload-artifact@v1.0.0
           with:
             name: ezra-project_centos8_latest
             path: ezra-project_latest.rpm
@@ -154,7 +154,7 @@ jobs:
         - name: Build
           uses: ./.github/actions/build_opensuseleap
         - name: Upload rpm file
-          uses: actions/upload-artifact@master
+          uses: actions/upload-artifact@v1.0.0
           with:
             name: ezra-project_opensuse_leap_latest
             path: ezra-project_latest.rpm
@@ -167,52 +167,52 @@ jobs:
 
       steps:
       - name: Download win32 package
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v1.0.0
         with:
           name: ezra-project_win32_latest
 
       - name: Download ubuntu-1804 package
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v1.0.0
         with:
           name: ezra-project_ubuntu1804_latest
 
       - name: Download ubuntu-1910 package
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v1.0.0
         with:
           name: ezra-project_ubuntu1910_latest
 
       - name: Download mint18 package
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v1.0.0
         with:
           name: ezra-project_mint18_latest
 
       - name: Download mint19 package
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v1.0.0
         with:
           name: ezra-project_mint19_latest
 
       - name: Download debian10 package
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v1.0.0
         with:
           name: ezra-project_debian10_latest
 
       - name: Download fedora29 package
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v1.0.0
         with:
           name: ezra-project_fedora29_latest
 
       - name: Download fedora31 package
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v1.0.0
         with:
           name: ezra-project_fedora31_latest
 
       - name: Download centos8 package
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v1.0.0
         with:
           name: ezra-project_centos8_latest
 
       - name: Download opensuse leap package
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v1.0.0
         with:
           name: ezra-project_opensuse_leap_latest
 
@@ -220,7 +220,7 @@ jobs:
         shell: bash
         run: |
           mkdir packages
-          mv ezra-project_win32_latest/ezra-project_win32_latest.exe packages/ezra-project_win32_setup-${GITHUB_REF##*/}.exe
+          mv ezra-project_win32_latest/ezra-project_win32_setup_latest.exe packages/ezra-project_win32_setup-${GITHUB_REF##*/}.exe
           mv ezra-project_ubuntu1804_latest/ezra-project_latest.deb packages/ezra-project_ubuntu1804-${GITHUB_REF##*/}.deb
           mv ezra-project_ubuntu1910_latest/ezra-project_latest.deb packages/ezra-project_ubuntu1910-${GITHUB_REF##*/}.deb
           mv ezra-project_mint18_latest/ezra-project_latest.deb packages/ezra-project_mint18-${GITHUB_REF##*/}.deb
