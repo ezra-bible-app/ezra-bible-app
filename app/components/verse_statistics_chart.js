@@ -17,6 +17,17 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 class VerseStatisticsChart {
+  constructor() {
+    this.chartColors = {
+      red: 'rgb(255, 99, 132)',
+      orange: 'rgb(255, 159, 64)',
+      yellow: 'rgb(255, 205, 86)',
+      green: 'rgb(75, 192, 192)',
+      blue: 'rgb(54, 162, 235)',
+      purple: 'rgb(153, 102, 255)',
+      grey: 'rgb(201, 203, 207)'
+    };
+  }
 
   getVerseStatisticsChart(tabIndex=undefined) {
     var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
@@ -58,13 +69,14 @@ class VerseStatisticsChart {
       labels: labels,
       datasets: [{
           data: dataRow,
+          backgroundColor: this.chartColors.blue,
           borderWidth: 1
       }]
     };
 
     var chartElement = this.getVerseStatisticsChart(tabIndex);
     
-    var verseStatisticsBarChart = new Chart(chartElement, {
+    new Chart(chartElement, {
       type: 'bar',
       data: data,
       options: {
@@ -79,6 +91,15 @@ class VerseStatisticsChart {
             ticks: {
               autoSkip: false,
               fontSize: 9
+            },
+            // grid line settings
+            gridLines: {
+              drawOnChartArea: false, // only want the grid lines for one axis to show up
+            },
+          }],
+          yAxes: [{
+            gridLines: {
+              color: this.chartColors.grey
             }
           }]
         }
