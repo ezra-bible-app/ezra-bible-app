@@ -90,7 +90,7 @@ class VerseStatisticsChart {
           xAxes: [{
             ticks: {
               autoSkip: false,
-              fontSize: 9
+              fontSize: 10
             },
             // grid line settings
             gridLines: {
@@ -99,7 +99,8 @@ class VerseStatisticsChart {
           }],
           yAxes: [{
             gridLines: {
-              color: this.chartColors.grey
+              color: this.chartColors.grey,
+              zeroLineColor: this.chartColors.grey
             }
           }]
         }
