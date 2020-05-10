@@ -282,6 +282,8 @@ class TagSelectionMenu {
     currentTab.setBook(null, null);
     currentTab.setSearchTerm(null);
     
+    bible_browser_controller.module_search.resetSearch();
+    
     if (currentTagIdList != "") {
       setTimeout(() => {
         this.hideTagMenu();
