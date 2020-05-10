@@ -47,12 +47,9 @@ class VerseStatisticsChart {
     container.append(canvasElement);
   }
 
-  updateChart(tabIndex=undefined, bibleBookStats) {
-    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
-    var currentSearchResults = currentTab.getSearchResults();
-
+  getLabelsAndValuesFromStats(bibleBookStats) {
     var labels = [];
-    var dataRow = [];
+    var values = [];
 
     var bookMap = models.BibleBook.getBookMap();
 
@@ -64,13 +61,19 @@ class VerseStatisticsChart {
         value = bibleBookStats[book];
       }
 
-      dataRow.push(value);
+      values.push(value);
     }
+
+    return [labels, values];
+  }
+
+  updateChart(tabIndex=undefined, bibleBookStats) {
+    const [labels, values] = this.getLabelsAndValuesFromStats(bibleBookStats);
 
     var data = {
       labels: labels,
       datasets: [{
-          data: dataRow,
+          data: values,
           backgroundColor: this.chartColors.blue,
           borderWidth: 1
       }]
