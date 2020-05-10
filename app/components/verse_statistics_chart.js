@@ -18,6 +18,8 @@
 
 class VerseStatisticsChart {
   constructor() {
+    require('chart.js/dist/Chart.bundle.min.js');
+
     this.chartColors = {
       red: 'rgb(255, 99, 132)',
       orange: 'rgb(255, 159, 64)',
