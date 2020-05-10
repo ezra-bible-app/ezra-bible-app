@@ -70,11 +70,15 @@ class NotesController {
   saveEditorContent() {
     if (this.currentlyEditedNotes != null) {
       var currentNoteValue = this.currentEditor.getValue().trim();
-      this.currentlyEditedNotes.setAttribute('notes-content', currentNoteValue);
-      this.refreshNotesInfo(currentNoteValue);
+      var previousNoteValue = this.currentlyEditedNotes.getAttribute('notes-content');
 
-      var currentVerseBox = this.getCurrentVerseBox();
-      models.Note.persistNote(currentNoteValue, currentVerseBox);
+      if (currentNoteValue != previousNoteValue) {
+        this.currentlyEditedNotes.setAttribute('notes-content', currentNoteValue);
+        this.refreshNotesInfo(currentNoteValue);
+
+        var currentVerseBox = this.getCurrentVerseBox();
+        models.Note.persistNote(currentNoteValue, currentVerseBox);
+      }
     }
   }
 
