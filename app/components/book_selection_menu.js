@@ -57,6 +57,12 @@ class BookSelectionMenu {
     currentTab.setTextType('book');
     bible_browser_controller.tab_controller.setCurrentTabBook(book_code, book_title);
 
+    bible_browser_controller.tag_selection_menu.hideTagMenu();
+    bible_browser_controller.tag_selection_menu.resetTagMenu();
+    bible_browser_controller.module_search.hideSearchMenu();
+    bible_browser_controller.module_search.resetSearch();
+    bible_browser_controller.tag_assignment_menu.hideTagAssignmentMenu();
+
     bible_browser_controller.text_loader.prepareForNewText(true, false);
 
     setTimeout(async () => {
@@ -66,12 +72,6 @@ class BookSelectionMenu {
       if (!books.includes(book_code)) {
         return;
       }
-
-      bible_browser_controller.tag_selection_menu.hideTagMenu();
-      bible_browser_controller.tag_selection_menu.resetTagMenu();
-      bible_browser_controller.module_search.hideSearchMenu();
-      bible_browser_controller.module_search.resetSearch();
-      bible_browser_controller.tag_assignment_menu.hideTagAssignmentMenu();
 
       // Set selected tags and search term to null, since we just switched to a book
       var currentTab = bible_browser_controller.tab_controller.getTab();
