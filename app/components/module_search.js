@@ -17,12 +17,14 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const VerseSearch = require('./verse_search.js');
+const VerseStatisticsChart = require('./verse_statistics_chart.js');
 
 class ModuleSearch {
   constructor() {
     this.currentSearchTerm = null;
     this.search_menu_opened = false;
     this.verseSearch = new VerseSearch();
+    this.verseStatisticsChart = new VerseStatisticsChart();
   }
 
   initModuleSearchMenu(tabIndex=undefined) {
@@ -62,22 +64,11 @@ class ModuleSearch {
     $('#search-is-case-sensitive').prop("checked", false);
     $('#search-extended-verse-boundaries').prop("checked", false);
     this.hideModuleSearchHeader(tabIndex);
-    this.resetVerseStatisticsChart(tabIndex);
+    this.verseStatisticsChart.resetChart(tabIndex);
   }
 
   hideModuleSearchHeader(tabIndex=undefined) {
     this.getModuleSearchHeader(tabIndex).hide();
-  }
-
-  resetVerseStatisticsChart(tabIndex=undefined) {
-    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
-    var container = currentVerseListFrame.find('.verse-statistics-chart-container');
-
-    container.hide();
-    container.empty();
-
-    var canvasElement = "<canvas class='verse-statistics-chart'></canvas>";
-    container.append(canvasElement);
   }
 
   populateSearchMenu(tabIndex) {
@@ -150,11 +141,6 @@ class ModuleSearch {
     return currentVerseListFrame.find('.module-search-result-header');
   }
 
-  getVerseStatisticsChart(tabIndex=undefined) {
-    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
-    return currentVerseListFrame.find('.verse-statistics-chart');
-  }
-
   searchResultsExceedPerformanceLimit(index=undefined) {
     if (index === undefined) {
       index = bible_browser_controller.tab_controller.getSelectedTabIndex();
@@ -195,7 +181,7 @@ class ModuleSearch {
       return;
     }
 
-    this.resetVerseStatisticsChart(tabIndex);
+    this.verseStatisticsChart.resetChart(tabIndex);
 
     if (tabIndex === undefined) {
       var tab = bible_browser_controller.tab_controller.getTab();
@@ -320,63 +306,9 @@ class ModuleSearch {
     this.getModuleSearchHeader(tabIndex).show();
 
     if (currentSearchResults.length > 0) {
-      this.updateVerseStatisticsChart(tabIndex);
+      var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
+      this.verseStatisticsChart.updateChart(tabIndex, bibleBookStats);
     }
-  }
-
-  updateVerseStatisticsChart(tabIndex=undefined) {
-    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
-    var currentSearchResults = currentTab.getSearchResults();
-    var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
-
-    var labels = [];
-    var dataRow = [];
-
-    var bookMap = models.BibleBook.getBookMap();
-
-    for (var book in bookMap) {
-      labels.push(book);
-
-      var value = 0;
-      if (book in bibleBookStats) {
-        value = bibleBookStats[book];
-      }
-
-      dataRow.push(value);
-    }
-
-    var data = {
-      labels: labels,
-      datasets: [{
-          data: dataRow,
-          borderWidth: 1
-      }]
-    };
-
-    var chartElement = this.getVerseStatisticsChart(tabIndex);
-    
-    var verseStatisticsBarChart = new Chart(chartElement, {
-      type: 'bar',
-      data: data,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        legend: {
-          display: false
-        },
-        scaleShowValues: true,
-        scales: {
-          xAxes: [{
-            ticks: {
-              autoSkip: false,
-              fontSize: 9
-            }
-          }]
-        }
-      }
-    });
-
-    $(chartElement).parent().show();
   }
 
   getBibleBookStatsFromSearchResults(search_results) {
