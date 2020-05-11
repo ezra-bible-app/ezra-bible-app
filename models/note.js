@@ -58,17 +58,19 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Note.persistNote = function(noteValue, verseBox) {
-    models.VerseReference.findOrCreateFromVerseBox(verseBox).then(vr => {
-      vr.getOrCreateNote().then(n => {
+    return models.VerseReference.findOrCreateFromVerseBox(verseBox).then(vr => {
+      return vr.getOrCreateNote().then(n => {
         if (noteValue != "") {
           // Save the note if it has content
           n.text = noteValue;
-          n.save().catch(function () {
+          return n.save().then(() => {
+            return n;
+          }).catch(function () {
             alert("ERROR: Could not save note!");
           });
         } else {
           // Delete the note if it does not have any content
-          n.destroy().catch(function () {
+          return n.destroy().catch(function () {
             alert("ERROR: Could not delete note!");
           });
         }

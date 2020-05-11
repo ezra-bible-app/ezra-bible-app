@@ -88,6 +88,10 @@ class I18nHelper {
   async getPsalmTranslation(lang) {
     return await this.getSpecificTranslation(lang, 'bible-browser.psalm');
   }
+
+  getLocalizedDate(timestamp) {
+    return new Date(Date.parse(timestamp)).toLocaleDateString(i18n.language);
+  }
 }
 
 module.exports = I18nHelper;

@@ -77,9 +77,29 @@ class NotesController {
         this.refreshNotesInfo(currentNoteValue);
 
         var currentVerseBox = this.getCurrentVerseBox();
-        models.Note.persistNote(currentNoteValue, currentVerseBox);
+        models.Note.persistNote(currentNoteValue, currentVerseBox).then((note) => {
+          var updatedTimestamp = null;
+
+          if (currentNoteValue == "") {
+            updatedTimestamp = "";
+          } else {
+            updatedTimestamp = note.updatedAt;
+          }
+
+          this.updateNoteDate(currentVerseBox, updatedTimestamp);
+        });
       }
     }
+  }
+
+  updateNoteDate(verseBox, dbTimestamp) {
+    var localizedTimestamp = "";
+
+    if (dbTimestamp != "") {
+      localizedTimestamp = i18nHelper.getLocalizedDate(dbTimestamp);
+    }
+    
+    verseBox.find('.verse-notes-timestamp').text(localizedTimestamp);
   }
 
   getRenderedEditorContent() {
