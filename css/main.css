@@ -947,7 +947,7 @@ div.CodeMirror {
   font-family: sans-serif;
   /*font-family: monospace;
   font-size: 110%;*/
-  height: 15em;
+  height: 20em;
   margin-bottom: 0.5em;
   background-color: inherit;
   resize: vertical;
@@ -978,7 +978,7 @@ div.CodeMirror {
 }
 
 .verse-notes-text {
-  padding-bottom: 1em;
+  padding-bottom: 0.7em;
 }
 
 .verse-notes-timestamp {
@@ -987,10 +987,6 @@ div.CodeMirror {
   right: 0.5em;
   color: grey;
   font-size: 90%;
-}
-
-.verse-notes:not(.verse-notes-empty) {
-  min-height: 15em; /* Same height as div.CodeMirror */
 }
 
 .darkmode--activated .verse-notes:not(.verse-notes-empty) {
