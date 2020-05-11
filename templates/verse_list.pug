@@ -105,20 +105,29 @@ each bibleBook in bibleBooks
         div.verse-reference-content #{verseReference}
 
       div.verse-content
+
         if current_verse_note != null && current_verse_note.text != null && current_verse_note.text != ''
-          div(class='verse-notes', notes-content=current_verse_note.text)
-            div(class='verse-notes-text') !{marked(current_verse_note.text)}
-            - var updatedAt = i18nHelper.getLocalizedDate(current_verse_note.updatedAt);
-            div(class='verse-notes-status-bar')
-              div(class='verse-notes-buttons')
-              div(class='verse-notes-timestamp') !{updatedAt}
+          - var verseNoteClass = "verse-notes";
+          - var verseNoteUpdate = i18nHelper.getLocalizedDate(current_verse_note.updatedAt);
+          - var verseNoteTextRaw = current_verse_note.text;
+          - var verseNoteText = marked(current_verse_note.text);
         else
-          div(class='verse-notes verse-notes-empty')
-            div(class='verse-notes-text')
-              textarea(class='editor', style='display: none; width: 100%; height: 100%;')
-            div(class='verse-notes-status-bar')
-              div(class='verse-notes-buttons')
-              div(class='verse-notes-timestamp')
+          - var verseNoteClass = "verse-notes verse-notes-empty";
+          - var verseNoteUpdate = "";
+          - var verseNoteTextRaw = "";
+          - var verseNoteText = "";
+
+        div(class=verseNoteClass, notes-content=verseNoteTextRaw)
+          div(class='verse-notes-text') !{verseNoteText}
+          if verseNoteText == ''
+            textarea(class='editor', style='display: none; width: 100%; height: 100%;')
+
+          div(class='verse-notes-status-bar')
+            div(class='verse-notes-buttons')
+              a(class='save-note', href='') !{saveText}
+              span &nbsp;|&nbsp;
+              a(class='cancel-edit', href='') !{cancelText}
+            div(class='verse-notes-timestamp') !{verseNoteUpdate}
 
         //- FIXME: Check whether this renderVerseMetaInfo option is really used and if not delete it!
         if renderVerseMetaInfo == true

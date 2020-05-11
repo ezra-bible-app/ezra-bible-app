@@ -102,24 +102,34 @@ class NotesController {
     verseBox.find('.verse-notes-timestamp').text(localizedTimestamp);
   }
 
-  getRenderedEditorContent() {
+  getRenderedEditorContent(original=false) {
     const marked = require("marked");
 
-    var editorContent = this.currentEditor.getValue();
+    var content = null;
+
+    if (original) {
+      content = this.getNotesElementContent(this.currentlyEditedNotes);
+    } else {
+      content = this.currentEditor.getValue();
+    }
+
     var renderedContent = "";
 
-    if (editorContent != "") {
-      renderedContent = marked(editorContent);
+    if (content != "") {
+      renderedContent = marked(content);
     }
 
     return renderedContent;
   }
 
-  restoreCurrentlyEditedNotes() {
-    this.saveEditorContent();
+  restoreCurrentlyEditedNotes(persist=true) {
+    if (persist) {
+      this.saveEditorContent();
+    }
 
     if (this.currentlyEditedNotes != null) {
-      var renderedContent = this.getRenderedEditorContent();
+      var renderedContent = this.getRenderedEditorContent(!persist);
+
       this.currentlyEditedNotes.style.removeProperty('height');
       this.currentlyEditedNotes.querySelector('.verse-notes-text').innerHTML = renderedContent;
 
@@ -128,9 +138,17 @@ class NotesController {
       } else {
         this.currentlyEditedNotes.classList.remove('verse-notes-empty');
       }
+
+      this.resetVerseNoteButtons();
     }
 
     this.reset();
+  }
+
+  resetVerseNoteButtons() {
+    var verseNotesButtons = $(this.currentlyEditedNotes).find('.verse-notes-buttons');
+    verseNotesButtons.find('a').unbind();
+    verseNotesButtons.hide();
   }
 
   handleNotesClick(event) {
@@ -145,7 +163,28 @@ class NotesController {
       this.currentlyEditedNotes = $(event.target).closest('.verse-notes')[0];
       this.currentlyEditedNotes.classList.remove('verse-notes-empty');
       this.createEditor(this.currentlyEditedNotes);
+      this.setupVerseNoteButtons();
     }
+  }
+
+  setupVerseNoteButtons() {
+    var verseNotesButtons = $(this.currentlyEditedNotes).find('.verse-notes-buttons');
+
+    verseNotesButtons.find('a').bind('click', (event) => {
+      event.preventDefault();
+
+      if (event.target.className == 'save-note') {
+
+        this.restoreCurrentlyEditedNotes();
+
+      } else if (event.target.className == 'cancel-edit') {
+
+        this.restoreCurrentlyEditedNotes(false);
+
+      }
+    });
+
+    verseNotesButtons.show();
   }
 
   getNotesElementContent(notesElement) {

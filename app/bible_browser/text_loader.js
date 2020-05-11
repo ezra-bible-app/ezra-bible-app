@@ -184,6 +184,8 @@ class TextLoader {
       verseNotes: groupedVerseNotes,
       marked: this.marked,
       reference_separator: reference_separator,
+      saveText: i18n.t("general.save"),
+      cancelText: i18n.t("general.cancel"),
       chapterText: chapterText,
       tagHint: i18n.t("bible-browser.tag-hint")
     });
@@ -355,6 +357,8 @@ class TextLoader {
       verseNotes: groupedVerseNotes,
       marked: this.marked,
       reference_separator: reference_separator,
+      saveText: i18n.t("general.save"),
+      cancelText: i18n.t("general.cancel"),
       tagHint: i18n.t("bible-browser.tag-hint"),
       loadSearchResultsText: i18n.t("bible-browser.show-search-results")
     });
