@@ -984,9 +984,18 @@ div.CodeMirror {
 .verse-notes-status-bar {
   position: absolute;
   bottom: 0.5em;
-  right: 0.5em;
   color: grey;
   font-size: 90%;
+  width: 95%;
+}
+
+.verse-notes-buttons {
+  float: left;
+  display: none;
+}
+
+.verse-notes-timestamp {
+  float: right;
 }
 
 .darkmode--activated .verse-notes:not(.verse-notes-empty) {

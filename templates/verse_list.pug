@@ -110,12 +110,14 @@ each bibleBook in bibleBooks
             div(class='verse-notes-text') !{marked(current_verse_note.text)}
             - var updatedAt = i18nHelper.getLocalizedDate(current_verse_note.updatedAt);
             div(class='verse-notes-status-bar')
+              div(class='verse-notes-buttons')
               div(class='verse-notes-timestamp') !{updatedAt}
         else
           div(class='verse-notes verse-notes-empty')
             div(class='verse-notes-text')
               textarea(class='editor', style='display: none; width: 100%; height: 100%;')
             div(class='verse-notes-status-bar')
+              div(class='verse-notes-buttons')
               div(class='verse-notes-timestamp')
 
         //- FIXME: Check whether this renderVerseMetaInfo option is really used and if not delete it!
