@@ -981,7 +981,7 @@ div.CodeMirror {
   padding-bottom: 0.7em;
 }
 
-.verse-notes-timestamp {
+.verse-notes-status-bar {
   position: absolute;
   bottom: 0.5em;
   right: 0.5em;
