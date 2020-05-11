@@ -985,6 +985,8 @@ div.CodeMirror {
   position: absolute;
   bottom: 0.5em;
   right: 0.5em;
+  color: grey;
+  font-size: 90%;
 }
 
 .verse-notes:not(.verse-notes-empty) {
