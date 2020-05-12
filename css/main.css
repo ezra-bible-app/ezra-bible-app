@@ -981,6 +981,12 @@ div.CodeMirror {
   padding-bottom: 0.7em;
 }
 
+.verse-notes-text:not(.edited) {
+  padding-top: 4px;
+  padding-left: 4px;
+  line-height: 130%;
+}
+
 .verse-notes-status-bar {
   position: absolute;
   bottom: 0.5em;
