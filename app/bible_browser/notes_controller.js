@@ -69,10 +69,12 @@ class NotesController {
 
   saveEditorContent() {
     if (this.currentlyEditedNotes != null) {
-      var currentNoteValue = this.currentEditor.getValue().trim();
+      var currentNoteValue = this.currentEditor.getValue();
       var previousNoteValue = this.currentlyEditedNotes.getAttribute('notes-content');
 
       if (currentNoteValue != previousNoteValue) {
+        currentNoteValue = currentNoteValue.trim();
+        
         this.currentlyEditedNotes.setAttribute('notes-content', currentNoteValue);
         this.refreshNotesInfo(currentNoteValue);
 
