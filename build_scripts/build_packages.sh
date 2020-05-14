@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION=0.12.1
+VERSION=0.13.0
 
 rm -rf /tmp/ezra-packages
 mkdir /tmp/ezra-packages
@@ -10,6 +10,7 @@ echo "******** Getting latest files from GitHub ******** "
 git clone https://github.com/tobias-klein/ezra-project.git ezra-project
 cp -a ezra-project ezra-project-ubuntu1804
 cp -a ezra-project ezra-project-ubuntu1910
+cp -a ezra-project ezra-project-ubuntu2004
 cp -a ezra-project ezra-project-linux-mint18
 cp -a ezra-project ezra-project-linux-mint19
 cp -a ezra-project ezra-project-buster
@@ -29,6 +30,12 @@ echo "******** Building for Ubuntu 19.10 ******** "
 docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-ubuntu1910 ubuntu1910.ezra:1.0 /tmp/ezra-packages/ezra-project-ubuntu1910/build_scripts/build.sh
 docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-ubuntu1910 ubuntu1910.ezra:1.0 npm run deb_1910
 mv /tmp/ezra-packages/ezra-project-ubuntu1910/release/packages/*.deb /tmp/ezra-packages/ezra-project_ubuntu1910_${VERSION}_amd64.deb
+
+echo ""
+echo "******** Building for Ubuntu 20.04 ******** "
+docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-ubuntu2004 ubuntu2004.ezra:1.0 /tmp/ezra-packages/ezra-project-ubuntu1910/build_scripts/build.sh
+docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-ubuntu2004 ubuntu2004.ezra:1.0 npm run deb_1910
+mv /tmp/ezra-packages/ezra-project-ubuntu2004/release/packages/*.deb /tmp/ezra-packages/ezra-project_ubuntu2004_${VERSION}_amd64.deb
 
 echo ""
 echo "******** Building for Linux Mint 18 ******** "
@@ -71,4 +78,3 @@ echo "******** Building for OpenSuse Leap ******** "
 docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-opensuse-leap opensuse-leap.ezra:1.0 /tmp/ezra-packages/ezra-project-opensuse-leap/build_scripts/build.sh
 docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-opensuse-leap opensuse-leap.ezra:1.0 npm run rpm_opensuse_leap
 mv /tmp/ezra-packages/ezra-project-opensuse-leap/release/packages/*.rpm ezra-project_opensuse_leap_${VERSION}.x86_64.rpm
-
