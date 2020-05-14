@@ -68,6 +68,19 @@ jobs:
             name: ezra-project_ubuntu1910_latest
             path: ezra-project_latest.deb
 
+    build-ubuntu-2004:
+      name: Build Ubuntu 20.04 package
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v1
+      - name: Build
+        uses: ./.github/actions/build_ubuntu2004
+      - name: Upload deb file
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: ezra-project_ubuntu2004_latest
+          path: ezra-project_latest.deb
+
     build-mint18:
         name: Build Mint 18 package
         runs-on: ubuntu-latest
@@ -223,6 +236,7 @@ jobs:
           mv ezra-project_win32_latest/ezra-project_win32_setup_latest.exe packages/ezra-project_win32_setup-${GITHUB_REF##*/}.exe
           mv ezra-project_ubuntu1804_latest/ezra-project_latest.deb packages/ezra-project_ubuntu1804-${GITHUB_REF##*/}.deb
           mv ezra-project_ubuntu1910_latest/ezra-project_latest.deb packages/ezra-project_ubuntu1910-${GITHUB_REF##*/}.deb
+          mv ezra-project_ubuntu2004_latest/ezra-project_latest.deb packages/ezra-project_ubuntu2004-${GITHUB_REF##*/}.deb
           mv ezra-project_mint18_latest/ezra-project_latest.deb packages/ezra-project_mint18-${GITHUB_REF##*/}.deb
           mv ezra-project_mint19_latest/ezra-project_latest.deb packages/ezra-project_mint19-${GITHUB_REF##*/}.deb
           mv ezra-project_debian10_latest/ezra-project_latest.deb packages/ezra-project_debian10-${GITHUB_REF##*/}.deb

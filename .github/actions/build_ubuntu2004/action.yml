@@ -1,0 +1,6 @@
+# action.yml
+name: 'build-ubuntu-2004'
+description: 'Build Ezra Project for Ubuntu 20.04'
+runs:
+    using: 'docker'
+    image: 'docker://toklein/ezra-ubuntu-2004:latest'
