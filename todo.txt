@@ -80,6 +80,8 @@
 [x] Keep jumping to next tab search result when pressing Enter
 [x] Implement Sword module unlocking
 [x] Bug: Tab-based menus not working for 2nd/3rd/fourth tab after loading from settings
+[ ] Bug: After removing a translation also refresh all the relevant tabs and update the tab titles
+[ ] Module uninstall issues on Windows
 [ ] Fix tab search: Support searching across Strong's elements boundaries
 [ ] Bug: Exporting search results in document does not work
 [ ] Provide possibility to limit module search to specific books or NT/OT
