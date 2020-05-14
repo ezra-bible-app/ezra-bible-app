@@ -35,6 +35,10 @@ All notable changes to Ezra Project are documented in this file.
 [i56]: https://github.com/tobias-klein/ezra-project/issues/56
 [i58]: https://github.com/tobias-klein/ezra-project/issues/58
 
+### Enablers
+
+* Add deb package for Ubuntu 20.04.
+
 -->
 
 
