@@ -34,7 +34,7 @@ mv /tmp/ezra-packages/ezra-project-ubuntu1910/release/packages/*.deb /tmp/ezra-p
 echo ""
 echo "******** Building for Ubuntu 20.04 ******** "
 docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-ubuntu2004 ubuntu2004.ezra:1.0 /tmp/ezra-packages/ezra-project-ubuntu1910/build_scripts/build.sh
-docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-ubuntu2004 ubuntu2004.ezra:1.0 npm run deb_1910
+docker run --user $(id -u):$(id -g) -t -v /tmp:/tmp -w /tmp/ezra-packages/ezra-project-ubuntu2004 ubuntu2004.ezra:1.0 npm run deb_2004
 mv /tmp/ezra-packages/ezra-project-ubuntu2004/release/packages/*.deb /tmp/ezra-packages/ezra-project_ubuntu2004_${VERSION}_amd64.deb
 
 echo ""
