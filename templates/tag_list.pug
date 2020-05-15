@@ -20,8 +20,13 @@
 
 each tag in tags
   - var currentStats = null
+  - var bookAssignmentCount = 0
+  - var globalAssignmentCount = 0
+
   if tagStatistics != null
-    - var currentStats = tagStatistics[tag.id]
+    - currentStats = tagStatistics[tag.id]
+    - bookAssignmentCount = currentStats.bookAssignmentCount
+    - globalAssignmentCount = currentStats.globalAssignmentCount
 
   - var used_in_book_class = (currentStats != null && currentStats.bookAssignmentCount > 0 ? "cb-label-assigned" : "")
   
@@ -33,16 +38,13 @@ each tag in tags
   if !visible
     - visibility = "display: none;"
 
-  div.checkbox-tag(style=visibility)
-    div.checkbox-tag-id #{tag.id}
-
-    if currentStats != null
-      div.book-assignment-count #{currentStats.bookAssignmentCount}
-      div.global-assignment-count #{currentStats.globalAssignmentCount}
-
-    - var last_used_timestamp = parseInt(tag.lastUsed);
-    div.last-used-timestamp #{last_used_timestamp}
-
+  - var last_used_timestamp = parseInt(tag.lastUsed);
+  div.checkbox-tag(style=visibility,
+                   tag-id=tag.id,
+                   book-assignment-count=bookAssignmentCount,
+                   global-assignment-count=globalAssignmentCount,
+                   last-used-timestamp=last_used_timestamp)
+                   
     div(title=delete_tag_label class='tag-delete-button fg-button fg-button-icon-left ui-state-default ui-corner-all')
       span(class='ui-icon ui-icon-closethick tag-delete-icon')
     

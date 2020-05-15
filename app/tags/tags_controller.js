@@ -145,9 +145,7 @@ class TagsController {
   close_dialog_and_rename_standard_tag() {
     $('#rename-standard-tag-dialog').dialog('close');
     var new_title = $('#rename-standard-tag-title-input').val();
-    var checkbox_tag = $('#tags-content').find('.checkbox-tag-id').filter(function(id) {
-      return ($(this).text() == tags_controller.rename_standard_tag_id);
-    }).closest('.checkbox-tag');
+    var checkbox_tag = $('#tags-content').find('div[tag-id="[' + tags_controller.rename_standard_tag_id + '"]');
     var is_global = (checkbox_tag.parent().attr('id') == 'tags-content-global');
     tags_controller.update_tag_titles_in_verse_list(tags_controller.rename_standard_tag_id, is_global, new_title);
     tags_controller.communication_controller.update_tag(tags_controller.rename_standard_tag_id, new_title);
@@ -187,7 +185,7 @@ class TagsController {
 
   handle_delete_tag_button_click(event) {
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
-    var tag_id = checkbox_tag.find('.checkbox-tag-id:first').html();
+    var tag_id = checkbox_tag.attr('tag-id');
     var parent_id = checkbox_tag.parent().attr('id');
     var label = checkbox_tag.find('.cb-label').html();
 
@@ -283,7 +281,7 @@ class TagsController {
       tags_controller.is_blocked = false;
     }, 300);
 
-    var id = parseInt(checkbox_tag.find('.checkbox-tag-id:first').html());
+    var id = parseInt(checkbox_tag.attr('tag-id'));
     var cb = checkbox_tag.find('.tag-cb')[0];
     var cb_label = checkbox_tag.find('.cb-label').html();
     var checkbox_is_checked = $(cb).is(':checked');
@@ -303,7 +301,7 @@ class TagsController {
     if (checkbox_is_checked) {
       // Update last used timestamp
       var current_timestamp = new Date(Date.now()).getTime();
-      checkbox_tag.find('.last-used-timestamp').text(current_timestamp);
+      checkbox_tag.attr('last-used-timestamp', current_timestamp);
       tags_controller.update_tag_timestamps();
 
       bible_browser_controller.tag_selection_menu.updateLastUsedTimestamp(id, current_timestamp);
@@ -365,10 +363,7 @@ class TagsController {
   }
   
   get_checkbox_tag(id) {
-    var checkbox_tag = $('#tags-content-global').find('.checkbox-tag').filter(function(element) {
-      return ($(this).find('.checkbox-tag-id').text() == id);
-    });
-
+    var checkbox_tag = $('#tags-content-global').find('.checkbox-tag[tag-id="' + id + '"]');
     return checkbox_tag;
   }
 
@@ -407,8 +402,8 @@ class TagsController {
       cb_label_element.removeClass('cb-label-assigned');
     }
 
-    checkbox_tag.find('.book-assignment-count').text(new_book_count);
-    checkbox_tag.find('.global-assignment-count').text(new_global_count);
+    checkbox_tag.attr('book-assignment-count', new_book_count);
+    checkbox_tag.attr('global-assignment-count', new_global_count);
 
     var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
 
@@ -760,11 +755,11 @@ class TagsController {
 
   update_tag_timestamps() {
     var tags_content_global = $('#tags-content-global');
-    var all_timestamp_elements = tags_content_global.find('.last-used-timestamp');
+    var all_timestamp_elements = tags_content_global.find('.checkbox-tag');
     var all_timestamps = [];
 
     for (var i = 0; i < all_timestamp_elements.length; i++) {
-      var current_timestamp = parseInt($(all_timestamp_elements[i]).text());
+      var current_timestamp = parseInt($(all_timestamp_elements[i]).attr('last-used-timestamp'));
 
       if (!all_timestamps.includes(current_timestamp) && !Number.isNaN(current_timestamp)) {
         all_timestamps.push(current_timestamp);
@@ -797,7 +792,7 @@ class TagsController {
     $('#rename-standard-tag-dialog').dialog('open');
     $('#rename-standard-tag-title-input').focus();
 
-    tags_controller.rename_standard_tag_id =  checkbox_tag.find('.checkbox-tag-id').text();
+    tags_controller.rename_standard_tag_id =  checkbox_tag.attr('tag-id');
     tags_controller.rename_standard_tag_title = cb_label;
   }
 
@@ -846,7 +841,7 @@ class TagsController {
           event.target.matches('.cb-label-tag-assignment-count') ||
           event.target.matches('.checkbox-tag')) {
 
-        var current_id = $(event.target).find('.checkbox-tag-id').text();
+        var current_id = $(event.target).attr('tag-id');
 
         if (tags_controller.last_mouseover_id !== undefined && 
             tags_controller.last_mouseover_element !== undefined &&
@@ -860,7 +855,7 @@ class TagsController {
         }
 
         tags_controller.last_mouseover_element = $(event.target).closest('.checkbox-tag');
-        tags_controller.last_mouseover_id = $(event.target).closest('.checkbox-tag').find('.checkbox-tag-id').text();
+        tags_controller.last_mouseover_id = $(event.target).closest('.checkbox-tag').attr('tag-id');
       }
     }, false);
 
@@ -1160,7 +1155,7 @@ class TagsController {
   }
 
   filter_recently_used_tags(element) {
-    var tag_timestamp = parseInt($(element).find('.last-used-timestamp').text());
+    var tag_timestamp = parseInt($(element).attr('last-used-timestamp'));
 
     if (!Number.isNaN(tag_timestamp) &&
         !Number.isNaN(tags_controller.latest_timestamp) &&
@@ -1183,16 +1178,12 @@ class TagsController {
 
     switch (selected_type) {
       case "assigned":
-        tags_content_global.find('.checkbox-tag').filter(function(id) {
-          return ($(this).find('.book-assignment-count').text() == '0');
-        }).hide();
+        tags_content_global.find('.checkbox-tag[book-assignment-count="' + 0 + '"]').hide();
         $('#filter-button-active').show();
         break;
 
       case "unassigned":
-        tags_content_global.find('.checkbox-tag').filter(function(id) {
-          return ($(this).find('.book-assignment-count').text() != '0');
-        }).hide();
+        tags_content_global.find('.checkbox-tag[book-assignment-count!="' + 0 + '"]').hide();
         $('#filter-button-active').show();
         break;
       

@@ -27,7 +27,7 @@ class TagStatistics {
     for (var i = 0; i < checkbox_tags.length; i++) {
       var current_checkbox_tag = $(checkbox_tags[i]);
       var current_checkbox_title = current_checkbox_tag.find('.cb-label').text();
-      var current_book_assignment_count = parseInt(current_checkbox_tag.find('.book-assignment-count').text());
+      var current_book_assignment_count = parseInt(current_checkbox_tag.attr('book-assignment-count'));
       book_tag_statistics[current_checkbox_title] = current_book_assignment_count;
     }
 
