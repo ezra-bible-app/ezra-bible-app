@@ -193,7 +193,7 @@ class TagsController {
     tags_controller.tag_to_be_deleted_title = label;
     tags_controller.tag_to_be_deleted = tag_id;
     
-    var number_of_tagged_verses = checkbox_tag.find('.global-assignment-count').text(); 
+    var number_of_tagged_verses = checkbox_tag.attr('global-assignment-count');
 
     $('#delete-tag-name').html(label);
     $('#delete-tag-number-of-verses').html(number_of_tagged_verses); // FIXME
