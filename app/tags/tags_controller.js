@@ -772,7 +772,7 @@ class TagsController {
   update_tag_timestamps_from_list(all_timestamps) {
     if (all_timestamps.length > 0) {
       all_timestamps.sort();
-      var recent_timestamps_range = 10;
+      var recent_timestamps_range = 15;
       var last_element_index = all_timestamps.length - 1;
       var oldest_recent_element_index = last_element_index - (recent_timestamps_range - 1);
       if (oldest_recent_element_index < 0) {
