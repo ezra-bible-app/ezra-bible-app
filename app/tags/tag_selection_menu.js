@@ -183,9 +183,8 @@ class TagSelectionMenu {
 
   getHtmlForTag(tag_id, tag_title, tag_assignment_count, tag_last_used) {
     return "<div id='tag-browser-tag-" + tag_id + 
-           "' class='tag-browser-tag'>" + 
+           "' class='tag-browser-tag' last-used-timestamp='" + tag_last_used + "'>" + 
            "<div class='tag-browser-tag-id'>" + tag_id + "</div>" +
-           "<div class='last-used-timestamp'>" + tag_last_used + "</div>" +
            "<input class='tag-browser-tag-cb' type='checkbox'></input>" +
            "<div class='tag-browser-tag-title clickable-checkbox-label'>" +
            "<span class='tag-browser-tag-title-content'>" + tag_title + "</span>" +
@@ -334,7 +333,7 @@ class TagSelectionMenu {
 
   updateLastUsedTimestamp(tagId, timestamp) {
     var tagElement = $('#tag-browser-tag-' + tagId);
-    tagElement.find('.last-used-timestamp').text(timestamp);
+    tagElement.attr('last-used-timestamp', timestamp);
   }
 }
 
