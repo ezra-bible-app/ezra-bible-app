@@ -24,6 +24,10 @@ class TagStore {
     this.oldest_recent_timestamp = null;
   }
 
+  resetBookTagStatistics() {
+    this.bookTagStatistics = {};
+  }
+
   updateTagTimestamp(id, timestamp) {
     for (var i = 0; i < this.tagList.length; i++) {
       if (this.tagList[i].id == id) {

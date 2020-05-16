@@ -33,9 +33,10 @@ class TagsCommunicationController
     model.create({
       title: new_tag_title,
       bibleBookId: bibleBookId
-    }).then(tag => {
+    }).then((tag) => {
+      tags_controller.tag_store.resetBookTagStatistics();
+      tags_controller.update_tag_list(bible_browser_controller.tab_controller.getTab().getBook(), true);
       bible_browser_controller.tag_selection_menu.requestTagsForMenu(true);
-      tags_controller.update_tag_list(0, true);
     }).catch(error => {
       alert('An error occurred while trying to save the new tag: ' + error);
     });
