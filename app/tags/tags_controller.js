@@ -197,10 +197,13 @@ class TagsController {
     $('#delete-tag-confirmation-dialog').dialog('open');
   }
 
-  async delete_tag_after_confirmation() {
-    await tags_controller.communication_controller.destroy_tag(tags_controller.tag_to_be_deleted);
-    await tags_controller.updateTagUiBasedOnTagAvailability();
+  delete_tag_after_confirmation() {
     $('#delete-tag-confirmation-dialog').dialog('close');
+    
+    setTimeout(async () => {
+      await tags_controller.communication_controller.destroy_tag(tags_controller.tag_to_be_deleted);
+      await tags_controller.updateTagUiBasedOnTagAvailability();
+    }, 50);
   }
 
   remove_tag_by_id(tag_id, tag_is_global, tag_title) {
