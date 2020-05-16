@@ -16,6 +16,12 @@
    along with Ezra Project. See the file COPYING.
    If not, see <http://www.gnu.org/licenses/>. */
 
+/* NOTE
+   This model is only needed by database migrations (folder migrations).
+   The actual application code does not depend on this model any longer
+   since Ezra Project 0.12.0 was released (2020-03-17).
+*/
+
 var bookMap = {
   "Gen"    : 1,
   "Exod"   : 2,
