@@ -51,7 +51,7 @@ class TagSelectionMenu {
     var tagListContainer = this.getTagListContainer();
 
     tagListContainer.find('.tag-browser-tag').filter(function() {
-      return tags_controller.filter_recently_used_tags(this);
+      return tags_controller.tag_store.filterRecentlyUsedTags(this);
     }).hide();
   }
 

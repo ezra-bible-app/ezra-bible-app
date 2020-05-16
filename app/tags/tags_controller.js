@@ -50,9 +50,6 @@ class TagsController {
   
     this.selected_verse_references = [];
     this.selected_verse_boxes = [];
-  
-    this.oldest_recent_timestamp = null;
-    this.latest_timestamp = null;
 
     var new_standard_tag_dlg_options = {
       title: i18n.t("tags.new-tag"),
@@ -304,7 +301,7 @@ class TagsController {
       checkbox_tag.attr('last-used-timestamp', current_timestamp);
 
       this.tag_store.updateTagTimestamp(id, current_timestamp);
-      await tags_controller.update_tag_timestamps();
+      await this.tag_store.updateLatestAndOldestRecentTimestamp();
 
       bible_browser_controller.tag_selection_menu.updateLastUsedTimestamp(id, current_timestamp);
       bible_browser_controller.tag_selection_menu.applyCurrentFilters();
@@ -674,27 +671,20 @@ class TagsController {
     return $('#tags-search-input')[0].empty();
   }
 
-  refresh_timestamps_and_book_tag_statistics(tag_list, tag_statistics, current_book) {
+  refresh_book_tag_statistics(tag_list, tag_statistics, current_book) {
     var book_tag_statistics = [];
-    var all_timestamps = [];
     
     for (var i = 0; i < tag_list.length; i++) {
       var currentTag = tag_list[i];
       var currentTagStatistics = tag_statistics[currentTag.id];
 
       var is_used_in_current_book = (currentTagStatistics.bookAssignmentCount > 0) ? true : false;
-      var last_used_timestamp = parseInt(currentTag.lastUsed);
-
-      if (!Number.isNaN(last_used_timestamp) && !all_timestamps.includes(last_used_timestamp)) {
-        all_timestamps.push(last_used_timestamp);
-      }
 
       if (current_book != null && is_used_in_current_book) {
         book_tag_statistics[currentTag.title] = parseInt(currentTagStatistics.bookAssignmentCount);
       }
     }
 
-    tags_controller.update_tag_timestamps_from_list(all_timestamps);
     if (current_book != null) {
       bible_browser_controller.tag_statistics.update_book_tag_statistics_box(book_tag_statistics);
     }
@@ -731,7 +721,7 @@ class TagsController {
 
     global_tags_box_el.innerHTML = all_tags_html;
 
-    tags_controller.refresh_timestamps_and_book_tag_statistics(tag_list, tag_statistics, current_book);
+    tags_controller.refresh_book_tag_statistics(tag_list, tag_statistics, current_book);
     uiHelper.configureButtonStyles('#tags-content');
     tags_controller.update_tag_count_after_rendering();
 
@@ -755,37 +745,6 @@ class TagsController {
 
     tags_controller.hideTagListLoadingIndicator();
     //console.timeEnd("render_tags");
-  }
-
-  async update_tag_timestamps() {
-    var all_timestamps = [];
-    var tagList = await this.tag_store.getTagList();
-
-    for (var i = 0; i < tagList.length; i++) {
-      var tag = tagList[i];
-      var current_timestamp = parseInt(tag.lastUsed);
-
-      if (!all_timestamps.includes(current_timestamp) && !Number.isNaN(current_timestamp)) {
-        all_timestamps.push(current_timestamp);
-      }
-    }
-
-    tags_controller.update_tag_timestamps_from_list(all_timestamps);
-  }
-
-  update_tag_timestamps_from_list(all_timestamps) {
-    if (all_timestamps.length > 0) {
-      all_timestamps.sort();
-      var recent_timestamps_range = 15;
-      var last_element_index = all_timestamps.length - 1;
-      var oldest_recent_element_index = last_element_index - (recent_timestamps_range - 1);
-      if (oldest_recent_element_index < 0) {
-        oldest_recent_element_index = 0;
-      }
-
-      tags_controller.latest_timestamp = all_timestamps[last_element_index];
-      tags_controller.oldest_recent_timestamp = all_timestamps[oldest_recent_element_index];
-    }
   }
 
   handle_rename_tag_click__by_opening_rename_dialog(event) {
@@ -1158,22 +1117,6 @@ class TagsController {
     }
   }
 
-  filter_recently_used_tags(element) {
-    var tag_timestamp = parseInt($(element).attr('last-used-timestamp'));
-
-    if (!Number.isNaN(tag_timestamp) &&
-        !Number.isNaN(tags_controller.latest_timestamp) &&
-        !Number.isNaN(tags_controller.oldest_recent_timestamp)) {
-      
-      var timestampInRange = (tag_timestamp >= tags_controller.oldest_recent_timestamp &&
-                              tag_timestamp <= tags_controller.latest_timestamp);
-
-      return !timestampInRange;
-    } else {
-      return true;
-    }
-  }
-
   handle_tag_filter_type_click(e) {
     var selected_type = $(this)[0].value;
     var tags_content_global = $('#tags-content-global');
@@ -1193,7 +1136,7 @@ class TagsController {
       
       case "recently-used":
         tags_content_global.find('.checkbox-tag').filter(function() {
-          return tags_controller.filter_recently_used_tags(this);
+          return tags_controller.tag_store.filterRecentlyUsedTags(this);
         }).hide();
         $('#filter-button-active').show();
         break;

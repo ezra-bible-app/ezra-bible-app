@@ -20,6 +20,8 @@ class TagStore {
   constructor() {
     this.tagList = null;
     this.bookTagStatistics = {};
+    this.latest_timestamp = null;
+    this.oldest_recent_timestamp = null;
   }
 
   updateTagTimestamp(id, timestamp) {
@@ -34,6 +36,7 @@ class TagStore {
   async getTagList(forceRefresh=false) {
     if (this.tagList == null || forceRefresh) {
       this.tagList = await models.Tag.getAllTags();
+      await this.updateLatestAndOldestRecentTimestamp();
     }
 
     return this.tagList;
@@ -64,6 +67,49 @@ class TagStore {
     }
 
     return this.bookTagStatistics[bibleBookId];
+  }
+
+  async updateLatestAndOldestRecentTimestamp() {
+    var all_timestamps = [];
+    var tagList = await this.getTagList();
+
+    for (var i = 0; i < tagList.length; i++) {
+      var tag = tagList[i];
+      var current_timestamp = parseInt(tag.lastUsed);
+
+      if (!all_timestamps.includes(current_timestamp) && !Number.isNaN(current_timestamp)) {
+        all_timestamps.push(current_timestamp);
+      }
+    }
+
+    if (all_timestamps.length > 0) {
+      all_timestamps.sort();
+      var recent_timestamps_range = 15;
+      var last_element_index = all_timestamps.length - 1;
+      var oldest_recent_element_index = last_element_index - (recent_timestamps_range - 1);
+      if (oldest_recent_element_index < 0) {
+        oldest_recent_element_index = 0;
+      }
+
+      this.latest_timestamp = all_timestamps[last_element_index];
+      this.oldest_recent_timestamp = all_timestamps[oldest_recent_element_index];
+    }
+  }
+
+  filterRecentlyUsedTags(element) {
+    var tag_timestamp = parseInt($(element).attr('last-used-timestamp'));
+
+    if (!Number.isNaN(tag_timestamp) &&
+        !Number.isNaN(this.latest_timestamp) &&
+        !Number.isNaN(this.oldest_recent_timestamp)) {
+      
+      var timestampInRange = (tag_timestamp >= this.oldest_recent_timestamp &&
+                              tag_timestamp <= this.latest_timestamp);
+
+      return !timestampInRange;
+    } else {
+      return true;
+    }
   }
 }
 
