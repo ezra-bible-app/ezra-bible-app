@@ -22,6 +22,15 @@ class TagStore {
     this.bookTagStatistics = {};
   }
 
+  updateTagTimestamp(id, timestamp) {
+    for (var i = 0; i < this.tagList.length; i++) {
+      if (this.tagList[i].id == id) {
+        this.tagList[i].lastUsed = timestamp;
+        break;
+      }
+    }
+  }
+
   async getTagList(forceRefresh=false) {
     if (this.tagList == null || forceRefresh) {
       this.tagList = await models.Tag.getAllTags();

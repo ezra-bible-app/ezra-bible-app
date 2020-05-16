@@ -226,7 +226,7 @@ class TagsController {
                                                "remove");
   }
 
-  handle_tag_label_click(event) {
+  async handle_tag_label_click(event) {
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
     var checkbox = checkbox_tag.find('.tag-cb');
 
@@ -234,7 +234,7 @@ class TagsController {
 
     if (!tags_controller.is_blocked && current_verse_list.length > 0) {
       checkbox.prop('checked', !checkbox.prop('checked'));
-      tags_controller.handle_checkbox_tag_state_change(checkbox_tag);
+      await tags_controller.handle_checkbox_tag_state_change(checkbox_tag);
     }
   }
 
@@ -264,12 +264,12 @@ class TagsController {
     }
   }
 
-  handle_tag_cb_click(event) {
+  async handle_tag_cb_click(event) {
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
-    tags_controller.handle_checkbox_tag_state_change(checkbox_tag);
+    await tags_controller.handle_checkbox_tag_state_change(checkbox_tag);
   }
 
-  handle_checkbox_tag_state_change(checkbox_tag) {
+  async handle_checkbox_tag_state_change(checkbox_tag) {
     var current_verse_list = bible_browser_controller.verse_selection.selected_verse_references;
 
     if (tags_controller.is_blocked || current_verse_list.length == 0) {
@@ -302,7 +302,9 @@ class TagsController {
       // Update last used timestamp
       var current_timestamp = new Date(Date.now()).getTime();
       checkbox_tag.attr('last-used-timestamp', current_timestamp);
-      tags_controller.update_tag_timestamps();
+
+      this.tag_store.updateTagTimestamp(id, current_timestamp);
+      await tags_controller.update_tag_timestamps();
 
       bible_browser_controller.tag_selection_menu.updateLastUsedTimestamp(id, current_timestamp);
       bible_browser_controller.tag_selection_menu.applyCurrentFilters();
@@ -672,13 +674,15 @@ class TagsController {
     return $('#tags-search-input')[0].empty();
   }
 
-  refresh_timestamps_and_book_tag_statistics(tag_list, current_book) {
+  refresh_timestamps_and_book_tag_statistics(tag_list, tag_statistics, current_book) {
     var book_tag_statistics = [];
     var all_timestamps = [];
     
-    for (var tagId in tag_list) {
-      var currentTag = tag_list[tagId];
-      var is_used_in_current_book = (currentTag.bookAssignmentCount > 0) ? true : false;
+    for (var i = 0; i < tag_list.length; i++) {
+      var currentTag = tag_list[i];
+      var currentTagStatistics = tag_statistics[currentTag.id];
+
+      var is_used_in_current_book = (currentTagStatistics.bookAssignmentCount > 0) ? true : false;
       var last_used_timestamp = parseInt(currentTag.lastUsed);
 
       if (!Number.isNaN(last_used_timestamp) && !all_timestamps.includes(last_used_timestamp)) {
@@ -686,7 +690,7 @@ class TagsController {
       }
 
       if (current_book != null && is_used_in_current_book) {
-        book_tag_statistics[currentTag.title] = parseInt(currentTag.bookAssignmentCount);
+        book_tag_statistics[currentTag.title] = parseInt(currentTagStatistics.bookAssignmentCount);
       }
     }
 
@@ -727,7 +731,7 @@ class TagsController {
 
     global_tags_box_el.innerHTML = all_tags_html;
 
-    tags_controller.refresh_timestamps_and_book_tag_statistics(tag_statistics, current_book);
+    tags_controller.refresh_timestamps_and_book_tag_statistics(tag_list, tag_statistics, current_book);
     uiHelper.configureButtonStyles('#tags-content');
     tags_controller.update_tag_count_after_rendering();
 
@@ -753,13 +757,13 @@ class TagsController {
     //console.timeEnd("render_tags");
   }
 
-  update_tag_timestamps() {
-    var tags_content_global = $('#tags-content-global');
-    var all_timestamp_elements = tags_content_global.find('.checkbox-tag');
+  async update_tag_timestamps() {
     var all_timestamps = [];
+    var tagList = await this.tag_store.getTagList();
 
-    for (var i = 0; i < all_timestamp_elements.length; i++) {
-      var current_timestamp = parseInt($(all_timestamp_elements[i]).attr('last-used-timestamp'));
+    for (var i = 0; i < tagList.length; i++) {
+      var tag = tagList[i];
+      var current_timestamp = parseInt(tag.lastUsed);
 
       if (!all_timestamps.includes(current_timestamp) && !Number.isNaN(current_timestamp)) {
         all_timestamps.push(current_timestamp);
@@ -830,7 +834,7 @@ class TagsController {
       } else if (event.target.matches('.tag-cb')) {
         await tags_controller.handle_tag_cb_click(event);
       } else if (event.target.matches('.cb-label')) {
-        tags_controller.handle_tag_label_click(event);
+        await tags_controller.handle_tag_label_click(event);
       } else {
         return;
       }
