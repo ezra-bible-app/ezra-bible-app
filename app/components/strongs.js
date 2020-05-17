@@ -89,11 +89,13 @@ class Strongs {
       }
 
       var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
-      currentVerseList.find('w').bind('mousemove', (e) => {
-        this.handleStrongsMouseMove(e);
-      });
+
       currentVerseList.find('.verse-text').bind('mousemove', (e) => {
         this.handleVerseMouseMove(e);
+      });
+
+      currentVerseList.find('w').bind('mousemove', (e) => {
+        this.handleStrongsMouseMove(e);
       });
     }
   }
