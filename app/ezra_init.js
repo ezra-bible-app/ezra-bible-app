@@ -63,6 +63,11 @@ function waitUntilIdle() {
   });
 }
 
+// based on https://stackoverflow.com/questions/3115150/how-to-escape-regular-expression-special-characters-using-javascript
+function escapeRegExp(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+}
+
 $.create_xml_doc = function(string)
 {
   var doc = (new DOMParser()).parseFromString(string, 'text/xml');
