@@ -82,19 +82,19 @@ class TagStore {
   async updateTagCount(tagId, bookShortName, count=1, increment=true) {
     var targetBookId = await this.getBibleBookDbId(bookShortName);
 
-    for (const [bookId, dict] of Object.entries(this.bookTagStatistics)) {
-      if (tagId in dict) {
+    for (const [bookId, tagStats] of Object.entries(this.bookTagStatistics)) {
+      if (tagId in tagStats) {
         if (increment) {
-          dict[tagId].globalAssignmentCount += count;
+          tagStats[tagId].globalAssignmentCount += count;
         } else {
-          dict[tagId].globalAssignmentCount -= count;
+          tagStats[tagId].globalAssignmentCount -= count;
         }
 
         if (bookId == targetBookId) {
           if (increment) {
-            dict[tagId].bookAssignmentCount += count;
+            tagStats[tagId].bookAssignmentCount += count;
           } else {
-            dict[tagId].bookAssignmentCount -= count;
+            tagStats[tagId].bookAssignmentCount -= count;
           }
         }
       }
