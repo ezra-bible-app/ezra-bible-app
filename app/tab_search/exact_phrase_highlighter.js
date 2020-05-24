@@ -194,7 +194,6 @@ class ExactPhraseHighlighter {
 
   getHighlightedNodeValue(currentNodeValue, currentMatchList, caseSensitive, regexOptions) {
     var highlightedNodeValue = currentNodeValue;
-    var matchCounter = 0;
     var extraOffset = 0;
 
     for (var j = 0; j < currentMatchList.matches.length; j++) {
@@ -204,9 +203,7 @@ class ExactPhraseHighlighter {
       highlightedNodeValue = highlightedNodeValue.replace(regexSearchString, (match, offset, string) => {
         var expectedOffset = currentMatch.index + extraOffset;
 
-        if (offset >= expectedOffset && offset <= expectedOffset + 1) {
-          matchCounter += 1;
-          
+        if (offset >= expectedOffset && offset <= expectedOffset + 1) {          
           var isFirstTerm = false;
           if (caseSensitive) {
             isFirstTerm = (match == this.firstTerm);
