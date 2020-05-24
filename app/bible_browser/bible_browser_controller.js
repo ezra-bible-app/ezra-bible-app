@@ -94,7 +94,7 @@ class BibleBrowserController {
 
   onSearchResultsAvailable = async function(occurances) {
     // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
-    this.strongs.bindAfterBibleTextLoaded();
+    this.strongs.bindAfterBibleTextLoaded(undefined, true); // Use cached elements
 
     var currentVerseListFrame = this.getCurrentVerseListFrame();
     var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
@@ -439,6 +439,7 @@ class BibleBrowserController {
     
     bible_browser_controller.hideAllMenus();
     bible_browser_controller.notes_controller.restoreCurrentlyEditedNotes();
+    bible_browser_controller.tab_search.blurInputField();
   }
 
   hideAllMenus() {

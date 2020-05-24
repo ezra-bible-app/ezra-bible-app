@@ -40,14 +40,6 @@ let tags_controller = null;
 let reference_separator = ':';
 let bible_chapter_verse_counts = {};
 
-String.prototype.trim = function() {
-  var s = this;
-  s = s.replace(/(^\s*)|(\s*$)/gi,"");
-  s = s.replace(/[ ]{2,}/gi," ");
-  s = s.replace(/\n /,"\n");
-  return s;
-}
-
 function htmlToElement(html) {
   var template = document.createElement('template');
   html = html.trim(); // Never return a text node of whitespace as the result

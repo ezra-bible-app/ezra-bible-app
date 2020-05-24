@@ -71,6 +71,10 @@ class TabSearch {
     });
   }
 
+  blurInputField() {
+    this.inputField.blur();
+  }
+
   initSearchOptionControls() {
     this.caseSensitiveCheckbox.bind('change', () => {
       this.triggerDelayedSearch();
@@ -112,6 +116,11 @@ class TabSearch {
       this.jumpToNextOccurance();
       return false;
     });
+
+    Mousetrap.bind('shift+enter', () => {
+      this.jumpToNextOccurance(false);
+      return false;
+    });
   }
 
   setVerseList(verseList) {
@@ -141,7 +150,7 @@ class TabSearch {
       this.onSearchReset();
       this.doSearch(searchString);
       this.inputField.focus();
-    }, 800);
+    }, 400);
   }
 
   resetOccurances() {
@@ -149,6 +158,7 @@ class TabSearch {
       this.removeAllHighlighting();
     }
     
+    this.allOccurances = [];
     this.currentOccurancesCount = 0;
     this.updateOccurancesLabel();
     this.onSearchReset();
@@ -165,7 +175,7 @@ class TabSearch {
       return;
     }
 
-    this.previousOccuranceElement = $(this.allOccurances[this.currentOccuranceIndex]);
+    this.previousOccuranceElement = this.allOccurances[this.currentOccuranceIndex];
 
     var increment = 1;
     if (!forward) {
@@ -197,24 +207,24 @@ class TabSearch {
 
   jumpToCurrentOccurance() {
     // Jump to occurance in window
-    this.currentOccuranceElement = $(this.allOccurances[this.currentOccuranceIndex]);
+    this.currentOccuranceElement = this.allOccurances[this.currentOccuranceIndex];
     var currentOccuranceVerseBox = this.currentOccuranceElement.closest('.verse-box');
-    var currentOccuranceAnchor = '#' + $(currentOccuranceVerseBox.find('a')[0]).attr('name');
+    var currentOccuranceAnchor = '#' + currentOccuranceVerseBox.querySelector('a').getAttribute('name');
     window.location = currentOccuranceAnchor;
   }
 
   highlightCurrentOccurance() {
     // Update highlighting
     if (this.previousOccuranceElement != null) {
-      this.previousOccuranceElement.removeClass('current-hl');
-      this.previousOccuranceElement.closest('.verse-box').find('.verse-text').removeClass('ui-selected');
+      this.previousOccuranceElement.classList.remove('current-hl');
+      this.previousOccuranceElement.closest('.verse-box')?.querySelector('.verse-text').classList.remove('ui-selected');
       bible_browser_controller.verse_selection.clear_verse_selection(false);
     }
 
     if (this.currentOccuranceElement != null) {
-      this.currentOccuranceElement.addClass('current-hl');
-      this.currentOccuranceElement.closest('.verse-box').find('.verse-text').addClass('ui-selected');
-      bible_browser_controller.verse_selection.addVerseToSelected(this.currentOccuranceElement.closest('.verse-box'));
+      this.currentOccuranceElement.classList.add('current-hl');
+      this.currentOccuranceElement.closest('.verse-box')?.querySelector('.verse-text').classList.add('ui-selected');
+      bible_browser_controller.verse_selection.addVerseToSelected($(this.currentOccuranceElement.closest('.verse-box')));
       bible_browser_controller.verse_selection.updateViewsAfterVerseSelection();
     }
 
@@ -230,7 +240,7 @@ class TabSearch {
       var occurancesString = currentOccuranceNumber + '/' + this.currentOccurancesCount;
     }
 
-    this.searchOccurancesElement.html(occurancesString);
+    this.searchOccurancesElement[0].innerHTML = occurancesString;
   }
 
   doSearch(searchString) {
@@ -240,7 +250,7 @@ class TabSearch {
 
     var searchType = this.getSearchType();
     var caseSensitive = this.isCaseSensitive();
-    
+
     var allVerses = this.verseList[0].querySelectorAll('.verse-text');
 
     this.currentOccuranceIndex = 0;
@@ -249,14 +259,14 @@ class TabSearch {
 
     //console.log("Found " + allVerses.length + " verses to search in.");
 
-    for (var i = 0; i < allVerses.length; i++) {
-      var currentVerse = allVerses[i];
-      this.removeHighlightingFromVerse(currentVerse);
-      this.currentOccurancesCount += this.verseSearch.doVerseSearch(currentVerse, searchString, searchType, caseSensitive);
-    }
+    this.removeHighlightingFromVerses(allVerses);
 
-    this.allOccurances = this.verseList[0].querySelectorAll('.search-hl');
-    this.currentOccuranceElement = $(this.allOccurances[this.currentOccuranceIndex]);
+    allVerses.forEach((currentVerse) => {
+      this.currentOccurancesCount += this.verseSearch.doVerseSearch(currentVerse, searchString, searchType, caseSensitive);
+    });
+
+    this.allOccurances = this.verseList[0].querySelectorAll('.search-hl.first');
+    this.currentOccuranceElement = this.allOccurances[this.currentOccuranceIndex];
 
     if (this.allOccurances.length > 0) {
       this.jumpToCurrentOccurance();
@@ -271,50 +281,47 @@ class TabSearch {
   removeAllHighlighting() {
     if (this.verseList != null) {
       for (var i = 0; i < this.allOccurances.length; i++) {
-        var currentOccuranceVerseBox = $(this.allOccurances[i]).closest('.verse-text')[0];
-        this.removeHighlightingFromVerse(currentOccuranceVerseBox);
+        var currentOccuranceVerseBox = this.allOccurances[i].closest('.verse-text');
+        this.removeHighlightingFromVerses([currentOccuranceVerseBox]);
       }
     }
   }
 
-  removeHighlightingFromVerse(verseElement) {
-    if (verseElement == null) {
+  removeHighlightingFromVerses(verseElements) {
+    if (verseElements == null) {
       return;
     }
     
-    var searchHl = $(verseElement).find('.search-hl, .current-hl');
+    var searchHl = $(verseElements).find('.search-hl, .current-hl');
     for (var i = 0; i < searchHl.length; i++) {
       var highlightedText = $(searchHl[i]);
       var text = highlightedText.text();
       highlightedText.replaceWith(text);
     }
 
-    var verseElementHtml = verseElement.innerHTML;
+    verseElements.forEach((element) => {
+      if (element != null) {
+        var verseElementHtml = element.innerHTML;
 
-    /* Remove line breaks between strings, that resulted from inserting the 
-       search-hl / current-hl elements before. If these linebreaks are not removed
-       the search function would afterwards not work anymore.
-
-    State with highlighting:
-    <span class="search-hl">Christ</span>us
-
-    State after highlighting element was removed (see code above)
-    "Christ"
-    "us"
-
-    State after line break was removed: (intention of code below)
-    "Christus"
-
-     */
-    verseElementHtml = verseElementHtml.replace("\"\n\"", "");
-    verseElement.innerHTML = verseElementHtml;
-
-    var strongsElements = verseElement.querySelectorAll('w');
-    for (var i = 0; i < strongsElements.length; i++) {
-      var strongsHtml = strongsElements[i].innerHTML;
-      strongsHtml = strongsHtml.replace(/ /g, '&nbsp;');
-      strongsElements[i].innerHTML = strongsHtml;
-    }
+        /* Remove line breaks between strings, that resulted from inserting the 
+          search-hl / current-hl elements before. If these linebreaks are not removed
+          the search function would afterwards not work anymore.
+    
+        State with highlighting:
+        <span class="search-hl">Christ</span>us
+    
+        State after highlighting element was removed (see code above)
+        "Christ"
+        "us"
+    
+        State after line break was removed: (intention of code below)
+        "Christus"
+    
+        */
+        verseElementHtml = verseElementHtml.replace("\"\n\"", "");
+        element.innerHTML = verseElementHtml;
+      }
+    });
   }
 }
 

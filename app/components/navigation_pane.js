@@ -18,6 +18,7 @@
 
 class NavigationPane {
   constructor() {
+    this.currentNavigationPane = null;
   }
 
   getCurrentNavigationPane(tabIndex) {
@@ -27,8 +28,6 @@ class NavigationPane {
   };
 
   initNavigationPaneForCurrentView(tabIndex=undefined) {
-    var navigationPane = this.getCurrentNavigationPane(tabIndex);
-
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
     var currentBook = currentTab.getBook();
     var currentTagTitleList = currentTab.getTagTitleList();
@@ -36,40 +35,64 @@ class NavigationPane {
 
     if (currentTextType == 'book' && currentBook != null) { // Book text mode
 
-      navigationPane.removeClass('navigation-pane-books');
-      navigationPane.addClass('navigation-pane-chapters');
+      this.currentNavigationPane.removeClass('navigation-pane-books');
+      this.currentNavigationPane.addClass('navigation-pane-chapters');
 
     } else if (currentTextType == 'tagged_verses' && currentTagTitleList != null) { // Tagged verse list mode
 
-      navigationPane.removeClass('navigation-pane-chapters');
-      navigationPane.addClass('navigation-pane-books');
+      this.currentNavigationPane.removeClass('navigation-pane-chapters');
+      this.currentNavigationPane.addClass('navigation-pane-books');
 
     } else if (currentTextType == 'search_results') {
 
-      navigationPane.removeClass('navigation-pane-chapters');
-      navigationPane.addClass('navigation-pane-books');
+      this.currentNavigationPane.removeClass('navigation-pane-chapters');
+      this.currentNavigationPane.addClass('navigation-pane-books');
     }
     
-    navigationPane.bind('mouseover', bible_browser_controller.verse_context_loader.hide_verse_expand_box);
+    this.currentNavigationPane.bind('mouseover', bible_browser_controller.verse_context_loader.hide_verse_expand_box);
   }
 
   highlightNavElement(navElementNumber) {
+    if (this.currentNavigationPane == null) {
+      this.currentNavigationPane = this.getCurrentNavigationPane();
+      this.allNavElementLinks = this.currentNavigationPane.find('.navigation-link');
+    }
+
     var navElementIndex = navElementNumber - 1;
-    var currentNavigationPane = this.getCurrentNavigationPane();
-    var allNavElementLinks = currentNavigationPane.find('.navigation-link');
     var lastHighlightedNavElementIndex = bible_browser_controller.tab_controller.getLastHighlightedNavElementIndex();
 
-    if ((allNavElementLinks.length - 1) >= navElementIndex &&
-        (allNavElementLinks.length - 1) >= lastHighlightedNavElementIndex) {
+    if ((this.allNavElementLinks.length - 1) >= navElementIndex &&
+        (this.allNavElementLinks.length - 1) >= lastHighlightedNavElementIndex) {
 
-      var lastHighlightedNavElementLink = $(allNavElementLinks[lastHighlightedNavElementIndex]);
-      var highlightedNavElementLink = $(allNavElementLinks[navElementIndex]);
+      var lastHighlightedNavElementLink = $(this.allNavElementLinks[lastHighlightedNavElementIndex]);
+      var highlightedNavElementLink = $(this.allNavElementLinks[navElementIndex]);
 
       lastHighlightedNavElementLink.removeClass('hl-nav-element');
       highlightedNavElementLink.addClass('hl-nav-element');
     }
 
     bible_browser_controller.tab_controller.setLastHighlightedNavElementIndex(navElementIndex);
+  }
+
+  highlightSearchResult(navElementNumber) {  
+    if (this.currentNavigationPane == null) {
+      this.currentNavigationPane = this.getCurrentNavigationPane();
+      this.allNavElementLinks = this.currentNavigationPane.find('.navigation-link');
+    }
+
+    var navElementIndex = navElementNumber - 1;
+    var highlightedLink = $(this.allNavElementLinks[navElementIndex]);
+    highlightedLink.addClass('hl-search-result');
+  }
+
+  clearHighlightedSearchResults() {
+    var currentNavigationPane = this.getCurrentNavigationPane();
+    var allHighlightedLinks = currentNavigationPane.find('.hl-search-result');
+
+    for (var i=0; i < allHighlightedLinks.length; i++) {
+      var currentLink = $(allHighlightedLinks[i]);
+      currentLink.removeClass('hl-search-result');
+    }
   }
 
   updateChapterNavigation(tabIndex) {
@@ -116,9 +139,9 @@ class NavigationPane {
   }
 
   resetNavigationPane(tabIndex) {
-    var navigationPane = this.getCurrentNavigationPane(tabIndex);
-    navigationPane.children().remove();
-    navigationPane.show();
+    this.currentNavigationPane = this.getCurrentNavigationPane(tabIndex);
+    this.currentNavigationPane.children().remove();
+    this.currentNavigationPane.show();
   }
 
   updateNavigation(tabIndex=undefined) {
@@ -149,6 +172,8 @@ class NavigationPane {
 
       this.updateBookNavigation(tabIndex);
     }
+
+    this.allNavElementLinks = this.currentNavigationPane.find('.navigation-link');
   }
 
   goToChapter(chapter) {
@@ -172,25 +197,6 @@ class NavigationPane {
     var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
     var reference = '#' + currentTabId + ' ' + book;
     window.location = reference;
-  }
-
-  highlightSearchResult(navElementNumber) {  
-    var navElementIndex = navElementNumber - 1;
-    var currentNavigationPane = this.getCurrentNavigationPane();
-    var allNavElementLinks = currentNavigationPane.find('.navigation-link');
-
-    var highlightedLink = $(allNavElementLinks[navElementIndex]);
-    highlightedLink.addClass('hl-search-result');
-  }
-
-  clearHighlightedSearchResults() {
-    var currentNavigationPane = this.getCurrentNavigationPane();
-    var allHighlightedLinks = currentNavigationPane.find('.hl-search-result');
-
-    for (var i=0; i < allHighlightedLinks.length; i++) {
-      var currentLink = $(allHighlightedLinks[i]);
-      currentLink.removeClass('hl-search-result');
-    }
   }
 }
 
