@@ -116,10 +116,7 @@ class VerseSearch {
   }
 
   getTextNodes(verseElement) {
-    var n;
-    var a=[];
-
-    var nodeFilter = {
+    var customNodeFilter = {
       acceptNode: function(node) {
         // Logic to determine whether to accept, reject or skip node
         var parentNode = node.parentNode;
@@ -130,13 +127,15 @@ class VerseSearch {
       }
     };
 
-    var walk = document.createTreeWalker(verseElement, NodeFilter.SHOW_TEXT, nodeFilter, false);
+    var nextNode;
+    var textNodes = [];
+    var walk = document.createTreeWalker(verseElement, NodeFilter.SHOW_TEXT, customNodeFilter, false);
 
-    while (n = walk.nextNode()) {
-      a.push(n);
+    while (nextNode = walk.nextNode()) {
+      textNodes.push(nextNode);
     }
 
-    return a;
+    return textNodes;
   }
 
   getSplittedSearchString(searchString) {
