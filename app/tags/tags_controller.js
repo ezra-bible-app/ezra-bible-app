@@ -418,7 +418,7 @@ class TagsController {
 
     tag_assignment_count_element.text(new_label);
 
-    // Update tag count in statistics
+    // Update tag count in tag store statistics
     tags_controller.tag_store.updateTagCount(id, currentBook, count, to_increment);
 
     // Update tag count in tag selection menu as well
