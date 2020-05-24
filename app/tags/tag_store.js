@@ -46,17 +46,23 @@ class TagStore {
     return this.tagList;
   }
 
-  async getBookTagStatistics(book, forceRefresh=false) {
-    if (book === undefined) {
-      var book = bible_browser_controller.tab_controller.getTab().getBook();
-    }
-
-    var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: book }});
+  async getBibleBookDbId(bookShortTitle) {
+    var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: bookShortTitle }});
     
     var bibleBookId = 0;
     if (bibleBook != null) {
       bibleBookId = bibleBook.id;
     }
+
+    return bibleBookId;
+  }
+
+  async getBookTagStatistics(book, forceRefresh=false) {
+    if (book === undefined) {
+      var book = bible_browser_controller.tab_controller.getTab().getBook();
+    }
+
+    var bibleBookId = await this.getBibleBookDbId(book);
 
     if (!(bibleBookId in this.bookTagStatistics) || forceRefresh) {
       var tagListWithStats = await models.Tag.getAllTags(bibleBookId, false, true);
@@ -71,6 +77,28 @@ class TagStore {
     }
 
     return this.bookTagStatistics[bibleBookId];
+  }
+
+  async updateTagCount(tagId, bookShortName, count=1, increment=true) {
+    var targetBookId = await this.getBibleBookDbId(bookShortName);
+
+    for (const [bookId, dict] of Object.entries(this.bookTagStatistics)) {
+      if (tagId in dict) {
+        if (increment) {
+          dict[tagId].globalAssignmentCount += count;
+        } else {
+          dict[tagId].globalAssignmentCount -= count;
+        }
+
+        if (bookId == targetBookId) {
+          if (increment) {
+            dict[tagId].bookAssignmentCount += count;
+          } else {
+            dict[tagId].bookAssignmentCount -= count;
+          }
+        }
+      }
+    }
   }
 
   async updateLatestAndOldestRecentTimestamp() {

@@ -418,6 +418,9 @@ class TagsController {
 
     tag_assignment_count_element.text(new_label);
 
+    // Update tag count in statistics
+    tags_controller.tag_store.updateTagCount(id, currentBook, count, to_increment);
+
     // Update tag count in tag selection menu as well
     bible_browser_controller.tag_selection_menu.updateVerseCountInTagMenu(tag_title, new_global_count);
   }
