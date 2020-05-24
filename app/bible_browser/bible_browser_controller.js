@@ -46,7 +46,7 @@ class BibleBrowserController {
     this.init_component("RemoveTranslationWizard", "remove_translation_wizard", "../translation_wizard/remove_translation_wizard.js");
     this.init_component("TextLoader", "text_loader", "./text_loader.js");
     this.init_component("VerseContextLoader", "verse_context_loader", "./verse_context_loader.js");
-    this.init_component("BookSearch", "tab_search", "../components/tab_search/tab_search.js");
+    this.init_component("BookSearch", "tab_search", "../tab_search/tab_search.js");
     this.init_component("TabController", "tab_controller", "./tab_controller.js");
     this.init_component("OptionsMenu", "optionsMenu", "../components/options_menu.js");
     this.init_component("NavigationPane", "navigation_pane", "../components/navigation_pane.js");
