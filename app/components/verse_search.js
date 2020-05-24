@@ -196,10 +196,8 @@ class VerseSearch {
     this.highlightNodes = [];
   }
 
-  highlightExactPhraseOccurrances(verseElement, searchString, caseSensitive=false, regexOptions) {
-    this.resetPhraseSearch(searchString);
+  getHighlightNodes(nodes, searchString, caseSensitive) {
     var allHighlightNodes = [];
-    var nodes = this.getTextNodes(verseElement);
 
     for (var i = 0; i < nodes.length; i++) {
       var currentNode = nodes[i];
@@ -308,6 +306,14 @@ class VerseSearch {
       }
     }
 
+    return allHighlightNodes;
+  }
+
+  highlightExactPhraseOccurrances(verseElement, searchString, caseSensitive=false, regexOptions) {
+    this.resetPhraseSearch(searchString);
+    var nodes = this.getTextNodes(verseElement);
+    var allHighlightNodes = this.getHighlightNodes(nodes, searchString, caseSensitive);
+
     this.splittedPhrase = this.getSplittedSearchString(searchString);
     this.nextSearchTerm = this.splittedPhrase.shift();
     var totalMatchCounter = 0;
@@ -321,7 +327,7 @@ class VerseSearch {
       var matchCounter = 0;
       var extraOffset = 0;
 
-      for (var j= 0; j < currentMatchList.matches.length; j++) {
+      for (var j = 0; j < currentMatchList.matches.length; j++) {
         var currentMatch = currentMatchList.matches[j];
         var term = this.escapeRegExp(currentMatch.term);
         var regexSearchString = new RegExp(term, regexOptions);
