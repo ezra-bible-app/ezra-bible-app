@@ -52,9 +52,10 @@ class VerseStatisticsChart {
     var values = [];
 
     var bookMap = models.BibleBook.getBookMap();
-
+    
     for (var book in bookMap) {
-      labels.push(book);
+      var translatedBook = i18nHelper.getBookAbbreviation(book);
+      labels.push(translatedBook);
 
       var value = 0;
       if (book in bibleBookStats) {
@@ -80,6 +81,9 @@ class VerseStatisticsChart {
     };
 
     var chartElement = this.getVerseStatisticsChart(tabIndex);
+
+    var useNightMode = bible_browser_controller.optionsMenu.nightModeSwitchChecked();
+    var labelFontColor = useNightMode ? "white" : "black";
     
     new Chart(chartElement, {
       type: 'bar',
@@ -95,7 +99,8 @@ class VerseStatisticsChart {
           xAxes: [{
             ticks: {
               autoSkip: false,
-              fontSize: 10
+              fontSize: 10,
+              fontColor: labelFontColor,
             },
             // grid line settings
             gridLines: {
