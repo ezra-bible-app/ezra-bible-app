@@ -278,7 +278,6 @@ class ModuleSearch {
                                                                    tabIndex,
                                                                    requestedBookId,
                                                                    target);
-      this.highlightSearchResults(currentSearchTerm, tabIndex);
       
     } else {
       bible_browser_controller.hideVerseListLoadingIndicator();

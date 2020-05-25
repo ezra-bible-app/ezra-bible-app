@@ -413,6 +413,12 @@ class TextLoader {
 
     target.html(htmlVerseList);
 
+    if (listType == 'search_results') {
+      var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+      var currentSearchTerm = currentTab?.getSearchTerm();
+      bible_browser_controller.module_search.highlightSearchResults(currentSearchTerm, tabIndex);
+    }
+
     bible_browser_controller.initApplicationForVerseList(tabIndex);
   }
 }
