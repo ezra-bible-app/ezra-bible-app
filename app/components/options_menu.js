@@ -370,6 +370,8 @@ class OptionsMenu {
         !this.nightModeSwitchChecked(force) && this.darkMode.isActivated()) {
           
       this.darkMode.toggle();
+      // We need to repaint all charts, because the label color depends on the theme
+      bible_browser_controller.module_search.repaintAllCharts();
     }
 
     if (!force) {

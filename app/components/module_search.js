@@ -310,6 +310,28 @@ class ModuleSearch {
     }
   }
 
+  repaintChart(tabIndex=undefined) {
+    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+    var currentSearchResults = currentTab?.getSearchResults();
+
+    if (currentSearchResults != null) {
+      var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
+      this.verseStatisticsChart.resetChart(tabIndex);
+      this.verseStatisticsChart.updateChart(tabIndex, bibleBookStats);
+    }
+  }
+
+  repaintAllCharts() {
+    var tabCount = bible_browser_controller.tab_controller.getTabCount();
+
+    for (var i = 0; i < tabCount; i++) {
+      var currentTab = bible_browser_controller.tab_controller.getTab(i);
+      if (currentTab.getTextType() == 'search_results') {
+        this.repaintChart(i);
+      }
+    }
+  }
+
   getBibleBookStatsFromSearchResults(search_results) {
     var bibleBookStats = {};
 
