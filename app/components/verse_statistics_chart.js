@@ -111,6 +111,10 @@ class VerseStatisticsChart {
             gridLines: {
               color: this.chartColors.grey,
               zeroLineColor: this.chartColors.grey
+            },
+            ticks: {
+              fontColor: labelFontColor,
+              precision: 0
             }
           }]
         }
