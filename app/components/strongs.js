@@ -177,7 +177,7 @@ class Strongs {
     }
 
     if (this.strongsAvailable) {
-      var strongsId = this.getStrongsIdFromStrongsElement($(event.target));
+      var strongsId = this.getStrongsIdFromStrongsElement($(event.target).closest('w'));
       if (strongsId == this.currentStrongsId) {
         return;
       }
