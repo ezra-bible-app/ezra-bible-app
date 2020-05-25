@@ -18,17 +18,20 @@
 
 const ExactPhraseHighlighter = require('./exact_phrase_highlighter.js');
 const SingleWordHighlighter = require('./single_word_highlighter.js');
+const StrongsHighlighter = require('./strongs_highlighter.js');
 
 class VerseSearch {
   constructor() {
-    this.exactPhraseHighlighter = new ExactPhraseHighlighter();
-    this.singleWordHighlighter = new SingleWordHighlighter();
+    this.exactPhraseHighlighter = new ExactPhraseHighlighter(this.getHighlightedText);
+    this.singleWordHighlighter = new SingleWordHighlighter(this.getHighlightedText);
+    this.strongsHighlighter = new StrongsHighlighter(this.getHighlightedText);
   }
 
   doVerseSearch(verseElement, searchString, searchType, caseSensitive=false, extendedVerseBoundaries=false) {
     var searchTermList = null;
+    var isStrongs = (searchType == "strongsNumber");
 
-    if (searchType == "phrase") {
+    if (searchType == "phrase" || searchType == "strongsNumber") {
 
       searchTermList = [ searchString ];
 
@@ -47,7 +50,14 @@ class VerseSearch {
     for (var i = 0; i < searchTermList.length; i++) {
       var currentSearchTerm = searchTermList[i];
 
-      var occurances = this.getOccurancesInVerse(verseElement, currentSearchTerm, caseSensitive);
+      var occurances = [];
+
+      if (isStrongs) {
+        occurances = this.getStrongsOccurancesInVerse(verseElement, currentSearchTerm);
+      } else {
+        occurances = this.getOccurancesInVerse(verseElement, currentSearchTerm, caseSensitive);
+      }
+
       var currentOccurancesCount = occurances.length;
       occurancesCount += currentOccurancesCount;
 
@@ -68,11 +78,27 @@ class VerseSearch {
 
     if (allTermsFound || extendedVerseBoundaries) {
       searchTermList.forEach((currentSearchTerm) => {
-        this.highlightOccurancesInVerse(verseElement, currentSearchTerm, searchType, caseSensitive);
+        this.highlightOccurancesInVerse(verseElement, occurances, currentSearchTerm, searchType, caseSensitive);
       });
     }
 
     return occurancesCount;
+  }
+
+  getStrongsOccurancesInVerse(verseElement, searchString) {
+    var occurances = [];
+    var wElements = verseElement.querySelectorAll('w');
+
+    for (var i = 0; i < wElements.length; i++) {
+      var currentElement = wElements[i];
+      var currentStrongsId = bible_browser_controller.strongs.getStrongsIdFromStrongsElement($(currentElement));
+
+      if (currentStrongsId == searchString) {
+        occurances.push(currentElement);
+      }
+    }
+
+    return occurances;
   }
 
   getOccurancesInVerse(verseElement, searchString, caseSensitive=false) {
@@ -138,7 +164,7 @@ class VerseSearch {
     return textNodes;
   }
 
-  highlightOccurancesInVerse(verseElement, searchString, searchType, caseSensitive=false) {
+  highlightOccurancesInVerse(verseElement, occurances, searchString, searchType, caseSensitive=false) {
     var regexOptions = 'g';
     if (!caseSensitive) {
       regexOptions += 'i';
@@ -148,9 +174,19 @@ class VerseSearch {
     if (searchType == "phrase") {
       var nodes = this.getTextNodes(verseElement);
       this.exactPhraseHighlighter.highlightOccurrances(nodes, searchString, caseSensitive, regexOptions);
+    } else if (searchType == "strongsNumber") {
+      this.strongsHighlighter.highlightOccurrances(occurances);
     } else {
       this.singleWordHighlighter.highlightOccurrances(verseElement, searchString, regexOptions);
     }
+  }
+
+  getHighlightedText(text, first=true) {
+    var cssClass = 'search-hl';
+    if (first) cssClass += ' first';
+
+    var highlightedText = `<span class='${cssClass}'>${text}</span>`;
+    return highlightedText;
   }
 }
 

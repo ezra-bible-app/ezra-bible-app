@@ -278,9 +278,8 @@ class ModuleSearch {
                                                                    tabIndex,
                                                                    requestedBookId,
                                                                    target);
-      if (this.getSearchType() != "strongsNumber") {
-        this.highlightSearchResults(currentSearchTerm, tabIndex);
-      }
+      this.highlightSearchResults(currentSearchTerm, tabIndex);
+      
     } else {
       bible_browser_controller.hideVerseListLoadingIndicator();
       bible_browser_controller.hideSearchProgressBar();

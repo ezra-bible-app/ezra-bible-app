@@ -17,7 +17,8 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 class ExactPhraseHighlighter {
-  constructor() {
+  constructor(highlightFunction) {
+    this.highlightFunction = highlightFunction;
   }
 
   highlightOccurrances(nodes, searchString, caseSensitive=false, regexOptions) {
@@ -211,7 +212,7 @@ class ExactPhraseHighlighter {
             isFirstTerm = (match.toLowerCase() == this.firstTerm.toLowerCase());
           }
 
-          var hlText = this.getHighlightedText(match, isFirstTerm);
+          var hlText = this.highlightFunction(match, isFirstTerm);
           extraOffset += (hlText.length - match.length);
           return hlText;
         } else {
@@ -221,14 +222,6 @@ class ExactPhraseHighlighter {
     }
 
     return highlightedNodeValue;
-  }
-
-  getHighlightedText(text, first=true) {
-    var cssClass = 'search-hl';
-    if (first) cssClass += ' first';
-
-    var highlightedText = `<span class='${cssClass}'>${text}</span>`;
-    return highlightedText;
   }
 }
 

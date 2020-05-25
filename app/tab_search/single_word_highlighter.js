@@ -17,7 +17,8 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 class SingleWordHighlighter {
-  constructor() {
+  constructor(highlightFunction) {
+    this.highlightFunction = highlightFunction;
   }
 
   highlightOccurrances(verseElement, searchString, regexOptions) {
@@ -32,7 +33,7 @@ class SingleWordHighlighter {
     var regexSearchString = new RegExp(searchString, regexOptions);
     var highlightedVerseText = verseHtml.replace(regexSearchString, (match, offset, string) => {
       if (this.isOccuranceValid(match, offset, string)) {
-        return this.getHighlightedText(match);
+        return this.highlightFunction(match);
       } else {
         return match;
       }
@@ -94,14 +95,6 @@ class SingleWordHighlighter {
     }
     
     return matchIsValid;
-  }
-
-  getHighlightedText(text, first=true) {
-    var cssClass = 'search-hl';
-    if (first) cssClass += ' first';
-
-    var highlightedText = `<span class='${cssClass}'>${text}</span>`;
-    return highlightedText;
   }
 }
 
