@@ -94,7 +94,7 @@ class BibleBrowserController {
 
   onSearchResultsAvailable = async function(occurances) {
     // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
-    this.strongs.bindAfterBibleTextLoaded(undefined, true); // Use cached elements
+    this.strongs.bindAfterBibleTextLoaded();
 
     var currentVerseListFrame = this.getCurrentVerseListFrame();
     var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');

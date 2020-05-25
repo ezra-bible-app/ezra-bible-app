@@ -75,7 +75,7 @@ class Strongs {
     this.dictionaryInfoBoxHelp.show();
   }
 
-  bindAfterBibleTextLoaded(tabIndex=undefined, useCache=false) {
+  bindAfterBibleTextLoaded(tabIndex=undefined) {
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
     if (currentTab == null) {
       return;
@@ -89,18 +89,15 @@ class Strongs {
       }
 
       var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
-      this.currentWElements = currentVerseList.find('w');
-      
-      if (!useCache) {
-        this.currentVerseTextElements = currentVerseList.find('.verse-text');
-      }
+      var currentWElements = currentVerseList.find('w');
+      var currentVerseTextElements = currentVerseList.find('.verse-text');
 
-      this.currentVerseTextElements.bind('mousemove', (e) => {
+      currentVerseTextElements.bind('mousemove', (e) => {
         bible_browser_controller.tab_search.blurInputField();
         this.handleVerseMouseMove(e);
       });
 
-      this.currentWElements.bind('mousemove', (e) => {
+      currentWElements.bind('mousemove', (e) => {
         bible_browser_controller.tab_search.blurInputField();
         this.handleStrongsMouseMove(e);
       });
