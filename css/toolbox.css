@@ -218,6 +218,10 @@ a.outline-reference:focus, a.outline-reference:hover {
   color: #2779aa;
 }
 
+.darkmode--activated #dictionary-info-box-panel a:link {
+  color: #97d0ff;
+}
+
 #dictionary-info-box-panel a:hover {
   text-decoration: underline;
 }
