@@ -71,6 +71,11 @@ class I18nHelper {
     return nsi.getSwordTranslation(originalString, i18n.language);
   }
 
+  getBookAbbreviation(bookCode) {
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
+    return nsi.getBookAbbreviation(currentBibleTranslationId, bookCode, i18n.language);
+  }
+
   async getSpecificTranslation(lang, key) {
     var origLang = i18n.language;
 
