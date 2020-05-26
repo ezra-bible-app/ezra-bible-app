@@ -402,8 +402,6 @@ class TextLoader {
     } else if (listType == 'search_results') {
 
       //console.log("Rendering search results verse list on tab " + tabIndex);
-      bible_browser_controller.taggedVerseExport.enableTaggedVersesExportButton(tabIndex);
-
       target.removeClass('verse-list-book');
     }
 

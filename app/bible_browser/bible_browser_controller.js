@@ -532,10 +532,7 @@ class BibleBrowserController {
     }
 
     this.navigation_pane.resetNavigationPane();
-
-    if (this.taggedVerseExport != null) {
-      this.taggedVerseExport.disableTaggedVersesExportButton();
-    }
+    this.taggedVerseExport?.disableTaggedVersesExportButton();
   }
 
   initApplicationForVerseList(tabIndex=undefined) {
