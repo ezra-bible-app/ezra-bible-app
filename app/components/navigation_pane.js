@@ -32,24 +32,25 @@ class NavigationPane {
     var currentBook = currentTab.getBook();
     var currentTagTitleList = currentTab.getTagTitleList();
     var currentTextType = currentTab.getTextType();
+    var navigationPane = this.getCurrentNavigationPane(tabIndex);
 
     if (currentTextType == 'book' && currentBook != null) { // Book text mode
 
-      this.currentNavigationPane.removeClass('navigation-pane-books');
-      this.currentNavigationPane.addClass('navigation-pane-chapters');
+      navigationPane.removeClass('navigation-pane-books');
+      navigationPane.addClass('navigation-pane-chapters');
 
     } else if (currentTextType == 'tagged_verses' && currentTagTitleList != null) { // Tagged verse list mode
 
-      this.currentNavigationPane.removeClass('navigation-pane-chapters');
-      this.currentNavigationPane.addClass('navigation-pane-books');
+      navigationPane.removeClass('navigation-pane-chapters');
+      navigationPane.addClass('navigation-pane-books');
 
     } else if (currentTextType == 'search_results') {
 
-      this.currentNavigationPane.removeClass('navigation-pane-chapters');
-      this.currentNavigationPane.addClass('navigation-pane-books');
+      navigationPane.removeClass('navigation-pane-chapters');
+      navigationPane.addClass('navigation-pane-books');
     }
     
-    this.currentNavigationPane.bind('mouseover', bible_browser_controller.verse_context_loader.hide_verse_expand_box);
+    navigationPane.bind('mouseover', bible_browser_controller.verse_context_loader.hide_verse_expand_box);
   }
 
   highlightNavElement(navElementNumber) {
