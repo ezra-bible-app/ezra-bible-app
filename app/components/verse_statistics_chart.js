@@ -47,13 +47,11 @@ class VerseStatisticsChart {
     container.append(canvasElement);
   }
 
-  getLabelsAndValuesFromStats(bibleBookStats) {
+  getLabelsAndValuesFromStats(bookList, bibleBookStats) {
     var labels = [];
     var values = [];
-
-    var bookMap = models.BibleBook.getBookMap();
     
-    for (var book in bookMap) {
+    bookList.forEach((book) => {
       var translatedBook = i18nHelper.getBookAbbreviation(book);
       labels.push(translatedBook);
 
@@ -63,13 +61,16 @@ class VerseStatisticsChart {
       }
 
       values.push(value);
-    }
+    });
 
     return [labels, values];
   }
 
   updateChart(tabIndex=undefined, bibleBookStats) {
-    const [labels, values] = this.getLabelsAndValuesFromStats(bibleBookStats);
+    var currentTranslation = bible_browser_controller.tab_controller.getTab(tabIndex)?.getBibleTranslationId();
+    var bookList = nsi.getBookList(currentTranslation);
+
+    const [labels, values] = this.getLabelsAndValuesFromStats(bookList, bibleBookStats);
 
     var data = {
       labels: labels,
@@ -81,7 +82,6 @@ class VerseStatisticsChart {
     };
 
     var chartElement = this.getVerseStatisticsChart(tabIndex);
-
     var useNightMode = bible_browser_controller.optionsMenu.nightModeSwitchChecked();
     var labelFontColor = useNightMode ? "white" : "black";
     
