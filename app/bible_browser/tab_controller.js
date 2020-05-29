@@ -137,7 +137,7 @@ class TabController {
 
       var tabTitle = currentMetaTab.getTitle();
       this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), loadedTabCount);
-      this.onTabAdded(i);
+      this.onTabAdded(i - 1, i);
       loadedTabCount += 1;
     }
 
@@ -190,7 +190,7 @@ class TabController {
 
     // If no tabs are loaded from a previous session we need to explicitly invoke the onTabAdded callback on the first tab
     if (loadedTabCount == 0) {
-      this.onTabAdded(0);
+      this.onTabAdded(-1, 0);
     }
 
     // Give the UI some time to render
@@ -283,6 +283,8 @@ class TabController {
     this.tabs.find(".ui-tabs-nav").append(li);
     this.tabs.append("<div id='" + metaTab.elementId + "' class='" + this.tabsPanelClass + "'>" + this.tabHtmlTemplate + "</div>");
 
+    var selectedTabIndex = this.getSelectedTabIndex();
+
     this.reloadTabs();
     if (!initialLoading) {
       this.tabs.tabs('select', this.tabCounter);
@@ -294,17 +296,7 @@ class TabController {
     this.updateFirstTabCloseButton();
 
     if (!initialLoading) {
-      var onTabAddedCall = () => {
-        this.onTabAdded(this.tabCounter - 1);
-      };
-
-      if (interactive) {
-        setTimeout(() => {
-          onTabAddedCall();
-        }, 250);
-      } else {
-        onTabAddedCall();
-      }
+      this.onTabAdded(selectedTabIndex, this.tabCounter - 1);
     }
   }
 

@@ -88,7 +88,7 @@ class BibleBrowserController {
                              this.settings,
                              tabHtmlTemplate,
                              (event = undefined, ui = { 'index' : 0}) => { this.onTabSelected(event, ui); },
-                             (tabIndex) => { this.onTabAdded(tabIndex); },
+                             (previousTabIndex, tabIndex) => { this.onTabAdded(previousTabIndex, tabIndex); },
                              defaultBibleTranslationId);
   }
 
@@ -143,7 +143,6 @@ class BibleBrowserController {
       // Only perform the following actions from the 2nd select (The first is done when the tab is created)
 
       this.hideAllMenus();
-
       this.book_selection_menu.clearSelectedBookInMenu();
     }
 
@@ -190,7 +189,7 @@ class BibleBrowserController {
     uiHelper.configureButtonStyles('.verse-list-menu');
   }
 
-  onTabAdded(tabIndex=0) {
+  onTabAdded(previousTabIndex, tabIndex=0) {
     this.hideAllMenus();
     // Refresh the view based on the options selected
     this.optionsMenu.refreshViewBasedOnOptions(tabIndex);
@@ -200,7 +199,7 @@ class BibleBrowserController {
     this.tag_selection_menu.init(tabIndex);
     this.tag_assignment_menu.init(tabIndex);
     this.module_search.initModuleSearchMenu(tabIndex);
-    this.translation_controller.initTranslationsMenu(tabIndex);
+    this.translation_controller.initTranslationsMenu(previousTabIndex, tabIndex);
     this.translation_controller.initBibleTranslationInfoButton();
     var currentBibleTranslationId = this.tab_controller.getTab(tabIndex).getBibleTranslationId();
     if (currentBibleTranslationId != null) {

@@ -20,7 +20,6 @@ const LanguageMapper = require('../helpers/language_mapper.js');
 
 class TranslationController {
   constructor() {
-    this.bibleTranslationCount = 0;
     this.languageMapper = new LanguageMapper();
     this.translationCount = null;
   }
@@ -165,22 +164,44 @@ class TranslationController {
     }
   }
 
-  initTranslationsMenu(tabIndex=undefined) {
+  initTranslationsMenu(previousTabIndex=-1, tabIndex=undefined) {
     if (tabIndex === undefined) {
       var tabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
     }
     //console.log("initTranslationsMenu " + tabIndex);
 
+    var previousVerseListMenu = null;
+    if (previousTabIndex != -1) {
+      previousVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(previousTabIndex);
+    }
+
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
-    var bibleSelect = currentVerseListMenu.find('select.bible-select');
-    bibleSelect.empty();
+    var bibleSelect = null;
 
-    var translations = nsi.getAllLocalModules();
-    this.translationCount = translations.length;
+    if (previousVerseListMenu != null && previousVerseListMenu.length > 0) {
+      
+      var previousBibleSelect = previousVerseListMenu.find('select.bible-select').clone();
+      var currentBibleSelect = currentVerseListMenu.find('select.bible-select');
+      currentBibleSelect.replaceWith(previousBibleSelect);
+      bibleSelect = currentVerseListMenu.find('select.bible-select');
 
-    this.addLanguageGroupsToBibleSelectMenu(tabIndex);
-    this.updateUiBasedOnNumberOfTranslations(tabIndex, translations.length);
-    this.addTranslationsToBibleSelectMenu(tabIndex, translations);
+    } else {
+
+      bibleSelect = currentVerseListMenu.find('select.bible-select');
+      bibleSelect.empty();
+
+      this.addLanguageGroupsToBibleSelectMenu(tabIndex);
+
+      var translations = nsi.getAllLocalModules();
+      this.previousTranslationCount = this.translationCount;
+      this.translationCount = translations.length;
+
+      if (this.translationCount != this.previousTranslationCount) {
+        this.updateUiBasedOnNumberOfTranslations(tabIndex, translations.length);
+      }
+      
+      this.addTranslationsToBibleSelectMenu(tabIndex, translations);
+    }
 
     bibleSelect.selectmenu({
       change: () => {
