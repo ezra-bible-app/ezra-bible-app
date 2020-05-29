@@ -24,6 +24,11 @@ All notable changes to Ezra Project are documented in this file.
 * Fixed regression bug related to creation of verse references in case of non-ENGLISH versification. ([#54][i54])
 * Fixed tab search (exact phrase search) to properly work with Strong's translations. ([#62][i62])
 
+### Enablers
+
+* Add deb package for Ubuntu 20.04.
+* Upgraded Electron from 8.2.0 to 8.3.0.
+
 [i26]: https://github.com/tobias-klein/ezra-project/issues/26
 [i41]: https://github.com/tobias-klein/ezra-project/issues/41
 [i43]: https://github.com/tobias-klein/ezra-project/issues/43
@@ -36,10 +41,6 @@ All notable changes to Ezra Project are documented in this file.
 [i56]: https://github.com/tobias-klein/ezra-project/issues/56
 [i58]: https://github.com/tobias-klein/ezra-project/issues/58
 [i62]: https://github.com/tobias-klein/ezra-project/issues/62
-
-### Enablers
-
-* Add deb package for Ubuntu 20.04.
 
 -->
 
