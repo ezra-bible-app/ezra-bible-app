@@ -736,6 +736,13 @@ h2 {
   border: 1px;
 }
 
+.darkmode--activated .book-unavailable a:link,
+.darkmode--activated .book-unavailable a:hover,
+.darkmode--activated .book-unavailable a:visited,
+.darkmode--activated .book-unavailable a:focus {
+  color: grey;
+}
+
 .book-list-column li.book-available a:link, .book-list-column li.book-available a:visited {
   cursor: pointer;
 }
