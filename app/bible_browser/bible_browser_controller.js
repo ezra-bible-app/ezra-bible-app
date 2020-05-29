@@ -170,6 +170,9 @@ class BibleBrowserController {
     // Update available books for current translation
     this.translation_controller.updateAvailableBooks(ui.index);
 
+    // Refresh translations menu
+    this.translation_controller.initTranslationsMenu(-1, ui.index);
+
     // Highlight currently selected book (only in book mode)
     var textType = this.tab_controller.getTab(ui.index).getTextType();
     if (textType == 'book') {
