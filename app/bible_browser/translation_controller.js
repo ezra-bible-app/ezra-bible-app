@@ -150,7 +150,7 @@ class TranslationController {
 
   addTranslationsToBibleSelectMenu(tabIndex, translations) {
     var bibleSelect = this.getBibleSelect(tabIndex);
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab(tabIndex)?.getBibleTranslationId();
 
     for (var translation of translations) {
       var selected = '';
