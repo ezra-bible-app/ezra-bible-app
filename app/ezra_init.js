@@ -16,6 +16,8 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+require('v8-compile-cache');
+
 const app = require('electron').remote.app;
 
 // i18n
@@ -249,10 +251,11 @@ function loadHTML()
 
 async function initApplication()
 {
+  console.time("application-startup");
+
   // This module will modify the standard console.log function and add a timestamp as a prefix for all log calls
   require('log-timestamp');
 
-  //console.time("application-startup");
   console.log("Loading HTML fragments");
   loadHTML();
 
@@ -290,14 +293,14 @@ async function initApplication()
   // Show main content
   $('#main-content').show();
 
+  console.timeEnd("application-startup");
+
   await bible_browser_controller.translation_controller.installStrongsIfNeeded();
 
   console.log("Checking for latest release ...");
   const NewReleaseChecker = require('./app/helpers/new_release_checker.js');
   var newReleaseChecker = new NewReleaseChecker('new-release-info-box');
   newReleaseChecker.check();
-
-  //console.timeEnd("application-startup");
 }
 
 $(document).ready(function() {
