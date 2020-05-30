@@ -83,11 +83,12 @@ h2 {
 
 #verse-list-tabs {
   border: 0;
+  width: 100%;
 }
 
 #verse-list-tabs .ui-tabs-nav {
   float: left;
-  height: 2.5em;
+  padding-bottom: 0.1em;
 }
 
 #verse-list-tabs ul li span {
@@ -100,19 +101,15 @@ h2 {
 }
 
 .verse-list-menu {
-  float: left;
-  margin-bottom: 1em;
-  height: 2em;
+  margin-bottom: 0.5em;
   border-radius: 6px;
   user-select: none;
+  clear: both;
 }
 
 .verse-list-menu-line2 {
-  margin-top: 2.7em;
-}
-
-.verse-list-composite {
-  margin-top: 5.2em;
+  clear: both;
+  padding-top: 0.2em;
 }
 
 .verse-list-frame {
@@ -448,7 +445,6 @@ h2 {
 }
 
 .verse-list-frame-small-screen {
-  margin-top: 3.6em;
   height: 88%;
 }
 
@@ -547,6 +543,8 @@ h2 {
   width: 99%;
   height: 40em;
   border: 0;
+  display: flex;
+  flex-direction: row;
 }
 
 .app-view {
@@ -692,6 +690,10 @@ h2 {
 
 .fg-button {
   cursor: pointer;
+}
+
+.verse-list-menu .fg-button {
+  margin-bottom: 0.5em;
 }
 
 .book-select-label {
