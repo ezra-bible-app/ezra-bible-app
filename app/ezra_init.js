@@ -306,3 +306,7 @@ async function initApplication()
 $(document).ready(function() {
   initApplication();
 });
+
+window.addEventListener('beforeunload', () => {
+  bible_browser_controller.tab_controller.saveTabConfiguration(true);
+});

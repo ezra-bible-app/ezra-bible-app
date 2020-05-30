@@ -228,6 +228,7 @@ class BibleBrowserController {
         this.text_loader.requestTextUpdate(this.tab_controller.getSelectedTabId(),
                                            currentTab.getBook(),
                                            currentTab.getTagIdList(),
+                                           null,
                                            null);
       }
     }
@@ -520,7 +521,7 @@ class BibleBrowserController {
 
     if (currentTagIdList != "") {
       this.text_loader.prepareForNewText(true, false);
-      this.text_loader.requestTextUpdate(currentTabId, null, currentTagIdList, null);
+      this.text_loader.requestTextUpdate(currentTabId, null, currentTagIdList, null, null);
       await tags_controller.update_tag_list();
     }
   }

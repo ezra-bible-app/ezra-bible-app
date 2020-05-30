@@ -69,19 +69,28 @@ class TabController {
     return this.metaTabs.length;
   }
 
-  saveTabConfiguration() {
+  saveTabConfiguration(cacheText=false) {
     if (this.persistanceEnabled) {
       //console.log('Saving tab configuration');
-
       var savedMetaTabs = [];
       
       for (var i = 0; i < this.metaTabs.length; i++) {
-        var copiedMetaTab = Object.assign({}, this.metaTabs[i]); 
-        copiedMetaTab.searchResults = null;
+        var copiedMetaTab = Object.assign({}, this.metaTabs[i]);
+        
+        if (cacheText) {
+          var tabId = this.getSelectedTabId(i);
+          var tabElement = document.getElementById(tabId);
+          var text = tabElement.querySelector('.verse-list').innerHTML;
+          copiedMetaTab.cachedText = text;
+        }
+
         savedMetaTabs.push(copiedMetaTab);
       }
 
       this.settings.set('tabConfiguration', savedMetaTabs);
+
+      var currentTime = new Date(Date.now());
+      this.settings.set('tabConfigurationTimestamp', currentTime);
     }
   }
 
@@ -152,24 +161,54 @@ class TabController {
     return loadedTabCount;
   }
 
+  async isCacheOutdated() {
+    var tabConfigTimestamp = this.settings.get('tabConfigurationTimestamp');
+    if (tabConfigTimestamp != null) {
+      tabConfigTimestamp = new Date(tabConfigTimestamp);
+
+      var dbUpdateTimestamp = await models.MetaRecord.getLastUpdate();
+
+      if (dbUpdateTimestamp != null && dbUpdateTimestamp.getTime() > tabConfigTimestamp.getTime()) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
   async populateFromMetaTabs() {
+    var cacheOutdated = await this.isCacheOutdated();
+    if (cacheOutdated) {
+      console.log("Tab content cache is outdated. Database has been updated in the mean time!");
+    }
+
     for (var i = 0; i < this.metaTabs.length; i++) {
       var currentMetaTab = this.metaTabs[i];
-      var isSearch = (currentMetaTab.textType == 'search_results');
 
+      if (cacheOutdated) {
+        currentMetaTab.cachedText = null;
+      }
+
+      var isSearch = (currentMetaTab.textType == 'search_results');
       bible_browser_controller.text_loader.prepareForNewText(true, isSearch, i);
 
       if (currentMetaTab.textType == 'search_results') {
         await bible_browser_controller.module_search.populateSearchMenu(i);
-        await bible_browser_controller.module_search.startSearch(null, i, currentMetaTab.searchTerm);
-      } else {
-        await bible_browser_controller.text_loader.requestTextUpdate(
-          currentMetaTab.elementId,
-          currentMetaTab.book,
-          currentMetaTab.tagIdList,
-          null,
-          i
-        );
+      }
+
+      await bible_browser_controller.text_loader.requestTextUpdate(
+        currentMetaTab.elementId,
+        currentMetaTab.book,
+        currentMetaTab.tagIdList,
+        currentMetaTab.cachedText,
+        null,
+        i
+      );
+
+      if (currentMetaTab.textType == 'search_results') {
+        await bible_browser_controller.module_search.repaintChart(i);
       }
     }
   }
@@ -248,7 +287,6 @@ class TabController {
 
       setTimeout(() => {
         bible_browser_controller.book_selection_menu.highlightCurrentlySelectedBookInMenu();
-        this.saveTabConfiguration();
       }, 250);
     });
   }

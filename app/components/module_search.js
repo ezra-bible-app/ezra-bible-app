@@ -274,6 +274,7 @@ class ModuleSearch {
       await bible_browser_controller.text_loader.requestTextUpdate(currentTabId,
                                                                    null,
                                                                    null,
+                                                                   null,
                                                                    currentSearchResults,
                                                                    tabIndex,
                                                                    requestedBookId,

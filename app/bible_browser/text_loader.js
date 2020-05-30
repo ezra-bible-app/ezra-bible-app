@@ -56,52 +56,68 @@ class TextLoader {
     temporary_help.hide();
   }
 
-  async requestTextUpdate(tabId, book, tagIdList, searchResults, tabIndex=undefined, requestedBookId=-1, target=undefined) {
+  async requestTextUpdate(tabId, book, tagIdList, cachedText, searchResults, tabIndex=undefined, requestedBookId=-1, target=undefined) {
     var textType = bible_browser_controller.tab_controller.getTab(tabIndex).getTextType();
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     var buttons = currentVerseListMenu.find('.fg-button');
     buttons.removeClass('focused-button');
+
+    if (cachedText != null) {
+      console.log("Loading text for tab " + tabIndex + " from cache!");
+    }
 
     if (textType == 'book') { // Book text mode
       if (tabIndex === undefined) { $('#export-tagged-verses-button').addClass('ui-state-disabled'); }
       bible_browser_controller.translation_controller.initChapterVerseCounts();
       currentVerseListMenu.find('.book-select-button').addClass('focused-button');
 
-      await this.requestBookText(
-        tabIndex,
-        tabId,
-        book,
-        (htmlVerseList) => { 
-          this.renderVerseList(htmlVerseList, 'book', tabIndex);
-        }
-      );
+      if (cachedText != null) {
+        this.renderVerseList(cachedText, 'book', tabIndex);
+      } else {
+        await this.requestBookText(
+          tabIndex,
+          tabId,
+          book,
+          (htmlVerseList) => { 
+            this.renderVerseList(htmlVerseList, 'book', tabIndex);
+          }
+        );
+      }
 
     } else if (textType == 'tagged_verses') { // Tagged verse list mode
       if (tabIndex === undefined) { $('.show-book-tag-statistics-button').addClass('ui-state-disabled'); }
       currentVerseListMenu.find('.tag-select-button').addClass('focused-button');
 
-      await this.requestVersesForSelectedTags(
-        tabIndex,
-        tabId,
-        tagIdList,
-        (htmlVerseList) => {
-          this.renderVerseList(htmlVerseList, 'tagged_verses', tabIndex);
-        }
-      );
+      if (cachedText != null) {
+        this.renderVerseList(cachedText, 'tagged_verses', tabIndex);
+      } else {
+        await this.requestVersesForSelectedTags(
+          tabIndex,
+          tabId,
+          tagIdList,
+          (htmlVerseList) => {
+            this.renderVerseList(htmlVerseList, 'tagged_verses', tabIndex);
+          }
+        );
+      }
 
     } else if (textType == 'search_results') { // Search result mode
       if (tabIndex === undefined) { $('.show-book-tag-statistics-button').addClass('ui-state-disabled'); }
       currentVerseListMenu.find('.module-search-button').addClass('focused-button');
       
-      await this.requestVersesForSearchResults(
-        tabIndex,
-        tabId,
-        searchResults,
-        (htmlVerseList) => {
-          this.renderVerseList(htmlVerseList, 'search_results', tabIndex, target);
-        },
-        requestedBookId
-      );
+      if (cachedText != null) {
+        this.renderVerseList(cachedText, 'search_results', tabIndex);
+      } else {
+        await this.requestVersesForSearchResults(
+          tabIndex,
+          tabId,
+          searchResults,
+          (htmlVerseList) => {
+            this.renderVerseList(htmlVerseList, 'search_results', tabIndex, target);
+          },
+          requestedBookId
+        );
+      }
     }
   }
 
@@ -405,9 +421,9 @@ class TextLoader {
       target.removeClass('verse-list-book');
     }
 
-    if (!initialRendering) {
+    /*if (!initialRendering) {
       bible_browser_controller.tab_controller.saveTabConfiguration();
-    }
+    }*/
 
     target.html(htmlVerseList);
 

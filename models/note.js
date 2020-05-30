@@ -63,14 +63,18 @@ module.exports = (sequelize, DataTypes) => {
         if (noteValue != "") {
           // Save the note if it has content
           n.text = noteValue;
-          return n.save().then(() => {
+          return n.save().then(
+            models.MetaRecord.updateLastModified()
+          ).then(() => {
             return n;
           }).catch(function () {
             alert("ERROR: Could not save note!");
           });
         } else {
           // Delete the note if it does not have any content
-          return n.destroy().catch(function () {
+          return n.destroy().then(
+            models.MetaRecord.updateLastModified()
+          ).catch(function () {
             alert("ERROR: Could not delete note!");
           });
         }

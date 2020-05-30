@@ -31,6 +31,7 @@ class Tab {
     this.bibleTranslationId = defaultBibleTranslationId;
     this.selectCount = 0;
     this.addedInteractively = interactive;
+    this.cachedText = null;
   }
 
   isValid() {
@@ -123,6 +124,10 @@ class Tab {
 
   getBibleTranslationId() {
     return this.bibleTranslationId;
+  }
+
+  getCachedText() {
+    return this.cachedText;
   }
 }
 

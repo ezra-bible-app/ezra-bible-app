@@ -37,7 +37,9 @@ class TagsCommunicationController
       tags_controller.tag_store.resetBookTagStatistics();
       tags_controller.update_tag_list(bible_browser_controller.tab_controller.getTab().getBook(), true);
       bible_browser_controller.tag_selection_menu.requestTagsForMenu(true);
-    }).catch(error => {
+    }).then(
+      models.MetaRecord.updateLastModified()
+    ).catch(error => {
       alert('An error occurred while trying to save the new tag: ' + error);
     });
   }
@@ -59,7 +61,9 @@ class TagsCommunicationController
 
         bible_browser_controller.tag_selection_menu.requestTagsForMenu(true);
 
-      }).catch(error => {
+      }).then(
+        models.MetaRecord.updateLastModified()
+      ).catch(error => {
         alert('An error occurred while trying to delete the tag with id ' + id + ': ' + error);
       })
     );
@@ -86,6 +90,8 @@ class TagsCommunicationController
       } else if (action == "remove") {
         await verseReference.removeTag(tag.id);
       }
+
+      await models.MetaRecord.updateLastModified();
     }
   }
 
@@ -93,6 +99,8 @@ class TagsCommunicationController
     models.Tag.update(
       { title: title },
       { where: { id: id }}
+    ).then(
+      models.MetaRecord.updateLastModified()
     ).then(() => {
       tags_controller.rename_tag_in_view(id, title);
     }).catch(error => {
