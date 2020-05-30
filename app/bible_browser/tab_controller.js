@@ -45,8 +45,12 @@ class TabController {
       this.addTab();
       return false;
     });
-    
-    $('#' + this.addTabElement).on("click", (event) => {
+
+    $('#' + this.addTabElement).on("mousedown", (event) => {
+      setTimeout(() => {
+        $('#' + this.addTabElement).removeClass('ui-state-active');
+      }, 50);
+
       this.addTab();
       return false;
     });
@@ -239,7 +243,7 @@ class TabController {
     this.tabs.find('span.ui-icon-close').unbind();
 
     // Close icon: removing the tab on click
-    this.tabs.find('span.ui-icon-close').on( "click", (event) => {
+    this.tabs.find('span.ui-icon-close').on( "mousedown", (event) => {
       this.removeTab(event);
 
       setTimeout(() => {
