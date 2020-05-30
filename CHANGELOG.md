@@ -23,6 +23,7 @@ All notable changes to Ezra Project are documented in this file.
 * Properly localize book names in tab titles. ([#41][i41])
 * Fixed regression bug related to creation of verse references in case of non-ENGLISH versification. ([#54][i54])
 * Fixed tab search (exact phrase search) to properly work with Strong's translations. ([#62][i62])
+* Fixed layout issues that occurred with the tabs & menu on a smaller screen. ([#44][i44])
 
 ### Enablers
 
@@ -32,6 +33,7 @@ All notable changes to Ezra Project are documented in this file.
 [i26]: https://github.com/tobias-klein/ezra-project/issues/26
 [i41]: https://github.com/tobias-klein/ezra-project/issues/41
 [i43]: https://github.com/tobias-klein/ezra-project/issues/43
+[i44]: https://github.com/tobias-klein/ezra-project/issues/44
 [i45]: https://github.com/tobias-klein/ezra-project/issues/45
 [i51]: https://github.com/tobias-klein/ezra-project/issues/51
 [i53]: https://github.com/tobias-klein/ezra-project/issues/53
