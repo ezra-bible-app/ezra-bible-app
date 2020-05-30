@@ -178,10 +178,10 @@ function switchToRegularTheme() {
 }
 
 function switchToTheme(theme) {
-  var currentTheme = document.querySelector("#theme-css").href;
+  var currentTheme = document.getElementById("theme-css").href;
 
   if (currentTheme.indexOf(theme) == -1) { // Only switch the theme if it is different from the current theme
-    document.querySelector("#theme-css").href = theme;
+    document.getElementById("theme-css").href = theme;
   }
 }
 
