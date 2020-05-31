@@ -421,10 +421,6 @@ class TextLoader {
       target.removeClass('verse-list-book');
     }
 
-    /*if (!initialRendering) {
-      bible_browser_controller.tab_controller.saveTabConfiguration();
-    }*/
-
     target.html(htmlVerseList);
 
     if (listType == 'search_results') {
