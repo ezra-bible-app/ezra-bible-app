@@ -107,7 +107,7 @@ class VerseContextLoader {
     // Update the tags view after the selection
     tags_controller.update_tags_view_after_verse_selection(true);
 
-    bible_browser_controller.bindEventsAfterBibleTextLoaded();
+    bible_browser_controller.bindEventsAfterBibleTextLoaded(undefined, true);
   }
 
   hide_verse_expand_box() {

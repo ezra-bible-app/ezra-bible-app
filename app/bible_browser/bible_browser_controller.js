@@ -453,11 +453,19 @@ class BibleBrowserController {
     this.optionsMenu.hideDisplayMenu();
   }
 
-  bindEventsAfterBibleTextLoaded = async function(tabIndex=undefined) {
+  bindEventsAfterBibleTextLoaded = async function(tabIndex=undefined, preventDoubleBinding=false) {
     var currentVerseList = this.getCurrentVerseList(tabIndex);
 
-    currentVerseList.find('.tag-box').filter(":not('.tag-events-configured')").bind('click', tags_controller.clear_verse_selection).addClass('tag-events-configured');
-    currentVerseList.find('.tag').filter(":not('.tag-events-configured')").bind('click', (event) => {
+    var tagBoxes = currentVerseList.find('.tag-box');
+    var tags = currentVerseList.find('.tag');
+
+    if (preventDoubleBinding) {
+      tagBoxes = tagBoxes.filter(":not('.tag-events-configured')");
+      tags = tags.filter(":not('.tag-events-configured')");
+    }
+
+    tagBoxes.bind('click', tags_controller.clear_verse_selection).addClass('tag-events-configured');
+    tags.bind('click', (event) => {
       this.tag_reference_box.handleTagReferenceClick(event);
     }).addClass('tag-events-configured');
 
