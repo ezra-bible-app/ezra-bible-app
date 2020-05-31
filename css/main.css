@@ -1181,10 +1181,6 @@ div.CodeMirror {
   border-bottom: 1px solid black;
 }
 
-.tab-search-results {
-  margin-bottom: 1em;
-}
-
 .bible-book-title {
   font-weight: bold;
 }
@@ -1388,6 +1384,7 @@ div.CodeMirror {
   border: 1px solid lightGrey;
   display: None;
   z-index: 10;
+  font-size: 0.9em;
 }
 
 .darkmode--activated #tab-search {
@@ -1397,10 +1394,10 @@ div.CodeMirror {
 
 #tab-search-input {
   float: left;
+  font-size: 0.9em;
   background-color: white;
   width: 150px;
   margin-right: 1em;
-  font-size: 1em;
   border: 1px solid lightgray;
 }
 
@@ -1418,9 +1415,20 @@ div.CodeMirror {
   width: 2em;
 }
 
+#tab-search-type,
+#tab-search-type option,
+#search-type,
+#search-type option {
+  font-size: 0.9em;
+}
+
 :not(.darkmode--activated) .tab-search-occurances {
   border: 1px solid white;
   color: black;
+}
+
+.tab-search-results {
+  margin-bottom: 1em;
 }
 
 .search-hl {
