@@ -134,14 +134,16 @@ class TranslationController {
 
       var currentBook = null;
       var currentTagIdList = "";
+      var currentSearchTerm = null;
 
       var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
       if (currentTab != null) {
         currentBook = currentTab.getBook();
         currentTagIdList = currentTab.getTagIdList();
+        currentSearchTerm = currentTab.getSearchTerm();
       }
 
-      if (currentBook == null && currentTagIdList == "")  {
+      if (currentBook == null && currentTagIdList == "" && currentSearchTerm == null)  {
         var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
         currentVerseList.find('.help-text').text(i18n.t("help.help-text-translation-available"));
       }
