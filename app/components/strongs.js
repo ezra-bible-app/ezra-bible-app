@@ -291,7 +291,7 @@ class Strongs {
   getBlueletterLink(strongsEntry) {
     var bible = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
 
-    var blueLetterTranslations = ['KJV', 'NIV', 'NASB', 'ASV', 'WEB'];
+    var blueLetterTranslations = ['KJV', 'NASB', 'ASV', 'WEB'];
     if (!blueLetterTranslations.includes(bible)) {
       bible = 'KJV';
     }
