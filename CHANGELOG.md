@@ -17,6 +17,8 @@ All notable changes to Ezra Project are documented in this file.
 * Basic icon. Note that this is just a start and we still need a nicer one than this! ([#26][i26])
 * Show license information in module info dialogue. ([#51][i51])
 * Enhance width of new tag / rename tag dialogues and input fields. ([#53][i53])
+* Cache verse list text data of each tab to improve application startup performance. ([#66][i66])
+* Strong's dictionary box: Add dynamically generated link to Blue Letter Bible website. ([#67][i67])
 
 ### Fixes
 
@@ -43,6 +45,8 @@ All notable changes to Ezra Project are documented in this file.
 [i56]: https://github.com/tobias-klein/ezra-project/issues/56
 [i58]: https://github.com/tobias-klein/ezra-project/issues/58
 [i62]: https://github.com/tobias-klein/ezra-project/issues/62
+[i66]: https://github.com/tobias-klein/ezra-project/issues/66
+[i67]: https://github.com/tobias-klein/ezra-project/issues/67
 
 -->
 
