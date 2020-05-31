@@ -168,6 +168,7 @@
     "greek": "Griechisch",
     "hebrew": "Hebräisch",
     "default-header": "<b>Strong's Wörterbuch</b>",
-    "help-instruction": "<p>Wie Sie hier Strong's Infos anzeigen:</p><ol><li>Zunächst öffnen Sie eine Übersetzung mit Unterstützung für Strong's.</li><li>Während Sie die SHIFT Taste drücken können Sie die Maus über einzelne Worte oder Texte bewegen, um hier Strong's anzuzeigen.</li><ol>"
+    "help-instruction": "<p>Wie Sie hier Strong's Infos anzeigen:</p><ol><li>Zunächst öffnen Sie eine Übersetzung mit Unterstützung für Strong's.</li><li>Während Sie die SHIFT Taste drücken können Sie die Maus über einzelne Worte oder Texte bewegen, um hier Strong's anzuzeigen.</li><ol>",
+    "open-in-blueletter": "In Blue Letter Bible öffnen"
   }
 }

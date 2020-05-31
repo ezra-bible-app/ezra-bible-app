@@ -288,6 +288,20 @@ class Strongs {
     return link;
   }
 
+  getBlueletterLink(strongsEntry) {
+    var bible = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
+
+    var blueLetterTranslations = ['KJV', 'NIV', 'ESV', 'NASB', 'NET', 'ASV', 'WEB'];
+    if (!blueLetterTranslations.includes(bible)) {
+      bible = 'KJV';
+    }
+
+    var blueLetterLink = `https://www.blueletterbible.org/lang/lexicon/lexicon.cfm?Strongs=${strongsEntry.key}&t=${bible}`;
+    var blueLetterLinkText = i18n.t("dictionary-info-box.open-in-blueletter");
+    var htmlBlueLetterLink = `<p class='external'><a href='${blueLetterLink}'>${blueLetterLinkText}</a></p>`;
+    return htmlBlueLetterLink;
+  }
+
   getStrongsReferenceTableRow(strongsReference, isLastRow=false) {
     var referenceTableRow = "";
     var referenceKey = strongsReference.key;
@@ -313,9 +327,11 @@ class Strongs {
     var extendedStrongsInfo = "";
     var strongsShortInfo = this.getShortInfo(strongsEntry, lemma);
     var findAllLink = this.getFindAllLink(strongsEntry);
+    var blueLetterLink = this.getBlueletterLink(strongsEntry);
 
     extendedStrongsInfo += "<b>" + strongsShortInfo + "</b>";
     extendedStrongsInfo += findAllLink;
+    extendedStrongsInfo += blueLetterLink;
     extendedStrongsInfo += "<pre class='strongs-definition'>";
     extendedStrongsInfo += strongsEntry.definition;
     extendedStrongsInfo += "</pre>";
