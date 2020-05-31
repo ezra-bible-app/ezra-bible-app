@@ -69,21 +69,21 @@ class TabController {
     return this.metaTabs.length;
   }
 
-  saveTabConfiguration(cacheText=false) {
+  getTabHtml(tabIndex) {
+    var tabId = this.getSelectedTabId(tabIndex);
+    var tabElement = document.getElementById(tabId);
+    var html = tabElement.querySelector('.verse-list').innerHTML;
+    return html;
+  }
+
+  saveTabConfiguration() {
     if (this.persistanceEnabled) {
       //console.log('Saving tab configuration');
       var savedMetaTabs = [];
       
       for (var i = 0; i < this.metaTabs.length; i++) {
         var copiedMetaTab = Object.assign({}, this.metaTabs[i]);
-        
-        if (cacheText) {
-          var tabId = this.getSelectedTabId(i);
-          var tabElement = document.getElementById(tabId);
-          var text = tabElement.querySelector('.verse-list').innerHTML;
-          copiedMetaTab.cachedText = text;
-        }
-
+        copiedMetaTab.cachedText = this.getTabHtml(i);
         savedMetaTabs.push(copiedMetaTab);
       }
 
