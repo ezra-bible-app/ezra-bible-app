@@ -1,5 +1,7 @@
 # Screenshots and photos of Ezra Project
 
+This page shows screenshots and photos of how Ezra Project looks for different use cases.
+
 ## Standard layout
 
 ![Ezra Project 0.11.0](https://raw.githubusercontent.com/tobias-klein/ezra-project/master/screenshots/ezra_project_0_11_0.png "Ezra Project 0.11.0")
