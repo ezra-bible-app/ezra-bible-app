@@ -195,20 +195,30 @@ class TabController {
       bible_browser_controller.text_loader.prepareForNewText(true, isSearch, i);
 
       if (currentMetaTab.textType == 'search_results') {
+
         await bible_browser_controller.module_search.populateSearchMenu(i);
-      }
 
-      await bible_browser_controller.text_loader.requestTextUpdate(
-        currentMetaTab.elementId,
-        currentMetaTab.book,
-        currentMetaTab.tagIdList,
-        currentMetaTab.cachedText,
-        null,
-        i
-      );
+        var requestedBookId = -1; // all books requested
+        if (bible_browser_controller.module_search.searchResultsExceedPerformanceLimit(i)) {
+          requestedBookId = 0; // no books requested - only list headers at first
+        }
+  
+        await bible_browser_controller.module_search.renderCurrentSearchResults(requestedBookId,
+                                                                                i,
+                                                                                undefined,
+                                                                                currentMetaTab.cachedText);
 
-      if (currentMetaTab.textType == 'search_results') {
-        await bible_browser_controller.module_search.repaintChart(i);
+      } else {
+
+        await bible_browser_controller.text_loader.requestTextUpdate(
+          currentMetaTab.elementId,
+          currentMetaTab.book,
+          currentMetaTab.tagIdList,
+          currentMetaTab.cachedText,
+          null,
+          i
+        );
+
       }
     }
   }

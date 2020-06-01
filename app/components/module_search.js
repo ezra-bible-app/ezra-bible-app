@@ -263,7 +263,7 @@ class ModuleSearch {
     }
   }
 
-  async renderCurrentSearchResults(requestedBookId=-1, tabIndex=undefined, target=undefined) {
+  async renderCurrentSearchResults(requestedBookId=-1, tabIndex=undefined, target=undefined, cachedText=null) {
     //console.log("Rendering search results on tab " + tabIndex);
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
     var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId(tabIndex);
@@ -274,7 +274,7 @@ class ModuleSearch {
       await bible_browser_controller.text_loader.requestTextUpdate(currentTabId,
                                                                    null,
                                                                    null,
-                                                                   null,
+                                                                   cachedText,
                                                                    currentSearchResults,
                                                                    tabIndex,
                                                                    requestedBookId,
@@ -304,7 +304,7 @@ class ModuleSearch {
     this.getModuleSearchHeader(tabIndex).html(header);
     this.getModuleSearchHeader(tabIndex).show();
 
-    if (currentSearchResults?.length > 0) {
+    if (currentSearchResults?.length > 0 && requestedBookId <= 0) {
       var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
       this.verseStatisticsChart.updateChart(tabIndex, bibleBookStats);
     }
