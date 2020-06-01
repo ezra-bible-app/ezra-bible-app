@@ -120,6 +120,13 @@ class UiHelper {
   
   // FIXME: Optimize this to be tab-specific
   resizeAppContainer(e) {
+    var verseListTabs = $(document.getElementById('verse-list-tabs'));
+    if (verseListTabs.width() <= 820) {
+      verseListTabs.addClass('verse-list-tabs-small-screen')
+    } else {
+      verseListTabs.removeClass('verse-list-tabs-small-screen');
+    }
+
     this.app_container_height = $(window).height() - 10;
     $("#app-container").css("height", this.app_container_height);
     // Notes disabled

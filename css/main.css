@@ -1219,6 +1219,11 @@ div.CodeMirror {
   user-select: none;
 }
 
+.verse-list-tabs-small-screen .bible-select-block {
+  clear: both;
+  margin-left: 0;
+}
+
 .bible-select-block select {
   width: 20em;
   display: none;
