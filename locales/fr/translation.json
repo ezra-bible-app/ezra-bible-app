@@ -19,7 +19,7 @@
     "exact-phrase": "Phrase exacte",
     "multi-word": "Mots multiples",
     "strongs": "Nombre de Strong",
-    "extended-verse-boundaries": "Extended verse boundaries (Two verses)"
+    "extended-verse-boundaries": "Limites étendues des versets (Deux versets)"
   },
   "translation-wizard": {
     "header": "Configurer les traductions de la Bible",
@@ -60,7 +60,7 @@
     "unlock-failed": "Le déverrouillage a échoué ! Veuillez entrer la bonne clé de déverrouillage."
   },
   "module-sync": {
-    "module-sync-header": "Installing additional modules"
+    "module-sync-header": "Installation de modules supplémentaires"
   },
   "general": {
     "chapter-verse-separator": ",",
@@ -71,7 +71,7 @@
     "module-name": "Nom",
     "module-version": "Version",
     "module-language": "Langue",
-    "module-license": "License",
+    "module-license": "Licence",
     "module-strongs": "Strong",
     "module-headings": "Titres",
     "module-footnotes": "Notes de bas de page",
@@ -87,7 +87,7 @@
     "next": "Suivant",
     "previous": "Précédent",
     "finish": "Terminé",
-    "save": "Save",
+    "save": "Enregistrer",
     "cancel": "Annuler",
     "rename": "Renommer",
     "loading": "Chargement en cours",
@@ -124,7 +124,7 @@
     "export-tagged-verse-list": "Exporter la liste des versets vers un document de traitement de texte",
     "run-export": "Exporter",
     "tag-filter": "Filtre : ",
-    "recently-used-filter": "Filter recently used",
+    "recently-used-filter": "Filtrer les étiquettes récemment utilisées",
     "assign-tag": "Étiquette attribuée",
     "delete-tag-permanently": "Supprimer définitivement cette étiquette",
     "none-selected": "Aucun",
@@ -147,7 +147,7 @@
     "show-search-results": "Afficher les résultats de la recherche",
     "search-performance-hint": "Afficher uniquement la liste des livres pour l'instant en raison du nombre élevé de résultats de recherche. Vous pouvez demander les résultats de recherche pour chaque livre individuellement.",
     "show-tool-bar": "Afficher la barre d'outil'",
-    "show-book-intro": "Affichintroduction du livre",
+    "show-book-intro": "Afficher l'introduction du livre",
     "show-section-titles": "Montrer les titres de sections",
     "show-strongs": "Montrer les nombres de Strong",
     "show-tags": "Montrer les étiquettes",
@@ -163,6 +163,6 @@
     "hebrew": "Hébreux",
     "default-header": "<b>Dictionnaire de Strong</b>",
     "help-instruction": "<p>Comment affichier les nombres de Strong ici :</p><ol><li>Commencer par ouvrir une traduction avec la fonctionnalité des nombre de Strong.</li><li>En pressant la touche SHIFT vous pouvez déplacer votre souris sur chaque mot en particulier ou sur une phrase pour y voir les informations liées au nombre de Strong.</li><ol>",
-    "open-in-blueletter": "Open in Blue Letter Bible"
+    "open-in-blueletter": "Ouvrez dans la Blue Letter Bible"
   }
 }
