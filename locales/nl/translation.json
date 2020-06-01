@@ -19,7 +19,7 @@
     "exact-phrase": "Exacte zin",
     "multi-word": "Meerdere woorden",
     "strongs": "Strongs nummer",
-    "extended-verse-boundaries": "Extended verse boundaries (Two verses)"
+    "extended-verse-boundaries": "Uitgebreide versgrenzen (Twee verzen)"
   },
   "translation-wizard": {
     "header": "Configureer Bijbelvertalingen",
@@ -33,7 +33,8 @@
     "translations": "Vertalingen",
     "removal": "Verwijdering",
     "translation-feature-filter": "Functiefilter",
-    "repo-selection-info-text": "Ezra Project werkt met bijbelvertalingsmodules aangeboden door <a class='external' href='http://www.crosswire.org/sword'>het SWORD-project</a> en het <a class='external' href='http://www.crosswire.org'>CrossWire Bijbelgenootschap</a>.<br/><br/>Hieronder ziet u de lijst met SWORD-depots die zijn gepubliceerd door CrossWire. Een depot is een internetopslaglocatie die een set Bijbelvertalingsmodules bevat. Naast elk depot ziet u het totale aantal Bijbelvertalingsmodules dat beschikbaar is uit dat depot. <br/> <br/> Om een bijbelvertalingsmodule te installeren, kies minstens één depot uit de onderstaande lijst. De depots van <i>CrossWire</i> en <i>eBible.org</i> zijn een goede plek om te beginnen.",
+    "repo-selection-info-text": "Ezra Project werkt met bijbelvertalingsmodules aangeboden door <a class='external' href='http://www.crosswire.org/sword'>het SWORD-project</a> en het <a class='external' href='http://www.crosswire.org'>CrossWire Bijbelgenootschap</a>.<br/><br/>Hieronder ziet u de lijst met SWORD-depots die zijn gepubliceerd door CrossWire. Een depot is een internetopslaglocatie die een set Bijbelvertalingsmodules bevat. Naast elk depot ziet u het totale aantal Bijbelvertalingsmodules dat beschikbaar is uit dat depot. <br/> <br/> Om een bijbelvertalingsmodule te 
+    eren, kies minstens één depot uit de onderstaande lijst. De depots van <i>CrossWire</i> en <i>eBible.org</i> zijn een goede plek om te beginnen.",
     "more-repo-information-needed": "Heeft u nood aan meer informatie over deze depots?<br/>Bekijk de <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>.",
     "click-to-show-detailed-module-info": "Klik op een vertaalcode (link achter de vertalingsnaam) om hier gedetailleerde module-informatie te tonen",
     "updating-repository-data": "Bezig met het bijwerken van depotgegevens! Dit zal enkele seconden duren ...",
@@ -60,7 +61,7 @@
     "unlock-failed": "Ontgrendelen mislukt! Gelieve de juiste ontgrendelingssleutel in te voeren!"
   },
   "module-sync": {
-    "module-sync-header": "Installing additional modules"
+    "module-sync-header": "Extra modules installeren"
   },
   "general": {
     "chapter-verse-separator": ":",
@@ -71,7 +72,7 @@
     "module-name": "Naam",
     "module-version": "Versie",
     "module-language": "Taal",
-    "module-license": "License",
+    "module-license": "Licentie",
     "module-strongs": "Strongs",
     "module-headings": "Hoofdingen",
     "module-footnotes": "Voetnoten",
@@ -87,7 +88,7 @@
     "next": "Volgende",
     "previous": "Vorige",
     "finish": "Gereed",
-    "save": "Save",
+    "save": "Opslaan",
     "cancel": "Annuleren",
     "rename": "Hernoemen",
     "loading": "Laden",
@@ -124,7 +125,7 @@
     "export-tagged-verse-list": "Exporteer getagde verslijst naar Word-document",
     "run-export": "Export draaien",
     "tag-filter": "Filter: ",
-    "recently-used-filter": "Filter recently used",
+    "recently-used-filter": "Alleen recent gebruikte tags",
     "assign-tag": "Wijs tag toe",
     "delete-tag-permanently": "Deze tag permanent verwijderen",
     "none-selected": "Geen",
@@ -164,6 +165,6 @@
     "default-header": "<b>Strongs Woordenboek</b>",
     "help-instruction": "<p>How Strongs hier tonen:</p><ol><li>Open eerst een vertaling met de Strongs-functie.</li><li>Terwijl u op de SHIFT-toets drukt, kunt u uw muis over de afzonderlijke woorden en zinnen bewegen om de Strongs info hier te bekijken.</li><ol>",
     "find-all-occurrances": "Vind alle voorvallen",
-    "open-in-blueletter": "Open in Blue Letter Bible"
+    "open-in-blueletter": "In Blue Letter Bible openen"
   }
 }
