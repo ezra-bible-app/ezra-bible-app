@@ -106,12 +106,15 @@ class UiHelper {
     if (tabIndex === undefined) {
       tabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
     }
-  
+
+    var tabsNav = $(document.getElementById('verse-list-tabs').querySelector('.ui-tabs-nav'));
+    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     var verseListComposite = bible_browser_controller.getCurrentVerseListComposite(tabIndex);
+
     var navigationPane = verseListComposite.find('.navigation-pane');
     var verseListFrame = verseListComposite.find('.verse-list-frame');
   
-    var newVerseListHeight = this.app_container_height - 135;
+    var newVerseListHeight = this.app_container_height - tabsNav.height() - currentVerseListMenu.height() - 40;
     navigationPane.css('height', newVerseListHeight);
     verseListFrame.css('height', newVerseListHeight);
   
@@ -140,16 +143,10 @@ class UiHelper {
     } else {
       $('#tags-content-global').css('height', this.app_container_height - tagsToolBarHeight - 55);
     }
-  
-    if (e === undefined) {
-      // If there was no event then we don't react after the window was resized
-      this.resizeVerseList();
-    } else {
-      // If the window was resized we get an event. In this case we need to resize all verse lists in all tabs
-      var tabCount = bible_browser_controller.tab_controller.getTabCount();
-      for (var i = 0; i < tabCount; i++) {
-        this.resizeVerseList(i);
-      }
+
+    var tabCount = bible_browser_controller.tab_controller.getTabCount();
+    for (var i = 0; i < tabCount; i++) {
+      this.resizeVerseList(i);
     }
   }
 }
