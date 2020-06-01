@@ -18,7 +18,7 @@ TODO
 
 ## Vertical mode on Surface Go tablet
 
-<img style="float: left; margin-right: 1em;" src="https://raw.githubusercontent.com/tobias-klein/ezra-project/master/screenshots/ezra_project_0_13_0_surface_go.jpg" alt="Ezra Project 0.13.0 on Surface Go" width="300"/>
+<img src="https://raw.githubusercontent.com/tobias-klein/ezra-project/master/screenshots/ezra_project_0_13_0_surface_go.jpg" alt="Ezra Project 0.13.0 on Surface Go" width="500"/>
 
 This picture shows how Ezra Project can be used on a tablet (example: Surface Go).
 
