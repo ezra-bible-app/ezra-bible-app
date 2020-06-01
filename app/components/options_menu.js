@@ -249,11 +249,12 @@ class OptionsMenu {
       
         bible_browser_controller.tag_assignment_menu.moveTagAssignmentList(false);
         currentToolBar.show();
-        uiHelper.resizeAppContainer();
       } else {
         currentToolBar.hide();
         bible_browser_controller.tag_assignment_menu.moveTagAssignmentList(true);
       }
+
+      uiHelper.resizeAppContainer();
     }, 400);   
   }
 
