@@ -5,9 +5,13 @@ Ezra Project is a user-friendly, cross-platform bible study tool focussing on to
 
 ![Ezra Project 0.11.0](https://raw.githubusercontent.com/tobias-klein/ezra-project/master/screenshots/ezra_project_0_11_0.png "Ezra Project 0.11.0")
 
-## Usage / Howto
+## Usage / Howto / Screenshots
 
 Watch [this video](https://www.youtube.com/watch?v=b8gScfa0MqM) to understand how to use Ezra Project.
+
+You can also browse through some screenshots and photos on a separate [gallery page][gallery].
+
+[gallery]: https://github.com/tobias-klein/ezra-project/blob/master/GALLERY.md
 
 ## Features
 
