@@ -19,7 +19,7 @@
     "exact-phrase": "Exacte zin",
     "multi-word": "Meerdere woorden",
     "strongs": "Strongs nummer",
-    "extended-verse-boundaries": "Extended verse boundaries (Two verses)"
+    "extended-verse-boundaries": "Uitgebreide versgrenzen (Twee verzen)"
   },
   "translation-wizard": {
     "header": "Configureer Bijbelvertalingen",
@@ -60,7 +60,7 @@
     "unlock-failed": "Ontgrendelen mislukt! Gelieve de juiste ontgrendelingssleutel in te voeren!"
   },
   "module-sync": {
-    "module-sync-header": "Installing additional modules"
+    "module-sync-header": "Extra modules installeren"
   },
   "general": {
     "chapter-verse-separator": ":",
@@ -71,7 +71,7 @@
     "module-name": "Naam",
     "module-version": "Versie",
     "module-language": "Taal",
-    "module-license": "License",
+    "module-license": "Licentie",
     "module-strongs": "Strongs",
     "module-headings": "Hoofdingen",
     "module-footnotes": "Voetnoten",
@@ -87,7 +87,7 @@
     "next": "Volgende",
     "previous": "Vorige",
     "finish": "Gereed",
-    "save": "Save",
+    "save": "Opslaan",
     "cancel": "Annuleren",
     "rename": "Hernoemen",
     "loading": "Laden",
@@ -124,7 +124,7 @@
     "export-tagged-verse-list": "Exporteer getagde verslijst naar Word-document",
     "run-export": "Export draaien",
     "tag-filter": "Filter: ",
-    "recently-used-filter": "Filter recently used",
+    "recently-used-filter": "Alleen recent gebruikte tags",
     "assign-tag": "Wijs tag toe",
     "delete-tag-permanently": "Deze tag permanent verwijderen",
     "none-selected": "Geen",
@@ -164,6 +164,6 @@
     "default-header": "<b>Strongs Woordenboek</b>",
     "help-instruction": "<p>How Strongs hier tonen:</p><ol><li>Open eerst een vertaling met de Strongs-functie.</li><li>Terwijl u op de SHIFT-toets drukt, kunt u uw muis over de afzonderlijke woorden en zinnen bewegen om de Strongs info hier te bekijken.</li><ol>",
     "find-all-occurrances": "Vind alle voorvallen",
-    "open-in-blueletter": "Open in Blue Letter Bible"
+    "open-in-blueletter": "In Blue Letter Bible openen"
   }
 }
