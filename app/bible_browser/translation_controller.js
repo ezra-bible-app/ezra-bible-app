@@ -381,7 +381,7 @@ class TranslationController {
       });
 
       $('#bible-sync-box').dialog("open");
-      await sleep(200);
+      await sleep(100);
     }
 
     if (strongsInstallNeeded) {

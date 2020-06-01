@@ -60,13 +60,7 @@
     "unlock-failed": "Le déverrouillage a échoué ! Veuillez entrer la bonne clé de déverrouillage."
   },
   "module-sync": {
-    "module-sync-header": "Synchronisation des modules Sword",
-    "synchronizing": "Synchronisation de",
-    "modules-with-db": "module SWORD avec la base de données du projet Ezra !",
-    "sync-completed": "Synchronisation terminée !",
-    "installing": "Installation",
-    "existing-db-modules": "base de données de modules du projet Ezra existantes !",
-    "install-completed": "Installation terminée !"
+    "module-sync-header": "Installing additional modules"
   },
   "general": {
     "chapter-verse-separator": ",",

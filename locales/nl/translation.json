@@ -60,13 +60,7 @@
     "unlock-failed": "Ontgrendelen mislukt! Gelieve de juiste ontgrendelingssleutel in te voeren!"
   },
   "module-sync": {
-    "module-sync-header": "SWORD-modules synchroniseren",
-    "synchronizing": "Synchroniseren van",
-    "modules-with-db": "SWORD-modules met Ezra Project-databank!",
-    "sync-completed": "Synchronisatie voltooid!",
-    "installing": "Installeren",
-    "existing-db-modules": "bestaande Ezra Project-databankmodules!",
-    "install-completed": "Installatie voltooid!"
+    "module-sync-header": "Installing additional modules"
   },
   "general": {
     "chapter-verse-separator": ":",

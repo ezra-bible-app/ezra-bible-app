@@ -60,13 +60,7 @@
     "unlock-failed": "Unlock failed! Please enter the correct unlock key."
   },
   "module-sync": {
-    "module-sync-header": "Synchronizing Sword modules",
-    "synchronizing": "Synchronizing",
-    "modules-with-db": "SWORD modules with Ezra Project database!",
-    "sync-completed": "Synchronization completed!",
-    "installing": "Installing",
-    "existing-db-modules": "existing Ezra Project database modules!",
-    "install-completed": "Installation completed!"
+    "module-sync-header": "Installing additional modules"
   },
   "general": {
     "chapter-verse-separator": ":",

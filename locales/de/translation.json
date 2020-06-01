@@ -60,13 +60,7 @@
     "unlock-failed": "Freischalten fehlgeschlagen! Bitte geben Sie den korrekten Freischaltschlüssel ein."
   },
   "module-sync": {
-    "module-sync-header": "Synchronisiere SWORD Module",
-    "synchronizing": "Synchronisiere",
-    "modules-with-db": "SWORD Module mit Ezra Project Datenbank!",
-    "sync-completed": "Synchronisierung abgeschlossen!",
-    "installing": "Installiere",
-    "existing-db-modules": "existierende Ezra Project Datenbankmodule!",
-    "install-completed": "Installation abgeschlossen!"
+    "module-sync-header": "Installiere zusätzliche Module"
   },
   "general": {
     "chapter-verse-separator": ",",
