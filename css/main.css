@@ -89,6 +89,7 @@ h2 {
 #verse-list-tabs .ui-tabs-nav {
   float: left;
   padding-bottom: 0.1em;
+  margin-bottom: 0.5em;
 }
 
 #verse-list-tabs ul li span {

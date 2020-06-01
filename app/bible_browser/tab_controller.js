@@ -46,15 +46,6 @@ class TabController {
       return false;
     });
 
-    $('#' + this.addTabElement).on("mousedown", (event) => {
-      setTimeout(() => {
-        $('#' + this.addTabElement).removeClass('ui-state-active');
-      }, 50);
-
-      this.addTab();
-      return false;
-    });
-
     this.initTabs();
   }
 
@@ -261,6 +252,20 @@ class TabController {
   initTabs() {
     this.tabs = $("#" + this.tabsElement).tabs();
     this.updateFirstTabCloseButton();
+
+    var addTabButton = "<li><button id='add-tab-button' class='fg-button ui-corner-all ui-state-default'>+</button></li>";
+    $("#" + this.tabsElement).find('.ui-tabs-nav').append(addTabButton);
+
+    this.addTabElement = 'add-tab-button';
+
+    $('#' + this.addTabElement).on("mousedown", (event) => {
+      setTimeout(() => {
+        $('#' + this.addTabElement).removeClass('ui-state-active');
+      }, 50);
+
+      this.addTab();
+      return false;
+    });
   }
 
   reloadTabs() {
@@ -299,6 +304,8 @@ class TabController {
         bible_browser_controller.book_selection_menu.highlightCurrentlySelectedBookInMenu();
       }, 250);
     });
+
+    uiHelper.configureButtonStyles('.ui-tabs-nav');
   }
 
   getSelectedTabIndex() {
@@ -332,6 +339,7 @@ class TabController {
     this.metaTabs.push(metaTab);
 
     var li = $( this.tabTemplate.replace( /#\{href\}/g, "#" + metaTab.elementId ).replace( /#\{label\}/g, this.defaultLabel ) );
+    this.tabs.find(".ui-tabs-nav").find('li').last().remove();
     this.tabs.find(".ui-tabs-nav").append(li);
     this.tabs.append("<div id='" + metaTab.elementId + "' class='" + this.tabsPanelClass + "'>" + this.tabHtmlTemplate + "</div>");
 
