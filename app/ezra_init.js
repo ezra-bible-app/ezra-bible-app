@@ -308,5 +308,5 @@ $(document).ready(function() {
 });
 
 window.addEventListener('beforeunload', () => {
-  bible_browser_controller.tab_controller.saveTabConfiguration(true);
+  bible_browser_controller.tab_controller.saveTabConfiguration();
 });
