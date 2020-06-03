@@ -19,6 +19,8 @@ All notable changes to Ezra Project are documented in this file.
 * Enhance width of new tag / rename tag dialogues and input fields. ([#53][i53])
 * Cache verse list text data of each tab to improve application startup performance. ([#66][i66])
 * Strong's dictionary box: Add dynamically generated link to Blue Letter Bible website. ([#67][i67])
+* Use system-specific default fonts. ([#70][i70])
+* macOS: Align dialog style to UI guideline (close button on left side, text aligned centrally). ([#72][i72])
 
 ### Fixes
 
@@ -47,6 +49,8 @@ All notable changes to Ezra Project are documented in this file.
 [i62]: https://github.com/tobias-klein/ezra-project/issues/62
 [i66]: https://github.com/tobias-klein/ezra-project/issues/66
 [i67]: https://github.com/tobias-klein/ezra-project/issues/67
+[i70]: https://github.com/tobias-klein/ezra-project/issues/70
+[i72]: https://github.com/tobias-klein/ezra-project/issues/72
 
 -->
 
