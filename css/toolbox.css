@@ -43,7 +43,7 @@
 
 a.outline-reference {
   margin-left: 0.5em;
-  font-family: Sans-Serif;
+  font: caption;
 }
 
 a.outline-reference:link, a.outline-reference:visited, a.outline-reference:active {
@@ -57,7 +57,7 @@ a.outline-reference:focus, a.outline-reference:hover {
 }
 
 .outline-section-title-content {
-  font-family: Sans-Serif;
+  font: caption;
 }
 
 .outline-section-title-content form {
@@ -263,6 +263,7 @@ tr.td-underline td {
 
 #filter-dialog {
   display: none;
+  font-size: 0.9em;
   padding: 0.1em;
   border: 2px solid #AED0EA; 
   z-index: 99;
@@ -336,9 +337,24 @@ tr.td-underline td {
 }
 
 .ezra-dialog {
+  font: caption;
   font-size: 0.8em;
+  line-height: 150%;
   border: 2px solid #aed0ea;
   box-shadow: 0px 0px 20px #888888;
+  user-select: none;
+}
+
+.Linux .ezra-dialog {
+  font-family: "Liberation Sans", sans-serif;
+}
+
+.Windows .ezra-dialog {
+  font-family: "Segoe UI", sans-serif;
+}
+
+.OSX .ezra-dialog {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
 }
 
 #new-standard-tag-title-input, #new-meta-tag-title-input, #new-book-tag-title-input, #rename-standard-tag-title-input, #rename-meta-tag-title-input {

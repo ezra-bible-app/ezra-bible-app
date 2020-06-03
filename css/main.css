@@ -47,11 +47,17 @@
 }
 
 html, body {
-  font-family: Arial, Sans-Serif;
+  font: caption;
+  user-select: none;
+
   font-size: 100.1%;
   /* Do not show a scrollbar for the overall window.
      Instead we use a scrollbar for individual components within the window. */
   overflow: hidden;
+}
+
+button {
+  font: caption;
 }
 
 :focus {
@@ -78,6 +84,7 @@ h2 {
 
 #main-content {
   font-size: 0.9em;
+  user-select: none;
   display: none;
 }
 
@@ -124,7 +131,9 @@ h2 {
 
 .verse-list {
   padding: 0.5em;
-  font-family: Arial, Sans-Serif;
+  font: caption;
+  font-size: 1em;
+  line-height: 150%;
   /*height: 100%;         // Needed because of selectable scroll-bug
   overflow-y: scroll;*/
 }
@@ -168,8 +177,7 @@ h2 {
   background-color: #F3F3F3;
   font-size: 0.8em;
   font-weight: bold;
-  cursor: pointer; 
-  font-family: Arial, Sans-Serif;
+  cursor: pointer;
   /*visibility: hidden;*/
   width: 18px;
   height: 18px;
@@ -387,6 +395,18 @@ h2 {
   font-size: 0.9em;
 }
 
+.OSX .ui-dialog .ui-dialog-titlebar-close {
+  left: .3em;
+}
+
+.OSX .ui-dialog .ui-dialog-titlebar {
+  text-align: center;
+}
+
+.OSX .ui-dialog .ui-dialog-title {
+  float: none;
+}
+
 .odd-row {
   background-color: #EEEEEE;
 }
@@ -563,7 +583,6 @@ h2 {
 }*/
 
 .ui-widget, .ui-widget .ui-widget, .ui-widget button, .fg-button, .ui-selectmenu-menu {
-  font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
   font-size: 0.9em;
 }
 
@@ -682,7 +701,6 @@ h2 {
   float: none;
   display: inline-block;
   width: 11em;
-  height: 1em;
 }
 
 .display-options-button {
@@ -809,6 +827,8 @@ h2 {
 }
 
 .loading-indicator-text {
+  font: caption;
+  font-size: 1em;
   font-weight: bold;
   color: #808080;
 }
@@ -857,8 +877,9 @@ h2 {
 }
 
 #add-tab-button {
-  margin-top: 0.5em;
-  margin-left: 1em;
+  margin-top: 0.3em;
+  margin-left: 0.5em;
+  margin-right: 0.2em;
   font-size: 1.2em;
   float: left;
 }
@@ -954,9 +975,7 @@ h2 {
 }
 
 div.CodeMirror {
-  font-family: sans-serif;
-  /*font-family: monospace;
-  font-size: 110%;*/
+  font: caption;
   height: 20em;
   margin-bottom: 0.5em;
   background-color: #ecf3f7;
@@ -1328,6 +1347,7 @@ div.CodeMirror {
 
 .tag-browser-tag-cb {
   float: left;
+  margin-top: 0.25em;
   margin-right: 0.5em;
 }
 
@@ -1355,7 +1375,6 @@ div.CodeMirror {
 
 .tag-browser-verselist-book-header {
   font-weight: bold;
-  font-size: 1.1em;
   padding-top: 1em;
   padding-left: 1em;
   padding-bottom: 0.5em;
@@ -1534,6 +1553,18 @@ s {
 
 .load-book-results {
   margin-left: 1em;
+}
+
+.Windows, .Windows button, .Windows .verse-list, .Windows .loading-indicator-text, .Windows div.CodeMirror {
+  font-family: "Segoe UI", sans-serif;
+}
+
+.Linux, .Linux button, .Linux .verse-list, .Linux .loading-indicator-text, .Linux div.CodeMirror {
+  font-family: "Liberation Sans", sans-serif;
+}
+
+.OSX, .OSX button, .OSX .verse-list, .OSX .loading-indicator-text, .OSX div.CodeMirror {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
 }
 
 .darkmode--activated a:link, .darkmode--activated a:visited, .darkmode--activated p, .darkmode--activated .verse-list-composite {

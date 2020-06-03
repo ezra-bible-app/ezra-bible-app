@@ -123,10 +123,24 @@ function isMac()
   return navigator.platform.match('Mac') !== null;
 }
 
+function isLinux()
+{
+  return navigator.platform.match('Linux') !== null;
+}
+
+function isWin()
+{
+  return navigator.platform.match('Win') !== null;
+}
+
 function initUi()
 {
   if (isMac()) {
     document.body.classList.add('OSX');
+  } else if (isLinux()) {
+    document.body.classList.add('Linux');
+  } else if (isWin()) {
+    document.body.classList.add('Windows');
   }
 
   // Setup resizable function for divider between tags toolbox and verse list
