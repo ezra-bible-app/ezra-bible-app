@@ -34,8 +34,13 @@ class VerseSelection {
       cancel: '.verse-notes, #currently-edited-notes, .section-header-box, .verse-content-edited, .tag-box, .tag, .load-book-results',
 
       start: (event, ui) => {
-        this.selected_verse_references = new Array;
-        this.selected_verse_boxes = new Array;
+        // Only reset existing selection if metaKey and ctrlKey are not pressed.
+        // If one of these keys is pressed that indicates that the user wants to select individual non-consecutive verses.
+        // And in this case the start event is fired for each individual verse.
+        if (event.metaKey == false && event.ctrlKey == false) {
+          this.selected_verse_references = new Array;
+          this.selected_verse_boxes = new Array;
+        }
 
         bible_browser_controller.handleBodyClick(event);
       },
