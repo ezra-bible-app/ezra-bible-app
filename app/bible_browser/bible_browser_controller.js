@@ -564,8 +564,6 @@ class BibleBrowserController {
 
     this.verse_selection.init(tabIndex);
     this.navigation_pane.updateNavigation(tabIndex);
-    this.optionsMenu.showOrHideBookIntroductionBasedOnOption(tabIndex);
-    this.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
     this.bindEventsAfterBibleTextLoaded(tabIndex);
     this.notes_controller.initForTab(tabIndex);
   }

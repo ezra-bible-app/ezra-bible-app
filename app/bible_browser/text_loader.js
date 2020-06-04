@@ -74,12 +74,15 @@ class TextLoader {
       if (cachedText != null) {
         this.renderVerseList(cachedText, 'book', tabIndex);
       } else {
+
+        // 1) Only request the first 50 verses and render immediately
         await this.requestBookText(tabIndex, tabId, book,
           (htmlVerseList) => { 
             this.renderVerseList(htmlVerseList, 'book', tabIndex);
           }, 1, 50
         );
 
+        // 2) Now request the rest of the book
         await this.requestBookText(
           tabIndex, tabId, book,
           (htmlVerseList) => { 
@@ -437,7 +440,17 @@ class TextLoader {
       bible_browser_controller.module_search.highlightSearchResults(currentSearchTerm, tabIndex);
     }
 
-    bible_browser_controller.initApplicationForVerseList(tabIndex);
+    if (listType == 'book' && !append) {
+      bible_browser_controller.optionsMenu.showOrHideBookIntroductionBasedOnOption(tabIndex);
+      bible_browser_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
+    }
+
+    if (listType != 'book' ||
+        listType == 'book' && append) {
+
+      bible_browser_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
+      bible_browser_controller.initApplicationForVerseList(tabIndex);      
+    }
   }
 }
 
