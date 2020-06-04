@@ -74,26 +74,17 @@ class TextLoader {
       if (cachedText != null) {
         this.renderVerseList(cachedText, 'book', tabIndex);
       } else {
-        await this.requestBookText(
-          tabIndex,
-          tabId,
-          book,
+        await this.requestBookText(tabIndex, tabId, book,
           (htmlVerseList) => { 
             this.renderVerseList(htmlVerseList, 'book', tabIndex);
-          },
-          1,
-          50
+          }, 1, 50
         );
 
         await this.requestBookText(
-          tabIndex,
-          tabId,
-          book,
+          tabIndex, tabId, book,
           (htmlVerseList) => { 
             this.renderVerseList(htmlVerseList, 'book', tabIndex, undefined, true);
-          },
-          51,
-          -1
+          }, 51, -1
         );
       }
 
