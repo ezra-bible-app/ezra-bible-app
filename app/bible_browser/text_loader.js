@@ -72,13 +72,13 @@ class TextLoader {
       currentVerseListMenu.find('.book-select-button').addClass('focused-button');
 
       if (cachedText != null) {
-        this.renderVerseList(cachedText, 'book', tabIndex);
+        this.renderVerseList(cachedText, 'book', tabIndex, true);
       } else {
 
         // 1) Only request the first 50 verses and render immediately
         await this.requestBookText(tabIndex, tabId, book,
           (htmlVerseList) => { 
-            this.renderVerseList(htmlVerseList, 'book', tabIndex);
+            this.renderVerseList(htmlVerseList, 'book', tabIndex, false);
           }, 1, 50
         );
 
@@ -86,7 +86,7 @@ class TextLoader {
         await this.requestBookText(
           tabIndex, tabId, book,
           (htmlVerseList) => { 
-            this.renderVerseList(htmlVerseList, 'book', tabIndex, undefined, true);
+            this.renderVerseList(htmlVerseList, 'book', tabIndex, false, undefined, true);
           }, 51, -1
         );
       }
@@ -389,7 +389,7 @@ class TextLoader {
     render_function(verses_as_html, verses.length);
   }
 
-  renderVerseList(htmlVerseList, listType, tabIndex=undefined, target=undefined, append=false) {
+  renderVerseList(htmlVerseList, listType, tabIndex=undefined, isCache=false, target=undefined, append=false) {
     bible_browser_controller.translation_controller.hideBibleTranslationLoadingIndicator();
     bible_browser_controller.hideVerseListLoadingIndicator();
     bible_browser_controller.hideSearchProgressBar();
@@ -440,12 +440,13 @@ class TextLoader {
       bible_browser_controller.module_search.highlightSearchResults(currentSearchTerm, tabIndex);
     }
 
-    if (listType == 'book' && !append) {
+    if (isCache || listType == 'book' && !append) {
       bible_browser_controller.optionsMenu.showOrHideBookIntroductionBasedOnOption(tabIndex);
       bible_browser_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
     }
 
-    if (listType != 'book' ||
+    if (isCache ||
+        listType != 'book' ||
         listType == 'book' && append) {
 
       bible_browser_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
