@@ -24,6 +24,8 @@ const isDev = require('electron-is-dev');
 // Disable security warnings
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
 
+const windowStateKeeper = require('electron-window-state');
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -58,9 +60,16 @@ function createWindow () {
     preloadScript = path.join(__dirname, 'app/helpers/sentry.js')
   }
 
+  let mainWindowState = windowStateKeeper({
+    defaultWidth: 1200,
+    defaultHeight: 800
+  });
+
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1024,
-                                  height: 768,
+  mainWindow = new BrowserWindow({x: mainWindowState.x,
+                                  y: mainWindowState.y,
+                                  width: mainWindowState.width,
+                                  height: mainWindowState.height,
                                   show: false,
                                   frame: true,
                                   title: "Ezra Project " + app.getVersion(),
@@ -70,12 +79,16 @@ function createWindow () {
                                   },
                                   icon: path.join(__dirname, 'icons/ezra-project.png')
                                   });
+
+  // Register listeners on the window, so we can update the state
+  // automatically (the listeners will be removed when the window is closed)
+  // and restore the maximized or full screen state
+  mainWindowState.manage(mainWindow);
   
   // Disable the application menu
   Menu.setApplicationMenu(null);
 
   mainWindow.once('ready-to-show', () => {
-    mainWindow.maximize();
     mainWindow.show();
   });
 

@@ -21,6 +21,7 @@ All notable changes to Ezra Project are documented in this file.
 * Strong's dictionary box: Add dynamically generated link to Blue Letter Bible website. ([#67][i67])
 * Use system-specific default fonts. ([#70][i70])
 * macOS: Align dialog style to UI guideline (close button on left side, text aligned centrally). ([#72][i72])
+* Save window size/position/status and restore on restart. ([#73][i73])
 
 ### Fixes
 
@@ -53,6 +54,7 @@ All notable changes to Ezra Project are documented in this file.
 [i67]: https://github.com/tobias-klein/ezra-project/issues/67
 [i70]: https://github.com/tobias-klein/ezra-project/issues/70
 [i72]: https://github.com/tobias-klein/ezra-project/issues/72
+[i73]: https://github.com/tobias-klein/ezra-project/issues/73
 
 -->
 
