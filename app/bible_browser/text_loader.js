@@ -186,7 +186,7 @@ class TextLoader {
 
     var bookIntroduction = null;
 
-    if (start_verse_number == -1) { // Only load book introduction if the whole book is requested
+    if (start_verse_number == 1) { // Only load book introduction if starting with verse 1
       try {        
         if (localSwordModule != null && localSwordModule.hasHeadings) {
           bookIntroduction = nsi.getBookIntroduction(currentBibleTranslationId, book_short_title);
