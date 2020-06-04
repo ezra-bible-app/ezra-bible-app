@@ -204,7 +204,7 @@ class BibleBrowserController {
     this.module_search.initModuleSearchMenu(tabIndex);
     this.translation_controller.initTranslationsMenu(previousTabIndex, tabIndex);
     this.translation_controller.initBibleTranslationInfoButton();
-    var currentBibleTranslationId = this.tab_controller.getTab(tabIndex).getBibleTranslationId();
+    var currentBibleTranslationId = this.tab_controller.getTab(tabIndex)?.getBibleTranslationId();
     if (currentBibleTranslationId != null) {
       this.translation_controller.enableCurrentTranslationInfoButton(tabIndex);
     }
