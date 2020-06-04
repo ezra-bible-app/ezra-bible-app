@@ -17,7 +17,7 @@ You can also browse through some screenshots and photos on a separate [gallery p
 
 Ezra Project comes with the following functionality:
 * Bible browsing functionality
-  * Books are opened entirely and you can scroll through the chapters seemlessly.
+  * Bible books are opened entirely and you can scroll through the chapters seemlessly and fast.
   * The text is shown with book introductions and section headers.
   * You can compare the bible translations of the selected verses.
   * Access to all bible translations available from [CrossWire's](http://www.crosswire.org) repositories.
