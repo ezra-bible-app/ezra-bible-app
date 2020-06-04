@@ -80,7 +80,20 @@ class TextLoader {
           book,
           (htmlVerseList) => { 
             this.renderVerseList(htmlVerseList, 'book', tabIndex);
-          }
+          },
+          1,
+          50
+        );
+
+        await this.requestBookText(
+          tabIndex,
+          tabId,
+          book,
+          (htmlVerseList) => { 
+            this.renderVerseList(htmlVerseList, 'book', tabIndex, undefined, true);
+          },
+          51,
+          -1
         );
       }
 
@@ -382,7 +395,7 @@ class TextLoader {
     render_function(verses_as_html, verses.length);
   }
 
-  renderVerseList(htmlVerseList, listType, tabIndex=undefined, target=undefined) {
+  renderVerseList(htmlVerseList, listType, tabIndex=undefined, target=undefined, append=false) {
     bible_browser_controller.translation_controller.hideBibleTranslationLoadingIndicator();
     bible_browser_controller.hideVerseListLoadingIndicator();
     bible_browser_controller.hideSearchProgressBar();
@@ -419,6 +432,10 @@ class TextLoader {
 
       //console.log("Rendering search results verse list on tab " + tabIndex);
       target.removeClass('verse-list-book');
+    }
+
+    if (append) {
+      htmlVerseList = target[0].innerHTML + htmlVerseList;
     }
 
     target.html(htmlVerseList);
