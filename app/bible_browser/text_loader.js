@@ -82,6 +82,8 @@ class TextLoader {
           }, 1, 50
         );
 
+        await waitUntilIdle();
+
         // 2) Now request the rest of the book
         await this.requestBookText(
           tabIndex, tabId, book,
