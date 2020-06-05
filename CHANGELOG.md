@@ -1,7 +1,6 @@
 # Ezra Project - Changelog
 All notable changes to Ezra Project are documented in this file.
 
-<!--
 ## [0.13.0 - 2020-06-xx]
 ### Features
 
@@ -57,8 +56,6 @@ All notable changes to Ezra Project are documented in this file.
 [i72]: https://github.com/tobias-klein/ezra-project/issues/72
 [i73]: https://github.com/tobias-klein/ezra-project/issues/73
 [i74]: https://github.com/tobias-klein/ezra-project/issues/74
-
--->
 
 
 ## [0.12.2 - 2020-04-20]
