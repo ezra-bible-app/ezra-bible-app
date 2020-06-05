@@ -50,6 +50,7 @@ class TextLoader {
       }
 
       bible_browser_controller.showVerseListLoadingIndicator(loadingMessage, !isSearch /* Only show loader visualization if we are not searching */ );
+      bible_browser_controller.translation_controller.showBibleTranslationLoadingIndicator();
     }
 
     var temporary_help = bible_browser_controller.getCurrentVerseListComposite(tabIndex).find('.temporary-help, .help-text');
@@ -75,15 +76,18 @@ class TextLoader {
         this.renderVerseList(cachedText, 'book', tabIndex, true);
       } else {
 
+        console.time("Text Part 1");
         // 1) Only request the first 50 verses and render immediately
         await this.requestBookText(tabIndex, tabId, book,
           (htmlVerseList) => { 
             this.renderVerseList(htmlVerseList, 'book', tabIndex, false);
           }, 1, 50
         );
+        console.timeEnd("Text Part 1");
 
         await waitUntilIdle();
 
+        console.time("Text Part 2");
         // 2) Now request the rest of the book
         await this.requestBookText(
           tabIndex, tabId, book,
@@ -91,6 +95,7 @@ class TextLoader {
             this.renderVerseList(htmlVerseList, 'book', tabIndex, false, undefined, true);
           }, 51, -1
         );
+        console.timeEnd("Text Part 2");
       }
 
     } else if (textType == 'tagged_verses') { // Tagged verse list mode
@@ -392,7 +397,6 @@ class TextLoader {
   }
 
   renderVerseList(htmlVerseList, listType, tabIndex=undefined, isCache=false, target=undefined, append=false) {
-    bible_browser_controller.translation_controller.hideBibleTranslationLoadingIndicator();
     bible_browser_controller.hideVerseListLoadingIndicator();
     bible_browser_controller.hideSearchProgressBar();
     var initialRendering = true;
@@ -453,6 +457,7 @@ class TextLoader {
 
       bible_browser_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
       bible_browser_controller.initApplicationForVerseList(tabIndex);      
+      bible_browser_controller.translation_controller.hideBibleTranslationLoadingIndicator();
     }
   }
 }
