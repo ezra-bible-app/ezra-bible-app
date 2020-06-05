@@ -297,6 +297,8 @@ async function initApplication()
 
   initNightMode();
 
+  bible_browser_controller.optionsMenu.showOrHideToolBarBasedOnOption();
+
   console.log("Loading settings ...");
   await bible_browser_controller.loadSettings();
 
@@ -306,6 +308,9 @@ async function initApplication()
 
   // Show main content
   $('#main-content').show();
+
+  var verseListTabs = $(document.getElementById('verse-list-tabs'));
+  verseListTabs.removeClass('verse-list-tabs-small-screen');
 
   console.timeEnd("application-startup");
 

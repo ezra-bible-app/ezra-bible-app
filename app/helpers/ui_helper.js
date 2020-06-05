@@ -124,7 +124,12 @@ class UiHelper {
   // FIXME: Optimize this to be tab-specific
   resizeAppContainer(e) {
     var verseListTabs = $(document.getElementById('verse-list-tabs'));
-    if (verseListTabs.width() <= 820) {
+    var verseListTabsWidth = verseListTabs.width();
+
+    if (verseListTabsWidth >= 200 && // Initially, at program start the width is very small (100) - in this
+                                     // case we don't add the small-screen class to avoid flickering.
+        verseListTabsWidth <= 820) {
+
       verseListTabs.addClass('verse-list-tabs-small-screen')
     } else {
       verseListTabs.removeClass('verse-list-tabs-small-screen');
