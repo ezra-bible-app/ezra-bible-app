@@ -22,6 +22,7 @@ All notable changes to Ezra Project are documented in this file.
 * Use system-specific default fonts. ([#70][i70])
 * macOS: Align dialog style to UI guideline (close button on left side, text aligned centrally). ([#72][i72])
 * Save window size/position/status and restore on restart. ([#73][i73])
+* Improve text loading performance of books. ([#74][i74])
 
 ### Fixes
 
@@ -55,6 +56,7 @@ All notable changes to Ezra Project are documented in this file.
 [i70]: https://github.com/tobias-klein/ezra-project/issues/70
 [i72]: https://github.com/tobias-klein/ezra-project/issues/72
 [i73]: https://github.com/tobias-klein/ezra-project/issues/73
+[i74]: https://github.com/tobias-klein/ezra-project/issues/74
 
 -->
 
