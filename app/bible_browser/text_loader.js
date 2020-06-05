@@ -72,15 +72,24 @@ class TextLoader {
       currentVerseListMenu.find('.book-select-button').addClass('focused-button');
 
       if (cachedText != null) {
-        this.renderVerseList(cachedText, 'book', tabIndex);
+        this.renderVerseList(cachedText, 'book', tabIndex, true);
       } else {
-        await this.requestBookText(
-          tabIndex,
-          tabId,
-          book,
+
+        // 1) Only request the first 50 verses and render immediately
+        await this.requestBookText(tabIndex, tabId, book,
           (htmlVerseList) => { 
-            this.renderVerseList(htmlVerseList, 'book', tabIndex);
-          }
+            this.renderVerseList(htmlVerseList, 'book', tabIndex, false);
+          }, 1, 50
+        );
+
+        await waitUntilIdle();
+
+        // 2) Now request the rest of the book
+        await this.requestBookText(
+          tabIndex, tabId, book,
+          (htmlVerseList) => { 
+            this.renderVerseList(htmlVerseList, 'book', tabIndex, false, undefined, true);
+          }, 51, -1
         );
       }
 
@@ -173,7 +182,7 @@ class TextLoader {
 
     var bookIntroduction = null;
 
-    if (start_verse_number == -1) { // Only load book introduction if the whole book is requested
+    if (start_verse_number == 1) { // Only load book introduction if starting with verse 1
       try {        
         if (localSwordModule != null && localSwordModule.hasHeadings) {
           bookIntroduction = nsi.getBookIntroduction(currentBibleTranslationId, book_short_title);
@@ -382,7 +391,7 @@ class TextLoader {
     render_function(verses_as_html, verses.length);
   }
 
-  renderVerseList(htmlVerseList, listType, tabIndex=undefined, target=undefined) {
+  renderVerseList(htmlVerseList, listType, tabIndex=undefined, isCache=false, target=undefined, append=false) {
     bible_browser_controller.translation_controller.hideBibleTranslationLoadingIndicator();
     bible_browser_controller.hideVerseListLoadingIndicator();
     bible_browser_controller.hideSearchProgressBar();
@@ -421,6 +430,10 @@ class TextLoader {
       target.removeClass('verse-list-book');
     }
 
+    if (append) {
+      htmlVerseList = target[0].innerHTML + htmlVerseList;
+    }
+
     target.html(htmlVerseList);
 
     if (listType == 'search_results') {
@@ -429,7 +442,18 @@ class TextLoader {
       bible_browser_controller.module_search.highlightSearchResults(currentSearchTerm, tabIndex);
     }
 
-    bible_browser_controller.initApplicationForVerseList(tabIndex);
+    if (isCache || listType == 'book' && !append) {
+      bible_browser_controller.optionsMenu.showOrHideBookIntroductionBasedOnOption(tabIndex);
+      bible_browser_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
+    }
+
+    if (isCache ||
+        listType != 'book' ||
+        listType == 'book' && append) {
+
+      bible_browser_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
+      bible_browser_controller.initApplicationForVerseList(tabIndex);      
+    }
   }
 }
 
