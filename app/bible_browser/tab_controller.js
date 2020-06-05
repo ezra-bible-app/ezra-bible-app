@@ -222,6 +222,7 @@ class TabController {
     var loadedTabCount = 0;
 
     if (this.settings.has('tabConfiguration')) {
+      bible_browser_controller.translation_controller.showBibleTranslationLoadingIndicator();
       bible_browser_controller.showVerseListLoadingIndicator();
       loadedTabCount = this.loadMetaTabsFromSettings();
 
