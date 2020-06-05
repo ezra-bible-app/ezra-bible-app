@@ -164,7 +164,6 @@ function initUi()
 
   tags_controller.init_ui();
   uiHelper.configureButtonStyles();
-  uiHelper.resizeAppContainer();
   $(window).bind("resize", () => { uiHelper.resizeAppContainer(); });
 }
 
@@ -308,9 +307,7 @@ async function initApplication()
 
   // Show main content
   $('#main-content').show();
-
-  var verseListTabs = $(document.getElementById('verse-list-tabs'));
-  verseListTabs.removeClass('verse-list-tabs-small-screen');
+  uiHelper.resizeAppContainer();
 
   console.timeEnd("application-startup");
 
