@@ -637,19 +637,24 @@ class InstallTranslationWizard {
       }
       
       var moduleId = checkbox.parent().find('.bible-translation-info').text();
-      var swordModule = nsi.getRepoModule(moduleId);
 
-      if (checkbox.prop('checked') == false) {
-        if (swordModule.locked) {
-          this.showUnlockDialog(swordModule, checkbox);
+      try {
+        var swordModule = nsi.getRepoModule(moduleId);
+
+        if (checkbox.prop('checked') == false) {
+          if (swordModule.locked) {
+            this.showUnlockDialog(swordModule, checkbox);
+          }
+        } else {
+          if (swordModule.locked) {
+            // Checkbox unchecked!
+            // Reset the unlock key for this module
+            $('#unlock-key-input').val('');
+            this._unlockKeys[moduleId] = '';
+          }
         }
-      } else {
-        if (swordModule.locked) {
-          // Checkbox unchecked!
-          // Reset the unlock key for this module
-          $('#unlock-key-input').val('');
-          this._unlockKeys[moduleId] = '';
-        }
+      } catch (e) {
+        console.warn("Got exception while trying to check module unlock status: " + e);
       }
     });
   }
