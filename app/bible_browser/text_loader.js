@@ -76,18 +76,15 @@ class TextLoader {
         this.renderVerseList(cachedText, 'book', tabIndex, true);
       } else {
 
-        console.time("Text Part 1");
         // 1) Only request the first 50 verses and render immediately
         await this.requestBookText(tabIndex, tabId, book,
           (htmlVerseList) => { 
             this.renderVerseList(htmlVerseList, 'book', tabIndex, false);
           }, 1, 50
         );
-        console.timeEnd("Text Part 1");
 
         await waitUntilIdle();
 
-        console.time("Text Part 2");
         // 2) Now request the rest of the book
         await this.requestBookText(
           tabIndex, tabId, book,
@@ -95,7 +92,6 @@ class TextLoader {
             this.renderVerseList(htmlVerseList, 'book', tabIndex, false, undefined, true);
           }, 51, -1
         );
-        console.timeEnd("Text Part 2");
       }
 
     } else if (textType == 'tagged_verses') { // Tagged verse list mode
