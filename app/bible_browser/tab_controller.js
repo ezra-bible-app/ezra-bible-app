@@ -230,6 +230,7 @@ class TabController {
         await this.populateFromMetaTabs();
       } else {
         bible_browser_controller.hideVerseListLoadingIndicator();
+        bible_browser_controller.translation_controller.hideBibleTranslationLoadingIndicator();
       }
     }
 
