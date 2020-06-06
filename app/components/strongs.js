@@ -283,7 +283,7 @@ class Strongs {
     var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
     var functionCall = "javascript:bible_browser_controller.strongs.findAllOccurrences('" + strongsEntry.key + "','" + currentBibleTranslationId + "')";
     var link = "<p><a href=\"" + functionCall + "\">" + 
-               i18n.t("dictionary-info-box.find-all-occurrances") + 
+               i18n.t("dictionary-info-box.find-all-occurrences") + 
                "</a></p>";
     return link;
   }
