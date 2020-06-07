@@ -54,7 +54,8 @@ class NotesController {
   }
 
   getCurrentVerseBox() {
-    return $('.verse-reference-id-' + this.currentVerseReferenceId);
+    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+    return currentVerseList.find('.verse-reference-id-' + this.currentVerseReferenceId);
   }
 
   refreshNotesInfo(noteValue) {
@@ -80,15 +81,17 @@ class NotesController {
 
         var currentVerseBox = this.getCurrentVerseBox();
         models.Note.persistNote(currentNoteValue, currentVerseBox).then((note) => {
-          var updatedTimestamp = null;
+          if (note != undefined) {
+            var updatedTimestamp = null;
 
-          if (currentNoteValue == "") {
-            updatedTimestamp = "";
-          } else {
-            updatedTimestamp = note.updatedAt;
+            if (currentNoteValue == "") {
+              updatedTimestamp = "";
+            } else {
+              updatedTimestamp = note?.updatedAt;
+            }
+
+            this.updateNoteDate(currentVerseBox, updatedTimestamp);
           }
-
-          this.updateNoteDate(currentVerseBox, updatedTimestamp);
         });
       }
     }
