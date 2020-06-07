@@ -291,6 +291,7 @@ class ModuleSearch {
       
     } else {
       bible_browser_controller.hideVerseListLoadingIndicator();
+      bible_browser_controller.translation_controller.hideBibleTranslationLoadingIndicator();
       bible_browser_controller.hideSearchProgressBar();
     }
 
