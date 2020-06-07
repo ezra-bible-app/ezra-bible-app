@@ -149,6 +149,7 @@ class BibleBrowserController {
     // Refresh the view based on the options selected
     this.optionsMenu.refreshViewBasedOnOptions(ui.index);
 
+    // When switching tabs we need to end any note editing.
     this.notes_controller.restoreCurrentlyEditedNotes();
 
     // Re-configure tab search
