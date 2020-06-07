@@ -976,6 +976,7 @@ h2 {
 
 div.CodeMirror {
   font: caption;
+  font-size: 0.8em;
   height: 20em;
   margin-bottom: 0.5em;
   background-color: #ecf3f7;
