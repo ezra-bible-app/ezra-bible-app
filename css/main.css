@@ -1557,11 +1557,18 @@ s {
 
 .Windows, .Windows button, .Windows .verse-list, .Windows .loading-indicator-text, .Windows div.CodeMirror {
   font-family: "Segoe UI", sans-serif;
+}
+
+.Windows div.CodeMirror {
   font-size: 1em;
 }
 
 .Linux, .Linux button, .Linux .verse-list, .Linux .loading-indicator-text, .Linux div.CodeMirror {
   font-family: "Liberation Sans", sans-serif;
+  font-size: 0.8em;
+}
+
+.Linux div.CodeMirror {
   font-size: 0.8em;
 }
 
