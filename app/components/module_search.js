@@ -40,12 +40,21 @@ class ModuleSearch {
         this.startSearch(event);
       }
     }).on("keyup", () => {
-      if (this.getSearchType() == "strongsNumber") {
-        this.validateStrongsKey();
-      } else {
-        this.setModuleSearchValid();
-      }
+      this.validateSearchTerm();
     });
+
+    var selectField = document.getElementById('module-search-menu').querySelector('#search-type');
+    $(selectField).on("change", () => {
+      this.validateSearchTerm();
+    });
+  }
+
+  validateSearchTerm() {
+    if (this.getSearchType() == "strongsNumber") {
+      this.validateStrongsKey();
+    } else {
+      this.setModuleSearchValid();
+    }
   }
 
   hideSearchMenu() {
