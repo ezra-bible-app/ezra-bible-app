@@ -172,7 +172,7 @@ class TabController {
   async populateFromMetaTabs() {
     var cacheOutdated = await this.isCacheOutdated();
     if (cacheOutdated) {
-      console.log("Tab content cache is outdated. Database has been updated in the mean time!");
+      console.log("Tab content cache is outdated. Database has been updated in the meantime!");
     }
 
     for (var i = 0; i < this.metaTabs.length; i++) {
