@@ -28,17 +28,26 @@ Ezra Project comes with the following functionality:
   * Lookup all verses of a tag in the context of a book or verse list (show verses in small popup).
   * Export a tagged verse list to a document.
   * Show tag statistics for the currently opened book.
+* Note taking functionality
+  * Take notes for individual verses.
+  * The notes can be formatted using Markdown syntax.
+  * The note editor offers syntax highlighting and convenience features for editing Markdown
+  (see this [cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)).
 * Search
-  * Search within the currently opened book or verse list (CTRL + f).
+  * Search within the currently opened book or verse list (`CTRL/CMD + f`).
   * Search within the full bible translation.
   * Search with multiple words, exact phrase or Strong's number.
+  * Search results are highlighted.
 * Strong's dictionary
-  - Strong's transcriptions/original word are displayed as hint/pop-up above the word when hovering the mouse over the corresponding word while pressing SHIFT.
+  - Strong's transcriptions/original word are displayed as hint/pop-up above the word when hovering the mouse over the corresponding word while pressing `SHIFT`.
   - Detailed Strong's information is shown on the bottom left in a separate box.
   - Strong's based search with link 'Find all occurrances'.
 * Tabbed user interface
   * Each tab either shows a book, a tagged verse list or search results.
   * Previously opened tabs are loaded again on program start.
+* Switchable light/dark color theme
+  * You can easily and quickly switch between a light and a dark color theme.
+  * This is configured automatically on macOS based on the system settings.
 * User interface available in the following languages:
   * English, German, Dutch, French
 
