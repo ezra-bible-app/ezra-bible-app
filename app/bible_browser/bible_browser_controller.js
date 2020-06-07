@@ -174,7 +174,7 @@ class BibleBrowserController {
     this.translation_controller.initTranslationsMenu(-1, ui.index);
 
     // Highlight currently selected book (only in book mode)
-    var textType = this.tab_controller.getTab(ui.index).getTextType();
+    var textType = this.tab_controller.getTab(ui.index)?.getTextType();
     if (textType == 'book') {
       this.book_selection_menu.highlightCurrentlySelectedBookInMenu(ui.index);
     }
