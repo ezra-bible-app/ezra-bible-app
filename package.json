@@ -69,6 +69,7 @@
     "v8-compile-cache": "^2.1.0"
   },
   "devDependencies": {
+    "@sentry/cli": "^1.54.0",
     "electron": "^8.3.0",
     "electron-osx-sign": "^0.4.12",
     "electron-packager": "^14.0.4",
