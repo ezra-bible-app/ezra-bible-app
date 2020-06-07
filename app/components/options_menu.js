@@ -336,8 +336,8 @@ class OptionsMenu {
     }
   }
 
-  showOrHideVerseNotesBasedOnOption() {
-    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+  showOrHideVerseNotesBasedOnOption(tabIndex=undefined) {
+    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
     if (this.verseNotesSwitchChecked()) {
       currentVerseList.addClass('verse-list-with-notes');
     } else {
