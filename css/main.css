@@ -1565,11 +1565,10 @@ s {
 
 .Linux, .Linux button, .Linux .verse-list, .Linux .loading-indicator-text, .Linux div.CodeMirror {
   font-family: "Liberation Sans", sans-serif;
-  font-size: 0.8em;
 }
 
 .Linux div.CodeMirror {
-  font-size: 0.8em;
+  font-size: 1em;
 }
 
 .OSX, .OSX button, .OSX .verse-list, .OSX .loading-indicator-text, .OSX div.CodeMirror {
