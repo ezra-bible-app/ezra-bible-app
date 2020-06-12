@@ -163,7 +163,7 @@
     "hebrew": "Hébreux",
     "default-header": "<b>Dictionnaire de Strong</b>",
     "help-instruction": "<p>Comment affichier les nombres de Strong ici :</p><ol><li>Commencer par ouvrir une traduction avec la fonctionnalité des nombre de Strong.</li><li>En pressant la touche SHIFT vous pouvez déplacer votre souris sur chaque mot en particulier ou sur une phrase pour y voir les informations liées au nombre de Strong.</li><ol>",
-    "find-all-occurrences": "Find all occurrences",
+    "find-all-occurrences": "Trouver toutes les occurrences",
     "open-in-blueletter": "Ouvrez dans la Blue Letter Bible"
   }
 }
