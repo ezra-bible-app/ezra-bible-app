@@ -299,6 +299,8 @@ h2 {
 .verse-content {
   margin-left: 8em; /* Needs to be bigger to support notes and x-refs, aligned with .verse-reference */
   padding: 0.2em;
+  display: flex;
+  flex-direction: row;
 }
 
 .slim-verse-reference .verse-reference {
@@ -323,8 +325,11 @@ h2 {
   padding-right: 0.5em;
   padding-bottom: 0.5em;
   margin-left: 1em;
-  float: right;
-  width: 25%;
+  width: 30%;
+}
+
+.verse-list-with-notes.verse-list-tags-column .tag-box {
+  width: 36%;
 }
 
 .tag {
@@ -377,10 +382,26 @@ h2 {
   display: none;
 }
 
+.verse-list-with-notes .verse-text-and-tags {
+  width: 75%;
+}
+
+.verse-list-tags-column:not(.verse-list-without-tags) .verse-text-and-tags {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.verse-list:not(.verse-list-with-notes) .verse-text-and-tags {
+  width: 100%;
+}
+
+.verse-list-tags-column:not(.verse-list-without-tags) .verse-text {
+  width: 70%;
+}
+
 .verse-text {
   cursor: pointer;
   padding: 0.05em;
-  display: table-cell;
 }
 
 .ezra-dialog .verse-text {
@@ -983,7 +1004,6 @@ div.CodeMirror {
 }
 
 .verse-notes {
-  float: right;
   width: 25%;
   padding: 0.5em;
   margin-left: 1em;

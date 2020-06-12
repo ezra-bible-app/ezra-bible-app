@@ -106,6 +106,18 @@ each bibleBook in bibleBooks
 
       div.verse-content
 
+        div.verse-text-and-tags
+          //- FIXME: Check whether this renderVerseMetaInfo option is really used and if not delete it!
+          if renderVerseMetaInfo == true
+            div.tag-box
+              if current_verse_tags != null
+                each verseTag in current_verse_tags
+                  //- var current_tag_title = verseTag.tagTitle.replace(/ /g, "&nbsp;")
+                  - var current_tag_title = verseTag.tagTitle
+                  div.tag(title=tagHint) !{current_tag_title}
+                  
+          div.verse-text !{verse.content}
+
         if current_verse_note != null && current_verse_note.text != null && current_verse_note.text != ''
           - var verseNoteClass = "verse-notes";
           - var verseNoteUpdate = i18nHelper.getLocalizedDate(current_verse_note.updatedAt);
@@ -128,17 +140,6 @@ each bibleBook in bibleBooks
               span &nbsp;|&nbsp;
               a(class='cancel-edit', href='') !{cancelText}
             div(class='verse-notes-timestamp') !{verseNoteUpdate}
-
-        //- FIXME: Check whether this renderVerseMetaInfo option is really used and if not delete it!
-        if renderVerseMetaInfo == true
-          div.tag-box
-            if current_verse_tags != null
-              each verseTag in current_verse_tags
-                //- var current_tag_title = verseTag.tagTitle.replace(/ /g, "&nbsp;")
-                - var current_tag_title = verseTag.tagTitle
-                div.tag(title=tagHint) !{current_tag_title}
-
-        div.verse-text !{verse.content}
 
   if verse_count == 0 && renderBibleBookHeaders == true
     div.book-section(id=verseListId + "-book-section-" + bibleBook.shortTitle)
