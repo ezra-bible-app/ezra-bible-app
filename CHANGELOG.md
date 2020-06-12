@@ -29,7 +29,7 @@ All notable changes to Ezra Project are documented in this file.
 * Fixed regression bug related to creation of verse references in case of non-ENGLISH versification. ([#54][i54])
 * Fixed tab search (exact phrase search) to properly work with Strong's translations. ([#62][i62])
 * Fixed layout issues that occurred with the tabs & menu on a smaller screen. ([#44][i44])
-* Fixed verse select behavior in case of individual verse selection (using meta key/ctrl + click). ([#63][i63])
+* Fixed verse select behavior in case of individual verse selection (using meta key/ctrl + click). ([#63][i63] and [#81](i81))
 
 ### Enablers
 
@@ -56,6 +56,7 @@ All notable changes to Ezra Project are documented in this file.
 [i72]: https://github.com/tobias-klein/ezra-project/issues/72
 [i73]: https://github.com/tobias-klein/ezra-project/issues/73
 [i74]: https://github.com/tobias-klein/ezra-project/issues/74
+[i81]: https://github.com/tobias-klein/ezra-project/issues/81
 
 
 ## [0.12.2 - 2020-04-20]

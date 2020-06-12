@@ -46,12 +46,12 @@ class VerseSelection {
       },
 
       stop: (event, ui) => {
+        this.updateSelected();
         this.updateViewsAfterVerseSelection();
       },
 
       selected: (event, ui) => {
-        var verse_box = $(ui.selected).closest('.verse-box');
-        this.addVerseToSelected(verse_box);
+        // Not needed anymore!
       }
     });
 
@@ -68,10 +68,19 @@ class VerseSelection {
     });
   }
 
-  addVerseToSelected(verse_box) {
-    var verse_reference = verse_box.find('a:first').attr('name');
-    this.selected_verse_references.push(verse_reference);
-    this.selected_verse_boxes.push(verse_box);
+  updateSelected() {
+    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+
+    this.selected_verse_boxes = currentVerseList.find('.ui-selected').closest('.verse-box');
+    var selectedVerseReferences = [];
+
+    for (var i = 0; i < this.selected_verse_boxes.length; i++) {
+      var verseBox = $(this.selected_verse_boxes[i]);
+      var currentVerseReference = verseBox.find('a:first').attr('name');
+      selectedVerseReferences.push(currentVerseReference);
+    }
+
+    this.selected_verse_references = selectedVerseReferences;
   }
 
   clear_verse_selection(updateViews=true) {
