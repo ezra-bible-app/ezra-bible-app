@@ -84,7 +84,7 @@ async function initI18N()
   i18nHelper = new I18nHelper();
 
   await i18nHelper.init();
-  //await i18n.changeLanguage('de');
+  // await i18n.changeLanguage('de');
 
   reference_separator = i18n.t('general.chapter-verse-separator');
   $(document).localize();
@@ -221,6 +221,14 @@ function earlyInitNightMode() {
   }
 }
 
+function earlyHideToolBar() {
+  var settings = require('electron-settings');
+
+  if (!settings.get('showToolBar')) {
+    $('#bible-browser-toolbox').hide();
+  }
+}
+
 function initNightMode() {
   if (isMac()) { // On macOS we initialize night mode based on the system settings
 
@@ -304,6 +312,8 @@ async function initApplication()
   console.log("Loading HTML fragments");
   loadHTML();
 
+  earlyHideToolBar();
+
   var loadingIndicator = $('#startup-loading-indicator');
   loadingIndicator.show();
   loadingIndicator.find('.loader').show();
@@ -330,7 +340,10 @@ async function initApplication()
   console.log("Initializing user interface ...");
   initUi();
 
-  bible_browser_controller.optionsMenu.showOrHideToolBarBasedOnOption();
+  // Wait for the UI to render, before we hide the loading indicator
+  await waitUntilIdle();
+
+  //bible_browser_controller.optionsMenu.showOrHideToolBarBasedOnOption();
 
   console.log("Loading settings ...");
   await bible_browser_controller.loadSettings();
