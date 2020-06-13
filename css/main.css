@@ -54,6 +54,8 @@ html, body {
   /* Do not show a scrollbar for the overall window.
      Instead we use a scrollbar for individual components within the window. */
   overflow: hidden;
+
+  touch-action: none;
 }
 
 body.darkmode--activated {
