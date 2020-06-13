@@ -18,9 +18,9 @@ This page shows screenshots and photos of how Ezra Project looks for different u
 
 ![Ezra Project 0.13.0 Search Results](https://raw.githubusercontent.com/tobias-klein/ezra-project/master/screenshots/ezra_project_0_13_0_search_results.png "Ezra Project 0.13.0 Search Results")
 
-## Installation wizard
+## Installation assistant
 
-TODO
+![Ezra Project 0.13.0 Installation Assistant](https://raw.githubusercontent.com/tobias-klein/ezra-project/master/screenshots/ezra_project_0_13_0_install_assistant.png "Ezra Project 0.13.0 Install Assistant")
 
 ## Vertical mode on Surface Go tablet
 
