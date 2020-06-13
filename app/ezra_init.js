@@ -200,17 +200,18 @@ function switchToTheme(theme) {
 }
 
 function earlyInitNightMode() {
-  var settings = require('electron-settings');
   var useDarkMode = false;
-
-  if (settings.get('useNightMode')) {
-    useDarkMode = true;
-  }
 
   if (isMac()) {
     const nativeTheme = require('electron').remote.nativeTheme;
 
     if (nativeTheme.shouldUseDarkColors) {
+      useDarkMode = true;
+    }
+  } else {
+    var settings = require('electron-settings');
+
+    if (settings.get('useNightMode')) {
       useDarkMode = true;
     }
   }
@@ -318,6 +319,8 @@ async function initApplication()
 
   console.log("Initializing controllers ...");
   await initControllers();
+
+  bible_browser_controller.optionsMenu.loadDisplayOptions();
 
   initNightMode();
 

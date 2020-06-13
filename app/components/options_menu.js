@@ -197,8 +197,13 @@ class OptionsMenu {
     }
 
     var useNightMode = false;
-    if (bible_browser_controller.settings.has('useNightMode')) {
-      useNightMode = bible_browser_controller.settings.get('useNightMode');
+    if (isMac()) {
+      const nativeTheme = require('electron').remote.nativeTheme;
+      useNightMode = nativeTheme.shouldUseDarkColors;
+    } else {
+      if (bible_browser_controller.settings.has('useNightMode')) {
+        useNightMode = bible_browser_controller.settings.get('useNightMode');
+      }
     }
 
     var showNotes = false;
@@ -236,6 +241,11 @@ class OptionsMenu {
 
     if (useNightMode) {
       this.enableOption('night-mode-switch');
+    }
+
+    if (isMac()) {
+      // On macOS we do not give the user the option to switch night mode within the app, since it is controlled via system settings.
+      $('#night-mode-switch-box').hide();
     }
 
     this.refreshViewBasedOnOptions();
