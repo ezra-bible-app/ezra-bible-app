@@ -56,6 +56,10 @@ html, body {
   overflow: hidden;
 }
 
+body.darkmode--activated {
+  background-color: black;
+}
+
 button {
   font: caption;
 }
@@ -384,6 +388,10 @@ h2 {
 
 .verse-list-with-notes .verse-text-and-tags {
   width: 75%;
+}
+
+.verse-list-with-notes:not(.verse-list-tags-column) .verse-text-and-tags {
+  width: 50%;
 }
 
 .verse-list-tags-column:not(.verse-list-without-tags) .verse-text-and-tags {
@@ -1024,6 +1032,10 @@ div.CodeMirror {
   border: 1px solid #AED0EA;
 
   position: relative;
+}
+
+.verse-list-with-notes:not(.verse-list-tags-column) .verse-notes {
+  width: 50%;
 }
 
 .verse-notes-text {

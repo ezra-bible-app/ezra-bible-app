@@ -277,7 +277,6 @@ class BibleBrowserController {
       tags_controller.showTagListLoadingIndicator();
     }
 
-    this.optionsMenu.loadDisplayOptions();
     await this.tab_controller.loadTabConfiguration();
     this.translation_controller.loadSettings();
     this.tab_controller.bindEvents();

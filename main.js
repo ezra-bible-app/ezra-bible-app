@@ -18,7 +18,7 @@
 
 require('v8-compile-cache');
 
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const isDev = require('electron-is-dev');
 
 // Disable security warnings
@@ -29,6 +29,7 @@ const windowStateKeeper = require('electron-window-state');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let mainWindowState;
 
 if (process.platform === 'win32') {
     // This is only needed for making the Windows installer work properly
@@ -60,9 +61,16 @@ function createWindow () {
     preloadScript = path.join(__dirname, 'app/helpers/sentry.js')
   }
 
-  let mainWindowState = windowStateKeeper({
+  mainWindowState = windowStateKeeper({
     defaultWidth: 1200,
     defaultHeight: 800
+  });
+
+  ipcMain.on('manageWindowState', (event, arg) => {
+    // Register listeners on the window, so we can update the state
+    // automatically (the listeners will be removed when the window is closed)
+    // and restore the maximized or full screen state
+    mainWindowState.manage(mainWindow);
   });
 
   // Create the browser window.
@@ -79,25 +87,16 @@ function createWindow () {
                                   },
                                   icon: path.join(__dirname, 'icons/ezra-project.png')
                                   });
-
-  // Register listeners on the window, so we can update the state
-  // automatically (the listeners will be removed when the window is closed)
-  // and restore the maximized or full screen state
-  mainWindowState.manage(mainWindow);
-  
+ 
   // Disable the application menu
   Menu.setApplicationMenu(null);
-
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.show();
-  });
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
     protocol: 'file:',
     slashes: true
-  }))
+  }));
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -105,7 +104,7 @@ function createWindow () {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = null;
-  })
+  });
 }
 
 // This method will be called when Electron has finished
