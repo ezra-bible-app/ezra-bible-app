@@ -224,7 +224,7 @@ class TabSearch {
     if (this.currentOccuranceElement != null) {
       this.currentOccuranceElement.classList.add('current-hl');
       this.currentOccuranceElement.closest('.verse-box')?.querySelector('.verse-text').classList.add('ui-selected');
-      bible_browser_controller.verse_selection.addVerseToSelected($(this.currentOccuranceElement.closest('.verse-box')));
+      bible_browser_controller.verse_selection.updateSelected();
       bible_browser_controller.verse_selection.updateViewsAfterVerseSelection();
     }
 
