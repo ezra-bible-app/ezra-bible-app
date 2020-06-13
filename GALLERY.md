@@ -12,11 +12,11 @@ This page shows screenshots and photos of how Ezra Project looks for different u
 
 ## Tagged verse lists
 
-TODO
+![Ezra Project 0.13.0 Tagged Verse List](https://raw.githubusercontent.com/tobias-klein/ezra-project/master/screenshots/ezra_project_0_13_0_tagged_verse_list.png "Ezra Project 0.13.0 Tagged Verse List")
 
 ## Visualization of search results
 
-TODO
+![Ezra Project 0.13.0 Search Results](https://raw.githubusercontent.com/tobias-klein/ezra-project/master/screenshots/ezra_project_0_13_0_search_results.png "Ezra Project 0.13.0 Search Results")
 
 ## Installation wizard
 
