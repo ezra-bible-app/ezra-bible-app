@@ -19,6 +19,7 @@
 require('v8-compile-cache');
 
 const app = require('electron').remote.app;
+const { remote, ipcRenderer } = require('electron');
 
 // i18n
 let i18n = null;
@@ -198,6 +199,27 @@ function switchToTheme(theme) {
   }
 }
 
+function earlyInitNightMode() {
+  var settings = require('electron-settings');
+  var useDarkMode = false;
+
+  if (settings.get('useNightMode')) {
+    useDarkMode = true;
+  }
+
+  if (isMac()) {
+    const nativeTheme = require('electron').remote.nativeTheme;
+
+    if (nativeTheme.shouldUseDarkColors) {
+      useDarkMode = true;
+    }
+  }
+
+  if (useDarkMode) {
+    document.body.classList.add('darkmode--activated');
+  }
+}
+
 function initNightMode() {
   if (isMac()) { // On macOS we initialize night mode based on the system settings
 
@@ -265,6 +287,15 @@ function loadHTML()
 async function initApplication()
 {
   console.time("application-startup");
+  earlyInitNightMode();
+
+  // Wait for the UI to render
+  await waitUntilIdle();
+
+  await ipcRenderer.send('manageWindowState');
+  
+  const appWindow = remote.getCurrentWindow();
+  appWindow.show();
 
   // This module will modify the standard console.log function and add a timestamp as a prefix for all log calls
   require('log-timestamp');
@@ -279,9 +310,6 @@ async function initApplication()
   console.log("Initializing i18n ...");
   await initI18N();
 
-  // Wait for the UI to render
-  await waitUntilIdle();
-
   console.log("Initializing node-sword-interface ...");
   initNSI();
 
@@ -291,10 +319,13 @@ async function initApplication()
   console.log("Initializing controllers ...");
   await initControllers();
 
+  initNightMode();
+
+  // Wait for the UI to render
+  await waitUntilIdle();
+
   console.log("Initializing user interface ...");
   initUi();
-
-  initNightMode();
 
   bible_browser_controller.optionsMenu.showOrHideToolBarBasedOnOption();
 

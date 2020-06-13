@@ -56,6 +56,10 @@ html, body {
   overflow: hidden;
 }
 
+body.darkmode--activated {
+  background-color: black;
+}
+
 button {
   font: caption;
 }
