@@ -6,6 +6,10 @@ This page shows screenshots and photos of how Ezra Project looks for different u
 
 ![Ezra Project 0.11.0](https://raw.githubusercontent.com/tobias-klein/ezra-project/master/screenshots/ezra_project_0_11_0.png "Ezra Project 0.11.0")
 
+## Compact layout in night mode
+
+![Ezra Project 0.13.0 Night Mode](https://raw.githubusercontent.com/tobias-klein/ezra-project/master/screenshots/ezra_project_0_13_0_night_mode.png "Ezra Project 0.13.0 Night Mode")
+
 ## Tagged verse lists
 
 TODO
