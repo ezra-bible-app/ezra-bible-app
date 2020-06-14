@@ -627,7 +627,7 @@ h2 {
   display: none;
 }
 
-#translation-settings-wizard {
+#module-settings-wizard {
   user-select: none;
 }
 
@@ -640,21 +640,21 @@ h2 {
   min-height: 620px;
 }
 
-#translation-settings-wizard .label {
+#module-settings-wizard .label {
   margin-left: 0.5em;
   cursor: default;
 }
 
-#translation-settings-wizard .disabled {
+#module-settings-wizard .disabled {
   color: gray;
 }
 
-#translation-settings-wizard .disabled-label {
+#module-settings-wizard .disabled-label {
   margin-left: 0.5em;
   color: grey;
 }
 
-#translation-settings-wizard section.scrollable, #translation-settings-wizard div.scrollable {
+#module-settings-wizard section.scrollable, #module-settings-wizard div.scrollable {
   overflow-y: scroll;
 }
 

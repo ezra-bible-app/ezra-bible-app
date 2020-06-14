@@ -76,7 +76,7 @@ class InstallTranslationWizard {
 
     uiHelper.configureButtonStyles('#module-settings-wizard-init');
 
-    $('#translation-settings-wizard').dialog({
+    $('#module-settings-wizard').dialog({
       position: [offsetLeft, offsetTop],
       modal: true,
       title: i18n.t("module-assistant.header"),
@@ -197,7 +197,7 @@ class InstallTranslationWizard {
   }
 
   async addTranslationWizardFinished(event, currentIndex) {
-    $('#translation-settings-wizard').dialog('close');
+    $('#module-settings-wizard').dialog('close');
     this._installedTranslations = bible_browser_controller.translation_controller.getTranslations();
     bible_browser_controller.translation_controller.initTranslationsMenu();
     await tags_controller.updateTagUiBasedOnTagAvailability();

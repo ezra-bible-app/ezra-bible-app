@@ -181,7 +181,7 @@ class RemoveTranslationWizard {
   }
 
   removeTranslationWizardFinished(event, currentIndex) {
-    $('#translation-settings-wizard').dialog('close');
+    $('#module-settings-wizard').dialog('close');
     this._installedTranslations = bible_browser_controller.translation_controller.getTranslations();
     bible_browser_controller.translation_controller.initTranslationsMenu();
   }
