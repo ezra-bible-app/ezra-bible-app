@@ -25,7 +25,7 @@ class RemoveTranslationWizard {
     this._translationRemovalStatus = 'DONE';
     this.languageMapper = new LanguageMapper();
 
-    var removeButton = $('#remove-bible-translations-button');
+    var removeButton = $('#remove-modules-button');
 
     removeButton.bind('click', () => {
       var translations = bible_browser_controller.translation_controller.getTranslations();
@@ -41,14 +41,14 @@ class RemoveTranslationWizard {
   }
 
   openRemoveTranslationWizard() {
-    $('#translation-settings-wizard-init').hide();
+    $('#module-settings-wizard-init').hide();
     this.initRemoveTranslationWizard();
-    $('#translation-settings-wizard-remove').show();
+    $('#module-settings-wizard-remove').show();
 
-    var wizardPage = $('#translation-settings-wizard-remove-p-0');
+    var wizardPage = $('#module-settings-wizard-remove-p-0');
     wizardPage.empty();
 
-    var header = "<p>" + i18n.t("translation-wizard.select-translations-to-be-removed") + "</p>";
+    var header = "<p>" + i18n.t("module-assistant.select-translations-to-be-removed") + "</p>";
     wizardPage.append(header);
 
     var languages = bible_browser_controller.translation_controller.getLanguages();
@@ -58,7 +58,7 @@ class RemoveTranslationWizard {
 
       var newLanguageBox = "<div>" +
                            "<h2>" + currentLang.languageName + "</h2>" +
-                           "<div id='remove-translation-wizard-" + currentLang.languageCode + "-translations'></div>" +
+                           "<div id='remove-module-assistant-" + currentLang.languageCode + "-translations'></div>" +
                            "</div>";
 
       wizardPage.append(newLanguageBox);
@@ -79,7 +79,7 @@ class RemoveTranslationWizard {
                                     "<span " + currentTranslationClass + " id='" + translation.name + "'>";
       currentTranslationHtml += translation.description + " [" + translation.name + "]</span></p>";
 
-      var languageBox = $('#remove-translation-wizard-' + translation.language + '-translations');
+      var languageBox = $('#remove-module-assistant-' + translation.language + '-translations');
       languageBox.append(currentTranslationHtml);
     }
 
@@ -88,16 +88,16 @@ class RemoveTranslationWizard {
 
   initRemoveTranslationWizard() {
     if (this._removeTranslationWizardOriginalContent != undefined) {
-        $('#translation-settings-wizard-remove').steps("destroy");
-        $('#translation-settings-wizard-remove').html(this._removeTranslationWizardOriginalContent);
+        $('#module-settings-wizard-remove').steps("destroy");
+        $('#module-settings-wizard-remove').html(this._removeTranslationWizardOriginalContent);
     } else {
-        this._removeTranslationWizardOriginalContent = $('#translation-settings-wizard-remove').html();
+        this._removeTranslationWizardOriginalContent = $('#module-settings-wizard-remove').html();
     }
 
-    $('#translation-settings-wizard-remove').steps({
+    $('#module-settings-wizard-remove').steps({
       headerTag: "h3",
       bodyTag: "section",
-      contentContainerTag: "translation-settings-wizard-remove",
+      contentContainerTag: "module-settings-wizard-remove",
       autoFocus: true,
       stepsOrientation: 1,
       onStepChanging: (event, currentIndex, newIndex) => this.removeTranslationWizardStepChanging(event, currentIndex, newIndex),
@@ -115,7 +115,7 @@ class RemoveTranslationWizard {
 
   removeTranslationWizardStepChanging(event, currentIndex, newIndex) {
     if (currentIndex == 0 && newIndex == 1) { // Changing from Translations (1) to Removal (2)
-      var wizardPage = "#translation-settings-wizard-remove-p-0";
+      var wizardPage = "#module-settings-wizard-remove-p-0";
       var selectedLanguages = this._helper.getSelectedSettingsWizardElements(wizardPage);
       return (selectedLanguages.length > 0);
     } else if (currentIndex == 1 && newIndex != 1) {
@@ -127,18 +127,18 @@ class RemoveTranslationWizard {
 
   async removeTranslationWizardStepChanged(event, currentIndex, priorIndex) {
     if (priorIndex == 0) {
-      this._helper.lockDialogForAction('translation-settings-wizard-remove');
+      this._helper.lockDialogForAction('module-settings-wizard-remove');
 
       // Bible translations have been selected
-      var translationsPage = "#translation-settings-wizard-remove-p-0";
+      var translationsPage = "#module-settings-wizard-remove-p-0";
       this._uninstallTranslations = this._helper.getSelectedSettingsWizardElements(translationsPage);
 
       this._translationRemovalStatus = 'IN_PROGRESS';
 
-      var removalPage = $("#translation-settings-wizard-remove-p-1");
+      var removalPage = $("#module-settings-wizard-remove-p-1");
       removalPage.empty();
-      removalPage.append('<h3>' + i18n.t("translation-wizard.removing-translations") + '</h3>');
-      removalPage.append('<p style="margin-bottom: 2em;">' + i18n.t("translation-wizard.removal-takes-time") + '</p>');
+      removalPage.append('<h3>' + i18n.t("module-assistant.removing-translations") + '</h3>');
+      removalPage.append('<p style="margin-bottom: 2em;">' + i18n.t("module-assistant.removal-takes-time") + '</p>');
 
       setTimeout(async () => {
         for (var i = 0; i < this._uninstallTranslations.length; i++) {
@@ -146,7 +146,7 @@ class RemoveTranslationWizard {
           var localModule = nsi.getLocalModule(translationCode);
           var translationName = localModule.description;
 
-          removalPage.append('<span>' + i18n.t("translation-wizard.removing") + ' <i>' + translationName + '</i> ... </span>');
+          removalPage.append('<span>' + i18n.t("module-assistant.removing") + ' <i>' + translationName + '</i> ... </span>');
           
           await nsi.uninstallModule(translationCode);
 
@@ -171,7 +171,7 @@ class RemoveTranslationWizard {
         }
 
         this._translationRemovalStatus = 'DONE';
-        this._helper.unlockDialog('translation-settings-wizard-remove');
+        this._helper.unlockDialog('module-settings-wizard-remove');
       }, 800);
     }
   }

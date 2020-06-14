@@ -631,12 +631,12 @@ h2 {
   user-select: none;
 }
 
-#translation-settings-wizard-init {
+#module-settings-wizard-init {
   padding-top: 2em;
   text-align: center;
 }
 
-#translation-settings-wizard-add, #translation-settings-wizard-add .content {
+#module-settings-wizard-add, #module-settings-wizard-add .content {
   min-height: 620px;
 }
 
@@ -658,13 +658,13 @@ h2 {
   overflow-y: scroll;
 }
 
-#translation-list {
+#module-list {
   height: 100%;
   width: 45%;
   float: left;
 }
 
-#translation-info {
+#module-info {
   height: 100%;
   padding: 1em;
 }
@@ -901,7 +901,7 @@ h2 {
 .show-parallel-translations-button,
 .export-tagged-verses-button,
 .bible-translation-info-button,
-#translation-settings-wizard-init button,
+#module-settings-wizard-init button,
 #start-module-search-button {
   margin-left: 0.5em;
   height: 2.2em;
@@ -931,7 +931,7 @@ h2 {
   padding: 0;
 }
 
-.bible-translation-info {
+.bible-module-info {
   cursor: pointer;
   text-decoration: underline;
 }

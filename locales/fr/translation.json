@@ -22,7 +22,7 @@
     "strongs": "Nombre de Strong",
     "extended-verse-boundaries": "Limites étendues des versets (Deux versets)"
   },
-  "translation-wizard": {
+  "module-assistant": {
     "header": "Configurer les traductions de la Bible",
     "internet-usage-note": "<b>NOTE IMPORTANTE</b><br/><br/>Les modules de traductions de la Bible sont installés via une connexion internet.<br/>Si vous êtes situés dans un région où les chrétiens sont persécutés, vous<br/>ne devez <b>PAS</b> utiliser cette application en raison d'un risque de détection !",
     "add-translations": "Ajouter des traductions de la Bible",

@@ -25,7 +25,7 @@ class InstallTranslationWizard {
     this.languageMapper = new LanguageMapper();
     this._addTranslationWizardOriginalContent = undefined;
 
-    var addButton = $('#add-bible-translations-button');
+    var addButton = $('#add-modules-button');
     addButton.bind('click', () => this.openAddTranslationWizard());
   }
 
@@ -60,27 +60,27 @@ class InstallTranslationWizard {
     var offsetLeft = appContainerWidth - wizardWidth - 100;
     var offsetTop = 20;
 
-    $('#translation-settings-wizard-add').hide();
-    $('#translation-settings-wizard-remove').hide();
-    $('#translation-settings-wizard-init').show();
+    $('#module-settings-wizard-add').hide();
+    $('#module-settings-wizard-remove').hide();
+    $('#module-settings-wizard-init').show();
 
     var translations = bible_browser_controller.translation_controller.getTranslations();
 
-    $('#add-bible-translations-button').removeClass('ui-state-disabled');
+    $('#add-modules-button').removeClass('ui-state-disabled');
 
     if (translations.length > 0) {
-      $('#remove-bible-translations-button').removeClass('ui-state-disabled');
+      $('#remove-modules-button').removeClass('ui-state-disabled');
     } else {
-      $('#remove-bible-translations-button').addClass('ui-state-disabled');
+      $('#remove-modules-button').addClass('ui-state-disabled');
     }
 
-    uiHelper.configureButtonStyles('#translation-settings-wizard-init');
+    uiHelper.configureButtonStyles('#module-settings-wizard-init');
 
     $('#translation-settings-wizard').dialog({
       position: [offsetLeft, offsetTop],
       modal: true,
-      title: i18n.t("translation-wizard.header"),
-      dialogClass: 'ezra-dialog translation-wizard-dialog',
+      title: i18n.t("module-assistant.header"),
+      dialogClass: 'ezra-dialog module-assistant-dialog',
       width: wizardWidth,
       minHeight: 250
     });
@@ -89,16 +89,16 @@ class InstallTranslationWizard {
   }
 
   async updateRepositoryConfig(force=false) {
-    var wizardPage = $('#translation-settings-wizard-add-p-0');
+    var wizardPage = $('#module-settings-wizard-add-p-0');
     wizardPage.empty();
 
     var lastSwordRepoUpdateSaved = bible_browser_controller.settings.has("lastSwordRepoUpdate");
     var listRepoTimeoutMs = 800;
 
     if (!nsi.repositoryConfigExisting() || !lastSwordRepoUpdateSaved || force) {
-      wizardPage.append('<p>' + i18n.t('translation-wizard.updating-repository-data') + '</p>');
+      wizardPage.append('<p>' + i18n.t('module-assistant.updating-repository-data') + '</p>');
 
-      var loadingText = i18n.t('translation-wizard.updating');
+      var loadingText = i18n.t('module-assistant.updating');
       var progressBar = "<div id='repo-update-progress-bar' class='progress-bar'><div class='progress-label'>" + loadingText + "</div></div>";
       wizardPage.append(progressBar);
 
@@ -114,34 +114,34 @@ class InstallTranslationWizard {
         bible_browser_controller.settings.set("lastSwordRepoUpdate", new Date());
       } catch(e) {
         listRepoTimeoutMs = 3000;
-        wizardPage.append('<p>' + i18n.t('translation-wizard.update-repository-data-failed') + '</p>');
+        wizardPage.append('<p>' + i18n.t('module-assistant.update-repository-data-failed') + '</p>');
       }
     }
 
-    wizardPage.append('<p>' + i18n.t("translation-wizard.loading-repositories") + '</p>');
+    wizardPage.append('<p>' + i18n.t("module-assistant.loading-repositories") + '</p>');
     setTimeout(() => this.listRepositories(), listRepoTimeoutMs);
   }
 
   async openAddTranslationWizard() {
-    $('#translation-settings-wizard-init').hide();
+    $('#module-settings-wizard-init').hide();
     this.initAddTranslationWizard();
-    $('#translation-settings-wizard-add').show();
+    $('#module-settings-wizard-add').show();
 
     await this.updateRepositoryConfig();
   }
 
   initAddTranslationWizard() {
     if (this._addTranslationWizardOriginalContent != undefined) {
-        $('#translation-settings-wizard-add').steps("destroy");
-        $('#translation-settings-wizard-add').html(this._addTranslationWizardOriginalContent);
+        $('#module-settings-wizard-add').steps("destroy");
+        $('#module-settings-wizard-add').html(this._addTranslationWizardOriginalContent);
     } else {
-        this._addTranslationWizardOriginalContent = $('#translation-settings-wizard-add').html();
+        this._addTranslationWizardOriginalContent = $('#module-settings-wizard-add').html();
     }
 
-    $('#translation-settings-wizard-add').steps({
+    $('#module-settings-wizard-add').steps({
       headerTag: "h3",
       bodyTag: "section",
-      contentContainerTag: "translation-settings-wizard-add",
+      contentContainerTag: "module-settings-wizard-add",
       autoFocus: true,
       stepsOrientation: 1,
       onStepChanging: (event, currentIndex, newIndex) => this.addTranslationWizardStepChanging(event, currentIndex, newIndex),
@@ -159,15 +159,15 @@ class InstallTranslationWizard {
 
   addTranslationWizardStepChanging(event, currentIndex, newIndex) {
     if (currentIndex == 0 && newIndex == 1) { // Changing from Repositories (1) to Languages (2)
-      var wizardPage = "#translation-settings-wizard-add-p-0";
+      var wizardPage = "#module-settings-wizard-add-p-0";
       var selectedRepositories = this._helper.getSelectedSettingsWizardElements(wizardPage);
       return (selectedRepositories.length > 0);
     } else if (currentIndex == 1 && newIndex == 2) { // Changing from Languages (2) to Translations (3)
-      var wizardPage = "#translation-settings-wizard-add-p-1";
+      var wizardPage = "#module-settings-wizard-add-p-1";
       var selectedLanguages = this._helper.getSelectedSettingsWizardElements(wizardPage);
       return (selectedLanguages.length > 0);
     } else if (currentIndex == 2 && newIndex == 3) { // Changing from Translations (3) to Installation (4)
-      var wizardPage = "#translation-settings-wizard-add-p-2";
+      var wizardPage = "#module-settings-wizard-add-p-2";
       var selectedTranslations = this._helper.getSelectedSettingsWizardElements(wizardPage);
       return (selectedTranslations.length > 0);
     } else if (currentIndex == 3 && newIndex != 3) {
@@ -205,20 +205,20 @@ class InstallTranslationWizard {
 
   initLanguagesPage() {
     // Repositories have been selected
-    var wizardPage = "#translation-settings-wizard-add-p-0";
+    var wizardPage = "#module-settings-wizard-add-p-0";
     this._selectedRepositories = this._helper.getSelectedSettingsWizardElements(wizardPage);
     bible_browser_controller.settings.set('selected_repositories', this._selectedRepositories);
 
-    var languagesPage = $('#translation-settings-wizard-add-p-1');
+    var languagesPage = $('#module-settings-wizard-add-p-1');
     languagesPage.empty();
-    languagesPage.append("<p>" + i18n.t("translation-wizard.loading-languages") + "</p>");
+    languagesPage.append("<p>" + i18n.t("module-assistant.loading-languages") + "</p>");
 
     setTimeout(() => this.listLanguages(this._selectedRepositories), 400);
   }
 
   initModulesPage() {
     // Languages have been selected
-    var wizardPage = "#translation-settings-wizard-add-p-1";
+    var wizardPage = "#module-settings-wizard-add-p-1";
     var languages = this._helper.getSelectedSettingsWizardElements(wizardPage);
     var languageCodes = [];
 
@@ -234,17 +234,17 @@ class InstallTranslationWizard {
   async installSelectedTranslations() {
     // Bible translations have been selected
 
-    this._helper.lockDialogForAction('translation-settings-wizard-add');
+    this._helper.lockDialogForAction('module-settings-wizard-add');
 
-    var translationsPage = "#translation-settings-wizard-add-p-2";
+    var translationsPage = "#module-settings-wizard-add-p-2";
     var translations = this._helper.getSelectedSettingsWizardElements(translationsPage);
 
     this._translationInstallStatus = 'IN_PROGRESS';
 
-    var installPage = $("#translation-settings-wizard-add-p-3");
+    var installPage = $("#module-settings-wizard-add-p-3");
     installPage.empty();
-    installPage.append('<h3>' + i18n.t("translation-wizard.installing-translations") + '</h3>');
-    installPage.append('<p style="margin-bottom: 2em;">' + i18n.t("translation-wizard.it-takes-time-to-install-translation") + '</p>');
+    installPage.append('<h3>' + i18n.t("module-assistant.installing-translations") + '</h3>');
+    installPage.append('<p style="margin-bottom: 2em;">' + i18n.t("module-assistant.it-takes-time-to-install-translation") + '</p>');
 
     for (var i = 0; i < translations.length; i++) {
       var currentTranslation = translations[i];
@@ -277,7 +277,7 @@ class InstallTranslationWizard {
     }
 
     this._translationInstallStatus = 'DONE';
-    this._helper.unlockDialog('translation-settings-wizard-add');
+    this._helper.unlockDialog('module-settings-wizard-add');
   }
 
   localizeModuleInstallProgressMessage(rawMessage) {
@@ -294,7 +294,7 @@ class InstallTranslationWizard {
     var part = splittedPartOfTotal[0];
     var total = splittedPartOfTotal[1];
 
-    var localizedMessage = i18n.t("translation-wizard.downloading") + " (" + part + " " + i18n.t("translation-wizard.part-of-total") + " " + total + "): " + fileName;
+    var localizedMessage = i18n.t("module-assistant.downloading") + " (" + part + " " + i18n.t("module-assistant.part-of-total") + " " + total + "): " + fileName;
 
     return localizedMessage;
   }
@@ -322,7 +322,7 @@ class InstallTranslationWizard {
     var swordModule = nsi.getRepoModule(translationCode);
 
     var existingProgressBar = $('#module-install-progress-bar');
-    var installingModuleText = "<div style='float: left; margin-bottom: 1em;'>" + i18n.t("translation-wizard.installing") + " <i>" + swordModule.description + "</i> ... </div>";
+    var installingModuleText = "<div style='float: left; margin-bottom: 1em;'>" + i18n.t("module-assistant.installing") + " <i>" + swordModule.description + "</i> ... </div>";
 
     if (existingProgressBar.length == 0) {
       installPage.append(installingModuleText);
@@ -330,7 +330,7 @@ class InstallTranslationWizard {
       existingProgressBar.before(installingModuleText);
     }
 
-    var installingText = i18n.t('translation-wizard.installing');
+    var installingText = i18n.t('module-assistant.installing');
 
     if (document.getElementById('module-install-progress-bar') == null) {
       var progressBar = "<div id='module-install-progress-bar' class='progress-bar'><div class='progress-label'>" + installingText + "</div></div>";
@@ -477,12 +477,12 @@ class InstallTranslationWizard {
   }
 
   listLanguages(selectedRepositories) {
-    var wizardPage = $('#translation-settings-wizard-add-p-1');
+    var wizardPage = $('#module-settings-wizard-add-p-1');
     wizardPage.empty();
 
     var uiRepositories = this.getSelectedReposForUi();
     var introText = "<p style='margin-bottom: 2em;'>" +
-                    i18n.t("translation-wizard.pick-languages-from-repos") +
+                    i18n.t("module-assistant.pick-languages-from-repos") +
                     uiRepositories.join(', ') +
                     ".</p>";
 
@@ -505,7 +505,7 @@ class InstallTranslationWizard {
   }
 
   listLanguageArray(languageArray) {
-    var wizardPage = $('#translation-settings-wizard-add-p-1');
+    var wizardPage = $('#module-settings-wizard-add-p-1');
 
     for (var i = 0; i < languageArray.length; i++) {
       var currentLanguage = languageArray[i];
@@ -537,15 +537,15 @@ class InstallTranslationWizard {
   }
 
   listModules(selectedLanguages) {
-    var wizardPage = $('#translation-settings-wizard-add-p-2');
-    var translationList = wizardPage.find('#translation-list');
+    var wizardPage = $('#module-settings-wizard-add-p-2');
+    var translationList = wizardPage.find('#module-list');
     translationList.empty();
-    var translationInfoContent = i18n.t("translation-wizard.click-to-show-detailed-module-info");
+    var translationInfoContent = i18n.t("module-assistant.click-to-show-detailed-module-info");
 
-    $('#translation-info-content').html(translationInfoContent);
+    $('#module-info-content').html(translationInfoContent);
 
     var featureFilter = "";
-    featureFilter += "<p><b>" + i18n.t("translation-wizard.translation-feature-filter") + "</b></p>" +
+    featureFilter += "<p><b>" + i18n.t("module-assistant.translation-feature-filter") + "</b></p>" +
                      "<p id='translation-feature-filter' style='margin-bottom: 1em'>" +
                      "<input id='headings-feature-filter' class='translation-feature-filter' type='checkbox'></input> <label id='headings-feature-filter-label' for='headings-feature-filter'></label>" +
                      "<input id='strongs-feature-filter' class='translation-feature-filter' type='checkbox'></input> <label id='strongs-feature-filter-label' for='strongs-feature-filter'></label>" +
@@ -555,7 +555,7 @@ class InstallTranslationWizard {
     $('#headings-feature-filter-label').text(i18n.t('general.module-headings'));
     $('#strongs-feature-filter-label').text(i18n.t('general.module-strongs'));
 
-    var languagesPage = "#translation-settings-wizard-add-p-1";
+    var languagesPage = "#module-settings-wizard-add-p-1";
     var uiLanguages = this._helper.getSelectedSettingsWizardElements(languagesPage);
     for (var i = 0; i < uiLanguages.length; i++) {
       var currentLanguageName = uiLanguages[i];
@@ -567,15 +567,15 @@ class InstallTranslationWizard {
 
     var uiRepositories = this.getSelectedReposForUi();
     var introText = "<p style='margin-bottom: 2em;'>" +
-                    i18n.t("translation-wizard.the-selected-repositories") + " (" +
+                    i18n.t("module-assistant.the-selected-repositories") + " (" +
                     uiRepositories.join(', ') + ") " +
-                    i18n.t("translation-wizard.contain-the-following-modules") + " (" +
+                    i18n.t("module-assistant.contain-the-following-modules") + " (" +
                     uiLanguages.join(', ') + ")" +
                     ":</p>";
 
     translationList.append(introText);
 
-    var filteredTranslationList = "<div id='filtered-translation-list'></div>";
+    var filteredTranslationList = "<div id='filtered-module-list'></div>";
     translationList.append(filteredTranslationList);
 
     $('.translation-feature-filter').bind('click', async () => {
@@ -586,7 +586,7 @@ class InstallTranslationWizard {
   }
 
   listFilteredModules(selectedLanguages, uiLanguages) {
-    var filteredTranslationList = $('#filtered-translation-list');
+    var filteredTranslationList = $('#filtered-module-list');
     filteredTranslationList.empty();
 
     var headingsFilter = $('#headings-feature-filter').prop('checked');
@@ -604,7 +604,7 @@ class InstallTranslationWizard {
 
       for (var j = 0; j < this._selectedRepositories.length; j++) {
         var currentRepo = this._selectedRepositories[j];
-        var currentRepoLangModules = nsi.getRepoModulesByLang(currentRepo, currentLanguage, headingsFilter, strongsFilter);
+        var currentRepoLangModules = nsi.getRepoModulesByLang(currentRepo, currentLanguage, "BIBLE", headingsFilter, strongsFilter);
         // Append this repo's modules to the overall language list
         currentLangModules = currentLangModules.concat(currentRepoLangModules);
       }
@@ -613,15 +613,15 @@ class InstallTranslationWizard {
       this.listLanguageModules(currentUiLanguage, currentLangModules, renderHeader);
     }
 
-    filteredTranslationList.find('.bible-translation-info').bind('click', function() {
+    filteredTranslationList.find('.bible-module-info').bind('click', function() {
       var translationCode = $(this).text();
-      $('#translation-info-content').empty();
-      $('#translation-info').find('.loader').show();
+      $('#module-info-content').empty();
+      $('#module-info').find('.loader').show();
 
       setTimeout(() => {
         var moduleInfo = bible_browser_controller.translation_controller.getBibleTranslationInfo(translationCode, true);
-        $('#translation-info').find('.loader').hide();
-        $('#translation-info-content').append(moduleInfo);
+        $('#module-info').find('.loader').hide();
+        $('#module-info-content').append(moduleInfo);
       }, 200);
     });
 
@@ -636,7 +636,7 @@ class InstallTranslationWizard {
         checkbox = $(event.target).closest('.selectable-translation-module').find('.module-checkbox');
       }
       
-      var moduleId = checkbox.parent().find('.bible-translation-info').text();
+      var moduleId = checkbox.parent().find('.bible-module-info').text();
 
       try {
         var swordModule = nsi.getRepoModule(moduleId);
@@ -667,7 +667,7 @@ class InstallTranslationWizard {
       $('#dialog-unlock-info').html(swordModule.unlockInfo);
     }
 
-    var unlockDialog = $('#translation-settings-wizard-unlock-dialog');
+    var unlockDialog = $('#module-settings-wizard-unlock-dialog');
     var unlockFailedMsg = $('#unlock-failed-msg');
 
     if (checkbox === undefined) {
@@ -678,7 +678,7 @@ class InstallTranslationWizard {
 
     var unlockDialogOptions = {
       modal: true,
-      title: i18n.t("translation-wizard.enter-unlock-key", { moduleId: swordModule.name }),
+      title: i18n.t("module-assistant.enter-unlock-key", { moduleId: swordModule.name }),
       dialogClass: 'ezra-dialog',
       width: 450,
       minHeight: 200
@@ -722,8 +722,8 @@ class InstallTranslationWizard {
   }
 
   listLanguageModules(lang, modules, renderHeader) {
-    var wizardPage = $('#translation-settings-wizard-add-p-2');
-    var translationList = wizardPage.find('#filtered-translation-list');
+    var wizardPage = $('#module-settings-wizard-add-p-2');
+    var translationList = wizardPage.find('#filtered-module-list');
 
     if (renderHeader) {
       var languageHeader = "<p style='font-weight: bold; margin-top: 2em;'>" + lang + "</p>";
@@ -742,7 +742,7 @@ class InstallTranslationWizard {
 
       var moduleTitle = "";
       if (currentModule.locked) {
-        var moduleLockInfo = i18n.t("translation-wizard.module-lock-info");
+        var moduleLockInfo = i18n.t("module-assistant.module-lock-info");
         moduleTitle = "title='" + moduleLockInfo + "'";
       }
 
@@ -753,7 +753,7 @@ class InstallTranslationWizard {
       currentModuleElement += currentModule.description;
       currentModuleElement += "</span>&nbsp;";
 
-      currentModuleElement += "[<span class='bible-translation-info'>" + currentModule.name + "</span>]";
+      currentModuleElement += "[<span class='bible-module-info'>" + currentModule.name + "</span>]";
 
       if (currentModule.locked) {
         var lockedIcon = "<img style='margin-left: 0.5em; margin-bottom: -0.4em;' src='images/lock.png' width='20' height='20'/>";
@@ -814,13 +814,13 @@ class InstallTranslationWizard {
   }
 
   listRepositories() {
-    var wizardPage = $('#translation-settings-wizard-add-p-0');
+    var wizardPage = $('#module-settings-wizard-add-p-0');
 
     var repositories = nsi.getRepoNames();
     wizardPage.empty();
 
     var introText = "<p style='margin-bottom: 2em;'>" +
-                    i18n.t("translation-wizard.repo-selection-info-text") +
+                    i18n.t("module-assistant.repo-selection-info-text") +
                     "</p>";
 
     wizardPage.append(introText);
@@ -847,9 +847,9 @@ class InstallTranslationWizard {
     }
 
     var lastUpdateInfo = "<p style='margin-top: 2em;'>" +
-                         i18n.t("translation-wizard.repo-data-last-updated", { date: lastUpdate }) + " " +
+                         i18n.t("module-assistant.repo-data-last-updated", { date: lastUpdate }) + " " +
                          "<button id='update-repo-data' class='fg-button ui-state-default ui-corner-all'>" +
-                         i18n.t("translation-wizard.update-now") +
+                         i18n.t("module-assistant.update-now") +
                          "</button>" +
                          "</p>";
 
@@ -859,10 +859,10 @@ class InstallTranslationWizard {
       await this.updateRepositoryConfig(true);
     });
 
-    uiHelper.configureButtonStyles('#translation-settings-wizard-add-p-0');
+    uiHelper.configureButtonStyles('#module-settings-wizard-add-p-0');
 
     var additionalInfo = "<p style='margin-top: 2em;'>" +
-                         i18n.t("translation-wizard.more-repo-information-needed") +
+                         i18n.t("module-assistant.more-repo-information-needed") +
                          "</p>";
 
     wizardPage.append(additionalInfo);

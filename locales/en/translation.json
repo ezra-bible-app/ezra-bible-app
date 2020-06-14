@@ -22,7 +22,7 @@
     "strongs": "Strong's number",
     "extended-verse-boundaries": "Extended verse boundaries (Two verses)"
   },
-  "translation-wizard": {
+  "module-assistant": {
     "header": "Configure Bible translations",
     "internet-usage-note": "<b>IMPORTANT NOTE</b><br/><br/>Bible translation modules are installed using your internet connection.<br/>If you are located in a country where Christians are persecuted,<br/>you should <b>NOT</b> use this software due to a risk of detection!",
     "add-translations": "Add Bible translations",
