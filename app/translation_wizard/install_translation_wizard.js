@@ -771,7 +771,7 @@ class InstallTranslationWizard {
 
     for (var i = 0; i < this._selectedRepositories.length; i++) {
       var currentRepo = this._selectedRepositories[i];
-      count += nsi.getRepoLanguageTranslationCount(currentRepo, language);
+      count += nsi.getRepoLanguageModuleCount(currentRepo, language);
     }
 
     return count;
@@ -826,7 +826,7 @@ class InstallTranslationWizard {
     wizardPage.append(introText);
 
     for (var i = 0; i < repositories.length; i++) {
-      var currentRepoTranslationCount = this.getRepoTranslationCount(repositories[i]);
+      var currentRepoTranslationCount = this.getRepoModuleCount(repositories[i]);
 
       if (currentRepoTranslationCount > 0) {
         var checkboxChecked = "";
@@ -869,7 +869,7 @@ class InstallTranslationWizard {
     this._helper.bindLabelEvents(wizardPage);
   }
 
-  getRepoTranslationCount(repo) {
+  getRepoModuleCount(repo) {
     var count = 0;
     var allRepoModules = nsi.getAllRepoModules(repo);
 
