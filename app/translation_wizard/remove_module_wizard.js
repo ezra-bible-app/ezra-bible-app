@@ -17,11 +17,11 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const LanguageMapper = require('../helpers/language_mapper.js');
-const TranslationWizardHelper = require('./translation_wizard_helper.js');
+const ModuleWizardHelper = require('./module_wizard_helper.js');
 
-class RemoveTranslationWizard {
+class RemoveModuleWizard {
   constructor() {
-    this._helper = new TranslationWizardHelper();
+    this._helper = new ModuleWizardHelper();
     this._translationRemovalStatus = 'DONE';
     this.languageMapper = new LanguageMapper();
 
@@ -187,4 +187,4 @@ class RemoveTranslationWizard {
   }
 }
 
-module.exports = RemoveTranslationWizard;
+module.exports = RemoveModuleWizard;

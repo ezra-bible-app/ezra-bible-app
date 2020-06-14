@@ -42,8 +42,8 @@ class BibleBrowserController {
     this.init_component("TagAssignmentMenu", "tag_assignment_menu", "../tags/tag_assignment_menu.js");
     this.init_component("ModuleSearch", "module_search", "../components/module_search.js");
     this.init_component("TranslationController", "translation_controller", "./translation_controller.js");
-    this.init_component("InstallTranslationWizard", "install_translation_wizard", "../translation_wizard/install_translation_wizard.js");
-    this.init_component("RemoveTranslationWizard", "remove_translation_wizard", "../translation_wizard/remove_translation_wizard.js");
+    this.init_component("InstallModuleWizard", "install_module_wizard", "../translation_wizard/install_module_wizard.js");
+    this.init_component("RemoveModuleWizard", "remove_module_wizard", "../translation_wizard/remove_module_wizard.js");
     this.init_component("TextLoader", "text_loader", "./text_loader.js");
     this.init_component("VerseContextLoader", "verse_context_loader", "./verse_context_loader.js");
     this.init_component("BookSearch", "tab_search", "../tab_search/tab_search.js");
@@ -62,8 +62,8 @@ class BibleBrowserController {
     this.book_selection_menu.init();
 
     this.translation_controller.init(() => { this.onBibleTranslationChanged(); });
-    this.remove_translation_wizard.init(() => { this.onAllTranslationsRemoved(); },
-                                        () => { this.onTranslationRemoved(); });
+    this.remove_module_wizard.init(() => { this.onAllTranslationsRemoved(); },
+                                   () => { this.onTranslationRemoved(); });
 
     this.tab_search.init('#tab-search',
                           '#tab-search-input',
@@ -579,9 +579,9 @@ class BibleBrowserController {
     }
   }
 
-  openTranslationSettingsWizard() {
+  openModuleSettingsWizard(moduleType) {
     this.optionsMenu.hideDisplayMenu();
-    this.install_translation_wizard.openWizard();
+    this.install_module_wizard.openWizard();
   }
 
   getChapterFromReference(reference) {

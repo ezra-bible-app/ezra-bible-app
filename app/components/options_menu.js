@@ -43,7 +43,11 @@ class OptionsMenu {
     currentVerseListMenu.find('.display-options-button').bind('click', (event) => { this.handleMenuClick(event); });
 
     $('#show-translation-settings-button').bind('click', function() {
-      bible_browser_controller.openTranslationSettingsWizard(); 
+      bible_browser_controller.openModuleSettingsWizard(); 
+    });
+  
+    $('#show-dict-settings-button').bind('click', function() {
+      bible_browser_controller.openModuleSettingsWizard(); 
     });
     
     $('#tool-bar-switch').bind('change', () => {
