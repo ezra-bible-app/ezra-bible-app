@@ -570,14 +570,23 @@ class InstallModuleWizard {
 
     var featureFilter = "";
     featureFilter += "<p><b>" + i18n.t("module-assistant.module-feature-filter") + "</b></p>" +
-                     "<p id='module-feature-filter' style='margin-bottom: 1em'>" +
-                     "<input id='headings-feature-filter' class='module-feature-filter' type='checkbox'></input> <label id='headings-feature-filter-label' for='headings-feature-filter'></label>" +
-                     "<input id='strongs-feature-filter' class='module-feature-filter' type='checkbox'></input> <label id='strongs-feature-filter-label' for='strongs-feature-filter'></label>" +
-                     "</p>";
+                     "<p id='module-feature-filter' style='margin-bottom: 1em'>";
+
+    if (this._currentModuleType == 'BIBLE') {
+      featureFilter += "<input id='headings-feature-filter' class='module-feature-filter' type='checkbox'></input> <label id='headings-feature-filter-label' for='headings-feature-filter'></label>" +
+                       "<input id='strongs-feature-filter' class='module-feature-filter' type='checkbox'></input> <label id='strongs-feature-filter-label' for='strongs-feature-filter'></label>";
+    } else if (this._currentModuleType == 'DICT') {
+      featureFilter += "<input id='hebrew-strongs-dict-feature-filter' class='module-feature-filter' type='checkbox'></input> <label id='hebrew-strongs-dict-feature-filter-label' for='hebrew-strongs-dict-feature-filter'></label>" +
+                       "<input id='greek-strongs-dict-feature-filter' class='module-feature-filter' type='checkbox'></input> <label id='greek-strongs-dict-feature-filter-label' for='greek-strongs-dict-feature-filter'></label>";
+    }
+
+    featureFilter += "</p>";
     translationList.append(featureFilter);
 
     $('#headings-feature-filter-label').text(i18n.t('general.module-headings'));
     $('#strongs-feature-filter-label').text(i18n.t('general.module-strongs'));
+    $('#hebrew-strongs-dict-feature-filter-label').text(i18n.t('general.module-hebrew-strongs-dict'));
+    $('#greek-strongs-dict-feature-filter-label').text(i18n.t('general.module-greek-strongs-dict'));
 
     var languagesPage = "#module-settings-wizard-add-p-1";
     var uiLanguages = this._helper.getSelectedSettingsWizardElements(languagesPage);
@@ -615,6 +624,8 @@ class InstallModuleWizard {
 
     var headingsFilter = $('#headings-feature-filter').prop('checked');
     var strongsFilter = $('#strongs-feature-filter').prop('checked');
+    var hebrewStrongsFilter = $('#hebrew-strongs-dict-feature-filter').prop('checked');
+    var greekStrongsFilter = $('#greek-strongs-dict-feature-filter').prop('checked');
 
     var renderHeader = false;
     if (selectedLanguages.length > 1) {

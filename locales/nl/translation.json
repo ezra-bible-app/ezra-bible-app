@@ -79,6 +79,8 @@
     "module-language": "Taal",
     "module-license": "Licentie",
     "module-strongs": "Strongs",
+    "module-hebrew-strongs-dict": "Hebrew Strong's",
+    "module-greek-strongs-dict": "Greek Strong's",
     "module-headings": "Hoofdingen",
     "module-footnotes": "Voetnoten",
     "module-xrefs": "Kruisverwijzingen",

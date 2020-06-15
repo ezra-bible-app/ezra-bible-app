@@ -79,6 +79,8 @@
     "module-language": "Langue",
     "module-license": "Licence",
     "module-strongs": "Strong",
+    "module-hebrew-strongs-dict": "Hebrew Strong's",
+    "module-greek-strongs-dict": "Greek Strong's",
     "module-headings": "Titres",
     "module-footnotes": "Notes de bas de page",
     "module-xrefs": "Références croisées",
