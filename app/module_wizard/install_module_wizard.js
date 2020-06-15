@@ -29,13 +29,14 @@ class InstallModuleWizard {
     addButton.bind('click', () => this.openAddTranslationWizard());
   }
 
-  init() {
+  init(moduleType) {
     this._installedTranslations = null;
     this._translationInstallStatus = 'DONE';
     this._translationRemovalStatus = 'DONE';
     this._unlockKeys = {};
     this._unlockDialogOpened = false;
     this._unlockCancelled = false;
+    this._currentModuleType = moduleType;
   }
 
   isTranslationInstalled(translationCode) {
@@ -53,7 +54,7 @@ class InstallModuleWizard {
   }
 
   openWizard(moduleType) {
-    this.init();
+    this.init(moduleType);
 
     var wizardWidth = 1100;
     var appContainerWidth = $(window).width() - 10;
@@ -77,25 +78,24 @@ class InstallModuleWizard {
     uiHelper.configureButtonStyles('#module-settings-wizard-init');
 
     var title = "";
-    var moduleTypeText = "";
     var addModuleText = "";
     var removeModuleText = "";
 
     if (moduleType == "BIBLE") {
       title = i18n.t("module-assistant.bible-header");
-      moduleTypeText = i18n.t("module-assistant.module-type-bible");
+      this._moduleTypeText = i18n.t("module-assistant.module-type-bible");
       addModuleText = i18n.t("module-assistant.add-translations");
       removeModuleText = i18n.t("module-assistant.remove-translations");
     } else if (moduleType == "DICT") {
       title = i18n.t("module-assistant.dict-header");
-      moduleTypeText = i18n.t("module-assistant.module-type-dict");
+      this._moduleTypeText = i18n.t("module-assistant.module-type-dict");
       addModuleText = i18n.t("module-assistant.add-dicts");
       removeModuleText = i18n.t("module-assistant.remove-dicts");
     } else {
       console.error("InstallModuleWizard: Unknown module type!");
     }
 
-    var internetUsageNote = i18n.t("module-assistant.internet-usage-note", { module_type: moduleTypeText });
+    var internetUsageNote = i18n.t("module-assistant.internet-usage-note", { module_type: this._moduleTypeText });
     $('#module-settings-wizard-internet-usage').html(internetUsageNote);
     $('#add-modules-button').html(addModuleText);
     $('#remove-modules-button').html(removeModuleText);
@@ -844,7 +844,7 @@ class InstallModuleWizard {
     wizardPage.empty();
 
     var introText = "<p style='margin-bottom: 2em;'>" +
-                    i18n.t("module-assistant.repo-selection-info-text") +
+                    i18n.t("module-assistant.repo-selection-info-text", {module_type: this._moduleTypeText}) +
                     "</p>";
 
     wizardPage.append(introText);
@@ -895,7 +895,7 @@ class InstallModuleWizard {
 
   getRepoModuleCount(repo) {
     var count = 0;
-    var allRepoModules = nsi.getAllRepoModules(repo);
+    var allRepoModules = nsi.getAllRepoModules(repo, this._currentModuleType);
 
     for (var i = 0; i < allRepoModules.length; i++) {
       var module = allRepoModules[i];
