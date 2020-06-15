@@ -38,7 +38,7 @@
     "languages": "Languages",
     "translations": "Translations",
     "removal": "Removal",
-    "translation-feature-filter": "Feature filter",
+    "module-feature-filter": "Feature filter",
     "repo-selection-info-text": "Ezra Project works with {{module_type}} provided by <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> and the <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a>.<br/><br/>Below you see the list of SWORD repositories published by CrossWire. A repository is an internet storage location that contains a set of {{module_type}}. Next to each repository you see the total number of {{module_type}} available from that repository.<br/><br/>To install a module, select at least one repository from the list below. The <i>CrossWire</i> and <i>eBible.org</i> repositories are a good place to start.",
     "more-repo-information-needed": "You need more information about these repositories?<br/>Have a look at the <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>.",
     "click-to-show-detailed-module-info": "Click on a translation code (link after translation name) to show detailed module information here.",

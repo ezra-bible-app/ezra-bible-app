@@ -38,7 +38,7 @@
     "languages": "Talen",
     "translations": "Vertalingen",
     "removal": "Verwijdering",
-    "translation-feature-filter": "Functiefilter",
+    "module-feature-filter": "Functiefilter",
     "repo-selection-info-text": "Ezra Project werkt met bijbelvertalingsmodules aangeboden door <a class='external' href='http://www.crosswire.org/sword'>het SWORD-project</a> en het <a class='external' href='http://www.crosswire.org'>CrossWire Bijbelgenootschap</a>.<br/><br/>Hieronder ziet u de lijst met SWORD-depots die zijn gepubliceerd door CrossWire. Een depot is een internetopslaglocatie die een set Bijbelvertalingsmodules bevat. Naast elk depot ziet u het totale aantal Bijbelvertalingsmodules dat beschikbaar is uit dat depot. <br/> <br/> Om een bijbelvertalingsmodule te installeren, kies minstens één depot uit de onderstaande lijst. De depots van <i>CrossWire</i> en <i>eBible.org</i> zijn een goede plek om te beginnen.",
     "more-repo-information-needed": "Heeft u nood aan meer informatie over deze depots?<br/>Bekijk de <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>.",
     "click-to-show-detailed-module-info": "Klik op een vertaalcode (link achter de vertalingsnaam) om hier gedetailleerde module-informatie te tonen",

@@ -467,7 +467,7 @@ class InstallModuleWizard {
 
     for (var i = 0;  i < selectedRepositories.length; i++) {
       var currentRepo = selectedRepositories[i];
-      var repoLanguages = nsi.getRepoLanguages(currentRepo);
+      var repoLanguages = nsi.getRepoLanguages(currentRepo, this._currentModuleType);
 
       for (var j = 0; j < repoLanguages.length; j++) {
         var currentLanguageCode = repoLanguages[j];
@@ -541,7 +541,7 @@ class InstallModuleWizard {
         checkboxChecked = " checked";
       }
 
-      var currentLanguageTranslationCount = this.getLanguageTranslationCount(currentLanguageCode);
+      var currentLanguageTranslationCount = this.getLanguageModuleCount(currentLanguageCode);
       var currentLanguage = "<p style='float: left; width: 17em;'><input type='checkbox'" + checkboxChecked + "><span class='label' id='" + currentLanguageCode + "'>";
       currentLanguage += currentLanguageName + ' (' + currentLanguageTranslationCount + ')';
       currentLanguage += "</span></p>";
@@ -569,10 +569,10 @@ class InstallModuleWizard {
     $('#module-info-content').html(translationInfoContent);
 
     var featureFilter = "";
-    featureFilter += "<p><b>" + i18n.t("module-assistant.translation-feature-filter") + "</b></p>" +
-                     "<p id='translation-feature-filter' style='margin-bottom: 1em'>" +
-                     "<input id='headings-feature-filter' class='translation-feature-filter' type='checkbox'></input> <label id='headings-feature-filter-label' for='headings-feature-filter'></label>" +
-                     "<input id='strongs-feature-filter' class='translation-feature-filter' type='checkbox'></input> <label id='strongs-feature-filter-label' for='strongs-feature-filter'></label>" +
+    featureFilter += "<p><b>" + i18n.t("module-assistant.module-feature-filter") + "</b></p>" +
+                     "<p id='module-feature-filter' style='margin-bottom: 1em'>" +
+                     "<input id='headings-feature-filter' class='module-feature-filter' type='checkbox'></input> <label id='headings-feature-filter-label' for='headings-feature-filter'></label>" +
+                     "<input id='strongs-feature-filter' class='module-feature-filter' type='checkbox'></input> <label id='strongs-feature-filter-label' for='strongs-feature-filter'></label>" +
                      "</p>";
     translationList.append(featureFilter);
 
@@ -602,7 +602,7 @@ class InstallModuleWizard {
     var filteredTranslationList = "<div id='filtered-module-list'></div>";
     translationList.append(filteredTranslationList);
 
-    $('.translation-feature-filter').bind('click', async () => {
+    $('.module-feature-filter').bind('click', async () => {
       this.listFilteredModules(selectedLanguages, uiLanguages);      
     });
 
@@ -628,7 +628,7 @@ class InstallModuleWizard {
 
       for (var j = 0; j < this._selectedRepositories.length; j++) {
         var currentRepo = this._selectedRepositories[j];
-        var currentRepoLangModules = nsi.getRepoModulesByLang(currentRepo, currentLanguage, "BIBLE", headingsFilter, strongsFilter);
+        var currentRepoLangModules = nsi.getRepoModulesByLang(currentRepo, currentLanguage, this._currentModuleType, headingsFilter, strongsFilter);
         // Append this repo's modules to the overall language list
         currentLangModules = currentLangModules.concat(currentRepoLangModules);
       }
@@ -790,12 +790,12 @@ class InstallModuleWizard {
     }
   }
 
-  getLanguageTranslationCount(language) {
+  getLanguageModuleCount(language) {
     var count = 0;
 
     for (var i = 0; i < this._selectedRepositories.length; i++) {
       var currentRepo = this._selectedRepositories[i];
-      count += nsi.getRepoLanguageModuleCount(currentRepo, language);
+      count += nsi.getRepoLanguageModuleCount(currentRepo, language, this._currentModuleType);
     }
 
     return count;
