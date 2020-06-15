@@ -23,10 +23,15 @@
     "extended-verse-boundaries": "Uitgebreide versgrenzen (Twee verzen)"
   },
   "module-assistant": {
-    "header": "Configureer Bijbelvertalingen",
-    "internet-usage-note": "<b> BELANGRIJKE OPMERKING </b> <br/> <br/> Bijbelvertalingsmodules zijn geïnstalleerd via uw internetverbinding. <br/> Als u zich in een land bevindt waar christenen worden vervolgd, <br/> maakt u beter <b>GEEN</b> gebruik van deze software wegens het risico op ontdekking!",
+    "bible-header": "Configureer Bijbelvertalingen",
+    "dict-header": "Configure dictionaries",
+    "module-type-bible": "Bijbelvertalingsmodules",
+    "module-type-dict": "Dictionary",
+    "internet-usage-note": "<b> BELANGRIJKE OPMERKING </b> <br/> <br/> {{module_type}} zijn geïnstalleerd via uw internetverbinding. <br/> Als u zich in een land bevindt waar christenen worden vervolgd, <br/> maakt u beter <b>GEEN</b> gebruik van deze software wegens het risico op ontdekking!",
     "add-translations": "Voeg Bijbelvertalingen toe",
     "remove-translations": "Verwijder Bijbelvertalingen",
+    "add-dicts": "Add dictionaries",
+    "remove-dicts": "Remove dictionaries",
     "repositories": "Depots",
     "repo-data-last-updated": "Depotdata werd voor het laatst bijgewerkt op {{date}}.",
     "update-now": "Nu bijwerken",

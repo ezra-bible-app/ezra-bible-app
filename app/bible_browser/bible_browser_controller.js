@@ -581,7 +581,7 @@ class BibleBrowserController {
 
   openModuleSettingsWizard(moduleType) {
     this.optionsMenu.hideDisplayMenu();
-    this.install_module_wizard.openWizard();
+    this.install_module_wizard.openWizard(moduleType);
   }
 
   getChapterFromReference(reference) {

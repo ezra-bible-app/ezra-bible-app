@@ -52,7 +52,7 @@ class InstallModuleWizard {
     return false;
   }
 
-  openWizard() {
+  openWizard(moduleType) {
     this.init();
 
     var wizardWidth = 1100;
@@ -76,10 +76,34 @@ class InstallModuleWizard {
 
     uiHelper.configureButtonStyles('#module-settings-wizard-init');
 
+    var title = "";
+    var moduleTypeText = "";
+    var addModuleText = "";
+    var removeModuleText = "";
+
+    if (moduleType == "BIBLE") {
+      title = i18n.t("module-assistant.bible-header");
+      moduleTypeText = i18n.t("module-assistant.module-type-bible");
+      addModuleText = i18n.t("module-assistant.add-translations");
+      removeModuleText = i18n.t("module-assistant.remove-translations");
+    } else if (moduleType == "DICT") {
+      title = i18n.t("module-assistant.dict-header");
+      moduleTypeText = i18n.t("module-assistant.module-type-dict");
+      addModuleText = i18n.t("module-assistant.add-dicts");
+      removeModuleText = i18n.t("module-assistant.remove-dicts");
+    } else {
+      console.error("InstallModuleWizard: Unknown module type!");
+    }
+
+    var internetUsageNote = i18n.t("module-assistant.internet-usage-note", { module_type: moduleTypeText });
+    $('#module-settings-wizard-internet-usage').html(internetUsageNote);
+    $('#add-modules-button').html(addModuleText);
+    $('#remove-modules-button').html(removeModuleText);
+
     $('#module-settings-wizard').dialog({
       position: [offsetLeft, offsetTop],
       modal: true,
-      title: i18n.t("module-assistant.header"),
+      title: title,
       dialogClass: 'ezra-dialog module-assistant-dialog',
       width: wizardWidth,
       minHeight: 250

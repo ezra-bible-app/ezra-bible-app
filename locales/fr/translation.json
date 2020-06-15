@@ -23,10 +23,15 @@
     "extended-verse-boundaries": "Limites étendues des versets (Deux versets)"
   },
   "module-assistant": {
-    "header": "Configurer les traductions de la Bible",
-    "internet-usage-note": "<b>NOTE IMPORTANTE</b><br/><br/>Les modules de traductions de la Bible sont installés via une connexion internet.<br/>Si vous êtes situés dans un région où les chrétiens sont persécutés, vous<br/>ne devez <b>PAS</b> utiliser cette application en raison d'un risque de détection !",
+    "bible-header": "Configurer les traductions de la Bible",
+    "dict-header": "Configure dictionaries",
+    "module-type-bible": "traductions de la Bible",
+    "module-type-dict": "Dictionary",
+    "internet-usage-note": "<b>NOTE IMPORTANTE</b><br/><br/>Les modules de {{module_type}} sont installés via une connexion internet.<br/>Si vous êtes situés dans un région où les chrétiens sont persécutés, vous<br/>ne devez <b>PAS</b> utiliser cette application en raison d'un risque de détection !",
     "add-translations": "Ajouter des traductions de la Bible",
     "remove-translations": "Supprimer des traductions de la Bible",
+    "add-dicts": "Add dictionaries",
+    "remove-dicts": "Remove dictionaries",
     "repositories": "Dépôts",
     "repo-data-last-updated": "La dernière mise à jour du dépôt de données a eu lieu le {{date}}.",
     "update-now": "Mettre à jour maintenant",
