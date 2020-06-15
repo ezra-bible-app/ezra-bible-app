@@ -639,7 +639,14 @@ class InstallModuleWizard {
 
       for (var j = 0; j < this._selectedRepositories.length; j++) {
         var currentRepo = this._selectedRepositories[j];
-        var currentRepoLangModules = nsi.getRepoModulesByLang(currentRepo, currentLanguage, this._currentModuleType, headingsFilter, strongsFilter);
+        var currentRepoLangModules = nsi.getRepoModulesByLang(currentRepo,
+                                                              currentLanguage,
+                                                              this._currentModuleType,
+                                                              headingsFilter,
+                                                              strongsFilter,
+                                                              hebrewStrongsFilter,
+                                                              greekStrongsFilter);
+
         // Append this repo's modules to the overall language list
         currentLangModules = currentLangModules.concat(currentRepoLangModules);
       }
