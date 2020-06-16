@@ -162,6 +162,8 @@ class InstallModuleWizard {
         this._addTranslationWizardOriginalContent = $('#module-settings-wizard-add').html();
     }
 
+    $('#module-settings-wizard-section-header-module-type').html(this._moduleTypeText);
+
     $('#module-settings-wizard-add').steps({
       headerTag: "h3",
       bodyTag: "section",
@@ -661,7 +663,7 @@ class InstallModuleWizard {
       $('#module-info').find('.loader').show();
 
       setTimeout(() => {
-        var moduleInfo = bible_browser_controller.translation_controller.getBibleTranslationInfo(translationCode, true);
+        var moduleInfo = bible_browser_controller.translation_controller.getModuleInfo(translationCode, true);
         $('#module-info').find('.loader').hide();
         $('#module-info-content').append(moduleInfo);
       }, 200);
