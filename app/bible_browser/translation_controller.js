@@ -456,8 +456,8 @@ class TranslationController {
     return languages;
   }
 
-  getTranslations() {
-    var localModules = nsi.getAllLocalModules();
+  getInstalledModules(moduleType='BIBLE') {
+    var localModules = nsi.getAllLocalModules(moduleType);
     var translations = [];
 
     for (var i = 0; i < localModules.length; i++) {

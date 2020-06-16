@@ -28,7 +28,7 @@ class RemoveModuleWizard {
     var removeButton = $('#remove-modules-button');
 
     removeButton.bind('click', () => {
-      var translations = bible_browser_controller.translation_controller.getTranslations();
+      var translations = bible_browser_controller.translation_controller.getInstalledModules();
       if (translations.length > 0) {
         this.openRemoveTranslationWizard();
       }
@@ -152,7 +152,7 @@ class RemoveModuleWizard {
 
           var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
           if (currentBibleTranslationId == translationCode) {
-            var translations = bible_browser_controller.translation_controller.getTranslations();
+            var translations = bible_browser_controller.translation_controller.getInstalledModules();
 
             if (translations.length > 0) {
               // FIXME: Also put this in a callback
@@ -182,7 +182,7 @@ class RemoveModuleWizard {
 
   removeTranslationWizardFinished(event, currentIndex) {
     $('#module-settings-wizard').dialog('close');
-    this._installedTranslations = bible_browser_controller.translation_controller.getTranslations();
+    this._installedTranslations = bible_browser_controller.translation_controller.getInstalledModules();
     bible_browser_controller.translation_controller.initTranslationsMenu();
   }
 }
