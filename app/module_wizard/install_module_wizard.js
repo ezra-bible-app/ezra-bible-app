@@ -269,8 +269,19 @@ class InstallModuleWizard {
 
     var installPage = $("#module-settings-wizard-add-p-3");
     installPage.empty();
-    installPage.append('<h3>' + i18n.t("module-assistant.installing-translations") + '</h3>');
-    installPage.append('<p style="margin-bottom: 2em;">' + i18n.t("module-assistant.it-takes-time-to-install-translation") + '</p>');
+
+    var installingModules = "";
+    var itTakesTime = "";
+    if (this._currentModuleType == 'BIBLE') {
+      installingModules = i18n.t("module-assistant.installing-translations");
+      itTakesTime = i18n.t("module-assistant.it-takes-time-to-install-translation");
+    } else if (this._currentModuleType == 'DICT') {
+      installingModules = i18n.t("module-assistant.installing-dictionaries");
+      itTakesTime = i18n.t("module-assistant.it-takes-time-to-install-dictionary");
+    }
+
+    installPage.append('<h3>' + installingModules + '</h3>');
+    installPage.append('<p style="margin-bottom: 2em;">' + itTakesTime + '</p>');
 
     for (var i = 0; i < translations.length; i++) {
       var currentTranslation = translations[i];
