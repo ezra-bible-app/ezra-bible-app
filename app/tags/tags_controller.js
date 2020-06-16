@@ -144,7 +144,7 @@ class TagsController {
   close_dialog_and_rename_standard_tag() {
     $('#rename-standard-tag-dialog').dialog('close');
     var new_title = $('#rename-standard-tag-title-input').val();
-    var checkbox_tag = $('#tags-content').find('div[tag-id="[' + tags_controller.rename_standard_tag_id + '"]');
+    var checkbox_tag = this.get_checkbox_tag(tags_controller.rename_standard_tag_id);
     var is_global = (checkbox_tag.parent().attr('id') == 'tags-content-global');
     tags_controller.update_tag_titles_in_verse_list(tags_controller.rename_standard_tag_id, is_global, new_title);
     tags_controller.communication_controller.update_tag(tags_controller.rename_standard_tag_id, new_title);
