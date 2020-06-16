@@ -18,6 +18,7 @@
 
 const TagsCommunicationController = require('./tags_communication_controller.js');
 const TagStore = require('./tag_store.js');
+const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 
 class TagsController {
   constructor() {
@@ -25,6 +26,7 @@ class TagsController {
 
     this.communication_controller = new TagsCommunicationController();
     this.tag_store = new TagStore();
+    this.verse_box_helper = new VerseBoxHelper();
 
     this.new_standard_tag_button = $('#new-standard-tag-button');
     this.tag_title_changed = false;
@@ -478,51 +480,9 @@ class TagsController {
     for (var i = 0; i < selected_verses.length; i++) {
       var current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
       var current_verse_box = current_verse_list.find('.verse-reference-id-' + current_verse_reference_id);
-      tags_controller.change_verse_list_tag_info_for_verse_boxes_in_other_tabs(current_verse_box, tag_id, tag_title, action);
-    }
-  }
-
-  async change_verse_list_tag_info_for_verse_boxes_in_other_tabs(verse_box, tag_id, tag_title, action) {
-    var current_tab_index = bible_browser_controller.tab_controller.getSelectedTabIndex();
-    var tab_count = bible_browser_controller.tab_controller.getTabCount();
-
-    var bibleBook = verse_box.find('.verse-bible-book-short').text();
-    var absoluteVerseNr = parseInt(verse_box.find('.abs-verse-nr').text());
-    var verseReferenceContent = verse_box.find('.verse-reference-content').text();
-    var chapter = parseInt(verseReferenceContent.split(reference_separator)[0]);
-    var verseNr = parseInt(verseReferenceContent.split(reference_separator)[1]);
-    var source_tab_translation = bible_browser_controller.tab_controller.getTab(current_tab_index).getBibleTranslationId();
-    var source_versification = bible_browser_controller.translation_controller.getVersification(source_tab_translation);
-    var absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(source_versification, bibleBook, absoluteVerseNr, chapter, verseNr);
-
-    for (var i = 0; i < tab_count; i++) {
-      if (i != current_tab_index) {
-        var current_tab_translation = bible_browser_controller.tab_controller.getTab(i).getBibleTranslationId();
-        var current_versification = bible_browser_controller.translation_controller.getVersification(current_tab_translation);
-        var current_target_verse_nr = "";
-
-        if (current_versification == 'HEBREW') {
-          current_target_verse_nr = absoluteVerseNrs.absoluteVerseNrHeb;
-        } else {
-          current_target_verse_nr = absoluteVerseNrs.absoluteVerseNrEng;
-        }
-
-        var target_verse_list = bible_browser_controller.getCurrentVerseList(i);
-        var target_verse_box = target_verse_list.find('.verse-nr-' + current_target_verse_nr);
-
-        // There are potentially multiple verse boxes returned (could be the case for a tagged verse list or a search results list)
-        // Therefore we have to go through all of them and check for each of them whether the book is matching our reference book
-        for (var j = 0; j < target_verse_box.length; j++) {
-          var specific_target_verse_box = $(target_verse_box[j]);
-          var target_verse_box_bible_book_short_title = specific_target_verse_box.find('.verse-bible-book-short').text();
-          var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: target_verse_box_bible_book_short_title } });
-          var target_verse_bible_book_id = bibleBook.id;
-
-          if (target_verse_bible_book_id == bibleBook.id) {
-            tags_controller.change_verse_list_tag_info_for_verse_box(specific_target_verse_box, tag_id, tag_title, action);
-          }
-        }
-      }
+      await this.verse_box_helper.iterateAndChangeAllDuplicateVerseBoxes(current_verse_box, { tag_id: tag_id, tag_title: tag_title, action: action }, (context, targetVerseBox) => {
+        this.change_verse_list_tag_info_for_verse_box(targetVerseBox, context.tag_id, context.tag_title, context.action);
+      });
     }
   }
 
