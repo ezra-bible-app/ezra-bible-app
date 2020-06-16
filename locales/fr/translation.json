@@ -41,7 +41,7 @@
     "module-feature-filter": "Filtre des options",
     "repo-selection-info-text": "Le projet Ezra fonctionne avec les modules de traduction de la Bible fournis par <a class='external' href='http://www.crosswire.org/sword'>le projet SWORD</a> et la <a class='external' href='http://www.crosswire.org'>Société biblique CrossWire</a>. <b/><b/>Vous trouverez ci-dessous la liste des dépôts SWORD publiés par CrossWire. Un dépôt est un emplacement de stockage Internet contenant un ensemble de modules de traduction de la Bible. À côté de chaque dépôt, vous pouvez voir le nombre total de modules de traduction de la Bible disponibles dans ce dépôt.<b/><b/> Pour installer un module traduction de la Bible, sélectionnez au moins un dépôt dans la liste ci-dessous. Les dépôts <i>CrossWire</i> et <i>eBible.org</i> constituent un bon point de départ.",
     "more-repo-information-needed": "Vous avez besoin de plus d'informations sur ces dépôts ?<br/>Consultez le <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>Wiki de CrossWire</a>.",
-    "click-to-show-detailed-module-info": "Cliquez sur un code de traduction (lien après le nom de la traduction) pour afficher ici des informations détaillées sur le module.",
+    "click-to-show-detailed-module-info": "[UPDATE NEEDED] Cliquez sur un code de traduction (lien après le nom de la traduction) pour afficher ici des informations détaillées sur le module.",
     "updating-repository-data": "Mise à jour des données du dépôt ! Cela prendra quelques secondes…",
     "updating": "Mise à jour ...",    
     "update-repository-data-failed": "Mise à jour des données du dépôt a échoué ! Êtes-vous hors ligne ?",
