@@ -18,6 +18,8 @@
 
 let CodeMirror = null;
 
+const VerseBoxHelper = require('../helpers/verse_box_helper.js');
+
 class NotesController {
   constructor() {
     CodeMirror = require('codemirror/lib/codemirror.js');
@@ -28,6 +30,7 @@ class NotesController {
     require("codemirror/mode/gfm/gfm.js");
     require("codemirror/mode/htmlmixed/htmlmixed.js");
 
+    this.verseBoxHelper = new VerseBoxHelper();
     this.theme = this.getCurrentTheme();
     this.reset();
   }
@@ -76,10 +79,10 @@ class NotesController {
       if (currentNoteValue != previousNoteValue) {
         currentNoteValue = currentNoteValue.trim();
         
+        var currentVerseBox = this.getCurrentVerseBox();
         this.currentlyEditedNotes.setAttribute('notes-content', currentNoteValue);
         this.refreshNotesInfo(currentNoteValue);
 
-        var currentVerseBox = this.getCurrentVerseBox();
         models.Note.persistNote(currentNoteValue, currentVerseBox).then((note) => {
           if (note != undefined) {
             var updatedTimestamp = null;
@@ -91,6 +94,12 @@ class NotesController {
             }
 
             this.updateNoteDate(currentVerseBox, updatedTimestamp);
+
+            this.verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(currentVerseBox, { noteValue: currentNoteValue, timestamp: updatedTimestamp }, (context, targetVerseBox) => {
+              var currentNotes = targetVerseBox.find('.verse-notes')[0];
+              currentNotes.setAttribute('notes-content', context.noteValue);
+              this.updateNoteDate(targetVerseBox, context.timestamp);
+            });
           }
         });
       }
@@ -134,22 +143,31 @@ class NotesController {
 
     if (this.currentlyEditedNotes != null) {
       var renderedContent = this.getRenderedEditorContent(!persist);
-
-      this.currentlyEditedNotes.style.removeProperty('height');
-      var verseNotesText = this.currentlyEditedNotes.querySelector('.verse-notes-text');
-      verseNotesText.classList.remove('edited');
-      verseNotesText.innerHTML = renderedContent;
-
-      if (renderedContent == '') {
-        this.currentlyEditedNotes.classList.add('verse-notes-empty');
-      } else {
-        this.currentlyEditedNotes.classList.remove('verse-notes-empty');
-      }
+      this.updateRenderedContent(this.currentlyEditedNotes, renderedContent);
+      
+      var currentVerseBox = this.getCurrentVerseBox();
+      this.verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(currentVerseBox, renderedContent, (context, targetVerseBox) => {
+        var targetNotes = targetVerseBox.find('.verse-notes')[0];
+        this.updateRenderedContent(targetNotes, context);
+      });
 
       this.resetVerseNoteButtons();
     }
 
     this.reset();
+  }
+
+  updateRenderedContent(notesElement, renderedContent) {
+    notesElement.style.removeProperty('height');
+    var verseNotesText = notesElement.querySelector('.verse-notes-text');
+    verseNotesText.classList.remove('edited');
+    verseNotesText.innerHTML = renderedContent;
+
+    if (renderedContent == '') {
+      notesElement.classList.add('verse-notes-empty');
+    } else {
+      notesElement.classList.remove('verse-notes-empty');
+    }
   }
 
   resetVerseNoteButtons() {
