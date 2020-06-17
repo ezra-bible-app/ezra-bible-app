@@ -162,7 +162,7 @@ class InstallModuleWizard {
         this._addModuleWizardOriginalContent = $('#module-settings-wizard-add').html();
     }
 
-    $('#module-settings-wizard-section-header-module-type').html(this._moduleTypeText);
+    $('.module-settings-wizard-section-header-module-type').html(this._moduleTypeText);
 
     $('#module-settings-wizard-add').steps({
       headerTag: "h3",

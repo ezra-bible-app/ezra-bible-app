@@ -28,9 +28,11 @@ class RemoveModuleWizard {
     var removeButton = $('#remove-modules-button');
 
     removeButton.bind('click', () => {
-      var translations = bible_browser_controller.translation_controller.getInstalledModules();
-      if (translations.length > 0) {
-        this.openRemoveTranslationWizard();
+      var currentModuleType = bible_browser_controller.install_module_wizard._currentModuleType;
+
+      var modules = bible_browser_controller.translation_controller.getInstalledModules(currentModuleType);
+      if (modules.length > 0) {
+        this.openRemoveModuleWizard(currentModuleType);
       }
     });
   }
@@ -40,9 +42,9 @@ class RemoveModuleWizard {
     this.onTranslationRemoved = onTranslationRemoved;
   }
 
-  openRemoveTranslationWizard() {
+  openRemoveModuleWizard(moduleType) {
     $('#module-settings-wizard-init').hide();
-    this.initRemoveTranslationWizard();
+    this.initRemoveTranslationWizard(moduleType);
     $('#module-settings-wizard-remove').show();
 
     var wizardPage = $('#module-settings-wizard-remove-p-0');
@@ -93,6 +95,8 @@ class RemoveModuleWizard {
     } else {
         this._removeTranslationWizardOriginalContent = $('#module-settings-wizard-remove').html();
     }
+
+    $('.module-settings-wizard-section-header-module-type').html(bible_browser_controller.install_module_wizard._moduleTypeText);
 
     $('#module-settings-wizard-remove').steps({
       headerTag: "h3",
