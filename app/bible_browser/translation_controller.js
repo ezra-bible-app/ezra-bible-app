@@ -432,8 +432,8 @@ class TranslationController {
     translationInfoButton.addClass('ui-state-disabled');
   }
 
-  getLanguages() {
-    var localModules = nsi.getAllLocalModules();
+  getLanguages(moduleType='BIBLE') {
+    var localModules = nsi.getAllLocalModules(moduleType);
     
     var languages = [];
     var languageCodes = [];
