@@ -84,8 +84,8 @@ class InstallModuleWizard {
     if (moduleType == "BIBLE") {
       title = i18n.t("module-assistant.bible-header");
       this._moduleTypeText = i18n.t("module-assistant.module-type-bible");
-      addModuleText = i18n.t("module-assistant.add-modules");
-      removeModuleText = i18n.t("module-assistant.remove-modules");
+      addModuleText = i18n.t("module-assistant.add-translations");
+      removeModuleText = i18n.t("module-assistant.remove-translations");
     } else if (moduleType == "DICT") {
       title = i18n.t("module-assistant.dict-header");
       this._moduleTypeText = i18n.t("module-assistant.module-type-dict");
