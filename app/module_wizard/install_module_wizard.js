@@ -276,7 +276,7 @@ class InstallModuleWizard {
     var installingModules = "";
     var itTakesTime = "";
     if (this._currentModuleType == 'BIBLE') {
-      installingModules = i18n.t("module-assistant.installing-modules");
+      installingModules = i18n.t("module-assistant.installing-translations");
       itTakesTime = i18n.t("module-assistant.it-takes-time-to-install-translation");
     } else if (this._currentModuleType == 'DICT') {
       installingModules = i18n.t("module-assistant.installing-dictionaries");
