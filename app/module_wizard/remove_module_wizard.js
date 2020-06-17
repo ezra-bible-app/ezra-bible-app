@@ -44,7 +44,7 @@ class RemoveModuleWizard {
 
   openRemoveModuleWizard(moduleType) {
     $('#module-settings-wizard-init').hide();
-    this.initRemoveTranslationWizard(moduleType);
+    this.initRemoveModuleWizard(moduleType);
     $('#module-settings-wizard-remove').show();
 
     var wizardPage = $('#module-settings-wizard-remove-p-0');
@@ -95,12 +95,12 @@ class RemoveModuleWizard {
     this._helper.bindLabelEvents(wizardPage);
   }
 
-  initRemoveTranslationWizard() {
-    if (this._removeTranslationWizardOriginalContent != undefined) {
+  initRemoveModuleWizard() {
+    if (this._removeModuleWizardOriginalContent != undefined) {
         $('#module-settings-wizard-remove').steps("destroy");
-        $('#module-settings-wizard-remove').html(this._removeTranslationWizardOriginalContent);
+        $('#module-settings-wizard-remove').html(this._removeModuleWizardOriginalContent);
     } else {
-        this._removeTranslationWizardOriginalContent = $('#module-settings-wizard-remove').html();
+        this._removeModuleWizardOriginalContent = $('#module-settings-wizard-remove').html();
     }
 
     $('.module-settings-wizard-section-header-module-type').html(bible_browser_controller.install_module_wizard._moduleTypeText);
@@ -111,10 +111,10 @@ class RemoveModuleWizard {
       contentContainerTag: "module-settings-wizard-remove",
       autoFocus: true,
       stepsOrientation: 1,
-      onStepChanging: (event, currentIndex, newIndex) => this.removeTranslationWizardStepChanging(event, currentIndex, newIndex),
-      onStepChanged: (event, currentIndex, priorIndex) => this.removeTranslationWizardStepChanged(event, currentIndex, priorIndex),
-      onFinishing: (event, currentIndex) => this.removeTranslationWizardFinishing(event, currentIndex),
-      onFinished: (event, currentIndex) => this.removeTranslationWizardFinished(event, currentIndex),
+      onStepChanging: (event, currentIndex, newIndex) => this.removeModuleWizardStepChanging(event, currentIndex, newIndex),
+      onStepChanged: (event, currentIndex, priorIndex) => this.removeModuleWizardStepChanged(event, currentIndex, priorIndex),
+      onFinishing: (event, currentIndex) => this.removeModuleWizardFinishing(event, currentIndex),
+      onFinished: (event, currentIndex) => this.removeModuleWizardFinished(event, currentIndex),
       labels: {
         cancel: i18n.t("general.cancel"),
         finish: i18n.t("general.finish"),
@@ -124,7 +124,7 @@ class RemoveModuleWizard {
     });
   }
 
-  removeTranslationWizardStepChanging(event, currentIndex, newIndex) {
+  removeModuleWizardStepChanging(event, currentIndex, newIndex) {
     if (currentIndex == 0 && newIndex == 1) { // Changing from Translations (1) to Removal (2)
       var wizardPage = "#module-settings-wizard-remove-p-0";
       var selectedLanguages = this._helper.getSelectedSettingsWizardElements(wizardPage);
@@ -136,7 +136,7 @@ class RemoveModuleWizard {
     return true;
   }
 
-  async removeTranslationWizardStepChanged(event, currentIndex, priorIndex) {
+  async removeModuleWizardStepChanged(event, currentIndex, priorIndex) {
     if (priorIndex == 0) {
       this._helper.lockDialogForAction('module-settings-wizard-remove');
 
@@ -195,11 +195,11 @@ class RemoveModuleWizard {
     }
   }
 
-  removeTranslationWizardFinishing(event, currentIndex) {
+  removeModuleWizardFinishing(event, currentIndex) {
     return this._moduleRemovalStatus != 'IN_PROGRESS';
   }
 
-  removeTranslationWizardFinished(event, currentIndex) {
+  removeModuleWizardFinished(event, currentIndex) {
     $('#module-settings-wizard').dialog('close');
     this._installedTranslations = bible_browser_controller.translation_controller.getInstalledModules('BIBLE');
     bible_browser_controller.translation_controller.initTranslationsMenu();
