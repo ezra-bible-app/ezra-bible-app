@@ -16,6 +16,7 @@
     "libsqlite3-0",
     "libcurl3-gnutls"
   ],
+  "icon": "icons/ezra-project.png",
   "maintainer": "Tobias Klein <contact@ezra-project.net>",
   "homepage": "https://github.com/tobias-klein/ezra-project",
   "lintianOverrides": [
