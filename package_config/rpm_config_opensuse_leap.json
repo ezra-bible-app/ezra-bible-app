@@ -16,5 +16,6 @@
       "libsqlite3-0",
       "libcurl4"
   ],
+  "icon": "icons/ezra-project.png",
   "homepage": "https://github.com/tobias-klein/ezra-project"
 }
