@@ -6,5 +6,6 @@
         "Education",
         "Theology",
         "Bible"
-    ]
+    ],
+    "options.icon": "icons/ezra-project.ico"
 }
