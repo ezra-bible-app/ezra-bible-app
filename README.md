@@ -53,21 +53,17 @@ Ezra Project comes with the following functionality:
 
 ## Upcoming Features
 
-Ezra Project is currently on a bi-monthly release schedule. The next release [0.13.0](https://github.com/tobias-klein/ezra-project/projects/1) is planned for June 2020 with the following new features:
+Ezra Project is currently on a bi-monthly release schedule. The next release [0.14.0](https://github.com/tobias-klein/ezra-project/projects/2) is planned for August 2020 with the following new features:
 
-* Bible browser: Annotations/notes for individual verses ([#45][i45])
-* Switchable night-mode / darker color scheme ([#43][i43])
-* Highlight module search results ([#52][i52])
-* Support advanced search options in tab search ([#56][i56])
-* Recently used tags filter in tag selection menu ([#50][i50])
-* New module search option: Search with extended verse boundaries ([#58][i58])
+* Dictionary box: Integrate possibility to show Strong's linked dictionary resources ([#78][i78])
+* Verse detail view with interlinear mode ([#64][i64])
+* Visualization of Cross References (from SWORD markup) ([#85][i85])
+* Adjustable font-size for bible text ([#42][i42])
 
-[i43]: https://github.com/tobias-klein/ezra-project/issues/43
-[i45]: https://github.com/tobias-klein/ezra-project/issues/45
-[i50]: https://github.com/tobias-klein/ezra-project/issues/50
-[i52]: https://github.com/tobias-klein/ezra-project/issues/52
-[i56]: https://github.com/tobias-klein/ezra-project/issues/56
-[i58]: https://github.com/tobias-klein/ezra-project/issues/58
+[i42]: https://github.com/tobias-klein/ezra-project/issues/42
+[i64]: https://github.com/tobias-klein/ezra-project/issues/64
+[i78]: https://github.com/tobias-klein/ezra-project/issues/78
+[i85]: https://github.com/tobias-klein/ezra-project/issues/85
 
 ## Installation
 The latest installation packages for Windows, Linux and macOS can be found on [this page][latest]. Specific install instructions are below.
