@@ -18,7 +18,7 @@
     "package-mac": "./build_scripts/package_mac.sh",
     "sign-mac": "./build_scripts/sign_mac.sh",
     "notarize-mac": "./build_scripts/notarize_mac.sh",
-    "dmg-mac": "electron-installer-dmg release/Ezra\\ Project-darwin-x64/Ezra\\ Project.app ezra-project --out=release --overwrite",
+    "dmg-mac": "electron-installer-dmg release/Ezra\\ Project-darwin-x64/Ezra\\ Project.app ezra-project --out=release --overwrite --icon=icons/ezra-project.icns",
     "show-mac-ids": "security find-identity -v -p codesigning",
     "installer-win": "node_modules\\.bin\\electron-installer-windows --src release\\ezra-project-win32-ia32 --dest release\\packages --config package_config\\win_installer_config.json",
     "deb_1804": "electron-installer-debian --src release/ezra-project-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_ubuntu1804.json",
