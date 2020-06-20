@@ -2,20 +2,20 @@
 
 Language|files|blank|comment|code
 :-------|-------:|-------:|-------:|-------:
-JavaScript|78|2616|1324|10477
-CSS|9|568|400|3161
-C++|17|595|360|2251
-JSON|15|0|0|998
-Markdown|8|336|0|842
-C/C++ Header|19|280|253|655
-HTML|10|73|15|414
+JavaScript|79|2696|1374|10721
+CSS|9|579|400|3193
+C++|17|615|366|2330
+JSON|14|0|0|1050
+Markdown|8|347|0|880
+C/C++ Header|19|284|253|688
+HTML|10|74|15|417
 Bourne Shell|16|49|30|224
-Pug|2|44|9|156
+Pug|2|44|9|157
 PowerShell|1|8|9|20
-DOS Batch|2|0|0|9
+DOS Batch|2|1|0|13
 --------|--------|--------|--------|--------
-SUM:|177|4569|2400|19207
+SUM:|177|4697|2456|19693
 
 The above metrics include both the frontend (mostly JavaScript) and the [backend](https://github.com/tobias-klein/node-sword-interface) (mostly C++).
 
-Generated on Thu 04 Jun 2020 08:15:01 PM CEST using [cloc](https://github.com/AlDanial/cloc).
+Generated on Sat 20 Jun 2020 05:02:32 PM CEST using [cloc](https://github.com/AlDanial/cloc).
