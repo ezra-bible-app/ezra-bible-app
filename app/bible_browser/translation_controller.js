@@ -238,69 +238,73 @@ class TranslationController {
     });
   }
 
-  getBibleTranslationInfo(translationId, isRemote=false) {
-    var bibleTranslationInfo = "No info available!";
+  getModuleInfo(moduleId, isRemote=false) {
+    var moduleInfo = "No info available!";
 
     try {
-      var bibleTranslationModule = null;
+      var swordModule = null;
 
       if (isRemote) {
-        bibleTranslationModule = nsi.getRepoModule(translationId);
+        swordModule = nsi.getRepoModule(moduleId);
       } else {
-        bibleTranslationModule = nsi.getLocalModule(translationId);
+        swordModule = nsi.getLocalModule(moduleId);
       }
       
-      var bibleTranslationInfo = "";
+      var moduleInfo = "";
       
       if (isRemote) {
-        bibleTranslationInfo += "<b>" + bibleTranslationModule.description + "</b><br><br>";
+        moduleInfo += "<b>" + swordModule.description + "</b><br><br>";
       }
 
-      bibleTranslationInfo += "<p class='external'>";
-      var about = bibleTranslationModule.about.replace(/\\pard/g, "").replace(/\\par/g, "<br>");
-      bibleTranslationInfo += about;
-      bibleTranslationInfo += "</p>";
+      moduleInfo += "<p class='external'>";
+      var about = swordModule.about.replace(/\\pard/g, "").replace(/\\par/g, "<br>");
+      moduleInfo += about;
+      moduleInfo += "</p>";
 
-      var moduleSize = Math.round(bibleTranslationModule.size / 1024) + " KB";
+      var moduleSize = Math.round(swordModule.size / 1024) + " KB";
 
       var yes = i18n.t("general.yes");
       var no = i18n.t("general.no");
 
-      bibleTranslationInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>" + i18n.t("general.sword-module-info") + "</p>";
-      bibleTranslationInfo += "<table>";
-      bibleTranslationInfo += "<tr><td style='width: 11em;'>" + i18n.t("general.module-name") + ":</td><td>" + bibleTranslationModule.name + "</td></tr>";
-      bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-version") + ":</td><td>" + bibleTranslationModule.version + "</td></tr>";
-      bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-language") + ":</td><td>" + this.languageMapper.getLanguageName(bibleTranslationModule.language) + "</td></tr>";
-      bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-license") + ":</td><td>" + bibleTranslationModule.distributionLicense + "</td></tr>";
-      bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-strongs") + ":</td><td>" + (bibleTranslationModule.hasStrongs ? yes : no) + "</td></tr>";
-      bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-headings") + ":</td><td>" + (bibleTranslationModule.hasHeadings ? yes : no) + "</td></tr>";
-      bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-footnotes") + ":</td><td>" + (bibleTranslationModule.hasFootnotes ? yes : no) + "</td></tr>";
-      bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-xrefs") + ":</td><td>" + (bibleTranslationModule.hasCrossReferences ? yes : no) + "</td></tr>";
-      bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-redletter") + ":</td><td>" + (bibleTranslationModule.hasRedLetterWords ? yes : no) + "</td></tr>";
-      bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-size") + ":</td><td>" + moduleSize + "</td></tr>";
+      moduleInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>" + i18n.t("general.sword-module-info") + "</p>";
+      moduleInfo += "<table>";
+      moduleInfo += "<tr><td style='width: 11em;'>" + i18n.t("general.module-name") + ":</td><td>" + swordModule.name + "</td></tr>";
+      moduleInfo += "<tr><td>" + i18n.t("general.module-version") + ":</td><td>" + swordModule.version + "</td></tr>";
+      moduleInfo += "<tr><td>" + i18n.t("general.module-language") + ":</td><td>" + this.languageMapper.getLanguageName(swordModule.language) + "</td></tr>";
+      moduleInfo += "<tr><td>" + i18n.t("general.module-license") + ":</td><td>" + swordModule.distributionLicense + "</td></tr>";
+
+      if (swordModule.type == 'Biblical Texts') {
+        moduleInfo += "<tr><td>" + i18n.t("general.module-strongs") + ":</td><td>" + (swordModule.hasStrongs ? yes : no) + "</td></tr>";
+        moduleInfo += "<tr><td>" + i18n.t("general.module-headings") + ":</td><td>" + (swordModule.hasHeadings ? yes : no) + "</td></tr>";
+        moduleInfo += "<tr><td>" + i18n.t("general.module-footnotes") + ":</td><td>" + (swordModule.hasFootnotes ? yes : no) + "</td></tr>";
+        moduleInfo += "<tr><td>" + i18n.t("general.module-xrefs") + ":</td><td>" + (swordModule.hasCrossReferences ? yes : no) + "</td></tr>";
+        moduleInfo += "<tr><td>" + i18n.t("general.module-redletter") + ":</td><td>" + (swordModule.hasRedLetterWords ? yes : no) + "</td></tr>";
+      }
+
+      moduleInfo += "<tr><td>" + i18n.t("general.module-size") + ":</td><td>" + moduleSize + "</td></tr>";
       if (!isRemote) {
-        bibleTranslationInfo += "<tr><td>" + i18n.t("general.module-location") + ":</td><td>" + bibleTranslationModule.location + "</td></tr>";
+        moduleInfo += "<tr><td>" + i18n.t("general.module-location") + ":</td><td>" + swordModule.location + "</td></tr>";
       }
 
-      bibleTranslationInfo += "</table>";
+      moduleInfo += "</table>";
 
-      if (isRemote && bibleTranslationModule.locked && bibleTranslationModule.unlockInfo != "") {
-        bibleTranslationInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>" + i18n.t("general.sword-unlock-info") + "</p>";
-        bibleTranslationInfo += "<p class='external'>" + bibleTranslationModule.unlockInfo + "</p>";
+      if (isRemote && swordModule.locked && swordModule.unlockInfo != "") {
+        moduleInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>" + i18n.t("general.sword-unlock-info") + "</p>";
+        moduleInfo += "<p class='external'>" + swordModule.unlockInfo + "</p>";
       }
 
-      bibleTranslationInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>" + i18n.t("general.sword-library-info") + "</p>";
-      bibleTranslationInfo += "<p>" + i18n.t("general.using-sword-version") + " <b>" + nsi.getSwordVersion() + "</b>.</p>";
+      moduleInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>" + i18n.t("general.sword-library-info") + "</p>";
+      moduleInfo += "<p>" + i18n.t("general.using-sword-version") + " <b>" + nsi.getSwordVersion() + "</b>.</p>";
     } catch (ex) {
-      console.error("Got exception while trying to get bible translation info: " + ex);
+      console.error("Got exception while trying to get module info: " + ex);
     }
 
-    return bibleTranslationInfo;
+    return moduleInfo;
   }
 
   showBibleTranslationInfo() {
     var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
-    var bibleTranslationInfo = this.getBibleTranslationInfo(currentBibleTranslationId);
+    var moduleInfo = this.getModuleInfo(currentBibleTranslationId);
 
     var currentBibleTranslationName = bible_browser_controller.tab_controller.getCurrentBibleTranslationName();
     var offsetLeft = $(window).width() - 900;
@@ -309,7 +313,7 @@ class TranslationController {
       position: [offsetLeft,120]
     });
     $('#bible-translation-info-box-content').empty();
-    $('#bible-translation-info-box-content').html(bibleTranslationInfo);
+    $('#bible-translation-info-box-content').html(moduleInfo);
     $('#bible-translation-info-box').dialog("open");
   }
 
@@ -428,8 +432,8 @@ class TranslationController {
     translationInfoButton.addClass('ui-state-disabled');
   }
 
-  getLanguages() {
-    var localModules = nsi.getAllLocalModules();
+  getLanguages(moduleType='BIBLE') {
+    var localModules = nsi.getAllLocalModules(moduleType);
     
     var languages = [];
     var languageCodes = [];
@@ -452,8 +456,8 @@ class TranslationController {
     return languages;
   }
 
-  getTranslations() {
-    var localModules = nsi.getAllLocalModules();
+  getInstalledModules(moduleType='BIBLE') {
+    var localModules = nsi.getAllLocalModules(moduleType);
     var translations = [];
 
     for (var i = 0; i < localModules.length; i++) {

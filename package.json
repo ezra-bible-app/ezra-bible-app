@@ -58,7 +58,7 @@
     "marked": "^0.8.2",
     "mousetrap": "^1.6.3",
     "node-addon-api": "^1.7.1",
-    "node-sword-interface": "^0.138.0",
+    "node-sword-interface": "^0.141.0",
     "officegen": "^0.5.2",
     "pug": "^2.0.4",
     "sanitize-html": "^1.21.1",
