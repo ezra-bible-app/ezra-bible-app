@@ -138,7 +138,7 @@ class TextLoader {
                         start_verse_number=-1,
                         number_of_verses=-1) {
 
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab(tab_index)?.getBibleTranslationId();
     var localSwordModule = null;
 
     try {
