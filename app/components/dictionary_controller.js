@@ -405,6 +405,28 @@ class DictionaryController {
     var ui = { 'index' : bible_browser_controller.tab_controller.getSelectedTabIndex()};
     await bible_browser_controller.onTabSelected(undefined, ui);
   }
+
+  getAllExtraDictModules(lang='GREEK') {
+    var dictModules = nsi.getAllLocalModules('DICT');
+    var filteredDictModules = [];
+    var excludeList = [ 'StrongsGreek', 'StrongsHebrew' ];
+
+    dictModules.forEach((module) => {
+      var hasStrongsKeys = false;
+
+      if (lang == 'GREEK') {
+        hasStrongsKeys = module.hasGreekStrongsKeys;
+      } else if (lang == 'HEBREW') {
+        hasStrongsKeys = module.hasHebrewStrongsKeys;
+      }
+
+      if (hasStrongsKeys && !excludeList.includes(module.name)) {
+        filteredDictModules.push(module);
+      }
+    });
+
+    return filteredDictModules;
+  }
 }
 
 module.exports = DictionaryController;
