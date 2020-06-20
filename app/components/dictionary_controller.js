@@ -348,9 +348,9 @@ class DictionaryController {
     extendedStrongsInfo += "<pre class='strongs-definition'>";
     extendedStrongsInfo += strongsEntry.definition;
     extendedStrongsInfo += "</pre>";
-    extendedStrongsInfo += "<hr></hr>";
 
     if (strongsEntry.references.length > 0) {
+      extendedStrongsInfo += "<hr></hr>";
       var relatedStrongs = "<b>" + i18n.t("dictionary-info-box.related-strongs") + ":</b><br/>";
       extendedStrongsInfo += relatedStrongs;
       extendedStrongsInfo += "<table class='strongs-refs'>";
