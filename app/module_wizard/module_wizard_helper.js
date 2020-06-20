@@ -16,7 +16,7 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-class TranslationWizardHelper {
+class ModuleWizardHelper {
   constructor() {
   }
 
@@ -49,7 +49,7 @@ class TranslationWizardHelper {
     wizardId = '#' + wizardId;
 
     // Disable close button of dialog, at this point we don't allow the user to close the dialog any longer
-    $('.translation-wizard-dialog').find('.ui-dialog-titlebar-close').hide();
+    $('.module-assistant-dialog').find('.ui-dialog-titlebar-close').hide();
 
     // Disable the back button, there is no way back from here
     $($(wizardId).find('.actions').find('li')[0]).addClass('disabled')
@@ -65,8 +65,8 @@ class TranslationWizardHelper {
     $($(wizardId).find('.actions').find('li')[2]).removeClass('disabled');
 
     // Enable close button of dialog
-    $('.translation-wizard-dialog').find('.ui-dialog-titlebar-close').show();
+    $('.module-assistant-dialog').find('.ui-dialog-titlebar-close').show();
   }
 }
 
-module.exports = TranslationWizardHelper;
+module.exports = ModuleWizardHelper;

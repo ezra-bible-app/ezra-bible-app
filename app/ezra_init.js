@@ -285,7 +285,7 @@ function loadHTML()
   loadFragment('html/book_selection_menu.html',           'book-selection-menu');
   loadFragment('html/tag_selection_menu.html',            'tag-selection-menu');
   loadFragment('html/bible_browser_toolbox.html',         'bible-browser-toolbox');
-  loadFragment('html/translation_settings_wizard.html',   'translation-settings-wizard');
+  loadFragment('html/module_settings_wizard.html',        'module-settings-wizard');
   loadFragment('html/tab_search_form.html',               'tab-search');
   loadFragment('html/module_search_menu.html',            'module-search-menu');
   loadFragment('html/display_options_menu.html',          'display-options-menu');

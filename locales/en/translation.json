@@ -3,6 +3,7 @@
     "new-tag": "New tag",
     "tag-statistics": "Tag statistics",
     "configure-translations": "Configure translations",
+    "configure-dicts": "Configure dictionaries",
     "show-parallel-translations": "Compare translations"
   },
   "menu": {
@@ -21,11 +22,16 @@
     "strongs": "Strong's number",
     "extended-verse-boundaries": "Extended verse boundaries (Two verses)"
   },
-  "translation-wizard": {
-    "header": "Configure Bible translations",
-    "internet-usage-note": "<b>IMPORTANT NOTE</b><br/><br/>Bible translation modules are installed using your internet connection.<br/>If you are located in a country where Christians are persecuted,<br/>you should <b>NOT</b> use this software due to a risk of detection!",
+  "module-assistant": {
+    "bible-header": "Configure Bible translations",
+    "dict-header": "Configure dictionaries",
+    "module-type-bible": "Bible translation",
+    "module-type-dict": "Dictionary",
+    "internet-usage-note": "<b>IMPORTANT NOTE</b><br/><br/>{{module_type}} modules are installed using your internet connection.<br/>If you are located in a country where Christians are persecuted,<br/>you should <b>NOT</b> use this software due to a risk of detection!",
     "add-translations": "Add Bible translations",
     "remove-translations": "Remove Bible translations",
+    "add-dicts": "Add dictionaries",
+    "remove-dicts": "Remove dictionaries",
     "repositories": "Repositories",
     "repo-data-last-updated": "Repository data was last updated on {{date}}.",
     "update-now": "Update now",

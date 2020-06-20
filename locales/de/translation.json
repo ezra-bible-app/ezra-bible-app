@@ -3,6 +3,7 @@
     "new-tag": "Neuer Tag",
     "tag-statistics": "Tag Statistiken",
     "configure-translations": "Übersetzungen konfigurieren",
+    "configure-dicts": "Wörterbücher konfigurieren",
     "show-parallel-translations": "Übersetzungen vergleichen"
   },
   "menu": {
@@ -21,11 +22,16 @@
     "strongs": "Strongs Nr.",
     "extended-verse-boundaries": "Erweiterte Versgrenzen (Zwei Verse)"
   },
-  "translation-wizard": {
-    "header": "Bibelübersetzungen konfigurieren",
-    "internet-usage-note": "<b>WICHTIGER HINWEIS</b><br/><br/>Bibelübersetzungen werden über Ihre Internetverbindung installiert.<br/>Falls Sie sich in einem Land befinden, wo Christen verfolgt werden, <br/>sollten Sie diese Software <b>NICHT</b> verwenden, um nicht erkannt zu werden!",
+  "module-assistant": {
+    "bible-header": "Bibelübersetzungen konfigurieren",
+    "dict-header": "Wörterbücher konfigurieren",
+    "module-type-bible": "Bibelübersetzungen",
+    "module-type-dict": "Wörterbücher",
+    "internet-usage-note": "<b>WICHTIGER HINWEIS</b><br/><br/>{{module_type}} werden über Ihre Internetverbindung installiert.<br/>Falls Sie sich in einem Land befinden, wo Christen verfolgt werden, <br/>sollten Sie diese Software <b>NICHT</b> verwenden, um nicht erkannt zu werden!",
     "add-translations": "Bibelübersetzungen hinzufügen",
     "remove-translations": "Bibelübersetzungen entfernen",
+    "add-dicts": "Wörterbücher hinzufügen",
+    "remove-dicts": "Wörterbücher entfernen",
     "repositories": "Modularchive",
     "repo-data-last-updated": "Internetarchivdaten wurden zuletzt am {{date}} aktualisiert.",
     "update-now": "Jetzt aktualisieren",
