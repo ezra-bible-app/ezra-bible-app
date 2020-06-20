@@ -331,12 +331,23 @@ class DictionaryController {
     var findAllLink = this.getFindAllLink(strongsEntry);
     var blueLetterLink = this.getBlueletterLink(strongsEntry);
 
+    var lang = "";
+    if (strongsEntry.key[0] == 'G') {
+      lang = 'GREEK';
+    } else if (strongsEntry.key[0] == 'H') {
+      lang = 'HEBREW';
+    }
+
+    var extraDictContent = this.getExtraDictionaryContent(lang, strongsEntry.key.slice(1));
+
     extendedStrongsInfo += "<b>" + strongsShortInfo + "</b>";
     extendedStrongsInfo += findAllLink;
     extendedStrongsInfo += blueLetterLink;
+    extendedStrongsInfo += extraDictContent;
     extendedStrongsInfo += "<pre class='strongs-definition'>";
     extendedStrongsInfo += strongsEntry.definition;
     extendedStrongsInfo += "</pre>";
+    extendedStrongsInfo += "<hr></hr>";
 
     if (strongsEntry.references.length > 0) {
       extendedStrongsInfo += "Related Strong's:<br/>";
@@ -426,6 +437,18 @@ class DictionaryController {
     });
 
     return filteredDictModules;
+  }
+
+  getExtraDictionaryContent(lang='GREEK', strongsKey) {
+    var extraDictModules = this.getAllExtraDictModules(lang);
+    var extraDictContent = "<hr></hr>";
+
+    extraDictModules.forEach((dict) => {
+      var currentDictContent = nsi.getRawModuleEntry(dict.name, strongsKey);
+      extraDictContent += "<span class='bold'>" + dict.description + ": </span>" + currentDictContent + "<hr></hr>";
+    });
+
+    return extraDictContent;
   }
 }
 
