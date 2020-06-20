@@ -175,6 +175,7 @@
     "default-header": "<b>Strongs Woordenboek</b>",
     "help-instruction": "<p>How Strongs hier tonen:</p><ol><li>Open eerst een vertaling met de Strongs-functie.</li><li>Terwijl u op de SHIFT-toets drukt, kunt u uw muis over de afzonderlijke woorden en zinnen bewegen om de Strongs info hier te bekijken.</li><ol>",
     "find-all-occurrences": "Vind alle voorvallen",
-    "open-in-blueletter": "In Blue Letter Bible openen"
+    "open-in-blueletter": "In Blue Letter Bible openen",
+    "related-strongs": "Related Strong's"
   }
 }
