@@ -338,7 +338,7 @@ class DictionaryController {
       lang = 'HEBREW';
     }
 
-    var extraDictContent = this.getExtraDictionaryContent(lang, strongsEntry.key.slice(1));
+    var extraDictContent = this.getExtraDictionaryContent(lang, strongsEntry);
 
     extendedStrongsInfo += "<b>" + strongsShortInfo + "</b>";
     extendedStrongsInfo += findAllLink;
@@ -350,7 +350,8 @@ class DictionaryController {
     extendedStrongsInfo += "<hr></hr>";
 
     if (strongsEntry.references.length > 0) {
-      extendedStrongsInfo += "Related Strong's:<br/>";
+      var relatedStrongs = "<b>" + i18n.t("dictionary-info-box.related-strongs") + ":</b><br/>";
+      extendedStrongsInfo += relatedStrongs;
       extendedStrongsInfo += "<table class='strongs-refs'>";
 
       for (var i = 0;  i < strongsEntry.references.length; i++) {
@@ -439,16 +440,38 @@ class DictionaryController {
     return filteredDictModules;
   }
 
-  getExtraDictionaryContent(lang='GREEK', strongsKey) {
+  getExtraDictionaryContent(lang='GREEK', strongsEntry) {
     var extraDictModules = this.getAllExtraDictModules(lang);
     var extraDictContent = "<hr></hr>";
 
     extraDictModules.forEach((dict) => {
-      var currentDictContent = nsi.getRawModuleEntry(dict.name, strongsKey);
-      extraDictContent += "<span class='bold'>" + dict.description + ": </span>" + currentDictContent + "<hr></hr>";
+      var currentDictContent = this.getDictionaryEntry(dict.name, strongsEntry);
+
+      if (currentDictContent != undefined) {
+        extraDictContent += "<span class='bold'>" + dict.description + ": </span>" + currentDictContent + "<hr></hr>";
+      }
     });
 
     return extraDictContent;
+  }
+
+  getDictionaryEntry(moduleCode, strongsEntry) {
+    // We first try to fetch the dictionary entry by slicing off the first character of the Strong's key.
+    var currentDictContent = nsi.getRawModuleEntry(moduleCode, strongsEntry.key.slice(1));
+
+    // If the first attempt returned undefined we try again.
+    // This time with the full Strong's key (including H or G as first character)
+    if (currentDictContent == undefined) {
+      currentDictContent = nsi.getRawModuleEntry(moduleCode, strongsEntry.key);
+    }
+
+    if (currentDictContent != undefined) {
+      // Rename the title element, since this otherwise replaces the Window title
+      currentDictContent = currentDictContent.replace(/<title>/g, "<entryTitle>");
+      currentDictContent = currentDictContent.replace(/<\/title>/g, "</entryTitle>");
+    }
+
+    return currentDictContent;
   }
 }
 
