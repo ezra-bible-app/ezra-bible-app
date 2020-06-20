@@ -170,9 +170,9 @@
     "strongs-number-not-valid": "This is not a valid Strong's number!"
   },
   "dictionary-info-box": {
-    "greek": "Greek",
-    "hebrew": "Hebrew",
-    "default-header": "<b>Strong's Dictionary</b>",
+    "greek-dict": "Greek Dictionary",
+    "hebrew-dict": "Hebrew Dictionary",
+    "default-header": "<b>Dictionary</b>",
     "help-instruction": "<p>How to show Strong's here:</p><ol><li>First open a translation with the Strong's feature.</li><li>While you press the SHIFT key you can move your mouse over the individual words and phrases to see Strong's infos here.</li><ol>",
     "find-all-occurrences": "Find all occurrences",
     "open-in-blueletter": "Open in Blue Letter Bible",

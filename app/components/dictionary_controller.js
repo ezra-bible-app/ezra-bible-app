@@ -262,15 +262,15 @@ class DictionaryController {
 
   getDictInfoHeader(strongsEntry) {
     var infoHeader = "";
-    var language;
+    var languageDict;
 
     if (strongsEntry.key[0] == 'G') {
-      language = i18n.t('dictionary-info-box.greek');
+      languageDict = i18n.t('dictionary-info-box.greek-dict');
     } else {
-      language = i18n.t('dictionary-info-box.hebrew');
+      languageDict = i18n.t('dictionary-info-box.hebrew-dict');
     }
 
-    infoHeader += "<b>Strong's " + language + "</b>";
+    infoHeader += "<b>" + languageDict + "</b>";
     return infoHeader;
   }
 
