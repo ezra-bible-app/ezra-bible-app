@@ -31,7 +31,11 @@ class ModuleWizardHelper {
       var isDisabled = currentCheckbox.prop('disabled');
 
       if (isChecked && !isDisabled) {
-        selectedElements.push(currentElement.find('span').attr('id'));
+        var currentId = currentElement.find('span').attr('id');
+
+        if (currentId != undefined) {
+          selectedElements.push(currentId);
+        }
       }
     }
 

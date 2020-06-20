@@ -171,11 +171,12 @@
     "strongs-number-not-valid": "This is not a valid Strong's number!"
   },
   "dictionary-info-box": {
-    "greek": "Griechisch",
-    "hebrew": "Hebräisch",
-    "default-header": "<b>Strong's Wörterbuch</b>",
+    "greek-dict": "Griechisches Wörterbuch",
+    "hebrew-dict": "Hebräisches Wörterbuch",
+    "default-header": "<b>Wörterbuch</b>",
     "help-instruction": "<p>Wie Sie hier Strong's Infos anzeigen:</p><ol><li>Zunächst öffnen Sie eine Übersetzung mit Unterstützung für Strong's.</li><li>Während Sie die SHIFT Taste drücken können Sie die Maus über einzelne Worte oder Texte bewegen, um hier Strong's anzuzeigen.</li><ol>",
     "find-all-occurrences": "Alle Vorkommnisse finden",
-    "open-in-blueletter": "In Blue Letter Bible öffnen"
+    "open-in-blueletter": "In Blue Letter Bible öffnen",
+    "related-strongs": "Verwandte Strong's"
   }
 }

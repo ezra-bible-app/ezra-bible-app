@@ -331,11 +331,11 @@ class OptionsMenu {
 
   showOrHideStrongsBasedOnOption(tabIndex=undefined) {
     if (!this.strongsSwitchChecked()) { 
-      bible_browser_controller.strongs.dictionaryInfoBox.hide();
-      bible_browser_controller.strongs.clearDictInfoBox();
-      bible_browser_controller.strongs.hideStrongsBox(true);
+      bible_browser_controller.dictionary_controller.dictionaryInfoBox.hide();
+      bible_browser_controller.dictionary_controller.clearDictInfoBox();
+      bible_browser_controller.dictionary_controller.hideStrongsBox(true);
     } else {
-      bible_browser_controller.strongs.dictionaryInfoBox.show();
+      bible_browser_controller.dictionary_controller.dictionaryInfoBox.show();
     }
     uiHelper.resizeAppContainer();
   }

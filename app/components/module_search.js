@@ -160,7 +160,7 @@ class ModuleSearch {
   }
 
   validateStrongsKey() {
-    if (!bible_browser_controller.strongs.isValidStrongsKey(this.getSearchTerm())) {
+    if (!bible_browser_controller.dictionary_controller.isValidStrongsKey(this.getSearchTerm())) {
       $('#module-search-validation-message').css('visibility', 'visible');
       $('#module-search-validation-message').prop('title', i18n.t('bible-browser.strongs-number-not-valid'));
       $('#start-module-search-button').addClass('ui-state-disabled');
@@ -208,11 +208,11 @@ class ModuleSearch {
       var useExtendedVerseBoundaries = currentTab.getSearchOptions()['extendedVerseBoundaries'];
 
       if (searchType == "strongsNumber" && event != null) {
-        if (!bible_browser_controller.strongs.isValidStrongsKey(this.currentSearchTerm)) {
+        if (!bible_browser_controller.dictionary_controller.isValidStrongsKey(this.currentSearchTerm)) {
           return;
         }
 
-        bible_browser_controller.strongs.showStrongsInfo(this.currentSearchTerm, false /* do not show strongs box */);
+        bible_browser_controller.dictionary_controller.showStrongsInfo(this.currentSearchTerm, false /* do not show strongs box */);
       }
 
       bible_browser_controller.tab_controller.setTabSearch(this.currentSearchTerm, tabIndex);

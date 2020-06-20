@@ -19,7 +19,7 @@
 const Mousetrap = require('mousetrap');
 let jsStrongs = null;
 
-class Strongs {
+class DictionaryController {
   constructor() {
     this.currentStrongsId = null;
     this.currentStrongsElement = null;
@@ -223,7 +223,7 @@ class Strongs {
     for (var i = 0; i < this.dictionaryInfoBoxStack.length; i++) {
       if (i < this.dictionaryInfoBoxStack.length - 1) {
         var currentRewindNumber = this.dictionaryInfoBoxStack.length - i - 1;
-        var currentCrumb = "<a href='javascript:bible_browser_controller.strongs.rewindDictInfo(" + currentRewindNumber + ")'>";
+        var currentCrumb = "<a href='javascript:bible_browser_controller.dictionary_controller.rewindDictInfo(" + currentRewindNumber + ")'>";
         currentCrumb += this.dictionaryInfoBoxStack[i];
         currentCrumb += "</a>";
       } else {
@@ -262,15 +262,15 @@ class Strongs {
 
   getDictInfoHeader(strongsEntry) {
     var infoHeader = "";
-    var language;
+    var languageDict;
 
     if (strongsEntry.key[0] == 'G') {
-      language = i18n.t('dictionary-info-box.greek');
+      languageDict = i18n.t('dictionary-info-box.greek-dict');
     } else {
-      language = i18n.t('dictionary-info-box.hebrew');
+      languageDict = i18n.t('dictionary-info-box.hebrew-dict');
     }
 
-    infoHeader += "<b>Strong's " + language + "</b>";
+    infoHeader += "<b>" + languageDict + "</b>";
     return infoHeader;
   }
 
@@ -283,7 +283,7 @@ class Strongs {
 
   getFindAllLink(strongsEntry) {
     var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
-    var functionCall = "javascript:bible_browser_controller.strongs.findAllOccurrences('" + strongsEntry.key + "','" + currentBibleTranslationId + "')";
+    var functionCall = "javascript:bible_browser_controller.dictionary_controller.findAllOccurrences('" + strongsEntry.key + "','" + currentBibleTranslationId + "')";
     var link = "<p><a href=\"" + functionCall + "\">" + 
                i18n.t("dictionary-info-box.find-all-occurrences") + 
                "</a></p>";
@@ -310,7 +310,7 @@ class Strongs {
     var referenceStrongsEntry = nsi.getStrongsEntry(referenceKey);
     var referenceStrongsLemma = jsStrongs[referenceKey].lemma;
 
-    var referenceLink = "<a href=\"javascript:bible_browser_controller.strongs.openStrongsReference('";
+    var referenceLink = "<a href=\"javascript:bible_browser_controller.dictionary_controller.openStrongsReference('";
     referenceLink += referenceKey;
     referenceLink += "')\">" + referenceKey + "</a>";
     var trClass = (isLastRow ? "" : "class='td-underline'");
@@ -331,15 +331,28 @@ class Strongs {
     var findAllLink = this.getFindAllLink(strongsEntry);
     var blueLetterLink = this.getBlueletterLink(strongsEntry);
 
+    var lang = "";
+    if (strongsEntry.key[0] == 'G') {
+      lang = 'GREEK';
+    } else if (strongsEntry.key[0] == 'H') {
+      lang = 'HEBREW';
+    }
+
+    var extraDictContent = this.getExtraDictionaryContent(lang, strongsEntry);
+
     extendedStrongsInfo += "<b>" + strongsShortInfo + "</b>";
     extendedStrongsInfo += findAllLink;
     extendedStrongsInfo += blueLetterLink;
+    extendedStrongsInfo += extraDictContent;
+    extendedStrongsInfo += "<b>Strong's</b>";
     extendedStrongsInfo += "<pre class='strongs-definition'>";
     extendedStrongsInfo += strongsEntry.definition;
     extendedStrongsInfo += "</pre>";
+    extendedStrongsInfo += "<hr></hr>";
 
     if (strongsEntry.references.length > 0) {
-      extendedStrongsInfo += "Related Strong's:<br/>";
+      var relatedStrongs = "<b>" + i18n.t("dictionary-info-box.related-strongs") + ":</b><br/>";
+      extendedStrongsInfo += relatedStrongs;
       extendedStrongsInfo += "<table class='strongs-refs'>";
 
       for (var i = 0;  i < strongsEntry.references.length; i++) {
@@ -405,6 +418,79 @@ class Strongs {
     var ui = { 'index' : bible_browser_controller.tab_controller.getSelectedTabIndex()};
     await bible_browser_controller.onTabSelected(undefined, ui);
   }
+
+  getAllExtraDictModules(lang='GREEK') {
+    var dictModules = nsi.getAllLocalModules('DICT');
+    var filteredDictModules = [];
+    var excludeList = [ 'StrongsGreek', 'StrongsHebrew' ];
+
+    dictModules.forEach((module) => {
+      var hasStrongsKeys = false;
+
+      if (lang == 'GREEK') {
+        hasStrongsKeys = module.hasGreekStrongsKeys;
+      } else if (lang == 'HEBREW') {
+        hasStrongsKeys = module.hasHebrewStrongsKeys;
+      }
+
+      if (hasStrongsKeys && !excludeList.includes(module.name)) {
+        filteredDictModules.push(module);
+      }
+    });
+
+    return filteredDictModules;
+  }
+
+  getExtraDictionaryContent(lang='GREEK', strongsEntry) {
+    var extraDictModules = this.getAllExtraDictModules(lang);
+    var extraDictContent = "<hr></hr>";
+
+    extraDictModules.forEach((dict) => {
+      var currentDictContent = this.getDictionaryEntry(dict.name, strongsEntry);
+
+      if (currentDictContent != undefined) {
+        currentDictContent = currentDictContent.trim();
+        var containsLineBreaks = false;
+
+        if (currentDictContent.indexOf("\n") != -1 ||
+            currentDictContent.indexOf("<br />") != -1 ||
+            currentDictContent.indexOf("<br/>") != -1 ||
+            currentDictContent.indexOf("<entry") != -1) {
+
+          containsLineBreaks = true;
+        }
+
+        extraDictContent += "<span class='bold'>" + dict.description;
+       
+        if (containsLineBreaks) {
+          extraDictContent += "</span><br/>" + currentDictContent + "<hr></hr>";
+        } else {
+          extraDictContent += ": </span>" + currentDictContent + "<hr></hr>";
+        }
+      }
+    });
+
+    return extraDictContent;
+  }
+
+  getDictionaryEntry(moduleCode, strongsEntry) {
+    // We first try to fetch the dictionary entry by slicing off the first character of the Strong's key.
+    var currentDictContent = nsi.getRawModuleEntry(moduleCode, strongsEntry.key.slice(1));
+
+    // If the first attempt returned undefined we try again.
+    // This time with the full Strong's key (including H or G as first character)
+    if (currentDictContent == undefined) {
+      currentDictContent = nsi.getRawModuleEntry(moduleCode, strongsEntry.key);
+    }
+
+    if (currentDictContent != undefined) {
+      // Rename the title element, since this otherwise replaces the Window title
+      currentDictContent = currentDictContent.replace(/<title>/g, "<entryTitle>");
+      currentDictContent = currentDictContent.replace(/<\/title>/g, "</entryTitle>");
+    }
+
+    return currentDictContent;
+  }
 }
 
-module.exports = Strongs;
+module.exports = DictionaryController;
