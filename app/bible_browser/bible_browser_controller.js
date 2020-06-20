@@ -54,7 +54,7 @@ class BibleBrowserController {
     this.init_component("TranslationComparison", "translationComparison", "../components/translation_comparison.js");
     this.init_component("BookSelectionMenu", "book_selection_menu", "../components/book_selection_menu.js");
     this.init_component("TagStatistics", "tag_statistics", "../tags/tag_statistics.js");
-    this.init_component("Strongs", "strongs", "../components/strongs.js");
+    this.init_component("DictionaryController", "dictionary_controller", "../components/dictionary_controller.js");
     this.init_component("NotesController", "notes_controller", "./notes_controller.js");
 
     this.tag_reference_box.initTagReferenceBox();
@@ -94,7 +94,7 @@ class BibleBrowserController {
 
   onSearchResultsAvailable = async function(occurances) {
     // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
-    this.strongs.bindAfterBibleTextLoaded();
+    this.dictionary_controller.bindAfterBibleTextLoaded();
 
     var currentVerseListFrame = this.getCurrentVerseListFrame();
     var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
@@ -131,7 +131,7 @@ class BibleBrowserController {
     this.navigation_pane.clearHighlightedSearchResults();
 
     // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
-    this.strongs.bindAfterBibleTextLoaded();
+    this.dictionary_controller.bindAfterBibleTextLoaded();
   }
 
   async onTabSelected(event = undefined, ui = { 'index' : 0}) {
@@ -187,7 +187,7 @@ class BibleBrowserController {
     this.module_search.populateSearchMenu(ui.index);
 
     // Hide elements present from previous tab's usage
-    this.strongs.hideStrongsBox();
+    this.dictionary_controller.hideStrongsBox();
     this.verse_context_loader.hide_verse_expand_box();
 
     uiHelper.configureButtonStyles('.verse-list-menu');
@@ -470,7 +470,7 @@ class BibleBrowserController {
     }).addClass('tag-events-configured');
 
     currentVerseList.find('.verse-box').bind('mouseover', (e) => { this.onVerseBoxMouseOver(e); });
-    this.strongs.bindAfterBibleTextLoaded(tabIndex);
+    this.dictionary_controller.bindAfterBibleTextLoaded(tabIndex);
     this.verse_context_loader.init_verse_expand_box(tabIndex);
   }
 

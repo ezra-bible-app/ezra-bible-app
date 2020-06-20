@@ -469,7 +469,7 @@ class InstallModuleWizard {
     }
 
     if (strongsInstallSuccessful) {
-      bible_browser_controller.strongs.runAvailabilityCheck();
+      bible_browser_controller.dictionary_controller.runAvailabilityCheck();
       
       existingProgressBar.before('<div style="margin-bottom: 1em;">&nbsp;' + i18n.t("general.done") + '.</div>');
     } else {
