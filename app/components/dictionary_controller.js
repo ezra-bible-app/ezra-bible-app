@@ -344,6 +344,7 @@ class DictionaryController {
     extendedStrongsInfo += findAllLink;
     extendedStrongsInfo += blueLetterLink;
     extendedStrongsInfo += extraDictContent;
+    extendedStrongsInfo += "<b>Strong's</b>";
     extendedStrongsInfo += "<pre class='strongs-definition'>";
     extendedStrongsInfo += strongsEntry.definition;
     extendedStrongsInfo += "</pre>";
@@ -448,7 +449,24 @@ class DictionaryController {
       var currentDictContent = this.getDictionaryEntry(dict.name, strongsEntry);
 
       if (currentDictContent != undefined) {
-        extraDictContent += "<span class='bold'>" + dict.description + ": </span>" + currentDictContent + "<hr></hr>";
+        currentDictContent = currentDictContent.trim();
+        var containsLineBreaks = false;
+
+        if (currentDictContent.indexOf("\n") != -1 ||
+            currentDictContent.indexOf("<br />") != -1 ||
+            currentDictContent.indexOf("<br/>") != -1 ||
+            currentDictContent.indexOf("<entry") != -1) {
+
+          containsLineBreaks = true;
+        }
+
+        extraDictContent += "<span class='bold'>" + dict.description;
+       
+        if (containsLineBreaks) {
+          extraDictContent += "</span><br/>" + currentDictContent + "<hr></hr>";
+        } else {
+          extraDictContent += ": </span>" + currentDictContent + "<hr></hr>";
+        }
       }
     });
 

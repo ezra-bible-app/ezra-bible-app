@@ -182,6 +182,7 @@ a.outline-reference:focus, a.outline-reference:hover {
 }
 
 #dictionary-info-box-content .strongs-definition {
+  margin-top: 0;
   font-size: 110%;
   white-space: pre-wrap;
   color: black;
