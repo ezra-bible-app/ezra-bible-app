@@ -28,19 +28,35 @@ class SwordXrefs {
   }
 
   initForTab(tabIndex=undefined) {
-    console.time('SwordXrefs.initForTab');
-
+    //console.time('SwordXrefs.initForTab');
     var xrefSwordNotes = this.getCurrentTabXrefs(tabIndex);
-    console.log(`Got ${xrefSwordNotes.length} sword xref elements!`);
+    //console.log(`Got ${xrefSwordNotes.length} sword xref elements!`);
     
     // Remove text nodes containing ';'
     xrefSwordNotes.contents().filter(function() {
       return this.nodeType === 3; //Node.TEXT_NODE
     }).replaceWith("");
 
-    xrefSwordNotes.addClass('sword-xref');
+    for (var i = 0; i < xrefSwordNotes.length; i++) {
+      var currentXref = xrefSwordNotes[i];
+      var currentXrefContent = currentXref.innerHTML;
 
-    console.timeEnd('SwordXrefs.initForTab');
+      if (currentXrefContent.indexOf("sword-xref-marker") == -1) {
+        var currentReferences = currentXref.querySelectorAll('reference');
+        var currentTitleArray = [];
+
+        currentReferences.forEach((ref) => {
+          var currentRef = ref.innerText;
+          currentTitleArray.push(currentRef);
+        });
+        var currentTitle = currentTitleArray.join('; ');
+
+        currentXref.innerHTML = `<div class='sword-xref-marker' title='${currentTitle}'>x</div>` + currentXref.innerHTML;
+      }
+    }
+
+    xrefSwordNotes.addClass('sword-xref');
+    //console.timeEnd('SwordXrefs.initForTab');
   }
 }
 

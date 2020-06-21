@@ -412,6 +412,7 @@ h2 {
 .verse-text {
   cursor: pointer;
   padding: 0.05em;
+  position: relative;
 }
 
 .ezra-dialog .verse-text {
@@ -1617,9 +1618,8 @@ s {
   display: none;
 }
 
-.sword-xref::before {
-  display: inline;
-  content: 'x';
+.sword-xref-marker {
+  display: inline-block;
   padding-right: 0.1em;
   font-size: 80%;
   font-weight: bold;
