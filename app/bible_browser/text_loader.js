@@ -163,6 +163,12 @@ class TextLoader {
       book_short_title = models.BibleBook.findBookTitle(book_short_title);
       bibleBook = await models.BibleBook.findOne({ where: { shortTitle: book_short_title }});
     }
+
+    if (bibleBook == null) {
+      // If the bibleBook is still null at this point we simply return.
+      $('#verse-list-loading-indicator').hide();
+      return;
+    }
     
     var verses = nsi.getBookText(currentBibleTranslationId, book_short_title, start_verse_number, number_of_verses);
 
