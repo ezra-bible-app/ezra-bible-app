@@ -1609,6 +1609,24 @@ s {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
 }
 
+.sword-xref {
+  display: inline;
+}
+
+.sword-xref reference {
+  display: none;
+}
+
+.sword-xref::before {
+  display: inline;
+  content: 'x';
+  padding-right: 0.1em;
+  font-size: 80%;
+  font-weight: bold;
+  position: relative;
+  top: -0.5em;
+}
+
 .darkmode--activated a:link, .darkmode--activated a:visited, .darkmode--activated p, .darkmode--activated .verse-list-composite {
   color: whitesmoke;
 }
