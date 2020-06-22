@@ -74,6 +74,12 @@ class OptionsMenu {
       this.slowlyHideDisplayMenu();
     });
 
+    $('#footnotes-switch').bind('change', () => {
+      bible_browser_controller.settings.set('showFootnotes', this.footnotesSwitchChecked());
+      this.showOrHideFootnotesBasedOnOption();
+      this.slowlyHideDisplayMenu();
+    });
+
     $('#strongs-switch').bind('change', () => {
       bible_browser_controller.settings.set('showStrongs', this.strongsSwitchChecked());
       this.showOrHideStrongsBasedOnOption();
@@ -190,6 +196,16 @@ class OptionsMenu {
       showSectionTitles = bible_browser_controller.settings.get('showSectionTitles');
     }
 
+    var showXrefs = false;
+    if (bible_browser_controller.settings.has('showXrefs')) {
+      showXrefs = bible_browser_controller.settings.get('showXrefs');
+    }
+
+    var showFootnotes = false;
+    if (bible_browser_controller.settings.has('showFootnotes')) {
+      showFootnotes = bible_browser_controller.settings.get('showFootnotes');
+    }
+
     var showStrongs = false;
     if (bible_browser_controller.settings.has('showStrongs')) {
       showStrongs = bible_browser_controller.settings.get('showStrongs');
@@ -231,6 +247,14 @@ class OptionsMenu {
 
     if (showSectionTitles) {
       this.enableOption('section-title-switch');
+    }
+
+    if (showXrefs) {
+      this.enableOption('xrefs-switch');
+    }
+
+    if (showFootnotes) {
+      this.enableOption('footnotes-switch');
     }
 
     if (showStrongs) {
@@ -345,6 +369,16 @@ class OptionsMenu {
     }
   }
 
+  showOrHideFootnotesBasedOnOption(tabIndex=undefined) {
+    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+
+    if (this.footnotesSwitchChecked()) {
+      currentVerseList.removeClass('verse-list-without-footnotes');
+    } else {
+      currentVerseList.addClass('verse-list-without-footnotes');
+    }
+  }
+
   showOrHideStrongsBasedOnOption(tabIndex=undefined) {
     if (!this.strongsSwitchChecked()) { 
       bible_browser_controller.dictionary_controller.dictionaryInfoBox.hide();
@@ -417,6 +451,7 @@ class OptionsMenu {
     this.showOrHideBookIntroductionBasedOnOption(tabIndex);
     this.showOrHideSectionTitlesBasedOnOption(tabIndex);
     this.showOrHideXrefsBasedOnOption(tabIndex);
+    this.showOrHideFootnotesBasedOnOption(tabIndex);
     this.showOrHideVerseTagsBasedOnOption(tabIndex);
     this.changeTagsLayoutBasedOnOption(tabIndex);
     this.showOrHideStrongsBasedOnOption(tabIndex);
@@ -442,6 +477,10 @@ class OptionsMenu {
 
   xrefsSwitchChecked() {
     return $('#xrefs-switch').prop('checked');
+  }
+
+  footnotesSwitchChecked() {
+    return $('#footnotes-switch').prop('checked');
   }
 
   strongsSwitchChecked() {

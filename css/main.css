@@ -392,6 +392,10 @@ h2 {
   display: none;
 }
 
+.verse-list-without-footnotes .sword-note-marker {
+  display: none;
+}
+
 .verse-list-with-notes .verse-text-and-tags {
   width: 75%;
 }
