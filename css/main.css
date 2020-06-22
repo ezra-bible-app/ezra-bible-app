@@ -1532,6 +1532,7 @@ div.CodeMirror {
   display: none;
 }
 
+/* This element only occurs in the NA28 sword module */
 s {
   text-decoration: none;
 }
