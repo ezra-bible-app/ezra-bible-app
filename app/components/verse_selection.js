@@ -31,7 +31,7 @@ class VerseSelection {
 
     currentVerseList.selectable({
       filter: '.verse-text',
-      cancel: '.verse-notes, #currently-edited-notes, .section-header-box, .verse-content-edited, .tag-box, .tag, .load-book-results',
+      cancel: '.sword-xref-marker, .verse-notes, #currently-edited-notes, .section-header-box, .verse-content-edited, .tag-box, .tag, .load-book-results',
 
       start: (event, ui) => {
         // Only reset existing selection if metaKey and ctrlKey are not pressed.

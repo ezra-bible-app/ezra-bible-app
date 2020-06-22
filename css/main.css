@@ -412,6 +412,7 @@ h2 {
 .verse-text {
   cursor: pointer;
   padding: 0.05em;
+  position: relative;
 }
 
 .ezra-dialog .verse-text {
@@ -1607,6 +1608,23 @@ s {
 
 .OSX, .OSX button, .OSX .verse-list, .OSX .loading-indicator-text, .OSX div.CodeMirror {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
+}
+
+.sword-note {
+  display: none;
+}
+
+.sword-note reference {
+  display: none;
+}
+
+.sword-xref-marker, .sword-note-marker {
+  display: inline-block;
+  padding-right: 0.2em;
+  font-size: 80%;
+  font-weight: bold;
+  position: relative;
+  top: -0.5em;
 }
 
 .darkmode--activated a:link, .darkmode--activated a:visited, .darkmode--activated p, .darkmode--activated .verse-list-composite {
