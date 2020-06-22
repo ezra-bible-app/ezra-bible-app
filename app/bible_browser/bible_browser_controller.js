@@ -56,7 +56,7 @@ class BibleBrowserController {
     this.init_component("TagStatistics", "tag_statistics", "../tags/tag_statistics.js");
     this.init_component("DictionaryController", "dictionary_controller", "../components/dictionary_controller.js");
     this.init_component("NotesController", "notes_controller", "./notes_controller.js");
-    this.init_component("SwordXrefs", "sword_xrefs", "../components/sword_xrefs.js");
+    this.init_component("SwordNotes", "sword_notes", "../components/sword_notes.js");
 
     this.tag_reference_box.initTagReferenceBox();
     this.initGlobalShortCuts();
@@ -567,7 +567,7 @@ class BibleBrowserController {
     this.navigation_pane.updateNavigation(tabIndex);
     this.bindEventsAfterBibleTextLoaded(tabIndex);
     this.notes_controller.initForTab(tabIndex);
-    this.sword_xrefs.initForTab(tabIndex);
+    this.sword_notes.initForTab(tabIndex);
   }
 
   updateUiAfterBibleTranslationAvailable(translationCode) {

@@ -1610,17 +1610,17 @@ s {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
 }
 
-.sword-xref {
-  display: inline;
-}
-
-.sword-xref reference {
+.sword-note {
   display: none;
 }
 
-.sword-xref-marker {
+.sword-note reference {
+  display: none;
+}
+
+.sword-xref-marker, .sword-note-marker {
   display: inline-block;
-  padding-right: 0.1em;
+  padding-right: 0.2em;
   font-size: 80%;
   font-weight: bold;
   position: relative;
