@@ -121,6 +121,7 @@ class TagReferenceBox {
     tagReferenceBoxTitle += ' (' + verseCount + ')';
     $('#tag-reference-box').dialog({ title: tagReferenceBoxTitle });
     $('#tag-reference-box-verse-list').html(htmlVerses);
+    bible_browser_controller.sword_notes.initForContainer($('#tag-reference-box-verse-list'));
     $('#tag-reference-box-verse-list').show();
   }
 }

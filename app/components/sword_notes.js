@@ -38,8 +38,17 @@ class SwordNotes {
   }
 
   initForTab(tabIndex=undefined) {
-    //console.time('SwordNotes.initForTab');
     var swordNotes = this.getCurrentTabNotes(tabIndex);
+    this.initNotes(swordNotes);
+  }
+
+  initForContainer(container) {
+    var swordNotes = container.find('.sword-note');
+    this.initNotes(swordNotes);
+  }
+
+  initNotes(swordNotes) {
+    //console.time('SwordNotes.initForTab');
     //console.log(`Got ${swordNotes.length} sword xref elements!`);
 
     // Within crossReference notes: Remove text nodes containing ';'
