@@ -51,7 +51,12 @@ class SwordXrefs {
         });
         var currentTitle = currentTitleArray.join('; ');
 
-        currentXref.innerHTML = `<div class='sword-xref-marker' title='${currentTitle}'>x</div>` + currentXref.innerHTML;
+        var xrefMarker = document.createElement('div');
+        xrefMarker.classList.add('sword-xref-marker');
+        xrefMarker.setAttribute('title', currentTitle);
+        xrefMarker.innerText = 'x';
+
+        currentXref.insertBefore(xrefMarker, currentXref.firstChild);
       }
     }
 
