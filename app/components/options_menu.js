@@ -68,6 +68,12 @@ class OptionsMenu {
       this.slowlyHideDisplayMenu();
     });
 
+    $('#xrefs-switch').bind('change', () => {
+      bible_browser_controller.settings.set('showXrefs', this.xrefsSwitchChecked());
+      this.showOrHideXrefsBasedOnOption();
+      this.slowlyHideDisplayMenu();
+    });
+
     $('#strongs-switch').bind('change', () => {
       bible_browser_controller.settings.set('showStrongs', this.strongsSwitchChecked());
       this.showOrHideStrongsBasedOnOption();
@@ -329,6 +335,16 @@ class OptionsMenu {
     }
   }
 
+  showOrHideXrefsBasedOnOption(tabIndex=undefined) {
+    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+
+    if (this.xrefsSwitchChecked()) {
+      currentVerseList.removeClass('verse-list-without-xrefs');
+    } else {
+      currentVerseList.addClass('verse-list-without-xrefs');
+    }
+  }
+
   showOrHideStrongsBasedOnOption(tabIndex=undefined) {
     if (!this.strongsSwitchChecked()) { 
       bible_browser_controller.dictionary_controller.dictionaryInfoBox.hide();
@@ -400,6 +416,7 @@ class OptionsMenu {
     this.showOrHideToolBarBasedOnOption(tabIndex);
     this.showOrHideBookIntroductionBasedOnOption(tabIndex);
     this.showOrHideSectionTitlesBasedOnOption(tabIndex);
+    this.showOrHideXrefsBasedOnOption(tabIndex);
     this.showOrHideVerseTagsBasedOnOption(tabIndex);
     this.changeTagsLayoutBasedOnOption(tabIndex);
     this.showOrHideStrongsBasedOnOption(tabIndex);
@@ -421,6 +438,10 @@ class OptionsMenu {
 
   sectionTitleSwitchChecked() {
     return $('#section-title-switch').prop('checked');
+  }
+
+  xrefsSwitchChecked() {
+    return $('#xrefs-switch').prop('checked');
   }
 
   strongsSwitchChecked() {

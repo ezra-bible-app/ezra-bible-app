@@ -388,6 +388,10 @@ h2 {
   display: none;
 }
 
+.verse-list-without-xrefs .sword-xref-marker {
+  display: none;
+}
+
 .verse-list-with-notes .verse-text-and-tags {
   width: 75%;
 }
