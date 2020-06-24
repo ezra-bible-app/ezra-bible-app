@@ -82,15 +82,18 @@ class ModuleSearch {
 
   populateSearchMenu(tabIndex) {
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
-    var searchType = currentTab.getSearchOptions()['searchType'];
-    var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
-    var useExtendedVerseBoundaries = currentTab.getSearchOptions()['extendedVerseBoundaries'];
-    var searchTerm = currentTab.getSearchTerm();
 
-    $('#search-type').val(searchType);
-    $('#search-is-case-sensitive').prop("checked", isCaseSensitive);
-    $('#search-extended-verse-boundaries').prop("checked", useExtendedVerseBoundaries);
-    $('#module-search-input').val(searchTerm);
+    if (currentTab != null) {
+      var searchType = currentTab.getSearchOptions()['searchType'];
+      var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
+      var useExtendedVerseBoundaries = currentTab.getSearchOptions()['extendedVerseBoundaries'];
+      var searchTerm = currentTab.getSearchTerm();
+
+      $('#search-type').val(searchType);
+      $('#search-is-case-sensitive').prop("checked", isCaseSensitive);
+      $('#search-extended-verse-boundaries').prop("checked", useExtendedVerseBoundaries);
+      $('#module-search-input').val(searchTerm);
+    }
   }
 
   handleSearchMenuClick(event) {
