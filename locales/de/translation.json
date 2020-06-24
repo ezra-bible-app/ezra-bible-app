@@ -174,7 +174,8 @@
     "use-night-mode": "Nachtmodus",
     "tag-statistics": "Tag Statistiken",
     "comparing-translations-for": "Vergleiche Übersetzungen für",
-    "strongs-number-not-valid": "This is not a valid Strong's number!"
+    "strongs-number-not-valid": "Dies ist keine gültige Strong's Nr.!",
+    "open-new-tab": "Neuen Tab öffnen"
   },
   "dictionary-info-box": {
     "greek-dict": "Griechisches Wörterbuch",

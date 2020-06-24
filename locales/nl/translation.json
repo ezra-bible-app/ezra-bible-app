@@ -173,7 +173,8 @@
     "use-night-mode": "Nachtmodus",
     "tag-statistics": "Tagstatistieken",
     "comparing-translations-for": "Vertalingen vergelijken voor",
-    "strongs-number-not-valid": "Dit is geen geldig Strongs nummer!"
+    "strongs-number-not-valid": "Dit is geen geldig Strongs nummer!",
+    "open-new-tab": "Open new tab"
   },
   "dictionary-info-box": {
     "greek-dict": "Greek Dictionary",
