@@ -110,6 +110,10 @@ h2 {
   margin-right: 0.5em;
 }
 
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a {
+  cursor: default;
+}
+
 .verse-list-container {
   margin-top: 3em;
 }

@@ -255,7 +255,8 @@ class TabController {
     this.tabs = $("#" + this.tabsElement).tabs();
     this.updateFirstTabCloseButton();
 
-    var addTabButton = "<li><button id='add-tab-button' class='fg-button ui-corner-all ui-state-default'>+</button></li>";
+    var addTabText = i18n.t("bible-browser.open-new-tab");
+    var addTabButton = `<li><button id='add-tab-button' class='fg-button ui-corner-all ui-state-default' title='${addTabText}'>+</button></li>`;
     $("#" + this.tabsElement).find('.ui-tabs-nav').append(addTabButton);
 
     this.addTabElement = 'add-tab-button';

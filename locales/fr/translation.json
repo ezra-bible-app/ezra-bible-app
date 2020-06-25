@@ -173,7 +173,8 @@
     "use-night-mode": "Mode nuit",
     "tag-statistics": "Statistiques des étiquettes",
     "comparing-translations-for": "Comparaison des traductions pour",
-    "strongs-number-not-valid": "Ceci n'est pas un nombre de Strong valide !"
+    "strongs-number-not-valid": "Ceci n'est pas un nombre de Strong valide !",
+    "open-new-tab": "Open new tab"
   },
   "dictionary-info-box": {
     "greek-dict": "Greek Dictionary",
