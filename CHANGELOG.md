@@ -2,23 +2,13 @@
 All notable changes to Ezra Project are documented in this file.
 
 <!--
-## [0.14.0 - 2020-08-xx]
-### Features
-
-* Fe1
-* Fe2
-
-### Enhancements
-
-* E1
+## [0.13.1 - 2020-07-04]
 
 ### Fixes
 
-* Fx1
+* Fixed issue in module search - it was case-sensitive by default. Now it is case-insensitive again and the case-sensitive option can be selected by the user. ([#88](i88))
 
-### Enablers
-
-* En1
+[i88]: https://github.com/tobias-klein/ezra-project/issues/88
 
 -->
 
