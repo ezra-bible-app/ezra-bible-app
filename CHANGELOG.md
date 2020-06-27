@@ -1,7 +1,7 @@
 # Ezra Project - Changelog
 All notable changes to Ezra Project are documented in this file.
 
-## [0.13.0 - 2020-06-xx]
+## [0.13.0 - 2020-06-19]
 ### Features
 
 * Basic note taking functionality. Notes can be added for individual verses using Markdown syntax. ([#45][i45])
