@@ -7,6 +7,8 @@ All notable changes to Ezra Project are documented in this file.
 ### Fixes
 
 * Fixed issue in module search - it was case-sensitive by default. Now it is case-insensitive again and the case-sensitive option can be selected by the user. ([#88](i88))
+* Fixed an issue in the translation install assistant that occurred when filtering on Strong's feature translations.
+* Fixed various minor issues related to loading previously selected tabs on startup.
 
 [i88]: https://github.com/tobias-klein/ezra-project/issues/88
 
