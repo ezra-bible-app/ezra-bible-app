@@ -120,6 +120,15 @@ class TagReferenceBox {
     var tagReferenceBoxTitle = $('#tag-reference-box').dialog('option', 'title');
     tagReferenceBoxTitle += ' (' + verseCount + ')';
     $('#tag-reference-box').dialog({ title: tagReferenceBoxTitle });
+
+    if (!bible_browser_controller.optionsMenu.xrefsSwitchChecked()) {
+      $('#tag-reference-box-verse-list').addClass('verse-list-without-xrefs');
+    }
+
+    if (!bible_browser_controller.optionsMenu.footnotesSwitchChecked()) {
+      $('#tag-reference-box-verse-list').addClass('verse-list-without-footnotes');
+    }
+
     $('#tag-reference-box-verse-list').html(htmlVerses);
     bible_browser_controller.sword_notes.initForContainer($('#tag-reference-box-verse-list'));
     $('#tag-reference-box-verse-list').show();

@@ -361,21 +361,27 @@ class OptionsMenu {
 
   showOrHideXrefsBasedOnOption(tabIndex=undefined) {
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+    var tagBoxVerseList = $('#tag-reference-box-verse-list');
 
     if (this.xrefsSwitchChecked()) {
       currentVerseList.removeClass('verse-list-without-xrefs');
+      tagBoxVerseList.removeClass('verse-list-without-xrefs');
     } else {
       currentVerseList.addClass('verse-list-without-xrefs');
+      tagBoxVerseList.addClass('verse-list-without-xrefs');
     }
   }
 
   showOrHideFootnotesBasedOnOption(tabIndex=undefined) {
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+    var tagBoxVerseList = $('#tag-reference-box-verse-list');
 
     if (this.footnotesSwitchChecked()) {
       currentVerseList.removeClass('verse-list-without-footnotes');
+      tagBoxVerseList.removeClass('verse-list-without-footnotes');
     } else {
       currentVerseList.addClass('verse-list-without-footnotes');
+      tagBoxVerseList.addClass('verse-list-without-footnotes');
     }
   }
 
