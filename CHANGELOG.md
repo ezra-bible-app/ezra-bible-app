@@ -3,6 +3,7 @@ All notable changes to Ezra Project are documented in this file.
 
 <!--
 ## [0.13.1 - 2020-07-04]
+This is a bugfix release.
 
 ### Fixes
 
