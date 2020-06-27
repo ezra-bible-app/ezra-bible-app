@@ -1,6 +1,27 @@
 # Ezra Project - Changelog
 All notable changes to Ezra Project are documented in this file.
 
+<!--
+## [0.14.0 - 2020-08-xx]
+### Features
+
+* Fe1
+* Fe2
+
+### Enhancements
+
+* E1
+
+### Fixes
+
+* Fx1
+
+### Enablers
+
+* En1
+
+-->
+
 ## [0.13.0 - 2020-06-19]
 ### Features
 
