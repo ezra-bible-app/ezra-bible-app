@@ -130,7 +130,7 @@ each bibleBook in bibleBooks
           - var verseNoteText = "";
 
         div(class=verseNoteClass, notes-content=verseNoteTextRaw)
-          div(class='verse-notes-text') !{verseNoteText}
+          div(class='verse-notes-text external') !{verseNoteText}
           if verseNoteText == ''
             textarea(class='editor', style='display: none; width: 100%; height: 100%;')
 
