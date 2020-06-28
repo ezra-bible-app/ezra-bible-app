@@ -177,6 +177,13 @@ class NotesController {
   }
 
   handleNotesClick(event) {
+    if (event.target.nodeName == 'A') {
+      // If the user is clicking a link within the note ('a' element)
+      // we simply return and let Electron handle the default action
+      // (Link will be opened in the default browser)
+      return;
+    }
+
     event.stopPropagation();
 
     var verseBox = $(event.target).closest('.verse-box');
