@@ -8,10 +8,13 @@ This is a bugfix release.
 ### Fixes
 
 * Fixed issue in module search - it was case-sensitive by default. Now it is case-insensitive again and the case-sensitive option can be selected by the user. ([#88](i88))
+* Fixed issue regarding tag statistics in tag list. These tag statistics were not properly updated in "other tabs" when assigning a tag in a search result list or tagged verse list. ([#91](i91))
+* Fixed a layout issue for the tags boxes in the bible browser. This layout issue occurred after all tags where removed from a verse.
 * Fixed an issue in the translation install assistant that occurred when filtering on Strong's feature translations.
 * Fixed various minor issues related to loading previously selected tabs on startup.
 
 [i88]: https://github.com/tobias-klein/ezra-project/issues/88
+[i91]: https://github.com/tobias-klein/ezra-project/issues/91
 
 -->
 
