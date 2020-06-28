@@ -330,8 +330,6 @@ async function initApplication()
   console.log("Initializing controllers ...");
   await initControllers();
 
-  bible_browser_controller.optionsMenu.loadDisplayOptions();
-
   initNightMode();
 
   // Wait for the UI to render
@@ -340,10 +338,10 @@ async function initApplication()
   console.log("Initializing user interface ...");
   initUi();
 
+  bible_browser_controller.optionsMenu.loadDisplayOptions();
+
   // Wait for the UI to render, before we hide the loading indicator
   await waitUntilIdle();
-
-  //bible_browser_controller.optionsMenu.showOrHideToolBarBasedOnOption();
 
   console.log("Loading settings ...");
   await bible_browser_controller.loadSettings();
