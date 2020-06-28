@@ -79,7 +79,7 @@ class TagsCommunicationController
 
   async update_tags_on_verses(tagId, verseBoxes, action) {
     var increment = (action == "add" ? true : false);
-    tags_controller.update_tag_verse_count(tagId, verseBoxes.length, increment);
+    tags_controller.update_tag_verse_count(tagId, verseBoxes, increment);
     var tag = await models.Tag.findByPk(tagId);
 
     for (var verseBox of verseBoxes) {

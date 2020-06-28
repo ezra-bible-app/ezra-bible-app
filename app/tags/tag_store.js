@@ -79,26 +79,32 @@ class TagStore {
     return this.bookTagStatistics[bibleBookId];
   }
 
-  async updateTagCount(tagId, bookShortName, count=1, increment=true) {
-    var targetBookId = await this.getBibleBookDbId(bookShortName);
+  async updateTagCount(tagId, bookList, count=1, increment=true) {
+    var firstBookTagStatistics = this.bookTagStatistics[0];
+    var globalAssignmentCount = firstBookTagStatistics[tagId].globalAssignmentCount;
+    if (increment) {
+      globalAssignmentCount += count;
+    } else {
+      globalAssignmentCount -= count;
+    }
 
-    for (const [bookId, tagStats] of Object.entries(this.bookTagStatistics)) {
-      if (tagId in tagStats) {
-        if (increment) {
-          tagStats[tagId].globalAssignmentCount += count;
-        } else {
-          tagStats[tagId].globalAssignmentCount -= count;
-        }
+    bookList.forEach(async (book) => {
+      var targetBookId = await this.getBibleBookDbId(book);
 
-        if (bookId == targetBookId) {
-          if (increment) {
-            tagStats[tagId].bookAssignmentCount += count;
-          } else {
-            tagStats[tagId].bookAssignmentCount -= count;
+      for (const [bookId, tagStats] of Object.entries(this.bookTagStatistics)) {
+        if (tagId in tagStats) {
+          tagStats[tagId].globalAssignmentCount = globalAssignmentCount;
+
+          if (bookId == targetBookId) {
+            if (increment) {
+              tagStats[tagId].bookAssignmentCount += count;
+            } else {
+              tagStats[tagId].bookAssignmentCount -= count;
+            }
           }
         }
       }
-    }
+    });
   }
 
   async updateLatestAndOldestRecentTimestamp() {

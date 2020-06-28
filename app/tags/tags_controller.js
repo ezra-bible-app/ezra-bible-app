@@ -371,7 +371,8 @@ class TagsController {
     return checkbox_tag;
   }
 
-  update_tag_verse_count(id, count, to_increment) {
+  update_tag_verse_count(id, verseBoxes, to_increment) {
+    var count = verseBoxes.length;
     var checkbox_tag = tags_controller.get_checkbox_tag(id);
     var cb_label_element = checkbox_tag.find('.cb-label');
     var tag_title = cb_label_element.text();
@@ -409,7 +410,14 @@ class TagsController {
     checkbox_tag.attr('book-assignment-count', new_book_count);
     checkbox_tag.attr('global-assignment-count', new_global_count);
 
-    var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
+    var bookList = [];
+    verseBoxes.forEach((verseBox) => {
+      var verseBibleBook = $(verseBox).find('.verse-bible-book-short').text();
+
+      if (!bookList.includes(verseBibleBook)) {
+        bookList.push(verseBibleBook);
+      }
+    });
 
     var new_label = "";
     if (currentBook == null) {
@@ -421,7 +429,7 @@ class TagsController {
     tag_assignment_count_element.text(new_label);
 
     // Update tag count in tag store statistics
-    tags_controller.tag_store.updateTagCount(id, currentBook, count, to_increment);
+    tags_controller.tag_store.updateTagCount(id, bookList, count, to_increment);
 
     // Update tag count in tag selection menu as well
     bible_browser_controller.tag_selection_menu.updateVerseCountInTagMenu(tag_title, new_global_count);
