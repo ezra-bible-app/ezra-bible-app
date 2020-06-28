@@ -410,15 +410,6 @@ class TagsController {
     checkbox_tag.attr('book-assignment-count', new_book_count);
     checkbox_tag.attr('global-assignment-count', new_global_count);
 
-    var bookList = [];
-    verseBoxes.forEach((verseBox) => {
-      var verseBibleBook = $(verseBox).find('.verse-bible-book-short').text();
-
-      if (!bookList.includes(verseBibleBook)) {
-        bookList.push(verseBibleBook);
-      }
-    });
-
     var new_label = "";
     if (currentBook == null) {
       new_label = "(" + new_global_count + ")";
@@ -429,6 +420,7 @@ class TagsController {
     tag_assignment_count_element.text(new_label);
 
     // Update tag count in tag store statistics
+    var bookList = this.verse_box_helper.getBookListFromVerseBoxes(verseBoxes);
     tags_controller.tag_store.updateTagCount(id, bookList, count, to_increment);
 
     // Update tag count in tag selection menu as well

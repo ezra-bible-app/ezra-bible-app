@@ -22,6 +22,19 @@ class VerseBoxHelper {
     
   }
 
+  getBookListFromVerseBoxes(verseBoxes) {
+    var bookList = [];
+    verseBoxes.forEach((verseBox) => {
+      var verseBibleBook = $(verseBox).find('.verse-bible-book-short').text();
+
+      if (!bookList.includes(verseBibleBook)) {
+        bookList.push(verseBibleBook);
+      }
+    });
+
+    return bookList;
+  }
+
   async iterateAndChangeAllDuplicateVerseBoxes(referenceVerseBox, context, changeCallback) {
     var current_tab_index = bible_browser_controller.tab_controller.getSelectedTabIndex();
     var tab_count = bible_browser_controller.tab_controller.getTabCount();
