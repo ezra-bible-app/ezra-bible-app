@@ -595,7 +595,7 @@ h2 {
   /*visibility: visible;*/
 }
 
-.verse-reference-id, .verse-bible-book-id, .verse-bible-book, .verse-bible-book-short, .verse-part, .abs-verse-nr, #current-outline-id, #current-outline-author {
+.verse-reference-id, .verse-bible-book, .verse-bible-book-short, .verse-part, .abs-verse-nr, #current-outline-id, #current-outline-author {
   display: none;
 }
 
