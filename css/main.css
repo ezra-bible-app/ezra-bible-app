@@ -164,6 +164,7 @@ h2 {
   clear: both;
   padding: 0.1em;
   margin-top: 0;
+  margin-bottom: 0.2em;
 }
 
 .section .verse-box {
@@ -1020,7 +1021,6 @@ div.CodeMirror {
   width: 25%;
   padding: 0.5em;
   margin-left: 1em;
-  margin-bottom: 0.5em;
   min-height: 4em;
   display: none;
   resize: vertical;
