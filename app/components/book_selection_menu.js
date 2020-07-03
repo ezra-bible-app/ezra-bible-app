@@ -42,12 +42,12 @@ class BookSelectionMenu {
 
   // This function is rather slow and it delays app startup! (~175ms)
   localizeBookSelectionMenu() {
-    var aElements = $("#book-selection-menu").find('a');
+    var aElements = document.getElementById("book-selection-menu").querySelectorAll('a');
 
     for (var i = 0; i < aElements.length; i++) {
-      var currentBook = $(aElements[i]);
-      var currentBookTranslation = i18nHelper.getSwordTranslation(currentBook.text());
-      currentBook.text(currentBookTranslation);
+      var currentBook = aElements[i];
+      var currentBookTranslation = i18nHelper.getSwordTranslation(currentBook.innerText);
+      currentBook.innerText = currentBookTranslation;
     }
   }
 

@@ -59,7 +59,6 @@ class BibleBrowserController {
 
     this.tag_reference_box.initTagReferenceBox();
     this.initGlobalShortCuts();
-    this.book_selection_menu.init();
 
     this.translation_controller.init(() => { this.onBibleTranslationChanged(); });
     this.remove_translation_wizard.init(() => { this.onAllTranslationsRemoved(); },
@@ -79,6 +78,7 @@ class BibleBrowserController {
     var defaultBibleTranslationId = null;
     if (bibleTranslations.length > 0) {
       var defaultBibleTranslationId = bibleTranslations[0].name;
+      this.book_selection_menu.init();
     }
 
     var tabHtmlTemplate = this.getTabHtmlTemplate();
@@ -569,6 +569,11 @@ class BibleBrowserController {
   }
 
   updateUiAfterBibleTranslationAvailable(translationCode) {
+    var bibleTranslations = nsi.getAllLocalModules();
+    if (bibleTranslations.length == 1) {
+      this.book_selection_menu.init();
+    }
+
     var currentBibleTranslationId = this.tab_controller.getTab().getBibleTranslationId();
     if (currentBibleTranslationId == "" || 
         currentBibleTranslationId == null) { // Update UI after a Bible translation becomes available
