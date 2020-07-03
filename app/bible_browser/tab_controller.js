@@ -385,11 +385,15 @@ class TabController {
 
   removeAllExtraTabs() {
     var all_tabs = this.tabs.find("li");
-    for (var i = 1; i < all_tabs.length; i++) {
+
+    for (var i = 2; // We only go down to 2, because that's the initial amount of list elements (first tab + add tab button)
+         i < all_tabs.length;
+         i++) {
+
       this.metaTabs.pop();
       this.tabs.tabs("remove", 1);
       this.tabCounter--;
-    }   
+    }
   }
 
   /**
