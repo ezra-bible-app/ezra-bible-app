@@ -88,8 +88,6 @@ class TagAssignmentMenu {
 
   moveTagAssignmentList(moveToMenu=false) {
     var tagsContainer = this.getTagsContainer();
-    var tagsSearchInput = document.getElementById('tags-search-input');
-
     var parentId = this.getTagsContainerParentId();
     var toolBarId = 'tags-content';
     var menuId = 'tag-assignment-menu-taglist';
@@ -107,6 +105,7 @@ class TagAssignmentMenu {
       var menu = document.getElementById(menuId);
       menu.appendChild(tagsContainer);
       var filter = document.getElementById(filterId);
+      var tagsSearchInput = document.getElementById('tags-search-input');
       filter.appendChild(tagsSearchInput);
     } else if (parentId == menuId && !moveToMenu) {
       tags_controller.handle_tag_accordion_change();

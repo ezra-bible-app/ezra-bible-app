@@ -157,7 +157,7 @@ function initUi()
   });
 
   // Open links classified as external in the default web browser
-  $('body').on('click', 'a.external, p.external a', (event) => {
+  $('body').on('click', 'a.external, p.external a, div.external a', (event) => {
     event.preventDefault();
     let link = event.target.href;
     require("electron").shell.openExternal(link);
@@ -330,8 +330,6 @@ async function initApplication()
   console.log("Initializing controllers ...");
   await initControllers();
 
-  bible_browser_controller.optionsMenu.loadDisplayOptions();
-
   initNightMode();
 
   // Wait for the UI to render
@@ -340,10 +338,10 @@ async function initApplication()
   console.log("Initializing user interface ...");
   initUi();
 
+  bible_browser_controller.optionsMenu.loadDisplayOptions();
+
   // Wait for the UI to render, before we hide the loading indicator
   await waitUntilIdle();
-
-  //bible_browser_controller.optionsMenu.showOrHideToolBarBasedOnOption();
 
   console.log("Loading settings ...");
   await bible_browser_controller.loadSettings();
