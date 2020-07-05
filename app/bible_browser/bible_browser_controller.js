@@ -317,6 +317,10 @@ class BibleBrowserController {
       this.copySelectedVersesToClipboard();
       return false;
     });
+
+    Mousetrap.bind('f11', () => {
+      toggleFullScreen();
+    });
   }
   
   getLineBreak() {

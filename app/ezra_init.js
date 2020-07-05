@@ -293,6 +293,17 @@ function loadHTML()
   loadFragment('html/boxes.html',                         'boxes');
 }
 
+function toggleFullScreen()
+{
+  var window = remote.getCurrentWindow();
+
+  if (window.isFullScreen()) {
+    window.setFullScreen(false);
+  } else {
+    window.setFullScreen(true);
+  }
+}
+
 async function initApplication()
 {
   console.time("application-startup");
