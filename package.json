@@ -2,6 +2,12 @@
   "name": "ezra-project",
   "version": "0.14.0-Dev",
   "description": "Ezra Project is a bible study software focussing on topical study based on keywords/tags",
+  "author": "Tobias Klein",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tobias-klein/ezra-project.git"
+  },
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -36,8 +42,6 @@
     "update-loc-metrics": "./build_scripts/update_loc_metrics.sh",
     "update-cc-metrics": "./build_scripts/update_complexity_metrics.sh"
   },
-  "author": "Tobias Klein",
-  "license": "GPL-3.0",
   "dependencies": {
     "@sentry/electron": "^1.0.0",
     "chart.js": "^2.9.3",
@@ -78,9 +82,5 @@
     "node-gyp": "^5.0.4",
     "pug-cli": "^1.0.0-alpha6",
     "sequelize-cli": "^5.5.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/tobias-klein/ezra-project.git"
   }
 }
