@@ -22,6 +22,24 @@ All notable changes to Ezra Project are documented in this file.
 
 -->
 
+
+## [0.13.1 - 2020-07-05]
+This is a bugfix release.
+
+### Fixes
+
+* Fixed handling of Markdown links in notes. Instead of opening the notes editor now the links are properly opened in the default web browser as one would expect. ([#86][i86])
+* Fixed issue in module search - it was case-sensitive by default. Now it is case-insensitive again and the case-sensitive option can be selected by the user. ([#88](i88))
+* Fixed issue regarding tag statistics in tag list. These tag statistics were not properly updated in "other tabs" when assigning a tag in a search result list or tagged verse list. ([#91](i91))
+* Fixed a layout issue for the tags boxes in the bible browser. This layout issue occurred after all tags where removed from a verse.
+* Fixed an issue in the translation install assistant that occurred when filtering on Strong's feature translations.
+* Fixed various minor issues related to loading previously selected tabs on startup.
+
+[i86]: https://github.com/tobias-klein/ezra-project/issues/86
+[i88]: https://github.com/tobias-klein/ezra-project/issues/88
+[i91]: https://github.com/tobias-klein/ezra-project/issues/91
+
+
 ## [0.13.0 - 2020-06-19]
 ### Features
 
