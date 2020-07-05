@@ -1,8 +1,7 @@
 # Ezra Project - Changelog
 All notable changes to Ezra Project are documented in this file.
 
-<!--
-## [0.13.1 - 2020-07-04]
+## [0.13.1 - 2020-07-05]
 This is a bugfix release.
 
 ### Fixes
@@ -18,7 +17,6 @@ This is a bugfix release.
 [i88]: https://github.com/tobias-klein/ezra-project/issues/88
 [i91]: https://github.com/tobias-klein/ezra-project/issues/91
 
--->
 
 ## [0.13.0 - 2020-06-19]
 ### Features
