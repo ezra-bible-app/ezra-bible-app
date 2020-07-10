@@ -28,7 +28,7 @@ class TagReferenceBox {
     });
 
     var currentBookFilter = "";
-    currentBookFilter = "<input type='checkbox' id='only-currentbook-tagged-verses' style='margin-right: 0.2em; position: relative; top: 0.2em;'></input>" + 
+    currentBookFilter = "<input type='checkbox' id='only-currentbook-tagged-verses' style='margin-right: 0.2em;'></input>" + 
                         `<label for='only-currentbook-tagged-verses'>${i18n.t('tags.only-currentbook-tagged-verses')}</label>`;
     
     $('#tag-reference-box').prev().append(currentBookFilter);                       
@@ -95,7 +95,7 @@ class TagReferenceBox {
       currentTabIndex,
       currentTabId,
       tag_id,
-      this.renderTaggedVerseListInReferenceBox,
+      (htmlVerses, verseCount) => { this.renderTaggedVerseListInReferenceBox(htmlVerses, verseCount); },
       'html',
       false
     );
@@ -107,6 +107,8 @@ class TagReferenceBox {
       position: [box_position.left, box_position.top],
       title: title
     });
+
+    this.getCurrentBookFilterCheckbox().prop('checked', false);
 
     $('#tag-reference-box-verse-list').hide();
     $('#tag-reference-box-verse-list').empty();
