@@ -26,6 +26,12 @@ class TagReferenceBox {
       autoOpen: false,
       dialogClass: 'ezra-dialog'
     });
+
+    var currentBookFilter = "";
+    currentBookFilter = "<input type='checkbox' style='margin-right: 0.2em; position: relative; top: 0.2em;' id='only-currentbook-tagged-verses'></input>" + 
+                        `<label for='only-currentbook-tagged-verses'>${i18n.t('tags.only-currentbook-tagged-verses')}</label>`;
+    
+    $('#tag-reference-box').prev().append(currentBookFilter);                       
   }
 
   handleTagReferenceClick(event) {
@@ -107,7 +113,7 @@ class TagReferenceBox {
       // The box does NOT fit in the screen space between the beginning
       // of the next verse box and the bottom of the screen
       overlay_box_position = {
-        top: verse_box_position.top - cross_reference_box_height,
+        top: verse_box_position.top - cross_reference_box_height - 120,
         left: offsetLeft
       };
     }
@@ -119,6 +125,7 @@ class TagReferenceBox {
     $('#tag-references-loading-indicator').hide();
     var tagReferenceBoxTitle = $('#tag-reference-box').dialog('option', 'title');
     tagReferenceBoxTitle += ' (' + verseCount + ')';
+
     $('#tag-reference-box').dialog({ title: tagReferenceBoxTitle });
 
     if (!bible_browser_controller.optionsMenu.xrefsSwitchChecked()) {
