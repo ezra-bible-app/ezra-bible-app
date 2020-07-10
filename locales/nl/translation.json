@@ -142,7 +142,8 @@
     "rename-tag": "Hernoem tag",
     "title": "Titel",
     "stats-used": "gebruikt",
-    "stats-total": "totaal"
+    "stats-total": "totaal",
+    "only-currentbook-tagged-verses": "Filter on current book"
   },
   "bible-browser": {
     "chapter": "Hoofdstuk",

@@ -142,7 +142,8 @@
     "rename-tag": "Renommer l'étiquette",
     "title": "Titre ",
     "stats-used": "utilisée",
-    "stats-total": "total"
+    "stats-total": "total",
+    "only-currentbook-tagged-verses": "Filter on current book"
   },
   "bible-browser": {
     "chapter": "Chapitre",
