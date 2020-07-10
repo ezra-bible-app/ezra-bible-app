@@ -22,6 +22,15 @@ All notable changes to Ezra Project are documented in this file.
 
 -->
 
+## [0.13.2 - 2020-07-08]
+This is a bugfix release.
+
+### Fixes
+
+* Tag statistics were not properly updated when assigning tags. ([#100][i100])
+
+[i100]: https://github.com/tobias-klein/ezra-project/issues/10
+
 
 ## [0.13.1 - 2020-07-05]
 This is a bugfix release.
