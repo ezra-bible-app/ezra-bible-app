@@ -46,6 +46,10 @@ class TabController {
       return false;
     });
 
+    window.addEventListener('beforeunload', () => {
+      this.saveTabConfiguration();
+    });
+
     this.initTabs();
   }
 
