@@ -49,15 +49,27 @@ class DbHelper {
 
   getDatabaseDir() {
     var databaseDir = this.userDataDir;
+    var databaseDirKind = "";
     
     if (settings.has('custom_database_dir') &&
-      settings.get('custom_database_dir') != null) {
+        settings.get('custom_database_dir') != null) {
 
       databaseDir = settings.get('custom_database_dir');
-      console.log('Using custom database dir ' + databaseDir + ' for database access!');
+      databaseDirKind = "custom";
     } else {
-      console.log('Using default database dir ' + databaseDir + ' for database access!');
+      databaseDirKind = "default";
     }
+
+    const isDev = require('electron-is-dev');
+    var databaseDirString = databaseDir;
+    if (isDev) {
+      databaseDirString += " ";
+    } else {
+      databaseDirString = "";
+    }
+
+    var message = `Using ${databaseDirKind} database dir ${databaseDirString}for database access!`;
+    console.log(message);
 
     return databaseDir;
   }
