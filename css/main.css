@@ -1643,6 +1643,10 @@ s {
   display: none;
 }
 
+.sword-note hi {
+  display: none;
+}
+
 .sword-xref-marker, .sword-note-marker {
   display: inline-block;
   padding-right: 0.2em;
