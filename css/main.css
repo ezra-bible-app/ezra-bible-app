@@ -1635,14 +1635,8 @@ s {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
 }
 
-.sword-note {
-  display: none;
-}
-
-.sword-note reference {
-  display: none;
-}
-
+.sword-note,
+.sword-note reference,
 .sword-note hi {
   display: none;
 }
