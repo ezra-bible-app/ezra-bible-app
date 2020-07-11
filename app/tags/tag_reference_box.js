@@ -29,7 +29,8 @@ class TagReferenceBox {
 
     var currentBookFilter = "";
     currentBookFilter = "<input type='checkbox' id='only-currentbook-tagged-verses' style='margin-right: 0.2em;'></input>" + 
-                        `<label id='only-currentbook-tagged-verses-label' for='only-currentbook-tagged-verses'>${i18n.t('tags.only-currentbook-tagged-verses')}</label>`;
+                        `<label id='only-currentbook-tagged-verses-label' for='only-currentbook-tagged-verses'>${i18n.t('tags.only-currentbook-tagged-verses')}</label>` +
+                        "<span id='current-book-tagged-verses-count'></span>";
     
     $('#tag-reference-box').prev().append(currentBookFilter);                       
 
@@ -46,8 +47,39 @@ class TagReferenceBox {
     return $('#only-currentbook-tagged-verses-label');
   }
 
-  handleCurrentBookFilterClick() {
+  getCurrentBookTaggedVersesCountLabel() {
+    return $('#current-book-tagged-verses-count');
+  }
+
+  getCurrentTextType() {
+    var currentTextType = bible_browser_controller.tab_controller.getTab()?.getTextType();
+    return currentTextType;
+  }
+
+  getCurrentBook() {
     var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
+    return currentBook;
+  }
+
+  getNumberOfVersesForCurrentBook() {
+    var currentBook = this.getCurrentBook();
+    var allVerses = document.getElementById('tag-reference-box-verse-list').querySelectorAll('.verse-box');
+    var currentBookVerseCount = 0;
+
+    for (var i = 0;  i < allVerses.length; i++) {
+      var currentVerseBox = allVerses[i];
+      var currentVerseBoxBook = currentVerseBox.querySelector('.verse-bible-book-short').innerText;
+
+      if (currentVerseBoxBook == currentBook) {
+        currentBookVerseCount++;
+      }
+    }
+
+    return currentBookVerseCount;
+  }
+
+  handleCurrentBookFilterClick() {
+    var currentBook = this.getCurrentBook();
     var isChecked = this.getCurrentBookFilterCheckbox().prop('checked');
 
     var tagReferenceBox = document.getElementById('tag-reference-box');
@@ -114,17 +146,19 @@ class TagReferenceBox {
       title: title
     });
 
-    var currentTextType = bible_browser_controller.tab_controller.getTab()?.getTextType();
-
+    var currentTextType = this.getCurrentTextType();
     var bookFilterCheckbox = this.getCurrentBookFilterCheckbox();
     var bookFilterCheckboxLabel = this.getCurrentBookFilterCheckboxLabel();
+    var bookTaggedVersesCount = this.getCurrentBookTaggedVersesCountLabel();
 
     if (currentTextType == 'book') {
       bookFilterCheckbox.show();
       bookFilterCheckboxLabel.show();
+      bookTaggedVersesCount.show();
     } else {
       bookFilterCheckbox.hide();
       bookFilterCheckboxLabel.hide();
+      bookTaggedVersesCount.hide();
     }
 
     bookFilterCheckbox.prop('checked', false);
@@ -194,6 +228,13 @@ class TagReferenceBox {
     }
 
     $('#tag-reference-box-verse-list').html(htmlVerses);
+
+    if (this.getCurrentTextType() == 'book') {
+      var currentBookVerseCount = this.getNumberOfVersesForCurrentBook();
+      var bookTaggedVersesCountLabel = this.getCurrentBookTaggedVersesCountLabel();
+      bookTaggedVersesCountLabel.text(` (${currentBookVerseCount})`);
+    }
+
     bible_browser_controller.sword_notes.initForContainer($('#tag-reference-box-verse-list'));
     $('#tag-reference-box-verse-list').show();
   }

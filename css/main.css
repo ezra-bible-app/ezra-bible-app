@@ -1449,7 +1449,7 @@ div.CodeMirror {
   top: 0.2em;
 }
 
-#only-currentbook-tagged-verses-label {
+#only-currentbook-tagged-verses-label, #current-book-tagged-verses-count {
   font-weight: normal;
 }
 
