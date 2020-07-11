@@ -21,7 +21,7 @@ class TagReferenceBox {
 
   initTagReferenceBox() {
     $('#tag-reference-box').dialog({
-      width: 620,
+      width: 700,
       position: [200,200],
       autoOpen: false,
       dialogClass: 'ezra-dialog'
