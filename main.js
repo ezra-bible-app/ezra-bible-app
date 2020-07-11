@@ -21,6 +21,8 @@ require('v8-compile-cache');
 const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const isDev = require('electron-is-dev');
 
+app.allowRendererProcessReuse = false;
+
 // Disable security warnings
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
 
@@ -83,7 +85,8 @@ function createWindow () {
                                   title: "Ezra Project " + app.getVersion(),
                                   webPreferences: {
                                     nodeIntegration: true,
-                                    preload: preloadScript
+                                    preload: preloadScript,
+                                    enableRemoteModule: true
                                   },
                                   icon: path.join(__dirname, 'icons/ezra-project.png')
                                   });
