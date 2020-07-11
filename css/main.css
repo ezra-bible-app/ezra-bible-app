@@ -1444,9 +1444,13 @@ div.CodeMirror {
   padding-left: 0;
 }
 
-.Windows #only-currentbook-tagged-verses {
+.Windows #only-currentbook-tagged-verses, .Linux #only-currentbook-tagged-verses {
   position: relative;
   top: 0.2em;
+}
+
+#only-currentbook-tagged-verses-label {
+  font-weight: normal;
 }
 
 .tag-browser-verselist-passage {
