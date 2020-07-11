@@ -337,6 +337,7 @@ class BibleBrowserController {
     var selectedVerseBoxes = bible_browser_controller.verse_selection.selected_verse_boxes;
     
     var selectedText = "";
+    var multipleVerses = selectedVerseBoxes.length > 1;
 
     for (var i = 0; i < selectedVerseBoxes.length; i++) {
       var currentVerseBox = $(selectedVerseBoxes[i]);
@@ -346,13 +347,17 @@ class BibleBrowserController {
       var currentText = currentVerseBox.find('.verse-text').clone();
       currentText.find('.sword-markup').remove();
 
-      selectedText += "<sup>" + currentVerseNr + "</sup> " + currentText.text().trim() + " ";
+      if (multipleVerses) {
+        selectedText += currentVerseNr + " ";
+      }
+
+      selectedText += currentText.text().trim() + " ";
     }
 
     selectedText = selectedText.trim();
     selectedText += " " + this.getLineBreak() + this.verse_selection.getSelectedVersesLabel().text();
 
-    clipboard.writeHTML(selectedText);
+    clipboard.writeText(selectedText);
   }
 
   getCurrentVerseListTabs(tabIndex=undefined) {
