@@ -318,9 +318,11 @@ class BibleBrowserController {
       return false;
     });
 
-    Mousetrap.bind('f11', () => {
-      toggleFullScreen();
-    });
+    if (!isMac()) {
+      Mousetrap.bind('f11', () => {
+        toggleFullScreen();
+      });
+    }
   }
   
   getLineBreak() {
