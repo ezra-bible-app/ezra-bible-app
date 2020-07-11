@@ -28,7 +28,7 @@ class TagReferenceBox {
     });
 
     var currentBookFilter = "";
-    currentBookFilter = "<input type='checkbox' id='only-currentbook-tagged-verses' style='margin-right: 0.2em;'></input>" + 
+    currentBookFilter = "<input type='checkbox' id='only-currentbook-tagged-verses' style='margin-right: 0.3em;'></input>" + 
                         `<label id='only-currentbook-tagged-verses-label' for='only-currentbook-tagged-verses'>${i18n.t('tags.only-currentbook-tagged-verses')}</label>` +
                         "<span id='current-book-tagged-verses-count'></span>";
     
