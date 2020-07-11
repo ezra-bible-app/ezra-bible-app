@@ -128,6 +128,8 @@ class TagReferenceBox {
 
     var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
     var currentTabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
+    var bookTaggedVersesCountLabel = this.getCurrentBookTaggedVersesCountLabel();
+    bookTaggedVersesCountLabel.empty();
 
     bible_browser_controller.text_loader.requestVersesForSelectedTags(
       currentTabIndex,
