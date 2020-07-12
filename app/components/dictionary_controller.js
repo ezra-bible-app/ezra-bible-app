@@ -171,7 +171,7 @@ class DictionaryController {
         for (var i = 0; i < shortInfos.length; i++) {
           strongsShortInfo += "<tr>";
           strongsShortInfo += "<td>" + shortInfos[i].split(":")[0] + ":</td>";
-          strongsShortInfo += "<td>" + shortInfos[i].split(":")[1] + "</td>";
+          strongsShortInfo += "<td style='text-align: left;'>" + shortInfos[i].split(":")[1] + "</td>";
           strongsShortInfo += "</tr>";
         }
 
