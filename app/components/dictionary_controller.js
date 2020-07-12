@@ -619,12 +619,9 @@ class DictionaryController {
 
     for (var i = 0; i < currentWElements.length; i++) {
       var el = currentWElements[i];
-      var strongsIds = this.getStrongsIdsFromStrongsElement($(el));
-
       var strongWord = $(el).text();
       var currentVerseBox = $(el).closest('.verse-box');
       var reference = currentVerseBox.find('.verse-reference-content').text();
-
       var classData = $(el).prop('class');
 
       var classes = classData.split(' ');
