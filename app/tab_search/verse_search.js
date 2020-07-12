@@ -91,10 +91,12 @@ class VerseSearch {
 
     for (var i = 0; i < wElements.length; i++) {
       var currentElement = wElements[i];
-      var currentStrongsId = bible_browser_controller.dictionary_controller.getStrongsIdFromStrongsElement($(currentElement));
+      var currentStrongsIds = bible_browser_controller.dictionary_controller.getStrongsIdsFromStrongsElement($(currentElement));
 
-      if (currentStrongsId == searchString) {
-        occurances.push(currentElement);
+      for (var j = 0; j < currentStrongsIds.length; j++) {
+        if (currentStrongsIds[j] == searchString) {
+          occurances.push(currentElement);
+        }
       }
     }
 
