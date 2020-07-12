@@ -165,7 +165,21 @@ class DictionaryController {
         shortInfos.push(currentShortInfo);
       }
 
-      strongsShortInfo = shortInfos.join('; ');
+      if (shortInfos.length > 1) {
+        strongsShortInfo = "<table>";
+
+        for (var i = 0; i < shortInfos.length; i++) {
+          strongsShortInfo += "<tr>";
+          strongsShortInfo += "<td>" + shortInfos[i].split(":")[0] + ":</td>";
+          strongsShortInfo += "<td>" + shortInfos[i].split(":")[1] + "</td>";
+          strongsShortInfo += "</tr>";
+        }
+
+        strongsShortInfo += "</table>";
+
+      } else {
+        strongsShortInfo = shortInfos[0];
+      }
 
       this.strongsBox.html(strongsShortInfo);
       this.dictionaryInfoBoxStack = [ strongsIds[0] ];
