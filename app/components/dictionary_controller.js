@@ -33,6 +33,8 @@ class DictionaryController {
     this.dictionaryInfoBoxBreadcrumbs = $('#dictionary-info-box-breadcrumbs');
     this.dictionaryInfoBoxStack = [];
     this.currentStrongsEntry = null;
+    this.currentFirstStrongsEntry = null;
+    this.currentAdditionalStrongsEntries = [];
     this.currentLemma = null;
     this.shiftKeyPressed = false;
     this.strongsAvailable = false;
@@ -149,11 +151,14 @@ class DictionaryController {
     try {
       var shortInfos = [];
       var firstStrongsEntry = null;
+      var additionalStrongsEntries = [];
 
       for (var i = 0; i < strongsIds.length; i++) {
         var strongsEntry = nsi.getStrongsEntry(strongsIds[i]);
         if (i == 0) {
           firstStrongsEntry = strongsEntry;
+        } else {
+          additionalStrongsEntries.push(strongsEntry);
         }
 
         var currentShortInfo = strongsEntry.key + ": " + strongsEntry.transcription + " &mdash; " + strongsShortInfo;
@@ -164,7 +169,7 @@ class DictionaryController {
 
       this.strongsBox.html(strongsShortInfo);
       this.dictionaryInfoBoxStack = [ strongsIds[0] ];
-      this.updateDictInfoBox(firstStrongsEntry);
+      this.updateDictInfoBox(firstStrongsEntry, additionalStrongsEntries);
     } catch (e) {
       console.log(e);
     }
@@ -239,17 +244,64 @@ class DictionaryController {
     this.currentVerseText.addClass('strongs-current-verse');
   }
 
-  getCurrentDictInfoBreadcrumbs() {
+  getAlternativeStrongsLink(strongsKey) {
+    var functionCall = `bible_browser_controller.dictionary_controller.updateDictInfoBoxWithKey("${strongsKey}")`;
+    var currentLink = `<a href='javascript:${functionCall}'>${strongsKey}</a>`;
+    return currentLink;
+  }
+
+  getBreadCrumbEntry(strongsEntry) {
+    var breadCrumbEntry = "";
+
+    if (strongsEntry.key == this.currentStrongsEntry.key) {
+      breadCrumbEntry = this.currentStrongsEntry.key;
+    } else {
+      breadCrumbEntry = this.getAlternativeStrongsLink(strongsEntry.key);
+    }
+
+    return breadCrumbEntry;
+  }
+
+  getCurrentDictInfoBreadcrumbs(additionalStrongsEntries=[]) {
     var crumbArray = [];
+    var additionalStrongsLinks = "";
+    
+    if (additionalStrongsEntries.length > 0) {
+      for (var i = 0;  i < additionalStrongsEntries.length; i++) {
+        additionalStrongsLinks += ' | ';
+
+        var breadCrumbEntry = this.getBreadCrumbEntry(additionalStrongsEntries[i]);
+
+        if (this.dictionaryInfoBoxStack.length == 1) {
+          breadCrumbEntry = "<b>" + breadCrumbEntry + "</b>";
+        }
+
+        additionalStrongsLinks += breadCrumbEntry;
+      }
+    }
 
     for (var i = 0; i < this.dictionaryInfoBoxStack.length; i++) {
       if (i < this.dictionaryInfoBoxStack.length - 1) {
         var currentRewindNumber = this.dictionaryInfoBoxStack.length - i - 1;
         var currentCrumb = "<a href='javascript:bible_browser_controller.dictionary_controller.rewindDictInfo(" + currentRewindNumber + ")'>";
-        currentCrumb += this.dictionaryInfoBoxStack[i];
+
+        if (i == 0) {
+          currentCrumb += this.currentFirstStrongsEntry.key;
+        } else {
+          currentCrumb += this.dictionaryInfoBoxStack[i];
+        }
+
         currentCrumb += "</a>";
       } else {
-        currentCrumb = "<b>" + this.dictionaryInfoBoxStack[i] + "</b>";
+        if (this.dictionaryInfoBoxStack[i] == this.currentStrongsEntry.key) {
+          currentCrumb = "<b>" + this.dictionaryInfoBoxStack[i] + "</b>";
+        } else {
+          currentCrumb = "<b>" + this.getAlternativeStrongsLink(this.dictionaryInfoBoxStack[i]) + "</b>";
+        }
+      }
+
+      if (i == 0 && this.dictionaryInfoBoxStack.length == 1) {
+        currentCrumb += additionalStrongsLinks;
       }
 
       crumbArray.push(currentCrumb);
@@ -261,16 +313,35 @@ class DictionaryController {
   rewindDictInfo(rewindNumber) {
     for (var i = 0; i < rewindNumber; i++) {
       this.dictionaryInfoBoxStack.pop();
-      var key = this.dictionaryInfoBoxStack[this.dictionaryInfoBoxStack.length - 1];
+
+      var key = null;
+
+      if (this.dictionaryInfoBoxStack.length >= 2) {
+        key = this.dictionaryInfoBoxStack[this.dictionaryInfoBoxStack.length - 1];
+      } else {
+        key = this.currentFirstStrongsEntry.key;
+      }
+
       this.currentStrongsEntry = nsi.getStrongsEntry(key);
       this.currentLemma = jsStrongs[key].lemma;
     }
 
-    this.updateDictInfoBox(this.currentStrongsEntry);
+    this.updateDictInfoBox(this.currentStrongsEntry, this.currentAdditionalStrongsEntries);
   }
 
-  updateDictInfoBox(strongsEntry) {
+  updateDictInfoBoxWithKey(strongsKey) {
+    var strongsEntry = nsi.getStrongsEntry(strongsKey);
+
+    while (this.dictionaryInfoBoxStack.length > 1) {
+      this.dictionaryInfoBoxStack.pop();
+    }
+
+    this.updateDictInfoBox(strongsEntry, this.currentAdditionalStrongsEntries);
+  }
+
+  updateDictInfoBox(strongsEntry, additionalStrongsEntries=[]) {
     this.currentStrongsEntry = strongsEntry;
+    this.currentAdditionalStrongsEntries = additionalStrongsEntries;
 
     if (jsStrongs == null) {
       jsStrongs = require('strongs');
@@ -281,7 +352,7 @@ class DictionaryController {
     var dictInfoHeader = this.getDictInfoHeader(strongsEntry);
     this.dictionaryInfoBoxHeader.html(dictInfoHeader);
     this.dictionaryInfoBoxHelp.hide();
-    this.dictionaryInfoBoxBreadcrumbs.html(this.getCurrentDictInfoBreadcrumbs());
+    this.dictionaryInfoBoxBreadcrumbs.html(this.getCurrentDictInfoBreadcrumbs(additionalStrongsEntries));
 
     var extendedStrongsInfo = this.getExtendedStrongsInfo(strongsEntry, this.currentLemma);
     this.dictionaryInfoBoxContent.html(extendedStrongsInfo);
@@ -400,14 +471,27 @@ class DictionaryController {
     } else {
       try {
         // If the last element of the stack is the one that we want to navigate to ... just pop the stack
-        if (this.dictionaryInfoBoxStack.length >= 2 && this.dictionaryInfoBoxStack[this.dictionaryInfoBoxStack.length - 2] == key) {
+        var previousIndex = this.dictionaryInfoBoxStack.length - 2;
+        var previousKey = null;
+
+        if (previousIndex == 0) {
+          previousKey = this.currentFirstStrongsEntry.key;
+        } else {
+          previousKey = this.dictionaryInfoBoxStack[previousIndex];
+        }
+
+        if (this.dictionaryInfoBoxStack.length >= 2 && previousKey == key) {
           this.rewindDictInfo(1);
         } else {
           var strongsEntry = nsi.getStrongsEntry(key);
-
           // Otherwise push on the stack
+
+          if (this.dictionaryInfoBoxStack.length == 1) {
+            this.currentFirstStrongsEntry = this.currentStrongsEntry;
+          }
+
           this.dictionaryInfoBoxStack.push(key);
-          this.updateDictInfoBox(strongsEntry);
+          this.updateDictInfoBox(strongsEntry, this.currentAdditionalStrongsEntries);
         }
       } catch (e) {
         console.log(e);
@@ -515,7 +599,7 @@ class DictionaryController {
     return currentDictContent;
   }
 
-  listDoubleStrongs() {
+  logDoubleStrongs() {
     var currentVerseList = bible_browser_controller.getCurrentVerseList();
     var currentWElements = currentVerseList.find('w');
 
@@ -532,7 +616,6 @@ class DictionaryController {
       var classes = classData.split(' ');
       if (classes.length > 1) {
         console.log(reference + ' | ' + strongWord + ' | ' + classData);
-        console.log(strongsIds);
       }
     }
   }
