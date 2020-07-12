@@ -21,7 +21,7 @@ let jsStrongs = null;
 
 class DictionaryController {
   constructor() {
-    this.currentStrongsId = null;
+    this.currentStrongsIds = null;
     this.currentStrongsElement = null;
     this.currentVerseText = null;
     this.strongsBox = $('#strongs-box');
@@ -104,16 +104,23 @@ class DictionaryController {
     }
   }
 
-  getStrongsIdFromStrongsElement(strongsElement) {
+  getStrongsIdsFromStrongsElement(strongsElement) {
+    var strongsIds = [];
+
     try {
-      var rawStrongsId = strongsElement.attr('class');
-      var strongsId = rawStrongsId.split(' ')[0].split(':')[1];
-      var strongsNumber = parseInt(strongsId.substring(1));
-      strongsId = strongsId[0] + strongsNumber;
-      return strongsId;
-    } catch (e) {
-      return "";
-    }
+      var rawStrongsIdList = strongsElement.attr('class').split(' ');
+
+      for (var i = 0; i < rawStrongsIdList.length; i++) {
+        try {
+          var strongsId = rawStrongsIdList[i].split(':')[1];
+          var strongsNumber = parseInt(strongsId.substring(1));
+          strongsId = strongsId[0] + strongsNumber;
+          strongsIds.push(strongsId);
+        } catch (e) {}
+      }
+    } catch (e) { }
+
+    return strongsIds;
   }
 
   isValidStrongsKey(strongsKey) {
@@ -124,25 +131,40 @@ class DictionaryController {
     return strongsKey in jsStrongs;
   }
 
-  showStrongsInfo(strongsId, showStrongsBox=true) {
+  showStrongsInfo(strongsIds, showStrongsBox=true) {
     if (jsStrongs == null) {
       jsStrongs = require('strongs');
     }
 
-    if (!this.isValidStrongsKey(strongsId)) {
-      console.log(strongsId + " is not a valid Strong's key!");
-      return;
+    for (var i = 0; i < strongsIds.length; i++) {
+      if (!this.isValidStrongsKey(strongsIds[i])) {
+        console.log(strongsIds[i] + " is not a valid Strong's key!");
+        return;
+      }
     }
 
-    var lemma = jsStrongs[strongsId].lemma;
+    var lemma = jsStrongs[strongsIds[0]].lemma;
     var strongsShortInfo = lemma;
 
     try {
-      var strongsEntry = nsi.getStrongsEntry(strongsId);
-      strongsShortInfo = strongsEntry.key + ": " + strongsEntry.transcription + " &mdash; " + strongsShortInfo;
+      var shortInfos = [];
+      var firstStrongsEntry = null;
+
+      for (var i = 0; i < strongsIds.length; i++) {
+        var strongsEntry = nsi.getStrongsEntry(strongsIds[i]);
+        if (i == 0) {
+          firstStrongsEntry = strongsEntry;
+        }
+
+        var currentShortInfo = strongsEntry.key + ": " + strongsEntry.transcription + " &mdash; " + strongsShortInfo;
+        shortInfos.push(currentShortInfo);
+      }
+
+      strongsShortInfo = shortInfos.join('; ');
+
       this.strongsBox.html(strongsShortInfo);
-      this.dictionaryInfoBoxStack = [ strongsId ];
-      this.updateDictInfoBox(strongsEntry, lemma);
+      this.dictionaryInfoBoxStack = [ strongsIds[0] ];
+      this.updateDictInfoBox(firstStrongsEntry);
     } catch (e) {
       console.log(e);
     }
@@ -174,14 +196,14 @@ class DictionaryController {
     }
 
     if (this.strongsAvailable) {
-      var strongsId = this.getStrongsIdFromStrongsElement($(event.target).closest('w'));
+      var strongsIds = this.getStrongsIdsFromStrongsElement($(event.target).closest('w'));
       
       if (this.currentStrongsElement != null && 
           this.currentStrongsElement[0] == event.target) {
         return;
       }
 
-      this.currentStrongsId = strongsId;
+      this.currentStrongsIds = strongsIds;
 
       if (this.currentStrongsElement != null) {
         this.currentStrongsElement.removeClass('strongs-hl');
@@ -189,13 +211,13 @@ class DictionaryController {
         
       this.currentStrongsElement = $(event.target);
 
-      if (strongsId != "") {
+      if (strongsIds.length > 0) {
         this.currentStrongsElement.addClass('strongs-hl');    
         this.strongsBox.css({
           'fontSize': this.currentStrongsElement.css('fontSize')
         });
 
-        this.showStrongsInfo(strongsId);
+        this.showStrongsInfo(strongsIds);
       }
     }
   }
@@ -244,19 +266,24 @@ class DictionaryController {
       this.currentLemma = jsStrongs[key].lemma;
     }
 
-    this.updateDictInfoBox(this.currentStrongsEntry, this.currentLemma);
+    this.updateDictInfoBox(this.currentStrongsEntry);
   }
 
-  updateDictInfoBox(strongsEntry, lemma) {
+  updateDictInfoBox(strongsEntry) {
     this.currentStrongsEntry = strongsEntry;
-    this.currentLemma = lemma;
+
+    if (jsStrongs == null) {
+      jsStrongs = require('strongs');
+    }
+
+    this.currentLemma = jsStrongs[strongsEntry.key].lemma;
 
     var dictInfoHeader = this.getDictInfoHeader(strongsEntry);
     this.dictionaryInfoBoxHeader.html(dictInfoHeader);
     this.dictionaryInfoBoxHelp.hide();
     this.dictionaryInfoBoxBreadcrumbs.html(this.getCurrentDictInfoBreadcrumbs());
 
-    var extendedStrongsInfo = this.getExtendedStrongsInfo(strongsEntry, lemma);
+    var extendedStrongsInfo = this.getExtendedStrongsInfo(strongsEntry, this.currentLemma);
     this.dictionaryInfoBoxContent.html(extendedStrongsInfo);
   }
 
@@ -367,9 +394,6 @@ class DictionaryController {
   }
 
   openStrongsReference(key) {
-    if (jsStrongs == null) {
-      jsStrongs = require('strongs');
-    }
 
     if (key == "" || key == null) {
       return;
@@ -380,11 +404,10 @@ class DictionaryController {
           this.rewindDictInfo(1);
         } else {
           var strongsEntry = nsi.getStrongsEntry(key);
-          var lemma = jsStrongs[key].lemma;
 
           // Otherwise push on the stack
           this.dictionaryInfoBoxStack.push(key);
-          this.updateDictInfoBox(strongsEntry, lemma);
+          this.updateDictInfoBox(strongsEntry);
         }
       } catch (e) {
         console.log(e);
@@ -490,6 +513,28 @@ class DictionaryController {
     }
 
     return currentDictContent;
+  }
+
+  listDoubleStrongs() {
+    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+    var currentWElements = currentVerseList.find('w');
+
+    for (var i = 0; i < currentWElements.length; i++) {
+      var el = currentWElements[i];
+      var strongsIds = this.getStrongsIdsFromStrongsElement($(el));
+
+      var strongWord = $(el).text();
+      var currentVerseBox = $(el).closest('.verse-box');
+      var reference = currentVerseBox.find('.verse-reference-content').text();
+
+      var classData = $(el).prop('class');
+
+      var classes = classData.split(' ');
+      if (classes.length > 1) {
+        console.log(reference + ' | ' + strongWord + ' | ' + classData);
+        console.log(strongsIds);
+      }
+    }
   }
 }
 
