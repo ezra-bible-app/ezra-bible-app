@@ -1624,7 +1624,12 @@ s {
   margin-left: 1em;
 }
 
-.Windows, .Windows button, .Windows .verse-list, .Windows .loading-indicator-text, .Windows div.CodeMirror {
+.Windows,
+.Windows button,
+.Windows select,
+.Windows .verse-list,
+.Windows .loading-indicator-text,
+.Windows div.CodeMirror {
   font-family: "Segoe UI", sans-serif;
 }
 
@@ -1632,7 +1637,12 @@ s {
   font-size: 1em;
 }
 
-.Linux, .Linux button, .Linux .verse-list, .Linux .loading-indicator-text, .Linux div.CodeMirror {
+.Linux,
+.Linux button,
+.Linux select,
+.Linux .verse-list,
+.Linux .loading-indicator-text,
+.Linux div.CodeMirror {
   font-family: "Liberation Sans", sans-serif;
 }
 
@@ -1640,7 +1650,12 @@ s {
   font-size: 1em;
 }
 
-.OSX, .OSX button, .OSX .verse-list, .OSX .loading-indicator-text, .OSX div.CodeMirror {
+.OSX,
+.OSX button,
+.OSX select,
+.OSX .verse-list,
+.OSX .loading-indicator-text,
+.OSX div.CodeMirror {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
 }
 
