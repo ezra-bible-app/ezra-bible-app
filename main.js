@@ -89,7 +89,7 @@ function createWindow () {
                                     enableRemoteModule: true
                                   },
                                   icon: path.join(__dirname, 'icons/ezra-project.png')
-                                  });
+                                 });
  
   // Disable the application menu
   Menu.setApplicationMenu(null);
