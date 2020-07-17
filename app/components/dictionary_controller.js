@@ -115,14 +115,22 @@ class DictionaryController {
       for (var i = 0; i < rawStrongsIdList.length; i++) {
         try {
           var strongsId = rawStrongsIdList[i].split(':')[1];
-          var strongsNumber = parseInt(strongsId.substring(1));
-          strongsId = strongsId[0] + strongsNumber;
           strongsIds.push(strongsId);
         } catch (e) {}
       }
     } catch (e) { }
 
     return strongsIds;
+  }
+
+  getNormalizedStrongsId(strongsId) {
+    if (strongsId == undefined) {
+      return undefined;
+    }
+
+    var strongsNumber = parseInt(strongsId.substring(1));
+    strongsId = strongsId[0] + strongsNumber;
+    return strongsId;
   }
 
   isValidStrongsKey(strongsKey) {
@@ -138,14 +146,19 @@ class DictionaryController {
       jsStrongs = require('strongs');
     }
 
+    var normalizedStrongsIds = [];
+
     for (var i = 0; i < strongsIds.length; i++) {
-      if (!this.isValidStrongsKey(strongsIds[i])) {
-        console.log(strongsIds[i] + " is not a valid Strong's key!");
+      var normalizedStrongsId = this.getNormalizedStrongsId(strongsIds[i]);
+      normalizedStrongsIds.push(normalizedStrongsId);
+
+      if (!this.isValidStrongsKey(normalizedStrongsId)) {
+        console.log(normalizedStrongsId + " is not a valid Strong's key!");
         return;
       }
     }
 
-    var lemma = jsStrongs[strongsIds[0]].lemma;
+    var lemma = jsStrongs[normalizedStrongsIds[0]].lemma;
     var strongsShortInfo = lemma;
 
     try {
@@ -153,15 +166,17 @@ class DictionaryController {
       var firstStrongsEntry = null;
       var additionalStrongsEntries = [];
 
-      for (var i = 0; i < strongsIds.length; i++) {
-        var strongsEntry = nsi.getStrongsEntry(strongsIds[i]);
+      for (var i = 0; i < normalizedStrongsIds.length; i++) {
+        var strongsEntry = nsi.getStrongsEntry(normalizedStrongsIds[i]);
+        strongsEntry['rawKey'] = strongsIds[i];
+
         if (i == 0) {
           firstStrongsEntry = strongsEntry;
         } else {
           additionalStrongsEntries.push(strongsEntry);
         }
 
-        var currentShortInfo = strongsEntry.key + ": " + strongsEntry.transcription + " &mdash; " + strongsShortInfo;
+        var currentShortInfo = strongsEntry.rawKey + ": " + strongsEntry.transcription + " &mdash; " + strongsShortInfo;
         shortInfos.push(currentShortInfo);
       }
 
@@ -267,10 +282,10 @@ class DictionaryController {
   getBreadCrumbEntry(strongsEntry) {
     var breadCrumbEntry = "";
 
-    if (strongsEntry.key == this.currentStrongsEntry.key) {
-      breadCrumbEntry = this.currentStrongsEntry.key;
+    if (strongsEntry.rawKey == this.currentStrongsEntry.rawKey) {
+      breadCrumbEntry = this.currentStrongsEntry.rawKey;
     } else {
-      breadCrumbEntry = this.getAlternativeStrongsLink(strongsEntry.key);
+      breadCrumbEntry = this.getAlternativeStrongsLink(strongsEntry.rawKey);
     }
 
     return breadCrumbEntry;
@@ -300,14 +315,14 @@ class DictionaryController {
         var currentCrumb = "<a href='javascript:bible_browser_controller.dictionary_controller.rewindDictInfo(" + currentRewindNumber + ")'>";
 
         if (i == 0) {
-          currentCrumb += this.currentFirstStrongsEntry.key;
+          currentCrumb += this.currentFirstStrongsEntry.rawKey;
         } else {
           currentCrumb += this.dictionaryInfoBoxStack[i];
         }
 
         currentCrumb += "</a>";
       } else {
-        if (this.dictionaryInfoBoxStack[i] == this.currentStrongsEntry.key) {
+        if (this.dictionaryInfoBoxStack[i] == this.currentStrongsEntry.rawKey) {
           currentCrumb = "<b>" + this.dictionaryInfoBoxStack[i] + "</b>";
         } else {
           currentCrumb = "<b>" + this.getAlternativeStrongsLink(this.dictionaryInfoBoxStack[i]) + "</b>";
@@ -333,18 +348,21 @@ class DictionaryController {
       if (this.dictionaryInfoBoxStack.length >= 2) {
         key = this.dictionaryInfoBoxStack[this.dictionaryInfoBoxStack.length - 1];
       } else {
-        key = this.currentFirstStrongsEntry.key;
+        key = this.currentFirstStrongsEntry.rawKey;
       }
 
-      this.currentStrongsEntry = nsi.getStrongsEntry(key);
-      this.currentLemma = jsStrongs[key].lemma;
+      var normalizedKey = this.getNormalizedStrongsId(key);
+      this.currentStrongsEntry = nsi.getStrongsEntry(normalizedKey);
+      this.currentStrongsEntry['rawKey'] = key;
+      this.currentLemma = jsStrongs[normalizedKey].lemma;
     }
 
     this.updateDictInfoBox(this.currentStrongsEntry, this.currentAdditionalStrongsEntries);
   }
 
   updateDictInfoBoxWithKey(strongsKey) {
-    var strongsEntry = nsi.getStrongsEntry(strongsKey);
+    var normalizedStrongsKey = this.getNormalizedStrongsId(strongsKey);
+    var strongsEntry = nsi.getStrongsEntry(normalizedStrongsKey);
 
     while (this.dictionaryInfoBoxStack.length > 1) {
       this.dictionaryInfoBoxStack.pop();
@@ -395,7 +413,7 @@ class DictionaryController {
 
   getFindAllLink(strongsEntry) {
     var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
-    var functionCall = "javascript:bible_browser_controller.dictionary_controller.findAllOccurrences('" + strongsEntry.key + "','" + currentBibleTranslationId + "')";
+    var functionCall = "javascript:bible_browser_controller.dictionary_controller.findAllOccurrences('" + strongsEntry.rawKey + "','" + currentBibleTranslationId + "')";
     var link = "<p><a href=\"" + functionCall + "\">" + 
                i18n.t("dictionary-info-box.find-all-occurrences") + 
                "</a></p>";
@@ -479,26 +497,30 @@ class DictionaryController {
   }
 
   openStrongsReference(key) {
-
     if (key == "" || key == null) {
       return;
     } else {
       try {
-        // If the last element of the stack is the one that we want to navigate to ... just pop the stack
         var previousIndex = this.dictionaryInfoBoxStack.length - 2;
         var previousKey = null;
 
         if (previousIndex == 0) {
-          previousKey = this.currentFirstStrongsEntry.key;
+          previousKey = this.currentFirstStrongsEntry.rawKey;
         } else {
           previousKey = this.dictionaryInfoBoxStack[previousIndex];
         }
 
         if (this.dictionaryInfoBoxStack.length >= 2 && previousKey == key) {
+
+          // If the last element of the stack is the one that we want to navigate to ... just pop the stack
           this.rewindDictInfo(1);
+
         } else {
-          var strongsEntry = nsi.getStrongsEntry(key);
           // Otherwise push on the stack
+
+          var normalizedKey = this.getNormalizedStrongsId(key);
+          var strongsEntry = nsi.getStrongsEntry(normalizedKey);
+          strongsEntry['rawKey'] = key;
 
           if (this.dictionaryInfoBoxStack.length == 1) {
             this.currentFirstStrongsEntry = this.currentStrongsEntry;
@@ -595,10 +617,16 @@ class DictionaryController {
   }
 
   getDictionaryEntry(moduleCode, strongsEntry) {
-    // We first try to fetch the dictionary entry by slicing off the first character of the Strong's key.
-    var currentDictContent = nsi.getRawModuleEntry(moduleCode, strongsEntry.key.slice(1));
+    // We first try to fetch the dictionary entry by using the rawKey
+    var currentDictContent = nsi.getRawModuleEntry(moduleCode, strongsEntry.rawKey.slice(1));
 
     // If the first attempt returned undefined we try again.
+    // This time we try to fetch the dictionary entry by slicing off the first character of the Strong's key.
+    if (currentDictContent == undefined) {
+      currentDictContent = nsi.getRawModuleEntry(moduleCode, strongsEntry.key.slice(1));
+    }
+
+    // If the second attempt returned undefined we try again.
     // This time with the full Strong's key (including H or G as first character)
     if (currentDictContent == undefined) {
       currentDictContent = nsi.getRawModuleEntry(moduleCode, strongsEntry.key);
