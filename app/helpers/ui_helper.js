@@ -143,8 +143,8 @@ class UiHelper {
     var tagsToolBarHeight = $('#tags-toolbar').height();
   
     if (bible_browser_controller.optionsMenu.strongsSwitchChecked()) {
-      $('#tags-content-global').css('height', this.app_container_height - tagsToolBarHeight - 415);
-      $('#dictionary-info-box-panel').css('height', 302);
+      $('#tags-content-global').css('height', this.app_container_height - tagsToolBarHeight - 515);
+      $('#dictionary-info-box-panel').css('height', 402);
     } else {
       $('#tags-content-global').css('height', this.app_container_height - tagsToolBarHeight - 55);
     }
