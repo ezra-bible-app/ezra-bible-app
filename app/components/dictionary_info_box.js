@@ -195,7 +195,9 @@ class DictionaryInfoBox {
 
   getFindAllLink(strongsEntry) {
     var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
-    var functionCall = "javascript:bible_browser_controller.dictionary_controller.findAllOccurrences('" + strongsEntry.rawKey + "','" + currentBibleTranslationId + "')";
+    var functionCall = "javascript:bible_browser_controller.dictionary_controller.dictionaryInfoBox.findAllOccurrences('" +
+      strongsEntry.rawKey + "','" + currentBibleTranslationId + "')";
+
     var link = "<p><a href=\"" + functionCall + "\">" + 
                i18n.t("dictionary-info-box.find-all-occurrences") + 
                "</a></p>";
