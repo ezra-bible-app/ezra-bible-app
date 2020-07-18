@@ -59,7 +59,16 @@ class DictionaryInfoBox {
     this.dictionaryInfoBoxBreadcrumbs.html(this.getCurrentDictInfoBreadcrumbs(additionalStrongsEntries));
 
     var extendedStrongsInfo = this.getExtendedStrongsInfo(strongsEntry, this.currentLemma);
+
     this.dictionaryInfoBoxContent.html(extendedStrongsInfo);
+
+    // Replace sword:// links with plain text
+    this.dictionaryInfoBoxContent.find('a').each((index, aElement) => {
+      var currentA = $(aElement);
+      if (currentA.prop('href').indexOf('sword') != -1) {
+        currentA.replaceWith(currentA.text());
+      }
+    });
   }
 
   getAlternativeStrongsLink(strongsKey) {
@@ -269,6 +278,7 @@ class DictionaryInfoBox {
 
       extendedStrongsInfo += "</table>";
     }    
+
     return extendedStrongsInfo;
   }
 
