@@ -16,6 +16,8 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const ModuleSearch = require('./module_search');
+
 class VerseStatisticsChart {
   constructor() {
     require('chart.js/dist/Chart.bundle.min.js');
@@ -50,17 +52,41 @@ class VerseStatisticsChart {
   getLabelsAndValuesFromStats(bookList, bibleBookStats) {
     var labels = [];
     var values = [];
-    
-    bookList.forEach((book) => {
-      var translatedBook = i18nHelper.getBookAbbreviation(book);
-      labels.push(translatedBook);
+    var ntOnly = true;
+    var otOnly = true;
 
-      var value = 0;
-      if (book in bibleBookStats) {
-        value = bibleBookStats[book];
+    for (var book in bibleBookStats) {
+      if (!models.BibleBook.isNtBook(book)) {
+        ntOnly = false;
       }
 
-      values.push(value);
+      if (!models.BibleBook.isOtBook(book)) {
+        otOnly = false;
+      }
+    }
+    
+    bookList.forEach((book) => {
+      var include = false;
+
+      if (ntOnly && models.BibleBook.isNtBook(book)) {
+        include = true;
+      }
+
+      if (otOnly && models.BibleBook.isOtBook(book)) {
+        include = true;
+      }
+
+      if (include) {
+        var translatedBook = i18nHelper.getBookAbbreviation(book);
+        labels.push(translatedBook);
+
+        var value = 0;
+        if (book in bibleBookStats) {
+          value = bibleBookStats[book];
+        }
+
+        values.push(value);
+      }
     });
 
     return [labels, values];
