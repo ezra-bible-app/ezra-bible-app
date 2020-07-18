@@ -80,10 +80,9 @@ class DictionaryInfoBox {
     return breadCrumbEntry;
   }
 
-  getCurrentDictInfoBreadcrumbs(additionalStrongsEntries=[]) {
-    var crumbArray = [];
+  getAdditionalStrongsEntryLinks(additionalStrongsEntries) {
     var additionalStrongsLinks = "";
-    
+
     if (additionalStrongsEntries.length > 0) {
       for (var i = 0;  i < additionalStrongsEntries.length; i++) {
         additionalStrongsLinks += ' | ';
@@ -97,6 +96,13 @@ class DictionaryInfoBox {
         additionalStrongsLinks += breadCrumbEntry;
       }
     }
+
+    return additionalStrongsLinks;
+  }
+
+  getCurrentDictInfoBreadcrumbs(additionalStrongsEntries=[]) {
+    var crumbArray = [];
+    var additionalStrongsLinks = this.getAdditionalStrongsEntryLinks(additionalStrongsEntries);
 
     for (var i = 0; i < this.dictionaryInfoBoxStack.length; i++) {
       if (i < this.dictionaryInfoBoxStack.length - 1) {
