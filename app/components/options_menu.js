@@ -387,11 +387,11 @@ class OptionsMenu {
 
   showOrHideStrongsBasedOnOption(tabIndex=undefined) {
     if (!this.strongsSwitchChecked()) { 
-      bible_browser_controller.dictionary_controller.dictionaryInfoBox.hide();
+      bible_browser_controller.dictionary_controller.hideInfoBox();
       bible_browser_controller.dictionary_controller.clearDictInfoBox();
       bible_browser_controller.dictionary_controller.hideStrongsBox(true);
     } else {
-      bible_browser_controller.dictionary_controller.dictionaryInfoBox.show();
+      bible_browser_controller.dictionary_controller.showInfoBox();
     }
     uiHelper.resizeAppContainer();
   }
