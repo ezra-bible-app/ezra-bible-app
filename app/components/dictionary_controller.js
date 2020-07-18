@@ -70,6 +70,10 @@ class DictionaryController {
     this.dictionaryInfoBox.infoBox.hide();
   }
 
+  clearInfoBox() {
+    this.dictionaryInfoBox.clearDictInfoBox();
+  }
+
   bindAfterBibleTextLoaded(tabIndex=undefined) {
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
     if (currentTab == null) {
