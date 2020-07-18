@@ -66,17 +66,17 @@ class VerseStatisticsChart {
     }
     
     bookList.forEach((book) => {
-      var include = false;
+      var includeCurrentBook = false;
 
       if (ntOnly && models.BibleBook.isNtBook(book)) {
-        include = true;
+        includeCurrentBook = true;
       }
 
       if (otOnly && models.BibleBook.isOtBook(book)) {
-        include = true;
+        includeCurrentBook = true;
       }
 
-      if (include) {
+      if (includeCurrentBook) {
         var translatedBook = i18nHelper.getBookAbbreviation(book);
         labels.push(translatedBook);
 
