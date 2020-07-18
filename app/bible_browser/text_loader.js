@@ -123,7 +123,7 @@ class TextLoader {
           tabId,
           searchResults,
           (htmlVerseList) => {
-            this.renderVerseList(htmlVerseList, 'search_results', tabIndex, false, target);
+            this.renderVerseList(htmlVerseList, 'search_results', tabIndex, /* isCache */ false, target);
           },
           requestedBookId
         );
