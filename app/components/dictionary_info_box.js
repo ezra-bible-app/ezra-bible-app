@@ -46,7 +46,7 @@ class DictionaryInfoBox {
 
   updateDictInfoBox(strongsEntry, additionalStrongsEntries=[], firstUpdate=false) {
     if (firstUpdate) {
-      this.dictionaryInfoBoxStack = [ strongsEntry.key ];
+      this.dictionaryInfoBoxStack = [ strongsEntry.rawKey ];
     }
 
     this.currentStrongsEntry = strongsEntry;
@@ -198,9 +198,9 @@ class DictionaryInfoBox {
     var functionCall = "javascript:bible_browser_controller.dictionary_controller.dictionaryInfoBox.findAllOccurrences('" +
       strongsEntry.rawKey + "','" + currentBibleTranslationId + "')";
 
-    var link = "<p><a href=\"" + functionCall + "\">" + 
+    var link = "<a href=\"" + functionCall + "\">" + 
                i18n.t("dictionary-info-box.find-all-occurrences") + 
-               "</a></p>";
+               "</a>";
     return link;
   }
 
@@ -214,7 +214,7 @@ class DictionaryInfoBox {
 
     var blueLetterLink = `https://www.blueletterbible.org/lang/lexicon/lexicon.cfm?Strongs=${strongsEntry.key}&t=${bible}`;
     var blueLetterLinkText = i18n.t("dictionary-info-box.open-in-blueletter");
-    var htmlBlueLetterLink = `<p class='external'><a href='${blueLetterLink}'>${blueLetterLinkText}</a></p>`;
+    var htmlBlueLetterLink = `<a class='external' href='${blueLetterLink}'>${blueLetterLinkText}</a>`;
     return htmlBlueLetterLink;
   }
 
@@ -255,8 +255,11 @@ class DictionaryInfoBox {
     var extraDictContent = this.getExtraDictionaryContent(lang, strongsEntry);
 
     extendedStrongsInfo += "<b>" + strongsShortInfo + "</b>";
+    extendedStrongsInfo += "<p>";
     extendedStrongsInfo += findAllLink;
+    extendedStrongsInfo += " | ";
     extendedStrongsInfo += blueLetterLink;
+    extendedStrongsInfo += "</p>";
     extendedStrongsInfo += extraDictContent;
     extendedStrongsInfo += "<b>Strong's</b>";
     extendedStrongsInfo += "<pre class='strongs-definition'>";
