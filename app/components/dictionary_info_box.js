@@ -72,7 +72,7 @@ class DictionaryInfoBox {
   }
 
   getAlternativeStrongsLink(strongsKey) {
-    var functionCall = `bible_browser_controller.dictionary_controller.updateDictInfoBoxWithKey("${strongsKey}")`;
+    var functionCall = `bible_browser_controller.dictionary_controller.dictionaryInfoBox.updateDictInfoBoxWithKey("${strongsKey}")`;
     var currentLink = `<a href='javascript:${functionCall}'>${strongsKey}</a>`;
     return currentLink;
   }
@@ -155,18 +155,15 @@ class DictionaryInfoBox {
         key = this.currentFirstStrongsEntry.rawKey;
       }
 
-      var normalizedKey = this.dictionaryController.getNormalizedStrongsId(key);
-      this.currentStrongsEntry = nsi.getStrongsEntry(normalizedKey);
-      this.currentStrongsEntry['rawKey'] = key;
-      this.currentLemma = jsStrongs[normalizedKey].lemma;
+      this.currentStrongsEntry = this.dictionaryController.getStrongsEntryWithRawKey(key);
+      this.currentLemma = jsStrongs[this.currentStrongsEntry.key].lemma;
     }
 
     this.updateDictInfoBox(this.currentStrongsEntry, this.currentAdditionalStrongsEntries);
   }
 
   updateDictInfoBoxWithKey(strongsKey) {
-    var normalizedStrongsKey = this.dictionaryController.getNormalizedStrongsId(strongsKey);
-    var strongsEntry = nsi.getStrongsEntry(normalizedStrongsKey);
+    var strongsEntry = this.dictionaryController.getStrongsEntryWithRawKey(strongsKey);
 
     while (this.dictionaryInfoBoxStack.length > 1) {
       this.dictionaryInfoBoxStack.pop();
@@ -304,9 +301,7 @@ class DictionaryInfoBox {
         } else {
           // Otherwise push on the stack
 
-          var normalizedKey = this.dictionaryController.getNormalizedStrongsId(key);
-          var strongsEntry = nsi.getStrongsEntry(normalizedKey);
-          strongsEntry['rawKey'] = key;
+          var strongsEntry = this.dictionaryController.getStrongsEntryWithRawKey(key);
 
           if (this.dictionaryInfoBoxStack.length == 1) {
             this.currentFirstStrongsEntry = this.currentStrongsEntry;

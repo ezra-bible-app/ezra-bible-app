@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Mousetrap = require('mousetrap');
-let jsStrongs = null;
+const jsStrongs = require('strongs');
 
 const DictionaryInfoBox = require('./dictionary_info_box.js');
 
@@ -79,10 +79,6 @@ class DictionaryController {
     var currentBibleTranslationId = currentTab.getBibleTranslationId();
 
     if (bible_browser_controller.translation_controller.hasBibleTranslationStrongs(currentBibleTranslationId)) {
-      if (jsStrongs == null) {
-        jsStrongs = require('strongs');
-      }
-
       var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
       var currentWElements = currentVerseList.find('w');
       var currentVerseTextElements = currentVerseList.find('.verse-text');
@@ -99,6 +95,16 @@ class DictionaryController {
     }
   }
 
+  getStrongsEntryWithRawKey(rawKey, normalizedKey=undefined) {
+    if (normalizedKey == undefined) {
+      var normalizedKey = this.getNormalizedStrongsId(rawKey);
+    }
+
+    var strongsEntry = nsi.getStrongsEntry(normalizedKey);
+    strongsEntry['rawKey'] = rawKey;
+    return strongsEntry;
+  }
+
   getStrongsIdsFromStrongsElement(strongsElement) {
     var strongsIds = [];
 
@@ -108,7 +114,9 @@ class DictionaryController {
       for (var i = 0; i < rawStrongsIdList.length; i++) {
         try {
           var strongsId = rawStrongsIdList[i].split(':')[1];
-          strongsIds.push(strongsId);
+          if (strongsId != undefined) {
+            strongsIds.push(strongsId);
+          }
         } catch (e) {}
       }
     } catch (e) { }
@@ -127,18 +135,10 @@ class DictionaryController {
   }
 
   isValidStrongsKey(strongsKey) {
-    if (jsStrongs == null) {
-      jsStrongs = require('strongs');
-    }
-    
     return strongsKey in jsStrongs;
   }
 
   showStrongsInfo(strongsIds, showStrongsBox=true) {
-    if (jsStrongs == null) {
-      jsStrongs = require('strongs');
-    }
-
     var normalizedStrongsIds = [];
 
     for (var i = 0; i < strongsIds.length; i++) {
@@ -146,7 +146,7 @@ class DictionaryController {
       normalizedStrongsIds.push(normalizedStrongsId);
 
       if (!this.isValidStrongsKey(normalizedStrongsId)) {
-        console.log(normalizedStrongsId + " is not a valid Strong's key!");
+        console.log(normalizedStrongsId + " is not a valid Strong's key! Issue with rawKey " + strongsIds[i] + "?");
         return;
       }
     }
@@ -160,8 +160,7 @@ class DictionaryController {
       var additionalStrongsEntries = [];
 
       for (var i = 0; i < normalizedStrongsIds.length; i++) {
-        var strongsEntry = nsi.getStrongsEntry(normalizedStrongsIds[i]);
-        strongsEntry['rawKey'] = strongsIds[i];
+        var strongsEntry = this.getStrongsEntryWithRawKey(strongsIds[i], normalizedStrongsIds[i]);
 
         if (i == 0) {
           firstStrongsEntry = strongsEntry;
