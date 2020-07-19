@@ -842,8 +842,8 @@ class InstallModuleWizard {
   hasRepoBeenSelectedBefore(repo) {
     var hasBeenSelected = false;
 
-    if (bible_browser_controller.settings.has('selected_repositories')) {
-      var selectedRepositories = bible_browser_controller.settings.get('selected_repositories');
+    if (this.previouslySelectedRepositories != null) {
+      var selectedRepositories = this.previouslySelectedRepositories;
 
       for (var i = 0; i < selectedRepositories.length; i++) {
         var currentRepo = selectedRepositories[i];
@@ -876,6 +876,7 @@ class InstallModuleWizard {
   }
 
   listRepositories() {
+    this.previouslySelectedRepositories = bible_browser_controller.settings.get('selected_repositories');
     var wizardPage = $('#module-settings-wizard-add-p-0');
 
     var repositories = nsi.getRepoNames();
