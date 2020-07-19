@@ -45,7 +45,7 @@
   "dependencies": {
     "@sentry/electron": "^1.0.0",
     "chart.js": "^2.9.3",
-    "codemirror": "^5.52.2",
+    "codemirror": "^5.55.0",
     "darkmode-js": "^1.5.5",
     "electron-debug": "^2.1.0",
     "electron-is-dev": "^1.1.0",
