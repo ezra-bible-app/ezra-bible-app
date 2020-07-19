@@ -242,6 +242,8 @@ class InstallModuleWizard {
     languagesPage.empty();
     languagesPage.append("<p>" + i18n.t("module-assistant.loading-languages") + "</p>");
 
+    this.previouslySelectedLanguages = bible_browser_controller.settings.get('selected_languages');
+
     setTimeout(() => this.listLanguages(this._selectedRepositories), 400);
   }
 
@@ -840,8 +842,8 @@ class InstallModuleWizard {
   hasRepoBeenSelectedBefore(repo) {
     var hasBeenSelected = false;
 
-    if (bible_browser_controller.settings.has('selected_repositories')) {
-      var selectedRepositories = bible_browser_controller.settings.get('selected_repositories');
+    if (this.previouslySelectedRepositories != null) {
+      var selectedRepositories = this.previouslySelectedRepositories;
 
       for (var i = 0; i < selectedRepositories.length; i++) {
         var currentRepo = selectedRepositories[i];
@@ -858,8 +860,8 @@ class InstallModuleWizard {
   hasLanguageBeenSelectedBefore(language) {
     var hasBeenSelected = false;
 
-    if (bible_browser_controller.settings.has('selected_languages')) {
-      var selectedLanguages = bible_browser_controller.settings.get('selected_languages');
+    if (this.previouslySelectedLanguages != null) {
+      var selectedLanguages = this.previouslySelectedLanguages;
 
       for (var i = 0; i < selectedLanguages.length; i++) {
         var currentLang = selectedLanguages[i];
@@ -874,6 +876,7 @@ class InstallModuleWizard {
   }
 
   listRepositories() {
+    this.previouslySelectedRepositories = bible_browser_controller.settings.get('selected_repositories');
     var wizardPage = $('#module-settings-wizard-add-p-0');
 
     var repositories = nsi.getRepoNames();

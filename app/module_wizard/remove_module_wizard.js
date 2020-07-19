@@ -77,15 +77,18 @@ class RemoveModuleWizard {
 
     for (var module of modules) {
       var checkboxDisabled = '';
-      var currentTranslationClass = "class='label' ";
+      var currentModuleClass = "class='label' ";
+      var fixedDictionaries = [ "StrongsHebrew", "StrongsGreek" ];
       
-      if (!nsi.isModuleInUserDir(module.name)) {
+      if (!nsi.isModuleInUserDir(module.name) ||
+          (moduleType == "DICT" && fixedDictionaries.includes(module.name))) {
+
         checkboxDisabled = "disabled='disabled' ";
-        currentTranslationClass = "class='label disabled'";
+        currentModuleClass = "class='label disabled'";
       }
 
       var currentTranslationHtml = "<p><input type='checkbox'" + checkboxDisabled + ">" + 
-                                    "<span " + currentTranslationClass + " id='" + module.name + "'>";
+                                    "<span " + currentModuleClass + " id='" + module.name + "'>";
       currentTranslationHtml += module.description + " [" + module.name + "]</span></p>";
 
       var languageBox = $('#remove-module-assistant-' + module.language + '-modules');

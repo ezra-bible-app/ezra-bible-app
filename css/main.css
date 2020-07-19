@@ -901,7 +901,7 @@ h2 {
 }
 
 .options-header:not(.first) {
-  border-top: 1px solid grey;
+  border-top: 2px solid #DDDDDD;
   padding-top: 0.5em;
 }
 
