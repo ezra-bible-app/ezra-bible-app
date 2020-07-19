@@ -70,9 +70,9 @@ class VerseStatisticsChart {
 
       if (ntOnly && models.BibleBook.isNtBook(book)) {
         includeCurrentBook = true;
-      }
-
-      if (otOnly && models.BibleBook.isOtBook(book)) {
+      } else if (otOnly && models.BibleBook.isOtBook(book)) {
+        includeCurrentBook = true;
+      } else if (!otOnly && !ntOnly) {
         includeCurrentBook = true;
       }
 
