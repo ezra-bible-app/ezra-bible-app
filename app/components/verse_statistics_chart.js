@@ -93,6 +93,11 @@ class VerseStatisticsChart {
   }
 
   updateChart(tabIndex=undefined, bibleBookStats) {
+    var numberOfBooks = Object.keys(bibleBookStats).length;
+    if (numberOfBooks < 2) {
+      return;
+    }
+    
     var currentTranslation = bible_browser_controller.tab_controller.getTab(tabIndex)?.getBibleTranslationId();
     var bookList = nsi.getBookList(currentTranslation);
 
