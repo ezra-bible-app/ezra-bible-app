@@ -57,7 +57,7 @@
     "it-takes-time-to-install-translation": "Notez qu'il faut un certain temps pour que chaque traduction soit téléchargée puis installée.",
     "it-takes-time-to-install-dictionary": "Note that it takes some time for each dictionary to be downloaded and then installed.",
     "select-translations-to-be-removed": "Sélectionnez les traductions de la bible que vous souhaitez supprimer.<br/><br/>Les entrées désactivées de la liste sont des traductions non installées dans le répertoire des utilisateurs.",
-    "select-dictionaries-to-be-removed": "Select the dictionaries that you would like to remove.<br/><br/>Disabled entries in the list are dictionaries not installed in the users directory.",
+    "select-dictionaries-to-be-removed": "Select the dictionaries that you would like to remove.<br/><br/>Disabled entries in the list are dictionaries not installed in the user's directory or dictionaries that are essential for Ezra Project's functionality.",
     "installing": "Installation",
     "downloading": "Téléchargement",
     "part-of-total": "de",

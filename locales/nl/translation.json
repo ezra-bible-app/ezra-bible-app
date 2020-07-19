@@ -57,7 +57,7 @@
     "it-takes-time-to-install-translation": "Houd er rekening mee dat het enige tijd duurt voordat elke vertaling gedownload en geïnstalleerd is.",
     "it-takes-time-to-install-dictionary": "Note that it takes some time for each dictionary to be downloaded and then installed.",
     "select-translations-to-be-removed": "Selecteer de bijbelvertalingen die u wilt verwijderen.<br/><br/>Uitgeschakelde elementen in de lijst zijn vertalingen die niet in de gebruikersmap zijn geïnstalleerd.",
-    "select-dictionaries-to-be-removed": "Select the dictionaries that you would like to remove.<br/><br/>Disabled entries in the list are dictionaries not installed in the users directory.",
+    "select-dictionaries-to-be-removed": "Select the dictionaries that you would like to remove.<br/><br/>Disabled entries in the list are dictionaries not installed in the user's directory or dictionaries that are essential for Ezra Project's functionality.",
     "installing": "Installeren",
     "downloading": "Downloaden",
     "part-of-total": "van",
