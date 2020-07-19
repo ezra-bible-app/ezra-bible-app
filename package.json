@@ -64,7 +64,7 @@
     "node-addon-api": "^1.7.1",
     "node-sword-interface": "^0.145.0",
     "officegen": "^0.6.4",
-    "pug": "^2.0.4",
+    "pug": "^3.0.0",
     "sanitize-html": "^1.21.1",
     "sequelize": "^6.3.3",
     "sqlite3": "^4.2.0",
