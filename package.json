@@ -73,14 +73,14 @@
     "v8-compile-cache": "^2.1.1"
   },
   "devDependencies": {
-    "@sentry/cli": "^1.54.0",
+    "@sentry/cli": "^1.55.0",
     "electron": "^9.1.0",
-    "electron-osx-sign": "^0.4.12",
-    "electron-packager": "^14.0.4",
-    "electron-rebuild": "^1.8.4",
+    "electron-osx-sign": "^0.4.17",
+    "electron-packager": "^15.0.0",
+    "electron-rebuild": "^1.11.0",
     "node-abi": "^2.18.0",
     "node-gyp": "^5.0.4",
     "pug-cli": "^1.0.0-alpha6",
-    "sequelize-cli": "^5.5.1"
+    "sequelize-cli": "^6.2.0"
   }
 }
