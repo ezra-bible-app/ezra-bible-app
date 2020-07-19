@@ -20,6 +20,7 @@ const langs = require('iso-639-3');
    
 class LanguageMapper {
   constructor() {
+    this.mappingExistsCache = {};
   }
 
   mappingMatchesCode(mapping, languageCode) {
@@ -35,17 +36,25 @@ class LanguageMapper {
   }
 
   mappingExists(languageCode) {
-    var normalizedCode = this.normalizeLanguageCode(languageCode);
+    if (languageCode in this.mappingExistsCache) {
 
-    for (var i = 0; i < langs.length; i++) {
-      var currentLang = langs[i];
+      return this.mappingExistsCache[languageCode];
 
-      if (this.mappingMatchesCode(currentLang, normalizedCode)) {
-        return true;
+    } else {
+      var normalizedCode = this.normalizeLanguageCode(languageCode);
+
+      for (var i = 0; i < langs.length; i++) {
+        var currentLang = langs[i];
+
+        if (this.mappingMatchesCode(currentLang, normalizedCode)) {
+          this.mappingExistsCache[languageCode] = true;
+          return true;
+        }
       }
-    }
 
-    return false;
+      this.mappingExistsCache[languageCode] = false;
+      return false;
+    }
   }
 
   getLanguageName(languageCode) {
