@@ -114,6 +114,37 @@ module.exports = (sequelize, DataTypes) => {
     return sequelize.query(query, { model: models.VerseReference });
   };
 
+  VerseReference.findByXrefs = async function(xrefs) {
+    var verseReferences = [];
+
+    for (var i = 0; i < xrefs.length; i++) {
+      var splittedReference = xrefs[i].split('.');
+      var book = splittedReference[0];
+      var chapter = splittedReference[1];
+      var verseNr = splittedReference[2];
+
+      var currentReferenceQuery = "SELECT vr.*, " +
+                                  " b.shortTitle as bibleBookShortTitle, " +
+                                  " b.longTitle as bibleBookLongTitle" +
+                                  " FROM VerseReferences vr" +
+                                  " INNER JOIN BibleBooks b ON" +
+                                  " vr.bibleBookId = b.id" +
+                                  " INNER JOIN VerseTags vt ON" +
+                                  " vt.verseReferenceId = vr.id" +
+                                  " WHERE vr.bibleBookId = b.id" +
+                                  " AND vr.chapter = " + chapter +
+                                  " AND vr.verseNr = " + verseNr +
+                                  " AND b.shortTitle = '" + book + "'";
+      console.log(currentReferenceQuery);
+
+      var currentDbReference = await sequelize.query(currentReferenceQuery, { model: models.VerseReference });
+      console.log(currentDbReference);
+      verseReferences.push(currentDbReference);
+    }
+
+    return verseReferences;
+  };
+
   VerseReference.getAbsoluteVerseNrs = function(versification, bibleBook, absoluteVerseNr, chapter, verseNr) {
     var absoluteVerseNrEng = null;
     var absoluteVerseNrHeb = null;

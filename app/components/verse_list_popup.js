@@ -137,15 +137,13 @@ class VerseListPopup {
    * @param referenceType The type of references (either "TAGGED_VERSES" or "XREFS")
    */
   openVerseListPopup(event, referenceType) {
-    var verse_box = null;
+    var verse_box = $(event.target).closest('.verse-box');
+    var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
+    var currentTabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
 
     if (referenceType == "TAGGED_VERSES") {
-      verse_box = $(event.target).closest('.verse-box');
       var selected_tag = this.getSelectedTagFromClickedElement(event.target);
       var tag_id = this.getTagIdFromVerseBox(verse_box, selected_tag);
-
-      var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
-      var currentTabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
 
       if (this.getCurrentTextType() == 'book') {
         var bookTaggedVersesCountLabel = this.getCurrentBookTaggedVersesCountLabel();
@@ -156,6 +154,24 @@ class VerseListPopup {
         currentTabIndex,
         currentTabId,
         tag_id,
+        (htmlVerses, verseCount) => { this.renderVerseListInPopup(htmlVerses, verseCount); },
+        'html',
+        false
+      );
+    } else if (referenceType == "XREFS") {
+
+      var swordNote = $(event.target).closest('.sword-note');
+      var xrefs = [];
+
+      swordNote.find('reference').each((index, element) => {
+        var osisRef = $(element).attr('osisref');
+        xrefs.push(osisRef);
+      });
+
+      bible_browser_controller.text_loader.requestVersesForXrefs(
+        currentTabIndex,
+        currentTabId,
+        xrefs,
         (htmlVerses, verseCount) => { this.renderVerseListInPopup(htmlVerses, verseCount); },
         'html',
         false

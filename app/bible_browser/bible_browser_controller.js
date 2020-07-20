@@ -470,16 +470,23 @@ class BibleBrowserController {
 
     var tagBoxes = currentVerseList.find('.tag-box');
     var tags = currentVerseList.find('.tag');
+    var xref_markers = currentVerseList.find('.sword-xref-marker');
 
     if (preventDoubleBinding) {
       tagBoxes = tagBoxes.filter(":not('.tag-events-configured')");
       tags = tags.filter(":not('.tag-events-configured')");
+      xref_markers = xref_markers.filter(":not('.events-configured')");
     }
 
     tagBoxes.bind('click', tags_controller.clear_verse_selection).addClass('tag-events-configured');
+
     tags.bind('click', (event) => {
       this.verse_list_popup.openVerseListPopup(event, "TAGGED_VERSES");
     }).addClass('tag-events-configured');
+
+    xref_markers.bind('click', (event) => {
+      this.verse_list_popup.openVerseListPopup(event, "XREFS");
+    }).addClass('events-configured');
 
     currentVerseList.find('.verse-box').bind('mouseover', (e) => { this.onVerseBoxMouseOver(e); });
     this.dictionary_controller.bindAfterBibleTextLoaded(tabIndex);
