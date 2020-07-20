@@ -478,7 +478,7 @@ class BibleBrowserController {
 
     tagBoxes.bind('click', tags_controller.clear_verse_selection).addClass('tag-events-configured');
     tags.bind('click', (event) => {
-      this.verse_list_popup.handleTagReferenceClick(event);
+      this.verse_list_popup.openVerseListPopup(event);
     }).addClass('tag-events-configured');
 
     currentVerseList.find('.verse-box').bind('mouseover', (e) => { this.onVerseBoxMouseOver(e); });

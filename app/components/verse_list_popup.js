@@ -108,7 +108,7 @@ class VerseListPopup {
     }
   }
 
-  handleTagReferenceClick(event) {
+  openVerseListPopup(event) {
     var verse_box = $(event.target).closest('.verse-box');
     var selected_tag = $(event.target).html().trim();
     selected_tag = selected_tag.replace(/&nbsp;/g, ' ');
