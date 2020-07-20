@@ -38,7 +38,6 @@ class BibleBrowserController {
 
     this.init_component("VerseSelection", "verse_selection", "../components/verse_selection.js");
     this.init_component("TagSelectionMenu", "tag_selection_menu", "../tags/tag_selection_menu.js");
-    this.init_component("TagReferenceBox", "tag_reference_box", "../tags/verse_list_popup.js");
     this.init_component("TagAssignmentMenu", "tag_assignment_menu", "../tags/tag_assignment_menu.js");
     this.init_component("ModuleSearch", "module_search", "../components/module_search.js");
     this.init_component("TranslationController", "translation_controller", "./translation_controller.js");
@@ -53,12 +52,13 @@ class BibleBrowserController {
     this.init_component("TaggedVerseExport", "taggedVerseExport", "../tags/tagged_verse_export.js");
     this.init_component("TranslationComparison", "translationComparison", "../components/translation_comparison.js");
     this.init_component("BookSelectionMenu", "book_selection_menu", "../components/book_selection_menu.js");
+    this.init_component("VerseListPopup", "verse_list_popup", "../components/verse_list_popup.js");
     this.init_component("TagStatistics", "tag_statistics", "../tags/tag_statistics.js");
     this.init_component("DictionaryController", "dictionary_controller", "../components/dictionary_controller.js");
     this.init_component("NotesController", "notes_controller", "./notes_controller.js");
     this.init_component("SwordNotes", "sword_notes", "../components/sword_notes.js");
 
-    this.tag_reference_box.initTagReferenceBox();
+    this.verse_list_popup.initVerseListPopup();
     this.initGlobalShortCuts();
 
     this.translation_controller.init(() => { this.onBibleTranslationChanged(); });
@@ -478,7 +478,7 @@ class BibleBrowserController {
 
     tagBoxes.bind('click', tags_controller.clear_verse_selection).addClass('tag-events-configured');
     tags.bind('click', (event) => {
-      this.tag_reference_box.handleTagReferenceClick(event);
+      this.verse_list_popup.handleTagReferenceClick(event);
     }).addClass('tag-events-configured');
 
     currentVerseList.find('.verse-box').bind('mouseover', (e) => { this.onVerseBoxMouseOver(e); });

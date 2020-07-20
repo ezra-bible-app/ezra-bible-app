@@ -16,10 +16,10 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-class TagReferenceBox {
+class VerseListPopup {
   constructor() {}
 
-  initTagReferenceBox() {
+  initVerseListPopup() {
     $('#tag-reference-box').dialog({
       width: 700,
       position: [200,200],
@@ -242,4 +242,4 @@ class TagReferenceBox {
   }
 }
 
-module.exports = TagReferenceBox;
+module.exports = VerseListPopup;
