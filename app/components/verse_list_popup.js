@@ -108,23 +108,34 @@ class VerseListPopup {
     }
   }
 
-  openVerseListPopup(event) {
-    var verse_box = $(event.target).closest('.verse-box');
-    var selected_tag = $(event.target).html().trim();
+  getSelectedTagFromClickedElement(clickedElement) {
+    var selected_tag = $(clickedElement).html().trim();
     selected_tag = selected_tag.replace(/&nbsp;/g, ' ');
     selected_tag = selected_tag.replace(/&amp;/g, '&');
+    return selected_tag;
+  }
+
+  getTagIdFromVerseBox(verseBox, selectedTag) {
     var tag_id = null;
 
-    var tag_info_list = verse_box.find('.tag-global');
+    var tag_info_list = verseBox.find('.tag-global');
     for (var i = 0; i < tag_info_list.length; i++) {
       var current_tag_info = $(tag_info_list[i]);
       var current_tag_title = current_tag_info.find('.tag-title').text();
 
-      if (current_tag_title == selected_tag) {
+      if (current_tag_title == selectedTag) {
         tag_id = current_tag_info.find('.tag-id').text();
         break;
       }
     }
+
+    return tag_id;
+  }
+
+  openVerseListPopup(event, referenceType) {
+    var verse_box = $(event.target).closest('.verse-box');
+    var selected_tag = this.getSelectedTagFromClickedElement(event.target);
+    var tag_id = this.getTagIdFromVerseBox(verse_box, selected_tag);
 
     var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
     var currentTabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
