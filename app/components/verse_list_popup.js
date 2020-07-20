@@ -20,7 +20,7 @@ class VerseListPopup {
   constructor() {}
 
   initVerseListPopup() {
-    $('#tag-reference-box').dialog({
+    $('#verse-list-popup').dialog({
       width: 700,
       position: [200,200],
       autoOpen: false,
@@ -32,7 +32,7 @@ class VerseListPopup {
                         `<label id='only-currentbook-tagged-verses-label' for='only-currentbook-tagged-verses'>${i18n.t('tags.only-currentbook-tagged-verses')}</label>` +
                         "<span id='current-book-tagged-verses-count'></span>";
     
-    $('#tag-reference-box').prev().append(currentBookFilter);                       
+    $('#verse-list-popup').prev().append(currentBookFilter);                       
 
     this.getCurrentBookFilterCheckbox().bind('click', () => {
       this.handleCurrentBookFilterClick();
@@ -63,7 +63,7 @@ class VerseListPopup {
 
   getNumberOfVersesForCurrentBook() {
     var currentBook = this.getCurrentBook();
-    var allVerses = document.getElementById('tag-reference-box-verse-list').querySelectorAll('.verse-box');
+    var allVerses = document.getElementById('verse-list-popup-verse-list').querySelectorAll('.verse-box');
     var currentBookVerseCount = 0;
 
     for (var i = 0;  i < allVerses.length; i++) {
@@ -82,7 +82,7 @@ class VerseListPopup {
     var currentBook = this.getCurrentBook();
     var isChecked = this.getCurrentBookFilterCheckbox().prop('checked');
 
-    var tagReferenceBox = document.getElementById('tag-reference-box');
+    var tagReferenceBox = document.getElementById('verse-list-popup');
     var bookHeaders = tagReferenceBox.querySelectorAll('.tag-browser-verselist-book-header');
     var verseBoxes = tagReferenceBox.querySelectorAll('.verse-box');
 
@@ -143,7 +143,7 @@ class VerseListPopup {
     var box_position = this.getOverlayVerseBoxPosition(verse_box);
     var title = i18n.t("tags.verses-tagged-with") + ' "' + selected_tag + '"';
 
-    $('#tag-reference-box').dialog({
+    $('#verse-list-popup').dialog({
       position: [box_position.left, box_position.top],
       title: title
     });
@@ -165,11 +165,11 @@ class VerseListPopup {
 
     bookFilterCheckbox.prop('checked', false);
 
-    $('#tag-reference-box-verse-list').hide();
-    $('#tag-reference-box-verse-list').empty();
+    $('#verse-list-popup-verse-list').hide();
+    $('#verse-list-popup-verse-list').empty();
     $('#tag-references-loading-indicator').find('.loader').show();
     $('#tag-references-loading-indicator').show();
-    $('#tag-reference-box').dialog("open");
+    $('#verse-list-popup').dialog("open");
   }
 
   getOverlayVerseBoxPosition(verse_box) {
@@ -216,20 +216,20 @@ class VerseListPopup {
 
   renderTaggedVerseListInReferenceBox(htmlVerses, verseCount) {
     $('#tag-references-loading-indicator').hide();
-    var tagReferenceBoxTitle = $('#tag-reference-box').dialog('option', 'title');
+    var tagReferenceBoxTitle = $('#verse-list-popup').dialog('option', 'title');
     tagReferenceBoxTitle += ' (' + verseCount + ')';
 
-    $('#tag-reference-box').dialog({ title: tagReferenceBoxTitle });
+    $('#verse-list-popup').dialog({ title: tagReferenceBoxTitle });
 
     if (!bible_browser_controller.optionsMenu.xrefsSwitchChecked()) {
-      $('#tag-reference-box-verse-list').addClass('verse-list-without-xrefs');
+      $('#verse-list-popup-verse-list').addClass('verse-list-without-xrefs');
     }
 
     if (!bible_browser_controller.optionsMenu.footnotesSwitchChecked()) {
-      $('#tag-reference-box-verse-list').addClass('verse-list-without-footnotes');
+      $('#verse-list-popup-verse-list').addClass('verse-list-without-footnotes');
     }
 
-    $('#tag-reference-box-verse-list').html(htmlVerses);
+    $('#verse-list-popup-verse-list').html(htmlVerses);
 
     if (this.getCurrentTextType() == 'book') {
       var currentBookVerseCount = this.getNumberOfVersesForCurrentBook();
@@ -237,8 +237,8 @@ class VerseListPopup {
       bookTaggedVersesCountLabel.text(` (${currentBookVerseCount})`);
     }
 
-    bible_browser_controller.sword_notes.initForContainer($('#tag-reference-box-verse-list'));
-    $('#tag-reference-box-verse-list').show();
+    bible_browser_controller.sword_notes.initForContainer($('#verse-list-popup-verse-list'));
+    $('#verse-list-popup-verse-list').show();
   }
 }
 

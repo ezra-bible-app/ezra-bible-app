@@ -364,11 +364,11 @@ h2 {
   background-color: darkslategray;
 }
 
-#tag-reference-box, #book-tag-statistics-box, #bible-translation-info-box {
+#verse-list-popup, #book-tag-statistics-box, #bible-translation-info-box {
   display: none;
 }
 
-#tag-reference-box-verse-list {
+#verse-list-popup-verse-list {
   padding-right: 0.2em;
   width: 680px;
   height: 350px;
@@ -1440,7 +1440,7 @@ div.CodeMirror {
   clear: both;
 }
 
-#tag-reference-box .tag-browser-verselist-book-header {
+#verse-list-popup .tag-browser-verselist-book-header {
   padding-left: 0;
 }
 

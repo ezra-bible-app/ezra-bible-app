@@ -361,7 +361,7 @@ class OptionsMenu {
 
   showOrHideXrefsBasedOnOption(tabIndex=undefined) {
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
-    var tagBoxVerseList = $('#tag-reference-box-verse-list');
+    var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
     if (this.xrefsSwitchChecked()) {
       currentVerseList.removeClass('verse-list-without-xrefs');
@@ -374,7 +374,7 @@ class OptionsMenu {
 
   showOrHideFootnotesBasedOnOption(tabIndex=undefined) {
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
-    var tagBoxVerseList = $('#tag-reference-box-verse-list');
+    var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
     if (this.footnotesSwitchChecked()) {
       currentVerseList.removeClass('verse-list-without-footnotes');
