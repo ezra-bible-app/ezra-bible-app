@@ -594,7 +594,7 @@ class TagsController {
 
     if (tag_title_array.length > 0) {
       $(verse_box).find('.tag').bind('click', (e) => {
-        bible_browser_controller.verse_list_popup.openVerseListPopup(e);
+        bible_browser_controller.verse_list_popup.openVerseListPopup(e, "TAGGED_VERSES");
       });
     }
   }

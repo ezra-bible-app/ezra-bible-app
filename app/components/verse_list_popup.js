@@ -132,24 +132,35 @@ class VerseListPopup {
     return tag_id;
   }
 
+  /**
+   * @param event The click event
+   * @param referenceType The type of references (either "TAGGED_VERSES" or "XREFS")
+   */
   openVerseListPopup(event, referenceType) {
-    var verse_box = $(event.target).closest('.verse-box');
-    var selected_tag = this.getSelectedTagFromClickedElement(event.target);
-    var tag_id = this.getTagIdFromVerseBox(verse_box, selected_tag);
+    var verse_box = null;
 
-    var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
-    var currentTabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
-    var bookTaggedVersesCountLabel = this.getCurrentBookTaggedVersesCountLabel();
-    bookTaggedVersesCountLabel.empty();
+    if (referenceType == "TAGGED_VERSES") {
+      verse_box = $(event.target).closest('.verse-box');
+      var selected_tag = this.getSelectedTagFromClickedElement(event.target);
+      var tag_id = this.getTagIdFromVerseBox(verse_box, selected_tag);
 
-    bible_browser_controller.text_loader.requestVersesForSelectedTags(
-      currentTabIndex,
-      currentTabId,
-      tag_id,
-      (htmlVerses, verseCount) => { this.renderTaggedVerseListInReferenceBox(htmlVerses, verseCount); },
-      'html',
-      false
-    );
+      var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
+      var currentTabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
+
+      if (this.getCurrentTextType() == 'book') {
+        var bookTaggedVersesCountLabel = this.getCurrentBookTaggedVersesCountLabel();
+        bookTaggedVersesCountLabel.empty();
+      }
+
+      bible_browser_controller.text_loader.requestVersesForSelectedTags(
+        currentTabIndex,
+        currentTabId,
+        tag_id,
+        (htmlVerses, verseCount) => { this.renderVerseListInPopup(htmlVerses, verseCount); },
+        'html',
+        false
+      );
+    }
 
     var box_position = this.getOverlayVerseBoxPosition(verse_box);
     var title = i18n.t("tags.verses-tagged-with") + ' "' + selected_tag + '"';
@@ -225,7 +236,7 @@ class VerseListPopup {
     return overlay_box_position;
   }
 
-  renderTaggedVerseListInReferenceBox(htmlVerses, verseCount) {
+  renderVerseListInPopup(htmlVerses, verseCount) {
     $('#tag-references-loading-indicator').hide();
     var tagReferenceBoxTitle = $('#verse-list-popup').dialog('option', 'title');
     tagReferenceBoxTitle += ' (' + verseCount + ')';
