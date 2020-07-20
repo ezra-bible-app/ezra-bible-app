@@ -38,7 +38,7 @@ class BibleBrowserController {
 
     this.init_component("VerseSelection", "verse_selection", "../components/verse_selection.js");
     this.init_component("TagSelectionMenu", "tag_selection_menu", "../tags/tag_selection_menu.js");
-    this.init_component("TagReferenceBox", "tag_reference_box", "../tags/tag_reference_box.js");
+    this.init_component("TagReferenceBox", "tag_reference_box", "../tags/verse_list_popup.js");
     this.init_component("TagAssignmentMenu", "tag_assignment_menu", "../tags/tag_assignment_menu.js");
     this.init_component("ModuleSearch", "module_search", "../components/module_search.js");
     this.init_component("TranslationController", "translation_controller", "./translation_controller.js");
