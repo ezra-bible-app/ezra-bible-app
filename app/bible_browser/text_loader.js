@@ -395,18 +395,6 @@ class TextLoader {
     }
 
     var versification = (bible_browser_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
-
-    var verseReferences = await models.VerseReference.findByXrefs(xrefs);
-    var verseReferenceIds = [];
-
-    for (var i = 0; i < verseReferences.length; i++) {
-      var currentVerseReference = verseReferences[i];
-      
-      if (currentVerseReference != undefined) {
-        verseReferenceIds.push(currentVerseReference.id);
-      }
-    }
-
     var verses = nsi.getVersesFromReferences(bibleTranslationId, xrefs);
 
     var bibleBookStats = {};
@@ -425,11 +413,27 @@ class TextLoader {
     }
 
     var bibleBooks = await models.BibleBook.findByXrefs(xrefs);
-    var verseTags = await models.VerseTag.findByVerseReferenceIds(verseReferenceIds.join(','));
-    var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
 
+    // NOT loading verse references for now (not relevant for the popup)
+
+    /*var verseReferences = await models.VerseReference.findByXrefs(xrefs);
+    var verseReferenceIds = [];
+
+    for (var i = 0; i < verseReferences.length; i++) {
+      var currentVerseReference = verseReferences[i];
+      
+      if (currentVerseReference != undefined) {
+        verseReferenceIds.push(currentVerseReference.id);
+      }
+    }*/
+
+    // Not loading tags and notes for now (not relevant for the popup)
+    /*var verseTags = await models.VerseTag.findByVerseReferenceIds(verseReferenceIds.join(','));
+    var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
     var verseNotes = await models.Note.findByVerseReferenceIds(verseReferenceIds.join(','));
-    var groupedVerseNotes = models.Note.groupNotesByVerse(verseNotes, versification);
+    var groupedVerseNotes = models.Note.groupNotesByVerse(verseNotes, versification);*/
+    var groupedVerseTags = [];
+    var groupedVerseNotes = [];
 
     if (render_type == "html") {
       

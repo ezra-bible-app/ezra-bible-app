@@ -140,6 +140,7 @@ class VerseListPopup {
     var verse_box = $(event.target).closest('.verse-box');
     var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
     var currentTabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
+    var popupTitle = "";
 
     if (referenceType == "TAGGED_VERSES") {
       var selected_tag = this.getSelectedTagFromClickedElement(event.target);
@@ -158,6 +159,9 @@ class VerseListPopup {
         'html',
         false
       );
+
+      popupTitle = i18n.t("tags.verses-tagged-with") + ' "' + selected_tag + '"';
+
     } else if (referenceType == "XREFS") {
 
       var swordNote = $(event.target).closest('.sword-note');
@@ -165,7 +169,16 @@ class VerseListPopup {
 
       swordNote.find('reference').each((index, element) => {
         var osisRef = $(element).attr('osisref');
-        xrefs.push(osisRef);
+
+        if (osisRef.indexOf('-') != -1) {
+          // We have gotten a range (like Gal.1.15-Gal.1.16)
+          // TODO: Add ability to deal with a range properly. For now we just use the first part of the range.
+          osisRef = osisRef.split('-')[0];
+          xrefs.push(osisRef);
+        } else {
+          // We have got one single verse reference
+          xrefs.push(osisRef);
+        }
       });
 
       bible_browser_controller.text_loader.requestVersesForXrefs(
@@ -176,14 +189,21 @@ class VerseListPopup {
         'html',
         false
       );
+
+      var verseBox = $(event.target).closest('.verse-box');
+      var currentBookCode = verseBox.find('.verse-bible-book-short').text();
+      var currentBookName = models.BibleBook.getBookLongTitle(currentBookCode);
+      var currentBookLocalizedName = i18nHelper.getSwordTranslation(currentBookName);
+      var verseReferenceContent = verseBox.find('.verse-reference-content').text();
+
+      popupTitle = currentBookLocalizedName + ' ' + verseReferenceContent + ' &mdash; ' + i18n.t("general.module-xrefs");
     }
 
     var box_position = this.getOverlayVerseBoxPosition(verse_box);
-    var title = i18n.t("tags.verses-tagged-with") + ' "' + selected_tag + '"';
 
     $('#verse-list-popup').dialog({
       position: [box_position.left, box_position.top],
-      title: title
+      title: popupTitle
     });
 
     var currentTextType = this.getCurrentTextType();
