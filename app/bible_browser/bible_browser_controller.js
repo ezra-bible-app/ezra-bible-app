@@ -478,13 +478,13 @@ class BibleBrowserController {
       xref_markers = xref_markers.filter(":not('.events-configured')");
     }
 
-    tagBoxes.bind('click', tags_controller.clear_verse_selection).addClass('tag-events-configured');
+    tagBoxes.bind('mousedown', tags_controller.clear_verse_selection).addClass('tag-events-configured');
 
-    tags.bind('click', (event) => {
+    tags.bind('mousedown', (event) => {
       this.verse_list_popup.openVerseListPopup(event, "TAGGED_VERSES");
     }).addClass('tag-events-configured');
 
-    xref_markers.bind('click', (event) => {
+    xref_markers.bind('mousedown', (event) => {
       this.verse_list_popup.openVerseListPopup(event, "XREFS");
     }).addClass('events-configured');
 

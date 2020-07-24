@@ -181,14 +181,16 @@ class VerseListPopup {
         }
       });
 
-      bible_browser_controller.text_loader.requestVersesForXrefs(
-        currentTabIndex,
-        currentTabId,
-        xrefs,
-        (htmlVerses, verseCount) => { this.renderVerseListInPopup(htmlVerses, verseCount); },
-        'html',
-        false
-      );
+      setTimeout(() => {
+        bible_browser_controller.text_loader.requestVersesForXrefs(
+          currentTabIndex,
+          currentTabId,
+          xrefs,
+          (htmlVerses, verseCount) => { this.renderVerseListInPopup(htmlVerses, verseCount); },
+          'html',
+          false
+        );
+      }, 50);
 
       var verseBox = $(event.target).closest('.verse-box');
       var currentBookCode = verseBox.find('.verse-bible-book-short').text();

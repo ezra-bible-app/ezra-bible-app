@@ -1674,6 +1674,10 @@ s {
   top: -0.5em;
 }
 
+.sword-xref-marker {
+  cursor: pointer;
+}
+
 .darkmode--activated a:link, .darkmode--activated a:visited, .darkmode--activated p, .darkmode--activated .verse-list-composite {
   color: whitesmoke;
 }
