@@ -297,6 +297,29 @@ module.exports = (sequelize, DataTypes) => {
     return sequelize.query(query, { model: models.BibleBook });
   };
 
+  BibleBook.findByVerseReferenceIds = function(verseReferenceIds) {
+    var query = "SELECT * FROM BibleBooks b" +
+                " INNER JOIN VerseReferences vr ON vr.bibleBookId = b.id" +
+                " WHERE vr.id IN (" + verseReferenceIds + ")" +
+                " GROUP BY b.number ORDER BY b.number ASC";
+    
+    return sequelize.query(query, { model: models.BibleBook }); 
+  }
+
+  BibleBook.findByXrefs = function(xrefs) {
+    var bibleBooks = [];
+    for (var i = 0; i < xrefs.length; i++) {
+      var currentBook = "'" + xrefs[i].split('.')[0] + "'";
+      bibleBooks.push(currentBook);
+    }
+
+    var query = "SELECT * FROM BibleBooks b" +
+                " WHERE b.shortTitle IN (" + bibleBooks.join(',') + ")" +
+                " ORDER BY b.number ASC";
+    
+    return sequelize.query(query, { model: models.BibleBook });    
+  }
+
   BibleBook.findBySearchResults = function(searchResults) {
     var bibleBookIds = [];
     for (var i = 0; i < searchResults.length; i++) {

@@ -583,9 +583,10 @@ class BibleBrowserController {
 
     this.verse_selection.init(tabIndex);
     this.navigation_pane.updateNavigation(tabIndex);
-    this.bindEventsAfterBibleTextLoaded(tabIndex);
     this.notes_controller.initForTab(tabIndex);
     this.sword_notes.initForTab(tabIndex);
+
+    this.bindEventsAfterBibleTextLoaded(tabIndex);
   }
 
   updateUiAfterBibleTranslationAvailable(translationCode) {

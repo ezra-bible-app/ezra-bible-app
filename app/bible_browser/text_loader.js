@@ -398,23 +398,16 @@ class TextLoader {
 
     var verseReferences = await models.VerseReference.findByXrefs(xrefs);
     var verseReferenceIds = [];
-    var verses = [];
 
     for (var i = 0; i < verseReferences.length; i++) {
       var currentVerseReference = verseReferences[i];
-      verseReferenceIds.push(currentVerseReference.id);
-
-      var currentAbsoluteVerseNumber = versification == 'eng' ? currentVerseReference.absoluteVerseNrEng : currentVerseReference.absoluteVerseNrHeb;
       
-      var verse = nsi.getBookText(bibleTranslationId,
-                                  currentVerseReference.bibleBookShortTitle,
-                                  currentAbsoluteVerseNumber,
-                                  1)[0];
-
-      if (verse !== undefined) {
-        verses.push(verse);
+      if (currentVerseReference != undefined) {
+        verseReferenceIds.push(currentVerseReference.id);
       }
     }
+
+    var verses = nsi.getVersesFromReferences(bibleTranslationId, xrefs);
 
     var bibleBookStats = {};
     for (var i = 0; i < verses.length; i++) {
@@ -431,7 +424,7 @@ class TextLoader {
       }
     }
 
-    var bibleBooks = []; // await models.BibleBook.findByTagIds(selected_tags);
+    var bibleBooks = await models.BibleBook.findByXrefs(xrefs);
     var verseTags = await models.VerseTag.findByVerseReferenceIds(verseReferenceIds.join(','));
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
 

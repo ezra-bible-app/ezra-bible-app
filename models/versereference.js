@@ -129,17 +129,18 @@ module.exports = (sequelize, DataTypes) => {
                                   " FROM VerseReferences vr" +
                                   " INNER JOIN BibleBooks b ON" +
                                   " vr.bibleBookId = b.id" +
-                                  " INNER JOIN VerseTags vt ON" +
-                                  " vt.verseReferenceId = vr.id" +
                                   " WHERE vr.bibleBookId = b.id" +
                                   " AND vr.chapter = " + chapter +
                                   " AND vr.verseNr = " + verseNr +
                                   " AND b.shortTitle = '" + book + "'";
-      console.log(currentReferenceQuery);
+      //console.log("CURRENT REFERENCE: ");
+      //console.log(currentReferenceQuery);
 
-      var currentDbReference = await sequelize.query(currentReferenceQuery, { model: models.VerseReference });
-      console.log(currentDbReference);
-      verseReferences.push(currentDbReference);
+      var currentDbReferenceList = await sequelize.query(currentReferenceQuery, { model: models.VerseReference });
+
+      if (currentDbReferenceList.length > 0) {
+        verseReferences.push(currentDbReferenceList[0]);
+      }
     }
 
     return verseReferences;
