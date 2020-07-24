@@ -211,7 +211,7 @@ class VerseListPopup {
     var bookFilterCheckboxLabel = this.getCurrentBookFilterCheckboxLabel();
     var bookTaggedVersesCount = this.getCurrentBookTaggedVersesCountLabel();
 
-    if (currentTextType == 'book') {
+    if (currentTextType == 'book' && referenceType == 'TAGGED_VERSES') {
       bookFilterCheckbox.show();
       bookFilterCheckboxLabel.show();
       bookTaggedVersesCount.show();
