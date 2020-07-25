@@ -163,23 +163,28 @@ class VerseListPopup {
 
       if (osisRef.indexOf('-') != -1) {
         // We have gotten a range (like Gal.1.15-Gal.1.16)
-        // TODO: Add ability to deal with a range properly. For now we just use the first part of the range.
-        osisRef = osisRef.split('-')[0];
-        xrefs.push(osisRef);
+        var referenceList = nsi.getReferencesFromReferenceRange(osisRef);
+
+        referenceList.forEach((ref) => {
+          xrefs.push(ref);
+        });
+
       } else {
         // We have got one single verse reference
         xrefs.push(osisRef);
       }
     });
 
-    bible_browser_controller.text_loader.requestVersesForXrefs(
-      currentTabIndex,
-      currentTabId,
-      xrefs,
-      (htmlVerses, verseCount) => { this.renderVerseListInPopup(htmlVerses, verseCount); },
-      'html',
-      false
-    );
+    setTimeout(() => {
+      bible_browser_controller.text_loader.requestVersesForXrefs(
+        currentTabIndex,
+        currentTabId,
+        xrefs,
+        (htmlVerses, verseCount) => { this.renderVerseListInPopup(htmlVerses, verseCount); },
+        'html',
+        false
+      );
+    }, 50);
   }
 
   toggleBookFilter(referenceType) {
