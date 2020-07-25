@@ -56,6 +56,8 @@ class SwordNotes {
       return this.nodeType === 3; //Node.TEXT_NODE
     }).replaceWith("");
 
+    var notesCharacter = i18n.t('bible-browser.footnote-character');
+
     for (var i = 0; i < swordNotes.length; i++) {
       var currentNote = swordNotes[i];
       var currentNoteContent = currentNote.innerHTML;
@@ -82,7 +84,7 @@ class SwordNotes {
         if (currentNoteContent.indexOf("sword-note-marker") == -1) {
           var currentTitle = currentNote.innerText;
 
-          var noteMarker = this.createMarker('sword-note-marker', currentTitle, '*');
+          var noteMarker = this.createMarker('sword-note-marker', currentTitle, notesCharacter);
 
           currentNote.innerText = "";
           currentNote.insertBefore(noteMarker, currentNote.firstChild);

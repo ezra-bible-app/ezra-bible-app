@@ -175,7 +175,8 @@
     "tag-statistics": "Statistiques des étiquettes",
     "comparing-translations-for": "Comparaison des traductions pour",
     "strongs-number-not-valid": "Ceci n'est pas un nombre de Strong valide !",
-    "open-new-tab": "Open new tab"
+    "open-new-tab": "Open new tab",
+    "footnote-character": "n"
   },
   "dictionary-info-box": {
     "greek-dict": "Greek Dictionary",

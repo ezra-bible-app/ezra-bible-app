@@ -175,7 +175,8 @@
     "tag-statistics": "Tag statistics",
     "comparing-translations-for": "Comparing translations for",
     "strongs-number-not-valid": "This is not a valid Strong's number!",
-    "open-new-tab": "Open new tab"
+    "open-new-tab": "Open new tab",
+    "footnote-character": "n"
   },
   "dictionary-info-box": {
     "greek-dict": "Greek Dictionary",
