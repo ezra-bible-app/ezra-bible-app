@@ -554,6 +554,10 @@ h2 {
   cursor: pointer;
 }
 
+.new-standard-tag-button, #open-verselist-in-new-tab-button {
+  height: 2.2em;
+}
+
 .tag-delete-button {
   margin-right: 0.5em;
   float: left;
