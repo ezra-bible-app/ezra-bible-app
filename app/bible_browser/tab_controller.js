@@ -334,10 +334,15 @@ class TabController {
     return selectedTabsPanelId;
   }
 
-  addTab(metaTab=undefined, interactive=true) {
+  addTab(metaTab=undefined, interactive=true, bibleTranslationId=undefined) {
     var initialLoading = true;
     if (metaTab === undefined) {
       initialLoading = false;
+
+      if (bibleTranslationId != undefined) {
+        this.defaultBibleTranslationId = bibleTranslationId;
+      }
+
       var metaTab = new Tab(this.defaultBibleTranslationId, interactive);
     }
 

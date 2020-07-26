@@ -269,33 +269,16 @@ class TagSelectionMenu {
     return tag_list;
   }
 
-  async handleTagCbClick(event) {
+  handleTagCbClick(event) {
     var currentTagIdList = this.selectedTagIds();
     var currentTagTitleList = this.selectedTagTitles();
-    var currentTab = bible_browser_controller.tab_controller.getTab();
-    currentTab.setTextType('tagged_verses');
-    currentTab.setTagIdList(currentTagIdList);
-    bible_browser_controller.tab_controller.setCurrentTagTitleList(currentTagTitleList);
-
-    // Set book and search term to null, since we just switched to a tag
-    currentTab.setBook(null, null);
-    currentTab.setSearchTerm(null);
-    
-    bible_browser_controller.module_search.resetSearch();
-    
-    if (currentTagIdList != "") {
-      setTimeout(() => {
-        this.hideTagMenu();
-      }, 700);
-    }
-
-    await bible_browser_controller.getTaggedVerses();
+    bible_browser_controller.openTaggedVerses(currentTagIdList, currentTagTitleList);
   }
 
   bindTagCbEvents() {
     var cbs = document.querySelectorAll('.tag-browser-tag-cb');
     for (var i = 0; i < cbs.length; i++) {
-      cbs[i].addEventListener('click', async (event) => { await this.handleTagCbClick(event); });
+      cbs[i].addEventListener('click', async (event) => { this.handleTagCbClick(event); });
       cbs[i].removeAttribute('checked');
       cbs[i].removeAttribute('disabled');
     }

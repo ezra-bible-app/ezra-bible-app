@@ -539,6 +539,27 @@ class BibleBrowserController {
     }
   }
 
+  async openTaggedVerses(tagIdList, tagTitleList) {
+    var currentTab = this.tab_controller.getTab();
+    currentTab.setTextType('tagged_verses');
+    currentTab.setTagIdList(tagIdList);
+    bible_browser_controller.tab_controller.setCurrentTagTitleList(tagTitleList);
+
+    // Set book and search term to null, since we just switched to a tag
+    currentTab.setBook(null, null);
+    currentTab.setSearchTerm(null);
+    
+    this.module_search.resetSearch();
+    
+    if (tagIdList != "") {
+      setTimeout(() => {
+        this.tag_selection_menu.hideTagMenu();
+      }, 700);
+    }
+
+    await this.getTaggedVerses();
+  }
+
   async getTaggedVerses() {
     var currentTagIdList = this.tab_controller.getTab().getTagIdList();
     var currentTabId = this.tab_controller.getSelectedTabId();

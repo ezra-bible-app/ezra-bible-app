@@ -34,9 +34,17 @@ class VerseListPopup {
     
     $('#verse-list-popup').prev().append(currentBookFilter);                       
 
-    this.getCurrentBookFilterCheckbox().bind('click', () => {
+    this.getCurrentBookFilterCheckbox().bind('mousedown', () => {
       this.handleCurrentBookFilterClick();
     });
+
+    this.getNewTabButton().bind('mousedown', () => {
+      this.handleNewTabButtonClick();
+    });
+  }
+
+  getNewTabButton() {
+    return $('#open-verselist-in-new-tab-button');
   }
 
   getCurrentBookFilterCheckbox() {
@@ -108,6 +116,28 @@ class VerseListPopup {
     }
   }
 
+  async handleNewTabButtonClick() {
+    // 1) Close the popup
+    $('#verse-list-popup').dialog("close");
+
+    // 2) Open a new tab
+    var currentTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
+    bible_browser_controller.tab_controller.addTab(undefined, false, currentTranslationId);
+
+    // 3) Load the verse list in the new tab
+    if (this.currentReferenceType == 'TAGGED_VERSES') {
+
+      bible_browser_controller.openTaggedVerses(this.currentTagId, this.currentTagTitle);
+
+    } else if (this.currentReferenceType == 'XREFS') {
+      //
+    }
+
+    // 4) Run the onTabSelected actions at the end, because we added a tab
+    var ui = { 'index' : bible_browser_controller.tab_controller.getSelectedTabIndex()};
+    await bible_browser_controller.onTabSelected(undefined, ui);
+  }
+
   getSelectedTagFromClickedElement(clickedElement) {
     var selected_tag = $(clickedElement).html().trim();
     selected_tag = selected_tag.replace(/&nbsp;/g, ' ');
@@ -135,7 +165,8 @@ class VerseListPopup {
   loadTaggedVerses(clickedElement, currentTabId, currentTabIndex) {
     var selected_tag = this.getSelectedTagFromClickedElement(clickedElement);
     var verse_box = $(clickedElement).closest('.verse-box');
-    var tag_id = this.getTagIdFromVerseBox(verse_box, selected_tag);
+    this.currentTagId = this.getTagIdFromVerseBox(verse_box, selected_tag);
+    this.currentTagTitle = this.getSelectedTagFromClickedElement(clickedElement);
 
     if (this.getCurrentTextType() == 'book') {
       var bookTaggedVersesCountLabel = this.getCurrentBookTaggedVersesCountLabel();
@@ -146,7 +177,7 @@ class VerseListPopup {
       bible_browser_controller.text_loader.requestVersesForSelectedTags(
         currentTabIndex,
         currentTabId,
-        tag_id,
+        this.currentTagId,
         (htmlVerses, verseCount) => { this.renderVerseListInPopup(htmlVerses, verseCount); },
         'html',
         false
@@ -233,6 +264,7 @@ class VerseListPopup {
    * @param referenceType The type of references (either "TAGGED_VERSES" or "XREFS")
    */
   openVerseListPopup(event, referenceType) {
+    this.currentReferenceType = referenceType;
     var verse_box = $(event.target).closest('.verse-box');
     var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
     var currentTabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
@@ -253,6 +285,7 @@ class VerseListPopup {
 
     this.toggleBookFilter(referenceType);
 
+    this.getNewTabButton().hide();
     $('#verse-list-popup-verse-list').hide();
     $('#verse-list-popup-verse-list').empty();
     $('#verse-list-popup-loading-indicator').find('.loader').show();
@@ -304,6 +337,7 @@ class VerseListPopup {
 
   renderVerseListInPopup(htmlVerses, verseCount) {
     $('#verse-list-popup-loading-indicator').hide();
+    this.getNewTabButton().show();
     var tagReferenceBoxTitle = $('#verse-list-popup').dialog('option', 'title');
     tagReferenceBoxTitle += ' (' + verseCount + ')';
 

@@ -322,12 +322,11 @@ class DictionaryInfoBox {
   }
 
   async findAllOccurrences(strongsKey, bibleTranslationId) {
-    // First set the default bible translation to the given one to ensure that the translation in the
+    // Add a new tab. Set the default bible translation to the given one to ensure that the translation in the
     // newly opened tab matches the one in the current tab
-    bible_browser_controller.tab_controller.defaultBibleTranslationId = bibleTranslationId;
+    bible_browser_controller.tab_controller.addTab(undefined, false, bibleTranslationId);
 
-    // Add a new tab and set the search option
-    bible_browser_controller.tab_controller.addTab(undefined, false);
+    // Set search options for the new tab
     var currentTab = bible_browser_controller.tab_controller.getTab();
     currentTab.setSearchOptions('strongsNumber', false);
 
