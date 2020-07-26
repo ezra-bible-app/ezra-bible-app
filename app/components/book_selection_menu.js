@@ -79,6 +79,7 @@ class BookSelectionMenu {
       var currentTab = bible_browser_controller.tab_controller.getTab();
       currentTab.setTagIdList(null);
       currentTab.setSearchTerm(null);
+      currentTab.setXrefs(null);
 
       var currentVerseList = bible_browser_controller.getCurrentVerseList();
       bible_browser_controller.tab_search.setVerseList(currentVerseList);
@@ -86,7 +87,7 @@ class BookSelectionMenu {
       var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
       var currentBook = currentTab.getBook();
 
-      await bible_browser_controller.text_loader.requestTextUpdate(currentTabId, currentBook, null, null, null);
+      await bible_browser_controller.text_loader.requestTextUpdate(currentTabId, currentBook, null, null, null, null);
       await tags_controller.update_tag_list();
     }, 50);
   }

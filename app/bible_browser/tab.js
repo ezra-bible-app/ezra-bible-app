@@ -26,6 +26,8 @@ class Tab {
     this.searchTerm = null;
     this.searchResults = null;
     this.searchOptions = {};
+    this.xrefs = null;
+    this.xrefVerseReferenceId = null;
     this.textType = null;
     this.lastHighlightedNavElementIndex = null;
     this.bibleTranslationId = defaultBibleTranslationId;
@@ -108,6 +110,22 @@ class Tab {
 
   getSearchOptions() {
     return this.searchOptions;
+  }
+
+  setXrefs(xrefs) {
+    this.xrefs = xrefs;
+  }
+
+  getXrefs(xrefs) {
+    return this.xrefs;
+  }
+
+  setXrefVerseReferenceId(verseReferenceId) {
+    this.xrefVerseReferenceId = verseReferenceId;
+  }
+
+  getXrefVerseReferenceId() {
+    return this.xrefVerseReferenceId;
   }
 
   setTextType(textType) {

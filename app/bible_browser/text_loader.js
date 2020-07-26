@@ -57,7 +57,16 @@ class TextLoader {
     temporary_help.hide();
   }
 
-  async requestTextUpdate(tabId, book, tagIdList, cachedText, searchResults, tabIndex=undefined, requestedBookId=-1, target=undefined) {
+  async requestTextUpdate(tabId,
+                          book,
+                          tagIdList,
+                          cachedText,
+                          searchResults,
+                          xrefs,
+                          tabIndex=undefined,
+                          requestedBookId=-1,
+                          target=undefined) {
+
     var textType = bible_browser_controller.tab_controller.getTab(tabIndex).getTextType();
     var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
     var buttons = currentVerseListMenu.find('.fg-button');
@@ -126,6 +135,20 @@ class TextLoader {
             this.renderVerseList(htmlVerseList, 'search_results', tabIndex, /* isCache */ false, target);
           },
           requestedBookId
+        );
+      }
+    } else if (textType == 'xrefs') {
+      
+      if (cachedText != null) {
+        this.renderVerseList(cachedText, 'search_results', tabIndex);
+      } else {
+        await this.requestVersesForXrefs(
+          tabIndex,
+          tabId,
+          xrefs,
+          (htmlVerseList) => {
+            this.renderVerseList(htmlVerseList, 'xrefs', tabIndex, /* isCache */ false, target);
+          }
         );
       }
     }
@@ -416,7 +439,7 @@ class TextLoader {
 
     // NOT loading verse references for now (not relevant for the popup)
 
-    /*var verseReferences = await models.VerseReference.findByXrefs(xrefs);
+    var verseReferences = await models.VerseReference.findByXrefs(xrefs);
     var verseReferenceIds = [];
 
     for (var i = 0; i < verseReferences.length; i++) {
@@ -425,13 +448,13 @@ class TextLoader {
       if (currentVerseReference != undefined) {
         verseReferenceIds.push(currentVerseReference.id);
       }
-    }*/
+    }
 
     // Not loading tags and notes for now (not relevant for the popup)
-    /*var verseTags = await models.VerseTag.findByVerseReferenceIds(verseReferenceIds.join(','));
+    var verseTags = await models.VerseTag.findByVerseReferenceIds(verseReferenceIds.join(','));
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
     var verseNotes = await models.Note.findByVerseReferenceIds(verseReferenceIds.join(','));
-    var groupedVerseNotes = models.Note.groupNotesByVerse(verseNotes, versification);*/
+    var groupedVerseNotes = models.Note.groupNotesByVerse(verseNotes, versification);
     var groupedVerseTags = [];
     var groupedVerseNotes = [];
 

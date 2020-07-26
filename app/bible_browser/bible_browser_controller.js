@@ -36,6 +36,7 @@ class BibleBrowserController {
     this.verse_list_composite_template = $($('.verse-list-composite')[0]).html();
     this.settings = require('electron-settings');
 
+    this.init_component("VerseBoxHelper", "verse_box_helper", "../helpers/verse_box_helper.js");
     this.init_component("VerseSelection", "verse_selection", "../components/verse_selection.js");
     this.init_component("TagSelectionMenu", "tag_selection_menu", "../tags/tag_selection_menu.js");
     this.init_component("TagAssignmentMenu", "tag_assignment_menu", "../tags/tag_assignment_menu.js");
@@ -231,7 +232,8 @@ class BibleBrowserController {
                                            currentTab.getBook(),
                                            currentTab.getTagIdList(),
                                            null,
-                                           null);
+                                           null,
+                                           currentTab.getXrefs());
       }
     }
   }
@@ -539,15 +541,34 @@ class BibleBrowserController {
     }
   }
 
+  async openXrefVerses(xrefVerseBox, xrefTitle, xrefs) {
+    var xrefVerseReferenceId = this.verse_box_helper.getVerseReferenceId(xrefVerseBox);
+    var currentTab = this.tab_controller.getTab();
+
+    currentTab.setTextType('xrefs');
+    currentTab.setXrefs(xrefs);
+    currentTab.setXrefVerseReferenceId(xrefVerseReferenceId);
+
+    bible_browser_controller.tab_controller.setCurrentTabXrefTitle(xrefTitle);
+
+    // Set book, search term and tag id list to null, since we just switched to xrefs
+    currentTab.setBook(null, null);
+    currentTab.setSearchTerm(null);
+    currentTab.setTagIdList("");
+
+    await this.getXrefVerses(xrefVerseBox, xrefs);
+  }
+
   async openTaggedVerses(tagIdList, tagTitleList) {
     var currentTab = this.tab_controller.getTab();
     currentTab.setTextType('tagged_verses');
     currentTab.setTagIdList(tagIdList);
     bible_browser_controller.tab_controller.setCurrentTagTitleList(tagTitleList);
 
-    // Set book and search term to null, since we just switched to a tag
+    // Set book, search term and xrefs to null, since we just switched to a tag
     currentTab.setBook(null, null);
     currentTab.setSearchTerm(null);
+    currentTab.setXrefs(null);
     
     this.module_search.resetSearch();
     
@@ -560,6 +581,18 @@ class BibleBrowserController {
     await this.getTaggedVerses();
   }
 
+  async getXrefVerses(xrefVerseBox, xrefs) {
+    var currentTabId = this.tab_controller.getSelectedTabId();
+    var currentVerseList = this.getCurrentVerseList();
+
+    this.tab_search.setVerseList(currentVerseList);
+
+    if (xrefs.length > 0) {
+      this.text_loader.prepareForNewText(true, false);
+      this.text_loader.requestTextUpdate(currentTabId, null, null, null, null, xrefs);
+    }
+  }
+
   async getTaggedVerses() {
     var currentTagIdList = this.tab_controller.getTab().getTagIdList();
     var currentTabId = this.tab_controller.getSelectedTabId();
@@ -569,7 +602,7 @@ class BibleBrowserController {
 
     if (currentTagIdList != "") {
       this.text_loader.prepareForNewText(true, false);
-      this.text_loader.requestTextUpdate(currentTabId, null, currentTagIdList, null, null);
+      this.text_loader.requestTextUpdate(currentTabId, null, currentTagIdList, null, null, null);
       await tags_controller.update_tag_list();
     }
   }

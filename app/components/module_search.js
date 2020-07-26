@@ -219,9 +219,10 @@ class ModuleSearch {
       }
 
       bible_browser_controller.tab_controller.setTabSearch(this.currentSearchTerm, tabIndex);
-      // Set book and tagIdList to null, since we just switched to search content
+      // Set book, tagIdList and xrefs to null, since we just switched to search content
       currentTab.setBook(null, null);
       currentTab.setTagIdList("");
+      currentTab.setXrefs(null);
       bible_browser_controller.tag_selection_menu.resetTagMenu();
 
       this.hideSearchMenu();
@@ -288,6 +289,7 @@ class ModuleSearch {
                                                                    null,
                                                                    cachedText,
                                                                    currentSearchResults,
+                                                                   null,
                                                                    tabIndex,
                                                                    requestedBookId,
                                                                    target);

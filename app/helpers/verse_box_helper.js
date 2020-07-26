@@ -22,6 +22,20 @@ class VerseBoxHelper {
     
   }
 
+  getVerseReferenceId(verseBox) {
+    var classList = $(verseBox)[0].classList;
+    var verseReferenceId = null;
+
+    for (var i = 0; i < classList.length; i++) {
+      if (classList[i].indexOf('verse-reference-id') != -1) {
+        verseReferenceId = classList[i];
+        break;
+      }
+    }
+
+    return verseReferenceId;
+  }
+
   getBookListFromVerseBoxes(verseBoxes) {
     var bookList = [];
     verseBoxes.forEach((verseBox) => {

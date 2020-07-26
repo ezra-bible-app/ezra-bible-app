@@ -130,7 +130,8 @@ class VerseListPopup {
       bible_browser_controller.openTaggedVerses(this.currentTagId, this.currentTagTitle);
 
     } else if (this.currentReferenceType == 'XREFS') {
-      //
+
+      bible_browser_controller.openXrefVerses(this.currentXrefVerseBox, this.currentPopupTitle, this.currentXrefs);
     }
 
     // 4) Run the onTabSelected actions at the end, because we added a tab
@@ -187,22 +188,25 @@ class VerseListPopup {
 
   loadXrefs(clickedElement, currentTabId, currentTabIndex) {
     var swordNote = $(clickedElement).closest('.sword-note');
-    var xrefs = [];
+
+    this.currentXrefVerseBox = $(clickedElement).closest('.verse-box');
+    this.currentXrefs = [];
 
     swordNote.find('reference').each((index, element) => {
       var osisRef = $(element).attr('osisref');
 
       if (osisRef.indexOf('-') != -1) {
         // We have gotten a range (like Gal.1.15-Gal.1.16)
+        // We need to first turn into a list of individual references using node-sword-interface
         var referenceList = nsi.getReferencesFromReferenceRange(osisRef);
 
         referenceList.forEach((ref) => {
-          xrefs.push(ref);
+          this.currentXrefs.push(ref);
         });
 
       } else {
         // We have got one single verse reference
-        xrefs.push(osisRef);
+        this.currentXrefs.push(osisRef);
       }
     });
 
@@ -210,7 +214,7 @@ class VerseListPopup {
       bible_browser_controller.text_loader.requestVersesForXrefs(
         currentTabIndex,
         currentTabId,
-        xrefs,
+        this.currentXrefs,
         (htmlVerses, verseCount) => { this.renderVerseListInPopup(htmlVerses, verseCount); },
         'html',
         false
@@ -265,6 +269,8 @@ class VerseListPopup {
    */
   openVerseListPopup(event, referenceType) {
     this.currentReferenceType = referenceType;
+    this.currentPopupTitle = this.getPopupTitle(event.target, referenceType);
+
     var verse_box = $(event.target).closest('.verse-box');
     var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
     var currentTabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
@@ -276,11 +282,10 @@ class VerseListPopup {
     }
 
     var box_position = this.getOverlayVerseBoxPosition(verse_box);
-    var popupTitle = this.getPopupTitle(event.target, referenceType);
 
     $('#verse-list-popup').dialog({
       position: [box_position.left, box_position.top],
-      title: popupTitle
+      title: this.currentPopupTitle
     });
 
     this.toggleBookFilter(referenceType);

@@ -211,6 +211,7 @@ class TabController {
           currentMetaTab.tagIdList,
           currentMetaTab.cachedText,
           null,
+          currentMetaTab.xrefs,
           i
         );
 
@@ -408,6 +409,7 @@ class TabController {
     this.removeAllExtraTabs();
     this.setCurrentBibleTranslationId(null);
     this.getTab().setTagIdList("");
+    this.getTab().setXrefs(null);
     this.setCurrentTabBook(null, "");
     this.resetCurrentTabTitle();
     this.deleteTabConfiguration();
@@ -438,7 +440,7 @@ class TabController {
       tabTitle += ' [' + bibleTranslationId + ']';
     }
 
-    link.text(tabTitle);
+    link.html(tabTitle);
 
     // Resize the current verse list.
     // This may be necessary, because the tab bar may have wrapped after setting the title.
@@ -478,6 +480,18 @@ class TabController {
         this.resetCurrentTabTitle();
       } else {
         this.setTabTitle(tagTitleList, currentTranslationId);
+      }
+    }
+  }
+
+  setCurrentTabXrefTitle(xrefTitle) {
+    var currentTranslationId = this.getTab().getBibleTranslationId();
+
+    if (xrefTitle != undefined && xrefTitle != null) {
+      if (xrefTitle == "") {
+        this.resetCurrentTabTitle();
+      } else {
+        this.setTabTitle(xrefTitle, currentTranslationId);
       }
     }
   }
