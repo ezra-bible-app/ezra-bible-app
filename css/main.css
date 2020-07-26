@@ -863,7 +863,7 @@ h2 {
   left: 50%;
 }
 
-#tag-references-loading-indicator {
+#verse-list-popup-loading-indicator {
   display: none;
   width: 300px;
   height: 30px;
@@ -1668,10 +1668,13 @@ s {
 .sword-xref-marker, .sword-note-marker {
   display: inline-block;
   padding-right: 0.2em;
-  font-size: 80%;
   font-weight: bold;
   position: relative;
-  top: -0.5em;
+  top: -0.3em;
+}
+
+.sword-note-marker {
+  color: #2779AA;
 }
 
 .sword-xref-marker {

@@ -255,8 +255,8 @@ class VerseListPopup {
 
     $('#verse-list-popup-verse-list').hide();
     $('#verse-list-popup-verse-list').empty();
-    $('#tag-references-loading-indicator').find('.loader').show();
-    $('#tag-references-loading-indicator').show();
+    $('#verse-list-popup-loading-indicator').find('.loader').show();
+    $('#verse-list-popup-loading-indicator').show();
     $('#verse-list-popup').dialog("open");
   }
 
@@ -303,7 +303,7 @@ class VerseListPopup {
   }
 
   renderVerseListInPopup(htmlVerses, verseCount) {
-    $('#tag-references-loading-indicator').hide();
+    $('#verse-list-popup-loading-indicator').hide();
     var tagReferenceBoxTitle = $('#verse-list-popup').dialog('option', 'title');
     tagReferenceBoxTitle += ' (' + verseCount + ')';
 
