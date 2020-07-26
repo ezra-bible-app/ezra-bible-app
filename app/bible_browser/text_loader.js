@@ -436,9 +436,6 @@ class TextLoader {
     }
 
     var bibleBooks = await models.BibleBook.findByXrefs(xrefs);
-
-    // NOT loading verse references for now (not relevant for the popup)
-
     var verseReferences = await models.VerseReference.findByXrefs(xrefs);
     var verseReferenceIds = [];
 
@@ -450,7 +447,6 @@ class TextLoader {
       }
     }
 
-    // Not loading tags and notes for now (not relevant for the popup)
     var verseTags = await models.VerseTag.findByVerseReferenceIds(verseReferenceIds.join(','));
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
     var verseNotes = await models.Note.findByVerseReferenceIds(verseReferenceIds.join(','));
