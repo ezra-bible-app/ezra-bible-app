@@ -69,9 +69,7 @@ Ezra Project is currently on a bi-monthly release schedule. The next release [0.
 
 * Dictionary box: Integrate possibility to show Strong's linked dictionary resources ([#78][i78])
 * Visualization of Cross References and Footnotes (from SWORD markup) ([#85][i85])
-* Adjustable font-size for bible text ([#42][i42])
 
-[i42]: https://github.com/tobias-klein/ezra-project/issues/42
 [i78]: https://github.com/tobias-klein/ezra-project/issues/78
 [i85]: https://github.com/tobias-klein/ezra-project/issues/85
 
