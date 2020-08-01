@@ -661,11 +661,11 @@ class TagsController {
   async update_tag_list(currentBook, forceRefresh=false) {
     var tagList = await this.tag_store.getTagList(forceRefresh);
     var tagStatistics = await this.tag_store.getBookTagStatistics(currentBook, forceRefresh);
-    await this.render_tags(tagList, tagStatistics);
+    await this.render_tags(tagList, tagStatistics, currentBook != null);
     await waitUntilIdle();
   }
 
-  async render_tags(tag_list, tag_statistics) {
+  async render_tags(tag_list, tag_statistics, is_book=false) {
     //console.time("render_tags");
     var current_book = bible_browser_controller.tab_controller.getTab().getBook();
     var global_tags_box_el = document.getElementById('tags-content-global');
@@ -686,7 +686,7 @@ class TagsController {
 
     tags_controller.refresh_book_tag_statistics(tag_list, tag_statistics, current_book);
     uiHelper.configureButtonStyles('#tags-content');
-    tags_controller.update_tag_count_after_rendering();
+    tags_controller.update_tag_count_after_rendering(is_book);
 
     // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
     this.verses_were_selected_before = true;
@@ -722,15 +722,18 @@ class TagsController {
     tags_controller.rename_standard_tag_title = cb_label;
   }
 
-  update_tag_count_after_rendering() {
+  update_tag_count_after_rendering(is_book=false) {
     var global_tag_count = $('#tags-content-global').find('.checkbox-tag').length;
     var global_used_tag_count = $('#tags-content-global').find('.cb-label-assigned').length;
     var tag_list_stats = $($('#tags-content').find('#tag-list-stats'));
+    var tag_list_stats_content = "";
 
-    tag_list_stats.html(global_used_tag_count +
-                        ' ' + i18n.t('tags.stats-used') + ' / ' +
-                        global_tag_count +
-                        ' ' + i18n.t('tags.stats-total'));
+    if (is_book) {
+      tag_list_stats_content += global_used_tag_count + ' ' + i18n.t('tags.stats-used') + ' / ';
+    }
+
+    tag_list_stats_content += global_tag_count + ' ' + i18n.t('tags.stats-total');
+    tag_list_stats.html(tag_list_stats_content);
   }
 
   removeEventListeners(element_list, type, listener) {
