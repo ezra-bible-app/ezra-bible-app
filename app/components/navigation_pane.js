@@ -31,6 +31,7 @@ class NavigationPane {
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
     var currentBook = currentTab.getBook();
     var currentTagTitleList = currentTab.getTagTitleList();
+    var currentXrefs = currentTab.getXrefs();
     var currentTextType = currentTab.getTextType();
     var navigationPane = this.getCurrentNavigationPane(tabIndex);
 
@@ -39,7 +40,8 @@ class NavigationPane {
       navigationPane.removeClass('navigation-pane-books');
       navigationPane.addClass('navigation-pane-chapters');
 
-    } else if (currentTextType == 'tagged_verses' && currentTagTitleList != null) { // Tagged verse list mode
+    } else if (currentTextType == 'tagged_verses' && currentTagTitleList != null ||
+               currentTextType == 'xrefs' && currentXrefs != null) { // Verse list mode
 
       navigationPane.removeClass('navigation-pane-chapters');
       navigationPane.addClass('navigation-pane-books');
@@ -154,10 +156,12 @@ class NavigationPane {
 
     var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
     var currentTagIdList = null;
+    var currentXrefs = null;
     var currentTextType = null;
 
     if (currentTab != null) {
       currentTagIdList = currentTab.getTagIdList();
+      currentXrefs = currentTab.getXrefs();
       currentTextType = currentTab.getTextType();
     }
 
@@ -170,6 +174,10 @@ class NavigationPane {
       this.updateBookNavigation(tabIndex);
 
     } else if (currentTextType == 'search_results') {
+
+      this.updateBookNavigation(tabIndex);
+
+    } else if (currentTextType == 'xrefs' && currentXrefs != null) {
 
       this.updateBookNavigation(tabIndex);
     }
