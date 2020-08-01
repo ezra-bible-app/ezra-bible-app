@@ -56,7 +56,6 @@ class TagsCommunicationController
         }
       }).then(affectedRows => {
         tags_controller.remove_tag_by_id(tags_controller.tag_to_be_deleted,
-                                         tags_controller.tag_to_be_deleted_is_global,
                                          tags_controller.tag_to_be_deleted_title);
 
         bible_browser_controller.tag_selection_menu.requestTagsForMenu(true);

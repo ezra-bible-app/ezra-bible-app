@@ -208,7 +208,7 @@ class TagsController {
     }, 50);
   }
 
-  remove_tag_by_id(tag_id, tag_is_global, tag_title) {
+  remove_tag_by_id(tag_id, tag_title) {
     var checkbox_tag = tags_controller.get_checkbox_tag(tag_id);
     checkbox_tag.detach();
 
