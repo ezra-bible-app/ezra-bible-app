@@ -34,7 +34,7 @@ class VerseListPopup {
     
     $('#verse-list-popup').prev().append(currentBookFilter);                       
 
-    this.getCurrentBookFilterCheckbox().bind('mousedown', () => {
+    this.getCurrentBookFilterCheckbox().bind('click', () => {
       this.handleCurrentBookFilterClick();
     });
 
