@@ -451,8 +451,6 @@ class TextLoader {
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
     var verseNotes = await models.Note.findByVerseReferenceIds(verseReferenceIds.join(','));
     var groupedVerseNotes = models.Note.groupNotesByVerse(verseNotes, versification);
-    var groupedVerseTags = [];
-    var groupedVerseNotes = [];
 
     if (render_type == "html") {
       
