@@ -293,11 +293,7 @@ class TabController {
         var metaTab = this.getTab(ui.index);
         metaTab.selectCount += 1;
 
-        if (metaTab.addedInteractively || metaTab.selectCount > 1) { // We only run the onTabSelected callback
-                                                                     // if the tab has been added interactively
-                                                                     // or after the initial select
-          this.onTabSelected(event, ui);
-        }
+        this.onTabSelected(event, ui);
       }
     });
 
