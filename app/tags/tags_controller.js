@@ -665,13 +665,16 @@ class TagsController {
     await waitUntilIdle();
   }
 
+  replaceInnerHTML(oldDiv, html) {
+      var newDiv = oldDiv.cloneNode(false);
+      newDiv.innerHTML = html;
+      oldDiv.parentNode.replaceChild(newDiv, oldDiv);
+  }
+
   async render_tags(tag_list, tag_statistics, is_book=false) {
     //console.time("render_tags");
     var current_book = bible_browser_controller.tab_controller.getTab().getBook();
     var global_tags_box_el = document.getElementById('tags-content-global');
-
-    // Empty global tags element
-    global_tags_box_el.innerHTML = '';
 
     var all_tags_html = tagListTemplate({
       tags: tag_list,
@@ -682,7 +685,7 @@ class TagsController {
       delete_tag_label: i18n.t("tags.delete-tag-permanently"),
     });
 
-    global_tags_box_el.innerHTML = all_tags_html;
+    this.replaceInnerHTML(global_tags_box_el, all_tags_html);
 
     tags_controller.refresh_book_tag_statistics(tag_list, tag_statistics, current_book);
     uiHelper.configureButtonStyles('#tags-content');
