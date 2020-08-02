@@ -319,6 +319,38 @@ class TextLoader {
     }
   }
 
+  getBibleBookStatsFromVerses(verses) {
+    var bibleBookStats = {};
+
+    for (var i = 0; i < verses.length; i++) {
+      if (verses[i] === undefined) {
+        continue;
+      }
+
+      var bibleBookShortTitle = verses[i].bibleBookShortTitle;
+      
+      if (bibleBookStats[bibleBookShortTitle] === undefined) {
+        bibleBookStats[bibleBookShortTitle] = 1;
+      } else {
+        bibleBookStats[bibleBookShortTitle] += 1;
+      }
+    }
+
+    return bibleBookStats;
+  }
+
+  getBibleTranslationId(tab_index) {
+    var bibleTranslationId = null;
+        
+    if (bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId() == null) {
+      bibleTranslationId = bible_browser_controller.tab_controller.defaultBibleTranslationId;
+    } else {
+      bibleTranslationId = bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
+    }
+
+    return bibleTranslationId;
+  }
+
   async requestVersesForSelectedTags(tab_index,
                                      current_tab_id,
                                      selected_tags,
@@ -329,14 +361,7 @@ class TextLoader {
       return;
     }
 
-    var bibleTranslationId = null;
-        
-    if (bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId() == null) {
-      bibleTranslationId = bible_browser_controller.tab_controller.defaultBibleTranslationId;
-    } else {
-      bibleTranslationId = bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
-    }
-
+    var bibleTranslationId = this.getBibleTranslationId(tab_index);
     var versification = (bible_browser_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
 
     var verseReferences = await models.VerseReference.findByTagIds(selected_tags);
@@ -359,25 +384,10 @@ class TextLoader {
       }
     }
 
-    var bibleBookStats = {};
-    for (var i = 0; i < verses.length; i++) {
-      if (verses[i] === undefined) {
-        continue;
-      }
-
-      var bibleBookShortTitle = verses[i].bibleBookShortTitle;
-      
-      if (bibleBookStats[bibleBookShortTitle] === undefined) {
-        bibleBookStats[bibleBookShortTitle] = 1;
-      } else {
-        bibleBookStats[bibleBookShortTitle] += 1;
-      }
-    }
-
+    var bibleBookStats = this.getBibleBookStatsFromVerses(verses);
     var bibleBooks = await models.BibleBook.findByTagIds(selected_tags);
     var verseTags = await models.VerseTag.findByVerseReferenceIds(verseReferenceIds.join(','));
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
-
     var verseNotes = await models.Note.findByVerseReferenceIds(verseReferenceIds.join(','));
     var groupedVerseNotes = models.Note.groupNotesByVerse(verseNotes, versification);
 
@@ -409,35 +419,12 @@ class TextLoader {
       return;
     }
 
-    var bibleTranslationId = null;
-        
-    if (bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId() == null) {
-      bibleTranslationId = bible_browser_controller.tab_controller.defaultBibleTranslationId;
-    } else {
-      bibleTranslationId = bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
-    }
-
+    var bibleTranslationId = this.getBibleTranslationId(tab_index);
     var versification = (bible_browser_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
-    var verses = nsi.getVersesFromReferences(bibleTranslationId, xrefs);
 
-    var bibleBookStats = {};
-    for (var i = 0; i < verses.length; i++) {
-      if (verses[i] === undefined) {
-        continue;
-      }
-
-      var bibleBookShortTitle = verses[i].bibleBookShortTitle;
-      
-      if (bibleBookStats[bibleBookShortTitle] === undefined) {
-        bibleBookStats[bibleBookShortTitle] = 1;
-      } else {
-        bibleBookStats[bibleBookShortTitle] += 1;
-      }
-    }
-
-    var bibleBooks = await models.BibleBook.findByXrefs(xrefs);
     var verseReferences = await models.VerseReference.findByXrefs(xrefs);
     var verseReferenceIds = [];
+    var verses = nsi.getVersesFromReferences(bibleTranslationId, xrefs);
 
     for (var i = 0; i < verseReferences.length; i++) {
       var currentVerseReference = verseReferences[i];
@@ -447,6 +434,8 @@ class TextLoader {
       }
     }
 
+    var bibleBookStats = this.getBibleBookStatsFromVerses(verses);
+    var bibleBooks = await models.BibleBook.findByXrefs(xrefs);
     var verseTags = await models.VerseTag.findByVerseReferenceIds(verseReferenceIds.join(','));
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
     var verseNotes = await models.Note.findByVerseReferenceIds(verseReferenceIds.join(','));
