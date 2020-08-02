@@ -133,7 +133,7 @@ class TabController {
 
       console.log("Creating tab " + loadedTabCount + " from saved entry ... ");
 
-      currentMetaTab.selectCount = 0;
+      currentMetaTab.selectCount = 1;
 
       if (loadedTabCount == 0) {
         currentMetaTab.elementId = this.metaTabs[0].elementId;
@@ -294,7 +294,13 @@ class TabController {
         var metaTab = this.getTab(ui.index);
         metaTab.selectCount += 1;
 
-        this.onTabSelected(event, ui);
+        if (metaTab.addedInteractively || metaTab.selectCount > 1) { // We only run the onTabSelected callback
+                                                                     // if the tab has been added interactively
+                                                                     // or after the initial select.
+                                                                     // This is necessary to ensure good visual performance when
+                                                                     // adding tabs automatically (like for finding all Strong's references).
+          this.onTabSelected(event, ui);
+        }
       }
     });
 
