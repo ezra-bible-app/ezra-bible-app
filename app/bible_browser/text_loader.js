@@ -140,7 +140,7 @@ class TextLoader {
     } else if (textType == 'xrefs') {
       
       if (cachedText != null) {
-        this.renderVerseList(cachedText, 'search_results', tabIndex);
+        this.renderVerseList(cachedText, 'xrefs', tabIndex);
       } else {
         await this.requestVersesForXrefs(
           tabIndex,

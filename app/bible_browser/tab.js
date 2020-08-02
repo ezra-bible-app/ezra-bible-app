@@ -28,6 +28,7 @@ class Tab {
     this.searchOptions = {};
     this.xrefs = null;
     this.xrefVerseReferenceId = null;
+    this.xrefTitle = null;
     this.textType = null;
     this.lastHighlightedNavElementIndex = null;
     this.bibleTranslationId = defaultBibleTranslationId;
@@ -40,7 +41,8 @@ class Tab {
     return this.getBibleTranslationId() != null &&
            (this.getBook() != null ||
             this.getTagIdList() != "" ||
-            this.getSearchTerm() != null);
+            this.getSearchTerm() != null ||
+            this.getXrefs() != null);
   }
 
   getTitle() {
@@ -52,6 +54,8 @@ class Tab {
       tabTitle = this.tagTitleList;
     } else if (this.textType == 'search_results') {
       tabTitle = this.getSearchTabTitle(this.searchTerm);
+    } else if (this.textType == 'xrefs') {
+      tabTitle = this.getXrefTitle();
     }
 
     return tabTitle;
@@ -126,6 +130,14 @@ class Tab {
 
   getXrefVerseReferenceId() {
     return this.xrefVerseReferenceId;
+  }
+
+  setXrefTitle(xrefTitle) {
+    this.xrefTitle = xrefTitle;
+  }
+
+  getXrefTitle() {
+    return this.xrefTitle;
   }
 
   setTextType(textType) {

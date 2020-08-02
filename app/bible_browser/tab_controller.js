@@ -471,9 +471,9 @@ class TabController {
     }
   }
 
-  setCurrentTagTitleList(tagTitleList) {
-    this.getTab().setTagTitleList(tagTitleList);
-    var currentTranslationId = this.getTab().getBibleTranslationId();
+  setCurrentTagTitleList(tagTitleList, index=undefined) {
+    this.getTab(index).setTagTitleList(tagTitleList);
+    var currentTranslationId = this.getTab(index).getBibleTranslationId();
 
     if (tagTitleList != undefined && tagTitleList != null) {
       if (tagTitleList == "") {
@@ -484,8 +484,9 @@ class TabController {
     }
   }
 
-  setCurrentTabXrefTitle(xrefTitle) {
-    var currentTranslationId = this.getTab().getBibleTranslationId();
+  setCurrentTabXrefTitle(xrefTitle, index=undefined) {
+    this.getTab(index).setXrefTitle(xrefTitle);
+    var currentTranslationId = this.getTab(index).getBibleTranslationId();
 
     if (xrefTitle != undefined && xrefTitle != null) {
       if (xrefTitle == "") {
@@ -498,7 +499,7 @@ class TabController {
 
   setTabSearch(searchTerm, index=undefined) {
     this.getTab(index).setSearchTerm(searchTerm);
-    var currentTranslationId = this.getTab().getBibleTranslationId();
+    var currentTranslationId = this.getTab(index).getBibleTranslationId();
 
     if (searchTerm != undefined && searchTerm != null) {
       var searchTabTitle = this.getSearchTabTitle(searchTerm);
