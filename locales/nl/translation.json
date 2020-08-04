@@ -3,7 +3,7 @@
     "new-tag": "Nieuwe tag",
     "tag-statistics": "Tag-statistieken",
     "configure-translations": "Vertalingen configureren",
-    "configure-dicts": "Configure dictionaries",
+    "configure-dicts": "Woordenboeken configureren",
     "show-parallel-translations": "Vertalingen vergelijken"
   },
   "menu": {
@@ -24,14 +24,14 @@
   },
   "module-assistant": {
     "bible-header": "Configureer Bijbelvertalingen",
-    "dict-header": "Configure dictionaries",
+    "dict-header": "Woordenboeken configureren",
     "module-type-bible": "Bijbelvertalingsmodules",
-    "module-type-dict": "Dictionary",
+    "module-type-dict": "Woordenboeken",
     "internet-usage-note": "<b> BELANGRIJKE OPMERKING </b> <br/> <br/> {{module_type}} zijn geïnstalleerd via uw internetverbinding. <br/> Als u zich in een land bevindt waar christenen worden vervolgd, <br/> maakt u beter <b>GEEN</b> gebruik van deze software wegens het risico op ontdekking!",
     "add-translations": "Voeg Bijbelvertalingen toe",
     "remove-translations": "Verwijder Bijbelvertalingen",
-    "add-dicts": "Add dictionaries",
-    "remove-dicts": "Remove dictionaries",
+    "add-dicts": "Voeg woordenboeken toe",
+    "remove-dicts": "Woordenboeken verwijderen",
     "repositories": "Depots",
     "repo-data-last-updated": "Depotdata werd voor het laatst bijgewerkt op {{date}}.",
     "update-now": "Nu bijwerken",
@@ -41,7 +41,7 @@
     "module-feature-filter": "Functiefilter",
     "repo-selection-info-text": "Ezra Project werkt met bijbelvertalingsmodules aangeboden door <a class='external' href='http://www.crosswire.org/sword'>het SWORD-project</a> en het <a class='external' href='http://www.crosswire.org'>CrossWire Bijbelgenootschap</a>.<br/><br/>Hieronder ziet u de lijst met SWORD-depots die zijn gepubliceerd door CrossWire. Een depot is een internetopslaglocatie die een set Bijbelvertalingsmodules bevat. Naast elk depot ziet u het totale aantal Bijbelvertalingsmodules dat beschikbaar is uit dat depot. <br/> <br/> Om een bijbelvertalingsmodule te installeren, kies minstens één depot uit de onderstaande lijst. De depots van <i>CrossWire</i> en <i>eBible.org</i> zijn een goede plek om te beginnen.",
     "more-repo-information-needed": "Heeft u nood aan meer informatie over deze depots?<br/>Bekijk de <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>.",
-    "click-to-show-detailed-module-info": "[UPDATE NEEDED] Klik op een vertaalcode (link achter de vertalingsnaam) om hier gedetailleerde module-informatie te tonen",
+    "click-to-show-detailed-module-info": "Klik op een modulecode (link achter de modulenaam) om hier gedetailleerde module-informatie te tonen",
     "updating-repository-data": "Bezig met het bijwerken van depotgegevens! Dit zal enkele seconden duren ...",
     "updating": "Bijwerken ...",    
     "update-repository-data-failed": "Het bijwerken van depotgegevens is mislukt! Bent u offline?",
@@ -55,9 +55,9 @@
     "removing-translations": "Geselecteerde Bijbelvertalingen verwijderen",
     "removing-dictionaries": "Removing selected dictionaries",
     "it-takes-time-to-install-translation": "Houd er rekening mee dat het enige tijd duurt voordat elke vertaling gedownload en geïnstalleerd is.",
-    "it-takes-time-to-install-dictionary": "Note that it takes some time for each dictionary to be downloaded and then installed.",
+    "it-takes-time-to-install-translation": "Houd er rekening mee dat het enige tijd duurt voordat elk woordenboek gedownload en geïnstalleerd is.",
     "select-translations-to-be-removed": "Selecteer de bijbelvertalingen die u wilt verwijderen.<br/><br/>Uitgeschakelde elementen in de lijst zijn vertalingen die niet in de gebruikersmap zijn geïnstalleerd.",
-    "select-dictionaries-to-be-removed": "Select the dictionaries that you would like to remove.<br/><br/>Disabled entries in the list are dictionaries not installed in the user's directory or dictionaries that are essential for Ezra Project's functionality.",
+    "select-dictionaries-to-be-removed": "Selecteer de woordenboeken die u wilt verwijderen.<br/><br/>Uitgeschakelde elementen in de lijst zijn woordenboeken die niet in de gebruikersmap zijn geïnstalleerd of woordenboeken die essentiël zijn voor functionaliteit van Ezra Project.",
     "installing": "Installeren",
     "downloading": "Downloaden",
     "part-of-total": "van",
@@ -143,7 +143,7 @@
     "title": "Titel",
     "stats-used": "gebruikt",
     "stats-total": "totaal",
-    "only-currentbook-tagged-verses": "Only current book"
+    "only-currentbook-tagged-verses": "Alleen huidig boek"
   },
   "bible-browser": {
     "chapter": "Hoofdstuk",
@@ -158,16 +158,16 @@
     "tag-hint": "Klik om alle verzen met deze tag te tonen",
     "show-search-results": "Toon zoekresultaten",
     "search-performance-hint": "Alleen de boekenlijst wordt weergegeven vanwege het hoge aantal zoekresultaten. U kunt de afzonderlijke zoekresultaten per boek opvragen.",
-    "module-configuration": "Module configuration",
-    "display": "Display",
-    "text-options": "Text options",
-    "bible-browser-layout": "Bible browser layout",
+    "module-configuration": "Moduleconfiguratie",
+    "display": "Weergave",
+    "text-options": "Tekstopties",
+    "bible-browser-layout": "Layout van Bijbelbrowser",
     "show-tool-bar": "Toon werkbalk",
     "show-book-intro": "Toon inleiding van boek",
     "show-section-titles": "Toon sectietitels",
-    "show-xrefs": "Show cross references",
-    "show-footnotes": "Show footnotes",
-    "show-dictionary": "Show dictionary",
+    "show-xrefs": "Toon kruisverwijzingen",
+    "show-footnotes": "Toon voetnoten",
+    "show-dictionary": "Toon woordenboek",
     "show-tags": "Toon tags",
     "show-notes": "Toon aantekeningen",
     "use-tags-column": "Gebruik tags-kolom",
@@ -180,12 +180,12 @@
     "footnote-character": "n"
   },
   "dictionary-info-box": {
-    "greek-dict": "Greek Dictionary",
-    "hebrew-dict": "Hebrew Dictionary",
+    "greek-dict": "Grieks woordenboek",
+    "hebrew-dict": "Hebreeuws woordenboek",
     "default-header": "<b>Woordenboek</b>",
-    "help-instruction": "<p>How DICTIONARY ENTRIES hier tonen:</p><ol><li>Open eerst een vertaling met de Strongs-functie.</li><li>Terwijl u op de SHIFT-toets drukt, kunt u uw muis over de afzonderlijke woorden en zinnen bewegen om de DICTIONARY ENTRIES hier te bekijken.</li><ol>",
+    "help-instruction": "<p>Hoe woordenboeklemma's hier tonen:</p><ol><li>Open eerst een vertaling met de Strongs-functie.</li><li>Terwijl u op de SHIFT-toets drukt, kunt u uw muis over de afzonderlijke woorden en zinnen bewegen om de DICTIONARY ENTRIES hier te bekijken.</li><ol>",
     "find-all-occurrences": "Vind alle voorvallen",
     "open-in-blueletter": "In Blue Letter Bible openen",
-    "related-strongs": "Related Strong's"
+    "related-strongs": "Gerelateerde Strongs"
   }
 }
