@@ -3,7 +3,7 @@
     "new-tag": "Nouvelle étiquette",
     "tag-statistics": "Statistiques des étiquettes",
     "configure-translations": "Configurer des traductions",
-    "configure-dicts": "Configure dictionaries",
+    "configure-dicts": "Configurer des dictionnaires",
     "show-parallel-translations": "Comparer traductions"
   },
   "menu": {
@@ -55,7 +55,7 @@
     "removing-translations": "Suppression des traductions de la Bible sélectionnées",
     "removing-dictionaries": "Suppression des dictionnaires sélectionnés",
     "it-takes-time-to-install-translation": "Notez qu'il faut un certain temps pour que chaque traduction soit téléchargée puis installée.",
-    "it-takes-time-to-install-dictionary": "Note that it takes some time for each dictionary to be downloaded and then installed.",
+    "it-takes-time-to-install-dictionary": "Notez qu'il faut un certain temps pour que chaque dictionnaire soit téléchargé puis installé.",
     "select-translations-to-be-removed": "Sélectionnez les traductions de la bible que vous souhaitez supprimer.<br/><br/>Les entrées désactivées de la liste sont des traductions non installées dans le répertoire des utilisateurs.",
     "select-dictionaries-to-be-removed": "Sélectionnez les dictionnaires que vous souhaitez supprimer.<br/><br/>Les entrées désactivées de la liste sont des dictionnaires non installés dans le répertoire des utilisateurs ou des dictionnaires essentiels à la fonctionnalité du projet Ezra",
     "installing": "Installation",
@@ -143,7 +143,7 @@
     "title": "Titre ",
     "stats-used": "utilisée",
     "stats-total": "total",
-    "only-currentbook-tagged-verses": "Only current book"
+    "only-currentbook-tagged-verses": "Seulement le livre actuel"
   },
   "bible-browser": {
     "chapter": "Chapitre",
