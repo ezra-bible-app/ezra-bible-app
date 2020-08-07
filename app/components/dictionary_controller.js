@@ -116,12 +116,15 @@ class DictionaryController {
       var rawStrongsIdList = strongsElement.attr('class').split(' ');
 
       for (var i = 0; i < rawStrongsIdList.length; i++) {
-        try {
-          var strongsId = rawStrongsIdList[i].split(':')[1];
-          if (strongsId != undefined) {
-            strongsIds.push(strongsId);
-          }
-        } catch (e) {}
+        if (rawStrongsIdList[i].indexOf('strong') != -1) {
+          try {
+            var strongsId = rawStrongsIdList[i].split(':')[1];
+
+            if (strongsId != undefined) {
+              strongsIds.push(strongsId);
+            }
+          } catch (e) {}
+        }
       }
     } catch (e) { }
 
