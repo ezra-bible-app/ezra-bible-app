@@ -63,11 +63,11 @@ class DictionaryController {
   }
 
   showInfoBox() {
-    this.dictionaryInfoBox.infoBox.show();
+    return this.dictionaryInfoBox.showDictInfoBox();
   }
 
   hideInfoBox() {
-    this.dictionaryInfoBox.infoBox.hide();
+    return this.dictionaryInfoBox.hideDictInfoBox();
   }
 
   clearInfoBox() {

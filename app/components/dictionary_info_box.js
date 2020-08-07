@@ -44,6 +44,24 @@ class DictionaryInfoBox {
     this.dictionaryInfoBoxHelp.show();
   }
 
+  hideDictInfoBox() {
+    if (this.infoBox.is(":visible")) {
+      this.infoBox.hide();
+      return true;
+    }
+
+    return false;
+  }
+
+  showDictInfoBox() {
+    if (this.infoBox.is(":hidden")) {
+      this.infoBox.show();
+      return true;
+    }
+
+    return false;
+  }
+
   updateDictInfoBox(strongsEntry, additionalStrongsEntries=[], firstUpdate=false) {
     if (firstUpdate) {
       this.dictionaryInfoBoxStack = [ strongsEntry.rawKey ];

@@ -386,14 +386,22 @@ class OptionsMenu {
   }
 
   showOrHideStrongsBasedOnOption(tabIndex=undefined) {
+    var updated = false;
+
     if (!this.strongsSwitchChecked()) { 
-      bible_browser_controller.dictionary_controller.hideInfoBox();
-      bible_browser_controller.dictionary_controller.clearInfoBox();
+      updated = bible_browser_controller.dictionary_controller.hideInfoBox();
+      if (updated) {
+        bible_browser_controller.dictionary_controller.clearInfoBox();
+      }
+
       bible_browser_controller.dictionary_controller.hideStrongsBox(true);
     } else {
-      bible_browser_controller.dictionary_controller.showInfoBox();
+      updated = bible_browser_controller.dictionary_controller.showInfoBox();
     }
-    uiHelper.resizeAppContainer();
+
+    if (updated) {
+      uiHelper.resizeAppContainer();
+    }
   }
 
   showOrHideVerseTagsBasedOnOption(tabIndex=undefined) {
