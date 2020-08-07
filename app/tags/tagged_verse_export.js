@@ -141,7 +141,7 @@ class TaggedVerseExport {
 
     // Officegen calling this function after finishing to generate the docx document:
     docx.on('finalize', (written) => {
-      shell.openItem(this.exportFilePath);
+      shell.openPath(this.exportFilePath);
     });
 
     // Officegen calling this function to report errors:
