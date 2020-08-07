@@ -160,23 +160,23 @@ class TagSelectionMenu {
     var selected_tag_list = this.getSelectedTagList();
 
     // Check all the previously selected tags in the list
-    var all_tags = target_container.find('.tag-browser-tag-title-content');
+    var all_tags = target_container[0].querySelectorAll('.tag-browser-tag-title-content');
     
     for (var i = 0; i < all_tags.length; i++) {
-      var current_tag = $(all_tags[i]);
+      var current_tag = all_tags[i];
 
       var current_tag_is_checked = false;
       if (selected_tag_list !== null) {
-        current_tag_is_checked = selected_tag_list.includes(current_tag.text());
+        current_tag_is_checked = selected_tag_list.includes(current_tag.innerText);
       }
 
       var tag_browser_tag = current_tag.closest('.tag-browser-tag');
-      var tag_cb = tag_browser_tag.find('.tag-browser-tag-cb'); 
+      var tag_cb = tag_browser_tag.querySelector('.tag-browser-tag-cb'); 
 
       if (current_tag_is_checked) {
-        tag_cb.attr('checked','checked');
+        tag_cb.checked = true;
       } else {
-        tag_cb.removeAttr('checked');
+        tag_cb.checked = false;
       }
     }
   }
