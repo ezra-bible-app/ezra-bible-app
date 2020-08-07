@@ -54,6 +54,7 @@ class VerseBoxHelper {
     var tab_count = bible_browser_controller.tab_controller.getTabCount();
 
     var bibleBook = referenceVerseBox.find('.verse-bible-book-short').text();
+    var referenceBibleBook = await models.BibleBook.findOne({ where: { shortTitle: bibleBook } });
     var absoluteVerseNr = parseInt(referenceVerseBox.find('.abs-verse-nr').text());
     var verseReferenceContent = referenceVerseBox.find('.verse-reference-content').text();
     var chapter = parseInt(verseReferenceContent.split(reference_separator)[0]);
@@ -82,10 +83,10 @@ class VerseBoxHelper {
         for (var j = 0; j < target_verse_box.length; j++) {
           var specific_target_verse_box = $(target_verse_box[j]);
           var target_verse_box_bible_book_short_title = specific_target_verse_box.find('.verse-bible-book-short').text();
-          var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: target_verse_box_bible_book_short_title } });
-          var target_verse_bible_book_id = bibleBook.id;
+          var targetBibleBook = await models.BibleBook.findOne({ where: { shortTitle: target_verse_box_bible_book_short_title } });
+          var target_verse_bible_book_id = targetBibleBook.id;
 
-          if (target_verse_bible_book_id == bibleBook.id) {
+          if (target_verse_bible_book_id == referenceBibleBook.id) {
             changeCallback(context, specific_target_verse_box);
           }
         }
