@@ -88,7 +88,9 @@ class BookSelectionMenu {
       var currentBook = currentTab.getBook();
 
       await bible_browser_controller.text_loader.requestTextUpdate(currentTabId, currentBook, null, null, null, null);
-      await tags_controller.update_tag_list(currentBook);
+
+      await waitUntilIdle();
+      tags_controller.update_tag_list(currentBook);
     }, 50);
   }
 

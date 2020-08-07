@@ -27,6 +27,7 @@ class TagsController {
     this.communication_controller = new TagsCommunicationController();
     this.tag_store = new TagStore();
     this.verse_box_helper = new VerseBoxHelper();
+    this.tag_stats_element_cache = {};
 
     this.new_standard_tag_button = $('#new-standard-tag-button');
     this.tag_title_changed = false;
@@ -52,6 +53,8 @@ class TagsController {
   
     this.selected_verse_references = [];
     this.selected_verse_boxes = [];
+
+    this.initialRenderingDone = false;
 
     var new_standard_tag_dlg_options = {
       title: i18n.t("tags.new-tag"),
@@ -308,6 +311,9 @@ class TagsController {
       this.tag_store.updateTagTimestamp(id, current_timestamp);
       await this.tag_store.updateLatestAndOldestRecentTimestamp();
 
+      // Drop the cached stats element, because it is outdated now
+      this.dropCachedTagStats(id);
+
       bible_browser_controller.tag_selection_menu.updateLastUsedTimestamp(id, current_timestamp);
       bible_browser_controller.tag_selection_menu.applyCurrentFilters();
 
@@ -340,7 +346,8 @@ class TagsController {
                                                  $.create_xml_doc(current_verse_selection),
                                                  "assign");
 
-      tags_controller.update_tag_count_after_rendering();
+      var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
+      tags_controller.update_tag_count_after_rendering(currentBook != null);
       
       bible_browser_controller.tag_statistics.update_book_tag_statistics_box();
 
@@ -428,6 +435,7 @@ class TagsController {
   }
 
   remove_tag_assignment_after_confirmation() {
+    var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
     var job = tags_controller.remove_tag_assignment_job;
 
     job.cb.attr('title', i18n.t("tags.assign-tag"));
@@ -443,6 +451,9 @@ class TagsController {
       verse_boxes.push(currentVerseBox);
     }
 
+    // Drop the cached stats element, because it is outdated now
+    this.dropCachedTagStats(job.id);
+
     tags_controller.communication_controller.remove_tag_from_verses(job.id, verse_boxes);
     
     tags_controller.change_verse_list_tag_info(job.id,
@@ -450,7 +461,7 @@ class TagsController {
                                                job.xml_verse_selection,
                                                "remove");
 
-    tags_controller.update_tag_count_after_rendering();
+    tags_controller.update_tag_count_after_rendering(currentBook != null);
     
     bible_browser_controller.tag_statistics.update_book_tag_statistics_box();
 
@@ -659,16 +670,109 @@ class TagsController {
   }
 
   async update_tag_list(currentBook, forceRefresh=false) {
+    if (forceRefresh) {
+      this.initialRenderingDone = false;
+    }
+
     var tagList = await this.tag_store.getTagList(forceRefresh);
     var tagStatistics = await this.tag_store.getBookTagStatistics(currentBook, forceRefresh);
     await this.render_tags(tagList, tagStatistics, currentBook != null);
     await waitUntilIdle();
   }
 
-  replaceInnerHTML(oldDiv, html) {
-      var newDiv = oldDiv.cloneNode(false);
-      newDiv.innerHTML = html;
-      oldDiv.parentNode.replaceChild(newDiv, oldDiv);
+  getNewTagStatsElement(tag_statistics, currentElementId, tagId, current_book) {
+    var newElement = document.createElement('span');
+    newElement.classList.add('cb-label-tag-assignment-count');
+    newElement.setAttribute('id', currentElementId);
+
+    var currentTagStatistics = tag_statistics[tagId];
+    var bookCount = currentTagStatistics.bookAssignmentCount;
+    var globalCount = currentTagStatistics.globalAssignmentCount;
+    var newElementStats = "(";
+
+    if (current_book != "no-book") newElementStats += bookCount + ' | ';
+    newElementStats += globalCount + ')';
+    newElement.innerText = newElementStats;
+
+    return newElement;
+  }
+
+  update_stats_elements(tag_statistics) {
+    var current_book = bible_browser_controller.tab_controller.getTab().getBook();
+    if (current_book == null) current_book = "no-book";
+
+    if (!(current_book in this.tag_stats_element_cache)) {
+      this.tag_stats_element_cache[current_book] = {};
+    }
+
+    var global_tags_box_el = document.getElementById('tags-content-global');
+    var tag_stats_elements = global_tags_box_el.querySelectorAll('.cb-label-tag-assignment-count');
+
+    for (var i = 0; i < tag_stats_elements.length; i++) {
+      var currentElement = tag_stats_elements[i];
+      var currentElementId = currentElement.getAttribute('id');
+      var lastHyphenIndex = currentElementId.lastIndexOf('-');
+
+      if (lastHyphenIndex == -1) continue;
+
+      var tagId = currentElementId.substring(lastHyphenIndex + 1);
+
+      if (!(currentElementId in this.tag_stats_element_cache[current_book])) {
+        var newElement = this.getNewTagStatsElement(tag_statistics, currentElementId, tagId, current_book);
+        this.tag_stats_element_cache[current_book][currentElementId] = newElement;
+      }
+
+      var cachedElement = this.tag_stats_element_cache[current_book][currentElementId];
+      var cbLabel = currentElement.parentNode.querySelector('.cb-label');
+
+      if (current_book != "no-book") {
+        var cachedElementText = cachedElement.innerText;
+        var indexOfDivider = cachedElementText.indexOf('|');
+        var bookCount = parseInt(cachedElementText.substring(1, indexOfDivider));        
+        var cbLabelClassList = cbLabel.classList;
+
+        if (bookCount > 0 && !cbLabelClassList.contains('cb-label-assigned')) {
+          cbLabel.classList.add('cb-label-assigned');
+        }
+
+        if (bookCount == 0 && cbLabelClassList.contains('cb-label-assigned')) {
+          cbLabel.classList.remove('cb-label-assigned');
+        }
+      } else {
+        cbLabel.classList.remove('cb-label-assigned');
+      }
+
+      currentElement.parentNode.replaceChild(cachedElement, currentElement);
+    }
+  }
+
+  init_tag_stats_element_cache() {
+    var current_book = bible_browser_controller.tab_controller.getTab().getBook();
+
+    if (!(current_book in this.tag_stats_element_cache)) {
+      this.tag_stats_element_cache[current_book] = {};
+    }
+
+    var global_tags_box_el = document.getElementById('tags-content-global');
+    var tag_stats_elements = global_tags_box_el.querySelectorAll('.cb-label-tag-assignment-count');
+
+    for (var i = 0; i < tag_stats_elements.length; i++) {
+      var currentElement = tag_stats_elements[i];
+      var currentElementId = currentElement.getAttribute('id');
+
+      this.tag_stats_element_cache[current_book][currentElementId] = currentElement;
+    }
+  }
+
+  dropCachedTagStats(tagId) {
+    for (var book in this.tag_stats_element_cache) {
+      var bookCache = this.tag_stats_element_cache[book];
+      var elementId = 'cb-label-tag-assignment-count-' + tagId;
+
+      if (elementId in bookCache) {
+        delete bookCache[elementId];
+      }
+    }
   }
 
   async render_tags(tag_list, tag_statistics, is_book=false) {
@@ -676,23 +780,32 @@ class TagsController {
     var current_book = bible_browser_controller.tab_controller.getTab().getBook();
     var global_tags_box_el = document.getElementById('tags-content-global');
 
-    var all_tags_html = tagListTemplate({
-      tags: tag_list,
-      tagStatistics: tag_statistics,
-      current_book: current_book,
-      current_filter: $('#tags-search-input').val(),
-      rename_tag_label: i18n.t("general.rename"),
-      delete_tag_label: i18n.t("tags.delete-tag-permanently"),
-    });
+    if (!this.initialRenderingDone) {
+      // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
+      this.verses_were_selected_before = true;
 
-    this.replaceInnerHTML(global_tags_box_el, all_tags_html);
+      var all_tags_html = tagListTemplate({
+        tags: tag_list,
+        tagStatistics: tag_statistics,
+        current_book: current_book,
+        current_filter: $('#tags-search-input').val(),
+        rename_tag_label: i18n.t("general.rename"),
+        delete_tag_label: i18n.t("tags.delete-tag-permanently"),
+      });
+
+      global_tags_box_el.innerHTML = '';
+      global_tags_box_el.innerHTML = all_tags_html;
+
+      this.init_tag_stats_element_cache();
+      this.initialRenderingDone = true;
+    } else {
+      this.update_stats_elements(tag_statistics);
+    }
 
     tags_controller.refresh_book_tag_statistics(tag_list, tag_statistics, current_book);
     uiHelper.configureButtonStyles('#tags-content');
     tags_controller.update_tag_count_after_rendering(is_book);
 
-    // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
-    this.verses_were_selected_before = true;
     tags_controller.update_tags_view_after_verse_selection(true);
     await tags_controller.updateTagUiBasedOnTagAvailability(tag_list.length);
 

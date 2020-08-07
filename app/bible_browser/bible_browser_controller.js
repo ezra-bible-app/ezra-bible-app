@@ -443,7 +443,8 @@ class BibleBrowserController {
       var currentTagIdList = currentTab.getTagIdList();
       var currentSearchTerm = currentTab.getSearchTerm();
       if ((currentTabBook != undefined && currentTabBook != null) || currentTagIdList != null || currentSearchTerm != null) {
-        await tags_controller.update_tag_list(currentTabBook);
+        await waitUntilIdle();
+        tags_controller.update_tag_list(currentTabBook);
       }
     }
   }
@@ -603,7 +604,8 @@ class BibleBrowserController {
     if (currentTagIdList != "") {
       this.text_loader.prepareForNewText(true, false);
       this.text_loader.requestTextUpdate(currentTabId, null, currentTagIdList, null, null, null);
-      await tags_controller.update_tag_list();
+      await waitUntilIdle();
+      tags_controller.update_tag_list();
     }
   }
 

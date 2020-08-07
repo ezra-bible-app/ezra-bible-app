@@ -57,7 +57,8 @@ each tag in tags
     span(class='cb-label' class=used_in_book_class) #{tag.title}
 
     if currentStats != null
-      span.cb-label-tag-assignment-count (#{tag_counts})
+      - stats_id = 'cb-label-tag-assignment-count-' + tag.id
+      span(class='cb-label-tag-assignment-count' id=stats_id) (#{tag_counts})
 
     span.cb-label-postfix
     span.rename-tag-label [#{rename_tag_label}]
