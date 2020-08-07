@@ -293,10 +293,16 @@ class OptionsMenu {
 
       if (this.toolBarSwitchChecked()) {
         updated = bible_browser_controller.tag_assignment_menu.moveTagAssignmentList(false);
-        if (updated) currentToolBar.show();
+        if (updated || currentToolBar.is(':hidden')) {
+          currentToolBar.show();
+          updated = true;
+        }
       } else {
         updated = bible_browser_controller.tag_assignment_menu.moveTagAssignmentList(true);
-        if (updated) currentToolBar.hide();
+        if (updated || currentToolBar.is(':visible')) {
+          currentToolBar.hide();
+          updated = true;
+        }
       }
 
       if (updated) uiHelper.resizeAppContainer();
