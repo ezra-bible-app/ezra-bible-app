@@ -52,7 +52,7 @@ class RemoveModuleWizard {
 
     var headerText = "";
     if (moduleType == 'BIBLE') {
-      headerText = i18n.t("module-assistant.select-modules-to-be-removed");
+      headerText = i18n.t("module-assistant.select-translations-to-be-removed");
     } else if (moduleType == 'DICT') {
       headerText = i18n.t("module-assistant.select-dictionaries-to-be-removed");
     }
@@ -185,7 +185,7 @@ class RemoveModuleWizard {
               this.onAllTranslationsRemoved();
             }
 
-            this.onTranslationRemoved();
+            this.onTranslationRemoved(moduleCode);
           }
 
           removalPage.append('<span>' + i18n.t("general.done") + '.</span>');

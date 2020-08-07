@@ -64,7 +64,7 @@ class BibleBrowserController {
 
     this.translation_controller.init(() => { this.onBibleTranslationChanged(); });
     this.remove_module_wizard.init(() => { this.onAllTranslationsRemoved(); },
-                                   () => { this.onTranslationRemoved(); });
+                                   (translationId) => { this.onTranslationRemoved(translationId); });
 
     this.tab_search.init('#tab-search',
                           '#tab-search-input',
@@ -248,10 +248,12 @@ class BibleBrowserController {
     $('.book-select-value').text(i18n.t("menu.book"));
   }
 
-  onTranslationRemoved() {
+  onTranslationRemoved(translationId) {
     $("select#bible-select").empty();
     this.translation_controller.initTranslationsMenu();
     tags_controller.updateTagUiBasedOnTagAvailability();
+    var installedTranslations = this.translation_controller.getInstalledModules();
+    this.tab_controller.onTranslationRemoved(translationId, installedTranslations);
   }
 
   getTabHtmlTemplate() {
