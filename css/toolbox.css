@@ -319,6 +319,10 @@ tr.td-underline td {
   font-weight: bold;
 }
 
+.darkmode--activated .cb-label-assigned {
+  color: wheat;
+}
+
 .rename-tag-label, .rename-meta-tag-label {
   display: none;
   margin-left: 0.5em;
