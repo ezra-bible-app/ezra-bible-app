@@ -101,17 +101,25 @@ class TagAssignmentMenu {
       assignTagMenuButton.hide();
     }
 
+    var updated = false;
+
     if (parentId == toolBarId && moveToMenu) {
       var menu = document.getElementById(menuId);
       menu.appendChild(tagsContainer);
       var filter = document.getElementById(filterId);
       var tagsSearchInput = document.getElementById('tags-search-input');
       filter.appendChild(tagsSearchInput);
+      updated = true;
+
     } else if (parentId == menuId && !moveToMenu) {
       tags_controller.handle_tag_accordion_change();
       var toolBar = document.getElementById(toolBarId);
       toolBar.appendChild(tagsContainer);
+      updated = true;
+
     }
+
+    return updated;
   }
 }
 

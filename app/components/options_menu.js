@@ -289,16 +289,17 @@ class OptionsMenu {
     var currentToolBar = $('#bible-browser-toolbox');
 
     setTimeout(() => {
+      var updated = false;
+
       if (this.toolBarSwitchChecked()) {
-      
-        bible_browser_controller.tag_assignment_menu.moveTagAssignmentList(false);
-        currentToolBar.show();
+        updated = bible_browser_controller.tag_assignment_menu.moveTagAssignmentList(false);
+        if (updated) currentToolBar.show();
       } else {
-        currentToolBar.hide();
-        bible_browser_controller.tag_assignment_menu.moveTagAssignmentList(true);
+        updated = bible_browser_controller.tag_assignment_menu.moveTagAssignmentList(true);
+        if (updated) currentToolBar.hide();
       }
 
-      uiHelper.resizeAppContainer();
+      if (updated) uiHelper.resizeAppContainer();
     }, 400);   
   }
 
