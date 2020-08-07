@@ -41,6 +41,8 @@ class VerseListPopup {
     this.getNewTabButton().bind('mousedown', () => {
       this.handleNewTabButtonClick();
     });
+
+    uiHelper.configureButtonStyles('#verse-list-popup');
   }
 
   getNewTabButton() {
@@ -290,6 +292,7 @@ class VerseListPopup {
 
     this.toggleBookFilter(referenceType);
 
+    this.getNewTabButton().removeClass('ui-state-active');
     this.getNewTabButton().hide();
     $('#verse-list-popup-verse-list').hide();
     $('#verse-list-popup-verse-list').empty();
