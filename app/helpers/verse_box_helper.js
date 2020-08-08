@@ -93,6 +93,16 @@ class VerseBoxHelper {
       }
     }
   }
+
+  getLocalizedVerseReference(verseBox) {
+    var currentBookCode = verseBox.find('.verse-bible-book-short').text();
+    var currentBookName = models.BibleBook.getBookLongTitle(currentBookCode);
+    var currentBookLocalizedName = i18nHelper.getSwordTranslation(currentBookName);
+    var verseReferenceContent = verseBox.find('.verse-reference-content').text();
+
+    var localizedReference = currentBookLocalizedName + ' ' + verseReferenceContent;
+    return localizedReference;
+  }
 }
 
 module.exports = VerseBoxHelper;

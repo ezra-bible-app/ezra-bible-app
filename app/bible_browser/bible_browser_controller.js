@@ -544,6 +544,30 @@ class BibleBrowserController {
     }
   }
 
+  renderReferenceVerse(verseBox, tabIndex=undefined) {
+    var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
+    var currentVerseList = this.getCurrentVerseList(tabIndex);
+    var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
+
+    var classList = currentVerseList[0].classList;
+    for (var i = 0; i < classList.length; i++) {
+      var currentClass = classList[i];
+
+      if (currentClass != "verse-list") {
+        referenceVerseContainer.classList.add(currentClass);
+      }
+    }
+
+    var clonedVerseBox = verseBox[0].cloneNode(true);
+    var header = "Reference verse &mdash; " + this.verse_box_helper.getLocalizedVerseReference(verseBox);
+    var referenceVerseHeader = "<div class='reference-header'>" + header + "</div>";
+    referenceVerseContainer.innerHTML += referenceVerseHeader;
+    referenceVerseContainer.appendChild(clonedVerseBox);
+    referenceVerseContainer.innerHTML += "<br/><hr/>";
+    referenceVerseContainer.innerHTML += "<div class='reference-header'>Cross references</div>";
+    $(referenceVerseContainer).show();
+  }
+
   async openXrefVerses(xrefVerseBox, xrefTitle, xrefs) {
     var xrefVerseReferenceId = this.verse_box_helper.getVerseReferenceId(xrefVerseBox);
     var currentTab = this.tab_controller.getTab();
@@ -559,6 +583,7 @@ class BibleBrowserController {
     currentTab.setSearchTerm(null);
     currentTab.setTagIdList("");
 
+    this.renderReferenceVerse(xrefVerseBox);
     await this.getXrefVerses(xrefVerseBox, xrefs);
   }
 

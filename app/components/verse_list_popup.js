@@ -16,8 +16,12 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const VerseBoxHelper = require('../helpers/verse_box_helper.js');
+
 class VerseListPopup {
-  constructor() {}
+  constructor() {
+    this.verseBoxHelper = new VerseBoxHelper();
+  }
 
   initVerseListPopup() {
     $('#verse-list-popup').dialog({
@@ -254,12 +258,8 @@ class VerseListPopup {
     } else if (referenceType == "XREFS") {
 
       var verse_box = $(clickedElement).closest('.verse-box');
-      var currentBookCode = verse_box.find('.verse-bible-book-short').text();
-      var currentBookName = models.BibleBook.getBookLongTitle(currentBookCode);
-      var currentBookLocalizedName = i18nHelper.getSwordTranslation(currentBookName);
-      var verseReferenceContent = verse_box.find('.verse-reference-content').text();
-
-      popupTitle = currentBookLocalizedName + ' ' + verseReferenceContent + ' &mdash; ' + i18n.t("general.module-xrefs");
+      var localizedReference = this.verseBoxHelper.getLocalizedVerseReference(verse_box);
+      popupTitle = localizedReference + ' &mdash; ' + i18n.t("general.module-xrefs");
     }
 
     return popupTitle;

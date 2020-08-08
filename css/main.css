@@ -139,7 +139,7 @@ h2 {
   padding-bottom: 1em;
 }
 
-.verse-list {
+.verse-list, .reference-verse {
   padding: 0.5em;
   font: caption;
   font-size: 1em;
@@ -995,6 +995,10 @@ h2 {
   margin: 0.1em;
 }
 
+.reference-verse {
+  display: none;
+}
+
 .verse-content-edited {
   background-color: white;
   border: 1px solid black;
@@ -1436,7 +1440,7 @@ div.CodeMirror {
   margin-bottom: 1em;
 }
 
-.tag-browser-verselist-book-header {
+.tag-browser-verselist-book-header, .reference-header {
   font-weight: bold;
   padding-top: 1em;
   padding-left: 1em;
