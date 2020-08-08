@@ -223,6 +223,7 @@ class ModuleSearch {
       currentTab.setBook(null, null);
       currentTab.setTagIdList("");
       currentTab.setXrefs(null);
+      currentTab.setVerseReferenceId(null);
       bible_browser_controller.tag_selection_menu.resetTagMenu();
 
       this.hideSearchMenu();

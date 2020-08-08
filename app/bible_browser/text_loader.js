@@ -514,6 +514,10 @@ class TextLoader {
       target.removeClass('verse-list-book');
     }
 
+    if (listType == 'xrefs' || listType == 'tagged_verses') {
+      bible_browser_controller.showReferenceContainer();
+    }
+
     if (append) {
       htmlVerseList = target[0].innerHTML + htmlVerseList;
     }
@@ -526,6 +530,7 @@ class TextLoader {
       referenceVerseContainer.html(referenceVerseHtml);
       var referenceVerseBox = referenceVerseContainer.find('.verse-box');
       bible_browser_controller.renderReferenceVerse(referenceVerseBox, tabIndex);
+      referenceVerseContainer.show();
     }
 
     if (listType == 'search_results') {

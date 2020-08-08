@@ -110,6 +110,7 @@ class BookSelectionMenu {
       currentTab.setTagIdList(null);
       currentTab.setSearchTerm(null);
       currentTab.setXrefs(null);
+      currentTab.setVerseReferenceId(null);
 
       var currentVerseList = bible_browser_controller.getCurrentVerseList();
       bible_browser_controller.tab_search.setVerseList(currentVerseList);

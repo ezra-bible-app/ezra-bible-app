@@ -580,7 +580,6 @@ class BibleBrowserController {
 
     referenceVerseContainer.innerHTML += "<div class='reference-header'>" + textTypeHeader + "</div>";
     this.bindEventsAfterBibleTextLoaded(undefined, false, $(referenceVerseContainer));
-    $(referenceVerseContainer).show();
   }
 
   async openXrefVerses(referenceVerseBox, xrefTitle, xrefs) {
@@ -599,7 +598,17 @@ class BibleBrowserController {
     currentTab.setTagIdList("");
 
     this.renderReferenceVerse(referenceVerseBox);
-    await this.getXrefVerses(referenceVerseBox, xrefs);
+    await this.getXrefVerses(xrefs);
+  }
+
+  showReferenceContainer() {
+    var currentTab = this.tab_controller.getTab();
+
+    if (currentTab.getVerseReferenceId() != null) {
+      var currentVerseListFrame = this.getCurrentVerseListFrame();
+      var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
+      $(referenceVerseContainer).show();
+    }
   }
 
   async openTaggedVerses(tagIdList, tagTitleList, referenceVerseBox=undefined) {
@@ -633,7 +642,7 @@ class BibleBrowserController {
     await this.getTaggedVerses();
   }
 
-  async getXrefVerses(xrefVerseBox, xrefs) {
+  async getXrefVerses(xrefs) {
     var currentTabId = this.tab_controller.getSelectedTabId();
     var currentVerseList = this.getCurrentVerseList();
 
@@ -667,6 +676,12 @@ class BibleBrowserController {
   }
 
   resetVerseListView() {
+    var textType = this.tab_controller.getTab().getTextType();
+    if (textType != 'xrefs' && textType != 'tagged_verses') {
+      var currentReferenceVerse = this.getCurrentVerseListFrame().find('.reference-verse');
+      currentReferenceVerse[0].innerHTML = "";
+    }
+
     var currentVerseList = this.getCurrentVerseList()[0];
     if (currentVerseList != undefined) {
       while(currentVerseList.firstChild) {

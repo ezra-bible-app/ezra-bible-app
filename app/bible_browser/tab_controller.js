@@ -429,6 +429,7 @@ class TabController {
     this.setCurrentBibleTranslationId(null);
     this.getTab().setTagIdList("");
     this.getTab().setXrefs(null);
+    this.getTab().setVerseReferenceId(null);
     this.setCurrentTabBook(null, "");
     this.resetCurrentTabTitle();
     this.deleteTabConfiguration();
