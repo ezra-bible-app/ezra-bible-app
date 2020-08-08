@@ -612,6 +612,11 @@ class BibleBrowserController {
     currentTab.setBook(null, null);
     currentTab.setSearchTerm(null);
     currentTab.setXrefs(null);
+
+    if (referenceVerseBox != null) {
+      var verseReferenceId = this.verse_box_helper.getVerseReferenceId(referenceVerseBox);
+      currentTab.setVerseReferenceId(verseReferenceId);
+    }
     
     this.module_search.resetSearch();
     
