@@ -19,9 +19,12 @@
 class BookSelectionMenu {
   constructor() {
     this.book_menu_is_opened = false;
+    this.init_completed = false;
   }
 
   init() {
+    if (this.init_completed) return;
+
     this.localizeBookSelectionMenu();
 
     var menu = $('#app-container').find('#book-selection-menu');
@@ -38,6 +41,8 @@ class BookSelectionMenu {
 
       current_link.attr('href', new_link_href);
     }
+
+    this.init_completed = true;
   }
 
   // This function is rather slow and it delays app startup! (~175ms)
