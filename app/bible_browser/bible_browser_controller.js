@@ -564,13 +564,21 @@ class BibleBrowserController {
     }
 
     var clonedVerseBox = verseBox[0].cloneNode(true);
-    var header = "Reference verse &mdash; " + this.verse_box_helper.getLocalizedVerseReference(verseBox);
+    var header = i18n.t('bible-browser.reference-verse') + " &mdash; " + this.verse_box_helper.getLocalizedVerseReference(verseBox);
     var referenceVerseHeader = "<div class='reference-header'>" + header + "</div>";
     referenceVerseContainer.innerHTML = referenceVerseHeader;
     referenceVerseContainer.appendChild(clonedVerseBox);
     referenceVerseContainer.innerHTML += "<br/><hr/>";
-    referenceVerseContainer.innerHTML += "<div class='reference-header'>Cross references</div>";
 
+    var textType = this.tab_controller.getTab(tabIndex).getTextType();
+    var textTypeHeader = "";
+    if (textType == 'xrefs') {
+      textTypeHeader = i18n.t('general.module-xrefs');
+    } else {
+      textTypeHeader = i18n.t('tags.tagged-verses');
+    }
+
+    referenceVerseContainer.innerHTML += "<div class='reference-header'>" + textTypeHeader + "</div>";
     this.bindEventsAfterBibleTextLoaded(undefined, false, $(referenceVerseContainer));
     $(referenceVerseContainer).show();
   }

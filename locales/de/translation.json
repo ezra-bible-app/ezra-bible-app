@@ -132,6 +132,7 @@
     "really-remove-tag-assignment": "Möchten Sie den Tag &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; wirklich von den gewählten Versen entfernen?",
     "remove-tag-assignment": "Tag entfernen",
     "verses-tagged-with": "Verse mit dem Tag ",
+    "tagged-verses": "Verse mit Tag",
     "loading-tags": "Lade Tags",
     "export-tagged-verse-list": "Versliste als Word Dokument exportieren",
     "run-export": "Export starten",
@@ -178,7 +179,8 @@
     "strongs-number-not-valid": "Dies ist keine gültige Strong's Nr.!",
     "open-new-tab": "Neuen Tab öffnen",
     "open-verselist-in-new-tab": "Versliste in neuem Tab öffnen",
-    "footnote-character": "n"
+    "footnote-character": "n",
+    "reference-verse": "Referenz Vers"
   },
   "dictionary-info-box": {
     "greek-dict": "Griechisches Wörterbuch",
