@@ -61,6 +61,7 @@ class TextLoader {
                           book,
                           tagIdList,
                           cachedText,
+                          cachedReferenceVerse,
                           searchResults,
                           xrefs,
                           tabIndex=undefined,
@@ -82,13 +83,13 @@ class TextLoader {
       currentVerseListMenu.find('.book-select-button').addClass('focused-button');
 
       if (cachedText != null) {
-        this.renderVerseList(cachedText, 'book', tabIndex, true);
+        this.renderVerseList(cachedText, cachedReferenceVerse, 'book', tabIndex, true);
       } else {
 
         // 1) Only request the first 50 verses and render immediately
         await this.requestBookText(tabIndex, tabId, book,
           (htmlVerseList) => { 
-            this.renderVerseList(htmlVerseList, 'book', tabIndex, false);
+            this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false);
           }, 1, 50
         );
 
@@ -98,7 +99,7 @@ class TextLoader {
         await this.requestBookText(
           tabIndex, tabId, book,
           (htmlVerseList) => { 
-            this.renderVerseList(htmlVerseList, 'book', tabIndex, false, undefined, true);
+            this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, undefined, true);
           }, 51, -1
         );
       }
@@ -108,14 +109,14 @@ class TextLoader {
       currentVerseListMenu.find('.tag-select-button').addClass('focused-button');
 
       if (cachedText != null) {
-        this.renderVerseList(cachedText, 'tagged_verses', tabIndex);
+        this.renderVerseList(cachedText, cachedReferenceVerse, 'tagged_verses', tabIndex);
       } else {
         await this.requestVersesForSelectedTags(
           tabIndex,
           tabId,
           tagIdList,
           (htmlVerseList) => {
-            this.renderVerseList(htmlVerseList, 'tagged_verses', tabIndex);
+            this.renderVerseList(htmlVerseList, null, 'tagged_verses', tabIndex);
           }
         );
       }
@@ -125,14 +126,14 @@ class TextLoader {
       currentVerseListMenu.find('.module-search-button').addClass('focused-button');
       
       if (cachedText != null) {
-        this.renderVerseList(cachedText, 'search_results', tabIndex);
+        this.renderVerseList(cachedText, null, 'search_results', tabIndex);
       } else {
         await this.requestVersesForSearchResults(
           tabIndex,
           tabId,
           searchResults,
           (htmlVerseList) => {
-            this.renderVerseList(htmlVerseList, 'search_results', tabIndex, /* isCache */ false, target);
+            this.renderVerseList(htmlVerseList, null, 'search_results', tabIndex, /* isCache */ false, target);
           },
           requestedBookId
         );
@@ -140,14 +141,14 @@ class TextLoader {
     } else if (textType == 'xrefs') {
       
       if (cachedText != null) {
-        this.renderVerseList(cachedText, 'xrefs', tabIndex);
+        this.renderVerseList(cachedText, cachedReferenceVerse, 'xrefs', tabIndex);
       } else {
         await this.requestVersesForXrefs(
           tabIndex,
           tabId,
           xrefs,
           (htmlVerseList) => {
-            this.renderVerseList(htmlVerseList, 'xrefs', tabIndex, /* isCache */ false, target);
+            this.renderVerseList(htmlVerseList, null, 'xrefs', tabIndex, /* isCache */ false, target);
           }
         );
       }
@@ -475,7 +476,7 @@ class TextLoader {
     render_function(verses_as_html, verses.length);
   }
 
-  renderVerseList(htmlVerseList, listType, tabIndex=undefined, isCache=false, target=undefined, append=false) {
+  renderVerseList(htmlVerseList, referenceVerseHtml, listType, tabIndex=undefined, isCache=false, target=undefined, append=false) {
     bible_browser_controller.hideVerseListLoadingIndicator();
     bible_browser_controller.hideSearchProgressBar();
     var initialRendering = true;
@@ -518,6 +519,14 @@ class TextLoader {
     }
 
     target.html(htmlVerseList);
+
+    if (referenceVerseHtml != null) {
+      var verseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
+      var referenceVerseContainer = verseListFrame.find('.reference-verse');
+      referenceVerseContainer.html(referenceVerseHtml);
+      var referenceVerseBox = referenceVerseContainer.find('.verse-box');
+      bible_browser_controller.renderReferenceVerse(referenceVerseBox, tabIndex);
+    }
 
     if (listType == 'search_results') {
       var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);

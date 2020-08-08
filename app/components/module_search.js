@@ -288,6 +288,7 @@ class ModuleSearch {
                                                                    null,
                                                                    null,
                                                                    cachedText,
+                                                                   null,
                                                                    currentSearchResults,
                                                                    null,
                                                                    tabIndex,

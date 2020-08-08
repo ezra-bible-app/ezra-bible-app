@@ -71,6 +71,13 @@ class TabController {
     return html;
   }
 
+  getReferenceVerseHtml(tabIndex) {
+    var tabId = this.getSelectedTabId(tabIndex);
+    var tabElement = document.getElementById(tabId);
+    var html = tabElement.querySelector('.reference-verse').innerHTML;
+    return html;
+  }
+
   saveTabConfiguration() {
     if (this.persistanceEnabled) {
       //console.log('Saving tab configuration');
@@ -79,6 +86,11 @@ class TabController {
       for (var i = 0; i < this.metaTabs.length; i++) {
         var copiedMetaTab = Object.assign({}, this.metaTabs[i]);
         copiedMetaTab.cachedText = this.getTabHtml(i);
+
+        if (copiedMetaTab.verseReferenceId != null) {
+          copiedMetaTab.cachedReferenceVerse = this.getReferenceVerseHtml(i);
+        }
+
         savedMetaTabs.push(copiedMetaTab);
       }
 
@@ -210,6 +222,7 @@ class TabController {
           currentMetaTab.book,
           currentMetaTab.tagIdList,
           currentMetaTab.cachedText,
+          currentMetaTab.cachedReferenceVerse,
           null,
           currentMetaTab.xrefs,
           i

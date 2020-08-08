@@ -233,6 +233,7 @@ class BibleBrowserController {
                                            currentTab.getTagIdList(),
                                            null,
                                            null,
+                                           null,
                                            currentTab.getXrefs());
       }
     }
@@ -547,6 +548,8 @@ class BibleBrowserController {
   }
 
   renderReferenceVerse(verseBox, tabIndex=undefined) {
+    if (verseBox == null || verseBox.length != 1) return;
+
     var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
     var currentVerseList = this.getCurrentVerseList(tabIndex);
     var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
@@ -563,7 +566,7 @@ class BibleBrowserController {
     var clonedVerseBox = verseBox[0].cloneNode(true);
     var header = "Reference verse &mdash; " + this.verse_box_helper.getLocalizedVerseReference(verseBox);
     var referenceVerseHeader = "<div class='reference-header'>" + header + "</div>";
-    referenceVerseContainer.innerHTML += referenceVerseHeader;
+    referenceVerseContainer.innerHTML = referenceVerseHeader;
     referenceVerseContainer.appendChild(clonedVerseBox);
     referenceVerseContainer.innerHTML += "<br/><hr/>";
     referenceVerseContainer.innerHTML += "<div class='reference-header'>Cross references</div>";
@@ -578,7 +581,7 @@ class BibleBrowserController {
 
     currentTab.setTextType('xrefs');
     currentTab.setXrefs(xrefs);
-    currentTab.setXrefVerseReferenceId(xrefVerseReferenceId);
+    currentTab.setVerseReferenceId(xrefVerseReferenceId);
 
     bible_browser_controller.tab_controller.setCurrentTabXrefTitle(xrefTitle);
 
@@ -625,7 +628,7 @@ class BibleBrowserController {
 
     if (xrefs.length > 0) {
       this.text_loader.prepareForNewText(true, false);
-      this.text_loader.requestTextUpdate(currentTabId, null, null, null, null, xrefs);
+      this.text_loader.requestTextUpdate(currentTabId, null, null, null, null, null, xrefs);
     }
   }
 
@@ -638,7 +641,13 @@ class BibleBrowserController {
 
     if (currentTagIdList != "") {
       this.text_loader.prepareForNewText(true, false);
-      this.text_loader.requestTextUpdate(currentTabId, null, currentTagIdList, null, null, null);
+      this.text_loader.requestTextUpdate(currentTabId,
+                                         null,
+                                         currentTagIdList,
+                                         null,
+                                         null,
+                                         null,
+                                         null);
       await waitUntilIdle();
       tags_controller.update_tag_list();
     }
