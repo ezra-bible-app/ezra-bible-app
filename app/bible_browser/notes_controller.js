@@ -43,12 +43,12 @@ class NotesController {
 
   initForTab(tabIndex=undefined) {
     this.reset();
-    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
-    if (currentVerseList == null || currentVerseList.length == 0) {
+    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
+    if (currentVerseListFrame == null || currentVerseListFrame.length == 0) {
       return;
     }
 
-    var notes = currentVerseList[0].querySelectorAll('.verse-notes');
+    var notes = currentVerseListFrame[0].querySelectorAll('.verse-notes');
     for (var i = 0; i < notes.length; i++) {
       notes[i].addEventListener('mousedown', (event) => {
         this.handleNotesClick(event);
@@ -57,8 +57,8 @@ class NotesController {
   }
 
   getCurrentVerseBox() {
-    var currentVerseList = bible_browser_controller.getCurrentVerseList();
-    return currentVerseList.find('.verse-reference-id-' + this.currentVerseReferenceId);
+    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame();
+    return currentVerseListFrame.find('.verse-reference-id-' + this.currentVerseReferenceId);
   }
 
   refreshNotesInfo(noteValue) {

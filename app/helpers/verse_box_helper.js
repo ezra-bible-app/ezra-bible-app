@@ -75,8 +75,8 @@ class VerseBoxHelper {
           current_target_verse_nr = absoluteVerseNrs.absoluteVerseNrEng;
         }
 
-        var target_verse_list = bible_browser_controller.getCurrentVerseList(i);
-        var target_verse_box = target_verse_list.find('.verse-nr-' + current_target_verse_nr);
+        var target_verse_list_frame = bible_browser_controller.getCurrentVerseListFrame(i);
+        var target_verse_box = target_verse_list_frame.find('.verse-nr-' + current_target_verse_nr);
 
         // There are potentially multiple verse boxes returned (could be the case for a tagged verse list or a search results list)
         // Therefore we have to go through all of them and check for each of them whether the book is matching our reference book

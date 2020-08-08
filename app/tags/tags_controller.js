@@ -480,17 +480,17 @@ class TagsController {
 
     verse_selection = $(verse_selection);
     var selected_verses = verse_selection.find('verse');
-    var current_verse_list = bible_browser_controller.getCurrentVerseList();
+    var current_verse_list_frame = bible_browser_controller.getCurrentVerseListFrame();
 
     for (var i = 0; i < selected_verses.length; i++) {
       var current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
-      var current_verse_box = current_verse_list.find('.verse-reference-id-' + current_verse_reference_id);
+      var current_verse_box = current_verse_list_frame.find('.verse-reference-id-' + current_verse_reference_id);
       tags_controller.change_verse_list_tag_info_for_verse_box(current_verse_box, tag_id, tag_title, action);
     }
 
     for (var i = 0; i < selected_verses.length; i++) {
       var current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
-      var current_verse_box = current_verse_list.find('.verse-reference-id-' + current_verse_reference_id);
+      var current_verse_box = current_verse_list_frame.find('.verse-reference-id-' + current_verse_reference_id);
       await this.verse_box_helper.iterateAndChangeAllDuplicateVerseBoxes(current_verse_box, { tag_id: tag_id, tag_title: tag_title, action: action }, (context, targetVerseBox) => {
         this.change_verse_list_tag_info_for_verse_box(targetVerseBox, context.tag_id, context.tag_title, context.action);
       });

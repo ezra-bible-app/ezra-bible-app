@@ -22,14 +22,12 @@ class VerseSelection {
     this.selected_verse_boxes = null;
   }
 
-  init(tabIndex) {
-    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
-    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
-    if (currentVerseList.hasClass('ui-selectable')) {
-      currentVerseList.selectable('destroy');
+  initSelectable(verseList) {
+    if (verseList.hasClass('ui-selectable')) {
+      verseList.selectable('destroy');
     }
 
-    currentVerseList.selectable({
+    verseList.selectable({
       filter: '.verse-text',
       cancel: '.sword-xref-marker, .verse-notes, #currently-edited-notes, .section-header-box, .verse-content-edited, .tag-box, .tag, .load-book-results',
 
@@ -46,7 +44,7 @@ class VerseSelection {
       },
 
       stop: (event, ui) => {
-        this.updateSelected();
+        this.updateSelected(verseList);
         this.updateViewsAfterVerseSelection();
       },
 
@@ -54,6 +52,11 @@ class VerseSelection {
         // Not needed anymore!
       }
     });
+  }
+
+  init(tabIndex) {
+    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
+    this.initSelectable(currentVerseListFrame);
 
     // This event handler ensures that the selection is cancelled
     // if the user clicks somewhere else in the verse list
@@ -68,10 +71,12 @@ class VerseSelection {
     });
   }
 
-  updateSelected() {
-    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+  updateSelected(verseList=undefined) {
+    if (verseList == undefined) {
+      var verseList = bible_browser_controller.getCurrentVerseList();
+    }
 
-    this.selected_verse_boxes = currentVerseList.find('.ui-selected').closest('.verse-box');
+    this.selected_verse_boxes = verseList.find('.ui-selected').closest('.verse-box');
     var selectedVerseReferences = [];
 
     for (var i = 0; i < this.selected_verse_boxes.length; i++) {

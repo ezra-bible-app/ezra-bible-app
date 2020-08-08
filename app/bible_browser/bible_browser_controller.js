@@ -470,12 +470,14 @@ class BibleBrowserController {
     this.optionsMenu.hideDisplayMenu();
   }
 
-  bindEventsAfterBibleTextLoaded = async function(tabIndex=undefined, preventDoubleBinding=false) {
-    var currentVerseList = this.getCurrentVerseList(tabIndex);
+  bindEventsAfterBibleTextLoaded = async function(tabIndex=undefined, preventDoubleBinding=false, verseList=undefined) {
+    if (verseList == undefined) {
+      verseList = this.getCurrentVerseList(tabIndex);
+    }
 
-    var tagBoxes = currentVerseList.find('.tag-box');
-    var tags = currentVerseList.find('.tag');
-    var xref_markers = currentVerseList.find('.sword-xref-marker');
+    var tagBoxes = verseList.find('.tag-box');
+    var tags = verseList.find('.tag');
+    var xref_markers = verseList.find('.sword-xref-marker');
 
     if (preventDoubleBinding) {
       tagBoxes = tagBoxes.filter(":not('.tag-events-configured')");
@@ -493,7 +495,7 @@ class BibleBrowserController {
       this.verse_list_popup.openVerseListPopup(event, "XREFS");
     }).addClass('events-configured');
 
-    currentVerseList.find('.verse-box').bind('mouseover', (e) => { this.onVerseBoxMouseOver(e); });
+    verseList.find('.verse-box').bind('mouseover', (e) => { this.onVerseBoxMouseOver(e); });
     this.dictionary_controller.bindAfterBibleTextLoaded(tabIndex);
     this.verse_context_loader.init_verse_expand_box(tabIndex);
   }
@@ -565,6 +567,8 @@ class BibleBrowserController {
     referenceVerseContainer.appendChild(clonedVerseBox);
     referenceVerseContainer.innerHTML += "<br/><hr/>";
     referenceVerseContainer.innerHTML += "<div class='reference-header'>Cross references</div>";
+
+    this.bindEventsAfterBibleTextLoaded(undefined, false, $(referenceVerseContainer));
     $(referenceVerseContainer).show();
   }
 
