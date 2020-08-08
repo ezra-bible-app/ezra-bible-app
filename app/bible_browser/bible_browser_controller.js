@@ -572,8 +572,8 @@ class BibleBrowserController {
     $(referenceVerseContainer).show();
   }
 
-  async openXrefVerses(xrefVerseBox, xrefTitle, xrefs) {
-    var xrefVerseReferenceId = this.verse_box_helper.getVerseReferenceId(xrefVerseBox);
+  async openXrefVerses(referenceVerseBox, xrefTitle, xrefs) {
+    var xrefVerseReferenceId = this.verse_box_helper.getVerseReferenceId(referenceVerseBox);
     var currentTab = this.tab_controller.getTab();
 
     currentTab.setTextType('xrefs');
@@ -587,11 +587,11 @@ class BibleBrowserController {
     currentTab.setSearchTerm(null);
     currentTab.setTagIdList("");
 
-    this.renderReferenceVerse(xrefVerseBox);
-    await this.getXrefVerses(xrefVerseBox, xrefs);
+    this.renderReferenceVerse(referenceVerseBox);
+    await this.getXrefVerses(referenceVerseBox, xrefs);
   }
 
-  async openTaggedVerses(tagIdList, tagTitleList) {
+  async openTaggedVerses(tagIdList, tagTitleList, referenceVerseBox=undefined) {
     var currentTab = this.tab_controller.getTab();
     currentTab.setTextType('tagged_verses');
     currentTab.setTagIdList(tagIdList);
@@ -608,6 +608,10 @@ class BibleBrowserController {
       setTimeout(() => {
         this.tag_selection_menu.hideTagMenu();
       }, 700);
+    }
+
+    if (referenceVerseBox != undefined) {
+      this.renderReferenceVerse(referenceVerseBox);
     }
 
     await this.getTaggedVerses();

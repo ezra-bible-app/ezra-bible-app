@@ -133,11 +133,11 @@ class VerseListPopup {
     // 3) Load the verse list in the new tab
     if (this.currentReferenceType == 'TAGGED_VERSES') {
 
-      bible_browser_controller.openTaggedVerses(this.currentTagId, this.currentTagTitle);
+      bible_browser_controller.openTaggedVerses(this.currentTagId, this.currentTagTitle, this.currentReferenceVerseBox);
 
     } else if (this.currentReferenceType == 'XREFS') {
 
-      bible_browser_controller.openXrefVerses(this.currentXrefVerseBox, this.currentPopupTitle, this.currentXrefs);
+      bible_browser_controller.openXrefVerses(this.currentReferenceVerseBox, this.currentPopupTitle, this.currentXrefs);
     }
 
     // 4) Run the onTabSelected actions at the end, because we added a tab
@@ -171,8 +171,8 @@ class VerseListPopup {
 
   loadTaggedVerses(clickedElement, currentTabId, currentTabIndex) {
     var selected_tag = this.getSelectedTagFromClickedElement(clickedElement);
-    var verse_box = $(clickedElement).closest('.verse-box');
-    this.currentTagId = this.getTagIdFromVerseBox(verse_box, selected_tag);
+    this.currentReferenceVerseBox = $(clickedElement).closest('.verse-box');
+    this.currentTagId = this.getTagIdFromVerseBox(this.currentReferenceVerseBox, selected_tag);
     this.currentTagTitle = this.getSelectedTagFromClickedElement(clickedElement);
 
     if (this.getCurrentTextType() == 'book') {
@@ -195,7 +195,7 @@ class VerseListPopup {
   loadXrefs(clickedElement, currentTabId, currentTabIndex) {
     var swordNote = $(clickedElement).closest('.sword-note');
 
-    this.currentXrefVerseBox = $(clickedElement).closest('.verse-box');
+    this.currentReferenceVerseBox = $(clickedElement).closest('.verse-box');
     this.currentXrefs = [];
 
     swordNote.find('reference').each((index, element) => {
