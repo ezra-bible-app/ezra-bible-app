@@ -391,6 +391,12 @@ class BibleBrowserController {
     return currentVerseListFrame;
   }
 
+  getCurrentReferenceVerse(tabIndex=undefined) {
+    var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
+    var referenceVerse = currentVerseListFrame.find('.reference-verse');
+    return referenceVerse;
+  }
+
   getCurrentVerseList(tabIndex=undefined) {
     var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
     var verseList = currentVerseListFrame.find('.verse-list');

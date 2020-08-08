@@ -367,26 +367,32 @@ class OptionsMenu {
   }
 
   showOrHideXrefsBasedOnOption(tabIndex=undefined) {
+    var currentReferenceVerse = bible_browser_controller.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
     if (this.xrefsSwitchChecked()) {
+      currentReferenceVerse.removeClass('verse-list-without-xrefs');
       currentVerseList.removeClass('verse-list-without-xrefs');
       tagBoxVerseList.removeClass('verse-list-without-xrefs');
     } else {
+      currentReferenceVerse.addClass('verse-list-without-xrefs');
       currentVerseList.addClass('verse-list-without-xrefs');
       tagBoxVerseList.addClass('verse-list-without-xrefs');
     }
   }
 
   showOrHideFootnotesBasedOnOption(tabIndex=undefined) {
+    var currentReferenceVerse = bible_browser_controller.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
     if (this.footnotesSwitchChecked()) {
+      currentReferenceVerse.removeClass('verse-list-without-footnotes');
       currentVerseList.removeClass('verse-list-without-footnotes');
       tagBoxVerseList.removeClass('verse-list-without-footnotes');
     } else {
+      currentReferenceVerse.addClass('verse-list-without-footnotes');
       currentVerseList.addClass('verse-list-without-footnotes');
       tagBoxVerseList.addClass('verse-list-without-footnotes');
     }
@@ -412,31 +418,41 @@ class OptionsMenu {
   }
 
   showOrHideVerseTagsBasedOnOption(tabIndex=undefined) {
+    var currentReferenceVerse = bible_browser_controller.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
 
     if (this.tagsSwitchChecked()) {
+      currentReferenceVerse.removeClass('verse-list-without-tags');
       currentVerseList.removeClass('verse-list-without-tags');
     } else {
+      currentReferenceVerse.addClass('verse-list-without-tags');
       currentVerseList.addClass('verse-list-without-tags');
     }
   }
 
   showOrHideVerseNotesBasedOnOption(tabIndex=undefined) {
+    var currentReferenceVerse = bible_browser_controller.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+
     if (this.verseNotesSwitchChecked()) {
+      currentReferenceVerse.addClass('verse-list-with-notes');
       currentVerseList.addClass('verse-list-with-notes');
     } else {
       bible_browser_controller.notes_controller.restoreCurrentlyEditedNotes();
+      currentReferenceVerse.removeClass('verse-list-with-notes');
       currentVerseList.removeClass('verse-list-with-notes');
     }
   }
 
   changeTagsLayoutBasedOnOption(tabIndex=undefined) {
+    var currentReferenceVerse = bible_browser_controller.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
 
     if (this.tagsColumnSwitchChecked()) {
+      currentReferenceVerse.addClass('verse-list-tags-column');
       currentVerseList.addClass('verse-list-tags-column');
     } else {
+      currentReferenceVerse.removeClass('verse-list-tags-column');
       currentVerseList.removeClass('verse-list-tags-column');
     }
   }
