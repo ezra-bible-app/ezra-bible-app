@@ -171,7 +171,7 @@ class BibleBrowserController {
     await this.tag_selection_menu.updateTagSelectionMenu(ui.index);
 
     // Update available books for current translation
-    this.translation_controller.updateAvailableBooks(ui.index);
+    this.book_selection_menu.updateAvailableBooks(ui.index);
 
     // Refresh translations menu
     this.translation_controller.initTranslationsMenu(-1, ui.index);
@@ -658,7 +658,7 @@ class BibleBrowserController {
         currentBibleTranslationId == null) { // Update UI after a Bible translation becomes available
 
       this.tab_controller.setCurrentBibleTranslationId(translationCode);
-      this.translation_controller.updateAvailableBooks();
+      this.book_selection_menu.updateAvailableBooks();
       this.translation_controller.enableCurrentTranslationInfoButton();
     }
   }

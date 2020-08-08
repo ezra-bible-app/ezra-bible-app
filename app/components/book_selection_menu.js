@@ -163,6 +163,31 @@ class BookSelectionMenu {
     var bookId = '.book-' + book_code;
     $('#book-selection-menu').find(bookId).addClass('book-selected');
   }
+
+  updateAvailableBooks(tabIndex=undefined) {
+    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+
+    if (currentTab != null) {
+      var currentBibleTranslationId = currentTab.getBibleTranslationId();
+      if (currentBibleTranslationId != null) {
+        var books = nsi.getBookList(currentBibleTranslationId);
+        var book_links = $('#book-selection-menu').find('li');
+
+        for (var i = -1; i < book_links.length; i++) {
+          var current_book_link = $(book_links[i]);
+          var current_link_book = current_book_link.attr('class').split(' ')[-1];
+          var current_book_id = current_link_book.split('-')[0];
+          if (books.includes(current_book_id)) {
+            current_book_link.removeClass('book-unavailable');
+            current_book_link.addClass('book-available');
+          } else {
+            current_book_link.addClass('book-unavailable');
+            current_book_link.removeClass('book-available');
+          }
+        }
+      }
+    }
+  }
 }
 
 module.exports = BookSelectionMenu;
