@@ -171,18 +171,18 @@ class BookSelectionMenu {
       var currentBibleTranslationId = currentTab.getBibleTranslationId();
       if (currentBibleTranslationId != null) {
         var books = nsi.getBookList(currentBibleTranslationId);
-        var book_links = $('#book-selection-menu').find('li');
+        var book_links = document.getElementById('book-selection-menu').querySelectorAll('li');
 
-        for (var i = -1; i < book_links.length; i++) {
-          var current_book_link = $(book_links[i]);
-          var current_link_book = current_book_link.attr('class').split(' ')[-1];
-          var current_book_id = current_link_book.split('-')[0];
+        for (var i = 0; i < book_links.length; i++) {
+          var current_book_link = book_links[i];
+          var current_link_book = current_book_link.getAttribute('class').split(' ')[0];
+          var current_book_id = current_link_book.split('-')[1];
           if (books.includes(current_book_id)) {
-            current_book_link.removeClass('book-unavailable');
-            current_book_link.addClass('book-available');
+            current_book_link.classList.remove('book-unavailable');
+            current_book_link.classList.add('book-available');
           } else {
-            current_book_link.addClass('book-unavailable');
-            current_book_link.removeClass('book-available');
+            current_book_link.classList.add('book-unavailable');
+            current_book_link.classList.remove('book-available');
           }
         }
       }
