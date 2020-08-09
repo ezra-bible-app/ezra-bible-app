@@ -178,9 +178,7 @@ class BibleBrowserController {
 
     // Highlight currently selected book (only in book mode)
     var textType = this.tab_controller.getTab(ui.index)?.getTextType();
-    if (textType == 'book') {
-      this.book_selection_menu.highlightCurrentlySelectedBookInMenu(ui.index);
-    }
+    if (textType == 'book') this.book_selection_menu.highlightCurrentlySelectedBookInMenu(ui.index);
 
     // Toggle book statistics
     this.tag_statistics.toggle_book_tags_statistics_button(ui.index);
@@ -192,6 +190,7 @@ class BibleBrowserController {
     this.dictionary_controller.hideStrongsBox();
     this.verse_context_loader.hide_verse_expand_box();
 
+    uiHelper.resizeVerseList(ui.index);
     uiHelper.configureButtonStyles('.verse-list-menu');
   }
 
