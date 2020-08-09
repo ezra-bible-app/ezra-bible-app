@@ -23,6 +23,7 @@ class Tab {
     this.bookTitle = null;
     this.tagIdList = "";
     this.tagTitleList = "";
+    this.taggedVersesTitle = null;
     this.searchTerm = null;
     this.searchResults = null;
     this.searchOptions = {};
@@ -52,7 +53,7 @@ class Tab {
     if (this.textType == 'book') {
       tabTitle = this.bookTitle;
     } else if (this.textType == 'tagged_verses') {
-      tabTitle = this.tagTitleList;
+      tabTitle = this.getTaggedVersesTitle();
     } else if (this.textType == 'search_results') {
       tabTitle = this.getSearchTabTitle(this.searchTerm);
     } else if (this.textType == 'xrefs') {
@@ -60,6 +61,10 @@ class Tab {
     }
 
     return tabTitle;
+  }
+
+  getTaggedVersesTitle() {
+    return this.taggedVersesTitle;
   }
 
   getSearchTabTitle(searchTerm) {
@@ -89,6 +94,10 @@ class Tab {
 
   getTagTitleList(index=undefined) {
     return this.tagTitleList;
+  }
+
+  setTaggedVersesTitle(taggedVersesTitle) {
+    this.taggedVersesTitle = taggedVersesTitle;
   }
 
   setSearchTerm(searchTerm) {

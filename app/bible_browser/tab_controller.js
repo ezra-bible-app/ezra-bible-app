@@ -493,7 +493,7 @@ class TabController {
     }
   }
 
-  setCurrentTagTitleList(tagTitleList, index=undefined) {
+  setCurrentTagTitleList(tagTitleList, verseReference, index=undefined) {
     this.getTab(index).setTagTitleList(tagTitleList);
     var currentTranslationId = this.getTab(index).getBibleTranslationId();
 
@@ -501,7 +501,12 @@ class TabController {
       if (tagTitleList == "") {
         this.resetCurrentTabTitle();
       } else {
-        this.setTabTitle(tagTitleList, currentTranslationId);
+        var tagTitle = "";
+        if (verseReference != null) tagTitle += verseReference + " &ndash; ";
+        tagTitle += i18n.t('tags.verses-tagged-with') + " " + "<i>" + tagTitleList + "</i>";
+
+        this.setTabTitle(tagTitle, currentTranslationId);
+        this.getTab(index).setTaggedVersesTitle(tagTitle);
       }
     }
   }

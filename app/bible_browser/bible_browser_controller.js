@@ -623,17 +623,20 @@ class BibleBrowserController {
     var currentTab = this.tab_controller.getTab();
     currentTab.setTextType('tagged_verses');
     currentTab.setTagIdList(tagIdList);
-    bible_browser_controller.tab_controller.setCurrentTagTitleList(tagTitleList);
+    var localizedVerseReference = null;
+
+    if (referenceVerseBox != null) {
+      localizedVerseReference = this.verse_box_helper.getLocalizedVerseReference(referenceVerseBox);
+      var verseReferenceId = this.verse_box_helper.getVerseReferenceId(referenceVerseBox);
+      currentTab.setVerseReferenceId(verseReferenceId);
+    }
+
+    bible_browser_controller.tab_controller.setCurrentTagTitleList(tagTitleList, localizedVerseReference);
 
     // Set book, search term and xrefs to null, since we just switched to a tag
     currentTab.setBook(null, null);
     currentTab.setSearchTerm(null);
     currentTab.setXrefs(null);
-
-    if (referenceVerseBox != null) {
-      var verseReferenceId = this.verse_box_helper.getVerseReferenceId(referenceVerseBox);
-      currentTab.setVerseReferenceId(verseReferenceId);
-    }
     
     this.module_search.resetSearch();
     
