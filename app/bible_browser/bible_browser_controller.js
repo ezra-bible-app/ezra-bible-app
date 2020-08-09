@@ -570,18 +570,20 @@ class BibleBrowserController {
     }
 
     var clonedVerseBox = verseBox[0].cloneNode(true);
-    var header = i18n.t('bible-browser.reference-verse') + " &mdash; " + this.verse_box_helper.getLocalizedVerseReference(verseBox);
+    var header = this.verse_box_helper.getLocalizedVerseReference(verseBox);
     var referenceVerseHeader = "<div class='reference-header'>" + header + "</div>";
     referenceVerseContainer.innerHTML = referenceVerseHeader;
     referenceVerseContainer.appendChild(clonedVerseBox);
     referenceVerseContainer.innerHTML += "<br/><hr/>";
 
-    var textType = this.tab_controller.getTab(tabIndex).getTextType();
+    var currentTab = this.tab_controller.getTab(tabIndex);
+    var textType = currentTab.getTextType();
     var textTypeHeader = "";
+
     if (textType == 'xrefs') {
       textTypeHeader = i18n.t('general.module-xrefs');
-    } else {
-      textTypeHeader = i18n.t('tags.tagged-verses');
+    } else if (textType == 'tagged_verses') {
+      textTypeHeader = i18n.t('tags.verses-tagged-with') + "<i>" + currentTab.getTagTitleList() + "</i>";
     }
 
     referenceVerseContainer.innerHTML += "<div class='reference-header'>" + textTypeHeader + "</div>";

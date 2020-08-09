@@ -131,7 +131,6 @@
     "really-remove-tag-assignment": "Do you really want to remove the tag &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; from the selected verses?",
     "remove-tag-assignment": "Remove tag assignment",
     "verses-tagged-with": "Verses tagged with ",
-    "tagged-verses": "Tagged verses",
     "loading-tags": "Loading tags",
     "export-tagged-verse-list": "Export tagged verse list to Word document",
     "run-export": "Run export",
@@ -178,8 +177,7 @@
     "strongs-number-not-valid": "This is not a valid Strong's number!",
     "open-new-tab": "Open new tab",
     "open-verselist-in-new-tab": "Open verse list in new tab",
-    "footnote-character": "n",
-    "reference-verse": "Reference verse"
+    "footnote-character": "n"
   },
   "dictionary-info-box": {
     "greek-dict": "Greek Dictionary",

@@ -131,7 +131,6 @@
     "really-remove-tag-assignment": "Wilt u de tag &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; echt verwijderen van de geselecteerde verzen?",
     "remove-tag-assignment": "Verwijder tag-toewijzing",
     "verses-tagged-with": "Verzen getagd met ",
-    "tagged-verses": "Tagged verses",
     "loading-tags": "Tags laden",
     "export-tagged-verse-list": "Exporteer getagde verslijst naar Word-document",
     "run-export": "Export draaien",
@@ -178,8 +177,7 @@
     "strongs-number-not-valid": "Dit is geen geldig Strongs nummer!",
     "open-new-tab": "Openen in nieuw tabblad",
     "open-verselist-in-new-tab": "Open verslijst in nieuw tabblad",
-    "footnote-character": "n",
-    "reference-verse": "Reference verse"
+    "footnote-character": "n"
   },
   "dictionary-info-box": {
     "greek-dict": "Grieks woordenboek",

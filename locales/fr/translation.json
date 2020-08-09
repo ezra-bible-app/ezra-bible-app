@@ -131,7 +131,6 @@
     "really-remove-tag-assignment": "Voulez-vous vraiment supprimer l'étiquette &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot;  des versets sélectionnés ?",
     "remove-tag-assignment": "Supprimer l'attribution de l''étiquette",
     "verses-tagged-with": "Versets étiquetés avec ",
-    "tagged-verses": "Tagged verses",
     "loading-tags": "Chargement de étiquettes",
     "export-tagged-verse-list": "Exporter la liste des versets vers un document de traitement de texte",
     "run-export": "Exporter",
@@ -178,8 +177,7 @@
     "strongs-number-not-valid": "Ceci n'est pas un nombre de Strong valide !",
     "open-new-tab": "Ouvrir un nouvel onglet",
     "open-verselist-in-new-tab": "Ouvrir la liste des versets dans un nouvel onglet",
-    "footnote-character": "n",
-    "reference-verse": "Reference verse"
+    "footnote-character": "n"
   },
   "dictionary-info-box": {
     "greek-dict": "Dictionnaire grec",
