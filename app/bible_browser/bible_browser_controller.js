@@ -541,7 +541,7 @@ class BibleBrowserController {
       var mouseOverChapter = this.getChapterFromReference(verseReferenceContent);
       this.navigation_pane.highlightNavElement(mouseOverChapter);
 
-    } else if (currentTextType == 'tagged_verses' && currentTagIdList != null || currentTextType == 'search_results') {
+    } else if (currentTextType == 'tagged_verses' && currentTagIdList != null || currentTextType == 'xrefs' || currentTextType == 'search_results') {
 
       var bibleBookShortTitle = verseBox.find('.verse-bible-book-short').text();
       var currentBookName = models.BibleBook.getBookTitleTranslation(bibleBookShortTitle);

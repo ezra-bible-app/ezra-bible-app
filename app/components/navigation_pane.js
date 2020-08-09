@@ -186,11 +186,14 @@ class NavigationPane {
   goToChapter(chapter) {
     this.highlightNavElement(chapter);
 
-    var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
     var reference = '#top';
 
     if (chapter > 1 || bible_browser_controller.optionsMenu.bookIntroductionSwitchChecked()) {
-      reference = '#' + currentTabId + ' ' + chapter;
+      var currentVerseList = bible_browser_controller.getCurrentVerseList();
+      var firstLink = currentVerseList[0].querySelector('a');
+      var cachedVerseListTabId = firstLink.getAttribute('name').split(' ')[0];
+
+      reference = '#' + cachedVerseListTabId + ' ' + chapter;
       window.location = reference;
     } else {
       var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame();
