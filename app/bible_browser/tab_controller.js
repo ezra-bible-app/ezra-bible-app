@@ -89,6 +89,8 @@ class TabController {
 
         if (copiedMetaTab.verseReferenceId != null) {
           copiedMetaTab.cachedReferenceVerse = this.getReferenceVerseHtml(i);
+        } else {
+          copiedMetaTab.cachedReferenceVerse = null;
         }
 
         savedMetaTabs.push(copiedMetaTab);
