@@ -414,7 +414,8 @@ h2 {
   flex-direction: row-reverse;
 }
 
-.verse-list:not(.verse-list-with-notes) .verse-text-and-tags {
+.verse-list:not(.verse-list-with-notes) .verse-text-and-tags,
+.reference-verse:not(.verse-list-with-notes) .verse-text-and-tags {
   width: 100%;
 }
 
