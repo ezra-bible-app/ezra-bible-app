@@ -249,17 +249,18 @@ class VerseListPopup {
 
   getPopupTitle(clickedElement, referenceType) {
     var popupTitle = "";
+    var verse_box = $(clickedElement).closest('.verse-box');
+    var localizedReference = this.verseBoxHelper.getLocalizedVerseReference(verse_box);
 
     if (referenceType == "TAGGED_VERSES") {
 
       var selected_tag = this.getSelectedTagFromClickedElement(clickedElement);
-      popupTitle = i18n.t("tags.verses-tagged-with") + ' "' + selected_tag + '"';
+      popupTitle = localizedReference + ' &ndash; ' + i18n.t("tags.verses-tagged-with") + ' <i>' + selected_tag + '</i>';
 
     } else if (referenceType == "XREFS") {
 
-      var verse_box = $(clickedElement).closest('.verse-box');
-      var localizedReference = this.verseBoxHelper.getLocalizedVerseReference(verse_box);
       popupTitle = localizedReference + ' &ndash; ' + i18n.t("general.module-xrefs");
+
     }
 
     return popupTitle;
