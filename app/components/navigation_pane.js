@@ -56,10 +56,8 @@ class NavigationPane {
   }
 
   highlightNavElement(navElementNumber) {
-    if (this.currentNavigationPane == null) {
-      this.currentNavigationPane = this.getCurrentNavigationPane();
-      this.allNavElementLinks = this.currentNavigationPane.find('.navigation-link');
-    }
+    this.currentNavigationPane = this.getCurrentNavigationPane();
+    this.allNavElementLinks = this.currentNavigationPane.find('.navigation-link');
 
     var navElementIndex = navElementNumber - 1;
     var lastHighlightedNavElementIndex = bible_browser_controller.tab_controller.getLastHighlightedNavElementIndex();
