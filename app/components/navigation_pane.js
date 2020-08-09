@@ -183,14 +183,21 @@ class NavigationPane {
     this.allNavElementLinks = this.currentNavigationPane.find('.navigation-link');
   }
 
+  getCachedVerseListTabId() {
+    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+    var firstLink = currentVerseList[0].querySelector('a');
+    var cachedVerseListTabId = firstLink.getAttribute('name').split(' ')[0];
+    return cachedVerseListTabId;
+  }
+
   goToChapter(chapter) {
     this.highlightNavElement(chapter);
 
-    var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
     var reference = '#top';
 
     if (chapter > 1 || bible_browser_controller.optionsMenu.bookIntroductionSwitchChecked()) {
-      reference = '#' + currentTabId + ' ' + chapter;
+      var cachedVerseListTabId = this.getCachedVerseListTabId();
+      reference = '#' + cachedVerseListTabId + ' ' + chapter;
       window.location = reference;
     } else {
       var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame();
@@ -201,8 +208,8 @@ class NavigationPane {
   goToBook(book, bookNr) {
     this.highlightNavElement(bookNr);
 
-    var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
-    var reference = '#' + currentTabId + ' ' + book;
+    var cachedVerseListTabId = this.getCachedVerseListTabId();
+    var reference = '#' + cachedVerseListTabId + ' ' + book;
     window.location = reference;
   }
 }
