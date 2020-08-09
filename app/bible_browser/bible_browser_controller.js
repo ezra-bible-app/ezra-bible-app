@@ -556,6 +556,7 @@ class BibleBrowserController {
     }
   }
 
+  // FIXME: This currently does not consider versification differences!!
   updateReferenceVerseTranslation() {
     var currentVerseListFrame = this.getCurrentVerseListFrame();
     var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
