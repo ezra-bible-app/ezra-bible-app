@@ -259,7 +259,7 @@ class VerseListPopup {
 
       var verse_box = $(clickedElement).closest('.verse-box');
       var localizedReference = this.verseBoxHelper.getLocalizedVerseReference(verse_box);
-      popupTitle = localizedReference + ' &mdash; ' + i18n.t("general.module-xrefs");
+      popupTitle = localizedReference + ' &ndash; ' + i18n.t("general.module-xrefs");
     }
 
     return popupTitle;
