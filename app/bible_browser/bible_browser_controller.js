@@ -483,6 +483,42 @@ class BibleBrowserController {
     this.module_search.hideSearchMenu();
     this.optionsMenu.hideDisplayMenu();
   }
+  
+  handleReferenceClick(event) {
+    var currentTab = this.tab_controller.getTab();
+    var currentTextType = currentTab.getTextType();
+    var verseBox = $(event.target).closest('.verse-box');
+    var isReferenceVerse = verseBox.parent().hasClass('reference-verse');
+    var isXrefMarker = event.target.classList.contains('sword-xref-marker');
+    var isTag = event.target.classList.contains('tag');
+
+    if (isReferenceVerse &&
+      ((currentTextType == 'xrefs') || (currentTextType == 'tagged_verses'))
+    ) {
+      if (isXrefMarker) {
+        this.verse_list_popup.initCurrentXrefs(event.target);
+
+        this.openXrefVerses(this.verse_list_popup.currentReferenceVerseBox,
+                            this.verse_list_popup.currentPopupTitle,
+                            this.verse_list_popup.currentXrefs);
+
+      } else if (isTag) {
+
+        this.verse_list_popup.initCurrentTag(event.target);
+
+        this.openTaggedVerses(this.verse_list_popup.currentTagId,
+                              this.verse_list_popup.currentTagTitle,
+                              this.verse_list_popup.currentReferenceVerseBox);
+
+      }
+    } else {
+      if (isXrefMarker) {
+        this.verse_list_popup.openVerseListPopup(event, "XREFS");
+      } else if (isTag) {
+        this.verse_list_popup.openVerseListPopup(event, "TAGGED_VERSES");
+      }
+    }
+  }
 
   bindEventsAfterBibleTextLoaded = async function(tabIndex=undefined, preventDoubleBinding=false, verseList=undefined) {
     if (verseList == undefined) {
@@ -502,11 +538,11 @@ class BibleBrowserController {
     tagBoxes.bind('mousedown', tags_controller.clear_verse_selection).addClass('tag-events-configured');
 
     tags.bind('mousedown', (event) => {
-      this.verse_list_popup.openVerseListPopup(event, "TAGGED_VERSES");
+      this.handleReferenceClick(event);
     }).addClass('tag-events-configured');
 
     xref_markers.bind('mousedown', (event) => {
-      this.verse_list_popup.openVerseListPopup(event, "XREFS");
+      this.handleReferenceClick(event);
     }).addClass('events-configured');
 
     verseList.find('.verse-box').bind('mouseover', (e) => { this.onVerseBoxMouseOver(e); });
@@ -687,7 +723,11 @@ class BibleBrowserController {
     this.tab_search.setVerseList(currentVerseList);
 
     if (xrefs.length > 0) {
-      this.text_loader.prepareForNewText(true, false);
+      // Only reset the view if the current text type is not xrefs.
+      // So, in case of xrefs we just "refresh" the view.
+      var resetView = this.tab_controller.getTab().getTextType() != 'xrefs';
+
+      this.text_loader.prepareForNewText(resetView, false);
       this.text_loader.requestTextUpdate(currentTabId, null, null, null, null, null, xrefs);
     }
   }
@@ -700,7 +740,11 @@ class BibleBrowserController {
     this.tab_search.setVerseList(currentVerseList);
 
     if (currentTagIdList != "") {
-      this.text_loader.prepareForNewText(true, false);
+      // Only reset the view if the current text type is not tagged_verses.
+      // So, in case of tagged_verses we just "refresh" the view.
+      var resetView = this.tab_controller.getTab().getTextType() != 'tagged_verses';
+
+      this.text_loader.prepareForNewText(resetView, false);
       this.text_loader.requestTextUpdate(currentTabId,
                                          null,
                                          currentTagIdList,

@@ -169,11 +169,15 @@ class VerseListPopup {
     return tag_id;
   }
 
-  loadTaggedVerses(clickedElement, currentTabId, currentTabIndex) {
+  initCurrentTag(clickedElement) {
     var selected_tag = this.getSelectedTagFromClickedElement(clickedElement);
     this.currentReferenceVerseBox = $(clickedElement).closest('.verse-box');
     this.currentTagId = this.getTagIdFromVerseBox(this.currentReferenceVerseBox, selected_tag);
     this.currentTagTitle = this.getSelectedTagFromClickedElement(clickedElement);
+  }
+
+  loadTaggedVerses(clickedElement, currentTabId, currentTabIndex) {
+    this.initCurrentTag(clickedElement);
 
     if (this.getCurrentTextType() == 'book') {
       var bookTaggedVersesCountLabel = this.getCurrentBookTaggedVersesCountLabel();
@@ -192,9 +196,9 @@ class VerseListPopup {
     }, 50);
   }
 
-  loadXrefs(clickedElement, currentTabId, currentTabIndex) {
+  initCurrentXrefs(clickedElement) {
+    this.currentPopupTitle = this.getPopupTitle(clickedElement, "XREFS");
     var swordNote = $(clickedElement).closest('.sword-note');
-
     this.currentReferenceVerseBox = $(clickedElement).closest('.verse-box');
     this.currentXrefs = [];
 
@@ -215,6 +219,10 @@ class VerseListPopup {
         this.currentXrefs.push(osisRef);
       }
     });
+  }
+
+  loadXrefs(clickedElement, currentTabId, currentTabIndex) {
+    this.initCurrentXrefs(clickedElement);
 
     setTimeout(() => {
       bible_browser_controller.text_loader.requestVersesForXrefs(
