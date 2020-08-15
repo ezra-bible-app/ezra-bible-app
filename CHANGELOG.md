@@ -2,19 +2,26 @@
 All notable changes to Ezra Project are documented in this file.
 
 <!--
-## [0.14.0 - 2020-08-xx]
+## [0.14.0 - 2020-08-22]
 ### Features
 
-* Fe1
-* Fe2
+* Visualization of Cross References and Footnotes (from SWORD markup). ([#85](i85))
+* Dictionary box: Integrate possibility to show Strong's linked dictionary resources.
+* Added possibility to open verse lists (tagged verses or cross-references) in separate tab. ([#104](i104))
+* Windows/Linux: Added fullscreen feature (on F-11). ([#98][i98])
+* Dictionary install/uninstall assistant. ([#80](i80))
 
 ### Enhancements
 
-* E1
+* Added support for "multiple strong's" connected with one word. ([#103][i103])
+* Group entries in display options menu under headlines. ([#87][i87])
+* Tagged Verse List popup: Added filter for the verses of the currently opened book. ([#90][i90])
+* Use plaintext when copying verses to clipboard. ([#101][i101])
 
 ### Fixes
 
-* Fx1
+* Strong's search did not return result if Strong's number in text had a/b/c postfixes (like G5179b). ([#79][i79])
+* Tag list updates were slow when switching tabs. ([#108](i108))
 
 ### Enablers
 
