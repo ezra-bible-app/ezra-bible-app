@@ -16,6 +16,8 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const VerseBox = require("../bible_browser/verse_box.js");
+
 class TranslationComparison {
   constructor() {
     this.initCompareTranslationsBox();
@@ -63,37 +65,21 @@ class TranslationComparison {
   };
 
   getVerseHtmlByTranslationId(sourceBibleTranslationId, targetTranslationId, verseBox) {
-    var bibleBookShortTitle = verseBox.find('.verse-bible-book-short').text();
-    var absoluteVerseNr = parseInt(verseBox.find('.abs-verse-nr').text());
-    var verseReference = verseBox.find('.verse-reference-content').text();
-    var splittedReference = verseReference.split(reference_separator);
-    var chapter = parseInt(splittedReference[0]);
-    var verseNr = parseInt(splittedReference[1]);
-    var sourceVersification = bible_browser_controller.translation_controller.getVersification(sourceBibleTranslationId);
-    var targetVersification = bible_browser_controller.translation_controller.getVersification(targetTranslationId);
-
-    var absoluteVerseNumbers = models.VerseReference.getAbsoluteVerseNrs(sourceVersification, bibleBookShortTitle, absoluteVerseNr, chapter, verseNr);
-
-    var currentAbsoluteVerseNr = null;
-    if (targetVersification == 'HEBREW') {
-      currentAbsoluteVerseNr = absoluteVerseNumbers.absoluteVerseNrHeb;
-    } else {
-      currentAbsoluteVerseNr = absoluteVerseNumbers.absoluteVerseNrEng;
-    }
+    var referenceVerseBox = new VerseBox(verseBox[0]);
+    var bibleBookShortTitle = referenceVerseBox.getBibleBookShortTitle();
+    var mappedAbsoluteVerseNumber = referenceVerseBox.getMappedAbsoluteVerseNumber(sourceBibleTranslationId, targetTranslationId);
 
     var targetTranslationVerse = nsi.getBookText(targetTranslationId,
                                                  bibleBookShortTitle,
-                                                 currentAbsoluteVerseNr,
+                                                 mappedAbsoluteVerseNumber,
                                                  1)[0];
     
     var verseHtml = "<div class='verse-box'>";
     
     if (targetTranslationVerse == null) {
-      console.log("Couldn't get verse " + bibleBookShortTitle + ' / ' + currentAbsoluteVerseNr + " for " + targetTranslationId);
+      console.log("Couldn't get verse " + bibleBookShortTitle + ' / ' + mappedAbsoluteVerseNumber + " for " + targetTranslationId);
     } else {
-      var targetVerseReference = targetTranslationVerse.chapter + 
-                                reference_separator + 
-                                targetTranslationVerse.verseNr;
+      var targetVerseReference = targetTranslationVerse.chapter + reference_separator + targetTranslationVerse.verseNr;
                                   
       verseHtml += "<div class='verse-reference'><div class='verse-reference-content'>" + 
                   targetVerseReference + "</div></div>";
