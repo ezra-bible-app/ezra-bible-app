@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Mousetrap = require('mousetrap');
+const VerseBox = require('./verse_box.js');
 
 class BibleBrowserController {
   constructor() {
@@ -62,7 +63,10 @@ class BibleBrowserController {
     this.verse_list_popup.initVerseListPopup();
     this.initGlobalShortCuts();
 
-    this.translation_controller.init(async () => { await this.onBibleTranslationChanged(); });
+    this.translation_controller.init(async (oldBibleTranslationId, newBibleTranslationId) => {
+      await this.onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId);
+    });
+
     this.remove_module_wizard.init(() => { this.onAllTranslationsRemoved(); },
                                    (translationId) => { this.onTranslationRemoved(translationId); });
 
@@ -215,7 +219,7 @@ class BibleBrowserController {
     this.book_selection_menu.clearSelectedBookInMenu();
   }
 
-  async onBibleTranslationChanged() {
+  async onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId) {
     // The tab search is not valid anymore if the translation is changing. Therefore we reset it.
     this.tab_search.resetSearch();
 
@@ -236,7 +240,7 @@ class BibleBrowserController {
                                                  currentTab.getXrefs());
 
         if (currentTab.getVerseReferenceId() != null) {
-          this.updateReferenceVerseTranslation();
+          this.updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId);
         }
       }
     }
@@ -556,17 +560,17 @@ class BibleBrowserController {
     }
   }
 
-  // FIXME: This currently does not consider versification differences!!
-  updateReferenceVerseTranslation() {
+  updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId) {
     var currentVerseListFrame = this.getCurrentVerseListFrame();
-    var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
     var currentTab = this.tab_controller.getTab();
     var currentBibleTranslationId = currentTab.getBibleTranslationId();
-    var book_short_title = referenceVerseContainer.querySelector('.verse-bible-book-short').innerText;
-    var start_verse_number = parseInt(referenceVerseContainer.querySelector('.abs-verse-nr').innerText);
+    var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
+    var referenceVerseBox = new VerseBox(referenceVerseContainer.querySelector('.verse-box'));
+    var bookShortTitle = referenceVerseBox.getBibleBookShortTitle();
+    var mappedAbsoluteVerseNumber = referenceVerseBox.getMappedAbsoluteVerseNumber(oldBibleTranslationId, newBibleTranslationId);
 
     try {
-      var verses = nsi.getBookText(currentBibleTranslationId, book_short_title, start_verse_number, 1);
+      var verses = nsi.getBookText(currentBibleTranslationId, bookShortTitle, mappedAbsoluteVerseNumber, 1);
       var verseText = referenceVerseContainer.querySelector('.verse-text');
       verseText.innerHTML = verses[0].content;
     } catch (e) {

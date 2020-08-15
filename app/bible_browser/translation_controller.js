@@ -188,12 +188,16 @@ class TranslationController {
 
         var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
         var bibleSelect = currentVerseListMenu.find('select.bible-select');
-        bible_browser_controller.tab_controller.setCurrentBibleTranslationId(bibleSelect[0].value);
-        bible_browser_controller.settings.set('bible_translation', bibleSelect[0].value);
-        bible_browser_controller.tab_controller.refreshBibleTranslationInTabTitle(bibleSelect[0].value);
+
+        var oldBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
+        var newBibleTranslationId = bibleSelect[0].value;
+
+        bible_browser_controller.tab_controller.setCurrentBibleTranslationId(newBibleTranslationId);
+        bible_browser_controller.settings.set('bible_translation', newBibleTranslationId);
+        bible_browser_controller.tab_controller.refreshBibleTranslationInTabTitle(newBibleTranslationId);
 
         setTimeout(() => {
-          this.handleBibleTranslationChange()
+          this.handleBibleTranslationChange(oldBibleTranslationId, newBibleTranslationId)
         }, 50);
       }
     });
@@ -313,10 +317,10 @@ class TranslationController {
     }
   }
 
-  async handleBibleTranslationChange() {
+  async handleBibleTranslationChange(oldBibleTranslationId, newBibleTranslationId) {
     bible_browser_controller.book_selection_menu.updateAvailableBooks();
     this.initChapterVerseCounts();
-    this.onBibleTranslationChanged();
+    this.onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId);
   }
 
   isStrongsTranslationInDb() {
