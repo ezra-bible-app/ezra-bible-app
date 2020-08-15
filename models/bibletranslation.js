@@ -22,6 +22,8 @@
    since Ezra Project 0.12.0 was released (2020-03-17).
 */
 
+const LanguageMapper = require('../app/helpers/language_mapper.js');
+
 var bookMap = {
   "Gen"    : 1,
   "Exod"   : 2,
