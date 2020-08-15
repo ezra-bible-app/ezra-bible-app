@@ -565,7 +565,7 @@ class TabController {
   isCurrentTabEmpty() {
     var currentTabIndex = this.getSelectedTabIndex();
     var currentTab = this.metaTabs[currentTabIndex];
-    return currentTab.book == null && currentTab.tagIdList == "";
+    return currentTab.book == null && currentTab.tagIdList == "" && currentTab.xrefs == null;
   }
 
   updateTabTitleAfterTagRenaming(old_title, new_title) {
