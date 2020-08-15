@@ -560,6 +560,7 @@ class BibleBrowserController {
     }
   }
 
+  // FIXME: Add xref handling after updating the text
   updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId) {
     var currentVerseListFrame = this.getCurrentVerseListFrame();
     var currentTab = this.tab_controller.getTab();
