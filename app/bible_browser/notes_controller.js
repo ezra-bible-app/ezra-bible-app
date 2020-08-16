@@ -19,6 +19,7 @@
 let CodeMirror = null;
 
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
+const VerseBox = require('../bible_browser/verse_box.js');
 
 class NotesController {
   constructor() {
@@ -58,16 +59,16 @@ class NotesController {
 
   getCurrentVerseBox() {
     var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame();
-    return currentVerseListFrame.find('.verse-reference-id-' + this.currentVerseReferenceId);
+    return currentVerseListFrame[0].querySelector('.verse-reference-id-' + this.currentVerseReferenceId);
   }
 
   refreshNotesInfo(noteValue) {
     var currentVerseBox = this.getCurrentVerseBox();
-    var notesInfo = currentVerseBox.find('.notes-info');
+    var notesInfo = currentVerseBox.querySelector('.notes-info');
     if (noteValue != '') {
-      notesInfo.addClass('visible');
+      notesInfo.classList.add('visible');
     } else {
-      notesInfo.removeClass('visible');
+      notesInfo.classList.remove('visible');
     }    
   }
 
@@ -186,8 +187,8 @@ class NotesController {
 
     event.stopPropagation();
 
-    var verseBox = $(event.target).closest('.verse-box');
-    var verseReferenceId = verseBox.find('.verse-reference-id').text();
+    var verseBox = $(event.target).closest('.verse-box')[0];
+    var verseReferenceId = new VerseBox(verseBox).getVerseReferenceId();
 
     if (verseReferenceId != this.currentVerseReferenceId) {
       this.restoreCurrentlyEditedNotes();
