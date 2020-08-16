@@ -16,6 +16,8 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const VerseBox = require('./verse_box.js');
+
 class VerseContextLoader {
 
   constructor() {
@@ -56,7 +58,7 @@ class VerseContextLoader {
 
       var number_of_verses = 5;
 
-      bible_browser_controller.verse_context_loader.context_verse = start_verse_box;
+      bible_browser_controller.verse_context_loader.context_verse = start_verse_box[0];
 
       bible_browser_controller.text_loader.requestBookText(
         currentTabIndex,
@@ -82,10 +84,13 @@ class VerseContextLoader {
 
   load_verse_context(verse_list) {
     // First remove existing verse boxes to avoid duplication
-    var context_verse_id = $(bible_browser_controller.verse_context_loader.context_verse).find('.verse-reference-id').text();
+    var context_verse_id = new VerseBox(this.context_verse).getVerseReferenceId();
 
-    for (var i = 0; i < $(verse_list).length; i++) {
-      var current_id = $($(verse_list)[i]).find('.verse-reference-id').text();
+    verse_list = $("<div>" + verse_list + "</div>").find('.verse-box');
+
+    for (var i = 0; i < verse_list.length; i++) {
+      var currentVerseBox = verse_list[i];
+      var current_id = new VerseBox($(currentVerseBox)[0]).getVerseReferenceId();
 
       if (current_id != "" && current_id != context_verse_id) {
         var existing_verse_box = $('.verse-reference-id-' + current_id);
@@ -101,7 +106,7 @@ class VerseContextLoader {
 
     // Select/highlight the tagged verse
     var selected_verse_box = $('.verse-reference-id-' + context_verse_id);
-    bible_browser_controller.verse_selection.selected_verse_boxes.push(selected_verse_box);
+    bible_browser_controller.verse_selection.selected_verse_box_elements.push(selected_verse_box);
     selected_verse_box.find('.verse-text').addClass('ui-selected');
 
     // Update the tags view after the selection
