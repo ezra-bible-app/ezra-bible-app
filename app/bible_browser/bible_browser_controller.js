@@ -689,7 +689,7 @@ class BibleBrowserController {
     var localizedVerseReference = null;
 
     if (referenceVerseBox != null) {
-      localizedVerseReference = this.verse_box_helper.getLocalizedVerseReference(referenceVerseBox);
+      localizedVerseReference = this.verse_box_helper.getLocalizedVerseReference(referenceVerseBox[0]);
       var verseReferenceId = this.verse_box_helper.getVerseReferenceId(referenceVerseBox);
       currentTab.setVerseReferenceId(verseReferenceId);
     }
