@@ -16,7 +16,6 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const ModuleSearch = require('./module_search');
 
 class VerseStatisticsChart {
   constructor() {
