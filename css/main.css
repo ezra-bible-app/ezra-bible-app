@@ -693,7 +693,7 @@ h2 {
 }
 
 #display-options-menu {
-  width: 17em;
+  width: 19em;
   padding-top: 0.5em;
 }
 
@@ -893,8 +893,10 @@ h2 {
   height: 12em;
 }
 
-#show-translation-settings-button {
+#show-translation-settings-button, #show-dict-settings-button {
   padding: 0.5em;
+  display: block;
+  width: 100%;
 }
 
 .options-header {
