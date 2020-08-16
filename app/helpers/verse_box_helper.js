@@ -18,12 +18,10 @@
 
 const VerseBox = require("../bible_browser/verse_box");
 
-
 class VerseBoxHelper {
-  constructor() {
-    
-  }
+  constructor() {}
 
+  // FIXME: Replace this with the function from VerseBox
   getVerseReferenceId(verseBox) {
     var classList = $(verseBox)[0].classList;
     var verseReferenceId = null;
@@ -99,6 +97,7 @@ class VerseBoxHelper {
     }
   }
 
+  // FIXME: Move this to VerseBox
   getLocalizedVerseReference(verseBoxElement) {
     var verseBox = new VerseBox(verseBoxElement);
     var currentBookCode = verseBox.getBibleBookShortTitle();
