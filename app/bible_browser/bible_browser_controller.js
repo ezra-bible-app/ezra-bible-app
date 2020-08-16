@@ -348,7 +348,7 @@ class BibleBrowserController {
   copySelectedVersesToClipboard() {
     const { clipboard } = require('electron');
     
-    var selectedVerseBoxes = bible_browser_controller.verse_selection.selected_verse_boxes;
+    var selectedVerseBoxes = bible_browser_controller.verse_selection.selected_verse_box_elements;
     
     var selectedText = "";
     var multipleVerses = selectedVerseBoxes.length > 1;
