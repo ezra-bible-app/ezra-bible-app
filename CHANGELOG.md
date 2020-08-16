@@ -6,7 +6,7 @@ All notable changes to Ezra Project are documented in this file.
 ### Features
 
 * Visualization of Cross References and Footnotes (from SWORD markup). ([#85](i85))
-* Dictionary box: Integrate possibility to show Strong's linked dictionary resources.
+* Dictionary box: Integrate possibility to show Strong's linked dictionary resources. ([#78](i78))
 * Added possibility to open verse lists (tagged verses or cross-references) in separate tab. ([#104](i104))
 * Windows/Linux: Added fullscreen feature (on F-11). ([#98][i98])
 * Dictionary install/uninstall assistant. ([#80](i80))
@@ -25,7 +25,19 @@ All notable changes to Ezra Project are documented in this file.
 
 ### Enablers
 
-* En1
+* Upgraded Electron from 8.3.0 to 9.1.2.
+
+[i78]: https://github.com/tobias-klein/ezra-project/issues/78
+[i79]: https://github.com/tobias-klein/ezra-project/issues/79
+[i80]: https://github.com/tobias-klein/ezra-project/issues/80
+[i85]: https://github.com/tobias-klein/ezra-project/issues/85
+[i87]: https://github.com/tobias-klein/ezra-project/issues/87
+[i90]: https://github.com/tobias-klein/ezra-project/issues/90
+[i98]: https://github.com/tobias-klein/ezra-project/issues/98
+[i101]: https://github.com/tobias-klein/ezra-project/issues/101
+[i103]: https://github.com/tobias-klein/ezra-project/issues/103
+[i104]: https://github.com/tobias-klein/ezra-project/issues/104
+[i108]: https://github.com/tobias-klein/ezra-project/issues/108
 
 -->
 
