@@ -26,6 +26,7 @@ All notable changes to Ezra Project are documented in this file.
 ### Enablers
 
 * Upgraded Electron from 8.3.0 to 9.1.2.
+* Added rpm package for Fedora 32.
 
 [i78]: https://github.com/tobias-klein/ezra-project/issues/78
 [i79]: https://github.com/tobias-klein/ezra-project/issues/79
