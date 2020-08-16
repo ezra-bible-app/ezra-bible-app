@@ -104,7 +104,7 @@ class VerseBoxHelper {
     var currentBookCode = verseBox.getBibleBookShortTitle();
     var currentBookName = models.BibleBook.getBookLongTitle(currentBookCode);
     var currentBookLocalizedName = i18nHelper.getSwordTranslation(currentBookName);
-    var verseReferenceContent = verseBox.find('.verse-reference-content').text();
+    var verseReferenceContent = verseBoxElement.querySelector('.verse-reference-content').innerText;
 
     var localizedReference = currentBookLocalizedName + ' ' + verseReferenceContent;
     return localizedReference;

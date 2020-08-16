@@ -633,7 +633,7 @@ class BibleBrowserController {
     }
 
     var clonedVerseBox = verseBox[0].cloneNode(true);
-    var header = this.verse_box_helper.getLocalizedVerseReference(verseBox);
+    var header = this.verse_box_helper.getLocalizedVerseReference(verseBox[0]);
     var referenceVerseHeader = "<div class='reference-header'>" + header + "</div>";
     referenceVerseContainer.innerHTML = referenceVerseHeader;
     referenceVerseContainer.appendChild(clonedVerseBox);

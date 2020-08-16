@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
+const VerseBox = require('../bible_browser/verse_box.js');
 
 class VerseListPopup {
   constructor() {
@@ -258,7 +259,7 @@ class VerseListPopup {
   getPopupTitle(clickedElement, referenceType) {
     var popupTitle = "";
     var verse_box = $(clickedElement).closest('.verse-box');
-    var localizedReference = this.verseBoxHelper.getLocalizedVerseReference(verse_box);
+    var localizedReference = this.verseBoxHelper.getLocalizedVerseReference(verse_box[0]);
 
     if (referenceType == "TAGGED_VERSES") {
 
