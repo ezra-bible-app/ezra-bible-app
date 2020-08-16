@@ -198,6 +198,7 @@ class TabController {
 
       if (cacheOutdated) {
         currentMetaTab.cachedText = null;
+        currentMetaTab.cachedReferenceVerse = null;
       }
 
       var isSearch = (currentMetaTab.textType == 'search_results');
