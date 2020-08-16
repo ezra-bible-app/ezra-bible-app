@@ -48,6 +48,7 @@ class TabController {
 
     window.addEventListener('beforeunload', () => {
       this.saveTabConfiguration();
+      this.saveLastUsedVersion();
     });
 
     this.initTabs();
@@ -108,6 +109,10 @@ class TabController {
       //console.log('Saving tab configuration');
       this.settings.delete('tabConfiguration');
     }  
+  }
+
+  saveLastUsedVersion() {
+    this.settings.set('lastUsedVersion', app.getVersion());
   }
 
   updateFirstTabCloseButton() {
@@ -187,16 +192,29 @@ class TabController {
     }
   }
 
+  isCacheInvalid() {
+    var lastUsedVersion = this.settings.get('lastUsedVersion');
+    var currentVersion = app.getVersion();
+
+    return currentVersion != lastUsedVersion;
+  }
+
   async populateFromMetaTabs() {
     var cacheOutdated = await this.isCacheOutdated();
+    var cacheInvalid = this.isCacheInvalid();
+
     if (cacheOutdated) {
       console.log("Tab content cache is outdated. Database has been updated in the meantime!");
+    }
+
+    if (cacheInvalid) {
+      console.log("Cache is invalid. New app version?");
     }
 
     for (var i = 0; i < this.metaTabs.length; i++) {
       var currentMetaTab = this.metaTabs[i];
 
-      if (cacheOutdated) {
+      if (cacheOutdated || cacheInvalid) {
         currentMetaTab.cachedText = null;
         currentMetaTab.cachedReferenceVerse = null;
       }
