@@ -16,10 +16,12 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const VerseBox = require("../bible_browser/verse_box");
+
 class VerseSelection {
   constructor() {
     this.selected_verse_references = null;
-    this.selected_verse_boxes = null;
+    this.selected_verse_box_elements = null;
   }
 
   initSelectable(verseList) {
@@ -37,7 +39,7 @@ class VerseSelection {
         // And in this case the start event is fired for each individual verse.
         if (event.metaKey == false && event.ctrlKey == false) {
           this.selected_verse_references = new Array;
-          this.selected_verse_boxes = new Array;
+          this.selected_verse_box_elements = new Array;
         }
 
         bible_browser_controller.handleBodyClick(event);
@@ -76,11 +78,11 @@ class VerseSelection {
       var verseList = bible_browser_controller.getCurrentVerseList();
     }
 
-    this.selected_verse_boxes = verseList.find('.ui-selected').closest('.verse-box');
+    this.selected_verse_box_elements = verseList.find('.ui-selected').closest('.verse-box');
     var selectedVerseReferences = [];
 
-    for (var i = 0; i < this.selected_verse_boxes.length; i++) {
-      var verseBox = $(this.selected_verse_boxes[i]);
+    for (var i = 0; i < this.selected_verse_box_elements.length; i++) {
+      var verseBox = $(this.selected_verse_box_elements[i]);
       var currentVerseReference = verseBox.find('a:first').attr('name');
       selectedVerseReferences.push(currentVerseReference);
     }
@@ -90,7 +92,7 @@ class VerseSelection {
 
   clear_verse_selection(updateViews=true) {
     this.selected_verse_references = new Array;
-    this.selected_verse_boxes = new Array;
+    this.selected_verse_box_elements = new Array;
     $('.verse-text').removeClass('ui-selectee ui-selected ui-state-highlight');
 
     if (updateViews) {
@@ -101,13 +103,9 @@ class VerseSelection {
   async getSelectedBooks() {
     var selectedBooks = [];
 
-    for (var i = 0; i < this.selected_verse_boxes.length; i++) {
-      var currentVerseBox = $(this.selected_verse_boxes[i]);
-      if (currentVerseBox.length > 1) {
-        currentVerseBox = $(currentVerseBox[0]);
-      }
-
-      var currentBookShortName = currentVerseBox.find('.verse-bible-book-short').text();
+    for (var i = 0; i < this.selected_verse_box_elements.length; i++) {
+      var currentVerseBox = this.selected_verse_box_elements[i];
+      var currentBookShortName = new VerseBox(currentVerseBox).getBibleBookShortTitle();
 
       if (!selectedBooks.includes(currentBookShortName)) {
         selectedBooks.push(currentBookShortName);
@@ -125,16 +123,13 @@ class VerseSelection {
       var currentBookShortName = selectedBooks[i];
       var currentBookVerseReferences = [];
       
-      for (var j = 0; j < this.selected_verse_boxes.length; j++) {
-        var currentVerseBox = $(this.selected_verse_boxes[j]);
-        if (currentVerseBox.length > 1) {
-          currentVerseBox = $(currentVerseBox[0]);
-        }
+      for (var j = 0; j < this.selected_verse_box_elements.length; j++) {
+        var currentVerseBox = this.selected_verse_box_elements[j];
 
-        var currentVerseBibleBookShortName = currentVerseBox.find('.verse-bible-book-short').text();
+        var currentVerseBibleBookShortName = new VerseBox(currentVerseBox).getBibleBookShortTitle();
 
         if (currentVerseBibleBookShortName == currentBookShortName) {
-          var currentVerseReference = currentVerseBox.find('a:first').attr('name');
+          var currentVerseReference = $(currentVerseBox).find('a:first').attr('name');
           currentBookVerseReferences.push(currentVerseReference);
         }
       }
@@ -324,26 +319,20 @@ class VerseSelection {
     var xml_verse_list = "<verse-list>";
 
     for (var i = 0; i < element_list.length; i++) {
-      var verse_box = $(element_list[i]).closest('.verse-box');
-      var verse_reference = verse_box.find('.verse-reference-content').html();
+      var verse_box_element = $(element_list[i]).closest('.verse-box')[0];
+      var verse_reference = verse_box_element.querySelector('.verse-reference-content').innerText;
       var verse_reference_id = "";
-      if (verse_box.find('.verse-reference-id').length > 0) {
-        verse_reference_id = verse_box.find('.verse-reference-id').html();
-      }
+      var verse_box = new VerseBox(verse_box_element);
 
-      var verse_bible_book = "";
-      if (verse_box.find('.verse-bible-book-short').length > 0) {
-        verse_bible_book = verse_box.find('.verse-bible-book-short').html();
-      }
+      verse_reference_id = verse_box.getVerseReferenceId();
 
-      var verse_part = verse_box.find('.verse-part').html();
-      var abs_verse_nr = verse_box.find('.abs-verse-nr').html();
+      var verse_bible_book = verse_box.getBibleBookShortTitle();
+      var abs_verse_nr = verse_box.getAbsoluteVerseNumber();
 
       xml_verse_list += "<verse>";
       xml_verse_list += "<verse-bible-book>" + verse_bible_book + "</verse-bible-book>";
       xml_verse_list += "<verse-reference>" + verse_reference + "</verse-reference>";
       xml_verse_list += "<verse-reference-id>" + verse_reference_id + "</verse-reference-id>";
-      xml_verse_list += "<verse-part>" + verse_part + "</verse-part>";
       xml_verse_list += "<abs-verse-nr>" + abs_verse_nr + "</abs-verse-nr>";
       xml_verse_list += "</verse>";
     }
@@ -354,18 +343,19 @@ class VerseSelection {
   }
 
   current_verse_selection_as_xml() {
-    var selected_verse_elements = this.selected_verse_boxes;
+    var selected_verse_elements = this.selected_verse_box_elements;
 
     return (this.element_list_to_xml_verse_list(selected_verse_elements));
   }
 
   current_verse_selection_as_verse_reference_ids() {
     var selected_verse_ids = new Array;
-    var selected_verse_elements = this.selected_verse_boxes;
+    var selected_verse_elements = this.selected_verse_box_elements;
     
     for (var i = 0; i < selected_verse_elements.length; i++) {
-      var verse_box = $(selected_verse_elements[i]);
-      var verse_reference_id = verse_box.find('.verse-reference-id').html();
+      var verse_box_element = selected_verse_elements[i];
+      var verse_box = new VerseBox(verse_box_element);
+      var verse_reference_id = verse_box.getVerseReferenceId();
 
       selected_verse_ids.push(verse_reference_id);
     }
@@ -379,7 +369,7 @@ class VerseSelection {
 
     await tags_controller.update_tags_view_after_verse_selection(false);
 
-    if (this.selected_verse_boxes.length > 0) { // Verses are selected!
+    if (this.selected_verse_box_elements.length > 0) { // Verses are selected!
       bible_browser_controller.translationComparison.enableComparisonButton();
     } else { // No verses selected!
       bible_browser_controller.translationComparison.disableComparisonButton();

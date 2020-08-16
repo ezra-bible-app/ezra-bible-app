@@ -82,7 +82,7 @@ class VerseListPopup {
 
     for (var i = 0;  i < allVerses.length; i++) {
       var currentVerseBox = allVerses[i];
-      var currentVerseBoxBook = currentVerseBox.querySelector('.verse-bible-book-short').innerText;
+      var currentVerseBoxBook = new VerseBox(currentVerseBox).getBibleBookShortTitle();
 
       if (currentVerseBoxBook == currentBook) {
         currentBookVerseCount++;
@@ -112,7 +112,7 @@ class VerseListPopup {
 
     for (var i = 0; i < verseBoxes.length; i++) {
       var currentVerseBox = verseBoxes[i];
-      var currentVerseBoxBook = currentVerseBox.querySelector('.verse-bible-book-short').innerText;
+      var currentVerseBoxBook = new VerseBox(currentVerseBox).getBibleBookShortTitle();
 
       if (!isChecked || isChecked && currentVerseBoxBook == currentBook) {
         $(currentVerseBox).show();

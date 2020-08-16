@@ -82,13 +82,14 @@ each bibleBook in bibleBooks
     if current_verse_note != null && current_verse_note.text != ''
       - current_notes_info_class += ' visible'
 
-    div(class=div_classes)
+    div(class=div_classes,
+        verse-reference-id=current_verse_reference_id,
+        abs-verse-nr=verse.absoluteVerseNr,
+        verse-bible-book-short=verse.bibleBookShortTitle)
+
       - var verseReference = verse.chapter + reference_separator + verse.verseNr;
       - var anchor = verseListId + " " + verseReference;
       a(name=anchor)
-      div.verse-reference-id #{current_verse_reference_id}
-      div.abs-verse-nr #{verse.absoluteVerseNr}
-      div.verse-bible-book-short #{verse.bibleBookShortTitle}
 
       div.verse-reference
         if renderVerseMetaInfo == true

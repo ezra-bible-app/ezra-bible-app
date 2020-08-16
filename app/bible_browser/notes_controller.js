@@ -96,7 +96,7 @@ class NotesController {
             this.updateNoteDate(currentVerseBox, updatedTimestamp);
 
             this.verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(currentVerseBox, { noteValue: currentNoteValue, timestamp: updatedTimestamp }, (context, targetVerseBox) => {
-              var currentNotes = targetVerseBox.find('.verse-notes')[0];
+              var currentNotes = targetVerseBox.querySelector('.verse-notes');
               currentNotes.setAttribute('notes-content', context.noteValue);
               this.updateNoteDate(targetVerseBox, context.timestamp);
             });
@@ -113,7 +113,7 @@ class NotesController {
       localizedTimestamp = i18nHelper.getLocalizedDate(dbTimestamp);
     }
     
-    verseBox.find('.verse-notes-timestamp').text(localizedTimestamp);
+    verseBox.querySelector('.verse-notes-timestamp').innerText = localizedTimestamp;
   }
 
   getRenderedEditorContent(original=false) {
@@ -147,7 +147,7 @@ class NotesController {
       
       var currentVerseBox = this.getCurrentVerseBox();
       this.verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(currentVerseBox, renderedContent, (context, targetVerseBox) => {
-        var targetNotes = targetVerseBox.find('.verse-notes')[0];
+        var targetNotes = targetVerseBox.querySelector('.verse-notes');
         this.updateRenderedContent(targetNotes, context);
       });
 

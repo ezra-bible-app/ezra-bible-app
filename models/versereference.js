@@ -17,6 +17,9 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 'use strict';
+
+const VerseBox = require("../app/bible_browser/verse_box.js");
+
 module.exports = (sequelize, DataTypes) => {
   const VerseReference = sequelize.define('VerseReference', {
     bibleBookId: DataTypes.INTEGER,
@@ -48,18 +51,19 @@ module.exports = (sequelize, DataTypes) => {
     return note;
   };
 
-  VerseReference.findOrCreateFromVerseBox = async function(verseBox) {
+  VerseReference.findOrCreateFromVerseBox = async function(verseBoxElement) {
     var translationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
     var versification = bible_browser_controller.translation_controller.getVersification(translationId);
 
-    var vId = verseBox.find('.verse-reference-id').text();
-    var bibleBookShortTitle = verseBox.find('.verse-bible-book-short').text();
+    var verseBox = new VerseBox(verseBoxElement);
+
+    var vId = verseBox.getVerseReferenceId();
+    var bibleBookShortTitle = verseBox.getBibleBookShortTitle();
     var splittedId = vId.split('-');
     var bibleBookId = splittedId[1];
-    var absoluteVerseNr = parseInt(splittedId[2]);
-    var verseReferenceContent = verseBox.find('.verse-reference-content').text();
-    var chapter = parseInt(verseReferenceContent.split(reference_separator)[0]);
-    var verseNr = parseInt(verseReferenceContent.split(reference_separator)[1]);
+    var absoluteVerseNr = verseBox.getAbsoluteVerseNumber();
+    var chapter = verseBox.getChapter();
+    var verseNr = verseBox.getVerseNumber();
 
     var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: bibleBookShortTitle } });
     var absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(versification, bibleBookId, absoluteVerseNr, chapter, verseNr);

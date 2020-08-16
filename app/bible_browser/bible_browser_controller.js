@@ -122,7 +122,7 @@ class BibleBrowserController {
       } else {
 
         // Highlight bible book if we are searching in a tagged verses list
-        var currentBibleBookShortName = verseBox.find('.verse-bible-book-short').text();
+        var currentBibleBookShortName = new VerseBox(verseBox[0]).getBibleBookShortTitle();
         var currentBookName = models.BibleBook.getBookTitleTranslation(currentBibleBookShortName);
 
         var bibleBookNumber = this.getVerseListBookNumber(currentBookName, bookHeaders);
@@ -586,7 +586,7 @@ class BibleBrowserController {
 
     } else if (currentTextType == 'tagged_verses' && currentTagIdList != null || currentTextType == 'xrefs' || currentTextType == 'search_results') {
 
-      var bibleBookShortTitle = verseBox.find('.verse-bible-book-short').text();
+      var bibleBookShortTitle = new VerseBox(verseBox[0]).getBibleBookShortTitle();
       var currentBookName = models.BibleBook.getBookTitleTranslation(bibleBookShortTitle);
       
       var bibleBookNumber = this.getVerseListBookNumber(currentBookName);

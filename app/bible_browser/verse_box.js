@@ -22,15 +22,15 @@ class VerseBox {
   }
 
   getVerseReferenceId() {
-    return this.verseBoxElement.querySelector('.verse-reference-id').innerText;
+    return this.verseBoxElement.getAttribute('verse-reference-id');
   }
 
   getAbsoluteVerseNumber() {
-    return parseInt(this.verseBoxElement.querySelector('.abs-verse-nr').innerText);
+    return parseInt(this.verseBoxElement.getAttribute('abs-verse-nr'));
   }
 
   getBibleBookShortTitle() {
-    return this.verseBoxElement.querySelector('.verse-bible-book-short').innerText;
+    return this.verseBoxElement.getAttribute('verse-bible-book-short');
   }
 
   getSplittedReference() {

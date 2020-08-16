@@ -45,7 +45,7 @@ class VerseContextLoader {
       var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
       var current_reference = $(bible_browser_controller.verse_context_loader.current_mouseover_verse_reference);
       var start_verse_box = current_reference.closest('.verse-box');
-      var current_book_title = start_verse_box.find('.verse-bible-book-short').text();
+      var current_book_title = new VerseBox(start_verse_box[0]).getBibleBookShortTitle();
       var start_verse_nr = bible_browser_controller.verse_selection.reference_to_verse_nr(current_book_title,
                                                                                           start_verse_box.find('.verse-reference-content').html(),
                                                                                           false);

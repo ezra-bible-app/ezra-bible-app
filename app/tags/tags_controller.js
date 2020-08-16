@@ -325,12 +325,12 @@ class TagsController {
       // Create a list of filtered ids, that only contains the verses that do not have the selected tag yet
       for (var i = 0; i < current_verse_reference_ids.length; i++) {
         var currentVerseReferenceId = current_verse_reference_ids[i];
-        var currentVerseBox = currentVerseList.find('.verse-reference-id-' + currentVerseReferenceId);
-        var existingTagIdElements = currentVerseBox.find('.tag-id');
+        var currentVerseBox = currentVerseList[0].querySelector('.verse-reference-id-' + currentVerseReferenceId);
+        var existingTagIdElements = currentVerseBox.querySelectorAll('.tag-id');
         var existingTagIds = [];
         
         for (var j = 0; j < existingTagIdElements.length; j++) {
-          var currentTagId = parseInt($(existingTagIdElements[j]).text());
+          var currentTagId = parseInt(existingTagIdElements[j].innerText);
           existingTagIds.push(currentTagId);
         }
 
@@ -447,7 +447,7 @@ class TagsController {
 
     for (var i = 0; i < job.verse_ids.length; i++) {
       var currentVerseReferenceId = job.verse_ids[i];
-      var currentVerseBox = currentVerseList.find('.verse-reference-id-' + currentVerseReferenceId);
+      var currentVerseBox = currentVerseList[0].querySelector('.verse-reference-id-' + currentVerseReferenceId);
       verse_boxes.push(currentVerseBox);
     }
 
@@ -484,13 +484,13 @@ class TagsController {
 
     for (var i = 0; i < selected_verses.length; i++) {
       var current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
-      var current_verse_box = current_verse_list_frame.find('.verse-reference-id-' + current_verse_reference_id);
+      var current_verse_box = current_verse_list_frame[0].querySelector('.verse-reference-id-' + current_verse_reference_id);
       tags_controller.change_verse_list_tag_info_for_verse_box(current_verse_box, tag_id, tag_title, action);
     }
 
     for (var i = 0; i < selected_verses.length; i++) {
       var current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
-      var current_verse_box = current_verse_list_frame.find('.verse-reference-id-' + current_verse_reference_id);
+      var current_verse_box = current_verse_list_frame[0].querySelector('.verse-reference-id-' + current_verse_reference_id);
       await this.verse_box_helper.iterateAndChangeAllDuplicateVerseBoxes(current_verse_box, { tag_id: tag_id, tag_title: tag_title, action: action }, (context, targetVerseBox) => {
         this.change_verse_list_tag_info_for_verse_box(targetVerseBox, context.tag_id, context.tag_title, context.action);
       });
@@ -498,8 +498,8 @@ class TagsController {
   }
 
   change_verse_list_tag_info_for_verse_box(verse_box, tag_id, tag_title, action) {
-    var current_tag_info = verse_box.find('.tag-info');
-    var current_tag_info_title = current_tag_info.attr('title');
+    var current_tag_info = verse_box.querySelector('.tag-info');
+    var current_tag_info_title = current_tag_info.getAttribute('title');
 
     var new_tag_info_title_array = tags_controller.get_new_tag_info_title_array(current_tag_info_title, tag_title, action);
     var updated = tags_controller.update_tag_info_title(current_tag_info, new_tag_info_title_array, current_tag_info_title);
@@ -563,11 +563,11 @@ class TagsController {
       return false;
 
     } else {
-      tag_info.attr('title', new_tag_info_title);
+      tag_info.setAttribute('title', new_tag_info_title);
       if (new_tag_info_title != "") {
-        tag_info.addClass('visible');
+        tag_info.classList.add('visible');
       } else {
-        tag_info.removeClass('visible');
+        tag_info.classList.remove('visible');
       }
 
       return true;
@@ -575,7 +575,7 @@ class TagsController {
   }
 
   update_tag_data_container(verse_box, tag_id, tag_title, action) {
-    var current_tag_data_container = verse_box.find('.tag-data');
+    var current_tag_data_container = $(verse_box.querySelector('.tag-data'));
 
     switch (action) {
       case "assign":
@@ -961,11 +961,11 @@ class TagsController {
   current_verse_selection_tags() {
     var verse_selection_tags = new Array;
 
-    if (bible_browser_controller.verse_selection.selected_verse_boxes == null) {
+    if (bible_browser_controller.verse_selection.selected_verse_box_elements == null) {
       return verse_selection_tags;
     }
 
-    var selected_verse_boxes = bible_browser_controller.verse_selection.selected_verse_boxes;
+    var selected_verse_boxes = bible_browser_controller.verse_selection.selected_verse_box_elements;
 
     for (var i = 0; i < selected_verse_boxes.length; i++) {
       var current_verse_box = $(selected_verse_boxes[i]);
@@ -1022,7 +1022,7 @@ class TagsController {
 
     var app_container = document.getElementById('app-container');
 
-    if (bible_browser_controller.verse_selection.selected_verse_boxes.length > 0) { // Verses are selected
+    if (bible_browser_controller.verse_selection.selected_verse_box_elements.length > 0) { // Verses are selected
 
       var selected_verse_tags = tags_controller.current_verse_selection_tags();
       var checkbox_tags = app_container.querySelectorAll('.checkbox-tag');

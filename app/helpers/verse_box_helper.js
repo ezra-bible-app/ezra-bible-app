@@ -16,6 +16,8 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const VerseBox = require("../bible_browser/verse_box");
+
 
 class VerseBoxHelper {
   constructor() {
@@ -39,7 +41,7 @@ class VerseBoxHelper {
   getBookListFromVerseBoxes(verseBoxes) {
     var bookList = [];
     verseBoxes.forEach((verseBox) => {
-      var verseBibleBook = $(verseBox).find('.verse-bible-book-short').text();
+      var verseBibleBook = new VerseBox(verseBox).getBibleBookShortTitle();
 
       if (!bookList.includes(verseBibleBook)) {
         bookList.push(verseBibleBook);
@@ -49,19 +51,22 @@ class VerseBoxHelper {
     return bookList;
   }
 
-  async iterateAndChangeAllDuplicateVerseBoxes(referenceVerseBox, context, changeCallback) {
+  async iterateAndChangeAllDuplicateVerseBoxes(referenceVerseBoxElement, context, changeCallback) {
     var current_tab_index = bible_browser_controller.tab_controller.getSelectedTabIndex();
     var tab_count = bible_browser_controller.tab_controller.getTabCount();
+    var referenceVerseBox = new VerseBox(referenceVerseBoxElement);
 
-    var bibleBook = referenceVerseBox.find('.verse-bible-book-short').text();
+    var bibleBook = referenceVerseBox.getBibleBookShortTitle();
     var referenceBibleBook = await models.BibleBook.findOne({ where: { shortTitle: bibleBook } });
-    var absoluteVerseNr = parseInt(referenceVerseBox.find('.abs-verse-nr').text());
-    var verseReferenceContent = referenceVerseBox.find('.verse-reference-content').text();
-    var chapter = parseInt(verseReferenceContent.split(reference_separator)[0]);
-    var verseNr = parseInt(verseReferenceContent.split(reference_separator)[1]);
+
     var source_tab_translation = bible_browser_controller.tab_controller.getTab(current_tab_index).getBibleTranslationId();
     var source_versification = bible_browser_controller.translation_controller.getVersification(source_tab_translation);
-    var absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(source_versification, bibleBook, absoluteVerseNr, chapter, verseNr);
+
+    var absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(source_versification,
+                                                                     bibleBook,
+                                                                     referenceVerseBox.getAbsoluteVerseNumber(),
+                                                                     referenceVerseBox.getChapter(),
+                                                                     referenceVerseBox.getVerseNumber());
 
     for (var i = 0; i < tab_count; i++) {
       if (i != current_tab_index) {
@@ -76,13 +81,13 @@ class VerseBoxHelper {
         }
 
         var target_verse_list_frame = bible_browser_controller.getCurrentVerseListFrame(i);
-        var target_verse_box = target_verse_list_frame.find('.verse-nr-' + current_target_verse_nr);
+        var target_verse_box = target_verse_list_frame[0].querySelector('.verse-nr-' + current_target_verse_nr);
 
         // There are potentially multiple verse boxes returned (could be the case for a tagged verse list or a search results list)
         // Therefore we have to go through all of them and check for each of them whether the book is matching our reference book
         for (var j = 0; j < target_verse_box.length; j++) {
-          var specific_target_verse_box = $(target_verse_box[j]);
-          var target_verse_box_bible_book_short_title = specific_target_verse_box.find('.verse-bible-book-short').text();
+          var specific_target_verse_box = target_verse_box[j];
+          var target_verse_box_bible_book_short_title = new VerseBox(specific_target_verse_box).getBibleBookShortTitle();
           var targetBibleBook = await models.BibleBook.findOne({ where: { shortTitle: target_verse_box_bible_book_short_title } });
           var target_verse_bible_book_id = targetBibleBook.id;
 
@@ -94,8 +99,9 @@ class VerseBoxHelper {
     }
   }
 
-  getLocalizedVerseReference(verseBox) {
-    var currentBookCode = verseBox.find('.verse-bible-book-short').text();
+  getLocalizedVerseReference(verseBoxElement) {
+    var verseBox = new VerseBox(verseBoxElement);
+    var currentBookCode = verseBox.getBibleBookShortTitle();
     var currentBookName = models.BibleBook.getBookLongTitle(currentBookCode);
     var currentBookLocalizedName = i18nHelper.getSwordTranslation(currentBookName);
     var verseReferenceContent = verseBox.find('.verse-reference-content').text();
