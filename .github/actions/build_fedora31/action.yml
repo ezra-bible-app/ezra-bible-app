@@ -1,5 +1,5 @@
 # action.yml
-name: 'build-fedora-29'
+name: 'build-fedora-31'
 description: 'Build Ezra Project for Fedora 31'
 runs:
     using: 'docker'
