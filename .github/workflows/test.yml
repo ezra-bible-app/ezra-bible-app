@@ -4,7 +4,7 @@ on: push
 
 jobs:
     test:
-        name: Cucumber tests
+        name: Run Cucumber tests
         runs-on: ubuntu-20.04
         steps:
         - name: Checkout
