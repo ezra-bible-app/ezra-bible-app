@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 #bible-browser-toolbox {
+  width: 30em;
   min-width: 30em;
   padding: 0.5em;
   padding-top: 0;
