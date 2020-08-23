@@ -1,0 +1,20 @@
+name: Ezra Project test suite
+
+on: push
+
+jobs:
+    test:
+        name: Cucumber tests
+        runs-on: ubuntu-20.04
+        steps:
+        - name: Checkout
+          uses: actions/checkout@v1
+
+        - name: npm install
+          uses: docker://toklein/ezra-ubuntu-2004:latest
+          with:
+            entrypoint: /usr/bin/npm
+            args: install
+
+        - name: npm run full-test
+          run: npm run full-test

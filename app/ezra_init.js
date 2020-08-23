@@ -93,7 +93,14 @@ async function initI18N()
 function initNSI()
 {
   const NodeSwordInterface = require('node-sword-interface');
-  nsi = new NodeSwordInterface();
+
+  if (isTest()) {
+    const userDataDir = app.getPath('userData');
+    nsi = new NodeSwordInterface(userDataDir);
+  } else {
+    nsi = new NodeSwordInterface();
+  }
+
   nsi.enableMarkup();
 }
 
@@ -117,6 +124,11 @@ async function initControllers()
   await bible_browser_controller.init();
 
   tags_controller = new TagsController();
+}
+
+function isTest()
+{
+  return process.argv.includes('--test-type=webdriver');
 }
 
 function isMac()

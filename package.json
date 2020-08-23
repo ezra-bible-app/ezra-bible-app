@@ -11,9 +11,11 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "dev-test": "./node_modules/.bin/cucumber-js --fail-fast",
+    "full-test": "./node_modules/.bin/cucumber-js",
     "compile-pug": "pug --client --no-debug --pretty -n verseListTemplate templates/verse_list.pug && pug --client --no-debug --pretty -n tagListTemplate templates/tag_list.pug",
     "postinstall": "npm run compile-pug",
-    "rebuild": "electron-rebuild -f -w node-sword-interface -v 9.1.0",
+    "rebuild": "electron-rebuild -f -o node-sword-interface -v 9.1.0",
     "rebuild-win": "node_modules\\.bin\\electron-rebuild.cmd --arch=ia32 -f -w sqlite3 -v 9.1.0",
     "migrate-db": "sequelize db:migrate && sequelize db:seed:all",
     "purge-build-artifacts": "./build_scripts/purge_build_artifacts.sh",
@@ -61,25 +63,30 @@
     "marked": "^1.1.1",
     "mousetrap": "^1.6.5",
     "node-addon-api": "^1.7.1",
-    "node-sword-interface": "^0.153.0",
+    "node-sword-interface": "^0.155.0",
     "officegen": "^0.6.4",
     "pug": "^3.0.0",
     "sanitize-html": "^1.21.1",
     "sequelize": "^6.3.3",
-    "sqlite3": "^4.2.0",
+    "sqlite3": "^5.0.0",
     "strongs": "^1.0.2",
     "umzug": "^2.3.0",
     "v8-compile-cache": "^2.1.1"
   },
   "devDependencies": {
     "@sentry/cli": "^1.55.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "cucumber": "^6.0.5",
     "electron": "^9.1.0",
     "electron-osx-sign": "^0.4.17",
     "electron-packager": "^15.0.0",
     "electron-rebuild": "^1.11.0",
     "node-abi": "^2.18.0",
-    "node-gyp": "^5.0.4",
+    "node-gyp": "^6.1.0",
     "pug-cli": "^1.0.0-alpha6",
-    "sequelize-cli": "^6.2.0"
+    "sequelize-cli": "^6.2.0",
+    "spectron": "^11.1.0",
+    "xvfb-maybe": "^0.2.1"
   }
 }
