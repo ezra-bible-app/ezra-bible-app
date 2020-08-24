@@ -28,14 +28,17 @@ async function getFirstLocalModule() {
   return firstLocalModule;
 }
 
-Given('I open the module installation wizard', {timeout: 40 * 1000}, async function () {
+Given('I open the module installation assistant', {timeout: 40 * 1000}, async function () {
   var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
   var displayOptionsButton = await verseListTabs.$('.display-options-button');
   var translationSettingsButton = await global.app.client.$('#show-translation-settings-button');
-  var addModulesButton = await global.app.client.$('#add-modules-button');
 
   await displayOptionsButton.click();
   await translationSettingsButton.click();
+});
+
+Given('I choose to add translations', async function () {
+  var addModulesButton = await global.app.client.$('#add-modules-button');
   await addModulesButton.click();
 });
 
