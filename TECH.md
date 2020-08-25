@@ -15,6 +15,10 @@ Furthermore, the following components are used (among others):
 * [SpinKit](https://github.com/tobiasahlin/SpinKit) for CSS-animated loading spinners
 * [I18next](https://www.i18next.com/) for internationalization
 
+To test Ezra Project, the following components are used:
+* [Cucumber.js](https://github.com/cucumber/cucumber-js)
+* [Chai](https://www.chaijs.com/)
+
 To package Ezra Project, the following components are used:
 * [electron-packager](https://github.com/electron/electron-packager)
 * [electron-installer-windows](https://github.com/electron-userland/electron-installer-windows)
