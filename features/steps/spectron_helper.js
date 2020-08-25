@@ -41,8 +41,8 @@ class SpectronHelper {
     return this.app;
   }
 
-  async getNSI() {
-    if (this.nsi == null) {
+  async getNSI(refresh=false) {
+    if (this.nsi == null || refresh) {
       const NodeSwordInterface = require('node-sword-interface');
       const electronApp = this.app.electron.remote.app;
       const userDataDir = await electronApp.getPath('userData');
