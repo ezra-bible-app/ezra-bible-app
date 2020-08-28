@@ -16,7 +16,7 @@
     "compile-pug": "pug --client --no-debug --pretty -n verseListTemplate templates/verse_list.pug && pug --client --no-debug --pretty -n tagListTemplate templates/tag_list.pug",
     "postinstall": "npm run compile-pug",
     "rebuild": "electron-rebuild -f -o node-sword-interface -v 9.1.0",
-    "rebuild-win": "node_modules\\.bin\\electron-rebuild.cmd --arch=ia32 -f -w sqlite3 -v 9.1.0",
+    "rebuild-win": "node_modules\\.bin\\electron-rebuild.cmd --arch=ia32 -f -o node-sword-interface -v 9.1.0",
     "migrate-db": "sequelize db:migrate && sequelize db:seed:all",
     "purge-build-artifacts": "./build_scripts/purge_build_artifacts.sh",
     "prune-node-modules": "./node_modules/.bin/node-prune node_modules",
