@@ -1,21 +1,23 @@
 const { Given, When, Then } = require("cucumber");
+const { assert } = require("chai");
 
-async function clickCheckbox(selector) {
-  var label = await global.app.client.$(selector);
+async function clickCheckbox(selector, parentSelector='#module-settings-wizard-add') {
+  var parent = await global.app.client.$(parentSelector);
+  var label = await parent.$(selector);
   await global.app.client.waitUntil(async () => { return await label.isExisting(); }, { timeout: 40000 });
   var checkbox = await label.$('../child::input');
   await checkbox.click();
 }
 
-async function getNavLinks() {
-  var moduleSettingsWizardAdd = await global.app.client.$('#module-settings-wizard-add');
+async function getNavLinks(moduleSettingsDialogId='#module-settings-wizard-add') {
+  var moduleSettingsWizardAdd = await global.app.client.$(moduleSettingsDialogId);
   var actionsDiv = await moduleSettingsWizardAdd.$('.actions');
   var navLinks = await actionsDiv.$$('a');
   return navLinks;
 }
 
-async function clickNext() {
-  var navLinks = await getNavLinks();
+async function clickNext(moduleSettingsDialogId='#module-settings-wizard-add') {
+  var navLinks = await getNavLinks(moduleSettingsDialogId);
   var nextButton = navLinks[1];
   await nextButton.click();
 }
@@ -28,15 +30,23 @@ async function getFirstLocalModule() {
   return firstLocalModule;
 }
 
-Given('I open the module installation wizard', {timeout: 40 * 1000}, async function () {
+Given('I open the module installation assistant', {timeout: 40 * 1000}, async function () {
   var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
   var displayOptionsButton = await verseListTabs.$('.display-options-button');
   var translationSettingsButton = await global.app.client.$('#show-translation-settings-button');
-  var addModulesButton = await global.app.client.$('#add-modules-button');
 
   await displayOptionsButton.click();
   await translationSettingsButton.click();
+});
+
+Given('I choose to add translations', async function () {
+  var addModulesButton = await global.app.client.$('#add-modules-button');
   await addModulesButton.click();
+});
+
+Given('I choose to remove translations', async function () {
+  var removeModulesButton = await global.app.client.$('#remove-modules-button');
+  await removeModulesButton.click();
 });
 
 Given('I select the CrossWire repository', {timeout: 40 * 1000}, async function () {
@@ -49,13 +59,18 @@ Given('I select the English language', {timeout: 40 * 1000}, async function () {
   await clickNext();
 });
 
-Given('I select the KJV module', {timeout: 40 * 1000}, async function () {
+Given('I select the KJV module for installation', {timeout: 40 * 1000}, async function () {
   await clickCheckbox('#KJV');
   await clickNext();
 });
 
-When('the installation is completed', {timeout: 100 * 1000}, async function () {
-  var navLinks = await getNavLinks();
+Given('I select the KJV module for removal', {timeout: 40 * 1000}, async function () {
+  await clickCheckbox('#KJV', '#module-settings-wizard-remove');
+  await clickNext('#module-settings-wizard-remove');
+});
+
+async function finishOnceProcessCompleted(moduleSettingsDialogId='#module-settings-wizard-add') {
+  var navLinks = await getNavLinks(moduleSettingsDialogId);
   var finishButton = navLinks[2];
   var finishButtonLi = await finishButton.$('..');
 
@@ -65,6 +80,14 @@ When('the installation is completed', {timeout: 100 * 1000}, async function () {
   }, { timeout: 120000 });
 
   await finishButton.click();
+}
+
+When('the installation is completed', {timeout: 100 * 1000}, async function () {
+  await finishOnceProcessCompleted();
+});
+
+When('the removal is completed', {timeout: 5 * 1000}, async function () {
+  await finishOnceProcessCompleted('#module-settings-wizard-remove');
 });
 
 Then('the KJV is available as a local module', async function () {
@@ -77,6 +100,11 @@ Then('the KJV is available as a local module', async function () {
   var selectMenuStatusText = await selectMenuStatus.getText();
 
   await selectMenuStatusText.should.equal(firstLocalModule.description);
+});
+
+Then('the KJV is no longer available as a local module', async function () {
+  var kjvAvailable = await isKjvAvailable(true);
+  assert(kjvAvailable == false, "KJV should no longer be available, but it is!");
 });
 
 Then('the KJV is selected as the current translation', async function () {
@@ -98,4 +126,30 @@ Then('the relevant buttons in the menu are enabled', async function() {
   await global.spectronHelper.buttonIsEnabled(bookSelectButton);
   await global.spectronHelper.buttonIsEnabled(moduleSearchButton);
   await global.spectronHelper.buttonIsEnabled(bibleTranslationInfoButton);
+});
+
+async function isKjvAvailable(refreshNsi=false) {
+  const nsi = await global.spectronHelper.getNSI(refreshNsi);
+  var allLocalModules = nsi.getAllLocalModules();
+  var kjvFound = false;
+
+  allLocalModules.forEach((module) => {
+    if (module.name == 'KJV') kjvFound = true;
+  });
+
+  return kjvFound;
+}
+
+Given('the KJV is the only translation installed', {timeout: 80 * 1000}, async function () {
+  const nsi = await global.spectronHelper.getNSI();
+  var kjvFound = await isKjvAvailable();
+
+  if (!kjvFound) {
+    await nsi.updateRepositoryConfig();
+    await nsi.installModule('KJV');
+    assert(isKjvAvailable());
+
+    await global.app.webContents.executeJavaScript("nsi.refreshLocalModules()");
+    await global.app.webContents.executeJavaScript("bible_browser_controller.updateUiAfterBibleTranslationAvailable('KJV')");
+  }
 });

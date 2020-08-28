@@ -5,10 +5,11 @@ Feature: Module installation
   I first install a bible module
 
   Scenario: KJV installation
-    Given I open the module installation wizard
+    Given I open the module installation assistant
+    And I choose to add translations
     And I select the CrossWire repository
     And I select the English language
-    And I select the KJV module
+    And I select the KJV module for installation
 
     When the installation is completed
 
