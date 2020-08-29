@@ -1,8 +1,9 @@
 call npm config set msvs_version 2017
 call npm install electron@9.1.0 --arch=ia32
 call npm install --arch=ia32
-echo "Rebuilding sqlite3"
-call node_modules\.bin\electron-rebuild.cmd --arch=ia32 -f -o sqlite3 -v 9.1.0
+call npm install sqlite3 --build-from-source --runtime=electron --target=9.1.0 --dist-url=https://electronjs.org/headers
+REM echo "Rebuilding sqlite3"
+REM call node_modules\.bin\electron-rebuild.cmd --arch=ia32 -f -o sqlite3 -v 9.1.0
 echo "Rebuilding node-sword-interface"
 call node_modules\.bin\electron-rebuild.cmd --arch=ia32 -f -o node-sword-interface -v 9.1.0
 call copy node_modules\node-sword-interface\build\sword-build-win32\lib\*.dll node_modules\node-sword-interface\build\Release\
