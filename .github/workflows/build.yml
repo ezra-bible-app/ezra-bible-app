@@ -15,7 +15,7 @@ jobs:
         - name: Install electron-installer-windows
           run: powershell npm install electron-installer-windows
         - name: Install VS 2017
-          run: powershell choco install visualstudio2017community
+          run: powershell choco install visualstudio2017buildtools
         - name: Build
           run: powershell .\build_scripts\build_win32.bat
           env:

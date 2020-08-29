@@ -1,4 +1,4 @@
-set GYP_MSVS_VERSION=2017
+call npm config set msvs_version 2017
 call npm install electron@9.1.0 --arch=ia32
 call npm install --arch=ia32
 echo "Rebuilding sqlite3"
