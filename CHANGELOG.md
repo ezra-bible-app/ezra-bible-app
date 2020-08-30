@@ -25,7 +25,7 @@ All notable changes to Ezra Project are documented in this file.
 
 ### Enablers
 
-* Upgraded Electron from 8.3.0 to 9.1.0.
+* Upgraded Electron from 9.2.1 to 9.2.1.
 * Added rpm package for Fedora 32.
 
 [i78]: https://github.com/tobias-klein/ezra-project/issues/78
@@ -102,7 +102,7 @@ This is a bugfix release.
 ### Enablers
 
 * Add deb package for Ubuntu 20.04.
-* Upgraded Electron from 8.2.0 to 8.3.0.
+* Upgraded Electron from 8.2.0 to 9.2.1.
 
 [i26]: https://github.com/tobias-klein/ezra-project/issues/26
 [i41]: https://github.com/tobias-klein/ezra-project/issues/41
