@@ -1,14 +1,13 @@
 # Ezra Project - Changelog
 All notable changes to Ezra Project are documented in this file.
 
-<!--
-## [0.14.0 - 2020-08-22]
+## [0.14.0 - 2020-08-30]
 ### Features
 
 * Visualization of Cross References and Footnotes (from SWORD markup). ([#85](i85))
 * Dictionary box: Integrate possibility to show Strong's linked dictionary resources. ([#78](i78))
 * Added possibility to open verse lists (tagged verses or cross-references) in separate tab. ([#104](i104))
-* Windows/Linux: Added fullscreen feature (on F-11). ([#98][i98])
+* Windows/Linux: Added fullscreen feature (on F11). ([#98][i98])
 * Dictionary install/uninstall assistant. ([#80](i80))
 
 ### Enhancements
@@ -25,8 +24,7 @@ All notable changes to Ezra Project are documented in this file.
 
 ### Enablers
 
-* Upgraded Electron from 9.2.1 to 9.2.1.
-* Added rpm package for Fedora 32.
+* Upgraded Electron from 8.3.0 to 9.2.1.
 
 [i78]: https://github.com/tobias-klein/ezra-project/issues/78
 [i79]: https://github.com/tobias-klein/ezra-project/issues/79
@@ -40,7 +38,6 @@ All notable changes to Ezra Project are documented in this file.
 [i104]: https://github.com/tobias-klein/ezra-project/issues/104
 [i108]: https://github.com/tobias-klein/ezra-project/issues/108
 
--->
 
 ## [0.13.2 - 2020-07-08]
 This is a bugfix release.
