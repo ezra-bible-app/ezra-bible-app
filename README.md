@@ -36,7 +36,7 @@ You can also browse through some screenshots and photos on a separate [gallery p
 Ezra Project comes with the following functionality:
 * Bible browsing functionality
   * Bible books are opened entirely and you can scroll through the chapters seemlessly and fast.
-  * The text is shown with book introductions and section headers.
+  * The text is shown with book introductions, section headers, cross references and foot notes.
   * You can compare the bible translations of the selected verses.
   * Access to all bible translations available from [CrossWire's](http://www.crosswire.org) repositories.
   * Ezra Project uses the local Sword directories as any other Sword frontend.
@@ -56,12 +56,13 @@ Ezra Project comes with the following functionality:
   * Search within the full bible translation.
   * Search with multiple words, exact phrase or Strong's number.
   * Search results are highlighted.
-* Strong's dictionary
+* Dictionary
   - Strong's transcriptions/original word are displayed as hint/pop-up above the word when hovering the mouse over the corresponding word while pressing `SHIFT`.
   - Detailed Strong's information is shown on the bottom left in a separate box.
   - Strong's based search with link 'Find all occurrances'.
+  - Additional Strong's based dictionaries can be installed. All Strong's related dictionary entries are shown in the dictionary info box.
 * Tabbed user interface
-  * Each tab either shows a book, a tagged verse list or search results.
+  * Each tab either shows a book, a tagged verse list, cross references or search results.
   * Previously opened tabs are loaded again on program start.
 * Switchable light/dark color theme
   * You can easily and quickly switch between a light and a dark color theme.
