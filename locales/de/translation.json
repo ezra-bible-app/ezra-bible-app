@@ -148,6 +148,7 @@
   },
   "bible-browser": {
     "chapter": "Kapitel",
+    "chapter-header": "Kap.",
     "psalm": "Psalm",
     "selection": "Auswahl: ",
     "loading-bible-text": "Lade Bibeltext",

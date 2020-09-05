@@ -100,3 +100,7 @@ a.hl-search-result:link {
   border: 1px solid forestgreen;
 }
 
+.nav-pane-header {
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}

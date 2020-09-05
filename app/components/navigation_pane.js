@@ -103,6 +103,11 @@ class NavigationPane {
     var verse_counts = bible_chapter_verse_counts[currentBook];
     var i = 1;
 
+    var navigationHeader = document.createElement('div');
+    navigationHeader.classList.add('nav-pane-header');
+    navigationHeader.innerText = i18n.t('bible-browser.chapter-header');
+    navigationPane.append(navigationHeader);
+
     for (var key in verse_counts) {
       if (key == 'nil') {
         break;

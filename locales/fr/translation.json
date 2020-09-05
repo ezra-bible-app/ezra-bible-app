@@ -147,6 +147,7 @@
   },
   "bible-browser": {
     "chapter": "Chapitre",
+    "chapter-header": "Chpt.",
     "psalm": "Psaume",
     "selection": "Sélection : ",
     "loading-bible-text": "Chargement du texte biblique",

@@ -147,6 +147,7 @@
   },
   "bible-browser": {
     "chapter": "Hoofdstuk",
+    "chapter-header": "Chpt.",
     "psalm": "Psalm",
     "selection": "Selectie: ",
     "loading-bible-text": "Bijbeltekst laden",
