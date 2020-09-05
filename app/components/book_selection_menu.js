@@ -82,6 +82,12 @@ class BookSelectionMenu {
   }
 
   select_bible_book(book_code, book_title) {
+    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
+    var books = nsi.getBookList(currentBibleTranslationId);
+    if (!books.includes(book_code)) {
+      return;
+    }
+
     bible_browser_controller.book_selection_menu.hide_book_menu();
     bible_browser_controller.book_selection_menu.highlightSelectedBookInMenu(book_code);
 
@@ -98,13 +104,6 @@ class BookSelectionMenu {
     bible_browser_controller.text_loader.prepareForNewText(true, false);
 
     setTimeout(async () => {
-      var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
-      var books = nsi.getBookList(currentBibleTranslationId);
-
-      if (!books.includes(book_code)) {
-        return;
-      }
-
       // Set selected tags and search term to null, since we just switched to a book
       var currentTab = bible_browser_controller.tab_controller.getTab();
       currentTab.setTagIdList(null);
