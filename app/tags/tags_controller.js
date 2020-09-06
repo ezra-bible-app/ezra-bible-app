@@ -611,9 +611,7 @@ class TagsController {
   }
 
   html_code_for_visible_tag(tag_title) {
-    var tag_title_with_unbreakable_spaces = tag_title.replace(/ /g, '&nbsp;') + ' ';
-    return "<div class=\"tag\" title=\"" + i18n.t("bible-browser.tag-hint") + "\">" + 
-           tag_title_with_unbreakable_spaces + "</div>";
+    return `<div class='tag' title='${i18n.t('bible-browser.tag-hint')}'>${tag_title}</div>`;
   }
 
   new_tag_data_html(tag_class, title, id) {
