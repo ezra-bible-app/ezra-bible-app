@@ -513,7 +513,7 @@ h2 {
   height: 88%;
 }
 
-.verse-list-frame-small-screen .verse-notes {
+.verse-list-frame-small-screen .verse-notes:not(.book-notes) {
   width: 30%;
 }
 
@@ -1050,9 +1050,7 @@ div.CodeMirror {
 }
 
 .verse-notes {
-  width: 25%;
   padding: 0.5em;
-  margin-left: 1em;
   min-height: 4em;
   display: none;
   resize: vertical;
@@ -1071,8 +1069,20 @@ div.CodeMirror {
   position: relative;
 }
 
-.verse-list-with-notes:not(.verse-list-tags-column) .verse-notes {
+.verse-notes:not(.book-notes) {
+  margin-left: 1em;
+  width: 25%;
+}
+
+.verse-list-with-notes:not(.verse-list-tags-column) .verse-notes:not(.book-notes) {
   width: 50%;
+}
+
+.verse-list-with-notes .book-notes {
+  margin-left: 0.7em;
+  margin-right: 0.6em;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
 }
 
 .verse-notes-text {

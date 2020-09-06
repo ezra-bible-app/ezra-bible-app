@@ -21,6 +21,10 @@
 if bookIntroduction != null && bookIntroduction.length > 0
   div(class='book-intro') !{bookIntroduction}
 
+div(class='book-notes verse-notes')
+  div(class='notes-text external')
+  div(class='verse-notes-status-bar')
+
 each bibleBook in bibleBooks
   - var resultCount = 0
   if bibleBookStats != null

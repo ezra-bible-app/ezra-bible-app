@@ -225,6 +225,8 @@ class TextLoader {
         console.log("Could not retrieve book introduction for module " + currentBibleTranslationId);
       }
     }
+    
+    var bookNotes = "TEST";
 
     var verses_as_html = verseListTemplate({
       versification: versification,
@@ -234,6 +236,7 @@ class TextLoader {
       // only render chapter headers with the full book requested
       renderChapterHeaders: (start_verse_number == -1),
       bookIntroduction: bookIntroduction,
+      bookNotes: bookNotes,
       bibleBooks: [bibleBook],
       verses: verses,
       verseTags: groupedVerseTags,
