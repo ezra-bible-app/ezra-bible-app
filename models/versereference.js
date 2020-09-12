@@ -66,8 +66,8 @@ module.exports = (sequelize, DataTypes) => {
       chapter = 0;
       verseNr = 0;
       absoluteVerseNrs = {};
-      absoluteVerseNrs['absoluteVerseNrEng'] = -1;
-      absoluteVerseNrs['absoluteVerseNrHeb'] = -1;
+      absoluteVerseNrs['absoluteVerseNrEng'] = 0;
+      absoluteVerseNrs['absoluteVerseNrHeb'] = 0;
 
     } else {
 

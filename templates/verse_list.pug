@@ -23,7 +23,7 @@ if bookIntroduction != null && bookIntroduction.length > 0
 
 if renderBookNotes
   - var firstBibleBookId = bibleBooks[0].shortTitle
-  - var firstVerseReferenceIdClass = 'verse-reference-id-' + firstBibleBookId.toLowerCase();
+  - var firstVerseReferenceIdClass = 'verse-nr-0 verse-reference-id-' + firstBibleBookId.toLowerCase();
   - var bookNotesClassList = 'book-notes verse-notes ' + firstVerseReferenceIdClass;
   - var bookNotesRaw = ''
   - var bookNotesText = ''
@@ -63,7 +63,6 @@ each bibleBook in bibleBooks
 
   - var verse_count = 0
   - var old_chapter = null;
-
   - var bibleBookId = bibleBook.shortTitle.toLowerCase()
   
   each verse in verses

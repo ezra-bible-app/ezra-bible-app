@@ -99,13 +99,20 @@ class NotesController {
 
             this.updateNoteDate(currentVerseBox, updatedTimestamp);
 
-            if (!currentVerseBox.classList.contains('book-notes')) {
-              this.verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(currentVerseBox, { noteValue: currentNoteValue, timestamp: updatedTimestamp }, (context, targetVerseBox) => {
-                var currentNotes = targetVerseBox.querySelector('.verse-notes');
-                currentNotes.setAttribute('notes-content', context.noteValue);
-                this.updateNoteDate(targetVerseBox, context.timestamp);
-              });
-            }
+            this.verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(
+              currentVerseBox, { noteValue: currentNoteValue, timestamp: updatedTimestamp }, (context, targetVerseBox) => {
+
+              var currentNotes = null;
+
+              if (targetVerseBox.classList.contains('book-notes')) {
+                currentNotes = targetVerseBox;
+              } else {
+                currentNotes = targetVerseBox.querySelector('.verse-notes');
+              }
+
+              currentNotes.setAttribute('notes-content', context.noteValue);
+              this.updateNoteDate(targetVerseBox, context.timestamp);
+            });
           }
         });
       }
@@ -150,14 +157,21 @@ class NotesController {
     if (this.currentlyEditedNotes != null) {
       var renderedContent = this.getRenderedEditorContent(!persist);
       this.updateRenderedContent(this.currentlyEditedNotes, renderedContent);
-      
       var currentVerseBox = this.getCurrentVerseBox();
-      if (!currentVerseBox.classList.contains('book-notes')) {
-        this.verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(currentVerseBox, renderedContent, (context, targetVerseBox) => {
-          var targetNotes = targetVerseBox.querySelector('.verse-notes');
-          this.updateRenderedContent(targetNotes, context);
-        });
-      }
+
+      this.verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(
+        currentVerseBox, renderedContent, (context, targetVerseBox) => {
+
+        var targetNotes = null;
+
+        if (targetVerseBox.classList.contains('book-notes')) {
+          targetNotes = targetVerseBox;
+        } else {
+          targetNotes = targetVerseBox.querySelector('.verse-notes');
+        }
+
+        this.updateRenderedContent(targetNotes, context);
+      });
 
       this.resetVerseNoteButtons();
     }
