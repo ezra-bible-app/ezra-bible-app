@@ -72,13 +72,13 @@ Ezra Project comes with the following functionality:
 
 ## Upcoming Features
 
-Ezra Project is currently on a bi-monthly release schedule. The next release [0.14.0](https://github.com/tobias-klein/ezra-project/projects/2) is planned for August 2020 with the following new features:
+Ezra Project is currently on a bi-monthly release schedule. The next release [0.15.0](https://github.com/tobias-klein/ezra-project/projects/2) is planned for October 2020 with the following new features:
 
-* Dictionary box: Integrate possibility to show Strong's linked dictionary resources ([#78][i78])
-* Visualization of Cross References and Footnotes (from SWORD markup) ([#85][i85])
+* Chapter and book-level notes ([#94][i94], [#95][i95])
+* Various usability enhancements
 
-[i78]: https://github.com/tobias-klein/ezra-project/issues/78
-[i85]: https://github.com/tobias-klein/ezra-project/issues/85
+[i94]: https://github.com/tobias-klein/ezra-project/issues/94
+[i95]: https://github.com/tobias-klein/ezra-project/issues/95
 
 ## Installation
 The latest installation packages for Windows, Linux and macOS can be found on [this page][latest]. Specific install instructions are below.
