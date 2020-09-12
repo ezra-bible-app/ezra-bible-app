@@ -52,25 +52,47 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   VerseReference.findOrCreateFromVerseBox = async function(verseBoxElement) {
-    var translationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
-    var versification = bible_browser_controller.translation_controller.getVersification(translationId);
+    var bibleBookId = null;
+    var conditions = null;
+    var chapter = null;
+    var verseNr = null;
+    var absoluteVerseNrs = null;
 
-    var verseBox = new VerseBox(verseBoxElement);
+    if (verseBoxElement.classList.contains('book-notes')) {
+      var bibleBookShortTitle = bible_browser_controller.tab_controller.getTab().getBook();
+      var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: bibleBookShortTitle } });
 
-    var vId = verseBox.getVerseReferenceId();
-    var bibleBookShortTitle = verseBox.getBibleBookShortTitle();
-    var splittedId = vId.split('-');
-    var bibleBookId = splittedId[1];
-    var absoluteVerseNr = verseBox.getAbsoluteVerseNumber();
-    var chapter = verseBox.getChapter();
-    var verseNr = verseBox.getVerseNumber();
+      conditions = { bibleBookId: bibleBook.id, chapter: 0, verseNr: 0 };
+      chapter = 0;
+      verseNr = 0;
+      absoluteVerseNrs = {};
+      absoluteVerseNrs['absoluteVerseNrEng'] = -1;
+      absoluteVerseNrs['absoluteVerseNrHeb'] = -1;
 
-    var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: bibleBookShortTitle } });
-    var absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(versification, bibleBookId, absoluteVerseNr, chapter, verseNr);
+    } else {
 
-    var conditions = { bibleBookId: bibleBook.id, absoluteVerseNrEng: absoluteVerseNr };
-    if (versification == 'HEBREW') {
-      conditions = { bibleBookId: bibleBook.id, absoluteVerseNrHeb: absoluteVerseNr };
+      var translationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
+      var versification = bible_browser_controller.translation_controller.getVersification(translationId);
+
+      var verseBox = new VerseBox(verseBoxElement);
+
+      var vId = verseBox.getVerseReferenceId();
+      var bibleBookShortTitle = verseBox.getBibleBookShortTitle();
+      var splittedId = vId.split('-');
+      var bibleBookId = splittedId[1];
+      var absoluteVerseNr = verseBox.getAbsoluteVerseNumber();
+      chapter = verseBox.getChapter();
+      verseNr = verseBox.getVerseNumber();
+
+      var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: bibleBookShortTitle } });
+      bibleBookId = bibleBook.id;
+
+      absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(versification, bibleBookShortTitle, absoluteVerseNr, chapter, verseNr);
+
+      conditions = { bibleBookId: bibleBookId, absoluteVerseNrEng: absoluteVerseNr };
+      if (versification == 'HEBREW') {
+        conditions = { bibleBookId: bibleBookId, absoluteVerseNrHeb: absoluteVerseNr };
+      }
     }
 
     const [ verseReference, created ] = await models.VerseReference.findOrCreate({
@@ -86,6 +108,15 @@ module.exports = (sequelize, DataTypes) => {
 
     return verseReference;
   };
+
+  VerseReference.getBookReference = async function(bookShortTitle) {
+    var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: bookShortTitle } });
+    var bibleBookId = bibleBook.id;
+
+    return await this.findOne({
+      where: { bibleBookId: bibleBookId, chapter: 0, verseNr: 0 }
+    });
+  }
 
   VerseReference.findByBookAndAbsoluteVerseNumber = function(bookShortTitle, absoluteVerseNr, versification) {
     var absoluteVerseNrField = (versification == 'eng' ? 'absoluteVerseNrEng' : 'absoluteVerseNrHeb');

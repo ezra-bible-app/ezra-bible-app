@@ -21,9 +21,29 @@
 if bookIntroduction != null && bookIntroduction.length > 0
   div(class='book-intro') !{bookIntroduction}
 
-div(class='book-notes verse-notes')
-  div(class='notes-text external')
-  div(class='verse-notes-status-bar')
+if renderBookNotes
+  - var firstBibleBookId = bibleBooks[0].shortTitle
+  - var firstVerseReferenceIdClass = 'verse-reference-id-' + firstBibleBookId.toLowerCase();
+  - var bookNotesClassList = 'book-notes verse-notes ' + firstVerseReferenceIdClass;
+  - var bookNotesRaw = ''
+  - var bookNotesText = ''
+  - var bookNotesUpdate = ''
+
+  if bookNotes == null
+    - bookNotesClassList += ' verse-notes-empty'
+  else
+    - bookNotesRaw = bookNotes.text
+    - bookNotesText = marked(bookNotes.text);
+    - bookNotesUpdate = i18nHelper.getLocalizedDate(bookNotes.updatedAt);
+
+  div(class=bookNotesClassList, verse-reference-id=firstBibleBookId.toLowerCase(), notes-content=bookNotesRaw)
+    div(class='verse-notes-text external') !{bookNotesText}
+    div(class='verse-notes-status-bar')
+      div(class='verse-notes-buttons')
+        a(class='save-note', href='') !{saveText}
+        span &nbsp;|&nbsp;
+        a(class='cancel-edit', href='') !{cancelText}
+      div(class='verse-notes-timestamp') !{bookNotesUpdate}
 
 each bibleBook in bibleBooks
   - var resultCount = 0
