@@ -1100,7 +1100,7 @@ div.CodeMirror {
   bottom: 0.5em;
   color: grey;
   font-size: 90%;
-  width: 95%;
+  width: 100%;
 }
 
 .verse-notes-buttons {
@@ -1110,6 +1110,7 @@ div.CodeMirror {
 
 .verse-notes-timestamp {
   float: right;
+  margin-right: 1em;
 }
 
 .darkmode--activated .verse-notes:not(.verse-notes-empty) {
