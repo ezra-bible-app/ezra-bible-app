@@ -55,7 +55,7 @@
     "removing-translations": "Geselecteerde Bijbelvertalingen verwijderen",
     "removing-dictionaries": "Geselecteerde woordenboeken verwijderen",
     "it-takes-time-to-install-translation": "Houd er rekening mee dat het enige tijd duurt voordat elke vertaling gedownload en geïnstalleerd is.",
-    "it-takes-time-to-install-translation": "Houd er rekening mee dat het enige tijd duurt voordat elk woordenboek gedownload en geïnstalleerd is.",
+    "it-takes-time-to-install-dictionary": "Houd er rekening mee dat het enige tijd duurt voordat elk woordenboek gedownload en geïnstalleerd is.",
     "select-translations-to-be-removed": "Selecteer de bijbelvertalingen die u wilt verwijderen.<br/><br/>Uitgeschakelde elementen in de lijst zijn vertalingen die niet in de gebruikersmap zijn geïnstalleerd.",
     "select-dictionaries-to-be-removed": "Selecteer de woordenboeken die u wilt verwijderen.<br/><br/>Uitgeschakelde elementen in de lijst zijn woordenboeken die niet in de gebruikersmap zijn geïnstalleerd of woordenboeken die essentiël zijn voor functionaliteit van Ezra Project.",
     "installing": "Installeren",
