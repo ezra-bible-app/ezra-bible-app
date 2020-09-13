@@ -1043,10 +1043,10 @@ h2 {
 
 div.CodeMirror {
   font: caption;
-  height: 20em;
+  height: inherit;
+  /* height: 20em; */
   margin-bottom: 0.5em;
   background-color: #ecf3f7;
-  resize: vertical;
 }
 
 .verse-notes {
@@ -1087,6 +1087,13 @@ div.CodeMirror {
 
 .verse-notes-text {
   padding-bottom: 0.7em;
+}
+
+.verse-list-scroll-notes .verse-notes-text {
+  max-height: 20em;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin-bottom: 1.5em;
 }
 
 .verse-notes-text:not(.edited) {
