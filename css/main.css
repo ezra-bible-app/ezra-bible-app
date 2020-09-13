@@ -1045,8 +1045,8 @@ div.CodeMirror {
   font: caption;
   height: inherit;
   /* height: 20em; */
-  margin-bottom: 0.5em;
   background-color: #ecf3f7;
+  margin-bottom: 1em;
 }
 
 .verse-notes {
@@ -1089,11 +1089,25 @@ div.CodeMirror {
   padding-bottom: 0.7em;
 }
 
+.verse-notes-text.edited {
+  min-height: 20em;
+}
+
+.verse-list-with-notes.verse-list-scroll-notes .verse-notes-text.edited .CodeMirror-scroll {
+  min-height: 20em;
+  max-height: 20em;
+}
+
 .verse-list-scroll-notes .verse-notes-text {
   max-height: 20em;
-  overflow-y: scroll;
+  overflow-y: hidden;
   overflow-x: hidden;
   margin-bottom: 1.5em;
+  padding: 0;
+}
+
+.verse-list-scroll-notes .verse-notes:not(.verse-notes-empty) .verse-notes-text:not(.edited) {
+  overflow-y: auto;
 }
 
 .verse-notes-text:not(.edited) {
