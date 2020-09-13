@@ -135,12 +135,18 @@ class TranslationComparison {
     });
 
     this.getBoxContent().html("");
+
+    $('#compare-translations-loading-indicator').find('.loader').show();
+    $('#compare-translations-loading-indicator').show();
+
     this.getBox().dialog("open");
 
     setTimeout(async () => {
       var compareTranslationContent = await this.getCompareTranslationContent();
+
+      $('#compare-translations-loading-indicator').hide();
       this.getBoxContent().html(compareTranslationContent);
-    }, 100);
+    }, 50);
   }
 }
 
