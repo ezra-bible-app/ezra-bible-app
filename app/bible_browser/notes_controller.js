@@ -211,6 +211,15 @@ class NotesController {
     var verseReferenceId = null;
     var verseNotesBox = $(event.target).closest('.verse-notes');
 
+    // If the notes are not empty we need to ensure that the user actually clicked on the notes content
+    if (!verseNotesBox.hasClass('verse-notes-empty')) {
+      if (event.target.classList.contains('verse-notes-text') || event.target.classList.contains('verse-notes')) {
+        // The click happened outside of the notes content (scrollbar or area right of scrollbar).
+        // In this case we return immediately and do not process the click.
+        return;
+      }
+    }
+
     if (verseNotesBox.hasClass('book-notes')) {
       verseReferenceId = $(event.target).closest('.verse-notes')[0].getAttribute('verse-reference-id');
     } else {

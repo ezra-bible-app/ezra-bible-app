@@ -1041,12 +1041,12 @@ h2 {
   border: 1px solid black;
 }
 
+
 div.CodeMirror {
   font: caption;
-  height: inherit;
-  /* height: 20em; */
   background-color: #ecf3f7;
   margin-bottom: 1em;
+  height: inherit;
 }
 
 .verse-notes {
@@ -1094,7 +1094,6 @@ div.CodeMirror {
 }
 
 .verse-list-with-notes.verse-list-scroll-notes .verse-notes-text.edited .CodeMirror-scroll {
-  min-height: 20em;
   max-height: 20em;
 }
 
