@@ -1,0 +1,159 @@
+/* This file is part of Ezra Project.
+
+   Copyright (C) 2019 - 2020 Tobias Klein <contact@ezra-project.net>
+
+   Ezra Project is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   Ezra Project is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Ezra Project. See the file LICENSE.
+   If not, see <http://www.gnu.org/licenses/>. */
+
+div.CodeMirror {
+  font: caption;
+  background-color: #ecf3f7;
+  margin-bottom: 1em;
+  padding-bottom: 1.5em;
+  height: inherit;
+  min-height: inherit;
+}
+
+.verse-notes {
+  padding: 0.5em;
+  min-height: 4em;
+  display: none;
+  resize: vertical;
+
+  /* YELLOW */
+  /*border: 1px solid #FFF500;
+  background-color: #FFFF88; */
+
+  border-radius: 6px;
+
+  /* BLUEISH */
+  background-color: #DEEDF7;
+  border: 1px solid #AED0EA;
+
+  position: relative;
+}
+
+.verse-notes:not(.book-notes) {
+  margin-left: 1em;
+  width: 25%;
+}
+
+.verse-list-with-notes:not(.verse-list-tags-column) .verse-notes:not(.book-notes) {
+  width: 50%;
+}
+
+.verse-list-with-notes .book-notes {
+  margin-left: 0.7em;
+  margin-right: 0.6em;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+.verse-notes-text {
+  padding-bottom: 0.7em;
+}
+
+.verse-list-with-notes:not(.verse-list-scroll-notes) .verse-notes-text.edited {
+  min-height: 18em;
+}
+
+.verse-list-with-notes.verse-list-scroll-notes .verse-notes-text.edited .CodeMirror-scroll {
+  height: 18em;
+}
+
+.CodeMirror-scroll {
+  overflow-x: hidden !important;
+}
+
+.verse-list-scroll-notes .verse-notes-text {
+  max-height: 20em;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  margin-bottom: 0.5em;
+}
+
+.verse-list-scroll-notes .verse-notes:not(.verse-notes-empty) .verse-notes-text:not(.edited) {
+  overflow-y: auto;
+  margin-bottom: 2em;
+}
+
+.verse-notes-text:not(.edited) {
+  padding-top: 4px;
+  padding-left: 4px;
+  line-height: 130%;
+}
+
+.verse-notes-status-bar {
+  position: absolute;
+  bottom: 0.5em;
+  color: grey;
+  font-size: 90%;
+  width: 100%;
+}
+
+.verse-notes-buttons {
+  float: left;
+  display: none;
+}
+
+.verse-notes-timestamp {
+  float: right;
+  margin-right: 1em;
+}
+
+.darkmode--activated .verse-notes:not(.verse-notes-empty) {
+  background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat
+}
+
+.verse-notes-empty {
+  min-height: 1.9em;
+  border: 1px solid #DDDDDD;
+  background-color: inherit;
+  padding-top: 1.1em;
+  padding-bottom: 1.1em;
+  text-align: center;
+  font-weight: bold;
+  color: #A0A0A0;
+}
+
+.verse-notes h1,
+.verse-notes h2,
+.verse-notes h3 {
+  text-decoration: none;
+  font-weight: bold;
+  padding-top: 0.5em;
+  margin-top: 0;
+  margin-left: 0;
+}
+
+.verse-notes h1, .cm-header-1 {
+  font-size: 1.4em;
+}
+
+.verse-notes h2, .cm-header-2 {
+  font-size: 1.3em;
+}
+
+.verse-notes h3, .cm-header-3 {
+  font-size: 1.1em;
+}
+
+.verse-notes ul, .verse-notes ol {
+  padding-inline-start: 20px;
+}
+
+.verse-notes p {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
