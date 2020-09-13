@@ -30,6 +30,15 @@ module.exports = (sequelize, DataTypes) => {
     Note.belongsTo(models.VerseReference);
   };
 
+  Note.findByVerseReferenceId = async function(verseReferenceId) {
+    var allNotes = await Note.findByVerseReferenceIds(verseReferenceId);
+    if (allNotes.length == 1) {
+      return allNotes[0];
+    } else {
+      return null;
+    }
+  }
+
   Note.findByVerseReferenceIds = function(verseReferenceIds) {
     var query = "SELECT n.*, b.shortTitle AS bibleBookId, vr.absoluteVerseNrEng, vr.absoluteVerseNrHeb" + 
                 " FROM VerseReferences vr " +

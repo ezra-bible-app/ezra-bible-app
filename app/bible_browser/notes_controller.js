@@ -65,11 +65,14 @@ class NotesController {
   refreshNotesInfo(noteValue) {
     var currentVerseBox = this.getCurrentVerseBox();
     var notesInfo = currentVerseBox.querySelector('.notes-info');
-    if (noteValue != '') {
-      notesInfo.classList.add('visible');
-    } else {
-      notesInfo.classList.remove('visible');
-    }    
+
+    if (notesInfo != null) {
+      if (noteValue != '') {
+        notesInfo.classList.add('visible');
+      } else {
+        notesInfo.classList.remove('visible');
+      }
+    }
   }
 
   saveEditorContent() {
@@ -96,8 +99,17 @@ class NotesController {
 
             this.updateNoteDate(currentVerseBox, updatedTimestamp);
 
-            this.verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(currentVerseBox, { noteValue: currentNoteValue, timestamp: updatedTimestamp }, (context, targetVerseBox) => {
-              var currentNotes = targetVerseBox.querySelector('.verse-notes');
+            this.verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(
+              currentVerseBox, { noteValue: currentNoteValue, timestamp: updatedTimestamp }, (context, targetVerseBox) => {
+
+              var currentNotes = null;
+
+              if (targetVerseBox.classList.contains('book-notes')) {
+                currentNotes = targetVerseBox;
+              } else {
+                currentNotes = targetVerseBox.querySelector('.verse-notes');
+              }
+
               currentNotes.setAttribute('notes-content', context.noteValue);
               this.updateNoteDate(targetVerseBox, context.timestamp);
             });
@@ -145,10 +157,19 @@ class NotesController {
     if (this.currentlyEditedNotes != null) {
       var renderedContent = this.getRenderedEditorContent(!persist);
       this.updateRenderedContent(this.currentlyEditedNotes, renderedContent);
-      
       var currentVerseBox = this.getCurrentVerseBox();
-      this.verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(currentVerseBox, renderedContent, (context, targetVerseBox) => {
-        var targetNotes = targetVerseBox.querySelector('.verse-notes');
+
+      this.verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(
+        currentVerseBox, renderedContent, (context, targetVerseBox) => {
+
+        var targetNotes = null;
+
+        if (targetVerseBox.classList.contains('book-notes')) {
+          targetNotes = targetVerseBox;
+        } else {
+          targetNotes = targetVerseBox.querySelector('.verse-notes');
+        }
+
         this.updateRenderedContent(targetNotes, context);
       });
 
@@ -187,8 +208,15 @@ class NotesController {
 
     event.stopPropagation();
 
-    var verseBox = $(event.target).closest('.verse-box')[0];
-    var verseReferenceId = new VerseBox(verseBox).getVerseReferenceId();
+    var verseReferenceId = null;
+    var verseNotesBox = $(event.target).closest('.verse-notes');
+
+    if (verseNotesBox.hasClass('book-notes')) {
+      verseReferenceId = $(event.target).closest('.verse-notes')[0].getAttribute('verse-reference-id');
+    } else {
+      var verseBox = $(event.target).closest('.verse-box')[0];
+      verseReferenceId = new VerseBox(verseBox).getVerseReferenceId();
+    }
 
     if (verseReferenceId != this.currentVerseReferenceId) {
       this.restoreCurrentlyEditedNotes();

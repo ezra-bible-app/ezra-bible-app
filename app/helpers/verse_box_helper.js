@@ -49,22 +49,56 @@ class VerseBoxHelper {
     return bookList;
   }
 
+  getBibleBookShortTitleFromElement(element) {
+    var bibleBookShortTitle = null;
+
+    if (element.classList.contains('book-notes')) {
+      bibleBookShortTitle = element.getAttribute('verse-reference-id');
+      bibleBookShortTitle =  bibleBookShortTitle[0].toUpperCase() + bibleBookShortTitle.substring(1);
+    } else {
+      bibleBookShortTitle = new VerseBox(element).getBibleBookShortTitle();
+    }
+
+    return bibleBookShortTitle;
+  }
+
   async iterateAndChangeAllDuplicateVerseBoxes(referenceVerseBoxElement, context, changeCallback) {
     var current_tab_index = bible_browser_controller.tab_controller.getSelectedTabIndex();
     var tab_count = bible_browser_controller.tab_controller.getTabCount();
-    var referenceVerseBox = new VerseBox(referenceVerseBoxElement);
 
-    var bibleBook = referenceVerseBox.getBibleBookShortTitle();
+    var bibleBook = this.getBibleBookShortTitleFromElement(referenceVerseBoxElement);
+    var absoluteVerseNumber = null;
+    var chapter = null;
+    var verseNumber = null;
+    var absoluteVerseNrs = null;
+
+    if (referenceVerseBoxElement.classList.contains('book-notes')) {
+      absoluteVerseNumber = 0;
+      chapter = 0;
+      verseNumber = 0;
+
+      absoluteVerseNrs = {};
+      absoluteVerseNrs['absoluteVerseNrEng'] = 0;
+      absoluteVerseNrs['absoluteVerseNrHeb'] = 0;
+    } else {
+      var referenceVerseBox = new VerseBox(referenceVerseBoxElement);
+      absoluteVerseNumber = referenceVerseBox.getAbsoluteVerseNumber();
+      chapter = referenceVerseBox.getChapter();
+      verseNumber = referenceVerseBox.getVerseNumber();
+
+      absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(source_versification,
+                                                                   bibleBook,
+                                                                   absoluteVerseNumber,
+                                                                   chapter,
+                                                                   verseNumber);
+    }
+
+
     var referenceBibleBook = await models.BibleBook.findOne({ where: { shortTitle: bibleBook } });
 
     var source_tab_translation = bible_browser_controller.tab_controller.getTab(current_tab_index).getBibleTranslationId();
     var source_versification = bible_browser_controller.translation_controller.getVersification(source_tab_translation);
 
-    var absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(source_versification,
-                                                                     bibleBook,
-                                                                     referenceVerseBox.getAbsoluteVerseNumber(),
-                                                                     referenceVerseBox.getChapter(),
-                                                                     referenceVerseBox.getVerseNumber());
 
     for (var i = 0; i < tab_count; i++) {
       if (i != current_tab_index) {
@@ -85,7 +119,7 @@ class VerseBoxHelper {
         // Therefore we have to go through all of them and check for each of them whether the book is matching our reference book
         for (var j = 0; j < target_verse_box.length; j++) {
           var specific_target_verse_box = target_verse_box[j];
-          var target_verse_box_bible_book_short_title = new VerseBox(specific_target_verse_box).getBibleBookShortTitle();
+          var target_verse_box_bible_book_short_title = this.getBibleBookShortTitleFromElement(specific_target_verse_box);
           var targetBibleBook = await models.BibleBook.findOne({ where: { shortTitle: target_verse_box_bible_book_short_title } });
           var target_verse_bible_book_id = targetBibleBook.id;
 
