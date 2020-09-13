@@ -171,6 +171,7 @@
     "show-dictionary": "Show dictionary",
     "show-tags": "Show tags",
     "show-notes": "Show notes",
+    "limit-notes-display-size": "Limit notes display size",
     "use-tags-column": "Use tags column",
     "use-night-mode": "Night mode",
     "tag-statistics": "Tag statistics",

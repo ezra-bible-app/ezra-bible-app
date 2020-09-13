@@ -171,6 +171,7 @@
     "show-dictionary": "Afficher le dictionnaire",
     "show-tags": "Montrer les étiquettes",
     "show-notes": "Montrer les notes",
+    "limit-notes-display-size": "Limit notes display size",
     "use-tags-column": "Utiliser des colonnes d'étiquettes",
     "use-night-mode": "Mode nuit",
     "tag-statistics": "Statistiques des étiquettes",

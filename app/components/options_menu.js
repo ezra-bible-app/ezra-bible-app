@@ -114,6 +114,12 @@ class OptionsMenu {
       this.slowlyHideDisplayMenu();
     });
 
+    $('#verse-notes-fixed-height-switch').bind('change', () => {
+      bible_browser_controller.settings.set('fixNotesHeight', this.verseNotesFixedHeightSwitchChecked());
+      this.fixNotesHeightBasedOnOption();
+      this.slowlyHideDisplayMenu();
+    });
+
     /*
     // Enable the cross reference display by default
     $('#x-refs-switch').attr('checked', 'checked');
@@ -237,6 +243,11 @@ class OptionsMenu {
       showNotes = bible_browser_controller.settings.get('showNotes');
     }
 
+    var fixNotesHeight = false;
+    if (bible_browser_controller.settings.has('fixNotesHeight')) {
+      fixNotesHeight = bible_browser_controller.settings.get('fixNotesHeight');
+    }
+
     if (showToolBar) {
       this.enableOption('tool-bar-switch');
     }
@@ -267,6 +278,10 @@ class OptionsMenu {
 
     if (showNotes) {
       this.enableOption('verse-notes-switch');
+    }
+
+    if (fixNotesHeight) {
+      this.enableOption('verse-notes-fixed-height-switch');
     }
 
     if (useTagsColumn) {
@@ -444,6 +459,19 @@ class OptionsMenu {
     }
   }
 
+  fixNotesHeightBasedOnOption(tabIndex=undefined) {
+    var currentReferenceVerse = bible_browser_controller.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+
+    if (this.verseNotesFixedHeightSwitchChecked()) {
+      currentReferenceVerse.addClass('verse-list-scroll-notes');
+      currentVerseList.addClass('verse-list-scroll-notes');
+    } else {
+      currentReferenceVerse.removeClass('verse-list-scroll-notes');
+      currentVerseList.removeClass('verse-list-scroll-notes');
+    }
+  }
+
   changeTagsLayoutBasedOnOption(tabIndex=undefined) {
     var currentReferenceVerse = bible_browser_controller.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
@@ -493,6 +521,7 @@ class OptionsMenu {
     this.changeTagsLayoutBasedOnOption(tabIndex);
     this.showOrHideStrongsBasedOnOption(tabIndex);
     this.showOrHideVerseNotesBasedOnOption(tabIndex);
+    this.fixNotesHeightBasedOnOption(tabIndex);
     this.useNightModeBasedOnOption();
   }
 
@@ -502,6 +531,10 @@ class OptionsMenu {
 
   verseNotesSwitchChecked() {
     return $('#verse-notes-switch').prop('checked');
+  }
+
+  verseNotesFixedHeightSwitchChecked() {
+    return $('#verse-notes-fixed-height-switch').prop('checked');
   }
 
   bookIntroductionSwitchChecked() {
