@@ -127,15 +127,20 @@ class TranslationComparison {
   }
 
   async handleButtonClick() {
-    var compareTranslationContent = await this.getCompareTranslationContent();
-    this.getBoxContent().html(compareTranslationContent);
+    var boxTitle = i18n.t("bible-browser.comparing-translations-for") + " " + 
+      bible_browser_controller.verse_selection.getSelectedVersesLabel().text();
 
-    var boxTitle = i18n.t("bible-browser.comparing-translations-for") + " " + bible_browser_controller.verse_selection.getSelectedVersesLabel().text();
     this.getBox().dialog({
       title: boxTitle
     });
 
+    this.getBoxContent().html("");
     this.getBox().dialog("open");
+
+    setTimeout(async () => {
+      var compareTranslationContent = await this.getCompareTranslationContent();
+      this.getBoxContent().html(compareTranslationContent);
+    }, 100);
   }
 }
 
