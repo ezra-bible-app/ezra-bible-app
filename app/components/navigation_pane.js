@@ -190,7 +190,7 @@ class NavigationPane {
 
   getCachedVerseListTabId() {
     var currentVerseList = bible_browser_controller.getCurrentVerseList();
-    var firstLink = currentVerseList[0].querySelector('a');
+    var firstLink = currentVerseList[0].querySelector('a.nav');
     var cachedVerseListTabId = firstLink.getAttribute('name').split(' ')[0];
     return cachedVerseListTabId;
   }
