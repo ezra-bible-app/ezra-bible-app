@@ -2,6 +2,7 @@
   "tags-toolbar": {
     "new-tag": "Nouvelle étiquette",
     "tag-statistics": "Statistiques des étiquettes",
+    "assign-last-tag": "Assign last tag",
     "configure-translations": "Configurer des traductions",
     "configure-dicts": "Configurer des dictionnaires",
     "show-parallel-translations": "Comparer traductions"

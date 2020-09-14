@@ -2,6 +2,7 @@
   "tags-toolbar": {
     "new-tag": "Neuer Tag",
     "tag-statistics": "Tag Statistiken",
+    "assign-last-tag": "Letzten Tag zuweisen",
     "configure-translations": "Übersetzungen konfigurieren",
     "configure-dicts": "Wörterbücher konfigurieren",
     "show-parallel-translations": "Übersetzungen vergleichen"
