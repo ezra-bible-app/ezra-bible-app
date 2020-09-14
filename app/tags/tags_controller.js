@@ -241,15 +241,25 @@ class TagsController {
                                                "remove");
   }
 
+  async assign_last_tag() {
+    if (this.tag_store.latest_tag_id != null) {
+      var checkbox_tag = this.get_checkbox_tag(this.tag_store.latest_tag_id);
+      await this.clickCheckBoxTag(checkbox_tag);
+    }
+  }
+
   async handle_tag_label_click(event) {
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
-    var checkbox = checkbox_tag.find('.tag-cb');
+    await this.clickCheckBoxTag(checkbox_tag);
+  }
 
+  async clickCheckBoxTag(checkboxTag) {
     var current_verse_list = bible_browser_controller.verse_selection.selected_verse_references;
 
     if (!tags_controller.is_blocked && current_verse_list.length > 0) {
+      var checkbox = checkboxTag.find('.tag-cb');
       checkbox.prop('checked', !checkbox.prop('checked'));
-      await tags_controller.handle_checkbox_tag_state_change(checkbox_tag);
+      await tags_controller.handle_checkbox_tag_state_change(checkboxTag);
     }
   }
 

@@ -309,6 +309,12 @@ class BibleBrowserController {
       tags_controller.handle_new_tag_button_click($(this), "standard");
     });
 
+    currentVerseListMenu.find('.assign-last-tag-button').bind('click', function(event) {
+      if (!event.target.classList.contains('ui-state-disabled')) {
+        tags_controller.assign_last_tag();
+      }
+    });
+
     this.translationComparison.initButtonEvents();
 
     var tabId = this.tab_controller.getSelectedTabId(tabIndex);
