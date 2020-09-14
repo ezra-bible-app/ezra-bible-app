@@ -22,6 +22,8 @@ class TagStore {
     this.bookTagStatistics = {};
     this.latest_timestamp = null;
     this.oldest_recent_timestamp = null;
+    this.latest_tag_id = null;
+    this.onLatestUsedTagChanged = null;
   }
 
   resetBookTagStatistics() {
@@ -37,13 +39,30 @@ class TagStore {
     }
   }
 
+  async refreshTagList() {
+    await this.getTagList(true);
+  }
+
   async getTagList(forceRefresh=false) {
     if (this.tagList == null || forceRefresh) {
       this.tagList = await models.Tag.getAllTags();
-      await this.updateLatestAndOldestRecentTimestamp();
+      await this.updateLatestAndOldestTagData();
     }
 
     return this.tagList;
+  }
+
+  async getTag(tagId) {
+    var tagList = await this.getTagList();
+
+    for (var i = 0; i < tagList.length; i++) {
+      var currentTag = tagList[i];
+      if (currentTag.id == tagId) {
+        return currentTag;
+      }
+    }
+
+    return null;
   }
 
   async getBibleBookDbId(bookShortTitle) {
@@ -108,7 +127,7 @@ class TagStore {
     });
   }
 
-  async updateLatestAndOldestRecentTimestamp() {
+  async updateLatestAndOldestTagData() {
     var all_timestamps = [];
     var tagList = await this.getTagList();
 
@@ -132,6 +151,26 @@ class TagStore {
 
       this.latest_timestamp = all_timestamps[last_element_index];
       this.oldest_recent_timestamp = all_timestamps[oldest_recent_element_index];
+    }
+
+    // Update latest tag based on latest timestamp
+    var latest_tag_found = false;
+
+    for (var i = 0; i < tagList.length; i++) {
+      var tag = tagList[i];
+      var current_timestamp = parseInt(tag.lastUsed);
+
+      if (current_timestamp == this.latest_timestamp) {
+        this.latest_tag_id = tag.id;
+        await this.onLatestUsedTagChanged(this.latest_tag_id);
+        latest_tag_found = true;
+        break;
+      }
+    }
+
+    if (!latest_tag_found) {
+      this.latest_tag_id = null;
+      await this.onLatestUsedTagChanged(this.latest_tag_id);
     }
   }
 

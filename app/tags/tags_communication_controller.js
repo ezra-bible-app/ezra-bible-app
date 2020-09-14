@@ -44,35 +44,29 @@ class TagsCommunicationController
   }
 
   async destroy_tag(id) {
-    models.VerseTag.destroy({
-      where: {
-        tagId: id
-      }
-    }).then(
-      models.Tag.destroy({
-        where: {
-          id: id
-        }
-      }).then(affectedRows => {
-        tags_controller.remove_tag_by_id(tags_controller.tag_to_be_deleted,
-                                         tags_controller.tag_to_be_deleted_title);
+    try {
+      await models.VerseTag.destroy({ where: { tagId: id } });
 
-        bible_browser_controller.tag_selection_menu.requestTagsForMenu(true);
+      await models.Tag.destroy({ where: { id: id } });
+      
+      await tags_controller.remove_tag_by_id(tags_controller.tag_to_be_deleted,
+                                             tags_controller.tag_to_be_deleted_title);
 
-      }).then(() => {
-        models.MetaRecord.updateLastModified();
-      }).catch(error => {
-        alert('An error occurred while trying to delete the tag with id ' + id + ': ' + error);
-      })
-    );
+      await bible_browser_controller.tag_selection_menu.requestTagsForMenu(true);
+
+      await models.MetaRecord.updateLastModified();
+
+    } catch(e) {
+      alert('An error occurred while trying to delete the tag with id ' + id + ': ' + e);
+    };
   }
 
   assign_tag_to_verses(tagId, verseBoxes) {
     tags_controller.communication_controller.update_tags_on_verses(tagId, verseBoxes, "add");
   }
 
-  remove_tag_from_verses(tagId, verseBoxes) {
-    tags_controller.communication_controller.update_tags_on_verses(tagId, verseBoxes, "remove");
+  async remove_tag_from_verses(tagId, verseBoxes) {
+    await tags_controller.communication_controller.update_tags_on_verses(tagId, verseBoxes, "remove");
   }
 
   async update_tags_on_verses(tagId, verseBoxes, action) {
