@@ -93,6 +93,7 @@ class SwordNotes {
     }
 
     swordNotes.css('display', 'inline-block');
+    swordNotes.css('margin-left', '0.1em');
     //console.timeEnd('SwordNotes.initForTab');
   }
 }
