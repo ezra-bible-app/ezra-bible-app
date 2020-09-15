@@ -1317,7 +1317,11 @@ class TagsController {
     loadingIndicator.hide();
   }
 
-  async onLatestUsedTagChanged(tagId, added=true) {
+  async onLatestUsedTagChanged(tagId=undefined, added=true) {
+    if (tagId == undefined) {
+      tagId = this.tag_store.latest_tag_id;
+    }
+
     var currentTag = await this.tag_store.getTag(tagId);
 
     if (currentTag != null) {

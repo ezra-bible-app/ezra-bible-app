@@ -217,6 +217,9 @@ class BibleBrowserController {
 
     this.optionsMenu.initCurrentOptionsMenu(tabIndex);
     this.book_selection_menu.clearSelectedBookInMenu();
+
+    // We need to refresh the last used tag button, because the button is not yet initialized in the tab html template
+    tags_controller.onLatestUsedTagChanged(undefined, undefined);
   }
 
   async onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId) {
