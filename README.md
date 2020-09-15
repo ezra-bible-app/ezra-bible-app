@@ -7,7 +7,6 @@ and to do it and to teach his statutes and rules in Israel." Ezra 7:10
 <p align="center">
   <a href="#usage--howto--screenshots">Usage</a> •
   <a href="#features">Features</a> •
-  <a href="#upcoming-features">Upcoming Features</a> •
   <a href="#installation">Installation</a> •
   <a href="#technology">Technology</a> •
   <a href="#join-the-team">Team</a>
