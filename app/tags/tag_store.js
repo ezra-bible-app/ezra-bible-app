@@ -52,6 +52,11 @@ class TagStore {
     return this.tagList;
   }
 
+  async renameTag(tagId, newTitle) {
+    var tag = await this.getTag(tagId);
+    tag.title = newTitle;
+  }
+
   async getTag(tagId) {
     var tagList = await this.getTagList();
 

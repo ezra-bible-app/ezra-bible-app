@@ -126,8 +126,8 @@ class TagsController {
     rename_standard_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {
       $(this).dialog("close");
     };
-    rename_standard_tag_dlg_options.buttons[i18n.t("general.rename")] = function() {
-      tags_controller.close_dialog_and_rename_standard_tag();
+    rename_standard_tag_dlg_options.buttons[i18n.t("general.rename")] = async function() {
+      await tags_controller.close_dialog_and_rename_standard_tag();
     };
     $('#rename-standard-tag-dialog').dialog(rename_standard_tag_dlg_options);
   
@@ -147,14 +147,21 @@ class TagsController {
     });
   }
 
-  close_dialog_and_rename_standard_tag() {
+  async close_dialog_and_rename_standard_tag() {
     $('#rename-standard-tag-dialog').dialog('close');
     var new_title = $('#rename-standard-tag-title-input').val();
     var checkbox_tag = this.get_checkbox_tag(tags_controller.rename_standard_tag_id);
     var is_global = (checkbox_tag.parent().attr('id') == 'tags-content-global');
+    
     tags_controller.update_tag_titles_in_verse_list(tags_controller.rename_standard_tag_id, is_global, new_title);
     tags_controller.communication_controller.update_tag(tags_controller.rename_standard_tag_id, new_title);
     tags_controller.sort_tag_lists();
+    
+    if (tags_controller.rename_standard_tag_id == tags_controller.tag_store.latest_tag_id) {
+      await tags_controller.tag_store.renameTag(tags_controller.rename_standard_tag_id, new_title);
+      tags_controller.onLatestUsedTagChanged(undefined, undefined);
+    }
+
     bible_browser_controller.tag_selection_menu.requestTagsForMenu();
     bible_browser_controller.tab_controller.updateTabTitleAfterTagRenaming(tags_controller.rename_standard_tag_title, new_title);
   }
@@ -854,7 +861,7 @@ class TagsController {
     $('#rename-standard-tag-dialog').dialog('open');
     $('#rename-standard-tag-title-input').focus();
 
-    tags_controller.rename_standard_tag_id =  checkbox_tag.attr('tag-id');
+    tags_controller.rename_standard_tag_id = parseInt(checkbox_tag.attr('tag-id'));
     tags_controller.rename_standard_tag_title = cb_label;
   }
 
