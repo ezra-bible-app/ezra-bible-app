@@ -44,6 +44,11 @@ div.CodeMirror {
   position: relative;
 }
 
+.verse-notes-text img {
+  margin: 0.5em;
+  border: 1px solid grey;
+}
+
 .verse-notes:not(.book-notes) {
   margin-left: 1em;
   width: 25%;
