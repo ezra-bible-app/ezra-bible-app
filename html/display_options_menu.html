@@ -1,70 +1,78 @@
-<div class="options-header first" i18n="bible-browser.module-configuration"></div>
+<div class="options-group" style="float: left;">
+  <div class="options-header" i18n="bible-browser.module-configuration"></div>
 
-<div class="switch-box">
-  <button id="show-translation-settings-button" class="fg-button ui-corner-all ui-state-default" i18n="tags-toolbar.configure-translations"></button>
+  <div class="switch-box">
+    <button id="show-translation-settings-button" class="fg-button ui-corner-all ui-state-default" i18n="tags-toolbar.configure-translations"></button>
+  </div>
+
+  <div class="switch-box">
+    <button id="show-dict-settings-button" class="fg-button ui-corner-all ui-state-default" i18n="tags-toolbar.configure-dicts"></button>
+  </div>
 </div>
 
-<div class="switch-box">
-  <button id="show-dict-settings-button" class="fg-button ui-corner-all ui-state-default" i18n="tags-toolbar.configure-dicts"></button>
+<div class="options-group">
+  <div class="options-header" i18n="bible-browser.display"></div>
+
+  <div id="tool-bar-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
+    <input id="tool-bar-switch" type="checkbox"></input>
+    <div class="switch-label" id="tool-bar-switch-label" i18n="bible-browser.show-tool-bar"></div>
+  </div>
+
+  <div id="strongs-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
+    <input id="strongs-switch" type="checkbox"></input>
+    <div class="switch-label" id="strongs-switch-label" i18n="bible-browser.show-dictionary"></div>
+  </div>
+
+  <div id="night-mode-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
+    <input id="night-mode-switch" type="checkbox"></input>
+    <div class="switch-label" id="night-mode-switch-label" i18n="bible-browser.use-night-mode"></div>
+  </div>
 </div>
 
-<div class="options-header" i18n="bible-browser.display"></div>
+<div class="options-group">
+  <div class="options-header" i18n="bible-browser.text-options"></div>
 
-<div id="tool-bar-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-  <input id="tool-bar-switch" type="checkbox"></input>
-  <div class="switch-label" id="tool-bar-switch-label" i18n="bible-browser.show-tool-bar"></div>
+  <div id="book-intro-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
+    <input id="book-intro-switch" type="checkbox"></input>
+    <div class="switch-label" id="book-intro-switch-label" i18n="bible-browser.show-book-intro"></div>
+  </div>
+
+  <div id="section-title-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
+    <input id="section-title-switch" type="checkbox"></input>
+    <div class="switch-label" id="section-title-switch-label" i18n="bible-browser.show-section-titles"></div>
+  </div>
+
+  <div id="xrefs-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
+    <input id="xrefs-switch" type="checkbox"></input>
+    <div class="switch-label" id="xrefs-switch-label" i18n="bible-browser.show-xrefs"></div>
+  </div>
+
+  <div id="footnotes-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
+    <input id="footnotes-switch" type="checkbox"></input>
+    <div class="switch-label" id="footnotes-switch-label" i18n="bible-browser.show-footnotes"></div>
+  </div>
 </div>
 
-<div id="strongs-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-  <input id="strongs-switch" type="checkbox"></input>
-  <div class="switch-label" id="strongs-switch-label" i18n="bible-browser.show-dictionary"></div>
-</div>
+<div class="options-group">
+  <div class="options-header" i18n="bible-browser.bible-browser-layout"></div>
 
-<div id="night-mode-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-  <input id="night-mode-switch" type="checkbox"></input>
-  <div class="switch-label" id="night-mode-switch-label" i18n="bible-browser.use-night-mode"></div>
-</div>
+  <div id="tags-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default ui-state-active">
+    <input id="tags-switch" type="checkbox" checked="checked"></input>
+    <div class="switch-label" id="tags-switch-label" i18n="bible-browser.show-tags"></div>
+  </div>
 
-<div class="options-header" i18n="bible-browser.text-options"></div>
+  <div id="tags-column-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
+    <input id="tags-column-switch" type="checkbox"></input>
+    <div class="switch-label" id="tags-column-switch-label" i18n="bible-browser.use-tags-column"></div>
+  </div>
 
-<div id="book-intro-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-  <input id="book-intro-switch" type="checkbox"></input>
-  <div class="switch-label" id="book-intro-switch-label" i18n="bible-browser.show-book-intro"></div>
-</div>
+  <div id="verse-notes-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
+    <input id="verse-notes-switch" type="checkbox"></input>
+    <div class="switch-label" id="verse-notes-switch-label" i18n="bible-browser.show-notes"></div>
+  </div>
 
-<div id="section-title-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-  <input id="section-title-switch" type="checkbox"></input>
-  <div class="switch-label" id="section-title-switch-label" i18n="bible-browser.show-section-titles"></div>
-</div>
-
-<div id="xrefs-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-  <input id="xrefs-switch" type="checkbox"></input>
-  <div class="switch-label" id="xrefs-switch-label" i18n="bible-browser.show-xrefs"></div>
-</div>
-
-<div id="footnotes-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-  <input id="footnotes-switch" type="checkbox"></input>
-  <div class="switch-label" id="footnotes-switch-label" i18n="bible-browser.show-footnotes"></div>
-</div>
-
-<div class="options-header" i18n="bible-browser.bible-browser-layout"></div>
-
-<div id="tags-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default ui-state-active">
-  <input id="tags-switch" type="checkbox" checked="checked"></input>
-  <div class="switch-label" id="tags-switch-label" i18n="bible-browser.show-tags"></div>
-</div>
-
-<div id="tags-column-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-  <input id="tags-column-switch" type="checkbox"></input>
-  <div class="switch-label" id="tags-column-switch-label" i18n="bible-browser.use-tags-column"></div>
-</div>
-
-<div id="verse-notes-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-  <input id="verse-notes-switch" type="checkbox"></input>
-  <div class="switch-label" id="verse-notes-switch-label" i18n="bible-browser.show-notes"></div>
-</div>
-
-<div id="verse-notes-fixed-height-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-  <input id="verse-notes-fixed-height-switch" type="checkbox"></input>
-  <div class="switch-label" id="verse-notes-fixed-height-switch-label" i18n="bible-browser.limit-notes-display-size"></div>
+  <div id="verse-notes-fixed-height-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
+    <input id="verse-notes-fixed-height-switch" type="checkbox"></input>
+    <div class="switch-label" id="verse-notes-fixed-height-switch-label" i18n="bible-browser.limit-notes-display-size"></div>
+  </div>
 </div>

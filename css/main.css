@@ -692,8 +692,13 @@ h2 {
 }
 
 #display-options-menu {
-  width: 19em;
   padding-top: 0.5em;
+  width: 38em;
+}
+
+.options-group {
+  float: left;
+  width: 19em;
 }
 
 .selection-menu-footer {
@@ -906,10 +911,10 @@ h2 {
   margin-bottom: 0.8em;
 }
 
-.options-header:not(.first) {
+/*.options-header:not(.first) {
   border-top: 2px solid #DDDDDD;
   padding-top: 0.5em;
-}
+}*/
 
 .switch-box {
   clear: both;
@@ -1208,7 +1213,7 @@ h2 {
   user-select: none;
 }
 
-.verse-list-tabs-small-screen .bible-select-block {
+.verse-list-tabs-small-screen .display-options-button {
   clear: both;
   margin-left: 0;
 }
