@@ -57,7 +57,6 @@ class InstallModuleWizard {
     this.init(moduleType);
 
     var appContainerWidth = $(window).width() - 10;
-
     var wizardWidth = null;
 
     if (appContainerWidth < 1100) {
