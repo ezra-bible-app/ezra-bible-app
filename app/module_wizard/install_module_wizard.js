@@ -56,8 +56,16 @@ class InstallModuleWizard {
   openWizard(moduleType) {
     this.init(moduleType);
 
-    var wizardWidth = 1100;
     var appContainerWidth = $(window).width() - 10;
+
+    var wizardWidth = null;
+
+    if (appContainerWidth < 1100) {
+      wizardWidth = appContainerWidth;
+    } else {
+      wizardWidth = 1100;
+    }
+
     var offsetLeft = appContainerWidth - wizardWidth - 100;
     var offsetTop = 20;
 
