@@ -128,7 +128,7 @@ class UiHelper {
 
     if (verseListTabsWidth >= 200 && // Initially, at program start the width is very small (100) - in this
                                      // case we don't add the small-screen class to avoid flickering.
-        verseListTabsWidth <= 820) {
+        verseListTabsWidth <= 900) {
 
       verseListTabs.addClass('verse-list-tabs-small-screen')
     } else {
