@@ -56,8 +56,15 @@ class InstallModuleWizard {
   openWizard(moduleType) {
     this.init(moduleType);
 
-    var wizardWidth = 1100;
     var appContainerWidth = $(window).width() - 10;
+    var wizardWidth = null;
+
+    if (appContainerWidth < 1100) {
+      wizardWidth = appContainerWidth;
+    } else {
+      wizardWidth = 1100;
+    }
+
     var offsetLeft = appContainerWidth - wizardWidth - 100;
     var offsetTop = 20;
 
@@ -897,7 +904,7 @@ class InstallModuleWizard {
           checkboxChecked = " checked";
         }
 
-        var currentRepo = "<p><input type='checkbox'" + checkboxChecked + "><span class='label' id='" + repositories[i] + "'>";
+        var currentRepo = "<p style='float: left; width: 15em;'><input type='checkbox'" + checkboxChecked + "><span class='label' id='" + repositories[i] + "'>";
         currentRepo += repositories[i] + ' (' + currentRepoTranslationCount + ')';
         currentRepo += "</span></p>";
         wizardPage.append(currentRepo);
@@ -909,7 +916,7 @@ class InstallModuleWizard {
       lastUpdate = new Date(Date.parse(lastUpdate)).toLocaleDateString(i18n.language);
     }
 
-    var lastUpdateInfo = "<p style='margin-top: 2em;'>" +
+    var lastUpdateInfo = "<p style='clear: both; padding-top: 1em;'>" +
                          i18n.t("module-assistant.repo-data-last-updated", { date: lastUpdate }) + " " +
                          "<button id='update-repo-data' class='fg-button ui-state-default ui-corner-all'>" +
                          i18n.t("module-assistant.update-now") +
