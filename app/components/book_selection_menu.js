@@ -83,6 +83,11 @@ class BookSelectionMenu {
 
   select_bible_book(book_code, book_title) {
     var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
+
+    Sentry.addBreadcrumb({category: "BookSelectionMenu.select_bible_book",
+                          message: `Selected book ${book_code} using translation ${currentBibleTranslationId}`,
+                          level: Sentry.Severity.Info});
+    
     var books = nsi.getBookList(currentBibleTranslationId);
     if (!books.includes(book_code)) {
       return;
