@@ -269,7 +269,7 @@ class TagSelectionMenu {
     return tag_list;
   }
 
-  handleTagCbClick(event) {
+  handleTagCbClick() {
     var currentTagIdList = this.selectedTagIds();
     var currentTagTitleList = this.selectedTagTitles();
     bible_browser_controller.openTaggedVerses(currentTagIdList, currentTagTitleList);
@@ -278,7 +278,7 @@ class TagSelectionMenu {
   bindTagCbEvents() {
     var cbs = document.querySelectorAll('.tag-browser-tag-cb');
     for (var i = 0; i < cbs.length; i++) {
-      cbs[i].addEventListener('click', async (event) => { this.handleTagCbClick(event); });
+      cbs[i].addEventListener('click', () => { this.handleTagCbClick(); });
       cbs[i].removeAttribute('checked');
       cbs[i].removeAttribute('disabled');
     }
