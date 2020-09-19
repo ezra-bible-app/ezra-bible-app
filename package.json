@@ -44,7 +44,7 @@
     "update-cc-metrics": "./build_scripts/update_complexity_metrics.sh"
   },
   "dependencies": {
-    "@sentry/electron": "^1.4.0",
+    "@sentry/electron": "^2.0.0",
     "chart.js": "^2.9.3",
     "codemirror": "^5.55.0",
     "darkmode-js": "^1.5.5",
