@@ -904,7 +904,7 @@ class InstallModuleWizard {
           checkboxChecked = " checked";
         }
 
-        var currentRepo = "<p style='float: left; width: 15em;'><input type='checkbox'" + checkboxChecked + "><span class='label' id='" + repositories[i] + "'>";
+        var currentRepo = "<p style='float: left; width: 17em;'><input type='checkbox'" + checkboxChecked + "><span class='label' id='" + repositories[i] + "'>";
         currentRepo += repositories[i] + ' (' + currentRepoTranslationCount + ')';
         currentRepo += "</span></p>";
         wizardPage.append(currentRepo);
