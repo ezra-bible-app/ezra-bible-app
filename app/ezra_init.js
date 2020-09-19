@@ -20,6 +20,16 @@ require('v8-compile-cache');
 
 const app = require('electron').remote.app;
 const { remote, ipcRenderer } = require('electron');
+const isDev = require('electron-is-dev');
+
+if (isDev) {
+  global.Sentry = {
+    addBreadcrumb: function() {},
+    Severity: {
+      Info: undefined
+    }
+  }
+}
 
 // i18n
 let i18n = null;
