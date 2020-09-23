@@ -6,6 +6,7 @@ call copy node_modules\node-sword-interface\build\sword-build-win32\lib\*.dll no
 call npm run install-node-prune-win
 call npm run prune-node-modules
 call npm run package-win
+call npm run fix-binary-timestamps
 call npm run installer-win
 
 if "%GITHUB_EVENT_NAME%"=="release" (
