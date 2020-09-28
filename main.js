@@ -86,7 +86,8 @@ function createWindow () {
                                   webPreferences: {
                                     nodeIntegration: true,
                                     preload: preloadScript,
-                                    enableRemoteModule: true
+                                    enableRemoteModule: true,
+                                    defaultEncoding: "UTF-8"
                                   },
                                   icon: path.join(__dirname, 'icons/ezra-project.png')
                                  });
