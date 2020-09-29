@@ -14,10 +14,10 @@ jobs:
         - uses: actions/checkout@v1
         - name: Install electron-installer-windows
           run: powershell npm install electron-installer-windows
-        - name: Install VS 2017 Build Tools
-          run: powershell choco install visualstudio2017buildtools
-        - name: Install VS C++ features
-          run: powershell choco install visualstudio2017-workload-vctools
+#        - name: Install VS 2017 Build Tools
+#          run: powershell choco install visualstudio2017buildtools
+#        - name: Install VS C++ features
+#          run: powershell choco install visualstudio2017-workload-vctools
         - name: Build
           run: powershell .\build_scripts\build_win32.bat
           env:
