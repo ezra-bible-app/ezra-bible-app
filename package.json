@@ -3,7 +3,7 @@
   "version": "0.15.0-Dev",
   "description": "Ezra Project is a bible study software focussing on topical study based on keywords/tags",
   "author": "Tobias Klein",
-  "license": "GPL-3.0",
+  "license": "GPL-2.0+",
   "repository": {
     "type": "git",
     "url": "https://github.com/tobias-klein/ezra-project.git"
