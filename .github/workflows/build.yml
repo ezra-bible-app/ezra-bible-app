@@ -40,6 +40,8 @@ jobs:
           run: brew install pkg-config
         - name: Build
           run: npm run build-mac
+          env:
+            SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
         - name: Generate dmg
           run: npm install electron-installer-dmg macos-alias ds-store && npm run dmg-mac
         - name: Upload dmg
