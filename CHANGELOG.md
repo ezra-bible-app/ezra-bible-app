@@ -1,6 +1,35 @@
 # Ezra Project - Changelog
 All notable changes to Ezra Project are documented in this file.
 
+## [0.15.0 - 2020-10-25]
+
+### Features
+
+* Added support for book-level notes. ([#95](i95))
+
+### Enhancements
+
+* Changed layout of options menu to use two columns to enhance support for smaller screens. ([#120](i120))
+* Added a button for assigining the last used tag. ([#82](i82))
+* Added a header to the book navigation pane to enhance usability. ([#112](i112))
+* Added a configuration option to limit height of notes (with scrollbar). ([#114](i114))
+* Added a loading indicator to the translation comparison popup. ([#115](i115))
+
+### Fixes
+
+* Fixed Crash on Windows related to std::mutex (API locking of node-sword-interface). ([#118](i118))
+* Fixed a build issue that prevented Ezra Project from working on older macOS 10.x versions. With this issue fixed, it now works from macOS 10.10 (Yosemite) and all other subsequent versions. ([#119](i119))
+* Fixed a bug where the book selection menu was still responding to clicks even though the buttons were disabled/greyed out. ([#111](i111))
+
+[i82]: https://github.com/tobias-klein/ezra-project/issues/82
+[i111]: https://github.com/tobias-klein/ezra-project/issues/111
+[i112]: https://github.com/tobias-klein/ezra-project/issues/112
+[i114]: https://github.com/tobias-klein/ezra-project/issues/114
+[i115]: https://github.com/tobias-klein/ezra-project/issues/115
+[i118]: https://github.com/tobias-klein/ezra-project/issues/118
+[i119]: https://github.com/tobias-klein/ezra-project/issues/119
+[i120]: https://github.com/tobias-klein/ezra-project/issues/120
+
 ## [0.14.0 - 2020-08-30]
 ### Features
 
