@@ -20,6 +20,8 @@ All notable changes to Ezra Project are documented in this file.
 * Fixed Crash on Windows related to std::mutex (API locking of node-sword-interface). ([#118](i118))
 * Fixed a build issue that prevented Ezra Project from working on older macOS 10.x versions. With this issue fixed, it now works from macOS 10.10 (Yosemite) and all other subsequent versions. ([#119](i119))
 * Fixed a bug where the book selection menu was still responding to clicks even though the buttons were disabled/greyed out. ([#111](i111))
+* Fixed a bug where Xref markers do not respond to clicks after tab search has been used. ([#122](i122))
+* Fixed a bug where tab search may not have jumped to the right verse when searching within module search results. ([#123](i123))
 
 [i82]: https://github.com/tobias-klein/ezra-project/issues/82
 [i111]: https://github.com/tobias-klein/ezra-project/issues/111
@@ -29,6 +31,9 @@ All notable changes to Ezra Project are documented in this file.
 [i118]: https://github.com/tobias-klein/ezra-project/issues/118
 [i119]: https://github.com/tobias-klein/ezra-project/issues/119
 [i120]: https://github.com/tobias-klein/ezra-project/issues/120
+[i122]: https://github.com/tobias-klein/ezra-project/issues/122
+[i123]: https://github.com/tobias-klein/ezra-project/issues/123
+
 
 ## [0.14.0 - 2020-08-30]
 ### Features
