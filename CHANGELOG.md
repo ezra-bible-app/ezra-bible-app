@@ -10,7 +10,7 @@ All notable changes to Ezra Project are documented in this file.
 ### Enhancements
 
 * Changed layout of options menu to use two columns to enhance support for smaller screens. ([#120](i120))
-* Added a button for assigining the last used tag. ([#82](i82))
+* Added a button for assigning the last used tag. ([#82](i82))
 * Added a header to the book navigation pane to enhance usability. ([#112](i112))
 * Added a configuration option to limit height of notes (with scrollbar). ([#114](i114))
 * Added a loading indicator to the translation comparison popup. ([#115](i115))
