@@ -529,6 +529,15 @@ class BibleBrowserController {
     }
   }
 
+  bindXrefEvents(tabIndex=undefined) {
+    var verseList = this.getCurrentVerseList(tabIndex);
+    var xref_markers = verseList.find('.sword-xref-marker');
+    
+    xref_markers.bind('mousedown', (event) => {
+      this.handleReferenceClick(event);
+    }).addClass('events-configured');
+  }
+
   bindEventsAfterBibleTextLoaded = async function(tabIndex=undefined, preventDoubleBinding=false, verseList=undefined) {
     if (verseList == undefined) {
       verseList = this.getCurrentVerseList(tabIndex);

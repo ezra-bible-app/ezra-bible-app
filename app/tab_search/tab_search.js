@@ -149,6 +149,9 @@ class TabSearch {
       bible_browser_controller.verse_selection.clear_verse_selection(false);
       this.onSearchReset();
       this.doSearch(searchString);
+      // This is necessary, beause the search "rewrites" the verse content and events
+      // get lost by doing that, so we have to re-bind the xref events.
+      bible_browser_controller.bindXrefEvents();
       this.inputField.focus();
     }, 400);
   }
