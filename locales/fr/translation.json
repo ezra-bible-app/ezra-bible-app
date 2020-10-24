@@ -2,7 +2,7 @@
   "tags-toolbar": {
     "new-tag": "Nouvelle étiquette",
     "tag-statistics": "Statistiques des étiquettes",
-    "assign-last-tag": "Assign last tag",
+    "assign-last-tag": "Assigner la dernière étiquette",
     "configure-translations": "Configurer des traductions",
     "configure-dicts": "Configurer des dictionnaires",
     "show-parallel-translations": "Comparer traductions"
@@ -153,7 +153,7 @@
     "selection": "Sélection : ",
     "loading-bible-text": "Chargement du texte biblique",
     "loading-tagged-verses": "Chargement des versets étiquetés",
-    "loading-verse-translations": "Loading verse translations",
+    "loading-verse-translations": "Chargement des traductions du verset sélectionné",
     "searching-for": "Recherche",
     "search-result-header": "Résultat des recherches pour ",
     "no-search-results": "Aucun résultat trouvé lors de la recherche de ",
@@ -173,7 +173,7 @@
     "show-dictionary": "Afficher le dictionnaire",
     "show-tags": "Montrer les étiquettes",
     "show-notes": "Montrer les notes",
-    "limit-notes-display-size": "Limit notes display size",
+    "limit-notes-display-size": "Limiter la taille des notes",
     "use-tags-column": "Utiliser des colonnes d'étiquettes",
     "use-night-mode": "Mode nuit",
     "tag-statistics": "Statistiques des étiquettes",

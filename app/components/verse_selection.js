@@ -73,6 +73,12 @@ class VerseSelection {
     });
   }
 
+  getVerseReferenceFromAnchor(anchorText) {
+    var splittedVerseReference = anchorText.split(" ");
+    var currentVerseReference = splittedVerseReference[splittedVerseReference.length - 1];
+    return currentVerseReference;
+  }
+
   updateSelected(verseList=undefined) {
     if (verseList == undefined) {
       var verseList = bible_browser_controller.getCurrentVerseList();
@@ -83,7 +89,8 @@ class VerseSelection {
 
     for (var i = 0; i < this.selected_verse_box_elements.length; i++) {
       var verseBox = $(this.selected_verse_box_elements[i]);
-      var currentVerseReference = verseBox.find('a:first').attr('name');
+      var currentVerseReferenceAnchor = verseBox.find('a:first').attr('name');
+      var currentVerseReference = this.getVerseReferenceFromAnchor(currentVerseReferenceAnchor);
       selectedVerseReferences.push(currentVerseReference);
     }
 
@@ -129,12 +136,12 @@ class VerseSelection {
         var currentVerseBibleBookShortName = new VerseBox(currentVerseBox).getBibleBookShortTitle();
 
         if (currentVerseBibleBookShortName == currentBookShortName) {
-          var currentVerseReference = $(currentVerseBox).find('a:first').attr('name');
+          var currentVerseReference = this.getVerseReferenceFromAnchor($(currentVerseBox).find('a:first').attr('name'));
           currentBookVerseReferences.push(currentVerseReference);
         }
       }
 
-      var formatted_verse_list = this.format_verse_list_for_view(currentBookVerseReferences, true);
+      var formatted_verse_list = this.format_verse_list_for_view(currentBookVerseReferences, true, currentBookShortName);
       var currentBookName = models.BibleBook.getBookTitleTranslation(currentBookShortName);
       var currentBookVerseReferenceDisplay = currentBookName + ' ' + formatted_verse_list;
       selected_verses_content.push(currentBookVerseReferenceDisplay);
@@ -160,7 +167,11 @@ class VerseSelection {
     return has_gaps;
   }
 
-  format_single_verse_block(list, start_index, end_index, turn_into_link) {
+  format_single_verse_block(list, start_index, end_index, turn_into_link, bookId=undefined) {
+    if (bookId == undefined) {
+      bookId = bible_browser_controller.tab_controller.getTab().getBook();
+    }
+
     if (start_index > (list.length - 1)) start_index = list.length - 1;
     if (end_index > (list.length - 1)) end_index = list.length - 1;
 
@@ -170,8 +181,7 @@ class VerseSelection {
     var formatted_passage = "";
 
     if (start_reference != undefined && end_reference != undefined) {
-      var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
-      formatted_passage = this.format_passage_reference_for_view(currentBook,
+      formatted_passage = this.format_passage_reference_for_view(bookId,
                                                                  start_reference,
                                                                  end_reference);
 
@@ -215,19 +225,22 @@ class VerseSelection {
     return verse_nr;
   }
 
-  verse_reference_list_to_absolute_verse_nr_list(list) {
+  verse_reference_list_to_absolute_verse_nr_list(list, bookId=undefined) {
     var new_list = new Array;
-    var short_book_title = bible_browser_controller.tab_controller.getTab().getBook();
+    
+    if (bookId == undefined) {
+      bookId = bible_browser_controller.tab_controller.getTab().getBook();
+    }
 
     for (var i = 0; i < list.length; i++) {
-      new_list.push(Number(this.reference_to_verse_nr(short_book_title, list[i])));
+      new_list.push(Number(this.reference_to_verse_nr(bookId, list[i])));
     }
 
     return new_list;
   }
 
-  format_verse_list_for_view(selected_verse_array, link_references) {
-    var absolute_nr_list = this.verse_reference_list_to_absolute_verse_nr_list(selected_verse_array);
+  format_verse_list_for_view(selected_verse_array, link_references, bookId=undefined) {
+    var absolute_nr_list = this.verse_reference_list_to_absolute_verse_nr_list(selected_verse_array, bookId);
     var verse_list_for_view = "";
 
     if (selected_verse_array.length > 0) {
@@ -242,7 +255,8 @@ class VerseSelection {
             verse_list_for_view += this.format_single_verse_block(selected_verse_array,
                                                                   current_start_index,
                                                                   current_end_index,
-                                                                  link_references);
+                                                                  link_references,
+                                                                  bookId);
 
             verse_list_for_view += "; ";
 
@@ -250,7 +264,8 @@ class VerseSelection {
               verse_list_for_view += this.format_single_verse_block(selected_verse_array,
                                                                     i,
                                                                     i,
-                                                                    link_references);
+                                                                    link_references,
+                                                                    bookId);
             }
 
             current_start_index = i;
@@ -259,7 +274,8 @@ class VerseSelection {
               verse_list_for_view += this.format_single_verse_block(selected_verse_array,
                                                                     current_start_index,
                                                                     i,
-                                                                    link_references)
+                                                                    link_references,
+                                                                    bookId)
             }
           }
         }
@@ -267,19 +283,15 @@ class VerseSelection {
         verse_list_for_view += this.format_single_verse_block(selected_verse_array,
                                                               0,
                                                               selected_verse_array.length - 1,
-                                                              link_references);
+                                                              link_references,
+                                                              bookId);
       }
     }
 
     return verse_list_for_view;
   }
 
-  format_passage_reference_for_view(book_short_title, start_reference, end_reference) {
-    // This first split is necessary, because there's a verse list id in the anchor that we do not
-    // want to show
-    start_reference = start_reference.split(" ")[1];
-    end_reference = end_reference.split(" ")[1];
-  
+  format_passage_reference_for_view(book_short_title, start_reference, end_reference) {  
     var start_chapter = start_reference.split(reference_separator)[0];
     var start_verse = start_reference.split(reference_separator)[1];
     var end_chapter = end_reference.split(reference_separator)[0];

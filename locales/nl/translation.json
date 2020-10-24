@@ -2,7 +2,7 @@
   "tags-toolbar": {
     "new-tag": "Nieuwe tag",
     "tag-statistics": "Tag-statistieken",
-    "assign-last-tag": "Assign last tag",
+    "assign-last-tag": "Laatste tag toewijzen",
     "configure-translations": "Vertalingen configureren",
     "configure-dicts": "Woordenboeken configureren",
     "show-parallel-translations": "Vertalingen vergelijken"
@@ -153,7 +153,7 @@
     "selection": "Selectie: ",
     "loading-bible-text": "Bijbeltekst laden",
     "loading-tagged-verses": "Getagde verzen laden",
-    "loading-verse-translations": "Loading verse translations",
+    "loading-verse-translations": "Versvertalingen laden",
     "searching-for": "Zoeken naar",
     "search-result-header": "Zoekresultaten voor ",
     "no-search-results": "Geen resultaten gevonden tijdens het zoeken naar ",
@@ -173,7 +173,7 @@
     "show-dictionary": "Toon woordenboek",
     "show-tags": "Toon tags",
     "show-notes": "Toon aantekeningen",
-    "limit-notes-display-size": "Limit notes display size",
+    "limit-notes-display-size": "Beperk grootte van aantekeningen",
     "use-tags-column": "Gebruik tags-kolom",
     "use-night-mode": "Nachtmodus",
     "tag-statistics": "Tagstatistieken",

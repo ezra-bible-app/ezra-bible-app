@@ -109,9 +109,9 @@ class TagsController {
       $(this).dialog("close");
     };
 
-    remove_tag_assignment_confirmation_dlg_options.buttons[i18n.t("tags.remove-tag-assignment")] = async function() {
-      await tags_controller.remove_tag_assignment_after_confirmation();
-    };  
+    remove_tag_assignment_confirmation_dlg_options.buttons[i18n.t("tags.remove-tag-assignment")] = function() {
+      tags_controller.remove_tag_assignment_after_confirmation();
+    };
 
     $('#remove-tag-assignment-confirmation-dialog').dialog(remove_tag_assignment_confirmation_dlg_options);
 
