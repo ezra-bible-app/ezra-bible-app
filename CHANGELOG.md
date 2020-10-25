@@ -26,6 +26,7 @@ All notable changes to Ezra Project are documented in this file.
 * Do not allow a new search while a current search is still ongoing (disable search menu button during active search). ([#117](i117))
 
 [i82]: https://github.com/tobias-klein/ezra-project/issues/82
+[i95]: https://github.com/tobias-klein/ezra-project/issues/95
 [i111]: https://github.com/tobias-klein/ezra-project/issues/111
 [i112]: https://github.com/tobias-klein/ezra-project/issues/112
 [i114]: https://github.com/tobias-klein/ezra-project/issues/114
