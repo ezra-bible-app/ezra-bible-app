@@ -19,6 +19,7 @@
 require('v8-compile-cache');
 
 const app = require('electron').remote.app;
+const { exception } = require('console');
 const { remote, ipcRenderer } = require('electron');
 const isDev = require('electron-is-dev');
 
@@ -146,6 +147,27 @@ function isMac()
   return navigator.platform.match('Mac') !== null;
 }
 
+function isMacOsMojaveOrLater()
+{
+  if (!isMac()) {
+    return false;
+  }
+
+  var isMojaveOrLater = false;
+
+  try {
+    var releaseVersion = require('os').release();
+    var splittedVersion = releaseVersion.split('.');
+    var majorDigit = parseInt(splittedVersion[0]);
+
+    // see https://en.wikipedia.org/wiki/Darwin_(operating_system)#Release_history
+    // macOS Mojave starts with the Darwin kernel version 18.0.0
+    isMojaveOrLater = (majorDigit >= 18);
+  } catch(e) {}
+
+  return isMojaveOrLater;
+}
+
 function isLinux()
 {
   return navigator.platform.match('Linux') !== null;
@@ -224,7 +246,7 @@ function switchToTheme(theme) {
 function earlyInitNightMode() {
   var useDarkMode = false;
 
-  if (isMac()) {
+  if (isMacOsMojaveOrLater()) {
     const nativeTheme = require('electron').remote.nativeTheme;
 
     if (nativeTheme.shouldUseDarkColors) {
@@ -252,7 +274,7 @@ function earlyHideToolBar() {
 }
 
 function initNightMode() {
-  if (isMac()) { // On macOS we initialize night mode based on the system settings
+  if (isMacOsMojaveOrLater()) { // On macOS (from Mojave) we initialize night mode based on the system settings
 
     const nativeTheme = require('electron').remote.nativeTheme;
 

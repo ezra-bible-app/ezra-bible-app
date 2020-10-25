@@ -25,7 +25,7 @@ class OptionsMenu {
   }
 
   toggleDarkModeIfNeeded() {
-    if (isMac()) {
+    if (isMacOsMojaveOrLater()) {
       const nativeTheme = require('electron').remote.nativeTheme;
 
       if (nativeTheme.shouldUseDarkColors) {
@@ -229,7 +229,7 @@ class OptionsMenu {
     }
 
     var useNightMode = false;
-    if (isMac()) {
+    if (isMacOsMojaveOrLater()) {
       const nativeTheme = require('electron').remote.nativeTheme;
       useNightMode = nativeTheme.shouldUseDarkColors;
     } else {
@@ -292,8 +292,8 @@ class OptionsMenu {
       this.enableOption('night-mode-switch');
     }
 
-    if (isMac()) {
-      // On macOS we do not give the user the option to switch night mode within the app, since it is controlled via system settings.
+    if (isMacOsMojaveOrLater()) {
+      // On macOS Mojave and later we do not give the user the option to switch night mode within the app, since it is controlled via system settings.
       $('#night-mode-switch-box').hide();
     }
 
