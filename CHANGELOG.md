@@ -14,12 +14,12 @@ All notable changes to Ezra Project are documented in this file.
 * Added a header to the book navigation pane to enhance usability. ([#112](i112))
 * Added a configuration option to limit height of notes (with scrollbar). ([#114](i114))
 * Added a loading indicator to the translation comparison popup. ([#115](i115))
-* macOS: Automatic night mode is only used from macOS Mojave and later versions. This means that on earlier macOS versions like High Sierra or Yosemite the manual night mode will be available like on Linux and Windows. ([#124](i124))
+* macOS: Automatic night mode is only used from *macOS Mojave* and later versions. This means that on earlier macOS versions like *High Sierra* or *Yosemite* the manual night mode will be available like on Linux and Windows. ([#124](i124))
 
 ### Fixes
 
 * Fixed Crash on Windows related to std::mutex (API locking of node-sword-interface). ([#118](i118))
-* Fixed a build issue that prevented Ezra Project from working on older macOS 10.x versions. With this issue fixed, it now works from macOS 10.10 (Yosemite) and all other subsequent versions. ([#119](i119))
+* Fixed a build issue that prevented Ezra Project from working on older macOS 10.x versions. With this issue fixed, it now works from macOS 10.10 (*Yosemite*) and all other subsequent versions. ([#119](i119))
 * Fixed a bug where the book selection menu was still responding to clicks even though the buttons were disabled/greyed out. ([#111](i111))
 * Fixed a bug where Xref markers do not respond to clicks after tab search has been used. ([#122](i122))
 * Fixed a bug where tab search may not have jumped to the right verse when searching within module search results. ([#123](i123))
