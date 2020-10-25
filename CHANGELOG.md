@@ -25,6 +25,10 @@ All notable changes to Ezra Project are documented in this file.
 * Fixed a bug where tab search may not have jumped to the right verse when searching within module search results. ([#123](i123))
 * Do not allow a new search while a current search is still ongoing (disable search menu button during active search). ([#117](i117))
 
+### Enablers
+
+* Upgraded to latest SWORD version 1.9.0 (SVN Rev. 3820). This is the first version of Ezra Project using this latest version of SWORD.
+
 [i82]: https://github.com/tobias-klein/ezra-project/issues/82
 [i95]: https://github.com/tobias-klein/ezra-project/issues/95
 [i111]: https://github.com/tobias-klein/ezra-project/issues/111
@@ -38,6 +42,7 @@ All notable changes to Ezra Project are documented in this file.
 [i122]: https://github.com/tobias-klein/ezra-project/issues/122
 [i123]: https://github.com/tobias-klein/ezra-project/issues/123
 [i124]: https://github.com/tobias-klein/ezra-project/issues/124
+
 
 ## [0.14.0 - 2020-08-30]
 ### Features
