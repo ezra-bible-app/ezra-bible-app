@@ -14,6 +14,7 @@ All notable changes to Ezra Project are documented in this file.
 * Added a header to the book navigation pane to enhance usability. ([#112](i112))
 * Added a configuration option to limit height of notes (with scrollbar). ([#114](i114))
 * Added a loading indicator to the translation comparison popup. ([#115](i115))
+* macOS: Automatic night mode is only be used from macOS Mojave and later versions. This means that on earlier macOS versions like High Sierra or Yosemite the manual night mode will be available like on Linux and Windows. ([#124](i124))
 
 ### Fixes
 
@@ -35,7 +36,7 @@ All notable changes to Ezra Project are documented in this file.
 [i120]: https://github.com/tobias-klein/ezra-project/issues/120
 [i122]: https://github.com/tobias-klein/ezra-project/issues/122
 [i123]: https://github.com/tobias-klein/ezra-project/issues/123
-
+[i124]: https://github.com/tobias-klein/ezra-project/issues/124
 
 ## [0.14.0 - 2020-08-30]
 ### Features
