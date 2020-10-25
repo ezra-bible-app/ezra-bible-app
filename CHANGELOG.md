@@ -22,12 +22,14 @@ All notable changes to Ezra Project are documented in this file.
 * Fixed a bug where the book selection menu was still responding to clicks even though the buttons were disabled/greyed out. ([#111](i111))
 * Fixed a bug where Xref markers do not respond to clicks after tab search has been used. ([#122](i122))
 * Fixed a bug where tab search may not have jumped to the right verse when searching within module search results. ([#123](i123))
+* Do not allow a new search while a current search is still ongoing (disable search menu button during active search). ([#117](i117))
 
 [i82]: https://github.com/tobias-klein/ezra-project/issues/82
 [i111]: https://github.com/tobias-klein/ezra-project/issues/111
 [i112]: https://github.com/tobias-klein/ezra-project/issues/112
 [i114]: https://github.com/tobias-klein/ezra-project/issues/114
 [i115]: https://github.com/tobias-klein/ezra-project/issues/115
+[i117]: https://github.com/tobias-klein/ezra-project/issues/117
 [i118]: https://github.com/tobias-klein/ezra-project/issues/118
 [i119]: https://github.com/tobias-klein/ezra-project/issues/119
 [i120]: https://github.com/tobias-klein/ezra-project/issues/120

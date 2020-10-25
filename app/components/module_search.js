@@ -193,6 +193,9 @@ class ModuleSearch {
       return;
     }
 
+    // Do not allow another concurrent search, disable the search menu button
+    $('.module-search-button').addClass('ui-state-disabled');
+
     this.verseStatisticsChart.resetChart(tabIndex);
 
     if (tabIndex === undefined) {
@@ -262,6 +265,9 @@ class ModuleSearch {
         bible_browser_controller.hideVerseListLoadingIndicator();
       }
     }
+
+    // We're done with the search and so we're re-enabling the search menu button
+    $('.module-search-button').removeClass('ui-state-disabled');
   }
 
   highlightSearchResults(searchTerm, tabIndex=undefined) {
