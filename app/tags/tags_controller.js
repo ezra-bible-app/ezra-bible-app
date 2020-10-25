@@ -114,6 +114,12 @@ class TagsController {
     };
 
     $('#remove-tag-assignment-confirmation-dialog').dialog(remove_tag_assignment_confirmation_dlg_options);
+    $('#remove-tag-assignment-confirmation-dialog').bind('dialogbeforeclose', function(event) {
+      if (!tags_controller.persistence_ongoing && tags_controller.remove_tag_assignment_job != null) {
+        tags_controller.remove_tag_assignment_job.cb.attr('checked','checked');
+        tags_controller.remove_tag_assignment_job = null;
+      }
+    });
 
     var rename_standard_tag_dlg_options = {
       title: i18n.t("tags.rename-tag"),
@@ -463,8 +469,14 @@ class TagsController {
   }
 
   async remove_tag_assignment_after_confirmation() {
-    var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
+    tags_controller.persistence_ongoing = true;
+    $('#remove-tag-assignment-confirmation-dialog').dialog('close');
+
     var job = tags_controller.remove_tag_assignment_job;
+    tags_controller.change_verse_list_tag_info(job.id,
+                                               job.cb_label,
+                                               job.xml_verse_selection,
+                                               "remove");
 
     job.cb.attr('title', i18n.t("tags.assign-tag"));
     job.checkbox_tag.append(tags_controller.loading_indicator);
@@ -484,18 +496,14 @@ class TagsController {
 
     await tags_controller.communication_controller.remove_tag_from_verses(job.id, verse_boxes);
     await this.onLatestUsedTagChanged(job.id, false);
-    
-    tags_controller.change_verse_list_tag_info(job.id,
-                                               job.cb_label,
-                                               job.xml_verse_selection,
-                                               "remove");
 
+    var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
     tags_controller.update_tag_count_after_rendering(currentBook != null);
     tags_controller.updateTagUiBasedOnTagAvailability();
     bible_browser_controller.tag_statistics.update_book_tag_statistics_box();
 
     tags_controller.remove_tag_assignment_job = null;
-    $('#remove-tag-assignment-confirmation-dialog').dialog('close');
+    tags_controller.persistence_ongoing = false;
   }
 
   /**
