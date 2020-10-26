@@ -19,7 +19,6 @@
 require('v8-compile-cache');
 
 const app = require('electron').remote.app;
-const { exception } = require('console');
 const { remote, ipcRenderer } = require('electron');
 const isDev = require('electron-is-dev');
 
