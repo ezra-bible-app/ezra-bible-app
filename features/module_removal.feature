@@ -13,4 +13,4 @@ Feature: Module removal
     When the removal is completed
 
     Then the KJV is no longer available as a local module
-    And the application has disabled buttons, because no translations are installed yet
+    And the application has disabled buttons, because no translations are installed at this point

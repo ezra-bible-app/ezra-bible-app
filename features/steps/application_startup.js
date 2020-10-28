@@ -32,7 +32,7 @@ Then('the logs are not showing any errors', async function () {
   });
 });
 
-Then('the application has disabled buttons, because no translations are installed yet', async function () {
+Then('the application has disabled buttons, because no translations are installed at this point', async function () {
   var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
   var bookSelectButton = await verseListTabs.$('.book-select-button');
   var bibleTranslationInfoButton = await verseListTabs.$('.bible-translation-info-button');

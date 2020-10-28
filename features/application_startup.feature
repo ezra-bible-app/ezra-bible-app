@@ -7,4 +7,4 @@ Feature: Application startup
   Scenario: First startup
     Given the application is started
     Then the window title is Ezra Project + the version number
-    And the application has disabled buttons, because no translations are installed yet
+    And the application has disabled buttons, because no translations are installed at this point
