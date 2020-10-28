@@ -6,7 +6,7 @@ Feature: Bible browsing
 
   @uninstall-kjv
   Scenario: Basic browsing
-    And the KJV is the only translation installed
+    Given the KJV is the only translation installed
     And I open the book selection menu
     When I select the book Ephesians
     Then the tab title is "Ephesians [KJV]"
