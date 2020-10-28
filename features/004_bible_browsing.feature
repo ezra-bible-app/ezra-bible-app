@@ -1,4 +1,4 @@
-# features/bible_browsing.feature
+# features/004_bible_browsing.feature
 
 Feature: Bible browsing
   In order to do study the text of a book

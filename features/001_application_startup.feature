@@ -1,4 +1,4 @@
-# features/application_startup.feature
+# features/001_application_startup.feature
 
 Feature: Application startup
   In order to do anything in Ezra Project

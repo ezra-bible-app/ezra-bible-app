@@ -1,4 +1,4 @@
-# features/module_removal.feature
+# features/003_module_removal.feature
 
 Feature: Module removal
   If a module is no longer relevant for my bible study

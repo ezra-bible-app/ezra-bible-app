@@ -1,4 +1,4 @@
-# features/module_installation.feature
+# features/002_module_installation.feature
 
 Feature: Module installation
   In order to study bible text
