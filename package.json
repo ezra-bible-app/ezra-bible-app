@@ -13,6 +13,7 @@
     "start": "electron .",
     "dev-test": "./node_modules/.bin/cucumber-js --fail-fast",
     "full-test": "./node_modules/.bin/cucumber-js",
+    "headless-test": "xvfb-run ./node_modules/.bin/cucumber-js",
     "compile-pug": "pug --client --no-debug --pretty -n verseListTemplate templates/verse_list.pug && pug --client --no-debug --pretty -n tagListTemplate templates/tag_list.pug",
     "postinstall": "npm run compile-pug",
     "rebuild": "electron-rebuild -f -o node-sword-interface -v 9.3.1",

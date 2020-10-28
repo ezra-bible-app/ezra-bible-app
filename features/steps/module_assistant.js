@@ -36,7 +36,9 @@ Given('I open the module installation assistant', {timeout: 40 * 1000}, async fu
   var translationSettingsButton = await global.app.client.$('#show-translation-settings-button');
 
   await displayOptionsButton.click();
+  await spectronHelper.sleep(200);
   await translationSettingsButton.click();
+  await spectronHelper.sleep(200);
 });
 
 Given('I choose to add translations', async function () {
@@ -150,6 +152,15 @@ Given('the KJV is the only translation installed', {timeout: 80 * 1000}, async f
     assert(isKjvAvailable());
 
     await global.app.webContents.executeJavaScript("nsi.refreshLocalModules()");
+
+    await spectronHelper.sleep(1000);
+
+    await global.app.webContents.executeJavaScript("bible_browser_controller.translation_controller.initTranslationsMenu()");
+    
+    await spectronHelper.sleep(1000);
+
     await global.app.webContents.executeJavaScript("bible_browser_controller.updateUiAfterBibleTranslationAvailable('KJV')");
+
+    await spectronHelper.sleep(1000);
   }
 });

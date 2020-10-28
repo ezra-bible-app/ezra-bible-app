@@ -239,6 +239,11 @@ class InstallModuleWizard {
     }
   }
 
+  // This is only for testing!!
+  resetInstalledModules() {
+    this._installedModules = [];
+  }
+
   initLanguagesPage() {
     // Repositories have been selected
     var wizardPage = "#module-settings-wizard-add-p-0";

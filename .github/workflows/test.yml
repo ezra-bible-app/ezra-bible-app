@@ -10,11 +10,21 @@ jobs:
         - name: Checkout
           uses: actions/checkout@v1
 
-        - name: npm install
+        - name: Install dependencies
           uses: docker://toklein/ezra-ubuntu-2004:latest
           with:
             entrypoint: /usr/bin/npm
             args: install
+        
+        - name: Compile templates
+          run: npm run compile-pug
 
-        - name: npm run full-test
-          run: npm run full-test
+        - name: Run headless test
+          run: npm run headless-test
+
+        - name: Archive screenshot (in case of an error)
+          uses: actions/upload-artifact@v2
+          if: failure()
+          with:
+            name: screenshot.png
+            path: ./test_screenshot.png

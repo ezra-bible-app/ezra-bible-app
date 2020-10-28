@@ -66,6 +66,14 @@ class SpectronHelper {
   async buttonIsEnabled(button, timeoutMs=100) {
     await this.buttonHasClass(button, 'ui-state-default', timeoutMs);
   }
+
+  sleep(time) {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve();
+      }, time);
+    });
+  }
 }
 
 module.exports = SpectronHelper;
