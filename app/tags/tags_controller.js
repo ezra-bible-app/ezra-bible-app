@@ -132,8 +132,8 @@ class TagsController {
     rename_standard_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {
       $(this).dialog("close");
     };
-    rename_standard_tag_dlg_options.buttons[i18n.t("general.rename")] = async function() {
-      await tags_controller.close_dialog_and_rename_standard_tag();
+    rename_standard_tag_dlg_options.buttons[i18n.t("general.rename")] = function() {
+      tags_controller.close_dialog_and_rename_standard_tag();
     };
     $('#rename-standard-tag-dialog').dialog(rename_standard_tag_dlg_options);
   
@@ -1332,12 +1332,20 @@ class TagsController {
     loadingIndicator.hide();
   }
 
-  async onLatestUsedTagChanged(tagId=undefined, added=true) {
-    if (tagId == undefined) {
+  async onLatestUsedTagChanged(tagId=undefined, added=true, currentDbTag=undefined) {
+    if (currentDbTag != undefined) {
+      tagId = currentDbTag.id;
+    } else if (tagId == undefined) {
       tagId = this.tag_store.latest_tag_id;
     }
 
-    var currentTag = await this.tag_store.getTag(tagId);
+    var currentTag = null;
+
+    if (currentDbTag != undefined) {
+      currentTag = currentDbTag;
+    } else {
+      currentTag = await this.tag_store.getTag(tagId);
+    }
 
     if (currentTag != null) {
       var assignLastTagButton = $('.assign-last-tag-button');

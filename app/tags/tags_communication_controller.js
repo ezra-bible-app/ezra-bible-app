@@ -29,13 +29,23 @@ class TagsCommunicationController
       bibleBookId = bible_browser_controller.tab_controller.getTab().getBook();
     }
 
+    var new_tag = null;
+
     model.create({
       title: new_tag_title,
       bibleBookId: bibleBookId
     }).then((tag) => {
+      new_tag = tag;
       tags_controller.tag_store.resetBookTagStatistics();
-      tags_controller.update_tag_list(bible_browser_controller.tab_controller.getTab().getBook(), true);
-      bible_browser_controller.tag_selection_menu.requestTagsForMenu(true);
+      return tags_controller.update_tag_list(bible_browser_controller.tab_controller.getTab().getBook(), true);
+    }).then(() => {
+      return bible_browser_controller.tag_selection_menu.requestTagsForMenu(true);
+    }).then(() => {
+      var current_timestamp = new Date(Date.now()).getTime();
+      tags_controller.tag_store.updateTagTimestamp(new_tag.id, current_timestamp);
+      return tags_controller.tag_store.updateLatestAndOldestTagData();
+    }).then(() => {
+      return tags_controller.onLatestUsedTagChanged(new_tag.id, true, new_tag);
     }).then(() => {
       models.MetaRecord.updateLastModified();
     }).catch(error => {
