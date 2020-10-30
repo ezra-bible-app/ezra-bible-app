@@ -57,7 +57,7 @@ class TranslationComparison {
 
   initCompareTranslationsBox() {
     this.getBox().dialog({
-      width: 800,
+      width: 700,
       height: 500,
       autoOpen: false,
       dialogClass: 'ezra-dialog'
@@ -103,7 +103,7 @@ class TranslationComparison {
         var currentTranslationId = allTranslations[i].name;
         var currentTranslationName = allTranslations[i].description;
         var cssClass = '';
-        if (i < allTranslations.length - 1) {
+        if (i < allTranslations.length) {
           cssClass = 'compare-translation-row';
         }
 

@@ -1469,6 +1469,17 @@ s {
   border-bottom: 1px dashed gray;
 }
 
+.compare-translation-row .verse-reference {
+  width: 6em;
+  /* The following setting ensures that the verse references 
+     in the compare translations table are centered vertically */
+  padding: 10% 0;
+}
+
+.compare-translation-row .verse-content {
+  margin-left: 6em;
+}
+
 #strongs-box {
   display: none;
   text-align: center;
