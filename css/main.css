@@ -1465,19 +1465,17 @@ s {
   text-decoration: none;
 }
 
-.compare-translation-row td {
+.compare-translation-row td.compare-translation-row {
   border-bottom: 1px dashed gray;
 }
 
-.compare-translation-row .verse-reference {
-  width: 6em;
-  /* The following setting ensures that the verse references 
-     in the compare translations table are centered vertically */
-  padding: 10% 0;
+.compare-translation-row .verse-reference-td {
+  width: 4em;
+  padding: 0.5em;
 }
 
-.compare-translation-row .verse-content {
-  margin-left: 6em;
+.compare-translation-row .verse-content-td {
+  padding: 0.5em;
 }
 
 #strongs-box {

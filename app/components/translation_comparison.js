@@ -74,20 +74,19 @@ class TranslationComparison {
                                                  mappedAbsoluteVerseNumber,
                                                  1)[0];
     
-    var verseHtml = "<div class='verse-box'>";
+    var verseHtml = "<tr>";
     
     if (targetTranslationVerse == null) {
       console.log("Couldn't get verse " + bibleBookShortTitle + ' / ' + mappedAbsoluteVerseNumber + " for " + targetTranslationId);
+      verseHtml += "<td></td><td></td>";
     } else {
       var targetVerseReference = targetTranslationVerse.chapter + reference_separator + targetTranslationVerse.verseNr;
                                   
-      verseHtml += "<div class='verse-reference'><div class='verse-reference-content'>" + 
-                  targetVerseReference + "</div></div>";
-      verseHtml += "<div class='verse-content'><div class='verse-text'>" + 
-                  targetTranslationVerse.content + "</div></div>";
+      verseHtml +=  "<td class='verse-reference-td'>" + targetVerseReference + "</td>";
+      verseHtml += "<td class='verse-content-td'>" + targetTranslationVerse.content + "</td>";
     }
 
-    verseHtml += "</div>";
+    verseHtml += "</tr>";
 
     return verseHtml;
   }
@@ -108,8 +107,8 @@ class TranslationComparison {
         }
 
         compareTranslationContent += "<tr class='" + cssClass + "'>";
-        compareTranslationContent += "<td style='width: 16em; padding: 0.5em;'>" + currentTranslationName + "</td>";
-        compareTranslationContent += "<td style='padding: 0.5em;'>";
+        compareTranslationContent += "<td class='compare-translation-row' style='width: 16em; padding: 0.5em;'>" + currentTranslationName + "</td>";
+        compareTranslationContent += "<td class='compare-translation-row'><table>";
 
         for (var j = 0; j < selectedVerseBoxes.length; j++) {
           var currentVerseBox = $(selectedVerseBoxes[j]);
@@ -117,7 +116,8 @@ class TranslationComparison {
           compareTranslationContent += verseHtml;
         }
 
-        compareTranslationContent += "</td>";
+        compareTranslationContent += "</table></td>";
+
         compareTranslationContent += "</tr>";
       }
     }
