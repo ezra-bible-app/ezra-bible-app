@@ -48,7 +48,7 @@ class TranslationController {
 
   initBibleTranslationInfoBox() {
     $('#bible-translation-info-box').dialog({
-      width: 800,
+      width: 700,
       height: 500,
       autoOpen: false,
       dialogClass: 'ezra-dialog'
