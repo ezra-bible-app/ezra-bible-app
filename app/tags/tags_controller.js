@@ -168,6 +168,8 @@ class TagsController {
       tags_controller.onLatestUsedTagChanged(undefined, undefined);
     }
 
+    await tags_controller.update_tags_view_after_verse_selection(true);
+
     bible_browser_controller.tag_selection_menu.requestTagsForMenu();
     bible_browser_controller.tab_controller.updateTabTitleAfterTagRenaming(tags_controller.rename_standard_tag_title, new_title);
   }
@@ -382,6 +384,7 @@ class TagsController {
       var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
 
       tags_controller.update_tag_count_after_rendering(currentBook != null);
+      await tags_controller.update_tags_view_after_verse_selection(true);
       await tags_controller.updateTagUiBasedOnTagAvailability();
       bible_browser_controller.tag_statistics.update_book_tag_statistics_box();
 
@@ -403,6 +406,7 @@ class TagsController {
         $('#remove-tag-assignment-confirmation-dialog').dialog('open');
       } else {
         await tags_controller.remove_tag_assignment_after_confirmation();
+        await tags_controller.update_tags_view_after_verse_selection(true);
       }
     }
   }

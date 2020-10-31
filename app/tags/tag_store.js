@@ -160,6 +160,7 @@ class TagStore {
 
     // Update latest tag based on latest timestamp
     var latest_tag_found = false;
+    var previousLatestTagId = this.latest_tag_id;
 
     for (var i = 0; i < tagList.length; i++) {
       var tag = tagList[i];
@@ -167,7 +168,11 @@ class TagStore {
 
       if (current_timestamp == this.latest_timestamp) {
         this.latest_tag_id = tag.id;
-        await this.onLatestUsedTagChanged(this.latest_tag_id);
+
+        if (tag.id != previousLatestTagId) {
+          await this.onLatestUsedTagChanged(this.latest_tag_id);
+        }
+
         latest_tag_found = true;
         break;
       }
@@ -175,7 +180,10 @@ class TagStore {
 
     if (!latest_tag_found) {
       this.latest_tag_id = null;
-      await this.onLatestUsedTagChanged(this.latest_tag_id);
+
+      if (this.latest_tag_id != previousLatestTagId) {
+        await this.onLatestUsedTagChanged(this.latest_tag_id);
+      }
     }
   }
 
