@@ -231,7 +231,7 @@ class ModuleSearch {
 
       this.hideSearchMenu();
 
-      if (tabIndex == 0 || tabIndex == undefined) {
+      if (tabIndex == undefined || tabIndex == bible_browser_controller.tab_controller.getSelectedTabIndex()) {
         var searchProgressBar = bible_browser_controller.getCurrentSearchProgressBar();
         uiHelper.initProgressBar(searchProgressBar);
         searchProgressBar.show();
