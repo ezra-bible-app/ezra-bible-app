@@ -109,6 +109,7 @@
     "release-notes-download": "Notes de version & téléchargement",
     "no-repeated-info": "Ne plus afficher",
     "module-install-failed": "échec. Êtes-vous connecté à Internet ?",
+    "module-install-cancelled": "cancelled.",
     "module-unlock-failed": "échec (problème de déverrouillage).",
     "installing-strongs": "Installation du <i>dictionnaire de Strong</i>",
     "applying-migrations": "Migration de la base de données vers la nouvelle version"

@@ -945,6 +945,12 @@ h2 {
   height: 2.2em;
 }
 
+#cancel-module-installation-button {
+  height: 2.2em;
+  margin-top: 1em;
+  margin-left: 1em;
+}
+
 #add-tab-button {
   margin-top: 0.3em;
   margin-left: 0.5em;

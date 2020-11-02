@@ -37,6 +37,7 @@ class InstallModuleWizard {
     this._unlockDialogOpened = false;
     this._unlockCancelled = false;
     this._currentModuleType = moduleType;
+    this._moduleInstallationCancelled = false;
   }
 
   isModuleInstalled(moduleCode) {
@@ -330,6 +331,7 @@ class InstallModuleWizard {
       }
     }
 
+    $('#cancel-module-installation-button').addClass('ui-state-disabled');
     this._moduleInstallStatus = 'DONE';
     this._helper.unlockDialog('module-settings-wizard-add');
   }
@@ -387,14 +389,29 @@ class InstallModuleWizard {
     var installingText = i18n.t('module-assistant.installing');
 
     if (document.getElementById('module-install-progress-bar') == null) {
-      var progressBar = "<div id='module-install-progress-bar' class='progress-bar'><div class='progress-label'>" + installingText + "</div></div>";
-      var progressMessage = "<div id='module-install-progress-msg' style='margin-top: 1em; text-align: center;'></div>";
+      var progressBar = "<div id='progress-bar-container'><div id='module-install-progress-bar' style='width: 85%; float: left;' class='progress-bar'><div class='progress-label'>" + installingText + "</div></div>";
+      var progressMessage = "<div id='module-install-progress-msg' style='width: 85%; clear: both; padding-top: 0.5em; text-align: center;'></div></div>";
       installPage.append(progressBar);
       installPage.append(progressMessage);
     }
 
     uiHelper.initProgressBar($('#module-install-progress-bar'));
     var existingProgressBar = $('#module-install-progress-bar');
+
+    if (document.getElementById('cancel-module-installation-button') == null) {
+      var cancelModuleInstallationText = i18n.t("general.cancel");
+      var cancelInstallButtonHtml = "<div style='float: left;'><button id='cancel-module-installation-button' class='fg-button ui-corner-all ui-state-default'>" + cancelModuleInstallationText + "</button></div>";
+      var progressBarContainer = $('#progress-bar-container');
+      progressBarContainer.append(cancelInstallButtonHtml);
+      uiHelper.configureButtonStyles('#module-settings-wizard-add-p-3');
+
+      var cancelInstallButton = $('#cancel-module-installation-button');
+      cancelInstallButton.bind('click', () => {
+        cancelInstallButton.addClass('ui-state-disabled');
+        this._moduleInstallationCancelled = true;
+        nsi.cancelInstallation();
+      });
+    }
 
     var installSuccessful = true;
     var unlockSuccessful = true;
@@ -436,7 +453,7 @@ class InstallModuleWizard {
         bible_browser_controller.updateUiAfterBibleTranslationAvailable(moduleCode);
       }
     } catch (e) {
-      console.log(e);
+      console.log("Error during installation: " + e);
       installSuccessful = false;
     }
 
@@ -452,7 +469,11 @@ class InstallModuleWizard {
       if (!unlockSuccessful) {
         errorMessage = i18n.t("general.module-unlock-failed");
       } else {
-        errorMessage = i18n.t("general.module-install-failed");
+        if (this._moduleInstallationCancelled) {
+          errorMessage = i18n.t("general.module-install-cancelled");
+        } else {
+          errorMessage = i18n.t("general.module-install-failed");
+        }
       }
 
       existingProgressBar.before('<div style="margin-bottom: 1em;">&nbsp;' + errorMessage + '</div>');

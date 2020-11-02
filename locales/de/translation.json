@@ -110,6 +110,7 @@
     "release-notes-download": "Release Notes & Download",
     "no-repeated-info": "Diesen Hinweis nicht noch einmal zeigen",
     "module-install-failed": "fehlgeschlagen. Sind Sie mit dem Internet verbunden?",
+    "module-install-cancelled": "abgebrochen.",
     "module-unlock-failed": "fehlgeschlagen (Freischaltfehler).",
     "installing-strongs": "Installiere <i>Strong's Wörterbücher</i>",
     "applying-migrations": "Migriere Datenbank auf neue Version"
