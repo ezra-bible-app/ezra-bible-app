@@ -27,7 +27,7 @@ AfterAll(async function () {
   }
 });
 
-After("@uninstall-kjv", async function () {
+After("@uninstall-kjv-after-scenario", async function() {
   const nsi = await global.spectronHelper.getNSI();
 
   await global.app.webContents.executeJavaScript("nsi.uninstallModule('KJV')");
@@ -35,4 +35,22 @@ After("@uninstall-kjv", async function () {
   await global.app.webContents.executeJavaScript("nsi.refreshLocalModules()");
   await spectronHelper.sleep(500);
   await global.app.webContents.executeJavaScript("bible_browser_controller.install_module_wizard.resetInstalledModules()");
+  await global.app.webContents.executeJavaScript("bible_browser_controller.onTranslationRemoved('KJV')");
+  await global.app.webContents.executeJavaScript("bible_browser_controller.onAllTranslationsRemoved()");
+});
+
+After("@remove-last-tag-after-scenario", async function() {
+  var tagDeleteButton = await this.currentTag.$('.tag-delete-button'); 
+  await tagDeleteButton.click();
+  await spectronHelper.sleep(200);
+
+  var deleteTagConfirmationDialog = await global.app.client.$('#delete-tag-confirmation-dialog');
+  var deleteTagConfirmationDialogContainer = await deleteTagConfirmationDialog.$('..');
+  var deleteTagConfirmationButtons = await deleteTagConfirmationDialogContainer.$$('button');
+
+  //console.log(`Got ${deleteTagConfirmationButtons.length} confirmation buttons!`);
+  var confirmationButton = deleteTagConfirmationButtons[1];
+
+  await confirmationButton.click();
+  await spectronHelper.sleep(1000);
 });

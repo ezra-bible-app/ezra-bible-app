@@ -3,6 +3,8 @@ const Application = require('spectron').Application;
 const chaiAsPromised = require("chai-as-promised");
 const chai = require("chai");
 const assert = require('chai').assert;
+const VerseReferenceHelper = require('../../app/helpers/verse_reference_helper');
+require('../../models/biblebook');
 
 class SpectronHelper {
   constructor() {
@@ -41,15 +43,33 @@ class SpectronHelper {
     return this.app;
   }
 
+  async getUserDataDir() {
+    var electronApp = this.app.electron.remote.app;
+    var userDataDir = await electronApp.getPath('userData');
+    return userDataDir;
+  }
+
   async getNSI(refresh=false) {
     if (this.nsi == null || refresh) {
       const NodeSwordInterface = require('node-sword-interface');
-      const electronApp = this.app.electron.remote.app;
-      const userDataDir = await electronApp.getPath('userData');
+      var userDataDir = await this.getUserDataDir();
       this.nsi = new NodeSwordInterface(userDataDir);
     }
 
     return this.nsi;
+  }
+
+  async getVerseReferenceHelper() {
+    var nsi = await global.spectronHelper.getNSI();
+    var bibleChapterVerseCounts = nsi.getBibleChapterVerseCounts('KJV');
+    var verseReferenceHelper = new VerseReferenceHelper(bibleChapterVerseCounts, ':');
+
+    return verseReferenceHelper;
+  }
+
+  async initDatabase() {
+    var userDataDir = await this.getUserDataDir();
+    global.models = require('../../models')(userDataDir);
   }
 
   async buttonHasClass(button, className, timeoutMs=100) {
@@ -66,6 +86,17 @@ class SpectronHelper {
   async buttonIsEnabled(button, timeoutMs=100) {
     await this.buttonHasClass(button, 'ui-state-default', timeoutMs);
   }
+
+  getBookShortTitle(book_long_title) {
+    for (var i = 0; i < bible_books.length; i++) {
+      var current_book = bible_books[i];
+      if (current_book.long_title == book_long_title) {
+        return current_book.short_title;
+      }
+    }
+
+    return -1;
+  };
 
   sleep(time) {
     return new Promise(resolve => {
