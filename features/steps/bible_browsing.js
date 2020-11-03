@@ -7,6 +7,7 @@ Given('I open the book selection menu', async function () {
   
   await global.spectronHelper.buttonIsEnabled(bookSelectButton, timeoutMs=1000);
   await bookSelectButton.click();
+  await spectronHelper.sleep(500);
 });
 
 When('I select the book Ephesians', {timeout: 20 * 1000}, async function () {
@@ -56,4 +57,20 @@ Then('the book of Ephesians is opened in the current tab', async function () {
 
   assert(firstVerseTextContent == ephesiansOneOne, `The first verse does not match the expected content! Actual: "${firstVerseTextContent}" / Expected: "${ephesiansOneOne}"`);
   assert(lastVerseTextContent == ephesiansSixTwentyFour, `The last verse does not match the expected content! Actual: "${lastVerseTextContent}" / Expected: "${ephesiansSixTwentyFour}"`);
+});
+
+Given('I select the verse {string}', async function (selectedVerse) {
+  var splittedSelectedVerse = selectedVerse.split(' ');
+  var book = splittedSelectedVerse[0];
+  var verseReferenceString = splittedSelectedVerse[1];
+  this.selectedBookId = global.spectronHelper.getBookShortTitle(book);
+  var verseReferenceHelper = await global.spectronHelper.getVerseReferenceHelper();
+  var absoluteVerseNumber = verseReferenceHelper.referenceStringToAbsoluteVerseNr(this.selectedBookId, verseReferenceString);
+
+  var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
+  this.selectedVerseBox = await verseListTabs.$('.verse-nr-' + absoluteVerseNumber);
+  this.selectedVerseText = await this.selectedVerseBox.$('.verse-text');
+
+  await this.selectedVerseText.click();
+  await spectronHelper.sleep(200);
 });

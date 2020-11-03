@@ -143,7 +143,7 @@ async function isKjvAvailable(refreshNsi=false) {
 }
 
 Given('the KJV is the only translation installed', {timeout: 80 * 1000}, async function () {
-  const nsi = await global.spectronHelper.getNSI();
+  const nsi = await global.spectronHelper.getNSI(true);
   var kjvFound = await isKjvAvailable();
 
   if (!kjvFound) {

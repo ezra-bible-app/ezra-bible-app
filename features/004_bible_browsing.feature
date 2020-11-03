@@ -4,7 +4,7 @@ Feature: Bible browsing
   In order to do study the text of a book
   I can open the book for browsing
 
-  @uninstall-kjv
+  @uninstall-kjv-after-scenario
   Scenario: Basic browsing
     Given the KJV is the only translation installed
     And I open the book selection menu
