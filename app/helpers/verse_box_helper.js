@@ -97,8 +97,12 @@ class VerseBoxHelper {
     var referenceBibleBook = await models.BibleBook.findOne({ where: { shortTitle: bibleBook } });
 
     var source_tab_translation = bible_browser_controller.tab_controller.getTab(current_tab_index).getBibleTranslationId();
-    var source_versification = bible_browser_controller.translation_controller.getVersification(source_tab_translation);
-
+    var source_versification = 'ENGLISH';
+    try {
+      bible_browser_controller.translation_controller.getVersification(source_tab_translation);
+    } catch (exception) {
+      console.warn('Got exception when getting versification: ' + exception);
+    }
 
     for (var i = 0; i < tab_count; i++) {
       if (i != current_tab_index) {
