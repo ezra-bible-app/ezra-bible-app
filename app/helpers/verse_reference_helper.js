@@ -18,8 +18,9 @@
 
 class VerseReferenceHelper
 {
-  constructor(bibleChapterVerseCounts) {
+  constructor(bibleChapterVerseCounts, referenceSeparator) {
     this._bibleChapterVerseCounts = bibleChapterVerseCounts;
+    this._referenceSeparator = referenceSeparator;
   }
 
   referenceToAbsoluteVerseNr(bible_book, chapter, verse) {
@@ -35,7 +36,7 @@ class VerseReferenceHelper
     return verse_nr;
   }
   
-  referenceStringToAbsoluteVerseNr(bible_book_short_title, reference, split_support) {
+  referenceStringToAbsoluteVerseNr(bible_book_short_title, reference, split_support=false) {
     if (reference == null) {
       return;
     }
@@ -44,9 +45,10 @@ class VerseReferenceHelper
     if (reference.search(/b/) != -1) {
       split_support = true;
     }
+
     reference = reference.replace(/[a-z]/g, '');
-    var ref_chapter = Number(reference.split(reference_separator)[0]);
-    var ref_verse = Number(reference.split(reference_separator)[1]);
+    var ref_chapter = Number(reference.split(this._referenceSeparator)[0]);
+    var ref_verse = Number(reference.split(this._referenceSeparator)[1]);
   
     var verse_nr = this.referenceToAbsoluteVerseNr(bible_book_short_title, ref_chapter, ref_verse);
     if (split_support) verse_nr += 0.5;

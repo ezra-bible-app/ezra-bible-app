@@ -63,7 +63,7 @@ class TranslationController {
 
       if (currentBibleTranslationId != null) {
         bible_chapter_verse_counts = nsi.getBibleChapterVerseCounts(currentBibleTranslationId);
-        bible_browser_controller.verse_selection.initBibleChapterVerseCounts(bible_chapter_verse_counts);
+        bible_browser_controller.verse_selection.initBibleChapterVerseCounts(bible_chapter_verse_counts, reference_separator);
       }
     }
   }

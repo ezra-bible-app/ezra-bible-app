@@ -25,8 +25,8 @@ class VerseSelection {
     this.selected_verse_box_elements = null;
   }
 
-  initBibleChapterVerseCounts(bibleChapterVerseCounts) {
-    this.verseReferenceHelper = new VerseReferenceHelper(bibleChapterVerseCounts);
+  initBibleChapterVerseCounts(bibleChapterVerseCounts, referenceSeparator) {
+    this.verseReferenceHelper = new VerseReferenceHelper(bibleChapterVerseCounts, referenceSeparator);
   }
 
   initSelectable(verseList) {
