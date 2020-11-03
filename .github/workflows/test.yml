@@ -19,8 +19,8 @@ jobs:
         - name: Compile templates
           run: npm run compile-pug
 
-        - name: Run headless test
-          run: npm run headless-test
+        - name: Run test
+          run: npm run full-test
 
         - name: Archive screenshot (in case of an error)
           uses: actions/upload-artifact@v2
