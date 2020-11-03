@@ -256,6 +256,7 @@ class BibleBrowserController {
     this.hideVerseListLoadingIndicator();
     this.getCurrentVerseList().append("<div class='help-text'>" + i18n.t("help.help-text-no-translations") + "</div>");
     this.translation_controller.disableCurrentTranslationInfoButton();    
+    this.verse_selection.clear_verse_selection();
     $('.book-select-value').text(i18n.t("menu.book"));
   }
 
