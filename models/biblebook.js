@@ -16,7 +16,7 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-var bookMap = {
+global.bookMap = {
   "Gen"    : 1,
   "Exod"   : 2,
   "Lev"    : 3,
@@ -85,7 +85,7 @@ var bookMap = {
   "Rev"    : 66 
 };
 
-var bible_books = [
+global.bible_books = [
   { long_title : 'Genesis',
     short_title : "Gen" },
   { long_title : 'Exodus',
