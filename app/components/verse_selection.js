@@ -17,11 +17,16 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const VerseBox = require("../bible_browser/verse_box");
+const VerseReferenceHelper = require("../helpers/verse_reference_helper");
 
 class VerseSelection {
   constructor() {
     this.selected_verse_references = null;
     this.selected_verse_box_elements = null;
+  }
+
+  initBibleChapterVerseCounts(bibleChapterVerseCounts) {
+    this.verseReferenceHelper = new VerseReferenceHelper(bibleChapterVerseCounts);
   }
 
   initSelectable(verseList) {
@@ -193,38 +198,6 @@ class VerseSelection {
     return formatted_passage;
   }
 
-  reference_to_absolute_verse_nr(bible_book, chapter, verse) {
-    var verse_nr = 0;
-  
-    for (var i = 0; i < chapter - 1; i++) {
-      if (bible_chapter_verse_counts[bible_book][i] != undefined) {
-        verse_nr += bible_chapter_verse_counts[bible_book][i];
-      }
-    }
-    
-    verse_nr += Number(verse);
-    return verse_nr;
-  }
-  
-  reference_to_verse_nr(bible_book_short_title, reference, split_support) {
-    if (reference == null) {
-      return;
-    }
-  
-    var split_support = false;
-    if (reference.search(/b/) != -1) {
-      split_support = true;
-    }
-    reference = reference.replace(/[a-z]/g, '');
-    var ref_chapter = Number(reference.split(reference_separator)[0]);
-    var ref_verse = Number(reference.split(reference_separator)[1]);
-  
-    var verse_nr = this.reference_to_absolute_verse_nr(bible_book_short_title, ref_chapter, ref_verse);
-    if (split_support) verse_nr += 0.5;
-  
-    return verse_nr;
-  }
-
   verse_reference_list_to_absolute_verse_nr_list(list, bookId=undefined) {
     var new_list = new Array;
     
@@ -233,7 +206,7 @@ class VerseSelection {
     }
 
     for (var i = 0; i < list.length; i++) {
-      new_list.push(Number(this.reference_to_verse_nr(bookId, list[i])));
+      new_list.push(Number(this.verseReferenceHelper.referenceStringToAbsoluteVerseNr(bookId, list[i])));
     }
 
     return new_list;
