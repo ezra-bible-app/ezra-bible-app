@@ -402,8 +402,8 @@ async function initApplication()
   if (isWin()) {
     if (!isWindowsTenOrLater()) {
       var loadingIndicatorText = $('.loading-indicator-text');
-      loadingIndicatorText.text("Sorry. Ezra Project does not run on versions before Windows 10.");
-      return;
+      loadingIndicatorText.text("Sorry. Ezra Project requires at least Windows 10.");
+      throw "Ezra Project requires at least Windows 10!";
     }
   }
 
