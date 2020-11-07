@@ -150,6 +150,23 @@ function isMac()
   return navigator.platform.match('Mac') !== null;
 }
 
+function isLinux()
+{
+  return navigator.platform.match('Linux') !== null;
+}
+
+function isWin()
+{
+  return navigator.platform.match('Win') !== null;
+}
+
+function getMajorOsVersion() {
+  var releaseVersion = require('os').release();
+  var splittedVersion = releaseVersion.split('.');
+  var majorDigit = parseInt(splittedVersion[0]);
+  return majorDigit;
+}
+
 function isMacOsMojaveOrLater()
 {
   if (!isMac()) {
@@ -159,26 +176,33 @@ function isMacOsMojaveOrLater()
   var isMojaveOrLater = false;
 
   try {
-    var releaseVersion = require('os').release();
-    var splittedVersion = releaseVersion.split('.');
-    var majorDigit = parseInt(splittedVersion[0]);
+    var majorOsVersion = getMajorOsVersion();
 
     // see https://en.wikipedia.org/wiki/Darwin_(operating_system)#Release_history
     // macOS Mojave starts with the Darwin kernel version 18.0.0
-    isMojaveOrLater = (majorDigit >= 18);
+    isMojaveOrLater = (majorOsVersion >= 18);
   } catch(e) {}
 
   return isMojaveOrLater;
 }
 
-function isLinux()
+function isWindowsTenOrLater()
 {
-  return navigator.platform.match('Linux') !== null;
-}
+  if (!isWin()) {
+    return false;
+  }
 
-function isWin()
-{
-  return navigator.platform.match('Win') !== null;
+  var isWinTenOrLater = false;
+
+  try {
+    var majorOsVersion = getMajorOsVersion();
+
+    // see https://docs.microsoft.com/en-us/windows/win32/sysinfo/operating-system-version
+    // Windows 10 starts with version 10.*
+    isWinTenOrLater = (majorOsVersion >= 10);
+  } catch (e) {}
+
+  return isWinTenOrLater;
 }
 
 function initUi()
@@ -374,6 +398,15 @@ async function initApplication()
 
   var loadingIndicator = $('#startup-loading-indicator');
   loadingIndicator.show();
+
+  if (isWin()) {
+    if (!isWindowsTenOrLater()) {
+      var loadingIndicatorText = $('.loading-indicator-text');
+      loadingIndicatorText.text("Ezra Project requires at least Windows 10.")
+      return;
+    }
+  }
+
   loadingIndicator.find('.loader').show();
 
   console.log("Initializing i18n ...");
