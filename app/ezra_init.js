@@ -401,7 +401,7 @@ async function initApplication()
 
   if (isWin()) {
     if (!isWindowsTenOrLater()) {
-      loadingIndicator.addClass('.incompatible-windows');
+      loadingIndicator.addClass('incompatible-windows');
       var loadingIndicatorText = $('.loading-indicator-text');
       loadingIndicatorText.text("Sorry. Ezra Project requires at least Windows 10.");
       throw "Ezra Project requires at least Windows 10!";
