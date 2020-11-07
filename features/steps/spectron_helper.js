@@ -4,6 +4,8 @@ const chaiAsPromised = require("chai-as-promised");
 const chai = require("chai");
 const assert = require('chai').assert;
 const VerseReferenceHelper = require('../../app/helpers/verse_reference_helper');
+const copydir = require('copy-dir');
+const fs = require('fs');
 require('../../models/biblebook');
 
 class SpectronHelper {
@@ -110,9 +112,26 @@ class SpectronHelper {
     return kjvFound;
   }
 
+  async backupSwordDir() {
+    var userDataDir = await this.getUserDataDir();
+    var swordDir = userDataDir + '/.sword';
+    var backupSwordDir = userDataDir + '/.swordBackup';
+
+    copydir.sync(swordDir, backupSwordDir);
+  }
+
   async installKJV() {
-    var kjvFound = await this.isKjvAvailable();
-    
+    var userDataDir = await this.getUserDataDir();
+    var swordDir = userDataDir + '/.sword';
+    var backupSwordDir = userDataDir + '/.swordBackup';
+
+    if (fs.existsSync(backupSwordDir)) {
+      copydir.sync(backupSwordDir, swordDir);
+      await this.sleep(500);
+    }
+
+    var kjvFound = await this.isKjvAvailable(true);
+
     if (!kjvFound) {
       const nsi = await this.getNSI(true);
       await nsi.updateRepositoryConfig();
@@ -120,19 +139,16 @@ class SpectronHelper {
 
       var kjvAvailable = await this.isKjvAvailable();
       assert(kjvAvailable);
-  
-      await global.app.webContents.executeJavaScript("nsi.refreshLocalModules()");
-  
-      await spectronHelper.sleep(500);
-  
-      await global.app.webContents.executeJavaScript("bible_browser_controller.translation_controller.initTranslationsMenu()");
-      
-      await spectronHelper.sleep(500);
-  
-      await global.app.webContents.executeJavaScript("bible_browser_controller.updateUiAfterBibleTranslationAvailable('KJV')");
-  
-      await spectronHelper.sleep(500);
+
+      await this.backupSwordDir();
     }
+
+    await global.app.webContents.executeJavaScript("nsi.refreshLocalModules()");  
+    await spectronHelper.sleep(500);
+    await global.app.webContents.executeJavaScript("bible_browser_controller.translation_controller.initTranslationsMenu()");    
+    await spectronHelper.sleep(500);
+    await global.app.webContents.executeJavaScript("bible_browser_controller.updateUiAfterBibleTranslationAvailable('KJV')");
+    await spectronHelper.sleep(500);
   }
 
   sleep(time) {

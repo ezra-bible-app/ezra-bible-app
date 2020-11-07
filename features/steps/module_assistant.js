@@ -72,6 +72,7 @@ Given('I select the KJV module for removal', {timeout: 40 * 1000}, async functio
 });
 
 async function finishOnceProcessCompleted(moduleSettingsDialogId='#module-settings-wizard-add') {
+
   var navLinks = await getNavLinks(moduleSettingsDialogId);
   var finishButton = navLinks[2];
   var finishButtonLi = await finishButton.$('..');
@@ -86,6 +87,7 @@ async function finishOnceProcessCompleted(moduleSettingsDialogId='#module-settin
 
 When('the installation is completed', {timeout: 100 * 1000}, async function () {
   await finishOnceProcessCompleted();
+  await spectronHelper.backupSwordDir();
 });
 
 When('the removal is completed', {timeout: 5 * 1000}, async function () {
