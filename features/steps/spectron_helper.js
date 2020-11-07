@@ -98,6 +98,43 @@ class SpectronHelper {
     return -1;
   };
 
+  async isKjvAvailable(refreshNsi=false) {
+    const nsi = await this.getNSI(refreshNsi);
+    var allLocalModules = nsi.getAllLocalModules();
+    var kjvFound = false;
+  
+    allLocalModules.forEach((module) => {
+      if (module.name == 'KJV') kjvFound = true;
+    });
+  
+    return kjvFound;
+  }
+
+  async installKJV() {
+    var kjvFound = await this.isKjvAvailable();
+    
+    if (!kjvFound) {
+      const nsi = await this.getNSI(true);
+      await nsi.updateRepositoryConfig();
+      await nsi.installModule('KJV');
+
+      var kjvAvailable = await this.isKjvAvailable();
+      assert(kjvAvailable);
+  
+      await global.app.webContents.executeJavaScript("nsi.refreshLocalModules()");
+  
+      await spectronHelper.sleep(500);
+  
+      await global.app.webContents.executeJavaScript("bible_browser_controller.translation_controller.initTranslationsMenu()");
+      
+      await spectronHelper.sleep(500);
+  
+      await global.app.webContents.executeJavaScript("bible_browser_controller.updateUiAfterBibleTranslationAvailable('KJV')");
+  
+      await spectronHelper.sleep(500);
+    }
+  }
+
   sleep(time) {
     return new Promise(resolve => {
       setTimeout(() => {

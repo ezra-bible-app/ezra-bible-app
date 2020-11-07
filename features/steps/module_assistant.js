@@ -105,7 +105,7 @@ Then('the KJV is available as a local module', async function () {
 });
 
 Then('the KJV is no longer available as a local module', async function () {
-  var kjvAvailable = await isKjvAvailable(true);
+  var kjvAvailable = await spectronHelper.isKjvAvailable(true);
   assert(kjvAvailable == false, "KJV should no longer be available, but it is!");
 });
 
@@ -130,37 +130,6 @@ Then('the relevant buttons in the menu are enabled', async function() {
   await global.spectronHelper.buttonIsEnabled(bibleTranslationInfoButton);
 });
 
-async function isKjvAvailable(refreshNsi=false) {
-  const nsi = await global.spectronHelper.getNSI(refreshNsi);
-  var allLocalModules = nsi.getAllLocalModules();
-  var kjvFound = false;
-
-  allLocalModules.forEach((module) => {
-    if (module.name == 'KJV') kjvFound = true;
-  });
-
-  return kjvFound;
-}
-
 Given('the KJV is the only translation installed', {timeout: 80 * 1000}, async function () {
-  const nsi = await global.spectronHelper.getNSI(true);
-  var kjvFound = await isKjvAvailable();
-
-  if (!kjvFound) {
-    await nsi.updateRepositoryConfig();
-    await nsi.installModule('KJV');
-    assert(isKjvAvailable());
-
-    await global.app.webContents.executeJavaScript("nsi.refreshLocalModules()");
-
-    await spectronHelper.sleep(1000);
-
-    await global.app.webContents.executeJavaScript("bible_browser_controller.translation_controller.initTranslationsMenu()");
-    
-    await spectronHelper.sleep(1000);
-
-    await global.app.webContents.executeJavaScript("bible_browser_controller.updateUiAfterBibleTranslationAvailable('KJV')");
-
-    await spectronHelper.sleep(1000);
-  }
+  await spectronHelper.installKJV();
 });

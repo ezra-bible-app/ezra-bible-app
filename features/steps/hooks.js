@@ -14,14 +14,14 @@ BeforeAll({ timeout: 30000}, async function () {
 AfterAll(async function () {
   if (global.app && global.app.isRunning()) {
 
-    var rendererLogs = await global.app.client.getRenderProcessLogs();
+    /*var rendererLogs = await global.app.client.getRenderProcessLogs();
 
     if (rendererLogs.length > 0) {
       console.log("\nRenderer logs:");
       rendererLogs.forEach(log => {
         console.log(log.message);
       });
-    }
+    }*/
 
     return global.app.stop();
   }
@@ -40,6 +40,10 @@ After("@uninstall-kjv-after-scenario", async function() {
 });
 
 After("@remove-last-tag-after-scenario", async function() {
+  if (this.currentTag == null) {
+    return;
+  }
+  
   var tagDeleteButton = await this.currentTag.$('.tag-delete-button'); 
   await tagDeleteButton.click();
   await spectronHelper.sleep(200);
