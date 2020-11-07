@@ -21,6 +21,8 @@ jobs:
 
         - name: Run test
           run: npm run full-test
+          env:
+            JOBS: MAX
 
         - name: Archive screenshot (in case of an error)
           uses: actions/upload-artifact@v2
