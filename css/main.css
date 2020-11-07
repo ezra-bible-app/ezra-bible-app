@@ -871,7 +871,7 @@ h2 {
   left: 50%;
 }
 
-.incompatible-windows {
+#startup-loading-indicator.incompatible-windows {
   margin: -100px 0 0 -200px;
 }
 
