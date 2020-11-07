@@ -398,7 +398,7 @@ async function initApplication()
   bible_browser_controller.optionsMenu.loadDisplayOptions();
   uiHelper.resizeAppContainer();
 
-  // Wait for the UI to render, before we hide the loading indicator
+  // Wait for the UI to render
   await waitUntilIdle();
 
   console.log("Loading settings ...");
