@@ -402,7 +402,7 @@ async function initApplication()
   if (isWin()) {
     if (!isWindowsTenOrLater()) {
       var loadingIndicatorText = $('.loading-indicator-text');
-      loadingIndicatorText.text("Ezra Project requires at least Windows 10.");
+      loadingIndicatorText.text("Sorry. Ezra Project does not run on versions before Windows 10.");
       return;
     }
   }
