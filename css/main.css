@@ -871,6 +871,10 @@ h2 {
   left: 50%;
 }
 
+.incompatible-windows {
+  margin: -100px 0 0 -200px;
+}
+
 #verse-list-popup-loading-indicator, #compare-translations-loading-indicator {
   display: none;
   width: 300px;
