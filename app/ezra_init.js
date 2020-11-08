@@ -21,6 +21,7 @@ require('v8-compile-cache');
 const app = require('electron').remote.app;
 const { remote, ipcRenderer } = require('electron');
 const isDev = require('electron-is-dev');
+const fs = require('fs');
 
 if (isDev) {
   global.Sentry = {
@@ -205,6 +206,28 @@ function isWindowsTenOrLater()
   return isWinTenOrLater;
 }
 
+function showVcppRedistributableMessageIfNeeded()
+{
+  const dep1 = "C:\\Windows\\System32\\vcruntime140.dll";
+  const dep2 = "C:\\Windows\\System32\\msvcp140.dll";
+
+  if (!fs.existsSync(dep1) || !fs.existsSync(dep2)) {
+    var loadingIndicator = $('#startup-loading-indicator');
+    loadingIndicator.addClass('incompatible-windows');
+    var loadingIndicatorText = $('.loading-indicator-text');
+    var hint = "<h3 style='text-decoration: underline'>Compatibility with older Windows versions</h3>" +
+               "Ezra Project needs additional software to run successfully.<br><br>" +
+               "Please install <a class='external' href='https://www.microsoft.com/en-us/download/details.aspx?id=53840'>" +
+               "Microsoft Visual C++ 2015 Redistributable</a> and restart Ezra Project afterwards.<br>" +
+               "On the Microsoft download page, when asked to choose a file, please pick <b>vc_redist.x86.exe</b> for download.";
+
+    loadingIndicatorText.html(hint);
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function initUi()
 {
   if (isMac()) {
@@ -227,16 +250,18 @@ function initUi()
     }
   });
 
+  tags_controller.init_ui();
+  uiHelper.configureButtonStyles();
+  $(window).bind("resize", () => { uiHelper.resizeAppContainer(); });
+}
+
+function initExternalLinkHandling() {
   // Open links classified as external in the default web browser
   $('body').on('click', 'a.external, p.external a, div.external a', (event) => {
     event.preventDefault();
     let link = event.target.href;
     require("electron").shell.openExternal(link);
   });
-
-  tags_controller.init_ui();
-  uiHelper.configureButtonStyles();
-  $(window).bind("resize", () => { uiHelper.resizeAppContainer(); });
 }
 
 function showGlobalLoadingIndicator() {
@@ -395,16 +420,17 @@ async function initApplication()
   loadHTML();
 
   earlyHideToolBar();
+  initExternalLinkHandling();
 
   var loadingIndicator = $('#startup-loading-indicator');
   loadingIndicator.show();
 
   if (isWin()) {
     if (!isWindowsTenOrLater()) {
-      loadingIndicator.addClass('incompatible-windows');
-      var loadingIndicatorText = $('.loading-indicator-text');
-      loadingIndicatorText.text("Sorry. Ezra Project requires at least Windows 10.");
-      throw "Ezra Project requires at least Windows 10!";
+      var vcppRedistributableNeeded = showVcppRedistributableMessageIfNeeded();
+      if (vcppRedistributableNeeded) {
+        return;
+      }
     }
   }
 

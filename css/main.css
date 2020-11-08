@@ -872,7 +872,8 @@ h2 {
 }
 
 #startup-loading-indicator.incompatible-windows {
-  margin: -100px 0 0 -200px;
+  position: unset;
+  margin: 50px;
 }
 
 #verse-list-popup-loading-indicator, #compare-translations-loading-indicator {
@@ -887,6 +888,11 @@ h2 {
   font-size: 1em;
   font-weight: bold;
   color: #808080;
+}
+
+#startup-loading-indicator.incompatible-windows .loading-indicator-text {
+  color: black;
+  font-weight: normal;
 }
 
 .module-search-result-header, .verse-statistics-chart-container {
