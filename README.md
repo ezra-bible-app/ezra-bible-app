@@ -29,6 +29,10 @@ Have a look at the build instructions [here][build].
 
 [build]: https://github.com/tobias-klein/ezra-project/blob/master/BUILD.md
 
+## User Forum
+
+Join the User Forum at [forum.ezra-project.net](https://forum.ezra-project.net) to discuss any of the existing functionality, ask questions and make suggestions for new features!
+
 ## Feedback
 To give feedback (bug reports, feature requests) please use the Github issue system.
 Click [here](https://github.com/tobias-klein/ezra-project/issues/new) to file a new Issue for Ezra Project.
