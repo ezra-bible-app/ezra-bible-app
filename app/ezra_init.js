@@ -21,7 +21,6 @@ require('v8-compile-cache');
 const app = require('electron').remote.app;
 const { remote, ipcRenderer } = require('electron');
 const isDev = require('electron-is-dev');
-const fs = require('fs');
 
 if (isDev) {
   global.Sentry = {
@@ -47,6 +46,10 @@ let nsi = null;
 // UI Helper
 const UiHelper = require('./app/helpers/ui_helper.js');
 const uiHelper = new UiHelper();
+
+// Platform Helper
+const PlatformHelper = require('./app/helpers/platform_helper.js');
+const platformHelper = new PlatformHelper();
 
 let models = null;
 let bible_browser_controller = null;
@@ -97,7 +100,7 @@ async function initI18N()
   await i18nHelper.init();
   // await i18n.changeLanguage('de');
 
-  if (isTest()) { // Use English for test mode
+  if (platformHelper.isTest()) { // Use English for test mode
     await i18n.changeLanguage('en');
   }
 
@@ -109,7 +112,7 @@ function initNSI()
 {
   const NodeSwordInterface = require('node-sword-interface');
 
-  if (isTest()) {
+  if (platformHelper.isTest()) {
     const userDataDir = app.getPath('userData');
     nsi = new NodeSwordInterface(userDataDir);
   } else {
@@ -141,102 +144,9 @@ async function initControllers()
   tags_controller = new TagsController();
 }
 
-function isTest()
-{
-  return process.argv.includes('--test-type=webdriver');
-}
-
-function isMac()
-{
-  return navigator.platform.match('Mac') !== null;
-}
-
-function isLinux()
-{
-  return navigator.platform.match('Linux') !== null;
-}
-
-function isWin()
-{
-  return navigator.platform.match('Win') !== null;
-}
-
-function getMajorOsVersion() {
-  var releaseVersion = require('os').release();
-  var splittedVersion = releaseVersion.split('.');
-  var majorDigit = parseInt(splittedVersion[0]);
-  return majorDigit;
-}
-
-function isMacOsMojaveOrLater()
-{
-  if (!isMac()) {
-    return false;
-  }
-
-  var isMojaveOrLater = false;
-
-  try {
-    var majorOsVersion = getMajorOsVersion();
-
-    // see https://en.wikipedia.org/wiki/Darwin_(operating_system)#Release_history
-    // macOS Mojave starts with the Darwin kernel version 18.0.0
-    isMojaveOrLater = (majorOsVersion >= 18);
-  } catch(e) {}
-
-  return isMojaveOrLater;
-}
-
-function isWindowsTenOrLater()
-{
-  if (!isWin()) {
-    return false;
-  }
-
-  var isWinTenOrLater = false;
-
-  try {
-    var majorOsVersion = getMajorOsVersion();
-
-    // see https://docs.microsoft.com/en-us/windows/win32/sysinfo/operating-system-version
-    // Windows 10 starts with version 10.*
-    isWinTenOrLater = (majorOsVersion >= 10);
-  } catch (e) {}
-
-  return isWinTenOrLater;
-}
-
-function showVcppRedistributableMessageIfNeeded()
-{
-  const dep1 = "C:\\Windows\\System32\\vcruntime140.dll";
-  const dep2 = "C:\\Windows\\System32\\msvcp140.dll";
-
-  if (!fs.existsSync(dep1) || !fs.existsSync(dep2)) {
-    var loadingIndicator = $('#startup-loading-indicator');
-    loadingIndicator.addClass('incompatible-windows');
-    var loadingIndicatorText = $('.loading-indicator-text');
-    var hint = "<h3 style='text-decoration: underline'>Compatibility with older Windows versions</h3>" +
-               "Ezra Project needs additional software to run successfully.<br><br>" +
-               "Please install <a class='external' href='https://www.microsoft.com/en-us/download/details.aspx?id=53840'>" +
-               "Microsoft Visual C++ 2015 Redistributable</a> and restart Ezra Project afterwards.<br>" +
-               "On the Microsoft download page, when asked to choose a file, please pick <b>vc_redist.x86.exe</b> for download.";
-
-    loadingIndicatorText.html(hint);
-    return true;
-  } else {
-    return false;
-  }
-}
-
 function initUi()
 {
-  if (isMac()) {
-    document.body.classList.add('OSX');
-  } else if (isLinux()) {
-    document.body.classList.add('Linux');
-  } else if (isWin()) {
-    document.body.classList.add('Windows');
-  }
+  platformHelper.addPlatformCssClass();
 
   // Setup resizable function for divider between tags toolbox and verse list
   $('#bible-browser-toolbox').resizable({
@@ -298,7 +208,7 @@ function switchToTheme(theme) {
 function earlyInitNightMode() {
   var useDarkMode = false;
 
-  if (isMacOsMojaveOrLater()) {
+  if (platformHelper.isMacOsMojaveOrLater()) {
     const nativeTheme = require('electron').remote.nativeTheme;
 
     if (nativeTheme.shouldUseDarkColors) {
@@ -326,8 +236,7 @@ function earlyHideToolBar() {
 }
 
 function initNightMode() {
-  if (isMacOsMojaveOrLater()) { // On macOS (from Mojave) we initialize night mode based on the system settings
-
+  if (platformHelper.isMacOsMojaveOrLater()) { // On macOS (from Mojave) we initialize night mode based on the system settings
     const nativeTheme = require('electron').remote.nativeTheme;
 
     // Set up a listener to react when the native theme has changed
@@ -425,9 +334,9 @@ async function initApplication()
   var loadingIndicator = $('#startup-loading-indicator');
   loadingIndicator.show();
 
-  if (isWin()) {
-    if (!isWindowsTenOrLater()) {
-      var vcppRedistributableNeeded = showVcppRedistributableMessageIfNeeded();
+  if (platformHelper.isWin()) {
+    if (!platformHelper.isWindowsTenOrLater()) {
+      var vcppRedistributableNeeded = platformHelper.showVcppRedistributableMessageIfNeeded();
       if (vcppRedistributableNeeded) {
         return;
       }

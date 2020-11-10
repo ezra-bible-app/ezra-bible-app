@@ -97,7 +97,7 @@ class TabSearch {
 
   initGlobalShortCuts() {
     var searchShortCut = 'ctrl+f';
-    if (isMac()) {
+    if (platformHelper.isMac()) {
       searchShortCut = 'command+f';
     }
 

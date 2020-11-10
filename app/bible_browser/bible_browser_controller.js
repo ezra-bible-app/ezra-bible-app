@@ -331,7 +331,7 @@ class BibleBrowserController {
 
   initGlobalShortCuts() {
     var shortCut = 'ctrl+c';
-    if (isMac()) {
+    if (platformHelper.isMac()) {
       shortCut = 'command+c';
     }
 
@@ -340,7 +340,7 @@ class BibleBrowserController {
       return false;
     });
 
-    if (!isMac()) {
+    if (!platformHelper.isMac()) {
       Mousetrap.bind('f11', () => {
         toggleFullScreen();
       });
