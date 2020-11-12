@@ -332,7 +332,7 @@ class OptionsMenu {
   }
 
   useNightModeBasedOnOption(force=false) {
-    if (this._nightModeOption.isChecked(force)) {
+    if (force || this._nightModeOption.isChecked(force)) {
       switchToDarkTheme();
     } else {
       switchToRegularTheme();
@@ -342,8 +342,10 @@ class OptionsMenu {
       this.darkMode = new Darkmode();
     }
 
-    if (this._nightModeOption.isChecked(force) && !this.darkMode.isActivated() ||
-        !this._nightModeOption.isChecked(force) && this.darkMode.isActivated()) {
+    var nightModeOptionChecked = force ? true : this._nightModeOption?.isChecked();
+
+    if (nightModeOptionChecked && !this.darkMode.isActivated() ||
+        !nightModeOptionChecked && this.darkMode.isActivated()) {
           
       this.darkMode.toggle();
       // We need to repaint all charts, because the label color depends on the theme
