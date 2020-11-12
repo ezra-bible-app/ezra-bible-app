@@ -76,6 +76,7 @@ class OptionsMenu {
     this._verseNotesFixedHeightOption = this.initDisplayOption('verse-notes-fixed-height-switch', 'fixNotesHeight', () => { this.fixNotesHeightBasedOnOption(); });
 
     this._nightModeOption = this.initDisplayOption('night-mode-switch', 'useNightMode', async () => {
+      this.hideDisplayMenu();
       showGlobalLoadingIndicator();
       this.useNightModeBasedOnOption();
       await waitUntilIdle();
