@@ -364,7 +364,7 @@ async function initApplication()
 
   console.log("Initializing user interface ...");
   initUi();
-  bible_browser_controller.optionsMenu.loadDisplayOptions();
+  bible_browser_controller.optionsMenu.initAllDisplayOptions();
 
   // Wait for the UI to render
   await waitUntilIdle();

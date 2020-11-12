@@ -303,7 +303,7 @@ class NotesController {
 
   getCurrentTheme() {
     var theme = 'default';
-    if (bible_browser_controller.optionsMenu.nightModeSwitchChecked()) {
+    if (bible_browser_controller.optionsMenu._nightModeOption?.isChecked()) {
       theme = 'mbo';
     }
 

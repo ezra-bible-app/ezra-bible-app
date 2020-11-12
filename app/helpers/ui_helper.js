@@ -142,7 +142,7 @@ class UiHelper {
   
     var tagsToolBarHeight = $('#tags-toolbar').height();
   
-    if (bible_browser_controller.optionsMenu.strongsSwitchChecked()) {
+    if (bible_browser_controller.optionsMenu._dictionaryOption.isChecked()) {
       $('#tags-content-global').css('height', this.app_container_height - tagsToolBarHeight - 535);
       $('#dictionary-info-box-panel').css('height', 422);
     } else {
