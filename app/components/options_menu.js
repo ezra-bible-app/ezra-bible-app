@@ -50,56 +50,64 @@ class OptionsMenu {
       bible_browser_controller.openModuleSettingsWizard('DICT'); 
     });
     
-    $('#tool-bar-switch').bind('change', () => {
-      bible_browser_controller.settings.set('showToolBar', this.toolBarSwitchChecked());
+    $('#tool-bar-switch').bind('change', async () => {
+      await waitUntilIdle();
       this.showOrHideToolBarBasedOnOption();
       this.slowlyHideDisplayMenu();
+      bible_browser_controller.settings.set('showToolBar', this.toolBarSwitchChecked());
     });
 
-    $('#book-intro-switch').bind('change', () => {
-      bible_browser_controller.settings.set('showBookIntro', this.bookIntroductionSwitchChecked());
+    $('#book-intro-switch').bind('change', async () => {
+      await waitUntilIdle();
       this.showOrHideBookIntroductionBasedOnOption();
       this.slowlyHideDisplayMenu();
+      bible_browser_controller.settings.set('showBookIntro', this.bookIntroductionSwitchChecked());
     });
 
-    $('#section-title-switch').bind('change', () => {
-      bible_browser_controller.settings.set('showSectionTitles', this.sectionTitleSwitchChecked());
+    $('#section-title-switch').bind('change', async () => {
+      await waitUntilIdle();
       this.showOrHideSectionTitlesBasedOnOption();
       this.slowlyHideDisplayMenu();
+      bible_browser_controller.settings.set('showSectionTitles', this.sectionTitleSwitchChecked());
     });
 
-    $('#xrefs-switch').bind('change', () => {
-      bible_browser_controller.settings.set('showXrefs', this.xrefsSwitchChecked());
+    $('#xrefs-switch').bind('change', async () => {
+      await waitUntilIdle();
       this.showOrHideXrefsBasedOnOption();
       this.slowlyHideDisplayMenu();
+      bible_browser_controller.settings.set('showXrefs', this.xrefsSwitchChecked());
     });
 
-    $('#footnotes-switch').bind('change', () => {
-      bible_browser_controller.settings.set('showFootnotes', this.footnotesSwitchChecked());
+    $('#footnotes-switch').bind('change', async () => {
+      await waitUntilIdle();
       this.showOrHideFootnotesBasedOnOption();
       this.slowlyHideDisplayMenu();
+      bible_browser_controller.settings.set('showFootnotes', this.footnotesSwitchChecked());
     });
 
-    $('#strongs-switch').bind('change', () => {
-      bible_browser_controller.settings.set('showStrongs', this.strongsSwitchChecked());
+    $('#strongs-switch').bind('change', async () => {
+      await waitUntilIdle();
       this.showOrHideStrongsBasedOnOption();
       this.slowlyHideDisplayMenu();
+      bible_browser_controller.settings.set('showStrongs', this.strongsSwitchChecked());
     });
 
-    $('#tags-switch').bind('change', () => {
-      bible_browser_controller.settings.set('showTags', this.tagsSwitchChecked());
+    $('#tags-switch').bind('change', async () => {
+      await waitUntilIdle();
       this.showOrHideVerseTagsBasedOnOption();
       this.slowlyHideDisplayMenu();
+      bible_browser_controller.settings.set('showTags', this.tagsSwitchChecked());
     });
 
-    $('#tags-column-switch').bind('change', () => {
-      bible_browser_controller.settings.set('useTagsColumn', this.tagsColumnSwitchChecked());
+    $('#tags-column-switch').bind('change', async () => {
+      await waitUntilIdle();
       this.changeTagsLayoutBasedOnOption();
       this.slowlyHideDisplayMenu();
+      bible_browser_controller.settings.set('useTagsColumn', this.tagsColumnSwitchChecked());
     });
 
-    $('#night-mode-switch').bind('change', () => {
-      bible_browser_controller.settings.set('useNightMode', this.nightModeSwitchChecked());
+    $('#night-mode-switch').bind('change', async () => {
+      await waitUntilIdle();
       this.hideDisplayMenu();
       showGlobalLoadingIndicator();
 
@@ -108,18 +116,22 @@ class OptionsMenu {
         await waitUntilIdle();
         hideGlobalLoadingIndicator();
       }, 100);
+
+      bible_browser_controller.settings.set('useNightMode', this.nightModeSwitchChecked());
     });
 
-    $('#verse-notes-switch').bind('change', () => {
-      bible_browser_controller.settings.set('showNotes', this.verseNotesSwitchChecked());
+    $('#verse-notes-switch').bind('change', async () => {
+      await waitUntilIdle();
       this.showOrHideVerseNotesBasedOnOption();
       this.slowlyHideDisplayMenu();
+      bible_browser_controller.settings.set('showNotes', this.verseNotesSwitchChecked());
     });
 
-    $('#verse-notes-fixed-height-switch').bind('change', () => {
-      bible_browser_controller.settings.set('fixNotesHeight', this.verseNotesFixedHeightSwitchChecked());
+    $('#verse-notes-fixed-height-switch').bind('change', async () => {
+      await waitUntilIdle();
       this.fixNotesHeightBasedOnOption();
       this.slowlyHideDisplayMenu();
+      bible_browser_controller.settings.set('fixNotesHeight', this.verseNotesFixedHeightSwitchChecked());
     });
 
     /*
