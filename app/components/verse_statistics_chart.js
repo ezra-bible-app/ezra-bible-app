@@ -112,7 +112,7 @@ class VerseStatisticsChart {
     };
 
     var chartElement = this.getVerseStatisticsChart(tabIndex);
-    var useNightMode = bible_browser_controller.optionsMenu.nightModeSwitchChecked();
+    var useNightMode = bible_browser_controller.optionsMenu._nightModeOption.isChecked();
     var labelFontColor = useNightMode ? "white" : "black";
     
     new Chart(chartElement, {
