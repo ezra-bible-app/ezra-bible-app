@@ -219,7 +219,7 @@ class DictionaryController {
   }
 
   handleStrongsMouseMove(event) {
-    if (!bible_browser_controller.optionsMenu.strongsSwitchChecked()) {
+    if (!bible_browser_controller.optionsMenu._dictionaryOption.isChecked()) {
       return;
     }
 
@@ -255,7 +255,7 @@ class DictionaryController {
   }
 
   handleVerseMouseMove(event) {
-    if (!bible_browser_controller.optionsMenu.strongsSwitchChecked()) {
+    if (!bible_browser_controller.optionsMenu._dictionaryOption.isChecked()) {
       return;
     }
 
