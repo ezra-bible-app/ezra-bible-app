@@ -365,7 +365,6 @@ async function initApplication()
   console.log("Initializing user interface ...");
   initUi();
   bible_browser_controller.optionsMenu.loadDisplayOptions();
-  uiHelper.resizeAppContainer();
 
   // Wait for the UI to render
   await waitUntilIdle();
@@ -379,6 +378,7 @@ async function initApplication()
 
   // Show main content
   $('#main-content').show();
+  uiHelper.resizeAppContainer();
 
   console.timeEnd("application-startup");
 

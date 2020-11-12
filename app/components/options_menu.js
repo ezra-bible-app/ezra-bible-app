@@ -103,8 +103,10 @@ class OptionsMenu {
       this.hideDisplayMenu();
       showGlobalLoadingIndicator();
 
-      setTimeout(() => {
+      setTimeout(async () => {
         this.useNightModeBasedOnOption();
+        await waitUntilIdle();
+        hideGlobalLoadingIndicator();
       }, 100);
     });
 
@@ -502,12 +504,6 @@ class OptionsMenu {
       this.darkMode.toggle();
       // We need to repaint all charts, because the label color depends on the theme
       bible_browser_controller.module_search.repaintAllCharts();
-    }
-
-    if (!force) {
-      setTimeout(() => {
-        hideGlobalLoadingIndicator();
-      }, 50);
     }
   }
 
