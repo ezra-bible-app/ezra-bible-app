@@ -52,7 +52,7 @@ class NavigationPane {
       navigationPane.addClass('navigation-pane-books');
     }
     
-    navigationPane.bind('mouseover', bible_browser_controller.verse_context_loader.hide_verse_expand_box);
+    navigationPane.bind('mouseover', bible_browser_controller.verse_context_controller.hide_verse_expand_box);
   }
 
   highlightNavElement(navElementNumber) {
