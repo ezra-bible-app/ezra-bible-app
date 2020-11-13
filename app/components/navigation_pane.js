@@ -200,7 +200,7 @@ class NavigationPane {
 
     var reference = '#top';
 
-    if (chapter > 1 || bible_browser_controller.optionsMenu.bookIntroductionSwitchChecked()) {
+    if (chapter > 1 || bible_browser_controller.optionsMenu._bookIntroOption.isChecked()) {
       var cachedVerseListTabId = this.getCachedVerseListTabId();
       reference = '#' + cachedVerseListTabId + ' ' + chapter;
       window.location = reference;

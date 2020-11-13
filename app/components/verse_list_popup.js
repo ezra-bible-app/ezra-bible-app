@@ -361,11 +361,11 @@ class VerseListPopup {
 
     $('#verse-list-popup').dialog({ title: tagReferenceBoxTitle });
 
-    if (!bible_browser_controller.optionsMenu.xrefsSwitchChecked()) {
+    if (!bible_browser_controller.optionsMenu._xrefsOption.isChecked()) {
       $('#verse-list-popup-verse-list').addClass('verse-list-without-xrefs');
     }
 
-    if (!bible_browser_controller.optionsMenu.footnotesSwitchChecked()) {
+    if (!bible_browser_controller.optionsMenu._footnotesOption.isChecked()) {
       $('#verse-list-popup-verse-list').addClass('verse-list-without-footnotes');
     }
 
