@@ -45,7 +45,7 @@ class BibleBrowserController {
     this.init_component("TranslationController", "translation_controller", "./translation_controller.js");
     this.init_component("InstallModuleWizard", "install_module_wizard", "../module_wizard/install_module_wizard.js");
     this.init_component("RemoveModuleWizard", "remove_module_wizard", "../module_wizard/remove_module_wizard.js");
-    this.init_component("TextLoader", "text_loader", "./text_loader.js");
+    this.init_component("TextController", "text_controller", "./text_controller.js");
     this.init_component("VerseContextLoader", "verse_context_loader", "./verse_context_loader.js");
     this.init_component("BookSearch", "tab_search", "../tab_search/tab_search.js");
     this.init_component("TabController", "tab_controller", "./tab_controller.js");
@@ -229,12 +229,12 @@ class BibleBrowserController {
     var currentTab = this.tab_controller.getTab();
 
     if (currentTab.getTextType() == 'search_results') {
-      this.text_loader.prepareForNewText(true, true);
+      this.text_controller.prepareForNewText(true, true);
       this.module_search.startSearch(null, this.tab_controller.getSelectedTabIndex(), currentTab.getSearchTerm());
     } else {
       if (!this.tab_controller.isCurrentTabEmpty()) {
-        this.text_loader.prepareForNewText(false, false);
-        await this.text_loader.requestTextUpdate(this.tab_controller.getSelectedTabId(),
+        this.text_controller.prepareForNewText(false, false);
+        await this.text_controller.requestTextUpdate(this.tab_controller.getSelectedTabId(),
                                                  currentTab.getBook(),
                                                  currentTab.getTagIdList(),
                                                  null,
@@ -746,8 +746,8 @@ class BibleBrowserController {
       // So, in case of xrefs we just "refresh" the view.
       var resetView = this.tab_controller.getTab().getTextType() != 'xrefs';
 
-      this.text_loader.prepareForNewText(resetView, false);
-      this.text_loader.requestTextUpdate(currentTabId, null, null, null, null, null, xrefs);
+      this.text_controller.prepareForNewText(resetView, false);
+      this.text_controller.requestTextUpdate(currentTabId, null, null, null, null, null, xrefs);
     }
   }
 
@@ -763,8 +763,8 @@ class BibleBrowserController {
       // So, in case of tagged_verses we just "refresh" the view.
       var resetView = this.tab_controller.getTab().getTextType() != 'tagged_verses';
 
-      this.text_loader.prepareForNewText(resetView, false);
-      this.text_loader.requestTextUpdate(currentTabId,
+      this.text_controller.prepareForNewText(resetView, false);
+      this.text_controller.requestTextUpdate(currentTabId,
                                          null,
                                          currentTagIdList,
                                          null,

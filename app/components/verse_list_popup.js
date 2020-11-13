@@ -186,7 +186,7 @@ class VerseListPopup {
     }
 
     setTimeout(() => {
-      bible_browser_controller.text_loader.requestVersesForSelectedTags(
+      bible_browser_controller.text_controller.requestVersesForSelectedTags(
         currentTabIndex,
         currentTabId,
         this.currentTagId,
@@ -226,7 +226,7 @@ class VerseListPopup {
     this.initCurrentXrefs(clickedElement);
 
     setTimeout(() => {
-      bible_browser_controller.text_loader.requestVersesForXrefs(
+      bible_browser_controller.text_controller.requestVersesForXrefs(
         currentTabIndex,
         currentTabId,
         this.currentXrefs,

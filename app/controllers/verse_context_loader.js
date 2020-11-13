@@ -61,7 +61,7 @@ class VerseContextLoader {
 
       bible_browser_controller.verse_context_loader.context_verse = start_verse_box[0];
 
-      bible_browser_controller.text_loader.requestBookText(
+      bible_browser_controller.text_controller.requestBookText(
         currentTabIndex,
         currentTabId,
         current_book_title,

@@ -230,7 +230,7 @@ class TaggedVerseExport {
         var currentTab = bible_browser_controller.tab_controller.getTab();
         var currentTagIdList = currentTab.getTagIdList();
   
-        bible_browser_controller.text_loader.requestVersesForSelectedTags(
+        bible_browser_controller.text_controller.requestVersesForSelectedTags(
           undefined,
           null,
           currentTagIdList,

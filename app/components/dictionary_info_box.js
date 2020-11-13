@@ -353,7 +353,7 @@ class DictionaryInfoBox {
     bible_browser_controller.module_search.populateSearchMenu();
 
     // Prepare for the next text to be loaded
-    bible_browser_controller.text_loader.prepareForNewText(true, true);
+    bible_browser_controller.text_controller.prepareForNewText(true, true);
 
     // Perform the Strong's search
     await bible_browser_controller.module_search.startSearch(/* event */      null,

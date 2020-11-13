@@ -106,7 +106,7 @@ class BookSelectionMenu {
     bible_browser_controller.module_search.resetSearch();
     bible_browser_controller.tag_assignment_menu.hideTagAssignmentMenu();
 
-    bible_browser_controller.text_loader.prepareForNewText(true, false);
+    bible_browser_controller.text_controller.prepareForNewText(true, false);
 
     setTimeout(async () => {
       // Set selected tags and search term to null, since we just switched to a book
@@ -122,7 +122,7 @@ class BookSelectionMenu {
       var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
       var currentBook = currentTab.getBook();
 
-      await bible_browser_controller.text_loader.requestTextUpdate(currentTabId,
+      await bible_browser_controller.text_controller.requestTextUpdate(currentTabId,
                                                                    currentBook,
                                                                    null,
                                                                    null,

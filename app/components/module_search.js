@@ -238,7 +238,7 @@ class ModuleSearch {
       }
 
       // Only reset view if we got an event (in other words: not initially)
-      bible_browser_controller.text_loader.prepareForNewText(event != null, true, tabIndex);
+      bible_browser_controller.text_controller.prepareForNewText(event != null, true, tabIndex);
 
       try {
         var searchResults = await nsi.getModuleSearchResults(currentBibleTranslationId,
@@ -291,7 +291,7 @@ class ModuleSearch {
     var currentSearchResults = currentTab?.getSearchResults();
 
     if (currentSearchResults?.length > 0) {
-      await bible_browser_controller.text_loader.requestTextUpdate(currentTabId,
+      await bible_browser_controller.text_controller.requestTextUpdate(currentTabId,
                                                                    null,
                                                                    null,
                                                                    cachedText,

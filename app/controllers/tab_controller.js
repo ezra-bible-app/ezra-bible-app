@@ -220,7 +220,7 @@ class TabController {
       }
 
       var isSearch = (currentMetaTab.textType == 'search_results');
-      bible_browser_controller.text_loader.prepareForNewText(true, isSearch, i);
+      bible_browser_controller.text_controller.prepareForNewText(true, isSearch, i);
 
       if (currentMetaTab.textType == 'search_results') {
 
@@ -238,7 +238,7 @@ class TabController {
 
       } else {
 
-        await bible_browser_controller.text_loader.requestTextUpdate(
+        await bible_browser_controller.text_controller.requestTextUpdate(
           currentMetaTab.elementId,
           currentMetaTab.book,
           currentMetaTab.tagIdList,
