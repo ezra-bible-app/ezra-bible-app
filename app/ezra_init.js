@@ -241,7 +241,7 @@ function initNightMode() {
 
     // Set up a listener to react when the native theme has changed
     nativeTheme.on('updated', () => {
-      if (nativeTheme.shouldUseDarkColors != bible_browser_controller.optionsMenu.nightModeSwitchChecked()) {
+      if (nativeTheme.shouldUseDarkColors != bible_browser_controller.optionsMenu._nightModeOption.isChecked()) {
         showGlobalLoadingIndicator();
 
         setTimeout(() => {
@@ -250,7 +250,7 @@ function initNightMode() {
       }
     });
 
-    if (nativeTheme.shouldUseDarkColors != bible_browser_controller.optionsMenu.nightModeSwitchChecked()) {
+    if (nativeTheme.shouldUseDarkColors != bible_browser_controller.optionsMenu._nightModeOption.isChecked()) {
       console.log("Initializing night mode based on system settings ...");
       bible_browser_controller.optionsMenu.toggleDarkModeIfNeeded();
     }
@@ -357,14 +357,10 @@ async function initApplication()
   console.log("Initializing controllers ...");
   await initControllers();
 
-  initNightMode();
-
-  // Wait for the UI to render
-  await waitUntilIdle();
-
   console.log("Initializing user interface ...");
   initUi();
-  bible_browser_controller.optionsMenu.initAllDisplayOptions();
+  bible_browser_controller.optionsMenu.init();
+  initNightMode();
 
   // Wait for the UI to render
   await waitUntilIdle();
