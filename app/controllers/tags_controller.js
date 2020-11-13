@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const TagsCommunicationController = require('./tags_communication_controller.js');
-const TagStore = require('../tags/tag_store.js');
+const TagStore = require('../components/tags/tag_store.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 
 class TagsController {

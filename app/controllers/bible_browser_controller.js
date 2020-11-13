@@ -39,8 +39,8 @@ class BibleBrowserController {
 
     this.init_component("VerseBoxHelper", "verse_box_helper", "../helpers/verse_box_helper.js");
     this.init_component("VerseSelection", "verse_selection", "../components/verse_selection.js");
-    this.init_component("TagSelectionMenu", "tag_selection_menu", "../tags/tag_selection_menu.js");
-    this.init_component("TagAssignmentMenu", "tag_assignment_menu", "../tags/tag_assignment_menu.js");
+    this.init_component("TagSelectionMenu", "tag_selection_menu", "../components/tags/tag_selection_menu.js");
+    this.init_component("TagAssignmentMenu", "tag_assignment_menu", "../components/tags/tag_assignment_menu.js");
     this.init_component("ModuleSearch", "module_search", "../components/module_search.js");
     this.init_component("TranslationController", "translation_controller", "./translation_controller.js");
     this.init_component("InstallModuleWizard", "install_module_wizard", "../components/module_wizard/install_module_wizard.js");
@@ -51,11 +51,11 @@ class BibleBrowserController {
     this.init_component("TabController", "tab_controller", "./tab_controller.js");
     this.init_component("OptionsMenu", "optionsMenu", "../components/options_menu.js");
     this.init_component("NavigationPane", "navigation_pane", "../components/navigation_pane.js");
-    this.init_component("TaggedVerseExport", "taggedVerseExport", "../tags/tagged_verse_export.js");
+    this.init_component("TaggedVerseExport", "taggedVerseExport", "../components/tags/tagged_verse_export.js");
     this.init_component("TranslationComparison", "translationComparison", "../components/translation_comparison.js");
     this.init_component("BookSelectionMenu", "book_selection_menu", "../components/book_selection_menu.js");
     this.init_component("VerseListPopup", "verse_list_popup", "../components/verse_list_popup.js");
-    this.init_component("TagStatistics", "tag_statistics", "../tags/tag_statistics.js");
+    this.init_component("TagStatistics", "tag_statistics", "../components/tags/tag_statistics.js");
     this.init_component("DictionaryController", "dictionary_controller", "./dictionary_controller.js");
     this.init_component("NotesController", "notes_controller", "./notes_controller.js");
     this.init_component("SwordNotes", "sword_notes", "../components/sword_notes.js");
