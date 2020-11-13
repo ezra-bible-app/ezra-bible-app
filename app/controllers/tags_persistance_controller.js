@@ -16,7 +16,7 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-class TagsCommunicationController
+class TagsPersistanceController
 {
   constructor() {}
 
@@ -74,11 +74,11 @@ class TagsCommunicationController
   }
 
   assign_tag_to_verses(tagId, verseBoxes) {
-    tags_controller.communication_controller.update_tags_on_verses(tagId, verseBoxes, "add");
+    tags_controller.persistance_controller.update_tags_on_verses(tagId, verseBoxes, "add");
   }
 
   async remove_tag_from_verses(tagId, verseBoxes) {
-    await tags_controller.communication_controller.update_tags_on_verses(tagId, verseBoxes, "remove");
+    await tags_controller.persistance_controller.update_tags_on_verses(tagId, verseBoxes, "remove");
   }
 
   async update_tags_on_verses(tagId, verseBoxes, action) {
@@ -113,4 +113,4 @@ class TagsCommunicationController
   }
 }
 
-module.exports = TagsCommunicationController;
+module.exports = TagsPersistanceController;

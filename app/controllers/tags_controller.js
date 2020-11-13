@@ -16,15 +16,21 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const TagsCommunicationController = require('./tags_communication_controller.js');
+const TagsPersistanceController = require('./tags_persistance_controller.js');
 const TagStore = require('../components/tags/tag_store.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 
+/**
+ * The TagsController handles most functionality related to tagging of verses.
+ * 
+ * Like all other controllers it is only initialized once. It is accessible at the
+ * global object `app_controller.tags_controller`.
+ */
 class TagsController {
   constructor() {
     loadScript("app/templates/tag_list.js");
 
-    this.communication_controller = new TagsCommunicationController();
+    this.persistance_controller = new TagsPersistanceController();
     this.tag_store = new TagStore();
     this.tag_store.onLatestUsedTagChanged = (tagId) => { this.onLatestUsedTagChanged(tagId) };
     this.verse_box_helper = new VerseBoxHelper();
@@ -160,7 +166,7 @@ class TagsController {
     var is_global = (checkbox_tag.parent().attr('id') == 'tags-content-global');
     
     tags_controller.update_tag_titles_in_verse_list(tags_controller.rename_standard_tag_id, is_global, new_title);
-    tags_controller.communication_controller.update_tag(tags_controller.rename_standard_tag_id, new_title);
+    tags_controller.persistance_controller.update_tag(tags_controller.rename_standard_tag_id, new_title);
     tags_controller.sort_tag_lists();
     
     if (tags_controller.rename_standard_tag_id == tags_controller.tag_store.latest_tag_id) {
@@ -189,7 +195,7 @@ class TagsController {
     var new_tag_title = $('#new-' + type + '-tag-title-input').val();
     tags_controller.new_tag_created = true;
     this.last_created_tag = new_tag_title;
-    tags_controller.communication_controller.create_new_tag(new_tag_title, type);
+    tags_controller.persistance_controller.create_new_tag(new_tag_title, type);
     $(e).dialog("close");
   }
 
@@ -224,7 +230,7 @@ class TagsController {
     $('#delete-tag-confirmation-dialog').dialog('close');
     
     setTimeout(async () => {
-      await tags_controller.communication_controller.destroy_tag(tags_controller.tag_to_be_deleted);
+      await tags_controller.persistance_controller.destroy_tag(tags_controller.tag_to_be_deleted);
 
       await tags_controller.updateTagUiBasedOnTagAvailability();
       app_controller.tag_statistics.update_book_tag_statistics_box();
@@ -374,7 +380,7 @@ class TagsController {
         }
       }
 
-      tags_controller.communication_controller.assign_tag_to_verses(id, filteredVerseBoxes);
+      tags_controller.persistance_controller.assign_tag_to_verses(id, filteredVerseBoxes);
 
       tags_controller.change_verse_list_tag_info(id,
                                                  cb_label,
@@ -498,7 +504,7 @@ class TagsController {
     // Drop the cached stats element, because it is outdated now
     this.dropCachedTagStats(job.id);
 
-    await tags_controller.communication_controller.remove_tag_from_verses(job.id, verse_boxes);
+    await tags_controller.persistance_controller.remove_tag_from_verses(job.id, verse_boxes);
     await this.onLatestUsedTagChanged(job.id, false);
 
     var currentBook = app_controller.tab_controller.getTab().getBook();
