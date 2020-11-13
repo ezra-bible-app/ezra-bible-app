@@ -18,7 +18,7 @@
 
 'use strict';
 
-const VerseBox = require("../app/ui_models/verse_box.js");
+const VerseBox = require("../../ui_models/verse_box.js");
 
 module.exports = (sequelize, DataTypes) => {
   const VerseReference = sequelize.define('VerseReference', {

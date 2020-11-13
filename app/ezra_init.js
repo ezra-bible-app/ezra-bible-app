@@ -125,7 +125,7 @@ async function initDatabase()
   dbDir = dbHelper.getDatabaseDir();
 
   await dbHelper.initDatabase(dbDir);
-  models = require('./models')(dbDir);
+  models = require('./app/database/models')(dbDir);
 }
 
 async function initControllers()

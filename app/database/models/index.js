@@ -33,7 +33,7 @@ module.exports = function(dbDir) {
   var config = {
     "username": null,
     "password": null,
-    "database": "ezra-project-ng",
+    "database": "ezra-project",
     "host": null,
     "dialect": "sqlite",
     "storage": dbPath,

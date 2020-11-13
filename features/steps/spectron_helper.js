@@ -6,7 +6,7 @@ const assert = require('chai').assert;
 const VerseReferenceHelper = require('../../app/helpers/verse_reference_helper');
 const copydir = require('copy-dir');
 const fs = require('fs');
-require('../../models/biblebook');
+require('../../app/models/biblebook');
 
 class SpectronHelper {
   constructor() {
