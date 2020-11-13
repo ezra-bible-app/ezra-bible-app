@@ -16,7 +16,7 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const VerseSearch = require('../tab_search/verse_search.js');
+const VerseSearch = require('./tab_search/verse_search.js');
 const VerseStatisticsChart = require('./verse_statistics_chart.js');
 
 class ModuleSearch {
