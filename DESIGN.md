@@ -12,7 +12,7 @@ Basic html template loaded initially on startup. Additional content is dynamical
 
 ### app/ezra_init.js
 
-Entry script of the Electron renderer process for initializing the user interface. This is referenced in the `index.html` file. The code in ezra_init.js is only used for startup.
+Entry script of the Electron renderer process for initializing the user interface. This is referenced in the `index.html` file. The code in `ezra_init.js` is only used for startup.
 
 ### app
 
@@ -31,7 +31,7 @@ Here you find CSS stylesheets.
 
 ### html
 
-This directory contains static HTML files.
+This directory contains static HTML files (e.g. for the book selection menu, the display options menu, etc.). These files are loaded dynamically into the DOM by `ezra_init.js`.
 
 ### locales
 
