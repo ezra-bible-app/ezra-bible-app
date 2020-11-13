@@ -71,7 +71,7 @@ class SpectronHelper {
 
   async initDatabase() {
     var userDataDir = await this.getUserDataDir();
-    global.models = require('../../models')(userDataDir);
+    global.models = require('../../app/database/models')(userDataDir);
   }
 
   async buttonHasClass(button, className, timeoutMs=100) {
