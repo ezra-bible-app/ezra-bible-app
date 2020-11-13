@@ -56,7 +56,7 @@ class BibleBrowserController {
     this.init_component("BookSelectionMenu", "book_selection_menu", "../components/book_selection_menu.js");
     this.init_component("VerseListPopup", "verse_list_popup", "../components/verse_list_popup.js");
     this.init_component("TagStatistics", "tag_statistics", "../tags/tag_statistics.js");
-    this.init_component("DictionaryController", "dictionary_controller", "../components/dictionary_controller.js");
+    this.init_component("DictionaryController", "dictionary_controller", "./dictionary_controller.js");
     this.init_component("NotesController", "notes_controller", "./notes_controller.js");
     this.init_component("SwordNotes", "sword_notes", "../components/sword_notes.js");
 

@@ -19,7 +19,7 @@
 const Mousetrap = require('mousetrap');
 const jsStrongs = require('strongs');
 
-const DictionaryInfoBox = require('./dictionary_info_box.js');
+const DictionaryInfoBox = require('../components/dictionary_info_box.js');
 
 class DictionaryController {
   constructor() {
