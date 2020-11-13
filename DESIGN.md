@@ -1,0 +1,37 @@
+# Ezra Project Software Design
+
+## File structure
+
+On the top-level these are the most relevant files and directories.
+
+### main.js
+
+Standard node.js / Electron start script. This is not changed very often.
+
+### index.html
+
+Basic html template loaded initially on startup. Additional content is dynamically added to the DOM by `ezra_init.js`.
+
+### app
+
+This directory contains the JavaScript source code of Ezra Project. It contains the following parts:
+
+* `ezra_init.js`: Entry script of the Electron renderer process for initializing the user interface. This is referenced in the `index.html` file.
+* `components`: Graphical components of the UI, e.g. `BookSelectionMenu`, `NavigationPane`, `OptionsMenu`, etc.
+* `controllers`: Controllers are classes that "bring live" into the UI and respond to user actions. All Controllers are named `<Name>Controller` and the file name is `<name>_controller.js`.
+* `database`: Database related source code (models, migrations)
+* `helpers`: Helper classes that make various tasks more easy, but usually don't interact with the UI directly
+* `templates`: [pug](https://pugjs.org/) templates
+* `ui_models`: Model classes for objects in the user interface. May be instantiated multiple times if there are multiple instances of a certain object in the UI.
+
+### css
+
+Here you find CSS stylesheets.
+
+### html
+
+This directory contains static HTML files.
+
+### locales
+
+Here you find [i18next](https://www.i18next.com/) locale files (JSON format).
