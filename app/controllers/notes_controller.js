@@ -266,12 +266,19 @@ class NotesController {
     return notesContent;
   }
 
+  htmlToElement(html) {
+    var template = document.createElement('template');
+    html = html.trim(); // Never return a text node of whitespace as the result
+    template.innerHTML = html;
+    return template.content.firstChild;
+  }
+
   createEditor(notesElement) {
     var notesElementText = notesElement.querySelector('.verse-notes-text');
     notesElementText.classList.add('edited');
     notesElementText.innerHTML = '';
 
-    var textArea = htmlToElement('<textarea class="editor"></textarea>');
+    var textArea = this.htmlToElement('<textarea class="editor"></textarea>');
     notesElementText.append(textArea);
 
     var targetElement = notesElementText.querySelector('.editor');

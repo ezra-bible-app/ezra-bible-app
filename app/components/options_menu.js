@@ -104,6 +104,24 @@ class OptionsMenu {
     }
   }
 
+  switchToDarkTheme() {
+    this.switchToTheme('css/jquery-ui/dark-hive/jquery-ui.css');
+    app_controller.notes_controller.setDarkTheme();
+  }
+  
+  switchToRegularTheme() {
+    this.switchToTheme('css/jquery-ui/cupertino/jquery-ui.css');
+    app_controller.notes_controller.setLightTheme();
+  }
+  
+  switchToTheme(theme) {
+    var currentTheme = document.getElementById("theme-css").href;
+  
+    if (currentTheme.indexOf(theme) == -1) { // Only switch the theme if it is different from the current theme
+      document.getElementById("theme-css").href = theme;
+    }
+  }
+
   slowlyHideDisplayMenu() {
     setTimeout(() => {
       this.hideDisplayMenu();
@@ -334,9 +352,9 @@ class OptionsMenu {
 
   useNightModeBasedOnOption(force=false) {
     if (force || this._nightModeOption.isChecked(force)) {
-      switchToDarkTheme();
+      this.switchToDarkTheme();
     } else {
-      switchToRegularTheme();
+      this.switchToRegularTheme();
     }
 
     if (this.darkMode == null) {

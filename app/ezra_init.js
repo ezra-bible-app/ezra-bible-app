@@ -57,13 +57,6 @@ let tags_controller = null;
 let reference_separator = ':';
 let bible_chapter_verse_counts = {};
 
-function htmlToElement(html) {
-  var template = document.createElement('template');
-  html = html.trim(); // Never return a text node of whitespace as the result
-  template.innerHTML = html;
-  return template.content.firstChild;
-}
-
 function sleep(time) {
   return new Promise(resolve => {
     setTimeout(() => {
@@ -185,24 +178,6 @@ function hideGlobalLoadingIndicator() {
   var loadingIndicator = $('#startup-loading-indicator');
   loadingIndicator.hide();
   $('#main-content').show();
-}
-
-function switchToDarkTheme() {
-  switchToTheme('css/jquery-ui/dark-hive/jquery-ui.css');
-  app_controller.notes_controller.setDarkTheme();
-}
-
-function switchToRegularTheme() {
-  switchToTheme('css/jquery-ui/cupertino/jquery-ui.css');
-  app_controller.notes_controller.setLightTheme();
-}
-
-function switchToTheme(theme) {
-  var currentTheme = document.getElementById("theme-css").href;
-
-  if (currentTheme.indexOf(theme) == -1) { // Only switch the theme if it is different from the current theme
-    document.getElementById("theme-css").href = theme;
-  }
 }
 
 function earlyInitNightMode() {
