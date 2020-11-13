@@ -25,37 +25,7 @@ class OptionsMenu {
     this.darkMode = null;
   }
 
-  toggleDarkModeIfNeeded() {
-    if (platformHelper.isMacOsMojaveOrLater()) {
-      const nativeTheme = require('electron').remote.nativeTheme;
-
-      if (nativeTheme.shouldUseDarkColors) {
-        this._nightModeOption.enableOption();
-      } else {
-        this._nightModeOption.disableOption();
-      }
-
-      this.useNightModeBasedOnOption();
-    }
-  }
-
-  initDisplayOption(switchElementId, settingsKey, eventHandler, enabledByDefault=false, customSettingsLoader=undefined) {
-    var option = new DisplayOption(switchElementId,
-                                   settingsKey,
-                                   bible_browser_controller.settings,
-                                   eventHandler,
-                                   () => { this.slowlyHideDisplayMenu(); },
-                                   customSettingsLoader,
-                                   enabledByDefault);
-    return option;
-  }
-
-  initCurrentOptionsMenu(tabIndex=undefined) {
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
-    currentVerseListMenu.find('.display-options-button').bind('click', (event) => { this.handleMenuClick(event); });
-  }
-
-  initAllDisplayOptions() {
+  init() {
     $('#show-translation-settings-button').bind('click', function() {
       bible_browser_controller.openModuleSettingsWizard('BIBLE'); 
     });
@@ -102,6 +72,36 @@ class OptionsMenu {
     }
 
     this.refreshViewBasedOnOptions();
+  }
+
+  initCurrentOptionsMenu(tabIndex=undefined) {
+    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
+    currentVerseListMenu.find('.display-options-button').bind('click', (event) => { this.handleMenuClick(event); });
+  }
+
+  initDisplayOption(switchElementId, settingsKey, eventHandler, enabledByDefault=false, customSettingsLoader=undefined) {
+    var option = new DisplayOption(switchElementId,
+                                   settingsKey,
+                                   bible_browser_controller.settings,
+                                   eventHandler,
+                                   () => { this.slowlyHideDisplayMenu(); },
+                                   customSettingsLoader,
+                                   enabledByDefault);
+    return option;
+  }
+
+  toggleDarkModeIfNeeded() {
+    if (platformHelper.isMacOsMojaveOrLater()) {
+      const nativeTheme = require('electron').remote.nativeTheme;
+
+      if (nativeTheme.shouldUseDarkColors) {
+        this._nightModeOption.enableOption();
+      } else {
+        this._nightModeOption.disableOption();
+      }
+
+      this.useNightModeBasedOnOption();
+    }
   }
 
   slowlyHideDisplayMenu() {
