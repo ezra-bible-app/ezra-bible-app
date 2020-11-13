@@ -19,6 +19,12 @@
 const Mousetrap = require('mousetrap');
 const Tab = require('../ui_models/tab.js');
 
+/**
+ * The TabController manages the tab bar and the state of each tab.
+ * 
+ * Like all other controllers it is only initialized once. It is accessible at the
+ * global object `app_controller.tab_controller`.
+ */
 class TabController {
   constructor() {
     this.persistanceEnabled = false;

@@ -21,6 +21,14 @@ const jsStrongs = require('strongs');
 
 const DictionaryInfoBox = require('../components/dictionary_info_box.js');
 
+/**
+ * The DictionaryController handles functionality for the lookup of dictionary information based on Strong's keys.
+ * It handles the mouse move events when the user is hovering individual words in the text while holding SHIFT.
+ * It also handles the state of the dictionary info box.
+ * 
+ * Like all other controllers it is only initialized once. It is accessible at the
+ * global object `app_controller.dictionary_controller`.
+ */
 class DictionaryController {
   constructor() {
     this.currentStrongsIds = null;

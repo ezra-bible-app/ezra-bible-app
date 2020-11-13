@@ -16,6 +16,13 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+/**
+ * The TextController is used to load bible text into the text area of a tab.
+ * It can handle bible books, tagged verse lists and search results.
+ * 
+ * Like all other controllers it is only initialized once. It is accessible at the
+ * global object `app_controller.text_controller`.
+ */
 class TextController {
   constructor() {
     loadScript("app/templates/verse_list.js");

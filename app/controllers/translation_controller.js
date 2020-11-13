@@ -18,6 +18,13 @@
 
 const LanguageMapper = require('../helpers/language_mapper.js');
 
+/**
+ * The TranslationController is used to handle the bible translation menu and to
+ * access and generate various information about installed bible translations.
+ * 
+ * Like all other controllers it is only initialized once. It is accessible at the
+ * global object `app_controller.translation_controller`.
+ */
 class TranslationController {
   constructor() {
     this.languageMapper = new LanguageMapper();

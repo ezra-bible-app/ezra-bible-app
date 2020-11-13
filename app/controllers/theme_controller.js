@@ -18,6 +18,14 @@
 
 const Darkmode = require('darkmode-js');
 
+/**
+ * The ThemeController contains functions for switching between the standard (light theme)
+ * and the dark "night" theme. Whenever the user switches the "night mode" in the options menu, this controller
+ * processes the change.
+ * 
+ * Like all other controllers it is only initialized once. It is accessible at the
+ * global object `app_controller.theme_controller`.
+ */
 class ThemeController {
   constructor() {
     this.darkMode = null;

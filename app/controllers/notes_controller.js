@@ -21,6 +21,12 @@ let CodeMirror = null;
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
 
+/**
+ * The NotesController handles all user actions related to note taking.
+ * 
+ * Like all other controllers it is only initialized once. It is accessible at the
+ * global object `app_controller.notes_controller`.
+ */
 class NotesController {
   constructor() {
     CodeMirror = require('codemirror/lib/codemirror.js');
