@@ -135,7 +135,7 @@ async function initDatabase()
 
 async function initControllers()
 {
-  const BibleBrowserController = require('./app/bible_browser/bible_browser_controller.js');
+  const BibleBrowserController = require('./app/controllers/bible_browser_controller.js');
   const TagsController = require('./app/tags/tags_controller.js');
 
   bible_browser_controller = new BibleBrowserController();
