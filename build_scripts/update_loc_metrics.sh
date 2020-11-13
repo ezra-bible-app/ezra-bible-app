@@ -7,11 +7,7 @@ cloc --md app \
           docker \
           html \
           locales \
-          models \
-          migrations \
           package_config \
-          seeders \
-          templates \
           index.html \
           main.js \
           package.json \
