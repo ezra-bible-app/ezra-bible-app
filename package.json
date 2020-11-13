@@ -44,7 +44,7 @@
     "build-mac": "./build_scripts/build_mac.sh",
     "update-loc-metrics": "./build_scripts/update_loc_metrics.sh",
     "update-cc-metrics": "./build_scripts/update_complexity_metrics.sh",
-    "doc": "./node_modules/.bin/jsdoc -c jsdoc.conf --package package.json --readme DESIGN.md -d docs -r --verbose app"
+    "doc": "./node_modules/.bin/jsdoc -c jsdoc.conf --package package.json --readme DESIGN.md -d docs/docs -r --verbose app"
   },
   "dependencies": {
     "@sentry/electron": "^2.0.0",
