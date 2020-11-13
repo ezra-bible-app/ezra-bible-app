@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Mousetrap = require('mousetrap');
-const Tab = require('./tab.js');
+const Tab = require('../ui_models/tab.js');
 
 class TabController {
   constructor() {
