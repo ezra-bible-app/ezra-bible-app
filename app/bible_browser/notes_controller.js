@@ -19,7 +19,7 @@
 let CodeMirror = null;
 
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
-const VerseBox = require('../bible_browser/verse_box.js');
+const VerseBox = require('../components/verse_box.js');
 
 class NotesController {
   constructor() {

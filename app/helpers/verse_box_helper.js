@@ -16,7 +16,7 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const VerseBox = require("../bible_browser/verse_box");
+const VerseBox = require("../components/verse_box.js");
 
 class VerseBoxHelper {
   constructor() {}

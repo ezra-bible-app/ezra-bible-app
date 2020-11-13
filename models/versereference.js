@@ -18,7 +18,7 @@
 
 'use strict';
 
-const VerseBox = require("../app/bible_browser/verse_box.js");
+const VerseBox = require("../app/components/verse_box.js");
 
 module.exports = (sequelize, DataTypes) => {
   const VerseReference = sequelize.define('VerseReference', {

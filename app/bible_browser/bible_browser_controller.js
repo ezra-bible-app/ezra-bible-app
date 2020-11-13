@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Mousetrap = require('mousetrap');
-const VerseBox = require('./verse_box.js');
+const VerseBox = require('../components/verse_box.js');
 
 class BibleBrowserController {
   constructor() {

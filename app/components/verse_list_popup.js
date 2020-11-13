@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
-const VerseBox = require('../bible_browser/verse_box.js');
+const VerseBox = require('./verse_box.js');
 
 class VerseListPopup {
   constructor() {
