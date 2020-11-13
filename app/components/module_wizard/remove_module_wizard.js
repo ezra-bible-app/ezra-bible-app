@@ -60,6 +60,9 @@ class RemoveModuleWizard {
     var header = "<p>" + headerText + "</p>";
     wizardPage.append(header);
 
+    wizardPage.append("<div id='remove-module-list'></div>");
+    var removeModuleList = $('#remove-module-list');
+
     var languages = bible_browser_controller.translation_controller.getLanguages(moduleType);
 
     for (var i = 0; i < languages.length; i++) {
@@ -70,7 +73,7 @@ class RemoveModuleWizard {
                            "<div id='remove-module-assistant-" + currentLang.languageCode + "-modules'></div>" +
                            "</div>";
 
-      wizardPage.append(newLanguageBox);
+      removeModuleList.append(newLanguageBox);
     }
 
     var modules = nsi.getAllLocalModules(moduleType);

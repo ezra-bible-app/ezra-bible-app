@@ -681,6 +681,11 @@ h2 {
   float: left;
 }
 
+#remove-module-list {
+  overflow-y: scroll;
+  height: 75%;
+}
+
 #module-info {
   height: 100%;
   padding: 1em;
