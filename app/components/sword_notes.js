@@ -16,7 +16,12 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-
+/**
+ * The SwordNotes class implements the handling of SWORD-based note elements
+ * like cross-references and footnotes.
+ * 
+ * @category Component
+ */
 class SwordNotes {
   constructor() {
     this.notesCharacter = i18n.t('bible-browser.footnote-character');

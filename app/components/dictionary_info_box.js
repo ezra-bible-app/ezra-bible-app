@@ -18,6 +18,12 @@
 
 const jsStrongs = require('strongs');
 
+/**
+ * The DictionaryInfoBox class handles all event handling and updates of the
+ * dictionary info box component.
+ * 
+ * @category Component
+ */
 class DictionaryInfoBox {
   constructor(dictionaryController) {
     this.dictionaryController = dictionaryController;

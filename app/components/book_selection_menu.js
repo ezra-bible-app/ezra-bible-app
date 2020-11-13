@@ -16,6 +16,11 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+/**
+ * The BookSelectionMenu class implements all event handling for the book selection menu.
+ * 
+ * @category Component
+ */
 class BookSelectionMenu {
   constructor() {
     this.book_menu_is_opened = false;
@@ -123,12 +128,12 @@ class BookSelectionMenu {
       var currentBook = currentTab.getBook();
 
       await app_controller.text_controller.requestTextUpdate(currentTabId,
-                                                                   currentBook,
-                                                                   null,
-                                                                   null,
-                                                                   null,
-                                                                   null,
-                                                                   null);
+                                                             currentBook,
+                                                             null,
+                                                             null,
+                                                             null,
+                                                             null,
+                                                             null);
 
       await waitUntilIdle();
       tags_controller.update_tag_list(currentBook);

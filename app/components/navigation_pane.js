@@ -16,6 +16,12 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+/**
+ * The NavigationPane class implements the update and event handling of the
+ * navigation pane that is shown left of the bible text pane.
+ * 
+ * @category Component
+ */
 class NavigationPane {
   constructor() {
     this.currentNavigationPane = null;

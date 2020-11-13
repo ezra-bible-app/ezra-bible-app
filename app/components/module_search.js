@@ -19,6 +19,12 @@
 const VerseSearch = require('./tab_search/verse_search.js');
 const VerseStatisticsChart = require('./verse_statistics_chart.js');
 
+/**
+ * The ModuleSearch class implements the module search functionality.
+ * It uses the VerseSearch component for highlighting search results.
+ * 
+ * @category Component
+ */
 class ModuleSearch {
   constructor() {
     this.currentSearchTerm = null;
