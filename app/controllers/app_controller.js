@@ -19,12 +19,23 @@
 const Mousetrap = require('mousetrap');
 const VerseBox = require('../ui_models/verse_box.js');
 
+/**
+ * AppController is Ezra Project's main controller class which initiates all other controllers and components.
+ * It is only instantiated once and an instance is available at `global.app_controller`.
+ */
 class AppController {
   constructor() {
     this.book_menu_is_opened = false;
     this.current_cr_verse_id = null;
   }
 
+  /**
+   * This function is a "macro" for instantiating a component as a member of AppController.
+   * 
+   * @param {String} componentClassName The class name of the component 
+   * @param {String} componentName The variable name that this component shall get within the AppController instance
+   * @param {String} componentPath The path to the component js file
+   */
   init_component(componentClassName, componentName, componentPath) {
     var expression = "";
     expression += "const " + componentClassName + " = " + "require('" + componentPath + "');";
