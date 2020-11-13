@@ -878,7 +878,7 @@ h2 {
 
 #verse-list-popup-loading-indicator, #compare-translations-loading-indicator {
   display: none;
-  width: 300px;
+  /* width: 300px; */
   height: 30px;
   margin-top: 3em;
 }
