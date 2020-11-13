@@ -3,10 +3,10 @@ const Application = require('spectron').Application;
 const chaiAsPromised = require("chai-as-promised");
 const chai = require("chai");
 const assert = require('chai').assert;
-const VerseReferenceHelper = require('../../app/helpers/verse_reference_helper');
+const VerseReferenceHelper = require('../../app/helpers/verse_reference_helper.js');
 const copydir = require('copy-dir');
 const fs = require('fs');
-require('../../app/models/biblebook');
+require('../../app/database/models/biblebook.js');
 
 class SpectronHelper {
   constructor() {
