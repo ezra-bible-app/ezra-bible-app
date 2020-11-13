@@ -78,11 +78,11 @@
   },
   "devDependencies": {
     "@sentry/cli": "^1.55.0",
+    "better-docs": "^2.3.2",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "copy-dir": "^1.3.0",
     "cucumber": "^6.0.5",
-    "docdash": "^1.2.0",
     "electron": "^9.3.1",
     "electron-osx-sign": "^0.4.17",
     "electron-packager": "^15.0.0",

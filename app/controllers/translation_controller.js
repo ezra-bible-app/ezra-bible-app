@@ -24,6 +24,8 @@ const LanguageMapper = require('../helpers/language_mapper.js');
  * 
  * Like all other controllers it is only initialized once. It is accessible at the
  * global object `app_controller.translation_controller`.
+ * 
+ * @category Controller
  */
 class TranslationController {
   constructor() {

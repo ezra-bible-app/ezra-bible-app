@@ -22,6 +22,8 @@
  * 
  * Like all other controllers it is only initialized once. It is accessible at the
  * global object `app_controller.text_controller`.
+ * 
+ * @category Controller
  */
 class TextController {
   constructor() {

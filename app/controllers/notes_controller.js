@@ -26,6 +26,8 @@ const VerseBox = require('../ui_models/verse_box.js');
  * 
  * Like all other controllers it is only initialized once. It is accessible at the
  * global object `app_controller.notes_controller`.
+ * 
+ * @category Controller
  */
 class NotesController {
   constructor() {

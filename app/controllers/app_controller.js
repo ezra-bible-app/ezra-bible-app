@@ -22,6 +22,8 @@ const VerseBox = require('../ui_models/verse_box.js');
 /**
  * AppController is Ezra Project's main controller class which initiates all other controllers and components.
  * It is only instantiated once and an instance is available at `global.app_controller`.
+ * 
+ * @category Controller
  */
 class AppController {
   constructor() {

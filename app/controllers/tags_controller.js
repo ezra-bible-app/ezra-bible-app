@@ -25,6 +25,8 @@ const VerseBoxHelper = require('../helpers/verse_box_helper.js');
  * 
  * Like all other controllers it is only initialized once. It is accessible at the
  * global object `app_controller.tags_controller`.
+ * 
+ * @category Controller
  */
 class TagsController {
   constructor() {

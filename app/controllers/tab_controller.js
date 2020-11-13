@@ -24,6 +24,8 @@ const Tab = require('../ui_models/tab.js');
  * 
  * Like all other controllers it is only initialized once. It is accessible at the
  * global object `app_controller.tab_controller`.
+ * 
+ * @category Controller
  */
 class TabController {
   constructor() {

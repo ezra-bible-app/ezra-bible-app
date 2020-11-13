@@ -25,6 +25,8 @@ const Darkmode = require('darkmode-js');
  * 
  * Like all other controllers it is only initialized once. It is accessible at the
  * global object `app_controller.theme_controller`.
+ * 
+ * @category Controller
  */
 class ThemeController {
   constructor() {

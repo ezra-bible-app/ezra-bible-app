@@ -28,6 +28,8 @@ const DictionaryInfoBox = require('../components/dictionary_info_box.js');
  * 
  * Like all other controllers it is only initialized once. It is accessible at the
  * global object `app_controller.dictionary_controller`.
+ * 
+ * @category Controller
  */
 class DictionaryController {
   constructor() {
