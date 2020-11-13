@@ -3,8 +3,8 @@
 package-lock.json
 *.code-workspace
 /.vscode
-/templates/verse_list.js
-/templates/tag_list.js
+/app/templates/verse_list.js
+/app/templates/tag_list.js
 strongs_todo.txt
 .DS_Store
 complexity_metrics.html

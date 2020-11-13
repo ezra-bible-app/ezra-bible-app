@@ -18,7 +18,7 @@
 
 class TextController {
   constructor() {
-    loadScript("templates/verse_list.js");
+    loadScript("app/templates/verse_list.js");
     this.marked = require("marked");
   }
 

@@ -22,7 +22,7 @@ const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 
 class TagsController {
   constructor() {
-    loadScript("templates/tag_list.js");
+    loadScript("app/templates/tag_list.js");
 
     this.communication_controller = new TagsCommunicationController();
     this.tag_store = new TagStore();
