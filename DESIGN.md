@@ -1,5 +1,3 @@
-# Ezra Project Software Design
-
 ## File structure
 
 On the top-level these are the most relevant files and directories.
@@ -12,11 +10,14 @@ Standard node.js / Electron start script. This is not changed very often.
 
 Basic html template loaded initially on startup. Additional content is dynamically added to the DOM by `ezra_init.js`.
 
+### app/ezra_init.js
+
+Entry script of the Electron renderer process for initializing the user interface. This is referenced in the `index.html` file. The code in ezra_init.js is only used for startup.
+
 ### app
 
 This directory contains the JavaScript source code of Ezra Project. It contains the following parts:
 
-* `ezra_init.js`: Entry script of the Electron renderer process for initializing the user interface. This is referenced in the `index.html` file.
 * `components`: Graphical components of the UI, e.g. `BookSelectionMenu`, `NavigationPane`, `OptionsMenu`, etc.
 * `controllers`: Controllers are classes that "bring live" into the UI and respond to user actions. All Controllers are named `<Name>Controller` and the file name is `<name>_controller.js`.
 * `database`: Database related source code (models, migrations)
