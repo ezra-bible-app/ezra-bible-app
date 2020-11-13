@@ -16,13 +16,11 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const Darkmode = require('darkmode-js');
 const DisplayOption = require('../ui_models/display_option.js');
 
 class OptionsMenu {
   constructor() {
     this.menuIsOpened = false;
-    this.darkMode = null;
   }
 
   init() {
@@ -48,22 +46,11 @@ class OptionsMenu {
     this._nightModeOption = this.initDisplayOption('night-mode-switch', 'useNightMode', async () => {
       this.hideDisplayMenu();
       showGlobalLoadingIndicator();
-      this.useNightModeBasedOnOption();
+      theme_controller.useNightModeBasedOnOption();
       await waitUntilIdle();
       hideGlobalLoadingIndicator();
     }, () => { // customSettingsLoader
-      var useNightMode = false;
-
-      if (platformHelper.isMacOsMojaveOrLater()) {
-        const nativeTheme = require('electron').remote.nativeTheme;
-        useNightMode = nativeTheme.shouldUseDarkColors;
-      } else {
-        if (app_controller.settings.has('useNightMode')) {
-          useNightMode = app_controller.settings.get('useNightMode');
-        }
-      }
-
-      return useNightMode;
+      return theme_controller.isNightModeUsed();
     });
 
     if (platformHelper.isMacOsMojaveOrLater()) {
@@ -88,38 +75,6 @@ class OptionsMenu {
                                    customSettingsLoader,
                                    enabledByDefault);
     return option;
-  }
-
-  toggleDarkModeIfNeeded() {
-    if (platformHelper.isMacOsMojaveOrLater()) {
-      const nativeTheme = require('electron').remote.nativeTheme;
-
-      if (nativeTheme.shouldUseDarkColors) {
-        this._nightModeOption.enableOption();
-      } else {
-        this._nightModeOption.disableOption();
-      }
-
-      this.useNightModeBasedOnOption();
-    }
-  }
-
-  switchToDarkTheme() {
-    this.switchToTheme('css/jquery-ui/dark-hive/jquery-ui.css');
-    app_controller.notes_controller.setDarkTheme();
-  }
-  
-  switchToRegularTheme() {
-    this.switchToTheme('css/jquery-ui/cupertino/jquery-ui.css');
-    app_controller.notes_controller.setLightTheme();
-  }
-  
-  switchToTheme(theme) {
-    var currentTheme = document.getElementById("theme-css").href;
-  
-    if (currentTheme.indexOf(theme) == -1) { // Only switch the theme if it is different from the current theme
-      document.getElementById("theme-css").href = theme;
-    }
   }
 
   slowlyHideDisplayMenu() {
@@ -350,28 +305,6 @@ class OptionsMenu {
     }
   }
 
-  useNightModeBasedOnOption(force=false) {
-    if (force || this._nightModeOption.isChecked(force)) {
-      this.switchToDarkTheme();
-    } else {
-      this.switchToRegularTheme();
-    }
-
-    if (this.darkMode == null) {
-      this.darkMode = new Darkmode();
-    }
-
-    var nightModeOptionChecked = force ? true : this._nightModeOption?.isChecked();
-
-    if (nightModeOptionChecked && !this.darkMode.isActivated() ||
-        !nightModeOptionChecked && this.darkMode.isActivated()) {
-          
-      this.darkMode.toggle();
-      // We need to repaint all charts, because the label color depends on the theme
-      app_controller.module_search.repaintAllCharts();
-    }
-  }
-
   refreshViewBasedOnOptions(tabIndex=undefined) {
     this.showOrHideToolBarBasedOnOption(tabIndex);
     this.showOrHideBookIntroductionBasedOnOption(tabIndex);
@@ -383,7 +316,7 @@ class OptionsMenu {
     this.showOrHideStrongsBasedOnOption(tabIndex);
     this.showOrHideVerseNotesBasedOnOption(tabIndex);
     this.fixNotesHeightBasedOnOption(tabIndex);
-    this.useNightModeBasedOnOption();
+    theme_controller.useNightModeBasedOnOption();
   }
 }
 

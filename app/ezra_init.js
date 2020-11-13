@@ -49,11 +49,13 @@ const uiHelper = new UiHelper();
 
 // Platform Helper
 const PlatformHelper = require('./app/helpers/platform_helper.js');
+const ThemeController = require('./app/controllers/theme_controller.js');
 const platformHelper = new PlatformHelper();
 
 let models = null;
 let app_controller = null;
 let tags_controller = null;
+let theme_controller = new ThemeController();
 let reference_separator = ':';
 let bible_chapter_verse_counts = {};
 
@@ -180,66 +182,11 @@ function hideGlobalLoadingIndicator() {
   $('#main-content').show();
 }
 
-function earlyInitNightMode() {
-  var useDarkMode = false;
-
-  if (platformHelper.isMacOsMojaveOrLater()) {
-    const nativeTheme = require('electron').remote.nativeTheme;
-
-    if (nativeTheme.shouldUseDarkColors) {
-      useDarkMode = true;
-    }
-  } else {
-    var settings = require('electron-settings');
-
-    if (settings.get('useNightMode')) {
-      useDarkMode = true;
-    }
-  }
-
-  if (useDarkMode) {
-    document.body.classList.add('darkmode--activated');
-  }
-}
-
 function earlyHideToolBar() {
   var settings = require('electron-settings');
 
   if (!settings.get('showToolBar')) {
     $('#bible-browser-toolbox').hide();
-  }
-}
-
-function initNightMode() {
-  if (platformHelper.isMacOsMojaveOrLater()) { // On macOS (from Mojave) we initialize night mode based on the system settings
-    const nativeTheme = require('electron').remote.nativeTheme;
-
-    // Set up a listener to react when the native theme has changed
-    nativeTheme.on('updated', () => {
-      if (nativeTheme.shouldUseDarkColors != app_controller.optionsMenu._nightModeOption.isChecked()) {
-        showGlobalLoadingIndicator();
-
-        setTimeout(() => {
-          app_controller.optionsMenu.toggleDarkModeIfNeeded();
-        }, 100);
-      }
-    });
-
-    if (nativeTheme.shouldUseDarkColors != app_controller.optionsMenu._nightModeOption.isChecked()) {
-      console.log("Initializing night mode based on system settings ...");
-      app_controller.optionsMenu.toggleDarkModeIfNeeded();
-    }
-
-  } else { // On other systems we initialize night mode based on the application settings
-
-    if (app_controller.settings.has('useNightMode')) {
-      var useNightMode = app_controller.settings.get('useNightMode');
-  
-      if (useNightMode) {
-        console.log("Initializing night mode based on app settings ...");
-        app_controller.optionsMenu.useNightModeBasedOnOption(true);
-      }
-    }
   }
 }
 
@@ -287,7 +234,7 @@ function toggleFullScreen()
 async function initApplication()
 {
   console.time("application-startup");
-  earlyInitNightMode();
+  theme_controller.earlyInitNightMode();
 
   // Wait for the UI to render
   await waitUntilIdle();
@@ -335,7 +282,7 @@ async function initApplication()
   console.log("Initializing user interface ...");
   initUi();
   app_controller.optionsMenu.init();
-  initNightMode();
+  theme_controller.initNightMode();
 
   // Wait for the UI to render
   await waitUntilIdle();
