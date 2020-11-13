@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Darkmode = require('darkmode-js');
-const DisplayOption = require('./display_option.js');
+const DisplayOption = require('../ui_models/display_option.js');
 
 class OptionsMenu {
   constructor() {
