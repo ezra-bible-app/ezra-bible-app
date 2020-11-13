@@ -43,7 +43,8 @@
     "build-linux": "./build_scripts/build.sh",
     "build-mac": "./build_scripts/build_mac.sh",
     "update-loc-metrics": "./build_scripts/update_loc_metrics.sh",
-    "update-cc-metrics": "./build_scripts/update_complexity_metrics.sh"
+    "update-cc-metrics": "./build_scripts/update_complexity_metrics.sh",
+    "doc": "./node_modules/.bin/jsdoc -c jsdoc.conf --package package.json --readme DESIGN.md -d doc -r --verbose app"
   },
   "dependencies": {
     "@sentry/electron": "^2.0.0",
@@ -81,10 +82,12 @@
     "chai-as-promised": "^7.1.1",
     "copy-dir": "^1.3.0",
     "cucumber": "^6.0.5",
+    "docdash": "^1.2.0",
     "electron": "^9.3.1",
     "electron-osx-sign": "^0.4.17",
     "electron-packager": "^15.0.0",
     "electron-rebuild": "^1.11.0",
+    "jsdoc": "^3.6.6",
     "node-abi": "^2.18.0",
     "node-gyp": "^6.1.0",
     "pug-cli": "^1.0.0-alpha6",
