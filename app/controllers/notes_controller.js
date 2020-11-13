@@ -44,7 +44,7 @@ class NotesController {
 
   initForTab(tabIndex=undefined) {
     this.reset();
-    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
+    var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
     if (currentVerseListFrame == null || currentVerseListFrame.length == 0) {
       return;
     }
@@ -58,7 +58,7 @@ class NotesController {
   }
 
   getCurrentVerseBox() {
-    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame();
+    var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
     return currentVerseListFrame[0].querySelector('.verse-reference-id-' + this.currentVerseReferenceId);
   }
 
@@ -303,7 +303,7 @@ class NotesController {
 
   getCurrentTheme() {
     var theme = 'default';
-    if (bible_browser_controller.optionsMenu._nightModeOption?.isChecked()) {
+    if (app_controller.optionsMenu._nightModeOption?.isChecked()) {
       theme = 'mbo';
     }
 

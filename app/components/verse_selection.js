@@ -47,7 +47,7 @@ class VerseSelection {
           this.selected_verse_box_elements = new Array;
         }
 
-        bible_browser_controller.handleBodyClick(event);
+        app_controller.handleBodyClick(event);
       },
 
       stop: (event, ui) => {
@@ -62,7 +62,7 @@ class VerseSelection {
   }
 
   init(tabIndex) {
-    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
+    var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
     this.initSelectable(currentVerseListFrame);
 
     // This event handler ensures that the selection is cancelled
@@ -73,7 +73,7 @@ class VerseSelection {
           e.target.matches('.verse-list-frame')) {
         
         this.clear_verse_selection();
-        bible_browser_controller.handleBodyClick(e);
+        app_controller.handleBodyClick(e);
       }
     });
   }
@@ -86,7 +86,7 @@ class VerseSelection {
 
   updateSelected(verseList=undefined) {
     if (verseList == undefined) {
-      var verseList = bible_browser_controller.getCurrentVerseList();
+      var verseList = app_controller.getCurrentVerseList();
     }
 
     this.selected_verse_box_elements = verseList.find('.ui-selected').closest('.verse-box');
@@ -174,7 +174,7 @@ class VerseSelection {
 
   format_single_verse_block(list, start_index, end_index, turn_into_link, bookId=undefined) {
     if (bookId == undefined) {
-      bookId = bible_browser_controller.tab_controller.getTab().getBook();
+      bookId = app_controller.tab_controller.getTab().getBook();
     }
 
     if (start_index > (list.length - 1)) start_index = list.length - 1;
@@ -191,7 +191,7 @@ class VerseSelection {
                                                                  end_reference);
 
       if (turn_into_link) {
-        formatted_passage = "<a href=\"javascript:bible_browser_controller.jumpToReference('" + start_reference + "', true);\">" + formatted_passage + "</a>";
+        formatted_passage = "<a href=\"javascript:app_controller.jumpToReference('" + start_reference + "', true);\">" + formatted_passage + "</a>";
       }
     }
 
@@ -202,7 +202,7 @@ class VerseSelection {
     var new_list = new Array;
     
     if (bookId == undefined) {
-      bookId = bible_browser_controller.tab_controller.getTab().getBook();
+      bookId = app_controller.tab_controller.getTab().getBook();
     }
 
     for (var i = 0; i < list.length; i++) {
@@ -355,19 +355,19 @@ class VerseSelection {
     await tags_controller.update_tags_view_after_verse_selection(false);
 
     if (this.selected_verse_box_elements.length > 0) { // Verses are selected!
-      bible_browser_controller.translationComparison.enableComparisonButton();
+      app_controller.translationComparison.enableComparisonButton();
     } else { // No verses selected!
-      bible_browser_controller.translationComparison.disableComparisonButton();
+      app_controller.translationComparison.disableComparisonButton();
     }
 
-    var tabId = bible_browser_controller.tab_controller.getSelectedTabId();
+    var tabId = app_controller.tab_controller.getSelectedTabId();
     if (tabId !== undefined) {
       uiHelper.configureButtonStyles('#' + tabId);
     }
   }
 
   getSelectedVersesLabel() {
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
     return $(currentVerseListMenu.find('.selected-verses')[0]);
   }
 }

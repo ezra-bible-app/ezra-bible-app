@@ -24,7 +24,7 @@ class TagSelectionMenu {
   }
 
   init(tabIndex=undefined) {
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.tag-select-button').bind('click', (event) => { this.handleTagMenuClick(event); });
     $('#tag-selection-filter-input').bind('keyup', () => { this.handleTagSearchInput(); });
 
@@ -71,7 +71,7 @@ class TagSelectionMenu {
   }
 
   async handleTagMenuClick(event) {
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
     var tagSelectButton = currentVerseListMenu.find('.tag-select-button');
 
     if (tagSelectButton.hasClass('ui-state-disabled')) {
@@ -79,12 +79,12 @@ class TagSelectionMenu {
     }
 
     if (this.tag_menu_is_opened) {
-      bible_browser_controller.handleBodyClick();
+      app_controller.handleBodyClick();
     } else {
-      bible_browser_controller.book_selection_menu.hide_book_menu();
-      bible_browser_controller.module_search.hideSearchMenu();
-      bible_browser_controller.optionsMenu.hideDisplayMenu();
-      bible_browser_controller.tag_assignment_menu.hideTagAssignmentMenu();
+      app_controller.book_selection_menu.hide_book_menu();
+      app_controller.module_search.hideSearchMenu();
+      app_controller.optionsMenu.hideDisplayMenu();
+      app_controller.tag_assignment_menu.hideTagAssignmentMenu();
 
       tagSelectButton.addClass('ui-state-active');
       var tag_select_button_offset = tagSelectButton.offset();
@@ -226,12 +226,12 @@ class TagSelectionMenu {
   }
 
   getSelectedTagList() {
-    var currentTab = bible_browser_controller.tab_controller.getTab();
+    var currentTab = app_controller.tab_controller.getTab();
     var currentTagIdList = currentTab.getTagIdList();
     var currentTextType = currentTab.getTextType();
     
     if (currentTextType == 'tagged_verses' && currentTagIdList != null) {
-      var currentTagTitleList = bible_browser_controller.tab_controller.getTab().getTagTitleList();
+      var currentTagTitleList = app_controller.tab_controller.getTab().getTagTitleList();
       if (currentTagTitleList != null) {
         var tag_list = currentTagTitleList.split(', ');
         return tag_list;
@@ -272,7 +272,7 @@ class TagSelectionMenu {
   handleTagCbClick() {
     var currentTagIdList = this.selectedTagIds();
     var currentTagTitleList = this.selectedTagTitles();
-    bible_browser_controller.openTaggedVerses(currentTagIdList, currentTagTitleList);
+    app_controller.openTaggedVerses(currentTagIdList, currentTagTitleList);
   }
 
   bindTagCbEvents() {

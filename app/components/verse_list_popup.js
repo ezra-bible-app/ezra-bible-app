@@ -67,12 +67,12 @@ class VerseListPopup {
   }
 
   getCurrentTextType() {
-    var currentTextType = bible_browser_controller.tab_controller.getTab()?.getTextType();
+    var currentTextType = app_controller.tab_controller.getTab()?.getTextType();
     return currentTextType;
   }
 
   getCurrentBook() {
-    var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
+    var currentBook = app_controller.tab_controller.getTab().getBook();
     return currentBook;
   }
 
@@ -128,22 +128,22 @@ class VerseListPopup {
     $('#verse-list-popup').dialog("close");
 
     // 2) Open a new tab
-    var currentTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
-    bible_browser_controller.tab_controller.addTab(undefined, false, currentTranslationId);
+    var currentTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    app_controller.tab_controller.addTab(undefined, false, currentTranslationId);
 
     // 3) Load the verse list in the new tab
     if (this.currentReferenceType == 'TAGGED_VERSES') {
 
-      bible_browser_controller.openTaggedVerses(this.currentTagId, this.currentTagTitle, this.currentReferenceVerseBox);
+      app_controller.openTaggedVerses(this.currentTagId, this.currentTagTitle, this.currentReferenceVerseBox);
 
     } else if (this.currentReferenceType == 'XREFS') {
 
-      bible_browser_controller.openXrefVerses(this.currentReferenceVerseBox, this.currentPopupTitle, this.currentXrefs);
+      app_controller.openXrefVerses(this.currentReferenceVerseBox, this.currentPopupTitle, this.currentXrefs);
     }
 
     // 4) Run the onTabSelected actions at the end, because we added a tab
-    var ui = { 'index' : bible_browser_controller.tab_controller.getSelectedTabIndex()};
-    await bible_browser_controller.onTabSelected(undefined, ui);
+    var ui = { 'index' : app_controller.tab_controller.getSelectedTabIndex()};
+    await app_controller.onTabSelected(undefined, ui);
   }
 
   getSelectedTagFromClickedElement(clickedElement) {
@@ -186,7 +186,7 @@ class VerseListPopup {
     }
 
     setTimeout(() => {
-      bible_browser_controller.text_controller.requestVersesForSelectedTags(
+      app_controller.text_controller.requestVersesForSelectedTags(
         currentTabIndex,
         currentTabId,
         this.currentTagId,
@@ -226,7 +226,7 @@ class VerseListPopup {
     this.initCurrentXrefs(clickedElement);
 
     setTimeout(() => {
-      bible_browser_controller.text_controller.requestVersesForXrefs(
+      app_controller.text_controller.requestVersesForXrefs(
         currentTabIndex,
         currentTabId,
         this.currentXrefs,
@@ -284,8 +284,8 @@ class VerseListPopup {
     this.currentPopupTitle = this.getPopupTitle(event.target, referenceType);
 
     var verse_box = $(event.target).closest('.verse-box');
-    var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
-    var currentTabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
+    var currentTabId = app_controller.tab_controller.getSelectedTabId();
+    var currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
 
     if (referenceType == "TAGGED_VERSES") {
       this.loadTaggedVerses(event.target, currentTabId, currentTabIndex);
@@ -312,7 +312,7 @@ class VerseListPopup {
   }
 
   getOverlayVerseBoxPosition(verse_box) {
-    var currentVerseListComposite = bible_browser_controller.getCurrentVerseListComposite();
+    var currentVerseListComposite = app_controller.getCurrentVerseListComposite();
 
     var verse_box_position = verse_box.offset();
     var verse_box_class = verse_box.attr('class');
@@ -361,11 +361,11 @@ class VerseListPopup {
 
     $('#verse-list-popup').dialog({ title: tagReferenceBoxTitle });
 
-    if (!bible_browser_controller.optionsMenu._xrefsOption.isChecked()) {
+    if (!app_controller.optionsMenu._xrefsOption.isChecked()) {
       $('#verse-list-popup-verse-list').addClass('verse-list-without-xrefs');
     }
 
-    if (!bible_browser_controller.optionsMenu._footnotesOption.isChecked()) {
+    if (!app_controller.optionsMenu._footnotesOption.isChecked()) {
       $('#verse-list-popup-verse-list').addClass('verse-list-without-footnotes');
     }
 
@@ -377,7 +377,7 @@ class VerseListPopup {
       bookTaggedVersesCountLabel.text(` (${currentBookVerseCount})`);
     }
 
-    bible_browser_controller.sword_notes.initForContainer($('#verse-list-popup-verse-list'));
+    app_controller.sword_notes.initForContainer($('#verse-list-popup-verse-list'));
     $('#verse-list-popup-verse-list').show();
   }
 }

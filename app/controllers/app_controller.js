@@ -19,7 +19,7 @@
 const Mousetrap = require('mousetrap');
 const VerseBox = require('../ui_models/verse_box.js');
 
-class BibleBrowserController {
+class AppController {
   constructor() {
     this.book_menu_is_opened = false;
     this.current_cr_verse_id = null;
@@ -358,7 +358,7 @@ class BibleBrowserController {
   copySelectedVersesToClipboard() {
     const { clipboard } = require('electron');
     
-    var selectedVerseBoxes = bible_browser_controller.verse_selection.selected_verse_box_elements;
+    var selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
     
     var selectedText = "";
     var multipleVerses = selectedVerseBoxes.length > 1;
@@ -481,9 +481,9 @@ class BibleBrowserController {
       return;
     }
     
-    bible_browser_controller.hideAllMenus();
-    bible_browser_controller.notes_controller.restoreCurrentlyEditedNotes();
-    bible_browser_controller.tab_search.blurInputField();
+    app_controller.hideAllMenus();
+    app_controller.notes_controller.restoreCurrentlyEditedNotes();
+    app_controller.tab_search.blurInputField();
   }
 
   hideAllMenus() {
@@ -680,7 +680,7 @@ class BibleBrowserController {
     currentTab.setXrefs(xrefs);
     currentTab.setVerseReferenceId(xrefVerseReferenceId);
 
-    bible_browser_controller.tab_controller.setCurrentTabXrefTitle(xrefTitle);
+    app_controller.tab_controller.setCurrentTabXrefTitle(xrefTitle);
 
     // Set book, search term and tag id list to null, since we just switched to xrefs
     currentTab.setBook(null, null);
@@ -713,7 +713,7 @@ class BibleBrowserController {
       currentTab.setVerseReferenceId(verseReferenceId);
     }
 
-    bible_browser_controller.tab_controller.setCurrentTagTitleList(tagTitleList, localizedVerseReference);
+    app_controller.tab_controller.setCurrentTagTitleList(tagTitleList, localizedVerseReference);
 
     // Set book, search term and xrefs to null, since we just switched to a tag
     currentTab.setBook(null, null);
@@ -871,4 +871,4 @@ class BibleBrowserController {
   }
 }
 
-module.exports = BibleBrowserController;
+module.exports = AppController;

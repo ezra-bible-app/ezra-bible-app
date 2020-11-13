@@ -23,7 +23,7 @@ class SwordNotes {
   }
 
   getCurrentTabNotes(tabIndex) {
-    var verseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+    var verseList = app_controller.getCurrentVerseList(tabIndex);
     var swordNotes = verseList.find('.sword-note');
     return swordNotes;
   }

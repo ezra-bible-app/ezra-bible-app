@@ -55,7 +55,7 @@ class NewReleaseChecker {
   }
 
   showNewRelease() {
-    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+    var currentVerseList = app_controller.getCurrentVerseList();
     var verse_list_position = currentVerseList.offset();
     var infoBox = this.getInfoBox();
 
@@ -74,9 +74,9 @@ class NewReleaseChecker {
 
     infoBox.find('#no-new-release-info').bind('click', () => {
       if ($('#no-new-release-info').prop("checked")) {
-        bible_browser_controller.settings.set('noNewReleaseInfo', this.latestRelease.tag);
+        app_controller.settings.set('noNewReleaseInfo', this.latestRelease.tag);
       } else {
-        bible_browser_controller.settings.delete('noNewReleaseInfo');
+        app_controller.settings.delete('noNewReleaseInfo');
       }
     });
   }
@@ -91,8 +91,8 @@ class NewReleaseChecker {
   isInfoWanted() {
     var latestVersion = this.latestRelease.tag;
 
-    if (bible_browser_controller.settings.has('noNewReleaseInfo')) {
-      var noNewReleaseInfo = bible_browser_controller.settings.get('noNewReleaseInfo');
+    if (app_controller.settings.has('noNewReleaseInfo')) {
+      var noNewReleaseInfo = app_controller.settings.get('noNewReleaseInfo');
       return noNewReleaseInfo != latestVersion;
     } else {
       return true;

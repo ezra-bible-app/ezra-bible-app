@@ -52,7 +52,7 @@ const PlatformHelper = require('./app/helpers/platform_helper.js');
 const platformHelper = new PlatformHelper();
 
 let models = null;
-let bible_browser_controller = null;
+let app_controller = null;
 let tags_controller = null;
 let reference_separator = ':';
 let bible_chapter_verse_counts = {};
@@ -135,11 +135,11 @@ async function initDatabase()
 
 async function initControllers()
 {
-  const BibleBrowserController = require('./app/controllers/bible_browser_controller.js');
+  const AppController = require('./app/controllers/app_controller.js');
   const TagsController = require('./app/controllers/tags_controller.js');
 
-  bible_browser_controller = new BibleBrowserController();
-  await bible_browser_controller.init();
+  app_controller = new AppController();
+  await app_controller.init();
 
   tags_controller = new TagsController();
 }
@@ -156,7 +156,7 @@ function initUi()
     },
     stop: function(event, ui) {
       //console.log("Saving new tag list width: " + ui.size.width);
-      bible_browser_controller.settings.set('tag_list_width', ui.size.width);
+      app_controller.settings.set('tag_list_width', ui.size.width);
     }
   });
 
@@ -189,12 +189,12 @@ function hideGlobalLoadingIndicator() {
 
 function switchToDarkTheme() {
   switchToTheme('css/jquery-ui/dark-hive/jquery-ui.css');
-  bible_browser_controller.notes_controller.setDarkTheme();
+  app_controller.notes_controller.setDarkTheme();
 }
 
 function switchToRegularTheme() {
   switchToTheme('css/jquery-ui/cupertino/jquery-ui.css');
-  bible_browser_controller.notes_controller.setLightTheme();
+  app_controller.notes_controller.setLightTheme();
 }
 
 function switchToTheme(theme) {
@@ -241,28 +241,28 @@ function initNightMode() {
 
     // Set up a listener to react when the native theme has changed
     nativeTheme.on('updated', () => {
-      if (nativeTheme.shouldUseDarkColors != bible_browser_controller.optionsMenu._nightModeOption.isChecked()) {
+      if (nativeTheme.shouldUseDarkColors != app_controller.optionsMenu._nightModeOption.isChecked()) {
         showGlobalLoadingIndicator();
 
         setTimeout(() => {
-          bible_browser_controller.optionsMenu.toggleDarkModeIfNeeded();
+          app_controller.optionsMenu.toggleDarkModeIfNeeded();
         }, 100);
       }
     });
 
-    if (nativeTheme.shouldUseDarkColors != bible_browser_controller.optionsMenu._nightModeOption.isChecked()) {
+    if (nativeTheme.shouldUseDarkColors != app_controller.optionsMenu._nightModeOption.isChecked()) {
       console.log("Initializing night mode based on system settings ...");
-      bible_browser_controller.optionsMenu.toggleDarkModeIfNeeded();
+      app_controller.optionsMenu.toggleDarkModeIfNeeded();
     }
 
   } else { // On other systems we initialize night mode based on the application settings
 
-    if (bible_browser_controller.settings.has('useNightMode')) {
-      var useNightMode = bible_browser_controller.settings.get('useNightMode');
+    if (app_controller.settings.has('useNightMode')) {
+      var useNightMode = app_controller.settings.get('useNightMode');
   
       if (useNightMode) {
         console.log("Initializing night mode based on app settings ...");
-        bible_browser_controller.optionsMenu.useNightModeBasedOnOption(true);
+        app_controller.optionsMenu.useNightModeBasedOnOption(true);
       }
     }
   }
@@ -359,14 +359,14 @@ async function initApplication()
 
   console.log("Initializing user interface ...");
   initUi();
-  bible_browser_controller.optionsMenu.init();
+  app_controller.optionsMenu.init();
   initNightMode();
 
   // Wait for the UI to render
   await waitUntilIdle();
 
   console.log("Loading settings ...");
-  await bible_browser_controller.loadSettings();
+  await app_controller.loadSettings();
 
   // Wait for the UI to render, before we hide the loading indicator
   await waitUntilIdle();
@@ -378,7 +378,7 @@ async function initApplication()
 
   console.timeEnd("application-startup");
 
-  await bible_browser_controller.translation_controller.installStrongsIfNeeded();
+  await app_controller.translation_controller.installStrongsIfNeeded();
 
   console.log("Checking for latest release ...");
   const NewReleaseChecker = require('./app/helpers/new_release_checker.js');

@@ -146,12 +146,12 @@ class TabSearch {
     }
 
     this.searchTimeout = setTimeout(() => {
-      bible_browser_controller.verse_selection.clear_verse_selection(false);
+      app_controller.verse_selection.clear_verse_selection(false);
       this.onSearchReset();
       this.doSearch(searchString);
       // This is necessary, beause the search "rewrites" the verse content and events
       // get lost by doing that, so we have to re-bind the xref events.
-      bible_browser_controller.bindXrefEvents();
+      app_controller.bindXrefEvents();
       this.inputField.focus();
     }, 400);
   }
@@ -221,14 +221,14 @@ class TabSearch {
     if (this.previousOccuranceElement != null) {
       this.previousOccuranceElement.classList.remove('current-hl');
       this.previousOccuranceElement.closest('.verse-box')?.querySelector('.verse-text').classList.remove('ui-selected');
-      bible_browser_controller.verse_selection.clear_verse_selection(false);
+      app_controller.verse_selection.clear_verse_selection(false);
     }
 
     if (this.currentOccuranceElement != null) {
       this.currentOccuranceElement.classList.add('current-hl');
       this.currentOccuranceElement.closest('.verse-box')?.querySelector('.verse-text').classList.add('ui-selected');
-      bible_browser_controller.verse_selection.updateSelected();
-      bible_browser_controller.verse_selection.updateViewsAfterVerseSelection();
+      app_controller.verse_selection.updateSelected();
+      app_controller.verse_selection.updateViewsAfterVerseSelection();
     }
 
     // Update occurances label

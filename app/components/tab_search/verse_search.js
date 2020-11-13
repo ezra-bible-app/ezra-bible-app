@@ -91,7 +91,7 @@ class VerseSearch {
 
     for (var i = 0; i < wElements.length; i++) {
       var currentElement = wElements[i];
-      var currentStrongsIds = bible_browser_controller.dictionary_controller.getStrongsIdsFromStrongsElement($(currentElement));
+      var currentStrongsIds = app_controller.dictionary_controller.getStrongsIdsFromStrongsElement($(currentElement));
 
       for (var j = 0; j < currentStrongsIds.length; j++) {
         if (currentStrongsIds[j] == searchString) {

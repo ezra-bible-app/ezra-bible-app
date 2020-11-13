@@ -59,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
     var absoluteVerseNrs = null;
 
     if (verseBoxElement.classList.contains('book-notes')) {
-      var bibleBookShortTitle = bible_browser_controller.tab_controller.getTab().getBook();
+      var bibleBookShortTitle = app_controller.tab_controller.getTab().getBook();
       var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: bibleBookShortTitle } });
 
       conditions = { bibleBookId: bibleBook.id, chapter: 0, verseNr: 0 };
@@ -71,8 +71,8 @@ module.exports = (sequelize, DataTypes) => {
 
     } else {
 
-      var translationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
-      var versification = bible_browser_controller.translation_controller.getVersification(translationId);
+      var translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+      var versification = app_controller.translation_controller.getVersification(translationId);
 
       var verseBox = new VerseBox(verseBoxElement);
 

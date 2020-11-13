@@ -92,8 +92,8 @@ class TranslationComparison {
   }
 
   async getCompareTranslationContent() {
-    var sourceTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
-    var selectedVerseBoxes = bible_browser_controller.verse_selection.selected_verse_box_elements;
+    var sourceTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    var selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
     var compareTranslationContent = "<table>";
     var allTranslations = nsi.getAllLocalModules();
 
@@ -128,7 +128,7 @@ class TranslationComparison {
 
   async handleButtonClick() {
     var boxTitle = i18n.t("bible-browser.comparing-translations-for") + " " + 
-      bible_browser_controller.verse_selection.getSelectedVersesLabel().text();
+      app_controller.verse_selection.getSelectedVersesLabel().text();
 
     this.getBox().dialog({
       title: boxTitle

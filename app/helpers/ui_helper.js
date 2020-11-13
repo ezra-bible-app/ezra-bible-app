@@ -92,7 +92,7 @@ class UiHelper {
 
   adaptVerseList(verseListFrame=undefined) {
     if (verseListFrame === undefined) {
-      verseListFrame = bible_browser_controller.getCurrentVerseListFrame();
+      verseListFrame = app_controller.getCurrentVerseListFrame();
     }
     
     if (verseListFrame.width() < 650) {
@@ -104,12 +104,12 @@ class UiHelper {
   
   resizeVerseList(tabIndex=undefined) {
     if (tabIndex === undefined) {
-      tabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
+      tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     }
 
     var tabsNav = $(document.getElementById('verse-list-tabs').querySelector('.ui-tabs-nav'));
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
-    var verseListComposite = bible_browser_controller.getCurrentVerseListComposite(tabIndex);
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+    var verseListComposite = app_controller.getCurrentVerseListComposite(tabIndex);
 
     var navigationPane = verseListComposite.find('.navigation-pane');
     var verseListFrame = verseListComposite.find('.verse-list-frame');
@@ -142,14 +142,14 @@ class UiHelper {
   
     var tagsToolBarHeight = $('#tags-toolbar').height();
   
-    if (bible_browser_controller.optionsMenu._dictionaryOption.isChecked()) {
+    if (app_controller.optionsMenu._dictionaryOption.isChecked()) {
       $('#tags-content-global').css('height', this.app_container_height - tagsToolBarHeight - 535);
       $('#dictionary-info-box-panel').css('height', 422);
     } else {
       $('#tags-content-global').css('height', this.app_container_height - tagsToolBarHeight - 55);
     }
 
-    var tabCount = bible_browser_controller.tab_controller.getTabCount();
+    var tabCount = app_controller.tab_controller.getTabCount();
     for (var i = 0; i < tabCount; i++) {
       this.resizeVerseList(i);
     }

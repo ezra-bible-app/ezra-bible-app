@@ -22,7 +22,7 @@ class TaggedVerseExport {
   }
 
   enableTaggedVersesExportButton(tabIndex) {
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     var exportButton = currentVerseListMenu.find('.export-tagged-verses-button');
     exportButton.removeClass('ui-state-disabled');
     exportButton.unbind('click');
@@ -37,7 +37,7 @@ class TaggedVerseExport {
   }
 
   disableTaggedVersesExportButton(tabIndex=undefined) {
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.export-tagged-verses-button').addClass('ui-state-disabled');
   }
 
@@ -124,7 +124,7 @@ class TaggedVerseExport {
     const fs = require('fs');
     const shell = require('electron').remote.shell;
 
-    var currentTagTitleList = bible_browser_controller.tab_controller.getTab().getTagTitleList();
+    var currentTagTitleList = app_controller.tab_controller.getTab().getTagTitleList();
     var title = i18n.t("tags.verses-tagged-with") + currentTagTitleList;
 
     var docx = officegen({
@@ -190,7 +190,7 @@ class TaggedVerseExport {
   }
 
   getUnixTagTitleList() {
-    var currentTagTitleList = bible_browser_controller.tab_controller.getTab().getTagTitleList();
+    var currentTagTitleList = app_controller.tab_controller.getTab().getTagTitleList();
     var unixTagTitleList = currentTagTitleList.replace(/, /g, "__");
     unixTagTitleList = unixTagTitleList.replace(/ /g, "_");
 
@@ -227,10 +227,10 @@ class TaggedVerseExport {
       this.exportFilePath = result.filePath;
 
       if (!result.canceled && this.exportFilePath != undefined) {
-        var currentTab = bible_browser_controller.tab_controller.getTab();
+        var currentTab = app_controller.tab_controller.getTab();
         var currentTagIdList = currentTab.getTagIdList();
   
-        bible_browser_controller.text_controller.requestVersesForSelectedTags(
+        app_controller.text_controller.requestVersesForSelectedTags(
           undefined,
           null,
           currentTagIdList,

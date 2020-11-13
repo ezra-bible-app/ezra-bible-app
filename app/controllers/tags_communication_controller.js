@@ -26,7 +26,7 @@ class TagsCommunicationController
 
     var bibleBookId = null;
     if (isBookTag) {
-      bibleBookId = bible_browser_controller.tab_controller.getTab().getBook();
+      bibleBookId = app_controller.tab_controller.getTab().getBook();
     }
 
     var new_tag = null;
@@ -37,9 +37,9 @@ class TagsCommunicationController
     }).then((tag) => {
       new_tag = tag;
       tags_controller.tag_store.resetBookTagStatistics();
-      return tags_controller.update_tag_list(bible_browser_controller.tab_controller.getTab().getBook(), true);
+      return tags_controller.update_tag_list(app_controller.tab_controller.getTab().getBook(), true);
     }).then(() => {
-      return bible_browser_controller.tag_selection_menu.requestTagsForMenu();
+      return app_controller.tag_selection_menu.requestTagsForMenu();
     }).then(() => {
       var current_timestamp = new Date(Date.now()).getTime();
       tags_controller.tag_store.updateTagTimestamp(new_tag.id, current_timestamp);
@@ -62,7 +62,7 @@ class TagsCommunicationController
       await tags_controller.remove_tag_by_id(tags_controller.tag_to_be_deleted,
                                              tags_controller.tag_to_be_deleted_title);
 
-      await bible_browser_controller.tag_selection_menu.requestTagsForMenu(true);
+      await app_controller.tag_selection_menu.requestTagsForMenu(true);
 
       await tags_controller.update_tags_view_after_verse_selection(true);
 

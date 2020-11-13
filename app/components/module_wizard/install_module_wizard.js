@@ -42,7 +42,7 @@ class InstallModuleWizard {
 
   isModuleInstalled(moduleCode) {
     if (this._installedModules == null) {
-      this._installedModules = bible_browser_controller.translation_controller.getInstalledModules(this._currentModuleType);
+      this._installedModules = app_controller.translation_controller.getInstalledModules(this._currentModuleType);
     }
 
     for (var i = 0; i < this._installedModules.length; i++) {
@@ -73,7 +73,7 @@ class InstallModuleWizard {
     $('#module-settings-wizard-remove').hide();
     $('#module-settings-wizard-init').show();
 
-    var modules = bible_browser_controller.translation_controller.getInstalledModules(moduleType);
+    var modules = app_controller.translation_controller.getInstalledModules(moduleType);
 
     $('#add-modules-button').removeClass('ui-state-disabled');
 
@@ -124,7 +124,7 @@ class InstallModuleWizard {
     var wizardPage = $('#module-settings-wizard-add-p-0');
     wizardPage.empty();
 
-    var lastSwordRepoUpdateSaved = bible_browser_controller.settings.has("lastSwordRepoUpdate");
+    var lastSwordRepoUpdateSaved = app_controller.settings.has("lastSwordRepoUpdate");
     var listRepoTimeoutMs = 800;
 
     if (!nsi.repositoryConfigExisting() || !lastSwordRepoUpdateSaved || force) {
@@ -143,7 +143,7 @@ class InstallModuleWizard {
           progressbar.progressbar("value", progressPercent);
         });
 
-        bible_browser_controller.settings.set("lastSwordRepoUpdate", new Date());
+        app_controller.settings.set("lastSwordRepoUpdate", new Date());
       } catch(e) {
         listRepoTimeoutMs = 3000;
         wizardPage.append('<p>' + i18n.t('module-assistant.update-repository-data-failed') + '</p>');
@@ -232,10 +232,10 @@ class InstallModuleWizard {
 
   async addModuleWizardFinished(event, currentIndex) {
     $('#module-settings-wizard').dialog('close');
-    this._installedModules = bible_browser_controller.translation_controller.getInstalledModules();
+    this._installedModules = app_controller.translation_controller.getInstalledModules();
 
     if (this._currentModuleType == 'BIBLE') {
-      bible_browser_controller.translation_controller.initTranslationsMenu();
+      app_controller.translation_controller.initTranslationsMenu();
       await tags_controller.updateTagUiBasedOnTagAvailability();
     }
   }
@@ -249,13 +249,13 @@ class InstallModuleWizard {
     // Repositories have been selected
     var wizardPage = "#module-settings-wizard-add-p-0";
     this._selectedRepositories = this._helper.getSelectedSettingsWizardElements(wizardPage);
-    bible_browser_controller.settings.set('selected_repositories', this._selectedRepositories);
+    app_controller.settings.set('selected_repositories', this._selectedRepositories);
 
     var languagesPage = $('#module-settings-wizard-add-p-1');
     languagesPage.empty();
     languagesPage.append("<p>" + i18n.t("module-assistant.loading-languages") + "</p>");
 
-    this.previouslySelectedLanguages = bible_browser_controller.settings.get('selected_languages');
+    this.previouslySelectedLanguages = app_controller.settings.get('selected_languages');
 
     setTimeout(() => this.listLanguages(this._selectedRepositories), 400);
   }
@@ -271,7 +271,7 @@ class InstallModuleWizard {
       languageCodes.push(currentCode);
     }
 
-    bible_browser_controller.settings.set('selected_languages', languages);
+    app_controller.settings.set('selected_languages', languages);
     this.listModules(languageCodes);
   }
 
@@ -450,7 +450,7 @@ class InstallModuleWizard {
 
       // FIXME: Put this in a callback
       if (this._currentModuleType == 'BIBLE') {
-        bible_browser_controller.updateUiAfterBibleTranslationAvailable(moduleCode);
+        app_controller.updateUiAfterBibleTranslationAvailable(moduleCode);
       }
     } catch (e) {
       console.log("Error during installation: " + e);
@@ -504,7 +504,7 @@ class InstallModuleWizard {
     }
 
     if (strongsInstallSuccessful) {
-      bible_browser_controller.dictionary_controller.runAvailabilityCheck();
+      app_controller.dictionary_controller.runAvailabilityCheck();
       
       existingProgressBar.before('<div style="margin-bottom: 1em;">&nbsp;' + i18n.t("general.done") + '.</div>');
     } else {
@@ -714,7 +714,7 @@ class InstallModuleWizard {
       $('#module-info').find('.loader').show();
 
       setTimeout(() => {
-        var moduleInfo = bible_browser_controller.translation_controller.getModuleInfo(moduleCode, true);
+        var moduleInfo = app_controller.translation_controller.getModuleInfo(moduleCode, true);
         $('#module-info').find('.loader').hide();
         $('#module-info-content').append(moduleInfo);
       }, 200);
@@ -909,7 +909,7 @@ class InstallModuleWizard {
   }
 
   listRepositories() {
-    this.previouslySelectedRepositories = bible_browser_controller.settings.get('selected_repositories');
+    this.previouslySelectedRepositories = app_controller.settings.get('selected_repositories');
     var wizardPage = $('#module-settings-wizard-add-p-0');
 
     var repositories = nsi.getRepoNames();
@@ -937,7 +937,7 @@ class InstallModuleWizard {
       }
     }
 
-    var lastUpdate = bible_browser_controller.settings.get("lastSwordRepoUpdate");
+    var lastUpdate = app_controller.settings.get("lastSwordRepoUpdate");
     if (lastUpdate !== undefined) {
       lastUpdate = new Date(Date.parse(lastUpdate)).toLocaleDateString(i18n.language);
     }

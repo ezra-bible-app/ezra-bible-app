@@ -63,8 +63,8 @@ class VerseBoxHelper {
   }
 
   async iterateAndChangeAllDuplicateVerseBoxes(referenceVerseBoxElement, context, changeCallback) {
-    var current_tab_index = bible_browser_controller.tab_controller.getSelectedTabIndex();
-    var tab_count = bible_browser_controller.tab_controller.getTabCount();
+    var current_tab_index = app_controller.tab_controller.getSelectedTabIndex();
+    var tab_count = app_controller.tab_controller.getTabCount();
 
     var bibleBook = this.getBibleBookShortTitleFromElement(referenceVerseBoxElement);
     var absoluteVerseNumber = null;
@@ -96,18 +96,18 @@ class VerseBoxHelper {
 
     var referenceBibleBook = await models.BibleBook.findOne({ where: { shortTitle: bibleBook } });
 
-    var source_tab_translation = bible_browser_controller.tab_controller.getTab(current_tab_index).getBibleTranslationId();
+    var source_tab_translation = app_controller.tab_controller.getTab(current_tab_index).getBibleTranslationId();
     var source_versification = 'ENGLISH';
     try {
-      bible_browser_controller.translation_controller.getVersification(source_tab_translation);
+      app_controller.translation_controller.getVersification(source_tab_translation);
     } catch (exception) {
       console.warn('Got exception when getting versification: ' + exception);
     }
 
     for (var i = 0; i < tab_count; i++) {
       if (i != current_tab_index) {
-        var current_tab_translation = bible_browser_controller.tab_controller.getTab(i).getBibleTranslationId();
-        var current_versification = bible_browser_controller.translation_controller.getVersification(current_tab_translation);
+        var current_tab_translation = app_controller.tab_controller.getTab(i).getBibleTranslationId();
+        var current_versification = app_controller.translation_controller.getVersification(current_tab_translation);
         var current_target_verse_nr = "";
 
         if (current_versification == 'HEBREW') {
@@ -116,7 +116,7 @@ class VerseBoxHelper {
           current_target_verse_nr = absoluteVerseNrs.absoluteVerseNrEng;
         }
 
-        var target_verse_list_frame = bible_browser_controller.getCurrentVerseListFrame(i);
+        var target_verse_list_frame = app_controller.getCurrentVerseListFrame(i);
         var target_verse_box = target_verse_list_frame[0].querySelectorAll('.verse-nr-' + current_target_verse_nr);
 
         // There are potentially multiple verse boxes returned (could be the case for a tagged verse list or a search results list)

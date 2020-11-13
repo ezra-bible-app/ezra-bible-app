@@ -220,25 +220,25 @@ class TabController {
       }
 
       var isSearch = (currentMetaTab.textType == 'search_results');
-      bible_browser_controller.text_controller.prepareForNewText(true, isSearch, i);
+      app_controller.text_controller.prepareForNewText(true, isSearch, i);
 
       if (currentMetaTab.textType == 'search_results') {
 
-        await bible_browser_controller.module_search.populateSearchMenu(i);
+        await app_controller.module_search.populateSearchMenu(i);
 
         var requestedBookId = -1; // all books requested
-        if (bible_browser_controller.module_search.searchResultsExceedPerformanceLimit(i)) {
+        if (app_controller.module_search.searchResultsExceedPerformanceLimit(i)) {
           requestedBookId = 0; // no books requested - only list headers at first
         }
   
-        await bible_browser_controller.module_search.renderCurrentSearchResults(requestedBookId,
+        await app_controller.module_search.renderCurrentSearchResults(requestedBookId,
                                                                                 i,
                                                                                 undefined,
                                                                                 currentMetaTab.cachedText);
 
       } else {
 
-        await bible_browser_controller.text_controller.requestTextUpdate(
+        await app_controller.text_controller.requestTextUpdate(
           currentMetaTab.elementId,
           currentMetaTab.book,
           currentMetaTab.tagIdList,
@@ -261,15 +261,15 @@ class TabController {
     var loadedTabCount = 0;
 
     if (this.settings.has('tabConfiguration')) {
-      bible_browser_controller.translation_controller.showBibleTranslationLoadingIndicator();
-      bible_browser_controller.showVerseListLoadingIndicator();
+      app_controller.translation_controller.showBibleTranslationLoadingIndicator();
+      app_controller.showVerseListLoadingIndicator();
       loadedTabCount = this.loadMetaTabsFromSettings();
 
       if (loadedTabCount > 0) {
         await this.populateFromMetaTabs();
       } else {
-        bible_browser_controller.hideVerseListLoadingIndicator();
-        bible_browser_controller.translation_controller.hideBibleTranslationLoadingIndicator();
+        app_controller.hideVerseListLoadingIndicator();
+        app_controller.translation_controller.hideBibleTranslationLoadingIndicator();
       }
     }
 
@@ -348,7 +348,7 @@ class TabController {
       uiHelper.resizeVerseList(currentTabIndex);
 
       setTimeout(() => {
-        bible_browser_controller.book_selection_menu.highlightCurrentlySelectedBookInMenu();
+        app_controller.book_selection_menu.highlightCurrentlySelectedBookInMenu();
       }, 250);
     });
 
@@ -572,7 +572,7 @@ class TabController {
 
     if (bibleTranslationId != null) {
       this.defaultBibleTranslationId = bibleTranslationId;
-      bible_browser_controller.translation_controller.enableCurrentTranslationInfoButton();
+      app_controller.translation_controller.enableCurrentTranslationInfoButton();
     }
   }
 

@@ -23,7 +23,7 @@ class TagAssignmentMenu {
   }
 
   init(tabIndex=undefined) {
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.assign-tag-menu-button').bind('click', (event) => { this.handleMenuClick(event); });
   }
 
@@ -32,7 +32,7 @@ class TagAssignmentMenu {
   }
 
   getCurrentMenuButton() {
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
     var assignTagMenuButton = currentVerseListMenu.find('.assign-tag-menu-button');
     return assignTagMenuButton;  
   }
@@ -55,12 +55,12 @@ class TagAssignmentMenu {
     }
 
     if (this.menuIsOpened) {
-      bible_browser_controller.handleBodyClick();
+      app_controller.handleBodyClick();
     } else {
-      bible_browser_controller.book_selection_menu.hide_book_menu();
-      bible_browser_controller.tag_selection_menu.hideTagMenu();
-      bible_browser_controller.module_search.hideSearchMenu();
-      bible_browser_controller.optionsMenu.hideDisplayMenu();
+      app_controller.book_selection_menu.hide_book_menu();
+      app_controller.tag_selection_menu.hideTagMenu();
+      app_controller.module_search.hideSearchMenu();
+      app_controller.optionsMenu.hideDisplayMenu();
 
       assignTagMenuButton.addClass('ui-state-active');
       var buttonOffset = assignTagMenuButton.offset();

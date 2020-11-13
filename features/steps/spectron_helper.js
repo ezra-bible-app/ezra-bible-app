@@ -145,9 +145,9 @@ class SpectronHelper {
 
     await global.app.webContents.executeJavaScript("nsi.refreshLocalModules()");  
     await spectronHelper.sleep(500);
-    await global.app.webContents.executeJavaScript("bible_browser_controller.translation_controller.initTranslationsMenu()");    
+    await global.app.webContents.executeJavaScript("app_controller.translation_controller.initTranslationsMenu()");    
     await spectronHelper.sleep(500);
-    await global.app.webContents.executeJavaScript("bible_browser_controller.updateUiAfterBibleTranslationAvailable('KJV')");
+    await global.app.webContents.executeJavaScript("app_controller.updateUiAfterBibleTranslationAvailable('KJV')");
     await spectronHelper.sleep(500);
   }
 

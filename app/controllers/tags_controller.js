@@ -170,8 +170,8 @@ class TagsController {
 
     await tags_controller.update_tags_view_after_verse_selection(true);
 
-    bible_browser_controller.tag_selection_menu.requestTagsForMenu();
-    bible_browser_controller.tab_controller.updateTabTitleAfterTagRenaming(tags_controller.rename_standard_tag_title, new_title);
+    app_controller.tag_selection_menu.requestTagsForMenu();
+    app_controller.tab_controller.updateTabTitleAfterTagRenaming(tags_controller.rename_standard_tag_title, new_title);
   }
 
   rename_tag_in_view(id, title) {
@@ -227,7 +227,7 @@ class TagsController {
       await tags_controller.communication_controller.destroy_tag(tags_controller.tag_to_be_deleted);
 
       await tags_controller.updateTagUiBasedOnTagAvailability();
-      bible_browser_controller.tag_statistics.update_book_tag_statistics_box();
+      app_controller.tag_statistics.update_book_tag_statistics_box();
     }, 50);
   }
 
@@ -247,7 +247,7 @@ class TagsController {
     });
 
     var verse_list = $.create_xml_doc(
-      bible_browser_controller.verse_selection.element_list_to_xml_verse_list(tag_data_elements)
+      app_controller.verse_selection.element_list_to_xml_verse_list(tag_data_elements)
     );
 
     tags_controller.change_verse_list_tag_info(tag_id,
@@ -269,7 +269,7 @@ class TagsController {
   }
 
   async clickCheckBoxTag(checkboxTag) {
-    var current_verse_list = bible_browser_controller.verse_selection.selected_verse_references;
+    var current_verse_list = app_controller.verse_selection.selected_verse_references;
 
     if (!tags_controller.is_blocked && current_verse_list.length > 0) {
       var checkbox = checkboxTag.find('.tag-cb');
@@ -292,7 +292,7 @@ class TagsController {
       return (($(this).html() == cb_label) && (cb_is_global == current_tag_is_global));
     });
 
-    bible_browser_controller.verse_selection.clear_verse_selection();
+    app_controller.verse_selection.clear_verse_selection();
 
     matching_tag_data.closest('.verse-box').find('.verse-text').addClass('ui-selected');
 
@@ -300,7 +300,7 @@ class TagsController {
       var current_verse_reference = $(matching_tag_data[0]).closest('.verse-box').find('.verse-reference-content').html();
 
       tags_controller.update_tags_view_after_verse_selection(true);
-      bible_browser_controller.jumpToReference(current_verse_reference, false);
+      app_controller.jumpToReference(current_verse_reference, false);
     }
   }
 
@@ -310,7 +310,7 @@ class TagsController {
   }
 
   async handle_checkbox_tag_state_change(checkbox_tag) {
-    var current_verse_list = bible_browser_controller.verse_selection.selected_verse_references;
+    var current_verse_list = app_controller.verse_selection.selected_verse_references;
 
     if (tags_controller.is_blocked || current_verse_list.length == 0) {
       return;
@@ -327,8 +327,8 @@ class TagsController {
     var checkbox_is_checked = $(cb).is(':checked');
     cb.blur();
 
-    var current_verse_selection = bible_browser_controller.verse_selection.current_verse_selection_as_xml(); 
-    var current_verse_reference_ids = bible_browser_controller.verse_selection.current_verse_selection_as_verse_reference_ids();
+    var current_verse_selection = app_controller.verse_selection.current_verse_selection_as_xml(); 
+    var current_verse_reference_ids = app_controller.verse_selection.current_verse_selection_as_verse_reference_ids();
 
     checkbox_tag.find('.cb-label').removeClass('underline');
     checkbox_tag.find('.cb-label-postfix').html('');
@@ -349,13 +349,13 @@ class TagsController {
       // Drop the cached stats element, because it is outdated now
       this.dropCachedTagStats(id);
 
-      bible_browser_controller.tag_selection_menu.updateLastUsedTimestamp(id, current_timestamp);
-      bible_browser_controller.tag_selection_menu.applyCurrentFilters();
+      app_controller.tag_selection_menu.updateLastUsedTimestamp(id, current_timestamp);
+      app_controller.tag_selection_menu.applyCurrentFilters();
 
       $(cb).attr('title', i18n.t("tags.remove-tag-assignment"));
 
       var filteredVerseBoxes = [];
-      var currentVerseList = bible_browser_controller.getCurrentVerseList();
+      var currentVerseList = app_controller.getCurrentVerseList();
 
       // Create a list of filtered ids, that only contains the verses that do not have the selected tag yet
       for (var i = 0; i < current_verse_reference_ids.length; i++) {
@@ -381,12 +381,12 @@ class TagsController {
                                                  $.create_xml_doc(current_verse_selection),
                                                  "assign");
 
-      var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
+      var currentBook = app_controller.tab_controller.getTab().getBook();
 
       tags_controller.update_tag_count_after_rendering(currentBook != null);
       await tags_controller.update_tags_view_after_verse_selection(true);
       await tags_controller.updateTagUiBasedOnTagAvailability();
-      bible_browser_controller.tag_statistics.update_book_tag_statistics_box();
+      app_controller.tag_statistics.update_book_tag_statistics_box();
 
     } else {
 
@@ -429,7 +429,7 @@ class TagsController {
     var current_book_count = 0;
     var current_global_count = 0;
 
-    var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
+    var currentBook = app_controller.tab_controller.getTab().getBook();
 
     if (currentBook == null) {
       var current_global_count = parseInt(tag_assignment_count_values);
@@ -469,7 +469,7 @@ class TagsController {
     tags_controller.tag_store.updateTagCount(id, bookList, count, to_increment);
 
     // Update tag count in tag selection menu as well
-    bible_browser_controller.tag_selection_menu.updateVerseCountInTagMenu(tag_title, new_global_count);
+    app_controller.tag_selection_menu.updateVerseCountInTagMenu(tag_title, new_global_count);
   }
 
   async remove_tag_assignment_after_confirmation() {
@@ -487,7 +487,7 @@ class TagsController {
 
     var verse_boxes = [];
 
-    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+    var currentVerseList = app_controller.getCurrentVerseList();
 
     for (var i = 0; i < job.verse_ids.length; i++) {
       var currentVerseReferenceId = job.verse_ids[i];
@@ -501,10 +501,10 @@ class TagsController {
     await tags_controller.communication_controller.remove_tag_from_verses(job.id, verse_boxes);
     await this.onLatestUsedTagChanged(job.id, false);
 
-    var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
+    var currentBook = app_controller.tab_controller.getTab().getBook();
     tags_controller.update_tag_count_after_rendering(currentBook != null);
     tags_controller.updateTagUiBasedOnTagAvailability();
-    bible_browser_controller.tag_statistics.update_book_tag_statistics_box();
+    app_controller.tag_statistics.update_book_tag_statistics_box();
 
     tags_controller.remove_tag_assignment_job = null;
     tags_controller.persistence_ongoing = false;
@@ -521,7 +521,7 @@ class TagsController {
 
     verse_selection = $(verse_selection);
     var selected_verses = verse_selection.find('verse');
-    var current_verse_list_frame = bible_browser_controller.getCurrentVerseListFrame();
+    var current_verse_list_frame = app_controller.getCurrentVerseListFrame();
 
     for (var i = 0; i < selected_verses.length; i++) {
       var current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
@@ -646,7 +646,7 @@ class TagsController {
 
     if (tag_title_array.length > 0) {
       $(verse_box).find('.tag').bind('click', (e) => {
-        bible_browser_controller.verse_list_popup.openVerseListPopup(e, "TAGGED_VERSES");
+        app_controller.verse_list_popup.openVerseListPopup(e, "TAGGED_VERSES");
       });
     }
   }
@@ -699,7 +699,7 @@ class TagsController {
     }
 
     if (current_book != null) {
-      bible_browser_controller.tag_statistics.update_book_tag_statistics_box(book_tag_statistics);
+      app_controller.tag_statistics.update_book_tag_statistics_box(book_tag_statistics);
     }
   }
 
@@ -737,7 +737,7 @@ class TagsController {
   }
 
   update_stats_elements(tag_statistics) {
-    var current_book = bible_browser_controller.tab_controller.getTab().getBook();
+    var current_book = app_controller.tab_controller.getTab().getBook();
     if (current_book == null) current_book = "no-book";
 
     if (!(current_book in this.tag_stats_element_cache)) {
@@ -786,7 +786,7 @@ class TagsController {
   }
 
   init_tag_stats_element_cache() {
-    var current_book = bible_browser_controller.tab_controller.getTab().getBook();
+    var current_book = app_controller.tab_controller.getTab().getBook();
 
     if (!(current_book in this.tag_stats_element_cache)) {
       this.tag_stats_element_cache[current_book] = {};
@@ -816,7 +816,7 @@ class TagsController {
 
   async render_tags(tag_list, tag_statistics, is_book=false) {
     //console.time("render_tags");
-    var current_book = bible_browser_controller.tab_controller.getTab().getBook();
+    var current_book = app_controller.tab_controller.getTab().getBook();
     var global_tags_box_el = document.getElementById('tags-content-global');
 
     if (!this.initialRenderingDone) {
@@ -1000,11 +1000,11 @@ class TagsController {
   current_verse_selection_tags() {
     var verse_selection_tags = new Array;
 
-    if (bible_browser_controller.verse_selection.selected_verse_box_elements == null) {
+    if (app_controller.verse_selection.selected_verse_box_elements == null) {
       return verse_selection_tags;
     }
 
-    var selected_verse_boxes = bible_browser_controller.verse_selection.selected_verse_box_elements;
+    var selected_verse_boxes = app_controller.verse_selection.selected_verse_box_elements;
 
     for (var i = 0; i < selected_verse_boxes.length; i++) {
       var current_verse_box = $(selected_verse_boxes[i]);
@@ -1089,7 +1089,7 @@ class TagsController {
     }, 300);
 
     var app_container = document.getElementById('app-container');
-    var versesSelected = bible_browser_controller.verse_selection.selected_verse_box_elements.length > 0;
+    var versesSelected = app_controller.verse_selection.selected_verse_box_elements.length > 0;
 
     if (versesSelected) { // Verses are selected
 
@@ -1220,12 +1220,12 @@ class TagsController {
   }
 
   async updateTagUiBasedOnTagAvailability(tagCount=undefined) {
-    var translationCount = bible_browser_controller.translation_controller.getTranslationCount();
+    var translationCount = app_controller.translation_controller.getTranslationCount();
     if (tagCount === undefined) {
       tagCount = await models.Tag.getTagCount();
     }
 
-    var textType = bible_browser_controller.tab_controller.getTab().getTextType();
+    var textType = app_controller.tab_controller.getTab().getTextType();
 
     if (tagCount == 0) {
       $('.tag-select-button').addClass('ui-state-disabled');

@@ -22,13 +22,13 @@ class NavigationPane {
   }
 
   getCurrentNavigationPane(tabIndex) {
-    var currentVerseListTabs = bible_browser_controller.getCurrentVerseListTabs(tabIndex);
+    var currentVerseListTabs = app_controller.getCurrentVerseListTabs(tabIndex);
     var navigationPane = currentVerseListTabs.find('.navigation-pane');
     return navigationPane;
   };
 
   initNavigationPaneForCurrentView(tabIndex=undefined) {
-    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentBook = currentTab.getBook();
     var currentTagTitleList = currentTab.getTagTitleList();
     var currentXrefs = currentTab.getXrefs();
@@ -52,7 +52,7 @@ class NavigationPane {
       navigationPane.addClass('navigation-pane-books');
     }
     
-    navigationPane.bind('mouseover', bible_browser_controller.verse_context_controller.hide_verse_expand_box);
+    navigationPane.bind('mouseover', app_controller.verse_context_controller.hide_verse_expand_box);
   }
 
   highlightNavElement(navElementNumber) {
@@ -60,7 +60,7 @@ class NavigationPane {
     this.allNavElementLinks = this.currentNavigationPane.find('.navigation-link');
 
     var navElementIndex = navElementNumber - 1;
-    var lastHighlightedNavElementIndex = bible_browser_controller.tab_controller.getLastHighlightedNavElementIndex();
+    var lastHighlightedNavElementIndex = app_controller.tab_controller.getLastHighlightedNavElementIndex();
 
     if ((this.allNavElementLinks.length - 1) >= navElementIndex &&
         (this.allNavElementLinks.length - 1) >= lastHighlightedNavElementIndex) {
@@ -72,7 +72,7 @@ class NavigationPane {
       highlightedNavElementLink.addClass('hl-nav-element');
     }
 
-    bible_browser_controller.tab_controller.setLastHighlightedNavElementIndex(navElementIndex);
+    app_controller.tab_controller.setLastHighlightedNavElementIndex(navElementIndex);
   }
 
   highlightSearchResult(navElementNumber) {  
@@ -98,7 +98,7 @@ class NavigationPane {
 
   updateChapterNavigation(tabIndex) {
     var navigationPane = this.getCurrentNavigationPane(tabIndex);
-    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentBook = currentTab.getBook();
     var verse_counts = bible_chapter_verse_counts[currentBook];
     var i = 1;
@@ -115,7 +115,7 @@ class NavigationPane {
 
       var current_chapter_link = document.createElement('a');
       current_chapter_link.setAttribute('class', 'navigation-link');
-      var href = 'javascript:bible_browser_controller.navigation_pane.goToChapter(' + i + ')';
+      var href = 'javascript:app_controller.navigation_pane.goToChapter(' + i + ')';
       current_chapter_link.setAttribute('href', href);
       $(current_chapter_link).html(i);
 
@@ -126,7 +126,7 @@ class NavigationPane {
 
   updateBookNavigation(tabIndex) {
     var navigationPane = this.getCurrentNavigationPane(tabIndex);
-    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
+    var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
     var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
 
     for (var i = 0; i < bookHeaders.length; i++) {
@@ -136,7 +136,7 @@ class NavigationPane {
       var currentBook = currentBookHeader.attr("bookname");
       var currentBookLink = document.createElement('a');
       currentBookLink.setAttribute('class', 'navigation-link');
-      var href = 'javascript:bible_browser_controller.navigation_pane.goToBook("' + currentBook + '",' + bookNumber + ')';
+      var href = 'javascript:app_controller.navigation_pane.goToBook("' + currentBook + '",' + bookNumber + ')';
       currentBookLink.setAttribute('href', href);
       $(currentBookLink).html(currentBookHeaderText);
 
@@ -152,12 +152,12 @@ class NavigationPane {
 
   updateNavigation(tabIndex=undefined) {
     if (tabIndex === undefined) {
-      var tabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
+      var tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     }
 
     this.resetNavigationPane(tabIndex);
 
-    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentTagIdList = null;
     var currentXrefs = null;
     var currentTextType = null;
@@ -189,7 +189,7 @@ class NavigationPane {
   }
 
   getCachedVerseListTabId() {
-    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+    var currentVerseList = app_controller.getCurrentVerseList();
     var firstLink = currentVerseList[0].querySelector('a.nav');
     var cachedVerseListTabId = firstLink?.getAttribute('name').split(' ')[0];
     return cachedVerseListTabId;
@@ -200,12 +200,12 @@ class NavigationPane {
 
     var reference = '#top';
 
-    if (chapter > 1 || bible_browser_controller.optionsMenu._bookIntroOption.isChecked()) {
+    if (chapter > 1 || app_controller.optionsMenu._bookIntroOption.isChecked()) {
       var cachedVerseListTabId = this.getCachedVerseListTabId();
       reference = '#' + cachedVerseListTabId + ' ' + chapter;
       window.location = reference;
     } else {
-      var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame();
+      var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
       currentVerseListFrame[0].scrollTop = 0;
     }
   }

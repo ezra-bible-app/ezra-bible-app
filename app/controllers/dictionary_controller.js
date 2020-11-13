@@ -75,25 +75,25 @@ class DictionaryController {
   }
 
   bindAfterBibleTextLoaded(tabIndex=undefined) {
-    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
     if (currentTab == null) {
       return;
     }
     
     var currentBibleTranslationId = currentTab.getBibleTranslationId();
 
-    if (bible_browser_controller.translation_controller.hasBibleTranslationStrongs(currentBibleTranslationId)) {
-      var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+    if (app_controller.translation_controller.hasBibleTranslationStrongs(currentBibleTranslationId)) {
+      var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
       var currentWElements = currentVerseList.find('w');
       var currentVerseTextElements = currentVerseList.find('.verse-text');
 
       currentVerseTextElements.bind('mousemove', (e) => {
-        bible_browser_controller.tab_search.blurInputField();
+        app_controller.tab_search.blurInputField();
         this.handleVerseMouseMove(e);
       });
 
       currentWElements.bind('mousemove', (e) => {
-        bible_browser_controller.tab_search.blurInputField();
+        app_controller.tab_search.blurInputField();
         this.handleStrongsMouseMove(e);
       });
     }
@@ -219,7 +219,7 @@ class DictionaryController {
   }
 
   handleStrongsMouseMove(event) {
-    if (!bible_browser_controller.optionsMenu._dictionaryOption.isChecked()) {
+    if (!app_controller.optionsMenu._dictionaryOption.isChecked()) {
       return;
     }
 
@@ -255,7 +255,7 @@ class DictionaryController {
   }
 
   handleVerseMouseMove(event) {
-    if (!bible_browser_controller.optionsMenu._dictionaryOption.isChecked()) {
+    if (!app_controller.optionsMenu._dictionaryOption.isChecked()) {
       return;
     }
 
@@ -272,7 +272,7 @@ class DictionaryController {
   }
 
   logDoubleStrongs() {
-    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+    var currentVerseList = app_controller.getCurrentVerseList();
     var currentWElements = currentVerseList.find('w');
 
     for (var i = 0; i < currentWElements.length; i++) {

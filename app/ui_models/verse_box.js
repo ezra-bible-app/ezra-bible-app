@@ -52,8 +52,8 @@ class VerseBox {
   }
 
   getMappedAbsoluteVerseNumber(sourceBibleTranslationId, targetBibleTranslationId) {
-    var sourceVersification = bible_browser_controller.translation_controller.getVersification(sourceBibleTranslationId);
-    var targetVersification = bible_browser_controller.translation_controller.getVersification(targetBibleTranslationId);
+    var sourceVersification = app_controller.translation_controller.getVersification(sourceBibleTranslationId);
+    var targetVersification = app_controller.translation_controller.getVersification(targetBibleTranslationId);
 
     var absoluteVerseNumbers = models.VerseReference.getAbsoluteVerseNrs(sourceVersification,
                                                                          this.getBibleBookShortTitle(),

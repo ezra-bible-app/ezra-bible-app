@@ -45,7 +45,7 @@ class TagStatistics {
       }
     );
 
-    var currentBook = bible_browser_controller.tab_controller.getTab().getBook();
+    var currentBook = app_controller.tab_controller.getTab().getBook();
     var chapter_verse_counts = bible_chapter_verse_counts[currentBook];
 
     if (chapter_verse_counts != null) {
@@ -84,10 +84,10 @@ class TagStatistics {
   async toggle_book_tags_statistics_button(index=undefined) {
     var book_tag_statistics_button = $('.show-book-tag-statistics-button');
     if (index === undefined) {
-      index = bible_browser_controller.tab_controller.getSelectedTabIndex();
+      index = app_controller.tab_controller.getSelectedTabIndex();
     }
     
-    var currentTab = bible_browser_controller.tab_controller.getTab(index);
+    var currentTab = app_controller.tab_controller.getTab(index);
 
     if (currentTab != null && currentTab.getTextType() == 'book') {
       var tagsCount = await models.Tag.getTagCount();
@@ -113,9 +113,9 @@ class TagStatistics {
   };
 
   open_book_tag_statistics() {
-    var currentVerseList = bible_browser_controller.getCurrentVerseList();
+    var currentVerseList = app_controller.getCurrentVerseList();
     var verse_list_position = currentVerseList.offset();
-    var currentTab = bible_browser_controller.tab_controller.getTab();
+    var currentTab = app_controller.tab_controller.getTab();
     var currentBookTranslation = models.BibleBook.getBookTitleTranslation(currentTab.getBook());
 
     $('#book-tag-statistics-box').dialog({

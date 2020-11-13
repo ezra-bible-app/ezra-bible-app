@@ -23,37 +23,37 @@ class TextController {
   }
 
   prepareForNewText(resetView, isSearch=false, tabIndex=undefined) {
-    bible_browser_controller.module_search.hideModuleSearchHeader(tabIndex);
-    bible_browser_controller.navigation_pane.initNavigationPaneForCurrentView(tabIndex);
+    app_controller.module_search.hideModuleSearchHeader(tabIndex);
+    app_controller.navigation_pane.initNavigationPaneForCurrentView(tabIndex);
 
     if (tabIndex === undefined) {
-      if (bible_browser_controller.verse_selection != null) {
-        bible_browser_controller.verse_selection.clear_verse_selection();
+      if (app_controller.verse_selection != null) {
+        app_controller.verse_selection.clear_verse_selection();
       }
     }
 
-    var textType = bible_browser_controller.tab_controller.getTab(tabIndex).getTextType();    
+    var textType = app_controller.tab_controller.getTab(tabIndex).getTextType();    
     if (textType != 'book') {
-      bible_browser_controller.book_selection_menu.clearSelectedBookInMenu();
+      app_controller.book_selection_menu.clearSelectedBookInMenu();
     }
 
     if (resetView && (tabIndex == 0 || tabIndex == undefined)) {
-      bible_browser_controller.resetVerseListView();
+      app_controller.resetVerseListView();
       var loadingMessage = "";
 
       if (isSearch) {
-        var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+        var currentTab = app_controller.tab_controller.getTab(tabIndex);
         var searchTerm = currentTab.getSearchTerm();
         loadingMessage = i18n.t("bible-browser.searching-for") + " <i>" + searchTerm + "</i>";
       } else {
         loadingMessage = i18n.t("bible-browser.loading-bible-text");
       }
 
-      bible_browser_controller.showVerseListLoadingIndicator(loadingMessage, !isSearch /* Only show loader visualization if we are not searching */ );
-      bible_browser_controller.translation_controller.showBibleTranslationLoadingIndicator();
+      app_controller.showVerseListLoadingIndicator(loadingMessage, !isSearch /* Only show loader visualization if we are not searching */ );
+      app_controller.translation_controller.showBibleTranslationLoadingIndicator();
     }
 
-    var temporary_help = bible_browser_controller.getCurrentVerseListComposite(tabIndex).find('.temporary-help, .help-text');
+    var temporary_help = app_controller.getCurrentVerseListComposite(tabIndex).find('.temporary-help, .help-text');
     temporary_help.hide();
   }
 
@@ -68,8 +68,8 @@ class TextController {
                           requestedBookId=-1,
                           target=undefined) {
 
-    var textType = bible_browser_controller.tab_controller.getTab(tabIndex).getTextType();
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
+    var textType = app_controller.tab_controller.getTab(tabIndex).getTextType();
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     var buttons = currentVerseListMenu.find('.fg-button');
     buttons.removeClass('focused-button');
 
@@ -79,7 +79,7 @@ class TextController {
 
     if (textType == 'book') { // Book text mode
       if (tabIndex === undefined) { $('#export-tagged-verses-button').addClass('ui-state-disabled'); }
-      bible_browser_controller.translation_controller.initChapterVerseCounts();
+      app_controller.translation_controller.initChapterVerseCounts();
       currentVerseListMenu.find('.book-select-button').addClass('focused-button');
 
       if (cachedText != null) {
@@ -162,7 +162,7 @@ class TextController {
                         start_verse_number=-1,
                         number_of_verses=-1) {
 
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab(tab_index)?.getBibleTranslationId();
+    var currentBibleTranslationId = app_controller.tab_controller.getTab(tab_index)?.getBibleTranslationId();
     var localSwordModule = null;
 
     try {
@@ -179,7 +179,7 @@ class TextController {
       return;
     }
 
-    var versification = (bible_browser_controller.translation_controller.getVersification(currentBibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
+    var versification = (app_controller.translation_controller.getVersification(currentBibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
     var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: book_short_title }});
 
     // Only necessary because old saved short titles may not be found directly
@@ -284,10 +284,10 @@ class TextController {
   getBibleTranslationId(tab_index) {
     var bibleTranslationId = null;
         
-    if (bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId() == null) {
-      bibleTranslationId = bible_browser_controller.tab_controller.defaultBibleTranslationId;
+    if (app_controller.tab_controller.getTab(tab_index).getBibleTranslationId() == null) {
+      bibleTranslationId = app_controller.tab_controller.defaultBibleTranslationId;
     } else {
-      bibleTranslationId = bible_browser_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
+      bibleTranslationId = app_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
     }
 
     return bibleTranslationId;
@@ -305,10 +305,10 @@ class TextController {
     }
 
     var bibleTranslationId = this.getBibleTranslationId(tab_index);
-    var versification = (bible_browser_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
+    var versification = (app_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
 
     var bibleBooks = await models.BibleBook.findBySearchResults(search_results);
-    var bibleBookStats = bible_browser_controller.module_search.getBibleBookStatsFromSearchResults(search_results);
+    var bibleBookStats = app_controller.module_search.getBibleBookStatsFromSearchResults(search_results);
     var verses = [];
 
     for (var i = 0; i < search_results.length; i++) {
@@ -369,7 +369,7 @@ class TextController {
     }
 
     var bibleTranslationId = this.getBibleTranslationId(tab_index);
-    var versification = (bible_browser_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
+    var versification = (app_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
 
     var verseReferences = await models.VerseReference.findByTagIds(selected_tags);
     var verseReferenceIds = [];
@@ -427,7 +427,7 @@ class TextController {
     }
 
     var bibleTranslationId = this.getBibleTranslationId(tab_index);
-    var versification = (bible_browser_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
+    var versification = (app_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
 
     var verseReferences = await models.VerseReference.findByXrefs(xrefs);
     var verseReferenceIds = [];
@@ -489,34 +489,34 @@ class TextController {
   }
 
   renderVerseList(htmlVerseList, referenceVerseHtml, listType, tabIndex=undefined, isCache=false, target=undefined, append=false) {
-    bible_browser_controller.hideVerseListLoadingIndicator();
-    bible_browser_controller.hideSearchProgressBar();
+    app_controller.hideVerseListLoadingIndicator();
+    app_controller.hideSearchProgressBar();
     var initialRendering = true;
 
     if (tabIndex === undefined) {
-      var tabIndex = bible_browser_controller.tab_controller.getSelectedTabIndex();
+      var tabIndex = app_controller.tab_controller.getSelectedTabIndex();
       initialRendering = false;
     }
 
     if (!initialRendering) {
-      bible_browser_controller.tab_controller.getTab().setTextType(listType);
+      app_controller.tab_controller.getTab().setTextType(listType);
     }
 
     if (target === undefined) {
       //console.log("Undefined target. Getting verse list target based on tabIndex " + tabIndex);
-      target = bible_browser_controller.getCurrentVerseList(tabIndex);
+      target = app_controller.getCurrentVerseList(tabIndex);
     }
 
     if (listType == 'book') {
-      bible_browser_controller.tag_selection_menu.resetTagMenu();
-      bible_browser_controller.module_search.resetSearch(tabIndex);
+      app_controller.tag_selection_menu.resetTagMenu();
+      app_controller.module_search.resetSearch(tabIndex);
 
       target.addClass('verse-list-book');
 
     } else if (listType == 'tagged_verses') {
 
-      bible_browser_controller.module_search.resetSearch(tabIndex);
-      bible_browser_controller.taggedVerseExport.enableTaggedVersesExportButton(tabIndex);
+      app_controller.module_search.resetSearch(tabIndex);
+      app_controller.taggedVerseExport.enableTaggedVersesExportButton(tabIndex);
 
       target.removeClass('verse-list-book');
 
@@ -527,7 +527,7 @@ class TextController {
     }
 
     if (listType == 'xrefs' || listType == 'tagged_verses') {
-      bible_browser_controller.showReferenceContainer();
+      app_controller.showReferenceContainer();
     }
 
     if (append) {
@@ -537,32 +537,32 @@ class TextController {
     target.html(htmlVerseList);
 
     if (referenceVerseHtml != null) {
-      var verseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
+      var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
       var referenceVerseContainer = verseListFrame.find('.reference-verse');
       referenceVerseContainer.html(referenceVerseHtml);
       var referenceVerseBox = referenceVerseContainer.find('.verse-box');
-      bible_browser_controller.renderReferenceVerse(referenceVerseBox, tabIndex);
+      app_controller.renderReferenceVerse(referenceVerseBox, tabIndex);
       referenceVerseContainer.show();
     }
 
     if (listType == 'search_results') {
-      var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+      var currentTab = app_controller.tab_controller.getTab(tabIndex);
       var currentSearchTerm = currentTab?.getSearchTerm();
-      bible_browser_controller.module_search.highlightSearchResults(currentSearchTerm, tabIndex);
+      app_controller.module_search.highlightSearchResults(currentSearchTerm, tabIndex);
     }
 
     if (isCache || listType == 'book' && !append) {
-      bible_browser_controller.optionsMenu.showOrHideBookIntroductionBasedOnOption(tabIndex);
-      bible_browser_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
+      app_controller.optionsMenu.showOrHideBookIntroductionBasedOnOption(tabIndex);
+      app_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
     }
 
     if (isCache ||
         listType != 'book' ||
         listType == 'book' && append) {
 
-      bible_browser_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
-      bible_browser_controller.initApplicationForVerseList(tabIndex);      
-      bible_browser_controller.translation_controller.hideBibleTranslationLoadingIndicator();
+      app_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
+      app_controller.initApplicationForVerseList(tabIndex);      
+      app_controller.translation_controller.hideBibleTranslationLoadingIndicator();
     }
   }
 }
