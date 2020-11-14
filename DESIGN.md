@@ -1,3 +1,7 @@
+Welcome to the Design documentation of Ezra Project!
+
+<a href='#file-structure'>File structure</a> | <a href='#db-schema'>Database schema</a>
+
 ## Architecture overview
 
 <div class="mermaid">
@@ -15,6 +19,8 @@ erDiagram
     Sequelize-Model           ||--||    SQLite-DB-Table           : maps
     node-sword-interface      ||--||    SWORD-Engine              : wraps
 </div>
+
+<a name='file-structure'>
 
 ## File structure
 
@@ -54,5 +60,17 @@ This directory contains static HTML files (e.g. for the book selection menu, the
 ### locales
 
 Here you find [i18next](https://www.i18next.com/) locale files (JSON format).
+
+<a name='db-schema'>
+
+## Database schema
+
+<div class="mermaid">
+erDiagram
+    BibleBook                 ||--|{    VerseReference      : has
+    VerseReference            ||--|{    VerseTag            : has
+    Note                      o|--||    VerseReference      : has
+    VerseTag                  ||--||    Tag                 : has
+</div>
 
 <script src="https://unpkg.com/mermaid@8.8.3/dist/mermaid.min.js"></script>

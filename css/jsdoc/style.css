@@ -9,3 +9,7 @@
 .content header p, .member>.description p, .member>.name .code-name {
     font-size: unset;
 }
+
+#main>.sidebar {
+    width: unset;
+}
