@@ -20,7 +20,7 @@ erDiagram
     node-sword-interface      ||--||    SWORD-Engine              : wraps
 </div>
 
-<a name='file-structure'>
+<a name='file-structure'></a>
 
 ## File structure
 
@@ -61,16 +61,16 @@ This directory contains static HTML files (e.g. for the book selection menu, the
 
 Here you find [i18next](https://www.i18next.com/) locale files (JSON format).
 
-<a name='db-schema'>
+<a name='db-schema'></a>
 
 ## Database schema
 
 <div class="mermaid">
 erDiagram
     BibleBook                 ||--|{    VerseReference      : has
-    VerseReference            ||--|{    VerseTag            : has
     Note                      o|--||    VerseReference      : has
-    VerseTag                  ||--||    Tag                 : has
+    VerseReference            ||--|{    VerseTag            : has
+    Tag                       ||--|{    VerseTag            : has
 </div>
 
 <script src="https://unpkg.com/mermaid@8.8.3/dist/mermaid.min.js"></script>
