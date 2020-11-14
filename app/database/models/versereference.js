@@ -20,6 +20,11 @@
 
 const VerseBox = require("../../ui_models/verse_box.js");
 
+/**
+ * The VerseReference model is used to manage verse references.
+ * @typedef VerseReference
+ * @category Model
+ */
 module.exports = (sequelize, DataTypes) => {
   const VerseReference = sequelize.define('VerseReference', {
     bibleBookId: DataTypes.INTEGER,

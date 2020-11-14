@@ -17,6 +17,12 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 'use strict';
+
+/**
+ * The MetaRecord model is used to manage meta information for the Ezra Project database, currently the time of the last modification.
+ * @typedef MetaRecord
+ * @category Model
+ */
 module.exports = (sequelize, DataTypes) => {
   const MetaRecord = sequelize.define('MetaRecord', {
     lastModifiedAt: DataTypes.DATE

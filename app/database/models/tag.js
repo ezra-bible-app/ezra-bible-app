@@ -17,6 +17,12 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 'use strict';
+
+/**
+ * The Tag model is used to manage tags.
+ * @typedef Tag
+ * @category Model
+ */
 module.exports = (sequelize, DataTypes) => {
   const Tag = sequelize.define('Tag', {
     title: DataTypes.STRING,

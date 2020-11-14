@@ -230,6 +230,12 @@ const ntBooks = [ "Matt", "Mark", "Luke", "John", "Acts", "Rom", "1Cor", "2Cor",
                   "1John", "2John", "3John", "Jude", "Rev" ];
 
 'use strict';
+
+/**
+ * The BibleBook model is used to manage Bible books.
+ * @typedef BibleBook
+ * @category Model
+ */
 module.exports = (sequelize, DataTypes) => {
   const BibleBook = sequelize.define('BibleBook', {
     number: DataTypes.INTEGER,

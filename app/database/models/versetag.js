@@ -17,6 +17,11 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 'use strict';
+/**
+ * The VerseTag model is used to handle the relationship between a VerseReference and a Tag.
+ * @typedef VerseTag
+ * @category Model
+ */
 module.exports = (sequelize, DataTypes) => {
   const VerseTag = sequelize.define('VerseTag', {
     verseReferenceId: DataTypes.INTEGER,

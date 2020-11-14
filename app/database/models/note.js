@@ -17,6 +17,12 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 'use strict';
+
+/**
+ * The Note model is used to manage notes.
+ * @typedef Note
+ * @category Model
+ */
 module.exports = (sequelize, DataTypes) => {
   const Note = sequelize.define('Note', {
     verseReferenceId: DataTypes.INTEGER,
