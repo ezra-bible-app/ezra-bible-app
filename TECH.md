@@ -6,7 +6,7 @@ Furthermore, the following components are used (among others):
 * [Sequelize](http://docs.sequelizejs.com) [ORM](https://en.wikipedia.org/wiki/Object-relational_mapping) for handling database access
 * [Umzug](https://github.com/sequelize/umzug) Migration library for handling database schema upgrades
 * [Pug](https://pugjs.org) template engine for rendering verse list
-* [jQuery Steps](http://www.jquery-steps.com) for the bible translation wizard
+* [jQuery Steps](http://www.jquery-steps.com) for the bible translation assistant
 * [CodeMirror](https://github.com/codemirror/CodeMirror) in-browser editor for note editing
 * [Marked](https://github.com/markedjs/marked) Markdown parser/renderer for rendering markdown-based verse notes
 * [Chart.js](https://www.chartjs.org) library for verse statistics charts (used for visualizing search results)

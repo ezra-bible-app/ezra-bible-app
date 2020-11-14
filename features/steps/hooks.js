@@ -34,7 +34,7 @@ After("@uninstall-kjv-after-scenario", async function() {
   await spectronHelper.sleep(2000);
   await global.app.webContents.executeJavaScript("nsi.refreshLocalModules()");
   await spectronHelper.sleep(500);
-  await global.app.webContents.executeJavaScript("app_controller.install_module_wizard.resetInstalledModules()");
+  await global.app.webContents.executeJavaScript("app_controller.install_module_assistant.resetInstalledModules()");
   await global.app.webContents.executeJavaScript("app_controller.onTranslationRemoved('KJV')");
   await global.app.webContents.executeJavaScript("app_controller.onAllTranslationsRemoved()");
 });

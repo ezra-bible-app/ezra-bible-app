@@ -16,11 +16,11 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-class ModuleWizardHelper {
+class ModuleAssistantHelper {
   constructor() {
   }
 
-  getSelectedSettingsWizardElements(wizardPage) {
+  getSelectedSettingsAssistantElements(wizardPage) {
     var selectedElements = [];
 
     var allElements = $(wizardPage).find('p');
@@ -73,4 +73,4 @@ class ModuleWizardHelper {
   }
 }
 
-module.exports = ModuleWizardHelper;
+module.exports = ModuleAssistantHelper;

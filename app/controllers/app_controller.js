@@ -56,8 +56,8 @@ class AppController {
     this.init_component("TagAssignmentMenu", "tag_assignment_menu", "../components/tags/tag_assignment_menu.js");
     this.init_component("ModuleSearch", "module_search", "../components/module_search.js");
     this.init_component("TranslationController", "translation_controller", "./translation_controller.js");
-    this.init_component("InstallModuleWizard", "install_module_wizard", "../components/module_wizard/install_module_wizard.js");
-    this.init_component("RemoveModuleWizard", "remove_module_wizard", "../components/module_wizard/remove_module_wizard.js");
+    this.init_component("InstallModuleAssistant", "install_module_assistant", "../components/module_assistant/install_module_assistant.js");
+    this.init_component("RemoveModuleAssistant", "remove_module_assistant", "../components/module_assistant/remove_module_assistant.js");
     this.init_component("TextController", "text_controller", "./text_controller.js");
     this.init_component("VerseContextController", "verse_context_controller", "./verse_context_controller.js");
     this.init_component("BookSearch", "tab_search", "../components/tab_search/tab_search.js");
@@ -80,7 +80,7 @@ class AppController {
       await this.onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId);
     });
 
-    this.remove_module_wizard.init(() => { this.onAllTranslationsRemoved(); },
+    this.remove_module_assistant.init(() => { this.onAllTranslationsRemoved(); },
                                    (translationId) => { this.onTranslationRemoved(translationId); });
 
     this.tab_search.init('#tab-search',
@@ -847,9 +847,9 @@ class AppController {
     }
   }
 
-  openModuleSettingsWizard(moduleType) {
+  openModuleSettingsAssistant(moduleType) {
     this.optionsMenu.hideDisplayMenu();
-    this.install_module_wizard.openWizard(moduleType);
+    this.install_module_assistant.openAssistant(moduleType);
   }
 
   getChapterFromReference(reference) {

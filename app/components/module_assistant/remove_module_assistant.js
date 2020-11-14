@@ -17,22 +17,22 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const LanguageMapper = require('../../helpers/language_mapper.js');
-const ModuleWizardHelper = require('./module_wizard_helper.js');
+const ModuleAssistantHelper = require('./module_assistant_helper.js');
 
-class RemoveModuleWizard {
+class RemoveModuleAssistant {
   constructor() {
-    this._helper = new ModuleWizardHelper();
+    this._helper = new ModuleAssistantHelper();
     this._moduleRemovalStatus = 'DONE';
     this.languageMapper = new LanguageMapper();
 
     var removeButton = $('#remove-modules-button');
 
     removeButton.bind('click', () => {
-      var currentModuleType = app_controller.install_module_wizard._currentModuleType;
+      var currentModuleType = app_controller.install_module_assistant._currentModuleType;
 
       var modules = app_controller.translation_controller.getInstalledModules(currentModuleType);
       if (modules.length > 0) {
-        this.openRemoveModuleWizard(currentModuleType);
+        this.openRemoveModuleAssistant(currentModuleType);
       }
     });
   }
@@ -42,12 +42,12 @@ class RemoveModuleWizard {
     this.onTranslationRemoved = onTranslationRemoved;
   }
 
-  openRemoveModuleWizard(moduleType) {
-    $('#module-settings-wizard-init').hide();
-    this.initRemoveModuleWizard(moduleType);
-    $('#module-settings-wizard-remove').show();
+  openRemoveModuleAssistant(moduleType) {
+    $('#module-settings-assistant-init').hide();
+    this.initRemoveModuleAssistant(moduleType);
+    $('#module-settings-assistant-remove').show();
 
-    var wizardPage = $('#module-settings-wizard-remove-p-0');
+    var wizardPage = $('#module-settings-assistant-remove-p-0');
     wizardPage.empty();
 
     var headerText = "";
@@ -101,26 +101,26 @@ class RemoveModuleWizard {
     this._helper.bindLabelEvents(wizardPage);
   }
 
-  initRemoveModuleWizard() {
-    if (this._removeModuleWizardOriginalContent != undefined) {
-        $('#module-settings-wizard-remove').steps("destroy");
-        $('#module-settings-wizard-remove').html(this._removeModuleWizardOriginalContent);
+  initRemoveModuleAssistant() {
+    if (this._removeModuleAssistantOriginalContent != undefined) {
+        $('#module-settings-assistant-remove').steps("destroy");
+        $('#module-settings-assistant-remove').html(this._removeModuleAssistantOriginalContent);
     } else {
-        this._removeModuleWizardOriginalContent = $('#module-settings-wizard-remove').html();
+        this._removeModuleAssistantOriginalContent = $('#module-settings-assistant-remove').html();
     }
 
-    $('.module-settings-wizard-section-header-module-type').html(app_controller.install_module_wizard._moduleTypeText);
+    $('.module-settings-assistant-section-header-module-type').html(app_controller.install_module_assistant._moduleTypeText);
 
-    $('#module-settings-wizard-remove').steps({
+    $('#module-settings-assistant-remove').steps({
       headerTag: "h3",
       bodyTag: "section",
-      contentContainerTag: "module-settings-wizard-remove",
+      contentContainerTag: "module-settings-assistant-remove",
       autoFocus: true,
       stepsOrientation: 1,
-      onStepChanging: (event, currentIndex, newIndex) => this.removeModuleWizardStepChanging(event, currentIndex, newIndex),
-      onStepChanged: (event, currentIndex, priorIndex) => this.removeModuleWizardStepChanged(event, currentIndex, priorIndex),
-      onFinishing: (event, currentIndex) => this.removeModuleWizardFinishing(event, currentIndex),
-      onFinished: (event, currentIndex) => this.removeModuleWizardFinished(event, currentIndex),
+      onStepChanging: (event, currentIndex, newIndex) => this.removeModuleAssistantStepChanging(event, currentIndex, newIndex),
+      onStepChanged: (event, currentIndex, priorIndex) => this.removeModuleAssistantStepChanged(event, currentIndex, priorIndex),
+      onFinishing: (event, currentIndex) => this.removeModuleAssistantFinishing(event, currentIndex),
+      onFinished: (event, currentIndex) => this.removeModuleAssistantFinished(event, currentIndex),
       labels: {
         cancel: i18n.t("general.cancel"),
         finish: i18n.t("general.finish"),
@@ -130,10 +130,10 @@ class RemoveModuleWizard {
     });
   }
 
-  removeModuleWizardStepChanging(event, currentIndex, newIndex) {
+  removeModuleAssistantStepChanging(event, currentIndex, newIndex) {
     if (currentIndex == 0 && newIndex == 1) { // Changing from Translations (1) to Removal (2)
-      var wizardPage = "#module-settings-wizard-remove-p-0";
-      var selectedLanguages = this._helper.getSelectedSettingsWizardElements(wizardPage);
+      var wizardPage = "#module-settings-assistant-remove-p-0";
+      var selectedLanguages = this._helper.getSelectedSettingsAssistantElements(wizardPage);
       return (selectedLanguages.length > 0);
     } else if (currentIndex == 1 && newIndex != 1) {
       return false;
@@ -142,20 +142,20 @@ class RemoveModuleWizard {
     return true;
   }
 
-  async removeModuleWizardStepChanged(event, currentIndex, priorIndex) {
+  async removeModuleAssistantStepChanged(event, currentIndex, priorIndex) {
     if (priorIndex == 0) {
-      this._helper.lockDialogForAction('module-settings-wizard-remove');
+      this._helper.lockDialogForAction('module-settings-assistant-remove');
 
       // Bible modules have been selected
-      var modulesPage = "#module-settings-wizard-remove-p-0";
-      this._uninstallModules = this._helper.getSelectedSettingsWizardElements(modulesPage);
+      var modulesPage = "#module-settings-assistant-remove-p-0";
+      this._uninstallModules = this._helper.getSelectedSettingsAssistantElements(modulesPage);
 
       this._moduleRemovalStatus = 'IN_PROGRESS';
 
-      var removalPage = $("#module-settings-wizard-remove-p-1");
+      var removalPage = $("#module-settings-assistant-remove-p-1");
       removalPage.empty();
 
-      var currentModuleType = app_controller.install_module_wizard._currentModuleType;
+      var currentModuleType = app_controller.install_module_assistant._currentModuleType;
       var removingModules = "";
       if (currentModuleType == 'BIBLE') {
         removingModules = i18n.t("module-assistant.removing-translations");
@@ -196,20 +196,20 @@ class RemoveModuleWizard {
         }
 
         this._moduleRemovalStatus = 'DONE';
-        this._helper.unlockDialog('module-settings-wizard-remove');
+        this._helper.unlockDialog('module-settings-assistant-remove');
       }, 800);
     }
   }
 
-  removeModuleWizardFinishing(event, currentIndex) {
+  removeModuleAssistantFinishing(event, currentIndex) {
     return this._moduleRemovalStatus != 'IN_PROGRESS';
   }
 
-  removeModuleWizardFinished(event, currentIndex) {
-    $('#module-settings-wizard').dialog('close');
+  removeModuleAssistantFinished(event, currentIndex) {
+    $('#module-settings-assistant').dialog('close');
     this._installedTranslations = app_controller.translation_controller.getInstalledModules('BIBLE');
     app_controller.translation_controller.initTranslationsMenu();
   }
 }
 
-module.exports = RemoveModuleWizard;
+module.exports = RemoveModuleAssistant;

@@ -17,16 +17,16 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const LanguageMapper = require('../../helpers/language_mapper.js');
-const ModuleWizardHelper = require('./module_wizard_helper.js');
+const ModuleAssistantHelper = require('./module_assistant_helper.js');
 
-class InstallModuleWizard {
+class InstallModuleAssistant {
   constructor() {
-    this._helper = new ModuleWizardHelper();
+    this._helper = new ModuleAssistantHelper();
     this.languageMapper = new LanguageMapper();
-    this._addModuleWizardOriginalContent = undefined;
+    this._addModuleAssistantOriginalContent = undefined;
 
     var addButton = $('#add-modules-button');
-    addButton.bind('click', () => this.openAddModuleWizard());
+    addButton.bind('click', () => this.openAddModuleAssistant());
   }
 
   init(moduleType) {
@@ -54,7 +54,7 @@ class InstallModuleWizard {
     return false;
   }
 
-  openWizard(moduleType) {
+  openAssistant(moduleType) {
     this.init(moduleType);
 
     var appContainerWidth = $(window).width() - 10;
@@ -69,9 +69,9 @@ class InstallModuleWizard {
     var offsetLeft = appContainerWidth - wizardWidth - 100;
     var offsetTop = 20;
 
-    $('#module-settings-wizard-add').hide();
-    $('#module-settings-wizard-remove').hide();
-    $('#module-settings-wizard-init').show();
+    $('#module-settings-assistant-add').hide();
+    $('#module-settings-assistant-remove').hide();
+    $('#module-settings-assistant-init').show();
 
     var modules = app_controller.translation_controller.getInstalledModules(moduleType);
 
@@ -83,7 +83,7 @@ class InstallModuleWizard {
       $('#remove-modules-button').addClass('ui-state-disabled');
     }
 
-    uiHelper.configureButtonStyles('#module-settings-wizard-init');
+    uiHelper.configureButtonStyles('#module-settings-assistant-init');
 
     var title = "";
     var addModuleText = "";
@@ -100,15 +100,15 @@ class InstallModuleWizard {
       addModuleText = i18n.t("module-assistant.add-dicts");
       removeModuleText = i18n.t("module-assistant.remove-dicts");
     } else {
-      console.error("InstallModuleWizard: Unknown module type!");
+      console.error("InstallModuleAssistant: Unknown module type!");
     }
 
     var internetUsageNote = i18n.t("module-assistant.internet-usage-note", { module_type: this._moduleTypeText });
-    $('#module-settings-wizard-internet-usage').html(internetUsageNote);
+    $('#module-settings-assistant-internet-usage').html(internetUsageNote);
     $('#add-modules-button').html(addModuleText);
     $('#remove-modules-button').html(removeModuleText);
 
-    $('#module-settings-wizard').dialog({
+    $('#module-settings-assistant').dialog({
       position: [offsetLeft, offsetTop],
       modal: true,
       title: title,
@@ -121,7 +121,7 @@ class InstallModuleWizard {
   }
 
   async updateRepositoryConfig(force=false) {
-    var wizardPage = $('#module-settings-wizard-add-p-0');
+    var wizardPage = $('#module-settings-assistant-add-p-0');
     wizardPage.empty();
 
     var lastSwordRepoUpdateSaved = app_controller.settings.has("lastSwordRepoUpdate");
@@ -154,34 +154,34 @@ class InstallModuleWizard {
     setTimeout(() => this.listRepositories(), listRepoTimeoutMs);
   }
 
-  async openAddModuleWizard() {
-    $('#module-settings-wizard-init').hide();
-    this.initAddModuleWizard();
-    $('#module-settings-wizard-add').show();
+  async openAddModuleAssistant() {
+    $('#module-settings-assistant-init').hide();
+    this.initAddModuleAssistant();
+    $('#module-settings-assistant-add').show();
 
     await this.updateRepositoryConfig();
   }
 
-  initAddModuleWizard() {
-    if (this._addModuleWizardOriginalContent != undefined) {
-        $('#module-settings-wizard-add').steps("destroy");
-        $('#module-settings-wizard-add').html(this._addModuleWizardOriginalContent);
+  initAddModuleAssistant() {
+    if (this._addModuleAssistantOriginalContent != undefined) {
+        $('#module-settings-assistant-add').steps("destroy");
+        $('#module-settings-assistant-add').html(this._addModuleAssistantOriginalContent);
     } else {
-        this._addModuleWizardOriginalContent = $('#module-settings-wizard-add').html();
+        this._addModuleAssistantOriginalContent = $('#module-settings-assistant-add').html();
     }
 
-    $('.module-settings-wizard-section-header-module-type').html(this._moduleTypeText);
+    $('.module-settings-assistant-section-header-module-type').html(this._moduleTypeText);
 
-    $('#module-settings-wizard-add').steps({
+    $('#module-settings-assistant-add').steps({
       headerTag: "h3",
       bodyTag: "section",
-      contentContainerTag: "module-settings-wizard-add",
+      contentContainerTag: "module-settings-assistant-add",
       autoFocus: true,
       stepsOrientation: 1,
-      onStepChanging: (event, currentIndex, newIndex) => this.addModuleWizardStepChanging(event, currentIndex, newIndex),
-      onStepChanged: (event, currentIndex, priorIndex) => this.addModuleWizardStepChanged(event, currentIndex, priorIndex),
-      onFinishing: (event, currentIndex) => this.addModuleWizardFinishing(event, currentIndex),
-      onFinished: (event, currentIndex) => this.addModuleWizardFinished(event, currentIndex),
+      onStepChanging: (event, currentIndex, newIndex) => this.addModuleAssistantStepChanging(event, currentIndex, newIndex),
+      onStepChanged: (event, currentIndex, priorIndex) => this.addModuleAssistantStepChanged(event, currentIndex, priorIndex),
+      onFinishing: (event, currentIndex) => this.addModuleAssistantFinishing(event, currentIndex),
+      onFinished: (event, currentIndex) => this.addModuleAssistantFinished(event, currentIndex),
       labels: {
         cancel: i18n.t("general.cancel"),
         finish: i18n.t("general.finish"),
@@ -191,18 +191,18 @@ class InstallModuleWizard {
     });
   }
 
-  addModuleWizardStepChanging(event, currentIndex, newIndex) {
+  addModuleAssistantStepChanging(event, currentIndex, newIndex) {
     if (currentIndex == 0 && newIndex == 1) { // Changing from Repositories (1) to Languages (2)
-      var wizardPage = "#module-settings-wizard-add-p-0";
-      var selectedRepositories = this._helper.getSelectedSettingsWizardElements(wizardPage);
+      var wizardPage = "#module-settings-assistant-add-p-0";
+      var selectedRepositories = this._helper.getSelectedSettingsAssistantElements(wizardPage);
       return (selectedRepositories.length > 0);
     } else if (currentIndex == 1 && newIndex == 2) { // Changing from Languages (2) to Modules (3)
-      var wizardPage = "#module-settings-wizard-add-p-1";
-      var selectedLanguages = this._helper.getSelectedSettingsWizardElements(wizardPage);
+      var wizardPage = "#module-settings-assistant-add-p-1";
+      var selectedLanguages = this._helper.getSelectedSettingsAssistantElements(wizardPage);
       return (selectedLanguages.length > 0);
     } else if (currentIndex == 2 && newIndex == 3) { // Changing from Modules (3) to Installation (4)
-      var wizardPage = "#module-settings-wizard-add-p-2";
-      var selectedModules = this._helper.getSelectedSettingsWizardElements(wizardPage);
+      var wizardPage = "#module-settings-assistant-add-p-2";
+      var selectedModules = this._helper.getSelectedSettingsAssistantElements(wizardPage);
       return (selectedModules.length > 0);
     } else if (currentIndex == 3 && newIndex != 3) {
       return false;
@@ -211,7 +211,7 @@ class InstallModuleWizard {
     return true;
   }
 
-  addModuleWizardStepChanged(event, currentIndex, priorIndex) {
+  addModuleAssistantStepChanged(event, currentIndex, priorIndex) {
     if (priorIndex == 0 && currentIndex == 1) {
 
       this.initLanguagesPage();
@@ -226,12 +226,12 @@ class InstallModuleWizard {
     }
   }
 
-  addModuleWizardFinishing(event, currentIndex) {
+  addModuleAssistantFinishing(event, currentIndex) {
     return this._moduleInstallStatus != 'IN_PROGRESS';
   }
 
-  async addModuleWizardFinished(event, currentIndex) {
-    $('#module-settings-wizard').dialog('close');
+  async addModuleAssistantFinished(event, currentIndex) {
+    $('#module-settings-assistant').dialog('close');
     this._installedModules = app_controller.translation_controller.getInstalledModules();
 
     if (this._currentModuleType == 'BIBLE') {
@@ -247,11 +247,11 @@ class InstallModuleWizard {
 
   initLanguagesPage() {
     // Repositories have been selected
-    var wizardPage = "#module-settings-wizard-add-p-0";
-    this._selectedRepositories = this._helper.getSelectedSettingsWizardElements(wizardPage);
+    var wizardPage = "#module-settings-assistant-add-p-0";
+    this._selectedRepositories = this._helper.getSelectedSettingsAssistantElements(wizardPage);
     app_controller.settings.set('selected_repositories', this._selectedRepositories);
 
-    var languagesPage = $('#module-settings-wizard-add-p-1');
+    var languagesPage = $('#module-settings-assistant-add-p-1');
     languagesPage.empty();
     languagesPage.append("<p>" + i18n.t("module-assistant.loading-languages") + "</p>");
 
@@ -262,8 +262,8 @@ class InstallModuleWizard {
 
   initModulesPage() {
     // Languages have been selected
-    var wizardPage = "#module-settings-wizard-add-p-1";
-    var languages = this._helper.getSelectedSettingsWizardElements(wizardPage);
+    var wizardPage = "#module-settings-assistant-add-p-1";
+    var languages = this._helper.getSelectedSettingsAssistantElements(wizardPage);
     var languageCodes = [];
 
     for (var i = 0; i < languages.length; i++) {
@@ -278,14 +278,14 @@ class InstallModuleWizard {
   async installSelectedModules() {
     // Bible modules have been selected
 
-    this._helper.lockDialogForAction('module-settings-wizard-add');
+    this._helper.lockDialogForAction('module-settings-assistant-add');
 
-    var moduleListPage = "#module-settings-wizard-add-p-2";
-    var modules = this._helper.getSelectedSettingsWizardElements(moduleListPage);
+    var moduleListPage = "#module-settings-assistant-add-p-2";
+    var modules = this._helper.getSelectedSettingsAssistantElements(moduleListPage);
 
     this._moduleInstallStatus = 'IN_PROGRESS';
 
-    var installPage = $("#module-settings-wizard-add-p-3");
+    var installPage = $("#module-settings-assistant-add-p-3");
     installPage.empty();
 
     var installingModules = "";
@@ -333,7 +333,7 @@ class InstallModuleWizard {
 
     $('#cancel-module-installation-button').addClass('ui-state-disabled');
     this._moduleInstallStatus = 'DONE';
-    this._helper.unlockDialog('module-settings-wizard-add');
+    this._helper.unlockDialog('module-settings-assistant-add');
   }
 
   localizeModuleInstallProgressMessage(rawMessage) {
@@ -403,7 +403,7 @@ class InstallModuleWizard {
       var cancelInstallButtonHtml = "<div style='float: left;'><button id='cancel-module-installation-button' class='fg-button ui-corner-all ui-state-default'>" + cancelModuleInstallationText + "</button></div>";
       var progressBarContainer = $('#progress-bar-container');
       progressBarContainer.append(cancelInstallButtonHtml);
-      uiHelper.configureButtonStyles('#module-settings-wizard-add-p-3');
+      uiHelper.configureButtonStyles('#module-settings-assistant-add-p-3');
 
       var cancelInstallButton = $('#cancel-module-installation-button');
       cancelInstallButton.bind('click', () => {
@@ -554,7 +554,7 @@ class InstallModuleWizard {
   }
 
   listLanguages(selectedRepositories) {
-    var wizardPage = $('#module-settings-wizard-add-p-1');
+    var wizardPage = $('#module-settings-assistant-add-p-1');
     wizardPage.empty();
 
     var uiRepositories = this.getSelectedReposForUi();
@@ -582,7 +582,7 @@ class InstallModuleWizard {
   }
 
   listLanguageArray(languageArray) {
-    var wizardPage = $('#module-settings-wizard-add-p-1');
+    var wizardPage = $('#module-settings-assistant-add-p-1');
 
     for (var i = 0; i < languageArray.length; i++) {
       var currentLanguage = languageArray[i];
@@ -614,7 +614,7 @@ class InstallModuleWizard {
   }
 
   listModules(selectedLanguages) {
-    var wizardPage = $('#module-settings-wizard-add-p-2');
+    var wizardPage = $('#module-settings-assistant-add-p-2');
     var translationList = wizardPage.find('#module-list');
     translationList.empty();
     var translationInfoContent = i18n.t("module-assistant.click-to-show-detailed-module-info");
@@ -641,8 +641,8 @@ class InstallModuleWizard {
     $('#hebrew-strongs-dict-feature-filter-label').text(i18n.t('general.module-hebrew-strongs-dict'));
     $('#greek-strongs-dict-feature-filter-label').text(i18n.t('general.module-greek-strongs-dict'));
 
-    var languagesPage = "#module-settings-wizard-add-p-1";
-    var uiLanguages = this._helper.getSelectedSettingsWizardElements(languagesPage);
+    var languagesPage = "#module-settings-assistant-add-p-1";
+    var uiLanguages = this._helper.getSelectedSettingsAssistantElements(languagesPage);
     for (var i = 0; i < uiLanguages.length; i++) {
       var currentLanguageName = uiLanguages[i];
       if (this.languageMapper.mappingExists(currentLanguageName)) {
@@ -762,7 +762,7 @@ class InstallModuleWizard {
       $('#dialog-unlock-info').html(swordModule.unlockInfo);
     }
 
-    var unlockDialog = $('#module-settings-wizard-unlock-dialog');
+    var unlockDialog = $('#module-settings-assistant-unlock-dialog');
     var unlockFailedMsg = $('#unlock-failed-msg');
 
     if (checkbox === undefined) {
@@ -817,7 +817,7 @@ class InstallModuleWizard {
   }
 
   listLanguageModules(lang, modules, renderHeader) {
-    var wizardPage = $('#module-settings-wizard-add-p-2');
+    var wizardPage = $('#module-settings-assistant-add-p-2');
     var translationList = wizardPage.find('#filtered-module-list');
 
     if (renderHeader) {
@@ -910,7 +910,7 @@ class InstallModuleWizard {
 
   listRepositories() {
     this.previouslySelectedRepositories = app_controller.settings.get('selected_repositories');
-    var wizardPage = $('#module-settings-wizard-add-p-0');
+    var wizardPage = $('#module-settings-assistant-add-p-0');
 
     var repositories = nsi.getRepoNames();
     wizardPage.empty();
@@ -955,7 +955,7 @@ class InstallModuleWizard {
       await this.updateRepositoryConfig(true);
     });
 
-    uiHelper.configureButtonStyles('#module-settings-wizard-add-p-0');
+    uiHelper.configureButtonStyles('#module-settings-assistant-add-p-0');
 
     var additionalInfo = "<p style='margin-top: 2em;'>" +
                          i18n.t("module-assistant.more-repo-information-needed") +
@@ -981,4 +981,4 @@ class InstallModuleWizard {
   }
 }
 
-module.exports = InstallModuleWizard;
+module.exports = InstallModuleAssistant;

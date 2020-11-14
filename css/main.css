@@ -644,34 +644,34 @@ h2 {
   display: none;
 }
 
-#module-settings-wizard {
+#module-settings-assistant {
   user-select: none;
 }
 
-#module-settings-wizard-init {
+#module-settings-assistant-init {
   padding-top: 2em;
   text-align: center;
 }
 
-#module-settings-wizard-add, #module-settings-wizard-add .content {
+#module-settings-assistant-add, #module-settings-assistant-add .content {
   min-height: 620px;
 }
 
-#module-settings-wizard .label {
+#module-settings-assistant .label {
   margin-left: 0.5em;
   cursor: default;
 }
 
-#module-settings-wizard .disabled {
+#module-settings-assistant .disabled {
   color: gray;
 }
 
-#module-settings-wizard .disabled-label {
+#module-settings-assistant .disabled-label {
   margin-left: 0.5em;
   color: grey;
 }
 
-#module-settings-wizard section.scrollable, #module-settings-wizard div.scrollable {
+#module-settings-assistant section.scrollable, #module-settings-assistant div.scrollable {
   overflow-y: scroll;
 }
 
@@ -953,7 +953,7 @@ h2 {
 .show-parallel-translations-button,
 .export-tagged-verses-button,
 .bible-translation-info-button,
-#module-settings-wizard-init button,
+#module-settings-assistant-init button,
 #start-module-search-button {
   margin-left: 0.8em;
   height: 2.2em;
@@ -1639,9 +1639,9 @@ s {
   color: whitesmoke;
 }
 
-.darkmode--activated .wizard > .steps .disabled a,
-.darkmode--activated .wizard > .steps .disabled a:hover,
-.darkmode--activated .wizard > .steps .disabled a:active {
+.darkmode--activated .assistant > .steps .disabled a,
+.darkmode--activated .assistant > .steps .disabled a:hover,
+.darkmode--activated .assistant > .steps .disabled a:active {
   background: none;
   background-color: gray;
 }

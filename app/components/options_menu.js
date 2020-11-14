@@ -30,11 +30,11 @@ class OptionsMenu {
 
   init() {
     $('#show-translation-settings-button').bind('click', function() {
-      app_controller.openModuleSettingsWizard('BIBLE'); 
+      app_controller.openModuleSettingsAssistant('BIBLE'); 
     });
   
     $('#show-dict-settings-button').bind('click', function() {
-      app_controller.openModuleSettingsWizard('DICT'); 
+      app_controller.openModuleSettingsAssistant('DICT'); 
     });
 
     this._toolBarOption = this.initDisplayOption('tool-bar-switch', 'showToolBar', () => { this.showOrHideToolBarBasedOnOption(); }, true);

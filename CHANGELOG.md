@@ -240,7 +240,7 @@ This is a bugfix release.
 
 ### Enhancements
 
-* Support on-demand update of repository configuration (in Bible Install Wizard).
+* Support on-demand update of repository configuration (in Bible Install Assistant).
 * Use lightyellow bg color for tags in bible browser to make them more visible / easier to read.
 * Optimized performance of tag list filter function.
 
@@ -264,8 +264,8 @@ This is a bugfix release.
 * Dutch translation (Thanks to Tom Lemmens)
 
 ### Enhancements
-* Possibility to quickly filter translations in bible installation wizard for Strong's feature.
-* Lock wizard dialog once installation or uninstallation of translation has started.
+* Possibility to quickly filter translations in bible installation assistant for Strong's feature.
+* Lock assistant dialog once installation or uninstallation of translation has started.
 * Show a message while migrations are executed on start-up.
 * Show chapter headers (can be shown / hidden with existing option 'Show headers').
 * Use a loading indicator in tagged verses popup, since tagged verses loading may take some time if there are many verses for one tag.
@@ -274,7 +274,7 @@ This is a bugfix release.
 
 ### Fixes
 * Fixed some locales.
-* Added error handling for bible translation install wizard.
+* Added error handling for bible translation install assistant.
 
 ### Enablers
 * Implemented Strong's parsing in [node-sword-interface](https://github.com/tobias-klein/node-sword-interface).
@@ -316,7 +316,7 @@ This is a bugfix release.
 ### Features
 * Tags can now be shown in a column next to the bible text. This is particularly useful when having a lot of tags, as it gives more overview and makes it easier to focus on the text.
 * Section titles (from SWORD modules) can now be shown/hidden based on an option in the menu.
-* Information about SWORD modules can now be shown before installation when using the bible translation wizard.
+* Information about SWORD modules can now be shown before installation when using the bible translation assistant.
 * Automatic upload of information to Sentry.io in case of JavaScript bugs
 * Additional packages/platforms:
   - macOS support (macOS build produces signed & notarized DMGs compatible with macOS 10.14 Mojave)
@@ -377,7 +377,7 @@ This is a bugfix release.
   * Shows Bible books in case of a tagged verse list
 
 ### Enhancements
-* Optimized language display in Bible installation wizard: Shows languages in multiple columns.
+* Optimized language display in Bible installation assistant: Shows languages in multiple columns.
 * Optimized formatting for Bible book selection menu.
 * Usability: Verses can now be tagged/untagged also by clicking on the tag label (before this only worked with the checkbox).
 
@@ -394,7 +394,7 @@ This is a bugfix release.
 * Automatic detection of books available in the current Bible translation, with adaption of the book selection menu
 
 ### Fixes
-* Improved performance for Bible installation wizard (UI does not block anymore for certain actions)
+* Improved performance for Bible installation assistant (UI does not block anymore for certain actions)
 
 
 ## [0.6.0] - 2019-02-03
