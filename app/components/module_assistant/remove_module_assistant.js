@@ -19,6 +19,11 @@
 const LanguageMapper = require('../../helpers/language_mapper.js');
 const ModuleAssistantHelper = require('./module_assistant_helper.js');
 
+/**
+ * The RemoteModuleAssistant component implements the dialog that handles module removals.
+ * 
+ * @category Component
+ */
 class RemoveModuleAssistant {
   constructor() {
     this._helper = new ModuleAssistantHelper();

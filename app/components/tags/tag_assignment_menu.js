@@ -16,7 +16,12 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-
+/**
+ * The TagAssignmentMenu component implements the menu event handling and dynamic movement of the tag assignment menu,
+ * which can move between the left toolbar and the dropdown button in the verse list menu.
+ * 
+ * @category Component
+ */
 class TagAssignmentMenu {
   constructor() {
     this.menuIsOpened = false;

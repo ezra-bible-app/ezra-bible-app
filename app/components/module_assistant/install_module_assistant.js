@@ -19,6 +19,11 @@
 const LanguageMapper = require('../../helpers/language_mapper.js');
 const ModuleAssistantHelper = require('./module_assistant_helper.js');
 
+/**
+ * The InstallModuleAssistant component implements the dialog that handles module installations.
+ * 
+ * @category Component
+ */
 class InstallModuleAssistant {
   constructor() {
     this._helper = new ModuleAssistantHelper();

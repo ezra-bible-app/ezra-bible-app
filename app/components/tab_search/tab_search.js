@@ -19,6 +19,11 @@
 const Mousetrap = require('mousetrap');
 const VerseSearch = require('./verse_search.js');
 
+/**
+ * The TabSearch component implements the in-tab search functionality which is enabled with CTRL + f / CMD + f.
+ * 
+ * @category Component
+ */
 class TabSearch {
   constructor() {
   }

@@ -16,6 +16,11 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+/**
+ * The TaggedVerseExport component implements the export of tagged verses into a Word document.
+ * 
+ * @category Component
+ */
 class TaggedVerseExport {
   constructor() {
     this.exportFilePath = null;

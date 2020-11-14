@@ -16,7 +16,11 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-
+/**
+ * The TagSelectionMenu component implements the menu for selecting a tagged verse list.
+ * 
+ * @category Component
+ */
 class TagSelectionMenu {
   constructor() {
     this.tag_menu_is_opened = false;
