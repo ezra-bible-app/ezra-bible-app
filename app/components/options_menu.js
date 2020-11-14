@@ -19,7 +19,7 @@
 const DisplayOption = require('../ui_models/display_option.js');
 
 /**
- * The OptionsMenu class handles all event handling related to the options menu.
+ * The OptionsMenu component handles all event handling related to the options menu.
  * 
  * @category Component
  */

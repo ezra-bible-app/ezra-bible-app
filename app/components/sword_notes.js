@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 /**
- * The SwordNotes class implements the handling of SWORD-based note elements
+ * The SwordNotes component implements the handling of SWORD-based note elements
  * like cross-references and footnotes.
  * 
  * @category Component

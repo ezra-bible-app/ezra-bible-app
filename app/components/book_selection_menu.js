@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 /**
- * The BookSelectionMenu class implements all event handling for the book selection menu.
+ * The BookSelectionMenu component implements all event handling for the book selection menu.
  * 
  * @category Component
  */

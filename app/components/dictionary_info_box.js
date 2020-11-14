@@ -19,7 +19,7 @@
 const jsStrongs = require('strongs');
 
 /**
- * The DictionaryInfoBox class handles all event handling and updates of the
+ * The DictionaryInfoBox component handles all event handling and updates of the
  * dictionary info box component.
  * 
  * @category Component
