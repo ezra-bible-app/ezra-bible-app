@@ -19,6 +19,11 @@
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
 
+/**
+ * The VerseListPopup component implements a dialog that shows a tagged verse list or a list of cross references.
+ * 
+ * @category Component
+ */
 class VerseListPopup {
   constructor() {
     this.verseBoxHelper = new VerseBoxHelper();

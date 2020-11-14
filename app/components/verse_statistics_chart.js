@@ -17,6 +17,11 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 
+/**
+ * The VerseStatisticsChart component renders a chart with verse count statistics per bible book. This is used by the ModuleSearch component.
+ * 
+ * @category Component
+ */
 class VerseStatisticsChart {
   constructor() {
     require('chart.js/dist/Chart.bundle.min.js');

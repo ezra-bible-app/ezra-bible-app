@@ -19,6 +19,11 @@
 const VerseBox = require("../ui_models/verse_box.js");
 const VerseReferenceHelper = require("../helpers/verse_reference_helper.js");
 
+/**
+ * The VerseSelection component implements the label that shows the currently selected verses.
+ * 
+ * @category Component
+ */
 class VerseSelection {
   constructor() {
     this.selected_verse_references = null;

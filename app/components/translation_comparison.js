@@ -18,6 +18,12 @@
 
 const VerseBox = require("../ui_models/verse_box.js");
 
+/**
+ * The TranslationComparison component implements a dialog that shows selected verses
+ * in a comparison table using all available Bible translations.
+ * 
+ * @category Component
+ */
 class TranslationComparison {
   constructor() {
     this.initCompareTranslationsBox();
