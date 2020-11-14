@@ -16,14 +16,20 @@ For user information (features, screenshots, install instructions) have a look a
 
 ![Ezra Project 0.11.0](https://ezra-project.net/assets/screenshots/ezra_project_0_11_0.png "Ezra Project 0.11.0")
 
-## Technology
+## Development
+
+### Technology
 Ezra Project is a cross-platform desktop application based on [Electron](https://electronjs.org/). It is programmed in JavaScript, uses [SQLite](https://www.sqlite.org) as its database and HTML with [jQuery UI](https://jqueryui.com/) for its frontend. Bible translation modules are managed using [node-sword-interface](https://github.com/tobias-klein/node-sword-interface).
 
 For more details regarding the used components have a look [here][tech].
 
 [tech]: https://github.com/tobias-klein/ezra-project/blob/master/TECH.md
 
-## Building Ezra Project
+### Design documentation
+
+Design documentation is available here: https://apidocs.ezra-project.net
+
+### Building Ezra Project
 
 Have a look at the build instructions [here][build].
 

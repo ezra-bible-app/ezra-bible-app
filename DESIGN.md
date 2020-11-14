@@ -8,8 +8,8 @@ erDiagram
     HTML-Component            }|--||    DOM                       : is-part-of
     Component-or-Controller   }|--|{    HTML-Component            : modifies
     Component-or-Controller   }|--|{    JS-Event                  : handles
-    Component-or-Controller   }|--||    SettingsHandler           : uses
-    SettingsHandler           ||--||    SettingsFile              : manages
+    Component-or-Controller   }|--||    electron-settings         : uses
+    electron-settings         ||--||    Settings-JSON-File        : manages
     Component-or-Controller   ||--|{    node-sword-interface      : uses
     Component-or-Controller   }|--|{    Sequelize-Model           : uses
     Sequelize-Model           ||--||    SQLite-DB-Table           : maps
