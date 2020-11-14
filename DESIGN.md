@@ -1,3 +1,21 @@
+## Architecture overview
+
+<div class="mermaid">
+erDiagram
+    ezra_init                 ||--|{    HTML-Component            : loads
+    ezra_init                 ||--||    Component-or-Controller   : initializes
+    ezra_init                 ||--||    Sequelize-Model           : initializes
+    HTML-Component            }|--||    DOM                       : is-part-of
+    Component-or-Controller   }|--|{    HTML-Component            : modifies
+    Component-or-Controller   }|--|{    JS-Event                  : handles
+    Component-or-Controller   }|--||    SettingsHandler           : uses
+    SettingsHandler           ||--||    SettingsFile              : manages
+    Component-or-Controller   ||--|{    node-sword-interface      : uses
+    Component-or-Controller   }|--|{    Sequelize-Model           : uses
+    Sequelize-Model           ||--||    SQLite-DB-Table           : maps
+    node-sword-interface      ||--||    SWORD-Engine              : wraps
+</div>
+
 ## File structure
 
 On the top-level these are the most relevant files and directories.
@@ -36,3 +54,5 @@ This directory contains static HTML files (e.g. for the book selection menu, the
 ### locales
 
 Here you find [i18next](https://www.i18next.com/) locale files (JSON format).
+
+<script src="https://unpkg.com/mermaid@8.8.3/dist/mermaid.min.js"></script>
