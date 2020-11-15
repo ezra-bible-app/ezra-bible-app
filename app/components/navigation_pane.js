@@ -117,7 +117,10 @@ class NavigationPane {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentBook = currentTab.getBook();
     var verse_counts = bible_chapter_verse_counts[currentBook];
-    var i = 1;
+    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var sectionTitleElements = currentVerseList.find('.sword-section-title');
+
+    var currentChapter = 1;
 
     var navigationHeader = document.createElement('div');
     navigationHeader.classList.add('nav-pane-header');
@@ -131,13 +134,49 @@ class NavigationPane {
 
       var current_chapter_link = document.createElement('a');
       current_chapter_link.setAttribute('class', 'navigation-link');
-      var href = 'javascript:app_controller.navigation_pane.goToChapter(' + i + ')';
+      var href = 'javascript:app_controller.navigation_pane.goToChapter(' + currentChapter + ')';
       current_chapter_link.setAttribute('href', href);
-      $(current_chapter_link).html(i);
-
+      $(current_chapter_link).html(currentChapter);
       navigationPane.append(current_chapter_link);
-      i++;
+
+      this.addHeaderNavLinksForChapter(navigationPane, sectionTitleElements, currentChapter);
+
+      currentChapter++;
     }
+  }
+
+  addHeaderNavLinksForChapter(navigationPane, sectionTitleElements, chapter) {
+    var chapterSectionHeaderIndex = 0;
+
+    for (var i = 0; i < sectionTitleElements.length; i++) {
+      var sectionTitleElement = sectionTitleElements[i];
+      var currentChapter = null;
+      var isSectionHeader = true;
+
+      try {
+        if (sectionTitleElement.getAttribute('subtype') == 'x-Chapter') {
+          isSectionHeader = false;
+        }
+      } catch (exc) {}
+      
+      try {
+        currentChapter = parseInt(sectionTitleElement.getAttribute('chapter'));
+      } catch (exc) {}
+
+      if (isSectionHeader && currentChapter != null && currentChapter == chapter) {
+        var sectionHeader = sectionTitleElement.innerText;
+        var currentHeaderLink = document.createElement('a');
+        currentHeaderLink.setAttribute('class', 'navigation-link header-link');
+        currentHeaderLink.setAttribute('href', '');
+        $(currentHeaderLink).html(sectionHeader);
+        if (chapterSectionHeaderIndex == 0) {
+          $(currentHeaderLink).addClass('header-link-first');
+        }
+
+        navigationPane.append(currentHeaderLink);
+        chapterSectionHeaderIndex++;
+      }
+    };
   }
 
   updateBookNavigation(tabIndex) {
