@@ -94,11 +94,16 @@ a.navigation-link:link, a.navigation-link:hover, a.navigation-link:visited, a.na
   color: #808080;
 }
 
+.darkmode--activated a.navigation-link {
+  border: 1px solid #444444;
+  color: whitesmoke;
+}
+
 a.hl-nav-element:link, a.navigation-link:hover, a.navigation-link:focus {
   border: 1px solid #74B2E2;
   border-radius: 4px;
   background-color: #e4f1fb;
-  color: black;
+  /*color: black;*/
 }
 
 .darkmode--activated a.navigation-link:link,
@@ -112,7 +117,8 @@ a.hl-nav-element:link, a.navigation-link:hover, a.navigation-link:focus {
 
 .darkmode--activated a.hl-nav-element:hover,
 .darkmode--activated a.hl-nav-element:link,
-.darkmode--activated a.navigation-link:hover {
+.darkmode--activated a.navigation-link:hover,
+.darkmode--activated a.header-link:hover {
   border: 1px solid #0b93d5;
   background: #003147 url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
 }
