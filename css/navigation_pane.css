@@ -60,8 +60,11 @@
   margin-bottom: 0.5em;
   text-align: center;
   border: 1px solid white;
-  width: 2em;
   float: left;
+}
+
+.navigation-pane:not(.navigation-pane-books) .navigation-link:not(.header-link) {
+  width: 2em;
 }
 
 .navigation-link, .header-link:not(.header-link-first) {
