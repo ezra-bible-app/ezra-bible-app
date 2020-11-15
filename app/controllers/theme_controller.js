@@ -66,6 +66,7 @@ class ThemeController {
 
           setTimeout(() => {
             this.toggleDarkModeIfNeeded();
+            hideGlobalLoadingIndicator();
           }, 100);
         }
       });
