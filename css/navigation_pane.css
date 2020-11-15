@@ -69,13 +69,18 @@
 }
 
 .header-link {
-  display: block;
+  display: none;
   width: fit-content;
+  max-width: 10.5em;
   text-align: left;
   border: 1px solid white;
   margin-left: 3em;
   float: left;
   clear: none;
+}
+
+.navigation-pane-headers .header-link {
+  display: block;
 }
 
 .header-link-first {

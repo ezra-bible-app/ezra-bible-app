@@ -267,9 +267,9 @@ class OptionsMenu {
 
   showOrHideHeaderNavigationBasedOnOption(tabIndex=undefined) {
     if (this._headerNavOption.isChecked()) {
-      console.log('header nav option checked!');
+      app_controller.navigation_pane.enableHeaderNavigation();
     } else {
-      console.log('header nav option unchecked!');
+      app_controller.navigation_pane.disableHeaderNavigation();
     }
   }
 

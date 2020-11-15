@@ -71,6 +71,16 @@ class NavigationPane {
     navigationPane.bind('mouseover', app_controller.verse_context_controller.hide_verse_expand_box);
   }
 
+  enableHeaderNavigation() {
+    var navigationPane = this.getCurrentNavigationPane();
+    navigationPane.addClass('navigation-pane-headers');
+  }
+
+  disableHeaderNavigation() {
+    var navigationPane = this.getCurrentNavigationPane();
+    navigationPane.removeClass('navigation-pane-headers');
+  }
+
   highlightNavElement(navElementNumber) {
     this.currentNavigationPane = this.getCurrentNavigationPane();
     this.allNavElementLinks = this.currentNavigationPane.find('.chapter-link');
