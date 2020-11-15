@@ -18,6 +18,7 @@ Furthermore, the following components are used (among others):
 To test Ezra Project, the following components are used:
 * [Cucumber.js](https://github.com/cucumber/cucumber-js)
 * [Chai](https://www.chaijs.com/)
+* [Spectron](https://www.electronjs.org/spectron)
 
 To package Ezra Project, the following components are used:
 * [electron-packager](https://github.com/electron/electron-packager)
