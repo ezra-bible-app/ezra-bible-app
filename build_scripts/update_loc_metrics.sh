@@ -20,7 +20,7 @@ cloc --md app \
 
 echo "" >> LOC_METRICS.md
 echo "The above metrics include both the frontend (mostly JavaScript) \
-and the [backend](https://github.com/tobias-klein/node-sword-interface) (mostly C++)." >> LOC_METRICS.md
+and the [backend](https://github.com/ezra-project/node-sword-interface) (mostly C++)." >> LOC_METRICS.md
 
 DATE=`date`
 echo "" >> LOC_METRICS.md

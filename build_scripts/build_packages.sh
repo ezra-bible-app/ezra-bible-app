@@ -7,7 +7,7 @@ mkdir /tmp/ezra-packages
 cd /tmp/ezra-packages
 
 echo "******** Getting latest files from GitHub ******** "
-git clone https://github.com/tobias-klein/ezra-project.git ezra-project
+git clone https://github.com/ezra-project/ezra-project.git ezra-project
 cp -a ezra-project ezra-project-ubuntu1804
 cp -a ezra-project ezra-project-ubuntu1910
 cp -a ezra-project ezra-project-ubuntu2004
