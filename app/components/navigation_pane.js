@@ -40,21 +40,31 @@ class NavigationPane {
     var currentXrefs = currentTab.getXrefs();
     var currentTextType = currentTab.getTextType();
     var navigationPane = this.getCurrentNavigationPane(tabIndex);
+    var headerNavOption = app_controller.optionsMenu._headerNavOption;
 
     if (currentTextType == 'book' && currentBook != null) { // Book text mode
 
       navigationPane.removeClass('navigation-pane-books');
-      navigationPane.addClass('navigation-pane-chapters');
+
+      if (headerNavOption.isChecked()) {
+        navigationPane.removeClass('navigation-pane-chapters');
+        navigationPane.addClass('navigation-pane-headers');
+      } else {
+        navigationPane.removeClass('navigation-pane-headers');
+        navigationPane.addClass('navigation-pane-chapters');
+      }
 
     } else if (currentTextType == 'tagged_verses' && currentTagTitleList != null ||
                currentTextType == 'xrefs' && currentXrefs != null) { // Verse list mode
 
       navigationPane.removeClass('navigation-pane-chapters');
+      navigationPane.removeClass('navigation-pane-headers');
       navigationPane.addClass('navigation-pane-books');
 
     } else if (currentTextType == 'search_results') {
 
       navigationPane.removeClass('navigation-pane-chapters');
+      navigationPane.removeClass('navigation-pane-headers');
       navigationPane.addClass('navigation-pane-books');
     }
     

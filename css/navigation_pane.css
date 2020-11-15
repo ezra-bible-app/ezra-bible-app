@@ -33,6 +33,10 @@
   width: 3em;
 }
 
+.navigation-pane-headers {
+  min-width: 15em;
+}
+
 .navigation-pane-books {
   min-width: 10em;
 }
@@ -56,6 +60,7 @@
   margin-bottom: 0.5em;
   text-align: center;
   border: 1px solid white;
+  width: 2em;
 }
 
 .navigation-pane-books .navigation-link {
