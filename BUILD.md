@@ -1,7 +1,7 @@
 # Building Ezra Project
 ## Windows
 
-On Windows Ezra Project is built using a pre-built SWORD library from the repository [sword-win32](https://github.com/ezra-project/sword-win32) to ease the build process. After having installed the [windows-build-tools][windows-build-tools] (VS 2015 Compiler) and the Ezra Project sources the build process can be simply invoked using the batch file build_win32.bat.
+On Windows Ezra Project is built using a pre-built SWORD library from the repository [sword-build-win32](https://github.com/ezra-project/sword-build-win32) to ease the build process. After having installed the [windows-build-tools][windows-build-tools] (VS 2015 Compiler) and the Ezra Project sources the build process can be simply invoked using the batch file build_win32.bat.
 
 ### Setup and build
 
