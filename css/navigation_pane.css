@@ -103,7 +103,7 @@ a.hl-nav-element:link, a.navigation-link:hover, a.navigation-link:focus {
   border: 1px solid #74B2E2;
   border-radius: 4px;
   background-color: #e4f1fb;
-  /*color: black;*/
+  color: black;
 }
 
 .darkmode--activated a.navigation-link:link,

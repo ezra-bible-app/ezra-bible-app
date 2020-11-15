@@ -73,7 +73,7 @@ class NavigationPane {
 
   highlightNavElement(navElementNumber) {
     this.currentNavigationPane = this.getCurrentNavigationPane();
-    this.allNavElementLinks = this.currentNavigationPane.find('.navigation-link');
+    this.allNavElementLinks = this.currentNavigationPane.find('.chapter-link');
 
     var navElementIndex = navElementNumber - 1;
     var lastHighlightedNavElementIndex = app_controller.tab_controller.getLastHighlightedNavElementIndex();
@@ -133,7 +133,7 @@ class NavigationPane {
       }
 
       var current_chapter_link = document.createElement('a');
-      current_chapter_link.setAttribute('class', 'navigation-link');
+      current_chapter_link.setAttribute('class', 'navigation-link chapter-link');
       var href = 'javascript:app_controller.navigation_pane.goToChapter(' + currentChapter + ')';
       current_chapter_link.setAttribute('href', href);
       $(current_chapter_link).html(currentChapter);
