@@ -306,9 +306,9 @@ class TranslationController {
     $('#bible-translation-info-box').dialog("open");
   }
 
-  hasBibleTranslationStrongs(translationId) {
+  getBibleTranslationModule(translationId) {
     if (translationId == null) {
-      return false;
+      return null;
     }
 
     var bibleTranslation = null;
@@ -317,11 +317,26 @@ class TranslationController {
       bibleTranslation = nsi.getLocalModule(translationId);
     } catch (e) {
       console.log("Could not get local sword module for " + translationId);
-      return false;
     }
+
+    return bibleTranslation;
+  }
+
+  hasBibleTranslationStrongs(translationId) {
+    var bibleTranslation = this.getBibleTranslationModule(translationId);
 
     if (bibleTranslation != null) {
       return bibleTranslation.hasStrongs;
+    } else {
+      return false;
+    }
+  }
+
+  hasBibleTranslationHeaders(translationId) {
+    var bibleTranslation = this.getBibleTranslationModule(translationId);
+
+    if (bibleTranslation != null) {
+      return bibleTranslation.hasHeadings;
     } else {
       return false;
     }

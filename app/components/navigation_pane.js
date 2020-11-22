@@ -36,6 +36,7 @@ class NavigationPane {
   initNavigationPaneForCurrentView(tabIndex=undefined) {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentBook = currentTab.getBook();
+    var currentTranslationId = currentTab.getBibleTranslationId();
     var currentTagTitleList = currentTab.getTagTitleList();
     var currentXrefs = currentTab.getXrefs();
     var currentTextType = currentTab.getTextType();
@@ -46,7 +47,9 @@ class NavigationPane {
 
       navigationPane.removeClass('navigation-pane-books');
 
-      if (headerNavOption.isChecked()) {
+      if (headerNavOption.isChecked() &&
+          app_controller.translation_controller.hasBibleTranslationHeaders(currentTranslationId)) {
+        
         navigationPane.removeClass('navigation-pane-chapters');
         navigationPane.addClass('navigation-pane-headers');
       } else {
