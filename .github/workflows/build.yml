@@ -198,11 +198,26 @@ jobs:
             name: ezra-project_centos8_latest
             path: ezra-project_latest.rpm
 
+    build-opensuse-leap:
+        name: Build OpenSuse Leap package
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v1
+        - name: Build
+          uses: ./.github/actions/build_opensuseleap
+          env:
+            SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
+        - name: Upload rpm file
+          uses: actions/upload-artifact@v1.0.0
+          with:
+            name: ezra-project_opensuse_leap_latest
+            path: ezra-project_latest.rpm
+
     release:
       if: "github.event.release"
       name: Publish release artifacts
       runs-on: ubuntu-latest
-      needs: [ build-win32, build-ubuntu-1804, build-ubuntu-1910, build-ubuntu-2004, build-mint18, build-mint19, build-buster, build-fedora29, build-fedora31, build-centos8 ]
+      needs: [ build-win32, build-ubuntu-1804, build-ubuntu-1910, build-ubuntu-2004, build-mint18, build-mint19, build-buster, build-fedora29, build-fedora31, build-centos8, build-opensuse-leap ]
 
       steps:
       - name: Download win32 package
@@ -260,6 +275,11 @@ jobs:
         with:
           name: ezra-project_centos8_latest
 
+      - name: Download opensuse leap package
+        uses: actions/download-artifact@v1.0.0
+        with:
+          name: ezra-project_opensuse_leap_latest
+
       - name: Rename artifacts for publishing
         shell: bash
         run: |
@@ -274,6 +294,7 @@ jobs:
           mv ezra-project_centos8_latest/ezra-project_latest.rpm packages/ezra-project_centos8-${GITHUB_REF##*/}.rpm
           mv ezra-project_fedora29_latest/ezra-project_latest.rpm packages/ezra-project_fedora29-${GITHUB_REF##*/}.rpm
           mv ezra-project_fedora31_latest/ezra-project_latest.rpm packages/ezra-project_fedora31-${GITHUB_REF##*/}.rpm
+          mv ezra-project_opensuse_leap_latest/ezra-project_latest.rpm packages/ezra-project_opensuse_leap-${GITHUB_REF##*/}.rpm
 #          mv ezra-project_fedora32_latest/ezra-project_latest.rpm packages/ezra-project_fedora32-${GITHUB_REF##*/}.rpm
 
       - name: Publish artifacts
