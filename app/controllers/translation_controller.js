@@ -65,15 +65,7 @@ class TranslationController {
   }
 
   initVerseSelection() {
-    var currentTab = app_controller.tab_controller.getTab();
-
-    if (currentTab != null) {
-      var currentBibleTranslationId = currentTab.getBibleTranslationId();
-
-      if (currentBibleTranslationId != null) {
-        app_controller.verse_selection.initHelper(reference_separator, nsi);
-      }
-    }
+    app_controller.verse_selection.initHelper(reference_separator, nsi);
   }
 
   loadSettings() {
