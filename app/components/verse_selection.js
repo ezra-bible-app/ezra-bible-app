@@ -205,13 +205,15 @@ class VerseSelection {
 
   verse_reference_list_to_absolute_verse_nr_list(list, bookId=undefined) {
     var new_list = new Array;
+
+    var translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     
     if (bookId == undefined) {
       bookId = app_controller.tab_controller.getTab().getBook();
     }
 
     for (var i = 0; i < list.length; i++) {
-      new_list.push(Number(this.verseReferenceHelper.referenceStringToAbsoluteVerseNr(bookId, list[i])));
+      new_list.push(Number(this.verseReferenceHelper.referenceStringToAbsoluteVerseNr(translationId, bookId, list[i])));
     }
 
     return new_list;

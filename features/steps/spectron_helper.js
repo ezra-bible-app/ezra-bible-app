@@ -62,10 +62,7 @@ class SpectronHelper {
   }
 
   async getVerseReferenceHelper() {
-    var nsi = await global.spectronHelper.getNSI();
-    var bibleChapterVerseCounts = nsi.getBibleChapterVerseCounts('KJV');
-    var verseReferenceHelper = new VerseReferenceHelper(bibleChapterVerseCounts, ':');
-
+    var verseReferenceHelper = new VerseReferenceHelper(':');
     return verseReferenceHelper;
   }
 
