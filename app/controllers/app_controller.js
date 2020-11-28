@@ -774,6 +774,7 @@ class AppController {
     if (currentTagIdList != "") {
       // Only reset the view if the current text type is not tagged_verses.
       // So, in case of tagged_verses we just "refresh" the view.
+      // FIXME: This leads to weird visual effects when switching from bible text
       var resetView = this.tab_controller.getTab().getTextType() != 'tagged_verses';
 
       this.text_controller.prepareForNewText(resetView, false);

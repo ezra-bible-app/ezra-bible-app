@@ -1,7 +1,7 @@
 # Building Ezra Project
 ## Windows
 
-On Windows Ezra Project is built using a pre-built SWORD library from the repository [sword-win32](https://github.com/tobias-klein/sword-win32) to ease the build process. After having installed the [windows-build-tools][windows-build-tools] (VS 2015 Compiler) and the Ezra Project sources the build process can be simply invoked using the batch file build_win32.bat.
+On Windows Ezra Project is built using a pre-built SWORD library from the repository [sword-build-win32](https://github.com/ezra-project/sword-build-win32) to ease the build process. After having installed the [windows-build-tools][windows-build-tools] (VS 2015 Compiler) and the Ezra Project sources the build process can be simply invoked using the batch file build_win32.bat.
 
 ### Setup and build
 
@@ -38,7 +38,7 @@ The installer binary within that directory is named `ezra_project-x.y.z-setup.ex
 
 ### Install dependencies
 
-The following dependencies are valid for Debian/Ubuntu based distributions. Ezra Project has been successfully built for other distributions as well (Linux Mint 18, Debian 10, Fedora 29, OpenSuse, CentOS). To see how the dependencies look like for your distribution, have a look at the Docker files [here](https://github.com/tobias-klein/ezra-project/tree/master/docker).
+The following dependencies are valid for Debian/Ubuntu based distributions. Ezra Project has been successfully built for other distributions as well (Linux Mint 18, Debian 10, Fedora 29, OpenSuse, CentOS). To see how the dependencies look like for your distribution, have a look at the Docker files [here](https://github.com/ezra-project/ezra-project/tree/master/docker).
 
 Install compiler/lib dependencies by running the following command: `sudo apt-get install build-essential npm nodejs libsqlite3-0 libcurl4-gnutls-dev libicu-dev pkg-config git cmake`
 
