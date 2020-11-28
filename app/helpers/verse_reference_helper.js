@@ -26,8 +26,8 @@ class VerseReferenceHelper
   referenceToAbsoluteVerseNr(translation, bible_book, chapter, verse) {
     var verse_nr = 0;
   
-    for (var i = 0; i < chapter - 1; i++) {
-      var currentChapterVerseCount = this._nsi.getChapterVerseCount(translation, bible_book, chapter);
+    for (var i = 1; i <= chapter - 1; i++) {
+      var currentChapterVerseCount = this._nsi.getChapterVerseCount(translation, bible_book, i);
       verse_nr += currentChapterVerseCount;
     }
     
