@@ -30,8 +30,8 @@ class VerseSelection {
     this.selected_verse_box_elements = null;
   }
 
-  initBibleChapterVerseCounts(bibleChapterVerseCounts, referenceSeparator) {
-    this.verseReferenceHelper = new VerseReferenceHelper(bibleChapterVerseCounts, referenceSeparator);
+  init(referenceSeparator) {
+    this.verseReferenceHelper = new VerseReferenceHelper(referenceSeparator);
   }
 
   initSelectable(verseList) {

@@ -18,8 +18,7 @@
 
 class VerseReferenceHelper
 {
-  constructor(bibleChapterVerseCounts, referenceSeparator) {
-    this._bibleChapterVerseCounts = bibleChapterVerseCounts;
+  constructor(referenceSeparator) {
     this._referenceSeparator = referenceSeparator;
   }
 
