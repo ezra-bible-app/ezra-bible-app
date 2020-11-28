@@ -64,8 +64,21 @@ class TranslationController {
     });
   }
 
+  initVerseSelection() {
+    var currentTab = app_controller.tab_controller.getTab();
+
+    if (currentTab != null) {
+      var currentBibleTranslationId = currentTab.getBibleTranslationId();
+
+      if (currentBibleTranslationId != null) {
+        app_controller.verse_selection.init(reference_separator);
+      }
+    }
+  }
+
   loadSettings() {
     app_controller.book_selection_menu.updateAvailableBooks();
+    this.initVerseSelection();
   }
 
   getBibleSelect(tabIndex) {
