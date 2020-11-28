@@ -86,7 +86,9 @@ class NavigationPane {
 
   highlightNavElement(navElementNumber) {
     this.currentNavigationPane = this.getCurrentNavigationPane();
-    this.allNavElementLinks = this.currentNavigationPane.find('.chapter-link');
+
+    var navElementType = '.chapter-link';
+    this.allNavElementLinks = this.currentNavigationPane.find(navElementType);
 
     var navElementIndex = navElementNumber - 1;
     var lastHighlightedNavElementIndex = app_controller.tab_controller.getLastHighlightedNavElementIndex();
@@ -139,6 +141,7 @@ class NavigationPane {
     navigationHeader.classList.add('nav-pane-header');
     navigationHeader.innerText = i18n.t('bible-browser.chapter-header');
     navigationPane.append(navigationHeader);
+    var sectionHeaderNumber = 1;
 
     for (var key in verse_counts) {
       if (key == 'nil') {
@@ -152,14 +155,21 @@ class NavigationPane {
       $(current_chapter_link).html(currentChapter);
       navigationPane.append(current_chapter_link);
 
-      this.addHeaderNavLinksForChapter(navigationPane, sectionTitleElements, currentChapter);
+      sectionHeaderNumber = this.addHeaderNavLinksForChapter(navigationPane, sectionTitleElements, currentChapter, sectionHeaderNumber);
 
       currentChapter++;
     }
   }
 
-  addHeaderNavLinksForChapter(navigationPane, sectionTitleElements, chapter) {
+  getUnixSectionHeaderId(tabId, sectionHeader) {
+    var unixSectionHeader = sectionHeader.toLowerCase().replace(/ /g, "-");
+    var unixSectionHeaderId = tabId + ' ' + 'section-header-' + unixSectionHeader;
+    return unixSectionHeaderId;
+  }
+
+  addHeaderNavLinksForChapter(navigationPane, sectionTitleElements, chapter, sectionHeaderNumber=1) {
     var chapterSectionHeaderIndex = 0;
+    var cachedVerseListTabId = this.getCachedVerseListTabId();
 
     for (var i = 0; i < sectionTitleElements.length; i++) {
       var sectionTitleElement = sectionTitleElements[i];
@@ -178,9 +188,12 @@ class NavigationPane {
 
       if (isSectionHeader && currentChapter != null && currentChapter == chapter) {
         var sectionHeader = sectionTitleElement.innerText;
+        var sectionHeaderId = this.getUnixSectionHeaderId(cachedVerseListTabId, sectionHeader);
+
         var currentHeaderLink = document.createElement('a');
         currentHeaderLink.setAttribute('class', 'navigation-link header-link');
-        currentHeaderLink.setAttribute('href', '');
+        var sectionHeaderLink = `javascript:app_controller.navigation_pane.goToSection('${sectionHeaderId}', ${sectionHeaderNumber})`;
+        currentHeaderLink.setAttribute('href', sectionHeaderLink);
         $(currentHeaderLink).html(sectionHeader);
         if (chapterSectionHeaderIndex == 0) {
           $(currentHeaderLink).addClass('header-link-first');
@@ -188,8 +201,11 @@ class NavigationPane {
 
         navigationPane.append(currentHeaderLink);
         chapterSectionHeaderIndex++;
+        sectionHeaderNumber++;
       }
     };
+
+    return sectionHeaderNumber;
   }
 
   updateBookNavigation(tabIndex) {
@@ -276,6 +292,14 @@ class NavigationPane {
       var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
       currentVerseListFrame[0].scrollTop = 0;
     }
+  }
+
+  goToSection(sectionHeaderId, sectionHeaderNumber) {
+    // TODO: This is not implemented yet!
+    //this.highlightNavElement(sectionHeaderNumber);
+
+    var reference = '#' + sectionHeaderId;
+    window.location = reference;
   }
 
   goToBook(book, bookNr) {

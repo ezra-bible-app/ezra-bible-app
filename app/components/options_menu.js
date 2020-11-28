@@ -182,35 +182,42 @@ class OptionsMenu {
   }
 
   showOrHideSectionTitlesBasedOnOption(tabIndex=undefined) {
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentVerseList = app_controller.getCurrentVerseList(tabIndex)[0];
+    var tabId = app_controller.tab_controller.getSelectedTabId(tabIndex);
 
     // The following code moves the sword-section-title elements before the verse-boxes
-    var all_section_titles = currentVerseList.find('.sword-section-title');
+    var all_section_titles = currentVerseList.querySelectorAll('.sword-section-title');
     for (var i = 0; i < all_section_titles.length; i++) {
-      var currentSectionTitle = $(all_section_titles[i]);
-      var currentParent = currentSectionTitle.parent();
+      var currentSectionTitle = all_section_titles[i];
+      var currentParent = currentSectionTitle.parentNode;
       var closestChapterHeader = currentSectionTitle.closest('.chapter-header');
 
-      if (currentParent.hasClass('verse-text')) {
+      if (currentParent.classList.contains('verse-text')) {
         var verseBox = currentSectionTitle.closest('.verse-box');
-        var closestChapterHeader = verseBox.prev();
+        var closestChapterHeader = verseBox.previousElementSibling;
 
         // Check if the section title contains the text from the chapter header
         // In this case we hide the section title, because we would otherwise show redundant information
-        if (closestChapterHeader.text().length > 0 &&
-            currentSectionTitle.text().toUpperCase().indexOf(closestChapterHeader.text().toUpperCase()) != -1) {
+        if (closestChapterHeader.innerText.length > 0 &&
+            currentSectionTitle.innerText.toUpperCase().indexOf(closestChapterHeader.innerText.toUpperCase()) != -1) {
 
-          currentSectionTitle.hide();
+          $(currentSectionTitle).hide();
         }
+
+        // Generate anchor for section headers
+        var sectionHeaderAnchor = document.createElement('a');
+        var unixSectionHeaderId = app_controller.navigation_pane.getUnixSectionHeaderId(tabId, currentSectionTitle.innerText);
+        sectionHeaderAnchor.setAttribute('name', unixSectionHeaderId);
+        verseBox.before(sectionHeaderAnchor);
 
         verseBox.before(currentSectionTitle);
       }
     }
 
     if (this._sectionTitleOption.isChecked()) {
-      currentVerseList.addClass('verse-list-with-section-titles');
+      currentVerseList.classList.add('verse-list-with-section-titles');
     } else {
-      currentVerseList.removeClass('verse-list-with-section-titles');
+      currentVerseList.classList.remove('verse-list-with-section-titles');
     }
   }
 
@@ -330,6 +337,7 @@ class OptionsMenu {
     this.showOrHideToolBarBasedOnOption(tabIndex);
     this.showOrHideBookIntroductionBasedOnOption(tabIndex);
     this.showOrHideSectionTitlesBasedOnOption(tabIndex);
+    this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     this.showOrHideXrefsBasedOnOption(tabIndex);
     this.showOrHideFootnotesBasedOnOption(tabIndex);
     this.showOrHideVerseTagsBasedOnOption(tabIndex);
