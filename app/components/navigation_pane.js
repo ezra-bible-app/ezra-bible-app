@@ -105,8 +105,9 @@ class NavigationPane {
   updateChapterNavigation(tabIndex) {
     var navigationPane = this.getCurrentNavigationPane(tabIndex);
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
+    var currentTranslation = currentTab.getBibleTranslationId();
     var currentBook = currentTab.getBook();
-    var verse_counts = bible_chapter_verse_counts[currentBook];
+    var chapterCount = nsi.getBookChapterCount(currentTranslation, currentBook);
     var i = 1;
 
     var navigationHeader = document.createElement('div');
@@ -114,11 +115,7 @@ class NavigationPane {
     navigationHeader.innerText = i18n.t('bible-browser.chapter-header');
     navigationPane.append(navigationHeader);
 
-    for (var key in verse_counts) {
-      if (key == 'nil') {
-        break;
-      }
-
+    for (var i = 1; i <= chapterCount; i++) {
       var current_chapter_link = document.createElement('a');
       current_chapter_link.setAttribute('class', 'navigation-link');
       var href = 'javascript:app_controller.navigation_pane.goToChapter(' + i + ')';
@@ -126,7 +123,6 @@ class NavigationPane {
       $(current_chapter_link).html(i);
 
       navigationPane.append(current_chapter_link);
-      i++;
     }
   }
 
@@ -174,7 +170,7 @@ class NavigationPane {
       currentTextType = currentTab.getTextType();
     }
 
-    if (currentTextType == 'book' && bible_chapter_verse_counts != null) { // Update navigation based on book chapters
+    if (currentTextType == 'book') { // Update navigation based on book chapters
 
       this.updateChapterNavigation(tabIndex);
 

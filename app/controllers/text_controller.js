@@ -88,7 +88,6 @@ class TextController {
 
     if (textType == 'book') { // Book text mode
       if (tabIndex === undefined) { $('#export-tagged-verses-button').addClass('ui-state-disabled'); }
-      app_controller.translation_controller.initChapterVerseCounts();
       currentVerseListMenu.find('.book-select-button').addClass('focused-button');
 
       if (cachedText != null) {

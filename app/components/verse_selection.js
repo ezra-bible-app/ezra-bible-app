@@ -276,10 +276,12 @@ class VerseSelection {
     var end_verse = end_reference.split(reference_separator)[1];
   
     var passage = start_chapter + reference_separator + start_verse;
+    var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    var endChapterVerseCount = nsi.getChapterVerseCount(bibleTranslationId, book_short_title, end_chapter);
   
     if (book_short_title != null &&
         start_verse == "1" &&
-        end_verse == bible_chapter_verse_counts[book_short_title][end_chapter]) {
+        end_verse == endChapterVerseCount) {
   
       /* Whole chapter sections */
       

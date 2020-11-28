@@ -64,22 +64,8 @@ class TranslationController {
     });
   }
 
-  initChapterVerseCounts() {
-    var currentTab = app_controller.tab_controller.getTab();
-
-    if (currentTab != null) {
-      var currentBibleTranslationId = currentTab.getBibleTranslationId();
-
-      if (currentBibleTranslationId != null) {
-        bible_chapter_verse_counts = nsi.getBibleChapterVerseCounts(currentBibleTranslationId);
-        app_controller.verse_selection.initBibleChapterVerseCounts(bible_chapter_verse_counts, reference_separator);
-      }
-    }
-  }
-
   loadSettings() {
     app_controller.book_selection_menu.updateAvailableBooks();
-    this.initChapterVerseCounts();
   }
 
   getBibleSelect(tabIndex) {
@@ -329,7 +315,6 @@ class TranslationController {
 
   async handleBibleTranslationChange(oldBibleTranslationId, newBibleTranslationId) {
     app_controller.book_selection_menu.updateAvailableBooks();
-    this.initChapterVerseCounts();
     this.onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId);
   }
 
