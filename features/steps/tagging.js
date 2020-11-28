@@ -10,6 +10,7 @@ Given('I create the tag {string}', async function (tagName) {
   await newTagTitleInput.setValue(tagName);
 
   await global.app.client.keys('Enter');
+  await spectronHelper.sleep(500);
 });
 
 When('I assign the tag {string} to the current verse selection', async function (tagName) {
@@ -34,7 +35,7 @@ When('I assign the tag {string} to the current verse selection', async function 
     }
   }
 
-  assert(tagFound, `The tag '${tagName}' could not be found in the list!`)
+  assert(tagFound, `The tag '${tagName}' could not be found in the list!`);
 });
 
 Then('the tag {string} is assigned to {string} in the database', async function (tagName, verseReference) {
@@ -55,14 +56,18 @@ Then('the tag {string} is assigned to {string} in the database', async function 
   var verseReferenceHelper = await global.spectronHelper.getVerseReferenceHelper();
   var absoluteVerseNumber = verseReferenceHelper.referenceStringToAbsoluteVerseNr('KJV', bookId, verseReferenceString);
 
-  var verseReference = await global.models.VerseReference.findOne({
+  var dbVerseReference = await global.models.VerseReference.findOne({
     where: {
       bibleBookId: dbBibleBook.id,
       absoluteVerseNrEng: absoluteVerseNumber
     }
   });
 
-  var verseTags = await global.models.VerseTag.findByVerseReferenceIds(verseReference.id);
+  var allVerseReferences = await global.models.VerseReference.findAll();
+
+  assert(dbVerseReference != null, `Could not find a db verse reference for the given book (${dbBibleBook.id}) and absoluteVerseNr (${absoluteVerseNumber}). Total # of verse references: ${allVerseReferences.length}`);
+
+  var verseTags = await global.models.VerseTag.findByVerseReferenceIds(dbVerseReference.id);
 
   assert(verseTags.length == 1, `Expected 1 verse tag, but got ${verseTags.length}`);
 
