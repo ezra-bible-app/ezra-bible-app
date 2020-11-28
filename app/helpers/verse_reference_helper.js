@@ -18,15 +18,16 @@
 
 class VerseReferenceHelper
 {
-  constructor(referenceSeparator) {
+  constructor(referenceSeparator, nsi) {
     this._referenceSeparator = referenceSeparator;
+    this._nsi = nsi;
   }
 
   referenceToAbsoluteVerseNr(translation, bible_book, chapter, verse) {
     var verse_nr = 0;
   
     for (var i = 0; i < chapter - 1; i++) {
-      var currentChapterVerseCount = nsi.getChapterVerseCount(translation, bible_book, chapter);
+      var currentChapterVerseCount = this._nsi.getChapterVerseCount(translation, bible_book, chapter);
       verse_nr += currentChapterVerseCount;
     }
     

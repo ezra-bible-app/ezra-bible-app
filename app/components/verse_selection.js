@@ -30,8 +30,8 @@ class VerseSelection {
     this.selected_verse_box_elements = null;
   }
 
-  init(referenceSeparator) {
-    this.verseReferenceHelper = new VerseReferenceHelper(referenceSeparator);
+  initHelper(referenceSeparator, nsi) {
+    this.verseReferenceHelper = new VerseReferenceHelper(referenceSeparator, nsi);
   }
 
   initSelectable(verseList) {

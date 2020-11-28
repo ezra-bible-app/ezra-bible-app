@@ -71,7 +71,7 @@ class TranslationController {
       var currentBibleTranslationId = currentTab.getBibleTranslationId();
 
       if (currentBibleTranslationId != null) {
-        app_controller.verse_selection.init(reference_separator);
+        app_controller.verse_selection.initHelper(reference_separator, nsi);
       }
     }
   }
