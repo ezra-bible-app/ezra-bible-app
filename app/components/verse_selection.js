@@ -272,17 +272,17 @@ class VerseSelection {
   }
 
   format_passage_reference_for_view(book_short_title, start_reference, end_reference) {  
-    var start_chapter = start_reference.split(reference_separator)[0];
-    var start_verse = start_reference.split(reference_separator)[1];
-    var end_chapter = end_reference.split(reference_separator)[0];
-    var end_verse = end_reference.split(reference_separator)[1];
+    var start_chapter = parseInt(start_reference.split(reference_separator)[0]);
+    var start_verse = parseInt(start_reference.split(reference_separator)[1]);
+    var end_chapter = parseInt(end_reference.split(reference_separator)[0]);
+    var end_verse = parseInt(end_reference.split(reference_separator)[1]);
   
     var passage = start_chapter + reference_separator + start_verse;
     var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     var endChapterVerseCount = nsi.getChapterVerseCount(bibleTranslationId, book_short_title, end_chapter);
   
     if (book_short_title != null &&
-        start_verse == "1" &&
+        start_verse == 1 &&
         end_verse == endChapterVerseCount) {
   
       /* Whole chapter sections */
