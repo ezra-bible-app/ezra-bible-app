@@ -144,11 +144,18 @@ class NavigationPane {
     app_controller.tab_controller.setLastHighlightedNavElementIndex(navElementIndex, navElementType=='HEADER');
   }
 
-  highlightSearchResult(navElementNumber) {  
+  highlightSearchResult(navElementNumber, navElementType='BOOK') {
+    var navElementTypeClass = 'chapter-link';
+    if (navElementType == 'OTHER') {
+      navElementTypeClass = 'navigation-link';
+    }
+
     if (this.currentNavigationPane == null) {
       this.currentNavigationPane = this.getCurrentNavigationPane();
-      this.allNavElementLinks = this.currentNavigationPane.find('.navigation-link');
     }
+
+    // This may be slow, because it's executed every time we search!
+    this.allNavElementLinks = this.currentNavigationPane.find('.' + navElementTypeClass);
 
     var navElementIndex = navElementNumber - 1;
     var highlightedLink = $(this.allNavElementLinks[navElementIndex]);

@@ -140,7 +140,7 @@ class AppController {
 
         var bibleBookNumber = this.getVerseListBookNumber(currentBookName, bookHeaders);
         if (bibleBookNumber != -1) {
-          this.navigation_pane.highlightSearchResult(bibleBookNumber);
+          this.navigation_pane.highlightSearchResult(bibleBookNumber, "OTHER");
         }
       }
     }
