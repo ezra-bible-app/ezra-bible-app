@@ -614,8 +614,12 @@ class AppController {
 
       var verseReferenceContent = verseBox.querySelector('.verse-reference-content').innerText;
       var mouseOverChapter = this.getChapterFromReference(verseReferenceContent);
-      var sectionId = this.getSectionIdFromVerseBox(verseBox);
       this.navigation_pane.highlightNavElement(mouseOverChapter);
+
+      var sectionTitle = this.verse_box_helper.getSectionTitleFromVerseBox(verseBox);
+      if (sectionTitle != null) {
+        this.navigation_pane.highlightSectionHeaderByTitle(sectionTitle);
+      }
 
     } else if (currentTextType == 'tagged_verses' && currentTagIdList != null || currentTextType == 'xrefs' || currentTextType == 'search_results') {
 
@@ -862,24 +866,6 @@ class AppController {
   getVerseFromReference(reference) {
     var verse = Number(reference.split(reference_separator)[1]);
     return verse;
-  }
-
-  getSectionIdFromVerseBox(verseBox) {
-    var absoluteVerseNumber = parseInt(verseBox.getAttribute('abs-verse-nr'));
-    var currentElement = verseBox;
-    var sectionId = null;
-    var tabId = app_controller.tab_controller.getSelectedTabId();
-
-    for (var i = absoluteVerseNumber; i >= 1; i--) {
-      currentElement = currentElement.previousElementSibling;
-
-      if (currentElement.classList.contains('sword-section-title')) {
-        sectionId = app_controller.navigation_pane.getUnixSectionHeaderId(tabId, currentElement.innerText);
-        break;
-      }
-    }
-
-    return sectionId;
   }
 
   jumpToReference(reference, highlight) {

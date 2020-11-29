@@ -84,6 +84,20 @@ class NavigationPane {
     navigationPane.removeClass('navigation-pane-headers');
   }
 
+  highlightSectionHeaderByTitle(title) {
+    this.currentNavigationPane = this.getCurrentNavigationPane();
+
+    var allHeaderLinks = this.currentNavigationPane[0].querySelectorAll('.header-link');
+    for (var i = 0; i < allHeaderLinks.length; i++) {
+      var currentTitle = allHeaderLinks[i].innerText;
+
+      if (currentTitle == title) {
+        this.highlightNavElement(i + 1, true);
+        break;
+      }
+    }
+  }
+
   highlightNavElement(navElementNumber, isHeaderNav=false) {
     this.currentNavigationPane = this.getCurrentNavigationPane();
     var navElementType = null;
