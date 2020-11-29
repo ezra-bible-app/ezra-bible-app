@@ -92,38 +92,56 @@ class NavigationPane {
       var currentTitle = allHeaderLinks[i].innerText;
 
       if (currentTitle == title) {
-        this.highlightNavElement(i + 1, true);
+        this.highlightNavElement(i + 1, false, "HEADER");
         break;
       }
     }
   }
 
-  highlightNavElement(navElementNumber, isHeaderNav=false) {
-    this.currentNavigationPane = this.getCurrentNavigationPane();
-    var navElementType = null;
-
-    if (isHeaderNav) {
-      navElementType = '.header-link'
+  scrollNavElementIntoView(navElementIndex, allNavElements) {
+    var scrollToNavElementIndex = navElementIndex;
+    if (navElementIndex < allNavElements.length - 3) {
+      scrollToNavElementIndex += 3;
     } else {
-      var navElementType = '.chapter-link';
+      scrollToNavElementIndex += (allNavElements.length - 1 - navElementIndex);
+    }
+    
+    var scrollToNavElement = allNavElements[scrollToNavElementIndex];
+    scrollToNavElement.scrollIntoView(false);
+  }
+
+  highlightNavElement(navElementNumber, onClick=false, navElementType='CHAPTER') {
+    this.currentNavigationPane = this.getCurrentNavigationPane();
+    var navElementTypeClass = null;
+
+    if (navElementType == 'CHAPTER') {
+      navElementTypeClass = '.chapter-link';      
+    } else if (navElementType == 'HEADER') {
+      navElementTypeClass = '.header-link';
+    } else {
+      navElementTypeClass = '.navigation-link';
     }
 
-    this.allNavElementLinks = this.currentNavigationPane.find(navElementType);
+    this.allNavElementLinks = this.currentNavigationPane.find(navElementTypeClass);
 
     var navElementIndex = navElementNumber - 1;
-    var lastHighlightedNavElementIndex = app_controller.tab_controller.getLastHighlightedNavElementIndex(isHeaderNav);
+    var lastHighlightedNavElementIndex = app_controller.tab_controller.getLastHighlightedNavElementIndex(navElementType=='HEADER');
 
     if ((this.allNavElementLinks.length - 1) >= navElementIndex &&
         (this.allNavElementLinks.length - 1) >= lastHighlightedNavElementIndex) {
 
       var lastHighlightedNavElementLink = $(this.allNavElementLinks[lastHighlightedNavElementIndex]);
       var highlightedNavElementLink = $(this.allNavElementLinks[navElementIndex]);
-
+    
       lastHighlightedNavElementLink.removeClass('hl-nav-element');
       highlightedNavElementLink.addClass('hl-nav-element');
+
+      if (!onClick) {
+        this.scrollNavElementIntoView(navElementIndex, this.allNavElementLinks);
+      }
     }
 
-    app_controller.tab_controller.setLastHighlightedNavElementIndex(navElementIndex, isHeaderNav);
+    app_controller.tab_controller.setLastHighlightedNavElementIndex(navElementIndex, navElementType=='HEADER');
   }
 
   highlightSearchResult(navElementNumber) {  
@@ -295,7 +313,7 @@ class NavigationPane {
   }
 
   goToChapter(chapter) {
-    this.highlightNavElement(chapter);
+    this.highlightNavElement(chapter, onClick=true);
 
     var reference = '#top';
 
@@ -310,15 +328,15 @@ class NavigationPane {
   }
 
   goToSection(sectionHeaderId, sectionHeaderNumber, chapter) {
-    this.highlightNavElement(chapter);
-    this.highlightNavElement(sectionHeaderNumber, true);
+    this.highlightNavElement(chapter, true);
+    this.highlightNavElement(sectionHeaderNumber, true, "HEADER");
 
     var reference = '#' + sectionHeaderId;
     window.location = reference;
   }
 
   goToBook(book, bookNr) {
-    this.highlightNavElement(bookNr);
+    this.highlightNavElement(bookNr, true, "OTHER");
 
     var cachedVerseListTabId = this.getCachedVerseListTabId();
     var reference = '#' + cachedVerseListTabId + ' ' + book;

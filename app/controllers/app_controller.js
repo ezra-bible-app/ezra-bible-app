@@ -628,7 +628,7 @@ class AppController {
       
       var bibleBookNumber = this.getVerseListBookNumber(currentBookName);
       if (bibleBookNumber != -1) {
-        this.navigation_pane.highlightNavElement(bibleBookNumber);
+        this.navigation_pane.highlightNavElement(bibleBookNumber, false, "OTHER");
       }
     }
   }
