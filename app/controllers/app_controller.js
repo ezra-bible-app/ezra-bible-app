@@ -604,7 +604,7 @@ class AppController {
   }
 
   async onVerseBoxMouseOver(event) {
-    var verseBox = $(event.target).closest('.verse-box');
+    var verseBox = event.target.closest('.verse-box');
     var currentTab = this.tab_controller.getTab();
     var currentBook = currentTab.getBook();
     var currentTagIdList = currentTab.getTagIdList();
@@ -612,13 +612,14 @@ class AppController {
 
     if (currentTextType == 'book' && currentBook != null) {
 
-      var verseReferenceContent = verseBox.find('.verse-reference-content').text();
+      var verseReferenceContent = verseBox.querySelector('.verse-reference-content').innerText;
       var mouseOverChapter = this.getChapterFromReference(verseReferenceContent);
+      var sectionId = this.getSectionIdFromVerseBox(verseBox);
       this.navigation_pane.highlightNavElement(mouseOverChapter);
 
     } else if (currentTextType == 'tagged_verses' && currentTagIdList != null || currentTextType == 'xrefs' || currentTextType == 'search_results') {
 
-      var bibleBookShortTitle = new VerseBox(verseBox[0]).getBibleBookShortTitle();
+      var bibleBookShortTitle = new VerseBox(verseBox).getBibleBookShortTitle();
       var currentBookName = models.BibleBook.getBookTitleTranslation(bibleBookShortTitle);
       
       var bibleBookNumber = this.getVerseListBookNumber(currentBookName);
@@ -861,6 +862,24 @@ class AppController {
   getVerseFromReference(reference) {
     var verse = Number(reference.split(reference_separator)[1]);
     return verse;
+  }
+
+  getSectionIdFromVerseBox(verseBox) {
+    var absoluteVerseNumber = parseInt(verseBox.getAttribute('abs-verse-nr'));
+    var currentElement = verseBox;
+    var sectionId = null;
+    var tabId = app_controller.tab_controller.getSelectedTabId();
+
+    for (var i = absoluteVerseNumber; i >= 1; i--) {
+      currentElement = currentElement.previousElementSibling;
+
+      if (currentElement.classList.contains('sword-section-title')) {
+        sectionId = app_controller.navigation_pane.getUnixSectionHeaderId(tabId, currentElement.innerText);
+        break;
+      }
+    }
+
+    return sectionId;
   }
 
   jumpToReference(reference, highlight) {
