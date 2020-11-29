@@ -84,14 +84,20 @@ class NavigationPane {
     navigationPane.removeClass('navigation-pane-headers');
   }
 
-  highlightNavElement(navElementNumber) {
+  highlightNavElement(navElementNumber, isHeaderNav=false) {
     this.currentNavigationPane = this.getCurrentNavigationPane();
+    var navElementType = null;
 
-    var navElementType = '.chapter-link';
+    if (isHeaderNav) {
+      navElementType = '.header-link'
+    } else {
+      var navElementType = '.chapter-link';
+    }
+
     this.allNavElementLinks = this.currentNavigationPane.find(navElementType);
 
     var navElementIndex = navElementNumber - 1;
-    var lastHighlightedNavElementIndex = app_controller.tab_controller.getLastHighlightedNavElementIndex();
+    var lastHighlightedNavElementIndex = app_controller.tab_controller.getLastHighlightedNavElementIndex(isHeaderNav);
 
     if ((this.allNavElementLinks.length - 1) >= navElementIndex &&
         (this.allNavElementLinks.length - 1) >= lastHighlightedNavElementIndex) {
@@ -103,7 +109,7 @@ class NavigationPane {
       highlightedNavElementLink.addClass('hl-nav-element');
     }
 
-    app_controller.tab_controller.setLastHighlightedNavElementIndex(navElementIndex);
+    app_controller.tab_controller.setLastHighlightedNavElementIndex(navElementIndex, isHeaderNav);
   }
 
   highlightSearchResult(navElementNumber) {  
@@ -189,11 +195,12 @@ class NavigationPane {
 
       if (isSectionHeader && currentChapter != null && currentChapter == chapter) {
         var sectionHeader = sectionTitleElement.innerText;
+        var chapter = sectionTitleElement.getAttribute('chapter');
         var sectionHeaderId = this.getUnixSectionHeaderId(cachedVerseListTabId, sectionHeader);
 
         var currentHeaderLink = document.createElement('a');
         currentHeaderLink.setAttribute('class', 'navigation-link header-link');
-        var sectionHeaderLink = `javascript:app_controller.navigation_pane.goToSection('${sectionHeaderId}', ${sectionHeaderNumber})`;
+        var sectionHeaderLink = `javascript:app_controller.navigation_pane.goToSection('${sectionHeaderId}', ${sectionHeaderNumber}, ${chapter})`;
         currentHeaderLink.setAttribute('href', sectionHeaderLink);
         $(currentHeaderLink).html(sectionHeader);
         if (chapterSectionHeaderIndex == 0) {
@@ -295,9 +302,9 @@ class NavigationPane {
     }
   }
 
-  goToSection(sectionHeaderId, sectionHeaderNumber) {
-    // TODO: This is not implemented yet!
-    //this.highlightNavElement(sectionHeaderNumber);
+  goToSection(sectionHeaderId, sectionHeaderNumber, chapter) {
+    this.highlightNavElement(chapter);
+    this.highlightNavElement(sectionHeaderNumber, true);
 
     var reference = '#' + sectionHeaderId;
     window.location = reference;

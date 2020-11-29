@@ -565,14 +565,24 @@ class TabController {
     return i18n.t("menu.search") + ": " + searchTerm;
   }
 
-  setLastHighlightedNavElementIndex(index) {
+  setLastHighlightedNavElementIndex(index, isHeaderNav=false) {
     var currentTabIndex = this.getSelectedTabIndex();
-    this.metaTabs[currentTabIndex].lastHighlightedNavElementIndex = index;
+
+    if (isHeaderNav) {
+      this.metaTabs[currentTabIndex].lastHighlightedHeaderIndex = index;
+    } else {
+      this.metaTabs[currentTabIndex].lastHighlightedChapterIndex = index;
+    }
   }
 
-  getLastHighlightedNavElementIndex() {
+  getLastHighlightedNavElementIndex(isHeaderNav=false) {
     var currentTabIndex = this.getSelectedTabIndex();
-    return this.metaTabs[currentTabIndex].lastHighlightedNavElementIndex;
+
+    if (isHeaderNav) {
+      return this.metaTabs[currentTabIndex].lastHighlightedHeaderIndex;
+    } else {
+      return this.metaTabs[currentTabIndex].lastHighlightedChapterIndex;
+    }
   }
 
   setCurrentBibleTranslationId(bibleTranslationId) {
