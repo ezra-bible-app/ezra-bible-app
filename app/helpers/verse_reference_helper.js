@@ -18,25 +18,24 @@
 
 class VerseReferenceHelper
 {
-  constructor(bibleChapterVerseCounts, referenceSeparator) {
-    this._bibleChapterVerseCounts = bibleChapterVerseCounts;
+  constructor(referenceSeparator, nsi) {
     this._referenceSeparator = referenceSeparator;
+    this._nsi = nsi;
   }
 
-  referenceToAbsoluteVerseNr(bible_book, chapter, verse) {
+  referenceToAbsoluteVerseNr(translation, bible_book, chapter, verse) {
     var verse_nr = 0;
   
-    for (var i = 0; i < chapter - 1; i++) {
-      if (this._bibleChapterVerseCounts[bible_book][i] != undefined) {
-        verse_nr += this._bibleChapterVerseCounts[bible_book][i];
-      }
+    for (var i = 1; i <= chapter - 1; i++) {
+      var currentChapterVerseCount = this._nsi.getChapterVerseCount(translation, bible_book, i);
+      verse_nr += currentChapterVerseCount;
     }
     
     verse_nr += Number(verse);
     return verse_nr;
   }
   
-  referenceStringToAbsoluteVerseNr(bible_book_short_title, reference, split_support=false) {
+  referenceStringToAbsoluteVerseNr(translation, bible_book_short_title, reference, split_support=false) {
     if (reference == null) {
       return;
     }
@@ -50,7 +49,7 @@ class VerseReferenceHelper
     var ref_chapter = Number(reference.split(this._referenceSeparator)[0]);
     var ref_verse = Number(reference.split(this._referenceSeparator)[1]);
   
-    var verse_nr = this.referenceToAbsoluteVerseNr(bible_book_short_title, ref_chapter, ref_verse);
+    var verse_nr = this.referenceToAbsoluteVerseNr(translation, bible_book_short_title, ref_chapter, ref_verse);
     if (split_support) verse_nr += 0.5;
   
     return verse_nr;

@@ -136,12 +136,11 @@ class NavigationPane {
   updateChapterNavigation(tabIndex) {
     var navigationPane = this.getCurrentNavigationPane(tabIndex);
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
+    var currentTranslation = currentTab.getBibleTranslationId();
     var currentBook = currentTab.getBook();
-    var verse_counts = bible_chapter_verse_counts[currentBook];
+    var chapterCount = nsi.getBookChapterCount(currentTranslation, currentBook);
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
     var sectionTitleElements = currentVerseList.find('.sword-section-title');
-
-    var currentChapter = 1;
 
     var navigationHeader = document.createElement('div');
     navigationHeader.classList.add('nav-pane-header');
@@ -149,21 +148,15 @@ class NavigationPane {
     navigationPane.append(navigationHeader);
     var sectionHeaderNumber = 1;
 
-    for (var key in verse_counts) {
-      if (key == 'nil') {
-        break;
-      }
-
+    for (var i = 1; i <= chapterCount; i++) {
       var current_chapter_link = document.createElement('a');
       current_chapter_link.setAttribute('class', 'navigation-link chapter-link');
-      var href = 'javascript:app_controller.navigation_pane.goToChapter(' + currentChapter + ')';
+      var href = 'javascript:app_controller.navigation_pane.goToChapter(' + i + ')';
       current_chapter_link.setAttribute('href', href);
-      $(current_chapter_link).html(currentChapter);
+      $(current_chapter_link).html(i);
       navigationPane.append(current_chapter_link);
 
-      sectionHeaderNumber = this.addHeaderNavLinksForChapter(navigationPane, sectionTitleElements, currentChapter, sectionHeaderNumber);
-
-      currentChapter++;
+      sectionHeaderNumber = this.addHeaderNavLinksForChapter(navigationPane, sectionTitleElements, i, sectionHeaderNumber);
     }
   }
 
@@ -260,7 +253,7 @@ class NavigationPane {
       currentTextType = currentTab.getTextType();
     }
 
-    if (currentTextType == 'book' && bible_chapter_verse_counts != null) { // Update navigation based on book chapters
+    if (currentTextType == 'book') { // Update navigation based on book chapters
 
       this.updateChapterNavigation(tabIndex);
 
