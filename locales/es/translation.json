@@ -16,7 +16,7 @@
       "show-module-info": "Mostrar información del módulo"
     },
     "search-menu": {
-      "search": "Búsqueda",
+      "search": "Buscar",
       "case-sensitive": "Respetar mayúsculas y minúsculas",
       "exact-phrase": "Frase exacta",
       "multi-word": "Múltiples palabras",
@@ -27,7 +27,7 @@
       "bible-header": "Configure traducciones de La Biblia",
       "dict-header": "Configure diccionarios",
       "module-type-bible": "Las traducciones de La Biblia",
-      "module-type-dict": "Los diccionarios",
+      "module-type-dict": "Diccionarios",
       "internet-usage-note": "<b>NOTA IMPORTANTE</b><br/><br/>{{module_type}} se instalan usando su conexión a internet.<br/>si se encuentra en un lugar dónde los Cristianos enfrentan persecución,<br/>usted <b>NO</b> debería usar este software debido al riesgo de ser detectado!",
       "add-translations": "Añadir traducciones de La Biblia",
       "remove-translations": "Quitar traducciones de La Biblia",
@@ -115,7 +115,7 @@
       "applying-migrations": "Migrando la base de datos a una nueva versión"
     },
     "help": {
-      "help-text-no-tags-book-opened": "Para comenzar trabajando con las etiquetas, debe crear su primera etiqueta pulsando en el botón <i>New&nbsp;tag</i>.<br/><br/>Después usted podrá seleccionar los textos de La Biblia que desee, para ello pulse sobre un verso o arrastre para seleccionar varios versos y asigne los a la etiqueta que acaba de crear.",
+      "help-text-no-tags-book-opened": "Para comenzar trabajando con las etiquetas, debe crear su primera etiqueta pulsando en el botón <i>Nueva&nbsp;etiqueta</i>.<br/><br/>Después usted podrá seleccionar los textos de La Biblia que desee, para ello pulse sobre un verso o arrastre para seleccionar varios versos y asigne los a la etiqueta que acaba de crear.",
       "help-text-no-tags-no-book-opened": "Para comenzar a trabajar con etiquetas, seleccione primero un libro de La Bilia que desea estudiar.",
       "help-text-translation-available": "Para empezar, seleccione un libro o etiqueta del menú que se muestra encima.",
       "help-text-no-translations": "Primero instale al menos una traducción de La Biblia . <br/><br/>Usted puede abrir el asistente de instalación pulsando en el ícono de configuración y después <i>Configure translations</i>."
@@ -137,7 +137,7 @@
       "export-tagged-verse-list": "Exportar la lista de versos etiquetados a un documento Word",
       "run-export": "Iniciar exportación",
       "tag-filter": "Filtro: ",
-      "recently-used-filter": "Filtrar usados recientemente",
+      "recently-used-filter": "Filtrar usadas recientemente",
       "assign-tag": "Asignar etiqueta",
       "delete-tag-permanently": "Eliminar esta etiqueta permanentemente",
       "none-selected": "Nada",
@@ -174,11 +174,11 @@
       "show-dictionary": "Mostrar diccionario",
       "show-tags": "Mostrar etiquetas",
       "show-notes": "Mostrar notas",
-      "limit-notes-display-size": "Tamaño de la nota que se mostrará",
+      "limit-notes-display-size": "Limitar el tamaño de las notas",
       "use-tags-column": "Usar columna de etiquetas",
       "use-night-mode": "Modo Noche",
       "tag-statistics": "Estadística de etiquetas",
-      "comparing-translations-for": "Comparar traducciones para",
+      "comparing-translations-for": "Comparar traducciones de",
       "strongs-number-not-valid": "Este número Strongs no es válido!",
       "open-new-tab": "Abrir nueva pestaña",
       "open-verselist-in-new-tab": "Abrir la lista de versos en una nueva pestaña",
