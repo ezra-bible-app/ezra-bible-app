@@ -64,22 +64,13 @@ class TranslationController {
     });
   }
 
-  initChapterVerseCounts() {
-    var currentTab = app_controller.tab_controller.getTab();
-
-    if (currentTab != null) {
-      var currentBibleTranslationId = currentTab.getBibleTranslationId();
-
-      if (currentBibleTranslationId != null) {
-        bible_chapter_verse_counts = nsi.getBibleChapterVerseCounts(currentBibleTranslationId);
-        app_controller.verse_selection.initBibleChapterVerseCounts(bible_chapter_verse_counts, reference_separator);
-      }
-    }
+  initVerseSelection() {
+    app_controller.verse_selection.initHelper(reference_separator, nsi);
   }
 
   loadSettings() {
     app_controller.book_selection_menu.updateAvailableBooks();
-    this.initChapterVerseCounts();
+    this.initVerseSelection();
   }
 
   getBibleSelect(tabIndex) {
@@ -306,9 +297,9 @@ class TranslationController {
     $('#bible-translation-info-box').dialog("open");
   }
 
-  hasBibleTranslationStrongs(translationId) {
+  getBibleTranslationModule(translationId) {
     if (translationId == null) {
-      return false;
+      return null;
     }
 
     var bibleTranslation = null;
@@ -317,8 +308,13 @@ class TranslationController {
       bibleTranslation = nsi.getLocalModule(translationId);
     } catch (e) {
       console.log("Could not get local sword module for " + translationId);
-      return false;
     }
+
+    return bibleTranslation;
+  }
+
+  hasBibleTranslationStrongs(translationId) {
+    var bibleTranslation = this.getBibleTranslationModule(translationId);
 
     if (bibleTranslation != null) {
       return bibleTranslation.hasStrongs;
@@ -327,9 +323,18 @@ class TranslationController {
     }
   }
 
+  hasBibleTranslationHeaders(translationId) {
+    var bibleTranslation = this.getBibleTranslationModule(translationId);
+
+    if (bibleTranslation != null) {
+      return bibleTranslation.hasHeadings;
+    } else {
+      return false;
+    }
+  }
+
   async handleBibleTranslationChange(oldBibleTranslationId, newBibleTranslationId) {
     app_controller.book_selection_menu.updateAvailableBooks();
-    this.initChapterVerseCounts();
     this.onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId);
   }
 

@@ -698,12 +698,12 @@ h2 {
 
 #display-options-menu {
   padding-top: 0.5em;
-  width: 38em;
+  width: 40em;
 }
 
 .options-group {
   float: left;
-  width: 19em;
+  width: 20em;
 }
 
 .selection-menu-footer {
@@ -932,7 +932,7 @@ h2 {
 
 .switch-box {
   clear: both;
-  width: 80%;
+  width: 85%;
   margin-bottom: 1em;
   margin-left: auto;
   margin-right: auto;

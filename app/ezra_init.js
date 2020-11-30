@@ -57,7 +57,6 @@ let app_controller = null;
 let tags_controller = null;
 let theme_controller = new ThemeController();
 let reference_separator = ':';
-let bible_chapter_verse_counts = {};
 
 function sleep(time) {
   return new Promise(resolve => {

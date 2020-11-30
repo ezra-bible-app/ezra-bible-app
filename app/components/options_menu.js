@@ -21,6 +21,13 @@ const DisplayOption = require('../ui_models/display_option.js');
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
  * 
+ * To add a new option, perform the following steps:
+ * - Add the html element for the new option in `/html/display_options_menu.html`
+ * - Add the locales for the new option in /locales/en/translation.json and copy the string to all other languages
+ * - Add a function `showOrHide<Option>BasedOnOption()` that responds to changes
+ * - Add the initialization for the new option in the `init()` function
+ * - Add a call to `showOrHide<Option>BasedOnOption()` in `refreshViewBasedOnOptions()`
+ * 
  * @category Component
  */
 class OptionsMenu {
@@ -43,6 +50,7 @@ class OptionsMenu {
     this._xrefsOption = this.initDisplayOption('xrefs-switch', 'showXrefs', () => { this.showOrHideXrefsBasedOnOption(); });
     this._footnotesOption = this.initDisplayOption('footnotes-switch', 'showFootnotes', () => { this.showOrHideFootnotesBasedOnOption(); });
     this._dictionaryOption = this.initDisplayOption('strongs-switch', 'showStrongs', () => { this.showOrHideStrongsBasedOnOption(); });
+    this._headerNavOption = this.initDisplayOption('header-nav-switch', 'showHeaderNavigation', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
     this._tagsOption = this.initDisplayOption('tags-switch', 'showTags', () => { this.showOrHideVerseTagsBasedOnOption(); }, true);
     this._tagsColumnOption = this.initDisplayOption('tags-column-switch', 'useTagsColumn', () => { this.changeTagsLayoutBasedOnOption(); });
     this._verseNotesOption = this.initDisplayOption('verse-notes-switch', 'showNotes', () => { this.showOrHideVerseNotesBasedOnOption(); });
@@ -174,35 +182,42 @@ class OptionsMenu {
   }
 
   showOrHideSectionTitlesBasedOnOption(tabIndex=undefined) {
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentVerseList = app_controller.getCurrentVerseList(tabIndex)[0];
+    var tabId = app_controller.tab_controller.getSelectedTabId(tabIndex);
 
     // The following code moves the sword-section-title elements before the verse-boxes
-    var all_section_titles = currentVerseList.find('.sword-section-title');
+    var all_section_titles = currentVerseList.querySelectorAll('.sword-section-title');
     for (var i = 0; i < all_section_titles.length; i++) {
-      var currentSectionTitle = $(all_section_titles[i]);
-      var currentParent = currentSectionTitle.parent();
+      var currentSectionTitle = all_section_titles[i];
+      var currentParent = currentSectionTitle.parentNode;
       var closestChapterHeader = currentSectionTitle.closest('.chapter-header');
 
-      if (currentParent.hasClass('verse-text')) {
+      if (currentParent.classList.contains('verse-text')) {
         var verseBox = currentSectionTitle.closest('.verse-box');
-        var closestChapterHeader = verseBox.prev();
+        var closestChapterHeader = verseBox.previousElementSibling;
 
         // Check if the section title contains the text from the chapter header
         // In this case we hide the section title, because we would otherwise show redundant information
-        if (closestChapterHeader.text().length > 0 &&
-            currentSectionTitle.text().toUpperCase().indexOf(closestChapterHeader.text().toUpperCase()) != -1) {
+        if (closestChapterHeader.innerText.length > 0 &&
+            currentSectionTitle.innerText.toUpperCase().indexOf(closestChapterHeader.innerText.toUpperCase()) != -1) {
 
-          currentSectionTitle.hide();
+          $(currentSectionTitle).hide();
         }
+
+        // Generate anchor for section headers
+        var sectionHeaderAnchor = document.createElement('a');
+        var unixSectionHeaderId = app_controller.navigation_pane.getUnixSectionHeaderId(tabId, currentSectionTitle.innerText);
+        sectionHeaderAnchor.setAttribute('name', unixSectionHeaderId);
+        verseBox.before(sectionHeaderAnchor);
 
         verseBox.before(currentSectionTitle);
       }
     }
 
     if (this._sectionTitleOption.isChecked()) {
-      currentVerseList.addClass('verse-list-with-section-titles');
+      currentVerseList.classList.add('verse-list-with-section-titles');
     } else {
-      currentVerseList.removeClass('verse-list-with-section-titles');
+      currentVerseList.classList.remove('verse-list-with-section-titles');
     }
   }
 
@@ -254,6 +269,14 @@ class OptionsMenu {
 
     if (updated) {
       uiHelper.resizeAppContainer();
+    }
+  }
+
+  showOrHideHeaderNavigationBasedOnOption(tabIndex=undefined) {
+    if (this._headerNavOption.isChecked()) {
+      app_controller.navigation_pane.enableHeaderNavigation();
+    } else {
+      app_controller.navigation_pane.disableHeaderNavigation();
     }
   }
 
@@ -314,6 +337,7 @@ class OptionsMenu {
     this.showOrHideToolBarBasedOnOption(tabIndex);
     this.showOrHideBookIntroductionBasedOnOption(tabIndex);
     this.showOrHideSectionTitlesBasedOnOption(tabIndex);
+    this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     this.showOrHideXrefsBasedOnOption(tabIndex);
     this.showOrHideFootnotesBasedOnOption(tabIndex);
     this.showOrHideVerseTagsBasedOnOption(tabIndex);

@@ -50,10 +50,11 @@ Then('the book of Ephesians is opened in the current tab', async function () {
   var lastVerseBox = verseBoxes[verseBoxes.length - 1];
   var lastVerseText = await lastVerseBox.$('.verse-text');
   var lastVerseTextContent = await lastVerseText.getText();
+  lastVerseTextContent = lastVerseTextContent.replace("\n", " ");
   lastVerseTextContent = lastVerseTextContent.trim();
 
   var ephesiansOneOne = "Paul, an apostle of Jesus Christ by the will of God, to the saints which are at Ephesus, and to the faithful in Christ Jesus:";
-  var ephesiansSixTwentyFour = "Grace be with all them that love our Lord Jesus Christ in sincerity. Amen.";
+  var ephesiansSixTwentyFour = "Grace be with all them that love our Lord Jesus Christ in sincerity. Amen. Written from Rome unto the Ephesians by Tychicus.";
 
   assert(firstVerseTextContent == ephesiansOneOne, `The first verse does not match the expected content! Actual: "${firstVerseTextContent}" / Expected: "${ephesiansOneOne}"`);
   assert(lastVerseTextContent == ephesiansSixTwentyFour, `The last verse does not match the expected content! Actual: "${lastVerseTextContent}" / Expected: "${ephesiansSixTwentyFour}"`);
@@ -65,7 +66,7 @@ Given('I select the verse {string}', async function (selectedVerse) {
   var verseReferenceString = splittedSelectedVerse[1];
   this.selectedBookId = global.spectronHelper.getBookShortTitle(book);
   var verseReferenceHelper = await global.spectronHelper.getVerseReferenceHelper();
-  var absoluteVerseNumber = verseReferenceHelper.referenceStringToAbsoluteVerseNr(this.selectedBookId, verseReferenceString);
+  var absoluteVerseNumber = verseReferenceHelper.referenceStringToAbsoluteVerseNr('KJV', this.selectedBookId, verseReferenceString);
 
   var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
   this.selectedVerseBox = await verseListTabs.$('.verse-nr-' + absoluteVerseNumber);

@@ -30,8 +30,8 @@ class VerseSelection {
     this.selected_verse_box_elements = null;
   }
 
-  initBibleChapterVerseCounts(bibleChapterVerseCounts, referenceSeparator) {
-    this.verseReferenceHelper = new VerseReferenceHelper(bibleChapterVerseCounts, referenceSeparator);
+  initHelper(referenceSeparator, nsi) {
+    this.verseReferenceHelper = new VerseReferenceHelper(referenceSeparator, nsi);
   }
 
   initSelectable(verseList) {
@@ -205,13 +205,15 @@ class VerseSelection {
 
   verse_reference_list_to_absolute_verse_nr_list(list, bookId=undefined) {
     var new_list = new Array;
+
+    var translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     
     if (bookId == undefined) {
       bookId = app_controller.tab_controller.getTab().getBook();
     }
 
     for (var i = 0; i < list.length; i++) {
-      new_list.push(Number(this.verseReferenceHelper.referenceStringToAbsoluteVerseNr(bookId, list[i])));
+      new_list.push(Number(this.verseReferenceHelper.referenceStringToAbsoluteVerseNr(translationId, bookId, list[i])));
     }
 
     return new_list;
@@ -270,16 +272,18 @@ class VerseSelection {
   }
 
   format_passage_reference_for_view(book_short_title, start_reference, end_reference) {  
-    var start_chapter = start_reference.split(reference_separator)[0];
-    var start_verse = start_reference.split(reference_separator)[1];
-    var end_chapter = end_reference.split(reference_separator)[0];
-    var end_verse = end_reference.split(reference_separator)[1];
+    var start_chapter = parseInt(start_reference.split(reference_separator)[0]);
+    var start_verse = parseInt(start_reference.split(reference_separator)[1]);
+    var end_chapter = parseInt(end_reference.split(reference_separator)[0]);
+    var end_verse = parseInt(end_reference.split(reference_separator)[1]);
   
     var passage = start_chapter + reference_separator + start_verse;
+    var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    var endChapterVerseCount = nsi.getChapterVerseCount(bibleTranslationId, book_short_title, end_chapter);
   
     if (book_short_title != null &&
-        start_verse == "1" &&
-        end_verse == bible_chapter_verse_counts[book_short_title][end_chapter]) {
+        start_verse == 1 &&
+        end_verse == endChapterVerseCount) {
   
       /* Whole chapter sections */
       

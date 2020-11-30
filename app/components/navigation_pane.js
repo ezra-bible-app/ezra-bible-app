@@ -36,56 +36,126 @@ class NavigationPane {
   initNavigationPaneForCurrentView(tabIndex=undefined) {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentBook = currentTab.getBook();
+    var currentTranslationId = currentTab.getBibleTranslationId();
     var currentTagTitleList = currentTab.getTagTitleList();
     var currentXrefs = currentTab.getXrefs();
     var currentTextType = currentTab.getTextType();
     var navigationPane = this.getCurrentNavigationPane(tabIndex);
+    var headerNavOption = app_controller.optionsMenu._headerNavOption;
 
     if (currentTextType == 'book' && currentBook != null) { // Book text mode
 
       navigationPane.removeClass('navigation-pane-books');
-      navigationPane.addClass('navigation-pane-chapters');
+
+      if (headerNavOption.isChecked() &&
+          app_controller.translation_controller.hasBibleTranslationHeaders(currentTranslationId)) {
+        
+        navigationPane.removeClass('navigation-pane-chapters');
+        navigationPane.addClass('navigation-pane-headers');
+      } else {
+        navigationPane.removeClass('navigation-pane-headers');
+        navigationPane.addClass('navigation-pane-chapters');
+      }
 
     } else if (currentTextType == 'tagged_verses' && currentTagTitleList != null ||
                currentTextType == 'xrefs' && currentXrefs != null) { // Verse list mode
 
       navigationPane.removeClass('navigation-pane-chapters');
+      navigationPane.removeClass('navigation-pane-headers');
       navigationPane.addClass('navigation-pane-books');
 
     } else if (currentTextType == 'search_results') {
 
       navigationPane.removeClass('navigation-pane-chapters');
+      navigationPane.removeClass('navigation-pane-headers');
       navigationPane.addClass('navigation-pane-books');
     }
     
     navigationPane.bind('mouseover', app_controller.verse_context_controller.hide_verse_expand_box);
   }
 
-  highlightNavElement(navElementNumber) {
+  enableHeaderNavigation() {
+    var navigationPane = this.getCurrentNavigationPane();
+    navigationPane.addClass('navigation-pane-headers');
+  }
+
+  disableHeaderNavigation() {
+    var navigationPane = this.getCurrentNavigationPane();
+    navigationPane.removeClass('navigation-pane-headers');
+  }
+
+  highlightSectionHeaderByTitle(title) {
     this.currentNavigationPane = this.getCurrentNavigationPane();
-    this.allNavElementLinks = this.currentNavigationPane.find('.navigation-link');
+
+    var allHeaderLinks = this.currentNavigationPane[0].querySelectorAll('.header-link');
+    for (var i = 0; i < allHeaderLinks.length; i++) {
+      var currentTitle = allHeaderLinks[i].innerText;
+
+      if (currentTitle == title) {
+        this.highlightNavElement(i + 1, false, "HEADER");
+        break;
+      }
+    }
+  }
+
+  scrollNavElementIntoView(navElementIndex, allNavElements) {
+    var scrollToNavElementIndex = navElementIndex;
+    if (navElementIndex < allNavElements.length - 3) {
+      scrollToNavElementIndex += 3;
+    } else {
+      scrollToNavElementIndex += (allNavElements.length - 1 - navElementIndex);
+    }
+    
+    var scrollToNavElement = allNavElements[scrollToNavElementIndex];
+    scrollToNavElement.scrollIntoView(false);
+  }
+
+  highlightNavElement(navElementNumber, onClick=false, navElementType='CHAPTER') {
+    this.currentNavigationPane = this.getCurrentNavigationPane();
+    var navElementTypeClass = null;
+
+    if (navElementType == 'CHAPTER') {
+      navElementTypeClass = '.chapter-link';      
+    } else if (navElementType == 'HEADER') {
+      navElementTypeClass = '.header-link';
+    } else {
+      navElementTypeClass = '.navigation-link';
+    }
+
+    this.allNavElementLinks = this.currentNavigationPane.find(navElementTypeClass);
 
     var navElementIndex = navElementNumber - 1;
-    var lastHighlightedNavElementIndex = app_controller.tab_controller.getLastHighlightedNavElementIndex();
+    var lastHighlightedNavElementIndex = app_controller.tab_controller.getLastHighlightedNavElementIndex(navElementType=='HEADER');
 
     if ((this.allNavElementLinks.length - 1) >= navElementIndex &&
         (this.allNavElementLinks.length - 1) >= lastHighlightedNavElementIndex) {
 
       var lastHighlightedNavElementLink = $(this.allNavElementLinks[lastHighlightedNavElementIndex]);
       var highlightedNavElementLink = $(this.allNavElementLinks[navElementIndex]);
-
+    
       lastHighlightedNavElementLink.removeClass('hl-nav-element');
       highlightedNavElementLink.addClass('hl-nav-element');
+
+      if (!onClick) {
+        this.scrollNavElementIntoView(navElementIndex, this.allNavElementLinks);
+      }
     }
 
-    app_controller.tab_controller.setLastHighlightedNavElementIndex(navElementIndex);
+    app_controller.tab_controller.setLastHighlightedNavElementIndex(navElementIndex, navElementType=='HEADER');
   }
 
-  highlightSearchResult(navElementNumber) {  
+  highlightSearchResult(navElementNumber, navElementType='BOOK') {
+    var navElementTypeClass = 'chapter-link';
+    if (navElementType == 'OTHER') {
+      navElementTypeClass = 'navigation-link';
+    }
+
     if (this.currentNavigationPane == null) {
       this.currentNavigationPane = this.getCurrentNavigationPane();
-      this.allNavElementLinks = this.currentNavigationPane.find('.navigation-link');
     }
+
+    // This may be slow, because it's executed every time we search!
+    this.allNavElementLinks = this.currentNavigationPane.find('.' + navElementTypeClass);
 
     var navElementIndex = navElementNumber - 1;
     var highlightedLink = $(this.allNavElementLinks[navElementIndex]);
@@ -105,29 +175,77 @@ class NavigationPane {
   updateChapterNavigation(tabIndex) {
     var navigationPane = this.getCurrentNavigationPane(tabIndex);
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
+    var currentTranslation = currentTab.getBibleTranslationId();
     var currentBook = currentTab.getBook();
-    var verse_counts = bible_chapter_verse_counts[currentBook];
-    var i = 1;
+    var chapterCount = nsi.getBookChapterCount(currentTranslation, currentBook);
+    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var sectionTitleElements = currentVerseList.find('.sword-section-title');
 
     var navigationHeader = document.createElement('div');
     navigationHeader.classList.add('nav-pane-header');
     navigationHeader.innerText = i18n.t('bible-browser.chapter-header');
     navigationPane.append(navigationHeader);
+    var sectionHeaderNumber = 1;
 
-    for (var key in verse_counts) {
-      if (key == 'nil') {
-        break;
-      }
-
+    for (var i = 1; i <= chapterCount; i++) {
       var current_chapter_link = document.createElement('a');
-      current_chapter_link.setAttribute('class', 'navigation-link');
+      current_chapter_link.setAttribute('class', 'navigation-link chapter-link');
       var href = 'javascript:app_controller.navigation_pane.goToChapter(' + i + ')';
       current_chapter_link.setAttribute('href', href);
       $(current_chapter_link).html(i);
-
       navigationPane.append(current_chapter_link);
-      i++;
+
+      sectionHeaderNumber = this.addHeaderNavLinksForChapter(tabIndex, navigationPane, sectionTitleElements, i, sectionHeaderNumber);
     }
+  }
+
+  getUnixSectionHeaderId(tabId, sectionHeader) {
+    var unixSectionHeader = sectionHeader.toLowerCase();
+    unixSectionHeader = unixSectionHeader.replace(/ /g, "-").replace(/['`()]/g, "");
+    var unixSectionHeaderId = tabId + ' ' + 'section-header-' + unixSectionHeader;
+    return unixSectionHeaderId;
+  }
+
+  addHeaderNavLinksForChapter(tabIndex, navigationPane, sectionTitleElements, chapter, sectionHeaderNumber=1) {
+    var chapterSectionHeaderIndex = 0;
+    var cachedVerseListTabId = this.getCachedVerseListTabId(tabIndex);
+
+    for (var i = 0; i < sectionTitleElements.length; i++) {
+      var sectionTitleElement = sectionTitleElements[i];
+      var currentChapter = null;
+      var isSectionHeader = true;
+
+      try {
+        if (sectionTitleElement.getAttribute('subtype') == 'x-Chapter') {
+          isSectionHeader = false;
+        }
+      } catch (exc) {}
+      
+      try {
+        currentChapter = parseInt(sectionTitleElement.getAttribute('chapter'));
+      } catch (exc) {}
+
+      if (isSectionHeader && currentChapter != null && currentChapter == chapter) {
+        var sectionHeader = sectionTitleElement.innerText;
+        var chapter = sectionTitleElement.getAttribute('chapter');
+        var sectionHeaderId = this.getUnixSectionHeaderId(cachedVerseListTabId, sectionHeader);
+
+        var currentHeaderLink = document.createElement('a');
+        currentHeaderLink.setAttribute('class', 'navigation-link header-link');
+        var sectionHeaderLink = `javascript:app_controller.navigation_pane.goToSection('${sectionHeaderId}', ${sectionHeaderNumber}, ${chapter})`;
+        currentHeaderLink.setAttribute('href', sectionHeaderLink);
+        $(currentHeaderLink).html(sectionHeader);
+        if (chapterSectionHeaderIndex == 0) {
+          $(currentHeaderLink).addClass('header-link-first');
+        }
+
+        navigationPane.append(currentHeaderLink);
+        chapterSectionHeaderIndex++;
+        sectionHeaderNumber++;
+      }
+    };
+
+    return sectionHeaderNumber;
   }
 
   updateBookNavigation(tabIndex) {
@@ -174,7 +292,7 @@ class NavigationPane {
       currentTextType = currentTab.getTextType();
     }
 
-    if (currentTextType == 'book' && bible_chapter_verse_counts != null) { // Update navigation based on book chapters
+    if (currentTextType == 'book') { // Update navigation based on book chapters
 
       this.updateChapterNavigation(tabIndex);
 
@@ -194,15 +312,15 @@ class NavigationPane {
     this.allNavElementLinks = this.currentNavigationPane.find('.navigation-link');
   }
 
-  getCachedVerseListTabId() {
-    var currentVerseList = app_controller.getCurrentVerseList();
+  getCachedVerseListTabId(tabIndex=undefined) {
+    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
     var firstLink = currentVerseList[0].querySelector('a.nav');
     var cachedVerseListTabId = firstLink?.getAttribute('name').split(' ')[0];
     return cachedVerseListTabId;
   }
 
   goToChapter(chapter) {
-    this.highlightNavElement(chapter);
+    this.highlightNavElement(chapter, onClick=true);
 
     var reference = '#top';
 
@@ -216,8 +334,16 @@ class NavigationPane {
     }
   }
 
+  goToSection(sectionHeaderId, sectionHeaderNumber, chapter) {
+    this.highlightNavElement(chapter, true);
+    this.highlightNavElement(sectionHeaderNumber, true, "HEADER");
+
+    var reference = '#' + sectionHeaderId;
+    window.location = reference;
+  }
+
   goToBook(book, bookNr) {
-    this.highlightNavElement(bookNr);
+    this.highlightNavElement(bookNr, true, "OTHER");
 
     var cachedVerseListTabId = this.getCachedVerseListTabId();
     var reference = '#' + cachedVerseListTabId + ' ' + book;

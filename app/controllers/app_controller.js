@@ -140,7 +140,7 @@ class AppController {
 
         var bibleBookNumber = this.getVerseListBookNumber(currentBookName, bookHeaders);
         if (bibleBookNumber != -1) {
-          this.navigation_pane.highlightSearchResult(bibleBookNumber);
+          this.navigation_pane.highlightSearchResult(bibleBookNumber, "OTHER");
         }
       }
     }
@@ -604,7 +604,7 @@ class AppController {
   }
 
   async onVerseBoxMouseOver(event) {
-    var verseBox = $(event.target).closest('.verse-box');
+    var verseBox = event.target.closest('.verse-box');
     var currentTab = this.tab_controller.getTab();
     var currentBook = currentTab.getBook();
     var currentTagIdList = currentTab.getTagIdList();
@@ -612,18 +612,23 @@ class AppController {
 
     if (currentTextType == 'book' && currentBook != null) {
 
-      var verseReferenceContent = verseBox.find('.verse-reference-content').text();
+      var verseReferenceContent = verseBox.querySelector('.verse-reference-content').innerText;
       var mouseOverChapter = this.getChapterFromReference(verseReferenceContent);
       this.navigation_pane.highlightNavElement(mouseOverChapter);
 
+      var sectionTitle = this.verse_box_helper.getSectionTitleFromVerseBox(verseBox);
+      if (sectionTitle != null) {
+        this.navigation_pane.highlightSectionHeaderByTitle(sectionTitle);
+      }
+
     } else if (currentTextType == 'tagged_verses' && currentTagIdList != null || currentTextType == 'xrefs' || currentTextType == 'search_results') {
 
-      var bibleBookShortTitle = new VerseBox(verseBox[0]).getBibleBookShortTitle();
+      var bibleBookShortTitle = new VerseBox(verseBox).getBibleBookShortTitle();
       var currentBookName = models.BibleBook.getBookTitleTranslation(bibleBookShortTitle);
       
       var bibleBookNumber = this.getVerseListBookNumber(currentBookName);
       if (bibleBookNumber != -1) {
-        this.navigation_pane.highlightNavElement(bibleBookNumber);
+        this.navigation_pane.highlightNavElement(bibleBookNumber, false, "OTHER");
       }
     }
   }

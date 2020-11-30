@@ -45,11 +45,13 @@ class VerseContextController {
     $('#expand-button').filter(":not('.tag-events-configured')").bind('click', async function() {
       var currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
       var currentTabId = app_controller.tab_controller.getSelectedTabId();
+      var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
       var current_reference = $(app_controller.verse_context_controller.current_mouseover_verse_reference);
       var start_verse_box = current_reference.closest('.verse-box');
       var current_book_title = new VerseBox(start_verse_box[0]).getBibleBookShortTitle();
       var verse_reference_helper = app_controller.verse_selection.verseReferenceHelper;
-      var start_verse_nr = verse_reference_helper.referenceStringToAbsoluteVerseNr(current_book_title,
+      var start_verse_nr = verse_reference_helper.referenceStringToAbsoluteVerseNr(currentBibleTranslationId,
+                                                                                   current_book_title,
                                                                                    start_verse_box.find('.verse-reference-content').html(),
                                                                                    false);
       start_verse_nr -= 3;

@@ -45,40 +45,39 @@ class TagStatistics {
       }
     );
 
+    var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     var currentBook = app_controller.tab_controller.getTab().getBook();
-    var chapter_verse_counts = bible_chapter_verse_counts[currentBook];
+    var chapterCount = nsi.getBookChapterCount(currentBibleTranslationId, currentBook);
 
-    if (chapter_verse_counts != null) {
-      var overall_verse_count = 0;
-      for (var chapter of chapter_verse_counts) {
-        if (chapter != 'nil') {
-          overall_verse_count += chapter;
-        }
-      }
-
-      var tag_statistics_html = "<table class='tag-statistics'>";
-      tag_statistics_html += "<tr><th style='text-align: left;'>Tag</th>"
-                          +  "<th style='text-align: left; width: 2em;'>#</th>"
-                          +  "<th style='text-align: left; width: 2em;'>%</th></tr>";
-
-      for (var i = 0; i < tags_by_verse_count.length; i++) {
-        var tag_title = tags_by_verse_count[i];
-        var tagged_verse_count = book_tag_statistics[tag_title];
-        var tagged_verse_percent = Math.round((tagged_verse_count / overall_verse_count) * 100);
-
-        var current_row_html = "<tr><td style='width: 20em;'>" + tag_title
-                                          + "</td><td>" 
-                                          + tagged_verse_count
-                                          + "</td><td>"
-                                          + tagged_verse_percent
-                                          + "</td></tr>";
-        tag_statistics_html += current_row_html;
-      }
-      tag_statistics_html += "</table>";
-
-      $('#book-tag-statistics-box-content').empty();
-      $('#book-tag-statistics-box-content').html(tag_statistics_html);
+    var overall_verse_count = 0;
+    for (var i = 1; i <= chapterCount; i++) {
+      var currentChapterVerseCount = nsi.getChapterVerseCount(currentBibleTranslationId, currentBook, i);
+      overall_verse_count += currentChapterVerseCount;
     }
+
+    var tag_statistics_html = "<table class='tag-statistics'>";
+    tag_statistics_html += "<tr><th style='text-align: left;'>Tag</th>"
+                        +  "<th style='text-align: left; width: 2em;'>#</th>"
+                        +  "<th style='text-align: left; width: 2em;'>%</th></tr>";
+
+    for (var i = 0; i < tags_by_verse_count.length; i++) {
+      var tag_title = tags_by_verse_count[i];
+      var tagged_verse_count = book_tag_statistics[tag_title];
+      var tagged_verse_percent = Math.round((tagged_verse_count / overall_verse_count) * 100);
+
+      var current_row_html = "<tr><td style='width: 20em;'>" + tag_title
+                                        + "</td><td>" 
+                                        + tagged_verse_count
+                                        + "</td><td>"
+                                        + tagged_verse_percent
+                                        + "</td></tr>";
+      tag_statistics_html += current_row_html;
+    }
+
+    tag_statistics_html += "</table>";
+
+    $('#book-tag-statistics-box-content').empty();
+    $('#book-tag-statistics-box-content').html(tag_statistics_html);
   }
 
   async toggle_book_tags_statistics_button(index=undefined) {

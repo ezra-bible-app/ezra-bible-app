@@ -62,6 +62,23 @@ class VerseBoxHelper {
     return bibleBookShortTitle;
   }
 
+  getSectionTitleFromVerseBox(verseBox) {
+    var absoluteVerseNumber = parseInt(verseBox.getAttribute('abs-verse-nr'));
+    var currentElement = verseBox;
+    var sectionTitle = null;
+
+    for (var i = absoluteVerseNumber; i >= 1; i--) {
+      currentElement = currentElement.previousElementSibling;
+
+      if (currentElement.classList.contains('sword-section-title')) {
+        sectionTitle = currentElement.innerText;
+        break;
+      }
+    }
+
+    return sectionTitle;
+  }
+
   async iterateAndChangeAllDuplicateVerseBoxes(referenceVerseBoxElement, context, changeCallback) {
     var current_tab_index = app_controller.tab_controller.getSelectedTabIndex();
     var tab_count = app_controller.tab_controller.getTabCount();
