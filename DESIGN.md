@@ -4,6 +4,16 @@ Welcome to the Design documentation of Ezra Project!
 
 ## Architecture overview
 
+### Controllers
+
+Controllers are classes that manage one or several (graphical) components and usually also interact with the Ezra Project database, e.g. the `TagsController` and `NotesController`.
+
+### Components
+
+Components are classes that usually represent one specific "graphical component" of the UI, e.g. the options menu or the book selection menu.
+
+### The big picture
+
 <div class="mermaid">
 erDiagram
     ezra_init                 ||--|{    HTML-Component            : loads
