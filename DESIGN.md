@@ -4,6 +4,8 @@ Welcome to the Design documentation of Ezra Project!
 
 ## Architecture overview
 
+Ezra Project mostly uses plain, vanilla JavaScript in combination with some additional technology like jQuery, jQuery UI, Sequelize and the Pug template engine. For performance reasons, it does not use a web framework like React or Angular. Nevertheless, the architecture is designed in a modular way and should make it easy for new developers.
+
 ### Controllers
 
 Controllers are classes that manage one or several (graphical) components and usually also interact with the Ezra Project database, e.g. the `TagsController` and `NotesController`.
@@ -13,6 +15,14 @@ The most notable Controller is the `AppController`, which is responsible for ini
 ### Components
 
 Components are classes that usually represent one specific "graphical component" of the UI, e.g. the options menu or the book selection menu.
+
+### Sequelize Models
+
+Sequelize (an object-oriented wrapper) is used to manage the interface to the (SQLite) database. Each database table is represented by one model. Besides the standard Sequelize API that is attached to every model, you find various custom querying functions in the models.
+
+### node-sword-interface
+
+To access SWORD modules, Ezra Project uses the [node-sword-interface](https://github.com/ezra-project/node-sword-interface) library. This library is implemented in C++ and offers a simple, flat, facade style interface that wraps calls to the SWORD library.
 
 ### The big picture
 
