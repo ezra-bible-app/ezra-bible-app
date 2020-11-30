@@ -73,6 +73,8 @@ This directory contains static HTML files (e.g. for the book selection menu, the
 
 Here you find [i18next](https://www.i18next.com/) locale files (JSON format).
 
+Note that for adding a new locale you must also add an entry in the whitelist in `app/helpers/i18n_helper.js` (line 42).
+
 <a name='db-schema'></a>
 
 ## Database schema
