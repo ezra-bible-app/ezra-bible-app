@@ -195,7 +195,7 @@ class NavigationPane {
       $(current_chapter_link).html(i);
       navigationPane.append(current_chapter_link);
 
-      sectionHeaderNumber = this.addHeaderNavLinksForChapter(navigationPane, sectionTitleElements, i, sectionHeaderNumber);
+      sectionHeaderNumber = this.addHeaderNavLinksForChapter(tabIndex, navigationPane, sectionTitleElements, i, sectionHeaderNumber);
     }
   }
 
@@ -206,9 +206,9 @@ class NavigationPane {
     return unixSectionHeaderId;
   }
 
-  addHeaderNavLinksForChapter(navigationPane, sectionTitleElements, chapter, sectionHeaderNumber=1) {
+  addHeaderNavLinksForChapter(tabIndex, navigationPane, sectionTitleElements, chapter, sectionHeaderNumber=1) {
     var chapterSectionHeaderIndex = 0;
-    var cachedVerseListTabId = this.getCachedVerseListTabId();
+    var cachedVerseListTabId = this.getCachedVerseListTabId(tabIndex);
 
     for (var i = 0; i < sectionTitleElements.length; i++) {
       var sectionTitleElement = sectionTitleElements[i];
@@ -312,8 +312,8 @@ class NavigationPane {
     this.allNavElementLinks = this.currentNavigationPane.find('.navigation-link');
   }
 
-  getCachedVerseListTabId() {
-    var currentVerseList = app_controller.getCurrentVerseList();
+  getCachedVerseListTabId(tabIndex=undefined) {
+    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
     var firstLink = currentVerseList[0].querySelector('a.nav');
     var cachedVerseListTabId = firstLink?.getAttribute('name').split(' ')[0];
     return cachedVerseListTabId;
