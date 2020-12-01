@@ -4,7 +4,7 @@ Welcome to the Design documentation of Ezra Project!
 
 ## Architecture overview
 
-Ezra Project mostly uses plain, vanilla JavaScript in combination with some additional technology like jQuery, jQuery UI, Sequelize and the Pug template engine. For performance reasons, it does not use a web framework like React or Angular. Nevertheless, the architecture is designed in a modular way and should make it easy for new developers.
+Ezra Project mostly uses plain, vanilla JavaScript in combination with some additional technology like jQuery, jQuery UI, Sequelize and the Pug template engine (see [here](https://github.com/ezra-project/ezra-project/blob/master/TECH.md) for a complete list of technologies). For performance reasons, it does not use a web framework like React or Angular. Nevertheless, the architecture is designed in a modular way and should make it easy for new developers.
 
 ### Controllers
 
