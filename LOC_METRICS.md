@@ -17,6 +17,6 @@ XML|1|0|0|10
 --------|--------|--------|--------|--------
 SUM:|183|5259|2682|21652
 
-The above metrics include both the frontend (mostly JavaScript) and the [backend](https://github.com/tobias-klein/node-sword-interface) (mostly C++).
+The above metrics include both the frontend (mostly JavaScript) and the [backend](https://github.com/ezra-project/node-sword-interface) (mostly C++).
 
 Generated on Sa 24 Okt 2020 20:02:50 CEST using [cloc](https://github.com/AlDanial/cloc).

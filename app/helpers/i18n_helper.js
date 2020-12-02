@@ -39,7 +39,7 @@ const i18nextOptions = {
   },
   saveMissing: true,
   fallbackLng: 'en',
-  whitelist: ['de', 'en', 'nl', 'fr', 'sk'],
+  whitelist: ['de', 'en', 'nl', 'fr', 'es', 'sk'],
   react: {
     wait: false
   }
@@ -72,7 +72,7 @@ class I18nHelper {
   }
 
   getBookAbbreviation(bookCode) {
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
+    var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     return nsi.getBookAbbreviation(currentBibleTranslationId, bookCode, i18n.language);
   }
 

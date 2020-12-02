@@ -17,6 +17,11 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 
+/**
+ * The VerseStatisticsChart component renders a chart with verse count statistics per bible book. This is used by the ModuleSearch component.
+ * 
+ * @category Component
+ */
 class VerseStatisticsChart {
   constructor() {
     require('chart.js/dist/Chart.bundle.min.js');
@@ -33,12 +38,12 @@ class VerseStatisticsChart {
   }
 
   getVerseStatisticsChart(tabIndex=undefined) {
-    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
+    var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
     return currentVerseListFrame.find('.verse-statistics-chart');
   }
 
   resetChart(tabIndex=undefined) {
-    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
+    var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
     var container = currentVerseListFrame.find('.verse-statistics-chart-container');
 
     container.hide();
@@ -97,7 +102,7 @@ class VerseStatisticsChart {
       return;
     }
     
-    var currentTranslation = bible_browser_controller.tab_controller.getTab(tabIndex)?.getBibleTranslationId();
+    var currentTranslation = app_controller.tab_controller.getTab(tabIndex)?.getBibleTranslationId();
     var bookList = nsi.getBookList(currentTranslation);
 
     const [labels, values] = this.getLabelsAndValuesFromStats(bookList, bibleBookStats);
@@ -112,7 +117,7 @@ class VerseStatisticsChart {
     };
 
     var chartElement = this.getVerseStatisticsChart(tabIndex);
-    var useNightMode = bible_browser_controller.optionsMenu.nightModeSwitchChecked();
+    var useNightMode = app_controller.optionsMenu._nightModeOption.isChecked();
     var labelFontColor = useNightMode ? "white" : "black";
     
     new Chart(chartElement, {

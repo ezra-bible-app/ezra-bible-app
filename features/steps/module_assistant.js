@@ -1,7 +1,7 @@
 const { Given, When, Then } = require("cucumber");
 const { assert } = require("chai");
 
-async function clickCheckbox(selector, parentSelector='#module-settings-wizard-add') {
+async function clickCheckbox(selector, parentSelector='#module-settings-assistant-add') {
   var parent = await global.app.client.$(parentSelector);
   var label = await parent.$(selector);
   await global.app.client.waitUntil(async () => { return await label.isExisting(); }, { timeout: 40000 });
@@ -9,14 +9,14 @@ async function clickCheckbox(selector, parentSelector='#module-settings-wizard-a
   await checkbox.click();
 }
 
-async function getNavLinks(moduleSettingsDialogId='#module-settings-wizard-add') {
-  var moduleSettingsWizardAdd = await global.app.client.$(moduleSettingsDialogId);
-  var actionsDiv = await moduleSettingsWizardAdd.$('.actions');
+async function getNavLinks(moduleSettingsDialogId='#module-settings-assistant-add') {
+  var moduleSettingsAssistantAdd = await global.app.client.$(moduleSettingsDialogId);
+  var actionsDiv = await moduleSettingsAssistantAdd.$('.actions');
   var navLinks = await actionsDiv.$$('a');
   return navLinks;
 }
 
-async function clickNext(moduleSettingsDialogId='#module-settings-wizard-add') {
+async function clickNext(moduleSettingsDialogId='#module-settings-assistant-add') {
   var navLinks = await getNavLinks(moduleSettingsDialogId);
   var nextButton = navLinks[1];
   await nextButton.click();
@@ -36,7 +36,9 @@ Given('I open the module installation assistant', {timeout: 40 * 1000}, async fu
   var translationSettingsButton = await global.app.client.$('#show-translation-settings-button');
 
   await displayOptionsButton.click();
+  await spectronHelper.sleep(200);
   await translationSettingsButton.click();
+  await spectronHelper.sleep(200);
 });
 
 Given('I choose to add translations', async function () {
@@ -65,11 +67,12 @@ Given('I select the KJV module for installation', {timeout: 40 * 1000}, async fu
 });
 
 Given('I select the KJV module for removal', {timeout: 40 * 1000}, async function () {
-  await clickCheckbox('#KJV', '#module-settings-wizard-remove');
-  await clickNext('#module-settings-wizard-remove');
+  await clickCheckbox('#KJV', '#module-settings-assistant-remove');
+  await clickNext('#module-settings-assistant-remove');
 });
 
-async function finishOnceProcessCompleted(moduleSettingsDialogId='#module-settings-wizard-add') {
+async function finishOnceProcessCompleted(moduleSettingsDialogId='#module-settings-assistant-add') {
+
   var navLinks = await getNavLinks(moduleSettingsDialogId);
   var finishButton = navLinks[2];
   var finishButtonLi = await finishButton.$('..');
@@ -84,10 +87,11 @@ async function finishOnceProcessCompleted(moduleSettingsDialogId='#module-settin
 
 When('the installation is completed', {timeout: 100 * 1000}, async function () {
   await finishOnceProcessCompleted();
+  await spectronHelper.backupSwordDir();
 });
 
 When('the removal is completed', {timeout: 5 * 1000}, async function () {
-  await finishOnceProcessCompleted('#module-settings-wizard-remove');
+  await finishOnceProcessCompleted('#module-settings-assistant-remove');
 });
 
 Then('the KJV is available as a local module', async function () {
@@ -103,7 +107,7 @@ Then('the KJV is available as a local module', async function () {
 });
 
 Then('the KJV is no longer available as a local module', async function () {
-  var kjvAvailable = await isKjvAvailable(true);
+  var kjvAvailable = await spectronHelper.isKjvAvailable(true);
   assert(kjvAvailable == false, "KJV should no longer be available, but it is!");
 });
 
@@ -128,28 +132,6 @@ Then('the relevant buttons in the menu are enabled', async function() {
   await global.spectronHelper.buttonIsEnabled(bibleTranslationInfoButton);
 });
 
-async function isKjvAvailable(refreshNsi=false) {
-  const nsi = await global.spectronHelper.getNSI(refreshNsi);
-  var allLocalModules = nsi.getAllLocalModules();
-  var kjvFound = false;
-
-  allLocalModules.forEach((module) => {
-    if (module.name == 'KJV') kjvFound = true;
-  });
-
-  return kjvFound;
-}
-
 Given('the KJV is the only translation installed', {timeout: 80 * 1000}, async function () {
-  const nsi = await global.spectronHelper.getNSI();
-  var kjvFound = await isKjvAvailable();
-
-  if (!kjvFound) {
-    await nsi.updateRepositoryConfig();
-    await nsi.installModule('KJV');
-    assert(isKjvAvailable());
-
-    await global.app.webContents.executeJavaScript("nsi.refreshLocalModules()");
-    await global.app.webContents.executeJavaScript("bible_browser_controller.updateUiAfterBibleTranslationAvailable('KJV')");
-  }
+  await spectronHelper.installKJV();
 });

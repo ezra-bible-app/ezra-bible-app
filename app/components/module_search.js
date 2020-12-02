@@ -16,9 +16,15 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const VerseSearch = require('../tab_search/verse_search.js');
+const VerseSearch = require('./tab_search/verse_search.js');
 const VerseStatisticsChart = require('./verse_statistics_chart.js');
 
+/**
+ * The ModuleSearch component implements the module search functionality.
+ * It uses the VerseSearch component for highlighting search results.
+ * 
+ * @category Component
+ */
 class ModuleSearch {
   constructor() {
     this.currentSearchTerm = null;
@@ -28,7 +34,7 @@ class ModuleSearch {
   }
 
   initModuleSearchMenu(tabIndex=undefined) {
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.module-search-button').bind('click', (event) => { this.handleSearchMenuClick(event); });
     
     // Handle the click on the search button
@@ -81,7 +87,7 @@ class ModuleSearch {
   }
 
   populateSearchMenu(tabIndex) {
-    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     if (currentTab != null) {
       var searchType = currentTab.getSearchOptions()['searchType'];
@@ -97,7 +103,7 @@ class ModuleSearch {
   }
 
   handleSearchMenuClick(event) {
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
     var moduleSearchButton = currentVerseListMenu.find('.module-search-button');
 
     if (moduleSearchButton.hasClass('ui-state-disabled')) {
@@ -105,12 +111,12 @@ class ModuleSearch {
     }
 
     if (this.search_menu_opened) {
-      bible_browser_controller.handleBodyClick();
+      app_controller.handleBodyClick();
     } else {
-      bible_browser_controller.book_selection_menu.hide_book_menu();
-      bible_browser_controller.tag_selection_menu.hideTagMenu();
-      bible_browser_controller.optionsMenu.hideDisplayMenu();
-      bible_browser_controller.tag_assignment_menu.hideTagAssignmentMenu();
+      app_controller.book_selection_menu.hide_book_menu();
+      app_controller.tag_selection_menu.hideTagMenu();
+      app_controller.optionsMenu.hideDisplayMenu();
+      app_controller.tag_assignment_menu.hideTagAssignmentMenu();
       moduleSearchButton.addClass('ui-state-active');
 
       var module_search_button_offset = moduleSearchButton.offset();
@@ -149,21 +155,21 @@ class ModuleSearch {
   }
 
   getModuleSearchHeader(tabIndex=undefined) {
-    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
+    var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
     return currentVerseListFrame.find('.module-search-result-header');
   }
 
   searchResultsExceedPerformanceLimit(index=undefined) {
     if (index === undefined) {
-      index = bible_browser_controller.tab_controller.getSelectedTabIndex();
+      index = app_controller.tab_controller.getSelectedTabIndex();
     }
 
-    var currentSearchResults = bible_browser_controller.tab_controller.getTab(index)?.getSearchResults();
+    var currentSearchResults = app_controller.tab_controller.getTab(index)?.getSearchResults();
     return currentSearchResults?.length > 500;
   }
 
   validateStrongsKey() {
-    if (!bible_browser_controller.dictionary_controller.isValidStrongsKey(this.getSearchTerm())) {
+    if (!app_controller.dictionary_controller.isValidStrongsKey(this.getSearchTerm())) {
       $('#module-search-validation-message').css('visibility', 'visible');
       $('#module-search-validation-message').prop('title', i18n.t('bible-browser.strongs-number-not-valid'));
       $('#start-module-search-button').addClass('ui-state-disabled');
@@ -199,13 +205,13 @@ class ModuleSearch {
     this.verseStatisticsChart.resetChart(tabIndex);
 
     if (tabIndex === undefined) {
-      var tab = bible_browser_controller.tab_controller.getTab();
+      var tab = app_controller.tab_controller.getTab();
       tab.setSearchOptions(this.getSearchType(), this.isCaseSensitive(), this.useExtendedVerseBoundaries());
       tab.setTextType('search_results');
     }
 
     //console.log("Starting search for " + this.currentSearchTerm + " on tab " + tabIndex);
-    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     if (currentTab != null) {
       var currentBibleTranslationId = currentTab.getBibleTranslationId();
@@ -214,31 +220,31 @@ class ModuleSearch {
       var useExtendedVerseBoundaries = currentTab.getSearchOptions()['extendedVerseBoundaries'];
 
       if (searchType == "strongsNumber" && event != null) {
-        if (!bible_browser_controller.dictionary_controller.isValidStrongsKey(this.currentSearchTerm)) {
+        if (!app_controller.dictionary_controller.isValidStrongsKey(this.currentSearchTerm)) {
           return;
         }
 
-        bible_browser_controller.dictionary_controller.showStrongsInfo(this.currentSearchTerm, false /* do not show strongs box */);
+        app_controller.dictionary_controller.showStrongsInfo(this.currentSearchTerm, false /* do not show strongs box */);
       }
 
-      bible_browser_controller.tab_controller.setTabSearch(this.currentSearchTerm, tabIndex);
+      app_controller.tab_controller.setTabSearch(this.currentSearchTerm, tabIndex);
       // Set book, tagIdList and xrefs to null, since we just switched to search content
       currentTab.setBook(null, null);
       currentTab.setTagIdList("");
       currentTab.setXrefs(null);
       currentTab.setVerseReferenceId(null);
-      bible_browser_controller.tag_selection_menu.resetTagMenu();
+      app_controller.tag_selection_menu.resetTagMenu();
 
       this.hideSearchMenu();
 
-      if (tabIndex == 0 || tabIndex == undefined) {
-        var searchProgressBar = bible_browser_controller.getCurrentSearchProgressBar();
+      if (tabIndex == undefined || tabIndex == app_controller.tab_controller.getSelectedTabIndex()) {
+        var searchProgressBar = app_controller.getCurrentSearchProgressBar();
         uiHelper.initProgressBar(searchProgressBar);
         searchProgressBar.show();
       }
 
       // Only reset view if we got an event (in other words: not initially)
-      bible_browser_controller.text_loader.prepareForNewText(event != null, true, tabIndex);
+      app_controller.text_controller.prepareForNewText(event != null, true, tabIndex);
 
       try {
         var searchResults = await nsi.getModuleSearchResults(currentBibleTranslationId,
@@ -262,7 +268,7 @@ class ModuleSearch {
         await this.renderCurrentSearchResults(requestedBookId, tabIndex);
       } catch (error) {
         console.log(error);
-        bible_browser_controller.hideVerseListLoadingIndicator();
+        app_controller.hideVerseListLoadingIndicator();
       }
     }
 
@@ -271,7 +277,7 @@ class ModuleSearch {
   }
 
   highlightSearchResults(searchTerm, tabIndex=undefined) {
-    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
     var verses = currentVerseList[0].querySelectorAll('.verse-text');
 
     for (var i = 0; i < verses.length; i++) {
@@ -285,13 +291,13 @@ class ModuleSearch {
 
   async renderCurrentSearchResults(requestedBookId=-1, tabIndex=undefined, target=undefined, cachedText=null) {
     //console.log("Rendering search results on tab " + tabIndex);
-    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
-    var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId(tabIndex);
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
+    var currentTabId = app_controller.tab_controller.getSelectedTabId(tabIndex);
     var currentSearchTerm = currentTab?.getSearchTerm();
     var currentSearchResults = currentTab?.getSearchResults();
 
     if (currentSearchResults?.length > 0) {
-      await bible_browser_controller.text_loader.requestTextUpdate(currentTabId,
+      await app_controller.text_controller.requestTextUpdate(currentTabId,
                                                                    null,
                                                                    null,
                                                                    cachedText,
@@ -303,9 +309,9 @@ class ModuleSearch {
                                                                    target);
       
     } else {
-      bible_browser_controller.hideVerseListLoadingIndicator();
-      bible_browser_controller.translation_controller.hideBibleTranslationLoadingIndicator();
-      bible_browser_controller.hideSearchProgressBar();
+      app_controller.hideVerseListLoadingIndicator();
+      app_controller.translation_controller.hideBibleTranslationLoadingIndicator();
+      app_controller.hideSearchProgressBar();
     }
 
     this.hideSearchMenu();
@@ -334,7 +340,7 @@ class ModuleSearch {
   }
 
   repaintChart(tabIndex=undefined) {
-    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentSearchResults = currentTab?.getSearchResults();
 
     if (currentSearchResults != null) {
@@ -345,10 +351,10 @@ class ModuleSearch {
   }
 
   repaintAllCharts() {
-    var tabCount = bible_browser_controller.tab_controller.getTabCount();
+    var tabCount = app_controller.tab_controller.getTabCount();
 
     for (var i = 0; i < tabCount; i++) {
-      var currentTab = bible_browser_controller.tab_controller.getTab(i);
+      var currentTab = app_controller.tab_controller.getTab(i);
       if (currentTab.getTextType() == 'search_results') {
         this.repaintChart(i);
       }
@@ -372,7 +378,7 @@ class ModuleSearch {
   }
 
   loadBookResults(bookId) {
-    var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
+    var currentTabId = app_controller.tab_controller.getSelectedTabId();
     
     var bookSection = $('#' + currentTabId).find('#' + currentTabId + '-book-section-' + bookId);
     this.renderCurrentSearchResults(bookId, undefined, bookSection);

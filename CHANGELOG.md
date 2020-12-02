@@ -29,19 +29,19 @@ All notable changes to Ezra Project are documented in this file.
 
 * Upgraded to latest SWORD version 1.9.0 (SVN Rev. 3820). This is the first version of Ezra Project using this latest version of SWORD.
 
-[i82]: https://github.com/tobias-klein/ezra-project/issues/82
-[i95]: https://github.com/tobias-klein/ezra-project/issues/95
-[i111]: https://github.com/tobias-klein/ezra-project/issues/111
-[i112]: https://github.com/tobias-klein/ezra-project/issues/112
-[i114]: https://github.com/tobias-klein/ezra-project/issues/114
-[i115]: https://github.com/tobias-klein/ezra-project/issues/115
-[i117]: https://github.com/tobias-klein/ezra-project/issues/117
-[i118]: https://github.com/tobias-klein/ezra-project/issues/118
-[i119]: https://github.com/tobias-klein/ezra-project/issues/119
-[i120]: https://github.com/tobias-klein/ezra-project/issues/120
-[i122]: https://github.com/tobias-klein/ezra-project/issues/122
-[i123]: https://github.com/tobias-klein/ezra-project/issues/123
-[i124]: https://github.com/tobias-klein/ezra-project/issues/124
+[i82]: https://github.com/ezra-project/ezra-project/issues/82
+[i95]: https://github.com/ezra-project/ezra-project/issues/95
+[i111]: https://github.com/ezra-project/ezra-project/issues/111
+[i112]: https://github.com/ezra-project/ezra-project/issues/112
+[i114]: https://github.com/ezra-project/ezra-project/issues/114
+[i115]: https://github.com/ezra-project/ezra-project/issues/115
+[i117]: https://github.com/ezra-project/ezra-project/issues/117
+[i118]: https://github.com/ezra-project/ezra-project/issues/118
+[i119]: https://github.com/ezra-project/ezra-project/issues/119
+[i120]: https://github.com/ezra-project/ezra-project/issues/120
+[i122]: https://github.com/ezra-project/ezra-project/issues/122
+[i123]: https://github.com/ezra-project/ezra-project/issues/123
+[i124]: https://github.com/ezra-project/ezra-project/issues/124
 
 
 ## [0.14.0 - 2020-08-30]
@@ -69,17 +69,17 @@ All notable changes to Ezra Project are documented in this file.
 
 * Upgraded Electron from 8.3.0 to 9.2.1.
 
-[i78]: https://github.com/tobias-klein/ezra-project/issues/78
-[i79]: https://github.com/tobias-klein/ezra-project/issues/79
-[i80]: https://github.com/tobias-klein/ezra-project/issues/80
-[i85]: https://github.com/tobias-klein/ezra-project/issues/85
-[i87]: https://github.com/tobias-klein/ezra-project/issues/87
-[i90]: https://github.com/tobias-klein/ezra-project/issues/90
-[i98]: https://github.com/tobias-klein/ezra-project/issues/98
-[i101]: https://github.com/tobias-klein/ezra-project/issues/101
-[i103]: https://github.com/tobias-klein/ezra-project/issues/103
-[i104]: https://github.com/tobias-klein/ezra-project/issues/104
-[i108]: https://github.com/tobias-klein/ezra-project/issues/108
+[i78]: https://github.com/ezra-project/ezra-project/issues/78
+[i79]: https://github.com/ezra-project/ezra-project/issues/79
+[i80]: https://github.com/ezra-project/ezra-project/issues/80
+[i85]: https://github.com/ezra-project/ezra-project/issues/85
+[i87]: https://github.com/ezra-project/ezra-project/issues/87
+[i90]: https://github.com/ezra-project/ezra-project/issues/90
+[i98]: https://github.com/ezra-project/ezra-project/issues/98
+[i101]: https://github.com/ezra-project/ezra-project/issues/101
+[i103]: https://github.com/ezra-project/ezra-project/issues/103
+[i104]: https://github.com/ezra-project/ezra-project/issues/104
+[i108]: https://github.com/ezra-project/ezra-project/issues/108
 
 
 ## [0.13.2 - 2020-07-08]
@@ -89,7 +89,7 @@ This is a bugfix release.
 
 * Tag statistics were not properly updated when assigning tags. ([#100][i100])
 
-[i100]: https://github.com/tobias-klein/ezra-project/issues/10
+[i100]: https://github.com/ezra-project/ezra-project/issues/10
 
 
 ## [0.13.1 - 2020-07-05]
@@ -104,9 +104,9 @@ This is a bugfix release.
 * Fixed an issue in the translation install assistant that occurred when filtering on Strong's feature translations.
 * Fixed various minor issues related to loading previously selected tabs on startup.
 
-[i86]: https://github.com/tobias-klein/ezra-project/issues/86
-[i88]: https://github.com/tobias-klein/ezra-project/issues/88
-[i91]: https://github.com/tobias-klein/ezra-project/issues/91
+[i86]: https://github.com/ezra-project/ezra-project/issues/86
+[i88]: https://github.com/ezra-project/ezra-project/issues/88
+[i91]: https://github.com/ezra-project/ezra-project/issues/91
 
 
 ## [0.13.0 - 2020-06-19]
@@ -144,27 +144,27 @@ This is a bugfix release.
 * Add deb package for Ubuntu 20.04.
 * Upgraded Electron from 8.2.0 to 9.2.1.
 
-[i26]: https://github.com/tobias-klein/ezra-project/issues/26
-[i41]: https://github.com/tobias-klein/ezra-project/issues/41
-[i43]: https://github.com/tobias-klein/ezra-project/issues/43
-[i44]: https://github.com/tobias-klein/ezra-project/issues/44
-[i45]: https://github.com/tobias-klein/ezra-project/issues/45
-[i51]: https://github.com/tobias-klein/ezra-project/issues/51
-[i53]: https://github.com/tobias-klein/ezra-project/issues/53
-[i50]: https://github.com/tobias-klein/ezra-project/issues/50
-[i54]: https://github.com/tobias-klein/ezra-project/issues/54
-[i52]: https://github.com/tobias-klein/ezra-project/issues/52
-[i56]: https://github.com/tobias-klein/ezra-project/issues/56
-[i58]: https://github.com/tobias-klein/ezra-project/issues/58
-[i62]: https://github.com/tobias-klein/ezra-project/issues/62
-[i63]: https://github.com/tobias-klein/ezra-project/issues/63
-[i66]: https://github.com/tobias-klein/ezra-project/issues/66
-[i67]: https://github.com/tobias-klein/ezra-project/issues/67
-[i70]: https://github.com/tobias-klein/ezra-project/issues/70
-[i72]: https://github.com/tobias-klein/ezra-project/issues/72
-[i73]: https://github.com/tobias-klein/ezra-project/issues/73
-[i74]: https://github.com/tobias-klein/ezra-project/issues/74
-[i81]: https://github.com/tobias-klein/ezra-project/issues/81
+[i26]: https://github.com/ezra-project/ezra-project/issues/26
+[i41]: https://github.com/ezra-project/ezra-project/issues/41
+[i43]: https://github.com/ezra-project/ezra-project/issues/43
+[i44]: https://github.com/ezra-project/ezra-project/issues/44
+[i45]: https://github.com/ezra-project/ezra-project/issues/45
+[i51]: https://github.com/ezra-project/ezra-project/issues/51
+[i53]: https://github.com/ezra-project/ezra-project/issues/53
+[i50]: https://github.com/ezra-project/ezra-project/issues/50
+[i54]: https://github.com/ezra-project/ezra-project/issues/54
+[i52]: https://github.com/ezra-project/ezra-project/issues/52
+[i56]: https://github.com/ezra-project/ezra-project/issues/56
+[i58]: https://github.com/ezra-project/ezra-project/issues/58
+[i62]: https://github.com/ezra-project/ezra-project/issues/62
+[i63]: https://github.com/ezra-project/ezra-project/issues/63
+[i66]: https://github.com/ezra-project/ezra-project/issues/66
+[i67]: https://github.com/ezra-project/ezra-project/issues/67
+[i70]: https://github.com/ezra-project/ezra-project/issues/70
+[i72]: https://github.com/ezra-project/ezra-project/issues/72
+[i73]: https://github.com/ezra-project/ezra-project/issues/73
+[i74]: https://github.com/ezra-project/ezra-project/issues/74
+[i81]: https://github.com/ezra-project/ezra-project/issues/81
 
 
 ## [0.12.2 - 2020-04-20]
@@ -175,8 +175,8 @@ This is a bugfix release. This release is mostly relevant for macOS.
 * Fixed white screen error on macOS due to dependency issue with icu4c. ([#48][i48])
 * Fixed broken English/Hebrew versification mapping. ([#49][i49])
 
-[i48]: https://github.com/tobias-klein/ezra-project/issues/48
-[i49]: https://github.com/tobias-klein/ezra-project/issues/49
+[i48]: https://github.com/ezra-project/ezra-project/issues/48
+[i49]: https://github.com/ezra-project/ezra-project/issues/49
 
 
 ## [0.12.1 - 2020-04-04]
@@ -193,11 +193,11 @@ This is a bugfix release.
 * Tab management: Fixed regression bug introduced in the last release. ([#37][i37])
 * Strong's mouseover info for search results: Fixed regression bug introduced in the last release. ([#39][i39])
 
-[i32]: https://github.com/tobias-klein/ezra-project/issues/32
-[i34]: https://github.com/tobias-klein/ezra-project/issues/34
-[i37]: https://github.com/tobias-klein/ezra-project/issues/37
-[i38]: https://github.com/tobias-klein/ezra-project/issues/38
-[i39]: https://github.com/tobias-klein/ezra-project/issues/39
+[i32]: https://github.com/ezra-project/ezra-project/issues/32
+[i34]: https://github.com/ezra-project/ezra-project/issues/34
+[i37]: https://github.com/ezra-project/ezra-project/issues/37
+[i38]: https://github.com/ezra-project/ezra-project/issues/38
+[i39]: https://github.com/ezra-project/ezra-project/issues/39
 
 ### Enablers
 
@@ -231,16 +231,16 @@ This is a bugfix release.
 
 * Upgraded Electron from 7.1.1 to 8.1.1.
 
-[i11]: https://github.com/tobias-klein/ezra-project/issues/11
-[i18]: https://github.com/tobias-klein/ezra-project/issues/18
-[i28]: https://github.com/tobias-klein/ezra-project/issues/28
+[i11]: https://github.com/ezra-project/ezra-project/issues/11
+[i18]: https://github.com/ezra-project/ezra-project/issues/18
+[i28]: https://github.com/ezra-project/ezra-project/issues/28
 
 
 ## [0.11.1 - 2020-01-06]
 
 ### Enhancements
 
-* Support on-demand update of repository configuration (in Bible Install Wizard).
+* Support on-demand update of repository configuration (in Bible Install Assistant).
 * Use lightyellow bg color for tags in bible browser to make them more visible / easier to read.
 * Optimized performance of tag list filter function.
 
@@ -252,7 +252,7 @@ This is a bugfix release.
 * Make it easier to unselect a verse by clicking into an empty area inside the verse list.
 * Hide tab searchbox and reset search when reloading translation.
 
-[i15]: https://github.com/tobias-klein/ezra-project/issues/15
+[i15]: https://github.com/ezra-project/ezra-project/issues/15
 
 
 ## [0.11.0] - 2019-12-23
@@ -264,8 +264,8 @@ This is a bugfix release.
 * Dutch translation (Thanks to Tom Lemmens)
 
 ### Enhancements
-* Possibility to quickly filter translations in bible installation wizard for Strong's feature.
-* Lock wizard dialog once installation or uninstallation of translation has started.
+* Possibility to quickly filter translations in bible installation assistant for Strong's feature.
+* Lock assistant dialog once installation or uninstallation of translation has started.
 * Show a message while migrations are executed on start-up.
 * Show chapter headers (can be shown / hidden with existing option 'Show headers').
 * Use a loading indicator in tagged verses popup, since tagged verses loading may take some time if there are many verses for one tag.
@@ -274,14 +274,14 @@ This is a bugfix release.
 
 ### Fixes
 * Fixed some locales.
-* Added error handling for bible translation install wizard.
+* Added error handling for bible translation install assistant.
 
 ### Enablers
-* Implemented Strong's parsing in [node-sword-interface](https://github.com/tobias-klein/node-sword-interface).
+* Implemented Strong's parsing in [node-sword-interface](https://github.com/ezra-project/node-sword-interface).
 * Implemented GitHub Continuous Integration - now there's dev packages available for all supported targets (Windows, Linux, macOS) after every push to GitHub.
 * Upgraded Electron from 4.2.9 to 7.1.1.
 
-[i10]: https://github.com/tobias-klein/ezra-project/issues/10
+[i10]: https://github.com/ezra-project/ezra-project/issues/10
 
 
 ## [0.10.0] - 2019-10-15
@@ -316,7 +316,7 @@ This is a bugfix release.
 ### Features
 * Tags can now be shown in a column next to the bible text. This is particularly useful when having a lot of tags, as it gives more overview and makes it easier to focus on the text.
 * Section titles (from SWORD modules) can now be shown/hidden based on an option in the menu.
-* Information about SWORD modules can now be shown before installation when using the bible translation wizard.
+* Information about SWORD modules can now be shown before installation when using the bible translation assistant.
 * Automatic upload of information to Sentry.io in case of JavaScript bugs
 * Additional packages/platforms:
   - macOS support (macOS build produces signed & notarized DMGs compatible with macOS 10.14 Mojave)
@@ -340,7 +340,7 @@ This is a bugfix release.
 * Sword backend: Also retrieve empty verses, but only if corresponding bible book is generally existing (applies to John 5:4 for some translations).
 * Optimized package size (when packaging remove build artifacts not necessary for production).
 
-[i2]: https://github.com/tobias-klein/ezra-project/issues/2
+[i2]: https://github.com/ezra-project/ezra-project/issues/2
 
 
 ## [0.8.1] - 2019-06-21
@@ -357,7 +357,7 @@ This is a bugfix release.
 * sword.conf file is not created anymore. This "overwrote" the Sword module path in the previous releases. On Windows, modules are found both in the user directory and the "all users" directory. ([#5][i5])
 * Support for all languages of ISO-639-1/2/3. This enables the usage of all the available Sword modules.
 
-[i5]: https://github.com/tobias-klein/ezra-project/issues/5
+[i5]: https://github.com/ezra-project/ezra-project/issues/5
 
 
 ## [0.8.0] - 2019-05-30
@@ -377,7 +377,7 @@ This is a bugfix release.
   * Shows Bible books in case of a tagged verse list
 
 ### Enhancements
-* Optimized language display in Bible installation wizard: Shows languages in multiple columns.
+* Optimized language display in Bible installation assistant: Shows languages in multiple columns.
 * Optimized formatting for Bible book selection menu.
 * Usability: Verses can now be tagged/untagged also by clicking on the tag label (before this only worked with the checkbox).
 
@@ -394,7 +394,7 @@ This is a bugfix release.
 * Automatic detection of books available in the current Bible translation, with adaption of the book selection menu
 
 ### Fixes
-* Improved performance for Bible installation wizard (UI does not block anymore for certain actions)
+* Improved performance for Bible installation assistant (UI does not block anymore for certain actions)
 
 
 ## [0.6.0] - 2019-02-03

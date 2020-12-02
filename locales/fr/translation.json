@@ -109,6 +109,7 @@
     "release-notes-download": "Notes de version & téléchargement",
     "no-repeated-info": "Ne plus afficher",
     "module-install-failed": "échec. Êtes-vous connecté à Internet ?",
+    "module-install-cancelled": "cancelled.",
     "module-unlock-failed": "échec (problème de déverrouillage).",
     "installing-strongs": "Installation du <i>dictionnaire de Strong</i>",
     "applying-migrations": "Migration de la base de données vers la nouvelle version"
@@ -171,6 +172,7 @@
     "show-xrefs": "Montrer les références croisées",
     "show-footnotes": "Afficher les notes de bas de page",
     "show-dictionary": "Afficher le dictionnaire",
+    "show-header-navigation": "Show header navigation",
     "show-tags": "Montrer les étiquettes",
     "show-notes": "Montrer les notes",
     "limit-notes-display-size": "Limiter la taille des notes",

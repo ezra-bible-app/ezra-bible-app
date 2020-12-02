@@ -16,12 +16,22 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const VerseBox = require("../bible_browser/verse_box");
+const VerseBox = require("../ui_models/verse_box.js");
+const VerseReferenceHelper = require("../helpers/verse_reference_helper.js");
 
+/**
+ * The VerseSelection component implements the label that shows the currently selected verses.
+ * 
+ * @category Component
+ */
 class VerseSelection {
   constructor() {
     this.selected_verse_references = null;
     this.selected_verse_box_elements = null;
+  }
+
+  initHelper(referenceSeparator, nsi) {
+    this.verseReferenceHelper = new VerseReferenceHelper(referenceSeparator, nsi);
   }
 
   initSelectable(verseList) {
@@ -42,7 +52,7 @@ class VerseSelection {
           this.selected_verse_box_elements = new Array;
         }
 
-        bible_browser_controller.handleBodyClick(event);
+        app_controller.handleBodyClick(event);
       },
 
       stop: (event, ui) => {
@@ -57,7 +67,7 @@ class VerseSelection {
   }
 
   init(tabIndex) {
-    var currentVerseListFrame = bible_browser_controller.getCurrentVerseListFrame(tabIndex);
+    var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
     this.initSelectable(currentVerseListFrame);
 
     // This event handler ensures that the selection is cancelled
@@ -68,7 +78,7 @@ class VerseSelection {
           e.target.matches('.verse-list-frame')) {
         
         this.clear_verse_selection();
-        bible_browser_controller.handleBodyClick(e);
+        app_controller.handleBodyClick(e);
       }
     });
   }
@@ -81,7 +91,7 @@ class VerseSelection {
 
   updateSelected(verseList=undefined) {
     if (verseList == undefined) {
-      var verseList = bible_browser_controller.getCurrentVerseList();
+      var verseList = app_controller.getCurrentVerseList();
     }
 
     this.selected_verse_box_elements = verseList.find('.ui-selected').closest('.verse-box');
@@ -169,7 +179,7 @@ class VerseSelection {
 
   format_single_verse_block(list, start_index, end_index, turn_into_link, bookId=undefined) {
     if (bookId == undefined) {
-      bookId = bible_browser_controller.tab_controller.getTab().getBook();
+      bookId = app_controller.tab_controller.getTab().getBook();
     }
 
     if (start_index > (list.length - 1)) start_index = list.length - 1;
@@ -186,54 +196,24 @@ class VerseSelection {
                                                                  end_reference);
 
       if (turn_into_link) {
-        formatted_passage = "<a href=\"javascript:bible_browser_controller.jumpToReference('" + start_reference + "', true);\">" + formatted_passage + "</a>";
+        formatted_passage = "<a href=\"javascript:app_controller.jumpToReference('" + start_reference + "', true);\">" + formatted_passage + "</a>";
       }
     }
 
     return formatted_passage;
   }
 
-  reference_to_absolute_verse_nr(bible_book, chapter, verse) {
-    var verse_nr = 0;
-  
-    for (var i = 0; i < chapter - 1; i++) {
-      if (bible_chapter_verse_counts[bible_book][i] != undefined) {
-        verse_nr += bible_chapter_verse_counts[bible_book][i];
-      }
-    }
-    
-    verse_nr += Number(verse);
-    return verse_nr;
-  }
-  
-  reference_to_verse_nr(bible_book_short_title, reference, split_support) {
-    if (reference == null) {
-      return;
-    }
-  
-    var split_support = false;
-    if (reference.search(/b/) != -1) {
-      split_support = true;
-    }
-    reference = reference.replace(/[a-z]/g, '');
-    var ref_chapter = Number(reference.split(reference_separator)[0]);
-    var ref_verse = Number(reference.split(reference_separator)[1]);
-  
-    var verse_nr = this.reference_to_absolute_verse_nr(bible_book_short_title, ref_chapter, ref_verse);
-    if (split_support) verse_nr += 0.5;
-  
-    return verse_nr;
-  }
-
   verse_reference_list_to_absolute_verse_nr_list(list, bookId=undefined) {
     var new_list = new Array;
+
+    var translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     
     if (bookId == undefined) {
-      bookId = bible_browser_controller.tab_controller.getTab().getBook();
+      bookId = app_controller.tab_controller.getTab().getBook();
     }
 
     for (var i = 0; i < list.length; i++) {
-      new_list.push(Number(this.reference_to_verse_nr(bookId, list[i])));
+      new_list.push(Number(this.verseReferenceHelper.referenceStringToAbsoluteVerseNr(translationId, bookId, list[i])));
     }
 
     return new_list;
@@ -292,16 +272,18 @@ class VerseSelection {
   }
 
   format_passage_reference_for_view(book_short_title, start_reference, end_reference) {  
-    var start_chapter = start_reference.split(reference_separator)[0];
-    var start_verse = start_reference.split(reference_separator)[1];
-    var end_chapter = end_reference.split(reference_separator)[0];
-    var end_verse = end_reference.split(reference_separator)[1];
+    var start_chapter = parseInt(start_reference.split(reference_separator)[0]);
+    var start_verse = parseInt(start_reference.split(reference_separator)[1]);
+    var end_chapter = parseInt(end_reference.split(reference_separator)[0]);
+    var end_verse = parseInt(end_reference.split(reference_separator)[1]);
   
     var passage = start_chapter + reference_separator + start_verse;
+    var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    var endChapterVerseCount = nsi.getChapterVerseCount(bibleTranslationId, book_short_title, end_chapter);
   
     if (book_short_title != null &&
-        start_verse == "1" &&
-        end_verse == bible_chapter_verse_counts[book_short_title][end_chapter]) {
+        start_verse == 1 &&
+        end_verse == endChapterVerseCount) {
   
       /* Whole chapter sections */
       
@@ -382,19 +364,19 @@ class VerseSelection {
     await tags_controller.update_tags_view_after_verse_selection(false);
 
     if (this.selected_verse_box_elements.length > 0) { // Verses are selected!
-      bible_browser_controller.translationComparison.enableComparisonButton();
+      app_controller.translationComparison.enableComparisonButton();
     } else { // No verses selected!
-      bible_browser_controller.translationComparison.disableComparisonButton();
+      app_controller.translationComparison.disableComparisonButton();
     }
 
-    var tabId = bible_browser_controller.tab_controller.getSelectedTabId();
+    var tabId = app_controller.tab_controller.getSelectedTabId();
     if (tabId !== undefined) {
       uiHelper.configureButtonStyles('#' + tabId);
     }
   }
 
   getSelectedVersesLabel() {
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
     return $(currentVerseListMenu.find('.selected-verses')[0]);
   }
 }

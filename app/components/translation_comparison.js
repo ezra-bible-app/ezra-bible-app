@@ -16,8 +16,14 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const VerseBox = require("../bible_browser/verse_box.js");
+const VerseBox = require("../ui_models/verse_box.js");
 
+/**
+ * The TranslationComparison component implements a dialog that shows selected verses
+ * in a comparison table using all available Bible translations.
+ * 
+ * @category Component
+ */
 class TranslationComparison {
   constructor() {
     this.initCompareTranslationsBox();
@@ -57,7 +63,7 @@ class TranslationComparison {
 
   initCompareTranslationsBox() {
     this.getBox().dialog({
-      width: 800,
+      width: 700,
       height: 500,
       autoOpen: false,
       dialogClass: 'ezra-dialog'
@@ -74,27 +80,26 @@ class TranslationComparison {
                                                  mappedAbsoluteVerseNumber,
                                                  1)[0];
     
-    var verseHtml = "<div class='verse-box'>";
+    var verseHtml = "<tr>";
     
     if (targetTranslationVerse == null) {
       console.log("Couldn't get verse " + bibleBookShortTitle + ' / ' + mappedAbsoluteVerseNumber + " for " + targetTranslationId);
+      verseHtml += "<td></td><td></td>";
     } else {
       var targetVerseReference = targetTranslationVerse.chapter + reference_separator + targetTranslationVerse.verseNr;
                                   
-      verseHtml += "<div class='verse-reference'><div class='verse-reference-content'>" + 
-                  targetVerseReference + "</div></div>";
-      verseHtml += "<div class='verse-content'><div class='verse-text'>" + 
-                  targetTranslationVerse.content + "</div></div>";
+      verseHtml +=  "<td class='verse-reference-td'>" + targetVerseReference + "</td>";
+      verseHtml += "<td class='verse-content-td'>" + targetTranslationVerse.content + "</td>";
     }
 
-    verseHtml += "</div>";
+    verseHtml += "</tr>";
 
     return verseHtml;
   }
 
   async getCompareTranslationContent() {
-    var sourceTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
-    var selectedVerseBoxes = bible_browser_controller.verse_selection.selected_verse_box_elements;
+    var sourceTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    var selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
     var compareTranslationContent = "<table>";
     var allTranslations = nsi.getAllLocalModules();
 
@@ -103,13 +108,13 @@ class TranslationComparison {
         var currentTranslationId = allTranslations[i].name;
         var currentTranslationName = allTranslations[i].description;
         var cssClass = '';
-        if (i < allTranslations.length - 1) {
+        if (i < allTranslations.length) {
           cssClass = 'compare-translation-row';
         }
 
         compareTranslationContent += "<tr class='" + cssClass + "'>";
-        compareTranslationContent += "<td style='width: 16em; padding: 0.5em;'>" + currentTranslationName + "</td>";
-        compareTranslationContent += "<td style='padding: 0.5em;'>";
+        compareTranslationContent += "<td class='compare-translation-row' style='width: 16em; padding: 0.5em;'>" + currentTranslationName + "</td>";
+        compareTranslationContent += "<td class='compare-translation-row'><table>";
 
         for (var j = 0; j < selectedVerseBoxes.length; j++) {
           var currentVerseBox = $(selectedVerseBoxes[j]);
@@ -117,7 +122,8 @@ class TranslationComparison {
           compareTranslationContent += verseHtml;
         }
 
-        compareTranslationContent += "</td>";
+        compareTranslationContent += "</table></td>";
+
         compareTranslationContent += "</tr>";
       }
     }
@@ -128,7 +134,7 @@ class TranslationComparison {
 
   async handleButtonClick() {
     var boxTitle = i18n.t("bible-browser.comparing-translations-for") + " " + 
-      bible_browser_controller.verse_selection.getSelectedVersesLabel().text();
+      app_controller.verse_selection.getSelectedVersesLabel().text();
 
     this.getBox().dialog({
       title: boxTitle

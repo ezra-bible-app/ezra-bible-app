@@ -109,6 +109,7 @@
     "release-notes-download": "Release Notes & Download",
     "no-repeated-info": "Do not show this again",
     "module-install-failed": "failed. Are you connected to the Internet?",
+    "module-install-cancelled": "cancelled.",
     "module-unlock-failed": "failed (Unlock issue).",
     "installing-strongs": "Installing <i>Strong's dictionaries</i>",
     "applying-migrations": "Migrating database to new version"
@@ -171,6 +172,7 @@
     "show-xrefs": "Show cross references",
     "show-footnotes": "Show footnotes",
     "show-dictionary": "Show dictionary",
+    "show-header-navigation": "Show header navigation",
     "show-tags": "Show tags",
     "show-notes": "Show notes",
     "limit-notes-display-size": "Limit notes display size",

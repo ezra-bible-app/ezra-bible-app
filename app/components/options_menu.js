@@ -16,117 +16,78 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const Darkmode = require('darkmode-js');
+const DisplayOption = require('../ui_models/display_option.js');
 
+/**
+ * The OptionsMenu component handles all event handling related to the options menu.
+ * 
+ * To add a new option, perform the following steps:
+ * - Add the html element for the new option in `/html/display_options_menu.html`
+ * - Add the locales for the new option in /locales/en/translation.json and copy the string to all other languages
+ * - Add a function `showOrHide<Option>BasedOnOption()` that responds to changes
+ * - Add the initialization for the new option in the `init()` function
+ * - Add a call to `showOrHide<Option>BasedOnOption()` in `refreshViewBasedOnOptions()`
+ * 
+ * @category Component
+ */
 class OptionsMenu {
   constructor() {
     this.menuIsOpened = false;
-    this.darkMode = null;
   }
 
-  toggleDarkModeIfNeeded() {
-    if (isMacOsMojaveOrLater()) {
-      const nativeTheme = require('electron').remote.nativeTheme;
-
-      if (nativeTheme.shouldUseDarkColors) {
-        this.enableOption('night-mode-switch');
-      } else {
-        this.disableOption('night-mode-switch');
-      }
-
-      this.useNightModeBasedOnOption();
-    }
-  }
-
-  initCurrentOptionsMenu(tabIndex=undefined) {
-    var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu(tabIndex);
-    currentVerseListMenu.find('.display-options-button').bind('click', (event) => { this.handleMenuClick(event); });
-
+  init() {
     $('#show-translation-settings-button').bind('click', function() {
-      bible_browser_controller.openModuleSettingsWizard('BIBLE'); 
+      app_controller.openModuleSettingsAssistant('BIBLE'); 
     });
   
     $('#show-dict-settings-button').bind('click', function() {
-      bible_browser_controller.openModuleSettingsWizard('DICT'); 
-    });
-    
-    $('#tool-bar-switch').bind('change', () => {
-      bible_browser_controller.settings.set('showToolBar', this.toolBarSwitchChecked());
-      this.showOrHideToolBarBasedOnOption();
-      this.slowlyHideDisplayMenu();
+      app_controller.openModuleSettingsAssistant('DICT'); 
     });
 
-    $('#book-intro-switch').bind('change', () => {
-      bible_browser_controller.settings.set('showBookIntro', this.bookIntroductionSwitchChecked());
-      this.showOrHideBookIntroductionBasedOnOption();
-      this.slowlyHideDisplayMenu();
-    });
+    this._toolBarOption = this.initDisplayOption('tool-bar-switch', 'showToolBar', () => { this.showOrHideToolBarBasedOnOption(); }, true);
+    this._bookIntroOption = this.initDisplayOption('book-intro-switch', 'showBookIntro', () => { this.showOrHideBookIntroductionBasedOnOption(); });
+    this._sectionTitleOption = this.initDisplayOption('section-title-switch', 'showSectionTitles', () => { this.showOrHideSectionTitlesBasedOnOption(); }, true);
+    this._xrefsOption = this.initDisplayOption('xrefs-switch', 'showXrefs', () => { this.showOrHideXrefsBasedOnOption(); });
+    this._footnotesOption = this.initDisplayOption('footnotes-switch', 'showFootnotes', () => { this.showOrHideFootnotesBasedOnOption(); });
+    this._dictionaryOption = this.initDisplayOption('strongs-switch', 'showStrongs', () => { this.showOrHideStrongsBasedOnOption(); });
+    this._headerNavOption = this.initDisplayOption('header-nav-switch', 'showHeaderNavigation', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
+    this._tagsOption = this.initDisplayOption('tags-switch', 'showTags', () => { this.showOrHideVerseTagsBasedOnOption(); }, true);
+    this._tagsColumnOption = this.initDisplayOption('tags-column-switch', 'useTagsColumn', () => { this.changeTagsLayoutBasedOnOption(); });
+    this._verseNotesOption = this.initDisplayOption('verse-notes-switch', 'showNotes', () => { this.showOrHideVerseNotesBasedOnOption(); });
+    this._verseNotesFixedHeightOption = this.initDisplayOption('verse-notes-fixed-height-switch', 'fixNotesHeight', () => { this.fixNotesHeightBasedOnOption(); });
 
-    $('#section-title-switch').bind('change', () => {
-      bible_browser_controller.settings.set('showSectionTitles', this.sectionTitleSwitchChecked());
-      this.showOrHideSectionTitlesBasedOnOption();
-      this.slowlyHideDisplayMenu();
-    });
-
-    $('#xrefs-switch').bind('change', () => {
-      bible_browser_controller.settings.set('showXrefs', this.xrefsSwitchChecked());
-      this.showOrHideXrefsBasedOnOption();
-      this.slowlyHideDisplayMenu();
-    });
-
-    $('#footnotes-switch').bind('change', () => {
-      bible_browser_controller.settings.set('showFootnotes', this.footnotesSwitchChecked());
-      this.showOrHideFootnotesBasedOnOption();
-      this.slowlyHideDisplayMenu();
-    });
-
-    $('#strongs-switch').bind('change', () => {
-      bible_browser_controller.settings.set('showStrongs', this.strongsSwitchChecked());
-      this.showOrHideStrongsBasedOnOption();
-      this.slowlyHideDisplayMenu();
-    });
-
-    $('#tags-switch').bind('change', () => {
-      bible_browser_controller.settings.set('showTags', this.tagsSwitchChecked());
-      this.showOrHideVerseTagsBasedOnOption();
-      this.slowlyHideDisplayMenu();
-    });
-
-    $('#tags-column-switch').bind('change', () => {
-      bible_browser_controller.settings.set('useTagsColumn', this.tagsColumnSwitchChecked());
-      this.changeTagsLayoutBasedOnOption();
-      this.slowlyHideDisplayMenu();
-    });
-
-    $('#night-mode-switch').bind('change', () => {
-      bible_browser_controller.settings.set('useNightMode', this.nightModeSwitchChecked());
+    this._nightModeOption = this.initDisplayOption('night-mode-switch', 'useNightMode', async () => {
       this.hideDisplayMenu();
       showGlobalLoadingIndicator();
-
-      setTimeout(() => {
-        this.useNightModeBasedOnOption();
-      }, 100);
+      theme_controller.useNightModeBasedOnOption();
+      await waitUntilIdle();
+      hideGlobalLoadingIndicator();
+    }, () => { // customSettingsLoader
+      return theme_controller.isNightModeUsed();
     });
 
-    $('#verse-notes-switch').bind('change', () => {
-      bible_browser_controller.settings.set('showNotes', this.verseNotesSwitchChecked());
-      this.showOrHideVerseNotesBasedOnOption();
-      this.slowlyHideDisplayMenu();
-    });
+    if (platformHelper.isMacOsMojaveOrLater()) {
+      // On macOS Mojave and later we do not give the user the option to switch night mode within the app, since it is controlled via system settings.
+      $('#night-mode-switch-box').hide();
+    }
 
-    $('#verse-notes-fixed-height-switch').bind('change', () => {
-      bible_browser_controller.settings.set('fixNotesHeight', this.verseNotesFixedHeightSwitchChecked());
-      this.fixNotesHeightBasedOnOption();
-      this.slowlyHideDisplayMenu();
-    });
+    this.refreshViewBasedOnOptions();
+  }
 
-    /*
-    // Enable the cross reference display by default
-    $('#x-refs-switch').attr('checked', 'checked');
-    $('#x-refs-switch').removeAttr('disabled');
-    $('#x-refs-switch').bind('change', function() {
-      bible_browser_controller.show_or_hide_xrefs_based_on_option();
-    });*/
+  initCurrentOptionsMenu(tabIndex=undefined) {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+    currentVerseListMenu.find('.display-options-button').bind('click', (event) => { this.handleMenuClick(event); });
+  }
+
+  initDisplayOption(switchElementId, settingsKey, eventHandler, enabledByDefault=false, customSettingsLoader=undefined) {
+    var option = new DisplayOption(switchElementId,
+                                   settingsKey,
+                                   app_controller.settings,
+                                   eventHandler,
+                                   () => { this.slowlyHideDisplayMenu(); },
+                                   customSettingsLoader,
+                                   enabledByDefault);
+    return option;
   }
 
   slowlyHideDisplayMenu() {
@@ -147,14 +108,14 @@ class OptionsMenu {
 
   handleMenuClick(event) {
     if (this.menuIsOpened) {
-      bible_browser_controller.handleBodyClick();
+      app_controller.handleBodyClick();
     } else {
-      bible_browser_controller.book_selection_menu.hide_book_menu();
-      bible_browser_controller.tag_selection_menu.hideTagMenu();
-      bible_browser_controller.module_search.hideSearchMenu();
-      bible_browser_controller.tag_assignment_menu.hideTagAssignmentMenu();
+      app_controller.book_selection_menu.hide_book_menu();
+      app_controller.tag_selection_menu.hideTagMenu();
+      app_controller.module_search.hideSearchMenu();
+      app_controller.tag_assignment_menu.hideTagAssignmentMenu();
       
-      var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
+      var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
       var display_options_button = currentVerseListMenu.find('.display-options-button');
       display_options_button.addClass('ui-state-active');
 
@@ -172,148 +133,20 @@ class OptionsMenu {
     }
   }
 
-  enableOption(optionId) {
-    $('#' + optionId).attr('checked', 'checked');
-    $('#' + optionId).removeAttr('disabled');
-    $('#' + optionId + '-box').addClass('ui-state-active'); 
-  }
-
-  disableOption(optionId) {
-    $('#' + optionId).removeAttr('checked');
-    //$('#' + optionId).removeAttr('disabled');
-    $('#' + optionId + '-box').removeClass('ui-state-active');    
-  }
-
-  loadDisplayOptions() {
-    // Enable the tag list by default
-    var showToolBar = true;
-    if (bible_browser_controller.settings.has('showToolBar')) {
-      showToolBar = bible_browser_controller.settings.get('showToolBar');
-    }    
-
-    var showBookIntro = false;
-    if (bible_browser_controller.settings.has('showBookIntro')) {
-      showBookIntro = bible_browser_controller.settings.get('showBookIntro');
-    }
-
-    // Enable section titles by default
-    var showSectionTitles = true;
-    if (bible_browser_controller.settings.has('showSectionTitles')) {
-      showSectionTitles = bible_browser_controller.settings.get('showSectionTitles');
-    }
-
-    var showXrefs = false;
-    if (bible_browser_controller.settings.has('showXrefs')) {
-      showXrefs = bible_browser_controller.settings.get('showXrefs');
-    }
-
-    var showFootnotes = false;
-    if (bible_browser_controller.settings.has('showFootnotes')) {
-      showFootnotes = bible_browser_controller.settings.get('showFootnotes');
-    }
-
-    var showStrongs = false;
-    if (bible_browser_controller.settings.has('showStrongs')) {
-      showStrongs = bible_browser_controller.settings.get('showStrongs');
-    }
-
-    // Enable the tags display by default
-    var showTags = true;
-    if (bible_browser_controller.settings.has('showTags')) {
-      showTags = bible_browser_controller.settings.get('showTags');
-    }
-
-    var useTagsColumn = false;
-    if (bible_browser_controller.settings.has('useTagsColumn')) {
-      useTagsColumn = bible_browser_controller.settings.get('useTagsColumn');
-    }
-
-    var useNightMode = false;
-    if (isMacOsMojaveOrLater()) {
-      const nativeTheme = require('electron').remote.nativeTheme;
-      useNightMode = nativeTheme.shouldUseDarkColors;
-    } else {
-      if (bible_browser_controller.settings.has('useNightMode')) {
-        useNightMode = bible_browser_controller.settings.get('useNightMode');
-      }
-    }
-
-    var showNotes = false;
-    if (bible_browser_controller.settings.has('showNotes')) {
-      showNotes = bible_browser_controller.settings.get('showNotes');
-    }
-
-    var fixNotesHeight = false;
-    if (bible_browser_controller.settings.has('fixNotesHeight')) {
-      fixNotesHeight = bible_browser_controller.settings.get('fixNotesHeight');
-    }
-
-    if (showToolBar) {
-      this.enableOption('tool-bar-switch');
-    }
-
-    if (showBookIntro) {
-      this.enableOption('book-intro-switch');
-    }
-
-    if (showSectionTitles) {
-      this.enableOption('section-title-switch');
-    }
-
-    if (showXrefs) {
-      this.enableOption('xrefs-switch');
-    }
-
-    if (showFootnotes) {
-      this.enableOption('footnotes-switch');
-    }
-
-    if (showStrongs) {
-      this.enableOption('strongs-switch');
-    }
-
-    if (showTags) {
-      this.enableOption('tags-switch');
-    }
-
-    if (showNotes) {
-      this.enableOption('verse-notes-switch');
-    }
-
-    if (fixNotesHeight) {
-      this.enableOption('verse-notes-fixed-height-switch');
-    }
-
-    if (useTagsColumn) {
-      this.enableOption('tags-column-switch');
-    }
-
-    if (useNightMode) {
-      this.enableOption('night-mode-switch');
-    }
-
-    if (isMacOsMojaveOrLater()) {
-      // On macOS Mojave and later we do not give the user the option to switch night mode within the app, since it is controlled via system settings.
-      $('#night-mode-switch-box').hide();
-    }
-
-    this.refreshViewBasedOnOptions();
-  }
-
   showOrHideToolBarBasedOnOption(tabIndex=undefined) {
     var currentToolBar = $('#bible-browser-toolbox');
 
     setTimeout(() => {
       var updated = false;
 
-      if (this.toolBarSwitchChecked()) {
-        updated = bible_browser_controller.tag_assignment_menu.moveTagAssignmentList(false);
+      if (this._toolBarOption.isChecked()) {
+        updated = app_controller.tag_assignment_menu.moveTagAssignmentList(false);
         if (updated || currentToolBar.is(':hidden')) {
           currentToolBar.show();
           updated = true;
         }
       } else {
-        updated = bible_browser_controller.tag_assignment_menu.moveTagAssignmentList(true);
+        updated = app_controller.tag_assignment_menu.moveTagAssignmentList(true);
         if (updated || currentToolBar.is(':visible')) {
           currentToolBar.hide();
           updated = true;
@@ -325,7 +158,7 @@ class OptionsMenu {
   }
 
   showOrHideBookIntroductionBasedOnOption(tabIndex=undefined) {
-    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
 
     var bookIntro = currentVerseList.find('.book-intro');
     var paragraphElements = bookIntro.find("div[type='paragraph']");
@@ -341,7 +174,7 @@ class OptionsMenu {
       }
     }
 
-    if (this.bookIntroductionSwitchChecked()) {
+    if (this._bookIntroOption.isChecked()) {
       bookIntro.show();
     } else {
       bookIntro.hide();
@@ -349,44 +182,51 @@ class OptionsMenu {
   }
 
   showOrHideSectionTitlesBasedOnOption(tabIndex=undefined) {
-    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+    var currentVerseList = app_controller.getCurrentVerseList(tabIndex)[0];
+    var tabId = app_controller.tab_controller.getSelectedTabId(tabIndex);
 
     // The following code moves the sword-section-title elements before the verse-boxes
-    var all_section_titles = currentVerseList.find('.sword-section-title');
+    var all_section_titles = currentVerseList.querySelectorAll('.sword-section-title');
     for (var i = 0; i < all_section_titles.length; i++) {
-      var currentSectionTitle = $(all_section_titles[i]);
-      var currentParent = currentSectionTitle.parent();
+      var currentSectionTitle = all_section_titles[i];
+      var currentParent = currentSectionTitle.parentNode;
       var closestChapterHeader = currentSectionTitle.closest('.chapter-header');
 
-      if (currentParent.hasClass('verse-text')) {
+      if (currentParent.classList.contains('verse-text')) {
         var verseBox = currentSectionTitle.closest('.verse-box');
-        var closestChapterHeader = verseBox.prev();
+        var closestChapterHeader = verseBox.previousElementSibling;
 
         // Check if the section title contains the text from the chapter header
         // In this case we hide the section title, because we would otherwise show redundant information
-        if (closestChapterHeader.text().length > 0 &&
-            currentSectionTitle.text().toUpperCase().indexOf(closestChapterHeader.text().toUpperCase()) != -1) {
+        if (closestChapterHeader.innerText.length > 0 &&
+            currentSectionTitle.innerText.toUpperCase().indexOf(closestChapterHeader.innerText.toUpperCase()) != -1) {
 
-          currentSectionTitle.hide();
+          $(currentSectionTitle).hide();
         }
+
+        // Generate anchor for section headers
+        var sectionHeaderAnchor = document.createElement('a');
+        var unixSectionHeaderId = app_controller.navigation_pane.getUnixSectionHeaderId(tabId, currentSectionTitle.innerText);
+        sectionHeaderAnchor.setAttribute('name', unixSectionHeaderId);
+        verseBox.before(sectionHeaderAnchor);
 
         verseBox.before(currentSectionTitle);
       }
     }
 
-    if (this.sectionTitleSwitchChecked()) {
-      currentVerseList.addClass('verse-list-with-section-titles');
+    if (this._sectionTitleOption.isChecked()) {
+      currentVerseList.classList.add('verse-list-with-section-titles');
     } else {
-      currentVerseList.removeClass('verse-list-with-section-titles');
+      currentVerseList.classList.remove('verse-list-with-section-titles');
     }
   }
 
   showOrHideXrefsBasedOnOption(tabIndex=undefined) {
-    var currentReferenceVerse = bible_browser_controller.getCurrentReferenceVerse(tabIndex);
-    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
-    if (this.xrefsSwitchChecked()) {
+    if (this._xrefsOption.isChecked()) {
       currentReferenceVerse.removeClass('verse-list-without-xrefs');
       currentVerseList.removeClass('verse-list-without-xrefs');
       tagBoxVerseList.removeClass('verse-list-without-xrefs');
@@ -398,11 +238,11 @@ class OptionsMenu {
   }
 
   showOrHideFootnotesBasedOnOption(tabIndex=undefined) {
-    var currentReferenceVerse = bible_browser_controller.getCurrentReferenceVerse(tabIndex);
-    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
-    if (this.footnotesSwitchChecked()) {
+    if (this._footnotesOption.isChecked()) {
       currentReferenceVerse.removeClass('verse-list-without-footnotes');
       currentVerseList.removeClass('verse-list-without-footnotes');
       tagBoxVerseList.removeClass('verse-list-without-footnotes');
@@ -416,15 +256,15 @@ class OptionsMenu {
   showOrHideStrongsBasedOnOption(tabIndex=undefined) {
     var updated = false;
 
-    if (!this.strongsSwitchChecked()) { 
-      updated = bible_browser_controller.dictionary_controller.hideInfoBox();
+    if (!this._dictionaryOption.isChecked()) { 
+      updated = app_controller.dictionary_controller.hideInfoBox();
       if (updated) {
-        bible_browser_controller.dictionary_controller.clearInfoBox();
+        app_controller.dictionary_controller.clearInfoBox();
       }
 
-      bible_browser_controller.dictionary_controller.hideStrongsBox(true);
+      app_controller.dictionary_controller.hideStrongsBox(true);
     } else {
-      updated = bible_browser_controller.dictionary_controller.showInfoBox();
+      updated = app_controller.dictionary_controller.showInfoBox();
     }
 
     if (updated) {
@@ -432,11 +272,19 @@ class OptionsMenu {
     }
   }
 
-  showOrHideVerseTagsBasedOnOption(tabIndex=undefined) {
-    var currentReferenceVerse = bible_browser_controller.getCurrentReferenceVerse(tabIndex);
-    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+  showOrHideHeaderNavigationBasedOnOption(tabIndex=undefined) {
+    if (this._headerNavOption.isChecked()) {
+      app_controller.navigation_pane.enableHeaderNavigation();
+    } else {
+      app_controller.navigation_pane.disableHeaderNavigation();
+    }
+  }
 
-    if (this.tagsSwitchChecked()) {
+  showOrHideVerseTagsBasedOnOption(tabIndex=undefined) {
+    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+
+    if (this._tagsOption.isChecked()) {
       currentReferenceVerse.removeClass('verse-list-without-tags');
       currentVerseList.removeClass('verse-list-without-tags');
     } else {
@@ -446,24 +294,24 @@ class OptionsMenu {
   }
 
   showOrHideVerseNotesBasedOnOption(tabIndex=undefined) {
-    var currentReferenceVerse = bible_browser_controller.getCurrentReferenceVerse(tabIndex);
-    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
 
-    if (this.verseNotesSwitchChecked()) {
+    if (this._verseNotesOption.isChecked()) {
       currentReferenceVerse.addClass('verse-list-with-notes');
       currentVerseList.addClass('verse-list-with-notes');
     } else {
-      bible_browser_controller.notes_controller.restoreCurrentlyEditedNotes();
+      app_controller.notes_controller.restoreCurrentlyEditedNotes();
       currentReferenceVerse.removeClass('verse-list-with-notes');
       currentVerseList.removeClass('verse-list-with-notes');
     }
   }
 
   fixNotesHeightBasedOnOption(tabIndex=undefined) {
-    var currentReferenceVerse = bible_browser_controller.getCurrentReferenceVerse(tabIndex);
-    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
 
-    if (this.verseNotesFixedHeightSwitchChecked()) {
+    if (this._verseNotesFixedHeightOption.isChecked()) {
       currentReferenceVerse.addClass('verse-list-scroll-notes');
       currentVerseList.addClass('verse-list-scroll-notes');
     } else {
@@ -473,10 +321,10 @@ class OptionsMenu {
   }
 
   changeTagsLayoutBasedOnOption(tabIndex=undefined) {
-    var currentReferenceVerse = bible_browser_controller.getCurrentReferenceVerse(tabIndex);
-    var currentVerseList = bible_browser_controller.getCurrentVerseList(tabIndex);
+    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
 
-    if (this.tagsColumnSwitchChecked()) {
+    if (this._tagsColumnOption.isChecked()) {
       currentReferenceVerse.addClass('verse-list-tags-column');
       currentVerseList.addClass('verse-list-tags-column');
     } else {
@@ -485,36 +333,11 @@ class OptionsMenu {
     }
   }
 
-  useNightModeBasedOnOption(force=false) {
-    if (this.nightModeSwitchChecked(force)) {
-      switchToDarkTheme();
-    } else {
-      switchToRegularTheme();
-    }
-
-    if (this.darkMode == null) {
-      this.darkMode = new Darkmode();
-    }
-
-    if (this.nightModeSwitchChecked(force) && !this.darkMode.isActivated() ||
-        !this.nightModeSwitchChecked(force) && this.darkMode.isActivated()) {
-          
-      this.darkMode.toggle();
-      // We need to repaint all charts, because the label color depends on the theme
-      bible_browser_controller.module_search.repaintAllCharts();
-    }
-
-    if (!force) {
-      setTimeout(() => {
-        hideGlobalLoadingIndicator();
-      }, 50);
-    }
-  }
-
   refreshViewBasedOnOptions(tabIndex=undefined) {
     this.showOrHideToolBarBasedOnOption(tabIndex);
     this.showOrHideBookIntroductionBasedOnOption(tabIndex);
     this.showOrHideSectionTitlesBasedOnOption(tabIndex);
+    this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     this.showOrHideXrefsBasedOnOption(tabIndex);
     this.showOrHideFootnotesBasedOnOption(tabIndex);
     this.showOrHideVerseTagsBasedOnOption(tabIndex);
@@ -522,55 +345,7 @@ class OptionsMenu {
     this.showOrHideStrongsBasedOnOption(tabIndex);
     this.showOrHideVerseNotesBasedOnOption(tabIndex);
     this.fixNotesHeightBasedOnOption(tabIndex);
-    this.useNightModeBasedOnOption();
-  }
-
-  toolBarSwitchChecked() {
-    return $('#tool-bar-switch').prop('checked');    
-  }
-
-  verseNotesSwitchChecked() {
-    return $('#verse-notes-switch').prop('checked');
-  }
-
-  verseNotesFixedHeightSwitchChecked() {
-    return $('#verse-notes-fixed-height-switch').prop('checked');
-  }
-
-  bookIntroductionSwitchChecked() {
-    return $('#book-intro-switch').prop('checked');
-  }
-
-  sectionTitleSwitchChecked() {
-    return $('#section-title-switch').prop('checked');
-  }
-
-  xrefsSwitchChecked() {
-    return $('#xrefs-switch').prop('checked');
-  }
-
-  footnotesSwitchChecked() {
-    return $('#footnotes-switch').prop('checked');
-  }
-
-  strongsSwitchChecked() {
-    return $('#strongs-switch').prop('checked');
-  }
-
-  tagsSwitchChecked() {
-    return $('#tags-switch').prop('checked');
-  }
-
-  tagsColumnSwitchChecked() {
-    return $('#tags-column-switch').prop('checked');
-  }
-
-  nightModeSwitchChecked(force=false) {
-    if (force) {
-      return true;
-    } else {
-      return $('#night-mode-switch').prop('checked');
-    }
+    theme_controller.useNightModeBasedOnOption();
   }
 }
 

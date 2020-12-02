@@ -20,6 +20,8 @@ jobs:
 #          run: powershell choco install visualstudio2017-workload-vctools
         - name: Build
           run: powershell .\build_scripts\build_win32.bat
+        - name: Upload symbols
+          run: powershell .\build_scripts\upload_symbols_to_sentry.bat
           env:
             SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
         - name: Rename installer
@@ -168,20 +170,27 @@ jobs:
             name: ezra-project_fedora31_latest
             path: ezra-project_latest.rpm
 
-#    build-fedora32:
-#      name: Build Fedora 32 package
-#      runs-on: ubuntu-latest
-#      steps:
-#      - uses: actions/checkout@v1
-#      - name: Build
-#        uses: ./.github/actions/build_fedora32
-#        env:
-#          SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
-#      - name: Upload rpm file
-#        uses: actions/upload-artifact@v1.0.0
-#        with:
-#          name: ezra-project_fedora32_latest
-#          path: ezra-project_latest.rpm
+    build-fedora33:
+        name: Build Fedora 33 package
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v1
+        - name: Build
+          uses: ./.github/actions/build_fedora33
+          env:
+            SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
+        # Create package and rename package are separate steps for Fedora 33,
+        # because for some reason electron-installer-redhat is not properly
+        # working on Fedora 33!
+        - name: Create package
+          run: npm install electron-installer-redhat && npm run rpm_fedora29
+        - name: Rename package
+          run: mv release/packages/*.rpm $GITHUB_WORKSPACE/ezra-project_latest.rpm
+        - name: Upload rpm file
+          uses: actions/upload-artifact@v1.0.0
+          with:
+            name: ezra-project_fedora33_latest
+            path: ezra-project_latest.rpm
 
     build-centos8:
         name: Build CentOS 8 package
@@ -198,11 +207,29 @@ jobs:
             name: ezra-project_centos8_latest
             path: ezra-project_latest.rpm
 
+    build-opensuse-leap:
+        name: Build OpenSuse Leap package
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v1
+        - name: Build
+          uses: ./.github/actions/build_opensuseleap
+          env:
+            SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
+        - name: Upload rpm file
+          uses: actions/upload-artifact@v1.0.0
+          with:
+            name: ezra-project_opensuse_leap_latest
+            path: ezra-project_latest.rpm
+
     release:
       if: "github.event.release"
       name: Publish release artifacts
       runs-on: ubuntu-latest
-      needs: [ build-win32, build-ubuntu-1804, build-ubuntu-1910, build-ubuntu-2004, build-mint18, build-mint19, build-buster, build-fedora29, build-fedora31, build-centos8 ]
+      needs: [ build-win32, build-ubuntu-1804, build-ubuntu-1910,
+               build-ubuntu-2004, build-mint18, build-mint19,
+               build-buster, build-fedora29, build-fedora31,
+               build-fedora33, build-centos8, build-opensuse-leap ]
 
       steps:
       - name: Download win32 package
@@ -250,15 +277,20 @@ jobs:
         with:
           name: ezra-project_fedora31_latest
 
-#      - name: Download fedora32 package
-#        uses: actions/download-artifact@v1.0.0
-#        with:
-#          name: ezra-project_fedora32_latest
+      - name: Download fedora33 package
+        uses: actions/download-artifact@v1.0.0
+        with:
+          name: ezra-project_fedora33_latest
 
       - name: Download centos8 package
         uses: actions/download-artifact@v1.0.0
         with:
           name: ezra-project_centos8_latest
+
+      - name: Download opensuse leap package
+        uses: actions/download-artifact@v1.0.0
+        with:
+          name: ezra-project_opensuse_leap_latest
 
       - name: Rename artifacts for publishing
         shell: bash
@@ -274,7 +306,8 @@ jobs:
           mv ezra-project_centos8_latest/ezra-project_latest.rpm packages/ezra-project_centos8-${GITHUB_REF##*/}.rpm
           mv ezra-project_fedora29_latest/ezra-project_latest.rpm packages/ezra-project_fedora29-${GITHUB_REF##*/}.rpm
           mv ezra-project_fedora31_latest/ezra-project_latest.rpm packages/ezra-project_fedora31-${GITHUB_REF##*/}.rpm
-#          mv ezra-project_fedora32_latest/ezra-project_latest.rpm packages/ezra-project_fedora32-${GITHUB_REF##*/}.rpm
+          mv ezra-project_opensuse_leap_latest/ezra-project_latest.rpm packages/ezra-project_opensuse_leap-${GITHUB_REF##*/}.rpm
+          mv ezra-project_fedora33_latest/ezra-project_latest.rpm packages/ezra-project_fedora33-${GITHUB_REF##*/}.rpm
 
       - name: Publish artifacts
         uses: skx/github-action-publish-binaries@master

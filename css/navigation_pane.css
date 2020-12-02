@@ -33,6 +33,10 @@
   width: 3em;
 }
 
+.navigation-pane-headers {
+  min-width: 15em;
+}
+
 .navigation-pane-books {
   min-width: 10em;
 }
@@ -56,13 +60,43 @@
   margin-bottom: 0.5em;
   text-align: center;
   border: 1px solid white;
+  float: left;
+}
+
+.navigation-pane:not(.navigation-pane-books) .navigation-link:not(.header-link) {
+  width: 2em;
+}
+
+.navigation-link, .header-link:not(.header-link-first) {
+  clear: both;
+}
+
+.header-link {
+  display: none;
+  width: 10.5em;
+  text-align: left;
+  border: 1px solid white;
+  margin-left: 3em;
+  float: left;
+  clear: none;
+}
+
+.navigation-pane-headers .header-link {
+  display: block;
+}
+
+.header-link-first {
+  margin-left: 3px;
 }
 
 .navigation-pane-books .navigation-link {
   text-align: left;
 }
 
-a.navigation-link:link, a.navigation-link:hover, a.navigation-link:visited, a.navigation-link:focus {
+a.navigation-link:link,
+a.navigation-link:hover,
+a.navigation-link:visited,
+a.navigation-link:focus {
   font-style: normal;
   text-decoration: none;
   border-radius: 4px;
@@ -70,7 +104,16 @@ a.navigation-link:link, a.navigation-link:hover, a.navigation-link:visited, a.na
   color: #808080;
 }
 
-a.hl-nav-element:link, a.navigation-link:hover, a.navigation-link:focus {
+.darkmode--activated a.navigation-link {
+  border: 1px solid black;
+  color: whitesmoke;
+}
+
+a.hl-nav-element:link,
+a.navigation-link:hover,
+a.navigation-link:focus,
+a.header-link:hover,
+a.header-link.focus {
   border: 1px solid #74B2E2;
   border-radius: 4px;
   background-color: #e4f1fb;
@@ -78,17 +121,21 @@ a.hl-nav-element:link, a.navigation-link:hover, a.navigation-link:focus {
 }
 
 .darkmode--activated a.navigation-link:link,
-.darkmode--activated a.navigation-link:focus {
-  background: #222222 url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_35_222222_1x100.png) 50% 50% repeat-x;
+.darkmode--activated a.navigation-link:focus,
+.darkmode--activated a.header-link:link,
+.darkmode--activated a.header-link:focus {
+  /*background: #222222 url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_35_222222_1x100.png) 50% 50% repeat-x;*/
   color: whitesmoke;
-  border: 1px solid #444444;
+  /*border: 1px solid #444444;*/
 }
 
 .darkmode--activated a.hl-nav-element:hover,
 .darkmode--activated a.hl-nav-element:link,
-.darkmode--activated a.navigation-link:hover {
-  border: 1px solid #0b93d5;
+.darkmode--activated a.navigation-link:hover,
+.darkmode--activated a.header-link:hover {
   background: #003147 url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
+  color: whitesmoke;
+  border: 1px solid #0b93d5;
 }
 
 a.hl-search-result:link {

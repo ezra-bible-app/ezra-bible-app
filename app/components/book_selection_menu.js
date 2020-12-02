@@ -16,6 +16,11 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+/**
+ * The BookSelectionMenu component implements all event handling for the book selection menu.
+ * 
+ * @category Component
+ */
 class BookSelectionMenu {
   constructor() {
     this.book_menu_is_opened = false;
@@ -30,13 +35,13 @@ class BookSelectionMenu {
     var menu = $('#app-container').find('#book-selection-menu');
     var links = menu.find('a');
 
-    menu.bind('click', bible_browser_controller.handleBodyClick);
+    menu.bind('click', app_controller.handleBodyClick);
 
     for (var i = 0; i < links.length; i++) {
       var current_link = $(links[i]);
       var current_link_href = current_link.attr('href');
       var current_book_title = current_link.html();
-      var new_link_href = "javascript:bible_browser_controller.book_selection_menu.select_bible_book('" + 
+      var new_link_href = "javascript:app_controller.book_selection_menu.select_bible_book('" + 
                           current_link_href + "','" + current_book_title + "')";
 
       current_link.attr('href', new_link_href);
@@ -57,7 +62,7 @@ class BookSelectionMenu {
   }
 
   updateAvailableBooks(tabIndex=undefined) {
-    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     if (currentTab != null) {
       var currentBibleTranslationId = currentTab.getBibleTranslationId();
@@ -82,7 +87,7 @@ class BookSelectionMenu {
   }
 
   select_bible_book(book_code, book_title) {
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
+    var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
 
     Sentry.addBreadcrumb({category: "BookSelectionMenu.select_bible_book",
                           message: `Selected book ${book_code} using translation ${currentBibleTranslationId}`,
@@ -93,42 +98,42 @@ class BookSelectionMenu {
       return;
     }
 
-    bible_browser_controller.book_selection_menu.hide_book_menu();
-    bible_browser_controller.book_selection_menu.highlightSelectedBookInMenu(book_code);
+    app_controller.book_selection_menu.hide_book_menu();
+    app_controller.book_selection_menu.highlightSelectedBookInMenu(book_code);
 
-    var currentTab = bible_browser_controller.tab_controller.getTab();
+    var currentTab = app_controller.tab_controller.getTab();
     currentTab.setTextType('book');
-    bible_browser_controller.tab_controller.setCurrentTabBook(book_code, book_title);
+    app_controller.tab_controller.setCurrentTabBook(book_code, book_title);
 
-    bible_browser_controller.tag_selection_menu.hideTagMenu();
-    bible_browser_controller.tag_selection_menu.resetTagMenu();
-    bible_browser_controller.module_search.hideSearchMenu();
-    bible_browser_controller.module_search.resetSearch();
-    bible_browser_controller.tag_assignment_menu.hideTagAssignmentMenu();
+    app_controller.tag_selection_menu.hideTagMenu();
+    app_controller.tag_selection_menu.resetTagMenu();
+    app_controller.module_search.hideSearchMenu();
+    app_controller.module_search.resetSearch();
+    app_controller.tag_assignment_menu.hideTagAssignmentMenu();
 
-    bible_browser_controller.text_loader.prepareForNewText(true, false);
+    app_controller.text_controller.prepareForNewText(true, false);
 
     setTimeout(async () => {
       // Set selected tags and search term to null, since we just switched to a book
-      var currentTab = bible_browser_controller.tab_controller.getTab();
+      var currentTab = app_controller.tab_controller.getTab();
       currentTab.setTagIdList(null);
       currentTab.setSearchTerm(null);
       currentTab.setXrefs(null);
       currentTab.setVerseReferenceId(null);
 
-      var currentVerseList = bible_browser_controller.getCurrentVerseList();
-      bible_browser_controller.tab_search.setVerseList(currentVerseList);
+      var currentVerseList = app_controller.getCurrentVerseList();
+      app_controller.tab_search.setVerseList(currentVerseList);
 
-      var currentTabId = bible_browser_controller.tab_controller.getSelectedTabId();
+      var currentTabId = app_controller.tab_controller.getSelectedTabId();
       var currentBook = currentTab.getBook();
 
-      await bible_browser_controller.text_loader.requestTextUpdate(currentTabId,
-                                                                   currentBook,
-                                                                   null,
-                                                                   null,
-                                                                   null,
-                                                                   null,
-                                                                   null);
+      await app_controller.text_controller.requestTextUpdate(currentTabId,
+                                                             currentBook,
+                                                             null,
+                                                             null,
+                                                             null,
+                                                             null,
+                                                             null);
 
       await waitUntilIdle();
       tags_controller.update_tag_list(currentBook);
@@ -151,14 +156,14 @@ class BookSelectionMenu {
     }
 
     if (this.book_menu_is_opened) {
-      bible_browser_controller.handleBodyClick();
+      app_controller.handleBodyClick();
     } else {
-      bible_browser_controller.tag_selection_menu.hideTagMenu();
-      bible_browser_controller.module_search.hideSearchMenu();
-      bible_browser_controller.optionsMenu.hideDisplayMenu();
-      bible_browser_controller.tag_assignment_menu.hideTagAssignmentMenu();
+      app_controller.tag_selection_menu.hideTagMenu();
+      app_controller.module_search.hideSearchMenu();
+      app_controller.optionsMenu.hideDisplayMenu();
+      app_controller.tag_assignment_menu.hideTagAssignmentMenu();
       
-      var currentVerseListMenu = bible_browser_controller.getCurrentVerseListMenu();
+      var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
       var book_button = currentVerseListMenu.find('.book-select-button');
       book_button.addClass('ui-state-active');
 
@@ -177,7 +182,7 @@ class BookSelectionMenu {
   }
 
   highlightCurrentlySelectedBookInMenu(tabIndex=undefined) {
-    var currentTab = bible_browser_controller.tab_controller.getTab(tabIndex);
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
     
     if (currentTab != null) {
       var bookCode = currentTab.getBook();

@@ -18,6 +18,12 @@
 
 const jsStrongs = require('strongs');
 
+/**
+ * The DictionaryInfoBox component handles all event handling and updates of the
+ * dictionary info box component.
+ * 
+ * @category Component
+ */
 class DictionaryInfoBox {
   constructor(dictionaryController) {
     this.dictionaryController = dictionaryController;
@@ -90,7 +96,7 @@ class DictionaryInfoBox {
   }
 
   getAlternativeStrongsLink(strongsKey) {
-    var functionCall = `bible_browser_controller.dictionary_controller.dictionaryInfoBox.updateDictInfoBoxWithKey("${strongsKey}")`;
+    var functionCall = `app_controller.dictionary_controller.dictionaryInfoBox.updateDictInfoBoxWithKey("${strongsKey}")`;
     var currentLink = `<a href='javascript:${functionCall}'>${strongsKey}</a>`;
     return currentLink;
   }
@@ -134,7 +140,7 @@ class DictionaryInfoBox {
     for (var i = 0; i < this.dictionaryInfoBoxStack.length; i++) {
       if (i < this.dictionaryInfoBoxStack.length - 1) {
         var currentRewindNumber = this.dictionaryInfoBoxStack.length - i - 1;
-        var currentCrumb = "<a href='javascript:bible_browser_controller.dictionary_controller.dictionaryInfoBox.rewindDictInfo(" + currentRewindNumber + ")'>";
+        var currentCrumb = "<a href='javascript:app_controller.dictionary_controller.dictionaryInfoBox.rewindDictInfo(" + currentRewindNumber + ")'>";
 
         if (i == 0) {
           currentCrumb += this.currentFirstStrongsEntry.rawKey;
@@ -212,8 +218,8 @@ class DictionaryInfoBox {
   }
 
   getFindAllLink(strongsEntry) {
-    var currentBibleTranslationId = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
-    var functionCall = "javascript:bible_browser_controller.dictionary_controller.dictionaryInfoBox.findAllOccurrences('" +
+    var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    var functionCall = "javascript:app_controller.dictionary_controller.dictionaryInfoBox.findAllOccurrences('" +
       strongsEntry.rawKey + "','" + currentBibleTranslationId + "')";
 
     var link = "<a href=\"" + functionCall + "\">" + 
@@ -223,7 +229,7 @@ class DictionaryInfoBox {
   }
 
   getBlueletterLink(strongsEntry) {
-    var bible = bible_browser_controller.tab_controller.getTab().getBibleTranslationId();
+    var bible = app_controller.tab_controller.getTab().getBibleTranslationId();
 
     var blueLetterTranslations = ['KJV', 'NASB', 'ASV', 'WEB'];
     if (!blueLetterTranslations.includes(bible)) {
@@ -242,7 +248,7 @@ class DictionaryInfoBox {
     var referenceStrongsEntry = nsi.getStrongsEntry(referenceKey);
     var referenceStrongsLemma = jsStrongs[referenceKey].lemma;
 
-    var referenceLink = "<a href=\"javascript:bible_browser_controller.dictionary_controller.dictionaryInfoBox.openStrongsReference('";
+    var referenceLink = "<a href=\"javascript:app_controller.dictionary_controller.dictionaryInfoBox.openStrongsReference('";
     referenceLink += referenceKey;
     referenceLink += "')\">" + referenceKey + "</a>";
     var trClass = (isLastRow ? "" : "class='td-underline'");
@@ -342,27 +348,27 @@ class DictionaryInfoBox {
   async findAllOccurrences(strongsKey, bibleTranslationId) {
     // Add a new tab. Set the default bible translation to the given one to ensure that the translation in the
     // newly opened tab matches the one in the current tab
-    bible_browser_controller.tab_controller.addTab(undefined, false, bibleTranslationId);
+    app_controller.tab_controller.addTab(undefined, false, bibleTranslationId);
 
     // Set search options for the new tab
-    var currentTab = bible_browser_controller.tab_controller.getTab();
+    var currentTab = app_controller.tab_controller.getTab();
     currentTab.setSearchOptions('strongsNumber', false);
 
     // Set the search key and populate the search menu
-    bible_browser_controller.tab_controller.setTabSearch(strongsKey);
-    bible_browser_controller.module_search.populateSearchMenu();
+    app_controller.tab_controller.setTabSearch(strongsKey);
+    app_controller.module_search.populateSearchMenu();
 
     // Prepare for the next text to be loaded
-    bible_browser_controller.text_loader.prepareForNewText(true, true);
+    app_controller.text_controller.prepareForNewText(true, true);
 
     // Perform the Strong's search
-    await bible_browser_controller.module_search.startSearch(/* event */      null,
+    await app_controller.module_search.startSearch(/* event */      null,
                                                              /* tabIndex */   undefined,
                                                              /* searchTerm */ strongsKey);
 
     // Run the onTabSelected actions at the end, because we added a tab
-    var ui = { 'index' : bible_browser_controller.tab_controller.getSelectedTabIndex()};
-    await bible_browser_controller.onTabSelected(undefined, ui);
+    var ui = { 'index' : app_controller.tab_controller.getSelectedTabIndex()};
+    await app_controller.onTabSelected(undefined, ui);
   }
 
   getAllExtraDictModules(lang='GREEK') {

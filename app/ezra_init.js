@@ -19,7 +19,6 @@
 require('v8-compile-cache');
 
 const app = require('electron').remote.app;
-const { exception } = require('console');
 const { remote, ipcRenderer } = require('electron');
 const isDev = require('electron-is-dev');
 
@@ -48,18 +47,16 @@ let nsi = null;
 const UiHelper = require('./app/helpers/ui_helper.js');
 const uiHelper = new UiHelper();
 
-let models = null;
-let bible_browser_controller = null;
-let tags_controller = null;
-let reference_separator = ':';
-let bible_chapter_verse_counts = {};
+// Platform Helper
+const PlatformHelper = require('./app/helpers/platform_helper.js');
+const ThemeController = require('./app/controllers/theme_controller.js');
+const platformHelper = new PlatformHelper();
 
-function htmlToElement(html) {
-  var template = document.createElement('template');
-  html = html.trim(); // Never return a text node of whitespace as the result
-  template.innerHTML = html;
-  return template.content.firstChild;
-}
+let models = null;
+let app_controller = null;
+let tags_controller = null;
+let theme_controller = new ThemeController();
+let reference_separator = ':';
 
 function sleep(time) {
   return new Promise(resolve => {
@@ -97,6 +94,10 @@ async function initI18N()
   await i18nHelper.init();
   // await i18n.changeLanguage('de');
 
+  if (platformHelper.isTest()) { // Use English for test mode
+    await i18n.changeLanguage('en');
+  }
+
   reference_separator = i18n.t('general.chapter-verse-separator');
   $(document).localize();
 }
@@ -105,7 +106,7 @@ function initNSI()
 {
   const NodeSwordInterface = require('node-sword-interface');
 
-  if (isTest()) {
+  if (platformHelper.isTest()) {
     const userDataDir = app.getPath('userData');
     nsi = new NodeSwordInterface(userDataDir);
   } else {
@@ -123,70 +124,23 @@ async function initDatabase()
   dbDir = dbHelper.getDatabaseDir();
 
   await dbHelper.initDatabase(dbDir);
-  models = require('./models')(dbDir);
+  models = require('./app/database/models')(dbDir);
 }
 
 async function initControllers()
 {
-  const BibleBrowserController = require('./app/bible_browser/bible_browser_controller.js');
-  const TagsController = require('./app/tags/tags_controller.js');
+  const AppController = require('./app/controllers/app_controller.js');
+  const TagsController = require('./app/controllers/tags_controller.js');
 
-  bible_browser_controller = new BibleBrowserController();
-  await bible_browser_controller.init();
+  app_controller = new AppController();
+  await app_controller.init();
 
   tags_controller = new TagsController();
 }
 
-function isTest()
-{
-  return process.argv.includes('--test-type=webdriver');
-}
-
-function isMac()
-{
-  return navigator.platform.match('Mac') !== null;
-}
-
-function isMacOsMojaveOrLater()
-{
-  if (!isMac()) {
-    return false;
-  }
-
-  var isMojaveOrLater = false;
-
-  try {
-    var releaseVersion = require('os').release();
-    var splittedVersion = releaseVersion.split('.');
-    var majorDigit = parseInt(splittedVersion[0]);
-
-    // see https://en.wikipedia.org/wiki/Darwin_(operating_system)#Release_history
-    // macOS Mojave starts with the Darwin kernel version 18.0.0
-    isMojaveOrLater = (majorDigit >= 18);
-  } catch(e) {}
-
-  return isMojaveOrLater;
-}
-
-function isLinux()
-{
-  return navigator.platform.match('Linux') !== null;
-}
-
-function isWin()
-{
-  return navigator.platform.match('Win') !== null;
-}
-
 function initUi()
 {
-  if (isMac()) {
-    document.body.classList.add('OSX');
-  } else if (isLinux()) {
-    document.body.classList.add('Linux');
-  } else if (isWin()) {
-    document.body.classList.add('Windows');
-  }
+  platformHelper.addPlatformCssClass();
 
   // Setup resizable function for divider between tags toolbox and verse list
   $('#bible-browser-toolbox').resizable({
@@ -196,20 +150,22 @@ function initUi()
     },
     stop: function(event, ui) {
       //console.log("Saving new tag list width: " + ui.size.width);
-      bible_browser_controller.settings.set('tag_list_width', ui.size.width);
+      app_controller.settings.set('tag_list_width', ui.size.width);
     }
   });
 
+  tags_controller.init_ui();
+  uiHelper.configureButtonStyles();
+  $(window).bind("resize", () => { uiHelper.resizeAppContainer(); });
+}
+
+function initExternalLinkHandling() {
   // Open links classified as external in the default web browser
   $('body').on('click', 'a.external, p.external a, div.external a', (event) => {
     event.preventDefault();
     let link = event.target.href;
     require("electron").shell.openExternal(link);
   });
-
-  tags_controller.init_ui();
-  uiHelper.configureButtonStyles();
-  $(window).bind("resize", () => { uiHelper.resizeAppContainer(); });
 }
 
 function showGlobalLoadingIndicator() {
@@ -225,85 +181,11 @@ function hideGlobalLoadingIndicator() {
   $('#main-content').show();
 }
 
-function switchToDarkTheme() {
-  switchToTheme('css/jquery-ui/dark-hive/jquery-ui.css');
-  bible_browser_controller.notes_controller.setDarkTheme();
-}
-
-function switchToRegularTheme() {
-  switchToTheme('css/jquery-ui/cupertino/jquery-ui.css');
-  bible_browser_controller.notes_controller.setLightTheme();
-}
-
-function switchToTheme(theme) {
-  var currentTheme = document.getElementById("theme-css").href;
-
-  if (currentTheme.indexOf(theme) == -1) { // Only switch the theme if it is different from the current theme
-    document.getElementById("theme-css").href = theme;
-  }
-}
-
-function earlyInitNightMode() {
-  var useDarkMode = false;
-
-  if (isMacOsMojaveOrLater()) {
-    const nativeTheme = require('electron').remote.nativeTheme;
-
-    if (nativeTheme.shouldUseDarkColors) {
-      useDarkMode = true;
-    }
-  } else {
-    var settings = require('electron-settings');
-
-    if (settings.get('useNightMode')) {
-      useDarkMode = true;
-    }
-  }
-
-  if (useDarkMode) {
-    document.body.classList.add('darkmode--activated');
-  }
-}
-
 function earlyHideToolBar() {
   var settings = require('electron-settings');
 
   if (!settings.get('showToolBar')) {
     $('#bible-browser-toolbox').hide();
-  }
-}
-
-function initNightMode() {
-  if (isMacOsMojaveOrLater()) { // On macOS (from Mojave) we initialize night mode based on the system settings
-
-    const nativeTheme = require('electron').remote.nativeTheme;
-
-    // Set up a listener to react when the native theme has changed
-    nativeTheme.on('updated', () => {
-      if (nativeTheme.shouldUseDarkColors != bible_browser_controller.optionsMenu.nightModeSwitchChecked()) {
-        showGlobalLoadingIndicator();
-
-        setTimeout(() => {
-          bible_browser_controller.optionsMenu.toggleDarkModeIfNeeded();
-        }, 100);
-      }
-    });
-
-    if (nativeTheme.shouldUseDarkColors != bible_browser_controller.optionsMenu.nightModeSwitchChecked()) {
-      console.log("Initializing night mode based on system settings ...");
-      bible_browser_controller.optionsMenu.toggleDarkModeIfNeeded();
-    }
-
-  } else { // On other systems we initialize night mode based on the application settings
-
-    if (bible_browser_controller.settings.has('useNightMode')) {
-      var useNightMode = bible_browser_controller.settings.get('useNightMode');
-  
-      if (useNightMode) {
-        console.log("Initializing night mode based on app settings ...");
-        bible_browser_controller.optionsMenu.useNightModeBasedOnOption(true);
-      }
-    }
   }
 }
 
@@ -329,7 +211,7 @@ function loadHTML()
   loadFragment('html/book_selection_menu.html',           'book-selection-menu');
   loadFragment('html/tag_selection_menu.html',            'tag-selection-menu');
   loadFragment('html/bible_browser_toolbox.html',         'bible-browser-toolbox');
-  loadFragment('html/module_settings_wizard.html',        'module-settings-wizard');
+  loadFragment('html/module_settings_assistant.html',     'module-settings-assistant');
   loadFragment('html/tab_search_form.html',               'tab-search');
   loadFragment('html/module_search_menu.html',            'module-search-menu');
   loadFragment('html/display_options_menu.html',          'display-options-menu');
@@ -351,7 +233,7 @@ function toggleFullScreen()
 async function initApplication()
 {
   console.time("application-startup");
-  earlyInitNightMode();
+  theme_controller.earlyInitNightMode();
 
   // Wait for the UI to render
   await waitUntilIdle();
@@ -368,9 +250,20 @@ async function initApplication()
   loadHTML();
 
   earlyHideToolBar();
+  initExternalLinkHandling();
 
   var loadingIndicator = $('#startup-loading-indicator');
   loadingIndicator.show();
+
+  if (platformHelper.isWin()) {
+    if (!platformHelper.isWindowsTenOrLater()) {
+      var vcppRedistributableNeeded = platformHelper.showVcppRedistributableMessageIfNeeded();
+      if (vcppRedistributableNeeded) {
+        return;
+      }
+    }
+  }
+
   loadingIndicator.find('.loader').show();
 
   console.log("Initializing i18n ...");
@@ -385,21 +278,16 @@ async function initApplication()
   console.log("Initializing controllers ...");
   await initControllers();
 
-  initNightMode();
+  console.log("Initializing user interface ...");
+  initUi();
+  app_controller.optionsMenu.init();
+  theme_controller.initNightMode();
 
   // Wait for the UI to render
   await waitUntilIdle();
 
-  console.log("Initializing user interface ...");
-  initUi();
-
-  bible_browser_controller.optionsMenu.loadDisplayOptions();
-
-  // Wait for the UI to render, before we hide the loading indicator
-  await waitUntilIdle();
-
   console.log("Loading settings ...");
-  await bible_browser_controller.loadSettings();
+  await app_controller.loadSettings();
 
   // Wait for the UI to render, before we hide the loading indicator
   await waitUntilIdle();
@@ -411,7 +299,7 @@ async function initApplication()
 
   console.timeEnd("application-startup");
 
-  await bible_browser_controller.translation_controller.installStrongsIfNeeded();
+  await app_controller.translation_controller.installStrongsIfNeeded();
 
   console.log("Checking for latest release ...");
   const NewReleaseChecker = require('./app/helpers/new_release_checker.js');

@@ -644,34 +644,34 @@ h2 {
   display: none;
 }
 
-#module-settings-wizard {
+#module-settings-assistant {
   user-select: none;
 }
 
-#module-settings-wizard-init {
+#module-settings-assistant-init {
   padding-top: 2em;
   text-align: center;
 }
 
-#module-settings-wizard-add, #module-settings-wizard-add .content {
+#module-settings-assistant-add, #module-settings-assistant-add .content {
   min-height: 620px;
 }
 
-#module-settings-wizard .label {
+#module-settings-assistant .label {
   margin-left: 0.5em;
   cursor: default;
 }
 
-#module-settings-wizard .disabled {
+#module-settings-assistant .disabled {
   color: gray;
 }
 
-#module-settings-wizard .disabled-label {
+#module-settings-assistant .disabled-label {
   margin-left: 0.5em;
   color: grey;
 }
 
-#module-settings-wizard section.scrollable, #module-settings-wizard div.scrollable {
+#module-settings-assistant section.scrollable, #module-settings-assistant div.scrollable {
   overflow-y: scroll;
 }
 
@@ -679,6 +679,11 @@ h2 {
   height: 100%;
   width: 45%;
   float: left;
+}
+
+#remove-module-list {
+  overflow-y: scroll;
+  height: 75%;
 }
 
 #module-info {
@@ -693,12 +698,12 @@ h2 {
 
 #display-options-menu {
   padding-top: 0.5em;
-  width: 38em;
+  width: 40em;
 }
 
 .options-group {
   float: left;
-  width: 19em;
+  width: 20em;
 }
 
 .selection-menu-footer {
@@ -866,15 +871,19 @@ h2 {
   font-size: 130%;
   position: absolute;
   height: 200px;
-  width: 400px;
   margin: -100px 0 0 -100px;
   top: 50%;
   left: 50%;
 }
 
+#startup-loading-indicator.incompatible-windows {
+  position: unset;
+  margin: 50px;
+}
+
 #verse-list-popup-loading-indicator, #compare-translations-loading-indicator {
   display: none;
-  width: 300px;
+  /* width: 300px; */
   height: 30px;
   margin-top: 3em;
 }
@@ -884,6 +893,11 @@ h2 {
   font-size: 1em;
   font-weight: bold;
   color: #808080;
+}
+
+#startup-loading-indicator.incompatible-windows .loading-indicator-text {
+  color: black;
+  font-weight: normal;
 }
 
 .module-search-result-header, .verse-statistics-chart-container {
@@ -918,7 +932,7 @@ h2 {
 
 .switch-box {
   clear: both;
-  width: 80%;
+  width: 85%;
   margin-bottom: 1em;
   margin-left: auto;
   margin-right: auto;
@@ -939,10 +953,16 @@ h2 {
 .show-parallel-translations-button,
 .export-tagged-verses-button,
 .bible-translation-info-button,
-#module-settings-wizard-init button,
+#module-settings-assistant-init button,
 #start-module-search-button {
   margin-left: 0.8em;
   height: 2.2em;
+}
+
+#cancel-module-installation-button {
+  height: 2.2em;
+  margin-top: 1em;
+  margin-left: 1em;
 }
 
 #add-tab-button {
@@ -1419,7 +1439,7 @@ h2 {
 .tab-search-occurances {
   float: left;
   margin-left: 0.5em;
-  margin-right: 1.5em;
+  margin-right: 2em;
   width: 2em;
 }
 
@@ -1465,8 +1485,17 @@ s {
   text-decoration: none;
 }
 
-.compare-translation-row td {
+.compare-translation-row td.compare-translation-row {
   border-bottom: 1px dashed gray;
+}
+
+.compare-translation-row .verse-reference-td {
+  width: 4em;
+  padding: 0.5em;
+}
+
+.compare-translation-row .verse-content-td {
+  padding: 0.5em;
 }
 
 #strongs-box {
@@ -1610,9 +1639,9 @@ s {
   color: whitesmoke;
 }
 
-.darkmode--activated .wizard > .steps .disabled a,
-.darkmode--activated .wizard > .steps .disabled a:hover,
-.darkmode--activated .wizard > .steps .disabled a:active {
+.darkmode--activated .assistant > .steps .disabled a,
+.darkmode--activated .assistant > .steps .disabled a:hover,
+.darkmode--activated .assistant > .steps .disabled a:active {
   background: none;
   background-color: gray;
 }

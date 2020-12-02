@@ -1,0 +1,15 @@
+.content h1, .content header.page-title h1 {
+    font-size: 32px;
+}
+
+.content h3 {
+    font-size: 1.2em;
+}
+
+.content header p, .member>.description p, .member>.name .code-name {
+    font-size: unset;
+}
+
+#main>.sidebar {
+    width: unset;
+}
