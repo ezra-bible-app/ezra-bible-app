@@ -49,7 +49,7 @@ if (!isDev) {
 }
 
 require('electron-debug')({
-    enabled: true,
+    isEnabled: true,
     showDevTools: false,
     devToolsMode: 'bottom',
 });
