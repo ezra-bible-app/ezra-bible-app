@@ -320,7 +320,7 @@ class NavigationPane {
   }
 
   goToChapter(chapter) {
-    this.highlightNavElement(chapter, onClick=true);
+    this.highlightNavElement(chapter, true);
 
     var reference = '#top';
 
