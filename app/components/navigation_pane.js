@@ -207,7 +207,7 @@ class NavigationPane {
 
   getUnixSectionHeaderId(tabId, sectionHeader) {
     var unixSectionHeader = sectionHeader.toLowerCase();
-    unixSectionHeader = unixSectionHeader.replace(/ /g, "-").replace(/['`()]/g, "");
+    unixSectionHeader = unixSectionHeader.replace(/ /g, "-").replace(/['`(),;:!?]/g, "");
     var unixSectionHeaderId = tabId + ' ' + 'section-header-' + unixSectionHeader;
     return unixSectionHeaderId;
   }
