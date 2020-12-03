@@ -74,9 +74,14 @@ class NavigationPane {
     navigationPane.bind('mouseover', app_controller.verse_context_controller.hide_verse_expand_box);
   }
 
-  enableHeaderNavigation() {
-    var navigationPane = this.getCurrentNavigationPane();
-    navigationPane.addClass('navigation-pane-headers');
+  enableHeaderNavigation(tabIndex=undefined) {
+    var navigationPane = this.getCurrentNavigationPane(tabIndex);
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
+    var currentTranslationId = currentTab.getBibleTranslationId();
+    
+    if (app_controller.translation_controller.hasBibleTranslationHeaders(currentTranslationId)) {
+      navigationPane.addClass('navigation-pane-headers');
+    }
   }
 
   disableHeaderNavigation() {

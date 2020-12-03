@@ -274,7 +274,7 @@ class OptionsMenu {
 
   showOrHideHeaderNavigationBasedOnOption(tabIndex=undefined) {
     if (this._headerNavOption.isChecked()) {
-      app_controller.navigation_pane.enableHeaderNavigation();
+      app_controller.navigation_pane.enableHeaderNavigation(tabIndex);
     } else {
       app_controller.navigation_pane.disableHeaderNavigation();
     }
