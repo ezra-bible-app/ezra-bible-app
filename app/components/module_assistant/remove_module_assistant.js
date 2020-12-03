@@ -178,9 +178,14 @@ class RemoveModuleAssistant {
 
           removalPage.append('<span>' + i18n.t("module-assistant.removing") + ' <i>' + moduleName + '</i> ... </span>');
           
+          Sentry.addBreadcrumb({category: "app",
+                                message: `Removing module ${moduleCode}`,
+                                level: Sentry.Severity.Info});
+
           await nsi.uninstallModule(moduleCode);
 
           var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+
           if (currentBibleTranslationId == moduleCode) {
             var modules = app_controller.translation_controller.getInstalledModules('BIBLE');
 

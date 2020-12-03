@@ -463,6 +463,10 @@ class InstallModuleAssistant {
     }
 
     if (installSuccessful) {
+      Sentry.addBreadcrumb({category: "app",
+                            message: `Installed module ${moduleCode}`,
+                            level: Sentry.Severity.Info});
+
       existingProgressBar.before('<div style="margin-bottom: 1em;">&nbsp;' + i18n.t("general.done") + '.</div>');
 
       if (this._currentModuleType == 'BIBLE' && swordModule.hasStrongs && !nsi.strongsAvailable()) {

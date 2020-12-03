@@ -247,6 +247,10 @@ class ModuleSearch {
       app_controller.text_controller.prepareForNewText(event != null, true, tabIndex);
 
       try {
+        Sentry.addBreadcrumb({category: "app",
+                              message: `Performing module search in ${currentBibleTranslationId}`,
+                              level: Sentry.Severity.Info});
+
         var searchResults = await nsi.getModuleSearchResults(currentBibleTranslationId,
                                                              this.currentSearchTerm,
                                                              (progress) => {

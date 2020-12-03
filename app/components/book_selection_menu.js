@@ -89,7 +89,7 @@ class BookSelectionMenu {
   select_bible_book(book_code, book_title) {
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
 
-    Sentry.addBreadcrumb({category: "BookSelectionMenu.select_bible_book",
+    Sentry.addBreadcrumb({category: "app",
                           message: `Selected book ${book_code} using translation ${currentBibleTranslationId}`,
                           level: Sentry.Severity.Info});
     
