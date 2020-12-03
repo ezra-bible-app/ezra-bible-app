@@ -333,6 +333,13 @@ class TranslationController {
     }
   }
 
+  hasCurrentTranslationHeaderElements(tabIndex=undefined) {
+    var currentVerseList = app_controller.getCurrentVerseList(tabIndex)[0];
+    var allSectionTitles = currentVerseList.querySelectorAll('.sword-section-title');
+
+    return allSectionTitles.length > 0;
+  }
+
   async handleBibleTranslationChange(oldBibleTranslationId, newBibleTranslationId) {
     app_controller.book_selection_menu.updateAvailableBooks();
     this.onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId);

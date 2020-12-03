@@ -616,7 +616,13 @@ class AppController {
       var mouseOverChapter = this.getChapterFromReference(verseReferenceContent);
       this.navigation_pane.highlightNavElement(mouseOverChapter);
 
-      var sectionTitle = this.verse_box_helper.getSectionTitleFromVerseBox(verseBox);
+      var sectionTitle = "";
+      if (event.target.classList.contains('sword-section-title')) {
+        sectionTitle = event.target.innerText;
+      } else {
+        sectionTitle = this.verse_box_helper.getSectionTitleFromVerseBox(verseBox);
+      }
+
       if (sectionTitle != null) {
         this.navigation_pane.highlightSectionHeaderByTitle(sectionTitle);
       }
@@ -830,6 +836,7 @@ class AppController {
     }
 
     this.verse_selection.init(tabIndex);
+    this.optionsMenu.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     this.navigation_pane.updateNavigation(tabIndex);
     this.notes_controller.initForTab(tabIndex);
     this.sword_notes.initForTab(tabIndex);

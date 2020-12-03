@@ -191,8 +191,12 @@ class OptionsMenu {
       var currentSectionTitle = all_section_titles[i];
       var currentParent = currentSectionTitle.parentNode;
       var closestChapterHeader = currentSectionTitle.closest('.chapter-header');
+      var parentClassList = currentParent.classList;
 
-      if (currentParent.classList.contains('verse-text')) {
+      // We verify that the section title is part of the verse text
+      // (and not part of a chapter introduction or something similar).
+      if (parentClassList.contains('verse-text')) {
+
         var verseBox = currentSectionTitle.closest('.verse-box');
         var closestChapterHeader = verseBox.previousElementSibling;
 
@@ -273,10 +277,15 @@ class OptionsMenu {
   }
 
   showOrHideHeaderNavigationBasedOnOption(tabIndex=undefined) {
-    if (this._headerNavOption.isChecked()) {
+    if (this._headerNavOption.isChecked() &&
+        app_controller.translation_controller.hasCurrentTranslationHeaderElements(tabIndex)) {
+
       app_controller.navigation_pane.enableHeaderNavigation(tabIndex);
+
     } else {
+
       app_controller.navigation_pane.disableHeaderNavigation();
+
     }
   }
 

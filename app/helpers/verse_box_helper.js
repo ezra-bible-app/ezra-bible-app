@@ -70,6 +70,10 @@ class VerseBoxHelper {
     for (var i = absoluteVerseNumber; i >= 1; i--) {
       currentElement = currentElement.previousElementSibling;
 
+      if (currentElement == null) {
+        break;
+      }
+
       if (currentElement.classList.contains('sword-section-title')) {
         sectionTitle = currentElement.innerText;
         break;

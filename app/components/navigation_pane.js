@@ -80,6 +80,7 @@ class NavigationPane {
     var currentTranslationId = currentTab.getBibleTranslationId();
     
     if (app_controller.translation_controller.hasBibleTranslationHeaders(currentTranslationId)) {
+
       navigationPane.addClass('navigation-pane-headers');
     }
   }
