@@ -171,6 +171,19 @@ class TranslationController {
       this.addLanguageGroupsToBibleSelectMenu(tabIndex);
 
       var translations = nsi.getAllLocalModules();
+      translations.sort((a, b) => {
+        var aDescription = a.description;
+        var bDescription = b.description;
+
+        if (aDescription < bDescription) {
+          return -1;
+        } else if (aDescription > bDescription) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+
       this.previousTranslationCount = this.translationCount;
       this.translationCount = translations.length;
 
