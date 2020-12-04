@@ -39,7 +39,7 @@ const i18nextOptions = {
   },
   saveMissing: true,
   fallbackLng: 'en',
-  whitelist: ['de', 'en', 'nl', 'fr', 'es'],
+  whitelist: ['de', 'en', 'nl', 'fr', 'es', 'sk'],
   react: {
     wait: false
   }
