@@ -193,6 +193,8 @@ class NavigationPane {
     navigationHeader.classList.add('nav-pane-header');
     navigationHeader.innerText = i18n.t('bible-browser.chapter-header');
     navigationPane.append(navigationHeader);
+
+    var cachedVerseListTabId = this.getCachedVerseListTabId(tabIndex);
     var sectionHeaderNumber = 1;
 
     for (var i = 1; i <= chapterCount; i++) {
@@ -203,20 +205,19 @@ class NavigationPane {
       $(current_chapter_link).html(i);
       navigationPane.append(current_chapter_link);
 
-      sectionHeaderNumber = this.addHeaderNavLinksForChapter(tabIndex, navigationPane, sectionTitleElements, i, sectionHeaderNumber);
+      sectionHeaderNumber = this.addHeaderNavLinksForChapter(cachedVerseListTabId, navigationPane, sectionTitleElements, i, sectionHeaderNumber);
     }
   }
 
   getUnixSectionHeaderId(tabId, chapter, sectionHeader) {
-    var unixSectionHeader = sectionHeader.toLowerCase();
+    var unixSectionHeader = sectionHeader.trim().toLowerCase();
     unixSectionHeader = unixSectionHeader.replace(/ /g, "-").replace(/['`().,;:!?]/g, "");
     var unixSectionHeaderId = tabId + ' ' + chapter + ' ' + 'section-header-' + unixSectionHeader;
     return unixSectionHeaderId;
   }
 
-  addHeaderNavLinksForChapter(tabIndex, navigationPane, sectionTitleElements, chapter, sectionHeaderNumber=1) {
+  addHeaderNavLinksForChapter(cachedVerseListTabId, navigationPane, sectionTitleElements, chapter, sectionHeaderNumber=1) {
     var chapterSectionHeaderIndex = 0;
-    var cachedVerseListTabId = this.getCachedVerseListTabId(tabIndex);
 
     for (var i = 0; i < sectionTitleElements.length; i++) {
       var sectionTitleElement = sectionTitleElements[i];
@@ -227,7 +228,7 @@ class NavigationPane {
       } catch (exc) {}
 
       if (currentChapter != null && currentChapter == chapter) {
-        var sectionHeader = sectionTitleElement.innerText;
+        var sectionHeader = sectionTitleElement.textContent;
         var chapter = sectionTitleElement.getAttribute('chapter');
         var sectionHeaderId = this.getUnixSectionHeaderId(cachedVerseListTabId, chapter, sectionHeader);
 

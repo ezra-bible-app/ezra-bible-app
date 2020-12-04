@@ -199,7 +199,8 @@ class OptionsMenu {
         // Generate anchor for section headers
         var sectionHeaderAnchor = document.createElement('a');
         var chapter = currentSectionTitle.getAttribute('chapter');
-        var unixSectionHeaderId = app_controller.navigation_pane.getUnixSectionHeaderId(tabId, chapter, currentSectionTitle.innerText);
+        var sectionTitleContent = currentSectionTitle.textContent;
+        var unixSectionHeaderId = app_controller.navigation_pane.getUnixSectionHeaderId(tabId, chapter, sectionTitleContent);
         sectionHeaderAnchor.setAttribute('name', unixSectionHeaderId);
 
         var verseBox = currentSectionTitle.closest('.verse-box');
