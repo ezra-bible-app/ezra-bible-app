@@ -56,6 +56,7 @@ class TabController {
 
     window.addEventListener('beforeunload', () => {
       this.saveTabConfiguration();
+      this.saveBookSelectionMenu();
       this.saveLastUsedVersion();
     });
 
@@ -117,6 +118,13 @@ class TabController {
       //console.log('Saving tab configuration');
       this.settings.delete('tabConfiguration');
     }  
+  }
+
+  saveBookSelectionMenu() {
+    if (this.persistanceEnabled) {
+      var html = document.getElementById("book-selection-menu").innerHTML;
+      this.settings.set('bookSelectionMenuCache', html);
+    }
   }
 
   saveLastUsedVersion() {

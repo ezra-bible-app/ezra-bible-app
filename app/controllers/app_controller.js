@@ -94,6 +94,7 @@ class AppController {
                           () => { this.onSearchReset(); });
 
     var bibleTranslations = nsi.getAllLocalModules();
+
     var defaultBibleTranslationId = null;
     if (bibleTranslations.length > 0) {
       var defaultBibleTranslationId = bibleTranslations[0].name;

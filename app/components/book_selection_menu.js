@@ -30,12 +30,31 @@ class BookSelectionMenu {
   init() {
     if (this.init_completed) return;
 
-    this.localizeBookSelectionMenu();
+    var menu = $('#app-container').find('#book-selection-menu');
+    menu.bind('click', app_controller.handleBodyClick);
 
+    if (app_controller.settings.get('bookSelectionMenuCache') != null) {
+      console.log("Loading book selection menu from cache ...")
+
+      var cachedHtml = app_controller.settings.get('bookSelectionMenuCache');
+      var menu = $('#app-container').find('#book-selection-menu');
+
+      menu.innerHTML = cachedHtml;
+
+    } else {
+
+      console.time('localize');
+      this.localizeBookSelectionMenu();
+      console.timeEnd('localize');
+    }
+
+    this.initLinks();
+    this.init_completed = true;
+  }
+
+  initLinks() {
     var menu = $('#app-container').find('#book-selection-menu');
     var links = menu.find('a');
-
-    menu.bind('click', app_controller.handleBodyClick);
 
     for (var i = 0; i < links.length; i++) {
       var current_link = $(links[i]);
@@ -46,8 +65,6 @@ class BookSelectionMenu {
 
       current_link.attr('href', new_link_href);
     }
-
-    this.init_completed = true;
   }
 
   // This function is rather slow and it delays app startup! (~175ms)
