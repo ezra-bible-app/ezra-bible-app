@@ -74,7 +74,13 @@ class VerseBoxHelper {
         break;
       }
 
-      if (currentElement.classList.contains('sword-section-title')) {
+      if (currentElement.classList.contains('sword-section-title') && 
+          currentElement.getAttribute('subtype') != 'x-Chapter' &&
+          currentElement.getAttribute('type') != 'psalm' &&
+          currentElement.getAttribute('type') != 'chapter' &&
+          currentElement.getAttribute('type') != 'scope' &&
+          currentElement.getAttribute('type') != 'acrostic'
+      ) {
         sectionTitle = currentElement.innerText;
         break;
       }

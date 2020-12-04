@@ -185,7 +185,9 @@ class NavigationPane {
     var currentBook = currentTab.getBook();
     var chapterCount = nsi.getBookChapterCount(currentTranslation, currentBook);
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
-    var sectionTitleElements = currentVerseList.find('.sword-section-title');
+
+    var query = '.sword-section-title:not([subtype="x-Chapter"]):not([type="chapter"]):not([type="psalm"]):not([type="scope"]):not([type="acrostic"])';
+    var sectionTitleElements = currentVerseList.find(query);
 
     var navigationHeader = document.createElement('div');
     navigationHeader.classList.add('nav-pane-header');
@@ -205,10 +207,10 @@ class NavigationPane {
     }
   }
 
-  getUnixSectionHeaderId(tabId, sectionHeader) {
+  getUnixSectionHeaderId(tabId, chapter, sectionHeader) {
     var unixSectionHeader = sectionHeader.toLowerCase();
-    unixSectionHeader = unixSectionHeader.replace(/ /g, "-").replace(/['`(),;:!?]/g, "");
-    var unixSectionHeaderId = tabId + ' ' + 'section-header-' + unixSectionHeader;
+    unixSectionHeader = unixSectionHeader.replace(/ /g, "-").replace(/['`().,;:!?]/g, "");
+    var unixSectionHeaderId = tabId + ' ' + chapter + ' ' + 'section-header-' + unixSectionHeader;
     return unixSectionHeaderId;
   }
 
@@ -219,22 +221,15 @@ class NavigationPane {
     for (var i = 0; i < sectionTitleElements.length; i++) {
       var sectionTitleElement = sectionTitleElements[i];
       var currentChapter = null;
-      var isSectionHeader = true;
-
-      try {
-        if (sectionTitleElement.getAttribute('subtype') == 'x-Chapter') {
-          isSectionHeader = false;
-        }
-      } catch (exc) {}
       
       try {
         currentChapter = parseInt(sectionTitleElement.getAttribute('chapter'));
       } catch (exc) {}
 
-      if (isSectionHeader && currentChapter != null && currentChapter == chapter) {
+      if (currentChapter != null && currentChapter == chapter) {
         var sectionHeader = sectionTitleElement.innerText;
         var chapter = sectionTitleElement.getAttribute('chapter');
-        var sectionHeaderId = this.getUnixSectionHeaderId(cachedVerseListTabId, sectionHeader);
+        var sectionHeaderId = this.getUnixSectionHeaderId(cachedVerseListTabId, chapter, sectionHeader);
 
         var currentHeaderLink = document.createElement('a');
         currentHeaderLink.setAttribute('class', 'navigation-link header-link');

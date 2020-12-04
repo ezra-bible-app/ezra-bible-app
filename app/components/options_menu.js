@@ -187,33 +187,23 @@ class OptionsMenu {
 
     // The following code moves the sword-section-title elements before the verse-boxes
     var all_section_titles = currentVerseList.querySelectorAll('.sword-section-title');
+
     for (var i = 0; i < all_section_titles.length; i++) {
       var currentSectionTitle = all_section_titles[i];
       var currentParent = currentSectionTitle.parentNode;
-      var closestChapterHeader = currentSectionTitle.closest('.chapter-header');
       var parentClassList = currentParent.classList;
 
       // We verify that the section title is part of the verse text
       // (and not part of a chapter introduction or something similar).
       if (parentClassList.contains('verse-text')) {
-
-        var verseBox = currentSectionTitle.closest('.verse-box');
-        var closestChapterHeader = verseBox.previousElementSibling;
-
-        // Check if the section title contains the text from the chapter header
-        // In this case we hide the section title, because we would otherwise show redundant information
-        if (closestChapterHeader.innerText.length > 0 &&
-            currentSectionTitle.innerText.toUpperCase().indexOf(closestChapterHeader.innerText.toUpperCase()) != -1) {
-
-          $(currentSectionTitle).hide();
-        }
-
         // Generate anchor for section headers
         var sectionHeaderAnchor = document.createElement('a');
-        var unixSectionHeaderId = app_controller.navigation_pane.getUnixSectionHeaderId(tabId, currentSectionTitle.innerText);
+        var chapter = currentSectionTitle.getAttribute('chapter');
+        var unixSectionHeaderId = app_controller.navigation_pane.getUnixSectionHeaderId(tabId, chapter, currentSectionTitle.innerText);
         sectionHeaderAnchor.setAttribute('name', unixSectionHeaderId);
-        verseBox.before(sectionHeaderAnchor);
 
+        var verseBox = currentSectionTitle.closest('.verse-box');
+        verseBox.before(sectionHeaderAnchor);
         verseBox.before(currentSectionTitle);
       }
     }

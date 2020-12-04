@@ -348,7 +348,8 @@ class TranslationController {
 
   hasCurrentTranslationHeaderElements(tabIndex=undefined) {
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex)[0];
-    var allSectionTitles = currentVerseList.querySelectorAll('.sword-section-title');
+    var query = '.sword-section-title:not([type="chapter"]):not([type="psalm"]):not([type="scope"]):not([type="acrostic"])';
+    var allSectionTitles = currentVerseList.querySelectorAll(query);
 
     return allSectionTitles.length > 0;
   }
