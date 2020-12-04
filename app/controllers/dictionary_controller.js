@@ -17,9 +17,8 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Mousetrap = require('mousetrap');
-const jsStrongs = require('strongs');
-
 const DictionaryInfoBox = require('../components/dictionary_info_box.js');
+let jsStrongs = null;
 
 /**
  * The DictionaryController handles functionality for the lookup of dictionary information based on Strong's keys.
@@ -58,6 +57,14 @@ class DictionaryController {
     });
 
     this.runAvailabilityCheck();
+  }
+
+  getJsStrongs() {
+    if (jsStrongs == null) {
+      jsStrongs = require('strongs');
+    }
+
+    return jsStrongs;
   }
 
   runAvailabilityCheck() {
@@ -152,7 +159,7 @@ class DictionaryController {
   }
 
   isValidStrongsKey(strongsKey) {
-    return strongsKey in jsStrongs;
+    return strongsKey in this.getJsStrongs();
   }
 
   showStrongsInfo(strongsIds, showStrongsBox=true) {
@@ -168,7 +175,7 @@ class DictionaryController {
       }
     }
 
-    var lemma = jsStrongs[normalizedStrongsIds[0]].lemma;
+    var lemma = this.getJsStrongs[normalizedStrongsIds[0]].lemma;
     var strongsShortInfo = lemma;
 
     try {

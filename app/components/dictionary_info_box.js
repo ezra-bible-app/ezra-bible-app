@@ -16,7 +16,7 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const jsStrongs = require('strongs');
+let jsStrongs = null;
 
 /**
  * The DictionaryInfoBox component handles all event handling and updates of the
@@ -43,6 +43,14 @@ class DictionaryInfoBox {
     $('#dictionary-info-box').accordion();
   }
 
+  getJsStrongs() {
+    if (jsStrongs == null) {
+      jsStrongs = require('strongs');
+    }
+
+    return jsStrongs;
+  }
+
   clearDictInfoBox() {
     this.dictionaryInfoBoxPanel.find('div').empty();
     this.dictionaryInfoBoxHeader.html(i18n.t("dictionary-info-box.default-header", { interpolation: {escapeValue: false} }));
@@ -60,6 +68,8 @@ class DictionaryInfoBox {
   }
 
   showDictInfoBox() {
+    this.getJsStrongs();
+
     if (this.infoBox.is(":hidden")) {
       this.infoBox.show();
       return true;
@@ -75,7 +85,7 @@ class DictionaryInfoBox {
 
     this.currentStrongsEntry = strongsEntry;
     this.currentAdditionalStrongsEntries = additionalStrongsEntries;
-    this.currentLemma = jsStrongs[strongsEntry.key].lemma;
+    this.currentLemma = this.getJsStrongs[strongsEntry.key].lemma;
 
     var dictInfoHeader = this.getDictInfoHeader(strongsEntry);
     this.dictionaryInfoBoxHeader.html(dictInfoHeader);
@@ -180,7 +190,7 @@ class DictionaryInfoBox {
       }
 
       this.currentStrongsEntry = this.dictionaryController.getStrongsEntryWithRawKey(key);
-      this.currentLemma = jsStrongs[this.currentStrongsEntry.key].lemma;
+      this.currentLemma = this.getJsStrongs[this.currentStrongsEntry.key].lemma;
     }
 
     this.updateDictInfoBox(this.currentStrongsEntry, this.currentAdditionalStrongsEntries);
@@ -246,7 +256,7 @@ class DictionaryInfoBox {
     var referenceTableRow = "";
     var referenceKey = strongsReference.key;
     var referenceStrongsEntry = nsi.getStrongsEntry(referenceKey);
-    var referenceStrongsLemma = jsStrongs[referenceKey].lemma;
+    var referenceStrongsLemma = this.getJsStrongs[referenceKey].lemma;
 
     var referenceLink = "<a href=\"javascript:app_controller.dictionary_controller.dictionaryInfoBox.openStrongsReference('";
     referenceLink += referenceKey;
