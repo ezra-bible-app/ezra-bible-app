@@ -1301,6 +1301,7 @@ h2 {
 }
 
 #tag-assignment-menu-taglist {
+  clear: both;
   margin-top: 0.5em;
   height: 400px;
   overflow-y: scroll;
@@ -1336,6 +1337,17 @@ h2 {
   border-top: 1px solid #DDDDDD;
   height: 400px;
   overflow-y: scroll;
+}
+
+#tag-selection-filter-loading-indicator {
+  position: relative;
+  top: -4em;
+  right: -37em;
+}
+
+#tag-selection-filter-loading-indicator .loader {
+  display: block;
+  visibility: hidden;
 }
 
 #tag-selection-filter-input {

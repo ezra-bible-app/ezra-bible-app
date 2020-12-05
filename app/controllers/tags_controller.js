@@ -1212,10 +1212,8 @@ class TagsController {
 
     reference_link.find('#tag-list-filter-button').bind('click', tags_controller.handle_filter_button_click);
 
-    $('#tags-content-global').bind('mouseover', function() {
-      $('#filter-dialog').css('display', 'none');
-    });
-    $('#filter-dialog').find('input').bind('click', tags_controller.handle_tag_filter_type_click);
+    $('#tags-content-global').bind('mouseover', () => { this.hideTagFilterMenuIfInToolBar(); });
+    $('#tag-filter-menu').find('input').bind('click', tags_controller.handle_tag_filter_type_click);
 
     $('#tags-search-input').bind('keyup', tags_controller.handle_tag_search_input);
     $('#tags-search-input').bind('keydown', function(e) {
@@ -1266,9 +1264,7 @@ class TagsController {
   }
 
   handle_filter_button_click(e) {
-    console.log('filter-button-click');
     var position = $(this).offset();
-    console.log(position);
     var filter_menu = $('#tag-filter-menu');
 
     if (filter_menu.is(':visible')) {
@@ -1282,6 +1278,8 @@ class TagsController {
 
   async handle_tag_filter_type_click(e) {
     await waitUntilIdle();
+    tags_controller.showTagSelectionFilterLoadingIndicator();
+    await sleep(500);
 
     var selected_type = $(this)[0].value;
     var tags_content_global = $('#tags-content-global');
@@ -1310,6 +1308,30 @@ class TagsController {
       default:
         break;
     }
+
+    tags_controller.hideTagSelectionFilterLoadingIndicator();
+
+    setTimeout(() => {
+      tags_controller.hideTagFilterMenuIfInToolBar();
+    }, 500);
+  }
+
+  hideTagFilterMenuIfInToolBar() {
+    var tagFilterMenu = document.getElementById('tag-filter-menu');
+    if (tagFilterMenu.parentNode.getAttribute('id') == 'boxes') {
+      $('#tag-filter-menu').hide();
+    }
+  }
+
+  showTagSelectionFilterLoadingIndicator() {
+    var tagFilterMenu = document.getElementById('tag-filter-menu');
+    if (tagFilterMenu.parentNode.getAttribute('id') != 'boxes') {
+      $('#tag-selection-filter-loading-indicator').find('.loader').css('visibility', 'visible');
+    }
+  }
+
+  hideTagSelectionFilterLoadingIndicator() {
+    $('#tag-selection-filter-loading-indicator').find('.loader').css('visibility', 'hidden');
   }
 
   tag_title_matches_filter(tag_title, filter) {
