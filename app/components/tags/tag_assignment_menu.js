@@ -97,7 +97,8 @@ class TagAssignmentMenu {
     var toolBarId = 'tags-content';
     var menuId = 'tag-assignment-menu-taglist';
     var filterId = 'tag-assignment-menu-filter';
-
+    var tagFilterMenuId = 'tag-filter-menu';
+    var tagFilterMenu = document.getElementById(tagFilterMenuId);
     var assignTagMenuButton = this.getCurrentMenuButton();
 
     if (moveToMenu) {
@@ -109,19 +110,35 @@ class TagAssignmentMenu {
     var updated = false;
 
     if (parentId == toolBarId && moveToMenu) {
+      $('#tag-list-filter-button').unbind();
+
       var menu = document.getElementById(menuId);
       menu.appendChild(tagsContainer);
       var filter = document.getElementById(filterId);
       var tagsSearchInput = document.getElementById('tags-search-input');
+
       filter.appendChild(tagsSearchInput);
+      filter.appendChild(tagFilterMenu);
+
+      $('#tag-filter-menu').find('br').hide();
+      $('#tag-filter-menu').show();
+
+      $('#tag-list-filter-button').unbind();
+      $('#tag-list-filter-button').bind('click', tags_controller.handle_filter_button_click);
+      $('#tag-filter-menu').find('input').unbind();
+      $('#tag-filter-menu').find('input').bind('click', tags_controller.handle_tag_filter_type_click);
+
       updated = true;
 
     } else if (parentId == menuId && !moveToMenu) {
       tags_controller.handle_tag_accordion_change();
       var toolBar = document.getElementById(toolBarId);
+      var boxes = document.getElementById('boxes');
       toolBar.appendChild(tagsContainer);
+      $('#tag-filter-menu').hide();
+      $('#tag-filter-menu').find('br').show();
+      boxes.appendChild(tagFilterMenu);
       updated = true;
-
     }
 
     return updated;

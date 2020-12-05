@@ -1281,6 +1281,17 @@ h2 {
   color: whitesmoke;
 }
 
+#tag-assignment-menu-filter {
+  height: 4em;
+}
+
+#tag-assignment-menu-filter #tag-filter-menu {
+  border: 0;
+  box-shadow: unset;
+  position: unset;
+  margin-top: 0.5em;
+}
+
 #tag-assignment-menu #tag-assignment-menu-filter input {
   font-size: 1em;
 }
