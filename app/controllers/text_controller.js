@@ -202,7 +202,7 @@ class TextController {
       return;
     }
     
-    var verses = nsi.getBookText(currentBibleTranslationId, book_short_title, start_verse_number, number_of_verses);
+    var verses = await ipcNsi.getBookText(currentBibleTranslationId, book_short_title, start_verse_number, number_of_verses);
 
     var verseTags = await bibleBook.getVerseTags();
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
@@ -389,10 +389,11 @@ class TextController {
 
       var currentAbsoluteVerseNumber = versification == 'eng' ? currentVerseReference.absoluteVerseNrEng : currentVerseReference.absoluteVerseNrHeb;
       
-      var verse = nsi.getBookText(bibleTranslationId,
-                                  currentVerseReference.bibleBookShortTitle,
-                                  currentAbsoluteVerseNumber,
-                                  1)[0];
+      var resultVerses = await ipcNsi.getBookText(bibleTranslationId,
+                                                  currentVerseReference.bibleBookShortTitle,
+                                                  currentAbsoluteVerseNumber,
+                                                  1)
+      var verse = resultVerses[0];
 
       if (verse !== undefined) {
         verses.push(verse);

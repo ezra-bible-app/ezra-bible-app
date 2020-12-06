@@ -257,7 +257,7 @@ class AppController {
                                                  currentTab.getXrefs());
 
         if (currentTab.getVerseReferenceId() != null) {
-          this.updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId);
+          await this.updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId);
         }
       }
     }
@@ -609,7 +609,7 @@ class AppController {
     this.navigation_pane.updateNavigationFromVerseBox(focussedElement);
   }
 
-  updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId) {
+  async updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId) {
     var currentVerseListFrame = this.getCurrentVerseListFrame();
     var currentTab = this.tab_controller.getTab();
     var currentBibleTranslationId = currentTab.getBibleTranslationId();
@@ -619,7 +619,7 @@ class AppController {
     var mappedAbsoluteVerseNumber = referenceVerseBox.getMappedAbsoluteVerseNumber(oldBibleTranslationId, newBibleTranslationId);
 
     try {
-      var verses = nsi.getBookText(currentBibleTranslationId, bookShortTitle, mappedAbsoluteVerseNumber, 1);
+      var verses = await ipcNsi.getBookText(currentBibleTranslationId, bookShortTitle, mappedAbsoluteVerseNumber, 1);
       var verseText = referenceVerseContainer.querySelector('.verse-text');
       verseText.innerHTML = verses[0].content;
       this.sword_notes.initForContainer($(referenceVerseContainer));
