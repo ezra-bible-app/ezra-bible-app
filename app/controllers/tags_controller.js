@@ -193,11 +193,12 @@ class TagsController {
     tag_selection_entry.text(title);
   }
 
-  save_new_tag(e, type) {
+  async save_new_tag(e, type) {
     var new_tag_title = $('#new-' + type + '-tag-title-input').val();
     tags_controller.new_tag_created = true;
     this.last_created_tag = new_tag_title;
-    tags_controller.persistance_controller.create_new_tag(new_tag_title, type);
+    //tags_controller.persistance_controller.create_new_tag(new_tag_title, type);
+    await ipcDb.createNewTag(new_tag_title, type);
     $(e).dialog("close");
   }
 

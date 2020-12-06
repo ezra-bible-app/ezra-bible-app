@@ -20,7 +20,9 @@ require('v8-compile-cache');
 
 const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const isDev = require('electron-is-dev');
+
 const IpcNsiHandler = require('./app/ipc/ipc_nsi_handler.js');
+const IpcDbHandler = require('./app/ipc/ipc_db_handler.js');
 
 app.allowRendererProcessReuse = false;
 
@@ -76,8 +78,6 @@ function createWindow () {
     mainWindowState.manage(mainWindow);
   });
 
-  ipc_nsi = new IpcNsiHandler();
-
   // Create the browser window.
   mainWindow = new BrowserWindow({x: mainWindowState.x,
                                   y: mainWindowState.y,
@@ -118,6 +118,10 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
+  var ipc_nsi = new IpcNsiHandler();
+  var ipc_db = new IpcDbHandler();
+  await ipc_db.init();
+
   await createWindow();
 });
 
