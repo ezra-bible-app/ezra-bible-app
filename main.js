@@ -20,6 +20,7 @@ require('v8-compile-cache');
 
 const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const isDev = require('electron-is-dev');
+const IpcNsi = require('./app/backend/ipc_nsi.js');
 
 app.allowRendererProcessReuse = false;
 
@@ -74,6 +75,8 @@ function createWindow () {
     // and restore the maximized or full screen state
     mainWindowState.manage(mainWindow);
   });
+
+  ipc_nsi = new IpcNsi();
 
   // Create the browser window.
   mainWindow = new BrowserWindow({x: mainWindowState.x,
