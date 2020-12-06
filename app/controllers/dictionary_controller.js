@@ -175,7 +175,7 @@ class DictionaryController {
       }
     }
 
-    var lemma = this.getJsStrongs[normalizedStrongsIds[0]].lemma;
+    var lemma = this.getJsStrongs()[normalizedStrongsIds[0]].lemma;
     var strongsShortInfo = lemma;
 
     try {

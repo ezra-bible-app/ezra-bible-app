@@ -85,7 +85,7 @@ class DictionaryInfoBox {
 
     this.currentStrongsEntry = strongsEntry;
     this.currentAdditionalStrongsEntries = additionalStrongsEntries;
-    this.currentLemma = this.getJsStrongs[strongsEntry.key].lemma;
+    this.currentLemma = this.getJsStrongs()[strongsEntry.key].lemma;
 
     var dictInfoHeader = this.getDictInfoHeader(strongsEntry);
     this.dictionaryInfoBoxHeader.html(dictInfoHeader);
@@ -190,7 +190,7 @@ class DictionaryInfoBox {
       }
 
       this.currentStrongsEntry = this.dictionaryController.getStrongsEntryWithRawKey(key);
-      this.currentLemma = this.getJsStrongs[this.currentStrongsEntry.key].lemma;
+      this.currentLemma = this.getJsStrongs()[this.currentStrongsEntry.key].lemma;
     }
 
     this.updateDictInfoBox(this.currentStrongsEntry, this.currentAdditionalStrongsEntries);
@@ -256,7 +256,7 @@ class DictionaryInfoBox {
     var referenceTableRow = "";
     var referenceKey = strongsReference.key;
     var referenceStrongsEntry = nsi.getStrongsEntry(referenceKey);
-    var referenceStrongsLemma = this.getJsStrongs[referenceKey].lemma;
+    var referenceStrongsLemma = this.getJsStrongs()[referenceKey].lemma;
 
     var referenceLink = "<a href=\"javascript:app_controller.dictionary_controller.dictionaryInfoBox.openStrongsReference('";
     referenceLink += referenceKey;
