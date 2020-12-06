@@ -208,16 +208,9 @@ class TabController {
     }
   }
 
-  isCacheInvalid() {
-    var lastUsedVersion = this.settings.get('lastUsedVersion');
-    var currentVersion = app.getVersion();
-
-    return currentVersion != lastUsedVersion;
-  }
-
   async populateFromMetaTabs() {
     var cacheOutdated = await this.isCacheOutdated();
-    var cacheInvalid = this.isCacheInvalid();
+    var cacheInvalid = app_controller.isCacheInvalid();
 
     if (cacheOutdated) {
       console.log("Tab content cache is outdated. Database has been updated in the meantime!");

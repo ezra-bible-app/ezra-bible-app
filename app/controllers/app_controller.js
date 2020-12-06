@@ -896,6 +896,13 @@ class AppController {
       original_verse_box.glow();
     }*/
   }
+
+  isCacheInvalid() {
+    var lastUsedVersion = this.settings.get('lastUsedVersion');
+    var currentVersion = app.getVersion();
+
+    return currentVersion != lastUsedVersion;
+  }
 }
 
 module.exports = AppController;

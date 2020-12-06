@@ -33,19 +33,17 @@ class BookSelectionMenu {
     var menu = $('#app-container').find('#book-selection-menu');
     menu.bind('click', app_controller.handleBodyClick);
 
-    if (app_controller.settings.get('bookSelectionMenuCache') != null) {
-      console.log("Loading book selection menu from cache ...")
+    var cacheInvalid = app_controller.isCacheInvalid();
 
+    if (!cacheInvalid && app_controller.settings.get('bookSelectionMenuCache') != null) {
       var cachedHtml = app_controller.settings.get('bookSelectionMenuCache');
       var menu = $('#app-container').find('#book-selection-menu');
 
       menu.innerHTML = cachedHtml;
 
     } else {
-
-      console.time('localize');
+      console.log("Localizing book selection menu ...")
       this.localizeBookSelectionMenu();
-      console.timeEnd('localize');
     }
 
     this.initLinks();
