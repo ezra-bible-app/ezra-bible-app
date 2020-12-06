@@ -20,7 +20,7 @@ require('v8-compile-cache');
 
 const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const isDev = require('electron-is-dev');
-const IpcNsi = require('./app/backend/ipc_nsi.js');
+const IpcNsiHandler = require('./app/ipc/ipc_nsi_handler.js');
 
 app.allowRendererProcessReuse = false;
 
@@ -76,7 +76,7 @@ function createWindow () {
     mainWindowState.manage(mainWindow);
   });
 
-  ipc_nsi = new IpcNsi();
+  ipc_nsi = new IpcNsiHandler();
 
   // Create the browser window.
   mainWindow = new BrowserWindow({x: mainWindowState.x,

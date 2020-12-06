@@ -101,7 +101,7 @@ class TranslationComparison {
     var sourceTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     var selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
     var compareTranslationContent = "<table>";
-    var allTranslations = nsi.getAllLocalModules();
+    var allTranslations = await ipcNsi.getAllLocalModules();
 
     if (selectedVerseBoxes.length > 0) {
       for (var i = 0; i < allTranslations.length; i++) {

@@ -78,7 +78,7 @@ class DictionaryInfoBox {
     return false;
   }
 
-  updateDictInfoBox(strongsEntry, additionalStrongsEntries=[], firstUpdate=false) {
+  async updateDictInfoBox(strongsEntry, additionalStrongsEntries=[], firstUpdate=false) {
     if (firstUpdate) {
       this.dictionaryInfoBoxStack = [ strongsEntry.rawKey ];
     }
@@ -92,7 +92,7 @@ class DictionaryInfoBox {
     this.dictionaryInfoBoxHelp.hide();
     this.dictionaryInfoBoxBreadcrumbs.html(this.getCurrentDictInfoBreadcrumbs(additionalStrongsEntries));
 
-    var extendedStrongsInfo = this.getExtendedStrongsInfo(strongsEntry, this.currentLemma);
+    var extendedStrongsInfo = await this.getExtendedStrongsInfo(strongsEntry, this.currentLemma);
 
     this.dictionaryInfoBoxContent.html(extendedStrongsInfo);
 
@@ -177,7 +177,7 @@ class DictionaryInfoBox {
     return crumbArray.join(' &rarr; ');
   }
 
-  rewindDictInfo(rewindNumber) {
+  async rewindDictInfo(rewindNumber) {
     for (var i = 0; i < rewindNumber; i++) {
       this.dictionaryInfoBoxStack.pop();
 
@@ -193,17 +193,17 @@ class DictionaryInfoBox {
       this.currentLemma = this.getJsStrongs()[this.currentStrongsEntry.key].lemma;
     }
 
-    this.updateDictInfoBox(this.currentStrongsEntry, this.currentAdditionalStrongsEntries);
+    await this.updateDictInfoBox(this.currentStrongsEntry, this.currentAdditionalStrongsEntries);
   }
 
-  updateDictInfoBoxWithKey(strongsKey) {
+  async updateDictInfoBoxWithKey(strongsKey) {
     var strongsEntry = this.dictionaryController.getStrongsEntryWithRawKey(strongsKey);
 
     while (this.dictionaryInfoBoxStack.length > 1) {
       this.dictionaryInfoBoxStack.pop();
     }
 
-    this.updateDictInfoBox(strongsEntry, this.currentAdditionalStrongsEntries);
+    await this.updateDictInfoBox(strongsEntry, this.currentAdditionalStrongsEntries);
   }
 
   getDictInfoHeader(strongsEntry) {
@@ -273,7 +273,7 @@ class DictionaryInfoBox {
     return referenceTableRow;
   }
 
-  getExtendedStrongsInfo(strongsEntry, lemma) {
+  async getExtendedStrongsInfo(strongsEntry, lemma) {
     var extendedStrongsInfo = "";
     var strongsShortInfo = this.getShortInfo(strongsEntry, lemma);
     var findAllLink = this.getFindAllLink(strongsEntry);
@@ -286,7 +286,7 @@ class DictionaryInfoBox {
       lang = 'HEBREW';
     }
 
-    var extraDictContent = this.getExtraDictionaryContent(lang, strongsEntry);
+    var extraDictContent = await this.getExtraDictionaryContent(lang, strongsEntry);
 
     extendedStrongsInfo += "<b>" + strongsShortInfo + "</b>";
     extendedStrongsInfo += "<p>";
@@ -318,7 +318,7 @@ class DictionaryInfoBox {
     return extendedStrongsInfo;
   }
 
-  openStrongsReference(key) {
+  async openStrongsReference(key) {
     if (key == "" || key == null) {
       return;
     } else {
@@ -347,7 +347,7 @@ class DictionaryInfoBox {
           }
 
           this.dictionaryInfoBoxStack.push(key);
-          this.updateDictInfoBox(strongsEntry, this.currentAdditionalStrongsEntries);
+          await this.updateDictInfoBox(strongsEntry, this.currentAdditionalStrongsEntries);
         }
       } catch (e) {
         console.log(e);
@@ -381,8 +381,8 @@ class DictionaryInfoBox {
     await app_controller.onTabSelected(undefined, ui);
   }
 
-  getAllExtraDictModules(lang='GREEK') {
-    var dictModules = nsi.getAllLocalModules('DICT');
+  async getAllExtraDictModules(lang='GREEK') {
+    var dictModules = await ipcNsi.getAllLocalModules('DICT');
     var filteredDictModules = [];
     var excludeList = [ 'StrongsGreek', 'StrongsHebrew' ];
 
@@ -403,7 +403,7 @@ class DictionaryInfoBox {
     return filteredDictModules;
   }
 
-  getExtraDictionaryContent(lang='GREEK', strongsEntry) {
+  async getExtraDictionaryContent(lang='GREEK', strongsEntry) {
     var extraDictModules = this.getAllExtraDictModules(lang);
     var extraDictContent = "<hr></hr>";
 

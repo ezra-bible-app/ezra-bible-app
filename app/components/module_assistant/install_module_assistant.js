@@ -240,7 +240,7 @@ class InstallModuleAssistant {
     this._installedModules = app_controller.translation_controller.getInstalledModules();
 
     if (this._currentModuleType == 'BIBLE') {
-      app_controller.translation_controller.initTranslationsMenu();
+      await app_controller.translation_controller.initTranslationsMenu();
       await tags_controller.updateTagUiBasedOnTagAvailability();
     }
   }

@@ -21,6 +21,7 @@ require('v8-compile-cache');
 const app = require('electron').remote.app;
 const { remote, ipcRenderer } = require('electron');
 const isDev = require('electron-is-dev');
+const IpcNsi = require('./app/ipc/ipc_nsi.js');
 
 if (isDev) {
   global.Sentry = {
@@ -42,6 +43,7 @@ let dbDir = null;
 
 // Global instance of NodeSwordInterface used in many places
 let nsi = null;
+let ipcNsi = null;
 
 // UI Helper
 const UiHelper = require('./app/helpers/ui_helper.js');
@@ -114,6 +116,11 @@ function initNSI()
   }
 
   nsi.enableMarkup();
+}
+
+async function initIpcNsi()
+{
+  ipcNsi = new IpcNsi();
 }
 
 async function initDatabase()
@@ -278,6 +285,7 @@ async function initApplication()
 
   console.log("Initializing node-sword-interface ...");
   initNSI();
+  await initIpcNsi();
 
   console.log("Initializing database ...");
   await initDatabase();

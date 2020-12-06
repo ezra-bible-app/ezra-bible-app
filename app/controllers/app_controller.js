@@ -108,7 +108,7 @@ class AppController {
                              this.settings,
                              tabHtmlTemplate,
                              (event = undefined, ui = { 'index' : 0}) => { this.onTabSelected(event, ui); },
-                             (previousTabIndex, tabIndex) => { this.onTabAdded(previousTabIndex, tabIndex); },
+                             async (previousTabIndex, tabIndex) => { await this.onTabAdded(previousTabIndex, tabIndex); },
                              defaultBibleTranslationId);
   }
 
@@ -192,7 +192,7 @@ class AppController {
     this.book_selection_menu.updateAvailableBooks(ui.index);
 
     // Refresh translations menu
-    this.translation_controller.initTranslationsMenu(-1, ui.index);
+    await this.translation_controller.initTranslationsMenu(-1, ui.index);
 
     // Highlight currently selected book (only in book mode)
     var textType = this.tab_controller.getTab(ui.index)?.getTextType();
@@ -212,7 +212,7 @@ class AppController {
     uiHelper.configureButtonStyles('.verse-list-menu');
   }
 
-  onTabAdded(previousTabIndex, tabIndex=0) {
+  async onTabAdded(previousTabIndex, tabIndex=0) {
     this.hideAllMenus();
     // Refresh the view based on the options selected
     this.optionsMenu.refreshViewBasedOnOptions(tabIndex);
@@ -221,8 +221,8 @@ class AppController {
     this.initCurrentVerseListMenu(tabIndex);
     this.tag_selection_menu.init(tabIndex);
     this.tag_assignment_menu.init(tabIndex);
-    this.module_search_controller.initModuleSearchMenu(tabIndex);
-    this.translation_controller.initTranslationsMenu(previousTabIndex, tabIndex);
+    this.module_search.initModuleSearchMenu(tabIndex);
+    await this.translation_controller.initTranslationsMenu(previousTabIndex, tabIndex);
     this.translation_controller.initBibleTranslationInfoButton();
     var currentBibleTranslationId = this.tab_controller.getTab(tabIndex)?.getBibleTranslationId();
     if (currentBibleTranslationId != null) {
@@ -276,7 +276,7 @@ class AppController {
 
   async onTranslationRemoved(translationId) {
     $("select#bible-select").empty();
-    this.translation_controller.initTranslationsMenu();
+    await this.translation_controller.initTranslationsMenu();
     await tags_controller.updateTagUiBasedOnTagAvailability();
     var installedTranslations = this.translation_controller.getInstalledModules();
     this.tab_controller.onTranslationRemoved(translationId, installedTranslations);

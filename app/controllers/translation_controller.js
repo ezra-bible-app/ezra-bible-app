@@ -142,7 +142,7 @@ class TranslationController {
     }
   }
 
-  initTranslationsMenu(previousTabIndex=-1, tabIndex=undefined) {
+  async initTranslationsMenu(previousTabIndex=-1, tabIndex=undefined) {
     if (tabIndex === undefined) {
       var tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     }
@@ -170,7 +170,7 @@ class TranslationController {
 
       this.addLanguageGroupsToBibleSelectMenu(tabIndex);
 
-      var translations = nsi.getAllLocalModules();
+      var translations = await ipcNsi.getAllLocalModules();
       translations.sort((a, b) => {
         var aDescription = a.description;
         var bDescription = b.description;

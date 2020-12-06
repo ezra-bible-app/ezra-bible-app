@@ -125,7 +125,7 @@ class RemoveModuleAssistant {
       onStepChanging: (event, currentIndex, newIndex) => this.removeModuleAssistantStepChanging(event, currentIndex, newIndex),
       onStepChanged: (event, currentIndex, priorIndex) => this.removeModuleAssistantStepChanged(event, currentIndex, priorIndex),
       onFinishing: (event, currentIndex) => this.removeModuleAssistantFinishing(event, currentIndex),
-      onFinished: (event, currentIndex) => this.removeModuleAssistantFinished(event, currentIndex),
+      onFinished: async (event, currentIndex) => this.removeModuleAssistantFinished(event, currentIndex),
       labels: {
         cancel: i18n.t("general.cancel"),
         finish: i18n.t("general.finish"),
@@ -215,10 +215,10 @@ class RemoveModuleAssistant {
     return this._moduleRemovalStatus != 'IN_PROGRESS';
   }
 
-  removeModuleAssistantFinished(event, currentIndex) {
+  async removeModuleAssistantFinished(event, currentIndex) {
     $('#module-settings-assistant').dialog('close');
     this._installedTranslations = app_controller.translation_controller.getInstalledModules('BIBLE');
-    app_controller.translation_controller.initTranslationsMenu();
+    await app_controller.translation_controller.initTranslationsMenu();
   }
 }
 
