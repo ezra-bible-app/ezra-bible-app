@@ -93,7 +93,7 @@ class AppController {
                           (occurances) => { this.onSearchResultsAvailable(occurances); },
                           () => { this.onSearchReset(); });
 
-    var bibleTranslations = nsi.getAllLocalModules();
+    var bibleTranslations = await ipcNsi.getAllLocalModules();
 
     var defaultBibleTranslationId = null;
     if (bibleTranslations.length > 0) {
@@ -814,8 +814,8 @@ class AppController {
     this.bindEventsAfterBibleTextLoaded(tabIndex);
   }
 
-  updateUiAfterBibleTranslationAvailable(translationCode) {
-    var bibleTranslations = nsi.getAllLocalModules();
+  async updateUiAfterBibleTranslationAvailable(translationCode) {
+    var bibleTranslations = ipcNsi.getAllLocalModules();
     if (bibleTranslations.length == 1) {
       this.book_selection_menu.init();
     }

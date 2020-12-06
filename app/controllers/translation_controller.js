@@ -79,9 +79,9 @@ class TranslationController {
     return bibleSelect;
   }
 
-  addLanguageGroupsToBibleSelectMenu(tabIndex) {
+  async addLanguageGroupsToBibleSelectMenu(tabIndex) {
     var bibleSelect = this.getBibleSelect(tabIndex);
-    var languages = this.getLanguages();
+    var languages = await this.getLanguages();
 
     for (var i = 0; i < languages.length; i++) {
       var currentLang = languages[i];
@@ -168,7 +168,7 @@ class TranslationController {
       bibleSelect = currentVerseListMenu.find('select.bible-select');
       bibleSelect.empty();
 
-      this.addLanguageGroupsToBibleSelectMenu(tabIndex);
+      await this.addLanguageGroupsToBibleSelectMenu(tabIndex);
 
       var translations = await ipcNsi.getAllLocalModules();
       translations.sort((a, b) => {
@@ -359,8 +359,8 @@ class TranslationController {
     this.onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId);
   }
 
-  isStrongsTranslationInDb() {
-    var allTranslations = nsi.getAllLocalModules();
+  async isStrongsTranslationInDb() {
+    var allTranslations = await ipcNsi.getAllLocalModules();
 
     for (var dbTranslation of allTranslations) {
       if (dbTranslation.hasStrongs) {
@@ -389,7 +389,7 @@ class TranslationController {
 
   async installStrongsIfNeeded() {
     //console.time("get sync infos");   
-    var strongsInstallNeeded = this.isStrongsTranslationInDb() && !nsi.strongsAvailable();
+    var strongsInstallNeeded = await this.isStrongsTranslationInDb() && !nsi.strongsAvailable();
     //console.timeEnd("get sync infos");
 
     if (strongsInstallNeeded) {
@@ -447,8 +447,8 @@ class TranslationController {
     translationInfoButton.addClass('ui-state-disabled');
   }
 
-  getLanguages(moduleType='BIBLE') {
-    var localModules = nsi.getAllLocalModules(moduleType);
+  async getLanguages(moduleType='BIBLE') {
+    var localModules = await ipcNsi.getAllLocalModules(moduleType);
     
     var languages = [];
     var languageCodes = [];
@@ -471,8 +471,8 @@ class TranslationController {
     return languages;
   }
 
-  getInstalledModules(moduleType='BIBLE') {
-    var localModules = nsi.getAllLocalModules(moduleType);
+  async getInstalledModules(moduleType='BIBLE') {
+    var localModules = ipcNsi.getAllLocalModules(moduleType);
     var translations = [];
 
     for (var i = 0; i < localModules.length; i++) {

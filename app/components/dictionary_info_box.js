@@ -404,7 +404,7 @@ class DictionaryInfoBox {
   }
 
   async getExtraDictionaryContent(lang='GREEK', strongsEntry) {
-    var extraDictModules = this.getAllExtraDictModules(lang);
+    var extraDictModules = await this.getAllExtraDictModules(lang);
     var extraDictContent = "<hr></hr>";
 
     extraDictModules.forEach((dict) => {

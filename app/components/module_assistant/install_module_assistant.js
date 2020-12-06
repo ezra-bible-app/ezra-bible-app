@@ -455,7 +455,7 @@ class InstallModuleAssistant {
 
       // FIXME: Put this in a callback
       if (this._currentModuleType == 'BIBLE') {
-        app_controller.updateUiAfterBibleTranslationAvailable(moduleCode);
+        await app_controller.updateUiAfterBibleTranslationAvailable(moduleCode);
       }
     } catch (e) {
       console.log("Error during installation: " + e);

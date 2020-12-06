@@ -47,7 +47,7 @@ class RemoveModuleAssistant {
     this.onTranslationRemoved = onTranslationRemoved;
   }
 
-  openRemoveModuleAssistant(moduleType) {
+  async openRemoveModuleAssistant(moduleType) {
     $('#module-settings-assistant-init').hide();
     this.initRemoveModuleAssistant(moduleType);
     $('#module-settings-assistant-remove').show();
@@ -81,7 +81,7 @@ class RemoveModuleAssistant {
       removeModuleList.append(newLanguageBox);
     }
 
-    var modules = nsi.getAllLocalModules(moduleType);
+    var modules = await ipcNsi.getAllLocalModules(moduleType);
 
     for (var module of modules) {
       var checkboxDisabled = '';

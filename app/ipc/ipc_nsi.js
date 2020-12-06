@@ -4,8 +4,8 @@ class IpcNsi {
   constructor() {
   }
 
-  async getAllLocalModules() {
-    var modules = await ipcRenderer.invoke('nsi_getAllLocalModules');
+  async getAllLocalModules(moduleType='BIBLE') {
+    var modules = await ipcRenderer.invoke('nsi_getAllLocalModules', moduleType);
     return modules;
   }
 }
