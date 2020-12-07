@@ -19,9 +19,9 @@ jobs:
 #        - name: Install VS C++ features
 #          run: powershell choco install visualstudio2017-workload-vctools
         - name: Build
-          run: powershell .\build_scripts\build_win32.bat
+          run: powershell .\build_scripts\win32\build_win32.bat
         - name: Upload symbols
-          run: powershell .\build_scripts\upload_symbols_to_sentry.bat
+          run: powershell .\build_scripts\win32\upload_symbols_to_sentry.bat
           env:
             SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
         - name: Rename installer
