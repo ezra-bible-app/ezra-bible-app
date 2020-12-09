@@ -156,6 +156,13 @@ function initUi()
 
   tags_controller.init_ui();
   uiHelper.configureButtonStyles();
+
+  if (!platformHelper.isMac()) {
+    $('.fullscreen-button').bind('click', () => {
+      toggleFullScreen();
+    });
+  }
+
   $(window).bind("resize", () => { uiHelper.resizeAppContainer(); });
 }
 

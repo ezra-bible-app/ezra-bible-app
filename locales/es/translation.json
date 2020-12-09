@@ -13,7 +13,8 @@
     "search": "Buscar",
     "options": "Opciones",
     "export": "Exportar a un documento de texto",
-    "show-module-info": "Mostrar información del módulo"
+    "show-module-info": "Mostrar información del módulo",
+    "fullscreen": "Toggle full screen mode"
   },
   "search-menu": {
     "search": "Buscar",

@@ -13,7 +13,8 @@
     "search": "Hľadať",
     "options": "Vlastnosti",
     "export": "Exportovať ako text",
-    "show-module-info": "Zobraziť informácie o module"
+    "show-module-info": "Zobraziť informácie o module",
+    "fullscreen": "Toggle full screen mode"
   },
   "search-menu": {
     "search": "Hľadať",

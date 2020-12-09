@@ -13,7 +13,8 @@
     "search": "Zoeken",
     "options": "Opties",
     "export": "Exporteren naar tekstdocument",
-    "show-module-info": "Toon module-info"
+    "show-module-info": "Toon module-info",
+    "fullscreen": "Toggle full screen mode"
   },
   "search-menu": {
     "search": "Zoeken",

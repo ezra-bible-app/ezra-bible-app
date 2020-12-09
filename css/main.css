@@ -743,6 +743,7 @@ h2 {
 .tag-select-button,
 .module-search-button,
 .display-options-button,
+.fullscreen-button,
 .assign-tag-menu-button,
 .note-session-select-button {
   width: 7.5em;
@@ -752,6 +753,17 @@ h2 {
   text-align: center;
   float: left;
   height: 1.1em;
+}
+
+.fullscreen-button {
+  position: fixed;
+  top: 0.5em;
+  right: 1em;
+  width: unset;
+}
+
+.OSX .fullscreen-button {
+  display: none;
 }
 
 .assign-tag-menu-button {
@@ -978,7 +990,8 @@ h2 {
 }
 
 .darkmode--activated .export-tagged-verses-button,
-.darkmode--activated .display-options-button {
+.darkmode--activated .display-options-button,
+.darkmode--activated .fullscreen-button {
   background: none;
   background-color: slategray;
 }
