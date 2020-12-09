@@ -763,6 +763,7 @@ h2 {
   height: 21px;
   padding: unset;
   padding: 0.5em;
+  z-index: 100;
 }
 
 .OSX .fullscreen-button {
