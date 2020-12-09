@@ -320,7 +320,7 @@ class AppController {
     
     var bookSelectButton = currentVerseListMenu.find('.book-select-button');
     bookSelectButton.bind('click', (event) => {
-      this.book_selection_menu.handle_book_menu_click(event);
+      this.book_selection_menu.handleBookMenuClick(event);
     });
 
     currentVerseListMenu.find('.new-standard-tag-button').bind('click', function() {
@@ -501,7 +501,7 @@ class AppController {
   }
 
   hideAllMenus() {
-    this.book_selection_menu.hide_book_menu();
+    this.book_selection_menu.hideBookMenu();
     this.tag_selection_menu.hideTagMenu();
     this.tag_assignment_menu.hideTagAssignmentMenu();
     this.module_search.hideSearchMenu();

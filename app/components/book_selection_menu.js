@@ -58,7 +58,7 @@ class BookSelectionMenu {
       var current_link = $(links[i]);
       var current_link_href = current_link.attr('href');
       var current_book_title = current_link.html();
-      var new_link_href = "javascript:app_controller.book_selection_menu.select_bible_book('" + 
+      var new_link_href = "javascript:app_controller.book_selection_menu.selectBibleBook('" + 
                           current_link_href + "','" + current_book_title + "')";
 
       current_link.attr('href', new_link_href);
@@ -101,8 +101,11 @@ class BookSelectionMenu {
     }
   }
 
-  select_bible_book(book_code, book_title) {
+  selectBibleBook(book_code, book_title) {
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    if (currentBibleTranslationId == null || currentBibleTranslationId == undefined) {
+      return;
+    }
 
     Sentry.addBreadcrumb({category: "app",
                           message: `Selected book ${book_code} using translation ${currentBibleTranslationId}`,
@@ -113,7 +116,7 @@ class BookSelectionMenu {
       return;
     }
 
-    app_controller.book_selection_menu.hide_book_menu();
+    app_controller.book_selection_menu.hideBookMenu();
     app_controller.book_selection_menu.highlightSelectedBookInMenu(book_code);
 
     var currentTab = app_controller.tab_controller.getTab();
@@ -155,7 +158,7 @@ class BookSelectionMenu {
     }, 50);
   }
 
-  hide_book_menu() {
+  hideBookMenu() {
     if (this.book_menu_is_opened) {
       $('#app-container').find('#book-selection-menu').hide();
       this.book_menu_is_opened = false;
@@ -165,7 +168,7 @@ class BookSelectionMenu {
     }
   }
 
-  handle_book_menu_click(event) {
+  handleBookMenuClick(event) {
     if ($('.book-select-button').hasClass('ui-state-disabled')) {
       return;
     }

@@ -85,7 +85,7 @@ class TagSelectionMenu {
     if (this.tag_menu_is_opened) {
       app_controller.handleBodyClick();
     } else {
-      app_controller.book_selection_menu.hide_book_menu();
+      app_controller.book_selection_menu.hideBookMenu();
       app_controller.module_search.hideSearchMenu();
       app_controller.optionsMenu.hideDisplayMenu();
       app_controller.tag_assignment_menu.hideTagAssignmentMenu();
