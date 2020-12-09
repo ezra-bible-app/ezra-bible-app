@@ -21,7 +21,7 @@
       "exact-phrase": "Frase exacta",
       "multi-word": "Múltiples palabras",
       "strongs": "Números Strong",
-      "extended-verse-boundaries": "Exterderse fuera del límite del verso (dos versos)"
+      "extended-verse-boundaries": "Extenderse fuera del límite del verso (dos versos)"
     },
     "module-assistant": {
       "bible-header": "Configure traducciones de La Biblia",
@@ -67,7 +67,7 @@
       "module-lock-info": "Este módulo está protegido por una licencia y requiere que compre una clave de desbloqueo del creador!",
       "unlock-key": "Clave de desbloqueo",
       "enter-unlock-key": "{{moduleId}} está protegido por licencia. Por favor ingrese la clave de desbloqueo!",
-      "unlock-failed": "Fallo al desbloquear! Por favor increse la clave correcta."
+      "unlock-failed": "Fallo al desbloquear! Por favor ingrese la clave correcta."
     },
     "module-sync": {
       "module-sync-header": "Instalando módulos adicionales"
