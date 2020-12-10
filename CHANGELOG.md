@@ -1,6 +1,55 @@
 # Ezra Project - Changelog
 All notable changes to Ezra Project are documented in this file.
 
+## [0.16.0 - 2020-12-20]
+
+### Features
+
+* Added option to augment book chapter navigation with section headers. ([#135](i135))
+
+### Enhancements
+
+* Sort translations in translations menu by module description instead of module code. ([#147](i147))
+* Sort entries of compare translations dialog by module description instead of module code. ([#129](i129))
+* Added possibility to cancel installation of modules. ([#109](i109))
+* Reduced width of compare translations dialogue + Bible translation info box to fit it on smaller screens as well. ([#130](i130))
+* Also store newly created tag as the last used tag, so that it is immediately available in the tagging button. ([#131](i131))
+* Added filter options to tag assignment drop-down menu. ([#116](i116))
+* Added button for fullscreen mode. ([#134](i134))
+* Added a button for selecting all module search results for quick tagging. ([#132](i132))
+
+### Fixes
+
+* Fixed parsing of section headers of ISV module. ([#146](i146))
+* Fixed footnote rendering in ASV module. ([#113](i113))
+* Fixed visualization of chapter headers for KJV. ([#141](i141))
+* Fixed bug in module search: No progress bar was shown when switching translation on existing search results. ([#133](i133))
+
+### Enablers
+* Added Slovakian translation (Thanks to [MartinIIOT](https://github.com/MartinIIOT)). ([#128](i128))
+* Added Spanish translation (Thanks to [reyespinosa1996](https://github.com/reyespinosa1996) and [Rodolinux](https://github.com/Rodolinux)). ([#144](i144))
+* Added OpenSuse rpm package generation. ([#142](i142))
+* Added Fedora 33 package generation. ([#143](i143))
+* Added hint about Microsoft Visual C++ 2015 Redistributable dependency when starting up on Windows < 10. ([#136](i136))
+
+[i109]: https://github.com/ezra-project/ezra-project/issues/109
+[i113]: https://github.com/ezra-project/ezra-project/issues/113
+[i116]: https://github.com/ezra-project/ezra-project/issues/116
+[i128]: https://github.com/ezra-project/ezra-project/issues/128
+[i129]: https://github.com/ezra-project/ezra-project/issues/129
+[i130]: https://github.com/ezra-project/ezra-project/issues/130
+[i131]: https://github.com/ezra-project/ezra-project/issues/131
+[i132]: https://github.com/ezra-project/ezra-project/issues/132
+[i133]: https://github.com/ezra-project/ezra-project/issues/133
+[i134]: https://github.com/ezra-project/ezra-project/issues/134
+[i135]: https://github.com/ezra-project/ezra-project/issues/135
+[i136]: https://github.com/ezra-project/ezra-project/issues/136
+[i141]: https://github.com/ezra-project/ezra-project/issues/141
+[i142]: https://github.com/ezra-project/ezra-project/issues/142
+[i143]: https://github.com/ezra-project/ezra-project/issues/143
+[i144]: https://github.com/ezra-project/ezra-project/issues/144
+
+
 ## [0.15.0 - 2020-10-25]
 
 ### Features
