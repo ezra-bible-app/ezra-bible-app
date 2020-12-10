@@ -16,6 +16,9 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const VerseBoxHelper = require('../helpers/verse_box_helper.js');
+const VerseBox = require('../ui_models/verse_box.js');
+
 /**
  * The NavigationPane class implements the update and event handling of the
  * navigation pane that is shown left of the bible text pane.
@@ -25,6 +28,7 @@
 class NavigationPane {
   constructor() {
     this.currentNavigationPane = null;
+    this.verse_box_helper = new VerseBoxHelper();
   }
 
   getCurrentNavigationPane(tabIndex) {
@@ -350,6 +354,45 @@ class NavigationPane {
     var cachedVerseListTabId = this.getCachedVerseListTabId();
     var reference = '#' + cachedVerseListTabId + ' ' + book;
     window.location = reference;
+  }
+
+  updateNavigationFromVerseBox(focussedElement, verseBox=undefined) {
+    if (verseBox == undefined) {
+      verseBox = focussedElement.closest('.verse-box');
+    }
+
+    var currentTab = app_controller.tab_controller.getTab();
+    var currentBook = currentTab.getBook();
+    var currentTagIdList = currentTab.getTagIdList();
+    var currentTextType = currentTab.getTextType();
+
+    if (currentTextType == 'book' && currentBook != null) {
+
+      var verseReferenceContent = verseBox.querySelector('.verse-reference-content').innerText;
+      var currentChapter = app_controller.getChapterFromReference(verseReferenceContent);
+      this.highlightNavElement(currentChapter);
+
+      var sectionTitle = "";
+      if (focussedElement.classList.contains('sword-section-title')) {
+        sectionTitle = focussedElement.innerText;
+      } else {
+        sectionTitle = this.verse_box_helper.getSectionTitleFromVerseBox(verseBox);
+      }
+
+      if (sectionTitle != null) {
+        this.highlightSectionHeaderByTitle(sectionTitle);
+      }
+
+    } else if (currentTextType == 'tagged_verses' && currentTagIdList != null || currentTextType == 'xrefs' || currentTextType == 'search_results') {
+
+      var bibleBookShortTitle = new VerseBox(verseBox).getBibleBookShortTitle();
+      var currentBookName = models.BibleBook.getBookTitleTranslation(bibleBookShortTitle);
+      
+      var bibleBookNumber = this.getVerseListBookNumber(currentBookName);
+      if (bibleBookNumber != -1) {
+        this.highlightNavElement(bibleBookNumber, false, "OTHER");
+      }
+    }
   }
 }
 
