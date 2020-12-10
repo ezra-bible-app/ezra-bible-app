@@ -394,7 +394,10 @@ class TagsController {
       tags_controller.update_tag_count_after_rendering(currentBook != null);
       await tags_controller.update_tags_view_after_verse_selection(true);
       await tags_controller.updateTagUiBasedOnTagAvailability();
-      app_controller.tag_statistics.update_book_tag_statistics_box();
+
+      if (currentBook != null) {
+        app_controller.tag_statistics.update_book_tag_statistics_box();
+      }
 
     } else {
 

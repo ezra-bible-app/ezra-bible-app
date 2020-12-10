@@ -334,13 +334,42 @@ class ModuleSearchController {
       header += "<div style='margin-left: 0.6em; margin-top: 1em;'>" + performanceHintText + "</div>";
     }
 
-    this.getModuleSearchHeader(tabIndex).html(header);
-    this.getModuleSearchHeader(tabIndex).show();
+    var moduleSearchHeader = this.getModuleSearchHeader(tabIndex);
+
+    moduleSearchHeader.html(header);
+
+    if (currentSearchResults?.length > 0) {
+      var selectAllSearchResultsButton = document.createElement('button');
+      selectAllSearchResultsButton.setAttribute('style', 'margin: 0.5em;');
+      selectAllSearchResultsButton.classList.add('select-all-search-results-button');
+      selectAllSearchResultsButton.classList.add('fg-button');
+      selectAllSearchResultsButton.classList.add('ui-corner-all');
+      selectAllSearchResultsButton.classList.add('ui-state-default');
+      if (this.searchResultsExceedPerformanceLimit(tabIndex)) {
+        selectAllSearchResultsButton.classList.add('ui-state-disabled');
+      }
+
+      selectAllSearchResultsButton.innerText = i18n.t('bible-browser.select-all-search-results');
+      moduleSearchHeader.append(selectAllSearchResultsButton);
+
+      selectAllSearchResultsButton.onclick = this.selectAllSearchResults;
+      uiHelper.configureButtonStyles('.module-search-result-header');
+    }
+
+    moduleSearchHeader.show();
 
     if (currentSearchResults?.length > 0 && requestedBookId <= 0) {
       var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
       this.verseStatisticsChart.updateChart(tabIndex, bibleBookStats);
     }
+  }
+
+  selectAllSearchResults() {
+    var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
+    var allVerseTextElements = currentVerseListFrame.find('.verse-text');
+    allVerseTextElements.addClass('ui-selected');
+    app_controller.verse_selection.updateSelected();
+    app_controller.verse_selection.updateViewsAfterVerseSelection(i18n.t('bible-browser.all-search-results'));
   }
 
   repaintChart(tabIndex=undefined) {

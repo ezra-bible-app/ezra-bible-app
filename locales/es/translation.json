@@ -164,6 +164,8 @@
     "show-search-results": "Mostrar resultados de la búsqueda",
     "search-performance-hint": "Sólo se muestra una lista de libros debido al alto número de resultados de la búsqueda. Usted puede solicitar el resultado individual de la búsqueda por cada libro",
     "select-all-search-results": "Select all search results",
+    "all-search-results": "All search results",
+    "some-search-results": "Some search results",
     "module-configuration": "Configuración de módulo",
     "display": "Pantalla",
     "text-options": "Opciones del texto",

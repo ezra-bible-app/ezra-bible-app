@@ -164,6 +164,8 @@
     "show-search-results": "Toon zoekresultaten",
     "search-performance-hint": "Alleen de boekenlijst wordt weergegeven vanwege het hoge aantal zoekresultaten. U kunt de afzonderlijke zoekresultaten per boek opvragen.",
     "select-all-search-results": "Select all search results",
+    "all-search-results": "All search results",
+    "some-search-results": "Some search results",
     "module-configuration": "Moduleconfiguratie",
     "display": "Weergave",
     "text-options": "Tekstopties",

@@ -41,7 +41,7 @@ class VerseSelection {
 
     verseList.selectable({
       filter: '.verse-text',
-      cancel: '.sword-xref-marker, .verse-notes, .section-header-box, .verse-content-edited, .tag-box, .tag, .load-book-results',
+      cancel: '.sword-xref-marker, .verse-notes, .section-header-box, .verse-content-edited, .tag-box, .tag, .load-book-results, .select-all-search-results-button',
 
       start: (event, ui) => {
         // Only reset existing selection if metaKey and ctrlKey are not pressed.
@@ -151,7 +151,7 @@ class VerseSelection {
         }
       }
 
-      var formatted_verse_list = this.format_verse_list_for_view(currentBookVerseReferences, true, currentBookShortName);
+      var formatted_verse_list = this.format_verse_list_for_view(currentBookVerseReferences, false, currentBookShortName);
       var currentBookName = models.BibleBook.getBookTitleTranslation(currentBookShortName);
       var currentBookVerseReferenceDisplay = currentBookName + ' ' + formatted_verse_list;
       selected_verses_content.push(currentBookVerseReferenceDisplay);
@@ -357,8 +357,25 @@ class VerseSelection {
     return selected_verse_ids;
   }
 
-  async updateViewsAfterVerseSelection() {
-    var selectedVerseDisplayText = await this.getSelectedVerseDisplayText();
+  async updateViewsAfterVerseSelection(selectedVerseDisplayText=undefined) {
+    var preDefinedText = false;
+
+    if (selectedVerseDisplayText == undefined) {
+      selectedVerseDisplayText = await this.getSelectedVerseDisplayText();
+    } else {
+      preDefinedText = true;
+    }
+
+    var selectedVersesLabel = this.getSelectedVersesLabel();
+    var selectedVersesLabelText = selectedVersesLabel.text();
+    var allSearchResultsText = i18n.t('bible-browser.all-search-results');
+    var someSearchResultsText = i18n.t('bible-browser.some-search-results');
+    var selectedVerseReferenceCount = this.selected_verse_references.length;
+
+    if ((selectedVersesLabelText == allSearchResultsText || selectedVersesLabelText == someSearchResultsText) && selectedVerseReferenceCount > 1 && !preDefinedText) {
+      selectedVerseDisplayText = i18n.t('bible-browser.some-search-results');
+    }
+
     this.getSelectedVersesLabel().html(selectedVerseDisplayText);
 
     await tags_controller.update_tags_view_after_verse_selection(false);

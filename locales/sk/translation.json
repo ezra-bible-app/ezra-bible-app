@@ -163,6 +163,8 @@
     "show-search-results": "Zobraziť výsledky vyhľadávania",
     "search-performance-hint": "Zobrazuje sa iba zoznam kníh z dôvodu vysokého počtu výsledkov vyhľadávania. Môžete si vyžiadať výsledky vyhľadávania pre každú knihu.",
     "select-all-search-results": "Select all search results",
+    "all-search-results": "All search results",
+    "some-search-results": "Some search results",
     "module-configuration": "Nastavenie modulu",
     "display": "Zobraziť",
     "text-options": "Nastavenia textu",

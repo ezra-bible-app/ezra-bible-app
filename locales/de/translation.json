@@ -165,6 +165,8 @@
     "show-search-results": "Zeige Suchergebnisse",
     "search-performance-hint": "Zeige auf Grund hoher Anzahl von Suchergebnissen nur Bücherliste. Sie können die Suchergebnisse pro Buch abrufen.",
     "select-all-search-results": "Alle Suchergebnisse auswählen",
+    "all-search-results": "Alle Suchergebnisse",
+    "some-search-results": "Einige Suchergebnisse",
     "module-configuration": "Modulkonfiguration",
     "display": "Darstellung",
     "text-options": "Textoptionen",
