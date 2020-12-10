@@ -231,9 +231,11 @@ class TabSearch {
 
     if (this.currentOccuranceElement != null) {
       this.currentOccuranceElement.classList.add('current-hl');
-      this.currentOccuranceElement.closest('.verse-box')?.querySelector('.verse-text').classList.add('ui-selected');
+      var verseBox = this.currentOccuranceElement.closest('.verse-box')
+      verseBox?.querySelector('.verse-text').classList.add('ui-selected');
       app_controller.verse_selection.updateSelected();
       app_controller.verse_selection.updateViewsAfterVerseSelection();
+      app_controller.navigation_pane.updateNavigationFromVerseBox(this.currentOccuranceElement, verseBox);
     }
 
     // Update occurances label
