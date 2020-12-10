@@ -14,7 +14,7 @@
     "options": "Vlastnosti",
     "export": "Exportovať ako text",
     "show-module-info": "Zobraziť informácie o module",
-    "fullscreen": "Toggle full screen mode"
+    "fullscreen": "Prepnúť režim celej obrazovky"
   },
   "search-menu": {
     "search": "Hľadať",
@@ -110,6 +110,7 @@
     "release-notes-download": "Poznámky k vydaniu & Stiahnutie",
     "no-repeated-info": "Nezobrazovať túto správu",
     "module-install-failed": "zlyhal. Ste online?",
+    "module-install-cancelled": "zrušené.",
     "module-unlock-failed": "zlyhal (Problémy s odomknutím).",
     "installing-strongs": "Inštalujem <i>Strongove slovníky</i>",
     "applying-migrations": "Migrujem databázu na novú verziu"
@@ -162,7 +163,7 @@
     "tag-hint": "Kliknutím zobrazíte všetky verše s týmto štítkom",
     "show-search-results": "Zobraziť výsledky vyhľadávania",
     "search-performance-hint": "Zobrazuje sa iba zoznam kníh z dôvodu vysokého počtu výsledkov vyhľadávania. Môžete si vyžiadať výsledky vyhľadávania pre každú knihu.",
-    "select-all-search-results": "Select all search results",
+    "select-all-search-results": "Označiť všetky výsledky vyhľadávania",
     "module-configuration": "Nastavenie modulu",
     "display": "Zobraziť",
     "text-options": "Nastavenia textu",
