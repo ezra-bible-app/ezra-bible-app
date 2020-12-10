@@ -64,7 +64,7 @@ class TagAssignmentMenu {
     } else {
       app_controller.book_selection_menu.hideBookMenu();
       app_controller.tag_selection_menu.hideTagMenu();
-      app_controller.module_search.hideSearchMenu();
+      app_controller.module_search_controller.hideSearchMenu();
       app_controller.optionsMenu.hideDisplayMenu();
 
       assignTagMenuButton.addClass('ui-state-active');

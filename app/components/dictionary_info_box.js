@@ -366,13 +366,13 @@ class DictionaryInfoBox {
 
     // Set the search key and populate the search menu
     app_controller.tab_controller.setTabSearch(strongsKey);
-    app_controller.module_search.populateSearchMenu();
+    app_controller.module_search_controller.populateSearchMenu();
 
     // Prepare for the next text to be loaded
     app_controller.text_controller.prepareForNewText(true, true);
 
     // Perform the Strong's search
-    await app_controller.module_search.startSearch(/* event */      null,
+    await app_controller.module_search_controller.startSearch(/* event */      null,
                                                              /* tabIndex */   undefined,
                                                              /* searchTerm */ strongsKey);
 

@@ -233,14 +233,14 @@ class TabController {
 
       if (currentMetaTab.textType == 'search_results') {
 
-        await app_controller.module_search.populateSearchMenu(i);
+        await app_controller.module_search_controller.populateSearchMenu(i);
 
         var requestedBookId = -1; // all books requested
-        if (app_controller.module_search.searchResultsExceedPerformanceLimit(i)) {
+        if (app_controller.module_search_controller.searchResultsExceedPerformanceLimit(i)) {
           requestedBookId = 0; // no books requested - only list headers at first
         }
   
-        await app_controller.module_search.renderCurrentSearchResults(requestedBookId,
+        await app_controller.module_search_controller.renderCurrentSearchResults(requestedBookId,
                                                                                 i,
                                                                                 undefined,
                                                                                 currentMetaTab.cachedText);

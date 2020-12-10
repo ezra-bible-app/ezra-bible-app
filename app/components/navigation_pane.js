@@ -388,7 +388,7 @@ class NavigationPane {
       var bibleBookShortTitle = new VerseBox(verseBox).getBibleBookShortTitle();
       var currentBookName = models.BibleBook.getBookTitleTranslation(bibleBookShortTitle);
       
-      var bibleBookNumber = this.getVerseListBookNumber(currentBookName);
+      var bibleBookNumber = app_controller.getVerseListBookNumber(currentBookName);
       if (bibleBookNumber != -1) {
         this.highlightNavElement(bibleBookNumber, false, "OTHER");
       }

@@ -32,7 +32,7 @@ class TextController {
   }
 
   prepareForNewText(resetView, isSearch=false, tabIndex=undefined) {
-    app_controller.module_search.hideModuleSearchHeader(tabIndex);
+    app_controller.module_search_controller.hideModuleSearchHeader(tabIndex);
     app_controller.navigation_pane.initNavigationPaneForCurrentView(tabIndex);
 
     if (tabIndex === undefined) {
@@ -316,7 +316,7 @@ class TextController {
     var versification = (app_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
 
     var bibleBooks = await models.BibleBook.findBySearchResults(search_results);
-    var bibleBookStats = app_controller.module_search.getBibleBookStatsFromSearchResults(search_results);
+    var bibleBookStats = app_controller.module_search_controller.getBibleBookStatsFromSearchResults(search_results);
     var verses = [];
 
     for (var i = 0; i < search_results.length; i++) {
@@ -517,13 +517,13 @@ class TextController {
 
     if (listType == 'book') {
       app_controller.tag_selection_menu.resetTagMenu();
-      app_controller.module_search.resetSearch(tabIndex);
+      app_controller.module_search_controller.resetSearch(tabIndex);
 
       target.addClass('verse-list-book');
 
     } else if (listType == 'tagged_verses') {
 
-      app_controller.module_search.resetSearch(tabIndex);
+      app_controller.module_search_controller.resetSearch(tabIndex);
       app_controller.taggedVerseExport.enableTaggedVersesExportButton(tabIndex);
 
       target.removeClass('verse-list-book');
@@ -556,7 +556,7 @@ class TextController {
     if (listType == 'search_results') {
       var currentTab = app_controller.tab_controller.getTab(tabIndex);
       var currentSearchTerm = currentTab?.getSearchTerm();
-      app_controller.module_search.highlightSearchResults(currentSearchTerm, tabIndex);
+      app_controller.module_search_controller.highlightSearchResults(currentSearchTerm, tabIndex);
     }
 
     if (isCache || listType == 'book' && !append) {

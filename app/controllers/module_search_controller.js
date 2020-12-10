@@ -16,16 +16,16 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const VerseSearch = require('./tab_search/verse_search.js');
-const VerseStatisticsChart = require('./verse_statistics_chart.js');
+const VerseSearch = require('../components/tab_search/verse_search.js');
+const VerseStatisticsChart = require('../components/verse_statistics_chart.js');
 
 /**
- * The ModuleSearch component implements the module search functionality.
+ * The ModuleSearch controller implements the module search functionality.
  * It uses the VerseSearch component for highlighting search results.
  * 
- * @category Component
+ * @category Controller
  */
-class ModuleSearch {
+class ModuleSearchController {
   constructor() {
     this.currentSearchTerm = null;
     this.search_menu_opened = false;
@@ -389,4 +389,4 @@ class ModuleSearch {
   }
 }
 
-module.exports = ModuleSearch;
+module.exports = ModuleSearchController;

@@ -54,7 +54,7 @@ class AppController {
     this.init_component("VerseSelection", "verse_selection", "../components/verse_selection.js");
     this.init_component("TagSelectionMenu", "tag_selection_menu", "../components/tags/tag_selection_menu.js");
     this.init_component("TagAssignmentMenu", "tag_assignment_menu", "../components/tags/tag_assignment_menu.js");
-    this.init_component("ModuleSearch", "module_search", "../components/module_search.js");
+    this.init_component("ModuleSearchController", "module_search_controller", "./module_search_controller.js");
     this.init_component("TranslationController", "translation_controller", "./translation_controller.js");
     this.init_component("InstallModuleAssistant", "install_module_assistant", "../components/module_assistant/install_module_assistant.js");
     this.init_component("RemoveModuleAssistant", "remove_module_assistant", "../components/module_assistant/remove_module_assistant.js");
@@ -202,7 +202,7 @@ class AppController {
     this.tag_statistics.toggle_book_tags_statistics_button(ui.index);
 
     // Populate search menu based on last search (if any)
-    this.module_search.populateSearchMenu(ui.index);
+    this.module_search_controller.populateSearchMenu(ui.index);
 
     // Hide elements present from previous tab's usage
     this.dictionary_controller.hideStrongsBox();
@@ -221,7 +221,7 @@ class AppController {
     this.initCurrentVerseListMenu(tabIndex);
     this.tag_selection_menu.init(tabIndex);
     this.tag_assignment_menu.init(tabIndex);
-    this.module_search.initModuleSearchMenu(tabIndex);
+    this.module_search_controller.initModuleSearchMenu(tabIndex);
     this.translation_controller.initTranslationsMenu(previousTabIndex, tabIndex);
     this.translation_controller.initBibleTranslationInfoButton();
     var currentBibleTranslationId = this.tab_controller.getTab(tabIndex)?.getBibleTranslationId();
@@ -244,7 +244,7 @@ class AppController {
 
     if (currentTab.getTextType() == 'search_results') {
       this.text_controller.prepareForNewText(true, true);
-      this.module_search.startSearch(null, this.tab_controller.getSelectedTabIndex(), currentTab.getSearchTerm());
+      this.module_search_controller.startSearch(null, this.tab_controller.getSelectedTabIndex(), currentTab.getSearchTerm());
     } else {
       if (!this.tab_controller.isCurrentTabEmpty()) {
         this.text_controller.prepareForNewText(false, false);
@@ -504,7 +504,7 @@ class AppController {
     this.book_selection_menu.hideBookMenu();
     this.tag_selection_menu.hideTagMenu();
     this.tag_assignment_menu.hideTagAssignmentMenu();
-    this.module_search.hideSearchMenu();
+    this.module_search_controller.hideSearchMenu();
     this.optionsMenu.hideDisplayMenu();
   }
   
@@ -714,7 +714,7 @@ class AppController {
     currentTab.setSearchTerm(null);
     currentTab.setXrefs(null);
     
-    this.module_search.resetSearch();
+    this.module_search_controller.resetSearch();
     
     if (tagIdList != "") {
       setTimeout(() => {

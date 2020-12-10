@@ -112,7 +112,7 @@ class OptionsMenu {
     } else {
       app_controller.book_selection_menu.hideBookMenu();
       app_controller.tag_selection_menu.hideTagMenu();
-      app_controller.module_search.hideSearchMenu();
+      app_controller.module_search_controller.hideSearchMenu();
       app_controller.tag_assignment_menu.hideTagAssignmentMenu();
       
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
