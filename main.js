@@ -123,6 +123,8 @@ app.on('ready', async () => {
   await ipc_db.init();
 
   await createWindow();
+
+  ipc_nsi.setMainWindow(mainWindow);
 });
 
 // Quit when all windows are closed.

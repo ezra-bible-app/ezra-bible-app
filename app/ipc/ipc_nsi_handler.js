@@ -7,21 +7,29 @@ class IpcNsiHandler {
     this._nsi = new NSI();
     this._nsi.enableMarkup();
 
-    //this._nsi_getAllLocalModules_counter = 0;
-    this._ipcListener.addCallback('nsi_getAllLocalModules', async (moduleType='BIBLE') => {
-      //this._nsi_getAllLocalModules_counter++;
-      //console.log('nsi_getAllLocalModules ' + this._nsi_getAllLocalModules_counter);
+    this._ipcListener.add('nsi_getAllLocalModules', (moduleType='BIBLE') => {
       var allLocalModules = this._nsi.getAllLocalModules(moduleType);
       return allLocalModules;
     });
 
-    //this._nsi_getBookText_counter = 0;
-    this._ipcListener.addCallback('nsi_getBookText', async (moduleCode, bookCode, startVerseNr=-1, verseCount=-1) => {
-      //this._nsi_getBookText_counter++;
-      //console.log('nsi_getBookText ' + this._nsi_getBookText_counter);
+    this._ipcListener.add('nsi_getBookText', (moduleCode, bookCode, startVerseNr=-1, verseCount=-1) => {
       var bookText = this._nsi.getBookText(moduleCode, bookCode, startVerseNr, verseCount);
       return bookText;
     });
+
+    this._ipcListener.add('nsi_repositoryConfigExisting', () => {
+      return this._nsi.repositoryConfigExisting();
+    });
+
+    this._ipcListener.addWithProgressCallback('nsi_updateRepositoryConfig',
+                                              async (progressCB) => {
+                                                await this._nsi.updateRepositoryConfig(progressCB);
+                                              },
+                                              'update-repo-config-progress');
+  }
+
+  setMainWindow(mainWindow) {
+    this._ipcListener.setMainWindow(mainWindow);
   }
 }
 

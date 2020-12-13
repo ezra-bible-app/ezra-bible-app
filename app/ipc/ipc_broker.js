@@ -20,12 +20,28 @@ class IpcBroker {
     }
   }
 
+  async callWithProgressCallback(functionName, callbackChannel, callbackFunction) {
+    this.addElectronListenerWithCallback(callbackChannel, callbackFunction);
+
+    if (this._isElectron) {
+      return this.electronIpcCall(functionName);
+    } else if (this._isCordova) {
+      return this.cordovaIpcCall(functionName);
+    }
+  }
+
   async electronIpcCall(functionName, ...args) {
     return this._electronIpcRenderer.invoke(functionName, ...args);
   }
 
   async cordovaIpcCall(functionName, ...args) {
     // TODO
+  }
+
+  addElectronListenerWithCallback(channel, callbackFunction) {
+    this._electronIpcRenderer.on(channel, (event, message) => {
+      callbackFunction(message);
+    });
   }
 }
 

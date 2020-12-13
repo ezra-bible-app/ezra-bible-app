@@ -131,8 +131,9 @@ class InstallModuleAssistant {
 
     var lastSwordRepoUpdateSaved = app_controller.settings.has("lastSwordRepoUpdate");
     var listRepoTimeoutMs = 800;
+    var repoConfigExisting = await ipcNsi.repositoryConfigExisting();
 
-    if (!nsi.repositoryConfigExisting() || !lastSwordRepoUpdateSaved || force) {
+    if (!repoConfigExisting || !lastSwordRepoUpdateSaved || force) {
       wizardPage.append('<p>' + i18n.t('module-assistant.updating-repository-data') + '</p>');
 
       var loadingText = i18n.t('module-assistant.updating');
@@ -142,9 +143,9 @@ class InstallModuleAssistant {
       uiHelper.initProgressBar($('#repo-update-progress-bar'));
 
       try {
-        await nsi.updateRepositoryConfig((progress) => {
+        await ipcNsi.updateRepositoryConfig((progress) => {
           var progressbar = $('#repo-update-progress-bar');
-          var progressPercent = progress.totalPercent;
+          var progressPercent = progress;
           progressbar.progressbar("value", progressPercent);
         });
 

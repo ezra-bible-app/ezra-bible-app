@@ -14,6 +14,16 @@ class IpcNsi {
     var bookText = await this._ipcBroker.call('nsi_getBookText', moduleCode, bookCode, startVerseNr, verseCount);
     return bookText;
   }
+
+  async repositoryConfigExisting() {
+    return await this._ipcBroker.call('nsi_repositoryConfigExisting');
+  }
+
+  async updateRepositoryConfig(progressCallback) {
+    return await this._ipcBroker.callWithProgressCallback('nsi_updateRepositoryConfig',
+                                                          'update-repo-config-progress',
+                                                          progressCallback);
+  }
 }
 
 module.exports = IpcNsi;
