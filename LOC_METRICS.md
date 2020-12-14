@@ -2,21 +2,20 @@
 
 Language|files|blank|comment|code
 :-------|-------:|-------:|-------:|-------:
-JavaScript|82|3127|1468|12166
-CSS|10|604|417|3308
-C++|18|658|381|2514
-JSON|13|0|0|1093
-Markdown|7|365|0|930
-C/C++ Header|20|299|266|728
-HTML|10|88|9|458
-Bourne Shell|16|59|99|226
+JavaScript|86|3238|1731|12527
+CSS|11|626|420|3415
+C++|18|687|398|2613
+JSON|16|0|0|1547
+Markdown|8|427|0|1064
+C/C++ Header|20|300|265|737
+HTML|10|92|9|472
+Bourne Shell|16|59|99|222
 Pug|2|47|9|178
 PowerShell|2|11|32|27
-DOS Batch|2|1|1|14
-XML|1|0|0|10
+DOS Batch|3|0|1|14
 --------|--------|--------|--------|--------
-SUM:|183|5259|2682|21652
+SUM:|192|5487|2964|22816
 
 The above metrics include both the frontend (mostly JavaScript) and the [backend](https://github.com/ezra-project/node-sword-interface) (mostly C++).
 
-Generated on Sa 24 Okt 2020 20:02:50 CEST using [cloc](https://github.com/AlDanial/cloc).
+Generated on Mon 14 Dec 2020 09:27:52 AM CET using [cloc](https://github.com/AlDanial/cloc).
