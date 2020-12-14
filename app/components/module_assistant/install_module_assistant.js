@@ -558,8 +558,8 @@ class InstallModuleAssistant {
       }
     }
 
-    knownLanguages = knownLanguages.sort(this.sortBy('languageName'));
-    unknownLanguages = unknownLanguages.sort(this.sortBy('languageCode'));
+    knownLanguages = knownLanguages.sort(this._helper.sortBy('languageName'));
+    unknownLanguages = unknownLanguages.sort(this._helper.sortBy('languageCode'));
 
     return [ knownLanguages, unknownLanguages ];
   }
@@ -715,7 +715,7 @@ class InstallModuleAssistant {
         currentLangModules = currentLangModules.concat(currentRepoLangModules);
       }
 
-      currentLangModules = currentLangModules.sort(this.sortBy('description'));
+      currentLangModules = currentLangModules.sort(this._helper.sortBy('description'));
       await this.listLanguageModules(currentUiLanguage, currentLangModules, renderHeader);
     }
 
@@ -814,17 +814,6 @@ class InstallModuleAssistant {
     
     unlockDialog.dialog(unlockDialogOptions);
     $('#unlock-key-input').focus();
-  }
-
-  sortBy(field) {
-    return function(a, b) {
-      if (a[field] < b[field]) {
-        return -1;
-      } else if (a[field] > b[field]) {
-        return 1;
-      }
-      return 0;
-    };
   }
 
   async listLanguageModules(lang, modules, renderHeader) {
