@@ -1,6 +1,6 @@
 const PlatformDetector = require('./platform_detector.js');
 
-class IpcBroker {
+class IpcRenderer {
   constructor() {
     var platformDetector = new PlatformDetector();
     this._isElectron = platformDetector.isElectron();
@@ -45,4 +45,4 @@ class IpcBroker {
   }
 }
 
-module.exports = IpcBroker;
+module.exports = IpcRenderer;

@@ -1,35 +1,33 @@
 const NSI = require('node-sword-interface');
-const IpcListener = require('./ipc_listener.js');
+const IpcMain = require('./ipc_main.js');
 
 class IpcNsiHandler {
   constructor() {
-    this._ipcListener = new IpcListener();
+    this._ipcMain = new IpcMain();
     this._nsi = new NSI();
     this._nsi.enableMarkup();
 
-    this._ipcListener.add('nsi_getAllLocalModules', (moduleType='BIBLE') => {
+    this._ipcMain.add('nsi_getAllLocalModules', (moduleType='BIBLE') => {
       var allLocalModules = this._nsi.getAllLocalModules(moduleType);
       return allLocalModules;
     });
 
-    this._ipcListener.add('nsi_getBookText', (moduleCode, bookCode, startVerseNr=-1, verseCount=-1) => {
+    this._ipcMain.add('nsi_getBookText', (moduleCode, bookCode, startVerseNr=-1, verseCount=-1) => {
       var bookText = this._nsi.getBookText(moduleCode, bookCode, startVerseNr, verseCount);
       return bookText;
     });
 
-    this._ipcListener.add('nsi_repositoryConfigExisting', () => {
+    this._ipcMain.add('nsi_repositoryConfigExisting', () => {
       return this._nsi.repositoryConfigExisting();
     });
 
-    this._ipcListener.addWithProgressCallback('nsi_updateRepositoryConfig',
-                                              async (progressCB) => {
-                                                await this._nsi.updateRepositoryConfig(progressCB);
-                                              },
-                                              'update-repo-config-progress');
+    this._ipcMain.addWithProgressCallback('nsi_updateRepositoryConfig',
+                                          async (progressCB) => { await this._nsi.updateRepositoryConfig(progressCB); },
+                                          'nsi_updateRepoConfigProgress');
   }
 
   setMainWindow(mainWindow) {
-    this._ipcListener.setMainWindow(mainWindow);
+    this._ipcMain.setMainWindow(mainWindow);
   }
 }
 

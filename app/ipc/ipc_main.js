@@ -1,6 +1,6 @@
 const PlatformDetector = require('./platform_detector.js');
 
-class IpcListener {
+class IpcMain {
   constructor() {
     this._mainWindow = null;
     var platformDetector = new PlatformDetector();
@@ -67,4 +67,4 @@ class IpcListener {
   }
 }
 
-module.exports = IpcListener;
+module.exports = IpcMain;
