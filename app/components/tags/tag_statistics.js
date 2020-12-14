@@ -34,7 +34,7 @@ class TagStatistics {
     return book_tag_statistics;
   }
 
-  update_book_tag_statistics_box(book_tag_statistics=undefined) {
+  async update_book_tag_statistics_box(book_tag_statistics=undefined) {
     if (book_tag_statistics === undefined) {
       book_tag_statistics = this.get_book_tag_statistics();
     }
@@ -47,11 +47,11 @@ class TagStatistics {
 
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     var currentBook = app_controller.tab_controller.getTab().getBook();
-    var chapterCount = nsi.getBookChapterCount(currentBibleTranslationId, currentBook);
+    var chapterCount = await ipcNsi.getBookChapterCount(currentBibleTranslationId, currentBook);
 
     var overall_verse_count = 0;
     for (var i = 1; i <= chapterCount; i++) {
-      var currentChapterVerseCount = nsi.getChapterVerseCount(currentBibleTranslationId, currentBook, i);
+      var currentChapterVerseCount = await ipcNsi.getChapterVerseCount(currentBibleTranslationId, currentBook, i);
       overall_verse_count += currentChapterVerseCount;
     }
 

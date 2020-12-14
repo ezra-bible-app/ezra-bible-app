@@ -46,7 +46,8 @@ const i18nextOptions = {
 };
 
 class I18nHelper {
-  constructor() {
+  constructor(nsi) {
+    this._nsi = nsi;
   }
 
   async init() {
@@ -68,12 +69,12 @@ class I18nHelper {
   }
 
   getSwordTranslation(originalString) {
-    return nsi.getSwordTranslation(originalString, i18n.language);
+    return this._nsi.getSwordTranslation(originalString, i18n.language);
   }
 
-  getBookAbbreviation(bookCode) {
+  async getBookAbbreviation(bookCode) {
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    return nsi.getBookAbbreviation(currentBibleTranslationId, bookCode, i18n.language);
+    return await ipcNsi.getBookAbbreviation(currentBibleTranslationId, bookCode, i18n.language);
   }
 
   async getSpecificTranslation(lang, key) {

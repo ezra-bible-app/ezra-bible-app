@@ -128,7 +128,7 @@ class VerseBoxHelper {
     var source_tab_translation = app_controller.tab_controller.getTab(current_tab_index).getBibleTranslationId();
     var source_versification = 'ENGLISH';
     try {
-      app_controller.translation_controller.getVersification(source_tab_translation);
+      await app_controller.translation_controller.getVersification(source_tab_translation);
     } catch (exception) {
       console.warn('Got exception when getting versification: ' + exception);
     }
@@ -136,7 +136,7 @@ class VerseBoxHelper {
     for (var i = 0; i < tab_count; i++) {
       if (i != current_tab_index) {
         var current_tab_translation = app_controller.tab_controller.getTab(i).getBibleTranslationId();
-        var current_versification = app_controller.translation_controller.getVersification(current_tab_translation);
+        var current_versification = await app_controller.translation_controller.getVersification(current_tab_translation);
         var current_target_verse_nr = "";
 
         if (current_versification == 'HEBREW') {

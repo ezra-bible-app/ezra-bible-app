@@ -89,11 +89,11 @@ $.create_xml_doc = function(string)
   return doc;
 }
 
-async function initI18N()
+async function initI18N(nsi)
 {
   i18n = require('i18next');
   I18nHelper = require('./app/helpers/i18n_helper.js');
-  i18nHelper = new I18nHelper();
+  i18nHelper = new I18nHelper(nsi);
 
   await i18nHelper.init();
   // await i18n.changeLanguage('de');
@@ -283,12 +283,14 @@ async function initApplication()
 
   loadingIndicator.find('.loader').show();
 
-  console.log("Initializing i18n ...");
-  await initI18N();
-
   console.log("Initializing node-sword-interface ...");
   initNSI();
+
+  console.log("Initializing IPC ...");
   await initIpc();
+
+  console.log("Initializing i18n ...");
+  await initI18N(nsi);
 
   console.log("Initializing database ...");
   await initDatabase();

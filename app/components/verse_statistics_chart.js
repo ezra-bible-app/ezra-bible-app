@@ -53,7 +53,7 @@ class VerseStatisticsChart {
     container.append(canvasElement);
   }
 
-  getLabelsAndValuesFromStats(bookList, bibleBookStats) {
+  async getLabelsAndValuesFromStats(bookList, bibleBookStats) {
     var labels = [];
     var values = [];
     var ntOnly = true;
@@ -68,8 +68,9 @@ class VerseStatisticsChart {
         otOnly = false;
       }
     }
-    
-    bookList.forEach((book) => {
+
+    for (var i = 0; i < bookList.length; i++) {
+      var book = bookList[i];
       var includeCurrentBook = false;
 
       if (ntOnly && models.BibleBook.isNtBook(book)) {
@@ -81,7 +82,7 @@ class VerseStatisticsChart {
       }
 
       if (includeCurrentBook) {
-        var translatedBook = i18nHelper.getBookAbbreviation(book);
+        var translatedBook = await i18nHelper.getBookAbbreviation(book);
         labels.push(translatedBook);
 
         var value = 0;
@@ -91,12 +92,12 @@ class VerseStatisticsChart {
 
         values.push(value);
       }
-    });
+    };
 
     return [labels, values];
   }
 
-  updateChart(tabIndex=undefined, bibleBookStats) {
+  async updateChart(tabIndex=undefined, bibleBookStats) {
     var numberOfBooks = Object.keys(bibleBookStats).length;
     if (numberOfBooks < 2) {
       return;
@@ -105,7 +106,7 @@ class VerseStatisticsChart {
     var currentTranslation = app_controller.tab_controller.getTab(tabIndex)?.getBibleTranslationId();
     var bookList = nsi.getBookList(currentTranslation);
 
-    const [labels, values] = this.getLabelsAndValuesFromStats(bookList, bibleBookStats);
+    const [labels, values] = await this.getLabelsAndValuesFromStats(bookList, bibleBookStats);
 
     var data = {
       labels: labels,

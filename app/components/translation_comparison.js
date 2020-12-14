@@ -73,7 +73,7 @@ class TranslationComparison {
   async getVerseHtmlByTranslationId(sourceBibleTranslationId, targetTranslationId, verseBox) {
     var referenceVerseBox = new VerseBox(verseBox[0]);
     var bibleBookShortTitle = referenceVerseBox.getBibleBookShortTitle();
-    var mappedAbsoluteVerseNumber = referenceVerseBox.getMappedAbsoluteVerseNumber(sourceBibleTranslationId, targetTranslationId);
+    var mappedAbsoluteVerseNumber = await referenceVerseBox.getMappedAbsoluteVerseNumber(sourceBibleTranslationId, targetTranslationId);
 
     var verses = await ipcNsi.getBookText(targetTranslationId,
                                           bibleBookShortTitle,

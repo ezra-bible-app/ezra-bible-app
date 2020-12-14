@@ -252,10 +252,10 @@ class DictionaryInfoBox {
     return htmlBlueLetterLink;
   }
 
-  getStrongsReferenceTableRow(strongsReference, isLastRow=false) {
+  async getStrongsReferenceTableRow(strongsReference, isLastRow=false) {
     var referenceTableRow = "";
     var referenceKey = strongsReference.key;
-    var referenceStrongsEntry = nsi.getStrongsEntry(referenceKey);
+    var referenceStrongsEntry = await ipcNsi.getStrongsEntry(referenceKey);
     var referenceStrongsLemma = this.getJsStrongs()[referenceKey].lemma;
 
     var referenceLink = "<a href=\"javascript:app_controller.dictionary_controller.dictionaryInfoBox.openStrongsReference('";
@@ -308,7 +308,7 @@ class DictionaryInfoBox {
 
       for (var i = 0;  i < strongsEntry.references.length; i++) {
         var isLastRow = (i == (strongsEntry.references.length - 1));
-        var referenceTableRow = this.getStrongsReferenceTableRow(strongsEntry.references[i], isLastRow);
+        var referenceTableRow = await this.getStrongsReferenceTableRow(strongsEntry.references[i], isLastRow);
         extendedStrongsInfo += referenceTableRow;
       }
 
@@ -369,7 +369,7 @@ class DictionaryInfoBox {
     app_controller.module_search_controller.populateSearchMenu();
 
     // Prepare for the next text to be loaded
-    app_controller.text_controller.prepareForNewText(true, true);
+    await app_controller.text_controller.prepareForNewText(true, true);
 
     // Perform the Strong's search
     await app_controller.module_search_controller.startSearch(/* event */      null,
@@ -407,8 +407,9 @@ class DictionaryInfoBox {
     var extraDictModules = await this.getAllExtraDictModules(lang);
     var extraDictContent = "<hr></hr>";
 
-    extraDictModules.forEach((dict) => {
-      var currentDictContent = this.getDictionaryEntry(dict.name, strongsEntry);
+    for (var i = 0; i < extraDictModules.length; i++) {
+      var dict = extraDictModules[i];
+      var currentDictContent = await this.getDictionaryEntry(dict.name, strongsEntry);
 
       if (currentDictContent != undefined) {
         currentDictContent = currentDictContent.trim();
@@ -430,25 +431,25 @@ class DictionaryInfoBox {
           extraDictContent += ": </span>" + currentDictContent + "<hr></hr>";
         }
       }
-    });
+    }
 
     return extraDictContent;
   }
 
-  getDictionaryEntry(moduleCode, strongsEntry) {
+  async getDictionaryEntry(moduleCode, strongsEntry) {
     // We first try to fetch the dictionary entry by using the rawKey
-    var currentDictContent = nsi.getRawModuleEntry(moduleCode, strongsEntry.rawKey.slice(1));
+    var currentDictContent = await ipcNsi.getRawModuleEntry(moduleCode, strongsEntry.rawKey.slice(1));
 
     // If the first attempt returned undefined we try again.
     // This time we try to fetch the dictionary entry by slicing off the first character of the Strong's key.
     if (currentDictContent == undefined) {
-      currentDictContent = nsi.getRawModuleEntry(moduleCode, strongsEntry.key.slice(1));
+      currentDictContent = await ipcNsi.getRawModuleEntry(moduleCode, strongsEntry.key.slice(1));
     }
 
     // If the second attempt returned undefined we try again.
     // This time with the full Strong's key (including H or G as first character)
     if (currentDictContent == undefined) {
-      currentDictContent = nsi.getRawModuleEntry(moduleCode, strongsEntry.key);
+      currentDictContent = await ipcNsi.getRawModuleEntry(moduleCode, strongsEntry.key);
     }
 
     if (currentDictContent != undefined) {

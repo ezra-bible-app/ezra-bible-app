@@ -87,8 +87,9 @@ class RemoveModuleAssistant {
       var checkboxDisabled = '';
       var currentModuleClass = "class='label' ";
       var fixedDictionaries = [ "StrongsHebrew", "StrongsGreek" ];
+      var moduleIsInUserDir = await ipcNsi.isModuleInUserDir(module.name);
       
-      if (!nsi.isModuleInUserDir(module.name) ||
+      if (!moduleIsInUserDir ||
           (moduleType == "DICT" && fixedDictionaries.includes(module.name))) {
 
         checkboxDisabled = "disabled='disabled' ";
@@ -173,7 +174,7 @@ class RemoveModuleAssistant {
       setTimeout(async () => {
         for (var i = 0; i < this._uninstallModules.length; i++) {
           var moduleCode = this._uninstallModules[i];
-          var localModule = nsi.getLocalModule(moduleCode);
+          var localModule = await ipcNsi.getLocalModule(moduleCode);
           var moduleName = localModule.description;
 
           removalPage.append('<span>' + i18n.t("module-assistant.removing") + ' <i>' + moduleName + '</i> ... </span>');
@@ -193,7 +194,7 @@ class RemoveModuleAssistant {
               // FIXME: Also put this in a callback
               app_controller.tab_controller.setCurrentBibleTranslationId(modules[0]);
               app_controller.onBibleTranslationChanged();
-              app_controller.navigation_pane.updateNavigation();
+              await app_controller.navigation_pane.updateNavigation();
             } else {
               this.onAllTranslationsRemoved();
             }

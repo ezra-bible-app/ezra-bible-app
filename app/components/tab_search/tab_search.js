@@ -150,10 +150,10 @@ class TabSearch {
       return;
     }
 
-    this.searchTimeout = setTimeout(() => {
+    this.searchTimeout = setTimeout(async () => {
       app_controller.verse_selection.clear_verse_selection(false);
       this.onSearchReset();
-      this.doSearch(searchString);
+      await this.doSearch(searchString);
       // This is necessary, beause the search "rewrites" the verse content and events
       // get lost by doing that, so we have to re-bind the xref events.
       app_controller.bindXrefEvents();
@@ -253,7 +253,7 @@ class TabSearch {
     this.searchOccurancesElement[0].innerHTML = occurancesString;
   }
 
-  doSearch(searchString) {
+  async doSearch(searchString) {
     if (this.verseList == null) {
       return;
     }
@@ -285,7 +285,7 @@ class TabSearch {
       this.resetOccurances();
     }
 
-    this.onSearchResultsAvailable(this.allOccurances);
+    await this.onSearchResultsAvailable(this.allOccurances);
   }
 
   removeAllHighlighting() {

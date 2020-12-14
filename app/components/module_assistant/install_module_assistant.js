@@ -425,7 +425,7 @@ class InstallModuleAssistant {
     try {
       var moduleInstalled = false;
       try {
-        nsi.getLocalModule(moduleCode);
+        await ipcNsi.getLocalModule(moduleCode);
         moduleInstalled = true;
       } catch (e) {
         moduleInstalled = false;
@@ -446,9 +446,10 @@ class InstallModuleAssistant {
       if (swordModule.locked) {
         console.log("Module is locked ... saving unlock key");
         var unlockKey = this._unlockKeys[moduleCode];
-        nsi.saveModuleUnlockKey(moduleCode, unlockKey);
+        await ipcNsi.saveModuleUnlockKey(moduleCode, unlockKey);
+        var moduleReadable = await ipcNsi.isModuleReadable(moduleCode);
 
-        if (!nsi.isModuleReadable(moduleCode)) {
+        if (!moduleReadable) {
           unlockSuccessful = false;
           var errorMessage = "Locked module is not readable! Wrong unlock key?";
           throw errorMessage;
@@ -470,8 +471,9 @@ class InstallModuleAssistant {
                             level: Sentry.Severity.Info});
 
       existingProgressBar.before('<div style="margin-bottom: 1em;">&nbsp;' + i18n.t("general.done") + '.</div>');
+      var strongsAvailable = await ipcNsi.strongsAvailable();
 
-      if (this._currentModuleType == 'BIBLE' && swordModule.hasStrongs && !nsi.strongsAvailable()) {
+      if (this._currentModuleType == 'BIBLE' && swordModule.hasStrongs && !strongsAvailable) {
         await this.installStrongsModules(installPage);
       }
     } else {
@@ -503,12 +505,15 @@ class InstallModuleAssistant {
     var strongsInstallSuccessful = true;
 
     try {
-      if (!nsi.hebrewStrongsAvailable()) {
-        await nsi.installModule("StrongsHebrew", (progress) => { this.handleModuleInstallProgress(progress); });
+      var hebrewStrongsAvailable = await ipcNsi.hebrewStrongsAvailable();
+      var greekStrongsAvailable = await ipcNsi.greekStrongsAvailable();
+
+      if (!hebrewStrongsAvailable) {
+        await ipcNsi.installModule("StrongsHebrew", (progress) => { this.handleModuleInstallProgress(progress); });
       }
 
-      if (!nsi.greekStrongsAvailable()) {
-        await nsi.installModule("StrongsGreek", (progress) => { this.handleModuleInstallProgress(progress); });
+      if (!greekStrongsAvailable) {
+        await ipcNsi.installModule("StrongsGreek", (progress) => { this.handleModuleInstallProgress(progress); });
       }
     } catch (e) {
       strongsInstallSuccessful = false;

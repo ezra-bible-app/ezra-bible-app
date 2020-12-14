@@ -244,22 +244,22 @@ class ModuleSearchController {
       }
 
       // Only reset view if we got an event (in other words: not initially)
-      app_controller.text_controller.prepareForNewText(event != null, true, tabIndex);
+      await app_controller.text_controller.prepareForNewText(event != null, true, tabIndex);
 
       try {
         Sentry.addBreadcrumb({category: "app",
                               message: `Performing module search in ${currentBibleTranslationId}`,
                               level: Sentry.Severity.Info});
 
-        var searchResults = await nsi.getModuleSearchResults(currentBibleTranslationId,
-                                                             this.currentSearchTerm,
-                                                             (progress) => {
-                                                              var progressPercent = progress.totalPercent;
-                                                              searchProgressBar.progressbar("value", progressPercent);
-                                                             },
-                                                             searchType,
-                                                             isCaseSensitive,
-                                                             useExtendedVerseBoundaries);
+        var searchResults = await ipcNsi.getModuleSearchResults((progress) => {
+                                                                  var progressPercent = progress.totalPercent;
+                                                                  searchProgressBar.progressbar("value", progressPercent);
+                                                                },
+                                                                currentBibleTranslationId,
+                                                                this.currentSearchTerm,
+                                                                searchType,
+                                                                isCaseSensitive,
+                                                                useExtendedVerseBoundaries);
 
         //console.log("Got " + searchResults.length + " from Sword");
         currentTab.setSearchResults(searchResults);
@@ -360,7 +360,7 @@ class ModuleSearchController {
 
     if (currentSearchResults?.length > 0 && requestedBookId <= 0) {
       var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
-      this.verseStatisticsChart.updateChart(tabIndex, bibleBookStats);
+      await this.verseStatisticsChart.updateChart(tabIndex, bibleBookStats);
     }
   }
 
@@ -372,24 +372,24 @@ class ModuleSearchController {
     app_controller.verse_selection.updateViewsAfterVerseSelection(i18n.t('bible-browser.all-search-results'));
   }
 
-  repaintChart(tabIndex=undefined) {
+  async repaintChart(tabIndex=undefined) {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentSearchResults = currentTab?.getSearchResults();
 
     if (currentSearchResults != null) {
       var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
       this.verseStatisticsChart.resetChart(tabIndex);
-      this.verseStatisticsChart.updateChart(tabIndex, bibleBookStats);
+      await this.verseStatisticsChart.updateChart(tabIndex, bibleBookStats);
     }
   }
 
-  repaintAllCharts() {
+  async repaintAllCharts() {
     var tabCount = app_controller.tab_controller.getTabCount();
 
     for (var i = 0; i < tabCount; i++) {
       var currentTab = app_controller.tab_controller.getTab(i);
       if (currentTab.getTextType() == 'search_results') {
-        this.repaintChart(i);
+        await this.repaintChart(i);
       }
     }
   }

@@ -65,11 +65,11 @@ class TranslationController {
   }
 
   initVerseSelection() {
-    app_controller.verse_selection.initHelper(reference_separator, nsi);
+    app_controller.verse_selection.initHelper(reference_separator, ipcNsi);
   }
 
-  loadSettings() {
-    app_controller.book_selection_menu.updateAvailableBooks();
+  async loadSettings() {
+    await app_controller.book_selection_menu.updateAvailableBooks();
     this.initVerseSelection();
   }
 
@@ -241,7 +241,7 @@ class TranslationController {
       if (isRemote) {
         swordModule = await ipcNsi.getRepoModule(moduleId);
       } else {
-        swordModule = nsi.getLocalModule(moduleId);
+        swordModule = await ipcNsi.getLocalModule(moduleId);
       }
       
       var moduleInfo = "";
@@ -287,8 +287,9 @@ class TranslationController {
         moduleInfo += "<p class='external'>" + swordModule.unlockInfo + "</p>";
       }
 
+      var swordVersion = await ipcNsi.getSwordVersion();
       moduleInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>" + i18n.t("general.sword-library-info") + "</p>";
-      moduleInfo += "<p>" + i18n.t("general.using-sword-version") + " <b>" + nsi.getSwordVersion() + "</b>.</p>";
+      moduleInfo += "<p>" + i18n.t("general.using-sword-version") + " <b>" + swordVersion + "</b>.</p>";
     } catch (ex) {
       console.error("Got exception while trying to get module info: " + ex);
     }
@@ -299,8 +300,7 @@ class TranslationController {
   async showBibleTranslationInfo() {
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     var moduleInfo = await this.getModuleInfo(currentBibleTranslationId);
-
-    var currentBibleTranslationName = app_controller.tab_controller.getCurrentBibleTranslationName();
+    var currentBibleTranslationName = await app_controller.tab_controller.getCurrentBibleTranslationName();
     var offsetLeft = $(window).width() - 900;
     $('#bible-translation-info-box').dialog({
       title: currentBibleTranslationName,
@@ -311,7 +311,7 @@ class TranslationController {
     $('#bible-translation-info-box').dialog("open");
   }
 
-  getBibleTranslationModule(translationId) {
+  async getBibleTranslationModule(translationId) {
     if (translationId == null) {
       return null;
     }
@@ -319,7 +319,7 @@ class TranslationController {
     var bibleTranslation = null;
 
     try {
-      bibleTranslation = nsi.getLocalModule(translationId);
+      bibleTranslation = await ipcNsi.getLocalModule(translationId);
     } catch (e) {
       console.log("Could not get local sword module for " + translationId);
     }
@@ -327,8 +327,8 @@ class TranslationController {
     return bibleTranslation;
   }
 
-  hasBibleTranslationStrongs(translationId) {
-    var bibleTranslation = this.getBibleTranslationModule(translationId);
+  async hasBibleTranslationStrongs(translationId) {
+    var bibleTranslation = await this.getBibleTranslationModule(translationId);
 
     if (bibleTranslation != null) {
       return bibleTranslation.hasStrongs;
@@ -337,8 +337,8 @@ class TranslationController {
     }
   }
 
-  hasBibleTranslationHeaders(translationId) {
-    var bibleTranslation = this.getBibleTranslationModule(translationId);
+  async hasBibleTranslationHeaders(translationId) {
+    var bibleTranslation = await this.getBibleTranslationModule(translationId);
 
     if (bibleTranslation != null) {
       return bibleTranslation.hasHeadings;
@@ -356,11 +356,11 @@ class TranslationController {
   }
 
   async handleBibleTranslationChange(oldBibleTranslationId, newBibleTranslationId) {
-    app_controller.book_selection_menu.updateAvailableBooks();
+    await app_controller.book_selection_menu.updateAvailableBooks();
     this.onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId);
   }
 
-  async isStrongsTranslationInDb() {
+  async isStrongsTranslationAvailable() {
     var allTranslations = await ipcNsi.getAllLocalModules();
 
     for (var dbTranslation of allTranslations) {
@@ -390,7 +390,8 @@ class TranslationController {
 
   async installStrongsIfNeeded() {
     //console.time("get sync infos");   
-    var strongsInstallNeeded = await this.isStrongsTranslationInDb() && !nsi.strongsAvailable();
+    var strongsAvailable = await ipcNsi.strongsAvailable();
+    var strongsInstallNeeded = await this.isStrongsTranslationAvailable() && !strongsAvailable;
     //console.timeEnd("get sync infos");
 
     if (strongsInstallNeeded) {
@@ -497,11 +498,11 @@ class TranslationController {
     return translations;
   }
 
-  getVersification(translationCode) {
+  async getVersification(translationCode) {
     var versification = null;
 
-    var psalm3Verses = nsi.getChapterText(translationCode, 'Psa', 3);
-    var revelation12Verses = nsi.getChapterText(translationCode, 'Rev', 12);
+    var psalm3Verses = await ipcNsi.getChapterText(translationCode, 'Psa', 3);
+    var revelation12Verses = await ipcNsi.getChapterText(translationCode, 'Rev', 12);
 
     if (psalm3Verses.length == 8 || revelation12Verses.length == 17) { // ENGLISH versification
       versification = "ENGLISH";

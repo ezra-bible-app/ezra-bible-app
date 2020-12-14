@@ -236,7 +236,7 @@ class TagsController {
       await tags_controller.persistance_controller.destroy_tag(tags_controller.tag_to_be_deleted);
 
       await tags_controller.updateTagUiBasedOnTagAvailability();
-      app_controller.tag_statistics.update_book_tag_statistics_box();
+      await app_controller.tag_statistics.update_book_tag_statistics_box();
     }, 50);
   }
 
@@ -397,7 +397,7 @@ class TagsController {
       await tags_controller.updateTagUiBasedOnTagAvailability();
 
       if (currentBook != null) {
-        app_controller.tag_statistics.update_book_tag_statistics_box();
+        await app_controller.tag_statistics.update_book_tag_statistics_box();
       }
 
     } else {
@@ -516,7 +516,7 @@ class TagsController {
     var currentBook = app_controller.tab_controller.getTab().getBook();
     tags_controller.update_tag_count_after_rendering(currentBook != null);
     tags_controller.updateTagUiBasedOnTagAvailability();
-    app_controller.tag_statistics.update_book_tag_statistics_box();
+    await app_controller.tag_statistics.update_book_tag_statistics_box();
 
     tags_controller.remove_tag_assignment_job = null;
     tags_controller.persistence_ongoing = false;
@@ -696,7 +696,7 @@ class TagsController {
     return $('#tags-search-input')[0].empty();
   }
 
-  refresh_book_tag_statistics(tag_list, tag_statistics, current_book) {
+  async refresh_book_tag_statistics(tag_list, tag_statistics, current_book) {
     var book_tag_statistics = [];
     
     for (var i = 0; i < tag_list.length; i++) {
@@ -711,7 +711,7 @@ class TagsController {
     }
 
     if (current_book != null) {
-      app_controller.tag_statistics.update_book_tag_statistics_box(book_tag_statistics);
+      await app_controller.tag_statistics.update_book_tag_statistics_box(book_tag_statistics);
     }
   }
 
@@ -853,7 +853,7 @@ class TagsController {
       this.update_stats_elements(tag_statistics);
     }
 
-    tags_controller.refresh_book_tag_statistics(tag_list, tag_statistics, current_book);
+    await tags_controller.refresh_book_tag_statistics(tag_list, tag_statistics, current_book);
     uiHelper.configureButtonStyles('#tags-content');
 
     tags_controller.update_tags_view_after_verse_selection(true);

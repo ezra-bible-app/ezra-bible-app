@@ -31,9 +31,9 @@ class TextController {
     this.marked = require("marked");
   }
 
-  prepareForNewText(resetView, isSearch=false, tabIndex=undefined) {
-    app_controller.module_search_controller.hideModuleSearchHeader(tabIndex);
-    app_controller.navigation_pane.initNavigationPaneForCurrentView(tabIndex);
+  async prepareForNewText(resetView, isSearch=false, tabIndex=undefined) {
+    app_controller.module_search.hideModuleSearchHeader(tabIndex);
+    await app_controller.navigation_pane.initNavigationPaneForCurrentView(tabIndex);
 
     if (tabIndex === undefined) {
       if (app_controller.verse_selection != null) {
@@ -91,13 +91,13 @@ class TextController {
       currentVerseListMenu.find('.book-select-button').addClass('focused-button');
 
       if (cachedText != null) {
-        this.renderVerseList(cachedText, cachedReferenceVerse, 'book', tabIndex, true);
+        await this.renderVerseList(cachedText, cachedReferenceVerse, 'book', tabIndex, true);
       } else {
 
         // 1) Only request the first 50 verses and render immediately
         await this.requestBookText(tabIndex, tabId, book,
-          (htmlVerseList) => { 
-            this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false);
+          async (htmlVerseList) => { 
+            await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false);
           }, 1, 50
         );
 
@@ -106,8 +106,8 @@ class TextController {
         // 2) Now request the rest of the book
         await this.requestBookText(
           tabIndex, tabId, book,
-          (htmlVerseList) => { 
-            this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, undefined, true);
+          async (htmlVerseList) => { 
+            await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, undefined, true);
           }, 51, -1
         );
       }
@@ -117,14 +117,14 @@ class TextController {
       currentVerseListMenu.find('.tag-select-button').addClass('focused-button');
 
       if (cachedText != null) {
-        this.renderVerseList(cachedText, cachedReferenceVerse, 'tagged_verses', tabIndex);
+        await this.renderVerseList(cachedText, cachedReferenceVerse, 'tagged_verses', tabIndex);
       } else {
         await this.requestVersesForSelectedTags(
           tabIndex,
           tabId,
           tagIdList,
-          (htmlVerseList) => {
-            this.renderVerseList(htmlVerseList, null, 'tagged_verses', tabIndex);
+          async (htmlVerseList) => {
+            await this.renderVerseList(htmlVerseList, null, 'tagged_verses', tabIndex);
           }
         );
       }
@@ -134,14 +134,14 @@ class TextController {
       currentVerseListMenu.find('.module-search-button').addClass('focused-button');
       
       if (cachedText != null) {
-        this.renderVerseList(cachedText, null, 'search_results', tabIndex);
+        await this.renderVerseList(cachedText, null, 'search_results', tabIndex);
       } else {
         await this.requestVersesForSearchResults(
           tabIndex,
           tabId,
           searchResults,
-          (htmlVerseList) => {
-            this.renderVerseList(htmlVerseList, null, 'search_results', tabIndex, /* isCache */ false, target);
+          async (htmlVerseList) => {
+            await this.renderVerseList(htmlVerseList, null, 'search_results', tabIndex, /* isCache */ false, target);
           },
           requestedBookId
         );
@@ -149,14 +149,14 @@ class TextController {
     } else if (textType == 'xrefs') {
       
       if (cachedText != null) {
-        this.renderVerseList(cachedText, cachedReferenceVerse, 'xrefs', tabIndex);
+        await this.renderVerseList(cachedText, cachedReferenceVerse, 'xrefs', tabIndex);
       } else {
         await this.requestVersesForXrefs(
           tabIndex,
           tabId,
           xrefs,
-          (htmlVerseList) => {
-            this.renderVerseList(htmlVerseList, null, 'xrefs', tabIndex, /* isCache */ false, target);
+          async (htmlVerseList) => {
+            await this.renderVerseList(htmlVerseList, null, 'xrefs', tabIndex, /* isCache */ false, target);
           }
         );
       }
@@ -174,7 +174,7 @@ class TextController {
     var localSwordModule = null;
 
     try {
-      localSwordModule = nsi.getLocalModule(currentBibleTranslationId);
+      localSwordModule = await ipcNsi.getLocalModule(currentBibleTranslationId);
     } catch (e) {
       console.log("ERROR: Could not get local Sword module for " + currentBibleTranslationId);
     }
@@ -187,7 +187,7 @@ class TextController {
       return;
     }
 
-    var versification = (app_controller.translation_controller.getVersification(currentBibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
+    var versification = (await app_controller.translation_controller.getVersification(currentBibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
     var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: book_short_title }});
 
     // Only necessary because old saved short titles may not be found directly
@@ -224,7 +224,7 @@ class TextController {
     if (start_verse_number == 1) { // Only load book introduction if starting with verse 1
       try {        
         if (localSwordModule != null && localSwordModule.hasHeadings) {
-          bookIntroduction = nsi.getBookIntroduction(currentBibleTranslationId, book_short_title);
+          bookIntroduction = await ipcNsi.getBookIntroduction(currentBibleTranslationId, book_short_title);
 
           var sanitizeHtml = require('sanitize-html');
           bookIntroduction = sanitizeHtml(bookIntroduction);
@@ -313,7 +313,7 @@ class TextController {
     }
 
     var bibleTranslationId = this.getBibleTranslationId(tab_index);
-    var versification = (app_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
+    var versification = (await app_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
 
     var bibleBooks = await models.BibleBook.findBySearchResults(search_results);
     var bibleBookStats = app_controller.module_search_controller.getBibleBookStatsFromSearchResults(search_results);
@@ -377,7 +377,7 @@ class TextController {
     }
 
     var bibleTranslationId = this.getBibleTranslationId(tab_index);
-    var versification = (app_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
+    var versification = (await app_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
 
     var verseReferences = await models.VerseReference.findByTagIds(selected_tags);
     var verseReferenceIds = [];
@@ -436,11 +436,11 @@ class TextController {
     }
 
     var bibleTranslationId = this.getBibleTranslationId(tab_index);
-    var versification = (app_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
+    var versification = (await app_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
 
     var verseReferences = await models.VerseReference.findByXrefs(xrefs);
     var verseReferenceIds = [];
-    var verses = nsi.getVersesFromReferences(bibleTranslationId, xrefs);
+    var verses = await ipcNsi.getVersesFromReferences(bibleTranslationId, xrefs);
 
     for (var i = 0; i < verseReferences.length; i++) {
       var currentVerseReference = verseReferences[i];
@@ -497,7 +497,7 @@ class TextController {
     render_function(verses_as_html, verses.length);
   }
 
-  renderVerseList(htmlVerseList, referenceVerseHtml, listType, tabIndex=undefined, isCache=false, target=undefined, append=false) {
+  async renderVerseList(htmlVerseList, referenceVerseHtml, listType, tabIndex=undefined, isCache=false, target=undefined, append=false) {
     app_controller.hideVerseListLoadingIndicator();
     app_controller.hideSearchProgressBar();
     var initialRendering = true;
@@ -570,7 +570,7 @@ class TextController {
         listType == 'book' && append) {
 
       app_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
-      app_controller.initApplicationForVerseList(tabIndex);      
+      await app_controller.initApplicationForVerseList(tabIndex);      
       app_controller.translation_controller.hideBibleTranslationLoadingIndicator();
     }
   }
