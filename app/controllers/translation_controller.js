@@ -171,6 +171,7 @@ class TranslationController {
       await this.addLanguageGroupsToBibleSelectMenu(tabIndex);
 
       var translations = await ipcNsi.getAllLocalModules();
+      // FIXME: Should be in function
       translations.sort((a, b) => {
         var aDescription = a.description;
         var bDescription = b.description;
@@ -473,6 +474,20 @@ class TranslationController {
 
   async getInstalledModules(moduleType='BIBLE') {
     var localModules = await ipcNsi.getAllLocalModules(moduleType);
+    // FIXME: Should be in function
+    localModules.sort((a, b) => {
+      var aDescription = a.description;
+      var bDescription = b.description;
+
+      if (aDescription < bDescription) {
+        return -1;
+      } else if (aDescription > bDescription) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
     var translations = [];
 
     for (var i = 0; i < localModules.length; i++) {
