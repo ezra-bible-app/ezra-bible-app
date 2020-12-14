@@ -81,7 +81,7 @@ class AppController {
     });
 
     this.remove_module_assistant.init(() => { this.onAllTranslationsRemoved(); },
-                                   (translationId) => { this.onTranslationRemoved(translationId); });
+                                      async (translationId) => { await this.onTranslationRemoved(translationId); });
 
     this.tab_search.init('#tab-search',
                           '#tab-search-input',
@@ -274,10 +274,10 @@ class AppController {
     $('.book-select-value').text(i18n.t("menu.book"));
   }
 
-  onTranslationRemoved(translationId) {
+  async onTranslationRemoved(translationId) {
     $("select#bible-select").empty();
     this.translation_controller.initTranslationsMenu();
-    tags_controller.updateTagUiBasedOnTagAvailability();
+    await tags_controller.updateTagUiBasedOnTagAvailability();
     var installedTranslations = this.translation_controller.getInstalledModules();
     this.tab_controller.onTranslationRemoved(translationId, installedTranslations);
   }
