@@ -45,9 +45,9 @@ class InstallModuleAssistant {
     this._moduleInstallationCancelled = false;
   }
 
-  isModuleInstalled(moduleCode) {
+  async isModuleInstalled(moduleCode) {
     if (this._installedModules == null) {
-      this._installedModules = app_controller.translation_controller.getInstalledModules(this._currentModuleType);
+      this._installedModules = await app_controller.translation_controller.getInstalledModules(this._currentModuleType);
     }
 
     for (var i = 0; i < this._installedModules.length; i++) {
@@ -59,7 +59,7 @@ class InstallModuleAssistant {
     return false;
   }
 
-  openAssistant(moduleType) {
+  async openAssistant(moduleType) {
     this.init(moduleType);
 
     var appContainerWidth = $(window).width() - 10;
@@ -78,7 +78,7 @@ class InstallModuleAssistant {
     $('#module-settings-assistant-remove').hide();
     $('#module-settings-assistant-init').show();
 
-    var modules = app_controller.translation_controller.getInstalledModules(moduleType);
+    var modules = await app_controller.translation_controller.getInstalledModules(moduleType);
 
     $('#add-modules-button').removeClass('ui-state-disabled');
 
@@ -145,7 +145,7 @@ class InstallModuleAssistant {
       try {
         await ipcNsi.updateRepositoryConfig((progress) => {
           var progressbar = $('#repo-update-progress-bar');
-          var progressPercent = progress;
+          var progressPercent = progress.totalPercent;
           progressbar.progressbar("value", progressPercent);
         });
 
@@ -157,7 +157,7 @@ class InstallModuleAssistant {
     }
 
     wizardPage.append('<p>' + i18n.t("module-assistant.loading-repositories") + '</p>');
-    setTimeout(() => this.listRepositories(), listRepoTimeoutMs);
+    setTimeout(async () => { this.listRepositories(); }, listRepoTimeoutMs);
   }
 
   async openAddModuleAssistant() {
@@ -238,7 +238,7 @@ class InstallModuleAssistant {
 
   async addModuleAssistantFinished(event, currentIndex) {
     $('#module-settings-assistant').dialog('close');
-    this._installedModules = app_controller.translation_controller.getInstalledModules();
+    this._installedModules = await app_controller.translation_controller.getInstalledModules();
 
     if (this._currentModuleType == 'BIBLE') {
       await app_controller.translation_controller.initTranslationsMenu();
@@ -263,10 +263,10 @@ class InstallModuleAssistant {
 
     this.previouslySelectedLanguages = app_controller.settings.get('selected_languages');
 
-    setTimeout(() => this.listLanguages(this._selectedRepositories), 400);
+    setTimeout(async () => { this.listLanguages(this._selectedRepositories); }, 400);
   }
 
-  initModulesPage() {
+  async initModulesPage() {
     // Languages have been selected
     var wizardPage = "#module-settings-assistant-add-p-1";
     var languages = this._helper.getSelectedSettingsAssistantElements(wizardPage);
@@ -278,7 +278,7 @@ class InstallModuleAssistant {
     }
 
     app_controller.settings.set('selected_languages', languages);
-    this.listModules(languageCodes);
+    await this.listModules(languageCodes);
   }
 
   async installSelectedModules() {
@@ -309,7 +309,7 @@ class InstallModuleAssistant {
 
     for (var i = 0; i < modules.length; i++) {
       var currentModule = modules[i];
-      var swordModule = nsi.getRepoModule(currentModule);
+      var swordModule = await ipcNsi.getRepoModule(currentModule);
       var unlockFailed = true;
 
       while (unlockFailed) {
@@ -381,7 +381,7 @@ class InstallModuleAssistant {
   }
 
   async installModule(installPage, moduleCode) {
-    var swordModule = nsi.getRepoModule(moduleCode);
+    var swordModule = await ipcNsi.getRepoModule(moduleCode);
 
     var existingProgressBar = $('#module-install-progress-bar');
     var installingModuleText = "<div style='float: left; margin-bottom: 1em;'>" + i18n.t("module-assistant.installing") + " <i>" + swordModule.description + "</i> ... </div>";
@@ -412,10 +412,10 @@ class InstallModuleAssistant {
       uiHelper.configureButtonStyles('#module-settings-assistant-add-p-3');
 
       var cancelInstallButton = $('#cancel-module-installation-button');
-      cancelInstallButton.bind('click', () => {
+      cancelInstallButton.bind('click', async () => {
         cancelInstallButton.addClass('ui-state-disabled');
         this._moduleInstallationCancelled = true;
-        nsi.cancelInstallation();
+        ipcNsi.cancelInstallation();
       });
     }
 
@@ -434,9 +434,10 @@ class InstallModuleAssistant {
       if (!moduleInstalled) {
         var progressMessageBox = $('#module-install-progress-msg');
         progressMessageBox.empty();
-        await nsi.installModule(moduleCode, (progress) => { this.handleModuleInstallProgress(progress); });
+        await ipcNsi.installModule(moduleCode, (progress) => { this.handleModuleInstallProgress(progress); });
       }
 
+      // FIXME
       // Sleep a bit after installation. This is actually a hack to prevent
       // a "white screen error" right after module installation. The exact reason
       // for that error is unclear, but the sleeping prevents it.
@@ -522,7 +523,7 @@ class InstallModuleAssistant {
     }
   }
 
-  getAvailableLanguagesFromSelectedRepos(selectedRepositories) {
+  async getAvailableLanguagesFromSelectedRepos(selectedRepositories) {
     var knownLanguageCodes = [];
     var unknownLanguageCodes = [];
     var knownLanguages = [];
@@ -530,7 +531,7 @@ class InstallModuleAssistant {
 
     for (var i = 0;  i < selectedRepositories.length; i++) {
       var currentRepo = selectedRepositories[i];
-      var repoLanguages = nsi.getRepoLanguages(currentRepo, this._currentModuleType);
+      var repoLanguages = await ipcNsi.getRepoLanguages(currentRepo, this._currentModuleType);
 
       for (var j = 0; j < repoLanguages.length; j++) {
         var currentLanguageCode = repoLanguages[j];
@@ -563,7 +564,7 @@ class InstallModuleAssistant {
     return [ knownLanguages, unknownLanguages ];
   }
 
-  listLanguages(selectedRepositories) {
+  async listLanguages(selectedRepositories) {
     var wizardPage = $('#module-settings-assistant-add-p-1');
     wizardPage.empty();
 
@@ -575,23 +576,23 @@ class InstallModuleAssistant {
 
     wizardPage.append(introText);
 
-    var availableLanguages = this.getAvailableLanguagesFromSelectedRepos(selectedRepositories);
+    var availableLanguages = await this.getAvailableLanguagesFromSelectedRepos(selectedRepositories);
     var knownLanguages = availableLanguages[0];
     var unknownLanguages = availableLanguages[1];
 
-    this.listLanguageArray(knownLanguages);
+    await this.listLanguageArray(knownLanguages);
 
     var otherLanguagesHeader = "<p style='padding-top: 2em; clear: both; font-weight: bold;'>Other languages</p>";
 
     if (unknownLanguages.length > 0) {
       wizardPage.append(otherLanguagesHeader);
-      this.listLanguageArray(unknownLanguages);
+      await this.listLanguageArray(unknownLanguages);
     }
 
     this._helper.bindLabelEvents(wizardPage);
   }
 
-  listLanguageArray(languageArray) {
+  async listLanguageArray(languageArray) {
     var wizardPage = $('#module-settings-assistant-add-p-1');
 
     for (var i = 0; i < languageArray.length; i++) {
@@ -604,7 +605,7 @@ class InstallModuleAssistant {
         checkboxChecked = " checked";
       }
 
-      var currentLanguageTranslationCount = this.getLanguageModuleCount(currentLanguageCode);
+      var currentLanguageTranslationCount = await this.getLanguageModuleCount(currentLanguageCode);
       var currentLanguage = "<p style='float: left; width: 17em;'><input type='checkbox'" + checkboxChecked + "><span class='label' id='" + currentLanguageCode + "'>";
       currentLanguage += currentLanguageName + ' (' + currentLanguageTranslationCount + ')';
       currentLanguage += "</span></p>";
@@ -623,7 +624,7 @@ class InstallModuleAssistant {
     return uiRepositories;
   }
 
-  listModules(selectedLanguages) {
+  async listModules(selectedLanguages) {
     var wizardPage = $('#module-settings-assistant-add-p-2');
     var translationList = wizardPage.find('#module-list');
     translationList.empty();
@@ -678,10 +679,10 @@ class InstallModuleAssistant {
       this.listFilteredModules(selectedLanguages, uiLanguages);      
     });
 
-    this.listFilteredModules(selectedLanguages, uiLanguages);
+    await this.listFilteredModules(selectedLanguages, uiLanguages);
   }
 
-  listFilteredModules(selectedLanguages, uiLanguages) {
+  async listFilteredModules(selectedLanguages, uiLanguages) {
     var filteredModuleList = $('#filtered-module-list');
     filteredModuleList.empty();
 
@@ -702,20 +703,20 @@ class InstallModuleAssistant {
 
       for (var j = 0; j < this._selectedRepositories.length; j++) {
         var currentRepo = this._selectedRepositories[j];
-        var currentRepoLangModules = nsi.getRepoModulesByLang(currentRepo,
-                                                              currentLanguage,
-                                                              this._currentModuleType,
-                                                              headingsFilter,
-                                                              strongsFilter,
-                                                              hebrewStrongsFilter,
-                                                              greekStrongsFilter);
+        var currentRepoLangModules = await ipcNsi.getRepoModulesByLang(currentRepo,
+                                                                       currentLanguage,
+                                                                       this._currentModuleType,
+                                                                       headingsFilter,
+                                                                       strongsFilter,
+                                                                       hebrewStrongsFilter,
+                                                                       greekStrongsFilter);
 
         // Append this repo's modules to the overall language list
         currentLangModules = currentLangModules.concat(currentRepoLangModules);
       }
 
       currentLangModules = currentLangModules.sort(this.sortBy('description'));
-      this.listLanguageModules(currentUiLanguage, currentLangModules, renderHeader);
+      await this.listLanguageModules(currentUiLanguage, currentLangModules, renderHeader);
     }
 
     filteredModuleList.find('.bible-module-info').bind('click', function() {
@@ -723,8 +724,8 @@ class InstallModuleAssistant {
       $('#module-info-content').empty();
       $('#module-info').find('.loader').show();
 
-      setTimeout(() => {
-        var moduleInfo = app_controller.translation_controller.getModuleInfo(moduleCode, true);
+      setTimeout(async () => {
+        var moduleInfo = await app_controller.translation_controller.getModuleInfo(moduleCode, true);
         $('#module-info').find('.loader').hide();
         $('#module-info-content').append(moduleInfo);
       }, 200);
@@ -732,7 +733,7 @@ class InstallModuleAssistant {
 
     this._helper.bindLabelEvents(filteredModuleList);
     
-    filteredModuleList.find('.module-checkbox, .label').bind('mousedown', (event) => {
+    filteredModuleList.find('.module-checkbox, .label').bind('mousedown', async (event) => {
       var checkbox = null;
 
       if (event.target.classList.contains('module-checkbox')) {
@@ -744,7 +745,7 @@ class InstallModuleAssistant {
       var moduleId = checkbox.parent().find('.bible-module-info').text();
 
       try {
-        var swordModule = nsi.getRepoModule(moduleId);
+        var swordModule = await ipcNsi.getRepoModule(moduleId);
 
         if (checkbox.prop('checked') == false) {
           if (swordModule.locked) {
@@ -826,7 +827,7 @@ class InstallModuleAssistant {
     };
   }
 
-  listLanguageModules(lang, modules, renderHeader) {
+  async listLanguageModules(lang, modules, renderHeader) {
     var wizardPage = $('#module-settings-assistant-add-p-2');
     var translationList = wizardPage.find('#filtered-module-list');
 
@@ -839,8 +840,9 @@ class InstallModuleAssistant {
       var currentModule = modules[i];
       var checkboxDisabled = "";
       var labelClass = "label";
+      var moduleInstalled = await this.isModuleInstalled(currentModule.name);
 
-      if (this.isModuleInstalled(currentModule.name) == true) {
+      if (moduleInstalled) {
         checkboxDisabled = "disabled='disabled' checked";
         labelClass = "disabled-label";
       }
@@ -871,12 +873,12 @@ class InstallModuleAssistant {
     }
   }
 
-  getLanguageModuleCount(language) {
+  async getLanguageModuleCount(language) {
     var count = 0;
 
     for (var i = 0; i < this._selectedRepositories.length; i++) {
       var currentRepo = this._selectedRepositories[i];
-      count += nsi.getRepoLanguageModuleCount(currentRepo, language, this._currentModuleType);
+      count += await ipcNsi.getRepoLanguageModuleCount(currentRepo, language, this._currentModuleType);
     }
 
     return count;
@@ -918,11 +920,11 @@ class InstallModuleAssistant {
     return hasBeenSelected;
   }
 
-  listRepositories() {
+  async listRepositories() {
     this.previouslySelectedRepositories = app_controller.settings.get('selected_repositories');
     var wizardPage = $('#module-settings-assistant-add-p-0');
 
-    var repositories = nsi.getRepoNames();
+    var repositories = await ipcNsi.getRepoNames();
     wizardPage.empty();
 
     var introText = "<p style='margin-bottom: 2em;'>" +
@@ -932,7 +934,7 @@ class InstallModuleAssistant {
     wizardPage.append(introText);
 
     for (var i = 0; i < repositories.length; i++) {
-      var currentRepoTranslationCount = this.getRepoModuleCount(repositories[i]);
+      var currentRepoTranslationCount = await this.getRepoModuleCount(repositories[i]);
 
       if (currentRepoTranslationCount > 0) {
         var checkboxChecked = "";
@@ -975,9 +977,9 @@ class InstallModuleAssistant {
     this._helper.bindLabelEvents(wizardPage);
   }
 
-  getRepoModuleCount(repo) {
+  async getRepoModuleCount(repo) {
     var count = 0;
-    var allRepoModules = nsi.getAllRepoModules(repo, this._currentModuleType);
+    var allRepoModules = await ipcNsi.getAllRepoModules(repo, this._currentModuleType);
 
     for (var i = 0; i < allRepoModules.length; i++) {
       var module = allRepoModules[i];

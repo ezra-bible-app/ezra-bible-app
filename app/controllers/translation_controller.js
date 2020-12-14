@@ -226,19 +226,19 @@ class TranslationController {
     $('.bible-translation-info-button').bind('click', async () => {
       if (!$(this).hasClass('ui-state-disabled')) {
         app_controller.hideAllMenus();
-        this.showBibleTranslationInfo();
+        await this.showBibleTranslationInfo();
       }
     });
   }
 
-  getModuleInfo(moduleId, isRemote=false) {
+  async getModuleInfo(moduleId, isRemote=false) {
     var moduleInfo = "No info available!";
 
     try {
       var swordModule = null;
 
       if (isRemote) {
-        swordModule = nsi.getRepoModule(moduleId);
+        swordModule = await ipcNsi.getRepoModule(moduleId);
       } else {
         swordModule = nsi.getLocalModule(moduleId);
       }
@@ -295,9 +295,9 @@ class TranslationController {
     return moduleInfo;
   }
 
-  showBibleTranslationInfo() {
+  async showBibleTranslationInfo() {
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var moduleInfo = this.getModuleInfo(currentBibleTranslationId);
+    var moduleInfo = await this.getModuleInfo(currentBibleTranslationId);
 
     var currentBibleTranslationName = app_controller.tab_controller.getCurrentBibleTranslationName();
     var offsetLeft = $(window).width() - 900;
@@ -472,7 +472,7 @@ class TranslationController {
   }
 
   async getInstalledModules(moduleType='BIBLE') {
-    var localModules = ipcNsi.getAllLocalModules(moduleType);
+    var localModules = await ipcNsi.getAllLocalModules(moduleType);
     var translations = [];
 
     for (var i = 0; i < localModules.length; i++) {

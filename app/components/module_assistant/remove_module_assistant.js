@@ -32,10 +32,10 @@ class RemoveModuleAssistant {
 
     var removeButton = $('#remove-modules-button');
 
-    removeButton.bind('click', () => {
+    removeButton.bind('click', async () => {
       var currentModuleType = app_controller.install_module_assistant._currentModuleType;
 
-      var modules = app_controller.translation_controller.getInstalledModules(currentModuleType);
+      var modules = await app_controller.translation_controller.getInstalledModules(currentModuleType);
       if (modules.length > 0) {
         this.openRemoveModuleAssistant(currentModuleType);
       }
@@ -68,7 +68,7 @@ class RemoveModuleAssistant {
     wizardPage.append("<div id='remove-module-list'></div>");
     var removeModuleList = $('#remove-module-list');
 
-    var languages = app_controller.translation_controller.getLanguages(moduleType);
+    var languages = await app_controller.translation_controller.getLanguages(moduleType);
 
     for (var i = 0; i < languages.length; i++) {
       var currentLang = languages[i];
@@ -182,12 +182,12 @@ class RemoveModuleAssistant {
                                 message: `Removing module ${moduleCode}`,
                                 level: Sentry.Severity.Info});
 
-          await nsi.uninstallModule(moduleCode);
+          await ipcNsi.uninstallModule(moduleCode);
 
           var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
 
           if (currentBibleTranslationId == moduleCode) {
-            var modules = app_controller.translation_controller.getInstalledModules('BIBLE');
+            var modules = await app_controller.translation_controller.getInstalledModules('BIBLE');
 
             if (modules.length > 0) {
               // FIXME: Also put this in a callback
@@ -198,7 +198,7 @@ class RemoveModuleAssistant {
               this.onAllTranslationsRemoved();
             }
 
-            this.onTranslationRemoved(moduleCode);
+            await this.onTranslationRemoved(moduleCode);
           }
 
           removalPage.append('<span>' + i18n.t("general.done") + '.</span>');
@@ -217,7 +217,7 @@ class RemoveModuleAssistant {
 
   async removeModuleAssistantFinished(event, currentIndex) {
     $('#module-settings-assistant').dialog('close');
-    this._installedTranslations = app_controller.translation_controller.getInstalledModules('BIBLE');
+    this._installedTranslations = await app_controller.translation_controller.getInstalledModules('BIBLE');
     await app_controller.translation_controller.initTranslationsMenu();
   }
 }

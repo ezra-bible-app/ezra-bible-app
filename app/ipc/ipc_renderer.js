@@ -20,13 +20,13 @@ class IpcRenderer {
     }
   }
 
-  async callWithProgressCallback(functionName, callbackChannel, callbackFunction) {
+  async callWithProgressCallback(functionName, callbackChannel, callbackFunction, ...args) {
     this.addElectronListenerWithCallback(callbackChannel, callbackFunction);
 
     if (this._isElectron) {
-      return this.electronIpcCall(functionName);
+      return this.electronIpcCall(functionName, ...args);
     } else if (this._isCordova) {
-      return this.cordovaIpcCall(functionName);
+      return this.cordovaIpcCall(functionName, ...args);
     }
   }
 

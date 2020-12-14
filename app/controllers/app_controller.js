@@ -278,7 +278,7 @@ class AppController {
     $("select#bible-select").empty();
     await this.translation_controller.initTranslationsMenu();
     await tags_controller.updateTagUiBasedOnTagAvailability();
-    var installedTranslations = this.translation_controller.getInstalledModules();
+    var installedTranslations = await this.translation_controller.getInstalledModules();
     this.tab_controller.onTranslationRemoved(translationId, installedTranslations);
   }
 

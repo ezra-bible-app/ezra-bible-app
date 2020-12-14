@@ -39,9 +39,7 @@ class IpcMain {
       return this._electronIpcMain.handle(functionName, async (event, ...args) => {
         this._callCounters[functionName] += 1;
         console.log(functionName + ' ' + this._callCounters[functionName]);
-        return callbackFunction((progress) => {
-          this.message(progressChannel, progress.totalPercent);
-        });
+        return callbackFunction((progress) => { this.message(progressChannel, progress); }, ...args);
       });
     } else if (this._isCordova) {
       // TODO
