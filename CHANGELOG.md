@@ -17,6 +17,8 @@ All notable changes to Ezra Project are documented in this file.
 * Added filter options to tag assignment drop-down menu. ([#116](i116))
 * Added button for fullscreen mode. ([#134](i134))
 * Added a button for selecting all module search results for quick tagging. ([#132](i132))
+* Improved bible text loading performance.
+* Improved startup performance.
 
 ### Fixes
 
