@@ -87,6 +87,19 @@ class SpectronHelper {
     await this.buttonHasClass(button, 'ui-state-default', timeoutMs);
   }
 
+  async waitUntilGlobalLoaderIsHidden(timeoutMs=20000) {
+    var verseListMenu = await global.app.client.$('.verse-list-menu-line1');
+    var loader = await verseListMenu.$('.loader');
+  
+    await global.app.client.waitUntil(async () => { // Wait until loader is hidden
+      var loaderDisplay = await loader.getCSSProperty('display');
+      await global.app.client.saveScreenshot('./test_screenshot.png');
+      await this.sleep(200);
+  
+      return loaderDisplay.value == "none";
+    }, { timeout: timeoutMs, timeoutMsg: `The loader has not disappeared after waiting ${timeoutMs}ms.` });
+  }
+
   getBookShortTitle(book_long_title) {
     for (var i = 0; i < bible_books.length; i++) {
       var current_book = bible_books[i];

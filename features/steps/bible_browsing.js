@@ -14,17 +14,7 @@ When('I select the book Ephesians', {timeout: 20 * 1000}, async function () {
   var ephesiansButton = await global.app.client.$('.book-Eph');
   var ephesiansLink = await ephesiansButton.$('a');
   await ephesiansLink.click();
-
-  var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
-  var loader = await verseListTabs.$('.loader');
-
-  await global.app.client.waitUntil(async () => { // Wait until loader is hidden
-    var loaderDisplay = await loader.getCSSProperty('display');
-    await global.app.client.saveScreenshot('./test_screenshot.png');
-    await spectronHelper.sleep(200);
-
-    return loaderDisplay.value == "none";
-  }, { timeout: 20000, timeoutMsg: "The loader has not disappeared after waiting 20s." });
+  await spectronHelper.waitUntilGlobalLoaderIsHidden();
 });
 
 Then('the tab title is {string}', async function (string) {
