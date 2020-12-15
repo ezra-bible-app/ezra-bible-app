@@ -89,6 +89,7 @@ class BookSelectionMenu {
           var current_book_link = book_links[i];
           var current_link_book = current_book_link.getAttribute('class').split(' ')[0];
           var current_book_id = current_link_book.split('-')[1];
+          
           if (books.includes(current_book_id)) {
             current_book_link.classList.remove('book-unavailable');
             current_book_link.classList.add('book-available');
