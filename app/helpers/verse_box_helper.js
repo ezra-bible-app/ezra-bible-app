@@ -52,11 +52,13 @@ class VerseBoxHelper {
   getBibleBookShortTitleFromElement(element) {
     var bibleBookShortTitle = null;
 
-    if (element.classList.contains('book-notes')) {
-      bibleBookShortTitle = element.getAttribute('verse-reference-id');
-      bibleBookShortTitle =  bibleBookShortTitle[0].toUpperCase() + bibleBookShortTitle.substring(1);
-    } else {
-      bibleBookShortTitle = new VerseBox(element).getBibleBookShortTitle();
+    if (element != null) {
+      if (element.classList.contains('book-notes')) {
+        bibleBookShortTitle = element.getAttribute('verse-reference-id');
+        bibleBookShortTitle =  bibleBookShortTitle[0].toUpperCase() + bibleBookShortTitle.substring(1);
+      } else {
+        bibleBookShortTitle = new VerseBox(element).getBibleBookShortTitle();
+      }
     }
 
     return bibleBookShortTitle;
