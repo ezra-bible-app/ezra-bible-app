@@ -14,7 +14,7 @@
     "options": "Options",
     "export": "Exporter en document texte",
     "show-module-info": "Montrer les informations sur le module",
-    "fullscreen": "Toggle full screen mode"
+    "fullscreen": "Basculer en mode plein écran"
   },
   "search-menu": {
     "search": "Rechercher",
@@ -110,7 +110,7 @@
     "release-notes-download": "Notes de version & téléchargement",
     "no-repeated-info": "Ne plus afficher",
     "module-install-failed": "échec. Êtes-vous connecté à Internet ?",
-    "module-install-cancelled": "cancelled.",
+    "module-install-cancelled": "annulée.",
     "module-unlock-failed": "échec (problème de déverrouillage).",
     "installing-strongs": "Installation du <i>dictionnaire de Strong</i>",
     "applying-migrations": "Migration de la base de données vers la nouvelle version"
@@ -163,9 +163,9 @@
     "tag-hint": "Cliquez pour afficher tous les versets liés à cette étiquette",
     "show-search-results": "Afficher les résultats de la recherche",
     "search-performance-hint": "Afficher uniquement la liste des livres pour l'instant en raison du nombre élevé de résultats de recherche. Vous pouvez demander les résultats de recherche pour chaque livre individuellement.",
-    "select-all-search-results": "Select all search results",
-    "all-search-results": "All search results",
-    "some-search-results": "Some search results",
+    "select-all-search-results": "Sélectionner tous les résultats de recherche",
+    "all-search-results": "Tous les résultats de la recherche",
+    "some-search-results": "Quelques résultats de recherche",
     "module-configuration": "Configuration du module",
     "display": "Affichage",
     "text-options": "Options de texte",
@@ -176,7 +176,7 @@
     "show-xrefs": "Montrer les références croisées",
     "show-footnotes": "Afficher les notes de bas de page",
     "show-dictionary": "Afficher le dictionnaire",
-    "show-header-navigation": "Show header navigation",
+    "show-header-navigation": "Afficher la navigation des en-têtes",
     "show-tags": "Montrer les étiquettes",
     "show-notes": "Montrer les notes",
     "limit-notes-display-size": "Limiter la taille des notes",
