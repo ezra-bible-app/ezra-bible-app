@@ -16,6 +16,8 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const VerseBox = require("../ui_models/verse_box");
+
 class TagsPersistanceController
 {
   constructor(models) {
@@ -59,21 +61,11 @@ class TagsPersistanceController
     };
   }
 
-  assign_tag_to_verses(tagId, verseBoxes) {
-    tags_controller.persistance_controller.update_tags_on_verses(tagId, verseBoxes, "add");
-  }
-
-  async remove_tag_from_verses(tagId, verseBoxes) {
-    await tags_controller.persistance_controller.update_tags_on_verses(tagId, verseBoxes, "remove");
-  }
-
-  async update_tags_on_verses(tagId, verseBoxes, action) {
-    var increment = (action == "add" ? true : false);
-    tags_controller.update_tag_verse_count(tagId, verseBoxes, increment);
+  async update_tags_on_verses(tagId, verseObjects, versification, action) {
     var tag = await this._models.Tag.findByPk(tagId);
 
-    for (var verseBox of verseBoxes) {
-      var verseReference = await this._models.VerseReference.findOrCreateFromVerseBox(verseBox);
+    for (var verseObject of verseObjects) {
+      var verseReference = await this._models.VerseReference.findOrCreateFromVerseObject(verseObject, versification);
       
       if (action == "add") {
         await verseReference.addTag(tag.id);

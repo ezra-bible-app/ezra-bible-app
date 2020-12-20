@@ -8,7 +8,6 @@ class IpcDbHandler {
   constructor() {
     this._ipcMain = new IpcMain();
     this._tagsPersistanceController = null;
-    this._models = null;
 
     this.initIpcInterface();
   }
@@ -20,10 +19,10 @@ class IpcDbHandler {
     dbDir = dbHelper.getDatabaseDir();
 
     await dbHelper.initDatabase(dbDir);
-    this._models = require.main.require('./app/database/models')(dbDir);
+    global.models = require.main.require('./app/database/models')(dbDir);
 
     const TagsPersistanceController = require.main.require('./app/controllers/tags_persistance_controller.js');
-    this._tagsPersistanceController = new TagsPersistanceController(this._models);
+    this._tagsPersistanceController = new TagsPersistanceController(global.models);
   }
 
   initIpcInterface() {
@@ -33,6 +32,10 @@ class IpcDbHandler {
 
     this._ipcMain.add('db_removeTag', async (id) => {
       return await this._tagsPersistanceController.destroy_tag(id);
+    });
+
+    this._ipcMain.add('db_updateTagsOnVerses', async (tagId, verseObjects, versification, action) => {
+      return await this._tagsPersistanceController.update_tags_on_verses(tagId, verseObjects, versification, action);
     });
   }
 }

@@ -32,7 +32,7 @@ class TagsController {
   constructor() {
     loadScript("app/templates/tag_list.js");
 
-    this.persistance_controller = new TagsPersistanceController();
+    this.persistance_controller = new TagsPersistanceController(models);
     this.tag_store = new TagStore();
     this.tag_store.onLatestUsedTagChanged = (tagId) => { this.onLatestUsedTagChanged(tagId) };
     this.verse_box_helper = new VerseBoxHelper();
@@ -395,7 +395,7 @@ class TagsController {
         }
       }
 
-      tags_controller.persistance_controller.assign_tag_to_verses(id, filteredVerseBoxes);
+      ipcDb.assignTagToVerses(id, filteredVerseBoxes);
 
       tags_controller.change_verse_list_tag_info(id,
                                                  cb_label,
@@ -522,7 +522,7 @@ class TagsController {
     // Drop the cached stats element, because it is outdated now
     this.dropCachedTagStats(job.id);
 
-    await tags_controller.persistance_controller.remove_tag_from_verses(job.id, verse_boxes);
+    await ipcDb.removeTagFromVerses(job.id, verse_boxes);
     await this.onLatestUsedTagChanged(job.id, false);
 
     var currentBook = app_controller.tab_controller.getTab().getBook();

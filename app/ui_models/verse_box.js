@@ -16,9 +16,41 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const Verse = require('./verse.js');
+
 class VerseBox {
   constructor(verseBoxElement) {
     this.verseBoxElement = verseBoxElement;
+  }
+
+  getVerseObject() {
+    var isBookNoteVerse = this.isBookNoteVerse();
+
+    if (isBookNoteVerse) {
+      var verse = new Verse(
+        app_controller.tab_controller.getTab().getBook(),
+        null,
+        null,
+        null,
+        isBookNoteVerse
+      );
+
+    } else {
+      var verse = new Verse(
+        this.getBibleBookShortTitle(),
+        this.getAbsoluteVerseNumber(),
+        this.getChapter(),
+        this.getVerseNumber(),
+        isBookNoteVerse
+      );
+
+    }
+
+    return verse;
+  }
+
+  isBookNoteVerse() {
+    return this.verseBoxElement.classList.contains('book-notes');
   }
 
   getVerseReferenceId() {
