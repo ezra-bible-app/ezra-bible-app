@@ -31,14 +31,21 @@ class TagsPersistanceController
       bibleBookId = app_controller.tab_controller.getTab().getBook();
     }
 
-    return model.create({
-      title: new_tag_title,
-      bibleBookId: bibleBookId
-    }).then(() => {
-      this._models.MetaRecord.updateLastModified();
-    }).catch(error => {
+    try {
+      var newTag = await model.create({
+        title: new_tag_title,
+        bibleBookId: bibleBookId
+      });
+
+      await this._models.MetaRecord.updateLastModified();
+      // Set sequelize attribute to null, because it cannot be properly serialized!
+      newTag._modelOptions.sequelize = null;
+      return newTag;
+
+    } catch (error) {
       console.error('An error occurred while trying to save the new tag: ' + error);
-    });
+      return null;
+    }
   }
 
   async destroy_tag(id) {

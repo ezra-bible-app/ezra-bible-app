@@ -120,10 +120,10 @@ function createWindow () {
 app.on('ready', async () => {
   var ipc_nsi = new IpcNsiHandler();
   var ipc_db = new IpcDbHandler();
-  await ipc_db.init();
+
+  await ipc_db.initDatabase();
 
   await createWindow();
-
   ipc_nsi.setMainWindow(mainWindow);
 });
 

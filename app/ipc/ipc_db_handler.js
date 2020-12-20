@@ -1,15 +1,19 @@
 const { app, ipcMain } = require('electron');
+const IpcMain = require('./ipc_main.js');
 
 let dbHelper = null;
 let dbDir = null;
 
 class IpcDbHandler {
   constructor() {
+    this._ipcMain = new IpcMain();
     this._tagsPersistanceController = null;
     this._models = null;
+
+    this.initIpcInterface();
   }
 
-  async init() {
+  async initDatabase() {
     const DbHelper = require.main.require('./app/helpers/db_helper.js');
     const userDataDir = app.getPath('userData');
     dbHelper = new DbHelper(userDataDir);
@@ -20,13 +24,11 @@ class IpcDbHandler {
 
     const TagsPersistanceController = require.main.require('./app/controllers/tags_persistance_controller.js');
     this._tagsPersistanceController = new TagsPersistanceController(this._models);
+  }
 
-    this._db_createNewTag_counter = 0;
-    ipcMain.handle('db_createNewTag', async (event, new_tag_title, type) => {
-      this._db_createNewTag_counter++;
-      console.log('db_createNewTag ' + this._db_createNewTag_counter);
-      var newTag = await this._tagsPersistanceController.create_new_tag(new_tag_title, type);
-      return newTag;
+  initIpcInterface() {
+    this._ipcMain.add('db_createNewTag', async (newTagTitle, type) => {
+      return await this._tagsPersistanceController.create_new_tag(newTagTitle, type);
     });
   }
 }
