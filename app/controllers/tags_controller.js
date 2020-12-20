@@ -197,8 +197,17 @@ class TagsController {
     var new_tag_title = $('#new-' + type + '-tag-title-input').val();
     tags_controller.new_tag_created = true;
     this.last_created_tag = new_tag_title;
-    //tags_controller.persistance_controller.create_new_tag(new_tag_title, type);
-    await ipcDb.createNewTag(new_tag_title, type);
+
+    var new_tag = await ipcDb.createNewTag(new_tag_title, type);
+
+    tags_controller.tag_store.resetBookTagStatistics();
+    await tags_controller.update_tag_list(app_controller.tab_controller.getTab().getBook(), true);
+    await app_controller.tag_selection_menu.requestTagsForMenu();
+    var current_timestamp = new Date(Date.now()).getTime();
+    tags_controller.tag_store.updateTagTimestamp(new_tag.id, current_timestamp);
+    await tags_controller.tag_store.updateLatestAndOldestTagData();
+    await tags_controller.update_tags_view_after_verse_selection(true);
+
     $(e).dialog("close");
   }
 
@@ -231,10 +240,13 @@ class TagsController {
 
   delete_tag_after_confirmation() {
     $('#delete-tag-confirmation-dialog').dialog('close');
-    
+   
     setTimeout(async () => {
-      await tags_controller.persistance_controller.destroy_tag(tags_controller.tag_to_be_deleted);
+      await ipcDb.removeTag(tags_controller.tag_to_be_deleted);
 
+      await tags_controller.remove_tag_by_id(tags_controller.tag_to_be_deleted, tags_controller.tag_to_be_deleted_title);
+      await app_controller.tag_selection_menu.requestTagsForMenu(true);
+      await tags_controller.update_tags_view_after_verse_selection(true);
       await tags_controller.updateTagUiBasedOnTagAvailability();
       await app_controller.tag_statistics.update_book_tag_statistics_box();
     }, 50);

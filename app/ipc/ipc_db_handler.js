@@ -30,6 +30,10 @@ class IpcDbHandler {
     this._ipcMain.add('db_createNewTag', async (newTagTitle, type) => {
       return await this._tagsPersistanceController.create_new_tag(newTagTitle, type);
     });
+
+    this._ipcMain.add('db_removeTag', async (id) => {
+      return await this._tagsPersistanceController.destroy_tag(id);
+    });
   }
 }
 

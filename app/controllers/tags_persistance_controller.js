@@ -51,16 +51,7 @@ class TagsPersistanceController
   async destroy_tag(id) {
     try {
       await this._models.VerseTag.destroy({ where: { tagId: id } });
-
       await this._models.Tag.destroy({ where: { id: id } });
-      
-      await tags_controller.remove_tag_by_id(tags_controller.tag_to_be_deleted,
-                                             tags_controller.tag_to_be_deleted_title);
-
-      await app_controller.tag_selection_menu.requestTagsForMenu(true);
-
-      await tags_controller.update_tags_view_after_verse_selection(true);
-
       await this._models.MetaRecord.updateLastModified();
 
     } catch(e) {
