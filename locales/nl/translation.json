@@ -14,7 +14,7 @@
     "options": "Opties",
     "export": "Exporteren naar tekstdocument",
     "show-module-info": "Toon module-info",
-    "fullscreen": "Toggle full screen mode"
+    "fullscreen": "Volledig-beeldmodus omschakelen"
   },
   "search-menu": {
     "search": "Zoeken",
@@ -110,7 +110,7 @@
     "release-notes-download": "Uitgave-opmerkingen & download",
     "no-repeated-info": "Laat dit niet nog eens zien",
     "module-install-failed": "gefaald. Bent u verbonden met het internet?",
-    "module-install-cancelled": "cancelled.",
+    "module-install-cancelled": "geannuleerd.",
     "module-unlock-failed": "gefaald (Ontgrendelingsfout).",
     "installing-strongs": "<i>Strongs woordenboeken</i> installeren",
     "applying-migrations": "Databank migreren naar nieuwe versie"
@@ -163,9 +163,9 @@
     "tag-hint": "Klik om alle verzen met deze tag te tonen",
     "show-search-results": "Toon zoekresultaten",
     "search-performance-hint": "Alleen de boekenlijst wordt weergegeven vanwege het hoge aantal zoekresultaten. U kunt de afzonderlijke zoekresultaten per boek opvragen.",
-    "select-all-search-results": "Select all search results",
-    "all-search-results": "All search results",
-    "some-search-results": "Some search results",
+    "select-all-search-results": "Selecteer alle zoekresultaten",
+    "all-search-results": "Alle zoekresultaten",
+    "some-search-results": "Sommige zoekresultaten",
     "module-configuration": "Moduleconfiguratie",
     "display": "Weergave",
     "text-options": "Tekstopties",
@@ -176,7 +176,7 @@
     "show-xrefs": "Toon kruisverwijzingen",
     "show-footnotes": "Toon voetnoten",
     "show-dictionary": "Toon woordenboek",
-    "show-header-navigation": "Show header navigation",
+    "show-header-navigation": "Toon hoofdingnavigatie",
     "show-tags": "Toon tags",
     "show-notes": "Toon aantekeningen",
     "limit-notes-display-size": "Beperk grootte van aantekeningen",
