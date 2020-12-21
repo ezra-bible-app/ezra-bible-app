@@ -111,11 +111,11 @@ class TagStatistics {
     uiHelper.configureButtonStyles('.verse-list-menu');
   };
 
-  open_book_tag_statistics() {
+  async open_book_tag_statistics() {
     var currentVerseList = app_controller.getCurrentVerseList();
     var verse_list_position = currentVerseList.offset();
     var currentTab = app_controller.tab_controller.getTab();
-    var currentBookTranslation = models.BibleBook.getBookTitleTranslation(currentTab.getBook());
+    var currentBookTranslation = await ipcDb.getBookTitleTranslation(currentTab.getBook());
 
     $('#book-tag-statistics-box').dialog({
       dialogClass: 'ezra-dialog',
