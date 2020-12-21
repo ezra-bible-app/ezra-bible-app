@@ -304,7 +304,7 @@ class AppController {
       uiHelper.resizeAppContainer();
     }
 
-    if (await models.Tag.getTagCount() > 0) {
+    if (await ipcDb.getTagCount() > 0) {
       tags_controller.showTagListLoadingIndicator();
     }
 

@@ -1244,7 +1244,7 @@ class TagsController {
   async updateTagUiBasedOnTagAvailability(tagCount=undefined) {
     var translationCount = app_controller.translation_controller.getTranslationCount();
     if (tagCount === undefined) {
-      tagCount = await models.Tag.getTagCount();
+      tagCount = await ipcDb.getTagCount();
     }
 
     var textType = app_controller.tab_controller.getTab().getTextType();

@@ -38,6 +38,10 @@ class IpcDbHandler {
       return await this._tagsPersistanceController.update_tags_on_verses(tagId, verseObjects, versification, action);
     });
 
+    this._ipcMain.add('db_getTagCount', async () => {
+      return await models.Tag.getTagCount();
+    });
+
     this._ipcMain.add('db_getBookTitleTranslation', async (shortTitle, language) => {
       return await models.BibleBook.getBookTitleTranslation(shortTitle, language);
     });

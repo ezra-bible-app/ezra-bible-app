@@ -89,7 +89,7 @@ class TagStatistics {
     var currentTab = app_controller.tab_controller.getTab(index);
 
     if (currentTab != null && currentTab.getTextType() == 'book') {
-      var tagsCount = await models.Tag.getTagCount();
+      var tagsCount = await ipcDb.getTagCount();
 
       if (tagsCount > 0) {
         book_tag_statistics_button.removeClass('ui-state-disabled');
