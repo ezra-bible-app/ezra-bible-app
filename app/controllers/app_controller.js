@@ -137,7 +137,7 @@ class AppController {
 
         // Highlight bible book if we are searching in a tagged verses list
         var currentBibleBookShortName = new VerseBox(verseBox[0]).getBibleBookShortTitle();
-        var currentBookName = models.BibleBook.getBookTitleTranslation(currentBibleBookShortName);
+        var currentBookName = await ipcDb.getBookTitleTranslation(currentBibleBookShortName);
 
         var bibleBookNumber = this.getVerseListBookNumber(currentBookName, bookHeaders);
         if (bibleBookNumber != -1) {
