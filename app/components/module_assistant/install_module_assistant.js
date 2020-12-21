@@ -424,11 +424,9 @@ class InstallModuleAssistant {
     
     try {
       var moduleInstalled = false;
-      try {
-        await ipcNsi.getLocalModule(moduleCode);
+      var localModule = await ipcNsi.getLocalModule(moduleCode);
+      if (localModule !== undefined) {
         moduleInstalled = true;
-      } catch (e) {
-        moduleInstalled = false;
       }
 
       if (!moduleInstalled) {
