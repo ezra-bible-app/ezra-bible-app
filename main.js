@@ -118,13 +118,12 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  var ipc_nsi = new IpcNsiHandler();
-  var ipc_db = new IpcDbHandler();
-
-  await ipc_db.initDatabase();
+  global.ipcNsiHandler = new IpcNsiHandler();
+  global.ipcDbHandler = new IpcDbHandler();
+  await ipcDbHandler.initDatabase();
 
   await createWindow();
-  ipc_nsi.setMainWindow(mainWindow);
+  ipcNsiHandler.setMainWindow(mainWindow);
 });
 
 // Quit when all windows are closed.

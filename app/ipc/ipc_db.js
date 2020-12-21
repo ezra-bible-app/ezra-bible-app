@@ -40,6 +40,10 @@ class IpcDb {
 
     return await this._ipcRenderer.call('db_updateTagsOnVerses', tagId, verseObjects, versification, action);
   }
+
+  async getBookTitleTranslation(shortName) {
+    return await this._ipcRenderer.call('db_getBookTitleTranslation', shortName, i18n.language);
+  }
 }
 
 module.exports = IpcDb;

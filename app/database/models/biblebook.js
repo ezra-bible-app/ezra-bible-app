@@ -282,12 +282,12 @@ module.exports = (sequelize, DataTypes) => {
     return -1;
   };
 
-  BibleBook.getBookTitleTranslation = function(shortName) {
-    if (shortName == null || shortName.length == 0) {
+  BibleBook.getBookTitleTranslation = function(shortName, language) {
+    if (shortName == null || shortName.length == 0 || language == null) {
       return null;
     } else {
       var currentBookLongTitle = models.BibleBook.getBookLongTitle(shortName);
-      var currentBookName = i18nHelper.getSwordTranslation(currentBookLongTitle);
+      var currentBookName = ipcNsiHandler.getNSI().getSwordTranslation(currentBookLongTitle, language);
     }
     
     return currentBookName;   

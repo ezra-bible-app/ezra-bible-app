@@ -6,6 +6,7 @@ class IpcNsiHandler {
   constructor() {
     this._ipcMain = new IpcMain();
     this._platformHelper = new PlatformHelper();
+    this._nsi = null;
 
     this.initNSI();
     this.initIpcInterface();
@@ -20,6 +21,10 @@ class IpcNsiHandler {
     }
 
     this._nsi.enableMarkup();
+  }
+
+  getNSI() {
+    return this._nsi;
   }
 
   initIpcInterface() {

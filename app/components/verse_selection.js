@@ -152,7 +152,7 @@ class VerseSelection {
       }
 
       var formatted_verse_list = await this.format_verse_list_for_view(currentBookVerseReferences, true, currentBookShortName);
-      var currentBookName = models.BibleBook.getBookTitleTranslation(currentBookShortName);
+      var currentBookName = await ipcDb.getBookTitleTranslation(currentBookShortName);
       var currentBookVerseReferenceDisplay = currentBookName + ' ' + formatted_verse_list;
       selected_verses_content.push(currentBookVerseReferenceDisplay);
     }
