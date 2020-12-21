@@ -42,6 +42,17 @@ class IpcDbHandler {
       return await models.Tag.getTagCount();
     });
 
+    this._ipcMain.add('db_getAllTags', async(bibleBookId, lastUsed, onlyStats) => {
+      var allSequelizeTags = await models.Tag.getAllTags(bibleBookId, lastUsed, onlyStats);
+      var allTags = [];
+
+      allSequelizeTags.forEach((tag) => {
+        allTags.push(tag.dataValues);
+      });
+
+      return allTags;
+    });
+
     this._ipcMain.add('db_getBookTitleTranslation', async (shortTitle, language) => {
       return await models.BibleBook.getBookTitleTranslation(shortTitle, language);
     });

@@ -45,6 +45,10 @@ class IpcDb {
     return await this._ipcRenderer.call('db_getTagCount');
   }
 
+  async getAllTags(bibleBookId=0, lastUsed=false, onlyStats=false) {
+    return await this._ipcRenderer.call('db_getAllTags', bibleBookId, lastUsed, onlyStats);
+  }
+
   async getBookTitleTranslation(shortName) {
     return await this._ipcRenderer.call('db_getBookTitleTranslation', shortName, i18n.language);
   }
