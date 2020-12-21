@@ -71,7 +71,7 @@ class TagStore {
   }
 
   async getBibleBookDbId(bookShortTitle) {
-    var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: bookShortTitle }});
+    var bibleBook = await ipcDb.getBibleBook(bookShortTitle);
     
     var bibleBookId = 0;
     if (bibleBook != null) {

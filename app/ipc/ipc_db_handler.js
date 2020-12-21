@@ -53,6 +53,17 @@ class IpcDbHandler {
       return allTags;
     });
 
+    this._ipcMain.add('db_getBibleBook', async(shortTitle) => {
+      var sequelizeBibleBook = await models.BibleBook.findOne({ where: { shortTitle: shortTitle }});
+      var bibleBook = null;
+      
+      if (sequelizeBibleBook != null) {
+        bibleBook = sequelizeBibleBook.dataValues;
+      }
+      
+      return bibleBook;
+    });
+
     this._ipcMain.add('db_getBookTitleTranslation', async (shortTitle, language) => {
       return await models.BibleBook.getBookTitleTranslation(shortTitle, language);
     });
