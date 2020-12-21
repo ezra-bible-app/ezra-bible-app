@@ -41,6 +41,14 @@ class IpcDbHandler {
     this._ipcMain.add('db_getBookTitleTranslation', async (shortTitle, language) => {
       return await models.BibleBook.getBookTitleTranslation(shortTitle, language);
     });
+
+    this._ipcMain.add('db_isNtBook', async (bookCode) => {
+      return models.BibleBook.isNtBook(bookCode);
+    });
+
+    this._ipcMain.add('db_isOtBook', async (bookCode) => {
+      return models.BibleBook.isOtBook(bookCode);
+    });
   }
 }
 

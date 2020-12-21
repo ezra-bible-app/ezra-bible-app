@@ -60,11 +60,14 @@ class VerseStatisticsChart {
     var otOnly = true;
 
     for (var book in bibleBookStats) {
-      if (!models.BibleBook.isNtBook(book)) {
+      var isNtBook = await ipcDb.isNtBook(book);
+
+      if (!isNtBook) {
         ntOnly = false;
       }
 
-      if (!models.BibleBook.isOtBook(book)) {
+      var isOtBook = await ipcDb.isOtBook(book);
+      if (!isOtBook) {
         otOnly = false;
       }
     }
@@ -72,10 +75,12 @@ class VerseStatisticsChart {
     for (var i = 0; i < bookList.length; i++) {
       var book = bookList[i];
       var includeCurrentBook = false;
+      var isNtBook = await ipcDb.isNtBook(book);
+      var isOtBook = await ipcDb.isOtBook(book);
 
-      if (ntOnly && models.BibleBook.isNtBook(book)) {
+      if (ntOnly && isNtBook) {
         includeCurrentBook = true;
-      } else if (otOnly && models.BibleBook.isOtBook(book)) {
+      } else if (otOnly && isOtBook) {
         includeCurrentBook = true;
       } else if (!otOnly && !ntOnly) {
         includeCurrentBook = true;

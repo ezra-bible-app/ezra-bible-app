@@ -44,6 +44,14 @@ class IpcDb {
   async getBookTitleTranslation(shortName) {
     return await this._ipcRenderer.call('db_getBookTitleTranslation', shortName, i18n.language);
   }
+
+  async isNtBook(bookCode) {
+    return await this._ipcRenderer.call('db_isNtBook', bookCode);
+  }
+
+  async isOtBook(bookCode) {
+    return await this._ipcRenderer.call('db_isOtBook', bookCode);
+  }
 }
 
 module.exports = IpcDb;
