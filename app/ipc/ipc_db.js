@@ -105,6 +105,10 @@ class IpcDb {
   async isOtBook(bookCode) {
     return await this._ipcRenderer.call('db_isOtBook', bookCode);
   }
+
+  async getVerseReferencesByBookAndAbsoluteVerseNumber(bookCode, absoluteVerseNr, versification) {
+    return await this._ipcRenderer.call('db_getVerseReferencesByBookAndAbsoluteVerseNumber', bookCode, absoluteVerseNr, versification);
+  }
 }
 
 module.exports = IpcDb;

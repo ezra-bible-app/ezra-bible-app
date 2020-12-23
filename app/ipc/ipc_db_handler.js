@@ -159,6 +159,17 @@ class IpcDbHandler {
     this._ipcMain.add('db_isOtBook', async (bookCode) => {
       return models.BibleBook.isOtBook(bookCode);
     });
+
+    this._ipcMain.add('db_getVerseReferencesByBookAndAbsoluteVerseNumber', async (bookShortTitle, absoluteVerseNr, versification) => {
+      var sequelizeVerseReferences = await models.VerseReference.findByBookAndAbsoluteVerseNumber(bookShortTitle, absoluteVerseNr, versification);
+      var verseReferences = [];
+
+      sequelizeVerseReferences.forEach((verseReference) => {
+        verseReferences.push(verseReference.dataValues);
+      });
+
+      return verseReferences;
+    });
   }
 }
 

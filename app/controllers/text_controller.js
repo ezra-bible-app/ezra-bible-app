@@ -327,11 +327,11 @@ class TextController {
     var verseReferenceIds = [];
     for (var i = 0; i < verses.length; i++) {
       var currentVerse = verses[i];
-      var currentVerseReference = await models.VerseReference.findByBookAndAbsoluteVerseNumber(currentVerse.bibleBookShortTitle,
-                                                                                               currentVerse.absoluteVerseNr,
-                                                                                               versification);
-      if (currentVerseReference.length > 0) {
-        verseReferenceIds.push(currentVerseReference[0].id);
+      var currentVerseReferences = await ipcDb.getVerseReferencesByBookAndAbsoluteVerseNumber(currentVerse.bibleBookShortTitle,
+                                                                                              currentVerse.absoluteVerseNr,
+                                                                                              versification);
+      if (currentVerseReferences.length > 0) {
+        verseReferenceIds.push(currentVerseReferences[0].id);
       }
     }
 
