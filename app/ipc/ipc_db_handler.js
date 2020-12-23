@@ -85,6 +85,18 @@ class IpcDbHandler {
       return groupedVerseTags;
     });
 
+    this._ipcMain.add('db_getVerseTagsByVerseReferenceIds', async (verseReferenceIds, versification) => {
+      var sequelizeVerseTags = await models.VerseTag.findByVerseReferenceIds(verseReferenceIds.join(','));
+      var verseTags = [];
+
+      sequelizeVerseTags.forEach((tag) => {
+        verseTags.push(tag.dataValues);
+      });
+
+      var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
+      return groupedVerseTags;
+    });
+
     this._ipcMain.add('db_persistNote', async (noteValue, verseObject) => {
       var sequelizeNote = await models.Note.persistNote(noteValue, verseObject);
       var note = undefined;

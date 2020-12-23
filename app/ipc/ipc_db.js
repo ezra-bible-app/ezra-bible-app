@@ -70,6 +70,10 @@ class IpcDb {
     return await this._ipcRenderer.call('db_getBookVerseTags', bibleBookId, versification);
   }
 
+  async getVerseTagsByVerseReferenceIds(verseReferenceIds, versification) {
+    return await this._ipcRenderer.call('db_getVerseTagsByVerseReferenceIds', verseReferenceIds, versification);
+  }
+
   async persistNote(noteValue, verseObject) {
     return await this._ipcRenderer.call('db_persistNote', noteValue, verseObject);
   }
