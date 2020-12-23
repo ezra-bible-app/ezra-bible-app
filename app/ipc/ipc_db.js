@@ -126,6 +126,10 @@ class IpcDb {
     return await this._ipcRenderer.call('db_getVerseReferencesByTagIds', tagIds);
   }
 
+  async getVerseReferencesByXrefs(xrefs) {
+    return await this._ipcRenderer.call('db_getVerseReferencesByXrefs', xrefs);
+  }
+
   async getAbsoluteVerseNumbersFromReference(sourceVersification, bookCode, absoluteVerseNr, chapter, verseNr) {
     return await this._ipcRenderer.call('db_getAbsoluteVerseNumbersFromReference',
                                         sourceVersification,

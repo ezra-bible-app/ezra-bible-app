@@ -427,7 +427,7 @@ class TextController {
     var bibleTranslationId = this.getBibleTranslationId(tab_index);
     var versification = (await app_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
 
-    var verseReferences = await models.VerseReference.findByXrefs(xrefs);
+    var verseReferences = await ipcDb.getVerseReferencesByXrefs(xrefs);
     var verseReferenceIds = [];
     var verses = await ipcNsi.getVersesFromReferences(bibleTranslationId, xrefs);
 
