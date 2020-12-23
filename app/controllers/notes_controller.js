@@ -97,7 +97,7 @@ class NotesController {
 
         var currentVerseObject = new VerseBox(currentVerseBox).getVerseObject();
 
-        models.Note.persistNote(currentNoteValue, currentVerseObject).then((note) => {
+        ipcDb.persistNote(currentNoteValue, currentVerseObject).then((note) => {
           if (note != undefined) {
             var updatedTimestamp = null;
 

@@ -42,7 +42,7 @@ class IpcDbHandler {
       return await models.Tag.getTagCount();
     });
 
-    this._ipcMain.add('db_getAllTags', async(bibleBookId, lastUsed, onlyStats) => {
+    this._ipcMain.add('db_getAllTags', async (bibleBookId, lastUsed, onlyStats) => {
       var allSequelizeTags = await models.Tag.getAllTags(bibleBookId, lastUsed, onlyStats);
       var allTags = [];
 
@@ -53,7 +53,18 @@ class IpcDbHandler {
       return allTags;
     });
 
-    this._ipcMain.add('db_getBibleBook', async(shortTitle) => {
+    this._ipcMain.add('db_persistNote', async (noteValue, verseObject) => {
+      var sequelizeNote = await models.Note.persistNote(noteValue, verseObject);
+      var note = undefined;
+
+      if (sequelizeNote !== undefined) {
+        note = sequelizeNote.dataValues;
+      }
+
+      return note;
+    });
+
+    this._ipcMain.add('db_getBibleBook', async (shortTitle) => {
       var sequelizeBibleBook = await models.BibleBook.findOne({ where: { shortTitle: shortTitle }});
       var bibleBook = null;
       
