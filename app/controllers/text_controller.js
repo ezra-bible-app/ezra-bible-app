@@ -204,7 +204,7 @@ class TextController {
     
     var verses = await ipcNsi.getBookText(currentBibleTranslationId, book_short_title, start_verse_number, number_of_verses);
     var verseTags = await ipcDb.getBookVerseTags(bibleBook.id, versification);
-    var verseNotes = await ipcDb.getBookNotes(bibleBook.id, versification);
+    var verseNotes = await ipcDb.getVerseNotesByBook(bibleBook.id, versification);
 
     var moduleLang = i18n.language;
     if (localSwordModule != null) {
@@ -234,11 +234,7 @@ class TextController {
     var bookNotes = null;
 
     if (start_verse_number == 1) {
-      var bookReference = await models.VerseReference.getBookReference(book_short_title);
-
-      if (bookReference != null) {
-        bookNotes = await models.Note.findByVerseReferenceId(bookReference.id);
-      }
+      bookNotes = await ipcDb.getBookNotes(book_short_title);
     }
 
     var verses_as_html = verseListTemplate({

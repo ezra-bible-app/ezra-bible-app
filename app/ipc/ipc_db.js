@@ -74,8 +74,12 @@ class IpcDb {
     return await this._ipcRenderer.call('db_persistNote', noteValue, verseObject);
   }
 
-  async getBookNotes(bibleBookId, versification) {
-    return await this._ipcRenderer.call('db_getBookNotes', bibleBookId, versification);
+  async getVerseNotesByBook(bibleBookId, versification) {
+    return await this._ipcRenderer.call('db_getVerseNotesByBook', bibleBookId, versification);
+  }
+
+  async getBookNotes(bookShortTitle) {
+    return await this._ipcRenderer.call('db_getBookNotes', bookShortTitle);
   }
 
   async getBibleBook(shortTitle) {
