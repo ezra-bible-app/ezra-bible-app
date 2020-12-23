@@ -98,6 +98,10 @@ class IpcDb {
     return await this._ipcRenderer.call('db_getBibleBooksFromSearchResults', searchResults);
   }
 
+  async getBibleBooksFromTagIds(tagIds) {
+    return await this._ipcRenderer.call('db_getBibleBooksFromTagIds', tagIds);
+  }
+
   async getBookTitleTranslation(shortName) {
     return await this._ipcRenderer.call('db_getBookTitleTranslation', shortName, i18n.language);
   }
@@ -116,6 +120,10 @@ class IpcDb {
 
   async getVerseReferencesByBookAndAbsoluteVerseNumber(bookCode, absoluteVerseNr, versification) {
     return await this._ipcRenderer.call('db_getVerseReferencesByBookAndAbsoluteVerseNumber', bookCode, absoluteVerseNr, versification);
+  }
+
+  async getVerseReferencesByTagIds(tagIds) {
+    return await this._ipcRenderer.call('db_getVerseReferencesByTagIds', tagIds);
   }
 }
 
