@@ -145,6 +145,12 @@ class IpcDbHandler {
       return bibleBooks;
     });
 
+    this._ipcMain.add('db_getBibleBooksFromXrefs', async (xrefs) => {
+      var sequelizeBibleBooks = await models.BibleBook.findByXrefs(xrefs);
+      var bibleBooks = this.makeSequelizeResultsSerializable(sequelizeBibleBooks);
+      return bibleBooks;
+    });
+
     this._ipcMain.add('db_getBookTitleTranslation', async (shortTitle, language) => {
       return await models.BibleBook.getBookTitleTranslation(shortTitle, language);
     });

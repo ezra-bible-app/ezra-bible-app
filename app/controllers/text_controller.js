@@ -440,7 +440,7 @@ class TextController {
     }
 
     var bibleBookStats = this.getBibleBookStatsFromVerses(verses);
-    var bibleBooks = await models.BibleBook.findByXrefs(xrefs);
+    var bibleBooks = await ipcDb.getBibleBooksFromXrefs(xrefs);
     var verseTags = await ipcDb.getVerseTagsByVerseReferenceIds(verseReferenceIds, versification);
     var verseNotes = await ipcDb.getNotesByVerseReferenceIds(verseReferenceIds, versification);
 

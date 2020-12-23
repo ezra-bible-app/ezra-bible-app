@@ -102,6 +102,10 @@ class IpcDb {
     return await this._ipcRenderer.call('db_getBibleBooksFromTagIds', tagIds);
   }
 
+  async getBibleBooksFromXrefs(xrefs) {
+    return await this._ipcRenderer.call('db_getBibleBooksFromXrefs', xrefs);
+  }
+
   async getBookTitleTranslation(shortName) {
     return await this._ipcRenderer.call('db_getBookTitleTranslation', shortName, i18n.language);
   }
