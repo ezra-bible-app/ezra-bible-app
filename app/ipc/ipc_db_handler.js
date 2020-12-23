@@ -1,4 +1,4 @@
-const { app, ipcMain } = require('electron');
+const { app } = require('electron');
 const IpcMain = require('./ipc_main.js');
 
 let dbHelper = null;
