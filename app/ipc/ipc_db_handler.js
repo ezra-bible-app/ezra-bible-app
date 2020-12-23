@@ -53,7 +53,7 @@ class IpcDbHandler {
       return allTags;
     });
 
-    this._ipcMain.add('db_getBookVerseTags', async (bibleBookId) => {
+    this._ipcMain.add('db_getBookVerseTags', async (bibleBookId, versification) => {
       var bibleBook = await models.BibleBook.findByPk(bibleBookId);
       var sequelizeVerseTags = await bibleBook.getVerseTags();
       var verseTags = [];
@@ -62,7 +62,9 @@ class IpcDbHandler {
         verseTags.push(verseTag.dataValues);
       });
 
-      return verseTags;
+      var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
+
+      return groupedVerseTags;
     });
 
     this._ipcMain.add('db_persistNote', async (noteValue, verseObject) => {
@@ -74,6 +76,20 @@ class IpcDbHandler {
       }
 
       return note;
+    });
+
+    this._ipcMain.add('db_getBookNotes', async (bibleBookId, versification) => {
+      var bibleBook = await models.BibleBook.findByPk(bibleBookId);
+      var sequelizeNotes = await bibleBook.getNotes();
+      var notes = [];
+
+      sequelizeNotes.forEach((note) => {
+        notes.push(note.dataValues);
+      });
+
+      var groupedVerseNotes = models.Note.groupNotesByVerse(notes, versification);
+
+      return groupedVerseNotes;
     });
 
     this._ipcMain.add('db_getBibleBook', async (shortTitle) => {

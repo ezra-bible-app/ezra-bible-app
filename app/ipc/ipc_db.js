@@ -49,12 +49,16 @@ class IpcDb {
     return await this._ipcRenderer.call('db_getAllTags', bibleBookId, lastUsed, onlyStats);
   }
 
-  async getBookVerseTags(bibleBookId) {
-    return await this._ipcRenderer.call('db_getBookVerseTags', bibleBookId);
+  async getBookVerseTags(bibleBookId, versification) {
+    return await this._ipcRenderer.call('db_getBookVerseTags', bibleBookId, versification);
   }
 
   async persistNote(noteValue, verseObject) {
     return await this._ipcRenderer.call('db_persistNote', noteValue, verseObject);
+  }
+
+  async getBookNotes(bibleBookId, versification) {
+    return await this._ipcRenderer.call('db_getBookNotes', bibleBookId, versification);
   }
 
   async getBibleBook(shortTitle) {
