@@ -25,6 +25,7 @@ class IpcMain {
     this._isElectron = platformDetector.isElectron();
     this._isCordova = platformDetector.isCordova();
     this._callCounters = {};
+    this._showDebugOutput = true;
 
     if (this._isElectron) {
       const { ipcMain } = require('electron');
@@ -42,7 +43,7 @@ class IpcMain {
     if (this._isElectron) {
       return this._electronIpcMain.handle(functionName, async (event, ...args) => {
         this._callCounters[functionName] += 1;
-        console.log(functionName + ' ' + this._callCounters[functionName]);
+        if (this._showDebugOutput) { console.log(functionName + ' ' + this._callCounters[functionName]); }
         return await callbackFunction(...args);
       });
     } else if (this._isCordova) {
@@ -56,7 +57,7 @@ class IpcMain {
     if (this._isElectron) {
       return this._electronIpcMain.handle(functionName, async (event, ...args) => {
         this._callCounters[functionName] += 1;
-        console.log(functionName + ' ' + this._callCounters[functionName]);
+        if (this._showDebugOutput) { console.log(functionName + ' ' + this._callCounters[functionName]); }
         return callbackFunction((progress) => { this.message(progressChannel, progress); }, ...args);
       });
     } else if (this._isCordova) {
