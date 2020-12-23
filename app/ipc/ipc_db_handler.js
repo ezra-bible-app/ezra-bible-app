@@ -52,6 +52,10 @@ class IpcDbHandler {
       return await this._tagsPersistanceController.destroy_tag(id);
     });
 
+    this._ipcMain.add('db_updateTag', async(id, newTitle) => {
+      return await this._tagsPersistanceController.update_tag(id, newTitle);
+    });
+
     this._ipcMain.add('db_updateTagsOnVerses', async (tagId, verseObjects, versification, action) => {
       return await this._tagsPersistanceController.update_tags_on_verses(tagId, verseObjects, versification, action);
     });

@@ -32,6 +32,12 @@ class IpcDb {
     return await this._ipcRenderer.call('db_removeTag', id);
   }
 
+  async updateTag(id, newTitle) {
+    return await this._ipcRenderer.call('db_updateTag', id, newTitle).then(() => {
+      tags_controller.rename_tag_in_view(id, newTitle);
+    });
+  }
+
   assignTagToVerses(tagId, verseBoxes) {
     this.updateTagsOnVerses(tagId, verseBoxes, "add");
   }

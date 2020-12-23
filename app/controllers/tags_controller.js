@@ -16,7 +16,6 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const TagsPersistanceController = require('./tags_persistance_controller.js');
 const TagStore = require('../components/tags/tag_store.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 
@@ -32,7 +31,6 @@ class TagsController {
   constructor() {
     loadScript("app/templates/tag_list.js");
 
-    this.persistance_controller = new TagsPersistanceController(models);
     this.tag_store = new TagStore();
     this.tag_store.onLatestUsedTagChanged = (tagId) => { this.onLatestUsedTagChanged(tagId) };
     this.verse_box_helper = new VerseBoxHelper();
@@ -168,7 +166,7 @@ class TagsController {
     var is_global = (checkbox_tag.parent().attr('id') == 'tags-content-global');
     
     tags_controller.update_tag_titles_in_verse_list(tags_controller.rename_standard_tag_id, is_global, new_title);
-    tags_controller.persistance_controller.update_tag(tags_controller.rename_standard_tag_id, new_title);
+    ipcDb.updateTag(tags_controller.rename_standard_tag_id, new_title);
     tags_controller.sort_tag_lists();
     
     if (tags_controller.rename_standard_tag_id == tags_controller.tag_store.latest_tag_id) {

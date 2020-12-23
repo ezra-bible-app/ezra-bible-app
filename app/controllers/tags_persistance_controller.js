@@ -83,8 +83,6 @@ class TagsPersistanceController
       { where: { id: id }}
     ).then(() => {
       this._models.MetaRecord.updateLastModified();
-    }).then(() => {
-      tags_controller.rename_tag_in_view(id, title);
     }).catch(error => {
       alert("An error occurred while trying to rename the tag!");
     });
