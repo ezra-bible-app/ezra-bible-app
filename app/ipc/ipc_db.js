@@ -134,6 +134,10 @@ class IpcDb {
                                         chapter,
                                         verseNr);
   }
+
+  async getLastMetaRecordUpdate() {
+    return await this._ipcRenderer.call('db_getLastMetaRecordUpdate');
+  }
 }
 
 module.exports = IpcDb;

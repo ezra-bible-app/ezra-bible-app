@@ -181,6 +181,11 @@ class IpcDbHandler {
                                                                            verseNr);
       return absoluteVerseNumbers;
     });
+
+    this._ipcMain.add('db_getLastMetaRecordUpdate', async() => {
+      var lastUpdate = await models.MetaRecord.getLastUpdate();
+      return lastUpdate;
+    });
   }
 
   makeSequelizeResultsSerializable(sequelizeResults) {
