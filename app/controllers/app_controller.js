@@ -629,7 +629,7 @@ class AppController {
     }
   }
 
-  renderReferenceVerse(verseBox, tabIndex=undefined) {
+  async renderReferenceVerse(verseBox, tabIndex=undefined) {
     if (verseBox == null || verseBox.length != 1) return;
 
     var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
@@ -646,7 +646,7 @@ class AppController {
     }
 
     var clonedVerseBox = verseBox[0].cloneNode(true);
-    var header = this.verse_box_helper.getLocalizedVerseReference(verseBox[0]);
+    var header = await this.verse_box_helper.getLocalizedVerseReference(verseBox[0]);
     var referenceVerseHeader = "<div class='reference-header'>" + header + "</div>";
     referenceVerseContainer.innerHTML = referenceVerseHeader;
     referenceVerseContainer.appendChild(clonedVerseBox);
@@ -681,7 +681,7 @@ class AppController {
     currentTab.setSearchTerm(null);
     currentTab.setTagIdList("");
 
-    this.renderReferenceVerse(referenceVerseBox);
+    await this.renderReferenceVerse(referenceVerseBox);
     await this.getXrefVerses(xrefs);
   }
 
@@ -702,7 +702,7 @@ class AppController {
     var localizedVerseReference = null;
 
     if (referenceVerseBox != null) {
-      localizedVerseReference = this.verse_box_helper.getLocalizedVerseReference(referenceVerseBox[0]);
+      localizedVerseReference = await this.verse_box_helper.getLocalizedVerseReference(referenceVerseBox[0]);
       var verseReferenceId = this.verse_box_helper.getVerseReferenceId(referenceVerseBox);
       currentTab.setVerseReferenceId(verseReferenceId);
     }
@@ -723,7 +723,7 @@ class AppController {
     }
 
     if (referenceVerseBox != undefined) {
-      this.renderReferenceVerse(referenceVerseBox);
+      await this.renderReferenceVerse(referenceVerseBox);
     }
 
     await this.getTaggedVerses();

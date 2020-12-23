@@ -165,10 +165,10 @@ class VerseBoxHelper {
   }
 
   // FIXME: Move this to VerseBox
-  getLocalizedVerseReference(verseBoxElement) {
+  async getLocalizedVerseReference(verseBoxElement) {
     var verseBox = new VerseBox(verseBoxElement);
     var currentBookCode = verseBox.getBibleBookShortTitle();
-    var currentBookName = models.BibleBook.getBookLongTitle(currentBookCode);
+    var currentBookName = await ipcDb.getBookLongTitle(currentBookCode);
     var currentBookLocalizedName = i18nHelper.getSwordTranslation(currentBookName);
     var verseReferenceContent = verseBoxElement.querySelector('.verse-reference-content').innerText;
 

@@ -110,6 +110,10 @@ class IpcDb {
     return await this._ipcRenderer.call('db_getBookTitleTranslation', shortName, i18n.language);
   }
 
+  async getBookLongTitle(bookCode) {
+    return await this._ipcRenderer.call('db_getBookLongTitle', bookCode);
+  }
+
   async findBookTitle(title) {
     return await this._ipcRenderer.call('db_findBookTitle', title);
   }
