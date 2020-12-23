@@ -56,7 +56,6 @@ const PlatformHelper = require('./app/helpers/platform_helper.js');
 const ThemeController = require('./app/controllers/theme_controller.js');
 const platformHelper = new PlatformHelper();
 
-let models = null;
 let app_controller = null;
 let tags_controller = null;
 let theme_controller = new ThemeController();
@@ -124,17 +123,6 @@ async function initIpc()
 {
   ipcNsi = new IpcNsi();
   ipcDb = new IpcDb();
-}
-
-async function initDatabase()
-{
-  const DbHelper = require('./app/helpers/db_helper.js');
-  const userDataDir = app.getPath('userData');
-  dbHelper = new DbHelper(userDataDir);
-  dbDir = dbHelper.getDatabaseDir();
-
-  await dbHelper.initDatabase(dbDir);
-  models = require('./app/database/models')(dbDir);
 }
 
 async function initControllers()
@@ -291,9 +279,6 @@ async function initApplication()
 
   console.log("Initializing i18n ...");
   await initI18N(nsi);
-
-  console.log("Initializing database ...");
-  await initDatabase();
 
   console.log("Initializing controllers ...");
   await initControllers();
