@@ -133,6 +133,17 @@ class IpcDbHandler {
       return bibleBook;
     });
 
+    this._ipcMain.add('db_getBibleBooksFromSearchResults', async (searchResults) => {
+      var sequelizeBibleBooks = await models.BibleBook.findBySearchResults(searchResults);
+      var bibleBooks = [];
+
+      sequelizeBibleBooks.forEach((book) => {
+        bibleBooks.push(book.dataValues);
+      });
+
+      return bibleBooks;
+    });
+
     this._ipcMain.add('db_getBookTitleTranslation', async (shortTitle, language) => {
       return await models.BibleBook.getBookTitleTranslation(shortTitle, language);
     });

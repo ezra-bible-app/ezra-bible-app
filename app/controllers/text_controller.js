@@ -308,8 +308,8 @@ class TextController {
     var bibleTranslationId = this.getBibleTranslationId(tab_index);
     var versification = (await app_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
 
-    var bibleBooks = await models.BibleBook.findBySearchResults(search_results);
-    var bibleBookStats = app_controller.module_search_controller.getBibleBookStatsFromSearchResults(search_results);
+    var bibleBooks = await ipcDb.getBibleBooksFromSearchResults(search_results);
+    var bibleBookStats = app_controller.module_search.getBibleBookStatsFromSearchResults(search_results);
     var verses = [];
 
     for (var i = 0; i < search_results.length; i++) {
