@@ -1,4 +1,3 @@
-const { ipcRenderer } = require('electron');
 const IpcRenderer = require('./ipc_renderer.js');
 const VerseBox = require("../ui_models/verse_box.js");
 
