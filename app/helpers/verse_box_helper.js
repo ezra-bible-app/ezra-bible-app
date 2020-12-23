@@ -123,7 +123,7 @@ class VerseBoxHelper {
     }
 
 
-    var referenceBibleBook = await models.BibleBook.findOne({ where: { shortTitle: bibleBook } });
+    var referenceBibleBook = await ipcDb.getBibleBook(bibleBook);
 
     var source_tab_translation = app_controller.tab_controller.getTab(current_tab_index).getBibleTranslationId();
     var source_versification = 'ENGLISH';
@@ -153,7 +153,7 @@ class VerseBoxHelper {
         for (var j = 0; j < target_verse_box.length; j++) {
           var specific_target_verse_box = target_verse_box[j];
           var target_verse_box_bible_book_short_title = this.getBibleBookShortTitleFromElement(specific_target_verse_box);
-          var targetBibleBook = await models.BibleBook.findOne({ where: { shortTitle: target_verse_box_bible_book_short_title } });
+          var targetBibleBook = await ipcDb.getBibleBook(target_verse_box_bible_book_short_title);
           var target_verse_bible_book_id = targetBibleBook.id;
 
           if (target_verse_bible_book_id == referenceBibleBook.id) {
