@@ -53,6 +53,18 @@ class IpcDbHandler {
       return allTags;
     });
 
+    this._ipcMain.add('db_getBookVerseTags', async (bibleBookId) => {
+      var bibleBook = await models.BibleBook.findByPk(bibleBookId);
+      var sequelizeVerseTags = await bibleBook.getVerseTags();
+      var verseTags = [];
+
+      sequelizeVerseTags.forEach((verseTag) => {
+        verseTags.push(verseTag.dataValues);
+      });
+
+      return verseTags;
+    });
+
     this._ipcMain.add('db_persistNote', async (noteValue, verseObject) => {
       var sequelizeNote = await models.Note.persistNote(noteValue, verseObject);
       var note = undefined;
@@ -77,6 +89,10 @@ class IpcDbHandler {
 
     this._ipcMain.add('db_getBookTitleTranslation', async (shortTitle, language) => {
       return await models.BibleBook.getBookTitleTranslation(shortTitle, language);
+    });
+
+    this._ipcMain.add('db_findBookTitle', async(title) => {
+      return await models.BibleBook.findBookTitle(title);
     });
 
     this._ipcMain.add('db_isNtBook', async (bookCode) => {

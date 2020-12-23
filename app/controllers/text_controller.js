@@ -188,12 +188,12 @@ class TextController {
     }
 
     var versification = (await app_controller.translation_controller.getVersification(currentBibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
-    var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: book_short_title }});
+    var bibleBook = await ipcDb.getBibleBook(book_short_title);
 
     // Only necessary because old saved short titles may not be found directly
     if (bibleBook == null) {
-      book_short_title = models.BibleBook.findBookTitle(book_short_title);
-      bibleBook = await models.BibleBook.findOne({ where: { shortTitle: book_short_title }});
+      book_short_title = await ipcDb.findBookTitle(book_short_title);
+      bibleBook = await ipcDb.getBibleBook(book_short_title);
     }
 
     if (bibleBook == null) {
@@ -203,11 +203,11 @@ class TextController {
     }
     
     var verses = await ipcNsi.getBookText(currentBibleTranslationId, book_short_title, start_verse_number, number_of_verses);
+    var verseTags = await ipcDb.getBookVerseTags(bibleBook.id);
 
-    var verseTags = await bibleBook.getVerseTags();
     var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
-    var verseNotes = await bibleBook.getNotes();
-    var groupedVerseNotes = models.Note.groupNotesByVerse(verseNotes, versification);
+    var verseNotes = null;//await bibleBook.getNotes();
+    var groupedVerseNotes = {};//models.Note.groupNotesByVerse(verseNotes, versification);
 
     var moduleLang = i18n.language;
     if (localSwordModule != null) {
