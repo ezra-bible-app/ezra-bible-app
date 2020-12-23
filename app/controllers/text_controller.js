@@ -336,9 +336,7 @@ class TextController {
     }
 
     var verseTags = await ipcDb.getVerseTagsByVerseReferenceIds(verseReferenceIds, versification);
-
-    var verseNotes = await models.Note.findByVerseReferenceIds(verseReferenceIds.join(','));
-    var groupedVerseNotes = models.Note.groupNotesByVerse(verseNotes, versification);
+    var verseNotes = await ipcDb.getNotesByVerseReferenceIds(verseReferenceIds, versification);
     
     if (render_type == "html") {
       
@@ -346,7 +344,7 @@ class TextController {
                            bibleBooks,
                            bibleBookStats,
                            verseTags,
-                           groupedVerseNotes,
+                           verseNotes,
                            verses,
                            versification,
                            render_function,
@@ -394,18 +392,17 @@ class TextController {
 
     var bibleBookStats = this.getBibleBookStatsFromVerses(verses);
     var bibleBooks = await models.BibleBook.findByTagIds(selected_tags);
-    var verseTags = await models.VerseTag.findByVerseReferenceIds(verseReferenceIds.join(','));
-    var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
-    var verseNotes = await models.Note.findByVerseReferenceIds(verseReferenceIds.join(','));
-    var groupedVerseNotes = models.Note.groupNotesByVerse(verseNotes, versification);
+
+    var verseTags = await ipcDb.getVerseTagsByVerseReferenceIds(verseReferenceIds, versification);
+    var verseNotes = await ipcDb.getNotesByVerseReferenceIds(verseReferenceIds, versification);
 
     if (render_type == "html") {
       
       this.getVersesAsHtml(current_tab_id,
                            bibleBooks,
                            bibleBookStats,
-                           groupedVerseTags,
-                           groupedVerseNotes,
+                           verseTags,
+                           verseNotes,
                            verses,
                            versification,
                            render_function,
@@ -444,18 +441,16 @@ class TextController {
 
     var bibleBookStats = this.getBibleBookStatsFromVerses(verses);
     var bibleBooks = await models.BibleBook.findByXrefs(xrefs);
-    var verseTags = await models.VerseTag.findByVerseReferenceIds(verseReferenceIds.join(','));
-    var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
-    var verseNotes = await models.Note.findByVerseReferenceIds(verseReferenceIds.join(','));
-    var groupedVerseNotes = models.Note.groupNotesByVerse(verseNotes, versification);
+    var verseTags = await ipcDb.getVerseTagsByVerseReferenceIds(verseReferenceIds, versification);
+    var verseNotes = await ipcDb.getNotesByVerseReferenceIds(verseReferenceIds, versification);
 
     if (render_type == "html") {
       
       this.getVersesAsHtml(current_tab_id,
                            bibleBooks,
                            bibleBookStats,
-                           groupedVerseTags,
-                           groupedVerseNotes,
+                           verseTags,
+                           verseNotes,
                            verses,
                            versification,
                            render_function,

@@ -134,6 +134,18 @@ class IpcDbHandler {
       return bookNotes;
     });
 
+    this._ipcMain.add('db_getNotesByVerseReferenceIds', async (verseReferenceIds, versification) => {
+      var sequelizeNotes = await models.Note.findByVerseReferenceIds(verseReferenceIds.join(','));
+      var notes = [];
+
+      sequelizeNotes.forEach((note) => {
+        notes.push(note.dataValues);
+      });
+
+      var groupedNotes = models.Note.groupNotesByVerse(notes, versification);
+      return groupedNotes;
+    });
+
     this._ipcMain.add('db_getBibleBook', async (shortTitle) => {
       var sequelizeBibleBook = await models.BibleBook.findOne({ where: { shortTitle: shortTitle }});
       var bibleBook = null;
