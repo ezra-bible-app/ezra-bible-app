@@ -125,6 +125,15 @@ class IpcDb {
   async getVerseReferencesByTagIds(tagIds) {
     return await this._ipcRenderer.call('db_getVerseReferencesByTagIds', tagIds);
   }
+
+  async getAbsoluteVerseNumbersFromReference(sourceVersification, bookCode, absoluteVerseNr, chapter, verseNr) {
+    return await this._ipcRenderer.call('db_getAbsoluteVerseNumbersFromReference',
+                                        sourceVersification,
+                                        bookCode,
+                                        absoluteVerseNr,
+                                        chapter,
+                                        verseNr);
+  }
 }
 
 module.exports = IpcDb;

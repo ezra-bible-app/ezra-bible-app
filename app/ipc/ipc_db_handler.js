@@ -172,6 +172,15 @@ class IpcDbHandler {
       var verseReferences = this.makeSequelizeResultsSerializable(sequelizeVerseReferences);
       return verseReferences;
     });
+
+    this._ipcMain.add('db_getAbsoluteVerseNumbersFromReference', async (sourceVersification, bookCode, absoluteVerseNr, chapter, verseNr) => {
+      var absoluteVerseNumbers = models.VerseReference.getAbsoluteVerseNrs(sourceVersification,
+                                                                           bookCode,
+                                                                           absoluteVerseNr,
+                                                                           chapter,
+                                                                           verseNr);
+      return absoluteVerseNumbers;
+    });
   }
 
   makeSequelizeResultsSerializable(sequelizeResults) {

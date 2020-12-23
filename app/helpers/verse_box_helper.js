@@ -115,11 +115,11 @@ class VerseBoxHelper {
       chapter = referenceVerseBox.getChapter();
       verseNumber = referenceVerseBox.getVerseNumber();
 
-      absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(source_versification,
-                                                                   bibleBook,
-                                                                   absoluteVerseNumber,
-                                                                   chapter,
-                                                                   verseNumber);
+      absoluteVerseNrs = await ipcDb.getAbsoluteVerseNumbersFromReference(source_versification,
+                                                                          bibleBook,
+                                                                          absoluteVerseNumber,
+                                                                          chapter,
+                                                                          verseNumber);
     }
 
 

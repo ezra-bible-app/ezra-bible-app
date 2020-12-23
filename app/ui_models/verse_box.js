@@ -87,11 +87,11 @@ class VerseBox {
     var sourceVersification = await app_controller.translation_controller.getVersification(sourceBibleTranslationId);
     var targetVersification = await app_controller.translation_controller.getVersification(targetBibleTranslationId);
 
-    var absoluteVerseNumbers = models.VerseReference.getAbsoluteVerseNrs(sourceVersification,
-                                                                         this.getBibleBookShortTitle(),
-                                                                         this.getAbsoluteVerseNumber(),
-                                                                         this.getChapter(),
-                                                                         this.getVerseNumber());
+    var absoluteVerseNumbers = await ipcDb.getAbsoluteVerseNumbersFromReference(sourceVersification,
+                                                                                this.getBibleBookShortTitle(),
+                                                                                this.getAbsoluteVerseNumber(),
+                                                                                this.getChapter(),
+                                                                                this.getVerseNumber());
 
     var mappedAbsoluteVerseNr = null;
     if (targetVersification == 'HEBREW') {
