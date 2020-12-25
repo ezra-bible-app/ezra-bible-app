@@ -27,7 +27,7 @@ class BookSelectionMenu {
     this.init_completed = false;
   }
 
-  init() {
+  async init() {
     if (this.init_completed) return;
 
     var menu = $('#app-container').find('#book-selection-menu');
@@ -43,7 +43,7 @@ class BookSelectionMenu {
 
     } else {
       console.log("Localizing book selection menu ...")
-      this.localizeBookSelectionMenu();
+      await this.localizeBookSelectionMenu();
     }
 
     this.initLinks();
@@ -66,12 +66,12 @@ class BookSelectionMenu {
   }
 
   // This function is rather slow and it delays app startup! (~175ms)
-  localizeBookSelectionMenu() {
+  async localizeBookSelectionMenu() {
     var aElements = document.getElementById("book-selection-menu").querySelectorAll('a');
 
     for (var i = 0; i < aElements.length; i++) {
       var currentBook = aElements[i];
-      var currentBookTranslation = i18nHelper.getSwordTranslation(currentBook.innerText);
+      var currentBookTranslation = await i18nHelper.getSwordTranslation(currentBook.innerText);
       currentBook.innerText = currentBookTranslation;
     }
   }

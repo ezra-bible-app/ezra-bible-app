@@ -74,7 +74,7 @@ class TaggedVerseExport {
     return allBlocks;
   }
 
-  renderVerseBlocks(paragraph, bibleBook, verseBlocks) {
+  async renderVerseBlocks(paragraph, bibleBook, verseBlocks) {
     for (var j = 0; j < verseBlocks.length; j++) {
       var currentBlock = verseBlocks[j];
 
@@ -82,7 +82,7 @@ class TaggedVerseExport {
       var lastVerse = currentBlock[currentBlock.length - 1];
       
       // Output the verse reference of this block
-      var bookTitle = i18nHelper.getSwordTranslation(bibleBook.longTitle);
+      var bookTitle = await i18nHelper.getSwordTranslation(bibleBook.longTitle);
       paragraph.addText(bookTitle);
       paragraph.addText(" " + firstVerse.chapter + reference_separator + firstVerse.verseNr);
 
@@ -124,7 +124,7 @@ class TaggedVerseExport {
     }
   }
 
-  renderWordDocument(bibleBooks, groupedVerseTags, verses) {
+  async renderWordDocument(bibleBooks, groupedVerseTags, verses) {
     const officegen = require('officegen');
     const fs = require('fs');
     const shell = require('electron').remote.shell;
@@ -163,13 +163,13 @@ class TaggedVerseExport {
 
     for (var i = 0; i < bibleBooks.length; i++) {
       var currentBook = bibleBooks[i];
-      var bookTitle = i18nHelper.getSwordTranslation(currentBook.longTitle);
+      var bookTitle = await i18nHelper.getSwordTranslation(currentBook.longTitle);
 
       p.addText(bookTitle, { bold: true });
       p.addLineBreak();
 
       var allBlocks = this.getBibleBookVerseBlocks(currentBook, verses);
-      this.renderVerseBlocks(p, currentBook, allBlocks);
+      await this.renderVerseBlocks(p, currentBook, allBlocks);
 
       // Line break after book end
       p.addLineBreak();
@@ -239,7 +239,7 @@ class TaggedVerseExport {
           undefined,
           null,
           currentTagIdList,
-          (bibleBooks, groupedVerseTags, verses) => { this.renderWordDocument(bibleBooks, groupedVerseTags, verses) },
+          async (bibleBooks, groupedVerseTags, verses) => { await this.renderWordDocument(bibleBooks, groupedVerseTags, verses) },
           'docx',
           false
         );

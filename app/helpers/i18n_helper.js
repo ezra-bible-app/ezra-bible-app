@@ -68,8 +68,8 @@ class I18nHelper {
     });
   }
 
-  getSwordTranslation(originalString) {
-    return this._nsi.getSwordTranslation(originalString, i18n.language);
+  async getSwordTranslation(originalString) {
+    return await ipcNsi.getSwordTranslation(originalString, i18n.language);
   }
 
   async getBookAbbreviation(bookCode) {

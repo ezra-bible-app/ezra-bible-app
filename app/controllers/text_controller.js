@@ -309,6 +309,7 @@ class TextController {
     var versification = (await app_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
 
     var bibleBooks = await ipcDb.getBibleBooksFromSearchResults(search_results);
+    var bookNames = await this.getBookNames(bibleBooks);
     var bibleBookStats = app_controller.module_search.getBibleBookStatsFromSearchResults(search_results);
     var verses = [];
 
@@ -342,6 +343,7 @@ class TextController {
       
       this.getVersesAsHtml(current_tab_id,
                            bibleBooks,
+                           bookNames,
                            bibleBookStats,
                            verseTags,
                            verseNotes,
@@ -392,6 +394,7 @@ class TextController {
 
     var bibleBookStats = this.getBibleBookStatsFromVerses(verses);
     var bibleBooks = await ipcDb.getBibleBooksFromTagIds(selected_tags);
+    var bookNames = await this.getBookNames(bibleBooks);
 
     var verseTags = await ipcDb.getVerseTagsByVerseReferenceIds(verseReferenceIds, versification);
     var verseNotes = await ipcDb.getNotesByVerseReferenceIds(verseReferenceIds, versification);
@@ -400,6 +403,7 @@ class TextController {
       
       this.getVersesAsHtml(current_tab_id,
                            bibleBooks,
+                           bookNames,
                            bibleBookStats,
                            verseTags,
                            verseNotes,
@@ -410,8 +414,17 @@ class TextController {
                            renderVerseMetaInfo);
     
     } else if (render_type == "docx") {
-      render_function(bibleBooks, groupedVerseTags, verses);
+      render_function(bibleBooks, verseTags, verses);
     }
+  }
+
+  async getBookNames(bibleBooks) {
+    var bookNames = {};
+    bibleBooks.forEach(async (b) => {
+      bookNames[b.shortTitle] = await i18nHelper.getSwordTranslation(b.longTitle);
+    });
+
+    return bookNames;
   }
 
   async requestVersesForXrefs(tab_index,
@@ -441,6 +454,8 @@ class TextController {
 
     var bibleBookStats = this.getBibleBookStatsFromVerses(verses);
     var bibleBooks = await ipcDb.getBibleBooksFromXrefs(xrefs);
+    var bookNames = await this.getBookNames(bibleBooks);
+
     var verseTags = await ipcDb.getVerseTagsByVerseReferenceIds(verseReferenceIds, versification);
     var verseNotes = await ipcDb.getNotesByVerseReferenceIds(verseReferenceIds, versification);
 
@@ -448,6 +463,7 @@ class TextController {
       
       this.getVersesAsHtml(current_tab_id,
                            bibleBooks,
+                           bookNames,
                            bibleBookStats,
                            verseTags,
                            verseNotes,
@@ -462,13 +478,14 @@ class TextController {
     }
   }
 
-  getVersesAsHtml(current_tab_id, bibleBooks, bibleBookStats, groupedVerseTags, groupedVerseNotes, verses, versification, render_function, renderBibleBookHeaders=true, renderVerseMetaInfo=true) {
+  getVersesAsHtml(current_tab_id, bibleBooks, bookNames, bibleBookStats, groupedVerseTags, groupedVerseNotes, verses, versification, render_function, renderBibleBookHeaders=true, renderVerseMetaInfo=true) {
     var verses_as_html = verseListTemplate({
       versification: versification,
       verseListId: current_tab_id,
       renderBibleBookHeaders: renderBibleBookHeaders,
       renderVerseMetaInfo: renderVerseMetaInfo,
       bibleBooks: bibleBooks,
+      bookNames: bookNames,
       bibleBookStats: bibleBookStats,
       verses: verses,
       verseTags: groupedVerseTags,

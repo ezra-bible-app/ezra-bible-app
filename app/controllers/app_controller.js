@@ -98,7 +98,7 @@ class AppController {
     var defaultBibleTranslationId = null;
     if (bibleTranslations.length > 0) {
       var defaultBibleTranslationId = bibleTranslations[0].name;
-      this.book_selection_menu.init();
+      await this.book_selection_menu.init();
     }
 
     var tabHtmlTemplate = this.getTabHtmlTemplate();
@@ -817,7 +817,7 @@ class AppController {
   async updateUiAfterBibleTranslationAvailable(translationCode) {
     var bibleTranslations = ipcNsi.getAllLocalModules();
     if (bibleTranslations.length == 1) {
-      this.book_selection_menu.init();
+      await this.book_selection_menu.init();
     }
 
     var currentBibleTranslationId = this.tab_controller.getTab().getBibleTranslationId();

@@ -169,7 +169,7 @@ class VerseBoxHelper {
     var verseBox = new VerseBox(verseBoxElement);
     var currentBookCode = verseBox.getBibleBookShortTitle();
     var currentBookName = await ipcDb.getBookLongTitle(currentBookCode);
-    var currentBookLocalizedName = i18nHelper.getSwordTranslation(currentBookName);
+    var currentBookLocalizedName = await i18nHelper.getSwordTranslation(currentBookName);
     var verseReferenceContent = verseBoxElement.querySelector('.verse-reference-content').innerText;
 
     var localizedReference = currentBookLocalizedName + ' ' + verseReferenceContent;
