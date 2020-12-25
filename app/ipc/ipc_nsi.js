@@ -71,6 +71,10 @@ class IpcNsi {
     return await this._ipcRenderer.call('nsi_getAllLocalModules', moduleType);
   }
 
+  getAllLocalModulesSync(moduleType='BIBLE') {
+    return this._ipcRenderer.callSync('nsi_getAllLocalModulesSync', moduleType);
+  }
+
   async getRepoLanguageModuleCount(repositoryName, language, moduleType='BIBLE') {
     return await this._ipcRenderer.call('nsi_getRepoLanguageModuleCount', repositoryName, language, moduleType);
   }
@@ -82,12 +86,20 @@ class IpcNsi {
                                                             moduleCode);
   }
 
+  installModuleSync(moduleCode) {
+    return this._ipcRenderer.callSync('nsi_installModuleSync', moduleCode);
+  }
+
   async cancelInstallation() {
     return await this._ipcRenderer.call('nsi_cancelInstallation');
   }
 
   async uninstallModule(moduleCode) {
     return await this._ipcRenderer.call('nsi_uninstallModule', moduleCode);
+  }
+
+  resetNsi() {
+    return this._ipcRenderer.callSync('nsi_resetNsi');
   }
 
   async saveModuleUnlockKey(moduleCode, key) {

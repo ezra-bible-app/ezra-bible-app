@@ -39,12 +39,22 @@ class IpcRenderer {
   }
 
   async callWithProgressCallback(functionName, callbackChannel, callbackFunction, ...args) {
-    this.addElectronListenerWithCallback(callbackChannel, callbackFunction);
+    if (callbackFunction !== undefined) {
+      this.addElectronListenerWithCallback(callbackChannel, callbackFunction);
+    }
 
     if (this._isElectron) {
       return this.electronIpcCall(functionName, ...args);
     } else if (this._isCordova) {
       return this.cordovaIpcCall(functionName, ...args);
+    }
+  }
+
+  callSync(functionName, ...args) {
+    if (this._isElectron) {
+      return this.electronIpcCallSync(functionName, ...args);
+    } else if (this._isCordova) {
+      return this.cordovaIpcCallSync(functionName, ...args);
     }
   }
 
@@ -56,9 +66,19 @@ class IpcRenderer {
     // TODO
   }
 
+  electronIpcCallSync(functionName, ...args) {
+    return this._electronIpcRenderer.sendSync(functionName, ...args);
+  }
+
+  cordovaIpcCallSync(functionName, ...args) {
+    // TODO
+  }
+
   addElectronListenerWithCallback(channel, callbackFunction) {
     this._electronIpcRenderer.on(channel, (event, message) => {
-      callbackFunction(message);
+      if (callbackFunction !== undefined) {
+        callbackFunction(message);
+      }
     });
   }
 }
