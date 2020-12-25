@@ -25,7 +25,7 @@ class IpcMain {
     this._isElectron = platformDetector.isElectron();
     this._isCordova = platformDetector.isCordova();
     this._callCounters = {};
-    this._showDebugOutput = true;
+    this._showDebugOutput = false;
 
     if (this._isElectron) {
       const { ipcMain } = require('electron');
