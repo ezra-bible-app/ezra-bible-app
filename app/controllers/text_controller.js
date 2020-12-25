@@ -32,7 +32,7 @@ class TextController {
   }
 
   async prepareForNewText(resetView, isSearch=false, tabIndex=undefined) {
-    app_controller.module_search.hideModuleSearchHeader(tabIndex);
+    app_controller.module_search_controller.hideModuleSearchHeader(tabIndex);
     await app_controller.navigation_pane.initNavigationPaneForCurrentView(tabIndex);
 
     if (tabIndex === undefined) {
@@ -310,7 +310,7 @@ class TextController {
 
     var bibleBooks = await ipcDb.getBibleBooksFromSearchResults(search_results);
     var bookNames = await this.getBookNames(bibleBooks);
-    var bibleBookStats = app_controller.module_search.getBibleBookStatsFromSearchResults(search_results);
+    var bibleBookStats = app_controller.module_search_controller.getBibleBookStatsFromSearchResults(search_results);
     var verses = [];
 
     for (var i = 0; i < search_results.length; i++) {

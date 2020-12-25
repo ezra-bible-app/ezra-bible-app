@@ -221,7 +221,7 @@ class AppController {
     await this.initCurrentVerseListMenu(tabIndex);
     this.tag_selection_menu.init(tabIndex);
     this.tag_assignment_menu.init(tabIndex);
-    this.module_search.initModuleSearchMenu(tabIndex);
+    this.module_search_controller.initModuleSearchMenu(tabIndex);
     await this.translation_controller.initTranslationsMenu(previousTabIndex, tabIndex);
     this.translation_controller.initBibleTranslationInfoButton();
     var currentBibleTranslationId = this.tab_controller.getTab(tabIndex)?.getBibleTranslationId();
@@ -244,7 +244,7 @@ class AppController {
 
     if (currentTab.getTextType() == 'search_results') {
       await this.text_controller.prepareForNewText(true, true);
-      this.module_search.startSearch(null, this.tab_controller.getSelectedTabIndex(), currentTab.getSearchTerm());
+      this.module_search_controller.startSearch(null, this.tab_controller.getSelectedTabIndex(), currentTab.getSearchTerm());
     } else {
       if (!this.tab_controller.isCurrentTabEmpty()) {
         await this.text_controller.prepareForNewText(false, false);

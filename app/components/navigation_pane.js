@@ -357,7 +357,7 @@ class NavigationPane {
     window.location = reference;
   }
 
-  updateNavigationFromVerseBox(focussedElement, verseBox=undefined) {
+  async updateNavigationFromVerseBox(focussedElement, verseBox=undefined) {
     if (verseBox == undefined) {
       verseBox = focussedElement.closest('.verse-box');
     }
@@ -387,7 +387,7 @@ class NavigationPane {
     } else if (currentTextType == 'tagged_verses' && currentTagIdList != null || currentTextType == 'xrefs' || currentTextType == 'search_results') {
 
       var bibleBookShortTitle = new VerseBox(verseBox).getBibleBookShortTitle();
-      var currentBookName = models.BibleBook.getBookTitleTranslation(bibleBookShortTitle);
+      var currentBookName = await ipcDb.getBookTitleTranslation(bibleBookShortTitle);
       
       var bibleBookNumber = app_controller.getVerseListBookNumber(currentBookName);
       if (bibleBookNumber != -1) {

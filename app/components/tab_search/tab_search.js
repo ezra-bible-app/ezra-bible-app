@@ -221,7 +221,7 @@ class TabSearch {
     window.location = currentOccuranceAnchor;
   }
 
-  highlightCurrentOccurance() {
+  async highlightCurrentOccurance() {
     // Update highlighting
     if (this.previousOccuranceElement != null) {
       this.previousOccuranceElement.classList.remove('current-hl');
@@ -235,7 +235,7 @@ class TabSearch {
       verseBox?.querySelector('.verse-text').classList.add('ui-selected');
       app_controller.verse_selection.updateSelected();
       app_controller.verse_selection.updateViewsAfterVerseSelection();
-      app_controller.navigation_pane.updateNavigationFromVerseBox(this.currentOccuranceElement, verseBox);
+      await app_controller.navigation_pane.updateNavigationFromVerseBox(this.currentOccuranceElement, verseBox);
     }
 
     // Update occurances label

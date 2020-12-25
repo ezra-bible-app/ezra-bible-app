@@ -139,7 +139,7 @@ class ThemeController {
           
       this.darkMode.toggle();
       // We need to repaint all charts, because the label color depends on the theme
-      await app_controller.module_search.repaintAllCharts();
+      await app_controller.module_search_controller.repaintAllCharts();
     }
   }
 
