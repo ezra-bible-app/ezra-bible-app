@@ -46,9 +46,7 @@ const i18nextOptions = {
 };
 
 class I18nHelper {
-  constructor(nsi) {
-    this._nsi = nsi;
-  }
+  constructor() {}
 
   async init() {
     await i18n

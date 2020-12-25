@@ -43,7 +43,6 @@ let dbHelper = null;
 let dbDir = null;
 
 // Global instance of NodeSwordInterface used in many places
-let nsi = null;
 let ipcNsi = null;
 let ipcDb = null;
 
@@ -88,11 +87,11 @@ $.create_xml_doc = function(string)
   return doc;
 }
 
-async function initI18N(nsi)
+async function initI18N()
 {
   i18n = require('i18next');
   I18nHelper = require('./app/helpers/i18n_helper.js');
-  i18nHelper = new I18nHelper(nsi);
+  i18nHelper = new I18nHelper();
 
   await i18nHelper.init();
   // await i18n.changeLanguage('de');
@@ -103,20 +102,6 @@ async function initI18N(nsi)
 
   reference_separator = i18n.t('general.chapter-verse-separator');
   $(document).localize();
-}
-
-function initNSI()
-{
-  const NodeSwordInterface = require('node-sword-interface');
-
-  if (platformHelper.isTest()) {
-    const userDataDir = app.getPath('userData');
-    nsi = new NodeSwordInterface(userDataDir);
-  } else {
-    nsi = new NodeSwordInterface();
-  }
-
-  nsi.enableMarkup();
 }
 
 async function initIpc()
@@ -271,14 +256,11 @@ async function initApplication()
 
   loadingIndicator.find('.loader').show();
 
-  console.log("Initializing node-sword-interface ...");
-  initNSI();
-
   console.log("Initializing IPC ...");
   await initIpc();
 
   console.log("Initializing i18n ...");
-  await initI18N(nsi);
+  await initI18N();
 
   console.log("Initializing controllers ...");
   await initControllers();
