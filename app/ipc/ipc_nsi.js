@@ -75,7 +75,7 @@ class IpcNsi {
     return await this._ipcRenderer.call('nsi_getRepoLanguageModuleCount', repositoryName, language, moduleType);
   }
 
-  async installModule(moduleCode, progressCallback) {
+  async installModule(moduleCode, progressCallback=undefined) {
     return await this._ipcRenderer.callWithProgressCallback('nsi_installModule',
                                                             'nsi_updateInstallProgress',
                                                             progressCallback,

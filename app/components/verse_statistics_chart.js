@@ -109,7 +109,7 @@ class VerseStatisticsChart {
     }
     
     var currentTranslation = app_controller.tab_controller.getTab(tabIndex)?.getBibleTranslationId();
-    var bookList = nsi.getBookList(currentTranslation);
+    var bookList = await ipcNsi.getBookList(currentTranslation);
 
     const [labels, values] = await this.getLabelsAndValuesFromStats(bookList, bibleBookStats);
 
