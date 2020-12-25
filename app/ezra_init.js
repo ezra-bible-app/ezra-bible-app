@@ -229,6 +229,7 @@ async function initApplication()
   await waitUntilIdle();
 
   await ipcRenderer.send('manageWindowState');
+  await ipcRenderer.send('initIpc');
   
   const appWindow = remote.getCurrentWindow();
   appWindow.show();

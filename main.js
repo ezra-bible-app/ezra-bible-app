@@ -35,6 +35,7 @@ const windowStateKeeper = require('electron-window-state');
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 let mainWindowState;
+let ipcInitialized = false;
 
 if (process.platform === 'win32') {
     // This is only needed for making the Windows installer work properly
@@ -71,11 +72,23 @@ function createWindow () {
     defaultHeight: 800
   });
 
-  ipcMain.on('manageWindowState', (event, arg) => {
+  ipcMain.on('manageWindowState', async (event, arg) => {
     // Register listeners on the window, so we can update the state
     // automatically (the listeners will be removed when the window is closed)
     // and restore the maximized or full screen state
     mainWindowState.manage(mainWindow);
+  });
+
+  ipcMain.on('initIpc', async (event, arg) => {
+    if (!ipcInitialized) {
+      ipcInitialized = true;
+
+      global.ipcNsiHandler = new IpcNsiHandler();
+      ipcNsiHandler.setMainWindow(mainWindow);
+
+      global.ipcDbHandler = new IpcDbHandler();
+      await ipcDbHandler.initDatabase();
+    }
   });
 
   // Create the browser window.
@@ -118,12 +131,11 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  global.ipcNsiHandler = new IpcNsiHandler();
+  /*global.ipcNsiHandler = new IpcNsiHandler();
   global.ipcDbHandler = new IpcDbHandler();
-  await ipcDbHandler.initDatabase();
+  await ipcDbHandler.initDatabase();*/
 
   await createWindow();
-  ipcNsiHandler.setMainWindow(mainWindow);
 });
 
 // Quit when all windows are closed.

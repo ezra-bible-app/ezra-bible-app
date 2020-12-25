@@ -16,6 +16,7 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const { app } = require('electron');
 const IpcMain = require('./ipc_main.js');
 const PlatformHelper = require('../helpers/platform_helper.js');
 const NodeSwordInterface = require('node-sword-interface');
@@ -97,7 +98,9 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.addWithProgressCallback('nsi_installModule',
-                                          async (progressCB, moduleCode) => { await this._nsi.installModule(progressCB, moduleCode); },
+                                          async (progressCB, moduleCode) => { 
+                                            await this._nsi.installModule(progressCB, moduleCode); 
+                                          },
                                           'nsi_updateInstallProgress');
     
     this._ipcMain.add('nsi_cancelInstallation', () => {
