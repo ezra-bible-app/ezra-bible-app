@@ -53,35 +53,41 @@ class VerseStatisticsChart {
     container.append(canvasElement);
   }
 
-  getLabelsAndValuesFromStats(bookList, bibleBookStats) {
+  async getLabelsAndValuesFromStats(bookList, bibleBookStats) {
     var labels = [];
     var values = [];
     var ntOnly = true;
     var otOnly = true;
 
     for (var book in bibleBookStats) {
-      if (!models.BibleBook.isNtBook(book)) {
+      var isNtBook = await ipcDb.isNtBook(book);
+
+      if (!isNtBook) {
         ntOnly = false;
       }
 
-      if (!models.BibleBook.isOtBook(book)) {
+      var isOtBook = await ipcDb.isOtBook(book);
+      if (!isOtBook) {
         otOnly = false;
       }
     }
-    
-    bookList.forEach((book) => {
-      var includeCurrentBook = false;
 
-      if (ntOnly && models.BibleBook.isNtBook(book)) {
+    for (var i = 0; i < bookList.length; i++) {
+      var book = bookList[i];
+      var includeCurrentBook = false;
+      var isNtBook = await ipcDb.isNtBook(book);
+      var isOtBook = await ipcDb.isOtBook(book);
+
+      if (ntOnly && isNtBook) {
         includeCurrentBook = true;
-      } else if (otOnly && models.BibleBook.isOtBook(book)) {
+      } else if (otOnly && isOtBook) {
         includeCurrentBook = true;
       } else if (!otOnly && !ntOnly) {
         includeCurrentBook = true;
       }
 
       if (includeCurrentBook) {
-        var translatedBook = i18nHelper.getBookAbbreviation(book);
+        var translatedBook = await i18nHelper.getBookAbbreviation(book);
         labels.push(translatedBook);
 
         var value = 0;
@@ -91,21 +97,21 @@ class VerseStatisticsChart {
 
         values.push(value);
       }
-    });
+    };
 
     return [labels, values];
   }
 
-  updateChart(tabIndex=undefined, bibleBookStats) {
+  async updateChart(tabIndex=undefined, bibleBookStats) {
     var numberOfBooks = Object.keys(bibleBookStats).length;
     if (numberOfBooks < 2) {
       return;
     }
     
     var currentTranslation = app_controller.tab_controller.getTab(tabIndex)?.getBibleTranslationId();
-    var bookList = nsi.getBookList(currentTranslation);
+    var bookList = await ipcNsi.getBookList(currentTranslation);
 
-    const [labels, values] = this.getLabelsAndValuesFromStats(bookList, bibleBookStats);
+    const [labels, values] = await this.getLabelsAndValuesFromStats(bookList, bibleBookStats);
 
     var data = {
       labels: labels,

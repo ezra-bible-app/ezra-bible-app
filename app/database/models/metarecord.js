@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
   MetaRecord.updateLastModified = async function() {
     var currentTime = new Date(Date.now()).getTime();
 
-    const [ metaRecord, created ] = await models.MetaRecord.findOrCreate({
+    const [ metaRecord, created ] = await MetaRecord.findOrCreate({
       where: {
         id: 1,
       },

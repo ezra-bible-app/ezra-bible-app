@@ -115,20 +115,20 @@ class VerseBoxHelper {
       chapter = referenceVerseBox.getChapter();
       verseNumber = referenceVerseBox.getVerseNumber();
 
-      absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(source_versification,
-                                                                   bibleBook,
-                                                                   absoluteVerseNumber,
-                                                                   chapter,
-                                                                   verseNumber);
+      absoluteVerseNrs = await ipcDb.getAbsoluteVerseNumbersFromReference(source_versification,
+                                                                          bibleBook,
+                                                                          absoluteVerseNumber,
+                                                                          chapter,
+                                                                          verseNumber);
     }
 
 
-    var referenceBibleBook = await models.BibleBook.findOne({ where: { shortTitle: bibleBook } });
+    var referenceBibleBook = await ipcDb.getBibleBook(bibleBook);
 
     var source_tab_translation = app_controller.tab_controller.getTab(current_tab_index).getBibleTranslationId();
     var source_versification = 'ENGLISH';
     try {
-      app_controller.translation_controller.getVersification(source_tab_translation);
+      await app_controller.translation_controller.getVersification(source_tab_translation);
     } catch (exception) {
       console.warn('Got exception when getting versification: ' + exception);
     }
@@ -136,7 +136,7 @@ class VerseBoxHelper {
     for (var i = 0; i < tab_count; i++) {
       if (i != current_tab_index) {
         var current_tab_translation = app_controller.tab_controller.getTab(i).getBibleTranslationId();
-        var current_versification = app_controller.translation_controller.getVersification(current_tab_translation);
+        var current_versification = await app_controller.translation_controller.getVersification(current_tab_translation);
         var current_target_verse_nr = "";
 
         if (current_versification == 'HEBREW') {
@@ -153,7 +153,7 @@ class VerseBoxHelper {
         for (var j = 0; j < target_verse_box.length; j++) {
           var specific_target_verse_box = target_verse_box[j];
           var target_verse_box_bible_book_short_title = this.getBibleBookShortTitleFromElement(specific_target_verse_box);
-          var targetBibleBook = await models.BibleBook.findOne({ where: { shortTitle: target_verse_box_bible_book_short_title } });
+          var targetBibleBook = await ipcDb.getBibleBook(target_verse_box_bible_book_short_title);
           var target_verse_bible_book_id = targetBibleBook.id;
 
           if (target_verse_bible_book_id == referenceBibleBook.id) {
@@ -165,11 +165,11 @@ class VerseBoxHelper {
   }
 
   // FIXME: Move this to VerseBox
-  getLocalizedVerseReference(verseBoxElement) {
+  async getLocalizedVerseReference(verseBoxElement) {
     var verseBox = new VerseBox(verseBoxElement);
     var currentBookCode = verseBox.getBibleBookShortTitle();
-    var currentBookName = models.BibleBook.getBookLongTitle(currentBookCode);
-    var currentBookLocalizedName = i18nHelper.getSwordTranslation(currentBookName);
+    var currentBookName = await ipcDb.getBookLongTitle(currentBookCode);
+    var currentBookLocalizedName = await i18nHelper.getSwordTranslation(currentBookName);
     var verseReferenceContent = verseBoxElement.querySelector('.verse-reference-content').innerText;
 
     var localizedReference = currentBookLocalizedName + ' ' + verseReferenceContent;

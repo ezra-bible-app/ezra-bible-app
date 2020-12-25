@@ -72,7 +72,7 @@ Then('the tag {string} is assigned to {string} in the database', async function 
 
   var dbBibleBook = await global.models.BibleBook.findOne({ where: { shortTitle: bookId } });
   var verseReferenceHelper = await global.spectronHelper.getVerseReferenceHelper();
-  var absoluteVerseNumber = verseReferenceHelper.referenceStringToAbsoluteVerseNr('KJV', bookId, verseReferenceString);
+  var absoluteVerseNumber = await verseReferenceHelper.referenceStringToAbsoluteVerseNr('KJV', bookId, verseReferenceString);
 
   var dbVerseReference = await global.models.VerseReference.findOne({
     where: {

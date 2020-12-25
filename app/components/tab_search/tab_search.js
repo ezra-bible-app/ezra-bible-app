@@ -150,10 +150,10 @@ class TabSearch {
       return;
     }
 
-    this.searchTimeout = setTimeout(() => {
+    this.searchTimeout = setTimeout(async () => {
       app_controller.verse_selection.clear_verse_selection(false);
       this.onSearchReset();
-      this.doSearch(searchString);
+      await this.doSearch(searchString);
       // This is necessary, beause the search "rewrites" the verse content and events
       // get lost by doing that, so we have to re-bind the xref events.
       app_controller.bindXrefEvents();
@@ -221,7 +221,7 @@ class TabSearch {
     window.location = currentOccuranceAnchor;
   }
 
-  highlightCurrentOccurance() {
+  async highlightCurrentOccurance() {
     // Update highlighting
     if (this.previousOccuranceElement != null) {
       this.previousOccuranceElement.classList.remove('current-hl');
@@ -235,7 +235,7 @@ class TabSearch {
       verseBox?.querySelector('.verse-text').classList.add('ui-selected');
       app_controller.verse_selection.updateSelected();
       app_controller.verse_selection.updateViewsAfterVerseSelection();
-      app_controller.navigation_pane.updateNavigationFromVerseBox(this.currentOccuranceElement, verseBox);
+      await app_controller.navigation_pane.updateNavigationFromVerseBox(this.currentOccuranceElement, verseBox);
     }
 
     // Update occurances label
@@ -253,7 +253,7 @@ class TabSearch {
     this.searchOccurancesElement[0].innerHTML = occurancesString;
   }
 
-  doSearch(searchString) {
+  async doSearch(searchString) {
     if (this.verseList == null) {
       return;
     }
@@ -285,7 +285,7 @@ class TabSearch {
       this.resetOccurances();
     }
 
-    this.onSearchResultsAvailable(this.allOccurances);
+    await this.onSearchResultsAvailable(this.allOccurances);
   }
 
   removeAllHighlighting() {

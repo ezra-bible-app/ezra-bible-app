@@ -72,8 +72,8 @@ module.exports = (sequelize, DataTypes) => {
     return groupedVerseNotes;
   };
 
-  Note.persistNote = function(noteValue, verseBox) {
-    return models.VerseReference.findOrCreateFromVerseBox(verseBox).then(vr => {
+  Note.persistNote = function(noteValue, verseObject) {
+    return models.VerseReference.findOrCreateFromVerseObject(verseObject).then(vr => {
       return vr.getOrCreateNote().then(n => {
         if (noteValue != "") {
           // Save the note if it has content

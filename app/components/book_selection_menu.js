@@ -27,7 +27,7 @@ class BookSelectionMenu {
     this.init_completed = false;
   }
 
-  init() {
+  async init() {
     if (this.init_completed) return;
 
     var menu = $('#app-container').find('#book-selection-menu');
@@ -43,7 +43,7 @@ class BookSelectionMenu {
 
     } else {
       console.log("Localizing book selection menu ...")
-      this.localizeBookSelectionMenu();
+      await this.localizeBookSelectionMenu();
     }
 
     this.initLinks();
@@ -66,23 +66,23 @@ class BookSelectionMenu {
   }
 
   // This function is rather slow and it delays app startup! (~175ms)
-  localizeBookSelectionMenu() {
+  async localizeBookSelectionMenu() {
     var aElements = document.getElementById("book-selection-menu").querySelectorAll('a');
 
     for (var i = 0; i < aElements.length; i++) {
       var currentBook = aElements[i];
-      var currentBookTranslation = i18nHelper.getSwordTranslation(currentBook.innerText);
+      var currentBookTranslation = await i18nHelper.getSwordTranslation(currentBook.innerText);
       currentBook.innerText = currentBookTranslation;
     }
   }
 
-  updateAvailableBooks(tabIndex=undefined) {
+  async updateAvailableBooks(tabIndex=undefined) {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     if (currentTab != null) {
       var currentBibleTranslationId = currentTab.getBibleTranslationId();
       if (currentBibleTranslationId != null) {
-        var books = nsi.getBookList(currentBibleTranslationId);
+        var books = await ipcNsi.getBookList(currentBibleTranslationId);
         var book_links = document.getElementById('book-selection-menu').querySelectorAll('li');
 
         for (var i = 0; i < book_links.length; i++) {
@@ -102,7 +102,7 @@ class BookSelectionMenu {
     }
   }
 
-  selectBibleBook(book_code, book_title) {
+  async selectBibleBook(book_code, book_title) {
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     if (currentBibleTranslationId == null || currentBibleTranslationId == undefined) {
       return;
@@ -112,7 +112,7 @@ class BookSelectionMenu {
                           message: `Selected book ${book_code} using translation ${currentBibleTranslationId}`,
                           level: Sentry.Severity.Info});
     
-    var books = nsi.getBookList(currentBibleTranslationId);
+    var books = await ipcNsi.getBookList(currentBibleTranslationId);
     if (!books.includes(book_code)) {
       return;
     }
@@ -130,7 +130,7 @@ class BookSelectionMenu {
     app_controller.module_search_controller.resetSearch();
     app_controller.tag_assignment_menu.hideTagAssignmentMenu();
 
-    app_controller.text_controller.prepareForNewText(true, false);
+    await app_controller.text_controller.prepareForNewText(true, false);
 
     setTimeout(async () => {
       // Set selected tags and search term to null, since we just switched to a book

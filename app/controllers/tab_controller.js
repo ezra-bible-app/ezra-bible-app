@@ -196,7 +196,7 @@ class TabController {
     if (tabConfigTimestamp != null) {
       tabConfigTimestamp = new Date(tabConfigTimestamp);
 
-      var dbUpdateTimestamp = await models.MetaRecord.getLastUpdate();
+      var dbUpdateTimestamp = await ipcDb.getLastMetaRecordUpdate();
 
       if (dbUpdateTimestamp != null && dbUpdateTimestamp.getTime() > tabConfigTimestamp.getTime()) {
         return true;
@@ -229,7 +229,7 @@ class TabController {
       }
 
       var isSearch = (currentMetaTab.textType == 'search_results');
-      app_controller.text_controller.prepareForNewText(true, isSearch, i);
+      await app_controller.text_controller.prepareForNewText(true, isSearch, i);
 
       if (currentMetaTab.textType == 'search_results') {
 
@@ -595,8 +595,8 @@ class TabController {
     }
   }
 
-  getCurrentBibleTranslationName() {
-    var module = nsi.getLocalModule(this.getTab().getBibleTranslationId());
+  async getCurrentBibleTranslationName() {
+    var module = await ipcNsi.getLocalModule(this.getTab().getBibleTranslationId());
     return module.description;
   }
 

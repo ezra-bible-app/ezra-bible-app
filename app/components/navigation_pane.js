@@ -37,7 +37,7 @@ class NavigationPane {
     return navigationPane;
   };
 
-  initNavigationPaneForCurrentView(tabIndex=undefined) {
+  async initNavigationPaneForCurrentView(tabIndex=undefined) {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentBook = currentTab.getBook();
     var currentTranslationId = currentTab.getBibleTranslationId();
@@ -51,8 +51,9 @@ class NavigationPane {
 
       navigationPane.removeClass('navigation-pane-books');
 
-      if (headerNavOption.isChecked() &&
-          app_controller.translation_controller.hasBibleTranslationHeaders(currentTranslationId)) {
+      var hasHeaders = await app_controller.translation_controller.hasBibleTranslationHeaders(currentTranslationId);
+
+      if (headerNavOption.isChecked() && hasHeaders) {
         
         navigationPane.removeClass('navigation-pane-chapters');
         navigationPane.addClass('navigation-pane-headers');
@@ -182,12 +183,12 @@ class NavigationPane {
     }
   }
 
-  updateChapterNavigation(tabIndex) {
+  async updateChapterNavigation(tabIndex) {
     var navigationPane = this.getCurrentNavigationPane(tabIndex);
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentTranslation = currentTab.getBibleTranslationId();
     var currentBook = currentTab.getBook();
-    var chapterCount = nsi.getBookChapterCount(currentTranslation, currentBook);
+    var chapterCount = await ipcNsi.getBookChapterCount(currentTranslation, currentBook);
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
 
     var query = '.sword-section-title:not([subtype="x-Chapter"]):not([type="chapter"]):not([type="psalm"]):not([type="scope"]):not([type="acrostic"])';
@@ -280,7 +281,7 @@ class NavigationPane {
     this.currentNavigationPane.show();
   }
 
-  updateNavigation(tabIndex=undefined) {
+  async updateNavigation(tabIndex=undefined) {
     if (tabIndex === undefined) {
       var tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     }
@@ -300,7 +301,7 @@ class NavigationPane {
 
     if (currentTextType == 'book') { // Update navigation based on book chapters
 
-      this.updateChapterNavigation(tabIndex);
+      await this.updateChapterNavigation(tabIndex);
 
     } else if (currentTextType == 'tagged_verses' && currentTagIdList != null) { // Update navigation based on tagged verses books
 
@@ -356,7 +357,7 @@ class NavigationPane {
     window.location = reference;
   }
 
-  updateNavigationFromVerseBox(focussedElement, verseBox=undefined) {
+  async updateNavigationFromVerseBox(focussedElement, verseBox=undefined) {
     if (verseBox == undefined) {
       verseBox = focussedElement.closest('.verse-box');
     }
@@ -386,7 +387,7 @@ class NavigationPane {
     } else if (currentTextType == 'tagged_verses' && currentTagIdList != null || currentTextType == 'xrefs' || currentTextType == 'search_results') {
 
       var bibleBookShortTitle = new VerseBox(verseBox).getBibleBookShortTitle();
-      var currentBookName = models.BibleBook.getBookTitleTranslation(bibleBookShortTitle);
+      var currentBookName = await ipcDb.getBookTitleTranslation(bibleBookShortTitle);
       
       var bibleBookNumber = app_controller.getVerseListBookNumber(currentBookName);
       if (bibleBookNumber != -1) {

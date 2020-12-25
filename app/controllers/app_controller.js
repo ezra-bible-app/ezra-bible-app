@@ -90,15 +90,15 @@ class AppController {
                           '#tab-search-next',
                           '#tab-search-is-case-sensitive',
                           '#tab-search-type',
-                          (occurances) => { this.onSearchResultsAvailable(occurances); },
+                          async (occurances) => { await this.onSearchResultsAvailable(occurances); },
                           () => { this.onSearchReset(); });
 
-    var bibleTranslations = nsi.getAllLocalModules();
+    var bibleTranslations = await ipcNsi.getAllLocalModules();
 
     var defaultBibleTranslationId = null;
     if (bibleTranslations.length > 0) {
       var defaultBibleTranslationId = bibleTranslations[0].name;
-      this.book_selection_menu.init();
+      await this.book_selection_menu.init();
     }
 
     var tabHtmlTemplate = this.getTabHtmlTemplate();
@@ -108,13 +108,13 @@ class AppController {
                              this.settings,
                              tabHtmlTemplate,
                              (event = undefined, ui = { 'index' : 0}) => { this.onTabSelected(event, ui); },
-                             (previousTabIndex, tabIndex) => { this.onTabAdded(previousTabIndex, tabIndex); },
+                             async (previousTabIndex, tabIndex) => { await this.onTabAdded(previousTabIndex, tabIndex); },
                              defaultBibleTranslationId);
   }
 
-  onSearchResultsAvailable = async function(occurances) {
+  async onSearchResultsAvailable(occurances) {
     // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
-    this.dictionary_controller.bindAfterBibleTextLoaded();
+    await this.dictionary_controller.bindAfterBibleTextLoaded();
 
     var currentVerseListFrame = this.getCurrentVerseListFrame();
     var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
@@ -137,7 +137,7 @@ class AppController {
 
         // Highlight bible book if we are searching in a tagged verses list
         var currentBibleBookShortName = new VerseBox(verseBox[0]).getBibleBookShortTitle();
-        var currentBookName = models.BibleBook.getBookTitleTranslation(currentBibleBookShortName);
+        var currentBookName = await ipcDb.getBookTitleTranslation(currentBibleBookShortName);
 
         var bibleBookNumber = this.getVerseListBookNumber(currentBookName, bookHeaders);
         if (bibleBookNumber != -1) {
@@ -189,10 +189,10 @@ class AppController {
     await this.tag_selection_menu.updateTagSelectionMenu(ui.index);
 
     // Update available books for current translation
-    this.book_selection_menu.updateAvailableBooks(ui.index);
+    await this.book_selection_menu.updateAvailableBooks(ui.index);
 
     // Refresh translations menu
-    this.translation_controller.initTranslationsMenu(-1, ui.index);
+    await this.translation_controller.initTranslationsMenu(-1, ui.index);
 
     // Highlight currently selected book (only in book mode)
     var textType = this.tab_controller.getTab(ui.index)?.getTextType();
@@ -212,17 +212,17 @@ class AppController {
     uiHelper.configureButtonStyles('.verse-list-menu');
   }
 
-  onTabAdded(previousTabIndex, tabIndex=0) {
+  async onTabAdded(previousTabIndex, tabIndex=0) {
     this.hideAllMenus();
     // Refresh the view based on the options selected
     this.optionsMenu.refreshViewBasedOnOptions(tabIndex);
     uiHelper.resizeVerseList(tabIndex);
     
-    this.initCurrentVerseListMenu(tabIndex);
+    await this.initCurrentVerseListMenu(tabIndex);
     this.tag_selection_menu.init(tabIndex);
     this.tag_assignment_menu.init(tabIndex);
     this.module_search_controller.initModuleSearchMenu(tabIndex);
-    this.translation_controller.initTranslationsMenu(previousTabIndex, tabIndex);
+    await this.translation_controller.initTranslationsMenu(previousTabIndex, tabIndex);
     this.translation_controller.initBibleTranslationInfoButton();
     var currentBibleTranslationId = this.tab_controller.getTab(tabIndex)?.getBibleTranslationId();
     if (currentBibleTranslationId != null) {
@@ -243,11 +243,11 @@ class AppController {
     var currentTab = this.tab_controller.getTab();
 
     if (currentTab.getTextType() == 'search_results') {
-      this.text_controller.prepareForNewText(true, true);
+      await this.text_controller.prepareForNewText(true, true);
       this.module_search_controller.startSearch(null, this.tab_controller.getSelectedTabIndex(), currentTab.getSearchTerm());
     } else {
       if (!this.tab_controller.isCurrentTabEmpty()) {
-        this.text_controller.prepareForNewText(false, false);
+        await this.text_controller.prepareForNewText(false, false);
         await this.text_controller.requestTextUpdate(this.tab_controller.getSelectedTabId(),
                                                  currentTab.getBook(),
                                                  currentTab.getTagIdList(),
@@ -257,7 +257,7 @@ class AppController {
                                                  currentTab.getXrefs());
 
         if (currentTab.getVerseReferenceId() != null) {
-          this.updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId);
+          await this.updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId);
         }
       }
     }
@@ -276,9 +276,9 @@ class AppController {
 
   async onTranslationRemoved(translationId) {
     $("select#bible-select").empty();
-    this.translation_controller.initTranslationsMenu();
+    await this.translation_controller.initTranslationsMenu();
     await tags_controller.updateTagUiBasedOnTagAvailability();
-    var installedTranslations = this.translation_controller.getInstalledModules();
+    var installedTranslations = await this.translation_controller.getInstalledModules();
     this.tab_controller.onTranslationRemoved(translationId, installedTranslations);
   }
 
@@ -296,7 +296,7 @@ class AppController {
     return tabHtmlTemplate;
   }
 
-  loadSettings = async function() {
+  async loadSettings() {
     if (this.settings.get('tag_list_width') &&
         this.settings.get('tag_list_width') != null) {
 
@@ -304,16 +304,16 @@ class AppController {
       uiHelper.resizeAppContainer();
     }
 
-    if (await models.Tag.getTagCount() > 0) {
+    if (await ipcDb.getTagCount() > 0) {
       tags_controller.showTagListLoadingIndicator();
     }
 
     await this.tab_controller.loadTabConfiguration();
-    this.translation_controller.loadSettings();
+    await this.translation_controller.loadSettings();
     this.tab_controller.bindEvents();
   }
 
-  initCurrentVerseListMenu(tabIndex=undefined) {
+  async initCurrentVerseListMenu(tabIndex=undefined) {
     var currentVerseListMenu = this.getCurrentVerseListMenu(tabIndex);
 
     currentVerseListMenu.find('.fg-button').removeClass('events-configured');
@@ -340,7 +340,7 @@ class AppController {
       uiHelper.configureButtonStyles('#' + tabId);
     }
 
-    this.navigation_pane.updateNavigation();
+    await this.navigation_pane.updateNavigation();
   }
 
   initGlobalShortCuts() {
@@ -508,7 +508,7 @@ class AppController {
     this.optionsMenu.hideDisplayMenu();
   }
   
-  handleReferenceClick(event) {
+  async handleReferenceClick(event) {
     var currentTab = this.tab_controller.getTab();
     var currentTextType = currentTab.getTextType();
     var verseBox = $(event.target).closest('.verse-box');
@@ -537,9 +537,9 @@ class AppController {
       }
     } else {
       if (isXrefMarker) {
-        this.verse_list_popup.openVerseListPopup(event, "XREFS");
+        await this.verse_list_popup.openVerseListPopup(event, "XREFS");
       } else if (isTag) {
-        this.verse_list_popup.openVerseListPopup(event, "TAGGED_VERSES");
+        await this.verse_list_popup.openVerseListPopup(event, "TAGGED_VERSES");
       }
     }
   }
@@ -548,8 +548,8 @@ class AppController {
     var verseList = this.getCurrentVerseList(tabIndex);
     var xref_markers = verseList.find('.sword-xref-marker');
     
-    xref_markers.bind('mousedown', (event) => {
-      this.handleReferenceClick(event);
+    xref_markers.bind('mousedown', async (event) => {
+      await this.handleReferenceClick(event);
     }).addClass('events-configured');
   }
 
@@ -570,12 +570,12 @@ class AppController {
 
     tagBoxes.bind('mousedown', tags_controller.clear_verse_selection).addClass('tag-events-configured');
 
-    tags.bind('mousedown', (event) => {
-      this.handleReferenceClick(event);
+    tags.bind('mousedown', async (event) => {
+      await this.handleReferenceClick(event);
     }).addClass('tag-events-configured');
 
-    xref_markers.bind('mousedown', (event) => {
-      this.handleReferenceClick(event);
+    xref_markers.bind('mousedown', async (event) => {
+      await this.handleReferenceClick(event);
     }).addClass('events-configured');
 
     verseList.find('.verse-box').bind('mouseover', (e) => { this.onVerseBoxMouseOver(e); });
@@ -609,17 +609,17 @@ class AppController {
     this.navigation_pane.updateNavigationFromVerseBox(focussedElement);
   }
 
-  updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId) {
+  async updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId) {
     var currentVerseListFrame = this.getCurrentVerseListFrame();
     var currentTab = this.tab_controller.getTab();
     var currentBibleTranslationId = currentTab.getBibleTranslationId();
     var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
     var referenceVerseBox = new VerseBox(referenceVerseContainer.querySelector('.verse-box'));
     var bookShortTitle = referenceVerseBox.getBibleBookShortTitle();
-    var mappedAbsoluteVerseNumber = referenceVerseBox.getMappedAbsoluteVerseNumber(oldBibleTranslationId, newBibleTranslationId);
+    var mappedAbsoluteVerseNumber = await referenceVerseBox.getMappedAbsoluteVerseNumber(oldBibleTranslationId, newBibleTranslationId);
 
     try {
-      var verses = nsi.getBookText(currentBibleTranslationId, bookShortTitle, mappedAbsoluteVerseNumber, 1);
+      var verses = await ipcNsi.getBookText(currentBibleTranslationId, bookShortTitle, mappedAbsoluteVerseNumber, 1);
       var verseText = referenceVerseContainer.querySelector('.verse-text');
       verseText.innerHTML = verses[0].content;
       this.sword_notes.initForContainer($(referenceVerseContainer));
@@ -629,7 +629,7 @@ class AppController {
     }
   }
 
-  renderReferenceVerse(verseBox, tabIndex=undefined) {
+  async renderReferenceVerse(verseBox, tabIndex=undefined) {
     if (verseBox == null || verseBox.length != 1) return;
 
     var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
@@ -646,7 +646,7 @@ class AppController {
     }
 
     var clonedVerseBox = verseBox[0].cloneNode(true);
-    var header = this.verse_box_helper.getLocalizedVerseReference(verseBox[0]);
+    var header = await this.verse_box_helper.getLocalizedVerseReference(verseBox[0]);
     var referenceVerseHeader = "<div class='reference-header'>" + header + "</div>";
     referenceVerseContainer.innerHTML = referenceVerseHeader;
     referenceVerseContainer.appendChild(clonedVerseBox);
@@ -681,7 +681,7 @@ class AppController {
     currentTab.setSearchTerm(null);
     currentTab.setTagIdList("");
 
-    this.renderReferenceVerse(referenceVerseBox);
+    await this.renderReferenceVerse(referenceVerseBox);
     await this.getXrefVerses(xrefs);
   }
 
@@ -702,7 +702,7 @@ class AppController {
     var localizedVerseReference = null;
 
     if (referenceVerseBox != null) {
-      localizedVerseReference = this.verse_box_helper.getLocalizedVerseReference(referenceVerseBox[0]);
+      localizedVerseReference = await this.verse_box_helper.getLocalizedVerseReference(referenceVerseBox[0]);
       var verseReferenceId = this.verse_box_helper.getVerseReferenceId(referenceVerseBox);
       currentTab.setVerseReferenceId(verseReferenceId);
     }
@@ -723,7 +723,7 @@ class AppController {
     }
 
     if (referenceVerseBox != undefined) {
-      this.renderReferenceVerse(referenceVerseBox);
+      await this.renderReferenceVerse(referenceVerseBox);
     }
 
     await this.getTaggedVerses();
@@ -740,7 +740,7 @@ class AppController {
       // So, in case of xrefs we just "refresh" the view.
       var resetView = this.tab_controller.getTab().getTextType() != 'xrefs';
 
-      this.text_controller.prepareForNewText(resetView, false);
+      await this.text_controller.prepareForNewText(resetView, false);
       this.text_controller.requestTextUpdate(currentTabId, null, null, null, null, null, xrefs);
     }
   }
@@ -758,7 +758,7 @@ class AppController {
       // FIXME: This leads to weird visual effects when switching from bible text
       var resetView = this.tab_controller.getTab().getTextType() != 'tagged_verses';
 
-      this.text_controller.prepareForNewText(resetView, false);
+      await this.text_controller.prepareForNewText(resetView, false);
       this.text_controller.requestTextUpdate(currentTabId,
                                          null,
                                          currentTagIdList,
@@ -789,7 +789,7 @@ class AppController {
     this.taggedVerseExport?.disableTaggedVersesExportButton();
   }
 
-  initApplicationForVerseList(tabIndex=undefined) {
+  async initApplicationForVerseList(tabIndex=undefined) {
     var selectedTabIndex = this.tab_controller.getSelectedTabIndex();
     var tabIsCurrentTab = false;
 
@@ -807,17 +807,17 @@ class AppController {
 
     this.verse_selection.init(tabIndex);
     this.optionsMenu.showOrHideHeaderNavigationBasedOnOption(tabIndex);
-    this.navigation_pane.updateNavigation(tabIndex);
+    await this.navigation_pane.updateNavigation(tabIndex);
     this.notes_controller.initForTab(tabIndex);
     this.sword_notes.initForTab(tabIndex);
 
     this.bindEventsAfterBibleTextLoaded(tabIndex);
   }
 
-  updateUiAfterBibleTranslationAvailable(translationCode) {
-    var bibleTranslations = nsi.getAllLocalModules();
+  async updateUiAfterBibleTranslationAvailable(translationCode) {
+    var bibleTranslations = ipcNsi.getAllLocalModules();
     if (bibleTranslations.length == 1) {
-      this.book_selection_menu.init();
+      await this.book_selection_menu.init();
     }
 
     var currentBibleTranslationId = this.tab_controller.getTab().getBibleTranslationId();
@@ -825,7 +825,7 @@ class AppController {
         currentBibleTranslationId == null) { // Update UI after a Bible translation becomes available
 
       this.tab_controller.setCurrentBibleTranslationId(translationCode);
-      this.book_selection_menu.updateAvailableBooks();
+      await this.book_selection_menu.updateAvailableBooks();
       this.translation_controller.enableCurrentTranslationInfoButton();
     }
   }

@@ -121,7 +121,7 @@ class ThemeController {
     }
   }
 
-  useNightModeBasedOnOption(force=false) {
+  async useNightModeBasedOnOption(force=false) {
     if (force || app_controller.optionsMenu._nightModeOption.isChecked(force)) {
       this.switchToDarkTheme();
     } else {
@@ -139,7 +139,7 @@ class ThemeController {
           
       this.darkMode.toggle();
       // We need to repaint all charts, because the label color depends on the theme
-      app_controller.module_search_controller.repaintAllCharts();
+      await app_controller.module_search_controller.repaintAllCharts();
     }
   }
 

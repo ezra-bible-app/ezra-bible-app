@@ -95,7 +95,9 @@ class NotesController {
         this.currentlyEditedNotes.setAttribute('notes-content', currentNoteValue);
         this.refreshNotesInfo(currentNoteValue);
 
-        models.Note.persistNote(currentNoteValue, currentVerseBox).then((note) => {
+        var currentVerseObject = new VerseBox(currentVerseBox).getVerseObject();
+
+        ipcDb.persistNote(currentNoteValue, currentVerseObject).then((note) => {
           if (note != undefined) {
             var updatedTimestamp = null;
 

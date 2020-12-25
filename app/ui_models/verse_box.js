@@ -16,9 +16,41 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const Verse = require('./verse.js');
+
 class VerseBox {
   constructor(verseBoxElement) {
     this.verseBoxElement = verseBoxElement;
+  }
+
+  getVerseObject() {
+    var isBookNoteVerse = this.isBookNoteVerse();
+
+    if (isBookNoteVerse) {
+      var verse = new Verse(
+        app_controller.tab_controller.getTab().getBook(),
+        null,
+        null,
+        null,
+        isBookNoteVerse
+      );
+
+    } else {
+      var verse = new Verse(
+        this.getBibleBookShortTitle(),
+        this.getAbsoluteVerseNumber(),
+        this.getChapter(),
+        this.getVerseNumber(),
+        isBookNoteVerse
+      );
+
+    }
+
+    return verse;
+  }
+
+  isBookNoteVerse() {
+    return this.verseBoxElement.classList.contains('book-notes');
   }
 
   getVerseReferenceId() {
@@ -51,15 +83,15 @@ class VerseBox {
     return verseNumber;
   }
 
-  getMappedAbsoluteVerseNumber(sourceBibleTranslationId, targetBibleTranslationId) {
-    var sourceVersification = app_controller.translation_controller.getVersification(sourceBibleTranslationId);
-    var targetVersification = app_controller.translation_controller.getVersification(targetBibleTranslationId);
+  async getMappedAbsoluteVerseNumber(sourceBibleTranslationId, targetBibleTranslationId) {
+    var sourceVersification = await app_controller.translation_controller.getVersification(sourceBibleTranslationId);
+    var targetVersification = await app_controller.translation_controller.getVersification(targetBibleTranslationId);
 
-    var absoluteVerseNumbers = models.VerseReference.getAbsoluteVerseNrs(sourceVersification,
-                                                                         this.getBibleBookShortTitle(),
-                                                                         this.getAbsoluteVerseNumber(),
-                                                                         this.getChapter(),
-                                                                         this.getVerseNumber());
+    var absoluteVerseNumbers = await ipcDb.getAbsoluteVerseNumbersFromReference(sourceVersification,
+                                                                                this.getBibleBookShortTitle(),
+                                                                                this.getAbsoluteVerseNumber(),
+                                                                                this.getChapter(),
+                                                                                this.getVerseNumber());
 
     var mappedAbsoluteVerseNr = null;
     if (targetVersification == 'HEBREW') {

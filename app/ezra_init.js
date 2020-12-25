@@ -21,6 +21,8 @@ require('v8-compile-cache');
 const app = require('electron').remote.app;
 const { remote, ipcRenderer } = require('electron');
 const isDev = require('electron-is-dev');
+const IpcNsi = require('./app/ipc/ipc_nsi.js');
+const IpcDb = require('./app/ipc/ipc_db.js');
 
 if (isDev) {
   global.Sentry = {
@@ -41,7 +43,8 @@ let dbHelper = null;
 let dbDir = null;
 
 // Global instance of NodeSwordInterface used in many places
-let nsi = null;
+let ipcNsi = null;
+let ipcDb = null;
 
 // UI Helper
 const UiHelper = require('./app/helpers/ui_helper.js');
@@ -52,7 +55,6 @@ const PlatformHelper = require('./app/helpers/platform_helper.js');
 const ThemeController = require('./app/controllers/theme_controller.js');
 const platformHelper = new PlatformHelper();
 
-let models = null;
 let app_controller = null;
 let tags_controller = null;
 let theme_controller = new ThemeController();
@@ -102,29 +104,10 @@ async function initI18N()
   $(document).localize();
 }
 
-function initNSI()
+async function initIpc()
 {
-  const NodeSwordInterface = require('node-sword-interface');
-
-  if (platformHelper.isTest()) {
-    const userDataDir = app.getPath('userData');
-    nsi = new NodeSwordInterface(userDataDir);
-  } else {
-    nsi = new NodeSwordInterface();
-  }
-
-  nsi.enableMarkup();
-}
-
-async function initDatabase()
-{
-  const DbHelper = require('./app/helpers/db_helper.js');
-  const userDataDir = app.getPath('userData');
-  dbHelper = new DbHelper(userDataDir);
-  dbDir = dbHelper.getDatabaseDir();
-
-  await dbHelper.initDatabase(dbDir);
-  models = require('./app/database/models')(dbDir);
+  ipcNsi = new IpcNsi();
+  ipcDb = new IpcDb();
 }
 
 async function initControllers()
@@ -273,14 +256,11 @@ async function initApplication()
 
   loadingIndicator.find('.loader').show();
 
+  console.log("Initializing IPC ...");
+  await initIpc();
+
   console.log("Initializing i18n ...");
   await initI18N();
-
-  console.log("Initializing node-sword-interface ...");
-  initNSI();
-
-  console.log("Initializing database ...");
-  await initDatabase();
 
   console.log("Initializing controllers ...");
   await initControllers();
