@@ -16,14 +16,14 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const PlatformDetector = require('./platform_detector.js');
+const PlatformHelper = require('../helpers/platform_helper.js');
 
 class IpcMain {
   constructor() {
     this._mainWindow = null;
-    var platformDetector = new PlatformDetector();
-    this._isElectron = platformDetector.isElectron();
-    this._isCordova = platformDetector.isCordova();
+    var platformHelper = new PlatformHelper();
+    this._isElectron = platformHelper.isElectron();
+    this._isCordova = platformHelper.isCordova();
     this._callCounters = {};
     this._showDebugOutput = true;
 

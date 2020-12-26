@@ -27,7 +27,7 @@ class IpcNsi {
     return await this._ipcRenderer.call('nsi_repositoryConfigExisting');
   }
 
-  async updateRepositoryConfig(progressCallback) {
+  async updateRepositoryConfig(progressCallback=undefined) {
     return await this._ipcRenderer.callWithProgressCallback('nsi_updateRepositoryConfig',
                                                             'nsi_updateRepoConfigProgress',
                                                             progressCallback);

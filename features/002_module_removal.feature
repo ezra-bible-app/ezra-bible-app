@@ -16,17 +16,18 @@
 #  along with Ezra Project. See the file LICENSE.
 #  If not, see <http://www.gnu.org/licenses/>.
 
-# features/006_module_search.feature
+# features/003_module_removal.feature
 
-Feature: Module search
-  In order to do find topical material
-  I can perform a fulltext search on a module
+Feature: Module removal
+  If a module is no longer relevant for my bible study
+  I can remove that module
 
-  @uninstall-kjv-after-scenario
-  Scenario: Basic search
-    Given the KJV is the only translation installed
-    And I open the search menu
-    And I enter the term "faith"
-    When I perform the search
-    Then the tab title is "Search: faith [KJV]"
-    And there are 338 search results
+  @needs-asv-before @no-kjv-needed
+  Scenario: ASV removal
+    Given I open the module installation assistant
+    And I choose to remove translations
+    And I select the ASV module for removal
+
+    When the removal is completed
+
+    Then the ASV is no longer available as a local module

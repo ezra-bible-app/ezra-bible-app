@@ -104,6 +104,39 @@ async function initI18N()
   $(document).localize();
 }
 
+async function initTest()
+{
+  if (app.commandLine.hasSwitch('install-kjv')) {
+    var repoConfigExisting = await ipcNsi.repositoryConfigExisting();
+
+    if (!repoConfigExisting) {
+      $('#loading-subtitle').text("Updating repository config");
+      await ipcNsi.updateRepositoryConfig();
+    }
+
+    var kjvModule = await ipcNsi.getLocalModule('KJV');
+    if (kjvModule == null) {
+      $('#loading-subtitle').text("Installing KJV");
+      await ipcNsi.installModule('KJV');
+    }
+  }
+
+  if (app.commandLine.hasSwitch('install-asv')) {
+    var repoConfigExisting = await ipcNsi.repositoryConfigExisting();
+
+    if (!repoConfigExisting) {
+      $('#loading-subtitle').text("Updating repository config");
+      await ipcNsi.updateRepositoryConfig();
+    }
+
+    var kjvModule = await ipcNsi.getLocalModule('ASV');
+    if (kjvModule == null) {
+      $('#loading-subtitle').text("Installing ASV");
+      await ipcNsi.installModule('ASV');
+    }
+  }
+}
+
 async function initIpc()
 {
   ipcNsi = new IpcNsi();
@@ -262,6 +295,10 @@ async function initApplication()
 
   console.log("Initializing i18n ...");
   await initI18N();
+
+  if (platformHelper.isTest()) {
+    await initTest();
+  }
 
   console.log("Initializing controllers ...");
   await initControllers();
