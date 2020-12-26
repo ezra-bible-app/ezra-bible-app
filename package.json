@@ -11,6 +11,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "bundle": "node_modules/.bin/browserify app/ezra_init.js -u node_modules/electron/index.js -t brfs --bare --ignore-missing -o dist/ezra_init.js",
+    "minify": "node_modules/.bin/terser --compress --mangle -- dist/ezra_init.js > dist/ezra_init.min.js",
     "dev-test": "./node_modules/.bin/cucumber-js --fail-fast",
     "full-test": "./node_modules/.bin/cucumber-js",
     "headless-test": "xvfb-run ./node_modules/.bin/cucumber-js",
@@ -80,6 +82,8 @@
   "devDependencies": {
     "@sentry/cli": "^1.59.0",
     "better-docs": "^2.3.2",
+    "brfs": "^2.0.2",
+    "browserify": "^17.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "copy-dir": "^1.3.0",
@@ -95,6 +99,7 @@
     "pug-cli": "^1.0.0-alpha6",
     "sequelize-cli": "^5.5.1",
     "spectron": "^11.1.0",
+    "terser": "^5.5.1",
     "xvfb-maybe": "^0.2.1"
   }
 }
