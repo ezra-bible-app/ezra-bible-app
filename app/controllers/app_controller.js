@@ -70,7 +70,19 @@ class AppController {
   async init() {
     this.verse_list_menu_template = $($('.verse-list-menu')[0]).html();
     this.verse_list_composite_template = $($('.verse-list-composite')[0]).html();
-    this.settings = require('electron-settings');
+
+    if (platformHelper.isElectron()) {
+      this.settings = require('electron-settings');
+    } else {
+      this.settings = {
+        has: function() {
+          return false;
+        },
+        get: function() {
+          return null;
+        }
+      };
+    }
 
     this.init_component("VerseBoxHelper", "verse_box_helper");
     this.init_component("VerseSelection", "verse_selection");
@@ -118,7 +130,7 @@ class AppController {
     var bibleTranslations = await ipcNsi.getAllLocalModules();
 
     var defaultBibleTranslationId = null;
-    if (bibleTranslations.length > 0) {
+    if (bibleTranslations != null && bibleTranslations.length > 0) {
       var defaultBibleTranslationId = bibleTranslations[0].name;
       await this.book_selection_menu.init();
     }

@@ -18,14 +18,20 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const settings = require('electron-settings');
 const Sequelize = require('sequelize');
 const Umzug = require("umzug");
+const PlatformHelper = require("./platform_helper.js");
 
 class DbHelper {
   constructor(userDataDir) {
+    var platformHelper = new PlatformHelper();
+
     if (userDataDir === undefined) {
       console.log('Cannot initialize DbHelper with userDataDir "undefined"');
+    }
+
+    if (platformHelper.isElectron()) {
+      this.settings = require('electron-settings');
     }
 
     this.userDataDir = userDataDir;
@@ -51,10 +57,10 @@ class DbHelper {
     var databaseDir = this.userDataDir;
     var databaseDirKind = "";
     
-    if (settings.has('custom_database_dir') &&
-        settings.get('custom_database_dir') != null) {
+    if (this.settings.has('custom_database_dir') &&
+        this.settings.get('custom_database_dir') != null) {
 
-      databaseDir = settings.get('custom_database_dir');
+      databaseDir = this.settings.get('custom_database_dir');
       databaseDirKind = "custom";
     } else {
       databaseDirKind = "default";

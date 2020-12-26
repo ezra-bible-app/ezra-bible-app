@@ -16,14 +16,11 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const i18n = require('i18next');
-const i18nextBackend = require('i18next-node-fs-backend');
-const LanguageDetector = require('i18next-electron-language-detector');
 const jqueryI18next = require('jquery-i18next');
 
 const i18nextOptions = {
   debug: false,
-  backend: {
+  backend:{
     // path where resources get loaded from
     loadPath: './locales/{{lng}}/{{ns}}.json',
 
@@ -48,10 +45,28 @@ class I18nHelper {
   constructor() {}
 
   async init() {
-    await i18n
+    if (platformHelper.isElectron()) {
+      const i18n = require('i18next');
+      const i18nextBackend = require('i18next-fs-backend');
+      const LanguageDetector = require('i18next-electron-language-detector');
+
+      await i18n
+      .use(i18nextBackend)
+      .use(LanguageDetector)
+      .init(i18nextOptions);
+
+    } else {
+      const i18n = require('i18next-client');
+
+      await i18n
+      .init(i18nextOptions);
+
+    }
+
+    /*await i18n
     .use(LanguageDetector)
     .use(i18nextBackend)
-    .init(i18nextOptions);
+    .init(i18nextOptions);*/
 
     jqueryI18next.init(i18n, $, {
       tName: 't', // --> appends $.t = i18next.t

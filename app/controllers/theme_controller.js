@@ -43,10 +43,12 @@ class ThemeController {
         useDarkMode = true;
       }
     } else {
-      var settings = require('electron-settings');
+      if (platformHelper.isElectron()) {
+        var settings = require('electron-settings');
 
-      if (settings.get('useNightMode')) {
-        useDarkMode = true;
+        if (settings.get('useNightMode')) {
+          useDarkMode = true;
+        }
       }
     }
 

@@ -16,43 +16,34 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-global.app = require('electron').remote.app;
-const { remote, ipcRenderer } = require('electron');
-const isDev = require('electron-is-dev');
+window.app = null;
+let isDev = null;
+
 const IpcNsi = require('./ipc/ipc_nsi.js');
 const IpcDb = require('./ipc/ipc_db.js');
 
-if (isDev) {
-  global.Sentry = {
-    addBreadcrumb: function() {},
-    Severity: {
-      Info: undefined
-    }
-  }
-}
-
 // i18n
-global.i18n = null;
-global.I18nHelper = null;
-global.i18nHelper = null;
+window.i18n = null;
+window.I18nHelper = null;
+window.i18nHelper = null;
 
 // Global instance of NodeSwordInterface used in many places
-global.ipcNsi = null;
-global.ipcDb = null;
+window.ipcNsi = null;
+window.ipcDb = null;
 
 // UI Helper
 const UiHelper = require('./helpers/ui_helper.js');
-global.uiHelper = new UiHelper();
+window.uiHelper = new UiHelper();
 
 // Platform Helper
 const PlatformHelper = require('./helpers/platform_helper.js');
 const ThemeController = require('./controllers/theme_controller.js');
-global.platformHelper = new PlatformHelper();
+window.platformHelper = new PlatformHelper();
 
-global.app_controller = null;
-global.tags_controller = null;
-global.theme_controller = new ThemeController();
-global.reference_separator = ':';
+window.app_controller = null;
+window.tags_controller = null;
+window.theme_controller = new ThemeController();
+window.reference_separator = ':';
 
 function sleep(time) {
   return new Promise(resolve => {
@@ -62,7 +53,7 @@ function sleep(time) {
   });
 }
 
-global.waitUntilIdle = function() {
+window.waitUntilIdle = function() {
   return new Promise(resolve => {
     window.requestIdleCallback(() => {
       resolve();
@@ -83,7 +74,12 @@ $.create_xml_doc = function(string)
 
 async function initI18N()
 {
-  i18n = require('i18next');
+  if (platformHelper.isElectron()) {
+    window.i18n = require('i18next');
+  } else {
+    window.i18n = require('i18next-client');
+  }
+
   I18nHelper = require('./helpers/i18n_helper.js');
   i18nHelper = new I18nHelper();
 
@@ -199,43 +195,54 @@ function hideGlobalLoadingIndicator() {
 }
 
 function earlyHideToolBar() {
-  var settings = require('electron-settings');
+  if (platformHelper.isElectron()) {
+    var settings = require('electron-settings');
 
-  if (!settings.get('showToolBar')) {
-    $('#bible-browser-toolbox').hide();
+    if (!settings.get('showToolBar')) {
+      $('#bible-browser-toolbox').hide();
+    }
   }
 }
 
-global.loadScript = function(src)
+window.loadScript = function(src)
 {
   var script = document.createElement('script');
   script.src = src;
   document.getElementsByTagName('head')[0].appendChild(script);
 }
 
-// This function loads the content of html fragments into the divs in the app-container
-function loadFragment(filePath, elementId) {
-  const fs = require('fs');
-
-  var fileContent = fs.readFileSync(filePath);
-  document.getElementById(elementId).innerHTML = fileContent;
-}
-
 function loadHTML()
 {
-  loadFragment('html/book_selection_menu.html',           'book-selection-menu');
-  loadFragment('html/tag_selection_menu.html',            'tag-selection-menu');
-  loadFragment('html/bible_browser_toolbox.html',         'bible-browser-toolbox');
-  loadFragment('html/module_settings_assistant.html',     'module-settings-assistant');
-  loadFragment('html/tab_search_form.html',               'tab-search');
-  loadFragment('html/module_search_menu.html',            'module-search-menu');
-  loadFragment('html/display_options_menu.html',          'display-options-menu');
-  loadFragment('html/verse_list_tabs.html',               'verse-list-tabs');
-  loadFragment('html/boxes.html',                         'boxes');
+  if (!platformHelper.isElectron()) {
+    window.Buffer = require('buffer/').Buffer;
+  }
+
+  const fs = require('fs');
+
+  var bookSelectionMenu = fs.readFileSync('html/book_selection_menu.html');
+  var tagSelectionMenu = fs.readFileSync('html/tag_selection_menu.html');
+  var bibleBrowserToolbox = fs.readFileSync('html/bible_browser_toolbox.html');
+  var moduleSettingsAssistant = fs.readFileSync('html/module_settings_assistant.html');
+  var tabSearchForm = fs.readFileSync('html/tab_search_form.html');
+  var moduleSearchMenu = fs.readFileSync('html/module_search_menu.html');
+  var displayOptionsMenu = fs.readFileSync('html/display_options_menu.html');
+  var verseListTabs = fs.readFileSync('html/verse_list_tabs.html');
+  var boxes = fs.readFileSync('html/boxes.html');
+
+  document.getElementById('book-selection-menu').innerHTML = bookSelectionMenu;
+  document.getElementById('tag-selection-menu').innerHTML = tagSelectionMenu;
+  document.getElementById('bible-browser-toolbox').innerHTML = bibleBrowserToolbox;
+  document.getElementById('module-settings-assistant').innerHTML = moduleSettingsAssistant;
+  document.getElementById('tab-search').innerHTML = tabSearchForm;
+  document.getElementById('module-search-menu').innerHTML = moduleSearchMenu;
+  document.getElementById('display-options-menu').innerHTML = displayOptionsMenu;
+  document.getElementById('verse-list-tabs').innerHTML = verseListTabs;
+  document.getElementById('boxes').innerHTML = boxes;
 }
 
 function toggleFullScreen()
 {
+  const { remote } = require('electron');
   var window = remote.getCurrentWindow();
 
   if (window.isFullScreen()) {
@@ -253,14 +260,30 @@ async function initApplication()
   // Wait for the UI to render
   await waitUntilIdle();
 
-  await ipcRenderer.send('manageWindowState');
-  await ipcRenderer.send('initIpc');
-  
-  const appWindow = remote.getCurrentWindow();
-  appWindow.show();
+  if (platformHelper.isElectron()) {
+    window.app = require('electron').remote.app;
+    isDev = require('electron-is-dev');
 
-  // This module will modify the standard console.log function and add a timestamp as a prefix for all log calls
-  require('log-timestamp');
+    if (isDev) {
+      window.Sentry = {
+        addBreadcrumb: function() {},
+        Severity: {
+          Info: undefined
+        }
+      }
+    }
+
+    const { ipcRenderer } = require('electron');
+    await ipcRenderer.send('manageWindowState');
+    await ipcRenderer.send('initIpc');
+  
+    const { remote } = require('electron');
+    const appWindow = remote.getCurrentWindow();
+    appWindow.show();
+
+    // This module will modify the standard console.log function and add a timestamp as a prefix for all log calls
+    require('log-timestamp');
+  }
 
   console.log("Loading HTML fragments");
   loadHTML();
@@ -286,7 +309,15 @@ async function initApplication()
   await initIpc();
 
   console.log("Initializing i18n ...");
-  await initI18N();
+  if (platformHelper.isElectron()) {
+    await initI18N();
+  } else {
+    window.i18n = {
+      t: function() {
+        return "";
+      }
+    };
+  }
 
   if (platformHelper.isTest()) {
     await initTest();
@@ -303,8 +334,10 @@ async function initApplication()
   // Wait for the UI to render
   await waitUntilIdle();
 
-  console.log("Loading settings ...");
-  await app_controller.loadSettings();
+  if (platformHelper.isElectron()) {
+    console.log("Loading settings ...");
+    await app_controller.loadSettings();
+  }
 
   // Wait for the UI to render, before we hide the loading indicator
   await waitUntilIdle();
@@ -318,10 +351,12 @@ async function initApplication()
 
   await app_controller.translation_controller.installStrongsIfNeeded();
 
-  console.log("Checking for latest release ...");
-  const NewReleaseChecker = require('./helpers/new_release_checker.js');
-  var newReleaseChecker = new NewReleaseChecker('new-release-info-box');
-  newReleaseChecker.check();
+  if (platformHelper.isElectron()) {
+    console.log("Checking for latest release ...");
+    const NewReleaseChecker = require('./helpers/new_release_checker.js');
+    var newReleaseChecker = new NewReleaseChecker('new-release-info-box');
+    newReleaseChecker.check();
+  }
 }
 
 $(document).ready(function() {

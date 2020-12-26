@@ -16,14 +16,16 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const fs = require('fs');
-
 class PlatformHelper {
   constructor() {
   }
 
   isTest() {
-    return process.argv.includes('--test-type=webdriver');
+    if (this.isElectron()) {
+      return process.argv.includes('--test-type=webdriver');
+    } else {
+      return false;
+    }
   }
 
   isMac() {
@@ -43,7 +45,7 @@ class PlatformHelper {
       return true;
     }
     
-    if (global.cordova !== 'undefined') {
+    if (typeof global !== 'undefined' && global.cordova !== 'undefined') {
       return true;
     }
 
@@ -133,6 +135,8 @@ class PlatformHelper {
   }
 
   showVcppRedistributableMessageIfNeeded() {
+    const fs = require('fs');
+
     const dep1 = "C:\\Windows\\System32\\vcruntime140.dll";
     const dep2 = "C:\\Windows\\System32\\msvcp140.dll";
 
