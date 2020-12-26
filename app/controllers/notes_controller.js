@@ -104,7 +104,7 @@ class NotesController {
             if (currentNoteValue == "") {
               updatedTimestamp = "";
             } else {
-              updatedTimestamp = note?.updatedAt;
+              updatedTimestamp = note.updatedAt;
             }
 
             this.updateNoteDate(currentVerseBox, updatedTimestamp);
@@ -320,7 +320,7 @@ class NotesController {
 
   getCurrentTheme() {
     var theme = 'default';
-    if (app_controller.optionsMenu._nightModeOption?.isChecked()) {
+    if (app_controller.optionsMenu._nightModeOption.isChecked()) {
       theme = 'mbo';
     }
 

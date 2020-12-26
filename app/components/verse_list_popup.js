@@ -72,7 +72,7 @@ class VerseListPopup {
   }
 
   getCurrentTextType() {
-    var currentTextType = app_controller.tab_controller.getTab()?.getTextType();
+    var currentTextType = app_controller.tab_controller.getTab().getTextType();
     return currentTextType;
   }
 

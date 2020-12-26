@@ -225,14 +225,14 @@ class TabSearch {
     // Update highlighting
     if (this.previousOccuranceElement != null) {
       this.previousOccuranceElement.classList.remove('current-hl');
-      this.previousOccuranceElement.closest('.verse-box')?.querySelector('.verse-text').classList.remove('ui-selected');
+      this.previousOccuranceElement.closest('.verse-box').querySelector('.verse-text').classList.remove('ui-selected');
       app_controller.verse_selection.clear_verse_selection(false);
     }
 
     if (this.currentOccuranceElement != null) {
       this.currentOccuranceElement.classList.add('current-hl');
       var verseBox = this.currentOccuranceElement.closest('.verse-box')
-      verseBox?.querySelector('.verse-text').classList.add('ui-selected');
+      verseBox.querySelector('.verse-text').classList.add('ui-selected');
       app_controller.verse_selection.updateSelected();
       app_controller.verse_selection.updateViewsAfterVerseSelection();
       await app_controller.navigation_pane.updateNavigationFromVerseBox(this.currentOccuranceElement, verseBox);

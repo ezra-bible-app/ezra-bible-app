@@ -170,7 +170,7 @@ class TextController {
                         start_verse_number=-1,
                         number_of_verses=-1) {
 
-    var currentBibleTranslationId = app_controller.tab_controller.getTab(tab_index)?.getBibleTranslationId();
+    var currentBibleTranslationId = app_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
     var localSwordModule = null;
 
     try {
@@ -560,7 +560,7 @@ class TextController {
 
     if (listType == 'search_results') {
       var currentTab = app_controller.tab_controller.getTab(tabIndex);
-      var currentSearchTerm = currentTab?.getSearchTerm();
+      var currentSearchTerm = currentTab.getSearchTerm();
       app_controller.module_search_controller.highlightSearchResults(currentSearchTerm, tabIndex);
     }
 

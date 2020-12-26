@@ -322,7 +322,7 @@ class NavigationPane {
   getCachedVerseListTabId(tabIndex=undefined) {
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
     var firstLink = currentVerseList[0].querySelector('a.nav');
-    var cachedVerseListTabId = firstLink?.getAttribute('name').split(' ')[0];
+    var cachedVerseListTabId = firstLink.getAttribute('name').split(' ')[0];
     return cachedVerseListTabId;
   }
 

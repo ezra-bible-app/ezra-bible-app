@@ -132,7 +132,7 @@ class ThemeController {
       this.darkMode = new Darkmode();
     }
 
-    var nightModeOptionChecked = force ? true : app_controller.optionsMenu._nightModeOption?.isChecked();
+    var nightModeOptionChecked = force ? true : app_controller.optionsMenu._nightModeOption.isChecked();
 
     if (nightModeOptionChecked && !this.darkMode.isActivated() ||
         !nightModeOptionChecked && this.darkMode.isActivated()) {
