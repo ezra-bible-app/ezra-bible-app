@@ -16,13 +16,11 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-require('v8-compile-cache');
-
-const app = require('electron').remote.app;
+global.app = require('electron').remote.app;
 const { remote, ipcRenderer } = require('electron');
 const isDev = require('electron-is-dev');
-const IpcNsi = require('./app/ipc/ipc_nsi.js');
-const IpcDb = require('./app/ipc/ipc_db.js');
+const IpcNsi = require('./ipc/ipc_nsi.js');
+const IpcDb = require('./ipc/ipc_db.js');
 
 if (isDev) {
   global.Sentry = {
@@ -34,31 +32,27 @@ if (isDev) {
 }
 
 // i18n
-let i18n = null;
-let I18nHelper = null;
-let i18nHelper = null;
-
-// DB-related stuff
-let dbHelper = null;
-let dbDir = null;
+global.i18n = null;
+global.I18nHelper = null;
+global.i18nHelper = null;
 
 // Global instance of NodeSwordInterface used in many places
-let ipcNsi = null;
-let ipcDb = null;
+global.ipcNsi = null;
+global.ipcDb = null;
 
 // UI Helper
-const UiHelper = require('./app/helpers/ui_helper.js');
-const uiHelper = new UiHelper();
+const UiHelper = require('./helpers/ui_helper.js');
+global.uiHelper = new UiHelper();
 
 // Platform Helper
-const PlatformHelper = require('./app/helpers/platform_helper.js');
-const ThemeController = require('./app/controllers/theme_controller.js');
-const platformHelper = new PlatformHelper();
+const PlatformHelper = require('./helpers/platform_helper.js');
+const ThemeController = require('./controllers/theme_controller.js');
+global.platformHelper = new PlatformHelper();
 
-let app_controller = null;
-let tags_controller = null;
-let theme_controller = new ThemeController();
-let reference_separator = ':';
+global.app_controller = null;
+global.tags_controller = null;
+global.theme_controller = new ThemeController();
+global.reference_separator = ':';
 
 function sleep(time) {
   return new Promise(resolve => {
@@ -68,7 +62,7 @@ function sleep(time) {
   });
 }
 
-function waitUntilIdle() {
+global.waitUntilIdle = function() {
   return new Promise(resolve => {
     window.requestIdleCallback(() => {
       resolve();
@@ -90,7 +84,7 @@ $.create_xml_doc = function(string)
 async function initI18N()
 {
   i18n = require('i18next');
-  I18nHelper = require('./app/helpers/i18n_helper.js');
+  I18nHelper = require('./helpers/i18n_helper.js');
   i18nHelper = new I18nHelper();
 
   await i18nHelper.init();
@@ -145,8 +139,8 @@ async function initIpc()
 
 async function initControllers()
 {
-  const AppController = require('./app/controllers/app_controller.js');
-  const TagsController = require('./app/controllers/tags_controller.js');
+  const AppController = require('./controllers/app_controller.js');
+  const TagsController = require('./controllers/tags_controller.js');
 
   app_controller = new AppController();
   await app_controller.init();
@@ -212,7 +206,7 @@ function earlyHideToolBar() {
   }
 }
 
-function loadScript(src)
+global.loadScript = function(src)
 {
   var script = document.createElement('script');
   script.src = src;
@@ -221,11 +215,9 @@ function loadScript(src)
 
 // This function loads the content of html fragments into the divs in the app-container
 function loadFragment(filePath, elementId) {
-  const path = require('path');
   const fs = require('fs');
 
-  var absoluteFilePath = path.join(__dirname, filePath);
-  var fileContent = fs.readFileSync(absoluteFilePath);
+  var fileContent = fs.readFileSync(filePath);
   document.getElementById(elementId).innerHTML = fileContent;
 }
 
@@ -327,7 +319,7 @@ async function initApplication()
   await app_controller.translation_controller.installStrongsIfNeeded();
 
   console.log("Checking for latest release ...");
-  const NewReleaseChecker = require('./app/helpers/new_release_checker.js');
+  const NewReleaseChecker = require('./helpers/new_release_checker.js');
   var newReleaseChecker = new NewReleaseChecker('new-release-info-box');
   newReleaseChecker.check();
 }
