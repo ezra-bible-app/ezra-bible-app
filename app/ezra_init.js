@@ -19,6 +19,7 @@
 window.app = null;
 let isDev = null;
 
+const IpcI18n = require('./ipc/ipc_i18n.js');
 const IpcNsi = require('./ipc/ipc_nsi.js');
 const IpcDb = require('./ipc/ipc_db.js');
 
@@ -27,7 +28,7 @@ window.i18n = null;
 window.I18nHelper = null;
 window.i18nHelper = null;
 
-// Global instance of NodeSwordInterface used in many places
+window.ipcI18n = null;
 window.ipcNsi = null;
 window.ipcDb = null;
 
@@ -129,6 +130,7 @@ async function initTest()
 
 async function initIpc()
 {
+  window.ipcI18n = new IpcI18n();
   window.ipcNsi = new IpcNsi();
   window.ipcDb = new IpcDb();
 }

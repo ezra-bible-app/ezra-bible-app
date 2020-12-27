@@ -21,6 +21,7 @@ require('v8-compile-cache');
 const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const isDev = require('electron-is-dev');
 
+const IpcI18nHandler = require('./app/ipc/ipc_i18n_handler.js');
 const IpcNsiHandler = require('./app/ipc/ipc_nsi_handler.js');
 const IpcDbHandler = require('./app/ipc/ipc_db_handler.js');
 
@@ -83,6 +84,8 @@ function createWindow () {
     if (!ipcInitialized) {
       ipcInitialized = true;
 
+      global.ipcI18nHandler = new IpcI18nHandler();
+
       global.ipcNsiHandler = new IpcNsiHandler();
       ipcNsiHandler.setMainWindow(mainWindow);
 
@@ -96,7 +99,7 @@ function createWindow () {
                                   y: mainWindowState.y,
                                   width: mainWindowState.width,
                                   height: mainWindowState.height,
-                                  show: false,
+                                  show: true,
                                   frame: true,
                                   title: "Ezra Project " + app.getVersion(),
                                   webPreferences: {

@@ -20,20 +20,10 @@ const jqueryI18next = require('jquery-i18next');
 
 const i18nextOptions = {
   debug: false,
-  backend:{
-    // path where resources get loaded from
-    loadPath: './locales/{{lng}}/{{ns}}.json',
-
-    // path to post missing resources
-    addPath: './locales/{{lng}}/{{ns}}.missing.json',
-
-    // jsonIndent to use when storing json files
-    jsonIndent: 2,
-  },
   interpolation: {
     escapeValue: false
   },
-  saveMissing: true,
+  saveMissing: false,
   fallbackLng: 'en',
   whitelist: ['de', 'en', 'nl', 'fr', 'es', 'sk'],
   react: {
@@ -45,28 +35,14 @@ class I18nHelper {
   constructor() {}
 
   async init() {
-    if (platformHelper.isElectron()) {
-      const i18n = require('i18next');
-      const i18nextBackend = require('i18next-fs-backend');
-      const LanguageDetector = require('i18next-electron-language-detector');
+    const i18n = require('i18next');
+    const I18nIpcBackend = require('../ipc/i18n_ipc_backend.js');
+    const LanguageDetector = require('i18next-electron-language-detector');
 
-      await i18n
-      .use(i18nextBackend)
-      .use(LanguageDetector)
-      .init(i18nextOptions);
-
-    } else {
-      const i18n = require('i18next-client');
-
-      await i18n
-      .init(i18nextOptions);
-
-    }
-
-    /*await i18n
+    await i18n
+    .use(I18nIpcBackend)
     .use(LanguageDetector)
-    .use(i18nextBackend)
-    .init(i18nextOptions);*/
+    .init(i18nextOptions);
 
     jqueryI18next.init(i18n, $, {
       tName: 't', // --> appends $.t = i18next.t
