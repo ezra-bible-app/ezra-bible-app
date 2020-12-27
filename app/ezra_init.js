@@ -129,8 +129,8 @@ async function initTest()
 
 async function initIpc()
 {
-  ipcNsi = new IpcNsi();
-  ipcDb = new IpcDb();
+  window.ipcNsi = new IpcNsi();
+  window.ipcDb = new IpcDb();
 }
 
 async function initControllers()
