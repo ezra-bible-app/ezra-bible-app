@@ -311,15 +311,7 @@ async function initApplication()
   await initIpc();
 
   console.log("Initializing i18n ...");
-  if (platformHelper.isElectron()) {
-    await initI18N();
-  } else {
-    window.i18n = {
-      t: function() {
-        return "";
-      }
-    };
-  }
+  await initI18N();
 
   if (platformHelper.isTest()) {
     await initTest();
