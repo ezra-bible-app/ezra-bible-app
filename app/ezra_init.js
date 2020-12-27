@@ -353,6 +353,12 @@ async function initApplication()
   }
 }
 
-$(document).ready(function() {
-  initApplication();
+window.addEventListener('load', function() {
+
+  if (platformHelper.isCordova()) {
+    window.addEventListener('deviceready', initApplication, false);
+  } else {
+    initApplication();
+  }
+
 });
