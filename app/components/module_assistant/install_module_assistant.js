@@ -149,7 +149,9 @@ class InstallModuleAssistant {
           progressbar.progressbar("value", progressPercent);
         });
 
-        app_controller.settings.set("lastSwordRepoUpdate", new Date());
+        if (platformHelper.isElectron()) {
+          app_controller.settings.set("lastSwordRepoUpdate", new Date());
+        }
       } catch(e) {
         listRepoTimeoutMs = 3000;
         wizardPage.append('<p>' + i18n.t('module-assistant.update-repository-data-failed') + '</p>');
@@ -255,7 +257,10 @@ class InstallModuleAssistant {
     // Repositories have been selected
     var wizardPage = "#module-settings-assistant-add-p-0";
     this._selectedRepositories = this._helper.getSelectedSettingsAssistantElements(wizardPage);
-    app_controller.settings.set('selected_repositories', this._selectedRepositories);
+
+    if (platformHelper.isElectron()) {
+      app_controller.settings.set('selected_repositories', this._selectedRepositories);
+    }
 
     var languagesPage = $('#module-settings-assistant-add-p-1');
     languagesPage.empty();
@@ -277,7 +282,10 @@ class InstallModuleAssistant {
       languageCodes.push(currentCode);
     }
 
-    app_controller.settings.set('selected_languages', languages);
+    if (platformHelper.isElectron()) {
+      app_controller.settings.set('selected_languages', languages);
+    }
+
     await this.listModules(languageCodes);
   }
 

@@ -211,7 +211,11 @@ class TranslationController {
         var newBibleTranslationId = bibleSelect[0].value;
 
         app_controller.tab_controller.setCurrentBibleTranslationId(newBibleTranslationId);
-        app_controller.settings.set('bible_translation', newBibleTranslationId);
+
+        if (platformHelper.isElectron()) {
+          app_controller.settings.set('bible_translation', newBibleTranslationId);
+        }
+
         app_controller.tab_controller.refreshBibleTranslationInTabTitle(newBibleTranslationId);
 
         setTimeout(() => {
