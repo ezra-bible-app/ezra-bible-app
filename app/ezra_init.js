@@ -353,12 +353,44 @@ async function initApplication()
   }
 }
 
-window.addEventListener('load', function() {
+function getPermissionsAndStart() {
+  console.log("Getting permissions on Android ...");
 
+  var permissions = cordova.plugins.permissions;
+
+  permissions.checkPermission(permissions.WRITE_EXTERNAL_STORAGE, (status) => {
+    if (!status.hasPermission) {
+      permissions.requestPermission(permissions.WRITE_EXTERNAL_STORAGE,
+        () => { // success
+          startAndroidNode();
+        },
+        () => { // error
+          console.error('No permission to write on external storage');
+        }
+      );
+    } else {
+      startAndroidNode();
+    }
+  });
+}
+
+function startAndroidNode() {
+  console.log("Starting up nodejs engine on Android!");
+  nodejs.channel.setListener(androidChannelListener);
+  nodejs.start('main.js', initApplication);
+}
+
+function androidChannelListener(message) {
+  console.log(message);
+}
+
+window.addEventListener('load', function() {
   if (platformHelper.isCordova()) {
-    window.addEventListener('deviceready', initApplication, false);
+    document.addEventListener('deviceready', function() {
+      console.log("deviceready event fired!");
+      getPermissionsAndStart();
+    }, false);
   } else {
     initApplication();
   }
-
 });
