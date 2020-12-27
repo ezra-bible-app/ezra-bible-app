@@ -47,6 +47,12 @@ class TagStatistics {
 
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     var currentBook = app_controller.tab_controller.getTab().getBook();
+
+    if (currentBook == null) {
+      // We cannot do anything if we don't have a book!
+      return;
+    }
+
     var chapterCount = nsi.getBookChapterCount(currentBibleTranslationId, currentBook);
 
     var overall_verse_count = 0;
