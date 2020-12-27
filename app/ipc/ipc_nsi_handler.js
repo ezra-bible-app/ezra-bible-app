@@ -16,7 +16,6 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { app } = require('electron');
 const IpcMain = require('./ipc_main.js');
 const PlatformHelper = require('../helpers/platform_helper.js');
 const NodeSwordInterface = require('node-sword-interface');
@@ -33,6 +32,7 @@ class IpcNsiHandler {
 
   initNSI() {
     if (this._platformHelper.isTest()) {
+      const { app } = require('electron');
       const userDataDir = app.getPath('userData');
       this._nsi = new NodeSwordInterface(userDataDir);
     } else {

@@ -16,7 +16,6 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { app } = require('electron');
 const IpcMain = require('./ipc_main.js');
 
 let dbHelper = null;
@@ -32,7 +31,10 @@ class IpcDbHandler {
 
   async initDatabase() {
     const DbHelper = require.main.require('./app/helpers/db_helper.js');
+
+    const { app } = require('electron');
     const userDataDir = app.getPath('userData');
+
     dbHelper = new DbHelper(userDataDir);
     dbDir = dbHelper.getDatabaseDir();
 

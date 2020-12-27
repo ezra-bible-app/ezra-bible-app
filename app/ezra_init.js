@@ -386,8 +386,13 @@ function androidChannelListener(message) {
 
 window.addEventListener('load', function() {
   if (platformHelper.isCordova()) {
+
+    // On Android the first thing we do is showing the global loading indicator.
+    // This would happen later again, but only after the nodejs engine is started.
+    // In the meanwhile the screen would be just white and that's what we would like to avoid.
+    showGlobalLoadingIndicator();
+
     document.addEventListener('deviceready', function() {
-      console.log("deviceready event fired!");
       getPermissionsAndStart();
     }, false);
   } else {

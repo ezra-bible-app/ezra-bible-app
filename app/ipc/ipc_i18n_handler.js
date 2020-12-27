@@ -27,7 +27,9 @@ class IpcI18nHandler {
   initIpcInterface() {
     this._ipcMain.add('i18n_get_translation', (language) => {
       const fs = require('fs');
-      var fileName = `locales/${language}/translation.json`;
+      const path = require('path');
+
+      var fileName = path.join(__dirname, `../locales/${language}/translation.json`);
       var translationFileContent = fs.readFileSync(fileName);
       var translationObject = JSON.parse(translationFileContent);
       return translationObject;

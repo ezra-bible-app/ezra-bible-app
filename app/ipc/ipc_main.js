@@ -28,8 +28,14 @@ class IpcMain {
     this._showDebugOutput = false;
 
     if (this._isElectron) {
+
       const { ipcMain } = require('electron');
       this._electronIpcMain = ipcMain;
+
+    } else if (this._isCordova) {
+
+      const cordova = require('cordova-bridge');
+      this._cordova = cordova;
     }
   }
 
@@ -41,13 +47,22 @@ class IpcMain {
     this._callCounters[functionName] = 0;
 
     if (this._isElectron) {
+
       return this._electronIpcMain.handle(functionName, async (event, ...args) => {
         this._callCounters[functionName] += 1;
         if (this._showDebugOutput) { console.log(functionName + ' ' + this._callCounters[functionName]); }
         return await callbackFunction(...args);
       });
+
     } else if (this._isCordova) {
-      // TODO
+
+      return this._cordova.channel.on(functionName, async (...args) => {
+        this._callCounters[functionName] += 1;
+        if (this._showDebugOutput) { console.log(functionName + ' ' + this._callCounters[functionName]); }
+        var returnValue = await callbackFunction(...args);
+        this._cordova.channel.post(functionName, returnValue);
+      });
+
     }
   }
 
@@ -55,6 +70,7 @@ class IpcMain {
     this._callCounters[functionName] = 0;
 
     if (this._isElectron) {
+
       return this._electronIpcMain.handle(functionName, async (event, ...args) => {
         this._callCounters[functionName] += 1;
         if (this._showDebugOutput) { console.log(functionName + ' ' + this._callCounters[functionName]); }
@@ -62,8 +78,17 @@ class IpcMain {
           this.message(progressChannel, progress); 
         }, ...args);
       });
+
     } else if (this._isCordova) {
-      // TODO
+
+      // TODO Add actual progress callback!
+      return this._cordova.channel.on(functionName, async (...args) => {
+        this._callCounters[functionName] += 1;
+        if (this._showDebugOutput) { console.log(functionName + ' ' + this._callCounters[functionName]); }
+        var returnValue = await callbackFunction(...args);
+        this._cordova.channel.post(functionName, returnValue);
+      });
+
     }
   }
 

@@ -20,10 +20,7 @@ require('v8-compile-cache');
 
 const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const isDev = require('electron-is-dev');
-
-const IpcI18nHandler = require('./app/ipc/ipc_i18n_handler.js');
-const IpcNsiHandler = require('./app/ipc/ipc_nsi_handler.js');
-const IpcDbHandler = require('./app/ipc/ipc_db_handler.js');
+const IPC = require('./app/ipc/ipc.js');
 
 app.allowRendererProcessReuse = false;
 
@@ -36,7 +33,6 @@ const windowStateKeeper = require('electron-window-state');
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 let mainWindowState;
-let ipcInitialized = false;
 
 if (process.platform === 'win32') {
     // This is only needed for making the Windows installer work properly
@@ -81,17 +77,8 @@ function createWindow () {
   });
 
   ipcMain.on('initIpc', async (event, arg) => {
-    if (!ipcInitialized) {
-      ipcInitialized = true;
-
-      global.ipcI18nHandler = new IpcI18nHandler();
-
-      global.ipcNsiHandler = new IpcNsiHandler();
-      ipcNsiHandler.setMainWindow(mainWindow);
-
-      global.ipcDbHandler = new IpcDbHandler();
-      await ipcDbHandler.initDatabase();
-    }
+    var ipc = new IPC();
+    await ipc.init(mainWindow);
   });
 
   // Create the browser window.
