@@ -106,10 +106,14 @@ class TabController {
         savedMetaTabs.push(copiedMetaTab);
       }
 
-      this.settings.set('tabConfiguration', savedMetaTabs);
+      if (platformHelper.isElectron()) {
+        this.settings.set('tabConfiguration', savedMetaTabs);
 
-      var currentTime = new Date(Date.now());
-      this.settings.set('tabConfigurationTimestamp', currentTime);
+        var currentTime = new Date(Date.now());
+        this.settings.set('tabConfigurationTimestamp', currentTime);
+      } else {
+
+      }
     }
   }
 
@@ -123,12 +127,21 @@ class TabController {
   saveBookSelectionMenu() {
     if (this.persistanceEnabled) {
       var html = document.getElementById("book-selection-menu").innerHTML;
-      this.settings.set('bookSelectionMenuCache', html);
+
+      if (platformHelper.isElectron()) {
+        this.settings.set('bookSelectionMenuCache', html);
+      } else {
+        //
+      }
     }
   }
 
   saveLastUsedVersion() {
-    this.settings.set('lastUsedVersion', app.getVersion());
+    if (platformHelper.isElectron()) {
+      this.settings.set('lastUsedVersion', app.getVersion());
+    } else {
+      //
+    }
   }
 
   updateFirstTabCloseButton() {
