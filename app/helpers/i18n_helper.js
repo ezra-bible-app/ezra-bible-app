@@ -37,7 +37,14 @@ class I18nHelper {
   async init() {
     const i18n = require('i18next');
     const I18nIpcBackend = require('../ipc/i18n_ipc_backend.js');
-    const LanguageDetector = require('i18next-electron-language-detector');
+
+    let LanguageDetector = null;
+    
+    if (platformHelper.isElectron()) {
+      LanguageDetector = require('i18next-electron-language-detector');
+    } else {
+      LanguageDetector = require('i18next-browser-languagedetector');
+    }
 
     await i18n
     .use(I18nIpcBackend)
