@@ -130,10 +130,10 @@ async function initTest()
 
 async function initIpcClients()
 {
-  /*if (platformHelper.isCordova()) {
+  if (platformHelper.isCordova()) {
     const IpcCordova = require('./ipc/ipc_cordova.js');
     window.ipcCordova = new IpcCordova();
-  }*/
+  }
 
   window.ipcI18n = new IpcI18n();
   window.ipcNsi = new IpcNsi();
@@ -319,9 +319,9 @@ async function initApplication()
   console.log("Initializing IPC ...");
   await initIpcClients();
 
-  /*if (platformHelper.isCordova()) {
+  if (platformHelper.isCordova()) {
     await initCordovaStorage();
-  }*/
+  }
 
   console.log("Initializing i18n ...");
   await initI18N();

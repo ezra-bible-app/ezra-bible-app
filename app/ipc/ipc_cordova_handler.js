@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const IpcMain = require('./ipc_main.js');
+const fs = require('fs');
 
 class IpcCordovaHandler {
   constructor() {
