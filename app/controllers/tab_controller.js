@@ -276,22 +276,26 @@ class TabController {
   }
   
   async loadTabConfiguration() {
-    if (this.settings.has('bible_translation')) {
-      this.defaultBibleTranslationId = this.settings.get('bible_translation');
+    if (platformHelper.isElectron()) {
+      if (this.settings.has('bible_translation')) {
+        this.defaultBibleTranslationId = this.settings.get('bible_translation');
+      }
     }
 
     var loadedTabCount = 0;
 
-    if (this.settings.has('tabConfiguration')) {
-      app_controller.translation_controller.showBibleTranslationLoadingIndicator();
-      app_controller.showVerseListLoadingIndicator();
-      loadedTabCount = this.loadMetaTabsFromSettings();
+    if (platformHelper.isElectron()) {
+      if (this.settings.has('tabConfiguration')) {
+        app_controller.translation_controller.showBibleTranslationLoadingIndicator();
+        app_controller.showVerseListLoadingIndicator();
+        loadedTabCount = this.loadMetaTabsFromSettings();
 
-      if (loadedTabCount > 0) {
-        await this.populateFromMetaTabs();
-      } else {
-        app_controller.hideVerseListLoadingIndicator();
-        app_controller.translation_controller.hideBibleTranslationLoadingIndicator();
+        if (loadedTabCount > 0) {
+          await this.populateFromMetaTabs();
+        } else {
+          app_controller.hideVerseListLoadingIndicator();
+          app_controller.translation_controller.hideBibleTranslationLoadingIndicator();
+        }
       }
     }
 

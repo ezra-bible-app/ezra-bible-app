@@ -341,10 +341,8 @@ async function initApplication()
   // Wait for the UI to render
   await waitUntilIdle();
 
-  if (platformHelper.isElectron()) {
-    console.log("Loading settings ...");
-    await app_controller.loadSettings();
-  }
+  console.log("Loading settings ...");
+  await app_controller.loadSettings();
 
   // Wait for the UI to render, before we hide the loading indicator
   await waitUntilIdle();

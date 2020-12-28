@@ -331,11 +331,13 @@ class AppController {
   }
 
   async loadSettings() {
-    if (this.settings.get('tag_list_width') &&
-        this.settings.get('tag_list_width') != null) {
+    if (platformHelper.isElectron()) {
+      if (this.settings.get('tag_list_width') &&
+          this.settings.get('tag_list_width') != null) {
 
-      $('#bible-browser-toolbox').css('width', this.settings.get('tag_list_width'));
-      uiHelper.resizeAppContainer();
+        $('#bible-browser-toolbox').css('width', this.settings.get('tag_list_width'));
+        uiHelper.resizeAppContainer();
+      }
     }
 
     if (await ipcDb.getTagCount() > 0) {
