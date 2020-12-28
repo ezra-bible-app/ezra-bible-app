@@ -34,8 +34,7 @@ class IpcMain {
 
     } else if (this._isCordova) {
 
-      const cordova = require('cordova-bridge');
-      this._cordova = cordova;
+      this._cordova = global.cordova;
     }
   }
 

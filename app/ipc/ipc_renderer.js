@@ -82,7 +82,15 @@ class IpcRenderer {
     this.waitCounters[functionName] = 0;
     nodejs.channel.post(functionName, ...args);
 
-    return await this.getNodeResponse(functionName, timeoutMs);
+    var result = null;
+
+    try {
+      result = await this.getNodeResponse(functionName, timeoutMs);
+    } catch (error) {
+      console.log("Did not get node response for " + functionName);
+    }
+
+    return result;
   }
 
   electronIpcCallSync(functionName, ...args) {
@@ -127,7 +135,7 @@ class IpcRenderer {
         }, 20);
       }
     } else {
-      return resolve(returnValue);
+      resolve(returnValue);
     }
   }
 

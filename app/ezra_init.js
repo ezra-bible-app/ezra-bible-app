@@ -128,12 +128,12 @@ async function initTest()
   }
 }
 
-async function initIpc()
+async function initIpcClients()
 {
-  if (platformHelper.isCordova()) {
+  /*if (platformHelper.isCordova()) {
     const IpcCordova = require('./ipc/ipc_cordova.js');
     window.ipcCordova = new IpcCordova();
-  }
+  }*/
 
   window.ipcI18n = new IpcI18n();
   window.ipcNsi = new IpcNsi();
@@ -317,7 +317,7 @@ async function initApplication()
   loadingIndicator.find('.loader').show();
 
   console.log("Initializing IPC ...");
-  await initIpc();
+  await initIpcClients();
 
   /*if (platformHelper.isCordova()) {
     await initCordovaStorage();
@@ -356,7 +356,7 @@ async function initApplication()
 
   console.timeEnd("application-startup");
 
-  await app_controller.translation_controller.installStrongsIfNeeded();
+  //await app_controller.translation_controller.installStrongsIfNeeded();
 
   if (platformHelper.isElectron()) {
     console.log("Checking for latest release ...");
