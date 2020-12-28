@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const IpcMain = require('./ipc_main.js');
-const PlatformHelper = require('../helpers/platform_helper.js');
 
 const fs = require('fs');
 const path = require('path');
@@ -25,21 +24,12 @@ const path = require('path');
 class IpcI18nHandler {
   constructor() {
     this._ipcMain = new IpcMain();
-    this.platformHelper = new PlatformHelper();
-    this.basePath = null;
-
-    if (this.platformHelper.isElectron()) {
-      this.basePath = path.join(__dirname, '../../locales');
-    } else if (this.platformHelper.isCordova()) {
-      this.basePath = path.join(__dirname, '../locales');
-    }
-
     this.initIpcInterface();
   }
 
   initIpcInterface() {
     this._ipcMain.add('i18n_get_translation', (language) => {
-      var fileName = path.join(this.basePath, `${language}/translation.json`);
+      var fileName = path.join(__dirname, `../../locales/${language}/translation.json`);
       var translationFileContent = fs.readFileSync(fileName);
       var translationObject = JSON.parse(translationFileContent);
       return translationObject;
