@@ -25,7 +25,7 @@ class IpcMain {
     this._isElectron = platformHelper.isElectron();
     this._isCordova = platformHelper.isCordova();
     this._callCounters = {};
-    this._showDebugOutput = false;
+    this._showDebugOutput = true;
 
     if (this._isElectron) {
 
@@ -50,7 +50,9 @@ class IpcMain {
 
       return this._electronIpcMain.handle(functionName, async (event, ...args) => {
         this._callCounters[functionName] += 1;
-        if (this._showDebugOutput) { console.log(functionName + ' ' + this._callCounters[functionName]); }
+        if (this._showDebugOutput) {
+          console.log(functionName + ' ' + this._callCounters[functionName]);
+        }
         return await callbackFunction(...args);
       });
 
@@ -58,7 +60,9 @@ class IpcMain {
 
       return this._cordova.channel.on(functionName, async (...args) => {
         this._callCounters[functionName] += 1;
-        if (this._showDebugOutput) { console.log(functionName + ' ' + this._callCounters[functionName]); }
+        if (this._showDebugOutput) {
+          console.log(functionName + ' ' + this._callCounters[functionName]);
+        }
         var returnValue = await callbackFunction(...args);
         this._cordova.channel.post(functionName, returnValue);
       });
@@ -73,7 +77,9 @@ class IpcMain {
 
       return this._electronIpcMain.handle(functionName, async (event, ...args) => {
         this._callCounters[functionName] += 1;
-        if (this._showDebugOutput) { console.log(functionName + ' ' + this._callCounters[functionName]); }
+        if (this._showDebugOutput) {
+          console.log(functionName + ' ' + this._callCounters[functionName]);
+        }
         return callbackFunction((progress) => { 
           this.message(progressChannel, progress); 
         }, ...args);
@@ -84,7 +90,9 @@ class IpcMain {
       // TODO Add actual progress callback!
       return this._cordova.channel.on(functionName, async (...args) => {
         this._callCounters[functionName] += 1;
-        if (this._showDebugOutput) { console.log(functionName + ' ' + this._callCounters[functionName]); }
+        if (this._showDebugOutput) {
+          console.log(functionName + ' ' + this._callCounters[functionName]);
+        }
         var returnValue = await callbackFunction(...args);
         this._cordova.channel.post(functionName, returnValue);
       });

@@ -41,11 +41,11 @@ class PlatformHelper {
   }
 
   isCordova() {
-    if (typeof window !== 'undefined' && !!window._cordovaNative) {
+    if (typeof window !== 'undefined' && !!window.cordova) {
       return true;
     }
     
-    if (typeof global !== 'undefined' && global._cordovaNative !== 'undefined') {
+    if (typeof global !== 'undefined' && !!global.cordova) {
       return true;
     }
 

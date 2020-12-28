@@ -41,6 +41,14 @@ class IpcRenderer {
     }
   }
 
+  async callWithTimeout(functionName, timeoutMs, ...args) {
+    if (this._isElectron) {
+      return this.electronIpcCall(functionName, ...args);
+    } else if (this._isCordova) {
+      return this.cordovaIpcCall(functionName, timeoutMs, ...args);
+    }
+  }
+
   async callWithProgressCallback(functionName, callbackChannel, callbackFunction, timeoutMs, ...args) {
     if (callbackFunction !== undefined) {
       this.addElectronListenerWithCallback(callbackChannel, callbackFunction);

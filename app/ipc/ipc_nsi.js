@@ -50,7 +50,8 @@ class IpcNsi {
   }
 
   async getAllRepoModules(repositoryName, moduleType) {
-    var returnValue = this._ipcRenderer.call('nsi_getAllRepoModules', repositoryName, moduleType);
+    var timeoutMs = 10000;
+    var returnValue = this._ipcRenderer.callWithTimeout('nsi_getAllRepoModules', timeoutMs, repositoryName, moduleType);
     return returnValue;
   }
 
@@ -62,14 +63,16 @@ class IpcNsi {
                              hebrewStrongsKeys,
                              greekStrongsKeys) {
 
-    var returnValue = this._ipcRenderer.call('nsi_getRepoModulesByLang',
-                                             repositoryName,
-                                             language,
-                                             moduleType,
-                                             headersFilter,
-                                             strongsFilter,
-                                             hebrewStrongsKeys,
-                                             greekStrongsKeys);
+    var timeoutMs = 10000;
+    var returnValue = this._ipcRenderer.callWithTimeout('nsi_getRepoModulesByLang',
+                                                        timeoutMs,
+                                                        repositoryName,
+                                                        language,
+                                                        moduleType,
+                                                        headersFilter,
+                                                        strongsFilter,
+                                                        hebrewStrongsKeys,
+                                                        greekStrongsKeys);
     return returnValue;
   }
 

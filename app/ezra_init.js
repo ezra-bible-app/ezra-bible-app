@@ -130,9 +130,18 @@ async function initTest()
 
 async function initIpc()
 {
+  if (platformHelper.isCordova()) {
+    const IpcCordova = require('./ipc/ipc_cordova.js');
+    window.ipcCordova = new IpcCordova();
+  }
+
   window.ipcI18n = new IpcI18n();
   window.ipcNsi = new IpcNsi();
   window.ipcDb = new IpcDb();
+}
+
+async function initCordovaStorage() {
+  await ipcCordova.initStorage();
 }
 
 async function initControllers()
@@ -310,6 +319,10 @@ async function initApplication()
   console.log("Initializing IPC ...");
   await initIpc();
 
+  /*if (platformHelper.isCordova()) {
+    await initCordovaStorage();
+  }*/
+
   console.log("Initializing i18n ...");
   await initI18N();
 
@@ -384,18 +397,37 @@ function androidChannelListener(message) {
   console.log(message);
 }
 
+function initElectronApp() {
+  console.log("Initializing app on Electron platform ...");
+  initApplication();
+}
+
+function initCordovaApp() {
+  console.log("Initializing app on Cordova platform ...");
+
+  // In the Cordova app the first thing we do is showing the global loading indicator.
+  // This would happen later again, but only after the nodejs engine is started.
+  // In the meanwhile the screen would be just white and that's what we would like to avoid.
+  showGlobalLoadingIndicator();
+
+  document.addEventListener('deviceready', function() {
+    getPermissionsAndStart();
+  }, false);
+}
+
 window.addEventListener('load', function() {
+  console.log("load event fired!");
+
   if (platformHelper.isCordova()) {
 
-    // On Android the first thing we do is showing the global loading indicator.
-    // This would happen later again, but only after the nodejs engine is started.
-    // In the meanwhile the screen would be just white and that's what we would like to avoid.
-    showGlobalLoadingIndicator();
+    initCordovaApp();
 
-    document.addEventListener('deviceready', function() {
-      getPermissionsAndStart();
-    }, false);
+  } else if (platformHelper.isElectron()) {
+
+    initElectronApp();
+
   } else {
-    initApplication();
+
+    console.error("FATAL: Unknown platform");
   }
 });

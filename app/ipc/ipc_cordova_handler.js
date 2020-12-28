@@ -17,34 +17,20 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const IpcMain = require('./ipc_main.js');
-const PlatformHelper = require('../helpers/platform_helper.js');
 
-class IpcI18nHandler {
+class IpcCordovaHandler {
   constructor() {
     this._ipcMain = new IpcMain();
-    this.platformHelper = new PlatformHelper();
     this.initIpcInterface();
   }
 
   initIpcInterface() {
-    this._ipcMain.add('i18n_get_translation', (language) => {
-      const fs = require('fs');
-      const path = require('path');
-
-      var basePath = null;
-
-      if (this.platformHelper.isElectron()) {
-        basePath = path.join(__dirname, '../../locales');
-      } else if (this.platformHelper.isCordova()) {
-        basePath = path.join(__dirname, '../locales');
-      }
-
-      var fileName = path.join(basePath, `${language}/translation.json`);
-      var translationFileContent = fs.readFileSync(fileName);
-      var translationObject = JSON.parse(translationFileContent);
-      return translationObject;
+    this._ipcMain.add('cordova_initStorage', async () => {
+      var path = "/sdcard/Android/data/net.ezraproject.cordova";
+      console.log("Creating data directory for app at " + path);
+      return fs.mkdirSync(path, { recursive: true });
     });
   }
 }
 
-module.exports = IpcI18nHandler;
+module.exports = IpcCordovaHandler;
