@@ -35,7 +35,7 @@ class IpcCordovaHandler {
 
   initIpcInterface() {
     this._ipcMain.add('cordova_initStorage', async () => {
-      this.initStorage();
+      return this.initStorage();
     });
 
     this._ipcMain.add('cordova_listFiles', async(dir) => {
