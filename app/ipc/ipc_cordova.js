@@ -26,6 +26,10 @@ class IpcCordova {
   async initStorage() {
     return await this._ipcRenderer.call('cordova_initStorage');
   }
+
+  async listFiles(dir) {
+    await this._ipcRenderer.call('cordova_listFiles', dir);
+  }
 }
 
 module.exports = IpcCordova;
