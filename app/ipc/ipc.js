@@ -19,16 +19,14 @@ class IPC {
         ipcNsiHandler.setMainWindow(electronMainWindow);
       }
 
-      if (this.platformHelper.isElectron()) {
-        const IpcDbHandler = require('./ipc_db_handler.js');
-        global.ipcDbHandler = new IpcDbHandler();
-        await ipcDbHandler.initDatabase();
-      }
-
       if (this.platformHelper.isCordova()) {
         const IpcCordovaHandler = require('./ipc_cordova_handler.js');
         global.ipcCordovaHandler = new IpcCordovaHandler();
       }
+
+      const IpcDbHandler = require('./ipc_db_handler.js');
+      global.ipcDbHandler = new IpcDbHandler();
+      await ipcDbHandler.initDatabase();
     }
   }
 }

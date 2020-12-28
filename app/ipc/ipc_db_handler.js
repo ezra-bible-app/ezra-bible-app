@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const IpcMain = require('./ipc_main.js');
+const PlatformHelper = require('../helpers/platform_helper.js');
 
 let dbHelper = null;
 let dbDir = null;
@@ -25,23 +26,22 @@ class IpcDbHandler {
   constructor() {
     this._ipcMain = new IpcMain();
     this._tagsPersistanceController = null;
+    this.platformHelper = new PlatformHelper();
 
     this.initIpcInterface();
   }
 
   async initDatabase() {
-    const DbHelper = require.main.require('./app/helpers/db_helper.js');
-
-    const { app } = require('electron');
-    const userDataDir = app.getPath('userData');
+    const DbHelper = require('../helpers/db_helper.js');
+    var userDataDir = this.platformHelper.getUserDataPath();
 
     dbHelper = new DbHelper(userDataDir);
     dbDir = dbHelper.getDatabaseDir();
 
     await dbHelper.initDatabase(dbDir);
-    global.models = require.main.require('./app/database/models')(dbDir);
+    global.models = require('../database/models')(dbDir);
 
-    const TagsPersistanceController = require.main.require('./app/controllers/tags_persistance_controller.js');
+    const TagsPersistanceController = require('../controllers/tags_persistance_controller.js');
     this._tagsPersistanceController = new TagsPersistanceController(global.models);
   }
 

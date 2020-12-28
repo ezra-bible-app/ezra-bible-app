@@ -24,13 +24,13 @@ const PlatformHelper = require("./platform_helper.js");
 
 class DbHelper {
   constructor(userDataDir) {
-    var platformHelper = new PlatformHelper();
+    this.platformHelper = new PlatformHelper();
 
     if (userDataDir === undefined) {
       console.log('Cannot initialize DbHelper with userDataDir "undefined"');
     }
 
-    if (platformHelper.isElectron()) {
+    if (this.platformHelper.isElectron()) {
       this.settings = require('electron-settings');
     }
 
@@ -55,23 +55,23 @@ class DbHelper {
 
   getDatabaseDir() {
     var databaseDir = this.userDataDir;
-    var databaseDirKind = "";
+    var databaseDirKind = "default";
     
-    if (this.settings.has('custom_database_dir') &&
-        this.settings.get('custom_database_dir') != null) {
+    if (this.platformHelper.isElectron()) {
+      if (this.settings.has('custom_database_dir') &&
+          this.settings.get('custom_database_dir') != null) {
 
-      databaseDir = this.settings.get('custom_database_dir');
-      databaseDirKind = "custom";
-    } else {
-      databaseDirKind = "default";
-    }
+        databaseDir = this.settings.get('custom_database_dir');
+        databaseDirKind = "custom";
+      }
 
-    const isDev = require('electron-is-dev');
-    var databaseDirString = databaseDir;
-    if (isDev) {
-      databaseDirString += " ";
-    } else {
-      databaseDirString = "";
+      const isDev = require('electron-is-dev');
+      var databaseDirString = databaseDir;
+      if (isDev) {
+        databaseDirString += " ";
+      } else {
+        databaseDirString = "";
+      }
     }
 
     var message = `Using ${databaseDirKind} database dir ${databaseDirString}for database access!`;

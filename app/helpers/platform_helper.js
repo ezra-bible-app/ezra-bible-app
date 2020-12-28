@@ -156,6 +156,20 @@ class PlatformHelper {
       return false;
     }
   }
+
+  getUserDataPath() {
+    if (this.isElectron()) {
+
+      var { app } = require('electron');
+      var userDataDir = app.getPath('userData');
+      return userDataDir;
+
+    } else if (this.isCordova()) {
+
+      // TODO adapt this for ios later
+      return "/sdcard/Android/data/net.ezraproject.cordova";
+    }
+  }
 }
 
 module.exports = PlatformHelper;
