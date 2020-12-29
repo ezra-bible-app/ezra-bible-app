@@ -35,7 +35,7 @@ class I18nHelper {
   constructor() {}
 
   async init() {
-    const i18n = require('i18next');
+    window.i18n = require('i18next');
     const I18nIpcBackend = require('../ipc/i18n_ipc_backend.js');
 
     let LanguageDetector = null;

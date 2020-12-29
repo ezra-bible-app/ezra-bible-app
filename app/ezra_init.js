@@ -75,12 +75,6 @@ $.create_xml_doc = function(string)
 
 async function initI18N()
 {
-  if (platformHelper.isElectron()) {
-    window.i18n = require('i18next');
-  } else {
-    window.i18n = require('i18next-client');
-  }
-
   I18nHelper = require('./helpers/i18n_helper.js');
   i18nHelper = new I18nHelper();
 
