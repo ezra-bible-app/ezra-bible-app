@@ -699,8 +699,14 @@ class InstallModuleAssistant {
 
     var headingsFilter = $('#headings-feature-filter').prop('checked');
     var strongsFilter = $('#strongs-feature-filter').prop('checked');
+
     var hebrewStrongsFilter = $('#hebrew-strongs-dict-feature-filter').prop('checked');
     var greekStrongsFilter = $('#greek-strongs-dict-feature-filter').prop('checked');
+
+    headingsFilter = headingsFilter === undefined ? false : headingsFilter;
+    strongsFilter = strongsFilter === undefined ? false : strongsFilter;
+    hebrewStrongsFilter = hebrewStrongsFilter === undefined ? false : hebrewStrongsFilter;
+    greekStrongsFilter = greekStrongsFilter === undefined ? false : greekStrongsFilter;
 
     var renderHeader = false;
     if (selectedLanguages.length > 1) {
