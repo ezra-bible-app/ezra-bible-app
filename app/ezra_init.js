@@ -46,7 +46,7 @@ window.tags_controller = null;
 window.theme_controller = new ThemeController();
 window.reference_separator = ':';
 
-function sleep(time) {
+window.sleep = function(time) {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve();
@@ -186,14 +186,14 @@ function initExternalLinkHandling() {
   });
 }
 
-function showGlobalLoadingIndicator() {
+window.showGlobalLoadingIndicator = function() {
   $('#main-content').hide();
   var loadingIndicator = $('#startup-loading-indicator');
   loadingIndicator.show();
   loadingIndicator.find('.loader').show();
 }
 
-function hideGlobalLoadingIndicator() {
+window.hideGlobalLoadingIndicator = function() {
   var loadingIndicator = $('#startup-loading-indicator');
   loadingIndicator.hide();
   $('#main-content').show();
@@ -257,7 +257,7 @@ function toggleFullScreen()
   }
 }
 
-async function initApplication()
+window.initApplication = async function()
 {
   console.time("application-startup");
   theme_controller.earlyInitNightMode();
@@ -358,53 +358,9 @@ async function initApplication()
   }
 }
 
-function getPermissionsAndStart() {
-  console.log("Getting permissions on Android ...");
-
-  var permissions = cordova.plugins.permissions;
-
-  permissions.checkPermission(permissions.WRITE_EXTERNAL_STORAGE, (status) => {
-    if (!status.hasPermission) {
-      permissions.requestPermission(permissions.WRITE_EXTERNAL_STORAGE,
-        () => { // success
-          startAndroidNode();
-        },
-        () => { // error
-          console.error('No permission to write on external storage');
-        }
-      );
-    } else {
-      startAndroidNode();
-    }
-  });
-}
-
-function startAndroidNode() {
-  console.log("Starting up nodejs engine on Android!");
-  nodejs.channel.setListener(androidChannelListener);
-  nodejs.start('main.js', initApplication);
-}
-
-function androidChannelListener(message) {
-  console.log(message);
-}
-
 function initElectronApp() {
   console.log("Initializing app on Electron platform ...");
   initApplication();
-}
-
-function initCordovaApp() {
-  console.log("Initializing app on Cordova platform ...");
-
-  // In the Cordova app the first thing we do is showing the global loading indicator.
-  // This would happen later again, but only after the nodejs engine is started.
-  // In the meanwhile the screen would be just white and that's what we would like to avoid.
-  showGlobalLoadingIndicator();
-
-  document.addEventListener('deviceready', function() {
-    getPermissionsAndStart();
-  }, false);
 }
 
 window.addEventListener('load', function() {
@@ -412,7 +368,9 @@ window.addEventListener('load', function() {
 
   if (platformHelper.isCordova()) {
 
-    initCordovaApp();
+    var CordovaPlatform = require('./platform/cordova_platform.js');
+    var cordovaPlatform = new CordovaPlatform();
+    cordovaPlatform.init();
 
   } else if (platformHelper.isElectron()) {
 
