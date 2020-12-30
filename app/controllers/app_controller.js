@@ -903,10 +903,17 @@ class AppController {
   }
 
   isCacheInvalid() {
-    var lastUsedVersion = this.settings.get('lastUsedVersion');
-    var currentVersion = app.getVersion();
+    if (platformHelper.isElectron()) {
 
-    return currentVersion != lastUsedVersion;
+      var lastUsedVersion = this.settings.get('lastUsedVersion');
+      var currentVersion = app.getVersion();
+
+      return currentVersion != lastUsedVersion;
+
+    } else if (platformHelper.isCordova()) {
+
+      return true;
+    }
   }
 }
 
