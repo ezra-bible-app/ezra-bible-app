@@ -86,13 +86,14 @@ class IpcMain {
 
     } else if (this._isCordova) {
 
-      // TODO Add actual progress callback!
       return this._cordova.channel.on(functionName, async (...args) => {
         this._callCounters[functionName] += 1;
         if (this._showDebugOutput) {
           console.log(functionName + ' ' + this._callCounters[functionName]);
         }
-        var returnValue = await callbackFunction(...args);
+        var returnValue = await callbackFunction((progress) => {
+          this.message(progressChannel, progress);
+        });
         this._cordova.channel.post(functionName, returnValue);
       });
 
@@ -129,7 +130,7 @@ class IpcMain {
   }
 
   async cordovaIpcMessage(channel, message) {
-    // TODO
+    return this._cordova.channel.post(channel, message);
   }
 }
 

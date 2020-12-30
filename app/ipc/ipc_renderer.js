@@ -51,7 +51,11 @@ class IpcRenderer {
 
   async callWithProgressCallback(functionName, callbackChannel, callbackFunction, timeoutMs, ...args) {
     if (callbackFunction !== undefined) {
-      this.addElectronListenerWithCallback(callbackChannel, callbackFunction);
+      if (this._isElectron) {
+        this.addElectronListenerWithCallback(callbackChannel, callbackFunction);
+      } else if (this._isCordova) {
+        this.addCordovaListenerWithCallback(callbackChannel, callbackFunction);
+      }
     }
 
     if (this._isElectron) {
@@ -103,6 +107,14 @@ class IpcRenderer {
 
   addElectronListenerWithCallback(channel, callbackFunction) {
     this._electronIpcRenderer.on(channel, (event, message) => {
+      if (callbackFunction !== undefined) {
+        callbackFunction(message);
+      }
+    });
+  }
+
+  addCordovaListenerWithCallback(channel, callbackFunction) {
+    nodejs.channel.on(channel, (message) => {
       if (callbackFunction !== undefined) {
         callbackFunction(message);
       }
