@@ -153,6 +153,7 @@ class InstallModuleAssistant {
           app_controller.settings.set("lastSwordRepoUpdate", new Date());
         }
       } catch(e) {
+        console.log("Caught exception while updating repository config: " + e);
         listRepoTimeoutMs = 3000;
         wizardPage.append('<p>' + i18n.t('module-assistant.update-repository-data-failed') + '</p>');
       }
