@@ -170,6 +170,10 @@ class PlatformHelper {
       return "/sdcard/Android/data/net.ezraproject.cordova";
     }
   }
+
+  getCordovaHomePath() {
+    return "/sdcard";
+  }
 }
 
 module.exports = PlatformHelper;

@@ -32,11 +32,20 @@ class IpcNsiHandler {
 
   initNSI() {
     if (this._platformHelper.isTest()) {
+
       const { app } = require('electron');
       const userDataDir = app.getPath('userData');
       this._nsi = new NodeSwordInterface(userDataDir);
-    } else {
+
+    } else if (this._platformHelper.isElectron()) {
+
       this._nsi = new NodeSwordInterface();
+
+    } else if (this._platformHelper.isCordova()) {
+
+      var swordPath = this._platformHelper.getCordovaHomePath();
+      this._nsi = new NodeSwordInterface(swordPath);
+
     }
 
     this._nsi.enableMarkup();
