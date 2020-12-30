@@ -53,7 +53,7 @@ class DbHelper {
     }
   }
 
-  getDatabaseDir() {
+  getDatabaseDir(isDebug) {
     var databaseDir = this.userDataDir;
     var databaseDirKind = "default";
     
@@ -64,14 +64,13 @@ class DbHelper {
         databaseDir = this.settings.get('custom_database_dir');
         databaseDirKind = "custom";
       }
+    }
 
-      const isDev = require('electron-is-dev');
-      var databaseDirString = databaseDir;
-      if (isDev) {
-        databaseDirString += " ";
-      } else {
-        databaseDirString = "";
-      }
+    var databaseDirString = databaseDir;
+    if (isDebug) {
+      databaseDirString += " ";
+    } else {
+      databaseDirString = "";
     }
 
     var message = `Using ${databaseDirKind} database dir ${databaseDirString}for database access!`;

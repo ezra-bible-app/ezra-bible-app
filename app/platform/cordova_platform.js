@@ -32,9 +32,8 @@ class CordovaPlatform {
         await this.getPermissions();
 
         var isDebug = await this.isDebug();
-        console.log("isDebug: " + isDebug);
 
-        this.startNodeJsEngine();
+        this.startNodeJsEngine(isDebug);
 
       } catch (error) {
 
@@ -77,7 +76,7 @@ class CordovaPlatform {
     });
   }
 
-  startNodeJsEngine() {
+  startNodeJsEngine(isDebug) {
     console.log("Starting up nodejs engine!");
     nodejs.channel.setListener(this.mainProcessListener);
     //nodejs.start('main.js', initApplication);
@@ -86,7 +85,7 @@ class CordovaPlatform {
       const Main = require('main.js');
 
       var main = new Main();
-      main.init();
+      main.init(${isDebug});
     `, initApplication);
   }
 

@@ -31,12 +31,12 @@ class IpcDbHandler {
     this.initIpcInterface();
   }
 
-  async initDatabase() {
+  async initDatabase(isDebug) {
     const DbHelper = require('../helpers/db_helper.js');
     var userDataDir = this.platformHelper.getUserDataPath();
 
     dbHelper = new DbHelper(userDataDir);
-    dbDir = dbHelper.getDatabaseDir();
+    dbDir = dbHelper.getDatabaseDir(isDebug);
 
     await dbHelper.initDatabase(dbDir);
     global.models = require('../database/models')(dbDir);

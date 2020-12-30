@@ -8,7 +8,7 @@ class IPC {
     this.platformHelper = new PlatformHelper();
   }
 
-  async init(electronMainWindow=undefined) {
+  async init(isDebug, electronMainWindow=undefined) {
     if (!this.ipcInitialized) {
       this.ipcInitialized = true;
 
@@ -26,7 +26,7 @@ class IPC {
 
       const IpcDbHandler = require('./ipc_db_handler.js');
       global.ipcDbHandler = new IpcDbHandler();
-      await ipcDbHandler.initDatabase();
+      await ipcDbHandler.initDatabase(isDebug);
     }
   }
 }

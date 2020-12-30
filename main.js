@@ -78,7 +78,7 @@ function createWindow () {
 
   ipcMain.on('initIpc', async (event, arg) => {
     var ipc = new IPC();
-    await ipc.init(mainWindow);
+    await ipc.init(isDev, mainWindow);
   });
 
   // Create the browser window.
