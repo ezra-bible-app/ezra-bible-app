@@ -80,6 +80,9 @@ class AppController {
         },
         get: function() {
           return null;
+        },
+        set: function() {
+          return;
         }
       };
     }
