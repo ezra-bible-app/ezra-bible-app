@@ -425,9 +425,11 @@ class TextController {
 
   async getBookNames(bibleBooks) {
     var bookNames = {};
-    bibleBooks.forEach(async (b) => {
-      bookNames[b.shortTitle] = await i18nHelper.getSwordTranslation(b.longTitle);
-    });
+
+    for (var i = 0; i < bibleBooks.length; i++) {
+      var currentBook = bibleBooks[i];
+      bookNames[currentBook.shortTitle] = await i18nHelper.getSwordTranslation(currentBook.longTitle);
+    }
 
     return bookNames;
   }
