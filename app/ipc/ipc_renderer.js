@@ -130,7 +130,7 @@ class IpcRenderer {
         reject(null);
       } else {
         setTimeout(() => {
-          console.log('Waiting for node response for ' + functionName + ' ...');
+          //console.log('Waiting for node response for ' + functionName + ' ...');
           this.waitForNodeResponse(functionName, timeoutMs, resolve, reject);
         }, 50);
       }
