@@ -203,6 +203,11 @@ class TextController {
     }
     
     var verses = await ipcNsi.getBookText(currentBibleTranslationId, book_short_title, start_verse_number, number_of_verses);
+    if (verses == null) {
+      console.error("Got null result when requesting book text!");
+      return;
+    }
+
     var verseTags = await ipcDb.getBookVerseTags(bibleBook.id, versification);
     var verseNotes = await ipcDb.getVerseNotesByBook(bibleBook.id, versification);
 
