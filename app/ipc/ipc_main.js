@@ -93,7 +93,7 @@ class IpcMain {
         }
         var returnValue = await callbackFunction((progress) => {
           this.message(progressChannel, progress);
-        });
+        }, ...args);
         this._cordova.channel.post(functionName, returnValue);
       });
 
