@@ -434,7 +434,7 @@ class InstallModuleAssistant {
     try {
       var moduleInstalled = false;
       var localModule = await ipcNsi.getLocalModule(moduleCode);
-      if (localModule !== undefined) {
+      if (localModule !== undefined && localModule !== null) {
         moduleInstalled = true;
       }
 
@@ -500,6 +500,7 @@ class InstallModuleAssistant {
     }
 
     if (swordModule.locked && !unlockSuccessful) {
+      console.log(swordModule);
       throw "UnlockError";
     }
   }
