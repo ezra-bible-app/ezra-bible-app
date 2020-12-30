@@ -28,6 +28,21 @@ class PlatformHelper {
     }
   }
 
+  async isDebug() {
+    if (this.isElectron()) {
+
+      var isDebug = require('electron-is-dev');
+      return isDebug;
+
+    } else if (this.isCordova()) {
+
+      var CordovaPlatform = require('../platform/cordova_platform.js');
+      var cordovaPlatform = new CordovaPlatform();
+      return await cordovaPlatform.isDebug();
+
+    }
+  }
+
   isMac() {
     return navigator.platform.match('Mac') !== null;
   }

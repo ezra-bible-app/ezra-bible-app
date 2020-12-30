@@ -265,18 +265,19 @@ window.initApplication = async function()
   // Wait for the UI to render
   await waitUntilIdle();
 
-  if (platformHelper.isElectron()) {
-    window.app = require('electron').remote.app;
-    isDev = require('electron-is-dev');
+  var isDev = await platformHelper.isDebug();
 
-    if (isDev) {
-      window.Sentry = {
-        addBreadcrumb: function() {},
-        Severity: {
-          Info: undefined
-        }
+  if (isDev) {
+    window.Sentry = {
+      addBreadcrumb: function() {},
+      Severity: {
+        Info: undefined
       }
     }
+  }
+
+  if (platformHelper.isElectron()) {
+    window.app = require('electron').remote.app;
 
     const { ipcRenderer } = require('electron');
     await ipcRenderer.send('manageWindowState');
