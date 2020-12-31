@@ -154,6 +154,8 @@ class VerseSearch {
         // Logic to determine whether to accept, reject or skip node
         var parentNode = node.parentNode;
         var acceptedNodeNames = [ "W", "SEG", "TRANSCHANGE"];
+
+        // TODO: Check whether the performance of the following line could be further optimized
         if (acceptedNodeNames.includes(parentNode.nodeName) || parentNode.classList.contains('verse-text')) {
           return NodeFilter.FILTER_ACCEPT;
         }
