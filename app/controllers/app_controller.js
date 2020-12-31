@@ -75,15 +75,10 @@ class AppController {
       this.settings = require('electron-settings');
     } else {
       this.settings = {
-        has: function() {
-          return false;
-        },
-        get: function() {
-          return null;
-        },
-        set: function() {
-          return;
-        }
+        has: function() { return false; },
+        get: function() { return null; },
+        set: function() { return; },
+        delete: function() { return; }
       };
     }
 
