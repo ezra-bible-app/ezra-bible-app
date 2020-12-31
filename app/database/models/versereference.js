@@ -18,8 +18,6 @@
 
 'use strict';
 
-const VerseBox = require("../../ui_models/verse_box.js");
-
 /**
  * The VerseReference model is used to manage verse references.
  * @typedef VerseReference

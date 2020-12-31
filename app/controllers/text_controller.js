@@ -170,7 +170,7 @@ class TextController {
                         start_verse_number=-1,
                         number_of_verses=-1) {
 
-    var currentBibleTranslationId = app_controller.tab_controller.getTab(tab_index)?.getBibleTranslationId();
+    var currentBibleTranslationId = app_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
     var localSwordModule = null;
 
     try {
@@ -203,6 +203,11 @@ class TextController {
     }
     
     var verses = await ipcNsi.getBookText(currentBibleTranslationId, book_short_title, start_verse_number, number_of_verses);
+    if (verses == null) {
+      console.error("Got null result when requesting book text!");
+      return;
+    }
+
     var verseTags = await ipcDb.getBookVerseTags(bibleBook.id, versification);
     var verseNotes = await ipcDb.getVerseNotesByBook(bibleBook.id, versification);
 
@@ -420,9 +425,11 @@ class TextController {
 
   async getBookNames(bibleBooks) {
     var bookNames = {};
-    bibleBooks.forEach(async (b) => {
-      bookNames[b.shortTitle] = await i18nHelper.getSwordTranslation(b.longTitle);
-    });
+
+    for (var i = 0; i < bibleBooks.length; i++) {
+      var currentBook = bibleBooks[i];
+      bookNames[currentBook.shortTitle] = await i18nHelper.getSwordTranslation(currentBook.longTitle);
+    }
 
     return bookNames;
   }
@@ -560,7 +567,7 @@ class TextController {
 
     if (listType == 'search_results') {
       var currentTab = app_controller.tab_controller.getTab(tabIndex);
-      var currentSearchTerm = currentTab?.getSearchTerm();
+      var currentSearchTerm = currentTab.getSearchTerm();
       app_controller.module_search_controller.highlightSearchResults(currentSearchTerm, tabIndex);
     }
 

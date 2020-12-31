@@ -16,8 +16,6 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const VerseBox = require("../ui_models/verse_box");
-
 class TagsPersistanceController
 {
   constructor(models) {

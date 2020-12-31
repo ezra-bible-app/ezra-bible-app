@@ -16,28 +16,14 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const i18n = require('i18next');
-const i18nextBackend = require('i18next-node-fs-backend');
-const LanguageDetector = require('i18next-electron-language-detector');
 const jqueryI18next = require('jquery-i18next');
-const path = require('path');
 
 const i18nextOptions = {
   debug: false,
-  backend:{
-    // path where resources get loaded from
-    loadPath: path.join(__dirname, '../../locales/{{lng}}/{{ns}}.json'),
-
-    // path to post missing resources
-    addPath: path.join(__dirname, '../../locales/{{lng}}/{{ns}}.missing.json'),
-
-    // jsonIndent to use when storing json files
-    jsonIndent: 2,
-  },
   interpolation: {
     escapeValue: false
   },
-  saveMissing: true,
+  saveMissing: false,
   fallbackLng: 'en',
   whitelist: ['de', 'en', 'nl', 'fr', 'es', 'sk'],
   react: {
@@ -49,9 +35,20 @@ class I18nHelper {
   constructor() {}
 
   async init() {
+    window.i18n = require('i18next');
+    const I18nIpcBackend = require('../ipc/i18n_ipc_backend.js');
+
+    let LanguageDetector = null;
+    
+    if (platformHelper.isElectron()) {
+      LanguageDetector = require('i18next-electron-language-detector');
+    } else {
+      LanguageDetector = require('i18next-browser-languagedetector');
+    }
+
     await i18n
+    .use(I18nIpcBackend)
     .use(LanguageDetector)
-    .use(i18nextBackend)
     .init(i18nextOptions);
 
     jqueryI18next.init(i18n, $, {

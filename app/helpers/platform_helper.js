@@ -16,14 +16,31 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const fs = require('fs');
-
 class PlatformHelper {
   constructor() {
   }
 
   isTest() {
-    return process.argv.includes('--test-type=webdriver');
+    if (this.isElectron()) {
+      return process.argv.includes('--test-type=webdriver');
+    } else {
+      return false;
+    }
+  }
+
+  async isDebug() {
+    if (this.isElectron()) {
+
+      var isDebug = require('electron-is-dev');
+      return isDebug;
+
+    } else if (this.isCordova()) {
+
+      var CordovaPlatform = require('../platform/cordova_platform.js');
+      var cordovaPlatform = new CordovaPlatform();
+      return await cordovaPlatform.isDebug();
+
+    }
   }
 
   isMac() {
@@ -31,11 +48,16 @@ class PlatformHelper {
   }
 
   isLinux() {
-    return navigator.platform.match('Linux') !== null;
+    return navigator.platform.match('Linux') !== null &&
+           navigator.platform.match('arm') === null; // This is to ensure that we do not treat Android as "Linux"
   }
 
   isWin() {
     return navigator.platform.match('Win') !== null;
+  }
+
+  isAndroid() {
+    return navigator.userAgent.match('Android') !== null;
   }
 
   isCordova() {
@@ -43,7 +65,7 @@ class PlatformHelper {
       return true;
     }
     
-    if (global.cordova !== 'undefined') {
+    if (typeof global !== 'undefined' && !!global.cordova) {
       return true;
     }
 
@@ -86,17 +108,19 @@ class PlatformHelper {
       document.body.classList.add('Linux');
     } else if (this.isWin()) {
       document.body.classList.add('Windows');
+    } else if (this.isAndroid()) {
+      document.body.classList.add('Android');
     }
   }
 
-  getMajorOsVersion() {
+  async getMajorOsVersion() {
     var releaseVersion = require('os').release();
     var splittedVersion = releaseVersion.split('.');
     var majorDigit = parseInt(splittedVersion[0]);
     return majorDigit;
   }
 
-  isMacOsMojaveOrLater() {
+  async isMacOsMojaveOrLater() {
     if (!this.isMac()) {
       return false;
     }
@@ -104,7 +128,7 @@ class PlatformHelper {
     var isMojaveOrLater = false;
 
     try {
-      var majorOsVersion = this.getMajorOsVersion();
+      var majorOsVersion = await this.getMajorOsVersion();
 
       // see https://en.wikipedia.org/wiki/Darwin_(operating_system)#Release_history
       // macOS Mojave starts with the Darwin kernel version 18.0.0
@@ -114,7 +138,7 @@ class PlatformHelper {
     return isMojaveOrLater;
   }
 
-  isWindowsTenOrLater() {
+  async isWindowsTenOrLater() {
     if (!this.isWin()) {
       return false;
     }
@@ -122,17 +146,24 @@ class PlatformHelper {
     var isWinTenOrLater = false;
 
     try {
-      var majorOsVersion = this.getMajorOsVersion();
+      var majorOsVersion = await this.getMajorOsVersion();
+      if (majorOsVersion == undefined) {
+        return undefined;
+      }
 
       // see https://docs.microsoft.com/en-us/windows/win32/sysinfo/operating-system-version
       // Windows 10 starts with version 10.*
       isWinTenOrLater = (majorOsVersion >= 10);
-    } catch (e) {}
+    } catch (e) {
+      return undefined;
+    }
 
     return isWinTenOrLater;
   }
 
   showVcppRedistributableMessageIfNeeded() {
+    const fs = require('fs');
+
     const dep1 = "C:\\Windows\\System32\\vcruntime140.dll";
     const dep2 = "C:\\Windows\\System32\\msvcp140.dll";
 
@@ -151,6 +182,24 @@ class PlatformHelper {
     } else {
       return false;
     }
+  }
+
+  getUserDataPath() {
+    if (this.isElectron()) {
+
+      var { app } = require('electron');
+      var userDataDir = app.getPath('userData');
+      return userDataDir;
+
+    } else if (this.isCordova()) {
+
+      // TODO adapt this for ios later
+      return "/sdcard/Android/data/net.ezraproject.cordova";
+    }
+  }
+
+  getCordovaHomePath() {
+    return "/sdcard";
   }
 }
 

@@ -164,8 +164,8 @@ class ModuleSearchController {
       index = app_controller.tab_controller.getSelectedTabIndex();
     }
 
-    var currentSearchResults = app_controller.tab_controller.getTab(index)?.getSearchResults();
-    return currentSearchResults?.length > 500;
+    var currentSearchResults = app_controller.tab_controller.getTab(index).getSearchResults();
+    return currentSearchResults.length > 500;
   }
 
   validateStrongsKey() {
@@ -297,10 +297,10 @@ class ModuleSearchController {
     //console.log("Rendering search results on tab " + tabIndex);
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentTabId = app_controller.tab_controller.getSelectedTabId(tabIndex);
-    var currentSearchTerm = currentTab?.getSearchTerm();
-    var currentSearchResults = currentTab?.getSearchResults();
+    var currentSearchTerm = currentTab.getSearchTerm();
+    var currentSearchResults = currentTab.getSearchResults();
 
-    if (currentSearchResults?.length > 0) {
+    if (currentSearchResults.length > 0) {
       await app_controller.text_controller.requestTextUpdate(currentTabId,
                                                                    null,
                                                                    null,
@@ -321,7 +321,7 @@ class ModuleSearchController {
     this.hideSearchMenu();
     var moduleSearchHeaderText;
 
-    if (currentSearchResults?.length > 0) {
+    if (currentSearchResults.length > 0) {
       moduleSearchHeaderText = i18n.t("bible-browser.search-result-header") + ' <i>' + currentSearchTerm + '</i> (' + currentSearchResults.length + ')';
     } else {
       moduleSearchHeaderText = i18n.t("bible-browser.no-search-results") + ' <i>' + currentSearchTerm + '</i>';
@@ -338,7 +338,7 @@ class ModuleSearchController {
 
     moduleSearchHeader.html(header);
 
-    if (currentSearchResults?.length > 0) {
+    if (currentSearchResults.length > 0) {
       var selectAllSearchResultsButton = document.createElement('button');
       selectAllSearchResultsButton.setAttribute('style', 'margin: 0.5em;');
       selectAllSearchResultsButton.classList.add('select-all-search-results-button');
@@ -358,7 +358,7 @@ class ModuleSearchController {
 
     moduleSearchHeader.show();
 
-    if (currentSearchResults?.length > 0 && requestedBookId <= 0) {
+    if (currentSearchResults.length > 0 && requestedBookId <= 0) {
       var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
       await this.verseStatisticsChart.updateChart(tabIndex, bibleBookStats);
     }
@@ -374,7 +374,7 @@ class ModuleSearchController {
 
   async repaintChart(tabIndex=undefined) {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
-    var currentSearchResults = currentTab?.getSearchResults();
+    var currentSearchResults = currentTab.getSearchResults();
 
     if (currentSearchResults != null) {
       var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);

@@ -134,7 +134,8 @@ h2 {
   overflow-y: scroll;
   overflow-x: hidden; /* This prevents a horizontal scrollbar on small screens  */
   border: 1px solid #DDDDDD;
-  border-radius: 6px;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
   user-select: none;
   padding-bottom: 1em;
 }
@@ -654,7 +655,7 @@ h2 {
 }
 
 #module-settings-assistant-add, #module-settings-assistant-add .content {
-  min-height: 620px;
+  min-height: 570px;
 }
 
 #module-settings-assistant .label {
@@ -1614,6 +1615,7 @@ s {
 .Windows select,
 .Windows .verse-list,
 .Windows .loading-indicator-text,
+.Windows .loading-subtitle,
 .Windows div.CodeMirror {
   font-family: "Segoe UI", sans-serif;
 }
@@ -1627,12 +1629,23 @@ s {
 .Linux select,
 .Linux .verse-list,
 .Linux .loading-indicator-text,
+.Linux .loading-subtitle,
 .Linux div.CodeMirror {
-  font-family: "Liberation Sans", sans-serif;
+  font-family: "Liberation Sans", Ubuntu, sans-serif;
 }
 
 .Linux div.CodeMirror {
   font-size: 1em;
+}
+
+.Android,
+.Android button,
+.Android select,
+.Android .verse-list,
+.Android .loading-indicator-text,
+.Android .loading-subtitle,
+.Android div.CodeMirror {
+  font-family: Roboto, sans-serif;
 }
 
 .OSX,
@@ -1640,6 +1653,7 @@ s {
 .OSX select,
 .OSX .verse-list,
 .OSX .loading-indicator-text,
+.OSX .loading-subtitle,
 .OSX div.CodeMirror {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
 }
@@ -1664,6 +1678,26 @@ s {
 
 .sword-xref-marker {
   cursor: pointer;
+}
+
+.scrollable::-webkit-scrollbar,
+.ui-selectmenu-menu ul::-webkit-scrollbar {
+  width: 0.5em;
+  border-width: 1px;
+  border-radius: 6px;
+}
+
+.scrollable::-webkit-scrollbar-track,
+.ui-selectmenu-menu ul::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 6px;
+}
+ 
+.scrollable::-webkit-scrollbar-thumb,
+.ui-selectmenu-menu ul::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  border: 1px solid slategrey;
+  border-radius: 6px;
 }
 
 .darkmode--activated a:link, .darkmode--activated a:visited, .darkmode--activated p, .darkmode--activated .verse-list-composite {

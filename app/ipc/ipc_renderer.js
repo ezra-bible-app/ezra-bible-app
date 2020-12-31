@@ -27,6 +27,9 @@ class IpcRenderer {
     if (this._isElectron) {
       const { ipcRenderer } = require('electron');
       this._electronIpcRenderer = ipcRenderer;
+    } else if (this._isCordova) {
+      this.returnValues = {};
+      this.waitCounters = {};
     }
   }
 
@@ -34,19 +37,31 @@ class IpcRenderer {
     if (this._isElectron) {
       return this.electronIpcCall(functionName, ...args);
     } else if (this._isCordova) {
-      return this.cordovaIpcCall(functionName, ...args);
+      return this.cordovaIpcCall(functionName, undefined, ...args);
     }
   }
 
-  async callWithProgressCallback(functionName, callbackChannel, callbackFunction, ...args) {
+  async callWithTimeout(functionName, timeoutMs, ...args) {
+    if (this._isElectron) {
+      return this.electronIpcCall(functionName, ...args);
+    } else if (this._isCordova) {
+      return this.cordovaIpcCall(functionName, timeoutMs, ...args);
+    }
+  }
+
+  async callWithProgressCallback(functionName, callbackChannel, callbackFunction, timeoutMs, ...args) {
     if (callbackFunction !== undefined) {
-      this.addElectronListenerWithCallback(callbackChannel, callbackFunction);
+      if (this._isElectron) {
+        this.addElectronListenerWithCallback(callbackChannel, callbackFunction);
+      } else if (this._isCordova) {
+        this.addCordovaListenerWithCallback(callbackChannel, callbackFunction);
+      }
     }
 
     if (this._isElectron) {
       return this.electronIpcCall(functionName, ...args);
     } else if (this._isCordova) {
-      return this.cordovaIpcCall(functionName, ...args);
+      return this.cordovaIpcCall(functionName, timeoutMs, ...args);
     }
   }
 
@@ -62,8 +77,24 @@ class IpcRenderer {
     return this._electronIpcRenderer.invoke(functionName, ...args);
   }
 
-  async cordovaIpcCall(functionName, ...args) {
-    // TODO
+  async cordovaIpcCall(functionName, timeoutMs, ...args) {
+    if (!this.returnValues.hasOwnProperty(functionName)) {
+      this.registerNodeCallback(functionName);
+    }
+
+    this.returnValues[functionName] = undefined;
+    this.waitCounters[functionName] = 0;
+    nodejs.channel.post(functionName, ...args);
+
+    var result = null;
+
+    try {
+      result = await this.getNodeResponse(functionName, timeoutMs);
+    } catch (error) {
+      console.log("Did not get node response for " + functionName);
+    }
+
+    return result;
   }
 
   electronIpcCallSync(functionName, ...args) {
@@ -79,6 +110,50 @@ class IpcRenderer {
       if (callbackFunction !== undefined) {
         callbackFunction(message);
       }
+    });
+  }
+
+  addCordovaListenerWithCallback(channel, callbackFunction) {
+    nodejs.channel.on(channel, (message) => {
+      if (callbackFunction !== undefined) {
+        callbackFunction(message);
+      }
+    });
+  }
+
+  registerNodeCallback(functionName) {
+    nodejs.channel.on(functionName, (returnValue) => {
+      this.returnValues[functionName] = returnValue;
+    });
+  }
+
+  waitForNodeResponse(functionName, timeoutMs, resolve, reject) {
+    this.waitCounters[functionName] += 1;
+    var returnValue = this.returnValues[functionName];
+
+    var timeoutCycles = 40; // 2s
+
+    if (timeoutMs !== undefined) {
+      timeoutCycles = timeoutMs / 20;
+    }
+
+    if (returnValue === undefined) {
+      if (this.waitCounters[functionName] > timeoutCycles) {
+        reject(null);
+      } else {
+        setTimeout(() => {
+          //console.log('Waiting for node response for ' + functionName + ' ...');
+          this.waitForNodeResponse(functionName, timeoutMs, resolve, reject);
+        }, 50);
+      }
+    } else {
+      resolve(returnValue);
+    }
+  }
+
+  getNodeResponse(functionName, timeoutMs) {
+    return new Promise((resolve, reject) => {
+      this.waitForNodeResponse(functionName, timeoutMs, resolve, reject);
     });
   }
 }

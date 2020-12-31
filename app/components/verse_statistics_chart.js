@@ -108,7 +108,7 @@ class VerseStatisticsChart {
       return;
     }
     
-    var currentTranslation = app_controller.tab_controller.getTab(tabIndex)?.getBibleTranslationId();
+    var currentTranslation = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
     var bookList = await ipcNsi.getBookList(currentTranslation);
 
     const [labels, values] = await this.getLabelsAndValuesFromStats(bookList, bibleBookStats);

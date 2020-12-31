@@ -16,8 +16,8 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { app } = require('electron');
 const IpcMain = require('./ipc_main.js');
+const PlatformHelper = require('../helpers/platform_helper.js');
 
 let dbHelper = null;
 let dbDir = null;
@@ -26,20 +26,22 @@ class IpcDbHandler {
   constructor() {
     this._ipcMain = new IpcMain();
     this._tagsPersistanceController = null;
+    this.platformHelper = new PlatformHelper();
 
     this.initIpcInterface();
   }
 
-  async initDatabase() {
-    const DbHelper = require.main.require('./app/helpers/db_helper.js');
-    const userDataDir = app.getPath('userData');
+  async initDatabase(isDebug) {
+    const DbHelper = require('../helpers/db_helper.js');
+    var userDataDir = this.platformHelper.getUserDataPath();
+
     dbHelper = new DbHelper(userDataDir);
-    dbDir = dbHelper.getDatabaseDir();
+    dbDir = dbHelper.getDatabaseDir(isDebug);
 
     await dbHelper.initDatabase(dbDir);
-    global.models = require.main.require('./app/database/models')(dbDir);
+    global.models = require('../database/models')(dbDir);
 
-    const TagsPersistanceController = require.main.require('./app/controllers/tags_persistance_controller.js');
+    const TagsPersistanceController = require('../controllers/tags_persistance_controller.js');
     this._tagsPersistanceController = new TagsPersistanceController(global.models);
   }
 

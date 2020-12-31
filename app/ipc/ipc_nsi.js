@@ -17,32 +17,42 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const IpcRenderer = require('./ipc_renderer.js');
+const PlatformHelper = require('../helpers/platform_helper.js');
 
 class IpcNsi {
   constructor() {
     this._ipcRenderer = new IpcRenderer();
+    var platformHelper = new PlatformHelper();
+    this._isCordova = platformHelper.isCordova();
   }
 
   async repositoryConfigExisting() {
-    return await this._ipcRenderer.call('nsi_repositoryConfigExisting');
+    var returnValue = await this._ipcRenderer.call('nsi_repositoryConfigExisting');
+    return returnValue;
   }
 
   async updateRepositoryConfig(progressCallback=undefined) {
-    return await this._ipcRenderer.callWithProgressCallback('nsi_updateRepositoryConfig',
-                                                            'nsi_updateRepoConfigProgress',
-                                                            progressCallback);
+    var returnValue = await this._ipcRenderer.callWithProgressCallback('nsi_updateRepositoryConfig',
+                                                                       'nsi_updateRepoConfigProgress',
+                                                                       progressCallback,
+                                                                       20000);
+    return returnValue;
   }
 
   async getRepoNames() {
-    return await this._ipcRenderer.call('nsi_getRepoNames');
+    var returnValue = this._ipcRenderer.call('nsi_getRepoNames');
+    return returnValue;
   }
 
   async getRepoLanguages(repositoryName, moduleType) {
-    return await this._ipcRenderer.call('nsi_getRepoLanguages', repositoryName, moduleType);
+    var returnValue = this._ipcRenderer.call('nsi_getRepoLanguages', repositoryName, moduleType);
+    return returnValue;
   }
 
   async getAllRepoModules(repositoryName, moduleType) {
-    return await this._ipcRenderer.call('nsi_getAllRepoModules', repositoryName, moduleType);
+    var timeoutMs = 10000;
+    var returnValue = this._ipcRenderer.callWithTimeout('nsi_getAllRepoModules', timeoutMs, repositoryName, moduleType);
+    return returnValue;
   }
 
   async getRepoModulesByLang(repositoryName,
@@ -53,97 +63,122 @@ class IpcNsi {
                              hebrewStrongsKeys,
                              greekStrongsKeys) {
 
-    return await this._ipcRenderer.call('nsi_getRepoModulesByLang',
-                                        repositoryName,
-                                        language,
-                                        moduleType,
-                                        headersFilter,
-                                        strongsFilter,
-                                        hebrewStrongsKeys,
-                                        greekStrongsKeys);
+    var timeoutMs = 10000;
+    var returnValue = this._ipcRenderer.callWithTimeout('nsi_getRepoModulesByLang',
+                                                        timeoutMs,
+                                                        repositoryName,
+                                                        language,
+                                                        moduleType,
+                                                        headersFilter,
+                                                        strongsFilter,
+                                                        hebrewStrongsKeys,
+                                                        greekStrongsKeys);
+    return returnValue;
   }
 
   async getRepoModule(moduleCode) {
-    return await this._ipcRenderer.call('nsi_getRepoModule', moduleCode);
+    var returnValue = this._ipcRenderer.call('nsi_getRepoModule', moduleCode);
+    return returnValue;
   }
 
   async getAllLocalModules(moduleType='BIBLE') {
-    return await this._ipcRenderer.call('nsi_getAllLocalModules', moduleType);
+    var returnValue = this._ipcRenderer.call('nsi_getAllLocalModules', moduleType);
+    return returnValue;
   }
 
   getAllLocalModulesSync(moduleType='BIBLE') {
-    return this._ipcRenderer.callSync('nsi_getAllLocalModulesSync', moduleType);
+    var returnValue = this._ipcRenderer.callSync('nsi_getAllLocalModulesSync', moduleType);
+    return returnValue;
   }
 
   async getRepoLanguageModuleCount(repositoryName, language, moduleType='BIBLE') {
-    return await this._ipcRenderer.call('nsi_getRepoLanguageModuleCount', repositoryName, language, moduleType);
+    var returnValue = this._ipcRenderer.call('nsi_getRepoLanguageModuleCount', repositoryName, language, moduleType);
+    return returnValue;
   }
 
   async installModule(moduleCode, progressCallback=undefined) {
-    return await this._ipcRenderer.callWithProgressCallback('nsi_installModule',
-                                                            'nsi_updateInstallProgress',
-                                                            progressCallback,
-                                                            moduleCode);
+    var returnValue = this._ipcRenderer.callWithProgressCallback('nsi_installModule',
+                                                                 'nsi_updateInstallProgress',
+                                                                 progressCallback,
+                                                                 120000,
+                                                                 moduleCode);
+    return returnValue;
   }
 
   installModuleSync(moduleCode) {
-    return this._ipcRenderer.callSync('nsi_installModuleSync', moduleCode);
+    var returnValue = this._ipcRenderer.callSync('nsi_installModuleSync', moduleCode);
+    return returnValue;
   }
 
   async cancelInstallation() {
-    return await this._ipcRenderer.call('nsi_cancelInstallation');
+    var returnValue = this._ipcRenderer.call('nsi_cancelInstallation');
+    return returnValue;
   }
 
   async uninstallModule(moduleCode) {
-    return await this._ipcRenderer.call('nsi_uninstallModule', moduleCode);
+    var returnValue = this._ipcRenderer.call('nsi_uninstallModule', moduleCode);
+    return returnValue;
   }
 
   resetNsi() {
-    return this._ipcRenderer.callSync('nsi_resetNsi');
+    var returnValue = this._ipcRenderer.callSync('nsi_resetNsi');
+    return returnValue;
   }
 
   async saveModuleUnlockKey(moduleCode, key) {
-    return await this._ipcRenderer.call('nsi_saveModuleUnlockKey', moduleCode, key);
+    var returnValue = this._ipcRenderer.call('nsi_saveModuleUnlockKey', moduleCode, key);
+    return returnValue;
   }
 
   async isModuleReadable(moduleCode) {
-    return await this._ipcRenderer.call('nsi_isModuleReadable', moduleCode);
+    var returnValue = this._ipcRenderer.call('nsi_isModuleReadable', moduleCode);
+    return returnValue;
   }
 
   async getRawModuleEntry(moduleCode, key) {
-    return await this._ipcRenderer.call('nsi_getRawModuleEntry', moduleCode, key);
+    var returnValue = this._ipcRenderer.call('nsi_getRawModuleEntry', moduleCode, key);
+    return returnValue;
   }
 
   async getChapterText(moduleCode, bookCode, chapter) {
-    return await this._ipcRenderer.call('nsi_getChapterText', moduleCode, bookCode, chapter);
+    var returnValue = this._ipcRenderer.call('nsi_getChapterText', moduleCode, bookCode, chapter);
+    return returnValue;
   }
 
   async getBookText(moduleCode, bookCode, startVerseNr=-1, verseCount=-1) {
-    return await this._ipcRenderer.call('nsi_getBookText', moduleCode, bookCode, startVerseNr, verseCount);
+    var timeoutMs = 30000;
+    var returnValue = this._ipcRenderer.callWithTimeout('nsi_getBookText', timeoutMs, moduleCode, bookCode, startVerseNr, verseCount);
+    return returnValue;
   }
 
   async getVersesFromReferences(moduleCode, references) {
-    return await this._ipcRenderer.call('nsi_getVersesFromReferences', moduleCode, references);
+    var returnValue = this._ipcRenderer.call('nsi_getVersesFromReferences', moduleCode, references);
+    return returnValue;
   }
 
   async getReferencesFromReferenceRange(referenceRange) {
-    return await this._ipcRenderer.call('nsi_getReferencesFromReferenceRange', referenceRange);
+    var returnValue = this._ipcRenderer.call('nsi_getReferencesFromReferenceRange', referenceRange);
+    return returnValue;
   }
 
   async getBookList(moduleCode) {
-    return await this._ipcRenderer.call('nsi_getBookList', moduleCode);
+    var returnValue = this._ipcRenderer.call('nsi_getBookList', moduleCode);
+    return returnValue;
   }
 
   async getBookChapterCount(moduleCode, bookCode) {
-    return await this._ipcRenderer.call('nsi_getBookChapterCount', moduleCode, bookCode);
+    var returnValue = this._ipcRenderer.call('nsi_getBookChapterCount', moduleCode, bookCode);
+    return returnValue;
   }
 
   async getChapterVerseCount(moduleCode, bookCode, chapter) {
-    return await this._ipcRenderer.call('nsi_getChapterVerseCount', moduleCode, bookCode, chapter);
+    var returnValue = this._ipcRenderer.call('nsi_getChapterVerseCount', moduleCode, bookCode, chapter);
+    return returnValue;
   }
 
   async getBookIntroduction(moduleCode, bookCode) {
-    return await this._ipcRenderer.call('nsi_getBookIntroduction', moduleCode, bookCode);
+    var returnValue = this._ipcRenderer.call('nsi_getBookIntroduction', moduleCode, bookCode);
+    return returnValue;
   }
 
   async getModuleSearchResults(progressCB,
@@ -153,50 +188,61 @@ class IpcNsi {
                                isCaseSensitive,
                                useExtendedVerseBoundaries) {
 
-    return await this._ipcRenderer.callWithProgressCallback('nsi_getModuleSearchResults',
-                                                            'nsi_updateSearchProgress',
-                                                            progressCB,
-                                                            moduleCode,
-                                                            searchTerm,
-                                                            searchType,
-                                                            isCaseSensitive,
-                                                            useExtendedVerseBoundaries);
+    var returnValue = this._ipcRenderer.callWithProgressCallback('nsi_getModuleSearchResults',
+                                                                 'nsi_updateSearchProgress',
+                                                                 progressCB,
+                                                                 60000,
+                                                                 moduleCode,
+                                                                 searchTerm,
+                                                                 searchType,
+                                                                 isCaseSensitive,
+                                                                 useExtendedVerseBoundaries);
+    return returnValue;
   }
 
   async hebrewStrongsAvailable() {
-    return await this._ipcRenderer.call('nsi_hebrewStrongsAvailable');
+    var returnValue = this._ipcRenderer.call('nsi_hebrewStrongsAvailable');
+    return returnValue;
   }
 
   async greekStrongsAvailable() {
-    return await this._ipcRenderer.call('nsi_greekStrongsAvailable');
+    var returnValue = this._ipcRenderer.call('nsi_greekStrongsAvailable');
+    return returnValue;
   }
 
   async strongsAvailable() {
-    return await this._ipcRenderer.call('nsi_strongsAvailable');
+    var returnValue = this._ipcRenderer.call('nsi_strongsAvailable');
+    return returnValue;
   }
 
   async getStrongsEntry(strongsKey) {
-    return await this._ipcRenderer.call('nsi_getStrongsEntry', strongsKey);
+    var returnValue = this._ipcRenderer.call('nsi_getStrongsEntry', strongsKey);
+    return returnValue;
   }
 
   async getLocalModule(moduleCode) {
-    return await this._ipcRenderer.call('nsi_getLocalModule', moduleCode);
+    var returnValue = this._ipcRenderer.call('nsi_getLocalModule', moduleCode);
+    return returnValue;
   }
 
   async isModuleInUserDir(moduleCode) {
-    return await this._ipcRenderer.call('nsi_isModuleInUserDir', moduleCode);
+    var returnValue = this._ipcRenderer.call('nsi_isModuleInUserDir', moduleCode);
+    return returnValue;
   }
 
   async getSwordTranslation(originalString, localeCode) {
-    return await this._ipcRenderer.call('nsi_getSwordTranslation', originalString, localeCode);
+    var returnValue = this._ipcRenderer.call('nsi_getSwordTranslation', originalString, localeCode);
+    return returnValue;
   }
 
   async getBookAbbreviation(moduleCode, bookCode, localeCode) {
-    return await this._ipcRenderer.call('nsi_getBookAbbreviation', moduleCode, bookCode, localeCode);
+    var returnValue = this._ipcRenderer.call('nsi_getBookAbbreviation', moduleCode, bookCode, localeCode);
+    return returnValue;
   }
 
   async getSwordVersion() {
-    return await this._ipcRenderer.call('nsi_getSwordVersion');
+    var returnValue = this._ipcRenderer.call('nsi_getSwordVersion');
+    return returnValue;
   }
 }
 

@@ -61,7 +61,7 @@ class DisplayOption {
     if (this._customSettingsLoader !== undefined) {
       optionValue = this.customSettingsLoader();
     } else {
-      if (this._settingsObject.has(this._settingsKey)) {
+      if (this._settingsObject != null && this._settingsObject.has(this._settingsKey)) {
         optionValue = this._settingsObject.get(this._settingsKey);
       }
     }

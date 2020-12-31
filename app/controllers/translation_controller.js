@@ -128,7 +128,7 @@ class TranslationController {
 
   addTranslationsToBibleSelectMenu(tabIndex, translations) {
     var bibleSelect = this.getBibleSelect(tabIndex);
-    var currentBibleTranslationId = app_controller.tab_controller.getTab(tabIndex)?.getBibleTranslationId();
+    var currentBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
 
     for (var translation of translations) {
       var selected = '';
@@ -171,6 +171,9 @@ class TranslationController {
       await this.addLanguageGroupsToBibleSelectMenu(tabIndex);
 
       var translations = await ipcNsi.getAllLocalModules();
+
+      if (translations == null) translations = [];
+
       // FIXME: Should be in function
       translations.sort((a, b) => {
         var aDescription = a.description;
@@ -208,7 +211,11 @@ class TranslationController {
         var newBibleTranslationId = bibleSelect[0].value;
 
         app_controller.tab_controller.setCurrentBibleTranslationId(newBibleTranslationId);
-        app_controller.settings.set('bible_translation', newBibleTranslationId);
+
+        if (platformHelper.isElectron()) {
+          app_controller.settings.set('bible_translation', newBibleTranslationId);
+        }
+
         app_controller.tab_controller.refreshBibleTranslationInTabTitle(newBibleTranslationId);
 
         setTimeout(() => {
@@ -363,6 +370,10 @@ class TranslationController {
   async isStrongsTranslationAvailable() {
     var allTranslations = await ipcNsi.getAllLocalModules();
 
+    if (allTranslations == null) {
+      return false;
+    }
+
     for (var dbTranslation of allTranslations) {
       if (dbTranslation.hasStrongs) {
         return true;
@@ -451,6 +462,10 @@ class TranslationController {
 
   async getLanguages(moduleType='BIBLE') {
     var localModules = await ipcNsi.getAllLocalModules(moduleType);
+
+    if (localModules == null) {
+      return [];
+    }
     
     var languages = [];
     var languageCodes = [];

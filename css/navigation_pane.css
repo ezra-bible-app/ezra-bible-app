@@ -24,7 +24,8 @@
   padding-bottom: 0.5em;
   overflow-y: scroll;
   border: 1px solid #DDDDDD;
-  border-radius: 6px;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
   user-select: none;
   display: none;
 }
@@ -39,20 +40,6 @@
 
 .navigation-pane-books {
   min-width: 10em;
-}
-
-.navigation-pane::-webkit-scrollbar {
-  width: 0.5em;
-  border-width: 1px;
-}
-
-.navigation-pane::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-}
- 
-.navigation-pane::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
-  outline: 1px solid slategrey;
 }
 
 .navigation-link {

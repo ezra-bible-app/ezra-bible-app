@@ -149,8 +149,11 @@ class InstallModuleAssistant {
           progressbar.progressbar("value", progressPercent);
         });
 
-        app_controller.settings.set("lastSwordRepoUpdate", new Date());
+        if (platformHelper.isElectron()) {
+          app_controller.settings.set("lastSwordRepoUpdate", new Date());
+        }
       } catch(e) {
+        console.log("Caught exception while updating repository config: " + e);
         listRepoTimeoutMs = 3000;
         wizardPage.append('<p>' + i18n.t('module-assistant.update-repository-data-failed') + '</p>');
       }
@@ -255,7 +258,10 @@ class InstallModuleAssistant {
     // Repositories have been selected
     var wizardPage = "#module-settings-assistant-add-p-0";
     this._selectedRepositories = this._helper.getSelectedSettingsAssistantElements(wizardPage);
-    app_controller.settings.set('selected_repositories', this._selectedRepositories);
+
+    if (platformHelper.isElectron()) {
+      app_controller.settings.set('selected_repositories', this._selectedRepositories);
+    }
 
     var languagesPage = $('#module-settings-assistant-add-p-1');
     languagesPage.empty();
@@ -277,7 +283,10 @@ class InstallModuleAssistant {
       languageCodes.push(currentCode);
     }
 
-    app_controller.settings.set('selected_languages', languages);
+    if (platformHelper.isElectron()) {
+      app_controller.settings.set('selected_languages', languages);
+    }
+
     await this.listModules(languageCodes);
   }
 
@@ -425,7 +434,7 @@ class InstallModuleAssistant {
     try {
       var moduleInstalled = false;
       var localModule = await ipcNsi.getLocalModule(moduleCode);
-      if (localModule !== undefined) {
+      if (localModule !== undefined && localModule !== null) {
         moduleInstalled = true;
       }
 
@@ -491,6 +500,7 @@ class InstallModuleAssistant {
     }
 
     if (swordModule.locked && !unlockSuccessful) {
+      console.log(swordModule);
       throw "UnlockError";
     }
   }
@@ -691,8 +701,14 @@ class InstallModuleAssistant {
 
     var headingsFilter = $('#headings-feature-filter').prop('checked');
     var strongsFilter = $('#strongs-feature-filter').prop('checked');
+
     var hebrewStrongsFilter = $('#hebrew-strongs-dict-feature-filter').prop('checked');
     var greekStrongsFilter = $('#greek-strongs-dict-feature-filter').prop('checked');
+
+    headingsFilter = headingsFilter === undefined ? false : headingsFilter;
+    strongsFilter = strongsFilter === undefined ? false : strongsFilter;
+    hebrewStrongsFilter = hebrewStrongsFilter === undefined ? false : hebrewStrongsFilter;
+    greekStrongsFilter = greekStrongsFilter === undefined ? false : greekStrongsFilter;
 
     var renderHeader = false;
     if (selectedLanguages.length > 1) {

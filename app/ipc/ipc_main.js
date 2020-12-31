@@ -26,10 +26,16 @@ class IpcMain {
     this._isCordova = platformHelper.isCordova();
     this._callCounters = {};
     this._showDebugOutput = false;
+    this._registeredHandlers = [];
 
     if (this._isElectron) {
+
       const { ipcMain } = require('electron');
       this._electronIpcMain = ipcMain;
+
+    } else if (this._isCordova) {
+
+      this._cordova = global.cordova;
     }
   }
 
@@ -38,36 +44,79 @@ class IpcMain {
   }
 
   add(functionName, callbackFunction) {
+    if (this._registeredHandlers.includes(functionName)) {
+      return;
+    }
+
+    this._registeredHandlers.push(functionName);
     this._callCounters[functionName] = 0;
 
     if (this._isElectron) {
+
       return this._electronIpcMain.handle(functionName, async (event, ...args) => {
         this._callCounters[functionName] += 1;
-        if (this._showDebugOutput) { console.log(functionName + ' ' + this._callCounters[functionName]); }
+        if (this._showDebugOutput) {
+          console.log(functionName + ' ' + this._callCounters[functionName]);
+        }
         return await callbackFunction(...args);
       });
+
     } else if (this._isCordova) {
-      // TODO
+
+      return this._cordova.channel.on(functionName, async (...args) => {
+        this._callCounters[functionName] += 1;
+        if (this._showDebugOutput) {
+          console.log(functionName + ' ' + this._callCounters[functionName]);
+        }
+        var returnValue = await callbackFunction(...args);
+        this._cordova.channel.post(functionName, returnValue);
+      });
+
     }
   }
 
   addWithProgressCallback(functionName, callbackFunction, progressChannel) {
+    if (this._registeredHandlers.includes(functionName)) {
+      return;
+    }
+
+    this._registeredHandlers.push(functionName);
     this._callCounters[functionName] = 0;
 
     if (this._isElectron) {
+
       return this._electronIpcMain.handle(functionName, async (event, ...args) => {
         this._callCounters[functionName] += 1;
-        if (this._showDebugOutput) { console.log(functionName + ' ' + this._callCounters[functionName]); }
+        if (this._showDebugOutput) {
+          console.log(functionName + ' ' + this._callCounters[functionName]);
+        }
         return callbackFunction((progress) => { 
           this.message(progressChannel, progress); 
         }, ...args);
       });
+
     } else if (this._isCordova) {
-      // TODO
+
+      return this._cordova.channel.on(functionName, async (...args) => {
+        this._callCounters[functionName] += 1;
+        if (this._showDebugOutput) {
+          console.log(functionName + ' ' + this._callCounters[functionName]);
+        }
+        var returnValue = await callbackFunction((progress) => {
+          this.message(progressChannel, progress);
+        }, ...args);
+        this._cordova.channel.post(functionName, returnValue);
+      });
+
     }
   }
 
   addSync(functionName, callbackFunction) {
+    if (this._registeredHandlers.includes(functionName)) {
+      return;
+    }
+
+    this._registeredHandlers.push(functionName);
     this._callCounters[functionName] = 0;
 
     if (this._isElectron) {
@@ -97,7 +146,7 @@ class IpcMain {
   }
 
   async cordovaIpcMessage(channel, message) {
-    // TODO
+    return this._cordova.channel.post(channel, message);
   }
 }
 

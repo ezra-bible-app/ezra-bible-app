@@ -19,6 +19,29 @@
 const Mousetrap = require('mousetrap');
 const VerseBox = require('../ui_models/verse_box.js');
 
+const VerseBoxHelper = require("../helpers/verse_box_helper.js");
+const VerseSelection = require("../components/verse_selection.js");
+const TagSelectionMenu = require("../components/tags/tag_selection_menu.js");
+const VerseListPopup = require("../components/verse_list_popup.js");
+const TagAssignmentMenu = require("../components/tags/tag_assignment_menu.js");
+const ModuleSearchController = require("./module_search_controller.js");
+const TranslationController = require("./translation_controller.js");
+const InstallModuleAssistant = require("../components/module_assistant/install_module_assistant.js");
+const RemoveModuleAssistant = require("../components/module_assistant/remove_module_assistant.js");
+const TextController = require("./text_controller.js");
+const VerseContextController = require("./verse_context_controller.js");
+const BookSearch = require("../components/tab_search/tab_search.js");
+const TabController = require("./tab_controller.js");
+const OptionsMenu = require("../components/options_menu.js");
+const NavigationPane = require("../components/navigation_pane.js");
+const TaggedVerseExport = require("../components/tags/tagged_verse_export.js");
+const TranslationComparison = require("../components/translation_comparison.js");
+const BookSelectionMenu = require("../components/book_selection_menu.js");
+const TagStatistics = require("../components/tags/tag_statistics.js");
+const DictionaryController = require("./dictionary_controller.js");
+const NotesController = require("./notes_controller.js");
+const SwordNotes = require("../components/sword_notes.js");
+
 /**
  * AppController is Ezra Project's main controller class which initiates all other controllers and components.
  * It is only instantiated once and an instance is available at `global.app_controller`.
@@ -38,9 +61,8 @@ class AppController {
    * @param {String} componentName The variable name that this component shall get within the AppController instance
    * @param {String} componentPath The path to the component js file
    */
-  init_component(componentClassName, componentName, componentPath) {
+  init_component(componentClassName, componentName) {
     var expression = "";
-    expression += "const " + componentClassName + " = " + "require('" + componentPath + "');";
     expression += "this." + componentName + " = new " + componentClassName + "();";
     eval(expression);
   }
@@ -48,30 +70,40 @@ class AppController {
   async init() {
     this.verse_list_menu_template = $($('.verse-list-menu')[0]).html();
     this.verse_list_composite_template = $($('.verse-list-composite')[0]).html();
-    this.settings = require('electron-settings');
 
-    this.init_component("VerseBoxHelper", "verse_box_helper", "../helpers/verse_box_helper.js");
-    this.init_component("VerseSelection", "verse_selection", "../components/verse_selection.js");
-    this.init_component("TagSelectionMenu", "tag_selection_menu", "../components/tags/tag_selection_menu.js");
-    this.init_component("TagAssignmentMenu", "tag_assignment_menu", "../components/tags/tag_assignment_menu.js");
-    this.init_component("ModuleSearchController", "module_search_controller", "./module_search_controller.js");
-    this.init_component("TranslationController", "translation_controller", "./translation_controller.js");
-    this.init_component("InstallModuleAssistant", "install_module_assistant", "../components/module_assistant/install_module_assistant.js");
-    this.init_component("RemoveModuleAssistant", "remove_module_assistant", "../components/module_assistant/remove_module_assistant.js");
-    this.init_component("TextController", "text_controller", "./text_controller.js");
-    this.init_component("VerseContextController", "verse_context_controller", "./verse_context_controller.js");
-    this.init_component("BookSearch", "tab_search", "../components/tab_search/tab_search.js");
-    this.init_component("TabController", "tab_controller", "./tab_controller.js");
-    this.init_component("OptionsMenu", "optionsMenu", "../components/options_menu.js");
-    this.init_component("NavigationPane", "navigation_pane", "../components/navigation_pane.js");
-    this.init_component("TaggedVerseExport", "taggedVerseExport", "../components/tags/tagged_verse_export.js");
-    this.init_component("TranslationComparison", "translationComparison", "../components/translation_comparison.js");
-    this.init_component("BookSelectionMenu", "book_selection_menu", "../components/book_selection_menu.js");
-    this.init_component("VerseListPopup", "verse_list_popup", "../components/verse_list_popup.js");
-    this.init_component("TagStatistics", "tag_statistics", "../components/tags/tag_statistics.js");
-    this.init_component("DictionaryController", "dictionary_controller", "./dictionary_controller.js");
-    this.init_component("NotesController", "notes_controller", "./notes_controller.js");
-    this.init_component("SwordNotes", "sword_notes", "../components/sword_notes.js");
+    if (platformHelper.isElectron()) {
+      this.settings = require('electron-settings');
+    } else {
+      this.settings = {
+        has: function() { return false; },
+        get: function() { return null; },
+        set: function() { return; },
+        delete: function() { return; }
+      };
+    }
+
+    this.init_component("VerseBoxHelper", "verse_box_helper");
+    this.init_component("VerseSelection", "verse_selection");
+    this.init_component("TagSelectionMenu", "tag_selection_menu");
+    this.init_component("TagAssignmentMenu", "tag_assignment_menu");
+    this.init_component("ModuleSearchController", "module_search_controller");
+    this.init_component("TranslationController", "translation_controller");
+    this.init_component("InstallModuleAssistant", "install_module_assistant");
+    this.init_component("RemoveModuleAssistant", "remove_module_assistant");
+    this.init_component("TextController", "text_controller");
+    this.init_component("VerseContextController", "verse_context_controller");
+    this.init_component("BookSearch", "tab_search");
+    this.init_component("TabController", "tab_controller");
+    this.init_component("OptionsMenu", "optionsMenu");
+    this.init_component("NavigationPane", "navigation_pane");
+    this.init_component("TaggedVerseExport", "taggedVerseExport");
+    this.init_component("TranslationComparison", "translationComparison");
+    this.init_component("BookSelectionMenu", "book_selection_menu");
+    this.init_component("VerseListPopup", "verse_list_popup");
+    this.init_component("TagStatistics", "tag_statistics");
+    this.init_component("DictionaryController", "dictionary_controller");
+    this.init_component("NotesController", "notes_controller");
+    this.init_component("SwordNotes", "sword_notes");
 
     this.verse_list_popup.initVerseListPopup();
     this.initGlobalShortCuts();
@@ -84,19 +116,19 @@ class AppController {
                                       async (translationId) => { await this.onTranslationRemoved(translationId); });
 
     this.tab_search.init('#tab-search',
-                          '#tab-search-input',
-                          '#tab-search-occurances',
-                          '#tab-search-previous',
-                          '#tab-search-next',
-                          '#tab-search-is-case-sensitive',
-                          '#tab-search-type',
-                          async (occurances) => { await this.onSearchResultsAvailable(occurances); },
-                          () => { this.onSearchReset(); });
+                         '#tab-search-input',
+                         '#tab-search-occurances',
+                         '#tab-search-previous',
+                         '#tab-search-next',
+                         '#tab-search-is-case-sensitive',
+                         '#tab-search-type',
+                         async (occurances) => { await this.onSearchResultsAvailable(occurances); },
+                         () => { this.onSearchReset(); });
 
     var bibleTranslations = await ipcNsi.getAllLocalModules();
 
     var defaultBibleTranslationId = null;
-    if (bibleTranslations.length > 0) {
+    if (bibleTranslations != null && bibleTranslations.length > 0) {
       var defaultBibleTranslationId = bibleTranslations[0].name;
       await this.book_selection_menu.init();
     }
@@ -195,7 +227,7 @@ class AppController {
     await this.translation_controller.initTranslationsMenu(-1, ui.index);
 
     // Highlight currently selected book (only in book mode)
-    var textType = this.tab_controller.getTab(ui.index)?.getTextType();
+    var textType = this.tab_controller.getTab(ui.index).getTextType();
     if (textType == 'book') this.book_selection_menu.highlightCurrentlySelectedBookInMenu(ui.index);
 
     // Toggle book statistics
@@ -224,7 +256,7 @@ class AppController {
     this.module_search_controller.initModuleSearchMenu(tabIndex);
     await this.translation_controller.initTranslationsMenu(previousTabIndex, tabIndex);
     this.translation_controller.initBibleTranslationInfoButton();
-    var currentBibleTranslationId = this.tab_controller.getTab(tabIndex)?.getBibleTranslationId();
+    var currentBibleTranslationId = this.tab_controller.getTab(tabIndex).getBibleTranslationId();
     if (currentBibleTranslationId != null) {
       this.translation_controller.enableCurrentTranslationInfoButton(tabIndex);
     }
@@ -297,11 +329,13 @@ class AppController {
   }
 
   async loadSettings() {
-    if (this.settings.get('tag_list_width') &&
-        this.settings.get('tag_list_width') != null) {
+    if (platformHelper.isElectron()) {
+      if (this.settings.get('tag_list_width') &&
+          this.settings.get('tag_list_width') != null) {
 
-      $('#bible-browser-toolbox').css('width', this.settings.get('tag_list_width'));
-      uiHelper.resizeAppContainer();
+        $('#bible-browser-toolbox').css('width', this.settings.get('tag_list_width'));
+        uiHelper.resizeAppContainer();
+      }
     }
 
     if (await ipcDb.getTagCount() > 0) {
@@ -553,7 +587,7 @@ class AppController {
     }).addClass('events-configured');
   }
 
-  bindEventsAfterBibleTextLoaded = async function(tabIndex=undefined, preventDoubleBinding=false, verseList=undefined) {
+  async bindEventsAfterBibleTextLoaded(tabIndex=undefined, preventDoubleBinding=false, verseList=undefined) {
     if (verseList == undefined) {
       verseList = this.getCurrentVerseList(tabIndex);
     }
@@ -786,7 +820,7 @@ class AppController {
     }
 
     this.navigation_pane.resetNavigationPane();
-    this.taggedVerseExport?.disableTaggedVersesExportButton();
+    this.taggedVerseExport.disableTaggedVersesExportButton();
   }
 
   async initApplicationForVerseList(tabIndex=undefined) {
@@ -867,10 +901,17 @@ class AppController {
   }
 
   isCacheInvalid() {
-    var lastUsedVersion = this.settings.get('lastUsedVersion');
-    var currentVersion = app.getVersion();
+    if (platformHelper.isElectron()) {
 
-    return currentVersion != lastUsedVersion;
+      var lastUsedVersion = this.settings.get('lastUsedVersion');
+      var currentVersion = app.getVersion();
+
+      return currentVersion != lastUsedVersion;
+
+    } else if (platformHelper.isCordova()) {
+
+      return true;
+    }
   }
 }
 
