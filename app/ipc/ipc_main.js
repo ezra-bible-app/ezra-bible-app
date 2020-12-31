@@ -25,7 +25,8 @@ class IpcMain {
     this._isElectron = platformHelper.isElectron();
     this._isCordova = platformHelper.isCordova();
     this._callCounters = {};
-    this._showDebugOutput = true;
+    this._showDebugOutput = false;
+    this._registeredHandlers = [];
 
     if (this._isElectron) {
 
@@ -43,6 +44,11 @@ class IpcMain {
   }
 
   add(functionName, callbackFunction) {
+    if (this._registeredHandlers.includes(functionName)) {
+      return;
+    }
+
+    this._registeredHandlers.push(functionName);
     this._callCounters[functionName] = 0;
 
     if (this._isElectron) {
@@ -70,6 +76,11 @@ class IpcMain {
   }
 
   addWithProgressCallback(functionName, callbackFunction, progressChannel) {
+    if (this._registeredHandlers.includes(functionName)) {
+      return;
+    }
+
+    this._registeredHandlers.push(functionName);
     this._callCounters[functionName] = 0;
 
     if (this._isElectron) {
@@ -101,6 +112,11 @@ class IpcMain {
   }
 
   addSync(functionName, callbackFunction) {
+    if (this._registeredHandlers.includes(functionName)) {
+      return;
+    }
+
+    this._registeredHandlers.push(functionName);
     this._callCounters[functionName] = 0;
 
     if (this._isElectron) {
