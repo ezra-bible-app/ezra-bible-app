@@ -19,6 +19,7 @@
 window.app = null;
 let isDev = null;
 
+const IpcGeneral = require('./ipc/ipc_general.js');
 const IpcI18n = require('./ipc/ipc_i18n.js');
 const IpcNsi = require('./ipc/ipc_nsi.js');
 const IpcDb = require('./ipc/ipc_db.js');
@@ -129,6 +130,7 @@ async function initIpcClients()
     window.ipcCordova = new IpcCordova();
   }
 
+  window.ipcGeneral = new IpcGeneral();
   window.ipcI18n = new IpcI18n();
   window.ipcNsi = new IpcNsi();
   window.ipcDb = new IpcDb();
@@ -301,10 +303,13 @@ window.initApplication = async function()
   loadingIndicator.show();
 
   if (platformHelper.isWin()) {
-    if (!platformHelper.isWindowsTenOrLater()) {
-      var vcppRedistributableNeeded = platformHelper.showVcppRedistributableMessageIfNeeded();
-      if (vcppRedistributableNeeded) {
-        return;
+    var isWin10 = await platformHelper.isWindowsTenOrLater();
+    if (isWin10 != undefined) {
+      if (!isWin10) {
+        var vcppRedistributableNeeded = platformHelper.showVcppRedistributableMessageIfNeeded();
+        if (vcppRedistributableNeeded) {
+          return;
+        }
       }
     }
   }
@@ -337,7 +342,9 @@ window.initApplication = async function()
   await waitUntilIdle();
 
   console.log("Loading settings ...");
-  await app_controller.loadSettings();
+  if (platformHelper.isElectron() || platformHelper.isCordova()) {
+    await app_controller.loadSettings();
+  }
 
   // Wait for the UI to render, before we hide the loading indicator
   await waitUntilIdle();
@@ -380,5 +387,7 @@ window.addEventListener('load', function() {
   } else {
 
     console.error("FATAL: Unknown platform");
+
+    initApplication();
   }
 });

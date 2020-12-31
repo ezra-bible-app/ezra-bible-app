@@ -35,7 +35,7 @@ class OptionsMenu {
     this.menuIsOpened = false;
   }
 
-  init() {
+  async init() {
     $('#show-translation-settings-button').bind('click', function() {
       app_controller.openModuleSettingsAssistant('BIBLE'); 
     });
@@ -66,7 +66,8 @@ class OptionsMenu {
       return theme_controller.isNightModeUsed();
     });
 
-    if (platformHelper.isMacOsMojaveOrLater()) {
+    var isMojaveOrLater = await platformHelper.isMacOsMojaveOrLater();
+    if (isMojaveOrLater) {
       // On macOS Mojave and later we do not give the user the option to switch night mode within the app, since it is controlled via system settings.
       $('#night-mode-switch-box').hide();
     }

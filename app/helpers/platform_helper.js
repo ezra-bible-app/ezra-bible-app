@@ -113,14 +113,14 @@ class PlatformHelper {
     }
   }
 
-  getMajorOsVersion() {
+  async getMajorOsVersion() {
     var releaseVersion = require('os').release();
     var splittedVersion = releaseVersion.split('.');
     var majorDigit = parseInt(splittedVersion[0]);
     return majorDigit;
   }
 
-  isMacOsMojaveOrLater() {
+  async isMacOsMojaveOrLater() {
     if (!this.isMac()) {
       return false;
     }
@@ -128,7 +128,7 @@ class PlatformHelper {
     var isMojaveOrLater = false;
 
     try {
-      var majorOsVersion = this.getMajorOsVersion();
+      var majorOsVersion = await this.getMajorOsVersion();
 
       // see https://en.wikipedia.org/wiki/Darwin_(operating_system)#Release_history
       // macOS Mojave starts with the Darwin kernel version 18.0.0
@@ -138,7 +138,7 @@ class PlatformHelper {
     return isMojaveOrLater;
   }
 
-  isWindowsTenOrLater() {
+  async isWindowsTenOrLater() {
     if (!this.isWin()) {
       return false;
     }
@@ -146,12 +146,17 @@ class PlatformHelper {
     var isWinTenOrLater = false;
 
     try {
-      var majorOsVersion = this.getMajorOsVersion();
+      var majorOsVersion = await this.getMajorOsVersion();
+      if (majorOsVersion == undefined) {
+        return undefined;
+      }
 
       // see https://docs.microsoft.com/en-us/windows/win32/sysinfo/operating-system-version
       // Windows 10 starts with version 10.*
       isWinTenOrLater = (majorOsVersion >= 10);
-    } catch (e) {}
+    } catch (e) {
+      return undefined;
+    }
 
     return isWinTenOrLater;
   }
