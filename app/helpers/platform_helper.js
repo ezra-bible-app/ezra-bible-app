@@ -48,11 +48,16 @@ class PlatformHelper {
   }
 
   isLinux() {
-    return navigator.platform.match('Linux') !== null;
+    return navigator.platform.match('Linux') !== null &&
+           navigator.platform.match('arm') === null; // This is to ensure that we do not treat Android as "Linux"
   }
 
   isWin() {
     return navigator.platform.match('Win') !== null;
+  }
+
+  isAndroid() {
+    return navigator.userAgent.match('Android') !== null;
   }
 
   isCordova() {
@@ -103,6 +108,8 @@ class PlatformHelper {
       document.body.classList.add('Linux');
     } else if (this.isWin()) {
       document.body.classList.add('Windows');
+    } else if (this.isAndroid()) {
+      document.body.classList.add('Android');
     }
   }
 

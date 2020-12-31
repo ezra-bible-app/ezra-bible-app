@@ -1614,6 +1614,7 @@ s {
 .Windows select,
 .Windows .verse-list,
 .Windows .loading-indicator-text,
+.Windows .loading-subtitle,
 .Windows div.CodeMirror {
   font-family: "Segoe UI", sans-serif;
 }
@@ -1627,12 +1628,23 @@ s {
 .Linux select,
 .Linux .verse-list,
 .Linux .loading-indicator-text,
+.Linux .loading-subtitle,
 .Linux div.CodeMirror {
-  font-family: "Liberation Sans", sans-serif;
+  font-family: "Liberation Sans", Ubuntu, sans-serif;
 }
 
 .Linux div.CodeMirror {
   font-size: 1em;
+}
+
+.Android,
+.Android button,
+.Android select,
+.Android .verse-list,
+.Android .loading-indicator-text,
+.Android .loading-subtitle,
+.Android div.CodeMirror {
+  font-family: Roboto, sans-serif;
 }
 
 .OSX,
@@ -1640,6 +1652,7 @@ s {
 .OSX select,
 .OSX .verse-list,
 .OSX .loading-indicator-text,
+.OSX .loading-subtitle,
 .OSX div.CodeMirror {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
 }
