@@ -22,14 +22,14 @@ const StrongsHighlighter = require('./strongs_highlighter.js');
 
 class VerseSearch {
   constructor() {
-    this.cachedVerseElementTextNodes = {};
+    this.currentVerseElementTextNodes = undefined;
     this.exactPhraseHighlighter = new ExactPhraseHighlighter(this.getHighlightedText);
     this.singleWordHighlighter = new SingleWordHighlighter(this.getHighlightedText);
     this.strongsHighlighter = new StrongsHighlighter(this.getHighlightedText);
   }
 
   doVerseSearch(verseElement, searchString, searchType, caseSensitive=false, extendedVerseBoundaries=false) {
-    this.cachedVerseElementTextNodes = {};
+    this.currentVerseElementTextNodes = undefined;
 
     var searchTermList = null;
     var isStrongs = (searchType == "strongsNumber");
@@ -52,7 +52,6 @@ class VerseSearch {
 
     for (var i = 0; i < searchTermList.length; i++) {
       var currentSearchTerm = searchTermList[i];
-
       var occurances = [];
 
       if (isStrongs) {
@@ -111,11 +110,10 @@ class VerseSearch {
     var searchStringLength = searchString.length;
 
     if (searchStringLength > 0) {
-
-      var verseElementTextNodes = this.getTextNodes(verseElement);
+      this.currentVerseElementTextNodes = this.getTextNodes(verseElement);
       var verseText = "";
 
-      verseElementTextNodes.forEach((textNode) => {
+      this.currentVerseElementTextNodes.forEach((textNode) => {
         verseText += textNode.nodeValue;
       });
 
@@ -147,9 +145,8 @@ class VerseSearch {
   }
 
   getTextNodes(verseElement) {
-    var existingNodes = this.cachedVerseElementTextNodes[verseElement];
-    if (existingNodes !== undefined) {
-      return existingNodes;
+    if (this.currentVerseElementTextNodes !== undefined) {
+      return this.currentVerseElementTextNodes;
     }
 
     var customNodeFilter = {
@@ -171,7 +168,7 @@ class VerseSearch {
       textNodes.push(nextNode);
     }
 
-    this.cachedVerseElementTextNodes[verseElement] = textNodes;
+    this.currentVerseElementTextNodes = textNodes;
     return textNodes;
   }
 
@@ -183,8 +180,8 @@ class VerseSearch {
     }
 
     if (searchType == "phrase") {
-      var nodes = this.getTextNodes(verseElement);
-      this.exactPhraseHighlighter.highlightOccurrances(nodes, searchString, caseSensitive, regexOptions);
+      this.currentVerseElementTextNodes = this.getTextNodes(verseElement);
+      this.exactPhraseHighlighter.highlightOccurrances(this.currentVerseElementTextNodes, searchString, caseSensitive, regexOptions);
     } else if (searchType == "strongsNumber") {
       this.strongsHighlighter.highlightOccurrances(occurances);
     } else {
