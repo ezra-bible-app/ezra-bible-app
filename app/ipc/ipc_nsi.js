@@ -146,7 +146,8 @@ class IpcNsi {
   }
 
   async getBookText(moduleCode, bookCode, startVerseNr=-1, verseCount=-1) {
-    var returnValue = this._ipcRenderer.call('nsi_getBookText', moduleCode, bookCode, startVerseNr, verseCount);
+    var timeoutMs = 30000;
+    var returnValue = this._ipcRenderer.callWithTimeout('nsi_getBookText', timeoutMs, moduleCode, bookCode, startVerseNr, verseCount);
     return returnValue;
   }
 
