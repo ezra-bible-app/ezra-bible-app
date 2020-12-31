@@ -22,12 +22,15 @@ const StrongsHighlighter = require('./strongs_highlighter.js');
 
 class VerseSearch {
   constructor() {
+    this.cachedVerseElementTextNodes = {};
     this.exactPhraseHighlighter = new ExactPhraseHighlighter(this.getHighlightedText);
     this.singleWordHighlighter = new SingleWordHighlighter(this.getHighlightedText);
     this.strongsHighlighter = new StrongsHighlighter(this.getHighlightedText);
   }
 
   doVerseSearch(verseElement, searchString, searchType, caseSensitive=false, extendedVerseBoundaries=false) {
+    this.cachedVerseElementTextNodes = {};
+
     var searchTermList = null;
     var isStrongs = (searchType == "strongsNumber");
 
@@ -144,6 +147,11 @@ class VerseSearch {
   }
 
   getTextNodes(verseElement) {
+    var existingNodes = this.cachedVerseElementTextNodes[verseElement];
+    if (existingNodes !== undefined) {
+      return existingNodes;
+    }
+
     var customNodeFilter = {
       acceptNode: function(node) {
         // Logic to determine whether to accept, reject or skip node
@@ -163,6 +171,7 @@ class VerseSearch {
       textNodes.push(nextNode);
     }
 
+    this.cachedVerseElementTextNodes[verseElement] = textNodes;
     return textNodes;
   }
 
