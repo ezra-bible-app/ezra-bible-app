@@ -29,7 +29,7 @@ class SwordNotes {
 
   getCurrentTabNotes(tabIndex) {
     var verseList = app_controller.getCurrentVerseList(tabIndex);
-    var swordNotes = verseList.find('.sword-note');
+    var swordNotes = verseList[0].querySelectorAll('.sword-note');
     return swordNotes;
   }
 
@@ -49,7 +49,7 @@ class SwordNotes {
   }
 
   initForContainer(container) {
-    var swordNotes = container.find('.sword-note');
+    var swordNotes = container.querySelectorAll('.sword-note');
     this.initNotes(swordNotes);
   }
 
@@ -58,9 +58,28 @@ class SwordNotes {
     //console.log(`Got ${swordNotes.length} sword xref elements!`);
 
     // Within crossReference notes: Remove text nodes containing ';'
-    swordNotes.filter('[type="crossReference"]').contents().filter(function() {
-      return this.nodeType === 3; //Node.TEXT_NODE
-    }).replaceWith("");
+    var filteredNotes = [...swordNotes].filter(e => {
+      return e.getAttribute('type') == 'crossReference';
+    });
+
+    var textNodes = [];
+
+    for (var i = 0; i < filteredNotes.length; i++) {
+      var currentNote = filteredNotes[i];
+
+      var nextNode;
+      var walk = document.createTreeWalker(currentNote, NodeFilter.SHOW_TEXT);
+
+      while (nextNode = walk.nextNode()) {
+        if (nextNode.parentNode.nodeName != "REFERENCE") {
+          textNodes.push(nextNode);
+        }
+      }
+    }
+
+    for (var i = 0; i < textNodes.length; i++) {
+      textNodes[i].replaceWith("");
+    }
 
     for (var i = 0; i < swordNotes.length; i++) {
       var currentNote = swordNotes[i];
@@ -72,8 +91,9 @@ class SwordNotes {
       }
     }
 
-    swordNotes.css('display', 'inline-block');
-    swordNotes.css('margin-left', '0.1em');
+    var jqSwordNotes = $(swordNotes);
+    jqSwordNotes.css('display', 'inline-block');
+    jqSwordNotes.css('margin-left', '0.1em');
     //console.timeEnd('SwordNotes.initForTab');
   }
 
@@ -82,14 +102,24 @@ class SwordNotes {
 
     if (noteContent.indexOf("sword-xref-marker") == -1) {
       var currentReferences = note.querySelectorAll('reference');
-      var currentTitleArray = [];
+      var currentTitle = "";
 
-      currentReferences.forEach((ref) => {
-        var currentRef = ref.innerText;
-        currentTitleArray.push(currentRef);
-      });
+      if (currentReferences.length > 1) {
 
-      var currentTitle = currentTitleArray.join('; ');
+        var currentTitleArray = [];
+
+        for (var i = 0; i < currentReferences.length; i++) {
+          var ref = currentReferences[i];
+          var currentRef = ref.innerText;
+          currentTitleArray.push(currentRef);
+        }
+
+        currentTitle = currentTitleArray.join('; ');
+
+      } else if (currentReferences.length == 1) {
+
+        currentTitle = currentReferences[0].innerText;
+      }
 
       var xrefMarker = this.createMarker('sword-xref-marker', currentTitle, 'x');
       note.insertBefore(xrefMarker, note.firstChild);

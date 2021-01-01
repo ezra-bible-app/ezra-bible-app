@@ -656,7 +656,7 @@ class AppController {
       var verses = await ipcNsi.getBookText(currentBibleTranslationId, bookShortTitle, mappedAbsoluteVerseNumber, 1);
       var verseText = referenceVerseContainer.querySelector('.verse-text');
       verseText.innerHTML = verses[0].content;
-      this.sword_notes.initForContainer($(referenceVerseContainer));
+      this.sword_notes.initForContainer(referenceVerseContainer);
       this.bindEventsAfterBibleTextLoaded(undefined, false, $(referenceVerseContainer));
     } catch (e) {
       console.warn('Could not update translation for reference verse: ' + e);

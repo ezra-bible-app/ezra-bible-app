@@ -382,7 +382,7 @@ class VerseListPopup {
       bookTaggedVersesCountLabel.text(` (${currentBookVerseCount})`);
     }
 
-    app_controller.sword_notes.initForContainer($('#verse-list-popup-verse-list'));
+    app_controller.sword_notes.initForContainer(document.getElementById('verse-list-popup-verse-list'));
     $('#verse-list-popup-verse-list').show();
   }
 }
