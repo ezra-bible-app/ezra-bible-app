@@ -27,8 +27,12 @@
       return await this._ipcRenderer.call('general_getMajorOsVersion');
     }
 
-    async getSearchStatisticChartData(bibleTranslationId, languageCode, bookList, bibleBookStats) {
+    async getSearchStatisticChartData(bibleTranslationId, bookList, bibleBookStats, languageCode=i18n.language) {
       return await this._ipcRenderer.call('general_getSearchStatisticChartData', bibleTranslationId, languageCode, bookList, bibleBookStats);
+    } 
+
+    async getBookNames(bibleBooks, languageCode=i18n.language) {
+      return await this._ipcRenderer.call('general_getBookNames', bibleBooks, languageCode);
     } 
    }
 

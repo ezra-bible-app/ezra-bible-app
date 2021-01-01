@@ -82,6 +82,18 @@ class IpcGeneralHandler {
 
       return [labels, values];
     });
+
+    this._ipcMain.add('general_getBookNames', async(bibleBooks, languageCode) => {
+      var bookNames = {};
+      var nsi = ipcNsiHandler.getNSI();
+
+      for (var i = 0; i < bibleBooks.length; i++) {
+        var currentBook = bibleBooks[i];
+        bookNames[currentBook.shortTitle] = nsi.getSwordTranslation(currentBook.longTitle, languageCode);
+      }
+
+      return bookNames;
+    });
   }
 }
 
