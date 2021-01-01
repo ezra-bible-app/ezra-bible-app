@@ -26,6 +26,10 @@
     async getMajorOsVersion() {
       return await this._ipcRenderer.call('general_getMajorOsVersion');
     }
+
+    async getSearchStatisticChartData(bibleTranslationId, languageCode, bookList, bibleBookStats) {
+      return await this._ipcRenderer.call('general_getSearchStatisticChartData', bibleTranslationId, languageCode, bookList, bibleBookStats);
+    } 
    }
 
    module.exports = IpcGeneral;

@@ -31,6 +31,57 @@ class IpcGeneralHandler {
       var majorDigit = parseInt(splittedVersion[0]);
       return majorDigit;
     });
+
+    this._ipcMain.add('general_getSearchStatisticChartData', async(bibleTranslationId, languageCode, bookList, bibleBookStats) => {
+      var labels = [];
+      var values = [];
+      var ntOnly = true;
+      var otOnly = true;
+
+      for (var book in bibleBookStats) {
+        var isNtBook = models.BibleBook.isNtBook(book);
+
+        if (!isNtBook) {
+          ntOnly = false;
+        }
+
+        var isOtBook = models.BibleBook.isOtBook(book);
+        if (!isOtBook) {
+          otOnly = false;
+        }
+      }
+
+      var nsi = ipcNsiHandler.getNSI();
+
+      for (var i = 0; i < bookList.length; i++) {
+        var book = bookList[i];
+        var includeCurrentBook = false;
+        var isNtBook = models.BibleBook.isNtBook(book);
+        var isOtBook = models.BibleBook.isOtBook(book);
+
+        if (ntOnly && isNtBook) {
+          includeCurrentBook = true;
+        } else if (otOnly && isOtBook) {
+          includeCurrentBook = true;
+        } else if (!otOnly && !ntOnly) {
+          includeCurrentBook = true;
+        }
+
+        if (includeCurrentBook) {
+          var translatedBook = nsi.getBookAbbreviation(bibleTranslationId, book, languageCode);
+          labels.push(translatedBook);
+
+          var value = 0;
+          if (book in bibleBookStats) {
+            value = bibleBookStats[book];
+          }
+
+          values.push(value);
+        }
+      };
+
+      return [labels, values];
+    });
   }
 }
 

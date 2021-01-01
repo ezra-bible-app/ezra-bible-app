@@ -53,55 +53,6 @@ class VerseStatisticsChart {
     container.append(canvasElement);
   }
 
-  async getLabelsAndValuesFromStats(bookList, bibleBookStats) {
-    var labels = [];
-    var values = [];
-    var ntOnly = true;
-    var otOnly = true;
-
-    for (var book in bibleBookStats) {
-      var isNtBook = await ipcDb.isNtBook(book);
-
-      if (!isNtBook) {
-        ntOnly = false;
-      }
-
-      var isOtBook = await ipcDb.isOtBook(book);
-      if (!isOtBook) {
-        otOnly = false;
-      }
-    }
-
-    for (var i = 0; i < bookList.length; i++) {
-      var book = bookList[i];
-      var includeCurrentBook = false;
-      var isNtBook = await ipcDb.isNtBook(book);
-      var isOtBook = await ipcDb.isOtBook(book);
-
-      if (ntOnly && isNtBook) {
-        includeCurrentBook = true;
-      } else if (otOnly && isOtBook) {
-        includeCurrentBook = true;
-      } else if (!otOnly && !ntOnly) {
-        includeCurrentBook = true;
-      }
-
-      if (includeCurrentBook) {
-        var translatedBook = await i18nHelper.getBookAbbreviation(book);
-        labels.push(translatedBook);
-
-        var value = 0;
-        if (book in bibleBookStats) {
-          value = bibleBookStats[book];
-        }
-
-        values.push(value);
-      }
-    };
-
-    return [labels, values];
-  }
-
   async updateChart(tabIndex=undefined, bibleBookStats) {
     var numberOfBooks = Object.keys(bibleBookStats).length;
     if (numberOfBooks < 2) {
@@ -111,14 +62,14 @@ class VerseStatisticsChart {
     var currentTranslation = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
     var bookList = await ipcNsi.getBookList(currentTranslation);
 
-    const [labels, values] = await this.getLabelsAndValuesFromStats(bookList, bibleBookStats);
+    const [labels, values] = await ipcGeneral.getSearchStatisticChartData(currentTranslation, i18n.language, bookList, bibleBookStats);
 
     var data = {
       labels: labels,
       datasets: [{
-          data: values,
-          backgroundColor: this.chartColors.blue,
-          borderWidth: 1
+        data: values,
+        backgroundColor: this.chartColors.blue,
+        borderWidth: 1
       }]
     };
 
