@@ -259,25 +259,25 @@ class NavigationPane {
     var navigationPane = this.getCurrentNavigationPane(tabIndex);
     var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
     var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
+    var navigationPaneHtml = "";
 
     for (var i = 0; i < bookHeaders.length; i++) {
       var bookNumber = i + 1;
       var currentBookHeader = $(bookHeaders[i]);
       var currentBookHeaderText = currentBookHeader.text();
       var currentBook = currentBookHeader.attr("bookname");
-      var currentBookLink = document.createElement('a');
-      currentBookLink.setAttribute('class', 'navigation-link');
-      var href = 'javascript:app_controller.navigation_pane.goToBook("' + currentBook + '",' + bookNumber + ')';
-      currentBookLink.setAttribute('href', href);
-      $(currentBookLink).html(currentBookHeaderText);
 
-      navigationPane.append(currentBookLink);
+      var href = `javascript:app_controller.navigation_pane.goToBook('${currentBook}','${bookNumber}')`;
+      var link = `<a class='navigation-link' href='${href}'>${currentBookHeaderText}</a>`;
+      navigationPaneHtml += link;
     }
+
+    navigationPane[0].innerHTML = navigationPaneHtml;
   }
 
   resetNavigationPane(tabIndex) {
     this.currentNavigationPane = this.getCurrentNavigationPane(tabIndex);
-    this.currentNavigationPane.children().remove();
+    this.currentNavigationPane[0].innerHTML = "";
     this.currentNavigationPane.show();
   }
 
