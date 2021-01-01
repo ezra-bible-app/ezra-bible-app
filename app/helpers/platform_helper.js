@@ -201,6 +201,14 @@ class PlatformHelper {
   getCordovaHomePath() {
     return "/sdcard";
   }
+
+  getSearchResultPerformanceLimit() {
+    if (this.isElectron()) {
+      return 500;
+    } else if (this.isCordova()) {
+      return 100;
+    } 
+  } 
 }
 
 module.exports = PlatformHelper;

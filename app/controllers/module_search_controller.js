@@ -31,6 +31,7 @@ class ModuleSearchController {
     this.search_menu_opened = false;
     this.verseSearch = new VerseSearch();
     this.verseStatisticsChart = new VerseStatisticsChart();
+    this.searchResultPerformanceLimit = platformHelper.getSearchResultPerformanceLimit();
   }
 
   initModuleSearchMenu(tabIndex=undefined) {
@@ -165,7 +166,7 @@ class ModuleSearchController {
     }
 
     var currentSearchResults = app_controller.tab_controller.getTab(index).getSearchResults();
-    return currentSearchResults.length > 500;
+    return currentSearchResults.length > this.searchResultPerformanceLimit;
   }
 
   validateStrongsKey() {
