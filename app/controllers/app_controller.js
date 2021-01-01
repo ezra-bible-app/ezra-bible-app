@@ -814,9 +814,7 @@ class AppController {
 
     var currentVerseList = this.getCurrentVerseList()[0];
     if (currentVerseList != undefined) {
-      while(currentVerseList.firstChild) {
-        currentVerseList.removeChild(currentVerseList.firstChild);
-      }
+      currentVerseList.innerHTML = "";
     }
 
     this.navigation_pane.resetNavigationPane();
