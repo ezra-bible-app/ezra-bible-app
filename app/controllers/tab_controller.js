@@ -395,9 +395,9 @@ class TabController {
       var index = this.getSelectedTabIndex();
     }
 
-    var allTabsPanels = $("#" + this.tabsElement).find('.' + this.tabsPanelClass);
-    var selectedTabsPanel = $(allTabsPanels[index]);
-    var selectedTabsPanelId = selectedTabsPanel.attr('id');
+    var allTabsPanels = document.getElementById(this.tabsElement).querySelectorAll('.' + this.tabsPanelClass);
+    var selectedTabsPanel = allTabsPanels[index];
+    var selectedTabsPanelId = selectedTabsPanel.getAttribute('id');
     return selectedTabsPanelId;
   }
 
