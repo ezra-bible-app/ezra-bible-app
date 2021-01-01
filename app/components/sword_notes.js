@@ -53,11 +53,7 @@ class SwordNotes {
     this.initNotes(swordNotes);
   }
 
-  initNotes(swordNotes) {
-    //console.time('SwordNotes.initForTab');
-    //console.log(`Got ${swordNotes.length} sword xref elements!`);
-
-    // Within crossReference notes: Remove text nodes containing ';'
+  cleanNotes(swordNotes) {
     var filteredNotes = [...swordNotes].filter(e => {
       return e.getAttribute('type') == 'crossReference';
     });
@@ -80,6 +76,14 @@ class SwordNotes {
     for (var i = 0; i < textNodes.length; i++) {
       textNodes[i].replaceWith("");
     }
+  }
+
+  initNotes(swordNotes) {
+    //console.time('SwordNotes.initForTab');
+    //console.log(`Got ${swordNotes.length} sword xref elements!`);
+
+    // Within crossReference notes: Remove text nodes containing ';'
+    this.cleanNotes(swordNotes);
 
     for (var i = 0; i < swordNotes.length; i++) {
       var currentNote = swordNotes[i];
