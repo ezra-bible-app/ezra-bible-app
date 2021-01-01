@@ -38,7 +38,7 @@ class SwordNotes {
     marker.classList.add(markerClass);
     marker.classList.add('sword-marker');
     marker.setAttribute('title', title);
-    marker.innerText = content;
+    marker.textContent = content;
 
     return marker;
   }
@@ -109,20 +109,18 @@ class SwordNotes {
       var currentTitle = "";
 
       if (currentReferences.length > 1) {
-
         var currentTitleArray = [];
 
-        for (var i = 0; i < currentReferences.length; i++) {
-          var ref = currentReferences[i];
-          var currentRef = ref.innerText;
+        currentReferences.forEach(ref => {
+          var currentRef = ref.textContent;
           currentTitleArray.push(currentRef);
-        }
+        });
 
         currentTitle = currentTitleArray.join('; ');
 
       } else if (currentReferences.length == 1) {
 
-        currentTitle = currentReferences[0].innerText;
+        currentTitle = currentReferences[0].textContent;
       }
 
       var xrefMarker = this.createMarker('sword-xref-marker', currentTitle, 'x');
@@ -134,7 +132,7 @@ class SwordNotes {
     var noteContent = note.innerHTML;
 
     if (noteContent.indexOf("sword-note-marker") == -1) {
-      var currentTitle = note.innerText;
+      var currentTitle = note.textContent;
       var noteMarker = this.createMarker('sword-note-marker', currentTitle, this.notesCharacter);
       note.innerText = "";
       note.insertBefore(noteMarker, note.firstChild);

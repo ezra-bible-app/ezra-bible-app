@@ -68,6 +68,9 @@ window.escapeRegExp = function(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 }
 
+// Extend NodeList with the forEach function from Array
+NodeList.prototype.forEach = Array.prototype.forEach;
+
 $.create_xml_doc = function(string)
 {
   var doc = (new DOMParser()).parseFromString(string, 'text/xml');
