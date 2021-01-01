@@ -196,19 +196,16 @@ class NavigationPane {
 
     var navigationHeader = document.createElement('div');
     navigationHeader.classList.add('nav-pane-header');
-    navigationHeader.innerText = i18n.t('bible-browser.chapter-header');
+    navigationHeader.textContent = i18n.t('bible-browser.chapter-header');
     navigationPane.append(navigationHeader);
 
     var cachedVerseListTabId = this.getCachedVerseListTabId(tabIndex);
     var sectionHeaderNumber = 1;
 
     for (var i = 1; i <= chapterCount; i++) {
-      var current_chapter_link = document.createElement('a');
-      current_chapter_link.setAttribute('class', 'navigation-link chapter-link');
-      var href = 'javascript:app_controller.navigation_pane.goToChapter(' + i + ')';
-      current_chapter_link.setAttribute('href', href);
-      $(current_chapter_link).html(i);
-      navigationPane.append(current_chapter_link);
+      var href = `javascript:app_controller.navigation_pane.goToChapter(${i})`;
+      var chapterLinkHtml = `<a href='${href}' class='navigation-link chapter-link'>${i}</a>`;
+      navigationPane.append(chapterLinkHtml);
 
       sectionHeaderNumber = this.addHeaderNavLinksForChapter(cachedVerseListTabId, navigationPane, sectionTitleElements, i, sectionHeaderNumber);
     }
