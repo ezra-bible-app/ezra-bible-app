@@ -137,7 +137,7 @@ class ModuleSearchController {
   }
 
   getSearchTerm() {
-    return $('#module-search-input').val();
+    return document.getElementById('module-search-input').value;
   }
 
   getSearchType() {
@@ -147,11 +147,11 @@ class ModuleSearchController {
   }
 
   isCaseSensitive() {
-    return $('#search-is-case-sensitive').prop("checked");
+    return document.getElementById('search-is-case-sensitive').checked;
   }
 
   useExtendedVerseBoundaries() {
-    return $('#search-extended-verse-boundaries').prop("checked");
+    return document.getElementById('search-extended-verse-boundaries').checked;
   }
 
   getModuleSearchHeader(tabIndex=undefined) {
@@ -284,11 +284,12 @@ class ModuleSearchController {
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
     var verses = currentVerseList[0].querySelectorAll('.verse-text');
 
+    var searchType = this.getSearchType();
+    var isCaseSensitive = this.isCaseSensitive();
+    var useExtendedVerseBoundaries = this.useExtendedVerseBoundaries();
+
     for (var i = 0; i < verses.length; i++) {
       var currentVerse = verses[i];
-      var searchType = this.getSearchType();
-      var isCaseSensitive = this.isCaseSensitive();
-      var useExtendedVerseBoundaries = this.useExtendedVerseBoundaries();
       this.verseSearch.doVerseSearch(currentVerse, searchTerm, searchType, isCaseSensitive, useExtendedVerseBoundaries);
     }
   }
