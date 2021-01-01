@@ -71,8 +71,8 @@ class BookSelectionMenu {
 
     for (var i = 0; i < aElements.length; i++) {
       var currentBook = aElements[i];
-      var currentBookTranslation = await i18nHelper.getSwordTranslation(currentBook.innerText);
-      currentBook.innerText = currentBookTranslation;
+      var currentBookTranslation = await i18nHelper.getSwordTranslation(currentBook.textContent);
+      currentBook.textContent = currentBookTranslation;
     }
   }
 
