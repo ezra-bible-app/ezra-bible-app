@@ -46,6 +46,7 @@ window.app_controller = null;
 window.tags_controller = null;
 window.theme_controller = new ThemeController();
 window.reference_separator = ':';
+window.cordovaPlatform = null;
 
 window.sleep = function(time) {
   return new Promise(resolve => {
@@ -250,15 +251,22 @@ function loadHTML()
   document.getElementById('boxes').innerHTML = boxes;
 }
 
-function toggleFullScreen()
+window.toggleFullScreen = function()
 {
-  const { remote } = require('electron');
-  var window = remote.getCurrentWindow();
+  if (platformHelper.isElectron()) {
 
-  if (window.isFullScreen()) {
-    window.setFullScreen(false);
-  } else {
-    window.setFullScreen(true);
+    const { remote } = require('electron');
+    var window = remote.getCurrentWindow();
+
+    if (window.isFullScreen()) {
+      window.setFullScreen(false);
+    } else {
+      window.setFullScreen(true);
+    }
+
+  } else if (platformHelper.isAndroid()) {
+
+    cordovaPlatform.toggleFullScreen();
   }
 }
 
@@ -380,7 +388,7 @@ window.addEventListener('load', function() {
   if (platformHelper.isCordova()) {
 
     var CordovaPlatform = require('./platform/cordova_platform.js');
-    var cordovaPlatform = new CordovaPlatform();
+    cordovaPlatform = new CordovaPlatform();
     cordovaPlatform.init();
 
   } else if (platformHelper.isElectron()) {

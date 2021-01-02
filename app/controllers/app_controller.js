@@ -388,7 +388,7 @@ class AppController {
       return false;
     });
 
-    if (!platformHelper.isMac()) {
+    if (platformHelper.isWin() || platformHelper.isLinux()) {
       Mousetrap.bind('f11', () => {
         toggleFullScreen();
       });

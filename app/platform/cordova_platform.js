@@ -22,6 +22,8 @@ class CordovaPlatform {
   init() {
     console.log("Initializing app on Cordova platform ...");
 
+    this.isFullScreenMode = false;
+
     // In the Cordova app the first thing we do is showing the global loading indicator.
     // This would happen later again, but only after the nodejs engine is started.
     // In the meanwhile the screen would be just white and that's what we would like to avoid.
@@ -44,6 +46,8 @@ class CordovaPlatform {
   }
 
   getPermissions() {
+    // Note that the following code depends on having the cordova-plugin-android-permisssions available
+
     console.log("Getting permissions ...");
 
     return new Promise((resolve, reject) => {
@@ -67,6 +71,8 @@ class CordovaPlatform {
   }
 
   isDebug() {
+    // The following code depends on having the cordova-plugin-is-debug available
+
     return new Promise((resolve, reject) => {
       cordova.plugins.IsDebug.getIsDebug((isDebug) => {
         resolve(isDebug);
@@ -91,6 +97,27 @@ class CordovaPlatform {
 
   mainProcessListener(message) {
     console.log(message);
+  }
+
+  toggleFullScreen() {
+    // Note that the following code depends on having the cordova-plugin-fullscreen available
+
+    if (this.isFullScreenMode) {
+
+      AndroidFullScreen.showSystemUI(() => {
+        this.isFullScreenMode = false;
+      }, () => {
+        console.error("Could not leave immersive mode");
+      });
+
+    } else {
+
+      AndroidFullScreen.immersiveMode(() => {
+        this.isFullScreenMode = true;
+      }, () => {
+        console.error("Could not switch to immersive mode");
+      });
+    }
   }
 }
 
