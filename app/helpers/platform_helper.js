@@ -198,10 +198,6 @@ class PlatformHelper {
     }
   }
 
-  getCordovaHomePath() {
-    return "/sdcard";
-  }
-
   getSearchResultPerformanceLimit() {
     if (this.isElectron()) {
       return 500;

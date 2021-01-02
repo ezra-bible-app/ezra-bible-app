@@ -37,15 +37,9 @@ class IpcNsiHandler {
       const userDataDir = app.getPath('userData');
       this._nsi = new NodeSwordInterface(userDataDir);
 
-    } else if (this._platformHelper.isElectron()) {
+    } else {
 
       this._nsi = new NodeSwordInterface();
-
-    } else if (this._platformHelper.isCordova()) {
-
-      var swordPath = this._platformHelper.getCordovaHomePath();
-      this._nsi = new NodeSwordInterface(swordPath);
-
     }
 
     this._nsi.enableMarkup();
