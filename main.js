@@ -76,7 +76,7 @@ function createWindow () {
     mainWindowState.manage(mainWindow);
   });
 
-  ipcMain.on('initIpc', async (event, arg) => {
+  ipcMain.handle('initIpc', async (event, arg) => {
     var ipc = new IPC();
     await ipc.init(isDev, mainWindow);
   });

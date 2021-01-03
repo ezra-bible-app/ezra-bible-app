@@ -23,6 +23,7 @@ const IpcGeneral = require('./ipc/ipc_general.js');
 const IpcI18n = require('./ipc/ipc_i18n.js');
 const IpcNsi = require('./ipc/ipc_nsi.js');
 const IpcDb = require('./ipc/ipc_db.js');
+const IpcSettings = require('./ipc/ipc_settings.js');
 
 // i18n
 window.i18n = null;
@@ -32,6 +33,7 @@ window.i18nHelper = null;
 window.ipcI18n = null;
 window.ipcNsi = null;
 window.ipcDb = null;
+window.ipcSettings = null;
 
 // UI Helper
 const UiHelper = require('./helpers/ui_helper.js');
@@ -138,6 +140,7 @@ async function initIpcClients()
   window.ipcI18n = new IpcI18n();
   window.ipcNsi = new IpcNsi();
   window.ipcDb = new IpcDb();
+  window.ipcSettings = new IpcSettings();
 }
 
 async function initCordovaStorage() {
@@ -167,7 +170,7 @@ function initUi()
     },
     stop: function(event, ui) {
       //console.log("Saving new tag list width: " + ui.size.width);
-      app_controller.settings.set('tag_list_width', ui.size.width);
+      ipcSettings.set('tagListWidth', ui.size.width);
     }
   });
 
@@ -205,13 +208,13 @@ window.hideGlobalLoadingIndicator = function() {
   $('#main-content').show();
 }
 
-function earlyHideToolBar() {
-  if (platformHelper.isElectron()) {
-    var settings = require('electron-settings');
+async function earlyHideToolBar() {
+  //var settings = require('electron-settings');
 
-    if (!settings.get('showToolBar')) {
-      $('#bible-browser-toolbox').hide();
-    }
+  var showToolBar = await ipcSettings.get('showToolBar', true);
+
+  if (!showToolBar) {
+    $('#bible-browser-toolbox').hide();
   }
 }
 
@@ -272,8 +275,12 @@ window.toggleFullScreen = function()
 
 window.initApplication = async function()
 {
+  if (platformHelper.isElectron()) {
+    // This module will modify the standard console.log function and add a timestamp as a prefix for all log calls
+    require('log-timestamp');
+  }
+
   console.time("application-startup");
-  theme_controller.earlyInitNightMode();
 
   // Wait for the UI to render
   await waitUntilIdle();
@@ -294,29 +301,34 @@ window.initApplication = async function()
 
     const { ipcRenderer } = require('electron');
     await ipcRenderer.send('manageWindowState');
-    await ipcRenderer.send('initIpc');
+
+    console.log("Initializing IPC handlers ...");
+    await ipcRenderer.invoke('initIpc');
   
     const { remote } = require('electron');
     const appWindow = remote.getCurrentWindow();
     appWindow.show();
-
-    // This module will modify the standard console.log function and add a timestamp as a prefix for all log calls
-    require('log-timestamp');
   }
+
+  var loadingIndicator = $('#startup-loading-indicator');
+  loadingIndicator.show();
+  loadingIndicator.find('.loader').show();
 
   console.log("Loading HTML fragments");
   loadHTML();
 
-  earlyHideToolBar();
-  initExternalLinkHandling();
+  console.log("Initializing IPC clients ...");
+  await initIpcClients();
+  await theme_controller.earlyInitNightMode();
 
-  var loadingIndicator = $('#startup-loading-indicator');
-  loadingIndicator.show();
+  await earlyHideToolBar();
+  initExternalLinkHandling();
 
   if (platformHelper.isWin()) {
     var isWin10 = await platformHelper.isWindowsTenOrLater();
     if (isWin10 != undefined) {
       if (!isWin10) {
+        hideGlobalLoadingIndicator();
         var vcppRedistributableNeeded = platformHelper.showVcppRedistributableMessageIfNeeded();
         if (vcppRedistributableNeeded) {
           return;
@@ -326,9 +338,6 @@ window.initApplication = async function()
   }
 
   loadingIndicator.find('.loader').show();
-
-  console.log("Initializing IPC ...");
-  await initIpcClients();
 
   if (platformHelper.isCordova()) {
     await initCordovaStorage();

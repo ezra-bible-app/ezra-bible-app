@@ -129,7 +129,7 @@ class InstallModuleAssistant {
     var wizardPage = $('#module-settings-assistant-add-p-0');
     wizardPage.empty();
 
-    var lastSwordRepoUpdateSaved = app_controller.settings.has("lastSwordRepoUpdate");
+    var lastSwordRepoUpdateSaved = await ipcSettings.has('lastSwordRepoUpdate');
     var listRepoTimeoutMs = 800;
     var repoConfigExisting = await ipcNsi.repositoryConfigExisting();
 
@@ -149,9 +149,7 @@ class InstallModuleAssistant {
           progressbar.progressbar("value", progressPercent);
         });
 
-        if (platformHelper.isElectron()) {
-          app_controller.settings.set("lastSwordRepoUpdate", new Date());
-        }
+        await ipcSettings.set('lastSwordRepoUpdate', new Date());
       } catch(e) {
         console.log("Caught exception while updating repository config: " + e);
         listRepoTimeoutMs = 3000;
@@ -188,7 +186,7 @@ class InstallModuleAssistant {
       autoFocus: true,
       stepsOrientation: 1,
       onStepChanging: (event, currentIndex, newIndex) => this.addModuleAssistantStepChanging(event, currentIndex, newIndex),
-      onStepChanged: (event, currentIndex, priorIndex) => this.addModuleAssistantStepChanged(event, currentIndex, priorIndex),
+      onStepChanged: async (event, currentIndex, priorIndex) => this.addModuleAssistantStepChanged(event, currentIndex, priorIndex),
       onFinishing: (event, currentIndex) => this.addModuleAssistantFinishing(event, currentIndex),
       onFinished: (event, currentIndex) => this.addModuleAssistantFinished(event, currentIndex),
       labels: {
@@ -220,10 +218,10 @@ class InstallModuleAssistant {
     return true;
   }
 
-  addModuleAssistantStepChanged(event, currentIndex, priorIndex) {
+  async addModuleAssistantStepChanged(event, currentIndex, priorIndex) {
     if (priorIndex == 0 && currentIndex == 1) {
 
-      this.initLanguagesPage();
+      await this.initLanguagesPage();
 
     } else if (priorIndex == 1 && currentIndex == 2) {
 
@@ -254,20 +252,18 @@ class InstallModuleAssistant {
     this._installedModules = [];
   }
 
-  initLanguagesPage() {
+  async initLanguagesPage() {
     // Repositories have been selected
     var wizardPage = "#module-settings-assistant-add-p-0";
     this._selectedRepositories = this._helper.getSelectedSettingsAssistantElements(wizardPage);
 
-    if (platformHelper.isElectron()) {
-      app_controller.settings.set('selected_repositories', this._selectedRepositories);
-    }
+    await ipcSettings.set('selectedRepositories', this._selectedRepositories);
 
     var languagesPage = $('#module-settings-assistant-add-p-1');
     languagesPage.empty();
     languagesPage.append("<p>" + i18n.t("module-assistant.loading-languages") + "</p>");
 
-    this.previouslySelectedLanguages = app_controller.settings.get('selected_languages');
+    this.previouslySelectedLanguages = await ipcSettings.get('selectedLanguages', null);
 
     setTimeout(async () => { this.listLanguages(this._selectedRepositories); }, 400);
   }
@@ -283,10 +279,7 @@ class InstallModuleAssistant {
       languageCodes.push(currentCode);
     }
 
-    if (platformHelper.isElectron()) {
-      app_controller.settings.set('selected_languages', languages);
-    }
-
+    await ipcSettings.set('selectedLanguages', languages);
     await this.listModules(languageCodes);
   }
 
@@ -929,7 +922,7 @@ class InstallModuleAssistant {
   }
 
   async listRepositories() {
-    this.previouslySelectedRepositories = app_controller.settings.get('selected_repositories');
+    this.previouslySelectedRepositories = await ipcSettings.get('selectedRepositories', null);
     var wizardPage = $('#module-settings-assistant-add-p-0');
 
     var repositories = await ipcNsi.getRepoNames();
@@ -957,7 +950,8 @@ class InstallModuleAssistant {
       }
     }
 
-    var lastUpdate = app_controller.settings.get("lastSwordRepoUpdate");
+    var lastUpdate = await ipcSettings.get('lastSwordRepoUpdate', undefined);
+
     if (lastUpdate !== undefined) {
       lastUpdate = new Date(Date.parse(lastUpdate)).toLocaleDateString(i18n.language);
     }

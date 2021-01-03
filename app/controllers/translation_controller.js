@@ -199,7 +199,7 @@ class TranslationController {
     }
 
     bibleSelect.selectmenu({
-      change: () => {
+      change: async () => {
         if (!app_controller.tab_controller.isCurrentTabEmpty() && app_controller.tab_controller.getTab().getTextType() != 'search_results') {
           this.showBibleTranslationLoadingIndicator();
         }
@@ -212,9 +212,7 @@ class TranslationController {
 
         app_controller.tab_controller.setCurrentBibleTranslationId(newBibleTranslationId);
 
-        if (platformHelper.isElectron()) {
-          app_controller.settings.set('bible_translation', newBibleTranslationId);
-        }
+        ipcSettings.set('bibleTranslation', newBibleTranslationId);
 
         app_controller.tab_controller.refreshBibleTranslationInTabTitle(newBibleTranslationId);
 

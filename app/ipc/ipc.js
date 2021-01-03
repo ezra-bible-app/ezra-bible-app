@@ -3,16 +3,20 @@ const IpcI18nHandler = require('./ipc_i18n_handler.js');
 const IpcNsiHandler = require('./ipc_nsi_handler.js');
 const IpcDbHandler = require('./ipc_db_handler.js');
 const IpcGeneralHandler = require('./ipc_general_handler.js');
+const IpcSettingsHandler = require('./ipc_settings_handler.js');
 
 class IPC {
   constructor() {
-    this.ipcInitialized = false;
+    if (global.ipcInitialized === undefined) {
+      global.ipcInitialized = false;
+    }
+
     this.platformHelper = new PlatformHelper();
   }
 
   async init(isDebug, electronMainWindow=undefined) {
-    if (!this.ipcInitialized) {
-      this.ipcInitialized = true;
+    if (!global.ipcInitialized) {
+      global.ipcInitialized = true;
 
       global.ipcI18nHandler = new IpcI18nHandler();
       global.ipcNsiHandler = new IpcNsiHandler();
@@ -30,6 +34,7 @@ class IPC {
       await ipcDbHandler.initDatabase(isDebug);
 
       global.ipcGeneralHandler = new IpcGeneralHandler();
+      global.IpcSettingsHandler = new IpcSettingsHandler();
     }
   }
 }

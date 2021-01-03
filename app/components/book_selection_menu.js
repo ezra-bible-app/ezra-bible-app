@@ -33,10 +33,12 @@ class BookSelectionMenu {
     var menu = $('#app-container').find('#book-selection-menu');
     menu.bind('click', app_controller.handleBodyClick);
 
-    var cacheInvalid = app_controller.isCacheInvalid();
+    var cacheInvalid = await app_controller.isCacheInvalid();
 
-    if (!cacheInvalid && app_controller.settings.get('bookSelectionMenuCache') != null) {
-      var cachedHtml = app_controller.settings.get('bookSelectionMenuCache');
+    var hasCachedBookSelectionMenu = await ipcSettings.has('bookSelectionMenuCache', 'html-cache');
+
+    if (!cacheInvalid && hasCachedBookSelectionMenu) {
+      var cachedHtml = await ipcSettings.get('bookSelectionMenuCache');
       var menu = $('#app-container').find('#book-selection-menu');
 
       menu.innerHTML = cachedHtml;
