@@ -54,7 +54,20 @@ class TabController {
       return false;
     });
 
-    window.addEventListener('beforeunload', async () => {
+    var exitEvent = null;
+    var exitContext = window;
+
+    if (platformHelper.isElectron()) {
+      exitEvent = 'beforeunload';
+      exitContext = window;
+    } else if (platformHelper.isCordova()) {
+      exitEvent = 'pause';
+      exitContext = document;
+    }
+
+    exitContext.addEventListener(exitEvent, async () => {
+      console.log('Persisting data!');
+
       await this.saveTabConfiguration();
       await this.saveBookSelectionMenu();
       await this.saveLastUsedVersion();
@@ -201,7 +214,7 @@ class TabController {
     if (tabConfigTimestamp != null) {
       tabConfigTimestamp = new Date(tabConfigTimestamp);
 
-      var dbUpdateTimestamp = await ipcDb.getLastMetaRecordUpdate();
+      var dbUpdateTimestamp = new Date(await ipcDb.getLastMetaRecordUpdate());
 
       if (dbUpdateTimestamp != null && dbUpdateTimestamp.getTime() > tabConfigTimestamp.getTime()) {
         return true;

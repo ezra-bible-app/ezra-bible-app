@@ -319,9 +319,12 @@ window.initApplication = async function()
 
   console.log("Initializing IPC clients ...");
   await initIpcClients();
-  await theme_controller.earlyInitNightMode();
 
-  await earlyHideToolBar();
+  if (platformHelper.isElectron()) {
+    await theme_controller.earlyInitNightMode();
+    await earlyHideToolBar();
+  }
+
   initExternalLinkHandling();
 
   if (platformHelper.isWin()) {
@@ -355,7 +358,7 @@ window.initApplication = async function()
 
   console.log("Initializing user interface ...");
   initUi();
-  app_controller.optionsMenu.init();
+  await app_controller.optionsMenu.init();
   theme_controller.initNightMode();
 
   // Wait for the UI to render
