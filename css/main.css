@@ -905,7 +905,7 @@ h2 {
   margin-top: 3em;
 }
 
-.loading-indicator-text {
+.loading-indicator-text, #loading-subtitle {
   font: caption;
   font-size: 1em;
   font-weight: bold;
@@ -1700,7 +1700,10 @@ s {
   border-radius: 6px;
 }
 
-.darkmode--activated a:link, .darkmode--activated a:visited, .darkmode--activated p, .darkmode--activated .verse-list-composite {
+.darkmode--activated a:link,
+.darkmode--activated a:visited,
+.darkmode--activated p,
+.darkmode--activated .verse-list-composite {
   color: whitesmoke;
 }
 
