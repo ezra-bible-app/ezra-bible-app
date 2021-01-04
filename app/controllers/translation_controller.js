@@ -199,7 +199,7 @@ class TranslationController {
     }
 
     bibleSelect.selectmenu({
-      change: async () => {
+      change: () => {
         if (!app_controller.tab_controller.isCurrentTabEmpty() && app_controller.tab_controller.getTab().getTextType() != 'search_results') {
           this.showBibleTranslationLoadingIndicator();
         }
