@@ -61,7 +61,7 @@ Before({ timeout: 80000}, async function (scenario) {
   }
 
   if (installKjv) {
-    if (!appStopped) {
+    if (global.app != null && !appStopped) {
       var kjvModule = await spectronHelper.getLocalModule('KJV');
 
       if (kjvModule == null) {
@@ -71,6 +71,9 @@ Before({ timeout: 80000}, async function (scenario) {
         global.app = null;
         appStopped = true;
       }
+    } else {
+      args.push('--install-kjv');
+      appStopped = true;
     }
   }
 
