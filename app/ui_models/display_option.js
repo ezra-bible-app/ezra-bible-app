@@ -60,7 +60,7 @@ class DisplayOption {
       optionValue = this.customSettingsLoader();
     } else {
       if (this._settingsObject != null) {
-        var optionAvailable = this._settingsObject.has(this._settingsKey);
+        var optionAvailable = await this._settingsObject.has(this._settingsKey);
 
         if (optionAvailable) {
           optionValue = await this._settingsObject.get(this._settingsKey, this._enabledByDefault);
