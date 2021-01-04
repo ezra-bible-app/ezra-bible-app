@@ -63,7 +63,7 @@ class DisplayOption {
         var optionAvailable = this._settingsObject.has(this._settingsKey);
 
         if (optionAvailable) {
-          optionValue = await this._settingsObject.get(this._settingsKey);
+          optionValue = await this._settingsObject.get(this._settingsKey, this._enabledByDefault);
         }
       }
     }
