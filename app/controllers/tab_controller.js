@@ -173,7 +173,7 @@ class TabController {
   }
 
   async loadMetaTabsFromSettings() {
-    var savedMetaTabs = await ipcSettings.get('tabConfiguration', null, 'html-cache');
+    var savedMetaTabs = await ipcSettings.get('tabConfiguration', [], 'html-cache');
     var loadedTabCount = 0;
 
     for (var i = 0; i < savedMetaTabs.length; i++) {
