@@ -28,6 +28,10 @@ class IpcSettings {
   }
 
   async get(settingsKey, defaultValue=false, configName='config') {
+    if (platformHelper.isTest()) {
+      return defaultValue;
+    }
+    
     return await this._ipcRenderer.call('settings_get', configName, settingsKey, defaultValue);
   }
 
