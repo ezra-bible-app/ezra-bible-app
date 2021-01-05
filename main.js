@@ -20,7 +20,9 @@ require('v8-compile-cache');
 
 const { app, BrowserWindow, Menu, ipcMain, nativeTheme } = require('electron');
 const isDev = require('electron-is-dev');
+
 const IPC = require('./app/ipc/ipc.js');
+global.ipc = new IPC();
 
 app.allowRendererProcessReuse = false;
 
@@ -97,7 +99,6 @@ function createWindow () {
   });
 
   ipcMain.handle('initIpc', async (event, arg) => {
-    global.ipc = new IPC();
     await ipc.init(isDev, mainWindow);
   });
 

@@ -12,6 +12,7 @@ class IPC {
     }
 
     this.platformHelper = new PlatformHelper();
+    this.ipcSettingsHandler = new IpcSettingsHandler();
   }
 
   async init(isDebug, electronMainWindow=undefined) {
@@ -34,7 +35,6 @@ class IPC {
       await ipcDbHandler.initDatabase(isDebug);
 
       global.ipcGeneralHandler = new IpcGeneralHandler();
-      global.ipcSettingsHandler = new IpcSettingsHandler();
     }
   }
 }
