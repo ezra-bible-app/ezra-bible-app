@@ -31,7 +31,7 @@ class IpcSettings {
     if (platformHelper.isTest()) {
       return defaultValue;
     }
-    
+
     return await this._ipcRenderer.call('settings_get', configName, settingsKey, defaultValue);
   }
 
@@ -41,6 +41,10 @@ class IpcSettings {
 
   async delete(settingsKey, configName='config') {
     return await this._ipcRenderer.call('settings_delete', configName, settingsKey);
+  }
+
+  async storeLastUsedVersion() {
+    return await this._ipcRenderer.call('settings_storeLastUsedVersion');
   }
 }
 
