@@ -34,7 +34,7 @@ class IPC {
       await ipcDbHandler.initDatabase(isDebug);
 
       global.ipcGeneralHandler = new IpcGeneralHandler();
-      global.IpcSettingsHandler = new IpcSettingsHandler();
+      global.ipcSettingsHandler = new IpcSettingsHandler();
     }
   }
 }
