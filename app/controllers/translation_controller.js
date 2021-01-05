@@ -31,6 +31,8 @@ class TranslationController {
   constructor() {
     this.languageMapper = new LanguageMapper();
     this.translationCount = null;
+    this.initBibleSyncBoxDone = false;
+    this.initBibleTranslationInfoBoxDone = false;
   }
 
   getTranslationCount() {
@@ -40,11 +42,15 @@ class TranslationController {
   init(onBibleTranslationChanged) {
     this.onBibleTranslationChanged = onBibleTranslationChanged;
     this.initBibleTranslationInfoButton();
-    this.initBibleSyncBox();
-    this.initBibleTranslationInfoBox();
   }
 
   initBibleSyncBox() {
+    if (this.initBibleSyncBoxDone) {
+      return;
+    }
+
+    this.initBibleSyncBoxDone = true;
+
     $('#bible-sync-box').dialog({
       width: 600,
       height: 300,
@@ -56,6 +62,12 @@ class TranslationController {
   }
 
   initBibleTranslationInfoBox() {
+    if (this.initBibleTranslationInfoBoxDone) {
+      return;
+    }
+
+    this.initBibleTranslationInfoBoxDone = true;
+
     $('#bible-translation-info-box').dialog({
       width: 700,
       height: 500,
@@ -303,6 +315,8 @@ class TranslationController {
   }
 
   async showBibleTranslationInfo() {
+    this.initBibleTranslationInfoBox();
+
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     var moduleInfo = await this.getModuleInfo(currentBibleTranslationId);
     var currentBibleTranslationName = await app_controller.tab_controller.getCurrentBibleTranslationName();
@@ -406,6 +420,9 @@ class TranslationController {
     if (strongsInstallNeeded) {
       var currentVerseList = app_controller.getCurrentVerseList();
       var verse_list_position = currentVerseList.offset();
+
+      this.initBibleSyncBox();
+
       $('#bible-sync-box').dialog({
         position: [verse_list_position.left + 50, verse_list_position.top + 30]
       });

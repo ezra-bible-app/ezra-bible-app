@@ -27,16 +27,10 @@ const VerseBox = require('../ui_models/verse_box.js');
 class VerseListPopup {
   constructor() {
     this.verseBoxHelper = new VerseBoxHelper();
+    this.dialogInitDone = false;
   }
 
   initVerseListPopup() {
-    $('#verse-list-popup').dialog({
-      width: 700,
-      position: [200,200],
-      autoOpen: false,
-      dialogClass: 'ezra-dialog'
-    });
-
     var currentBookFilter = "";
     currentBookFilter = "<input type='checkbox' id='only-currentbook-tagged-verses' style='margin-right: 0.3em;'></input>" + 
                         `<label id='only-currentbook-tagged-verses-label' for='only-currentbook-tagged-verses'>${i18n.t('tags.only-currentbook-tagged-verses')}</label>` +
@@ -285,6 +279,16 @@ class VerseListPopup {
    * @param referenceType The type of references (either "TAGGED_VERSES" or "XREFS")
    */
   async openVerseListPopup(event, referenceType) {
+    if (!this.dialogInitDone) {
+      this.dialogInitDone = true;
+      $('#verse-list-popup').dialog({
+        width: 700,
+        position: [200,200],
+        autoOpen: false,
+        dialogClass: 'ezra-dialog'
+      });
+    }
+
     this.currentReferenceType = referenceType;
     this.currentPopupTitle = await this.getPopupTitle(event.target, referenceType);
 

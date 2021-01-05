@@ -62,6 +62,18 @@ class TagsController {
     this.selected_verse_boxes = [];
 
     this.initialRenderingDone = false;
+    this.newTagDialogInitDone = false;
+    this.deleteTagConfirmationDialogInitDone = false;
+    this.removeTagAssignmentConfirmationDialogInitDone = false;
+    this.renameStandardTagDialogInitDone = false;
+  }
+
+  initNewTagDialog() {
+    if (this.newTagDialogInitDone) {
+      return;
+    }
+
+    this.newTagDialogInitDone = true;
 
     var new_standard_tag_dlg_options = {
       title: i18n.t("tags.new-tag"),
@@ -81,6 +93,22 @@ class TagsController {
   
     $('#new-standard-tag-dialog').dialog(new_standard_tag_dlg_options);
 
+    // Handle the enter key in the tag title field and create the tag when it is pressed
+    $('#new-standard-tag-title-input:not(.bound)').addClass('bound').on("keypress", (event) => {
+      if (event.which == 13) {
+        $('#new-standard-tag-dialog').dialog("close");
+        tags_controller.save_new_tag(event, "standard");
+      }
+    });
+  }
+
+  initDeleteTagConfirmationDialog() {
+    if (this.deleteTagConfirmationDialogInitDone) {
+      return;
+    }
+
+    this.deleteTagConfirmationDialogInitDone = true;
+
     var delete_tag_confirmation_dlg_options = {
       title: i18n.t("tags.delete-tag"),
       width: 300,
@@ -98,6 +126,14 @@ class TagsController {
     };
 
     $('#delete-tag-confirmation-dialog').dialog(delete_tag_confirmation_dlg_options);
+  }
+
+  initRemoveTagAssignmentConfirmationDialog() {
+    if (this.removeTagAssignmentConfirmationDialogInitDone) {
+      return;
+    }
+
+    this.removeTagAssignmentConfirmationDialogInitDone = true;
 
     var remove_tag_assignment_confirmation_dlg_options = {
       title: i18n.t("tags.remove-tag-assignment"),
@@ -126,6 +162,14 @@ class TagsController {
         tags_controller.remove_tag_assignment_job = null;
       }
     });
+  }
+
+  initRenameStandardTagDialog() {
+    if (this.renameStandardTagDialogInitDone) {
+      return;
+    }
+
+    this.renameStandardTagDialogInitDone = true;
 
     var rename_standard_tag_dlg_options = {
       title: i18n.t("tags.rename-tag"),
@@ -143,14 +187,6 @@ class TagsController {
     };
     $('#rename-standard-tag-dialog').dialog(rename_standard_tag_dlg_options);
   
-    // Handle the enter key in the tag title field and create the tag when it is pressed
-    $('#new-standard-tag-title-input:not(.bound)').addClass('bound').on("keypress", (event) => {
-      if (event.which == 13) {
-        $('#new-standard-tag-dialog').dialog("close");
-        tags_controller.save_new_tag(event, "standard");
-      }
-    });
-
     // Handle the enter key in the tag title field and rename the tag when it is pressed
     $('#rename-standard-tag-title-input:not(.bound)').addClass('bound').on("keypress", (event) => {
       if (event.which == 13) {
@@ -214,12 +250,16 @@ class TagsController {
       return;
     }
 
+    tags_controller.initNewTagDialog();
+
     $('#new-' + type + '-tag-title-input').val(''); 
     $('#new-' + type + '-tag-dialog').dialog('open');
     $('#new-' + type + '-tag-title-input').focus();
   }
 
   handle_delete_tag_button_click(event) {
+    tags_controller.initDeleteTagConfirmationDialog();
+
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
     var tag_id = checkbox_tag.attr('tag-id');
     var parent_id = checkbox_tag.parent().attr('id');
@@ -424,6 +464,8 @@ class TagsController {
       };
 
       if (current_verse_list.length > 1) {
+        tags_controller.initRemoveTagAssignmentConfirmationDialog();
+
         $('#remove-tag-assignment-name').html(cb_label);
         $('#remove-tag-assignment-confirmation-dialog').dialog('open');
       } else {
@@ -888,6 +930,8 @@ class TagsController {
   }
 
   handle_rename_tag_click__by_opening_rename_dialog(event) {
+    tags_controller.initRenameStandardTagDialog();
+
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
     var cb_label = checkbox_tag.find('.cb-label').text();
 

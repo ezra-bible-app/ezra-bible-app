@@ -20,7 +20,7 @@ class NewReleaseChecker {
   constructor(infoBoxId) {
     this.infoBoxId = infoBoxId;
     this.latestRelease = null;
-    this.initNewReleaseBox();
+    this.initNewReleaseBoxDone = false;
   }
 
   getInfoBox() {
@@ -28,6 +28,12 @@ class NewReleaseChecker {
   }
 
   initNewReleaseBox() {
+    if (this.initNewReleaseBoxDone) {
+      return;
+    }
+
+    this.initNewReleaseBoxDone = true;
+
     this.getInfoBox().dialog({
       width: 350,
       height: 250,
@@ -55,6 +61,8 @@ class NewReleaseChecker {
   }
 
   async showNewRelease() {
+    this.initNewReleaseBox();
+
     var currentVerseList = app_controller.getCurrentVerseList();
     var verse_list_position = currentVerseList.offset();
     var infoBox = this.getInfoBox();

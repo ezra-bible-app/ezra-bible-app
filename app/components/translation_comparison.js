@@ -26,7 +26,7 @@ const VerseBox = require("../ui_models/verse_box.js");
  */
 class TranslationComparison {
   constructor() {
-    this.initCompareTranslationsBox();
+    this.initDone = false;
   }
 
   getButton() {
@@ -134,6 +134,13 @@ class TranslationComparison {
   }
 
   async handleButtonClick() {
+    if (this.initDone) {
+      return;
+    }
+
+    this.initDone = true;
+    this.initCompareTranslationsBox();
+
     var boxTitle = i18n.t("bible-browser.comparing-translations-for") + " " + 
       app_controller.verse_selection.getSelectedVersesLabel().text();
 
