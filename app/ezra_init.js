@@ -43,10 +43,10 @@ window.uiHelper = new UiHelper();
 const PlatformHelper = require('./helpers/platform_helper.js');
 const ThemeController = require('./controllers/theme_controller.js');
 window.platformHelper = new PlatformHelper();
+window.theme_controller = new ThemeController();
 
 window.app_controller = null;
 window.tags_controller = null;
-window.theme_controller = new ThemeController();
 window.reference_separator = ':';
 window.cordovaPlatform = null;
 
@@ -321,7 +321,6 @@ window.initApplication = async function()
   await initIpcClients();
 
   if (platformHelper.isElectron()) {
-    await theme_controller.earlyInitNightMode();
     await earlyHideToolBar();
   }
 

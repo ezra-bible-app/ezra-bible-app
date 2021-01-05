@@ -33,26 +33,6 @@ class ThemeController {
     this.darkMode = null;
   }
 
-  async earlyInitNightMode() {
-    var useDarkMode = false;
-
-    var isMojaveOrLater = await platformHelper.isMacOsMojaveOrLater();
-    if (isMojaveOrLater) {
-      const nativeTheme = require('electron').remote.nativeTheme;
-
-      if (nativeTheme.shouldUseDarkColors) {
-        useDarkMode = true;
-      }
-    } else {
-
-      useDarkMode = await ipcSettings.get('useNightMode');
-    }
-
-    if (useDarkMode) {
-      document.body.classList.add('darkmode--activated');
-    }
-  }
-
   async initNightMode() {
     var isMojaveOrLater = await platformHelper.isMacOsMojaveOrLater();
     if (isMojaveOrLater) { // On macOS (from Mojave) we initialize night mode based on the system settings
