@@ -128,7 +128,7 @@ class ThemeController {
   async isNightModeUsed() {
     var useNightMode = false;
 
-    var isMojaveOrLater = await platformHelper.isMacOsMojaveOrLater();
+    var isMojaveOrLater = platformHelper.isMacOsMojaveOrLater();
     if (isMojaveOrLater) {
       const nativeTheme = require('electron').remote.nativeTheme;
       useNightMode = nativeTheme.shouldUseDarkColors;
@@ -136,7 +136,7 @@ class ThemeController {
       var useNightModeSettingAvailable = await ipcSettings.has('useNightMode');
 
       if (useNightModeSettingAvailable) {
-        useNightMode = ipcSettings.get('useNightMode');
+        useNightMode = await ipcSettings.get('useNightMode');
       }
     }
 
