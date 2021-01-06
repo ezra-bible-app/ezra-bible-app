@@ -214,7 +214,7 @@ class PlatformHelper {
     } else if (this.isCordova()) {
 
       // TODO adapt this for ios later
-      return "/sdcard/Android/data/net.ezraproject.cordova";
+      return "/sdcard/Android/data/de.ezraproject.cordova";
     }
   }
 
