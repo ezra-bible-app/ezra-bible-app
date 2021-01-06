@@ -26,11 +26,6 @@ class IPC {
         ipcNsiHandler.setMainWindow(electronMainWindow);
       }
 
-      if (this.platformHelper.isCordova()) {
-        const IpcCordovaHandler = require('./ipc_cordova_handler.js');
-        global.ipcCordovaHandler = new IpcCordovaHandler();
-      }
-
       global.ipcDbHandler = new IpcDbHandler();
       await ipcDbHandler.initDatabase(isDebug);
 

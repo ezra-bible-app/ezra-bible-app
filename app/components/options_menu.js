@@ -60,6 +60,13 @@ class OptionsMenu {
       this.hideDisplayMenu();
       showGlobalLoadingIndicator();
       theme_controller.useNightModeBasedOnOption();
+
+      if (platformHelper.isCordova()) {
+        // On Cordova we persist a basic night mode style in a CSS file 
+        // which is then loaded on startup again
+        await ipcSettings.storeNightModeCss();
+      }
+
       await waitUntilIdle();
       hideGlobalLoadingIndicator();
     }, false, // enabledByDefault

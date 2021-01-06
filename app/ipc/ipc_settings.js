@@ -46,6 +46,10 @@ class IpcSettings {
   async storeLastUsedVersion() {
     return await this._ipcRenderer.call('settings_storeLastUsedVersion');
   }
+
+  async storeNightModeCss() {
+    return await this._ipcRenderer.call('settings_storeNightModeCss');
+  }
 }
 
 module.exports = IpcSettings;

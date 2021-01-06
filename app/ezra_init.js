@@ -131,20 +131,11 @@ async function initTest()
 
 async function initIpcClients()
 {
-  if (platformHelper.isCordova()) {
-    const IpcCordova = require('./ipc/ipc_cordova.js');
-    window.ipcCordova = new IpcCordova();
-  }
-
   window.ipcGeneral = new IpcGeneral();
   window.ipcI18n = new IpcI18n();
   window.ipcNsi = new IpcNsi();
   window.ipcDb = new IpcDb();
   window.ipcSettings = new IpcSettings();
-}
-
-async function initCordovaStorage() {
-  await ipcCordova.initStorage();
 }
 
 async function initControllers()
@@ -215,6 +206,14 @@ async function earlyHideToolBar() {
 
   if (!showToolBar) {
     $('#bible-browser-toolbox').hide();
+  }
+}
+
+async function earlyInitNightMode() {
+  var useNightMode = await ipcSettings.get('useNightMode', true);
+
+  if (useNightMode) {
+    document.body.classList.add('darkmode--activated');
   }
 }
 
@@ -324,6 +323,10 @@ window.initApplication = async function()
     await earlyHideToolBar();
   }
 
+  if (platformHelper.isCordova()) {
+    await earlyInitNightMode();
+  }
+
   initExternalLinkHandling();
 
   if (platformHelper.isWin()) {
@@ -340,10 +343,6 @@ window.initApplication = async function()
   }
 
   loadingIndicator.find('.loader').show();
-
-  if (platformHelper.isCordova()) {
-    await initCordovaStorage();
-  }
 
   console.log("Initializing i18n ...");
   await initI18N();

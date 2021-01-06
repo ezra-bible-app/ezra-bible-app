@@ -28,9 +28,9 @@ class DisplayOption {
 
     $('#' + this._switchElementId).bind('change', async () => {
       await waitUntilIdle();
+      await this._settingsObject.set(this._settingsKey, this.isChecked());
       this._eventHandler();
       this._hideMenuCallback();
-      this._settingsObject.set(this._settingsKey, this.isChecked());
     });
   }
 
