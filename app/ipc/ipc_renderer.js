@@ -131,7 +131,7 @@ class IpcRenderer {
     this.waitCounters[functionName] += 1;
     var returnValue = this.returnValues[functionName];
 
-    var timeoutCycles = 40; // 2s
+    var timeoutCycles = 80; // 2s
 
     if (timeoutMs !== undefined) {
       timeoutCycles = timeoutMs / 20;
@@ -144,7 +144,7 @@ class IpcRenderer {
         setTimeout(() => {
           //console.log('Waiting for node response for ' + functionName + ' ...');
           this.waitForNodeResponse(functionName, timeoutMs, resolve, reject);
-        }, 50);
+        }, 25);
       }
     } else {
       resolve(returnValue);
