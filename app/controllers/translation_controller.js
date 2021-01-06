@@ -16,8 +16,6 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const LanguageMapper = require('../helpers/language_mapper.js');
-
 /**
  * The TranslationController is used to handle the bible translation menu and to
  * access and generate various information about installed bible translations.
@@ -29,8 +27,19 @@ const LanguageMapper = require('../helpers/language_mapper.js');
  */
 class TranslationController {
   constructor() {
-    this.languageMapper = new LanguageMapper();
+    this.languageMapper = null;
     this.translationCount = null;
+    this.initBibleSyncBoxDone = false;
+    this.initBibleTranslationInfoBoxDone = false;
+  }
+
+  getLanguageMapper() {
+    if (this.languageMapper == null) {
+      const LanguageMapper = require('../helpers/language_mapper.js');
+      this.languageMapper = new LanguageMapper();
+    }
+
+    return this.languageMapper;
   }
 
   getTranslationCount() {
@@ -40,11 +49,15 @@ class TranslationController {
   init(onBibleTranslationChanged) {
     this.onBibleTranslationChanged = onBibleTranslationChanged;
     this.initBibleTranslationInfoButton();
-    this.initBibleSyncBox();
-    this.initBibleTranslationInfoBox();
   }
 
   initBibleSyncBox() {
+    if (this.initBibleSyncBoxDone) {
+      return;
+    }
+
+    this.initBibleSyncBoxDone = true;
+
     $('#bible-sync-box').dialog({
       width: 600,
       height: 300,
@@ -56,6 +69,12 @@ class TranslationController {
   }
 
   initBibleTranslationInfoBox() {
+    if (this.initBibleTranslationInfoBoxDone) {
+      return;
+    }
+
+    this.initBibleTranslationInfoBoxDone = true;
+
     $('#bible-translation-info-box').dialog({
       width: 700,
       height: 500,
@@ -212,9 +231,7 @@ class TranslationController {
 
         app_controller.tab_controller.setCurrentBibleTranslationId(newBibleTranslationId);
 
-        if (platformHelper.isElectron()) {
-          app_controller.settings.set('bible_translation', newBibleTranslationId);
-        }
+        ipcSettings.set('bibleTranslation', newBibleTranslationId);
 
         app_controller.tab_controller.refreshBibleTranslationInTabTitle(newBibleTranslationId);
 
@@ -271,7 +288,7 @@ class TranslationController {
       moduleInfo += "<table>";
       moduleInfo += "<tr><td style='width: 11em;'>" + i18n.t("general.module-name") + ":</td><td>" + swordModule.name + "</td></tr>";
       moduleInfo += "<tr><td>" + i18n.t("general.module-version") + ":</td><td>" + swordModule.version + "</td></tr>";
-      moduleInfo += "<tr><td>" + i18n.t("general.module-language") + ":</td><td>" + this.languageMapper.getLanguageName(swordModule.language) + "</td></tr>";
+      moduleInfo += "<tr><td>" + i18n.t("general.module-language") + ":</td><td>" + this.getLanguageMapper().getLanguageName(swordModule.language) + "</td></tr>";
       moduleInfo += "<tr><td>" + i18n.t("general.module-license") + ":</td><td>" + swordModule.distributionLicense + "</td></tr>";
 
       if (swordModule.type == 'Biblical Texts') {
@@ -305,6 +322,8 @@ class TranslationController {
   }
 
   async showBibleTranslationInfo() {
+    this.initBibleTranslationInfoBox();
+
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     var moduleInfo = await this.getModuleInfo(currentBibleTranslationId);
     var currentBibleTranslationName = await app_controller.tab_controller.getCurrentBibleTranslationName();
@@ -408,6 +427,9 @@ class TranslationController {
     if (strongsInstallNeeded) {
       var currentVerseList = app_controller.getCurrentVerseList();
       var verse_list_position = currentVerseList.offset();
+
+      this.initBibleSyncBox();
+
       $('#bible-sync-box').dialog({
         position: [verse_list_position.left + 50, verse_list_position.top + 30]
       });
@@ -470,11 +492,9 @@ class TranslationController {
     var languages = [];
     var languageCodes = [];
 
-    var languageMapper = new LanguageMapper();
-
     for (var i = 0; i < localModules.length; i++) {
       var module = localModules[i];
-      var languageName = languageMapper.getLanguageName(module.language);
+      var languageName = this.getLanguageMapper().getLanguageName(module.language);
 
       if (!languageCodes.includes(module.language)) {
         languages.push({

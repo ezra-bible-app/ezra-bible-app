@@ -56,16 +56,14 @@ class DbHelper {
   getDatabaseDir(isDebug) {
     var databaseDir = this.userDataDir;
     var databaseDirKind = "default";
-    
-    if (this.platformHelper.isElectron()) {
-      if (this.settings.has('custom_database_dir') &&
-          this.settings.get('custom_database_dir') != null) {
 
-        databaseDir = this.settings.get('custom_database_dir');
-        databaseDirKind = "custom";
-      }
+    var config = ipc.ipcSettingsHandler.getConfig();
+
+    if (config.has('customDatabaseDir')) {
+      databaseDir = config.get('customDatabaseDir', null);
+      databaseDirKind = "custom";
     }
-
+    
     var databaseDirString = databaseDir;
     if (isDebug) {
       databaseDirString += " ";

@@ -54,10 +54,23 @@ class TabController {
       return false;
     });
 
-    window.addEventListener('beforeunload', () => {
-      this.saveTabConfiguration();
-      this.saveBookSelectionMenu();
-      this.saveLastUsedVersion();
+    var exitEvent = null;
+    var exitContext = window;
+
+    if (platformHelper.isElectron()) {
+      exitEvent = 'beforeunload';
+      exitContext = window;
+    } else if (platformHelper.isCordova()) {
+      exitEvent = 'pause';
+      exitContext = document;
+    }
+
+    exitContext.addEventListener(exitEvent, async () => {
+      console.log('Persisting data!');
+
+      await this.saveTabConfiguration();
+      await this.saveBookSelectionMenu();
+      await this.saveLastUsedVersion();
     });
 
     this.initTabs();
@@ -88,7 +101,7 @@ class TabController {
     return html;
   }
 
-  saveTabConfiguration() {
+  async saveTabConfiguration() {
     if (this.persistanceEnabled) {
       //console.log('Saving tab configuration');
       var savedMetaTabs = [];
@@ -106,42 +119,30 @@ class TabController {
         savedMetaTabs.push(copiedMetaTab);
       }
 
-      if (platformHelper.isElectron()) {
-        this.settings.set('tabConfiguration', savedMetaTabs);
+      await ipcSettings.set('tabConfiguration', savedMetaTabs, 'html-cache');
 
-        var currentTime = new Date(Date.now());
-        this.settings.set('tabConfigurationTimestamp', currentTime);
-      } else {
-
-      }
+      var currentTime = new Date(Date.now());
+      await ipcSettings.set('tabConfigurationTimestamp', currentTime, 'html-cache');
     }
   }
 
-  deleteTabConfiguration() {
+  async deleteTabConfiguration() {
     if (this.persistanceEnabled) {
       //console.log('Saving tab configuration');
-      this.settings.delete('tabConfiguration');
+      await ipcSettings.delete('tabConfiguration', 'html-cache');
     }  
   }
 
-  saveBookSelectionMenu() {
+  async saveBookSelectionMenu() {
     if (this.persistanceEnabled) {
       var html = document.getElementById("book-selection-menu").innerHTML;
 
-      if (platformHelper.isElectron()) {
-        this.settings.set('bookSelectionMenuCache', html);
-      } else {
-        //
-      }
+      await ipcSettings.set('bookSelectionMenuCache', html, 'html-cache');
     }
   }
 
-  saveLastUsedVersion() {
-    if (platformHelper.isElectron()) {
-      this.settings.set('lastUsedVersion', app.getVersion());
-    } else {
-      //
-    }
+  async saveLastUsedVersion() {
+    await ipcSettings.storeLastUsedVersion();
   }
 
   updateFirstTabCloseButton() {
@@ -167,8 +168,8 @@ class TabController {
     firstTabCloseButton.hide();
   }
 
-  loadMetaTabsFromSettings() {
-    var savedMetaTabs = this.settings.get('tabConfiguration');
+  async loadMetaTabsFromSettings() {
+    var savedMetaTabs = await ipcSettings.get('tabConfiguration', [], 'html-cache');
     var loadedTabCount = 0;
 
     for (var i = 0; i < savedMetaTabs.length; i++) {
@@ -205,11 +206,11 @@ class TabController {
   }
 
   async isCacheOutdated() {
-    var tabConfigTimestamp = this.settings.get('tabConfigurationTimestamp');
+    var tabConfigTimestamp = await ipcSettings.get('tabConfigurationTimestamp', null, 'html-cache');
     if (tabConfigTimestamp != null) {
       tabConfigTimestamp = new Date(tabConfigTimestamp);
 
-      var dbUpdateTimestamp = await ipcDb.getLastMetaRecordUpdate();
+      var dbUpdateTimestamp = new Date(await ipcDb.getLastMetaRecordUpdate());
 
       if (dbUpdateTimestamp != null && dbUpdateTimestamp.getTime() > tabConfigTimestamp.getTime()) {
         return true;
@@ -223,7 +224,7 @@ class TabController {
 
   async populateFromMetaTabs() {
     var cacheOutdated = await this.isCacheOutdated();
-    var cacheInvalid = app_controller.isCacheInvalid();
+    var cacheInvalid = await app_controller.isCacheInvalid();
 
     if (cacheOutdated) {
       console.log("Tab content cache is outdated. Database has been updated in the meantime!");
@@ -276,26 +277,26 @@ class TabController {
   }
   
   async loadTabConfiguration() {
-    if (platformHelper.isElectron()) {
-      if (this.settings.has('bible_translation')) {
-        this.defaultBibleTranslationId = this.settings.get('bible_translation');
-      }
+    var bibleTranslationSettingAvailable = await ipcSettings.has('bibleTranslation');
+
+    if (bibleTranslationSettingAvailable) {
+      this.defaultBibleTranslationId = await ipcSettings.get('bibleTranslation');
     }
 
     var loadedTabCount = 0;
 
-    if (platformHelper.isElectron()) {
-      if (this.settings.has('tabConfiguration')) {
-        app_controller.translation_controller.showBibleTranslationLoadingIndicator();
-        app_controller.showVerseListLoadingIndicator();
-        loadedTabCount = this.loadMetaTabsFromSettings();
+    var tabConfigurationAvailable = await ipcSettings.has('tabConfiguration', 'html-cache');
 
-        if (loadedTabCount > 0) {
-          await this.populateFromMetaTabs();
-        } else {
-          app_controller.hideVerseListLoadingIndicator();
-          app_controller.translation_controller.hideBibleTranslationLoadingIndicator();
-        }
+    if (tabConfigurationAvailable) {
+      app_controller.translation_controller.showBibleTranslationLoadingIndicator();
+      app_controller.showVerseListLoadingIndicator();
+      loadedTabCount = await this.loadMetaTabsFromSettings();
+
+      if (loadedTabCount > 0) {
+        await this.populateFromMetaTabs();
+      } else {
+        app_controller.hideVerseListLoadingIndicator();
+        app_controller.translation_controller.hideBibleTranslationLoadingIndicator();
       }
     }
 
@@ -471,7 +472,7 @@ class TabController {
   /**
    * Resets the state of TabController to the initial state (corresponds to the state right after first installation)
    */
-  reset() {
+  async reset() {
     this.removeAllExtraTabs();
     this.setCurrentBibleTranslationId(null);
     this.getTab().setTagIdList("");
@@ -479,7 +480,7 @@ class TabController {
     this.getTab().setVerseReferenceId(null);
     this.setCurrentTabBook(null, "");
     this.resetCurrentTabTitle();
-    this.deleteTabConfiguration();
+    await this.deleteTabConfiguration();
   }
 
   getTab(index=undefined) {

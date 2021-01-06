@@ -179,13 +179,15 @@ class SpectronHelper {
   }
 
   async getLocalModule(moduleCode) {
-    var allLocalModules = await global.app.webContents.executeJavaScript("ipcNsi.getAllLocalModulesSync()");
+    if (global.app != null) {
+      var allLocalModules = await global.app.webContents.executeJavaScript("ipcNsi.getAllLocalModulesSync()");
 
-    for (var i = 0; i < allLocalModules.length; i++) {
-      var currentModule = allLocalModules[i];
-
-      if (currentModule.name == moduleCode) {
-        return currentModule;
+      for (var i = 0; i < allLocalModules.length; i++) {
+        var currentModule = allLocalModules[i];
+  
+        if (currentModule.name == moduleCode) {
+          return currentModule;
+        }
       }
     }
 

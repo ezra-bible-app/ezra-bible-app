@@ -112,7 +112,7 @@ class AppController {
       await this.onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId);
     });
 
-    this.remove_module_assistant.init(() => { this.onAllTranslationsRemoved(); },
+    this.remove_module_assistant.init(async () => { await this.onAllTranslationsRemoved(); },
                                       async (translationId) => { await this.onTranslationRemoved(translationId); });
 
     this.tab_search.init('#tab-search',
@@ -296,8 +296,8 @@ class AppController {
   }
 
   // Re-init application to state without Bible translations
-  onAllTranslationsRemoved() {
-    this.tab_controller.reset();
+  async onAllTranslationsRemoved() {
+    await this.tab_controller.reset();
     this.resetVerseListView();
     this.hideVerseListLoadingIndicator();
     this.getCurrentVerseList().append("<div class='help-text'>" + i18n.t("help.help-text-no-translations") + "</div>");
@@ -329,13 +329,13 @@ class AppController {
   }
 
   async loadSettings() {
-    if (platformHelper.isElectron()) {
-      if (this.settings.get('tag_list_width') &&
-          this.settings.get('tag_list_width') != null) {
+    var tagListWidthAvailable = await ipcSettings.has('tagListWidth');
 
-        $('#bible-browser-toolbox').css('width', this.settings.get('tag_list_width'));
-        uiHelper.resizeAppContainer();
-      }
+    if (tagListWidthAvailable) {
+      var tagListWidth = await ipcSettings.get('tagListWidth');
+
+      $('#bible-browser-toolbox').css('width', tagListWidth);
+      uiHelper.resizeAppContainer();
     }
 
     if (await ipcDb.getTagCount() > 0) {
@@ -898,18 +898,11 @@ class AppController {
     }*/
   }
 
-  isCacheInvalid() {
-    if (platformHelper.isElectron()) {
-
-      var lastUsedVersion = this.settings.get('lastUsedVersion');
-      var currentVersion = app.getVersion();
+  async isCacheInvalid() {
+      var lastUsedVersion = await ipcSettings.get('lastUsedVersion', undefined);
+      var currentVersion = await ipcGeneral.getAppVersion();
 
       return currentVersion != lastUsedVersion;
-
-    } else if (platformHelper.isCordova()) {
-
-      return true;
-    }
   }
 }
 

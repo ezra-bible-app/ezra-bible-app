@@ -38,6 +38,11 @@ class IpcDbHandler {
     dbHelper = new DbHelper(userDataDir);
     dbDir = dbHelper.getDatabaseDir(isDebug);
 
+    const fs = require('fs');
+    if (!fs.existsSync(dbDir)) {
+      throw "Database directory " + dbDir + " does not exist!";
+    }
+
     await dbHelper.initDatabase(dbDir);
     global.models = require('../database/models')(dbDir);
 

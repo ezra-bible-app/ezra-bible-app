@@ -39,8 +39,7 @@ class DictionaryInfoBox {
     this.currentAdditionalStrongsEntries = [];
     this.currentLemma = null;
     this.strongsAvailable = false;
-
-    $('#dictionary-info-box').accordion();
+    this.uiInitDone = false;
   }
 
   getJsStrongs() {
@@ -68,6 +67,11 @@ class DictionaryInfoBox {
   }
 
   showDictInfoBox() {
+    if (!this.uiInitDone) {
+      this.uiInitDone = true;
+      $('#dictionary-info-box').accordion();
+    }
+
     this.getJsStrongs();
 
     if (this.infoBox.is(":hidden")) {

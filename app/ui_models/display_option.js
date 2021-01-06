@@ -28,12 +28,10 @@ class DisplayOption {
 
     $('#' + this._switchElementId).bind('change', async () => {
       await waitUntilIdle();
+      await this._settingsObject.set(this._settingsKey, this.isChecked());
       this._eventHandler();
       this._hideMenuCallback();
-      this._settingsObject.set(this._settingsKey, this.isChecked());
     });
-
-    this.loadOptionFromSettings();
   }
 
   isChecked(force=false) {
@@ -55,14 +53,18 @@ class DisplayOption {
     $('#' + this._switchElementId + '-box').removeClass('ui-state-active');    
   }
 
-  loadOptionFromSettings() {
+  async loadOptionFromSettings() {
     var optionValue = this._enabledByDefault;
 
     if (this._customSettingsLoader !== undefined) {
-      optionValue = this.customSettingsLoader();
+      optionValue = await this._customSettingsLoader();
     } else {
-      if (this._settingsObject != null && this._settingsObject.has(this._settingsKey)) {
-        optionValue = this._settingsObject.get(this._settingsKey);
+      if (this._settingsObject != null) {
+        var optionAvailable = await this._settingsObject.has(this._settingsKey);
+
+        if (optionAvailable) {
+          optionValue = await this._settingsObject.get(this._settingsKey, this._enabledByDefault);
+        }
       }
     }
 

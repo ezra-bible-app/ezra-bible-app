@@ -18,9 +18,11 @@
 
 require('v8-compile-cache');
 
-const { app, BrowserWindow, Menu, ipcMain } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain, nativeTheme } = require('electron');
 const isDev = require('electron-is-dev');
+
 const IPC = require('./app/ipc/ipc.js');
+global.ipc = new IPC();
 
 app.allowRendererProcessReuse = false;
 
@@ -55,6 +57,22 @@ require('electron-debug')({
     devToolsMode: 'bottom',
 });
 
+function shouldUseDarkMode() {
+  var PlatformHelper = require('./app/helpers/platform_helper.js');
+  var platformHelper = new PlatformHelper();
+  var useDarkMode = false;
+
+  if (platformHelper.isMacOsMojaveOrLater()) {
+    if (nativeTheme.shouldUseDarkColors) {
+      useDarkMode = true;
+    }
+  } else {
+    useDarkMode = ipc.ipcSettingsHandler.getConfig().get('useNightMode', false);
+  }
+
+  return useDarkMode;
+}
+
 function createWindow () {
   const path = require('path');
   const url = require('url');
@@ -76,17 +94,26 @@ function createWindow () {
     mainWindowState.manage(mainWindow);
   });
 
-  ipcMain.on('initIpc', async (event, arg) => {
-    var ipc = new IPC();
+  ipcMain.on('log', async (event, message) => {
+    console.log("Log from renderer: " + message);
+  });
+
+  ipcMain.handle('initIpc', async (event, arg) => {
     await ipc.init(isDev, mainWindow);
   });
+
+  if (shouldUseDarkMode()) {
+    var bgColor = '#000000';
+  } else {
+    var bgColor = '#ffffff';
+  }
 
   // Create the browser window.
   mainWindow = new BrowserWindow({x: mainWindowState.x,
                                   y: mainWindowState.y,
                                   width: mainWindowState.width,
                                   height: mainWindowState.height,
-                                  show: true,
+                                  show: false,
                                   frame: true,
                                   title: "Ezra Project " + app.getVersion(),
                                   webPreferences: {
@@ -95,7 +122,8 @@ function createWindow () {
                                     enableRemoteModule: true,
                                     defaultEncoding: "UTF-8"
                                   },
-                                  icon: path.join(__dirname, 'icons/ezra-project.png')
+                                  icon: path.join(__dirname, 'icons/ezra-project.png'),
+                                  backgroundColor: bgColor
                                  });
  
   // Disable the application menu

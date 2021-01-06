@@ -44,20 +44,40 @@ class PlatformHelper {
   }
 
   isMac() {
-    return navigator.platform.match('Mac') !== null;
+    if (typeof navigator !== 'undefined') {
+      return navigator.platform.match('Mac') !== null;
+    } else if (typeof process !== 'undefined') {
+      return process.platform === 'darwin';
+    }
+
+    return false;
   }
 
   isLinux() {
-    return navigator.platform.match('Linux') !== null &&
-           navigator.platform.match('arm') === null; // This is to ensure that we do not treat Android as "Linux"
+    if (typeof navigator !== 'undefined') {
+      return navigator.platform.match('Linux') !== null &&
+      navigator.platform.match('arm') === null; // This is to ensure that we do not treat Android as "Linux"
+    } else {
+      return process.platform === 'linux';
+    }
   }
 
   isWin() {
-    return navigator.platform.match('Win') !== null;
+    if (typeof navigator !== 'undefined') {
+      return navigator.platform.match('Win') !== null;
+    } else {
+      return process.platform === 'win32';
+    }
   }
 
   isAndroid() {
-    return navigator.userAgent.match('Android') !== null;
+    if (typeof navigator !== 'undefined') {
+      return navigator.userAgent.match('Android') !== null;
+    } else if (this.isCordova()) {
+      return device.platform === 'Android';
+    }
+
+    return false;
   }
 
   isCordova() {
@@ -113,14 +133,14 @@ class PlatformHelper {
     }
   }
 
-  async getMajorOsVersion() {
+  getMajorOsVersion() {
     var releaseVersion = require('os').release();
     var splittedVersion = releaseVersion.split('.');
     var majorDigit = parseInt(splittedVersion[0]);
     return majorDigit;
   }
 
-  async isMacOsMojaveOrLater() {
+  isMacOsMojaveOrLater() {
     if (!this.isMac()) {
       return false;
     }
@@ -128,12 +148,12 @@ class PlatformHelper {
     var isMojaveOrLater = false;
 
     try {
-      var majorOsVersion = await this.getMajorOsVersion();
+      var majorOsVersion = this.getMajorOsVersion();
 
       // see https://en.wikipedia.org/wiki/Darwin_(operating_system)#Release_history
       // macOS Mojave starts with the Darwin kernel version 18.0.0
       isMojaveOrLater = (majorOsVersion >= 18);
-    } catch(e) {}
+    } catch (e) {}
 
     return isMojaveOrLater;
   }
@@ -146,7 +166,7 @@ class PlatformHelper {
     var isWinTenOrLater = false;
 
     try {
-      var majorOsVersion = await this.getMajorOsVersion();
+      var majorOsVersion = this.getMajorOsVersion();
       if (majorOsVersion == undefined) {
         return undefined;
       }
@@ -194,7 +214,7 @@ class PlatformHelper {
     } else if (this.isCordova()) {
 
       // TODO adapt this for ios later
-      return "/sdcard/Android/data/net.ezraproject.cordova";
+      return "/sdcard/Android/data/de.ezraproject.cordova";
     }
   }
 

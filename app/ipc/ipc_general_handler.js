@@ -32,6 +32,12 @@ class IpcGeneralHandler {
       return majorDigit;
     });
 
+    this._ipcMain.add('general_getAppVersion', async () => {
+      var pjson = require('../../package.json');
+      var appVersion = pjson.version;
+      return appVersion;
+    });
+
     this._ipcMain.add('general_getSearchStatisticChartData', async(bibleTranslationId, languageCode, bookList, bibleBookStats) => {
       var labels = [];
       var values = [];

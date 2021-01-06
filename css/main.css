@@ -884,13 +884,16 @@ h2 {
 }
 
 #startup-loading-indicator {
-  display: none;
   font-size: 130%;
   position: absolute;
   height: 200px;
   margin: -100px 0 0 -100px;
   top: 50%;
   left: 50%;
+}
+
+#startup-loading-indicator .loader {
+  display: block;
 }
 
 #startup-loading-indicator.incompatible-windows {
@@ -905,7 +908,7 @@ h2 {
   margin-top: 3em;
 }
 
-.loading-indicator-text {
+.loading-indicator-text, #loading-subtitle {
   font: caption;
   font-size: 1em;
   font-weight: bold;
@@ -1700,7 +1703,10 @@ s {
   border-radius: 6px;
 }
 
-.darkmode--activated a:link, .darkmode--activated a:visited, .darkmode--activated p, .darkmode--activated .verse-list-composite {
+.darkmode--activated a:link,
+.darkmode--activated a:visited,
+.darkmode--activated p,
+.darkmode--activated .verse-list-composite {
   color: whitesmoke;
 }
 
