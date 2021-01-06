@@ -884,13 +884,16 @@ h2 {
 }
 
 #startup-loading-indicator {
-  display: none;
   font-size: 130%;
   position: absolute;
   height: 200px;
   margin: -100px 0 0 -100px;
   top: 50%;
   left: 50%;
+}
+
+#startup-loading-indicator .loader {
+  display: block;
 }
 
 #startup-loading-indicator.incompatible-windows {

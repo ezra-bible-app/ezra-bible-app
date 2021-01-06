@@ -142,11 +142,7 @@ class TabController {
   }
 
   async saveLastUsedVersion() {
-    if (platformHelper.isElectron()) {
-      await ipcSettings.set('lastUsedVersion', app.getVersion());
-    } else {
-      //
-    }
+    await ipcSettings.storeLastUsedVersion();
   }
 
   updateFirstTabCloseButton() {

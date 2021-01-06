@@ -30,7 +30,7 @@ class IpcSettingsHandler {
     this.initIpcInterface();
   }
 
-  getConfig(configName) {
+  getConfig(configName='config') {
     if (this._configurations[configName] === undefined) {
 
       var configOptions = {
@@ -68,6 +68,13 @@ class IpcSettingsHandler {
     this._ipcMain.add('settings_delete', (configName, settingsKey) => {
       var config = this.getConfig(configName);
       return config.delete(settingsKey);
+    });
+
+    this._ipcMain.add('settings_storeLastUsedVersion', () => {
+      var config = this.getConfig();
+      var pjson = require('../../package.json');
+      var lastUsedVersion = pjson.version;
+      return config.set('lastUsedVersion', lastUsedVersion);
     });
   }
 }

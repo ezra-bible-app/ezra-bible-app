@@ -899,17 +899,10 @@ class AppController {
   }
 
   async isCacheInvalid() {
-    if (platformHelper.isElectron()) {
-
       var lastUsedVersion = await ipcSettings.get('lastUsedVersion', undefined);
-      var currentVersion = app.getVersion();
+      var currentVersion = await ipcGeneral.getAppVersion();
 
       return currentVersion != lastUsedVersion;
-
-    } else if (platformHelper.isCordova()) {
-
-      return true;
-    }
   }
 }
 

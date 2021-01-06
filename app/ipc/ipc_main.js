@@ -56,9 +56,10 @@ class IpcMain {
       return this._electronIpcMain.handle(functionName, async (event, ...args) => {
         this._callCounters[functionName] += 1;
         if (this._showDebugOutput) {
-          console.log(functionName + ' ' + this._callCounters[functionName]);
+          console.log(functionName + ' ' + args + ' ' + this._callCounters[functionName]);
         }
-        return await callbackFunction(...args);
+        var returnValue = await callbackFunction(...args);
+        return returnValue;
       });
 
     } else if (this._isCordova) {
@@ -66,7 +67,7 @@ class IpcMain {
       return this._cordova.channel.on(functionName, async (...args) => {
         this._callCounters[functionName] += 1;
         if (this._showDebugOutput) {
-          console.log(functionName + ' ' + this._callCounters[functionName]);
+          console.log(functionName + ' ' + args + ' ' + this._callCounters[functionName]);
         }
         var returnValue = await callbackFunction(...args);
         this._cordova.channel.post(functionName, returnValue);

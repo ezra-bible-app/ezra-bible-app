@@ -62,8 +62,9 @@ class OptionsMenu {
       theme_controller.useNightModeBasedOnOption();
       await waitUntilIdle();
       hideGlobalLoadingIndicator();
-    }, () => { // customSettingsLoader
-      return theme_controller.isNightModeUsed();
+    }, false, // enabledByDefault
+    async () => { // customSettingsLoader
+      return await theme_controller.isNightModeUsed();
     });
 
     var isMojaveOrLater = await platformHelper.isMacOsMojaveOrLater();
