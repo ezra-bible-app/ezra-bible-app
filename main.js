@@ -113,7 +113,7 @@ function createWindow () {
                                   y: mainWindowState.y,
                                   width: mainWindowState.width,
                                   height: mainWindowState.height,
-                                  show: true,
+                                  show: false,
                                   frame: true,
                                   title: "Ezra Project " + app.getVersion(),
                                   webPreferences: {
