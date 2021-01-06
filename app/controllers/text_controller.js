@@ -28,7 +28,15 @@
 class TextController {
   constructor() {
     loadScript("app/templates/verse_list.js");
-    this.marked = require("marked");
+    this.marked = null;
+  }
+
+  getMarked() {
+    if (this.marked = null) {
+      this.marked = require("marked");
+    }
+
+    return this.marked;
   }
 
   async prepareForNewText(resetView, isSearch=false, tabIndex=undefined) {
@@ -256,7 +264,7 @@ class TextController {
       verses: verses,
       verseTags: verseTags,
       verseNotes: verseNotes,
-      marked: this.marked,
+      marked: this.getMarked(),
       reference_separator: reference_separator,
       saveText: i18n.t("general.save"),
       cancelText: i18n.t("general.cancel"),
@@ -486,7 +494,7 @@ class TextController {
       verses: verses,
       verseTags: groupedVerseTags,
       verseNotes: groupedVerseNotes,
-      marked: this.marked,
+      marked: this.getMarked(),
       reference_separator: reference_separator,
       saveText: i18n.t("general.save"),
       cancelText: i18n.t("general.cancel"),

@@ -40,8 +40,6 @@ class DictionaryController {
     this.strongsAvailable = false;
     this.dictionaryInfoBox = new DictionaryInfoBox(this);
 
-    $('#dictionary-info-box').accordion();
-
     this.strongsBox.bind('mouseout', () => {
       this.hideStrongsBox();
     });

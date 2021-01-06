@@ -24,8 +24,6 @@
  */
 class VerseStatisticsChart {
   constructor() {
-    require('chart.js/dist/Chart.bundle.min.js');
-
     this.chartColors = {
       red: 'rgb(255, 99, 132)',
       orange: 'rgb(255, 159, 64)',
@@ -54,6 +52,8 @@ class VerseStatisticsChart {
   }
 
   async updateChart(tabIndex=undefined, bibleBookStats) {
+    require('chart.js/dist/Chart.bundle.min.js');
+
     var numberOfBooks = Object.keys(bibleBookStats).length;
     if (numberOfBooks < 2) {
       return;

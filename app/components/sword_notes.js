@@ -24,7 +24,15 @@
  */
 class SwordNotes {
   constructor() {
-    this.notesCharacter = i18n.t('bible-browser.footnote-character');
+    this.notesCharacter = null;
+  }
+  
+  getNotesCharacter() {
+    if (this.notesCharacter == null) {
+      this.notesCharacter = i18n.t('bible-browser.footnote-character');
+    }
+
+    return this.notesCharacter;
   }
 
   getCurrentTabNotes(tabIndex) {
@@ -84,6 +92,7 @@ class SwordNotes {
 
     // Within crossReference notes: Remove text nodes containing ';'
     this.cleanNotes(swordNotes);
+    var notesCharacter = this.getNotesCharacter();
 
     for (var i = 0; i < swordNotes.length; i++) {
       var currentNote = swordNotes[i];
@@ -91,7 +100,7 @@ class SwordNotes {
       if (currentNote.hasAttribute('type') && currentNote.getAttribute('type') == 'crossReference') {
         this.initCrossReferenceNote(currentNote);
       } else {
-        this.initRegularNote(currentNote);
+        this.initRegularNote(currentNote, notesCharacter);
       }
     }
 
@@ -128,12 +137,12 @@ class SwordNotes {
     }
   }
 
-  initRegularNote(note) {
+  initRegularNote(note, notesCharacter) {
     var noteContent = note.innerHTML;
 
     if (noteContent.indexOf("sword-note-marker") == -1) {
       var currentTitle = note.textContent;
-      var noteMarker = this.createMarker('sword-note-marker', currentTitle, this.notesCharacter);
+      var noteMarker = this.createMarker('sword-note-marker', currentTitle, notesCharacter);
       note.innerText = "";
       note.insertBefore(noteMarker, note.firstChild);
     }

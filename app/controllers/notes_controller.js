@@ -31,17 +31,23 @@ const VerseBox = require('../ui_models/verse_box.js');
  */
 class NotesController {
   constructor() {
-    CodeMirror = require('codemirror/lib/codemirror.js');
-    require("codemirror/addon/edit/continuelist.js");
-    require("codemirror/mode/markdown/markdown.js");
-    require("codemirror/addon/mode/overlay.js");
-    require("codemirror/mode/markdown/markdown.js");
-    require("codemirror/mode/gfm/gfm.js");
-    require("codemirror/mode/htmlmixed/htmlmixed.js");
-
     this.verseBoxHelper = new VerseBoxHelper();
     this.theme = this.getCurrentTheme();
     this.reset();
+  }
+
+  getCodeMirror() {
+    if (CodeMirror == null) {
+      CodeMirror = require('codemirror/lib/codemirror.js');
+      require("codemirror/addon/edit/continuelist.js");
+      require("codemirror/mode/markdown/markdown.js");
+      require("codemirror/addon/mode/overlay.js");
+      require("codemirror/mode/markdown/markdown.js");
+      require("codemirror/mode/gfm/gfm.js");
+      require("codemirror/mode/htmlmixed/htmlmixed.js");
+    }
+
+    return CodeMirror;
   }
 
   reset() {
@@ -284,6 +290,8 @@ class NotesController {
   }
 
   createEditor(notesElement) {
+    CodeMirror = this.getCodeMirror();
+
     var notesElementText = notesElement.querySelector('.verse-notes-text');
     notesElementText.classList.add('edited');
     notesElementText.innerHTML = '';

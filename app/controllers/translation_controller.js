@@ -16,8 +16,6 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const LanguageMapper = require('../helpers/language_mapper.js');
-
 /**
  * The TranslationController is used to handle the bible translation menu and to
  * access and generate various information about installed bible translations.
@@ -29,10 +27,19 @@ const LanguageMapper = require('../helpers/language_mapper.js');
  */
 class TranslationController {
   constructor() {
-    this.languageMapper = new LanguageMapper();
+    this.languageMapper = null;
     this.translationCount = null;
     this.initBibleSyncBoxDone = false;
     this.initBibleTranslationInfoBoxDone = false;
+  }
+
+  getLanguageMapper() {
+    if (this.languageMapper == null) {
+      const LanguageMapper = require('../helpers/language_mapper.js');
+      this.languageMapper = new LanguageMapper();
+    }
+
+    return this.languageMapper;
   }
 
   getTranslationCount() {
@@ -281,7 +288,7 @@ class TranslationController {
       moduleInfo += "<table>";
       moduleInfo += "<tr><td style='width: 11em;'>" + i18n.t("general.module-name") + ":</td><td>" + swordModule.name + "</td></tr>";
       moduleInfo += "<tr><td>" + i18n.t("general.module-version") + ":</td><td>" + swordModule.version + "</td></tr>";
-      moduleInfo += "<tr><td>" + i18n.t("general.module-language") + ":</td><td>" + this.languageMapper.getLanguageName(swordModule.language) + "</td></tr>";
+      moduleInfo += "<tr><td>" + i18n.t("general.module-language") + ":</td><td>" + this.getLanguageMapper().getLanguageName(swordModule.language) + "</td></tr>";
       moduleInfo += "<tr><td>" + i18n.t("general.module-license") + ":</td><td>" + swordModule.distributionLicense + "</td></tr>";
 
       if (swordModule.type == 'Biblical Texts') {
@@ -485,11 +492,9 @@ class TranslationController {
     var languages = [];
     var languageCodes = [];
 
-    var languageMapper = new LanguageMapper();
-
     for (var i = 0; i < localModules.length; i++) {
       var module = localModules[i];
-      var languageName = languageMapper.getLanguageName(module.language);
+      var languageName = this.getLanguageMapper().getLanguageName(module.language);
 
       if (!languageCodes.includes(module.language)) {
         languages.push({
