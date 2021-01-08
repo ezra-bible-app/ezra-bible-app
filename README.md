@@ -10,7 +10,7 @@ and to do it and to teach his statutes and rules in Israel." Ezra 7:10
   </a>
 </p>
 
-Ezra Project is a user-friendly, cross-platform bible study tool focussing on topical study based on keywords/tags. This program can help you to easily manage your topical verse lists and verse-based notes. Ezra Project works with [SWORD bible translation modules](http://www.crosswire.org/sword) and thus enables bible study in many languages. It runs on Windows, macOS and Linux. Click [here](https://github.com/ezra-project/ezra-project/releases/latest) to get the latest release.
+Ezra Project is a user-friendly, cross-platform Bible study tool focussing on topical study based on keywords/tags. This program can help you to easily manage your topical verse lists and verse-based notes. Ezra Project works with [SWORD Bible translation modules](http://www.crosswire.org/sword) and thus enables Bible study in many languages. It runs on Windows, macOS and Linux. Click [here](https://github.com/ezra-project/ezra-project/releases/latest) to get the latest release.
 
 For user information (features, screenshots, install instructions) have a look at the [project's website](https://ezra-project.net). This GitHub page focusses on technical information.
 
