@@ -574,6 +574,8 @@ class InstallModuleAssistant {
     var wizardPage = $('#module-settings-assistant-add-p-1');
     wizardPage.empty();
 
+    this.addLoadingIndicator(wizardPage);
+
     var uiRepositories = this.getSelectedReposForUi();
     var introText = "<p style='margin-bottom: 2em;'>" +
                     i18n.t("module-assistant.pick-languages-from-repos") +
@@ -594,6 +596,8 @@ class InstallModuleAssistant {
       wizardPage.append(otherLanguagesHeader);
       await this.listLanguageArray(unknownLanguages);
     }
+
+    wizardPage.find('.loader').hide();
 
     this._helper.bindLabelEvents(wizardPage);
   }
@@ -921,12 +925,26 @@ class InstallModuleAssistant {
     return hasBeenSelected;
   }
 
+  addLoadingIndicator(wizardPage) {
+    var loader = `
+      <div class="loader" style="position: relative; float: right; display: block;">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+    `;
+
+    wizardPage.append(loader);
+  }
+
   async listRepositories() {
     this.previouslySelectedRepositories = await ipcSettings.get('selectedRepositories', null);
     var wizardPage = $('#module-settings-assistant-add-p-0');
 
     var repositories = await ipcNsi.getRepoNames();
     wizardPage.empty();
+
+    this.addLoadingIndicator(wizardPage);
 
     var introText = "<p style='margin-bottom: 2em;'>" +
                     i18n.t("module-assistant.repo-selection-info-text", {module_type: this._moduleTypeText}) +
@@ -949,6 +967,8 @@ class InstallModuleAssistant {
         wizardPage.append(currentRepo);
       }
     }
+
+    wizardPage.find('.loader').hide();
 
     var lastUpdate = await ipcSettings.get('lastSwordRepoUpdate', undefined);
 
