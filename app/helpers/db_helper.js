@@ -122,7 +122,8 @@ class DbHelper {
 
     var pendingMigrations = await umzug.pending();
     if (pendingMigrations.length > 0) {
-      $('#loading-subtitle').text(i18n.t("general.applying-migrations"));
+      //$('#loading-subtitle').text(i18n.t("general.applying-migrations"));
+      console.log("Applying database migrations ...");
     }
 
     // Execute all pending migrations
