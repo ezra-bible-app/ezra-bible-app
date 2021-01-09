@@ -15,12 +15,6 @@ jobs:
           with:
             entrypoint: /usr/bin/npm
             args: install
-
-        - name: Rebuild dependencies for Electron
-          uses: docker://toklein/ezra-ubuntu-2004:latest
-          with:
-            entrypoint: /usr/bin/npm
-            args: run rebuild
         
         - name: Compile templates
           run: npm run compile-pug
