@@ -98,7 +98,7 @@ class RemoveModuleAssistant {
 
       var currentTranslationHtml = "<p><input type='checkbox'" + checkboxDisabled + ">" + 
                                     "<span " + currentModuleClass + " id='" + module.name + "'>";
-      currentTranslationHtml += module.description + " [" + module.name + "]</span></p>";
+      currentTranslationHtml += module.description + "&nbsp; [" + module.name + "]</span></p>";
 
       var languageBox = $('#remove-module-assistant-' + module.language + '-modules');
       languageBox.append(currentTranslationHtml);

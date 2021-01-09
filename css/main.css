@@ -663,6 +663,11 @@ h2 {
   cursor: default;
 }
 
+.Android #module-settings-assistant input[type="checkbox"] {
+  float: left;
+  margin-right: 0.5em;
+}
+
 #module-settings-assistant .disabled {
   color: gray;
 }
@@ -687,6 +692,10 @@ h2 {
   height: 75%;
 }
 
+#remove-module-list h2 {
+  margin-left: 0;
+}
+
 #module-info {
   height: 100%;
   padding: 1em;
@@ -695,6 +704,10 @@ h2 {
 .selectable-translation-module {
   text-indent: -20px;
   padding-left: 20px;
+}
+
+.Android .selectable-translation-module {
+  text-indent: inherit;
 }
 
 #display-options-menu {
@@ -966,6 +979,10 @@ h2 {
 .switch-box input {
   float: left;
   margin: 0.4em;
+}
+
+.Android .switch-box input {
+  margin: 0.2em;
 }
 
 .show-book-tag-statistics-button,
@@ -1577,6 +1594,10 @@ s {
 
 #module-feature-filter label {
   margin-right: 1em;
+}
+
+.Android #module-feature-filter label {
+  float: left;
 }
 
 .progress-bar {

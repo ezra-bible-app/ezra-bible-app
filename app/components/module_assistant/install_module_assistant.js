@@ -669,7 +669,7 @@ class InstallModuleAssistant {
     }
 
     var uiRepositories = this.getSelectedReposForUi();
-    var introText = "<p style='margin-bottom: 2em;'>" +
+    var introText = "<p style='clear: both; margin-bottom: 2em;'>" +
                     i18n.t("module-assistant.the-selected-repositories") + " (" +
                     uiRepositories.join(', ') + ") " +
                     i18n.t("module-assistant.contain-the-following-modules") + " (" +
@@ -859,7 +859,7 @@ class InstallModuleAssistant {
       
       currentModuleElement += "<span " + moduleTitle + " class='" + labelClass + "' id='" + currentModule.name + "'>";
       currentModuleElement += currentModule.description;
-      currentModuleElement += "</span>&nbsp;";
+      currentModuleElement += "</span>&nbsp;&nbsp;";
 
       currentModuleElement += "[<span class='bible-module-info'>" + currentModule.name + "</span>]";
 
