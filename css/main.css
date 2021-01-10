@@ -1407,6 +1407,15 @@ h2 {
   margin-right: 0.5em;
 }
 
+.Android .tag-browser-tag-cb {
+  margin-top: inherit;
+}
+
+.Android #tag-selection-recently-used-checkbox {
+  float: left;
+  margin-right: 0.5em;
+}
+
 .tag-browser-tag {
   clear: both;
   margin-bottom: 0.5em;
