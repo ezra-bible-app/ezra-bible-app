@@ -1277,6 +1277,14 @@ h2 {
   margin-left: 0;
 }
 
+.selection-box-break {
+  display: none;
+}
+
+.verse-list-tabs-small-screen .selection-box-break {
+  display: block;
+}
+
 .bible-select-block select {
   width: 20em;
   display: none;
