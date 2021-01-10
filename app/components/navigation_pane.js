@@ -265,7 +265,7 @@ class NavigationPane {
       var currentBook = currentBookHeader.attr("bookname");
 
       var href = `javascript:app_controller.navigation_pane.goToBook('${currentBook}','${bookNumber}')`;
-      var link = `<a class='navigation-link' href='${href}'>${currentBookHeaderText}</a>`;
+      var link = `<a class='navigation-link' href="${href}">${currentBookHeaderText}</a>`;
       navigationPaneHtml += link;
     }
 
