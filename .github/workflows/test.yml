@@ -13,10 +13,7 @@ jobs:
             node-version: '8'
 
         - name: Install dependencies
-          uses: docker://toklein/ezra-ubuntu-2004:latest
-          with:
-            entrypoint: /usr/bin/npm
-            args: install
+          run: npm install
         
         - name: Compile templates
           run: npm run compile-pug
