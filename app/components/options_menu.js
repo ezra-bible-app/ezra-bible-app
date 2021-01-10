@@ -16,6 +16,7 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const PlatformHelper = require('../helpers/platform_helper.js');
 const DisplayOption = require('../ui_models/display_option.js');
 
 /**
@@ -33,6 +34,12 @@ const DisplayOption = require('../ui_models/display_option.js');
 class OptionsMenu {
   constructor() {
     this.menuIsOpened = false;
+    this.platformHelper = new PlatformHelper();
+
+    if (this.platformHelper.isCordova()) {
+      var CordovaPlatform = require('../platform/cordova_platform.js');
+      this.cordovaPlatform = new CordovaPlatform();
+    }
   }
 
   async init() {
@@ -78,6 +85,12 @@ class OptionsMenu {
     if (isMojaveOrLater) {
       // On macOS Mojave and later we do not give the user the option to switch night mode within the app, since it is controlled via system settings.
       $('#night-mode-switch-box').hide();
+    }
+
+    this._keepScreenAwakeOption = await this.initDisplayOption('screen-awake-switch', 'keepScreenAwake', () => { this.keepScreenAwakeBasedOnOption(); });
+
+    if (!this.platformHelper.isCordova()) {
+      $('#screen-awake-switch-box').hide();
     }
 
     this.refreshViewBasedOnOptions();
@@ -332,6 +345,18 @@ class OptionsMenu {
     }
   }
 
+  keepScreenAwakeBasedOnOption(tabIndex=undefined) {
+    if (!this.platformHelper.isCordova()) {
+      return;
+    } 
+
+    if (this._keepScreenAwakeOption.isChecked()) {
+      this.cordovaPlatform.keepScreenAwake();
+    } else {
+      this.cordovaPlatform.allowScreenToSleep();
+    }
+  }
+
   changeTagsLayoutBasedOnOption(tabIndex=undefined) {
     var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
@@ -357,6 +382,7 @@ class OptionsMenu {
     this.showOrHideStrongsBasedOnOption(tabIndex);
     this.showOrHideVerseNotesBasedOnOption(tabIndex);
     this.fixNotesHeightBasedOnOption(tabIndex);
+    this.keepScreenAwakeBasedOnOption(tabIndex);
     theme_controller.useNightModeBasedOnOption();
   }
 }
