@@ -7,11 +7,10 @@ jobs:
         name: Run Cucumber tests
         runs-on: ubuntu-20.04
         steps:
-        - name: Checkout
         - uses: actions/checkout@v1
         - uses: actions/setup-node@v2
           with:
-            node-version: '10'
+            node-version: '8'
 
         - name: Install dependencies
           uses: docker://toklein/ezra-ubuntu-2004:latest
