@@ -209,28 +209,32 @@ class OptionsMenu {
   showOrHideSectionTitlesBasedOnOption(tabIndex=undefined) {
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex)[0];
     var tabId = app_controller.tab_controller.getSelectedTabId(tabIndex);
+    var all_section_titles = [];
 
-    // The following code moves the sword-section-title elements before the verse-boxes
-    var all_section_titles = currentVerseList.querySelectorAll('.sword-section-title');
+    if (currentVerseList != null && currentVerseList != undefined) {
 
-    for (var i = 0; i < all_section_titles.length; i++) {
-      var currentSectionTitle = all_section_titles[i];
-      var currentParent = currentSectionTitle.parentNode;
-      var parentClassList = currentParent.classList;
+      // The following code moves the sword-section-title elements before the verse-boxes
+      all_section_titles = currentVerseList.querySelectorAll('.sword-section-title');
 
-      // We verify that the section title is part of the verse text
-      // (and not part of a chapter introduction or something similar).
-      if (parentClassList.contains('verse-text')) {
-        // Generate anchor for section headers
-        var sectionHeaderAnchor = document.createElement('a');
-        var chapter = currentSectionTitle.getAttribute('chapter');
-        var sectionTitleContent = currentSectionTitle.textContent;
-        var unixSectionHeaderId = app_controller.navigation_pane.getUnixSectionHeaderId(tabId, chapter, sectionTitleContent);
-        sectionHeaderAnchor.setAttribute('name', unixSectionHeaderId);
+      for (var i = 0; i < all_section_titles.length; i++) {
+        var currentSectionTitle = all_section_titles[i];
+        var currentParent = currentSectionTitle.parentNode;
+        var parentClassList = currentParent.classList;
 
-        var verseBox = currentSectionTitle.closest('.verse-box');
-        verseBox.before(sectionHeaderAnchor);
-        verseBox.before(currentSectionTitle);
+        // We verify that the section title is part of the verse text
+        // (and not part of a chapter introduction or something similar).
+        if (parentClassList.contains('verse-text')) {
+          // Generate anchor for section headers
+          var sectionHeaderAnchor = document.createElement('a');
+          var chapter = currentSectionTitle.getAttribute('chapter');
+          var sectionTitleContent = currentSectionTitle.textContent;
+          var unixSectionHeaderId = app_controller.navigation_pane.getUnixSectionHeaderId(tabId, chapter, sectionTitleContent);
+          sectionHeaderAnchor.setAttribute('name', unixSectionHeaderId);
+
+          var verseBox = currentSectionTitle.closest('.verse-box');
+          verseBox.before(sectionHeaderAnchor);
+          verseBox.before(currentSectionTitle);
+        }
       }
     }
 
