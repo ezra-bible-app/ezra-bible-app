@@ -47,6 +47,10 @@ class TagStatistics {
 
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     var currentBook = app_controller.tab_controller.getTab().getBook();
+    if (currentBook == null) {
+      return;
+    }
+
     var chapterCount = await ipcNsi.getBookChapterCount(currentBibleTranslationId, currentBook);
 
     var overall_verse_count = 0;
