@@ -58,12 +58,16 @@ class BookSelectionMenu {
 
     for (var i = 0; i < links.length; i++) {
       var current_link = $(links[i]);
-      var current_link_href = current_link.attr('href');
-      var current_book_title = current_link.html();
-      var new_link_href = "javascript:app_controller.book_selection_menu.selectBibleBook('" + 
-                          current_link_href + "','" + current_book_title + "')";
 
-      current_link.attr('href', new_link_href);
+      current_link.click((event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        var current_link_href = $(event.target).attr('href');
+        var current_book_title = $(event.target).html();
+
+        app_controller.book_selection_menu.selectBibleBook(current_link_href, current_book_title);
+      });
     }
   }
 
