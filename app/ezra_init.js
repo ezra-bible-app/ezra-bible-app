@@ -285,8 +285,9 @@ window.initApplication = async function()
   await waitUntilIdle();
 
   var isDev = await platformHelper.isDebug();
+  var isCordova = await platformHelper.isCordova();
 
-  if (isDev) {
+  if (isDev || isCordova) {
     window.Sentry = {
       addBreadcrumb: function() {},
       Severity: {
