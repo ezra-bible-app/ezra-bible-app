@@ -77,14 +77,14 @@ class CordovaPlatform {
 
   onPermissionDenied() {
     console.log("Permission to access storage have been DENIED!");
+
+    var noSystemPermissionsDialogShownTiming = 500;
     var timeSinceRequest = new Date() - this.permissionRequestTime;
 
-    $('#permission-decision').html(`
-      You decided to deny storage access.<br>
-      You can change this by pressing the button below!
-    `)
+    if (timeSinceRequest < noSystemPermissionsDialogShownTiming) {
+      // If the request came back in a very short time we assume that the user permanently denied the permission
+      // and show a corresponding message.
 
-    if (timeSinceRequest < 500) {
       $('#permission-decision').html(`
         Previously, you decided to permanently deny storage access!
         <br>
@@ -97,6 +97,14 @@ class CordovaPlatform {
       `);
 
       $('#enable-access').html('');
+
+    } else {
+
+      $('#permission-decision').html(`
+        You decided to deny storage access.<br>
+        You can change this by pressing the button below!
+      `)
+
     }
   }
 
