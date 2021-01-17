@@ -29,108 +29,87 @@ class CordovaPlatform {
     // In the meanwhile the screen would be just white and that's what we would like to avoid.
     showGlobalLoadingIndicator();
 
-    document.addEventListener('deviceready', () => {
-      var hasPermissions = await this.hasPermissions();
+    document.addEventListener('deviceready', async () => {
+      var hasPermission = await this.hasPermission();
 
-      if (hasPermissions) {
+      if (hasPermission) {
         this.startNodeJsEngine();
       } else {
-        this.showPermissionsInfo();
+        this.showPermissionInfo();
       }
-
-      return;
-
-      this.getPermissions(() => {
-        // SUCCESS
-
-        this.startNodeJsEngine();
-
-      }, () => {
-        // ERROR
-
-        var loadingIndicator = $('#startup-loading-indicator');
-        loadingIndicator.addClass('permissions-issue');
-        loadingIndicator.find('.loader').hide();
-
-        var loadingIndicatorText = $('.loading-indicator-text');
-
-        var hint = "<h3 style='text-decoration: underline'>Write permissions required</h3>" +
-                   "Ezra Project needs write permissions to store SWORD modules and its database.<br><br>" +
-                   "<button id='request-write-permissions'>Request write permissions</button>";
-
-        loadingIndicatorText.html(hint);
-
-        $('#request-write-permissions').click(() => {
-          this.getPermissions(() => { 
-
-            var loadingIndicator = $('#startup-loading-indicator');
-            loadingIndicator.removeClass('permissions-issue');
-            
-            var loadingIndicatorText = $('.loading-indicator-text');
-            loadingIndicatorText.html('');
-
-            showGlobalLoadingIndicator();
-
-            this.startNodeJsEngine(); 
-          });
-        });
-      });
-        
     }, false);
   }
 
-  async hasPermissions() {
-
-    var permissionCheck = new Promise((resolve, reject) => {
+  async hasPermission() {
+    return new Promise((resolve, reject) => {
       var permissions = cordova.plugins.permissions;
 
-      permissions.checkPermission(permissions.WRITE_EXTERNAL_STORAGE, (status) => {
-        if (status.hasPermission) {
-          resolve();
-        } else {
-          reject("Currently no permissions to write external storage!");
-        }
+      return permissions.checkPermission(permissions.WRITE_EXTERNAL_STORAGE, (status) => {
+        resolve(status.hasPermission);
       }, () => {
         reject("Failed to check permissions!");
       })
     });
+  }
 
-    try {
-      await permissionCheck();
-      return true;
+  onRequestPermissionClick() {
+    this.permissionRequestTime = new Date();
 
-    } catch (error) {
+    this.requestPermission().then((permissionsGranted) => { 
 
-      return false;
+      if (permissionsGranted) {
+        this.onPermissionGranted();
+      } else {
+        this.onPermissionDenied();
+      }
+
+    }, (error) =>  {
+      console.log(error);
+    });
+  }
+
+  onPermissionGranted() {
+    console.log("Permission to access storage have been GRANTED!");
+    this.getPermissionBox().dialog('close');
+    showGlobalLoadingIndicator();
+    this.startNodeJsEngine(); 
+  }
+
+  onPermissionDenied() {
+    console.log("Permission to access storage have been DENIED!");
+    var timeSinceRequest = new Date() - this.permissionRequestTime;
+
+    if (timeSinceRequest < 500) {
+      $('#enable-access').css('text-align', 'left');
+
+      $('#enable-access').html(`
+        Previously, you decided to permanently deny storage access!<br><br>
+        You can only revert that decision in the permission settings in the Android system configuration.
+      `)
     }
   }
 
-  getPermissions(resolve, reject) {
+  requestPermission() {
     // Note that the following code depends on having the cordova-plugin-android-permisssions available
 
     console.log("Getting permissions ...");
 
-    var permissions = cordova.plugins.permissions;
+    return new Promise((resolve, reject) => {
+      var permissions = cordova.plugins.permissions;
 
-    return permissions.checkPermission(permissions.WRITE_EXTERNAL_STORAGE, (status) => {
-      if (!status.hasPermission) {
-        return permissions.requestPermission(permissions.WRITE_EXTERNAL_STORAGE,
-          (status) => { // success
-            if ( status.hasPermission ) {
-              resolve();
-            } else {
-              reject("User did not give permission to use external storage");
-            }
-          },
-          () => { // error
-            reject("Failed to request permission to write on external storage");
+      return permissions.requestPermission(permissions.WRITE_EXTERNAL_STORAGE,
+        (status) => { // success
+          if ( status.hasPermission ) {
+            resolve(true);
+          } else {
+            resolve(false);
           }
-        );
-      } else {
-        resolve();
-      }
-    }, () => {
-      reject("Failed to check permissions");
+        },
+        () => { // error
+          reject("Failed to request permission to write on external storage");
+        }
+      );
+
     });
   }
 
@@ -146,18 +125,52 @@ class CordovaPlatform {
     });
   }
 
-  getPermissionsBox() {
+  getPermissionBox() {
     return $('#permissions-box');
   }
 
-  showPermissionsInfo() {
-    this.getPermissionsBox().dialog({
+  getPermissionInfoMessage() {
+    var infoMessage = `
+      <br>
+      Ezra Project needs access to the device storage area to save SWORD modules and store its database.
+      After pressing the button below, you will be asked to allow Ezra Project to access files on your device.
+
+      <p id='enable-access' style='text-align: center; margin-top: 2em; margin-bottom: 2em;'>
+
+        <button id='request-write-permissions'
+                class='fg-button ui-corner-all ui-state-default'
+                style='height: 3em;'>
+
+          Enable access to device storage
+
+        </button>
+
+      </p>
+    `;
+
+    return infoMessage;
+  }
+
+  showPermissionInfo() {
+    console.log("Showing permissions info!");
+
+    var infoMessage = this.getPermissionInfoMessage();
+    this.getPermissionBox().find('#permissions-box-content').html(infoMessage);
+
+    $('#request-write-permissions').click(() => {
+      this.onRequestPermissionClick();
+
+    });
+
+    hideGlobalLoadingIndicator();
+
+    this.getPermissionBox().dialog({
       title: "Welcome to Ezra Project!",
       width: 400,
-      height: 300,
       autoOpen: true,
-      dialogClass: 'ezra-dialog',
-      modal: true
+      dialogClass: 'ezra-dialog dialog-without-close-button android-dialog-large-fontsize',
+      modal: true,
+      resizable: false
     });
   }
 
@@ -169,11 +182,20 @@ class CordovaPlatform {
     //nodejs.start('main.js', initApplication);
 
     nodejs.startWithScript(`
+
       const Main = require('main.js');
 
       var main = new Main();
       main.init(${isDebug});
-    `, initApplication);
+
+    `, async () => {
+
+      // Meanwhile the nodejs engine has been started and pre-conditions are fulfilled to now init the app!
+      // We wait another 100ms before moving ahead ...
+      await sleep(100);
+
+      await initApplication();
+    });
   }
 
   mainProcessListener(message) {

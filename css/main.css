@@ -909,7 +909,7 @@ h2 {
   display: block;
 }
 
-#startup-loading-indicator.incompatible-windows {
+#startup-loading-indicator.incompatible-windows, #startup-loading-indicator.permissions-issue {
   position: unset;
   margin: 50px;
 }
@@ -1739,6 +1739,18 @@ s {
   background-color: darkgrey;
   border: 1px solid slategrey;
   border-radius: 6px;
+}
+
+.android-dialog-large-fontsize .ui-dialog-titlebar {
+  font-size: 120%;
+}
+
+#permissions-box-content {
+  font-size: 120%;
+}
+
+.dialog-without-close-button .ui-dialog-titlebar-close {
+  display: none;
 }
 
 .darkmode--activated a:link,
