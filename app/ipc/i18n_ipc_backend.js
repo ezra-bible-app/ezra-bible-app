@@ -45,6 +45,8 @@ class I18nIpcBackend {
       /* callback(truthyValue, null); */
 
       callback(false, null);
+
+      this._busy = false;
     }
   }
 }
