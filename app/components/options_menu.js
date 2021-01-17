@@ -51,7 +51,12 @@ class OptionsMenu {
       app_controller.openModuleSettingsAssistant('DICT'); 
     });
 
-    this._toolBarOption = await this.initDisplayOption('tool-bar-switch', 'showToolBar', () => { this.showOrHideToolBarBasedOnOption(); }, true);
+    var toolBarEnabledByDefault = true;
+    if (this.platformHelper.isCordova()) {
+      toolBarEnabledByDefault = false;
+    }
+
+    this._toolBarOption = await this.initDisplayOption('tool-bar-switch', 'showToolBar', () => { this.showOrHideToolBarBasedOnOption(); }, toolBarEnabledByDefault);
     this._bookIntroOption = await this.initDisplayOption('book-intro-switch', 'showBookIntro', () => { this.showOrHideBookIntroductionBasedOnOption(); });
     this._sectionTitleOption = await this.initDisplayOption('section-title-switch', 'showSectionTitles', () => { this.showOrHideSectionTitlesBasedOnOption(); }, true);
     this._xrefsOption = await this.initDisplayOption('xrefs-switch', 'showXrefs', () => { this.showOrHideXrefsBasedOnOption(); });
@@ -68,7 +73,7 @@ class OptionsMenu {
       showGlobalLoadingIndicator();
       theme_controller.useNightModeBasedOnOption();
 
-      if (platformHelper.isCordova()) {
+      if (this.platformHelper.isCordova()) {
         // On Cordova we persist a basic night mode style in a CSS file 
         // which is then loaded on startup again
         await ipcSettings.storeNightModeCss();
@@ -81,7 +86,7 @@ class OptionsMenu {
       return await theme_controller.isNightModeUsed();
     });
 
-    var isMojaveOrLater = await platformHelper.isMacOsMojaveOrLater();
+    var isMojaveOrLater = await this.platformHelper.isMacOsMojaveOrLater();
     if (isMojaveOrLater) {
       // On macOS Mojave and later we do not give the user the option to switch night mode within the app, since it is controlled via system settings.
       $('#night-mode-switch-box').hide();
