@@ -80,7 +80,8 @@ class CordovaPlatform {
     var timeSinceRequest = new Date() - this.permissionRequestTime;
 
     $('#permission-decision').html(`
-      You decided to deny storage access. You can change this by pressing the button once more!
+      You decided to deny storage access.<br>
+      You can change this by pressing the button below!
     `)
 
     if (timeSinceRequest < 500) {
