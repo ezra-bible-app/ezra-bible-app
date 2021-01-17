@@ -79,13 +79,17 @@ class CordovaPlatform {
     console.log("Permission to access storage have been DENIED!");
     var timeSinceRequest = new Date() - this.permissionRequestTime;
 
-    if (timeSinceRequest < 500) {
-      $('#enable-access').css('text-align', 'left');
+    $('#permission-decision').html(`
+      You decided to deny storage access. You can change this by pressing the button once more!
+    `)
 
-      $('#enable-access').html(`
+    if (timeSinceRequest < 500) {
+      $('#permission-decision').html(`
         Previously, you decided to permanently deny storage access!<br><br>
         You can only revert that decision in the permission settings in the Android system configuration.
-      `)
+      `);
+
+      $('#enable-access').html('');
     }
   }
 
@@ -134,6 +138,8 @@ class CordovaPlatform {
       <br>
       Ezra Project needs access to the device storage area to save SWORD modules and store its database.
       After pressing the button below, you will be asked to allow Ezra Project to access files on your device.
+
+      <p id='permission-decision' style='color: red;'></p>
 
       <p id='enable-access' style='text-align: center; margin-top: 2em; margin-bottom: 2em;'>
 
