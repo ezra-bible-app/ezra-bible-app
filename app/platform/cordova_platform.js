@@ -91,7 +91,9 @@ class CordovaPlatform {
         <br>
         You can only revert that decision in the permission settings in the Android system configuration.
         <br>
-        If you do not change the permission settings, Ezra Project will not start up successfully.
+        <br>
+        If you do not change the permission settings,<br>
+        Ezra Project will <span style='text-decoration: underline'>not start up successfully</span>.
       `);
 
       $('#enable-access').html('');
