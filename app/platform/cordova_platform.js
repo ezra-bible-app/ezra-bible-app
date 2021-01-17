@@ -29,44 +29,108 @@ class CordovaPlatform {
     // In the meanwhile the screen would be just white and that's what we would like to avoid.
     showGlobalLoadingIndicator();
 
-    document.addEventListener('deviceready', async () => {
-      try {
-        await this.getPermissions();
+    document.addEventListener('deviceready', () => {
+      var hasPermissions = await this.hasPermissions();
 
-        var isDebug = await this.isDebug();
-
-        this.startNodeJsEngine(isDebug);
-
-      } catch (error) {
-
-        // TODO: Handle permissions error
-        console.log(error);
+      if (hasPermissions) {
+        this.startNodeJsEngine();
+      } else {
+        this.showPermissionsInfo();
       }
+
+      return;
+
+      this.getPermissions(() => {
+        // SUCCESS
+
+        this.startNodeJsEngine();
+
+      }, () => {
+        // ERROR
+
+        var loadingIndicator = $('#startup-loading-indicator');
+        loadingIndicator.addClass('permissions-issue');
+        loadingIndicator.find('.loader').hide();
+
+        var loadingIndicatorText = $('.loading-indicator-text');
+
+        var hint = "<h3 style='text-decoration: underline'>Write permissions required</h3>" +
+                   "Ezra Project needs write permissions to store SWORD modules and its database.<br><br>" +
+                   "<button id='request-write-permissions'>Request write permissions</button>";
+
+        loadingIndicatorText.html(hint);
+
+        $('#request-write-permissions').click(() => {
+          this.getPermissions(() => { 
+
+            var loadingIndicator = $('#startup-loading-indicator');
+            loadingIndicator.removeClass('permissions-issue');
+            
+            var loadingIndicatorText = $('.loading-indicator-text');
+            loadingIndicatorText.html('');
+
+            showGlobalLoadingIndicator();
+
+            this.startNodeJsEngine(); 
+          });
+        });
+      });
+        
     }, false);
   }
 
-  getPermissions() {
+  async hasPermissions() {
+
+    var permissionCheck = new Promise((resolve, reject) => {
+      var permissions = cordova.plugins.permissions;
+
+      permissions.checkPermission(permissions.WRITE_EXTERNAL_STORAGE, (status) => {
+        if (status.hasPermission) {
+          resolve();
+        } else {
+          reject("Currently no permissions to write external storage!");
+        }
+      }, () => {
+        reject("Failed to check permissions!");
+      })
+    });
+
+    try {
+      await permissionCheck();
+      return true;
+
+    } catch (error) {
+
+      return false;
+    }
+  }
+
+  getPermissions(resolve, reject) {
     // Note that the following code depends on having the cordova-plugin-android-permisssions available
 
     console.log("Getting permissions ...");
 
-    return new Promise((resolve, reject) => {
-      var permissions = cordova.plugins.permissions;
+    var permissions = cordova.plugins.permissions;
 
-      permissions.checkPermission(permissions.WRITE_EXTERNAL_STORAGE, (status) => {
-        if (!status.hasPermission) {
-          permissions.requestPermission(permissions.WRITE_EXTERNAL_STORAGE,
-            () => { // success
+    return permissions.checkPermission(permissions.WRITE_EXTERNAL_STORAGE, (status) => {
+      if (!status.hasPermission) {
+        return permissions.requestPermission(permissions.WRITE_EXTERNAL_STORAGE,
+          (status) => { // success
+            if ( status.hasPermission ) {
               resolve();
-            },
-            () => { // error
-              reject("No permission to write on external storage");
+            } else {
+              reject("User did not give permission to use external storage");
             }
-          );
-        } else {
-          resolve();
-        }
-      });
+          },
+          () => { // error
+            reject("Failed to request permission to write on external storage");
+          }
+        );
+      } else {
+        resolve();
+      }
+    }, () => {
+      reject("Failed to check permissions");
     });
   }
 
@@ -82,7 +146,24 @@ class CordovaPlatform {
     });
   }
 
-  startNodeJsEngine(isDebug) {
+  getPermissionsBox() {
+    return $('#permissions-box');
+  }
+
+  showPermissionsInfo() {
+    this.getPermissionsBox().dialog({
+      title: "Welcome to Ezra Project!",
+      width: 400,
+      height: 300,
+      autoOpen: true,
+      dialogClass: 'ezra-dialog',
+      modal: true
+    });
+  }
+
+  async startNodeJsEngine() {
+    var isDebug = await this.isDebug();
+
     console.log("Starting up nodejs engine!");
     nodejs.channel.setListener(this.mainProcessListener);
     //nodejs.start('main.js', initApplication);
