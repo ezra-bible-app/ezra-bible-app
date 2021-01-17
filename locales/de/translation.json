@@ -199,5 +199,13 @@
     "find-all-occurrences": "Alle Vorkommnisse finden",
     "open-in-blueletter": "In Blue Letter Bible öffnen",
     "related-strongs": "Verwandte Strong's"
+  },
+  "cordova" : {
+    "welcome-to-ezra-project": "Willkommen bei Ezra Project!",
+    "storage-justification": "Ezra Project benötigt Zugriff auf den Gerätespeicher, um SWORD Module und die Datenbank zu speichern.<br><br>Nachdem Sie den Button unten gedrückt haben werden Sie gebeten, Ezra Project den Zugriff auf den Speicher zu erlauben.",
+    "enable-storage-access": "Zugriff auf Gerätespeicher aktivieren",
+    "storage-permission-denied": "Sie haben entschieden, den Zugriff auf den Gerätespeicher zu verweigern.<br>Sie können dies ändern, indem Sie den Button unten drücken!",
+    "permanent-permission-decision-part1": "Sie haben zuletzt entschieden, Ezra Project keinen Zugriff auf den Gerätespeicher zu geben!<br><br>Sie können diese Entscheidung nur in den Android Einstellungen im Bereich App Berechtigungen rückgängig machen.",
+    "permanent-permission-decision-part2": "Wenn Sie die Zugriffseinstellungen nicht ändern,<br>wird Ezra Project <span style='text-decoration: underline'>nicht erfolgreich starten</span>."
   }
 }
