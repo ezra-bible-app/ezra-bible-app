@@ -16,6 +16,7 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const PlatformHelper = require('./platform_helper.js');
 const jqueryI18next = require('jquery-i18next');
 
 const i18nextOptions = {
@@ -32,7 +33,9 @@ const i18nextOptions = {
 };
 
 class I18nHelper {
-  constructor() {}
+  constructor() {
+    this._platformHelper = new PlatformHelper();
+  }
 
   async init() {
     window.i18n = require('i18next');
@@ -43,12 +46,13 @@ class I18nHelper {
     if (platformHelper.isElectron()) {
       LanguageDetector = require('i18next-electron-language-detector');
     } else {
-      LanguageDetector = require('i18next-browser-languagedetector');
+      const _LanguageDetector = require('../platform/i18next_browser_language_detector.js');
+      LanguageDetector = new _LanguageDetector();
     }
 
     await i18n
-    .use(I18nIpcBackend)
     .use(LanguageDetector)
+    .use(I18nIpcBackend)
     .init(i18nextOptions);
 
     jqueryI18next.init(i18n, $, {
