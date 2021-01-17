@@ -29,15 +29,27 @@ class IPC {
       global.ipcInitialized = false;
     }
 
+    if (global.nonPersistentIpcInitialized === undefined) {
+      global.nonPersistentIpcInitialized = false;
+    }
+
     this.platformHelper = new PlatformHelper();
     this.ipcSettingsHandler = new IpcSettingsHandler();
+  }
+
+  initNonPersistentIpc() {
+    if (!global.nonPersistentIpcInitialized) {
+      global.nonPersistentIpcInitialized = true;
+      global.ipcI18nHandler = new IpcI18nHandler();
+      global.ipcGeneralHandler = new IpcGeneralHandler();
+    }
   }
 
   async init(isDebug, electronMainWindow=undefined) {
     if (!global.ipcInitialized) {
       global.ipcInitialized = true;
 
-      global.ipcI18nHandler = new IpcI18nHandler();
+      this.initNonPersistentIpc();
       global.ipcNsiHandler = new IpcNsiHandler();
 
       if (this.platformHelper.isElectron()) {
@@ -46,8 +58,6 @@ class IPC {
 
       global.ipcDbHandler = new IpcDbHandler();
       await ipcDbHandler.initDatabase(isDebug);
-
-      global.ipcGeneralHandler = new IpcGeneralHandler();
     }
   }
 }

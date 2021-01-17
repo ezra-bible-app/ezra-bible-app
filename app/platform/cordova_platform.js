@@ -16,6 +16,9 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const IpcGeneral = require('../ipc/ipc_general.js');
+const IpcI18n = require('../ipc/ipc_i18n.js');
+
 class CordovaPlatform {
   constructor() {}
 
@@ -30,13 +33,7 @@ class CordovaPlatform {
     showGlobalLoadingIndicator();
 
     document.addEventListener('deviceready', async () => {
-      var hasPermission = await this.hasPermission();
-
-      if (hasPermission) {
-        this.startNodeJsEngine();
-      } else {
-        this.showPermissionInfo();
-      }
+      this.startNodeJsEngine();
     }, false);
   }
 
@@ -69,14 +66,16 @@ class CordovaPlatform {
   }
 
   onPermissionGranted() {
-    console.log("Permission to access storage have been GRANTED!");
+    console.log("Permission to access storage has been GRANTED!");
     this.getPermissionBox().dialog('close');
     showGlobalLoadingIndicator();
-    this.startNodeJsEngine(); 
+
+    this.initPersistenceAndStart();
+    //this.startNodeJsEngine(); 
   }
 
   onPermissionDenied() {
-    console.log("Permission to access storage have been DENIED!");
+    console.log("Permission to access storage has been DENIED!");
 
     var noSystemPermissionsDialogShownTiming = 500;
     var timeSinceRequest = new Date() - this.permissionRequestTime;
@@ -85,26 +84,22 @@ class CordovaPlatform {
       // If the request came back in a very short time we assume that the user permanently denied the permission
       // and show a corresponding message.
 
+      var permanentPermissionDecisionInfoPart1 = i18n.t('cordova.previous-permission-decision-part1');
+      var permanentPermissionDecisionInfoPart2 = i18n.t('cordova.previous-permission-decision-part2');
+
       $('#permission-decision').html(`
-        Previously, you decided to permanently deny storage access!
+        ${permanentPermissionDecisionInfoPart1}
         <br>
         <br>
-        You can only revert that decision in the permission settings in the Android system configuration.
-        <br>
-        <br>
-        If you do not change the permission settings,<br>
-        Ezra Project will <span style='text-decoration: underline'>not start up successfully</span>.
+        ${permanentPermissionDecisionInfoPart2}
       `);
 
       $('#enable-access').html('');
 
     } else {
 
-      $('#permission-decision').html(`
-        You decided to deny storage access.<br>
-        You can change this by pressing the button below!
-      `)
-
+      var storagePermissionDenied = i18n.t('cordova.storage-permission-denied');
+      $('#permission-decision').html(storagePermissionDenied);
     }
   }
 
@@ -149,12 +144,12 @@ class CordovaPlatform {
   }
 
   getPermissionInfoMessage() {
+    var storageJustification = i18n.t('cordova.storage-justification');
+    var enableAccessButtonLabel = i18n.t('cordova.enable-storage-access');
+
     var infoMessage = `
       <br>
-      Ezra Project needs access to the device storage area to save SWORD modules and store its database.
-      <br>
-      <br>
-      After pressing the button below, you will be asked to allow Ezra Project to access files on your device.
+      ${storageJustification}
 
       <p id='permission-decision' style='color: red;'></p>
 
@@ -164,7 +159,7 @@ class CordovaPlatform {
                 class='fg-button ui-corner-all ui-state-default'
                 style='height: 3em;'>
 
-          Enable access to device storage
+          ${enableAccessButtonLabel}
 
         </button>
 
@@ -202,23 +197,38 @@ class CordovaPlatform {
 
     console.log("Starting up nodejs engine!");
     nodejs.channel.setListener(this.mainProcessListener);
-    //nodejs.start('main.js', initApplication);
 
     nodejs.startWithScript(`
 
       const Main = require('main.js');
 
-      var main = new Main();
+      global.main = new Main();
       main.init(${isDebug});
 
     `, async () => {
 
       // Meanwhile the nodejs engine has been started and pre-conditions are fulfilled to now init the app!
       // We wait another 100ms before moving ahead ...
-      await sleep(100);
+      // await sleep(100);
 
-      await initApplication();
+      window.ipcI18n = new IpcI18n();
+      await initI18N();
+
+      var hasPermission = await this.hasPermission();
+
+      if (hasPermission) {
+        this.initPersistenceAndStart();
+      } else {
+        this.showPermissionInfo();
+      }
     });
+  }
+
+  async initPersistenceAndStart() {
+    window.ipcGeneral = new IpcGeneral();
+
+    await ipcGeneral.initPersistentIpc();
+    await initApplication();
   }
 
   mainProcessListener(message) {

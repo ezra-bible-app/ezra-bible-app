@@ -16,15 +16,23 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const PlatformHelper = require('../helpers/platform_helper.js');
 const IpcMain = require('./ipc_main.js');
 
 class IpcGeneralHandler {
   constructor() {
     this._ipcMain = new IpcMain();
+    this._platformHelper = new PlatformHelper();
     this.initIpcInterface();
   }
 
   initIpcInterface() {
+    if (this._platformHelper.isCordova()) {
+      this._ipcMain.add('general_initPersistentIpc', async() => {
+        return global.main.initPersistentIpc();
+      });
+    }
+
     this._ipcMain.add('general_getMajorOsVersion', async () => {
       var releaseVersion = require('os').release();
       var splittedVersion = releaseVersion.split('.');

@@ -23,6 +23,11 @@
       this._ipcRenderer = new IpcRenderer();
     }
 
+    async initPersistentIpc() {
+      var timeoutMs = 5000;
+      return await this._ipcRenderer.callWithTimeout('general_initPersistentIpc', timeoutMs);
+    }
+
     async getMajorOsVersion() {
       return await this._ipcRenderer.call('general_getMajorOsVersion');
     }
