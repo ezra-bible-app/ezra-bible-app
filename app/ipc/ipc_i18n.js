@@ -24,7 +24,8 @@ class IpcI18n {
   }
 
   async getTranslation(language) {
-    return await this._ipcRenderer.call('i18n_get_translation', language);
+    var translationObject = await this._ipcRenderer.call('i18n_get_translation', language);
+    return translationObject;
   }
 }
 
