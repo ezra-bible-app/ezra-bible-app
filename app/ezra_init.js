@@ -29,6 +29,7 @@ const IpcSettings = require('./ipc/ipc_settings.js');
 window.i18n = null;
 window.I18nHelper = null;
 window.i18nHelper = null;
+window.i18nInitDone = false;
 
 window.ipcI18n = null;
 window.ipcNsi = null;
@@ -80,8 +81,14 @@ $.create_xml_doc = function(string)
   return doc;
 }
 
-async function initI18N()
+window.initI18N = async function()
 {
+  if (window.i18nInitDone) {
+    return;
+  }
+
+  window.i18nInitDone = true;
+
   I18nHelper = require('./helpers/i18n_helper.js');
   i18nHelper = new I18nHelper();
 
@@ -93,7 +100,6 @@ async function initI18N()
   }
 
   reference_separator = i18n.t('general.chapter-verse-separator');
-  $(document).localize();
 }
 
 async function initTest()
@@ -131,8 +137,14 @@ async function initTest()
 
 async function initIpcClients()
 {
-  window.ipcGeneral = new IpcGeneral();
-  window.ipcI18n = new IpcI18n();
+  if (window.ipcGeneral === undefined) {
+    window.ipcGeneral = new IpcGeneral();
+  }
+
+  if (window.ipcI18n === undefined) {
+    window.ipcI18n = new IpcI18n();
+  }
+
   window.ipcNsi = new IpcNsi();
   window.ipcDb = new IpcDb();
   window.ipcSettings = new IpcSettings();
@@ -210,7 +222,7 @@ async function earlyHideToolBar() {
 }
 
 async function earlyInitNightMode() {
-  var useNightMode = await ipcSettings.get('useNightMode', true);
+  var useNightMode = await ipcSettings.get('useNightMode', false);
 
   if (useNightMode) {
     document.body.classList.add('darkmode--activated');
@@ -347,6 +359,7 @@ window.initApplication = async function()
 
   console.log("Initializing i18n ...");
   await initI18N();
+  $(document).localize();
 
   if (platformHelper.isTest()) {
     await initTest();
