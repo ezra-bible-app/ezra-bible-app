@@ -182,8 +182,10 @@ class CordovaPlatform {
 
     hideGlobalLoadingIndicator();
 
+    var welcomeTitle = i18n.t("cordova.welcome-to-ezra-project");
+
     this.getPermissionBox().dialog({
-      title: "Welcome to Ezra Project!",
+      title: welcomeTitle,
       width: 400,
       autoOpen: true,
       dialogClass: 'ezra-dialog dialog-without-close-button android-dialog-large-fontsize',
@@ -206,10 +208,6 @@ class CordovaPlatform {
       main.init(${isDebug});
 
     `, async () => {
-
-      // Meanwhile the nodejs engine has been started and pre-conditions are fulfilled to now init the app!
-      // We wait another 100ms before moving ahead ...
-      // await sleep(100);
 
       window.ipcI18n = new IpcI18n();
       await initI18N();
