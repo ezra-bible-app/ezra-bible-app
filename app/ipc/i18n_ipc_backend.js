@@ -21,14 +21,24 @@ const IpcI18n = require('./ipc_i18n.js');
 class I18nIpcBackend {
   init(services, backendOptions, i18nextOptions) {
     this._ipcI18n = new IpcI18n();
+    this._busy = false;
   }
 
   async read(language, namespace, callback) {
     try {
-      var translationObject = await this._ipcI18n.getTranslation(language);
+      // Without this locking we run into race conditions, because I18Next calls several read functions in parallel!
+      while (this._busy) {
+        await sleep(20);
+      }
 
-      /* return resources */
-      callback(null, translationObject);
+      this._busy = true;
+
+      this._ipcI18n.getTranslation(language).then((translationObject) => {
+        /* return resources */
+        callback(null, translationObject);
+
+        this._busy = false;
+      });
 
     } catch (e) {
       /* if method fails/returns an error, call this: */
