@@ -92,8 +92,8 @@ class IpcDbHandler {
       return groupedVerseTags;
     });
 
-    this._ipcMain.add('db_persistNote', async (noteValue, verseObject) => {
-      var sequelizeNote = await models.Note.persistNote(noteValue, verseObject);
+    this._ipcMain.add('db_persistNote', async (noteValue, verseObject, versification) => {
+      var sequelizeNote = await models.Note.persistNote(noteValue, verseObject, versification);
       var note = undefined;
 
       if (sequelizeNote !== undefined) {
