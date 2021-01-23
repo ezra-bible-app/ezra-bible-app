@@ -30,8 +30,15 @@ class IpcI18nHandler {
   initIpcInterface() {
     this._ipcMain.add('i18n_get_translation', (language) => {
       var fileName = path.join(__dirname, `../../locales/${language}/translation.json`);
-      var translationFileContent = fs.readFileSync(fileName);
-      var translationObject = JSON.parse(translationFileContent);
+      var translationObject = {};
+
+      if (fs.existsSync(fileName)) {
+        var translationFileContent = fs.readFileSync(fileName);
+        translationObject = JSON.parse(translationFileContent);
+      } else {
+        console.error(`The file ${fileName} does not exist!`);
+      }
+
       return translationObject;
     });
   }
