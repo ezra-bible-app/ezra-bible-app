@@ -121,12 +121,14 @@ class IpcRenderer {
     });
   }
 
+  // Cordova specific method
   registerNodeCallback(functionName) {
     nodejs.channel.on(functionName, (returnValue) => {
       this.returnValues[functionName] = returnValue;
     });
   }
 
+  // Cordova specific method
   waitForNodeResponse(functionName, timeoutMs, resolve, reject) {
     this.waitCounters[functionName] += 1;
     var returnValue = this.returnValues[functionName];
@@ -134,7 +136,7 @@ class IpcRenderer {
     var timeoutCycles = 80; // 2s
 
     if (timeoutMs !== undefined) {
-      timeoutCycles = timeoutMs / 20;
+      timeoutCycles = timeoutMs / 25;
     }
 
     if (returnValue === undefined) {
@@ -151,6 +153,7 @@ class IpcRenderer {
     }
   }
 
+  // Cordova specific method
   getNodeResponse(functionName, timeoutMs) {
     return new Promise((resolve, reject) => {
       this.waitForNodeResponse(functionName, timeoutMs, resolve, reject);
