@@ -33,6 +33,15 @@ class CordovaPlatform {
     showGlobalLoadingIndicator();
 
     document.addEventListener('deviceready', async () => {
+      var isDebug = await this.isDebug();
+      // Enable to test Sentry in debug version
+      // isDebug = false;
+
+      if (!isDebug) {
+        window.Sentry = require('@sentry/browser/dist');
+        Sentry.init({ dsn: 'https://977e321b83ec4e47b7d28ffcbdf0c6a1@sentry.io/1488321', });
+      }
+
       this.startNodeJsEngine();
     }, false);
   }
