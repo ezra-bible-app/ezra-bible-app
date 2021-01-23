@@ -380,17 +380,17 @@ class TranslationController {
     appInfo += "<li><a href='#app-info-tabs-3'>Application Info</a></li>";
     appInfo += "</ul>";
 
-    appInfo += "<div id='app-info-tabs-1'>";
+    appInfo += "<div id='app-info-tabs-1' class='info-tabs'>";
     var moduleInfo = await this.getModuleDescription(currentBibleTranslationId);
     appInfo += moduleInfo;
     appInfo += "</div>";
 
-    appInfo += "<div id='app-info-tabs-2'>";
+    appInfo += "<div id='app-info-tabs-2' class='info-tabs'>";
     var moduleInfo = await this.getModuleInfo(currentBibleTranslationId, false, false);
     appInfo += moduleInfo;
     appInfo += "</div>";
 
-    appInfo += "<div id='app-info-tabs-3'>";
+    appInfo += "<div id='app-info-tabs-3' class='info-tabs'>";
     appInfo += "<table>";
     appInfo += `<tr><td style='width: 11em;'>Application version:</td><td>${version}</td></tr>`;
     appInfo += `<tr><td>${i18n.t("general.sword-library-info")}:</td><td>${swordVersion}</td></tr>`;
@@ -399,17 +399,17 @@ class TranslationController {
 
     appInfo += "</div>";
 
-    var currentBibleTranslationName = await app_controller.tab_controller.getCurrentBibleTranslationName();
     var offsetLeft = $(window).width() - 900;
 
     $('#bible-translation-info-box').dialog({
       title: "Module and Application Info",
-      position: [offsetLeft, 120]
+      position: [offsetLeft, 120],
+      resizable: false
     });
 
     $('#bible-translation-info-box-content').empty();
     $('#bible-translation-info-box-content').html(appInfo);
-    $('#app-info-tabs').tabs();
+    $('#app-info-tabs').tabs({ heightStyle: "fill" });
     $('#bible-translation-info-box').dialog("open");
   }
 

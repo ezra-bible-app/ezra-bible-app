@@ -386,6 +386,7 @@ h2 {
 #bible-translation-info-box {
   width: 600px;
   height: 400px;
+  overflow: inherit;
 }
 
 .verse-list-without-tags .tag-box, .ezra-dialog .tag-box {
@@ -1750,6 +1751,11 @@ s {
 
 .dialog-without-close-button .ui-dialog-titlebar-close {
   display: none;
+}
+
+.info-tabs {
+  height: 390px;
+  overflow-y: scroll;
 }
 
 .darkmode--activated a:link,
