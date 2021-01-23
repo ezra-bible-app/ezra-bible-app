@@ -80,8 +80,8 @@ class IpcDb {
     return await this._ipcRenderer.call('db_getVerseTagsByVerseReferenceIds', verseReferenceIds, versification);
   }
 
-  async persistNote(noteValue, verseObject) {
-    return await this._ipcRenderer.call('db_persistNote', noteValue, verseObject);
+  async persistNote(noteValue, verseObject, versification) {
+    return await this._ipcRenderer.call('db_persistNote', noteValue, verseObject, versification);
   }
 
   async getVerseNotesByBook(bibleBookId, versification) {

@@ -89,7 +89,7 @@ class NotesController {
     }
   }
 
-  saveEditorContent() {
+  async saveEditorContent() {
     if (this.currentlyEditedNotes != null) {
       var currentNoteValue = this.currentEditor.getValue();
       var previousNoteValue = this.currentlyEditedNotes.getAttribute('notes-content');
@@ -102,8 +102,10 @@ class NotesController {
         this.refreshNotesInfo(currentNoteValue);
 
         var currentVerseObject = new VerseBox(currentVerseBox).getVerseObject();
+        var translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+        var versification = await app_controller.translation_controller.getVersification(translationId);
 
-        ipcDb.persistNote(currentNoteValue, currentVerseObject).then((note) => {
+        ipcDb.persistNote(currentNoteValue, currentVerseObject, versification).then((note) => {
           if (note != undefined) {
             var updatedTimestamp = null;
 
