@@ -380,17 +380,17 @@ class TranslationController {
     appInfo += "<li><a href='#app-info-tabs-3'>Application Info</a></li>";
     appInfo += "</ul>";
 
-    appInfo += "<div id='app-info-tabs-1' class='info-tabs'>";
+    appInfo += "<div id='app-info-tabs-1' class='info-tabs scrollable'>";
     var moduleInfo = await this.getModuleDescription(currentBibleTranslationId);
     appInfo += moduleInfo;
     appInfo += "</div>";
 
-    appInfo += "<div id='app-info-tabs-2' class='info-tabs'>";
+    appInfo += "<div id='app-info-tabs-2' class='info-tabs scrollable'>";
     var moduleInfo = await this.getModuleInfo(currentBibleTranslationId, false, false);
     appInfo += moduleInfo;
     appInfo += "</div>";
 
-    appInfo += "<div id='app-info-tabs-3' class='info-tabs'>";
+    appInfo += "<div id='app-info-tabs-3' class='info-tabs scrollable'>";
     appInfo += "<table>";
     appInfo += `<tr><td style='width: 11em;'>Application version:</td><td>${version}</td></tr>`;
     appInfo += `<tr><td>${i18n.t("general.sword-library-info")}:</td><td>${swordVersion}</td></tr>`;
