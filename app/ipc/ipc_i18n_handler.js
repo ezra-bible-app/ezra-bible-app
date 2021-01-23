@@ -27,16 +27,29 @@ class IpcI18nHandler {
     this.initIpcInterface();
   }
 
+  getLanguageFile(language) {
+      var fileName = path.join(__dirname, `../../locales/${language}/translation.json`);
+      return fileName;
+  }
+
   initIpcInterface() {
     this._ipcMain.add('i18n_get_translation', (language) => {
-      var fileName = path.join(__dirname, `../../locales/${language}/translation.json`);
+      var fileName = this.getLanguageFile(language);
       var translationObject = {};
+
+      if (!fs.existsSync(fileName)) {
+        console.log(`The file ${fileName} does not exist! Falling back to standard English translation.json.`);
+        fileName = this.getLanguageFile('en');
+      }
 
       if (fs.existsSync(fileName)) {
         var translationFileContent = fs.readFileSync(fileName);
         translationObject = JSON.parse(translationFileContent);
       } else {
-        console.error(`The file ${fileName} does not exist!`);
+        var message = `The file ${fileName} does not exist!`;
+
+        Sentry.captureMessage(message);
+        console.error(message);
       }
 
       return translationObject;

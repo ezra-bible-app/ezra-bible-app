@@ -45,9 +45,10 @@ if (process.platform === 'win32') {
 }
 
 if (!isDev) {
-  const { init } = require('@sentry/electron/dist/main')
-  init({
-    debug: true,
+  global.Sentry = require('@sentry/electron/dist/main');
+
+  Sentry.init({
+    debug: false,
     dsn: 'https://977e321b83ec4e47b7d28ffcbdf0c6a1@sentry.io/1488321',
     enableNative: true,
     environment: process.env.NODE_ENV
