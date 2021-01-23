@@ -386,7 +386,6 @@ h2 {
 #bible-translation-info-box {
   width: 600px;
   height: 400px;
-  overflow-y: scroll;
 }
 
 .verse-list-without-tags .tag-box, .ezra-dialog .tag-box {

@@ -16,6 +16,8 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const PlatformHelper = require('../helpers/platform_helper.js');
+
 /**
  * The TranslationController is used to handle the bible translation menu and to
  * access and generate various information about installed bible translations.
@@ -27,6 +29,7 @@
  */
 class TranslationController {
   constructor() {
+    this.platformHelper = new PlatformHelper();
     this.languageMapper = null;
     this.translationCount = null;
     this.initBibleSyncBoxDone = false;
@@ -251,12 +254,12 @@ class TranslationController {
     $('.bible-translation-info-button').bind('click', async () => {
       if (!$(this).hasClass('ui-state-disabled')) {
         app_controller.hideAllMenus();
-        await this.showBibleTranslationInfo();
+        await this.showAppInfo();
       }
     });
   }
 
-  async getModuleInfo(moduleId, isRemote=false) {
+  async getModuleDescription(moduleId, isRemote=false) {
     var moduleInfo = "No info available!";
 
     try {
@@ -279,12 +282,49 @@ class TranslationController {
       moduleInfo += about;
       moduleInfo += "</p>";
 
+    } catch (ex) {
+      console.error("Got exception while trying to get module description: " + ex);
+    }
+
+    return moduleInfo;
+  }
+
+  async getModuleInfo(moduleId, isRemote=false, includeModuleDescription=true) {
+    var moduleInfo = "No info available!";
+
+    try {
+      var swordModule = null;
+
+      if (isRemote) {
+        swordModule = await ipcNsi.getRepoModule(moduleId);
+      } else {
+        swordModule = await ipcNsi.getLocalModule(moduleId);
+      }
+      
+      var moduleInfo = "";
+
+      if (includeModuleDescription) {
+        if (isRemote) {
+          moduleInfo += "<b>" + swordModule.description + "</b><br><br>";
+        }
+
+        moduleInfo += "<p class='external'>";
+        var about = swordModule.about.replace(/\\pard/g, "").replace(/\\par/g, "<br>");
+        moduleInfo += about;
+        moduleInfo += "</p>";
+      }
+      
       var moduleSize = Math.round(swordModule.size / 1024) + " KB";
 
       var yes = i18n.t("general.yes");
       var no = i18n.t("general.no");
 
-      moduleInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>" + i18n.t("general.sword-module-info") + "</p>";
+      var border = "";
+      if (includeModuleDescription) {
+        border = "border-top: 1px solid grey;";
+      }
+
+      moduleInfo += `<p style='margin-top: 1em; padding-top: 1em; ${border} font-weight: bold'>${i18n.t("general.sword-module-info")}</p>`;
       moduleInfo += "<table>";
       moduleInfo += "<tr><td style='width: 11em;'>" + i18n.t("general.module-name") + ":</td><td>" + swordModule.name + "</td></tr>";
       moduleInfo += "<tr><td>" + i18n.t("general.module-version") + ":</td><td>" + swordModule.version + "</td></tr>";
@@ -310,10 +350,6 @@ class TranslationController {
         moduleInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>" + i18n.t("general.sword-unlock-info") + "</p>";
         moduleInfo += "<p class='external'>" + swordModule.unlockInfo + "</p>";
       }
-
-      var swordVersion = await ipcNsi.getSwordVersion();
-      moduleInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>" + i18n.t("general.sword-library-info") + "</p>";
-      moduleInfo += "<p>" + i18n.t("general.using-sword-version") + " <b>" + swordVersion + "</b>.</p>";
     } catch (ex) {
       console.error("Got exception while trying to get module info: " + ex);
     }
@@ -321,19 +357,59 @@ class TranslationController {
     return moduleInfo;
   }
 
-  async showBibleTranslationInfo() {
+  async showAppInfo() {
     this.initBibleTranslationInfoBox();
 
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var moduleInfo = await this.getModuleInfo(currentBibleTranslationId);
+
+    var version = "";
+    if (this.platformHelper.isElectron()) {
+      version = app.getVersion();
+    } else if (this.platformHelper.isCordova()) {
+      version = await cordova.getAppVersion.getVersionNumber();
+    }
+
+    var swordVersion = await ipcNsi.getSwordVersion();
+
+    var appInfo = "";
+    appInfo += "<div id='app-info-tabs'>";
+
+    appInfo += "<ul>";
+    appInfo += "<li><a href='#app-info-tabs-1'>SWORD Module Description</a></li>";
+    appInfo += "<li><a href='#app-info-tabs-2'>SWORD Module Details</a></li>";
+    appInfo += "<li><a href='#app-info-tabs-3'>Application Info</a></li>";
+    appInfo += "</ul>";
+
+    appInfo += "<div id='app-info-tabs-1'>";
+    var moduleInfo = await this.getModuleDescription(currentBibleTranslationId);
+    appInfo += moduleInfo;
+    appInfo += "</div>";
+
+    appInfo += "<div id='app-info-tabs-2'>";
+    var moduleInfo = await this.getModuleInfo(currentBibleTranslationId, false, false);
+    appInfo += moduleInfo;
+    appInfo += "</div>";
+
+    appInfo += "<div id='app-info-tabs-3'>";
+    appInfo += "<table>";
+    appInfo += `<tr><td style='width: 11em;'>Application version:</td><td>${version}</td></tr>`;
+    appInfo += `<tr><td>${i18n.t("general.sword-library-info")}:</td><td>${swordVersion}</td></tr>`;
+    appInfo += "</table>";
+    appInfo += "</div>";
+
+    appInfo += "</div>";
+
     var currentBibleTranslationName = await app_controller.tab_controller.getCurrentBibleTranslationName();
     var offsetLeft = $(window).width() - 900;
+
     $('#bible-translation-info-box').dialog({
-      title: currentBibleTranslationName,
-      position: [offsetLeft,120]
+      title: "Module and Application Info",
+      position: [offsetLeft, 120]
     });
+
     $('#bible-translation-info-box-content').empty();
-    $('#bible-translation-info-box-content').html(moduleInfo);
+    $('#bible-translation-info-box-content').html(appInfo);
+    $('#app-info-tabs').tabs();
     $('#bible-translation-info-box').dialog("open");
   }
 
