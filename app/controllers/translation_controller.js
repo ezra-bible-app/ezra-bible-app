@@ -319,12 +319,10 @@ class TranslationController {
       var yes = i18n.t("general.yes");
       var no = i18n.t("general.no");
 
-      var border = "";
       if (includeModuleDescription) {
-        border = "border-top: 1px solid grey;";
+        moduleInfo += `<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>${i18n.t("general.sword-module-info")}</p>`;
       }
 
-      moduleInfo += `<p style='margin-top: 1em; padding-top: 1em; ${border} font-weight: bold'>${i18n.t("general.sword-module-info")}</p>`;
       moduleInfo += "<table>";
       moduleInfo += "<tr><td style='width: 11em;'>" + i18n.t("general.module-name") + ":</td><td>" + swordModule.name + "</td></tr>";
       moduleInfo += "<tr><td>" + i18n.t("general.module-version") + ":</td><td>" + swordModule.version + "</td></tr>";
@@ -375,9 +373,9 @@ class TranslationController {
     appInfo += "<div id='app-info-tabs'>";
 
     appInfo += "<ul>";
-    appInfo += "<li><a href='#app-info-tabs-1'>SWORD Module Description</a></li>";
-    appInfo += "<li><a href='#app-info-tabs-2'>SWORD Module Details</a></li>";
-    appInfo += "<li><a href='#app-info-tabs-3'>Application Info</a></li>";
+    appInfo += `<li><a href='#app-info-tabs-1'>${i18n.t('general.sword-module-description')}</a></li>`;
+    appInfo += `<li><a href='#app-info-tabs-2'>${i18n.t('general.sword-module-details')}</a></li>`;
+    appInfo += `<li><a href='#app-info-tabs-3'>${i18n.t('general.application-info')}</a></li>`;
     appInfo += "</ul>";
 
     appInfo += "<div id='app-info-tabs-1' class='info-tabs scrollable'>";
@@ -393,7 +391,7 @@ class TranslationController {
     appInfo += "<div id='app-info-tabs-3' class='info-tabs scrollable'>";
     appInfo += "<table>";
     appInfo += `<tr><td style='width: 11em;'>Application version:</td><td>${version}</td></tr>`;
-    appInfo += `<tr><td>${i18n.t("general.sword-library-info")}:</td><td>${swordVersion}</td></tr>`;
+    appInfo += `<tr><td>${i18n.t("general.sword-version")}:</td><td>${swordVersion}</td></tr>`;
     appInfo += "</table>";
     appInfo += "</div>";
 
@@ -402,7 +400,7 @@ class TranslationController {
     var offsetLeft = $(window).width() - 900;
 
     $('#bible-translation-info-box').dialog({
-      title: "Module and Application Info",
+      title: i18n.t('general.module-application-info'),
       position: [offsetLeft, 120],
       resizable: false
     });
