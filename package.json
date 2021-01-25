@@ -72,7 +72,7 @@
     "marked": "^1.2.4",
     "mousetrap": "^1.6.5",
     "node-addon-api": "^1.7.1",
-    "node-sword-interface": "^0.205.0",
+    "node-sword-interface": "^0.206.0",
     "officegen": "^0.6.4",
     "pug": "^3.0.0",
     "sanitize-html": "^1.21.1",
