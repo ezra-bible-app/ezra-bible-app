@@ -18,15 +18,16 @@
 
 const IpcMain = require('./ipc_main.js');
 const PlatformHelper = require('../helpers/platform_helper.js');
+const path = require('path');
 
 let dbHelper = null;
-let dbDir = null;
 
 class IpcDbHandler {
   constructor() {
     this._ipcMain = new IpcMain();
     this._tagsPersistanceController = null;
     this.platformHelper = new PlatformHelper();
+    this.dbDir = null;
 
     this.initIpcInterface();
   }
@@ -36,21 +37,25 @@ class IpcDbHandler {
     var userDataDir = this.platformHelper.getUserDataPath();
 
     dbHelper = new DbHelper(userDataDir);
-    dbDir = dbHelper.getDatabaseDir(isDebug);
+    this.dbDir = dbHelper.getDatabaseDir(isDebug);
 
     const fs = require('fs');
-    if (!fs.existsSync(dbDir)) {
-      throw "Database directory " + dbDir + " does not exist!";
+    if (!fs.existsSync(this.dbDir)) {
+      throw "Database directory " + this.dbDir + " does not exist!";
     }
 
-    await dbHelper.initDatabase(dbDir);
-    global.models = require('../database/models')(dbDir);
+    await dbHelper.initDatabase(this.dbDir);
+    global.models = require('../database/models')(this.dbDir);
 
     const TagsPersistanceController = require('../controllers/tags_persistance_controller.js');
     this._tagsPersistanceController = new TagsPersistanceController(global.models);
   }
 
   initIpcInterface() {
+    this._ipcMain.add('db_getDatabasePath', async() => {
+      return this.dbDir + path.sep + "ezra.sqlite";
+    });
+
     this._ipcMain.add('db_createNewTag', async (newTagTitle, type) => {
       return await this._tagsPersistanceController.create_new_tag(newTagTitle, type);
     });

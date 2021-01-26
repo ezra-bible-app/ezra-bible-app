@@ -24,6 +24,10 @@ class IpcDb {
     this._ipcRenderer = new IpcRenderer();
   }
 
+  async getDatabasePath() {
+    return await this._ipcRenderer.call('db_getDatabasePath');
+  }
+
   async createNewTag(newTagTitle, type) {
     return await this._ipcRenderer.call('db_createNewTag', newTagTitle, type);
   }

@@ -82,6 +82,7 @@
     "sword-module-info": "Informations sur le module SWORD",
     "sword-unlock-info": "Informations sur le déverrouillage SWORD",
     "sword-version": "Version SWORD",
+    "database-path": "Database path",
     "module-name": "Nom",
     "module-version": "Version",
     "module-language": "Langue",

@@ -368,6 +368,7 @@ class TranslationController {
     }
 
     var swordVersion = await ipcNsi.getSwordVersion();
+    var databasePath = await ipcDb.getDatabasePath();
 
     var appInfo = "";
     appInfo += "<div id='app-info-tabs'>";
@@ -392,6 +393,7 @@ class TranslationController {
     appInfo += "<table>";
     appInfo += `<tr><td style='width: 11em;'>Application version:</td><td>${version}</td></tr>`;
     appInfo += `<tr><td>${i18n.t("general.sword-version")}:</td><td>${swordVersion}</td></tr>`;
+    appInfo += `<tr><td>${i18n.t("general.database-path")}:</td><td>${databasePath}</td></tr>`;
     appInfo += "</table>";
     appInfo += "</div>";
 

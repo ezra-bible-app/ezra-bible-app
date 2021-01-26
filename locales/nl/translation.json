@@ -82,6 +82,7 @@
     "sword-module-info": "SWORD-module-info",
     "sword-unlock-info": "SWORD-ontgrendelingsinfo",
     "sword-version": "SWORD-versie",
+    "database-path": "Database path",
     "module-name": "Naam",
     "module-version": "Versie",
     "module-language": "Taal",
