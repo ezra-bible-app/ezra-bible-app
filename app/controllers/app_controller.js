@@ -125,12 +125,13 @@ class AppController {
                          async (occurances) => { await this.onSearchResultsAvailable(occurances); },
                          () => { this.onSearchReset(); });
 
-    var bibleTranslations = await ipcNsi.getAllLocalModules();
+    await this.book_selection_menu.init();
 
+    var bibleTranslations = await ipcNsi.getAllLocalModules();
     var defaultBibleTranslationId = null;
+
     if (bibleTranslations != null && bibleTranslations.length > 0) {
       var defaultBibleTranslationId = bibleTranslations[0].name;
-      await this.book_selection_menu.init();
     }
 
     var tabHtmlTemplate = this.getTabHtmlTemplate();
