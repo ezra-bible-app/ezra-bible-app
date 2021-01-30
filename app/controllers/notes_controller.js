@@ -72,12 +72,20 @@ class NotesController {
   }
 
   getCurrentVerseBox() {
+    if (this.currentVerseReferenceId == null) {
+      return null;
+    }
+
     var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
     return currentVerseListFrame[0].querySelector('.verse-reference-id-' + this.currentVerseReferenceId);
   }
 
   refreshNotesInfo(noteValue) {
     var currentVerseBox = this.getCurrentVerseBox();
+    if (currentVerseBox == null) {
+      return;
+    }
+
     var notesInfo = currentVerseBox.querySelector('.notes-info');
 
     if (notesInfo != null) {
@@ -90,14 +98,15 @@ class NotesController {
   }
 
   async saveEditorContent() {
-    if (this.currentlyEditedNotes != null) {
+    var currentVerseBox = this.getCurrentVerseBox();
+
+    if (this.currentlyEditedNotes != null && currentVerseBox != null) {
       var currentNoteValue = this.currentEditor.getValue();
       var previousNoteValue = this.currentlyEditedNotes.getAttribute('notes-content');
 
       if (currentNoteValue != previousNoteValue) {
         currentNoteValue = currentNoteValue.trim();
         
-        var currentVerseBox = this.getCurrentVerseBox();
         this.currentlyEditedNotes.setAttribute('notes-content', currentNoteValue);
         this.refreshNotesInfo(currentNoteValue);
 
