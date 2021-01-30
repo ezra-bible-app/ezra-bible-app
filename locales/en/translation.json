@@ -83,6 +83,7 @@
     "sword-unlock-info": "SWORD Unlock Info",
     "sword-version": "SWORD version",
     "database-path": "Database path",
+    "config-file-path": "Configuration path",
     "module-name": "Name",
     "module-version": "Version",
     "module-language": "Language",

@@ -77,6 +77,10 @@ class IpcSettingsHandler {
       return config.set('lastUsedVersion', lastUsedVersion);
     });
 
+    this._ipcMain.add('settings_getConfigFilePath', () => {
+      return this.getConfig().path;
+    });
+
     this._ipcMain.add('settings_storeNightModeCss', () => {
       var config = this.getConfig();
       var useNightMode = config.get('useNightMode', false);

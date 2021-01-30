@@ -47,6 +47,10 @@ class IpcSettings {
     return await this._ipcRenderer.call('settings_storeLastUsedVersion');
   }
 
+  async getConfigFilePath() {
+    return await this._ipcRenderer.call('settings_getConfigFilePath');
+  }
+
   async storeNightModeCss() {
     return await this._ipcRenderer.call('settings_storeNightModeCss');
   }
