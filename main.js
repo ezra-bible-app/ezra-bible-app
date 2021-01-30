@@ -18,8 +18,14 @@
 
 require('v8-compile-cache');
 
-const { app, BrowserWindow, Menu, ipcMain } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain, nativeTheme } = require('electron');
 const isDev = require('electron-is-dev');
+
+const IPC = require('./app/ipc/ipc.js');
+global.ipc = new IPC();
+
+const PlatformHelper = require('./app/helpers/platform_helper.js');
+global.platformHelper = new PlatformHelper();
 
 app.allowRendererProcessReuse = false;
 
@@ -39,9 +45,10 @@ if (process.platform === 'win32') {
 }
 
 if (!isDev) {
-  const { init } = require('@sentry/electron/dist/main')
-  init({
-    debug: true,
+  global.Sentry = require('@sentry/electron/dist/main');
+
+  Sentry.init({
+    debug: false,
     dsn: 'https://977e321b83ec4e47b7d28ffcbdf0c6a1@sentry.io/1488321',
     enableNative: true,
     environment: process.env.NODE_ENV
@@ -53,6 +60,56 @@ require('electron-debug')({
     showDevTools: false,
     devToolsMode: 'bottom',
 });
+
+function shouldUseDarkMode() {
+  var useDarkMode = false;
+
+  if (platformHelper.isMacOsMojaveOrLater()) {
+    if (nativeTheme.shouldUseDarkColors) {
+      useDarkMode = true;
+    }
+  } else {
+    useDarkMode = ipc.ipcSettingsHandler.getConfig().get('useNightMode', false);
+  }
+
+  return useDarkMode;
+}
+
+function performConfigMigration() {
+  var config = ipc.ipcSettingsHandler.getConfig()
+  var migrationDone = config.get('configMigrationDone', false);
+
+  if (!migrationDone) {
+    console.log("Migrating configuration from electron-settings to conf based settings ...");
+
+    var settings = require('electron-settings');
+    var settingsValues = {};
+
+    settingsValues['customDatabaseDir'] = settings.get('custom_database_dir', null);
+    settingsValues['selectedRepositories'] = settings.get('selected_repositories', null);
+    settingsValues['selectedLanguages'] = settings.get('selected_languages', null);
+    settingsValues['bibleTranslation'] = settings.get('bible_translation', null);
+    settingsValues['tagListWidth'] = settings.get('tag_list_width', null);
+    settingsValues['lastSwordRepoUpdate'] = settings.get('lastSwordRepoUpdate', null);
+    settingsValues['showTags'] = settings.get('showTags', null);
+    settingsValues['showSectionTitles'] = settings.get('showSectionTitles', null);
+    settingsValues['useTagsColumn'] = settings.get('useTagsColumn', null);
+    settingsValues['showToolBar'] = settings.get('showToolBar', null);
+    settingsValues['showBookIntro'] = settings.get('showBookIntro', null);
+    settingsValues['showStrongs'] = settings.get('showStrongs', null);
+
+    for (var property in settingsValues) {
+      var currentPropertyValue = settingsValues[property];
+
+      if (currentPropertyValue != null) {
+        config.set(property, currentPropertyValue);
+      }
+    }
+
+    config.set('configMigrationDone', true);
+    console.log("Migration of configuration completed!");
+  }
+}
 
 function createWindow () {
   const path = require('path');
@@ -68,12 +125,30 @@ function createWindow () {
     defaultHeight: 800
   });
 
-  ipcMain.on('manageWindowState', (event, arg) => {
+  ipcMain.on('manageWindowState', async (event, arg) => {
     // Register listeners on the window, so we can update the state
     // automatically (the listeners will be removed when the window is closed)
     // and restore the maximized or full screen state
     mainWindowState.manage(mainWindow);
   });
+
+  ipcMain.on('log', async (event, message) => {
+    console.log("Log from renderer: " + message);
+  });
+
+  ipcMain.handle('initIpc', async (event, arg) => {
+    await ipc.init(isDev, mainWindow);
+  });
+
+  if (platformHelper.isElectron()) {
+    performConfigMigration();
+  }
+
+  if (shouldUseDarkMode()) {
+    var bgColor = '#000000';
+  } else {
+    var bgColor = '#ffffff';
+  }
 
   // Create the browser window.
   mainWindow = new BrowserWindow({x: mainWindowState.x,
@@ -89,7 +164,8 @@ function createWindow () {
                                     enableRemoteModule: true,
                                     defaultEncoding: "UTF-8"
                                   },
-                                  icon: path.join(__dirname, 'icons/ezra-project.png')
+                                  icon: path.join(__dirname, 'icons/ezra-project.png'),
+                                  backgroundColor: bgColor
                                  });
  
   // Disable the application menu
@@ -115,6 +191,10 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
+  /*global.ipcNsiHandler = new IpcNsiHandler();
+  global.ipcDbHandler = new IpcDbHandler();
+  await ipcDbHandler.initDatabase();*/
+
   await createWindow();
 });
 

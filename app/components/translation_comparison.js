@@ -26,7 +26,7 @@ const VerseBox = require("../ui_models/verse_box.js");
  */
 class TranslationComparison {
   constructor() {
-    this.initCompareTranslationsBox();
+    this.initDone = false;
   }
 
   getButton() {
@@ -70,15 +70,16 @@ class TranslationComparison {
     });
   };
 
-  getVerseHtmlByTranslationId(sourceBibleTranslationId, targetTranslationId, verseBox) {
+  async getVerseHtmlByTranslationId(sourceBibleTranslationId, targetTranslationId, verseBox) {
     var referenceVerseBox = new VerseBox(verseBox[0]);
     var bibleBookShortTitle = referenceVerseBox.getBibleBookShortTitle();
-    var mappedAbsoluteVerseNumber = referenceVerseBox.getMappedAbsoluteVerseNumber(sourceBibleTranslationId, targetTranslationId);
+    var mappedAbsoluteVerseNumber = await referenceVerseBox.getMappedAbsoluteVerseNumber(sourceBibleTranslationId, targetTranslationId);
 
-    var targetTranslationVerse = nsi.getBookText(targetTranslationId,
-                                                 bibleBookShortTitle,
-                                                 mappedAbsoluteVerseNumber,
-                                                 1)[0];
+    var verses = await ipcNsi.getBookText(targetTranslationId,
+                                          bibleBookShortTitle,
+                                          mappedAbsoluteVerseNumber,
+                                          1);
+    var targetTranslationVerse = verses[0];
     
     var verseHtml = "<tr>";
     
@@ -101,7 +102,7 @@ class TranslationComparison {
     var sourceTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     var selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
     var compareTranslationContent = "<table>";
-    var allTranslations = nsi.getAllLocalModules();
+    var allTranslations = await ipcNsi.getAllLocalModules();
 
     if (selectedVerseBoxes.length > 0) {
       for (var i = 0; i < allTranslations.length; i++) {
@@ -118,7 +119,7 @@ class TranslationComparison {
 
         for (var j = 0; j < selectedVerseBoxes.length; j++) {
           var currentVerseBox = $(selectedVerseBoxes[j]);
-          var verseHtml = this.getVerseHtmlByTranslationId(sourceTranslationId, currentTranslationId, currentVerseBox);
+          var verseHtml = await this.getVerseHtmlByTranslationId(sourceTranslationId, currentTranslationId, currentVerseBox);
           compareTranslationContent += verseHtml;
         }
 
@@ -133,6 +134,13 @@ class TranslationComparison {
   }
 
   async handleButtonClick() {
+    if (this.initDone) {
+      return;
+    }
+
+    this.initDone = true;
+    this.initCompareTranslationsBox();
+
     var boxTitle = i18n.t("bible-browser.comparing-translations-for") + " " + 
       app_controller.verse_selection.getSelectedVersesLabel().text();
 

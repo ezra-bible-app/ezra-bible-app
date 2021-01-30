@@ -18,14 +18,20 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const settings = require('electron-settings');
 const Sequelize = require('sequelize');
 const Umzug = require("umzug");
+const PlatformHelper = require("./platform_helper.js");
 
 class DbHelper {
   constructor(userDataDir) {
+    this.platformHelper = new PlatformHelper();
+
     if (userDataDir === undefined) {
       console.log('Cannot initialize DbHelper with userDataDir "undefined"');
+    }
+
+    if (this.platformHelper.isElectron()) {
+      this.settings = require('electron-settings');
     }
 
     this.userDataDir = userDataDir;
@@ -47,22 +53,19 @@ class DbHelper {
     }
   }
 
-  getDatabaseDir() {
+  getDatabaseDir(isDebug) {
     var databaseDir = this.userDataDir;
-    var databaseDirKind = "";
-    
-    if (settings.has('custom_database_dir') &&
-        settings.get('custom_database_dir') != null) {
+    var databaseDirKind = "default";
 
-      databaseDir = settings.get('custom_database_dir');
+    var config = ipc.ipcSettingsHandler.getConfig();
+
+    if (config.has('customDatabaseDir')) {
+      databaseDir = config.get('customDatabaseDir', null);
       databaseDirKind = "custom";
-    } else {
-      databaseDirKind = "default";
     }
-
-    const isDev = require('electron-is-dev');
+    
     var databaseDirString = databaseDir;
-    if (isDev) {
+    if (isDebug) {
       databaseDirString += " ";
     } else {
       databaseDirString = "";
@@ -119,7 +122,8 @@ class DbHelper {
 
     var pendingMigrations = await umzug.pending();
     if (pendingMigrations.length > 0) {
-      $('#loading-subtitle').text(i18n.t("general.applying-migrations"));
+      //$('#loading-subtitle').text(i18n.t("general.applying-migrations"));
+      console.log("Applying database migrations ...");
     }
 
     // Execute all pending migrations

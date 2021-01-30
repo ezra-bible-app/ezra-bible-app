@@ -34,7 +34,7 @@ class TagStatistics {
     return book_tag_statistics;
   }
 
-  update_book_tag_statistics_box(book_tag_statistics=undefined) {
+  async update_book_tag_statistics_box(book_tag_statistics=undefined) {
     if (book_tag_statistics === undefined) {
       book_tag_statistics = this.get_book_tag_statistics();
     }
@@ -47,17 +47,15 @@ class TagStatistics {
 
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     var currentBook = app_controller.tab_controller.getTab().getBook();
-
     if (currentBook == null) {
-      // We cannot do anything if we don't have a book!
       return;
     }
 
-    var chapterCount = nsi.getBookChapterCount(currentBibleTranslationId, currentBook);
+    var chapterCount = await ipcNsi.getBookChapterCount(currentBibleTranslationId, currentBook);
 
     var overall_verse_count = 0;
     for (var i = 1; i <= chapterCount; i++) {
-      var currentChapterVerseCount = nsi.getChapterVerseCount(currentBibleTranslationId, currentBook, i);
+      var currentChapterVerseCount = await ipcNsi.getChapterVerseCount(currentBibleTranslationId, currentBook, i);
       overall_verse_count += currentChapterVerseCount;
     }
 
@@ -95,7 +93,7 @@ class TagStatistics {
     var currentTab = app_controller.tab_controller.getTab(index);
 
     if (currentTab != null && currentTab.getTextType() == 'book') {
-      var tagsCount = await models.Tag.getTagCount();
+      var tagsCount = await ipcDb.getTagCount();
 
       if (tagsCount > 0) {
         book_tag_statistics_button.removeClass('ui-state-disabled');
@@ -117,11 +115,11 @@ class TagStatistics {
     uiHelper.configureButtonStyles('.verse-list-menu');
   };
 
-  open_book_tag_statistics() {
+  async open_book_tag_statistics() {
     var currentVerseList = app_controller.getCurrentVerseList();
     var verse_list_position = currentVerseList.offset();
     var currentTab = app_controller.tab_controller.getTab();
-    var currentBookTranslation = models.BibleBook.getBookTitleTranslation(currentTab.getBook());
+    var currentBookTranslation = await ipcDb.getBookTitleTranslation(currentTab.getBook());
 
     $('#book-tag-statistics-box').dialog({
       dialogClass: 'ezra-dialog',

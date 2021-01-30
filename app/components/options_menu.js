@@ -16,6 +16,7 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const PlatformHelper = require('../helpers/platform_helper.js');
 const DisplayOption = require('../ui_models/display_option.js');
 
 /**
@@ -33,9 +34,15 @@ const DisplayOption = require('../ui_models/display_option.js');
 class OptionsMenu {
   constructor() {
     this.menuIsOpened = false;
+    this.platformHelper = new PlatformHelper();
+
+    if (this.platformHelper.isCordova()) {
+      var CordovaPlatform = require('../platform/cordova_platform.js');
+      this.cordovaPlatform = new CordovaPlatform();
+    }
   }
 
-  init() {
+  async init() {
     $('#show-translation-settings-button').bind('click', function() {
       app_controller.openModuleSettingsAssistant('BIBLE'); 
     });
@@ -44,31 +51,51 @@ class OptionsMenu {
       app_controller.openModuleSettingsAssistant('DICT'); 
     });
 
-    this._toolBarOption = this.initDisplayOption('tool-bar-switch', 'showToolBar', () => { this.showOrHideToolBarBasedOnOption(); }, true);
-    this._bookIntroOption = this.initDisplayOption('book-intro-switch', 'showBookIntro', () => { this.showOrHideBookIntroductionBasedOnOption(); });
-    this._sectionTitleOption = this.initDisplayOption('section-title-switch', 'showSectionTitles', () => { this.showOrHideSectionTitlesBasedOnOption(); }, true);
-    this._xrefsOption = this.initDisplayOption('xrefs-switch', 'showXrefs', () => { this.showOrHideXrefsBasedOnOption(); });
-    this._footnotesOption = this.initDisplayOption('footnotes-switch', 'showFootnotes', () => { this.showOrHideFootnotesBasedOnOption(); });
-    this._dictionaryOption = this.initDisplayOption('strongs-switch', 'showStrongs', () => { this.showOrHideStrongsBasedOnOption(); });
-    this._headerNavOption = this.initDisplayOption('header-nav-switch', 'showHeaderNavigation', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
-    this._tagsOption = this.initDisplayOption('tags-switch', 'showTags', () => { this.showOrHideVerseTagsBasedOnOption(); }, true);
-    this._tagsColumnOption = this.initDisplayOption('tags-column-switch', 'useTagsColumn', () => { this.changeTagsLayoutBasedOnOption(); });
-    this._verseNotesOption = this.initDisplayOption('verse-notes-switch', 'showNotes', () => { this.showOrHideVerseNotesBasedOnOption(); });
-    this._verseNotesFixedHeightOption = this.initDisplayOption('verse-notes-fixed-height-switch', 'fixNotesHeight', () => { this.fixNotesHeightBasedOnOption(); });
+    var toolBarEnabledByDefault = true;
+    if (this.platformHelper.isCordova()) {
+      toolBarEnabledByDefault = false;
+    }
 
-    this._nightModeOption = this.initDisplayOption('night-mode-switch', 'useNightMode', async () => {
+    this._toolBarOption = await this.initDisplayOption('tool-bar-switch', 'showToolBar', () => { this.showOrHideToolBarBasedOnOption(); }, toolBarEnabledByDefault);
+    this._bookIntroOption = await this.initDisplayOption('book-intro-switch', 'showBookIntro', () => { this.showOrHideBookIntroductionBasedOnOption(); });
+    this._sectionTitleOption = await this.initDisplayOption('section-title-switch', 'showSectionTitles', () => { this.showOrHideSectionTitlesBasedOnOption(); }, true);
+    this._xrefsOption = await this.initDisplayOption('xrefs-switch', 'showXrefs', () => { this.showOrHideXrefsBasedOnOption(); });
+    this._footnotesOption = await this.initDisplayOption('footnotes-switch', 'showFootnotes', () => { this.showOrHideFootnotesBasedOnOption(); });
+    this._dictionaryOption = await this.initDisplayOption('strongs-switch', 'showStrongs', () => { this.showOrHideStrongsBasedOnOption(); });
+    this._headerNavOption = await this.initDisplayOption('header-nav-switch', 'showHeaderNavigation', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
+    this._tagsOption = await this.initDisplayOption('tags-switch', 'showTags', () => { this.showOrHideVerseTagsBasedOnOption(); }, true);
+    this._tagsColumnOption = await this.initDisplayOption('tags-column-switch', 'useTagsColumn', () => { this.changeTagsLayoutBasedOnOption(); });
+    this._verseNotesOption = await this.initDisplayOption('verse-notes-switch', 'showNotes', () => { this.showOrHideVerseNotesBasedOnOption(); });
+    this._verseNotesFixedHeightOption = await this.initDisplayOption('verse-notes-fixed-height-switch', 'fixNotesHeight', () => { this.fixNotesHeightBasedOnOption(); });
+
+    this._nightModeOption = await this.initDisplayOption('night-mode-switch', 'useNightMode', async () => {
       this.hideDisplayMenu();
       showGlobalLoadingIndicator();
       theme_controller.useNightModeBasedOnOption();
+
+      if (this.platformHelper.isCordova()) {
+        // On Cordova we persist a basic night mode style in a CSS file 
+        // which is then loaded on startup again
+        await ipcSettings.storeNightModeCss();
+      }
+
       await waitUntilIdle();
       hideGlobalLoadingIndicator();
-    }, () => { // customSettingsLoader
-      return theme_controller.isNightModeUsed();
+    }, false, // enabledByDefault
+    async () => { // customSettingsLoader
+      return await theme_controller.isNightModeUsed();
     });
 
-    if (platformHelper.isMacOsMojaveOrLater()) {
+    var isMojaveOrLater = await this.platformHelper.isMacOsMojaveOrLater();
+    if (isMojaveOrLater) {
       // On macOS Mojave and later we do not give the user the option to switch night mode within the app, since it is controlled via system settings.
       $('#night-mode-switch-box').hide();
+    }
+
+    this._keepScreenAwakeOption = await this.initDisplayOption('screen-awake-switch', 'keepScreenAwake', () => { this.keepScreenAwakeBasedOnOption(); });
+
+    if (!this.platformHelper.isCordova()) {
+      $('#screen-awake-switch-box').hide();
     }
 
     this.refreshViewBasedOnOptions();
@@ -79,14 +106,17 @@ class OptionsMenu {
     currentVerseListMenu.find('.display-options-button').bind('click', (event) => { this.handleMenuClick(event); });
   }
 
-  initDisplayOption(switchElementId, settingsKey, eventHandler, enabledByDefault=false, customSettingsLoader=undefined) {
+  async initDisplayOption(switchElementId, settingsKey, eventHandler, enabledByDefault=false, customSettingsLoader=undefined) {
     var option = new DisplayOption(switchElementId,
                                    settingsKey,
-                                   app_controller.settings,
+                                   window.ipcSettings,
                                    eventHandler,
                                    () => { this.slowlyHideDisplayMenu(); },
                                    customSettingsLoader,
                                    enabledByDefault);
+
+    await option.loadOptionFromSettings();
+
     return option;
   }
 
@@ -184,28 +214,32 @@ class OptionsMenu {
   showOrHideSectionTitlesBasedOnOption(tabIndex=undefined) {
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex)[0];
     var tabId = app_controller.tab_controller.getSelectedTabId(tabIndex);
+    var all_section_titles = [];
 
-    // The following code moves the sword-section-title elements before the verse-boxes
-    var all_section_titles = currentVerseList.querySelectorAll('.sword-section-title');
+    if (currentVerseList != null && currentVerseList != undefined) {
 
-    for (var i = 0; i < all_section_titles.length; i++) {
-      var currentSectionTitle = all_section_titles[i];
-      var currentParent = currentSectionTitle.parentNode;
-      var parentClassList = currentParent.classList;
+      // The following code moves the sword-section-title elements before the verse-boxes
+      all_section_titles = currentVerseList.querySelectorAll('.sword-section-title');
 
-      // We verify that the section title is part of the verse text
-      // (and not part of a chapter introduction or something similar).
-      if (parentClassList.contains('verse-text')) {
-        // Generate anchor for section headers
-        var sectionHeaderAnchor = document.createElement('a');
-        var chapter = currentSectionTitle.getAttribute('chapter');
-        var sectionTitleContent = currentSectionTitle.textContent;
-        var unixSectionHeaderId = app_controller.navigation_pane.getUnixSectionHeaderId(tabId, chapter, sectionTitleContent);
-        sectionHeaderAnchor.setAttribute('name', unixSectionHeaderId);
+      for (var i = 0; i < all_section_titles.length; i++) {
+        var currentSectionTitle = all_section_titles[i];
+        var currentParent = currentSectionTitle.parentNode;
+        var parentClassList = currentParent.classList;
 
-        var verseBox = currentSectionTitle.closest('.verse-box');
-        verseBox.before(sectionHeaderAnchor);
-        verseBox.before(currentSectionTitle);
+        // We verify that the section title is part of the verse text
+        // (and not part of a chapter introduction or something similar).
+        if (parentClassList.contains('verse-text')) {
+          // Generate anchor for section headers
+          var sectionHeaderAnchor = document.createElement('a');
+          var chapter = currentSectionTitle.getAttribute('chapter');
+          var sectionTitleContent = currentSectionTitle.textContent;
+          var unixSectionHeaderId = app_controller.navigation_pane.getUnixSectionHeaderId(tabId, chapter, sectionTitleContent);
+          sectionHeaderAnchor.setAttribute('name', unixSectionHeaderId);
+
+          var verseBox = currentSectionTitle.closest('.verse-box');
+          verseBox.before(sectionHeaderAnchor);
+          verseBox.before(currentSectionTitle);
+        }
       }
     }
 
@@ -320,6 +354,18 @@ class OptionsMenu {
     }
   }
 
+  keepScreenAwakeBasedOnOption(tabIndex=undefined) {
+    if (!this.platformHelper.isCordova()) {
+      return;
+    } 
+
+    if (this._keepScreenAwakeOption.isChecked()) {
+      this.cordovaPlatform.keepScreenAwake();
+    } else {
+      this.cordovaPlatform.allowScreenToSleep();
+    }
+  }
+
   changeTagsLayoutBasedOnOption(tabIndex=undefined) {
     var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
@@ -345,6 +391,7 @@ class OptionsMenu {
     this.showOrHideStrongsBasedOnOption(tabIndex);
     this.showOrHideVerseNotesBasedOnOption(tabIndex);
     this.fixNotesHeightBasedOnOption(tabIndex);
+    this.keepScreenAwakeBasedOnOption(tabIndex);
     theme_controller.useNightModeBasedOnOption();
   }
 }

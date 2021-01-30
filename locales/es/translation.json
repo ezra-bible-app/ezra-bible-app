@@ -75,10 +75,14 @@
   },
   "general": {
     "chapter-verse-separator": ":",
+    "module-application-info": "Module and Application Info",
+    "application-info": "Application Info",
+    "sword-module-description": "SWORD Module Description",
+    "sword-module-details": "SWORD Module Details",
     "sword-module-info": "Información módulo SWORD",
     "sword-unlock-info": "Información de desbloqueo de SWORD",
-    "sword-library-info": "Información de librería SWORD",
-    "using-sword-version": "Usando la versión de SWORD",
+    "sword-version": "Versión de SWORD",
+    "database-path": "Database path",
     "module-name": "Nombre",
     "module-version": "Versión",
     "module-language": "Idioma",
@@ -182,6 +186,7 @@
     "limit-notes-display-size": "Limitar el tamaño de las notas",
     "use-tags-column": "Usar columna de etiquetas",
     "use-night-mode": "Modo Noche",
+    "keep-screen-on": "Keep screen on",
     "tag-statistics": "Estadística de etiquetas",
     "comparing-translations-for": "Comparar traducciones de",
     "strongs-number-not-valid": "Este número Strongs no es válido!",
@@ -197,5 +202,13 @@
     "find-all-occurrences": "Encontrar todos los sucesos",
     "open-in-blueletter": "Abrir en Blue Letter Bible ",
     "related-strongs": "Números Strongs relacionados"
+  },
+  "cordova" : {
+    "welcome-to-ezra-project": "Welcome to Ezra Project!",
+    "storage-justification": "Ezra Project needs access to the device storage area to save SWORD modules and store its database.<br><br>After pressing the button below, you will be asked to allow Ezra Project to access files on your device.",
+    "enable-storage-access": "Enable access to device storage",
+    "storage-permission-denied": "You decided to deny storage access.<br>You can change this by pressing the button below!",
+    "permanent-permission-decision-part1": "Previously, you decided to permanently deny storage access!<br><br>You can only revert that decision in the permission settings in the Android system configuration.",
+    "permanent-permission-decision-part2": "If you do not change the permission settings,<br>Ezra Project will <span style='text-decoration: underline'>not start up successfully</span>."
   }
 }

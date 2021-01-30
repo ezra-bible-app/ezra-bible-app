@@ -22,12 +22,15 @@ const StrongsHighlighter = require('./strongs_highlighter.js');
 
 class VerseSearch {
   constructor() {
+    this.currentVerseElementTextNodes = undefined;
     this.exactPhraseHighlighter = new ExactPhraseHighlighter(this.getHighlightedText);
     this.singleWordHighlighter = new SingleWordHighlighter(this.getHighlightedText);
     this.strongsHighlighter = new StrongsHighlighter(this.getHighlightedText);
   }
 
   doVerseSearch(verseElement, searchString, searchType, caseSensitive=false, extendedVerseBoundaries=false) {
+    this.currentVerseElementTextNodes = undefined;
+
     var searchTermList = null;
     var isStrongs = (searchType == "strongsNumber");
 
@@ -49,7 +52,6 @@ class VerseSearch {
 
     for (var i = 0; i < searchTermList.length; i++) {
       var currentSearchTerm = searchTermList[i];
-
       var occurances = [];
 
       if (isStrongs) {
@@ -108,11 +110,10 @@ class VerseSearch {
     var searchStringLength = searchString.length;
 
     if (searchStringLength > 0) {
-
-      var verseElementTextNodes = this.getTextNodes(verseElement);
+      this.currentVerseElementTextNodes = this.getTextNodes(verseElement);
       var verseText = "";
 
-      verseElementTextNodes.forEach((textNode) => {
+      this.currentVerseElementTextNodes.forEach((textNode) => {
         verseText += textNode.nodeValue;
       });
 
@@ -144,12 +145,20 @@ class VerseSearch {
   }
 
   getTextNodes(verseElement) {
+    if (this.currentVerseElementTextNodes !== undefined) {
+      return this.currentVerseElementTextNodes;
+    }
+
     var customNodeFilter = {
       acceptNode: function(node) {
         // Logic to determine whether to accept, reject or skip node
         var parentNode = node.parentNode;
-        var acceptedNodeNames = [ "W", "SEG", "TRANSCHANGE"];
-        if (acceptedNodeNames.includes(parentNode.nodeName) || parentNode.classList.contains('verse-text')) {
+        var parentClass = parentNode.className;
+        var parentNodeName = parentNode.nodeName;
+
+        if (parentClass.startsWith('verse') || parentNodeName == "W" ||
+            parentNodeName == "SEG" || parentNodeName == "TRANSCHANGE") {
+
           return NodeFilter.FILTER_ACCEPT;
         }
       }
@@ -163,6 +172,7 @@ class VerseSearch {
       textNodes.push(nextNode);
     }
 
+    this.currentVerseElementTextNodes = textNodes;
     return textNodes;
   }
 
@@ -174,8 +184,8 @@ class VerseSearch {
     }
 
     if (searchType == "phrase") {
-      var nodes = this.getTextNodes(verseElement);
-      this.exactPhraseHighlighter.highlightOccurrances(nodes, searchString, caseSensitive, regexOptions);
+      this.currentVerseElementTextNodes = this.getTextNodes(verseElement);
+      this.exactPhraseHighlighter.highlightOccurrances(this.currentVerseElementTextNodes, searchString, caseSensitive, regexOptions);
     } else if (searchType == "strongsNumber") {
       this.strongsHighlighter.highlightOccurrances(occurances);
     } else {

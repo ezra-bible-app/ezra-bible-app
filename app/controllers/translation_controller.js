@@ -16,7 +16,7 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const LanguageMapper = require('../helpers/language_mapper.js');
+const PlatformHelper = require('../helpers/platform_helper.js');
 
 /**
  * The TranslationController is used to handle the bible translation menu and to
@@ -29,8 +29,20 @@ const LanguageMapper = require('../helpers/language_mapper.js');
  */
 class TranslationController {
   constructor() {
-    this.languageMapper = new LanguageMapper();
+    this.platformHelper = new PlatformHelper();
+    this.languageMapper = null;
     this.translationCount = null;
+    this.initBibleSyncBoxDone = false;
+    this.initBibleTranslationInfoBoxDone = false;
+  }
+
+  getLanguageMapper() {
+    if (this.languageMapper == null) {
+      const LanguageMapper = require('../helpers/language_mapper.js');
+      this.languageMapper = new LanguageMapper();
+    }
+
+    return this.languageMapper;
   }
 
   getTranslationCount() {
@@ -40,11 +52,15 @@ class TranslationController {
   init(onBibleTranslationChanged) {
     this.onBibleTranslationChanged = onBibleTranslationChanged;
     this.initBibleTranslationInfoButton();
-    this.initBibleSyncBox();
-    this.initBibleTranslationInfoBox();
   }
 
   initBibleSyncBox() {
+    if (this.initBibleSyncBoxDone) {
+      return;
+    }
+
+    this.initBibleSyncBoxDone = true;
+
     $('#bible-sync-box').dialog({
       width: 600,
       height: 300,
@@ -56,6 +72,12 @@ class TranslationController {
   }
 
   initBibleTranslationInfoBox() {
+    if (this.initBibleTranslationInfoBoxDone) {
+      return;
+    }
+
+    this.initBibleTranslationInfoBoxDone = true;
+
     $('#bible-translation-info-box').dialog({
       width: 700,
       height: 500,
@@ -65,11 +87,11 @@ class TranslationController {
   }
 
   initVerseSelection() {
-    app_controller.verse_selection.initHelper(reference_separator, nsi);
+    app_controller.verse_selection.initHelper(reference_separator, ipcNsi);
   }
 
-  loadSettings() {
-    app_controller.book_selection_menu.updateAvailableBooks();
+  async loadSettings() {
+    await app_controller.book_selection_menu.updateAvailableBooks();
     this.initVerseSelection();
   }
 
@@ -79,9 +101,9 @@ class TranslationController {
     return bibleSelect;
   }
 
-  addLanguageGroupsToBibleSelectMenu(tabIndex) {
+  async addLanguageGroupsToBibleSelectMenu(tabIndex) {
     var bibleSelect = this.getBibleSelect(tabIndex);
-    var languages = this.getLanguages();
+    var languages = await this.getLanguages();
 
     for (var i = 0; i < languages.length; i++) {
       var currentLang = languages[i];
@@ -128,7 +150,7 @@ class TranslationController {
 
   addTranslationsToBibleSelectMenu(tabIndex, translations) {
     var bibleSelect = this.getBibleSelect(tabIndex);
-    var currentBibleTranslationId = app_controller.tab_controller.getTab(tabIndex)?.getBibleTranslationId();
+    var currentBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
 
     for (var translation of translations) {
       var selected = '';
@@ -142,7 +164,7 @@ class TranslationController {
     }
   }
 
-  initTranslationsMenu(previousTabIndex=-1, tabIndex=undefined) {
+  async initTranslationsMenu(previousTabIndex=-1, tabIndex=undefined) {
     if (tabIndex === undefined) {
       var tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     }
@@ -168,9 +190,13 @@ class TranslationController {
       bibleSelect = currentVerseListMenu.find('select.bible-select');
       bibleSelect.empty();
 
-      this.addLanguageGroupsToBibleSelectMenu(tabIndex);
+      await this.addLanguageGroupsToBibleSelectMenu(tabIndex);
 
-      var translations = nsi.getAllLocalModules();
+      var translations = await ipcNsi.getAllLocalModules();
+
+      if (translations == null) translations = [];
+
+      // FIXME: Should be in function
       translations.sort((a, b) => {
         var aDescription = a.description;
         var bDescription = b.description;
@@ -207,7 +233,9 @@ class TranslationController {
         var newBibleTranslationId = bibleSelect[0].value;
 
         app_controller.tab_controller.setCurrentBibleTranslationId(newBibleTranslationId);
-        app_controller.settings.set('bible_translation', newBibleTranslationId);
+
+        ipcSettings.set('bibleTranslation', newBibleTranslationId);
+
         app_controller.tab_controller.refreshBibleTranslationInTabTitle(newBibleTranslationId);
 
         setTimeout(() => {
@@ -226,21 +254,21 @@ class TranslationController {
     $('.bible-translation-info-button').bind('click', async () => {
       if (!$(this).hasClass('ui-state-disabled')) {
         app_controller.hideAllMenus();
-        this.showBibleTranslationInfo();
+        await this.showAppInfo();
       }
     });
   }
 
-  getModuleInfo(moduleId, isRemote=false) {
+  async getModuleDescription(moduleId, isRemote=false) {
     var moduleInfo = "No info available!";
 
     try {
       var swordModule = null;
 
       if (isRemote) {
-        swordModule = nsi.getRepoModule(moduleId);
+        swordModule = await ipcNsi.getRepoModule(moduleId);
       } else {
-        swordModule = nsi.getLocalModule(moduleId);
+        swordModule = await ipcNsi.getLocalModule(moduleId);
       }
       
       var moduleInfo = "";
@@ -254,16 +282,51 @@ class TranslationController {
       moduleInfo += about;
       moduleInfo += "</p>";
 
+    } catch (ex) {
+      console.error("Got exception while trying to get module description: " + ex);
+    }
+
+    return moduleInfo;
+  }
+
+  async getModuleInfo(moduleId, isRemote=false, includeModuleDescription=true) {
+    var moduleInfo = "No info available!";
+
+    try {
+      var swordModule = null;
+
+      if (isRemote) {
+        swordModule = await ipcNsi.getRepoModule(moduleId);
+      } else {
+        swordModule = await ipcNsi.getLocalModule(moduleId);
+      }
+      
+      var moduleInfo = "";
+
+      if (includeModuleDescription) {
+        if (isRemote) {
+          moduleInfo += "<b>" + swordModule.description + "</b><br><br>";
+        }
+
+        moduleInfo += "<p class='external'>";
+        var about = swordModule.about.replace(/\\pard/g, "").replace(/\\par/g, "<br>");
+        moduleInfo += about;
+        moduleInfo += "</p>";
+      }
+      
       var moduleSize = Math.round(swordModule.size / 1024) + " KB";
 
       var yes = i18n.t("general.yes");
       var no = i18n.t("general.no");
 
-      moduleInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>" + i18n.t("general.sword-module-info") + "</p>";
+      if (includeModuleDescription) {
+        moduleInfo += `<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>${i18n.t("general.sword-module-info")}</p>`;
+      }
+
       moduleInfo += "<table>";
       moduleInfo += "<tr><td style='width: 11em;'>" + i18n.t("general.module-name") + ":</td><td>" + swordModule.name + "</td></tr>";
       moduleInfo += "<tr><td>" + i18n.t("general.module-version") + ":</td><td>" + swordModule.version + "</td></tr>";
-      moduleInfo += "<tr><td>" + i18n.t("general.module-language") + ":</td><td>" + this.languageMapper.getLanguageName(swordModule.language) + "</td></tr>";
+      moduleInfo += "<tr><td>" + i18n.t("general.module-language") + ":</td><td>" + this.getLanguageMapper().getLanguageName(swordModule.language) + "</td></tr>";
       moduleInfo += "<tr><td>" + i18n.t("general.module-license") + ":</td><td>" + swordModule.distributionLicense + "</td></tr>";
 
       if (swordModule.type == 'Biblical Texts') {
@@ -285,9 +348,6 @@ class TranslationController {
         moduleInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>" + i18n.t("general.sword-unlock-info") + "</p>";
         moduleInfo += "<p class='external'>" + swordModule.unlockInfo + "</p>";
       }
-
-      moduleInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>" + i18n.t("general.sword-library-info") + "</p>";
-      moduleInfo += "<p>" + i18n.t("general.using-sword-version") + " <b>" + nsi.getSwordVersion() + "</b>.</p>";
     } catch (ex) {
       console.error("Got exception while trying to get module info: " + ex);
     }
@@ -295,22 +355,65 @@ class TranslationController {
     return moduleInfo;
   }
 
-  showBibleTranslationInfo() {
-    var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var moduleInfo = this.getModuleInfo(currentBibleTranslationId);
+  async showAppInfo() {
+    this.initBibleTranslationInfoBox();
 
-    var currentBibleTranslationName = app_controller.tab_controller.getCurrentBibleTranslationName();
+    var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+
+    var version = "";
+    if (this.platformHelper.isElectron()) {
+      version = app.getVersion();
+    } else if (this.platformHelper.isCordova()) {
+      version = await cordova.getAppVersion.getVersionNumber();
+    }
+
+    var swordVersion = await ipcNsi.getSwordVersion();
+    var databasePath = await ipcDb.getDatabasePath();
+
+    var appInfo = "";
+    appInfo += "<div id='app-info-tabs'>";
+
+    appInfo += "<ul>";
+    appInfo += `<li><a href='#app-info-tabs-1'>${i18n.t('general.sword-module-description')}</a></li>`;
+    appInfo += `<li><a href='#app-info-tabs-2'>${i18n.t('general.sword-module-details')}</a></li>`;
+    appInfo += `<li><a href='#app-info-tabs-3'>${i18n.t('general.application-info')}</a></li>`;
+    appInfo += "</ul>";
+
+    appInfo += "<div id='app-info-tabs-1' class='info-tabs scrollable'>";
+    var moduleInfo = await this.getModuleDescription(currentBibleTranslationId);
+    appInfo += moduleInfo;
+    appInfo += "</div>";
+
+    appInfo += "<div id='app-info-tabs-2' class='info-tabs scrollable'>";
+    var moduleInfo = await this.getModuleInfo(currentBibleTranslationId, false, false);
+    appInfo += moduleInfo;
+    appInfo += "</div>";
+
+    appInfo += "<div id='app-info-tabs-3' class='info-tabs scrollable'>";
+    appInfo += "<table>";
+    appInfo += `<tr><td style='width: 11em;'>Application version:</td><td>${version}</td></tr>`;
+    appInfo += `<tr><td>${i18n.t("general.sword-version")}:</td><td>${swordVersion}</td></tr>`;
+    appInfo += `<tr><td>${i18n.t("general.database-path")}:</td><td>${databasePath}</td></tr>`;
+    appInfo += "</table>";
+    appInfo += "</div>";
+
+    appInfo += "</div>";
+
     var offsetLeft = $(window).width() - 900;
+
     $('#bible-translation-info-box').dialog({
-      title: currentBibleTranslationName,
-      position: [offsetLeft,120]
+      title: i18n.t('general.module-application-info'),
+      position: [offsetLeft, 120],
+      resizable: false
     });
+
     $('#bible-translation-info-box-content').empty();
-    $('#bible-translation-info-box-content').html(moduleInfo);
+    $('#bible-translation-info-box-content').html(appInfo);
+    $('#app-info-tabs').tabs({ heightStyle: "fill" });
     $('#bible-translation-info-box').dialog("open");
   }
 
-  getBibleTranslationModule(translationId) {
+  async getBibleTranslationModule(translationId) {
     if (translationId == null) {
       return null;
     }
@@ -318,7 +421,7 @@ class TranslationController {
     var bibleTranslation = null;
 
     try {
-      bibleTranslation = nsi.getLocalModule(translationId);
+      bibleTranslation = await ipcNsi.getLocalModule(translationId);
     } catch (e) {
       console.log("Could not get local sword module for " + translationId);
     }
@@ -326,8 +429,8 @@ class TranslationController {
     return bibleTranslation;
   }
 
-  hasBibleTranslationStrongs(translationId) {
-    var bibleTranslation = this.getBibleTranslationModule(translationId);
+  async hasBibleTranslationStrongs(translationId) {
+    var bibleTranslation = await this.getBibleTranslationModule(translationId);
 
     if (bibleTranslation != null) {
       return bibleTranslation.hasStrongs;
@@ -336,8 +439,8 @@ class TranslationController {
     }
   }
 
-  hasBibleTranslationHeaders(translationId) {
-    var bibleTranslation = this.getBibleTranslationModule(translationId);
+  async hasBibleTranslationHeaders(translationId) {
+    var bibleTranslation = await this.getBibleTranslationModule(translationId);
 
     if (bibleTranslation != null) {
       return bibleTranslation.hasHeadings;
@@ -355,12 +458,16 @@ class TranslationController {
   }
 
   async handleBibleTranslationChange(oldBibleTranslationId, newBibleTranslationId) {
-    app_controller.book_selection_menu.updateAvailableBooks();
+    await app_controller.book_selection_menu.updateAvailableBooks();
     this.onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId);
   }
 
-  isStrongsTranslationInDb() {
-    var allTranslations = nsi.getAllLocalModules();
+  async isStrongsTranslationAvailable() {
+    var allTranslations = await ipcNsi.getAllLocalModules();
+
+    if (allTranslations == null) {
+      return false;
+    }
 
     for (var dbTranslation of allTranslations) {
       if (dbTranslation.hasStrongs) {
@@ -376,8 +483,8 @@ class TranslationController {
     htmlElementForMessages.append(message);
 
     try {
-      await nsi.installModule("StrongsHebrew");
-      await nsi.installModule("StrongsGreek");
+      await ipcNsi.installModule("StrongsHebrew");
+      await ipcNsi.installModule("StrongsGreek");
       app_controller.dictionary_controller.runAvailabilityCheck();
       var doneMessage = "<span> " + i18n.t("general.done") + ".</span><br/>";
       htmlElementForMessages.append(doneMessage);
@@ -389,12 +496,16 @@ class TranslationController {
 
   async installStrongsIfNeeded() {
     //console.time("get sync infos");   
-    var strongsInstallNeeded = this.isStrongsTranslationInDb() && !nsi.strongsAvailable();
+    var strongsAvailable = await ipcNsi.strongsAvailable();
+    var strongsInstallNeeded = await this.isStrongsTranslationAvailable() && !strongsAvailable;
     //console.timeEnd("get sync infos");
 
     if (strongsInstallNeeded) {
       var currentVerseList = app_controller.getCurrentVerseList();
       var verse_list_position = currentVerseList.offset();
+
+      this.initBibleSyncBox();
+
       $('#bible-sync-box').dialog({
         position: [verse_list_position.left + 50, verse_list_position.top + 30]
       });
@@ -447,17 +558,19 @@ class TranslationController {
     translationInfoButton.addClass('ui-state-disabled');
   }
 
-  getLanguages(moduleType='BIBLE') {
-    var localModules = nsi.getAllLocalModules(moduleType);
+  async getLanguages(moduleType='BIBLE') {
+    var localModules = await ipcNsi.getAllLocalModules(moduleType);
+
+    if (localModules == null) {
+      return [];
+    }
     
     var languages = [];
     var languageCodes = [];
 
-    var languageMapper = new LanguageMapper();
-
     for (var i = 0; i < localModules.length; i++) {
       var module = localModules[i];
-      var languageName = languageMapper.getLanguageName(module.language);
+      var languageName = this.getLanguageMapper().getLanguageName(module.language);
 
       if (!languageCodes.includes(module.language)) {
         languages.push({
@@ -471,8 +584,22 @@ class TranslationController {
     return languages;
   }
 
-  getInstalledModules(moduleType='BIBLE') {
-    var localModules = nsi.getAllLocalModules(moduleType);
+  async getInstalledModules(moduleType='BIBLE') {
+    var localModules = await ipcNsi.getAllLocalModules(moduleType);
+    // FIXME: Should be in function
+    localModules.sort((a, b) => {
+      var aDescription = a.description;
+      var bDescription = b.description;
+
+      if (aDescription < bDescription) {
+        return -1;
+      } else if (aDescription > bDescription) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
     var translations = [];
 
     for (var i = 0; i < localModules.length; i++) {
@@ -482,11 +609,11 @@ class TranslationController {
     return translations;
   }
 
-  getVersification(translationCode) {
+  async getVersification(translationCode) {
     var versification = null;
 
-    var psalm3Verses = nsi.getChapterText(translationCode, 'Psa', 3);
-    var revelation12Verses = nsi.getChapterText(translationCode, 'Rev', 12);
+    var psalm3Verses = await ipcNsi.getChapterText(translationCode, 'Psa', 3);
+    var revelation12Verses = await ipcNsi.getChapterText(translationCode, 'Rev', 12);
 
     if (psalm3Verses.length == 8 || revelation12Verses.length == 17) { // ENGLISH versification
       versification = "ENGLISH";

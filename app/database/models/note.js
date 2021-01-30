@@ -72,8 +72,8 @@ module.exports = (sequelize, DataTypes) => {
     return groupedVerseNotes;
   };
 
-  Note.persistNote = function(noteValue, verseBox) {
-    return models.VerseReference.findOrCreateFromVerseBox(verseBox).then(vr => {
+  Note.persistNote = function(noteValue, verseObject, versification) {
+    return models.VerseReference.findOrCreateFromVerseObject(verseObject, versification).then(vr => {
       return vr.getOrCreateNote().then(n => {
         if (noteValue != "") {
           // Save the note if it has content
@@ -83,21 +83,21 @@ module.exports = (sequelize, DataTypes) => {
           ).then(() => {
             return n;
           }).catch(function () {
-            alert("ERROR: Could not save note!");
+            console.error("ERROR: Could not save note!");
           });
         } else {
           // Delete the note if it does not have any content
           return n.destroy().then(
             models.MetaRecord.updateLastModified()
           ).catch(function () {
-            alert("ERROR: Could not delete note!");
+            console.error("ERROR: Could not delete note!");
           });
         }
       }).catch(function () {
-        alert("ERROR: Could not get or create note!");
+        console.error("ERROR: Could not get or create note!");
       });
     }).catch(function() {
-      alert("ERROR: Could not find or create verse reference!");
+      console.error("ERROR: Could not find or create verse reference!");
     });
   };
   

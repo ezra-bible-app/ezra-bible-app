@@ -16,11 +16,18 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const langs = require('iso-639-3');
-   
 class LanguageMapper {
   constructor() {
     this.mappingExistsCache = {};
+    this.langs = null;
+  }
+
+  getLangs() {
+    if (this.langs == null) {
+      this.langs = require('iso-639-3');
+    }
+
+    return this.langs;
   }
 
   mappingMatchesCode(mapping, languageCode) {
@@ -43,6 +50,7 @@ class LanguageMapper {
     } else {
       var normalizedCode = this.normalizeLanguageCode(languageCode);
 
+      var langs = this.getLangs();
       for (var i = 0; i < langs.length; i++) {
         var currentLang = langs[i];
 
@@ -59,6 +67,7 @@ class LanguageMapper {
 
   getLanguageName(languageCode) {
     var normalizedCode = this.normalizeLanguageCode(languageCode);
+    var langs = this.getLangs();
 
     for (var i = 0; i < langs.length; i++) {
       var currentLang = langs[i];
@@ -71,6 +80,8 @@ class LanguageMapper {
   }
 
   getLanguageCode(languageName) {
+    var langs = this.getLangs();
+
     for (var i = 0; i < langs.length; i++) {
       var currentLang = langs[i];
 

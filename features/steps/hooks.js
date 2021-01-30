@@ -16,45 +16,73 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { AfterAll, BeforeAll, After } = require("cucumber");
+const { AfterAll, BeforeAll, Before, After } = require("cucumber");
 
 const chaiAsPromised = require("chai-as-promised");
 const SpectronHelper = require("./spectron_helper.js");
 
 global.spectronHelper = new SpectronHelper();
-global.app = spectronHelper.initAndGetApp();
+global.app = null;
 
-BeforeAll({ timeout: 30000}, async function () {
-  chaiAsPromised.transferPromiseness = global.app.transferPromiseness;
-  await global.app.start();
-});
+function hasTag(scenario, tag) {
+  for (var i = 0; i < scenario.pickle.tags.length; i++) {
+    var currentTag = scenario.pickle.tags[i];
 
-AfterAll(async function () {
-  if (global.app && global.app.isRunning()) {
+    if (currentTag.name == tag) {
+      return true;
+    }
+  }
 
-    var rendererLogs = await global.app.client.getRenderProcessLogs();
+  return false;
+}
 
-    if (rendererLogs.length > 0) {
-      console.log("\nRenderer logs:");
-      rendererLogs.forEach(log => {
-        console.log(log.message);
-      });
+Before({ timeout: 80000}, async function (scenario) {
+  args = [];
+
+  installKjv = true;
+  appStopped = false;
+
+  if (hasTag(scenario, "@needs-asv-before")) {
+    if (global.app && global.app.isRunning()) {
+      var asvModule = await spectronHelper.getLocalModule('ASV');
+
+      if (asvModule == null) {
+        await global.app.stop();
+        global.app = null;
+        appStopped = true;
+      }
     }
 
-    return global.app.stop();
+    args.push('--install-asv');
   }
-});
 
-After("@uninstall-kjv-after-scenario", async function() {
-  const nsi = await global.spectronHelper.getNSI();
+  if (hasTag(scenario, "@no-kjv-needed")) {
+    installKjv = false;
+  }
 
-  await global.app.webContents.executeJavaScript("nsi.uninstallModule('KJV')");
-  await spectronHelper.sleep(2000);
-  await global.app.webContents.executeJavaScript("nsi.refreshLocalModules()");
-  await spectronHelper.sleep(500);
-  await global.app.webContents.executeJavaScript("app_controller.install_module_assistant.resetInstalledModules()");
-  await global.app.webContents.executeJavaScript("app_controller.onTranslationRemoved('KJV')");
-  await global.app.webContents.executeJavaScript("app_controller.onAllTranslationsRemoved()");
+  if (installKjv) {
+    if (global.app != null && !appStopped) {
+      var kjvModule = await spectronHelper.getLocalModule('KJV');
+
+      if (kjvModule == null) {
+        args.push('--install-kjv');
+
+        await global.app.stop();
+        global.app = null;
+        appStopped = true;
+      }
+    } else {
+      args.push('--install-kjv');
+      appStopped = true;
+    }
+  }
+
+  if (global.app == null || !global.app.isRunning()) {
+    global.app = spectronHelper.initAndGetApp(args, true);
+
+    chaiAsPromised.transferPromiseness = global.app.transferPromiseness;
+    await global.app.start();
+  }
 });
 
 After("@remove-last-tag-after-scenario", async function() {
@@ -75,4 +103,20 @@ After("@remove-last-tag-after-scenario", async function() {
 
   await confirmationButton.click();
   await spectronHelper.sleep(1000);
+});
+
+AfterAll({ timeout: 10000}, async function () {
+  if (global.app && global.app.isRunning()) {
+    var rendererLogs = await global.app.client.getRenderProcessLogs();
+
+    if (rendererLogs.length > 0) {
+      console.log("\nRenderer logs:");
+      rendererLogs.forEach(log => {
+        console.log(log.message);
+      });
+    }
+
+    var exitCode = await global.app.stop();
+    return exitCode;
+  }
 });

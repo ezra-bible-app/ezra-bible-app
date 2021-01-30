@@ -40,8 +40,6 @@ class DictionaryController {
     this.strongsAvailable = false;
     this.dictionaryInfoBox = new DictionaryInfoBox(this);
 
-    $('#dictionary-info-box').accordion();
-
     this.strongsBox.bind('mouseout', () => {
       this.hideStrongsBox();
     });
@@ -67,8 +65,8 @@ class DictionaryController {
     return jsStrongs;
   }
 
-  runAvailabilityCheck() {
-    this.strongsAvailable = nsi.strongsAvailable();
+  async runAvailabilityCheck() {
+    this.strongsAvailable = await ipcNsi.strongsAvailable();
   }
 
   hideStrongsBox(removeHl=false) {
@@ -91,15 +89,16 @@ class DictionaryController {
     this.dictionaryInfoBox.clearDictInfoBox();
   }
 
-  bindAfterBibleTextLoaded(tabIndex=undefined) {
+  async bindAfterBibleTextLoaded(tabIndex=undefined) {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     if (currentTab == null) {
       return;
     }
     
     var currentBibleTranslationId = currentTab.getBibleTranslationId();
+    var translationHasStrongs = await app_controller.translation_controller.hasBibleTranslationStrongs(currentBibleTranslationId);
 
-    if (app_controller.translation_controller.hasBibleTranslationStrongs(currentBibleTranslationId)) {
+    if (translationHasStrongs) {
       var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
       var currentWElements = currentVerseList.find('w');
       var currentVerseTextElements = currentVerseList.find('.verse-text');
@@ -109,19 +108,19 @@ class DictionaryController {
         this.handleVerseMouseMove(e);
       });
 
-      currentWElements.bind('mousemove', (e) => {
+      currentWElements.bind('mousemove', async (e) => {
         app_controller.tab_search.blurInputField();
-        this.handleStrongsMouseMove(e);
+        await this.handleStrongsMouseMove(e);
       });
     }
   }
 
-  getStrongsEntryWithRawKey(rawKey, normalizedKey=undefined) {
+  async getStrongsEntryWithRawKey(rawKey, normalizedKey=undefined) {
     if (normalizedKey == undefined) {
       var normalizedKey = this.getNormalizedStrongsId(rawKey);
     }
 
-    var strongsEntry = nsi.getStrongsEntry(normalizedKey);
+    var strongsEntry = await ipcNsi.getStrongsEntry(normalizedKey);
     strongsEntry['rawKey'] = rawKey;
     return strongsEntry;
   }
@@ -162,7 +161,7 @@ class DictionaryController {
     return strongsKey in this.getJsStrongs();
   }
 
-  showStrongsInfo(strongsIds, showStrongsBox=true) {
+  async showStrongsInfo(strongsIds, showStrongsBox=true) {
     var normalizedStrongsIds = [];
 
     for (var i = 0; i < strongsIds.length; i++) {
@@ -184,7 +183,7 @@ class DictionaryController {
       var additionalStrongsEntries = [];
 
       for (var i = 0; i < normalizedStrongsIds.length; i++) {
-        var strongsEntry = this.getStrongsEntryWithRawKey(strongsIds[i], normalizedStrongsIds[i]);
+        var strongsEntry = await this.getStrongsEntryWithRawKey(strongsIds[i], normalizedStrongsIds[i]);
 
         if (i == 0) {
           firstStrongsEntry = strongsEntry;
@@ -235,7 +234,7 @@ class DictionaryController {
     }
   }
 
-  handleStrongsMouseMove(event) {
+  async handleStrongsMouseMove(event) {
     if (!app_controller.optionsMenu._dictionaryOption.isChecked()) {
       return;
     }
@@ -266,7 +265,7 @@ class DictionaryController {
           'fontSize': this.currentStrongsElement.css('fontSize')
         });
 
-        this.showStrongsInfo(strongsIds);
+        await this.showStrongsInfo(strongsIds);
       }
     }
   }

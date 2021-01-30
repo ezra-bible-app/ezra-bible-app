@@ -20,7 +20,7 @@ class NewReleaseChecker {
   constructor(infoBoxId) {
     this.infoBoxId = infoBoxId;
     this.latestRelease = null;
-    this.initNewReleaseBox();
+    this.initNewReleaseBoxDone = false;
   }
 
   getInfoBox() {
@@ -28,6 +28,12 @@ class NewReleaseChecker {
   }
 
   initNewReleaseBox() {
+    if (this.initNewReleaseBoxDone) {
+      return;
+    }
+
+    this.initNewReleaseBoxDone = true;
+
     this.getInfoBox().dialog({
       width: 350,
       height: 250,
@@ -42,11 +48,11 @@ class NewReleaseChecker {
     });
   };
 
-  check() {
-    this.getLatestReleaseFromGitHub().then(latestRelease => {
+  async check() {
+    this.getLatestReleaseFromGitHub().then(async (latestRelease) => {
       this.latestRelease = latestRelease;
 
-      if (this.isNewReleaseAvailable() && this.isInfoWanted()) {
+      if (this.isNewReleaseAvailable() && await this.isInfoWanted()) {
         this.showNewRelease();
       }
     }).catch((error) => {
@@ -54,7 +60,9 @@ class NewReleaseChecker {
     });
   }
 
-  showNewRelease() {
+  async showNewRelease() {
+    this.initNewReleaseBox();
+
     var currentVerseList = app_controller.getCurrentVerseList();
     var verse_list_position = currentVerseList.offset();
     var infoBox = this.getInfoBox();
@@ -72,11 +80,11 @@ class NewReleaseChecker {
     infoBox.append("<input id='no-new-release-info' type='checkbox'></input>");
     infoBox.append("<label style='margin-left: 0.5em;' for='no-new-release-info'>" + i18n.t('general.no-repeated-info') + "</label>");
 
-    infoBox.find('#no-new-release-info').bind('click', () => {
+    infoBox.find('#no-new-release-info').bind('click', async () => {
       if ($('#no-new-release-info').prop("checked")) {
-        app_controller.settings.set('noNewReleaseInfo', this.latestRelease.tag);
+        ipcSettings.set('noNewReleaseInfo', this.latestRelease.tag);
       } else {
-        app_controller.settings.delete('noNewReleaseInfo');
+        ipcSettings.delete('noNewReleaseInfo');
       }
     });
   }
@@ -88,11 +96,11 @@ class NewReleaseChecker {
     return this.compareVersion(latestVersion, currentVersion) > 0;
   }
 
-  isInfoWanted() {
+  async isInfoWanted() {
     var latestVersion = this.latestRelease.tag;
 
-    if (app_controller.settings.has('noNewReleaseInfo')) {
-      var noNewReleaseInfo = app_controller.settings.get('noNewReleaseInfo');
+    if (await ipcSettings.has('noNewReleaseInfo')) {
+      var noNewReleaseInfo = await ipcSettings.get('noNewReleaseInfo');
       return noNewReleaseInfo != latestVersion;
     } else {
       return true;

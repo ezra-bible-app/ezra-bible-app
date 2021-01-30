@@ -45,7 +45,7 @@ class TagStore {
 
   async getTagList(forceRefresh=false) {
     if (this.tagList == null || forceRefresh) {
-      this.tagList = await models.Tag.getAllTags();
+      this.tagList = await ipcDb.getAllTags();
       await this.updateLatestAndOldestTagData();
     }
 
@@ -71,7 +71,7 @@ class TagStore {
   }
 
   async getBibleBookDbId(bookShortTitle) {
-    var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: bookShortTitle }});
+    var bibleBook = await ipcDb.getBibleBook(bookShortTitle);
     
     var bibleBookId = 0;
     if (bibleBook != null) {
@@ -89,7 +89,7 @@ class TagStore {
     var bibleBookId = await this.getBibleBookDbId(book);
 
     if (!(bibleBookId in this.bookTagStatistics) || forceRefresh) {
-      var tagListWithStats = await models.Tag.getAllTags(bibleBookId, false, true);
+      var tagListWithStats = await ipcDb.getAllTags(bibleBookId, false, true);
       var tagStatsDict = {};
 
       for (var i = 0; i < tagListWithStats.length; i++) {

@@ -31,6 +31,7 @@ class ModuleSearchController {
     this.search_menu_opened = false;
     this.verseSearch = new VerseSearch();
     this.verseStatisticsChart = new VerseStatisticsChart();
+    this.searchResultPerformanceLimit = platformHelper.getSearchResultPerformanceLimit();
   }
 
   initModuleSearchMenu(tabIndex=undefined) {
@@ -137,7 +138,7 @@ class ModuleSearchController {
   }
 
   getSearchTerm() {
-    return $('#module-search-input').val();
+    return document.getElementById('module-search-input').value;
   }
 
   getSearchType() {
@@ -147,11 +148,11 @@ class ModuleSearchController {
   }
 
   isCaseSensitive() {
-    return $('#search-is-case-sensitive').prop("checked");
+    return document.getElementById('search-is-case-sensitive').checked;
   }
 
   useExtendedVerseBoundaries() {
-    return $('#search-extended-verse-boundaries').prop("checked");
+    return document.getElementById('search-extended-verse-boundaries').checked;
   }
 
   getModuleSearchHeader(tabIndex=undefined) {
@@ -164,8 +165,8 @@ class ModuleSearchController {
       index = app_controller.tab_controller.getSelectedTabIndex();
     }
 
-    var currentSearchResults = app_controller.tab_controller.getTab(index)?.getSearchResults();
-    return currentSearchResults?.length > 500;
+    var currentSearchResults = app_controller.tab_controller.getTab(index).getSearchResults();
+    return currentSearchResults.length > this.searchResultPerformanceLimit;
   }
 
   validateStrongsKey() {
@@ -244,22 +245,22 @@ class ModuleSearchController {
       }
 
       // Only reset view if we got an event (in other words: not initially)
-      app_controller.text_controller.prepareForNewText(event != null, true, tabIndex);
+      await app_controller.text_controller.prepareForNewText(event != null, true, tabIndex);
 
       try {
         Sentry.addBreadcrumb({category: "app",
                               message: `Performing module search in ${currentBibleTranslationId}`,
                               level: Sentry.Severity.Info});
 
-        var searchResults = await nsi.getModuleSearchResults(currentBibleTranslationId,
-                                                             this.currentSearchTerm,
-                                                             (progress) => {
-                                                              var progressPercent = progress.totalPercent;
-                                                              searchProgressBar.progressbar("value", progressPercent);
-                                                             },
-                                                             searchType,
-                                                             isCaseSensitive,
-                                                             useExtendedVerseBoundaries);
+        var searchResults = await ipcNsi.getModuleSearchResults((progress) => {
+                                                                  var progressPercent = progress.totalPercent;
+                                                                  searchProgressBar.progressbar("value", progressPercent);
+                                                                },
+                                                                currentBibleTranslationId,
+                                                                this.currentSearchTerm,
+                                                                searchType,
+                                                                isCaseSensitive,
+                                                                useExtendedVerseBoundaries);
 
         //console.log("Got " + searchResults.length + " from Sword");
         currentTab.setSearchResults(searchResults);
@@ -284,11 +285,12 @@ class ModuleSearchController {
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
     var verses = currentVerseList[0].querySelectorAll('.verse-text');
 
+    var searchType = this.getSearchType();
+    var isCaseSensitive = this.isCaseSensitive();
+    var useExtendedVerseBoundaries = this.useExtendedVerseBoundaries();
+
     for (var i = 0; i < verses.length; i++) {
       var currentVerse = verses[i];
-      var searchType = this.getSearchType();
-      var isCaseSensitive = this.isCaseSensitive();
-      var useExtendedVerseBoundaries = this.useExtendedVerseBoundaries();
       this.verseSearch.doVerseSearch(currentVerse, searchTerm, searchType, isCaseSensitive, useExtendedVerseBoundaries);
     }
   }
@@ -297,10 +299,10 @@ class ModuleSearchController {
     //console.log("Rendering search results on tab " + tabIndex);
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentTabId = app_controller.tab_controller.getSelectedTabId(tabIndex);
-    var currentSearchTerm = currentTab?.getSearchTerm();
-    var currentSearchResults = currentTab?.getSearchResults();
+    var currentSearchTerm = currentTab.getSearchTerm();
+    var currentSearchResults = currentTab.getSearchResults();
 
-    if (currentSearchResults?.length > 0) {
+    if (currentSearchResults.length > 0) {
       await app_controller.text_controller.requestTextUpdate(currentTabId,
                                                                    null,
                                                                    null,
@@ -321,7 +323,7 @@ class ModuleSearchController {
     this.hideSearchMenu();
     var moduleSearchHeaderText;
 
-    if (currentSearchResults?.length > 0) {
+    if (currentSearchResults.length > 0) {
       moduleSearchHeaderText = i18n.t("bible-browser.search-result-header") + ' <i>' + currentSearchTerm + '</i> (' + currentSearchResults.length + ')';
     } else {
       moduleSearchHeaderText = i18n.t("bible-browser.no-search-results") + ' <i>' + currentSearchTerm + '</i>';
@@ -338,7 +340,7 @@ class ModuleSearchController {
 
     moduleSearchHeader.html(header);
 
-    if (currentSearchResults?.length > 0) {
+    if (currentSearchResults.length > 0) {
       var selectAllSearchResultsButton = document.createElement('button');
       selectAllSearchResultsButton.setAttribute('style', 'margin: 0.5em;');
       selectAllSearchResultsButton.classList.add('select-all-search-results-button');
@@ -358,9 +360,9 @@ class ModuleSearchController {
 
     moduleSearchHeader.show();
 
-    if (currentSearchResults?.length > 0 && requestedBookId <= 0) {
+    if (currentSearchResults.length > 0 && requestedBookId <= 0) {
       var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
-      this.verseStatisticsChart.updateChart(tabIndex, bibleBookStats);
+      await this.verseStatisticsChart.updateChart(tabIndex, bibleBookStats);
     }
   }
 
@@ -372,24 +374,24 @@ class ModuleSearchController {
     app_controller.verse_selection.updateViewsAfterVerseSelection(i18n.t('bible-browser.all-search-results'));
   }
 
-  repaintChart(tabIndex=undefined) {
+  async repaintChart(tabIndex=undefined) {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
-    var currentSearchResults = currentTab?.getSearchResults();
+    var currentSearchResults = currentTab.getSearchResults();
 
     if (currentSearchResults != null) {
       var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
       this.verseStatisticsChart.resetChart(tabIndex);
-      this.verseStatisticsChart.updateChart(tabIndex, bibleBookStats);
+      await this.verseStatisticsChart.updateChart(tabIndex, bibleBookStats);
     }
   }
 
-  repaintAllCharts() {
+  async repaintAllCharts() {
     var tabCount = app_controller.tab_controller.getTabCount();
 
     for (var i = 0; i < tabCount; i++) {
       var currentTab = app_controller.tab_controller.getTab(i);
       if (currentTab.getTextType() == 'search_results') {
-        this.repaintChart(i);
+        await this.repaintChart(i);
       }
     }
   }

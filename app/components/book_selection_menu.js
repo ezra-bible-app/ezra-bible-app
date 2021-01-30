@@ -27,23 +27,25 @@ class BookSelectionMenu {
     this.init_completed = false;
   }
 
-  init() {
+  async init() {
     if (this.init_completed) return;
 
     var menu = $('#app-container').find('#book-selection-menu');
     menu.bind('click', app_controller.handleBodyClick);
 
-    var cacheInvalid = app_controller.isCacheInvalid();
+    var cacheInvalid = await app_controller.isCacheInvalid();
 
-    if (!cacheInvalid && app_controller.settings.get('bookSelectionMenuCache') != null) {
-      var cachedHtml = app_controller.settings.get('bookSelectionMenuCache');
+    var hasCachedBookSelectionMenu = await ipcSettings.has('bookSelectionMenuCache', 'html-cache');
+
+    if (!cacheInvalid && hasCachedBookSelectionMenu) {
+      var cachedHtml = await ipcSettings.get('bookSelectionMenuCache');
       var menu = $('#app-container').find('#book-selection-menu');
 
       menu.innerHTML = cachedHtml;
 
     } else {
       console.log("Localizing book selection menu ...")
-      this.localizeBookSelectionMenu();
+      await this.localizeBookSelectionMenu();
     }
 
     this.initLinks();
@@ -56,33 +58,37 @@ class BookSelectionMenu {
 
     for (var i = 0; i < links.length; i++) {
       var current_link = $(links[i]);
-      var current_link_href = current_link.attr('href');
-      var current_book_title = current_link.html();
-      var new_link_href = "javascript:app_controller.book_selection_menu.selectBibleBook('" + 
-                          current_link_href + "','" + current_book_title + "')";
 
-      current_link.attr('href', new_link_href);
+      current_link.click((event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        var current_link_href = $(event.target).attr('href');
+        var current_book_title = $(event.target).html();
+
+        app_controller.book_selection_menu.selectBibleBook(current_link_href, current_book_title);
+      });
     }
   }
 
   // This function is rather slow and it delays app startup! (~175ms)
-  localizeBookSelectionMenu() {
+  async localizeBookSelectionMenu() {
     var aElements = document.getElementById("book-selection-menu").querySelectorAll('a');
 
     for (var i = 0; i < aElements.length; i++) {
       var currentBook = aElements[i];
-      var currentBookTranslation = i18nHelper.getSwordTranslation(currentBook.innerText);
-      currentBook.innerText = currentBookTranslation;
+      var currentBookTranslation = await i18nHelper.getSwordTranslation(currentBook.textContent);
+      currentBook.textContent = currentBookTranslation;
     }
   }
 
-  updateAvailableBooks(tabIndex=undefined) {
+  async updateAvailableBooks(tabIndex=undefined) {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     if (currentTab != null) {
       var currentBibleTranslationId = currentTab.getBibleTranslationId();
       if (currentBibleTranslationId != null) {
-        var books = nsi.getBookList(currentBibleTranslationId);
+        var books = await ipcNsi.getBookList(currentBibleTranslationId);
         var book_links = document.getElementById('book-selection-menu').querySelectorAll('li');
 
         for (var i = 0; i < book_links.length; i++) {
@@ -102,7 +108,7 @@ class BookSelectionMenu {
     }
   }
 
-  selectBibleBook(book_code, book_title) {
+  async selectBibleBook(book_code, book_title) {
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     if (currentBibleTranslationId == null || currentBibleTranslationId == undefined) {
       return;
@@ -112,7 +118,7 @@ class BookSelectionMenu {
                           message: `Selected book ${book_code} using translation ${currentBibleTranslationId}`,
                           level: Sentry.Severity.Info});
     
-    var books = nsi.getBookList(currentBibleTranslationId);
+    var books = await ipcNsi.getBookList(currentBibleTranslationId);
     if (!books.includes(book_code)) {
       return;
     }
@@ -130,7 +136,7 @@ class BookSelectionMenu {
     app_controller.module_search_controller.resetSearch();
     app_controller.tag_assignment_menu.hideTagAssignmentMenu();
 
-    app_controller.text_controller.prepareForNewText(true, false);
+    await app_controller.text_controller.prepareForNewText(true, false);
 
     setTimeout(async () => {
       // Set selected tags and search term to null, since we just switched to a book

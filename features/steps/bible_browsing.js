@@ -19,7 +19,7 @@
 const { Given, When, Then } = require("cucumber");
 const { assert } = require("chai");
 
-Given('I open the book selection menu', async function () {
+Given('I open the book selection menu', {timeout: 60 * 1000}, async function () {
   var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
   var bookSelectButton = await verseListTabs.$('.book-select-button');
   
@@ -74,7 +74,7 @@ Given('I select the verse {string}', async function (selectedVerse) {
   var verseReferenceString = splittedSelectedVerse[1];
   this.selectedBookId = global.spectronHelper.getBookShortTitle(book);
   var verseReferenceHelper = await global.spectronHelper.getVerseReferenceHelper();
-  var absoluteVerseNumber = verseReferenceHelper.referenceStringToAbsoluteVerseNr('KJV', this.selectedBookId, verseReferenceString);
+  var absoluteVerseNumber = await verseReferenceHelper.referenceStringToAbsoluteVerseNr('KJV', this.selectedBookId, verseReferenceString);
 
   var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
   this.selectedVerseBox = await verseListTabs.$('.verse-nr-' + absoluteVerseNumber);

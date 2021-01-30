@@ -2,37 +2,56 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
-<!-- JQUERY STYLES -->
-<link id="theme-css" href="css/jquery-ui/cupertino/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="css/jquery-ui/jquery-ui.selectmenu.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="css/jquery.steps.css" media="screen" rel="stylesheet" type="text/css" />
+  <!--
+      * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+      * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+  -->
 
-<!-- CODE MIRROR STYLES -->
-<link href="node_modules/codemirror/lib/codemirror.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="node_modules/codemirror/theme/mbo.css" media="screen" rel="stylesheet" type="text/css" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' 'unsafe-inline' 'unsafe-eval'
+                 data: gap: https://ssl.gstatic.com https://api.github.com https://sentry.io ;
+                 style-src 'self' 'unsafe-eval' 'unsafe-inline' data:;
+                 media-src *;
+                 img-src 'self' data: content:;
+                 script-src 'self' 'unsafe-eval' 'unsafe-inline';">
 
-<!-- CHART.JS STYLES -->
-<link href="node_modules/chart.js/dist/Chart.min.css" media="screen" rel="stylesheet" type="text/css" />
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
 
-<!-- CUSTOM STYLES -->
-<link href="css/loader.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="css/toolbox.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="css/navigation_pane.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="css/verse_notes.css" media="screen" rel="stylesheet" type="text/css" />
+  <!-- JQUERY STYLES -->
+  <link id="theme-css" href="css/jquery-ui/cupertino/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="css/jquery-ui/jquery-ui.selectmenu.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="css/jquery.steps.css" media="screen" rel="stylesheet" type="text/css" />
 
-<!-- JQUERY JS FILES -->
-<script src="lib/jquery/jquery.js" type="text/javascript"></script>
-<script src="lib/jquery/jquery.sort_elements.js" type="text/javascript"></script>
-<script src="lib/jquery/jquery.steps.js" type="text/javascript"></script>
-<script src="lib/jquery-ui/jquery-ui.js" type="text/javascript"></script>
-<script src="lib/jquery-ui/jquery-ui.selectmenu.js" type="text/javascript"></script>
+  <!-- CODE MIRROR STYLES -->
+  <link href="node_modules/codemirror/lib/codemirror.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="node_modules/codemirror/theme/mbo.css" media="screen" rel="stylesheet" type="text/css" />
 
-<!-- EZRA PROJECT INIT SCRIPT -->
-<script src="app/ezra_init.js" type="text/javascript"></script>
+  <!-- CHART.JS STYLES -->
+  <link href="node_modules/chart.js/dist/Chart.min.css" media="screen" rel="stylesheet" type="text/css" />
 
+  <!-- CUSTOM STYLES -->
+  <link href="css/loader.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="css/toolbox.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="css/navigation_pane.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="css/verse_notes.css" media="screen" rel="stylesheet" type="text/css" />
+  <link id="cordova-theme-css" href="" media="screen" rel="stylesheet" type="text/css" />
+
+  <script src="cordova.js" type="text/javascript"></script>
+
+  <script>
+    if (typeof window !== 'undefined' && !!window.cordova) {
+      // When running on Cordova we are using a custom theme.css file to ensure an
+      // early initialization of customizable theme options like the night mode
+
+      console.log("Using customizable theme.css!");
+      document.getElementById("cordova-theme-css").href = "file:///sdcard/Android/data/de.ezraproject.cordova/theme.css";
+    }
+  </script>
 </head>
 
 <!-- BODY STARTS HERE -->
@@ -74,13 +93,43 @@
         </div>
       </div>
 
-      <div id="tag-assignment-menu-taglist"></div>
+      <div id="tag-assignment-menu-taglist" class="scrollable"></div>
     </div>
+
     <div id="tab-search"></div>
+
+    <div id="permissions-box">
+      <div id="permissions-box-content">
+      </div>
+    </div>
+
     <div id="boxes"></div>
+
     <div id="verse-list-tabs"></div>
   </div>
 </div>
+
+<!-- JQUERY JS FILES -->
+<script src="lib/jquery/jquery.js" type="text/javascript"></script>
+<script src="lib/jquery/jquery.sort_elements.js" type="text/javascript"></script>
+<script src="lib/jquery/jquery.steps.js" type="text/javascript"></script>
+<script src="lib/jquery-ui/jquery-ui.js" type="text/javascript"></script>
+<script src="lib/jquery-ui/jquery-ui.selectmenu.js" type="text/javascript"></script>
+
+<script>
+
+  if (typeof window !== 'undefined' &&
+      typeof window.process === 'object' &&
+      window.process.type === 'renderer') {
+    
+    // We only require this when running on Electron
+    require('v8-compile-cache');
+  }
+
+</script>
+
+<!-- EZRA PROJECT INIT SCRIPT -->
+<script src="dist/ezra_init.js" type="text/javascript"></script>
 
 </body>
 </html>

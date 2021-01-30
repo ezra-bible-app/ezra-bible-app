@@ -24,8 +24,6 @@
  */
 class VerseStatisticsChart {
   constructor() {
-    require('chart.js/dist/Chart.bundle.min.js');
-
     this.chartColors = {
       red: 'rgb(255, 99, 132)',
       orange: 'rgb(255, 159, 64)',
@@ -53,66 +51,25 @@ class VerseStatisticsChart {
     container.append(canvasElement);
   }
 
-  getLabelsAndValuesFromStats(bookList, bibleBookStats) {
-    var labels = [];
-    var values = [];
-    var ntOnly = true;
-    var otOnly = true;
+  async updateChart(tabIndex=undefined, bibleBookStats) {
+    require('chart.js/dist/Chart.bundle.min.js');
 
-    for (var book in bibleBookStats) {
-      if (!models.BibleBook.isNtBook(book)) {
-        ntOnly = false;
-      }
-
-      if (!models.BibleBook.isOtBook(book)) {
-        otOnly = false;
-      }
-    }
-    
-    bookList.forEach((book) => {
-      var includeCurrentBook = false;
-
-      if (ntOnly && models.BibleBook.isNtBook(book)) {
-        includeCurrentBook = true;
-      } else if (otOnly && models.BibleBook.isOtBook(book)) {
-        includeCurrentBook = true;
-      } else if (!otOnly && !ntOnly) {
-        includeCurrentBook = true;
-      }
-
-      if (includeCurrentBook) {
-        var translatedBook = i18nHelper.getBookAbbreviation(book);
-        labels.push(translatedBook);
-
-        var value = 0;
-        if (book in bibleBookStats) {
-          value = bibleBookStats[book];
-        }
-
-        values.push(value);
-      }
-    });
-
-    return [labels, values];
-  }
-
-  updateChart(tabIndex=undefined, bibleBookStats) {
     var numberOfBooks = Object.keys(bibleBookStats).length;
     if (numberOfBooks < 2) {
       return;
     }
     
-    var currentTranslation = app_controller.tab_controller.getTab(tabIndex)?.getBibleTranslationId();
-    var bookList = nsi.getBookList(currentTranslation);
+    var currentTranslation = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
+    var bookList = await ipcNsi.getBookList(currentTranslation);
 
-    const [labels, values] = this.getLabelsAndValuesFromStats(bookList, bibleBookStats);
+    const [labels, values] = await ipcGeneral.getSearchStatisticChartData(currentTranslation, bookList, bibleBookStats);
 
     var data = {
       labels: labels,
       datasets: [{
-          data: values,
-          backgroundColor: this.chartColors.blue,
-          borderWidth: 1
+        data: values,
+        backgroundColor: this.chartColors.blue,
+        borderWidth: 1
       }]
     };
 

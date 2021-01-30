@@ -1,11 +1,14 @@
 # Building Ezra Project
+
+Independent of the operating system, ensure to use nodejs version 10.x.
+This is the version currently used for development and testing and compatibility with other versions cannot necessarily be guaranteed.
 ## Windows
 
 On Windows Ezra Project is built using a pre-built SWORD library from the repository [sword-build-win32](https://github.com/ezra-project/sword-build-win32) to ease the build process. After having installed the [windows-build-tools][windows-build-tools] (VS 2015 Compiler) and the Ezra Project sources the build process can be simply invoked using the batch file build_win32.bat.
 
 ### Setup and build
 
-1. Install [git](https://git-scm.com/download/win) and [nodejs](https://nodejs.org).
+1. Install [git](https://git-scm.com/download/win) and [nodejs](https://nodejs.org). Ensure to install the x86 version of nodejs 10.x.
 2. Install [windows-build-tools][windows-build-tools] (VS 2015 Compiler) by running the following command in an administrator powershell:\
 `npm install --vs2015 --global windows-build-tools`
 3. Install [electron-installer-windows][electron-installer-windows] by running the following command in an administrator powershell:\

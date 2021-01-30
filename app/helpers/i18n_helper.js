@@ -16,28 +16,15 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const i18n = require('i18next');
-const i18nextBackend = require('i18next-node-fs-backend');
-const LanguageDetector = require('i18next-electron-language-detector');
+const PlatformHelper = require('./platform_helper.js');
 const jqueryI18next = require('jquery-i18next');
-const path = require('path');
 
 const i18nextOptions = {
   debug: false,
-  backend:{
-    // path where resources get loaded from
-    loadPath: path.join(__dirname, '../../locales/{{lng}}/{{ns}}.json'),
-
-    // path to post missing resources
-    addPath: path.join(__dirname, '../../locales/{{lng}}/{{ns}}.missing.json'),
-
-    // jsonIndent to use when storing json files
-    jsonIndent: 2,
-  },
   interpolation: {
     escapeValue: false
   },
-  saveMissing: true,
+  saveMissing: false,
   fallbackLng: 'en',
   whitelist: ['de', 'en', 'nl', 'fr', 'es', 'sk'],
   react: {
@@ -47,12 +34,25 @@ const i18nextOptions = {
 
 class I18nHelper {
   constructor() {
+    this._platformHelper = new PlatformHelper();
   }
 
   async init() {
+    window.i18n = require('i18next');
+    const I18nIpcBackend = require('../ipc/i18n_ipc_backend.js');
+
+    let LanguageDetector = null;
+    
+    if (platformHelper.isElectron()) {
+      LanguageDetector = require('i18next-electron-language-detector');
+    } else {
+      const _LanguageDetector = require('../platform/i18next_browser_language_detector.js');
+      LanguageDetector = new _LanguageDetector();
+    }
+
     await i18n
     .use(LanguageDetector)
-    .use(i18nextBackend)
+    .use(I18nIpcBackend)
     .init(i18nextOptions);
 
     jqueryI18next.init(i18n, $, {
@@ -67,13 +67,13 @@ class I18nHelper {
     });
   }
 
-  getSwordTranslation(originalString) {
-    return nsi.getSwordTranslation(originalString, i18n.language);
+  async getSwordTranslation(originalString) {
+    return await ipcNsi.getSwordTranslation(originalString, i18n.language);
   }
 
-  getBookAbbreviation(bookCode) {
+  async getBookAbbreviation(bookCode) {
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    return nsi.getBookAbbreviation(currentBibleTranslationId, bookCode, i18n.language);
+    return await ipcNsi.getBookAbbreviation(currentBibleTranslationId, bookCode, i18n.language);
   }
 
   async getSpecificTranslation(lang, key) {

@@ -299,6 +299,10 @@ tr.td-underline td {
   margin-top: 0.25em;
 }
 
+.Android .tag-cb {
+  margin-top: 0.1em;
+}
+
 .cb-label, .cb-label-tag-assignment-count, .cb-label-postfix, .rename-tag-label {
   margin-top: 0.1em;
 }
@@ -527,4 +531,8 @@ tr.td-underline td {
 .selection-box {
   display: inline-block;
   margin-left: 0.5em;
+}
+
+.verse-list-tabs-small-screen .selection-box {
+  margin-left: 0.1em;
 }

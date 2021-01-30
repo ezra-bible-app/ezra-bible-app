@@ -27,16 +27,10 @@ const VerseBox = require('../ui_models/verse_box.js');
 class VerseListPopup {
   constructor() {
     this.verseBoxHelper = new VerseBoxHelper();
+    this.dialogInitDone = false;
   }
 
   initVerseListPopup() {
-    $('#verse-list-popup').dialog({
-      width: 700,
-      position: [200,200],
-      autoOpen: false,
-      dialogClass: 'ezra-dialog'
-    });
-
     var currentBookFilter = "";
     currentBookFilter = "<input type='checkbox' id='only-currentbook-tagged-verses' style='margin-right: 0.3em;'></input>" + 
                         `<label id='only-currentbook-tagged-verses-label' for='only-currentbook-tagged-verses'>${i18n.t('tags.only-currentbook-tagged-verses')}</label>` +
@@ -72,7 +66,7 @@ class VerseListPopup {
   }
 
   getCurrentTextType() {
-    var currentTextType = app_controller.tab_controller.getTab()?.getTextType();
+    var currentTextType = app_controller.tab_controller.getTab().getTextType();
     return currentTextType;
   }
 
@@ -202,19 +196,19 @@ class VerseListPopup {
     }, 50);
   }
 
-  initCurrentXrefs(clickedElement) {
-    this.currentPopupTitle = this.getPopupTitle(clickedElement, "XREFS");
+  async initCurrentXrefs(clickedElement) {
+    this.currentPopupTitle = await this.getPopupTitle(clickedElement, "XREFS");
     var swordNote = $(clickedElement).closest('.sword-note');
     this.currentReferenceVerseBox = $(clickedElement).closest('.verse-box');
     this.currentXrefs = [];
 
-    swordNote.find('reference').each((index, element) => {
+    swordNote.find('reference').each(async (index, element) => {
       var osisRef = $(element).attr('osisref');
 
       if (osisRef.indexOf('-') != -1) {
         // We have gotten a range (like Gal.1.15-Gal.1.16)
         // We need to first turn into a list of individual references using node-sword-interface
-        var referenceList = nsi.getReferencesFromReferenceRange(osisRef);
+        var referenceList = await ipcNsi.getReferencesFromReferenceRange(osisRef);
 
         referenceList.forEach((ref) => {
           this.currentXrefs.push(ref);
@@ -227,8 +221,8 @@ class VerseListPopup {
     });
   }
 
-  loadXrefs(clickedElement, currentTabId, currentTabIndex) {
-    this.initCurrentXrefs(clickedElement);
+  async loadXrefs(clickedElement, currentTabId, currentTabIndex) {
+    await this.initCurrentXrefs(clickedElement);
 
     setTimeout(() => {
       app_controller.text_controller.requestVersesForXrefs(
@@ -261,10 +255,10 @@ class VerseListPopup {
     bookFilterCheckbox.prop('checked', false);
   }
 
-  getPopupTitle(clickedElement, referenceType) {
+  async getPopupTitle(clickedElement, referenceType) {
     var popupTitle = "";
     var verse_box = $(clickedElement).closest('.verse-box');
-    var localizedReference = this.verseBoxHelper.getLocalizedVerseReference(verse_box[0]);
+    var localizedReference = await this.verseBoxHelper.getLocalizedVerseReference(verse_box[0]);
 
     if (referenceType == "TAGGED_VERSES") {
 
@@ -284,9 +278,19 @@ class VerseListPopup {
    * @param event The click event
    * @param referenceType The type of references (either "TAGGED_VERSES" or "XREFS")
    */
-  openVerseListPopup(event, referenceType) {
+  async openVerseListPopup(event, referenceType) {
+    if (!this.dialogInitDone) {
+      this.dialogInitDone = true;
+      $('#verse-list-popup').dialog({
+        width: 700,
+        position: [200,200],
+        autoOpen: false,
+        dialogClass: 'ezra-dialog'
+      });
+    }
+
     this.currentReferenceType = referenceType;
-    this.currentPopupTitle = this.getPopupTitle(event.target, referenceType);
+    this.currentPopupTitle = await this.getPopupTitle(event.target, referenceType);
 
     var verse_box = $(event.target).closest('.verse-box');
     var currentTabId = app_controller.tab_controller.getSelectedTabId();
@@ -295,7 +299,7 @@ class VerseListPopup {
     if (referenceType == "TAGGED_VERSES") {
       this.loadTaggedVerses(event.target, currentTabId, currentTabIndex);
     } else if (referenceType == "XREFS") {
-      this.loadXrefs(event.target, currentTabId, currentTabIndex);
+      await this.loadXrefs(event.target, currentTabId, currentTabIndex);
     }
 
     var box_position = this.getOverlayVerseBoxPosition(verse_box);
@@ -382,7 +386,7 @@ class VerseListPopup {
       bookTaggedVersesCountLabel.text(` (${currentBookVerseCount})`);
     }
 
-    app_controller.sword_notes.initForContainer($('#verse-list-popup-verse-list'));
+    app_controller.sword_notes.initForContainer(document.getElementById('verse-list-popup-verse-list'));
     $('#verse-list-popup-verse-list').show();
   }
 }

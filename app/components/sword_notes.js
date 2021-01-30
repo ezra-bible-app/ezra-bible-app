@@ -24,12 +24,20 @@
  */
 class SwordNotes {
   constructor() {
-    this.notesCharacter = i18n.t('bible-browser.footnote-character');
+    this.notesCharacter = null;
+  }
+  
+  getNotesCharacter() {
+    if (this.notesCharacter == null) {
+      this.notesCharacter = i18n.t('bible-browser.footnote-character');
+    }
+
+    return this.notesCharacter;
   }
 
   getCurrentTabNotes(tabIndex) {
     var verseList = app_controller.getCurrentVerseList(tabIndex);
-    var swordNotes = verseList.find('.sword-note');
+    var swordNotes = verseList[0].querySelectorAll('.sword-note');
     return swordNotes;
   }
 
@@ -38,7 +46,7 @@ class SwordNotes {
     marker.classList.add(markerClass);
     marker.classList.add('sword-marker');
     marker.setAttribute('title', title);
-    marker.innerText = content;
+    marker.textContent = content;
 
     return marker;
   }
@@ -49,8 +57,33 @@ class SwordNotes {
   }
 
   initForContainer(container) {
-    var swordNotes = container.find('.sword-note');
+    var swordNotes = container.querySelectorAll('.sword-note');
     this.initNotes(swordNotes);
+  }
+
+  cleanNotes(swordNotes) {
+    var filteredNotes = [...swordNotes].filter(e => {
+      return e.getAttribute('type') == 'crossReference';
+    });
+
+    var textNodes = [];
+
+    for (var i = 0; i < filteredNotes.length; i++) {
+      var currentNote = filteredNotes[i];
+
+      var nextNode;
+      var walk = document.createTreeWalker(currentNote, NodeFilter.SHOW_TEXT);
+
+      while (nextNode = walk.nextNode()) {
+        if (nextNode.parentNode.nodeName != "REFERENCE") {
+          textNodes.push(nextNode);
+        }
+      }
+    }
+
+    for (var i = 0; i < textNodes.length; i++) {
+      textNodes[i].replaceWith("");
+    }
   }
 
   initNotes(swordNotes) {
@@ -58,9 +91,8 @@ class SwordNotes {
     //console.log(`Got ${swordNotes.length} sword xref elements!`);
 
     // Within crossReference notes: Remove text nodes containing ';'
-    swordNotes.filter('[type="crossReference"]').contents().filter(function() {
-      return this.nodeType === 3; //Node.TEXT_NODE
-    }).replaceWith("");
+    this.cleanNotes(swordNotes);
+    var notesCharacter = this.getNotesCharacter();
 
     for (var i = 0; i < swordNotes.length; i++) {
       var currentNote = swordNotes[i];
@@ -68,12 +100,13 @@ class SwordNotes {
       if (currentNote.hasAttribute('type') && currentNote.getAttribute('type') == 'crossReference') {
         this.initCrossReferenceNote(currentNote);
       } else {
-        this.initRegularNote(currentNote);
+        this.initRegularNote(currentNote, notesCharacter);
       }
     }
 
-    swordNotes.css('display', 'inline-block');
-    swordNotes.css('margin-left', '0.1em');
+    var jqSwordNotes = $(swordNotes);
+    jqSwordNotes.css('display', 'inline-block');
+    jqSwordNotes.css('margin-left', '0.1em');
     //console.timeEnd('SwordNotes.initForTab');
   }
 
@@ -82,26 +115,34 @@ class SwordNotes {
 
     if (noteContent.indexOf("sword-xref-marker") == -1) {
       var currentReferences = note.querySelectorAll('reference');
-      var currentTitleArray = [];
+      var currentTitle = "";
 
-      currentReferences.forEach((ref) => {
-        var currentRef = ref.innerText;
-        currentTitleArray.push(currentRef);
-      });
+      if (currentReferences.length > 1) {
+        var currentTitleArray = [];
 
-      var currentTitle = currentTitleArray.join('; ');
+        currentReferences.forEach(ref => {
+          var currentRef = ref.textContent;
+          currentTitleArray.push(currentRef);
+        });
+
+        currentTitle = currentTitleArray.join('; ');
+
+      } else if (currentReferences.length == 1) {
+
+        currentTitle = currentReferences[0].textContent;
+      }
 
       var xrefMarker = this.createMarker('sword-xref-marker', currentTitle, 'x');
       note.insertBefore(xrefMarker, note.firstChild);
     }
   }
 
-  initRegularNote(note) {
+  initRegularNote(note, notesCharacter) {
     var noteContent = note.innerHTML;
 
     if (noteContent.indexOf("sword-note-marker") == -1) {
-      var currentTitle = note.innerText;
-      var noteMarker = this.createMarker('sword-note-marker', currentTitle, this.notesCharacter);
+      var currentTitle = note.textContent;
+      var noteMarker = this.createMarker('sword-note-marker', currentTitle, notesCharacter);
       note.innerText = "";
       note.insertBefore(noteMarker, note.firstChild);
     }

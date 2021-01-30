@@ -7,17 +7,22 @@ jobs:
         name: Run Cucumber tests
         runs-on: ubuntu-20.04
         steps:
-        - name: Checkout
-          uses: actions/checkout@v1
-
-        - name: Install dependencies
-          uses: docker://toklein/ezra-ubuntu-2004:latest
+        - uses: actions/checkout@v1
+        - uses: actions/setup-node@v2
           with:
-            entrypoint: /usr/bin/npm
-            args: install
+            node-version: '10.19'
+
+        - run: sudo apt install -y libcurl4-gnutls-dev
+        - run: npm install
         
         - name: Compile templates
           run: npm run compile-pug
+        
+        - name: Bundle JS
+          run: npm run bundle
+
+        - name: Minify JS
+          run: npm run minify
 
         - name: Run test
           run: npm run full-test

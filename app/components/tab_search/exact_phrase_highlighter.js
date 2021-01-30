@@ -37,7 +37,9 @@ class ExactPhraseHighlighter {
                                                               currentMatchList,
                                                               caseSensitive,
                                                               regexOptions);
-      $(currentNode).replaceWith(highlightedNodeValue);
+      var highlightedNode = document.createElement("span");
+      highlightedNode.innerHTML = highlightedNodeValue;
+      currentNode.replaceWith(highlightedNode);
     }
   }
 

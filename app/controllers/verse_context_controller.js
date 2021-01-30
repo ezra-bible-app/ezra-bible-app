@@ -50,10 +50,10 @@ class VerseContextController {
       var start_verse_box = current_reference.closest('.verse-box');
       var current_book_title = new VerseBox(start_verse_box[0]).getBibleBookShortTitle();
       var verse_reference_helper = app_controller.verse_selection.verseReferenceHelper;
-      var start_verse_nr = verse_reference_helper.referenceStringToAbsoluteVerseNr(currentBibleTranslationId,
-                                                                                   current_book_title,
-                                                                                   start_verse_box.find('.verse-reference-content').html(),
-                                                                                   false);
+      var start_verse_nr = await verse_reference_helper.referenceStringToAbsoluteVerseNr(currentBibleTranslationId,
+                                                                                         current_book_title,
+                                                                                         start_verse_box.find('.verse-reference-content').html(),
+                                                                                         false);
       start_verse_nr -= 3;
       if (start_verse_nr < 1) {
         start_verse_nr = 1;

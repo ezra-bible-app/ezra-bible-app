@@ -71,6 +71,17 @@ class ModuleAssistantHelper {
     // Enable close button of dialog
     $('.module-assistant-dialog').find('.ui-dialog-titlebar-close').show();
   }
+
+  sortBy(field) {
+    return function(a, b) {
+      if (a[field] < b[field]) {
+        return -1;
+      } else if (a[field] > b[field]) {
+        return 1;
+      }
+      return 0;
+    };
+  }
 }
 
 module.exports = ModuleAssistantHelper;

@@ -75,10 +75,14 @@
   },
   "general": {
     "chapter-verse-separator": ":",
+    "module-application-info": "Module and Application Info",
+    "application-info": "Application Info",
+    "sword-module-description": "SWORD Module Description",
+    "sword-module-details": "SWORD Module Details",
     "sword-module-info": "SWORD Module Info",
     "sword-unlock-info": "SWORD Unlock Info",
-    "sword-library-info": "SWORD Library Info",
-    "using-sword-version": "Using SWORD version",
+    "sword-version": "SWORD version",
+    "database-path": "Database path",
     "module-name": "Name",
     "module-version": "Version",
     "module-language": "Language",
@@ -182,6 +186,7 @@
     "limit-notes-display-size": "Limit notes display size",
     "use-tags-column": "Use tags column",
     "use-night-mode": "Night mode",
+    "keep-screen-on": "Keep screen on",
     "tag-statistics": "Tag statistics",
     "comparing-translations-for": "Comparing translations for",
     "strongs-number-not-valid": "This is not a valid Strong's number!",
@@ -197,5 +202,13 @@
     "find-all-occurrences": "Find all occurrences",
     "open-in-blueletter": "Open in Blue Letter Bible",
     "related-strongs": "Related Strong's"
+  },
+  "cordova" : {
+    "welcome-to-ezra-project": "Welcome to Ezra Project!",
+    "storage-justification": "Ezra Project needs access to the device storage area to save SWORD modules and store its database.<br><br>After pressing the button below, you will be asked to allow Ezra Project to access files on your device.",
+    "enable-storage-access": "Enable access to device storage",
+    "storage-permission-denied": "You decided to deny storage access.<br>You can change this by pressing the button below!",
+    "permanent-permission-decision-part1": "Previously, you decided to permanently deny storage access!<br><br>You can only revert that decision in the permission settings in the Android system configuration.",
+    "permanent-permission-decision-part2": "If you do not change the permission settings,<br>Ezra Project will <span style='text-decoration: underline'>not start up successfully</span>."
   }
 }

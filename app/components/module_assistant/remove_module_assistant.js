@@ -32,10 +32,10 @@ class RemoveModuleAssistant {
 
     var removeButton = $('#remove-modules-button');
 
-    removeButton.bind('click', () => {
+    removeButton.bind('click', async () => {
       var currentModuleType = app_controller.install_module_assistant._currentModuleType;
 
-      var modules = app_controller.translation_controller.getInstalledModules(currentModuleType);
+      var modules = await app_controller.translation_controller.getInstalledModules(currentModuleType);
       if (modules.length > 0) {
         this.openRemoveModuleAssistant(currentModuleType);
       }
@@ -47,7 +47,7 @@ class RemoveModuleAssistant {
     this.onTranslationRemoved = onTranslationRemoved;
   }
 
-  openRemoveModuleAssistant(moduleType) {
+  async openRemoveModuleAssistant(moduleType) {
     $('#module-settings-assistant-init').hide();
     this.initRemoveModuleAssistant(moduleType);
     $('#module-settings-assistant-remove').show();
@@ -68,7 +68,7 @@ class RemoveModuleAssistant {
     wizardPage.append("<div id='remove-module-list'></div>");
     var removeModuleList = $('#remove-module-list');
 
-    var languages = app_controller.translation_controller.getLanguages(moduleType);
+    var languages = await app_controller.translation_controller.getLanguages(moduleType);
 
     for (var i = 0; i < languages.length; i++) {
       var currentLang = languages[i];
@@ -81,14 +81,15 @@ class RemoveModuleAssistant {
       removeModuleList.append(newLanguageBox);
     }
 
-    var modules = nsi.getAllLocalModules(moduleType);
+    var modules = await ipcNsi.getAllLocalModules(moduleType);
 
     for (var module of modules) {
       var checkboxDisabled = '';
       var currentModuleClass = "class='label' ";
       var fixedDictionaries = [ "StrongsHebrew", "StrongsGreek" ];
+      var moduleIsInUserDir = await ipcNsi.isModuleInUserDir(module.name);
       
-      if (!nsi.isModuleInUserDir(module.name) ||
+      if (!moduleIsInUserDir ||
           (moduleType == "DICT" && fixedDictionaries.includes(module.name))) {
 
         checkboxDisabled = "disabled='disabled' ";
@@ -97,7 +98,7 @@ class RemoveModuleAssistant {
 
       var currentTranslationHtml = "<p><input type='checkbox'" + checkboxDisabled + ">" + 
                                     "<span " + currentModuleClass + " id='" + module.name + "'>";
-      currentTranslationHtml += module.description + " [" + module.name + "]</span></p>";
+      currentTranslationHtml += module.description + "&nbsp; [" + module.name + "]</span></p>";
 
       var languageBox = $('#remove-module-assistant-' + module.language + '-modules');
       languageBox.append(currentTranslationHtml);
@@ -125,7 +126,7 @@ class RemoveModuleAssistant {
       onStepChanging: (event, currentIndex, newIndex) => this.removeModuleAssistantStepChanging(event, currentIndex, newIndex),
       onStepChanged: (event, currentIndex, priorIndex) => this.removeModuleAssistantStepChanged(event, currentIndex, priorIndex),
       onFinishing: (event, currentIndex) => this.removeModuleAssistantFinishing(event, currentIndex),
-      onFinished: (event, currentIndex) => this.removeModuleAssistantFinished(event, currentIndex),
+      onFinished: async (event, currentIndex) => this.removeModuleAssistantFinished(event, currentIndex),
       labels: {
         cancel: i18n.t("general.cancel"),
         finish: i18n.t("general.finish"),
@@ -173,7 +174,7 @@ class RemoveModuleAssistant {
       setTimeout(async () => {
         for (var i = 0; i < this._uninstallModules.length; i++) {
           var moduleCode = this._uninstallModules[i];
-          var localModule = nsi.getLocalModule(moduleCode);
+          var localModule = await ipcNsi.getLocalModule(moduleCode);
           var moduleName = localModule.description;
 
           removalPage.append('<span>' + i18n.t("module-assistant.removing") + ' <i>' + moduleName + '</i> ... </span>');
@@ -182,23 +183,23 @@ class RemoveModuleAssistant {
                                 message: `Removing module ${moduleCode}`,
                                 level: Sentry.Severity.Info});
 
-          await nsi.uninstallModule(moduleCode);
+          await ipcNsi.uninstallModule(moduleCode);
 
           var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
 
           if (currentBibleTranslationId == moduleCode) {
-            var modules = app_controller.translation_controller.getInstalledModules('BIBLE');
+            var modules = await app_controller.translation_controller.getInstalledModules('BIBLE');
 
             if (modules.length > 0) {
               // FIXME: Also put this in a callback
               app_controller.tab_controller.setCurrentBibleTranslationId(modules[0]);
               app_controller.onBibleTranslationChanged();
-              app_controller.navigation_pane.updateNavigation();
+              await app_controller.navigation_pane.updateNavigation();
             } else {
               this.onAllTranslationsRemoved();
             }
 
-            this.onTranslationRemoved(moduleCode);
+            await this.onTranslationRemoved(moduleCode);
           }
 
           removalPage.append('<span>' + i18n.t("general.done") + '.</span>');
@@ -215,10 +216,10 @@ class RemoveModuleAssistant {
     return this._moduleRemovalStatus != 'IN_PROGRESS';
   }
 
-  removeModuleAssistantFinished(event, currentIndex) {
+  async removeModuleAssistantFinished(event, currentIndex) {
     $('#module-settings-assistant').dialog('close');
-    this._installedTranslations = app_controller.translation_controller.getInstalledModules('BIBLE');
-    app_controller.translation_controller.initTranslationsMenu();
+    this._installedTranslations = await app_controller.translation_controller.getInstalledModules('BIBLE');
+    await app_controller.translation_controller.initTranslationsMenu();
   }
 }
 

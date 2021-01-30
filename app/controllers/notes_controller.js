@@ -31,17 +31,23 @@ const VerseBox = require('../ui_models/verse_box.js');
  */
 class NotesController {
   constructor() {
-    CodeMirror = require('codemirror/lib/codemirror.js');
-    require("codemirror/addon/edit/continuelist.js");
-    require("codemirror/mode/markdown/markdown.js");
-    require("codemirror/addon/mode/overlay.js");
-    require("codemirror/mode/markdown/markdown.js");
-    require("codemirror/mode/gfm/gfm.js");
-    require("codemirror/mode/htmlmixed/htmlmixed.js");
-
     this.verseBoxHelper = new VerseBoxHelper();
     this.theme = this.getCurrentTheme();
     this.reset();
+  }
+
+  getCodeMirror() {
+    if (CodeMirror == null) {
+      CodeMirror = require('codemirror/lib/codemirror.js');
+      require("codemirror/addon/edit/continuelist.js");
+      require("codemirror/mode/markdown/markdown.js");
+      require("codemirror/addon/mode/overlay.js");
+      require("codemirror/mode/markdown/markdown.js");
+      require("codemirror/mode/gfm/gfm.js");
+      require("codemirror/mode/htmlmixed/htmlmixed.js");
+    }
+
+    return CodeMirror;
   }
 
   reset() {
@@ -66,12 +72,20 @@ class NotesController {
   }
 
   getCurrentVerseBox() {
+    if (this.currentVerseReferenceId == null) {
+      return null;
+    }
+
     var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
     return currentVerseListFrame[0].querySelector('.verse-reference-id-' + this.currentVerseReferenceId);
   }
 
   refreshNotesInfo(noteValue) {
     var currentVerseBox = this.getCurrentVerseBox();
+    if (currentVerseBox == null) {
+      return;
+    }
+
     var notesInfo = currentVerseBox.querySelector('.notes-info');
 
     if (notesInfo != null) {
@@ -83,26 +97,31 @@ class NotesController {
     }
   }
 
-  saveEditorContent() {
-    if (this.currentlyEditedNotes != null) {
+  async saveEditorContent() {
+    var currentVerseBox = this.getCurrentVerseBox();
+
+    if (this.currentlyEditedNotes != null && currentVerseBox != null) {
       var currentNoteValue = this.currentEditor.getValue();
       var previousNoteValue = this.currentlyEditedNotes.getAttribute('notes-content');
 
       if (currentNoteValue != previousNoteValue) {
         currentNoteValue = currentNoteValue.trim();
         
-        var currentVerseBox = this.getCurrentVerseBox();
         this.currentlyEditedNotes.setAttribute('notes-content', currentNoteValue);
         this.refreshNotesInfo(currentNoteValue);
 
-        models.Note.persistNote(currentNoteValue, currentVerseBox).then((note) => {
+        var currentVerseObject = new VerseBox(currentVerseBox).getVerseObject();
+        var translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+        var versification = await app_controller.translation_controller.getVersification(translationId);
+
+        ipcDb.persistNote(currentNoteValue, currentVerseObject, versification).then((note) => {
           if (note != undefined) {
             var updatedTimestamp = null;
 
             if (currentNoteValue == "") {
               updatedTimestamp = "";
             } else {
-              updatedTimestamp = note?.updatedAt;
+              updatedTimestamp = note.updatedAt;
             }
 
             this.updateNoteDate(currentVerseBox, updatedTimestamp);
@@ -282,6 +301,8 @@ class NotesController {
   }
 
   createEditor(notesElement) {
+    CodeMirror = this.getCodeMirror();
+
     var notesElementText = notesElement.querySelector('.verse-notes-text');
     notesElementText.classList.add('edited');
     notesElementText.innerHTML = '';
@@ -318,7 +339,7 @@ class NotesController {
 
   getCurrentTheme() {
     var theme = 'default';
-    if (app_controller.optionsMenu._nightModeOption?.isChecked()) {
+    if (app_controller.optionsMenu._nightModeOption && app_controller.optionsMenu._nightModeOption.isChecked()) {
       theme = 'mbo';
     }
 

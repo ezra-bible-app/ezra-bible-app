@@ -32,7 +32,7 @@ class SpectronHelper {
     this.nsi = null;
   }
 
-  initializeSpectron() {
+  initializeSpectron(additionalArgs=[]) {
     let xvfbMaybePath = path.join(__dirname, "../../node_modules", ".bin", "xvfb-maybe");
     let electronPath = path.join(__dirname, "../../node_modules", ".bin", "electron");
     const appPath = path.join(__dirname, "../../");
@@ -40,9 +40,12 @@ class SpectronHelper {
         electronPath += ".cmd";
     }
 
+    var args = [electronPath, appPath];
+    args.push(...additionalArgs);
+
     return new Application({
         path: xvfbMaybePath,
-        args: [electronPath, appPath],
+        args: args,
         env: {
             ELECTRON_ENABLE_LOGGING: true,
             ELECTRON_ENABLE_STACK_DUMPING: true,
@@ -53,11 +56,11 @@ class SpectronHelper {
     });
   }
 
-  initAndGetApp() {
-    if (this.app == null) {
+  initAndGetApp(additionalArgs=[], force=false) {
+    if (this.app == null || force) {
       chai.should();
       chai.use(chaiAsPromised);
-      this.app = this.initializeSpectron();
+      this.app = this.initializeSpectron(additionalArgs);
     }
 
     return this.app;
@@ -129,16 +132,16 @@ class SpectronHelper {
     return -1;
   };
 
-  async isKjvAvailable(refreshNsi=false) {
+  async isAsvAvailable(refreshNsi=false) {
     const nsi = await this.getNSI(refreshNsi);
     var allLocalModules = nsi.getAllLocalModules();
-    var kjvFound = false;
+    var asvFound = false;
   
     allLocalModules.forEach((module) => {
-      if (module.name == 'KJV') kjvFound = true;
+      if (module.name == 'ASV') asvFound = true;
     });
   
-    return kjvFound;
+    return asvFound;
   }
 
   async backupSwordDir() {
@@ -149,7 +152,7 @@ class SpectronHelper {
     copydir.sync(swordDir, backupSwordDir);
   }
 
-  async installKJV() {
+  async installASV() {
     var userDataDir = await this.getUserDataDir();
     var swordDir = userDataDir + '/.sword';
     var backupSwordDir = userDataDir + '/.swordBackup';
@@ -159,25 +162,36 @@ class SpectronHelper {
       await this.sleep(500);
     }
 
-    var kjvFound = await this.isKjvAvailable(true);
+    var asvFound = await this.isAsvAvailable(true);
 
-    if (!kjvFound) {
+    if (!asvFound) {
       const nsi = await this.getNSI(true);
       await nsi.updateRepositoryConfig();
-      await nsi.installModule('KJV');
+      await nsi.installModule(undefined, 'ASV');
 
-      var kjvAvailable = await this.isKjvAvailable();
-      assert(kjvAvailable);
+      var asvAvailable = await this.isAsvAvailable();
+      assert(asvAvailable);
 
       await this.backupSwordDir();
     }
 
-    await global.app.webContents.executeJavaScript("nsi.refreshLocalModules()");  
     await spectronHelper.sleep(500);
-    await global.app.webContents.executeJavaScript("app_controller.translation_controller.initTranslationsMenu()");    
-    await spectronHelper.sleep(500);
-    await global.app.webContents.executeJavaScript("app_controller.updateUiAfterBibleTranslationAvailable('KJV')");
-    await spectronHelper.sleep(500);
+  }
+
+  async getLocalModule(moduleCode) {
+    if (global.app != null) {
+      var allLocalModules = await global.app.webContents.executeJavaScript("ipcNsi.getAllLocalModulesSync()");
+
+      for (var i = 0; i < allLocalModules.length; i++) {
+        var currentModule = allLocalModules[i];
+  
+        if (currentModule.name == moduleCode) {
+          return currentModule;
+        }
+      }
+    }
+
+    return null;
   }
 
   sleep(time) {

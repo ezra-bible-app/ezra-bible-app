@@ -40,14 +40,6 @@ async function clickNext(moduleSettingsDialogId='#module-settings-assistant-add'
   await nextButton.click();
 }
 
-async function getFirstLocalModule() {
-  const nsi = await global.spectronHelper.getNSI();
-  var allLocalModules = nsi.getAllLocalModules();
-  await allLocalModules.length.should.equal(1);
-  var firstLocalModule = allLocalModules[0];
-  return firstLocalModule;
-}
-
 Given('I open the module installation assistant', {timeout: 40 * 1000}, async function () {
   var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
   var displayOptionsButton = await verseListTabs.$('.display-options-button');
@@ -79,13 +71,13 @@ Given('I select the English language', {timeout: 40 * 1000}, async function () {
   await clickNext();
 });
 
-Given('I select the KJV module for installation', {timeout: 40 * 1000}, async function () {
-  await clickCheckbox('#KJV');
+Given('I select the ASV module for installation', {timeout: 40 * 1000}, async function () {
+  await clickCheckbox('#ASV');
   await clickNext();
 });
 
-Given('I select the KJV module for removal', {timeout: 40 * 1000}, async function () {
-  await clickCheckbox('#KJV', '#module-settings-assistant-remove');
+Given('I select the ASV module for removal', {timeout: 40 * 1000}, async function () {
+  await clickCheckbox('#ASV', '#module-settings-assistant-remove');
   await clickNext('#module-settings-assistant-remove');
 });
 
@@ -112,32 +104,25 @@ When('the removal is completed', {timeout: 5 * 1000}, async function () {
   await finishOnceProcessCompleted('#module-settings-assistant-remove');
 });
 
-Then('the KJV is available as a local module', async function () {
-  var firstLocalModule = await getFirstLocalModule();
-  await firstLocalModule.name.should.equal('KJV');
+Then('the ASV is available as a local module', async function () {
+  var asvModule = await spectronHelper.getLocalModule('ASV');
+  assert(asvModule != null, "Got null when checking for the ASV module!");
+});
+
+Then('the ASV is no longer available as a local module', async function () {
+  var asvModule = await spectronHelper.getLocalModule('ASV');
+  assert(asvModule == null, "ASV should no longer be available, but it is!");
+});
+
+Then('the ASV is selected as the current translation', async function () {
+  var asvModule = await spectronHelper.getLocalModule('ASV');
 
   var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
   var bibleSelectBlock = await verseListTabs.$('.bible-select-block');
   var selectMenuStatus = await bibleSelectBlock.$('.ui-selectmenu-status');
   var selectMenuStatusText = await selectMenuStatus.getText();
 
-  await selectMenuStatusText.should.equal(firstLocalModule.description);
-});
-
-Then('the KJV is no longer available as a local module', async function () {
-  var kjvAvailable = await spectronHelper.isKjvAvailable(true);
-  assert(kjvAvailable == false, "KJV should no longer be available, but it is!");
-});
-
-Then('the KJV is selected as the current translation', async function () {
-  var firstLocalModule = await getFirstLocalModule();
-
-  var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
-  var bibleSelectBlock = await verseListTabs.$('.bible-select-block');
-  var selectMenuStatus = await bibleSelectBlock.$('.ui-selectmenu-status');
-  var selectMenuStatusText = await selectMenuStatus.getText();
-
-  await selectMenuStatusText.should.equal(firstLocalModule.description);
+  await selectMenuStatusText.should.equal(asvModule.description);
 });
 
 Then('the relevant buttons in the menu are enabled', async function() {
@@ -148,8 +133,4 @@ Then('the relevant buttons in the menu are enabled', async function() {
   await global.spectronHelper.buttonIsEnabled(bookSelectButton);
   await global.spectronHelper.buttonIsEnabled(moduleSearchButton);
   await global.spectronHelper.buttonIsEnabled(bibleTranslationInfoButton);
-});
-
-Given('the KJV is the only translation installed', {timeout: 80 * 1000}, async function () {
-  await spectronHelper.installKJV();
 });
