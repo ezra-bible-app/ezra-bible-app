@@ -352,8 +352,18 @@ class AppController {
     var currentVerseListMenu = this.getCurrentVerseListMenu(tabIndex);
 
     currentVerseListMenu.find('.fg-button').removeClass('events-configured');
-    
     var bookSelectButton = currentVerseListMenu.find('.book-select-button');
+    var moduleSearchButton = currentVerseListMenu.find('.module-search-button');
+
+    var bibleTranslations = await ipcNsi.getAllLocalModules();
+    if (bibleTranslations.length > 0) {
+      bookSelectButton.removeClass('ui-state-disabled');
+      moduleSearchButton.removeClass('ui-state-disabled');
+    } else {
+      bookSelectButton.addClass('ui-state-disabled');
+      moduleSearchButton.addClass('ui-state-disabled');
+    }
+
     bookSelectButton.bind('click', (event) => {
       this.book_selection_menu.handleBookMenuClick(event);
     });
@@ -848,11 +858,6 @@ class AppController {
   }
 
   async updateUiAfterBibleTranslationAvailable(translationCode) {
-    var bibleTranslations = ipcNsi.getAllLocalModules();
-    if (bibleTranslations.length == 1) {
-      await this.book_selection_menu.init();
-    }
-
     var currentBibleTranslationId = this.tab_controller.getTab().getBibleTranslationId();
     if (currentBibleTranslationId == "" || 
         currentBibleTranslationId == null) { // Update UI after a Bible translation becomes available
