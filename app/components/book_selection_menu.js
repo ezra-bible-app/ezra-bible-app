@@ -87,6 +87,7 @@ class BookSelectionMenu {
 
     if (currentTab != null) {
       var currentBibleTranslationId = currentTab.getBibleTranslationId();
+
       if (currentBibleTranslationId != null) {
         var books = await ipcNsi.getBookList(currentBibleTranslationId);
         var book_links = document.getElementById('book-selection-menu').querySelectorAll('li');
