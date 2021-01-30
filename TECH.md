@@ -14,6 +14,7 @@ Furthermore, the following components are used (among others):
 * [officegen](https://github.com/Ziv-Barber/officegen) for exporting tagged verse lists to Word documents
 * [SpinKit](https://github.com/tobiasahlin/SpinKit) for CSS-animated loading spinners
 * [I18next](https://www.i18next.com/) for internationalization
+* [browserify](http://browserify.org/) for minifying the JavaScript code
 
 To test Ezra Project, the following components are used:
 * [Cucumber.js](https://github.com/cucumber/cucumber-js)
