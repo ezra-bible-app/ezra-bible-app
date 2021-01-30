@@ -471,6 +471,7 @@ class InstallModuleAssistant {
                             level: Sentry.Severity.Info});
 
       existingProgressBar.before('<div style="margin-bottom: 1em;">&nbsp;' + i18n.t("general.done") + '.</div>');
+      existingProgressBar.progressbar("value", 100);
       var strongsAvailable = await ipcNsi.strongsAvailable();
 
       if (this._currentModuleType == 'BIBLE' && swordModule.hasStrongs && !strongsAvailable) {
