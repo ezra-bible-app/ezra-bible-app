@@ -997,6 +997,11 @@ h2 {
   height: 2.2em;
 }
 
+/* On Android we disable the possibility to export tagged verses to a document */
+.Android .export-tagged-verses-button {
+  display: none;
+}
+
 #cancel-module-installation-button {
   height: 2.2em;
   margin-top: 1em;
