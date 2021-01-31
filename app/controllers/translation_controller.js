@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const PlatformHelper = require('../helpers/platform_helper.js');
+const CommitInfo = require('../commit_info.js');
 
 /**
  * The TranslationController is used to handle the bible translation menu and to
@@ -367,6 +368,7 @@ class TranslationController {
       version = await cordova.getAppVersion.getVersionNumber();
     }
 
+    var gitCommit = CommitInfo.commit.slice(0, 8);
     var swordVersion = await ipcNsi.getSwordVersion();
     var databasePath = await ipcDb.getDatabasePath();
     var configFilePath = await ipcSettings.getConfigFilePath();
@@ -392,7 +394,8 @@ class TranslationController {
 
     appInfo += "<div id='app-info-tabs-3' class='info-tabs scrollable'>";
     appInfo += "<table>";
-    appInfo += `<tr><td style='width: 11em;'>Application version:</td><td>${version}</td></tr>`;
+    appInfo += `<tr><td style='width: 11em;'>${i18n.t("general.application-version")}:</td><td>${version}</td></tr>`;
+    appInfo += `<tr><td>${i18n.t("general.git-commit")}:</td><td>${gitCommit}</td></tr>`;
     appInfo += `<tr><td>${i18n.t("general.sword-version")}:</td><td>${swordVersion}</td></tr>`;
     appInfo += `<tr><td>${i18n.t("general.database-path")}:</td><td>${databasePath}</td></tr>`;
     appInfo += `<tr><td>${i18n.t("general.config-file-path")}:</td><td>${configFilePath}</td></tr>`;

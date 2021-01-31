@@ -81,6 +81,8 @@
     "sword-module-details": "SWORD Module Details",
     "sword-module-info": "SWORD Module Info",
     "sword-unlock-info": "SWORD Unlock Info",
+    "application-version": "Application version",
+    "git-commit": "Git commit",
     "sword-version": "SWORD version",
     "database-path": "Database path",
     "config-file-path": "Configuration path",
