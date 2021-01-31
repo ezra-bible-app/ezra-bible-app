@@ -989,7 +989,7 @@ h2 {
 .assign-last-tag-button,
 .show-parallel-translations-button,
 .export-tagged-verses-button,
-.bible-translation-info-button,
+.app-info-button,
 .select-all-search-results-button,
 #module-settings-assistant-init button,
 #start-module-search-button {
@@ -1016,7 +1016,7 @@ h2 {
   float: left;
 }
 
-.export-tagged-verses-button, .bible-translation-info-button, .show-parallel-translations-button {
+.export-tagged-verses-button, .app-info-button, .show-parallel-translations-button {
   float: left;
 }
 
@@ -1027,7 +1027,7 @@ h2 {
   background-color: slategray;
 }
 
-.bible-translation-info-button {
+.app-info-button {
   width: 2.2em;
   font-size: 120%;
   padding: 0;

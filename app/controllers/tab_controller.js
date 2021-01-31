@@ -609,7 +609,7 @@ class TabController {
 
     if (bibleTranslationId != null) {
       this.defaultBibleTranslationId = bibleTranslationId;
-      app_controller.translation_controller.enableCurrentTranslationInfoButton();
+      app_controller.info_popup.enableCurrentAppInfoButton();
     }
   }
 

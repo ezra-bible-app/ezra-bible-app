@@ -16,9 +16,6 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const PlatformHelper = require('../helpers/platform_helper.js');
-const CommitInfo = require('../commit_info.js');
-
 /**
  * The TranslationController is used to handle the bible translation menu and to
  * access and generate various information about installed bible translations.
@@ -30,11 +27,9 @@ const CommitInfo = require('../commit_info.js');
  */
 class TranslationController {
   constructor() {
-    this.platformHelper = new PlatformHelper();
     this.languageMapper = null;
     this.translationCount = null;
     this.initBibleSyncBoxDone = false;
-    this.initBibleTranslationInfoBoxDone = false;
   }
 
   getLanguageMapper() {
@@ -52,7 +47,6 @@ class TranslationController {
 
   init(onBibleTranslationChanged) {
     this.onBibleTranslationChanged = onBibleTranslationChanged;
-    this.initBibleTranslationInfoButton();
   }
 
   initBibleSyncBox() {
@@ -69,21 +63,6 @@ class TranslationController {
       modal: true,
       title: i18n.t("module-sync.module-sync-header"),
       dialogClass: 'bible-sync-dialog'
-    });
-  }
-
-  initBibleTranslationInfoBox() {
-    if (this.initBibleTranslationInfoBoxDone) {
-      return;
-    }
-
-    this.initBibleTranslationInfoBoxDone = true;
-
-    $('#bible-translation-info-box').dialog({
-      width: 700,
-      height: 500,
-      autoOpen: false,
-      dialogClass: 'ezra-dialog'
     });
   }
 
@@ -250,16 +229,6 @@ class TranslationController {
     });
   }
 
-  initBibleTranslationInfoButton() {
-    $('.bible-translation-info-button').unbind('click');
-    $('.bible-translation-info-button').bind('click', async () => {
-      if (!$(this).hasClass('ui-state-disabled')) {
-        app_controller.hideAllMenus();
-        await this.showAppInfo();
-      }
-    });
-  }
-
   async getModuleDescription(moduleId, isRemote=false) {
     var moduleInfo = "No info available!";
 
@@ -354,68 +323,6 @@ class TranslationController {
     }
 
     return moduleInfo;
-  }
-
-  async showAppInfo() {
-    this.initBibleTranslationInfoBox();
-
-    var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-
-    var version = "";
-    if (this.platformHelper.isElectron()) {
-      version = app.getVersion();
-    } else if (this.platformHelper.isCordova()) {
-      version = await cordova.getAppVersion.getVersionNumber();
-    }
-
-    var gitCommit = CommitInfo.commit.slice(0, 8);
-    var swordVersion = await ipcNsi.getSwordVersion();
-    var databasePath = await ipcDb.getDatabasePath();
-    var configFilePath = await ipcSettings.getConfigFilePath();
-
-    var appInfo = "";
-    appInfo += "<div id='app-info-tabs'>";
-
-    appInfo += "<ul>";
-    appInfo += `<li><a href='#app-info-tabs-1'>${i18n.t('general.sword-module-description')}</a></li>`;
-    appInfo += `<li><a href='#app-info-tabs-2'>${i18n.t('general.sword-module-details')}</a></li>`;
-    appInfo += `<li><a href='#app-info-tabs-3'>${i18n.t('general.application-info')}</a></li>`;
-    appInfo += "</ul>";
-
-    appInfo += "<div id='app-info-tabs-1' class='info-tabs scrollable'>";
-    var moduleInfo = await this.getModuleDescription(currentBibleTranslationId);
-    appInfo += moduleInfo;
-    appInfo += "</div>";
-
-    appInfo += "<div id='app-info-tabs-2' class='info-tabs scrollable'>";
-    var moduleInfo = await this.getModuleInfo(currentBibleTranslationId, false, false);
-    appInfo += moduleInfo;
-    appInfo += "</div>";
-
-    appInfo += "<div id='app-info-tabs-3' class='info-tabs scrollable'>";
-    appInfo += "<table>";
-    appInfo += `<tr><td style='width: 11em;'>${i18n.t("general.application-version")}:</td><td>${version}</td></tr>`;
-    appInfo += `<tr><td>${i18n.t("general.git-commit")}:</td><td>${gitCommit}</td></tr>`;
-    appInfo += `<tr><td>${i18n.t("general.sword-version")}:</td><td>${swordVersion}</td></tr>`;
-    appInfo += `<tr><td>${i18n.t("general.database-path")}:</td><td>${databasePath}</td></tr>`;
-    appInfo += `<tr><td>${i18n.t("general.config-file-path")}:</td><td>${configFilePath}</td></tr>`;
-    appInfo += "</table>";
-    appInfo += "</div>";
-
-    appInfo += "</div>";
-
-    var offsetLeft = $(window).width() - 900;
-
-    $('#bible-translation-info-box').dialog({
-      title: i18n.t('general.module-application-info'),
-      position: [offsetLeft, 120],
-      resizable: false
-    });
-
-    $('#bible-translation-info-box-content').empty();
-    $('#bible-translation-info-box-content').html(appInfo);
-    $('#app-info-tabs').tabs({ heightStyle: "fill" });
-    $('#bible-translation-info-box').dialog("open");
   }
 
   async getBibleTranslationModule(translationId) {
@@ -544,23 +451,6 @@ class TranslationController {
   hideBibleTranslationLoadingIndicator() {
     var bibleTranslationLoadingIndicator = this.getCurrentBibleTranslationLoadingIndicator();
     bibleTranslationLoadingIndicator.hide();
-  }
-
-  enableCurrentTranslationInfoButton(tabIndex=undefined) {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    var translationInfoButton = currentVerseListMenu.find('.bible-translation-info-button');
-    translationInfoButton.removeClass('ui-state-disabled');
-
-    var tabId = app_controller.tab_controller.getSelectedTabId(tabIndex);
-    if (tabId !== undefined) {
-      uiHelper.configureButtonStyles('#' + tabId);
-    }
-  }
-
-  disableCurrentTranslationInfoButton() {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
-    var translationInfoButton = currentVerseListMenu.find('.bible-translation-info-button');
-    translationInfoButton.addClass('ui-state-disabled');
   }
 
   async getLanguages(moduleType='BIBLE') {

@@ -129,8 +129,8 @@ Then('the relevant buttons in the menu are enabled', async function() {
   var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
   var bookSelectButton = await verseListTabs.$('.book-select-button');
   var moduleSearchButton = await verseListTabs.$('.module-search-button');
-  var bibleTranslationInfoButton = await verseListTabs.$('.bible-translation-info-button');
+  var appInfoButton = await verseListTabs.$('.app-info-button');
   await global.spectronHelper.buttonIsEnabled(bookSelectButton);
   await global.spectronHelper.buttonIsEnabled(moduleSearchButton);
-  await global.spectronHelper.buttonIsEnabled(bibleTranslationInfoButton);
+  await global.spectronHelper.buttonIsEnabled(appInfoButton);
 });

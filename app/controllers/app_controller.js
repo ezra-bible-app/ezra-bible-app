@@ -41,6 +41,7 @@ const TagStatistics = require("../components/tags/tag_statistics.js");
 const DictionaryController = require("./dictionary_controller.js");
 const NotesController = require("./notes_controller.js");
 const SwordNotes = require("../components/sword_notes.js");
+const InfoPopup = require("../components/info_popup.js");
 
 /**
  * AppController is Ezra Project's main controller class which initiates all other controllers and components.
@@ -104,6 +105,7 @@ class AppController {
     this.init_component("DictionaryController", "dictionary_controller");
     this.init_component("NotesController", "notes_controller");
     this.init_component("SwordNotes", "sword_notes");
+    this.init_component("InfoPopup", "info_popup");
 
     this.verse_list_popup.initVerseListPopup();
     this.initGlobalShortCuts();
@@ -256,10 +258,10 @@ class AppController {
     this.tag_assignment_menu.init(tabIndex);
     this.module_search_controller.initModuleSearchMenu(tabIndex);
     await this.translation_controller.initTranslationsMenu(previousTabIndex, tabIndex);
-    this.translation_controller.initBibleTranslationInfoButton();
+    this.info_popup.initAppInfoButton();
     var currentBibleTranslationId = this.tab_controller.getTab(tabIndex).getBibleTranslationId();
     if (currentBibleTranslationId != null) {
-      this.translation_controller.enableCurrentTranslationInfoButton(tabIndex);
+      this.info_popup.enableCurrentAppInfoButton(tabIndex);
     }
 
     this.optionsMenu.initCurrentOptionsMenu(tabIndex);
@@ -302,7 +304,7 @@ class AppController {
     this.resetVerseListView();
     this.hideVerseListLoadingIndicator();
     this.getCurrentVerseList().append("<div class='help-text'>" + i18n.t("help.help-text-no-translations") + "</div>");
-    this.translation_controller.disableCurrentTranslationInfoButton();    
+    this.info_popup.disableCurrentAppInfoButton();
     this.verse_selection.clear_verse_selection();
     $('.book-select-value').text(i18n.t("menu.book"));
   }
@@ -864,7 +866,7 @@ class AppController {
 
       this.tab_controller.setCurrentBibleTranslationId(translationCode);
       await this.book_selection_menu.updateAvailableBooks();
-      this.translation_controller.enableCurrentTranslationInfoButton();
+      this.info_popup.enableCurrentAppInfoButton();
     }
   }
 
