@@ -154,10 +154,11 @@ class VerseBoxHelper {
           var specific_target_verse_box = target_verse_box[j];
           var target_verse_box_bible_book_short_title = this.getBibleBookShortTitleFromElement(specific_target_verse_box);
           var targetBibleBook = await ipcDb.getBibleBook(target_verse_box_bible_book_short_title);
-          var target_verse_bible_book_id = targetBibleBook.id;
 
-          if (target_verse_bible_book_id == referenceBibleBook.id) {
-            changeCallback(context, specific_target_verse_box);
+          if (targetBibleBook != null && referenceBibleBook != null) {
+            if (targetBibleBook.id == referenceBibleBook.id) {
+              changeCallback(context, specific_target_verse_box);
+            }
           }
         }
       }
