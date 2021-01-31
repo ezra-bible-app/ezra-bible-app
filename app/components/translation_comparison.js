@@ -70,7 +70,7 @@ class TranslationComparison {
     });
   };
 
-  async getVerseHtmlByTranslationId(sourceBibleTranslationId, targetTranslationId, verseBox) {
+  async getVerseHtmlByTranslationId(sourceBibleTranslationId, targetTranslationId, verseBox, totalVerseCount) {
     var referenceVerseBox = new VerseBox(verseBox[0]);
     var bibleBookShortTitle = referenceVerseBox.getBibleBookShortTitle();
     var mappedAbsoluteVerseNumber = await referenceVerseBox.getMappedAbsoluteVerseNumber(sourceBibleTranslationId, targetTranslationId);
@@ -85,11 +85,18 @@ class TranslationComparison {
     
     if (targetTranslationVerse == null) {
       console.log("Couldn't get verse " + bibleBookShortTitle + ' / ' + mappedAbsoluteVerseNumber + " for " + targetTranslationId);
-      verseHtml += "<td></td><td></td>";
+      if (totalVerseCount > 1) {
+        verseHtml += "<td></td>";
+      }
+
+      verseHtml += "<td></td>";
     } else {
       var targetVerseReference = targetTranslationVerse.chapter + reference_separator + targetTranslationVerse.verseNr;
-                                  
-      verseHtml +=  "<td class='verse-reference-td'>" + targetVerseReference + "</td>";
+      
+      if (totalVerseCount > 1) {
+        verseHtml +=  "<td class='verse-reference-td'>" + targetVerseReference + "</td>";
+      }
+
       verseHtml += "<td class='verse-content-td'>" + targetTranslationVerse.content + "</td>";
     }
 
@@ -119,7 +126,7 @@ class TranslationComparison {
 
         for (var j = 0; j < selectedVerseBoxes.length; j++) {
           var currentVerseBox = $(selectedVerseBoxes[j]);
-          var verseHtml = await this.getVerseHtmlByTranslationId(sourceTranslationId, currentTranslationId, currentVerseBox);
+          var verseHtml = await this.getVerseHtmlByTranslationId(sourceTranslationId, currentTranslationId, currentVerseBox, selectedVerseBoxes.length);
           compareTranslationContent += verseHtml;
         }
 
