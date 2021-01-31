@@ -21,9 +21,6 @@ jobs:
         - name: Bundle JS
           run: npm run bundle
 
-        - name: Minify JS
-          run: npm run minify
-
         - name: Run test
           run: npm run full-test
           env:
