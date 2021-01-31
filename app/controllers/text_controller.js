@@ -16,6 +16,8 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const PlatformHelper = require('../helpers/platform_helper.js');
+
 /**
  * The TextController is used to load bible text into the text area of a tab.
  * It can handle bible books, tagged verse lists and search results.
@@ -29,6 +31,7 @@ class TextController {
   constructor() {
     loadScript("app/templates/verse_list.js");
     this.marked = require("marked");
+    this.platformHelper = new PlatformHelper();
   }
 
   async prepareForNewText(resetView, isSearch=false, tabIndex=undefined) {
@@ -525,7 +528,10 @@ class TextController {
     } else if (listType == 'tagged_verses') {
 
       app_controller.module_search_controller.resetSearch(tabIndex);
-      app_controller.taggedVerseExport.enableTaggedVersesExportButton(tabIndex);
+
+      if (this.platformHelper.isElectron()) {
+        app_controller.taggedVerseExport.enableTaggedVersesExportButton(tabIndex);
+      }
 
       target.removeClass('verse-list-book');
 

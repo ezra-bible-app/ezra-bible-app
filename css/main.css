@@ -1022,11 +1022,6 @@ h2 {
   background-color: slategray;
 }
 
-/* On Android we disable the possibility to export tagged verses to a document */
-.Android .export-tagged-verses-button {
-  display: none;
-}
-
 .bible-translation-info-button {
   width: 2.2em;
   font-size: 120%;
