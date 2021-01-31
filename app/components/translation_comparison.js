@@ -134,12 +134,10 @@ class TranslationComparison {
   }
 
   async handleButtonClick() {
-    if (this.initDone) {
-      return;
+    if (!this.initDone) {
+      this.initCompareTranslationsBox();
+      this.initDone = true;
     }
-
-    this.initDone = true;
-    this.initCompareTranslationsBox();
 
     var boxTitle = i18n.t("bible-browser.comparing-translations-for") + " " + 
       app_controller.verse_selection.getSelectedVersesLabel().text();
