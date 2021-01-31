@@ -997,11 +997,6 @@ h2 {
   height: 2.2em;
 }
 
-/* On Android we disable the possibility to export tagged verses to a document */
-.Android .export-tagged-verses-button {
-  display: none;
-}
-
 #cancel-module-installation-button {
   height: 2.2em;
   margin-top: 1em;
@@ -1025,6 +1020,11 @@ h2 {
 .darkmode--activated .fullscreen-button {
   background: none;
   background-color: slategray;
+}
+
+/* On Android we disable the possibility to export tagged verses to a document */
+.Android .export-tagged-verses-button {
+  display: none;
 }
 
 .bible-translation-info-button {
