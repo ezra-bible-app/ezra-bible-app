@@ -125,6 +125,15 @@ class UiHelper {
   resizeAppContainer(e) {
     var verseListTabs = $(document.getElementById('verse-list-tabs'));
     var verseListTabsWidth = verseListTabs.width();
+    var windowWidth = window.innerWidth;
+
+    if (windowWidth <  1024) {
+      var currentToolBar = $('#bible-browser-toolbox');
+      currentToolBar.hide();
+      app_controller.tag_assignment_menu.moveTagAssignmentList(true);
+    } else {
+      app_controller.optionsMenu.showOrHideToolBarBasedOnOption(undefined, true);
+    }
 
     if (verseListTabsWidth >= 200 && // Initially, at program start the width is very small (100) - in this
                                      // case we don't add the small-screen class to avoid flickering.

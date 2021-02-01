@@ -163,8 +163,12 @@ class OptionsMenu {
     }
   }
 
-  showOrHideToolBarBasedOnOption(tabIndex=undefined) {
+  showOrHideToolBarBasedOnOption(tabIndex=undefined, immediate=false) {
     var currentToolBar = $('#bible-browser-toolbox');
+    var timeout = 400;
+    if (immediate) {
+      timeout = 10;
+    }
 
     setTimeout(() => {
       var updated = false;
@@ -184,7 +188,7 @@ class OptionsMenu {
       }
 
       if (updated) uiHelper.resizeAppContainer();
-    }, 400);   
+    }, timeout);
   }
 
   showOrHideBookIntroductionBasedOnOption(tabIndex=undefined) {
