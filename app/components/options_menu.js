@@ -167,7 +167,7 @@ class OptionsMenu {
     var currentToolBar = $('#bible-browser-toolbox');
     var timeout = 400;
     if (immediate) {
-      timeout = 10;
+      timeout = 50;
     }
 
     setTimeout(() => {

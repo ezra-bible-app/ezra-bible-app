@@ -127,7 +127,7 @@ class UiHelper {
     var verseListTabsWidth = verseListTabs.width();
     var windowWidth = window.innerWidth;
 
-    if (windowWidth <  1024) {
+    if (windowWidth >= 200 && windowWidth < 1024) {
       var currentToolBar = $('#bible-browser-toolbox');
       currentToolBar.hide();
       app_controller.tag_assignment_menu.moveTagAssignmentList(true);
