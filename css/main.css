@@ -89,8 +89,6 @@ h2 {
 }
 
 #main-content {
-  font-size: 0.9em;
-  user-select: none;
   display: none;
 }
 
@@ -436,8 +434,34 @@ h2 {
   display: none;
 }
 
-.ui-dialog #bible-sync-box, .ui-dialog #new-release-info-box {
+#tab-search,
+#tab-search-type,
+#tab-search-type option,
+#tab-search-input,
+#search-type,
+#search-type option,
+.ui-dialog #bible-sync-box,
+.ui-dialog #new-release-info-box,
+.ui-widget:not(.ezra-dialog),
+.ui-widget:not(.ezra-dialog) .ui-widget,
+.ui-widget:not(.ezra-dialog) button,
+.fg-button,
+.ui-selectmenu-menu,
+#module-search-menu,
+.selection-menu-footer,
+.options-header,
+#tag-selection-menu,
+#tag-assignment-menu,
+#display-options-menu {
   font-size: 0.9em;
+}
+
+#main-content,
+.ui-dialog .ui-dialog-content,
+.ezra-dialog,
+.ezra-dialog .ui-tabs {
+  user-select: none;
+  font-size: 1em;
 }
 
 .OSX .ui-dialog .ui-dialog-titlebar-close {
@@ -631,10 +655,6 @@ h2 {
   background: none;
 }*/
 
-.ui-widget, .ui-widget .ui-widget, .ui-widget button, .fg-button, .ui-selectmenu-menu {
-  font-size: 0.9em;
-}
-
 .verse-selection-menu, #module-search-menu, #display-options-menu {
   position: fixed;
   border: 2px solid #DDDDDD;
@@ -725,7 +745,6 @@ h2 {
   margin: 0;
   padding: 0.5em;
   border-top: 1px solid #DDDDDD;
-  font-size: 0.9em;
 }
 
 .ot-nt-divider {
@@ -951,7 +970,6 @@ h2 {
 }
 
 .options-header {
-  font-size: 0.9em;
   font-weight: bold;
   text-align: center;
   margin-top: 0.5em;
@@ -1130,6 +1148,7 @@ h2 {
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   margin-left: 0.7em;
+  font-size: 1.2em;
 }
 
 .chapter-header {
@@ -1323,10 +1342,14 @@ h2 {
   padding-right: 20px;
 }
 
-#tag-selection-menu, #tag-assignment-menu {
+#tag-selection-menu,
+#tag-assignment-menu {
   padding: 1em;
   width: 22em;
-  font-size: 0.9em;
+}
+
+#tag-assignment-menu {
+  width: 34em;
 }
 
 .darkmode--activated #tag-selection-menu {
@@ -1348,10 +1371,6 @@ h2 {
   font-size: 1em;
 }
 
-#tag-assignment-menu {
-  width: 42em;
-}
-
 #tag-assignment-menu-taglist {
   clear: both;
   margin-top: 0.5em;
@@ -1371,7 +1390,6 @@ h2 {
 #module-search-menu {
   padding: 1em;
   width: 30em;
-  font-size: 0.9em;
 }
 
 .darkmode--activated #module-search-menu, .darkmode--activated .verse-selection-menu, .darkmode--activated #display-options-menu {
@@ -1496,7 +1514,6 @@ h2 {
   border: 1px solid lightGrey;
   display: None;
   z-index: 10;
-  font-size: 0.9em;
 }
 
 .darkmode--activated #tab-search {
@@ -1506,7 +1523,6 @@ h2 {
 
 #tab-search-input {
   float: left;
-  font-size: 0.9em;
   background-color: white;
   width: 150px;
   margin-right: 1em;
@@ -1525,13 +1541,6 @@ h2 {
   margin-left: 0.5em;
   margin-right: 2em;
   width: 2em;
-}
-
-#tab-search-type,
-#tab-search-type option,
-#search-type,
-#search-type option {
-  font-size: 0.9em;
 }
 
 :not(.darkmode--activated) .tab-search-occurances {
