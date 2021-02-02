@@ -119,7 +119,7 @@ class InstallModuleAssistant {
       title: title,
       dialogClass: 'ezra-dialog module-assistant-dialog',
       width: wizardWidth,
-      minHeight: 250
+      minHeight: 280
     });
 
     this._helper.unlockDialog();
