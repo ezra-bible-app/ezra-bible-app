@@ -17,10 +17,13 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const IpcRenderer = require('./ipc_renderer.js');
+const PlatformHelper = require('../helpers/platform_helper.js');
 
 class IpcI18n {
   constructor() {
     this._ipcRenderer = new IpcRenderer();
+    this._platformHelper = new PlatformHelper();
+    this._isCordova = this._platformHelper.isCordova();
   }
 
   async getTranslation(language) {
@@ -28,9 +31,11 @@ class IpcI18n {
     // That's why we change the default timeout to 10s (instead of just 2s)
     var timeoutMs = 10000;
 
-    console.time('getTranslation');
+    if (this._isCordova) console.time('getTranslation');
+
     var translationObject = await this._ipcRenderer.callWithTimeout('i18n_get_translation', timeoutMs, language);
-    console.timeEnd('getTranslation');
+    
+    if (this._isCordova) console.timeEnd('getTranslation');
 
     return translationObject;
   }
