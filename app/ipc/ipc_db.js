@@ -22,6 +22,7 @@ const VerseBox = require("../ui_models/verse_box.js");
 class IpcDb {
   constructor() {
     this._ipcRenderer = new IpcRenderer();
+    this._getAllTagsCounter = 0;
   }
 
   async getDatabasePath() {
@@ -73,7 +74,13 @@ class IpcDb {
   }
 
   async getAllTags(bibleBookId=0, lastUsed=false, onlyStats=false) {
-    return await this._ipcRenderer.call('db_getAllTags', bibleBookId, lastUsed, onlyStats);
+    var timeoutMs = 5000;
+    this._getAllTagsCounter += 1;
+    var getAllTagsCounter = this._getAllTagsCounter;
+    console.time('getAllTags_' + getAllTagsCounter);
+    var allTags = await this._ipcRenderer.callWithTimeout('db_getAllTags', timeoutMs, bibleBookId, lastUsed, onlyStats);
+    console.timeEnd('getAllTags_' + getAllTagsCounter);
+    return allTags;
   }
 
   async getBookVerseTags(bibleBookId, versification) {
