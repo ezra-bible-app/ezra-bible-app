@@ -163,6 +163,17 @@ class UiHelper {
       this.resizeVerseList(i);
     }
   }
+
+  getMaxDialogWidth() {
+    var width = 700;
+    var windowWidth = $(window).width();
+
+    if (windowWidth > 400 && windowWidth < 700) {
+      width = windowWidth - 20;
+    }
+
+    return width;
+  }
 }
 
 module.exports = UiHelper;
