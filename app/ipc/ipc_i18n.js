@@ -24,7 +24,14 @@ class IpcI18n {
   }
 
   async getTranslation(language) {
-    var translationObject = await this._ipcRenderer.call('i18n_get_translation', language);
+    // Reading the translation file from the disk may take a while on slower/older devices ...
+    // That's why we change the default timeout to 10s (instead of just 2s)
+    var timeoutMs = 10000;
+
+    console.time('getTranslation');
+    var translationObject = await this._ipcRenderer.callWithTimeout('i18n_get_translation', timeoutMs, language);
+    console.timeEnd('getTranslation');
+
     return translationObject;
   }
 }
