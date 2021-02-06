@@ -804,7 +804,6 @@ h2 {
 }
 
 .assign-tag-menu-button {
-  margin-left: 0.5em;
   float: none;
   display: inline-block;
   width: 11em;
@@ -1010,7 +1009,8 @@ h2 {
 .app-info-button,
 .select-all-search-results-button,
 #module-settings-assistant-init button,
-#start-module-search-button {
+#start-module-search-button,
+.new-standard-tag-button {
   margin-left: 0.8em;
   height: 2.2em;
 }
@@ -1349,7 +1349,7 @@ h2 {
 }
 
 #tag-assignment-menu {
-  width: 34em;
+  width: 38em;
 }
 
 .darkmode--activated #tag-selection-menu {
@@ -1770,6 +1770,10 @@ s {
 .info-tabs {
   height: 390px;
   overflow-y: scroll;
+}
+
+.text-loader {
+  float: right;
 }
 
 .darkmode--activated a:link,
