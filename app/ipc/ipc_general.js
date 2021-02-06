@@ -24,8 +24,11 @@
     }
 
     async initPersistentIpc() {
-      var timeoutMs = 5000;
-      return await this._ipcRenderer.callWithTimeout('general_initPersistentIpc', timeoutMs);
+      var timeoutMs = 15000;
+      console.time('initPersistentIpc');
+      var result = await this._ipcRenderer.callWithTimeout('general_initPersistentIpc', timeoutMs);
+      console.timeEnd('initPersistentIpc');
+      return result;
     }
 
     async getMajorOsVersion() {
