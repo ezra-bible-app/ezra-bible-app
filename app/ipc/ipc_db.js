@@ -17,11 +17,14 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const IpcRenderer = require('./ipc_renderer.js');
-const VerseBox = require("../ui_models/verse_box.js");
+const VerseBox = require('../ui_models/verse_box.js');
+const PlatformHelper = require('../helpers/platform_helper.js');
 
 class IpcDb {
   constructor() {
     this._ipcRenderer = new IpcRenderer();
+    this._platformHelper = new PlatformHelper();
+    this._isCordova = this._platformHelper.isCordova();
     this._getAllTagsCounter = 0;
   }
 
@@ -74,12 +77,19 @@ class IpcDb {
   }
 
   async getAllTags(bibleBookId=0, lastUsed=false, onlyStats=false) {
+    var getAllTagsCounter = null;
+    
+    if (this._isCordova) {
+      this._getAllTagsCounter += 1;
+      getAllTagsCounter = this._getAllTagsCounter;
+      console.time('getAllTags_' + getAllTagsCounter);
+    }
+
     var timeoutMs = 5000;
-    this._getAllTagsCounter += 1;
-    var getAllTagsCounter = this._getAllTagsCounter;
-    console.time('getAllTags_' + getAllTagsCounter);
     var allTags = await this._ipcRenderer.callWithTimeout('db_getAllTags', timeoutMs, bibleBookId, lastUsed, onlyStats);
-    console.timeEnd('getAllTags_' + getAllTagsCounter);
+    
+    if (this._isCordova) console.timeEnd('getAllTags_' + getAllTagsCounter);
+    
     return allTags;
   }
 

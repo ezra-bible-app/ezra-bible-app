@@ -43,8 +43,10 @@ class InfoPopup {
 
     this.initAppInfoBoxDone = true;
 
+    var width = uiHelper.getMaxDialogWidth();
+
     $('#bible-translation-info-box').dialog({
-      width: 700,
+      width: width,
       height: 500,
       autoOpen: false,
       dialogClass: 'ezra-dialog'
