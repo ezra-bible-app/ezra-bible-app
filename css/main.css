@@ -807,6 +807,7 @@ h2 {
   float: none;
   display: inline-block;
   width: 11em;
+  margin-right: 0.8em;
 }
 
 .display-options-button {
@@ -1009,8 +1010,7 @@ h2 {
 .app-info-button,
 .select-all-search-results-button,
 #module-settings-assistant-init button,
-#start-module-search-button,
-.new-standard-tag-button {
+#start-module-search-button {
   margin-left: 0.8em;
   height: 2.2em;
 }
