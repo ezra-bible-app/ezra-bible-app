@@ -1412,7 +1412,7 @@ h2 {
 #tag-selection-filter-loading-indicator {
   position: relative;
   top: -4em;
-  right: -37em;
+  right: -34em;
 }
 
 #tag-selection-filter-loading-indicator .loader {
