@@ -26,6 +26,7 @@ class IpcSettingsHandler {
     this._ipcMain = new IpcMain();
     this._isElectron = this.platformHelper.isElectron();
     this._isCordova = this.platformHelper.isCordova();
+    this._isTest = this.platformHelper.isTest();
     this._configurations = {};
     this.initIpcInterface();
   }
@@ -38,7 +39,7 @@ class IpcSettingsHandler {
         configName: configName,
       };
 
-      if (this._isCordova) {
+      if (this._isCordova || this._isTest) {
         configOptions['cwd'] = this.platformHelper.getUserDataPath();
       }
 
