@@ -32,8 +32,6 @@ app.allowRendererProcessReuse = false;
 // Disable security warnings
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
 
-const windowStateKeeper = require('electron-window-state');
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -119,6 +117,8 @@ function createWindow () {
   if (!isDev) {
     preloadScript = path.join(__dirname, 'app/helpers/sentry.js')
   }
+
+  const windowStateKeeper = require('electron-window-state');
 
   mainWindowState = windowStateKeeper({
     defaultWidth: 1200,
