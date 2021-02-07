@@ -109,7 +109,7 @@ class SpectronHelper {
   }
 
   async waitUntilGlobalLoaderIsHidden(timeoutMs=20000) {
-    var verseListMenu = await global.app.client.$('.verse-list-menu-line1');
+    var verseListMenu = await global.app.client.$('.verse-list-menu-line2');
     var loader = await verseListMenu.$('.loader');
   
     await global.app.client.waitUntil(async () => { // Wait until loader is hidden
