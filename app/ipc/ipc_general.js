@@ -39,6 +39,10 @@
       return await this._ipcRenderer.call('general_getAppVersion');
     }
 
+    async isTest() {
+      return await this._ipcRenderer.call('general_isTest');
+    }
+
     async getSearchStatisticChartData(bibleTranslationId, bookList, bibleBookStats, languageCode=i18n.language) {
       return await this._ipcRenderer.call('general_getSearchStatisticChartData', bibleTranslationId, languageCode, bookList, bibleBookStats);
     } 

@@ -46,6 +46,10 @@ class IpcGeneralHandler {
       return appVersion;
     });
 
+    this._ipcMain.add('general_isTest', async() => {
+      return this._platformHelper.isTest();
+    });
+
     this._ipcMain.add('general_getSearchStatisticChartData', async(bibleTranslationId, languageCode, bookList, bibleBookStats) => {
       var labels = [];
       var values = [];
