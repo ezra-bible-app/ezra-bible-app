@@ -120,7 +120,7 @@ class TagAssignmentMenu {
       filter.appendChild(tagsSearchInput);
       filter.appendChild(tagFilterMenu);
 
-      $('#tag-filter-menu').find('br').hide();
+      $('#tag-filter-menu').find("br:not('#tag-filter-menu-separator')").hide();
       $('#tag-filter-menu').show();
 
       $('#tag-list-filter-button').unbind();
@@ -136,7 +136,7 @@ class TagAssignmentMenu {
       var boxes = document.getElementById('boxes');
       toolBar.appendChild(tagsContainer);
       $('#tag-filter-menu').hide();
-      $('#tag-filter-menu').find('br').show();
+      $('#tag-filter-menu').find("br:not('#tag-filter-menu-separator')").show();
       boxes.appendChild(tagFilterMenu);
       updated = true;
     }
