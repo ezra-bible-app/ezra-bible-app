@@ -102,8 +102,10 @@ class InfoPopup {
     appInfo += "</div>";
 
     var offsetLeft = $(window).width() - 900;
+    var width = uiHelper.getMaxDialogWidth();
 
     $('#bible-translation-info-box').dialog({
+      width: width,
       title: i18n.t('general.module-application-info'),
       position: [offsetLeft, 120],
       resizable: false

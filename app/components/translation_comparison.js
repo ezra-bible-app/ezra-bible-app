@@ -62,8 +62,10 @@ class TranslationComparison {
   }
 
   initCompareTranslationsBox() {
+    var width = uiHelper.getMaxDialogWidth();
+
     this.getBox().dialog({
-      width: 700,
+      width: width,
       height: 500,
       autoOpen: false,
       dialogClass: 'ezra-dialog'
@@ -149,7 +151,10 @@ class TranslationComparison {
     var boxTitle = i18n.t("bible-browser.comparing-translations-for") + " " + 
       app_controller.verse_selection.getSelectedVersesLabel().text();
 
+    var width = uiHelper.getMaxDialogWidth();
+
     this.getBox().dialog({
+      width: width,
       title: boxTitle
     });
 
