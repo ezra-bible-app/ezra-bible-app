@@ -665,6 +665,10 @@ h2 {
   display: none;
 }
 
+#book-selection-menu {
+  font-size: 0.9em;
+}
+
 #module-settings-assistant {
   user-select: none;
 }
