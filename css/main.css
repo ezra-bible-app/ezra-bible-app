@@ -747,25 +747,39 @@ h2 {
   border-top: 1px solid #DDDDDD;
 }
 
-.ot-nt-divider {
-  border-left: 1px solid #DDDDDD;
-  margin-left: 0.5em;
-}
-
-.ot-nt-divider li {
-  margin-left: 1em;
-}
-
 .book-list-column {
   float: left;
+  width: 10em;
   list-style-type: none;
   padding: 0.8em;
+  padding-bottom: 0;
   margin-top: 0;
   margin-bottom: 0;
 }
 
 .book-list-column li {
-  margin-bottom: 0.8em;
+  margin-bottom: 0.7em;
+}
+
+.ot-nt-divider {
+  clear: both;
+}
+
+/* Formatting for large tablets and desktop */
+@media only screen and (min-width: 770px) {
+  .book-list-column {
+    width: unset;
+  }
+
+  .ot-nt-divider {
+    clear: none;
+    border-left: 1px solid #DDDDDD;
+    margin-left: 0.5em;
+  }
+  
+  .ot-nt-divider li {
+    margin-left: 1em;
+  }
 }
 
 .verse-list-menu .focused-button {
@@ -1349,7 +1363,7 @@ h2 {
 }
 
 #tag-assignment-menu {
-  width: 38em;
+  width: 37em;
 }
 
 .darkmode--activated #tag-selection-menu {
@@ -1378,8 +1392,21 @@ h2 {
   overflow-y: scroll;
 }
 
+@media only screen and (max-height: 780px) {
+  #tag-assignment-menu-taglist {
+    height: 300px;
+  }
+}
+
+@media only screen and (max-height: 500px) {
+  #tag-assignment-menu-taglist {
+    height: 150px;
+  }
+}
+
 #tag-assignment-menu-taglist .ui-widget-content {
   border: 0;
+  padding-top: 1em;
 }
 
 #tag-assignment-menu #tags-search-input {
@@ -1389,7 +1416,11 @@ h2 {
 
 #module-search-menu {
   padding: 1em;
-  width: 30em;
+  width: 20em;
+}
+
+#start-module-search-button {
+  margin-left: 0.5em;
 }
 
 .darkmode--activated #module-search-menu, .darkmode--activated .verse-selection-menu, .darkmode--activated #display-options-menu {
@@ -1412,7 +1443,7 @@ h2 {
 #tag-selection-filter-loading-indicator {
   position: relative;
   top: -4em;
-  right: -34em;
+  right: -33em;
 }
 
 #tag-selection-filter-loading-indicator .loader {
@@ -1425,7 +1456,18 @@ h2 {
 }
 
 #module-search-input {
-  width: 21em;
+  width: 15em;
+}
+
+/* Large tablets and desktop */
+@media only screen and (min-width: 770px) {
+  #module-search-input {
+    width: 21em;
+  }
+
+  #module-search-menu {
+    width: 30em;
+  }
 }
 
 .tag-browser-tag-id, .last-used-timestamp {
@@ -1774,6 +1816,10 @@ s {
 
 .text-loader {
   float: right;
+}
+
+#app-info-tabs .ui-tabs-nav {
+  font-size: 0.9em;
 }
 
 .darkmode--activated a:link,
