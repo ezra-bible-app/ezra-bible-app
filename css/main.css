@@ -1386,8 +1386,9 @@ h2 {
 }
 
 #tag-assignment-menu-taglist {
+  border-top: 1px solid lightgrey;
   clear: both;
-  margin-top: 0.5em;
+  margin-top: 2em;
   height: 440px;
   overflow-y: scroll;
 }
