@@ -761,6 +761,11 @@ h2 {
   margin-bottom: 0;
 }
 
+.ot-column {
+  border-bottom: 1px solid lightgrey;
+  height: 26.5em;
+}
+
 .book-list-column li {
   margin-bottom: 0.7em;
 }
@@ -771,6 +776,11 @@ h2 {
 
 /* Formatting for large tablets and desktop */
 @media only screen and (min-width: 770px) {
+  .ot-column {
+    border-bottom: unset;
+    height: unset;
+  }
+
   .book-list-column {
     width: unset;
   }
@@ -1399,7 +1409,7 @@ h2 {
 
 @media only screen and (max-height: 780px) {
   #tag-assignment-menu-taglist {
-    height: 300px;
+    height: 220px;
   }
 }
 
