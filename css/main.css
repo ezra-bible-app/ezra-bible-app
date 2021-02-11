@@ -1816,7 +1816,7 @@ s {
   font-size: 120%;
 }
 
-#permissions-box-content {
+#permissions-box-content, #general-info-box-content {
   font-size: 120%;
 }
 
