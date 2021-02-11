@@ -73,6 +73,14 @@ window.showOutdatedWebviewMessage = function() {
   showMessage(title, message);
 }
 
+window.showIncompatibleWebviewMessage = function() {
+  var title = "Android WebView not compatible!";
+  var message = "The exact Android WebView version is not available for some reason. Compatibility is unclear.<br>" +
+                "Try to install a newer version of the <b>Android System WebView</b> component from the Play Store.";
+
+  showMessage(title, message);
+}
+
 window.showMessage = function(title, message) {
   var loadingIndicator = $('#startup-loading-indicator');
   loadingIndicator.hide();

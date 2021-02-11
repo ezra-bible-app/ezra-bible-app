@@ -81,14 +81,7 @@
 
         console.error("Could not check whether ES2017 is supported or not!");
 
-        window.addEventListener('load', function() {
-
-          var title = "Android WebView not compatible!";
-          var message = "The exact Android WebView version is not available for some reason. Compatibility is unclear.<br>" +
-                        "Try to install a newer version of the <b>Android System WebView</b> component from the Play Store.";
-
-          showMessage(title, message);
-        });
+        window.addEventListener('load', showIncompatibleWebviewMessage);
       }
     } else {
 
