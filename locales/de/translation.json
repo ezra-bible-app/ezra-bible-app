@@ -84,6 +84,7 @@
     "application-version": "App Version",
     "git-commit": "Git commit",
     "sword-version": "SWORD Version",
+    "chromium-version": "Chromium Version",
     "database-path": "Datenbankpfad",
     "config-file-path": "Konfigurationspfad",
     "module-name": "Name",

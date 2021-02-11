@@ -84,6 +84,7 @@
     "application-version": "Application version",
     "git-commit": "Git commit",
     "sword-version": "SWORD verziu",
+    "chromium-version": "Chromium version",
     "database-path": "Database path",
     "config-file-path": "Configuration path",
     "module-name": "Meno",

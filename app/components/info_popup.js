@@ -67,6 +67,7 @@ class InfoPopup {
 
     var gitCommit = CommitInfo.commit.slice(0, 8);
     var swordVersion = await ipcNsi.getSwordVersion();
+    var chromiumVersion = getChromiumVersion();
     var databasePath = await ipcDb.getDatabasePath();
     var configFilePath = await ipcSettings.getConfigFilePath();
 
@@ -91,9 +92,10 @@ class InfoPopup {
 
     appInfo += "<div id='app-info-tabs-3' class='info-tabs scrollable'>";
     appInfo += "<table>";
-    appInfo += `<tr><td style='width: 11em;'>${i18n.t("general.application-version")}:</td><td>${version}</td></tr>`;
+    appInfo += `<tr><td style='width: 15em;'>${i18n.t("general.application-version")}:</td><td>${version}</td></tr>`;
     appInfo += `<tr><td>${i18n.t("general.git-commit")}:</td><td>${gitCommit}</td></tr>`;
     appInfo += `<tr><td>${i18n.t("general.sword-version")}:</td><td>${swordVersion}</td></tr>`;
+    appInfo += `<tr><td>${i18n.t("general.chromium-version")}:</td><td>${chromiumVersion}</td></tr>`;
     appInfo += `<tr><td>${i18n.t("general.database-path")}:</td><td>${databasePath}</td></tr>`;
     appInfo += `<tr><td>${i18n.t("general.config-file-path")}:</td><td>${configFilePath}</td></tr>`;
     appInfo += "</table>";
