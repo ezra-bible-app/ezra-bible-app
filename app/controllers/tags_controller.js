@@ -603,6 +603,10 @@ class TagsController {
   }
 
   change_verse_list_tag_info_for_verse_box(verse_box, tag_id, tag_title, action) {
+    if (verse_box == null) {
+      return;
+    }
+
     var current_tag_info = verse_box.querySelector('.tag-info');
     var current_tag_info_title = current_tag_info.getAttribute('title');
 
