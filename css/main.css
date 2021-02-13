@@ -368,7 +368,6 @@ h2 {
 
 #verse-list-popup-verse-list {
   padding-right: 0.2em;
-  width: 680px;
   height: 350px;
   margin-bottom: 0.5em;
   overflow-y: scroll;
@@ -1532,6 +1531,10 @@ h2 {
   padding-left: 1em;
   padding-bottom: 0.5em;
   clear: both;
+}
+
+#verse-list-popup {
+  padding-right: 0;
 }
 
 #verse-list-popup .tag-browser-verselist-book-header {
