@@ -642,7 +642,16 @@ class TabController {
             break;
           }
         }
-        this.setTabTitle(tag_list.join(', '), currentMetaTab.getBibleTranslationId(), i);
+
+        var tagTitle = "";
+
+        if (platformHelper.isElectron()) {
+          tagTitle += i18n.t('tags.verses-tagged-with') + " ";
+        }
+
+        tagTitle += "<i>" + tag_list.join(', ') + "</i>";
+
+        this.setTabTitle(tagTitle, currentMetaTab.getBibleTranslationId(), i);
       }
     }
   }
