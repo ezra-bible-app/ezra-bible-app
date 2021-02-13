@@ -549,7 +549,12 @@ class TabController {
       } else {
         var tagTitle = "";
         if (verseReference != null) tagTitle += verseReference + " &ndash; ";
-        tagTitle += i18n.t('tags.verses-tagged-with') + " " + "<i>" + tagTitleList + "</i>";
+
+        if (platformHelper.isElectron()) {
+          tagTitle += i18n.t('tags.verses-tagged-with') + " ";
+        }
+
+        tagTitle += "<i>" + tagTitleList + "</i>";
 
         this.setTabTitle(tagTitle, currentTranslationId);
         this.getTab(index).setTaggedVersesTitle(tagTitle);

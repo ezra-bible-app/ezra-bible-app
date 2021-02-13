@@ -126,11 +126,16 @@ class VerseListPopup {
     // 1) Close the popup
     $('#verse-list-popup').dialog("close");
 
-    // 2) Open a new tab
+    // 2) Open verse list in new tab
+    await this.openVerseListInNewTab();
+  }
+
+  async openVerseListInNewTab() {
+    // 1) Open a new tab
     var currentTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     app_controller.tab_controller.addTab(undefined, false, currentTranslationId);
 
-    // 3) Load the verse list in the new tab
+    // 2) Load the verse list in the new tab
     if (this.currentReferenceType == 'TAGGED_VERSES') {
 
       app_controller.openTaggedVerses(this.currentTagId, this.currentTagTitle, this.currentReferenceVerseBox);
@@ -140,8 +145,8 @@ class VerseListPopup {
       app_controller.openXrefVerses(this.currentReferenceVerseBox, this.currentPopupTitle, this.currentXrefs);
     }
 
-    // 4) Run the onTabSelected actions at the end, because we added a tab
-    var ui = { 'index' : app_controller.tab_controller.getSelectedTabIndex()};
+    // 3) Run the onTabSelected actions at the end, because we added a tab
+    var ui = { 'index' : app_controller.tab_controller.getSelectedTabIndex() };
     await app_controller.onTabSelected(undefined, ui);
   }
 

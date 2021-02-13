@@ -584,9 +584,25 @@ class AppController {
       }
     } else {
       if (isXrefMarker) {
-        await this.verse_list_popup.openVerseListPopup(event, "XREFS");
+        var referenceType = "XREFS";
+
+        if (app_controller.optionsMenu._verseListNewTabOption.isChecked()) {
+          this.verse_list_popup.currentReferenceType = referenceType;
+          await this.verse_list_popup.initCurrentXrefs(event.target);
+          this.verse_list_popup.openVerseListInNewTab();
+        } else {
+          await this.verse_list_popup.openVerseListPopup(event, referenceType);
+        }
       } else if (isTag) {
-        await this.verse_list_popup.openVerseListPopup(event, "TAGGED_VERSES");
+        var referenceType = "TAGGED_VERSES";
+
+        if (app_controller.optionsMenu._verseListNewTabOption.isChecked()) {
+          this.verse_list_popup.currentReferenceType = referenceType;
+          this.verse_list_popup.initCurrentTag(event.target);
+          this.verse_list_popup.openVerseListInNewTab();
+        } else {
+          await this.verse_list_popup.openVerseListPopup(event, referenceType);
+        }
       }
     }
   }
