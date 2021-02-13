@@ -520,7 +520,7 @@ class TabController {
     var tabsElement = $('#' + this.tabsElement);
     var tab = $(tabsElement.find('li')[index]);
     var link = $(tab.find('a')[0]);
-    var linkText = link.text().split(" ");
+    var linkText = link.html().split(" ");
     linkText.pop();
     return linkText.join(" ");
   }
