@@ -18,6 +18,7 @@
 
 const TagStore = require('../components/tags/tag_store.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
+const VerseBox = require('../ui_models/verse_box.js');
 
 /**
  * The TagsController handles most functionality related to tagging of verses.
@@ -37,7 +38,6 @@ class TagsController {
     this.tag_stats_element_cache = {};
 
     this.new_standard_tag_button = $('#new-standard-tag-button');
-    this.tag_title_changed = false;
     this.verse_selection_blocked = false;
     this.verses_were_selected_before = false;
 
@@ -590,153 +590,20 @@ class TagsController {
     for (var i = 0; i < selected_verses.length; i++) {
       var current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
       var current_verse_box = current_verse_list_frame[0].querySelector('.verse-reference-id-' + current_verse_reference_id);
-      tags_controller.change_verse_list_tag_info_for_verse_box(current_verse_box, tag_id, tag_title, action);
+
+      var verseBoxObj = new VerseBox(current_verse_box);
+      verseBoxObj.changeVerseListTagInfo(tag_id, tag_title, action);
     }
 
     for (var i = 0; i < selected_verses.length; i++) {
       var current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
       var current_verse_box = current_verse_list_frame[0].querySelector('.verse-reference-id-' + current_verse_reference_id);
+
       await this.verse_box_helper.iterateAndChangeAllDuplicateVerseBoxes(current_verse_box, { tag_id: tag_id, tag_title: tag_title, action: action }, (context, targetVerseBox) => {
-        this.change_verse_list_tag_info_for_verse_box(targetVerseBox, context.tag_id, context.tag_title, context.action);
+        var verseBoxObj = new VerseBox(targetVerseBox);
+        verseBoxObj.changeVerseListTagInfo(context.tag_id, context.tag_title, context.action);
       });
     }
-  }
-
-  change_verse_list_tag_info_for_verse_box(verse_box, tag_id, tag_title, action) {
-    if (verse_box == null) {
-      return;
-    }
-
-    var current_tag_info = verse_box.querySelector('.tag-info');
-    var current_tag_info_title = current_tag_info.getAttribute('title');
-
-    var new_tag_info_title_array = tags_controller.get_new_tag_info_title_array(current_tag_info_title, tag_title, action);
-    var updated = tags_controller.update_tag_info_title(current_tag_info, new_tag_info_title_array, current_tag_info_title);
-
-    if (updated) {
-      tags_controller.update_tag_data_container(verse_box, tag_id, tag_title, action);
-      tags_controller.update_visible_tags_of_verse_box(verse_box, new_tag_info_title_array);
-    }
-  }
-
-  get_new_tag_info_title_array(tag_info_title, tag_title, action) {
-    var already_there = false;
-    var current_tag_info_title_array = new Array;
-    if (tag_info_title != "" && tag_info_title != undefined) {
-      current_tag_info_title_array = tag_info_title.split(', ');
-    }
-
-    switch (action) {
-      case "assign":
-        for (var j = 0; j < current_tag_info_title_array.length; j++) {
-          if (current_tag_info_title_array[j] == tag_title) {
-            already_there = true;
-            break;
-          }
-        }
-
-        if (!already_there) {
-          current_tag_info_title_array.push(tag_title);
-          current_tag_info_title_array.sort();
-        }
-        break;
-
-      case "remove":
-        for (var j = 0; j < current_tag_info_title_array.length; j++) {
-          if (current_tag_info_title_array[j] == tag_title) {
-            current_tag_info_title_array.splice(j, 1);
-            break;
-          }
-        }
-        
-        break;
-    }
-
-    return current_tag_info_title_array;
-  }
-
-  update_tag_info_title(tag_info, new_title_array, old_title) {
-    var new_tag_info_title = "";
-
-    if (new_title_array.length > 1) {
-      new_tag_info_title = new_title_array.join(', ');
-    } else {
-      if (new_title_array.length == 1) {
-        new_tag_info_title = new_title_array[0];
-      } else {
-        new_tag_info_title = "";
-      }
-    }
-
-    if (new_tag_info_title == old_title) {
-      return false;
-
-    } else {
-      tag_info.setAttribute('title', new_tag_info_title);
-      if (new_tag_info_title != "") {
-        tag_info.classList.add('visible');
-      } else {
-        tag_info.classList.remove('visible');
-      }
-
-      return true;
-    }
-  }
-
-  update_tag_data_container(verse_box, tag_id, tag_title, action) {
-    var current_tag_data_container = $(verse_box.querySelector('.tag-data'));
-
-    switch (action) {
-      case "assign":
-        var new_tag_data_div = tags_controller.new_tag_data_html("tag-global", tag_title, tag_id);
-        current_tag_data_container.append(new_tag_data_div);
-        break;
-
-      case "remove":
-        var existing_tag_data_div = current_tag_data_container.find('.tag-id').filter(function(index){
-          return ($(this).html() == tag_id);
-        }).parent();
-        
-        existing_tag_data_div.detach();
-        break;
-    }
-  }
-
-  update_visible_tags_of_verse_box(verse_box, tag_title_array) {
-    var tag_box = $(verse_box).find('.tag-box');
-    tag_box.empty();
-
-    for (var i = 0; i < tag_title_array.length; i++) {
-      var current_tag_title = tag_title_array[i];
-      var tag_html = tags_controller.html_code_for_visible_tag(current_tag_title);
-      tag_box.append(tag_html);
-    }
-
-    if (tag_title_array.length > 0) {
-      $(verse_box).find('.tag').bind('click', async (event) => {
-        await app_controller.handleReferenceClick(event);
-      });
-    }
-  }
-
-  html_code_for_visible_tag(tag_title) {
-    return `<div class='tag' title='${i18n.t('bible-browser.tag-hint')}'>${tag_title}</div>`;
-  }
-
-  new_tag_data_html(tag_class, title, id) {
-    var new_tag_data_div = "<div class='" + tag_class + "'>";
-    new_tag_data_div += "<div class='tag-title'>" + title + "</div>";
-    new_tag_data_div += "<div class='tag-id'>" + id + "</div>";
-    new_tag_data_div += "</div>";
-
-    return new_tag_data_div;
-  }
-
-  edit_tag_title(value, settings) {
-    var old_value = $(this)[0].revert;
-    tags_controller.tag_title_changed = (old_value != value);
-
-    return value;
   }
 
   sort_tag_lists() {
@@ -1031,40 +898,12 @@ class TagsController {
 
     for (var i = 0; i < tag_data_elements.length; i++) {
       var current_tag_data = $(tag_data_elements[i]);
-      var current_verse_box = current_tag_data.closest('.verse-box');
       current_tag_data.find('.tag-title').html(title);
-      tags_controller.update_tag_tooltip_of_verse_box(current_verse_box);
 
-      tags_controller.update_visible_tags_of_verse_box(current_verse_box, current_verse_box.find('.tag-info').attr('title').split(', '));
+      var current_verse_box = new VerseBox(current_tag_data.closest('.verse-box')[0]);
+      current_verse_box.updateTagTooltip();
+      current_verse_box.updateVisibleTags();
     }
-  }
-
-  update_tag_tooltip_of_verse_box(verse_box) {
-    var new_tooltip = tags_controller.get_tag_title_from_tag_data(verse_box);
-    verse_box.find('.tag-info').attr('title', new_tooltip);
-  }
-
-  get_tag_title_from_tag_data(verse_box) {
-    var tag_elements = verse_box.find('.tag-global, .tag-book');
-
-    var tag_title_array = Array();
-
-    for (var i = 0; i < tag_elements.length; i++) {
-      var current_tag_element = $(tag_elements[i]);
-      var current_title = current_tag_element.find('.tag-title').html();
-      var current_tag_is_book = current_tag_element.hasClass('tag-book');
-      if (current_tag_is_book) current_title = current_title + '*';
-
-      tag_title_array.push(current_title);
-    }
-
-    tag_title_array.sort();
-
-    return tag_title_array.join(', ');
-  }
-
-  update_tags_title(verse_box) {
-    verse_box.find('.tag-info').attr('title', tags_controller.get_tag_title_from_tag_data(verse_box));
   }
 
   current_verse_selection_tags() {

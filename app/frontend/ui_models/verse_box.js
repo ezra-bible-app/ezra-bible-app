@@ -102,6 +102,169 @@ class VerseBox {
 
     return mappedAbsoluteVerseNr;
   }
+
+  getTagTitleFromTagData() {
+    var tag_elements = $(this.verseBoxElement).find('.tag-global, .tag-book');
+
+    var tag_title_array = Array();
+
+    for (var i = 0; i < tag_elements.length; i++) {
+      var current_tag_element = $(tag_elements[i]);
+      var current_title = current_tag_element.find('.tag-title').html();
+      var current_tag_is_book = current_tag_element.hasClass('tag-book');
+      if (current_tag_is_book) current_title = current_title + '*';
+
+      tag_title_array.push(current_title);
+    }
+
+    tag_title_array.sort();
+
+    return tag_title_array.join(', ');
+  }
+
+  updateTagTooltip() {
+    var new_tooltip = this.getTagTitleFromTagData();
+    $(this.verseBoxElement).find('.tag-info').attr('title', new_tooltip);
+  }
+
+
+  getTagTitleArray() {
+    return $(this.verseBoxElement).find('.tag-info').attr('title').split(', ');
+  }
+
+  updateVisibleTags(tag_title_array=undefined) {
+    var tag_box = $(this.verseBoxElement).find('.tag-box');
+    tag_box.empty();
+
+    if (tag_title_array == undefined) {
+      tag_title_array = this.getTagTitleArray();
+    }
+
+    for (var i = 0; i < tag_title_array.length; i++) {
+      var current_tag_title = tag_title_array[i];
+      var tag_html = this.htmlForVisibleTag(current_tag_title);
+      tag_box.append(tag_html);
+    }
+
+    if (tag_title_array.length > 0) {
+      $(this.verseBoxElement).find('.tag').bind('click', async (event) => {
+        await app_controller.handleReferenceClick(event);
+      });
+    }
+  }
+
+  htmlForVisibleTag(tag_title) {
+    return `<div class='tag' title='${i18n.t('bible-browser.tag-hint')}'>${tag_title}</div>`;
+  }
+
+  changeVerseListTagInfo(tag_id, tag_title, action) {
+    if (this.verseBoxElement == null) {
+      return;
+    }
+
+    var current_tag_info = this.verseBoxElement.querySelector('.tag-info');
+    var current_tag_info_title = current_tag_info.getAttribute('title');
+
+    var new_tag_info_title_array = this.getNewTagInfoTitleArray(current_tag_info_title, tag_title, action);
+    var updated = this.updateTagInfoTitle(current_tag_info, new_tag_info_title_array, current_tag_info_title);
+
+    if (updated) {
+      this.updateTagDataContainer(tag_id, tag_title, action);
+      this.updateVisibleTags(new_tag_info_title_array);
+    }
+  }
+
+  getNewTagInfoTitleArray(tag_info_title, tag_title, action) {
+    var already_there = false;
+    var current_tag_info_title_array = new Array;
+    if (tag_info_title != "" && tag_info_title != undefined) {
+      current_tag_info_title_array = tag_info_title.split(', ');
+    }
+
+    switch (action) {
+      case "assign":
+        for (var j = 0; j < current_tag_info_title_array.length; j++) {
+          if (current_tag_info_title_array[j] == tag_title) {
+            already_there = true;
+            break;
+          }
+        }
+
+        if (!already_there) {
+          current_tag_info_title_array.push(tag_title);
+          current_tag_info_title_array.sort();
+        }
+        break;
+
+      case "remove":
+        for (var j = 0; j < current_tag_info_title_array.length; j++) {
+          if (current_tag_info_title_array[j] == tag_title) {
+            current_tag_info_title_array.splice(j, 1);
+            break;
+          }
+        }
+        
+        break;
+    }
+
+    return current_tag_info_title_array;
+  }
+
+  updateTagInfoTitle(tag_info, new_title_array, old_title) {
+    var new_tag_info_title = "";
+
+    if (new_title_array.length > 1) {
+      new_tag_info_title = new_title_array.join(', ');
+    } else {
+      if (new_title_array.length == 1) {
+        new_tag_info_title = new_title_array[0];
+      } else {
+        new_tag_info_title = "";
+      }
+    }
+
+    if (new_tag_info_title == old_title) {
+      return false;
+
+    } else {
+      tag_info.setAttribute('title', new_tag_info_title);
+      if (new_tag_info_title != "") {
+        tag_info.classList.add('visible');
+      } else {
+        tag_info.classList.remove('visible');
+      }
+
+      return true;
+    }
+  }
+
+  updateTagDataContainer(tag_id, tag_title, action) {
+    var current_tag_data_container = $(this.verseBoxElement.querySelector('.tag-data'));
+
+    switch (action) {
+      case "assign":
+        var new_tag_data_div = this.newTagDataHtml("tag-global", tag_title, tag_id);
+        current_tag_data_container.append(new_tag_data_div);
+        break;
+
+      case "remove":
+        var existing_tag_data_div = current_tag_data_container.find('.tag-id').filter(function(index){
+          return ($(this).html() == tag_id);
+        }).parent();
+        
+        existing_tag_data_div.detach();
+        break;
+    }
+  }
+
+  newTagDataHtml(tag_class, title, id) {
+    var new_tag_data_div = "<div class='" + tag_class + "'>";
+    new_tag_data_div += "<div class='tag-title'>" + title + "</div>";
+    new_tag_data_div += "<div class='tag-id'>" + id + "</div>";
+    new_tag_data_div += "</div>";
+
+    return new_tag_data_div;
+  }
 }
 
 module.exports = VerseBox;
