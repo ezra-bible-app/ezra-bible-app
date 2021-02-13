@@ -302,9 +302,11 @@ class VerseListPopup {
       await this.loadXrefs(event.target, currentTabId, currentTabIndex);
     }
 
+    var width = uiHelper.getMaxDialogWidth();
     var box_position = this.getOverlayVerseBoxPosition(verse_box);
 
     $('#verse-list-popup').dialog({
+      width: width,
       position: [box_position.left, box_position.top],
       title: this.currentPopupTitle
     });
