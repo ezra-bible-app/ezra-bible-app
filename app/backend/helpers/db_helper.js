@@ -48,7 +48,7 @@ class DbHelper {
     if (!fs.existsSync(dbPath)) {
       console.log('Database not yet existing in user directory! Setting up empty database from template.');
   
-      var templatePath = path.join(__dirname, '../../ezra.sqlite');
+      var templatePath = path.join(__dirname, '../../../ezra.sqlite');
       fs.copySync(templatePath, dbPath);
     }
   }
