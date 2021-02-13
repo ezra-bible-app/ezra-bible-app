@@ -397,8 +397,8 @@ class InstallModuleAssistant {
     var installingText = i18n.t('module-assistant.installing');
 
     if (document.getElementById('module-install-progress-bar') == null) {
-      var progressBar = "<div id='progress-bar-container'><div id='module-install-progress-bar' style='width: 85%; float: left;' class='progress-bar'><div class='progress-label'>" + installingText + "</div></div>";
-      var progressMessage = "<div id='module-install-progress-msg' style='width: 85%; clear: both; padding-top: 0.5em; text-align: center;'></div></div>";
+      var progressBar = "<div id='progress-bar-container'><div id='module-install-progress-bar' style='width: 80%; float: left;' class='progress-bar'><div class='progress-label'>" + installingText + "</div></div>";
+      var progressMessage = "<div id='module-install-progress-msg' style='width: 80%; clear: both; padding-top: 0.5em; text-align: center;'></div></div>";
       installPage.append(progressBar);
       installPage.append(progressMessage);
     }
