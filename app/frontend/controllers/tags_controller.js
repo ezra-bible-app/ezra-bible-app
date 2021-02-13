@@ -713,8 +713,8 @@ class TagsController {
     }
 
     if (tag_title_array.length > 0) {
-      $(verse_box).find('.tag').bind('click', (e) => {
-        app_controller.verse_list_popup.openVerseListPopup(e, "TAGGED_VERSES");
+      $(verse_box).find('.tag').bind('click', async (event) => {
+        await app_controller.handleReferenceClick(event);
       });
     }
   }
