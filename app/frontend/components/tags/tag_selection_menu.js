@@ -105,6 +105,8 @@ class TagSelectionMenu {
 
       var tagSelectionMenu = $('#tag-selection-menu');
       tagSelectionMenu.show();
+      $('#tag-selection-filter-input').select();
+
       this.tag_menu_is_opened = true;
       event.stopPropagation();
     }
