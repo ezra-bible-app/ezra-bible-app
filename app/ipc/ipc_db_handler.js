@@ -56,8 +56,8 @@ class IpcDbHandler {
       return this.dbDir + path.sep + "ezra.sqlite";
     });
 
-    this._ipcMain.add('db_createNewTag', async (newTagTitle, type) => {
-      return await this._tagsPersistanceController.create_new_tag(newTagTitle, type);
+    this._ipcMain.add('db_createNewTag', async (newTagTitle) => {
+      return await this._tagsPersistanceController.create_new_tag(newTagTitle);
     });
 
     this._ipcMain.add('db_removeTag', async (id) => {

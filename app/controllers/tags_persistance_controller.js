@@ -22,19 +22,13 @@ class TagsPersistanceController
     this._models = models;
   }
 
-  async create_new_tag(new_tag_title, type) {
-    var isBookTag = (type == 'book' ? true : false);
+  async create_new_tag(new_tag_title) {
     var model = this._models.Tag;
-
-    var bibleBookId = null;
-    if (isBookTag) {
-      bibleBookId = app_controller.tab_controller.getTab().getBook();
-    }
 
     try {
       var newTag = await model.create({
         title: new_tag_title,
-        bibleBookId: bibleBookId
+        bibleBookId: null
       });
 
       await this._models.MetaRecord.updateLastModified();

@@ -32,8 +32,8 @@ class IpcDb {
     return await this._ipcRenderer.call('db_getDatabasePath');
   }
 
-  async createNewTag(newTagTitle, type) {
-    return await this._ipcRenderer.call('db_createNewTag', newTagTitle, type);
+  async createNewTag(newTagTitle) {
+    return await this._ipcRenderer.call('db_createNewTag', newTagTitle);
   }
 
   async removeTag(id) {
