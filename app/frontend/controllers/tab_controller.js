@@ -288,7 +288,7 @@ class TabController {
     var tabConfigurationAvailable = await ipcSettings.has('tabConfiguration', 'html-cache');
 
     if (tabConfigurationAvailable) {
-      app_controller.translation_controller.showBibleTranslationLoadingIndicator();
+      app_controller.translation_controller.showTextLoadingIndicator();
       app_controller.showVerseListLoadingIndicator();
       loadedTabCount = await this.loadMetaTabsFromSettings();
 
@@ -296,7 +296,7 @@ class TabController {
         await this.populateFromMetaTabs();
       } else {
         app_controller.hideVerseListLoadingIndicator();
-        app_controller.translation_controller.hideBibleTranslationLoadingIndicator();
+        app_controller.translation_controller.hideTextLoadingIndicator();
       }
     }
 

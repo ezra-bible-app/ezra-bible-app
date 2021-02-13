@@ -62,7 +62,7 @@ class TextController {
       }
 
       app_controller.showVerseListLoadingIndicator(loadingMessage, !isSearch /* Only show loader visualization if we are not searching */ );
-      app_controller.translation_controller.showBibleTranslationLoadingIndicator();
+      app_controller.translation_controller.showTextLoadingIndicator();
     }
 
     var temporary_help = app_controller.getCurrentVerseListComposite(tabIndex).find('.temporary-help, .help-text');
@@ -119,6 +119,8 @@ class TextController {
       if (tabIndex === undefined) { $('.show-book-tag-statistics-button').addClass('ui-state-disabled'); }
       currentVerseListMenu.find('.tag-select-button').addClass('focused-button');
 
+      app_controller.translation_controller.showTextLoadingIndicator();
+
       if (cachedText != null) {
         await this.renderVerseList(cachedText, cachedReferenceVerse, 'tagged_verses', tabIndex);
       } else {
@@ -150,6 +152,8 @@ class TextController {
         );
       }
     } else if (textType == 'xrefs') {
+
+      app_controller.translation_controller.showTextLoadingIndicator();
       
       if (cachedText != null) {
         await this.renderVerseList(cachedText, cachedReferenceVerse, 'xrefs', tabIndex);
@@ -577,7 +581,7 @@ class TextController {
 
       app_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
       await app_controller.initApplicationForVerseList(tabIndex);      
-      app_controller.translation_controller.hideBibleTranslationLoadingIndicator();
+      app_controller.translation_controller.hideTextLoadingIndicator();
     }
   }
 }

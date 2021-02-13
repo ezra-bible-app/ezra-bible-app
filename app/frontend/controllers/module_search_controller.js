@@ -316,7 +316,7 @@ class ModuleSearchController {
       
     } else {
       app_controller.hideVerseListLoadingIndicator();
-      app_controller.translation_controller.hideBibleTranslationLoadingIndicator();
+      app_controller.translation_controller.hideTextLoadingIndicator();
       app_controller.hideSearchProgressBar();
     }
 
