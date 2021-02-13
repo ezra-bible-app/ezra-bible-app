@@ -35,6 +35,7 @@ const i18nextOptions = {
 class I18nHelper {
   constructor() {
     this._platformHelper = new PlatformHelper();
+    this._isCordova = this._platformHelper.isCordova();
   }
 
   async init() {
@@ -67,13 +68,24 @@ class I18nHelper {
     });
   }
 
+  getLanguage() {
+    var lang = i18n.language;
+
+    if (this._isCordova) {
+      // Force lang to English as long as SWORD i18n functionality on Android is not fully working.
+      lang = 'en';
+    }
+
+    return lang;
+  }
+
   async getSwordTranslation(originalString) {
     return await ipcNsi.getSwordTranslation(originalString, i18n.language);
   }
 
   async getBookAbbreviation(bookCode) {
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    return await ipcNsi.getBookAbbreviation(currentBibleTranslationId, bookCode, i18n.language);
+    return await ipcNsi.getBookAbbreviation(currentBibleTranslationId, bookCode, this.getLanguage());
   }
 
   async getSpecificTranslation(lang, key) {
@@ -87,15 +99,28 @@ class I18nHelper {
   }
 
   async getChapterTranslation(lang) {
-    return await this.getSpecificTranslation(lang, 'bible-browser.chapter');
+    var language = lang;
+
+    if (this._isCordova) {
+      language = 'en';
+    }
+
+    return await this.getSpecificTranslation(language, 'bible-browser.chapter');
   }
 
   async getPsalmTranslation(lang) {
-    return await this.getSpecificTranslation(lang, 'bible-browser.psalm');
+    var language = lang;
+
+    if (this._isCordova) {
+      language = 'en';
+    }
+
+    return await this.getSpecificTranslation(language, 'bible-browser.psalm');
   }
 
   getLocalizedDate(timestamp) {
-    return new Date(Date.parse(timestamp)).toLocaleDateString(i18n.language);
+    var language = this.getLanguage();
+    return new Date(Date.parse(timestamp)).toLocaleDateString(language);
   }
 }
 

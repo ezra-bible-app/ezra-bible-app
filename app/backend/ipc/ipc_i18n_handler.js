@@ -16,6 +16,7 @@
    along with Ezra Project. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const PlatformHelper = require('../../lib/platform_helper.js');
 const IpcMain = require('./ipc_main.js');
 
 const fs = require('fs');
@@ -23,6 +24,7 @@ const path = require('path');
 
 class IpcI18nHandler {
   constructor() {
+    this._platformHelper = new PlatformHelper();
     this._ipcMain = new IpcMain();
     this.initIpcInterface();
   }
@@ -34,6 +36,11 @@ class IpcI18nHandler {
 
   initIpcInterface() {
     this._ipcMain.add('i18n_get_translation', (language) => {
+      if (this._platformHelper.isCordova()) {
+        // Force language to English as long as SWORD i18n functionality is not fully working on Android
+        language = 'en';
+      }
+
       var fileName = this.getLanguageFile(language);
       var translationObject = {};
 
