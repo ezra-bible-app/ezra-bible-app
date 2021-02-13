@@ -11,7 +11,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "bundle": "node_modules/.bin/browserify app/ezra_init.js -u node_modules/electron/index.js -t brfs --bare --ignore-missing -o dist/ezra_init.js",
+    "bundle": "node_modules/.bin/browserify app/frontend/ezra_init.js -u node_modules/electron/index.js -t brfs --bare --ignore-missing -o dist/ezra_init.js",
     "minify": "node_modules/.bin/terser --compress --mangle -- dist/ezra_init.js > dist/ezra_init.min.js",
     "browserify": "npm run bundle && npm run minify",
     "dev-test": "./node_modules/.bin/cucumber-js --fail-fast",

@@ -21,10 +21,10 @@ require('v8-compile-cache');
 const { app, BrowserWindow, Menu, ipcMain, nativeTheme } = require('electron');
 const isDev = require('electron-is-dev');
 
-const IPC = require('./app/ipc/ipc.js');
+const IPC = require('./app/backend/ipc/ipc.js');
 global.ipc = new IPC();
 
-const PlatformHelper = require('./app/helpers/platform_helper.js');
+const PlatformHelper = require('./app/lib/platform_helper.js');
 global.platformHelper = new PlatformHelper();
 
 app.allowRendererProcessReuse = false;
@@ -51,6 +51,15 @@ if (!isDev) {
     enableNative: true,
     environment: process.env.NODE_ENV
   });
+} else {
+  global.Sentry = {
+    addBreadcrumb: function() {},
+    captureMessage: function() {},
+    Severity: {
+      Info: undefined
+    }
+  }
+
 }
 
 require('electron-debug')({
@@ -115,7 +124,7 @@ function createWindow () {
 
   var preloadScript = '';
   if (!isDev) {
-    preloadScript = path.join(__dirname, 'app/helpers/sentry.js')
+    preloadScript = path.join(__dirname, 'app/frontend/helpers/sentry.js')
   }
 
   const windowStateKeeper = require('electron-window-state');
