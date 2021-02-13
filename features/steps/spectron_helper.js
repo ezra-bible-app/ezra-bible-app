@@ -21,10 +21,10 @@ const Application = require('spectron').Application;
 const chaiAsPromised = require("chai-as-promised");
 const chai = require("chai");
 const assert = require('chai').assert;
-const VerseReferenceHelper = require('../../app/helpers/verse_reference_helper.js');
+const VerseReferenceHelper = require('../../app/frontend/helpers/verse_reference_helper.js');
 const copydir = require('copy-dir');
 const fs = require('fs');
-require('../../app/database/models/biblebook.js');
+require('../../app/backend/database/models/biblebook.js');
 
 class SpectronHelper {
   constructor() {
@@ -90,7 +90,7 @@ class SpectronHelper {
 
   async initDatabase() {
     var userDataDir = await this.getUserDataDir();
-    global.models = require('../../app/database/models')(userDataDir);
+    global.models = require('../../app/backend/database/models')(userDataDir);
   }
 
   async buttonHasClass(button, className, timeoutMs=100) {
