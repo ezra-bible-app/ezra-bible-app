@@ -1511,6 +1511,7 @@ h2 {
 .tag-browser-tag-title {
   /*float: left;*/
   margin-left: 1.5em;
+  cursor: pointer;
 }
 
 .tag-browser-tag-assignment-count {
