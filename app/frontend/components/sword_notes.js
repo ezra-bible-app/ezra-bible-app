@@ -134,6 +134,9 @@ class SwordNotes {
 
       var xrefMarker = this.createMarker('sword-xref-marker', currentTitle, 'x');
       note.insertBefore(xrefMarker, note.firstChild);
+    } else {
+      // This is necessary when reloading a tab from cache. For some reason, the x content in the notes is not persisted.
+      note.firstChild.innerText = 'x';
     }
   }
 
