@@ -77,6 +77,8 @@ class TagAssignmentMenu {
       menu.css('left', leftOffset);
 
       menu.show();
+      $('#tags-search-input').select();
+
       this.menuIsOpened = true;
       event.stopPropagation();
     }
