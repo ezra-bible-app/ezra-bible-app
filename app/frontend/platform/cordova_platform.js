@@ -193,7 +193,6 @@ class CordovaPlatform {
 
     $('#request-write-permissions').click(() => {
       this.onRequestPermissionClick();
-
     });
 
     hideGlobalLoadingIndicator();
@@ -225,6 +224,8 @@ class CordovaPlatform {
 
     `, async () => {
 
+      updateLoadingSubtitle("Initializing internationalization");
+
       window.ipcI18n = new IpcI18n();
       await initI18N();
 
@@ -241,7 +242,12 @@ class CordovaPlatform {
   async initPersistenceAndStart() {
     window.ipcGeneral = new IpcGeneral();
 
+    updateLoadingSubtitle("Initializing SWORD");
     await ipcGeneral.initPersistentIpc();
+
+    updateLoadingSubtitle("Initializing database");
+    await ipcGeneral.initDatabase();
+
     await initApplication();
   }
 

@@ -31,6 +31,10 @@ class IpcGeneralHandler {
       this._ipcMain.add('general_initPersistentIpc', async() => {
         return global.main.initPersistentIpc();
       });
+
+      this._ipcMain.add('general_initDatabase', async() => {
+        return global.main.initDatabase();
+      });
     }
 
     this._ipcMain.add('general_getMajorOsVersion', async () => {

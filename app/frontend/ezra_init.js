@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 window.app = null;
-let isDev = null;
 
 const IpcGeneral = require('./ipc/ipc_general.js');
 const IpcI18n = require('./ipc/ipc_i18n.js');
@@ -284,6 +283,12 @@ window.toggleFullScreen = function()
   }
 }
 
+window.updateLoadingSubtitle = function(text) {
+  if (platformHelper.isCordova()) {
+    $('#loading-subtitle').text(text);
+  }
+}
+
 window.initApplication = async function()
 {
   if (platformHelper.isElectron()) {
@@ -326,6 +331,8 @@ window.initApplication = async function()
   var loadingIndicator = $('#startup-loading-indicator');
   loadingIndicator.show();
   loadingIndicator.find('.loader').show();
+
+  updateLoadingSubtitle("Initializing user interface");
 
   console.log("Loading HTML fragments");
   loadHTML();
@@ -378,13 +385,17 @@ window.initApplication = async function()
   await waitUntilIdle();
 
   console.log("Loading settings ...");
+  updateLoadingSubtitle("Loading settings");
   if (platformHelper.isElectron() || platformHelper.isCordova()) {
     await app_controller.loadSettings();
   }
 
+  updateLoadingSubtitle("Waiting for app to get ready");
+
   // Wait for the UI to render, before we hide the loading indicator
   await waitUntilIdle();
   loadingIndicator.hide();
+  $('#loading-subtitle').hide();
 
   // Show main content
   $('#main-content').show();
@@ -427,3 +438,7 @@ window.addEventListener('load', function() {
     initApplication();
   }
 });
+
+if (platformHelper.isCordova()) {
+  $('#loading-subtitle').show();
+}

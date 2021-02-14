@@ -31,6 +31,14 @@
       return result;
     }
 
+    async initDatabase() {
+      var timeoutMs = 15000;
+      console.time('initDatabase');
+      var result = await this._ipcRenderer.callWithTimeout('general_initDatabase', timeoutMs);
+      console.timeEnd('initDatabase');
+      return result;
+    }
+
     async getMajorOsVersion() {
       return await this._ipcRenderer.call('general_getMajorOsVersion');
     }

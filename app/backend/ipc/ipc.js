@@ -54,11 +54,15 @@ class IPC {
 
       if (this.platformHelper.isElectron()) {
         ipcNsiHandler.setMainWindow(electronMainWindow);
-      }
 
-      global.ipcDbHandler = new IpcDbHandler();
-      await ipcDbHandler.initDatabase(isDebug);
+        await this.initDatabase(isDebug);
+      }
     }
+  }
+
+  async initDatabase(isDebug) {
+    global.ipcDbHandler = new IpcDbHandler();
+    await ipcDbHandler.initDatabase(isDebug);
   }
 }
 
