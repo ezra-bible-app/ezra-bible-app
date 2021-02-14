@@ -38,8 +38,15 @@ class CordovaPlatform {
       // isDebug = false;
 
       if (!isDebug) {
+        var version = await cordova.getAppVersion.getVersionNumber();
+        console.log("Configuring Sentry (WebView) with app version: " + version);
+
         window.Sentry = require('@sentry/browser/dist');
-        Sentry.init({ dsn: 'https://977e321b83ec4e47b7d28ffcbdf0c6a1@sentry.io/1488321', });
+
+        Sentry.init({
+          dsn: 'https://977e321b83ec4e47b7d28ffcbdf0c6a1@sentry.io/1488321',
+          release: version
+        });
       }
 
       this.startNodeJsEngine();
