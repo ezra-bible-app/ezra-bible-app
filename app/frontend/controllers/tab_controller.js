@@ -398,7 +398,12 @@ class TabController {
 
     var allTabsPanels = document.getElementById(this.tabsElement).querySelectorAll('.' + this.tabsPanelClass);
     var selectedTabsPanel = allTabsPanels[index];
-    var selectedTabsPanelId = selectedTabsPanel.getAttribute('id');
+    var selectedTabsPanelId = "verse-list-tabs-1";
+
+    if (selectedTabsPanel != null) {
+      var selectedTabsPanelId = selectedTabsPanel.getAttribute('id');
+    }
+
     return selectedTabsPanelId;
   }
 
