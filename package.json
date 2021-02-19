@@ -1,7 +1,7 @@
 {
   "name": "ezra-project",
-  "version": "0.17.0-Beta7",
-  "description": "Ezra Project is a bible study software focussing on topical study based on keywords/tags",
+  "version": "0.17.0",
+  "description": "Ezra Project is a Bible study software focussing on topical study based on keywords/tags",
   "author": "Tobias Klein",
   "license": "GPL-2.0+",
   "repository": {
