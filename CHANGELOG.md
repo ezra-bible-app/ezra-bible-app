@@ -1,6 +1,48 @@
 # Ezra Project - Changelog
 All notable changes to Ezra Project are documented in this file.
 
+### [0.17.0 - 2020-02-20]
+
+### Features
+
+* Android tablet support. ([#150](i150))
+* Android: Add an option to keep the screen awake. ([#160](i160))
+* Android: Gracefully handle situation when user denies the app to write on storage. ([#170](i170))
+* Android: Support 7" tablet screen size. ([#174](i174))
+
+### Enhancements
+
+* Add option to open verse lists in new tab directly (tagged verse lists, xrefs). ([#176](i176))
+* Directly select whole input text when clicking on tag filter. ([#164](i164))
+* Integrate information "About Ezra Project" in Info Dialog. ([#163](i163))
+
+### Fixes
+
+* Application did not work with non-ascii user directories on Windows. ([#172](i172))
+* Fixed bug: Could not install certain modules where the module id is not located in the first line of the *.conf file. ([#179](i179))
+
+### Enablers
+
+* Bundle JS files to further optimize startup performance and enable Cordova integration. ([#97](i97))
+* Move all backend code to separate process. ([#158](i158))
+* Move to Node.js based settings store. ([#159](i159))
+* Android: Stop startup with info message if system webview is too old / not supported. ([#175](i175))
+
+[i97]: https://github.com/ezra-project/ezra-project/issues/97
+[i150]: https://github.com/ezra-project/ezra-project/issues/150
+[i158]: https://github.com/ezra-project/ezra-project/issues/158
+[i159]: https://github.com/ezra-project/ezra-project/issues/159
+[i160]: https://github.com/ezra-project/ezra-project/issues/160
+[i163]: https://github.com/ezra-project/ezra-project/issues/163
+[i164]: https://github.com/ezra-project/ezra-project/issues/164
+[i170]: https://github.com/ezra-project/ezra-project/issues/170
+[i172]: https://github.com/ezra-project/ezra-project/issues/172
+[i174]: https://github.com/ezra-project/ezra-project/issues/174
+[i175]: https://github.com/ezra-project/ezra-project/issues/175
+[i176]: https://github.com/ezra-project/ezra-project/issues/176
+[i178]: https://github.com/ezra-project/ezra-project/issues/178
+[i179]: https://github.com/ezra-project/ezra-project/issues/179
+
 ## [0.16.0 - 2020-12-20]
 
 ### Features
