@@ -10,7 +10,7 @@ and to do it and to teach his statutes and rules in Israel." Ezra 7:10
   </a>
 </p>
 
-Ezra Project is a user-friendly, cross-platform Bible study tool focussing on topical study based on keywords/tags. This program can help you to easily manage your topical verse lists and verse-based notes. Ezra Project works with [SWORD Bible translation modules](http://www.crosswire.org/sword) and thus enables Bible study in many languages. It runs on Windows, macOS and Linux. Click [here](https://github.com/ezra-project/ezra-project/releases/latest) to get the latest release.
+Ezra Project is a user-friendly, cross-platform Bible study tool focussing on topical study based on keywords/tags. This program can help you to easily manage your topical verse lists and verse-based notes. Ezra Project works with [SWORD Bible translation modules](http://www.crosswire.org/sword) and thus enables Bible study in many languages. It runs on Windows, macOS and Linux desktop computers as well as on [Android tablets](https://play.google.com/store/apps/details?id=de.ezraproject.cordova). Click [here](https://github.com/ezra-project/ezra-project/releases/latest) to get the latest release.
 
 For user information (features, screenshots, install instructions) have a look at the [project's website](https://ezra-project.net). This GitHub page focusses on technical information.
 
@@ -19,7 +19,7 @@ For user information (features, screenshots, install instructions) have a look a
 ## Development
 
 ### Technology
-Ezra Project is a cross-platform desktop application based on [Electron](https://electronjs.org/). It is programmed in JavaScript, uses [SQLite](https://www.sqlite.org) as its database and HTML with [jQuery UI](https://jqueryui.com/) for its frontend. Bible translation modules are managed using [node-sword-interface](https://github.com/ezra-project/node-sword-interface).
+Ezra Project is a cross-platform application based on web technology. On the desktop it is powered by [Electron](https://electronjs.org/), on Android it is powered by [Cordova](https://cordova.apache.org/). It is programmed in JavaScript, uses [SQLite](https://www.sqlite.org) as its database and HTML with [jQuery UI](https://jqueryui.com/) for its frontend. Bible translation modules are managed using [node-sword-interface](https://github.com/ezra-project/node-sword-interface).
 
 For more details regarding the used components have a look [here][tech].
 
