@@ -133,7 +133,7 @@ class IpcRenderer {
     this.waitCounters[functionName] += 1;
     var returnValue = this.returnValues[functionName];
 
-    var timeoutCycles = 80; // 2s
+    var timeoutCycles = 160; // 4s
 
     if (timeoutMs !== undefined) {
       timeoutCycles = timeoutMs / 25;
