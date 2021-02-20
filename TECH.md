@@ -1,6 +1,6 @@
 # Ezra Project Technology
 
-Ezra Project is a web-based desktop application based on [Electron](https://electronjs.org/). It is programmed in JavaScript, uses [SQLite](https://www.sqlite.org) as its database and HTML with [jQuery UI](https://jqueryui.com/) for its frontend. Bible translation modules are managed using [node-sword-interface](https://github.com/ezra-project/node-sword-interface).
+Ezra Project is a web-based Bible study app for desktop and tablet computers. On the desktop the application is based on [Electron](https://electronjs.org/). On Android tablets the application is based on [Cordova](https://cordova.apache.org/). It is programmed in JavaScript, uses [SQLite](https://www.sqlite.org) as its database and HTML with [jQuery UI](https://jqueryui.com/) for its frontend. Bible translation modules are managed using [node-sword-interface](https://github.com/ezra-project/node-sword-interface).
 
 Furthermore, the following components are used (among others):
 * [Sequelize](http://docs.sequelizejs.com) [ORM](https://en.wikipedia.org/wiki/Object-relational_mapping) for handling database access
