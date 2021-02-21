@@ -604,7 +604,7 @@ class InstallModuleAssistant {
   }
 
   async listLanguageArray(languageArray) {
-    var wizardPage = $('#module-settings-assistant-add-p-1');
+    var wizardPage = document.getElementById('module-settings-assistant-add-p-1');
 
     for (var i = 0; i < languageArray.length; i++) {
       var currentLanguage = languageArray[i];
@@ -621,7 +621,7 @@ class InstallModuleAssistant {
       currentLanguage += currentLanguageName + ' (' + currentLanguageTranslationCount + ')';
       currentLanguage += "</span></p>";
 
-      wizardPage.append(currentLanguage);
+      wizardPage.insertAdjacentHTML('beforeend', currentLanguage);
     }
   }
 
