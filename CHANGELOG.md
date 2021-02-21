@@ -1,6 +1,18 @@
 # Ezra Project - Changelog
 All notable changes to Ezra Project are documented in this file.
 
+### [0.17.1 - 2021-02-21]
+
+This is a bugfix release only applicable for macOS and Android.
+
+### Fixes
+
+* Fixed bug on Android: Module install assistant times out when retrieving repository languages. ([#184](i184))
+* Fixed bug on macOS: Could not re-activate window after closing it once. ([#183](i183))
+
+[i183]: https://github.com/ezra-project/ezra-project/issues/183
+[i184]: https://github.com/ezra-project/ezra-project/issues/184
+
 ### [0.17.0 - 2021-02-20]
 
 ### Features
