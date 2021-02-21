@@ -1,7 +1,7 @@
 # Ezra Project - Changelog
 All notable changes to Ezra Project are documented in this file.
 
-### [0.17.0 - 2020-02-20]
+### [0.17.0 - 2021-02-20]
 
 ### Features
 
