@@ -23,6 +23,7 @@ const isDev = require('electron-is-dev');
 
 const IPC = require('./app/backend/ipc/ipc.js');
 global.ipc = new IPC();
+global.ipcHandlersRegistered = false;
 
 const PlatformHelper = require('./app/lib/platform_helper.js');
 global.platformHelper = new PlatformHelper();
@@ -134,20 +135,26 @@ function createWindow () {
     defaultHeight: 800
   });
 
-  ipcMain.on('manageWindowState', async (event, arg) => {
-    // Register listeners on the window, so we can update the state
-    // automatically (the listeners will be removed when the window is closed)
-    // and restore the maximized or full screen state
-    mainWindowState.manage(mainWindow);
-  });
+  if (!ipcHandlersRegistered) {
+    // This ensures that we do not register ipc handlers twice, which is not possible.
+    // This can happen on macOS, when the window is first closed and then opened another time.
+    ipcHandlersRegistered = true;
 
-  ipcMain.on('log', async (event, message) => {
-    console.log("Log from renderer: " + message);
-  });
+    ipcMain.on('manageWindowState', async (event, arg) => {
+      // Register listeners on the window, so we can update the state
+      // automatically (the listeners will be removed when the window is closed)
+      // and restore the maximized or full screen state
+      mainWindowState.manage(mainWindow);
+    });
 
-  ipcMain.handle('initIpc', async (event, arg) => {
-    await ipc.init(isDev, mainWindow);
-  });
+    ipcMain.on('log', async (event, message) => {
+      console.log("Log from renderer: " + message);
+    });
+
+    ipcMain.handle('initIpc', async (event, arg) => {
+      await ipc.init(isDev, mainWindow);
+    });
+  }
 
   if (platformHelper.isElectron()) {
     performConfigMigration();
