@@ -605,6 +605,9 @@ class InstallModuleAssistant {
 
   async listLanguageArray(languageArray) {
     var wizardPage = document.getElementById('module-settings-assistant-add-p-1');
+    var allLanguageModuleCount = await ipcNsi.getAllLanguageModuleCount(this._selectedRepositories,
+                                                                        languageArray,
+                                                                        this._currentModuleType);
 
     for (var i = 0; i < languageArray.length; i++) {
       var currentLanguage = languageArray[i];
@@ -616,7 +619,7 @@ class InstallModuleAssistant {
         checkboxChecked = " checked";
       }
 
-      var currentLanguageTranslationCount = await this.getLanguageModuleCount(currentLanguageCode);
+      var currentLanguageTranslationCount = allLanguageModuleCount[currentLanguageCode];
       var currentLanguage = "<p style='float: left; width: 17em;'><input type='checkbox'" + checkboxChecked + "><span class='label' id='" + currentLanguageCode + "'>";
       currentLanguage += currentLanguageName + ' (' + currentLanguageTranslationCount + ')';
       currentLanguage += "</span></p>";
@@ -877,17 +880,6 @@ class InstallModuleAssistant {
 
       translationList.append(currentModuleElement);
     }
-  }
-
-  async getLanguageModuleCount(language) {
-    var count = 0;
-
-    for (var i = 0; i < this._selectedRepositories.length; i++) {
-      var currentRepo = this._selectedRepositories[i];
-      count += await ipcNsi.getRepoLanguageModuleCount(currentRepo, language, this._currentModuleType);
-    }
-
-    return count;
   }
 
   hasRepoBeenSelectedBefore(repo) {

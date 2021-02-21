@@ -49,6 +49,17 @@ class IpcNsiHandler {
     return this._nsi;
   }
 
+  getLanguageModuleCount(selectedRepos, language, moduleType) {
+    var count = 0;
+
+    for (var i = 0; i < selectedRepos.length; i++) {
+      var currentRepo = selectedRepos[i];
+      count += this._nsi.getRepoLanguageModuleCount(currentRepo, language, moduleType);
+    }
+
+    return count;
+  }
+
   initIpcInterface() {
     this._ipcMain.add('nsi_repositoryConfigExisting', () => {
       return this._nsi.repositoryConfigExisting();
@@ -100,8 +111,18 @@ class IpcNsiHandler {
       return this._nsi.getAllLocalModules(moduleType);
     });
 
-    this._ipcMain.add('nsi_getRepoLanguageModuleCount', (repositoryName, language, moduleType='BIBLE') => {
-      return this._nsi.getRepoLanguageModuleCount(repositoryName, language, moduleType);
+    this._ipcMain.add('nsi_getAllLanguageModuleCount', (selectedRepos, languageArray, moduleType='BIBLE') => {
+      var allLanguageModuleCount = {};
+
+      for (var i = 0; i < languageArray.length; i++) {
+        var currentLanguage = languageArray[i];
+        var currentLanguageCode = currentLanguage.languageCode;
+
+        var currentLanguageModuleCount = this.getLanguageModuleCount(selectedRepos, currentLanguageCode, moduleType);
+        allLanguageModuleCount[currentLanguageCode] = currentLanguageModuleCount;
+      }
+
+      return allLanguageModuleCount;
     });
 
     this._ipcMain.addWithProgressCallback('nsi_installModule',

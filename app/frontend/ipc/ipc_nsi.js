@@ -92,8 +92,8 @@ class IpcNsi {
     return returnValue;
   }
 
-  async getRepoLanguageModuleCount(repositoryName, language, moduleType='BIBLE') {
-    var returnValue = this._ipcRenderer.call('nsi_getRepoLanguageModuleCount', repositoryName, language, moduleType);
+  async getAllLanguageModuleCount(selectedRepos, languageArray, moduleType='BIBLE') {
+    var returnValue = this._ipcRenderer.call('nsi_getAllLanguageModuleCount', selectedRepos, languageArray, moduleType);
     return returnValue;
   }
 
