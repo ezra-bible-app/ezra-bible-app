@@ -91,7 +91,7 @@ class IpcRenderer {
     try {
       result = await this.getNodeResponse(functionName, timeoutMs);
     } catch (error) {
-      console.log("Did not get node response for " + functionName);
+      console.error("Did not get node response for " + functionName);
     }
 
     return result;
