@@ -229,9 +229,15 @@ class CordovaPlatform {
       window.ipcI18n = new IpcI18n();
       await initI18N();
 
-      var hasPermission = await this.hasPermission();
+      var hasPermission = false;
+      
+      try {
+        hasPermission = await this.hasPermission();
+      } catch (e) {
+        console.log("Failed to check existing permissions ...");
+      }
 
-      if (hasPermission) {
+      if (hasPermission == true) {
         this.initPersistenceAndStart();
       } else {
         this.showPermissionInfo();
