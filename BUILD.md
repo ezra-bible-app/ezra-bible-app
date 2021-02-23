@@ -2,6 +2,7 @@
 
 Independent of the operating system, ensure to use nodejs version 10.x.
 This is the version currently used for development and testing and compatibility with other versions cannot necessarily be guaranteed.
+
 ## Windows
 
 On Windows Ezra Bible App is built using a pre-built SWORD library from the repository [sword-build-win32](https://github.com/ezra-project/sword-build-win32) to ease the build process. After having installed the [windows-build-tools][windows-build-tools] (VS 2015 Compiler) and the Ezra Bible App sources the build process can be simply invoked using the batch file build_win32.bat.
