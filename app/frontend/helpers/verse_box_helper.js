@@ -92,6 +92,10 @@ class VerseBoxHelper {
   }
 
   async iterateAndChangeAllDuplicateVerseBoxes(referenceVerseBoxElement, context, changeCallback) {
+    if (referenceVerseBoxElement == null) {
+      return;
+    }
+
     var current_tab_index = app_controller.tab_controller.getSelectedTabIndex();
     var tab_count = app_controller.tab_controller.getTabCount();
 

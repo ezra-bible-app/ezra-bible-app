@@ -100,7 +100,11 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.add('nsi_getRepoModule', (moduleCode) => {
-      return this._nsi.getRepoModule(moduleCode);
+      if (moduleCode == null) {
+        return null;
+      } else {
+        return this._nsi.getRepoModule(moduleCode);
+      }
     });
 
     this._ipcMain.add('nsi_getAllLocalModules', (moduleType='BIBLE') => {
@@ -227,7 +231,11 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.add('nsi_getLocalModule', (moduleCode) => {
-      return this._nsi.getLocalModule(moduleCode);
+      if (moduleCode == null) {
+        return null;
+      } else {
+        return this._nsi.getLocalModule(moduleCode);
+      }
     });
 
     this._ipcMain.add('nsi_isModuleInUserDir', (moduleCode) => {

@@ -91,6 +91,7 @@ class DbHelper {
       dialect: "sqlite",
       storage: this.getDbFilePath(databaseDir),
       logging: false,
+      transactionType: "IMMEDIATE",
       retry: {
         match: [
           /SQLITE_BUSY/,

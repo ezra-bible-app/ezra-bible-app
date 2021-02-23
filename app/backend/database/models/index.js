@@ -31,13 +31,21 @@ module.exports = function(dbDir) {
   // console.log(dbPath);
 
   var config = {
-    "username": null,
-    "password": null,
-    "database": "ezra-project",
-    "host": null,
-    "dialect": "sqlite",
-    "storage": dbPath,
-    "logging": false
+    username: null,
+    password: null,
+    database: "ezra-project",
+    host: null,
+    dialect: "sqlite",
+    storage: dbPath,
+    logging: false,
+    transactionType: "IMMEDIATE",
+    retry: {
+      match: [
+        /SQLITE_BUSY/,
+      ],
+      name: 'query',
+      max: 5
+    }
   };
 
   var sequelize = new Sequelize(config.database, config.username, config.password, config);
