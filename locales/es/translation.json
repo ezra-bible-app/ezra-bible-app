@@ -41,7 +41,7 @@
     "translations": "Traducciones",
     "removal": "Quitar",
     "module-feature-filter": "Filtrar características",
-    "repo-selection-info-text": "Ezra Project funciona con {{module_type}} dados por <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> y la <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a>.<br/><br/>Debajo usted puede ver la lista de repositorios de SWORD publicados por CrossWire. Un repositorio es un espacio de almacenamiento en Internet que contiene un grupo de {{module_type}}. Al lado de cada repositorio, usted verá el número totar de {{module_type}} disponibles desde ese repositorio.<br/><br/>Para instalar un módulo, selecione al menos un repositorio de la lista. El repositorio de <i>CrossWire</i> y el de <i>eBible.org</i> son un buen lugar para comenzar.",
+    "repo-selection-info-text": "Ezra Bible Software funciona con {{module_type}} dados por <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> y la <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a>.<br/><br/>Debajo usted puede ver la lista de repositorios de SWORD publicados por CrossWire. Un repositorio es un espacio de almacenamiento en Internet que contiene un grupo de {{module_type}}. Al lado de cada repositorio, usted verá el número totar de {{module_type}} disponibles desde ese repositorio.<br/><br/>Para instalar un módulo, selecione al menos un repositorio de la lista. El repositorio de <i>CrossWire</i> y el de <i>eBible.org</i> son un buen lugar para comenzar.",
     "more-repo-information-needed": "¿Usted necesita más información sobre estos repositorios?<br/>Consulte <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> (disponible en inglés).",
     "click-to-show-detailed-module-info": "Pulse sobre el código del módulo (el enlace después del nombre del módulo) para mostrar información detallada.",
     "updating-repository-data": "Actualizando datos de repositorio! Esto tomará unos segundos ...",
@@ -59,7 +59,7 @@
     "it-takes-time-to-install-translation": "Tenga en cuenta que toma algo de tiempo para descargar e instalar cada traducción.",
     "it-takes-time-to-install-dictionary": "Tenga en cuenta que toma algo de tiempo para descargar e instalar cada diccionario.",
     "select-translations-to-be-removed": "Seleccione las traducciones bíblicas que desea eliminar.<br/><br/>Las entradas deshabilitadas en la lista corresponden a traducciones que no se encuentran instaladas en el directorio del usuario .",
-    "select-dictionaries-to-be-removed": "Seleccione los diccionarios que desea eliminar.<br/><br/>Las entradas deshabilitadas en la lista son diccionarios que no se encuentran instalados en el directorio de usuario o diccionarios que resultan imprescindibles para el funcionamiento de Ezra Project.",
+    "select-dictionaries-to-be-removed": "Seleccione los diccionarios que desea eliminar.<br/><br/>Las entradas deshabilitadas en la lista son diccionarios que no se encuentran instalados en el directorio de usuario o diccionarios que resultan imprescindibles para el funcionamiento de Ezra Bible Software.",
     "installing": "Instalando",
     "downloading": "Descargando",
     "part-of-total": "de",
@@ -113,7 +113,7 @@
     "rename": "Renombrar",
     "loading": "Cargando",
     "new-release-available-title": "Nueva versión disponible!",
-    "new-release-available-body": "Una nueva versión de Ezra Project está disponible!",
+    "new-release-available-body": "Una nueva versión de Ezra Bible Software está disponible!",
     "latest-version": "Última versión",
     "release-notes-download": "Notas de lanzamiento y Descarga",
     "no-repeated-info": "No mostrar nuevamente",
@@ -209,11 +209,11 @@
     "related-strongs": "Números Strongs relacionados"
   },
   "cordova" : {
-    "welcome-to-ezra-project": "Welcome to Ezra Project!",
-    "storage-justification": "Ezra Project needs access to the device storage area to save SWORD modules and store its database.<br><br>After pressing the button below, you will be asked to allow Ezra Project to access files on your device.",
+    "welcome-to-ezra-project": "Welcome to Ezra Bible Software!",
+    "storage-justification": "Ezra Bible Software needs access to the device storage area to save SWORD modules and store its database.<br><br>After pressing the button below, you will be asked to allow Ezra Bible Software to access files on your device.",
     "enable-storage-access": "Enable access to device storage",
     "storage-permission-denied": "You decided to deny storage access.<br>You can change this by pressing the button below!",
     "permanent-permission-decision-part1": "Previously, you decided to permanently deny storage access!<br><br>You can only revert that decision in the permission settings in the Android system configuration.",
-    "permanent-permission-decision-part2": "If you do not change the permission settings,<br>Ezra Project will <span style='text-decoration: underline'>not start up successfully</span>."
+    "permanent-permission-decision-part2": "If you do not change the permission settings,<br>Ezra Bible Software will <span style='text-decoration: underline'>not start up successfully</span>."
   }
 }

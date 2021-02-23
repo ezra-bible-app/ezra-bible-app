@@ -41,7 +41,7 @@
     "translations": "Vertalingen",
     "removal": "Verwijdering",
     "module-feature-filter": "Functiefilter",
-    "repo-selection-info-text": "Ezra Project werkt met bijbelvertalingsmodules aangeboden door <a class='external' href='http://www.crosswire.org/sword'>het SWORD-project</a> en het <a class='external' href='http://www.crosswire.org'>CrossWire Bijbelgenootschap</a>.<br/><br/>Hieronder ziet u de lijst met SWORD-depots die zijn gepubliceerd door CrossWire. Een depot is een internetopslaglocatie die een set Bijbelvertalingsmodules bevat. Naast elk depot ziet u het totale aantal Bijbelvertalingsmodules dat beschikbaar is uit dat depot. <br/> <br/> Om een bijbelvertalingsmodule te installeren, kies minstens één depot uit de onderstaande lijst. De depots van <i>CrossWire</i> en <i>eBible.org</i> zijn een goede plek om te beginnen.",
+    "repo-selection-info-text": "Ezra Bible Software werkt met bijbelvertalingsmodules aangeboden door <a class='external' href='http://www.crosswire.org/sword'>het SWORD-project</a> en het <a class='external' href='http://www.crosswire.org'>CrossWire Bijbelgenootschap</a>.<br/><br/>Hieronder ziet u de lijst met SWORD-depots die zijn gepubliceerd door CrossWire. Een depot is een internetopslaglocatie die een set Bijbelvertalingsmodules bevat. Naast elk depot ziet u het totale aantal Bijbelvertalingsmodules dat beschikbaar is uit dat depot. <br/> <br/> Om een bijbelvertalingsmodule te installeren, kies minstens één depot uit de onderstaande lijst. De depots van <i>CrossWire</i> en <i>eBible.org</i> zijn een goede plek om te beginnen.",
     "more-repo-information-needed": "Heeft u nood aan meer informatie over deze depots?<br/>Bekijk de <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>.",
     "click-to-show-detailed-module-info": "Klik op een modulecode (link achter de modulenaam) om hier gedetailleerde module-informatie te tonen",
     "updating-repository-data": "Bezig met het bijwerken van depotgegevens! Dit zal enkele seconden duren ...",
@@ -59,7 +59,7 @@
     "it-takes-time-to-install-translation": "Houd er rekening mee dat het enige tijd duurt voordat elke vertaling gedownload en geïnstalleerd is.",
     "it-takes-time-to-install-dictionary": "Houd er rekening mee dat het enige tijd duurt voordat elk woordenboek gedownload en geïnstalleerd is.",
     "select-translations-to-be-removed": "Selecteer de bijbelvertalingen die u wilt verwijderen.<br/><br/>Uitgeschakelde elementen in de lijst zijn vertalingen die niet in de gebruikersmap zijn geïnstalleerd.",
-    "select-dictionaries-to-be-removed": "Selecteer de woordenboeken die u wilt verwijderen.<br/><br/>Uitgeschakelde elementen in de lijst zijn woordenboeken die niet in de gebruikersmap zijn geïnstalleerd of woordenboeken die essentiël zijn voor functionaliteit van Ezra Project.",
+    "select-dictionaries-to-be-removed": "Selecteer de woordenboeken die u wilt verwijderen.<br/><br/>Uitgeschakelde elementen in de lijst zijn woordenboeken die niet in de gebruikersmap zijn geïnstalleerd of woordenboeken die essentiël zijn voor functionaliteit van Ezra Bible Software.",
     "installing": "Installeren",
     "downloading": "Downloaden",
     "part-of-total": "van",
@@ -113,7 +113,7 @@
     "rename": "Hernoemen",
     "loading": "Laden",
     "new-release-available-title": "Nieuwe uitgave beschikbaar!",
-    "new-release-available-body": "Een nieuwe uitgave van Ezra Project is beschikbaar!",
+    "new-release-available-body": "Een nieuwe uitgave van Ezra Bible Software is beschikbaar!",
     "latest-version": "Nieuwste versie",
     "release-notes-download": "Uitgave-opmerkingen & download",
     "no-repeated-info": "Laat dit niet nog eens zien",
@@ -209,11 +209,11 @@
     "related-strongs": "Gerelateerde Strongs"
   },
   "cordova" : {
-    "welcome-to-ezra-project": "Welcome to Ezra Project!",
-    "storage-justification": "Ezra Project needs access to the device storage area to save SWORD modules and store its database.<br><br>After pressing the button below, you will be asked to allow Ezra Project to access files on your device.",
+    "welcome-to-ezra-project": "Welcome to Ezra Bible Software!",
+    "storage-justification": "Ezra Bible Software needs access to the device storage area to save SWORD modules and store its database.<br><br>After pressing the button below, you will be asked to allow Ezra Bible Software to access files on your device.",
     "enable-storage-access": "Enable access to device storage",
     "storage-permission-denied": "You decided to deny storage access.<br>You can change this by pressing the button below!",
     "permanent-permission-decision-part1": "Previously, you decided to permanently deny storage access!<br><br>You can only revert that decision in the permission settings in the Android system configuration.",
-    "permanent-permission-decision-part2": "If you do not change the permission settings,<br>Ezra Project will <span style='text-decoration: underline'>not start up successfully</span>."
+    "permanent-permission-decision-part2": "If you do not change the permission settings,<br>Ezra Bible Software will <span style='text-decoration: underline'>not start up successfully</span>."
   }
 }

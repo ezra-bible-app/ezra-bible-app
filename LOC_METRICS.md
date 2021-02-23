@@ -1,4 +1,4 @@
-# Ezra Project LOC Metrics
+# Ezra Bible Software LOC Metrics
 
 Language|files|blank|comment|code
 :-------|-------:|-------:|-------:|-------:

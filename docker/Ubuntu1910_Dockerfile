@@ -1,4 +1,4 @@
-# Dockerfile for Ubuntu 19.04 Build Enviroment for Ezra Project
+# Dockerfile for Ubuntu 19.04 Build Enviroment for Ezra Bible Software
 
 FROM ubuntu:19.10
 

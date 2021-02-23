@@ -6,10 +6,10 @@
     "Literature"
   ],
   "name": "ezra-project",
-  "productName": "Ezra Project",
+  "productName": "Ezra Bible Software",
   "genericName": "Bible Study Tool",
-  "description": "Ezra Project is a Bible study tool focussing on topical study based on keywords/tags",
-  "productDescription": "Ezra Project is a Bible study tool focussing on topical study based on keywords/tags. This program helps the user to easily create and manage topical verse lists. Ezra Project works with SWORD Bible translation modules and thus enables Bible study in many languages.",
+  "description": "Ezra Bible Software is a Bible study tool focussing on topical study based on keywords/tags",
+  "productDescription": "Ezra Bible Software is a Bible study tool focussing on topical study based on keywords/tags. This program helps the user to easily create and manage topical verse lists. Ezra Bible Software works with SWORD Bible translation modules and thus enables Bible study in many languages.",
   "requires": [
       "libicu",
       "zlib",

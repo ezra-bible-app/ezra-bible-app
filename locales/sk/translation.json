@@ -41,7 +41,7 @@
     "translations": "Preklady",
     "removal": "Odstránenie",
     "module-feature-filter": "Filter vlastností",
-    "repo-selection-info-text": "Ezra Project pracuje s {{module_type}}, ktorý poskytuje <a class='external' href='http://www.crosswire.org/sword'>projekt SWORD</a> a <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a>.<br/><br/>Nižšie je zoznam SWORD archívov publikovaných od CrossWire. Archív je umiestnenie obsahu na internete, ktorý obsahuje {{module_type}}. Vedľa každého archívu vydíte celkový počet z {{module_type}} dostupných archívov.<br/><br/>Pre nainštalovanie modulu, vyberte jeden z archívov zo zoznamu nižšie. <i>CrossWire</i> a <i>eBible.org</i> archívy sú dobrým miestom pre začiatok.",
+    "repo-selection-info-text": "Ezra Bible Software pracuje s {{module_type}}, ktorý poskytuje <a class='external' href='http://www.crosswire.org/sword'>projekt SWORD</a> a <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a>.<br/><br/>Nižšie je zoznam SWORD archívov publikovaných od CrossWire. Archív je umiestnenie obsahu na internete, ktorý obsahuje {{module_type}}. Vedľa každého archívu vydíte celkový počet z {{module_type}} dostupných archívov.<br/><br/>Pre nainštalovanie modulu, vyberte jeden z archívov zo zoznamu nižšie. <i>CrossWire</i> a <i>eBible.org</i> archívy sú dobrým miestom pre začiatok.",
     "more-repo-information-needed": "Potrebujete viac informácií ohľadom archívov?<br/>Pozrite sa na <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>.",
     "click-to-show-detailed-module-info": "Kliknutím na kód modulu (odkaz za názvom modulu) zobrazíte podrobné informácie.",
     "updating-repository-data": "Aktualizujem archívy! Môže to zabrať niekoľko sekúnd ...",
@@ -210,7 +210,7 @@
   },
   "cordova" : {
     "welcome-to-ezra-project": "Vitajte v projekte Ezra!",
-    "storage-justification": "Ezra Project potrebuje prístup do úložnej oblasti zariadenia, aby mohol ukladať moduly SWORD a ukladať svoju databázu.<br><br>Po stlačení tlačidla nižšie budete požiadaní, aby ste aplikácii Ezra Project povolili prístup k súborom vo vašom zariadení.",
+    "storage-justification": "Ezra Bible Software potrebuje prístup do úložnej oblasti zariadenia, aby mohol ukladať moduly SWORD a ukladať svoju databázu.<br><br>Po stlačení tlačidla nižšie budete požiadaní, aby ste aplikácii Ezra Bible Software povolili prístup k súborom vo vašom zariadení.",
     "enable-storage-access": "Povoliť prístup k internému úložisku",
     "storage-permission-denied": "Rozhodli ste sa odmietnuť prístup k úložisku. <br> Môžete to zmeniť stlačením tlačidla nižšie!",
     "permanent-permission-decision-part1": "Predtým ste sa rozhodli natrvalo odmietnuť prístup k úložisku! <br> <br> Toto rozhodnutie môžete vrátiť iba v nastaveniach povolení v konfigurácii systému Android.",

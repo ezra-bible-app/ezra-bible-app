@@ -1,6 +1,6 @@
 # action.yml
 name: 'build-buster'
-description: 'Build Ezra Project for Debian Buster'
+description: 'Build Ezra Bible Software for Debian Buster'
 runs:
     using: 'docker'
     image: 'docker://toklein/ezra-buster:latest'
