@@ -2,7 +2,7 @@
 
 export DEBUG=electron-osx-sign*
 
-node_modules/.bin/electron-osx-sign ./release/Ezra\ Project-darwin-x64/Ezra\ Project.app \
+node_modules/.bin/electron-osx-sign ./release/Ezra\ Bible\ App-darwin-x64/Ezra\ Bible\ App.app \
 --type='distribution' \
 --hardened-runtime \
 --no-gatekeeper-assess \

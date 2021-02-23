@@ -21,7 +21,7 @@ async function notarizeApp(appOutDir, appName, appBundleId) {
 
 async function notarizeEzra() {
     var notarized = false;
-    notarized = await notarizeApp("release/Ezra Bible App-darwin-x64", "Ezra Bible App", "net.ezra-project.electronapp");
+    notarized = await notarizeApp("release/Ezra Bible App-darwin-x64", "Ezra Bible App", "net.ezrabibleapp.electron");
     
     if (notarized) {
         return process.exit(0);

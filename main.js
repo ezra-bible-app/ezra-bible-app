@@ -180,7 +180,7 @@ function createWindow () {
                                     enableRemoteModule: true,
                                     defaultEncoding: "UTF-8"
                                   },
-                                  icon: path.join(__dirname, 'icons/ezra-project.png'),
+                                  icon: path.join(__dirname, 'icons/ezra.png'),
                                   backgroundColor: bgColor
                                  });
  

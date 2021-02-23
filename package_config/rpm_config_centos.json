@@ -16,6 +16,6 @@
       "sqlite",
       "libcurl"
   ],
-  "icon": "icons/ezra-project.png",
+  "icon": "icons/ezra.png",
   "homepage": "https://github.com/ezra-project/ezra-project"
 }
