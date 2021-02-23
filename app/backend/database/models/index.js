@@ -38,7 +38,14 @@ module.exports = function(dbDir) {
     dialect: "sqlite",
     storage: dbPath,
     logging: false,
-    transactionType: "IMMEDIATE"
+    transactionType: "IMMEDIATE",
+    retry: {
+      match: [
+        /SQLITE_BUSY/,
+      ],
+      name: 'query',
+      max: 5
+    }
   };
 
   var sequelize = new Sequelize(config.database, config.username, config.password, config);
