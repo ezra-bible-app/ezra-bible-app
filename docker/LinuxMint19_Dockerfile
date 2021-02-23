@@ -1,4 +1,4 @@
-# Dockerfile for Linux Mint 19.3 Build Enviroment for Ezra Bible Software
+# Dockerfile for Linux Mint 19.3 Build Enviroment for Ezra Bible App
 
 FROM vcatechnology/linux-mint
 

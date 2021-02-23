@@ -1,4 +1,4 @@
-# Dockerfile for Fedora Build Enviroment for Ezra Bible Software
+# Dockerfile for Fedora Build Enviroment for Ezra Bible App
 
 FROM fedora:31
 

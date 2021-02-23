@@ -1,4 +1,4 @@
-# Dockerfile for OpenSuse Build Enviroment for Ezra Bible Software
+# Dockerfile for OpenSuse Build Enviroment for Ezra Bible App
 
 FROM opensuse/leap:15.1
 

@@ -209,11 +209,11 @@
     "related-strongs": "Strong associés"
   },
   "cordova" : {
-    "welcome-to-ezra-project": "Welcome to Ezra Bible Software!",
-    "storage-justification": "Ezra Bible Software needs access to the device storage area to save SWORD modules and store its database.<br><br>After pressing the button below, you will be asked to allow Ezra Bible Software to access files on your device.",
+    "welcome-to-ezra-project": "Welcome to Ezra Bible App!",
+    "storage-justification": "Ezra Bible App needs access to the device storage area to save SWORD modules and store its database.<br><br>After pressing the button below, you will be asked to allow Ezra Bible App to access files on your device.",
     "enable-storage-access": "Enable access to device storage",
     "storage-permission-denied": "You decided to deny storage access.<br>You can change this by pressing the button below!",
     "permanent-permission-decision-part1": "Previously, you decided to permanently deny storage access!<br><br>You can only revert that decision in the permission settings in the Android system configuration.",
-    "permanent-permission-decision-part2": "If you do not change the permission settings,<br>Ezra Bible Software will <span style='text-decoration: underline'>not start up successfully</span>."
+    "permanent-permission-decision-part2": "If you do not change the permission settings,<br>Ezra Bible App will <span style='text-decoration: underline'>not start up successfully</span>."
   }
 }

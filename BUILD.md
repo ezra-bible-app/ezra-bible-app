@@ -1,10 +1,10 @@
-# Building Ezra Bible Software
+# Building Ezra Bible App
 
 Independent of the operating system, ensure to use nodejs version 10.x.
 This is the version currently used for development and testing and compatibility with other versions cannot necessarily be guaranteed.
 ## Windows
 
-On Windows Ezra Bible Software is built using a pre-built SWORD library from the repository [sword-build-win32](https://github.com/ezra-project/sword-build-win32) to ease the build process. After having installed the [windows-build-tools][windows-build-tools] (VS 2015 Compiler) and the Ezra Bible Software sources the build process can be simply invoked using the batch file build_win32.bat.
+On Windows Ezra Bible App is built using a pre-built SWORD library from the repository [sword-build-win32](https://github.com/ezra-project/sword-build-win32) to ease the build process. After having installed the [windows-build-tools][windows-build-tools] (VS 2015 Compiler) and the Ezra Bible App sources the build process can be simply invoked using the batch file build_win32.bat.
 
 ### Setup and build
 
@@ -13,10 +13,10 @@ On Windows Ezra Bible Software is built using a pre-built SWORD library from the
 `npm install --vs2015 --global windows-build-tools`
 3. Install [electron-installer-windows][electron-installer-windows] by running the following command in an administrator powershell:\
 `npm install --global electron-installer-windows`
-4. Clone Ezra Bible Software from git repo or unpack sources from release
+4. Clone Ezra Bible App from git repo or unpack sources from release
 5. Install dependencies and rebuild native extensions by running this command in the project dir: `.\build_win32.bat`
 
-After performing these steps you can run Ezra Bible Software by running this command in the project dir: `npm start`
+After performing these steps you can run Ezra Bible App by running this command in the project dir: `npm start`
 
 [windows-build-tools]: https://www.npmjs.com/package/windows-build-tools
 [electron-installer-windows]: https://www.npmjs.com/package/electron-installer-windows
@@ -41,17 +41,17 @@ The installer binary within that directory is named `ezra_project-x.y.z-setup.ex
 
 ### Install dependencies
 
-The following dependencies are valid for Debian/Ubuntu based distributions. Ezra Bible Software has been successfully built for other distributions as well (Linux Mint 18, Debian 10, Fedora 29, OpenSuse, CentOS). To see how the dependencies look like for your distribution, have a look at the Docker files [here](https://github.com/ezra-project/ezra-project/tree/master/docker).
+The following dependencies are valid for Debian/Ubuntu based distributions. Ezra Bible App has been successfully built for other distributions as well (Linux Mint 18, Debian 10, Fedora 29, OpenSuse, CentOS). To see how the dependencies look like for your distribution, have a look at the Docker files [here](https://github.com/ezra-project/ezra-project/tree/master/docker).
 
 Install compiler/lib dependencies by running the following command: `sudo apt-get install build-essential npm nodejs libsqlite3-0 libcurl4-gnutls-dev libicu-dev pkg-config git cmake`
 
 ### Setup and build
 
-1. Clone Ezra Bible Software from git repo or unpack sources from release
-2. Install Ezra Bible Software dependencies by running this commmand in the project dir: `npm install`
+1. Clone Ezra Bible App from git repo or unpack sources from release
+2. Install Ezra Bible App dependencies by running this commmand in the project dir: `npm install`
 3. Rebuild C/C++ dependencies by running this command in the project dir: `npm run rebuild`
 
-After performing these steps you can run Ezra Bible Software by running this command in the project dir: `npm start`
+After performing these steps you can run Ezra Bible App by running this command in the project dir: `npm start`
 
 ### Create a release directory
 
@@ -78,26 +78,26 @@ The following instructions have been verified on macOS _Mojave_. The assumption 
 
 ### Setup and build
 
-1. Clone Ezra Bible Software from git repo or unpack sources from release
-2. Install Ezra Bible Software dependencies by running this commmand in the project dir: `npm install`
+1. Clone Ezra Bible App from git repo or unpack sources from release
+2. Install Ezra Bible App dependencies by running this commmand in the project dir: `npm install`
 3. Rebuild C/C++ dependencies by running this command in the project dir: `npm run rebuild`
 
-After performing these steps you can run Ezra Bible Software by running this command in the project dir: `npm start`
+After performing these steps you can run Ezra Bible App by running this command in the project dir: `npm start`
 
 ### Creating a release directory
 
 To create a release directory that contains all necessary files, run the following command in the project dir: `npm run package-mac`
 
-After the process is completed you will find a new directory `<project-dir>/release/Ezra Bible Software-darwin-x64/`.
-In that directory you find an application package named `Ezra Bible Software.app`.
+After the process is completed you will find a new directory `<project-dir>/release/Ezra Bible App-darwin-x64/`.
+In that directory you find an application package named `Ezra Bible App.app`.
 
 ### Signing and notarizing the app
 
 Prerequisite: Apple Developer account
 
-Before you can sign and notarize Ezra Bible Software on macOS you need to have the code signing certificates from your Apple developer account available on your Mac.
+Before you can sign and notarize Ezra Bible App on macOS you need to have the code signing certificates from your Apple developer account available on your Mac.
 
-To sign and notarize Ezra Bible Software run the following commands in the project dir.
+To sign and notarize Ezra Bible App run the following commands in the project dir.
 
 `npm run sign-mac`
 

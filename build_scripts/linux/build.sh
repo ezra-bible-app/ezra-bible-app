@@ -1,5 +1,5 @@
 #!/bin/sh
-# This script triggers all the steps necessary for building and packaging Ezra Bible Software on Linux.
+# This script triggers all the steps necessary for building and packaging Ezra Bible App on Linux.
 
 npm install
 npm run compile-pug

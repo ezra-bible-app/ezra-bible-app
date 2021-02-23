@@ -1,6 +1,6 @@
 # action.yml
 name: 'build-centos8'
-description: 'Build Ezra Bible Software for CentOS 8'
+description: 'Build Ezra Bible App for CentOS 8'
 runs:
     using: 'docker'
     image: 'docker://toklein/ezra-centos8:latest'

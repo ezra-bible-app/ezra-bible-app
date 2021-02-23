@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo '# Ezra Bible Software LOC Metrics' > LOC_METRICS.md
+echo '# Ezra Bible App LOC Metrics' > LOC_METRICS.md
 cloc --md app \
           build_scripts \
           css \

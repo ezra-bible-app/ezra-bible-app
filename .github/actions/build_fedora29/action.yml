@@ -1,6 +1,6 @@
 # action.yml
 name: 'build-fedora-29'
-description: 'Build Ezra Bible Software for Fedora 29'
+description: 'Build Ezra Bible App for Fedora 29'
 runs:
     using: 'docker'
     image: 'docker://toklein/ezra-fedora29:latest'

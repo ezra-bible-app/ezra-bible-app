@@ -1,6 +1,6 @@
 # action.yml
 name: 'build-ubuntu-1804'
-description: 'Build Ezra Bible Software for Ubuntu 18.04'
+description: 'Build Ezra Bible App for Ubuntu 18.04'
 runs:
     using: 'docker'
     image: 'docker://toklein/ezra-ubuntu-1804:latest'

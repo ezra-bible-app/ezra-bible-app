@@ -1,4 +1,4 @@
-name: Build Ezra Bible Software packages
+name: Build Ezra Bible App packages
 
 on:
   push:
