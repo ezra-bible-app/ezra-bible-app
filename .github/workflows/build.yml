@@ -25,13 +25,13 @@ jobs:
           env:
             SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
         - name: Rename installer
-          run: Get-ChildItem release\packages\*setup.exe | rename-item -NewName { "ezra-project_win32_setup_latest.exe" }
+          run: Get-ChildItem release\packages\*setup.exe | rename-item -NewName { "ezra-bible-app_win32_setup_latest.exe" }
           shell: pwsh
         - name: Upload installer
           uses: actions/upload-artifact@v1.0.0
           with:
-            name: ezra-project_win32_latest
-            path: release\packages\ezra-project_win32_setup_latest.exe
+            name: ezra-bible-app_win32_latest
+            path: release\packages\ezra-bible-app_win32_setup_latest.exe
 
     build-mac:
         name: Build macOS DMG file
@@ -47,8 +47,8 @@ jobs:
         - name: Upload dmg
           uses: actions/upload-artifact@v1.0.0
           with:
-            name: ezra-project_macos_latest
-            path: release/ezra-project.dmg
+            name: ezra-bible-app_macos_latest
+            path: release/ezra-bible-app.dmg
 
     build-ubuntu-1804:
         name: Build Ubuntu 18.04 package
@@ -62,8 +62,8 @@ jobs:
         - name: Upload deb file
           uses: actions/upload-artifact@v1.0.0
           with:
-            name: ezra-project_ubuntu1804_latest
-            path: ezra-project_latest.deb
+            name: ezra-bible-app_ubuntu1804_latest
+            path: ezra-bible-app_latest.deb
 
     build-ubuntu-2004:
       name: Build Ubuntu 20.04 package
@@ -77,8 +77,8 @@ jobs:
       - name: Upload deb file
         uses: actions/upload-artifact@v1.0.0
         with:
-          name: ezra-project_ubuntu2004_latest
-          path: ezra-project_latest.deb
+          name: ezra-bible-app_ubuntu2004_latest
+          path: ezra-bible-app_latest.deb
 
     build-mint18:
         name: Build Mint 18 package
@@ -92,8 +92,8 @@ jobs:
         - name: Upload deb file
           uses: actions/upload-artifact@v1.0.0
           with:
-            name: ezra-project_mint18_latest
-            path: ezra-project_latest.deb
+            name: ezra-bible-app_mint18_latest
+            path: ezra-bible-app_latest.deb
 
     build-mint19:
         name: Build Mint 19 package
@@ -107,8 +107,8 @@ jobs:
         - name: Upload deb file
           uses: actions/upload-artifact@v1.0.0
           with:
-            name: ezra-project_mint19_latest
-            path: ezra-project_latest.deb
+            name: ezra-bible-app_mint19_latest
+            path: ezra-bible-app_latest.deb
 
     build-buster:
         name: Build Debian 10 package
@@ -122,8 +122,8 @@ jobs:
         - name: Upload deb file
           uses: actions/upload-artifact@v1.0.0
           with:
-            name: ezra-project_debian10_latest
-            path: ezra-project_latest.deb
+            name: ezra-bible-app_debian10_latest
+            path: ezra-bible-app_latest.deb
 
     build-fedora29:
         name: Build Fedora 29 package
@@ -137,8 +137,8 @@ jobs:
         - name: Upload rpm file
           uses: actions/upload-artifact@v1.0.0
           with:
-            name: ezra-project_fedora29_latest
-            path: ezra-project_latest.rpm
+            name: ezra-bible-app_fedora29_latest
+            path: ezra-bible-app_latest.rpm
 
     build-fedora31:
         name: Build Fedora 31 package
@@ -152,8 +152,8 @@ jobs:
         - name: Upload rpm file
           uses: actions/upload-artifact@v1.0.0
           with:
-            name: ezra-project_fedora31_latest
-            path: ezra-project_latest.rpm
+            name: ezra-bible-app_fedora31_latest
+            path: ezra-bible-app_latest.rpm
 
     build-fedora33:
         name: Build Fedora 33 package
@@ -170,12 +170,12 @@ jobs:
         - name: Create package
           run: npm install electron-installer-redhat && npm run rpm_fedora29
         - name: Rename package
-          run: mv release/packages/*.rpm $GITHUB_WORKSPACE/ezra-project_latest.rpm
+          run: mv release/packages/*.rpm $GITHUB_WORKSPACE/ezra-bible-app_latest.rpm
         - name: Upload rpm file
           uses: actions/upload-artifact@v1.0.0
           with:
-            name: ezra-project_fedora33_latest
-            path: ezra-project_latest.rpm
+            name: ezra-bible-app_fedora33_latest
+            path: ezra-bible-app_latest.rpm
 
     build-centos8:
         name: Build CentOS 8 package
@@ -189,8 +189,8 @@ jobs:
         - name: Upload rpm file
           uses: actions/upload-artifact@v1.0.0
           with:
-            name: ezra-project_centos8_latest
-            path: ezra-project_latest.rpm
+            name: ezra-bible-app_centos8_latest
+            path: ezra-bible-app_latest.rpm
 
     build-opensuse-leap:
         name: Build OpenSuse Leap package
@@ -204,8 +204,8 @@ jobs:
         - name: Upload rpm file
           uses: actions/upload-artifact@v1.0.0
           with:
-            name: ezra-project_opensuse_leap_latest
-            path: ezra-project_latest.rpm
+            name: ezra-bible-app_opensuse_leap_latest
+            path: ezra-bible-app_latest.rpm
 
     release:
       if: "github.event.release"
@@ -220,73 +220,73 @@ jobs:
       - name: Download win32 package
         uses: actions/download-artifact@v1.0.0
         with:
-          name: ezra-project_win32_latest
+          name: ezra-bible-app_win32_latest
 
       - name: Download ubuntu-1804 package
         uses: actions/download-artifact@v1.0.0
         with:
-          name: ezra-project_ubuntu1804_latest
+          name: ezra-bible-app_ubuntu1804_latest
 
       - name: Download ubuntu-2004 package
         uses: actions/download-artifact@v1.0.0
         with:
-          name: ezra-project_ubuntu2004_latest
+          name: ezra-bible-app_ubuntu2004_latest
 
       - name: Download mint18 package
         uses: actions/download-artifact@v1.0.0
         with:
-          name: ezra-project_mint18_latest
+          name: ezra-bible-app_mint18_latest
 
       - name: Download mint19 package
         uses: actions/download-artifact@v1.0.0
         with:
-          name: ezra-project_mint19_latest
+          name: ezra-bible-app_mint19_latest
 
       - name: Download debian10 package
         uses: actions/download-artifact@v1.0.0
         with:
-          name: ezra-project_debian10_latest
+          name: ezra-bible-app_debian10_latest
 
       - name: Download fedora29 package
         uses: actions/download-artifact@v1.0.0
         with:
-          name: ezra-project_fedora29_latest
+          name: ezra-bible-app_fedora29_latest
 
       - name: Download fedora31 package
         uses: actions/download-artifact@v1.0.0
         with:
-          name: ezra-project_fedora31_latest
+          name: ezra-bible-app_fedora31_latest
 
       - name: Download fedora33 package
         uses: actions/download-artifact@v1.0.0
         with:
-          name: ezra-project_fedora33_latest
+          name: ezra-bible-app_fedora33_latest
 
       - name: Download centos8 package
         uses: actions/download-artifact@v1.0.0
         with:
-          name: ezra-project_centos8_latest
+          name: ezra-bible-app_centos8_latest
 
       - name: Download opensuse leap package
         uses: actions/download-artifact@v1.0.0
         with:
-          name: ezra-project_opensuse_leap_latest
+          name: ezra-bible-app_opensuse_leap_latest
 
       - name: Rename artifacts for publishing
         shell: bash
         run: |
           mkdir packages
-          mv ezra-project_win32_latest/ezra-project_win32_setup_latest.exe packages/ezra-project_win32_setup-${GITHUB_REF##*/}.exe
-          mv ezra-project_ubuntu1804_latest/ezra-project_latest.deb packages/ezra-project_ubuntu1804-${GITHUB_REF##*/}.deb
-          mv ezra-project_ubuntu2004_latest/ezra-project_latest.deb packages/ezra-project_ubuntu2004-${GITHUB_REF##*/}.deb
-          mv ezra-project_mint18_latest/ezra-project_latest.deb packages/ezra-project_mint18-${GITHUB_REF##*/}.deb
-          mv ezra-project_mint19_latest/ezra-project_latest.deb packages/ezra-project_mint19-${GITHUB_REF##*/}.deb
-          mv ezra-project_debian10_latest/ezra-project_latest.deb packages/ezra-project_debian10-${GITHUB_REF##*/}.deb
-          mv ezra-project_centos8_latest/ezra-project_latest.rpm packages/ezra-project_centos8-${GITHUB_REF##*/}.rpm
-          mv ezra-project_fedora29_latest/ezra-project_latest.rpm packages/ezra-project_fedora29-${GITHUB_REF##*/}.rpm
-          mv ezra-project_fedora31_latest/ezra-project_latest.rpm packages/ezra-project_fedora31-${GITHUB_REF##*/}.rpm
-          mv ezra-project_opensuse_leap_latest/ezra-project_latest.rpm packages/ezra-project_opensuse_leap-${GITHUB_REF##*/}.rpm
-          mv ezra-project_fedora33_latest/ezra-project_latest.rpm packages/ezra-project_fedora33-${GITHUB_REF##*/}.rpm
+          mv ezra-bible-app_win32_latest/ezra-bible-app_win32_setup_latest.exe packages/ezra-bible-app_win32_setup-${GITHUB_REF##*/}.exe
+          mv ezra-bible-app_ubuntu1804_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_ubuntu1804-${GITHUB_REF##*/}.deb
+          mv ezra-bible-app_ubuntu2004_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_ubuntu2004-${GITHUB_REF##*/}.deb
+          mv ezra-bible-app_mint18_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_mint18-${GITHUB_REF##*/}.deb
+          mv ezra-bible-app_mint19_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_mint19-${GITHUB_REF##*/}.deb
+          mv ezra-bible-app_debian10_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_debian10-${GITHUB_REF##*/}.deb
+          mv ezra-bible-app_centos8_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_centos8-${GITHUB_REF##*/}.rpm
+          mv ezra-bible-app_fedora29_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_fedora29-${GITHUB_REF##*/}.rpm
+          mv ezra-bible-app_fedora31_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_fedora31-${GITHUB_REF##*/}.rpm
+          mv ezra-bible-app_opensuse_leap_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_opensuse_leap-${GITHUB_REF##*/}.rpm
+          mv ezra-bible-app_fedora33_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_fedora33-${GITHUB_REF##*/}.rpm
 
       - name: Publish artifacts
         uses: skx/github-action-publish-binaries@master
