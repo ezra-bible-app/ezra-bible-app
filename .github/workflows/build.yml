@@ -33,22 +33,22 @@ jobs:
             name: ezra-bible-app_win32_latest
             path: release\packages\ezra-bible-app_win32_setup_latest.exe
 
-    build-mac:
-        name: Build macOS DMG file
-        runs-on: macos-latest
-        steps:
-        - uses: actions/checkout@v1
-        - name: Install pkg-config
-          run: brew install pkg-config
-        - name: Build
-          run: npm run build-mac
-        - name: Generate dmg
-          run: npm install electron-installer-dmg macos-alias ds-store && npm run dmg-mac
-        - name: Upload dmg
-          uses: actions/upload-artifact@v1.0.0
-          with:
-            name: ezra-bible-app_macos_latest
-            path: release/ezra-bible-app.dmg
+#    build-mac:
+#        name: Build macOS DMG file
+#        runs-on: macos-latest
+#        steps:
+#        - uses: actions/checkout@v1
+#        - name: Install pkg-config
+#          run: brew install pkg-config
+#        - name: Build
+#          run: npm run build-mac
+#        - name: Generate dmg
+#          run: npm install electron-installer-dmg macos-alias ds-store && npm run dmg-mac
+#        - name: Upload dmg
+#          uses: actions/upload-artifact@v1.0.0
+#          with:
+#            name: ezra-bible-app_macos_latest
+#            path: release/ezra-bible-app.dmg
 
     build-ubuntu-1804:
         name: Build Ubuntu 18.04 package
