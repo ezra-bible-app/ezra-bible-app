@@ -204,14 +204,14 @@ class PlatformHelper {
     }
   }
 
-  getUserDataPath() {
+  getUserDataPath(getOldPath=false) {
     if (this.isElectron()) {
 
       var { app } = require('electron');
       const path = require('path');
 
       var pjson = require('../../package.json');
-      var appName = pjson.name;
+      var appName = getOldPath ? 'ezra-project' : pjson.name;
 
       var userDataDir = path.join(app.getPath('appData'), appName);
       return userDataDir;

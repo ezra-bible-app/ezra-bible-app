@@ -43,13 +43,23 @@ class DbHelper {
   }
 
   initDbInUserDir() {
-    var dbPath = path.join(this.userDataDir, 'ezra.sqlite');
-  
+    var dbFileName = 'ezra.sqlite';
+    var dbPath = path.join(this.userDataDir, dbFileName);
+
+    var oldUserDataDir = this.platformHelper.getUserDataPath(true);
+    var oldDbPath = path.join(oldUserDataDir, dbFileName);
+
     if (!fs.existsSync(dbPath)) {
-      console.log('Database not yet existing in user directory! Setting up empty database from template.');
+      console.log('Database not yet existing in user directory!');
   
-      var templatePath = path.join(__dirname, '../../../ezra.sqlite');
-      fs.copySync(templatePath, dbPath);
+      if (fs.existsSync(oldDbPath)) {
+        console.log('Copying database from previously used application directory.');
+        fs.copySync(oldDbPath, dbPath);
+      } else {
+        console.log('Setting up empty database from template.');
+        var templatePath = path.join(__dirname, '../../../ezra.sqlite');
+        fs.copySync(templatePath, dbPath);
+      }
     }
   }
 
