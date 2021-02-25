@@ -208,7 +208,12 @@ class PlatformHelper {
     if (this.isElectron()) {
 
       var { app } = require('electron');
-      var userDataDir = app.getPath('userData');
+      const path = require('path');
+
+      var pjson = require('../../package.json');
+      var appName = pjson.name;
+
+      var userDataDir = path.join(app.getPath('appData'), appName);
       return userDataDir;
 
     } else if (this.isCordova()) {
