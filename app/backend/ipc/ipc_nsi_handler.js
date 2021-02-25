@@ -33,8 +33,7 @@ class IpcNsiHandler {
   initNSI() {
     if (this._platformHelper.isTest()) {
 
-      const { app } = require('electron');
-      const userDataDir = app.getPath('userData');
+      const userDataDir = this._platformHelper.getUserDataPath();
       this._nsi = new NodeSwordInterface(userDataDir);
 
     } else {
