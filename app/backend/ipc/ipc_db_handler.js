@@ -41,7 +41,11 @@ class IpcDbHandler {
 
     const fs = require('fs');
     if (!fs.existsSync(this.dbDir)) {
-      throw "Database directory " + this.dbDir + " does not exist!";
+      try {
+        fs.mkdirSync(this.dbDir);
+      } catch (e) {
+        through("Could not create db directory at " + this.dbDir);
+      }
     }
 
     await dbHelper.initDatabase(this.dbDir);
