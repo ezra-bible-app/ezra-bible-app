@@ -68,7 +68,9 @@ class SpectronHelper {
 
   async getUserDataDir() {
     var electronApp = this.app.electron.remote.app;
-    var userDataDir = await electronApp.getPath('userData');
+    var pjson = require('../../package.json');
+    var appDataPath = await electronApp.getPath('appData');
+    var userDataDir = path.join(appDataPath, pjson.name);
     return userDataDir;
   }
 
