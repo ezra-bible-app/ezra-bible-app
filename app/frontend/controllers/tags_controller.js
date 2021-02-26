@@ -420,16 +420,19 @@ class TagsController {
       for (var i = 0; i < current_verse_reference_ids.length; i++) {
         var currentVerseReferenceId = current_verse_reference_ids[i];
         var currentVerseBox = currentVerseList[0].querySelector('.verse-reference-id-' + currentVerseReferenceId);
-        var existingTagIdElements = currentVerseBox.querySelectorAll('.tag-id');
-        var existingTagIds = [];
-        
-        for (var j = 0; j < existingTagIdElements.length; j++) {
-          var currentTagId = parseInt(existingTagIdElements[j].innerText);
-          existingTagIds.push(currentTagId);
-        }
 
-        if (!existingTagIds.includes(id)) {
-          filteredVerseBoxes.push(currentVerseBox);
+        if (currentVerseBox != null) {
+          var existingTagIdElements = currentVerseBox.querySelectorAll('.tag-id');
+          var existingTagIds = [];
+          
+          for (var j = 0; j < existingTagIdElements.length; j++) {
+            var currentTagId = parseInt(existingTagIdElements[j].innerText);
+            existingTagIds.push(currentTagId);
+          }
+
+          if (!existingTagIds.includes(id)) {
+            filteredVerseBoxes.push(currentVerseBox);
+          }
         }
       }
 
