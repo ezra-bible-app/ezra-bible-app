@@ -99,7 +99,14 @@ class OptionsMenu {
     this._keepScreenAwakeOption = await this.initDisplayOption('screen-awake-switch', 'keepScreenAwake', () => { this.keepScreenAwakeBasedOnOption(); });
 
     if (!this.platformHelper.isCordova()) {
+      // On the desktop (Electron) we do not need the screen-awake option!
       $('#screen-awake-switch-box').hide();
+    }
+
+    if (this.platformHelper.isCordova()) {
+      // On the Cordova platform we cannot make use of the dictionary panel, because
+      // it heavily depends on the mouse.
+      $('#strongs-switch-box').hide();
     }
 
     this.refreshViewBasedOnOptions();
