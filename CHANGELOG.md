@@ -1,6 +1,10 @@
 # Ezra Project - Changelog
 All notable changes to Ezra Project are documented in this file.
 
+### [0.17.2 - 2021-02-27]
+
+This is a bugfix release only applicable for Android. It fixes a few minor JavaScript glitches.
+
 ### [0.17.1 - 2021-02-21]
 
 This is a bugfix release only applicable for macOS and Android.
