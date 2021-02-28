@@ -132,7 +132,14 @@ class IpcSettingsHandler {
       `;
 
       const fs = require('fs');
-      var ret = fs.writeFileSync(fileName, fileContent);
+      var ret = null;
+
+      try {
+        ret = fs.writeFileSync(fileName, fileContent);
+      } catch (e) {
+        console.error('Could not write to ' + fileName);
+      }
+
       return ret;
     });
   }
