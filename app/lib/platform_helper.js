@@ -216,8 +216,10 @@ class PlatformHelper {
       var newAppName = null;
 
       if (this.isWin()) {
+        // On Windows we use productName (containing spaces) for the user data path.
         newAppName = pjson.productName; 
       } else {
+        // On other platforms we use the name attribute, which is more unix-style.
         newAppName = pjson.name;
       }
 
