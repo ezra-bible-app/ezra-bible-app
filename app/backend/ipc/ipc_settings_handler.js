@@ -35,7 +35,13 @@ class IpcSettingsHandler {
   migrate(configName, configOptions) {
     if (configName == 'config') {
       var configPath = this._configurations[configName].path;
-      var oldConfigPath = configPath.replace('ezra-bible-app', 'ezra-project');
+      var oldConfigPath = null;
+
+      if (this.platformHelper.isWin()) {
+        oldConfigPath = configPath.replace('Ezra Bible App', 'ezra-project\\Config');
+      } else {
+        oldConfigPath = configPath.replace('ezra-bible-app', 'ezra-project');
+      }
 
       const migratedOption = 'migratedToEzraBibleApp';
       var configMigrated = this._configurations[configName].has(migratedOption);
@@ -66,9 +72,7 @@ class IpcSettingsHandler {
         configName: configName,
       };
 
-      if (this._isCordova || this._isTest) {
-        configOptions['cwd'] = this.platformHelper.getUserDataPath();
-      }
+      configOptions['cwd'] = this.platformHelper.getUserDataPath();
 
       this._configurations[configName] = new Conf(configOptions);
 
