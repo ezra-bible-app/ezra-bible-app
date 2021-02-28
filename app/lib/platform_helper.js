@@ -211,7 +211,17 @@ class PlatformHelper {
       const path = require('path');
 
       var pjson = require('../../package.json');
-      var appName = getOldPath ? 'ezra-project' : pjson.name;
+
+      var appName = null;
+      var newAppName = null;
+
+      if (this.isWin()) {
+        newAppName = pjson.productName; 
+      } else {
+        newAppName = pjson.name;
+      }
+
+      appName = getOldPath ? 'ezra-project' : newAppName;
 
       var userDataDir = path.join(app.getPath('appData'), appName);
       return userDataDir;
