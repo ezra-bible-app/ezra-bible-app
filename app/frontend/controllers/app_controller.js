@@ -332,21 +332,26 @@ class AppController {
   }
 
   async loadSettings() {
-    var tagListWidthAvailable = await ipcSettings.has('tagListWidth');
+    try {
+      var tagListWidthAvailable = await ipcSettings.has('tagListWidth');
 
-    if (tagListWidthAvailable) {
-      var tagListWidth = await ipcSettings.get('tagListWidth');
+      if (tagListWidthAvailable) {
+        var tagListWidth = await ipcSettings.get('tagListWidth');
 
-      $('#bible-browser-toolbox').css('width', tagListWidth);
-      uiHelper.resizeAppContainer();
+        $('#bible-browser-toolbox').css('width', tagListWidth);
+        uiHelper.resizeAppContainer();
+      }
+
+      if (await ipcDb.getTagCount() > 0) {
+        tags_controller.showTagListLoadingIndicator();
+      }
+
+      await this.tab_controller.loadTabConfiguration();
+      await this.translation_controller.loadSettings();
+    } catch (e) {
+      console.error("Failed to load settings ... ");
     }
-
-    if (await ipcDb.getTagCount() > 0) {
-      tags_controller.showTagListLoadingIndicator();
-    }
-
-    await this.tab_controller.loadTabConfiguration();
-    await this.translation_controller.loadSettings();
+    
     this.tab_controller.bindEvents();
   }
 
