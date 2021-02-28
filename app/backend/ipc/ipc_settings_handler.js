@@ -73,9 +73,7 @@ class IpcSettingsHandler {
       };
 
       configOptions['cwd'] = this.platformHelper.getUserDataPath();
-
       this._configurations[configName] = new Conf(configOptions);
-
       this.migrate(configName, configOptions);
 
       console.log('Using settings file ' + this._configurations[configName].path);
