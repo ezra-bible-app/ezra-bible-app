@@ -1,5 +1,6 @@
 {
     "options.productName" : "Ezra Bible App",
+    "options.exe": "Ezra Bible App.exe",
     "options.noMsi" : true,
     "options.tags": [
         "Bible study",
