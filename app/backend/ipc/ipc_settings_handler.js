@@ -19,6 +19,7 @@
 const IpcMain = require('./ipc_main.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const Conf = require('conf');
+const fs = require('fs-extra');
 
 class IpcSettingsHandler {
   constructor() {
@@ -29,6 +30,32 @@ class IpcSettingsHandler {
     this._isTest = this.platformHelper.isTest();
     this._configurations = {};
     this.initIpcInterface();
+  }
+
+  migrate(configName, configOptions) {
+    if (configName == 'config') {
+      var configPath = this._configurations[configName].path;
+      var oldConfigPath = configPath.replace('ezra-bible-app', 'ezra-project');
+
+      const migratedOption = 'migratedToEzraBibleApp';
+      var configMigrated = this._configurations[configName].has(migratedOption);
+      
+      if (!configMigrated && fs.existsSync(oldConfigPath)) {
+        console.log("Found old configuration for Ezra Project ... moving it to the new directory");
+
+        try {
+          fs.moveSync(oldConfigPath, configPath, { overwrite: true });
+
+          console.log("Re-loading configuration based on moved file");
+          this._configurations[configName] = new Conf(configOptions);
+        } catch (e) {
+          console.error(`Could not migrate configuration from ${oldConfigPath} to ${configPath}!`);
+        }
+
+        // We set this flag in any case (whether or not the operation above was successfull)
+        this._configurations[configName].set(migratedOption, true);
+      }
+    }
   }
 
   getConfig(configName='config') {
@@ -44,6 +71,9 @@ class IpcSettingsHandler {
       }
 
       this._configurations[configName] = new Conf(configOptions);
+
+      this.migrate(configName, configOptions);
+
       console.log('Using settings file ' + this._configurations[configName].path);
     }
 
