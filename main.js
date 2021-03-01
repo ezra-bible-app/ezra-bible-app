@@ -167,10 +167,6 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  /*global.ipcNsiHandler = new IpcNsiHandler();
-  global.ipcDbHandler = new IpcDbHandler();
-  await ipcDbHandler.initDatabase();*/
-
   await createWindow();
 });
 
