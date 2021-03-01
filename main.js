@@ -83,42 +83,6 @@ function shouldUseDarkMode() {
   return useDarkMode;
 }
 
-function performConfigMigration() {
-  var config = ipc.ipcSettingsHandler.getConfig()
-  var migrationDone = config.get('configMigrationDone', false);
-
-  if (!migrationDone) {
-    console.log("Migrating configuration from electron-settings to conf based settings ...");
-
-    var settings = require('electron-settings');
-    var settingsValues = {};
-
-    settingsValues['customDatabaseDir'] = settings.get('custom_database_dir', null);
-    settingsValues['selectedRepositories'] = settings.get('selected_repositories', null);
-    settingsValues['selectedLanguages'] = settings.get('selected_languages', null);
-    settingsValues['bibleTranslation'] = settings.get('bible_translation', null);
-    settingsValues['tagListWidth'] = settings.get('tag_list_width', null);
-    settingsValues['lastSwordRepoUpdate'] = settings.get('lastSwordRepoUpdate', null);
-    settingsValues['showTags'] = settings.get('showTags', null);
-    settingsValues['showSectionTitles'] = settings.get('showSectionTitles', null);
-    settingsValues['useTagsColumn'] = settings.get('useTagsColumn', null);
-    settingsValues['showToolBar'] = settings.get('showToolBar', null);
-    settingsValues['showBookIntro'] = settings.get('showBookIntro', null);
-    settingsValues['showStrongs'] = settings.get('showStrongs', null);
-
-    for (var property in settingsValues) {
-      var currentPropertyValue = settingsValues[property];
-
-      if (currentPropertyValue != null) {
-        config.set(property, currentPropertyValue);
-      }
-    }
-
-    config.set('configMigrationDone', true);
-    console.log("Migration of configuration completed!");
-  }
-}
-
 function createWindow () {
   const path = require('path');
   const url = require('url');
@@ -154,10 +118,6 @@ function createWindow () {
     ipcMain.handle('initIpc', async (event, arg) => {
       await ipc.init(isDev, mainWindow);
     });
-  }
-
-  if (platformHelper.isElectron()) {
-    performConfigMigration();
   }
 
   if (shouldUseDarkMode()) {
