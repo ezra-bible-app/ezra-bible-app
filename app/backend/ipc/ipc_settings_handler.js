@@ -47,7 +47,7 @@ class IpcSettingsHandler {
       var configMigrated = this._configurations[configName].has(migratedOption);
       
       if (!configMigrated && fs.existsSync(oldConfigPath)) {
-        console.log("Found old configuration for Ezra Project ... moving it to the new directory");
+        console.log(`Found old configuration for Ezra Project at ${oldConfigPath}... moving it to the new directory ${configPath}.`);
 
         try {
           fs.moveSync(oldConfigPath, configPath, { overwrite: true });
