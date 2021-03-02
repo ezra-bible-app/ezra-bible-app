@@ -1,6 +1,6 @@
 # action.yml
 name: 'build-linux-mint-18'
-description: 'Build Ezra Project for Linux Mint 18'
+description: 'Build Ezra Bible App for Linux Mint 18'
 runs:
     using: 'docker'
     image: 'docker://toklein/ezra-mint-18:latest'

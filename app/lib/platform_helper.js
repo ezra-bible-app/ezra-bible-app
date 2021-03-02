@@ -204,11 +204,28 @@ class PlatformHelper {
     }
   }
 
-  getUserDataPath() {
+  getUserDataPath(getOldPath=false) {
     if (this.isElectron()) {
 
       var { app } = require('electron');
-      var userDataDir = app.getPath('userData');
+      const path = require('path');
+
+      var pjson = require('../../package.json');
+
+      var appName = null;
+      var newAppName = null;
+
+      if (this.isWin()) {
+        // On Windows we use productName (containing spaces) for the user data path.
+        newAppName = pjson.productName; 
+      } else {
+        // On other platforms we use the name attribute, which is more unix-style.
+        newAppName = pjson.name;
+      }
+
+      appName = getOldPath ? 'ezra-project' : newAppName;
+
+      var userDataDir = path.join(app.getPath('appData'), appName);
       return userDataDir;
 
     } else if (this.isCordova()) {

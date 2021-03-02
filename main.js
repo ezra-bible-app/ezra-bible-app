@@ -1,19 +1,19 @@
-/* This file is part of Ezra Project.
+/* This file is part of Ezra Bible App.
 
    Copyright (C) 2019 - 2021 Tobias Klein <contact@ezra-project.net>
 
-   Ezra Project is free software: you can redistribute it and/or modify
+   Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 2 of the License, or
    (at your option) any later version.
 
-   Ezra Project is distributed in the hope that it will be useful,
+   Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with Ezra Project. See the file LICENSE.
+   along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
 require('v8-compile-cache');
@@ -83,42 +83,6 @@ function shouldUseDarkMode() {
   return useDarkMode;
 }
 
-function performConfigMigration() {
-  var config = ipc.ipcSettingsHandler.getConfig()
-  var migrationDone = config.get('configMigrationDone', false);
-
-  if (!migrationDone) {
-    console.log("Migrating configuration from electron-settings to conf based settings ...");
-
-    var settings = require('electron-settings');
-    var settingsValues = {};
-
-    settingsValues['customDatabaseDir'] = settings.get('custom_database_dir', null);
-    settingsValues['selectedRepositories'] = settings.get('selected_repositories', null);
-    settingsValues['selectedLanguages'] = settings.get('selected_languages', null);
-    settingsValues['bibleTranslation'] = settings.get('bible_translation', null);
-    settingsValues['tagListWidth'] = settings.get('tag_list_width', null);
-    settingsValues['lastSwordRepoUpdate'] = settings.get('lastSwordRepoUpdate', null);
-    settingsValues['showTags'] = settings.get('showTags', null);
-    settingsValues['showSectionTitles'] = settings.get('showSectionTitles', null);
-    settingsValues['useTagsColumn'] = settings.get('useTagsColumn', null);
-    settingsValues['showToolBar'] = settings.get('showToolBar', null);
-    settingsValues['showBookIntro'] = settings.get('showBookIntro', null);
-    settingsValues['showStrongs'] = settings.get('showStrongs', null);
-
-    for (var property in settingsValues) {
-      var currentPropertyValue = settingsValues[property];
-
-      if (currentPropertyValue != null) {
-        config.set(property, currentPropertyValue);
-      }
-    }
-
-    config.set('configMigrationDone', true);
-    console.log("Migration of configuration completed!");
-  }
-}
-
 function createWindow () {
   const path = require('path');
   const url = require('url');
@@ -156,10 +120,6 @@ function createWindow () {
     });
   }
 
-  if (platformHelper.isElectron()) {
-    performConfigMigration();
-  }
-
   if (shouldUseDarkMode()) {
     var bgColor = '#000000';
   } else {
@@ -173,14 +133,14 @@ function createWindow () {
                                   height: mainWindowState.height,
                                   show: true,
                                   frame: true,
-                                  title: "Ezra Project " + app.getVersion(),
+                                  title: "Ezra Bible App " + app.getVersion(),
                                   webPreferences: {
                                     nodeIntegration: true,
                                     preload: preloadScript,
                                     enableRemoteModule: true,
                                     defaultEncoding: "UTF-8"
                                   },
-                                  icon: path.join(__dirname, 'icons/ezra-project.png'),
+                                  icon: path.join(__dirname, 'icons/ezra.png'),
                                   backgroundColor: bgColor
                                  });
  
@@ -207,10 +167,6 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  /*global.ipcNsiHandler = new IpcNsiHandler();
-  global.ipcDbHandler = new IpcDbHandler();
-  await ipcDbHandler.initDatabase();*/
-
   await createWindow();
 });
 

@@ -1,6 +1,6 @@
-# Ezra Project Technology
+# Ezra Bible App Technology
 
-Ezra Project is a web-based Bible study app for desktop and tablet computers. On the desktop the application is based on [Electron](https://electronjs.org/). On Android tablets the application is based on [Cordova](https://cordova.apache.org/). It is programmed in JavaScript, uses [SQLite](https://www.sqlite.org) as its database and HTML with [jQuery UI](https://jqueryui.com/) for its frontend. Bible translation modules are managed using [node-sword-interface](https://github.com/ezra-project/node-sword-interface).
+Ezra Bible App is a web-based Bible study app for desktop and tablet computers. On the desktop the application is based on [Electron](https://electronjs.org/). On Android tablets the application is based on [Cordova](https://cordova.apache.org/). It is programmed in JavaScript, uses [SQLite](https://www.sqlite.org) as its database and HTML with [jQuery UI](https://jqueryui.com/) for its frontend. Bible translation modules are managed using [node-sword-interface](https://github.com/ezra-project/node-sword-interface).
 
 Furthermore, the following components are used (among others):
 * [Sequelize](http://docs.sequelizejs.com) [ORM](https://en.wikipedia.org/wiki/Object-relational_mapping) for handling database access
@@ -16,12 +16,12 @@ Furthermore, the following components are used (among others):
 * [I18next](https://www.i18next.com/) for internationalization
 * [browserify](http://browserify.org/) for minifying the JavaScript code
 
-To test Ezra Project, the following components are used:
+To test Ezra Bible App, the following components are used:
 * [Cucumber.js](https://github.com/cucumber/cucumber-js)
 * [Chai](https://www.chaijs.com/)
 * [Spectron](https://www.electronjs.org/spectron)
 
-To package Ezra Project, the following components are used:
+To package Ezra Bible App, the following components are used:
 * [electron-packager](https://github.com/electron/electron-packager)
 * [electron-installer-windows](https://github.com/electron-userland/electron-installer-windows)
 * [electron-installer-debian](https://github.com/electron-userland/electron-installer-debian)
@@ -29,6 +29,6 @@ To package Ezra Project, the following components are used:
 * [electron-installer-dmg](https://github.com/electron-userland/electron-installer-dmg)
 * [electron-osx-sign](https://github.com/electron/electron-osx-sign)
 
-Code metrics of Ezra Projects are available [here][metrics].
+Code metrics of Ezra Bible Apps are available [here][metrics].
 
 [metrics]: https://github.com/ezra-project/ezra-project/blob/master/LOC_METRICS.md

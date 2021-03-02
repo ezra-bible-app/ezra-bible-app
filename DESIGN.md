@@ -1,14 +1,14 @@
-Welcome to the Design documentation of Ezra Project!
+Welcome to the Design documentation of Ezra Bible App!
 
 <a href='#file-structure'>File structure</a> | <a href='#db-schema'>Database schema</a>
 
 ## Architecture overview
 
-Ezra Project mostly uses plain, vanilla JavaScript in combination with some additional technology like jQuery, jQuery UI, Sequelize and the Pug template engine (see [here](https://github.com/ezra-project/ezra-project/blob/master/TECH.md) for a complete list of technologies). For performance reasons, it does not use a web framework like React or Angular. Nevertheless, the architecture is designed in a modular way and should make it easy for new developers.
+Ezra Bible App mostly uses plain, vanilla JavaScript in combination with some additional technology like jQuery, jQuery UI, Sequelize and the Pug template engine (see [here](https://github.com/ezra-project/ezra-project/blob/master/TECH.md) for a complete list of technologies). For performance reasons, it does not use a web framework like React or Angular. Nevertheless, the architecture is designed in a modular way and should make it easy for new developers.
 
 ### Controllers
 
-Controllers are classes that manage one or several (graphical) components and usually also interact with the Ezra Project database, e.g. the `TagsController` and `NotesController`.
+Controllers are classes that manage one or several (graphical) components and usually also interact with the Ezra Bible App database, e.g. the `TagsController` and `NotesController`.
 
 The most notable Controller is the `AppController`, which is responsible for initializing all other controllers and components.
 
@@ -22,7 +22,7 @@ Sequelize (an object-oriented wrapper) is used to manage the interface to the (S
 
 ### node-sword-interface
 
-To access SWORD modules, Ezra Project uses the [node-sword-interface](https://github.com/ezra-project/node-sword-interface) library. This library is implemented in C++ and offers a simple, flat, facade style interface that wraps calls to the SWORD library.
+To access SWORD modules, Ezra Bible App uses the [node-sword-interface](https://github.com/ezra-project/node-sword-interface) library. This library is implemented in C++ and offers a simple, flat, facade style interface that wraps calls to the SWORD library.
 
 ### The big picture
 
@@ -62,7 +62,7 @@ Entry script of the Electron renderer process for initializing the user interfac
 
 ### app
 
-This directory contains the JavaScript source code of Ezra Project. It contains the following parts:
+This directory contains the JavaScript source code of Ezra Bible App. It contains the following parts:
 
 * `components`: Graphical components of the UI, e.g. `BookSelectionMenu`, `NavigationPane`, `OptionsMenu`, etc.
 * `controllers`: Controllers are classes that "bring live" into the UI and respond to user actions. All Controllers are named `<Name>Controller` and the file name is `<name>_controller.js`.

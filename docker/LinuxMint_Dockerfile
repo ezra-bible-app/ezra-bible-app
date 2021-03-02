@@ -1,4 +1,4 @@
-# Dockerfile for Linux Mint Build Enviroment for Ezra Project
+# Dockerfile for Linux Mint Build Enviroment for Ezra Bible App
 
 FROM vcatechnology/linux-mint
 

@@ -1,6 +1,6 @@
 # action.yml
 name: 'build-ubuntu-1910'
-description: 'Build Ezra Project for Ubuntu 19.10'
+description: 'Build Ezra Bible App for Ubuntu 19.10'
 runs:
     using: 'docker'
     image: 'docker://toklein/ezra-ubuntu-1910:latest'

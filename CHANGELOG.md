@@ -1,5 +1,5 @@
-# Ezra Project - Changelog
-All notable changes to Ezra Project are documented in this file.
+# Ezra Bible App - Changelog
+All notable changes to Ezra Bible App are documented in this file.
 
 ### [0.17.1 - 2021-02-21]
 
@@ -26,7 +26,7 @@ This is a bugfix release only applicable for macOS and Android.
 
 * Add option to open verse lists in new tab directly (tagged verse lists, xrefs). ([#176](i176))
 * Directly select whole input text when clicking on tag filter. ([#164](i164))
-* Integrate information "About Ezra Project" in Info Dialog. ([#163](i163))
+* Integrate information "About Ezra Bible App" in Info Dialog. ([#163](i163))
 
 ### Fixes
 
@@ -124,7 +124,7 @@ This is a bugfix release only applicable for macOS and Android.
 ### Fixes
 
 * Fixed Crash on Windows related to std::mutex (API locking of node-sword-interface). ([#118](i118))
-* Fixed a build issue that prevented Ezra Project from working on older macOS 10.x versions. With this issue fixed, it now works from macOS 10.10 (*Yosemite*) and all other subsequent versions. ([#119](i119))
+* Fixed a build issue that prevented Ezra Bible App from working on older macOS 10.x versions. With this issue fixed, it now works from macOS 10.10 (*Yosemite*) and all other subsequent versions. ([#119](i119))
 * Fixed a bug where the book selection menu was still responding to clicks even though the buttons were disabled/greyed out. ([#111](i111))
 * Fixed a bug where Xref markers do not respond to clicks after tab search has been used. ([#122](i122))
 * Fixed a bug where tab search may not have jumped to the right verse when searching within module search results. ([#123](i123))
@@ -132,7 +132,7 @@ This is a bugfix release only applicable for macOS and Android.
 
 ### Enablers
 
-* Upgraded to latest SWORD version 1.9.0 (SVN Rev. 3820). This is the first version of Ezra Project using this latest version of SWORD.
+* Upgraded to latest SWORD version 1.9.0 (SVN Rev. 3820). This is the first version of Ezra Bible App using this latest version of SWORD.
 
 [i82]: https://github.com/ezra-project/ezra-project/issues/82
 [i95]: https://github.com/ezra-project/ezra-project/issues/95
@@ -324,7 +324,7 @@ This is a bugfix release.
   This toolbar now holds all the buttons / menus relevant for working with the text.
   These buttons were formerly shown above the tag list on the left side.
 * Option to show/hide the toolbar (on the left side).
-  Based on this option Ezra Project can now also be used on tablets in vertical mode where the horizontal space
+  Based on this option Ezra Bible App can now also be used on tablets in vertical mode where the horizontal space
   is limited.
 * Tab search usability: Jump to next occurance by pressing enter.
 
@@ -450,7 +450,7 @@ This is a bugfix release.
 
 ## [0.8.1] - 2019-06-21
 ### Features
-* Sync functionality for Sword modules that are already existing locally: On startup any modules not yet used by Ezra Project are imported into the database.
+* Sync functionality for Sword modules that are already existing locally: On startup any modules not yet used by Ezra Bible App are imported into the database.
 
 ### Enhancements
 * Link with static Sword library (version 1.8.1), so that dependency to specific Sword package can be avoided.
@@ -469,7 +469,7 @@ This is a bugfix release.
 ### Features
 * Tabbed user interface
   * Each tab can hold Bible text or tagged verse lists
-  * Tabs are saved after every change and loaded when starting Ezra Project
+  * Tabs are saved after every change and loaded when starting Ezra Bible App
 * Search within the current tab (similar to the search function in browsers)
   * `CTRL + f` opens a search input field
   * Results are highlighted within the text
@@ -503,7 +503,7 @@ This is a bugfix release.
 
 
 ## [0.6.0] - 2019-02-03
-This is the initial public release of Ezra Project for the Linux desktop.
+This is the initial public release of Ezra Bible App for the Linux desktop.
 
 ### Features
 * Add/remove Bible translations from SWORD repositories

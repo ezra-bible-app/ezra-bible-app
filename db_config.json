@@ -2,7 +2,7 @@
   "development": {
     "username": null,
     "password": null,
-    "database": "ezra-project",
+    "database": "ezra-bible-app",
     "host": null,
     "dialect": "sqlite",
     "storage": "ezra.sqlite"

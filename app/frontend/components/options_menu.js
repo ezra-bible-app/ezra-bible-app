@@ -1,19 +1,19 @@
-/* This file is part of Ezra Project.
+/* This file is part of Ezra Bible App.
 
    Copyright (C) 2019 - 2021 Tobias Klein <contact@ezra-project.net>
 
-   Ezra Project is free software: you can redistribute it and/or modify
+   Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 2 of the License, or
    (at your option) any later version.
 
-   Ezra Project is distributed in the hope that it will be useful,
+   Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with Ezra Project. See the file LICENSE.
+   along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
 const PlatformHelper = require('../../lib/platform_helper.js');
@@ -99,7 +99,14 @@ class OptionsMenu {
     this._keepScreenAwakeOption = await this.initDisplayOption('screen-awake-switch', 'keepScreenAwake', () => { this.keepScreenAwakeBasedOnOption(); });
 
     if (!this.platformHelper.isCordova()) {
+      // On the desktop (Electron) we do not need the screen-awake option!
       $('#screen-awake-switch-box').hide();
+    }
+
+    if (this.platformHelper.isCordova()) {
+      // On the Cordova platform we cannot make use of the dictionary panel, because
+      // it heavily depends on the mouse.
+      $('#strongs-switch-box').hide();
     }
 
     this.refreshViewBasedOnOptions();

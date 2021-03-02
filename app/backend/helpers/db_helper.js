@@ -1,19 +1,19 @@
-/* This file is part of Ezra Project.
+/* This file is part of Ezra Bible App.
 
    Copyright (C) 2019 - 2021 Tobias Klein <contact@ezra-project.net>
 
-   Ezra Project is free software: you can redistribute it and/or modify
+   Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 2 of the License, or
    (at your option) any later version.
 
-   Ezra Project is distributed in the hope that it will be useful,
+   Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with Ezra Project. See the file LICENSE.
+   along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
 const fs = require('fs-extra');
@@ -43,13 +43,23 @@ class DbHelper {
   }
 
   initDbInUserDir() {
-    var dbPath = path.join(this.userDataDir, 'ezra.sqlite');
-  
+    var dbFileName = 'ezra.sqlite';
+    var dbPath = path.join(this.userDataDir, dbFileName);
+
+    var oldUserDataDir = this.platformHelper.getUserDataPath(true);
+    var oldDbPath = path.join(oldUserDataDir, dbFileName);
+
     if (!fs.existsSync(dbPath)) {
-      console.log('Database not yet existing in user directory! Setting up empty database from template.');
+      console.log('Database not yet existing in user directory!');
   
-      var templatePath = path.join(__dirname, '../../../ezra.sqlite');
-      fs.copySync(templatePath, dbPath);
+      if (fs.existsSync(oldDbPath)) {
+        console.log('Copying database from previously used application directory.');
+        fs.copySync(oldDbPath, dbPath);
+      } else {
+        console.log('Setting up empty database from template.');
+        var templatePath = path.join(__dirname, '../../../ezra.sqlite');
+        fs.copySync(templatePath, dbPath);
+      }
     }
   }
 

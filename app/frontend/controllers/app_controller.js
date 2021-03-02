@@ -1,19 +1,19 @@
-/* This file is part of Ezra Project.
+/* This file is part of Ezra Bible App.
 
    Copyright (C) 2019 - 2021 Tobias Klein <contact@ezra-project.net>
 
-   Ezra Project is free software: you can redistribute it and/or modify
+   Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 2 of the License, or
    (at your option) any later version.
 
-   Ezra Project is distributed in the hope that it will be useful,
+   Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with Ezra Project. See the file LICENSE.
+   along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Mousetrap = require('mousetrap');
@@ -44,7 +44,7 @@ const SwordNotes = require("../components/sword_notes.js");
 const InfoPopup = require("../components/info_popup.js");
 
 /**
- * AppController is Ezra Project's main controller class which initiates all other controllers and components.
+ * AppController is Ezra Bible App's main controller class which initiates all other controllers and components.
  * It is only instantiated once and an instance is available at `global.app_controller`.
  * 
  * @category Controller
@@ -332,21 +332,26 @@ class AppController {
   }
 
   async loadSettings() {
-    var tagListWidthAvailable = await ipcSettings.has('tagListWidth');
+    try {
+      var tagListWidthAvailable = await ipcSettings.has('tagListWidth');
 
-    if (tagListWidthAvailable) {
-      var tagListWidth = await ipcSettings.get('tagListWidth');
+      if (tagListWidthAvailable) {
+        var tagListWidth = await ipcSettings.get('tagListWidth');
 
-      $('#bible-browser-toolbox').css('width', tagListWidth);
-      uiHelper.resizeAppContainer();
+        $('#bible-browser-toolbox').css('width', tagListWidth);
+        uiHelper.resizeAppContainer();
+      }
+
+      if (await ipcDb.getTagCount() > 0) {
+        tags_controller.showTagListLoadingIndicator();
+      }
+
+      await this.tab_controller.loadTabConfiguration();
+      await this.translation_controller.loadSettings();
+    } catch (e) {
+      console.error("Failed to load settings ... got exception: " + e);
     }
-
-    if (await ipcDb.getTagCount() > 0) {
-      tags_controller.showTagListLoadingIndicator();
-    }
-
-    await this.tab_controller.loadTabConfiguration();
-    await this.translation_controller.loadSettings();
+    
     this.tab_controller.bindEvents();
   }
 

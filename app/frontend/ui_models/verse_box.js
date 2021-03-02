@@ -1,19 +1,19 @@
-/* This file is part of Ezra Project.
+/* This file is part of Ezra Bible App.
 
    Copyright (C) 2019 - 2021 Tobias Klein <contact@ezra-project.net>
 
-   Ezra Project is free software: you can redistribute it and/or modify
+   Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 2 of the License, or
    (at your option) any later version.
 
-   Ezra Project is distributed in the hope that it will be useful,
+   Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with Ezra Project. See the file LICENSE.
+   along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Verse = require('./verse.js');
@@ -50,37 +50,67 @@ class VerseBox {
   }
 
   isBookNoteVerse() {
-    return this.verseBoxElement.classList.contains('book-notes');
+    if (this.verseBoxElement == null) {
+      return false;
+    } else {
+      return this.verseBoxElement.classList.contains('book-notes');
+    }
   }
 
   getVerseReferenceId() {
-    return this.verseBoxElement.getAttribute('verse-reference-id');
+    if (this.verseBoxElement == null) {
+      return null;
+    } else {
+      return this.verseBoxElement.getAttribute('verse-reference-id');
+    }
   }
 
   getAbsoluteVerseNumber() {
-    return parseInt(this.verseBoxElement.getAttribute('abs-verse-nr'));
+    if (this.verseBoxElement == null) {
+      return null;
+    } else {
+      return parseInt(this.verseBoxElement.getAttribute('abs-verse-nr'));
+    }
   }
 
   getBibleBookShortTitle() {
-    return this.verseBoxElement.getAttribute('verse-bible-book-short');
+    if (this.verseBoxElement == null) {
+      return null;
+    } else {
+      return this.verseBoxElement.getAttribute('verse-bible-book-short');
+    }
   }
 
   getSplittedReference() {
-    var verseReference = this.verseBoxElement.querySelector('.verse-reference-content').innerText;
-    var splittedReference = verseReference.split(reference_separator);
-    return splittedReference;
+    if (this.verseBoxElement == null) {
+      return null;
+    } else {
+      var verseReference = this.verseBoxElement.querySelector('.verse-reference-content').innerText;
+      var splittedReference = verseReference.split(reference_separator);
+      return splittedReference;
+    }
   }
 
   getChapter() {
     var splittedReference = this.getSplittedReference();
-    var chapter = parseInt(splittedReference[0]);
-    return chapter;
+
+    if (splittedReference != null) {
+      var chapter = parseInt(splittedReference[0]);
+      return chapter;
+    } else {
+      return null;
+    }
   }
 
   getVerseNumber() {
     var splittedReference = this.getSplittedReference();
-    var verseNumber = parseInt(splittedReference[1]);
-    return verseNumber;
+
+    if (splittedReference != null) {
+      var verseNumber = parseInt(splittedReference[1]);
+      return verseNumber;
+    } else {
+      return null;
+    }
   }
 
   async getMappedAbsoluteVerseNumber(sourceBibleTranslationId, targetBibleTranslationId) {
@@ -104,6 +134,10 @@ class VerseBox {
   }
 
   getTagTitleFromTagData() {
+    if (this.verseBoxElement == null) {
+      return null;
+    }
+
     var tag_elements = $(this.verseBoxElement).find('.tag-global, .tag-book');
 
     var tag_title_array = Array();
@@ -123,16 +157,28 @@ class VerseBox {
   }
 
   updateTagTooltip() {
+    if (this.verseBoxElement == null) {
+      return null;
+    }
+
     var new_tooltip = this.getTagTitleFromTagData();
     $(this.verseBoxElement).find('.tag-info').attr('title', new_tooltip);
   }
 
 
   getTagTitleArray() {
+    if (this.verseBoxElement == null) {
+      return null;
+    }
+
     return $(this.verseBoxElement).find('.tag-info').attr('title').split(', ');
   }
 
   updateVisibleTags(tag_title_array=undefined) {
+    if (this.verseBoxElement == null) {
+      return;
+    }
+
     var tag_box = $(this.verseBoxElement).find('.tag-box');
     tag_box.empty();
 
@@ -239,6 +285,10 @@ class VerseBox {
   }
 
   updateTagDataContainer(tag_id, tag_title, action) {
+    if (this.verseBoxElement == null) {
+      return;
+    }
+
     var current_tag_data_container = $(this.verseBoxElement.querySelector('.tag-data'));
 
     switch (action) {

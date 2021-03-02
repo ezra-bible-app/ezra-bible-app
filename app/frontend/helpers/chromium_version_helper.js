@@ -1,19 +1,19 @@
-/* This file is part of Ezra Project.
+/* This file is part of Ezra Bible App.
 
    Copyright (C) 2019 - 2021 Tobias Klein <contact@ezra-project.net>
 
-   Ezra Project is free software: you can redistribute it and/or modify
+   Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 2 of the License, or
    (at your option) any later version.
 
-   Ezra Project is distributed in the hope that it will be useful,
+   Ezra Bible App is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with Ezra Project. See the file LICENSE.
+   along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
 window.getChromiumVersion = function() {
@@ -58,8 +58,8 @@ window.getOutdatedWebViewMessage = function() {
   var chromiumVersion = getChromiumMajorVersion();
 
   var generalInfoBoxMessage = "Your Android WebView component is too old (" + chromiumVersion + ")" +
-                                " and does not support Ezra Project.<br><br>" +
-                                "To run Ezra Project you need a newer version" +
+                                " and does not support Ezra Bible App.<br><br>" +
+                                "To run Ezra Bible App you need a newer version" +
                                 " of the <b>Android System WebView</b> component, at least version 55.<br><br>" +
                                 "You can install a newer version of that app from the Play Store!";
 

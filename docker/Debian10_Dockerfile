@@ -1,4 +1,4 @@
-# Dockerfile for Debian 10 Build Enviroment for Ezra Project
+# Dockerfile for Debian 10 Build Enviroment for Ezra Bible App
 
 FROM debian:10
 

@@ -1,4 +1,4 @@
-# Dockerfile for CentOS 8 Build Enviroment for Ezra Project
+# Dockerfile for CentOS 8 Build Enviroment for Ezra Bible App
 
 FROM centos:8
 

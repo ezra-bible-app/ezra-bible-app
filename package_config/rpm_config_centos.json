@@ -5,17 +5,17 @@
     "Spirituality",
     "Literature"
   ],
-  "name": "ezra-project",
-  "productName": "Ezra Project",
+  "name": "ezra-bible-app",
+  "productName": "Ezra Bible App",
   "genericName": "Bible Study Tool",
-  "description": "Ezra Project is a Bible study tool focussing on topical study based on keywords/tags",
-  "productDescription": "Ezra Project is a Bible study tool focussing on topical study based on keywords/tags. This program helps the user to easily create and manage topical verse lists. Ezra Project works with SWORD Bible translation modules and thus enables Bible study in many languages.",
+  "description": "Ezra Bible App is a Bible study tool focussing on topical study based on keywords/tags",
+  "productDescription": "Ezra Bible App is a Bible study tool focussing on topical study based on keywords/tags. This program helps the user to easily create and manage topical verse lists. Ezra Bible App works with SWORD Bible translation modules and thus enables Bible study in many languages.",
   "requires": [
       "libicu",
       "zlib",
       "sqlite",
       "libcurl"
   ],
-  "icon": "icons/ezra-project.png",
+  "icon": "icons/ezra.png",
   "homepage": "https://github.com/ezra-project/ezra-project"
 }
