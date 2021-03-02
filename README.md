@@ -1,4 +1,4 @@
-<h1 align="center">Ezra Bible App</h1>
+<h1 align="center">Ezra Project</h1>
 <p align="center" style="font-style: italic">
 "For Ezra had set his heart to study the Law of the LORD,<br/>
 and to do it and to teach his statutes and rules in Israel." Ezra 7:10
@@ -10,16 +10,16 @@ and to do it and to teach his statutes and rules in Israel." Ezra 7:10
   </a>
 </p>
 
-Ezra Bible App is a user-friendly, cross-platform Bible study tool focussing on topical study based on keywords/tags. This program can help you to easily manage your topical verse lists and verse-based notes. Ezra Bible App works with [SWORD Bible translation modules](http://www.crosswire.org/sword) and thus enables Bible study in many languages. It runs on Windows, macOS and Linux desktop computers as well as on [Android tablets](https://play.google.com/store/apps/details?id=de.ezraproject.cordova). Click [here](https://github.com/ezra-project/ezra-project/releases/latest) to get the latest release.
+Ezra Project is a user-friendly, cross-platform Bible study tool focussing on topical study based on keywords/tags. This program can help you to easily manage your topical verse lists and verse-based notes. Ezra Project works with [SWORD Bible translation modules](http://www.crosswire.org/sword) and thus enables Bible study in many languages. It runs on Windows, macOS and Linux desktop computers as well as on [Android tablets](https://play.google.com/store/apps/details?id=de.ezraproject.cordova). Click [here](https://github.com/ezra-project/ezra-project/releases/latest) to get the latest release.
 
 For user information (features, screenshots, install instructions) have a look at the [project's website](https://ezra-project.net). This GitHub page focusses on technical information.
 
-![Ezra Bible App 0.11.0](https://ezra-project.net/assets/screenshots/ezra_project_0_11_0.png "Ezra Bible App 0.11.0")
+![Ezra Project 0.11.0](https://ezra-project.net/assets/screenshots/ezra_project_0_11_0.png "Ezra Project 0.11.0")
 
 ## Development
 
 ### Technology
-Ezra Bible App is a cross-platform application based on web technology. On the desktop it is powered by [Electron](https://electronjs.org/), on Android it is powered by [Cordova](https://cordova.apache.org/). It is programmed in JavaScript, uses [SQLite](https://www.sqlite.org) as its database and HTML with [jQuery UI](https://jqueryui.com/) for its frontend. Bible translation modules are managed using [node-sword-interface](https://github.com/ezra-project/node-sword-interface).
+Ezra Project is a cross-platform application based on web technology. On the desktop it is powered by [Electron](https://electronjs.org/), on Android it is powered by [Cordova](https://cordova.apache.org/). It is programmed in JavaScript, uses [SQLite](https://www.sqlite.org) as its database and HTML with [jQuery UI](https://jqueryui.com/) for its frontend. Bible translation modules are managed using [node-sword-interface](https://github.com/ezra-project/node-sword-interface).
 
 For more details regarding the used components have a look [here][tech].
 
@@ -29,7 +29,7 @@ For more details regarding the used components have a look [here][tech].
 
 Design documentation is available here: https://apidocs.ezra-project.net
 
-### Building Ezra Bible App
+### Building Ezra Project
 
 Have a look at the build instructions [here][build].
 
@@ -41,12 +41,12 @@ Join the User Forum at [forum.ezra-project.net](https://forum.ezra-project.net) 
 
 ## Feedback
 To give feedback (bug reports, feature requests) please use the Github issue system.
-Click [here](https://github.com/ezra-project/ezra-project/issues/new) to file a new Issue for Ezra Bible App.
+Click [here](https://github.com/ezra-project/ezra-project/issues/new) to file a new Issue for Ezra Project.
 
 [latest]: https://github.com/ezra-project/ezra-project/releases/latest
 
 ## Join the team!
-Your contributions to Ezra Bible App are very welcome!
+Your contributions to Ezra Project are very welcome!
 At the moment this is a small project with one maintainer. It would be great to have a team developing this software!
 Ideally you should bring some experience in working with web-based frontends, specifically HTML, CSS, JavaScript. Furthermore, experience with relational database design is a plus. However, if you're not a developer you can still help with testing, translation and user documentation!
 
