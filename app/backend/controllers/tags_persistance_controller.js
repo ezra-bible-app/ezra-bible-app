@@ -49,7 +49,7 @@ class TagsPersistanceController
       await this._models.MetaRecord.updateLastModified();
 
     } catch(e) {
-      alert('An error occurred while trying to delete the tag with id ' + id + ': ' + e);
+      console.error('An error occurred while trying to delete the tag with id ' + id + ': ' + e);
     };
   }
 
@@ -76,7 +76,7 @@ class TagsPersistanceController
     ).then(() => {
       this._models.MetaRecord.updateLastModified();
     }).catch(error => {
-      alert("An error occurred while trying to rename the tag!");
+      console.error("An error occurred while trying to rename the tag!");
     });
   }
 }
