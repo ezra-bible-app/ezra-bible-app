@@ -83,7 +83,7 @@ function shouldUseDarkMode() {
   return useDarkMode;
 }
 
-function createWindow () {
+async function createWindow () {
   const path = require('path');
   const url = require('url');
 
@@ -115,9 +115,7 @@ function createWindow () {
       console.log("Log from renderer: " + message);
     });
 
-    ipcMain.handle('initIpc', async (event, arg) => {
-      await ipc.init(isDev, mainWindow);
-    });
+    await ipc.init(isDev, mainWindow);
   }
 
   if (shouldUseDarkMode()) {

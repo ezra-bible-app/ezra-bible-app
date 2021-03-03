@@ -317,15 +317,6 @@ window.initApplication = async function()
 
     const { ipcRenderer } = require('electron');
     await ipcRenderer.send('manageWindowState');
-
-    console.log("Initializing IPC handlers ...");
-    await ipcRenderer.invoke('initIpc');
-  
-    /*
-    const { remote } = require('electron');
-    const appWindow = remote.getCurrentWindow();
-    appWindow.show();
-    */
   }
 
   var loadingIndicator = $('#startup-loading-indicator');

@@ -34,7 +34,6 @@ class IPC {
     }
 
     this.platformHelper = new PlatformHelper();
-    this.ipcSettingsHandler = new IpcSettingsHandler();
   }
 
   initNonPersistentIpc() {
@@ -50,6 +49,8 @@ class IPC {
       global.ipcInitialized = true;
 
       this.initNonPersistentIpc();
+
+      this.ipcSettingsHandler = new IpcSettingsHandler();
       global.ipcNsiHandler = new IpcNsiHandler();
 
       if (this.platformHelper.isElectron()) {
