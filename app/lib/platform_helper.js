@@ -230,8 +230,10 @@ class PlatformHelper {
 
     } else if (this.isCordova()) {
 
+      var appId = getOldPath ? 'ezra-project' : 'net.ezrabibleapp.cordova';
+
       // TODO adapt this for ios later
-      return "/sdcard/Android/data/de.ezraproject.cordova";
+      return `/sdcard/Android/data/${appId}`;
     }
   }
 
