@@ -205,7 +205,13 @@ class PlatformHelper {
   }
 
   getUserDataPath(getOldPath=false) {
-    if (this.isElectron()) {
+    if (this.isTest()) {
+      
+      var { app } = require('electron');
+      var userDataDir = app.getPath('userData');
+      return userDataDir;
+
+    } else if (this.isElectron()) {
 
       var { app } = require('electron');
       const path = require('path');
