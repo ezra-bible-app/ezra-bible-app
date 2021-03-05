@@ -1,4 +1,4 @@
-/* This file is part of Ezra Project.
+/* This file is part of Ezra Bible App.
 
    Copyright (C) 2019 - 2021 Tobias Klein <contact@ezra-project.net>
 
