@@ -541,6 +541,10 @@ h2 {
   width: 30%;
 }
 
+.book-notes {
+  width: 600px;
+}
+
 .section-header-box {
   min-height: 30px;
 }
