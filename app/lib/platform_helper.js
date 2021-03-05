@@ -22,7 +22,7 @@ class PlatformHelper {
 
   isTest() {
     if (this.isElectron()) {
-      return process.argv.includes('--test-type=webdriver');
+      return process.env.EZRA_TESTING == "true";
     } else {
       return false;
     }
@@ -205,13 +205,7 @@ class PlatformHelper {
   }
 
   getUserDataPath(getOldPath=false) {
-    if (this.isTest()) {
-      
-      var { app } = require('electron');
-      var userDataDir = app.getPath('userData');
-      return userDataDir;
-
-    } else if (this.isElectron()) {
+    if (this.isElectron()) {
 
       var { app } = require('electron');
       const path = require('path');
@@ -229,7 +223,14 @@ class PlatformHelper {
         newAppName = pjson.name;
       }
 
-      appName = getOldPath ? 'ezra-project' : newAppName;
+      var oldName = 'ezra-project';
+
+      if (this.isTest()) {
+        oldName += '-test';
+        newAppName += '-test';
+      }
+
+      appName = getOldPath ? oldName : newAppName;
 
       var userDataDir = path.join(app.getPath('appData'), appName);
       return userDataDir;
