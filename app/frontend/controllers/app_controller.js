@@ -380,10 +380,9 @@ class AppController {
     });
 
     currentVerseListMenu.find('.assign-last-tag-button').bind('click', async (event) => {
-      await waitUntilIdle();
-
       if (!event.target.classList.contains('ui-state-disabled')) {
         this.translation_controller.showTextLoadingIndicator();
+        await waitUntilIdle();
         await tags_controller.assign_last_tag();
         this.translation_controller.hideTextLoadingIndicator();
       }
