@@ -70,6 +70,8 @@ class DisplayOption {
 
     if (optionValue == true) {
       this.enableOption();
+    } else {
+      this.disableOption();
     }
   }
 }

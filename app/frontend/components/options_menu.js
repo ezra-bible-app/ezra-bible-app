@@ -67,6 +67,7 @@ class OptionsMenu {
     this._dictionaryOption = await this.initDisplayOption('strongs-switch', 'showStrongs', () => { this.showOrHideStrongsBasedOnOption(); });
     this._headerNavOption = await this.initDisplayOption('header-nav-switch', 'showHeaderNavigation', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
     this._verseListNewTabOption = await this.initDisplayOption('verse-lists-new-tab-switch', 'openVerseListsInNewTab', () => {}, openVerseListsInNewTabByDefault);
+    this._userDataIndicatorsOption = await this.initDisplayOption('user-data-indicators-switch', 'showUserDataIndicators', () => { this.showOrHideUserDataIndicatorsBasedOnOption(); });
     this._tagsOption = await this.initDisplayOption('tags-switch', 'showTags', () => { this.showOrHideVerseTagsBasedOnOption(); }, true);
     this._tagsColumnOption = await this.initDisplayOption('tags-column-switch', 'useTagsColumn', () => { this.changeTagsLayoutBasedOnOption(); });
     this._verseNotesOption = await this.initDisplayOption('verse-notes-switch', 'showNotes', () => { this.showOrHideVerseNotesBasedOnOption(); });
@@ -198,7 +199,7 @@ class OptionsMenu {
         }
       }
 
-      if (updated) uiHelper.resizeAppContainer();
+      if (updated && !immediate) uiHelper.resizeAppContainer();
     }, timeout);
   }
 
@@ -329,6 +330,19 @@ class OptionsMenu {
     }
   }
 
+  showOrHideUserDataIndicatorsBasedOnOption(tabIndex=undefined) {
+    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+
+    if (this._userDataIndicatorsOption.isChecked()) {
+      currentReferenceVerse.removeClass('verse-list-without-user-data-indicators');
+      currentVerseList.removeClass('verse-list-without-user-data-indicators');
+    } else {
+      currentReferenceVerse.addClass('verse-list-without-user-data-indicators');
+      currentVerseList.addClass('verse-list-without-user-data-indicators');
+    }
+  }
+
   showOrHideVerseTagsBasedOnOption(tabIndex=undefined) {
     var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
@@ -401,6 +415,7 @@ class OptionsMenu {
     this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     this.showOrHideXrefsBasedOnOption(tabIndex);
     this.showOrHideFootnotesBasedOnOption(tabIndex);
+    this.showOrHideUserDataIndicatorsBasedOnOption(tabIndex);
     this.showOrHideVerseTagsBasedOnOption(tabIndex);
     this.changeTagsLayoutBasedOnOption(tabIndex);
     this.showOrHideStrongsBasedOnOption(tabIndex);

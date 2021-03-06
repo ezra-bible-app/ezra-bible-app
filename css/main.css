@@ -398,6 +398,23 @@ h2 {
   display: none;
 }
 
+.verse-list-without-user-data-indicators .notes-info,
+.verse-list-without-user-data-indicators .tag-info {
+  display: none;
+}
+
+.verse-list-without-user-data-indicators .verse-reference-content {
+  margin-left: 0.8em;
+}
+
+.verse-list-without-user-data-indicators .verse-reference {
+  width: 5em;
+}
+
+.verse-list-without-user-data-indicators .verse-content {
+  margin-left: 5em;
+}
+
 .verse-list-with-notes .verse-text-and-tags {
   width: 75%;
 }
