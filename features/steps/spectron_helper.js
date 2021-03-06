@@ -49,7 +49,8 @@ class SpectronHelper {
         env: {
             ELECTRON_ENABLE_LOGGING: true,
             ELECTRON_ENABLE_STACK_DUMPING: true,
-            NODE_ENV: "development"
+            NODE_ENV: "development",
+            EZRA_TESTING: true
         },
         startTimeout: 20000,
         chromeDriverLogPath: '../chromedriverlog.txt'
@@ -70,7 +71,7 @@ class SpectronHelper {
     var electronApp = this.app.electron.remote.app;
     var pjson = require('../../package.json');
     var appDataPath = await electronApp.getPath('appData');
-    var userDataDir = path.join(appDataPath, pjson.name);
+    var userDataDir = path.join(appDataPath, pjson.name + '-test');
     return userDataDir;
   }
 
