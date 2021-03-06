@@ -364,6 +364,8 @@ class TagsController {
   }
 
   async handle_tag_cb_click(event) {
+    await waitUntilIdle();
+
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
     await tags_controller.handle_checkbox_tag_state_change(checkbox_tag);
   }
