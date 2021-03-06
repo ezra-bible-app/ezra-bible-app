@@ -288,7 +288,8 @@ class NavigationPane {
   resetNavigationPane(tabIndex) {
     this.currentNavigationPane = this.getCurrentNavigationPane(tabIndex);
     this.currentNavigationPane[0].innerHTML = "";
-    this.currentNavigationPane.show();
+
+    app_controller.optionsMenu.showOrHideBookChapterNavigationBasedOnOption(tabIndex);
   }
 
   async updateNavigation(tabIndex=undefined) {
