@@ -199,7 +199,7 @@ class OptionsMenu {
         }
       }
 
-      if (updated) uiHelper.resizeAppContainer();
+      if (updated && !immediate) uiHelper.resizeAppContainer();
     }, timeout);
   }
 
