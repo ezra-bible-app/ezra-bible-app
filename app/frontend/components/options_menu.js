@@ -65,6 +65,7 @@ class OptionsMenu {
     this._xrefsOption = await this.initDisplayOption('xrefs-switch', 'showXrefs', () => { this.showOrHideXrefsBasedOnOption(); });
     this._footnotesOption = await this.initDisplayOption('footnotes-switch', 'showFootnotes', () => { this.showOrHideFootnotesBasedOnOption(); });
     this._dictionaryOption = await this.initDisplayOption('strongs-switch', 'showStrongs', () => { this.showOrHideStrongsBasedOnOption(); });
+    this._bookChapterNavOption = await this.initDisplayOption('nav-switch', 'showBookChapterNavigation', () => { this.showOrHideBookChapterNavigationBasedOnOption(); }, true);
     this._headerNavOption = await this.initDisplayOption('header-nav-switch', 'showHeaderNavigation', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
     this._verseListNewTabOption = await this.initDisplayOption('verse-lists-new-tab-switch', 'openVerseListsInNewTab', () => {}, openVerseListsInNewTabByDefault);
     this._userDataIndicatorsOption = await this.initDisplayOption('user-data-indicators-switch', 'showUserDataIndicators', () => { this.showOrHideUserDataIndicatorsBasedOnOption(); }, true);
@@ -317,6 +318,14 @@ class OptionsMenu {
     }
   }
 
+  showOrHideBookChapterNavigationBasedOnOption(tabIndex=undefined) {
+    if (this._bookChapterNavOption.isChecked()) {
+      app_controller.navigation_pane.show(tabIndex);
+    } else {
+      app_controller.navigation_pane.hide(tabIndex);
+    }
+  }
+
   showOrHideHeaderNavigationBasedOnOption(tabIndex=undefined) {
     if (this._headerNavOption.isChecked() &&
         app_controller.translation_controller.hasCurrentTranslationHeaderElements(tabIndex)) {
@@ -412,6 +421,7 @@ class OptionsMenu {
     this.showOrHideToolBarBasedOnOption(tabIndex);
     this.showOrHideBookIntroductionBasedOnOption(tabIndex);
     this.showOrHideSectionTitlesBasedOnOption(tabIndex);
+    this.showOrHideBookChapterNavigationBasedOnOption(tabIndex);
     this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     this.showOrHideXrefsBasedOnOption(tabIndex);
     this.showOrHideFootnotesBasedOnOption(tabIndex);

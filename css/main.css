@@ -138,6 +138,11 @@ h2 {
   padding-bottom: 1em;
 }
 
+.verse-list-frame-no-chapter-nav {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
 .verse-list, .reference-verse {
   padding: 0.5em;
   font: caption;

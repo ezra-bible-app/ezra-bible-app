@@ -29,6 +29,7 @@ class NavigationPane {
   constructor() {
     this.currentNavigationPane = null;
     this.verse_box_helper = new VerseBoxHelper();
+    this.verseListFrameNoChapterNavCss = 'verse-list-frame-no-chapter-nav';
   }
 
   getCurrentNavigationPane(tabIndex) {
@@ -36,6 +37,18 @@ class NavigationPane {
     var navigationPane = currentVerseListTabs.find('.navigation-pane');
     return navigationPane;
   };
+
+  show(tabIndex) {
+    var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+    verseListFrame.removeClass(this.verseListFrameNoChapterNavCss);
+    this.getCurrentNavigationPane(tabIndex).show();
+  }
+
+  hide(tabIndex) {
+    var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+    verseListFrame.addClass(this.verseListFrameNoChapterNavCss);
+    this.getCurrentNavigationPane(tabIndex).hide();
+  }
 
   async initNavigationPaneForCurrentView(tabIndex=undefined) {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
