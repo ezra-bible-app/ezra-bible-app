@@ -379,11 +379,13 @@ class AppController {
       tags_controller.handle_new_tag_button_click($(this), "standard");
     });
 
-    currentVerseListMenu.find('.assign-last-tag-button').bind('click', async function(event) {
+    currentVerseListMenu.find('.assign-last-tag-button').bind('click', async (event) => {
       await waitUntilIdle();
 
       if (!event.target.classList.contains('ui-state-disabled')) {
-        tags_controller.assign_last_tag();
+        this.translation_controller.showTextLoadingIndicator();
+        await tags_controller.assign_last_tag();
+        this.translation_controller.hideTextLoadingIndicator();
       }
     });
 
