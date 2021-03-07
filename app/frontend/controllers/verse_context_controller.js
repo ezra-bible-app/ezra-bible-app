@@ -48,7 +48,12 @@ class VerseContextController {
 
       current_reference = $(app_controller.verse_selection.selected_verse_box_elements[0]).find('.verse-reference');
 
+    } else {
+
+      return;
     }
+
+    app_controller.translation_controller.showTextLoadingIndicator();
 
     var start_verse_box = current_reference.closest('.verse-box');
     var current_book_title = new VerseBox(start_verse_box[0]).getBibleBookShortTitle();
@@ -72,6 +77,7 @@ class VerseContextController {
       current_book_title,
       (htmlVerseList) => { 
         app_controller.verse_context_controller.load_verse_context(htmlVerseList);
+        app_controller.translation_controller.hideTextLoadingIndicator();
       },
       start_verse_nr,
       number_of_verses
