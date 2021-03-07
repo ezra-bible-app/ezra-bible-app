@@ -176,32 +176,27 @@ class OptionsMenu {
     }
   }
 
-  showOrHideToolBarBasedOnOption(tabIndex=undefined, immediate=false) {
+  async showOrHideToolBarBasedOnOption(tabIndex=undefined) {
+    await waitUntilIdle();
+
     var currentToolBar = $('#bible-browser-toolbox');
-    var timeout = 400;
-    if (immediate) {
-      timeout = 50;
+    var updated = false;
+
+    if (this._toolBarOption.isChecked()) {
+      updated = app_controller.tag_assignment_menu.moveTagAssignmentList(false);
+      if (updated || currentToolBar.is(':hidden')) {
+        currentToolBar.show();
+        updated = true;
+      }
+    } else {
+      updated = app_controller.tag_assignment_menu.moveTagAssignmentList(true);
+      if (updated || currentToolBar.is(':visible')) {
+        currentToolBar.hide();
+        updated = true;
+      }
     }
 
-    setTimeout(() => {
-      var updated = false;
-
-      if (this._toolBarOption.isChecked()) {
-        updated = app_controller.tag_assignment_menu.moveTagAssignmentList(false);
-        if (updated || currentToolBar.is(':hidden')) {
-          currentToolBar.show();
-          updated = true;
-        }
-      } else {
-        updated = app_controller.tag_assignment_menu.moveTagAssignmentList(true);
-        if (updated || currentToolBar.is(':visible')) {
-          currentToolBar.hide();
-          updated = true;
-        }
-      }
-
-      if (updated && !immediate) uiHelper.resizeAppContainer();
-    }, timeout);
+    if (updated) uiHelper.resizeAppContainer(undefined, true);
   }
 
   showOrHideBookIntroductionBasedOnOption(tabIndex=undefined) {
