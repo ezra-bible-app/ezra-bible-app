@@ -115,7 +115,9 @@ async function createWindow () {
       console.log("Log from renderer: " + message);
     });
 
-    await ipc.init(isDev, mainWindow);
+    ipcMain.handle('initIpc', async (event, arg) => {
+      await ipc.init(isDev, mainWindow);
+    });
   }
 
   if (shouldUseDarkMode()) {
