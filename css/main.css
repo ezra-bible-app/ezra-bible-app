@@ -604,7 +604,7 @@ h2 {
   cursor: pointer;
 }
 
-.new-standard-tag-button, #open-verselist-in-new-tab-button {
+#open-verselist-in-new-tab-button {
   height: 2.2em;
 }
 
@@ -860,7 +860,6 @@ h2 {
   float: none;
   display: inline-block;
   width: 11em;
-  margin-right: 0.8em;
 }
 
 .display-options-button {
@@ -1056,6 +1055,7 @@ h2 {
   margin: 0.2em;
 }
 
+.new-standard-tag-button,
 .show-book-tag-statistics-button,
 .assign-last-tag-button,
 .show-parallel-translations-button,
@@ -1349,7 +1349,8 @@ h2 {
   user-select: none;
 }
 
-.verse-list-tabs-small-screen .display-options-button {
+.verse-list-tabs-small-screen .display-options-button,
+.verse-list-tabs-small-screen .new-standard-tag-button {
   clear: both;
   margin-left: 0;
 }
@@ -1363,7 +1364,7 @@ h2 {
 }
 
 .bible-select-block select {
-  width: 20em;
+  width: 17em;
   display: none;
 }
 
