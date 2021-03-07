@@ -5,7 +5,8 @@
     "assign-last-tag": "Asignar a la última etiqueta",
     "configure-translations": "Configurar traducciones",
     "configure-dicts": "Configurar diccionarios",
-    "show-parallel-translations": "Comparar traducciones"
+    "show-parallel-translations": "Comparar traducciones",
+    "compare": "Compare"
   },
   "menu": {
     "book": "Libro",

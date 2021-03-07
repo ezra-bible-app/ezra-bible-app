@@ -5,7 +5,8 @@
     "assign-last-tag": "Assign last tag",
     "configure-translations": "Configure translations",
     "configure-dicts": "Configure dictionaries",
-    "show-parallel-translations": "Compare translations"
+    "show-parallel-translations": "Compare translations",
+    "compare": "Compare"
   },
   "menu": {
     "book": "Book",

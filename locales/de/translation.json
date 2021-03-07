@@ -5,7 +5,8 @@
     "assign-last-tag": "Letzten Tag zuweisen",
     "configure-translations": "Übersetzungen konfigurieren",
     "configure-dicts": "Wörterbücher konfigurieren",
-    "show-parallel-translations": "Übersetzungen vergleichen"
+    "show-parallel-translations": "Übersetzungen vergleichen",
+    "compare": "Compare"
   },
   "menu": {
     "book": "Buch",

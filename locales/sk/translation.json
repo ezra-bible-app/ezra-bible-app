@@ -5,7 +5,8 @@
     "assign-last-tag": "Priradiť poslednú značku",
     "configure-translations": "Nastavenie prekladov",
     "configure-dicts": "Nastavenie slovníkov",
-    "show-parallel-translations": "Porovnanie prekladov"
+    "show-parallel-translations": "Porovnanie prekladov",
+    "compare": "Compare"
   },
   "menu": {
     "book": "Kniha",

@@ -5,7 +5,8 @@
     "assign-last-tag": "Laatste tag toewijzen",
     "configure-translations": "Vertalingen configureren",
     "configure-dicts": "Woordenboeken configureren",
-    "show-parallel-translations": "Vertalingen vergelijken"
+    "show-parallel-translations": "Vertalingen vergelijken",
+    "compare": "Compare"
   },
   "menu": {
     "book": "Boek",
