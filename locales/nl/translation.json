@@ -6,7 +6,8 @@
     "configure-translations": "Vertalingen configureren",
     "configure-dicts": "Woordenboeken configureren",
     "show-parallel-translations": "Vertalingen vergelijken",
-    "compare": "Compare"
+    "compare": "Compare",
+    "context": "Context"
   },
   "menu": {
     "book": "Boek",

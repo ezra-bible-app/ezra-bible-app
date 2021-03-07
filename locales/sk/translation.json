@@ -6,7 +6,8 @@
     "configure-translations": "Nastavenie prekladov",
     "configure-dicts": "Nastavenie slovníkov",
     "show-parallel-translations": "Porovnanie prekladov",
-    "compare": "Compare"
+    "compare": "Compare",
+    "context": "Context"
   },
   "menu": {
     "book": "Kniha",

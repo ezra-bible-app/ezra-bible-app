@@ -400,7 +400,7 @@ class NavigationPane {
         this.highlightSectionHeaderByTitle(sectionTitle);
       }
 
-    } else if (currentTextType == 'tagged_verses' && currentTagIdList != null || currentTextType == 'xrefs' || currentTextType == 'search_results') {
+    } else if (currentTab.isVerseList()) {
 
       var bibleBookShortTitle = new VerseBox(verseBox).getBibleBookShortTitle();
       var currentBookName = await ipcDb.getBookTitleTranslation(bibleBookShortTitle);

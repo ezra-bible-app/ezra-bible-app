@@ -6,7 +6,8 @@
     "configure-translations": "Configurer des traductions",
     "configure-dicts": "Configurer des dictionnaires",
     "show-parallel-translations": "Comparer traductions",
-    "compare": "Compare"
+    "compare": "Compare",
+    "context": "Context"
   },
   "menu": {
     "book": "Livre",

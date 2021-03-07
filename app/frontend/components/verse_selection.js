@@ -380,11 +380,18 @@ class VerseSelection {
     this.getSelectedVersesLabel().html(selectedVerseDisplayText);
 
     await tags_controller.update_tags_view_after_verse_selection(false);
+    
+    var currentTab = app_controller.tab_controller.getTab();
 
     if (this.selected_verse_box_elements.length > 0) { // Verses are selected!
       app_controller.translationComparison.enableComparisonButton();
+
+      if (currentTab.isVerseList()) {
+        app_controller.verse_context_controller.enableContextButton();
+      }
     } else { // No verses selected!
       app_controller.translationComparison.disableComparisonButton();
+      app_controller.verse_context_controller.disableContextButton();
     }
 
     var tabId = app_controller.tab_controller.getSelectedTabId();

@@ -389,6 +389,7 @@ class AppController {
     });
 
     this.translationComparison.initButtonEvents();
+    this.verse_context_controller.initButtonEvents();
 
     var tabId = this.tab_controller.getSelectedTabId(tabIndex);
     if (tabId !== undefined) {

@@ -169,6 +169,12 @@ class Tab {
   getCachedText() {
     return this.cachedText;
   }
+
+  isVerseList() {
+    return this.textType == 'tagged_verses' && this.tagIdList != null ||
+           this.textType == 'search_results' ||
+           this.textType == 'xrefs' && this.xrefs != null;
+  }
 }
 
 Tab.fromJsonObject = function(jsonObject) {
