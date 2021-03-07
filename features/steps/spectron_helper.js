@@ -40,7 +40,7 @@ class SpectronHelper {
         electronPath += ".cmd";
     }
 
-    var args = [electronPath, appPath];
+    var args = ['-a', electronPath, appPath];
     args.push(...additionalArgs);
 
     return new Application({
