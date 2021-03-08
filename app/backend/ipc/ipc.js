@@ -36,6 +36,8 @@ class IPC {
     this.platformHelper = new PlatformHelper();
   }
 
+  // On Android we initialize in two steps, first the non persistent part (before permissions are available).
+  // After the user has enabled write permissions, the initialization of persistent stuff (settings, node-sword-interface) is handled.
   initNonPersistentIpc() {
     if (!global.nonPersistentIpcInitialized) {
       global.nonPersistentIpcInitialized = true;
