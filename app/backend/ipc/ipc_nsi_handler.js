@@ -19,6 +19,7 @@
 const IpcMain = require('./ipc_main.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const NodeSwordInterface = require('node-sword-interface');
+const fs = require('fs');
 
 class IpcNsiHandler {
   constructor() {
@@ -34,6 +35,12 @@ class IpcNsiHandler {
     if (this._platformHelper.isTest()) {
 
       const userDataDir = this._platformHelper.getUserDataPath();
+
+      // If the user data directory is not existing at this point ... create it!
+      if (!fs.existsSync(userDataDir)) {
+        fs.mkdirSync(userDataDir);
+      }
+
       this._nsi = new NodeSwordInterface(userDataDir);
 
     } else {
