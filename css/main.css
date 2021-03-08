@@ -860,6 +860,7 @@ h2 {
   float: none;
   display: inline-block;
   width: 11em;
+  margin-right: 0.8em;
 }
 
 .display-options-button {
@@ -1067,6 +1068,15 @@ h2 {
 #start-module-search-button {
   margin-left: 0.8em;
   height: 2.2em;
+}
+
+.new-standard-tag-button {
+  margin-left: 0;
+}
+
+.assign-last-tag-button {
+  margin-left: 0;
+  margin-right: 0.8em;
 }
 
 /* On Android we disable the possibility to export tagged verses to a document */
@@ -1356,12 +1366,20 @@ h2 {
   margin-left: 0;
 }
 
-.selection-box-break {
+.menu-layout-break1, .menu-layout-break2 {
   display: none;
 }
 
-.verse-list-tabs-small-screen .selection-box-break {
+.verse-list-tabs-small-screen .menu-layout-break2 {
   display: block;
+}
+
+.verse-list-tabs-tiny-screen .menu-layout-break1 {
+  display: block;
+}
+
+.verse-list-tabs-tiny-screen .menu-layout-break2 {
+  display: none;
 }
 
 .bible-select-block select {

@@ -127,7 +127,8 @@ class UiHelper {
     var verseListTabsWidth = verseListTabs.width();
     var windowWidth = window.innerWidth;
 
-    if (windowWidth >= 200 && windowWidth < 1024) {
+    if (windowWidth >= 200 && windowWidth < 1200) {
+      // Automatically hide toolbar on smaller screens
       var currentToolBar = $('#bible-browser-toolbox');
       currentToolBar.hide();
       app_controller.tag_assignment_menu.moveTagAssignmentList(true);
@@ -140,8 +141,16 @@ class UiHelper {
         verseListTabsWidth <= 1000) {
 
       verseListTabs.addClass('verse-list-tabs-small-screen')
+
+      if (windowWidth < 850) {
+        verseListTabs.addClass('verse-list-tabs-tiny-screen');
+      } else {
+        verseListTabs.removeClass('verse-list-tabs-tiny-screen');
+      }
+
     } else {
       verseListTabs.removeClass('verse-list-tabs-small-screen');
+      verseListTabs.removeClass('verse-list-tabs-tiny-screen');
     }
 
     this.app_container_height = $(window).height() - 10;
