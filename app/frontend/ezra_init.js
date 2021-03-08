@@ -433,6 +433,6 @@ window.addEventListener('load', function() {
   }
 });
 
-if (platformHelper.isCordova()) {
+if (platformHelper.isCordova() || platformHelper.isTest()) {
   $('#loading-subtitle').show();
 }
