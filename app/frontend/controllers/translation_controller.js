@@ -503,10 +503,25 @@ class TranslationController {
   }
 
   async getVersification(translationCode) {
-    var versification = null;
+    if (translationCode == null) {
+      return null;
+    }
 
-    var psalm3Verses = await ipcNsi.getChapterText(translationCode, 'Psa', 3);
-    var revelation12Verses = await ipcNsi.getChapterText(translationCode, 'Rev', 12);
+    var versification = null;
+    var psalm3Verses = [];
+    var revelation12Verses = [];
+
+    try {
+      psalm3Verses = await ipcNsi.getChapterText(translationCode, 'Psa', 3);
+    } catch (e) {
+      console.log("TranslationController.getVersification: Could not retrieve chapter text for Psalm 3 of " + translationCode);
+    }
+
+    try {
+      revelation12Verses = await ipcNsi.getChapterText(translationCode, 'Rev', 12);
+    } catch (e) {
+      console.log("TranslationController.getVersification: Could not retrieve chapter text for Revelation 12 of " + translationCode);
+    }
 
     if (psalm3Verses.length == 8 || revelation12Verses.length == 17) { // ENGLISH versification
       versification = "ENGLISH";
