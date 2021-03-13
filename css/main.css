@@ -1205,7 +1205,9 @@ h2 {
   border: 1px solid black;
 }
 
-.verse-list-book.verse-list-with-section-titles .sword-section-title {
+.verse-list-book.verse-list-with-section-titles .sword-section-title,
+.tag-browser-verselist-book-header,
+.reference-header {
   clear: both;
   display: block;
   font-weight: bold;
@@ -1565,27 +1567,13 @@ h2 {
   margin-left: 0.2em;
 }
 
-#tag-browser-verselist-header {
-  font-size: 1.2em;
-  font-weight: bold;
-  margin-top: 0.5em;
-  margin-bottom: 1em;
-}
-
-.tag-browser-verselist-book-header, .reference-header {
-  font-weight: bold;
-  padding-top: 1em;
-  padding-left: 1em;
-  padding-bottom: 0.5em;
-  clear: both;
-}
-
 #verse-list-popup {
   padding-right: 0;
 }
 
 #verse-list-popup .tag-browser-verselist-book-header {
   padding-left: 0;
+  margin-left: 0;
 }
 
 .Windows #only-currentbook-tagged-verses, .Linux #only-currentbook-tagged-verses {
