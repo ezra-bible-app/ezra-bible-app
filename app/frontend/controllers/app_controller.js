@@ -935,7 +935,10 @@ class AppController {
       var lastUsedVersion = await ipcSettings.get('lastUsedVersion', undefined);
       var currentVersion = await ipcGeneral.getAppVersion();
 
-      return currentVersion != lastUsedVersion;
+      var lastUsedLanguage = await ipcSettings.get('lastUsedLanguage', undefined);
+      var currentLanguage = i18n.language;
+
+      return currentVersion != lastUsedVersion || currentLanguage != lastUsedLanguage;
   }
 }
 

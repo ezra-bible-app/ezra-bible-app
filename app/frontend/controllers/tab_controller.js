@@ -70,7 +70,7 @@ class TabController {
 
       await this.saveTabConfiguration();
       await this.saveBookSelectionMenu();
-      await this.saveLastUsedVersion();
+      await this.saveLastUsedVersionAndLanguage();
     });
 
     this.initTabs();
@@ -141,8 +141,9 @@ class TabController {
     }
   }
 
-  async saveLastUsedVersion() {
+  async saveLastUsedVersionAndLanguage() {
     await ipcSettings.storeLastUsedVersion();
+    await ipcSettings.storeLastUsedLanguage();
   }
 
   updateFirstTabCloseButton() {

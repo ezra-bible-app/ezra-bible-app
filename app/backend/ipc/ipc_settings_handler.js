@@ -110,6 +110,11 @@ class IpcSettingsHandler {
       return config.set('lastUsedVersion', lastUsedVersion);
     });
 
+    this._ipcMain.add('settings_storeLastUsedLanguage', (lang) => {
+      var config = this.getConfig();
+      return config.set('lastUsedLanguage', lang);
+    });
+
     this._ipcMain.add('settings_getConfigFilePath', () => {
       return this.getConfig().path;
     });
