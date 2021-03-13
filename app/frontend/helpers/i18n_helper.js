@@ -70,12 +70,6 @@ class I18nHelper {
 
   getLanguage() {
     var lang = i18n.language;
-
-    if (this._isCordova) {
-      // Force lang to English as long as SWORD i18n functionality on Android is not fully working.
-      lang = 'en';
-    }
-
     return lang;
   }
 
