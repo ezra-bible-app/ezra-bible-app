@@ -171,7 +171,6 @@ a.outline-reference:focus, a.outline-reference:hover {
 
 #dictionary-info-box-panel {
   clear: both;
-  overflow-y: scroll;
 }
 
 .strongs-short-info {
@@ -190,7 +189,7 @@ a.outline-reference:focus, a.outline-reference:hover {
 }
 
 .darkmode--activated #dictionary-info-box-content .strongs-definition {
-  color: whitesmoke;
+  color: #cccccc;
 }
 
 #dictionary-info-box-lock {
@@ -273,7 +272,7 @@ tr.td-underline td {
 
 .darkmode--activated #tag-filter-menu {
   background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat;
-  color: whitesmoke;
+  color: #cccccc;
 }
 
 #tag-filter-menu input {

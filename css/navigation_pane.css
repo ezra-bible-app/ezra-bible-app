@@ -93,7 +93,7 @@ a.navigation-link:focus {
 
 .darkmode--activated a.navigation-link {
   border: 1px solid black;
-  color: whitesmoke;
+  color: #cccccc;
 }
 
 a.hl-nav-element:link,
@@ -112,7 +112,7 @@ a.header-link.focus {
 .darkmode--activated a.header-link:link,
 .darkmode--activated a.header-link:focus {
   /*background: #222222 url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_35_222222_1x100.png) 50% 50% repeat-x;*/
-  color: whitesmoke;
+  color: #cccccc;
   /*border: 1px solid #444444;*/
 }
 
@@ -121,7 +121,7 @@ a.header-link.focus {
 .darkmode--activated a.navigation-link:hover,
 .darkmode--activated a.header-link:hover {
   background: #003147 url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
-  color: whitesmoke;
+  color: #cccccc;
   border: 1px solid #0b93d5;
 }
 

@@ -59,7 +59,12 @@ html, body {
 }
 
 body.darkmode--activated {
-  background-color: black;
+  background-color: #1e1e1e !important;
+}
+
+.darkmode-layer {
+  background-color: #1e1e1e !important;
+  mix-blend-mode: unset !important;
 }
 
 button {
@@ -302,7 +307,7 @@ h2 {
 }
 
 .darkmode--activated .verse-reference {
-  color: whitesmoke;
+  color: #cccccc;
 }
 
 .verse-reference-content {
@@ -363,7 +368,7 @@ h2 {
 
 .darkmode--activated .tag {
   border: 0px;
-  color: whitesmoke;
+  color: #cccccc;
   background-color: darkslategray;
 }
 
@@ -675,6 +680,10 @@ h2 {
   background: none;
 }
 
+.darkmode--activated .ui-widget-content {
+  color: #cccccc;
+}
+
 /*.ui-widget-content {
   background-color: white;
   background: none;
@@ -915,6 +924,7 @@ h2 {
 .darkmode--activated .book-list-column li.book-available a:hover,
 .darkmode--activated .book-list-column li.book-available a:focus {
   border: 1px;
+  color: #cccccc;
 }
 
 .darkmode--activated .book-unavailable a:link,
@@ -1428,7 +1438,7 @@ h2 {
 }
 
 .darkmode--activated #tag-selection-menu {
-  color: whitesmoke;
+  color: #cccccc;
 }
 
 #tag-assignment-menu-filter {
@@ -1487,11 +1497,11 @@ h2 {
 
 .darkmode--activated #module-search-menu, .darkmode--activated .verse-selection-menu, .darkmode--activated #display-options-menu {
   background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat;
-  color: whitesmoke;
+  color: #cccccc;
 }
 
 .darkmode--activated .verse-selection-menu span {
-  color: whitesmoke;
+  color: #cccccc;
 }
 
 #tag-selection-taglist-global {
@@ -1613,7 +1623,7 @@ h2 {
 
 .darkmode--activated #tab-search {
   background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat;
-  color: whitesmoke;
+  color: #cccccc;
 }
 
 #tab-search-input {
@@ -1875,11 +1885,9 @@ s {
   font-size: 0.9em;
 }
 
-.darkmode--activated a:link,
-.darkmode--activated a:visited,
 .darkmode--activated p,
 .darkmode--activated .verse-list-composite {
-  color: whitesmoke;
+  color: #cccccc;
 }
 
 .darkmode--activated .logo {
@@ -1888,8 +1896,8 @@ s {
 
 .darkmode--activated section {
   background: none;
-  background-color: black;
-  color: whitesmoke;
+  background-color: #1e1e1e;
+  color: #cccccc;
 }
 
 .darkmode--activated .assistant > .steps .disabled a,

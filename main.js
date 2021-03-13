@@ -121,7 +121,7 @@ async function createWindow () {
   }
 
   if (shouldUseDarkMode()) {
-    var bgColor = '#000000';
+    var bgColor = '#1e1e1e';
   } else {
     var bgColor = '#ffffff';
   }
