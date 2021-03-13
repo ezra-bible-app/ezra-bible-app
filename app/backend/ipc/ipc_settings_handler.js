@@ -122,7 +122,7 @@ class IpcSettingsHandler {
 
       var bgColor = 'null';
       if (useNightMode) {
-        bgColor = 'black';
+        bgColor = '#1e1e1e';
       } else {
         bgColor = 'white';
       }
