@@ -157,7 +157,7 @@ class ModuleSearchController {
 
   getModuleSearchHeader(tabIndex=undefined) {
     var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
-    return currentVerseListFrame.find('.module-search-result-header');
+    return currentVerseListFrame.find('.verse-list-header');
   }
 
   searchResultsExceedPerformanceLimit(index=undefined) {
@@ -355,7 +355,7 @@ class ModuleSearchController {
       moduleSearchHeader.append(selectAllSearchResultsButton);
 
       selectAllSearchResultsButton.onclick = this.selectAllSearchResults;
-      uiHelper.configureButtonStyles('.module-search-result-header');
+      uiHelper.configureButtonStyles('.verse-list-header');
     }
 
     moduleSearchHeader.show();

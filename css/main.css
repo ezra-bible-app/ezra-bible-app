@@ -1005,7 +1005,7 @@ h2 {
   font-weight: normal;
 }
 
-.module-search-result-header, .verse-statistics-chart-container {
+.verse-list-header, .verse-statistics-chart-container {
   display: none;
   margin-left: 1em;
   margin-top: 0.5em;
