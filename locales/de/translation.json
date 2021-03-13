@@ -215,7 +215,7 @@
     "related-strongs": "Verwandte Strong's"
   },
   "cordova" : {
-    "welcome-to-ezra-project": "Willkommen bei Ezra Bible App!",
+    "welcome-to-ezra-bible-app": "Willkommen bei Ezra Bible App!",
     "storage-justification": "Ezra Bible App benötigt Zugriff auf den Gerätespeicher, um SWORD Module und die Datenbank zu speichern.<br><br>Nachdem Sie den Button unten gedrückt haben werden Sie gebeten, Ezra Bible App den Zugriff auf den Speicher zu erlauben.",
     "enable-storage-access": "Zugriff auf Gerätespeicher aktivieren",
     "storage-permission-denied": "Sie haben entschieden, den Zugriff auf den Gerätespeicher zu verweigern.<br>Sie können dies ändern, indem Sie den Button unten drücken!",
