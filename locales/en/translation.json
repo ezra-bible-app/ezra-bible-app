@@ -150,6 +150,7 @@
     "tag-filter": "Filter: ",
     "recently-used-filter": "Filter recently used",
     "assign-tag": "Assign tag",
+    "change-tags": "Change tags",
     "delete-tag-permanently": "Delete this tag permanently",
     "none-selected": "None",
     "rename-tag": "Rename tag",

@@ -151,6 +151,7 @@
     "tag-filter": "Filter: ",
     "recently-used-filter": "Nur kürzlich verwendete Tags",
     "assign-tag": "Tag zuweisen",
+    "change-tags": "Change tags",    
     "delete-tag-permanently": "Diesen Tag dauerhaft löschen",
     "none-selected": "Keine",
     "rename-tag": "Tag umbenennen",
