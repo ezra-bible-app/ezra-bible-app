@@ -27,7 +27,7 @@ For more details regarding the used components have a look [here][tech].
 
 ### Design documentation
 
-Design documentation is available here: https://apidocs.ezra-project.net
+Design documentation is available here: https://apidocs.ezrabibleapp.net
 
 ### Building Ezra Project
 
