@@ -897,6 +897,10 @@ h2 {
   float: right;
 }
 
+.ui-icon-close {
+  background-position: -96px -128px !important;
+}
+
 .tag-select-button, .module-search-button, .display-options-button {
   margin-left: 1em;
   padding-top: 0.2em;
