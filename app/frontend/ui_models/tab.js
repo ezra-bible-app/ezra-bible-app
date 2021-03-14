@@ -175,6 +175,10 @@ class Tab {
            this.textType == 'search_results' ||
            this.textType == 'xrefs' && this.xrefs != null;
   }
+
+  hasReferenceVerse() {
+    return this.getVerseReferenceId() != null;
+  }
 }
 
 Tab.fromJsonObject = function(jsonObject) {

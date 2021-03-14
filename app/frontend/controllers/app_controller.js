@@ -701,6 +701,14 @@ class AppController {
     }
   }
 
+  clearReferenceVerse(tabIndex=undefined) {
+    var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
+    var currentVerseList = this.getCurrentVerseList(tabIndex);
+    var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
+
+    referenceVerseContainer.innerHTML = '';
+  }
+
   async renderReferenceVerse(verseBox, tabIndex=undefined) {
     if (verseBox == null || verseBox.length != 1) return;
 
@@ -731,10 +739,10 @@ class AppController {
     if (textType == 'xrefs') {
       textTypeHeader = i18n.t('general.module-xrefs');
     } else if (textType == 'tagged_verses') {
-      textTypeHeader = i18n.t('tags.verses-tagged-with') + "<i>" + currentTab.getTagTitleList() + "</i>";
+      textTypeHeader = `${i18n.t('tags.verses-tagged-with')} <i>${currentTab.getTagTitleList()}</i>`;
     }
 
-    referenceVerseContainer.innerHTML += "<div class='reference-header'>" + textTypeHeader + "</div>";
+    referenceVerseContainer.innerHTML += "<div class='reference-verse-list-header'><h2>" + textTypeHeader + "</h2></div>";
     this.bindEventsAfterBibleTextLoaded(undefined, false, $(referenceVerseContainer));
   }
 
@@ -758,9 +766,7 @@ class AppController {
   }
 
   showReferenceContainer() {
-    var currentTab = this.tab_controller.getTab();
-
-    if (currentTab.getVerseReferenceId() != null) {
+    if (this.tab_controller.getTab().hasReferenceVerse()) {
       var currentVerseListFrame = this.getCurrentVerseListFrame();
       var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
       $(referenceVerseContainer).show();
@@ -777,6 +783,8 @@ class AppController {
       localizedVerseReference = await this.verse_box_helper.getLocalizedVerseReference(referenceVerseBox[0]);
       var verseReferenceId = this.verse_box_helper.getVerseReferenceId(referenceVerseBox);
       currentTab.setVerseReferenceId(verseReferenceId);
+    } else {
+      currentTab.setVerseReferenceId(null);
     }
 
     app_controller.tab_controller.setCurrentTagTitleList(tagTitleList, localizedVerseReference);
@@ -796,6 +804,8 @@ class AppController {
 
     if (referenceVerseBox != undefined) {
       await this.renderReferenceVerse(referenceVerseBox);
+    } else {
+      this.clearReferenceVerse();
     }
 
     await this.getTaggedVerses();

@@ -1025,6 +1025,10 @@ h2 {
   margin-top: 0.5em;
 }
 
+.reference-verse-list-header {
+  margin-left: 0.2em;
+}
+
 .verse-statistics-chart-container {
   width: 95%;
   height: 12em;

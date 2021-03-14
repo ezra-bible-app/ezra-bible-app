@@ -508,6 +508,7 @@ class TextController {
     app_controller.hideVerseListLoadingIndicator();
     app_controller.hideSearchProgressBar();
     var initialRendering = true;
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     if (tabIndex === undefined) {
       var tabIndex = app_controller.tab_controller.getSelectedTabIndex();
@@ -537,12 +538,13 @@ class TextController {
         app_controller.taggedVerseExport.enableTaggedVersesExportButton(tabIndex);
       }
 
-      var tagTitleList = app_controller.tab_controller.getTab(tabIndex).getTagTitleList();
-      var headerText = `<h2>${i18n.t('tags.verses-tagged-with')} <i>${tagTitleList}</i></h2>`;
-
-      var verseListHeader = app_controller.getCurrentVerseListComposite(tabIndex).find('.verse-list-header');
-      verseListHeader.html(headerText);
-      verseListHeader.show();
+      if (!currentTab.hasReferenceVerse()) {
+        var tagTitleList = currentTab.getTagTitleList();
+        var headerText = `<h2>${i18n.t('tags.verses-tagged-with')} <i>${tagTitleList}</i></h2>`;
+        var verseListHeader = app_controller.getCurrentVerseListComposite(tabIndex).find('.verse-list-header');
+        verseListHeader.html(headerText);
+        verseListHeader.show();
+      }
 
       target.removeClass('verse-list-book');
 
@@ -573,7 +575,13 @@ class TextController {
 
     if (listType == 'tagged_verses') {
       var numberOfTaggedVerses = target.find('.verse-box').length;
-      var verseListHeader = app_controller.getCurrentVerseListComposite(tabIndex).find('.verse-list-header').find('h2');
+
+      var headerElementClass = '.verse-list-header';
+      if (currentTab.hasReferenceVerse()) {
+        headerElementClass = '.reference-verse-list-header';
+      }
+
+      var verseListHeader = app_controller.getCurrentVerseListComposite(tabIndex).find(headerElementClass).find('h2');
       var headerWithResultNumber = `${verseListHeader.html()} (${numberOfTaggedVerses})`;
       verseListHeader.html(headerWithResultNumber);
     }
