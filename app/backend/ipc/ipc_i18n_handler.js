@@ -36,11 +36,6 @@ class IpcI18nHandler {
 
   initIpcInterface() {
     this._ipcMain.add('i18n_get_translation', (language) => {
-      if (this._platformHelper.isCordova()) {
-        // Force language to English as long as SWORD i18n functionality is not fully working on Android
-        language = 'en';
-      }
-
       var fileName = this.getLanguageFile(language);
       var translationObject = {};
 

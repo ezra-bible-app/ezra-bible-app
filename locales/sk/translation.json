@@ -214,7 +214,7 @@
     "related-strongs": "Súvisiace Strongy"
   },
   "cordova" : {
-    "welcome-to-ezra-project": "Vitajte v projekte Ezra!",
+    "welcome-to-ezra-bible-app": "Vitajte v projekte Ezra!",
     "storage-justification": "Ezra Bible App potrebuje prístup do úložnej oblasti zariadenia, aby mohol ukladať moduly SWORD a ukladať svoju databázu.<br><br>Po stlačení tlačidla nižšie budete požiadaní, aby ste aplikácii Ezra Bible App povolili prístup k súborom vo vašom zariadení.",
     "enable-storage-access": "Povoliť prístup k internému úložisku",
     "storage-permission-denied": "Rozhodli ste sa odmietnuť prístup k úložisku. <br> Môžete to zmeniť stlačením tlačidla nižšie!",

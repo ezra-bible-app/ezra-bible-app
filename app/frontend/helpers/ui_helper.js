@@ -161,7 +161,7 @@ class UiHelper {
     var tagsToolBarHeight = $('#tags-toolbar').height();
   
     if (app_controller.optionsMenu._dictionaryOption.isChecked()) {
-      $('#tags-content-global').css('height', this.app_container_height - tagsToolBarHeight - 535);
+      $('#tags-content-global').css('height', this.app_container_height - tagsToolBarHeight - 540);
       $('#dictionary-info-box-panel').css('height', 422);
     } else {
       $('#tags-content-global').css('height', this.app_container_height - tagsToolBarHeight - 55);

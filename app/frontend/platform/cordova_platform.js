@@ -197,7 +197,7 @@ class CordovaPlatform {
 
     hideGlobalLoadingIndicator();
 
-    var welcomeTitle = i18n.t("cordova.welcome-to-ezra-project");
+    var welcomeTitle = i18n.t("cordova.welcome-to-ezra-bible-app");
 
     this.getPermissionBox().dialog({
       title: welcomeTitle,
