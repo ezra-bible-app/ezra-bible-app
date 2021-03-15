@@ -337,32 +337,6 @@ class TagsController {
     }
   }
 
-  // 2019-05-30
-  // FIXME
-  // This function is not used after we are using the label also for tag assignment
-  // We may use it again to quickly mark the tagged verses
-  handle_tag_label_click__by_highlighting_tagged_verses() {
-    var checkbox_tag = $(this).closest('.checkbox-tag');
-    var cb_label = checkbox_tag.find('.cb-label').html();
-    var cb_is_global = (checkbox_tag.find('.is-global').html() == 'true');
-
-    var matching_tag_data = $('.tag-title').filter(function(index) {
-      var current_tag_is_global = $(this).parent().hasClass('tag-global');
-      return (($(this).html() == cb_label) && (cb_is_global == current_tag_is_global));
-    });
-
-    app_controller.verse_selection.clear_verse_selection();
-
-    matching_tag_data.closest('.verse-box').find('.verse-text').addClass('ui-selected');
-
-    if (matching_tag_data.length > 0) {
-      var current_verse_reference = $(matching_tag_data[0]).closest('.verse-box').find('.verse-reference-content').html();
-
-      tags_controller.update_tags_view_after_verse_selection(true);
-      app_controller.jumpToReference(current_verse_reference, false);
-    }
-  }
-
   async handle_tag_cb_click(event) {
     await waitUntilIdle();
 
