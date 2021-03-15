@@ -249,6 +249,8 @@ class TextController {
       bookNotes = await ipcDb.getBookNotes(book_short_title);
     }
 
+    var separator = await getReferenceSeparator(currentBibleTranslationId);
+
     var verses_as_html = verseListTemplate({
       versification: versification,
       verseListId: current_tab_id,
@@ -264,7 +266,7 @@ class TextController {
       verseTags: verseTags,
       verseNotes: verseNotes,
       marked: this.marked,
-      reference_separator: reference_separator,
+      reference_separator: separator,
       saveText: i18n.t("general.save"),
       cancelText: i18n.t("general.cancel"),
       chapterText: chapterText,
@@ -353,17 +355,17 @@ class TextController {
     
     if (render_type == "html") {
       
-      this.getVersesAsHtml(current_tab_id,
-                           bibleBooks,
-                           bookNames,
-                           bibleBookStats,
-                           verseTags,
-                           verseNotes,
-                           verses,
-                           versification,
-                           render_function,
-                           requestedBookId <= 0,
-                           renderVerseMetaInfo);
+      await this.getVersesAsHtml(current_tab_id,
+                                 bibleBooks,
+                                 bookNames,
+                                 bibleBookStats,
+                                 verseTags,
+                                 verseNotes,
+                                 verses,
+                                 versification,
+                                 render_function,
+                                 requestedBookId <= 0,
+                                 renderVerseMetaInfo);
       
     } else if (render_type == "docx") {
       render_function(bibleBooks, groupedVerseTags, verses);
@@ -413,17 +415,17 @@ class TextController {
 
     if (render_type == "html") {
       
-      this.getVersesAsHtml(current_tab_id,
-                           bibleBooks,
-                           bookNames,
-                           bibleBookStats,
-                           verseTags,
-                           verseNotes,
-                           verses,
-                           versification,
-                           render_function,
-                           true,
-                           renderVerseMetaInfo);
+      await this.getVersesAsHtml(current_tab_id,
+                                 bibleBooks,
+                                 bookNames,
+                                 bibleBookStats,
+                                 verseTags,
+                                 verseNotes,
+                                 verses,
+                                 versification,
+                                 render_function,
+                                 true,
+                                 renderVerseMetaInfo);
     
     } else if (render_type == "docx") {
       render_function(bibleBooks, verseTags, verses);
@@ -464,24 +466,27 @@ class TextController {
 
     if (render_type == "html") {
       
-      this.getVersesAsHtml(current_tab_id,
-                           bibleBooks,
-                           bookNames,
-                           bibleBookStats,
-                           verseTags,
-                           verseNotes,
-                           verses,
-                           versification,
-                           render_function,
-                           true,
-                           renderVerseMetaInfo);
+      await this.getVersesAsHtml(current_tab_id,
+                                 bibleBooks,
+                                 bookNames,
+                                 bibleBookStats,
+                                 verseTags,
+                                 verseNotes,
+                                 verses,
+                                 versification,
+                                 render_function,
+                                 true,
+                                 renderVerseMetaInfo);
     
     } else if (render_type == "docx") {
       render_function(bibleBooks, groupedVerseTags, verses);
     }
   }
 
-  getVersesAsHtml(current_tab_id, bibleBooks, bookNames, bibleBookStats, groupedVerseTags, groupedVerseNotes, verses, versification, render_function, renderBibleBookHeaders=true, renderVerseMetaInfo=true) {
+  async getVersesAsHtml(current_tab_id, bibleBooks, bookNames, bibleBookStats, groupedVerseTags, groupedVerseNotes, verses, versification, render_function, renderBibleBookHeaders=true, renderVerseMetaInfo=true) {    
+    var bibleTranslationId = app_controller.tab_controller.getTabById(current_tab_id).getBibleTranslationId();
+    var separator = await getReferenceSeparator(bibleTranslationId);
+    
     var verses_as_html = verseListTemplate({
       versification: versification,
       verseListId: current_tab_id,
@@ -494,7 +499,7 @@ class TextController {
       verseTags: groupedVerseTags,
       verseNotes: groupedVerseNotes,
       marked: this.marked,
-      reference_separator: reference_separator,
+      reference_separator: separator,
       saveText: i18n.t("general.save"),
       cancelText: i18n.t("general.cancel"),
       tagHint: i18n.t("bible-browser.tag-hint"),

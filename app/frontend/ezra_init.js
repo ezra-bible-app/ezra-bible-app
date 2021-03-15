@@ -101,6 +101,21 @@ window.initI18N = async function()
   reference_separator = i18n.t('general.chapter-verse-separator');
 }
 
+window.getReferenceSeparator = async function(moduleCode=undefined) {
+  if (moduleCode == undefined) {
+    
+    return reference_separator;
+
+  } else {
+    var moduleReferenceSeparator = reference_separator;
+    
+    var localModule = await ipcNsi.getLocalModule(moduleCode);
+    moduleReferenceSeparator = await i18nHelper.getSpecificTranslation(localModule.language, 'general.chapter-verse-separator');
+    
+    return moduleReferenceSeparator;
+  }
+}
+
 async function initTest()
 {
   if (app.commandLine.hasSwitch('install-kjv')) {

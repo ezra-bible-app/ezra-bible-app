@@ -87,7 +87,8 @@ class SpectronHelper {
 
   async getVerseReferenceHelper() {
     var nsi = await this.getNSI();
-    var verseReferenceHelper = new VerseReferenceHelper(':', nsi);
+    var verseReferenceHelper = new VerseReferenceHelper(nsi);
+    verseReferenceHelper.setReferenceSeparator(':');
     return verseReferenceHelper;
   }
 

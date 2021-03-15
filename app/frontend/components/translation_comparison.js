@@ -93,7 +93,8 @@ class TranslationComparison {
 
       verseHtml += "<td></td>";
     } else {
-      var targetVerseReference = targetTranslationVerse.chapter + reference_separator + targetTranslationVerse.verseNr;
+      var moduleReferenceSeparator = await getReferenceSeparator(targetTranslationId);
+      var targetVerseReference = targetTranslationVerse.chapter + moduleReferenceSeparator + targetTranslationVerse.verseNr;
       
       if (totalVerseCount > 1) {
         verseHtml +=  "<td class='verse-reference-td'>" + targetVerseReference + "</td>";

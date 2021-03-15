@@ -67,7 +67,7 @@ class TranslationController {
   }
 
   initVerseSelection() {
-    app_controller.verse_selection.initHelper(reference_separator, ipcNsi);
+    app_controller.verse_selection.initHelper(ipcNsi);
   }
 
   async loadSettings() {

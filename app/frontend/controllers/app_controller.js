@@ -154,6 +154,9 @@ class AppController {
     var currentVerseListFrame = this.getCurrentVerseListFrame();
     var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
 
+    var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    var separator = await getReferenceSeparator(bibleTranslationId);
+
     // Highlight occurances in navigation pane
     for (var i = 0; i < occurances.length; i++) {
       var currentOccurance = $(occurances[i]);
@@ -165,7 +168,7 @@ class AppController {
         // Highlight chapter if we are searching in a book
 
         var verseReferenceContent = verseBox.find('.verse-reference-content').text();
-        var chapter = this.getChapterFromReference(verseReferenceContent);
+        var chapter = this.getChapterFromReference(verseReferenceContent, separator);
         this.navigation_pane.highlightSearchResult(chapter);
 
       } else {
@@ -425,8 +428,10 @@ class AppController {
     }
   }
 
-  copySelectedVersesToClipboard() {
+  async copySelectedVersesToClipboard() {
     const { clipboard } = require('electron');
+    var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    var separator = await getReferenceSeparator(bibleTranslationId);
     
     var selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
     
@@ -436,7 +441,7 @@ class AppController {
     for (var i = 0; i < selectedVerseBoxes.length; i++) {
       var currentVerseBox = $(selectedVerseBoxes[i]);
       var verseReferenceContent = currentVerseBox.find('.verse-reference-content').text();
-      var currentVerseNr = verseReferenceContent.split(reference_separator)[1];
+      var currentVerseNr = verseReferenceContent.split(separator)[1];
       
       var currentText = currentVerseBox.find('.verse-text').clone();
       currentText.find('.sword-markup').remove();
@@ -910,16 +915,17 @@ class AppController {
     this.install_module_assistant.openAssistant(moduleType);
   }
 
-  getChapterFromReference(reference) {
-    var chapter = Number(reference.split(reference_separator)[0]);
+  getChapterFromReference(reference, separator=reference_separator) {
+    var chapter = Number(reference.split(separator)[0]);
     return chapter;
   }
 
-  getVerseFromReference(reference) {
-    var verse = Number(reference.split(reference_separator)[1]);
+  getVerseFromReference(reference, separator=reference_separator) {
+    var verse = Number(reference.split(separator)[1]);
     return verse;
   }
 
+/*
   jumpToReference(reference, highlight) {
     var currentTabId = this.tab_controller.getSelectedTabId();
     var chapter = this.getChapterFromReference(reference);
@@ -935,11 +941,8 @@ class AppController {
     }
 
     this.navigation_pane.highlightNavElement(chapter);
-
-    /*if (highlight) { // FIXME
-      original_verse_box.glow();
-    }*/
   }
+*/
 
   async isCacheInvalid() {
       var lastUsedVersion = await ipcSettings.get('lastUsedVersion', undefined);

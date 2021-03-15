@@ -75,6 +75,9 @@ class TaggedVerseExport {
   }
 
   async renderVerseBlocks(paragraph, bibleBook, verseBlocks) {
+    var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    var separator = await getReferenceSeparator(bibleTranslationId);
+
     for (var j = 0; j < verseBlocks.length; j++) {
       var currentBlock = verseBlocks[j];
 
@@ -84,7 +87,7 @@ class TaggedVerseExport {
       // Output the verse reference of this block
       var bookTitle = await i18nHelper.getSwordTranslation(bibleBook.longTitle);
       paragraph.addText(bookTitle);
-      paragraph.addText(" " + firstVerse.chapter + reference_separator + firstVerse.verseNr);
+      paragraph.addText(" " + firstVerse.chapter + separator + firstVerse.verseNr);
 
       if (currentBlock.length >= 2) { // At least 2 verses, a bigger block
         var secondRef = "";
@@ -92,7 +95,7 @@ class TaggedVerseExport {
         if (lastVerse.chapter == firstVerse.chapter) {
           secondRef = "-" + lastVerse.verseNr;
         } else {
-          secondRef = " - " + lastVerse.chapter + reference_separator + lastVerse.verseNr;
+          secondRef = " - " + lastVerse.chapter + separator + lastVerse.verseNr;
         }
 
         paragraph.addText(secondRef);

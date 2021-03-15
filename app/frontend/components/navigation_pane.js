@@ -386,15 +386,17 @@ class NavigationPane {
       verseBox = focussedElement.closest('.verse-box');
     }
 
+    var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    var separator = await getReferenceSeparator(bibleTranslationId);
+
     var currentTab = app_controller.tab_controller.getTab();
     var currentBook = currentTab.getBook();
-    var currentTagIdList = currentTab.getTagIdList();
     var currentTextType = currentTab.getTextType();
 
     if (currentTextType == 'book' && currentBook != null) {
 
       var verseReferenceContent = verseBox.querySelector('.verse-reference-content').innerText;
-      var currentChapter = app_controller.getChapterFromReference(verseReferenceContent);
+      var currentChapter = app_controller.getChapterFromReference(verseReferenceContent, separator);
       this.highlightNavElement(currentChapter);
 
       var sectionTitle = "";
