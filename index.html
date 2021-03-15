@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
@@ -9,8 +10,7 @@
       * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
   -->
 
-  <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self' 'unsafe-inline' 'unsafe-eval'
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval'
                  data: gap: https://ssl.gstatic.com https://api.github.com https://sentry.io ;
                  style-src 'self' 'unsafe-eval' 'unsafe-inline' data:;
                  media-src *;
@@ -32,6 +32,9 @@
 
   <!-- CHART.JS STYLES -->
   <link href="node_modules/chart.js/dist/Chart.min.css" media="screen" rel="stylesheet" type="text/css" />
+
+  <!-- FONT AWESOME STYLES -->
+  <link href="node_modules/@fortawesome/fontawesome-free/css/solid.min.css" rel="stylesheet" type="text/css">
 
   <!-- CUSTOM STYLES -->
   <link href="css/loader.css" media="screen" rel="stylesheet" type="text/css" />
@@ -86,9 +89,9 @@
     } else {
 
       if (typeof window !== 'undefined' &&
-          typeof window.process === 'object' &&
-          window.process.type === 'renderer') {
-        
+        typeof window.process === 'object' &&
+        window.process.type === 'renderer') {
+
         // We only require this when running on Electron
         require('v8-compile-cache');
       }
@@ -102,61 +105,61 @@
 
 <body>
 
-<div id="startup-loading-indicator">
-  <div class="loading-indicator-text" style="float: left;" i18n="general.loading">
-    Loading
+  <div id="startup-loading-indicator">
+    <div class="loading-indicator-text" style="float: left;" i18n="general.loading">
+      Loading
+    </div>
+    <div class="loader">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+    <div id="loading-subtitle" style="display: none; clear: both; padding-top: 1em; font-size: 70%;">
+      Starting app
+    </div>
   </div>
-  <div class="loader">
-    <div class="bounce1"></div>
-    <div class="bounce2"></div>
-    <div class="bounce3"></div>
-  </div>
-  <div id="loading-subtitle" style="display: none; clear: both; padding-top: 1em; font-size: 70%;">
-    Starting app
-  </div>
-</div>
 
-<div id="main-content">
-  <a name='top'></a>
+  <div id="main-content">
+    <a name='top'></a>
 
-  <div id="app-container">
-    <div id="bible-browser-toolbox"></div>
-    <div id="book-selection-menu" class="verse-selection-menu"></div>
-    <div id="tag-selection-menu" class="verse-selection-menu"></div>
-    <div id="module-search-menu" class=module-search-menu"></div>
-    <div id="display-options-menu" class="display-options-menu"></div>
-    <div id="module-settings-assistant" style="display: none;"></div>
-    <div id="tag-assignment-menu" class="verse-selection-menu">
-      <div id="tag-assignment-menu-filter">
-        <span id="tag-selection-filter-label" i18n="tags.tag-filter"></span>        
+    <div id="app-container">
+      <div id="bible-browser-toolbox"></div>
+      <div id="book-selection-menu" class="verse-selection-menu"></div>
+      <div id="tag-selection-menu" class="verse-selection-menu"></div>
+      <div id="module-search-menu" class=module-search-menu "></div>
+    <div id="display-options-menu " class="display-options-menu "></div>
+    <div id="module-settings-assistant " style="display: none; "></div>
+    <div id="tag-assignment-menu " class="verse-selection-menu ">
+      <div id="tag-assignment-menu-filter ">
+        <span id="tag-selection-filter-label " i18n="tags.tag-filter "></span>        
       </div>
 
-      <div id="tag-selection-filter-loading-indicator">
-        <div class="loader">
-          <div class="bounce1"></div>
-          <div class="bounce2"></div>
-          <div class="bounce3"></div>
+      <div id="tag-selection-filter-loading-indicator ">
+        <div class="loader ">
+          <div class="bounce1 "></div>
+          <div class="bounce2 "></div>
+          <div class="bounce3 "></div>
         </div>
       </div>
 
-      <div id="tag-assignment-menu-taglist" class="scrollable"></div>
+      <div id="tag-assignment-menu-taglist " class="scrollable "></div>
     </div>
 
-    <div id="tab-search"></div>
+    <div id="tab-search "></div>
 
-    <div id="permissions-box">
-      <div id="permissions-box-content">
+    <div id="permissions-box ">
+      <div id="permissions-box-content ">
       </div>
     </div>
 
-    <div id="general-info-box">
-      <div id="general-info-box-content">
+    <div id="general-info-box ">
+      <div id="general-info-box-content ">
       </div>
     </div>
 
-    <div id="boxes"></div>
+    <div id="boxes "></div>
 
-    <div id="verse-list-tabs"></div>
+    <div id="verse-list-tabs "></div>
   </div>
 </div>
 
