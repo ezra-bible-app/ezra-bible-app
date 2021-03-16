@@ -74,25 +74,6 @@ window.getReferenceSeparator = async function(moduleCode=undefined) {
   }
 }
 
-window.showGlobalLoadingIndicator = function() {
-  $('#main-content').hide();
-  var loadingIndicator = $('#startup-loading-indicator');
-  loadingIndicator.show();
-  loadingIndicator.find('.loader').show();
-}
-
-window.hideGlobalLoadingIndicator = function() {
-  var loadingIndicator = $('#startup-loading-indicator');
-  loadingIndicator.hide();
-  $('#main-content').show();
-}
-
-window.updateLoadingSubtitle = function(text) {
-  if (platformHelper.isCordova()) {
-    $('#loading-subtitle').text(text);
-  }
-}
-
 window.addEventListener('load', function() {
   console.log("load event fired!");
 

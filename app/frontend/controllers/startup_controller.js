@@ -243,7 +243,7 @@ class StartupController
     loadingIndicator.show();
     loadingIndicator.find('.loader').show();
 
-    updateLoadingSubtitle("Initializing user interface");
+    uiHelper.updateLoadingSubtitle("Initializing user interface");
 
     console.log("Loading HTML fragments");
     this.loadHTML();
@@ -265,7 +265,7 @@ class StartupController
       var isWin10 = await this._platformHelper.isWindowsTenOrLater();
       if (isWin10 != undefined) {
         if (!isWin10) {
-          hideGlobalLoadingIndicator();
+          uiHelper.hideGlobalLoadingIndicator();
           var vcppRedistributableNeeded = this._platformHelper.showVcppRedistributableMessageIfNeeded();
           if (vcppRedistributableNeeded) {
             return;
@@ -296,12 +296,12 @@ class StartupController
     await waitUntilIdle();
 
     console.log("Loading settings ...");
-    updateLoadingSubtitle("Loading settings");
+    uiHelper.updateLoadingSubtitle("Loading settings");
     if (this._platformHelper.isElectron() || this._platformHelper.isCordova()) {
       await app_controller.loadSettings();
     }
 
-    updateLoadingSubtitle("Waiting for app to get ready");
+    uiHelper.updateLoadingSubtitle("Waiting for app to get ready");
 
     // Wait for the UI to render, before we hide the loading indicator
     await waitUntilIdle();

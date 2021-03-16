@@ -41,11 +41,11 @@ class ThemeController {
       // Set up a listener to react when the native theme has changed
       nativeTheme.on('updated', () => {
         if (nativeTheme.shouldUseDarkColors != app_controller.optionsMenu._nightModeOption.isChecked()) {
-          showGlobalLoadingIndicator();
+          uiHelper.showGlobalLoadingIndicator();
 
           setTimeout(() => {
             this.toggleDarkModeIfNeeded();
-            hideGlobalLoadingIndicator();
+            uiHelper.hideGlobalLoadingIndicator();
           }, 100);
         }
       });

@@ -183,6 +183,25 @@ class UiHelper {
 
     return width;
   }
+
+  showGlobalLoadingIndicator() {
+    $('#main-content').hide();
+    var loadingIndicator = $('#startup-loading-indicator');
+    loadingIndicator.show();
+    loadingIndicator.find('.loader').show();
+  }
+  
+  hideGlobalLoadingIndicator() {
+    var loadingIndicator = $('#startup-loading-indicator');
+    loadingIndicator.hide();
+    $('#main-content').show();
+  }
+
+  updateLoadingSubtitle(text) {
+    if (platformHelper.isCordova()) {
+      $('#loading-subtitle').text(text);
+    }
+  }
 }
 
 module.exports = UiHelper;
