@@ -109,7 +109,7 @@ window.loadScript = function(script) {
   head.appendChild(js);
 }
 
-window.platformStartup = function() {
+window.initPlatform = function() {
   if (isAndroidWebView()) {
     var supportsES2017 = supportsEcmaScript2017();
 
