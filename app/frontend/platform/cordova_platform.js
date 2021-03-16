@@ -254,7 +254,7 @@ class CordovaPlatform {
     updateLoadingSubtitle("Initializing database");
     await ipcGeneral.initDatabase();
 
-    await initApplication();
+    await startup_controller.initApplication();
   }
 
   mainProcessListener(message) {

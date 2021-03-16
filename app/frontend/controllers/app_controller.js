@@ -415,8 +415,26 @@ class AppController {
 
     if (platformHelper.isWin() || platformHelper.isLinux()) {
       Mousetrap.bind('f11', () => {
-        toggleFullScreen();
+        this.toggleFullScreen();
       });
+    }
+  }
+
+  toggleFullScreen() {
+    if (platformHelper.isElectron()) {
+  
+      const { remote } = require('electron');
+      var window = remote.getCurrentWindow();
+  
+      if (window.isFullScreen()) {
+        window.setFullScreen(false);
+      } else {
+        window.setFullScreen(true);
+      }
+  
+    } else if (platformHelper.isAndroid()) {
+  
+      cordovaPlatform.toggleFullScreen();
     }
   }
   
