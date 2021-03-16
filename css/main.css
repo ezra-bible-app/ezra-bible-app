@@ -915,7 +915,6 @@ h2 {
 }
 
 .display-options-button>.fa {
-  margin-top: 3px;
   font-size: 1.2em;
 }
 
@@ -925,6 +924,9 @@ h2 {
 
 .verse-list-menu .fg-button {
   margin-bottom: 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .book-select-label {
@@ -948,8 +950,6 @@ h2 {
 .module-search-button,
 .display-options-button {
   margin-left: 1em;
-  padding-top: 0.2em;
-  padding-bottom: 0.8em;
 }
 
 .book-available a:link,
