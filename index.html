@@ -83,7 +83,9 @@
 
         window.addEventListener('load', showIncompatibleWebviewMessage);
       }
-    } else {
+    } else { // Electron!
+
+      var isDev = true;
 
       if (typeof window !== 'undefined' &&
           typeof window.process === 'object' &&
@@ -91,10 +93,18 @@
         
         // We only require this when running on Electron
         require('v8-compile-cache');
+
+        isDev = require('electron-is-dev');
       }
 
-      loadScript('app/frontend/ezra_init.js');
-    }
+      if (isDev) {
+        console.log("DEV mode: Loading app/frontend/ezra_init.js")
+        loadScript('app/frontend/ezra_init.js');
+      } else {
+        console.log('PRODUCTION mode: Loading dist/ezra_init.js');
+        loadScript('dist/ezra_init.js');
+      }
+   }
   </script>
 </head>
 
