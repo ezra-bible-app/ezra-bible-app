@@ -892,10 +892,9 @@ h2 {
   position: fixed;
   top: 0.5em;
   right: 1em;
-  width: 21px;
-  height: 21px;
-  padding: unset;
-  padding: 0.5em;
+  width: 1em;
+  padding: 4px;
+  font-size: 1em;
   z-index: 100;
 }
 
