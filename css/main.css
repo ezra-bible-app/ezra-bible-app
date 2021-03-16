@@ -1176,10 +1176,10 @@ h2 {
 }
 
 #add-tab-button {
-  margin-top: 0.3em;
+  margin-top: 0.4em;
   margin-left: 0.5em;
   margin-right: 0.2em;
-  font-size: 1.2em;
+  padding: 4px 6px;
   float: left;
 }
 
