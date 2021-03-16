@@ -208,6 +208,8 @@ function initExternalLinkHandling() {
   $('body').on('click', 'a.external, p.external a, div.external a', (event) => {
     event.preventDefault();
     let link = event.target.href;
+
+    // FIXME: This is needs to be adjusted for Android!
     require("electron").shell.openExternal(link);
   });
 }
