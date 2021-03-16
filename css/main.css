@@ -128,8 +128,10 @@ h2 {
   clear: both;
 }
 
+.verse-list-menu-line1,
 .verse-list-menu-line2 {
-  clear: both;
+  display: flex;
+  align-items: center;
   padding-top: 0.2em;
 }
 
@@ -884,7 +886,6 @@ h2 {
   cursor: pointer;
   position: relative;
   text-align: center;
-  float: left;
   height: 1.1em;
 }
 
@@ -1183,20 +1184,6 @@ h2 {
   float: left;
 }
 
-.export-tagged-verses-button,
-.app-info-button,
-.show-parallel-translations-button {
-  float: left;
-}
-
-
-/* .darkmode--activated .export-tagged-verses-button,
-.darkmode--activated .display-options-button,
-.darkmode--activated .fullscreen-button {
-  background: none;
-  background-color: slategray;
-} */
-
 .app-info-button {
   width: 2.2em;
   font-size: 120%;
@@ -1447,8 +1434,8 @@ h2 {
 }
 
 .bible-select-block {
-  float: left;
   margin-left: 0.8em;
+  margin-bottom: 0.5em;
   user-select: none;
 }
 
