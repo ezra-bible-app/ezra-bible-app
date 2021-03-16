@@ -120,6 +120,8 @@ window.initPlatform = function() {
         console.log("Using customizable theme.css!");
         document.getElementById("cordova-theme-css").href = "file:///sdcard/Android/data/net.ezrabibleapp.cordova/theme.css";
 
+        window.isDev = false;
+
         loadScript('dist/ezra_init.js');
 
       } else {
@@ -136,7 +138,7 @@ window.initPlatform = function() {
     }
   } else { // Electron!
 
-    var isDev = true;
+    window.isDev = false;
 
     if (typeof window !== 'undefined' &&
         typeof window.process === 'object' &&
@@ -146,7 +148,7 @@ window.initPlatform = function() {
       require('v8-compile-cache');
       require('log-timestamp');
 
-      isDev = require('electron-is-dev');
+      window.isDev = require('electron-is-dev');
     }
 
     if (isDev) {

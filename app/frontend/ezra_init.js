@@ -19,12 +19,19 @@
 window.app = null;
 
 // Platform Helper
-const PlatformHelper = require('./app/lib/platform_helper.js');
+var PlatformHelper = null;
+var StartupController = null;
+
+if (isDev) {
+  PlatformHelper = require('./app/lib/platform_helper.js');
+  StartupController = require('./app/frontend/controllers/startup_controller.js');
+} else {
+  PlatformHelper = require('../lib/platform_helper.js');
+  StartupController = require('./controllers/startup_controller.js');
+}
+
 window.platformHelper = new PlatformHelper();
-
-const StartupController = require('./app/frontend/controllers/startup_controller.js');
 window.startup_controller = new StartupController();
-
 window.cordovaPlatform = null;
 
 window.sleep = function(time) {
@@ -79,7 +86,7 @@ window.addEventListener('load', function() {
 
   if (platformHelper.isCordova()) {
 
-    var CordovaPlatform = require('./app/frontend/platform/cordova_platform.js');
+    var CordovaPlatform = require('./platform/cordova_platform.js');
     cordovaPlatform = new CordovaPlatform();
     cordovaPlatform.init();
 
