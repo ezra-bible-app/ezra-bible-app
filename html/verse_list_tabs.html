@@ -11,25 +11,25 @@
     <div class="verse-list-menu-line1">
 
       <div class="fg-button book-select-button ui-state-default ui-corner-all">
-        <i class="fa fa-book-open"></i>
+        <i class="fas fa-book-open"></i>
         <div class="book-select-value" i18n="menu.book"></div>
-        <i class="fa fa-caret-down"></i>
+        <i class="fas fa-caret-down"></i>
       </div>
 
       <div class="fg-button tag-select-button ui-state-default ui-corner-all">
-        <i class="fa fa-tags"></i>
+        <i class="fas fa-tags"></i>
         <div class="tag-select-label" i18n="menu.tags"></div>
-        <i class="fa fa-caret-down"></i>
+        <i class="fas fa-caret-down"></i>
       </div>
 
       <div class="fg-button module-search-button ui-state-default ui-corner-all">
-        <i class="fa fa-search"></i>
+        <i class="fas fa-search"></i>
         <div class="module-search-label" i18n="menu.search"></div>
-        <i class="fa fa-caret-down"></i>
+        <i class="fas fa-caret-down"></i>
       </div>
 
       <div class="fg-button display-options-button ui-state-default ui-corner-all" i18n="[title]menu.options">
-        <i class="fa fa-cog"></i>
+        <i class="fas fa-cog"></i>
       </div>
 
       <div class="bible-select-block">
@@ -38,7 +38,7 @@
       </div>
 
       <button class="app-info-button fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="[title]menu.show-module-info">
-        <i class="fa fa-info"></i>
+        <i class="fas fa-info"></i>
       </button>
 
       <button class="show-parallel-translations-button fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="tags-toolbar.compare">
@@ -52,15 +52,21 @@
 
     <div class="verse-list-menu-line2">
       <div class="fg-button assign-tag-menu-button ui-state-default ui-corner-all" style="display: none;">
+        <i class="fas fa-arrow-right" data-fa-transform="shrink-6 left-2" data-fa-mask="fas fa-tags"></i>
         <div class="assign-tag-menu-label" i18n="tags.change-tags"></div>
-        <i class="fa fa-caret-down"></i>
+        <i class="fas fa-caret-down"></i>
       </div>
 
       <button class="assign-last-tag-button fg-button ui-state-default ui-corner-all ui-state-disabled" i18n="tags-toolbar.assign-last-tag"></button>
 
       <br class="menu-layout-break1" />
 
-      <button class="new-standard-tag-button fg-button ui-state-default ui-corner-all" i18n="tags-toolbar.new-tag"></button>
+      <button class="new-standard-tag-button fg-button ui-state-default ui-corner-all" i18n="tags-toolbar.new-tag">
+        <span class="fa-stack fa-2x">
+          <i class="fa fa-plus fa-stack-1x"></i>
+          <i class="fa fa-tag fa-stack-2x"></i>
+        </span>
+      </button>
 
       <button class="show-book-tag-statistics-button fg-button ui-state-default ui-corner-all ui-state-disabled" i18n="tags-toolbar.tag-statistics"></button>
 
