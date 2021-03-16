@@ -31,7 +31,7 @@ class TabController {
   constructor() {
     this.persistanceEnabled = false;
     this.defaultLabel = "-------------";
-    this.tabTemplate = "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>",
+    this.tabTemplate = "<li><a href='#{href}'>#{label}</a> <span class='close-tab-button'><i class='fas fa-times'></i></span></li>",
     this.tabCounter = 1;
     this.nextTabId = 2;
     this.metaTabs = [];
@@ -155,7 +155,7 @@ class TabController {
   }
 
   getFirstTabCloseButton() {
-    var firstTabCloseButton = $($('#' + this.tabsElement).find('.ui-icon-close')[0]);
+    var firstTabCloseButton = $($('#' + this.tabsElement).find('.close-tab-button')[0]);
     return firstTabCloseButton;
   }
 
@@ -366,10 +366,10 @@ class TabController {
       }
     });
 
-    this.tabs.find('span.ui-icon-close').unbind();
+    this.tabs.find('span.close-tab-button').unbind();
 
     // Close icon: removing the tab on click
-    this.tabs.find('span.ui-icon-close').on( "mousedown", (event) => {
+    this.tabs.find('span.close-tab-button').on( "mousedown", (event) => {
       this.removeTab(event);
 
       var currentTabIndex = this.getSelectedTabIndex();

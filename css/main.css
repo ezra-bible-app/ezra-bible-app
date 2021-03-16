@@ -109,8 +109,8 @@ h2 {
 }
 
 #verse-list-tabs ul li span {
-  margin-top: 0.5em;
-  margin-right: 0.5em;
+  padding: 0.5em 0.7em 0.5em 0;
+  display: inline-block;
 }
 
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a {
