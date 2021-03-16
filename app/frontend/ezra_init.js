@@ -109,8 +109,10 @@ window.getReferenceSeparator = async function(moduleCode=undefined) {
   } else {
     var moduleReferenceSeparator = reference_separator;
     
-    var localModule = await ipcNsi.getLocalModule(moduleCode);
-    moduleReferenceSeparator = await i18nHelper.getSpecificTranslation(localModule.language, 'general.chapter-verse-separator');
+    try {
+      var localModule = await ipcNsi.getLocalModule(moduleCode);
+      moduleReferenceSeparator = await i18nHelper.getSpecificTranslation(localModule.language, 'general.chapter-verse-separator');
+    } catch (e) {}
     
     return moduleReferenceSeparator;
   }
