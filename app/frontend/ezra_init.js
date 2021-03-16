@@ -18,11 +18,11 @@
 
 window.app = null;
 
-const IpcGeneral = require('./ipc/ipc_general.js');
-const IpcI18n = require('./ipc/ipc_i18n.js');
-const IpcNsi = require('./ipc/ipc_nsi.js');
-const IpcDb = require('./ipc/ipc_db.js');
-const IpcSettings = require('./ipc/ipc_settings.js');
+const IpcGeneral = require('./app/frontend/ipc/ipc_general.js');
+const IpcI18n = require('./app/frontend/ipc/ipc_i18n.js');
+const IpcNsi = require('./app/frontend/ipc/ipc_nsi.js');
+const IpcDb = require('./app/frontend/ipc/ipc_db.js');
+const IpcSettings = require('./app/frontend/ipc/ipc_settings.js');
 
 // i18n
 window.i18n = null;
@@ -36,12 +36,12 @@ window.ipcDb = null;
 window.ipcSettings = null;
 
 // UI Helper
-const UiHelper = require('./helpers/ui_helper.js');
+const UiHelper = require('./app/frontend/helpers/ui_helper.js');
 window.uiHelper = new UiHelper();
 
 // Platform Helper
-const PlatformHelper = require('../lib/platform_helper.js');
-const ThemeController = require('./controllers/theme_controller.js');
+const PlatformHelper = require('./app/lib/platform_helper.js');
+const ThemeController = require('./app/frontend/controllers/theme_controller.js');
 window.platformHelper = new PlatformHelper();
 window.theme_controller = new ThemeController();
 
@@ -88,7 +88,7 @@ window.initI18N = async function()
 
   window.i18nInitDone = true;
 
-  I18nHelper = require('./helpers/i18n_helper.js');
+  I18nHelper = require('./app/frontend/helpers/i18n_helper.js');
   i18nHelper = new I18nHelper();
 
   await i18nHelper.init();
@@ -168,8 +168,8 @@ async function initIpcClients()
 
 async function initControllers()
 {
-  const AppController = require('./controllers/app_controller.js');
-  const TagsController = require('./controllers/tags_controller.js');
+  const AppController = require('./app/frontend/controllers/app_controller.js');
+  const TagsController = require('./app/frontend/controllers/tags_controller.js');
 
   app_controller = new AppController();
   await app_controller.init();
@@ -420,7 +420,7 @@ window.initApplication = async function()
 
   if (platformHelper.isElectron()) {
     console.log("Checking for latest release ...");
-    const NewReleaseChecker = require('./helpers/new_release_checker.js');
+    const NewReleaseChecker = require('./app/frontend/helpers/new_release_checker.js');
     var newReleaseChecker = new NewReleaseChecker('new-release-info-box');
     newReleaseChecker.check();
   }
@@ -436,7 +436,7 @@ window.addEventListener('load', function() {
 
   if (platformHelper.isCordova()) {
 
-    var CordovaPlatform = require('./platform/cordova_platform.js');
+    var CordovaPlatform = require('./app/frontend/platform/cordova_platform.js');
     cordovaPlatform = new CordovaPlatform();
     cordovaPlatform.init();
 
