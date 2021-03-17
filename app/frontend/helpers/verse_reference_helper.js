@@ -18,9 +18,22 @@
 
 class VerseReferenceHelper
 {
-  constructor(referenceSeparator, nsi) {
-    this._referenceSeparator = referenceSeparator;
+  constructor(nsi) {
     this._nsi = nsi;
+    this._customReferenceSeparator = null;
+  }
+
+  setReferenceSeparator(referenceSeparator) {
+    this._customReferenceSeparator = referenceSeparator;
+  }
+
+  async getReferenceSeparator(translation) {
+    if (this._customReferenceSeparator != null) {
+      return this._customReferenceSeparator;
+    } else {
+      var separator = await getReferenceSeparator(translation);
+      return separator;
+    }
   }
 
   async referenceToAbsoluteVerseNr(translation, bible_book, chapter, verse) {
@@ -39,6 +52,8 @@ class VerseReferenceHelper
     if (reference == null) {
       return;
     }
+
+    var separator = await this.getReferenceSeparator(translation);
   
     var split_support = false;
     if (reference.search(/b/) != -1) {
@@ -46,8 +61,8 @@ class VerseReferenceHelper
     }
 
     reference = reference.replace(/[a-z]/g, '');
-    var ref_chapter = Number(reference.split(this._referenceSeparator)[0]);
-    var ref_verse = Number(reference.split(this._referenceSeparator)[1]);
+    var ref_chapter = Number(reference.split(separator)[0]);
+    var ref_verse = Number(reference.split(separator)[1]);
   
     var verse_nr = await this.referenceToAbsoluteVerseNr(translation, bible_book_short_title, ref_chapter, ref_verse);
     if (split_support) verse_nr += 0.5;

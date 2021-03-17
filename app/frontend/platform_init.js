@@ -100,3 +100,63 @@ window.showMessage = function(title, message) {
     resizable: false
   });
 }
+
+window.loadScript = function(script) {
+  var head = document.getElementsByTagName('head')[0];
+  var js = document.createElement("script");
+  js.type = "text/javascript";
+  js.src = script;
+  head.appendChild(js);
+}
+
+window.initPlatform = function() {
+  if (isAndroidWebView()) {
+    var supportsES2017 = supportsEcmaScript2017();
+
+    if (supportsES2017 != undefined) {
+      if (supportsES2017) {
+        loadScript('cordova.js');
+
+        console.log("Using customizable theme.css!");
+        document.getElementById("cordova-theme-css").href = "file:///sdcard/Android/data/net.ezrabibleapp.cordova/theme.css";
+
+        window.isDev = false;
+
+        loadScript('dist/ezra_init.js');
+
+      } else {
+        console.log("Android WebView is too old (< 55). Cannot continue!");
+
+        window.addEventListener('load', showOutdatedWebviewMessage);
+      }
+    } else {
+      // This should never happen!!!
+
+      console.error("Could not check whether ES2017 is supported or not!");
+
+      window.addEventListener('load', showIncompatibleWebviewMessage);
+    }
+  } else { // Electron!
+
+    window.isDev = false;
+
+    if (typeof window !== 'undefined' &&
+        typeof window.process === 'object' &&
+        window.process.type === 'renderer') {
+      
+      // We only require these modules when running on Electron
+      require('v8-compile-cache');
+      require('log-timestamp');
+
+      window.isDev = require('electron-is-dev');
+    }
+
+    if (isDev) {
+      console.log("DEV mode: Loading app/frontend/ezra_init.js")
+      loadScript('app/frontend/ezra_init.js');
+    } else {
+      console.log('PRODUCTION mode: Loading dist/ezra_init.js');
+      loadScript('dist/ezra_init.js');
+    }
+  }
+}

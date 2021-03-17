@@ -497,6 +497,17 @@ class TabController {
     return this.metaTabs[index];
   }
 
+  getTabById(tabId) {
+    for (var i = 0; i < this.metaTabs.length; i++) {
+      var currentTabId = this.getSelectedTabId(i);
+      if (currentTabId == tabId) {
+        return this.metaTabs[i];
+      }
+    }
+
+    return null;
+  }
+
   resetCurrentTabTitle() {
     this.setTabTitle(this.defaultLabel);
   }

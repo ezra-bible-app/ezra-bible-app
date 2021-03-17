@@ -193,7 +193,7 @@ class DictionaryInfoBox {
         key = this.currentFirstStrongsEntry.rawKey;
       }
 
-      this.currentStrongsEntry = this.dictionaryController.getStrongsEntryWithRawKey(key);
+      this.currentStrongsEntry = await this.dictionaryController.getStrongsEntryWithRawKey(key);
       this.currentLemma = this.getJsStrongs()[this.currentStrongsEntry.key].lemma;
     }
 
@@ -201,7 +201,7 @@ class DictionaryInfoBox {
   }
 
   async updateDictInfoBoxWithKey(strongsKey) {
-    var strongsEntry = this.dictionaryController.getStrongsEntryWithRawKey(strongsKey);
+    var strongsEntry = await this.dictionaryController.getStrongsEntryWithRawKey(strongsKey);
 
     while (this.dictionaryInfoBoxStack.length > 1) {
       this.dictionaryInfoBoxStack.pop();
@@ -344,7 +344,7 @@ class DictionaryInfoBox {
         } else {
           // Otherwise push on the stack
 
-          var strongsEntry = this.dictionaryController.getStrongsEntryWithRawKey(key);
+          var strongsEntry = await this.dictionaryController.getStrongsEntryWithRawKey(key);
 
           if (this.dictionaryInfoBoxStack.length == 1) {
             this.currentFirstStrongsEntry = this.currentStrongsEntry;

@@ -76,7 +76,7 @@ class OptionsMenu {
 
     this._nightModeOption = await this.initDisplayOption('night-mode-switch', 'useNightMode', async () => {
       this.hideDisplayMenu();
-      showGlobalLoadingIndicator();
+      uiHelper.showGlobalLoadingIndicator();
       theme_controller.useNightModeBasedOnOption();
 
       if (this.platformHelper.isCordova()) {
@@ -86,7 +86,7 @@ class OptionsMenu {
       }
 
       await waitUntilIdle();
-      hideGlobalLoadingIndicator();
+      uiHelper.hideGlobalLoadingIndicator();
     }, false, // enabledByDefault
     async () => { // customSettingsLoader
       return await theme_controller.isNightModeUsed();
