@@ -649,10 +649,6 @@ h2 {
   clear: both;
 }
 
-.notes-info {
-  margin-left: 1em;
-}
-
 .verse-list-without-outline .notes-info {
   margin-left: 0;
 }
@@ -661,7 +657,9 @@ h2 {
 .notes-info {
   font-weight: bold;
   margin-right: 0.5em;
+  margin-top: 0.3em;
   color: #DDDDDD;
+  opacity: 0.8;
   /*visibility: hidden;*/
 }
 
@@ -673,12 +671,13 @@ h2 {
 
 .darkmode--activated .tag-info,
 .darkmode--activated .notes-info {
-  color: gray;
+  color: #3a3a3a;
 }
 
 .visible,
 .darkmode--activated .visible {
   color: #2779AA;
+  opacity: 1;
   /*visibility: visible;*/
 }
 
