@@ -336,8 +336,7 @@ h2 {
 }
 
 .verse-content {
-  margin-left: 8em;
-  /* Needs to be bigger to support notes and x-refs, aligned with .verse-reference */
+  margin-left: 8em; /* Needs to be bigger to support notes and x-refs, aligned with .verse-reference */
   padding: 0.2em;
   display: flex;
   flex-direction: row;
@@ -893,8 +892,9 @@ h2 {
   position: fixed;
   top: 0.5em;
   right: 1em;
-  width: 1em;
-  padding: 4px;
+  width: auto;
+  height: auto;
+  padding: 0.3em 0.4em;
   font-size: 1em;
   z-index: 100;
 }
