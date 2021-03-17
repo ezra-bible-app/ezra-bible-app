@@ -924,6 +924,12 @@ h2 {
   justify-content: center;
 }
 
+.verse-list-menu .fg-button.ui-state-active {
+  border-bottom-right-radius: 0;
+}
+.verse-list-menu .fg-button.ui-state-active .fa-caret-down:before {
+  content: "\f00d";
+}
 .book-select-label {
   float: left;
 }
