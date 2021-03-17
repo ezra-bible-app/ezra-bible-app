@@ -125,11 +125,11 @@ h2 {
   margin-bottom: 0.5em;
   border-radius: 6px;
   user-select: none;
-  clear: both;
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.verse-list-menu-line1,
-.verse-list-menu-line2 {
+.verse-list-menu-line {
   display: flex;
   align-items: center;
   padding-top: 0.2em;
@@ -876,16 +876,12 @@ h2 {
 .book-select-button,
 .tag-select-button,
 .module-search-button,
-.display-options-button,
 .fullscreen-button,
-.assign-tag-menu-button,
 .note-session-select-button {
-  width: 7.5em;
-  padding: 0.5em;
+  width: 6.5em;
   cursor: pointer;
   position: relative;
   text-align: center;
-  height: 1.1em;
 }
 
 .fullscreen-button {
@@ -903,30 +899,30 @@ h2 {
   display: none;
 }
 
-.assign-tag-menu-button {
-  float: none;
-  display: inline-block;
-  width: 11em;
-  margin-right: 0.8em;
+.display-options-button>i {
+  font-size: 1.3em;
 }
 
-.display-options-button {
-  width: 2em;
-}
-
-.display-options-button>.fa {
-  font-size: 1.2em;
-}
 
 .fg-button {
   cursor: pointer;
 }
 
 .verse-list-menu .fg-button {
-  margin-bottom: 0.5em;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin-right: 1em;
+  margin-bottom: 0.5em;
+  height: 2.2em;
+  min-width: 1em;
+  padding: 0 0.8em;
+}
+
+.verse-list-menu .display-options-button,
+.verse-list-menu .app-info-button,
+.verse-list-menu .export-tagged-verses-button {
+  justify-content: center;
 }
 
 .book-select-label {
@@ -944,12 +940,6 @@ h2 {
 
 .ui-icon-close {
   background-position: -96px -128px !important;
-}
-
-.tag-select-button,
-.module-search-button,
-.display-options-button {
-  margin-left: 1em;
 }
 
 .book-available a:link,
@@ -1140,13 +1130,6 @@ h2 {
   margin: 0.2em;
 }
 
-.new-standard-tag-button,
-.show-book-tag-statistics-button,
-.show-context-button,
-.assign-last-tag-button,
-.show-parallel-translations-button,
-.export-tagged-verses-button,
-.app-info-button,
 .select-all-search-results-button,
 #module-settings-assistant-init button,
 #start-module-search-button {
@@ -1182,12 +1165,6 @@ h2 {
   margin-right: 0.2em;
   padding: 4px 6px;
   float: left;
-}
-
-.app-info-button {
-  width: 2.2em;
-  font-size: 120%;
-  padding: 0;
 }
 
 .bible-module-info {
@@ -1434,32 +1411,9 @@ h2 {
 }
 
 .bible-select-block {
-  margin-left: 0.8em;
+  margin-right: 1em;
   margin-bottom: 0.5em;
   user-select: none;
-}
-
-.verse-list-tabs-small-screen .display-options-button,
-.verse-list-tabs-small-screen .new-standard-tag-button {
-  clear: both;
-  margin-left: 0;
-}
-
-.menu-layout-break1,
-.menu-layout-break2 {
-  display: none;
-}
-
-.verse-list-tabs-small-screen .menu-layout-break2 {
-  display: block;
-}
-
-.verse-list-tabs-tiny-screen .menu-layout-break1 {
-  display: block;
-}
-
-.verse-list-tabs-tiny-screen .menu-layout-break2 {
-  display: none;
 }
 
 .bible-select-block select {

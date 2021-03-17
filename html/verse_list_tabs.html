@@ -8,7 +8,7 @@
 <div id="verse-list-tabs-1" class="verse-list-container">
   <div class="verse-list-menu">
 
-    <div class="verse-list-menu-line1">
+    <div class="verse-list-menu-line">
 
       <div class="fg-button book-select-button ui-state-default ui-corner-all">
         <i class="fas fa-book-open"></i>
@@ -31,51 +31,52 @@
       <div class="fg-button display-options-button ui-state-default ui-corner-all" i18n="[title]menu.options">
         <i class="fas fa-cog"></i>
       </div>
+    </div><!-- verse-list-menu-line -->
+
+    <div class="verse-list-menu-line">
 
       <div class="bible-select-block">
         <select name="bible-select" class="bible-select">
         </select>
       </div>
 
-      <button class="app-info-button fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="[title]menu.show-module-info">
+      <div class="app-info-button fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="[title]menu.show-module-info">
         <i class="fas fa-info"></i>
-      </button>
+      </div>
 
-      <button class="show-parallel-translations-button fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="tags-toolbar.compare">
-      </button>
+      <div class="show-parallel-translations-button fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="tags-toolbar.compare">
+      </div>
 
-      <button class="export-tagged-verses-button fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="[title]menu.export">
+      <div class="export-tagged-verses-button fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="[title]menu.export">
         <i class="fa fa-file-export"></i>
-      </button>
-    </div>
-    <!-- verse-list-menu-line1 -->
+      </div>
+    </div><!-- verse-list-menu-line -->
 
-    <div class="verse-list-menu-line2">
+    <div class="verse-list-menu-line">
       <div class="fg-button assign-tag-menu-button ui-state-default ui-corner-all" style="display: none;">
-        <div class="assign-tag-menu-label" i18n="tags.change-tags"></div>
+        <div class="assign-tag-menu-label" i18n="tags.change-tags"></div>&nbsp;
         <i class="fas fa-caret-down"></i>
       </div>
 
-      <button class="assign-last-tag-button fg-button ui-state-default ui-corner-all ui-state-disabled" i18n="tags-toolbar.assign-last-tag"></button>
+      <div class="assign-last-tag-button fg-button ui-state-default ui-corner-all ui-state-disabled" i18n="tags-toolbar.assign-last-tag"></div>
 
-      <br class="menu-layout-break1" />
-
-      <button class="new-standard-tag-button fg-button ui-state-default ui-corner-all">
+      <div class="new-standard-tag-button fg-button ui-state-default ui-corner-all">
         <i class="fas fa-plus fa-xs"></i>&nbsp;<i class="fas fa-tag fa-sm"></i>&nbsp;
         <span i18n="tags-toolbar.new-tag"></span>
-      </button>
+      </div>
+    </div><!-- verse-list-menu-line -->
 
-      <button class="show-book-tag-statistics-button fg-button ui-state-default ui-corner-all ui-state-disabled">
+    <div class="verse-list-menu-line">
+
+      <div class="show-book-tag-statistics-button fg-button ui-state-default ui-corner-all ui-state-disabled">
         <i class="fas fa-chart-line"></i>&nbsp;
         <span i18n="tags-toolbar.tag-statistics"></span>
-      </button>
+      </div>
 
-      <button class="show-context-button fg-button ui-state-default ui-corner-all ui-state-disabled">
+      <div class="show-context-button fg-button ui-state-default ui-corner-all ui-state-disabled">
         <i class="fas fa-arrows-alt-v"></i><i class="fas fa-align-justify"></i>&nbsp;
         <span i18n="tags-toolbar.context"></span>
-      </button>
-
-      <br class="menu-layout-break2" />
+      </div>
 
       <div class="selection-box">
         <span class="bold" i18n="bible-browser.selection"></span> <span class="selected-verses"></span>
@@ -87,7 +88,7 @@
         <div class="bounce3"></div>
       </div>
     </div>
-    <!-- verse-list-menu-line2 -->
+    <!-- verse-list-menu-line -->
 
   </div>
   <!-- verse-list-menu -->
