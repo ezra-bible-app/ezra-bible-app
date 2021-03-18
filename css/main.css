@@ -331,7 +331,7 @@ h2 {
 
 .verse-reference-content {
   text-align: left;
-  margin-left: 0.5em;
+  margin-left: 0.8em;
   width: 4em;
 }
 
@@ -656,7 +656,7 @@ h2 {
 .tag-info,
 .notes-info {
   font-weight: bold;
-  margin-right: 0.5em;
+  margin-left: 0.5em;
   margin-top: 0.3em;
   color: #DDDDDD;
   opacity: 0.8;
