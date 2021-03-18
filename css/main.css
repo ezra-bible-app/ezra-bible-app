@@ -450,6 +450,7 @@ h2 {
 .verse-text {
   padding: 0.05em;
   position: relative;
+  line-height: 1.5em;
 }
 
 .ezra-dialog .verse-text {
