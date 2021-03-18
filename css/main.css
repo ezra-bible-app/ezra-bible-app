@@ -884,6 +884,10 @@ h2 {
   margin-bottom: 0.5em;
 }
 
+.text-size-menu {
+  padding: 0.5em;
+}
+
 .book-select-label {
   float: left;
 }
