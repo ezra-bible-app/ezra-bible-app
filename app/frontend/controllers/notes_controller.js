@@ -18,8 +18,10 @@
 
 let CodeMirror = null;
 
+const { set } = require('electron-settings');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
+const notesHelper = require('../helpers/notes_helper.js');
 
 /**
  * The NotesController handles all user actions related to note taking.
@@ -94,6 +96,7 @@ class NotesController {
       } else {
         notesInfo.classList.remove('visible');
       }
+      notesInfo.setAttribute('title', notesHelper.getTootipText(noteValue));
     }
   }
 

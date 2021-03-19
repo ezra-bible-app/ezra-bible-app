@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const PlatformHelper = require('../../lib/platform_helper.js');
-
+const notesHelper = require('../helpers/notes_helper.js');
 /**
  * The TextController is used to load bible text into the text area of a tab.
  * It can handle bible books, tagged verse lists and search results.
@@ -270,7 +270,8 @@ class TextController {
       saveText: i18n.t("general.save"),
       cancelText: i18n.t("general.cancel"),
       chapterText: chapterText,
-      tagHint: i18n.t("bible-browser.tag-hint")
+      tagHint: i18n.t("bible-browser.tag-hint"),
+      notesHelper 
     });
 
     render_function(verses_as_html);
