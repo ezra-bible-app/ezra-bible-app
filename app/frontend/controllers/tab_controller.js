@@ -49,7 +49,12 @@ class TabController {
     this.defaultBibleTranslationId = defaultBibleTranslationId;
     this.initFirstTab();
 
-    Mousetrap.bind('ctrl+t', () => {
+    var addTabShortCut = 'ctrl+t';
+    if (platformHelper.isMac()) {
+      addTabShortCut = 'command+t';
+    }
+
+    Mousetrap.bind(addTabShortCut, () => {
       this.addTab();
       return false;
     });
