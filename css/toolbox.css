@@ -25,7 +25,8 @@
   /* margin-top disabled as long as we don't have a logo */
   /* margin-top: 3em; */
   z-index: 10;
-  flex: 0 0 auto; /* only manually resize */
+  flex: 0 0 auto;
+  /* only manually resize */
 }
 
 .webkit #bible-browser-toolbox {
@@ -47,12 +48,15 @@ a.outline-reference {
   font: caption;
 }
 
-a.outline-reference:link, a.outline-reference:visited, a.outline-reference:active {
+a.outline-reference:link,
+a.outline-reference:visited,
+a.outline-reference:active {
   color: #A0A0A0;
   text-decoration: none;
 }
 
-a.outline-reference:focus, a.outline-reference:hover {
+a.outline-reference:focus,
+a.outline-reference:hover {
   color: black;
   text-decoration: none;
 }
@@ -109,11 +113,13 @@ a.outline-reference:focus, a.outline-reference:hover {
   padding: 0.5em;
 }
 
-#meta-tag-navigation a:link, #meta-tag-navigation a.visited {
+#meta-tag-navigation a:link,
+#meta-tag-navigation a.visited {
   text-decoration: underline;
 }
 
-#meta-tag-content, #meta-tag-assigned-tags {
+#meta-tag-content,
+#meta-tag-assigned-tags {
   font-size: 0.9em;
   padding-left: 0.5em;
   padding-right: 0.5em;
@@ -122,7 +128,8 @@ a.outline-reference:focus, a.outline-reference:hover {
   border-radius: 0px 0px 6px 6px;
 }
 
-#meta-tag-content, #meta-tag-assigned-tags {
+#meta-tag-content,
+#meta-tag-assigned-tags {
   height: 10em;
 }
 
@@ -150,7 +157,8 @@ a.outline-reference:focus, a.outline-reference:hover {
   height: 2.2em;
 }
 
-.accordion-panel input, #tag-assignment-menu-taglist input {
+.accordion-panel input,
+#tag-assignment-menu-taglist input {
   margin-right: 0.5em;
 }
 
@@ -238,10 +246,8 @@ tr.td-underline td {
 }
 
 #tag-list-filter-button {
-  width: 16px;
-  height: 16px;
-  float: left;
-  margin-left: 0.5em;
+  font-size: 0.8em;
+  padding-left: 1em;
 }
 
 #tag-list-filter-button-active {
@@ -262,7 +268,7 @@ tr.td-underline td {
   display: none;
   font-size: 0.9em;
   padding: 0.1em;
-  border: 2px solid #AED0EA; 
+  border: 2px solid #AED0EA;
   z-index: 100;
   border-radius: 6px;
   box-shadow: 5px 5px 5px #A0A0A0;
@@ -279,7 +285,8 @@ tr.td-underline td {
   margin: 0.5em;
 }
 
-#tags-content-global, #tags-content-book {
+#tags-content-global,
+#tags-content-book {
   margin-top: 0.1em;
   padding: 0.5em;
   user-select: none;
@@ -302,15 +309,26 @@ tr.td-underline td {
   margin-top: 0.1em;
 }
 
-.cb-label, .cb-label-tag-assignment-count, .cb-label-postfix, .rename-tag-label {
+.cb-label,
+.cb-label-tag-assignment-count,
+.cb-label-postfix,
+.rename-tag-label {
   margin-top: 0.1em;
 }
 
-.tag-cb, .cb-label, .cb-label-tag-assignment-count, .cb-label-postfix, .rename-tag-label, .meta-tag-title, .meta-tag-number-of-tags-container, .rename-meta-tag-label {
+.tag-cb,
+.cb-label,
+.cb-label-tag-assignment-count,
+.cb-label-postfix,
+.rename-tag-label,
+.meta-tag-title,
+.meta-tag-number-of-tags-container,
+.rename-meta-tag-label {
   float: left;
 }
 
-.cb-label-tag-assignment-count, .meta-tag-number-of-tags-container {
+.cb-label-tag-assignment-count,
+.meta-tag-number-of-tags-container {
   margin-left: 0.5em;
   color: #808080;
 }
@@ -327,7 +345,8 @@ tr.td-underline td {
   color: wheat;
 }
 
-.rename-tag-label, .rename-meta-tag-label {
+.rename-tag-label,
+.rename-meta-tag-label {
   display: none;
   margin-left: 0.5em;
   cursor: pointer;
@@ -362,7 +381,11 @@ tr.td-underline td {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
 }
 
-#new-standard-tag-title-input, #new-meta-tag-title-input, #new-book-tag-title-input, #rename-standard-tag-title-input, #rename-meta-tag-title-input {
+#new-standard-tag-title-input,
+#new-meta-tag-title-input,
+#new-book-tag-title-input,
+#rename-standard-tag-title-input,
+#rename-meta-tag-title-input {
   width: 25em;
 }
 
@@ -370,11 +393,14 @@ tr.td-underline td {
   margin-left: 0.5em;
 }
 
-#outline-author-label, #outline-author, #outline-print-version-link {
+#outline-author-label,
+#outline-author,
+#outline-print-version-link {
   margin-left: 0.5em;
 }
 
-#outline-author-label, #outline-author {
+#outline-author-label,
+#outline-author {
   display: none;
 }
 

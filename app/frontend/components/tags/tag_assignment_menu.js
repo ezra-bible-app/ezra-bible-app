@@ -70,7 +70,7 @@ class TagAssignmentMenu {
       assignTagMenuButton.addClass('ui-state-active');
       var buttonOffset = assignTagMenuButton.offset();
       var menu = this.getMenu();
-      var topOffset = buttonOffset.top + assignTagMenuButton.height() + 12;
+      var topOffset = buttonOffset.top + assignTagMenuButton.height() + 1;
       var leftOffset = buttonOffset.left;
 
       menu.css('top', topOffset);

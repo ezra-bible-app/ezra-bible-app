@@ -122,7 +122,7 @@ class ModuleSearchController {
 
       var module_search_button_offset = moduleSearchButton.offset();
       var menu = $('#app-container').find('#module-search-menu');
-      var top_offset = module_search_button_offset.top + moduleSearchButton.height() + 12;
+      var top_offset = module_search_button_offset.top + moduleSearchButton.height() + 1;
       var left_offset = module_search_button_offset.left;
 
       menu.css('top', top_offset);

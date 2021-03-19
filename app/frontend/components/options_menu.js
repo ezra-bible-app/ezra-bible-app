@@ -164,8 +164,11 @@ class OptionsMenu {
 
       var display_options_button_offset = display_options_button.offset();
       var menu = $('#app-container').find('#display-options-menu');
-      var top_offset = display_options_button_offset.top + display_options_button.height() + 12;
+      var top_offset = display_options_button_offset.top + display_options_button.height() + 1;
       var left_offset = display_options_button_offset.left;
+      if(left_offset+menu.width() > $(window).width()) {
+        left_offset = ($(window).width() - menu.width()) / 2;
+      }
 
       menu.css('top', top_offset);
       menu.css('left', left_offset);

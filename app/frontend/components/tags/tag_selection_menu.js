@@ -93,7 +93,7 @@ class TagSelectionMenu {
       tagSelectButton.addClass('ui-state-active');
       var tag_select_button_offset = tagSelectButton.offset();
       var menu = $('#app-container').find('#tag-selection-menu');
-      var top_offset = tag_select_button_offset.top + tagSelectButton.height() + 12;
+      var top_offset = tag_select_button_offset.top + tagSelectButton.height() + 1;
       var left_offset = tag_select_button_offset.left;
 
       menu.css('top', top_offset);
