@@ -227,7 +227,7 @@ class CordovaPlatform {
       uiHelper.updateLoadingSubtitle("Initializing internationalization");
 
       window.ipcI18n = new IpcI18n();
-      await initI18N();
+      await startup_controller.initI18N();
 
       var hasPermission = false;
       

@@ -46,15 +46,14 @@
   display: none;
 }
 
-html, body {
+html,
+body {
   font: caption;
   user-select: none;
-
   font-size: 100.1%;
   /* Do not show a scrollbar for the overall window.
      Instead we use a scrollbar for individual components within the window. */
   overflow: hidden;
-
   touch-action: none;
 }
 
@@ -75,7 +74,8 @@ button {
   outline: none;
 }
 
-form, input {
+form,
+input {
   margin: 0;
 }
 
@@ -109,8 +109,8 @@ h2 {
 }
 
 #verse-list-tabs ul li span {
-  margin-top: 0.5em;
-  margin-right: 0.5em;
+  padding: 0.5em 0.7em 0.5em 0;
+  display: inline-block;
 }
 
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a {
@@ -125,17 +125,21 @@ h2 {
   margin-bottom: 0.5em;
   border-radius: 6px;
   user-select: none;
-  clear: both;
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.verse-list-menu-line2 {
-  clear: both;
+.verse-list-menu-line {
+  display: flex;
+  align-items: center;
   padding-top: 0.2em;
+  width: 100%;
 }
 
 .verse-list-frame {
   overflow-y: scroll;
-  overflow-x: hidden; /* This prevents a horizontal scrollbar on small screens  */
+  overflow-x: hidden;
+  /* This prevents a horizontal scrollbar on small screens  */
   border: 1px solid #DDDDDD;
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
@@ -148,7 +152,8 @@ h2 {
   border-bottom-left-radius: 6px;
 }
 
-.verse-list, .reference-verse {
+.verse-list,
+.reference-verse {
   padding: 0.5em;
   font: caption;
   font-size: 1em;
@@ -156,6 +161,7 @@ h2 {
   /*height: 100%;         // Needed because of selectable scroll-bug
   overflow-y: scroll;*/
 }
+
 
 /*.verse-list-with-section-titles {
   padding-top: 0;
@@ -180,20 +186,26 @@ h2 {
   padding-left: 3.6em;
 }
 
+
 /*.verse-preamble {
   width: 6.2em;
 }*/
 
-.section-header-toolbox, .verse-toolbox {
+.section-header-toolbox,
+.verse-toolbox {
   min-height: 30px;
   float: left;
 }
+
 
 /*.section-header-toolbox {
   width: 3.5em;
 }*/
 
-.section-button, .abstract-section-button, .close-section-button, .assign-tag-button {
+.section-button,
+.abstract-section-button,
+.close-section-button,
+.assign-tag-button {
   background-color: #F3F3F3;
   font-size: 0.8em;
   font-weight: bold;
@@ -217,7 +229,10 @@ h2 {
   height: 16px;
 }
 
-.webkit .section-button, .webkit .abstract-section-button, .webkit .close-section-button, .webkit .assign-tag-button {
+.webkit .section-button,
+.webkit .abstract-section-button,
+.webkit .close-section-button,
+.webkit .assign-tag-button {
   height: 15px;
   padding-top: 3px;
 }
@@ -236,12 +251,16 @@ h2 {
   display: none;
 }
 
+
 /* Bugfix for IE (see #59) */
+
 .ie .shadow {
   display: none;
 }
 
-.move-up-button, .move-down-button, .split-verse-button {
+.move-up-button,
+.move-down-button,
+.split-verse-button {
   background-color: #F3F3F3;
   background-image: url(images/up.gif);
   background-position: center;
@@ -256,7 +275,8 @@ h2 {
   cursor: pointer;
 }
 
-.move-up-button, .move-down-button {
+.move-up-button,
+.move-down-button {
   float: none;
   margin-left: auto;
   margin-right: auto;
@@ -267,7 +287,7 @@ h2 {
 }
 
 .move-down-button {
-  background-image:url(images/down.gif);
+  background-image: url(images/down.gif);
   /*margin-top: 1.7em;*/
 }
 
@@ -285,7 +305,7 @@ h2 {
 #expand-button {
   width: 18px;
   height: 25px;
-  background-image:url(images/expand.gif);
+  background-image: url(images/expand.gif);
   background-position: center;
   background-repeat: no-repeat;
   cursor: pointer;
@@ -293,11 +313,11 @@ h2 {
 
 .verse-reference {
   padding-top: 0.3em;
-  width: 8em; /* Needs to be bigger to support notes and x-refs, aligned with .verse-content */
+  width: 8em;
+  /* Needs to be bigger to support notes and x-refs, aligned with .verse-content */
   /*height: 1.5em;*/
   float: left;
   z-index: 100;
-
   /*padding-top: 0.1em;*/
   color: #808080;
 }
@@ -312,7 +332,7 @@ h2 {
 
 .verse-reference-content {
   text-align: left;
-  margin-left: 0.5em;
+  margin-left: 0.8em;
   width: 4em;
 }
 
@@ -372,7 +392,9 @@ h2 {
   background-color: darkslategray;
 }
 
-#verse-list-popup, #book-tag-statistics-box, #bible-translation-info-box {
+#verse-list-popup,
+#book-tag-statistics-box,
+#bible-translation-info-box {
   display: none;
 }
 
@@ -396,7 +418,8 @@ h2 {
   overflow: inherit;
 }
 
-.verse-list-without-tags .tag-box, .ezra-dialog .tag-box {
+.verse-list-without-tags .tag-box,
+.ezra-dialog .tag-box {
   display: none;
 }
 
@@ -595,14 +618,16 @@ h2 {
   width: 30em;
 }
 
-.ui-selected, .ui-selecting {
+.ui-selected,
+.ui-selecting {
   border: 0;
   background: none;
   background-color: #AFCDFF;
   border-radius: 4px;
 }
 
-.darkmode--activated .ui-selected, .darkmode--activated .ui-selecting {
+.darkmode--activated .ui-selected,
+.darkmode--activated .ui-selecting {
   background-color: #00396a;
 }
 
@@ -626,36 +651,45 @@ h2 {
   clear: both;
 }
 
-.notes-info {
-  margin-left: 1em;
-}
-
 .verse-list-without-outline .notes-info {
   margin-left: 0;
 }
 
-.tag-info, .notes-info {
+.tag-info,
+.notes-info {
   font-weight: bold;
-  margin-right: 0.5em;
+  margin-left: 0.5em;
+  margin-top: 0.3em;
   color: #DDDDDD;
+  opacity: 0.8;
   /*visibility: hidden;*/
 }
 
-.tag-info, .notes-info, .verse-reference-content {
+.tag-info,
+.notes-info,
+.verse-reference-content {
   float: left;
 }
 
 .darkmode--activated .tag-info,
 .darkmode--activated .notes-info {
-  color: gray;
+  color: #3a3a3a;
 }
 
-.visible, .darkmode--activated .visible {
+.visible,
+.darkmode--activated .visible {
   color: #2779AA;
+  opacity: 1;
   /*visibility: visible;*/
 }
 
-.verse-reference-id, .verse-bible-book, .verse-bible-book-short, .verse-part, .abs-verse-nr, #current-outline-id, #current-outline-author {
+.verse-reference-id,
+.verse-bible-book,
+.verse-bible-book-short,
+.verse-part,
+.abs-verse-nr,
+#current-outline-id,
+#current-outline-author {
   display: none;
 }
 
@@ -676,7 +710,8 @@ h2 {
   height: 90%;
 }
 
-#app-container .ui-tabs-panel, #app-container .ui-widget-content {
+#app-container .ui-tabs-panel,
+#app-container .ui-widget-content {
   background-color: white;
   background: none;
 }
@@ -685,12 +720,15 @@ h2 {
   color: #cccccc;
 }
 
+
 /*.ui-widget-content {
   background-color: white;
   background: none;
 }*/
 
-.verse-selection-menu, #module-search-menu, #display-options-menu {
+.verse-selection-menu,
+#module-search-menu,
+#display-options-menu {
   position: fixed;
   border: 2px solid #DDDDDD;
   border-radius: 6px;
@@ -713,7 +751,8 @@ h2 {
   text-align: center;
 }
 
-#module-settings-assistant-add, #module-settings-assistant-add .content {
+#module-settings-assistant-add,
+#module-settings-assistant-add .content {
   min-height: 570px;
 }
 
@@ -736,7 +775,8 @@ h2 {
   color: grey;
 }
 
-#module-settings-assistant section.scrollable, #module-settings-assistant div.scrollable {
+#module-settings-assistant section.scrollable,
+#module-settings-assistant div.scrollable {
   overflow-y: scroll;
 }
 
@@ -809,23 +849,22 @@ h2 {
   clear: both;
 }
 
+
 /* Formatting for large tablets and desktop */
+
 @media only screen and (min-width: 770px) {
   .ot-column {
     border-bottom: unset;
     height: unset;
   }
-
   .book-list-column {
     width: unset;
   }
-
   .ot-nt-divider {
     clear: none;
     border-left: 1px solid #DDDDDD;
     margin-left: 0.5em;
   }
-  
   .ot-nt-divider li {
     margin-left: 1em;
   }
@@ -835,30 +874,14 @@ h2 {
   border: 1px dashed #2779aa;
 }
 
-.book-select-button,
-.tag-select-button,
-.module-search-button,
-.display-options-button,
-.fullscreen-button,
-.assign-tag-menu-button,
-.note-session-select-button {
-  width: 7.5em;
-  padding: 0.5em;
-  cursor: pointer;
-  position: relative;
-  text-align: center;
-  float: left;
-  height: 1.1em;
-}
-
 .fullscreen-button {
   position: fixed;
   top: 0.5em;
   right: 1em;
-  width: 21px;
-  height: 21px;
-  padding: unset;
-  padding: 0.5em;
+  width: auto;
+  height: auto;
+  padding: 0.3em 0.4em;
+  font-size: 1em;
   z-index: 100;
 }
 
@@ -866,29 +889,47 @@ h2 {
   display: none;
 }
 
-.assign-tag-menu-button {
-  float: none;
-  display: inline-block;
-  width: 11em;
-  margin-right: 0.8em;
+.display-options-button>i {
+  font-size: 1.3em;
 }
 
-.display-options-button {
-  width: 2em;
-}
 
 .fg-button {
   cursor: pointer;
 }
 
 .verse-list-menu .fg-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 1em;
   margin-bottom: 0.5em;
+  height: 2.2em;
+  min-width: 1em;
+  padding: 0 0.8em;
+}
+
+.verse-list-menu .display-options-button,
+.verse-list-menu .app-info-button,
+.verse-list-menu .export-tagged-verses-button {
+  justify-content: center;
+}
+
+.verse-list-menu i.fas+[i18n],
+.verse-list-menu i.fa-caret-down:last-child {
+  margin-left: 0.8em;
 }
 
 .text-size-menu {
   padding: 0.5em;
 }
 
+.verse-list-menu .fg-button.ui-state-active {
+  border-bottom-right-radius: 0;
+}
+.verse-list-menu .fg-button.ui-state-active .fa-caret-down:before {
+  content: "\f00d";
+}
 .book-select-label {
   float: left;
 }
@@ -906,21 +947,24 @@ h2 {
   background-position: -96px -128px !important;
 }
 
-.tag-select-button, .module-search-button, .display-options-button {
-  margin-left: 1em;
-  padding-top: 0.2em;
-  padding-bottom: 0.8em;
-}
-
-.book-available a:link, .book-available a:hover, .book-available a:visited, .book-available a:focus {
+.book-available a:link,
+.book-available a:hover,
+.book-available a:visited,
+.book-available a:focus {
   color: black;
 }
 
-.book-unavailable a:link, .book-unavailable a:hover, .book-unavailable a:visited, .book-unavailable a:focus {
+.book-unavailable a:link,
+.book-unavailable a:hover,
+.book-unavailable a:visited,
+.book-unavailable a:focus {
   color: grey;
 }
 
-.book-list-column li a:link, .book-list-column li.book-available a:visited, .book-list-column li.book-available a:hover, .book-list-column li.book-available a:focus {
+.book-list-column li a:link,
+.book-list-column li.book-available a:visited,
+.book-list-column li.book-available a:hover,
+.book-list-column li.book-available a:focus {
   text-decoration: none;
   cursor: default;
   border: 1px solid white;
@@ -943,11 +987,13 @@ h2 {
   color: grey;
 }
 
-.book-list-column li.book-available a:link, .book-list-column li.book-available a:visited {
+.book-list-column li.book-available a:link,
+.book-list-column li.book-available a:visited {
   cursor: pointer;
 }
 
-.book-list-column li.book-available a:hover, .book-list-column li.book-available a:focus {
+.book-list-column li.book-available a:hover,
+.book-list-column li.book-available a:focus {
   /*text-decoration: underline;*/
   border: 1px solid #74B2E2;
   margin: 1px;
@@ -962,7 +1008,9 @@ h2 {
   background-color: #00396a;
 }
 
-.book-list-column li.book-selected a:link, .book-list-column li.book-selected a:visited, .book-list-column li.book-selected a:focus {
+.book-list-column li.book-selected a:link,
+.book-list-column li.book-selected a:visited,
+.book-list-column li.book-selected a:focus {
   border: 1px solid #74B2E2;
   margin: 1px;
   border-radius: 4px;
@@ -978,7 +1026,8 @@ h2 {
   border: 1px solid #00396a;
 }
 
-.verse-list-loading-indicator, .loading-indicator {
+.verse-list-loading-indicator,
+.loading-indicator {
   display: none;
   width: 300px;
   height: 30px;
@@ -1000,19 +1049,22 @@ h2 {
   display: block;
 }
 
-#startup-loading-indicator.incompatible-windows, #startup-loading-indicator.permissions-issue {
+#startup-loading-indicator.incompatible-windows,
+#startup-loading-indicator.permissions-issue {
   position: unset;
   margin: 50px;
 }
 
-#verse-list-popup-loading-indicator, #compare-translations-loading-indicator {
+#verse-list-popup-loading-indicator,
+#compare-translations-loading-indicator {
   display: none;
   /* width: 300px; */
   height: 30px;
   margin-top: 3em;
 }
 
-.loading-indicator-text, #loading-subtitle {
+.loading-indicator-text,
+#loading-subtitle {
   font: caption;
   font-size: 1em;
   font-weight: bold;
@@ -1024,7 +1076,8 @@ h2 {
   font-weight: normal;
 }
 
-.verse-list-header, .verse-statistics-chart-container {
+.verse-list-header,
+.verse-statistics-chart-container {
   display: none;
   margin-left: 1em;
   margin-top: 0.5em;
@@ -1039,7 +1092,8 @@ h2 {
   height: 12em;
 }
 
-#show-translation-settings-button, #show-dict-settings-button {
+#show-translation-settings-button,
+#show-dict-settings-button {
   padding: 0.5em;
   display: block;
   width: 100%;
@@ -1051,6 +1105,7 @@ h2 {
   margin-top: 0.5em;
   margin-bottom: 0.8em;
 }
+
 
 /*.options-header:not(.first) {
   border-top: 2px solid #DDDDDD;
@@ -1066,7 +1121,8 @@ h2 {
   text-align: center;
 }
 
-.switch-box input, .switch-box button {
+.switch-box input,
+.switch-box button {
   padding: 0.3em;
 }
 
@@ -1079,13 +1135,6 @@ h2 {
   margin: 0.2em;
 }
 
-.new-standard-tag-button,
-.show-book-tag-statistics-button,
-.show-context-button,
-.assign-last-tag-button,
-.show-parallel-translations-button,
-.export-tagged-verses-button,
-.app-info-button,
 .select-all-search-results-button,
 #module-settings-assistant-init button,
 #start-module-search-button {
@@ -1102,7 +1151,9 @@ h2 {
   margin-right: 0.8em;
 }
 
+
 /* On Android we disable the possibility to export tagged verses to a document */
+
 .Android .export-tagged-verses-button {
   display: none;
 }
@@ -1114,28 +1165,11 @@ h2 {
 }
 
 #add-tab-button {
-  margin-top: 0.3em;
+  margin-top: 0.4em;
   margin-left: 0.5em;
   margin-right: 0.2em;
-  font-size: 1.2em;
+  padding: 4px 6px;
   float: left;
-}
-
-.export-tagged-verses-button, .app-info-button, .show-parallel-translations-button {
-  float: left;
-}
-
-.darkmode--activated .export-tagged-verses-button,
-.darkmode--activated .display-options-button,
-.darkmode--activated .fullscreen-button {
-  background: none;
-  background-color: slategray;
-}
-
-.app-info-button {
-  width: 2.2em;
-  font-size: 120%;
-  padding: 0;
 }
 
 .bible-module-info {
@@ -1289,33 +1323,36 @@ h2 {
   opacity: 0.5;
 }
 
-.selected-verses a:link, .selected-verses a:visited {
+.selected-verses a:link,
+.selected-verses a:visited {
   color: black;
   text-decoration: none;
 }
 
-.selected-verses a:hover, .selected-verses a:active {
+.selected-verses a:hover,
+.selected-verses a:active {
   text-decoration: underline;
 }
 
 #search-result-content {
- border-radius: 6px;
- border: 1px solid #DDDDDD;
- height: 95%;
- margin-top: 0.5em;
- overflow-y: scroll;
- padding: 0.5em;
+  border-radius: 6px;
+  border: 1px solid #DDDDDD;
+  height: 95%;
+  margin-top: 0.5em;
+  overflow-y: scroll;
+  padding: 0.5em;
 }
 
 #search-view {
- height: 90%;
+  height: 90%;
 }
 
 .search-result {
   background-color: yellow;
 }
 
-#verse-menu-box, #verse-expand-box {
+#verse-menu-box,
+#verse-expand-box {
   position: fixed;
   display: none;
   border-radius: 6px;
@@ -1355,7 +1392,6 @@ h2 {
   position: fixed;
   z-index: 10;
   font-size: 0.8em;
-
   font-family: Serif;
   font-size: 1.5em;
   /*width: 13em;*/
@@ -1379,32 +1415,10 @@ h2 {
   color: #A0A0A0;
 }
 
-.bible-select-block  {
-  float: left;
-  margin-left: 0.8em;
+.bible-select-block {
+  margin-right: 1em;
+  margin-bottom: 0.5em;
   user-select: none;
-}
-
-.verse-list-tabs-small-screen .display-options-button,
-.verse-list-tabs-small-screen .new-standard-tag-button {
-  clear: both;
-  margin-left: 0;
-}
-
-.menu-layout-break1, .menu-layout-break2 {
-  display: none;
-}
-
-.verse-list-tabs-small-screen .menu-layout-break2 {
-  display: block;
-}
-
-.verse-list-tabs-tiny-screen .menu-layout-break1 {
-  display: block;
-}
-
-.verse-list-tabs-tiny-screen .menu-layout-break2 {
-  display: none;
 }
 
 .bible-select-block select {
@@ -1508,7 +1522,9 @@ h2 {
   margin-left: 0.5em;
 }
 
-.darkmode--activated #module-search-menu, .darkmode--activated .verse-selection-menu, .darkmode--activated #display-options-menu {
+.darkmode--activated #module-search-menu,
+.darkmode--activated .verse-selection-menu,
+.darkmode--activated #display-options-menu {
   background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat;
   color: #cccccc;
 }
@@ -1544,18 +1560,20 @@ h2 {
   width: 15em;
 }
 
+
 /* Large tablets and desktop */
+
 @media only screen and (min-width: 770px) {
   #module-search-input {
     width: 21em;
   }
-
   #module-search-menu {
     width: 30em;
   }
 }
 
-.tag-browser-tag-id, .last-used-timestamp {
+.tag-browser-tag-id,
+.last-used-timestamp {
   display: none;
 }
 
@@ -1599,12 +1617,14 @@ h2 {
   margin-left: 0;
 }
 
-.Windows #only-currentbook-tagged-verses, .Linux #only-currentbook-tagged-verses {
+.Windows #only-currentbook-tagged-verses,
+.Linux #only-currentbook-tagged-verses {
   position: relative;
   top: 0.2em;
 }
 
-#only-currentbook-tagged-verses-label, #current-book-tagged-verses-count {
+#only-currentbook-tagged-verses-label,
+#current-book-tagged-verses-count {
   font-weight: normal;
 }
 
@@ -1661,7 +1681,7 @@ h2 {
   width: 2em;
 }
 
-:not(.darkmode--activated) .tab-search-occurances {
+:not(.darkmode--activated) .tab-search-occurances {
   border: 1px solid white;
   color: black;
 }
@@ -1686,12 +1706,16 @@ h2 {
   background-color: forestgreen;
 }
 
+
 /* Sword markup disabled by default */
+
 .sword-markup {
   display: none;
 }
 
+
 /* This element only occurs in the NA28 sword module */
+
 s {
   text-decoration: none;
 }
@@ -1837,7 +1861,8 @@ s {
   display: none;
 }
 
-.sword-xref-marker, .sword-note-marker {
+.sword-xref-marker,
+.sword-note-marker {
   display: inline-block;
   padding-right: 0.2em;
   font-weight: bold;
@@ -1864,10 +1889,10 @@ s {
 .scrollable::-webkit-scrollbar-track,
 .ui-selectmenu-menu ul::-webkit-scrollbar-track,
 .ui-widget-content::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 6px;
 }
- 
+
 .scrollable::-webkit-scrollbar-thumb,
 .ui-selectmenu-menu ul::-webkit-scrollbar-thumb,
 .ui-widget-content::-webkit-scrollbar-thumb {
@@ -1880,7 +1905,8 @@ s {
   font-size: 120%;
 }
 
-#permissions-box-content, #general-info-box-content {
+#permissions-box-content,
+#general-info-box-content {
   font-size: 120%;
 }
 
@@ -1916,9 +1942,9 @@ s {
   color: #cccccc;
 }
 
-.darkmode--activated .assistant > .steps .disabled a,
-.darkmode--activated .assistant > .steps .disabled a:hover,
-.darkmode--activated .assistant > .steps .disabled a:active {
+.darkmode--activated .assistant>.steps .disabled a,
+.darkmode--activated .assistant>.steps .disabled a:hover,
+.darkmode--activated .assistant>.steps .disabled a:active {
   background: none;
   background-color: gray;
 }

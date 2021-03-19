@@ -1080,7 +1080,7 @@ class TagsController {
       change: tags_controller.handle_tag_accordion_change
     });
 
-    var filter_button = $("<img id=\"tag-list-filter-button\" src=\"images/filter.png\"/>");
+    var filter_button = $("<span id=\"tag-list-filter-button\"><i class='fas fa-filter'></i></span>");
     var filter_active_symbol = $("<span id=\"tag-list-filter-button-active\">*</span>");
     var tag_list_stats = $("<span id='tag-list-stats' style='margin-left: 1em;'></span>");
     var tags_search_input = $("<input type='text' id='tags-search-input'></input>");
