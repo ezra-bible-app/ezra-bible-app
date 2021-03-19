@@ -29,16 +29,16 @@
     "add-translations": "Добавить переводы Библии",
     "remove-translations": "Удалить переводы Библии",
     "add-dicts": "Добавить словари",
-    "remove-dicts": "Удалить словари",
+    "remove-dicts": "Удалить словари"
   },
   "module-sync": {
-    "module-sync-header": "Installing additional modules"
+    "module-sync-header": "Установка дополнительных модулей"
   },
   "general": {
     "chapter-verse-separator": ":",
     "module-application-info": "Информация о модуле и приложении",
     "application-info": "Информация о приложении",
-    "sword-module-description": "Описание модуля SWORD Module Description",
+    "sword-module-description": "Описание модуля SWORD",
     "sword-module-details": "SWORD Module Details",
     "sword-module-info": "SWORD Модуль",
     "sword-unlock-info": "SWORD Unlock Info",
@@ -73,13 +73,13 @@
     "cancel": "Отменить",
     "rename": "Переименовать",
     "loading": "Загрузка",
-    "new-release-available-title": "New release available!",
-    "new-release-available-body": "A new release of Ezra Bible App is available!",
+    "new-release-available-title": "Доступна новая версия!",
+    "new-release-available-body": "Возможна загрузка новой версии Ezra Bible App!",
     "latest-version": "Latest version",
     "release-notes-download": "Release Notes & Download",
     "no-repeated-info": "Do not show this again",
     "module-install-failed": "failed. Are you connected to the Internet?",
-    "module-install-cancelled": "cancelled.",
+    "module-install-cancelled": "Отменено.",
     "module-unlock-failed": "failed (Unlock issue).",
     "installing-strongs": "Installing <i>Strong's dictionaries</i>",
     "applying-migrations": "Migrating database to new version"
@@ -109,9 +109,9 @@
     "tag-filter": "Filter: ",
     "recently-used-filter": "Filter recently used",
     "assign-tag": "Assign tag",
-    "change-tags": "Change tags",
+    "change-tags": "Назначенные метки",
     "delete-tag-permanently": "Delete this tag permanently",
-    "none-selected": "None",
+    "none-selected": "-",
     "rename-tag": "Rename tag",
     "title": "Title",
     "stats-used": "used",
