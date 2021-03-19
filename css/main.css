@@ -133,7 +133,11 @@ h2 {
   display: flex;
   align-items: center;
   padding-top: 0.2em;
-  width: 100%;
+  justify-content: start;
+}
+
+.verse-list-menu-line:last-child {
+  flex-grow: 1;
 }
 
 .verse-list-frame {
