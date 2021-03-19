@@ -873,17 +873,6 @@ h2 {
   border: 1px dashed #2779aa;
 }
 
-.book-select-button,
-.tag-select-button,
-.module-search-button,
-.fullscreen-button,
-.note-session-select-button {
-  width: 6.5em;
-  cursor: pointer;
-  position: relative;
-  text-align: center;
-}
-
 .fullscreen-button {
   position: fixed;
   top: 0.5em;
@@ -923,6 +912,11 @@ h2 {
 .verse-list-menu .app-info-button,
 .verse-list-menu .export-tagged-verses-button {
   justify-content: center;
+}
+
+.verse-list-menu i.fas+[i18n],
+.verse-list-menu i.fa-caret-down:last-child {
+  margin-left: 0.8em;
 }
 
 .verse-list-menu .fg-button.ui-state-active {
