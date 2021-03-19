@@ -64,10 +64,16 @@ class TextSizeSettings {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
     var $menuButton = currentVerseListMenu.find(this.openMenuButton);
     $menuButton.addClass('ui-state-active');
+    var buttonOffset = $menuButton.offset();
     var $menuContainer = currentVerseListMenu.find(this.menuContainer);
 
-    var top_offset = $menuButton.top + $menuButton.height() + 1;
-    var left_offset = $menuButton.left + $menuButton.width() / 2 - $menuContainer.width() / 2;
+    var top_offset = buttonOffset.top + $menuButton.height() + 2;
+    var left_offset = buttonOffset.left - 2;
+    if(left_offset+$menuContainer.width() > $(window).width()) {
+      left_offset = buttonOffset.left + $menuButton.width() - $menuContainer.width();
+    }
+
+    console.log(`[${buttonOffset}] ->[${top_offset}, ${left_offset}]`);
     $menuContainer.css('top', top_offset);
     $menuContainer.css('left', left_offset);
 

@@ -921,7 +921,22 @@ h2 {
 }
 
 .text-size-menu {
-  padding: 0.5em;
+  padding: 0.5em 0.8em;
+}
+
+.text-size-menu .verse-list-menu-line {
+  padding: 0;
+}
+
+.text-size-menu .fg-button {
+  margin-bottom: 0;
+  height: 2rem;
+  width: 1.3rem;
+  font-size: 0.8em;
+  justify-content: center;
+}
+.text-size-menu .fg-button:last-child {
+  margin-right: 0;
 }
 
 .verse-list-menu .fg-button.ui-state-active {
