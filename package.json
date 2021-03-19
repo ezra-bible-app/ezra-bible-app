@@ -53,6 +53,7 @@
     "doc": "./node_modules/.bin/jsdoc -c jsdoc.conf --readme DESIGN.md -d docs/docs -r --verbose app"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.2",
     "@sentry/browser": "^6.0.1",
     "@sentry/electron": "^2.0.3",
     "buffer": "^6.0.3",

@@ -195,7 +195,7 @@ class BookSelectionMenu {
 
       var book_button_offset = book_button.offset();
       var menu = $('#app-container').find('#book-selection-menu');
-      var top_offset = book_button_offset.top + book_button.height() + 12;
+      var top_offset = book_button_offset.top + book_button.height() + 1;
       var left_offset = book_button_offset.left;
 
       menu.css('top', top_offset);
