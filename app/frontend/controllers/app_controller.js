@@ -425,20 +425,24 @@ class AppController {
   }
 
   toggleFullScreen() {
+    var platform = null;
+
     if (platformHelper.isElectron()) {
-  
-      const { remote } = require('electron');
-      var window = remote.getCurrentWindow();
-  
-      if (window.isFullScreen()) {
-        window.setFullScreen(false);
-      } else {
-        window.setFullScreen(true);
-      }
-  
+
+      platform = electronPlatform;
+
     } else if (platformHelper.isAndroid()) {
-  
-      cordovaPlatform.toggleFullScreen();
+
+      platform = cordovaPlatform;
+
+    }
+
+    platform.toggleFullScreen();
+    
+    if (platform.isFullScreen()) {
+      // Set icon to exit full screen
+    } else {
+      // Set icon to enter full screen
     }
   }
   

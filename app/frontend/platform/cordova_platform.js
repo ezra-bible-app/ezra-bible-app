@@ -25,7 +25,7 @@ class CordovaPlatform {
   init() {
     console.log("Initializing app on Cordova platform ...");
 
-    this.isFullScreenMode = false;
+    this._isFullScreenMode = false;
 
     // In the Cordova app the first thing we do is showing the global loading indicator.
     // This would happen later again, but only after the nodejs engine is started.
@@ -264,10 +264,10 @@ class CordovaPlatform {
   toggleFullScreen() {
     // Note that the following code depends on having the cordova-plugin-fullscreen available
 
-    if (this.isFullScreenMode) {
+    if (this._isFullScreenMode) {
 
       AndroidFullScreen.showSystemUI(() => {
-        this.isFullScreenMode = false;
+        this._isFullScreenMode = false;
       }, () => {
         console.error("Could not leave immersive mode");
       });
@@ -275,11 +275,15 @@ class CordovaPlatform {
     } else {
 
       AndroidFullScreen.immersiveMode(() => {
-        this.isFullScreenMode = true;
+        this._isFullScreenMode = true;
       }, () => {
         console.error("Could not switch to immersive mode");
       });
     }
+  }
+
+  isFullScreen() {
+    return this._isFullScreenMode;
   }
 
   keepScreenAwake() {
