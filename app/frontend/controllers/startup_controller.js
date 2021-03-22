@@ -207,8 +207,15 @@ class StartupController
       event.preventDefault();
       let link = event.target.href;
   
-      // FIXME: This is needs to be adjusted for Android!
-      require("electron").shell.openExternal(link);
+      if (platformHelper.isElectron()) {
+
+        require("electron").shell.openExternal(link);
+
+      } else if (platformHelper.isCordova()) {
+
+        window.open(link, '_system');
+        
+      }
     });
   }
 

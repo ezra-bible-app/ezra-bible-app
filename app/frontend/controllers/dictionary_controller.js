@@ -120,8 +120,15 @@ class DictionaryController {
       var normalizedKey = this.getNormalizedStrongsId(rawKey);
     }
 
-    var strongsEntry = await ipcNsi.getStrongsEntry(normalizedKey);
-    strongsEntry['rawKey'] = rawKey;
+    var strongsEntry = null;
+
+    try {
+      strongsEntry = await ipcNsi.getStrongsEntry(normalizedKey);
+      strongsEntry['rawKey'] = rawKey;
+    } catch (e) {
+      console.log("DictionaryController.getStrongsEntryWithRawKey: Got exception when getting strongs entry for key " + normalizedKey);
+    }
+
     return strongsEntry;
   }
 

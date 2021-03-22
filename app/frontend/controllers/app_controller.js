@@ -265,9 +265,14 @@ class AppController {
     await this.translation_controller.initTranslationsMenu(previousTabIndex, tabIndex);
     this.info_popup.initAppInfoButton();
     this.textSizeSettings.init(tabIndex);
-    var currentBibleTranslationId = this.tab_controller.getTab(tabIndex).getBibleTranslationId();
-    if (currentBibleTranslationId != null) {
-      this.info_popup.enableCurrentAppInfoButton(tabIndex);
+    
+    var currentTab = this.tab_controller.getTab(tabIndex);
+
+    if (currentTab != null) {
+      var currentBibleTranslationId = currentTab.getBibleTranslationId();
+      if (currentBibleTranslationId != null) {
+        this.info_popup.enableCurrentAppInfoButton(tabIndex);
+      }
     }
 
     this.optionsMenu.initCurrentOptionsMenu(tabIndex);

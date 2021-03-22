@@ -83,6 +83,10 @@ class DictionaryInfoBox {
   }
 
   async updateDictInfoBox(strongsEntry, additionalStrongsEntries=[], firstUpdate=false) {
+    if (strongsEntry == null) {
+      return;
+    }
+
     if (firstUpdate) {
       this.dictionaryInfoBoxStack = [ strongsEntry.rawKey ];
     }
@@ -203,6 +207,13 @@ class DictionaryInfoBox {
   async updateDictInfoBoxWithKey(strongsKey) {
     var strongsEntry = await this.dictionaryController.getStrongsEntryWithRawKey(strongsKey);
 
+    if (strongsEntry == null) {
+      console.log("DictionaryInfoBox.updateDictInfoBoxWithKey: Got null strongsEntry for key " + strongsKey);
+      console.log("Cannot update dict info box!");
+      return;
+    }
+
+    // Remove existing entries from dictionaryInfoBoxStack
     while (this.dictionaryInfoBoxStack.length > 1) {
       this.dictionaryInfoBoxStack.pop();
     }
@@ -259,7 +270,15 @@ class DictionaryInfoBox {
   async getStrongsReferenceTableRow(strongsReference, isLastRow=false) {
     var referenceTableRow = "";
     var referenceKey = strongsReference.key;
-    var referenceStrongsEntry = await ipcNsi.getStrongsEntry(referenceKey);
+    var referenceStrongsEntry = null;
+
+    try {
+      referenceStrongsEntry = await ipcNsi.getStrongsEntry(referenceKey);
+    } catch (e) {
+      console.log("DictionaryInfoBox.getStrongsReferenceTableRow: Could not get strongs entry for key " + referenceKey);
+      return null;
+    }
+    
     var referenceStrongsLemma = this.getJsStrongs()[referenceKey].lemma;
 
     var referenceLink = "<a href=\"javascript:app_controller.dictionary_controller.dictionaryInfoBox.openStrongsReference('";
@@ -313,7 +332,10 @@ class DictionaryInfoBox {
       for (var i = 0;  i < strongsEntry.references.length; i++) {
         var isLastRow = (i == (strongsEntry.references.length - 1));
         var referenceTableRow = await this.getStrongsReferenceTableRow(strongsEntry.references[i], isLastRow);
-        extendedStrongsInfo += referenceTableRow;
+
+        if (referenceTableRow != null) {
+          extendedStrongsInfo += referenceTableRow;
+        }
       }
 
       extendedStrongsInfo += "</table>";
@@ -345,6 +367,12 @@ class DictionaryInfoBox {
           // Otherwise push on the stack
 
           var strongsEntry = await this.dictionaryController.getStrongsEntryWithRawKey(key);
+
+          if (strongsEntry == null) {
+            console.log("DictionaryInfoBox.openStrongsReference: Got null strongsEntry for key " + key);
+            console.log("Cannot update dict info box!");
+            return;
+          }
 
           if (this.dictionaryInfoBoxStack.length == 1) {
             this.currentFirstStrongsEntry = this.currentStrongsEntry;
