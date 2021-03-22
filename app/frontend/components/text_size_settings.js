@@ -1,3 +1,27 @@
+/* This file is part of Ezra Bible App.
+
+   Copyright (C) 2019 - 2021 Tobias Klein <contact@ezra-project.net>
+
+   Ezra Bible App is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 2 of the License, or
+   (at your option) any later version.
+
+   Ezra Bible App is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Ezra Bible App. See the file LICENSE.
+   If not, see <http://www.gnu.org/licenses/>. */
+
+/**
+ * The TextSizeSettings component implements the buttons two control text (font size) of the verse and
+ * other elements. Size update is done by updating (adding new and deleting old) css rule
+ * 
+ * @category Component
+ */
 class TextSizeSettings {
   constructor() {
     this.defaultTextSize = 10; // in em*10 so not to deal with float
@@ -8,7 +32,7 @@ class TextSizeSettings {
     this.openMenuButton = '.text-size-settings';
     this.menuContainer = '.text-size-menu';
     this.menuIsOpened = false;
-    this.stylesheet = null;  // CSSStyleSheet
+    this.stylesheet = null;  // instance of CSSStyleSheet https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet
   }
 
   async init() {
@@ -67,15 +91,14 @@ class TextSizeSettings {
     var buttonOffset = $menuButton.offset();
     var $menuContainer = currentVerseListMenu.find(this.menuContainer);
 
-    var top_offset = buttonOffset.top + $menuButton.height() + 2;
-    var left_offset = buttonOffset.left - 2;
-    if(left_offset+$menuContainer.width() > $(window).width()) {
-      left_offset = buttonOffset.left + $menuButton.width() - $menuContainer.width();
+    var topOffset = buttonOffset.top + $menuButton.height() + 2;
+    var leftOffset = buttonOffset.left - 2;
+    if (leftOffset+$menuContainer.width() > $(window).width()) {
+      leftOffset = buttonOffset.left + $menuButton.width() - $menuContainer.width();
     }
 
-    console.log(`[${buttonOffset}] ->[${top_offset}, ${left_offset}]`);
-    $menuContainer.css('top', top_offset);
-    $menuContainer.css('left', left_offset);
+    $menuContainer.css('top', topOffset);
+    $menuContainer.css('left', leftOffset);
 
     this.menuIsOpened = true;
     $menuContainer.show();
