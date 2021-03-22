@@ -19,6 +19,12 @@
 const IpcGeneral = require('../ipc/ipc_general.js');
 const IpcI18n = require('../ipc/ipc_i18n.js');
 
+/**
+ * This class controls Cordova platform specific functionality and it also contains the entry point to startup on Cordova (init):
+ * - Init code with permission handling and nodejs startup
+ * - Cordova-specific fullscreen toggling
+ * - Code to keep screen awake (keep the display turned on)
+ */
 class CordovaPlatform {
   constructor() {}
 
