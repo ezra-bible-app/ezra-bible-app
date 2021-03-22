@@ -41,16 +41,10 @@ class TextSizeSettings {
     this.stylesheet = null;  // instance of CSSStyleSheet https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet
   }
 
-  async init() {
-    if (this.stylesheet !== null) {
-      return;
-    }
+  async init(tabIndex = undefined) {
 
-    var styleEl = $('<style id="dynamic-text-size" />')
-    $("head").append(styleEl);
-    this.stylesheet = styleEl[0].sheet;
-
-    $('#app-container').find(this.openMenuButton).bind('click', (e) => {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+    currentVerseListMenu.find(this.openMenuButton).bind('click', (e) => {
       e.stopPropagation()
       if (this.menuIsOpened) {
         this.hideTextSizeMenu();
@@ -59,38 +53,45 @@ class TextSizeSettings {
       }
     });
 
-    $('#app-container').find('.text-size-reset').bind('click', () => {
+    currentVerseListMenu.find('.text-size-reset').bind('click', () => {
       this.resetSize();
     });
 
-    $('#app-container').find('.text-size-decrease').bind('click', () => {
+    currentVerseListMenu.find('.text-size-decrease').bind('click', () => {
       this.decreaseSize();
     });
 
-    $('#app-container').find('.text-size-increase').bind('click', () => {
+    currentVerseListMenu.find('.text-size-increase').bind('click', () => {
       this.increaseSize();
     });
 
-    Mousetrap.bind(INCREASE_SHORTCUT, () => {
-      this.increaseSize();
-      return false;
-    });
+    if (this.stylesheet === null) {
+      var styleEl = $('<style id="dynamic-text-size" />')
+      $("head").append(styleEl);
+      this.stylesheet = styleEl[0].sheet;
 
-    Mousetrap.bind(DECREASE_SHORTCUT, () => {
-      this.decreaseSize();
-      return false;
-    });
+      Mousetrap.bind(INCREASE_SHORTCUT, () => {
+        this.increaseSize();
+        return false;
+      });
 
-    Mousetrap.bind(RESET_SHORTCUT, () => {
-      this.resetSize();
-      return false;
-    });
+      Mousetrap.bind(DECREASE_SHORTCUT, () => {
+        this.decreaseSize();
+        return false;
+      });
 
-    if (window.ipcSettings) {
-      this._textSizeValue = await window.ipcSettings.get(SETTINGS_KEY, DEFAULT_TEXT_SIZE);
+      Mousetrap.bind(RESET_SHORTCUT, () => {
+        this.resetSize();
+        return false;
+      });
+
+      if (window.ipcSettings) {
+        this._textSizeValue = await window.ipcSettings.get(SETTINGS_KEY, DEFAULT_TEXT_SIZE);
+      }
+
+      this.updateStyle();
     }
 
-    this.updateStyle();
   }
 
   showTextSizeMenu() {

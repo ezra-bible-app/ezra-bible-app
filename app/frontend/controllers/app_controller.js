@@ -107,7 +107,7 @@ class AppController {
     this.init_component("NotesController", "notes_controller");
     this.init_component("SwordNotes", "sword_notes");
     this.init_component("InfoPopup", "info_popup");
-    this.init_component("TextSizeSettings", "text_size_settings");
+    this.init_component("TextSizeSettings", "textSizeSettings");
 
     this.verse_list_popup.initVerseListPopup();
     this.initGlobalShortCuts();
@@ -264,7 +264,7 @@ class AppController {
     this.module_search_controller.initModuleSearchMenu(tabIndex);
     await this.translation_controller.initTranslationsMenu(previousTabIndex, tabIndex);
     this.info_popup.initAppInfoButton();
-    this.text_size_settings.init();
+    this.textSizeSettings.init(tabIndex);
     var currentBibleTranslationId = this.tab_controller.getTab(tabIndex).getBibleTranslationId();
     if (currentBibleTranslationId != null) {
       this.info_popup.enableCurrentAppInfoButton(tabIndex);
@@ -588,7 +588,7 @@ class AppController {
     this.tag_assignment_menu.hideTagAssignmentMenu();
     this.module_search_controller.hideSearchMenu();
     this.optionsMenu.hideDisplayMenu();
-    this.text_size_settings.hideTextSizeMenu();
+    this.textSizeSettings.hideTextSizeMenu();
   }
   
   async handleReferenceClick(event) {
