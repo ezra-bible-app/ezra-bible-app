@@ -35,6 +35,7 @@ const SETTINGS_KEY = 'verse-text-size';
 class TextSizeSettings {
   constructor() {
     this._textSizeValue = this.DEFAULT_TEXT_SIZE;
+    this._shouldTagsNotesResize = true;
     this.openMenuButton = '.text-size-settings';
     this.menuContainer = '.text-size-menu';
     this.menuIsOpened = false;
@@ -87,6 +88,7 @@ class TextSizeSettings {
 
       if (window.ipcSettings) {
         this._textSizeValue = await window.ipcSettings.get(SETTINGS_KEY, DEFAULT_TEXT_SIZE);
+        this._shouldTagsNotesResize = await window.ipcSettings.get('adjustTagsNotesTextSize', this._shouldTagsNotesResize);
       }
 
       this.updateStyle();
@@ -146,6 +148,11 @@ class TextSizeSettings {
     this.saveConfig();
   }
 
+  updateTagsNotes(shouldTagsNotesResize = true) {
+    this._shouldTagsNotesResize = shouldTagsNotesResize;
+    this.updateStyle();
+  }
+
   async saveConfig() {
     if (window.ipcSettings) {
       await window.ipcSettings.set(SETTINGS_KEY, this._textSizeValue);
@@ -153,7 +160,9 @@ class TextSizeSettings {
   }
 
   updateStyle() {
-    this.stylesheet.insertRule(`.verse-list .verse-text { font-size: ${this._textSizeValue * 0.1}em }`, this.stylesheet.cssRules.length);
+    this.stylesheet.insertRule(`.verse-list ${this._shouldTagsNotesResize ? '' : '.verse-text '}{ 
+      font-size: ${this._textSizeValue * 0.1}em 
+    }`, this.stylesheet.cssRules.length);
     if (this.stylesheet.cssRules.length > 1) {
       this.stylesheet.deleteRule(0);
     }

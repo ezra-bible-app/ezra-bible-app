@@ -206,7 +206,8 @@
     "strongs-number-not-valid": "This is not a valid Strong's number!",
     "open-new-tab": "Open new tab",
     "open-verselist-in-new-tab": "Open verse list in new tab",
-    "footnote-character": "n"
+    "footnote-character": "n",
+    "adjust-font-size-tags-notes": "Adjust tags & notes font size"
   },
   "dictionary-info-box": {
     "greek-dict": "Greek Dictionary",
@@ -217,7 +218,7 @@
     "open-in-blueletter": "Open in Blue Letter Bible",
     "related-strongs": "Related Strong's"
   },
-  "cordova" : {
+  "cordova": {
     "welcome-to-ezra-bible-app": "Welcome to the Ezra Bible App!",
     "storage-justification": "Ezra Bible App needs access to the device storage area to save SWORD modules and store its database.<br><br>After pressing the button below, you will be asked to allow Ezra Bible App to access files on your device.",
     "enable-storage-access": "Enable access to device storage",

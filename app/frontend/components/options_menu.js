@@ -73,6 +73,9 @@ class OptionsMenu {
     this._tagsColumnOption = await this.initDisplayOption('tags-column-switch', 'useTagsColumn', () => { this.changeTagsLayoutBasedOnOption(); });
     this._verseNotesOption = await this.initDisplayOption('verse-notes-switch', 'showNotes', () => { this.showOrHideVerseNotesBasedOnOption(); });
     this._verseNotesFixedHeightOption = await this.initDisplayOption('verse-notes-fixed-height-switch', 'fixNotesHeight', () => { this.fixNotesHeightBasedOnOption(); });
+    this._textSizeAdjustTagsNotesOption = await this.initDisplayOption('tags-notes-text-size-switch', 'adjustTagsNotesTextSize', () => { 
+      app_controller.textSizeSettings.updateTagsNotes(this._textSizeAdjustTagsNotesOption.isChecked()); 
+    }, true);
 
     this._nightModeOption = await this.initDisplayOption('night-mode-switch', 'useNightMode', async () => {
       this.hideDisplayMenu();
