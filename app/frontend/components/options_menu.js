@@ -156,11 +156,8 @@ class OptionsMenu {
     if (this.menuIsOpened) {
       app_controller.handleBodyClick();
     } else {
-      app_controller.book_selection_menu.hideBookMenu();
-      app_controller.tag_selection_menu.hideTagMenu();
-      app_controller.module_search_controller.hideSearchMenu();
-      app_controller.tag_assignment_menu.hideTagAssignmentMenu();
-      
+      app_controller.hideAllMenus();
+
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
       var display_options_button = currentVerseListMenu.find('.display-options-button');
       display_options_button.addClass('ui-state-active');

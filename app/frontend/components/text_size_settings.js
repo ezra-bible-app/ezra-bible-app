@@ -97,6 +97,8 @@ class TextSizeSettings {
   }
 
   showTextSizeMenu() {
+    app_controller.hideAllMenus();
+    
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
     var $menuButton = currentVerseListMenu.find(this.openMenuButton);
     $menuButton.addClass('ui-state-active');
@@ -118,9 +120,9 @@ class TextSizeSettings {
 
   hideTextSizeMenu() {
     if (this.menuIsOpened) {
-      app_controller.getCurrentVerseListMenu().find(this.menuContainer).hide();
+      $('#app-container').find(this.menuContainer).hide();
       this.menuIsOpened = false;
-      app_controller.getCurrentVerseListMenu().find(this.openMenuButton).removeClass('ui-state-active');
+      $('#app-container').find(this.openMenuButton).removeClass('ui-state-active');
     }
   }
 
