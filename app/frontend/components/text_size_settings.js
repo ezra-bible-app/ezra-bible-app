@@ -16,6 +16,16 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const Mousetrap = require('mousetrap');
+
+const DEFAULT_TEXT_SIZE = 10; // in em*10 so not to deal with float
+const MIN_SIZE = 7;
+const MAX_SIZE = 20;
+const INCREASE_SHORTCUT = ['mod+=', 'mod+shift+=']; // Ctrl/Cmd + 
+const DECREASE_SHORTCUT = ['mod+-', 'mod+shift+-'];  // Ctrl/Cmd -
+const RESET_SHORTCUT = 'mod+0';  // Ctrl/Cmd 0
+const SETTINGS_KEY = 'verse-text-size';
+
 /**
  * The TextSizeSettings component implements the buttons two control text (font size) of the verse and
  * other elements. Size update is done by updating (adding new and deleting old) css rule
@@ -24,11 +34,7 @@
  */
 class TextSizeSettings {
   constructor() {
-    this.defaultTextSize = 10; // in em*10 so not to deal with float
-    this.minSize = 7;
-    this.maxSize = 20;
-    this._textSizeValue = this.defaultTextSize;
-    this._settingsKey = 'verse-text-size';
+    this._textSizeValue = this.DEFAULT_TEXT_SIZE;
     this.openMenuButton = '.text-size-settings';
     this.menuContainer = '.text-size-menu';
     this.menuIsOpened = false;
@@ -54,31 +60,34 @@ class TextSizeSettings {
     });
 
     $('#app-container').find('.text-size-reset').bind('click', () => {
-      this._textSizeValue = this.defaultTextSize;
-      this.updateStyle();
-      this.saveConfig();
+      this.resetSize();
     });
 
     $('#app-container').find('.text-size-decrease').bind('click', () => {
-      if(this._textSizeValue <= this.minSize+1) {
-        return;
-      }
-      this._textSizeValue -= 1;
-      this.updateStyle();
-      this.saveConfig();
+      this.decreaseSize();
     });
 
     $('#app-container').find('.text-size-increase').bind('click', () => {
-      if(this._textSizeValue >= this.maxSize-1) {
-        return;
-      }
-      this._textSizeValue += 1;
-      this.updateStyle();
-      this.saveConfig();  
+      this.increaseSize();
+    });
+
+    Mousetrap.bind(INCREASE_SHORTCUT, () => {
+      this.increaseSize();
+      return false;
+    });
+
+    Mousetrap.bind(DECREASE_SHORTCUT, () => {
+      this.decreaseSize();
+      return false;
+    });
+
+    Mousetrap.bind(RESET_SHORTCUT, () => {
+      this.resetSize();
+      return false;
     });
 
     if (window.ipcSettings) {
-      this._textSizeValue = await window.ipcSettings.get(this._settingsKey, this.defaultTextSize);
+      this._textSizeValue = await window.ipcSettings.get(SETTINGS_KEY, DEFAULT_TEXT_SIZE);
     }
 
     this.updateStyle();
@@ -93,7 +102,7 @@ class TextSizeSettings {
 
     var topOffset = buttonOffset.top + $menuButton.height() + 2;
     var leftOffset = buttonOffset.left - 2;
-    if (leftOffset+$menuContainer.width() > $(window).width()) {
+    if (leftOffset + $menuContainer.width() > $(window).width()) {
       leftOffset = buttonOffset.left + $menuButton.width() - $menuContainer.width();
     }
 
@@ -112,14 +121,38 @@ class TextSizeSettings {
     }
   }
 
+  increaseSize() {
+    if (this._textSizeValue >= MAX_SIZE - 1) {
+      return;
+    }
+    this._textSizeValue += 1;
+    this.updateStyle();
+    this.saveConfig();
+  }
+
+  decreaseSize() {
+    if (this._textSizeValue <= MIN_SIZE + 1) {
+      return;
+    }
+    this._textSizeValue -= 1;
+    this.updateStyle();
+    this.saveConfig();
+  }
+
+  resetSize() {
+    this._textSizeValue = DEFAULT_TEXT_SIZE;
+    this.updateStyle();
+    this.saveConfig();
+  }
+
   async saveConfig() {
     if (window.ipcSettings) {
-      await window.ipcSettings.set(this._settingsKey, this._textSizeValue);
+      await window.ipcSettings.set(SETTINGS_KEY, this._textSizeValue);
     }
   }
 
   updateStyle() {
-    this.stylesheet.insertRule(`.verse-list .verse-text { font-size: ${this._textSizeValue*0.1}em }`, this.stylesheet.cssRules.length);
+    this.stylesheet.insertRule(`.verse-list .verse-text { font-size: ${this._textSizeValue * 0.1}em }`, this.stylesheet.cssRules.length);
     if (this.stylesheet.cssRules.length > 1) {
       this.stylesheet.deleteRule(0);
     }
