@@ -98,7 +98,7 @@ class TextSizeSettings {
 
   showTextSizeMenu() {
     app_controller.hideAllMenus();
-    
+
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
     var $menuButton = currentVerseListMenu.find(this.openMenuButton);
     $menuButton.addClass('ui-state-active');
@@ -127,7 +127,7 @@ class TextSizeSettings {
   }
 
   increaseSize() {
-    if (this._textSizeValue >= MAX_SIZE - 1) {
+    if (this._textSizeValue >= MAX_SIZE) {
       return;
     }
     this._textSizeValue += 1;
@@ -136,7 +136,7 @@ class TextSizeSettings {
   }
 
   decreaseSize() {
-    if (this._textSizeValue <= MIN_SIZE + 1) {
+    if (this._textSizeValue <= MIN_SIZE) {
       return;
     }
     this._textSizeValue -= 1;
@@ -167,6 +167,24 @@ class TextSizeSettings {
     }`, this.stylesheet.cssRules.length);
     if (this.stylesheet.cssRules.length > 1) {
       this.stylesheet.deleteRule(0);
+    }
+
+    if (this._textSizeValue == DEFAULT_TEXT_SIZE) {
+      $('#app-container').find('.text-size-reset').addClass('ui-state-disabled');
+      $('#app-container').find('.text-size-increase').removeClass('ui-state-disabled');
+      $('#app-container').find('.text-size-decrease').removeClass('ui-state-disabled');
+    } else if (this._textSizeValue >= MAX_SIZE) {
+      $('#app-container').find('.text-size-reset').removeClass('ui-state-disabled');
+      $('#app-container').find('.text-size-increase').addClass('ui-state-disabled');
+      $('#app-container').find('.text-size-decrease').removeClass('ui-state-disabled');
+    } else if (this._textSizeValue <= MIN_SIZE) {
+      $('#app-container').find('.text-size-reset').removeClass('ui-state-disabled');
+      $('#app-container').find('.text-size-increase').removeClass('ui-state-disabled');
+      $('#app-container').find('.text-size-decrease').addClass('ui-state-disabled');
+    } else {
+      $('#app-container').find('.text-size-reset').removeClass('ui-state-disabled');
+      $('#app-container').find('.text-size-increase').removeClass('ui-state-disabled');
+      $('#app-container').find('.text-size-decrease').removeClass('ui-state-disabled');
     }
   }
 
