@@ -16,7 +16,8 @@
     "options": "Options",
     "export": "Export to text document",
     "show-module-info": "Show module info",
-    "fullscreen": "Toggle full screen mode"
+    "fullscreen": "Toggle full screen mode",
+    "exit-fullscreen": "Exit full screen mode"
   },
   "search-menu": {
     "search": "Search",
@@ -213,7 +214,7 @@
     "open-in-blueletter": "Open in Blue Letter Bible",
     "related-strongs": "Related Strong's"
   },
-  "cordova" : {
+  "cordova": {
     "welcome-to-ezra-bible-app": "Welcome to the Ezra Bible App!",
     "storage-justification": "Ezra Bible App needs access to the device storage area to save SWORD modules and store its database.<br><br>After pressing the button below, you will be asked to allow Ezra Bible App to access files on your device.",
     "enable-storage-access": "Enable access to device storage",
