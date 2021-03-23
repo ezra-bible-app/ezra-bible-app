@@ -103,7 +103,6 @@ h2 {
 }
 
 #verse-list-tabs .ui-tabs-nav {
-  float: left;
   padding-bottom: 0.1em;
   margin-bottom: 0.5em;
 }
@@ -115,10 +114,6 @@ h2 {
 
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a {
   cursor: default;
-}
-
-.verse-list-container {
-  margin-top: 3em;
 }
 
 .verse-list-menu {
