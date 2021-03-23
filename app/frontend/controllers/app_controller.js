@@ -429,20 +429,30 @@ class AppController {
   }
 
   toggleFullScreen() {
+    var platform = null;
+
     if (platformHelper.isElectron()) {
-  
-      const { remote } = require('electron');
-      var window = remote.getCurrentWindow();
-  
-      if (window.isFullScreen()) {
-        window.setFullScreen(false);
-      } else {
-        window.setFullScreen(true);
-      }
-  
+
+      platform = electronPlatform;
+
     } else if (platformHelper.isAndroid()) {
-  
-      cordovaPlatform.toggleFullScreen();
+
+      platform = cordovaPlatform;
+
+    }
+
+    platform.toggleFullScreen();
+
+    const fullScreenButton = document.getElementById('app-container').querySelector('.fullscreen-button');
+
+    if (platform.isFullScreen()) {
+      fullScreenButton.setAttribute('title', i18n.t('menu.exit-fullscreen'));
+      fullScreenButton.firstElementChild.classList.add('fa-compress');
+      fullScreenButton.firstElementChild.classList.remove('fa-expand');
+    } else {
+      fullScreenButton.setAttribute('title', i18n.t('menu.fullscreen'));
+      fullScreenButton.firstElementChild.classList.add('fa-expand');
+      fullScreenButton.firstElementChild.classList.remove('fa-compress');
     }
   }
   
