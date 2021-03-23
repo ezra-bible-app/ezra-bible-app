@@ -438,8 +438,9 @@ class AppController {
     }
 
     platform.toggleFullScreen();
-    
-    const fullScreenButton = document.getElementById('app-container').getElementsByClassName('fullscreen-button')[0];
+
+    const fullScreenButton = document.getElementById('app-container').querySelector('.fullscreen-button');
+
     if (platform.isFullScreen()) {
       fullScreenButton.setAttribute('title', i18n.t('menu.exit-fullscreen'));
       fullScreenButton.firstElementChild.classList.add('fa-compress');
