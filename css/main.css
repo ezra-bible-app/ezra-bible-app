@@ -104,7 +104,8 @@ h2 {
 
 #verse-list-tabs .ui-tabs-nav {
   padding-bottom: 0.1em;
-  margin-bottom: 0.5em;
+  width: fit-content;
+  margin-right: 4.5em;
 }
 
 #verse-list-tabs ul li span {
