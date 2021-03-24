@@ -44,7 +44,7 @@ If you want to help with a new translation, these are the steps:
       "context": "Context"
     }
 ```
-4) Once the translation is complete, it needs to be added to the white list in `app/frontend/helpers/i18n_helper.js`. Here is an extract from that file:
+4) Once the translation is complete, it needs to be added to the white list in `/app/frontend/helpers/i18n_helper.js`. Here is an extract from that file:
 ```
 const i18nextOptions = {
   debug: false,
