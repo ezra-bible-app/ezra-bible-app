@@ -26,8 +26,11 @@ If you want to make direct contributions to Ezra Bible App, please create a pull
 
 If you want to help with a new translation, these are the steps:
 
-1) Take the English locale files as a base (`/locales/en`) and copy them to a new folder underneith `locales`, where the folder name shall match the two-letter ISO 639-1 language code of the new translation. Have a look at [this Wikipedia page](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) to find the language code for the new language.
-2) The locale files are json files. You will have to translate the value of each `json key`. Consider the following extract. You will have to translate all the text on the right side of the colon. So for example within `"new tag": "New tag"` you will replace the text `"New tag"` with the respective translation.
+1) Clone the repository. If you are not a project member yet you may need to fork first and then clone your fork.
+
+2) Take the English locale files as a base (`/locales/en`) and copy them to a new folder underneith `locales`, where the folder name shall match the two-letter ISO 639-1 language code of the new translation. Have a look at [this Wikipedia page](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) to find the language code for the new language.
+
+3) The locale files are json files. You will have to translate the value of each `json key`. Consider the following extract. You will have to translate all the text on the right side of the colon. So for example within `"new tag": "New tag"` you will replace the text `"New tag"` with the respective translation.
 
 ```javascript
     "tags-toolbar": {
@@ -41,7 +44,7 @@ If you want to help with a new translation, these are the steps:
       "context": "Context"
     }
 ```
-3) Once the translation is complete, it needs to be added to the white list in `app/frontend/helpers/i18n_helper.js`. Here is an extract from that file:
+4) Once the translation is complete, it needs to be added to the white list in `app/frontend/helpers/i18n_helper.js`. Here is an extract from that file:
 ```
 const i18nextOptions = {
   debug: false,
@@ -57,6 +60,6 @@ const i18nextOptions = {
 };
 ```
 
-4) You can test the new translation by installing all dependencies (see BUILD.md) and starting the app using `npm start`.
+5) You can test the new translation by installing all dependencies (see BUILD.md) and starting the app using `npm start`.
 
-5) Submit a pull request once you have a working draft.
+6) Submit a pull request once you have a working draft.
