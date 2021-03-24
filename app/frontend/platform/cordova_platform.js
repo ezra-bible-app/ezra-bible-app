@@ -19,13 +19,19 @@
 const IpcGeneral = require('../ipc/ipc_general.js');
 const IpcI18n = require('../ipc/ipc_i18n.js');
 
+/**
+ * This class controls Cordova platform specific functionality and it also contains the entry point to startup on Cordova (init):
+ * - Init code with permission handling and nodejs startup
+ * - Cordova-specific fullscreen toggling
+ * - Code to keep screen awake (keep the display turned on)
+ */
 class CordovaPlatform {
   constructor() {}
 
   init() {
     console.log("Initializing app on Cordova platform ...");
 
-    this.isFullScreenMode = false;
+    this._isFullScreenMode = false;
 
     // In the Cordova app the first thing we do is showing the global loading indicator.
     // This would happen later again, but only after the nodejs engine is started.
@@ -264,10 +270,10 @@ class CordovaPlatform {
   toggleFullScreen() {
     // Note that the following code depends on having the cordova-plugin-fullscreen available
 
-    if (this.isFullScreenMode) {
+    if (this._isFullScreenMode) {
 
       AndroidFullScreen.showSystemUI(() => {
-        this.isFullScreenMode = false;
+        this._isFullScreenMode = false;
       }, () => {
         console.error("Could not leave immersive mode");
       });
@@ -275,11 +281,15 @@ class CordovaPlatform {
     } else {
 
       AndroidFullScreen.immersiveMode(() => {
-        this.isFullScreenMode = true;
+        this._isFullScreenMode = true;
       }, () => {
         console.error("Could not switch to immersive mode");
       });
     }
+  }
+
+  isFullScreen() {
+    return this._isFullScreenMode;
   }
 
   keepScreenAwake() {

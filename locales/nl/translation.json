@@ -16,7 +16,12 @@
     "options": "Opties",
     "export": "Exporteren naar tekstdocument",
     "show-module-info": "Toon module-info",
-    "fullscreen": "Volledig-beeldmodus omschakelen"
+    "fullscreen": "Volledig-beeldmodus omschakelen",
+    "exit-fullscreen": "Exit full screen mode",
+    "text-size": "Adjust verse font size",
+    "text-size-decrease": "Decrease current font size",
+    "text-size-reset": "Reset font size to default",
+    "text-size-increase": "Increase current font size"
   },
   "search-menu": {
     "search": "Zoeken",
@@ -202,7 +207,8 @@
     "strongs-number-not-valid": "Dit is geen geldig Strongs nummer!",
     "open-new-tab": "Openen in nieuw tabblad",
     "open-verselist-in-new-tab": "Open verslijst in nieuw tabblad",
-    "footnote-character": "n"
+    "footnote-character": "n",
+    "adjust-font-size-tags-notes": "Adjust tags & notes font size"
   },
   "dictionary-info-box": {
     "greek-dict": "Grieks woordenboek",

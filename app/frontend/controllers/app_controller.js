@@ -42,6 +42,7 @@ const DictionaryController = require("./dictionary_controller.js");
 const NotesController = require("./notes_controller.js");
 const SwordNotes = require("../components/sword_notes.js");
 const InfoPopup = require("../components/info_popup.js");
+const TextSizeSettings = require("../components/text_size_settings.js");
 
 /**
  * AppController is Ezra Bible App's main controller class which initiates all other controllers and components.
@@ -106,6 +107,7 @@ class AppController {
     this.init_component("NotesController", "notes_controller");
     this.init_component("SwordNotes", "sword_notes");
     this.init_component("InfoPopup", "info_popup");
+    this.init_component("TextSizeSettings", "textSizeSettings");
 
     this.verse_list_popup.initVerseListPopup();
     this.initGlobalShortCuts();
@@ -262,9 +264,15 @@ class AppController {
     this.module_search_controller.initModuleSearchMenu(tabIndex);
     await this.translation_controller.initTranslationsMenu(previousTabIndex, tabIndex);
     this.info_popup.initAppInfoButton();
-    var currentBibleTranslationId = this.tab_controller.getTab(tabIndex).getBibleTranslationId();
-    if (currentBibleTranslationId != null) {
-      this.info_popup.enableCurrentAppInfoButton(tabIndex);
+    this.textSizeSettings.init(tabIndex);
+    
+    var currentTab = this.tab_controller.getTab(tabIndex);
+
+    if (currentTab != null) {
+      var currentBibleTranslationId = currentTab.getBibleTranslationId();
+      if (currentBibleTranslationId != null) {
+        this.info_popup.enableCurrentAppInfoButton(tabIndex);
+      }
     }
 
     this.optionsMenu.initCurrentOptionsMenu(tabIndex);
@@ -421,20 +429,30 @@ class AppController {
   }
 
   toggleFullScreen() {
+    var platform = null;
+
     if (platformHelper.isElectron()) {
-  
-      const { remote } = require('electron');
-      var window = remote.getCurrentWindow();
-  
-      if (window.isFullScreen()) {
-        window.setFullScreen(false);
-      } else {
-        window.setFullScreen(true);
-      }
-  
+
+      platform = electronPlatform;
+
     } else if (platformHelper.isAndroid()) {
-  
-      cordovaPlatform.toggleFullScreen();
+
+      platform = cordovaPlatform;
+
+    }
+
+    platform.toggleFullScreen();
+
+    const fullScreenButton = document.getElementById('app-container').querySelector('.fullscreen-button');
+
+    if (platform.isFullScreen()) {
+      fullScreenButton.setAttribute('title', i18n.t('menu.exit-fullscreen'));
+      fullScreenButton.firstElementChild.classList.add('fa-compress');
+      fullScreenButton.firstElementChild.classList.remove('fa-expand');
+    } else {
+      fullScreenButton.setAttribute('title', i18n.t('menu.fullscreen'));
+      fullScreenButton.firstElementChild.classList.add('fa-expand');
+      fullScreenButton.firstElementChild.classList.remove('fa-compress');
     }
   }
   
@@ -585,6 +603,7 @@ class AppController {
     this.tag_assignment_menu.hideTagAssignmentMenu();
     this.module_search_controller.hideSearchMenu();
     this.optionsMenu.hideDisplayMenu();
+    this.textSizeSettings.hideTextSizeMenu();
   }
   
   async handleReferenceClick(event) {

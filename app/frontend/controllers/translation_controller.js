@@ -130,7 +130,12 @@ class TranslationController {
 
   addTranslationsToBibleSelectMenu(tabIndex, translations) {
     var bibleSelect = this.getBibleSelect(tabIndex);
-    var currentBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
+    var currentBibleTranslationId = null;
+
+    if (currentTab != null) {
+      currentBibleTranslationId = currentTab.getBibleTranslationId();
+    }
 
     for (var translation of translations) {
       var selected = '';
