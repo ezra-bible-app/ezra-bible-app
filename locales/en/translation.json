@@ -17,6 +17,10 @@
     "export": "Export to text document",
     "show-module-info": "Show module info",
     "fullscreen": "Toggle full screen mode",
+    "text-size": "Adjust verse font size",
+    "text-size-decrease": "Decrease current font size",
+    "text-size-reset": "Reset font size to default",
+    "text-size-increase": "Increase current font size",
     "exit-fullscreen": "Exit full screen mode"
   },
   "search-menu": {
@@ -203,7 +207,8 @@
     "strongs-number-not-valid": "This is not a valid Strong's number!",
     "open-new-tab": "Open new tab",
     "open-verselist-in-new-tab": "Open verse list in new tab",
-    "footnote-character": "n"
+    "footnote-character": "n",
+    "adjust-font-size-tags-notes": "Adjust tags & notes font size"
   },
   "dictionary-info-box": {
     "greek-dict": "Greek Dictionary",

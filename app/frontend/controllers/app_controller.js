@@ -42,6 +42,7 @@ const DictionaryController = require("./dictionary_controller.js");
 const NotesController = require("./notes_controller.js");
 const SwordNotes = require("../components/sword_notes.js");
 const InfoPopup = require("../components/info_popup.js");
+const TextSizeSettings = require("../components/text_size_settings.js");
 
 /**
  * AppController is Ezra Bible App's main controller class which initiates all other controllers and components.
@@ -106,6 +107,7 @@ class AppController {
     this.init_component("NotesController", "notes_controller");
     this.init_component("SwordNotes", "sword_notes");
     this.init_component("InfoPopup", "info_popup");
+    this.init_component("TextSizeSettings", "textSizeSettings");
 
     this.verse_list_popup.initVerseListPopup();
     this.initGlobalShortCuts();
@@ -262,6 +264,8 @@ class AppController {
     this.module_search_controller.initModuleSearchMenu(tabIndex);
     await this.translation_controller.initTranslationsMenu(previousTabIndex, tabIndex);
     this.info_popup.initAppInfoButton();
+    this.textSizeSettings.init(tabIndex);
+    
     var currentTab = this.tab_controller.getTab(tabIndex);
 
     if (currentTab != null) {
@@ -599,6 +603,7 @@ class AppController {
     this.tag_assignment_menu.hideTagAssignmentMenu();
     this.module_search_controller.hideSearchMenu();
     this.optionsMenu.hideDisplayMenu();
+    this.textSizeSettings.hideTextSizeMenu();
   }
   
   async handleReferenceClick(event) {

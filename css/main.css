@@ -473,6 +473,7 @@ h2 {
 .verse-text {
   padding: 0.05em;
   position: relative;
+  line-height: 1.5em;
 }
 
 .ezra-dialog .verse-text {
@@ -917,6 +918,25 @@ h2 {
 .verse-list-menu i.fas+[i18n],
 .verse-list-menu i.fa-caret-down:last-child {
   margin-left: 0.8em;
+}
+
+.text-size-menu {
+  padding: 0.5em 0.8em;
+}
+
+.text-size-menu .verse-list-menu-line {
+  padding: 0;
+}
+
+.text-size-menu .fg-button {
+  margin-bottom: 0;
+  height: 2rem;
+  width: 1.3rem;
+  font-size: 0.8em;
+  justify-content: center;
+}
+.text-size-menu .fg-button:last-child {
+  margin-right: 0;
 }
 
 .verse-list-menu .fg-button.ui-state-active {
