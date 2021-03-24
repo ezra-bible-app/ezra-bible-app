@@ -58,19 +58,30 @@ class NotesController {
     this.currentEditor = null;
   }
 
-  initForTab(tabIndex=undefined) {
+  initForTab(tabIndex = undefined) {
     this.reset();
     var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
     if (currentVerseListFrame == null || currentVerseListFrame.length == 0) {
       return;
     }
 
-    var notes = currentVerseListFrame[0].querySelectorAll('.verse-notes');
-    for (var i = 0; i < notes.length; i++) {
-      notes[i].addEventListener('mousedown', (event) => {
+    currentVerseListFrame[0].querySelectorAll('.verse-box').forEach(verseBox => {
+      const verseNotes = verseBox.querySelector('.verse-notes');
+
+      verseBox.querySelector('.notes-info').addEventListener('mousedown', (e) => {
+        console.log('simulate click');
+        e.stopPropagation();
+        verseNotes.dispatchEvent(new MouseEvent('click'));
+      });
+
+      verseNotes.addEventListener('click', (event) => {
         this.handleNotesClick(event);
       });
-    }
+    });
+    
+    currentVerseListFrame[0].querySelector('.book-notes').addEventListener('click', (event) =>{
+      this.handleNotesClick(event);
+    });
   }
 
   getCurrentVerseBox() {
@@ -96,7 +107,7 @@ class NotesController {
       } else {
         notesInfo.classList.remove('visible');
       }
-      notesInfo.setAttribute('title', notesHelper.getTootipText(noteValue));
+      notesInfo.setAttribute('title', notesHelper.getTooltipText(noteValue));
     }
   }
 
@@ -109,7 +120,7 @@ class NotesController {
 
       if (currentNoteValue != previousNoteValue) {
         currentNoteValue = currentNoteValue.trim();
-        
+
         this.currentlyEditedNotes.setAttribute('notes-content', currentNoteValue);
         this.refreshNotesInfo(currentNoteValue);
 
@@ -132,17 +143,17 @@ class NotesController {
             this.verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(
               currentVerseBox, { noteValue: currentNoteValue, timestamp: updatedTimestamp }, (context, targetVerseBox) => {
 
-              var currentNotes = null;
+                var currentNotes = null;
 
-              if (targetVerseBox.classList.contains('book-notes')) {
-                currentNotes = targetVerseBox;
-              } else {
-                currentNotes = targetVerseBox.querySelector('.verse-notes');
-              }
+                if (targetVerseBox.classList.contains('book-notes')) {
+                  currentNotes = targetVerseBox;
+                } else {
+                  currentNotes = targetVerseBox.querySelector('.verse-notes');
+                }
 
-              currentNotes.setAttribute('notes-content', context.noteValue);
-              this.updateNoteDate(targetVerseBox, context.timestamp);
-            });
+                currentNotes.setAttribute('notes-content', context.noteValue);
+                this.updateNoteDate(targetVerseBox, context.timestamp);
+              });
           }
         });
       }
@@ -155,11 +166,11 @@ class NotesController {
     if (dbTimestamp != "") {
       localizedTimestamp = i18nHelper.getLocalizedDate(dbTimestamp);
     }
-    
+
     verseBox.querySelector('.verse-notes-timestamp').innerText = localizedTimestamp;
   }
 
-  getRenderedEditorContent(original=false) {
+  getRenderedEditorContent(original = false) {
     const marked = require("marked");
 
     var content = null;
@@ -179,7 +190,7 @@ class NotesController {
     return renderedContent;
   }
 
-  restoreCurrentlyEditedNotes(persist=true) {
+  restoreCurrentlyEditedNotes(persist = true) {
     if (persist) {
       this.saveEditorContent();
     }
@@ -192,16 +203,16 @@ class NotesController {
       this.verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(
         currentVerseBox, renderedContent, (context, targetVerseBox) => {
 
-        var targetNotes = null;
+          var targetNotes = null;
 
-        if (targetVerseBox.classList.contains('book-notes')) {
-          targetNotes = targetVerseBox;
-        } else {
-          targetNotes = targetVerseBox.querySelector('.verse-notes');
-        }
+          if (targetVerseBox.classList.contains('book-notes')) {
+            targetNotes = targetVerseBox;
+          } else {
+            targetNotes = targetVerseBox.querySelector('.verse-notes');
+          }
 
-        this.updateRenderedContent(targetNotes, context);
-      });
+          this.updateRenderedContent(targetNotes, context);
+        });
 
       this.resetVerseNoteButtons();
     }
@@ -229,20 +240,18 @@ class NotesController {
   }
 
   handleNotesClick(event) {
+    var verseNotesBox = event.target.closest('.verse-notes');
+
     if (event.target.nodeName == 'A') {
       // If the user is clicking a link within the note ('a' element)
       // we simply return and let Electron handle the default action
       // (Link will be opened in the default browser)
       return;
     }
-
     event.stopPropagation();
 
-    var verseReferenceId = null;
-    var verseNotesBox = $(event.target).closest('.verse-notes');
-
     // If the notes are not empty we need to ensure that the user actually clicked on the notes content
-    if (!verseNotesBox.hasClass('verse-notes-empty')) {
+    if (false && !verseNotes.classList.contains('verse-notes-empty')) {
       if (event.target.classList.contains('verse-notes-text') || event.target.classList.contains('verse-notes')) {
         // The click happened outside of the notes content (scrollbar or area right of scrollbar).
         // In this case we return immediately and do not process the click.
@@ -250,17 +259,19 @@ class NotesController {
       }
     }
 
-    if (verseNotesBox.hasClass('book-notes')) {
-      verseReferenceId = $(event.target).closest('.verse-notes')[0].getAttribute('verse-reference-id');
+    var verseReferenceId = null;
+
+    if (verseNotesBox.classList.contains('book-notes')) {
+      verseReferenceId = verseNotesBox.getAttribute('verse-reference-id');
     } else {
-      var verseBox = $(event.target).closest('.verse-box')[0];
+      var verseBox = verseNotesBox.closest('.verse-box');
       verseReferenceId = new VerseBox(verseBox).getVerseReferenceId();
     }
 
     if (verseReferenceId != this.currentVerseReferenceId) {
       this.restoreCurrentlyEditedNotes();
       this.currentVerseReferenceId = verseReferenceId;
-      this.currentlyEditedNotes = $(event.target).closest('.verse-notes')[0];
+      this.currentlyEditedNotes = verseNotesBox;
       this.currentlyEditedNotes.classList.remove('verse-notes-empty');
       this.createEditor(this.currentlyEditedNotes);
       this.setupVerseNoteButtons();
@@ -292,7 +303,7 @@ class NotesController {
     if (notesElement.hasAttribute('notes-content')) {
       notesContent = notesElement.getAttribute('notes-content')
     }
-    
+
     return notesContent;
   }
 
@@ -323,7 +334,7 @@ class NotesController {
       lineWrapping: true,
       viewportMargin: Infinity,
       autofocus: true,
-      extraKeys: {"Enter": "newlineAndIndentContinueMarkdownList"},
+      extraKeys: { "Enter": "newlineAndIndentContinueMarkdownList" },
       theme: this.theme
     });
 
@@ -331,7 +342,7 @@ class NotesController {
     this.focusEditor();
   }
 
-  focusEditor() {    
+  focusEditor() {
     setTimeout(() => {
       if (this.currentEditor != null) {
         this.currentEditor.refresh();
