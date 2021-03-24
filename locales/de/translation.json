@@ -16,7 +16,12 @@
     "options": "Optionen",
     "export": "Exportieren in Textdokument",
     "show-module-info": "Zeige Modulinfos",
-    "fullscreen": "Vollbildmodus umschalten"
+    "fullscreen": "Vollbildmodus umschalten",
+    "exit-fullscreen": "Vollbildmodus verlassen",
+    "text-size": "Adjust verse font size",
+    "text-size-decrease": "Decrease current font size",
+    "text-size-reset": "Reset font size to default",
+    "text-size-increase": "Increase current font size"
   },
   "search-menu": {
     "search": "Suche",
@@ -203,7 +208,8 @@
     "strongs-number-not-valid": "Dies ist keine gültige Strong's Nr.!",
     "open-new-tab": "Neuen Tab öffnen",
     "open-verselist-in-new-tab": "Versliste in neuem Tab öffnen",
-    "footnote-character": "n"
+    "footnote-character": "n",
+    "adjust-font-size-tags-notes": "Adjust tags & notes font size"
   },
   "dictionary-info-box": {
     "greek-dict": "Griechisches Wörterbuch",

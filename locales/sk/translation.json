@@ -16,7 +16,12 @@
     "options": "Vlastnosti",
     "export": "Exportovať ako text",
     "show-module-info": "Zobraziť informácie o module",
-    "fullscreen": "Prepnúť režim celej obrazovky"
+    "fullscreen": "Prepnúť režim celej obrazovky",
+    "exit-fullscreen": "Exit full screen mode",
+    "text-size": "Adjust verse font size",
+    "text-size-decrease": "Decrease current font size",
+    "text-size-reset": "Reset font size to default",
+    "text-size-increase": "Increase current font size"
   },
   "search-menu": {
     "search": "Hľadať",
@@ -202,7 +207,8 @@
     "strongs-number-not-valid": "Toto nie je platné Strong číslo!",
     "open-new-tab": "Otvoriť novú kartu",
     "open-verselist-in-new-tab": "Otvoriť zoznam veršov na novej karte",
-    "footnote-character": "n"
+    "footnote-character": "n",
+    "adjust-font-size-tags-notes": "Adjust tags & notes font size"
   },
   "dictionary-info-box": {
     "greek-dict": "Grécky slovník",

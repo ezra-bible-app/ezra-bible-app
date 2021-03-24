@@ -17,11 +17,11 @@
     "export": "Export to text document",
     "show-module-info": "Show module info",
     "fullscreen": "Toggle full screen mode",
+    "exit-fullscreen": "Exit full screen mode",
     "text-size": "Adjust verse font size",
     "text-size-decrease": "Decrease current font size",
     "text-size-reset": "Reset font size to default",
-    "text-size-increase": "Increase current font size",
-    "exit-fullscreen": "Exit full screen mode"
+    "text-size-increase": "Increase current font size"
   },
   "search-menu": {
     "search": "Search",

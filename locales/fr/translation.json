@@ -16,7 +16,12 @@
     "options": "Options",
     "export": "Exporter en document texte",
     "show-module-info": "Montrer les informations sur le module",
-    "fullscreen": "Basculer en mode plein écran"
+    "fullscreen": "Basculer en mode plein écran",
+    "exit-fullscreen": "Exit full screen mode",
+    "text-size": "Adjust verse font size",
+    "text-size-decrease": "Decrease current font size",
+    "text-size-reset": "Reset font size to default",
+    "text-size-increase": "Increase current font size"
   },
   "search-menu": {
     "search": "Rechercher",
@@ -202,7 +207,8 @@
     "strongs-number-not-valid": "Ceci n'est pas un nombre de Strong valide !",
     "open-new-tab": "Ouvrir un nouvel onglet",
     "open-verselist-in-new-tab": "Ouvrir la liste des versets dans un nouvel onglet",
-    "footnote-character": "n"
+    "footnote-character": "n",
+    "adjust-font-size-tags-notes": "Adjust tags & notes font size"
   },
   "dictionary-info-box": {
     "greek-dict": "Dictionnaire grec",
