@@ -35,6 +35,12 @@ Have a look at the build instructions [here][build].
 
 [build]: https://github.com/ezra-project/ezra-project/blob/master/BUILD.md
 
+### Contribution Guidelines
+
+Have a look at the contribution guidelines [here][contributing].
+
+[contributing]: https://github.com/ezra-project/ezra-project/blob/master/CONTRIBUTING.md
+
 ## User Forum
 
 Join the User Forum at [forum.ezra-project.net](https://forum.ezra-project.net) to discuss any of the existing functionality, ask questions and make suggestions for new features!
