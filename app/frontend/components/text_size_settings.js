@@ -107,6 +107,7 @@ class TextSizeSettings {
 
     var topOffset = buttonOffset.top + $menuButton.height() + 2;
     var leftOffset = buttonOffset.left - 2;
+
     if (leftOffset + $menuContainer.width() > $(window).width()) {
       leftOffset = buttonOffset.left + $menuButton.width() - $menuContainer.width();
     }
@@ -130,6 +131,7 @@ class TextSizeSettings {
     if (this._textSizeValue >= MAX_SIZE) {
       return;
     }
+
     this._textSizeValue += 1;
     this.updateStyle();
     this.saveConfig();
@@ -139,6 +141,7 @@ class TextSizeSettings {
     if (this._textSizeValue <= MIN_SIZE) {
       return;
     }
+
     this._textSizeValue -= 1;
     this.updateStyle();
     this.saveConfig();
@@ -162,9 +165,11 @@ class TextSizeSettings {
   }
 
   updateStyle() {
-    this.stylesheet.insertRule(`.verse-list ${this._shouldTagsNotesResize ? '' : '.verse-text '}{ 
-      font-size: ${this._textSizeValue * 0.1}em 
-    }`, this.stylesheet.cssRules.length);
+    this.stylesheet.insertRule(
+      `.verse-list ${this._shouldTagsNotesResize ? '' : '.verse-text '} {
+        font-size: ${this._textSizeValue * 0.1}em 
+      }`, this.stylesheet.cssRules.length);
+
     if (this.stylesheet.cssRules.length > 1) {
       this.stylesheet.deleteRule(0);
     }
@@ -187,7 +192,6 @@ class TextSizeSettings {
       $('#app-container').find('.text-size-decrease').removeClass('ui-state-disabled');
     }
   }
-
 }
 
 module.exports = TextSizeSettings;
