@@ -71,19 +71,12 @@ class NotesController {
 
       verseBox.querySelector('.notes-info').addEventListener('mousedown', (e) => {
         e.stopPropagation();
-        if (verseNotes.offsetParent === null) { // if not visible
-          currentVerseListFrame[0].querySelectorAll('.verse-notes.visible').forEach(el => {
-            if (el !== verseNotes) {
-              el.classList.remove('visible');
-            }
-          })
-            verseNotes.classList.add('visible');
-          if (verseNotes.classList.contains('verse-notes-empty')) {
-            verseNotes.dispatchEvent(new MouseEvent('click'));
-          }
-        } else {
+        verseNotes.classList.toggle('visible');
+
+        if (verseNotes.classList.contains('verse-notes-empty')) {
           verseNotes.dispatchEvent(new MouseEvent('click'));
         }
+
       });
 
       verseNotes.addEventListener('click', (event) => {
@@ -228,7 +221,9 @@ class NotesController {
         });
 
       this.resetVerseNoteButtons();
-      this.currentlyEditedNotes.classList.remove('visible');
+      if (this.currentlyEditedNotes.classList.contains('verse-notes-empty')) {
+        this.currentlyEditedNotes.classList.remove('visible');
+      }
     }
 
     this.reset();

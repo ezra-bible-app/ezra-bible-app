@@ -676,8 +676,8 @@ h2 {
   color: #3a3a3a;
 }
 
-.visible,
-.darkmode--activated .visible {
+.verse-reference .visible,
+.darkmode--activated .verse-reference .visible {
   color: #2779AA;
   opacity: 1;
   /*visibility: visible;*/
