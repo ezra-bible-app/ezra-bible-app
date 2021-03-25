@@ -67,19 +67,31 @@ class NotesController {
 
     currentVerseListFrame[0].querySelectorAll('.verse-box').forEach(verseBox => {
       const verseNotes = verseBox.querySelector('.verse-notes');
+      verseNotes.classList.remove('visible');
 
       verseBox.querySelector('.notes-info').addEventListener('mousedown', (e) => {
-        console.log('simulate click');
         e.stopPropagation();
-        verseNotes.dispatchEvent(new MouseEvent('click'));
+        if (verseNotes.offsetParent === null) { // if not visible
+          currentVerseListFrame[0].querySelectorAll('.verse-notes.visible').forEach(el => {
+            if (el !== verseNotes) {
+              el.classList.remove('visible');
+            }
+          })
+            verseNotes.classList.add('visible');
+          if (verseNotes.classList.contains('verse-notes-empty')) {
+            verseNotes.dispatchEvent(new MouseEvent('click'));
+          }
+        } else {
+          verseNotes.dispatchEvent(new MouseEvent('click'));
+        }
       });
 
       verseNotes.addEventListener('click', (event) => {
         this.handleNotesClick(event);
       });
     });
-    
-    currentVerseListFrame[0].querySelector('.book-notes').addEventListener('click', (event) =>{
+
+    currentVerseListFrame[0].querySelector('.book-notes').addEventListener('click', (event) => {
       this.handleNotesClick(event);
     });
   }
@@ -191,6 +203,7 @@ class NotesController {
   }
 
   restoreCurrentlyEditedNotes(persist = true) {
+    console.log('fire restoreCurrentlyEditedNotes', this.currentVerseReferenceId);
     if (persist) {
       this.saveEditorContent();
     }
@@ -215,6 +228,7 @@ class NotesController {
         });
 
       this.resetVerseNoteButtons();
+      this.currentlyEditedNotes.classList.remove('visible');
     }
 
     this.reset();
