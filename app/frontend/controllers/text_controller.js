@@ -504,7 +504,8 @@ class TextController {
       saveText: i18n.t("general.save"),
       cancelText: i18n.t("general.cancel"),
       tagHint: i18n.t("bible-browser.tag-hint"),
-      loadSearchResultsText: i18n.t("bible-browser.show-search-results")
+      loadSearchResultsText: i18n.t("bible-browser.show-search-results"),
+      notesHelper
     });
 
     render_function(verses_as_html, verses.length);

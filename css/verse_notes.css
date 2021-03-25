@@ -55,11 +55,6 @@ div.CodeMirror {
 }
 .verse-notes.visible {
   display: block;
-  width: 100%;
-}
-
-.verse-list-with-notes:not(.verse-list-tags-column) .verse-notes:not(.book-notes) {
-  width: 50%;
 }
 
 .verse-list-with-notes .book-notes {

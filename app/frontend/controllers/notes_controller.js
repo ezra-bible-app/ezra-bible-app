@@ -84,9 +84,12 @@ class NotesController {
       });
     });
 
-    currentVerseListFrame[0].querySelector('.book-notes').addEventListener('click', (event) => {
-      this.handleNotesClick(event);
-    });
+    const bookNoteBox = currentVerseListFrame[0].querySelector('.book-notes');
+    if (bookNoteBox) {
+      bookNoteBox.addEventListener('click', (event) => {
+        this.handleNotesClick(event);
+      });
+    }
   }
 
   getCurrentVerseBox() {
@@ -196,7 +199,6 @@ class NotesController {
   }
 
   restoreCurrentlyEditedNotes(persist = true) {
-    console.log('fire restoreCurrentlyEditedNotes', this.currentVerseReferenceId);
     if (persist) {
       this.saveEditorContent();
     }
