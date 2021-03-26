@@ -19,14 +19,10 @@
 div.CodeMirror {
   font: caption;
   background-color: #ecf3f7;
-  margin-bottom: 1em;
-  padding-bottom: 1.5em;
-  height: inherit;
-  min-height: inherit;
 }
 
 .verse-notes {
-  padding: 0.5em;
+  padding: 1em 0.7em 0.2em 1.2em;
   min-height: 4em;
   display: none;
   resize: vertical;
@@ -53,6 +49,9 @@ div.CodeMirror {
   margin-left: 1em;
   width: 25%;
 }
+.verse-list:not(.verse-list-tags-column) .verse-notes:not(.book-notes) {
+  width: 50%;
+}
 .verse-notes.visible {
   display: block;
 }
@@ -64,55 +63,39 @@ div.CodeMirror {
   margin-bottom: 0.5em;
 }
 
-.verse-notes-text {
-  padding-bottom: 0.7em;
-}
 
 .verse-list-with-notes:not(.verse-list-scroll-notes) .verse-notes-text.edited {
   min-height: 18em;
 }
 
-.verse-list-with-notes.verse-list-scroll-notes .verse-notes-text.edited .CodeMirror-scroll {
-  height: 18em;
-}
-
-.CodeMirror-scroll {
-  overflow-x: hidden !important;
-}
-
 .verse-list-scroll-notes .verse-notes-text {
-  max-height: 20em;
+  max-height: 300px; /* CodeMirror default hight */
   overflow-y: hidden;
   overflow-x: hidden;
-  margin-bottom: 0.5em;
 }
 
 .verse-list-scroll-notes .verse-notes:not(.verse-notes-empty) .verse-notes-text:not(.edited) {
   overflow-y: auto;
-  margin-bottom: 2em;
 }
 
-.verse-notes-text:not(.edited) {
-  padding-top: 4px;
-  padding-left: 4px;
+.verse-notes-text {
   line-height: 130%;
 }
 
 .verse-notes-status-bar {
-  position: absolute;
-  bottom: 0.5em;
+  margin-top: 0.5em;
   color: grey;
   font-size: 90%;
   width: 100%;
+  display: flex;
 }
 
 .verse-notes-buttons {
-  float: left;
   display: none;
 }
 
 .verse-notes-timestamp {
-  float: right;
+  margin-left: auto;
   margin-right: 1em;
 }
 
