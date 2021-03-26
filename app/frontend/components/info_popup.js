@@ -91,6 +91,24 @@ class InfoPopup {
     appInfo += "</div>";
 
     appInfo += "<div id='app-info-tabs-3' class='info-tabs scrollable'>";
+    appInfo += `<h2>${i18n.t("general.developers")}</h2>`;
+    appInfo += `
+    <ul>
+      <li><a class='external' href='https://github.com/tobias-klein'>Tobias Klein (Maintainer)</a></li>
+      <li><a class='external' href='https://github.com/zhuiks'>Evgen Kucherov</a></li>
+    </ul>
+    `;
+    appInfo += `<h2>${i18n.t("general.translators")}</h2>`;
+    appInfo += `
+    <ul>
+      <li><a class='external' href='https://github.com/tobias-klein'>Tobias Klein (English, German)</a></li>
+      <li><a class='external' href='https://github.com/LAfricain'>Br Cyrille (French)</a></li>
+      <li><a class='external' href='https://github.com/lemtom'>Tom Lemmens (French, Dutch)</a></li>
+      <li><a class='external' href='https://github.com/reyespinosa1996'>Reinaldo R. Espinosa (Spanish)</a></li>
+      <li><a class='external' href='https://github.com/MartinIIOT'>MartinIIOT (Slovakian)</a></li>
+    </ul>
+    `;
+    appInfo += `<h2>${i18n.t("general.versions-and-paths")}</h2>`;
     appInfo += "<table>";
     appInfo += `<tr><td style='width: 15em;'>${i18n.t("general.application-version")}:</td><td>${version}</td></tr>`;
     appInfo += `<tr><td>${i18n.t("general.git-commit")}:</td><td>${gitCommit}</td></tr>`;

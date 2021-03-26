@@ -128,7 +128,10 @@
     "module-install-cancelled": "annulée.",
     "module-unlock-failed": "échec (problème de déverrouillage).",
     "installing-strongs": "Installation du <i>dictionnaire de Strong</i>",
-    "applying-migrations": "Migration de la base de données vers la nouvelle version"
+    "applying-migrations": "Migration de la base de données vers la nouvelle version",
+    "developers": "Developers",
+    "translators": "Translators",
+    "versions-and-paths": "Versions and paths"
   },
   "help": {
     "help-text-no-tags-book-opened": "Pour commencer à utiliser les étiquettes, créez votre première étiquette en cliquant sur le bouton <i>Nouvelle étiquette</i>.<br/><br/>Ensuite, vous pouvez parcourir le texte biblique, cliquer ou faire glisser les versets, puis attribuer l'étiquette que vous venez de créer.",

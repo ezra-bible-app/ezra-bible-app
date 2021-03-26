@@ -128,7 +128,10 @@
     "module-install-cancelled": "cancelado.",
     "module-unlock-failed": "falló (problema de desbloqueo).",
     "installing-strongs": "Instalando <i>Strong's dictionaries</i>",
-    "applying-migrations": "Migrando la base de datos a una nueva versión"
+    "applying-migrations": "Migrando la base de datos a una nueva versión",
+    "developers": "Developers",
+    "translators": "Translators",
+    "versions-and-paths": "Versions and paths"
   },
   "help": {
     "help-text-no-tags-book-opened": "Para comenzar trabajando con las etiquetas, debe crear su primera etiqueta pulsando en el botón <i>Nueva&nbsp;etiqueta</i>.<br/><br/>Después usted podrá seleccionar los textos de La Biblia que desee, para ello pulse sobre un verso o arrastre para seleccionar varios versos y asigne los a la etiqueta que acaba de crear.",

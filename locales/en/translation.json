@@ -128,7 +128,10 @@
     "module-install-cancelled": "cancelled.",
     "module-unlock-failed": "failed (Unlock issue).",
     "installing-strongs": "Installing <i>Strong's dictionaries</i>",
-    "applying-migrations": "Migrating database to new version"
+    "applying-migrations": "Migrating database to new version",
+    "developers": "Developers",
+    "translators": "Translators",
+    "versions-and-paths": "Versions and paths"
   },
   "help": {
     "help-text-no-tags-book-opened": "To start working with tags, create your first tag by clicking on the button <i>New&nbsp;tag</i>.<br/><br/>After that you can browse the Bible text, click or drag-select verses and then assign the tag you just created.",
