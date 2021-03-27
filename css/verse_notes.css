@@ -81,7 +81,9 @@ div.CodeMirror {
 .verse-notes-text {
   line-height: 130%;
 }
-
+.verse-notes-text>*{
+  padding-right: 1em;
+}
 .verse-notes-status-bar {
   margin-top: 0.5em;
   color: grey;

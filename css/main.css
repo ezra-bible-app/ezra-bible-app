@@ -339,6 +339,7 @@ h2 {
   padding: 0.2em;
   display: flex;
   flex: 1 1;  
+  flex-wrap: wrap;
 }
 .verse-text-and-tags {
   flex: 1 1;
