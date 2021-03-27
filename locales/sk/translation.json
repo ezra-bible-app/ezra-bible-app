@@ -175,6 +175,7 @@
     "searching-for": "Hľadať",
     "search-result-header": "Výsledky hľadania pre ",
     "no-search-results": "Žiadne výsledky vyhľadávania pre ",
+    "module-search-cancelled": "Module search cancelled when searching for ",
     "load-verse-context": "Načítajte kontext tohto verša",
     "tag-hint": "Kliknutím zobrazíte všetky verše s týmto štítkom",
     "show-search-results": "Zobraziť výsledky vyhľadávania",

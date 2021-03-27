@@ -34,7 +34,7 @@ class ModuleSearchController {
     this.searchResultPerformanceLimit = platformHelper.getSearchResultPerformanceLimit();
   }
 
-  initModuleSearchMenu(tabIndex=undefined) {
+  initModuleSearch(tabIndex=undefined) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.module-search-button').bind('click', (event) => { this.handleSearchMenuClick(event); });
     
@@ -53,6 +53,17 @@ class ModuleSearchController {
     var selectField = document.getElementById('module-search-menu').querySelector('#search-type');
     $(selectField).on("change", () => {
       this.validateSearchTerm();
+    });
+
+    var cancelSearchButtonContainer = app_controller.getCurrentSearchCancelButtonContainer(tabIndex);
+    var cancelSearchButton = cancelSearchButtonContainer.find('button');
+
+    cancelSearchButton[0].addEventListener('mousedown', async (event) => {
+      $(event.target).removeClass('ui-state-active');
+      $(event.target).addClass('ui-state-disabled');
+      var tab = app_controller.tab_controller.getTab();
+      tab.setSearchCancelled(true);
+      ipcNsi.terminateModuleSearch();
     });
   }
 
@@ -207,6 +218,7 @@ class ModuleSearchController {
       var tab = app_controller.tab_controller.getTab();
       tab.setSearchOptions(this.getSearchType(), this.isCaseSensitive(), this.useExtendedVerseBoundaries());
       tab.setTextType('search_results');
+      tab.setSearchCancelled(false);
     }
 
     //console.log("Starting search for " + this.currentSearchTerm + " on tab " + tabIndex);
@@ -238,8 +250,13 @@ class ModuleSearchController {
 
       if (tabIndex == undefined || tabIndex == app_controller.tab_controller.getSelectedTabIndex()) {
         var searchProgressBar = app_controller.getCurrentSearchProgressBar();
+        var cancelSearchButtonContainer = app_controller.getCurrentSearchCancelButtonContainer(tabIndex);
+        var cancelSearchButton = cancelSearchButtonContainer.find('button');
+        cancelSearchButton.removeClass('ui-state-disabled');
+
         uiHelper.initProgressBar(searchProgressBar);
         searchProgressBar.show();
+        cancelSearchButtonContainer.show();
       }
 
       // Only reset view if we got an event (in other words: not initially)
@@ -324,7 +341,14 @@ class ModuleSearchController {
     if (currentSearchResults.length > 0) {
       moduleSearchHeaderText = i18n.t("bible-browser.search-result-header") + ' <i>' + currentSearchTerm + '</i> (' + currentSearchResults.length + ')';
     } else {
-      moduleSearchHeaderText = i18n.t("bible-browser.no-search-results") + ' <i>' + currentSearchTerm + '</i>';
+      var tab = app_controller.tab_controller.getTab(tabIndex);
+      var searchCancelled = tab != null ? tab.isSearchCancelled() : false;
+
+      if (searchCancelled) {
+        moduleSearchHeaderText = i18n.t("bible-browser.module-search-cancelled") + ' <i>' + currentSearchTerm + '</i>';
+      } else {
+        moduleSearchHeaderText = i18n.t("bible-browser.no-search-results") + ' <i>' + currentSearchTerm + '</i>';
+      }
     }
 
     var header = "<h2>" + moduleSearchHeaderText + "</h2>";

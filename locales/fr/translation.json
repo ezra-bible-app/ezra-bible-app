@@ -175,6 +175,7 @@
     "searching-for": "Recherche",
     "search-result-header": "Résultat des recherches pour ",
     "no-search-results": "Aucun résultat trouvé lors de la recherche de ",
+    "module-search-cancelled": "Module search cancelled when searching for ",
     "load-verse-context": "Charger le contexte de ce verset",
     "tag-hint": "Cliquez pour afficher tous les versets liés à cette étiquette",
     "show-search-results": "Afficher les résultats de recherche",

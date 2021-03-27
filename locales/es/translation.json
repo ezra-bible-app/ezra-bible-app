@@ -175,6 +175,7 @@
     "searching-for": "Buscando",
     "search-result-header": "Resultados para ",
     "no-search-results": "No se encontraron resultados para la consulta ",
+    "module-search-cancelled": "Module search cancelled when searching for ",
     "load-verse-context": "Cargar el contexto del verso",
     "tag-hint": "Pulse para mostrar todos los versos con esta etiqueta",
     "show-search-results": "Mostrar resultados de la búsqueda",

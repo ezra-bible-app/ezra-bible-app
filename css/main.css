@@ -1173,7 +1173,7 @@ h2 {
   display: none;
 }
 
-#cancel-module-installation-button {
+#cancel-module-installation-button, .cancel-module-search-button {
   height: 2.2em;
   margin-top: 1em;
   margin-left: 1em;

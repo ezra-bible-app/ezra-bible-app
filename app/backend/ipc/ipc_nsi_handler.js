@@ -220,6 +220,10 @@ class IpcNsiHandler {
       'nsi_updateSearchProgress'
     );
 
+    this._ipcMain.add('nsi_terminateModuleSearch', () => {
+      return this._nsi.terminateModuleSearch();
+    });
+
     this._ipcMain.add('nsi_hebrewStrongsAvailable', () => {
       return this._nsi.hebrewStrongsAvailable();
     });
