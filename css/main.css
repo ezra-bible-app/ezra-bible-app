@@ -1338,6 +1338,11 @@ h2 {
   opacity: 0.5;
 }
 
+.selected-verses {
+  display: inline-block;
+  width: 17em;
+}
+
 .selected-verses a:link,
 .selected-verses a:visited {
   color: black;
