@@ -566,9 +566,9 @@ class TagsController {
    * It does this for the currently opened tab and also within all other tabs where the corresponding verse is loaded.
    */
   async changeVerseListTagInfo(tag_id,
-                                   tag_title,
-                                   verse_selection,
-                                   action) {
+                               tag_title,
+                               verse_selection,
+                               action) {
 
     verse_selection = $(verse_selection);
     var selected_verses = verse_selection.find('verse');
