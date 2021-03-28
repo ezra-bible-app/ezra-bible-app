@@ -102,7 +102,7 @@ class InfoPopup {
     appInfo += `
     <ul>
       <li><a class='external' href='https://github.com/tobias-klein'>Tobias Klein (English, German)</a></li>
-      <li><a class='external' href='https://github.com/LAfricain'>Br Cyrille (French)</a></li>
+      <li><a class='external' href='https://gitlab.com/lafricain79'>Br Cyrille (French)</a></li>
       <li><a class='external' href='https://github.com/lemtom'>Tom Lemmens (French, Dutch)</a></li>
       <li><a class='external' href='https://github.com/reyespinosa1996'>Reinaldo R. Espinosa (Spanish)</a></li>
       <li><a class='external' href='https://github.com/MartinIIOT'>MartinIIOT (Slovakian)</a></li>
