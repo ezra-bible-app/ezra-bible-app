@@ -19,10 +19,11 @@
 div.CodeMirror {
   font: caption;
   background-color: #ecf3f7;
+  border-radius: 4px;
 }
 
 .verse-notes {
-  padding: 1em 0.7em 0.2em 1.2em;
+  padding: 1em 1em 0.2em;
   min-height: 4em;
   display: none;
   resize: vertical;
@@ -90,10 +91,14 @@ div.CodeMirror {
   font-size: 90%;
   width: 100%;
   display: flex;
+  padding-left: 3px;
 }
 
 .verse-notes-buttons {
   display: none;
+}
+.verse-notes-buttons i.fas {
+  margin-right: 0.4em;
 }
 
 .verse-notes-timestamp {
@@ -145,4 +150,13 @@ div.CodeMirror {
 .verse-notes p {
   margin-top: 0;
   margin-bottom: 1em;
+}
+
+.verse-list:not(.verse-list-with-notes) .verse-reference .active i.fas {
+  -webkit-text-stroke: 1px #f2f5f7; /* body background-color */
+  text-shadow: 1px 1px 0, -1px -1px 0, 1px -1px 0, -1px 1px 0;
+}
+
+.darkmode--activated .verse-list .verse-reference .active i.fas {
+  -webkit-text-stroke-color: #1e1e1e;
 }

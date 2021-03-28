@@ -71,6 +71,7 @@ class NotesController {
 
       verseBox.querySelector('.notes-info').addEventListener('mousedown', (e) => {
         e.stopPropagation();
+        e.target.closest('.notes-info').classList.toggle('active');
         verseNotes.classList.toggle('visible');
 
         if (verseNotes.classList.contains('verse-notes-empty')) {
@@ -119,12 +120,27 @@ class NotesController {
     }
   }
 
+  updateActiveIndicator(noteValue) {
+    var currentVerseBox = this.getCurrentVerseBox();
+    if (currentVerseBox == null) {
+      return;
+    }
+
+    var notesInfo = currentVerseBox.querySelector('.notes-info');
+
+    if (notesInfo != null && noteValue == '') {
+        notesInfo.classList.remove('active');
+    }
+  }
+
   async saveEditorContent() {
     var currentVerseBox = this.getCurrentVerseBox();
 
     if (this.currentlyEditedNotes != null && currentVerseBox != null) {
       var currentNoteValue = this.currentEditor.getValue();
       var previousNoteValue = this.currentlyEditedNotes.getAttribute('notes-content');
+
+      this.updateActiveIndicator(currentNoteValue);
 
       if (currentNoteValue != previousNoteValue) {
         currentNoteValue = currentNoteValue.trim();

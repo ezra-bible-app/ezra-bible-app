@@ -154,7 +154,6 @@ h2 {
 
 .verse-list,
 .reference-verse {
-  padding: 0.5em;
   font: caption;
   font-size: 1em;
   line-height: 150%;
@@ -313,6 +312,7 @@ h2 {
 .verse-reference {
   display: flex;
   padding-top: 0.3em;
+  margin-left: 0.5em;
   width: 8em; /* Needs to be bigger to support notes and x-refs, aligned with .verse-content */
   /*height: 1.5em;*/
   /* z-index: 100; */
@@ -337,8 +337,9 @@ h2 {
 
 .verse-content {
   padding: 0.2em;
-  display: flex;
   flex: 1 1;  
+  display: flex;
+  align-items: start;
   flex-wrap: wrap;
 }
 .verse-text-and-tags {
@@ -1262,6 +1263,7 @@ h2 {
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   margin-left: 0.7em;
+  margin-right: 0.5em;
   font-size: 1.2em;
 }
 
