@@ -1150,7 +1150,7 @@ h2 {
   display: none;
 }
 
-#cancel-module-installation-button {
+#cancel-module-installation-button, .cancel-module-search-button {
   height: 2.2em;
   margin-top: 1em;
   margin-left: 1em;
@@ -1314,6 +1314,11 @@ h2 {
 
 .transparent {
   opacity: 0.5;
+}
+
+.selected-verses {
+  display: inline-block;
+  width: 17em;
 }
 
 .selected-verses a:link,

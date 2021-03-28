@@ -175,6 +175,7 @@
     "searching-for": "Zoeken naar",
     "search-result-header": "Zoekresultaten voor ",
     "no-search-results": "Geen resultaten gevonden tijdens het zoeken naar ",
+    "module-search-cancelled": "Module search cancelled when searching for ",
     "load-verse-context": "Laad de context van dit vers",
     "tag-hint": "Klik om alle verzen met deze tag te tonen",
     "show-search-results": "Toon zoekresultaten",

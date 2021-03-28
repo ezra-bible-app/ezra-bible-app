@@ -261,7 +261,7 @@ class AppController {
     await this.initCurrentVerseListMenu(tabIndex);
     this.tag_selection_menu.init(tabIndex);
     this.tag_assignment_menu.init(tabIndex);
-    this.module_search_controller.initModuleSearchMenu(tabIndex);
+    this.module_search_controller.initModuleSearch(tabIndex);
     await this.translation_controller.initTranslationsMenu(previousTabIndex, tabIndex);
     this.info_popup.initAppInfoButton();
     this.textSizeSettings.init(tabIndex);
@@ -543,6 +543,12 @@ class AppController {
     return searchProgressBar;
   }
 
+  getCurrentSearchCancelButtonContainer(tabIndex=undefined) {
+    var currentVerseListComposite = this.getCurrentVerseListComposite(tabIndex);
+    var searchCancelButton = currentVerseListComposite.find('.cancel-module-search-button-container');
+    return searchCancelButton;
+  }
+
   showVerseListLoadingIndicator(message=undefined, withLoader=true) {
     var loadingIndicator = this.getCurrentVerseListLoadingIndicator();
     var loadingText = loadingIndicator.find('.verse-list-loading-indicator-text');
@@ -569,6 +575,9 @@ class AppController {
   hideSearchProgressBar() {
     var searchProgressBar = this.getCurrentSearchProgressBar();
     searchProgressBar.hide();
+
+    var cancelSearchButtonContainer = this.getCurrentSearchCancelButtonContainer();
+    cancelSearchButtonContainer.hide();
   }
 
   async updateTagsView(tabIndex) {
