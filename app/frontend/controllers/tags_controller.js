@@ -228,6 +228,11 @@ class TagsController {
   }
 
   async save_new_tag(e, type) {
+    app_controller.translation_controller.showTextLoadingIndicator();
+    $(e).dialog("close");
+
+    await waitUntilIdle(); // Give the dialog some time to close
+
     var new_tag_title = $('#new-' + type + '-tag-title-input').val();
     tags_controller.new_tag_created = true;
     this.last_created_tag = new_tag_title;
@@ -242,7 +247,7 @@ class TagsController {
     await tags_controller.tag_store.updateLatestAndOldestTagData();
     await tags_controller.update_tags_view_after_verse_selection(true);
 
-    $(e).dialog("close");
+    app_controller.translation_controller.hideTextLoadingIndicator();
   }
 
   handle_new_tag_button_click(button, type) {
