@@ -48,11 +48,14 @@ div.CodeMirror {
 
 .verse-notes:not(.book-notes) {
   margin-left: 1em;
-  width: 25%;
+  width: 27%;
 }
+
+.verse-list-without-tags .verse-notes:not(.book-notes),
 .verse-list:not(.verse-list-tags-column) .verse-notes:not(.book-notes) {
   width: 50%;
 }
+
 .verse-notes.visible {
   display: block;
 }
@@ -63,7 +66,6 @@ div.CodeMirror {
   margin-top: 1em;
   margin-bottom: 0.5em;
 }
-
 
 .verse-list-with-notes:not(.verse-list-scroll-notes) .verse-notes-text.edited {
   min-height: 18em;
@@ -82,9 +84,11 @@ div.CodeMirror {
 .verse-notes-text {
   line-height: 130%;
 }
+
 .verse-notes-text>*{
   padding-right: 1em;
 }
+
 .verse-notes-status-bar {
   margin-top: 0.5em;
   color: grey;
@@ -97,6 +101,7 @@ div.CodeMirror {
 .verse-notes-buttons {
   display: none;
 }
+
 .verse-notes-buttons i.fas {
   margin-right: 0.4em;
 }
