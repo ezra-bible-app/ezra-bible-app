@@ -1278,6 +1278,11 @@ class TagsController {
       } else {
         assignLastTagButton.removeClass('ui-state-disabled');
       }
+
+      // Resize the verse list in case the tag label change had an impact on the
+      // verse list menu (number of lines changed).
+      await waitUntilIdle();
+      uiHelper.resizeVerseList();
     }
   }
 }
