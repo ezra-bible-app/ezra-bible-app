@@ -171,7 +171,7 @@ class StartupController
       }
     });
   
-    tags_controller.init_ui();
+    tags_controller.initTagsUI();
     uiHelper.configureButtonStyles();
   
     if (!platformHelper.isMac()) {

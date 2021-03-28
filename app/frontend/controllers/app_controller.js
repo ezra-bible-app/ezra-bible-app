@@ -387,14 +387,14 @@ class AppController {
     });
 
     currentVerseListMenu.find('.new-standard-tag-button').bind('click', function() {
-      tags_controller.handle_new_tag_button_click($(this), "standard");
+      tags_controller.handleNewTagButtonClick($(this), "standard");
     });
 
     currentVerseListMenu.find('.assign-last-tag-button').bind('click', async (event) => {
       if (!event.target.classList.contains('ui-state-disabled')) {
         this.translation_controller.showTextLoadingIndicator();
         await waitUntilIdle();
-        await tags_controller.assign_last_tag();
+        await tags_controller.assignLastTag();
         this.translation_controller.hideTextLoadingIndicator();
       }
     });
@@ -590,7 +590,7 @@ class AppController {
       var currentSearchTerm = currentTab.getSearchTerm();
       if ((currentTabBook != undefined && currentTabBook != null) || currentTagIdList != null || currentSearchTerm != null) {
         await waitUntilIdle();
-        tags_controller.update_tag_list(currentTabBook);
+        tags_controller.updateTagList(currentTabBook);
       }
     }
   }
@@ -900,7 +900,7 @@ class AppController {
                                          null,
                                          null);
       await waitUntilIdle();
-      tags_controller.update_tag_list();
+      tags_controller.updateTagList();
     }
   }
 

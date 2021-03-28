@@ -162,7 +162,7 @@ class BookSelectionMenu {
                                                              null);
 
       await waitUntilIdle();
-      tags_controller.update_tag_list(currentBook);
+      tags_controller.updateTagList(currentBook);
     }, 50);
   }
 
