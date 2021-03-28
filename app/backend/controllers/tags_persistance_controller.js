@@ -32,9 +32,7 @@ class TagsPersistanceController
       });
 
       await this._models.MetaRecord.updateLastModified();
-      // Set sequelize attribute to null, because it cannot be properly serialized!
-      newTag._modelOptions.sequelize = null;
-      return newTag;
+      return newTag.dataValues;
 
     } catch (error) {
       console.error('An error occurred while trying to save the new tag: ' + error);
