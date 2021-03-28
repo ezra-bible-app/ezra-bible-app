@@ -32,7 +32,7 @@ each tag in tags
   
   - var visible = true
   if current_filter != ''
-    - var visible = tags_controller.tag_title_matches_filter(tag.title, current_filter);
+    - var visible = tags_controller.tagTitleMatchesFilter(tag.title, current_filter);
 
   - var visibility = "";
   if !visible

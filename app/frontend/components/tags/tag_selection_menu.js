@@ -110,7 +110,7 @@ class TagSelectionMenu {
   }
 
   async requestTagsForMenu(forceRefresh=false) {
-    var tags = await tags_controller.get_tag_list(forceRefresh);
+    var tags = await tags_controller.getTagList(forceRefresh);
     this.renderTagsInMenu(tags);
     this.tag_menu_populated = true;
   }

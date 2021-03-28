@@ -381,7 +381,7 @@ class VerseSelection {
 
     this.getSelectedVersesLabel().html(selectedVerseDisplayText);
 
-    await tags_controller.update_tags_view_after_verse_selection(false);
+    await tags_controller.updateTagsViewAfterVerseSelection(false);
     
     var currentTab = app_controller.tab_controller.getTab();
 

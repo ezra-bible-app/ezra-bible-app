@@ -123,14 +123,14 @@ class TagAssignmentMenu {
       $('#tag-filter-menu').show();
 
       $('#tag-list-filter-button').unbind();
-      $('#tag-list-filter-button').bind('click', tags_controller.handle_filter_button_click);
+      $('#tag-list-filter-button').bind('click', tags_controller.handleFilterButtonClick);
       $('#tag-filter-menu').find('input').unbind();
-      $('#tag-filter-menu').find('input').bind('click', tags_controller.handle_tag_filter_type_click);
+      $('#tag-filter-menu').find('input').bind('click', tags_controller.handleTagFilterTypeClick);
 
       updated = true;
 
     } else if (parentId == menuId && !moveToMenu) {
-      tags_controller.handle_tag_accordion_change();
+      tags_controller.handleTagAccordionChange();
       var toolBar = document.getElementById(toolBarId);
       var boxes = document.getElementById('boxes');
       toolBar.appendChild(tagsContainer);

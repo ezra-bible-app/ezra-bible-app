@@ -143,7 +143,7 @@ class VerseContextController {
     selected_verse_box.find('.verse-text').addClass('ui-selected');
 
     // Update the tags view after the selection
-    tags_controller.update_tags_view_after_verse_selection(true);
+    tags_controller.updateTagsViewAfterVerseSelection(true);
 
     app_controller.bindEventsAfterBibleTextLoaded(undefined, true);
   }
