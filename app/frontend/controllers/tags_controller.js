@@ -33,7 +33,7 @@ class TagsController {
     loadScript("app/templates/tag_list.js");
 
     this.tag_store = new TagStore();
-    this.tag_store.onLatestUsedTagChanged = (tagId) => { this.onLatestUsedTagChanged(tagId) };
+    this.tag_store.onLatestUsedTagChanged = (tagId) => { app_controller.assign_last_tag_button.onLatestUsedTagChanged(tagId) };
     this.verse_box_helper = new VerseBoxHelper();
     this.tag_stats_element_cache = {};
 
@@ -207,7 +207,7 @@ class TagsController {
     
     if (tags_controller.rename_standard_tag_id == tags_controller.tag_store.latest_tag_id) {
       await tags_controller.tag_store.renameTag(tags_controller.rename_standard_tag_id, new_title);
-      tags_controller.onLatestUsedTagChanged(undefined, undefined);
+      app_controller.assign_last_tag_button.onLatestUsedTagChanged(undefined, undefined);
     }
 
     await tags_controller.updateTagsViewAfterVerseSelection(true);
@@ -550,7 +550,7 @@ class TagsController {
     this.dropCachedTagStats(job.id);
 
     await ipcDb.removeTagFromVerses(job.id, verse_boxes);
-    await this.onLatestUsedTagChanged(job.id, false);
+    await app_controller.assign_last_tag_button.onLatestUsedTagChanged(job.id, false);
 
     var currentBook = app_controller.tab_controller.getTab().getBook();
     tags_controller.updateTagCountAfterRendering(currentBook != null);
@@ -940,35 +940,6 @@ class TagsController {
     return verse_selection_tags;
   }
 
-  async refreshLastTagButtonState(versesSelected, selectedVerseTags) {
-    if (versesSelected) {
-      if (this.tag_store.latest_tag_id != null) {
-        var tagFound = false;
-
-        for (var i = 0; i < selectedVerseTags.length; i++) {
-          var currentTagTitle = selectedVerseTags[i].title;
-          var latestTag = await this.tag_store.getTag(this.tag_store.latest_tag_id);
-
-          if (currentTagTitle == latestTag.title) {
-            tagFound = true;
-            break;
-          }
-        }
-
-        if (!tagFound || selectedVerseTags.length == 0) {
-          $('.assign-last-tag-button').removeClass('ui-state-disabled');
-        } else {
-          $('.assign-last-tag-button').addClass('ui-state-disabled');
-        }
-
-      } else {
-        $('.assign-last-tag-button').addClass('ui-state-disabled');
-      }
-    } else {
-      $('.assign-last-tag-button').addClass('ui-state-disabled');
-    }
-  }
-
   async updateTagsViewAfterVerseSelection(force) {
     //console.time('updateTagsViewAfterVerseSelection');
     if (tags_controller.verse_selection_blocked && force !== true) {
@@ -1003,7 +974,7 @@ class TagsController {
       this.verses_were_selected_before = false;
     }
 
-    await this.refreshLastTagButtonState(versesSelected, selected_verse_tags);
+    await app_controller.assign_last_tag_button.refreshLastTagButtonState(versesSelected, selected_verse_tags);
     //console.timeEnd('updateTagsViewAfterVerseSelection');
   }
 
@@ -1251,39 +1222,6 @@ class TagsController {
   hideTagListLoadingIndicator() {
     var loadingIndicator = $('#tags-loading-indicator');
     loadingIndicator.hide();
-  }
-
-  async onLatestUsedTagChanged(tagId=undefined, added=true, currentDbTag=undefined) {
-    if (currentDbTag != undefined) {
-      tagId = currentDbTag.id;
-    } else if (tagId == undefined) {
-      tagId = this.tag_store.latest_tag_id;
-    }
-
-    var currentTag = null;
-
-    if (currentDbTag != undefined) {
-      currentTag = currentDbTag;
-    } else {
-      currentTag = await this.tag_store.getTag(tagId);
-    }
-
-    if (currentTag != null) {
-      var assignLastTagButton = $('.assign-last-tag-button');
-      var label = i18n.t('tags-toolbar.assign-last-tag') + ': ' + currentTag.title;
-      assignLastTagButton.text(label);
-
-      if (added) {
-        assignLastTagButton.addClass('ui-state-disabled');
-      } else {
-        assignLastTagButton.removeClass('ui-state-disabled');
-      }
-
-      // Resize the verse list in case the tag label change had an impact on the
-      // verse list menu (number of lines changed).
-      await waitUntilIdle();
-      uiHelper.resizeVerseList();
-    }
   }
 }
 

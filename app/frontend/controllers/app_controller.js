@@ -21,9 +21,12 @@ const VerseBox = require('../ui_models/verse_box.js');
 
 const VerseBoxHelper = require("../helpers/verse_box_helper.js");
 const VerseSelection = require("../components/verse_selection.js");
-const TagSelectionMenu = require("../components/tags/tag_selection_menu.js");
 const VerseListPopup = require("../components/verse_list_popup.js");
+const TagSelectionMenu = require("../components/tags/tag_selection_menu.js");
 const TagAssignmentMenu = require("../components/tags/tag_assignment_menu.js");
+const AssignLastTagButton = require("../components/tags/assign_last_tag_button.js");
+const TagStatistics = require("../components/tags/tag_statistics.js");
+const TaggedVerseExport = require("../components/tags/tagged_verse_export.js");
 const ModuleSearchController = require("./module_search_controller.js");
 const TranslationController = require("./translation_controller.js");
 const InstallModuleAssistant = require("../components/module_assistant/install_module_assistant.js");
@@ -34,10 +37,8 @@ const BookSearch = require("../components/tab_search/tab_search.js");
 const TabController = require("./tab_controller.js");
 const OptionsMenu = require("../components/options_menu.js");
 const NavigationPane = require("../components/navigation_pane.js");
-const TaggedVerseExport = require("../components/tags/tagged_verse_export.js");
 const TranslationComparison = require("../components/translation_comparison.js");
 const BookSelectionMenu = require("../components/book_selection_menu.js");
-const TagStatistics = require("../components/tags/tag_statistics.js");
 const DictionaryController = require("./dictionary_controller.js");
 const NotesController = require("./notes_controller.js");
 const SwordNotes = require("../components/sword_notes.js");
@@ -88,6 +89,9 @@ class AppController {
     this.init_component("VerseSelection", "verse_selection");
     this.init_component("TagSelectionMenu", "tag_selection_menu");
     this.init_component("TagAssignmentMenu", "tag_assignment_menu");
+    this.init_component("TaggedVerseExport", "taggedVerseExport");
+    this.init_component("TagStatistics", "tag_statistics");
+    this.init_component("AssignLastTagButton", "assign_last_tag_button");
     this.init_component("ModuleSearchController", "module_search_controller");
     this.init_component("TranslationController", "translation_controller");
     this.init_component("InstallModuleAssistant", "install_module_assistant");
@@ -98,11 +102,9 @@ class AppController {
     this.init_component("TabController", "tab_controller");
     this.init_component("OptionsMenu", "optionsMenu");
     this.init_component("NavigationPane", "navigation_pane");
-    this.init_component("TaggedVerseExport", "taggedVerseExport");
     this.init_component("TranslationComparison", "translationComparison");
     this.init_component("BookSelectionMenu", "book_selection_menu");
     this.init_component("VerseListPopup", "verse_list_popup");
-    this.init_component("TagStatistics", "tag_statistics");
     this.init_component("DictionaryController", "dictionary_controller");
     this.init_component("NotesController", "notes_controller");
     this.init_component("SwordNotes", "sword_notes");
@@ -279,7 +281,7 @@ class AppController {
     this.book_selection_menu.clearSelectedBookInMenu();
 
     // We need to refresh the last used tag button, because the button is not yet initialized in the tab html template
-    tags_controller.onLatestUsedTagChanged(undefined, undefined);
+    app_controller.assign_last_tag_button.onLatestUsedTagChanged(undefined, undefined);
   }
 
   async onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId) {
@@ -390,15 +392,7 @@ class AppController {
       tags_controller.handleNewTagButtonClick($(this), "standard");
     });
 
-    currentVerseListMenu.find('.assign-last-tag-button').bind('click', async (event) => {
-      if (!event.target.classList.contains('ui-state-disabled')) {
-        this.translation_controller.showTextLoadingIndicator();
-        await waitUntilIdle();
-        await tags_controller.assignLastTag();
-        this.translation_controller.hideTextLoadingIndicator();
-      }
-    });
-
+    this.assign_last_tag_button.init(tabIndex);
     this.translationComparison.initButtonEvents();
     this.verse_context_controller.initButtonEvents();
 
