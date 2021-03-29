@@ -272,7 +272,7 @@ class TagSelectionMenu {
     return tag_list;
   }
 
-  handleTagCbClick() {
+  async handleTagCbClick() {
     var currentTagIdList = this.selectedTagIds();
     var currentTagTitleList = this.selectedTagTitles();
     app_controller.openTaggedVerses(currentTagIdList, currentTagTitleList);
@@ -281,7 +281,7 @@ class TagSelectionMenu {
   bindTagCbEvents() {
     var cbs = document.querySelectorAll('.tag-browser-tag-cb');
     for (var i = 0; i < cbs.length; i++) {
-      cbs[i].addEventListener('click', () => { this.handleTagCbClick(); });
+      cbs[i].addEventListener('click', async () => { this.handleTagCbClick(); });
       cbs[i].removeAttribute('checked');
       cbs[i].removeAttribute('disabled');
     }

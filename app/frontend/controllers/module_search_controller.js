@@ -71,7 +71,19 @@ class ModuleSearchController {
     cancelSearchButton.addClass('ui-state-disabled');
     var tab = app_controller.tab_controller.getTab(this.currentSearchTabIndex);
     tab.setSearchCancelled(true);
-    ipcNsi.terminateModuleSearch();
+
+    var searchProgressBar = app_controller.getCurrentSearchProgressBar(this.currentSearchTabIndex);
+    var currentProgressValue = null;
+
+    try {
+      currentProgressValue = parseInt(searchProgressBar[0].getAttribute("aria-valuenow"));
+    } catch (e) {}
+
+    if (currentProgressValue != null && !isNaN(currentProgressValue)) {
+      if (currentProgressValue <= 90) {
+        await ipcNsi.terminateModuleSearch();
+      }
+    }
   }
 
   validateSearchTerm() {
@@ -290,11 +302,11 @@ class ModuleSearchController {
         currentTab.setSearchResults(searchResults);
 
         var requestedBookId = -1; // all books requested
-        if (this.searchResultsExceedPerformanceLimit(tabIndex)) {
+        if (this.searchResultsExceedPerformanceLimit(this.currentSearchTabIndex)) {
           requestedBookId = 0; // no books requested - only list headers at first
         }
   
-        await this.renderCurrentSearchResults(requestedBookId, tabIndex);
+        await this.renderCurrentSearchResults(requestedBookId, this.currentSearchTabIndex);
       } catch (error) {
         console.log(error);
         app_controller.hideVerseListLoadingIndicator();
@@ -328,20 +340,20 @@ class ModuleSearchController {
 
     if (currentSearchResults.length > 0) {
       await app_controller.text_controller.requestTextUpdate(currentTabId,
-                                                                   null,
-                                                                   null,
-                                                                   cachedText,
-                                                                   null,
-                                                                   currentSearchResults,
-                                                                   null,
-                                                                   tabIndex,
-                                                                   requestedBookId,
-                                                                   target);
+                                                             null,
+                                                             null,
+                                                             cachedText,
+                                                             null,
+                                                             currentSearchResults,
+                                                             null,
+                                                             tabIndex,
+                                                             requestedBookId,
+                                                             target);
       
     } else {
-      app_controller.hideVerseListLoadingIndicator();
-      uiHelper.hideTextLoadingIndicator();
-      app_controller.hideSearchProgressBar();
+      app_controller.hideVerseListLoadingIndicator(this.currentSearchTabIndex);
+      uiHelper.hideTextLoadingIndicator(this.currentSearchTabIndex);
+      app_controller.hideSearchProgressBar(this.currentSearchTabIndex);
     }
 
     this.hideSearchMenu();

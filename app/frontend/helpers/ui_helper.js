@@ -203,19 +203,19 @@ class UiHelper {
     }
   }
 
-  getCurrentTextLoadingIndicator() {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
+  getCurrentTextLoadingIndicator(tabIndex=undefined) {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     var loadingIndicator = currentVerseListMenu.find('.loader');
     return loadingIndicator;
   }
 
-  showTextLoadingIndicator() {
-    var textLoadingIndicator = this.getCurrentTextLoadingIndicator();
+  showTextLoadingIndicator(tabIndex=undefined) {
+    var textLoadingIndicator = this.getCurrentTextLoadingIndicator(tabIndex);
     textLoadingIndicator.show();
   }
 
-  hideTextLoadingIndicator() {
-    var textLoadingIndicator = this.getCurrentTextLoadingIndicator();
+  hideTextLoadingIndicator(tabIndex=undefined) {
+    var textLoadingIndicator = this.getCurrentTextLoadingIndicator(tabIndex);
     textLoadingIndicator.hide();
   }
 }
