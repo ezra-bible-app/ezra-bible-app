@@ -58,13 +58,20 @@ class ModuleSearchController {
     var cancelSearchButtonContainer = app_controller.getCurrentSearchCancelButtonContainer(tabIndex);
     var cancelSearchButton = cancelSearchButtonContainer.find('button');
 
-    cancelSearchButton[0].addEventListener('mousedown', async (event) => {
-      $(event.target).removeClass('ui-state-active');
-      $(event.target).addClass('ui-state-disabled');
-      var tab = app_controller.tab_controller.getTab();
-      tab.setSearchCancelled(true);
-      ipcNsi.terminateModuleSearch();
+    cancelSearchButton[0].addEventListener('mousedown', async () => {
+      this.cancelModuleSearch();
     });
+  }
+
+  async cancelModuleSearch() {
+    var cancelSearchButtonContainer = app_controller.getCurrentSearchCancelButtonContainer(this.currentSearchTabIndex);
+    var cancelSearchButton = cancelSearchButtonContainer.find('button');
+
+    cancelSearchButton.removeClass('ui-state-active');
+    cancelSearchButton.addClass('ui-state-disabled');
+    var tab = app_controller.tab_controller.getTab(this.currentSearchTabIndex);
+    tab.setSearchCancelled(true);
+    ipcNsi.terminateModuleSearch();
   }
 
   validateSearchTerm() {
@@ -208,6 +215,8 @@ class ModuleSearchController {
     if (this.currentSearchTerm.length == 0) {
       return;
     }
+
+    this.currentSearchTabIndex = app_controller.tab_controller.getSelectedTabIndex();
 
     // Do not allow another concurrent search, disable the search menu button
     $('.module-search-button').addClass('ui-state-disabled');
