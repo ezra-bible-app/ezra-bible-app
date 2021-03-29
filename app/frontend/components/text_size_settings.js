@@ -43,7 +43,6 @@ class TextSizeSettings {
   }
 
   async init(tabIndex = undefined) {
-
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find(this.openMenuButton).bind('click', (e) => {
       e.stopPropagation()
@@ -54,16 +53,16 @@ class TextSizeSettings {
       }
     });
 
-    currentVerseListMenu.find('.text-size-reset').bind('click', () => {
-      this.resetSize();
+    currentVerseListMenu.find('.text-size-reset').bind('click', async (event) => {
+      this.performSizeChange(event, () => { this.resetSize(); });
     });
 
-    currentVerseListMenu.find('.text-size-decrease').bind('click', () => {
-      this.decreaseSize();
+    currentVerseListMenu.find('.text-size-decrease').bind('click', async (event) => {
+      this.performSizeChange(event, () => { this.decreaseSize(); });
     });
 
-    currentVerseListMenu.find('.text-size-increase').bind('click', () => {
-      this.increaseSize();
+    currentVerseListMenu.find('.text-size-increase').bind('click', async (event) => {
+      this.performSizeChange(event, () => { this.increaseSize(); });
     });
 
     if (this.stylesheet === null) {
@@ -93,7 +92,22 @@ class TextSizeSettings {
 
       this.updateStyle();
     }
+  }
 
+  async performSizeChange(event, changeSizeOperation) {
+    event.stopPropagation();
+
+    if (event == null || changeSizeOperation == null || event.target.classList.contains('ui-state-disabled')) {
+      // Don't do anything in case of invalid input or a disabled button
+      return;
+    }
+
+    await waitUntilIdle(); // This ensures a smooth button handling
+
+    app_controller.translation_controller.showTextLoadingIndicator();
+    await waitUntilIdle(); // Give the browser some time render the loading indicator
+    changeSizeOperation(); // Perform the actual size change
+    app_controller.translation_controller.hideTextLoadingIndicator();
   }
 
   showTextSizeMenu() {
