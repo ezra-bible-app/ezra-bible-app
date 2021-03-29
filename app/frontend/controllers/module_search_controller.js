@@ -331,7 +331,7 @@ class ModuleSearchController {
       
     } else {
       app_controller.hideVerseListLoadingIndicator();
-      app_controller.translation_controller.hideTextLoadingIndicator();
+      uiHelper.hideTextLoadingIndicator();
       app_controller.hideSearchProgressBar();
     }
 

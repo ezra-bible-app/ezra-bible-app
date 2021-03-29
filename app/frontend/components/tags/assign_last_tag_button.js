@@ -33,10 +33,10 @@ class AssignLastTagButton {
 
     currentVerseListMenu.find('.assign-last-tag-button').bind('click', async (event) => {
       if (!event.target.classList.contains('ui-state-disabled')) {
-        app_controller.translation_controller.showTextLoadingIndicator();
+        uiHelper.showTextLoadingIndicator();
         await waitUntilIdle();
         await tags_controller.assignLastTag();
-        app_controller.translation_controller.hideTextLoadingIndicator();
+        uiHelper.hideTextLoadingIndicator();
       }
     });
   }

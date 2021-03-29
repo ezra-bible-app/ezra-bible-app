@@ -104,10 +104,10 @@ class TextSizeSettings {
 
     await waitUntilIdle(); // This ensures a smooth button handling
 
-    app_controller.translation_controller.showTextLoadingIndicator();
-    await waitUntilIdle(); // Give the browser some time render the loading indicator
+    uiHelper.showTextLoadingIndicator();
+    await waitUntilIdle(); // Give the browser some time to render the loading indicator
     changeSizeOperation(); // Perform the actual size change
-    app_controller.translation_controller.hideTextLoadingIndicator();
+    uiHelper.hideTextLoadingIndicator();
   }
 
   showTextSizeMenu() {

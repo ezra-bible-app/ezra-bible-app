@@ -202,6 +202,22 @@ class UiHelper {
       $('#loading-subtitle').text(text);
     }
   }
+
+  getCurrentTextLoadingIndicator() {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
+    var loadingIndicator = currentVerseListMenu.find('.loader');
+    return loadingIndicator;
+  }
+
+  showTextLoadingIndicator() {
+    var textLoadingIndicator = this.getCurrentTextLoadingIndicator();
+    textLoadingIndicator.show();
+  }
+
+  hideTextLoadingIndicator() {
+    var textLoadingIndicator = this.getCurrentTextLoadingIndicator();
+    textLoadingIndicator.hide();
+  }
 }
 
 module.exports = UiHelper;
