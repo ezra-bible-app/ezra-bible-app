@@ -209,7 +209,8 @@
     "open-new-tab": "Openen in nieuw tabblad",
     "open-verselist-in-new-tab": "Open verslijst in nieuw tabblad",
     "footnote-character": "n",
-    "adjust-font-size-tags-notes": "Adjust tags & notes font size"
+    "adjust-font-size-tags-notes": "Adjust tags & notes font size",
+    "new-note-hint": "Click to add a note"
   },
   "dictionary-info-box": {
     "greek-dict": "Grieks woordenboek",

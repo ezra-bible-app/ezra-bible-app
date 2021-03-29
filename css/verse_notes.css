@@ -72,7 +72,7 @@ div.CodeMirror {
 }
 
 .verse-list-scroll-notes .verse-notes-text {
-  max-height: 300px; /* CodeMirror default hight */
+  max-height: 300px; /* CodeMirror default height */
   overflow-y: hidden;
   overflow-x: hidden;
 }

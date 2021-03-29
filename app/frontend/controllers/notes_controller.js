@@ -18,7 +18,6 @@
 
 let CodeMirror = null;
 
-const { set } = require('electron-settings');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
 const notesHelper = require('../helpers/notes_helper.js');
@@ -70,13 +69,7 @@ class NotesController {
       verseNotes.classList.remove('visible');
 
       verseBox.querySelector('.notes-info').addEventListener('mousedown', (e) => {
-        e.stopPropagation();
-        e.target.closest('.notes-info').classList.toggle('active');
-        verseNotes.classList.toggle('visible');
-
-        if (verseNotes.classList.contains('verse-notes-empty')) {
-          verseNotes.dispatchEvent(new MouseEvent('click'));
-        }
+        this.handleNotesIndicatorClick(e, verseNotes);
 
       });
 
@@ -90,6 +83,16 @@ class NotesController {
       bookNoteBox.addEventListener('click', (event) => {
         this.handleNotesClick(event);
       });
+    }
+  }
+
+  handleNotesIndicatorClick(e, verseNotes) {
+    e.stopPropagation();
+    e.target.closest('.notes-info').classList.toggle('active');
+    verseNotes.classList.toggle('visible');
+
+    if (verseNotes.classList.contains('verse-notes-empty')) {
+      verseNotes.dispatchEvent(new MouseEvent('click'));
     }
   }
 
@@ -276,15 +279,6 @@ class NotesController {
       return;
     }
     event.stopPropagation();
-
-    // If the notes are not empty we need to ensure that the user actually clicked on the notes content
-    if (false && !verseNotes.classList.contains('verse-notes-empty')) {
-      if (event.target.classList.contains('verse-notes-text') || event.target.classList.contains('verse-notes')) {
-        // The click happened outside of the notes content (scrollbar or area right of scrollbar).
-        // In this case we return immediately and do not process the click.
-        return;
-      }
-    }
 
     var verseReferenceId = null;
 
