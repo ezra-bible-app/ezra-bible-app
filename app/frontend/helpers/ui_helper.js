@@ -202,6 +202,22 @@ class UiHelper {
       $('#loading-subtitle').text(text);
     }
   }
+
+  getCurrentTextLoadingIndicator(tabIndex=undefined) {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+    var loadingIndicator = currentVerseListMenu.find('.loader');
+    return loadingIndicator;
+  }
+
+  showTextLoadingIndicator(tabIndex=undefined) {
+    var textLoadingIndicator = this.getCurrentTextLoadingIndicator(tabIndex);
+    textLoadingIndicator.show();
+  }
+
+  hideTextLoadingIndicator(tabIndex=undefined) {
+    var textLoadingIndicator = this.getCurrentTextLoadingIndicator(tabIndex);
+    textLoadingIndicator.hide();
+  }
 }
 
 module.exports = UiHelper;

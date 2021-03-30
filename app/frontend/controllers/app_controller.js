@@ -199,6 +199,9 @@ class AppController {
   async onTabSelected(event = undefined, ui = { 'index' : 0}) {
     await waitUntilIdle();
 
+    // Cancel any potentially ongoing module search
+    await this.module_search_controller.cancelModuleSearch();
+
     var metaTab = this.tab_controller.getTab(ui.index);
 
     if (metaTab.selectCount >= 2) {
@@ -256,6 +259,10 @@ class AppController {
 
   async onTabAdded(previousTabIndex, tabIndex=0) {
     this.hideAllMenus();
+
+    // Cancel any potentially ongoing module search
+    await this.module_search_controller.cancelModuleSearch();
+
     // Refresh the view based on the options selected
     this.optionsMenu.refreshViewBasedOnOptions(tabIndex);
     uiHelper.resizeVerseList(tabIndex);
@@ -525,14 +532,14 @@ class AppController {
     return verseList;
   }
 
-  getCurrentVerseListLoadingIndicator() {
-    var currentVerseListComposite = this.getCurrentVerseListComposite();
+  getCurrentVerseListLoadingIndicator(tabIndex=undefined) {
+    var currentVerseListComposite = this.getCurrentVerseListComposite(tabIndex);
     var loadingIndicator = currentVerseListComposite.find('.verse-list-loading-indicator');
     return loadingIndicator;
   }
 
-  getCurrentSearchProgressBar() {
-    var currentVerseListComposite = this.getCurrentVerseListComposite();
+  getCurrentSearchProgressBar(tabIndex=undefined) {
+    var currentVerseListComposite = this.getCurrentVerseListComposite(tabIndex);
     var searchProgressBar = currentVerseListComposite.find('.search-progress-bar');
     return searchProgressBar;
   }
@@ -561,16 +568,16 @@ class AppController {
     loadingIndicator.show();
   }
 
-  hideVerseListLoadingIndicator() {
-    var loadingIndicator = this.getCurrentVerseListLoadingIndicator();
+  hideVerseListLoadingIndicator(tabIndex=undefined) {
+    var loadingIndicator = this.getCurrentVerseListLoadingIndicator(tabIndex);
     loadingIndicator.hide();
   }
 
-  hideSearchProgressBar() {
-    var searchProgressBar = this.getCurrentSearchProgressBar();
+  hideSearchProgressBar(tabIndex=undefined) {
+    var searchProgressBar = this.getCurrentSearchProgressBar(tabIndex);
     searchProgressBar.hide();
 
-    var cancelSearchButtonContainer = this.getCurrentSearchCancelButtonContainer();
+    var cancelSearchButtonContainer = this.getCurrentSearchCancelButtonContainer(tabIndex);
     cancelSearchButtonContainer.hide();
   }
 
