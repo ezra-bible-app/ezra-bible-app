@@ -19,6 +19,8 @@
 const VerseSearch = require('../components/tab_search/verse_search.js');
 const VerseStatisticsChart = require('../components/verse_statistics_chart.js');
 
+const CANCEL_SEARCH_PERCENT_LIMIT = 90;
+
 /**
  * The ModuleSearch controller implements the module search functionality.
  * It uses the VerseSearch component for highlighting search results.
@@ -64,28 +66,37 @@ class ModuleSearchController {
   }
 
   async cancelModuleSearch() {
-    var cancelSearchButtonContainer = app_controller.getCurrentSearchCancelButtonContainer(this.currentSearchTabIndex);
-    var cancelSearchButton = cancelSearchButtonContainer.find('button');
-
-    cancelSearchButton.removeClass('ui-state-active');
-    cancelSearchButton.addClass('ui-state-disabled');
+    this.disableCancelButton();
     var tab = app_controller.tab_controller.getTab(this.currentSearchTabIndex);
     tab.setSearchCancelled(true);
+    this.enableOtherFunctionsAfterSearch();
 
+    var currentProgressValue = this.getCurrentProgressValue();
+
+    if (currentProgressValue != null && !isNaN(currentProgressValue)) {
+      if (currentProgressValue <= CANCEL_SEARCH_PERCENT_LIMIT) {
+        await ipcNsi.terminateModuleSearch();
+      }
+    }
+  }
+
+  getCurrentProgressValue() {
     var searchProgressBar = app_controller.getCurrentSearchProgressBar(this.currentSearchTabIndex);
     var currentProgressValue = null;
-
-    this.enableOtherFunctionsAfterSearch();
 
     try {
       currentProgressValue = parseInt(searchProgressBar[0].getAttribute("aria-valuenow"));
     } catch (e) {}
 
-    if (currentProgressValue != null && !isNaN(currentProgressValue)) {
-      if (currentProgressValue <= 90) {
-        await ipcNsi.terminateModuleSearch();
-      }
-    }
+    return currentProgressValue;
+  }
+
+  disableCancelButton() {
+    var cancelSearchButtonContainer = app_controller.getCurrentSearchCancelButtonContainer(this.currentSearchTabIndex);
+    var cancelSearchButton = cancelSearchButtonContainer.find('button');
+
+    cancelSearchButton.removeClass('ui-state-active');
+    cancelSearchButton.addClass('ui-state-disabled');
   }
 
   disableOtherFunctionsDuringSearch() {
@@ -321,6 +332,9 @@ class ModuleSearchController {
         var searchResults = await ipcNsi.getModuleSearchResults((progress) => {
                                                                   var progressPercent = progress.totalPercent;
                                                                   searchProgressBar.progressbar("value", progressPercent);
+                                                                  if (progressPercent >= CANCEL_SEARCH_PERCENT_LIMIT) {
+                                                                    this.disableCancelButton();
+                                                                  }
                                                                 },
                                                                 currentBibleTranslationId,
                                                                 this.currentSearchTerm,
