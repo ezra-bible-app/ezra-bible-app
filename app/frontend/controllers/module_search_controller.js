@@ -75,6 +75,8 @@ class ModuleSearchController {
     var searchProgressBar = app_controller.getCurrentSearchProgressBar(this.currentSearchTabIndex);
     var currentProgressValue = null;
 
+    this.enableOtherFunctionsAfterSearch();
+
     try {
       currentProgressValue = parseInt(searchProgressBar[0].getAttribute("aria-valuenow"));
     } catch (e) {}
@@ -84,6 +86,32 @@ class ModuleSearchController {
         await ipcNsi.terminateModuleSearch();
       }
     }
+  }
+
+  disableOtherFunctionsDuringSearch() {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
+
+    var bookSelectButton = currentVerseListMenu.find('.book-select-button');
+    bookSelectButton.addClass('ui-state-disabled');
+
+    var tagSelectButton = currentVerseListMenu.find('.tag-select-button');
+    tagSelectButton.addClass('ui-state-disabled');
+
+    var bibleSelect = currentVerseListMenu.find('select.bible-select');
+    bibleSelect.selectmenu("disable");
+  }
+
+  enableOtherFunctionsAfterSearch() {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(this.currentSearchTabIndex);
+
+    var bookSelectButton = currentVerseListMenu.find('.book-select-button');
+    bookSelectButton.removeClass('ui-state-disabled');
+
+    var tagSelectButton = currentVerseListMenu.find('.tag-select-button');
+    tagSelectButton.removeClass('ui-state-disabled');
+
+    var bibleSelect = currentVerseListMenu.find('select.bible-select');
+    bibleSelect.selectmenu("enable");
   }
 
   validateSearchTerm() {
@@ -233,6 +261,8 @@ class ModuleSearchController {
     // Do not allow another concurrent search, disable the search menu button
     $('.module-search-button').addClass('ui-state-disabled');
 
+    this.disableOtherFunctionsDuringSearch();
+
     this.verseStatisticsChart.resetChart(tabIndex);
 
     if (tabIndex === undefined) {
@@ -310,6 +340,7 @@ class ModuleSearchController {
       } catch (error) {
         console.log(error);
         app_controller.hideVerseListLoadingIndicator();
+        this.enableOtherFunctionsAfterSearch();
       }
     }
 
@@ -407,6 +438,8 @@ class ModuleSearchController {
       var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
       await this.verseStatisticsChart.updateChart(tabIndex, bibleBookStats);
     }
+
+    this.enableOtherFunctionsAfterSearch();
   }
 
   selectAllSearchResults() {
