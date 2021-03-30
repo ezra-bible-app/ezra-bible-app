@@ -40,7 +40,9 @@ if renderBookNotes
     div(class='verse-notes-text external') !{bookNotesText}
     div(class='verse-notes-status-bar')
       div(class='verse-notes-buttons')
-        a(class='save-note', href='') !{saveText}
+        a(class='save-note', href='')
+          i.fas.fa-save.fa-sm 
+          | !{saveText}
         span &nbsp;|&nbsp;
         a(class='cancel-edit', href='') !{cancelText}
       div(class='verse-notes-timestamp') !{bookNotesUpdate}
