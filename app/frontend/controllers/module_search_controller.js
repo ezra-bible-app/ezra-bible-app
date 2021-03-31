@@ -19,6 +19,8 @@
 const VerseSearch = require('../components/tab_search/verse_search.js');
 const VerseStatisticsChart = require('../components/verse_statistics_chart.js');
 
+const CANCEL_SEARCH_PERCENT_LIMIT = 90;
+
 /**
  * The ModuleSearch controller implements the module search functionality.
  * It uses the VerseSearch component for highlighting search results.
@@ -58,13 +60,69 @@ class ModuleSearchController {
     var cancelSearchButtonContainer = app_controller.getCurrentSearchCancelButtonContainer(tabIndex);
     var cancelSearchButton = cancelSearchButtonContainer.find('button');
 
-    cancelSearchButton[0].addEventListener('mousedown', async (event) => {
-      $(event.target).removeClass('ui-state-active');
-      $(event.target).addClass('ui-state-disabled');
-      var tab = app_controller.tab_controller.getTab();
-      tab.setSearchCancelled(true);
-      ipcNsi.terminateModuleSearch();
+    cancelSearchButton[0].addEventListener('mousedown', async () => {
+      this.cancelModuleSearch();
     });
+  }
+
+  async cancelModuleSearch() {
+    this.disableCancelButton();
+    var tab = app_controller.tab_controller.getTab(this.currentSearchTabIndex);
+    tab.setSearchCancelled(true);
+    this.enableOtherFunctionsAfterSearch();
+
+    var currentProgressValue = this.getCurrentProgressValue();
+
+    if (currentProgressValue != null && !isNaN(currentProgressValue)) {
+      if (currentProgressValue <= CANCEL_SEARCH_PERCENT_LIMIT) {
+        await ipcNsi.terminateModuleSearch();
+      }
+    }
+  }
+
+  getCurrentProgressValue() {
+    var searchProgressBar = app_controller.getCurrentSearchProgressBar(this.currentSearchTabIndex);
+    var currentProgressValue = null;
+
+    try {
+      currentProgressValue = parseInt(searchProgressBar[0].getAttribute("aria-valuenow"));
+    } catch (e) {}
+
+    return currentProgressValue;
+  }
+
+  disableCancelButton() {
+    var cancelSearchButtonContainer = app_controller.getCurrentSearchCancelButtonContainer(this.currentSearchTabIndex);
+    var cancelSearchButton = cancelSearchButtonContainer.find('button');
+
+    cancelSearchButton.removeClass('ui-state-active');
+    cancelSearchButton.addClass('ui-state-disabled');
+  }
+
+  disableOtherFunctionsDuringSearch() {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
+
+    var bookSelectButton = currentVerseListMenu.find('.book-select-button');
+    bookSelectButton.addClass('ui-state-disabled');
+
+    var tagSelectButton = currentVerseListMenu.find('.tag-select-button');
+    tagSelectButton.addClass('ui-state-disabled');
+
+    var bibleSelect = currentVerseListMenu.find('select.bible-select');
+    bibleSelect.selectmenu("disable");
+  }
+
+  enableOtherFunctionsAfterSearch() {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(this.currentSearchTabIndex);
+
+    var bookSelectButton = currentVerseListMenu.find('.book-select-button');
+    bookSelectButton.removeClass('ui-state-disabled');
+
+    var tagSelectButton = currentVerseListMenu.find('.tag-select-button');
+    tagSelectButton.removeClass('ui-state-disabled');
+
+    var bibleSelect = currentVerseListMenu.find('select.bible-select');
+    bibleSelect.selectmenu("enable");
   }
 
   validateSearchTerm() {
@@ -209,8 +267,12 @@ class ModuleSearchController {
       return;
     }
 
+    this.currentSearchTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+
     // Do not allow another concurrent search, disable the search menu button
     $('.module-search-button').addClass('ui-state-disabled');
+
+    this.disableOtherFunctionsDuringSearch();
 
     this.verseStatisticsChart.resetChart(tabIndex);
 
@@ -270,6 +332,9 @@ class ModuleSearchController {
         var searchResults = await ipcNsi.getModuleSearchResults((progress) => {
                                                                   var progressPercent = progress.totalPercent;
                                                                   searchProgressBar.progressbar("value", progressPercent);
+                                                                  if (progressPercent >= CANCEL_SEARCH_PERCENT_LIMIT) {
+                                                                    this.disableCancelButton();
+                                                                  }
                                                                 },
                                                                 currentBibleTranslationId,
                                                                 this.currentSearchTerm,
@@ -281,14 +346,15 @@ class ModuleSearchController {
         currentTab.setSearchResults(searchResults);
 
         var requestedBookId = -1; // all books requested
-        if (this.searchResultsExceedPerformanceLimit(tabIndex)) {
+        if (this.searchResultsExceedPerformanceLimit(this.currentSearchTabIndex)) {
           requestedBookId = 0; // no books requested - only list headers at first
         }
   
-        await this.renderCurrentSearchResults(requestedBookId, tabIndex);
+        await this.renderCurrentSearchResults(requestedBookId, this.currentSearchTabIndex);
       } catch (error) {
         console.log(error);
         app_controller.hideVerseListLoadingIndicator();
+        this.enableOtherFunctionsAfterSearch();
       }
     }
 
@@ -319,20 +385,20 @@ class ModuleSearchController {
 
     if (currentSearchResults.length > 0) {
       await app_controller.text_controller.requestTextUpdate(currentTabId,
-                                                                   null,
-                                                                   null,
-                                                                   cachedText,
-                                                                   null,
-                                                                   currentSearchResults,
-                                                                   null,
-                                                                   tabIndex,
-                                                                   requestedBookId,
-                                                                   target);
+                                                             null,
+                                                             null,
+                                                             cachedText,
+                                                             null,
+                                                             currentSearchResults,
+                                                             null,
+                                                             tabIndex,
+                                                             requestedBookId,
+                                                             target);
       
     } else {
-      app_controller.hideVerseListLoadingIndicator();
-      app_controller.translation_controller.hideTextLoadingIndicator();
-      app_controller.hideSearchProgressBar();
+      app_controller.hideVerseListLoadingIndicator(this.currentSearchTabIndex);
+      uiHelper.hideTextLoadingIndicator(this.currentSearchTabIndex);
+      app_controller.hideSearchProgressBar(this.currentSearchTabIndex);
     }
 
     this.hideSearchMenu();
@@ -386,6 +452,8 @@ class ModuleSearchController {
       var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
       await this.verseStatisticsChart.updateChart(tabIndex, bibleBookStats);
     }
+
+    this.enableOtherFunctionsAfterSearch();
   }
 
   selectAllSearchResults() {

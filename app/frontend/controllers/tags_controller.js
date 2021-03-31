@@ -228,7 +228,7 @@ class TagsController {
   }
 
   async saveNewTag(e, type) {
-    app_controller.translation_controller.showTextLoadingIndicator();
+    uiHelper.showTextLoadingIndicator();
     $(e).dialog("close");
 
     await waitUntilIdle(); // Give the dialog some time to close
@@ -247,7 +247,7 @@ class TagsController {
     await tags_controller.tag_store.updateLatestAndOldestTagData();
     await tags_controller.updateTagsViewAfterVerseSelection(true);
 
-    app_controller.translation_controller.hideTextLoadingIndicator();
+    uiHelper.hideTextLoadingIndicator();
   }
 
   handleNewTagButtonClick(button, type) {
