@@ -45,7 +45,7 @@ Given('I enter markdown text', { timeout: 40000 }, async function (docString) {
   // var focused = await global.app.client.getActiveElement();
   // var input = await global.app.client.$(focused);
   // var res = await input.setValue('test');
-  var res = await global.app.webContents.executeJavaScript('app_controller.note_controller.currentEditor.getDoc().setValue("aaa")');
+  var res = await global.app.webContents.executeJavaScript("app_controller.notes_controller.currentEditor.getDoc().setValue(`"+ docString + "`)");
   console.log(res);
   // await editor.getDoc().setValue(docString);
   await spectronHelper.sleep(2000);
