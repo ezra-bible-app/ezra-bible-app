@@ -360,6 +360,7 @@ class TextController {
     if (render_type == "html") {
       
       await this.getVersesAsHtml(current_tab_id,
+                                 tab_index,
                                  bibleBooks,
                                  bookNames,
                                  bibleBookStats,
@@ -420,6 +421,7 @@ class TextController {
     if (render_type == "html") {
       
       await this.getVersesAsHtml(current_tab_id,
+                                 tab_index,
                                  bibleBooks,
                                  bookNames,
                                  bibleBookStats,
@@ -471,6 +473,7 @@ class TextController {
     if (render_type == "html") {
       
       await this.getVersesAsHtml(current_tab_id,
+                                 tab_index,
                                  bibleBooks,
                                  bookNames,
                                  bibleBookStats,
@@ -487,7 +490,7 @@ class TextController {
     }
   }
 
-  async getVersesAsHtml(current_tab_id, bibleBooks, bookNames, bibleBookStats, groupedVerseTags, groupedVerseNotes, verses, versification, render_function, renderBibleBookHeaders=true, renderVerseMetaInfo=true) {    
+  async getVersesAsHtml(current_tab_id, tabIndex, bibleBooks, bookNames, bibleBookStats, groupedVerseTags, groupedVerseNotes, verses, versification, render_function, renderBibleBookHeaders=true, renderVerseMetaInfo=true) {    
     var bibleTranslationId = app_controller.tab_controller.getTabById(current_tab_id).getBibleTranslationId();
     var separator = await getReferenceSeparator(bibleTranslationId);
     
@@ -511,6 +514,11 @@ class TextController {
     });
 
     render_function(verses_as_html, verses.length);
+
+    var numberOfBibleBookStatsEntries = Object.keys(bibleBookStats).length;
+    if (numberOfBibleBookStatsEntries > 0) {
+      await app_controller.verse_statistics_chart.updateChart(tabIndex, bibleBookStats);
+    }
   }
 
   async renderVerseList(htmlVerseList, referenceVerseHtml, listType, tabIndex=undefined, isCache=false, target=undefined, append=false) {

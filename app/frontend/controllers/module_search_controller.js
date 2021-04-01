@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const VerseSearch = require('../components/tab_search/verse_search.js');
-const VerseStatisticsChart = require('../components/verse_statistics_chart.js');
 
 const CANCEL_SEARCH_PERCENT_LIMIT = 90;
 
@@ -32,7 +31,6 @@ class ModuleSearchController {
     this.currentSearchTerm = null;
     this.search_menu_opened = false;
     this.verseSearch = new VerseSearch();
-    this.verseStatisticsChart = new VerseStatisticsChart();
     this.searchResultPerformanceLimit = platformHelper.getSearchResultPerformanceLimit();
   }
 
@@ -149,7 +147,7 @@ class ModuleSearchController {
     $('#search-is-case-sensitive').prop("checked", false);
     $('#search-extended-verse-boundaries').prop("checked", false);
     this.hideModuleSearchHeader(tabIndex);
-    this.verseStatisticsChart.resetChart(tabIndex);
+    app_controller.verse_statistics_chart.resetChart(tabIndex);
   }
 
   hideModuleSearchHeader(tabIndex=undefined) {
@@ -274,7 +272,7 @@ class ModuleSearchController {
 
     this.disableOtherFunctionsDuringSearch();
 
-    this.verseStatisticsChart.resetChart(tabIndex);
+    app_controller.verse_statistics_chart.resetChart(tabIndex);
 
     if (tabIndex === undefined) {
       var tab = app_controller.tab_controller.getTab();
@@ -450,7 +448,7 @@ class ModuleSearchController {
 
     if (currentSearchResults.length > 0 && requestedBookId <= 0) {
       var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
-      await this.verseStatisticsChart.updateChart(tabIndex, bibleBookStats);
+      await app_controller.verse_statistics_chart.updateChart(tabIndex, bibleBookStats);
     }
 
     this.enableOtherFunctionsAfterSearch();
@@ -470,8 +468,8 @@ class ModuleSearchController {
 
     if (currentSearchResults != null) {
       var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
-      this.verseStatisticsChart.resetChart(tabIndex);
-      await this.verseStatisticsChart.updateChart(tabIndex, bibleBookStats);
+      app_controller.verse_statistics_chart.resetChart(tabIndex);
+      await app_controller.verse_statistics_chart.updateChart(tabIndex, bibleBookStats);
     }
   }
 
