@@ -49,8 +49,8 @@ class VerseReferenceHelper
   }
   
   async referenceStringToAbsoluteVerseNr(translation, bible_book_short_title, reference, split_support=false) {
-    if (reference == null) {
-      return;
+    if (!reference) {
+      return 0; // for book level references
     }
 
     var separator = await this.getReferenceSeparator(translation);
