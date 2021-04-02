@@ -625,7 +625,16 @@ class TextController {
     }
 
     if (renderChart && (listType == 'search_results' || listType == 'tagged_verses' || listType == 'xrefs')) {
-      var bibleBookStats = this.getBibleBookStatsFromVerseList(tabIndex);
+      var bibleBookStats = null;
+
+      if (listType == 'search_results') {
+        var currentTab = app_controller.tab_controller.getTab(tabIndex);
+        var currentSearchResults = currentTab.getSearchResults();
+        bibleBookStats = app_controller.module_search_controller.getBibleBookStatsFromSearchResults(currentSearchResults);
+      } else {
+        bibleBookStats = this.getBibleBookStatsFromVerseList(tabIndex);
+      }
+
       var numberOfBibleBookStatsEntries = Object.keys(bibleBookStats).length;
 
       if (numberOfBibleBookStatsEntries > 0) {
