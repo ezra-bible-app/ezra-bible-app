@@ -446,10 +446,10 @@ class ModuleSearchController {
 
     moduleSearchHeader.show();
 
-    if (currentSearchResults.length > 0 && requestedBookId <= 0) {
+    /*if (currentSearchResults.length > 0 && requestedBookId <= 0) {
       var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
       await app_controller.verse_statistics_chart.updateChart(tabIndex, bibleBookStats);
-    }
+    }*/
 
     this.enableOtherFunctionsAfterSearch();
   }

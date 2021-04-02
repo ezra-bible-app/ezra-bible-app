@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const PlatformHelper = require('../../lib/platform_helper.js');
+const VerseBox = require('../ui_models/verse_box.js');
 
 /**
  * The TextController is used to load bible text into the text area of a tab.
@@ -98,13 +99,13 @@ class TextController {
       currentVerseListMenu.find('.book-select-button').addClass('focused-button');
 
       if (cachedText != null) {
-        await this.renderVerseList(cachedText, cachedReferenceVerse, 'book', tabIndex, true);
+        await this.renderVerseList(cachedText, cachedReferenceVerse, 'book', tabIndex, false, true);
       } else {
 
         // 1) Only request the first 50 verses and render immediately
         await this.requestBookText(tabIndex, tabId, book,
           async (htmlVerseList) => { 
-            await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false);
+            await this.renderVerseList(htmlVerseList, null, 'book', tabIndex);
           }, 1, 50
         );
 
@@ -114,7 +115,7 @@ class TextController {
         await this.requestBookText(
           tabIndex, tabId, book,
           async (htmlVerseList) => { 
-            await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, undefined, true);
+            await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, true);
           }, 51, -1
         );
       }
@@ -126,14 +127,14 @@ class TextController {
       uiHelper.showTextLoadingIndicator();
 
       if (cachedText != null) {
-        await this.renderVerseList(cachedText, cachedReferenceVerse, 'tagged_verses', tabIndex);
+        await this.renderVerseList(cachedText, cachedReferenceVerse, 'tagged_verses', tabIndex, true, true);
       } else {
         await this.requestVersesForSelectedTags(
           tabIndex,
           tabId,
           tagIdList,
           async (htmlVerseList) => {
-            await this.renderVerseList(htmlVerseList, null, 'tagged_verses', tabIndex);
+            await this.renderVerseList(htmlVerseList, null, 'tagged_verses', tabIndex, true);
           }
         );
       }
@@ -143,14 +144,14 @@ class TextController {
       currentVerseListMenu.find('.module-search-button').addClass('focused-button');
       
       if (cachedText != null) {
-        await this.renderVerseList(cachedText, null, 'search_results', tabIndex);
+        await this.renderVerseList(cachedText, null, 'search_results', tabIndex, true, true);
       } else {
         await this.requestVersesForSearchResults(
           tabIndex,
           tabId,
           searchResults,
           async (htmlVerseList) => {
-            await this.renderVerseList(htmlVerseList, null, 'search_results', tabIndex, /* isCache */ false, target);
+            await this.renderVerseList(htmlVerseList, null, 'search_results', tabIndex, requestedBookId <= 0, /* isCache */ false, target);
           },
           requestedBookId
         );
@@ -160,14 +161,14 @@ class TextController {
       uiHelper.showTextLoadingIndicator();
       
       if (cachedText != null) {
-        await this.renderVerseList(cachedText, cachedReferenceVerse, 'xrefs', tabIndex);
+        await this.renderVerseList(cachedText, cachedReferenceVerse, 'xrefs', tabIndex, true, true);
       } else {
         await this.requestVersesForXrefs(
           tabIndex,
           tabId,
           xrefs,
           async (htmlVerseList) => {
-            await this.renderVerseList(htmlVerseList, null, 'xrefs', tabIndex, /* isCache */ false, target);
+            await this.renderVerseList(htmlVerseList, null, 'xrefs', tabIndex, true, /* isCache */ false, target);
           }
         );
       }
@@ -290,6 +291,25 @@ class TextController {
 
       var bibleBookShortTitle = verses[i].bibleBookShortTitle;
       
+      if (bibleBookStats[bibleBookShortTitle] === undefined) {
+        bibleBookStats[bibleBookShortTitle] = 1;
+      } else {
+        bibleBookStats[bibleBookShortTitle] += 1;
+      }
+    }
+
+    return bibleBookStats;
+  }
+
+  getBibleBookStatsFromVerseList(tabIndex) {
+    var bibleBookStats = {};    
+    var currentVerseList = app_controller.getCurrentVerseList(tabIndex)[0];
+    var verseBoxList = currentVerseList.querySelectorAll('.verse-box');
+
+    for (var i = 0; i < verseBoxList.length; i++) {
+      var currentVerseBox = verseBoxList[i];
+      var bibleBookShortTitle = new VerseBox(currentVerseBox).getBibleBookShortTitle();
+
       if (bibleBookStats[bibleBookShortTitle] === undefined) {
         bibleBookStats[bibleBookShortTitle] = 1;
       } else {
@@ -514,14 +534,9 @@ class TextController {
     });
 
     render_function(verses_as_html, verses.length);
-
-    var numberOfBibleBookStatsEntries = Object.keys(bibleBookStats).length;
-    if (numberOfBibleBookStatsEntries > 0) {
-      await app_controller.verse_statistics_chart.updateChart(tabIndex, bibleBookStats);
-    }
   }
 
-  async renderVerseList(htmlVerseList, referenceVerseHtml, listType, tabIndex=undefined, isCache=false, target=undefined, append=false) {
+  async renderVerseList(htmlVerseList, referenceVerseHtml, listType, tabIndex=undefined, renderChart=false, isCache=false, target=undefined, append=false) {
     app_controller.hideVerseListLoadingIndicator();
     app_controller.hideSearchProgressBar();
     var initialRendering = true;
@@ -607,6 +622,15 @@ class TextController {
       var currentTab = app_controller.tab_controller.getTab(tabIndex);
       var currentSearchTerm = currentTab.getSearchTerm();
       app_controller.module_search_controller.highlightSearchResults(currentSearchTerm, tabIndex);
+    }
+
+    if (renderChart && (listType == 'search_results' || listType == 'tagged_verses' || listType == 'xrefs')) {
+      var bibleBookStats = this.getBibleBookStatsFromVerseList(tabIndex);
+      var numberOfBibleBookStatsEntries = Object.keys(bibleBookStats).length;
+
+      if (numberOfBibleBookStatsEntries > 0) {
+        await app_controller.verse_statistics_chart.updateChart(tabIndex, bibleBookStats);
+      }
     }
 
     if (isCache || listType == 'book' && !append) {
