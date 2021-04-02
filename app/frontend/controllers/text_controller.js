@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const PlatformHelper = require('../../lib/platform_helper.js');
-const VerseBox = require('../ui_models/verse_box.js');
 
 /**
  * The TextController is used to load bible text into the text area of a tab.
@@ -291,25 +290,6 @@ class TextController {
 
       var bibleBookShortTitle = verses[i].bibleBookShortTitle;
       
-      if (bibleBookStats[bibleBookShortTitle] === undefined) {
-        bibleBookStats[bibleBookShortTitle] = 1;
-      } else {
-        bibleBookStats[bibleBookShortTitle] += 1;
-      }
-    }
-
-    return bibleBookStats;
-  }
-
-  getBibleBookStatsFromVerseList(tabIndex) {
-    var bibleBookStats = {};    
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex)[0];
-    var verseBoxList = currentVerseList.querySelectorAll('.verse-box');
-
-    for (var i = 0; i < verseBoxList.length; i++) {
-      var currentVerseBox = verseBoxList[i];
-      var bibleBookShortTitle = new VerseBox(currentVerseBox).getBibleBookShortTitle();
-
       if (bibleBookStats[bibleBookShortTitle] === undefined) {
         bibleBookStats[bibleBookShortTitle] = 1;
       } else {
@@ -624,22 +604,8 @@ class TextController {
       app_controller.module_search_controller.highlightSearchResults(currentSearchTerm, tabIndex);
     }
 
-    if (renderChart && (listType == 'search_results' || listType == 'tagged_verses' || listType == 'xrefs')) {
-      var bibleBookStats = null;
-
-      if (listType == 'search_results') {
-        var currentTab = app_controller.tab_controller.getTab(tabIndex);
-        var currentSearchResults = currentTab.getSearchResults();
-        bibleBookStats = app_controller.module_search_controller.getBibleBookStatsFromSearchResults(currentSearchResults);
-      } else {
-        bibleBookStats = this.getBibleBookStatsFromVerseList(tabIndex);
-      }
-
-      var numberOfBibleBookStatsEntries = Object.keys(bibleBookStats).length;
-
-      if (numberOfBibleBookStatsEntries > 0) {
-        await app_controller.verse_statistics_chart.updateChart(tabIndex, bibleBookStats);
-      }
+    if (renderChart && (listType == 'search_results' || listType == 'tagged_verses')) {
+      await app_controller.verse_statistics_chart.repaintChart(tabIndex);
     }
 
     if (isCache || listType == 'book' && !append) {

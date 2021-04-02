@@ -974,6 +974,25 @@ class AppController {
     return verse;
   }
 
+  getBibleBookStatsFromVerseList(tabIndex) {
+    var bibleBookStats = {};    
+    var currentVerseList = this.getCurrentVerseList(tabIndex)[0];
+    var verseBoxList = currentVerseList.querySelectorAll('.verse-box');
+
+    for (var i = 0; i < verseBoxList.length; i++) {
+      var currentVerseBox = verseBoxList[i];
+      var bibleBookShortTitle = new VerseBox(currentVerseBox).getBibleBookShortTitle();
+
+      if (bibleBookStats[bibleBookShortTitle] === undefined) {
+        bibleBookStats[bibleBookShortTitle] = 1;
+      } else {
+        bibleBookStats[bibleBookShortTitle] += 1;
+      }
+    }
+
+    return bibleBookStats;
+  }
+
 /*
   jumpToReference(reference, highlight) {
     var currentTabId = this.tab_controller.getSelectedTabId();

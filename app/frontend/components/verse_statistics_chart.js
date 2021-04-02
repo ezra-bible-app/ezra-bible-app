@@ -53,10 +53,24 @@ class VerseStatisticsChart {
 
   async repaintChart(tabIndex=undefined) {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
-    var currentSearchResults = currentTab.getSearchResults();
+    if (!currentTab.isVerseList()) {
+      return;
+    }
 
-    if (currentSearchResults != null) {
-      var bibleBookStats = app_controller.module_search_controller.getBibleBookStatsFromSearchResults(currentSearchResults);
+    var currentTextType = currentTab.getTextType();
+    var bibleBookStats = null;
+
+    if (currentTextType == 'search_results') {
+      var currentTab = app_controller.tab_controller.getTab(tabIndex);
+      var currentSearchResults = currentTab.getSearchResults();
+      bibleBookStats = app_controller.module_search_controller.getBibleBookStatsFromSearchResults(currentSearchResults);
+    } else {
+      bibleBookStats = app_controller.getBibleBookStatsFromVerseList(tabIndex);
+    }
+
+    var numberOfBibleBookStatsEntries = Object.keys(bibleBookStats).length;
+
+    if (numberOfBibleBookStatsEntries > 0) {
       this.resetChart(tabIndex);
       await this.updateChart(tabIndex, bibleBookStats);
     }
@@ -67,7 +81,8 @@ class VerseStatisticsChart {
 
     for (var i = 0; i < tabCount; i++) {
       var currentTab = app_controller.tab_controller.getTab(i);
-      if (currentTab.getTextType() == 'search_results') {
+
+      if (currentTab.isVerseList()) {
         await this.repaintChart(i);
       }
     }
