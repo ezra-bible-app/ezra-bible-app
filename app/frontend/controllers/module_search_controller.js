@@ -462,28 +462,6 @@ class ModuleSearchController {
     app_controller.verse_selection.updateViewsAfterVerseSelection(i18n.t('bible-browser.all-search-results'));
   }
 
-  async repaintChart(tabIndex=undefined) {
-    var currentTab = app_controller.tab_controller.getTab(tabIndex);
-    var currentSearchResults = currentTab.getSearchResults();
-
-    if (currentSearchResults != null) {
-      var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
-      app_controller.verse_statistics_chart.resetChart(tabIndex);
-      await app_controller.verse_statistics_chart.updateChart(tabIndex, bibleBookStats);
-    }
-  }
-
-  async repaintAllCharts() {
-    var tabCount = app_controller.tab_controller.getTabCount();
-
-    for (var i = 0; i < tabCount; i++) {
-      var currentTab = app_controller.tab_controller.getTab(i);
-      if (currentTab.getTextType() == 'search_results') {
-        await this.repaintChart(i);
-      }
-    }
-  }
-
   getBibleBookStatsFromSearchResults(search_results) {
     var bibleBookStats = {};
 

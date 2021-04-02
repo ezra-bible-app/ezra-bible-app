@@ -51,6 +51,28 @@ class VerseStatisticsChart {
     container.append(canvasElement);
   }
 
+  async repaintChart(tabIndex=undefined) {
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
+    var currentSearchResults = currentTab.getSearchResults();
+
+    if (currentSearchResults != null) {
+      var bibleBookStats = app_controller.module_search_controller.getBibleBookStatsFromSearchResults(currentSearchResults);
+      this.resetChart(tabIndex);
+      await this.updateChart(tabIndex, bibleBookStats);
+    }
+  }
+
+  async repaintAllCharts() {
+    var tabCount = app_controller.tab_controller.getTabCount();
+
+    for (var i = 0; i < tabCount; i++) {
+      var currentTab = app_controller.tab_controller.getTab(i);
+      if (currentTab.getTextType() == 'search_results') {
+        await this.repaintChart(i);
+      }
+    }
+  }
+
   async updateChart(tabIndex=undefined, bibleBookStats) {
     require('chart.js/dist/Chart.bundle.min.js');
 
