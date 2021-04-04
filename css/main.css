@@ -508,7 +508,6 @@ h2 {
 .options-header,
 #book-selection-menu,
 #tag-selection-menu,
-#tag-selection-menu-overlay,
 #tag-assignment-menu,
 #display-options-menu {
   font-size: 0.9em;
@@ -1486,17 +1485,10 @@ h2 {
 }
 
 #tag-selection-menu,
-#tag-selection-menu-overlay,
 #tag-assignment-menu,
 #tag-assignment-menu-overlay {
   padding: 1em;
   width: 22em;
-}
-
-#tag-selection-menu-overlay {
-  height: 468px;
-  justify-content: center;
-  align-items: center;
 }
 
 #tag-assignment-menu {
@@ -1587,12 +1579,19 @@ h2 {
   color: #cccccc;
 }
 
-#tag-selection-taglist-global {
+#tag-selection-taglist-global,
+#tag-selection-taglist-overlay {
   margin-top: 1em;
   padding-top: 0.5em;
   border-top: 1px solid #DDDDDD;
   height: 400px;
   overflow-y: scroll;
+}
+
+#tag-selection-taglist-overlay {
+  display: none;
+  justify-content: center;
+  align-items: center;
 }
 
 #tag-selection-filter-loading-indicator {
