@@ -81,6 +81,7 @@ class TagAssignmentMenu {
       menu.css('top', topOffset);
       menu.css('left', leftOffset);
 
+      // Show an overlay while the actual menu is rendering
       overlay.show();
       overlay.find('.loader').show();
       await waitUntilIdle();

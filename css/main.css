@@ -1487,10 +1487,17 @@ h2 {
 }
 
 #tag-selection-menu,
+#tag-selection-menu-overlay,
 #tag-assignment-menu,
 #tag-assignment-menu-overlay {
   padding: 1em;
   width: 22em;
+}
+
+#tag-selection-menu-overlay {
+  height: 468px;
+  justify-content: center;
+  align-items: center;
 }
 
 #tag-assignment-menu,

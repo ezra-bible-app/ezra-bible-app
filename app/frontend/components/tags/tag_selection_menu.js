@@ -89,19 +89,29 @@ class TagSelectionMenu {
 
       tagSelectButton.addClass('ui-state-active');
       var tag_select_button_offset = tagSelectButton.offset();
+
       var menu = $('#app-container').find('#tag-selection-menu');
+      var menuOverlay = $('#app-container').find('#tag-selection-menu-overlay');
+
       var top_offset = tag_select_button_offset.top + tagSelectButton.height() + 1;
       var left_offset = tag_select_button_offset.left;
 
       menu.css('top', top_offset);
       menu.css('left', left_offset);
+      menuOverlay.css('top', top_offset);
+      menuOverlay.css('left', left_offset);
+
+      // Show an overlay while the actual menu is rendering
+      menuOverlay.css('display', 'flex');
+      menuOverlay.find('.loader').show();
+      await waitUntilIdle();
 
       if (!this.tag_menu_populated) {
         await this.updateTagSelectionMenu();
       }
 
-      var tagSelectionMenu = $('#tag-selection-menu');
-      tagSelectionMenu.show();
+      menu.show();
+      menuOverlay.hide();
       $('#tag-selection-filter-input').select();
 
       this.tag_menu_is_opened = true;
