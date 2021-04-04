@@ -502,11 +502,15 @@ h2 {
 .ui-widget:not(.ezra-dialog) button,
 .fg-button,
 .ui-selectmenu-menu,
+#app-info-tabs .ui-tabs-nav,
 #module-search-menu,
 .selection-menu-footer,
 .options-header,
+#book-selection-menu,
 #tag-selection-menu,
+#tag-selection-menu-overlay,
 #tag-assignment-menu,
+#tag-assignment-menu-overlay,
 #display-options-menu {
   font-size: 0.9em;
 }
@@ -741,10 +745,6 @@ h2 {
   background-color: white;
   z-index: 100;
   display: none;
-}
-
-#book-selection-menu {
-  font-size: 0.9em;
 }
 
 #module-settings-assistant {
@@ -1498,10 +1498,6 @@ h2 {
   width: 37em;
 }
 
-#tag-assignment-menu-overlay {
-  font-size: 0.9em;
-}
-
 .darkmode--activated #tag-selection-menu {
   color: #cccccc;
 }
@@ -1976,10 +1972,6 @@ s {
 
 .text-loader {
   float: right;
-}
-
-#app-info-tabs .ui-tabs-nav {
-  font-size: 0.9em;
 }
 
 .darkmode--activated p,
