@@ -940,6 +940,7 @@ h2 {
   font-size: 0.8em;
   justify-content: center;
 }
+
 .text-size-menu .fg-button:last-child {
   margin-right: 0;
 }
@@ -947,9 +948,15 @@ h2 {
 .verse-list-menu .fg-button.ui-state-active {
   border-bottom-right-radius: 0;
 }
+
 .verse-list-menu .fg-button.ui-state-active .fa-caret-down:before {
   content: "\f00d";
 }
+
+.fa-caret-down {
+  width: 8px;
+}
+
 .book-select-label {
   float: left;
 }
