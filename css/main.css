@@ -510,7 +510,6 @@ h2 {
 #tag-selection-menu,
 #tag-selection-menu-overlay,
 #tag-assignment-menu,
-#tag-assignment-menu-overlay,
 #display-options-menu {
   font-size: 0.9em;
 }
@@ -1500,8 +1499,7 @@ h2 {
   align-items: center;
 }
 
-#tag-assignment-menu,
-#tag-assignment-menu-overlay {
+#tag-assignment-menu {
   width: 37em;
 }
 
@@ -1509,8 +1507,7 @@ h2 {
   color: #cccccc;
 }
 
-#tag-assignment-menu-filter,
-#tag-assignment-menu-filter-overlay {
+#tag-assignment-menu-filter {
   height: 4em;
 }
 
@@ -1536,7 +1533,6 @@ h2 {
 
 #tag-assignment-menu-taglist-overlay {
   overflow-y: unset;
-  border: unset;
   display: flex;
   justify-content: center;
   align-items: center;

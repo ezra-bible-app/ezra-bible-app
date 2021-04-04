@@ -36,10 +36,6 @@ class TagAssignmentMenu {
     return $('#app-container').find('#tag-assignment-menu');
   }
 
-  getOverlayMenu() {
-    return $('#app-container').find('#tag-assignment-menu-overlay');
-  }
-
   getCurrentMenuButton() {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
     var assignTagMenuButton = currentVerseListMenu.find('.assign-tag-menu-button');
@@ -71,22 +67,24 @@ class TagAssignmentMenu {
       assignTagMenuButton.addClass('ui-state-active');
       var buttonOffset = assignTagMenuButton.offset();
       var menu = this.getMenu();
-      var overlay = this.getOverlayMenu();
 
       var topOffset = buttonOffset.top + assignTagMenuButton.height() + 1;
       var leftOffset = buttonOffset.left;
 
-      overlay.css('top', topOffset);
-      overlay.css('left', leftOffset);
       menu.css('top', topOffset);
       menu.css('left', leftOffset);
 
+      var overlay = menu.find('#tag-assignment-menu-taglist-overlay');
+
       // Show an overlay while the actual menu is rendering
+      menu.find('#tag-assignment-menu-taglist').hide();
       overlay.show();
       overlay.find('.loader').show();
+      menu.show();
+
       await waitUntilIdle();
 
-      menu.show();
+      menu.find('#tag-assignment-menu-taglist').show();
       overlay.hide();
       $('#tags-search-input').select();
 
