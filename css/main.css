@@ -1936,6 +1936,10 @@ s {
   cursor: pointer;
 }
 
+.ui-selectmenu-menu-dropdown {
+  box-shadow: 5px 5px 5px #A0A0A0;
+}
+
 .scrollable::-webkit-scrollbar,
 .ui-selectmenu-menu ul::-webkit-scrollbar,
 .ui-widget-content::-webkit-scrollbar {
