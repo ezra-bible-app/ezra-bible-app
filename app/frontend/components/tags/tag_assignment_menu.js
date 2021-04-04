@@ -84,6 +84,7 @@ class TagAssignmentMenu {
 
       await waitUntilIdle();
 
+      menu.find('#tags-content-global').css('height', 'unset');
       menu.find('#tag-assignment-menu-taglist').show();
       overlay.hide();
       $('#tags-search-input').select();
@@ -125,6 +126,7 @@ class TagAssignmentMenu {
 
       var menu = document.getElementById(menuId);
       menu.appendChild(tagsContainer);
+
       var filter = document.getElementById(filterId);
       var tagsSearchInput = document.getElementById('tags-search-input');
 
