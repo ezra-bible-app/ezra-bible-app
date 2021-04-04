@@ -110,6 +110,7 @@ class StartupController
   
     var bookSelectionMenu = fs.readFileSync('html/book_selection_menu.html');
     var tagSelectionMenu = fs.readFileSync('html/tag_selection_menu.html');
+    var tagAssignmentMenu = fs.readFileSync('html/tag_assignment_menu.html');
     var bibleBrowserToolbox = fs.readFileSync('html/bible_browser_toolbox.html');
     var moduleSettingsAssistant = fs.readFileSync('html/module_settings_assistant.html');
     var tabSearchForm = fs.readFileSync('html/tab_search_form.html');
@@ -120,6 +121,7 @@ class StartupController
   
     document.getElementById('book-selection-menu').innerHTML = bookSelectionMenu;
     document.getElementById('tag-selection-menu').innerHTML = tagSelectionMenu;
+    document.getElementById('tag-assignment-menu').innerHTML = tagAssignmentMenu;
     document.getElementById('bible-browser-toolbox').innerHTML = bibleBrowserToolbox;
     document.getElementById('module-settings-assistant').innerHTML = moduleSettingsAssistant;
     document.getElementById('tab-search').innerHTML = tabSearchForm;
