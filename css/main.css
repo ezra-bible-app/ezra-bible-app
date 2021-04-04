@@ -1487,20 +1487,27 @@ h2 {
 }
 
 #tag-selection-menu,
-#tag-assignment-menu {
+#tag-assignment-menu,
+#tag-assignment-menu-overlay {
   padding: 1em;
   width: 22em;
 }
 
-#tag-assignment-menu {
+#tag-assignment-menu,
+#tag-assignment-menu-overlay {
   width: 37em;
+}
+
+#tag-assignment-menu-overlay {
+  font-size: 0.9em;
 }
 
 .darkmode--activated #tag-selection-menu {
   color: #cccccc;
 }
 
-#tag-assignment-menu-filter {
+#tag-assignment-menu-filter,
+#tag-assignment-menu-filter-overlay {
   height: 4em;
 }
 
@@ -1515,7 +1522,8 @@ h2 {
   font-size: 1em;
 }
 
-#tag-assignment-menu-taglist {
+#tag-assignment-menu-taglist,
+#tag-assignment-menu-taglist-overlay {
   border-top: 1px solid lightgrey;
   clear: both;
   margin-top: 2em;
@@ -1523,14 +1531,29 @@ h2 {
   overflow-y: scroll;
 }
 
+#tag-assignment-menu-taglist-overlay {
+  overflow-y: unset;
+  border: unset;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#tag-assignment-menu-taglist-overlay .loader {
+  float: unset;
+  margin-bottom: 6em;
+}
+
 @media only screen and (max-height: 780px) {
-  #tag-assignment-menu-taglist {
+  #tag-assignment-menu-taglist,
+  #tag-assignment-menu-taglist-overlay {
     height: 220px;
   }
 }
 
 @media only screen and (max-height: 500px) {
-  #tag-assignment-menu-taglist {
+  #tag-assignment-menu-taglist,
+  #tag-assignment-menu-taglist-overlay {
     height: 150px;
   }
 }
