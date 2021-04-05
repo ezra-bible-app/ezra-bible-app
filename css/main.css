@@ -533,64 +533,6 @@ h2 {
   float: none;
 }
 
-.odd-row {
-  background-color: #EEEEEE;
-}
-
-.section {
-  clear: both;
-  margin: 1em 0 1em 3.5em;
-  /*border-left: 1px dashed #A0A0A0;*/
-}
-
-.section-first-level {
-  margin: 1em 0 1em 0;
-}
-
-.verse-list-no-indenting .section {
-  margin: 1em 0 2em 0;
-  border: 0;
-}
-
-.verse-list-without-outline {
-  padding: 0.5em;
-}
-
-.verse-list-without-outline .section {
-  margin: 0;
-  border: 0;
-}
-
-.verse-list-without-outline .section-header-box {
-  display: none;
-}
-
-.verse-list-without-outline .verse-box {
-  padding: 0.1em;
-}
-
-.verse-list-without-outline .verse-reference {
-  width: 7em;
-}
-
-.verse-list-without-outline .verse-reference-content {
-  margin-left: 3.5em;
-  margin-top: -1.15em;
-}
-
-.verse-list-without-outline .verse-content {
-  padding-left: 0;
-  margin-left: 7.5em;
-}
-
-.verse-list-without-outline .verse-notes {
-  width: 40%;
-}
-
-.verse-list-without-outline .verse-reference-toolbox {
-  display: none;
-}
-
 .verse-list-frame-small-screen {
   height: 88%;
 }
@@ -658,10 +600,6 @@ h2 {
   clear: both;
 }
 
-.verse-list-without-outline .notes-info {
-  margin-left: 0;
-}
-
 .tag-info,
 .notes-info {
   font-weight: bold;
@@ -694,9 +632,7 @@ h2 {
 .verse-bible-book,
 .verse-bible-book-short,
 .verse-part,
-.abs-verse-nr,
-#current-outline-id,
-#current-outline-author {
+.abs-verse-nr {
   display: none;
 }
 
@@ -711,10 +647,6 @@ h2 {
   border: 0;
   display: flex;
   flex-direction: row;
-}
-
-.app-view {
-  height: 90%;
 }
 
 #app-container .ui-tabs-panel,
@@ -963,8 +895,7 @@ h2 {
 .tag-select-button .ui-icon,
 .module-search-button .ui-icon,
 .display-options-button .ui-icon,
-.assign-tag-menu-button .ui-icon,
-.note-session-select-button .ui-icon {
+.assign-tag-menu-button .ui-icon {
   float: right;
 }
 
@@ -1130,12 +1061,6 @@ h2 {
   margin-top: 0.5em;
   margin-bottom: 0.8em;
 }
-
-
-/*.options-header:not(.first) {
-  border-top: 2px solid #DDDDDD;
-  padding-top: 0.5em;
-}*/
 
 .switch-box {
   clear: both;
@@ -1456,34 +1381,6 @@ h2 {
   display: none;
 }
 
-#logout-button {
-  position: fixed;
-  top: 1.2em;
-  right: 2em;
-  z-index: 10;
-}
-
-#main-menu {
-  padding-left: 17em;
-}
-
-#main-menu li {
-  margin-top: 0.8em;
-}
-
-.webkit #main-menu {
-  padding-left: 18em;
-}
-
-.ui-autocomplete {
-  max-height: 150px;
-  overflow-y: auto;
-  /* prevent horizontal scrollbar */
-  overflow-x: hidden;
-  /* add padding to account for vertical scrollbar */
-  padding-right: 20px;
-}
-
 #tag-selection-menu,
 #tag-assignment-menu,
 #tag-assignment-menu-overlay {
@@ -1761,14 +1658,12 @@ h2 {
 
 
 /* Sword markup disabled by default */
-
 .sword-markup {
   display: none;
 }
 
 
 /* This element only occurs in the NA28 sword module */
-
 s {
   text-decoration: none;
 }
