@@ -606,6 +606,8 @@ class TextController {
 
     if (renderChart && (listType == 'search_results' || listType == 'tagged_verses')) {
       await app_controller.verse_statistics_chart.repaintChart(tabIndex);
+    } else {
+      await app_controller.verse_statistics_chart.resetChart(tabIndex);
     }
 
     if (isCache || listType == 'book' && !append) {
