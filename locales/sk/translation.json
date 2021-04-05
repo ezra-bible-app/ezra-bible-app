@@ -128,7 +128,10 @@
     "module-install-cancelled": "zrušené.",
     "module-unlock-failed": "zlyhal (Problémy s odomknutím).",
     "installing-strongs": "Inštalujem <i>Strongove slovníky</i>",
-    "applying-migrations": "Migrujem databázu na novú verziu"
+    "applying-migrations": "Migrujem databázu na novú verziu",
+    "developers": "Developers",
+    "translators": "Translators",
+    "versions-and-paths": "Versions and paths"
   },
   "help": {
     "help-text-no-tags-book-opened": "Ak chcete začať pracovať so značkami, vytvorte svoju prvú značku kliknutím na tlačidlo <i>Nová&nbsp;značka</i>.<br/><br/>Potom môžete listovať v biblickom texte, kliknúť alebo vybrať jednotlivé verše a potom im priradiť značku, ktorú ste práve vytvorili.",

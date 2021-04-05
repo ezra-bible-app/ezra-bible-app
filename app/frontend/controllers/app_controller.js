@@ -44,6 +44,7 @@ const NotesController = require("./notes_controller.js");
 const SwordNotes = require("../components/sword_notes.js");
 const InfoPopup = require("../components/info_popup.js");
 const TextSizeSettings = require("../components/text_size_settings.js");
+const VerseStatisticsChart = require('../components/verse_statistics_chart.js');
 
 /**
  * AppController is Ezra Bible App's main controller class which initiates all other controllers and components.
@@ -110,6 +111,7 @@ class AppController {
     this.init_component("SwordNotes", "sword_notes");
     this.init_component("InfoPopup", "info_popup");
     this.init_component("TextSizeSettings", "textSizeSettings");
+    this.init_component("VerseStatisticsChart", "verse_statistics_chart");
 
     this.verse_list_popup.initVerseListPopup();
     this.initGlobalShortCuts();
@@ -970,6 +972,25 @@ class AppController {
   getVerseFromReference(reference, separator=reference_separator) {
     var verse = Number(reference.split(separator)[1]);
     return verse;
+  }
+
+  getBibleBookStatsFromVerseList(tabIndex) {
+    var bibleBookStats = {};    
+    var currentVerseList = this.getCurrentVerseList(tabIndex)[0];
+    var verseBoxList = currentVerseList.querySelectorAll('.verse-box');
+
+    for (var i = 0; i < verseBoxList.length; i++) {
+      var currentVerseBox = verseBoxList[i];
+      var bibleBookShortTitle = new VerseBox(currentVerseBox).getBibleBookShortTitle();
+
+      if (bibleBookStats[bibleBookShortTitle] === undefined) {
+        bibleBookStats[bibleBookShortTitle] = 1;
+      } else {
+        bibleBookStats[bibleBookShortTitle] += 1;
+      }
+    }
+
+    return bibleBookStats;
   }
 
 /*
