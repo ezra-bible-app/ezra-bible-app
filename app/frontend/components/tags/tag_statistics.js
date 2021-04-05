@@ -19,7 +19,7 @@
 class TagStatistics {
   constructor() {}
 
-  get_book_tag_statistics() {
+  getBookTagStatistics() {
     var global_tags_box_el = $('#tags-content-global');
     var checkbox_tags = global_tags_box_el.find('.checkbox-tag');
     var book_tag_statistics = [];
@@ -34,9 +34,9 @@ class TagStatistics {
     return book_tag_statistics;
   }
 
-  async update_book_tag_statistics_box(book_tag_statistics=undefined) {
+  async updateBookTagStatisticsBox(book_tag_statistics=undefined) {
     if (book_tag_statistics === undefined) {
-      book_tag_statistics = this.get_book_tag_statistics();
+      book_tag_statistics = this.getBookTagStatistics();
     }
 
     var tags_by_verse_count = Object.keys(book_tag_statistics).sort(
@@ -84,7 +84,7 @@ class TagStatistics {
     $('#book-tag-statistics-box-content').html(tag_statistics_html);
   }
 
-  async toggle_book_tags_statistics_button(index=undefined) {
+  async toggleBookTagStatisticsButton(index=undefined) {
     var book_tag_statistics_button = $('.show-book-tag-statistics-button');
     if (index === undefined) {
       index = app_controller.tab_controller.getSelectedTabIndex();
@@ -102,7 +102,7 @@ class TagStatistics {
 
       book_tag_statistics_button.bind('click', (event) => {
         if (!$(event.target).hasClass('ui-state-disabled')) {
-          this.open_book_tag_statistics();
+          this.openBookTagStatistics();
         }
       });
       book_tag_statistics_button.show();
@@ -115,7 +115,7 @@ class TagStatistics {
     uiHelper.configureButtonStyles('.verse-list-menu');
   };
 
-  async open_book_tag_statistics() {
+  async openBookTagStatistics() {
     var currentVerseList = app_controller.getCurrentVerseList();
     var verse_list_position = currentVerseList.offset();
     var currentTab = app_controller.tab_controller.getTab();
