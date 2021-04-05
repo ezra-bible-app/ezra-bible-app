@@ -32,16 +32,6 @@
   cursor: pointer;
 }
 
-.hl-yellow {
-  background-color: #FFFF65;
-  border-radius: 4px;
-}
-
-.hl-green {
-  background-color: #9FFFA2;
-  border-radius: 4px;
-}
-
 .not-shown {
   display: none;
 }
@@ -166,17 +156,8 @@ h2 {
   overflow-y: scroll;*/
 }
 
-
-/*.verse-list-with-section-titles {
-  padding-top: 0;
-}*/
-
 .verse-list .help-text {
   margin: 1.5em;
-}
-
-.ie6 #main-content {
-  margin-top: 2em;
 }
 
 .verse-box {
@@ -187,29 +168,6 @@ h2 {
   margin-left: 0.2em;
 }
 
-.section .verse-box {
-  padding-left: 3.6em;
-}
-
-
-/*.verse-preamble {
-  width: 6.2em;
-}*/
-
-.section-header-toolbox,
-.verse-toolbox {
-  min-height: 30px;
-  float: left;
-}
-
-
-/*.section-header-toolbox {
-  width: 3.5em;
-}*/
-
-.section-button,
-.abstract-section-button,
-.close-section-button,
 .assign-tag-button {
   background-color: #F3F3F3;
   font-size: 0.8em;
@@ -221,90 +179,6 @@ h2 {
   float: right;
   text-align: center;
   color: black;
-}
-
-.section-button {
-  margin-top: 0.8em;
-  margin-left: 0.2em;
-  float: left;
-}
-
-.close-section-button {
-  padding-top: 2px;
-  height: 16px;
-}
-
-.webkit .section-button,
-.webkit .abstract-section-button,
-.webkit .close-section-button,
-.webkit .assign-tag-button {
-  height: 15px;
-  padding-top: 3px;
-}
-
-.close-section-button {
-  float: right;
-  margin-right: 0.5em;
-}
-
-.shadow {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  background-color: lightGrey;
-  opacity: 0.1;
-  display: none;
-}
-
-
-/* Bugfix for IE (see #59) */
-
-.ie .shadow {
-  display: none;
-}
-
-.move-up-button,
-.move-down-button,
-.split-verse-button {
-  background-color: #F3F3F3;
-  background-image: url(images/up.gif);
-  background-position: center;
-  background-repeat: no-repeat;
-  width: 18px;
-  height: 18px;
-  /*float: right;
-  margin-right: 0.25em;*/
-  border: 1px solid #A0A0A0;
-  /*visibility: hidden;*/
-  /*opacity: 0.5;*/
-  cursor: pointer;
-}
-
-.move-up-button,
-.move-down-button {
-  float: none;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.move-up-button {
-  margin-bottom: 0.1em;
-}
-
-.move-down-button {
-  background-image: url(images/down.gif);
-  /*margin-top: 1.7em;*/
-}
-
-.move-button-box {
-  float: left;
-}
-
-.split-verse-button {
-  margin-top: 0.75em;
-  margin-right: 0.2em;
-  float: left;
-  background-position: -160px -48px;
 }
 
 #expand-button {
@@ -1323,53 +1197,6 @@ h2 {
   visibility: hidden;
 }
 
-#bible-translation-select {
-  border-collapse: collapse;
-}
-
-#bible-translation-select td {
-  border: 1px solid #DDDDDD;
-  padding: 0.2em;
-}
-
-#bible-translation-select th {
-  font-weight: bold;
-  padding: 0.5em;
-  border: 1px solid #DDDDDD;
-  border-bottom: 1px solid black;
-}
-
-.bible-book-title {
-  font-weight: bold;
-}
-
-#program-label {
-  position: fixed;
-  z-index: 10;
-  font-size: 0.8em;
-  font-family: Serif;
-  font-size: 1.5em;
-  /*width: 13em;*/
-  top: 0.7em;
-  left: 0.8em;
-}
-
-.webkit #program-label {
-  top: 0.5em;
-}
-
-#program-label img {
-  border: 0;
-}
-
-#project-version {
-  position: fixed;
-  top: 1.4em;
-  left: 13em;
-  font-size: 0.7em;
-  color: #A0A0A0;
-}
-
 .bible-select-block {
   margin-right: 1em;
   margin-bottom: 0.5em;
@@ -1588,10 +1415,6 @@ h2 {
   margin-bottom: 0.2em;
 }
 
-#default-note-session {
-  display: none;
-}
-
 #tab-search {
   position: fixed;
   top: 50px;
@@ -1656,12 +1479,10 @@ h2 {
   background-color: forestgreen;
 }
 
-
 /* Sword markup disabled by default */
 .sword-markup {
   display: none;
 }
-
 
 /* This element only occurs in the NA28 sword module */
 s {
