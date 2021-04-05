@@ -113,7 +113,6 @@ class AppController {
     this.init_component("TextSizeSettings", "textSizeSettings");
     this.init_component("VerseStatisticsChart", "verse_statistics_chart");
 
-    this.verse_list_popup.initVerseListPopup();
     this.initGlobalShortCuts();
 
     this.translation_controller.init(async (oldBibleTranslationId, newBibleTranslationId) => {
