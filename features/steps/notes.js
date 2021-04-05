@@ -16,33 +16,69 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { Given, When, Then } = require("cucumber");
+const { Given, When, Then, defineParameterType } = require("cucumber");
 const { expect } = require("chai");
 
-Given('I have notes displayed', async function () {
-  const showNotesCheckbox = await global.app.client.$('#verse-notes-switch-box');
-  const checked = await showNotesCheckbox.getAttribute('checked');
-  if (checked !== 'checked') {
+defineParameterType({
+  name: 'display_option',
+  regexp: /tags|notes|indicators|xrefs|footnotes/,
+  transformer: s => {
+    switch (s) {
+      case 'tags':
+        return '#tags-switch';
+      case 'notes':
+        return '#verse-notes-switch';
+      case 'indicators':
+        return '#user-data-indicators-switch';
+      case 'xrefs':
+        return '#xrefs-switch';
+      case 'footnotes':
+        return '#footnotes-switch';
+    }
+  }
+});
+
+defineParameterType({
+  name: 'state',
+  regexp: /displayed|hidden/,
+  type: 'boolean',
+  transformer: s => s == 'displayed'
+});
+
+
+Given('I have {display_option} {state}', { timeout: 40 * 1000 }, async function (displayOptionId, state) {
+  const checkbox = await global.app.client.$(displayOptionId);
+  const checked = await checkbox.getAttribute('checked');
+  if (state && !checked || !state && checked) {
     const verseListTabs = await global.app.client.$('#verse-list-tabs-1');
     const displayOptionsButton = await verseListTabs.$('.display-options-button');
 
     await displayOptionsButton.click();
     await spectronHelper.sleep(200);
-    await showNotesCheckbox.click();
+    await checkbox.click();
     await spectronHelper.sleep(200);
   }
 });
 
 Given('I click on {string} book note', async function (bookName) {
   var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
-  var verseBox = await verseListTabs.$('.book-notes');
+  this.noteBox = await verseListTabs.$('.book-notes');
 
-  var classes = await verseBox.getAttribute('class');
+  var classes = await this.noteBox.getAttribute('class');
   var verseNrClass = await getVerseBoxSelector(bookName);
   expect(classes.split(' ')).to.include(verseNrClass.slice(1));
 
-  await verseBox.click();
+  await this.noteBox.click();
   await spectronHelper.sleep(200);
+});
+
+Given('I click on note indicator for the verse {string}', async function (verseReference) {
+  var verseBox = await getVerseBox(verseReference);
+  var noteIndicator = await verseBox.$('.notes-info');
+  noteIndicator.click()
+  await spectronHelper.sleep(200);
+
+  this.noteBox = await verseBox.$('.verse-notes');
 });
 
 Given('I enter markdown text', async function (docString) {
@@ -67,20 +103,18 @@ Then('the note assigned to {string} in the database starts with text {string}', 
 });
 
 Then('the note assigned to {string} has {string} text {string}', async function (verseReference, tag, text) {
-  var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
-  var verseBox = await verseListTabs.$(await getVerseBoxSelector(verseReference));
+  var verseBox = await getVerseBox(verseReference);
   var verseNotesText = await verseBox.$('.verse-notes-text');
   var element = await verseNotesText.$(tag);
-  
+
   expect(await element.getText()).to.equal(text);
 });
 
 Then('the note assigned to {string} has {int} list items', async function (verseReference, num) {
-  var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
-  var verseBox = await verseListTabs.$(await getVerseBoxSelector(verseReference));
+  var verseBox = await getVerseBox(verseReference);
   var verseNotesText = await verseBox.$('.verse-notes-text');
   var liElements = await verseNotesText.$$('li');
-  
+
   expect(liElements.length).to.equal(num);
 });
 
@@ -95,6 +129,11 @@ async function splitVerseReference(verseReference, translation = 'KJV') {
     bookId,
     absoluteVerseNumber
   }
+}
+
+async function getVerseBox(verseReference) {
+  var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
+  return await verseListTabs.$(await getVerseBoxSelector(verseReference));
 }
 
 async function getVerseBoxSelector(verseReference) {

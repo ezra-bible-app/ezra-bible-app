@@ -20,11 +20,13 @@
 
 Feature: Adding, viewing and editing notes
   In order to keep study notes I can add, view and edit notes for individual verses and books.
+  Background:
+    Given I open the book selection menu
+    And I select the book Ephesians
 
+  @remove-last-note-after-scenario
   Scenario: Adding a note to a book
     Given I have notes displayed
-    And I open the book selection menu
-    And I select the book Ephesians
     And I click on "Ephesians" book note
     And I enter markdown text
     ```
@@ -43,3 +45,16 @@ Feature: Adding, viewing and editing notes
     And the note assigned to "Ephesians" has "em" text "aprox. 60-63 A.D."
     And the note assigned to "Ephesians" has "strong" text "Themes"
     And the note assigned to "Ephesians" has 3 list items
+
+  @remove-last-note-after-scenario
+  Scenario: Adding a note to a verse
+    Given I have notes hidden
+    And I have indicators displayed
+    And I click on note indicator for the verse "Ephesians 1:2"
+    And I enter markdown text
+    ```
+    **Grace and peace** greeting
+    ```
+    When I click note "Save" button
+    Then the note assigned to "Ephesians 1:2" in the database starts with text "**Grace and peace"
+    And the note assigned to "Ephesians 1:2" has "strong" text "Grace and peace"

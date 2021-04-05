@@ -105,6 +105,22 @@ After("@remove-last-tag-after-scenario", async function() {
   await spectronHelper.sleep(1000);
 });
 
+After("@remove-last-note-after-scenario", async function() {
+  if (this.noteBox == null) {
+    return;
+  }
+
+  await this.noteBox.click();
+  await spectronHelper.sleep(200);
+
+  await global.app.webContents.executeJavaScript("app_controller.notes_controller.currentEditor.getDoc().setValue('')");
+
+  var saveButton = await this.noteBox.$('a[class^="save"]');
+  await saveButton.click();
+
+  await spectronHelper.sleep(200);
+});
+
 AfterAll({ timeout: 10000}, async function () {
   if (global.app && global.app.isRunning()) {
     var rendererLogs = await global.app.client.getRenderProcessLogs();
