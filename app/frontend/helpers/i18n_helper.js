@@ -26,7 +26,7 @@ const i18nextOptions = {
   },
   saveMissing: false,
   fallbackLng: 'en',
-  whitelist: ['de', 'en', 'nl', 'fr', 'es', 'sk','uk'],
+  whitelist: ['de', 'en', 'nl', 'fr', 'es', 'sk', 'uk'],
   react: {
     wait: false
   }
@@ -86,7 +86,7 @@ class I18nHelper {
     var origLang = i18n.language;
 
     await i18n.changeLanguage(lang);
-    var specificTranslation = i18n.t(key);
+    var specificTranslation = i18n.t(key, {lng: lang});
     await i18n.changeLanguage(origLang);
 
     return specificTranslation;
