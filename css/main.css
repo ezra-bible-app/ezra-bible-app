@@ -419,28 +419,6 @@ h2 {
   width: 600px;
 }
 
-.section-header-box {
-  min-height: 30px;
-}
-
-.section-outline-number {
-  font-weight: bold;
-  float: left;
-  margin-left: 0.5em;
-  margin-right: 1em;
-}
-
-.section-header {
-  font-weight: bold;
-  float: left;
-}
-
-.section-header input {
-  font-weight: inherit;
-  font-size: inherit;
-  width: 30em;
-}
-
 .ui-selected,
 .ui-selecting {
   border: 0;
@@ -975,9 +953,7 @@ h2 {
   margin-right: 0.8em;
 }
 
-
 /* On Android we disable the possibility to export tagged verses to a document */
-
 .Android .export-tagged-verses-button {
   display: none;
 }
@@ -1002,9 +978,6 @@ h2 {
 }
 
 .switch-label,
-#indent-switch-label,
-#outline-switch-label,
-#tag-list-switch-label,
 #tags-switch-label,
 #tags-column-switch-label,
 #strongs-switch-label,
@@ -1027,15 +1000,6 @@ h2 {
   background-color: #F2F5F7;
   z-index: 999;
   position: fixed;
-}
-
-.temporary-help-split-verse {
-  border: 1px solid black;
-  border-radius: 6px 6px 0px 0px;
-  border-bottom: 0;
-  padding: 0.5em;
-  font-style: italic;
-  width: 20em;
 }
 
 .temporary-help p {
@@ -1137,16 +1101,6 @@ h2 {
   cursor: default;
 }
 
-.note-loading-indicator {
-  text-align: center;
-  min-height: 4.1em;
-  opacity: 0.5;
-}
-
-.transparent {
-  opacity: 0.5;
-}
-
 .selected-verses {
   display: inline-block;
   width: 17em;
@@ -1163,24 +1117,6 @@ h2 {
   text-decoration: underline;
 }
 
-#search-result-content {
-  border-radius: 6px;
-  border: 1px solid #DDDDDD;
-  height: 95%;
-  margin-top: 0.5em;
-  overflow-y: scroll;
-  padding: 0.5em;
-}
-
-#search-view {
-  height: 90%;
-}
-
-.search-result {
-  background-color: yellow;
-}
-
-#verse-menu-box,
 #verse-expand-box {
   position: fixed;
   display: none;
