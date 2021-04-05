@@ -20,7 +20,7 @@ const PlatformHelper = require('../../lib/platform_helper.js');
 const jqueryI18next = require('jquery-i18next');
 
 const i18nextOptions = {
-  debug: false,
+  debug: true,
   interpolation: {
     escapeValue: false
   },
@@ -83,17 +83,13 @@ class I18nHelper {
   }
 
   async getSpecificTranslation(lang, key) {
-    var origLang = i18n.language;
-
-    await i18n.changeLanguage(lang);
-    var specificTranslation = i18n.t(key, {lng: lang});
-    await i18n.changeLanguage(origLang);
+    var specificTranslation = i18n.t(key, {lng: lang}); // https://www.i18next.com/translation-function/essentials
 
     return specificTranslation;
   }
 
   async getChapterTranslation(lang) {
-    var language = lang;
+    var language = lang??this.getLanguage();
 
     if (this._isCordova) {
       language = 'en';
@@ -103,7 +99,7 @@ class I18nHelper {
   }
 
   async getPsalmTranslation(lang) {
-    var language = lang;
+    var language = lang??this.getLanguage();
 
     if (this._isCordova) {
       language = 'en';
