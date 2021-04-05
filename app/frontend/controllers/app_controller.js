@@ -630,7 +630,7 @@ class AppController {
       ((currentTextType == 'xrefs') || (currentTextType == 'tagged_verses'))
     ) {
       if (isXrefMarker) {
-        this.verse_list_popup.initCurrentXrefs(event.target);
+        await this.verse_list_popup.initCurrentXrefs(event.target);
 
         this.openXrefVerses(this.verse_list_popup.currentReferenceVerseBox,
                             this.verse_list_popup.currentPopupTitle,
