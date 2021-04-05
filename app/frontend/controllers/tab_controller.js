@@ -349,16 +349,23 @@ class TabController {
     this.bindEvents();
   }
 
+  getCorrectedIndex(ui) {
+    var index = ui.index;
+
+    // The ui.index may be higher as the actual available index. This happens after a tab was removed.
+    if (index > (this.getTabCount() - 1)) {
+      // In this case we simply adjust the index to the last available index.
+      index = this.getTabCount() - 1;
+    }
+
+    return index;   
+  }
+
   bindEvents() {
     this.tabs.tabs({
       select: (event, ui) => {
-        // The ui.index may be higher as the actual available index. This happens after a tab was removed.
-        if (ui.index > (this.getTabCount() - 1)) {
-          // In this case we simply adjust the index to the last available index.
-          ui.index = this.getTabCount() - 1;
-        }
-
-        var metaTab = this.getTab(ui.index);
+        var index = this.getCorrectedIndex(ui);
+        var metaTab = this.getTab(index);
         metaTab.selectCount += 1;
 
         if (metaTab.addedInteractively || metaTab.selectCount > 1) { // We only run the onTabSelected callback
@@ -366,8 +373,35 @@ class TabController {
                                                                      // or after the initial select.
                                                                      // This is necessary to ensure good visual performance when
                                                                      // adding tabs automatically (like for finding all Strong's references).
+          
+          var index = this.getCorrectedIndex(ui);
+
+          if (metaTab.getTextType() != null) {
+            var currentVerseList = app_controller.getCurrentVerseList(index);
+            currentVerseList.hide();
+            app_controller.showVerseListLoadingIndicator(index);
+          }
+
           this.onTabSelected(event, ui);
         }
+      },
+      show: (event, ui) => {
+        var index = this.getCorrectedIndex(ui);
+        var metaTab = this.getTab(index);
+
+        (async () => { // We use an async IIFE, because JQuery UI cannot deal with an async function
+
+          if (metaTab.addedInteractively || metaTab.selectCount > 1) { // see above
+            if (metaTab.getTextType() != null) {
+              await waitUntilIdle();
+
+              var index = this.getCorrectedIndex(ui);
+              var currentVerseList = app_controller.getCurrentVerseList(index);
+              currentVerseList.show();
+              app_controller.hideVerseListLoadingIndicator(index);
+            }
+          }
+        })();
       }
     });
 

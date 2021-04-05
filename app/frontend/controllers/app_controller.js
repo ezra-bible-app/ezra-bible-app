@@ -551,8 +551,8 @@ class AppController {
     return searchCancelButton;
   }
 
-  showVerseListLoadingIndicator(message=undefined, withLoader=true) {
-    var loadingIndicator = this.getCurrentVerseListLoadingIndicator();
+  showVerseListLoadingIndicator(tabIndex=undefined, message=undefined, withLoader=true) {
+    var loadingIndicator = this.getCurrentVerseListLoadingIndicator(tabIndex);
     var loadingText = loadingIndicator.find('.verse-list-loading-indicator-text');
     if (message === undefined) {
       message = i18n.t("bible-browser.loading-bible-text");
