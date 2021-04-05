@@ -155,8 +155,6 @@ class UiHelper {
 
     this.app_container_height = $(window).height() - 10;
     $("#app-container").css("height", this.app_container_height);
-    // Notes disabled
-    // $('#general-notes-textarea').css('height', new_app_container_height - 210);
   
     var tagsToolBarHeight = $('#tags-toolbar').height();
   

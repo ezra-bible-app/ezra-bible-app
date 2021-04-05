@@ -98,13 +98,13 @@ class TextController {
       currentVerseListMenu.find('.book-select-button').addClass('focused-button');
 
       if (cachedText != null) {
-        await this.renderVerseList(cachedText, cachedReferenceVerse, 'book', tabIndex, true);
+        await this.renderVerseList(cachedText, cachedReferenceVerse, 'book', tabIndex, false, true);
       } else {
 
         // 1) Only request the first 50 verses and render immediately
         await this.requestBookText(tabIndex, tabId, book,
           async (htmlVerseList) => { 
-            await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false);
+            await this.renderVerseList(htmlVerseList, null, 'book', tabIndex);
           }, 1, 50
         );
 
@@ -114,7 +114,7 @@ class TextController {
         await this.requestBookText(
           tabIndex, tabId, book,
           async (htmlVerseList) => { 
-            await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, undefined, true);
+            await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, true);
           }, 51, -1
         );
       }
@@ -126,14 +126,14 @@ class TextController {
       uiHelper.showTextLoadingIndicator();
 
       if (cachedText != null) {
-        await this.renderVerseList(cachedText, cachedReferenceVerse, 'tagged_verses', tabIndex);
+        await this.renderVerseList(cachedText, cachedReferenceVerse, 'tagged_verses', tabIndex, true, true);
       } else {
         await this.requestVersesForSelectedTags(
           tabIndex,
           tabId,
           tagIdList,
           async (htmlVerseList) => {
-            await this.renderVerseList(htmlVerseList, null, 'tagged_verses', tabIndex);
+            await this.renderVerseList(htmlVerseList, null, 'tagged_verses', tabIndex, true);
           }
         );
       }
@@ -143,14 +143,14 @@ class TextController {
       currentVerseListMenu.find('.module-search-button').addClass('focused-button');
       
       if (cachedText != null) {
-        await this.renderVerseList(cachedText, null, 'search_results', tabIndex);
+        await this.renderVerseList(cachedText, null, 'search_results', tabIndex, true, true);
       } else {
         await this.requestVersesForSearchResults(
           tabIndex,
           tabId,
           searchResults,
           async (htmlVerseList) => {
-            await this.renderVerseList(htmlVerseList, null, 'search_results', tabIndex, /* isCache */ false, target);
+            await this.renderVerseList(htmlVerseList, null, 'search_results', tabIndex, requestedBookId <= 0, /* isCache */ false, target);
           },
           requestedBookId
         );
@@ -160,14 +160,14 @@ class TextController {
       uiHelper.showTextLoadingIndicator();
       
       if (cachedText != null) {
-        await this.renderVerseList(cachedText, cachedReferenceVerse, 'xrefs', tabIndex);
+        await this.renderVerseList(cachedText, cachedReferenceVerse, 'xrefs', tabIndex, true, true);
       } else {
         await this.requestVersesForXrefs(
           tabIndex,
           tabId,
           xrefs,
           async (htmlVerseList) => {
-            await this.renderVerseList(htmlVerseList, null, 'xrefs', tabIndex, /* isCache */ false, target);
+            await this.renderVerseList(htmlVerseList, null, 'xrefs', tabIndex, true, /* isCache */ false, target);
           }
         );
       }
@@ -360,6 +360,7 @@ class TextController {
     if (render_type == "html") {
       
       await this.getVersesAsHtml(current_tab_id,
+                                 tab_index,
                                  bibleBooks,
                                  bookNames,
                                  bibleBookStats,
@@ -420,6 +421,7 @@ class TextController {
     if (render_type == "html") {
       
       await this.getVersesAsHtml(current_tab_id,
+                                 tab_index,
                                  bibleBooks,
                                  bookNames,
                                  bibleBookStats,
@@ -471,6 +473,7 @@ class TextController {
     if (render_type == "html") {
       
       await this.getVersesAsHtml(current_tab_id,
+                                 tab_index,
                                  bibleBooks,
                                  bookNames,
                                  bibleBookStats,
@@ -487,7 +490,7 @@ class TextController {
     }
   }
 
-  async getVersesAsHtml(current_tab_id, bibleBooks, bookNames, bibleBookStats, groupedVerseTags, groupedVerseNotes, verses, versification, render_function, renderBibleBookHeaders=true, renderVerseMetaInfo=true) {    
+  async getVersesAsHtml(current_tab_id, tabIndex, bibleBooks, bookNames, bibleBookStats, groupedVerseTags, groupedVerseNotes, verses, versification, render_function, renderBibleBookHeaders=true, renderVerseMetaInfo=true) {    
     var bibleTranslationId = app_controller.tab_controller.getTabById(current_tab_id).getBibleTranslationId();
     var separator = await getReferenceSeparator(bibleTranslationId);
     
@@ -513,7 +516,7 @@ class TextController {
     render_function(verses_as_html, verses.length);
   }
 
-  async renderVerseList(htmlVerseList, referenceVerseHtml, listType, tabIndex=undefined, isCache=false, target=undefined, append=false) {
+  async renderVerseList(htmlVerseList, referenceVerseHtml, listType, tabIndex=undefined, renderChart=false, isCache=false, target=undefined, append=false) {
     app_controller.hideVerseListLoadingIndicator();
     app_controller.hideSearchProgressBar();
     var initialRendering = true;
@@ -599,6 +602,12 @@ class TextController {
       var currentTab = app_controller.tab_controller.getTab(tabIndex);
       var currentSearchTerm = currentTab.getSearchTerm();
       app_controller.module_search_controller.highlightSearchResults(currentSearchTerm, tabIndex);
+    }
+
+    if (renderChart && (listType == 'search_results' || listType == 'tagged_verses')) {
+      await app_controller.verse_statistics_chart.repaintChart(tabIndex);
+    } else {
+      await app_controller.verse_statistics_chart.resetChart(tabIndex);
     }
 
     if (isCache || listType == 'book' && !append) {
