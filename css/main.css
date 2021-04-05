@@ -399,7 +399,7 @@ h2 {
 
 #verse-list-popup,
 #book-tag-statistics-box,
-#bible-translation-info-box {
+#info-popup {
   display: none;
 }
 
@@ -417,7 +417,7 @@ h2 {
   overflow-y: scroll;
 }
 
-#bible-translation-info-box {
+#info-popup {
   width: 600px;
   height: 400px;
   overflow: inherit;
