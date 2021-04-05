@@ -60,13 +60,15 @@ Given('I have {display_option} {state}', { timeout: 40 * 1000 }, async function 
   }
 });
 
-Given('I click on {string} book note', async function (bookName) {
-  var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
-  this.noteBox = await verseListTabs.$('.book-notes');
+Given('I click on {string} note', async function (verseReference) {
+  var verseBox = await getVerseBox(verseReference);
+  var classes = await verseBox.getAttribute('class');
 
-  var classes = await this.noteBox.getAttribute('class');
-  var verseNrClass = await getVerseBoxSelector(bookName);
-  expect(classes.split(' ')).to.include(verseNrClass.slice(1));
+  if(classes.split(' ').includes('book-notes')) {
+    this.noteBox = verseBox;
+  } else {
+    this.noteBox = await verseBox.$('.verse-notes');
+  }
 
   await this.noteBox.click();
   await spectronHelper.sleep(200);
@@ -105,8 +107,14 @@ Then('the note assigned to {string} in the database starts with text {string}', 
 Then('the note assigned to {string} has {string} text {string}', async function (verseReference, tag, text) {
   var verseBox = await getVerseBox(verseReference);
   var verseNotesText = await verseBox.$('.verse-notes-text');
-  var element = await verseNotesText.$(tag);
 
+  if(!(await verseNotesText.isDisplayed())) {
+    var noteIndicator = await verseBox.$('.notes-info');
+    noteIndicator.click()
+    await spectronHelper.sleep(200);  
+  }
+
+  var element = await verseNotesText.$(tag);
   expect(await element.getText()).to.equal(text);
 });
 

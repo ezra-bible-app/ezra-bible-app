@@ -27,7 +27,7 @@ Feature: Adding, viewing and editing notes
   @remove-last-note-after-scenario
   Scenario: Adding a note to a book
     Given I have notes displayed
-    And I click on "Ephesians" book note
+    And I click on "Ephesians" note
     And I enter markdown text
     ```
     # A Letter From Prison
@@ -46,7 +46,6 @@ Feature: Adding, viewing and editing notes
     And the note assigned to "Ephesians" has "strong" text "Themes"
     And the note assigned to "Ephesians" has 3 list items
 
-  @remove-last-note-after-scenario
   Scenario: Adding a note to a verse
     Given I have notes hidden
     And I have indicators displayed
@@ -56,5 +55,20 @@ Feature: Adding, viewing and editing notes
     **Grace and peace** greeting
     ```
     When I click note "Save" button
+    Then the note assigned to "Ephesians 1:2" in the database starts with text "**Grace and peace"
+    And the note assigned to "Ephesians 1:2" has "strong" text "Grace and peace"
+
+  @remove-last-note-after-scenario
+  Scenario: Cancel verse note editing
+    Given I have notes hidden
+    And I have indicators displayed
+    And the note assigned to "Ephesians 1:2" in the database starts with text "**Grace and peace"
+    And the note assigned to "Ephesians 1:2" has "strong" text "Grace and peace"
+    And I click on "Ephesians 1:2" note
+    And I enter markdown text
+    ```
+    abracadabra
+    ```
+    When I click note "Cancel" button
     Then the note assigned to "Ephesians 1:2" in the database starts with text "**Grace and peace"
     And the note assigned to "Ephesians 1:2" has "strong" text "Grace and peace"
