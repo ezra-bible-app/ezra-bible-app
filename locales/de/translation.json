@@ -166,7 +166,9 @@
     "title": "Titel",
     "stats-used": "benutzt",
     "stats-total": "gesamt",
-    "only-currentbook-tagged-verses": "Nur aktuelles Buch"
+    "only-currentbook-tagged-verses": "Nur aktuelles Buch",
+    "most-frequently-used": "Most frequently used",
+    "less-frequently-used": "Less frequently used"
   },
   "bible-browser": {
     "chapter": "Kapitel",

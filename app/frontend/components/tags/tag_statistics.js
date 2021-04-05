@@ -63,19 +63,46 @@ class TagStatistics {
     tag_statistics_html += "<tr><th style='text-align: left;'>Tag</th>"
                         +  "<th style='text-align: left; width: 2em;'>#</th>"
                         +  "<th style='text-align: left; width: 2em;'>%</th></tr>";
+    
+    var clusters = [];
+
+    const MAX_CLUSTERS = 4;
+    const MIN_CLUSTER_PERCENT = 1;
+
+    for (var i = 0; i < tags_by_verse_count.length; i++) {
+      var tag_title = tags_by_verse_count[i];
+      var tagged_verse_count = book_tag_statistics[tag_title];
+      var tagged_verse_percent = Math.round((tagged_verse_count / overall_verse_count) * 100);
+      
+      if (tagged_verse_percent >= MIN_CLUSTER_PERCENT && !clusters.includes(tagged_verse_percent) && clusters.length < MAX_CLUSTERS) {
+        clusters.push(tagged_verse_percent);
+      }
+
+      if (clusters.length >= MAX_CLUSTERS) {
+        break;
+      }
+    }
+
+    var is_more_frequent = true;
 
     for (var i = 0; i < tags_by_verse_count.length; i++) {
       var tag_title = tags_by_verse_count[i];
       var tagged_verse_count = book_tag_statistics[tag_title];
       var tagged_verse_percent = Math.round((tagged_verse_count / overall_verse_count) * 100);
 
-      var current_row_html = "<tr><td style='width: 20em;'>" + tag_title
-                                        + "</td><td>" 
-                                        + tagged_verse_count
-                                        + "</td><td>"
-                                        + tagged_verse_percent
-                                        + "</td></tr>";
+      var current_row_html = "";
+
+      if (i == 0) {
+        current_row_html += `<tr><td style='font-weight: bold; font-style: italic; padding-top: 0.5em;' colspan='3'>${i18n.t('tags.most-frequently-used')}</td></tr>`;
+      } else if (is_more_frequent && !clusters.includes(tagged_verse_percent)) {
+        current_row_html += `<tr><td style='font-weight: bold; font-style: italic; padding-top: 0.5em;' colspan='3'>${i18n.t('tags.less-frequently-used')}</td></tr>`;
+      }
+
+      var current_row_html = current_row_html + `<tr><td style="width: 20em;">${tag_title}</td><td>${tagged_verse_count}</td><td>${tagged_verse_percent}</td></tr>`;
       tag_statistics_html += current_row_html;
+
+      
+      is_more_frequent = clusters.includes(tagged_verse_percent);
     }
 
     tag_statistics_html += "</table>";
