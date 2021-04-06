@@ -18,8 +18,8 @@
 
 const { Given, When, Then } = require("cucumber");
 const { expect } = require("chai");
-const dbHelper = require("./helpers/db_helper.js");
-const uiHelper = require("./helpers/ui_helper.js");
+const dbHelper = require("../helpers/db_helper.js");
+const uiHelper = require("../helpers/ui_helper.js");
 
 
 Given('I have {display_option} {state}', { timeout: 40 * 1000 }, async function (displayOptionId, state) {
@@ -30,9 +30,9 @@ Given('I have {display_option} {state}', { timeout: 40 * 1000 }, async function 
     const displayOptionsButton = await verseListTabs.$('.display-options-button');
 
     await displayOptionsButton.click();
-    await spectronHelper.sleep(200);
+    await uiHelper.sleep();
     await checkbox.click();
-    await spectronHelper.sleep(200);
+    await uiHelper.sleep();
   }
 });
 
@@ -47,14 +47,14 @@ Given('I click on {string} note', async function (verseReference) {
   }
 
   await this.noteBox.click();
-  await spectronHelper.sleep(200);
+  await uiHelper.sleep();
 });
 
 Given('I click on note indicator for the verse {string}', async function (verseReference) {
   var verseBox = await uiHelper.getVerseBox(verseReference);
   var noteIndicator = await verseBox.$('.notes-info');
   noteIndicator.click()
-  await spectronHelper.sleep(200);
+  await uiHelper.sleep();
 
   this.noteBox = await verseBox.$('.verse-notes');
 });
@@ -69,7 +69,7 @@ When('I click note {string} button', async function (buttonClass) {
   var button = await statusBar.$(`a[class^="${buttonClass.toLowerCase()}"]`);
 
   await button.click();
-  await spectronHelper.sleep(200);
+  await uiHelper.sleep();
 });
 
 Then('the note assigned to {string} in the database starts with text {string}', async function (verseReference, startText) {
@@ -87,7 +87,7 @@ Then('the note assigned to {string} has {string} text {string}', async function 
   if(!(await verseNotesText.isDisplayed())) {
     var noteIndicator = await verseBox.$('.notes-info');
     noteIndicator.click()
-    await spectronHelper.sleep(200);  
+    await uiHelper.sleep();  
   }
 
   var element = await verseNotesText.$(tag);

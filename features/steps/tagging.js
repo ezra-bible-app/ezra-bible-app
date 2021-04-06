@@ -18,6 +18,7 @@
 
 const { Given, When, Then } = require("cucumber");
 const { assert } = require("chai");
+const uiHelper = require("../helpers/ui_helper.js");
 
 Given('I create the tag {string}', async function (tagName) {
   var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
@@ -28,7 +29,7 @@ Given('I create the tag {string}', async function (tagName) {
   await newTagTitleInput.setValue(tagName);
 
   await global.app.client.keys('Enter');
-  await spectronHelper.sleep(500);
+  await uiHelper.sleep(500);
 });
 
 When('I assign the tag {string} to the current verse selection', async function (tagName) {

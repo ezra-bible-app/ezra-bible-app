@@ -18,6 +18,7 @@
 
 const { Given, When, Then } = require("cucumber");
 const { assert } = require("chai");
+const uiHelper = require("../helpers/ui_helper.js");
 
 async function clickCheckbox(selector, parentSelector='#module-settings-assistant-add') {
   var parent = await global.app.client.$(parentSelector);
@@ -46,9 +47,9 @@ Given('I open the module installation assistant', {timeout: 40 * 1000}, async fu
   var translationSettingsButton = await global.app.client.$('#show-translation-settings-button');
 
   await displayOptionsButton.click();
-  await spectronHelper.sleep(200);
+  await uiHelper.sleep();
   await translationSettingsButton.click();
-  await spectronHelper.sleep(200);
+  await uiHelper.sleep();
 });
 
 Given('I choose to add translations', async function () {
@@ -130,7 +131,7 @@ Then('the relevant buttons in the menu are enabled', async function() {
   var bookSelectButton = await verseListTabs.$('.book-select-button');
   var moduleSearchButton = await verseListTabs.$('.module-search-button');
   var appInfoButton = await verseListTabs.$('.app-info-button');
-  await global.spectronHelper.buttonIsEnabled(bookSelectButton);
-  await global.spectronHelper.buttonIsEnabled(moduleSearchButton);
-  await global.spectronHelper.buttonIsEnabled(appInfoButton);
+  await uiHelper.buttonIsEnabled(bookSelectButton);
+  await uiHelper.buttonIsEnabled(moduleSearchButton);
+  await uiHelper.buttonIsEnabled(appInfoButton);
 });

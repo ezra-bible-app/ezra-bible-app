@@ -18,14 +18,15 @@
 
 const { Given, When, Then } = require("cucumber");
 const { assert } = require("chai");
+const uiHelper = require("../helpers/ui_helper.js");
 
 Given('I open the search menu', async function () {
   var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
   var moduleSearchButton = await verseListTabs.$('.module-search-button');
   
-  await global.spectronHelper.buttonIsEnabled(moduleSearchButton, timeoutMs=1000);
+  await uiHelper.buttonIsEnabled(moduleSearchButton, timeoutMs=1000);
   await moduleSearchButton.click();
-  await spectronHelper.sleep(500);
+  await uiHelper.sleep(500);
 });
 
 Given('I enter the term {string}', async function (searchTerm) {
@@ -40,7 +41,7 @@ When('I perform the search', {timeout: 50 * 1000}, async function () {
   var startSearchButton = await moduleSearchMenu.$('#start-module-search-button');
 
   await startSearchButton.click();
-  await spectronHelper.waitUntilGlobalLoaderIsHidden(50000);
+  await uiHelper.waitUntilGlobalLoaderIsHidden(50000);
 });
 
 Then('there are {int} search results', async function (searchResultCount) {

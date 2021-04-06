@@ -19,7 +19,8 @@
 const { AfterAll, BeforeAll, Before, After } = require("cucumber");
 
 const chaiAsPromised = require("chai-as-promised");
-const SpectronHelper = require("./spectron_helper.js");
+const SpectronHelper = require("../helpers/spectron_helper.js");
+const uiHelper = require("../helpers/ui_helper.js");
 
 global.spectronHelper = new SpectronHelper();
 global.app = null;
@@ -92,7 +93,7 @@ After("@remove-last-tag-after-scenario", async function() {
 
   var tagDeleteButton = await this.currentTag.$('.tag-delete-button'); 
   await tagDeleteButton.click();
-  await spectronHelper.sleep(200);
+  await uiHelper.sleep();
 
   var deleteTagConfirmationDialog = await global.app.client.$('#delete-tag-confirmation-dialog');
   var deleteTagConfirmationDialogContainer = await deleteTagConfirmationDialog.$('..');
@@ -102,7 +103,7 @@ After("@remove-last-tag-after-scenario", async function() {
   var confirmationButton = deleteTagConfirmationButtons[1];
 
   await confirmationButton.click();
-  await spectronHelper.sleep(1000);
+  await uiHelper.sleep(1000);
 });
 
 After("@remove-last-note-after-scenario", async function() {
@@ -111,14 +112,14 @@ After("@remove-last-note-after-scenario", async function() {
   }
 
   await this.noteBox.click();
-  await spectronHelper.sleep(200);
+  await uiHelper.sleep();
 
   await global.app.webContents.executeJavaScript("app_controller.notes_controller.currentEditor.getDoc().setValue('')");
 
   var saveButton = await this.noteBox.$('a[class^="save"]');
   await saveButton.click();
 
-  await spectronHelper.sleep(200);
+  await uiHelper.sleep();
 });
 
 AfterAll({ timeout: 10000}, async function () {

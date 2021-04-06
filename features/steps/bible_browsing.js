@@ -18,21 +18,22 @@
 
 const { Given, When, Then } = require("cucumber");
 const { assert } = require("chai");
+const uiHelper = require("../helpers/ui_helper.js");
 
 Given('I open the book selection menu', {timeout: 60 * 1000}, async function () {
   var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
   var bookSelectButton = await verseListTabs.$('.book-select-button');
   
-  await global.spectronHelper.buttonIsEnabled(bookSelectButton, timeoutMs=1000);
+  await uiHelper.buttonIsEnabled(bookSelectButton, timeoutMs=1000);
   await bookSelectButton.click();
-  await spectronHelper.sleep(500);
+  await uiHelper.sleep(500);
 });
 
 When('I select the book Ephesians', {timeout: 20 * 1000}, async function () {
   var ephesiansButton = await global.app.client.$('.book-Eph');
   var ephesiansLink = await ephesiansButton.$('a');
   await ephesiansLink.click();
-  await spectronHelper.waitUntilGlobalLoaderIsHidden();
+  await uiHelper.waitUntilGlobalLoaderIsHidden();
 });
 
 Then('the tab title is {string}', async function (string) {
@@ -81,5 +82,5 @@ Given('I select the verse {string}', async function (selectedVerse) {
   this.selectedVerseText = await this.selectedVerseBox.$('.verse-text');
 
   await this.selectedVerseText.click();
-  await spectronHelper.sleep(200);
+  await uiHelper.sleep();
 });

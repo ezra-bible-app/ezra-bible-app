@@ -97,34 +97,6 @@ class SpectronHelper {
     global.models = require('../../app/backend/database/models')(userDataDir);
   }
 
-  async buttonHasClass(button, className, timeoutMs=100) {
-    await global.app.client.waitUntil(async () => {
-      var classList = await button.getAttribute('class');
-      return classList.split(' ').includes(className);
-    }, { timeout: timeoutMs });
-  }
-
-  async buttonIsDisabled(button, timeoutMs=100) {
-    await this.buttonHasClass(button, 'ui-state-disabled', timeoutMs);
-  }
-
-  async buttonIsEnabled(button, timeoutMs=100) {
-    await this.buttonHasClass(button, 'ui-state-default', timeoutMs);
-  }
-
-  async waitUntilGlobalLoaderIsHidden(timeoutMs=20000) {
-    var verseListMenu = await global.app.client.$('.verse-list-menu');
-    var loader = await verseListMenu.$('.loader');
-  
-    await global.app.client.waitUntil(async () => { // Wait until loader is hidden
-      var loaderDisplay = await loader.getCSSProperty('display');
-      await global.app.client.saveScreenshot('./test_screenshot.png');
-      await this.sleep(200);
-  
-      return loaderDisplay.value == "none";
-    }, { timeout: timeoutMs, timeoutMsg: `The loader has not disappeared after waiting ${timeoutMs}ms.` });
-  }
-
   getBookShortTitle(book_long_title) {
     for (var i = 0; i < bible_books.length; i++) {
       var current_book = bible_books[i];
@@ -163,7 +135,7 @@ class SpectronHelper {
 
     if (fs.existsSync(backupSwordDir)) {
       copydir.sync(backupSwordDir, swordDir);
-      await this.sleep(500);
+      await uiHelper.sleep(500);
     }
 
     var asvFound = await this.isAsvAvailable(true);
@@ -179,7 +151,7 @@ class SpectronHelper {
       await this.backupSwordDir();
     }
 
-    await spectronHelper.sleep(500);
+    await uiHelper.sleep(500);
   }
 
   async getLocalModule(moduleCode) {
@@ -198,13 +170,6 @@ class SpectronHelper {
     return null;
   }
 
-  sleep(time) {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve();
-      }, time);
-    });
-  }
 }
 
 module.exports = SpectronHelper;
