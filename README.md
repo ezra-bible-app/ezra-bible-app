@@ -35,6 +35,12 @@ Have a look at the build instructions [here][build].
 
 [build]: https://github.com/ezra-project/ezra-project/blob/master/BUILD.md
 
+### Contribution Guidelines
+
+Have a look at the contribution guidelines [here][contributing].
+
+[contributing]: https://github.com/ezra-project/ezra-project/blob/master/CONTRIBUTING.md
+
 ## User Forum
 
 Join the User Forum at [forum.ezra-project.net](https://forum.ezra-project.net) to discuss any of the existing functionality, ask questions and make suggestions for new features!
@@ -47,7 +53,7 @@ Click [here](https://github.com/ezra-project/ezra-project/issues/new) to file a 
 
 ## Join the team!
 Your contributions to Ezra Project are very welcome!
-At the moment this is a small project with one maintainer. It would be great to have a team developing this software!
 Ideally you should bring some experience in working with web-based frontends, specifically HTML, CSS, JavaScript. Furthermore, experience with relational database design is a plus. However, if you're not a developer you can still help with testing, translation and user documentation!
+Have a look at the [contribution guidelines][contributing] for some more details!
 
 Feel free to drop me an email ([contact@tklein.info](mailto:contact@tklein.info)) if you are interested in joining the team!

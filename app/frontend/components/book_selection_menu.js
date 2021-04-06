@@ -162,7 +162,7 @@ class BookSelectionMenu {
                                                              null);
 
       await waitUntilIdle();
-      tags_controller.update_tag_list(currentBook);
+      tags_controller.updateTagList(currentBook);
     }, 50);
   }
 
@@ -184,10 +184,7 @@ class BookSelectionMenu {
     if (this.book_menu_is_opened) {
       app_controller.handleBodyClick();
     } else {
-      app_controller.tag_selection_menu.hideTagMenu();
-      app_controller.module_search_controller.hideSearchMenu();
-      app_controller.optionsMenu.hideDisplayMenu();
-      app_controller.tag_assignment_menu.hideTagAssignmentMenu();
+      app_controller.hideAllMenus();
       
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
       var book_button = currentVerseListMenu.find('.book-select-button');

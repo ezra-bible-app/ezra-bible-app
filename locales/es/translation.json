@@ -16,7 +16,12 @@
     "options": "Opciones",
     "export": "Exportar a un documento de texto",
     "show-module-info": "Mostrar información del módulo",
-    "fullscreen": "Cambiar a modo de pantalla completa"
+    "fullscreen": "Cambiar a modo de pantalla completa",
+    "exit-fullscreen": "Exit full screen mode",
+    "text-size": "Adjust verse font size",
+    "text-size-decrease": "Decrease current font size",
+    "text-size-reset": "Reset font size to default",
+    "text-size-increase": "Increase current font size"
   },
   "search-menu": {
     "search": "Buscar",
@@ -123,7 +128,10 @@
     "module-install-cancelled": "cancelado.",
     "module-unlock-failed": "falló (problema de desbloqueo).",
     "installing-strongs": "Instalando <i>Strong's dictionaries</i>",
-    "applying-migrations": "Migrando la base de datos a una nueva versión"
+    "applying-migrations": "Migrando la base de datos a una nueva versión",
+    "developers": "Developers",
+    "translators": "Translators",
+    "versions-and-paths": "Versions and paths"
   },
   "help": {
     "help-text-no-tags-book-opened": "Para comenzar trabajando con las etiquetas, debe crear su primera etiqueta pulsando en el botón <i>Nueva&nbsp;etiqueta</i>.<br/><br/>Después usted podrá seleccionar los textos de La Biblia que desee, para ello pulse sobre un verso o arrastre para seleccionar varios versos y asigne los a la etiqueta que acaba de crear.",
@@ -170,6 +178,7 @@
     "searching-for": "Buscando",
     "search-result-header": "Resultados para ",
     "no-search-results": "No se encontraron resultados para la consulta ",
+    "module-search-cancelled": "Module search cancelled when searching for ",
     "load-verse-context": "Cargar el contexto del verso",
     "tag-hint": "Pulse para mostrar todos los versos con esta etiqueta",
     "show-search-results": "Mostrar resultados de la búsqueda",
@@ -202,7 +211,8 @@
     "strongs-number-not-valid": "Este número Strongs no es válido!",
     "open-new-tab": "Abrir nueva pestaña",
     "open-verselist-in-new-tab": "Abrir la lista de versos en una nueva pestaña",
-    "footnote-character": "n"
+    "footnote-character": "n",
+    "adjust-font-size-tags-notes": "Adjust tags & notes font size"
   },
   "dictionary-info-box": {
     "greek-dict": "Diccionario Griego",

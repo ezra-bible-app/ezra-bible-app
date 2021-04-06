@@ -53,7 +53,7 @@ class VerseContextController {
       return;
     }
 
-    app_controller.translation_controller.showTextLoadingIndicator();
+    uiHelper.showTextLoadingIndicator();
 
     var start_verse_box = current_reference.closest('.verse-box');
     var current_book_title = new VerseBox(start_verse_box[0]).getBibleBookShortTitle();
@@ -77,7 +77,7 @@ class VerseContextController {
       current_book_title,
       (htmlVerseList) => { 
         app_controller.verse_context_controller.load_verse_context(htmlVerseList);
-        app_controller.translation_controller.hideTextLoadingIndicator();
+        uiHelper.hideTextLoadingIndicator();
       },
       start_verse_nr,
       number_of_verses
@@ -143,7 +143,7 @@ class VerseContextController {
     selected_verse_box.find('.verse-text').addClass('ui-selected');
 
     // Update the tags view after the selection
-    tags_controller.update_tags_view_after_verse_selection(true);
+    tags_controller.updateTagsViewAfterVerseSelection(true);
 
     app_controller.bindEventsAfterBibleTextLoaded(undefined, true);
   }

@@ -133,7 +133,7 @@ async function createWindow () {
                                   height: mainWindowState.height,
                                   show: true,
                                   frame: true,
-                                  title: "Ezra Bible App " + app.getVersion(),
+                                  title: "Ezra Bible App " + app.getVersion() + (isDev ? ` [${app.getLocale()}]` : ''),
                                   webPreferences: {
                                     nodeIntegration: true,
                                     preload: preloadScript,

@@ -155,8 +155,6 @@ class UiHelper {
 
     this.app_container_height = $(window).height() - 10;
     $("#app-container").css("height", this.app_container_height);
-    // Notes disabled
-    // $('#general-notes-textarea').css('height', new_app_container_height - 210);
   
     var tagsToolBarHeight = $('#tags-toolbar').height();
   
@@ -201,6 +199,22 @@ class UiHelper {
     if (platformHelper.isCordova()) {
       $('#loading-subtitle').text(text);
     }
+  }
+
+  getCurrentTextLoadingIndicator(tabIndex=undefined) {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+    var loadingIndicator = currentVerseListMenu.find('.loader');
+    return loadingIndicator;
+  }
+
+  showTextLoadingIndicator(tabIndex=undefined) {
+    var textLoadingIndicator = this.getCurrentTextLoadingIndicator(tabIndex);
+    textLoadingIndicator.show();
+  }
+
+  hideTextLoadingIndicator(tabIndex=undefined) {
+    var textLoadingIndicator = this.getCurrentTextLoadingIndicator(tabIndex);
+    textLoadingIndicator.hide();
   }
 }
 

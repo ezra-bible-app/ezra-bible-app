@@ -33,6 +33,7 @@ if (isDev) {
 window.platformHelper = new PlatformHelper();
 window.startup_controller = new StartupController();
 window.cordovaPlatform = null;
+window.electronPlatform = null;
 
 window.sleep = function(time) {
   return new Promise(resolve => {
@@ -91,6 +92,16 @@ window.addEventListener('load', function() {
     cordovaPlatform.init();
 
   } else if (platformHelper.isElectron()) {
+
+    var ElectronPlatform = null;
+
+    if (isDev) {
+      ElectronPlatform = require('./app/frontend/platform/electron_platform.js');
+    } else {
+      ElectronPlatform = require('./platform/electron_platform.js');
+    }
+
+    electronPlatform = new ElectronPlatform();
 
     console.log("Initializing app on Electron platform ...");
     startup_controller.initApplication();

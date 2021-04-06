@@ -16,15 +16,30 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-class Verse {
-  constructor(bibleBookShortTitle, absoluteVerseNr, chapter, verseNr, isBookNoteVerse) {
-    this._bibleBookShortTitle = bibleBookShortTitle;
-    this._bibleBookId = bibleBookShortTitle.toLowerCase();
-    this._absoluteVerseNr = absoluteVerseNr;
-    this._chapter = chapter;
-    this._verseNr = verseNr;
-    this._isBookNoteVerse = isBookNoteVerse;
+class ElectronPlatform {
+  constructor() {}
+
+  getWindow() {
+    const { remote } = require('electron');
+    var window = remote.getCurrentWindow();
+    return window;
+  }
+
+  toggleFullScreen() {
+    const { remote } = require('electron');
+    var window = remote.getCurrentWindow();
+
+    if (window.isFullScreen()) {
+      window.setFullScreen(false);
+    } else {
+      window.setFullScreen(true);
+    }
+  }
+
+  isFullScreen() {
+    var window = this.getWindow();
+    return window.isFullScreen();
   }
 }
 
-module.exports = Verse;
+module.exports = ElectronPlatform;

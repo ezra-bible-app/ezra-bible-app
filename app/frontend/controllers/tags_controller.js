@@ -33,7 +33,7 @@ class TagsController {
     loadScript("app/templates/tag_list.js");
 
     this.tag_store = new TagStore();
-    this.tag_store.onLatestUsedTagChanged = (tagId) => { this.onLatestUsedTagChanged(tagId) };
+    this.tag_store.onLatestUsedTagChanged = (tagId) => { app_controller.assign_last_tag_button.onLatestUsedTagChanged(tagId) };
     this.verse_box_helper = new VerseBoxHelper();
     this.tag_stats_element_cache = {};
 
@@ -88,7 +88,7 @@ class TagsController {
       $(this).dialog("close");
     };
     new_standard_tag_dlg_options.buttons[i18n.t("tags.create-tag")] = function() {
-      tags_controller.save_new_tag(this, "standard");
+      tags_controller.saveNewTag(this, "standard");
     };
   
     $('#new-standard-tag-dialog').dialog(new_standard_tag_dlg_options);
@@ -97,7 +97,7 @@ class TagsController {
     $('#new-standard-tag-title-input:not(.bound)').addClass('bound').on("keypress", (event) => {
       if (event.which == 13) {
         $('#new-standard-tag-dialog').dialog("close");
-        tags_controller.save_new_tag(event, "standard");
+        tags_controller.saveNewTag(event, "standard");
       }
     });
   }
@@ -122,7 +122,7 @@ class TagsController {
       $(this).dialog("close");
     };
     delete_tag_confirmation_dlg_options.buttons[i18n.t("tags.delete-tag")] = function() {
-      tags_controller.delete_tag_after_confirmation();
+      tags_controller.deleteTagAfterConfirmation();
     };
 
     $('#delete-tag-confirmation-dialog').dialog(delete_tag_confirmation_dlg_options);
@@ -152,7 +152,7 @@ class TagsController {
     };
 
     remove_tag_assignment_confirmation_dlg_options.buttons[i18n.t("tags.remove-tag-assignment")] = function() {
-      tags_controller.remove_tag_assignment_after_confirmation();
+      tags_controller.removeTagAssignmentAfterConfirmation();
     };
 
     $('#remove-tag-assignment-confirmation-dialog').dialog(remove_tag_assignment_confirmation_dlg_options);
@@ -183,42 +183,42 @@ class TagsController {
       $(this).dialog("close");
     };
     rename_standard_tag_dlg_options.buttons[i18n.t("general.rename")] = function() {
-      tags_controller.close_dialog_and_rename_standard_tag();
+      tags_controller.closeDialogAndRenameTag();
     };
     $('#rename-standard-tag-dialog').dialog(rename_standard_tag_dlg_options);
   
     // Handle the enter key in the tag title field and rename the tag when it is pressed
     $('#rename-standard-tag-title-input:not(.bound)').addClass('bound').on("keypress", (event) => {
       if (event.which == 13) {
-        tags_controller.close_dialog_and_rename_standard_tag();
+        tags_controller.closeDialogAndRenameTag();
       }
     });
   }
 
-  async close_dialog_and_rename_standard_tag() {
+  async closeDialogAndRenameTag() {
     $('#rename-standard-tag-dialog').dialog('close');
     var new_title = $('#rename-standard-tag-title-input').val();
-    var checkbox_tag = this.get_checkbox_tag(tags_controller.rename_standard_tag_id);
+    var checkbox_tag = this.getCheckboxTag(tags_controller.rename_standard_tag_id);
     var is_global = (checkbox_tag.parent().attr('id') == 'tags-content-global');
     
-    tags_controller.update_tag_titles_in_verse_list(tags_controller.rename_standard_tag_id, is_global, new_title);
+    tags_controller.updateTagTitlesInVerseList(tags_controller.rename_standard_tag_id, is_global, new_title);
     ipcDb.updateTag(tags_controller.rename_standard_tag_id, new_title);
-    tags_controller.sort_tag_lists();
+    tags_controller.sortTagLists();
     
     if (tags_controller.rename_standard_tag_id == tags_controller.tag_store.latest_tag_id) {
       await tags_controller.tag_store.renameTag(tags_controller.rename_standard_tag_id, new_title);
-      tags_controller.onLatestUsedTagChanged(undefined, undefined);
+      app_controller.assign_last_tag_button.onLatestUsedTagChanged(undefined, undefined);
     }
 
-    await tags_controller.update_tags_view_after_verse_selection(true);
+    await tags_controller.updateTagsViewAfterVerseSelection(true);
 
     app_controller.tag_selection_menu.requestTagsForMenu();
     app_controller.tab_controller.updateTabTitleAfterTagRenaming(tags_controller.rename_standard_tag_title, new_title);
   }
 
-  rename_tag_in_view(id, title) {
+  renameTagInView(id, title) {
     // Rename tag in tag list on the left side
-    var checkbox_tag = tags_controller.get_checkbox_tag(id);
+    var checkbox_tag = tags_controller.getCheckboxTag(id);
     var label = checkbox_tag.find('.cb-label');
     label.text(title);
 
@@ -227,7 +227,12 @@ class TagsController {
     tag_selection_entry.text(title);
   }
 
-  async save_new_tag(e, type) {
+  async saveNewTag(e, type) {
+    uiHelper.showTextLoadingIndicator();
+    $(e).dialog("close");
+
+    await waitUntilIdle(); // Give the dialog some time to close
+
     var new_tag_title = $('#new-' + type + '-tag-title-input').val();
     tags_controller.new_tag_created = true;
     this.last_created_tag = new_tag_title;
@@ -235,17 +240,17 @@ class TagsController {
     var new_tag = await ipcDb.createNewTag(new_tag_title);
 
     tags_controller.tag_store.resetBookTagStatistics();
-    await tags_controller.update_tag_list(app_controller.tab_controller.getTab().getBook(), true);
+    await tags_controller.updateTagList(app_controller.tab_controller.getTab().getBook(), true);
     await app_controller.tag_selection_menu.requestTagsForMenu();
     var current_timestamp = new Date(Date.now()).getTime();
     tags_controller.tag_store.updateTagTimestamp(new_tag.id, current_timestamp);
     await tags_controller.tag_store.updateLatestAndOldestTagData();
-    await tags_controller.update_tags_view_after_verse_selection(true);
+    await tags_controller.updateTagsViewAfterVerseSelection(true);
 
-    $(e).dialog("close");
+    uiHelper.hideTextLoadingIndicator();
   }
 
-  handle_new_tag_button_click(button, type) {
+  handleNewTagButtonClick(button, type) {
     if ($(button).hasClass('ui-state-disabled')) {
       return;
     }
@@ -257,7 +262,7 @@ class TagsController {
     $('#new-' + type + '-tag-title-input').focus();
   }
 
-  handle_delete_tag_button_click(event) {
+  handleDeleteTagButtonClick(event) {
     tags_controller.initDeleteTagConfirmationDialog();
 
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
@@ -276,22 +281,22 @@ class TagsController {
     $('#delete-tag-confirmation-dialog').dialog('open');
   }
 
-  delete_tag_after_confirmation() {
+  deleteTagAfterConfirmation() {
     $('#delete-tag-confirmation-dialog').dialog('close');
    
     setTimeout(async () => {
       await ipcDb.removeTag(tags_controller.tag_to_be_deleted);
 
-      await tags_controller.remove_tag_by_id(tags_controller.tag_to_be_deleted, tags_controller.tag_to_be_deleted_title);
+      await tags_controller.removeTagById(tags_controller.tag_to_be_deleted, tags_controller.tag_to_be_deleted_title);
       await app_controller.tag_selection_menu.requestTagsForMenu(true);
-      await tags_controller.update_tags_view_after_verse_selection(true);
+      await tags_controller.updateTagsViewAfterVerseSelection(true);
       await tags_controller.updateTagUiBasedOnTagAvailability();
       await app_controller.tag_statistics.update_book_tag_statistics_box();
     }, 50);
   }
 
-  async remove_tag_by_id(tag_id, tag_title) {
-    var checkbox_tag = tags_controller.get_checkbox_tag(tag_id);
+  async removeTagById(tag_id, tag_title) {
+    var checkbox_tag = tags_controller.getCheckboxTag(tag_id);
     checkbox_tag.detach();
 
     if (this.tag_store.latest_tag_id != null && this.tag_store.latest_tag_id == tag_id) {
@@ -299,7 +304,7 @@ class TagsController {
       await this.tag_store.refreshTagList();
     }
 
-    tags_controller.update_tag_count_after_rendering();
+    tags_controller.updateTagCountAfterRendering();
 
     var tag_data_elements = $('.tag-id').filter(function(index){
       return ($(this).html() == tag_id);
@@ -309,20 +314,20 @@ class TagsController {
       app_controller.verse_selection.element_list_to_xml_verse_list(tag_data_elements)
     );
 
-    tags_controller.change_verse_list_tag_info(tag_id,
+    tags_controller.changeVerseListTagInfo(tag_id,
                                                tag_title,
                                                verse_list,
                                                "remove");
   }
 
-  async assign_last_tag() {
+  async assignLastTag() {
     if (this.tag_store.latest_tag_id != null) {
-      var checkbox_tag = this.get_checkbox_tag(this.tag_store.latest_tag_id);
+      var checkbox_tag = this.getCheckboxTag(this.tag_store.latest_tag_id);
       await this.clickCheckBoxTag(checkbox_tag);
     }
   }
 
-  async handle_tag_label_click(event) {
+  async handleTagLabelClick(event) {
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
     await this.clickCheckBoxTag(checkbox_tag);
   }
@@ -333,21 +338,21 @@ class TagsController {
     if (!tags_controller.is_blocked && current_verse_list.length > 0) {
       var checkbox = checkboxTag.find('.tag-cb');
       checkbox.prop('checked', !checkbox.prop('checked'));
-      await tags_controller.handle_checkbox_tag_state_change(checkboxTag);
+      await tags_controller.handleCheckboxTagStateChange(checkboxTag);
     }
   }
 
-  async handle_tag_cb_click(event) {
+  async handleTagCbClick(event) {
     await waitUntilIdle();
 
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
-    await tags_controller.handle_checkbox_tag_state_change(checkbox_tag);
+    await tags_controller.handleCheckboxTagStateChange(checkbox_tag);
 
     await waitUntilIdle();
     uiHelper.resizeAppContainer();
   }
 
-  async handle_checkbox_tag_state_change(checkbox_tag) {
+  async handleCheckboxTagStateChange(checkbox_tag) {
     var current_verse_list = app_controller.verse_selection.selected_verse_references;
 
     if (tags_controller.is_blocked || current_verse_list.length == 0) {
@@ -417,15 +422,15 @@ class TagsController {
 
       ipcDb.assignTagToVerses(id, filteredVerseBoxes);
 
-      tags_controller.change_verse_list_tag_info(id,
+      tags_controller.changeVerseListTagInfo(id,
                                                  cb_label,
                                                  $.create_xml_doc(current_verse_selection),
                                                  "assign");
 
       var currentBook = app_controller.tab_controller.getTab().getBook();
 
-      tags_controller.update_tag_count_after_rendering(currentBook != null);
-      await tags_controller.update_tags_view_after_verse_selection(true);
+      tags_controller.updateTagCountAfterRendering(currentBook != null);
+      await tags_controller.updateTagsViewAfterVerseSelection(true);
       await tags_controller.updateTagUiBasedOnTagAvailability();
 
       if (currentBook != null) {
@@ -451,20 +456,20 @@ class TagsController {
         $('#remove-tag-assignment-name').html(cb_label);
         $('#remove-tag-assignment-confirmation-dialog').dialog('open');
       } else {
-        await tags_controller.remove_tag_assignment_after_confirmation();
-        await tags_controller.update_tags_view_after_verse_selection(true);
+        await tags_controller.removeTagAssignmentAfterConfirmation();
+        await tags_controller.updateTagsViewAfterVerseSelection(true);
       }
     }
   }
   
-  get_checkbox_tag(id) {
+  getCheckboxTag(id) {
     var checkbox_tag = $('#tags-content-global').find('.checkbox-tag[tag-id="' + id + '"]');
     return checkbox_tag;
   }
 
-  update_tag_verse_count(id, verseBoxes, to_increment) {
+  updateTagVerseCount(id, verseBoxes, to_increment) {
     var count = verseBoxes.length;
-    var checkbox_tag = tags_controller.get_checkbox_tag(id);
+    var checkbox_tag = tags_controller.getCheckboxTag(id);
     var cb_label_element = checkbox_tag.find('.cb-label');
     var tag_title = cb_label_element.text();
     var tag_assignment_count_element = checkbox_tag.find('.cb-label-tag-assignment-count');
@@ -518,12 +523,12 @@ class TagsController {
     app_controller.tag_selection_menu.updateVerseCountInTagMenu(tag_title, new_global_count);
   }
 
-  async remove_tag_assignment_after_confirmation() {
+  async removeTagAssignmentAfterConfirmation() {
     tags_controller.persistence_ongoing = true;
     $('#remove-tag-assignment-confirmation-dialog').dialog('close');
 
     var job = tags_controller.remove_tag_assignment_job;
-    tags_controller.change_verse_list_tag_info(job.id,
+    tags_controller.changeVerseListTagInfo(job.id,
                                                job.cb_label,
                                                job.xml_verse_selection,
                                                "remove");
@@ -545,10 +550,10 @@ class TagsController {
     this.dropCachedTagStats(job.id);
 
     await ipcDb.removeTagFromVerses(job.id, verse_boxes);
-    await this.onLatestUsedTagChanged(job.id, false);
+    await app_controller.assign_last_tag_button.onLatestUsedTagChanged(job.id, false);
 
     var currentBook = app_controller.tab_controller.getTab().getBook();
-    tags_controller.update_tag_count_after_rendering(currentBook != null);
+    tags_controller.updateTagCountAfterRendering(currentBook != null);
     tags_controller.updateTagUiBasedOnTagAvailability();
     await app_controller.tag_statistics.update_book_tag_statistics_box();
 
@@ -560,10 +565,10 @@ class TagsController {
    * This function updates the tag info in existing verse lists after tags have been assigned/removed.
    * It does this for the currently opened tab and also within all other tabs where the corresponding verse is loaded.
    */
-  async change_verse_list_tag_info(tag_id,
-                                   tag_title,
-                                   verse_selection,
-                                   action) {
+  async changeVerseListTagInfo(tag_id,
+                               tag_title,
+                               verse_selection,
+                               action) {
 
     verse_selection = $(verse_selection);
     var selected_verses = verse_selection.find('verse');
@@ -588,7 +593,7 @@ class TagsController {
     }
   }
 
-  sort_tag_lists() {
+  sortTagLists() {
     var global_tags_box = $('#tags-content-global');
     var sort_function = function(a,b) {
       return ($(a).find('.cb-label').text().toLowerCase() > $(b).find('.cb-label').text().toLowerCase()) ? 1 : -1;
@@ -597,11 +602,7 @@ class TagsController {
     global_tags_box.find('.checkbox-tag').sort_elements(sort_function);
   }
 
-  tags_search_input_is_empty() {
-    return $('#tags-search-input')[0].empty();
-  }
-
-  async refresh_book_tag_statistics(tag_list, tag_statistics, current_book) {
+  async refreshBookTagStatistics(tag_list, tag_statistics, current_book) {
     var book_tag_statistics = [];
     
     for (var i = 0; i < tag_list.length; i++) {
@@ -620,19 +621,19 @@ class TagsController {
     }
   }
 
-  async get_tag_list(forceRefresh=true) {
+  async getTagList(forceRefresh=true) {
     var tagList = await this.tag_store.getTagList(forceRefresh);
     return tagList;
   }
 
-  async update_tag_list(currentBook, forceRefresh=false) {
+  async updateTagList(currentBook, forceRefresh=false) {
     if (forceRefresh) {
       this.initialRenderingDone = false;
     }
 
     var tagList = await this.tag_store.getTagList(forceRefresh);
     var tagStatistics = await this.tag_store.getBookTagStatistics(currentBook, forceRefresh);
-    await this.render_tags(tagList, tagStatistics, currentBook != null);
+    await this.renderTags(tagList, tagStatistics, currentBook != null);
     await waitUntilIdle();
   }
 
@@ -653,7 +654,7 @@ class TagsController {
     return newElement;
   }
 
-  update_stats_elements(tag_statistics) {
+  updateStatsElements(tag_statistics) {
     var current_book = app_controller.tab_controller.getTab().getBook();
     if (current_book == null) current_book = "no-book";
 
@@ -702,7 +703,7 @@ class TagsController {
     }
   }
 
-  init_tag_stats_element_cache() {
+  initTagStatsElementCache() {
     var current_book = app_controller.tab_controller.getTab().getBook();
 
     if (!(current_book in this.tag_stats_element_cache)) {
@@ -731,8 +732,8 @@ class TagsController {
     }
   }
 
-  async render_tags(tag_list, tag_statistics, is_book=false) {
-    //console.time("render_tags");
+  async renderTags(tag_list, tag_statistics, is_book=false) {
+    //console.time("renderTags");
     var current_book = app_controller.tab_controller.getTab().getBook();
     var global_tags_box_el = document.getElementById('tags-content-global');
 
@@ -752,17 +753,17 @@ class TagsController {
       global_tags_box_el.innerHTML = '';
       global_tags_box_el.innerHTML = all_tags_html;
 
-      this.init_tag_stats_element_cache();
+      this.initTagStatsElementCache();
       this.initialRenderingDone = true;
     } else {
-      this.update_stats_elements(tag_statistics);
+      this.updateStatsElements(tag_statistics);
     }
 
-    await tags_controller.refresh_book_tag_statistics(tag_list, tag_statistics, current_book);
+    await tags_controller.refreshBookTagStatistics(tag_list, tag_statistics, current_book);
     uiHelper.configureButtonStyles('#tags-content');
 
-    tags_controller.update_tags_view_after_verse_selection(true);
-    tags_controller.update_tag_count_after_rendering(is_book);
+    tags_controller.updateTagsViewAfterVerseSelection(true);
+    tags_controller.updateTagCountAfterRendering(is_book);
     await tags_controller.updateTagUiBasedOnTagAvailability(tag_list.length);
 
     var old_tags_search_input_value = $('#tags-search-input')[0].value;    
@@ -770,7 +771,7 @@ class TagsController {
       // If the newly created tag doesn't match the current search input
       // we remove the current search condition. Otherwise the new tag
       // wouldn't show up in the list as expected.
-      if (!tags_controller.string_matches(this.last_created_tag,
+      if (!tags_controller.stringMatches(this.last_created_tag,
                                           $('#tags-search-input')[0].value)) {
         $('#tags-search-input')[0].value = "";
         old_tags_search_input_value = "";
@@ -779,10 +780,10 @@ class TagsController {
     this.new_tag_created = false;
 
     tags_controller.hideTagListLoadingIndicator();
-    //console.timeEnd("render_tags");
+    //console.timeEnd("renderTags");
   }
 
-  handle_rename_tag_click__by_opening_rename_dialog(event) {
+  handleRenameTagClick(event) {
     tags_controller.initRenameStandardTagDialog();
 
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
@@ -796,7 +797,7 @@ class TagsController {
     tags_controller.rename_standard_tag_title = cb_label;
   }
 
-  update_tag_count_after_rendering(is_book=false) {
+  updateTagCountAfterRendering(is_book=false) {
     var global_tag_count = $('#tags-content-global').find('.checkbox-tag').length;
     var global_used_tag_count = $('#tags-content-global').find('.cb-label-assigned').length;
     var tag_list_stats = $($('#tags-content').find('#tag-list-stats'));
@@ -822,18 +823,18 @@ class TagsController {
     }
   }
 
-  bind_tag_events() {
+  bindTagEvents() {
     var tags_box = document.getElementById('tags-content-global');
 
     tags_box.addEventListener('click', async function(event) {
       if (event.target.matches('.tag-delete-icon')) {
-        tags_controller.handle_delete_tag_button_click(event);
+        tags_controller.handleDeleteTagButtonClick(event);
       } else if (event.target.matches('.rename-tag-label')) {
-        tags_controller.handle_rename_tag_click__by_opening_rename_dialog(event);
+        tags_controller.handleRenameTagClick(event);
       } else if (event.target.matches('.tag-cb')) {
-        await tags_controller.handle_tag_cb_click(event);
+        await tags_controller.handleTagCbClick(event);
       } else if (event.target.matches('.cb-label')) {
-        await tags_controller.handle_tag_label_click(event);
+        await tags_controller.handleTagLabelClick(event);
       } else {
         return;
       }
@@ -871,7 +872,7 @@ class TagsController {
     }, false);
   }
 
-  update_tag_titles_in_verse_list(tag_id, is_global, title) {
+  updateTagTitlesInVerseList(tag_id, is_global, title) {
     var tag_class = is_global ? "tag-global" : "tag-book";
 
     var tag_data_elements = $('.tag-id').filter(function(index) {
@@ -888,7 +889,7 @@ class TagsController {
     }
   }
 
-  current_verse_selection_tags() {
+  currentVerseSelectionTags() {
     var verse_selection_tags = new Array;
 
     if (app_controller.verse_selection.selected_verse_box_elements == null) {
@@ -939,37 +940,8 @@ class TagsController {
     return verse_selection_tags;
   }
 
-  async refreshLastTagButtonState(versesSelected, selectedVerseTags) {
-    if (versesSelected) {
-      if (this.tag_store.latest_tag_id != null) {
-        var tagFound = false;
-
-        for (var i = 0; i < selectedVerseTags.length; i++) {
-          var currentTagTitle = selectedVerseTags[i].title;
-          var latestTag = await this.tag_store.getTag(this.tag_store.latest_tag_id);
-
-          if (currentTagTitle == latestTag.title) {
-            tagFound = true;
-            break;
-          }
-        }
-
-        if (!tagFound || selectedVerseTags.length == 0) {
-          $('.assign-last-tag-button').removeClass('ui-state-disabled');
-        } else {
-          $('.assign-last-tag-button').addClass('ui-state-disabled');
-        }
-
-      } else {
-        $('.assign-last-tag-button').addClass('ui-state-disabled');
-      }
-    } else {
-      $('.assign-last-tag-button').addClass('ui-state-disabled');
-    }
-  }
-
-  async update_tags_view_after_verse_selection(force) {
-    //console.time('update_tags_view_after_verse_selection');
+  async updateTagsViewAfterVerseSelection(force) {
+    //console.time('updateTagsViewAfterVerseSelection');
     if (tags_controller.verse_selection_blocked && force !== true) {
       return;
     }
@@ -984,11 +956,11 @@ class TagsController {
 
     if (versesSelected) { // Verses are selected
 
-      var selected_verse_tags = tags_controller.current_verse_selection_tags();
+      var selected_verse_tags = tags_controller.currentVerseSelectionTags();
       var checkbox_tags = app_container.querySelectorAll('.checkbox-tag');
 
       for (var i = 0; i < checkbox_tags.length; i++) {
-        this.format_checkbox_element_based_on_selection(checkbox_tags[i], selected_verse_tags);
+        this.formatCheckboxElementBasedOnSelection(checkbox_tags[i], selected_verse_tags);
       }
 
       this.verses_were_selected_before = true;
@@ -996,17 +968,17 @@ class TagsController {
     } else { // No verses are selected!
 
       if (this.verses_were_selected_before) {
-        this.uncheck_all_checkbox_elements();
+        this.uncheckAllCheckboxElements();
       }
 
       this.verses_were_selected_before = false;
     }
 
-    await this.refreshLastTagButtonState(versesSelected, selected_verse_tags);
-    //console.timeEnd('update_tags_view_after_verse_selection');
+    await app_controller.assign_last_tag_button.refreshLastTagButtonState(versesSelected, selected_verse_tags);
+    //console.timeEnd('updateTagsViewAfterVerseSelection');
   }
 
-  format_checkbox_element_based_on_selection(cb_element, selected_verse_tags) {
+  formatCheckboxElementBasedOnSelection(cb_element, selected_verse_tags) {
     var current_checkbox = cb_element.querySelector('.tag-cb');
     var current_title_element = cb_element.querySelector('.cb-label');
     var current_title = current_title_element.innerHTML;
@@ -1046,8 +1018,9 @@ class TagsController {
     }
   }
 
-  uncheck_all_checkbox_elements() {
+  uncheckAllCheckboxElements() {
     var all_checkbox_elements = document.querySelectorAll('.checkbox-tag');
+
     if (all_checkbox_elements.length > 0) {
       for (var i = 0; i < all_checkbox_elements.length; i++) {
         var current_checkbox_element = all_checkbox_elements[i];
@@ -1067,17 +1040,17 @@ class TagsController {
     }
   }
 
-  handle_tag_accordion_change() {
+  handleTagAccordionChange() {
     var new_reference_link = $('#tags-content').find('.ui-state-active').find('a');
     var tags_search_input = $('#tags-search-input');
     new_reference_link.append(tags_search_input);
   }
 
-  init_ui() {
+  initTagsUI() {
     $('#tags-content').accordion({
       autoHeight: false,
       animated: false,
-      change: tags_controller.handle_tag_accordion_change
+      change: tags_controller.handleTagAccordionChange
     });
 
     var filter_button = $("<span id=\"tag-list-filter-button\"><i class='fas fa-filter'></i></span>");
@@ -1093,19 +1066,17 @@ class TagsController {
     reference_link.append(tag_list_stats);
     reference_link.append(tags_search_input);
 
-    reference_link.find('#tag-list-filter-button').bind('click', tags_controller.handle_filter_button_click);
+    reference_link.find('#tag-list-filter-button').bind('click', tags_controller.handleFilterButtonClick);
 
     $('#tags-content-global').bind('mouseover', () => { this.hideTagFilterMenuIfInToolBar(); });
-    $('#tag-filter-menu').find('input').bind('click', tags_controller.handle_tag_filter_type_click);
+    $('#tag-filter-menu').find('input').bind('click', tags_controller.handleTagFilterTypeClick);
 
-    $('#tags-search-input').bind('keyup', tags_controller.handle_tag_search_input);
+    $('#tags-search-input').bind('keyup', tags_controller.handleTagSearchInput);
     $('#tags-search-input').bind('keydown', function(e) {
       e.stopPropagation(); 
     });
 
-    //await tags_controller.updateTagUiBasedOnTagAvailability();
-
-    tags_controller.bind_tag_events();
+    tags_controller.bindTagEvents();
   }
 
   async updateTagUiBasedOnTagAvailability(tagCount=undefined) {
@@ -1137,7 +1108,7 @@ class TagsController {
     }
   }
 
-  string_matches(search_string, search_value) {
+  stringMatches(search_string, search_value) {
     if (search_value == "") {
       return true;
     }
@@ -1146,7 +1117,7 @@ class TagsController {
     return result != -1;
   }
 
-  handle_filter_button_click(e) {
+  handleFilterButtonClick(e) {
     var position = $(this).offset();
     var filter_menu = $('#tag-filter-menu');
 
@@ -1159,7 +1130,7 @@ class TagsController {
     }
   }
 
-  async handle_tag_filter_type_click(e) {
+  async handleTagFilterTypeClick(e) {
     await waitUntilIdle();
     tags_controller.showTagSelectionFilterLoadingIndicator();
     await sleep(500);
@@ -1217,11 +1188,11 @@ class TagsController {
     $('#tag-selection-filter-loading-indicator').find('.loader').css('visibility', 'hidden');
   }
 
-  tag_title_matches_filter(tag_title, filter) {
-      return tag_title.toLowerCase().indexOf(filter.toLowerCase()) != -1;
+  tagTitleMatchesFilter(tag_title, filter) {
+    return tag_title.toLowerCase().indexOf(filter.toLowerCase()) != -1;
   }
 
-  handle_tag_search_input(e) {
+  handleTagSearchInput(e) {
     clearTimeout(tags_controller.tag_search_timeout);
     var search_value = $(this).val();
 
@@ -1234,7 +1205,7 @@ class TagsController {
       for (var i = 0; i < tag_labels.length; i++) {
         var current_label = $(tag_labels[i]);
 
-        if (tags_controller.tag_title_matches_filter(current_label.text(), search_value)) {
+        if (tags_controller.tagTitleMatchesFilter(current_label.text(), search_value)) {
           $(current_label.closest('.checkbox-tag')).show();
         }
       }
@@ -1251,34 +1222,6 @@ class TagsController {
   hideTagListLoadingIndicator() {
     var loadingIndicator = $('#tags-loading-indicator');
     loadingIndicator.hide();
-  }
-
-  async onLatestUsedTagChanged(tagId=undefined, added=true, currentDbTag=undefined) {
-    if (currentDbTag != undefined) {
-      tagId = currentDbTag.id;
-    } else if (tagId == undefined) {
-      tagId = this.tag_store.latest_tag_id;
-    }
-
-    var currentTag = null;
-
-    if (currentDbTag != undefined) {
-      currentTag = currentDbTag;
-    } else {
-      currentTag = await this.tag_store.getTag(tagId);
-    }
-
-    if (currentTag != null) {
-      var assignLastTagButton = $('.assign-last-tag-button');
-      var label = i18n.t('tags-toolbar.assign-last-tag') + ': ' + currentTag.title;
-      assignLastTagButton.text(label);
-
-      if (added) {
-        assignLastTagButton.addClass('ui-state-disabled');
-      } else {
-        assignLastTagButton.removeClass('ui-state-disabled');
-      }
-    }
   }
 }
 

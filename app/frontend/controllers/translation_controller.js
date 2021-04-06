@@ -130,7 +130,12 @@ class TranslationController {
 
   addTranslationsToBibleSelectMenu(tabIndex, translations) {
     var bibleSelect = this.getBibleSelect(tabIndex);
-    var currentBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
+    var currentBibleTranslationId = null;
+
+    if (currentTab != null) {
+      currentBibleTranslationId = currentTab.getBibleTranslationId();
+    }
 
     for (var translation of translations) {
       var selected = '';
@@ -203,7 +208,7 @@ class TranslationController {
     bibleSelect.selectmenu({
       change: () => {
         if (!app_controller.tab_controller.isCurrentTabEmpty() && app_controller.tab_controller.getTab().getTextType() != 'search_results') {
-          this.showTextLoadingIndicator();
+          uiHelper.showTextLoadingIndicator();
         }
 
         var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
@@ -433,22 +438,6 @@ class TranslationController {
     }
 
     $('#bible-sync-box').dialog("close");
-  }
-
-  getCurrentTextLoadingIndicator() {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
-    var loadingIndicator = currentVerseListMenu.find('.loader');
-    return loadingIndicator;
-  }
-
-  showTextLoadingIndicator() {
-    var textLoadingIndicator = this.getCurrentTextLoadingIndicator();
-    textLoadingIndicator.show();
-  }
-
-  hideTextLoadingIndicator() {
-    var textLoadingIndicator = this.getCurrentTextLoadingIndicator();
-    textLoadingIndicator.hide();
   }
 
   async getLanguages(moduleType='BIBLE') {

@@ -16,7 +16,12 @@
     "options": "Optionen",
     "export": "Exportieren in Textdokument",
     "show-module-info": "Zeige Modulinfos",
-    "fullscreen": "Vollbildmodus umschalten"
+    "fullscreen": "Vollbildmodus umschalten",
+    "exit-fullscreen": "Vollbildmodus verlassen",
+    "text-size": "Adjust verse font size",
+    "text-size-decrease": "Decrease current font size",
+    "text-size-reset": "Reset font size to default",
+    "text-size-increase": "Increase current font size"
   },
   "search-menu": {
     "search": "Suche",
@@ -124,7 +129,10 @@
     "module-install-cancelled": "abgebrochen.",
     "module-unlock-failed": "fehlgeschlagen (Freischaltfehler).",
     "installing-strongs": "Installiere <i>Strong's Wörterbücher</i>",
-    "applying-migrations": "Migriere Datenbank auf neue Version"
+    "applying-migrations": "Migriere Datenbank auf neue Version",
+    "developers": "Developers",
+    "translators": "Translators",
+    "versions-and-paths": "Versions and paths"
   },
   "help": {
     "help-text-no-tags-book-opened": "Sie wollen anfangen mit Tags zu arbeiten?<br/><br/>Erstellen Sie Ihren ersten Tag, indem Sie auf den Button <i>Neuer&nbsp;Tag</i> klicken.<br/><br/>Danach können Sie beim Studium des Bibeltexts den Tag zuordnen, indem Sie auf den Vers klicken oder mehrere Verse mit gehaltener Maustaste auswählen und dann links die Auswahlbox neben dem gerade erstellten Tag anklicken.",
@@ -171,6 +179,7 @@
     "searching-for": "Suche nach",
     "search-result-header": "Suchergebnisse für ",
     "no-search-results": "Keine Suchergebnisse gefunden für ",
+    "module-search-cancelled": "Module search cancelled when searching for ",
     "load-verse-context": "Lade den Kontext dieses Verses",
     "tag-hint": "Klicke hier, um alle Verse mit diesem Tag anzuzeigen",
     "show-search-results": "Zeige Suchergebnisse",
@@ -203,7 +212,8 @@
     "strongs-number-not-valid": "Dies ist keine gültige Strong's Nr.!",
     "open-new-tab": "Neuen Tab öffnen",
     "open-verselist-in-new-tab": "Versliste in neuem Tab öffnen",
-    "footnote-character": "n"
+    "footnote-character": "n",
+    "adjust-font-size-tags-notes": "Adjust tags & notes font size"
   },
   "dictionary-info-box": {
     "greek-dict": "Griechisches Wörterbuch",

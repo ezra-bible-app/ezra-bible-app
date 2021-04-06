@@ -85,26 +85,35 @@ class TagSelectionMenu {
     if (this.tag_menu_is_opened) {
       app_controller.handleBodyClick();
     } else {
-      app_controller.book_selection_menu.hideBookMenu();
-      app_controller.module_search_controller.hideSearchMenu();
-      app_controller.optionsMenu.hideDisplayMenu();
-      app_controller.tag_assignment_menu.hideTagAssignmentMenu();
+      app_controller.hideAllMenus();
 
       tagSelectButton.addClass('ui-state-active');
       var tag_select_button_offset = tagSelectButton.offset();
+
       var menu = $('#app-container').find('#tag-selection-menu');
+      var tagList = $('#app-container').find('#tag-selection-taglist-global');
+      var tagListOverlay = $('#app-container').find('#tag-selection-taglist-overlay');
+
       var top_offset = tag_select_button_offset.top + tagSelectButton.height() + 1;
       var left_offset = tag_select_button_offset.left;
 
       menu.css('top', top_offset);
       menu.css('left', left_offset);
 
+      // Show an overlay while the actual menu is rendering
+      tagList.hide();
+      tagListOverlay.css('display', 'flex');
+      tagListOverlay.find('.loader').show();
+      menu.show();
+
+      await waitUntilIdle();
+
       if (!this.tag_menu_populated) {
         await this.updateTagSelectionMenu();
       }
 
-      var tagSelectionMenu = $('#tag-selection-menu');
-      tagSelectionMenu.show();
+      tagList.show();
+      tagListOverlay.hide();
       $('#tag-selection-filter-input').select();
 
       this.tag_menu_is_opened = true;
@@ -113,7 +122,7 @@ class TagSelectionMenu {
   }
 
   async requestTagsForMenu(forceRefresh=false) {
-    var tags = await tags_controller.get_tag_list(forceRefresh);
+    var tags = await tags_controller.getTagList(forceRefresh);
     this.renderTagsInMenu(tags);
     this.tag_menu_populated = true;
   }
@@ -275,7 +284,7 @@ class TagSelectionMenu {
     return tag_list;
   }
 
-  handleTagCbClick() {
+  async handleTagCbClick() {
     var currentTagIdList = this.selectedTagIds();
     var currentTagTitleList = this.selectedTagTitles();
     app_controller.openTaggedVerses(currentTagIdList, currentTagTitleList);
@@ -284,7 +293,7 @@ class TagSelectionMenu {
   bindTagCbEvents() {
     var cbs = document.querySelectorAll('.tag-browser-tag-cb');
     for (var i = 0; i < cbs.length; i++) {
-      cbs[i].addEventListener('click', () => { this.handleTagCbClick(); });
+      cbs[i].addEventListener('click', async () => { this.handleTagCbClick(); });
       cbs[i].removeAttribute('checked');
       cbs[i].removeAttribute('disabled');
     }

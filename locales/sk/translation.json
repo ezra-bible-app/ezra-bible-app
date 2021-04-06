@@ -16,7 +16,12 @@
     "options": "Vlastnosti",
     "export": "Exportovať ako text",
     "show-module-info": "Zobraziť informácie o module",
-    "fullscreen": "Prepnúť režim celej obrazovky"
+    "fullscreen": "Prepnúť režim celej obrazovky",
+    "exit-fullscreen": "Exit full screen mode",
+    "text-size": "Adjust verse font size",
+    "text-size-decrease": "Decrease current font size",
+    "text-size-reset": "Reset font size to default",
+    "text-size-increase": "Increase current font size"
   },
   "search-menu": {
     "search": "Hľadať",
@@ -123,7 +128,10 @@
     "module-install-cancelled": "zrušené.",
     "module-unlock-failed": "zlyhal (Problémy s odomknutím).",
     "installing-strongs": "Inštalujem <i>Strongove slovníky</i>",
-    "applying-migrations": "Migrujem databázu na novú verziu"
+    "applying-migrations": "Migrujem databázu na novú verziu",
+    "developers": "Developers",
+    "translators": "Translators",
+    "versions-and-paths": "Versions and paths"
   },
   "help": {
     "help-text-no-tags-book-opened": "Ak chcete začať pracovať so značkami, vytvorte svoju prvú značku kliknutím na tlačidlo <i>Nová&nbsp;značka</i>.<br/><br/>Potom môžete listovať v biblickom texte, kliknúť alebo vybrať jednotlivé verše a potom im priradiť značku, ktorú ste práve vytvorili.",
@@ -170,6 +178,7 @@
     "searching-for": "Hľadať",
     "search-result-header": "Výsledky hľadania pre ",
     "no-search-results": "Žiadne výsledky vyhľadávania pre ",
+    "module-search-cancelled": "Module search cancelled when searching for ",
     "load-verse-context": "Načítajte kontext tohto verša",
     "tag-hint": "Kliknutím zobrazíte všetky verše s týmto štítkom",
     "show-search-results": "Zobraziť výsledky vyhľadávania",
@@ -202,7 +211,8 @@
     "strongs-number-not-valid": "Toto nie je platné Strong číslo!",
     "open-new-tab": "Otvoriť novú kartu",
     "open-verselist-in-new-tab": "Otvoriť zoznam veršov na novej karte",
-    "footnote-character": "n"
+    "footnote-character": "n",
+    "adjust-font-size-tags-notes": "Adjust tags & notes font size"
   },
   "dictionary-info-box": {
     "greek-dict": "Grécky slovník",

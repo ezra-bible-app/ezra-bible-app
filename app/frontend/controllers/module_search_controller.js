@@ -17,7 +17,8 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const VerseSearch = require('../components/tab_search/verse_search.js');
-const VerseStatisticsChart = require('../components/verse_statistics_chart.js');
+
+const CANCEL_SEARCH_PERCENT_LIMIT = 90;
 
 /**
  * The ModuleSearch controller implements the module search functionality.
@@ -30,11 +31,10 @@ class ModuleSearchController {
     this.currentSearchTerm = null;
     this.search_menu_opened = false;
     this.verseSearch = new VerseSearch();
-    this.verseStatisticsChart = new VerseStatisticsChart();
     this.searchResultPerformanceLimit = platformHelper.getSearchResultPerformanceLimit();
   }
 
-  initModuleSearchMenu(tabIndex=undefined) {
+  initModuleSearch(tabIndex=undefined) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.module-search-button').bind('click', (event) => { this.handleSearchMenuClick(event); });
     
@@ -54,6 +54,73 @@ class ModuleSearchController {
     $(selectField).on("change", () => {
       this.validateSearchTerm();
     });
+
+    var cancelSearchButtonContainer = app_controller.getCurrentSearchCancelButtonContainer(tabIndex);
+    var cancelSearchButton = cancelSearchButtonContainer.find('button');
+
+    cancelSearchButton[0].addEventListener('mousedown', async () => {
+      this.cancelModuleSearch();
+    });
+  }
+
+  async cancelModuleSearch() {
+    this.disableCancelButton();
+    var tab = app_controller.tab_controller.getTab(this.currentSearchTabIndex);
+    tab.setSearchCancelled(true);
+    this.enableOtherFunctionsAfterSearch();
+
+    var currentProgressValue = this.getCurrentProgressValue();
+
+    if (currentProgressValue != null && !isNaN(currentProgressValue)) {
+      if (currentProgressValue <= CANCEL_SEARCH_PERCENT_LIMIT) {
+        await ipcNsi.terminateModuleSearch();
+      }
+    }
+  }
+
+  getCurrentProgressValue() {
+    var searchProgressBar = app_controller.getCurrentSearchProgressBar(this.currentSearchTabIndex);
+    var currentProgressValue = null;
+
+    try {
+      currentProgressValue = parseInt(searchProgressBar[0].getAttribute("aria-valuenow"));
+    } catch (e) {}
+
+    return currentProgressValue;
+  }
+
+  disableCancelButton() {
+    var cancelSearchButtonContainer = app_controller.getCurrentSearchCancelButtonContainer(this.currentSearchTabIndex);
+    var cancelSearchButton = cancelSearchButtonContainer.find('button');
+
+    cancelSearchButton.removeClass('ui-state-active');
+    cancelSearchButton.addClass('ui-state-disabled');
+  }
+
+  disableOtherFunctionsDuringSearch() {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
+
+    var bookSelectButton = currentVerseListMenu.find('.book-select-button');
+    bookSelectButton.addClass('ui-state-disabled');
+
+    var tagSelectButton = currentVerseListMenu.find('.tag-select-button');
+    tagSelectButton.addClass('ui-state-disabled');
+
+    var bibleSelect = currentVerseListMenu.find('select.bible-select');
+    bibleSelect.selectmenu("disable");
+  }
+
+  enableOtherFunctionsAfterSearch() {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(this.currentSearchTabIndex);
+
+    var bookSelectButton = currentVerseListMenu.find('.book-select-button');
+    bookSelectButton.removeClass('ui-state-disabled');
+
+    var tagSelectButton = currentVerseListMenu.find('.tag-select-button');
+    tagSelectButton.removeClass('ui-state-disabled');
+
+    var bibleSelect = currentVerseListMenu.find('select.bible-select');
+    bibleSelect.selectmenu("enable");
   }
 
   validateSearchTerm() {
@@ -80,7 +147,7 @@ class ModuleSearchController {
     $('#search-is-case-sensitive').prop("checked", false);
     $('#search-extended-verse-boundaries').prop("checked", false);
     this.hideModuleSearchHeader(tabIndex);
-    this.verseStatisticsChart.resetChart(tabIndex);
+    app_controller.verse_statistics_chart.resetChart(tabIndex);
   }
 
   hideModuleSearchHeader(tabIndex=undefined) {
@@ -114,10 +181,8 @@ class ModuleSearchController {
     if (this.search_menu_opened) {
       app_controller.handleBodyClick();
     } else {
-      app_controller.book_selection_menu.hideBookMenu();
-      app_controller.tag_selection_menu.hideTagMenu();
-      app_controller.optionsMenu.hideDisplayMenu();
-      app_controller.tag_assignment_menu.hideTagAssignmentMenu();
+      app_controller.hideAllMenus();
+
       moduleSearchButton.addClass('ui-state-active');
 
       var module_search_button_offset = moduleSearchButton.offset();
@@ -200,15 +265,20 @@ class ModuleSearchController {
       return;
     }
 
+    this.currentSearchTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+
     // Do not allow another concurrent search, disable the search menu button
     $('.module-search-button').addClass('ui-state-disabled');
 
-    this.verseStatisticsChart.resetChart(tabIndex);
+    this.disableOtherFunctionsDuringSearch();
+
+    app_controller.verse_statistics_chart.resetChart(tabIndex);
 
     if (tabIndex === undefined) {
       var tab = app_controller.tab_controller.getTab();
       tab.setSearchOptions(this.getSearchType(), this.isCaseSensitive(), this.useExtendedVerseBoundaries());
       tab.setTextType('search_results');
+      tab.setSearchCancelled(false);
     }
 
     //console.log("Starting search for " + this.currentSearchTerm + " on tab " + tabIndex);
@@ -240,8 +310,13 @@ class ModuleSearchController {
 
       if (tabIndex == undefined || tabIndex == app_controller.tab_controller.getSelectedTabIndex()) {
         var searchProgressBar = app_controller.getCurrentSearchProgressBar();
+        var cancelSearchButtonContainer = app_controller.getCurrentSearchCancelButtonContainer(tabIndex);
+        var cancelSearchButton = cancelSearchButtonContainer.find('button');
+        cancelSearchButton.removeClass('ui-state-disabled');
+
         uiHelper.initProgressBar(searchProgressBar);
         searchProgressBar.show();
+        cancelSearchButtonContainer.show();
       }
 
       // Only reset view if we got an event (in other words: not initially)
@@ -255,6 +330,9 @@ class ModuleSearchController {
         var searchResults = await ipcNsi.getModuleSearchResults((progress) => {
                                                                   var progressPercent = progress.totalPercent;
                                                                   searchProgressBar.progressbar("value", progressPercent);
+                                                                  if (progressPercent >= CANCEL_SEARCH_PERCENT_LIMIT) {
+                                                                    this.disableCancelButton();
+                                                                  }
                                                                 },
                                                                 currentBibleTranslationId,
                                                                 this.currentSearchTerm,
@@ -266,14 +344,15 @@ class ModuleSearchController {
         currentTab.setSearchResults(searchResults);
 
         var requestedBookId = -1; // all books requested
-        if (this.searchResultsExceedPerformanceLimit(tabIndex)) {
+        if (this.searchResultsExceedPerformanceLimit(this.currentSearchTabIndex)) {
           requestedBookId = 0; // no books requested - only list headers at first
         }
   
-        await this.renderCurrentSearchResults(requestedBookId, tabIndex);
+        await this.renderCurrentSearchResults(requestedBookId, this.currentSearchTabIndex);
       } catch (error) {
         console.log(error);
         app_controller.hideVerseListLoadingIndicator();
+        this.enableOtherFunctionsAfterSearch();
       }
     }
 
@@ -304,20 +383,20 @@ class ModuleSearchController {
 
     if (currentSearchResults.length > 0) {
       await app_controller.text_controller.requestTextUpdate(currentTabId,
-                                                                   null,
-                                                                   null,
-                                                                   cachedText,
-                                                                   null,
-                                                                   currentSearchResults,
-                                                                   null,
-                                                                   tabIndex,
-                                                                   requestedBookId,
-                                                                   target);
+                                                             null,
+                                                             null,
+                                                             cachedText,
+                                                             null,
+                                                             currentSearchResults,
+                                                             null,
+                                                             tabIndex,
+                                                             requestedBookId,
+                                                             target);
       
     } else {
-      app_controller.hideVerseListLoadingIndicator();
-      app_controller.translation_controller.hideTextLoadingIndicator();
-      app_controller.hideSearchProgressBar();
+      app_controller.hideVerseListLoadingIndicator(this.currentSearchTabIndex);
+      uiHelper.hideTextLoadingIndicator(this.currentSearchTabIndex);
+      app_controller.hideSearchProgressBar(this.currentSearchTabIndex);
     }
 
     this.hideSearchMenu();
@@ -326,7 +405,14 @@ class ModuleSearchController {
     if (currentSearchResults.length > 0) {
       moduleSearchHeaderText = i18n.t("bible-browser.search-result-header") + ' <i>' + currentSearchTerm + '</i> (' + currentSearchResults.length + ')';
     } else {
-      moduleSearchHeaderText = i18n.t("bible-browser.no-search-results") + ' <i>' + currentSearchTerm + '</i>';
+      var tab = app_controller.tab_controller.getTab(tabIndex);
+      var searchCancelled = tab != null ? tab.isSearchCancelled() : false;
+
+      if (searchCancelled) {
+        moduleSearchHeaderText = i18n.t("bible-browser.module-search-cancelled") + ' <i>' + currentSearchTerm + '</i>';
+      } else {
+        moduleSearchHeaderText = i18n.t("bible-browser.no-search-results") + ' <i>' + currentSearchTerm + '</i>';
+      }
     }
 
     var header = "<h2>" + moduleSearchHeaderText + "</h2>";
@@ -360,10 +446,12 @@ class ModuleSearchController {
 
     moduleSearchHeader.show();
 
-    if (currentSearchResults.length > 0 && requestedBookId <= 0) {
+    /*if (currentSearchResults.length > 0 && requestedBookId <= 0) {
       var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
-      await this.verseStatisticsChart.updateChart(tabIndex, bibleBookStats);
-    }
+      await app_controller.verse_statistics_chart.updateChart(tabIndex, bibleBookStats);
+    }*/
+
+    this.enableOtherFunctionsAfterSearch();
   }
 
   selectAllSearchResults() {
@@ -372,28 +460,6 @@ class ModuleSearchController {
     allVerseTextElements.addClass('ui-selected');
     app_controller.verse_selection.updateSelected();
     app_controller.verse_selection.updateViewsAfterVerseSelection(i18n.t('bible-browser.all-search-results'));
-  }
-
-  async repaintChart(tabIndex=undefined) {
-    var currentTab = app_controller.tab_controller.getTab(tabIndex);
-    var currentSearchResults = currentTab.getSearchResults();
-
-    if (currentSearchResults != null) {
-      var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
-      this.verseStatisticsChart.resetChart(tabIndex);
-      await this.verseStatisticsChart.updateChart(tabIndex, bibleBookStats);
-    }
-  }
-
-  async repaintAllCharts() {
-    var tabCount = app_controller.tab_controller.getTabCount();
-
-    for (var i = 0; i < tabCount; i++) {
-      var currentTab = app_controller.tab_controller.getTab(i);
-      if (currentTab.getTextType() == 'search_results') {
-        await this.repaintChart(i);
-      }
-    }
   }
 
   getBibleBookStatsFromSearchResults(search_results) {
