@@ -41,7 +41,7 @@ class VerseSelection {
 
     verseList.selectable({
       filter: '.verse-text',
-      cancel: '.sword-xref-marker, .verse-notes, .section-header-box, .verse-content-edited, .tag-box, .tag, .load-book-results, .select-all-search-results-button',
+      cancel: '.sword-xref-marker, .verse-notes, .verse-content-edited, .tag-box, .tag, .load-book-results, .select-all-search-results-button',
 
       start: (event, ui) => {
         // Only reset existing selection if metaKey and ctrlKey are not pressed.
@@ -152,7 +152,7 @@ class VerseSelection {
       }
 
       var formatted_verse_list = await this.format_verse_list_for_view(currentBookVerseReferences, false, currentBookShortName);
-      var currentBookName = await ipcDb.getBookTitleTranslation(currentBookShortName);
+      var currentBookName = await (currentBookShortName == 'Ps' ? i18nHelper.getPsalmTranslation() : ipcDb.getBookTitleTranslation(currentBookShortName));
       var currentBookVerseReferenceDisplay = currentBookName + ' ' + formatted_verse_list;
       selected_verses_content.push(currentBookVerseReferenceDisplay);
     }

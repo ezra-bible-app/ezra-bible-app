@@ -45,7 +45,7 @@ class InfoPopup {
 
     var width = uiHelper.getMaxDialogWidth();
 
-    $('#bible-translation-info-box').dialog({
+    $('#info-popup').dialog({
       width: width,
       height: 500,
       autoOpen: false,
@@ -123,17 +123,17 @@ class InfoPopup {
     var width = uiHelper.getMaxDialogWidth();
     var offsetLeft = ($(window).width() - width)/2;
 
-    $('#bible-translation-info-box').dialog({
+    $('#info-popup').dialog({
       width: width,
       title: i18n.t('general.module-application-info'),
       position: [offsetLeft, 120],
       resizable: false
     });
 
-    $('#bible-translation-info-box-content').empty();
-    $('#bible-translation-info-box-content').html(appInfo);
+    $('#info-popup-content').empty();
+    $('#info-popup-content').html(appInfo);
     $('#app-info-tabs').tabs({ heightStyle: "fill" });
-    $('#bible-translation-info-box').dialog("open");
+    $('#info-popup').dialog("open");
   }
 
   enableCurrentAppInfoButton(tabIndex=undefined) {

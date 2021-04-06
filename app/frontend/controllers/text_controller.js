@@ -65,7 +65,7 @@ class TextController {
         loadingMessage = i18n.t("bible-browser.loading-bible-text");
       }
 
-      app_controller.showVerseListLoadingIndicator(loadingMessage, !isSearch /* Only show loader visualization if we are not searching */ );
+      app_controller.showVerseListLoadingIndicator(tabIndex, loadingMessage, !isSearch /* Only show loader visualization if we are not searching */ );
       uiHelper.showTextLoadingIndicator();
     }
 
@@ -608,6 +608,8 @@ class TextController {
 
     if (renderChart && (listType == 'search_results' || listType == 'tagged_verses')) {
       await app_controller.verse_statistics_chart.repaintChart(tabIndex);
+    } else {
+      await app_controller.verse_statistics_chart.resetChart(tabIndex);
     }
 
     if (isCache || listType == 'book' && !append) {
