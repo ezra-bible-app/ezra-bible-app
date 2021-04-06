@@ -76,7 +76,7 @@ When('I click note {string} button', async function (buttonClass) {
 When('I click outside of the note editor', async function () {
   var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
   var noteTextBox = await verseListTabs.$('.verse-notes .verse-notes-text.edited');
-  var verseContent = await (await noteTextBox.parentElement()).parentElement();
+  var verseContent = await noteTextBox.$('../..');
   var verseText = await verseContent.$('.verse-text');
 
   await verseText.click();
