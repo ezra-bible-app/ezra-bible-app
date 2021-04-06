@@ -18,6 +18,7 @@
 
 const { Given, When, Then } = require("cucumber");
 const { assert } = require("chai");
+const spectronHelper = require('../helpers/spectron_helper.js');
 const uiHelper = require("../helpers/ui_helper.js");
 
 Given('I open the search menu', async function () {
@@ -26,7 +27,7 @@ Given('I open the search menu', async function () {
   
   await uiHelper.buttonIsEnabled(moduleSearchButton, timeoutMs=1000);
   await moduleSearchButton.click();
-  await uiHelper.sleep(500);
+  await spectronHelper.sleep(500);
 });
 
 Given('I enter the term {string}', async function (searchTerm) {

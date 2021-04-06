@@ -17,32 +17,28 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { expect } = require("chai");
+const nsiHelper = require("./nsi_helper.js");
 
-async function splitVerseReference(verseReference, translation = 'KJV') {
-  var [book, verseReferenceString] = verseReference.split(' ');
-  var bookId = global.spectronHelper.getBookShortTitle(book);
+var models;
 
-  var verseReferenceHelper = await global.spectronHelper.getVerseReferenceHelper();
-  var absoluteVerseNumber = await verseReferenceHelper.referenceStringToAbsoluteVerseNr(translation, bookId, verseReferenceString);
-
-  return {
-    bookId,
-    absoluteVerseNumber
-  }
+async function initDatabase() {
+  var userDataDir = await nsiHelper.getUserDataDir();
+  models = require('../../app/backend/database/models')(userDataDir);
+  return models;
 }
 
 async function getDbVerseReferenceId(verseReference) {
-  var { bookId, absoluteVerseNumber } = await splitVerseReference(verseReference);
+  var { bookId, absoluteVerseNumber } = await nsiHelper.splitVerseReference(verseReference);
 
-  var dbBibleBook = await global.models.BibleBook.findOne({ where: { shortTitle: bookId } });
-  var dbVerseReference = await global.models.VerseReference.findOne({
+  var dbBibleBook = await models.BibleBook.findOne({ where: { shortTitle: bookId } });
+  var dbVerseReference = await models.VerseReference.findOne({
     where: {
       bibleBookId: dbBibleBook.id,
       absoluteVerseNrEng: absoluteVerseNumber
     }
   });
 
-  var allVerseReferences = await global.models.VerseReference.findAll();
+  var allVerseReferences = await models.VerseReference.findAll();
 
   expect(dbVerseReference, `Could not find a db verse reference for the given book (${dbBibleBook.id}) and absoluteVerseNr (${absoluteVerseNumber}). Total # of verse references: ${allVerseReferences.length}`).to.not.be.null;
 
@@ -50,6 +46,6 @@ async function getDbVerseReferenceId(verseReference) {
 }
 
 module.exports = {
-  splitVerseReference,
+  initDatabase,
   getDbVerseReferenceId,
 }

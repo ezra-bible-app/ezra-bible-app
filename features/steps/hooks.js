@@ -19,10 +19,9 @@
 const { AfterAll, BeforeAll, Before, After } = require("cucumber");
 
 const chaiAsPromised = require("chai-as-promised");
-const SpectronHelper = require("../helpers/spectron_helper.js");
-const uiHelper = require("../helpers/ui_helper.js");
+const spectronHelper = require("../helpers/spectron_helper.js");
+const nsiHelper = require("../helpers/nsi_helper.js");
 
-global.spectronHelper = new SpectronHelper();
 global.app = null;
 
 function hasTag(scenario, tag) {
@@ -45,7 +44,7 @@ Before({ timeout: 80000}, async function (scenario) {
 
   if (hasTag(scenario, "@needs-asv-before")) {
     if (global.app && global.app.isRunning()) {
-      var asvModule = await spectronHelper.getLocalModule('ASV');
+      var asvModule = await nsiHelper.getLocalModule('ASV');
 
       if (asvModule == null) {
         await global.app.stop();
@@ -63,7 +62,7 @@ Before({ timeout: 80000}, async function (scenario) {
 
   if (installKjv) {
     if (global.app != null && !appStopped) {
-      var kjvModule = await spectronHelper.getLocalModule('KJV');
+      var kjvModule = await nsiHelper.getLocalModule('KJV');
 
       if (kjvModule == null) {
         args.push('--install-kjv');
@@ -93,7 +92,7 @@ After("@remove-last-tag-after-scenario", async function() {
 
   var tagDeleteButton = await this.currentTag.$('.tag-delete-button'); 
   await tagDeleteButton.click();
-  await uiHelper.sleep();
+  await spectronHelper.sleep();
 
   var deleteTagConfirmationDialog = await global.app.client.$('#delete-tag-confirmation-dialog');
   var deleteTagConfirmationDialogContainer = await deleteTagConfirmationDialog.$('..');
@@ -103,7 +102,7 @@ After("@remove-last-tag-after-scenario", async function() {
   var confirmationButton = deleteTagConfirmationButtons[1];
 
   await confirmationButton.click();
-  await uiHelper.sleep(1000);
+  await spectronHelper.sleep(1000);
 });
 
 After("@remove-last-note-after-scenario", async function() {
@@ -112,14 +111,14 @@ After("@remove-last-note-after-scenario", async function() {
   }
 
   await this.noteBox.click();
-  await uiHelper.sleep();
+  await spectronHelper.sleep();
 
   await global.app.webContents.executeJavaScript("app_controller.notes_controller.currentEditor.getDoc().setValue('')");
 
   var saveButton = await this.noteBox.$('a[class^="save"]');
   await saveButton.click();
 
-  await uiHelper.sleep();
+  await spectronHelper.sleep();
 });
 
 AfterAll({ timeout: 10000}, async function () {

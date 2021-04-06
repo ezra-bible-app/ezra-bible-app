@@ -18,6 +18,8 @@
 
 const { Given, When, Then } = require("cucumber");
 const { assert } = require("chai");
+const spectronHelper = require('../helpers/spectron_helper.js');
+const nsiHelper = require("../helpers/nsi_helper.js");
 const uiHelper = require("../helpers/ui_helper.js");
 
 Given('I open the book selection menu', {timeout: 60 * 1000}, async function () {
@@ -26,7 +28,7 @@ Given('I open the book selection menu', {timeout: 60 * 1000}, async function () 
   
   await uiHelper.buttonIsEnabled(bookSelectButton, timeoutMs=1000);
   await bookSelectButton.click();
-  await uiHelper.sleep(500);
+  await spectronHelper.sleep(500);
 });
 
 When('I select the book Ephesians', {timeout: 20 * 1000}, async function () {
@@ -73,8 +75,8 @@ Given('I select the verse {string}', async function (selectedVerse) {
   var splittedSelectedVerse = selectedVerse.split(' ');
   var book = splittedSelectedVerse[0];
   var verseReferenceString = splittedSelectedVerse[1];
-  this.selectedBookId = global.spectronHelper.getBookShortTitle(book);
-  var verseReferenceHelper = await global.spectronHelper.getVerseReferenceHelper();
+  this.selectedBookId = nsiHelper.getBookShortTitle(book);
+  var verseReferenceHelper = await nsiHelper.getVerseReferenceHelper();
   var absoluteVerseNumber = await verseReferenceHelper.referenceStringToAbsoluteVerseNr('KJV', this.selectedBookId, verseReferenceString);
 
   var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
@@ -82,5 +84,5 @@ Given('I select the verse {string}', async function (selectedVerse) {
   this.selectedVerseText = await this.selectedVerseBox.$('.verse-text');
 
   await this.selectedVerseText.click();
-  await uiHelper.sleep();
+  await spectronHelper.sleep();
 });

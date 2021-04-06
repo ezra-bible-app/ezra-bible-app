@@ -18,6 +18,8 @@
 
 const { Given, When, Then } = require("cucumber");
 const { assert } = require("chai");
+const spectronHelper = require('../helpers/spectron_helper.js');
+const nsiHelper = require("../helpers/nsi_helper.js");
 const uiHelper = require("../helpers/ui_helper.js");
 
 async function clickCheckbox(selector, parentSelector='#module-settings-assistant-add') {
@@ -47,9 +49,9 @@ Given('I open the module installation assistant', {timeout: 40 * 1000}, async fu
   var translationSettingsButton = await global.app.client.$('#show-translation-settings-button');
 
   await displayOptionsButton.click();
-  await uiHelper.sleep();
+  await spectronHelper.sleep();
   await translationSettingsButton.click();
-  await uiHelper.sleep();
+  await spectronHelper.sleep();
 });
 
 Given('I choose to add translations', async function () {
@@ -98,7 +100,7 @@ async function finishOnceProcessCompleted(moduleSettingsDialogId='#module-settin
 
 When('the installation is completed', {timeout: 100 * 1000}, async function () {
   await finishOnceProcessCompleted();
-  await spectronHelper.backupSwordDir();
+  await nsiHelper.backupSwordDir();
 });
 
 When('the removal is completed', {timeout: 5 * 1000}, async function () {
@@ -106,17 +108,17 @@ When('the removal is completed', {timeout: 5 * 1000}, async function () {
 });
 
 Then('the ASV is available as a local module', async function () {
-  var asvModule = await spectronHelper.getLocalModule('ASV');
+  var asvModule = await nsiHelper.getLocalModule('ASV');
   assert(asvModule != null, "Got null when checking for the ASV module!");
 });
 
 Then('the ASV is no longer available as a local module', async function () {
-  var asvModule = await spectronHelper.getLocalModule('ASV');
+  var asvModule = await nsiHelper.getLocalModule('ASV');
   assert(asvModule == null, "ASV should no longer be available, but it is!");
 });
 
 Then('the ASV is selected as the current translation', async function () {
-  var asvModule = await spectronHelper.getLocalModule('ASV');
+  var asvModule = await nsiHelper.getLocalModule('ASV');
 
   var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
   var bibleSelectBlock = await verseListTabs.$('.bible-select-block');

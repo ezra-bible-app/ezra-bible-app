@@ -16,48 +16,41 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const dbHelper = require('./db_helper.js');
+const spectronHelper = require('./spectron_helper.js');
+const nsiHelper = require('./nsi_helper.js');
 
-async function buttonHasClass(button, className, timeoutMs=100) {
+async function buttonHasClass(button, className, timeoutMs = 100) {
   await global.app.client.waitUntil(async () => {
     var classList = await button.getAttribute('class');
     return classList.split(' ').includes(className);
   }, { timeout: timeoutMs });
 }
 
-async function buttonIsDisabled(button, timeoutMs=100) {
+async function buttonIsDisabled(button, timeoutMs = 100) {
   await buttonHasClass(button, 'ui-state-disabled', timeoutMs);
 }
 
-async function buttonIsEnabled(button, timeoutMs=100) {
+async function buttonIsEnabled(button, timeoutMs = 100) {
   await buttonHasClass(button, 'ui-state-default', timeoutMs);
 }
 
 async function getVerseBox(verseReference) {
   var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
-  var { absoluteVerseNumber } = await dbHelper.splitVerseReference(verseReference);
+  var { absoluteVerseNumber } = await nsiHelper.splitVerseReference(verseReference);
   return await verseListTabs.$(`.verse-nr-${absoluteVerseNumber}`);
 }
 
-async function waitUntilGlobalLoaderIsHidden(timeoutMs=20000) {
+async function waitUntilGlobalLoaderIsHidden(timeoutMs = 20000) {
   var verseListMenu = await global.app.client.$('.verse-list-menu');
   var loader = await verseListMenu.$('.loader');
 
   await global.app.client.waitUntil(async () => { // Wait until loader is hidden
     var loaderDisplay = await loader.getCSSProperty('display');
     await global.app.client.saveScreenshot('../test_screenshot.png');
-    await sleep();
+    await spectronHelper.sleep();
 
     return loaderDisplay.value == "none";
   }, { timeout: timeoutMs, timeoutMsg: `The loader has not disappeared after waiting ${timeoutMs}ms.` });
-}
-
-function sleep(time = 200) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, time);
-  });
 }
 
 module.exports = {
@@ -65,5 +58,4 @@ module.exports = {
   buttonIsEnabled,
   getVerseBox,
   waitUntilGlobalLoaderIsHidden,
-  sleep,
 }
