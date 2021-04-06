@@ -68,27 +68,7 @@ Then('the tag {string} is assigned to {string} in the database', async function 
   var firstTag = tags[0];
   assert(firstTag.title == tagName, `DB tag title is not ${tagName}, but ${firstTag.title}`);
 
-  var splittedReference = verseReference.split(' ');
-  var book = splittedReference[0];
-  var bookId = nsiHelper.getBookShortTitle(book);
-  var verseReferenceString = splittedReference[1];
-
-  var dbBibleBook = await models.BibleBook.findOne({ where: { shortTitle: bookId } });
-  var verseReferenceHelper = await nsiHelper.getVerseReferenceHelper();
-  var absoluteVerseNumber = await verseReferenceHelper.referenceStringToAbsoluteVerseNr('KJV', bookId, verseReferenceString);
-
-  var dbVerseReference = await models.VerseReference.findOne({
-    where: {
-      bibleBookId: dbBibleBook.id,
-      absoluteVerseNrEng: absoluteVerseNumber
-    }
-  });
-
-  var allVerseReferences = await models.VerseReference.findAll();
-
-  assert(dbVerseReference != null, `Could not find a db verse reference for the given book (${dbBibleBook.id}) and absoluteVerseNr (${absoluteVerseNumber}). Total # of verse references: ${allVerseReferences.length}`);
-
-  var verseTags = await models.VerseTag.findByVerseReferenceIds(dbVerseReference.id);
+  var verseTags = await models.VerseTag.findByVerseReferenceIds(await dbHelper.getDbVerseReferenceId(verseReference));
 
   assert(verseTags.length == 1, `Expected 1 verse tag, but got ${verseTags.length}`);
 

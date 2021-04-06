@@ -24,6 +24,7 @@ var models;
 async function initDatabase() {
   var userDataDir = await nsiHelper.getUserDataDir();
   models = require('../../app/backend/database/models')(userDataDir);
+  global.models = models;
   return models;
 }
 
