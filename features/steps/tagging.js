@@ -19,23 +19,22 @@
 const { Given, When, Then } = require("cucumber");
 const { assert } = require("chai");
 const spectronHelper = require('../helpers/spectron_helper.js');
-const nsiHelper = require("../helpers/nsi_helper.js");
 const dbHelper = require("../helpers/db_helper.js");
 
 Given('I create the tag {string}', async function (tagName) {
-  var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
+  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
   var newTagButton = await verseListTabs.$('.new-standard-tag-button');
   await newTagButton.click();
 
-  var newTagTitleInput = await global.app.client.$('#new-standard-tag-title-input');
+  var newTagTitleInput = await spectronHelper.getWebClient().$('#new-standard-tag-title-input');
   await newTagTitleInput.setValue(tagName);
 
-  await global.app.client.keys('Enter');
+  await spectronHelper.getWebClient().keys('Enter');
   await spectronHelper.sleep(500);
 });
 
 When('I assign the tag {string} to the current verse selection', async function (tagName) {
-  var tagsList = await global.app.client.$('#tags-content-global');
+  var tagsList = await spectronHelper.getWebClient().$('#tags-content-global');
   var allTags = await tagsList.$$('.checkbox-tag');
   var tagCount = allTags.length;
   var tagFound = false;

@@ -24,10 +24,10 @@ const uiHelper = require("../helpers/ui_helper.js");
 
 
 Given('I have {display_option} {state}', { timeout: 40 * 1000 }, async function (displayOptionId, state) {
-  const checkbox = await global.app.client.$(displayOptionId);
+  const checkbox = await spectronHelper.getWebClient().$(displayOptionId);
   const checked = await checkbox.getAttribute('checked');
   if (state && !checked || !state && checked) {
-    const verseListTabs = await global.app.client.$('#verse-list-tabs-1');
+    const verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
     const displayOptionsButton = await verseListTabs.$('.display-options-button');
 
     await displayOptionsButton.click();
@@ -61,11 +61,11 @@ Given('I click on note indicator for the verse {string}', async function (verseR
 });
 
 Given('I enter markdown text', async function (docString) {
-  await global.app.webContents.executeJavaScript("app_controller.notes_controller.currentEditor.getDoc().setValue(`" + docString + "`)");
+  await spectronHelper.getApp().webContents.executeJavaScript("app_controller.notes_controller.currentEditor.getDoc().setValue(`" + docString + "`)");
 });
 
 When('I click note {string} button', async function (buttonClass) {
-  var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
+  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
   var statusBar = await verseListTabs.$('.verse-notes .verse-notes-text.edited ~ .verse-notes-status-bar');
   var button = await statusBar.$(`a[class^="${buttonClass.toLowerCase()}"]`);
 
@@ -74,7 +74,7 @@ When('I click note {string} button', async function (buttonClass) {
 });
 
 When('I click outside of the note editor', async function () {
-  var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
+  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
   var noteTextBox = await verseListTabs.$('.verse-notes .verse-notes-text.edited');
   var verseContent = await (await noteTextBox.parentElement()).parentElement();
   var verseText = await verseContent.$('.verse-text');

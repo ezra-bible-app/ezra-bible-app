@@ -20,7 +20,7 @@ const spectronHelper = require('./spectron_helper.js');
 const nsiHelper = require('./nsi_helper.js');
 
 async function buttonHasClass(button, className, timeoutMs = 100) {
-  await global.app.client.waitUntil(async () => {
+  await spectronHelper.getWebClient().waitUntil(async () => {
     var classList = await button.getAttribute('class');
     return classList.split(' ').includes(className);
   }, { timeout: timeoutMs });
@@ -35,18 +35,18 @@ async function buttonIsEnabled(button, timeoutMs = 100) {
 }
 
 async function getVerseBox(verseReference) {
-  var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
+  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
   var { absoluteVerseNumber } = await nsiHelper.splitVerseReference(verseReference);
   return await verseListTabs.$(`.verse-nr-${absoluteVerseNumber}`);
 }
 
 async function waitUntilGlobalLoaderIsHidden(timeoutMs = 20000) {
-  var verseListMenu = await global.app.client.$('.verse-list-menu');
+  var verseListMenu = await spectronHelper.getWebClient().$('.verse-list-menu');
   var loader = await verseListMenu.$('.loader');
 
-  await global.app.client.waitUntil(async () => { // Wait until loader is hidden
+  await spectronHelper.getWebClient().waitUntil(async () => { // Wait until loader is hidden
     var loaderDisplay = await loader.getCSSProperty('display');
-    await global.app.client.saveScreenshot('../test_screenshot.png');
+    await spectronHelper.getWebClient().saveScreenshot('../test_screenshot.png');
     await spectronHelper.sleep();
 
     return loaderDisplay.value == "none";

@@ -22,7 +22,7 @@ const spectronHelper = require('../helpers/spectron_helper.js');
 const uiHelper = require("../helpers/ui_helper.js");
 
 Given('I open the search menu', async function () {
-  var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
+  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
   var moduleSearchButton = await verseListTabs.$('.module-search-button');
   
   await uiHelper.buttonIsEnabled(moduleSearchButton, timeoutMs=1000);
@@ -31,14 +31,14 @@ Given('I open the search menu', async function () {
 });
 
 Given('I enter the term {string}', async function (searchTerm) {
-  var moduleSearchMenu = await global.app.client.$('#module-search-menu');
+  var moduleSearchMenu = await spectronHelper.getWebClient().$('#module-search-menu');
   var moduleSearchInput = await moduleSearchMenu.$('#module-search-input');
 
   await moduleSearchInput.setValue(searchTerm);
 });
 
 When('I perform the search', {timeout: 50 * 1000}, async function () {
-  var moduleSearchMenu = await global.app.client.$('#module-search-menu');
+  var moduleSearchMenu = await spectronHelper.getWebClient().$('#module-search-menu');
   var startSearchButton = await moduleSearchMenu.$('#start-module-search-button');
 
   await startSearchButton.click();
@@ -46,7 +46,7 @@ When('I perform the search', {timeout: 50 * 1000}, async function () {
 });
 
 Then('there are {int} search results', async function (searchResultCount) {
-  var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
+  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
 
   var verseBoxes = await verseListTabs.$$('.verse-box');
   assert(verseBoxes.length == searchResultCount, `The number of verses (${verseBoxes.length}) does not match the expectation for the number of search results (${searchResultCount})`);

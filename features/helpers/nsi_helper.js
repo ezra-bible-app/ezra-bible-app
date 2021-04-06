@@ -10,7 +10,7 @@ const spectronHelper = require('./spectron_helper.js');
 var nsi = null;
 
 async function getUserDataDir() {
-  var electronApp = global.app.electron.remote.app;
+  var electronApp = spectronHelper.getApp().electron.remote.app;
   var pjson = require('../../package.json');
   var appDataPath = await electronApp.getPath('appData');
   var userDataDir = path.join(appDataPath, pjson.name + '-test');
@@ -90,8 +90,9 @@ async function installASV() {
 }
 
 async function getLocalModule(moduleCode) {
-  if (global.app != null) {
-    var allLocalModules = await global.app.webContents.executeJavaScript("ipcNsi.getAllLocalModulesSync()");
+  var app = spectronHelper.getApp();
+  if (app) {
+    var allLocalModules = await app.webContents.executeJavaScript("ipcNsi.getAllLocalModulesSync()");
 
     for (var i = 0; i < allLocalModules.length; i++) {
       var currentModule = allLocalModules[i];

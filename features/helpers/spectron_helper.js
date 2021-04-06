@@ -48,7 +48,7 @@ function initializeSpectron(additionalArgs = []) {
   });
 }
 
-function initAndGetApp(additionalArgs = [], force = false) {
+function initApp(additionalArgs = [], force = false) {
   if (app == null || force) {
     chai.should();
     chai.use(chaiAsPromised);
@@ -67,6 +67,8 @@ function sleep(time = 200) {
 
 
 module.exports = {
-  initAndGetApp,
+  initApp,
+  getApp: () => app,
+  getWebClient: () => app.client, // https://webdriver.io/docs/api
   sleep,
 }

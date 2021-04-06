@@ -22,8 +22,6 @@ const chaiAsPromised = require("chai-as-promised");
 const spectronHelper = require("../helpers/spectron_helper.js");
 const nsiHelper = require("../helpers/nsi_helper.js");
 
-global.app = null;
-
 function hasTag(scenario, tag) {
   for (var i = 0; i < scenario.pickle.tags.length; i++) {
     var currentTag = scenario.pickle.tags[i];
@@ -40,16 +38,16 @@ Before({ timeout: 80000}, async function (scenario) {
   args = [];
 
   installKjv = true;
-  appStopped = false;
+
+  var app = spectronHelper.getApp();
 
   if (hasTag(scenario, "@needs-asv-before")) {
-    if (global.app && global.app.isRunning()) {
+    if (app && app.isRunning()) {
       var asvModule = await nsiHelper.getLocalModule('ASV');
 
       if (asvModule == null) {
-        await global.app.stop();
-        global.app = null;
-        appStopped = true;
+        await app.stop();
+        app = null;
       }
     }
 
@@ -61,27 +59,25 @@ Before({ timeout: 80000}, async function (scenario) {
   }
 
   if (installKjv) {
-    if (global.app != null && !appStopped) {
+    if (app != null) {
       var kjvModule = await nsiHelper.getLocalModule('KJV');
 
       if (kjvModule == null) {
         args.push('--install-kjv');
 
-        await global.app.stop();
-        global.app = null;
-        appStopped = true;
+        await app.stop();
+        app = null;
       }
     } else {
       args.push('--install-kjv');
-      appStopped = true;
     }
   }
 
-  if (global.app == null || !global.app.isRunning()) {
-    global.app = spectronHelper.initAndGetApp(args, true);
+  if (app == null || !app.isRunning()) {
+    app = spectronHelper.initApp(args, true);
 
-    chaiAsPromised.transferPromiseness = global.app.transferPromiseness;
-    await global.app.start();
+    chaiAsPromised.transferPromiseness = app.transferPromiseness;
+    await app.start();
   }
 });
 
@@ -94,7 +90,7 @@ After("@remove-last-tag-after-scenario", async function() {
   await tagDeleteButton.click();
   await spectronHelper.sleep();
 
-  var deleteTagConfirmationDialog = await global.app.client.$('#delete-tag-confirmation-dialog');
+  var deleteTagConfirmationDialog = await spectronHelper.getWebClient().$('#delete-tag-confirmation-dialog');
   var deleteTagConfirmationDialogContainer = await deleteTagConfirmationDialog.$('..');
   var deleteTagConfirmationButtons = await deleteTagConfirmationDialogContainer.$$('button');
 
@@ -113,7 +109,7 @@ After("@remove-last-note-after-scenario", async function() {
   await this.noteBox.click();
   await spectronHelper.sleep();
 
-  await global.app.webContents.executeJavaScript("app_controller.notes_controller.currentEditor.getDoc().setValue('')");
+  await spectronHelper.getApp().webContents.executeJavaScript("app_controller.notes_controller.currentEditor.getDoc().setValue('')");
 
   var saveButton = await this.noteBox.$('a[class^="save"]');
   await saveButton.click();
@@ -122,8 +118,9 @@ After("@remove-last-note-after-scenario", async function() {
 });
 
 AfterAll({ timeout: 10000}, async function () {
-  if (global.app && global.app.isRunning()) {
-    var rendererLogs = await global.app.client.getRenderProcessLogs();
+  var app = spectronHelper.getApp();
+  if (app && app.isRunning()) {
+    var rendererLogs = await spectronHelper.getWebClient().getRenderProcessLogs();
 
     if (rendererLogs.length > 0) {
       console.log("\nRenderer logs:");
@@ -132,7 +129,7 @@ AfterAll({ timeout: 10000}, async function () {
       });
     }
 
-    var exitCode = await global.app.stop();
+    var exitCode = await app.stop();
     return exitCode;
   }
 });
