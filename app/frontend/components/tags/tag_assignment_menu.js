@@ -67,13 +67,26 @@ class TagAssignmentMenu {
       assignTagMenuButton.addClass('ui-state-active');
       var buttonOffset = assignTagMenuButton.offset();
       var menu = this.getMenu();
+
       var topOffset = buttonOffset.top + assignTagMenuButton.height() + 1;
       var leftOffset = buttonOffset.left;
 
       menu.css('top', topOffset);
       menu.css('left', leftOffset);
 
+      var overlay = menu.find('#tag-assignment-menu-taglist-overlay');
+
+      // Show an overlay while the actual menu is rendering
+      menu.find('#tag-assignment-menu-taglist').hide();
+      overlay.show();
+      overlay.find('.loader').show();
       menu.show();
+
+      await waitUntilIdle();
+
+      menu.find('#tags-content-global').css('height', 'unset');
+      menu.find('#tag-assignment-menu-taglist').show();
+      overlay.hide();
       $('#tags-search-input').select();
 
       this.menuIsOpened = true;
@@ -113,6 +126,7 @@ class TagAssignmentMenu {
 
       var menu = document.getElementById(menuId);
       menu.appendChild(tagsContainer);
+
       var filter = document.getElementById(filterId);
       var tagsSearchInput = document.getElementById('tags-search-input');
 

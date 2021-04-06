@@ -113,7 +113,6 @@ class AppController {
     this.init_component("TextSizeSettings", "textSizeSettings");
     this.init_component("VerseStatisticsChart", "verse_statistics_chart");
 
-    this.verse_list_popup.initVerseListPopup();
     this.initGlobalShortCuts();
 
     this.translation_controller.init(async (oldBibleTranslationId, newBibleTranslationId) => {
@@ -552,8 +551,8 @@ class AppController {
     return searchCancelButton;
   }
 
-  showVerseListLoadingIndicator(message=undefined, withLoader=true) {
-    var loadingIndicator = this.getCurrentVerseListLoadingIndicator();
+  showVerseListLoadingIndicator(tabIndex=undefined, message=undefined, withLoader=true) {
+    var loadingIndicator = this.getCurrentVerseListLoadingIndicator(tabIndex);
     var loadingText = loadingIndicator.find('.verse-list-loading-indicator-text');
     if (message === undefined) {
       message = i18n.t("bible-browser.loading-bible-text");
@@ -630,7 +629,7 @@ class AppController {
       ((currentTextType == 'xrefs') || (currentTextType == 'tagged_verses'))
     ) {
       if (isXrefMarker) {
-        this.verse_list_popup.initCurrentXrefs(event.target);
+        await this.verse_list_popup.initCurrentXrefs(event.target);
 
         this.openXrefVerses(this.verse_list_popup.currentReferenceVerseBox,
                             this.verse_list_popup.currentPopupTitle,
