@@ -20,7 +20,7 @@ const PlatformHelper = require('../../lib/platform_helper.js');
 const jqueryI18next = require('jquery-i18next');
 
 const i18nextOptions = {
-  debug: true,
+  debug: false,
   interpolation: {
     escapeValue: false
   },
@@ -89,7 +89,7 @@ class I18nHelper {
   }
 
   async getChapterTranslation(lang) {
-    var language = lang??this.getLanguage();
+    var language = lang||this.getLanguage();
 
     if (this._isCordova) {
       language = 'en';
