@@ -54,7 +54,7 @@ Feature: Adding, viewing and editing notes
     ```
     **Grace and peace** greeting
     ```
-    When I click note "Save" button
+    When I click outside of the note editor
     Then the note assigned to "Ephesians 1:2" in the database starts with text "**Grace and peace"
     And the note assigned to "Ephesians 1:2" has "strong" text "Grace and peace"
 
