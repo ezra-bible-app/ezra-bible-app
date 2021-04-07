@@ -212,7 +212,8 @@
     "open-new-tab": "Open new tab",
     "open-verselist-in-new-tab": "Open verse list in new tab",
     "footnote-character": "n",
-    "adjust-font-size-tags-notes": "Adjust tags & notes font size"
+    "adjust-font-size-tags-notes": "Adjust tags & notes font size",
+    "new-note-hint": "Click to add a note"
   },
   "dictionary-info-box": {
     "greek-dict": "Greek Dictionary",

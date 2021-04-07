@@ -148,10 +148,10 @@ h2 {
 
 .verse-list,
 .reference-verse {
-  padding: 0.5em;
   font: caption;
   font-size: 1em;
   line-height: 150%;
+  width: 100%;
   /*height: 100%;         // Needed because of selectable scroll-bug
   overflow-y: scroll;*/
 }
@@ -161,11 +161,8 @@ h2 {
 }
 
 .verse-box {
-  clear: both;
-  padding: 0.1em;
-  margin-top: 0;
-  margin-bottom: 0.2em;
-  margin-left: 0.2em;
+  display: flex;
+  margin: 0 0.5em 0.2em 0;
 }
 
 .assign-tag-button {
@@ -191,14 +188,15 @@ h2 {
 }
 
 .verse-reference {
+  display: flex;
   padding-top: 0.3em;
-  width: 8em;
-  /* Needs to be bigger to support notes and x-refs, aligned with .verse-content */
+  margin-left: 0.5em;
+  width: 8em; /* Needs to be bigger to support notes and x-refs, aligned with .verse-content */
   /*height: 1.5em;*/
-  float: left;
-  z-index: 100;
+  /* z-index: 100; */
   /*padding-top: 0.1em;*/
   color: #808080;
+  flex: 0 0;
 }
 
 .verse-list:not(.verse-list-tags-column).verse-list-with-notes .verse-reference {
@@ -216,10 +214,14 @@ h2 {
 }
 
 .verse-content {
-  margin-left: 8em; /* Needs to be bigger to support notes and x-refs, aligned with .verse-reference */
   padding: 0.2em;
+  flex: 1 1;  
   display: flex;
-  flex-direction: row;
+  align-items: start;
+  flex-wrap: wrap;
+}
+.verse-text-and-tags {
+  flex: 1 1;
 }
 
 .slim-verse-reference .verse-reference {
@@ -228,10 +230,6 @@ h2 {
 
 .slim-verse-reference .verse-reference-content {
   margin-left: 0;
-}
-
-.slim-verse-reference .verse-content {
-  margin-left: 5em;
 }
 
 .tag-box {
@@ -244,10 +242,7 @@ h2 {
   padding-right: 0.5em;
   margin-left: 1em;
   width: 30%;
-}
-
-.verse-list-with-notes.verse-list-tags-column .tag-box {
-  width: 36%;
+  flex: 0 0 auto;
 }
 
 .tag {
@@ -323,36 +318,17 @@ h2 {
   width: 5em;
 }
 
-.verse-list-without-user-data-indicators .verse-content {
-  margin-left: 5em;
-}
-
-.verse-list-with-notes .verse-text-and-tags {
-  width: 75%;
-}
-
-.verse-list-with-notes:not(.verse-list-tags-column) .verse-text-and-tags {
-  width: 50%;
-}
-
-.verse-list-tags-column:not(.verse-list-without-tags) .verse-text-and-tags {
+.verse-list-tags-column .verse-text-and-tags {
   display: flex;
   flex-direction: row-reverse;
-}
-
-.verse-list:not(.verse-list-with-notes) .verse-text-and-tags,
-.reference-verse:not(.verse-list-with-notes) .verse-text-and-tags {
-  width: 100%;
-}
-
-.verse-list-tags-column:not(.verse-list-without-tags) .verse-text {
-  width: 70%;
+  flex: 1 1;
 }
 
 .verse-text {
   padding: 0.05em;
   position: relative;
   line-height: 1.5em;
+  flex: 1 1;
 }
 
 .ezra-dialog .verse-text {
@@ -473,8 +449,8 @@ h2 {
   color: #3a3a3a;
 }
 
-.visible,
-.darkmode--activated .visible {
+.verse-reference .visible,
+.darkmode--activated .verse-reference .visible {
   color: #2779AA;
   opacity: 1;
   /*visibility: visible;*/
@@ -1059,6 +1035,7 @@ h2 {
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   margin-left: 0.7em;
+  margin-right: 0.5em;
   font-size: 1.2em;
 }
 
