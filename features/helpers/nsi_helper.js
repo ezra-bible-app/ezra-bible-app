@@ -9,17 +9,9 @@ const spectronHelper = require('./spectron_helper.js');
 
 var nsi = null;
 
-async function getUserDataDir() {
-  var electronApp = spectronHelper.getApp().electron.remote.app;
-  var pjson = require('../../package.json');
-  var appDataPath = await electronApp.getPath('appData');
-  var userDataDir = path.join(appDataPath, pjson.name + '-test');
-  return userDataDir;
-}
-
 async function getNSI(refresh = false) {
   if (nsi == null || refresh) {
-    var userDataDir = await getUserDataDir();
+    var userDataDir = await spectronHelper.getUserDataDir();
     nsi = new NodeSwordInterface(userDataDir);
   }
 
@@ -56,7 +48,7 @@ async function isAsvAvailable(refreshNsi = false) {
 }
 
 async function backupSwordDir() {
-  var userDataDir = await getUserDataDir();
+  var userDataDir = await spectronHelper.getUserDataDir();
   var swordDir = userDataDir + '/.sword';
   var backupDir = userDataDir + '/.swordBackup';
 
@@ -64,7 +56,7 @@ async function backupSwordDir() {
 }
 
 async function installASV() {
-  var userDataDir = await getUserDataDir();
+  var userDataDir = await spectronHelper.getUserDataDir();
   var swordDir = userDataDir + '/.sword';
   var backupDir = userDataDir + '/.swordBackup';
 
@@ -91,6 +83,7 @@ async function installASV() {
 
 async function getLocalModule(moduleCode) {
   var app = spectronHelper.getApp();
+
   if (app) {
     var allLocalModules = await app.webContents.executeJavaScript("ipcNsi.getAllLocalModulesSync()");
 
@@ -119,11 +112,9 @@ async function splitVerseReference(verseReference, translation = 'KJV') {
   }
 }
 
-
 module.exports = {
   getVerseReferenceHelper,
   getBookShortTitle,
-  getUserDataDir,
   backupSwordDir,
   installASV,
   getLocalModule,

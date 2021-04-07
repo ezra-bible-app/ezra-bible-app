@@ -18,14 +18,18 @@
 
 const { expect } = require("chai");
 const nsiHelper = require("./nsi_helper.js");
+const spectronHelper = require("./spectron_helper.js");
 
 var models;
 
 async function initDatabase() {
-  var userDataDir = await nsiHelper.getUserDataDir();
-  models = require('../../app/backend/database/models')(userDataDir);
-  global.models = models;
-  return models;
+  if (!global.models) {
+    var userDataDir = await spectronHelper.getUserDataDir();
+    models = require('../../app/backend/database/models')(userDataDir);
+    global.models = models;
+  }
+
+  return global.models;
 }
 
 async function getDbVerseReferenceId(verseReference) {

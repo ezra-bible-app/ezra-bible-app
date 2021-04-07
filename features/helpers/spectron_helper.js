@@ -54,6 +54,7 @@ function initApp(additionalArgs = [], force = false) {
     chai.use(chaiAsPromised);
     app = initializeSpectron(additionalArgs);
   }
+  
   return app;
 }
 
@@ -65,10 +66,18 @@ function sleep(time = 200) {
   });
 }
 
+async function getUserDataDir() {
+  var electronApp = app.electron.remote.app;
+  var pjson = require('../../package.json');
+  var appDataPath = await electronApp.getPath('appData');
+  var userDataDir = path.join(appDataPath, pjson.name + '-test');
+  return userDataDir;
+}
 
 module.exports = {
   initApp,
   getApp: () => app,
   getWebClient: () => app.client, // https://webdriver.io/docs/api
   sleep,
+  getUserDataDir,
 }
