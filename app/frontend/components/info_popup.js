@@ -104,7 +104,8 @@ class InfoPopup {
       <a class='external' href='https://gitlab.com/lafricain79'>Br Cyrille (French)</a><br>
       <a class='external' href='https://github.com/lemtom'>Tom Lemmens (French, Dutch)</a><br>
       <a class='external' href='https://github.com/reyespinosa1996'>Reinaldo R. Espinosa (Spanish)</a><br>
-      <a class='external' href='https://github.com/MartinIIOT'>MartinIIOT (Slovakian)</a>
+      <a class='external' href='https://github.com/MartinIIOT'>MartinIIOT (Slovakian)</a><br>
+      <a class='external' href='https://github.com/zhuiks'>Evgen Kucherov (Ukrainian)</a>
     `;
 
     appInfo += `<h2>${i18n.t("general.versions-and-paths")}</h2>`;
