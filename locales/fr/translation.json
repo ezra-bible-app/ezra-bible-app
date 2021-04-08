@@ -212,7 +212,8 @@
     "open-new-tab": "Ouvrir un nouvel onglet",
     "open-verselist-in-new-tab": "Ouvrir la liste des versets dans un nouvel onglet",
     "footnote-character": "n",
-    "adjust-font-size-tags-notes": "Adjust tags & notes font size"
+    "adjust-font-size-tags-notes": "Adjust tags & notes font size",
+    "new-note-hint": "Click to add a note"
   },
   "dictionary-info-box": {
     "greek-dict": "Dictionnaire grec",

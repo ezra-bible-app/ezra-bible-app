@@ -129,6 +129,7 @@
     "module-unlock-failed": "falló (problema de desbloqueo).",
     "installing-strongs": "Instalando <i>Strong's dictionaries</i>",
     "applying-migrations": "Migrando la base de datos a una nueva versión",
+    "new-note-hint": "Click to add a note",
     "developers": "Developers",
     "translators": "Translators",
     "versions-and-paths": "Versions and paths"

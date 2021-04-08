@@ -18,17 +18,20 @@
 
 const { Given, When, Then } = require("cucumber");
 const { assert } = require("chai");
+const spectronHelper = require('../helpers/spectron_helper.js');
+const nsiHelper = require("../helpers/nsi_helper.js");
+const uiHelper = require("../helpers/ui_helper.js");
 
 async function clickCheckbox(selector, parentSelector='#module-settings-assistant-add') {
-  var parent = await global.app.client.$(parentSelector);
+  var parent = await spectronHelper.getWebClient().$(parentSelector);
   var label = await parent.$(selector);
-  await global.app.client.waitUntil(async () => { return await label.isExisting(); }, { timeout: 40000 });
+  await spectronHelper.getWebClient().waitUntil(async () => { return await label.isExisting(); }, { timeout: 40000 });
   var checkbox = await label.$('../child::input');
   await checkbox.click();
 }
 
 async function getNavLinks(moduleSettingsDialogId='#module-settings-assistant-add') {
-  var moduleSettingsAssistantAdd = await global.app.client.$(moduleSettingsDialogId);
+  var moduleSettingsAssistantAdd = await spectronHelper.getWebClient().$(moduleSettingsDialogId);
   var actionsDiv = await moduleSettingsAssistantAdd.$('.actions');
   var navLinks = await actionsDiv.$$('a');
   return navLinks;
@@ -41,23 +44,23 @@ async function clickNext(moduleSettingsDialogId='#module-settings-assistant-add'
 }
 
 Given('I open the module installation assistant', {timeout: 40 * 1000}, async function () {
-  var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
+  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
   var displayOptionsButton = await verseListTabs.$('.display-options-button');
-  var translationSettingsButton = await global.app.client.$('#show-translation-settings-button');
+  var translationSettingsButton = await spectronHelper.getWebClient().$('#show-translation-settings-button');
 
   await displayOptionsButton.click();
-  await spectronHelper.sleep(200);
+  await spectronHelper.sleep();
   await translationSettingsButton.click();
-  await spectronHelper.sleep(200);
+  await spectronHelper.sleep();
 });
 
 Given('I choose to add translations', async function () {
-  var addModulesButton = await global.app.client.$('#add-modules-button');
+  var addModulesButton = await spectronHelper.getWebClient().$('#add-modules-button');
   await addModulesButton.click();
 });
 
 Given('I choose to remove translations', async function () {
-  var removeModulesButton = await global.app.client.$('#remove-modules-button');
+  var removeModulesButton = await spectronHelper.getWebClient().$('#remove-modules-button');
   await removeModulesButton.click();
 });
 
@@ -87,7 +90,7 @@ async function finishOnceProcessCompleted(moduleSettingsDialogId='#module-settin
   var finishButton = navLinks[2];
   var finishButtonLi = await finishButton.$('..');
 
-  await global.app.client.waitUntil(async () => {
+  await spectronHelper.getWebClient().waitUntil(async () => {
     var finishbuttonLiClass = await finishButtonLi.getAttribute('class');
     return finishbuttonLiClass != 'disabled';
   }, { timeout: 120000 });
@@ -97,7 +100,7 @@ async function finishOnceProcessCompleted(moduleSettingsDialogId='#module-settin
 
 When('the installation is completed', {timeout: 100 * 1000}, async function () {
   await finishOnceProcessCompleted();
-  await spectronHelper.backupSwordDir();
+  await nsiHelper.backupSwordDir();
 });
 
 When('the removal is completed', {timeout: 5 * 1000}, async function () {
@@ -105,19 +108,19 @@ When('the removal is completed', {timeout: 5 * 1000}, async function () {
 });
 
 Then('the ASV is available as a local module', async function () {
-  var asvModule = await spectronHelper.getLocalModule('ASV');
+  var asvModule = await nsiHelper.getLocalModule('ASV');
   assert(asvModule != null, "Got null when checking for the ASV module!");
 });
 
 Then('the ASV is no longer available as a local module', async function () {
-  var asvModule = await spectronHelper.getLocalModule('ASV');
+  var asvModule = await nsiHelper.getLocalModule('ASV');
   assert(asvModule == null, "ASV should no longer be available, but it is!");
 });
 
 Then('the ASV is selected as the current translation', async function () {
-  var asvModule = await spectronHelper.getLocalModule('ASV');
+  var asvModule = await nsiHelper.getLocalModule('ASV');
 
-  var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
+  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
   var bibleSelectBlock = await verseListTabs.$('.bible-select-block');
   var selectMenuStatus = await bibleSelectBlock.$('.ui-selectmenu-status');
   var selectMenuStatusText = await selectMenuStatus.getText();
@@ -126,11 +129,11 @@ Then('the ASV is selected as the current translation', async function () {
 });
 
 Then('the relevant buttons in the menu are enabled', async function() {
-  var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
+  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
   var bookSelectButton = await verseListTabs.$('.book-select-button');
   var moduleSearchButton = await verseListTabs.$('.module-search-button');
   var appInfoButton = await verseListTabs.$('.app-info-button');
-  await global.spectronHelper.buttonIsEnabled(bookSelectButton);
-  await global.spectronHelper.buttonIsEnabled(moduleSearchButton);
-  await global.spectronHelper.buttonIsEnabled(appInfoButton);
+  await uiHelper.buttonIsEnabled(bookSelectButton);
+  await uiHelper.buttonIsEnabled(moduleSearchButton);
+  await uiHelper.buttonIsEnabled(appInfoButton);
 });
