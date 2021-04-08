@@ -1,6 +1,6 @@
 name: Ezra Bible App test suite
 
-on: workflow_dispatch
+on: push
 
 jobs:
     test:
