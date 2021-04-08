@@ -165,7 +165,9 @@
     "title": "Titulok",
     "stats-used": "použité",
     "stats-total": "spolu",
-    "only-currentbook-tagged-verses": "Iba aktuálna kniha"
+    "only-currentbook-tagged-verses": "Iba aktuálna kniha",
+    "most-frequently-used": "Most frequently used",
+    "less-frequently-used": "Less frequently used"
   },
   "bible-browser": {
     "chapter": "Kapitola",

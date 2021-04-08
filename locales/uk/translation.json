@@ -165,7 +165,9 @@
     "title": "Назва",
     "stats-used": "використано",
     "stats-total": "Всього",
-    "only-currentbook-tagged-verses": "Тільки у поточній книзі"
+    "only-currentbook-tagged-verses": "Тільки у поточній книзі",
+    "most-frequently-used": "Most frequently used",
+    "less-frequently-used": "Less frequently used"
   },
   "bible-browser": {
     "chapter": "Розділ",

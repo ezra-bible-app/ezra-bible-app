@@ -165,7 +165,9 @@
     "title": "Titel",
     "stats-used": "gebruikt",
     "stats-total": "totaal",
-    "only-currentbook-tagged-verses": "Alleen huidig boek"
+    "only-currentbook-tagged-verses": "Alleen huidig boek",
+    "most-frequently-used": "Most frequently used",
+    "less-frequently-used": "Less frequently used"
   },
   "bible-browser": {
     "chapter": "Hoofdstuk",

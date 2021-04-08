@@ -245,7 +245,7 @@ class AppController {
     if (textType == 'book') this.book_selection_menu.highlightCurrentlySelectedBookInMenu(ui.index);
 
     // Toggle book statistics
-    this.tag_statistics.toggle_book_tags_statistics_button(ui.index);
+    this.tag_statistics.toggleBookTagStatisticsButton(ui.index);
 
     // Populate search menu based on last search (if any)
     this.module_search_controller.populateSearchMenu(ui.index);
@@ -935,7 +935,7 @@ class AppController {
     }
 
     if (tabIsCurrentTab) {
-      this.tag_statistics.toggle_book_tags_statistics_button(tabIndex);
+      this.tag_statistics.toggleBookTagStatisticsButton(tabIndex);
     }
 
     this.verse_selection.init(tabIndex);
