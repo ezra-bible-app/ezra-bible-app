@@ -22,7 +22,7 @@ jobs:
           # run: npm run bundle
 
         - name: Run test
-          run: npm run full-test
+          run: npm run headless-test
           env:
             JOBS: MAX
 
