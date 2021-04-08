@@ -165,7 +165,9 @@
     "title": "Назва",
     "stats-used": "використано",
     "stats-total": "Всього",
-    "only-currentbook-tagged-verses": "Тільки поточна книга"
+    "only-currentbook-tagged-verses": "Тільки поточна книга",
+    "most-frequently-used": "Most frequently used",
+    "less-frequently-used": "Less frequently used"
   },
   "bible-browser": {
     "chapter": "Розділ",
