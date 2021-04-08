@@ -71,4 +71,4 @@ Feature: Adding, viewing and editing notes
     ```
     When I click note "Cancel" button
     Then the note assigned to "Ephesians 1:2" in the database starts with text "**Grace and peace"
-    And the note assigned to "Ephesians 1:2" has "strong" text "Grace and peace"
+    And the note assigned to "Ephesians 1:2" has "strong" text "~Grace and peace"
