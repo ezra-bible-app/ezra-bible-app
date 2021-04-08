@@ -95,7 +95,7 @@ class TagStatistics {
       if (i == 0) {
         current_row_html += `<tr><td style='font-weight: bold; font-style: italic; padding-top: 0.5em;' colspan='3'>${i18n.t('tags.most-frequently-used')}</td></tr>`;
       } else if (is_more_frequent && !clusters.includes(tagged_verse_percent)) {
-        current_row_html += `<tr><td style='font-weight: bold; font-style: italic; padding-top: 0.5em;' colspan='3'>${i18n.t('tags.less-frequently-used')}</td></tr>`;
+        current_row_html += `<tr><td style='font-weight: bold; font-style: italic; padding-top: 1em;' colspan='3'>${i18n.t('tags.less-frequently-used')}</td></tr>`;
       }
 
       var current_row_html = current_row_html + `<tr><td style="width: 20em;">${tag_title}</td><td>${tagged_verse_count}</td><td>${tagged_verse_percent}</td></tr>`;
