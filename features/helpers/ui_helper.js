@@ -46,7 +46,7 @@ async function waitUntilGlobalLoaderIsHidden(timeoutMs = 20000) {
 
   await spectronHelper.getWebClient().waitUntil(async () => { // Wait until loader is hidden
     var loaderDisplay = await loader.getCSSProperty('display');
-    await spectronHelper.getWebClient().saveScreenshot('../test_screenshot.png');
+    await spectronHelper.getWebClient().saveScreenshot('./test_screenshot.png');
     await spectronHelper.sleep();
 
     return loaderDisplay.value == "none";
