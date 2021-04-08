@@ -18,11 +18,11 @@ jobs:
         - name: Compile templates
           run: npm run compile-pug
         
-        - name: Bundle JS
-          run: npm run bundle
+        # - name: Bundle JS
+          # run: npm run bundle
 
         - name: Run test
-          run: npm run headless-test
+          run: npm run full-test
           env:
             JOBS: MAX
 
