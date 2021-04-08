@@ -66,8 +66,8 @@ class TagStatistics {
     
     var clusters = [];
 
-    const MAX_CLUSTERS = 4;
-    const MIN_CLUSTER_PERCENT = 1;
+    const MAX_CLUSTERS = 5;
+    const MIN_CLUSTER_PERCENT = 5;
 
     for (var i = 0; i < tags_by_verse_count.length; i++) {
       var tag_title = tags_by_verse_count[i];
