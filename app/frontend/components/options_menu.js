@@ -73,10 +73,13 @@ class OptionsMenu {
     this._tagsColumnOption = await this.initDisplayOption('tags-column-switch', 'useTagsColumn', () => { this.changeTagsLayoutBasedOnOption(); });
     this._verseNotesOption = await this.initDisplayOption('verse-notes-switch', 'showNotes', () => { this.showOrHideVerseNotesBasedOnOption(); });
     this._verseNotesFixedHeightOption = await this.initDisplayOption('verse-notes-fixed-height-switch', 'fixNotesHeight', () => { this.fixNotesHeightBasedOnOption(); });
+    this._textSizeAdjustTagsNotesOption = await this.initDisplayOption('tags-notes-text-size-switch', 'adjustTagsNotesTextSize', () => { 
+      app_controller.textSizeSettings.updateTagsNotes(this._textSizeAdjustTagsNotesOption.isChecked()); 
+    }, true);
 
     this._nightModeOption = await this.initDisplayOption('night-mode-switch', 'useNightMode', async () => {
       this.hideDisplayMenu();
-      showGlobalLoadingIndicator();
+      uiHelper.showGlobalLoadingIndicator();
       theme_controller.useNightModeBasedOnOption();
 
       if (this.platformHelper.isCordova()) {
@@ -86,7 +89,7 @@ class OptionsMenu {
       }
 
       await waitUntilIdle();
-      hideGlobalLoadingIndicator();
+      uiHelper.hideGlobalLoadingIndicator();
     }, false, // enabledByDefault
     async () => { // customSettingsLoader
       return await theme_controller.isNightModeUsed();
@@ -153,19 +156,19 @@ class OptionsMenu {
     if (this.menuIsOpened) {
       app_controller.handleBodyClick();
     } else {
-      app_controller.book_selection_menu.hideBookMenu();
-      app_controller.tag_selection_menu.hideTagMenu();
-      app_controller.module_search_controller.hideSearchMenu();
-      app_controller.tag_assignment_menu.hideTagAssignmentMenu();
-      
+      app_controller.hideAllMenus();
+
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
       var display_options_button = currentVerseListMenu.find('.display-options-button');
       display_options_button.addClass('ui-state-active');
 
       var display_options_button_offset = display_options_button.offset();
       var menu = $('#app-container').find('#display-options-menu');
-      var top_offset = display_options_button_offset.top + display_options_button.height() + 12;
+      var top_offset = display_options_button_offset.top + display_options_button.height() + 1;
       var left_offset = display_options_button_offset.left;
+      if(left_offset+menu.width() > $(window).width()) {
+        left_offset = ($(window).width() - menu.width()) / 2;
+      }
 
       menu.css('top', top_offset);
       menu.css('left', left_offset);

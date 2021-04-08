@@ -1,87 +1,126 @@
 <ul>
   <li>
     <a href="#verse-list-tabs-1">-------------</a>
-    <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span>
+    <span class='close-tab-button'><i class='fas fa-times'></i></span>
   </li>
 </ul>
 
 <div id="verse-list-tabs-1" class="verse-list-container">
   <div class="verse-list-menu">
 
-    <div class="verse-list-menu-line1">
+    <div class="verse-list-menu-line">
 
       <div class="fg-button book-select-button ui-state-default ui-corner-all">
-        <div class="ui-icon ui-icon-triangle-1-s"></div>
+        <i class="fas fa-book-open"></i>
         <div class="book-select-value" i18n="menu.book"></div>
+        <i class="fas fa-caret-down"></i>
       </div>
 
       <div class="fg-button tag-select-button ui-state-default ui-corner-all">
-        <div class="ui-icon ui-icon-triangle-1-s"></div>
+        <i class="fas fa-tags"></i>
         <div class="tag-select-label" i18n="menu.tags"></div>
+        <i class="fas fa-caret-down"></i>
       </div>
 
       <div class="fg-button module-search-button ui-state-default ui-corner-all">
-        <div class="ui-icon ui-icon-triangle-1-s"></div>
+        <i class="fas fa-search"></i>
         <div class="module-search-label" i18n="menu.search"></div>
+        <i class="fas fa-caret-down"></i>
       </div>
 
-      <div class="fg-button display-options-button ui-state-default ui-corner-all" style="padding-top: 2px;" i18n="[title]menu.options">
-        <img src="images/settings.svg" style="width: 20px; height: 20px;"/>
+      <div class="fg-button display-options-button ui-state-default ui-corner-all" i18n="[title]menu.options">
+        <i class="fas fa-cog"></i>
       </div>
+
+      <div class="fg-button text-size-settings ui-state-default ui-corner-all" i18n="[title]menu.text-size">
+        <i class="fas fa-text-height"></i>
+      </div>
+      <div class="text-size-menu verse-selection-menu" style="display: none;">
+        <div class="verse-list-menu-line">
+          <div class="fg-button text-size-decrease ui-state-default ui-corner-all" i18n="[title]menu.text-size-decrease">
+            <i class="fas fa-font"></i><i class="fas fa-minus fa-xs"></i>
+          </div>
+          <div class="fg-button text-size-reset ui-state-default ui-corner-all" i18n="[title]menu.text-size-reset">
+            <i class="fas fa-font"></i>
+          </div>
+          <div class="fg-button text-size-increase ui-state-default ui-corner-all" i18n="[title]menu.text-size-increase">
+            <i class="fas fa-font"></i><i class="fas fa-plus fa-xs"></i>
+          </div>
+        </div>
+      </div>  
+    </div><!-- verse-list-menu-line -->
+
+    <div class="verse-list-menu-line">
 
       <div class="bible-select-block">
         <select name="bible-select" class="bible-select">
         </select>
       </div>
 
-      <button class="app-info-button fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="[title]menu.show-module-info">i</button>
-
-      <button class="show-parallel-translations-button fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="tags-toolbar.show-parallel-translations"></button>
-
-      <button class="export-tagged-verses-button fg-button ui-corner-all ui-state-default ui-state-disabled" style="padding-top: 2px;"
-              i18n="[title]menu.export">
-        <img src="images/export.png" style="width: 20px; height: 20px;"/>
-      </button>
-    </div> <!-- verse-list-menu-line1 -->
-
-    <div class="verse-list-menu-line2">
-      <div class="fg-button assign-tag-menu-button ui-state-default ui-corner-all" style="display: none;">
-        <div class="ui-icon ui-icon-triangle-1-s"></div>
-        <div class="assign-tag-menu-label" i18n="tags.assign-tag"></div>
+      <div class="app-info-button fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="[title]menu.show-module-info">
+        <i class="fas fa-info"></i>
       </div>
-      
-      <button class="new-standard-tag-button fg-button ui-state-default ui-corner-all" i18n="tags-toolbar.new-tag"></button>
 
-      <button class="show-book-tag-statistics-button fg-button ui-state-default ui-corner-all ui-state-disabled" i18n="tags-toolbar.tag-statistics"></button>
+      <div class="show-parallel-translations-button fg-button ui-corner-all ui-state-default ui-state-disabled">
+        <i class="fas fa-arrows-alt-h fa-xs"></i><i class="fas fa-align-left fa-sm"></i>
+        <span i18n="tags-toolbar.compare"></span>
+      </div>
 
-      <button class="assign-last-tag-button fg-button ui-state-default ui-corner-all ui-state-disabled" i18n="tags-toolbar.assign-last-tag"></button>
+      <div class="export-tagged-verses-button fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="[title]menu.export">
+        <i class="fa fa-file-export"></i>
+      </div>
+    </div><!-- verse-list-menu-line -->
 
-      <br class="selection-box-break" />
+    <div class="verse-list-menu-line">
+      <div class="fg-button assign-tag-menu-button ui-state-default ui-corner-all" style="display: none;">
+        <i class="fas fa-arrow-right fa-xs"></i>&nbsp;<i class="fas fa-tag fa-sm"></i>
+        <div class="assign-tag-menu-label" i18n="tags.change-tags"></div>
+        <i class="fas fa-caret-down"></i>
+      </div>
+
+      <div class="assign-last-tag-button fg-button ui-state-default ui-corner-all ui-state-disabled">
+        <span i18n="tags-toolbar.assign-last-tag"></span>
+      </div>
+
+      <div class="new-standard-tag-button fg-button ui-state-default ui-corner-all">
+        <i class="fas fa-plus fa-xs"></i>&nbsp;<i class="fas fa-tag fa-sm"></i>
+        <span i18n="tags-toolbar.new-tag"></span>
+      </div>
+    </div><!-- verse-list-menu-line -->
+
+    <div class="verse-list-menu-line">
+
+      <div class="show-book-tag-statistics-button fg-button ui-state-default ui-corner-all ui-state-disabled">
+        <i class="fas fa-chart-line"></i>
+        <span i18n="tags-toolbar.tag-statistics"></span>
+      </div>
+
+      <div class="show-context-button fg-button ui-state-default ui-corner-all ui-state-disabled">
+        <i class="fas fa-arrows-alt-v"></i><i class="fas fa-align-justify"></i>
+        <span i18n="tags-toolbar.context"></span>
+      </div>
 
       <div class="selection-box">
-        <span class="bold" i18n="bible-browser.selection"></span> <span class="selected-verses"></span>
+        <span class="bold" i18n="bible-browser.selection"></span> <div class="selected-verses"></div>
       </div>
 
-      <div class="loader text-loader" style="margin-left: 1em; margin-top: 0.3em">
+      <div class="loader text-loader" style="text-align: right; flex-grow: 1; margin-right: 1.5em; margin-top: 1em;">
         <div class="bounce1"></div>
         <div class="bounce2"></div>
         <div class="bounce3"></div>
       </div>
-    </div> <!-- verse-list-menu-line2 -->
+    </div>
+    <!-- verse-list-menu-line -->
 
-  </div>  <!-- verse-list-menu -->
+  </div>
+  <!-- verse-list-menu -->
 
   <div class="verse-list-composite">
     <div class="navigation-pane navigation-pane-chapters scrollable">
     </div>
 
     <div class="verse-list-frame scrollable">
-      <div class="module-search-result-header">
-      </div>
-
-      <div class='verse-statistics-chart-container'>
-        <canvas class="verse-statistics-chart">
-        </canvas>
+      <div class="verse-list-header">
       </div>
 
       <div class="verse-list-loading-indicator">
@@ -93,19 +132,35 @@
           <div class="bounce3"></div>
         </div>
       </div>
-    
-      <div class='search-progress-bar progress-bar' style="margin-left: 2em; margin-right: 2em;"><div class='progress-label'></div></div>
+
+      <div style='display: flex; flex-direction: row;'>
+        <div class='search-progress-bar progress-bar' style="margin-left: 2em; margin-right: 2em; width: 70%;">
+          <div class='progress-label'></div>
+        </div>
+  
+        <div class="cancel-module-search-button-container" style="display: none;">
+          <button class="cancel-module-search-button fg-button ui-corner-all ui-state-default"  i18n="general.cancel"></button>
+        </div>
+      </div>
 
       <div class="temporary-help">
       </div>
 
       <div class="reference-verse">
       </div>
+      
+      <div class='verse-statistics-chart-container'>
+        <canvas class="verse-statistics-chart">
+        </canvas>
+      </div>
 
       <div class="verse-list">
         <div class="help-text">
         </div>
       </div>
-    </div> <!-- verse-list-frame -->
-  </div> <!-- verse-list-composite -->
-</div> <!-- verse-list-container -->
+    </div>
+    <!-- verse-list-frame -->
+  </div>
+  <!-- verse-list-composite -->
+</div>
+<!-- verse-list-container -->

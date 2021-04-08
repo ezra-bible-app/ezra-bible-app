@@ -30,8 +30,8 @@ class VerseSelection {
     this.selected_verse_box_elements = null;
   }
 
-  initHelper(referenceSeparator, nsi) {
-    this.verseReferenceHelper = new VerseReferenceHelper(referenceSeparator, nsi);
+  initHelper(nsi) {
+    this.verseReferenceHelper = new VerseReferenceHelper(nsi);
   }
 
   initSelectable(verseList) {
@@ -41,7 +41,7 @@ class VerseSelection {
 
     verseList.selectable({
       filter: '.verse-text',
-      cancel: '.sword-xref-marker, .verse-notes, .section-header-box, .verse-content-edited, .tag-box, .tag, .load-book-results, .select-all-search-results-button',
+      cancel: '.sword-xref-marker, .verse-notes, .verse-content-edited, .tag-box, .tag, .load-book-results, .select-all-search-results-button',
 
       start: (event, ui) => {
         // Only reset existing selection if metaKey and ctrlKey are not pressed.
@@ -151,8 +151,8 @@ class VerseSelection {
         }
       }
 
-      var formatted_verse_list = await this.format_verse_list_for_view(currentBookVerseReferences, true, currentBookShortName);
-      var currentBookName = await ipcDb.getBookTitleTranslation(currentBookShortName);
+      var formatted_verse_list = await this.format_verse_list_for_view(currentBookVerseReferences, false, currentBookShortName);
+      var currentBookName = await (currentBookShortName == 'Ps' ? i18nHelper.getPsalmTranslation() : ipcDb.getBookTitleTranslation(currentBookShortName));
       var currentBookVerseReferenceDisplay = currentBookName + ' ' + formatted_verse_list;
       selected_verses_content.push(currentBookVerseReferenceDisplay);
     }
@@ -195,9 +195,9 @@ class VerseSelection {
                                                                        start_reference,
                                                                        end_reference);
 
-      if (turn_into_link) {
+      /*if (turn_into_link) {
         formatted_passage = "<a href=\"javascript:app_controller.jumpToReference('" + start_reference + "', true);\">" + formatted_passage + "</a>";
-      }
+      }*/
     }
 
     return formatted_passage;
@@ -272,14 +272,16 @@ class VerseSelection {
     return verse_list_for_view;
   }
 
-  async format_passage_reference_for_view(book_short_title, start_reference, end_reference) {  
-    var start_chapter = parseInt(start_reference.split(reference_separator)[0]);
-    var start_verse = parseInt(start_reference.split(reference_separator)[1]);
-    var end_chapter = parseInt(end_reference.split(reference_separator)[0]);
-    var end_verse = parseInt(end_reference.split(reference_separator)[1]);
+  async format_passage_reference_for_view(book_short_title, start_reference, end_reference) {
+    var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    var source_separator = await getReferenceSeparator(bibleTranslationId);
+
+    var start_chapter = parseInt(start_reference.split(source_separator)[0]);
+    var start_verse = parseInt(start_reference.split(source_separator)[1]);
+    var end_chapter = parseInt(end_reference.split(source_separator)[0]);
+    var end_verse = parseInt(end_reference.split(source_separator)[1]);
   
     var passage = start_chapter + reference_separator + start_verse;
-    var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     var endChapterVerseCount = await ipcNsi.getChapterVerseCount(bibleTranslationId, book_short_title, end_chapter);
   
     if (book_short_title != null &&
@@ -379,12 +381,19 @@ class VerseSelection {
 
     this.getSelectedVersesLabel().html(selectedVerseDisplayText);
 
-    await tags_controller.update_tags_view_after_verse_selection(false);
+    await tags_controller.updateTagsViewAfterVerseSelection(false);
+    
+    var currentTab = app_controller.tab_controller.getTab();
 
     if (this.selected_verse_box_elements.length > 0) { // Verses are selected!
       app_controller.translationComparison.enableComparisonButton();
+
+      if (currentTab.isVerseList()) {
+        app_controller.verse_context_controller.enableContextButton();
+      }
     } else { // No verses selected!
       app_controller.translationComparison.disableComparisonButton();
+      app_controller.verse_context_controller.disableContextButton();
     }
 
     var tabId = app_controller.tab_controller.getSelectedTabId();

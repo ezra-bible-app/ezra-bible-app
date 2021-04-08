@@ -18,21 +18,23 @@
 
 const { Given, When, Then } = require("cucumber");
 const { assert } = require("chai");
+const spectronHelper = require('../helpers/spectron_helper.js');
+const dbHelper = require("../helpers/db_helper.js");
 
 Given('I create the tag {string}', async function (tagName) {
-  var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
+  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
   var newTagButton = await verseListTabs.$('.new-standard-tag-button');
   await newTagButton.click();
 
-  var newTagTitleInput = await global.app.client.$('#new-standard-tag-title-input');
+  var newTagTitleInput = await spectronHelper.getWebClient().$('#new-standard-tag-title-input');
   await newTagTitleInput.setValue(tagName);
 
-  await global.app.client.keys('Enter');
+  await spectronHelper.getWebClient().keys('Enter');
   await spectronHelper.sleep(500);
 });
 
 When('I assign the tag {string} to the current verse selection', async function (tagName) {
-  var tagsList = await global.app.client.$('#tags-content-global');
+  var tagsList = await spectronHelper.getWebClient().$('#tags-content-global');
   var allTags = await tagsList.$$('.checkbox-tag');
   var tagCount = allTags.length;
   var tagFound = false;
@@ -57,35 +59,15 @@ When('I assign the tag {string} to the current verse selection', async function 
 });
 
 Then('the tag {string} is assigned to {string} in the database', async function (tagName, verseReference) {
-  await global.spectronHelper.initDatabase();
-  var tags = await global.models.Tag.getAllTags();
+  var models = await dbHelper.initDatabase();
+  var tags = await models.Tag.getAllTags();
 
   assert(tags.length == 1, `Did not get 1 tag, but ${tags.length} tags!`);
 
   var firstTag = tags[0];
   assert(firstTag.title == tagName, `DB tag title is not ${tagName}, but ${firstTag.title}`);
 
-  var splittedReference = verseReference.split(' ');
-  var book = splittedReference[0];
-  var bookId = global.spectronHelper.getBookShortTitle(book);
-  var verseReferenceString = splittedReference[1];
-
-  var dbBibleBook = await global.models.BibleBook.findOne({ where: { shortTitle: bookId } });
-  var verseReferenceHelper = await global.spectronHelper.getVerseReferenceHelper();
-  var absoluteVerseNumber = await verseReferenceHelper.referenceStringToAbsoluteVerseNr('KJV', bookId, verseReferenceString);
-
-  var dbVerseReference = await global.models.VerseReference.findOne({
-    where: {
-      bibleBookId: dbBibleBook.id,
-      absoluteVerseNrEng: absoluteVerseNumber
-    }
-  });
-
-  var allVerseReferences = await global.models.VerseReference.findAll();
-
-  assert(dbVerseReference != null, `Could not find a db verse reference for the given book (${dbBibleBook.id}) and absoluteVerseNr (${absoluteVerseNumber}). Total # of verse references: ${allVerseReferences.length}`);
-
-  var verseTags = await global.models.VerseTag.findByVerseReferenceIds(dbVerseReference.id);
+  var verseTags = await models.VerseTag.findByVerseReferenceIds(await dbHelper.getDbVerseReferenceId(verseReference));
 
   assert(verseTags.length == 1, `Expected 1 verse tag, but got ${verseTags.length}`);
 

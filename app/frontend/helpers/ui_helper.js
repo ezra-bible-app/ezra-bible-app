@@ -127,7 +127,8 @@ class UiHelper {
     var verseListTabsWidth = verseListTabs.width();
     var windowWidth = window.innerWidth;
 
-    if (windowWidth >= 200 && windowWidth < 1024) {
+    if (windowWidth >= 200 && windowWidth < 1200) {
+      // Automatically hide toolbar on smaller screens
       var currentToolBar = $('#bible-browser-toolbox');
       currentToolBar.hide();
       app_controller.tag_assignment_menu.moveTagAssignmentList(true);
@@ -140,19 +141,25 @@ class UiHelper {
         verseListTabsWidth <= 1000) {
 
       verseListTabs.addClass('verse-list-tabs-small-screen')
+
+      if (windowWidth < 850) {
+        verseListTabs.addClass('verse-list-tabs-tiny-screen');
+      } else {
+        verseListTabs.removeClass('verse-list-tabs-tiny-screen');
+      }
+
     } else {
       verseListTabs.removeClass('verse-list-tabs-small-screen');
+      verseListTabs.removeClass('verse-list-tabs-tiny-screen');
     }
 
     this.app_container_height = $(window).height() - 10;
     $("#app-container").css("height", this.app_container_height);
-    // Notes disabled
-    // $('#general-notes-textarea').css('height', new_app_container_height - 210);
   
     var tagsToolBarHeight = $('#tags-toolbar').height();
   
     if (app_controller.optionsMenu._dictionaryOption.isChecked()) {
-      $('#tags-content-global').css('height', this.app_container_height - tagsToolBarHeight - 535);
+      $('#tags-content-global').css('height', this.app_container_height - tagsToolBarHeight - 540);
       $('#dictionary-info-box-panel').css('height', 422);
     } else {
       $('#tags-content-global').css('height', this.app_container_height - tagsToolBarHeight - 55);
@@ -173,6 +180,41 @@ class UiHelper {
     }
 
     return width;
+  }
+
+  showGlobalLoadingIndicator() {
+    $('#main-content').hide();
+    var loadingIndicator = $('#startup-loading-indicator');
+    loadingIndicator.show();
+    loadingIndicator.find('.loader').show();
+  }
+  
+  hideGlobalLoadingIndicator() {
+    var loadingIndicator = $('#startup-loading-indicator');
+    loadingIndicator.hide();
+    $('#main-content').show();
+  }
+
+  updateLoadingSubtitle(text) {
+    if (platformHelper.isCordova()) {
+      $('#loading-subtitle').text(text);
+    }
+  }
+
+  getCurrentTextLoadingIndicator(tabIndex=undefined) {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+    var loadingIndicator = currentVerseListMenu.find('.loader');
+    return loadingIndicator;
+  }
+
+  showTextLoadingIndicator(tabIndex=undefined) {
+    var textLoadingIndicator = this.getCurrentTextLoadingIndicator(tabIndex);
+    textLoadingIndicator.show();
+  }
+
+  hideTextLoadingIndicator(tabIndex=undefined) {
+    var textLoadingIndicator = this.getCurrentTextLoadingIndicator(tabIndex);
+    textLoadingIndicator.hide();
   }
 }
 

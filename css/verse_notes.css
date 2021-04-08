@@ -19,14 +19,11 @@
 div.CodeMirror {
   font: caption;
   background-color: #ecf3f7;
-  margin-bottom: 1em;
-  padding-bottom: 1.5em;
-  height: inherit;
-  min-height: inherit;
+  border-radius: 4px;
 }
 
 .verse-notes {
-  padding: 0.5em;
+  padding: 1em 1em 0.2em;
   min-height: 4em;
   display: none;
   resize: vertical;
@@ -51,11 +48,16 @@ div.CodeMirror {
 
 .verse-notes:not(.book-notes) {
   margin-left: 1em;
-  width: 25%;
+  width: 27%;
 }
 
-.verse-list-with-notes:not(.verse-list-tags-column) .verse-notes:not(.book-notes) {
+.verse-list-without-tags .verse-notes:not(.book-notes),
+.verse-list:not(.verse-list-tags-column) .verse-notes:not(.book-notes) {
   width: 50%;
+}
+
+.verse-notes.visible {
+  display: block;
 }
 
 .verse-list-with-notes .book-notes {
@@ -65,55 +67,47 @@ div.CodeMirror {
   margin-bottom: 0.5em;
 }
 
-.verse-notes-text {
-  padding-bottom: 0.7em;
-}
-
 .verse-list-with-notes:not(.verse-list-scroll-notes) .verse-notes-text.edited {
   min-height: 18em;
 }
 
-.verse-list-with-notes.verse-list-scroll-notes .verse-notes-text.edited .CodeMirror-scroll {
-  height: 18em;
-}
-
-.CodeMirror-scroll {
-  overflow-x: hidden !important;
-}
-
 .verse-list-scroll-notes .verse-notes-text {
-  max-height: 20em;
+  max-height: 300px; /* CodeMirror default height */
   overflow-y: hidden;
   overflow-x: hidden;
-  margin-bottom: 0.5em;
 }
 
 .verse-list-scroll-notes .verse-notes:not(.verse-notes-empty) .verse-notes-text:not(.edited) {
   overflow-y: auto;
-  margin-bottom: 2em;
 }
 
-.verse-notes-text:not(.edited) {
-  padding-top: 4px;
-  padding-left: 4px;
+.verse-notes-text {
   line-height: 130%;
 }
 
+.verse-notes-text>*{
+  padding-right: 1em;
+}
+
 .verse-notes-status-bar {
-  position: absolute;
-  bottom: 0.5em;
+  margin-top: 0.5em;
   color: grey;
   font-size: 90%;
   width: 100%;
+  display: flex;
+  padding-left: 3px;
 }
 
 .verse-notes-buttons {
-  float: left;
   display: none;
 }
 
+.verse-notes-buttons i.fas {
+  margin-right: 0.4em;
+}
+
 .verse-notes-timestamp {
-  float: right;
+  margin-left: auto;
   margin-right: 1em;
 }
 
@@ -161,4 +155,13 @@ div.CodeMirror {
 .verse-notes p {
   margin-top: 0;
   margin-bottom: 1em;
+}
+
+.verse-list:not(.verse-list-with-notes) .verse-reference .active i.fas {
+  -webkit-text-stroke: 1px #f2f5f7; /* body background-color */
+  text-shadow: 1px 1px 0, -1px -1px 0, 1px -1px 0, -1px 1px 0;
+}
+
+.darkmode--activated .verse-list .verse-reference .active i.fas {
+  -webkit-text-stroke-color: #1e1e1e;
 }

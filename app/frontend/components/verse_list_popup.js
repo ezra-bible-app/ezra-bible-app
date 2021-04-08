@@ -31,6 +31,13 @@ class VerseListPopup {
   }
 
   initVerseListPopup() {
+    $('#verse-list-popup').dialog({
+      width: 700,
+      position: [200,200],
+      autoOpen: false,
+      dialogClass: 'ezra-dialog'
+    });
+
     var currentBookFilter = "";
     currentBookFilter = "<input type='checkbox' id='only-currentbook-tagged-verses' style='margin-right: 0.3em;'></input>" + 
                         `<label id='only-currentbook-tagged-verses-label' for='only-currentbook-tagged-verses'>${i18n.t('tags.only-currentbook-tagged-verses')}</label>` +
@@ -286,12 +293,8 @@ class VerseListPopup {
   async openVerseListPopup(event, referenceType) {
     if (!this.dialogInitDone) {
       this.dialogInitDone = true;
-      $('#verse-list-popup').dialog({
-        width: 700,
-        position: [200,200],
-        autoOpen: false,
-        dialogClass: 'ezra-dialog'
-      });
+
+      this.initVerseListPopup();
     }
 
     this.currentReferenceType = referenceType;

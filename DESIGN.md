@@ -6,9 +6,23 @@ Welcome to the Design documentation of Ezra Bible App!
 
 Ezra Bible App mostly uses plain, vanilla JavaScript in combination with some additional technology like jQuery, jQuery UI, Sequelize and the Pug template engine (see [here](https://github.com/ezra-project/ezra-project/blob/master/TECH.md) for a complete list of technologies). For performance reasons, it does not use a web framework like React or Angular. Nevertheless, the architecture is designed in a modular way and should make it easy for new developers.
 
+### Backend vs. Frontend
+
+The high-level architecture of Ezra Bible App is separated into two parts - backend and frontend. The backend contains all functionality that deals with persistence:
+
+* Interaction with node-sword-interface (SWORD)
+* Database access (SQLite)
+* Application settings
+
+Backend and frontend each run in separate processes:
+* On Electron the backend is contained in the Electron main process, while the frontend is running in the Electron renderer process (BrowserWindow).
+* On Cordova the backend is contained in the nodejs process (via [nodejs-mobile](https://code.janeasystems.com/nodejs-mobile)), while the frontend is simply the Android Webview.
+
+Communication between the processes happens via IPC. The code that encapsulates this communication can be found in `app/backend/ipc` and `app/frontend/ipc`.
+
 ### Controllers
 
-Controllers are classes that manage one or several (graphical) components and usually also interact with the Ezra Bible App database, e.g. the `TagsController` and `NotesController`.
+Controllers are classes that manage one or several (graphical) components and usually also interact with the Ezra Bible App backend (which gives access to the database, settings, etc.), e.g. the `TagsController` and `NotesController`.
 
 The most notable Controller is the `AppController`, which is responsible for initializing all other controllers and components.
 
@@ -28,18 +42,22 @@ To access SWORD modules, Ezra Bible App uses the [node-sword-interface](https://
 
 <div class="mermaid">
 erDiagram
-    ezra_init                 ||--|{    HTML-Component            : loads
-    ezra_init                 ||--||    Component-or-Controller   : initializes
-    ezra_init                 ||--||    Sequelize-Model           : initializes
+    frontend                  }|--|{    backend                   : communicate-via-IPC
+    frontend                  }|--|{    ezra_init                 : contains
+    ezra_init                 }|--||    HTML-Component            : loads
+    ezra_init                 }|--||    Component-or-Controller   : initializes
     HTML-Component            }|--||    DOM                       : is-part-of
     Component-or-Controller   }|--|{    HTML-Component            : modifies
     Component-or-Controller   }|--|{    JS-Event                  : handles
-    Component-or-Controller   }|--||    electron-settings         : uses
-    electron-settings         ||--||    Settings-JSON-File        : manages
-    Component-or-Controller   ||--|{    node-sword-interface      : uses
-    Component-or-Controller   }|--|{    Sequelize-Model           : uses
-    Sequelize-Model           ||--||    SQLite-DB-Table           : maps
+    backend                   }|--|{    IpcNsiHandler             : contains
+    backend                   }|--|{    IpcSettingsHandler        : contains
+    backend                   }|--|{    IpcDbHandler              : contains
+    IpcNsiHandler             ||--|{    node-sword-interface      : uses
     node-sword-interface      ||--||    SWORD-Engine              : wraps
+    IpcSettingsHandler        }|--||    conf                      : uses
+    conf                      ||--||    Settings-JSON-File        : manages
+    IpcDbHandler              }|--|{    Sequelize-Model           : uses
+    Sequelize-Model           ||--||    SQLite-DB-Table           : maps
 </div>
 
 <a name='file-structure'></a>
@@ -56,20 +74,23 @@ Standard node.js / Electron start script. This is not changed very often.
 
 Basic html template loaded initially on startup. Additional content is dynamically added to the DOM by `ezra_init.js`.
 
-### app/ezra_init.js
+### app/frontend/ezra_init.js
 
-Entry script of the Electron renderer process for initializing the user interface. This is referenced in the `index.html` file. The code in `ezra_init.js` is only used for startup.
+This is the entry script for initializing the user interface. This file is referenced in the `index.html` file. The code in `ezra_init.js` is only used for startup.
 
 ### app
 
 This directory contains the JavaScript source code of Ezra Bible App. It contains the following parts:
 
-* `components`: Graphical components of the UI, e.g. `BookSelectionMenu`, `NavigationPane`, `OptionsMenu`, etc.
-* `controllers`: Controllers are classes that "bring live" into the UI and respond to user actions. All Controllers are named `<Name>Controller` and the file name is `<name>_controller.js`.
-* `database`: Database related source code (models, migrations)
-* `helpers`: Helper classes that make various tasks more easy, but usually don't interact with the UI directly
+* `frontend/components`: Graphical components of the UI, e.g. `BookSelectionMenu`, `NavigationPane`, `OptionsMenu`, etc.
+* `frontend/controllers`: Controllers are classes that "bring live" into the UI and respond to user actions. All Controllers are named `<Name>Controller` and the file name is `<name>_controller.js`.
+* `frontend/helpers`: Helper classes that make various tasks more easy, but usually don't interact with the UI directly.
+* `frontend/ipc`: IPC interface classes that allow interaction with the backend IPC Handlers.
+* `frontend/platform`: Platform-specific classes. (Currently only used for Cordova)
+* `frontend/ui_models`: Model classes for objects in the user interface. May be instantiated multiple times if there are multiple instances of a certain object in the UI.
+* `backend/database`: Database related source code (models, migrations).
+* `backend/ipc`: IPC handlers that give the frontend access to backend functionality.
 * `templates`: [pug](https://pugjs.org/) templates
-* `ui_models`: Model classes for objects in the user interface. May be instantiated multiple times if there are multiple instances of a certain object in the UI.
 
 ### css
 

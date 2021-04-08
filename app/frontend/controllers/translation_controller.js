@@ -67,7 +67,7 @@ class TranslationController {
   }
 
   initVerseSelection() {
-    app_controller.verse_selection.initHelper(reference_separator, ipcNsi);
+    app_controller.verse_selection.initHelper(ipcNsi);
   }
 
   async loadSettings() {
@@ -130,7 +130,12 @@ class TranslationController {
 
   addTranslationsToBibleSelectMenu(tabIndex, translations) {
     var bibleSelect = this.getBibleSelect(tabIndex);
-    var currentBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
+    var currentBibleTranslationId = null;
+
+    if (currentTab != null) {
+      currentBibleTranslationId = currentTab.getBibleTranslationId();
+    }
 
     for (var translation of translations) {
       var selected = '';
@@ -203,7 +208,7 @@ class TranslationController {
     bibleSelect.selectmenu({
       change: () => {
         if (!app_controller.tab_controller.isCurrentTabEmpty() && app_controller.tab_controller.getTab().getTextType() != 'search_results') {
-          this.showTextLoadingIndicator();
+          uiHelper.showTextLoadingIndicator();
         }
 
         var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
@@ -435,22 +440,6 @@ class TranslationController {
     $('#bible-sync-box').dialog("close");
   }
 
-  getCurrentTextLoadingIndicator() {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
-    var loadingIndicator = currentVerseListMenu.find('.loader');
-    return loadingIndicator;
-  }
-
-  showTextLoadingIndicator() {
-    var textLoadingIndicator = this.getCurrentTextLoadingIndicator();
-    textLoadingIndicator.show();
-  }
-
-  hideTextLoadingIndicator() {
-    var textLoadingIndicator = this.getCurrentTextLoadingIndicator();
-    textLoadingIndicator.hide();
-  }
-
   async getLanguages(moduleType='BIBLE') {
     var localModules = await ipcNsi.getAllLocalModules(moduleType);
 
@@ -503,10 +492,25 @@ class TranslationController {
   }
 
   async getVersification(translationCode) {
-    var versification = null;
+    if (translationCode == null) {
+      return null;
+    }
 
-    var psalm3Verses = await ipcNsi.getChapterText(translationCode, 'Psa', 3);
-    var revelation12Verses = await ipcNsi.getChapterText(translationCode, 'Rev', 12);
+    var versification = null;
+    var psalm3Verses = [];
+    var revelation12Verses = [];
+
+    try {
+      psalm3Verses = await ipcNsi.getChapterText(translationCode, 'Psa', 3);
+    } catch (e) {
+      console.log("TranslationController.getVersification: Could not retrieve chapter text for Psalm 3 of " + translationCode);
+    }
+
+    try {
+      revelation12Verses = await ipcNsi.getChapterText(translationCode, 'Rev', 12);
+    } catch (e) {
+      console.log("TranslationController.getVersification: Could not retrieve chapter text for Revelation 12 of " + translationCode);
+    }
 
     if (psalm3Verses.length == 8 || revelation12Verses.length == 17) { // ENGLISH versification
       versification = "ENGLISH";

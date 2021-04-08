@@ -5,7 +5,9 @@
     "assign-last-tag": "Priradiť poslednú značku",
     "configure-translations": "Nastavenie prekladov",
     "configure-dicts": "Nastavenie slovníkov",
-    "show-parallel-translations": "Porovnanie prekladov"
+    "show-parallel-translations": "Porovnanie prekladov",
+    "compare": "Compare",
+    "context": "Context"
   },
   "menu": {
     "book": "Kniha",
@@ -14,7 +16,12 @@
     "options": "Vlastnosti",
     "export": "Exportovať ako text",
     "show-module-info": "Zobraziť informácie o module",
-    "fullscreen": "Prepnúť režim celej obrazovky"
+    "fullscreen": "Prepnúť režim celej obrazovky",
+    "exit-fullscreen": "Exit full screen mode",
+    "text-size": "Adjust verse font size",
+    "text-size-decrease": "Decrease current font size",
+    "text-size-reset": "Reset font size to default",
+    "text-size-increase": "Increase current font size"
   },
   "search-menu": {
     "search": "Hľadať",
@@ -121,7 +128,10 @@
     "module-install-cancelled": "zrušené.",
     "module-unlock-failed": "zlyhal (Problémy s odomknutím).",
     "installing-strongs": "Inštalujem <i>Strongove slovníky</i>",
-    "applying-migrations": "Migrujem databázu na novú verziu"
+    "applying-migrations": "Migrujem databázu na novú verziu",
+    "developers": "Developers",
+    "translators": "Translators",
+    "versions-and-paths": "Versions and paths"
   },
   "help": {
     "help-text-no-tags-book-opened": "Ak chcete začať pracovať so značkami, vytvorte svoju prvú značku kliknutím na tlačidlo <i>Nová&nbsp;značka</i>.<br/><br/>Potom môžete listovať v biblickom texte, kliknúť alebo vybrať jednotlivé verše a potom im priradiť značku, ktorú ste práve vytvorili.",
@@ -148,6 +158,7 @@
     "tag-filter": "Filter: ",
     "recently-used-filter": "Najpoužívanejší filter",
     "assign-tag": "Prideliť štítok",
+    "change-tags": "Change tags",
     "delete-tag-permanently": "Permanentne vymazať štítok",
     "none-selected": "Žiadne",
     "rename-tag": "Premenovať štítok",
@@ -167,6 +178,7 @@
     "searching-for": "Hľadať",
     "search-result-header": "Výsledky hľadania pre ",
     "no-search-results": "Žiadne výsledky vyhľadávania pre ",
+    "module-search-cancelled": "Module search cancelled when searching for ",
     "load-verse-context": "Načítajte kontext tohto verša",
     "tag-hint": "Kliknutím zobrazíte všetky verše s týmto štítkom",
     "show-search-results": "Zobraziť výsledky vyhľadávania",
@@ -187,7 +199,7 @@
     "show-book-chapter-navigation": "Show book/chapter navigation",
     "show-header-navigation": "Zobraziť navigáciu v hlavičke",
     "open-verse-lists-in-new-tab": "Otvoriť zoznamy veršov na novej karte",
-    "show-user-data-indicators": "Show user data indicators",
+    "show-notes-tags-indicators": "Show notes/tags indicators",
     "show-tags": "Zobraziť štítky",
     "show-notes": "Zobraziť poznámky",
     "limit-notes-display-size": "Obmedzte veľkosť zobrazenia poznámok",
@@ -199,7 +211,9 @@
     "strongs-number-not-valid": "Toto nie je platné Strong číslo!",
     "open-new-tab": "Otvoriť novú kartu",
     "open-verselist-in-new-tab": "Otvoriť zoznam veršov na novej karte",
-    "footnote-character": "n"
+    "footnote-character": "n",
+    "adjust-font-size-tags-notes": "Adjust tags & notes font size",
+    "new-note-hint": "Click to add a note"
   },
   "dictionary-info-box": {
     "greek-dict": "Grécky slovník",
@@ -211,7 +225,7 @@
     "related-strongs": "Súvisiace Strongy"
   },
   "cordova" : {
-    "welcome-to-ezra-project": "Vitajte v projekte Ezra!",
+    "welcome-to-ezra-bible-app": "Vitajte v projekte Ezra!",
     "storage-justification": "Ezra Bible App potrebuje prístup do úložnej oblasti zariadenia, aby mohol ukladať moduly SWORD a ukladať svoju databázu.<br><br>Po stlačení tlačidla nižšie budete požiadaní, aby ste aplikácii Ezra Bible App povolili prístup k súborom vo vašom zariadení.",
     "enable-storage-access": "Povoliť prístup k internému úložisku",
     "storage-permission-denied": "Rozhodli ste sa odmietnuť prístup k úložisku. <br> Môžete to zmeniť stlačením tlačidla nižšie!",

@@ -34,8 +34,18 @@ class IPC {
     }
 
     this.platformHelper = new PlatformHelper();
+
+    if (this.platformHelper.isElectron()) {
+      // For Electron we initialize the settings handler at construction.
+      // This is not possible for Cordova, because there we cannot be sure whether we have write permissions at this point.
+      // So on Cordova the settings handler is initialized in the init method (see below!).
+      this.ipcSettingsHandler = new IpcSettingsHandler();
+    }
   }
 
+  // On Android we initialize in two steps, first the non persistent part (before permissions are available).
+  // After the user has enabled write permissions, the initialization of persistent stuff
+  // (settings, node-sword-interface) is handled.
   initNonPersistentIpc() {
     if (!global.nonPersistentIpcInitialized) {
       global.nonPersistentIpcInitialized = true;
@@ -50,7 +60,11 @@ class IPC {
 
       this.initNonPersistentIpc();
 
-      this.ipcSettingsHandler = new IpcSettingsHandler();
+      if (this.platformHelper.isCordova()) {
+        // In case of Electron this has already been initalized before (see c'tor), but for Cordova we still need to do it!
+        this.ipcSettingsHandler = new IpcSettingsHandler();
+      }
+
       global.ipcNsiHandler = new IpcNsiHandler();
 
       if (this.platformHelper.isElectron()) {

@@ -5,7 +5,9 @@
     "assign-last-tag": "Asignar a la última etiqueta",
     "configure-translations": "Configurar traducciones",
     "configure-dicts": "Configurar diccionarios",
-    "show-parallel-translations": "Comparar traducciones"
+    "show-parallel-translations": "Comparar traducciones",
+    "compare": "Compare",
+    "context": "Context"
   },
   "menu": {
     "book": "Libro",
@@ -14,7 +16,12 @@
     "options": "Opciones",
     "export": "Exportar a un documento de texto",
     "show-module-info": "Mostrar información del módulo",
-    "fullscreen": "Cambiar a modo de pantalla completa"
+    "fullscreen": "Cambiar a modo de pantalla completa",
+    "exit-fullscreen": "Exit full screen mode",
+    "text-size": "Adjust verse font size",
+    "text-size-decrease": "Decrease current font size",
+    "text-size-reset": "Reset font size to default",
+    "text-size-increase": "Increase current font size"
   },
   "search-menu": {
     "search": "Buscar",
@@ -121,7 +128,11 @@
     "module-install-cancelled": "cancelado.",
     "module-unlock-failed": "falló (problema de desbloqueo).",
     "installing-strongs": "Instalando <i>Strong's dictionaries</i>",
-    "applying-migrations": "Migrando la base de datos a una nueva versión"
+    "applying-migrations": "Migrando la base de datos a una nueva versión",
+    "new-note-hint": "Click to add a note",
+    "developers": "Developers",
+    "translators": "Translators",
+    "versions-and-paths": "Versions and paths"
   },
   "help": {
     "help-text-no-tags-book-opened": "Para comenzar trabajando con las etiquetas, debe crear su primera etiqueta pulsando en el botón <i>Nueva&nbsp;etiqueta</i>.<br/><br/>Después usted podrá seleccionar los textos de La Biblia que desee, para ello pulse sobre un verso o arrastre para seleccionar varios versos y asigne los a la etiqueta que acaba de crear.",
@@ -148,6 +159,7 @@
     "tag-filter": "Filtro: ",
     "recently-used-filter": "Filtrar usadas recientemente",
     "assign-tag": "Asignar etiqueta",
+    "change-tags": "Change tags",
     "delete-tag-permanently": "Eliminar esta etiqueta permanentemente",
     "none-selected": "Nada",
     "rename-tag": "Renombrar etiqueta",
@@ -167,6 +179,7 @@
     "searching-for": "Buscando",
     "search-result-header": "Resultados para ",
     "no-search-results": "No se encontraron resultados para la consulta ",
+    "module-search-cancelled": "Module search cancelled when searching for ",
     "load-verse-context": "Cargar el contexto del verso",
     "tag-hint": "Pulse para mostrar todos los versos con esta etiqueta",
     "show-search-results": "Mostrar resultados de la búsqueda",
@@ -187,7 +200,7 @@
     "show-book-chapter-navigation": "Show book/chapter navigation",
     "show-header-navigation": "Mostrar navegación por encabezado",
     "open-verse-lists-in-new-tab": "Abrir la lista de versículos en una nueva pestaña",
-    "show-user-data-indicators": "Show user data indicators",
+    "show-notes-tags-indicators": "Show notes/tags indicators",
     "show-tags": "Mostrar etiquetas",
     "show-notes": "Mostrar notas",
     "limit-notes-display-size": "Limitar el tamaño de las notas",
@@ -199,7 +212,8 @@
     "strongs-number-not-valid": "Este número Strongs no es válido!",
     "open-new-tab": "Abrir nueva pestaña",
     "open-verselist-in-new-tab": "Abrir la lista de versos en una nueva pestaña",
-    "footnote-character": "n"
+    "footnote-character": "n",
+    "adjust-font-size-tags-notes": "Adjust tags & notes font size"
   },
   "dictionary-info-box": {
     "greek-dict": "Diccionario Griego",
@@ -211,7 +225,7 @@
     "related-strongs": "Números Strongs relacionados"
   },
   "cordova" : {
-    "welcome-to-ezra-project": "Welcome to Ezra Bible App!",
+    "welcome-to-ezra-bible-app": "Welcome to Ezra Bible App!",
     "storage-justification": "Ezra Bible App needs access to the device storage area to save SWORD modules and store its database.<br><br>After pressing the button below, you will be asked to allow Ezra Bible App to access files on your device.",
     "enable-storage-access": "Enable access to device storage",
     "storage-permission-denied": "You decided to deny storage access.<br>You can change this by pressing the button below!",

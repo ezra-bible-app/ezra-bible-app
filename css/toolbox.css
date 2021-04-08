@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2010 Tobias Klein <contact@ezra-project.tklein.info>
+   Copyright (C) 2019 - 2021 Tobias Klein <contact@ezra-project.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -25,16 +25,8 @@
   /* margin-top disabled as long as we don't have a logo */
   /* margin-top: 3em; */
   z-index: 10;
-  flex: 0 0 auto; /* only manually resize */
-}
-
-.webkit #bible-browser-toolbox {
-  font-size: 1.0em;
-  /* width: 34em; */
-}
-
-#selected-verse-task-list {
-  margin-top: 0.5em;
+  flex: 0 0 auto;
+  /* only manually resize */
 }
 
 #bible-browser-toolbox ol li {
@@ -42,100 +34,8 @@
   margin-bottom: 0.3em;
 }
 
-a.outline-reference {
-  margin-left: 0.5em;
-  font: caption;
-}
-
-a.outline-reference:link, a.outline-reference:visited, a.outline-reference:active {
-  color: #A0A0A0;
-  text-decoration: none;
-}
-
-a.outline-reference:focus, a.outline-reference:hover {
-  color: black;
-  text-decoration: none;
-}
-
-.outline-section-title-content {
-  font: caption;
-}
-
-.outline-section-title-content form {
-  display: inline;
-}
-
-.outline-section-index {
-  display: none;
-}
-
 .ui-tabs .ui-tabs-panel {
   padding: 0.5em;
-}
-
-.tab-component {
-  height: 85%;
-}
-
-#outline-content {
-  height: 90%;
-}
-
-.webkit #outline-content {
-  font-size: 1.0em;
-}
-
-.tab-component-menu {
-  padding: 0.5em;
-}
-
-.tab-component-scrollarea {
-  margin-top: 0.5em;
-  border-top: 1px solid #DDDDDD;
-  overflow-y: scroll;
-  background-color: white;
-  padding: 0.5em;
-  width: 98%;
-}
-
-#tags-search-label {
-  margin-left: 1em;
-}
-
-#meta-tag-navigation {
-  clear: both;
-  font-weight: bold;
-  margin-top: 2em;
-  padding: 0.5em;
-}
-
-#meta-tag-navigation a:link, #meta-tag-navigation a.visited {
-  text-decoration: underline;
-}
-
-#meta-tag-content, #meta-tag-assigned-tags {
-  font-size: 0.9em;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  overflow-y: scroll;
-  border: 1px solid #DDDDDD;
-  border-radius: 0px 0px 6px 6px;
-}
-
-#meta-tag-content, #meta-tag-assigned-tags {
-  height: 10em;
-}
-
-.meta-tag-list {
-  display: none;
-}
-
-#meta-tag-assigned-tags {
-  display: none;
-}
-
-#opened-meta-tag-info {
-  display: inline;
 }
 
 .accordion-panel {
@@ -150,7 +50,8 @@ a.outline-reference:focus, a.outline-reference:hover {
   height: 2.2em;
 }
 
-.accordion-panel input, #tag-assignment-menu-taglist input {
+.accordion-panel input,
+#tag-assignment-menu-taglist input {
   margin-right: 0.5em;
 }
 
@@ -171,7 +72,6 @@ a.outline-reference:focus, a.outline-reference:hover {
 
 #dictionary-info-box-panel {
   clear: both;
-  overflow-y: scroll;
 }
 
 .strongs-short-info {
@@ -190,7 +90,7 @@ a.outline-reference:focus, a.outline-reference:hover {
 }
 
 .darkmode--activated #dictionary-info-box-content .strongs-definition {
-  color: whitesmoke;
+  color: #cccccc;
 }
 
 #dictionary-info-box-lock {
@@ -239,10 +139,8 @@ tr.td-underline td {
 }
 
 #tag-list-filter-button {
-  width: 16px;
-  height: 16px;
-  float: left;
-  margin-left: 0.5em;
+  font-size: 0.8em;
+  padding-left: 1em;
 }
 
 #tag-list-filter-button-active {
@@ -263,7 +161,7 @@ tr.td-underline td {
   display: none;
   font-size: 0.9em;
   padding: 0.1em;
-  border: 2px solid #AED0EA; 
+  border: 2px solid #AED0EA;
   z-index: 100;
   border-radius: 6px;
   box-shadow: 5px 5px 5px #A0A0A0;
@@ -273,14 +171,15 @@ tr.td-underline td {
 
 .darkmode--activated #tag-filter-menu {
   background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat;
-  color: whitesmoke;
+  color: #cccccc;
 }
 
 #tag-filter-menu input {
   margin: 0.5em;
 }
 
-#tags-content-global, #tags-content-book {
+#tags-content-global,
+#tags-content-book {
   margin-top: 0.1em;
   padding: 0.5em;
   user-select: none;
@@ -303,15 +202,26 @@ tr.td-underline td {
   margin-top: 0.1em;
 }
 
-.cb-label, .cb-label-tag-assignment-count, .cb-label-postfix, .rename-tag-label {
+.cb-label,
+.cb-label-tag-assignment-count,
+.cb-label-postfix,
+.rename-tag-label {
   margin-top: 0.1em;
 }
 
-.tag-cb, .cb-label, .cb-label-tag-assignment-count, .cb-label-postfix, .rename-tag-label, .meta-tag-title, .meta-tag-number-of-tags-container, .rename-meta-tag-label {
+.tag-cb,
+.cb-label,
+.cb-label-tag-assignment-count,
+.cb-label-postfix,
+.rename-tag-label,
+.meta-tag-title,
+.meta-tag-number-of-tags-container,
+.rename-meta-tag-label {
   float: left;
 }
 
-.cb-label-tag-assignment-count, .meta-tag-number-of-tags-container {
+.cb-label-tag-assignment-count,
+.meta-tag-number-of-tags-container {
   margin-left: 0.5em;
   color: #808080;
 }
@@ -328,7 +238,8 @@ tr.td-underline td {
   color: wheat;
 }
 
-.rename-tag-label, .rename-meta-tag-label {
+.rename-tag-label,
+.rename-meta-tag-label {
   display: none;
   margin-left: 0.5em;
   cursor: pointer;
@@ -363,165 +274,14 @@ tr.td-underline td {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
 }
 
-#new-standard-tag-title-input, #new-meta-tag-title-input, #new-book-tag-title-input, #rename-standard-tag-title-input, #rename-meta-tag-title-input {
+#new-standard-tag-title-input,
+#new-book-tag-title-input,
+#rename-standard-tag-title-input {
   width: 25em;
 }
 
 #new-tag-booktag-cb-label {
   margin-left: 0.5em;
-}
-
-#outline-author-label, #outline-author, #outline-print-version-link {
-  margin-left: 0.5em;
-}
-
-#outline-author-label, #outline-author {
-  display: none;
-}
-
-#outline-author form {
-  display: inline;
-}
-
-#outline-header {
-  height: 1.5em;
-  padding: 0.2em;
-}
-
-.close-section-within-toolbox-button {
-  visibility: hidden;
-  float: none;
-  padding: 0 0.1em 0 0.1em;
-  margin-left: 0.5em;
-  display: inline;
-}
-
-#general-notes-textarea {
-  width: 97%;
-  height: 80%;
-  overflow-y: scroll;
-  margin: 0.5em;
-  border: 1px solid #AED0EA;
-  padding: 0.3em;
-  border-radius: 6px;
-}
-
-#note-session-menu {
-  display: none;
-  height: 20em;
-  overflow-y: scroll;
-  width: 28em;
-  position: fixed;
-  background-color: white;
-  border-left: 1px solid #AED0EA;
-  border-right: 1px solid #AED0EA;
-  border-bottom: 1px solid #AED0EA;
-  border-radius: 0px 0px 6px 6px;
-  box-shadow: 5px 5px 5px #A0A0A0;
-  padding: 0.2em;
-}
-
-#existing-note-sessions-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-#existing-note-sessions-table td {
-  cursor: pointer;
-}
-
-.new-note-session-dialog-label {
-  width: 5em;
-  float: left;
-  clear: both;
-  margin-bottom: 0.2em;
-}
-
-.new-note-session-dialog-row {
-  margin: 0;
-  margin-bottom: 0.2em;
-}
-
-.new-note-session-dialog-row input {
-  width: 15em;
-}
-
-#new-note-session-directload-cb {
-  width: 1em;
-}
-
-.note-session-column-title {
-  padding-top: 0.2em;
-  font-weight: bold;
-}
-
-.note-session-column-edit {
-  text-align: right;
-}
-
-.note-session-border-top {
-  border-top: 1px solid #AED0EA;
-}
-
-.note-session-column-place {
-  width: 60%;
-}
-
-.note-session-column-speaker {
-  width: 30%;
-}
-
-.note-session-column-date {
-  width: 10%;
-}
-
-.note-session-id {
-  display: none;
-}
-
-.note-session-select-button {
-  float: none;
-  height: 2.5em;
-  width: 95%;
-  margin-top: 1em;
-  text-align: left;
-}
-
-.note-session-select-title {
-  margin-bottom: 0.2em;
-}
-
-.note-session-data {
-  padding-bottom: 0.2em;
-  font-size: 0.9em;
-}
-
-.note-session-loaded {
-  background-color: #3BAAE3;
-  color: white;
-}
-
-.hl-note-session {
-  background-color: #D7EBF9;
-  color: black;
-}
-
-.no-border td {
-  border: none;
-}
-
-.note-session-select-additional-data {
-  font-size: 0.9em;
-  font-weight: normal;
-}
-
-.note-session-header-row td {
-  font-weight: bold;
-  text-decoration: underline;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  text-align: center;
-  background: url("images/ui-bg_highlight-hard_100_f2f5f7_1x100.png") repeat-x scroll 50% top #F2F5F7;
 }
 
 .is-global {
@@ -535,4 +295,5 @@ tr.td-underline td {
 
 .verse-list-tabs-small-screen .selection-box {
   margin: 0.1em;
+  margin-left: 0.5em;
 }

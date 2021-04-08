@@ -27,6 +27,7 @@ class Tab {
     this.searchTerm = null;
     this.searchResults = null;
     this.searchOptions = {};
+    this.searchCancelled = false;
     this.xrefs = null;
     this.verseReferenceId = null;
     this.xrefTitle = null;
@@ -126,6 +127,14 @@ class Tab {
     return this.searchOptions;
   }
 
+  setSearchCancelled(searchCancelled) {
+    this.searchCancelled = searchCancelled;
+  }
+
+  isSearchCancelled() {
+    return this.searchCancelled;
+  }
+
   setXrefs(xrefs) {
     this.xrefs = xrefs;
   }
@@ -168,6 +177,16 @@ class Tab {
 
   getCachedText() {
     return this.cachedText;
+  }
+
+  isVerseList() {
+    return this.textType == 'tagged_verses' && this.tagIdList != null ||
+           this.textType == 'search_results' ||
+           this.textType == 'xrefs' && this.xrefs != null;
+  }
+
+  hasReferenceVerse() {
+    return this.getVerseReferenceId() != null;
   }
 }
 

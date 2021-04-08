@@ -62,21 +62,31 @@ class TagAssignmentMenu {
     if (this.menuIsOpened) {
       app_controller.handleBodyClick();
     } else {
-      app_controller.book_selection_menu.hideBookMenu();
-      app_controller.tag_selection_menu.hideTagMenu();
-      app_controller.module_search_controller.hideSearchMenu();
-      app_controller.optionsMenu.hideDisplayMenu();
+      app_controller.hideAllMenus();
 
       assignTagMenuButton.addClass('ui-state-active');
       var buttonOffset = assignTagMenuButton.offset();
       var menu = this.getMenu();
-      var topOffset = buttonOffset.top + assignTagMenuButton.height() + 12;
+
+      var topOffset = buttonOffset.top + assignTagMenuButton.height() + 1;
       var leftOffset = buttonOffset.left;
 
       menu.css('top', topOffset);
       menu.css('left', leftOffset);
 
+      var overlay = menu.find('#tag-assignment-menu-taglist-overlay');
+
+      // Show an overlay while the actual menu is rendering
+      menu.find('#tag-assignment-menu-taglist').hide();
+      overlay.show();
+      overlay.find('.loader').show();
       menu.show();
+
+      await waitUntilIdle();
+
+      menu.find('#tags-content-global').css('height', 'unset');
+      menu.find('#tag-assignment-menu-taglist').show();
+      overlay.hide();
       $('#tags-search-input').select();
 
       this.menuIsOpened = true;
@@ -116,6 +126,7 @@ class TagAssignmentMenu {
 
       var menu = document.getElementById(menuId);
       menu.appendChild(tagsContainer);
+
       var filter = document.getElementById(filterId);
       var tagsSearchInput = document.getElementById('tags-search-input');
 
@@ -126,14 +137,14 @@ class TagAssignmentMenu {
       $('#tag-filter-menu').show();
 
       $('#tag-list-filter-button').unbind();
-      $('#tag-list-filter-button').bind('click', tags_controller.handle_filter_button_click);
+      $('#tag-list-filter-button').bind('click', tags_controller.handleFilterButtonClick);
       $('#tag-filter-menu').find('input').unbind();
-      $('#tag-filter-menu').find('input').bind('click', tags_controller.handle_tag_filter_type_click);
+      $('#tag-filter-menu').find('input').bind('click', tags_controller.handleTagFilterTypeClick);
 
       updated = true;
 
     } else if (parentId == menuId && !moveToMenu) {
-      tags_controller.handle_tag_accordion_change();
+      tags_controller.handleTagAccordionChange();
       var toolBar = document.getElementById(toolBarId);
       var boxes = document.getElementById('boxes');
       toolBar.appendChild(tagsContainer);

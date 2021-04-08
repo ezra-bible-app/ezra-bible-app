@@ -115,11 +115,13 @@ async function createWindow () {
       console.log("Log from renderer: " + message);
     });
 
-    await ipc.init(isDev, mainWindow);
+    ipcMain.handle('initIpc', async (event, arg) => {
+      await ipc.init(isDev, mainWindow);
+    });
   }
 
   if (shouldUseDarkMode()) {
-    var bgColor = '#000000';
+    var bgColor = '#1e1e1e';
   } else {
     var bgColor = '#ffffff';
   }
@@ -131,7 +133,7 @@ async function createWindow () {
                                   height: mainWindowState.height,
                                   show: true,
                                   frame: true,
-                                  title: "Ezra Bible App " + app.getVersion(),
+                                  title: "Ezra Bible App " + app.getVersion() + (isDev ? ` [${app.getLocale()}]` : ''),
                                   webPreferences: {
                                     nodeIntegration: true,
                                     preload: preloadScript,

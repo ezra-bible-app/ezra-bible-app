@@ -201,6 +201,11 @@ class IpcNsi {
     return returnValue;
   }
 
+  async terminateModuleSearch() {
+    var returnValue = this._ipcRenderer.call('nsi_terminateModuleSearch');
+    return returnValue;
+  }
+
   async hebrewStrongsAvailable() {
     var returnValue = this._ipcRenderer.call('nsi_hebrewStrongsAvailable');
     return returnValue;

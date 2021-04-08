@@ -19,18 +19,24 @@
 const IpcGeneral = require('../ipc/ipc_general.js');
 const IpcI18n = require('../ipc/ipc_i18n.js');
 
+/**
+ * This class controls Cordova platform specific functionality and it also contains the entry point to startup on Cordova (init):
+ * - Init code with permission handling and nodejs startup
+ * - Cordova-specific fullscreen toggling
+ * - Code to keep screen awake (keep the display turned on)
+ */
 class CordovaPlatform {
   constructor() {}
 
   init() {
     console.log("Initializing app on Cordova platform ...");
 
-    this.isFullScreenMode = false;
+    this._isFullScreenMode = false;
 
     // In the Cordova app the first thing we do is showing the global loading indicator.
     // This would happen later again, but only after the nodejs engine is started.
     // In the meanwhile the screen would be just white and that's what we would like to avoid.
-    showGlobalLoadingIndicator();
+    uiHelper.showGlobalLoadingIndicator();
 
     document.addEventListener('deviceready', async () => {
       var isDebug = await this.isDebug();
@@ -84,7 +90,7 @@ class CordovaPlatform {
   onPermissionGranted() {
     console.log("Permission to access storage has been GRANTED!");
     this.getPermissionBox().dialog('close');
-    showGlobalLoadingIndicator();
+    uiHelper.showGlobalLoadingIndicator();
 
     this.initPersistenceAndStart();
     //this.startNodeJsEngine(); 
@@ -195,9 +201,9 @@ class CordovaPlatform {
       this.onRequestPermissionClick();
     });
 
-    hideGlobalLoadingIndicator();
+    uiHelper.hideGlobalLoadingIndicator();
 
-    var welcomeTitle = i18n.t("cordova.welcome-to-ezra-project");
+    var welcomeTitle = i18n.t("cordova.welcome-to-ezra-bible-app");
 
     this.getPermissionBox().dialog({
       title: welcomeTitle,
@@ -224,10 +230,10 @@ class CordovaPlatform {
 
     `, async () => {
 
-      updateLoadingSubtitle("Initializing internationalization");
+      uiHelper.updateLoadingSubtitle("Initializing internationalization");
 
       window.ipcI18n = new IpcI18n();
-      await initI18N();
+      await startup_controller.initI18N();
 
       var hasPermission = false;
       
@@ -248,13 +254,13 @@ class CordovaPlatform {
   async initPersistenceAndStart() {
     window.ipcGeneral = new IpcGeneral();
 
-    updateLoadingSubtitle("Initializing SWORD");
+    uiHelper.updateLoadingSubtitle("Initializing SWORD");
     await ipcGeneral.initPersistentIpc();
 
-    updateLoadingSubtitle("Initializing database");
+    uiHelper.updateLoadingSubtitle("Initializing database");
     await ipcGeneral.initDatabase();
 
-    await initApplication();
+    await startup_controller.initApplication();
   }
 
   mainProcessListener(message) {
@@ -264,22 +270,28 @@ class CordovaPlatform {
   toggleFullScreen() {
     // Note that the following code depends on having the cordova-plugin-fullscreen available
 
-    if (this.isFullScreenMode) {
+    if (this._isFullScreenMode) {
+      this._isFullScreenMode = false;
 
       AndroidFullScreen.showSystemUI(() => {
-        this.isFullScreenMode = false;
+        console.log("Left fullscreen mode");
       }, () => {
         console.error("Could not leave immersive mode");
       });
 
     } else {
+      this._isFullScreenMode = true;
 
       AndroidFullScreen.immersiveMode(() => {
-        this.isFullScreenMode = true;
+        console.log("Entered immersive / fullscreen mode");
       }, () => {
         console.error("Could not switch to immersive mode");
       });
     }
+  }
+
+  isFullScreen() {
+    return this._isFullScreenMode;
   }
 
   keepScreenAwake() {

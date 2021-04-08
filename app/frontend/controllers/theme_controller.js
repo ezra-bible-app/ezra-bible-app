@@ -41,11 +41,11 @@ class ThemeController {
       // Set up a listener to react when the native theme has changed
       nativeTheme.on('updated', () => {
         if (nativeTheme.shouldUseDarkColors != app_controller.optionsMenu._nightModeOption.isChecked()) {
-          showGlobalLoadingIndicator();
+          uiHelper.showGlobalLoadingIndicator();
 
           setTimeout(() => {
             this.toggleDarkModeIfNeeded();
-            hideGlobalLoadingIndicator();
+            uiHelper.hideGlobalLoadingIndicator();
           }, 100);
         }
       });
@@ -121,7 +121,7 @@ class ThemeController {
           
       this.darkMode.toggle();
       // We need to repaint all charts, because the label color depends on the theme
-      await app_controller.module_search_controller.repaintAllCharts();
+      await app_controller.verse_statistics_chart.repaintAllCharts();
     }
   }
 

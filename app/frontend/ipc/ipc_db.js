@@ -42,7 +42,7 @@ class IpcDb {
 
   async updateTag(id, newTitle) {
     return await this._ipcRenderer.call('db_updateTag', id, newTitle).then(() => {
-      tags_controller.rename_tag_in_view(id, newTitle);
+      tags_controller.renameTagInView(id, newTitle);
     });
   }
 
@@ -56,7 +56,7 @@ class IpcDb {
 
   async updateTagsOnVerses(tagId, verseBoxes, action) {
     var increment = (action == "add" ? true : false);
-    tags_controller.update_tag_verse_count(tagId, verseBoxes, increment);
+    tags_controller.updateTagVerseCount(tagId, verseBoxes, increment);
 
     var verseObjects = [];
 

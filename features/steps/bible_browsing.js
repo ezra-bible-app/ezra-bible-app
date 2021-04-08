@@ -18,25 +18,28 @@
 
 const { Given, When, Then } = require("cucumber");
 const { assert } = require("chai");
+const spectronHelper = require('../helpers/spectron_helper.js');
+const nsiHelper = require("../helpers/nsi_helper.js");
+const uiHelper = require("../helpers/ui_helper.js");
 
 Given('I open the book selection menu', {timeout: 60 * 1000}, async function () {
-  var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
+  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
   var bookSelectButton = await verseListTabs.$('.book-select-button');
   
-  await global.spectronHelper.buttonIsEnabled(bookSelectButton, timeoutMs=1000);
+  await uiHelper.buttonIsEnabled(bookSelectButton, timeoutMs=1000);
   await bookSelectButton.click();
   await spectronHelper.sleep(500);
 });
 
 When('I select the book Ephesians', {timeout: 20 * 1000}, async function () {
-  var ephesiansButton = await global.app.client.$('.book-Eph');
+  var ephesiansButton = await spectronHelper.getWebClient().$('.book-Eph');
   var ephesiansLink = await ephesiansButton.$('a');
   await ephesiansLink.click();
-  await spectronHelper.waitUntilGlobalLoaderIsHidden();
+  await uiHelper.waitUntilGlobalLoaderIsHidden();
 });
 
 Then('the tab title is {string}', async function (string) {
-  var verseListTabs = await global.app.client.$('#verse-list-tabs');
+  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs');
   var uiTabsNav = await verseListTabs.$('.ui-tabs-nav');
   var firstLink = await uiTabsNav.$('a');
   var firstLinkText = await firstLink.getText();
@@ -45,7 +48,7 @@ Then('the tab title is {string}', async function (string) {
 });
 
 Then('the book of Ephesians is opened in the current tab', async function () {
-  var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
+  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
 
   var verseBoxes = await verseListTabs.$$('.verse-box');
   assert(verseBoxes.length == 155, `The number of verses does not match the expectation for Ephesians (155): ${verseBoxes.length}`);
@@ -72,14 +75,14 @@ Given('I select the verse {string}', async function (selectedVerse) {
   var splittedSelectedVerse = selectedVerse.split(' ');
   var book = splittedSelectedVerse[0];
   var verseReferenceString = splittedSelectedVerse[1];
-  this.selectedBookId = global.spectronHelper.getBookShortTitle(book);
-  var verseReferenceHelper = await global.spectronHelper.getVerseReferenceHelper();
+  this.selectedBookId = nsiHelper.getBookShortTitle(book);
+  var verseReferenceHelper = await nsiHelper.getVerseReferenceHelper();
   var absoluteVerseNumber = await verseReferenceHelper.referenceStringToAbsoluteVerseNr('KJV', this.selectedBookId, verseReferenceString);
 
-  var verseListTabs = await global.app.client.$('#verse-list-tabs-1');
+  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
   this.selectedVerseBox = await verseListTabs.$('.verse-nr-' + absoluteVerseNumber);
   this.selectedVerseText = await this.selectedVerseBox.$('.verse-text');
 
   await this.selectedVerseText.click();
-  await spectronHelper.sleep(200);
+  await spectronHelper.sleep();
 });

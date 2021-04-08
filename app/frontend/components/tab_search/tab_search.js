@@ -222,23 +222,27 @@ class TabSearch {
   }
 
   async highlightCurrentOccurance() {
-    // Update highlighting
+    // Remove previous element's highlighting
     if (this.previousOccuranceElement != null) {
       this.previousOccuranceElement.classList.remove('current-hl');
-      this.previousOccuranceElement.closest('.verse-box').querySelector('.verse-text').classList.remove('ui-selected');
+      var closestVerseBox = this.previousOccuranceElement.closest('.verse-box')
+      if (closestVerseBox != null) closestVerseBox.querySelector('.verse-text').classList.remove('ui-selected');
       app_controller.verse_selection.clear_verse_selection(false);
     }
 
+    // Highlight current element
     if (this.currentOccuranceElement != null) {
       this.currentOccuranceElement.classList.add('current-hl');
-      var verseBox = this.currentOccuranceElement.closest('.verse-box')
-      verseBox.querySelector('.verse-text').classList.add('ui-selected');
-      app_controller.verse_selection.updateSelected();
-      app_controller.verse_selection.updateViewsAfterVerseSelection();
-      await app_controller.navigation_pane.updateNavigationFromVerseBox(this.currentOccuranceElement, verseBox);
+      var verseBox = this.currentOccuranceElement.closest('.verse-box');
+
+      if (verseBox != null) {
+        verseBox.querySelector('.verse-text').classList.add('ui-selected');
+        app_controller.verse_selection.updateSelected();
+        app_controller.verse_selection.updateViewsAfterVerseSelection();
+        await app_controller.navigation_pane.updateNavigationFromVerseBox(this.currentOccuranceElement, verseBox);
+      }
     }
 
-    // Update occurances label
     this.updateOccurancesLabel();
   }
 
