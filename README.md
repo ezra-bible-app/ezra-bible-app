@@ -5,8 +5,8 @@ and to do it and to teach his statutes and rules in Israel." Ezra 7:10
 </p>
 
 <p align="center">
-  <a href="https://github.com/ezra-project/ezra-project/actions?query=workflow%3A%22Ezra+Project+test+suite%22">
-    <img src="https://github.com/ezra-project/ezra-project/workflows/Ezra%20Project%20test%20suite/badge.svg"></img>
+  <a href="https://github.com/ezra-project/ezra-project/actions?query=workflow%3A%22Ezra+Bible+App+test+suite%22">
+    <img src="https://github.com/ezra-project/ezra-project/workflows/Ezra%20Bible%20App%20test%20suite/badge.svg"></img>
   </a>
 </p>
 
