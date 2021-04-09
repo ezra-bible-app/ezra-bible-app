@@ -7,22 +7,22 @@ jobs:
         name: Run Cucumber tests
         runs-on: ubuntu-20.04
         steps:
-        - uses: actions/checkout@v1
+        - uses: actions/checkout@v2
         - uses: actions/setup-node@v2
           with:
-            node-version: '10.19'
+            node-version: '10'
 
-        - run: sudo apt install -y libcurl4-gnutls-dev
+        - run: sudo apt install -y libcurl4-gnutls-dev xvfb
         - run: npm install
         
         - name: Compile templates
           run: npm run compile-pug
         
-        - name: Bundle JS
-          run: npm run bundle
+        # - name: Bundle JS
+          # run: npm run bundle
 
         - name: Run test
-          run: npm run full-test
+          run: npm run headless-test
           env:
             JOBS: MAX
 
