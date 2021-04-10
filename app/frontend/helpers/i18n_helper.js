@@ -91,19 +91,11 @@ class I18nHelper {
   async getChapterTranslation(lang) {
     var language = lang||this.getLanguage();
 
-    if (this._isCordova) {
-      language = 'en';
-    }
-
     return await this.getSpecificTranslation(language, 'bible-browser.chapter');
   }
 
   async getPsalmTranslation(lang) {
-    var language = lang??this.getLanguage();
-
-    if (this._isCordova) {
-      language = 'en';
-    }
+    var language = lang||this.getLanguage();
 
     return await this.getSpecificTranslation(language, 'bible-browser.psalm');
   }
