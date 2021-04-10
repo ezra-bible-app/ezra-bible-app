@@ -53,7 +53,7 @@ class DbHelper {
       console.log('Database not yet existing in user directory!');
   
       if (fs.existsSync(oldDbPath)) {
-        console.log('Copying database from previously used application directory.');
+        console.log(`Copying database from previously used application directory ${oldDbPath}.`);
         fs.copySync(oldDbPath, dbPath);
       } else {
         console.log('Setting up empty database from template.');
