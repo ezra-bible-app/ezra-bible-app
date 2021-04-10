@@ -108,6 +108,9 @@ class ModuleSearchController {
 
     var bibleSelect = currentVerseListMenu.find('select.bible-select');
     bibleSelect.selectmenu("disable");
+
+    var changeTagsButton = currentVerseListMenu.find('.assign-tag-menu-button');
+    changeTagsButton.addClass('ui-state-disabled');
   }
 
   enableOtherFunctionsAfterSearch() {
@@ -121,6 +124,9 @@ class ModuleSearchController {
 
     var bibleSelect = currentVerseListMenu.find('select.bible-select');
     bibleSelect.selectmenu("enable");
+
+    var changeTagsButton = currentVerseListMenu.find('.assign-tag-menu-button');
+    changeTagsButton.removeClass('ui-state-disabled');
   }
 
   validateSearchTerm() {
