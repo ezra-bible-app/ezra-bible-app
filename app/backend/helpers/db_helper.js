@@ -96,7 +96,7 @@ class DbHelper {
     var config = {
       username: null,
       password: null,
-      database: "ezra-project",
+      database: "ezra-bible-app",
       host: null,
       dialect: "sqlite",
       storage: this.getDbFilePath(databaseDir),
