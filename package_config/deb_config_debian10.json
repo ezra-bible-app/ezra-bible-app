@@ -17,7 +17,7 @@
     "libcurl3-gnutls"
   ],
   "icon": "icons/ezra.png",
-  "maintainer": "Tobias Klein <contact@ezra-project.net>",
+  "maintainer": "Ezra Bible App Development Team <contact@ezrabibleapp.net>",
   "homepage": "https://github.com/ezra-project/ezra-project",
   "lintianOverrides": [
     "changelog-file-missing-in-native-package"
