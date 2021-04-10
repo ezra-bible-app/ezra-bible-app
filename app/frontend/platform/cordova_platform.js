@@ -230,7 +230,7 @@ class CordovaPlatform {
 
     `, async () => {
 
-      uiHelper.updateLoadingSubtitle("Initializing internationalization");
+      uiHelper.updateLoadingSubtitle("Initializing i18n");
 
       window.ipcI18n = new IpcI18n();
       await startup_controller.initI18N();
