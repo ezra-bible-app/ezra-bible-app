@@ -36,7 +36,7 @@ class TextSizeSettings {
   constructor() {
     this._textSizeValue = this.DEFAULT_TEXT_SIZE;
     this._shouldTagsNotesResize = true;
-    this.openMenuButton = '.text-size-settings';
+    this.openMenuButton = '.text-size-settings-button';
     this.menuContainer = '.text-size-menu';
     this.menuIsOpened = false;
     this.stylesheet = null;  // instance of CSSStyleSheet https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet
