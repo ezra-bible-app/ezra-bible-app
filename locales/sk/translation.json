@@ -6,8 +6,8 @@
     "configure-translations": "Nastavenie prekladov",
     "configure-dicts": "Nastavenie slovníkov",
     "show-parallel-translations": "Porovnanie prekladov",
-    "compare": "Compare",
-    "context": "Context"
+    "compare": "Porovnať",
+    "context": "Kontext"
   },
   "menu": {
     "book": "Kniha",
@@ -17,11 +17,11 @@
     "export": "Exportovať ako text",
     "show-module-info": "Zobraziť informácie o module",
     "fullscreen": "Prepnúť režim celej obrazovky",
-    "exit-fullscreen": "Exit full screen mode",
-    "text-size": "Adjust verse font size",
-    "text-size-decrease": "Decrease current font size",
-    "text-size-reset": "Reset font size to default",
-    "text-size-increase": "Increase current font size"
+    "exit-fullscreen": "Ukončiť režim celej obrayovky",
+    "text-size": "Úprava veľkosti textu veršu",
+    "text-size-decrease": "Zmenšiť veľkosť textu",
+    "text-size-reset": "Nastaviť veľkosť fontu na predvolenú",
+    "text-size-increase": "Zväčšiť veľkosť textu"
   },
   "search-menu": {
     "search": "Hľadať",
@@ -129,9 +129,9 @@
     "module-unlock-failed": "zlyhal (Problémy s odomknutím).",
     "installing-strongs": "Inštalujem <i>Strongove slovníky</i>",
     "applying-migrations": "Migrujem databázu na novú verziu",
-    "developers": "Developers",
-    "translators": "Translators",
-    "versions-and-paths": "Versions and paths"
+    "developers": "Vývojári",
+    "translators": "Prekladatelia",
+    "versions-and-paths": "Verzie a cesty"
   },
   "help": {
     "help-text-no-tags-book-opened": "Ak chcete začať pracovať so značkami, vytvorte svoju prvú značku kliknutím na tlačidlo <i>Nová&nbsp;značka</i>.<br/><br/>Potom môžete listovať v biblickom texte, kliknúť alebo vybrať jednotlivé verše a potom im priradiť značku, ktorú ste práve vytvorili.",
@@ -149,7 +149,7 @@
     "recently-used-tags": "Najpoužívanejšie štítky",
     "really-delete": "Naozaj chete odstrániť nasledujúci štítok: ",
     "tag-info-would-be-deleted": "Štítok bude odstránený <b>zo všetkých priradených veršov!</b>",
-    "really-remove-tag-assignment": "Do you really want to remove the tag &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; from the selected verses?",
+    "really-remove-tag-assignment": "Naoyaj chcete odstrániť štítok &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; z vyznačeného verša?",
     "remove-tag-assignment": "Odstrániť pridelené štítky",
     "verses-tagged-with": "Verše so štítkom ",
     "loading-tags": "Nahrávam štítky",
@@ -158,7 +158,7 @@
     "tag-filter": "Filter: ",
     "recently-used-filter": "Najpoužívanejší filter",
     "assign-tag": "Prideliť štítok",
-    "change-tags": "Change tags",
+    "change-tags": "Zmeniť štítky",
     "delete-tag-permanently": "Permanentne vymazať štítok",
     "none-selected": "Žiadne",
     "rename-tag": "Premenovať štítok",
@@ -166,8 +166,8 @@
     "stats-used": "použité",
     "stats-total": "spolu",
     "only-currentbook-tagged-verses": "Iba aktuálna kniha",
-    "most-frequently-used": "Most frequently used",
-    "less-frequently-used": "Less frequently used"
+    "most-frequently-used": "Najviac používané",
+    "less-frequently-used": "Najmenej používané"
   },
   "bible-browser": {
     "chapter": "Kapitola",
@@ -180,7 +180,7 @@
     "searching-for": "Hľadať",
     "search-result-header": "Výsledky hľadania pre ",
     "no-search-results": "Žiadne výsledky vyhľadávania pre ",
-    "module-search-cancelled": "Module search cancelled when searching for ",
+    "module-search-cancelled": "Vyhľadávanie zrušené pri hľadaní ",
     "load-verse-context": "Načítajte kontext tohto verša",
     "tag-hint": "Kliknutím zobrazíte všetky verše s týmto štítkom",
     "show-search-results": "Zobraziť výsledky vyhľadávania",
@@ -198,24 +198,24 @@
     "show-xrefs": "Zobraziť krížové odkazy",
     "show-footnotes": "Zobraziť poznámky pod čiarou",
     "show-dictionary": "Zobraziť slovník",
-    "show-book-chapter-navigation": "Show book/chapter navigation",
+    "show-book-chapter-navigation": "Zobraziť knihu/navigácia v kapitolách",
     "show-header-navigation": "Zobraziť navigáciu v hlavičke",
     "open-verse-lists-in-new-tab": "Otvoriť zoznamy veršov na novej karte",
-    "show-notes-tags-indicators": "Show notes/tags indicators",
+    "show-notes-tags-indicators": "Zobraziť poznámky/indikátory štítkov",
     "show-tags": "Zobraziť štítky",
     "show-notes": "Zobraziť poznámky",
     "limit-notes-display-size": "Obmedzte veľkosť zobrazenia poznámok",
     "use-tags-column": "Použite stĺpec značiek",
     "use-night-mode": "Nočný mód",
-    "keep-screen-on": "Keep screen on",
+    "keep-screen-on": "Ponechať zapnutý displej",
     "tag-statistics": "Štatistiky štítkov",
     "comparing-translations-for": "Porovnanie prekladov pre",
     "strongs-number-not-valid": "Toto nie je platné Strong číslo!",
     "open-new-tab": "Otvoriť novú kartu",
     "open-verselist-in-new-tab": "Otvoriť zoznam veršov na novej karte",
     "footnote-character": "n",
-    "adjust-font-size-tags-notes": "Adjust tags & notes font size",
-    "new-note-hint": "Click to add a note"
+    "adjust-font-size-tags-notes": "Úprava veľkosti textu štítkov & poznámok",
+    "new-note-hint": "Kliknite pre pridanie poznámky"
   },
   "dictionary-info-box": {
     "greek-dict": "Grécky slovník",
