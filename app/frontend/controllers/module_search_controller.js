@@ -97,36 +97,46 @@ class ModuleSearchController {
     cancelSearchButton.addClass('ui-state-disabled');
   }
 
-  disableOtherFunctionsDuringSearch() {
+  getAllMenuButtonSelectors() {
+    return [
+      '.book-select-button',
+      '.tag-select-button',
+      '.assign-tag-menu-button',
+      '.new-standard-tag-button',
+      '.display-options-button',
+      '.text-size-settings-button'
+    ];
+  }
+
+  toggleMenuButtons(enable=true) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
+    var allMenuButtonSelectors = this.getAllMenuButtonSelectors();
 
-    var bookSelectButton = currentVerseListMenu.find('.book-select-button');
-    bookSelectButton.addClass('ui-state-disabled');
+    allMenuButtonSelectors.forEach((selector) => {
+      var button = currentVerseListMenu.find(selector);
 
-    var tagSelectButton = currentVerseListMenu.find('.tag-select-button');
-    tagSelectButton.addClass('ui-state-disabled');
+      if (enable) {
+        button.removeClass('ui-state-disabled');
+      } else {
+        button.addClass('ui-state-disabled');
+      }
+    });
+  }
 
+  disableOtherFunctionsDuringSearch() {
+    this.toggleMenuButtons(false);
+
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
     var bibleSelect = currentVerseListMenu.find('select.bible-select');
     bibleSelect.selectmenu("disable");
-
-    var changeTagsButton = currentVerseListMenu.find('.assign-tag-menu-button');
-    changeTagsButton.addClass('ui-state-disabled');
   }
 
   enableOtherFunctionsAfterSearch() {
+    this.toggleMenuButtons(true);
+
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(this.currentSearchTabIndex);
-
-    var bookSelectButton = currentVerseListMenu.find('.book-select-button');
-    bookSelectButton.removeClass('ui-state-disabled');
-
-    var tagSelectButton = currentVerseListMenu.find('.tag-select-button');
-    tagSelectButton.removeClass('ui-state-disabled');
-
     var bibleSelect = currentVerseListMenu.find('select.bible-select');
     bibleSelect.selectmenu("enable");
-
-    var changeTagsButton = currentVerseListMenu.find('.assign-tag-menu-button');
-    changeTagsButton.removeClass('ui-state-disabled');
   }
 
   validateSearchTerm() {
