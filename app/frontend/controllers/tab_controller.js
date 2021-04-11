@@ -380,8 +380,11 @@ class TabController {
           if (this.lastSelectedTabIndex != null) {
             var previousVerseListFrame = app_controller.getCurrentVerseListFrame(this.lastSelectedTabIndex);
             var previousTab = this.getTab(this.lastSelectedTabIndex);
-            const SCROLL_OFFSET = 230;
-            previousTab.setScrollTop(previousVerseListFrame[0].scrollTop + SCROLL_OFFSET);
+
+            if (previousTab != null) {
+              const SCROLL_OFFSET = 230;
+              previousTab.setScrollTop(previousVerseListFrame[0].scrollTop + SCROLL_OFFSET);
+            }
           }
 
           if (metaTab.getTextType() != null) {
