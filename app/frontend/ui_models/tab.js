@@ -38,6 +38,7 @@ class Tab {
     this.addedInteractively = interactive;
     this.cachedText = null;
     this.cachedReferenceVerse = null;
+    this.scrollTop = null;
   }
 
   isValid() {
@@ -187,6 +188,14 @@ class Tab {
 
   hasReferenceVerse() {
     return this.getVerseReferenceId() != null;
+  }
+
+  getScrollTop() {
+    return this.scrollTop;
+  }
+
+  setScrollTop(value) {
+    this.scrollTop = value;
   }
 }
 

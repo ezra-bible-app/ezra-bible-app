@@ -36,6 +36,7 @@ class TabController {
     this.nextTabId = 2;
     this.metaTabs = [];
     this.loadingCompleted = false;
+    this.lastSelectedTabIndex = null;
   }
 
   init(tabsElement, tabsPanelClass, addTabElement, settings, tabHtmlTemplate, onTabSelected, onTabAdded, defaultBibleTranslationId) {
@@ -376,12 +377,20 @@ class TabController {
           
           var index = this.getCorrectedIndex(ui);
 
+          if (this.lastSelectedTabIndex != null) {
+            var previousVerseListFrame = app_controller.getCurrentVerseListFrame(this.lastSelectedTabIndex);
+            var previousTab = this.getTab(this.lastSelectedTabIndex);
+            const SCROLL_OFFSET = 230;
+            previousTab.setScrollTop(previousVerseListFrame[0].scrollTop + SCROLL_OFFSET);
+          }
+
           if (metaTab.getTextType() != null) {
             var currentVerseList = app_controller.getCurrentVerseList(index);
             currentVerseList.hide();
             app_controller.showVerseListLoadingIndicator(index);
           }
 
+          this.lastSelectedTabIndex = index;
           this.onTabSelected(event, ui);
         }
       },
@@ -398,6 +407,9 @@ class TabController {
               var index = this.getCorrectedIndex(ui);
               var currentVerseList = app_controller.getCurrentVerseList(index);
               currentVerseList.show();
+
+              var currentVerseListFrame = app_controller.getCurrentVerseListFrame(index);
+              currentVerseListFrame[0].scrollTop = metaTab.getScrollTop();
               app_controller.hideVerseListLoadingIndicator(index);
             }
           }
