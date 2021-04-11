@@ -156,6 +156,10 @@ h2 {
   overflow-y: scroll;*/
 }
 
+.verse-list {
+  padding-top: 0.5em;
+}
+
 .verse-list .help-text {
   margin: 1.5em;
 }
