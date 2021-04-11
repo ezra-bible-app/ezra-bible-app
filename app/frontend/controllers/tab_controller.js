@@ -37,6 +37,11 @@ class TabController {
     this.metaTabs = [];
     this.loadingCompleted = false;
     this.lastSelectedTabIndex = null;
+
+    // The scrollTop value returned from the verse list frame element needs some adjustment
+    // when being restored. This value is an offset that will be applied at the time the
+    // scroll position is restored.
+    this.SCROLL_OFFSET = 230;
   }
 
   init(tabsElement, tabsPanelClass, addTabElement, settings, tabHtmlTemplate, onTabSelected, onTabAdded, defaultBibleTranslationId) {
@@ -73,6 +78,9 @@ class TabController {
 
     exitContext.addEventListener(exitEvent, async () => {
       console.log('Persisting data!');
+
+      this.lastSelectedTabIndex = 0;
+      this.savePreviousTabScrollPosition();
 
       await this.saveTabConfiguration();
       await this.saveBookSelectionMenu();
@@ -377,15 +385,7 @@ class TabController {
           
           var index = this.getCorrectedIndex(ui);
 
-          if (this.lastSelectedTabIndex != null) {
-            var previousVerseListFrame = app_controller.getCurrentVerseListFrame(this.lastSelectedTabIndex);
-            var previousTab = this.getTab(this.lastSelectedTabIndex);
-
-            if (previousTab != null) {
-              const SCROLL_OFFSET = 230;
-              previousTab.setScrollTop(previousVerseListFrame[0].scrollTop + SCROLL_OFFSET);
-            }
-          }
+          this.savePreviousTabScrollPosition();
 
           if (metaTab.getTextType() != null) {
             var currentVerseList = app_controller.getCurrentVerseList(index);
@@ -411,8 +411,7 @@ class TabController {
               var currentVerseList = app_controller.getCurrentVerseList(index);
               currentVerseList.show();
 
-              var currentVerseListFrame = app_controller.getCurrentVerseListFrame(index);
-              currentVerseListFrame[0].scrollTop = metaTab.getScrollTop();
+              this.restoreScrollPosition(index);
               app_controller.hideVerseListLoadingIndicator(index);
             }
           }
@@ -435,6 +434,36 @@ class TabController {
     });
 
     uiHelper.configureButtonStyles('.ui-tabs-nav');
+  }
+
+  savePreviousTabScrollPosition() {
+    if (this.lastSelectedTabIndex != null) {
+      var previousVerseListFrame = app_controller.getCurrentVerseListFrame(this.lastSelectedTabIndex);
+      var previousTab = this.getTab(this.lastSelectedTabIndex);
+
+      if (previousTab != null) {
+        previousTab.setScrollTop(previousVerseListFrame[0].scrollTop + this.SCROLL_OFFSET);
+      }
+    }
+  }
+
+  restoreScrollPosition(tabIndex, isStartup=false) {
+    var metaTab = this.getTab(tabIndex);
+
+    if (metaTab != null) {
+      var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+
+      if (currentVerseListFrame != null) {
+        var savedScrollTop = metaTab.getScrollTop();
+        if (isStartup) {
+          // On startup the scroll offset needs to be removed.
+          // It is unclear why ... but this is how it works!
+          savedScrollTop -= this.SCROLL_OFFSET;
+        }
+
+        currentVerseListFrame[0].scrollTop = savedScrollTop;
+      }
+    }
   }
 
   getSelectedTabIndex() {

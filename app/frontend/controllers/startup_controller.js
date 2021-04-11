@@ -321,6 +321,11 @@ class StartupController
     $('#main-content').show();
     uiHelper.resizeAppContainer();
 
+    await waitUntilIdle();
+
+    // Restore the scroll position of the first tab.
+    app_controller.tab_controller.restoreScrollPosition(0, true);
+
     console.timeEnd("application-startup");
 
     //await app_controller.translation_controller.installStrongsIfNeeded();
