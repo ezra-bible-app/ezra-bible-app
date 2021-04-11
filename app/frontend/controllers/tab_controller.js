@@ -79,9 +79,8 @@ class TabController {
     exitContext.addEventListener(exitEvent, async () => {
       console.log('Persisting data!');
 
-      this.lastSelectedTabIndex = 0;
+      this.lastSelectedTabIndex = this.getSelectedTabIndex();
       this.savePreviousTabScrollPosition();
-
       await this.saveTabConfiguration();
       await this.saveBookSelectionMenu();
       await this.saveLastUsedVersionAndLanguage();
@@ -436,14 +435,18 @@ class TabController {
     uiHelper.configureButtonStyles('.ui-tabs-nav');
   }
 
+  saveTabScrollPosition(tabIndex) {
+    var metaTab = this.getTab(tabIndex);
+    var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+
+    if (metaTab != null && verseListFrame != null) {
+      metaTab.setScrollTop(verseListFrame[0].scrollTop + this.SCROLL_OFFSET);
+    }
+  }
+
   savePreviousTabScrollPosition() {
     if (this.lastSelectedTabIndex != null) {
-      var previousVerseListFrame = app_controller.getCurrentVerseListFrame(this.lastSelectedTabIndex);
-      var previousTab = this.getTab(this.lastSelectedTabIndex);
-
-      if (previousTab != null) {
-        previousTab.setScrollTop(previousVerseListFrame[0].scrollTop + this.SCROLL_OFFSET);
-      }
+      this.saveTabScrollPosition(this.lastSelectedTabIndex);
     }
   }
 
