@@ -74,6 +74,7 @@ class Tab {
   }
 
   setBook(bookCode, bookTitle) {
+    this.searchResults = null;
     this.book = bookCode;
     this.bookTitle = bookTitle;
   }
@@ -83,6 +84,7 @@ class Tab {
   }
 
   setTagIdList(tagIdList) {
+    this.searchResults = null;
     this.tagIdList = tagIdList;
   }
 
@@ -91,6 +93,7 @@ class Tab {
   }
 
   setTagTitleList(tagTitleList) {
+    this.searchResults = null;
     this.tagTitleList = tagTitleList;
   }
 
@@ -137,6 +140,7 @@ class Tab {
   }
 
   setXrefs(xrefs) {
+    this.searchResults = null;
     this.xrefs = xrefs;
   }
 
