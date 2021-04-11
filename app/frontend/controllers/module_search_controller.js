@@ -65,8 +65,12 @@ class ModuleSearchController {
 
   async cancelModuleSearch() {
     this.disableCancelButton();
+
     var tab = app_controller.tab_controller.getTab(this.currentSearchTabIndex);
-    tab.setSearchCancelled(true);
+    if (tab != null) {
+      tab.setSearchCancelled(true);
+    }
+
     this.enableOtherFunctionsAfterSearch();
 
     var currentProgressValue = this.getCurrentProgressValue();
