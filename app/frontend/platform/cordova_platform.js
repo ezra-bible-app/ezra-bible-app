@@ -274,7 +274,7 @@ class CordovaPlatform {
       this._isFullScreenMode = false;
 
       AndroidFullScreen.showSystemUI(() => {
-        console.log("Left fullscreen mode");
+        // console.log("Left fullscreen mode");
       }, () => {
         console.error("Could not leave immersive mode");
       });
@@ -283,7 +283,7 @@ class CordovaPlatform {
       this._isFullScreenMode = true;
 
       AndroidFullScreen.immersiveMode(() => {
-        console.log("Entered immersive / fullscreen mode");
+        // console.log("Entered immersive / fullscreen mode");
       }, () => {
         console.error("Could not switch to immersive mode");
       });
