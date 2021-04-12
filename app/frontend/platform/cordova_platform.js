@@ -93,7 +93,6 @@ class CordovaPlatform {
     uiHelper.showGlobalLoadingIndicator();
 
     this.initPersistenceAndStart();
-    //this.startNodeJsEngine(); 
   }
 
   onPermissionDenied() {
@@ -235,19 +234,15 @@ class CordovaPlatform {
       window.ipcI18n = new IpcI18n();
       await startup_controller.initI18N();
 
-      var hasPermission = false;
-      
-      try {
-        hasPermission = await this.hasPermission();
-      } catch (e) {
+      this.hasPermission().then((result) => {
+        if (result == true) {
+          this.initPersistenceAndStart();
+        } else {
+          this.showPermissionInfo();
+        }
+      }, () => {
         console.log("Failed to check existing permissions ...");
-      }
-
-      if (hasPermission == true) {
-        this.initPersistenceAndStart();
-      } else {
-        this.showPermissionInfo();
-      }
+      });
     });
   }
 
