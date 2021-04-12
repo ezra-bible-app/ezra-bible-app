@@ -384,7 +384,9 @@ class TabController {
           
           var index = this.getCorrectedIndex(ui);
 
-          this.savePreviousTabScrollPosition();
+          if (metaTab.selectCount > 1) {
+            this.savePreviousTabScrollPosition();
+          }
 
           if (metaTab.getTextType() != null) {
             var currentVerseList = app_controller.getCurrentVerseList(index);
@@ -514,7 +516,8 @@ class TabController {
     this.tabs.find(".ui-tabs-nav").append(li);
     this.tabs.append("<div id='" + metaTab.elementId + "' class='" + this.tabsPanelClass + "'>" + this.tabHtmlTemplate + "</div>");
 
-    var selectedTabIndex = this.getSelectedTabIndex();
+    this.lastSelectedTabIndex = this.getSelectedTabIndex();
+    this.savePreviousTabScrollPosition();
 
     this.reloadTabs();
     if (!initialLoading) {
@@ -527,7 +530,7 @@ class TabController {
     this.updateFirstTabCloseButton();
 
     if (!initialLoading) {
-      this.onTabAdded(selectedTabIndex, this.tabCounter - 1);
+      this.onTabAdded(this.lastSelectedTabIndex, this.tabCounter - 1);
     }
   }
 
