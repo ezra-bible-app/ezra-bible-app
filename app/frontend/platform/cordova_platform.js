@@ -105,8 +105,8 @@ class CordovaPlatform {
       // If the request came back in a very short time we assume that the user permanently denied the permission
       // and show a corresponding message.
 
-      var permanentPermissionDecisionInfoPart1 = i18n.t('cordova.previous-permission-decision-part1');
-      var permanentPermissionDecisionInfoPart2 = i18n.t('cordova.previous-permission-decision-part2');
+      var permanentPermissionDecisionInfoPart1 = i18n.t('cordova.permanent-permission-decision-part1');
+      var permanentPermissionDecisionInfoPart2 = i18n.t('cordova.permanent-permission-decision-part2');
 
       $('#permission-decision').html(`
         ${permanentPermissionDecisionInfoPart1}
