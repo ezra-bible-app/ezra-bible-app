@@ -48,7 +48,7 @@ function initPicker() {
   return picker;
 }
 
-function initButton(inputElement) {
+function initButtonTrigger(inputElement) {
   input = inputElement;
 
   if (theButton === undefined) {
@@ -74,8 +74,10 @@ function initButton(inputElement) {
     });
   }
 
+  inputElement.parentNode.style.position = 'relative'; // theButton left position relative to this parent
   const buttonWidth = theButton.getBoundingClientRect().width || 30; // approximate width when button is not yet attached to DOM
   theButton.style.left = `${getInputRigthOffset() - buttonWidth}px`;
+  // console.log(buttonWidth)
 
   return theButton;
 }
@@ -86,13 +88,14 @@ function getInputRigthOffset() {
   }
   const inputRight = input.getBoundingClientRect().right;
   const parentLeft = input.parentNode.getBoundingClientRect().left;
+  // console.log(parentLeft, inputRight, inputRight-parentLeft)
   return inputRight - parentLeft;
 }
 
 module.exports = {
   appendTo: (inputElement) => {
-    const button = initButton(inputElement);
-    inputElement.parentNode.insertBefore(button, inputElement.nextSibling);
+    const trigger = initButtonTrigger(inputElement);
+    inputElement.parentNode.insertBefore(trigger, inputElement.nextSibling);
   },
 
 

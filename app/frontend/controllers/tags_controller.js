@@ -258,7 +258,7 @@ class TagsController {
 
     tags_controller.initNewTagDialog();
 
-    var $tagInput = $('#new-' + type + '-tag-title-input');
+    const $tagInput = $('#new-' + type + '-tag-title-input');
 
     $tagInput.val(''); 
     $('#new-' + type + '-tag-dialog').dialog('open');
@@ -793,8 +793,10 @@ class TagsController {
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
     var cb_label = checkbox_tag.find('.cb-label').text();
 
-    $('#rename-standard-tag-title-input').val(cb_label);
+    const $tagInput = $('#rename-standard-tag-title-input');
+    $tagInput.val(cb_label);
     $('#rename-standard-tag-dialog').dialog('open');
+    emojiPicker.appendTo($tagInput[0]);
     $('#rename-standard-tag-title-input').focus();
 
     tags_controller.rename_standard_tag_id = parseInt(checkbox_tag.attr('tag-id'));
