@@ -29,6 +29,7 @@ function initPicker() {
     zIndex: 10000,
     showPreview: false,
     showVariants: false,
+    showAnimation: false,
     theme: isNightMode ? 'dark' : 'light',
     styleProperties: {
       '--background-color': '#f2f5f7',
@@ -38,18 +39,20 @@ function initPicker() {
 
   picker.on('emoji', selection => {
     // `selection` object has an `emoji` property
-    if (input && input.nodeName.toLowerCase() === 'input') {
+    if (input && input.nodeName === 'INPUT') {
       input.value += selection.emoji
+    } else if (input && input.getDoc()) {
+      input.getDoc().replaceSelection(selection.emoji);
     } else {
-      console.log('Input is not defined. Can\'t add emoji', insertselection.emoji);
+      console.log('Input is not defined. Can\'t add emoji', selection.emoji);
     }
 
   });
   return picker;
 }
 
-function initButtonTrigger(inputElement) {
-  input = inputElement;
+function initButtonTrigger(element, codeMirror = false) {
+  input = codeMirror || element;
 
   if (theButton === undefined) {
     theButton = document.createElement('button');
@@ -58,12 +61,12 @@ function initButtonTrigger(inputElement) {
     theButton.appendChild(icon);
     theButton.style.cssText = `
       position: absolute; 
-      left: 90%;
-      font-size: 1.1rem;
+      right: 0;
+      font-size: 1rem;
       background: none;
       border: none;
-      margin: 1px 2px;
-      opacity: 0.4;
+      margin: 0;
+      padding: 3px;
     `;
 
     theButton.addEventListener('click', () => {
@@ -74,22 +77,36 @@ function initButtonTrigger(inputElement) {
     });
   }
 
-  inputElement.parentNode.style.position = 'relative'; // theButton left position relative to this parent
-  const buttonWidth = theButton.getBoundingClientRect().width || 30; // approximate width when button is not yet attached to DOM
-  theButton.style.left = `${getInputRigthOffset() - buttonWidth}px`;
-  // console.log(buttonWidth)
+
+  if (codeMirror) {
+    theButton.style.left = 'auto';
+    theButton.style.bottom = '3px';
+    theButton.style.marginRight = '1.1em';
+    theButton.style.color = 'inherit';
+  } else {
+    const buttonWidth = theButton.getBoundingClientRect().width || 22; // approximate width when button is not yet attached to DOM
+    theButton.style.left = `${getInputRigthOffset(element) - buttonWidth}px`;
+    theButton.style.bottom = 'auto';
+    theButton.style.marginRight = '0';
+    theButton.style.color = '#b7b7b7';
+  }
+
+  element.parentNode.style.position = 'relative'; // theButton left position relative to this parent
+  theButton.style.display = 'inline-block';
 
   return theButton;
 }
 
-function getInputRigthOffset() {
-  if (input === undefined) {
-    return 0;
-  }
-  const inputRight = input.getBoundingClientRect().right;
-  const parentLeft = input.parentNode.getBoundingClientRect().left;
-  // console.log(parentLeft, inputRight, inputRight-parentLeft)
+function getInputRigthOffset(inputElement) {
+  const inputRight = inputElement.getBoundingClientRect().right;
+  const parentLeft = inputElement.parentNode.getBoundingClientRect().left;
   return inputRight - parentLeft;
+}
+
+function hideButtonTrigger() {
+  if (theButton) {
+    theButton.style.display = 'none';
+  }
 }
 
 module.exports = {
@@ -98,5 +115,14 @@ module.exports = {
     inputElement.parentNode.insertBefore(trigger, inputElement.nextSibling);
   },
 
+  appendToCodeMirror: (textArea, codeMirror) => {
+    if (!codeMirror) {
+      return;
+    }
 
+    const trigger = initButtonTrigger(textArea, codeMirror);
+    textArea.parentNode.insertBefore(trigger, null);
+  },
+
+  hide: hideButtonTrigger,
 }

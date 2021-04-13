@@ -21,6 +21,7 @@ const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const verseBoxHelper = new VerseBoxHelper();
 const VerseBox = require('../ui_models/verse_box.js');
 const notesHelper = require('../helpers/notes_helper.js');
+const emojiPicker = require('../components/emoji_picker.js');
 
 let CodeMirror = null;
 function getCodeMirror() {
@@ -286,6 +287,8 @@ class NotesController {
     verseNotesText.classList.remove('edited');
     verseNotesText.innerHTML = renderedContent;
 
+    emojiPicker.hide();
+    
     if (renderedContent == '') {
       notesElement.classList.add('verse-notes-empty');
     } else {
@@ -300,9 +303,9 @@ class NotesController {
   }
 
   _setupVerseNoteButtons() {
-    var verseNotesButtons = $(this.currentlyEditedNotes).find('.verse-notes-buttons');
+    var $verseNotesButtons = $(this.currentlyEditedNotes).find('.verse-notes-buttons');
 
-    verseNotesButtons.find('a').bind('click', (event) => {
+    $verseNotesButtons.find('a').bind('click', (event) => {
       event.preventDefault();
 
       if (event.target.className == 'save-note') {
@@ -316,7 +319,7 @@ class NotesController {
       }
     });
 
-    verseNotesButtons.show();
+    $verseNotesButtons.show();
   }
 
   _getNotesElementContent(notesElement) {
@@ -358,6 +361,8 @@ class NotesController {
       extraKeys: { "Enter": "newlineAndIndentContinueMarkdownList" },
       theme: this.theme
     });
+
+    emojiPicker.appendToCodeMirror(textArea, editor);
 
     this.currentEditor = editor;
     this._focusEditor();
