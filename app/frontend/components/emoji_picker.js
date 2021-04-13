@@ -16,6 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const i18n = require('i18next');
+
 var picker;
 var theButton;
 var input;
@@ -32,6 +34,11 @@ function initPicker() {
     showVariants: false,
     showAnimation: false,
     theme: isNightMode ? 'dark' : 'light',
+    categories: ['smileys', 'people', 'animals', 'food', 'activities', 'travel', 'objects', 'symbols'],
+    i18n: {
+      search: i18n.t('menu.search'),
+      notFound: i18n.t('bible-browser.no-search-results'),
+    },
     styleProperties: {
       '--background-color': '#f2f5f7',
       '--dark-background-color': '#1e1e1e',
