@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Darkmode = require('darkmode-js');
+const emojiPicker = require('../components/emoji_picker.js');
 
 /**
  * The ThemeController contains functions for switching between the standard (light theme)
@@ -88,11 +89,13 @@ class ThemeController {
   switchToDarkTheme() {
     this.switchToTheme('css/jquery-ui/dark-hive/jquery-ui.css');
     app_controller.notes_controller.setDarkTheme();
+    emojiPicker.setDarkTheme();
   }
   
   switchToRegularTheme() {
     this.switchToTheme('css/jquery-ui/cupertino/jquery-ui.css');
     app_controller.notes_controller.setLightTheme();
+    emojiPicker.setLigtTheme();
   }
   
   switchToTheme(theme) {

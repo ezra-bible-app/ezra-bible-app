@@ -24,9 +24,10 @@ function initPicker() {
   const { EmojiButton } = require('../../../lib/emoji-button/dist'); //rebuild version with CommonJS modules
   const isNightMode = app_controller.optionsMenu._nightModeOption && app_controller.optionsMenu._nightModeOption.isChecked();
 
-  picker = new EmojiButton({
+  picker = new EmojiButton({ // https://emoji-button.js.org/docs/api
     position: 'auto',
     zIndex: 10000,
+    emojiSize: '1.3em',
     showPreview: false,
     showVariants: false,
     showAnimation: false,
@@ -109,20 +110,42 @@ function hideButtonTrigger() {
   }
 }
 
+function setTheme(theme) {
+  if (picker) {
+    picker.setTheme(theme);
+  }
+}
+
+/**
+ * The emojiPicker component addss posibility to insert emojis to the tag names and notes 
+ * on desktop platforms (electron app). It attaches emoji picker button to the text input
+ * field. 
+ * Emoji Picker dialog is implemented via external library:
+ * https://github.com/joeattardi/emoji-button
+ * 
+ * emojiPicker keeps it's state inside module variables. So it can be just imported/requested
+ * where it needed (without using app_controller instance).
+ * 
+ * @category Component
+ */
+
 module.exports = {
   appendTo: (inputElement) => {
-    const trigger = initButtonTrigger(inputElement);
-    inputElement.parentNode.insertBefore(trigger, inputElement.nextSibling);
+    if (platformHelper.isElectron()) {
+      const trigger = initButtonTrigger(inputElement);
+      inputElement.parentNode.insertBefore(trigger, inputElement.nextSibling);
+    }
   },
 
   appendToCodeMirror: (textArea, codeMirror) => {
-    if (!codeMirror) {
-      return;
+    if (platformHelper.isElectron() && codeMirror) {
+      const trigger = initButtonTrigger(textArea, codeMirror);
+      textArea.parentNode.insertBefore(trigger, null); // insert as last child
     }
-
-    const trigger = initButtonTrigger(textArea, codeMirror);
-    textArea.parentNode.insertBefore(trigger, null);
   },
 
   hide: hideButtonTrigger,
+
+  setDarkTheme: () => setTheme('dark'),
+  setLigtTheme: () => setTheme('light'),
 }

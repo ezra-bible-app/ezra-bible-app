@@ -27,7 +27,7 @@ const RESET_SHORTCUT = 'mod+0';  // Ctrl/Cmd 0
 const SETTINGS_KEY = 'verse-text-size';
 
 /**
- * The TextSizeSettings component implements the buttons two control text (font size) of the verse and
+ * The TextSizeSettings component implements the buttons to control text (font size) of the verse and
  * other elements. Size update is done by updating (adding new and deleting old) css rule
  * 
  * @category Component
