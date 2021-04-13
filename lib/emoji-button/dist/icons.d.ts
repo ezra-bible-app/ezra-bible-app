@@ -1,0 +1,15 @@
+export declare const building: string;
+export declare const cat: string;
+export declare const coffee: string;
+export declare const flag: string;
+export declare const futbol: string;
+export declare const frown: string;
+export declare const history: string;
+export declare const icons: string;
+export declare const lightbulb: string;
+export declare const music: string;
+export declare const search: string;
+export declare const smile: string;
+export declare const times: string;
+export declare const user: string;
+export declare function createIcon(src: string): HTMLImageElement;

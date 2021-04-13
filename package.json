@@ -54,6 +54,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.2",
+    "@joeattardi/emoji-button": "^4.6.0",
     "@sentry/browser": "^6.0.1",
     "@sentry/electron": "^2.0.3",
     "buffer": "^6.0.3",
