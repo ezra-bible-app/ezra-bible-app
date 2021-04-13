@@ -203,7 +203,7 @@ class TabController {
         this.metaTabs[0] = currentMetaTab;
         this.updateFirstTabCloseButton();
       } else {
-        this.addTab(currentMetaTab);
+        this.addTab(currentMetaTab, false);
       }
 
       var tabTitle = currentMetaTab.getTitle();
@@ -516,8 +516,10 @@ class TabController {
     this.tabs.find(".ui-tabs-nav").append(li);
     this.tabs.append("<div id='" + metaTab.elementId + "' class='" + this.tabsPanelClass + "'>" + this.tabHtmlTemplate + "</div>");
 
-    this.lastSelectedTabIndex = this.getSelectedTabIndex();
-    this.savePreviousTabScrollPosition();
+    if (interactive) {
+      this.lastSelectedTabIndex = this.getSelectedTabIndex();
+      this.savePreviousTabScrollPosition();
+    }
 
     this.reloadTabs();
     if (!initialLoading) {
