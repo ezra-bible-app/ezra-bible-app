@@ -93,7 +93,6 @@ class CordovaPlatform {
     uiHelper.showGlobalLoadingIndicator();
 
     this.initPersistenceAndStart();
-    //this.startNodeJsEngine(); 
   }
 
   onPermissionDenied() {
@@ -106,8 +105,8 @@ class CordovaPlatform {
       // If the request came back in a very short time we assume that the user permanently denied the permission
       // and show a corresponding message.
 
-      var permanentPermissionDecisionInfoPart1 = i18n.t('cordova.previous-permission-decision-part1');
-      var permanentPermissionDecisionInfoPart2 = i18n.t('cordova.previous-permission-decision-part2');
+      var permanentPermissionDecisionInfoPart1 = i18n.t('cordova.permanent-permission-decision-part1');
+      var permanentPermissionDecisionInfoPart2 = i18n.t('cordova.permanent-permission-decision-part2');
 
       $('#permission-decision').html(`
         ${permanentPermissionDecisionInfoPart1}
@@ -235,19 +234,15 @@ class CordovaPlatform {
       window.ipcI18n = new IpcI18n();
       await startup_controller.initI18N();
 
-      var hasPermission = false;
-      
-      try {
-        hasPermission = await this.hasPermission();
-      } catch (e) {
+      this.hasPermission().then((result) => {
+        if (result == true) {
+          this.initPersistenceAndStart();
+        } else {
+          this.showPermissionInfo();
+        }
+      }, () => {
         console.log("Failed to check existing permissions ...");
-      }
-
-      if (hasPermission == true) {
-        this.initPersistenceAndStart();
-      } else {
-        this.showPermissionInfo();
-      }
+      });
     });
   }
 
