@@ -95,7 +95,7 @@ class ThemeController {
   switchToRegularTheme() {
     this.switchToTheme('css/jquery-ui/cupertino/jquery-ui.css');
     app_controller.notes_controller.setLightTheme();
-    emojiPicker.setLigtTheme();
+    emojiPicker.setLightTheme();
   }
   
   switchToTheme(theme) {

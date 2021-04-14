@@ -48,7 +48,7 @@ function initPicker() {
   picker.on('emoji', selection => {
     // `selection` object has an `emoji` property
     if (input && input.nodeName === 'INPUT') {
-      input.value += selection.emoji
+      input.value += selection.emoji;
     } else if (input && input.getDoc()) {
       input.getDoc().replaceSelection(selection.emoji);
     } else {
@@ -79,7 +79,7 @@ function initButtonTrigger(element, codeMirror = false) {
 
     theButton.addEventListener('click', () => {
       if (picker === undefined) {
-        initPicker()
+        initPicker();
       }
       picker.togglePicker(theButton);
     });
@@ -91,9 +91,9 @@ function initButtonTrigger(element, codeMirror = false) {
     theButton.style.bottom = '3px';
     theButton.style.marginRight = '1.1em';
     theButton.style.color = 'inherit';
-  } else {
+  } else { // overlaying emoji button over text input
     const buttonWidth = theButton.getBoundingClientRect().width || 22; // approximate width when button is not yet attached to DOM
-    theButton.style.left = `${getInputRigthOffset(element) - buttonWidth}px`;
+    theButton.style.left = `${getInputRightOffset(element) - buttonWidth}px`;
     theButton.style.bottom = 'auto';
     theButton.style.marginRight = '0';
     theButton.style.color = '#b7b7b7';
@@ -105,7 +105,7 @@ function initButtonTrigger(element, codeMirror = false) {
   return theButton;
 }
 
-function getInputRigthOffset(inputElement) {
+function getInputRightOffset(inputElement) {
   const inputRight = inputElement.getBoundingClientRect().right;
   const parentLeft = inputElement.parentNode.getBoundingClientRect().left;
   return inputRight - parentLeft;
@@ -154,5 +154,5 @@ module.exports = {
   hide: hideButtonTrigger,
 
   setDarkTheme: () => setTheme('dark'),
-  setLigtTheme: () => setTheme('light'),
+  setLightTheme: () => setTheme('light'),
 }
