@@ -37,11 +37,6 @@ class TabController {
     this.metaTabs = [];
     this.loadingCompleted = false;
     this.lastSelectedTabIndex = null;
-
-    // The scrollTop value returned from the verse list frame element needs some adjustment
-    // when being restored. This value is an offset that will be applied at the time the
-    // scroll position is restored.
-    this.SCROLL_OFFSET = 230;
   }
 
   init(tabsElement, tabsPanelClass, addTabElement, settings, tabHtmlTemplate, onTabSelected, onTabAdded, defaultBibleTranslationId) {
@@ -412,8 +407,8 @@ class TabController {
               var currentVerseList = app_controller.getCurrentVerseList(index);
               currentVerseList.show();
 
-              this.restoreScrollPosition(index);
               app_controller.hideVerseListLoadingIndicator(index);
+              this.restoreScrollPosition(index);
             }
           }
         })();
@@ -442,7 +437,7 @@ class TabController {
     var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
 
     if (metaTab != null && verseListFrame != null) {
-      metaTab.setScrollTop(verseListFrame[0].scrollTop + this.SCROLL_OFFSET);
+      metaTab.setScrollTop(verseListFrame[0].scrollTop);
     }
   }
 
@@ -460,12 +455,6 @@ class TabController {
 
       if (currentVerseListFrame != null) {
         var savedScrollTop = metaTab.getScrollTop();
-        if (isStartup) {
-          // On startup the scroll offset needs to be removed.
-          // It is unclear why ... but this is how it works!
-          savedScrollTop -= this.SCROLL_OFFSET;
-        }
-
         currentVerseListFrame[0].scrollTop = savedScrollTop;
       }
     }
