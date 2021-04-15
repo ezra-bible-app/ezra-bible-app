@@ -35,10 +35,7 @@ function initPicker() {
     showAnimation: false,
     theme: isNightMode ? 'dark' : 'light',
     categories: ['smileys', 'people', 'animals', 'food', 'activities', 'travel', 'objects', 'symbols'],
-    i18n: {
-      search: i18n.t('menu.search'),
-      notFound: i18n.t('bible-browser.no-search-results'),
-    },
+    i18n: i18n.t('emoji', { returnObjects: true }),
     styleProperties: {
       '--background-color': '#f2f5f7',
       '--dark-background-color': '#1e1e1e',
