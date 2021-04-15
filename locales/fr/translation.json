@@ -6,8 +6,8 @@
     "configure-translations": "Configurer des traductions",
     "configure-dicts": "Configurer des dictionnaires",
     "show-parallel-translations": "Comparer traductions",
-    "compare": "Compare",
-    "context": "Context"
+    "compare": "Comparer",
+    "context": "Contexte"
   },
   "menu": {
     "book": "Livre",
@@ -17,11 +17,11 @@
     "export": "Exporter en document texte",
     "show-module-info": "Montrer les informations sur le module",
     "fullscreen": "Basculer en mode plein écran",
-    "exit-fullscreen": "Exit full screen mode",
-    "text-size": "Adjust verse font size",
-    "text-size-decrease": "Decrease current font size",
-    "text-size-reset": "Reset font size to default",
-    "text-size-increase": "Increase current font size"
+    "exit-fullscreen": "Quitter le mode plein écran",
+    "text-size": "Ajuster la taille de police du verset",
+    "text-size-decrease": "Diminuer la taille de police actuelle",
+    "text-size-reset": "Réinitialiser la taille de police par défaut",
+    "text-size-increase": "Augmenter la taille de police actuelle"
   },
   "search-menu": {
     "search": "Rechercher",
@@ -48,7 +48,7 @@
     "translations": "Traductions",
     "removal": "Suppression",
     "module-feature-filter": "Filtre des options",
-    "repo-selection-info-text": "Le projet Ezra fonctionne avec les modules de traduction de la Bible fournis par <a class='external' href='http://www.crosswire.org/sword'>le projet SWORD</a> et la <a class='external' href='http://www.crosswire.org'>Société biblique CrossWire</a>. <b/><b/>Vous trouverez ci-dessous la liste des dépôts SWORD publiés par CrossWire. Un dépôt est un emplacement de stockage Internet contenant un ensemble de modules de traduction de la Bible. À côté de chaque dépôt, vous pouvez voir le nombre total de modules de traduction de la Bible disponibles dans ce dépôt.<b/><b/> Pour installer un module traduction de la Bible, sélectionnez au moins un dépôt dans la liste ci-dessous. Les dépôts <i>CrossWire</i> et <i>eBible.org</i> constituent un bon point de départ.",
+    "repo-selection-info-text": "Ezra Bible App fonctionne avec les modules de traduction de la Bible fournis par <a class='external' href='http://www.crosswire.org/sword'>le projet SWORD</a> et la <a class='external' href='http://www.crosswire.org'>Société biblique CrossWire</a>. <b/><b/>Vous trouverez ci-dessous la liste des dépôts SWORD publiés par CrossWire. Un dépôt est un emplacement de stockage Internet contenant un ensemble de modules de traduction de la Bible. À côté de chaque dépôt, vous pouvez voir le nombre total de modules de traduction de la Bible disponibles dans ce dépôt.<b/><b/> Pour installer un module traduction de la Bible, sélectionnez au moins un dépôt dans la liste ci-dessous. Les dépôts <i>CrossWire</i> et <i>eBible.org</i> constituent un bon point de départ.",
     "more-repo-information-needed": "Vous avez besoin de plus d'informations sur ces dépôts ?<br/>Consultez le <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>Wiki de CrossWire</a>.",
     "click-to-show-detailed-module-info": "Cliquez sur un code du module (lien après le nom du module) pour afficher ici des informations détaillées sur le module.",
     "updating-repository-data": "Mise à jour des données du dépôt ! Cela prendra quelques secondes…",
@@ -66,7 +66,7 @@
     "it-takes-time-to-install-translation": "Notez qu'il faut un certain temps pour que chaque traduction soit téléchargée puis installée.",
     "it-takes-time-to-install-dictionary": "Notez qu'il faut un certain temps pour que chaque dictionnaire soit téléchargé puis installé.",
     "select-translations-to-be-removed": "Sélectionnez les traductions de la bible que vous souhaitez supprimer.<br/><br/>Les entrées désactivées de la liste sont des traductions non installées dans le répertoire des utilisateurs.",
-    "select-dictionaries-to-be-removed": "Sélectionnez les dictionnaires que vous souhaitez supprimer.<br/><br/>Les entrées désactivées de la liste sont des dictionnaires non installés dans le répertoire des utilisateurs ou des dictionnaires essentiels à la fonctionnalité du projet Ezra",
+    "select-dictionaries-to-be-removed": "Sélectionnez les dictionnaires que vous souhaitez supprimer.<br/><br/>Les entrées désactivées de la liste sont des dictionnaires non installés dans le répertoire des utilisateurs ou des dictionnaires essentiels à la fonctionnalité d'Ezra Bible App",
     "installing": "Installation",
     "downloading": "Téléchargement",
     "part-of-total": "de",
@@ -92,8 +92,8 @@
     "git-commit": "Git commit",
     "sword-version": "Version SWORD",
     "chromium-version": "Version Chromium",
-    "database-path": "Database path",
-    "config-file-path": "Configuration path",
+    "database-path": "Chemin de la base de données",
+    "config-file-path": "Chemin de configuration",
     "module-name": "Nom",
     "module-version": "Version",
     "module-language": "Langue",
@@ -120,7 +120,7 @@
     "rename": "Renommer",
     "loading": "Chargement en cours",
     "new-release-available-title": "Nouvelle version disponible !",
-    "new-release-available-body": "Une nouvelle version du projet Ezra est disponible !",
+    "new-release-available-body": "Une nouvelle version d'Ezra Bible App est disponible !",
     "latest-version": "Dernière version",
     "release-notes-download": "Notes de version & téléchargement",
     "no-repeated-info": "Ne plus afficher",
@@ -129,9 +129,9 @@
     "module-unlock-failed": "échec (problème de déverrouillage).",
     "installing-strongs": "Installation du <i>dictionnaire de Strong</i>",
     "applying-migrations": "Migration de la base de données vers la nouvelle version",
-    "developers": "Developers",
-    "translators": "Translators",
-    "versions-and-paths": "Versions and paths"
+    "developers": "Développeurs",
+    "translators": "Traducteurs",
+    "versions-and-paths": "Versions et chemins"
   },
   "help": {
     "help-text-no-tags-book-opened": "Pour commencer à utiliser les étiquettes, créez votre première étiquette en cliquant sur le bouton <i>Nouvelle étiquette</i>.<br/><br/>Ensuite, vous pouvez parcourir le texte biblique, cliquer ou faire glisser les versets, puis attribuer l'étiquette que vous venez de créer.",
@@ -158,7 +158,7 @@
     "tag-filter": "Filtre : ",
     "recently-used-filter": "Filtrer les étiquettes récemment utilisées",
     "assign-tag": "Étiquette attribuée",
-    "change-tags": "Change tags",
+    "change-tags": "Modifier les étiquettes",
     "delete-tag-permanently": "Supprimer définitivement cette étiquette",
     "none-selected": "Aucun",
     "rename-tag": "Renommer l'étiquette",
@@ -166,8 +166,8 @@
     "stats-used": "utilisée",
     "stats-total": "total",
     "only-currentbook-tagged-verses": "Seulement le livre actuel",
-    "most-frequently-used": "Most frequently used",
-    "less-frequently-used": "Less frequently used"
+    "most-frequently-used": "Le plus fréquemment utilisé",
+    "less-frequently-used": "Moins fréquemment utilisé"
   },
   "bible-browser": {
     "chapter": "Chapitre",
@@ -180,7 +180,7 @@
     "searching-for": "Recherche",
     "search-result-header": "Résultat des recherches pour ",
     "no-search-results": "Aucun résultat trouvé lors de la recherche de ",
-    "module-search-cancelled": "Module search cancelled when searching for ",
+    "module-search-cancelled": "Recherche de module annulée lors de la recherche de  ",
     "load-verse-context": "Charger le contexte de ce verset",
     "tag-hint": "Cliquez pour afficher tous les versets liés à cette étiquette",
     "show-search-results": "Afficher les résultats de recherche",
@@ -198,24 +198,24 @@
     "show-xrefs": "Montrer les références croisées",
     "show-footnotes": "Afficher les notes de bas de page",
     "show-dictionary": "Afficher le dictionnaire",
-    "show-book-chapter-navigation": "Show book/chapter navigation",
+    "show-book-chapter-navigation": "Afficher la navigation dans les livres / chapitres",
     "show-header-navigation": "Afficher la navigation des en-têtes",
     "open-verse-lists-in-new-tab": "Ouvrir les listes des versets dans un nouvel onglet",
-    "show-notes-tags-indicators": "Show notes/tags indicators",
+    "show-notes-tags-indicators": "Afficher les indicateurs de notes / étiquettes",
     "show-tags": "Montrer les étiquettes",
     "show-notes": "Montrer les notes",
     "limit-notes-display-size": "Limiter la taille des notes",
     "use-tags-column": "Utiliser des colonnes d'étiquettes",
     "use-night-mode": "Mode nuit",
-    "keep-screen-on": "Keep screen on",
+    "keep-screen-on": "Garder l'écran allumé",
     "tag-statistics": "Statistiques des étiquettes",
     "comparing-translations-for": "Comparaison des traductions pour",
     "strongs-number-not-valid": "Ceci n'est pas un nombre de Strong valide !",
     "open-new-tab": "Ouvrir un nouvel onglet",
     "open-verselist-in-new-tab": "Ouvrir la liste des versets dans un nouvel onglet",
     "footnote-character": "n",
-    "adjust-font-size-tags-notes": "Adjust tags & notes font size",
-    "new-note-hint": "Click to add a note"
+    "adjust-font-size-tags-notes": "Ajuster la taille de la police des étiquettes et des notes",
+    "new-note-hint": "Cliques pour ajouter une note"
   },
   "dictionary-info-box": {
     "greek-dict": "Dictionnaire grec",
@@ -227,11 +227,11 @@
     "related-strongs": "Strong associés"
   },
   "cordova" : {
-    "welcome-to-ezra-bible-app": "Welcome to Ezra Bible App!",
-    "storage-justification": "Ezra Bible App needs access to the device storage area to save SWORD modules and store its database.<br><br>After pressing the button below, you will be asked to allow Ezra Bible App to access files on your device.",
-    "enable-storage-access": "Enable access to device storage",
-    "storage-permission-denied": "You decided to deny storage access.<br>You can change this by pressing the button below!",
-    "permanent-permission-decision-part1": "Previously, you decided to permanently deny storage access!<br><br>You can only revert that decision in the permission settings in the Android system configuration.",
-    "permanent-permission-decision-part2": "If you do not change the permission settings,<br>Ezra Bible App will <span style='text-decoration: underline'>not start up successfully</span>."
+    "welcome-to-ezra-bible-app": "Bienvenue dans Ezra Bible App !",
+    "storage-justification": "Ezra Bible App a besoin d'accéder au stockage de l'appareil pour enregistrer les modules SWORD et stocker sa base de données. <br> <br> Après avoir appuyé sur le bouton ci-dessous, il vous sera demandé d'autoriser Ezra Bible App à accéder aux fichiers de votre appareil.",
+    "enable-storage-access": "Activer l'accès au stockage de l'appareil",
+    "storage-permission-denied": "Vous avez décidé de refuser l'accès au stockage. <br> Vous pouvez modifier cela en appuyant sur le bouton ci-dessous !",
+    "permanent-permission-decision-part1": "Auparavant, vous avez décidé de refuser définitivement l'accès au stockage! <br> <br> Vous ne pouvez annuler cette décision que dans les paramètres d'autorisation de la configuration du système d'Android",
+    "permanent-permission-decision-part2": "Si vous ne modifiez pas les paramètres d'autorisation, <br> Ezra Bible App <span style='text-decoration: underline'>ne démarrera pas avec succès</span>."
   }
 }
