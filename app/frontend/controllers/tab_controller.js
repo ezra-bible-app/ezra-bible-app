@@ -385,8 +385,13 @@ class TabController {
 
           if (metaTab.getTextType() != null) {
             var currentVerseList = app_controller.getCurrentVerseList(index);
+            var currentVerseListHeader = app_controller.getCurrentVerseListHeader(index);
+
             currentVerseList.hide();
+            currentVerseListHeader.hide();
+
             app_controller.showVerseListLoadingIndicator(index);
+            app_controller.verse_statistics_chart.resetChart(index);
           }
 
           this.lastSelectedTabIndex = index;
@@ -457,7 +462,7 @@ class TabController {
         var savedScrollTop = metaTab.getLocation();
 
         if (savedScrollTop != null) {
-          console.log("Setting location to " + savedScrollTop);
+          // console.log("Setting location to " + savedScrollTop);
           window.location = "#" + savedScrollTop;
         }
       }

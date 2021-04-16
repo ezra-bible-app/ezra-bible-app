@@ -533,6 +533,12 @@ class AppController {
     return verseList;
   }
 
+  getCurrentVerseListHeader(tabIndex=undefined) {
+    var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
+    var verseListHeader = currentVerseListFrame.find('.verse-list-header');
+    return verseListHeader;
+  }
+
   getCurrentVerseListLoadingIndicator(tabIndex=undefined) {
     var currentVerseListComposite = this.getCurrentVerseListComposite(tabIndex);
     var loadingIndicator = currentVerseListComposite.find('.verse-list-loading-indicator');
