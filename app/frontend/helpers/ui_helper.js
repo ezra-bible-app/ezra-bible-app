@@ -216,6 +216,66 @@ class UiHelper {
     var textLoadingIndicator = this.getCurrentTextLoadingIndicator(tabIndex);
     textLoadingIndicator.hide();
   }
+
+  getFirstVisibleVerseAnchor() {
+    var firstVisibleVerseAnchor = null;
+    console.time('firstElement');
+    var verseListFrame = app_controller.getCurrentVerseListFrame();
+
+    if (verseListFrame != null) {
+      var verseListFrameRect = verseListFrame[0].getBoundingClientRect();
+
+      var verseListFrameOffsetX = verseListFrameRect.x;
+      var verseListFrameOffsetY = verseListFrameRect.y;
+
+      var currentNavigationPane = app_controller.navigation_pane.getCurrentNavigationPane()[0];
+      var currentNavigationPaneWidth = currentNavigationPane.offsetWidth;
+
+      var firstElementOffsetX = verseListFrameOffsetX + currentNavigationPaneWidth + 15;
+      var firstElementOffsetY = verseListFrameOffsetY + 15;
+      
+      var firstElement = document.elementFromPoint(firstElementOffsetX, firstElementOffsetY);
+      var currentElement = firstElement;
+
+      if (currentElement.classList != null && currentElement.classList.contains('verse-list')) {
+        currentElement = document.elementFromPoint(firstElementOffsetX, firstElementOffsetY + 10);
+      }
+
+      if (currentElement.classList != null && currentElement.classList.contains('sword-section-title')) {
+        if (currentElement.previousElementSibling != null &&
+            currentElement.previousElementSibling.nodeName == 'A') {
+
+          currentElement = currentElement.previousElementSibling;
+        }
+      } else {      
+        for (var i = 0; i < 5; i++) {
+          if (currentElement.classList != null && currentElement.classList.contains('verse-box')) {
+            
+            if (currentElement.offsetHeight < 0 &&
+                currentElement.nextElementSibling != null &&
+                currentElement.nextElementSibling.classList != null &&
+                currentElement.nextElementSibling.classList.contains('verse-box')) {
+
+              currentElement = currentElement.nextElementSibling;
+            }
+
+            currentElement = currentElement.querySelector('a.nav');
+
+            break;
+          }
+
+          currentElement = currentElement.parentNode;
+        }
+      }
+
+      firstVisibleVerseAnchor = currentElement;
+    }
+
+
+    console.timeEnd('firstElement');
+
+    return firstVisibleVerseAnchor;
+  }
 }
 
 module.exports = UiHelper;
