@@ -434,10 +434,10 @@ class TabController {
 
   saveTabScrollPosition(tabIndex) {
     var metaTab = this.getTab(tabIndex);
-    var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+    var firstVerseListAnchor = uiHelper.getFirstVisibleVerseAnchor();
 
-    if (metaTab != null && verseListFrame != null) {
-      metaTab.setScrollTop(verseListFrame[0].scrollTop);
+    if (metaTab != null && firstVerseListAnchor != null) {
+      metaTab.setLocation(firstVerseListAnchor);
     }
   }
 
@@ -447,15 +447,19 @@ class TabController {
     }
   }
 
-  restoreScrollPosition(tabIndex, isStartup=false) {
+  restoreScrollPosition(tabIndex) {
     var metaTab = this.getTab(tabIndex);
 
     if (metaTab != null) {
       var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
 
       if (currentVerseListFrame != null) {
-        var savedScrollTop = metaTab.getScrollTop();
-        currentVerseListFrame[0].scrollTop = savedScrollTop;
+        var savedScrollTop = metaTab.getLocation();
+
+        if (savedScrollTop != null) {
+          console.log("Setting location to " + savedScrollTop);
+          window.location = "#" + savedScrollTop;
+        }
       }
     }
   }

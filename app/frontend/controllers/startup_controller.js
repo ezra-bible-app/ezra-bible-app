@@ -324,7 +324,7 @@ class StartupController
     await waitUntilIdle();
 
     // Restore the scroll position of the first tab.
-    app_controller.tab_controller.restoreScrollPosition(0, true);
+    app_controller.tab_controller.restoreScrollPosition(0);
 
     console.timeEnd("application-startup");
 
