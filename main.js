@@ -140,7 +140,7 @@ async function createWindow () {
                                     enableRemoteModule: true,
                                     defaultEncoding: "UTF-8"
                                   },
-                                  icon: path.join(__dirname, 'icons/ezra.png'),
+                                  icon: path.join(__dirname, `icons/${platformHelper.isWin() ? 'ezra.ico' : 'ezra.png'}`),
                                   backgroundColor: bgColor
                                  });
  
