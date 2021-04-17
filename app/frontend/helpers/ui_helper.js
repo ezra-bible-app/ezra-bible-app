@@ -227,11 +227,12 @@ class UiHelper {
       let currentNavigationPane = app_controller.navigation_pane.getCurrentNavigationPane()[0];
       let currentNavigationPaneWidth = currentNavigationPane.offsetWidth;
 
-      let firstElementOffsetX = verseListFrameRect.x + currentNavigationPaneWidth + 15;
-      let firstElementOffsetY = verseListFrameRect.y + 15;
+      // We need to a add a few pixels to the coordinates of the verseListFrame so that we actually hit an element within the verseListFrame
+      const VERSE_LIST_CHILD_ELEMENT_OFFSET = 15;
+      let firstElementOffsetX = verseListFrameRect.x + currentNavigationPaneWidth + VERSE_LIST_CHILD_ELEMENT_OFFSET;
+      let firstElementOffsetY = verseListFrameRect.y + VERSE_LIST_CHILD_ELEMENT_OFFSET;
       
-      let firstElement = document.elementFromPoint(firstElementOffsetX, firstElementOffsetY);
-      let currentElement = firstElement;
+      let currentElement = document.elementFromPoint(firstElementOffsetX, firstElementOffsetY);
 
       if (currentElement != null && currentElement.classList != null && currentElement.classList.contains('verse-list')) {
         // If the current element is the verse-list then we try once more 10 pixels lower.
