@@ -221,7 +221,7 @@ class UiHelper {
     var firstVisibleVerseAnchor = null;
     var verseListFrame = app_controller.getCurrentVerseListFrame();
 
-    if (verseListFrame != null) {
+    if (verseListFrame != null && verseListFrame.length > 0) {
       var verseListFrameRect = verseListFrame[0].getBoundingClientRect();
 
       var currentNavigationPane = app_controller.navigation_pane.getCurrentNavigationPane()[0];
@@ -232,6 +232,10 @@ class UiHelper {
       
       var firstElement = document.elementFromPoint(firstElementOffsetX, firstElementOffsetY);
       var currentElement = firstElement;
+
+      if (currentElement == null) {
+        return null;
+      }
 
       if (currentElement.classList != null && currentElement.classList.contains('verse-list')) {
         // If the current element is the verse-list then we try once more 10 pixels lower.
@@ -250,10 +254,10 @@ class UiHelper {
         }
       } else {
         // We are dealing with an element inside a verse-box
-        const MAX_ELEMENT_NEXTING = 7;
+        const MAX_ELEMENT_NESTING = 7;
 
         // Traverse up the DOM to find the verse-box
-        for (var i = 0; i < MAX_ELEMENT_NEXTING; i++) {
+        for (var i = 0; i < MAX_ELEMENT_NESTING; i++) {
           if (currentElement.classList != null && currentElement.classList.contains('verse-box')) {
 
             // We have gotten a verse-box ... now get the a.nav element inside it!

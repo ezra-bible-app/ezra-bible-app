@@ -205,7 +205,7 @@ class AppController {
 
     var metaTab = this.tab_controller.getTab(ui.index);
 
-    if (metaTab.selectCount >= 2) {
+    if (metaTab != null && metaTab.selectCount >= 2) {
       // Only perform the following actions from the 2nd select (The first is done when the tab is created)
 
       this.hideAllMenus();
