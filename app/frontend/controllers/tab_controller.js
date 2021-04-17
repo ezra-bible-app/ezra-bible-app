@@ -459,7 +459,7 @@ class TabController {
       var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
 
       if (currentVerseListFrame != null) {
-        var savedScrollTop = metaTab.getLocation();
+        const savedScrollTop = metaTab.getLocation();
 
         if (savedScrollTop != null) {
           // console.log("Setting location to " + savedScrollTop);
