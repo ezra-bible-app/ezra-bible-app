@@ -218,28 +218,28 @@ class UiHelper {
   }
 
   getFirstVisibleVerseAnchor() {
-    var firstVisibleVerseAnchor = null;
-    var verseListFrame = app_controller.getCurrentVerseListFrame();
+    let verseListFrame = app_controller.getCurrentVerseListFrame();
+    let firstVisibleVerseAnchor = null;
 
     if (verseListFrame != null && verseListFrame.length > 0) {
-      var verseListFrameRect = verseListFrame[0].getBoundingClientRect();
+      let verseListFrameRect = verseListFrame[0].getBoundingClientRect();
 
-      var currentNavigationPane = app_controller.navigation_pane.getCurrentNavigationPane()[0];
-      var currentNavigationPaneWidth = currentNavigationPane.offsetWidth;
+      let currentNavigationPane = app_controller.navigation_pane.getCurrentNavigationPane()[0];
+      let currentNavigationPaneWidth = currentNavigationPane.offsetWidth;
 
-      var firstElementOffsetX = verseListFrameRect.x + currentNavigationPaneWidth + 15;
-      var firstElementOffsetY = verseListFrameRect.y + 15;
+      let firstElementOffsetX = verseListFrameRect.x + currentNavigationPaneWidth + 15;
+      let firstElementOffsetY = verseListFrameRect.y + 15;
       
-      var firstElement = document.elementFromPoint(firstElementOffsetX, firstElementOffsetY);
-      var currentElement = firstElement;
+      let firstElement = document.elementFromPoint(firstElementOffsetX, firstElementOffsetY);
+      let currentElement = firstElement;
+
+      if (currentElement != null && currentElement.classList != null && currentElement.classList.contains('verse-list')) {
+        // If the current element is the verse-list then we try once more 10 pixels lower.
+        currentElement = document.elementFromPoint(firstElementOffsetX, firstElementOffsetY + 10);
+      }
 
       if (currentElement == null) {
         return null;
-      }
-
-      if (currentElement.classList != null && currentElement.classList.contains('verse-list')) {
-        // If the current element is the verse-list then we try once more 10 pixels lower.
-        currentElement = document.elementFromPoint(firstElementOffsetX, firstElementOffsetY + 10);
       }
 
       if (currentElement.classList != null && 
@@ -257,7 +257,7 @@ class UiHelper {
         const MAX_ELEMENT_NESTING = 7;
 
         // Traverse up the DOM to find the verse-box
-        for (var i = 0; i < MAX_ELEMENT_NESTING; i++) {
+        for (let i = 0; i < MAX_ELEMENT_NESTING; i++) {
           if (currentElement.classList != null && currentElement.classList.contains('verse-box')) {
 
             // We have gotten a verse-box ... now get the a.nav element inside it!
