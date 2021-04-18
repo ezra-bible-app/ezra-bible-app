@@ -16,6 +16,10 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+/**
+ * This class controls Electron platform specific functionality:
+ * - Full screen toggling and status checking
+ */
 class ElectronPlatform {
   constructor() {}
 
