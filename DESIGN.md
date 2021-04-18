@@ -45,7 +45,7 @@ erDiagram
     frontend                  }|--|{    backend                   : communicate-via-IPC
     frontend                  }|--|{    Startup                   : contains
     Startup                   }|--||    HTML-Component            : loads
-    Startup                   }|--|{    AppController             | initializes
+    Startup                   }|--|{    AppController             : initializes
     AppController             }|--||    Component-or-Controller   : initializes
     HTML-Component            }|--||    DOM                       : is-part-of
     Component-or-Controller   }|--|{    HTML-Component            : modifies
