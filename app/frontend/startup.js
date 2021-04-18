@@ -36,6 +36,7 @@ window.uiHelper = new UiHelper();
 /**
  * The Startup class has the purpose to start up the application.
  * The main entry point is the method `initApplication()`.
+ * @category Startup
  */
 class Startup
 {

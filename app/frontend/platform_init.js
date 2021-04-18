@@ -24,6 +24,7 @@
  * because on Android it needs to at least successfully run on older webview components to
  * show the respective info message. Once the compatibility checks are completed this script
  * then dynamically loads the module `ezra_init.js`.
+ * @category Startup
  */
 
 window.getChromiumVersion = function() {
