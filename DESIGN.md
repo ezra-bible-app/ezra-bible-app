@@ -43,9 +43,10 @@ To access SWORD modules, Ezra Bible App uses the [node-sword-interface](https://
 <div class="mermaid">
 erDiagram
     frontend                  }|--|{    backend                   : communicate-via-IPC
-    frontend                  }|--|{    ezra_init                 : contains
-    ezra_init                 }|--||    HTML-Component            : loads
-    ezra_init                 }|--||    Component-or-Controller   : initializes
+    frontend                  }|--|{    Startup                   : contains
+    Startup                   }|--||    HTML-Component            : loads
+    Startup                   }|--|{    AppController             | initializes
+    AppController             }|--||    Component-or-Controller   : initializes
     HTML-Component            }|--||    DOM                       : is-part-of
     Component-or-Controller   }|--|{    HTML-Component            : modifies
     Component-or-Controller   }|--|{    JS-Event                  : handles
