@@ -32,7 +32,7 @@ class NavigationPane {
     this.verseListFrameNoChapterNavCss = 'verse-list-frame-no-chapter-nav';
   }
 
-  getCurrentNavigationPane(tabIndex) {
+  getCurrentNavigationPane(tabIndex=undefined) {
     var currentVerseListTabs = app_controller.getCurrentVerseListTabs(tabIndex);
     var navigationPane = currentVerseListTabs.find('.navigation-pane');
     return navigationPane;

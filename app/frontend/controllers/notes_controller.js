@@ -337,6 +337,7 @@ class NotesController {
 
   _createEditor(notesElement) {
     var CodeMirror = getCodeMirror();
+    CodeMirror.commands.save = () => this.restoreCurrentlyEditedNotes();
 
     var notesElementText = notesElement.querySelector('.verse-notes-text');
     notesElementText.classList.add('edited');
@@ -355,7 +356,10 @@ class NotesController {
       lineWrapping: true,
       viewportMargin: Infinity,
       autofocus: true,
-      extraKeys: { "Enter": "newlineAndIndentContinueMarkdownList" },
+      extraKeys: { 
+        "Enter": "newlineAndIndentContinueMarkdownList",
+        "Ctrl-Enter": "save", "Cmd-Enter": () => "save", 
+      },
       theme: this.theme
     });
 
