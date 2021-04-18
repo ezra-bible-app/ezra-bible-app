@@ -17,13 +17,14 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 /**
- * @file This is the entry point to Ezra Bible App. The entry function is
+ * This is the entry point to Ezra Bible App. The entry function is
  * `initPlatform()`. The script runs some initial platform compatibility checks.
  * On Android it shows a message box if the used webview component is not supported.
  * Note that the code in this script cannot make use of any modern JavaScript features,
  * because on Android it needs to at least successfully run on older webview components to
  * show the respective info message. Once the compatibility checks are completed this script
  * then dynamically loads the module `ezra_init.js`.
+ * @typedef platform_init
  * @category Startup
  */
 

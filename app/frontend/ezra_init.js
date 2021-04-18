@@ -17,8 +17,9 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 /**
- * @file This module is the second one loaded (after platform_init.js) and handles the app's `load` event.
+ * This module is the second one loaded (after platform_init.js) and handles the app's `load` event.
  * It then detects whether we are running on Electron or Cordova and initiates the corresponding startup logic.
+ * @typedef ezra_init
  * @category Startup 
  */
 
