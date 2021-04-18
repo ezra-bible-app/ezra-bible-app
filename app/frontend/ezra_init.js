@@ -20,18 +20,18 @@ window.app = null;
 
 // Platform Helper
 var PlatformHelper = null;
-var StartupController = null;
+var Startup = null;
 
 if (isDev) {
   PlatformHelper = require('./app/lib/platform_helper.js');
-  StartupController = require('./app/frontend/controllers/startup_controller.js');
+  Startup = require('./app/frontend/controllers/startup.js');
 } else {
   PlatformHelper = require('../lib/platform_helper.js');
-  StartupController = require('./controllers/startup_controller.js');
+  Startup = require('./controllers/startup.js');
 }
 
 window.platformHelper = new PlatformHelper();
-window.startup_controller = new StartupController();
+window.startup = new Startup();
 window.cordovaPlatform = null;
 window.electronPlatform = null;
 
@@ -104,12 +104,12 @@ window.addEventListener('load', function() {
     electronPlatform = new ElectronPlatform();
 
     console.log("Initializing app on Electron platform ...");
-    startup_controller.initApplication();
+    startup.initApplication();
 
   } else {
 
     console.error("FATAL: Unknown platform");
-    startup_controller.initApplication();
+    startup.initApplication();
   }
 });
 

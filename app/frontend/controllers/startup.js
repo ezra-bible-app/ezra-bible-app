@@ -33,7 +33,7 @@ const IpcSettings = require('../ipc/ipc_settings.js');
 const UiHelper = require('../helpers/ui_helper.js');
 window.uiHelper = new UiHelper();
 
-class StartupController
+class Startup
 {
   constructor() {
     this._platformHelper = new PlatformHelper();
@@ -339,4 +339,4 @@ class StartupController
   }
 }
 
-module.exports = StartupController;
+module.exports = Startup;
