@@ -24,10 +24,10 @@ var Startup = null;
 
 if (isDev) {
   PlatformHelper = require('./app/lib/platform_helper.js');
-  Startup = require('./app/frontend/controllers/startup.js');
+  Startup = require('./app/frontend/startup.js');
 } else {
   PlatformHelper = require('../lib/platform_helper.js');
-  Startup = require('./controllers/startup.js');
+  Startup = require('./startup.js');
 }
 
 window.platformHelper = new PlatformHelper();
