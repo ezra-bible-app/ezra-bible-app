@@ -259,6 +259,10 @@ class UiHelper {
 
         // Traverse up the DOM to find the verse-box
         for (let i = 0; i < MAX_ELEMENT_NESTING; i++) {
+          if (currentElement == null) {
+            break;
+          }
+
           if (currentElement.classList != null && currentElement.classList.contains('verse-box')) {
 
             // We have gotten a verse-box ... now get the a.nav element inside it!
@@ -274,7 +278,7 @@ class UiHelper {
         }
       }
 
-      if (currentElement.nodeName == 'A') {
+      if (currentElement != null && currentElement.nodeName == 'A') {
         firstVisibleVerseAnchor = currentElement.name;
       }
     }
