@@ -386,9 +386,11 @@ class TabController {
           if (metaTab.getTextType() != null) {
             var currentVerseList = app_controller.getCurrentVerseList(index);
             var currentVerseListHeader = app_controller.getCurrentVerseListHeader(index);
+            var currentReferenceVerse = app_controller.getCurrentReferenceVerse(index);
 
             currentVerseList.hide();
             currentVerseListHeader.hide();
+            currentReferenceVerse.hide();
 
             app_controller.showVerseListLoadingIndicator(index);
             app_controller.verse_statistics_chart.resetChart(index);
@@ -410,7 +412,14 @@ class TabController {
 
               var index = this.getCorrectedIndex(ui);
               var currentVerseList = app_controller.getCurrentVerseList(index);
+              var currentVerseListHeader = app_controller.getCurrentVerseListHeader(index);
+              var currentReferenceVerse = app_controller.getCurrentReferenceVerse(index);
+
               currentVerseList.show();
+              currentVerseListHeader.show();
+              currentReferenceVerse.show();
+
+              await app_controller.verse_statistics_chart.repaintChart(index);
 
               app_controller.hideVerseListLoadingIndicator(index);
               this.restoreScrollPosition(index);
@@ -441,8 +450,12 @@ class TabController {
     var metaTab = this.getTab(tabIndex);
     var firstVerseListAnchor = uiHelper.getFirstVisibleVerseAnchor();
 
-    if (metaTab != null && firstVerseListAnchor != null) {
-      metaTab.setLocation(firstVerseListAnchor);
+    if (metaTab != null) {
+      if (firstVerseListAnchor != null) {
+        metaTab.setLocation(firstVerseListAnchor);
+      } else {
+        metaTab.setLocation("top");
+      }
     }
   }
 
