@@ -15,7 +15,7 @@ All notable changes to Ezra Bible App are documented in this file.
 * Introduced productName field in package.json and add migration script to handle this change. ([#84][i84])
 * Improved tab switching and layout performance. ([#99][i99])
 * Added possibility to terminate module search. ([#161][i161])
-* Integrate information "About Ezra Project" in Info Dialog. ([#173][i173])
+* Integrate information "About Ezra Bible App" in Info Dialog. ([#173][i173])
 * Android: Support SWORD internationalization. ([#177][i177])
 * Added option to toggle note/tag indicators displayed to the left of the verse references. ([#186][i186])
 * Added option to toggle chapter/header navigation. ([#188][i188])
