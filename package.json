@@ -1,7 +1,7 @@
 {
   "name": "ezra-bible-app",
   "productName": "Ezra Bible App",
-  "version": "0.18.0-Dev",
+  "version": "1.0.0",
   "description": "Ezra Bible App is a Bible study tool focussing on topical study based on keywords/tags",
   "author": "Tobias Klein",
   "license": "GPL-2.0+",
@@ -32,7 +32,7 @@
     "package-mac": "./build_scripts/macos/package_mac.sh",
     "sign-mac": "./build_scripts/macos/sign_mac.sh",
     "notarize-mac": "./build_scripts/macos/notarize_mac.sh",
-    "dmg-mac": "electron-installer-dmg release/ezra-bible-app-darwin-x64/ezra-bible-app.app \"Ezra Bible App\" --out=release --overwrite --icon=icons/ezra.icns",
+    "dmg-mac": "electron-installer-dmg \"release/Ezra Bible App-darwin-x64/Ezra Bible App.app\" \"Ezra Bible App\" --out=release --overwrite --icon=icons/ezra.icns",
     "show-mac-ids": "security find-identity -v -p codesigning",
     "fix-binary-timestamps": "powershell build_scripts\\win32\\fix_binary_timestamps.ps1",
     "installer-win": "node_modules\\.bin\\electron-installer-windows --src \"release\\Ezra Bible App-win32-ia32\" --dest release\\packages --config package_config\\win_installer_config.json",

@@ -15,6 +15,7 @@ Furthermore, the following components are used (among others):
 * [SpinKit](https://github.com/tobiasahlin/SpinKit) for CSS-animated loading spinners
 * [I18next](https://www.i18next.com/) for internationalization
 * [browserify](http://browserify.org/) for minifying the JavaScript code
+* [fontawesome](https://fontawesome.com/) for the icon set
 
 To test Ezra Bible App, the following components are used:
 * [Cucumber.js](https://github.com/cucumber/cucumber-js)

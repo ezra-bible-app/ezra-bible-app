@@ -6,7 +6,7 @@
     "configure-translations": "Vertalingen configureren",
     "configure-dicts": "Woordenboeken configureren",
     "show-parallel-translations": "Vertalingen vergelijken",
-    "compare": "Compare",
+    "compare": "Vergelijken",
     "context": "Context"
   },
   "menu": {
@@ -17,11 +17,11 @@
     "export": "Exporteren naar tekstdocument",
     "show-module-info": "Toon module-info",
     "fullscreen": "Volledig-beeldmodus omschakelen",
-    "exit-fullscreen": "Exit full screen mode",
-    "text-size": "Adjust verse font size",
-    "text-size-decrease": "Decrease current font size",
-    "text-size-reset": "Reset font size to default",
-    "text-size-increase": "Increase current font size"
+    "exit-fullscreen": "Volledig-beeldmodus uitzetten",
+    "text-size": "pas vers-lettergrootte aan",
+    "text-size-decrease": "Verklein huidige lettergrootte",
+    "text-size-reset": "Reset lettergrootte naar standaardwaarde",
+    "text-size-increase": "Vergroot huidige lettergrootte"
   },
   "search-menu": {
     "search": "Zoeken",
@@ -82,7 +82,7 @@
   },
   "general": {
     "chapter-verse-separator": ":",
-    "module-application-info": "Module- and applicatie-info",
+    "module-application-info": "Module- en applicatie-info",
     "application-info": "Applicatie-info",
     "sword-module-description": "SWORD-module-beschrijving",
     "sword-module-details": "SWORD-module-details",
@@ -92,8 +92,8 @@
     "git-commit": "Git commit",
     "sword-version": "SWORD-versie",
     "chromium-version": "Chromiumversie",
-    "database-path": "Database path",
-    "config-file-path": "Configuration path",
+    "database-path": "Pad van databank",
+    "config-file-path": "Pad van configuratie",
     "module-name": "Naam",
     "module-version": "Versie",
     "module-language": "Taal",
@@ -129,9 +129,9 @@
     "module-unlock-failed": "gefaald (Ontgrendelingsfout).",
     "installing-strongs": "<i>Strongs woordenboeken</i> installeren",
     "applying-migrations": "Databank migreren naar nieuwe versie",
-    "developers": "Developers",
-    "translators": "Translators",
-    "versions-and-paths": "Versions and paths"
+    "developers": "Ontwikkelaars",
+    "translators": "Vertalers",
+    "versions-and-paths": "Versies en paden"
   },
   "help": {
     "help-text-no-tags-book-opened": "Om te beginnen met tags te werken, maak uw eerste tag door te klikken op de knop  <i>Nieuwe&nbsp;tag</i>.<br/><br/>Daarna kunt u door de bijbeltekst bladeren, verzen aanklikken of slepen-selecteren en vervolgens de tag toewijzen die u zojuist hebt gemaakt.",
@@ -158,7 +158,7 @@
     "tag-filter": "Filter: ",
     "recently-used-filter": "Alleen recent gebruikte tags",
     "assign-tag": "Wijs tag toe",
-    "change-tags": "Change tags",
+    "change-tags": "Tags aanpassen",
     "delete-tag-permanently": "Deze tag permanent verwijderen",
     "none-selected": "Geen",
     "rename-tag": "Hernoem tag",
@@ -166,12 +166,12 @@
     "stats-used": "gebruikt",
     "stats-total": "totaal",
     "only-currentbook-tagged-verses": "Alleen huidig boek",
-    "most-frequently-used": "Most frequently used",
-    "less-frequently-used": "Less frequently used"
+    "most-frequently-used": "Frequentst gebruikt",
+    "less-frequently-used": "Minder frequent gebruikt"
   },
   "bible-browser": {
     "chapter": "Hoofdstuk",
-    "chapter-header": "Chpt.",
+    "chapter-header": "Hfdst.",
     "psalm": "Psalm",
     "selection": "Selectie: ",
     "loading-bible-text": "Bijbeltekst laden",
@@ -180,7 +180,7 @@
     "searching-for": "Zoeken naar",
     "search-result-header": "Zoekresultaten voor ",
     "no-search-results": "Geen resultaten gevonden tijdens het zoeken naar ",
-    "module-search-cancelled": "Module search cancelled when searching for ",
+    "module-search-cancelled": "Module zoeken geannuleerd tijdens het zoeken naar  ",
     "load-verse-context": "Laad de context van dit vers",
     "tag-hint": "Klik om alle verzen met deze tag te tonen",
     "show-search-results": "Toon zoekresultaten",
@@ -198,24 +198,24 @@
     "show-xrefs": "Toon kruisverwijzingen",
     "show-footnotes": "Toon voetnoten",
     "show-dictionary": "Toon woordenboek",
-    "show-book-chapter-navigation": "Show book/chapter navigation",
+    "show-book-chapter-navigation": "Toon boek/hoofdstuk-navigatie",
     "show-header-navigation": "Toon hoofdingnavigatie",
     "open-verse-lists-in-new-tab": "Open verslijsten in nieuw tablad",
-    "show-notes-tags-indicators": "Show notes/tags indicators",
+    "show-notes-tags-indicators": "Toon indicatoren voor notities/tags",
     "show-tags": "Toon tags",
     "show-notes": "Toon aantekeningen",
     "limit-notes-display-size": "Beperk grootte van aantekeningen",
     "use-tags-column": "Gebruik tags-kolom",
     "use-night-mode": "Nachtmodus",
-    "keep-screen-on": "Keep screen on",
+    "keep-screen-on": "Houd het beeldscherm ingeschakeld",
     "tag-statistics": "Tagstatistieken",
     "comparing-translations-for": "Vertalingen vergelijken voor",
     "strongs-number-not-valid": "Dit is geen geldig Strongs nummer!",
     "open-new-tab": "Openen in nieuw tabblad",
     "open-verselist-in-new-tab": "Open verslijst in nieuw tabblad",
     "footnote-character": "n",
-    "adjust-font-size-tags-notes": "Adjust tags & notes font size",
-    "new-note-hint": "Click to add a note"
+    "adjust-font-size-tags-notes": "Pas de lettergrootte van tags en notities aan",
+    "new-note-hint": "Klik om een notitie toe te voegen"
   },
   "dictionary-info-box": {
     "greek-dict": "Grieks woordenboek",
@@ -227,11 +227,11 @@
     "related-strongs": "Gerelateerde Strongs"
   },
   "cordova" : {
-    "welcome-to-ezra-bible-app": "Welcome to Ezra Bible App!",
-    "storage-justification": "Ezra Bible App needs access to the device storage area to save SWORD modules and store its database.<br><br>After pressing the button below, you will be asked to allow Ezra Bible App to access files on your device.",
-    "enable-storage-access": "Enable access to device storage",
-    "storage-permission-denied": "You decided to deny storage access.<br>You can change this by pressing the button below!",
-    "permanent-permission-decision-part1": "Previously, you decided to permanently deny storage access!<br><br>You can only revert that decision in the permission settings in the Android system configuration.",
-    "permanent-permission-decision-part2": "If you do not change the permission settings,<br>Ezra Bible App will <span style='text-decoration: underline'>not start up successfully</span>."
+    "welcome-to-ezra-bible-app": "Welkom bij Ezra Bible App!",
+    "storage-justification": "Ezra Bible App heeft toegang nodig tot de apparaatopslag om SWORD-modules te bewaren en de databank op te slaan. <br> <br> Nadat je op de onderstaande knop hebt gedrukt, wordt je gevraagd om Ezra Bible App toegang te geven tot bestanden op je apparaat.",
+    "enable-storage-access": "Schakel toegang tot apparaatopslag in",
+    "storage-permission-denied": "U heeft besloten de opslagtoegang te weigeren. <br> U kunt dit wijzigen door op de onderstaande knop te drukken!",
+    "permanent-permission-decision-part1": "Eerder besloot u de opslagtoegang permanent te weigeren! <br> <br> U kunt die beslissing alleen ongedaan maken in de toestemmingsinstellingen in de Android-systeemconfiguratie.",
+    "permanent-permission-decision-part2": "Als je de toestemmingsinstellingen niet wijzigt, <br> Ezra Bible App zal <span style = 'text-decoration: underline'>niet succesvol opstarten</span>."
   }
 }

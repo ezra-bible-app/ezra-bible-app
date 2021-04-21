@@ -36,6 +36,7 @@ class TabController {
     this.nextTabId = 2;
     this.metaTabs = [];
     this.loadingCompleted = false;
+    this.lastSelectedTabIndex = null;
   }
 
   init(tabsElement, tabsPanelClass, addTabElement, settings, tabHtmlTemplate, onTabSelected, onTabAdded, defaultBibleTranslationId) {
@@ -73,6 +74,8 @@ class TabController {
     exitContext.addEventListener(exitEvent, async () => {
       console.log('Persisting data!');
 
+      this.lastSelectedTabIndex = this.getSelectedTabIndex();
+      this.savePreviousTabScrollPosition();
       await this.saveTabConfiguration();
       await this.saveBookSelectionMenu();
       await this.saveLastUsedVersionAndLanguage();
@@ -195,7 +198,7 @@ class TabController {
         this.metaTabs[0] = currentMetaTab;
         this.updateFirstTabCloseButton();
       } else {
-        this.addTab(currentMetaTab);
+        this.addTab(currentMetaTab, false);
       }
 
       var tabTitle = currentMetaTab.getTitle();
@@ -376,12 +379,24 @@ class TabController {
           
           var index = this.getCorrectedIndex(ui);
 
-          if (metaTab.getTextType() != null) {
-            var currentVerseList = app_controller.getCurrentVerseList(index);
-            currentVerseList.hide();
-            app_controller.showVerseListLoadingIndicator(index);
+          if (metaTab.selectCount > 1) {
+            this.savePreviousTabScrollPosition();
           }
 
+          if (metaTab.getTextType() != null) {
+            var currentVerseList = app_controller.getCurrentVerseList(index);
+            var currentVerseListHeader = app_controller.getCurrentVerseListHeader(index);
+            var currentReferenceVerse = app_controller.getCurrentReferenceVerse(index);
+
+            currentVerseList.hide();
+            currentVerseListHeader.hide();
+            currentReferenceVerse.hide();
+
+            app_controller.showVerseListLoadingIndicator(index);
+            app_controller.verse_statistics_chart.resetChart(index);
+          }
+
+          this.lastSelectedTabIndex = index;
           this.onTabSelected(event, ui);
         }
       },
@@ -397,8 +412,17 @@ class TabController {
 
               var index = this.getCorrectedIndex(ui);
               var currentVerseList = app_controller.getCurrentVerseList(index);
+              var currentVerseListHeader = app_controller.getCurrentVerseListHeader(index);
+              var currentReferenceVerse = app_controller.getCurrentReferenceVerse(index);
+
               currentVerseList.show();
+              currentVerseListHeader.show();
+              currentReferenceVerse.show();
+
+              await app_controller.verse_statistics_chart.repaintChart(index);
+
               app_controller.hideVerseListLoadingIndicator(index);
+              this.restoreScrollPosition(index);
             }
           }
         })();
@@ -420,6 +444,42 @@ class TabController {
     });
 
     uiHelper.configureButtonStyles('.ui-tabs-nav');
+  }
+
+  saveTabScrollPosition(tabIndex) {
+    var metaTab = this.getTab(tabIndex);
+    var firstVerseListAnchor = uiHelper.getFirstVisibleVerseAnchor();
+
+    if (metaTab != null) {
+      if (firstVerseListAnchor != null) {
+        metaTab.setLocation(firstVerseListAnchor);
+      } else {
+        metaTab.setLocation("top");
+      }
+    }
+  }
+
+  savePreviousTabScrollPosition() {
+    if (this.lastSelectedTabIndex != null) {
+      this.saveTabScrollPosition(this.lastSelectedTabIndex);
+    }
+  }
+
+  restoreScrollPosition(tabIndex) {
+    var metaTab = this.getTab(tabIndex);
+
+    if (metaTab != null) {
+      var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+
+      if (currentVerseListFrame != null) {
+        const savedScrollTop = metaTab.getLocation();
+
+        if (savedScrollTop != null) {
+          // console.log("Setting location to " + savedScrollTop);
+          window.location = "#" + savedScrollTop;
+        }
+      }
+    }
   }
 
   getSelectedTabIndex() {
@@ -467,7 +527,10 @@ class TabController {
     this.tabs.find(".ui-tabs-nav").append(li);
     this.tabs.append("<div id='" + metaTab.elementId + "' class='" + this.tabsPanelClass + "'>" + this.tabHtmlTemplate + "</div>");
 
-    var selectedTabIndex = this.getSelectedTabIndex();
+    if (interactive) {
+      this.lastSelectedTabIndex = this.getSelectedTabIndex();
+      this.savePreviousTabScrollPosition();
+    }
 
     this.reloadTabs();
     if (!initialLoading) {
@@ -480,7 +543,7 @@ class TabController {
     this.updateFirstTabCloseButton();
 
     if (!initialLoading) {
-      this.onTabAdded(selectedTabIndex, this.tabCounter - 1);
+      this.onTabAdded(this.lastSelectedTabIndex, this.tabCounter - 1);
     }
   }
 

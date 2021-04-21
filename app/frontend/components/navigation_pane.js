@@ -32,7 +32,7 @@ class NavigationPane {
     this.verseListFrameNoChapterNavCss = 'verse-list-frame-no-chapter-nav';
   }
 
-  getCurrentNavigationPane(tabIndex) {
+  getCurrentNavigationPane(tabIndex=undefined) {
     var currentVerseListTabs = app_controller.getCurrentVerseListTabs(tabIndex);
     var navigationPane = currentVerseListTabs.find('.navigation-pane');
     return navigationPane;
@@ -199,8 +199,18 @@ class NavigationPane {
   async updateChapterNavigation(tabIndex) {
     var navigationPane = this.getCurrentNavigationPane(tabIndex);
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
+
+    if (currentTab == null) {
+      return;
+    }
+
     var currentTranslation = currentTab.getBibleTranslationId();
     var currentBook = currentTab.getBook();
+
+    if (currentTranslation == null || currentBook == null) {
+      return;
+    }
+
     var chapterCount = await ipcNsi.getBookChapterCount(currentTranslation, currentBook);
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
 

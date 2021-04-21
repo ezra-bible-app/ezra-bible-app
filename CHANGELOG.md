@@ -1,14 +1,79 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+### [1.0.0 - 2021-04-24]
+
+### Features
+
+* Added menu to adjust font-size for bible text. ([#42][i42])
+
+### Enhancements
+
+* New app logo/icon. ([#214][i214])
+* Added icons to improve UI. ([#61][i61])
+* Show verse notes in hint/popup when hovering over note indicator and open editor when clicking on it. ([#76][i76])
+* Introduced productName field in package.json and add migration script to handle this change. ([#84][i84])
+* Improved tab switching and layout performance. ([#99][i99])
+* Added possibility to terminate module search. ([#161][i161])
+* Integrate information "About Ezra Bible App" in Info Dialog. ([#173][i173])
+* Android: Support SWORD internationalization. ([#177][i177])
+* Added option to toggle note/tag indicators displayed to the left of the verse references. ([#186][i186])
+* Added option to toggle chapter/header navigation. ([#188][i188])
+* Added button for loading verse context. ([#189][i189])
+* Show verse occurrences chart also for tagged verse list. ([#190][i190])
+* Android: Increase size of buttons for closing tabs. ([#191][i191])
+* Show header with number of tagged verses above tagged verse list (similar to search result list). ([#192][i192])
+* Use module-language based reference separator for rendering verse references. ([#194][i194])
+* Improved Tag Statistics - Differentiate most frequently used vs. less frequently used. ([#210][i210])
+* Restore previous scroll position of tabs when returning to them. ([#222][i222])
+* Save note by CTRL/CMD + Enter. ([#216][i216])
+
+### Fixes
+
+* Fixed bug: Assign last tag button not updated with newly created tag any longer. ([#207][i207])
+* Improved perceived loading performance of Tags menu and Change tags menu with a large tag database. ([#209][i209])
+* Re-established execution of Cucumber acceptance tests via GitHub Actions. ([#213](i213))
+
+### Enablers
+
+* Change of product name and domain (Ezra Bible App / ezrabibleapp.net). ([#171][i171])
+* Added Russian translation. ([#204][i204])
+* Added Ukrainian translation. ([#205][i205]) 
+
+[i42]: https://github.com/ezra-project/ezra-project/issues/42
+[i61]: https://github.com/ezra-project/ezra-project/issues/61
+[i76]: https://github.com/ezra-project/ezra-project/issues/76
+[i84]: https://github.com/ezra-project/ezra-project/issues/84
+[i99]: https://github.com/ezra-project/ezra-project/issues/99
+[i161]: https://github.com/ezra-project/ezra-project/issues/161
+[i171]: https://github.com/ezra-project/ezra-project/issues/171
+[i173]: https://github.com/ezra-project/ezra-project/issues/173
+[i177]: https://github.com/ezra-project/ezra-project/issues/177
+[i186]: https://github.com/ezra-project/ezra-project/issues/186
+[i188]: https://github.com/ezra-project/ezra-project/issues/188
+[i189]: https://github.com/ezra-project/ezra-project/issues/189
+[i190]: https://github.com/ezra-project/ezra-project/issues/190
+[i191]: https://github.com/ezra-project/ezra-project/issues/191
+[i192]: https://github.com/ezra-project/ezra-project/issues/192
+[i194]: https://github.com/ezra-project/ezra-project/issues/194
+[i210]: https://github.com/ezra-project/ezra-project/issues/210
+[i207]: https://github.com/ezra-project/ezra-project/issues/207
+[i209]: https://github.com/ezra-project/ezra-project/issues/209
+[i213]: https://github.com/ezra-project/ezra-project/issues/213
+[i204]: https://github.com/ezra-project/ezra-project/issues/204
+[i205]: https://github.com/ezra-project/ezra-project/issues/205
+[i214]: https://github.com/ezra-project/ezra-project/issues/214
+[i216]: https://github.com/ezra-project/ezra-project/issues/216
+[i222]: https://github.com/ezra-project/ezra-project/issues/222
+
 ### [0.17.1 - 2021-02-21]
 
 This is a bugfix release only applicable for macOS and Android.
 
 ### Fixes
 
-* Fixed bug on Android: Module install assistant times out when retrieving repository languages. ([#184](i184))
-* Fixed bug on macOS: Could not re-activate window after closing it once. ([#183](i183))
+* Fixed bug on Android: Module install assistant times out when retrieving repository languages. ([#184][i184])
+* Fixed bug on macOS: Could not re-activate window after closing it once. ([#183][i183])
 
 [i183]: https://github.com/ezra-project/ezra-project/issues/183
 [i184]: https://github.com/ezra-project/ezra-project/issues/184
@@ -17,28 +82,28 @@ This is a bugfix release only applicable for macOS and Android.
 
 ### Features
 
-* Android tablet support. ([#150](i150))
-* Android: Add an option to keep the screen awake. ([#160](i160))
-* Android: Gracefully handle situation when user denies the app to write on storage. ([#170](i170))
-* Android: Support 7" tablet screen size. ([#174](i174))
+* Android tablet support. ([#150][i150])
+* Android: Add an option to keep the screen awake. ([#160][i160])
+* Android: Gracefully handle situation when user denies the app to write on storage. ([#170][i170])
+* Android: Support 7" tablet screen size. ([#174][i174])
 
 ### Enhancements
 
-* Add option to open verse lists in new tab directly (tagged verse lists, xrefs). ([#176](i176))
-* Directly select whole input text when clicking on tag filter. ([#164](i164))
-* Integrate information "About Ezra Bible App" in Info Dialog. ([#163](i163))
+* Add option to open verse lists in new tab directly (tagged verse lists, xrefs). ([#176][i176])
+* Directly select whole input text when clicking on tag filter. ([#164][i164])
+* Integrate information "About Ezra Bible App" in Info Dialog. ([#163][i163])
 
 ### Fixes
 
-* Application did not work with non-ascii user directories on Windows. ([#172](i172))
-* Fixed bug: Could not install certain modules where the module id is not located in the first line of the *.conf file. ([#179](i179))
+* Application did not work with non-ascii user directories on Windows. ([#172][i172])
+* Fixed bug: Could not install certain modules where the module id is not located in the first line of the *.conf file. ([#179][i179])
 
 ### Enablers
 
-* Bundle JS files to further optimize startup performance and enable Cordova integration. ([#97](i97))
-* Move all backend code to separate process. ([#158](i158))
-* Move to Node.js based settings store. ([#159](i159))
-* Android: Stop startup with info message if system webview is too old / not supported. ([#175](i175))
+* Bundle JS files to further optimize startup performance and enable Cordova integration. ([#97][i97])
+* Move all backend code to separate process. ([#158][i158])
+* Move to Node.js based settings store. ([#159][i159])
+* Android: Stop startup with info message if system webview is too old / not supported. ([#175][i175])
 
 [i97]: https://github.com/ezra-project/ezra-project/issues/97
 [i150]: https://github.com/ezra-project/ezra-project/issues/150
@@ -59,34 +124,34 @@ This is a bugfix release only applicable for macOS and Android.
 
 ### Features
 
-* Added option to augment book chapter navigation with section headers. ([#135](i135))
+* Added option to augment book chapter navigation with section headers. ([#135][i135])
 
 ### Enhancements
 
-* Sort translations in translations menu by module description instead of module code. ([#147](i147))
-* Sort entries of compare translations dialog by module description instead of module code. ([#129](i129))
-* Added possibility to cancel installation of modules. ([#109](i109))
-* Reduced width of compare translations dialogue + Bible translation info box to fit it on smaller screens as well. ([#130](i130))
-* Also store newly created tag as the last used tag, so that it is immediately available in the tagging button. ([#131](i131))
-* Added filter options to tag assignment drop-down menu. ([#116](i116))
-* Added button for fullscreen mode. ([#134](i134))
-* Added a button for selecting all module search results for quick tagging. ([#132](i132))
+* Sort translations in translations menu by module description instead of module code. ([#147][i147])
+* Sort entries of compare translations dialog by module description instead of module code. ([#129][i129])
+* Added possibility to cancel installation of modules. ([#109][i109])
+* Reduced width of compare translations dialogue + Bible translation info box to fit it on smaller screens as well. ([#130][i130])
+* Also store newly created tag as the last used tag, so that it is immediately available in the tagging button. ([#131][i131])
+* Added filter options to tag assignment drop-down menu. ([#116][i116])
+* Added button for fullscreen mode. ([#134][i134])
+* Added a button for selecting all module search results for quick tagging. ([#132][i132])
 * Improved bible text loading performance.
 * Improved startup performance.
 
 ### Fixes
 
-* Fixed parsing of section headers of ISV module. ([#146](i146))
-* Fixed footnote rendering in ASV module. ([#113](i113))
-* Fixed visualization of chapter headers for KJV. ([#141](i141))
-* Fixed bug in module search: No progress bar was shown when switching translation on existing search results. ([#133](i133))
+* Fixed parsing of section headers of ISV module. ([#146][i146])
+* Fixed footnote rendering in ASV module. ([#113][i113])
+* Fixed visualization of chapter headers for KJV. ([#141][i141])
+* Fixed bug in module search: No progress bar was shown when switching translation on existing search results. ([#133][i133])
 
 ### Enablers
-* Added Slovakian translation (Thanks to [MartinIIOT](https://github.com/MartinIIOT)). ([#128](i128))
-* Added Spanish translation (Thanks to [reyespinosa1996](https://github.com/reyespinosa1996) and [Rodolinux](https://github.com/Rodolinux)). ([#144](i144))
-* Added OpenSuse rpm package generation. ([#142](i142))
-* Added Fedora 33 package generation. ([#143](i143))
-* Added hint about Microsoft Visual C++ 2015 Redistributable dependency when starting up on Windows < 10. ([#136](i136))
+* Added Slovakian translation (Thanks to [MartinIIOT](https://github.com/MartinIIOT]). ([#128][i128])
+* Added Spanish translation (Thanks to [reyespinosa1996](https://github.com/reyespinosa1996) and [Rodolinux](https://github.com/Rodolinux)). ([#144][i144])
+* Added OpenSuse rpm package generation. ([#142][i142])
+* Added Fedora 33 package generation. ([#143][i143])
+* Added hint about Microsoft Visual C++ 2015 Redistributable dependency when starting up on Windows < 10. ([#136][i136])
 
 [i109]: https://github.com/ezra-project/ezra-project/issues/109
 [i113]: https://github.com/ezra-project/ezra-project/issues/113
@@ -110,25 +175,25 @@ This is a bugfix release only applicable for macOS and Android.
 
 ### Features
 
-* Added support for book-level notes. ([#95](i95))
+* Added support for book-level notes. ([#95][i95])
 
 ### Enhancements
 
-* Changed layout of options menu to use two columns to enhance support for smaller screens. ([#120](i120))
-* Added a button for assigning the last used tag. ([#82](i82))
-* Added a header to the book navigation pane to enhance usability. ([#112](i112))
-* Added a configuration option to limit height of notes (with scrollbar). ([#114](i114))
-* Added a loading indicator to the translation comparison popup. ([#115](i115))
-* macOS: Automatic night mode is only used from *macOS Mojave* and later versions. This means that on earlier macOS versions like *High Sierra* or *Yosemite* the manual night mode will be available like on Linux and Windows. ([#124](i124))
+* Changed layout of options menu to use two columns to enhance support for smaller screens. ([#120][i120])
+* Added a button for assigning the last used tag. ([#82][i82])
+* Added a header to the book navigation pane to enhance usability. ([#112][i112])
+* Added a configuration option to limit height of notes (with scrollbar). ([#114][i114])
+* Added a loading indicator to the translation comparison popup. ([#115][i115])
+* macOS: Automatic night mode is only used from *macOS Mojave* and later versions. This means that on earlier macOS versions like *High Sierra* or *Yosemite* the manual night mode will be available like on Linux and Windows. ([#124][i124])
 
 ### Fixes
 
-* Fixed Crash on Windows related to std::mutex (API locking of node-sword-interface). ([#118](i118))
-* Fixed a build issue that prevented Ezra Bible App from working on older macOS 10.x versions. With this issue fixed, it now works from macOS 10.10 (*Yosemite*) and all other subsequent versions. ([#119](i119))
-* Fixed a bug where the book selection menu was still responding to clicks even though the buttons were disabled/greyed out. ([#111](i111))
-* Fixed a bug where Xref markers do not respond to clicks after tab search has been used. ([#122](i122))
-* Fixed a bug where tab search may not have jumped to the right verse when searching within module search results. ([#123](i123))
-* Do not allow a new search while a current search is still ongoing (disable search menu button during active search). ([#117](i117))
+* Fixed Crash on Windows related to std::mutex (API locking of node-sword-interface). ([#118][i118])
+* Fixed a build issue that prevented Ezra Bible App from working on older macOS 10.x versions. With this issue fixed, it now works from macOS 10.10 (*Yosemite*) and all other subsequent versions. ([#119][i119])
+* Fixed a bug where the book selection menu was still responding to clicks even though the buttons were disabled/greyed out. ([#111][i111])
+* Fixed a bug where Xref markers do not respond to clicks after tab search has been used. ([#122][i122])
+* Fixed a bug where tab search may not have jumped to the right verse when searching within module search results. ([#123][i123])
+* Do not allow a new search while a current search is still ongoing (disable search menu button during active search). ([#117][i117])
 
 ### Enablers
 
@@ -203,8 +268,8 @@ This is a bugfix release.
 ### Fixes
 
 * Fixed handling of Markdown links in notes. Instead of opening the notes editor now the links are properly opened in the default web browser as one would expect. ([#86][i86])
-* Fixed issue in module search - it was case-sensitive by default. Now it is case-insensitive again and the case-sensitive option can be selected by the user. ([#88](i88))
-* Fixed issue regarding tag statistics in tag list. These tag statistics were not properly updated in "other tabs" when assigning a tag in a search result list or tagged verse list. ([#91](i91))
+* Fixed issue in module search - it was case-sensitive by default. Now it is case-insensitive again and the case-sensitive option can be selected by the user. ([#88][i88])
+* Fixed issue regarding tag statistics in tag list. These tag statistics were not properly updated in "other tabs" when assigning a tag in a search result list or tagged verse list. ([#91][i91])
 * Fixed a layout issue for the tags boxes in the bible browser. This layout issue occurred after all tags where removed from a verse.
 * Fixed an issue in the translation install assistant that occurred when filtering on Strong's feature translations.
 * Fixed various minor issues related to loading previously selected tabs on startup.
@@ -242,7 +307,7 @@ This is a bugfix release.
 * Fixed regression bug related to creation of verse references in case of non-ENGLISH versification. ([#54][i54])
 * Fixed tab search (exact phrase search) to properly work with Strong's translations. ([#62][i62])
 * Fixed layout issues that occurred with the tabs & menu on a smaller screen. ([#44][i44])
-* Fixed verse select behavior in case of individual verse selection (using meta key/ctrl + click). ([#63][i63] and [#81](i81))
+* Fixed verse select behavior in case of individual verse selection (using meta key/ctrl + click). ([#63][i63] and [#81][i81])
 
 ### Enablers
 
@@ -318,7 +383,7 @@ This is a bugfix release.
 
 ### Enhancements
 
-* Load bible texts directly from SWORD modules (instead from the database) ([#28][i28])
+* Load bible texts directly from SWORD modules [instead from the database) ([#28][i28])
 * Enable section titles by default.
 * New context toolbar right above text browser. 
   This toolbar now holds all the buttons / menus relevant for working with the text.
@@ -345,7 +410,7 @@ This is a bugfix release.
 
 ### Enhancements
 
-* Support on-demand update of repository configuration (in Bible Install Assistant).
+* Support on-demand update of repository configuration [in Bible Install Assistant).
 * Use lightyellow bg color for tags in bible browser to make them more visible / easier to read.
 * Optimized performance of tag list filter function.
 
@@ -392,7 +457,7 @@ This is a bugfix release.
 ## [0.10.0] - 2019-10-15
 ### Features
 * Module search functionality (based on SWORD search function).
-* Added translation comparison function. The user can now quickly retrieve the selected verses in all the different available translations (in a popup).
+* Added translation comparison function. The user can now quickly retrieve the selected verses in all the different available translations [in a popup).
 * Added function "Recently used tags" to tags filter menu (filters the tag list to the last 10 used tags).
 * Added support for clipboard copy functionality: Now you can copy the currently selected verses to the system clipboard using ctrl + c.
 * German translation and handling of language-based chapter/verse separator for verse references.

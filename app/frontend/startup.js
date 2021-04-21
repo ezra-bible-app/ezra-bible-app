@@ -22,18 +22,23 @@ window.I18nHelper = null;
 window.i18nHelper = null;
 window.i18nInitDone = false;
 
-const PlatformHelper = require('../../lib/platform_helper.js');
-const IpcGeneral = require('../ipc/ipc_general.js');
-const IpcI18n = require('../ipc/ipc_i18n.js');
-const IpcNsi = require('../ipc/ipc_nsi.js');
-const IpcDb = require('../ipc/ipc_db.js');
-const IpcSettings = require('../ipc/ipc_settings.js');
+const PlatformHelper = require('../lib/platform_helper.js');
+const IpcGeneral = require('./ipc/ipc_general.js');
+const IpcI18n = require('./ipc/ipc_i18n.js');
+const IpcNsi = require('./ipc/ipc_nsi.js');
+const IpcDb = require('./ipc/ipc_db.js');
+const IpcSettings = require('./ipc/ipc_settings.js');
 
 // UI Helper
-const UiHelper = require('../helpers/ui_helper.js');
+const UiHelper = require('./helpers/ui_helper.js');
 window.uiHelper = new UiHelper();
 
-class StartupController
+/**
+ * The Startup class has the purpose to start up the application.
+ * The main entry point is the method `initApplication()`.
+ * @category Startup
+ */
+class Startup
 {
   constructor() {
     this._platformHelper = new PlatformHelper();
@@ -56,7 +61,7 @@ class StartupController
   
     window.i18nInitDone = true;
   
-    I18nHelper = require('../helpers/i18n_helper.js');
+    I18nHelper = require('./helpers/i18n_helper.js');
     i18nHelper = new I18nHelper();
   
     await i18nHelper.init();
@@ -146,15 +151,15 @@ class StartupController
   }
 
   async initControllers() {
-    const AppController = require('./app_controller.js');
-    const TagsController = require('./tags_controller.js');
+    const AppController = require('./controllers/app_controller.js');
+    const TagsController = require('./controllers/tags_controller.js');
   
     window.app_controller = new AppController();
     await app_controller.init();
   
     window.tags_controller = new TagsController();
 
-    const ThemeController = require('./theme_controller.js');
+    const ThemeController = require('./controllers/theme_controller.js');
     window.theme_controller = new ThemeController();
   }
 
@@ -321,17 +326,22 @@ class StartupController
     $('#main-content').show();
     uiHelper.resizeAppContainer();
 
+    await waitUntilIdle();
+
+    // Restore the scroll position of the first tab.
+    app_controller.tab_controller.restoreScrollPosition(0);
+
     console.timeEnd("application-startup");
 
     //await app_controller.translation_controller.installStrongsIfNeeded();
 
     if (this._platformHelper.isElectron()) {
       console.log("Checking for latest release ...");
-      const NewReleaseChecker = require('../helpers/new_release_checker.js');
+      const NewReleaseChecker = require('./helpers/new_release_checker.js');
       var newReleaseChecker = new NewReleaseChecker('new-release-info-box');
       newReleaseChecker.check();
     }
   }
 }
 
-module.exports = StartupController;
+module.exports = Startup;

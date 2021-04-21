@@ -232,7 +232,7 @@ class CordovaPlatform {
       uiHelper.updateLoadingSubtitle("Initializing i18n");
 
       window.ipcI18n = new IpcI18n();
-      await startup_controller.initI18N();
+      await startup.initI18N();
 
       this.hasPermission().then((result) => {
         if (result == true) {
@@ -255,7 +255,7 @@ class CordovaPlatform {
     uiHelper.updateLoadingSubtitle("Initializing database");
     await ipcGeneral.initDatabase();
 
-    await startup_controller.initApplication();
+    await startup.initApplication();
   }
 
   mainProcessListener(message) {
