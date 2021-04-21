@@ -695,6 +695,9 @@ class TagsController {
         if (bookCount == 0 && cbLabelClassList.contains('cb-label-assigned')) {
           cbLabel.classList.remove('cb-label-assigned');
         }
+
+        var checkbox_tag = cbLabel.parentNode;
+        checkbox_tag.setAttribute('book-assignment-count', bookCount);
       } else {
         cbLabel.classList.remove('cb-label-assigned');
       }
