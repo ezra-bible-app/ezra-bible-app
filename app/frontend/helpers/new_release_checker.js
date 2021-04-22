@@ -149,7 +149,7 @@ class NewReleaseChecker {
   }
 
   requestReleaseDataFromGitHub(successCallback, errorCallback) {
-    var githubUrl = "https://api.github.com/repos/tobias-klein/ezra-project/releases/latest";
+    var githubUrl = "https://api.github.com/repos/ezra-bible-app/ezra-bible-app/releases/latest";
     return $.getJSON(githubUrl).done(successCallback).error(errorCallback);
   }
 }
