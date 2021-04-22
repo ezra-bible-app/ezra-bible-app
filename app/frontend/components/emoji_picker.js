@@ -18,24 +18,33 @@
 
 const i18n = require('i18next');
 
+const emojiLibraryPath = '../../../node_modules/@joeattardi/emoji-button/dist';
+
 var picker;
 var theButton;
 var input;
 
 function initPicker() {
-  const { EmojiButton } = require('../../../lib/emoji-button/dist'); //rebuild version with CommonJS modules
+  const { EmojiButton } = require(`${emojiLibraryPath}/node`); 
+  let emojiData = null;
+  try { 
+    emojiData = require(`${emojiLibraryPath}/locale/emoji_${i18n.language}.json`);
+  } catch (err) {
+    console.log(`Can't upload emoji annotations for locale: ${i18n.language}. Using default`);
+  }  
   const isNightMode = app_controller.optionsMenu._nightModeOption && app_controller.optionsMenu._nightModeOption.isChecked();
 
   picker = new EmojiButton({ // https://emoji-button.js.org/docs/api
-    position: 'auto',
-    zIndex: 10000,
-    emojiSize: '1.3em',
-    showPreview: false,
+    emojiData,
+    // showPreview: false,
     showVariants: false,
     showAnimation: false,
-    theme: isNightMode ? 'dark' : 'light',
     categories: ['smileys', 'people', 'animals', 'food', 'activities', 'travel', 'objects', 'symbols'],
     i18n: i18n.t('emoji', { returnObjects: true }),
+    theme: isNightMode ? 'dark' : 'light',
+    emojiSize: '1.3em',
+    position: 'auto',
+    zIndex: 10000,
     styleProperties: {
       '--background-color': '#f2f5f7',
       '--dark-background-color': '#1e1e1e',
