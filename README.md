@@ -5,16 +5,16 @@ and to do it and to teach his statutes and rules in Israel." Ezra 7:10
 </p>
 
 <p align="center">
-  <a href="https://github.com/ezra-project/ezra-project/actions?query=workflow%3A%22Ezra+Bible+App+test+suite%22">
-    <img src="https://github.com/ezra-project/ezra-project/workflows/Ezra%20Bible%20App%20test%20suite/badge.svg"></img>
+  <a href="https://github.com/ezra-bible-app/ezra-bible-app/actions?query=workflow%3A%22Ezra+Bible+App+test+suite%22">
+    <img src="https://github.com/ezra-bible-app/ezra-bible-app/workflows/Ezra%20Bible%20App%20test%20suite/badge.svg"></img>
   </a>
 </p>
 
 Ezra Bible App is a user-friendly, cross-platform Bible study tool focussing on topical study based on keywords/tags. This program can help you to easily manage your topical verse lists and verse-based notes. Ezra Bible App works with [SWORD Bible translation modules](http://www.crosswire.org/sword) and thus enables Bible study in many languages. It runs on Windows, macOS and Linux desktop computers as well as on [Android tablets](https://play.google.com/store/apps/details?id=de.ezraproject.cordova). Click [here](https://github.com/ezra-bible-app/ezra-bible-app/releases/latest) to get the latest release.
 
-For user information (features, screenshots, install instructions) have a look at the [project's website](https://ezra-project.net). This GitHub page focusses on technical information.
+For user information (features, screenshots, install instructions) have a look at the [project's website](https://ezrabibleapp.net). This GitHub page focusses on technical information.
 
-![Ezra Project 0.11.0](https://ezra-project.net/assets/screenshots/ezra_project_0_11_0.png "Ezra Project 0.11.0")
+![Ezra Project 0.11.0](https://ezrabibleapp.net/assets/screenshots/ezra_project_0_11_0.png "Ezra Project 0.11.0")
 
 ## Development
 
@@ -43,7 +43,7 @@ Have a look at the contribution guidelines [here][contributing].
 
 ## User Forum
 
-Join the User Forum at [forum.ezra-project.net](https://forum.ezra-project.net) to discuss any of the existing functionality, ask questions and make suggestions for new features!
+Join the User Forum at [forum.ezrabibleapp.net](https://forum.ezrabibleapp.net) to discuss any of the existing functionality, ask questions and make suggestions for new features!
 
 ## Feedback
 To give feedback (bug reports, feature requests) please use the Github issue system.
