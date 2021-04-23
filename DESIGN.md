@@ -4,7 +4,7 @@ Welcome to the Design documentation of Ezra Bible App!
 
 ## Architecture overview
 
-Ezra Bible App mostly uses plain, vanilla JavaScript in combination with some additional technology like jQuery, jQuery UI, Sequelize and the Pug template engine (see [here](https://github.com/ezra-project/ezra-project/blob/master/TECH.md) for a complete list of technologies). For performance reasons, it does not use a web framework like React or Angular. Nevertheless, the architecture is designed in a modular way and should make it easy for new developers.
+Ezra Bible App mostly uses plain, vanilla JavaScript in combination with some additional technology like jQuery, jQuery UI, Sequelize and the Pug template engine (see [here](https://github.com/ezra-bible-app/ezra-bible-app/blob/master/TECH.md) for a complete list of technologies). For performance reasons, it does not use a web framework like React or Angular. Nevertheless, the architecture is designed in a modular way and should make it easy for new developers.
 
 ### Backend vs. Frontend
 
@@ -36,7 +36,7 @@ Sequelize (an object-oriented wrapper) is used to manage the interface to the (S
 
 ### node-sword-interface
 
-To access SWORD modules, Ezra Bible App uses the [node-sword-interface](https://github.com/ezra-project/node-sword-interface) library. This library is implemented in C++ and offers a simple, flat, facade style interface that wraps calls to the SWORD library.
+To access SWORD modules, Ezra Bible App uses the [node-sword-interface](https://github.com/ezra-bible-app/node-sword-interface) library. This library is implemented in C++ and offers a simple, flat, facade style interface that wraps calls to the SWORD library.
 
 ### The big picture
 
