@@ -331,6 +331,11 @@ class Startup
     // Restore the scroll position of the first tab.
     app_controller.tab_controller.restoreScrollPosition(0);
 
+    if (this._platformHelper.isElectron()) {
+      const { ipcRenderer } = require('electron');
+      ipcRenderer.invoke("startupCompleted");
+    }
+
     console.timeEnd("application-startup");
 
     //await app_controller.translation_controller.installStrongsIfNeeded();
