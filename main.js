@@ -87,6 +87,8 @@ async function createWindow () {
   const path = require('path');
   const url = require('url');
 
+  console.time('Startup');
+
   var preloadScript = '';
   if (!isDev) {
     preloadScript = path.join(__dirname, 'app/frontend/helpers/sentry.js')
@@ -117,6 +119,10 @@ async function createWindow () {
 
     ipcMain.handle('initIpc', async (event, arg) => {
       await ipc.init(isDev, mainWindow);
+    });
+
+    ipcMain.handle('startupCompleted', async (event, arg) => {
+      console.timeEnd('Startup');
     });
   }
 

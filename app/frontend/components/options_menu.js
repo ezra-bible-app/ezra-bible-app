@@ -205,24 +205,26 @@ class OptionsMenu {
   showOrHideBookIntroductionBasedOnOption(tabIndex=undefined) {
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
 
-    var bookIntro = currentVerseList.find('.book-intro');
-    var paragraphElements = bookIntro.find("div[type='paragraph']");
+    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
+      var bookIntro = currentVerseList.find('.book-intro');
+      var paragraphElements = bookIntro.find("div[type='paragraph']");
 
-    if (paragraphElements.length > 1) {
-      for (var i = 0; i < paragraphElements.length; i++) {
-        var currentParagraph = $(paragraphElements[i]);
+      if (paragraphElements.length > 1) {
+        for (var i = 0; i < paragraphElements.length; i++) {
+          var currentParagraph = $(paragraphElements[i]);
 
-        if (!currentParagraph.hasClass('processed') && currentParagraph[0].hasAttribute('eid')) {
-          currentParagraph.addClass('processed');
-          currentParagraph.append('<br/>');
+          if (!currentParagraph.hasClass('processed') && currentParagraph[0].hasAttribute('eid')) {
+            currentParagraph.addClass('processed');
+            currentParagraph.append('<br/>');
+          }
         }
       }
-    }
 
-    if (this._bookIntroOption.isChecked()) {
-      bookIntro.show();
-    } else {
-      bookIntro.hide();
+      if (this._bookIntroOption.isChecked()) {
+        bookIntro.show();
+      } else {
+        bookIntro.hide();
+      }
     }
   }
 
@@ -256,12 +258,12 @@ class OptionsMenu {
           verseBox.before(currentSectionTitle);
         }
       }
-    }
 
-    if (this._sectionTitleOption.isChecked()) {
-      currentVerseList.classList.add('verse-list-with-section-titles');
-    } else {
-      currentVerseList.classList.remove('verse-list-with-section-titles');
+      if (this._sectionTitleOption.isChecked()) {
+        currentVerseList.classList.add('verse-list-with-section-titles');
+      } else {
+        currentVerseList.classList.remove('verse-list-with-section-titles');
+      }
     }
   }
 
@@ -270,14 +272,16 @@ class OptionsMenu {
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
-    if (this._xrefsOption.isChecked()) {
-      currentReferenceVerse.removeClass('verse-list-without-xrefs');
-      currentVerseList.removeClass('verse-list-without-xrefs');
-      tagBoxVerseList.removeClass('verse-list-without-xrefs');
-    } else {
-      currentReferenceVerse.addClass('verse-list-without-xrefs');
-      currentVerseList.addClass('verse-list-without-xrefs');
-      tagBoxVerseList.addClass('verse-list-without-xrefs');
+    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
+      if (this._xrefsOption.isChecked()) {
+        currentReferenceVerse.removeClass('verse-list-without-xrefs');
+        currentVerseList.removeClass('verse-list-without-xrefs');
+        tagBoxVerseList.removeClass('verse-list-without-xrefs');
+      } else {
+        currentReferenceVerse.addClass('verse-list-without-xrefs');
+        currentVerseList.addClass('verse-list-without-xrefs');
+        tagBoxVerseList.addClass('verse-list-without-xrefs');
+      }
     }
   }
 
@@ -286,14 +290,16 @@ class OptionsMenu {
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
-    if (this._footnotesOption.isChecked()) {
-      currentReferenceVerse.removeClass('verse-list-without-footnotes');
-      currentVerseList.removeClass('verse-list-without-footnotes');
-      tagBoxVerseList.removeClass('verse-list-without-footnotes');
-    } else {
-      currentReferenceVerse.addClass('verse-list-without-footnotes');
-      currentVerseList.addClass('verse-list-without-footnotes');
-      tagBoxVerseList.addClass('verse-list-without-footnotes');
+    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
+      if (this._footnotesOption.isChecked()) {
+        currentReferenceVerse.removeClass('verse-list-without-footnotes');
+        currentVerseList.removeClass('verse-list-without-footnotes');
+        tagBoxVerseList.removeClass('verse-list-without-footnotes');
+      } else {
+        currentReferenceVerse.addClass('verse-list-without-footnotes');
+        currentVerseList.addClass('verse-list-without-footnotes');
+        tagBoxVerseList.addClass('verse-list-without-footnotes');
+      }
     }
   }
 
@@ -341,12 +347,14 @@ class OptionsMenu {
     var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
 
-    if (this._userDataIndicatorsOption.isChecked()) {
-      currentReferenceVerse.removeClass('verse-list-without-user-data-indicators');
-      currentVerseList.removeClass('verse-list-without-user-data-indicators');
-    } else {
-      currentReferenceVerse.addClass('verse-list-without-user-data-indicators');
-      currentVerseList.addClass('verse-list-without-user-data-indicators');
+    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
+      if (this._userDataIndicatorsOption.isChecked()) {
+        currentReferenceVerse.removeClass('verse-list-without-user-data-indicators');
+        currentVerseList.removeClass('verse-list-without-user-data-indicators');
+      } else {
+        currentReferenceVerse.addClass('verse-list-without-user-data-indicators');
+        currentVerseList.addClass('verse-list-without-user-data-indicators');
+      }
     }
   }
 
@@ -354,12 +362,14 @@ class OptionsMenu {
     var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
 
-    if (this._tagsOption.isChecked()) {
-      currentReferenceVerse.removeClass('verse-list-without-tags');
-      currentVerseList.removeClass('verse-list-without-tags');
-    } else {
-      currentReferenceVerse.addClass('verse-list-without-tags');
-      currentVerseList.addClass('verse-list-without-tags');
+    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
+      if (this._tagsOption.isChecked()) {
+        currentReferenceVerse.removeClass('verse-list-without-tags');
+        currentVerseList.removeClass('verse-list-without-tags');
+      } else {
+        currentReferenceVerse.addClass('verse-list-without-tags');
+        currentVerseList.addClass('verse-list-without-tags');
+      }
     }
   }
 
@@ -367,13 +377,15 @@ class OptionsMenu {
     var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
 
-    if (this._verseNotesOption.isChecked()) {
-      currentReferenceVerse.addClass('verse-list-with-notes');
-      currentVerseList.addClass('verse-list-with-notes');
-    } else {
-      app_controller.notes_controller.restoreCurrentlyEditedNotes();
-      currentReferenceVerse.removeClass('verse-list-with-notes');
-      currentVerseList.removeClass('verse-list-with-notes');
+    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
+      if (this._verseNotesOption.isChecked()) {
+        currentReferenceVerse.addClass('verse-list-with-notes');
+        currentVerseList.addClass('verse-list-with-notes');
+      } else {
+        app_controller.notes_controller.restoreCurrentlyEditedNotes();
+        currentReferenceVerse.removeClass('verse-list-with-notes');
+        currentVerseList.removeClass('verse-list-with-notes');
+      }
     }
   }
 
@@ -381,12 +393,14 @@ class OptionsMenu {
     var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
 
-    if (this._verseNotesFixedHeightOption.isChecked()) {
-      currentReferenceVerse.addClass('verse-list-scroll-notes');
-      currentVerseList.addClass('verse-list-scroll-notes');
-    } else {
-      currentReferenceVerse.removeClass('verse-list-scroll-notes');
-      currentVerseList.removeClass('verse-list-scroll-notes');
+    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
+      if (this._verseNotesFixedHeightOption.isChecked()) {
+        currentReferenceVerse.addClass('verse-list-scroll-notes');
+        currentVerseList.addClass('verse-list-scroll-notes');
+      } else {
+        currentReferenceVerse.removeClass('verse-list-scroll-notes');
+        currentVerseList.removeClass('verse-list-scroll-notes');
+      }
     }
   }
 
@@ -406,12 +420,14 @@ class OptionsMenu {
     var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
 
-    if (this._tagsColumnOption.isChecked()) {
-      currentReferenceVerse.addClass('verse-list-tags-column');
-      currentVerseList.addClass('verse-list-tags-column');
-    } else {
-      currentReferenceVerse.removeClass('verse-list-tags-column');
-      currentVerseList.removeClass('verse-list-tags-column');
+    if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
+      if (this._tagsColumnOption.isChecked()) {
+        currentReferenceVerse.addClass('verse-list-tags-column');
+        currentVerseList.addClass('verse-list-tags-column');
+      } else {
+        currentReferenceVerse.removeClass('verse-list-tags-column');
+        currentVerseList.removeClass('verse-list-tags-column');
+      }
     }
   }
 

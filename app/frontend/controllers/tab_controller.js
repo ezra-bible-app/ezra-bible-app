@@ -378,6 +378,7 @@ class TabController {
                                                                      // adding tabs automatically (like for finding all Strong's references).
           
           var index = this.getCorrectedIndex(ui);
+          ui.index = index;
 
           if (metaTab.selectCount > 1) {
             this.savePreviousTabScrollPosition();
