@@ -10,7 +10,7 @@ and to do it and to teach his statutes and rules in Israel." Ezra 7:10
   </a>
 </p>
 
-Ezra Bible App is a user-friendly, cross-platform Bible study tool focussing on topical study based on keywords/tags. This program can help you to easily manage your topical verse lists and verse-based notes. Ezra Bible App works with [SWORD Bible translation modules](http://www.crosswire.org/sword) and thus enables Bible study in many languages. It runs on Windows, macOS and Linux desktop computers as well as on [Android tablets](https://play.google.com/store/apps/details?id=de.ezraproject.cordova). Click [here](https://github.com/ezra-bible-app/ezra-bible-app/releases/latest) to get the latest release.
+Ezra Bible App is a user-friendly, cross-platform Bible study tool focussing on topical study based on keywords/tags. This program can help you to easily manage your topical verse lists and verse-based notes. Ezra Bible App works with [SWORD Bible translation modules](http://www.crosswire.org/sword) and thus enables Bible study in many languages. It runs on Windows, macOS and Linux desktop computers as well as on [Android tablets](https://play.google.com/store/apps/details?id=net.ezrabibleapp.cordova). Click [here](https://github.com/ezra-bible-app/ezra-bible-app/releases/latest) to get the latest release.
 
 For user information (features, screenshots, install instructions) have a look at the [project's website](https://ezrabibleapp.net). This GitHub page focusses on technical information.
 

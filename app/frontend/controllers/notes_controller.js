@@ -61,16 +61,18 @@ class NotesController {
 
     currentVerseListFrame[0].querySelectorAll('.verse-box').forEach(verseBox => {
       const verseNotes = verseBox.querySelector('.verse-notes');
-      verseNotes.classList.remove('visible');
 
-      verseBox.querySelector('.notes-info').addEventListener('mousedown', (e) => {
-        this._handleNotesIndicatorClick(e, verseNotes);
+      if (verseNotes != null) {
+        verseNotes.classList.remove('visible');
 
-      });
+        verseBox.querySelector('.notes-info').addEventListener('mousedown', (e) => {
+          this._handleNotesIndicatorClick(e, verseNotes);
+        });
 
-      verseNotes.addEventListener('click', (event) => {
-        this._handleNotesClick(event);
-      });
+        verseNotes.addEventListener('click', (event) => {
+          this._handleNotesClick(event);
+        });
+      }
     });
 
     const bookNoteBox = currentVerseListFrame[0].querySelector('.book-notes');
