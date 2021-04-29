@@ -36,7 +36,7 @@ function initPicker() {
 
   picker = new EmojiButton({ // https://emoji-button.js.org/docs/api
     emojiData,
-    // showPreview: false,
+    showPreview: false,
     showVariants: false,
     showAnimation: false,
     categories: ['smileys', 'people', 'animals', 'food', 'activities', 'travel', 'objects', 'symbols'],
@@ -132,12 +132,12 @@ function setTheme(theme) {
 var screenHeightAvaliable = null;
 function saveScreenHeight() {
   screenHeightAvaliable = window.screen.availHeight;
-  console.log(screenHeightAvaliable);
+  platformHelper.isDebug() && console.log('Screen size before focus:', screenHeightAvaliable);
 }
 
 async function isSameScreenHeight() {
   await window.sleep(600);
-  console.log(window.screen.availHeight);
+  platformHelper.isDebug() && console.log('Screen size after focus:', window.screen.availHeight);
   return screenHeightAvaliable ? screenHeightAvaliable === window.screen.availHeight : true;
 }
 
