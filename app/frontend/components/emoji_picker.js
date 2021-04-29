@@ -129,6 +129,18 @@ function setTheme(theme) {
   }
 }
 
+var screenHeightAvaliable = null;
+function saveScreenHeight() {
+  screenHeightAvaliable = window.screen.availHeight;
+  console.log(screenHeightAvaliable);
+}
+
+async function isSameScreenHeight() {
+  await window.sleep(600);
+  console.log(window.screen.availHeight);
+  return screenHeightAvaliable ? screenHeightAvaliable === window.screen.availHeight : true;
+}
+
 /**
  * The emojiPicker component addss posibility to insert emojis to the tag names and notes 
  * on desktop platforms (electron app). It attaches emoji picker button to the text input
@@ -143,20 +155,31 @@ function setTheme(theme) {
  */
 
 module.exports = {
-  appendTo: (inputElement) => {
-    if (platformHelper.isElectron()) {
+  /** Prefocus check to detect if virtual keyboard is used */
+  preFocusCheck: () => saveScreenHeight(),
+  /** 
+   * Appends emoji picker button to input field
+   * @param {HTMLElement} inputElement - input element to append to
+   */
+  appendTo: async (inputElement) => {
+    if (platformHelper.isElectron() && await isSameScreenHeight()) {
       const trigger = initButtonTrigger(inputElement);
       inputElement.parentNode.insertBefore(trigger, inputElement.nextSibling);
     }
   },
-
-  appendToCodeMirror: (textArea, codeMirror) => {
-    if (platformHelper.isElectron() && codeMirror) {
+  /** 
+   * Appends emoji picker button to codeMirror 
+   * @param {HTMLElement} textArea - textArea used for codeMirror editor instance  
+   * @param codeMirror - active codeMirror editor instance
+   */
+  appendToCodeMirror: async (textArea, codeMirror) => {
+    if (platformHelper.isElectron() && codeMirror && await isSameScreenHeight()) {
       const trigger = initButtonTrigger(textArea, codeMirror);
       textArea.parentNode.insertBefore(trigger, null); // insert as last child
     }
   },
 
+  /** Hides emoji picker button */
   hide: hideButtonTrigger,
 
   setDarkTheme: () => setTheme('dark'),

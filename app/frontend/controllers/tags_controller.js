@@ -262,8 +262,9 @@ class TagsController {
 
     $tagInput.val(''); 
     $('#new-' + type + '-tag-dialog').dialog('open');
-    emojiPicker.appendTo($tagInput[0]);
+    emojiPicker.preFocusCheck();
     $tagInput.focus();
+    emojiPicker.appendTo($tagInput[0]);
   }
 
   handleDeleteTagButtonClick(event) {
@@ -799,8 +800,9 @@ class TagsController {
     const $tagInput = $('#rename-standard-tag-title-input');
     $tagInput.val(cb_label);
     $('#rename-standard-tag-dialog').dialog('open');
-    emojiPicker.appendTo($tagInput[0]);
+    emojiPicker.preFocusCheck();
     $('#rename-standard-tag-title-input').focus();
+    emojiPicker.appendTo($tagInput[0]);
 
     tags_controller.rename_standard_tag_id = parseInt(checkbox_tag.attr('tag-id'));
     tags_controller.rename_standard_tag_title = cb_label;
