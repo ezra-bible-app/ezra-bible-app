@@ -25,7 +25,6 @@ let dbHelper = null;
 class IpcDbHandler {
   constructor() {
     this._ipcMain = new IpcMain();
-    this._tagsPersistanceController = null;
     this.platformHelper = new PlatformHelper();
     this.dbDir = null;
 
@@ -50,9 +49,6 @@ class IpcDbHandler {
 
     await dbHelper.initDatabase(this.dbDir);
     global.models = require('../database/models')(this.dbDir);
-
-    const TagsPersistanceController = require('../controllers/tags_persistance_controller.js');
-    this._tagsPersistanceController = new TagsPersistanceController(global.models);
   }
 
   initIpcInterface() {
@@ -61,19 +57,19 @@ class IpcDbHandler {
     });
 
     this._ipcMain.add('db_createNewTag', async (newTagTitle) => {
-      return await this._tagsPersistanceController.create_new_tag(newTagTitle);
+      return await models.Tag.create_new_tag(newTagTitle);
     });
 
     this._ipcMain.add('db_removeTag', async (id) => {
-      return await this._tagsPersistanceController.destroy_tag(id);
+      return await models.Tag.destroy_tag(id);
     });
 
     this._ipcMain.add('db_updateTag', async(id, newTitle) => {
-      return await this._tagsPersistanceController.update_tag(id, newTitle);
+      return await models.Tag.update_tag(id, newTitle);
     });
 
     this._ipcMain.add('db_updateTagsOnVerses', async (tagId, verseObjects, versification, action) => {
-      return await this._tagsPersistanceController.update_tags_on_verses(tagId, verseObjects, versification, action);
+      return await models.Tag.update_tags_on_verses(tagId, verseObjects, versification, action);
     });
 
     this._ipcMain.add('db_getTagCount', async () => {
