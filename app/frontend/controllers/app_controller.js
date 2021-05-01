@@ -208,7 +208,6 @@ class AppController {
     this.notes_controller.restoreCurrentlyEditedNotes();
 
     // Re-configure tab search
-    metaTab.tab_search.resetSearch();
     var currentVerseList = this.getCurrentVerseList(ui.index);
     metaTab.tab_search.setVerseList(currentVerseList);
 
@@ -435,6 +434,35 @@ class AppController {
         this.toggleFullScreen();
       });
     }
+
+    var searchShortCut = 'ctrl+f';
+    if (platformHelper.isMac()) {
+      searchShortCut = 'command+f';
+    }
+
+    Mousetrap.bind(searchShortCut, () => {
+      var currentTab = app_controller.tab_controller.getTab();
+      currentTab.tab_search.show();
+      return false;
+    });
+
+    Mousetrap.bind('esc', () => {
+      var currentTab = app_controller.tab_controller.getTab();
+      currentTab.tab_search.resetSearch();
+      return false;
+    });
+
+    Mousetrap.bind('enter', () => {
+      var currentTab = app_controller.tab_controller.getTab();
+      currentTab.tab_search.jumpToNextOccurance();
+      return false;
+    });
+
+    Mousetrap.bind('shift+enter', () => {
+      var currentTab = app_controller.tab_controller.getTab();
+      currentTab.tab_search.jumpToNextOccurance(false);
+      return false;
+    });
   }
 
   toggleFullScreen() {

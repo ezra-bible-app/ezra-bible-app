@@ -67,6 +67,7 @@ class OptionsMenu {
     this._dictionaryOption = await this.initDisplayOption('strongs-switch', 'showStrongs', () => { this.showOrHideStrongsBasedOnOption(); });
     this._bookChapterNavOption = await this.initDisplayOption('nav-switch', 'showBookChapterNavigation', () => { this.showOrHideBookChapterNavigationBasedOnOption(); }, true);
     this._headerNavOption = await this.initDisplayOption('header-nav-switch', 'showHeaderNavigation', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
+    this._tabSearchOption = await this.initDisplayOption('tab-search-switch', 'showTabSearchForm', () => { this.showOrHideTabSearchFormBasedOnOption(); });
     this._verseListNewTabOption = await this.initDisplayOption('verse-lists-new-tab-switch', 'openVerseListsInNewTab', () => {}, openVerseListsInNewTabByDefault);
     this._userDataIndicatorsOption = await this.initDisplayOption('user-data-indicators-switch', 'showUserDataIndicators', () => { this.showOrHideUserDataIndicatorsBasedOnOption(); }, true);
     this._tagsOption = await this.initDisplayOption('tags-switch', 'showTags', () => { this.showOrHideVerseTagsBasedOnOption(); }, true);
@@ -335,11 +336,24 @@ class OptionsMenu {
         app_controller.translation_controller.hasCurrentTranslationHeaderElements(tabIndex)) {
 
       app_controller.navigation_pane.enableHeaderNavigation(tabIndex);
-
     } else {
-
       app_controller.navigation_pane.disableHeaderNavigation();
+    }
+  }
 
+  showOrHideTabSearchFormBasedOnOption(tabIndex=undefined) {
+    var currentVerseListComposite = app_controller.getCurrentVerseListComposite(tabIndex);
+
+    if (currentVerseListComposite[0] != null) {
+      var currentTabSearch = currentVerseListComposite.find('.tab-search');
+
+      if (this._tabSearchOption.isChecked()) {
+        currentTabSearch.css('display', 'flex');
+      } else {
+        currentTabSearch.hide();
+      }
+
+      uiHelper.resizeVerseList();
     }
   }
 
@@ -437,6 +451,7 @@ class OptionsMenu {
     this.showOrHideSectionTitlesBasedOnOption(tabIndex);
     this.showOrHideBookChapterNavigationBasedOnOption(tabIndex);
     this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
+    this.showOrHideTabSearchFormBasedOnOption(tabIndex);
     this.showOrHideXrefsBasedOnOption(tabIndex);
     this.showOrHideFootnotesBasedOnOption(tabIndex);
     this.showOrHideUserDataIndicatorsBasedOnOption(tabIndex);

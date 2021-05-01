@@ -124,6 +124,11 @@ class TabController {
           copiedMetaTab.cachedReferenceVerse = null;
         }
 
+        if (copiedMetaTab.tab_search != null) { // Each metaTab has a tab_search object.
+                                                // That object cannot be persisted, so we set it to null explicitly!
+          copiedMetaTab.tab_search = null;
+        }
+
         savedMetaTabs.push(copiedMetaTab);
       }
 

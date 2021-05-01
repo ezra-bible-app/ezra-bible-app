@@ -59,7 +59,9 @@ class TabSearch {
     this.initInputField();
     this.initSearchOptionControls();
     this.initNavigationButtons();
-    this.initGlobalShortCuts();
+
+    var currentVerseList = parentTab.find('.verse-list');
+    this.setVerseList(currentVerseList);
   }
 
   initInputField() {
@@ -102,33 +104,15 @@ class TabSearch {
     });
   }
 
-  initGlobalShortCuts() {
-    var searchShortCut = 'ctrl+f';
-    if (platformHelper.isMac()) {
-      searchShortCut = 'command+f';
-    }
+  show() {
+    this.searchForm.css('display', 'flex');
+    uiHelper.resizeVerseList();
+    this.inputField.focus();
+  }
 
-    Mousetrap.bind(searchShortCut, () => {
-      this.searchForm.css('display', 'flex');
-      uiHelper.resizeVerseList();
-      this.inputField.focus();
-      return false;
-    });
-
-    Mousetrap.bind('esc', () => {
-      this.resetSearch();
-      return false;
-    });
-
-    Mousetrap.bind('enter', () => {
-      this.jumpToNextOccurance();
-      return false;
-    });
-
-    Mousetrap.bind('shift+enter', () => {
-      this.jumpToNextOccurance(false);
-      return false;
-    });
+  hide() {
+    this.searchForm.hide();
+    uiHelper.resizeVerseList();
   }
 
   setVerseList(verseList) {
@@ -177,8 +161,11 @@ class TabSearch {
 
   resetSearch() {
     this.resetOccurances();
-    this.searchForm.hide();
-    uiHelper.resizeVerseList();
+
+    if (!app_controller.optionsMenu._tabSearchOption.isChecked()) {
+      this.hide();
+    }
+
     this.inputField[0].value = '';
   }
 
