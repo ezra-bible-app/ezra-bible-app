@@ -28,7 +28,8 @@ class TabSearch {
   constructor() {
   }
 
-  init(searchForm,
+  init(parentTab,
+       searchForm,
        searchInput,
        searchOccurancesElement,
        prevButton,
@@ -38,13 +39,14 @@ class TabSearch {
        onSearchResultsAvailable,
        onSearchReset) {
 
-    this.searchForm = $(searchForm);
-    this.inputField = $(searchInput);
-    this.searchOccurancesElement = $(searchOccurancesElement);
-    this.prevButton = $(prevButton);
-    this.nextButton = $(nextButton);
-    this.caseSensitiveCheckbox = $(caseSensitiveCheckbox);
-    this.searchTypeSelect = $(searchTypeSelect);
+    this.parentTab = parentTab;
+    this.searchForm = parentTab.find(searchForm);
+    this.inputField = parentTab.find(searchInput);
+    this.searchOccurancesElement = parentTab.find(searchOccurancesElement);
+    this.prevButton = parentTab.find(prevButton);
+    this.nextButton = parentTab.find(nextButton);
+    this.caseSensitiveCheckbox = parentTab.find(caseSensitiveCheckbox);
+    this.searchTypeSelect = parentTab.find(searchTypeSelect);
     this.currentOccuranceIndex = 0;
     this.currentOccurancesCount = 0;
     this.allOccurances = [];
@@ -107,7 +109,8 @@ class TabSearch {
     }
 
     Mousetrap.bind(searchShortCut, () => {
-      this.searchForm.show();
+      this.searchForm.css('display', 'flex');
+      uiHelper.resizeVerseList();
       this.inputField.focus();
       return false;
     });
@@ -175,6 +178,7 @@ class TabSearch {
   resetSearch() {
     this.resetOccurances();
     this.searchForm.hide();
+    uiHelper.resizeVerseList();
     this.inputField[0].value = '';
   }
 

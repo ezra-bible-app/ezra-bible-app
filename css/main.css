@@ -343,10 +343,10 @@ h2 {
   display: none;
 }
 
-#tab-search,
-#tab-search-type,
-#tab-search-type option,
-#tab-search-input,
+.tab-search,
+.tab-search-type,
+.tab-search-type option,
+.tab-search-input,
 #search-type,
 #search-type option,
 .ui-dialog #bible-sync-box,
@@ -1332,29 +1332,36 @@ h2 {
   margin-bottom: 0.2em;
 }
 
-#tab-search {
-  position: fixed;
-  top: 50px;
-  right: 20px;
+.tab-search {
+  margin-left: 5em;
   background-color: white;
   padding: 0.5em;
-  border-radius: 4px;
+  border-top-right-radius: 4px;
   border: 1px solid lightGrey;
-  display: None;
+  border-left: none;
+  border-bottom: none;
+  display: none;
+  align-items: center;
+  justify-content: center;
   z-index: 10;
 }
 
-.darkmode--activated #tab-search {
+.darkmode--activated .tab-search {
   background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat;
   color: #cccccc;
 }
 
-#tab-search-input {
+.tab-search-options {
+  margin-left: 2em;
+}
+
+.tab-search-input {
   float: left;
   background-color: white;
-  width: 150px;
+  width: 200px;
   margin-right: 1em;
   border: 1px solid lightgray;
+  border-radius: 4px;
 }
 
 .tab-search-nav {
@@ -1371,7 +1378,12 @@ h2 {
   width: 2em;
 }
 
-:not(.darkmode--activated) .tab-search-occurances {
+.tab-search-type {
+  border: 1px solid lightgray;
+  border-radius: 4px;
+}
+
+body:not(.darkmode--activated) .tab-search-occurances {
   border: 1px solid white;
   color: black;
 }

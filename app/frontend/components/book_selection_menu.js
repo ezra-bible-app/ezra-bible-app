@@ -148,7 +148,7 @@ class BookSelectionMenu {
       currentTab.setVerseReferenceId(null);
 
       var currentVerseList = app_controller.getCurrentVerseList();
-      app_controller.tab_search.setVerseList(currentVerseList);
+      currentTab.tab_search.setVerseList(currentVerseList);
 
       var currentTabId = app_controller.tab_controller.getSelectedTabId();
       var currentBook = currentTab.getBook();
