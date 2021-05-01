@@ -342,18 +342,14 @@ class OptionsMenu {
   }
 
   showOrHideTabSearchFormBasedOnOption(tabIndex=undefined) {
-    var currentVerseListComposite = app_controller.getCurrentVerseListComposite(tabIndex);
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
 
-    if (currentVerseListComposite[0] != null) {
-      var currentTabSearch = currentVerseListComposite.find('.tab-search');
-
+    if (currentTab != null && currentTab.tab_search != null) {
       if (this._tabSearchOption.isChecked()) {
-        currentTabSearch.css('display', 'flex');
+        currentTab.tab_search.show();
       } else {
-        currentTabSearch.hide();
+        currentTab.tab_search.resetSearch();
       }
-
-      uiHelper.resizeVerseList();
     }
   }
 
