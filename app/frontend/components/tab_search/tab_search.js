@@ -312,9 +312,10 @@ class TabSearch {
     
     var searchHl = $(verseElements).find('.search-hl, .current-hl');
     for (var i = 0; i < searchHl.length; i++) {
-      var highlightedText = $(searchHl[i]);
-      var text = highlightedText.text();
+      var highlightedText = $(searchHl[i])[0];
+      var text = document.createTextNode(highlightedText.innerText);
       highlightedText.replaceWith(text);
+      //highlightedText.replaceWith(text);
     }
 
     verseElements.forEach((element) => {
