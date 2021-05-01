@@ -314,8 +314,12 @@ class TabSearch {
     for (var i = 0; i < searchHl.length; i++) {
       var highlightedText = $(searchHl[i])[0];
       var text = document.createTextNode(highlightedText.innerText);
-      highlightedText.replaceWith(text);
-      //highlightedText.replaceWith(text);
+
+      if (highlightedText.parentNode.nodeName == 'SPAN') {
+        highlightedText.parentNode.replaceWith(highlightedText.parentNode.innerText);
+      } else {
+        highlightedText.replaceWith(text);
+      }
     }
 
     verseElements.forEach((element) => {
