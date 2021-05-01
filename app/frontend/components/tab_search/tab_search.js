@@ -182,7 +182,7 @@ class TabSearch {
     this.inputField[0].value = '';
   }
 
-  jumpToNextOccurance(forward=true) {
+  async jumpToNextOccurance(forward=true) {
     if (this.currentOccurancesCount == 0) {
       return;
     }
@@ -214,7 +214,8 @@ class TabSearch {
     }
 
     this.jumpToCurrentOccurance();
-    this.highlightCurrentOccurance();
+    await this.highlightCurrentOccurance();
+    await waitUntilIdle();
   }
 
   jumpToCurrentOccurance() {
