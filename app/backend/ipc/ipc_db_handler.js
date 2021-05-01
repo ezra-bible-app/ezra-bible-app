@@ -33,7 +33,7 @@ class IpcDbHandler {
   }
 
   async initDatabase(isDebug) {
-    const DbHelper = require('../helpers/db_helper.js');
+    const DbHelper = require('../database/db_helper.js');
     var userDataDir = this.platformHelper.getUserDataPath();
 
     dbHelper = new DbHelper(userDataDir);
