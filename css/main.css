@@ -1361,17 +1361,22 @@ h2 {
 .tab-search-input {
   float: left;
   background-color: white;
-  width: 200px;
+  width: 150px;
   margin-right: 1em;
   border: 1px solid lightgray;
   border-radius: 4px;
 }
 
 .tab-search-nav {
-  float: left;
   margin-right: 0.5em;
   cursor: pointer;
   user-select: none;
+  font-size: 1.5em;
+  line-height: 0.8em;
+}
+
+.tab-search-previous {
+  margin-right: 1em;
 }
 
 .tab-search-occurances {
