@@ -242,7 +242,7 @@ class DictionaryController {
   }
 
   async handleStrongsMouseMove(event) {
-    if (!app_controller.optionsMenu._dictionaryOption.isChecked()) {
+    if (!app_controller.optionsMenu._dictionaryOption.isChecked) {
       return;
     }
 
@@ -278,7 +278,7 @@ class DictionaryController {
   }
 
   handleVerseMouseMove(event) {
-    if (!app_controller.optionsMenu._dictionaryOption.isChecked()) {
+    if (!app_controller.optionsMenu._dictionaryOption.isChecked) {
       return;
     }
 

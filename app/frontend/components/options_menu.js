@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const PlatformHelper = require('../../lib/platform_helper.js');
-const DisplayOption = require('../ui_models/display_option.js');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
@@ -59,25 +58,26 @@ class OptionsMenu {
       openVerseListsInNewTabByDefault = true;
     }
 
-    this._toolBarOption = await this.initDisplayOption('tool-bar-switch', 'showToolBar', () => { this.showOrHideToolBarBasedOnOption(); }, toolBarEnabledByDefault);
-    this._bookIntroOption = await this.initDisplayOption('book-intro-switch', 'showBookIntro', () => { this.showOrHideBookIntroductionBasedOnOption(); });
-    this._sectionTitleOption = await this.initDisplayOption('section-title-switch', 'showSectionTitles', () => { this.showOrHideSectionTitlesBasedOnOption(); }, true);
-    this._xrefsOption = await this.initDisplayOption('xrefs-switch', 'showXrefs', () => { this.showOrHideXrefsBasedOnOption(); });
-    this._footnotesOption = await this.initDisplayOption('footnotes-switch', 'showFootnotes', () => { this.showOrHideFootnotesBasedOnOption(); });
-    this._dictionaryOption = await this.initDisplayOption('strongs-switch', 'showStrongs', () => { this.showOrHideStrongsBasedOnOption(); });
-    this._bookChapterNavOption = await this.initDisplayOption('nav-switch', 'showBookChapterNavigation', () => { this.showOrHideBookChapterNavigationBasedOnOption(); }, true);
-    this._headerNavOption = await this.initDisplayOption('header-nav-switch', 'showHeaderNavigation', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
-    this._verseListNewTabOption = await this.initDisplayOption('verse-lists-new-tab-switch', 'openVerseListsInNewTab', () => {}, openVerseListsInNewTabByDefault);
-    this._userDataIndicatorsOption = await this.initDisplayOption('user-data-indicators-switch', 'showUserDataIndicators', () => { this.showOrHideUserDataIndicatorsBasedOnOption(); }, true);
-    this._tagsOption = await this.initDisplayOption('tags-switch', 'showTags', () => { this.showOrHideVerseTagsBasedOnOption(); }, true);
-    this._tagsColumnOption = await this.initDisplayOption('tags-column-switch', 'useTagsColumn', () => { this.changeTagsLayoutBasedOnOption(); });
-    this._verseNotesOption = await this.initDisplayOption('verse-notes-switch', 'showNotes', () => { this.showOrHideVerseNotesBasedOnOption(); });
-    this._verseNotesFixedHeightOption = await this.initDisplayOption('verse-notes-fixed-height-switch', 'fixNotesHeight', () => { this.fixNotesHeightBasedOnOption(); });
-    this._textSizeAdjustTagsNotesOption = await this.initDisplayOption('tags-notes-text-size-switch', 'adjustTagsNotesTextSize', () => { 
-      app_controller.textSizeSettings.updateTagsNotes(this._textSizeAdjustTagsNotesOption.isChecked()); 
+    this._toolBarOption = this.initConfigOption('showToolBarOption', () => { this.showOrHideToolBarBasedOnOption(); });
+    this._bookIntroOption = this.initConfigOption('showBookIntroOption', () => { this.showOrHideBookIntroductionBasedOnOption(); });
+    this._sectionTitleOption = this.initConfigOption('showSectionTitleOption', () => { this.showOrHideSectionTitlesBasedOnOption(); });
+    this._xrefsOption = this.initConfigOption('showXrefsOption', () => { this.showOrHideXrefsBasedOnOption(); });
+    this._footnotesOption = this.initConfigOption('showFootnotesOption', () => { this.showOrHideFootnotesBasedOnOption(); });
+    this._dictionaryOption = this.initConfigOption('showDictionaryOption', () => { this.showOrHideStrongsBasedOnOption(); });
+    this._bookChapterNavOption = this.initConfigOption('showBookChapterNavigationOption', () => { this.showOrHideBookChapterNavigationBasedOnOption(); });
+    this._headerNavOption = this.initConfigOption('showHeaderNavigationOption', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
+    this._verseListNewTabOption = this.initConfigOption('openVerseListsInNewTabOption', () => {}, openVerseListsInNewTabByDefault);
+    this._userDataIndicatorOption = this.initConfigOption('showUserDataIndicatorOption', () => { this.showOrHideUserDataIndicatorsBasedOnOption(); }, true);
+    this._tagsOption = this.initConfigOption('showTagsOption', () => { this.showOrHideVerseTagsBasedOnOption(); });
+    this._tagsColumnOption = this.initConfigOption('useTagsColumnOption', () => { this.changeTagsLayoutBasedOnOption(); });
+    this._verseNotesOption = this.initConfigOption('showNotesOption', () => { this.showOrHideVerseNotesBasedOnOption(); });
+    this._verseNotesFixedHeightOption = this.initConfigOption('fixNotesHeightOption', () => { this.fixNotesHeightBasedOnOption(); });
+
+    this._textSizeAdjustTagsNotesOption = this.initConfigOption('adjustTagsNotesTextSizeOption', () => { 
+      app_controller.textSizeSettings.updateTagsNotes(this._textSizeAdjustTagsNotesOption.isChecked); 
     }, true);
 
-    this._nightModeOption = await this.initDisplayOption('night-mode-switch', 'useNightMode', async () => {
+    this._nightModeOption = this.initConfigOption('useNightModeOption', async () => {
       this.hideDisplayMenu();
       uiHelper.showGlobalLoadingIndicator();
       theme_controller.useNightModeBasedOnOption();
@@ -90,28 +90,27 @@ class OptionsMenu {
 
       await waitUntilIdle();
       uiHelper.hideGlobalLoadingIndicator();
-    }, false, // enabledByDefault
-    async () => { // customSettingsLoader
-      return await theme_controller.isNightModeUsed();
     });
+
+    this._nightModeOption.enabled = await theme_controller.isNightModeUsed();
 
     var isMojaveOrLater = await this.platformHelper.isMacOsMojaveOrLater();
     if (isMojaveOrLater) {
       // On macOS Mojave and later we do not give the user the option to switch night mode within the app, since it is controlled via system settings.
-      $('#night-mode-switch-box').hide();
+      $(this._nightModeOption).hide();
     }
 
-    this._keepScreenAwakeOption = await this.initDisplayOption('screen-awake-switch', 'keepScreenAwake', () => { this.keepScreenAwakeBasedOnOption(); });
+    this._keepScreenAwakeOption = await this.initConfigOption('keepScreenAwakeOption', () => { this.keepScreenAwakeBasedOnOption(); });
 
     if (!this.platformHelper.isCordova()) {
       // On the desktop (Electron) we do not need the screen-awake option!
-      $('#screen-awake-switch-box').hide();
+      $(this._keepScreenAwakeOption).hide();
     }
 
     if (this.platformHelper.isCordova()) {
       // On the Cordova platform we cannot make use of the dictionary panel, because
       // it heavily depends on the mouse.
-      $('#strongs-switch-box').hide();
+      $(this._dictionaryOption).hide();
     }
 
     this.refreshViewBasedOnOptions();
@@ -122,16 +121,14 @@ class OptionsMenu {
     currentVerseListMenu.find('.display-options-button').bind('click', (event) => { this.handleMenuClick(event); });
   }
 
-  async initDisplayOption(switchElementId, settingsKey, eventHandler, enabledByDefault=false, customSettingsLoader=undefined) {
-    var option = new DisplayOption(switchElementId,
-                                   settingsKey,
-                                   window.ipcSettings,
-                                   eventHandler,
-                                   () => { this.slowlyHideDisplayMenu(); },
-                                   customSettingsLoader,
-                                   enabledByDefault);
+  initConfigOption(configOptionId, eventHandler, enabledByDefault=false) {
+    var option = document.getElementById(configOptionId);
+    option.enabledByDefault = enabledByDefault;
 
-    await option.loadOptionFromSettings();
+    option.addEventListener("optionChanged", async () => {
+      await eventHandler();
+      this.slowlyHideDisplayMenu();
+    });
 
     return option;
   }
@@ -185,7 +182,7 @@ class OptionsMenu {
     var currentToolBar = $('#bible-browser-toolbox');
     var updated = false;
 
-    if (this._toolBarOption.isChecked()) {
+    if (this._toolBarOption.isChecked) {
       updated = app_controller.tag_assignment_menu.moveTagAssignmentList(false);
       if (updated || currentToolBar.is(':hidden')) {
         currentToolBar.show();
@@ -220,7 +217,7 @@ class OptionsMenu {
         }
       }
 
-      if (this._bookIntroOption.isChecked()) {
+      if (this._bookIntroOption.isChecked) {
         bookIntro.show();
       } else {
         bookIntro.hide();
@@ -228,7 +225,7 @@ class OptionsMenu {
     }
   }
 
-  showOrHideSectionTitlesBasedOnOption(tabIndex=undefined) {
+  async showOrHideSectionTitlesBasedOnOption(tabIndex=undefined) {
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex)[0];
     var tabId = app_controller.tab_controller.getSelectedTabId(tabIndex);
     var all_section_titles = [];
@@ -259,7 +256,7 @@ class OptionsMenu {
         }
       }
 
-      if (this._sectionTitleOption.isChecked()) {
+      if (this._sectionTitleOption.isChecked) {
         currentVerseList.classList.add('verse-list-with-section-titles');
       } else {
         currentVerseList.classList.remove('verse-list-with-section-titles');
@@ -273,7 +270,7 @@ class OptionsMenu {
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._xrefsOption.isChecked()) {
+      if (this._xrefsOption.isChecked) {
         currentReferenceVerse.removeClass('verse-list-without-xrefs');
         currentVerseList.removeClass('verse-list-without-xrefs');
         tagBoxVerseList.removeClass('verse-list-without-xrefs');
@@ -291,7 +288,7 @@ class OptionsMenu {
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._footnotesOption.isChecked()) {
+      if (this._footnotesOption.isChecked) {
         currentReferenceVerse.removeClass('verse-list-without-footnotes');
         currentVerseList.removeClass('verse-list-without-footnotes');
         tagBoxVerseList.removeClass('verse-list-without-footnotes');
@@ -306,7 +303,7 @@ class OptionsMenu {
   showOrHideStrongsBasedOnOption(tabIndex=undefined) {
     var updated = false;
 
-    if (!this._dictionaryOption.isChecked()) { 
+    if (!this._dictionaryOption.isChecked) { 
       updated = app_controller.dictionary_controller.hideInfoBox();
       if (updated) {
         app_controller.dictionary_controller.clearInfoBox();
@@ -323,7 +320,7 @@ class OptionsMenu {
   }
 
   showOrHideBookChapterNavigationBasedOnOption(tabIndex=undefined) {
-    if (this._bookChapterNavOption.isChecked()) {
+    if (this._bookChapterNavOption.isChecked) {
       app_controller.navigation_pane.show(tabIndex);
     } else {
       app_controller.navigation_pane.hide(tabIndex);
@@ -331,7 +328,7 @@ class OptionsMenu {
   }
 
   showOrHideHeaderNavigationBasedOnOption(tabIndex=undefined) {
-    if (this._headerNavOption.isChecked() &&
+    if (this._headerNavOption.isChecked &&
         app_controller.translation_controller.hasCurrentTranslationHeaderElements(tabIndex)) {
 
       app_controller.navigation_pane.enableHeaderNavigation(tabIndex);
@@ -348,7 +345,7 @@ class OptionsMenu {
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._userDataIndicatorsOption.isChecked()) {
+      if (this._userDataIndicatorOption.isChecked) {
         currentReferenceVerse.removeClass('verse-list-without-user-data-indicators');
         currentVerseList.removeClass('verse-list-without-user-data-indicators');
       } else {
@@ -363,7 +360,7 @@ class OptionsMenu {
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._tagsOption.isChecked()) {
+      if (this._tagsOption.isChecked) {
         currentReferenceVerse.removeClass('verse-list-without-tags');
         currentVerseList.removeClass('verse-list-without-tags');
       } else {
@@ -378,7 +375,7 @@ class OptionsMenu {
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._verseNotesOption.isChecked()) {
+      if (this._verseNotesOption.isChecked) {
         currentReferenceVerse.addClass('verse-list-with-notes');
         currentVerseList.addClass('verse-list-with-notes');
       } else {
@@ -394,7 +391,7 @@ class OptionsMenu {
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._verseNotesFixedHeightOption.isChecked()) {
+      if (this._verseNotesFixedHeightOption.isChecked) {
         currentReferenceVerse.addClass('verse-list-scroll-notes');
         currentVerseList.addClass('verse-list-scroll-notes');
       } else {
@@ -404,12 +401,12 @@ class OptionsMenu {
     }
   }
 
-  keepScreenAwakeBasedOnOption(tabIndex=undefined) {
+  keepScreenAwakeBasedOnOption() {
     if (!this.platformHelper.isCordova()) {
       return;
     } 
 
-    if (this._keepScreenAwakeOption.isChecked()) {
+    if (this._keepScreenAwakeOption.isChecked) {
       this.cordovaPlatform.keepScreenAwake();
     } else {
       this.cordovaPlatform.allowScreenToSleep();
@@ -421,7 +418,7 @@ class OptionsMenu {
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
-      if (this._tagsColumnOption.isChecked()) {
+      if (this._tagsColumnOption.isChecked) {
         currentReferenceVerse.addClass('verse-list-tags-column');
         currentVerseList.addClass('verse-list-tags-column');
       } else {
@@ -445,7 +442,7 @@ class OptionsMenu {
     this.showOrHideStrongsBasedOnOption(tabIndex);
     this.showOrHideVerseNotesBasedOnOption(tabIndex);
     this.fixNotesHeightBasedOnOption(tabIndex);
-    this.keepScreenAwakeBasedOnOption(tabIndex);
+    this.keepScreenAwakeBasedOnOption();
     theme_controller.useNightModeBasedOnOption();
   }
 }

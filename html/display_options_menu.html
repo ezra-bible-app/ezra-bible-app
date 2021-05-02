@@ -13,96 +13,31 @@
 <div class="options-group">
   <div class="options-header" i18n="bible-browser.display"></div>
 
-  <div id="tool-bar-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-    <input id="tool-bar-switch" type="checkbox"></input>
-    <div class="switch-label" id="tool-bar-switch-label" i18n="bible-browser.show-tool-bar"></div>
-  </div>
-
-  <div id="strongs-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-    <input id="strongs-switch" type="checkbox"></input>
-    <div class="switch-label" id="strongs-switch-label" i18n="bible-browser.show-dictionary"></div>
-  </div>
-
-  <div id="nav-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-    <input id="nav-switch" type="checkbox"></input>
-    <div class="switch-label" id="nav-switch-label" i18n="bible-browser.show-book-chapter-navigation"></div>
-  </div>
-
-  <div id="header-nav-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-    <input id="header-nav-switch" type="checkbox"></input>
-    <div class="switch-label" id="header-nav-switch-label" i18n="bible-browser.show-header-navigation"></div>
-  </div>
-
-  <div id="verse-lists-new-tab-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-    <input id="verse-lists-new-tab-switch" type="checkbox"></input>
-    <div class="switch-label" id="verse-lists-new-tab-switch-label" i18n="bible-browser.open-verse-lists-in-new-tab"></div>
-  </div>
-
-  <div id="night-mode-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-    <input id="night-mode-switch" type="checkbox"></input>
-    <div class="switch-label" id="night-mode-switch-label" i18n="bible-browser.use-night-mode"></div>
-  </div>
-
-  <div id="screen-awake-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-    <input id="screen-awake-switch" type="checkbox"></input>
-    <div class="switch-label" id="screen-awake-switch-label" i18n="bible-browser.keep-screen-on"></div>
-  </div>
+  <config-option id="showToolBarOption" settingsKey="showToolBar" label="bible-browser.show-tool-bar" enabledByDefault="true"></config-option>
+  <config-option id="showDictionaryOption" settingsKey="showStrongs" label="bible-browser.show-dictionary" enabledByDefault="false"></config-option>
+  <config-option id="showBookChapterNavigationOption" settingsKey="showBookChapterNavigation" label="bible-browser.show-book-chapter-navigation" enabledByDefault="true"></config-option>
+  <config-option id="showHeaderNavigationOption" settingsKey="showHeaderNavigation" label="bible-browser.show-header-navigation" enabledByDefault="false"></config-option>
+  <config-option id="openVerseListsInNewTabOption" settingsKey="openVerseListsInNewTab" label="bible-browser.open-verse-lists-in-new-tab" enabledByDefault="false"></config-option>
+  <config-option id="useNightModeOption" settingsKey="useNightMode" label="bible-browser.use-night-mode" enabledByDefault="false" autoLoad="false"></config-option>
+  <config-option id="keepScreenAwakeOption" settingsKey="keepScreenAwake" label="bible-browser.keep-screen-on" enabledByDefault="false"></config-option>
 </div>
 
 <div class="options-group" style="clear: both;">
   <div class="options-header" i18n="bible-browser.text-options"></div>
 
-  <div id="book-intro-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-    <input id="book-intro-switch" type="checkbox"></input>
-    <div class="switch-label" id="book-intro-switch-label" i18n="bible-browser.show-book-intro"></div>
-  </div>
-
-  <div id="section-title-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-    <input id="section-title-switch" type="checkbox"></input>
-    <div class="switch-label" id="section-title-switch-label" i18n="bible-browser.show-section-titles"></div>
-  </div>
-
-  <div id="xrefs-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-    <input id="xrefs-switch" type="checkbox"></input>
-    <div class="switch-label" id="xrefs-switch-label" i18n="bible-browser.show-xrefs"></div>
-  </div>
-
-  <div id="footnotes-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-    <input id="footnotes-switch" type="checkbox"></input>
-    <div class="switch-label" id="footnotes-switch-label" i18n="bible-browser.show-footnotes"></div>
-  </div>
+  <config-option id="showBookIntroOption" settingsKey="showBookIntro" label="bible-browser.show-book-intro" enabledByDefault="false"></config-option>
+  <config-option id="showSectionTitleOption" settingsKey="showSectionTitles" label="bible-browser.show-section-titles" enabledByDefault="true"></config-option>
+  <config-option id="showXrefsOption" settingsKey="showXrefs" label="bible-browser.show-xrefs" enabledByDefault="false"></config-option>
+  <config-option id="showFootnotesOption" settingsKey="showFootnotes" label="bible-browser.show-footnotes" enabledByDefault="false"></config-option>
 </div>
 
 <div class="options-group">
   <div class="options-header" i18n="bible-browser.bible-browser-layout"></div>
 
-  <div id="user-data-indicators-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default ui-state-active">
-    <input id="user-data-indicators-switch" type="checkbox" checked="checked"></input>
-    <div class="switch-label" id="user-data-indicators-switch-label" i18n="bible-browser.show-notes-tags-indicators"></div>
-  </div>
-
-  <div id="tags-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default ui-state-active">
-    <input id="tags-switch" type="checkbox" checked="checked"></input>
-    <div class="switch-label" id="tags-switch-label" i18n="bible-browser.show-tags"></div>
-  </div>
-
-  <div id="tags-column-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-    <input id="tags-column-switch" type="checkbox"></input>
-    <div class="switch-label" id="tags-column-switch-label" i18n="bible-browser.use-tags-column"></div>
-  </div>
-
-  <div id="verse-notes-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-    <input id="verse-notes-switch" type="checkbox"></input>
-    <div class="switch-label" id="verse-notes-switch-label" i18n="bible-browser.show-notes"></div>
-  </div>
-
-  <div id="verse-notes-fixed-height-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-    <input id="verse-notes-fixed-height-switch" type="checkbox"></input>
-    <div class="switch-label" id="verse-notes-fixed-height-switch-label" i18n="bible-browser.limit-notes-display-size"></div>
-  </div>
-
-  <div id="tags-notes-text-size-switch-box" class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-    <input id="tags-notes-text-size-switch" type="checkbox"></input>
-    <div class="switch-label" id="tags-notes-text-size-switch-label" i18n="bible-browser.adjust-font-size-tags-notes"></div>
-  </div>
+  <config-option id="showUserDataIndicatorOption" settingsKey="showUserDataIndicators" label="bible-browser.show-notes-tags-indicators" enabledByDefault="false"></config-option>
+  <config-option id="showTagsOption" settingsKey="showTags" label="bible-browser.show-tags" enabledByDefault="true"></config-option>
+  <config-option id="useTagsColumnOption" settingsKey="useTagsColumn" label="bible-browser.use-tags-column" enabledByDefault="false"></config-option>
+  <config-option id="showNotesOption" settingsKey="showNotes" label="bible-browser.show-notes" enabledByDefault="false"></config-option>
+  <config-option id="fixNotesHeightOption" settingsKey="fixNotesHeight" label="bible-browser.limit-notes-display-size" enabledByDefault="false"></config-option>
+  <config-option id="adjustTagsNotesTextSizeOption" settingsKey="adjustTagsNotesTagSize" label="bible-browser.adjust-font-size-tags-notes" enabledByDefault="false"></config-option>
 </div>

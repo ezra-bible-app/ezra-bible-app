@@ -66,7 +66,7 @@ class NavigationPane {
 
       var hasHeaders = await app_controller.translation_controller.hasBibleTranslationHeaders(currentTranslationId);
 
-      if (headerNavOption.isChecked() && hasHeaders) {
+      if (headerNavOption.isChecked && hasHeaders) {
         
         navigationPane.removeClass('navigation-pane-chapters');
         navigationPane.addClass('navigation-pane-headers');
