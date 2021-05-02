@@ -55,6 +55,8 @@ class TabSearch {
     this.onSearchResultsAvailable = onSearchResultsAvailable;
     this.onSearchReset = onSearchReset;
     this.lastSearchString = null;
+    this.mouseTrapEvent = false;
+    this.shiftKeyPressed = false;
     this.verseSearch = new VerseSearch();
 
     this.initInputField();
@@ -66,14 +68,33 @@ class TabSearch {
   }
 
   initInputField() {
+    this.inputField.bind('keydown', (e) => {
+      if (e.key == 'Shift') {
+        this.shiftKeyPressed = true;
+        return;
+      }
+    });
+
     this.inputField.bind('keyup', (e) => {
+      if (e.key == 'Shift') {
+        this.shiftKeyPressed = false;
+        return;
+      }
+
       if (e.key == 'Escape') {
         this.resetSearch();
         return;
       }
 
       if (e.key == 'Enter') {
-        this.jumpToNextOccurance();
+        if (this.mouseTrapEvent) { // We also catch keypresses with Mousetrap (globally, see AppController.initGlobalShortCuts)
+                                   // To ensure that we do not process the key press twice we return immediately if we know
+                                   // that a mouse trap event was fired previously.
+          this.mouseTrapEvent = false;
+          return;
+        }
+
+        this.jumpToNextOccurance(!this.shiftKeyPressed);
         return;
       }
 
@@ -176,6 +197,8 @@ class TabSearch {
 
     this.inputField[0].value = '';
     this.lastSearchString = null;
+    this.mouseTrapEvent = false;
+    this.shiftKeyPressed = false;
   }
 
   async jumpToNextOccurance(forward=true) {
@@ -211,6 +234,7 @@ class TabSearch {
 
     this.jumpToCurrentOccurance();
     await this.highlightCurrentOccurance();
+    this.inputField.focus();
     await waitUntilIdle();
   }
 

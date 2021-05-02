@@ -454,12 +454,19 @@ class AppController {
 
     Mousetrap.bind('enter', () => {
       var currentTab = app_controller.tab_controller.getTab();
+      // We need to notify the TabSearch component that there has been a mouse trap event.
+      // This is to avoid double event processing, because the TabSearch also listens for key press events.
+      currentTab.tab_search.mouseTrapEvent = true;
       currentTab.tab_search.jumpToNextOccurance();
       return false;
     });
 
     Mousetrap.bind('shift+enter', () => {
       var currentTab = app_controller.tab_controller.getTab();
+      // We need to notify the TabSearch component that there has been a mouse trap event.
+      // This is to avoid double event processing, because the TabSearch also listens for key press events.
+      currentTab.tab_search.mouseTrapEvent = true;
+      currentTab.tab_search.shiftKeyPressed = true;
       currentTab.tab_search.jumpToNextOccurance(false);
       return false;
     });
