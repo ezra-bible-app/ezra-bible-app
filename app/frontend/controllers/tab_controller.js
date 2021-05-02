@@ -115,6 +115,8 @@ class TabController {
       var savedMetaTabs = [];
       
       for (var i = 0; i < this.metaTabs.length; i++) {
+        this.metaTabs[i].tab_search.resetSearch();
+        
         var copiedMetaTab = Object.assign({}, this.metaTabs[i]);
         copiedMetaTab.cachedText = this.getTabHtml(i);
 
