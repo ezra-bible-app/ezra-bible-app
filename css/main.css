@@ -1347,11 +1347,16 @@ h2 {
   align-items: center;
   justify-content: center;
   z-index: 10;
+  flex-flow: row wrap;
 }
 
 .darkmode--activated .tab-search {
   background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat;
   color: #cccccc;
+}
+
+.tab-search-form, .tab-search-options {
+  margin: 0.3em;
 }
 
 .tab-search-options {
@@ -1365,6 +1370,22 @@ h2 {
   margin-right: 1em;
   border: 1px solid lightgray;
   border-radius: 4px;
+}
+
+.darkmode--activated input,
+.darkmode--activated .tab-search-type,
+.darkmode--activated .tab-search-is-case-sensitive {
+  background-color: #cccccc;
+}
+
+.tab-search-input:focus {
+  border: 1px solid #aed0ea;
+  box-shadow: 0 0 10px #aed0ea;
+}
+
+.darkmode--activated .tab-search-input:focus {
+  border: 1px solid #0b93d5;
+  box-shadow: 0 0 10px #0b93d5;
 }
 
 .tab-search-nav {
