@@ -175,6 +175,7 @@ class TabSearch {
     }
 
     this.inputField[0].value = '';
+    this.lastSearchString = null;
   }
 
   async jumpToNextOccurance(forward=true) {
