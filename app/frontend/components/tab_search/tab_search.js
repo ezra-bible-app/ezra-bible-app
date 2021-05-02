@@ -16,7 +16,6 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const Mousetrap = require('mousetrap');
 const VerseSearch = require('./verse_search.js');
 
 /**
@@ -57,6 +56,11 @@ class TabSearch {
     this.lastSearchString = null;
     this.mouseTrapEvent = false;
     this.shiftKeyPressed = false;
+    this.searchTimeoutMs = 400;
+    if (platformHelper.isCordova()) {
+      this.searchTimeoutMs = 800;
+    }
+
     this.verseSearch = new VerseSearch();
 
     this.initInputField();
@@ -176,7 +180,7 @@ class TabSearch {
       if (!platformHelper.isCordova()) {
         this.inputField.focus();
       }
-    }, 400);
+    }, this.searchTimeoutMs);
   }
 
   resetOccurances() {
