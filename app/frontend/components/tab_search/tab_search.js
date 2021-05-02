@@ -54,6 +54,7 @@ class TabSearch {
     this.currentOccuranceElement = null;
     this.onSearchResultsAvailable = onSearchResultsAvailable;
     this.onSearchReset = onSearchReset;
+    this.lastSearchString = null;
     this.verseSearch = new VerseSearch();
 
     this.initInputField();
@@ -137,10 +138,17 @@ class TabSearch {
       return;
     }
 
+    if (searchString == this.lastSearchString) {
+      return;
+    }
+
     this.searchTimeout = setTimeout(async () => {
       app_controller.verse_selection.clear_verse_selection(false);
       this.onSearchReset();
+      this.lastSearchString = searchString;
+
       await this.doSearch(searchString);
+
       // This is necessary, beause the search "rewrites" the verse content and events
       // get lost by doing that, so we have to re-bind the xref events.
       app_controller.bindXrefEvents();
