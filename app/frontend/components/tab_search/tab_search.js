@@ -129,7 +129,6 @@ class TabSearch {
   show() {
     this.searchForm.css('display', 'flex');
     uiHelper.resizeVerseList();
-    this.inputField.focus();
   }
 
   hide() {
@@ -173,7 +172,10 @@ class TabSearch {
       // This is necessary, beause the search "rewrites" the verse content and events
       // get lost by doing that, so we have to re-bind the xref events.
       app_controller.bindXrefEvents();
-      this.inputField.focus();
+
+      if (!platformHelper.isCordova()) {
+        this.inputField.focus();
+      }
     }, 400);
   }
 
@@ -234,7 +236,11 @@ class TabSearch {
 
     this.jumpToCurrentOccurance();
     await this.highlightCurrentOccurance();
-    this.inputField.focus();
+
+    if (!platformHelper.isCordova()) {
+      this.inputField.focus();
+    }
+
     await waitUntilIdle();
   }
 
