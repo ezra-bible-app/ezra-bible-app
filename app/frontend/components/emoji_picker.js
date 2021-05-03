@@ -18,24 +18,16 @@
 
 const i18n = require('i18next');
 
-const emojiLibraryPath = '../../../node_modules/@joeattardi/emoji-button/dist';
-
 var picker;
 var theButton;
 var input;
 
 function initPicker() {
-  const { EmojiButton } = require(`${emojiLibraryPath}/node`); 
-  let emojiData = null;
-  try { 
-    emojiData = require(`${emojiLibraryPath}/locale/emoji_${i18n.language}.json`);
-  } catch (err) {
-    console.log(`Can't upload emoji annotations for locale: ${i18n.language}. Using default`);
-  }  
+  const { EmojiButton } = require('../../../node_modules/@joeattardi/emoji-button/dist/node');
   const isNightMode = app_controller.optionsMenu._nightModeOption && app_controller.optionsMenu._nightModeOption.isChecked();
 
   picker = new EmojiButton({ // https://emoji-button.js.org/docs/api
-    emojiData,
+    emojiData: getLocalizedData(i18n.language),
     showPreview: false,
     showVariants: false,
     showAnimation: false,
@@ -139,6 +131,30 @@ async function isSameScreenHeight() {
   await window.sleep(600);
   platformHelper.isDebug() && console.log('Screen size after focus:', window.screen.availHeight);
   return screenHeightAvaliable ? screenHeightAvaliable === window.screen.availHeight : true;
+}
+
+function getLocalizedData(locale) {
+  switch (locale) {
+    case 'de':
+      return require('../../../node_modules/@joeattardi/emoji-button/dist/locale/emoji_de.json');
+    case 'en':
+      return require('../../../node_modules/@joeattardi/emoji-button/dist/locale/emoji_en.json');
+    case 'es':
+      return require('../../../node_modules/@joeattardi/emoji-button/dist/locale/emoji_es.json');
+    case 'fr':
+      return require('../../../node_modules/@joeattardi/emoji-button/dist/locale/emoji_fr.json');
+    case 'nl':
+      return require('../../../node_modules/@joeattardi/emoji-button/dist/locale/emoji_nl.json');
+    case 'ru':
+      return require('../../../node_modules/@joeattardi/emoji-button/dist/locale/emoji_ru.json');
+    case 'sk':
+      return require('../../../node_modules/@joeattardi/emoji-button/dist/locale/emoji_sk.json');
+    case 'uk':
+      return require('../../../node_modules/@joeattardi/emoji-button/dist/locale/emoji_uk.json');
+    default:
+      console.log(`Can't upload emoji annotations for locale: ${locale}. Using default`);
+
+  }
 }
 
 /**
