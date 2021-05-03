@@ -266,7 +266,7 @@ class TabSearch {
     // Remove previous element's highlighting
     if (this.previousOccuranceElement != null) {
       this.previousOccuranceElement.classList.remove('current-hl');
-      var closestVerseBox = this.previousOccuranceElement.closest('.verse-box')
+      let closestVerseBox = this.previousOccuranceElement.closest('.verse-box')
       if (closestVerseBox != null) closestVerseBox.querySelector('.verse-text').classList.remove('ui-selected');
       app_controller.verse_selection.clear_verse_selection(false);
     }
@@ -274,7 +274,7 @@ class TabSearch {
     // Highlight current element
     if (this.currentOccuranceElement != null) {
       this.currentOccuranceElement.classList.add('current-hl');
-      var verseBox = this.currentOccuranceElement.closest('.verse-box');
+      let verseBox = this.currentOccuranceElement.closest('.verse-box');
 
       if (verseBox != null) {
         verseBox.querySelector('.verse-text').classList.add('ui-selected');
@@ -291,8 +291,8 @@ class TabSearch {
     var occurancesString = "";
 
     if (this.currentOccurancesCount > 0) {
-      var currentOccuranceNumber = this.currentOccuranceIndex + 1;
-      var occurancesString = currentOccuranceNumber + '/' + this.currentOccurancesCount;
+      let currentOccuranceNumber = this.currentOccuranceIndex + 1;
+      occurancesString = currentOccuranceNumber + '/' + this.currentOccurancesCount;
     }
 
     this.searchOccurancesElement[0].innerHTML = occurancesString;
@@ -335,8 +335,8 @@ class TabSearch {
 
   removeAllHighlighting() {
     if (this.verseList != null) {
-      for (var i = 0; i < this.allOccurances.length; i++) {
-        var currentOccuranceVerseBox = this.allOccurances[i].closest('.verse-text');
+      for (let i = 0; i < this.allOccurances.length; i++) {
+        let currentOccuranceVerseBox = this.allOccurances[i].closest('.verse-text');
         this.removeHighlightingFromVerses([currentOccuranceVerseBox]);
       }
     }
@@ -348,9 +348,10 @@ class TabSearch {
     }
     
     var searchHl = $(verseElements).find('.search-hl, .current-hl');
-    for (var i = 0; i < searchHl.length; i++) {
-      var highlightedText = $(searchHl[i])[0];
-      var text = document.createTextNode(highlightedText.innerText);
+
+    for (let i = 0; i < searchHl.length; i++) {
+      let highlightedText = $(searchHl[i])[0];
+      let text = document.createTextNode(highlightedText.innerText);
 
       if (highlightedText.parentNode.nodeName == 'SPAN') {
         highlightedText.parentNode.replaceWith(highlightedText.parentNode.innerText);
@@ -361,7 +362,7 @@ class TabSearch {
 
     verseElements.forEach((element) => {
       if (element != null) {
-        var verseElementHtml = element.innerHTML;
+        let verseElementHtml = element.innerHTML;
 
         /* Remove line breaks between strings, that resulted from inserting the 
           search-hl / current-hl elements before. If these linebreaks are not removed
