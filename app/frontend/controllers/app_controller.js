@@ -241,8 +241,10 @@ class AppController {
     await this.translation_controller.initTranslationsMenu(-1, ui.index);
 
     // Highlight currently selected book (only in book mode)
-    var textType = this.tab_controller.getTab(ui.index).getTextType();
-    if (textType == 'book') this.book_selection_menu.highlightCurrentlySelectedBookInMenu(ui.index);
+    if (metaTab != null) {
+      var textType = metaTab.getTextType();
+      if (textType == 'book') this.book_selection_menu.highlightCurrentlySelectedBookInMenu(ui.index);
+    }
 
     // Toggle book statistics
     this.tag_statistics.toggleBookTagStatisticsButton(ui.index);
