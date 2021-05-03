@@ -443,6 +443,7 @@ class AppController {
     Mousetrap.bind(searchShortCut, () => {
       var currentTab = app_controller.tab_controller.getTab();
       currentTab.tab_search.show();
+      currentTab.tab_search.focus();
       return false;
     });
 

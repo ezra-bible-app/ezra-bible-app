@@ -67,7 +67,7 @@ class OptionsMenu {
     this._dictionaryOption = await this.initDisplayOption('strongs-switch', 'showStrongs', () => { this.showOrHideStrongsBasedOnOption(); });
     this._bookChapterNavOption = await this.initDisplayOption('nav-switch', 'showBookChapterNavigation', () => { this.showOrHideBookChapterNavigationBasedOnOption(); }, true);
     this._headerNavOption = await this.initDisplayOption('header-nav-switch', 'showHeaderNavigation', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
-    this._tabSearchOption = await this.initDisplayOption('tab-search-switch', 'showTabSearchForm', () => { this.showOrHideTabSearchFormBasedOnOption(); });
+    this._tabSearchOption = await this.initDisplayOption('tab-search-switch', 'showTabSearchForm', () => { this.showOrHideTabSearchFormBasedOnOption(undefined, true); });
     this._verseListNewTabOption = await this.initDisplayOption('verse-lists-new-tab-switch', 'openVerseListsInNewTab', () => {}, openVerseListsInNewTabByDefault);
     this._userDataIndicatorsOption = await this.initDisplayOption('user-data-indicators-switch', 'showUserDataIndicators', () => { this.showOrHideUserDataIndicatorsBasedOnOption(); }, true);
     this._tagsOption = await this.initDisplayOption('tags-switch', 'showTags', () => { this.showOrHideVerseTagsBasedOnOption(); }, true);
@@ -341,12 +341,13 @@ class OptionsMenu {
     }
   }
 
-  showOrHideTabSearchFormBasedOnOption(tabIndex=undefined) {
+  showOrHideTabSearchFormBasedOnOption(tabIndex=undefined, focus=false) {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     if (currentTab != null && currentTab.tab_search != null) {
       if (this._tabSearchOption.isChecked()) {
         currentTab.tab_search.show();
+        if (focus) currentTab.tab_search.focus();
       } else {
         currentTab.tab_search.resetSearch();
       }

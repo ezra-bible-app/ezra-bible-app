@@ -140,6 +140,10 @@ class TabSearch {
     uiHelper.resizeVerseList();
   }
 
+  focus() {
+    this.inputField.focus();
+  }
+
   setVerseList(verseList) {
     this.verseList = verseList;
   }
@@ -178,7 +182,7 @@ class TabSearch {
       app_controller.bindXrefEvents();
 
       if (!platformHelper.isCordova()) {
-        this.inputField.focus();
+        this.focus();
       }
     }, this.searchTimeoutMs);
   }
@@ -242,7 +246,7 @@ class TabSearch {
     await this.highlightCurrentOccurance();
 
     if (!platformHelper.isCordova()) {
-      this.inputField.focus();
+      this.focus();
     }
 
     await waitUntilIdle();
