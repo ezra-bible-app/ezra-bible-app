@@ -112,10 +112,12 @@ class TabSearch {
 
   initSearchOptionControls() {
     this.caseSensitiveCheckbox.bind('change', () => {
+      this.lastSearchString = null;
       this.triggerDelayedSearch();
     });
 
     this.searchTypeSelect.bind('change', () => {
+      this.lastSearchString = null;
       this.triggerDelayedSearch();
     });
   }
