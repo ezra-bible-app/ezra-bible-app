@@ -58,7 +58,7 @@ class OptionsMenu {
       openVerseListsInNewTabByDefault = true;
     }
 
-    this._toolBarOption = this.initConfigOption('showToolBarOption', () => { this.showOrHideToolBarBasedOnOption(); });
+    this._toolBarOption = this.initConfigOption('showToolBarOption', () => { this.showOrHideToolBarBasedOnOption(); }, toolBarEnabledByDefault);
     this._bookIntroOption = this.initConfigOption('showBookIntroOption', () => { this.showOrHideBookIntroductionBasedOnOption(); });
     this._sectionTitleOption = this.initConfigOption('showSectionTitleOption', () => { this.showOrHideSectionTitlesBasedOnOption(); });
     this._xrefsOption = this.initConfigOption('showXrefsOption', () => { this.showOrHideXrefsBasedOnOption(); });
@@ -66,6 +66,7 @@ class OptionsMenu {
     this._dictionaryOption = this.initConfigOption('showDictionaryOption', () => { this.showOrHideStrongsBasedOnOption(); });
     this._bookChapterNavOption = this.initConfigOption('showBookChapterNavigationOption', () => { this.showOrHideBookChapterNavigationBasedOnOption(); });
     this._headerNavOption = this.initConfigOption('showHeaderNavigationOption', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
+    this._tabSearchOption = this.initConfigOption('showTabSearchOption', () => { this.showOrHideTabSearchFormBasedOnOption(undefined, true); });
     this._verseListNewTabOption = this.initConfigOption('openVerseListsInNewTabOption', () => {}, openVerseListsInNewTabByDefault);
     this._userDataIndicatorOption = this.initConfigOption('showUserDataIndicatorOption', () => { this.showOrHideUserDataIndicatorsBasedOnOption(); }, true);
     this._tagsOption = this.initConfigOption('showTagsOption', () => { this.showOrHideVerseTagsBasedOnOption(); });
@@ -341,7 +342,7 @@ class OptionsMenu {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     if (currentTab != null && currentTab.tab_search != null) {
-      if (this._tabSearchOption.isChecked()) {
+      if (this._tabSearchOption.isChecked) {
         currentTab.tab_search.show();
         if (focus) currentTab.tab_search.focus();
       } else {
