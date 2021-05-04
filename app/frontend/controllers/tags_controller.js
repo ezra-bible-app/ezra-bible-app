@@ -66,6 +66,7 @@ class TagsController {
     this.deleteTagConfirmationDialogInitDone = false;
     this.removeTagAssignmentConfirmationDialogInitDone = false;
     this.renameStandardTagDialogInitDone = false;
+    this.lastBook = null;
   }
 
   initNewTagDialog() {
@@ -631,10 +632,14 @@ class TagsController {
       this.initialRenderingDone = false;
     }
 
-    var tagList = await this.tag_store.getTagList(forceRefresh);
-    var tagStatistics = await this.tag_store.getBookTagStatistics(currentBook, forceRefresh);
-    await this.renderTags(tagList, tagStatistics, currentBook != null);
-    await waitUntilIdle();
+    if (currentBook != this.lastBook || forceRefresh) {
+      var tagList = await this.tag_store.getTagList(forceRefresh);
+      var tagStatistics = await this.tag_store.getBookTagStatistics(currentBook, forceRefresh);
+      await this.renderTags(tagList, tagStatistics, currentBook != null);
+      await waitUntilIdle();
+
+      this.lastBook = currentBook;
+    }
   }
 
   getNewTagStatsElement(tag_statistics, currentElementId, tagId, current_book) {
