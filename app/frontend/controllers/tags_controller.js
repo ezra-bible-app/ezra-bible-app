@@ -262,7 +262,6 @@ class TagsController {
 
     $tagInput.val(''); 
     $('#new-' + type + '-tag-dialog').dialog('open');
-    emojiPicker.preFocusCheck();
     $tagInput.focus();
     emojiPicker.appendTo($tagInput[0]);
   }
@@ -800,7 +799,6 @@ class TagsController {
     const $tagInput = $('#rename-standard-tag-title-input');
     $tagInput.val(cb_label);
     $('#rename-standard-tag-dialog').dialog('open');
-    emojiPicker.preFocusCheck();
     $('#rename-standard-tag-title-input').focus();
     emojiPicker.appendTo($tagInput[0]);
 

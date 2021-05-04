@@ -121,18 +121,6 @@ function setTheme(theme) {
   }
 }
 
-var screenHeightAvaliable = null;
-function saveScreenHeight() {
-  screenHeightAvaliable = window.screen.availHeight;
-  platformHelper.isDebug() && console.log('Screen size before focus:', screenHeightAvaliable);
-}
-
-async function isSameScreenHeight() {
-  await window.sleep(600);
-  platformHelper.isDebug() && console.log('Screen size after focus:', window.screen.availHeight);
-  return screenHeightAvaliable ? screenHeightAvaliable === window.screen.availHeight : true;
-}
-
 function getLocalizedData(locale) {
   switch (locale) {
     case 'de':
@@ -171,14 +159,12 @@ function getLocalizedData(locale) {
  */
 
 module.exports = {
-  /** Prefocus check to detect if virtual keyboard is used */
-  preFocusCheck: () => saveScreenHeight(),
   /** 
    * Appends emoji picker button to input field
    * @param {HTMLElement} inputElement - input element to append to
    */
   appendTo: async (inputElement) => {
-    if (platformHelper.isElectron() && await isSameScreenHeight()) {
+    if (platformHelper.isElectron()) {
       const trigger = initButtonTrigger(inputElement);
       inputElement.parentNode.insertBefore(trigger, inputElement.nextSibling);
     }
@@ -189,7 +175,7 @@ module.exports = {
    * @param codeMirror - active codeMirror editor instance
    */
   appendToCodeMirror: async (textArea, codeMirror) => {
-    if (platformHelper.isElectron() && codeMirror && await isSameScreenHeight()) {
+    if (platformHelper.isElectron() && codeMirror) {
       const trigger = initButtonTrigger(textArea, codeMirror);
       textArea.parentNode.insertBefore(trigger, null); // insert as last child
     }

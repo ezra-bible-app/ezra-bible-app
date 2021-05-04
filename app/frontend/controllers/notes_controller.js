@@ -368,10 +368,7 @@ class NotesController {
       theme: this.theme
     });
 
-
     this.currentEditor = editor;
-
-    emojiPicker.preFocusCheck();
     this._focusEditor();
     emojiPicker.appendToCodeMirror(textArea, editor);
   }
