@@ -93,7 +93,7 @@ class NotesController {
       var currentVerseBox = this._getCurrentVerseBox();
 
       verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(
-        currentVerseBox, renderedContent, (context, targetVerseBox) => {
+        currentVerseBox, renderedContent, (changedValue, targetVerseBox) => {
 
           var targetNotes = null;
 
@@ -101,10 +101,10 @@ class NotesController {
             targetNotes = targetVerseBox;
           } else {
             targetNotes = targetVerseBox.querySelector('.verse-notes');
-            this._refreshNotesIndicator(context, targetVerseBox);
+            this._refreshNotesIndicator(changedValue, targetVerseBox);
           }
 
-          this._updateRenderedContent(targetNotes, context);
+          this._updateRenderedContent(targetNotes, changedValue);
         });
 
       this._resetVerseNoteButtons();
@@ -233,7 +233,7 @@ class NotesController {
             this._updateNoteDate(currentVerseBox, updatedTimestamp);
 
             verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(
-              currentVerseBox, { noteValue: currentNoteValue, timestamp: updatedTimestamp }, (context, targetVerseBox) => {
+              currentVerseBox, { noteValue: currentNoteValue, timestamp: updatedTimestamp }, (changedValue, targetVerseBox) => {
 
                 var currentNotes = null;
 
@@ -243,8 +243,8 @@ class NotesController {
                   currentNotes = targetVerseBox.querySelector('.verse-notes');
                 }
 
-                currentNotes.setAttribute('notes-content', context.noteValue);
-                this._updateNoteDate(targetVerseBox, context.timestamp);
+                currentNotes.setAttribute('notes-content', changedValue.noteValue);
+                this._updateNoteDate(targetVerseBox, changedValue.timestamp);
               });
           }
         });
