@@ -114,7 +114,7 @@ class VerseBoxHelper {
       absoluteVerseNrs['absoluteVerseNrEng'] = 0;
       absoluteVerseNrs['absoluteVerseNrHeb'] = 0;
     } else {
-      var referenceVerseBox = new VerseBox(referenceVerseBoxElement);
+      let referenceVerseBox = new VerseBox(referenceVerseBoxElement);
       absoluteVerseNumber = referenceVerseBox.getAbsoluteVerseNumber();
       chapter = referenceVerseBox.getChapter();
       verseNumber = referenceVerseBox.getVerseNumber();
@@ -137,11 +137,11 @@ class VerseBoxHelper {
       console.warn('Got exception when getting versification: ' + exception);
     }
 
-    for (var i = 0; i < tab_count; i++) {
+    for (let i = 0; i < tab_count; i++) {
       if (i != current_tab_index) {
-        var current_tab_translation = app_controller.tab_controller.getTab(i).getBibleTranslationId();
-        var current_versification = await app_controller.translation_controller.getVersification(current_tab_translation);
-        var current_target_verse_nr = "";
+        let current_tab_translation = app_controller.tab_controller.getTab(i).getBibleTranslationId();
+        let current_versification = await app_controller.translation_controller.getVersification(current_tab_translation);
+        let current_target_verse_nr = "";
 
         if (current_versification == 'HEBREW') {
           current_target_verse_nr = absoluteVerseNrs.absoluteVerseNrHeb;
@@ -149,15 +149,15 @@ class VerseBoxHelper {
           current_target_verse_nr = absoluteVerseNrs.absoluteVerseNrEng;
         }
 
-        var target_verse_list_frame = app_controller.getCurrentVerseListFrame(i);
-        var target_verse_box = target_verse_list_frame[0].querySelectorAll('.verse-nr-' + current_target_verse_nr);
+        let target_verse_list_frame = app_controller.getCurrentVerseListFrame(i);
+        let target_verse_box = target_verse_list_frame[0].querySelectorAll('.verse-nr-' + current_target_verse_nr);
 
         // There are potentially multiple verse boxes returned (could be the case for a tagged verse list or a search results list)
         // Therefore we have to go through all of them and check for each of them whether the book is matching our reference book
-        for (var j = 0; j < target_verse_box.length; j++) {
-          var specific_target_verse_box = target_verse_box[j];
-          var target_verse_box_bible_book_short_title = this.getBibleBookShortTitleFromElement(specific_target_verse_box);
-          var targetBibleBook = await ipcDb.getBibleBook(target_verse_box_bible_book_short_title);
+        for (let j = 0; j < target_verse_box.length; j++) {
+          let specific_target_verse_box = target_verse_box[j];
+          let target_verse_box_bible_book_short_title = this.getBibleBookShortTitleFromElement(specific_target_verse_box);
+          let targetBibleBook = await ipcDb.getBibleBook(target_verse_box_bible_book_short_title);
 
           if (targetBibleBook != null && referenceBibleBook != null) {
             if (targetBibleBook.id == referenceBibleBook.id) {

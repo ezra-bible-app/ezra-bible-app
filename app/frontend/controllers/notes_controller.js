@@ -101,6 +101,7 @@ class NotesController {
             targetNotes = targetVerseBox;
           } else {
             targetNotes = targetVerseBox.querySelector('.verse-notes');
+            this._refreshNotesIndicator(context, targetVerseBox);
           }
 
           this._updateRenderedContent(targetNotes, context);
@@ -170,13 +171,12 @@ class NotesController {
     return currentVerseListFrame[0].querySelector('.verse-reference-id-' + this.currentVerseReferenceId);
   }
 
-  _refreshNotesInfo(noteValue) {
-    var currentVerseBox = this._getCurrentVerseBox();
-    if (currentVerseBox == null) {
+  _refreshNotesIndicator(noteValue, verseBox) {
+    if (verseBox == null) {
       return;
     }
 
-    var notesInfo = currentVerseBox.querySelector('.notes-info');
+    var notesInfo = verseBox.querySelector('.notes-info');
 
     if (notesInfo != null) {
       if (noteValue != '') {
@@ -214,7 +214,7 @@ class NotesController {
         currentNoteValue = currentNoteValue.trim();
 
         this.currentlyEditedNotes.setAttribute('notes-content', currentNoteValue);
-        this._refreshNotesInfo(currentNoteValue);
+        this._refreshNotesIndicator(currentNoteValue, currentVerseBox);
 
         var currentVerseObject = new VerseBox(currentVerseBox).getVerseObject();
         var translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
