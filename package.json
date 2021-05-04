@@ -22,6 +22,7 @@
     "commit-info": "git-to-json --dir app --name commit_info",
     "postinstall": "npm run compile-pug && npm run commit-info && npm run bundle",
     "rebuild": "electron-rebuild -f -w node-sword-interface -v 9.3.1",
+    "rebuild-nsi": "electron-rebuild -f -o node-sword-interface -v 9.3.1",
     "rebuild-win": "node_modules\\.bin\\electron-rebuild.cmd --arch=ia32 -f -w node-sword-interface -v 9.3.1",
     "migrate-db": "sequelize db:migrate && sequelize db:seed:all",
     "purge-build-artifacts": "./build_scripts/purge_build_artifacts.sh",
