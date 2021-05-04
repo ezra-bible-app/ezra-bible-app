@@ -898,29 +898,6 @@ h2 {
   margin-bottom: 0.8em;
 }
 
-.switch-box {
-  clear: both;
-  width: 85%;
-  margin-bottom: 1em;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
-
-.switch-box input,
-.switch-box button {
-  padding: 0.3em;
-}
-
-.switch-box input {
-  float: left;
-  margin: 0.4em;
-}
-
-.Android .switch-box input {
-  margin: 0.2em;
-}
-
 .select-all-search-results-button,
 #module-settings-assistant-init button,
 #start-module-search-button {
@@ -962,15 +939,8 @@ h2 {
 }
 
 .switch-label,
-#tags-switch-label,
-#tags-column-switch-label,
-#strongs-switch-label,
 .tag-select-label,
-.module-search-label,
-#display-options-label,
-#verse-notes-switch-label,
-#verse-notes-fixed-height-switch-label,
-#x-refs-switch-label {
+.module-search-label {
   margin: 0.2em;
   margin-left: 0.2em;
 }

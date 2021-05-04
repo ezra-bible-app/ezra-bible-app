@@ -21,10 +21,35 @@ class ConfigOption extends HTMLElement {
     super();
 
     this.innerHTML = `
+      <style>
+        .switch-box {
+          clear: both;
+          width: 85%;
+          margin-bottom: 1em;
+          margin-left: auto;
+          margin-right: auto;
+          text-align: center;
+        }
+        
+        .switch-box input,
+        .switch-box button {
+          padding: 0.3em;
+        }
+        
+        .switch-box input {
+          float: left;
+          margin: 0.4em;
+        }
+        
+        .Android .switch-box input {
+          margin: 0.2em;
+        }
+      </style>
+
       <div class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
         <input class="toggle-config-option-switch" type="checkbox"></input>
         <div class="switch-label"></div>
-      </div
+      </div>
     `;
 
     this.changeEvent = new CustomEvent("optionChanged", {
