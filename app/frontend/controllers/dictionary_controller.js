@@ -104,12 +104,14 @@ class DictionaryController {
       var currentVerseTextElements = currentVerseList.find('.verse-text');
 
       currentVerseTextElements.bind('mousemove', (e) => {
-        app_controller.tab_search.blurInputField();
+        var currentTab = app_controller.tab_controller.getTab();
+        currentTab.tab_search.blurInputField();
         this.handleVerseMouseMove(e);
       });
 
       currentWElements.bind('mousemove', async (e) => {
-        app_controller.tab_search.blurInputField();
+        var currentTab = app_controller.tab_controller.getTab();
+        currentTab.tab_search.blurInputField();
         await this.handleStrongsMouseMove(e);
       });
     }

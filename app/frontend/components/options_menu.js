@@ -332,11 +332,21 @@ class OptionsMenu {
         app_controller.translation_controller.hasCurrentTranslationHeaderElements(tabIndex)) {
 
       app_controller.navigation_pane.enableHeaderNavigation(tabIndex);
-
     } else {
-
       app_controller.navigation_pane.disableHeaderNavigation();
+    }
+  }
 
+  showOrHideTabSearchFormBasedOnOption(tabIndex=undefined, focus=false) {
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
+
+    if (currentTab != null && currentTab.tab_search != null) {
+      if (this._tabSearchOption.isChecked()) {
+        currentTab.tab_search.show();
+        if (focus) currentTab.tab_search.focus();
+      } else {
+        currentTab.tab_search.resetSearch();
+      }
     }
   }
 
@@ -434,6 +444,7 @@ class OptionsMenu {
     this.showOrHideSectionTitlesBasedOnOption(tabIndex);
     this.showOrHideBookChapterNavigationBasedOnOption(tabIndex);
     this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
+    this.showOrHideTabSearchFormBasedOnOption(tabIndex);
     this.showOrHideXrefsBasedOnOption(tabIndex);
     this.showOrHideFootnotesBasedOnOption(tabIndex);
     this.showOrHideUserDataIndicatorsBasedOnOption(tabIndex);

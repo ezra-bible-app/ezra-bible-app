@@ -115,6 +115,8 @@ class TabController {
       var savedMetaTabs = [];
       
       for (var i = 0; i < this.metaTabs.length; i++) {
+        this.metaTabs[i].tab_search.resetSearch();
+        
         var copiedMetaTab = Object.assign({}, this.metaTabs[i]);
         copiedMetaTab.cachedText = this.getTabHtml(i);
 
@@ -122,6 +124,11 @@ class TabController {
           copiedMetaTab.cachedReferenceVerse = this.getReferenceVerseHtml(i);
         } else {
           copiedMetaTab.cachedReferenceVerse = null;
+        }
+
+        if (copiedMetaTab.tab_search != null) { // Each metaTab has a tab_search object.
+                                                // That object cannot be persisted, so we set it to null explicitly!
+          copiedMetaTab.tab_search = null;
         }
 
         savedMetaTabs.push(copiedMetaTab);

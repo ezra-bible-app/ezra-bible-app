@@ -111,12 +111,21 @@ class UiHelper {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     var verseListComposite = app_controller.getCurrentVerseListComposite(tabIndex);
 
+    var currentTabSearch = verseListComposite.find('.tab-search');
+    var currentTabSearchHeight = currentTabSearch.height() + 15;
+    var tabSearchVisible = false;
+    if (currentTabSearch.css('display') != 'none') {
+      tabSearchVisible = true;
+    }
+
     var navigationPane = verseListComposite.find('.navigation-pane');
     var verseListFrame = verseListComposite.find('.verse-list-frame');
   
-    var newVerseListHeight = this.app_container_height - tabsNav.height() - currentVerseListMenu.height() - 40;
-    navigationPane.css('height', newVerseListHeight);
-    verseListFrame.css('height', newVerseListHeight);
+    var navPaneHeight = this.app_container_height - tabsNav.height() - currentVerseListMenu.height() - 40;
+    navigationPane.css('height', navPaneHeight);
+
+    var verseListHeight = tabSearchVisible ? navPaneHeight - currentTabSearchHeight : navPaneHeight;
+    verseListFrame.css('height', verseListHeight);
   
     this.adaptVerseList(verseListFrame);
   }
