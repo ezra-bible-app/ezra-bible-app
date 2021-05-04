@@ -93,7 +93,7 @@ class NotesController {
       var currentVerseBox = this._getCurrentVerseBox();
 
       verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(
-        currentVerseBox, renderedContent, (context, targetVerseBox) => {
+        currentVerseBox, renderedContent, (changedValue, targetVerseBox) => {
 
           var targetNotes = null;
 
@@ -101,9 +101,10 @@ class NotesController {
             targetNotes = targetVerseBox;
           } else {
             targetNotes = targetVerseBox.querySelector('.verse-notes');
+            this._refreshNotesIndicator(changedValue, targetVerseBox);
           }
 
-          this._updateRenderedContent(targetNotes, context);
+          this._updateRenderedContent(targetNotes, changedValue);
         });
 
       this._resetVerseNoteButtons();
@@ -170,13 +171,12 @@ class NotesController {
     return currentVerseListFrame[0].querySelector('.verse-reference-id-' + this.currentVerseReferenceId);
   }
 
-  _refreshNotesInfo(noteValue) {
-    var currentVerseBox = this._getCurrentVerseBox();
-    if (currentVerseBox == null) {
+  _refreshNotesIndicator(noteValue, verseBox) {
+    if (verseBox == null) {
       return;
     }
 
-    var notesInfo = currentVerseBox.querySelector('.notes-info');
+    var notesInfo = verseBox.querySelector('.notes-info');
 
     if (notesInfo != null) {
       if (noteValue != '') {
@@ -214,7 +214,7 @@ class NotesController {
         currentNoteValue = currentNoteValue.trim();
 
         this.currentlyEditedNotes.setAttribute('notes-content', currentNoteValue);
-        this._refreshNotesInfo(currentNoteValue);
+        this._refreshNotesIndicator(currentNoteValue, currentVerseBox);
 
         var currentVerseObject = new VerseBox(currentVerseBox).getVerseObject();
         var translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
@@ -233,7 +233,7 @@ class NotesController {
             this._updateNoteDate(currentVerseBox, updatedTimestamp);
 
             verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(
-              currentVerseBox, { noteValue: currentNoteValue, timestamp: updatedTimestamp }, (context, targetVerseBox) => {
+              currentVerseBox, { noteValue: currentNoteValue, timestamp: updatedTimestamp }, (changedValue, targetVerseBox) => {
 
                 var currentNotes = null;
 
@@ -243,8 +243,8 @@ class NotesController {
                   currentNotes = targetVerseBox.querySelector('.verse-notes');
                 }
 
-                currentNotes.setAttribute('notes-content', context.noteValue);
-                this._updateNoteDate(targetVerseBox, context.timestamp);
+                currentNotes.setAttribute('notes-content', changedValue.noteValue);
+                this._updateNoteDate(targetVerseBox, changedValue.timestamp);
               });
           }
         });
