@@ -27,6 +27,7 @@
   z-index: 10;
   flex: 0 0 auto;
   /* only manually resize */
+  height: 100%;
 }
 
 #bible-browser-toolbox ol li {
@@ -39,11 +40,16 @@
 }
 
 .accordion-panel {
-  clear: both;
   padding: 0.2em;
-  margin-left: auto;
-  margin-right: auto;
   user-select: none;
+}
+
+#tags-content {
+  height: calc(100% - 7px);
+}
+
+.with-dictionary > #tags-content {
+  height: 60%;
 }
 
 .accordion-panel .ui-accordion-header {
@@ -65,13 +71,16 @@
 
 #dictionary-info-box {
   display: none;
-  margin-top: 0.5em;
-  clear: both;
+  margin-top: 1em;
+  padding: 0;
   user-select: none;
+  height: calc(40% - 22px);
 }
 
 #dictionary-info-box-panel {
   clear: both;
+  height: calc(100% - 3.4em) 
+          !important; /* overwrite default jqueryUI Accordion */
 }
 
 .strongs-short-info {
@@ -183,6 +192,7 @@ tr.td-underline td {
   margin-top: 0.1em;
   padding: 0.5em;
   user-select: none;
+  height: calc(100% - 3.4em);
 }
 
 .checkbox-tag {
