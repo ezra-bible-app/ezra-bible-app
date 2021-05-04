@@ -40,6 +40,8 @@ class TextController {
     }
 
     app_controller.module_search_controller.hideModuleSearchHeader(tabIndex);
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
+    currentTab.tab_search.resetSearch();
     await app_controller.navigation_pane.initNavigationPaneForCurrentView(tabIndex);
 
     if (tabIndex === undefined) {

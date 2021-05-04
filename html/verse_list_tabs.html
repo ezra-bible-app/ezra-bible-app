@@ -6,10 +6,9 @@
 </ul>
 
 <div id="verse-list-tabs-1" class="verse-list-container">
+
   <div class="verse-list-menu">
-
     <div class="verse-list-menu-line">
-
       <div class="fg-button book-select-button ui-state-default ui-corner-all">
         <i class="fas fa-book-open"></i>
         <div class="book-select-value" i18n="menu.book"></div>
@@ -51,7 +50,6 @@
     </div><!-- verse-list-menu-line -->
 
     <div class="verse-list-menu-line">
-
       <div class="bible-select-block">
         <select name="bible-select" class="bible-select">
         </select>
@@ -109,11 +107,9 @@
         <div class="bounce2"></div>
         <div class="bounce3"></div>
       </div>
-    </div>
-    <!-- verse-list-menu-line -->
+    </div> <!-- verse-list-menu-line -->
 
-  </div>
-  <!-- verse-list-menu -->
+  </div> <!-- verse-list-menu -->
 
   <div class="verse-list-composite">
     <div class="navigation-pane navigation-pane-chapters scrollable">
@@ -158,9 +154,27 @@
         <div class="help-text">
         </div>
       </div>
+    </div> <!-- verse-list-frame -->
+
+    <div class="tab-search">
+      <div class="tab-search-form">
+        <input class="tab-search-input" type="text" />
+        <div class="tab-search-occurances" class="tab-search-occurances"></div>
+        <span class="tab-search-previous tab-search-nav">&#x25B2;</span>
+        <span class="tab-search-next tab-search-nav">&#x25BC;</span>
+      </div>
+      <div class="tab-search-options">
+        <select class="tab-search-type" style="margin-right: 1em;">
+          <option value="phrase" i18n="search-menu.exact-phrase"></option>
+          <option value="multiWord" i18n="search-menu.multi-word"></option>
+        </select>
+        <label>
+          <input type="checkbox" class="tab-search-is-case-sensitive">
+          <span i18n="search-menu.case-sensitive"></span>
+        </label>
+      </div>
     </div>
-    <!-- verse-list-frame -->
-  </div>
-  <!-- verse-list-composite -->
-</div>
-<!-- verse-list-container -->
+
+  </div> <!-- verse-list-composite -->
+
+  </div> <!-- verse-list-container -->
