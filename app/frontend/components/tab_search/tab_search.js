@@ -203,7 +203,7 @@ class TabSearch {
   resetSearch() {
     this.resetOccurances();
 
-    if (!app_controller.optionsMenu._tabSearchOption.isChecked()) {
+    if (!app_controller.optionsMenu._tabSearchOption.isChecked) {
       this.hide();
     }
 

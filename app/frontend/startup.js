@@ -29,6 +29,8 @@ const IpcNsi = require('./ipc/ipc_nsi.js');
 const IpcDb = require('./ipc/ipc_db.js');
 const IpcSettings = require('./ipc/ipc_settings.js');
 
+require('./components/config_option.js');
+
 // UI Helper
 const UiHelper = require('./helpers/ui_helper.js');
 window.uiHelper = new UiHelper();
@@ -257,11 +259,14 @@ class Startup
 
     uiHelper.updateLoadingSubtitle("Initializing user interface");
 
-    console.log("Loading HTML fragments");
-    this.loadHTML();
-
     console.log("Initializing IPC clients ...");
     await this.initIpcClients();
+
+    console.log("Initializing i18n ...");
+    await this.initI18N();
+
+    console.log("Loading HTML fragments");
+    this.loadHTML();
 
     if (this._platformHelper.isElectron()) {
       await this.earlyHideToolBar();
@@ -288,8 +293,6 @@ class Startup
 
     loadingIndicator.find('.loader').show();
 
-    console.log("Initializing i18n ...");
-    await this.initI18N();
     $(document).localize();
 
     if (this._platformHelper.isTest()) {
