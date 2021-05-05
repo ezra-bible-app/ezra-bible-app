@@ -187,8 +187,7 @@ tr.td-underline td {
   margin: 0.5em;
 }
 
-#tags-content-global,
-#tags-content-book {
+#tags-content-global {
   margin-top: 0.1em;
   padding: 0.5em;
   user-select: none;

@@ -102,6 +102,7 @@ class UiHelper {
     }
   }
   
+  // FIXME: implement responsive resizing with css 
   resizeVerseList(tabIndex=undefined) {
     if (tabIndex === undefined) {
       tabIndex = app_controller.tab_controller.getSelectedTabIndex();
