@@ -33,7 +33,7 @@ const InstallModuleAssistant = require("../components/module_assistant/install_m
 const RemoveModuleAssistant = require("../components/module_assistant/remove_module_assistant.js");
 const TextController = require("./text_controller.js");
 const VerseContextController = require("./verse_context_controller.js");
-const BookSearch = require("../components/tab_search/tab_search.js");
+const TabSearch = require("../components/tab_search/tab_search.js");
 const TabController = require("./tab_controller.js");
 const OptionsMenu = require("../components/options_menu.js");
 const NavigationPane = require("../components/navigation_pane.js");
@@ -99,7 +99,6 @@ class AppController {
     this.init_component("RemoveModuleAssistant", "remove_module_assistant");
     this.init_component("TextController", "text_controller");
     this.init_component("VerseContextController", "verse_context_controller");
-    this.init_component("BookSearch", "tab_search");
     this.init_component("TabController", "tab_controller");
     this.init_component("OptionsMenu", "optionsMenu");
     this.init_component("NavigationPane", "navigation_pane");
@@ -121,16 +120,6 @@ class AppController {
 
     this.remove_module_assistant.init(async () => { await this.onAllTranslationsRemoved(); },
                                       async (translationId) => { await this.onTranslationRemoved(translationId); });
-
-    this.tab_search.init('#tab-search',
-                         '#tab-search-input',
-                         '#tab-search-occurances',
-                         '#tab-search-previous',
-                         '#tab-search-next',
-                         '#tab-search-is-case-sensitive',
-                         '#tab-search-type',
-                         async (occurances) => { await this.onSearchResultsAvailable(occurances); },
-                         () => { this.onSearchReset(); });
 
     await this.book_selection_menu.init();
 
@@ -219,9 +208,8 @@ class AppController {
     this.notes_controller.restoreCurrentlyEditedNotes();
 
     // Re-configure tab search
-    this.tab_search.resetSearch();
     var currentVerseList = this.getCurrentVerseList(ui.index);
-    this.tab_search.setVerseList(currentVerseList);
+    metaTab.tab_search.setVerseList(currentVerseList);
 
     // Clear verse selection
     this.verse_selection.clear_verse_selection();
@@ -290,15 +278,31 @@ class AppController {
     this.optionsMenu.initCurrentOptionsMenu(tabIndex);
     this.book_selection_menu.clearSelectedBookInMenu();
 
+    var verseListComposite = this.getCurrentVerseListComposite(tabIndex);
+
+    currentTab.tab_search = new TabSearch();
+    currentTab.tab_search.init(
+      verseListComposite,
+      '.tab-search',
+      '.tab-search-input',
+      '.tab-search-occurances',
+      '.tab-search-previous',
+      '.tab-search-next',
+      '.tab-search-is-case-sensitive',
+      '.tab-search-type',
+      async (occurances) => { await this.onSearchResultsAvailable(occurances); },
+      () => { this.onSearchReset(); }
+    );
+
     // We need to refresh the last used tag button, because the button is not yet initialized in the tab html template
     app_controller.assign_last_tag_button.onLatestUsedTagChanged(undefined, undefined);
   }
 
   async onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId) {
-    // The tab search is not valid anymore if the translation is changing. Therefore we reset it.
-    this.tab_search.resetSearch();
-
     var currentTab = this.tab_controller.getTab();
+
+    // The tab search is not valid anymore if the translation is changing. Therefore we reset it.
+    currentTab.tab_search.resetSearch();
 
     if (currentTab.getTextType() == 'search_results') {
       await this.text_controller.prepareForNewText(true, true);
@@ -430,6 +434,43 @@ class AppController {
         this.toggleFullScreen();
       });
     }
+
+    var searchShortCut = 'ctrl+f';
+    if (platformHelper.isMac()) {
+      searchShortCut = 'command+f';
+    }
+
+    Mousetrap.bind(searchShortCut, () => {
+      var currentTab = app_controller.tab_controller.getTab();
+      currentTab.tab_search.show();
+      currentTab.tab_search.focus();
+      return false;
+    });
+
+    Mousetrap.bind('esc', () => {
+      var currentTab = app_controller.tab_controller.getTab();
+      currentTab.tab_search.resetSearch();
+      return false;
+    });
+
+    Mousetrap.bind('enter', () => {
+      var currentTab = app_controller.tab_controller.getTab();
+      // We need to notify the TabSearch component that there has been a mouse trap event.
+      // This is to avoid double event processing, because the TabSearch also listens for key press events.
+      currentTab.tab_search.mouseTrapEvent = true;
+      currentTab.tab_search.jumpToNextOccurance();
+      return false;
+    });
+
+    Mousetrap.bind('shift+enter', () => {
+      var currentTab = app_controller.tab_controller.getTab();
+      // We need to notify the TabSearch component that there has been a mouse trap event.
+      // This is to avoid double event processing, because the TabSearch also listens for key press events.
+      currentTab.tab_search.mouseTrapEvent = true;
+      currentTab.tab_search.shiftKeyPressed = true;
+      currentTab.tab_search.jumpToNextOccurance(false);
+      return false;
+    });
   }
 
   toggleFullScreen() {
@@ -613,7 +654,9 @@ class AppController {
     
     app_controller.hideAllMenus();
     app_controller.notes_controller.restoreCurrentlyEditedNotes();
-    app_controller.tab_search.blurInputField();
+
+    var currentTab = app_controller.tab_controller.getTab();
+    currentTab.tab_search.blurInputField();
   }
 
   hideAllMenus() {
@@ -656,7 +699,7 @@ class AppController {
       if (isXrefMarker) {
         var referenceType = "XREFS";
 
-        if (app_controller.optionsMenu._verseListNewTabOption.isChecked()) {
+        if (app_controller.optionsMenu._verseListNewTabOption.isChecked) {
           this.verse_list_popup.currentReferenceType = referenceType;
           await this.verse_list_popup.initCurrentXrefs(event.target);
           this.verse_list_popup.openVerseListInNewTab();
@@ -666,7 +709,7 @@ class AppController {
       } else if (isTag) {
         var referenceType = "TAGGED_VERSES";
 
-        if (app_controller.optionsMenu._verseListNewTabOption.isChecked()) {
+        if (app_controller.optionsMenu._verseListNewTabOption.isChecked) {
           this.verse_list_popup.currentReferenceType = referenceType;
           this.verse_list_popup.initCurrentTag(event.target);
           this.verse_list_popup.openVerseListInNewTab();
@@ -876,7 +919,8 @@ class AppController {
     var currentTabId = this.tab_controller.getSelectedTabId();
     var currentVerseList = this.getCurrentVerseList();
 
-    this.tab_search.setVerseList(currentVerseList);
+    var currentTab = this.tab_controller.getTab();
+    currentTab.tab_search.setVerseList(currentVerseList);
 
     if (xrefs.length > 0) {
       // Only reset the view if the current text type is not xrefs.
@@ -889,11 +933,12 @@ class AppController {
   }
 
   async getTaggedVerses() {
-    var currentTagIdList = this.tab_controller.getTab().getTagIdList();
+    var currentTab = this.tab_controller.getTab();
+    var currentTagIdList = currentTab.getTagIdList();
     var currentTabId = this.tab_controller.getSelectedTabId();
     var currentVerseList = this.getCurrentVerseList();
 
-    this.tab_search.setVerseList(currentVerseList);
+    currentTab.tab_search.setVerseList(currentVerseList);
 
     if (currentTagIdList != "") {
       // Only reset the view if the current text type is not tagged_verses.

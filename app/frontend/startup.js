@@ -29,6 +29,8 @@ const IpcNsi = require('./ipc/ipc_nsi.js');
 const IpcDb = require('./ipc/ipc_db.js');
 const IpcSettings = require('./ipc/ipc_settings.js');
 
+require('./components/config_option.js');
+
 // UI Helper
 const UiHelper = require('./helpers/ui_helper.js');
 window.uiHelper = new UiHelper();
@@ -118,7 +120,6 @@ class Startup
     var tagAssignmentMenu = fs.readFileSync('html/tag_assignment_menu.html');
     var bibleBrowserToolbox = fs.readFileSync('html/bible_browser_toolbox.html');
     var moduleSettingsAssistant = fs.readFileSync('html/module_settings_assistant.html');
-    var tabSearchForm = fs.readFileSync('html/tab_search_form.html');
     var moduleSearchMenu = fs.readFileSync('html/module_search_menu.html');
     var displayOptionsMenu = fs.readFileSync('html/display_options_menu.html');
     var verseListTabs = fs.readFileSync('html/verse_list_tabs.html');
@@ -129,7 +130,6 @@ class Startup
     document.getElementById('tag-assignment-menu').innerHTML = tagAssignmentMenu;
     document.getElementById('bible-browser-toolbox').innerHTML = bibleBrowserToolbox;
     document.getElementById('module-settings-assistant').innerHTML = moduleSettingsAssistant;
-    document.getElementById('tab-search').innerHTML = tabSearchForm;
     document.getElementById('module-search-menu').innerHTML = moduleSearchMenu;
     document.getElementById('display-options-menu').innerHTML = displayOptionsMenu;
     document.getElementById('verse-list-tabs').innerHTML = verseListTabs;
@@ -259,11 +259,14 @@ class Startup
 
     uiHelper.updateLoadingSubtitle("Initializing user interface");
 
-    console.log("Loading HTML fragments");
-    this.loadHTML();
-
     console.log("Initializing IPC clients ...");
     await this.initIpcClients();
+
+    console.log("Initializing i18n ...");
+    await this.initI18N();
+
+    console.log("Loading HTML fragments");
+    this.loadHTML();
 
     if (this._platformHelper.isElectron()) {
       await this.earlyHideToolBar();
@@ -290,8 +293,6 @@ class Startup
 
     loadingIndicator.find('.loader').show();
 
-    console.log("Initializing i18n ...");
-    await this.initI18N();
     $(document).localize();
 
     if (this._platformHelper.isTest()) {

@@ -16,7 +16,6 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const Mousetrap = require('mousetrap');
 const VerseSearch = require('./verse_search.js');
 
 /**
@@ -28,7 +27,8 @@ class TabSearch {
   constructor() {
   }
 
-  init(searchForm,
+  init(parentTab,
+       searchForm,
        searchInput,
        searchOccurancesElement,
        prevButton,
@@ -38,13 +38,14 @@ class TabSearch {
        onSearchResultsAvailable,
        onSearchReset) {
 
-    this.searchForm = $(searchForm);
-    this.inputField = $(searchInput);
-    this.searchOccurancesElement = $(searchOccurancesElement);
-    this.prevButton = $(prevButton);
-    this.nextButton = $(nextButton);
-    this.caseSensitiveCheckbox = $(caseSensitiveCheckbox);
-    this.searchTypeSelect = $(searchTypeSelect);
+    this.parentTab = parentTab;
+    this.searchForm = parentTab.find(searchForm);
+    this.inputField = parentTab.find(searchInput);
+    this.searchOccurancesElement = parentTab.find(searchOccurancesElement);
+    this.prevButton = parentTab.find(prevButton);
+    this.nextButton = parentTab.find(nextButton);
+    this.caseSensitiveCheckbox = parentTab.find(caseSensitiveCheckbox);
+    this.searchTypeSelect = parentTab.find(searchTypeSelect);
     this.currentOccuranceIndex = 0;
     this.currentOccurancesCount = 0;
     this.allOccurances = [];
@@ -52,23 +53,52 @@ class TabSearch {
     this.currentOccuranceElement = null;
     this.onSearchResultsAvailable = onSearchResultsAvailable;
     this.onSearchReset = onSearchReset;
+    this.lastSearchString = null;
+    this.mouseTrapEvent = false;
+    this.shiftKeyPressed = false;
+    this.searchTimeoutMs = 400;
+    if (platformHelper.isCordova()) {
+      this.searchTimeoutMs = 800;
+    }
+
     this.verseSearch = new VerseSearch();
 
     this.initInputField();
     this.initSearchOptionControls();
     this.initNavigationButtons();
-    this.initGlobalShortCuts();
+
+    var currentVerseList = parentTab.find('.verse-list');
+    this.setVerseList(currentVerseList);
   }
 
   initInputField() {
+    this.inputField.bind('keydown', (e) => {
+      if (e.key == 'Shift') {
+        this.shiftKeyPressed = true;
+        return;
+      }
+    });
+
     this.inputField.bind('keyup', (e) => {
+      if (e.key == 'Shift') {
+        this.shiftKeyPressed = false;
+        return;
+      }
+
       if (e.key == 'Escape') {
         this.resetSearch();
         return;
       }
 
       if (e.key == 'Enter') {
-        this.jumpToNextOccurance();
+        if (this.mouseTrapEvent) { // We also catch keypresses with Mousetrap (globally, see AppController.initGlobalShortCuts)
+                                   // To ensure that we do not process the key press twice we return immediately if we know
+                                   // that a mouse trap event was fired previously.
+          this.mouseTrapEvent = false;
+          return;
+        }
+
+        this.jumpToNextOccurance(!this.shiftKeyPressed);
         return;
       }
 
@@ -82,10 +112,12 @@ class TabSearch {
 
   initSearchOptionControls() {
     this.caseSensitiveCheckbox.bind('change', () => {
+      this.lastSearchString = null;
       this.triggerDelayedSearch();
     });
 
     this.searchTypeSelect.bind('change', () => {
+      this.lastSearchString = null;
       this.triggerDelayedSearch();
     });
   }
@@ -100,32 +132,18 @@ class TabSearch {
     });
   }
 
-  initGlobalShortCuts() {
-    var searchShortCut = 'ctrl+f';
-    if (platformHelper.isMac()) {
-      searchShortCut = 'command+f';
-    }
+  show() {
+    this.searchForm.css('display', 'flex');
+    uiHelper.resizeVerseList();
+  }
 
-    Mousetrap.bind(searchShortCut, () => {
-      this.searchForm.show();
-      this.inputField.focus();
-      return false;
-    });
+  hide() {
+    this.searchForm.hide();
+    uiHelper.resizeVerseList();
+  }
 
-    Mousetrap.bind('esc', () => {
-      this.resetSearch();
-      return false;
-    });
-
-    Mousetrap.bind('enter', () => {
-      this.jumpToNextOccurance();
-      return false;
-    });
-
-    Mousetrap.bind('shift+enter', () => {
-      this.jumpToNextOccurance(false);
-      return false;
-    });
+  focus() {
+    this.inputField.focus();
   }
 
   setVerseList(verseList) {
@@ -150,15 +168,25 @@ class TabSearch {
       return;
     }
 
+    if (searchString == this.lastSearchString) {
+      return;
+    }
+
     this.searchTimeout = setTimeout(async () => {
       app_controller.verse_selection.clear_verse_selection(false);
       this.onSearchReset();
+      this.lastSearchString = searchString;
+
       await this.doSearch(searchString);
+
       // This is necessary, beause the search "rewrites" the verse content and events
       // get lost by doing that, so we have to re-bind the xref events.
       app_controller.bindXrefEvents();
-      this.inputField.focus();
-    }, 400);
+
+      if (!platformHelper.isCordova()) {
+        this.focus();
+      }
+    }, this.searchTimeoutMs);
   }
 
   resetOccurances() {
@@ -174,11 +202,18 @@ class TabSearch {
 
   resetSearch() {
     this.resetOccurances();
-    this.searchForm.hide();
+
+    if (!app_controller.optionsMenu._tabSearchOption.isChecked) {
+      this.hide();
+    }
+
     this.inputField[0].value = '';
+    this.lastSearchString = null;
+    this.mouseTrapEvent = false;
+    this.shiftKeyPressed = false;
   }
 
-  jumpToNextOccurance(forward=true) {
+  async jumpToNextOccurance(forward=true) {
     if (this.currentOccurancesCount == 0) {
       return;
     }
@@ -210,7 +245,13 @@ class TabSearch {
     }
 
     this.jumpToCurrentOccurance();
-    this.highlightCurrentOccurance();
+    await this.highlightCurrentOccurance();
+
+    if (!platformHelper.isCordova()) {
+      this.focus();
+    }
+
+    await waitUntilIdle();
   }
 
   jumpToCurrentOccurance() {
@@ -225,7 +266,7 @@ class TabSearch {
     // Remove previous element's highlighting
     if (this.previousOccuranceElement != null) {
       this.previousOccuranceElement.classList.remove('current-hl');
-      var closestVerseBox = this.previousOccuranceElement.closest('.verse-box')
+      let closestVerseBox = this.previousOccuranceElement.closest('.verse-box')
       if (closestVerseBox != null) closestVerseBox.querySelector('.verse-text').classList.remove('ui-selected');
       app_controller.verse_selection.clear_verse_selection(false);
     }
@@ -233,7 +274,7 @@ class TabSearch {
     // Highlight current element
     if (this.currentOccuranceElement != null) {
       this.currentOccuranceElement.classList.add('current-hl');
-      var verseBox = this.currentOccuranceElement.closest('.verse-box');
+      let verseBox = this.currentOccuranceElement.closest('.verse-box');
 
       if (verseBox != null) {
         verseBox.querySelector('.verse-text').classList.add('ui-selected');
@@ -250,8 +291,8 @@ class TabSearch {
     var occurancesString = "";
 
     if (this.currentOccurancesCount > 0) {
-      var currentOccuranceNumber = this.currentOccuranceIndex + 1;
-      var occurancesString = currentOccuranceNumber + '/' + this.currentOccurancesCount;
+      let currentOccuranceNumber = this.currentOccuranceIndex + 1;
+      occurancesString = currentOccuranceNumber + '/' + this.currentOccurancesCount;
     }
 
     this.searchOccurancesElement[0].innerHTML = occurancesString;
@@ -294,8 +335,8 @@ class TabSearch {
 
   removeAllHighlighting() {
     if (this.verseList != null) {
-      for (var i = 0; i < this.allOccurances.length; i++) {
-        var currentOccuranceVerseBox = this.allOccurances[i].closest('.verse-text');
+      for (let i = 0; i < this.allOccurances.length; i++) {
+        let currentOccuranceVerseBox = this.allOccurances[i].closest('.verse-text');
         this.removeHighlightingFromVerses([currentOccuranceVerseBox]);
       }
     }
@@ -307,15 +348,21 @@ class TabSearch {
     }
     
     var searchHl = $(verseElements).find('.search-hl, .current-hl');
-    for (var i = 0; i < searchHl.length; i++) {
-      var highlightedText = $(searchHl[i]);
-      var text = highlightedText.text();
-      highlightedText.replaceWith(text);
+
+    for (let i = 0; i < searchHl.length; i++) {
+      let highlightedText = $(searchHl[i])[0];
+      let text = document.createTextNode(highlightedText.innerText);
+
+      if (highlightedText.parentNode.nodeName == 'SPAN') {
+        highlightedText.parentNode.replaceWith(highlightedText.parentNode.innerText);
+      } else {
+        highlightedText.replaceWith(text);
+      }
     }
 
     verseElements.forEach((element) => {
       if (element != null) {
-        var verseElementHtml = element.innerHTML;
+        let verseElementHtml = element.innerHTML;
 
         /* Remove line breaks between strings, that resulted from inserting the 
           search-hl / current-hl elements before. If these linebreaks are not removed

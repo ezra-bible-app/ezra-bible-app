@@ -104,12 +104,14 @@ class DictionaryController {
       var currentVerseTextElements = currentVerseList.find('.verse-text');
 
       currentVerseTextElements.bind('mousemove', (e) => {
-        app_controller.tab_search.blurInputField();
+        var currentTab = app_controller.tab_controller.getTab();
+        currentTab.tab_search.blurInputField();
         this.handleVerseMouseMove(e);
       });
 
       currentWElements.bind('mousemove', async (e) => {
-        app_controller.tab_search.blurInputField();
+        var currentTab = app_controller.tab_controller.getTab();
+        currentTab.tab_search.blurInputField();
         await this.handleStrongsMouseMove(e);
       });
     }
@@ -242,7 +244,7 @@ class DictionaryController {
   }
 
   async handleStrongsMouseMove(event) {
-    if (!app_controller.optionsMenu._dictionaryOption.isChecked()) {
+    if (!app_controller.optionsMenu._dictionaryOption.isChecked) {
       return;
     }
 
@@ -278,7 +280,7 @@ class DictionaryController {
   }
 
   handleVerseMouseMove(event) {
-    if (!app_controller.optionsMenu._dictionaryOption.isChecked()) {
+    if (!app_controller.optionsMenu._dictionaryOption.isChecked) {
       return;
     }
 

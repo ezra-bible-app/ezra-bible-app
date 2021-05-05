@@ -40,7 +40,7 @@ class ThemeController {
 
       // Set up a listener to react when the native theme has changed
       nativeTheme.on('updated', () => {
-        if (nativeTheme.shouldUseDarkColors != app_controller.optionsMenu._nightModeOption.isChecked()) {
+        if (nativeTheme.shouldUseDarkColors != app_controller.optionsMenu._nightModeOption.isChecked) {
           uiHelper.showGlobalLoadingIndicator();
 
           setTimeout(() => {
@@ -50,7 +50,7 @@ class ThemeController {
         }
       });
 
-      if (nativeTheme.shouldUseDarkColors != app_controller.optionsMenu._nightModeOption.isChecked()) {
+      if (nativeTheme.shouldUseDarkColors != app_controller.optionsMenu._nightModeOption.isChecked) {
         console.log("Initializing night mode based on system settings ...");
         this.toggleDarkModeIfNeeded();
       }
@@ -104,7 +104,7 @@ class ThemeController {
   }
 
   async useNightModeBasedOnOption(force=false) {
-    if (force || app_controller.optionsMenu._nightModeOption.isChecked(force)) {
+    if (force || app_controller.optionsMenu._nightModeOption.isChecked) {
       this.switchToDarkTheme();
     } else {
       this.switchToRegularTheme();
@@ -114,7 +114,7 @@ class ThemeController {
       this.darkMode = new Darkmode();
     }
 
-    var nightModeOptionChecked = force ? true : app_controller.optionsMenu._nightModeOption.isChecked();
+    var nightModeOptionChecked = force ? true : app_controller.optionsMenu._nightModeOption.isChecked;
 
     if (nightModeOptionChecked && !this.darkMode.isActivated() ||
         !nightModeOptionChecked && this.darkMode.isActivated()) {
