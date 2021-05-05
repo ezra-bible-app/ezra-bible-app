@@ -365,7 +365,7 @@ class NavigationPane {
 
     var reference = '#top';
 
-    if (chapter > 1 || app_controller.optionsMenu._bookIntroOption.isChecked()) {
+    if (chapter > 1 || app_controller.optionsMenu._bookIntroOption.isChecked) {
       var cachedVerseListTabId = this.getCachedVerseListTabId();
       reference = '#' + cachedVerseListTabId + ' ' + chapter;
       window.location = reference;

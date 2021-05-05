@@ -699,7 +699,7 @@ class AppController {
       if (isXrefMarker) {
         var referenceType = "XREFS";
 
-        if (app_controller.optionsMenu._verseListNewTabOption.isChecked()) {
+        if (app_controller.optionsMenu._verseListNewTabOption.isChecked) {
           this.verse_list_popup.currentReferenceType = referenceType;
           await this.verse_list_popup.initCurrentXrefs(event.target);
           this.verse_list_popup.openVerseListInNewTab();
@@ -709,7 +709,7 @@ class AppController {
       } else if (isTag) {
         var referenceType = "TAGGED_VERSES";
 
-        if (app_controller.optionsMenu._verseListNewTabOption.isChecked()) {
+        if (app_controller.optionsMenu._verseListNewTabOption.isChecked) {
           this.verse_list_popup.currentReferenceType = referenceType;
           this.verse_list_popup.initCurrentTag(event.target);
           this.verse_list_popup.openVerseListInNewTab();

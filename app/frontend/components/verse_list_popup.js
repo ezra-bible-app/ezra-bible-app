@@ -380,11 +380,11 @@ class VerseListPopup {
 
     $('#verse-list-popup').dialog({ title: tagReferenceBoxTitle });
 
-    if (!app_controller.optionsMenu._xrefsOption.isChecked()) {
+    if (!app_controller.optionsMenu._xrefsOption.isChecked) {
       $('#verse-list-popup-verse-list').addClass('verse-list-without-xrefs');
     }
 
-    if (!app_controller.optionsMenu._footnotesOption.isChecked()) {
+    if (!app_controller.optionsMenu._footnotesOption.isChecked) {
       $('#verse-list-popup-verse-list').addClass('verse-list-without-footnotes');
     }
 
