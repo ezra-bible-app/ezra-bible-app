@@ -24,7 +24,8 @@ const uiHelper = require("../helpers/ui_helper.js");
 
 
 Given('I have {display_option} {state}', { timeout: 40 * 1000 }, async function (displayOptionId, state) {
-  const checkbox = await spectronHelper.getWebClient().$(displayOptionId);
+  const configOption = await spectronHelper.getWebClient().$(displayOptionId);
+  const checkbox = await configOption.$('.toggle-config-option-switch');
   const checked = await checkbox.getAttribute('checked');
   if (state && !checked || !state && checked) {
     const verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');

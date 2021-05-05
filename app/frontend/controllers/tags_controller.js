@@ -67,6 +67,7 @@ class TagsController {
     this.deleteTagConfirmationDialogInitDone = false;
     this.removeTagAssignmentConfirmationDialogInitDone = false;
     this.renameStandardTagDialogInitDone = false;
+    this.lastBook = null;
   }
 
   initNewTagDialog() {
@@ -590,9 +591,9 @@ class TagsController {
       var current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
       var current_verse_box = current_verse_list_frame[0].querySelector('.verse-reference-id-' + current_verse_reference_id);
 
-      await this.verse_box_helper.iterateAndChangeAllDuplicateVerseBoxes(current_verse_box, { tag_id: tag_id, tag_title: tag_title, action: action }, (context, targetVerseBox) => {
+      await this.verse_box_helper.iterateAndChangeAllDuplicateVerseBoxes(current_verse_box, { tag_id: tag_id, tag_title: tag_title, action: action }, (changedValue, targetVerseBox) => {
         var verseBoxObj = new VerseBox(targetVerseBox);
-        verseBoxObj.changeVerseListTagInfo(context.tag_id, context.tag_title, context.action);
+        verseBoxObj.changeVerseListTagInfo(changedValue.tag_id, changedValue.tag_title, changedValue.action);
       });
     }
   }
@@ -635,10 +636,14 @@ class TagsController {
       this.initialRenderingDone = false;
     }
 
-    var tagList = await this.tag_store.getTagList(forceRefresh);
-    var tagStatistics = await this.tag_store.getBookTagStatistics(currentBook, forceRefresh);
-    await this.renderTags(tagList, tagStatistics, currentBook != null);
-    await waitUntilIdle();
+    if (currentBook != this.lastBook || forceRefresh) {
+      var tagList = await this.tag_store.getTagList(forceRefresh);
+      var tagStatistics = await this.tag_store.getBookTagStatistics(currentBook, forceRefresh);
+      await this.renderTags(tagList, tagStatistics, currentBook != null);
+      await waitUntilIdle();
+
+      this.lastBook = currentBook;
+    }
   }
 
   getNewTagStatsElement(tag_statistics, currentElementId, tagId, current_book) {

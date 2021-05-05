@@ -66,7 +66,7 @@ class NavigationPane {
 
       var hasHeaders = await app_controller.translation_controller.hasBibleTranslationHeaders(currentTranslationId);
 
-      if (headerNavOption.isChecked() && hasHeaders) {
+      if (headerNavOption.isChecked && hasHeaders) {
         
         navigationPane.removeClass('navigation-pane-chapters');
         navigationPane.addClass('navigation-pane-headers');
@@ -365,7 +365,7 @@ class NavigationPane {
 
     var reference = '#top';
 
-    if (chapter > 1 || app_controller.optionsMenu._bookIntroOption.isChecked()) {
+    if (chapter > 1 || app_controller.optionsMenu._bookIntroOption.isChecked) {
       var cachedVerseListTabId = this.getCachedVerseListTabId();
       reference = '#' + cachedVerseListTabId + ' ' + chapter;
       window.location = reference;

@@ -24,15 +24,15 @@ defineParameterType({
   transformer: s => {
     switch (s) {
       case 'tags':
-        return '#tags-switch';
+        return '#showTagsOption';
       case 'notes':
-        return '#verse-notes-switch';
+        return '#showNotesOption';
       case 'indicators':
-        return '#user-data-indicators-switch';
+        return '#showUserDataIndicatorOption';
       case 'xrefs':
-        return '#xrefs-switch';
+        return '#showXrefsOption';
       case 'footnotes':
-        return '#footnotes-switch';
+        return '#showFootnotesOption';
     }
   }
 });

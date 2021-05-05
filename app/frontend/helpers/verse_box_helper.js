@@ -91,13 +91,13 @@ class VerseBoxHelper {
     return sectionTitle;
   }
 
-  async iterateAndChangeAllDuplicateVerseBoxes(referenceVerseBoxElement, context, changeCallback) {
+  async iterateAndChangeAllDuplicateVerseBoxes(referenceVerseBoxElement, changedValue, changeCallback) {
     if (referenceVerseBoxElement == null) {
       return;
     }
 
-    var current_tab_index = app_controller.tab_controller.getSelectedTabIndex();
-    var tab_count = app_controller.tab_controller.getTabCount();
+    var currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+    var tabCount = app_controller.tab_controller.getTabCount();
 
     var bibleBook = this.getBibleBookShortTitleFromElement(referenceVerseBoxElement);
     var absoluteVerseNumber = null;
@@ -114,12 +114,12 @@ class VerseBoxHelper {
       absoluteVerseNrs['absoluteVerseNrEng'] = 0;
       absoluteVerseNrs['absoluteVerseNrHeb'] = 0;
     } else {
-      var referenceVerseBox = new VerseBox(referenceVerseBoxElement);
+      let referenceVerseBox = new VerseBox(referenceVerseBoxElement);
       absoluteVerseNumber = referenceVerseBox.getAbsoluteVerseNumber();
       chapter = referenceVerseBox.getChapter();
       verseNumber = referenceVerseBox.getVerseNumber();
 
-      absoluteVerseNrs = await ipcDb.getAbsoluteVerseNumbersFromReference(source_versification,
+      absoluteVerseNrs = await ipcDb.getAbsoluteVerseNumbersFromReference(sourceVersification,
                                                                           bibleBook,
                                                                           absoluteVerseNumber,
                                                                           chapter,
@@ -129,39 +129,39 @@ class VerseBoxHelper {
 
     var referenceBibleBook = await ipcDb.getBibleBook(bibleBook);
 
-    var source_tab_translation = app_controller.tab_controller.getTab(current_tab_index).getBibleTranslationId();
-    var source_versification = 'ENGLISH';
+    var sourceTabTranslation = app_controller.tab_controller.getTab(currentTabIndex).getBibleTranslationId();
+    var sourceVersification = 'ENGLISH';
     try {
-      await app_controller.translation_controller.getVersification(source_tab_translation);
+      await app_controller.translation_controller.getVersification(sourceTabTranslation);
     } catch (exception) {
       console.warn('Got exception when getting versification: ' + exception);
     }
 
-    for (var i = 0; i < tab_count; i++) {
-      if (i != current_tab_index) {
-        var current_tab_translation = app_controller.tab_controller.getTab(i).getBibleTranslationId();
-        var current_versification = await app_controller.translation_controller.getVersification(current_tab_translation);
-        var current_target_verse_nr = "";
+    for (let i = 0; i < tabCount; i++) {
+      if (i != currentTabIndex) {
+        let currentTabTranslation = app_controller.tab_controller.getTab(i).getBibleTranslationId();
+        let currentVersification = await app_controller.translation_controller.getVersification(currentTabTranslation);
+        let currentTargetVerseNr = "";
 
-        if (current_versification == 'HEBREW') {
-          current_target_verse_nr = absoluteVerseNrs.absoluteVerseNrHeb;
+        if (currentVersification == 'HEBREW') {
+          currentTargetVerseNr = absoluteVerseNrs.absoluteVerseNrHeb;
         } else {
-          current_target_verse_nr = absoluteVerseNrs.absoluteVerseNrEng;
+          currentTargetVerseNr = absoluteVerseNrs.absoluteVerseNrEng;
         }
 
-        var target_verse_list_frame = app_controller.getCurrentVerseListFrame(i);
-        var target_verse_box = target_verse_list_frame[0].querySelectorAll('.verse-nr-' + current_target_verse_nr);
+        let targetVerseListFrame = app_controller.getCurrentVerseListFrame(i);
+        let targetVerseBox = targetVerseListFrame[0].querySelectorAll('.verse-nr-' + currentTargetVerseNr);
 
         // There are potentially multiple verse boxes returned (could be the case for a tagged verse list or a search results list)
         // Therefore we have to go through all of them and check for each of them whether the book is matching our reference book
-        for (var j = 0; j < target_verse_box.length; j++) {
-          var specific_target_verse_box = target_verse_box[j];
-          var target_verse_box_bible_book_short_title = this.getBibleBookShortTitleFromElement(specific_target_verse_box);
-          var targetBibleBook = await ipcDb.getBibleBook(target_verse_box_bible_book_short_title);
+        for (let j = 0; j < targetVerseBox.length; j++) {
+          let specificTargetVerseBox = targetVerseBox[j];
+          let targetVerseBoxBibleBookShortTitle = this.getBibleBookShortTitleFromElement(specificTargetVerseBox);
+          let targetBibleBook = await ipcDb.getBibleBook(targetVerseBoxBibleBookShortTitle);
 
           if (targetBibleBook != null && referenceBibleBook != null) {
             if (targetBibleBook.id == referenceBibleBook.id) {
-              changeCallback(context, specific_target_verse_box);
+              changeCallback(changedValue, specificTargetVerseBox);
             }
           }
         }
