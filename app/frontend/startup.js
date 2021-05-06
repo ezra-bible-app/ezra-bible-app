@@ -68,7 +68,10 @@ class Startup
     i18nHelper = new I18nHelper();
   
     await i18nHelper.init();
-    // await i18n.changeLanguage('de');
+
+    if (await ipcSettings.has('appLocale')) {
+      await i18n.changeLanguage(await ipcSettings.get('appLocale', 'en'));
+    }
   
     if (this._platformHelper.isTest()) { // Use English for test mode
       await i18n.changeLanguage('en');
