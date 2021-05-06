@@ -91,8 +91,8 @@ class InfoPopup {
 
       <div id='app-info-tabs-3' class='info-tabs scrollable'>
         <h2>${i18n.t("general.developers")}</h2>
-          <a class='external' href='https://github.com/tobias-klein'>Tobias Klein (Maintainer)</a><br>
-          <a class='external' href='https://github.com/zhuiks'>Evgen Kucherov</a>
+        <a class='external' href='https://github.com/tobias-klein'>Tobias Klein (Maintainer)</a><br>
+        <a class='external' href='https://github.com/zhuiks'>Evgen Kucherov</a>
 
         <h2>${i18n.t("general.translators")}</h2>
         <a class='external' href='https://github.com/tobias-klein'>Tobias Klein (English, German)</a><br>
