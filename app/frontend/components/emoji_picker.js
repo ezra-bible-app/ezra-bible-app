@@ -104,22 +104,6 @@ class EmojiTrigger extends HTMLElement {
 customElements.define('emoji-picker', EmojiTrigger);
 module.exports.EmojiTrigger = EmojiTrigger;
 
-// proof of concept; utilizing tagged templates https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates
-// FIXME: move to utility module or use the npm package
-function html(literals, ...substs) {
-  const template = document.createElement('template');
-  // based upon https://github.com/AntonioVdlC/html-template-tag/blob/main/src/index.ts
-  template.innerHTML = literals.raw.reduce((acc, lit, i) => {
-    let subst = substs[i - 1];
-    if (Array.isArray(subst)) {
-      subst = subst.join("");
-    }
-    return acc + subst + lit;
-  });
-
-  return template;
-}
-
 var picker;
 
 function initPicker() {
