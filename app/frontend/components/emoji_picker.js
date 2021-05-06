@@ -39,23 +39,38 @@ class EmojiTrigger extends HTMLElement {
     this.editor = null;
     const shadow = this.attachShadow({ mode: 'open' });
     shadow.appendChild(template.content.cloneNode(true));
-    this.addEventListener('click', () => this.handleClick());
-    console.log('emoji created')
+    this.addEventListener('click', () => this._handleClick());
   }
 
   connectedCallback() {
     this.parentNode.style.position = 'relative'; // emoji trigger position relative to the parent
-    console.log('emoji connected')
+  }
+
+  disconnectedCallback() {
+    this.editor = null;
+    if (picker) {
+      picker.hidePicker();
+    }
   }
 
   attachEditor(codeMirror) {
     this.editor = codeMirror;
 
-    this.style.bottom = '3px';
-    this.style.fill = 'inherit';
-}
+    this.style.bottom = '0.8em';
+  }
 
-  handleClick() {
+  insertEmoji(emoji) {
+    const input = this.previousElementSibling;
+    if (input && input.nodeName === 'INPUT') {
+      input.value += emoji;
+    } else if (this.editor && this.editor.getDoc()) {
+      this.editor.getDoc().replaceSelection(emoji);
+    } else {
+      console.log('EmojiPicker: Input is not detected. Can\'t add emoji', emoji);
+    }
+  }
+
+  _handleClick() {
     if (picker === undefined) {
       initPicker();
     }
@@ -104,21 +119,14 @@ function initPicker() {
     }
   });
 
-  picker.on('emoji', ({emoji, name, trigger}) => {
+  picker.on('emoji', ({ emoji, name, trigger }) => {
     if (!trigger || trigger.nodeName !== 'EMOJI-PICKER') {
       console.log('EmojiPicker: Something wrong. Trigger element is not detected :( But emoji was clicked:', emoji, name);
       return;
     }
-    const input = trigger.previousElementSibling; 
-    if (input && input.nodeName === 'INPUT') {
-      input.value += emoji;
-    } else if (this.editor && this.editor.getDoc()) {
-      input.getDoc().replaceSelection(emoji);
-    } else {
-      console.log('Input is not detected. Can\'t add emoji', emoji, name);
-    }
-
+    trigger.insertEmoji(emoji);
   });
+
   return picker;
 }
 
@@ -147,7 +155,7 @@ function getLocalizedData(locale) {
     case 'uk':
       return require('../../../node_modules/@joeattardi/emoji-button/dist/locale/emoji_uk.json');
     default:
-      console.log(`Can't upload emoji annotations for locale: ${locale}. Using default`);
+      console.log(`EmojiPicker: Can't upload emoji annotations for locale: ${locale}. Using default`);
 
   }
 }

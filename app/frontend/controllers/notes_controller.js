@@ -348,9 +348,9 @@ class NotesController {
     notesElementText.classList.add('edited');
     notesElementText.innerHTML = '';
 
+    // FIXME: have template to be defined once and insert it with cloneNode(true)
     var textAreaTemplate = this._htmlToElement('<textarea class="editor"></textarea><emoji-picker class="btn-picker"></emoji-picker>');
-    console.log(textAreaTemplate.innerHTML);
-    notesElementText.append(textAreaTemplate);
+    notesElementText.appendChild(textAreaTemplate); 
 
     var textAreaElement = notesElementText.querySelector('.editor');
     textAreaElement.value = this._getNotesElementContent(notesElement);
