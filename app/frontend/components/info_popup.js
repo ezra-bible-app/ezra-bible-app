@@ -56,7 +56,7 @@ class InfoPopup {
   async showAppInfo() {
     this.initAppInfoBox();
 
-    var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    const currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
 
     var version = "";
     if (this.platformHelper.isElectron()) {
@@ -65,64 +65,57 @@ class InfoPopup {
       version = await cordova.getAppVersion.getVersionNumber();
     }
 
-    var gitCommit = CommitInfo.commit.slice(0, 8);
-    var swordVersion = await ipcNsi.getSwordVersion();
-    var chromiumVersion = getChromiumVersion();
-    var databasePath = await ipcDb.getDatabasePath();
-    var configFilePath = await ipcSettings.getConfigFilePath();
+    const gitCommit = CommitInfo.commit.slice(0, 8);
+    const swordVersion = await ipcNsi.getSwordVersion();
+    const chromiumVersion = getChromiumVersion();
+    const databasePath = await ipcDb.getDatabasePath();
+    const configFilePath = await ipcSettings.getConfigFilePath();
+    const moduleDescription = await app_controller.translation_controller.getModuleDescription(currentBibleTranslationId);
+    const moduleInfo = await app_controller.translation_controller.getModuleInfo(currentBibleTranslationId, false, false);
 
-    var appInfo = "";
-    appInfo += "<div id='app-info-tabs'>";
+    const appInfo = html`
+    <div id='app-info-tabs'>
+      <ul>
+        <li><a href='#app-info-tabs-1'>${i18n.t('general.sword-module-description')}</a></li>
+        <li><a href='#app-info-tabs-2'>${i18n.t('general.sword-module-details')}</a></li>
+        <li><a href='#app-info-tabs-3'>${i18n.t('general.application-info')}</a></li>
+      </ul>
 
-    appInfo += "<ul>";
-    appInfo += `<li><a href='#app-info-tabs-1'>${i18n.t('general.sword-module-description')}</a></li>`;
-    appInfo += `<li><a href='#app-info-tabs-2'>${i18n.t('general.sword-module-details')}</a></li>`;
-    appInfo += `<li><a href='#app-info-tabs-3'>${i18n.t('general.application-info')}</a></li>`;
-    appInfo += "</ul>";
+      <div id='app-info-tabs-1' class='info-tabs scrollable'>
+        ${moduleDescription}
+      </div>
+      
+      <div id='app-info-tabs-2' class='info-tabs scrollable'>
+        ${moduleInfo}
+      </div>
 
-    appInfo += "<div id='app-info-tabs-1' class='info-tabs scrollable'>";
-    var moduleInfo = await app_controller.translation_controller.getModuleDescription(currentBibleTranslationId);
-    appInfo += moduleInfo;
-    appInfo += "</div>";
+      <div id='app-info-tabs-3' class='info-tabs scrollable'>
+        <h2>${i18n.t("general.developers")}</h2>
+        <a class='external' href='https://github.com/tobias-klein'>Tobias Klein (Maintainer)</a><br>
+        <a class='external' href='https://github.com/zhuiks'>Evgen Kucherov</a>
 
-    appInfo += "<div id='app-info-tabs-2' class='info-tabs scrollable'>";
-    var moduleInfo = await app_controller.translation_controller.getModuleInfo(currentBibleTranslationId, false, false);
-    appInfo += moduleInfo;
-    appInfo += "</div>";
+        <h2>${i18n.t("general.translators")}</h2>
+        <a class='external' href='https://github.com/tobias-klein'>Tobias Klein (English, German)</a><br>
+        <a class='external' href='https://gitlab.com/lafricain79'>Br Cyrille (French)</a><br>
+        <a class='external' href='https://github.com/lemtom'>Tom Lemmens (French, Dutch)</a><br>
+        <a class='external' href='https://github.com/reyespinosa1996'>Reinaldo R. Espinosa (Spanish)</a><br>
+        <a class='external' href='https://github.com/MartinIIOT'>MartinIIOT (Slovakian)</a><br>
+        <a class='external' href='https://github.com/zhuiks'>Evgen Kucherov (Ukrainian, Russian)</a>
 
-    appInfo += "<div id='app-info-tabs-3' class='info-tabs scrollable'>";
+        <h2>${i18n.t("general.versions-and-paths")}</h2>
+        <table>
+          <tr><td style='width: 15em;'>${i18n.t("general.application-version")}:</td><td>${version}</td></tr>
+          <tr><td>${i18n.t("general.git-commit")}:</td><td>${gitCommit}</td></tr>
+          <tr><td>${i18n.t("general.sword-version")}:</td><td>${swordVersion}</td></tr>
+          <tr><td>${i18n.t("general.chromium-version")}:</td><td>${chromiumVersion}</td></tr>
+          <tr><td>${i18n.t("general.database-path")}:</td><td>${databasePath}</td></tr>
+          <tr><td>${i18n.t("general.config-file-path")}:</td><td>${configFilePath}</td></tr>
+        </table>
+      </div>
+    </div>`;
 
-    appInfo += `<h2>${i18n.t("general.developers")}</h2>`;
-    appInfo += `
-      <a class='external' href='https://github.com/tobias-klein'>Tobias Klein (Maintainer)</a><br>
-      <a class='external' href='https://github.com/zhuiks'>Evgen Kucherov</a>
-    `;
-
-    appInfo += `<h2>${i18n.t("general.translators")}</h2>`;
-    appInfo += `
-      <a class='external' href='https://github.com/tobias-klein'>Tobias Klein (English, German)</a><br>
-      <a class='external' href='https://gitlab.com/lafricain79'>Br Cyrille (French)</a><br>
-      <a class='external' href='https://github.com/lemtom'>Tom Lemmens (French, Dutch)</a><br>
-      <a class='external' href='https://github.com/reyespinosa1996'>Reinaldo R. Espinosa (Spanish)</a><br>
-      <a class='external' href='https://github.com/MartinIIOT'>MartinIIOT (Slovakian)</a><br>
-      <a class='external' href='https://github.com/zhuiks'>Evgen Kucherov (Ukrainian, Russian)</a>
-    `;
-
-    appInfo += `<h2>${i18n.t("general.versions-and-paths")}</h2>`;
-    appInfo += "<table>";
-    appInfo += `<tr><td style='width: 15em;'>${i18n.t("general.application-version")}:</td><td>${version}</td></tr>`;
-    appInfo += `<tr><td>${i18n.t("general.git-commit")}:</td><td>${gitCommit}</td></tr>`;
-    appInfo += `<tr><td>${i18n.t("general.sword-version")}:</td><td>${swordVersion}</td></tr>`;
-    appInfo += `<tr><td>${i18n.t("general.chromium-version")}:</td><td>${chromiumVersion}</td></tr>`;
-    appInfo += `<tr><td>${i18n.t("general.database-path")}:</td><td>${databasePath}</td></tr>`;
-    appInfo += `<tr><td>${i18n.t("general.config-file-path")}:</td><td>${configFilePath}</td></tr>`;
-    appInfo += "</table>";
-    appInfo += "</div>";
-
-    appInfo += "</div>";
-
-    var width = uiHelper.getMaxDialogWidth();
-    var offsetLeft = ($(window).width() - width)/2;
+    const width = uiHelper.getMaxDialogWidth();
+    const offsetLeft = ($(window).width() - width)/2;
 
     $('#info-popup').dialog({
       width: width,
@@ -132,7 +125,7 @@ class InfoPopup {
     });
 
     $('#info-popup-content').empty();
-    $('#info-popup-content').html(appInfo);
+    $('#info-popup-content').html(appInfo.innerHTML);
     $('#app-info-tabs').tabs({ heightStyle: "fill" });
     $('#info-popup').dialog("open");
   }
