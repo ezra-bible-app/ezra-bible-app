@@ -43,7 +43,7 @@ class I18nHelper {
     const I18nIpcBackend = require('../ipc/i18n_ipc_backend.js');
 
     let LanguageDetector = null;
-    
+
     if (platformHelper.isElectron()) {
       LanguageDetector = require('i18next-electron-language-detector');
     } else {
@@ -52,9 +52,9 @@ class I18nHelper {
     }
 
     await i18n
-    .use(LanguageDetector)
-    .use(I18nIpcBackend)
-    .init(i18nextOptions);
+      .use(LanguageDetector)
+      .use(I18nIpcBackend)
+      .init(i18nextOptions);
 
     jqueryI18next.init(i18n, $, {
       tName: 't', // --> appends $.t = i18next.t
@@ -83,19 +83,19 @@ class I18nHelper {
   }
 
   async getSpecificTranslation(lang, key) {
-    var specificTranslation = i18n.t(key, {lng: lang}); // https://www.i18next.com/translation-function/essentials
+    var specificTranslation = i18n.t(key, { lng: lang }); // https://www.i18next.com/translation-function/essentials
 
     return specificTranslation;
   }
 
   async getChapterTranslation(lang) {
-    var language = lang||this.getLanguage();
+    var language = lang || this.getLanguage();
 
     return await this.getSpecificTranslation(language, 'bible-browser.chapter');
   }
 
   async getPsalmTranslation(lang) {
-    var language = lang||this.getLanguage();
+    var language = lang || this.getLanguage();
 
     return await this.getSpecificTranslation(language, 'bible-browser.psalm');
   }
@@ -103,6 +103,21 @@ class I18nHelper {
   getLocalizedDate(timestamp) {
     var language = this.getLanguage();
     return new Date(Date.parse(timestamp)).toLocaleDateString(language);
+  }
+
+  getAvaliableLocales() {
+    const currentCode = this.getLanguage();
+    const localeCodes = i18nextOptions.whitelist.filter(code => code !== 'cimode').sort();
+    const languageNames = new Intl.DisplayNames(currentCode, { type: 'language' });
+    return localeCodes.map(code => {
+      const lang = languageNames.of(code);
+      const titleCased = lang.slice(0,1).toLocaleUpperCase() + lang.slice(1);
+      const langNative = code !== currentCode ? ` (${(new Intl.DisplayNames(code, { type: 'language' })).of(code)})` : '';
+      return {
+        code,
+        languageName: titleCased + langNative
+      }
+    });
   }
 }
 
