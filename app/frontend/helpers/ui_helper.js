@@ -102,6 +102,7 @@ class UiHelper {
     }
   }
   
+  // FIXME: implement responsive resizing with css 
   resizeVerseList(tabIndex=undefined) {
     if (tabIndex === undefined) {
       tabIndex = app_controller.tab_controller.getSelectedTabIndex();
@@ -165,15 +166,6 @@ class UiHelper {
     this.app_container_height = $(window).height() - 10;
     $("#app-container").css("height", this.app_container_height);
   
-    var tagsToolBarHeight = $('#tags-toolbar').height();
-  
-    if (app_controller.optionsMenu._dictionaryOption.isChecked) {
-      $('#tags-content-global').css('height', this.app_container_height - tagsToolBarHeight - 540);
-      $('#dictionary-info-box-panel').css('height', 422);
-    } else {
-      $('#tags-content-global').css('height', this.app_container_height - tagsToolBarHeight - 55);
-    }
-
     var tabCount = app_controller.tab_controller.getTabCount();
     for (var i = 0; i < tabCount; i++) {
       this.resizeVerseList(i);
