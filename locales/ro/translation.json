@@ -131,7 +131,8 @@
     "applying-migrations": "Migrarea bazei de date la versiunea nouă",
     "developers": "Dezvoltatori",
     "translators": "Traducători",
-    "versions-and-paths": "Versiuni și căi"
+    "versions-and-paths": "Versiuni și căi",
+    "app-language": "Limbă"
   },
   "help": {
     "help-text-no-tags-book-opened": "Pentru a începe să lucrezi cu etichete, crează prima ta etichetă făcând click pe butonul <i> Etichetă &nbsp;nouă </i>. <br/> <br/> După aceea poți răsfoi textul biblic, fă clic sau trage-selectează versetele și apoi atribuie eticheta pe care tocmai ai creat-o.",

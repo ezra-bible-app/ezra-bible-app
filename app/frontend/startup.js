@@ -29,11 +29,12 @@ const IpcNsi = require('./ipc/ipc_nsi.js');
 const IpcDb = require('./ipc/ipc_db.js');
 const IpcSettings = require('./ipc/ipc_settings.js');
 
+require('./components/config_option.js');
+require('./components/config_select.js');
+
 // UI Helper
 const UiHelper = require('./helpers/ui_helper.js');
 window.uiHelper = new UiHelper();
-
-const { waitUntilIdle } = require('./helpers/ezra_helper.js');
 
 /**
  * The Startup class has the purpose to start up the application.
@@ -114,8 +115,6 @@ class Startup
     }
   
     const fs = require('fs');
-
-    require('./components/config_option.js');
   
     var bookSelectionMenu = fs.readFileSync('html/book_selection_menu.html');
     var tagSelectionMenu = fs.readFileSync('html/tag_selection_menu.html');
