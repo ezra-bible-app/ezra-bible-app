@@ -30,6 +30,7 @@ const IpcDb = require('./ipc/ipc_db.js');
 const IpcSettings = require('./ipc/ipc_settings.js');
 
 require('./components/config_option.js');
+require('./components/config_select.js');
 
 // UI Helper
 const UiHelper = require('./helpers/ui_helper.js');
