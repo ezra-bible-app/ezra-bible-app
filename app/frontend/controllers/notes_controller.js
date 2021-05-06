@@ -21,7 +21,7 @@ const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const verseBoxHelper = new VerseBoxHelper();
 const VerseBox = require('../ui_models/verse_box.js');
 const notesHelper = require('../helpers/notes_helper.js');
-const emojiPicker = require('../components/emoji_picker.js');
+require('../components/emoji_picker.js');
 
 let CodeMirror = null;
 function getCodeMirror() {
@@ -289,7 +289,7 @@ class NotesController {
     verseNotesText.classList.remove('edited');
     verseNotesText.innerHTML = renderedContent;
 
-    emojiPicker.hide();
+    // emojiPicker.hide();
     
     if (renderedContent == '') {
       notesElement.classList.add('verse-notes-empty');
@@ -337,7 +337,7 @@ class NotesController {
     var template = document.createElement('template');
     html = html.trim(); // Never return a text node of whitespace as the result
     template.innerHTML = html;
-    return template.content.firstChild;
+    return template.content;
   }
 
   _createEditor(notesElement) {
@@ -348,13 +348,14 @@ class NotesController {
     notesElementText.classList.add('edited');
     notesElementText.innerHTML = '';
 
-    var textArea = this._htmlToElement('<textarea class="editor"></textarea>');
-    notesElementText.append(textArea);
+    var textAreaTemplate = this._htmlToElement('<textarea class="editor"></textarea><emoji-picker class="btn-picker"></emoji-picker>');
+    console.log(textAreaTemplate.innerHTML);
+    notesElementText.append(textAreaTemplate);
 
-    var targetElement = notesElementText.querySelector('.editor');
-    targetElement.value = this._getNotesElementContent(notesElement);
+    var textAreaElement = notesElementText.querySelector('.editor');
+    textAreaElement.value = this._getNotesElementContent(notesElement);
 
-    var editor = CodeMirror.fromTextArea(targetElement, {
+    var editor = CodeMirror.fromTextArea(textAreaElement, {
       mode: 'gfm',
       autoCloseBrackets: true,
       lineNumbers: false,
@@ -370,7 +371,7 @@ class NotesController {
 
     this.currentEditor = editor;
     this._focusEditor();
-    emojiPicker.appendToCodeMirror(textArea, editor);
+    notesElementText.querySelector('.btn-picker').attachEditor(editor);
   }
 
   _focusEditor() {
