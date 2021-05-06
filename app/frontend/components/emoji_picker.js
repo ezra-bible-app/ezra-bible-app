@@ -33,7 +33,23 @@ const template = html`
   </style>
   <svg viewBox="0 0 496 512"><!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-110.3 0-200-89.7-200-200S137.7 56 248 56s200 89.7 200 200-89.7 200-200 200zm105.6-151.4c-25.9 8.3-64.4 13.1-105.6 13.1s-79.6-4.8-105.6-13.1c-9.9-3.1-19.4 5.4-17.7 15.3 7.9 47.1 71.3 80 123.3 80s115.3-32.9 123.3-80c1.6-9.8-7.7-18.4-17.7-15.3zM168 240c17.7 0 32-14.3 32-32s-14.3-32-32-32-32 14.3-32 32 14.3 32 32 32zm160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32-32 14.3-32 32 14.3 32 32 32z"/></svg>
 `;
-class EmojiTrigger extends HTMLElement {
+/**
+ * The emoji-picker component adds posibility to insert emojis to the tag names and notes 
+ * on desktop platforms (electron app). It provides emoji picker trigger button and inserts
+ * emoji in the previous DOM text input or codeMirror editor.
+ * 
+ * Emoji Picker dialog is implemented via external library:
+ * https://github.com/zhuiks/emoji-button
+ * That is customized version of original:
+ * https://github.com/joeattardi/emoji-button
+ * 
+ * Library instance is kept inside module variable picker.
+ * 
+ * @category Component
+ */
+ customElements.define('emoji-picker', EmojiTrigger);
+ module.exports.EmojiTrigger = EmojiTrigger;
+ class EmojiTrigger extends HTMLElement {
   constructor() {
     super();
     this.editor = null;
@@ -53,13 +69,22 @@ class EmojiTrigger extends HTMLElement {
     }
   }
 
-  attachEditor(codeMirror) {
+  /** 
+   * Appends emoji picker button to codeMirror 
+   * @param codeMirror - active codeMirror editor instance
+   */
+   attachEditor(codeMirror) {
     this.editor = codeMirror;
 
     this.style.bottom = '0.8em';
   }
 
-  insertEmoji(emoji) {
+  /** 
+   * Insert emoji into input or codeMirror depending on the context in the DOM
+   * To be called only by the Picker library in the "emoji" event callback
+   * @param {string} emoji - active codeMirror editor instance
+   */
+   insertEmoji(emoji) {
     const input = this.previousElementSibling;
     if (input && input.nodeName === 'INPUT') {
       input.value += emoji;
@@ -78,7 +103,6 @@ class EmojiTrigger extends HTMLElement {
   }
 }
 
-customElements.define('emoji-picker', EmojiTrigger);
 
 // proof of concept; utilizing tagged templates https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates
 // FIXME: move to utility module or use the npm package
@@ -160,42 +184,6 @@ function getLocalizedData(locale) {
   }
 }
 
-/**
- * The emojiPicker component adds posibility to insert emojis to the tag names and notes 
- * on desktop platforms (electron app). It attaches emoji picker button to the text input
- * field. 
- * Emoji Picker dialog is implemented via external library:
- * https://github.com/joeattardi/emoji-button
- * 
- * emojiPicker keeps it's state inside module variables. So it can be just imported/requested
- * where it needed (without using app_controller instance).
- * 
- * @category Component
- */
 
-module.exports = {
-  /** 
-   * Appends emoji picker button to input field
-   * @param {HTMLElement} inputElement - input element to append to
-   */
-  appendTo: async (inputElement) => {
-    if (platformHelper.isElectron()) {
-      const trigger = initButtonTrigger(inputElement);
-      inputElement.parentNode.insertBefore(trigger, inputElement.nextSibling);
-    }
-  },
-  /** 
-   * Appends emoji picker button to codeMirror 
-   * @param {HTMLElement} textArea - textArea used for codeMirror editor instance  
-   * @param codeMirror - active codeMirror editor instance
-   */
-  appendToCodeMirror: async (textArea, codeMirror) => {
-    if (platformHelper.isElectron() && codeMirror) {
-      const trigger = initButtonTrigger(textArea, codeMirror);
-      textArea.parentNode.insertBefore(trigger, null); // insert as last child
-    }
-  },
-
-  setDarkTheme: () => setTheme('dark'),
-  setLightTheme: () => setTheme('light'),
-}
+module.exports.setDarkTheme = () => setTheme('dark');
+module.exports.setLightTheme = () => setTheme('light');
