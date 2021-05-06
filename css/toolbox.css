@@ -49,7 +49,7 @@
 }
 
 .with-dictionary > #tags-content {
-  height: 60%;
+  height: 50%;
 }
 
 .accordion-panel .ui-accordion-header {
@@ -74,7 +74,7 @@
   margin-top: 1em;
   padding: 0;
   user-select: none;
-  height: calc(40% - 22px);
+  height: calc(50% - 22px);
 }
 
 #dictionary-info-box-panel {
