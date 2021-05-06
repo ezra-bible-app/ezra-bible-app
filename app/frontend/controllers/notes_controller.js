@@ -288,9 +288,7 @@ class NotesController {
     var verseNotesText = notesElement.querySelector('.verse-notes-text');
     verseNotesText.classList.remove('edited');
     verseNotesText.innerHTML = renderedContent;
-
-    // emojiPicker.hide();
-    
+ 
     if (renderedContent == '') {
       notesElement.classList.add('verse-notes-empty');
     } else {

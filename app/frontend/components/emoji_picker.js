@@ -47,9 +47,7 @@ const template = html`
  * 
  * @category Component
  */
- customElements.define('emoji-picker', EmojiTrigger);
- module.exports.EmojiTrigger = EmojiTrigger;
- class EmojiTrigger extends HTMLElement {
+class EmojiTrigger extends HTMLElement {
   constructor() {
     super();
     this.editor = null;
@@ -73,7 +71,7 @@ const template = html`
    * Appends emoji picker button to codeMirror 
    * @param codeMirror - active codeMirror editor instance
    */
-   attachEditor(codeMirror) {
+  attachEditor(codeMirror) {
     this.editor = codeMirror;
 
     this.style.bottom = '0.8em';
@@ -84,7 +82,7 @@ const template = html`
    * To be called only by the Picker library in the "emoji" event callback
    * @param {string} emoji - active codeMirror editor instance
    */
-   insertEmoji(emoji) {
+  insertEmoji(emoji) {
     const input = this.previousElementSibling;
     if (input && input.nodeName === 'INPUT') {
       input.value += emoji;
@@ -103,6 +101,8 @@ const template = html`
   }
 }
 
+customElements.define('emoji-picker', EmojiTrigger);
+module.exports.EmojiTrigger = EmojiTrigger;
 
 // proof of concept; utilizing tagged templates https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates
 // FIXME: move to utility module or use the npm package
@@ -124,7 +124,7 @@ var picker;
 
 function initPicker() {
   const { EmojiButton } = require('../../../node_modules/@joeattardi/emoji-button/dist/index.cjs.js');
-  const isNightMode = app_controller.optionsMenu._nightModeOption && app_controller.optionsMenu._nightModeOption.isChecked;
+  const nightModeOption = app_controller.optionsMenu._nightModeOption;
 
   picker = new EmojiButton({ // https://emoji-button.js.org/docs/api
     emojiData: getLocalizedData(i18n.language),
@@ -133,7 +133,7 @@ function initPicker() {
     showAnimation: false,
     categories: ['smileys', 'people', 'animals', 'food', 'activities', 'travel', 'objects', 'symbols'],
     i18n: i18n.t('emoji', { returnObjects: true }),
-    theme: isNightMode ? 'dark' : 'light',
+    theme: nightModeOption && nightModeOption.isChecked ? 'dark' : 'light',
     emojiSize: '1.3em',
     position: 'auto',
     zIndex: 10000,
@@ -151,13 +151,17 @@ function initPicker() {
     trigger.insertEmoji(emoji);
   });
 
-  return picker;
-}
-
-function setTheme(theme) {
-  if (picker) {
-    picker.setTheme(theme);
+  if (nightModeOption) {
+    nightModeOption.addEventListener("optionChanged", () => {
+      if (nightModeOption.isChecked) {
+        picker.setTheme('dark');
+      } else {
+        picker.setTheme('light');
+      }
+    });
   }
+
+  return picker;
 }
 
 function getLocalizedData(locale) {
@@ -183,7 +187,3 @@ function getLocalizedData(locale) {
 
   }
 }
-
-
-module.exports.setDarkTheme = () => setTheme('dark');
-module.exports.setLightTheme = () => setTheme('light');
