@@ -20,7 +20,7 @@ class ConfigOption extends HTMLElement {
   constructor() {
     super();
 
-    this.innerHTML = `
+    this.innerHTML = html`
       <style>
         .switch-box {
           clear: both;

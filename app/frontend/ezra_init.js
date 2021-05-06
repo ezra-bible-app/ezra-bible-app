@@ -66,6 +66,22 @@ window.escapeRegExp = function(text) {
 // Extend NodeList with the forEach function from Array
 NodeList.prototype.forEach = Array.prototype.forEach;
 
+/**
+ * This little function gives us the possibility for html tagged template literals.
+ * 
+ * Note that if we ever introduce a library like lit we may need to remove this function, because there would otherwise be a
+ * clash in the global namespace.
+ * 
+ * Example:
+ * 
+ * html`
+ *   <h1>Hello world</h1>
+ * `
+ */
+window.html = (stringArray, ...placeholders) => {
+  return String.raw(stringArray, ...placeholders);
+}
+
 $.create_xml_doc = function(string)
 {
   var doc = (new DOMParser()).parseFromString(string, 'text/xml');
