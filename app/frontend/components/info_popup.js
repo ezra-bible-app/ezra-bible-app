@@ -125,7 +125,7 @@ class InfoPopup {
     });
 
     $('#info-popup-content').empty();
-    $('#info-popup-content').html(appInfo);
+    $('#info-popup-content').html(appInfo.innerHTML);
     $('#app-info-tabs').tabs({ heightStyle: "fill" });
     $('#info-popup').dialog("open");
   }

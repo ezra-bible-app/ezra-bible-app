@@ -72,14 +72,21 @@ NodeList.prototype.forEach = Array.prototype.forEach;
  * Note that if we ever introduce a library like lit we may need to remove this function, because there would otherwise be a
  * clash in the global namespace.
  * 
- * Example:
- * 
- * html`
- *   <h1>Hello world</h1>
- * `
+ * proof of concept; utilizing tagged templates https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates
+ * FIXME: move to utility module or use the npm package
  */
-window.html = (stringArray, ...placeholders) => {
-  return String.raw(stringArray, ...placeholders);
+window.html = (literals, ...substs) => {
+  const template = document.createElement('template');
+  // based upon https://github.com/AntonioVdlC/html-template-tag/blob/main/src/index.ts
+  template.innerHTML = literals.raw.reduce((acc, lit, i) => {
+    let subst = substs[i - 1];
+    if (Array.isArray(subst)) {
+      subst = subst.join("");
+    }
+    return acc + subst + lit;
+  });
+
+  return template;
 }
 
 $.create_xml_doc = function(string)
