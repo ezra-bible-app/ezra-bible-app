@@ -19,7 +19,7 @@
 const TagStore = require('../components/tags/tag_store.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
-const emojiPicker = require('../components/emoji_picker.js');
+require('../components/emoji_picker.js');
 
 /**
  * The TagsController handles most functionality related to tagging of verses.
@@ -264,7 +264,6 @@ class TagsController {
     $tagInput.val(''); 
     $('#new-' + type + '-tag-dialog').dialog('open');
     $tagInput.focus();
-    emojiPicker.appendTo($tagInput[0]);
   }
 
   handleDeleteTagButtonClick(event) {
@@ -805,7 +804,6 @@ class TagsController {
     $tagInput.val(cb_label);
     $('#rename-standard-tag-dialog').dialog('open');
     $('#rename-standard-tag-title-input').focus();
-    emojiPicker.appendTo($tagInput[0]);
 
     tags_controller.rename_standard_tag_id = parseInt(checkbox_tag.attr('tag-id'));
     tags_controller.rename_standard_tag_title = cb_label;

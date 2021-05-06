@@ -18,13 +18,74 @@
 
 const i18n = require('i18next');
 
+const template = html`
+  <style>
+    :host {
+      position: absolute; 
+      right: 0;
+      bottom: auto;
+      width: 1em;
+      margin-right: 1.2em;
+      padding: 3px;
+      fill: #5f5f5f;
+      display: inline-block;
+    }
+  </style>
+  <svg viewBox="0 0 496 512"><!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-110.3 0-200-89.7-200-200S137.7 56 248 56s200 89.7 200 200-89.7 200-200 200zm105.6-151.4c-25.9 8.3-64.4 13.1-105.6 13.1s-79.6-4.8-105.6-13.1c-9.9-3.1-19.4 5.4-17.7 15.3 7.9 47.1 71.3 80 123.3 80s115.3-32.9 123.3-80c1.6-9.8-7.7-18.4-17.7-15.3zM168 240c17.7 0 32-14.3 32-32s-14.3-32-32-32-32 14.3-32 32 14.3 32 32 32zm160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32-32 14.3-32 32 14.3 32 32 32z"/></svg>
+`;
+class EmojiTrigger extends HTMLElement {
+  constructor() {
+    super();
+    this.editor = null;
+    const shadow = this.attachShadow({ mode: 'open' });
+    shadow.appendChild(template.content.cloneNode(true));
+    this.addEventListener('click', () => this.handleClick());
+    console.log('emoji created')
+  }
+
+  connectedCallback() {
+    this.parentNode.style.position = 'relative'; // emoji trigger position relative to the parent
+    console.log('emoji connected')
+  }
+
+  attachEditor(codeMirror) {
+    this.editor = codeMirror;
+
+    this.style.bottom = '3px';
+    this.style.fill = 'inherit';
+}
+
+  handleClick() {
+    if (picker === undefined) {
+      initPicker();
+    }
+    picker.togglePicker(this);
+  }
+}
+
+customElements.define('emoji-picker', EmojiTrigger);
+
+// proof of concept; utilizing tagged templates https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates
+// FIXME: move to utility module or use the npm package
+function html(literals, ...substs) {
+  const template = document.createElement('template');
+  // based upon https://github.com/AntonioVdlC/html-template-tag/blob/main/src/index.ts
+  template.innerHTML = literals.raw.reduce((acc, lit, i) => {
+    let subst = substs[i - 1];
+    if (Array.isArray(subst)) {
+      subst = subst.join("");
+    }
+    return acc + subst + lit;
+  });
+
+  return template;
+}
+
 var picker;
-var theButton;
-var input;
 
 function initPicker() {
-  const { EmojiButton } = require('../../../node_modules/@joeattardi/emoji-button/dist/node');
-  const isNightMode = app_controller.optionsMenu._nightModeOption && app_controller.optionsMenu._nightModeOption.isChecked();
+  const { EmojiButton } = require('../../../node_modules/@joeattardi/emoji-button/dist/index.cjs.js');
+  const isNightMode = app_controller.optionsMenu._nightModeOption && app_controller.optionsMenu._nightModeOption.isChecked;
 
   picker = new EmojiButton({ // https://emoji-button.js.org/docs/api
     emojiData: getLocalizedData(i18n.language),
@@ -43,76 +104,22 @@ function initPicker() {
     }
   });
 
-  picker.on('emoji', selection => {
-    // `selection` object has an `emoji` property
+  picker.on('emoji', ({emoji, name, trigger}) => {
+    if (!trigger || trigger.nodeName !== 'EMOJI-PICKER') {
+      console.log('EmojiPicker: Something wrong. Trigger element is not detected :( But emoji was clicked:', emoji, name);
+      return;
+    }
+    const input = trigger.previousElementSibling; 
     if (input && input.nodeName === 'INPUT') {
-      input.value += selection.emoji;
-    } else if (input && input.getDoc()) {
-      input.getDoc().replaceSelection(selection.emoji);
+      input.value += emoji;
+    } else if (this.editor && this.editor.getDoc()) {
+      input.getDoc().replaceSelection(emoji);
     } else {
-      console.log('Input is not defined. Can\'t add emoji', selection.emoji);
+      console.log('Input is not detected. Can\'t add emoji', emoji, name);
     }
 
   });
   return picker;
-}
-
-function initButtonTrigger(element, codeMirror = false) {
-  input = codeMirror || element;
-
-  if (theButton === undefined) {
-    theButton = document.createElement('button');
-    const icon = document.createElement('i');
-    icon.classList.add('fas', 'fa-grin');
-    theButton.appendChild(icon);
-    theButton.style.cssText = `
-      position: absolute; 
-      right: 0;
-      font-size: 1rem;
-      background: none;
-      border: none;
-      margin: 0;
-      padding: 3px;
-    `;
-
-    theButton.addEventListener('click', () => {
-      if (picker === undefined) {
-        initPicker();
-      }
-      picker.togglePicker(theButton);
-    });
-  }
-
-
-  if (codeMirror) {
-    theButton.style.left = 'auto';
-    theButton.style.bottom = '3px';
-    theButton.style.marginRight = '1.1em';
-    theButton.style.color = 'inherit';
-  } else { // overlaying emoji button over text input
-    const buttonWidth = theButton.getBoundingClientRect().width || 22; // approximate width when button is not yet attached to DOM
-    theButton.style.left = `${getInputRightOffset(element) - buttonWidth}px`;
-    theButton.style.bottom = 'auto';
-    theButton.style.marginRight = '0';
-    theButton.style.color = '#b7b7b7';
-  }
-
-  element.parentNode.style.position = 'relative'; // theButton left position relative to this parent
-  theButton.style.display = 'inline-block';
-
-  return theButton;
-}
-
-function getInputRightOffset(inputElement) {
-  const inputRight = inputElement.getBoundingClientRect().right;
-  const parentLeft = inputElement.parentNode.getBoundingClientRect().left;
-  return inputRight - parentLeft;
-}
-
-function hideButtonTrigger() {
-  if (theButton) {
-    theButton.style.display = 'none';
-  }
 }
 
 function setTheme(theme) {
@@ -146,7 +153,7 @@ function getLocalizedData(locale) {
 }
 
 /**
- * The emojiPicker component addss posibility to insert emojis to the tag names and notes 
+ * The emojiPicker component adds posibility to insert emojis to the tag names and notes 
  * on desktop platforms (electron app). It attaches emoji picker button to the text input
  * field. 
  * Emoji Picker dialog is implemented via external library:
@@ -180,9 +187,6 @@ module.exports = {
       textArea.parentNode.insertBefore(trigger, null); // insert as last child
     }
   },
-
-  /** Hides emoji picker button */
-  hide: hideButtonTrigger,
 
   setDarkTheme: () => setTheme('dark'),
   setLightTheme: () => setTheme('light'),

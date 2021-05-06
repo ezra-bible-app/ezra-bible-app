@@ -1,5 +1,6 @@
 <div id="new-standard-tag-dialog" style="display: none; padding-top: 2em; padding-bottom: 2em;">
   <span id="new-standard-tag-title-label" i18n="tags.title"></span>: <input id="new-standard-tag-title-input" type="text" maxlength="255" />
+  <emoji-picker></emoji-picker>
 </div>
 
 <div id="delete-tag-confirmation-dialog" style="display: none;">
@@ -12,13 +13,14 @@
 </div>
 
 <div id="rename-standard-tag-dialog" style="display: none;">
-  <p>
-    <span id="rename-standard-tag-title-label" i18n="tags.title"></span>: <input id="rename-standard-tag-title-input" type="text" maxlength="255" />
-  </p>
+  <span id="rename-standard-tag-title-label" i18n="tags.title"></span>: <input id="rename-standard-tag-title-input" type="text" maxlength="255" />
+  <emoji-picker></emoji-picker>
 </div>
 
 <div id="tags-content" class="accordion-panel">
-  <h3><a href="#" i18n="menu.tags"></a></h3>
+  <h3>
+    <a href="#" i18n="menu.tags"></a>
+  </h3>
   <div id="tags-content-global" class="tags-content-global scrollable">
     <div id="tags-loading-indicator" style="display: none; width: 18em; margin-top: 5em; margin-left: auto; margin-right: auto;">
       <div class="loading-indicator-text" style="float: left;" i18n="tags.loading-tags"></div>
@@ -33,7 +35,9 @@
 </div>
 
 <div id="dictionary-info-box" class="accordion-panel">
-  <h3><a href="#" id="dictionary-info-box-header" i18n="[html]dictionary-info-box.default-header"></a></h3>
+  <h3>
+    <a href="#" id="dictionary-info-box-header" i18n="[html]dictionary-info-box.default-header"></a>
+  </h3>
   <div id="dictionary-info-box-panel" class="scrollable">
     <div id="dictionary-info-box-help" i18n="[html]dictionary-info-box.help-instruction"></div>
     <div id="dictionary-info-box-breadcrumbs"></div>
