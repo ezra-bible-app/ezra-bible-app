@@ -16,41 +16,41 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const template = html`
+<style>
+  .switch-box {
+    clear: both;
+    width: 85%;
+    margin-bottom: 1em;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+  
+  .switch-box input,
+  .switch-box button {
+    padding: 0.3em;
+  }
+  
+  .switch-box input {
+    float: left;
+    margin: 0.4em;
+  }
+  
+  .Android .switch-box input {
+    margin: 0.2em;
+  }
+</style>
+
+<div class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
+  <input class="toggle-config-option-switch" type="checkbox"></input>
+  <div class="switch-label"></div>
+</div>
+`;
+
 class ConfigOption extends HTMLElement {
   constructor() {
     super();
-
-    const template = html`
-      <style>
-        .switch-box {
-          clear: both;
-          width: 85%;
-          margin-bottom: 1em;
-          margin-left: auto;
-          margin-right: auto;
-          text-align: center;
-        }
-        
-        .switch-box input,
-        .switch-box button {
-          padding: 0.3em;
-        }
-        
-        .switch-box input {
-          float: left;
-          margin: 0.4em;
-        }
-        
-        .Android .switch-box input {
-          margin: 0.2em;
-        }
-      </style>
-
-      <div class="switch-box fg-button fg-button-toggleable ui-corner-all ui-state-default">
-        <input class="toggle-config-option-switch" type="checkbox"></input>
-        <div class="switch-label"></div>
-      </div>
-    `;
 
     this.innerHTML = template.innerHTML;
 
