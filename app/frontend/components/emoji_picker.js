@@ -120,7 +120,7 @@ function initPicker() {
   const nightModeOption = app_controller.optionsMenu._nightModeOption;
 
   picker = new EmojiButton({ // https://emoji-button.js.org/docs/api
-    emojiData: getLocalizedData(i18n.language),
+    emojiData: getLocalizedData(i18nHelper.getLanguage()),
     showPreview: false,
     showVariants: false,
     showAnimation: false,
