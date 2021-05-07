@@ -18,6 +18,7 @@
 
 const CommitInfo = require('../../commit_info.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
+const { html } = require('../helpers/ezra_helper');
 
 class InfoPopup {
   constructor() {

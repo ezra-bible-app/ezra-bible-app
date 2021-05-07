@@ -16,6 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const { html } = require('../helpers/ezra_helper');
+
 const template = html`
 <style>
   .switch-box {
@@ -85,7 +87,7 @@ class ConfigOption extends HTMLElement {
     this.querySelector('.switch-label').innerText = i18n.t(labelId);
   }
 
-  _isChecked(force=false) {
+  _isChecked(force = false) {
     if (force) {
       return true;
     } else {
@@ -121,12 +123,12 @@ class ConfigOption extends HTMLElement {
   enableOption() {
     $(this.querySelector('.toggle-config-option-switch')).attr('checked', 'checked');
     $(this.querySelector('.toggle-config-option-switch')).removeAttr('disabled');
-    $(this.querySelector('.switch-box')).addClass('ui-state-active'); 
+    $(this.querySelector('.switch-box')).addClass('ui-state-active');
   }
 
   disableOption() {
     $(this.querySelector('.toggle-config-option-switch')).removeAttr('checked');
-    $(this.querySelector('.switch-box')).removeClass('ui-state-active');    
+    $(this.querySelector('.switch-box')).removeClass('ui-state-active');
   }
 
   async loadOptionFromSettings() {
