@@ -281,7 +281,7 @@ class ModuleSearchController {
       this.currentSearchTerm = this.getSearchTerm();
     }
 
-    if (this.currentSearchTerm.length == 0) {
+    if (this.currentSearchTerm == null || this.currentSearchTerm.length == 0) {
       return;
     }
 
