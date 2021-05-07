@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const { default: i18next } = require('i18next');
 const PlatformHelper = require('../../lib/platform_helper.js');
 
 /**
@@ -113,6 +114,14 @@ class OptionsMenu {
       // it heavily depends on the mouse.
       $(this._dictionaryOption).hide();
     }
+
+    this._languageSwitcherOption = this.initConfigOption('localeSwitchOption', async () => {
+      const newLang = this._languageSwitcherOption.value;
+      console.log('Language changed', newLang);
+
+      await i18n.changeLanguage(newLang);
+      $(document).localize();
+    });
 
     this.refreshViewBasedOnOptions();
   }

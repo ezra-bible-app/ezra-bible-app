@@ -67,7 +67,6 @@ class LocaleSwitch extends HTMLElement {
   async _handleChange() {
     await waitUntilIdle();
     await ipcSettings.set(this._settingsKey, this.selectEl.value);
-    console.log('select changed', this._settingsKey, this.selectEl.value);
     this.dispatchEvent(this.changeEvent);
   }
 
