@@ -20,7 +20,7 @@ class ConfigOption extends HTMLElement {
   constructor() {
     super();
 
-    this.innerHTML = html`
+    const template = html`
       <style>
         .switch-box {
           clear: both;
@@ -51,6 +51,8 @@ class ConfigOption extends HTMLElement {
         <div class="switch-label"></div>
       </div>
     `;
+
+    this.innerHTML = template.innerHTML;
 
     this.changeEvent = new CustomEvent("optionChanged", {
       bubbles: true,
