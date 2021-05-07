@@ -55,7 +55,6 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.2",
-    "@joeattardi/emoji-button": "github:zhuiks/emoji-button",
     "@sentry/browser": "^6.0.1",
     "@sentry/electron": "^2.0.3",
     "buffer": "^6.0.3",
@@ -68,6 +67,7 @@
     "electron-settings": "^3.2.0",
     "electron-squirrel-startup": "^1.0.0",
     "electron-window-state": "^5.0.3",
+    "emoji-button": "github:zhuiks/emoji-button#master",
     "fs-extra": "^9.0.1",
     "i18next": "^19.8.4",
     "i18next-electron-language-detector": "0.0.10",

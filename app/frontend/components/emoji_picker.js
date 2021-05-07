@@ -93,6 +93,15 @@ class EmojiTrigger extends HTMLElement {
     }
   }
 
+  restoreFocus() {
+    const input = this.previousElementSibling;
+    if (input && input.nodeName === 'INPUT') {
+      input.focus();
+    } else if (this.editor && this.editor.getDoc()) {
+      this.editor.getInputField().focus();
+    }
+  }
+
   _handleClick() {
     if (picker === undefined) {
       initPicker();
@@ -107,7 +116,7 @@ module.exports.EmojiTrigger = EmojiTrigger;
 var picker;
 
 function initPicker() {
-  const { EmojiButton } = require('../../../node_modules/@joeattardi/emoji-button/dist/index.cjs.js');
+  const { EmojiButton } = require('../../../node_modules/emoji-button/dist/index.cjs.js');
   const nightModeOption = app_controller.optionsMenu._nightModeOption;
 
   picker = new EmojiButton({ // https://emoji-button.js.org/docs/api
@@ -135,6 +144,10 @@ function initPicker() {
     trigger.insertEmoji(emoji);
   });
 
+  picker.on('hidden', ({ trigger }) => {
+    trigger.restoreFocus();
+  });
+
   if (nightModeOption) {
     nightModeOption.addEventListener("optionChanged", () => {
       if (nightModeOption.isChecked) {
@@ -151,21 +164,21 @@ function initPicker() {
 function getLocalizedData(locale) {
   switch (locale) {
     case 'de':
-      return require('../../../node_modules/@joeattardi/emoji-button/dist/locale/emoji_de.json');
+      return require('../../../node_modules/emoji-button/dist/locale/emoji_de.json');
     case 'en':
-      return require('../../../node_modules/@joeattardi/emoji-button/dist/locale/emoji_en.json');
+      return require('../../../node_modules/emoji-button/dist/locale/emoji_en.json');
     case 'es':
-      return require('../../../node_modules/@joeattardi/emoji-button/dist/locale/emoji_es.json');
+      return require('../../../node_modules/emoji-button/dist/locale/emoji_es.json');
     case 'fr':
-      return require('../../../node_modules/@joeattardi/emoji-button/dist/locale/emoji_fr.json');
+      return require('../../../node_modules/emoji-button/dist/locale/emoji_fr.json');
     case 'nl':
-      return require('../../../node_modules/@joeattardi/emoji-button/dist/locale/emoji_nl.json');
+      return require('../../../node_modules/emoji-button/dist/locale/emoji_nl.json');
     case 'ru':
-      return require('../../../node_modules/@joeattardi/emoji-button/dist/locale/emoji_ru.json');
+      return require('../../../node_modules/emoji-button/dist/locale/emoji_ru.json');
     case 'sk':
-      return require('../../../node_modules/@joeattardi/emoji-button/dist/locale/emoji_sk.json');
+      return require('../../../node_modules/emoji-button/dist/locale/emoji_sk.json');
     case 'uk':
-      return require('../../../node_modules/@joeattardi/emoji-button/dist/locale/emoji_uk.json');
+      return require('../../../node_modules/emoji-button/dist/locale/emoji_uk.json');
     default:
       console.log(`EmojiPicker: Can't upload emoji annotations for locale: ${locale}. Using default`);
 
