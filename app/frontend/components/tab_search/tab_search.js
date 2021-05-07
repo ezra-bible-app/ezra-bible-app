@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const VerseSearch = require('./verse_search.js');
+const { waitUntilIdle } = require('../../helpers/ezra_helper');
 
 /**
  * The TabSearch component implements the in-tab search functionality which is enabled with CTRL + f / CMD + f.
