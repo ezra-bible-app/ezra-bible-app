@@ -127,6 +127,7 @@ class OptionsMenu {
       await app_controller.book_selection_menu.localizeBookSelectionMenu();
       await app_controller.assign_last_tag_button.updateLabel();
       await app_controller.verse_selection.updateSelectedVersesLabel();
+      tags_controller.refreshTagDialogs();
     });
 
     this.refreshViewBasedOnOptions();
