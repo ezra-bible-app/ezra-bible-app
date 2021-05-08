@@ -213,7 +213,8 @@
     "open-new-tab": "Открыть в новой вкладке",
     "open-verselist-in-new-tab": "Открыть список стихов в новой вкладке",
     "footnote-character": "*",
-    "adjust-font-size-tags-notes": "Настраивать текст меток/заметок"
+    "adjust-font-size-tags-notes": "Настраивать текст меток/заметок",
+    "new-note-hint": "Click to add a note"
   },
   "dictionary-info-box": {
     "greek-dict": "Словарь греческого языка",

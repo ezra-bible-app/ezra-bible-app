@@ -129,7 +129,6 @@
     "module-unlock-failed": "falló (problema de desbloqueo).",
     "installing-strongs": "Instalando <i>Strong's dictionaries</i>",
     "applying-migrations": "Migrando la base de datos a una nueva versión",
-    "new-note-hint": "Presione para añadir una nota",
     "developers": "Desarrolladores",
     "translators": "Traductores",
     "versions-and-paths": "Versiones y rutas"
@@ -216,7 +215,8 @@
     "open-new-tab": "Abrir nueva pestaña",
     "open-verselist-in-new-tab": "Abrir la lista de versos en una nueva pestaña",
     "footnote-character": "n",
-    "adjust-font-size-tags-notes": "Ajustar el tamaño de fuente de notas y etiquetas"
+    "adjust-font-size-tags-notes": "Ajustar el tamaño de fuente de notas y etiquetas",
+    "new-note-hint": "Presione para añadir una nota"
   },
   "dictionary-info-box": {
     "greek-dict": "Diccionario Griego",
