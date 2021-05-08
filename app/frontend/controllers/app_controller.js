@@ -45,6 +45,8 @@ const SwordNotes = require("../components/sword_notes.js");
 const InfoPopup = require("../components/info_popup.js");
 const TextSizeSettings = require("../components/text_size_settings.js");
 const VerseStatisticsChart = require('../components/verse_statistics_chart.js');
+const { waitUntilIdle } = require('../helpers/ezra_helper.js');
+
 
 /**
  * AppController is Ezra Bible App's main controller class which initiates all other controllers and components.

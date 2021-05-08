@@ -18,6 +18,8 @@
 
 const PlatformHelper = require('../../lib/platform_helper.js');
 const notesHelper = require('../helpers/notes_helper.js');
+const { waitUntilIdle } = require('../helpers/ezra_helper.js');
+
 /**
  * The TextController is used to load bible text into the text area of a tab.
  * It can handle bible books, tagged verse lists and search results.

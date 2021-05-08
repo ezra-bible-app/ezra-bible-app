@@ -16,6 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
+
 /**
  * The TagSelectionMenu component implements the menu for selecting a tagged verse list.
  * 

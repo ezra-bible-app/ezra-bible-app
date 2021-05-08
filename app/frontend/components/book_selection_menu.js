@@ -16,6 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const { waitUntilIdle } = require('../helpers/ezra_helper.js');
+   
 /**
  * The BookSelectionMenu component implements all event handling for the book selection menu.
  * 
