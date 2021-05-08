@@ -1,6 +1,5 @@
 /node_modules
 /release
-package-lock.json
 *.code-workspace
 /.vscode
 /app/templates/verse_list.js
