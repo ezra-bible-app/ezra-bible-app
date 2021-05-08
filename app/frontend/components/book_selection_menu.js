@@ -79,8 +79,12 @@ class BookSelectionMenu {
 
     for (var i = 0; i < aElements.length; i++) {
       var currentBook = aElements[i];
-      var currentBookTranslation = await i18nHelper.getSwordTranslation(currentBook.textContent);
-      currentBook.textContent = currentBookTranslation;
+      var currentBookName = currentBook.getAttribute('book-name');
+
+      if (currentBookName != null) {
+        var currentBookTranslation = await i18nHelper.getSwordTranslation(currentBookName);
+        currentBook.textContent = currentBookTranslation;
+      }
     }
   }
 
