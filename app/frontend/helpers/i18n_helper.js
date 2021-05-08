@@ -105,7 +105,7 @@ class I18nHelper {
     return new Date(Date.parse(timestamp)).toLocaleDateString(language);
   }
 
-  getAvaliableLocales() {
+  getAvailableLocales() {
     const currentCode = this.getLanguage();
     const localeCodes = i18nextOptions.whitelist.filter(code => code !== 'cimode').sort();
     const languageNames = new Intl.DisplayNames(currentCode, { type: 'language' });
