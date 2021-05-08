@@ -7,7 +7,7 @@
   "license": "GPL-2.0+",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ezra-project/ezra-project.git"
+    "url": "https://github.com/ezra-bible-app/ezra-bible-app.git"
   },
   "main": "main.js",
   "scripts": {
