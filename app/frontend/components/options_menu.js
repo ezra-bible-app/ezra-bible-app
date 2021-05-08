@@ -121,7 +121,10 @@ class OptionsMenu {
 
       await i18n.changeLanguage(newLang);
       $(document).localize();
+
+      // Todo: Bind to event in respective dependent components instead
       await app_controller.book_selection_menu.localizeBookSelectionMenu();
+      await app_controller.assign_last_tag_button.updateLabel();
     });
 
     this.refreshViewBasedOnOptions();

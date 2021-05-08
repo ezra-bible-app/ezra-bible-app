@@ -43,6 +43,22 @@ class AssignLastTagButton {
     });
   }
 
+  async updateLabel(tagTitle=undefined) {
+    if (!tagTitle) {
+      tagTitle = await this.getCurrentTag();
+    }
+
+    var assignLastTagButton = $('.assign-last-tag-button');
+    var label = i18n.t('tags-toolbar.assign-last-tag') + ': ' + tagTitle;
+    assignLastTagButton.text(label);
+  }
+
+  async getCurrentTag() {
+    var tagId = tags_controller.tag_store.latest_tag_id;
+    var currentTag = await tags_controller.tag_store.getTag(tagId);
+    return currentTag.title;
+  }
+
   async onLatestUsedTagChanged(tagId=undefined, added=true, currentDbTag=undefined) {
     if (currentDbTag != undefined) {
       tagId = currentDbTag.id;
@@ -59,9 +75,8 @@ class AssignLastTagButton {
     }
 
     if (currentTag != null) {
+      await this.updateLabel(currentTag.title);
       var assignLastTagButton = $('.assign-last-tag-button');
-      var label = i18n.t('tags-toolbar.assign-last-tag') + ': ' + currentTag.title;
-      assignLastTagButton.text(label);
 
       if (added) {
         assignLastTagButton.addClass('ui-state-disabled');
