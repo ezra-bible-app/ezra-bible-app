@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { waitUntilIdle } = require('../../helpers/ezra_helper');
+const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
 
 /**
  * The AssignLastTagButton always shows the latest used tag. It gets updated when

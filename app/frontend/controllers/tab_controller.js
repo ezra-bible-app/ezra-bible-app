@@ -18,7 +18,7 @@
 
 const Mousetrap = require('mousetrap');
 const Tab = require('../ui_models/tab.js');
-const { waitUntilIdle } = require('../helpers/ezra_helper');
+const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 
 /**
  * The TabController manages the tab bar and the state of each tab.

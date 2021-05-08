@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const PlatformHelper = require('../../lib/platform_helper.js');
-const { waitUntilIdle } = require('../helpers/ezra_helper');
+const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.

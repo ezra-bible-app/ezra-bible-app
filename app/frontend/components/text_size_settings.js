@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Mousetrap = require('mousetrap');
-const { waitUntilIdle } = require('../helpers/ezra_helper');
+const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 
 const DEFAULT_TEXT_SIZE = 10; // in em*10 so not to deal with float
 const MIN_SIZE = 7;

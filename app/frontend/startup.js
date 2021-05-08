@@ -33,7 +33,7 @@ const IpcSettings = require('./ipc/ipc_settings.js');
 const UiHelper = require('./helpers/ui_helper.js');
 window.uiHelper = new UiHelper();
 
-const { waitUntilIdle } = require('./helpers/ezra_helper');
+const { waitUntilIdle } = require('./helpers/ezra_helper.js');
 
 /**
  * The Startup class has the purpose to start up the application.

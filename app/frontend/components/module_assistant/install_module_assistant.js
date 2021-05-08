@@ -18,7 +18,7 @@
 
 const LanguageMapper = require('../../../lib/language_mapper.js');
 const ModuleAssistantHelper = require('./module_assistant_helper.js');
-const { sleep } = require('../../helpers/ezra_helper');
+const { sleep } = require('../../helpers/ezra_helper.js');
 
 /**
  * The InstallModuleAssistant component implements the dialog that handles module installations.
