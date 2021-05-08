@@ -42,52 +42,8 @@ window.startup = new Startup();
 window.cordovaPlatform = null;
 window.electronPlatform = null;
 
-window.sleep = function(time) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, time);
-  });
-}
-
-window.waitUntilIdle = function() {
-  return new Promise(resolve => {
-    window.requestIdleCallback(() => {
-      resolve();
-    });
-  });
-}
-
-// based on https://stackoverflow.com/questions/3115150/how-to-escape-regular-expression-special-characters-using-javascript
-window.escapeRegExp = function(text) {
-  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
-}
-
 // Extend NodeList with the forEach function from Array
 NodeList.prototype.forEach = Array.prototype.forEach;
-
-/**
- * This little function gives us the possibility for html tagged template literals.
- * 
- * Note that if we ever introduce a library like lit we may need to remove this function, because there would otherwise be a
- * clash in the global namespace.
- * 
- * proof of concept; utilizing tagged templates https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates
- * FIXME: move to utility module or use the npm package
- */
-window.html = (literals, ...substs) => {
-  const template = document.createElement('template');
-  // based upon https://github.com/AntonioVdlC/html-template-tag/blob/main/src/index.ts
-  template.innerHTML = literals.raw.reduce((acc, lit, i) => {
-    let subst = substs[i - 1];
-    if (Array.isArray(subst)) {
-      subst = subst.join("");
-    }
-    return acc + subst + lit;
-  });
-
-  return template;
-}
 
 $.create_xml_doc = function(string)
 {
