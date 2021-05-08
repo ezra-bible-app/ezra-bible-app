@@ -360,7 +360,7 @@ class VerseSelection {
     return selected_verse_ids;
   }
 
-  async updateViewsAfterVerseSelection(selectedVerseDisplayText=undefined) {
+  async updateSelectedVersesLabel(selectedVerseDisplayText=undefined) {
     var preDefinedText = false;
 
     if (selectedVerseDisplayText == undefined) {
@@ -380,7 +380,10 @@ class VerseSelection {
     }
 
     this.getSelectedVersesLabel().html(selectedVerseDisplayText);
+  }
 
+  async updateViewsAfterVerseSelection(selectedVerseDisplayText=undefined) {
+    await this.updateSelectedVersesLabel(selectedVerseDisplayText);
     await tags_controller.updateTagsViewAfterVerseSelection(false);
     
     var currentTab = app_controller.tab_controller.getTab();
