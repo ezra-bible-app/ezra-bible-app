@@ -19,18 +19,21 @@
 const locales = i18nHelper.getAvaliableLocales();
 
 const template = html`
-   <style>
-     .config-select {
-       width: 100%;
-     }
-   </style>
-   <div id="language-switch-box" class="switch-box">
-     <div class="switch-label"></div>
-     <select name="config-select" class="config-select">
-       ${locales.map(locale => `<option value="${locale.code}" ${locale.code === i18nHelper.getLanguage() ? 'selected' : ''}>${locale.languageName}</option>`)}
-     </select>
-   </div>
- `;
+  <style>
+    #language-switch-box {
+      margin-top: 4em;
+    }
+    .config-select {
+      width: 100%;
+    }
+  </style>
+  <div id="language-switch-box" class="switch-box">
+    <div class="options-header"></div>
+    <select name="config-select" class="config-select">
+      ${locales.map(locale => `<option value="${locale.code}" ${locale.code === i18nHelper.getLanguage() ? 'selected' : ''}>${locale.languageName}</option>`)}
+    </select>
+  </div>
+  `;
 
 class LocaleSwitch extends HTMLElement {
   constructor() {
@@ -71,8 +74,10 @@ class LocaleSwitch extends HTMLElement {
   }
 
   _localize() {
-    var labelId = this.getAttribute('label');
-    this.querySelector('.switch-label').innerText = i18n.t(labelId);
+    var i18nId = this.getAttribute('label');
+    var labelEl = this.querySelector('.options-header');
+    labelEl.innerText = i18n.t(i18nId);
+    labelEl.setAttribute('i18n', i18nId);
   }
 
   get value() {
