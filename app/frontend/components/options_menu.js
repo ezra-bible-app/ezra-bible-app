@@ -115,8 +115,8 @@ class OptionsMenu {
       $(this._dictionaryOption).hide();
     }
 
-    this._languageSwitcherOption = this.initConfigOption('localeSwitchOption', async () => {
-      const newLang = this._languageSwitcherOption.value;
+    this._localeSwitchOption = this.initConfigOption('localeSwitchOption', async () => {
+      const newLang = this._localeSwitchOption.value;
       console.log('Language changed', newLang);
 
       await i18n.changeLanguage(newLang);
