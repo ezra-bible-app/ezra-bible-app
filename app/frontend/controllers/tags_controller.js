@@ -71,8 +71,18 @@ class TagsController {
     this.lastBook = null;
   }
 
-  initNewTagDialog() {
-    if (this.newTagDialogInitDone) {
+  /**
+   * This is used to refresh the dialogs after the locale changed
+   */
+  refreshTagDialogs() {
+    this.initNewTagDialog(true);
+    this.initRenameStandardTagDialog(true);
+    this.initRemoveTagAssignmentConfirmationDialog(true);
+    this.initDeleteTagConfirmationDialog(true);
+  }
+
+  initNewTagDialog(force=false) {
+    if (!force && this.newTagDialogInitDone) {
       return;
     }
 
@@ -131,8 +141,8 @@ class TagsController {
     $('#delete-tag-confirmation-dialog').dialog(delete_tag_confirmation_dlg_options);
   }
 
-  initRemoveTagAssignmentConfirmationDialog() {
-    if (this.removeTagAssignmentConfirmationDialogInitDone) {
+  initRemoveTagAssignmentConfirmationDialog(force=false) {
+    if (!force && this.removeTagAssignmentConfirmationDialogInitDone) {
       return;
     }
 
@@ -167,8 +177,8 @@ class TagsController {
     });
   }
 
-  initRenameStandardTagDialog() {
-    if (this.renameStandardTagDialogInitDone) {
+  initRenameStandardTagDialog(force=false) {
+    if (!force && this.renameStandardTagDialogInitDone) {
       return;
     }
 
