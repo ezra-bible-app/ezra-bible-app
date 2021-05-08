@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { html, waitUntilIdle } = require('../helpers/ezra_helper.js');
-const locales = i18nHelper.getAvaliableLocales();
+const locales = i18nHelper.getAvailableLocales();
 
 const template = html`
   <style>
@@ -28,6 +28,7 @@ const template = html`
       width: 100%;
     }
   </style>
+
   <div id="language-switch-box" class="switch-box">
     <div class="options-header"></div>
     <select name="config-select" class="config-select">
