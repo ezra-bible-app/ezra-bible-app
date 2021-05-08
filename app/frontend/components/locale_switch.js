@@ -16,27 +16,27 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const locales = i18nHelper.getAvaliableLocales();
+
+const template = html`
+   <style>
+     .config-select {
+       width: 100%;
+     }
+   </style>
+   <div id="language-switch-box" class="switch-box">
+     <div class="switch-label"></div>
+     <select name="config-select" class="config-select">
+       ${locales.map(locale => `<option value="${locale.code}" ${locale.code === i18nHelper.getLanguage() ? 'selected' : ''}>${locale.languageName}</option>`)}
+     </select>
+   </div>
+ `;
 
 class LocaleSwitch extends HTMLElement {
   constructor() {
     super();
 
-    const locales = i18nHelper.getAvaliableLocales();
-
-    this.innerHTML = html`
-      <style>
-        .config-select {
-          width: 100%;
-        }
-      </style>
-
-      <div id="language-switch-box" class="switch-box">
-        <div class="select-label"></div>
-        <select name="config-select" class="config-select">
-          ${locales.map(locale => `<option value="${locale.code}" ${locale.code === i18nHelper.getLanguage() ? 'selected' : ''}>${locale.languageName}</option>`).join('')}
-        </select>
-      </div>
-    `;
+    this.innerHTML = template.innerHTML;
 
     this.selectEl = this.querySelector('.config-select');
 
@@ -61,7 +61,7 @@ class LocaleSwitch extends HTMLElement {
     $(this.selectEl).selectmenu({
       width: 247, // FIXME: magic number that works with jQuery UI
       change: () => this._handleChange(),
-    });  
+    });
   }
 
   async _handleChange() {
@@ -72,7 +72,7 @@ class LocaleSwitch extends HTMLElement {
 
   _localize() {
     var labelId = this.getAttribute('label');
-    this.querySelector('.select-label').innerText = i18n.t(labelId);
+    this.querySelector('.switch-label').innerText = i18n.t(labelId);
   }
 
   get value() {
