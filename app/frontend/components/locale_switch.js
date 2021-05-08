@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const { html, waitUntilIdle } = require('../helpers/ezra_helper.js');
 const locales = i18nHelper.getAvaliableLocales();
 
 const template = html`

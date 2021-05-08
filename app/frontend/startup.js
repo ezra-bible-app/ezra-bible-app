@@ -76,7 +76,7 @@ class Startup
       await i18n.changeLanguage('en');
     }
   
-    reference_separator = i18n.t('general.chapter-verse-separator');
+    window.reference_separator = i18n.t('general.chapter-verse-separator');
   }
 
   async initTest() {
