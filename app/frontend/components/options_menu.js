@@ -122,6 +122,9 @@ class OptionsMenu {
 
       await i18n.changeLanguage(newLang);
       $(document).localize();
+      
+      await app_controller.tab_controller.loadTabConfiguration();
+
     });
 
     this.refreshViewBasedOnOptions();
