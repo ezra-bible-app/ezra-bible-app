@@ -120,9 +120,7 @@ class OptionsMenu {
 
       await i18n.changeLanguage(newLang);
       $(document).localize();
-
-      await app_controller.tab_controller.loadTabConfiguration();
-
+      await app_controller.book_selection_menu.localizeBookSelectionMenu();
     });
 
     this.refreshViewBasedOnOptions();
