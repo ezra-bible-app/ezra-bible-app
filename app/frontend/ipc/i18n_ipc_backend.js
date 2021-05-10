@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const IpcI18n = require('./ipc_i18n.js');
+const { sleep } = require('../helpers/ezra_helper.js');
 
 class I18nIpcBackend {
   init(services, backendOptions, i18nextOptions) {

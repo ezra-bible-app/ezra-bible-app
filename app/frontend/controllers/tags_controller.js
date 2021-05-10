@@ -20,6 +20,7 @@ const TagStore = require('../components/tags/tag_store.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
 require('../components/emoji_picker.js');
+const { waitUntilIdle, sleep } = require('../helpers/ezra_helper.js');
 
 /**
  * The TagsController handles most functionality related to tagging of verses.

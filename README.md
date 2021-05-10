@@ -41,9 +41,9 @@ Have a look at the contribution guidelines [here][contributing].
 
 [contributing]: https://github.com/ezra-bible-app/ezra-bible-app/blob/master/CONTRIBUTING.md
 
-## User Forum
+## Discussions
 
-Join the User Forum at [forum.ezrabibleapp.net](https://forum.ezrabibleapp.net) to discuss any of the existing functionality, ask questions and make suggestions for new features!
+Join the [discussions here on GitHub](https://github.com/ezra-bible-app/ezra-bible-app/discussions) to discuss any of the existing functionality, ask questions and make suggestions for new features!
 
 ## Feedback
 To give feedback (bug reports, feature requests) please use the Github issue system.

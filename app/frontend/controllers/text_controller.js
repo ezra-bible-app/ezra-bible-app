@@ -18,6 +18,8 @@
 
 const PlatformHelper = require('../../lib/platform_helper.js');
 const notesHelper = require('../helpers/notes_helper.js');
+const { waitUntilIdle } = require('../helpers/ezra_helper.js');
+
 /**
  * The TextController is used to load bible text into the text area of a tab.
  * It can handle bible books, tagged verse lists and search results.
@@ -40,8 +42,12 @@ class TextController {
     }
 
     app_controller.module_search_controller.hideModuleSearchHeader(tabIndex);
+    
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
-    currentTab.tab_search.resetSearch();
+    if (currentTab != null && currentTab.tab_search != null) {
+      currentTab.tab_search.resetSearch();
+    }
+
     await app_controller.navigation_pane.initNavigationPaneForCurrentView(tabIndex);
 
     if (tabIndex === undefined) {

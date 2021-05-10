@@ -215,7 +215,8 @@
     "open-new-tab": "Відкрити нову вкладку",
     "open-verselist-in-new-tab": "Відкрити перелік віршів у новій вкладці",
     "footnote-character": "*",
-    "adjust-font-size-tags-notes": "Зміна розміру тексту нотаток та міт"
+    "adjust-font-size-tags-notes": "Зміна розміру тексту нотаток та міт",
+    "new-note-hint": "Click to add a note"
   },
   "dictionary-info-box": {
     "greek-dict": "Грецький Словник грецької мови",

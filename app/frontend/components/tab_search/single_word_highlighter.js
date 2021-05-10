@@ -16,6 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const { escapeRegExp } = require('../../helpers/ezra_helper.js');
+
 class SingleWordHighlighter {
   constructor(highlightFunction) {
     this.highlightFunction = highlightFunction;
