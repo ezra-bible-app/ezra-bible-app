@@ -16,7 +16,9 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const i18n = require('i18next');
+const { html, sleep, waitUntilIdle } = require('../helpers/ezra_helper');
+
+var emojiPicker; // to keep only one inctance of the picker
 
 const template = html`
   <style>
@@ -60,12 +62,15 @@ class EmojiButtonTrigger extends HTMLElement {
 
   connectedCallback() {
     this.parentNode.style.position = 'relative'; // emoji trigger position relative to the parent
+    if (emojiPicker === undefined) { 
+      emojiPicker = initPicker(); // attach picker early, it would be a promise at first and it won't block the startup flow
+    }
   }
 
   disconnectedCallback() {
     this.editor = null;
-    if (picker) {
-      picker.hidePicker();
+    if (emojiPicker && typeof emojiPicker.hidePicker === 'function') {
+      emojiPicker.hidePicker();
     }
   }
 
@@ -104,24 +109,22 @@ class EmojiButtonTrigger extends HTMLElement {
     }
   }
 
-  _handleClick() {
-    if (picker === undefined) {
-      initPicker();
-    }
-    picker.togglePicker(this);
+  async _handleClick() {
+    (await emojiPicker).togglePicker(this);
   }
 }
 
 customElements.define('emoji-button-trigger', EmojiButtonTrigger);
 module.exports.EmojiButtonTrigger = EmojiButtonTrigger;
 
-var picker;
+async function initPicker() {
+  await sleep(5000); // delay init as emoji picker is not a priority
+  await waitUntilIdle();
 
-function initPicker() {
   const { EmojiButton } = require('../../../node_modules/emoji-button/dist/index.cjs.js');
   const nightModeOption = app_controller.optionsMenu._nightModeOption;
 
-  picker = new EmojiButton({ // https://emoji-button.js.org/docs/api
+  const picker = new EmojiButton({ // https://emoji-button.js.org/docs/api
     emojiData: getLocalizedData(i18nHelper.getLanguage()),
     showPreview: false,
     showVariants: false,
@@ -139,15 +142,17 @@ function initPicker() {
   });
 
   picker.on('emoji', ({ emoji, name, trigger }) => {
-    if (!trigger || trigger.nodeName !== 'EMOJI-PICKER') {
-      console.log('EmojiPicker: Something wrong. Trigger element is not detected :( But emoji was clicked:', emoji, name);
+    if (!trigger || trigger.nodeName !== 'EMOJI-BUTTON-TRIGGER') {
+      console.log('EmojiButtonTrigger: Something wrong. Trigger element is not detected :( But emoji was clicked:', emoji, name);
       return;
     }
     trigger.insertEmoji(emoji);
   });
 
   picker.on('hidden', ({ trigger }) => {
-    trigger.restoreFocus();
+    if (trigger) {
+      trigger.restoreFocus();
+    }
   });
 
   if (nightModeOption) {
@@ -183,7 +188,7 @@ function getLocalizedData(locale) {
     case 'uk':
       return require('../../../node_modules/emoji-button/dist/locale/emoji_uk.json');
     default:
-      console.log(`EmojiPicker: Can't upload emoji annotations for locale: ${locale}. Using default`);
+      console.log(`EmojiButtonTrigger: Can't upload emoji annotations for locale: ${locale}. Using default`);
 
   }
 }
