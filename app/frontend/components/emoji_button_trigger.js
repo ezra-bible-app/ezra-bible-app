@@ -121,7 +121,7 @@ async function initPicker() {
   await sleep(5000); // delay init as emoji picker is not a priority
   await waitUntilIdle();
 
-  const { EmojiButton } = require('../../../node_modules/emoji-button/dist/index.cjs.js');
+  const { EmojiButton } = require('emoji-button/dist/index.cjs');
   const nightModeOption = app_controller.optionsMenu._nightModeOption;
 
   const picker = new EmojiButton({ // https://emoji-button.js.org/docs/api
@@ -172,21 +172,21 @@ async function initPicker() {
 function getLocalizedData(locale) {
   switch (locale) {
     case 'de':
-      return require('../../../node_modules/emoji-button/dist/locale/emoji_de.json');
+      return require('emoji-button/dist/locale/emoji_de');
     case 'en':
-      return require('../../../node_modules/emoji-button/dist/locale/emoji_en.json');
+      return require('emoji-button/dist/locale/emoji_en');
     case 'es':
-      return require('../../../node_modules/emoji-button/dist/locale/emoji_es.json');
+      return require('emoji-button/dist/locale/emoji_es');
     case 'fr':
-      return require('../../../node_modules/emoji-button/dist/locale/emoji_fr.json');
+      return require('emoji-button/dist/locale/emoji_fr');
     case 'nl':
-      return require('../../../node_modules/emoji-button/dist/locale/emoji_nl.json');
+      return require('emoji-button/dist/locale/emoji_nl');
     case 'ru':
-      return require('../../../node_modules/emoji-button/dist/locale/emoji_ru.json');
+      return require('emoji-button/dist/locale/emoji_ru');
     case 'sk':
-      return require('../../../node_modules/emoji-button/dist/locale/emoji_sk.json');
+      return require('emoji-button/dist/locale/emoji_sk');
     case 'uk':
-      return require('../../../node_modules/emoji-button/dist/locale/emoji_uk.json');
+      return require('emoji-button/dist/locale/emoji_uk');
     default:
       console.log(`EmojiButtonTrigger: Can't upload emoji annotations for locale: ${locale}. Using default`);
 
