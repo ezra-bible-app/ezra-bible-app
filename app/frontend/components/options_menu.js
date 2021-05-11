@@ -122,15 +122,13 @@ class OptionsMenu {
       await i18n.changeLanguage(newLang);
       $(document).localize();
 
-      let $tabHtmlTemplate = $('<div>').append(app_controller.tab_controller.tabHtmlTemplate);
-      $tabHtmlTemplate.localize();
-      app_controller.tab_controller.tabHtmlTemplate = $tabHtmlTemplate.html();
-
       // Todo: Bind to event in respective dependent components instead
       window.reference_separator = i18n.t('general.chapter-verse-separator');
       await app_controller.book_selection_menu.localizeBookSelectionMenu();
       await app_controller.assign_last_tag_button.updateLabel();
       await app_controller.verse_selection.updateSelectedVersesLabel();
+      app_controller.tab_controller.localizeTemplate();
+      await app_controller.updateTagsView();
       tags_controller.refreshTagDialogs();
     });
 
