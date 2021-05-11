@@ -222,6 +222,7 @@ class NavigationPane {
     var navigationHeader = document.createElement('div');
     navigationHeader.classList.add('nav-pane-header');
     navigationHeader.textContent = i18n.t('bible-browser.chapter-header');
+    navigationHeader.setAttribute('i18n', 'bible-browser.chapter-header');
     navigationPane.append(navigationHeader);
 
     var cachedVerseListTabId = this.getCachedVerseListTabId(tabIndex);
