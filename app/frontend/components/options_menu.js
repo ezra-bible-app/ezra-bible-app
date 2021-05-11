@@ -128,7 +128,7 @@ class OptionsMenu {
       await app_controller.assign_last_tag_button.updateLabel();
       await app_controller.verse_selection.updateSelectedVersesLabel();
       app_controller.tab_controller.localizeTemplate();
-      await app_controller.updateTagsView();
+      await app_controller.updateTagsView(undefined, true);
       tags_controller.refreshTagDialogs();
     });
 
