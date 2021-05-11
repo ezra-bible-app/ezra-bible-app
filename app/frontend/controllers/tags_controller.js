@@ -1066,26 +1066,13 @@ class TagsController {
   }
 
   initTagsUI() {
-    $('#tags-content').accordion({
-      autoHeight: false,
-      animated: false,
-      change: tags_controller.handleTagAccordionChange
-    });
+    // $('#tags-content').accordion({
+    //   autoHeight: false,
+    //   animated: false,
+    //   change: tags_controller.handleTagAccordionChange
+    // });
 
-    var filter_button = $("<span id=\"tag-list-filter-button\"><i class='fas fa-filter'></i></span>");
-    var filter_active_symbol = $("<span id=\"tag-list-filter-button-active\">*</span>");
-    var tag_list_stats = $("<span id='tag-list-stats' style='margin-left: 1em;'></span>");
-    var tags_search_input = $("<input type='text' id='tags-search-input'></input>");
-    var reference_link = $($('#tags-content').find('a')[0]);
-    var reference_link_text = reference_link.text();
-    reference_link.empty();
-    reference_link.append("<span style=\"float: left;\">" + reference_link_text + "</span>");
-    reference_link.append(filter_button);
-    reference_link.append(filter_active_symbol);
-    reference_link.append(tag_list_stats);
-    reference_link.append(tags_search_input);
-
-    reference_link.find('#tag-list-filter-button').bind('click', tags_controller.handleFilterButtonClick);
+    $('#tag-list-filter-button').bind('click', tags_controller.handleFilterButtonClick);
 
     $('#tags-content-global').bind('mouseover', () => { this.hideTagFilterMenuIfInToolBar(); });
     $('#tag-filter-menu').find('input').bind('click', tags_controller.handleTagFilterTypeClick);
