@@ -21,6 +21,7 @@ const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const verseBoxHelper = new VerseBoxHelper();
 const VerseBox = require('../ui_models/verse_box.js');
 const notesHelper = require('../helpers/notes_helper.js');
+require('../components/emoji_button_trigger.js');
 
 let CodeMirror = null;
 function getCodeMirror() {
@@ -287,7 +288,7 @@ class NotesController {
     var verseNotesText = notesElement.querySelector('.verse-notes-text');
     verseNotesText.classList.remove('edited');
     verseNotesText.innerHTML = renderedContent;
-
+ 
     if (renderedContent == '') {
       notesElement.classList.add('verse-notes-empty');
     } else {
@@ -302,9 +303,9 @@ class NotesController {
   }
 
   _setupVerseNoteButtons() {
-    var verseNotesButtons = $(this.currentlyEditedNotes).find('.verse-notes-buttons');
+    var $verseNotesButtons = $(this.currentlyEditedNotes).find('.verse-notes-buttons');
 
-    verseNotesButtons.find('a').bind('click', (event) => {
+    $verseNotesButtons.find('a').bind('click', (event) => {
       event.preventDefault();
 
       if (event.target.className == 'save-note') {
@@ -318,7 +319,7 @@ class NotesController {
       }
     });
 
-    verseNotesButtons.show();
+    $verseNotesButtons.show();
   }
 
   _getNotesElementContent(notesElement) {
@@ -334,7 +335,7 @@ class NotesController {
     var template = document.createElement('template');
     html = html.trim(); // Never return a text node of whitespace as the result
     template.innerHTML = html;
-    return template.content.firstChild;
+    return template.content;
   }
 
   _createEditor(notesElement) {
@@ -345,13 +346,14 @@ class NotesController {
     notesElementText.classList.add('edited');
     notesElementText.innerHTML = '';
 
-    var textArea = this._htmlToElement('<textarea class="editor"></textarea>');
-    notesElementText.append(textArea);
+    // FIXME: have template to be defined once and insert it with cloneNode(true)
+    var textAreaTemplate = this._htmlToElement('<textarea class="editor"></textarea><emoji-button-trigger class="btn-picker"></emoji-button-trigger>');
+    notesElementText.appendChild(textAreaTemplate); 
 
-    var targetElement = notesElementText.querySelector('.editor');
-    targetElement.value = this._getNotesElementContent(notesElement);
+    var textAreaElement = notesElementText.querySelector('.editor');
+    textAreaElement.value = this._getNotesElementContent(notesElement);
 
-    var editor = CodeMirror.fromTextArea(targetElement, {
+    var editor = CodeMirror.fromTextArea(textAreaElement, {
       mode: 'gfm',
       autoCloseBrackets: true,
       lineNumbers: false,
@@ -367,6 +369,7 @@ class NotesController {
 
     this.currentEditor = editor;
     this._focusEditor();
+    notesElementText.querySelector('.btn-picker').attachEditor(editor);
   }
 
   _focusEditor() {

@@ -225,6 +225,22 @@
     "open-in-blueletter": "Открыть в Blue Letter Bible",
     "related-strongs": "Связанные номера Стронга"
   },
+  "emoji": {
+    "search": "Поиск эмодзи...",
+    "notFound": "Эмодзи не найдено",
+    "categories": {
+      "recents": "Недавние эмодзи",
+      "smileys": "Смайлики и эмоции",
+      "people": "Жесты и люди",
+      "animals": "Животные и природа",
+      "food": "Еда и напитки",
+      "activities": "Активность",
+      "travel": "Путешествия и места",
+      "objects": "Объекты",
+      "symbols": "Символы",
+      "flags": "Флаги"
+    }
+  },
   "cordova": {
     "welcome-to-ezra-bible-app": "Добро пожаловать в приложение Ezra Bible App!",
     "storage-justification": "Приложению Ezra Bible App требуется доступ к области памяти устройства, чтобы сохранять модули SWORD и базу данных приложения. <br><br> После нажатия кнопки ниже вас попросят разрешить приложению Ezra Bible App доступ к файлам на вашем устройстве. ",

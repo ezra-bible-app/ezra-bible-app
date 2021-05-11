@@ -227,6 +227,22 @@
     "open-in-blueletter": "In Blue Letter Bible openen",
     "related-strongs": "Gerelateerde Strongs"
   },
+  "emoji": {
+    "search": "Search emojis...",
+    "notFound": "No emojis found",
+    "categories": {
+      "recents": "Recent Emojis",
+      "smileys": "Smileys & Emotion",
+      "people": "People & Body",
+      "animals": "Animals & Nature",
+      "food": "Food & Drink",
+      "activities": "Activities",
+      "travel": "Travel & Places",
+      "objects": "Objects",
+      "symbols": "Symbols",
+      "flags": "Flags"
+    }
+  },
   "cordova" : {
     "welcome-to-ezra-bible-app": "Welkom bij Ezra Bible App!",
     "storage-justification": "Ezra Bible App heeft toegang nodig tot de apparaatopslag om SWORD-modules te bewaren en de databank op te slaan. <br> <br> Nadat je op de onderstaande knop hebt gedrukt, wordt je gevraagd om Ezra Bible App toegang te geven tot bestanden op je apparaat.",

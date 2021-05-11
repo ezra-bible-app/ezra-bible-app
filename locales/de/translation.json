@@ -228,6 +228,22 @@
     "open-in-blueletter": "In Blue Letter Bible öffnen",
     "related-strongs": "Verwandte Strong's"
   },
+  "emoji": {
+    "search": "Search emojis...",
+    "notFound": "No emojis found",
+    "categories": {
+      "recents": "Recent Emojis",
+      "smileys": "Smileys & Emotion",
+      "people": "People & Body",
+      "animals": "Animals & Nature",
+      "food": "Food & Drink",
+      "activities": "Activities",
+      "travel": "Travel & Places",
+      "objects": "Objects",
+      "symbols": "Symbols",
+      "flags": "Flags"
+    }
+  },
   "cordova" : {
     "welcome-to-ezra-bible-app": "Willkommen bei Ezra Bible App!",
     "storage-justification": "Ezra Bible App benötigt Zugriff auf den Gerätespeicher, um SWORD Module und die Datenbank zu speichern.<br><br>Nachdem Sie den Button unten gedrückt haben werden Sie gebeten, Ezra Bible App den Zugriff auf den Speicher zu erlauben.",
