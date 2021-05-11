@@ -18,7 +18,7 @@
 
 const { html, sleep, waitUntilIdle } = require('../helpers/ezra_helper');
 
-var emojiPicker; // to keep only one inctance of the picker
+var emojiPicker; // to keep only one instance of the picker
 
 const template = html`
   <style>
@@ -37,17 +37,18 @@ const template = html`
   <!-- using Font Awesome icon -->
   <svg viewBox="0 0 496 512"><!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-110.3 0-200-89.7-200-200S137.7 56 248 56s200 89.7 200 200-89.7 200-200 200zm105.6-151.4c-25.9 8.3-64.4 13.1-105.6 13.1s-79.6-4.8-105.6-13.1c-9.9-3.1-19.4 5.4-17.7 15.3 7.9 47.1 71.3 80 123.3 80s115.3-32.9 123.3-80c1.6-9.8-7.7-18.4-17.7-15.3zM168 240c17.7 0 32-14.3 32-32s-14.3-32-32-32-32 14.3-32 32 14.3 32 32 32zm160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32-32 14.3-32 32 14.3 32 32 32z"/></svg>
 `;
+
 /**
- * The emoji-picker component adds posibility to insert emojis to the tag names and notes 
- * on desktop platforms (electron app). It provides emoji picker trigger button and inserts
+ * The emoji-picker component adds the possibility to insert emojis to the tag names and notes 
+ * on desktop platforms (electron app). It provides an emoji picker trigger button and inserts
  * emoji in the previous DOM text input or codeMirror editor.
  * 
- * Emoji Picker dialog is implemented via external library:
+ * The Emoji Picker dialog is implemented via this external library:
  * https://github.com/zhuiks/emoji-button
- * That is customized version of original:
+ * This library is a customized version of the original:
  * https://github.com/joeattardi/emoji-button
  * 
- * Library instance is kept inside module variable picker.
+ * The library instance is kept inside the module variable picker.
  * 
  * @category Component
  */
@@ -105,17 +106,19 @@ class EmojiButtonTrigger extends HTMLElement {
    */
   insertEmoji(emoji) {
     const input = this.previousElementSibling;
+
     if (input && input.nodeName === 'INPUT') {
       input.value += emoji;
     } else if (this.editor && this.editor.getDoc()) {
       this.editor.getDoc().replaceSelection(emoji);
     } else {
-      console.log('EmojiPicker: Input is not detected. Can\'t add emoji', emoji);
+      console.error('EmojiPicker: Input is not detected. Can\'t add emoji', emoji);
     }
   }
 
   restoreFocus() {
     const input = this.previousElementSibling;
+
     if (input && input.nodeName === 'INPUT') {
       input.focus();
     } else if (this.editor && this.editor.getDoc()) {
@@ -137,7 +140,7 @@ function hasNativeEmoji() {
 
 async function initPicker() {
   console.log('emoji picker init');
-  await sleep(5000); // delay init as emoji picker is not a priority
+  await sleep(3000); // delay init as emoji picker is not a priority
   await waitUntilIdle();
 
   const { EmojiButton } = require('emoji-button/dist/index.cjs');
@@ -165,6 +168,7 @@ async function initPicker() {
       console.log('EmojiButtonTrigger: Something wrong. Trigger element is not detected :( But emoji was clicked:', emoji, name);
       return;
     }
+
     trigger.insertEmoji(emoji);
   });
 
@@ -208,6 +212,5 @@ function getLocalizedData(locale) {
       return require('emoji-button/dist/locale/emoji_uk');
     default:
       console.log(`EmojiButtonTrigger: Can't upload emoji annotations for locale: ${locale}. Using default`);
-
   }
 }
