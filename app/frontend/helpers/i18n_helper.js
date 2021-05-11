@@ -106,18 +106,16 @@ class I18nHelper {
   }
 
   getAvailableLocales() {
-    const currentCode = this.getLanguage();
-    const localeCodes = i18nextOptions.whitelist.filter(code => code !== 'cimode').sort();
-    const languageNames = new Intl.DisplayNames(currentCode, { type: 'language' });
-    return localeCodes.map(code => {
-      const lang = languageNames.of(code);
-      const titleCased = lang.slice(0,1).toLocaleUpperCase() + lang.slice(1);
-      const langNative = code !== currentCode ? ` (${(new Intl.DisplayNames(code, { type: 'language' })).of(code)})` : '';
-      return {
-        code,
-        languageName: titleCased + langNative
-      }
-    });
+    return i18nextOptions.whitelist.filter(code => code !== 'cimode').sort();
+  }
+
+  getLocaleName(code, includeNativeName = false, currentLocale = null) {
+    currentLocale = currentLocale || this.getLanguage();
+    const localeName = (new Intl.DisplayNames(currentLocale, { type: 'language' })).of(code);
+    const titleCased = localeName.slice(0,1).toLocaleUpperCase() + localeName.slice(1);
+
+    const langNative = includeNativeName && code !== currentLocale ? ` (${(new Intl.DisplayNames(code, { type: 'language' })).of(code)})` : '';
+    return titleCased + langNative;
   }
 }
 

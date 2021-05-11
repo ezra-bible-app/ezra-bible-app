@@ -59,7 +59,8 @@ const template = html`
   <div class="options-header"></div>
     <div class="locale-switch-container">
       <select name="config-select" class="config-select">
-        ${locales.map(locale => `<option value="${locale.code}" ${locale.code === i18nHelper.getLanguage() ? 'selected' : ''}>${locale.languageName}</option>`)}
+        ${locales.map(code => 
+          `<option value="${code}">${i18nHelper.getLocaleName(code, true)}</option>`)}
       </select>
       <div class="fg-button locale-detect ui-state-default ui-corner-right" i18n="[title]general.detect-locale-detect-descr">
         <i class="fas fa-globe"></i><span i18n="general.detect-locale">Auto</span>
@@ -104,7 +105,18 @@ class LocaleSwitch extends HTMLElement {
   async _handleChange() {
     await waitUntilIdle();
     await ipcSettings.set(this._settingsKey, this.selectEl.value);
+    this.updateOptions();
     this.dispatchEvent(this.changeEvent);
+  }
+
+  updateOptions() {
+    for (let i=0; i<this.selectEl.children.length; i++) {
+      let option = this.selectEl.children[i];
+      const code = option.getAttribute('value');
+      option.textContent = i18nHelper.getLocaleName(code, true, this.selectEl.value);
+    }
+
+    $(this.selectEl).selectmenu();
   }
 
   _localize() {
