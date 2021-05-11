@@ -793,6 +793,16 @@ class TabController {
       }
     }
   }
+
+  /**
+   * Function to update locale strings in new tab template
+   * Called on locale change
+   */
+  localizeTemplate() {
+    let $tabHtmlTemplate = $('<div>').append(this.tabHtmlTemplate);
+    $tabHtmlTemplate.localize();
+    this.tabHtmlTemplate = $tabHtmlTemplate.html();
+  }
 }
 
 module.exports = TabController;
