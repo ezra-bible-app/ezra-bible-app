@@ -54,6 +54,12 @@ const template = html`
 class EmojiButtonTrigger extends HTMLElement {
   constructor() {
     super();
+
+    if (hasNativeEmoji()) {
+      this.style.display = 'none';
+      return;
+    }
+
     this.editor = null;
     const shadow = this.attachShadow({ mode: 'open' });
     shadow.appendChild(template.content.cloneNode(true));
@@ -61,6 +67,10 @@ class EmojiButtonTrigger extends HTMLElement {
   }
 
   connectedCallback() {
+    if (hasNativeEmoji()) {
+      return;
+    }
+    
     this.parentNode.style.position = 'relative'; // emoji trigger position relative to the parent
     if (emojiPicker === undefined) { 
       emojiPicker = initPicker(); // attach picker early, it would be a promise at first and it won't block the startup flow
@@ -79,6 +89,10 @@ class EmojiButtonTrigger extends HTMLElement {
    * @param codeMirror - active codeMirror editor instance
    */
   attachEditor(codeMirror) {
+    if (hasNativeEmoji()) {
+      return;
+    }
+
     this.editor = codeMirror;
 
     this.style.bottom = '0.8em';
@@ -117,7 +131,12 @@ class EmojiButtonTrigger extends HTMLElement {
 customElements.define('emoji-button-trigger', EmojiButtonTrigger);
 module.exports.EmojiButtonTrigger = EmojiButtonTrigger;
 
+function hasNativeEmoji() {
+  return platformHelper.isCordova();
+}
+
 async function initPicker() {
+  console.log('emoji picker init');
   await sleep(5000); // delay init as emoji picker is not a priority
   await waitUntilIdle();
 
