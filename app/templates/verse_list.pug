@@ -40,9 +40,9 @@ if renderBookNotes
     div(class='verse-notes-text external') !{bookNotesText}
     div(class='verse-notes-status-bar')
       div(class='verse-notes-buttons')
-        a(class='save-note', i18n='general.save', href='')
+        a(class='save-note', href='')
           i.fas.fa-save.fa-sm
-          | !{saveText}
+          span(i18n='general.save') !{saveText}
         span &nbsp;|&nbsp;
         a(class='cancel-edit', i18n='general.cancel', href='') !{cancelText}
       div(class='verse-notes-timestamp') !{bookNotesUpdate}
@@ -163,9 +163,9 @@ each bibleBook in bibleBooks
 
           div(class='verse-notes-status-bar')
             div(class='verse-notes-buttons')
-              a(class='save-note', i18n='general.save', href='')
+              a(class='save-note', href='')
                 i.fas.fa-save.fa-sm
-                | !{saveText}
+                span(i18n='general.save') !{saveText}
               span &nbsp;|&nbsp;
               a(class='cancel-edit', i18n='general.cancel', href='') !{cancelText}
             div(class='verse-notes-timestamp') !{verseNoteUpdate}
