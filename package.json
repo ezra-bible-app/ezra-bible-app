@@ -7,7 +7,7 @@
   "license": "GPL-2.0+",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ezra-project/ezra-project.git"
+    "url": "https://github.com/ezra-bible-app/ezra-bible-app.git"
   },
   "main": "main.js",
   "scripts": {
@@ -76,7 +76,7 @@
     "marked": "^2.0.0",
     "mousetrap": "^1.6.5",
     "node-addon-api": "^1.7.1",
-    "node-sword-interface": "^0.222.0",
+    "node-sword-interface": "^0.224.0",
     "officegen": "^0.6.4",
     "pug": "^3.0.0",
     "remove-markdown": "^0.3.0",

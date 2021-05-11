@@ -30,6 +30,6 @@ To package Ezra Bible App, the following components are used:
 * [electron-installer-dmg](https://github.com/electron-userland/electron-installer-dmg)
 * [electron-osx-sign](https://github.com/electron/electron-osx-sign)
 
-Code metrics of Ezra Bible Apps are available [here][metrics].
+Code metrics of Ezra Bible App are available [here][metrics].
 
-[metrics]: https://github.com/ezra-project/ezra-project/blob/master/LOC_METRICS.md
+[metrics]: https://github.com/ezra-bible-app/ezra-bible-app/blob/master/LOC_METRICS.md
