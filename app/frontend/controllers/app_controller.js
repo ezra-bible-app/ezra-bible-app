@@ -633,7 +633,7 @@ class AppController {
     cancelSearchButtonContainer.hide();
   }
 
-  async updateTagsView(tabIndex) {
+  async updateTagsView(tabIndex, forceRefresh = false) {
     tags_controller.showTagListLoadingIndicator();
     var currentTab = this.tab_controller.getTab(tabIndex);
 
@@ -643,7 +643,7 @@ class AppController {
       var currentSearchTerm = currentTab.getSearchTerm();
       if ((currentTabBook != undefined && currentTabBook != null) || currentTagIdList != null || currentSearchTerm != null) {
         await waitUntilIdle();
-        tags_controller.updateTagList(currentTabBook);
+        tags_controller.updateTagList(currentTabBook, forceRefresh);
       }
     }
   }
