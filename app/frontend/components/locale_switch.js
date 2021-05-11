@@ -19,21 +19,52 @@
 const { html, waitUntilIdle } = require('../helpers/ezra_helper.js');
 const locales = i18nHelper.getAvailableLocales();
 
+const SELECT_WIDTH = '170px'; // FIXME: magic number that works with jQuery UI
+
 const template = html`
   <style>
-    #language-switch-box {
+    #locale-switch-box {
       margin-top: 4em;
     }
-    .config-select {
+    .locale-switch-container {
       width: 100%;
+      display: flex;
+    }
+    .locale-detect {
+      line-height: 2.1em;
+      padding: 0 0.8em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: calc(100% - ${SELECT_WIDTH});
+    }
+    .locale-detect i.fas+[i18n] {
+      margin-left: 0.8em;
+    }
+    .locale-switch-container .ui-selectmenu {
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+      width: auto;
+    }
+    #locale-switch-box .locale-switch-container .ui-selectmenu-menu-dropdown {
+      font-size: 1em;
+      text-align: left;
+      background-color: #1e1e1e;
+      width: 100% !important;
+      box-shadow: 2px 2px 3px #a0a0a088;
     }
   </style>
 
-  <div id="language-switch-box" class="switch-box">
-    <div class="options-header"></div>
-    <select name="config-select" class="config-select">
-      ${locales.map(locale => `<option value="${locale.code}" ${locale.code === i18nHelper.getLanguage() ? 'selected' : ''}>${locale.languageName}</option>`)}
-    </select>
+  <div id="locale-switch-box" class="switch-box">
+  <div class="options-header"></div>
+    <div class="locale-switch-container">
+      <select name="config-select" class="config-select">
+        ${locales.map(locale => `<option value="${locale.code}" ${locale.code === i18nHelper.getLanguage() ? 'selected' : ''}>${locale.languageName}</option>`)}
+      </select>
+      <div class="fg-button locale-detect ui-state-default ui-corner-right" i18n="[title]general.detect-locale-detect-descr">
+        <i class="fas fa-globe"></i><span i18n="general.detect-locale">Auto</span>
+      </div>    
+    </div>
   </div>
   `;
 
@@ -64,7 +95,8 @@ class LocaleSwitch extends HTMLElement {
     }
 
     $(this.selectEl).selectmenu({
-      width: 247, // FIXME: magic number that works with jQuery UI
+      appendTo: this.querySelector('.locale-switch-container'),
+      width: SELECT_WIDTH, 
       change: () => this._handleChange(),
     });
   }
