@@ -1,6 +1,5 @@
 <div id="new-standard-tag-dialog" style="display: none; padding-top: 2em; padding-bottom: 2em;">
   <span id="new-standard-tag-title-label" i18n="tags.title"></span>: <input id="new-standard-tag-title-input" type="text" maxlength="255" />
-  <emoji-button-trigger></emoji-button-trigger>
 </div>
 
 <div id="delete-tag-confirmation-dialog" style="display: none;">
@@ -12,16 +11,23 @@
   <p i18n="[html]tags.really-remove-tag-assignment"></p>
 </div>
 
-<div id="rename-standard-tag-dialog" style="display: none; padding-top: 2em; padding-bottom: 2em;">
-  <span id="rename-standard-tag-title-label" i18n="tags.title"></span>: <input id="rename-standard-tag-title-input" type="text" maxlength="255" />
-  <emoji-button-trigger></emoji-button-trigger>
+<div id="rename-standard-tag-dialog" style="display: none;">
+  <p>
+    <span id="rename-standard-tag-title-label" i18n="tags.title"></span>: <input id="rename-standard-tag-title-input" type="text" maxlength="255" />
+  </p>
 </div>
 
-<div id="tags-content" class="accordion-panel">
-  <h3>
-    <a href="#" i18n="menu.tags"></a>
+<div id="tags-content" class="accordion-panel ui-accordion ui-widget ui-helper-reset ui-accordion-icons" role="tablist">
+  <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
+    <a href="#">
+      <span style="float: left;" i18n="menu.tags"></span>
+      <span id="tag-list-filter-button"><i class='fas fa-filter'></i></span>
+      <span id="tag-list-filter-button-active">*</span>
+      <span id="tag-list-stats" style="margin-left: 1em;"></span>
+      <input type="text" id="tags-search-input"></input>
+    </a>
   </h3>
-  <div id="tags-content-global" class="tags-content-global scrollable">
+  <div id="tags-content-global" class="tags-content-global scrollable ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
     <div id="tags-loading-indicator" style="display: none; width: 18em; margin-top: 5em; margin-left: auto; margin-right: auto;">
       <div class="loading-indicator-text" style="float: left;" i18n="tags.loading-tags"></div>
 
@@ -35,9 +41,7 @@
 </div>
 
 <div id="dictionary-info-box" class="accordion-panel">
-  <h3>
-    <a href="#" id="dictionary-info-box-header" i18n="[html]dictionary-info-box.default-header"></a>
-  </h3>
+  <h3><a href="#" id="dictionary-info-box-header" i18n="[html]dictionary-info-box.default-header"></a></h3>
   <div id="dictionary-info-box-panel" class="scrollable">
     <div id="dictionary-info-box-help" i18n="[html]dictionary-info-box.help-instruction"></div>
     <div id="dictionary-info-box-breadcrumbs"></div>
