@@ -122,6 +122,10 @@ class OptionsMenu {
       await i18n.changeLanguage(newLang);
       $(document).localize();
 
+      let $tabHtmlTemplate = $('<div>').append(app_controller.tab_controller.tabHtmlTemplate);
+      $tabHtmlTemplate.localize();
+      app_controller.tab_controller.tabHtmlTemplate = $tabHtmlTemplate.html();
+
       // Todo: Bind to event in respective dependent components instead
       window.reference_separator = i18n.t('general.chapter-verse-separator');
       await app_controller.book_selection_menu.localizeBookSelectionMenu();
