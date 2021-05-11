@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { html, sleep, waitUntilIdle } = require('../helpers/ezra_helper');
+const { html, sleep, waitUntilIdle } = require('../helpers/ezra_helper.js');
 
 var emojiPicker; // to keep only one instance of the picker
 
@@ -139,7 +139,6 @@ function hasNativeEmoji() {
 }
 
 async function initPicker() {
-  console.log('emoji picker init');
   await sleep(3000); // delay init as emoji picker is not a priority
   await waitUntilIdle();
 
