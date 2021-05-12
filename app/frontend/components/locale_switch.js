@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { html, waitUntilIdle } = require('../helpers/ezra_helper.js');
-const locales = require('../controllers/locale_update.js').getAvailableLocales();
+const locales = require('../controllers/locale_controller.js').getAvailableLocales();
 
 const SELECT_WIDTH = '170px'; // FIXME: magic number that works with jQuery UI
 
