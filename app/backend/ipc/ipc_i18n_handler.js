@@ -29,19 +29,19 @@ class IpcI18nHandler {
     this.initIpcInterface();
   }
 
-  getLanguageFile(language) {
-      var fileName = path.join(__dirname, `../../../locales/${language}/translation.json`);
+  getLocaleFile(locale) {
+      var fileName = path.join(__dirname, `../../../locales/${locale}/translation.json`);
       return fileName;
   }
 
   initIpcInterface() {
-    this._ipcMain.add('i18n_get_translation', (language) => {
-      var fileName = this.getLanguageFile(language);
+    this._ipcMain.add('i18n_get_translation', (locale) => {
+      var fileName = this.getLocaleFile(locale);
       var translationObject = {};
 
       if (!fs.existsSync(fileName)) {
         console.log(`The file ${fileName} does not exist! Falling back to standard English translation.json.`);
-        fileName = this.getLanguageFile('en');
+        fileName = this.getLocaleFile('en');
       }
 
       if (fs.existsSync(fileName)) {

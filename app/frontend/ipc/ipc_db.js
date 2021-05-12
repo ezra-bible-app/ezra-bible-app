@@ -135,7 +135,7 @@ class IpcDb {
   }
 
   async getBookTitleTranslation(shortName) {
-    return await this._ipcRenderer.call('db_getBookTitleTranslation', shortName, i18n.language);
+    return await this._ipcRenderer.call('db_getBookTitleTranslation', shortName, i18nHelper.getLocale());
   }
 
   async getBookLongTitle(bookCode) {

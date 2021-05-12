@@ -68,7 +68,7 @@ class I18nHelper {
     });
   }
 
-  getLanguage() {
+  getLocale() {
     var lang = i18n.language;
     return lang.slice(0, 2); // just in case we got language region code (i.e "en-US") we want only language code ("en")
   }
@@ -79,7 +79,7 @@ class I18nHelper {
 
   async getBookAbbreviation(bookCode) {
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    return await ipcNsi.getBookAbbreviation(currentBibleTranslationId, bookCode, this.getLanguage());
+    return await ipcNsi.getBookAbbreviation(currentBibleTranslationId, bookCode, this.getLocale());
   }
 
   async getSpecificTranslation(lang, key) {
@@ -89,19 +89,19 @@ class I18nHelper {
   }
 
   async getChapterTranslation(lang) {
-    var language = lang || this.getLanguage();
+    var language = lang || this.getLocale();
 
     return await this.getSpecificTranslation(language, 'bible-browser.chapter');
   }
 
   async getPsalmTranslation(lang) {
-    var language = lang || this.getLanguage();
+    var language = lang || this.getLocale();
 
     return await this.getSpecificTranslation(language, 'bible-browser.psalm');
   }
 
   getLocalizedDate(timestamp) {
-    var language = this.getLanguage();
+    var language = this.getLocale();
     return new Date(Date.parse(timestamp)).toLocaleDateString(language);
   }
 
@@ -110,7 +110,7 @@ class I18nHelper {
   }
 
   getLocaleName(code, includeNativeName = false, currentLocale = null) {
-    currentLocale = currentLocale || this.getLanguage();
+    currentLocale = currentLocale || this.getLocale();
     const localeName = (new Intl.DisplayNames(currentLocale, { type: 'language' })).of(code);
     const titleCased = localeName.slice(0,1).toLocaleUpperCase() + localeName.slice(1);
 

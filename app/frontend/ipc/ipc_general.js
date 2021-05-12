@@ -51,12 +51,12 @@
       return await this._ipcRenderer.call('general_isTest');
     }
 
-    async getSearchStatisticChartData(bibleTranslationId, bookList, bibleBookStats, languageCode=i18n.language) {
-      return await this._ipcRenderer.call('general_getSearchStatisticChartData', bibleTranslationId, languageCode, bookList, bibleBookStats);
+    async getSearchStatisticChartData(bibleTranslationId, bookList, bibleBookStats, localeCode=i18nHelper.getLocale()) {
+      return await this._ipcRenderer.call('general_getSearchStatisticChartData', bibleTranslationId, localeCode, bookList, bibleBookStats);
     } 
 
-    async getBookNames(bibleBooks, languageCode=i18n.language) {
-      return await this._ipcRenderer.call('general_getBookNames', bibleBooks, languageCode);
+    async getBookNames(bibleBooks, localeCode=i18nHelper.getLocale()) {
+      return await this._ipcRenderer.call('general_getBookNames', bibleBooks, localeCode);
     }
    }
 
