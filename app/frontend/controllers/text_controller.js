@@ -230,7 +230,7 @@ class TextController {
     var verseTags = await ipcDb.getBookVerseTags(bibleBook.id, versification);
     var verseNotes = await ipcDb.getVerseNotesByBook(bibleBook.id, versification);
 
-    var moduleLang = i18n.language;
+    var moduleLang = i18nHelper.getLocale();
     if (localSwordModule != null) {
       var moduleLang = localSwordModule.language;
     }

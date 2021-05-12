@@ -146,7 +146,7 @@ async function initPicker() {
   const nightModeOption = app_controller.optionsMenu._nightModeOption;
 
   const picker = new EmojiButton({ // https://emoji-button.js.org/docs/api
-    emojiData: getLocalizedData(i18nHelper.getLanguage()),
+    emojiData: getLocalizedData(i18nHelper.getLocale()),
     showPreview: false,
     showVariants: false,
     showAnimation: false,

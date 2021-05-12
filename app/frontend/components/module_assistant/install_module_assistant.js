@@ -967,7 +967,7 @@ class InstallModuleAssistant {
     var lastUpdate = await ipcSettings.get('lastSwordRepoUpdate', undefined);
 
     if (lastUpdate !== undefined) {
-      lastUpdate = new Date(Date.parse(lastUpdate)).toLocaleDateString(i18n.language);
+      lastUpdate = new Date(Date.parse(lastUpdate)).toLocaleDateString(i18nHelper.getLocale());
     }
 
     var lastUpdateInfo = "<p style='clear: both; padding-top: 1em;'>" +
