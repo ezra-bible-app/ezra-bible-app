@@ -49,9 +49,12 @@ const template = html`
     #locale-switch-box .locale-switch-container .ui-selectmenu-menu-dropdown {
       font-size: 1em;
       text-align: left;
-      background-color: #1e1e1e;
-      width: 100% !important;
+      background-color: #deedf7;
+      width: 240px !important;
       box-shadow: 2px 2px 3px #a0a0a088;
+    }
+    .darkmode--activated #locale-switch-box .locale-switch-container .ui-selectmenu-menu-dropdown {
+      background-color: #1e1e1e;
     }
   </style>
 
