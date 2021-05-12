@@ -119,10 +119,16 @@ class OptionsMenu {
     this._localeSwitchOption = document.querySelector('#localeSwitchOption');
     this._localeSwitchOption.addEventListener('localeChanged', async (e) => {
       await localeUpdate.changeLocale(e.detail.locale);
+      if (e.detail.postCallback) {
+        e.detail.postCallback();
+      }
       this.slowlyHideDisplayMenu();
     });
-    this._localeSwitchOption.addEventListener('localeDetect', async () => {
+    this._localeSwitchOption.addEventListener('localeDetect', async (e) => {
       await localeUpdate.detectLocale();
+      if (e.detail.postCallback) {
+        e.detail.postCallback();
+      }
       this.slowlyHideDisplayMenu();
     });
 

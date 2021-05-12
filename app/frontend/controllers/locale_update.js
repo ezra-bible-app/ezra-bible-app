@@ -35,6 +35,8 @@ const i18nextOptions = {
   }
 };
 
+var systemLocale;
+
 async function initI18N() {
   window.i18n = require('i18next');
   const I18nIpcBackend = require('../ipc/i18n_ipc_backend.js');
@@ -55,6 +57,8 @@ let LanguageDetector = null;
     .use(LanguageDetector)
     .use(I18nIpcBackend)
     .init(i18nextOptions);
+
+  systemLocale = i18n.language;  
 
   jqueryI18next.init(i18n, $, {
     tName: 't', // --> appends $.t = i18next.t
@@ -100,7 +104,6 @@ async function changeLocale(newLlocale) {
 }
 
 async function detectLocale() {
-  const systemLocale = 'en';
   await changeLocale(systemLocale || FALLBACK_LOCALE);
 }
 
