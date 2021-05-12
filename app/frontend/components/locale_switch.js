@@ -59,11 +59,11 @@ const template = html`
   <div class="options-header"></div>
     <div class="locale-switch-container">
       <select name="config-select" class="config-select">
-        ${locales.map(code => 
-          `<option value="${code}">${i18nHelper.getLocaleName(code, true)}</option>`)}
+        ${locales.map(code =>
+  `<option value="${code}">${i18nHelper.getLocaleName(code, true)}</option>`)}
       </select>
-      <div class="fg-button locale-detect ui-state-default ui-corner-right" i18n="[title]general.detect-locale-detect-descr">
-        <i class="fas fa-globe"></i><span i18n="general.detect-locale">Auto</span>
+      <div class="fg-button locale-detect ui-state-default ui-corner-right" i18n="[title]general.detect-locale-descr">
+        <i class="fas fa-globe"></i><span i18n="general.detect-locale"></span>
       </div>    
     </div>
   </div>
@@ -77,40 +77,47 @@ class LocaleSwitch extends HTMLElement {
 
     this.selectEl = this.querySelector('.config-select');
 
-    this.changeEvent = new CustomEvent("optionChanged", {
-      bubbles: true,
-      cancelable: false,
-      composed: true
-    });
-
     this._settingsKey = this.getAttribute('settingsKey');
-    this._autoLoad = true;
-    if (this.hasAttribute('autoLoad') && this.getAttribute('autoLoad') == "false") {
-      this._autoLoad = false;
-    }
 
-    this._localize();
+    this.localize();
 
-    if (this._autoLoad) {
-      this.loadOptionFromSettings();
+    this.querySelector('.locale-detect').addEventListener('click', () => this.handleDetectClick());
+
+    let selected = this.selectEl.querySelector(`[value="${i18nHelper.getLocale()}"]`);
+    if (selected) {
+      selected.setAttribute('selected', '');
     }
 
     $(this.selectEl).selectmenu({
       appendTo: this.querySelector('.locale-switch-container'),
-      width: SELECT_WIDTH, 
-      change: () => this._handleChange(),
+      width: SELECT_WIDTH,
+      change: () => this.handleChange(),
     });
   }
 
-  async _handleChange() {
+  async handleChange() {
     await waitUntilIdle();
     await ipcSettings.set(this._settingsKey, this.selectEl.value);
     this.updateOptions();
-    this.dispatchEvent(this.changeEvent);
+    this.dispatchEvent(new CustomEvent("localeChanged", {
+      bubbles: true,
+      cancelable: false,
+      composed: true,
+      detail: { locale: this.selectEl.value }
+    }));
+  }
+
+  handleDetectClick() {
+    console.log('got auto detect...');
+    this.dispatchEvent(new CustomEvent("localeDetect", {
+      bubbles: true,
+      cancelable: false,
+      composed: true,
+    }));
   }
 
   updateOptions() {
-    for (let i=0; i<this.selectEl.children.length; i++) {
+    for (let i = 0; i < this.selectEl.children.length; i++) {
       let option = this.selectEl.children[i];
       const code = option.getAttribute('value');
       option.textContent = i18nHelper.getLocaleName(code, true, this.selectEl.value);
@@ -119,7 +126,7 @@ class LocaleSwitch extends HTMLElement {
     $(this.selectEl).selectmenu();
   }
 
-  _localize() {
+  localize() {
     var i18nId = this.getAttribute('label');
     var labelEl = this.querySelector('.options-header');
     labelEl.innerText = i18n.t(i18nId);
@@ -130,9 +137,6 @@ class LocaleSwitch extends HTMLElement {
     return this.selectEl.value;
   }
 
-  async loadOptionFromSettings() {
-    this.selectEl.value = await ipcSettings.get(this._settingsKey, "");
-  }
 }
 
 customElements.define('locale-switch', LocaleSwitch);

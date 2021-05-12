@@ -122,7 +122,7 @@ class OptionsMenu {
       this.slowlyHideDisplayMenu();
     });
     this._localeSwitchOption.addEventListener('localeDetect', async () => {
-      await localeUpdate.detectLocale(e.detail.locale);
+      await localeUpdate.detectLocale();
       this.slowlyHideDisplayMenu();
     });
 
