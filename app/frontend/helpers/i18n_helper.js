@@ -70,7 +70,7 @@ class I18nHelper {
 
   getLanguage() {
     var lang = i18n.language;
-    return lang;
+    return lang.slice(0, 2); // just in case we got language region code (i.e "en-US") we want only language code ("en")
   }
 
   async getSwordTranslation(originalString) {

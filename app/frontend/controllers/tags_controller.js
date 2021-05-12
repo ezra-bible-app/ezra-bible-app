@@ -19,6 +19,7 @@
 const TagStore = require('../components/tags/tag_store.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
+require('../components/emoji_button_trigger.js');
 const { waitUntilIdle, sleep } = require('../helpers/ezra_helper.js');
 
 /**
@@ -269,9 +270,11 @@ class TagsController {
 
     tags_controller.initNewTagDialog();
 
-    $('#new-' + type + '-tag-title-input').val(''); 
+    const $tagInput = $('#new-' + type + '-tag-title-input');
+
+    $tagInput.val(''); 
     $('#new-' + type + '-tag-dialog').dialog('open');
-    $('#new-' + type + '-tag-title-input').focus();
+    $tagInput.focus();
   }
 
   handleDeleteTagButtonClick(event) {
@@ -808,7 +811,8 @@ class TagsController {
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
     var cb_label = checkbox_tag.find('.cb-label').text();
 
-    $('#rename-standard-tag-title-input').val(cb_label);
+    const $tagInput = $('#rename-standard-tag-title-input');
+    $tagInput.val(cb_label);
     $('#rename-standard-tag-dialog').dialog('open');
     $('#rename-standard-tag-title-input').focus();
 
