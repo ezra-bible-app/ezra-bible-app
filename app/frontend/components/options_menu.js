@@ -18,6 +18,7 @@
 
 const PlatformHelper = require('../../lib/platform_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
+const localeUpdate = require('../controllers/locale_update.js');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
@@ -115,21 +116,14 @@ class OptionsMenu {
       $(this._dictionaryOption).hide();
     }
 
-    this._localeSwitchOption = this.initConfigOption('localeSwitchOption', async () => {
-      const newLang = this._localeSwitchOption.value;
-      console.log('Language changed', newLang);
-
-      await i18n.changeLanguage(newLang);
-      $(document).localize();
-
-      // Todo: Bind to event in respective dependent components instead
-      window.reference_separator = i18n.t('general.chapter-verse-separator');
-      await app_controller.book_selection_menu.localizeBookSelectionMenu();
-      await app_controller.assign_last_tag_button.updateLabel();
-      await app_controller.verse_selection.updateSelectedVersesLabel();
-      app_controller.tab_controller.localizeTemplate();
-      await app_controller.updateTagsView(undefined, true);
-      tags_controller.refreshTagDialogs();
+    this._localeSwitchOption = document.querySelector('#localeSwitchOption');
+    this._localeSwitchOption.addEventListener('localeChanged', async (e) => {
+      await localeUpdate.changeLocale(e.detail.locale);
+      this.slowlyHideDisplayMenu();
+    });
+    this._localeSwitchOption.addEventListener('localeDetect', async () => {
+      await localeUpdate.detectLocale(e.detail.locale);
+      this.slowlyHideDisplayMenu();
     });
 
     this.refreshViewBasedOnOptions();
