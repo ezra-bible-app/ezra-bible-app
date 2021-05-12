@@ -299,9 +299,9 @@ class NotesController {
   }
 
   _resetVerseNoteButtons() {
-    var verseNotesButtons = $(this.currentlyEditedNotes).find('.verse-notes-buttons');
-    verseNotesButtons.find('a').unbind();
-    verseNotesButtons.hide();
+    var $verseNotesButtons = $(this.currentlyEditedNotes).find('.verse-notes-buttons');
+    $verseNotesButtons.find('a').unbind();
+    $verseNotesButtons.hide();
   }
 
   _setupVerseNoteButtons() {
@@ -309,12 +309,13 @@ class NotesController {
 
     $verseNotesButtons.find('a').bind('click', (event) => {
       event.preventDefault();
+      event.stopPropagation();
 
-      if (event.target.className == 'save-note') {
+      if (event.currentTarget.className == 'save-note') {
 
         this.restoreCurrentlyEditedNotes();
 
-      } else if (event.target.className == 'cancel-edit') {
+      } else if (event.currentTarget.className == 'cancel-edit') {
 
         this.restoreCurrentlyEditedNotes(false);
 
