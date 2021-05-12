@@ -58,7 +58,7 @@ const template = html`
   <div id="locale-switch-box" class="switch-box">
   <div class="options-header"></div>
     <div class="locale-switch-container">
-      <select name="config-select" class="config-select">
+      <select name="locale-select" class="locale-select">
         ${locales.map(code =>
   `<option value="${code}">${i18nHelper.getLocaleName(code, true)}</option>`)}
       </select>
@@ -75,45 +75,19 @@ class LocaleSwitch extends HTMLElement {
 
     this.innerHTML = template.innerHTML;
 
-    this.selectEl = this.querySelector('.config-select');
-
-    this._settingsKey = this.getAttribute('settingsKey');
+    this.selectEl = this.querySelector('.locale-select');
 
     this.localize();
 
     this.querySelector('.locale-detect').addEventListener('click', () => this.handleDetectClick());
 
-    let selected = this.selectEl.querySelector(`[value="${i18nHelper.getLocale()}"]`);
-    if (selected) {
-      selected.setAttribute('selected', '');
-    }
+    this.setSelected();
 
     $(this.selectEl).selectmenu({
       appendTo: this.querySelector('.locale-switch-container'),
       width: SELECT_WIDTH,
       change: () => this.handleChange(),
     });
-  }
-
-  async handleChange() {
-    await waitUntilIdle();
-
-    this.updateOptions();
-    this.dispatchEvent(new CustomEvent("localeChanged", {
-      bubbles: true,
-      cancelable: false,
-      composed: true,
-      detail: { locale: this.selectEl.value }
-    }));
-  }
-
-  handleDetectClick() {
-    console.log('got auto detect...');
-    this.dispatchEvent(new CustomEvent("localeDetect", {
-      bubbles: true,
-      cancelable: false,
-      composed: true,
-    }));
   }
 
   updateOptions() {
@@ -123,7 +97,42 @@ class LocaleSwitch extends HTMLElement {
       option.textContent = i18nHelper.getLocaleName(code, true, this.selectEl.value);
     }
 
+    this.setSelected();
+
     $(this.selectEl).selectmenu();
+  }
+
+  setSelected() {
+    let selected = this.selectEl.querySelector(`[value="${i18nHelper.getLocale()}"]`);
+    if (selected) {
+      selected.setAttribute('selected', '');
+    }
+  }
+
+  async handleChange() {
+    await waitUntilIdle();
+
+    this.dispatchEvent(new CustomEvent("localeChanged", {
+      bubbles: true,
+      cancelable: false,
+      composed: true,
+      detail: { 
+        locale: this.selectEl.value,
+        postCallback: () => this.updateOptions()
+      }
+    }));
+  }
+
+  handleDetectClick() {
+    console.log('got auto detect...');
+    this.dispatchEvent(new CustomEvent("localeDetect", {
+      bubbles: true,
+      cancelable: false,
+      composed: true,
+      detail: {
+        postCallback: () => this.updateOptions()
+      }
+    }));
   }
 
   localize() {
