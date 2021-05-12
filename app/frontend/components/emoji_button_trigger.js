@@ -27,7 +27,7 @@ const template = html`
       right: 0;
       bottom: auto;
       width: 1em;
-      margin-right: 1.2em;
+      margin-right: 1.3em;
       padding: 3px;
       fill: #5f5f5f;
       display: inline-block;
