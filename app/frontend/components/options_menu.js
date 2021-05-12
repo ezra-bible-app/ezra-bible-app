@@ -18,7 +18,7 @@
 
 const PlatformHelper = require('../../lib/platform_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
-const localeUpdate = require('../controllers/locale_update.js');
+const localeController = require('../controllers/locale_controller.js');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
@@ -118,14 +118,14 @@ class OptionsMenu {
 
     this._localeSwitchOption = document.querySelector('#localeSwitchOption');
     this._localeSwitchOption.addEventListener('localeChanged', async (e) => {
-      await localeUpdate.changeLocale(e.detail.locale);
+      await localeController.changeLocale(e.detail.locale);
       if (e.detail.postCallback) {
         e.detail.postCallback();
       }
       this.slowlyHideDisplayMenu();
     });
     this._localeSwitchOption.addEventListener('localeDetect', async (e) => {
-      await localeUpdate.detectLocale();
+      await localeController.detectLocale();
       if (e.detail.postCallback) {
         e.detail.postCallback();
       }
