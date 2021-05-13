@@ -998,6 +998,7 @@ class AppController {
     await this.navigation_pane.updateNavigation(tabIndex);
     this.notes_controller.initForTab(tabIndex);
     this.sword_notes.initForTab(tabIndex);
+    await this.translation_controller.toggleTranslationsBasedOnCurrentBook(tabIndex);
 
     this.bindEventsAfterBibleTextLoaded(tabIndex);
   }

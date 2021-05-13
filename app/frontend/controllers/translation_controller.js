@@ -229,6 +229,8 @@ class TranslationController {
       }
     });
 
+    this.toggleTranslationsBasedOnCurrentBook(tabIndex);
+
     $('.bible-select-block').find('.ui-selectmenu').bind('click', () => {
       app_controller.hideAllMenus();
     });
@@ -359,6 +361,40 @@ class TranslationController {
     }
 
     return translations;
+  }
+
+  async toggleTranslationsBasedOnCurrentBook(tabIndex=undefined) {
+    const bibleSelect = this.getBibleSelect(tabIndex);
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+
+    if (currentTab != null) {
+      let currentBook = currentTab.getBook();
+
+      let moduleBookStatus = {};
+
+      if (currentBook != null) {
+        moduleBookStatus = await ipcNsi.getModuleBookStatus(currentBook);
+      }
+
+      let selectOptions = bibleSelect.find('option');
+
+      for (let i = 0; i < selectOptions.length; i++) {
+        let currentOption = selectOptions[i];
+        let currentTextType = currentTab.getTextType();
+
+        if (currentTextType == 'book' && 
+            currentOption.value in moduleBookStatus &&
+            !moduleBookStatus[currentOption.value]) {
+
+          currentOption.disabled = true;
+        } else {
+          currentOption.disabled = false;
+        }
+      }
+
+      // Refresh the selectmenu widget
+      bibleSelect.selectmenu();
+    }
   }
 }
 

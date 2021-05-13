@@ -182,6 +182,16 @@ class IpcNsi {
     return returnValue;
   }
 
+  async moduleHasBook(moduleCode, bookCode) {
+    var returnValue = this._ipcRenderer.call('nsi_moduleHasBook', moduleCode, bookCode);
+    return returnValue;
+  }
+
+  async getModuleBookStatus(bookCode) {
+    var moduleBookStatus = this._ipcRenderer.call('nsi_getModuleBookStatus', bookCode);
+    return moduleBookStatus;
+  }
+
   async getModuleSearchResults(progressCB,
                                moduleCode,
                                searchTerm,
