@@ -21,6 +21,7 @@ const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const verseBoxHelper = new VerseBoxHelper();
 const VerseBox = require('../ui_models/verse_box.js');
 const notesHelper = require('../helpers/notes_helper.js');
+const i18nHelper = require('../helpers/i18n_helper.js');
 require('../components/emoji_button_trigger.js');
 
 let CodeMirror = null;

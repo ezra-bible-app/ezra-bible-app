@@ -18,6 +18,7 @@
 
 const Mousetrap = require('mousetrap');
 const Tab = require('../ui_models/tab.js');
+const i18nHelper = require('../helpers/i18n_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 
 /**
