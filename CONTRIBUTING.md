@@ -66,6 +66,10 @@ const i18nextOptions = {
 
 ## Hints for development
 
+### Pug templates
+
+Whenever you make changes to the [Pug](https://pugjs.org/) templates (see [/app/templates](https://github.com/ezra-bible-app/ezra-bible-app/tree/master/app/templates)) you need to re-compile them afterwards. You can do this by invoking `npm run compile-pug`.
+
 ### Automated tests
 
 Cucumber is used for end-to-end functional/acceptance testing. You should regularly run the tests to ensure that new code does not result in regressions. The tests are currently only running on Linux and macOS. To execute them you can run:
