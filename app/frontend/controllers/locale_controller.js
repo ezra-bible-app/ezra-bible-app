@@ -80,14 +80,13 @@ let LanguageDetector = null;
   }
 
   window.reference_separator = i18n.t('general.chapter-verse-separator');
-
 }
 
-async function changeLocale(newLlocale) {
+async function changeLocale(newLocale) {
 
-  await i18n.changeLanguage(newLlocale);
+  await i18n.changeLanguage(newLocale);
 
-  await ipcSettings.set(SETTINGS_KEY, newLlocale);
+  await ipcSettings.set(SETTINGS_KEY, newLocale);
 
   $(document).localize();
 
@@ -101,6 +100,20 @@ async function changeLocale(newLlocale) {
   await app_controller.updateTagsView(undefined, true);
   tags_controller.refreshTagDialogs();
 
+  await notifySubscribers(newLocale);
+}
+
+var localeSubscribers = [];
+function onChangeLocale(subscriberCallback) {
+  if (typeof subscriberCallback === 'function') {
+    localeSubscribers.push(subscriberCallback);
+  }
+}
+
+async function notifySubscribers(locale) {
+  for (let subscriberCallback of localeSubscribers) {
+    await subscriberCallback(locale);
+  }
 }
 
 async function detectLocale() {
@@ -116,4 +129,5 @@ function getAvailableLocales() {
 module.exports.initI18N = initI18N;
 module.exports.changeLocale = changeLocale;
 module.exports.detectLocale = detectLocale;
+module.exports.onChangeLocale = onChangeLocale;
 module.exports.getAvailableLocales = getAvailableLocales;
