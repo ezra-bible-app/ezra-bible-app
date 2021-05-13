@@ -797,7 +797,7 @@ class TabController {
           tabTitle = this.getSearchTabTitle(currentMetaTab.getSearchTerm());
           break;
         case 'tagged_verses': {
-            const refTitle = getRefFromTabTitle(currentMetaTab.taggedVersesTitle);
+            const refTitle = currentMetaTab.getRefFromTitle();
             if (refTitle) {
               tabTitle += `${refTitle} &ndash; `;
             }
@@ -808,21 +808,13 @@ class TabController {
           }
           break;  
         case 'xrefs': {
-            tabTitle = `${getRefFromTabTitle(currentMetaTab.xrefTitle)} &ndash; ${i18n.t("general.module-xrefs")}`;
+            tabTitle = `${currentMetaTab.getRefFromTitle()} &ndash; ${i18n.t("general.module-xrefs")}`;
           }
           break;
       }
       if (tabTitle !== "") {
         this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), i);
       }
-    }
-
-    function getRefFromTabTitle(title) {
-      const index = title.indexOf(' &ndash; ');
-      if (index < 0) {
-        return "";
-      } 
-      return title.slice(0, index);      
     }
   }
 
