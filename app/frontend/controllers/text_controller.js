@@ -206,7 +206,8 @@ class TextController {
       return;
     }
 
-    var versification = (await app_controller.translation_controller.getVersification(currentBibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
+    const swordModuleHelper = require('../helpers/sword_module_helper.js');
+    var versification = await swordModuleHelper.getThreeLetterVersification(currentBibleTranslationId);
     var bibleBook = await ipcDb.getBibleBook(book_short_title);
 
     // Only necessary because old saved short titles may not be found directly
@@ -333,7 +334,9 @@ class TextController {
     }
 
     var bibleTranslationId = this.getBibleTranslationId(tab_index);
-    var versification = (await app_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
+
+    const swordModuleHelper = require('../helpers/sword_module_helper.js');
+    var versification = await swordModuleHelper.getThreeLetterVersification(bibleTranslationId);
 
     var bibleBooks = await ipcDb.getBibleBooksFromSearchResults(search_results);
     var bookNames = await ipcGeneral.getBookNames(bibleBooks);
@@ -397,7 +400,8 @@ class TextController {
     }
 
     var bibleTranslationId = this.getBibleTranslationId(tab_index);
-    var versification = (await app_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
+    const swordModuleHelper = require('../helpers/sword_module_helper.js');
+    var versification = await swordModuleHelper.getThreeLetterVersification(bibleTranslationId);
 
     var verseReferences = await ipcDb.getVerseReferencesByTagIds(selected_tags);
     var verseReferenceIds = [];
@@ -458,7 +462,9 @@ class TextController {
     }
 
     var bibleTranslationId = this.getBibleTranslationId(tab_index);
-    var versification = (await app_controller.translation_controller.getVersification(bibleTranslationId) == 'ENGLISH' ? 'eng' : 'heb');
+
+    const swordModuleHelper = require('../helpers/sword_module_helper.js');
+    var versification = await swordModuleHelper.getThreeLetterVersification(currentBibleTranslationId);
 
     var verseReferences = await ipcDb.getVerseReferencesByXrefs(xrefs);
     var verseReferenceIds = [];

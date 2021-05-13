@@ -201,6 +201,23 @@ class IpcNsiHandler {
       return this._nsi.getBookIntroduction(moduleCode, bookCode);
     });
 
+    this._ipcMain.add('nsi_moduleHasBook', (moduleCode, bookCode) => {
+      return this._nsi.moduleHasBook(moduleCode, bookCode);
+    });
+
+    this._ipcMain.add('nsi_getModuleBookStatus', (bookCode) => {
+      var allModules = this._nsi.getAllLocalModules('BIBLE');
+      var moduleBookStatus = {};
+
+      for (let i = 0; i < allModules.length; i++) {
+        const currentModuleName = allModules[i].name;
+        const currentModuleHasBook = this._nsi.moduleHasBook(currentModuleName, bookCode);
+        moduleBookStatus[currentModuleName] = currentModuleHasBook;
+      }
+
+      return moduleBookStatus;
+    });
+
     this._ipcMain.addWithProgressCallback(
       'nsi_getModuleSearchResults',
       async (progressCB,

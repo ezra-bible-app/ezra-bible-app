@@ -229,141 +229,11 @@ class TranslationController {
       }
     });
 
+    this.toggleTranslationsBasedOnCurrentBook(tabIndex);
+
     $('.bible-select-block').find('.ui-selectmenu').bind('click', () => {
       app_controller.hideAllMenus();
     });
-  }
-
-  async getModuleDescription(moduleId, isRemote=false) {
-    var moduleInfo = "No info available!";
-
-    try {
-      var swordModule = null;
-
-      if (isRemote) {
-        swordModule = await ipcNsi.getRepoModule(moduleId);
-      } else {
-        swordModule = await ipcNsi.getLocalModule(moduleId);
-      }
-      
-      var moduleInfo = "";
-      
-      if (isRemote) {
-        moduleInfo += "<b>" + swordModule.description + "</b><br><br>";
-      }
-
-      moduleInfo += "<p class='external'>";
-      var about = swordModule.about.replace(/\\pard/g, "").replace(/\\par/g, "<br>");
-      moduleInfo += about;
-      moduleInfo += "</p>";
-
-    } catch (ex) {
-      console.error("Got exception while trying to get module description: " + ex);
-    }
-
-    return moduleInfo;
-  }
-
-  async getModuleInfo(moduleId, isRemote=false, includeModuleDescription=true) {
-    var moduleInfo = "No info available!";
-
-    try {
-      var swordModule = null;
-
-      if (isRemote) {
-        swordModule = await ipcNsi.getRepoModule(moduleId);
-      } else {
-        swordModule = await ipcNsi.getLocalModule(moduleId);
-      }
-      
-      var moduleInfo = "";
-
-      if (includeModuleDescription) {
-        if (isRemote) {
-          moduleInfo += "<b>" + swordModule.description + "</b><br><br>";
-        }
-
-        moduleInfo += "<p class='external'>";
-        var about = swordModule.about.replace(/\\pard/g, "").replace(/\\par/g, "<br>");
-        moduleInfo += about;
-        moduleInfo += "</p>";
-      }
-      
-      var moduleSize = Math.round(swordModule.size / 1024) + " KB";
-
-      var yes = i18n.t("general.yes");
-      var no = i18n.t("general.no");
-
-      if (includeModuleDescription) {
-        moduleInfo += `<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>${i18n.t("general.sword-module-info")}</p>`;
-      }
-
-      moduleInfo += "<table>";
-      moduleInfo += "<tr><td style='width: 11em;'>" + i18n.t("general.module-name") + ":</td><td>" + swordModule.name + "</td></tr>";
-      moduleInfo += "<tr><td>" + i18n.t("general.module-version") + ":</td><td>" + swordModule.version + "</td></tr>";
-      moduleInfo += "<tr><td>" + i18n.t("general.module-language") + ":</td><td>" + this.getLanguageMapper().getLanguageName(swordModule.language) + "</td></tr>";
-      moduleInfo += "<tr><td>" + i18n.t("general.module-license") + ":</td><td>" + swordModule.distributionLicense + "</td></tr>";
-
-      if (swordModule.type == 'Biblical Texts') {
-        moduleInfo += "<tr><td>" + i18n.t("general.module-strongs") + ":</td><td>" + (swordModule.hasStrongs ? yes : no) + "</td></tr>";
-        moduleInfo += "<tr><td>" + i18n.t("general.module-headings") + ":</td><td>" + (swordModule.hasHeadings ? yes : no) + "</td></tr>";
-        moduleInfo += "<tr><td>" + i18n.t("general.module-footnotes") + ":</td><td>" + (swordModule.hasFootnotes ? yes : no) + "</td></tr>";
-        moduleInfo += "<tr><td>" + i18n.t("general.module-xrefs") + ":</td><td>" + (swordModule.hasCrossReferences ? yes : no) + "</td></tr>";
-        moduleInfo += "<tr><td>" + i18n.t("general.module-redletter") + ":</td><td>" + (swordModule.hasRedLetterWords ? yes : no) + "</td></tr>";
-      }
-
-      moduleInfo += "<tr><td>" + i18n.t("general.module-size") + ":</td><td>" + moduleSize + "</td></tr>";
-      if (!isRemote) {
-        moduleInfo += "<tr><td>" + i18n.t("general.module-location") + ":</td><td>" + swordModule.location + "</td></tr>";
-      }
-
-      moduleInfo += "</table>";
-
-      if (isRemote && swordModule.locked && swordModule.unlockInfo != "") {
-        moduleInfo += "<p style='margin-top: 1em; padding-top: 1em; border-top: 1px solid grey; font-weight: bold'>" + i18n.t("general.sword-unlock-info") + "</p>";
-        moduleInfo += "<p class='external'>" + swordModule.unlockInfo + "</p>";
-      }
-    } catch (ex) {
-      console.error("Got exception while trying to get module info: " + ex);
-    }
-
-    return moduleInfo;
-  }
-
-  async getBibleTranslationModule(translationId) {
-    if (translationId == null) {
-      return null;
-    }
-
-    var bibleTranslation = null;
-
-    try {
-      bibleTranslation = await ipcNsi.getLocalModule(translationId);
-    } catch (e) {
-      console.log("Could not get local sword module for " + translationId);
-    }
-
-    return bibleTranslation;
-  }
-
-  async hasBibleTranslationStrongs(translationId) {
-    var bibleTranslation = await this.getBibleTranslationModule(translationId);
-
-    if (bibleTranslation != null) {
-      return bibleTranslation.hasStrongs;
-    } else {
-      return false;
-    }
-  }
-
-  async hasBibleTranslationHeaders(translationId) {
-    var bibleTranslation = await this.getBibleTranslationModule(translationId);
-
-    if (bibleTranslation != null) {
-      return bibleTranslation.hasHeadings;
-    } else {
-      return false;
-    }
   }
 
   hasCurrentTranslationHeaderElements(tabIndex=undefined) {
@@ -493,43 +363,38 @@ class TranslationController {
     return translations;
   }
 
-  async getVersification(translationCode) {
-    if (translationCode == null) {
-      return null;
+  async toggleTranslationsBasedOnCurrentBook(tabIndex=undefined) {
+    const bibleSelect = this.getBibleSelect(tabIndex);
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+
+    if (currentTab != null) {
+      let currentBook = currentTab.getBook();
+
+      let moduleBookStatus = {};
+
+      if (currentBook != null) {
+        moduleBookStatus = await ipcNsi.getModuleBookStatus(currentBook);
+      }
+
+      let selectOptions = bibleSelect.find('option');
+
+      for (let i = 0; i < selectOptions.length; i++) {
+        let currentOption = selectOptions[i];
+        let currentTextType = currentTab.getTextType();
+
+        if (currentTextType == 'book' && 
+            currentOption.value in moduleBookStatus &&
+            !moduleBookStatus[currentOption.value]) {
+
+          currentOption.disabled = true;
+        } else {
+          currentOption.disabled = false;
+        }
+      }
+
+      // Refresh the selectmenu widget
+      bibleSelect.selectmenu();
     }
-
-    var versification = null;
-    var psalm3Verses = [];
-    var revelation12Verses = [];
-
-    try {
-      psalm3Verses = await ipcNsi.getChapterText(translationCode, 'Psa', 3);
-    } catch (e) {
-      console.log("TranslationController.getVersification: Could not retrieve chapter text for Psalm 3 of " + translationCode);
-    }
-
-    try {
-      revelation12Verses = await ipcNsi.getChapterText(translationCode, 'Rev', 12);
-    } catch (e) {
-      console.log("TranslationController.getVersification: Could not retrieve chapter text for Revelation 12 of " + translationCode);
-    }
-
-    if (psalm3Verses.length == 8 || revelation12Verses.length == 17) { // ENGLISH versification
-      versification = "ENGLISH";
-
-    } else if (psalm3Verses.length == 9 || revelation12Verses.length == 18) { // HEBREW versification
-      versification = "HEBREW";
-
-    } else { // Unknown versification
-
-      versification = "UNKNOWN"
-
-      /*console.log("Unknown versification!");
-      console.log("Psalm 3 has " + psalm3Verses.length + " verses.");
-      console.log("Revelation 12 has " + revelation12Verses.length + " verses.");*/
-    }
-
-    return versification;
   }
 }
 

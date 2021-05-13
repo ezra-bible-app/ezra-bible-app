@@ -219,7 +219,9 @@ class NotesController {
 
         var currentVerseObject = new VerseBox(currentVerseBox).getVerseObject();
         var translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-        var versification = await app_controller.translation_controller.getVersification(translationId);
+
+        const swordModuleHelper = require('../helpers/sword_module_helper.js');
+        var versification = await swordModuleHelper.getVersification(translationId);
 
         ipcDb.persistNote(currentNoteValue, currentVerseObject, versification).then((note) => {
           if (note != undefined) {

@@ -114,8 +114,9 @@ class VerseBox {
   }
 
   async getMappedAbsoluteVerseNumber(sourceBibleTranslationId, targetBibleTranslationId) {
-    var sourceVersification = await app_controller.translation_controller.getVersification(sourceBibleTranslationId);
-    var targetVersification = await app_controller.translation_controller.getVersification(targetBibleTranslationId);
+    const swordModuleHelper = require('../helpers/sword_module_helper.js');
+    var sourceVersification = await swordModuleHelper.getVersification(sourceBibleTranslationId);
+    var targetVersification = await swordModuleHelper.getVersification(targetBibleTranslationId);
 
     var absoluteVerseNumbers = await ipcDb.getAbsoluteVerseNumbersFromReference(sourceVersification,
                                                                                 this.getBibleBookShortTitle(),

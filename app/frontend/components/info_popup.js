@@ -71,8 +71,10 @@ class InfoPopup {
     const chromiumVersion = getChromiumVersion();
     const databasePath = await ipcDb.getDatabasePath();
     const configFilePath = await ipcSettings.getConfigFilePath();
-    const moduleDescription = await app_controller.translation_controller.getModuleDescription(currentBibleTranslationId);
-    const moduleInfo = await app_controller.translation_controller.getModuleInfo(currentBibleTranslationId, false, false);
+
+    const swordModuleHelper = require('../helpers/sword_module_helper.js');
+    const moduleDescription = await swordModuleHelper.getModuleDescription(currentBibleTranslationId);
+    const moduleInfo = await swordModuleHelper.getModuleInfo(currentBibleTranslationId, false, false);
 
     const appInfo = html`
     <div id='app-info-tabs'>

@@ -746,7 +746,8 @@ class InstallModuleAssistant {
       $('#module-info').find('.loader').show();
 
       setTimeout(async () => {
-        var moduleInfo = await app_controller.translation_controller.getModuleInfo(moduleCode, true);
+        const swordModuleHelper = require('../../helpers/sword_module_helper.js');
+        var moduleInfo = await swordModuleHelper.getModuleInfo(moduleCode, true);
         $('#module-info').find('.loader').hide();
         $('#module-info-content').append(moduleInfo);
       }, 200);

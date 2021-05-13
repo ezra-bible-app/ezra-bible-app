@@ -96,7 +96,8 @@ class DictionaryController {
     }
     
     var currentBibleTranslationId = currentTab.getBibleTranslationId();
-    var translationHasStrongs = await app_controller.translation_controller.hasBibleTranslationStrongs(currentBibleTranslationId);
+    const swordModuleHelper = require('../helpers/sword_module_helper.js');
+    var translationHasStrongs = await swordModuleHelper.moduleHasStrongs(currentBibleTranslationId);
 
     if (translationHasStrongs) {
       var currentVerseList = app_controller.getCurrentVerseList(tabIndex);

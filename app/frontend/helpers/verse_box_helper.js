@@ -128,11 +128,12 @@ class VerseBoxHelper {
 
 
     var referenceBibleBook = await ipcDb.getBibleBook(bibleBook);
+    const swordModuleHelper = require('../helpers/sword_module_helper.js');
 
     var sourceTabTranslation = app_controller.tab_controller.getTab(currentTabIndex).getBibleTranslationId();
     var sourceVersification = 'ENGLISH';
     try {
-      await app_controller.translation_controller.getVersification(sourceTabTranslation);
+      await swordModuleHelper.getVersification(sourceTabTranslation);
     } catch (exception) {
       console.warn('Got exception when getting versification: ' + exception);
     }
@@ -140,7 +141,7 @@ class VerseBoxHelper {
     for (let i = 0; i < tabCount; i++) {
       if (i != currentTabIndex) {
         let currentTabTranslation = app_controller.tab_controller.getTab(i).getBibleTranslationId();
-        let currentVersification = await app_controller.translation_controller.getVersification(currentTabTranslation);
+        let currentVersification = await swordModuleHelper.getVersification(currentTabTranslation);
         let currentTargetVerseNr = "";
 
         if (currentVersification == 'HEBREW') {
