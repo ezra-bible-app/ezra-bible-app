@@ -192,9 +192,9 @@ class PlatformHelper {
       loadingIndicator.addClass('incompatible-windows');
       var loadingIndicatorText = $('.loading-indicator-text');
       var hint = "<h3 style='text-decoration: underline'>Compatibility with older Windows versions</h3>" +
-                "Ezra Project needs additional software to run successfully.<br><br>" +
+                "Ezra Bible App needs additional software to run successfully.<br><br>" +
                 "Please install <a class='external' href='https://www.microsoft.com/en-us/download/details.aspx?id=53840'>" +
-                "Microsoft Visual C++ 2015 Redistributable</a> and restart Ezra Project afterwards.<br>" +
+                "Microsoft Visual C++ 2015 Redistributable</a> and restart Ezra Bible App afterwards.<br>" +
                 "On the Microsoft download page, when asked to choose a file, please pick <b>vc_redist.x86.exe</b> for download.";
 
       loadingIndicatorText.html(hint);
