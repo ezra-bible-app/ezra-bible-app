@@ -469,7 +469,7 @@ class TextController {
     var bibleTranslationId = this.getBibleTranslationId(tab_index);
 
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
-    var versification = await swordModuleHelper.getThreeLetterVersification(currentBibleTranslationId);
+    var versification = await swordModuleHelper.getThreeLetterVersification(bibleTranslationId);
 
     var verseReferences = await ipcDb.getVerseReferencesByXrefs(xrefs);
     var verseReferenceIds = [];
