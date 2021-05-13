@@ -52,6 +52,8 @@ const template = html`
  * 
  * @category Component
  */
+
+const localeController = require('../controllers/locale_controller.js');
 class EmojiButtonTrigger extends HTMLElement {
   constructor() {
     super();
@@ -146,7 +148,7 @@ async function initPicker() {
   const nightModeOption = app_controller.optionsMenu._nightModeOption;
 
   const picker = new EmojiButton({ // https://emoji-button.js.org/docs/api
-    emojiData: getLocalizedData(i18nHelper.getLocale()),
+    emojiData: getLocalizedData(localeController.getLocale()),
     showPreview: false,
     showVariants: false,
     showAnimation: false,

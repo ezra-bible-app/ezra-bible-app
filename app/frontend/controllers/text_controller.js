@@ -18,6 +18,7 @@
 
 const PlatformHelper = require('../../lib/platform_helper.js');
 const notesHelper = require('../helpers/notes_helper.js');
+const localeController = require('./locale_controller.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 
 /**
@@ -231,7 +232,7 @@ class TextController {
     var verseTags = await ipcDb.getBookVerseTags(bibleBook.id, versification);
     var verseNotes = await ipcDb.getVerseNotesByBook(bibleBook.id, versification);
 
-    var moduleLang = i18nHelper.getLocale();
+    var moduleLang = localeController.getLocale();
     if (localSwordModule != null) {
       var moduleLang = localSwordModule.language;
     }

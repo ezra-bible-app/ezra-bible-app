@@ -85,7 +85,7 @@ class LocaleSwitch extends HTMLElement {
 
     this.querySelector('.locale-detect').addEventListener('click', () => this.handleDetectClick());
 
-    this.setSelected(i18nHelper.getLocale());
+    this.setSelected(localeController.getLocale());
 
     $(this.selectEl).selectmenu({
       appendTo: this.querySelector('.locale-switch-container'),
@@ -97,7 +97,6 @@ class LocaleSwitch extends HTMLElement {
   }
 
   updateOptions(localeCode) {
-    console.log('updating options');
     for (let i = 0; i < this.selectEl.children.length; i++) {
       let option = this.selectEl.children[i];
       const code = option.getAttribute('value');

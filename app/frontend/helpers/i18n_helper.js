@@ -16,18 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const PlatformHelper = require('../../lib/platform_helper.js');
+const localeController = require('../controllers/locale_controller.js');
 class I18nHelper {
-  constructor() {
-    this._platformHelper = new PlatformHelper();
-    this._isCordova = this._platformHelper.isCordova();
-  }
-
-
-  getLocale() {
-    var lang = i18n.language;
-    return lang.slice(0, 2); // just in case we got language region code (i.e "en-US") we want only language code ("en")
-  }
 
   async getSwordTranslation(originalString) {
     return await ipcNsi.getSwordTranslation(originalString, i18n.language);
@@ -35,7 +25,7 @@ class I18nHelper {
 
   async getBookAbbreviation(bookCode) {
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    return await ipcNsi.getBookAbbreviation(currentBibleTranslationId, bookCode, this.getLocale());
+    return await ipcNsi.getBookAbbreviation(currentBibleTranslationId, bookCode, localeController.getLocale());
   }
 
   async getSpecificTranslation(lang, key) {
@@ -45,24 +35,24 @@ class I18nHelper {
   }
 
   async getChapterTranslation(lang) {
-    var language = lang || this.getLocale();
+    var locale = lang || localeController.getLocale();
 
-    return await this.getSpecificTranslation(language, 'bible-browser.chapter');
+    return await this.getSpecificTranslation(locale, 'bible-browser.chapter');
   }
 
   async getPsalmTranslation(lang) {
-    var language = lang || this.getLocale();
+    var language = lang || localeController.getLocale();
 
-    return await this.getSpecificTranslation(language, 'bible-browser.psalm');
+    return await localeController.getSpecificTranslation(language, 'bible-browser.psalm');
   }
 
   getLocalizedDate(timestamp) {
-    var language = this.getLocale();
-    return new Date(Date.parse(timestamp)).toLocaleDateString(language);
+    var locale = localeController.getLocale();
+    return new Date(Date.parse(timestamp)).toLocaleDateString(locale);
   }
 
   getLocaleName(code, includeNativeName = false, currentLocale = null) {
-    currentLocale = currentLocale || this.getLocale();
+    currentLocale = currentLocale || localeController.getLocale();
     const localeName = (new Intl.DisplayNames(currentLocale, { type: 'language' })).of(code);
     const titleCased = localeName.slice(0,1).toLocaleUpperCase() + localeName.slice(1);
 
@@ -70,5 +60,7 @@ class I18nHelper {
     return titleCased + langNative;
   }
 }
+
+window.i18nHelper = new I18nHelper();
 
 module.exports = I18nHelper;
