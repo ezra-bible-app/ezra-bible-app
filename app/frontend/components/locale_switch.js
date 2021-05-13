@@ -18,6 +18,7 @@
 
 const { html, waitUntilIdle } = require('../helpers/ezra_helper.js');
 const localeController = require('../controllers/locale_controller.js');
+const i18nHelper = require('../helpers/i18n_helper.js');
 const locales = localeController.getAvailableLocales();
 
 const SELECT_WIDTH = '170px'; // FIXME: magic number that works with jQuery UI

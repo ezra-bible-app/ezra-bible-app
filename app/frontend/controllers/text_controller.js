@@ -19,6 +19,7 @@
 const PlatformHelper = require('../../lib/platform_helper.js');
 const notesHelper = require('../helpers/notes_helper.js');
 const localeController = require('./locale_controller.js');
+const i18nHelper = require('../helpers/i18n_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 
 /**
@@ -285,7 +286,10 @@ class TextController {
       cancelText: i18n.t("general.cancel"),
       chapterText: chapterText,
       tagHint: i18n.t("bible-browser.tag-hint"),
-      notesHelper 
+      helper: {
+        getNotesTooltip: notesHelper.getTooltipText,
+        getLocalizedDate: i18nHelper.getLocalizedDate,
+      } 
     });
 
     render_function(verses_as_html);
@@ -527,7 +531,10 @@ class TextController {
       cancelText: i18n.t("general.cancel"),
       tagHint: i18n.t("bible-browser.tag-hint"),
       loadSearchResultsText: i18n.t("bible-browser.show-search-results"),
-      notesHelper
+      helper: {
+        getNotesTooltip: notesHelper.getTooltipText,
+        getLocalizedDate: i18nHelper.getLocalizedDate,
+      } 
     });
 
     render_function(verses_as_html, verses.length);

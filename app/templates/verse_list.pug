@@ -34,7 +34,7 @@ if renderBookNotes
   else
     - bookNotesRaw = bookNotes.text
     - bookNotesText = marked(bookNotes.text);
-    - bookNotesUpdate = i18nHelper.getLocalizedDate(bookNotes.updatedAt);
+    - bookNotesUpdate = helper.getLocalizedDate(bookNotes.updatedAt);
 
   div(class=bookNotesClassList, verse-reference-id=firstBibleBookId.toLowerCase(), notes-content=bookNotesRaw)
     div(class='verse-notes-text external') !{bookNotesText}
@@ -118,7 +118,7 @@ each bibleBook in bibleBooks
 
       div.verse-reference
         if renderVerseMetaInfo == true
-          div(class=current_notes_info_class, title=notesHelper.getTooltipText(current_verse_note && current_verse_note.text), i18n='[title]bible-browser.new-note-hint') 
+          div(class=current_notes_info_class, title=helper.getNotesTooltip(current_verse_note && current_verse_note.text), i18n='[title]bible-browser.new-note-hint') 
             i.fas.fa-comment-alt
           div(class=current_tag_info_class, title=current_tooltip_tag_list.join(', '))
             i.fas.fa-tag
@@ -147,7 +147,7 @@ each bibleBook in bibleBooks
 
         if current_verse_note != null && current_verse_note.text != null && current_verse_note.text != ''
           - var verseNoteClass = "verse-notes";
-          - var verseNoteUpdate = i18nHelper.getLocalizedDate(current_verse_note.updatedAt);
+          - var verseNoteUpdate = helper.getLocalizedDate(current_verse_note.updatedAt);
           - var verseNoteTextRaw = current_verse_note.text;
           - var verseNoteText = marked(current_verse_note.text);
         else

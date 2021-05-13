@@ -61,7 +61,7 @@ window.getReferenceSeparator = async function(moduleCode=undefined) {
     
     try {
       var localModule = await ipcNsi.getLocalModule(moduleCode);
-      moduleReferenceSeparator = await i18nHelper.getSpecificTranslation(localModule.language, 'general.chapter-verse-separator');
+      moduleReferenceSeparator = await require('./helpers/i18n_helper.js').getSpecificTranslation(localModule.language, 'general.chapter-verse-separator');
     } catch (e) {}
     
     return moduleReferenceSeparator;
