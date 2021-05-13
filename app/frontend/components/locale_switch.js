@@ -85,7 +85,7 @@ class LocaleSwitch extends HTMLElement {
 
     this.querySelector('.locale-detect').addEventListener('click', () => this.handleDetectClick());
 
-    this.setSelected();
+    this.setSelected(i18nHelper.getLocale());
 
     $(this.selectEl).selectmenu({
       appendTo: this.querySelector('.locale-switch-container'),
@@ -93,24 +93,25 @@ class LocaleSwitch extends HTMLElement {
       change: () => this.handleChange(),
     });
 
-    localeController.onChangeLocale(() => this.updateOptions());
+    localeController.onChangeLocale(locale => this.updateOptions(locale));
   }
 
-  updateOptions() {
+  updateOptions(localeCode) {
     console.log('updating options');
     for (let i = 0; i < this.selectEl.children.length; i++) {
       let option = this.selectEl.children[i];
       const code = option.getAttribute('value');
-      option.textContent = i18nHelper.getLocaleName(code, true, this.selectEl.value);
+      option.textContent = i18nHelper.getLocaleName(code, true, localeCode);
+      option.removeAttribute('selected');
     }
 
-    this.setSelected();
+    this.setSelected(localeCode);
 
     $(this.selectEl).selectmenu();
   }
 
-  setSelected() {
-    let selected = this.selectEl.querySelector(`[value="${i18nHelper.getLocale()}"]`);
+  setSelected(localeCode) {
+    let selected = this.selectEl.querySelector(`[value="${localeCode}"]`);
     if (selected) {
       selected.setAttribute('selected', '');
     }
