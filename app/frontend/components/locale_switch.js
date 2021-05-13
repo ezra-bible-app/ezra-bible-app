@@ -127,7 +127,6 @@ class LocaleSwitch extends HTMLElement {
   }
 
   handleDetectClick() {
-    console.log('got auto detect...');
     this.dispatchEvent(new CustomEvent("localeDetect", {
       bubbles: true,
       cancelable: false,
