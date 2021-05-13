@@ -22,10 +22,10 @@
  * @category Helper
  */
 
- const LanguageMapper = require('../../lib/language_mapper.js');
- const languageMapper = new LanguageMapper();
+const LanguageMapper = require('../../lib/language_mapper.js');
+const languageMapper = new LanguageMapper();
 
- module.exports.getModuleDescription = async function(moduleId, isRemote=false) {
+module.exports.getModuleDescription = async function(moduleId, isRemote=false) {
   var moduleInfo = "No info available!";
 
   try {
