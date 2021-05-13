@@ -84,7 +84,6 @@ let LanguageDetector = null;
 }
 
 async function changeLocale(newLlocale) {
-  console.log('Language changed', newLlocale);
 
   await i18n.changeLanguage(newLlocale);
 
@@ -97,6 +96,7 @@ async function changeLocale(newLlocale) {
   await app_controller.book_selection_menu.localizeBookSelectionMenu();
   await app_controller.assign_last_tag_button.updateLabel();
   await app_controller.verse_selection.updateSelectedVersesLabel();
+  await app_controller.tab_controller.updateTabTitleAfterLocaleChange();
   app_controller.tab_controller.localizeTemplate();
   await app_controller.updateTagsView(undefined, true);
   tags_controller.refreshTagDialogs();

@@ -784,6 +784,47 @@ class TabController {
     }
   }
 
+  async updateTabTitleAfterLocaleChange() {
+    for (let i = 0; i < this.metaTabs.length; i++) {
+      const currentMetaTab = this.metaTabs[i];
+      let tabTitle = "";
+      switch (currentMetaTab.getTextType()) {
+        case 'book':
+          tabTitle = await i18nHelper.getSwordTranslation(currentMetaTab.getBook());
+          break;
+        case 'search_results':
+          tabTitle = this.getSearchTabTitle(currentMetaTab.getSearchTerm());
+          break;
+        case 'tagged_verses': {
+            const refTitle = getRefFromTabTitle(currentMetaTab.taggedVersesTitle);
+            if (refTitle) {
+              tabTitle += `${refTitle} &ndash; `;
+            }
+            if (platformHelper.isElectron()) {
+              tabTitle += `${i18n.t('tags.verses-tagged-with')} `;
+            }
+            tabTitle += `<i>${currentMetaTab.tagTitleList}</i>`;
+          }
+          break;  
+        case 'xrefs': {
+            tabTitle = `${getRefFromTabTitle(currentMetaTab.xrefTitle)} &ndash; ${i18n.t("general.module-xrefs")}`;
+          }
+          break;
+      }
+      if (tabTitle !== "") {
+        this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), i);
+      }
+    }
+
+    function getRefFromTabTitle(title) {
+      const index = title.indexOf(' &ndash; ');
+      if (index < 0) {
+        return "";
+      } 
+      return title.slice(0, index);      
+    }
+  }
+
   onTranslationRemoved(translationId, translationList) {
     if (translationId == this.defaultBibleTranslationId) {
       if (translationList.length > 0) {
