@@ -41,6 +41,7 @@ const TranslationComparison = require("../components/translation_comparison.js")
 const BookSelectionMenu = require("../components/book_selection_menu.js");
 const DictionaryController = require("./dictionary_controller.js");
 const NotesController = require("./notes_controller.js");
+const localeController = require("./locale_controller.js");
 const SwordNotes = require("../components/sword_notes.js");
 const InfoPopup = require("../components/info_popup.js");
 const TextSizeSettings = require("../components/text_size_settings.js");
@@ -1072,7 +1073,7 @@ class AppController {
       var currentVersion = await ipcGeneral.getAppVersion();
 
       var lastUsedLanguage = await ipcSettings.get('lastUsedLanguage', undefined);
-      var currentLocale = i18nHelper.getLocale();
+      var currentLocale = localeController.getLocale();
 
       return currentVersion != lastUsedVersion || currentLocale != lastUsedLanguage;
   }

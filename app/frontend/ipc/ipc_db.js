@@ -19,7 +19,7 @@
 const IpcRenderer = require('./ipc_renderer.js');
 const VerseBox = require('../ui_models/verse_box.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
-
+const localeController = require('../controllers/locale_controller.js');
 class IpcDb {
   constructor() {
     this._ipcRenderer = new IpcRenderer();
@@ -135,7 +135,7 @@ class IpcDb {
   }
 
   async getBookTitleTranslation(shortName) {
-    return await this._ipcRenderer.call('db_getBookTitleTranslation', shortName, i18nHelper.getLocale());
+    return await this._ipcRenderer.call('db_getBookTitleTranslation', shortName, localeController.getLocale());
   }
 
   async getBookLongTitle(bookCode) {

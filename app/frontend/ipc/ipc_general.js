@@ -16,8 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-   const IpcRenderer = require('./ipc_renderer.js');
-
+const IpcRenderer = require('./ipc_renderer.js');
+const localeController = require('../controllers/locale_controller.js');
    class IpcGeneral {
     constructor() {
       this._ipcRenderer = new IpcRenderer();
@@ -51,11 +51,11 @@
       return await this._ipcRenderer.call('general_isTest');
     }
 
-    async getSearchStatisticChartData(bibleTranslationId, bookList, bibleBookStats, localeCode=i18nHelper.getLocale()) {
+    async getSearchStatisticChartData(bibleTranslationId, bookList, bibleBookStats, localeCode=localeController.getLocale()) {
       return await this._ipcRenderer.call('general_getSearchStatisticChartData', bibleTranslationId, localeCode, bookList, bibleBookStats);
     } 
 
-    async getBookNames(bibleBooks, localeCode=i18nHelper.getLocale()) {
+    async getBookNames(bibleBooks, localeCode=localeController.getLocale()) {
       return await this._ipcRenderer.call('general_getBookNames', bibleBooks, localeCode);
     }
    }

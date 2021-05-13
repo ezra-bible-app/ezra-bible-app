@@ -41,9 +41,6 @@ async function initI18N() {
   window.i18n = require('i18next');
   const I18nIpcBackend = require('../ipc/i18n_ipc_backend.js');
 
-  const I18nHelper = require('../helpers/i18n_helper.js');
-  window.i18nHelper = new I18nHelper();
-
 let LanguageDetector = null;
 
   if (platformHelper.isElectron()) {
@@ -120,6 +117,11 @@ async function detectLocale() {
   await changeLocale(systemLocale || FALLBACK_LOCALE);
 }
 
+function getLocale() {
+  var lang = i18n.language;
+  return lang.slice(0, 2); // just in case we got language region code (i.e "en-US") we want only language code ("en")
+}
+
 function getAvailableLocales() {
   return AVAILABLE_LOCALES.sort();
 }
@@ -130,4 +132,5 @@ module.exports.initI18N = initI18N;
 module.exports.changeLocale = changeLocale;
 module.exports.detectLocale = detectLocale;
 module.exports.onChangeLocale = onChangeLocale;
+module.exports.getLocale = getLocale;
 module.exports.getAvailableLocales = getAvailableLocales;
