@@ -64,7 +64,8 @@ class NavigationPane {
 
       navigationPane.removeClass('navigation-pane-books');
 
-      var hasHeaders = await app_controller.translation_controller.hasBibleTranslationHeaders(currentTranslationId);
+      const swordModuleHelper = require('../helpers/sword_module_helper.js');
+      var hasHeaders = await swordModuleHelper.moduleHasHeaders(currentTranslationId);
 
       if (headerNavOption.isChecked && hasHeaders) {
         
@@ -96,8 +97,9 @@ class NavigationPane {
     var navigationPane = this.getCurrentNavigationPane(tabIndex);
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentTranslationId = currentTab.getBibleTranslationId();
+    const swordModuleHelper = require('../helpers/sword_module_helper.js');
     
-    if (app_controller.translation_controller.hasBibleTranslationHeaders(currentTranslationId)) {
+    if (swordModuleHelper.moduleHasHeaders(currentTranslationId)) {
 
       navigationPane.addClass('navigation-pane-headers');
     }

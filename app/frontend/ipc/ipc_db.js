@@ -67,7 +67,8 @@ class IpcDb {
     }
 
     var translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var versification = await app_controller.translation_controller.getVersification(translationId);
+    const swordModuleHelper = require('../helpers/sword_module_helper.js');
+    var versification = await swordModuleHelper.getVersification(translationId);
 
     return await this._ipcRenderer.call('db_updateTagsOnVerses', tagId, verseObjects, versification, action);
   }
