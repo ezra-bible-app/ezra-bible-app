@@ -18,39 +18,39 @@
 
 const localeController = require('../controllers/locale_controller.js');
 
-async function getSwordTranslation(originalString) {
+module.exports.getSwordTranslation = async function(originalString) {
   return await ipcNsi.getSwordTranslation(originalString, i18n.language);
 }
 
-async function getBookAbbreviation(bookCode) {
+module.exports.getBookAbbreviation = async function(bookCode) {
   var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
   return await ipcNsi.getBookAbbreviation(currentBibleTranslationId, bookCode, localeController.getLocale());
 }
 
-async function getSpecificTranslation(lang, key) {
+module.exports.getSpecificTranslation = async function(lang, key) {
   var specificTranslation = i18n.t(key, { lng: lang }); // https://www.i18next.com/translation-function/essentials
 
   return specificTranslation;
 }
 
-async function getChapterTranslation(lang) {
+module.exports.getChapterTranslation = async function(lang) {
   var locale = lang || localeController.getLocale();
 
   return await this.getSpecificTranslation(locale, 'bible-browser.chapter');
 }
 
-async function getPsalmTranslation(lang) {
+module.exports.getPsalmTranslation = async function(lang) {
   var language = lang || localeController.getLocale();
 
   return await localeController.getSpecificTranslation(language, 'bible-browser.psalm');
 }
 
-function getLocalizedDate(timestamp) {
+module.exports.getLocalizedDate = function(timestamp) {
   var locale = localeController.getLocale();
   return new Date(Date.parse(timestamp)).toLocaleDateString(locale);
 }
 
-function getLocaleName(code, includeNativeName = false, currentLocale = null) {
+module.exports.getLocaleName = function(code, includeNativeName = false, currentLocale = null) {
   currentLocale = currentLocale || localeController.getLocale();
   const localeName = (new Intl.DisplayNames(currentLocale, { type: 'language' })).of(code);
   const titleCased = localeName.slice(0, 1).toLocaleUpperCase() + localeName.slice(1);
@@ -58,11 +58,3 @@ function getLocaleName(code, includeNativeName = false, currentLocale = null) {
   const langNative = includeNativeName && code !== currentLocale ? ` (${(new Intl.DisplayNames(code, { type: 'language' })).of(code)})` : '';
   return titleCased + langNative;
 }
-
-module.exports.getSwordTranslation = getSwordTranslation;
-module.exports.getBookAbbreviation = getBookAbbreviation;
-module.exports.getSpecificTranslation = getSpecificTranslation;
-module.exports.getChapterTranslation = getChapterTranslation;
-module.exports.getPsalmTranslation = getPsalmTranslation;
-module.exports.getLocalizedDate = getLocalizedDate;
-module.exports.getLocaleName = getLocaleName;

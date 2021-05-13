@@ -94,7 +94,7 @@ class LocaleSwitch extends HTMLElement {
       change: () => this.handleChange(),
     });
 
-    localeController.onChangeLocale(locale => this.updateOptions(locale));
+    localeController.addLocaleChangeSubscriber(locale => this.updateOptions(locale));
   }
 
   updateOptions(localeCode) {

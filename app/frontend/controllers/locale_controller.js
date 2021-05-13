@@ -37,7 +37,7 @@ const i18nextOptions = {
 
 var systemLocale;
 
-async function initI18N() {
+module.exports.initI18N = async function() {
   window.i18n = require('i18next');
   const I18nIpcBackend = require('../ipc/i18n_ipc_backend.js');
 
@@ -79,7 +79,7 @@ let LanguageDetector = null;
   window.reference_separator = i18n.t('general.chapter-verse-separator');
 }
 
-async function changeLocale(newLocale) {
+module.exports.changeLocale = async function(newLocale) {
 
   await i18n.changeLanguage(newLocale);
 
@@ -101,7 +101,7 @@ async function changeLocale(newLocale) {
 }
 
 var localeSubscribers = [];
-function onChangeLocale(subscriberCallback) {
+module.exports.addLocaleChangeSubscriber = function(subscriberCallback) {
   if (typeof subscriberCallback === 'function') {
     localeSubscribers.push(subscriberCallback);
   }
@@ -113,24 +113,15 @@ async function notifySubscribers(locale) {
   }
 }
 
-async function detectLocale() {
-  await changeLocale(systemLocale || FALLBACK_LOCALE);
+module.exports.detectLocale = async function() {
+  await this.changeLocale(systemLocale || FALLBACK_LOCALE);
 }
 
-function getLocale() {
+module.exports.getLocale = function() {
   var lang = i18n.language;
   return lang.slice(0, 2); // just in case we got language region code (i.e "en-US") we want only language code ("en")
 }
 
-function getAvailableLocales() {
+module.exports.getAvailableLocales = function() {
   return AVAILABLE_LOCALES.sort();
 }
-
-
-
-module.exports.initI18N = initI18N;
-module.exports.changeLocale = changeLocale;
-module.exports.detectLocale = detectLocale;
-module.exports.onChangeLocale = onChangeLocale;
-module.exports.getLocale = getLocale;
-module.exports.getAvailableLocales = getAvailableLocales;
