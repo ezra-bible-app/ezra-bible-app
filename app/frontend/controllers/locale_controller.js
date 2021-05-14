@@ -86,11 +86,13 @@ let LanguageDetector = null;
   window.reference_separator = i18n.t('general.chapter-verse-separator');
 }
 
-module.exports.changeLocale = async function(newLocale) {
+module.exports.changeLocale = async function(newLocale, saveSettings=true) {
 
   await i18n.changeLanguage(newLocale);
 
-  await ipcSettings.set(SETTINGS_KEY, newLocale);
+  if (saveSettings) {
+    await ipcSettings.set(SETTINGS_KEY, newLocale);
+  }
 
   $(document).localize();
 
@@ -121,7 +123,8 @@ async function notifySubscribers(locale) {
 }
 
 module.exports.detectLocale = async function() {
-  await this.changeLocale(systemLocale || FALLBACK_LOCALE);
+  await this.changeLocale(systemLocale || FALLBACK_LOCALE, false);
+  await ipcSettings.delete(SETTINGS_KEY);
 }
 
 module.exports.getLocale = function() {
