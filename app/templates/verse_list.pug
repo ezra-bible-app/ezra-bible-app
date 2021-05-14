@@ -42,9 +42,9 @@ if renderBookNotes
       div(class='verse-notes-buttons')
         a(class='save-note', href='')
           i.fas.fa-save.fa-sm
-          span(i18n='general.save') !{saveText}
+          span(i18n='general.save') !{i18n.t('general.save')}
         span &nbsp;|&nbsp;
-        a(class='cancel-edit', i18n='general.cancel', href='') !{cancelText}
+        a(class='cancel-edit', i18n='general.cancel', href='') !{i18n.t('general.cancel')}
       div(class='verse-notes-timestamp') !{bookNotesUpdate}
 
 each bibleBook in bibleBooks
@@ -79,7 +79,9 @@ each bibleBook in bibleBooks
       - var anchor = verseListId + " " + verse.chapter;
       a(class='nav', name=anchor)
       if renderChapterHeaders == true && chapterText != null
-        h2(class='chapter-header') #{chapterText} #{verse.chapter}
+        h2.chapter-header
+          span(i18n=chapterText) #{i18n.t(chapterText)}
+          | &nbsp;#{verse.chapter}
 
       - old_chapter = verse.chapter
     
@@ -141,7 +143,7 @@ each bibleBook in bibleBooks
                 each verseTag in current_verse_tags
                   //- var current_tag_title = verseTag.tagTitle.replace(/ /g, "&nbsp;")
                   - var current_tag_title = verseTag.tagTitle
-                  div.tag(title=tagHint, i18n='[title]bible-browser.tag-hint') !{current_tag_title}
+                  div.tag(title=i18n.t('bible-browser.tag-hint'), i18n='[title]bible-browser.tag-hint') !{current_tag_title}
                   
           div.verse-text !{verse.content}
 
@@ -165,12 +167,12 @@ each bibleBook in bibleBooks
             div(class='verse-notes-buttons')
               a(class='save-note', href='')
                 i.fas.fa-save.fa-sm
-                span(i18n='general.save') !{saveText}
+                span(i18n='general.save') !{i18n.t('general.save')}
               span &nbsp;|&nbsp;
-              a(class='cancel-edit', i18n='general.cancel', href='') !{cancelText}
+              a(class='cancel-edit', i18n='general.cancel', href='') !{i18n.t('general.cancel')}
             div(class='verse-notes-timestamp') !{verseNoteUpdate}
 
   if verse_count == 0 && renderBibleBookHeaders == true
     div.book-section(id=verseListId + "-book-section-" + bibleBook.shortTitle)
       - var loadBookResultFunction = "javascript:app_controller.module_search_controller.loadBookResults('" + bibleBook.shortTitle + "')"
-      a.load-book-results(href=loadBookResultFunction) !{loadSearchResultsText}
+      a.load-book-results(href=loadBookResultFunction, i18n='bible-browser.show-search-results') !{i18n.t('bible-browser.show-search-results')}
