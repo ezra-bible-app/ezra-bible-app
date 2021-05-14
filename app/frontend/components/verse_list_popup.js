@@ -18,6 +18,7 @@
 
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
+const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
 
 /**
  * The VerseListPopup component implements a dialog that shows a tagged verse list or a list of cross references.
@@ -269,18 +270,17 @@ class VerseListPopup {
 
   async getPopupTitle(clickedElement, referenceType) {
     var popupTitle = "";
-    var verse_box = $(clickedElement).closest('.verse-box');
-    var localizedReference = await this.verseBoxHelper.getLocalizedVerseReference(verse_box[0]);
+    var verseBox = $(clickedElement).closest('.verse-box');
+    var localizedReference = await this.verseBoxHelper.getLocalizedVerseReference(verseBox[0]);
 
     if (referenceType == "TAGGED_VERSES") {
 
-      var selected_tag = this.getSelectedTagFromClickedElement(clickedElement);
-      popupTitle = localizedReference + ' &ndash; ' + i18n.t("tags.verses-tagged-with") + ' <i>' + selected_tag + '</i>';
+      var selectedTag = this.getSelectedTagFromClickedElement(clickedElement);
+      popupTitle = verseListTitleHelper.getTaggedVerseListTitle(localizedReference, selectedTag);
 
     } else if (referenceType == "XREFS") {
 
-      popupTitle = localizedReference + ' &ndash; ' + i18n.t("general.module-xrefs");
-
+      popupTitle = verseListTitleHelper.getXrefsVerseListTitle(localizedReference);
     }
 
     return popupTitle;
