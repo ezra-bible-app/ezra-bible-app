@@ -224,7 +224,11 @@ function subscribePicker() {
   emojiPickerSubscribed = true;
 
   localeController.addLocaleChangeSubscriber(async locale => {
-    (await emojiPicker).destroyPicker();
+    // FIXME: Handle properly
+    try {
+      (await emojiPicker).destroyPicker();
+    } catch (e) {}
+    
     app_controller.optionsMenu._nightModeOption.removeEventListener("optionChanged", updatePickerTheme);
     emojiPicker = await initPicker(locale);
   });
