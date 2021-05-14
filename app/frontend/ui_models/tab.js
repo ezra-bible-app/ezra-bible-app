@@ -30,7 +30,7 @@ class Tab {
     this.searchOptions = {};
     this.searchCancelled = false;
     this.xrefs = null;
-    this.verseReferenceElementId = null;
+    this.referenceVerseElementId = null;
     this.xrefTitle = null;
     this.textType = null;
     this.lastHighlightedNavElementIndex = null;
@@ -158,12 +158,12 @@ class Tab {
     return this.xrefs;
   }
 
-  setVerseReferenceElementId(verseReferenceElementId) {
-    this.verseReferenceElementId = verseReferenceElementId;
+  setReferenceVerseElementId(referenceVerseElementId) {
+    this.referenceVerseElementId = referenceVerseElementId;
   }
 
-  getVerseReferenceElementId() {
-    return this.verseReferenceElementId;
+  getReferenceVerseElementId() {
+    return this.referenceVerseElementId;
   }
 
   setXrefTitle(xrefTitle) {
@@ -201,7 +201,7 @@ class Tab {
   }
 
   hasReferenceVerse() {
-    return this.getVerseReferenceElementId() != null;
+    return this.getReferenceVerseElementId() != null;
   }
 
   getLocation() {
