@@ -16,6 +16,13 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+/**
+ * This module inits and updates app locale
+ * @module locale_controller
+ * @category Controller
+ */
+
+
 const AVAILABLE_LOCALES = ['de', 'en', 'nl', 'fr', 'es', 'sk', 'uk', 'ru'];
 const FALLBACK_LOCALE = 'en';
 const SETTINGS_KEY = 'appLocale';

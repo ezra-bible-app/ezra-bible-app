@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const localeController = require('../controllers/locale_controller.js');
 const { html, sleep, waitUntilIdle } = require('../helpers/ezra_helper.js');
 
 var emojiPicker; // to keep only one instance of the picker
@@ -53,7 +54,6 @@ const template = html`
  * @category Component
  */
 
-const localeController = require('../controllers/locale_controller.js');
 class EmojiButtonTrigger extends HTMLElement {
   constructor() {
     super();
@@ -114,7 +114,7 @@ class EmojiButtonTrigger extends HTMLElement {
     } else if (this.editor && this.editor.getDoc()) {
       this.editor.getDoc().replaceSelection(emoji);
     } else {
-      console.error('EmojiPicker: Input is not detected. Can\'t add emoji', emoji);
+      console.error('EmojiButtonTrigger: Input is not detected. Can\'t add emoji', emoji);
     }
   }
 
@@ -140,21 +140,24 @@ function hasNativeEmoji() {
   return platformHelper.isCordova();
 }
 
-async function initPicker() {
+async function initPicker(locale=localeController.getLocale()) {
   await sleep(3000); // delay init as emoji picker is not a priority
   await waitUntilIdle();
 
   const { EmojiButton } = require('emoji-button/dist/index.cjs');
+
+  // FIXME: get data from state instead of config option
   const nightModeOption = app_controller.optionsMenu._nightModeOption;
+  const isNightMode = nightModeOption && nightModeOption.isChecked;
 
   const picker = new EmojiButton({ // https://emoji-button.js.org/docs/api
-    emojiData: getLocalizedData(localeController.getLocale()),
+    emojiData: getLocalizedData(locale),
     showPreview: false,
     showVariants: false,
     showAnimation: false,
     categories: ['smileys', 'people', 'animals', 'food', 'activities', 'travel', 'objects', 'symbols'],
     i18n: i18n.t('emoji', { returnObjects: true }),
-    theme: nightModeOption && nightModeOption.isChecked ? 'dark' : 'light',
+    theme: isNightMode ? 'dark' : 'light',
     emojiSize: '1.3em',
     position: 'auto',
     zIndex: 10000,
@@ -181,14 +184,10 @@ async function initPicker() {
 
   if (nightModeOption) {
     //FIXME: we should listen to state changes and not the option itself 
-    nightModeOption.addEventListener("optionChanged", () => {
-      if (nightModeOption.isChecked) {
-        picker.setTheme('dark');
-      } else {
-        picker.setTheme('light');
-      }
-    });
+    nightModeOption.addEventListener("optionChanged", updatePickerTheme);
   }
+
+  subscribePicker();
 
   return picker;
 }
@@ -215,3 +214,27 @@ function getLocalizedData(locale) {
       console.log(`EmojiButtonTrigger: Can't upload emoji annotations for locale: ${locale}. Using default`);
   }
 }
+
+var emojiPickerSubscribed = false; // subscribe to the state update only once
+function subscribePicker() {
+  if (emojiPickerSubscribed || !emojiPicker) {
+    return;
+  }
+
+  emojiPickerSubscribed = true;
+
+  localeController.addLocaleChangeSubscriber(async locale => {
+    (await emojiPicker).destroyPicker();
+    app_controller.optionsMenu._nightModeOption.removeEventListener("optionChanged", updatePickerTheme);
+    emojiPicker = await initPicker(locale);
+  });
+}
+
+async function updatePickerTheme() {
+  const picker = await emojiPicker;
+  if (app_controller.optionsMenu._nightModeOption.isChecked) {
+    picker.setTheme('dark');
+  } else {
+    picker.setTheme('light');
+  }
+} 
