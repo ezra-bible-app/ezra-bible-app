@@ -68,8 +68,9 @@ class BookSelectionMenu {
 
         var current_link_href = $(event.target).attr('href');
         var current_book_title = $(event.target).html();
+        var current_reference_book_title = $(event.target).attr('book-name');
 
-        app_controller.book_selection_menu.selectBibleBook(current_link_href, current_book_title);
+        app_controller.book_selection_menu.selectBibleBook(current_link_href, current_book_title, current_reference_book_title);
       });
     }
   }
@@ -116,7 +117,7 @@ class BookSelectionMenu {
     }
   }
 
-  async selectBibleBook(book_code, book_title) {
+  async selectBibleBook(book_code, book_title, reference_book_title) {
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     if (currentBibleTranslationId == null || currentBibleTranslationId == undefined) {
       return;
@@ -136,7 +137,7 @@ class BookSelectionMenu {
 
     var currentTab = app_controller.tab_controller.getTab();
     currentTab.setTextType('book');
-    app_controller.tab_controller.setCurrentTabBook(book_code, book_title);
+    app_controller.tab_controller.setCurrentTabBook(book_code, book_title, reference_book_title);
 
     app_controller.tag_selection_menu.hideTagMenu();
     app_controller.tag_selection_menu.resetTagMenu();

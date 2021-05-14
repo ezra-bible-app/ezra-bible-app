@@ -596,7 +596,7 @@ class TabController {
     this.getTab().setTagIdList("");
     this.getTab().setXrefs(null);
     this.getTab().setVerseReferenceId(null);
-    this.setCurrentTabBook(null, "");
+    this.setCurrentTabBook(null, "", "");
     this.resetCurrentTabTitle();
     await this.deleteTabConfiguration();
   }
@@ -659,8 +659,8 @@ class TabController {
     this.setTabTitle(currentTabTitle, bibleTranslationId);
   }
 
-  setCurrentTabBook(bookCode, bookTitle) {
-    this.getTab().setBook(bookCode, bookTitle);
+  setCurrentTabBook(bookCode, bookTitle, referenceBookTitle) {
+    this.getTab().setBook(bookCode, bookTitle, referenceBookTitle);
     var currentTranslationId = this.getTab().getBibleTranslationId();
 
     if (bookTitle != undefined && bookTitle != null) {
@@ -792,7 +792,8 @@ class TabController {
 
       switch (currentMetaTab.getTextType()) {
         case 'book':
-          tabTitle = await i18nHelper.getSwordTranslation(currentMetaTab.getBookTitle());
+          currentMetaTab.bookTitle = await i18nHelper.getSwordTranslation(currentMetaTab.getReferenceBookTitle());
+          tabTitle = currentMetaTab.bookTitle;
           break;
 
         case 'search_results':

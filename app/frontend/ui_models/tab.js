@@ -21,6 +21,7 @@ class Tab {
     this.elementId = null;
     this.book = null;
     this.bookTitle = null;
+    this.referenceBookTitle = null;
     this.tagIdList = "";
     this.tagTitleList = "";
     this.taggedVersesTitle = null;
@@ -73,10 +74,11 @@ class Tab {
     return i18n.t("menu.search") + ": " + searchTerm;
   }
 
-  setBook(bookCode, bookTitle) {
+  setBook(bookCode, bookTitle, referenceBookTitle) {
     this.searchResults = null;
     this.book = bookCode;
     this.bookTitle = bookTitle;
+    this.referenceBookTitle = referenceBookTitle;
   }
 
   getBook() {
@@ -85,6 +87,10 @@ class Tab {
 
   getBookTitle() {
     return this.bookTitle;
+  }
+
+  getReferenceBookTitle() {
+    return this.referenceBookTitle;
   }
 
   setTagIdList(tagIdList) {
