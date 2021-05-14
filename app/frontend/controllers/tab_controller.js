@@ -791,18 +791,19 @@ class TabController {
   async updateTabTitleAfterLocaleChange() {
     for (let i = 0; i < this.metaTabs.length; i++) {
       const currentMetaTab = this.metaTabs[i];
-      let tabTitle = "";
 
       switch (currentMetaTab.getTextType()) {
-        case 'book':
-          currentMetaTab.bookTitle = await i18nHelper.getSwordTranslation(currentMetaTab.getReferenceBookTitle());
-          tabTitle = currentMetaTab.bookTitle;
-          this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), i);
+        case 'book': {
+            currentMetaTab.bookTitle = await i18nHelper.getSwordTranslation(currentMetaTab.getReferenceBookTitle());
+            const tabTitle = currentMetaTab.bookTitle;
+            this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), i);
+          }  
           break;
 
-        case 'search_results':
-          tabTitle = this.getSearchTabTitle(currentMetaTab.getSearchTerm());
-          this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), i);
+        case 'search_results': {
+            const tabTitle = this.getSearchTabTitle(currentMetaTab.getSearchTerm());
+            this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), i);
+          }
           break;
 
         case 'tagged_verses': {
@@ -815,8 +816,8 @@ class TabController {
           break;
 
         case 'xrefs': {
-            let localizedReference = await app_controller.getLocalizedReferenceVerse(i);
-            tabTitle = verseListTitleHelper.getXrefsVerseListTitle(localizedReference);
+            const localizedReference = await app_controller.getLocalizedReferenceVerse(i);
+            const tabTitle = verseListTitleHelper.getXrefsVerseListTitle(localizedReference);
             this.setCurrentTabXrefTitle(tabTitle, i);
           }
           break;
