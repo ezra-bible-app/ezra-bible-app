@@ -83,6 +83,10 @@ class Tab {
     return this.book;
   }
 
+  getBookTitle() {
+    return this.bookTitle;
+  }
+
   setTagIdList(tagIdList) {
     this.searchResults = null;
     this.tagIdList = tagIdList;
