@@ -797,10 +797,12 @@ class TabController {
         case 'book':
           currentMetaTab.bookTitle = await i18nHelper.getSwordTranslation(currentMetaTab.getReferenceBookTitle());
           tabTitle = currentMetaTab.bookTitle;
+          this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), i);
           break;
 
         case 'search_results':
           tabTitle = this.getSearchTabTitle(currentMetaTab.getSearchTerm());
+          this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), i);
           break;
 
         case 'tagged_verses': {
@@ -808,19 +810,16 @@ class TabController {
             if (currentMetaTab.getReferenceVerseElementId() != null) {
               localizedReference = await app_controller.getLocalizedReferenceVerse(i);
             }
-            tabTitle = verseListTitleHelper.getTaggedVerseListTitle(localizedReference, currentMetaTab.tagTitleList);
+            this.setCurrentTagTitleList(currentMetaTab.tagTitleList, localizedReference, i);
           }
           break;
 
         case 'xrefs': {
             let localizedReference = await app_controller.getLocalizedReferenceVerse(i);
             tabTitle = verseListTitleHelper.getXrefsVerseListTitle(localizedReference);
+            this.setCurrentTabXrefTitle(tabTitle, i);
           }
           break;
-      }
-
-      if (tabTitle !== "") {
-        this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), i);
       }
     }
   }
