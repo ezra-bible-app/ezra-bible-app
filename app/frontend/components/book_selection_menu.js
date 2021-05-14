@@ -153,7 +153,7 @@ class BookSelectionMenu {
       currentTab.setTagIdList(null);
       currentTab.setSearchTerm(null);
       currentTab.setXrefs(null);
-      currentTab.setVerseReferenceElementId(null);
+      currentTab.setReferenceVerseElementId(null);
 
       var currentVerseList = app_controller.getCurrentVerseList();
       currentTab.tab_search.setVerseList(currentVerseList);

@@ -23,7 +23,8 @@
  */
 
 module.exports.getTaggedVerseListTitle = function(localizedReference, tagTitle) {
-  var title = `${localizedReference} &ndash; ${i18n.t("tags.verses-tagged-with")} <i>${tagTitle}</i>`;
+  localizedReference = localizedReference != null ? localizedReference + '&ndash; ' : '';
+  var title = `${localizedReference}${i18n.t("tags.verses-tagged-with")} <i>${tagTitle}</i>`;
   return title;
 }
 

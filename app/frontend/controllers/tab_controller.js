@@ -21,6 +21,7 @@ const Tab = require('../ui_models/tab.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
+const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
 
 /**
  * The TabController manages the tab bar and the state of each tab.
@@ -124,7 +125,7 @@ class TabController {
         var copiedMetaTab = Object.assign({}, this.metaTabs[i]);
         copiedMetaTab.cachedText = this.getTabHtml(i);
 
-        if (copiedMetaTab.verseReferenceElementId != null) {
+        if (copiedMetaTab.referenceVerseElementId != null) {
           copiedMetaTab.cachedReferenceVerse = this.getReferenceVerseHtml(i);
         } else {
           copiedMetaTab.cachedReferenceVerse = null;
@@ -597,7 +598,7 @@ class TabController {
     this.setCurrentBibleTranslationId(null);
     this.getTab().setTagIdList("");
     this.getTab().setXrefs(null);
-    this.getTab().setVerseReferenceElementId(null);
+    this.getTab().setReferenceVerseElementId(null);
     this.setCurrentTabBook(null, "", "");
     this.resetCurrentTabTitle();
     await this.deleteTabConfiguration();
@@ -802,23 +803,19 @@ class TabController {
           tabTitle = this.getSearchTabTitle(currentMetaTab.getSearchTerm());
           break;
 
-        case 'tagged_verses':
-          const refTitle = currentMetaTab.getRefFromTitle();
-          if (refTitle) {
-            tabTitle += `${refTitle} &ndash; `;
+        case 'tagged_verses': {
+            let localizedReference = null;          
+            if (currentMetaTab.getReferenceVerseElementId() != null) {
+              localizedReference = await app_controller.getLocalizedReferenceVerse(i);
+            }
+            tabTitle = verseListTitleHelper.getTaggedVerseListTitle(localizedReference, currentMetaTab.tagTitleList);
           }
-          if (platformHelper.isElectron()) {
-            tabTitle += `${i18n.t('tags.verses-tagged-with')} `;
-          }
-          tabTitle += `<i>${currentMetaTab.tagTitleList}</i>`;
           break;
 
-        case 'xrefs':
-          const currentReferenceVerse = app_controller.getCurrentReferenceVerse(i);
-          const currentReferenceVerseBox = currentReferenceVerse[0].querySelector('.verse-box');
-          const localizedReference = await this.verseBoxHelper.getLocalizedVerseReference(currentReferenceVerseBox);
-          const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
-          tabTitle = verseListTitleHelper.getXrefsVerseListTitle(localizedReference);
+        case 'xrefs': {
+            let localizedReference = await app_controller.getLocalizedReferenceVerse(i);
+            tabTitle = verseListTitleHelper.getXrefsVerseListTitle(localizedReference);
+          }
           break;
       }
 

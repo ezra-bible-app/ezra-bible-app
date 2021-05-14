@@ -321,7 +321,7 @@ class AppController {
                                                  null,
                                                  currentTab.getXrefs());
 
-        if (currentTab.getVerseReferenceElementId() != null) {
+        if (currentTab.getReferenceVerseElementId() != null) {
           await this.updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId);
         }
       }
@@ -571,6 +571,13 @@ class AppController {
     var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
     var referenceVerse = currentVerseListFrame.find('.reference-verse');
     return referenceVerse;
+  }
+
+  async getLocalizedReferenceVerse(tabIndex=undefined) {
+    var currentReferenceVerse = this.getCurrentReferenceVerse(tabIndex);
+    var currentReferenceVerseBox = currentReferenceVerse[0].querySelector('.verse-box');
+    var localizedReference = await this.verse_box_helper.getLocalizedVerseReference(currentReferenceVerseBox);
+    return localizedReference;
   }
 
   getCurrentVerseList(tabIndex=undefined) {
@@ -859,7 +866,7 @@ class AppController {
 
     currentTab.setTextType('xrefs');
     currentTab.setXrefs(xrefs);
-    currentTab.setVerseReferenceElementId(xrefVerseReferenceId);
+    currentTab.setReferenceVerseElementId(xrefVerseReferenceId);
 
     app_controller.tab_controller.setCurrentTabXrefTitle(xrefTitle);
 
@@ -889,9 +896,9 @@ class AppController {
     if (referenceVerseBox != null) {
       localizedVerseReference = await this.verse_box_helper.getLocalizedVerseReference(referenceVerseBox[0]);
       var verseReferenceId = this.verse_box_helper.getVerseReferenceId(referenceVerseBox);
-      currentTab.setVerseReferenceElementId(verseReferenceId);
+      currentTab.setReferenceVerseElementId(verseReferenceId);
     } else {
-      currentTab.setVerseReferenceElementId(null);
+      currentTab.setReferenceVerseElementId(null);
     }
 
     app_controller.tab_controller.setCurrentTagTitleList(tagTitleList, localizedVerseReference);
