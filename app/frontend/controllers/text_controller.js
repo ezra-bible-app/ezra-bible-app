@@ -235,12 +235,7 @@ class TextController {
 
     var moduleLang = localeController.getLocale();
     if (localSwordModule != null) {
-      var moduleLang = localSwordModule.language;
-    }
-
-    var chapterText = await i18nHelper.getChapterTranslation(moduleLang);
-    if (book_short_title == 'Ps') {
-      chapterText = await i18nHelper.getPsalmTranslation(moduleLang);
+      moduleLang = localSwordModule.language;
     }
 
     var bookIntroduction = null;
@@ -282,10 +277,7 @@ class TextController {
       verseNotes: verseNotes,
       marked: this.marked,
       reference_separator: separator,
-      saveText: i18n.t("general.save"),
-      cancelText: i18n.t("general.cancel"),
-      chapterText: chapterText,
-      tagHint: i18n.t("bible-browser.tag-hint"),
+      chapterText: book_short_title === 'Ps' ? "bible-browser.psalm": "bible-browser.chapter",
       helper: {
         getNotesTooltip: notesHelper.getTooltipText,
         getLocalizedDate: i18nHelper.getLocalizedDate,
@@ -526,10 +518,6 @@ class TextController {
       verseNotes: groupedVerseNotes,
       marked: this.marked,
       reference_separator: separator,
-      saveText: i18n.t("general.save"),
-      cancelText: i18n.t("general.cancel"),
-      tagHint: i18n.t("bible-browser.tag-hint"),
-      loadSearchResultsText: i18n.t("bible-browser.show-search-results"),
       helper: {
         getNotesTooltip: notesHelper.getTooltipText,
         getLocalizedDate: i18nHelper.getLocalizedDate,
@@ -575,7 +563,7 @@ class TextController {
 
       if (!currentTab.hasReferenceVerse()) {
         var tagTitleList = currentTab.getTagTitleList();
-        var headerText = `<h2>${i18n.t('tags.verses-tagged-with')} <i>${tagTitleList}</i></h2>`;
+        var headerText = `<h2><span i18n="tags.verses-tagged-with">${i18n.t('tags.verses-tagged-with')}</span> <i>${tagTitleList}</i></h2>`;
         var verseListHeader = app_controller.getCurrentVerseListComposite(tabIndex).find('.verse-list-header');
         verseListHeader.html(headerText);
         verseListHeader.show();
