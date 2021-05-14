@@ -791,7 +791,7 @@ class TabController {
       let tabTitle = "";
       switch (currentMetaTab.getTextType()) {
         case 'book':
-          tabTitle = await i18nHelper.getSwordTranslation(currentMetaTab.getBook());
+          tabTitle = await i18nHelper.getSwordTranslation(currentMetaTab.getBookTitle());
           break;
         case 'search_results':
           tabTitle = this.getSearchTabTitle(currentMetaTab.getSearchTerm());
