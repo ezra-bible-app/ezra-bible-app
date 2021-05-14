@@ -20,6 +20,7 @@ const Mousetrap = require('mousetrap');
 const Tab = require('../ui_models/tab.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
+const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 
 /**
  * The TabController manages the tab bar and the state of each tab.
@@ -39,6 +40,7 @@ class TabController {
     this.metaTabs = [];
     this.loadingCompleted = false;
     this.lastSelectedTabIndex = null;
+    this.verseBoxHelper = new VerseBoxHelper();
   }
 
   init(tabsElement, tabsPanelClass, addTabElement, settings, tabHtmlTemplate, onTabSelected, onTabAdded, defaultBibleTranslationId) {
@@ -122,7 +124,7 @@ class TabController {
         var copiedMetaTab = Object.assign({}, this.metaTabs[i]);
         copiedMetaTab.cachedText = this.getTabHtml(i);
 
-        if (copiedMetaTab.verseReferenceId != null) {
+        if (copiedMetaTab.verseReferenceElementId != null) {
           copiedMetaTab.cachedReferenceVerse = this.getReferenceVerseHtml(i);
         } else {
           copiedMetaTab.cachedReferenceVerse = null;
@@ -595,7 +597,7 @@ class TabController {
     this.setCurrentBibleTranslationId(null);
     this.getTab().setTagIdList("");
     this.getTab().setXrefs(null);
-    this.getTab().setVerseReferenceId(null);
+    this.getTab().setVerseReferenceElementId(null);
     this.setCurrentTabBook(null, "", "");
     this.resetCurrentTabTitle();
     await this.deleteTabConfiguration();
@@ -812,7 +814,11 @@ class TabController {
           break;
 
         case 'xrefs':
-          tabTitle = `${currentMetaTab.getRefFromTitle()} &ndash; ${i18n.t("general.module-xrefs")}`;
+          const currentReferenceVerse = app_controller.getCurrentReferenceVerse(i);
+          const currentReferenceVerseBox = currentReferenceVerse[0].querySelector('.verse-box');
+          const localizedReference = await this.verseBoxHelper.getLocalizedVerseReference(currentReferenceVerseBox);
+          const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
+          tabTitle = verseListTitleHelper.getXrefsVerseListTitle(localizedReference);
           break;
       }
 

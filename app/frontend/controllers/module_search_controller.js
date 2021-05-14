@@ -323,7 +323,7 @@ class ModuleSearchController {
       currentTab.setBook(null, null, null);
       currentTab.setTagIdList("");
       currentTab.setXrefs(null);
-      currentTab.setVerseReferenceId(null);
+      currentTab.setVerseReferenceElementId(null);
       app_controller.tag_selection_menu.resetTagMenu();
 
       this.hideSearchMenu();

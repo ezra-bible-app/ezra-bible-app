@@ -321,7 +321,7 @@ class AppController {
                                                  null,
                                                  currentTab.getXrefs());
 
-        if (currentTab.getVerseReferenceId() != null) {
+        if (currentTab.getVerseReferenceElementId() != null) {
           await this.updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId);
         }
       }
@@ -859,7 +859,7 @@ class AppController {
 
     currentTab.setTextType('xrefs');
     currentTab.setXrefs(xrefs);
-    currentTab.setVerseReferenceId(xrefVerseReferenceId);
+    currentTab.setVerseReferenceElementId(xrefVerseReferenceId);
 
     app_controller.tab_controller.setCurrentTabXrefTitle(xrefTitle);
 
@@ -889,9 +889,9 @@ class AppController {
     if (referenceVerseBox != null) {
       localizedVerseReference = await this.verse_box_helper.getLocalizedVerseReference(referenceVerseBox[0]);
       var verseReferenceId = this.verse_box_helper.getVerseReferenceId(referenceVerseBox);
-      currentTab.setVerseReferenceId(verseReferenceId);
+      currentTab.setVerseReferenceElementId(verseReferenceId);
     } else {
-      currentTab.setVerseReferenceId(null);
+      currentTab.setVerseReferenceElementId(null);
     }
 
     app_controller.tab_controller.setCurrentTagTitleList(tagTitleList, localizedVerseReference);
