@@ -320,7 +320,7 @@ class ModuleSearchController {
 
       app_controller.tab_controller.setTabSearch(this.currentSearchTerm, tabIndex);
       // Set book, tagIdList and xrefs to null, since we just switched to search content
-      currentTab.setBook(null, null);
+      currentTab.setBook(null, null, null);
       currentTab.setTagIdList("");
       currentTab.setXrefs(null);
       currentTab.setVerseReferenceId(null);
