@@ -38,6 +38,7 @@ class TabController {
     this.tabTemplate = "<li><a href='#{href}'>#{label}</a> <span class='close-tab-button'><i class='fas fa-times'></i></span></li>",
     this.tabCounter = 1;
     this.nextTabId = 2;
+    /** @type Tab[] */
     this.metaTabs = [];
     this.loadingCompleted = false;
     this.lastSelectedTabIndex = null;

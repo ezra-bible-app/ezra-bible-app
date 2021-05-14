@@ -851,9 +851,9 @@ class AppController {
     var textTypeHeader = "";
 
     if (textType == 'xrefs') {
-      textTypeHeader = i18n.t('general.module-xrefs');
+      textTypeHeader = `<span i18n="general.module-xrefs">${i18n.t('general.module-xrefs')}</span>`;
     } else if (textType == 'tagged_verses') {
-      textTypeHeader = `${i18n.t('tags.verses-tagged-with')} <i>${currentTab.getTagTitleList()}</i>`;
+      textTypeHeader = `<span i18n="tags.verses-tagged-with">${i18n.t('tags.verses-tagged-with')}</span> <i>${currentTab.getTagTitleList()}</i>`;
     }
 
     referenceVerseContainer.innerHTML += "<div class='reference-verse-list-header'><h2>" + textTypeHeader + "</h2></div>";
