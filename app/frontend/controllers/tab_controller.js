@@ -789,29 +789,32 @@ class TabController {
     for (let i = 0; i < this.metaTabs.length; i++) {
       const currentMetaTab = this.metaTabs[i];
       let tabTitle = "";
+
       switch (currentMetaTab.getTextType()) {
         case 'book':
           tabTitle = await i18nHelper.getSwordTranslation(currentMetaTab.getBookTitle());
           break;
+
         case 'search_results':
           tabTitle = this.getSearchTabTitle(currentMetaTab.getSearchTerm());
           break;
-        case 'tagged_verses': {
-            const refTitle = currentMetaTab.getRefFromTitle();
-            if (refTitle) {
-              tabTitle += `${refTitle} &ndash; `;
-            }
-            if (platformHelper.isElectron()) {
-              tabTitle += `${i18n.t('tags.verses-tagged-with')} `;
-            }
-            tabTitle += `<i>${currentMetaTab.tagTitleList}</i>`;
+
+        case 'tagged_verses':
+          const refTitle = currentMetaTab.getRefFromTitle();
+          if (refTitle) {
+            tabTitle += `${refTitle} &ndash; `;
           }
-          break;  
-        case 'xrefs': {
-            tabTitle = `${currentMetaTab.getRefFromTitle()} &ndash; ${i18n.t("general.module-xrefs")}`;
+          if (platformHelper.isElectron()) {
+            tabTitle += `${i18n.t('tags.verses-tagged-with')} `;
           }
+          tabTitle += `<i>${currentMetaTab.tagTitleList}</i>`;
+          break;
+
+        case 'xrefs':
+          tabTitle = `${currentMetaTab.getRefFromTitle()} &ndash; ${i18n.t("general.module-xrefs")}`;
           break;
       }
+
       if (tabTitle !== "") {
         this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), i);
       }
