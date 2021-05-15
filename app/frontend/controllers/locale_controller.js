@@ -98,7 +98,6 @@ function preserveLocaleForStartup() {
 module.exports.changeLocale = async function(newLocale, saveSettings=true) {
 
   await i18n.changeLanguage(newLocale);
-
   preserveLocaleForStartup();
 
   if (saveSettings) {
@@ -106,17 +105,7 @@ module.exports.changeLocale = async function(newLocale, saveSettings=true) {
   }
 
   $(document).localize();
-
-  // Todo: Bind to event in respective dependent components instead
   window.reference_separator = i18n.t('general.chapter-verse-separator');
-  await app_controller.book_selection_menu.localizeBookSelectionMenu();
-  await app_controller.assign_last_tag_button.updateLabel();
-  await app_controller.verse_selection.updateSelectedVersesLabel();
-  await app_controller.tab_controller.updateTabTitleAfterLocaleChange();
-  app_controller.tab_controller.localizeTemplate();
-  await app_controller.updateTagsView(undefined, true);
-  tags_controller.refreshTagDialogs();
-
   await notifySubscribers(newLocale);
 }
 

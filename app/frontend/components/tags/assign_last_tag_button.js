@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
+const localeController = require('../../controllers/locale_controller.js');
 
 /**
  * The AssignLastTagButton always shows the latest used tag. It gets updated when
@@ -40,6 +41,10 @@ class AssignLastTagButton {
         await tags_controller.assignLastTag();
         uiHelper.hideTextLoadingIndicator();
       }
+    });
+
+    localeController.addLocaleChangeSubscriber(async () => {
+      await this.updateLabel();
     });
   }
 

@@ -49,7 +49,6 @@ const VerseStatisticsChart = require('../components/verse_statistics_chart.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 
-
 /**
  * AppController is Ezra Bible App's main controller class which initiates all other controllers and components.
  * It is only instantiated once and an instance is available at `global.app_controller`.
@@ -143,6 +142,10 @@ class AppController {
                              (event = undefined, ui = { 'index' : 0}) => { this.onTabSelected(event, ui); },
                              async (previousTabIndex, tabIndex) => { await this.onTabAdded(previousTabIndex, tabIndex); },
                              defaultBibleTranslationId);
+    
+    localeController.addLocaleChangeSubscriber(async () => {
+      await this.updateTagsView(undefined, true);
+    });
   }
 
   async onSearchResultsAvailable(occurances) {
