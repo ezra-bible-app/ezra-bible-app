@@ -73,7 +73,6 @@ class TagsController {
 
     localeController.addLocaleChangeSubscriber(async () => {
       this.refreshTagDialogs();
-      await this.updateTagsView(undefined, true);
     });
   }
 
@@ -774,7 +773,7 @@ class TagsController {
         tagStatistics: tag_statistics,
         current_book: current_book,
         current_filter: $('#tags-search-input').val(),
-        rename_tag_label: i18n.t("general.rename"),
+        rename_tag_label: i18n.t("tags.rename-tag-button"),
         delete_tag_label: i18n.t("tags.delete-tag-permanently"),
       });
 

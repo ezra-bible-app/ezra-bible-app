@@ -165,6 +165,7 @@
     "delete-tag-permanently": "Eliminar esta etiqueta permanentemente",
     "none-selected": "Nada",
     "rename-tag": "Renombrar etiqueta",
+    "rename-tag-button": "[Renombrar]",
     "title": "Título",
     "stats-used": "usado",
     "stats-total": "total",
