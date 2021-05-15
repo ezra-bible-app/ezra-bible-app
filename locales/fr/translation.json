@@ -134,7 +134,7 @@
     "versions-and-paths": "Versions et chemins",
     "app-language": "Application Language",
     "detect-locale": "Auto",
-    "detect-locale-descr": "Automaticaly detect locale based on system language"
+    "detect-locale-hint": "Automaticaly detect locale based on system language"
   },
   "help": {
     "help-text-no-tags-book-opened": "Pour commencer à utiliser les étiquettes, créez votre première étiquette en cliquant sur le bouton <i>Nouvelle étiquette</i>.<br/><br/>Ensuite, vous pouvez parcourir le texte biblique, cliquer ou faire glisser les versets, puis attribuer l'étiquette que vous venez de créer.",

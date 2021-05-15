@@ -134,7 +134,7 @@
     "versions-and-paths": "Versies en paden",
     "app-language": "Application Language",
     "detect-locale": "Auto",
-    "detect-locale-descr": "Automaticaly detect locale based on system language"
+    "detect-locale-hint": "Automaticaly detect locale based on system language"
   },
   "help": {
     "help-text-no-tags-book-opened": "Om te beginnen met tags te werken, maak uw eerste tag door te klikken op de knop  <i>Nieuwe&nbsp;tag</i>.<br/><br/>Daarna kunt u door de bijbeltekst bladeren, verzen aanklikken of slepen-selecteren en vervolgens de tag toewijzen die u zojuist hebt gemaakt.",
