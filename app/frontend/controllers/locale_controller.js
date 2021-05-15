@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 /**
- * This controller initializes app locale at startup and updates it on demand when changing the locale
+ * This controller initializes the app locale at startup and updates it on demand when changing the locale
  * @module locale_controller
  * @category Controller
  */
@@ -107,6 +107,10 @@ module.exports.changeLocale = async function(newLocale, saveSettings=true) {
   $(document).localize();
   window.reference_separator = i18n.t('general.chapter-verse-separator');
   await notifySubscribers(newLocale);
+  
+  // Since the new locale may require more or less space vertically we need to adjust
+  // the height of the app container now.
+  uiHelper.resizeAppContainer();
 }
 
 var localeSubscribers = [];
