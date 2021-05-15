@@ -695,7 +695,7 @@ class TabController {
 
         tagTitle += "<i>" + tagTitleList + "</i>";
 
-        this.setTabTitle(tagTitle, currentTranslationId);
+        this.setTabTitle(tagTitle, currentTranslationId, index);
         this.getTab(index).setTaggedVersesTitle(tagTitle);
       }
     }
@@ -709,7 +709,7 @@ class TabController {
       if (xrefTitle == "") {
         this.resetCurrentTabTitle();
       } else {
-        this.setTabTitle(xrefTitle, currentTranslationId);
+        this.setTabTitle(xrefTitle, currentTranslationId, index);
       }
     }
   }
