@@ -19,6 +19,7 @@
 const VerseBox = require("../ui_models/verse_box.js");
 const VerseReferenceHelper = require("../helpers/verse_reference_helper.js");
 const i18nHelper = require('../helpers/i18n_helper.js');
+const localeController = require('../controllers/locale_controller.js');
 
 /**
  * The VerseSelection component implements the label that shows the currently selected verses.
@@ -29,6 +30,10 @@ class VerseSelection {
   constructor() {
     this.selected_verse_references = null;
     this.selected_verse_box_elements = null;
+
+    localeController.addLocaleChangeSubscriber(async () => {
+      await this.updateSelectedVersesLabel();
+    });
   }
 
   initHelper(nsi) {

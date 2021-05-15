@@ -22,6 +22,7 @@ const i18nHelper = require('../helpers/i18n_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
+const localeController = require('../controllers/locale_controller.js');
 
 /**
  * The TabController manages the tab bar and the state of each tab.
@@ -88,6 +89,11 @@ class TabController {
     });
 
     this.initTabs();
+
+    localeController.addLocaleChangeSubscriber(async () => {
+      this.localizeTemplate();
+      await this.updateTabTitlesAfterLocaleChange();
+    });
   }
 
   initFirstTab() {
@@ -789,7 +795,7 @@ class TabController {
     }
   }
 
-  async updateTabTitleAfterLocaleChange() {
+  async updateTabTitlesAfterLocaleChange() {
     for (let i = 0; i < this.metaTabs.length; i++) {
       const currentMetaTab = this.metaTabs[i];
 

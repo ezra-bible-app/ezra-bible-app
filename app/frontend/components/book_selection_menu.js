@@ -18,6 +18,7 @@
 
 const i18nHelper = require('../helpers/i18n_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
+const localeController = require('../controllers/locale_controller.js');
    
 /**
  * The BookSelectionMenu component implements all event handling for the book selection menu.
@@ -52,6 +53,7 @@ class BookSelectionMenu {
     }
 
     this.initLinks();
+    this.subscribeForLocaleUpdates();
     this.init_completed = true;
   }
 
@@ -73,6 +75,12 @@ class BookSelectionMenu {
         app_controller.book_selection_menu.selectBibleBook(current_link_href, current_book_title, current_reference_book_title);
       });
     }
+  }
+
+  subscribeForLocaleUpdates() {
+    localeController.addLocaleChangeSubscriber(async () => {
+      this.localizeBookSelectionMenu();
+    });
   }
 
   // This function is rather slow and it delays app startup! (~175ms)
