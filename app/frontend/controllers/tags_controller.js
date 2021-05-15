@@ -71,8 +71,9 @@ class TagsController {
     this.renameStandardTagDialogInitDone = false;
     this.lastBook = null;
 
-    localeController.addLocaleChangeSubscriber(() => {
+    localeController.addLocaleChangeSubscriber(async () => {
       this.refreshTagDialogs();
+      await this.updateTagsView(undefined, true);
     });
   }
 
@@ -1237,6 +1238,21 @@ class TagsController {
   hideTagListLoadingIndicator() {
     var loadingIndicator = $('#tags-loading-indicator');
     loadingIndicator.hide();
+  }
+
+  async updateTagsView(tabIndex, forceRefresh = false) {
+    this.showTagListLoadingIndicator();
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
+
+    if (currentTab !== undefined) {
+      var currentTabBook = currentTab.getBook();
+      var currentTagIdList = currentTab.getTagIdList();
+      var currentSearchTerm = currentTab.getSearchTerm();
+      if ((currentTabBook != undefined && currentTabBook != null) || currentTagIdList != null || currentSearchTerm != null) {
+        await waitUntilIdle();
+        this.updateTagList(currentTabBook, forceRefresh);
+      }
+    }
   }
 }
 

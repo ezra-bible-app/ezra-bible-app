@@ -142,10 +142,6 @@ class AppController {
                              (event = undefined, ui = { 'index' : 0}) => { this.onTabSelected(event, ui); },
                              async (previousTabIndex, tabIndex) => { await this.onTabAdded(previousTabIndex, tabIndex); },
                              defaultBibleTranslationId);
-    
-    localeController.addLocaleChangeSubscriber(async () => {
-      await this.updateTagsView(undefined, true);
-    });
   }
 
   async onSearchResultsAvailable(occurances) {
@@ -224,7 +220,7 @@ class AppController {
     // Refresh tags view
     // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
     tags_controller.verses_were_selected_before = true;
-    await this.updateTagsView(ui.index);
+    await tags_controller.updateTagsView(ui.index);
 
     // Refresh tags selection menu (It's global!)
     await this.tag_selection_menu.updateTagSelectionMenu(ui.index);
@@ -648,21 +644,6 @@ class AppController {
 
     var cancelSearchButtonContainer = this.getCurrentSearchCancelButtonContainer(tabIndex);
     cancelSearchButtonContainer.hide();
-  }
-
-  async updateTagsView(tabIndex, forceRefresh = false) {
-    tags_controller.showTagListLoadingIndicator();
-    var currentTab = this.tab_controller.getTab(tabIndex);
-
-    if (currentTab !== undefined) {
-      var currentTabBook = currentTab.getBook();
-      var currentTagIdList = currentTab.getTagIdList();
-      var currentSearchTerm = currentTab.getSearchTerm();
-      if ((currentTabBook != undefined && currentTabBook != null) || currentTagIdList != null || currentSearchTerm != null) {
-        await waitUntilIdle();
-        tags_controller.updateTagList(currentTabBook, forceRefresh);
-      }
-    }
   }
 
   handleBodyClick(event) {
