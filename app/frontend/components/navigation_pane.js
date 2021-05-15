@@ -18,6 +18,7 @@
 
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
+const i18nHelper = require('../helpers/i18n_helper.js');
 
 /**
  * The NavigationPane class implements the update and event handling of the
@@ -400,7 +401,7 @@ class NavigationPane {
     }
 
     var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var separator = await getReferenceSeparator(bibleTranslationId);
+    var separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
 
     var currentTab = app_controller.tab_controller.getTab();
     var currentBook = currentTab.getBook();
