@@ -120,8 +120,8 @@ class TagsController {
     });
   }
 
-  initDeleteTagConfirmationDialog() {
-    if (this.deleteTagConfirmationDialogInitDone) {
+  initDeleteTagConfirmationDialog(force=false) {
+    if (!force && this.deleteTagConfirmationDialogInitDone) {
       return;
     }
 
