@@ -577,8 +577,13 @@ class AppController {
   async getLocalizedReferenceVerse(tabIndex=undefined) {
     var currentReferenceVerse = this.getCurrentReferenceVerse(tabIndex);
     var currentReferenceVerseBox = currentReferenceVerse[0].querySelector('.verse-box');
-    var localizedReference = await this.verse_box_helper.getLocalizedVerseReference(currentReferenceVerseBox);
-    return localizedReference;
+    var localizedReferenceVerse = "";
+
+    if (currentReferenceVerseBox != null) {
+      localizedReferenceVerse = await this.verse_box_helper.getLocalizedVerseReference(currentReferenceVerseBox);
+    }
+
+    return localizedReferenceVerse;
   }
 
   getCurrentVerseList(tabIndex=undefined) {
