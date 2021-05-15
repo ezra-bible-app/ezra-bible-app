@@ -259,7 +259,7 @@ class TextController {
       bookNotes = await ipcDb.getBookNotes(book_short_title);
     }
 
-    var separator = await getReferenceSeparator(currentBibleTranslationId);
+    var separator = await i18nHelper.getReferenceSeparator(currentBibleTranslationId);
 
     var verses_as_html = verseListTemplate({
       versification: versification,
@@ -276,7 +276,7 @@ class TextController {
       verseTags: verseTags,
       verseNotes: verseNotes,
       marked: this.marked,
-      reference_separator: separator,
+      referenceSeparator: separator,
       chapterText: book_short_title === 'Ps' ? "bible-browser.psalm": "bible-browser.chapter",
       helper: {
         getNotesTooltip: notesHelper.getTooltipText,
@@ -504,7 +504,7 @@ class TextController {
 
   async getVersesAsHtml(current_tab_id, tabIndex, bibleBooks, bookNames, bibleBookStats, groupedVerseTags, groupedVerseNotes, verses, versification, render_function, renderBibleBookHeaders=true, renderVerseMetaInfo=true) {    
     var bibleTranslationId = app_controller.tab_controller.getTabById(current_tab_id).getBibleTranslationId();
-    var separator = await getReferenceSeparator(bibleTranslationId);
+    var separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
     
     var verses_as_html = verseListTemplate({
       versification: versification,
@@ -518,7 +518,7 @@ class TextController {
       verseTags: groupedVerseTags,
       verseNotes: groupedVerseNotes,
       marked: this.marked,
-      reference_separator: separator,
+      referenceSeparator: separator,
       helper: {
         getNotesTooltip: notesHelper.getTooltipText,
         getLocalizedDate: i18nHelper.getLocalizedDate,

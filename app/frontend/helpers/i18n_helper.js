@@ -18,6 +18,23 @@
 
 const localeController = require('../controllers/locale_controller.js');
 
+module.exports.getReferenceSeparator = async function(moduleCode=undefined) {
+  if (moduleCode == undefined) {
+    
+    return reference_separator;
+
+  } else {
+    var moduleReferenceSeparator = reference_separator;
+    
+    try {
+      var localModule = await ipcNsi.getLocalModule(moduleCode);
+      moduleReferenceSeparator = await this.getSpecificTranslation(localModule.language, 'general.chapter-verse-separator');
+    } catch (e) {}
+    
+    return moduleReferenceSeparator;
+  }
+}
+
 module.exports.getSwordTranslation = async function(originalString) {
   return await ipcNsi.getSwordTranslation(originalString, i18n.language);
 }

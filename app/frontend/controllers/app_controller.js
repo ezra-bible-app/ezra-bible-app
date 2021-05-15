@@ -47,6 +47,7 @@ const InfoPopup = require("../components/info_popup.js");
 const TextSizeSettings = require("../components/text_size_settings.js");
 const VerseStatisticsChart = require('../components/verse_statistics_chart.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
+const i18nHelper = require('../helpers/i18n_helper.js');
 
 
 /**
@@ -152,7 +153,7 @@ class AppController {
     var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
 
     var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var separator = await getReferenceSeparator(bibleTranslationId);
+    var separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
 
     // Highlight occurances in navigation pane
     for (var i = 0; i < occurances.length; i++) {
@@ -515,7 +516,7 @@ class AppController {
   async copySelectedVersesToClipboard() {
     const { clipboard } = require('electron');
     var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var separator = await getReferenceSeparator(bibleTranslationId);
+    var separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
     
     var selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
     

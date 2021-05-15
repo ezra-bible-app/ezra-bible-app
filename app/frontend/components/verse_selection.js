@@ -275,7 +275,7 @@ class VerseSelection {
 
   async format_passage_reference_for_view(book_short_title, start_reference, end_reference) {
     var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var source_separator = await getReferenceSeparator(bibleTranslationId);
+    var source_separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
 
     var start_chapter = parseInt(start_reference.split(source_separator)[0]);
     var start_verse = parseInt(start_reference.split(source_separator)[1]);

@@ -114,7 +114,7 @@ each bibleBook in bibleBooks
         abs-verse-nr=verse.absoluteVerseNr,
         verse-bible-book-short=verse.bibleBookShortTitle)
 
-      - var verseReference = verse.chapter + reference_separator + verse.verseNr;
+      - var verseReference = verse.chapter + referenceSeparator + verse.verseNr;
       - var anchor = verseListId + " " + bibleBook.shortTitle + " " + verseReference;
       a(class='nav', name=anchor)
 

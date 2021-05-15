@@ -51,23 +51,6 @@ $.create_xml_doc = function(string)
   return doc;
 }
 
-window.getReferenceSeparator = async function(moduleCode=undefined) {
-  if (moduleCode == undefined) {
-    
-    return reference_separator;
-
-  } else {
-    var moduleReferenceSeparator = reference_separator;
-    
-    try {
-      var localModule = await ipcNsi.getLocalModule(moduleCode);
-      moduleReferenceSeparator = await require('./helpers/i18n_helper.js').getSpecificTranslation(localModule.language, 'general.chapter-verse-separator');
-    } catch (e) {}
-    
-    return moduleReferenceSeparator;
-  }
-}
-
 window.addEventListener('load', function() {
   console.log("load event fired!");
 

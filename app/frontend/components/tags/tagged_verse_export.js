@@ -78,7 +78,7 @@ class TaggedVerseExport {
 
   async renderVerseBlocks(paragraph, bibleBook, verseBlocks) {
     var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var separator = await getReferenceSeparator(bibleTranslationId);
+    var separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
 
     for (var j = 0; j < verseBlocks.length; j++) {
       var currentBlock = verseBlocks[j];

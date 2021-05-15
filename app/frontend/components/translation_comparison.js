@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const VerseBox = require("../ui_models/verse_box.js");
+const i18nHelper = require('../helpers/i18n_helper.js');
 
 /**
  * The TranslationComparison component implements a dialog that shows selected verses
@@ -93,7 +94,7 @@ class TranslationComparison {
 
       verseHtml += "<td></td>";
     } else {
-      var moduleReferenceSeparator = await getReferenceSeparator(targetTranslationId);
+      var moduleReferenceSeparator = await i18nHelper.getReferenceSeparator(targetTranslationId);
       var targetVerseReference = targetTranslationVerse.chapter + moduleReferenceSeparator + targetTranslationVerse.verseNr;
       
       if (totalVerseCount > 1) {
