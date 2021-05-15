@@ -17,11 +17,10 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 /**
- * This module inits and updates app locale
+ * This controller initializes app locale at startup and updates it on demand when changing the locale
  * @module locale_controller
  * @category Controller
  */
-
 
 const AVAILABLE_LOCALES = ['de', 'en', 'nl', 'fr', 'es', 'sk', 'uk', 'ru'];
 const FALLBACK_LOCALE = 'en';
@@ -48,7 +47,7 @@ module.exports.initI18N = async function() {
   window.i18n = require('i18next');
   const I18nIpcBackend = require('../ipc/i18n_ipc_backend.js');
 
-let LanguageDetector = null;
+  let LanguageDetector = null;
 
   if (platformHelper.isElectron()) {
     LanguageDetector = require('i18next-electron-language-detector');
@@ -78,6 +77,8 @@ let LanguageDetector = null;
   if (await ipcSettings.has(SETTINGS_KEY)) {
     await i18n.changeLanguage(await ipcSettings.get(SETTINGS_KEY, FALLBACK_LOCALE));
   }
+
+  // We need to save some locale strings separately, so that they are accessible at startup before i18next is available
   preserveLocaleForStartup();
 
   if (platformHelper.isTest()) { // Use English for test mode
