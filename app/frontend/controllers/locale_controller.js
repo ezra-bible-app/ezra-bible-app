@@ -78,6 +78,7 @@ let LanguageDetector = null;
   if (await ipcSettings.has(SETTINGS_KEY)) {
     await i18n.changeLanguage(await ipcSettings.get(SETTINGS_KEY, FALLBACK_LOCALE));
   }
+  preserveLocaleForStartup();
 
   if (platformHelper.isTest()) { // Use English for test mode
     await i18n.changeLanguage('en');
@@ -86,9 +87,18 @@ let LanguageDetector = null;
   window.reference_separator = i18n.t('general.chapter-verse-separator');
 }
 
+function preserveLocaleForStartup() {
+  if (window.localStorage) {
+    let localeStorage = window.localStorage;
+    localeStorage.setItem('loading', i18n.t('general.loading'));
+  }
+}
+
 module.exports.changeLocale = async function(newLocale, saveSettings=true) {
 
   await i18n.changeLanguage(newLocale);
+
+  preserveLocaleForStartup();
 
   if (saveSettings) {
     await ipcSettings.set(SETTINGS_KEY, newLocale);

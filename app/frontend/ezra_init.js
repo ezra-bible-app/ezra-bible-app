@@ -51,8 +51,18 @@ $.create_xml_doc = function(string)
   return doc;
 }
 
+function earlyRestoreLocalizedString() {
+  const loadingStr = window.localStorage && window.localStorage.getItem('loading');
+  const loadingElement = document.querySelector('[i18n="general.loading"]');
+  if (loadingElement) {
+    loadingElement.textContent = loadingStr || 'Loading';
+  }
+}
+
 window.addEventListener('load', function() {
   console.log("load event fired!");
+
+  earlyRestoreLocalizedString();
 
   if (platformHelper.isCordova()) {
 
