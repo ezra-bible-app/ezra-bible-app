@@ -105,7 +105,7 @@
     "jsdoc": "^3.6.6",
     "node-abi": "^2.18.0",
     "node-gyp": "^8.0.0",
-    "npm-check-updates": "^10.1.1",
+    "npm-check-updates": "^11.5.13",
     "pug-cli": "^1.0.0-alpha6",
     "sequelize-cli": "^5.5.1",
     "spectron": "^11.1.0",
