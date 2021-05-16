@@ -143,7 +143,7 @@ class AppController {
                              defaultBibleTranslationId);
   }
 
-  async onSearchResultsAvailable(occurances) {
+  async onTabSearchResultsAvailable(occurances) {
     // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
     await this.dictionary_controller.bindAfterBibleTextLoaded();
 
@@ -292,7 +292,7 @@ class AppController {
       '.tab-search-next',
       '.tab-search-is-case-sensitive',
       '.tab-search-type',
-      async (occurances) => { await this.onSearchResultsAvailable(occurances); },
+      async (occurances) => { await this.onTabSearchResultsAvailable(occurances); },
       () => { this.onSearchReset(); }
     );
 
@@ -809,7 +809,6 @@ class AppController {
 
   clearReferenceVerse(tabIndex=undefined) {
     var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-    var currentVerseList = this.getCurrentVerseList(tabIndex);
     var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
 
     referenceVerseContainer.innerHTML = '';
