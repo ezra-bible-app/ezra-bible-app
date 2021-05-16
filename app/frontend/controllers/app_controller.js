@@ -181,7 +181,7 @@ class AppController {
     }
   }
 
-  onSearchReset() {
+  onTabSearchReset() {
     this.navigation_pane.clearHighlightedSearchResults();
 
     // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
@@ -293,7 +293,7 @@ class AppController {
       '.tab-search-is-case-sensitive',
       '.tab-search-type',
       async (occurances) => { await this.onTabSearchResultsAvailable(occurances); },
-      () => { this.onSearchReset(); }
+      () => { this.onTabSearchReset(); }
     );
 
     // We need to refresh the last used tag button, because the button is not yet initialized in the tab html template
