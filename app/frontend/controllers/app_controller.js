@@ -1075,6 +1075,13 @@ class AppController {
       var lastUsedLanguage = await ipcSettings.get('lastUsedLanguage', undefined);
       var currentLanguage = i18n.language;
 
+      /*
+      console.log("Last version: " + lastUsedVersion);
+      console.log("Current version: " + currentVersion);
+      console.log("Last used language: " + lastUsedLanguage);
+      console.log("Current language: " + currentLanguage);
+      */
+
       return currentVersion != lastUsedVersion || currentLanguage != lastUsedLanguage;
   }
 }
