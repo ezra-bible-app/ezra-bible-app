@@ -28,8 +28,11 @@ class IpcRenderer {
       const { ipcRenderer } = require('electron');
       this._electronIpcRenderer = ipcRenderer;
     } else if (this._isCordova) {
+      const { Mutex } = require('async-mutex');
+      this.callCounter = 0;
       this.returnValues = {};
       this.waitCounters = {};
+      this.ipcLock = new Mutex();
     }
   }
 
@@ -78,6 +81,14 @@ class IpcRenderer {
   }
 
   async cordovaIpcCall(functionName, timeoutMs, ...args) {
+    /* What follows is a critical section and this code is not re-entrant.
+       The reason is that the functionName we are using as reference is unique for this function call.
+       If the same function would be executed twice (asynchronously) we would not be able to match the response
+       with the correct calling instance. Therefore we use a lock/semaphore to protect this critical section and release
+       it again before returning.
+     */
+    const releaseIpcLock = await this.ipcLock.acquire();
+
     if (!this.returnValues.hasOwnProperty(functionName)) {
       this.registerNodeCallback(functionName);
     }
@@ -94,6 +105,7 @@ class IpcRenderer {
       console.error("Did not get node response for " + functionName);
     }
 
+    releaseIpcLock();
     return result;
   }
 
