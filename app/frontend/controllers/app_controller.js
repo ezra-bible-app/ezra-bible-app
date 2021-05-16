@@ -211,7 +211,9 @@ class AppController {
 
     // Re-configure tab search
     var currentVerseList = this.getCurrentVerseList(ui.index);
-    metaTab.tab_search.setVerseList(currentVerseList);
+    if (metaTab.tab_search != null) {
+      metaTab.tab_search.setVerseList(currentVerseList);
+    }
 
     // Clear verse selection
     this.verse_selection.clear_verse_selection();
