@@ -133,11 +133,8 @@ class BookSelectionMenu {
     currentTab.setTextType('book');
     app_controller.tab_controller.setCurrentTabBook(book_code, book_title);
 
-    app_controller.tag_selection_menu.hideTagMenu();
     app_controller.tag_selection_menu.resetTagMenu();
-    app_controller.module_search_controller.hideSearchMenu();
     app_controller.module_search_controller.resetSearch();
-    app_controller.tag_assignment_menu.hideTagAssignmentMenu();
 
     await app_controller.text_controller.prepareForNewText(true, false);
 
