@@ -409,6 +409,7 @@ class ModuleSearchController {
                                                              null,
                                                              currentSearchResults,
                                                              null,
+                                                             null,
                                                              tabIndex,
                                                              searchResultBookId,
                                                              target);

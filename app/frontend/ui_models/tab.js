@@ -21,6 +21,7 @@ class Tab {
     this.elementId = null;
     this.book = null;
     this.bookTitle = null;
+    this.chapter = null;
     this.tagIdList = "";
     this.tagTitleList = "";
     this.taggedVersesTitle = null;
@@ -81,6 +82,14 @@ class Tab {
 
   getBook() {
     return this.book;
+  }
+
+  getChapter() {
+    return this.chapter;
+  }
+
+  setChapter(chapter) {
+    this.chapter = chapter;
   }
 
   setTagIdList(tagIdList) {

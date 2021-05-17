@@ -205,7 +205,8 @@ class BookSelectionMenu {
                                                              null,
                                                              null,
                                                              null,
-                                                             null);
+                                                             null,
+                                                             chapter);
 
       await waitUntilIdle();
       tags_controller.updateTagList(currentBook);

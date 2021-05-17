@@ -286,6 +286,7 @@ class TabController {
           currentMetaTab.cachedReferenceVerse,
           null,
           currentMetaTab.xrefs,
+          currentMetaTab.chapter,
           i
         );
 

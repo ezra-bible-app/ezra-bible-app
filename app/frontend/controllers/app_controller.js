@@ -320,7 +320,8 @@ class AppController {
                                                  null,
                                                  null,
                                                  null,
-                                                 currentTab.getXrefs());
+                                                 currentTab.getXrefs(),
+                                                 currentTab.getChapter());
 
         if (currentTab.getVerseReferenceId() != null) {
           await this.updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId);

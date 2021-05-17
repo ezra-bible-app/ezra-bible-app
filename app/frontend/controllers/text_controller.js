@@ -19,6 +19,7 @@
 const PlatformHelper = require('../../lib/platform_helper.js');
 const notesHelper = require('../helpers/notes_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
+const VerseReferenceHelper = require('../helpers/verse_reference_helper.js');
 
 /**
  * The TextController is used to load bible text into the text area of a tab.
@@ -34,6 +35,7 @@ class TextController {
     loadScript("app/templates/verse_list.js");
     this.marked = require("marked");
     this.platformHelper = new PlatformHelper();
+    this.verseReferenceHelper = new VerseReferenceHelper(ipcNsi);
   }
 
   async prepareForNewText(resetView, isSearch=false, tabIndex=undefined) {
@@ -88,6 +90,7 @@ class TextController {
                           cachedReferenceVerse,
                           searchResults,
                           xrefs,
+                          chapter=undefined,
                           tabIndex=undefined,
                           searchResultBookId=-1,
                           target=undefined) {
@@ -109,22 +112,37 @@ class TextController {
         await this.renderVerseList(cachedText, cachedReferenceVerse, 'book', tabIndex, false, true);
       } else {
 
-        // 1) Only request the first 50 verses and render immediately
-        await this.requestBookText(tabIndex, tabId, book,
-          async (htmlVerseList) => { 
-            await this.renderVerseList(htmlVerseList, null, 'book', tabIndex);
-          }, 1, 50
-        );
+        if (chapter == null) {
+          // 1) Only request the first 50 verses and render immediately
+          await this.requestBookText(tabIndex, tabId, book,
+            async (htmlVerseList) => { 
+              await this.renderVerseList(htmlVerseList, null, 'book', tabIndex);
+            }, 1, 50
+          );
 
-        await waitUntilIdle();
+          await waitUntilIdle();
 
-        // 2) Now request the rest of the book
-        await this.requestBookText(
-          tabIndex, tabId, book,
-          async (htmlVerseList) => { 
-            await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, true);
-          }, 51, -1
-        );
+          // 2) Now request the rest of the book
+          await this.requestBookText(
+            tabIndex, tabId, book,
+            async (htmlVerseList) => { 
+              await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, true);
+            }, 51, -1
+          );
+        } else { // chapter is set
+
+          var currentBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
+          var separator = await getReferenceSeparator(currentBibleTranslationId);
+          var reference = chapter + separator + '1';
+          var startVerseNr = await this.verseReferenceHelper.referenceStringToAbsoluteVerseNr(currentBibleTranslationId, book, reference);
+          var verseCount = await ipcNsi.getChapterVerseCount(currentBibleTranslationId, book, chapter);
+
+          await this.requestBookText(tabIndex, tabId, book,
+            async (htmlVerseList) => { 
+              await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, true);
+            }, startVerseNr, verseCount
+          );
+        }
       }
 
     } else if (textType == 'tagged_verses') { // Tagged verse list mode
