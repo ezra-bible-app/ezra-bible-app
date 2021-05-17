@@ -22,7 +22,8 @@ const i18nHelper = require('../helpers/i18n_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
-const localeController = require('../controllers/locale_controller.js');
+const localeController = require('./locale_controller.js');
+const cacheController = require('./cache_controller.js');
 
 /**
  * The TabController manages the tab bar and the state of each tab.
@@ -233,26 +234,9 @@ class TabController {
     return loadedTabCount;
   }
 
-  async isCacheOutdated() {
-    var tabConfigTimestamp = await ipcSettings.get('tabConfigurationTimestamp', null, 'html-cache');
-    if (tabConfigTimestamp != null) {
-      tabConfigTimestamp = new Date(tabConfigTimestamp);
-
-      var dbUpdateTimestamp = new Date(await ipcDb.getLastMetaRecordUpdate());
-
-      if (dbUpdateTimestamp != null && dbUpdateTimestamp.getTime() > tabConfigTimestamp.getTime()) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
-  }
-
   async populateFromMetaTabs() {
-    var cacheOutdated = await this.isCacheOutdated();
-    var cacheInvalid = await app_controller.isCacheInvalid();
+    var cacheOutdated = await cacheController.isCacheOutdated();
+    var cacheInvalid = await cacheController.isCacheInvalid();
 
     if (cacheOutdated) {
       console.log("Tab content cache is outdated. Database has been updated in the meantime!");

@@ -41,7 +41,6 @@ const TranslationComparison = require("../components/translation_comparison.js")
 const BookSelectionMenu = require("../components/book_selection_menu.js");
 const DictionaryController = require("./dictionary_controller.js");
 const NotesController = require("./notes_controller.js");
-const localeController = require("./locale_controller.js");
 const SwordNotes = require("../components/sword_notes.js");
 const InfoPopup = require("../components/info_popup.js");
 const TextSizeSettings = require("../components/text_size_settings.js");
@@ -1066,22 +1065,6 @@ class AppController {
   }
 */
 
-  async isCacheInvalid() {
-      var lastUsedVersion = await ipcSettings.get('lastUsedVersion', undefined);
-      var currentVersion = await ipcGeneral.getAppVersion();
-
-      var lastUsedLanguage = await ipcSettings.get('lastUsedLanguage', undefined);
-      var currentLocale = localeController.getLocale();
-
-      /*
-      console.log("Last version: " + lastUsedVersion);
-      console.log("Current version: " + currentVersion);
-      console.log("Last used language: " + lastUsedLanguage);
-      console.log("Current language: " + currentLanguage);
-      */
-
-      return currentVersion != lastUsedVersion || currentLanguage != lastUsedLanguage;
-  }
 }
 
 module.exports = AppController;
