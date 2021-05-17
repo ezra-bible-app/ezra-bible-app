@@ -127,7 +127,7 @@ class Startup
     var verseListTabs = fs.readFileSync('html/verse_list_tabs.html');
     var boxes = fs.readFileSync('html/boxes.html');
   
-    document.getElementById('book-selection-menu').innerHTML = bookSelectionMenu;
+    document.getElementById('book-selection-menu-book-list').innerHTML = bookSelectionMenu;
     document.getElementById('tag-selection-menu').innerHTML = tagSelectionMenu;
     document.getElementById('tag-assignment-menu').innerHTML = tagAssignmentMenu;
     document.getElementById('bible-browser-toolbox').innerHTML = bibleBrowserToolbox;

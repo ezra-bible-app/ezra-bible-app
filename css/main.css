@@ -597,6 +597,10 @@ h2 {
   border-top: 1px solid #DDDDDD;
 }
 
+#book-selection-menu-chapter-list {
+  display: none;
+}
+
 .book-list-column {
   float: left;
   width: 10em;

@@ -17,6 +17,8 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
+
+const INSTANT_LOADING_CHAPTER_LIMIT = 15;
    
 /**
  * The BookSelectionMenu component implements all event handling for the book selection menu.
@@ -41,7 +43,7 @@ class BookSelectionMenu {
 
     if (!cacheInvalid && hasCachedBookSelectionMenu) {
       var cachedHtml = await ipcSettings.get('bookSelectionMenuCache');
-      var menu = $('#app-container').find('#book-selection-menu');
+      var menu = $('#app-container').find('#book-selection-menu-book-list');
 
       menu.innerHTML = cachedHtml;
 
@@ -55,7 +57,7 @@ class BookSelectionMenu {
   }
 
   initLinks() {
-    var menu = $('#app-container').find('#book-selection-menu');
+    var menu = $('#app-container').find('#book-selection-menu-book-list');
     var links = menu.find('a');
 
     for (var i = 0; i < links.length; i++) {
@@ -75,7 +77,7 @@ class BookSelectionMenu {
 
   // This function is rather slow and it delays app startup! (~175ms)
   async localizeBookSelectionMenu() {
-    var aElements = document.getElementById("book-selection-menu").querySelectorAll('a');
+    var aElements = document.getElementById("book-selection-menu-book-list").querySelectorAll('a');
 
     for (var i = 0; i < aElements.length; i++) {
       var currentBook = aElements[i];
@@ -92,7 +94,7 @@ class BookSelectionMenu {
 
       if (currentBibleTranslationId != null) {
         var books = await ipcNsi.getBookList(currentBibleTranslationId);
-        var book_links = document.getElementById('book-selection-menu').querySelectorAll('li');
+        var book_links = document.getElementById('book-selection-menu-book-list').querySelectorAll('li');
 
         for (var i = 0; i < book_links.length; i++) {
           var current_book_link = book_links[i];
@@ -126,6 +128,17 @@ class BookSelectionMenu {
       return;
     }
 
+    const bookChapterCount = await ipcNsi.getBookChapterCount(currentBibleTranslationId, book_code);
+
+    if (bookChapterCount <= INSTANT_LOADING_CHAPTER_LIMIT) {
+      console.log(`Instantly loading ${book_title} (Chapter count: ${bookChapterCount} )`);
+      this.loadBook(book_code, book_title);
+    } else {
+      console.log(`Showing chapter list for ${book_title} ...`);
+    }
+  }
+
+  async loadBook(book_code, book_title) {
     app_controller.book_selection_menu.hideBookMenu();
     app_controller.book_selection_menu.highlightSelectedBookInMenu(book_code);
 
@@ -224,7 +237,7 @@ class BookSelectionMenu {
     
     // Highlight the newly selected book
     var bookId = '.book-' + book_code;
-    $('#book-selection-menu').find(bookId).addClass('book-selected');
+    $('#book-selection-menu-book-list').find(bookId).addClass('book-selected');
   }
 }
 

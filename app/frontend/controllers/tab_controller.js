@@ -151,7 +151,7 @@ class TabController {
 
   async saveBookSelectionMenu() {
     if (this.persistanceEnabled) {
-      var html = document.getElementById("book-selection-menu").innerHTML;
+      var html = document.getElementById("book-selection-menu-book-list").innerHTML;
 
       await ipcSettings.set('bookSelectionMenuCache', html, 'html-cache');
     }
