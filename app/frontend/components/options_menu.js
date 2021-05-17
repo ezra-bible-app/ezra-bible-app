@@ -79,6 +79,8 @@ class OptionsMenu {
       app_controller.textSizeSettings.updateTagsNotes(this._textSizeAdjustTagsNotesOption.isChecked); 
     }, true);
 
+    this._selectChapterBeforeLoadingOption = this.initConfigOption('selectChapterBeforeLoadingOption', () => {});
+
     this._nightModeOption = this.initConfigOption('useNightModeOption', async () => {
       this.hideDisplayMenu();
       uiHelper.showGlobalLoadingIndicator();

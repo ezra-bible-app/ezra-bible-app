@@ -207,6 +207,7 @@
     "show-notes": "Show notes",
     "limit-notes-display-size": "Limit notes display size",
     "use-tags-column": "Use tags column",
+    "select-chapter-before-loading": "Select chapter before loading",
     "use-night-mode": "Night mode",
     "keep-screen-on": "Keep screen on",
     "tag-statistics": "Tag statistics",

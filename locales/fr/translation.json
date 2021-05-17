@@ -207,6 +207,7 @@
     "show-notes": "Montrer les notes",
     "limit-notes-display-size": "Limiter la taille des notes",
     "use-tags-column": "Utiliser des colonnes d'étiquettes",
+    "select-chapter-before-loading": "Select chapter before loading",
     "use-night-mode": "Mode nuit",
     "keep-screen-on": "Garder l'écran allumé",
     "tag-statistics": "Statistiques des étiquettes",

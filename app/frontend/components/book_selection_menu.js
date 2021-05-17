@@ -129,6 +129,7 @@ class BookSelectionMenu {
     }
 
     const bookChapterCount = await ipcNsi.getBookChapterCount(currentBibleTranslationId, bookCode);
+    const selectChapterBeforeLoading = app_controller.optionsMenu._selectChapterBeforeLoadingOption;
 
     if (bookChapterCount <= INSTANT_LOADING_CHAPTER_LIMIT) {
 
@@ -136,19 +137,23 @@ class BookSelectionMenu {
       this.loadBook(bookCode, bookTitle);
 
     } else {
-      
-      this.loadBook(bookCode, bookTitle, 1);
 
-      /*console.log(`Showing chapter list for ${bookTitle} ` +
-                  `since its chapter count (${bookChapterCount}) is above the limit for instant loading!`);
-      
-      var menuBookList = document.getElementById('book-selection-menu-book-list');
-      menuBookList.style.display = 'none';
+      if (selectChapterBeforeLoading.isChecked) {
 
-      this.currentBookCode = bookCode;
-      this.currentBookTitle = bookTitle;
+        console.log(`Showing chapter list for ${bookTitle} ` +
+                    `since its chapter count (${bookChapterCount}) is above the limit for instant loading!`);
+        
+        var menuBookList = document.getElementById('book-selection-menu-book-list');
+        menuBookList.style.display = 'none';
 
-      this.loadChapterList(bookChapterCount);*/
+        this.currentBookCode = bookCode;
+        this.currentBookTitle = bookTitle;
+
+        this.loadChapterList(bookChapterCount);
+
+      } else {
+        this.loadBook(bookCode, bookTitle, 1);
+      }
     }
   }
 
