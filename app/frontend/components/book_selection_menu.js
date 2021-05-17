@@ -19,6 +19,7 @@
 const i18nHelper = require('../helpers/i18n_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const localeController = require('../controllers/locale_controller.js');
+const cacheController = require('../controllers/cache_controller.js');
    
 /**
  * The BookSelectionMenu component implements all event handling for the book selection menu.
@@ -34,19 +35,13 @@ class BookSelectionMenu {
   async init() {
     if (this.init_completed) return;
 
-    var menu = $('#app-container').find('#book-selection-menu');
-    menu.bind('click', app_controller.handleBodyClick);
+    const menu = document.querySelector('#app-container #book-selection-menu');
+    menu.addEventListener('click', app_controller.handleBodyClick);
 
-    var cacheInvalid = await app_controller.isCacheInvalid();
+    var cachedHtml = await cacheController.getCachedItem('bookSelectionMenuCache');
 
-    var hasCachedBookSelectionMenu = await ipcSettings.has('bookSelectionMenuCache', 'html-cache');
-
-    if (!cacheInvalid && hasCachedBookSelectionMenu) {
-      var cachedHtml = await ipcSettings.get('bookSelectionMenuCache');
-      var menu = $('#app-container').find('#book-selection-menu');
-
+    if (cachedHtml) {
       menu.innerHTML = cachedHtml;
-
     } else {
       console.log("Localizing book selection menu ...")
       await this.localizeBookSelectionMenu();
@@ -85,7 +80,7 @@ class BookSelectionMenu {
 
   // This function is rather slow and it delays app startup! (~175ms)
   async localizeBookSelectionMenu() {
-    var aElements = document.getElementById("book-selection-menu").querySelectorAll('a');
+    var aElements = document.querySelectorAll("#book-selection-menu a");
 
     for (var i = 0; i < aElements.length; i++) {
       var currentBook = aElements[i];
