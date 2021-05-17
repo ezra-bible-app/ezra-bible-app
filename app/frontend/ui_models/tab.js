@@ -74,14 +74,19 @@ class Tab {
     return i18n.t("menu.search") + ": " + searchTerm;
   }
 
-  setBook(bookCode, bookTitle) {
+  setBook(bookCode, bookTitle, chapter) {
     this.searchResults = null;
     this.book = bookCode;
     this.bookTitle = bookTitle;
+    this.chapter = chapter;
   }
 
   getBook() {
     return this.book;
+  }
+
+  getBookTitle() {
+    return this.bookTitle;
   }
 
   getChapter() {

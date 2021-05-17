@@ -136,8 +136,10 @@ class BookSelectionMenu {
       this.loadBook(bookCode, bookTitle);
 
     } else {
+      
+      this.loadBook(bookCode, bookTitle, 1);
 
-      console.log(`Showing chapter list for ${bookTitle} ` +
+      /*console.log(`Showing chapter list for ${bookTitle} ` +
                   `since its chapter count (${bookChapterCount}) is above the limit for instant loading!`);
       
       var menuBookList = document.getElementById('book-selection-menu-book-list');
@@ -146,7 +148,7 @@ class BookSelectionMenu {
       this.currentBookCode = bookCode;
       this.currentBookTitle = bookTitle;
 
-      this.loadChapterList(bookChapterCount);
+      this.loadChapterList(bookChapterCount);*/
     }
   }
 
@@ -178,7 +180,7 @@ class BookSelectionMenu {
 
     var currentTab = app_controller.tab_controller.getTab();
     currentTab.setTextType('book');
-    app_controller.tab_controller.setCurrentTabBook(bookCode, bookTitle);
+    app_controller.tab_controller.setCurrentTabBook(bookCode, bookTitle, chapter);
 
     app_controller.tag_selection_menu.resetTagMenu();
     app_controller.module_search_controller.resetSearch();

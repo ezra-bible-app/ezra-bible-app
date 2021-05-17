@@ -865,7 +865,7 @@ class AppController {
     app_controller.tab_controller.setCurrentTabXrefTitle(xrefTitle);
 
     // Set book, search term and tag id list to null, since we just switched to xrefs
-    currentTab.setBook(null, null);
+    currentTab.setBook(null, null, null);
     currentTab.setSearchTerm(null);
     currentTab.setTagIdList("");
 
@@ -898,7 +898,7 @@ class AppController {
     app_controller.tab_controller.setCurrentTagTitleList(tagTitleList, localizedVerseReference);
 
     // Set book, search term and xrefs to null, since we just switched to a tag
-    currentTab.setBook(null, null);
+    currentTab.setBook(null, null, null);
     currentTab.setSearchTerm(null);
     currentTab.setXrefs(null);
     

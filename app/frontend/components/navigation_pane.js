@@ -364,16 +364,21 @@ class NavigationPane {
 
   goToChapter(chapter) {
     this.highlightNavElement(chapter, true);
+    var currentTab = app_controller.tab_controller.getTab();
 
-    var reference = '#top';
-
-    if (chapter > 1 || app_controller.optionsMenu._bookIntroOption.isChecked) {
-      var cachedVerseListTabId = this.getCachedVerseListTabId();
-      reference = '#' + cachedVerseListTabId + ' ' + chapter;
-      window.location = reference;
+    if (currentTab.getChapter() != null) {
+      app_controller.book_selection_menu.loadBook(currentTab.getBook(), currentTab.getBookTitle(), chapter);
     } else {
-      var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
-      currentVerseListFrame[0].scrollTop = 0;
+      var reference = '#top';
+
+      if (chapter > 1 || app_controller.optionsMenu._bookIntroOption.isChecked) {
+        var cachedVerseListTabId = this.getCachedVerseListTabId();
+        reference = '#' + cachedVerseListTabId + ' ' + chapter;
+        window.location = reference;
+      } else {
+        var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
+        currentVerseListFrame[0].scrollTop = 0;
+      }
     }
   }
 
@@ -387,7 +392,6 @@ class NavigationPane {
 
   goToBook(book, bookNr) {
     this.highlightNavElement(bookNr, true, "OTHER");
-
     var cachedVerseListTabId = this.getCachedVerseListTabId();
     var reference = '#' + cachedVerseListTabId + ' ' + book;
     window.location = reference;

@@ -596,7 +596,7 @@ class TabController {
     this.getTab().setTagIdList("");
     this.getTab().setXrefs(null);
     this.getTab().setVerseReferenceId(null);
-    this.setCurrentTabBook(null, "");
+    this.setCurrentTabBook(null, "", null);
     this.resetCurrentTabTitle();
     await this.deleteTabConfiguration();
   }
@@ -659,8 +659,8 @@ class TabController {
     this.setTabTitle(currentTabTitle, bibleTranslationId);
   }
 
-  setCurrentTabBook(bookCode, bookTitle) {
-    this.getTab().setBook(bookCode, bookTitle);
+  setCurrentTabBook(bookCode, bookTitle, chapter) {
+    this.getTab().setBook(bookCode, bookTitle, chapter);
     var currentTranslationId = this.getTab().getBibleTranslationId();
 
     if (bookTitle != undefined && bookTitle != null) {
