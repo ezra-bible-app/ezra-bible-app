@@ -43,9 +43,9 @@ class BookSelectionMenu {
 
     if (!cacheInvalid && hasCachedBookSelectionMenu) {
       var cachedHtml = await ipcSettings.get('bookSelectionMenuCache');
-      var menu = $('#app-container').find('#book-selection-menu-book-list');
+      var menuBookList = $('#app-container').find('#book-selection-menu-book-list');
 
-      menu.innerHTML = cachedHtml;
+      menuBookList.innerHTML = cachedHtml;
 
     } else {
       console.log("Localizing book selection menu ...")
@@ -68,9 +68,9 @@ class BookSelectionMenu {
         event.stopPropagation();
 
         var current_link_href = $(event.target).attr('href');
-        var current_book_title = $(event.target).html();
+        var current_bookTitle = $(event.target).html();
 
-        app_controller.book_selection_menu.selectBibleBook(current_link_href, current_book_title);
+        app_controller.book_selection_menu.selectBibleBook(current_link_href, current_bookTitle);
       });
     }
   }
@@ -113,38 +113,72 @@ class BookSelectionMenu {
     }
   }
 
-  async selectBibleBook(book_code, book_title) {
+  async selectBibleBook(bookCode, bookTitle) {
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     if (currentBibleTranslationId == null || currentBibleTranslationId == undefined) {
       return;
     }
 
     Sentry.addBreadcrumb({category: "app",
-                          message: `Selected book ${book_code} using translation ${currentBibleTranslationId}`,
+                          message: `Selected book ${bookCode} using translation ${currentBibleTranslationId}`,
                           level: Sentry.Severity.Info});
     
     var books = await ipcNsi.getBookList(currentBibleTranslationId);
-    if (!books.includes(book_code)) {
+    if (!books.includes(bookCode)) {
       return;
     }
 
-    const bookChapterCount = await ipcNsi.getBookChapterCount(currentBibleTranslationId, book_code);
+    const bookChapterCount = await ipcNsi.getBookChapterCount(currentBibleTranslationId, bookCode);
 
     if (bookChapterCount <= INSTANT_LOADING_CHAPTER_LIMIT) {
-      console.log(`Instantly loading ${book_title} (Chapter count: ${bookChapterCount} )`);
-      this.loadBook(book_code, book_title);
+
+      console.log(`Instantly loading ${bookTitle} (Chapter count: ${bookChapterCount})`);
+      this.loadBook(bookCode, bookTitle);
+
     } else {
-      console.log(`Showing chapter list for ${book_title} ...`);
+
+      console.log(`Showing chapter list for ${bookTitle} ` +
+                  `since its chapter count (${bookChapterCount}) is above the limit for instant loading!`);
+      
+      var menuBookList = document.getElementById('book-selection-menu-book-list');
+      menuBookList.style.display = 'none';
+
+      this.currentBookCode = bookCode;
+      this.currentBookTitle = bookTitle;
+
+      this.loadChapterList(bookChapterCount);
     }
   }
 
-  async loadBook(book_code, book_title) {
+  loadChapterList(bookChapterCount) {
+    var menuChapterList = document.getElementById('book-selection-menu-chapter-list');
+    menuChapterList.innerHTML = '';
+
+    for (let c = 1; c <= bookChapterCount; c++) {
+      let newLink = document.createElement('a');
+      newLink.href = c;
+      newLink.innerText = c;
+      menuChapterList.appendChild(newLink);
+
+      newLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        let selectedChapter = parseInt(event.target.getAttribute('href'));
+        this.loadBook(this.currentBookCode, this.currentBookTitle, selectedChapter);
+      });
+    }
+
+    menuChapterList.style.display = 'flex';
+  }
+
+  async loadBook(bookCode, bookTitle, chapter=undefined) {
     app_controller.book_selection_menu.hideBookMenu();
-    app_controller.book_selection_menu.highlightSelectedBookInMenu(book_code);
+    app_controller.book_selection_menu.highlightSelectedBookInMenu(bookCode);
 
     var currentTab = app_controller.tab_controller.getTab();
     currentTab.setTextType('book');
-    app_controller.tab_controller.setCurrentTabBook(book_code, book_title);
+    app_controller.tab_controller.setCurrentTabBook(bookCode, bookTitle);
 
     app_controller.tag_selection_menu.resetTagMenu();
     app_controller.module_search_controller.resetSearch();
@@ -185,6 +219,12 @@ class BookSelectionMenu {
 
       var book_button = $('#app-container').find('.book-select-button');
       book_button.removeClass('ui-state-active');
+
+      var menuBookList = document.getElementById('book-selection-menu-book-list');
+      menuBookList.style.display = 'block';
+
+      var menuChapterList = document.getElementById('book-selection-menu-chapter-list');
+      menuChapterList.style.display = 'none';
     }
   }
 
@@ -232,11 +272,11 @@ class BookSelectionMenu {
     $('.book-selected').removeClass('book-selected');
   };
 
-  highlightSelectedBookInMenu(book_code) {
+  highlightSelectedBookInMenu(bookCode) {
     this.clearSelectedBookInMenu();
     
     // Highlight the newly selected book
-    var bookId = '.book-' + book_code;
+    var bookId = '.book-' + bookCode;
     $('#book-selection-menu-book-list').find(bookId).addClass('book-selected');
   }
 }

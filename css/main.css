@@ -597,8 +597,29 @@ h2 {
   border-top: 1px solid #DDDDDD;
 }
 
+#book-selection-menu {
+  overflow-y: scroll;
+  padding-left: 0.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
 #book-selection-menu-chapter-list {
   display: none;
+  width: 47em;
+  height: 26.5em;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+#book-selection-menu-chapter-list a {
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  margin-left: 0.5em;
+  padding: 0.5em;
+  flex: 0 0 3em;
 }
 
 .book-list-column {
