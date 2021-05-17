@@ -23,7 +23,7 @@ jobs:
         - name: Upload symbols
           run: powershell .\build_scripts\win32\upload_symbols_to_sentry.bat
           env:
-            SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
+            SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         - name: Rename installer
           run: Get-ChildItem release\packages\*setup.exe | rename-item -NewName { "ezra-bible-app_win32_setup_latest.exe" }
           shell: pwsh
@@ -58,7 +58,7 @@ jobs:
         - name: Build
           uses: ./.github/actions/build_ubuntu1804
           env:
-            SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
+            SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         - name: Upload deb file
           uses: actions/upload-artifact@v1.0.0
           with:
@@ -73,7 +73,7 @@ jobs:
       - name: Build
         uses: ./.github/actions/build_ubuntu2004
         env:
-          SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
+          SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - name: Upload deb file
         uses: actions/upload-artifact@v1.0.0
         with:
@@ -88,7 +88,7 @@ jobs:
         - name: Build
           uses: ./.github/actions/build_mint18
           env:
-            SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
+            SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         - name: Upload deb file
           uses: actions/upload-artifact@v1.0.0
           with:
@@ -103,7 +103,7 @@ jobs:
         - name: Build
           uses: ./.github/actions/build_buster
           env:
-            SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
+            SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         - name: Upload deb file
           uses: actions/upload-artifact@v1.0.0
           with:
@@ -118,7 +118,7 @@ jobs:
         - name: Build
           uses: ./.github/actions/build_fedora29
           env:
-            SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
+            SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         - name: Upload rpm file
           uses: actions/upload-artifact@v1.0.0
           with:
@@ -133,7 +133,7 @@ jobs:
         - name: Build
           uses: ./.github/actions/build_fedora31
           env:
-            SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
+            SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         - name: Upload rpm file
           uses: actions/upload-artifact@v1.0.0
           with:
@@ -148,7 +148,7 @@ jobs:
         - name: Build
           uses: ./.github/actions/build_fedora33
           env:
-            SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
+            SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         # Create package and rename package are separate steps for Fedora 33,
         # because for some reason electron-installer-redhat is not properly
         # working on Fedora 33!
@@ -170,7 +170,7 @@ jobs:
         - name: Build
           uses: ./.github/actions/build_centos8
           env:
-            SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
+            SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         - name: Upload rpm file
           uses: actions/upload-artifact@v1.0.0
           with:
@@ -185,7 +185,7 @@ jobs:
         - name: Build
           uses: ./.github/actions/build_opensuseleap
           env:
-            SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
+            SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         - name: Upload rpm file
           uses: actions/upload-artifact@v1.0.0
           with:
