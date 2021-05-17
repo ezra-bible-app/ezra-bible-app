@@ -89,7 +89,7 @@ class TextController {
                           searchResults,
                           xrefs,
                           tabIndex=undefined,
-                          requestedBookId=-1,
+                          searchResultBookId=-1,
                           target=undefined) {
 
     var textType = app_controller.tab_controller.getTab(tabIndex).getTextType();
@@ -158,9 +158,9 @@ class TextController {
           tabId,
           searchResults,
           async (htmlVerseList) => {
-            await this.renderVerseList(htmlVerseList, null, 'search_results', tabIndex, requestedBookId <= 0, /* isCache */ false, target);
+            await this.renderVerseList(htmlVerseList, null, 'search_results', tabIndex, searchResultBookId <= 0, /* isCache */ false, target);
           },
-          requestedBookId
+          searchResultBookId
         );
       }
     } else if (textType == 'xrefs') {
@@ -326,7 +326,7 @@ class TextController {
                                       current_tab_id,
                                       search_results,
                                       render_function,
-                                      requestedBookId=-1,
+                                      searchResultBookId=-1,
                                       render_type='html',
                                       renderVerseMetaInfo=true) {
     if (search_results.length == 0) {
@@ -347,7 +347,7 @@ class TextController {
       var currentVerse = search_results[i];
       var currentBookId = currentVerse.bibleBookShortTitle;
 
-      if (requestedBookId != -1 && currentBookId != requestedBookId) {
+      if (searchResultBookId != -1 && currentBookId != searchResultBookId) {
         // Skip the books that are not requested;
         continue;
       }
@@ -381,7 +381,7 @@ class TextController {
                                  verses,
                                  versification,
                                  render_function,
-                                 requestedBookId <= 0,
+                                 searchResultBookId <= 0,
                                  renderVerseMetaInfo);
       
     } else if (render_type == "docx") {

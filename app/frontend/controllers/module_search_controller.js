@@ -363,12 +363,12 @@ class ModuleSearchController {
         //console.log("Got " + searchResults.length + " from Sword");
         currentTab.setSearchResults(searchResults);
 
-        var requestedBookId = -1; // all books requested
+        var searchResultBookId = -1; // all books requested
         if (this.searchResultsExceedPerformanceLimit(this.currentSearchTabIndex)) {
-          requestedBookId = 0; // no books requested - only list headers at first
+          searchResultBookId = 0; // no books requested - only list headers at first
         }
   
-        await this.renderCurrentSearchResults(requestedBookId, this.currentSearchTabIndex);
+        await this.renderCurrentSearchResults(searchResultBookId, this.currentSearchTabIndex);
       } catch (error) {
         console.log(error);
         app_controller.hideVerseListLoadingIndicator();
@@ -394,7 +394,7 @@ class ModuleSearchController {
     }
   }
 
-  async renderCurrentSearchResults(requestedBookId=-1, tabIndex=undefined, target=undefined, cachedText=null) {
+  async renderCurrentSearchResults(searchResultBookId=-1, tabIndex=undefined, target=undefined, cachedText=null) {
     //console.log("Rendering search results on tab " + tabIndex);
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentTabId = app_controller.tab_controller.getSelectedTabId(tabIndex);
@@ -410,7 +410,7 @@ class ModuleSearchController {
                                                              currentSearchResults,
                                                              null,
                                                              tabIndex,
-                                                             requestedBookId,
+                                                             searchResultBookId,
                                                              target);
       
     } else {
@@ -466,7 +466,7 @@ class ModuleSearchController {
 
     moduleSearchHeader.show();
 
-    /*if (currentSearchResults.length > 0 && requestedBookId <= 0) {
+    /*if (currentSearchResults.length > 0 && searchResultBookId <= 0) {
       var bibleBookStats = this.getBibleBookStatsFromSearchResults(currentSearchResults);
       await app_controller.verse_statistics_chart.updateChart(tabIndex, bibleBookStats);
     }*/
