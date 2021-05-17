@@ -134,12 +134,8 @@ class ConfigOption extends HTMLElement {
   }
 
   async loadOptionFromSettings() {
-    var optionValue = this.enabledByDefault;
-    var optionAvailable = await ipcSettings.has(this._settingsKey);
-
-    if (optionAvailable) {
-      optionValue = await ipcSettings.get(this._settingsKey, this.enabledByDefault);
-    }
+    var optionValue = await ipcSettings.get(this._settingsKey, this.enabledByDefault);
+    //console.log(`Option ${this._settingsKey} value: ${optionValue}; enabledByDefault: ${this.enabledByDefault}`);
 
     if (optionValue == true) {
       this.enableOption();

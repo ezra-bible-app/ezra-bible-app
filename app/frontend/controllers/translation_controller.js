@@ -383,6 +383,7 @@ class TranslationController {
         let currentTextType = currentTab.getTextType();
 
         if (currentTextType == 'book' && 
+            moduleBookStatus != null &&
             currentOption.value in moduleBookStatus &&
             !moduleBookStatus[currentOption.value]) {
 

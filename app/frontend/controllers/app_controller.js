@@ -144,7 +144,7 @@ class AppController {
                              defaultBibleTranslationId);
   }
 
-  async onSearchResultsAvailable(occurances) {
+  async onTabSearchResultsAvailable(occurances) {
     // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
     await this.dictionary_controller.bindAfterBibleTextLoaded();
 
@@ -182,7 +182,7 @@ class AppController {
     }
   }
 
-  onSearchReset() {
+  onTabSearchReset() {
     this.navigation_pane.clearHighlightedSearchResults();
 
     // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
@@ -212,7 +212,9 @@ class AppController {
 
     // Re-configure tab search
     var currentVerseList = this.getCurrentVerseList(ui.index);
-    metaTab.tab_search.setVerseList(currentVerseList);
+    if (metaTab.tab_search != null) {
+      metaTab.tab_search.setVerseList(currentVerseList);
+    }
 
     // Clear verse selection
     this.verse_selection.clear_verse_selection();
@@ -293,8 +295,8 @@ class AppController {
       '.tab-search-next',
       '.tab-search-is-case-sensitive',
       '.tab-search-type',
-      async (occurances) => { await this.onSearchResultsAvailable(occurances); },
-      () => { this.onSearchReset(); }
+      async (occurances) => { await this.onTabSearchResultsAvailable(occurances); },
+      () => { this.onTabSearchReset(); }
     );
 
     // We need to refresh the last used tag button, because the button is not yet initialized in the tab html template
@@ -807,7 +809,6 @@ class AppController {
 
   clearReferenceVerse(tabIndex=undefined) {
     var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-    var currentVerseList = this.getCurrentVerseList(tabIndex);
     var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
 
     referenceVerseContainer.innerHTML = '';
@@ -1072,7 +1073,14 @@ class AppController {
       var lastUsedLanguage = await ipcSettings.get('lastUsedLanguage', undefined);
       var currentLocale = localeController.getLocale();
 
-      return currentVersion != lastUsedVersion || currentLocale != lastUsedLanguage;
+      /*
+      console.log("Last version: " + lastUsedVersion);
+      console.log("Current version: " + currentVersion);
+      console.log("Last used language: " + lastUsedLanguage);
+      console.log("Current language: " + currentLanguage);
+      */
+
+      return currentVersion != lastUsedVersion || currentLanguage != lastUsedLanguage;
   }
 }
 
