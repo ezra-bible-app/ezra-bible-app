@@ -23,21 +23,40 @@ const CACHE_NAME = 'html-cache';
 
 /** 
  * Function for checking and getting item from the cache
- * @param {string} key
- * @returns {Promise<string|boolean>} cached string or false if cache is invalid or not exists
+ * @param {string} key cache key
+ * @param {boolean | any} defaultValue default value to return if no cache on that key or cache is invalid
+ * @param {boolean} shouldCheckIfInvalid should it check for validity of the cache
+ * @returns {Promise<string|boolean>} cached string or false/default value if cache is invalid or not exists
  */
-module.exports.getCachedItem = async function (key) {
-  var cached = false;
+module.exports.getCachedItem = async function (key, defaultValue=false, shouldCheckIfInvalid=true) {
+  var cached = defaultValue;
 
-  const cacheInvalid = await this.isCacheInvalid();
+  const checkCacheInvalidity = shouldCheckIfInvalid && await this.isCacheInvalid();
 
-  const hasCached = await ipcSettings.has(key, CACHE_NAME);
-
-  if (!cacheInvalid && hasCached) {
-    cached = await ipcSettings.get(key, undefined, CACHE_NAME);
+  if (!checkCacheInvalidity && (await this.hasCachedItem(key))) {
+    cached = await ipcSettings.get(key, defaultValue, CACHE_NAME);
   }
 
   return cached;
+}
+
+module.exports.hasCachedItem = async function(key) {
+  return await ipcSettings.has(key, CACHE_NAME);
+}
+
+module.exports.setCachedItem = async function (key, value) {
+  await ipcSettings.set(key, value, CACHE_NAME);
+
+  if (key === 'tabConfiguration') {
+    const currentTime = new Date(Date.now());
+    await ipcSettings.set('tabConfigurationTimestamp', currentTime, CACHE_NAME);
+  }
+
+}
+
+module.exports.deleteCache = async function (key) {
+  //console.log('Saving tab configuration');
+  await ipcSettings.delete(key, CACHE_NAME);
 }
 
 
@@ -55,7 +74,7 @@ module.exports.isCacheInvalid = async function () {
   console.log("Current language: " + currentLanguage);
   */
 
-  return currentVersion != lastUsedVersion || currentLanguage != lastUsedLanguage;
+  return currentVersion != lastUsedVersion || currentLocale != lastUsedLanguage;
 }
 
 module.exports.isCacheOutdated = async function () {
@@ -74,5 +93,16 @@ module.exports.isCacheOutdated = async function () {
   } else {
     return false;
   }
+}
+
+module.exports.saveBookSelectionMenu = async function () {
+  var html = document.getElementById("book-selection-menu").innerHTML;
+
+  await ipcSettings.set('bookSelectionMenuCache', html, CACHE_NAME);
+}
+
+module.exports.saveLastUsedVersionAndLanguage = async function () {
+  await ipcSettings.storeLastUsedVersion();
+  await ipcSettings.storeLastUsedLanguage();
 }
 
