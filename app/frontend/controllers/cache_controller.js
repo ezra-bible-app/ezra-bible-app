@@ -50,6 +50,9 @@ module.exports.setCachedItem = async function (key, value) {
   if (key === 'tabConfiguration') {
     const currentTime = new Date(Date.now());
     await ipcSettings.set('tabConfigurationTimestamp', currentTime, CACHE_NAME);
+  } else if (key === 'bookSelectionMenuCache') {
+    const usedLocale = localeController.getLocale();
+    await ipcSettings.set('cacheLocale', usedLocale, CACHE_NAME);
   }
 
 }
@@ -64,21 +67,21 @@ module.exports.isCacheInvalid = async function () {
   var lastUsedVersion = await ipcSettings.get('lastUsedVersion', undefined);
   var currentVersion = await ipcGeneral.getAppVersion();
 
-  var lastUsedLanguage = await ipcSettings.get('lastUsedLanguage', undefined);
+  var cacheLocale = await ipcSettings.get('cacheLocale', undefined, CACHE_NAME);
   var currentLocale = localeController.getLocale();
 
   /*
   console.log("Last version: " + lastUsedVersion);
   console.log("Current version: " + currentVersion);
-  console.log("Last used language: " + lastUsedLanguage);
-  console.log("Current language: " + currentLanguage);
+  console.log("Last used language: " + cacheLocale);
+  console.log("Current language: " + currentLocale);
   */
 
-  return currentVersion != lastUsedVersion || currentLocale != lastUsedLanguage;
+  return currentVersion != lastUsedVersion || currentLocale != cacheLocale;
 }
 
 module.exports.isCacheOutdated = async function () {
-  var tabConfigTimestamp = await ipcSettings.get('tabConfigurationTimestamp', null, CACHE_NAME);
+  var tabConfigTimestamp = await this.getCachedItem('tabConfigurationTimestamp', null, false);
 
   if (tabConfigTimestamp === null) {
     return false;
@@ -95,14 +98,14 @@ module.exports.isCacheOutdated = async function () {
   }
 }
 
+//FIXME: move to bookSelectionMenu
 module.exports.saveBookSelectionMenu = async function () {
   var html = document.getElementById("book-selection-menu").innerHTML;
-
-  await ipcSettings.set('bookSelectionMenuCache', html, CACHE_NAME);
+  await this.setCachedItem('bookSelectionMenuCache', html);
 }
 
-module.exports.saveLastUsedVersionAndLanguage = async function () {
+//FIXME: if this is used only for checking cache validity store it in cache file and move it to appController
+module.exports.saveLastUsedVersion = async function () {
   await ipcSettings.storeLastUsedVersion();
-  await ipcSettings.storeLastUsedLanguage();
 }
 
