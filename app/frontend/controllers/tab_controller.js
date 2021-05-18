@@ -87,7 +87,6 @@ class TabController {
       this.savePreviousTabScrollPosition();
       if (this.persistanceEnabled) {
         await this.saveTabConfiguration();
-        await cacheController.saveBookSelectionMenu();
       }
       await cacheController.saveLastUsedVersion();
     });

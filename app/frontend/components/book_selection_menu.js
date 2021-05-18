@@ -91,6 +91,9 @@ class BookSelectionMenu {
         currentBook.textContent = currentBookTranslation;
       }
     }
+
+    var html = document.getElementById("book-selection-menu").innerHTML;
+    cacheController.setCachedItem('bookSelectionMenuCache', html);
   }
 
   async updateAvailableBooks(tabIndex=undefined) {
