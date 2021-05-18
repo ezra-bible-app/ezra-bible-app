@@ -89,7 +89,7 @@ class TabController {
         await this.saveTabConfiguration();
         await cacheController.saveBookSelectionMenu();
       }
-      await cacheController.saveLastUsedVersionAndLanguage();
+      await cacheController.saveLastUsedVersion();
     });
 
     this.initTabs();
