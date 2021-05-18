@@ -61,7 +61,7 @@ module.exports.initI18N = async function() {
     .use(I18nIpcBackend)
     .init(i18nextOptions);
 
-  systemLocale = i18n.language;  
+  systemLocale = this.getLocale();  
 
   jqueryI18next.init(i18n, $, {
     tName: 't', // --> appends $.t = i18next.t
@@ -132,8 +132,8 @@ module.exports.detectLocale = async function() {
 }
 
 module.exports.getLocale = function() {
-  var lang = i18n.language;
-  return lang.slice(0, 2); // just in case we got language region code (i.e "en-US") we want only language code ("en")
+  var locale = i18n.language;
+  return locale.slice(0, 2); // just in case we got language with the region code (i.e "en-US") we want only the language code ("en")
 }
 
 module.exports.getAvailableLocales = function() {
