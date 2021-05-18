@@ -19,8 +19,28 @@
 const { defineParameterType } = require("cucumber");
 
 defineParameterType({
+  name: 'bible_book',
+  regexp: /Genesis|Ezra|Mark|Ephesians/,
+});
+
+defineParameterType({
+  name: 'first_tab_menu',
+  regexp: /book selection|search|options/,
+  transformer: s => {
+    switch (s) {
+      case 'book selection':
+        return '.book-select-button';
+      case 'search':
+        return '.module-search-button';
+      case 'options':
+        return '.display-options-button'    
+    }
+  }
+})
+
+defineParameterType({
   name: 'display_option',
-  regexp: /tags|notes|indicators|xrefs|footnotes/,
+  regexp: /tags|notes|indicators|xrefs|footnotes|toolbar|dictionary|navigation|(?:current tab search)/,
   transformer: s => {
     switch (s) {
       case 'tags':
@@ -33,6 +53,14 @@ defineParameterType({
         return '#showXrefsOption';
       case 'footnotes':
         return '#showFootnotesOption';
+      case 'toolbar':
+        return '#showToolBarOption';
+      case 'dictionary': 
+        return '#showDictionaryOption';
+      case 'navigation':
+        return '#showBookChapterNavigationOption' 
+      case 'current tab search':
+        return '#showTabSearchOption';
     }
   }
 });
