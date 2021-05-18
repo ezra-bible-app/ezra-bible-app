@@ -22,19 +22,18 @@ const spectronHelper = require('../helpers/spectron_helper.js');
 const nsiHelper = require("../helpers/nsi_helper.js");
 const uiHelper = require("../helpers/ui_helper.js");
 
-Given('I open the book selection menu', {timeout: 60 * 1000}, async function () {
+Given('I open the {first_tab_menu} menu/dialog', {timeout: 60 * 1000}, async function (buttonSelector) {
   var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
-  var bookSelectButton = await verseListTabs.$('.book-select-button');
+  var menuButton = await verseListTabs.$(buttonSelector);
   
-  await uiHelper.buttonIsEnabled(bookSelectButton, timeoutMs=1000);
-  await bookSelectButton.click();
+  await uiHelper.buttonIsEnabled(menuButton, timeoutMs=1000);
+  await menuButton.click();
   await spectronHelper.sleep(500);
 });
 
-When('I select the book Ephesians', {timeout: 20 * 1000}, async function () {
-  var ephesiansButton = await spectronHelper.getWebClient().$('.book-Eph');
-  var ephesiansLink = await ephesiansButton.$('a');
-  await ephesiansLink.click();
+When('I select the book {bible_book}', {timeout: 20 * 1000}, async function (bookName) {
+  var bookLink = await spectronHelper.getWebClient().$(`a[book-name="${bookName}"]`);
+  await bookLink.click();
   await uiHelper.waitUntilGlobalLoaderIsHidden();
 });
 
