@@ -50,9 +50,7 @@ module.exports.setCachedItem = async function (key, value) {
   if (key === 'tabConfiguration') {
     const currentTime = new Date(Date.now());
     await ipcSettings.set('tabConfigurationTimestamp', currentTime, CACHE_NAME);
-  } else if (key === 'bookSelectionMenuCache') {
-    const usedLocale = localeController.getLocale();
-    await ipcSettings.set('cacheLocale', usedLocale, CACHE_NAME);
+    await ipcSettings.set('cacheLocale', localeController.getLocale(), CACHE_NAME);
   }
 
 }
@@ -70,12 +68,10 @@ module.exports.isCacheInvalid = async function () {
   var cacheLocale = await ipcSettings.get('cacheLocale', undefined, CACHE_NAME);
   var currentLocale = localeController.getLocale();
 
-  /*
   console.log("Last version: " + lastUsedVersion);
   console.log("Current version: " + currentVersion);
   console.log("Last used language: " + cacheLocale);
   console.log("Current language: " + currentLocale);
-  */
 
   return currentVersion != lastUsedVersion || currentLocale != cacheLocale;
 }
@@ -96,12 +92,6 @@ module.exports.isCacheOutdated = async function () {
   } else {
     return false;
   }
-}
-
-//FIXME: move to bookSelectionMenu
-module.exports.saveBookSelectionMenu = async function () {
-  var html = document.getElementById("book-selection-menu").innerHTML;
-  await this.setCachedItem('bookSelectionMenuCache', html);
 }
 
 //FIXME: if this is used only for checking cache validity store it in cache file and move it to appController
