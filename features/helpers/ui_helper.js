@@ -26,21 +26,21 @@ async function buttonHasClass(button, className, timeoutMs = 100) {
   }, { timeout: timeoutMs });
 }
 
-async function buttonIsDisabled(button, timeoutMs = 100) {
+module.exports.buttonIsDisabled = async function(button, timeoutMs = 100) {
   await buttonHasClass(button, 'ui-state-disabled', timeoutMs);
 }
 
-async function buttonIsEnabled(button, timeoutMs = 100) {
+module.exports.buttonIsEnabled = async function(button, timeoutMs = 100) {
   await buttonHasClass(button, 'ui-state-default', timeoutMs);
 }
 
-async function getVerseBox(verseReference) {
+module.exports.getVerseBox = async function(verseReference) {
   var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
   var { absoluteVerseNumber } = await nsiHelper.splitVerseReference(verseReference);
   return await verseListTabs.$(`.verse-nr-${absoluteVerseNumber}`);
 }
 
-async function waitUntilGlobalLoaderIsHidden(timeoutMs = 20000) {
+module.exports.waitUntilGlobalLoaderIsHidden = async function(timeoutMs = 20000) {
   var verseListMenu = await spectronHelper.getWebClient().$('.verse-list-menu');
   var loader = await verseListMenu.$('.loader');
 
@@ -51,11 +51,4 @@ async function waitUntilGlobalLoaderIsHidden(timeoutMs = 20000) {
 
     return loaderDisplay.value == "none";
   }, { timeout: timeoutMs, timeoutMsg: `The loader has not disappeared after waiting ${timeoutMs}ms.` });
-}
-
-module.exports = {
-  buttonIsDisabled,
-  buttonIsEnabled,
-  getVerseBox,
-  waitUntilGlobalLoaderIsHidden,
 }

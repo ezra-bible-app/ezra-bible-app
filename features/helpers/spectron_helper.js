@@ -48,7 +48,7 @@ function initializeSpectron(additionalArgs = []) {
   });
 }
 
-function initApp(additionalArgs = [], force = false) {
+module.exports.initApp = function(additionalArgs = [], force = false) {
   if (app == null || force) {
     chai.should();
     chai.use(chaiAsPromised);
@@ -58,7 +58,10 @@ function initApp(additionalArgs = [], force = false) {
   return app;
 }
 
-function sleep(time = 200) {
+module.exports.getApp = () => app;
+module.exports.getWebClient = () => app.client; // https://webdriver.io/docs/api
+
+module.exports.sleep = function(time = 200) {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve();
@@ -66,18 +69,10 @@ function sleep(time = 200) {
   });
 }
 
-async function getUserDataDir() {
+module.exports.getUserDataDir = async function() {
   var electronApp = app.electron.remote.app;
   var pjson = require('../../package.json');
   var appDataPath = await electronApp.getPath('appData');
   var userDataDir = path.join(appDataPath, pjson.name + '-test');
   return userDataDir;
-}
-
-module.exports = {
-  initApp,
-  getApp: () => app,
-  getWebClient: () => app.client, // https://webdriver.io/docs/api
-  sleep,
-  getUserDataDir,
 }
