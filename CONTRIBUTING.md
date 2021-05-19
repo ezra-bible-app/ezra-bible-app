@@ -55,10 +55,11 @@ const AVAILABLE_LOCALES = ['de', 'en', 'nl', 'fr', 'es', 'sk', 'uk', 'ru'];  <==
 
 ### Translating emoji categories
 
-Emojis are standardized in [Unicode](http://unicode.org/emoji/charts/full-emoji-list.html). And their descriptions/annotations for searching are avaliable in multiple languages via [CLDR](https://unicode-org.github.io/cldr-staging/charts/latest/annotations/index.html). This is used to assemble emoji list automatically in any locale. 
+Emojis are standardized in [Unicode](http://unicode.org/emoji/charts/full-emoji-list.html). Their descriptions/annotations for searching are available in multiple languages via [CLDR](https://unicode-org.github.io/cldr-staging/charts/latest/annotations/index.html). This is used to assemble an emoji list automatically in any locale. 
 
-However emoji categories are not standardize and vary from system to system. So there is a need to manually translate emoji categories. You can look up for what is commonly accepted in your language on any mobile device with emojis. 
-Otherwise most of the categories are localized under [Android keyboard resources](https://android.googlesource.com/platform/packages/inputmethods/LatinIME/+/master/java/res). Under folder with your locale there is a file `strings-talkback-descriptions.xml`. Emoji categories used for Android keyboard can be found under string elements with the name starting with `spoken_descrption_emoji_category_eight_` (approximately lines 75-79). 
+However, emoji categories are not standardized and vary from system to system. So there is a need to manually translate emoji categories. You can look up what is commonly accepted in your language on any mobile device with emojis.
+
+Otherwise most of the categories are localized under [Android keyboard resources](https://android.googlesource.com/platform/packages/inputmethods/LatinIME/+/master/java/res). Under the folder with your locale there is a file `strings-talkback-descriptions.xml`. The emoji categories used for the Android keyboard can be found under the string elements starting with `spoken_descrption_emoji_category_eight_` (approximately lines 75-79). 
 
 ## Hints for development
 
