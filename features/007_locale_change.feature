@@ -30,8 +30,13 @@ Feature: Change app language (locale)
 
   Scenario: Switch app locale
     Given I open the options dialog
-    When I select Russian locale
-    # Then the note assigned to "Ephesians" in the database starts with text "# A Letter From Prison"
-    # And the note assigned to "Ephesians" has "h1" text "A Letter From Prison"
+    When I select another locale
+    Then the tab title is "Esra [KJV]"
+    And the tag stat text is "0 benutzt / 0 gesamt"
+    And the dictionary header text is "Wörterbuch"
+    And the search button text is "Suche"
+    And the tab search case option text is "Groß- / Kleinschreibung beachten"
+    And the selected locale text is "Deutsch"
+    And the Revelation book name text is "Offenbarung"
 
 
