@@ -88,6 +88,7 @@ class TabController {
       if (this.persistanceEnabled) {
         await this.saveTabConfiguration();
       }
+      
       await cacheController.saveLastUsedVersion();
     });
 
