@@ -211,16 +211,6 @@ class Tab {
   setLocation(value) {
     this.location = value;
   }
-
-  getRefFromTitle() {
-    const title = this.getTitle();
-    const index = title.indexOf(' &ndash; ');
-    if (index < 0) {
-      return "";
-    } 
-    return title.slice(0, index);      
-  }
-
 }
 
 Tab.fromJsonObject = function(jsonObject) {
