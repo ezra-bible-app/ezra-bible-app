@@ -72,6 +72,7 @@ class TagsController {
     this.lastBook = null;
 
     localeController.addLocaleChangeSubscriber(async () => {
+      this.updateTagsView(undefined, true);
       this.refreshTagDialogs();
     });
   }
