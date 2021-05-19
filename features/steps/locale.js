@@ -27,7 +27,7 @@ When('I select another locale', async function () {
 
    const firstLocaleOption = await spectronHelper.getWebClient().$('.locale-switch-container .ui-selectmenu-menu-dropdown li:first-child');
    await firstLocaleOption.click();
-   await spectronHelper.sleep(3000);
+   await spectronHelper.sleep(500);
 });
 
 Then('the {interface_element} text is {string}', async function(selector, text) {
