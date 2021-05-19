@@ -37,6 +37,7 @@ Feature: Change app language (locale)
     And the search button text is "Suche"
     And the tab search case option text is "Groß- / Kleinschreibung beachten"
     And the selected locale text is "Deutsch"
+    And I open the book selection menu
     And the Revelation book name text is "Offenbarung"
 
 
