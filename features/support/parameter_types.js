@@ -71,3 +71,24 @@ defineParameterType({
   type: 'boolean',
   transformer: s => s == 'displayed'
 });
+
+defineParameterType({
+  name: 'interface_element',
+  regexp: /(?:tag stat)|(?:dictionary header)|(?:search button)|(?:tab search case option)|(?:Revelation book name)|(?:selected locale)/,
+  transformer: s => {
+    switch (s) {
+      case 'tag stat':
+        return '#tag-list-stats';
+      case 'dictionary header':
+        return '#dictionary-info-box h3 > a';
+      case 'search button':
+        return '#verse-list-tabs-1 .module-search-label';
+      case 'tab search case option':
+        return '#verse-list-tabs-1 .tab-search-options label > span';
+      case 'Revelation book name':
+        return '#book-selection-menu li.book-Rev > a';
+      case 'selected locale':
+        return '#display-options-menu #localeSwitchOption .ui-selectmenu-status';
+    }
+  }
+})
