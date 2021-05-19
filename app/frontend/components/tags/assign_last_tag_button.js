@@ -61,7 +61,7 @@ class AssignLastTagButton {
   async getCurrentTag() {
     var tagId = tags_controller.tag_store.latest_tag_id;
     var currentTag = await tags_controller.tag_store.getTag(tagId);
-    return currentTag.title;
+    return currentTag !== null ? currentTag.title : '';
   }
 
   async onLatestUsedTagChanged(tagId=undefined, added=true, currentDbTag=undefined) {
