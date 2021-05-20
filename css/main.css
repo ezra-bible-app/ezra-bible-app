@@ -614,12 +614,12 @@ h2 {
 }
 
 #book-selection-menu-chapter-list a {
-  display: inline-block;
   width: 2em;
-  height: 2em;
-  margin-left: 0.5em;
-  padding: 0.5em;
-  flex: 0 0 3em;
+  height: 2.5em;
+  line-height: 2.5em;
+  flex: 0 0 4em;
+  text-align: center;
+  color: black;
 }
 
 .book-list-column {
@@ -767,7 +767,11 @@ h2 {
 .book-available a:link,
 .book-available a:hover,
 .book-available a:visited,
-.book-available a:focus {
+.book-available a:focus
+#book-selection-menu-chapter-list a:link,
+#book-selection-menu-chapter-list a:hover,
+#book-selection-menu-chapter-list a:visited,
+#book-selection-menu-chapter-list a:focus {
   color: black;
 }
 
@@ -781,7 +785,11 @@ h2 {
 .book-list-column li a:link,
 .book-list-column li.book-available a:visited,
 .book-list-column li.book-available a:hover,
-.book-list-column li.book-available a:focus {
+.book-list-column li.book-available a:focus,
+#book-selection-menu-chapter-list a:link,
+#book-selection-menu-chapter-list a:visited,
+#book-selection-menu-chapter-list a:hover,
+#book-selection-menu-chapter-list a:focus {
   text-decoration: none;
   cursor: default;
   border: 1px solid white;
@@ -789,10 +797,21 @@ h2 {
   margin: 1px;
 }
 
+.book-list-column li.book-available a:link,
+.book-list-column li.book-available a:visited,
+#book-selection-menu-chapter-list a:link,
+#book-selection-menu-chapter-list a:visited {
+  cursor: pointer;
+}
+
 .darkmode--activated .book-list-column li a:link,
 .darkmode--activated .book-list-column li.book-available a:visited,
 .darkmode--activated .book-list-column li.book-available a:hover,
-.darkmode--activated .book-list-column li.book-available a:focus {
+.darkmode--activated .book-list-column li.book-available a:focus,
+.darkmode--activated #book-selection-menu-chapter-list a:link,
+.darkmode--activated #book-selection-menu-chapter-list a:visited,
+.darkmode--activated #book-selection-menu-chapter-list a:hover,
+.darkmode--activated #book-selection-menu-chapter-list a:focus {
   border: 1px;
   color: #cccccc;
 }
@@ -804,13 +823,10 @@ h2 {
   color: grey;
 }
 
-.book-list-column li.book-available a:link,
-.book-list-column li.book-available a:visited {
-  cursor: pointer;
-}
-
 .book-list-column li.book-available a:hover,
-.book-list-column li.book-available a:focus {
+.book-list-column li.book-available a:focus,
+#book-selection-menu-chapter-list a:hover,
+#book-selection-menu-chapter-list a:focus {
   /*text-decoration: underline;*/
   border: 1px solid #74B2E2;
   margin: 1px;
@@ -820,7 +836,9 @@ h2 {
 }
 
 .darkmode--activated .book-list-column li.book-available a:hover,
-.darkmode--activated .book-list-column li.book-available a:focus {
+.darkmode--activated .book-list-column li.book-available a:focus,
+.darkmode--activated #book-selection-menu-chapter-list a:hover,
+.darkmode--activated #book-selection-menu-chapter-list a:focus {
   background: none;
   background-color: #00396a;
 }
