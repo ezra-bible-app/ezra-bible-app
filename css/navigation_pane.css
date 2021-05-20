@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 .navigation-pane {
-  float: left;
+  grid-area: navigation;
   padding-top: 0.5em;
   padding-left: 0.5em;
   padding-right: 1em;

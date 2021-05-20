@@ -94,6 +94,10 @@ h2 {
 #verse-list-tabs {
   border: 0;
   width: 100%;
+  height: 99vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 #verse-list-tabs .ui-tabs-nav {
@@ -111,7 +115,24 @@ h2 {
   cursor: default;
 }
 
+.verse-list-container {
+  overflow: hidden;
+}
+
+.verse-list-grid-container {
+  display: grid;
+  grid-template-columns: minmax(0, auto) 1fr;
+  grid-template-rows: auto 1fr minmax(0, auto);
+  grid-template-areas: 
+      "menu menu"
+      "navigation verse-list"
+      "navigation tab-search";
+  height: 100%;
+  width: 100%;    
+}
+
 .verse-list-menu {
+  grid-area: menu;
   margin-bottom: 0.5em;
   border-radius: 6px;
   user-select: none;
@@ -131,6 +152,7 @@ h2 {
 }
 
 .verse-list-frame {
+  grid-area: verse-list;
   overflow-y: scroll;
   overflow-x: hidden;
   /* This prevents a horizontal scrollbar on small screens  */
@@ -1319,6 +1341,7 @@ h2 {
 }
 
 .tab-search {
+  grid-area: tab-search;
   background-color: white;
   padding: 0.5em;
   border-bottom-right-radius: 4px;
@@ -1630,7 +1653,7 @@ s {
 }
 
 .darkmode--activated p,
-.darkmode--activated .verse-list-composite {
+.darkmode--activated .verse-list-container {
   color: #cccccc;
 }
 
