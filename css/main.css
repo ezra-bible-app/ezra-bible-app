@@ -117,6 +117,7 @@ h2 {
 
 .verse-list-container {
   overflow: hidden;
+  flex-grow: 1;
 }
 
 .verse-list-grid-container {
