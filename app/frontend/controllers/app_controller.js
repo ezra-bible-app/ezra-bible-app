@@ -270,31 +270,32 @@ class AppController {
     
     var currentTab = this.tab_controller.getTab(tabIndex);
 
-    if (currentTab != null) {
-      var currentBibleTranslationId = currentTab.getBibleTranslationId();
+    if (currentTab) {
+      const currentBibleTranslationId = currentTab.getBibleTranslationId();
       if (currentBibleTranslationId != null) {
         this.info_popup.enableCurrentAppInfoButton(tabIndex);
       }
+
+      const verseListContainer = this.getCurrentVerseListFrame(tabIndex).parent();
+
+      currentTab.tab_search = new TabSearch();
+      currentTab.tab_search.init(
+        verseListContainer,
+        '.tab-search',
+        '.tab-search-input',
+        '.tab-search-occurances',
+        '.tab-search-previous',
+        '.tab-search-next',
+        '.tab-search-is-case-sensitive',
+        '.tab-search-type',
+        async (occurances) => { await this.onTabSearchResultsAvailable(occurances); },
+        () => { this.onTabSearchReset(); }
+      );
+  
     }
 
     this.optionsMenu.initCurrentOptionsMenu(tabIndex);
     this.book_selection_menu.clearSelectedBookInMenu();
-
-    var verseListComposite = this.getCurrentVerseListFrame(tabIndex).parent();
-
-    currentTab.tab_search = new TabSearch();
-    currentTab.tab_search.init(
-      verseListComposite,
-      '.tab-search',
-      '.tab-search-input',
-      '.tab-search-occurances',
-      '.tab-search-previous',
-      '.tab-search-next',
-      '.tab-search-is-case-sensitive',
-      '.tab-search-type',
-      async (occurances) => { await this.onTabSearchResultsAvailable(occurances); },
-      () => { this.onTabSearchReset(); }
-    );
 
     // We need to refresh the last used tag button, because the button is not yet initialized in the tab html template
     app_controller.assign_last_tag_button.onLatestUsedTagChanged(undefined, undefined);
