@@ -227,7 +227,9 @@ function subscribePicker() {
     // FIXME: Handle properly
     try {
       (await emojiPicker).destroyPicker();
-    } catch (e) {}
+    } catch (e) {
+      console.log('EmojiButtonTrigger: Got the following error when destroying external emojiPicker after locale change:', e);
+    }
     
     app_controller.optionsMenu._nightModeOption.removeEventListener("optionChanged", updatePickerTheme);
     emojiPicker = await initPicker(locale);
