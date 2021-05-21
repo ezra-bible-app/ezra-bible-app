@@ -18,7 +18,7 @@
 
 const i18nHelper = require('../helpers/i18n_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
-const localeController = require('../controllers/locale_controller.js');
+const i18nController = require('../controllers/i18n_controller.js');
 const cacheController = require('../controllers/cache_controller.js');
    
 /**
@@ -73,7 +73,7 @@ class BookSelectionMenu {
   }
 
   subscribeForLocaleUpdates() {
-    localeController.addLocaleChangeSubscriber(async () => {
+    i18nController.addLocaleChangeSubscriber(async () => {
       this.localizeBookSelectionMenu();
     });
   }

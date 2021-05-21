@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const localeController = require('../controllers/locale_controller.js');
+const i18nController = require('../controllers/i18n_controller.js');
 
 module.exports.getReferenceSeparator = async function(moduleCode=undefined) {
   if (moduleCode == undefined) {
@@ -36,12 +36,12 @@ module.exports.getReferenceSeparator = async function(moduleCode=undefined) {
 }
 
 module.exports.getSwordTranslation = async function(originalString) {
-  return await ipcNsi.getSwordTranslation(originalString, localeController.getLocale());
+  return await ipcNsi.getSwordTranslation(originalString, i18nController.getLocale());
 }
 
 module.exports.getBookAbbreviation = async function(bookCode) {
   var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-  return await ipcNsi.getBookAbbreviation(currentBibleTranslationId, bookCode, localeController.getLocale());
+  return await ipcNsi.getBookAbbreviation(currentBibleTranslationId, bookCode, i18nController.getLocale());
 }
 
 module.exports.getSpecificTranslation = async function(lang, key) {
@@ -51,19 +51,19 @@ module.exports.getSpecificTranslation = async function(lang, key) {
 }
 
 module.exports.getChapterTranslation = async function(lang) {
-  var locale = lang || localeController.getLocale();
+  var locale = lang || i18nController.getLocale();
 
   return await this.getSpecificTranslation(locale, 'bible-browser.chapter');
 }
 
 module.exports.getPsalmTranslation = async function(lang) {
-  var language = lang || localeController.getLocale();
+  var language = lang || i18nController.getLocale();
 
-  return await localeController.getSpecificTranslation(language, 'bible-browser.psalm');
+  return await i18nController.getSpecificTranslation(language, 'bible-browser.psalm');
 }
 
 module.exports.getLocalizedDate = function(timestamp) {
-  var locale = localeController.getLocale();
+  var locale = i18nController.getLocale();
   return new Date(Date.parse(timestamp)).toLocaleDateString(locale);
 }
 
@@ -71,7 +71,7 @@ function toTitleCase(str) {
   return str.slice(0, 1).toLocaleUpperCase() + str.slice(1);
 }
 module.exports.getLocaleName = function(code, includeNativeName = false, currentLocale = null) {
-  currentLocale = currentLocale || localeController.getLocale();
+  currentLocale = currentLocale || i18nController.getLocale();
   const localeName = (new Intl.DisplayNames(currentLocale, { type: 'language' })).of(code);
   const langNative = (new Intl.DisplayNames(code, { type: 'language' })).of(code);
 

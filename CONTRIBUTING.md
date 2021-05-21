@@ -44,7 +44,7 @@ If you want to help with a new translation, these are the steps:
       "context": "Context"
     }
 ```
-4) Once the translation is complete, it needs to be added to the `AVAILABLE_LOCALES` list in `/app/frontend/controllers/locale_controller.js`:
+4) Once the translation is complete, it needs to be added to the `AVAILABLE_LOCALES` list in `/app/frontend/controllers/i18n_controller.js`:
 ```
 const AVAILABLE_LOCALES = ['de', 'en', 'nl', 'fr', 'es', 'sk', 'uk', 'ru'];  <== Add the language
 ```

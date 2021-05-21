@@ -18,7 +18,7 @@
 
 /**
  * This controller initializes the app locale at startup and updates it on demand when changing the locale
- * @module locale_controller
+ * @module i18n_controller
  * @category Controller
  */
 

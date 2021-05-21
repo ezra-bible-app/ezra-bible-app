@@ -17,7 +17,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const localeController = require("./locale_controller.js");
+const i18nController = require("./i18n_controller.js");
 
 const CACHE_NAME = 'html-cache';
 
@@ -50,7 +50,7 @@ module.exports.setCachedItem = async function (key, value) {
   if (key === 'tabConfiguration') {
     const currentTime = new Date(Date.now());
     await ipcSettings.set('tabConfigurationTimestamp', currentTime, CACHE_NAME);
-    await ipcSettings.set('cacheLocale', localeController.getLocale(), CACHE_NAME);
+    await ipcSettings.set('cacheLocale', i18nController.getLocale(), CACHE_NAME);
   }
 
 }
@@ -66,7 +66,7 @@ module.exports.isCacheInvalid = async function () {
   var currentVersion = await ipcGeneral.getAppVersion();
 
   var cacheLocale = await ipcSettings.get('cacheLocale', undefined, CACHE_NAME);
-  var currentLocale = localeController.getLocale();
+  var currentLocale = i18nController.getLocale();
 
   console.log("Last version: " + lastUsedVersion);
   console.log("Current version: " + currentVersion);

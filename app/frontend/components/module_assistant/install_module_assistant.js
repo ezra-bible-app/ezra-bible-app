@@ -18,7 +18,7 @@
 
 const LanguageMapper = require('../../../lib/language_mapper.js');
 const ModuleAssistantHelper = require('./module_assistant_helper.js');
-const localeController = require('../../controllers/locale_controller.js');
+const i18nController = require('../../controllers/i18n_controller.js');
 const { sleep } = require('../../helpers/ezra_helper.js');
 
 /**
@@ -969,7 +969,7 @@ class InstallModuleAssistant {
     var lastUpdate = await ipcSettings.get('lastSwordRepoUpdate', undefined);
 
     if (lastUpdate !== undefined) {
-      lastUpdate = new Date(Date.parse(lastUpdate)).toLocaleDateString(localeController.getLocale());
+      lastUpdate = new Date(Date.parse(lastUpdate)).toLocaleDateString(i18nController.getLocale());
     }
 
     var lastUpdateInfo = "<p style='clear: both; padding-top: 1em;'>" +
