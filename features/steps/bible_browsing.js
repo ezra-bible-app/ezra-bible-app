@@ -34,6 +34,16 @@ Given('I open the {first_tab_menu} menu/dialog', {timeout: 60 * 1000}, async fun
   await spectronHelper.sleep(500);
 });
 
+Then('I close the {first_tab_menu} menu/dialog', {timeout: 60 * 1000}, async function (buttonSelector) {
+  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var menuButton = await verseListTabs.$(buttonSelector);
+  
+  if (await uiHelper.buttonIsActive(menuButton)) {
+    await menuButton.click();
+    await spectronHelper.sleep(500);
+  }
+});
+
 When('I select the book {bible_book}', {timeout: 20 * 1000}, async function (bookName) {
   var bookLink = await spectronHelper.getWebClient().$(`a[book-name="${bookName}"]`);
   await bookLink.click();

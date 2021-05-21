@@ -39,10 +39,14 @@ Feature: Change app language (locale)
     And the selected locale text is "<locale_native>"
     And I open the book selection menu
     And the Revelation book name text is "<revelation>"
+    But I close the book selection menu
+    And I open the translation selection menu
+    And the English option group text is "<english>"
+    And I close the translation selection menu
 
     Examples:
-        | locale_native | tab_title   | tag_stat                 | dictionary | search | tab_search_option                | revelation  |
-        | Deutsch       | Esra [KJV]  | 0 benutzt / 0 gesamt     | Wörterbuch |  Suche | Groß- / Kleinschreibung beachten | Offenbarung |
-        | Русский       | Ездра [KJV] | 0 использовано / 0 всего | Словарь    |  Поиск | С учетом регистра                | Откровение  |
+        | locale_native | tab_title   | tag_stat                 | dictionary | search | tab_search_option                | revelation  | english    |
+        | Deutsch       | Esra [KJV]  | 0 benutzt / 0 gesamt     | Wörterbuch |  Suche | Groß- / Kleinschreibung beachten | Offenbarung | Englisch   |
+        | Русский       | Ездра [KJV] | 0 использовано / 0 всего | Словарь    |  Поиск | С учетом регистра                | Откровение  | Английский |
 
 
