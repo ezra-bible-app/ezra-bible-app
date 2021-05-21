@@ -20,12 +20,13 @@ const { Given, When, Then } = require("cucumber");
 const spectronHelper = require('../helpers/spectron_helper.js');
 const { expect } = require("chai");
 
-When('I change to the first available locale', async function () {
+When('I change to the {string} locale', async function (localeNameInEnglish) {
    const dropdownButton = await spectronHelper.getWebClient().$('.locale-switch-container .ui-selectmenu');
    await dropdownButton.click();
    await spectronHelper.sleep();
 
-   const firstLocaleOption = await spectronHelper.getWebClient().$('.locale-switch-container .ui-selectmenu-menu-dropdown li:first-child');
+   const dropdownList = await spectronHelper.getWebClient().$('.locale-switch-container .ui-selectmenu-menu-dropdown');
+   const firstLocaleOption = await dropdownList.$(`./li/a[contains(text(), '${localeNameInEnglish}')]`);
    await firstLocaleOption.click();
    await spectronHelper.sleep(500);
 });
