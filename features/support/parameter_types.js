@@ -25,7 +25,7 @@ defineParameterType({
 
 defineParameterType({
   name: 'first_tab_menu',
-  regexp: /book selection|search|options/,
+  regexp: /book selection|search|options|translation selection/,
   transformer: s => {
     switch (s) {
       case 'book selection':
@@ -33,14 +33,16 @@ defineParameterType({
       case 'search':
         return '.module-search-button';
       case 'options':
-        return '.display-options-button'    
+        return '.display-options-button';
+      case 'translation selection':
+        return '.bible-select-block .ui-selectmenu'; 
     }
   }
 })
 
 defineParameterType({
   name: 'display_option',
-  regexp: /tags|notes|indicators|xrefs|footnotes|toolbar|dictionary|navigation|(?:current tab search)/,
+  regexp: /tags|notes|indicators|xrefs|footnotes|toolbar|dictionary|navigation|current tab search/,
   transformer: s => {
     switch (s) {
       case 'tags':
@@ -74,7 +76,7 @@ defineParameterType({
 
 defineParameterType({
   name: 'interface_element',
-  regexp: /(?:tag stat)|(?:dictionary header)|(?:search button)|(?:tab search case option)|(?:Revelation book name)|(?:selected locale)/,
+  regexp: /tag stat|dictionary header|search button|tab search case option|Revelation book name|selected locale|English option group/,
   transformer: s => {
     switch (s) {
       case 'tag stat':
@@ -89,6 +91,8 @@ defineParameterType({
         return '#book-selection-menu li.book-Rev > a';
       case 'selected locale':
         return '#display-options-menu #localeSwitchOption .ui-selectmenu-status';
+      case 'English option group':
+        return '.ui-selectmenu-open .ui-selectmenu-group-0 .ui-selectmenu-group-label';
     }
   }
 })
