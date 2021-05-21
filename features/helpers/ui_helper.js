@@ -19,19 +19,27 @@
 const spectronHelper = require('./spectron_helper.js');
 const nsiHelper = require('./nsi_helper.js');
 
-async function buttonHasClass(button, className, timeoutMs = 100) {
-  await spectronHelper.getWebClient().waitUntil(async () => {
-    var classList = await button.getAttribute('class');
-    return classList.split(' ').includes(className);
-  }, { timeout: timeoutMs });
+async function buttonHasClass(button, className) {
+  const classList = await button.getAttribute('class');
+  return classList.split(' ').includes(className);
+}
+
+async function waitUntilButtonHasClass(button, className, timeoutMs = 100) {
+  await spectronHelper.getWebClient().waitUntil(async () => 
+    buttonHasClass(button, className)
+  , { timeout: timeoutMs });
 }
 
 module.exports.buttonIsDisabled = async function(button, timeoutMs = 100) {
-  await buttonHasClass(button, 'ui-state-disabled', timeoutMs);
+  await waitUntilButtonHasClass(button, 'ui-state-disabled', timeoutMs);
 }
 
 module.exports.buttonIsEnabled = async function(button, timeoutMs = 100) {
-  await buttonHasClass(button, 'ui-state-default', timeoutMs);
+  await waitUntilButtonHasClass(button, 'ui-state-default', timeoutMs);
+}
+
+module.exports.buttonIsActive = async function(button) {
+  return await buttonHasClass(button, 'ui-state-active');
 }
 
 module.exports.getVerseBox = async function(verseReference) {

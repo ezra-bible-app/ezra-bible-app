@@ -27,6 +27,9 @@ Given('I open the {first_tab_menu} menu/dialog', {timeout: 60 * 1000}, async fun
   var menuButton = await verseListTabs.$(buttonSelector);
   
   await uiHelper.buttonIsEnabled(menuButton, timeoutMs=1000);
+  if (await uiHelper.buttonIsActive(menuButton)) {
+    return;
+  }
   await menuButton.click();
   await spectronHelper.sleep(500);
 });
