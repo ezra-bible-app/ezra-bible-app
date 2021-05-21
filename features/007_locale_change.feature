@@ -28,16 +28,21 @@ Feature: Change app language (locale)
     And I have navigation displayed
     And I have current tab search displayed
 
-  Scenario: Switch app locale
+  Scenario Outline:: Switch app locale
     Given I open the options dialog
-    When I change to the "German" locale
-    Then the tab title is "Esra [KJV]"
-    And the tag stat text is "0 benutzt / 0 gesamt"
-    And the dictionary header text is "Wörterbuch"
-    And the search button text is "Suche"
-    And the tab search case option text is "Groß- / Kleinschreibung beachten"
-    And the selected locale text is "Deutsch"
+    When I change to the "<locale_native>" locale
+    Then the tab title is "<tab_title>"
+    And the tag stat text is "<tag_stat>"
+    And the dictionary header text is "<dictionary>"
+    And the search button text is "<search>"
+    And the tab search case option text is "<tab_search_option>"
+    And the selected locale text is "<locale_native>"
     And I open the book selection menu
-    And the Revelation book name text is "Offenbarung"
+    And the Revelation book name text is "<revelation>"
+
+    Examples:
+        | locale_native | tab_title   | tag_stat                 | dictionary | search | tab_search_option                | revelation  |
+        | Deutsch       | Esra [KJV]  | 0 benutzt / 0 gesamt     | Wörterbuch |  Suche | Groß- / Kleinschreibung beachten | Offenbarung |
+        | Русский       | Ездра [KJV] | 0 использовано / 0 всего | Словарь    |  Поиск | С учетом регистра                | Откровение  |
 
 

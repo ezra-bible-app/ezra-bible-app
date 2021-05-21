@@ -20,13 +20,13 @@ const { Given, When, Then } = require("cucumber");
 const spectronHelper = require('../helpers/spectron_helper.js');
 const { expect } = require("chai");
 
-When('I change to the {string} locale', async function (localeNameInEnglish) {
+When('I change to the {string} locale', async function (localeNative) {
    const dropdownButton = await spectronHelper.getWebClient().$('.locale-switch-container .ui-selectmenu');
    await dropdownButton.click();
    await spectronHelper.sleep();
 
    const dropdownList = await spectronHelper.getWebClient().$('.locale-switch-container .ui-selectmenu-menu-dropdown');
-   const firstLocaleOption = await dropdownList.$(`./li/a[contains(text(), '${localeNameInEnglish}')]`);
+   const firstLocaleOption = await dropdownList.$(`./li/a[contains(text(), '${localeNative}')]`);
    await firstLocaleOption.click();
    await spectronHelper.sleep(500);
 });
@@ -36,4 +36,5 @@ Then('the {interface_element} text is {string}', async function(selector, text) 
    const elementText = await element.getText();
    
    expect(elementText, `${selector} text doesn't match`).to.equal(text);
+   await spectronHelper.sleep(500);
 });
