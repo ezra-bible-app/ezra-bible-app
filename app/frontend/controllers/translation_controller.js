@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const i18nHelper = require('../helpers/i18n_helper.js');
 const { sleep } = require('../helpers/ezra_helper.js');
 
 /**
@@ -29,18 +30,8 @@ const { sleep } = require('../helpers/ezra_helper.js');
  */
 class TranslationController {
   constructor() {
-    this.languageMapper = null;
     this.translationCount = null;
     this.initBibleSyncBoxDone = false;
-  }
-
-  getLanguageMapper() {
-    if (this.languageMapper == null) {
-      const LanguageMapper = require('../../lib/language_mapper.js');
-      this.languageMapper = new LanguageMapper();
-    }
-
-    return this.languageMapper;
   }
 
   getTranslationCount() {
@@ -322,9 +313,9 @@ class TranslationController {
     var languages = [];
     var languageCodes = [];
 
-    for (var i = 0; i < localModules.length; i++) {
-      var module = localModules[i];
-      var languageName = this.getLanguageMapper().getLanguageName(module.language);
+    for (let i = 0; i < localModules.length; i++) {
+      const module = localModules[i];
+      const languageName = i18nHelper.getLanguageName(module.language);
 
       if (!languageCodes.includes(module.language)) {
         languages.push({
