@@ -170,20 +170,10 @@ class OptionsMenu {
 
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
       var display_options_button = currentVerseListMenu.find('.display-options-button');
-      display_options_button.addClass('ui-state-active');
-
-      var display_options_button_offset = display_options_button.offset();
       var menu = $('#app-container').find('#display-options-menu');
-      var top_offset = display_options_button_offset.top + display_options_button.height() + 1;
-      var left_offset = display_options_button_offset.left;
-      if(left_offset+menu.width() > $(window).width()) {
-        left_offset = ($(window).width() - menu.width()) / 2;
-      }
+      
+      uiHelper.showButtonMenu(display_options_button, menu);
 
-      menu.css('top', top_offset);
-      menu.css('left', left_offset);
-
-      $('#app-container').find('#display-options-menu').show();
       this.menuIsOpened = true;
       event.stopPropagation();
     }
