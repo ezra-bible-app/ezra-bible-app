@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const IpcRenderer = require('./ipc_renderer.js');
-const localeController = require('../controllers/locale_controller.js');
 
 class IpcSettings {
   constructor() {

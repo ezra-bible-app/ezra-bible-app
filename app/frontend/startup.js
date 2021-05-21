@@ -23,7 +23,7 @@ const IpcI18n = require('./ipc/ipc_i18n.js');
 const IpcNsi = require('./ipc/ipc_nsi.js');
 const IpcDb = require('./ipc/ipc_db.js');
 const IpcSettings = require('./ipc/ipc_settings.js');
-const localeController = require('./controllers/locale_controller.js');
+const i18nController = require('./controllers/i18n_controller.js');
 
 // UI Helper
 const UiHelper = require('./helpers/ui_helper.js');
@@ -241,7 +241,7 @@ class Startup {
     await this.initIpcClients();
 
     console.log("Initializing i18n ...");
-    await localeController.initI18N();
+    await i18nController.initI18N();
 
     console.log("Loading HTML fragments");
     this.loadHTML();

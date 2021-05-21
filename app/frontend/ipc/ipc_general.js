@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const IpcRenderer = require('./ipc_renderer.js');
-const localeController = require('../controllers/locale_controller.js');
+const i18nController = require('../controllers/i18n_controller.js');
    class IpcGeneral {
     constructor() {
       this._ipcRenderer = new IpcRenderer();
@@ -51,11 +51,11 @@ const localeController = require('../controllers/locale_controller.js');
       return await this._ipcRenderer.call('general_isTest');
     }
 
-    async getSearchStatisticChartData(bibleTranslationId, bookList, bibleBookStats, localeCode=localeController.getLocale()) {
+    async getSearchStatisticChartData(bibleTranslationId, bookList, bibleBookStats, localeCode=i18nController.getLocale()) {
       return await this._ipcRenderer.call('general_getSearchStatisticChartData', bibleTranslationId, localeCode, bookList, bibleBookStats);
     } 
 
-    async getBookNames(bibleBooks, localeCode=localeController.getLocale()) {
+    async getBookNames(bibleBooks, localeCode=i18nController.getLocale()) {
       return await this._ipcRenderer.call('general_getBookNames', bibleBooks, localeCode);
     }
    }

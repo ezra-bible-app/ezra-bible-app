@@ -17,9 +17,9 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { html, waitUntilIdle } = require('../helpers/ezra_helper.js');
-const localeController = require('../controllers/locale_controller.js');
+const i18nController = require('../controllers/i18n_controller.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
-const locales = localeController.getAvailableLocales();
+const locales = i18nController.getAvailableLocales();
 
 const LOCALE_SELECT_WIDTH = '170px'; // FIXME: magic number that works with jQuery UI is not reliable way for constructing stable layout
 
@@ -86,7 +86,7 @@ class LocaleSwitch extends HTMLElement {
 
     this.querySelector('.locale-detect').addEventListener('click', () => this.handleDetectClick());
 
-    this.setSelected(localeController.getLocale());
+    this.setSelected(i18nController.getLocale());
 
     $(this.selectEl).selectmenu({
       appendTo: this.querySelector('.locale-switch-container'),
@@ -94,7 +94,7 @@ class LocaleSwitch extends HTMLElement {
       change: () => this.handleChange(),
     });
 
-    localeController.addLocaleChangeSubscriber(locale => this.updateOptions(locale));
+    i18nController.addLocaleChangeSubscriber(locale => this.updateOptions(locale));
   }
 
   updateOptions(localeCode) {

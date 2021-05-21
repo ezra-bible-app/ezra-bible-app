@@ -21,7 +21,7 @@ const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
 require('../components/emoji_button_trigger.js');
 const { waitUntilIdle, sleep } = require('../helpers/ezra_helper.js');
-const localeController = require('./locale_controller.js');
+const i18nController = require('./i18n_controller.js');
 
 /**
  * The TagsController handles most functionality related to tagging of verses.
@@ -71,7 +71,7 @@ class TagsController {
     this.renameStandardTagDialogInitDone = false;
     this.lastBook = null;
 
-    localeController.addLocaleChangeSubscriber(async () => {
+    i18nController.addLocaleChangeSubscriber(async () => {
       this.updateTagsView(undefined, true);
       this.refreshTagDialogs();
     });

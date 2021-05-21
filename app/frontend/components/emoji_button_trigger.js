@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const localeController = require('../controllers/locale_controller.js');
+const i18nController = require('../controllers/i18n_controller.js');
 const { html, sleep, waitUntilIdle } = require('../helpers/ezra_helper.js');
 
 var emojiPicker; // to keep only one instance of the picker
@@ -140,7 +140,7 @@ function hasNativeEmoji() {
   return platformHelper.isCordova();
 }
 
-async function initPicker(locale=localeController.getLocale()) {
+async function initPicker(locale=i18nController.getLocale()) {
   await sleep(3000); // delay init as emoji picker is not a priority
   await waitUntilIdle();
 
@@ -223,7 +223,7 @@ function subscribePicker() {
 
   emojiPickerSubscribed = true;
 
-  localeController.addLocaleChangeSubscriber(async locale => {
+  i18nController.addLocaleChangeSubscriber(async locale => {
     // FIXME: Handle properly
     try {
       (await emojiPicker).destroyPicker();
