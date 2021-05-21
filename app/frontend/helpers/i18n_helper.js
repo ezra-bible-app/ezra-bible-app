@@ -67,11 +67,13 @@ module.exports.getLocalizedDate = function(timestamp) {
   return new Date(Date.parse(timestamp)).toLocaleDateString(locale);
 }
 
+function toTitleCase(str) {
+  return str.slice(0, 1).toLocaleUpperCase() + str.slice(1);
+}
 module.exports.getLocaleName = function(code, includeNativeName = false, currentLocale = null) {
   currentLocale = currentLocale || localeController.getLocale();
   const localeName = (new Intl.DisplayNames(currentLocale, { type: 'language' })).of(code);
-  const titleCased = localeName.slice(0, 1).toLocaleUpperCase() + localeName.slice(1);
+  const langNative = (new Intl.DisplayNames(code, { type: 'language' })).of(code);
 
-  const langNative = includeNativeName && code !== currentLocale ? ` (${(new Intl.DisplayNames(code, { type: 'language' })).of(code)})` : '';
-  return titleCased + langNative;
+  return toTitleCase(localeName) + (includeNativeName && code !== currentLocale ? ` (${toTitleCase(langNative)})` : '');
 }
