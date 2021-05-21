@@ -18,8 +18,8 @@
 
 const path = require('path');
 const Application = require('spectron').Application;
-const chaiAsPromised = require("chai-as-promised");
-const chai = require("chai");
+const chaiAsPromised = require('chai-as-promised');
+const chai = require('chai');
 
 var app = null;
 
