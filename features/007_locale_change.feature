@@ -30,7 +30,7 @@ Feature: Change app language (locale)
 
   Scenario: Switch app locale
     Given I open the options dialog
-    When I change to the first available locale
+    When I change to the "German" locale
     Then the tab title is "Esra [KJV]"
     And the tag stat text is "0 benutzt / 0 gesamt"
     And the dictionary header text is "Wörterbuch"
