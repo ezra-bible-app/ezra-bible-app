@@ -286,6 +286,24 @@ class UiHelper {
 
     return firstVisibleVerseAnchor;
   }
+
+  showButtonMenu($button, $menu) {
+    const OFFSET_FROM_EDGE = 20;
+
+    $button.addClass('ui-state-active');
+
+    var buttonOffset = $button.offset();
+    var topOffset = buttonOffset.top + $button.height() + 1;
+    var leftOffset = buttonOffset.left;
+    if (leftOffset + $menu.width() > $(window).width() - OFFSET_FROM_EDGE) {
+      leftOffset = ($(window).width() - $menu.width()) / 2;
+    }
+
+    $menu.css('top', topOffset);
+    $menu.css('left', leftOffset);
+
+    $menu.show();
+  }
 }
 
 module.exports = UiHelper;

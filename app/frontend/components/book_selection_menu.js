@@ -202,17 +202,10 @@ class BookSelectionMenu {
       
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
       var book_button = currentVerseListMenu.find('.book-select-button');
-      book_button.addClass('ui-state-active');
-
-      var book_button_offset = book_button.offset();
       var menu = $('#app-container').find('#book-selection-menu');
-      var top_offset = book_button_offset.top + book_button.height() + 1;
-      var left_offset = book_button_offset.left;
 
-      menu.css('top', top_offset);
-      menu.css('left', left_offset);
+      uiHelper.showButtonMenu(book_button, menu);
 
-      $('#app-container').find('#book-selection-menu').show();
       this.book_menu_is_opened = true;
       event.stopPropagation();
     }
