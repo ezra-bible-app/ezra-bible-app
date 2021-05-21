@@ -36,7 +36,7 @@ module.exports.getReferenceSeparator = async function(moduleCode=undefined) {
 }
 
 module.exports.getSwordTranslation = async function(originalString) {
-  return await ipcNsi.getSwordTranslation(originalString, i18n.language);
+  return await ipcNsi.getSwordTranslation(originalString, localeController.getLocale());
 }
 
 module.exports.getBookAbbreviation = async function(bookCode) {
