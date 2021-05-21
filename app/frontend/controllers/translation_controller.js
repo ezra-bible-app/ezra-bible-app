@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const i18nController = require('../controllers/i18n_controller.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 const { sleep } = require('../helpers/ezra_helper.js');
 
@@ -196,6 +197,8 @@ class TranslationController {
       }
       
       this.addTranslationsToBibleSelectMenu(tabIndex, translations);
+      i18nController.addLocaleChangeSubscriber(locale => this.updateLanguages(locale, bibleSelect));
+
     }
 
     bibleSelect.selectmenu({
@@ -388,6 +391,24 @@ class TranslationController {
       bibleSelect.selectmenu();
     }
   }
+
+  updateLanguages(localeCode, bibleSelect) {
+    if (bibleSelect === null) {
+      return;
+    }
+
+    let optGroups = bibleSelect.find('optgroup');
+
+    for (let i = 0; i < optGroups.length; i++) {
+      let optgroup = optGroups[i];
+      const code = optgroup.getAttribute('class').split('-')[2];
+      optgroup.setAttribute('label', i18nHelper.getLanguageName(code, false, localeCode));
+    }
+
+    // Refresh the selectmenu widget
+    bibleSelect.selectmenu();
+  }
+
 }
 
 module.exports = TranslationController;
