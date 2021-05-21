@@ -21,7 +21,7 @@ const localeController = require('../controllers/locale_controller.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 const locales = localeController.getAvailableLocales();
 
-const SELECT_WIDTH = '170px'; // FIXME: magic number that works with jQuery UI
+const LOCALE_SELECT_WIDTH = '170px'; // FIXME: magic number that works with jQuery UI is not reliable way for constructing stable layout
 
 const template = html`
   <style>
@@ -38,7 +38,7 @@ const template = html`
       display: flex;
       align-items: center;
       justify-content: center;
-      width: calc(100% - ${SELECT_WIDTH});
+      width: calc(100% - ${LOCALE_SELECT_WIDTH});
     }
     .locale-detect i.fas+[i18n] {
       margin-left: 0.8em;
@@ -90,7 +90,7 @@ class LocaleSwitch extends HTMLElement {
 
     $(this.selectEl).selectmenu({
       appendTo: this.querySelector('.locale-switch-container'),
-      width: SELECT_WIDTH,
+      width: LOCALE_SELECT_WIDTH,
       change: () => this.handleChange(),
     });
 
