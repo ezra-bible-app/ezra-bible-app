@@ -763,9 +763,13 @@ class TabController {
 
       switch (currentMetaTab.getTextType()) {
         case 'book': {
-          currentMetaTab.bookTitle = await i18nHelper.getSwordTranslation(currentMetaTab.getReferenceBookTitle());
-          const tabTitle = currentMetaTab.bookTitle;
-          this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), i);
+          let referenceBookTitle = currentMetaTab.getReferenceBookTitle();
+
+          if (referenceBookTitle != null) {
+            currentMetaTab.bookTitle = await i18nHelper.getSwordTranslation(currentMetaTab.getReferenceBookTitle());
+            const tabTitle = currentMetaTab.bookTitle;
+            this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), i);
+          }
         }
           break;
 
