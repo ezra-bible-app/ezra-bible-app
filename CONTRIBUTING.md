@@ -44,14 +44,16 @@ If you want to help with a new translation, these are the steps:
       "context": "Context"
     }
 ```
-4) Once the translation is complete, it needs to be added to the `AVAILABLE_LOCALES` list in `/app/frontend/controllers/i18n_controller.js`:
+4) Once the translation is complete, it needs to be added to the `AVAILABLE_LOCALES` list in [`/app/frontend/controllers/i18n_controller.js`](https://github.com/ezra-bible-app/ezra-bible-app/blob/master/app/frontend/controllers/i18n_controller.js):
 ```
 const AVAILABLE_LOCALES = ['de', 'en', 'nl', 'fr', 'es', 'sk', 'uk', 'ru'];  <== Add the language
 ```
 
-5) You can test the new translation by installing all dependencies (see BUILD.md) and starting the app using `npm start`. Once you start the app there should be the new option under App Language select box in the settings.
+5) Add your name and GitHub profile link to the list of translators in [`app/frontend/components/info_popup.js`](https://github.com/ezra-bible-app/ezra-bible-app/blob/master/app/frontend/components/info_popup.js#L106).
 
-6) Submit a pull request once you have a working draft.
+6) You can test the new translation by installing all dependencies (see BUILD.md) and starting the app using `npm start`. Once you start the app there should be the new option under App Language select box in the settings.
+
+7) Submit a pull request once you have a working draft.
 
 ### Translating emoji categories
 
