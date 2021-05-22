@@ -373,7 +373,7 @@ class AppController {
         uiHelper.resizeAppContainer();
       }
 
-      if (await ipcDb.getTagCount() > 0) {
+      if (this.tab_controller.getTab().isValid() && await ipcDb.getTagCount() > 0) {
         tags_controller.showTagListLoadingIndicator();
       }
 
