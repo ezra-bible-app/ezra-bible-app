@@ -48,7 +48,7 @@
     "translations": "Traduceri",
     "removal": "Ștergere",
     "module-feature-filter": "Filtru de funcții",
-    "repo-selection-info-text":"Aplicația Ezra Bible funcționează cu {{module_type}} furnizat de <a class='external' href='http://www.crosswire.org/sword'> proiectul SWORD </a> și <a class = 'external' href='http://www.crosswire.org '> CrossWire Bible Society </a>. <br/> <br/> Mai jos ai lista depozitelor SWORD publicate de CrossWire. Un depozit este o locație de stocare pe internet care conține un set de {{module_type}}. Lângă fiecare depozit, vezi numărul total de {{module_type}} disponibile din depozitul respectiv. <br/> <br/> Pentru a instala un modul, selectează cel puțin un depozit din lista de mai jos. Ai putea începe cu depozitele <i> CrossWire </i> și <i> eBible.org </i>.",
+    "repo-selection-info-text":"Aplicația Ezra Bible funcționează cu {{module_type}} furnizate de <a class='external' href='http://www.crosswire.org/sword'> proiectul SWORD </a> și <a class = 'external' href='http://www.crosswire.org '> CrossWire Bible Society </a>. <br/> <br/> Mai jos ai lista depozitelor SWORD publicate de CrossWire. Un depozit este o locație de stocare pe internet care conține un set de {{module_type}}. Lângă fiecare depozit, vezi numărul total de {{module_type}} disponibile din depozitul respectiv. <br/> <br/> Pentru a instala un modul, selectează cel puțin un depozit din lista de mai jos. Ai putea începe cu depozitele <i> CrossWire </i> și <i> eBible.org </i>.",
     "more-repo-information-needed": "Ai nevoie de mai multe informații despre aceste depozite? <br/> Vizitează <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'> CrossWire Wiki </a>.",
     "click-to-show-detailed-module-info": "Fă click pe un cod de modul (link după numele modulului) pentru a afișa informații detaliate aici.",
     "updating-repository-data": "Actualizare date din depozit! Va dura câteva secunde ...",
@@ -226,7 +226,7 @@
     "greek-dict": "Dicționar grec",
     "hebrew-dict": "Dicționar ebraic",
     "default-header": "<b>Dicţionar</b>",
-    "help-instruction": "<p> Cum să afișezi intrările de dicționar aici: </p> <ol> <li> Mai întâi deschideți o traducere cu caracteristica Concordanță. </li> <li> În timp ce apăsați tasta SHIFT, puteți muta mouse-ul peste anumite cuvinte și fraze ca să vezi intrările din dicționar aici. </li> <ol> ",
+    "help-instruction": "<p> Cum să afișezi intrările de dicționar aici: </p> <ol> <li> Mai întâi deschide o traducere cu caracteristica Concordanță. </li> <li> În timp ce apeși tasta SHIFT, poți muta mouse-ul peste anumite cuvinte și fraze ca să vezi intrările din dicționar aici. </li> <ol> ",
     "find-all-occurrences": "Găsește toate aparițiile",
     "open-in-blueletter": "Deschide în Biblia cu litere albastre",
     "related-strongs": "Concordanțe asociate"
