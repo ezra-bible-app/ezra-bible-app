@@ -16,94 +16,64 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const PlatformHelper = require('../../lib/platform_helper.js');
-const jqueryI18next = require('jquery-i18next');
+const i18nController = require('../controllers/i18n_controller.js');
 
-const i18nextOptions = {
-  debug: false,
-  interpolation: {
-    escapeValue: false
-  },
-  saveMissing: false,
-  fallbackLng: 'en',
-  whitelist: ['de', 'en', 'nl', 'fr', 'es', 'sk', 'uk', 'ru'],
-  react: {
-    wait: false
-  }
-};
-
-class I18nHelper {
-  constructor() {
-    this._platformHelper = new PlatformHelper();
-    this._isCordova = this._platformHelper.isCordova();
-  }
-
-  async init() {
-    window.i18n = require('i18next');
-    const I18nIpcBackend = require('../ipc/i18n_ipc_backend.js');
-
-    let LanguageDetector = null;
+module.exports.getReferenceSeparator = async function(moduleCode=undefined) {
+  if (moduleCode == undefined) {
     
-    if (platformHelper.isElectron()) {
-      LanguageDetector = require('i18next-electron-language-detector');
-    } else {
-      const _LanguageDetector = require('../platform/i18next_browser_language_detector.js');
-      LanguageDetector = new _LanguageDetector();
-    }
+    return reference_separator;
 
-    await i18n
-    .use(LanguageDetector)
-    .use(I18nIpcBackend)
-    .init(i18nextOptions);
-
-    jqueryI18next.init(i18n, $, {
-      tName: 't', // --> appends $.t = i18next.t
-      i18nName: 'i18n', // --> appends $.i18n = i18next
-      handleName: 'localize', // --> appends $(selector).localize(opts);
-      selectorAttr: 'i18n', // selector for translating elements
-      targetAttr: 'i18n-target', // data-() attribute to grab target element to translate (if different than itself)
-      optionsAttr: 'i18n-options', // data-() attribute that contains options, will load/set if useOptionsAttr = true
-      useOptionsAttr: false, // see optionsAttr
-      parseDefaultValueFromContent: true // parses default values from content ele.val or ele.text
-    });
-  }
-
-  getLanguage() {
-    var lang = i18n.language;
-    return lang.slice(0, 2); // just in case we got language region code (i.e "en-US") we want only language code ("en")
-  }
-
-  async getSwordTranslation(originalString) {
-    return await ipcNsi.getSwordTranslation(originalString, i18n.language);
-  }
-
-  async getBookAbbreviation(bookCode) {
-    var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    return await ipcNsi.getBookAbbreviation(currentBibleTranslationId, bookCode, this.getLanguage());
-  }
-
-  async getSpecificTranslation(lang, key) {
-    var specificTranslation = i18n.t(key, {lng: lang}); // https://www.i18next.com/translation-function/essentials
-
-    return specificTranslation;
-  }
-
-  async getChapterTranslation(lang) {
-    var language = lang||this.getLanguage();
-
-    return await this.getSpecificTranslation(language, 'bible-browser.chapter');
-  }
-
-  async getPsalmTranslation(lang) {
-    var language = lang||this.getLanguage();
-
-    return await this.getSpecificTranslation(language, 'bible-browser.psalm');
-  }
-
-  getLocalizedDate(timestamp) {
-    var language = this.getLanguage();
-    return new Date(Date.parse(timestamp)).toLocaleDateString(language);
+  } else {
+    var moduleReferenceSeparator = reference_separator;
+    
+    try {
+      var localModule = await ipcNsi.getLocalModule(moduleCode);
+      moduleReferenceSeparator = await this.getSpecificTranslation(localModule.language, 'general.chapter-verse-separator');
+    } catch (e) {}
+    
+    return moduleReferenceSeparator;
   }
 }
 
-module.exports = I18nHelper;
+module.exports.getSwordTranslation = async function(originalString) {
+  return await ipcNsi.getSwordTranslation(originalString, i18nController.getLocale());
+}
+
+module.exports.getBookAbbreviation = async function(bookCode) {
+  var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+  return await ipcNsi.getBookAbbreviation(currentBibleTranslationId, bookCode, i18nController.getLocale());
+}
+
+module.exports.getSpecificTranslation = async function(lang, key) {
+  var specificTranslation = i18n.t(key, { lng: lang }); // https://www.i18next.com/translation-function/essentials
+
+  return specificTranslation;
+}
+
+module.exports.getChapterTranslation = async function(lang) {
+  var locale = lang || i18nController.getLocale();
+
+  return await this.getSpecificTranslation(locale, 'bible-browser.chapter');
+}
+
+module.exports.getPsalmTranslation = async function(lang) {
+  var language = lang || i18nController.getLocale();
+
+  return await i18nController.getSpecificTranslation(language, 'bible-browser.psalm');
+}
+
+module.exports.getLocalizedDate = function(timestamp) {
+  var locale = i18nController.getLocale();
+  return new Date(Date.parse(timestamp)).toLocaleDateString(locale);
+}
+
+function toTitleCase(str) {
+  return str.slice(0, 1).toLocaleUpperCase() + str.slice(1);
+}
+module.exports.getLanguageName = function(code, includeNativeName = false, currentLocale = null) {
+  currentLocale = currentLocale || i18nController.getLocale();
+  const localeName = (new Intl.DisplayNames(currentLocale, { type: 'language' })).of(code);
+  const langNative = (new Intl.DisplayNames(code, { type: 'language' })).of(code);
+
+  return toTitleCase(localeName) + (includeNativeName && code !== currentLocale ? ` (${toTitleCase(langNative)})` : '');
+}

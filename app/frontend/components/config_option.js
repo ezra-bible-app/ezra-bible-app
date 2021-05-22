@@ -83,8 +83,10 @@ class ConfigOption extends HTMLElement {
   }
 
   localize() {
-    var labelId = this.getAttribute('label');
-    this.querySelector('.switch-label').innerText = i18n.t(labelId);
+    var i18nId = this.getAttribute('label');
+    var labelEl = this.querySelector('.switch-label');
+    labelEl.innerText = i18n.t(i18nId);
+    labelEl.setAttribute('i18n', i18nId);
   }
 
   _isChecked(force = false) {

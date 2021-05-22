@@ -16,11 +16,6 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-// i18n
-window.i18n = null;
-window.I18nHelper = null;
-window.i18nHelper = null;
-window.i18nInitDone = false;
 
 const PlatformHelper = require('../lib/platform_helper.js');
 const IpcGeneral = require('./ipc/ipc_general.js');
@@ -28,6 +23,7 @@ const IpcI18n = require('./ipc/ipc_i18n.js');
 const IpcNsi = require('./ipc/ipc_nsi.js');
 const IpcDb = require('./ipc/ipc_db.js');
 const IpcSettings = require('./ipc/ipc_settings.js');
+const i18nController = require('./controllers/i18n_controller.js');
 
 // UI Helper
 const UiHelper = require('./helpers/ui_helper.js');
@@ -40,11 +36,10 @@ const { waitUntilIdle } = require('./helpers/ezra_helper.js');
  * The main entry point is the method `initApplication()`.
  * @category Startup
  */
-class Startup
-{
+class Startup {
   constructor() {
     this._platformHelper = new PlatformHelper();
-    
+
     window.ipcI18n = null;
     window.ipcNsi = null;
     window.ipcDb = null;
@@ -56,50 +51,30 @@ class Startup
     window.tags_controller = null;
   }
 
-  async initI18N() {
-    if (window.i18nInitDone) {
-      return;
-    }
-  
-    window.i18nInitDone = true;
-  
-    I18nHelper = require('./helpers/i18n_helper.js');
-    i18nHelper = new I18nHelper();
-  
-    await i18nHelper.init();
-    // await i18n.changeLanguage('de');
-  
-    if (this._platformHelper.isTest()) { // Use English for test mode
-      await i18n.changeLanguage('en');
-    }
-  
-    reference_separator = i18n.t('general.chapter-verse-separator');
-  }
-
   async initTest() {
     if (app.commandLine.hasSwitch('install-kjv')) {
       var repoConfigExisting = await ipcNsi.repositoryConfigExisting();
-  
+
       if (!repoConfigExisting) {
         $('#loading-subtitle').text("Updating repository config");
         await ipcNsi.updateRepositoryConfig();
       }
-  
+
       var kjvModule = await ipcNsi.getLocalModule('KJV');
       if (kjvModule == null) {
         $('#loading-subtitle').text("Installing KJV");
         await ipcNsi.installModule('KJV');
       }
     }
-  
+
     if (app.commandLine.hasSwitch('install-asv')) {
       var repoConfigExisting = await ipcNsi.repositoryConfigExisting();
-  
+
       if (!repoConfigExisting) {
         $('#loading-subtitle').text("Updating repository config");
         await ipcNsi.updateRepositoryConfig();
       }
-  
+
       var kjvModule = await ipcNsi.getLocalModule('ASV');
       if (kjvModule == null) {
         $('#loading-subtitle').text("Installing ASV");
@@ -112,11 +87,12 @@ class Startup
     if (!this._platformHelper.isElectron()) {
       window.Buffer = require('buffer/').Buffer;
     }
-  
+
     const fs = require('fs');
 
     require('./components/config_option.js');
-  
+    require('./components/locale_switch.js');
+
     var bookSelectionMenu = fs.readFileSync('html/book_selection_menu.html');
     var tagSelectionMenu = fs.readFileSync('html/tag_selection_menu.html');
     var tagAssignmentMenu = fs.readFileSync('html/tag_assignment_menu.html');
@@ -126,7 +102,7 @@ class Startup
     var displayOptionsMenu = fs.readFileSync('html/display_options_menu.html');
     var verseListTabs = fs.readFileSync('html/verse_list_tabs.html');
     var boxes = fs.readFileSync('html/boxes.html');
-  
+
     document.getElementById('book-selection-menu').innerHTML = bookSelectionMenu;
     document.getElementById('tag-selection-menu').innerHTML = tagSelectionMenu;
     document.getElementById('tag-assignment-menu').innerHTML = tagAssignmentMenu;
@@ -142,11 +118,11 @@ class Startup
     if (window.ipcGeneral === undefined) {
       window.ipcGeneral = new IpcGeneral();
     }
-  
+
     if (window.ipcI18n === undefined) {
       window.ipcI18n = new IpcI18n();
     }
-  
+
     window.ipcNsi = new IpcNsi();
     window.ipcDb = new IpcDb();
     window.ipcSettings = new IpcSettings();
@@ -155,10 +131,10 @@ class Startup
   async initControllers() {
     const AppController = require('./controllers/app_controller.js');
     const TagsController = require('./controllers/tags_controller.js');
-  
+
     window.app_controller = new AppController();
     await app_controller.init();
-  
+
     window.tags_controller = new TagsController();
 
     const ThemeController = require('./controllers/theme_controller.js');
@@ -167,44 +143,44 @@ class Startup
 
   initUi() {
     this._platformHelper.addPlatformCssClass();
-  
+
     // Setup resizable function for divider between tags toolbox and verse list
     $('#bible-browser-toolbox').resizable({
       handles: 'e',
-      resize: function(event, ui) {
+      resize: function (event, ui) {
         uiHelper.adaptVerseList();
       },
-      stop: function(event, ui) {
+      stop: function (event, ui) {
         //console.log("Saving new tag list width: " + ui.size.width);
         ipcSettings.set('tagListWidth', ui.size.width);
       }
     });
-  
+
     tags_controller.initTagsUI();
     uiHelper.configureButtonStyles();
-  
+
     if (!platformHelper.isMac()) {
       $('.fullscreen-button').bind('click', () => {
         app_controller.toggleFullScreen();
       });
     }
-  
+
     $(window).bind("resize", () => { uiHelper.resizeAppContainer(); });
   }
 
   async earlyHideToolBar() {
     //var settings = require('electron-settings');
-  
+
     var showToolBar = await ipcSettings.get('showToolBar', true);
-  
+
     if (!showToolBar) {
       $('#bible-browser-toolbox').hide();
     }
   }
-  
+
   async earlyInitNightMode() {
     var useNightMode = await ipcSettings.get('useNightMode', false);
-  
+
     if (useNightMode) {
       document.body.classList.add('darkmode--activated');
     }
@@ -215,7 +191,7 @@ class Startup
     $('body').on('click', 'a.external, p.external a, div.external a', (event) => {
       event.preventDefault();
       let link = event.target.href;
-  
+
       if (platformHelper.isElectron()) {
 
         require("electron").shell.openExternal(link);
@@ -223,7 +199,7 @@ class Startup
       } else if (platformHelper.isCordova()) {
 
         window.open(link, '_system');
-        
+
       }
     });
   }
@@ -238,7 +214,7 @@ class Startup
 
     if (isDev) {
       window.Sentry = {
-        addBreadcrumb: function() {},
+        addBreadcrumb: function () { },
         Severity: {
           Info: undefined
         }
@@ -265,7 +241,7 @@ class Startup
     await this.initIpcClients();
 
     console.log("Initializing i18n ...");
-    await this.initI18N();
+    await i18nController.initI18N();
 
     console.log("Loading HTML fragments");
     this.loadHTML();

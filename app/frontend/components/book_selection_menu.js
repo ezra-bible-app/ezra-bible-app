@@ -16,7 +16,10 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const i18nHelper = require('../helpers/i18n_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
+const i18nController = require('../controllers/i18n_controller.js');
+const cacheController = require('../controllers/cache_controller.js');
    
 /**
  * The BookSelectionMenu component implements all event handling for the book selection menu.
@@ -32,25 +35,20 @@ class BookSelectionMenu {
   async init() {
     if (this.init_completed) return;
 
-    var menu = $('#app-container').find('#book-selection-menu');
-    menu.bind('click', app_controller.handleBodyClick);
+    const menu = document.querySelector('#app-container #book-selection-menu');
+    menu.addEventListener('click', app_controller.handleBodyClick);
 
-    var cacheInvalid = await app_controller.isCacheInvalid();
+    var cachedHtml = await cacheController.getCachedItem('bookSelectionMenuCache');
 
-    var hasCachedBookSelectionMenu = await ipcSettings.has('bookSelectionMenuCache', 'html-cache');
-
-    if (!cacheInvalid && hasCachedBookSelectionMenu) {
-      var cachedHtml = await ipcSettings.get('bookSelectionMenuCache');
-      var menu = $('#app-container').find('#book-selection-menu');
-
+    if (cachedHtml) {
       menu.innerHTML = cachedHtml;
-
     } else {
       console.log("Localizing book selection menu ...")
       await this.localizeBookSelectionMenu();
     }
 
     this.initLinks();
+    this.subscribeForLocaleUpdates();
     this.init_completed = true;
   }
 
@@ -67,21 +65,35 @@ class BookSelectionMenu {
 
         var current_link_href = $(event.target).attr('href');
         var current_book_title = $(event.target).html();
+        var current_reference_book_title = $(event.target).attr('book-name');
 
-        app_controller.book_selection_menu.selectBibleBook(current_link_href, current_book_title);
+        app_controller.book_selection_menu.selectBibleBook(current_link_href, current_book_title, current_reference_book_title);
       });
     }
   }
 
+  subscribeForLocaleUpdates() {
+    i18nController.addLocaleChangeSubscriber(async () => {
+      this.localizeBookSelectionMenu();
+    });
+  }
+
   // This function is rather slow and it delays app startup! (~175ms)
   async localizeBookSelectionMenu() {
-    var aElements = document.getElementById("book-selection-menu").querySelectorAll('a');
+    var aElements = document.querySelectorAll("#book-selection-menu a");
 
     for (var i = 0; i < aElements.length; i++) {
       var currentBook = aElements[i];
-      var currentBookTranslation = await i18nHelper.getSwordTranslation(currentBook.textContent);
-      currentBook.textContent = currentBookTranslation;
+      var currentBookName = currentBook.getAttribute('book-name');
+
+      if (currentBookName != null) {
+        var currentBookTranslation = await i18nHelper.getSwordTranslation(currentBookName);
+        currentBook.textContent = currentBookTranslation;
+      }
     }
+
+    var html = document.getElementById("book-selection-menu").innerHTML;
+    cacheController.setCachedItem('bookSelectionMenuCache', html);
   }
 
   async updateAvailableBooks(tabIndex=undefined) {
@@ -111,7 +123,7 @@ class BookSelectionMenu {
     }
   }
 
-  async selectBibleBook(book_code, book_title) {
+  async selectBibleBook(book_code, book_title, reference_book_title) {
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     if (currentBibleTranslationId == null || currentBibleTranslationId == undefined) {
       return;
@@ -131,7 +143,7 @@ class BookSelectionMenu {
 
     var currentTab = app_controller.tab_controller.getTab();
     currentTab.setTextType('book');
-    app_controller.tab_controller.setCurrentTabBook(book_code, book_title);
+    app_controller.tab_controller.setCurrentTabBook(book_code, book_title, reference_book_title);
 
     app_controller.tag_selection_menu.hideTagMenu();
     app_controller.tag_selection_menu.resetTagMenu();
@@ -147,7 +159,7 @@ class BookSelectionMenu {
       currentTab.setTagIdList(null);
       currentTab.setSearchTerm(null);
       currentTab.setXrefs(null);
-      currentTab.setVerseReferenceId(null);
+      currentTab.setReferenceVerseElementId(null);
 
       var currentVerseList = app_controller.getCurrentVerseList();
       currentTab.tab_search.setVerseList(currentVerseList);
@@ -190,17 +202,10 @@ class BookSelectionMenu {
       
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
       var book_button = currentVerseListMenu.find('.book-select-button');
-      book_button.addClass('ui-state-active');
-
-      var book_button_offset = book_button.offset();
       var menu = $('#app-container').find('#book-selection-menu');
-      var top_offset = book_button_offset.top + book_button.height() + 1;
-      var left_offset = book_button_offset.left;
 
-      menu.css('top', top_offset);
-      menu.css('left', left_offset);
+      uiHelper.showButtonMenu(book_button, menu);
 
-      $('#app-container').find('#book-selection-menu').show();
       this.book_menu_is_opened = true;
       event.stopPropagation();
     }

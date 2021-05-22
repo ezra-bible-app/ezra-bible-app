@@ -18,13 +18,13 @@ async function getNSI(refresh = false) {
   return nsi;
 }
 
-async function getVerseReferenceHelper() {
+module.exports.getVerseReferenceHelper = async function() {
   var verseReferenceHelper = new VerseReferenceHelper(await getNSI());
   verseReferenceHelper.setReferenceSeparator(':');
   return verseReferenceHelper;
 }
 
-function getBookShortTitle(book_long_title) {
+module.exports.getBookShortTitle = function(book_long_title) {
   for (var i = 0; i < global.bible_books.length; i++) {
     var current_book = global.bible_books[i];
     if (current_book.long_title == book_long_title) {
@@ -47,7 +47,7 @@ async function isAsvAvailable(refreshNsi = false) {
   return asvFound;
 }
 
-async function backupSwordDir() {
+module.exports.backupSwordDir = async function() {
   var userDataDir = await spectronHelper.getUserDataDir();
   var swordDir = userDataDir + '/.sword';
   var backupDir = userDataDir + '/.swordBackup';
@@ -55,7 +55,7 @@ async function backupSwordDir() {
   copydir.sync(swordDir, backupDir);
 }
 
-async function installASV() {
+module.exports.installASV = async function() {
   var userDataDir = await spectronHelper.getUserDataDir();
   var swordDir = userDataDir + '/.sword';
   var backupDir = userDataDir + '/.swordBackup';
@@ -81,7 +81,7 @@ async function installASV() {
   await spectronHelper.sleep(500);
 }
 
-async function getLocalModule(moduleCode) {
+module.exports.getLocalModule = async function(moduleCode) {
   var app = spectronHelper.getApp();
 
   if (app) {
@@ -99,24 +99,15 @@ async function getLocalModule(moduleCode) {
   return null;
 }
 
-async function splitVerseReference(verseReference, translation = 'KJV') {
+module.exports.splitVerseReference = async function(verseReference, translation = 'KJV') {
   var [book, verseReferenceString] = verseReference.split(' ');
-  var bookId = getBookShortTitle(book);
+  var bookId = this.getBookShortTitle(book);
 
-  var verseReferenceHelper = await getVerseReferenceHelper();
+  var verseReferenceHelper = await this.getVerseReferenceHelper();
   var absoluteVerseNumber = await verseReferenceHelper.referenceStringToAbsoluteVerseNr(translation, bookId, verseReferenceString);
 
   return {
     bookId,
     absoluteVerseNumber
   }
-}
-
-module.exports = {
-  getVerseReferenceHelper,
-  getBookShortTitle,
-  backupSwordDir,
-  installASV,
-  getLocalModule,
-  splitVerseReference,
 }

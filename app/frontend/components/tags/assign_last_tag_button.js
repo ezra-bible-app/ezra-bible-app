@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
+const i18nController = require('../../controllers/i18n_controller.js');
 
 /**
  * The AssignLastTagButton always shows the latest used tag. It gets updated when
@@ -41,6 +42,26 @@ class AssignLastTagButton {
         uiHelper.hideTextLoadingIndicator();
       }
     });
+
+    i18nController.addLocaleChangeSubscriber(async () => {
+      await this.updateLabel();
+    });
+  }
+
+  async updateLabel(tagTitle=undefined) {
+    if (!tagTitle) {
+      tagTitle = await this.getCurrentTag();
+    }
+
+    var assignLastTagButton = $('.assign-last-tag-button');
+    var label = i18n.t('tags-toolbar.assign-last-tag') + ': ' + tagTitle;
+    assignLastTagButton.text(label);
+  }
+
+  async getCurrentTag() {
+    var tagId = tags_controller.tag_store.latest_tag_id;
+    var currentTag = await tags_controller.tag_store.getTag(tagId);
+    return currentTag !== null ? currentTag.title : '';
   }
 
   async onLatestUsedTagChanged(tagId=undefined, added=true, currentDbTag=undefined) {
@@ -59,9 +80,8 @@ class AssignLastTagButton {
     }
 
     if (currentTag != null) {
+      await this.updateLabel(currentTag.title);
       var assignLastTagButton = $('.assign-last-tag-button');
-      var label = i18n.t('tags-toolbar.assign-last-tag') + ': ' + currentTag.title;
-      assignLastTagButton.text(label);
 
       if (added) {
         assignLastTagButton.addClass('ui-state-disabled');
