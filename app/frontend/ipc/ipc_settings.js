@@ -47,10 +47,6 @@ class IpcSettings {
     return await this._ipcRenderer.call('settings_storeLastUsedVersion');
   }
 
-  async storeLastUsedLanguage() {
-    return await this._ipcRenderer.call('settings_storeLastUsedLanguage', i18n.language);
-  }
-
   async getConfigFilePath() {
     return await this._ipcRenderer.call('settings_getConfigFilePath');
   }

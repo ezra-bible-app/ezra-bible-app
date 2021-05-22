@@ -23,8 +23,8 @@ const dbHelper = require("../helpers/db_helper.js");
 const uiHelper = require("../helpers/ui_helper.js");
 
 
-Given('I have {display_option} {state}', { timeout: 40 * 1000 }, async function (displayOptionId, state) {
-  const configOption = await spectronHelper.getWebClient().$(displayOptionId);
+Given('I have {display_option} {state}', { timeout: 40 * 1000 }, async function (displayOptionSelector, state) {
+  const configOption = await spectronHelper.getWebClient().$(displayOptionSelector);
   const checkbox = await configOption.$('.toggle-config-option-switch');
   const checked = await checkbox.getAttribute('checked');
   if (state && !checked || !state && checked) {
@@ -32,9 +32,9 @@ Given('I have {display_option} {state}', { timeout: 40 * 1000 }, async function 
     const displayOptionsButton = await verseListTabs.$('.display-options-button');
 
     await displayOptionsButton.click();
-    await spectronHelper.sleep();
+    await spectronHelper.sleep(500);
     await checkbox.click();
-    await spectronHelper.sleep();
+    await spectronHelper.sleep(500);
   }
 });
 

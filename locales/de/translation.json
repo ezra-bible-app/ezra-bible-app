@@ -52,7 +52,7 @@
     "more-repo-information-needed": "Sie benötigen weitere Informationen zu diesen Internetarchiven?<br/>Werfen Sie einen Blick auf das <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> (Englisch).",
     "click-to-show-detailed-module-info": "Klicken Sie auf einen Modulcode (Link hinter Modulname), um hier detaillierte Informationen anzuzeigen.",
     "updating-repository-data": "Aktualisiere Internetarchivdaten! Das dauert ein paar Sekunden ...",
-    "updating": "Aktualisiere ...",    
+    "updating": "Aktualisiere ...",
     "update-repository-data-failed": "Aktualisieren der Internetarchivdaten fehlgeschlagen. Sind Sie offline?",
     "loading-repositories": "Lade Internetarchive ...",
     "loading-languages": "Lade Sprachen ...",
@@ -132,7 +132,10 @@
     "applying-migrations": "Migriere Datenbank auf neue Version",
     "developers": "Entwickler",
     "translators": "Übersetzer",
-    "versions-and-paths": "Versionen und Pfade"
+    "versions-and-paths": "Versionen und Pfade",
+    "app-language": "Application Language",
+    "detect-locale": "Auto",
+    "detect-locale-hint": "Automatically detect locale based on system language"
   },
   "help": {
     "help-text-no-tags-book-opened": "Sie wollen anfangen mit Tags zu arbeiten?<br/><br/>Erstellen Sie Ihren ersten Tag, indem Sie auf den Button <i>Neuer&nbsp;Tag</i> klicken.<br/><br/>Danach können Sie beim Studium des Bibeltexts den Tag zuordnen, indem Sie auf den Vers klicken oder mehrere Verse mit gehaltener Maustaste auswählen und dann links die Auswahlbox neben dem gerade erstellten Tag anklicken.",
@@ -159,10 +162,11 @@
     "tag-filter": "Filter: ",
     "recently-used-filter": "Nur kürzlich verwendete Tags",
     "assign-tag": "Tag zuweisen",
-    "change-tags": "Tags ändern",    
+    "change-tags": "Tags ändern",
     "delete-tag-permanently": "Diesen Tag dauerhaft löschen",
     "none-selected": "Keine",
     "rename-tag": "Tag umbenennen",
+    "rename-tag-button": "[Umbenennen]",
     "title": "Titel",
     "stats-used": "benutzt",
     "stats-total": "gesamt",
@@ -245,7 +249,7 @@
       "flags": "Flags"
     }
   },
-  "cordova" : {
+  "cordova": {
     "welcome-to-ezra-bible-app": "Willkommen bei Ezra Bible App!",
     "storage-justification": "Ezra Bible App benötigt Zugriff auf den Gerätespeicher, um SWORD Module und die Datenbank zu speichern.<br><br>Nachdem Sie den Button unten gedrückt haben werden Sie gebeten, Ezra Bible App den Zugriff auf den Speicher zu erlauben.",
     "enable-storage-access": "Zugriff auf Gerätespeicher aktivieren",

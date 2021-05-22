@@ -22,6 +22,7 @@ class Tab {
     this.book = null;
     this.bookTitle = null;
     this.chapter = null;
+    this.referenceBookTitle = null;
     this.tagIdList = "";
     this.tagTitleList = "";
     this.taggedVersesTitle = null;
@@ -30,7 +31,7 @@ class Tab {
     this.searchOptions = {};
     this.searchCancelled = false;
     this.xrefs = null;
-    this.verseReferenceId = null;
+    this.referenceVerseElementId = null;
     this.xrefTitle = null;
     this.textType = null;
     this.lastHighlightedNavElementIndex = null;
@@ -74,10 +75,11 @@ class Tab {
     return i18n.t("menu.search") + ": " + searchTerm;
   }
 
-  setBook(bookCode, bookTitle, chapter) {
+  setBook(bookCode, bookTitle, referenceBookTitle, chapter=undefined) {
     this.searchResults = null;
     this.book = bookCode;
     this.bookTitle = bookTitle;
+    this.referenceBookTitle = referenceBookTitle;
     this.chapter = chapter;
   }
 
@@ -95,6 +97,10 @@ class Tab {
 
   setChapter(chapter) {
     this.chapter = chapter;
+  }
+
+  getReferenceBookTitle() {
+    return this.referenceBookTitle;
   }
 
   setTagIdList(tagIdList) {
@@ -162,12 +168,12 @@ class Tab {
     return this.xrefs;
   }
 
-  setVerseReferenceId(verseReferenceId) {
-    this.verseReferenceId = verseReferenceId;
+  setReferenceVerseElementId(referenceVerseElementId) {
+    this.referenceVerseElementId = referenceVerseElementId;
   }
 
-  getVerseReferenceId() {
-    return this.verseReferenceId;
+  getReferenceVerseElementId() {
+    return this.referenceVerseElementId;
   }
 
   setXrefTitle(xrefTitle) {
@@ -205,7 +211,7 @@ class Tab {
   }
 
   hasReferenceVerse() {
-    return this.getVerseReferenceId() != null;
+    return this.getReferenceVerseElementId() != null;
   }
 
   getLocation() {

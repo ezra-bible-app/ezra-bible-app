@@ -19,8 +19,30 @@
 const { defineParameterType } = require("cucumber");
 
 defineParameterType({
+  name: 'bible_book',
+  regexp: /Genesis|Ezra|Mark|Ephesians/,
+});
+
+defineParameterType({
+  name: 'first_tab_menu',
+  regexp: /book selection|search|options|translation selection/,
+  transformer: s => {
+    switch (s) {
+      case 'book selection':
+        return '.book-select-button';
+      case 'search':
+        return '.module-search-button';
+      case 'options':
+        return '.display-options-button';
+      case 'translation selection':
+        return '.bible-select-block .ui-selectmenu'; 
+    }
+  }
+})
+
+defineParameterType({
   name: 'display_option',
-  regexp: /tags|notes|indicators|xrefs|footnotes/,
+  regexp: /tags|notes|indicators|xrefs|footnotes|toolbar|dictionary|navigation|current tab search/,
   transformer: s => {
     switch (s) {
       case 'tags':
@@ -33,6 +55,14 @@ defineParameterType({
         return '#showXrefsOption';
       case 'footnotes':
         return '#showFootnotesOption';
+      case 'toolbar':
+        return '#showToolBarOption';
+      case 'dictionary': 
+        return '#showDictionaryOption';
+      case 'navigation':
+        return '#showBookChapterNavigationOption' 
+      case 'current tab search':
+        return '#showTabSearchOption';
     }
   }
 });
@@ -43,3 +73,26 @@ defineParameterType({
   type: 'boolean',
   transformer: s => s == 'displayed'
 });
+
+defineParameterType({
+  name: 'interface_element',
+  regexp: /tag stat|dictionary header|search button|tab search case option|Revelation book name|selected locale|English option group/,
+  transformer: s => {
+    switch (s) {
+      case 'tag stat':
+        return '#tag-list-stats';
+      case 'dictionary header':
+        return '#dictionary-info-box h3 > a';
+      case 'search button':
+        return '#verse-list-tabs-1 .module-search-label';
+      case 'tab search case option':
+        return '#verse-list-tabs-1 .tab-search-options label > span';
+      case 'Revelation book name':
+        return '#book-selection-menu li.book-Rev > a';
+      case 'selected locale':
+        return '#display-options-menu #localeSwitchOption .ui-selectmenu-status';
+      case 'English option group':
+        return '.ui-selectmenu-open .ui-selectmenu-group-0 .ui-selectmenu-group-label';
+    }
+  }
+})

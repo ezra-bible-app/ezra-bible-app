@@ -22,7 +22,7 @@ const spectronHelper = require("./spectron_helper.js");
 
 var models;
 
-async function initDatabase() {
+module.exports.initDatabase = async function() {
   if (!global.models) {
     var userDataDir = await spectronHelper.getUserDataDir();
     models = require('../../app/backend/database/models')(userDataDir);
@@ -32,7 +32,7 @@ async function initDatabase() {
   return global.models;
 }
 
-async function getDbVerseReferenceId(verseReference) {
+module.exports.getDbVerseReferenceId = async function(verseReference) {
   var { bookId, absoluteVerseNumber } = await nsiHelper.splitVerseReference(verseReference);
 
   var dbBibleBook = await models.BibleBook.findOne({ where: { shortTitle: bookId } });
@@ -48,9 +48,4 @@ async function getDbVerseReferenceId(verseReference) {
   expect(dbVerseReference, `Could not find a db verse reference for the given book (${dbBibleBook.id}) and absoluteVerseNr (${absoluteVerseNumber}). Total # of verse references: ${allVerseReferences.length}`).to.not.be.null;
 
   return dbVerseReference.id;
-}
-
-module.exports = {
-  initDatabase,
-  getDbVerseReferenceId,
 }

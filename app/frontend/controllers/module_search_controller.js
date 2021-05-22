@@ -323,7 +323,7 @@ class ModuleSearchController {
       currentTab.setBook(null, null, null);
       currentTab.setTagIdList("");
       currentTab.setXrefs(null);
-      currentTab.setVerseReferenceId(null);
+      currentTab.setReferenceVerseElementId(null);
       app_controller.tag_selection_menu.resetTagMenu();
 
       this.hideSearchMenu();
@@ -424,23 +424,22 @@ class ModuleSearchController {
     var moduleSearchHeaderText;
 
     if (currentSearchResults.length > 0) {
-      moduleSearchHeaderText = i18n.t("bible-browser.search-result-header") + ' <i>' + currentSearchTerm + '</i> (' + currentSearchResults.length + ')';
+      moduleSearchHeaderText = `<span i18n="bible-browser.search-result-header">${i18n.t("bible-browser.search-result-header")}</span> <i>${currentSearchTerm}</i> (${currentSearchResults.length})`;
     } else {
       var tab = app_controller.tab_controller.getTab(tabIndex);
       var searchCancelled = tab != null ? tab.isSearchCancelled() : false;
 
       if (searchCancelled) {
-        moduleSearchHeaderText = i18n.t("bible-browser.module-search-cancelled") + ' <i>' + currentSearchTerm + '</i>';
+        moduleSearchHeaderText = `<span i18n="bible-browser.module-search-cancelled">${i18n.t("bible-browser.module-search-cancelled")} <i>${currentSearchTerm}</i>`;
       } else {
-        moduleSearchHeaderText = i18n.t("bible-browser.no-search-results") + ' <i>' + currentSearchTerm + '</i>';
+        moduleSearchHeaderText = `<span i18n="bible-browser.no-search-results">${i18n.t("bible-browser.no-search-results")} <i>${currentSearchTerm}</i>`;
       }
     }
 
     var header = "<h2>" + moduleSearchHeaderText + "</h2>";
 
     if (this.searchResultsExceedPerformanceLimit(tabIndex)) {
-      var performanceHintText = i18n.t("bible-browser.search-performance-hint");
-      header += "<div style='margin-left: 0.6em; margin-top: 1em;'>" + performanceHintText + "</div>";
+      header += `<div style="margin-left: 0.6em; margin-top: 1em;" i18n="bible-browser.search-performance-hint">${i18n.t("bible-browser.search-performance-hint")}</div>`;
     }
 
     var moduleSearchHeader = this.getModuleSearchHeader(tabIndex);
@@ -459,6 +458,7 @@ class ModuleSearchController {
       }
 
       selectAllSearchResultsButton.innerText = i18n.t('bible-browser.select-all-search-results');
+      selectAllSearchResultsButton.setAttribute('i18n', 'bible-browser.select-all-search-results');
       moduleSearchHeader.append(selectAllSearchResultsButton);
 
       selectAllSearchResultsButton.onclick = this.selectAllSearchResults;

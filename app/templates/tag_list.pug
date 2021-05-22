@@ -44,10 +44,10 @@ each tag in tags
                    book-assignment-count=bookAssignmentCount,
                    global-assignment-count=globalAssignmentCount,
                    last-used-timestamp=last_used_timestamp)
-                   
-    div(title=delete_tag_label class='tag-delete-button fg-button fg-button-icon-left ui-state-default ui-corner-all')
+
+    div(i18n='[title]tags.delete-tag', title=delete_tag_label class='tag-delete-button fg-button fg-button-icon-left ui-state-default ui-corner-all')
       span(class='ui-icon ui-icon-closethick tag-delete-icon')
-    
+
     if currentStats != null
       - var tag_counts = currentStats.globalAssignmentCount
       if current_book != null
@@ -61,4 +61,4 @@ each tag in tags
       span(class='cb-label-tag-assignment-count' id=stats_id) (#{tag_counts})
 
     span.cb-label-postfix
-    span.rename-tag-label [#{rename_tag_label}]
+    span.rename-tag-label(i18n='tags.rename-tag-button') #{rename_tag_label}

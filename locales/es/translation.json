@@ -131,7 +131,10 @@
     "applying-migrations": "Migrando la base de datos a una nueva versión",
     "developers": "Desarrolladores",
     "translators": "Traductores",
-    "versions-and-paths": "Versiones y rutas"
+    "versions-and-paths": "Versiones y rutas",
+    "app-language": "Application Language",
+    "detect-locale": "Auto",
+    "detect-locale-hint": "Automatically detect locale based on system language"
   },
   "help": {
     "help-text-no-tags-book-opened": "Para comenzar trabajando con las etiquetas, debe crear su primera etiqueta pulsando en el botón <i>Nueva&nbsp;etiqueta</i>.<br/><br/>Después usted podrá seleccionar los textos de La Biblia que desee, para ello pulse sobre un verso o arrastre para seleccionar varios versos y asigne los a la etiqueta que acaba de crear.",
@@ -162,6 +165,7 @@
     "delete-tag-permanently": "Eliminar esta etiqueta permanentemente",
     "none-selected": "Nada",
     "rename-tag": "Renombrar etiqueta",
+    "rename-tag-button": "[Renombrar]",
     "title": "Título",
     "stats-used": "usado",
     "stats-total": "total",

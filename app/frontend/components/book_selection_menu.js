@@ -17,6 +17,9 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
+const i18nHelper = require('../helpers/i18n_helper.js');
+const i18nController = require('../controllers/i18n_controller.js');
+const cacheController = require('../controllers/cache_controller.js');
 
 const INSTANT_LOADING_CHAPTER_LIMIT = 15;
    
@@ -34,25 +37,20 @@ class BookSelectionMenu {
   async init() {
     if (this.init_completed) return;
 
-    var menu = $('#app-container').find('#book-selection-menu');
-    menu.bind('click', app_controller.handleBodyClick);
+    const menuBookList = document.querySelector('#app-container #book-selection-menu-book-list');
+    menuBookList.addEventListener('click', app_controller.handleBodyClick);
 
-    var cacheInvalid = await app_controller.isCacheInvalid();
+    var cachedHtml = await cacheController.getCachedItem('bookSelectionMenuCache');
 
-    var hasCachedBookSelectionMenu = await ipcSettings.has('bookSelectionMenuCache', 'html-cache');
-
-    if (!cacheInvalid && hasCachedBookSelectionMenu) {
-      var cachedHtml = await ipcSettings.get('bookSelectionMenuCache');
-      var menuBookList = $('#app-container').find('#book-selection-menu-book-list');
-
-      menuBookList.innerHTML = cachedHtml;
-
+    if (cachedHtml) {
+      menuBookList.innerHTML = cachedHtml
     } else {
       console.log("Localizing book selection menu ...")
       await this.localizeBookSelectionMenu();
     }
 
     this.initLinks();
+    this.subscribeForLocaleUpdates();
     this.init_completed = true;
   }
 
@@ -68,22 +66,36 @@ class BookSelectionMenu {
         event.stopPropagation();
 
         var current_link_href = $(event.target).attr('href');
-        var current_bookTitle = $(event.target).html();
+        var current_book_title = $(event.target).html();
+        var current_reference_book_title = $(event.target).attr('book-name');
 
-        app_controller.book_selection_menu.selectBibleBook(current_link_href, current_bookTitle);
+        app_controller.book_selection_menu.selectBibleBook(current_link_href, current_book_title, current_reference_book_title);
       });
     }
   }
 
+  subscribeForLocaleUpdates() {
+    i18nController.addLocaleChangeSubscriber(async () => {
+      this.localizeBookSelectionMenu();
+    });
+  }
+
   // This function is rather slow and it delays app startup! (~175ms)
   async localizeBookSelectionMenu() {
-    var aElements = document.getElementById("book-selection-menu-book-list").querySelectorAll('a');
+    var aElements = document.querySelectorAll("#book-selection-menu-book-list a");
 
     for (var i = 0; i < aElements.length; i++) {
       var currentBook = aElements[i];
-      var currentBookTranslation = await i18nHelper.getSwordTranslation(currentBook.textContent);
-      currentBook.textContent = currentBookTranslation;
+      var currentBookName = currentBook.getAttribute('book-name');
+
+      if (currentBookName != null) {
+        var currentBookTranslation = await i18nHelper.getSwordTranslation(currentBookName);
+        currentBook.textContent = currentBookTranslation;
+      }
     }
+
+    var html = document.getElementById("book-selection-menu").innerHTML;
+    cacheController.setCachedItem('bookSelectionMenuCache', html);
   }
 
   async updateAvailableBooks(tabIndex=undefined) {
@@ -113,7 +125,7 @@ class BookSelectionMenu {
     }
   }
 
-  async selectBibleBook(bookCode, bookTitle) {
+  async selectBibleBook(bookCode, bookTitle, referenceBookTitle) {
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     if (currentBibleTranslationId == null || currentBibleTranslationId == undefined) {
       return;
@@ -134,7 +146,7 @@ class BookSelectionMenu {
     if (bookChapterCount <= INSTANT_LOADING_CHAPTER_LIMIT) {
 
       console.log(`Instantly loading ${bookTitle} (Chapter count: ${bookChapterCount})`);
-      this.loadBook(bookCode, bookTitle);
+      this.loadBook(bookCode, bookTitle, referenceBookTitle);
 
     } else {
 
@@ -148,11 +160,12 @@ class BookSelectionMenu {
 
         this.currentBookCode = bookCode;
         this.currentBookTitle = bookTitle;
+        this.currentReferenceBookTitle = referenceBookTitle;
 
         this.loadChapterList(bookChapterCount);
 
       } else {
-        this.loadBook(bookCode, bookTitle, 1);
+        this.loadBook(bookCode, bookTitle, referenceBookTitle, 1);
       }
     }
   }
@@ -172,20 +185,20 @@ class BookSelectionMenu {
         event.stopPropagation();
 
         let selectedChapter = parseInt(event.target.getAttribute('href'));
-        this.loadBook(this.currentBookCode, this.currentBookTitle, selectedChapter);
+        this.loadBook(this.currentBookCode, this.currentBookTitle, this.currentReferenceBookTitle, selectedChapter);
       });
     }
 
     menuChapterList.style.display = 'flex';
   }
 
-  async loadBook(bookCode, bookTitle, chapter=undefined) {
+  async loadBook(bookCode, bookTitle, referenceBookTitle, chapter=undefined) {
     app_controller.book_selection_menu.hideBookMenu();
     app_controller.book_selection_menu.highlightSelectedBookInMenu(bookCode);
 
     var currentTab = app_controller.tab_controller.getTab();
     currentTab.setTextType('book');
-    app_controller.tab_controller.setCurrentTabBook(bookCode, bookTitle, chapter);
+    app_controller.tab_controller.setCurrentTabBook(bookCode, bookTitle, referenceBookTitle, chapter);
 
     app_controller.tag_selection_menu.resetTagMenu();
     app_controller.module_search_controller.resetSearch();
@@ -198,7 +211,7 @@ class BookSelectionMenu {
       currentTab.setTagIdList(null);
       currentTab.setSearchTerm(null);
       currentTab.setXrefs(null);
-      currentTab.setVerseReferenceId(null);
+      currentTab.setReferenceVerseElementId(null);
 
       var currentVerseList = app_controller.getCurrentVerseList();
       currentTab.tab_search.setVerseList(currentVerseList);
@@ -248,17 +261,10 @@ class BookSelectionMenu {
       
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
       var book_button = currentVerseListMenu.find('.book-select-button');
-      book_button.addClass('ui-state-active');
-
-      var book_button_offset = book_button.offset();
       var menu = $('#app-container').find('#book-selection-menu');
-      var top_offset = book_button_offset.top + book_button.height() + 1;
-      var left_offset = book_button_offset.left;
 
-      menu.css('top', top_offset);
-      menu.css('left', left_offset);
+      uiHelper.showButtonMenu(book_button, menu);
 
-      $('#app-container').find('#book-selection-menu').show();
       this.book_menu_is_opened = true;
       event.stopPropagation();
     }

@@ -131,7 +131,10 @@
     "applying-migrations": "Migration de la base de données vers la nouvelle version",
     "developers": "Développeurs",
     "translators": "Traducteurs",
-    "versions-and-paths": "Versions et chemins"
+    "versions-and-paths": "Versions et chemins",
+    "app-language": "Application Language",
+    "detect-locale": "Auto",
+    "detect-locale-hint": "Automatically detect locale based on system language"
   },
   "help": {
     "help-text-no-tags-book-opened": "Pour commencer à utiliser les étiquettes, créez votre première étiquette en cliquant sur le bouton <i>Nouvelle étiquette</i>.<br/><br/>Ensuite, vous pouvez parcourir le texte biblique, cliquer ou faire glisser les versets, puis attribuer l'étiquette que vous venez de créer.",
@@ -162,6 +165,7 @@
     "delete-tag-permanently": "Supprimer définitivement cette étiquette",
     "none-selected": "Aucun",
     "rename-tag": "Renommer l'étiquette",
+    "rename-tag-button": "[Renommer]",
     "title": "Titre ",
     "stats-used": "utilisée",
     "stats-total": "total",

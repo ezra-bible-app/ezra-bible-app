@@ -28,7 +28,7 @@ If you want to help with a new translation, these are the steps:
 
 1) Clone the repository. If you are not a project member yet you may need to fork first and then clone your fork.
 
-2) Take the English locale files as a base (`/locales/en`) and copy them to a new folder underneith `locales`, where the folder name shall match the two-letter ISO 639-1 language code of the new translation. Have a look at [this Wikipedia page](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) to find the language code for the new language.
+2) Take the English locale files as a base (`/locales/en`) and copy them to a new folder underneath `locales`, where the folder name shall match the two-letter ISO 639-1 language code of the new translation. Have a look at [this Wikipedia page](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) to find the language code for the new language.
 
 3) The locale files are json files. You will have to translate the value of each `json key`. Consider the following extract. You will have to translate all the text on the right side of the colon. So for example within `"new tag": "New tag"` you will replace the text `"New tag"` with the respective translation.
 
@@ -44,25 +44,22 @@ If you want to help with a new translation, these are the steps:
       "context": "Context"
     }
 ```
-4) Once the translation is complete, it needs to be added to the white list in `/app/frontend/helpers/i18n_helper.js`. Here is an extract from that file:
+4) Once the translation is complete, it needs to be added to the `AVAILABLE_LOCALES` list in `/app/frontend/controllers/i18n_controller.js`:
 ```
-const i18nextOptions = {
-  debug: false,
-  interpolation: {
-    escapeValue: false
-  },
-  saveMissing: false,
-  fallbackLng: 'en',
-  whitelist: ['de', 'en', 'nl', 'fr', 'es', 'sk'],  <== Add the language
-  react: {
-    wait: false
-  }
-};
+const AVAILABLE_LOCALES = ['de', 'en', 'nl', 'fr', 'es', 'sk', 'uk', 'ru'];  <== Add the language
 ```
 
-5) You can test the new translation by installing all dependencies (see BUILD.md) and starting the app using `npm start`.
+5) You can test the new translation by installing all dependencies (see BUILD.md) and starting the app using `npm start`. Once you start the app there should be the new option under App Language select box in the settings.
 
 6) Submit a pull request once you have a working draft.
+
+### Translating emoji categories
+
+Emojis are standardized in [Unicode](http://unicode.org/emoji/charts/full-emoji-list.html). Their descriptions/annotations for searching are available in multiple languages via [CLDR](https://unicode-org.github.io/cldr-staging/charts/latest/annotations/index.html). This is used to assemble an emoji list automatically in any locale. 
+
+However, emoji categories are not standardized and vary from system to system. So there is a need to manually translate emoji categories. You can look up what is commonly accepted in your language on any mobile device with emojis.
+
+Otherwise most of the categories are localized under [Android keyboard resources](https://android.googlesource.com/platform/packages/inputmethods/LatinIME/+/master/java/res). Under the folder with your locale there is a file `strings-talkback-descriptions.xml`. The emoji categories used for the Android keyboard can be found under the string elements starting with `spoken_descrption_emoji_category_eight_` (approximately lines 75-79). 
 
 ## Hints for development
 

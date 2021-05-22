@@ -46,7 +46,7 @@ const InfoPopup = require("../components/info_popup.js");
 const TextSizeSettings = require("../components/text_size_settings.js");
 const VerseStatisticsChart = require('../components/verse_statistics_chart.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
-
+const i18nHelper = require('../helpers/i18n_helper.js');
 
 /**
  * AppController is Ezra Bible App's main controller class which initiates all other controllers and components.
@@ -151,7 +151,7 @@ class AppController {
     var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
 
     var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var separator = await getReferenceSeparator(bibleTranslationId);
+    var separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
 
     // Highlight occurances in navigation pane
     for (var i = 0; i < occurances.length; i++) {
@@ -221,7 +221,7 @@ class AppController {
     // Refresh tags view
     // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
     tags_controller.verses_were_selected_before = true;
-    await this.updateTagsView(ui.index);
+    await tags_controller.updateTagsView(ui.index);
 
     // Refresh tags selection menu (It's global!)
     await this.tag_selection_menu.updateTagSelectionMenu(ui.index);
@@ -323,7 +323,7 @@ class AppController {
                                                  currentTab.getXrefs(),
                                                  currentTab.getChapter());
 
-        if (currentTab.getVerseReferenceId() != null) {
+        if (currentTab.getReferenceVerseElementId() != null) {
           await this.updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId);
         }
       }
@@ -517,7 +517,7 @@ class AppController {
   async copySelectedVersesToClipboard() {
     const { clipboard } = require('electron');
     var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var separator = await getReferenceSeparator(bibleTranslationId);
+    var separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
     
     var selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
     
@@ -573,6 +573,18 @@ class AppController {
     var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
     var referenceVerse = currentVerseListFrame.find('.reference-verse');
     return referenceVerse;
+  }
+
+  async getLocalizedReferenceVerse(tabIndex=undefined) {
+    var currentReferenceVerse = this.getCurrentReferenceVerse(tabIndex);
+    var currentReferenceVerseBox = currentReferenceVerse[0].querySelector('.verse-box');
+    var localizedReferenceVerse = "";
+
+    if (currentReferenceVerseBox != null) {
+      localizedReferenceVerse = await this.verse_box_helper.getLocalizedVerseReference(currentReferenceVerseBox);
+    }
+
+    return localizedReferenceVerse;
   }
 
   getCurrentVerseList(tabIndex=undefined) {
@@ -634,21 +646,6 @@ class AppController {
 
     var cancelSearchButtonContainer = this.getCurrentSearchCancelButtonContainer(tabIndex);
     cancelSearchButtonContainer.hide();
-  }
-
-  async updateTagsView(tabIndex) {
-    tags_controller.showTagListLoadingIndicator();
-    var currentTab = this.tab_controller.getTab(tabIndex);
-
-    if (currentTab !== undefined) {
-      var currentTabBook = currentTab.getBook();
-      var currentTagIdList = currentTab.getTagIdList();
-      var currentSearchTerm = currentTab.getSearchTerm();
-      if ((currentTabBook != undefined && currentTabBook != null) || currentTagIdList != null || currentSearchTerm != null) {
-        await waitUntilIdle();
-        tags_controller.updateTagList(currentTabBook);
-      }
-    }
   }
 
   handleBodyClick(event) {
@@ -845,9 +842,9 @@ class AppController {
     var textTypeHeader = "";
 
     if (textType == 'xrefs') {
-      textTypeHeader = i18n.t('general.module-xrefs');
+      textTypeHeader = `<span i18n="general.module-xrefs">${i18n.t('general.module-xrefs')}</span>`;
     } else if (textType == 'tagged_verses') {
-      textTypeHeader = `${i18n.t('tags.verses-tagged-with')} <i>${currentTab.getTagTitleList()}</i>`;
+      textTypeHeader = `<span i18n="tags.verses-tagged-with">${i18n.t('tags.verses-tagged-with')}</span> <i>${currentTab.getTagTitleList()}</i>`;
     }
 
     referenceVerseContainer.innerHTML += "<div class='reference-verse-list-header'><h2>" + textTypeHeader + "</h2></div>";
@@ -860,7 +857,7 @@ class AppController {
 
     currentTab.setTextType('xrefs');
     currentTab.setXrefs(xrefs);
-    currentTab.setVerseReferenceId(xrefVerseReferenceId);
+    currentTab.setReferenceVerseElementId(xrefVerseReferenceId);
 
     app_controller.tab_controller.setCurrentTabXrefTitle(xrefTitle);
 
@@ -890,9 +887,9 @@ class AppController {
     if (referenceVerseBox != null) {
       localizedVerseReference = await this.verse_box_helper.getLocalizedVerseReference(referenceVerseBox[0]);
       var verseReferenceId = this.verse_box_helper.getVerseReferenceId(referenceVerseBox);
-      currentTab.setVerseReferenceId(verseReferenceId);
+      currentTab.setReferenceVerseElementId(verseReferenceId);
     } else {
-      currentTab.setVerseReferenceId(null);
+      currentTab.setReferenceVerseElementId(null);
     }
 
     app_controller.tab_controller.setCurrentTagTitleList(tagTitleList, localizedVerseReference);
@@ -1069,22 +1066,6 @@ class AppController {
   }
 */
 
-  async isCacheInvalid() {
-      var lastUsedVersion = await ipcSettings.get('lastUsedVersion', undefined);
-      var currentVersion = await ipcGeneral.getAppVersion();
-
-      var lastUsedLanguage = await ipcSettings.get('lastUsedLanguage', undefined);
-      var currentLanguage = i18n.language;
-
-      /*
-      console.log("Last version: " + lastUsedVersion);
-      console.log("Current version: " + currentVersion);
-      console.log("Last used language: " + lastUsedLanguage);
-      console.log("Current language: " + currentLanguage);
-      */
-
-      return currentVersion != lastUsedVersion || currentLanguage != lastUsedLanguage;
-  }
 }
 
 module.exports = AppController;
