@@ -26,7 +26,7 @@ const i18nextOptions = {
   },
   saveMissing: false,
   fallbackLng: 'en',
-  whitelist: ['de', 'en', 'nl', 'fr', 'es', 'sk', 'uk', 'ru'],
+  whitelist: ['de', 'en', 'nl', 'fr', 'es', 'sk', 'uk', 'ru', 'ro'],
   react: {
     wait: false
   }
