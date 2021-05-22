@@ -132,7 +132,7 @@ class LocaleSwitch extends HTMLElement {
   }
 
   handleDetectClick() {
-    this.dispatchEvent(new CustomEvent("localeDetect", {
+    this.dispatchEvent(new CustomEvent("localeDetectClicked", {
       bubbles: true,
       cancelable: false,
       composed: true,

@@ -121,7 +121,7 @@ class OptionsMenu {
       await i18nController.changeLocale(e.detail.locale);
       this.slowlyHideDisplayMenu();
     });
-    this._localeSwitchOption.addEventListener('localeDetect', async () => {
+    this._localeSwitchOption.addEventListener('localeDetectClicked', async () => {
       await i18nController.detectLocale();
       this.slowlyHideDisplayMenu();
     });
