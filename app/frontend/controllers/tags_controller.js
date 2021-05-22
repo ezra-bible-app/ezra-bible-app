@@ -1241,15 +1241,14 @@ class TagsController {
   }
 
   async updateTagsView(tabIndex, forceRefresh = false) {
-    this.showTagListLoadingIndicator();
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     if (currentTab !== undefined) {
-      var currentTabBook = currentTab.getBook();
-      var currentTagIdList = currentTab.getTagIdList();
-      var currentSearchTerm = currentTab.getSearchTerm();
-      if ((currentTabBook != undefined && currentTabBook != null) || currentTagIdList != null || currentSearchTerm != null) {
+      if (currentTab.isValid()) {
+        this.showTagListLoadingIndicator();
         await waitUntilIdle();
+
+        var currentTabBook = currentTab.getBook();
         this.updateTagList(currentTabBook, forceRefresh);
       }
     }
