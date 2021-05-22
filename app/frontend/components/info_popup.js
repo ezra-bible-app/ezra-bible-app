@@ -104,6 +104,7 @@ class InfoPopup {
         <a class='external' href='https://github.com/reyespinosa1996'>Reinaldo R. Espinosa (Spanish)</a><br>
         <a class='external' href='https://github.com/MartinIIOT'>MartinIIOT (Slovakian)</a><br>
         <a class='external' href='https://github.com/zhuiks'>Evgen Kucherov (Ukrainian, Russian)</a>
+        <a class='external' href='https://github.com/baakaweb'>Augustin Colesnic (Romanian)</a>
 
         <h2>${i18n.t("general.versions-and-paths")}</h2>
         <table>
