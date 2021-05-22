@@ -75,11 +75,17 @@ class OptionsMenu {
     this._tagsColumnOption = this.initConfigOption('useTagsColumnOption', () => { this.changeTagsLayoutBasedOnOption(); });
     this._verseNotesOption = this.initConfigOption('showNotesOption', () => { this.showOrHideVerseNotesBasedOnOption(); });
     this._verseNotesFixedHeightOption = this.initConfigOption('fixNotesHeightOption', () => { this.fixNotesHeightBasedOnOption(); });
+    this._keepScreenAwakeOption = this.initConfigOption('keepScreenAwakeOption', () => { this.keepScreenAwakeBasedOnOption(); });
+    this._textSizeAdjustTagsNotesOption = this.initConfigOption('adjustTagsNotesTextSizeOption', () => { app_controller.textSizeSettings.updateTagsNotes(this._textSizeAdjustTagsNotesOption.isChecked); }, true);
 
-    this._textSizeAdjustTagsNotesOption = this.initConfigOption('adjustTagsNotesTextSizeOption', () => { 
-      app_controller.textSizeSettings.updateTagsNotes(this._textSizeAdjustTagsNotesOption.isChecked); 
-    }, true);
+    this.initLocaleSwitchOption();
+    await this.initNightModeOption();
 
+    this.adjustOptionsMenuForPlatform();
+    this.refreshViewBasedOnOptions();
+  }
+
+  async initNightModeOption() {
     this._nightModeOption = this.initConfigOption('useNightModeOption', async () => {
       this.hideDisplayMenu();
       uiHelper.showGlobalLoadingIndicator();
@@ -102,9 +108,23 @@ class OptionsMenu {
       // On macOS Mojave and later we do not give the user the option to switch night mode within the app, since it is controlled via system settings.
       $(this._nightModeOption).hide();
     }
+  }
 
-    this._keepScreenAwakeOption = await this.initConfigOption('keepScreenAwakeOption', () => { this.keepScreenAwakeBasedOnOption(); });
+  initLocaleSwitchOption() {
+    this._localeSwitchOption = document.querySelector('#localeSwitchOption');
 
+    this._localeSwitchOption.addEventListener('localeChanged', async (e) => {
+      await i18nController.changeLocale(e.detail.locale);
+      this.slowlyHideDisplayMenu();
+    });
+
+    this._localeSwitchOption.addEventListener('localeDetectClicked', async () => {
+      await i18nController.detectLocale();
+      this.slowlyHideDisplayMenu();
+    });
+  }
+
+  adjustOptionsMenuForPlatform() {
     if (!this.platformHelper.isCordova()) {
       // On the desktop (Electron) we do not need the screen-awake option!
       $(this._keepScreenAwakeOption).hide();
@@ -115,18 +135,6 @@ class OptionsMenu {
       // it heavily depends on the mouse.
       $(this._dictionaryOption).hide();
     }
-
-    this._localeSwitchOption = document.querySelector('#localeSwitchOption');
-    this._localeSwitchOption.addEventListener('localeChanged', async (e) => {
-      await i18nController.changeLocale(e.detail.locale);
-      this.slowlyHideDisplayMenu();
-    });
-    this._localeSwitchOption.addEventListener('localeDetectClicked', async () => {
-      await i18nController.detectLocale();
-      this.slowlyHideDisplayMenu();
-    });
-
-    this.refreshViewBasedOnOptions();
   }
 
   initCurrentOptionsMenu(tabIndex=undefined) {
