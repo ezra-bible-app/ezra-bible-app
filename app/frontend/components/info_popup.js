@@ -103,7 +103,8 @@ class InfoPopup {
         <a class='external' href='https://github.com/lemtom'>Tom Lemmens (French, Dutch)</a><br>
         <a class='external' href='https://github.com/reyespinosa1996'>Reinaldo R. Espinosa (Spanish)</a><br>
         <a class='external' href='https://github.com/MartinIIOT'>MartinIIOT (Slovakian)</a><br>
-        <a class='external' href='https://github.com/zhuiks'>Evgen Kucherov (Ukrainian, Russian)</a>
+        <a class='external' href='https://github.com/zhuiks'>Evgen Kucherov (Ukrainian, Russian)</a><br>
+        <a class='external' href='https://github.com/augustin-colesnic'>Augustin Colesnic (Romanian)</a><br>
 
         <h2>${i18n.t("general.versions-and-paths")}</h2>
         <table>

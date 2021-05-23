@@ -22,7 +22,7 @@
  * @category Controller
  */
 
-const AVAILABLE_LOCALES = ['de', 'en', 'nl', 'fr', 'es', 'sk', 'uk', 'ru'];
+const AVAILABLE_LOCALES = ['de', 'en', 'nl', 'fr', 'es', 'sk', 'uk', 'ru', 'ro'];
 const FALLBACK_LOCALE = 'en';
 const SETTINGS_KEY = 'appLocale';
 
