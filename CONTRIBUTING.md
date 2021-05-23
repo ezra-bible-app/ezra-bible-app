@@ -44,6 +44,9 @@ If you want to help with a new translation, these are the steps:
       "context": "Context"
     }
 ```
+
+Please do not translate the product name "Ezra Bible App" and also keep unique terms like "Strong's", "CrossWire Bible Society" and "SWORD".
+
 4) Once the translation is complete, it needs to be added to the `AVAILABLE_LOCALES` list in [`/app/frontend/controllers/i18n_controller.js`](https://github.com/ezra-bible-app/ezra-bible-app/blob/master/app/frontend/controllers/i18n_controller.js):
 ```
 const AVAILABLE_LOCALES = ['de', 'en', 'nl', 'fr', 'es', 'sk', 'uk', 'ru'];  <== Add the language
@@ -69,6 +72,11 @@ Otherwise most of the categories are localized under [Android keyboard resources
 
 Whenever you make changes to the [Pug](https://pugjs.org/) templates (see [/app/templates](https://github.com/ezra-bible-app/ezra-bible-app/tree/master/app/templates)) you need to re-compile them afterwards. You can do this by invoking `npm run compile-pug`.
 
+### Chrome dev tools
+
+You can enable the Chrome dev tools you know from your browser with the short cut `CTRL + SHIFT + i` on Linux and `CMD + ALT + i` on macOS.
+In the dev tools you can inspect the DOM, debug your JavaScript code, etc. - as you are used to it from the browser!
+
 ### Automated tests
 
 Cucumber is used for end-to-end functional/acceptance testing. You should regularly run the tests to ensure that new code does not result in regressions. The tests are currently only running on Linux and macOS. To execute them you can run:
@@ -91,3 +99,10 @@ Cucumber is used for end-to-end functional/acceptance testing. You should regula
 
 Use `git config pull.rebase true`, so that up-stream changes are nicely integrated when you pull them on your local repo.
 Otherwise you regularly get the merge commit + corresponding messages just because you have been ahead of the remote repo at the time of pulling.
+
+### Switching branches
+
+When switching branches you may run into issues due to incompatible cache files or outdated pug template code. In that case:
+
+1. Delete the html-cache.json file (The location is shown on the console at startup)
+2. Re-generate the pug templates by running `npm run compile-pug`.
