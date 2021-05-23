@@ -606,7 +606,7 @@ h2 {
 
 #book-selection-menu-chapter-list {
   display: none;
-  width: 47em;
+  width: 39.5em;
   height: 26.5em;
   flex-direction: row;
   flex-wrap: wrap;
@@ -617,7 +617,7 @@ h2 {
   width: 2em;
   height: 2.5em;
   line-height: 2.5em;
-  flex: 0 0 4em;
+  flex: 0 0 3.3em;
   text-align: center;
   color: black;
 }
