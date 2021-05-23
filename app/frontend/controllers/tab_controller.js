@@ -24,6 +24,7 @@ const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
 const i18nController = require('./i18n_controller.js');
 const cacheController = require('./cache_controller.js');
+const { ipcRenderer } = require('electron');
 
 /**
  * The TabController manages the tab bar and the state of each tab.
@@ -80,16 +81,22 @@ class TabController {
       exitContext = document;
     }
 
-    exitContext.addEventListener(exitEvent, async () => {
-      console.log('Persisting data!');
+    exitContext.addEventListener(exitEvent, () => {
+      this.exitLog('Persisting data');
 
       this.lastSelectedTabIndex = this.getSelectedTabIndex();
       this.savePreviousTabScrollPosition();
+      
       if (this.persistanceEnabled) {
-        await this.saveTabConfiguration();
+        this.exitLog('Saving tab configuration');
+        this.saveTabConfiguration();
       }
       
-      await cacheController.saveLastUsedVersion();
+      this.exitLog('Saving last locale');
+      cacheController.saveLastLocale();
+
+      this.exitLog('Saving last used version');
+      cacheController.saveLastUsedVersion();
     });
 
     this.initTabs();
@@ -98,6 +105,14 @@ class TabController {
       this.localizeTemplate();
       await this.updateTabTitlesAfterLocaleChange();
     });
+  }
+
+  exitLog(logMessage) {
+    if (platformHelper.isElectron()) {
+      ipcRenderer.send('log', logMessage);
+    } else {
+      console.log(logMessage);
+    }
   }
 
   initFirstTab() {
