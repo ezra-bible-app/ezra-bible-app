@@ -28,7 +28,7 @@
     "case-sensitive": "Sensibil la majuscule",
     "exact-phrase": "Frază exactă",
     "multi-word": "Cuvinte multiple",
-    "strongs": "Index de concordanță",
+    "strongs": "Index de concordanță (Strong's)",
     "extended-verse-boundaries": "Limite extinse pentru verset (Două versete)"
   },
   "module-assistant": {
@@ -98,9 +98,9 @@
     "module-version": "Versiune",
     "module-language": "Limbă",
     "module-license": "Licență",
-    "module-strongs": "Concordanță",
-    "module-hebrew-strongs-dict": "Concordanță Ebraică",
-    "module-greek-strongs-dict": "Concordanță Greacă",
+    "module-strongs": "Concordanță (Strong's)",
+    "module-hebrew-strongs-dict": "Concordanță (Strong's) Ebraică",
+    "module-greek-strongs-dict": "Concordanță (Strong's) Greacă",
     "module-headings": "Titluri",
     "module-footnotes": "Note de subsol",
     "module-xrefs": "Referințe încrucișate",
@@ -127,7 +127,7 @@
     "module-install-failed": "eșuat. Ești conectat la Internet?",
     "module-install-cancelled": "anulat.",
     "module-unlock-failed": "anulat (Problemă de deblocare).",
-    "installing-strongs": "Se instalează  <i>dicționarele pentru concordanță</i>",
+    "installing-strongs": "Se instalează  <i>dicționarele pentru concordanță (Strong's)</i>",
     "applying-migrations": "Migrarea bazei de date la versiunea nouă",
     "developers": "Dezvoltatori",
     "translators": "Traducători",
@@ -215,7 +215,7 @@
     "keep-screen-on": "Menține ecranul aprins",
     "tag-statistics": "Statistici etichete",
     "comparing-translations-for": "Comparare traduceri pentru",
-    "strongs-number-not-valid": "Acesta nu este un număr valid de concordanță!",
+    "strongs-number-not-valid": "Acesta nu este un număr valid de concordanță (Strong's)!",
     "open-new-tab": "Deschide filă nouă",
     "open-verselist-in-new-tab": "Deschide lista versetelor într-o filă nouă",
     "footnote-character": "n",
@@ -226,10 +226,10 @@
     "greek-dict": "Dicționar grec",
     "hebrew-dict": "Dicționar ebraic",
     "default-header": "<b>Dicţionar</b>",
-    "help-instruction": "<p> Cum să afișezi intrările de dicționar aici: </p> <ol> <li> Mai întâi deschide o traducere cu caracteristica Concordanță. </li> <li> În timp ce apeși tasta SHIFT, poți muta mouse-ul peste anumite cuvinte și fraze ca să vezi intrările din dicționar aici. </li> <ol> ",
+    "help-instruction": "<p> Cum să afișezi intrările de dicționar aici: </p> <ol> <li> Mai întâi deschide o traducere cu caracteristica Concordanță (Strong's). </li> <li> În timp ce apeși tasta SHIFT, poți muta mouse-ul peste anumite cuvinte și fraze ca să vezi intrările din dicționar aici. </li> <ol> ",
     "find-all-occurrences": "Găsește toate aparițiile",
     "open-in-blueletter": "Deschide în Biblia cu litere albastre",
-    "related-strongs": "Concordanțe asociate"
+    "related-strongs": "(Strong's) Concordanțe asociate"
   },
   "emoji": {
     "search": "Căută emoji ...",
