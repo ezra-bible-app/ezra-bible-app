@@ -48,7 +48,7 @@
     "translations": "Traduceri",
     "removal": "Ștergere",
     "module-feature-filter": "Filtru de funcții",
-    "repo-selection-info-text":"Aplicația Ezra Bible funcționează cu {{module_type}} furnizate de <a class='external' href='http://www.crosswire.org/sword'> proiectul SWORD </a> și <a class = 'external' href='http://www.crosswire.org '> CrossWire Bible Society </a>. <br/> <br/> Mai jos ai lista depozitelor SWORD publicate de CrossWire. Un depozit este o locație de stocare pe internet care conține un set de {{module_type}}. Lângă fiecare depozit, vezi numărul total de {{module_type}} disponibile din depozitul respectiv. <br/> <br/> Pentru a instala un modul, selectează cel puțin un depozit din lista de mai jos. Ai putea începe cu depozitele <i> CrossWire </i> și <i> eBible.org </i>.",
+    "repo-selection-info-text":"Ezra Bible App funcționează cu {{module_type}} furnizate de <a class='external' href='http://www.crosswire.org/sword'> proiectul SWORD </a> și <a class = 'external' href='http://www.crosswire.org '> CrossWire Bible Society </a>. <br/> <br/> Mai jos ai lista depozitelor SWORD publicate de CrossWire. Un depozit este o locație de stocare pe internet care conține un set de {{module_type}}. Lângă fiecare depozit, vezi numărul total de {{module_type}} disponibile din depozitul respectiv. <br/> <br/> Pentru a instala un modul, selectează cel puțin un depozit din lista de mai jos. Ai putea începe cu depozitele <i> CrossWire </i> și <i> eBible.org </i>.",
     "more-repo-information-needed": "Ai nevoie de mai multe informații despre aceste depozite? <br/> Vizitează <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'> CrossWire Wiki </a>.",
     "click-to-show-detailed-module-info": "Fă click pe un cod de modul (link după numele modulului) pentru a afișa informații detaliate aici.",
     "updating-repository-data": "Actualizare date din depozit! Va dura câteva secunde ...",
@@ -66,7 +66,7 @@
     "it-takes-time-to-install-translation": "Reține că durează ceva timp pentru ca fiecare traducere să fie descărcată și apoi instalată.",
     "it-takes-time-to-install-dictionary": "Reține că durează ceva timp pentru ca fiecare dicționar să fie descărcat și apoi instalat.",
     "select-translations-to-be-removed": "Selectează traducerile biblice pe care vrei să le elimini. <br/> <br/> Cele dezactivate din listă sunt traduceri care nu sunt instalate în directorul utilizatorilor.",
-    "select-dictionaries-to-be-removed": "Selectează dicționarele pe care vrei să le elimini. <br/> <br/> Cele dezactivate din listă sunt dicționare care nu sunt instalate în directorul utilizatorului sau dicționare care sunt esențiale pentru funcționalitatea aplicației Ezra Bible.",
+    "select-dictionaries-to-be-removed": "Selectează dicționarele pe care vrei să le elimini. <br/> <br/> Cele dezactivate din listă sunt dicționare care nu sunt instalate în directorul utilizatorului sau dicționare care sunt esențiale pentru funcționarea corectă a Ezra Bible App.",
     "installing": "Se instalează",
     "downloading": "Se descarcă",
     "part-of-total": "al",
@@ -120,7 +120,7 @@
     "rename": "Redenumește",
     "loading": "Se încarcă",
     "new-release-available-title": "Versiune nouă disponibilă!",
-    "new-release-available-body": "O nersiune nouă a aplicației Ezra Bible este disponibilă!",
+    "new-release-available-body": "O nersiune nouă pentru Ezra Bible App este disponibilă!",
     "latest-version": "Versiune recentă",
     "release-notes-download": "Note de lansare & Descărcări",
     "no-repeated-info": "Nu îmi mai arăta asta",
@@ -248,11 +248,11 @@
     }
   },
   "cordova": {
-    "welcome-to-ezra-bible-app": "Bun venit la aplicația Ezra Bible!",
-    "storage-justification": "Aplicația Ezra Bible are nevoie de acces la zona de stocare a dispozitivului pentru a salva modulele SWORD și a stoca baza de date a acestuia.<br><br>După apăsarea butonului de mai jos, ți se va cere să permiți aplicației Ezra Bible să acceseze fișierele de pe dispozitivul tău.",
+    "welcome-to-ezra-bible-app": "Bun venit la Ezra Bible App!",
+    "storage-justification": "Ezra Bible App are nevoie de acces la zona de stocare a dispozitivului pentru a salva modulele SWORD și a stoca baza de date a acestuia.<br><br>După apăsarea butonului de mai jos, ți se va cere să permiți aplicației Ezra Bible să acceseze fișierele de pe dispozitivul tău.",
     "enable-storage-access": "Activează accesul la stocarea dispozitivului",
     "storage-permission-denied": "Ai decis să refuzi accesul la stocare.<br>Poți schimba acest lucru apăsând butonul de mai jos!",
     "permanent-permission-decision-part1": "Mai înainte, ai decis să refuzi definitiv accesul la stocare!<br><br>Poți reveni la această decizie numai în setările de permisiune din configurația sistemului Android.",
-    "permanent-permission-decision-part2": "Dacă nu modifici setările de permisiune,<br>Aplicația Ezra Bible <span style='text-decoration: underline'>nu va porni cu succes</span>."
+    "permanent-permission-decision-part2": "Dacă nu modifici setările de permisiune,<br>Ezra Bible App <span style='text-decoration: underline'>nu va porni cu succes</span>."
   }
 }
