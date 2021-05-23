@@ -86,7 +86,7 @@ class IpcSettingsHandler {
     this._ipcMain.add('settings_set', (configName, settingsKey, settingsValue) => {
       var config = this.getConfig(configName);
 
-      if (this.platformHelper.isDebug() && settingsKey !== 'tabConfiguration') {
+      if (this.platformHelper.isDebug() && settingsKey !== 'tabConfiguration' && settingsKey !== 'bookSelectionMenuCache') {
         console.log(`IpcSettingsHandler: Setting ${settingsKey} to ${settingsValue}`);
       }
 
