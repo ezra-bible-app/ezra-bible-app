@@ -972,7 +972,7 @@ class AppController {
       currentVerseList.innerHTML = "";
     }
 
-    this.navigation_pane.resetNavigationPane();
+    //this.navigation_pane.resetNavigationPane();
     this.taggedVerseExport.disableTaggedVersesExportButton();
   }
 

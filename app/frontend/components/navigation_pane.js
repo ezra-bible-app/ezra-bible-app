@@ -209,10 +209,13 @@ class NavigationPane {
 
     var currentTranslation = currentTab.getBibleTranslationId();
     var currentBook = currentTab.getBook();
+    var previousBook = currentTab.getPreviousBook();
 
-    if (currentTranslation == null || currentBook == null) {
+    if (currentTranslation == null || currentBook == null || currentBook == previousBook) {
       return;
     }
+
+    this.resetNavigationPane(tabIndex);
 
     var chapterCount = await ipcNsi.getBookChapterCount(currentTranslation, currentBook);
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
@@ -313,8 +316,6 @@ class NavigationPane {
       var tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     }
 
-    this.resetNavigationPane(tabIndex);
-
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentTagIdList = null;
     var currentXrefs = null;
@@ -324,6 +325,10 @@ class NavigationPane {
       currentTagIdList = currentTab.getTagIdList();
       currentXrefs = currentTab.getXrefs();
       currentTextType = currentTab.getTextType();
+    }
+
+    if (currentTextType != 'book') {
+      this.resetNavigationPane(tabIndex);
     }
 
     if (currentTextType == 'book') { // Update navigation based on book chapters

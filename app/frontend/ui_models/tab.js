@@ -20,6 +20,7 @@ class Tab {
   constructor(defaultBibleTranslationId, interactive=true) {
     this.elementId = null;
     this.book = null;
+    this.previousBook = null;
     this.bookTitle = null;
     this.chapter = null;
     this.referenceBookTitle = null;
@@ -76,6 +77,7 @@ class Tab {
   }
 
   setBook(bookCode, bookTitle, referenceBookTitle, chapter=undefined) {
+    this.previousBook = this.book;
     this.searchResults = null;
     this.book = bookCode;
     this.bookTitle = bookTitle;
@@ -85,6 +87,10 @@ class Tab {
 
   getBook() {
     return this.book;
+  }
+
+  getPreviousBook() {
+    return this.previousBook;
   }
 
   getBookTitle() {
