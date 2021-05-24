@@ -16,96 +16,91 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-class LanguageMapper {
-  constructor() {
-    this.mappingExistsCache = {};
-    this.langs = null;
+
+var langs = null;
+function getLangs() {
+  if (langs == null) {
+    langs = require('iso-639-3');
   }
 
-  getLangs() {
-    if (this.langs == null) {
-      this.langs = require('iso-639-3');
-    }
+  return langs;
+}
 
-    return this.langs;
-  }
+function mappingMatchesCode(mapping, languageCode) {
+  return (languageCode == mapping.iso6393 ||
+    languageCode == mapping.iso6392B ||
+    languageCode == mapping.iso6392T ||
+    languageCode == mapping.iso6391);
+}
 
-  mappingMatchesCode(mapping, languageCode) {
-    return (languageCode == mapping.iso6393 ||
-            languageCode == mapping.iso6392B ||
-            languageCode == mapping.iso6392T ||
-            languageCode == mapping.iso6391);
-  }
+function normalizeLanguageCode(languageCode) {
+  var normalizedCode = languageCode.split('-');
+  return normalizedCode[0];
+}
 
-  normalizeLanguageCode(languageCode) {
-    var normalizedCode = languageCode.split('-');
-    return normalizedCode[0];
-  }
+var mappingExistsCache = {};
+module.exports.mappingExists = function (languageCode) {
+  if (languageCode in mappingExistsCache) {
 
-  mappingExists(languageCode) {
-    if (languageCode in this.mappingExistsCache) {
+    return mappingExistsCache[languageCode];
 
-      return this.mappingExistsCache[languageCode];
+  } else {
+    var normalizedCode = normalizeLanguageCode(languageCode);
 
-    } else {
-      var normalizedCode = this.normalizeLanguageCode(languageCode);
-
-      var langs = this.getLangs();
-      for (var i = 0; i < langs.length; i++) {
-        var currentLang = langs[i];
-
-        if (this.mappingMatchesCode(currentLang, normalizedCode)) {
-          this.mappingExistsCache[languageCode] = true;
-          return true;
-        }
-      }
-
-      this.mappingExistsCache[languageCode] = false;
-      return false;
-    }
-  }
-
-  getLanguageName(languageCode) {
-    var normalizedCode = this.normalizeLanguageCode(languageCode);
-    var langs = this.getLangs();
-
-    for (var i = 0; i < langs.length; i++) {
-      var currentLang = langs[i];
-      if (this.mappingMatchesCode(currentLang, normalizedCode)) {
-        return currentLang.name;
-      }
-    }
-
-    return null;
-  }
-
-  getLanguageCode(languageName) {
-    var langs = this.getLangs();
-
+    var langs = getLangs();
     for (var i = 0; i < langs.length; i++) {
       var currentLang = langs[i];
 
-      if (currentLang.name == languageName) {
-        if (currentLang.iso6391 != null) {
-          return currentLang.iso6391;
-        }
-
-        if (currentLang.iso6392T != null) {
-          return currentLang.iso6392T;
-        }
-
-        if (currentLang.iso6392B != null) {
-          return currentLang.iso6392B;
-        }
-
-        if (currentLang.iso6393 != null) {
-          return currentLang.iso6393;
-        }
+      if (mappingMatchesCode(currentLang, normalizedCode)) {
+        mappingExistsCache[languageCode] = true;
+        return true;
       }
     }
 
-    return null;    
+    mappingExistsCache[languageCode] = false;
+    return false;
   }
 }
 
-module.exports = LanguageMapper;
+module.exports.getLanguageName = function(languageCode) {
+  var normalizedCode = normalizeLanguageCode(languageCode);
+  var langs = getLangs();
+
+  for (var i = 0; i < langs.length; i++) {
+    var currentLang = langs[i];
+    if (mappingMatchesCode(currentLang, normalizedCode)) {
+      return currentLang.name;
+    }
+  }
+
+  return null;
+}
+
+module.exports.getLanguageCode = function(languageName) {
+  var langs = getLangs();
+
+  for (var i = 0; i < langs.length; i++) {
+    var currentLang = langs[i];
+
+    if (currentLang.name == languageName) {
+      if (currentLang.iso6391 != null) {
+        return currentLang.iso6391;
+      }
+
+      if (currentLang.iso6392T != null) {
+        return currentLang.iso6392T;
+      }
+
+      if (currentLang.iso6392B != null) {
+        return currentLang.iso6392B;
+      }
+
+      if (currentLang.iso6393 != null) {
+        return currentLang.iso6393;
+      }
+    }
+  }
+
+  return null;
+}
+

@@ -16,7 +16,6 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const LanguageMapper = require('../../../lib/language_mapper.js');
 const ModuleAssistantHelper = require('./module_assistant_helper.js');
 
 /**
@@ -28,7 +27,6 @@ class RemoveModuleAssistant {
   constructor() {
     this._helper = new ModuleAssistantHelper();
     this._moduleRemovalStatus = 'DONE';
-    this.languageMapper = new LanguageMapper();
 
     var removeButton = $('#remove-modules-button');
 

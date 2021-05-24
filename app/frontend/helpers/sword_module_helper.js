@@ -22,8 +22,7 @@
  * @category Helper
  */
 
-const LanguageMapper = require('../../lib/language_mapper.js');
-const languageMapper = new LanguageMapper();
+const i18nHelper = require('./i18n_helper.js');
 
 module.exports.getModuleDescription = async function(moduleId, isRemote=false) {
   var moduleInfo = "No info available!";
@@ -92,7 +91,7 @@ module.exports.getModuleInfo = async function(moduleId, isRemote=false, includeM
     moduleInfo += "<table>";
     moduleInfo += "<tr><td style='width: 11em;'>" + i18n.t("general.module-name") + ":</td><td>" + swordModule.name + "</td></tr>";
     moduleInfo += "<tr><td>" + i18n.t("general.module-version") + ":</td><td>" + swordModule.version + "</td></tr>";
-    moduleInfo += "<tr><td>" + i18n.t("general.module-language") + ":</td><td>" + languageMapper.getLanguageName(swordModule.language) + "</td></tr>";
+    moduleInfo += "<tr><td>" + i18n.t("general.module-language") + ":</td><td>" + i18nHelper.getLanguageName(swordModule.language) + "</td></tr>";
     moduleInfo += "<tr><td>" + i18n.t("general.module-license") + ":</td><td>" + swordModule.distributionLicense + "</td></tr>";
 
     if (swordModule.type == 'Biblical Texts') {
