@@ -314,14 +314,16 @@ class AppController {
     } else {
       if (!this.tab_controller.isCurrentTabEmpty()) {
         await this.text_controller.prepareForNewText(false, false);
-        await this.text_controller.requestTextUpdate(this.tab_controller.getSelectedTabId(),
-                                                 currentTab.getBook(),
-                                                 currentTab.getTagIdList(),
-                                                 null,
-                                                 null,
-                                                 null,
-                                                 currentTab.getXrefs(),
-                                                 currentTab.getChapter());
+        await this.text_controller.requestTextUpdate(
+          this.tab_controller.getSelectedTabId(),
+          currentTab.getBook(),
+          currentTab.getTagIdList(),
+          null,
+          null,
+          null,
+          currentTab.getXrefs(),
+          currentTab.getChapter()
+        );
 
         if (currentTab.getReferenceVerseElementId() != null) {
           await this.updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId);
@@ -948,13 +950,17 @@ class AppController {
       var resetView = this.tab_controller.getTab().getTextType() != 'tagged_verses';
 
       await this.text_controller.prepareForNewText(resetView, false);
-      this.text_controller.requestTextUpdate(currentTabId,
-                                         null,
-                                         currentTagIdList,
-                                         null,
-                                         null,
-                                         null,
-                                         null);
+
+      this.text_controller.requestTextUpdate(
+        currentTabId,
+        null,
+        currentTagIdList,
+        null,
+        null,
+        null,
+        null
+      );
+
       await waitUntilIdle();
       tags_controller.updateTagList();
     }

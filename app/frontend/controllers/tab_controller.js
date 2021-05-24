@@ -277,6 +277,7 @@ class TabController {
           null,
           currentMetaTab.xrefs,
           currentMetaTab.chapter,
+          true,
           i
         );
 

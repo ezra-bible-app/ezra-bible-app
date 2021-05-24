@@ -369,14 +369,17 @@ class NavigationPane {
     return cachedVerseListTabId;
   }
 
-  goToChapter(chapter) {
+  async goToChapter(chapter) {
     this.highlightNavElement(chapter, true);
     var currentTab = app_controller.tab_controller.getTab();
+    var isInstantLoad = await app_controller.book_selection_menu.isInstantLoad(currentTab.getBibleTranslationId(),
+                                                                               currentTab.getBook());
 
-    if (currentTab.getChapter() != null) {
+    if (currentTab.getChapter() != null && !isInstantLoad) {
       app_controller.book_selection_menu.loadBook(currentTab.getBook(),
                                                   currentTab.getBookTitle(),
                                                   currentTab.getReferenceBookTitle(),
+                                                  false,
                                                   chapter);
     } else {
       var reference = '#top';

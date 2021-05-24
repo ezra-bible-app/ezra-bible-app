@@ -43,9 +43,9 @@ class BookSelectionMenu {
     var cachedHtml = await cacheController.getCachedItem('bookSelectionMenuCache');
 
     if (cachedHtml) {
-      menuBookList.innerHTML = cachedHtml
+      menuBookList.innerHTML = cachedHtml;
     } else {
-      console.log("Localizing book selection menu ...")
+      console.log("Localizing book selection menu ...");
       await this.localizeBookSelectionMenu();
     }
 
@@ -94,7 +94,7 @@ class BookSelectionMenu {
       }
     }
 
-    var html = document.getElementById("book-selection-menu").innerHTML;
+    var html = document.getElementById("book-selection-menu-book-list").innerHTML;
     cacheController.setCachedItem('bookSelectionMenuCache', html);
   }
 
@@ -125,52 +125,70 @@ class BookSelectionMenu {
     }
   }
 
+  async isInstantLoad(bibleTranslationId, bookCode) {
+    const bookChapterCount = await ipcNsi.getBookChapterCount(bibleTranslationId, bookCode);
+    const bookLoadingModeOption = app_controller.optionsMenu._bookLoadingModeOption;
+
+    var instantLoad = false;
+
+    switch (bookLoadingModeOption.value) {
+      case 'load-complete-book':
+        instantLoad = true;
+        break;
+
+      case 'load-chapters-large-books':
+        if (bookChapterCount <= INSTANT_LOADING_CHAPTER_LIMIT) {
+          instantLoad = true;
+        }
+        break;
+    }
+
+    return instantLoad;
+  }
+
   async selectBibleBook(bookCode, bookTitle, referenceBookTitle) {
-    var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    if (currentBibleTranslationId == null || currentBibleTranslationId == undefined) {
+    this.currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    if (this.currentBibleTranslationId == null || this.currentBibleTranslationId == undefined) {
       return;
     }
 
     Sentry.addBreadcrumb({category: "app",
-                          message: `Selected book ${bookCode} using translation ${currentBibleTranslationId}`,
+                          message: `Selected book ${bookCode} using translation ${this.currentBibleTranslationId}`,
                           level: Sentry.Severity.Info});
     
-    var books = await ipcNsi.getBookList(currentBibleTranslationId);
+    var books = await ipcNsi.getBookList(this.currentBibleTranslationId);
     if (!books.includes(bookCode)) {
       return;
     }
 
-    const bookChapterCount = await ipcNsi.getBookChapterCount(currentBibleTranslationId, bookCode);
     const selectChapterBeforeLoading = app_controller.optionsMenu._selectChapterBeforeLoadingOption;
+    const bookChapterCount = await ipcNsi.getBookChapterCount(this.currentBibleTranslationId, bookCode);
 
-    if (bookChapterCount <= INSTANT_LOADING_CHAPTER_LIMIT) {
+    if (selectChapterBeforeLoading.isChecked) {
+      //console.log(`Showing chapter list for ${bookTitle} ` +
+      //            `since its chapter count (${bookChapterCount}) is above the limit for instant loading!`);
+      
+      var menuBookList = document.getElementById('book-selection-menu-book-list');
+      menuBookList.style.display = 'none';
 
-      console.log(`Instantly loading ${bookTitle} (Chapter count: ${bookChapterCount})`);
-      this.loadBook(bookCode, bookTitle, referenceBookTitle);
+      this.currentBookCode = bookCode;
+      this.currentBookTitle = bookTitle;
+      this.currentReferenceBookTitle = referenceBookTitle;
+
+      await this.loadChapterList(bookChapterCount);
 
     } else {
+      var instantLoad = await this.isInstantLoad(this.currentBibleTranslationId, bookCode);
 
-      if (selectChapterBeforeLoading.isChecked) {
-
-        console.log(`Showing chapter list for ${bookTitle} ` +
-                    `since its chapter count (${bookChapterCount}) is above the limit for instant loading!`);
-        
-        var menuBookList = document.getElementById('book-selection-menu-book-list');
-        menuBookList.style.display = 'none';
-
-        this.currentBookCode = bookCode;
-        this.currentBookTitle = bookTitle;
-        this.currentReferenceBookTitle = referenceBookTitle;
-
-        this.loadChapterList(bookChapterCount);
-
-      } else {
-        this.loadBook(bookCode, bookTitle, referenceBookTitle, 1);
-      }
+      this.loadBook(bookCode,
+                    bookTitle,
+                    referenceBookTitle,
+                    instantLoad,
+                    1);
     }
   }
 
-  loadChapterList(bookChapterCount) {
+  async loadChapterList(bookChapterCount) {
     var menuChapterList = document.getElementById('book-selection-menu-chapter-list');
     menuChapterList.innerHTML = '';
 
@@ -180,19 +198,25 @@ class BookSelectionMenu {
       newLink.innerText = c;
       menuChapterList.appendChild(newLink);
 
-      newLink.addEventListener('click', (event) => {
+      newLink.addEventListener('click', async (event) => {
         event.preventDefault();
         event.stopPropagation();
 
         let selectedChapter = parseInt(event.target.getAttribute('href'));
-        this.loadBook(this.currentBookCode, this.currentBookTitle, this.currentReferenceBookTitle, selectedChapter);
+        var instantLoad = await this.isInstantLoad(this.currentBibleTranslationId, this.currentBookCode);
+
+        this.loadBook(this.currentBookCode,
+                      this.currentBookTitle,
+                      this.currentReferenceBookTitle,
+                      instantLoad,
+                      selectedChapter);
       });
     }
 
     menuChapterList.style.display = 'flex';
   }
 
-  async loadBook(bookCode, bookTitle, referenceBookTitle, chapter=undefined) {
+  async loadBook(bookCode, bookTitle, referenceBookTitle, instantLoad=true, chapter=undefined) {
     app_controller.book_selection_menu.hideBookMenu();
     app_controller.book_selection_menu.highlightSelectedBookInMenu(bookCode);
 
@@ -226,7 +250,8 @@ class BookSelectionMenu {
                                                              null,
                                                              null,
                                                              null,
-                                                             chapter);
+                                                             chapter,
+                                                             instantLoad);
 
       await waitUntilIdle();
       tags_controller.updateTagList(currentBook);

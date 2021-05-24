@@ -93,6 +93,7 @@ class TextController {
                           searchResults,
                           xrefs,
                           chapter=undefined,
+                          instantLoad=true,
                           tabIndex=undefined,
                           searchResultBookId=-1,
                           target=undefined) {
@@ -114,7 +115,8 @@ class TextController {
         await this.renderVerseList(cachedText, cachedReferenceVerse, 'book', tabIndex, false, true);
       } else {
 
-        if (chapter == null) {
+        if (instantLoad) { // Load the whole book instantaneously
+
           // 1) Only request the first 50 verses and render immediately
           await this.requestBookText(tabIndex, tabId, book,
             async (htmlVerseList) => { 
@@ -131,7 +133,8 @@ class TextController {
               await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, true);
             }, 51, -1
           );
-        } else { // chapter is set
+
+        } else { // Load only one chapter
 
           var currentBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
           var separator = await i18nHelper.getReferenceSeparator(currentBibleTranslationId);
