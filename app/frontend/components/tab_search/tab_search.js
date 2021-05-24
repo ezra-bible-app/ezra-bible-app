@@ -134,11 +134,15 @@ class TabSearch {
   }
 
   show() {
+    var verseListComposite = app_controller.getCurrentVerseListComposite();
+    verseListComposite.addClass('tab-search-active');
     this.searchForm.css('display', 'flex');
     uiHelper.resizeVerseList();
   }
 
   hide() {
+    var verseListComposite = app_controller.getCurrentVerseListComposite();
+    verseListComposite.removeClass('tab-search-active');
     this.searchForm.hide();
     uiHelper.resizeVerseList();
   }

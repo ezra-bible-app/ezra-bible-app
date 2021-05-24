@@ -141,13 +141,23 @@ h2 {
   padding-bottom: 1em;
 }
 
-.verse-list-frame:not(.verse-list-frame-no-chapter-nav) {
+.verse-list-composite:not(.no-chapter-nav) .verse-list-frame {
   border-left: none;
 }
 
-.verse-list-frame-no-chapter-nav {
+.verse-list-composite.no-chapter-nav .tab-search {
+  border-left: 1px solid lightgray;
+  border-bottom-left-radius: 4px;
+}
+
+.verse-list-composite.no-chapter-nav .verse-list-frame {
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
+}
+
+.verse-list-composite.tab-search-active .verse-list-frame {
+  border-bottom-left-radius: unset;
+  border-bottom-right-radius: unset;
 }
 
 .verse-list,
