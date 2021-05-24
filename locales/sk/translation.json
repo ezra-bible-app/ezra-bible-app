@@ -221,7 +221,10 @@
     "open-verselist-in-new-tab": "Otvoriť zoznam veršov na novej karte",
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Úprava veľkosti textu štítkov & poznámok",
-    "new-note-hint": "Kliknite pre pridanie poznámky"
+    "new-note-hint": "Kliknite pre pridanie poznámky",
+    "load-complete-book": "Load complete book",
+    "load-chapters-large-books": "Load chapter (Large books)",
+    "load-chapters-all-books": "Load chapter (All books)"
   },
   "dictionary-info-box": {
     "greek-dict": "Grécky slovník",

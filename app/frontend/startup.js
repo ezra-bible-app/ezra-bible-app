@@ -91,6 +91,7 @@ class Startup {
     const fs = require('fs');
 
     require('./components/config_option.js');
+    require('./components/select_option.js');
     require('./components/locale_switch.js');
 
     var bookSelectionMenu = fs.readFileSync('html/book_selection_menu.html');

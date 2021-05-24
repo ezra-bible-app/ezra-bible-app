@@ -221,7 +221,10 @@
     "open-verselist-in-new-tab": "Abrir la lista de versos en una nueva pestaña",
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Ajustar el tamaño de fuente de notas y etiquetas",
-    "new-note-hint": "Presione para añadir una nota"
+    "new-note-hint": "Presione para añadir una nota",
+    "load-complete-book": "Load complete book",
+    "load-chapters-large-books": "Load chapter (Large books)",
+    "load-chapters-all-books": "Load chapter (All books)"
   },
   "dictionary-info-box": {
     "greek-dict": "Diccionario Griego",

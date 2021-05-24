@@ -78,6 +78,7 @@ class OptionsMenu {
     this._keepScreenAwakeOption = this.initConfigOption('keepScreenAwakeOption', () => { this.keepScreenAwakeBasedOnOption(); });
     this._textSizeAdjustTagsNotesOption = this.initConfigOption('adjustTagsNotesTextSizeOption', () => { app_controller.textSizeSettings.updateTagsNotes(this._textSizeAdjustTagsNotesOption.isChecked); }, true);
     this._selectChapterBeforeLoadingOption = this.initConfigOption('selectChapterBeforeLoadingOption', () => {});
+    this._bookLoadingModeOption = this.initConfigOption('bookLoadingModeOption', () => {});
 
     this.initLocaleSwitchOption();
     await this.initNightModeOption();

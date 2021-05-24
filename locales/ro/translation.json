@@ -220,7 +220,10 @@
     "open-verselist-in-new-tab": "Deschide lista versetelor într-o filă nouă",
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Ajustează dimensiunea fontului pentru etichete și note",
-    "new-note-hint": "Click pentru a adăuga o notă"
+    "new-note-hint": "Click pentru a adăuga o notă",
+    "load-complete-book": "Load complete book",
+    "load-chapters-large-books": "Load chapter (Large books)",
+    "load-chapters-all-books": "Load chapter (All books)"
   },
   "dictionary-info-box": {
     "greek-dict": "Dicționar grec",
