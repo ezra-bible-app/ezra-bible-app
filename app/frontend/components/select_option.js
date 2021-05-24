@@ -89,15 +89,17 @@ class SelectOption extends HTMLSelectElement {
   async loadOptionFromSettings() {
     var optionValue = await ipcSettings.get(this._settingsKey);
 
-    for (let i = 0; i < this.options.length; i++) {
-      if (this.options[i].value == optionValue) {
-        this.options[i].setAttribute('selected', 'selected');
-      } else {
-        this.options[i].removeAttribute('selected');
+    if (optionValue !== false) {
+      for (let i = 0; i < this.options.length; i++) {
+        if (this.options[i].value == optionValue) {
+          this.options[i].setAttribute('selected', 'selected');
+        } else {
+          this.options[i].removeAttribute('selected');
+        }
       }
-    }
 
-    this.value = optionValue;
+      this.value = optionValue;
+    }
   }
 }
 
