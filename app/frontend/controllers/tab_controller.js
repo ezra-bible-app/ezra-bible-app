@@ -24,7 +24,6 @@ const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
 const i18nController = require('./i18n_controller.js');
 const cacheController = require('./cache_controller.js');
-const { ipcRenderer } = require('electron');
 
 /**
  * The TabController manages the tab bar and the state of each tab.
@@ -109,6 +108,7 @@ class TabController {
 
   exitLog(logMessage) {
     if (platformHelper.isElectron()) {
+      const { ipcRenderer } = require('electron');
       ipcRenderer.send('log', logMessage);
     } else {
       console.log(logMessage);
