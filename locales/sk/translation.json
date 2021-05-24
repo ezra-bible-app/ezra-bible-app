@@ -131,7 +131,10 @@
     "applying-migrations": "Migrujem databázu na novú verziu",
     "developers": "Vývojári",
     "translators": "Prekladatelia",
-    "versions-and-paths": "Verzie a cesty"
+    "versions-and-paths": "Verzie a cesty",
+    "app-language": "Application Language",
+    "detect-locale": "Auto",
+    "detect-locale-hint": "Automatically detect locale based on system language"
   },
   "help": {
     "help-text-no-tags-book-opened": "Ak chcete začať pracovať so značkami, vytvorte svoju prvú značku kliknutím na tlačidlo <i>Nová&nbsp;značka</i>.<br/><br/>Potom môžete listovať v biblickom texte, kliknúť alebo vybrať jednotlivé verše a potom im priradiť značku, ktorú ste práve vytvorili.",
@@ -162,6 +165,7 @@
     "delete-tag-permanently": "Permanentne vymazať štítok",
     "none-selected": "Žiadne",
     "rename-tag": "Premenovať štítok",
+    "rename-tag-button": "[Premenovať]",
     "title": "Titulok",
     "stats-used": "použité",
     "stats-total": "spolu",

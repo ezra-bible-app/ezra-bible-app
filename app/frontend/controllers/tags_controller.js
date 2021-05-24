@@ -21,6 +21,7 @@ const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
 require('../components/emoji_button_trigger.js');
 const { waitUntilIdle, sleep } = require('../helpers/ezra_helper.js');
+const i18nController = require('./i18n_controller.js');
 
 /**
  * The TagsController handles most functionality related to tagging of verses.
@@ -69,10 +70,25 @@ class TagsController {
     this.removeTagAssignmentConfirmationDialogInitDone = false;
     this.renameStandardTagDialogInitDone = false;
     this.lastBook = null;
+
+    i18nController.addLocaleChangeSubscriber(async () => {
+      this.updateTagsView(undefined, true);
+      this.refreshTagDialogs();
+    });
   }
 
-  initNewTagDialog() {
-    if (this.newTagDialogInitDone) {
+  /**
+   * This is used to refresh the dialogs after the locale changed
+   */
+  refreshTagDialogs() {
+    this.initNewTagDialog(true);
+    this.initRenameStandardTagDialog(true);
+    this.initRemoveTagAssignmentConfirmationDialog(true);
+    this.initDeleteTagConfirmationDialog(true);
+  }
+
+  initNewTagDialog(force=false) {
+    if (!force && this.newTagDialogInitDone) {
       return;
     }
 
@@ -105,8 +121,8 @@ class TagsController {
     });
   }
 
-  initDeleteTagConfirmationDialog() {
-    if (this.deleteTagConfirmationDialogInitDone) {
+  initDeleteTagConfirmationDialog(force=false) {
+    if (!force && this.deleteTagConfirmationDialogInitDone) {
       return;
     }
 
@@ -131,8 +147,8 @@ class TagsController {
     $('#delete-tag-confirmation-dialog').dialog(delete_tag_confirmation_dlg_options);
   }
 
-  initRemoveTagAssignmentConfirmationDialog() {
-    if (this.removeTagAssignmentConfirmationDialogInitDone) {
+  initRemoveTagAssignmentConfirmationDialog(force=false) {
+    if (!force && this.removeTagAssignmentConfirmationDialogInitDone) {
       return;
     }
 
@@ -167,8 +183,8 @@ class TagsController {
     });
   }
 
-  initRenameStandardTagDialog() {
-    if (this.renameStandardTagDialogInitDone) {
+  initRenameStandardTagDialog(force=false) {
+    if (!force && this.renameStandardTagDialogInitDone) {
       return;
     }
 
@@ -758,7 +774,7 @@ class TagsController {
         tagStatistics: tag_statistics,
         current_book: current_book,
         current_filter: $('#tags-search-input').val(),
-        rename_tag_label: i18n.t("general.rename"),
+        rename_tag_label: i18n.t("tags.rename-tag-button"),
         delete_tag_label: i18n.t("tags.delete-tag-permanently"),
       });
 
@@ -1060,26 +1076,13 @@ class TagsController {
   }
 
   initTagsUI() {
-    $('#tags-content').accordion({
-      autoHeight: false,
-      animated: false,
-      change: tags_controller.handleTagAccordionChange
-    });
+    // $('#tags-content').accordion({
+    //   autoHeight: false,
+    //   animated: false,
+    //   change: tags_controller.handleTagAccordionChange
+    // });
 
-    var filter_button = $("<span id=\"tag-list-filter-button\"><i class='fas fa-filter'></i></span>");
-    var filter_active_symbol = $("<span id=\"tag-list-filter-button-active\">*</span>");
-    var tag_list_stats = $("<span id='tag-list-stats' style='margin-left: 1em;'></span>");
-    var tags_search_input = $("<input type='text' id='tags-search-input'></input>");
-    var reference_link = $($('#tags-content').find('a')[0]);
-    var reference_link_text = reference_link.text();
-    reference_link.empty();
-    reference_link.append("<span style=\"float: left;\">" + reference_link_text + "</span>");
-    reference_link.append(filter_button);
-    reference_link.append(filter_active_symbol);
-    reference_link.append(tag_list_stats);
-    reference_link.append(tags_search_input);
-
-    reference_link.find('#tag-list-filter-button').bind('click', tags_controller.handleFilterButtonClick);
+    $('#tag-list-filter-button').bind('click', tags_controller.handleFilterButtonClick);
 
     $('#tags-content-global').bind('mouseover', () => { this.hideTagFilterMenuIfInToolBar(); });
     $('#tag-filter-menu').find('input').bind('click', tags_controller.handleTagFilterTypeClick);
@@ -1235,6 +1238,20 @@ class TagsController {
   hideTagListLoadingIndicator() {
     var loadingIndicator = $('#tags-loading-indicator');
     loadingIndicator.hide();
+  }
+
+  async updateTagsView(tabIndex, forceRefresh = false) {
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
+
+    if (currentTab !== undefined) {
+      if (currentTab.isValid()) {
+        this.showTagListLoadingIndicator();
+        await waitUntilIdle();
+
+        var currentTabBook = currentTab.getBook();
+        this.updateTagList(currentTabBook, forceRefresh);
+      }
+    }
   }
 }
 

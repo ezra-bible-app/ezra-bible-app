@@ -85,6 +85,11 @@ class IpcSettingsHandler {
   initIpcInterface() {
     this._ipcMain.add('settings_set', (configName, settingsKey, settingsValue) => {
       var config = this.getConfig(configName);
+
+      if (this.platformHelper.isDebug() && settingsKey !== 'tabConfiguration' && settingsKey !== 'bookSelectionMenuCache') {
+        console.log(`IpcSettingsHandler: Setting ${settingsKey} to ${settingsValue}`);
+      }
+
       return config.set(settingsKey, settingsValue);
     });
 
@@ -107,12 +112,12 @@ class IpcSettingsHandler {
       var config = this.getConfig();
       var pjson = require('../../../package.json');
       var lastUsedVersion = pjson.version;
-      return config.set('lastUsedVersion', lastUsedVersion);
-    });
 
-    this._ipcMain.add('settings_storeLastUsedLanguage', (lang) => {
-      var config = this.getConfig();
-      return config.set('lastUsedLanguage', lang);
+      if (this.platformHelper.isDebug()) {
+        console.log(`IpcSettingsHandler: Setting lastUsedVersion to ${lastUsedVersion}`);
+      }
+
+      return config.set('lastUsedVersion', lastUsedVersion);
     });
 
     this._ipcMain.add('settings_getConfigFilePath', () => {

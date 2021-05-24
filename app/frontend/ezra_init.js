@@ -51,25 +51,18 @@ $.create_xml_doc = function(string)
   return doc;
 }
 
-window.getReferenceSeparator = async function(moduleCode=undefined) {
-  if (moduleCode == undefined) {
-    
-    return reference_separator;
-
-  } else {
-    var moduleReferenceSeparator = reference_separator;
-    
-    try {
-      var localModule = await ipcNsi.getLocalModule(moduleCode);
-      moduleReferenceSeparator = await i18nHelper.getSpecificTranslation(localModule.language, 'general.chapter-verse-separator');
-    } catch (e) {}
-    
-    return moduleReferenceSeparator;
+function earlyRestoreLocalizedString() {
+  const loadingStr = window.localStorage && window.localStorage.getItem('loading');
+  const loadingElement = document.querySelector('[i18n="general.loading"]');
+  if (loadingElement) {
+    loadingElement.textContent = loadingStr || 'Loading';
   }
 }
 
 window.addEventListener('load', function() {
   console.log("load event fired!");
+
+  earlyRestoreLocalizedString();
 
   if (platformHelper.isCordova()) {
 

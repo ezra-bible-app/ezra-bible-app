@@ -18,6 +18,8 @@
 
 const PlatformHelper = require('../../lib/platform_helper.js');
 const notesHelper = require('../helpers/notes_helper.js');
+const i18nController = require('./i18n_controller.js');
+const i18nHelper = require('../helpers/i18n_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 
 /**
@@ -231,14 +233,9 @@ class TextController {
     var verseTags = await ipcDb.getBookVerseTags(bibleBook.id, versification);
     var verseNotes = await ipcDb.getVerseNotesByBook(bibleBook.id, versification);
 
-    var moduleLang = i18n.language;
+    var moduleLang = i18nController.getLocale();
     if (localSwordModule != null) {
-      var moduleLang = localSwordModule.language;
-    }
-
-    var chapterText = await i18nHelper.getChapterTranslation(moduleLang);
-    if (book_short_title == 'Ps') {
-      chapterText = await i18nHelper.getPsalmTranslation(moduleLang);
+      moduleLang = localSwordModule.language;
     }
 
     var bookIntroduction = null;
@@ -262,7 +259,7 @@ class TextController {
       bookNotes = await ipcDb.getBookNotes(book_short_title);
     }
 
-    var separator = await getReferenceSeparator(currentBibleTranslationId);
+    var separator = await i18nHelper.getReferenceSeparator(currentBibleTranslationId);
 
     var verses_as_html = verseListTemplate({
       versification: versification,
@@ -279,12 +276,12 @@ class TextController {
       verseTags: verseTags,
       verseNotes: verseNotes,
       marked: this.marked,
-      reference_separator: separator,
-      saveText: i18n.t("general.save"),
-      cancelText: i18n.t("general.cancel"),
-      chapterText: chapterText,
-      tagHint: i18n.t("bible-browser.tag-hint"),
-      notesHelper 
+      referenceSeparator: separator,
+      chapterText: book_short_title === 'Ps' ? "bible-browser.psalm": "bible-browser.chapter",
+      helper: {
+        getNotesTooltip: notesHelper.getTooltipText,
+        getLocalizedDate: i18nHelper.getLocalizedDate,
+      } 
     });
 
     render_function(verses_as_html);
@@ -506,7 +503,7 @@ class TextController {
 
   async getVersesAsHtml(current_tab_id, tabIndex, bibleBooks, bookNames, bibleBookStats, groupedVerseTags, groupedVerseNotes, verses, versification, render_function, renderBibleBookHeaders=true, renderVerseMetaInfo=true) {    
     var bibleTranslationId = app_controller.tab_controller.getTabById(current_tab_id).getBibleTranslationId();
-    var separator = await getReferenceSeparator(bibleTranslationId);
+    var separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
     
     var verses_as_html = verseListTemplate({
       versification: versification,
@@ -520,12 +517,11 @@ class TextController {
       verseTags: groupedVerseTags,
       verseNotes: groupedVerseNotes,
       marked: this.marked,
-      reference_separator: separator,
-      saveText: i18n.t("general.save"),
-      cancelText: i18n.t("general.cancel"),
-      tagHint: i18n.t("bible-browser.tag-hint"),
-      loadSearchResultsText: i18n.t("bible-browser.show-search-results"),
-      notesHelper
+      referenceSeparator: separator,
+      helper: {
+        getNotesTooltip: notesHelper.getTooltipText,
+        getLocalizedDate: i18nHelper.getLocalizedDate,
+      } 
     });
 
     render_function(verses_as_html, verses.length);
@@ -567,7 +563,7 @@ class TextController {
 
       if (!currentTab.hasReferenceVerse()) {
         var tagTitleList = currentTab.getTagTitleList();
-        var headerText = `<h2>${i18n.t('tags.verses-tagged-with')} <i>${tagTitleList}</i></h2>`;
+        var headerText = `<h2><span i18n="tags.verses-tagged-with">${i18n.t('tags.verses-tagged-with')}</span> <i>${tagTitleList}</i></h2>`;
         var verseListHeader = app_controller.getCurrentVerseListFrame(tabIndex).find('.verse-list-header');
         verseListHeader.html(headerText);
         verseListHeader.show();

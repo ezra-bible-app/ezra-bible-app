@@ -18,6 +18,7 @@
 
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
+const i18nHelper = require('../helpers/i18n_helper.js');
 
 /**
  * The NavigationPane class implements the update and event handling of the
@@ -29,7 +30,7 @@ class NavigationPane {
   constructor() {
     this.currentNavigationPane = null;
     this.verse_box_helper = new VerseBoxHelper();
-    this.verseListFrameNoChapterNavCss = 'verse-list-frame-no-chapter-nav';
+    this.verseListFrameNoChapterNavCss = 'no-chapter-nav';
   }
 
   getCurrentNavigationPane(tabIndex=undefined) {
@@ -39,14 +40,14 @@ class NavigationPane {
   };
 
   show(tabIndex) {
-    var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
-    verseListFrame.removeClass(this.verseListFrameNoChapterNavCss);
+    var verseListComposite = app_controller.getCurrentVerseListComposite(tabIndex);
+    verseListComposite.removeClass(this.verseListFrameNoChapterNavCss);
     this.getCurrentNavigationPane(tabIndex).show();
   }
 
   hide(tabIndex) {
-    var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
-    verseListFrame.addClass(this.verseListFrameNoChapterNavCss);
+    var verseListComposite = app_controller.getCurrentVerseListComposite(tabIndex);
+    verseListComposite.addClass(this.verseListFrameNoChapterNavCss);
     this.getCurrentNavigationPane(tabIndex).hide();
   }
 
@@ -222,6 +223,7 @@ class NavigationPane {
     var navigationHeader = document.createElement('div');
     navigationHeader.classList.add('nav-pane-header');
     navigationHeader.textContent = i18n.t('bible-browser.chapter-header');
+    navigationHeader.setAttribute('i18n', 'bible-browser.chapter-header');
     navigationPane.append(navigationHeader);
 
     var cachedVerseListTabId = this.getCachedVerseListTabId(tabIndex);
@@ -399,7 +401,7 @@ class NavigationPane {
     }
 
     var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var separator = await getReferenceSeparator(bibleTranslationId);
+    var separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
 
     var currentTab = app_controller.tab_controller.getTab();
     var currentBook = currentTab.getBook();

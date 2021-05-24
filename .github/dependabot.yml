@@ -10,3 +10,5 @@ updates:
     open-pull-requests-limit: 10
     schedule:
       interval: "daily"
+    ignore:
+      - dependency-name: "electron"

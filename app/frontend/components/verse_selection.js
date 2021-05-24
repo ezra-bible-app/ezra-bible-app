@@ -18,6 +18,8 @@
 
 const VerseBox = require("../ui_models/verse_box.js");
 const VerseReferenceHelper = require("../helpers/verse_reference_helper.js");
+const i18nHelper = require('../helpers/i18n_helper.js');
+const i18nController = require('../controllers/i18n_controller.js');
 
 /**
  * The VerseSelection component implements the label that shows the currently selected verses.
@@ -28,6 +30,10 @@ class VerseSelection {
   constructor() {
     this.selected_verse_references = null;
     this.selected_verse_box_elements = null;
+
+    i18nController.addLocaleChangeSubscriber(async () => {
+      await this.updateSelectedVersesLabel();
+    });
   }
 
   initHelper(nsi) {
@@ -274,7 +280,7 @@ class VerseSelection {
 
   async format_passage_reference_for_view(book_short_title, start_reference, end_reference) {
     var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var source_separator = await getReferenceSeparator(bibleTranslationId);
+    var source_separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
 
     var start_chapter = parseInt(start_reference.split(source_separator)[0]);
     var start_verse = parseInt(start_reference.split(source_separator)[1]);
@@ -360,7 +366,7 @@ class VerseSelection {
     return selected_verse_ids;
   }
 
-  async updateViewsAfterVerseSelection(selectedVerseDisplayText=undefined) {
+  async updateSelectedVersesLabel(selectedVerseDisplayText=undefined) {
     var preDefinedText = false;
 
     if (selectedVerseDisplayText == undefined) {
@@ -380,7 +386,10 @@ class VerseSelection {
     }
 
     this.getSelectedVersesLabel().html(selectedVerseDisplayText);
+  }
 
+  async updateViewsAfterVerseSelection(selectedVerseDisplayText=undefined) {
+    await this.updateSelectedVersesLabel(selectedVerseDisplayText);
     await tags_controller.updateTagsViewAfterVerseSelection(false);
     
     var currentTab = app_controller.tab_controller.getTab();

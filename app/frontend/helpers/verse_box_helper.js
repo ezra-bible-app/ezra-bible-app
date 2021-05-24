@@ -175,7 +175,7 @@ class VerseBoxHelper {
     var verseBox = new VerseBox(verseBoxElement);
     var currentBookCode = verseBox.getBibleBookShortTitle();
     var currentBookName = await ipcDb.getBookLongTitle(currentBookCode);
-    var currentBookLocalizedName = await i18nHelper.getSwordTranslation(currentBookName);
+    var currentBookLocalizedName = await require('./i18n_helper.js').getSwordTranslation(currentBookName);
     var verseReferenceContent = verseBoxElement.querySelector('.verse-reference-content').innerText;
 
     var localizedReference = currentBookLocalizedName + ' ' + verseReferenceContent;

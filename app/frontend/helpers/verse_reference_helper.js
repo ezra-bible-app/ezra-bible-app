@@ -16,6 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const i18nHelper = require('./i18n_helper.js');
+
 class VerseReferenceHelper
 {
   constructor(nsi) {
@@ -31,7 +33,7 @@ class VerseReferenceHelper
     if (this._customReferenceSeparator != null) {
       return this._customReferenceSeparator;
     } else {
-      var separator = await getReferenceSeparator(translation);
+      var separator = await i18nHelper.getReferenceSeparator(translation);
       return separator;
     }
   }

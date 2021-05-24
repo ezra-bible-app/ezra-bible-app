@@ -17,11 +17,17 @@
   <emoji-button-trigger></emoji-button-trigger>
 </div>
 
-<div id="tags-content" class="accordion-panel">
-  <h3>
-    <a href="#" i18n="menu.tags"></a>
+<div id="tags-content" class="accordion-panel ui-accordion ui-widget ui-helper-reset ui-accordion-icons" role="tablist">
+  <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
+    <a href="#">
+      <span style="float: left;" i18n="menu.tags"></span>
+      <span id="tag-list-filter-button"><i class='fas fa-filter'></i></span>
+      <span id="tag-list-filter-button-active">*</span>
+      <span id="tag-list-stats" style="margin-left: 1em;"></span>
+      <input type="text" id="tags-search-input"></input>
+    </a>
   </h3>
-  <div id="tags-content-global" class="tags-content-global scrollable">
+  <div id="tags-content-global" class="tags-content-global scrollable ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
     <div id="tags-loading-indicator" style="display: none; width: 18em; margin-top: 5em; margin-left: auto; margin-right: auto;">
       <div class="loading-indicator-text" style="float: left;" i18n="tags.loading-tags"></div>
 

@@ -21,6 +21,7 @@ const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const verseBoxHelper = new VerseBoxHelper();
 const VerseBox = require('../ui_models/verse_box.js');
 const notesHelper = require('../helpers/notes_helper.js');
+const i18nHelper = require('../helpers/i18n_helper.js');
 require('../components/emoji_button_trigger.js');
 
 let CodeMirror = null;
@@ -299,9 +300,9 @@ class NotesController {
   }
 
   _resetVerseNoteButtons() {
-    var verseNotesButtons = $(this.currentlyEditedNotes).find('.verse-notes-buttons');
-    verseNotesButtons.find('a').unbind();
-    verseNotesButtons.hide();
+    var $verseNotesButtons = $(this.currentlyEditedNotes).find('.verse-notes-buttons');
+    $verseNotesButtons.find('a').unbind();
+    $verseNotesButtons.hide();
   }
 
   _setupVerseNoteButtons() {
@@ -309,12 +310,13 @@ class NotesController {
 
     $verseNotesButtons.find('a').bind('click', (event) => {
       event.preventDefault();
+      event.stopPropagation();
 
-      if (event.target.className == 'save-note') {
+      if (event.currentTarget.className == 'save-note') {
 
         this.restoreCurrentlyEditedNotes();
 
-      } else if (event.target.className == 'cancel-edit') {
+      } else if (event.currentTarget.className == 'cancel-edit') {
 
         this.restoreCurrentlyEditedNotes(false);
 
