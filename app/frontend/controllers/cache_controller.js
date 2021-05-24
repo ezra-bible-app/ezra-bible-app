@@ -50,7 +50,6 @@ module.exports.setCachedItem = async function (key, value) {
   if (key === 'tabConfiguration') {
     const currentTime = new Date(Date.now());
     await ipcSettings.set('tabConfigurationTimestamp', currentTime, CACHE_NAME);
-    await ipcSettings.set('cacheLocale', i18nController.getLocale(), CACHE_NAME);
   }
 
 }
@@ -99,3 +98,6 @@ module.exports.saveLastUsedVersion = async function () {
   await ipcSettings.storeLastUsedVersion();
 }
 
+module.exports.saveLastLocale = async function () {
+  await ipcSettings.set('cacheLocale', i18nController.getLocale(), CACHE_NAME);
+}

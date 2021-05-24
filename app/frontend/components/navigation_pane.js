@@ -30,7 +30,7 @@ class NavigationPane {
   constructor() {
     this.currentNavigationPane = null;
     this.verse_box_helper = new VerseBoxHelper();
-    this.verseListFrameNoChapterNavCss = 'verse-list-frame-no-chapter-nav';
+    this.verseListFrameNoChapterNavCss = 'no-chapter-nav';
   }
 
   getCurrentNavigationPane(tabIndex=undefined) {
@@ -40,14 +40,14 @@ class NavigationPane {
   };
 
   show(tabIndex) {
-    var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
-    verseListFrame.removeClass(this.verseListFrameNoChapterNavCss);
+    var verseListComposite = app_controller.getCurrentVerseListComposite(tabIndex);
+    verseListComposite.removeClass(this.verseListFrameNoChapterNavCss);
     this.getCurrentNavigationPane(tabIndex).show();
   }
 
   hide(tabIndex) {
-    var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
-    verseListFrame.addClass(this.verseListFrameNoChapterNavCss);
+    var verseListComposite = app_controller.getCurrentVerseListComposite(tabIndex);
+    verseListComposite.addClass(this.verseListFrameNoChapterNavCss);
     this.getCurrentNavigationPane(tabIndex).hide();
   }
 
