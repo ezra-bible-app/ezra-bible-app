@@ -64,7 +64,7 @@ Emojis are standardized in [Unicode](http://unicode.org/emoji/charts/full-emoji-
 
 However, emoji categories are not standardized and vary from system to system. So there is a need to manually translate emoji categories. You can look up what is commonly accepted in your language on any mobile device with emojis.
 
-Otherwise most of the categories are localized under **Android keyboard** project. In the project repository [resources folder](https://android.googlesource.com/platform/packages/inputmethods/LatinIME/+/master/java/res) find a folder with your locale. Inside each locale folder there is a file `strings-talkback-descriptions.xml`. The emoji categories used for the Android keyboard can be found under the string elements starting with `spoken_descrption_emoji_category_eight_` (approximately lines 75-79). 
+Otherwise as a starting point/example emoji categories localized under **Android keyboard** project can be used. In the project repository [resources folder](https://android.googlesource.com/platform/packages/inputmethods/LatinIME/+/master/java/res) find a folder with your locale. Inside each locale folder there is a file `strings-talkback-descriptions.xml`. The emoji categories used for the Android keyboard can be found under the string elements starting with `spoken_descrption_emoji_category_eight_` (approximately lines 75-79). 
 
 ## Hints for development
 
