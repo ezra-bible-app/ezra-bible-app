@@ -74,9 +74,11 @@ module.exports.initI18N = async function() {
     parseDefaultValueFromContent: true // parses default values from content ele.val or ele.text
   });
 
-  if (await ipcSettings.has(SETTINGS_KEY)) {
+  // FIXME: This does not work on Cordova, because the startup sequence is slightly different.
+  // At the time when this is loaded IPC is not available yet ...
+  /*if (await ipcSettings.has(SETTINGS_KEY)) {
     await i18n.changeLanguage(await ipcSettings.get(SETTINGS_KEY, FALLBACK_LOCALE));
-  }
+  }*/
 
   // We need to save some locale strings separately, so that they are accessible at startup before i18next is available
   preserveLocaleForStartup();
