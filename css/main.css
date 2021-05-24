@@ -1333,7 +1333,7 @@ h2 {
 }
 
 .darkmode--activated .tab-search {
-  background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat;
+  background-color: #1e1e1e;
   color: #cccccc;
 }
 
