@@ -16,9 +16,10 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const LanguageMapper = require('../../../lib/language_mapper.js');
+const languageMapper = require('../../../lib/language_mapper.js');
 const ModuleAssistantHelper = require('./module_assistant_helper.js');
 const i18nController = require('../../controllers/i18n_controller.js');
+const i18nHelper = require('../../helpers/i18n_helper.js');
 const { sleep } = require('../../helpers/ezra_helper.js');
 
 /**
@@ -29,7 +30,6 @@ const { sleep } = require('../../helpers/ezra_helper.js');
 class InstallModuleAssistant {
   constructor() {
     this._helper = new ModuleAssistantHelper();
-    this.languageMapper = new LanguageMapper();
     this._addModuleAssistantOriginalContent = undefined;
 
     var addButton = $('#add-modules-button');
@@ -1000,7 +1000,7 @@ class InstallModuleAssistant {
     for (var i = 0; i < allRepoModules.length; i++) {
       var module = allRepoModules[i];
 
-      if (this.languageMapper.mappingExists(module.language)) {
+      if (languageMapper.mappingExists(module.language)) {
         count += 1;
       }
     }
