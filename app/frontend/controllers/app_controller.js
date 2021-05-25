@@ -308,6 +308,12 @@ class AppController {
     // The tab search is not valid anymore if the translation is changing. Therefore we reset it.
     currentTab.tab_search.resetSearch();
 
+    var isInstantLoad = true;
+
+    if (currentTab.getTextType() == 'book') {
+      isInstantLoad = await app_controller.book_selection_menu.isInstantLoad(newBibleTranslationId, currentTab.getBook());
+    }
+
     if (currentTab.getTextType() == 'search_results') {
       await this.text_controller.prepareForNewText(true, true);
       this.module_search_controller.startSearch(null, this.tab_controller.getSelectedTabIndex(), currentTab.getSearchTerm());
@@ -322,7 +328,8 @@ class AppController {
           null,
           null,
           currentTab.getXrefs(),
-          currentTab.getChapter()
+          currentTab.getChapter(),
+          isInstantLoad
         );
 
         if (currentTab.getReferenceVerseElementId() != null) {
@@ -383,7 +390,7 @@ class AppController {
       await this.tab_controller.loadTabConfiguration();
       await this.translation_controller.loadSettings();
     } catch (e) {
-      console.error("Failed to load settings ... got exception: " + e);
+      console.trace("Failed to load settings ... got exception.", e);
     }
     
     this.tab_controller.bindEvents();

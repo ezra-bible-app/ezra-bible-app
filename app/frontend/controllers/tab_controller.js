@@ -149,6 +149,7 @@ class TabController {
 
       var copiedMetaTab = Object.assign({}, this.metaTabs[i]);
       copiedMetaTab.cachedText = this.getTabHtml(i);
+      copiedMetaTab.previousBook = null;
 
       if (copiedMetaTab.referenceVerseElementId != null) {
         copiedMetaTab.cachedReferenceVerse = this.getReferenceVerseHtml(i);
@@ -195,7 +196,7 @@ class TabController {
     var loadedTabCount = 0;
 
     for (var i = 0; i < savedMetaTabs.length; i++) {
-      var currentMetaTab = Tab.fromJsonObject(savedMetaTabs[i]);
+      var currentMetaTab = Tab.fromJsonObject(savedMetaTabs[i], i);
 
       if (!currentMetaTab.isValid()) {
         // We ignore the meta tab if it is invalid

@@ -144,9 +144,11 @@ class TextController {
 
           await this.requestBookText(tabIndex, tabId, book,
             async (htmlVerseList) => { 
-              await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, true);
+              await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, false);
             }, startVerseNr, verseCount
           );
+
+          uiHelper.hideTextLoadingIndicator();
         }
       }
 
@@ -554,6 +556,11 @@ class TextController {
     var initialRendering = true;
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
 
+    var isInstantLoad = true;
+    if (currentTab.getTextType() == 'book') {
+      isInstantLoad = await app_controller.book_selection_menu.isInstantLoad(currentTab.getBibleTranslationId(), currentTab.getBook());
+    }
+
     if (tabIndex === undefined) {
       var tabIndex = app_controller.tab_controller.getSelectedTabIndex();
       initialRendering = false;
@@ -649,7 +656,8 @@ class TextController {
 
     if (isCache ||
         listType != 'book' ||
-        listType == 'book' && append) {
+        listType == 'book' && append ||
+        !isInstantLoad) {
 
       app_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
       await app_controller.initApplicationForVerseList(tabIndex);      

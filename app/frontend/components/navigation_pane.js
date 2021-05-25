@@ -304,11 +304,20 @@ class NavigationPane {
     navigationPane[0].innerHTML = navigationPaneHtml;
   }
 
-  resetNavigationPane(tabIndex) {
+  resetNavigationPane(tabIndex, clear=true) {
     this.currentNavigationPane = this.getCurrentNavigationPane(tabIndex);
-    this.currentNavigationPane[0].innerHTML = "";
+    
+    if (clear) {
+      this.clearNavigationPane();
+    }
 
     app_controller.optionsMenu.showOrHideBookChapterNavigationBasedOnOption(tabIndex);
+  }
+
+  clearNavigationPane() {
+    if (this.currentNavigationPane != null) {
+      this.currentNavigationPane[0].innerHTML = "";
+    }
   }
 
   async updateNavigation(tabIndex=undefined) {
@@ -329,6 +338,8 @@ class NavigationPane {
 
     if (currentTextType != 'book') {
       this.resetNavigationPane(tabIndex);
+    } else {
+      this.resetNavigationPane(tabIndex, false);
     }
 
     if (currentTextType == 'book') { // Update navigation based on book chapters

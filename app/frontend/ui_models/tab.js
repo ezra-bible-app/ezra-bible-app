@@ -16,6 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const TabSearch = require('../components/tab_search/tab_search.js');
+
 class Tab {
   constructor(defaultBibleTranslationId, interactive=true) {
     this.elementId = null;
@@ -227,11 +229,31 @@ class Tab {
   setLocation(value) {
     this.location = value;
   }
+
+  initTabSearch(tabIndex=undefined) {
+    var verseListComposite = app_controller.getCurrentVerseListComposite(tabIndex);
+
+    this.tab_search = new TabSearch();
+    this.tab_search.init(
+      verseListComposite,
+      '.tab-search',
+      '.tab-search-input',
+      '.tab-search-occurances',
+      '.tab-search-previous',
+      '.tab-search-next',
+      '.tab-search-is-case-sensitive',
+      '.tab-search-type',
+      async (occurances) => { await app_controller.onTabSearchResultsAvailable(occurances); },
+      () => { app_controller.onTabSearchReset(); }
+    );
+  }
 }
 
-Tab.fromJsonObject = function(jsonObject) {
+Tab.fromJsonObject = function(jsonObject, tabIndex) {
   tab = new Tab();
   Object.assign(tab, jsonObject);
+  tab.initTabSearch(tabIndex);
+
   return tab;
 }
 
