@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const i18nController = require('../controllers/i18n_controller.js');
+const languageMapper = require('../../lib/language_mapper.js');
 
 module.exports.getReferenceSeparator = async function(moduleCode=undefined) {
   if (moduleCode == undefined) {
@@ -67,13 +68,9 @@ module.exports.getLocalizedDate = function(timestamp) {
   return new Date(Date.parse(timestamp)).toLocaleDateString(locale);
 }
 
-function toTitleCase(str) {
-  return str.slice(0, 1).toLocaleUpperCase() + str.slice(1);
-}
 module.exports.getLanguageName = function(code, includeNativeName = false, currentLocale = null) {
   currentLocale = currentLocale || i18nController.getLocale();
-  const localeName = (new Intl.DisplayNames(currentLocale, { type: 'language' })).of(code);
-  const langNative = (new Intl.DisplayNames(code, { type: 'language' })).of(code);
+  const localeName = languageMapper.getLanguageName(code, currentLocale);
 
-  return toTitleCase(localeName) + (includeNativeName && code !== currentLocale ? ` (${toTitleCase(langNative)})` : '');
+  return localeName + (includeNativeName && code !== currentLocale ? ` (${languageMapper.getLanguageName(code, code)})` : '');
 }

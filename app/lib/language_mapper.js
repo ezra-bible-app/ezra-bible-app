@@ -41,42 +41,53 @@ function normalizeLanguageCode(languageCode) {
 var mappingExistsCache = {};
 module.exports.mappingExists = function (languageCode) {
   if (languageCode in mappingExistsCache) {
-
     return mappingExistsCache[languageCode];
 
   } else {
-    var normalizedCode = normalizeLanguageCode(languageCode);
+    mappingExistsCache[languageCode] = this.getLanguageName(languageCode);
 
-    var langs = getLangs();
-    for (var i = 0; i < langs.length; i++) {
-      var currentLang = langs[i];
+    return mappingExistsCache[languageCode];
+  }
+}
 
+function toTitleCase(str) {
+  return str.slice(0, 1).toLocaleUpperCase() + str.slice(1);
+}
+
+module.exports.getLanguageName = function (languageCode, localeCode = 'en') {
+  if (mappingExistsCache[languageCode] && mappingExistsCache[languageCode][localeCode]) {
+    return mappingExistsCache[languageCode][localeCode];
+  }
+  
+  var languageName = "";
+  if (Intl && typeof Intl === "object") {
+    languageName = (new Intl.DisplayNames(localeCode, { type: 'language' })).of(languageCode);
+  }
+
+  let languageNameParts = languageName.split(' '); // Intl.DisplayName might know only second script part
+  const normalizedCode = normalizeLanguageCode(languageCode);
+  if (languageNameParts[0].length && normalizedCode !== languageNameParts[0]) { // If the first part is not a code
+    languageName = toTitleCase(languageName);
+  } else {
+
+    const langs = getLangs();
+
+    for (let i = 0; i < langs.length; i++) {
+      const currentLang = langs[i];
       if (mappingMatchesCode(currentLang, normalizedCode)) {
-        mappingExistsCache[languageCode] = true;
-        return true;
+        languageNameParts[0] = currentLang.name;
+        return languageNameParts.join(' ');
       }
     }
-
-    mappingExistsCache[languageCode] = false;
-    return false;
   }
+  if (!mappingExistsCache[languageCode]) {
+    mappingExistsCache[languageCode] = {};
+  } 
+  mappingExistsCache[languageCode][localeCode] = languageName;
+  return languageName;
 }
 
-module.exports.getLanguageName = function(languageCode) {
-  var normalizedCode = normalizeLanguageCode(languageCode);
-  var langs = getLangs();
-
-  for (var i = 0; i < langs.length; i++) {
-    var currentLang = langs[i];
-    if (mappingMatchesCode(currentLang, normalizedCode)) {
-      return currentLang.name;
-    }
-  }
-
-  return null;
-}
-
-module.exports.getLanguageCode = function(languageName) {
+module.exports.getLanguageCode = function (languageName) {
   var langs = getLangs();
 
   for (var i = 0; i < langs.length; i++) {
