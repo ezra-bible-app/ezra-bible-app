@@ -33,10 +33,19 @@ class SelectOption extends HTMLSelectElement {
         margin-bottom: 1em;
         text-align: center;
       }
+
+      #${this._id}-menu {
+        box-shadow: 2px 2px 3px #a0a0a088;
+      }
  
       #${this._id}-menu,
       #${this._id}-menu li {
         background-color: #deedf7;
+      }
+
+      .darkmode--activated #${this._id}-menu,
+      .darkmode--activated #${this._id}-menu li {
+        background-color: #1e1e1e;
       }
     `;
 
