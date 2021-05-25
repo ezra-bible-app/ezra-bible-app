@@ -82,6 +82,7 @@ class InfoPopup {
         <li><a href='#app-info-tabs-1'>${i18n.t('general.sword-module-description')}</a></li>
         <li><a href='#app-info-tabs-2'>${i18n.t('general.sword-module-details')}</a></li>
         <li><a href='#app-info-tabs-3'>${i18n.t('general.application-info')}</a></li>
+        <li><a href='#app-info-tabs-4'>${i18n.t('shortcuts.tab-title')}</a></li>
       </ul>
 
       <div id='app-info-tabs-1' class='info-tabs scrollable'>
@@ -114,6 +115,34 @@ class InfoPopup {
           <tr><td>${i18n.t("general.chromium-version")}:</td><td>${chromiumVersion}</td></tr>
           <tr><td>${i18n.t("general.database-path")}:</td><td>${databasePath}</td></tr>
           <tr><td>${i18n.t("general.config-file-path")}:</td><td>${configFilePath}</td></tr>
+        </table>
+      </div>
+
+      <div id='app-info-tabs-4' class='info-tabs scrollable'>
+       <h2>${i18n.t("shortcuts.description")}</h2>
+        <table role="table">
+          <thead>
+          <tr>
+            <th>Summary</th>
+            <th>Shortcut</th>
+          </tr>
+          </thead>
+           
+          <tr><td>${i18n.t("shortcuts.summary.increase-current-font-size")}</td><td>${i18n.t("shortcuts.shortcut.increase-current-font-size")}</td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.decrease-current-font-size")}</td><td>${i18n.t("shortcuts.shortcut.decrease-current-font-size")}</td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.reset-font-size-to-default")}</td><td>${i18n.t("shortcuts.shortcut.reset-font-size-to-default")}</td></tr>
+   
+          <tr><td style='width: 15em;'>${i18n.t("shortcuts.application-version")}:</td><td>${version}</td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.column-title")}</td><td>${i18n.t("shortcuts.shortcut.column-title")}</td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.in-tab-search")}</td><td>${i18n.t("shortcuts.shortcut.in-tab-search")}</td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.hide-in-tab-search-form")}</td><td>${i18n.t("shortcuts.shortcut.hide-in-tab-search-form")}</td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.jump-to-next-search-occurance")}</td><td>${i18n.t("shortcuts.shortcut.jump-to-next-search-occurance")}</td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.jump-to-previous-occurance")}</td><td>${i18n.t("shortcuts.shortcut.jump-to-previous-occurance")}</td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.copy-selected-verses-to-clipboard")}</td><td>${i18n.t("shortcuts.shortcut.copy-selected-verses-to-clipboard")}</td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.toggle-fullscreen-only-Win-Linux")}</td><td>${i18n.t("shortcuts.shortcut.toggle-fullscreen-only-Win-Linux")}</td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.enable-dynamic-Strong-s-display")}</td><td>${i18n.t("shortcuts.shortcut.enable-dynamic-Strong-s-display")}</td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.open-new-tab")}</td><td>${i18n.t("shortcuts.shortcut.open-new-tab")}</td></tr>
+         
         </table>
       </div>
     </div>`;

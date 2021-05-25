@@ -142,6 +142,40 @@
     "help-text-translation-available": "To start, select a book or a tag from the menu above.",
     "help-text-no-translations": "To start, first install at least one Bible translation. <br/><br/>You can open the installation assistent by clicking on the settings icon and then <i>Configure translations</i>."
   },
+  "shortcuts": {
+    "tab-title": "Keyboard Shortcuts",
+    "description": "You can use the following shortcuts within Ezra Bible App:",
+
+    "summary" : {
+      "column-title": "Summary",
+      "in-tab-search": "In tab search",
+      "hide-in-tab-search-form": "Hide in tab search form",
+      "jump-to-next-search-occurance": "Jump to next search occurance",
+      "jump-to-previous-occurance": "Jump to previous occurance",
+      "copy-selected-verses-to-clipboard": "Copy selected verses to clipboard",
+      "toggle-fullscreen-only-Win-Linux": "Toggle fullscreen (only Win/Linux)",
+      "enable-dynamic-Strong-s-display": "Enable dynamic Strong's display",
+      "open-new-tab": "Open new tab",
+      "increase-current-font-size": "Increase current font size",
+      "decrease-current-font-size": "Decrease current font size",
+      "reset-font-size-to-default": "Reset font size to default"
+    },
+
+    "shortcut": {
+      "column-title": "Shortcut",
+      "in-tab-search":"CTRL/CMD + f",
+      "hide-in-tab-search-form": "ESC",
+      "jump-to-next-search-occurance": "Enter",
+      "jump-to-previous-occurance": "Shift + Enter",
+      "copy-selected-verses-to-clipboard": "CTRL/CMD + c",
+      "toggle-fullscreen-only-Win-Linux": "F11",
+      "enable-dynamic-Strong-s-display": "Shift + mouse over verse while dictionary info is opened",
+      "open-new-tab": "CTRL/CMD + t",
+      "increase-current-font-size": "CTRL/CMD +",
+      "decrease-current-font-size": "CTRL/CMD -",
+      "reset-font-size-to-default": "CTRL/CMD 0"
+    }
+  },
   "tags": {
     "new-tag": "New tag",
     "create-tag": "Create tag",
