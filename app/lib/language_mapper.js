@@ -16,16 +16,6 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-class LanguageMapper {
-  constructor() {
-    this.mappingExistsCache = {};
-    this.langs = null;
-  }
-
-  getLangs() {
-    if (this.langs == null) {
-      this.langs = require('iso-639-3');
-    }
 
 var mappingExistsCache = {};
 module.exports.getLanguageName = (languageCode, localeCode = 'en') => {
@@ -84,30 +74,30 @@ module.exports.getLanguageDetails = function (languageCode, localeCode = 'en') {
   };
 };
 
-  getLanguageCode(languageName) {
-    var langs = this.getLangs();
+module.exports.getLanguageCode = function(languageName) {
+  var langs = this.getLangs();
 
-    for (var i = 0; i < langs.length; i++) {
-      var currentLang = langs[i];
+  for (var i = 0; i < langs.length; i++) {
+    var currentLang = langs[i];
 
-      if (currentLang.name == languageName) {
-        if (currentLang.iso6391 != null) {
-          return currentLang.iso6391;
-        }
+    if (currentLang.name == languageName) {
+      if (currentLang.iso6391 != null) {
+        return currentLang.iso6391;
+      }
 
-        if (currentLang.iso6392T != null) {
-          return currentLang.iso6392T;
-        }
+      if (currentLang.iso6392T != null) {
+        return currentLang.iso6392T;
+      }
 
-        if (currentLang.iso6392B != null) {
-          return currentLang.iso6392B;
-        }
+      if (currentLang.iso6392B != null) {
+        return currentLang.iso6392B;
+      }
 
-        if (currentLang.iso6393 != null) {
-          return currentLang.iso6393;
-        }
+      if (currentLang.iso6393 != null) {
+        return currentLang.iso6393;
       }
     }
+  }
 
   return null;
 };

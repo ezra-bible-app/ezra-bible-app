@@ -542,12 +542,12 @@ class InstallModuleAssistant {
       var currentRepo = selectedRepositories[i];
       var repoLanguages = await ipcNsi.getRepoLanguages(currentRepo, this._currentModuleType);
 
-      for (var j = 0; j < repoLanguages.length; j++) {
-        var currentLanguageCode = repoLanguages[j];
+      for (let j = 0; j < repoLanguages.length; j++) {
+        const currentLanguageCode = repoLanguages[j];
+        const currentLanguageName = i18nHelper.getLanguageName(currentLanguageCode);
 
-        if (this.languageMapper.mappingExists(currentLanguageCode)) {
+        if (currentLanguageName) {
           if (!knownLanguageCodes.includes(currentLanguageCode)) {
-            var currentLanguageName = this.languageMapper.getLanguageName(currentLanguageCode);
             knownLanguageCodes.push(currentLanguageCode);
             knownLanguages.push({
               "languageCode": currentLanguageCode,
@@ -670,12 +670,10 @@ class InstallModuleAssistant {
 
     var languagesPage = "#module-settings-assistant-add-p-1";
     var uiLanguages = this._helper.getSelectedSettingsAssistantElements(languagesPage);
-    for (var i = 0; i < uiLanguages.length; i++) {
-      var currentLanguageName = uiLanguages[i];
-      if (this.languageMapper.mappingExists(currentLanguageName)) {
-        currentLanguageName = this.languageMapper.getLanguageName(currentLanguageName);
-      }
-      uiLanguages[i] = "<b>" + currentLanguageName + "</b>";
+    for (let i = 0; i < uiLanguages.length; i++) {
+      const currentLanguageCode = uiLanguages[i];
+      const currentLanguageName = i18nHelper.getLanguageName(currentLanguageCode);
+      uiLanguages[i] = `<b>${currentLanguageName ? currentLanguageName : currentLanguageCode}</b>`;
     }
 
     var uiRepositories = this.getSelectedReposForUi();
