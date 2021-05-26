@@ -107,12 +107,14 @@ class TagStatistics {
 
     tag_statistics_html += "</table>";
 
-    $('#book-tag-statistics-box-content').empty();
-    $('#book-tag-statistics-box-content').html(tag_statistics_html);
+    var bookTagStatisticsBoxContent = document.getElementById('book-tag-statistics-box-content');
+    bookTagStatisticsBoxContent.innerHTML = tag_statistics_html;
   }
 
   async toggleBookTagStatisticsButton(index=undefined) {
-    var book_tag_statistics_button = $('.show-book-tag-statistics-button');
+    var verseListTabs = document.getElementById('verse-list-tabs');
+    var book_tag_statistics_button = $(verseListTabs).find('.show-book-tag-statistics-button');
+
     if (index === undefined) {
       index = app_controller.tab_controller.getSelectedTabIndex();
     }
