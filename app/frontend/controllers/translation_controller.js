@@ -409,6 +409,26 @@ class TranslationController {
     bibleSelect.selectmenu();
   }
 
+  async isInstantLoadingBook(bibleTranslationId, bookCode) {
+    const bookChapterCount = await ipcNsi.getBookChapterCount(bibleTranslationId, bookCode);
+    const bookLoadingModeOption = app_controller.optionsMenu._bookLoadingModeOption;
+
+    var instantLoad = false;
+
+    switch (bookLoadingModeOption.value) {
+      case 'load-complete-book':
+        instantLoad = true;
+        break;
+
+      case 'load-chapters-large-books':
+        if (bookChapterCount <= INSTANT_LOADING_CHAPTER_LIMIT) {
+          instantLoad = true;
+        }
+        break;
+    }
+
+    return instantLoad;
+  }
 }
 
 module.exports = TranslationController;

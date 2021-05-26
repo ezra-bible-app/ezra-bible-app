@@ -308,13 +308,13 @@ class AppController {
     // The tab search is not valid anymore if the translation is changing. Therefore we reset it.
     currentTab.tab_search.resetSearch();
 
-    var isInstantLoad = true;
+    var isInstantLoadingBook = true;
 
     if (currentTab.getTextType() == 'book') {
       // We set the previous book to the current book. This will be used in NavigationPane to avoid reloading the chapter list.
       currentTab.setPreviousBook(currentTab.getBook());
-      
-      isInstantLoad = await app_controller.book_selection_menu.isInstantLoad(newBibleTranslationId, currentTab.getBook());
+
+      isInstantLoadingBook = await this.translation_controller.isInstantLoadingBook(newBibleTranslationId, currentTab.getBook());
     }
 
     if (currentTab.getTextType() == 'search_results') {
@@ -332,7 +332,7 @@ class AppController {
           null,
           currentTab.getXrefs(),
           currentTab.getChapter(),
-          isInstantLoad
+          isInstantLoadingBook
         );
 
         if (currentTab.getReferenceVerseElementId() != null) {

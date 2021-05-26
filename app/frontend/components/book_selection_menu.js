@@ -125,27 +125,6 @@ class BookSelectionMenu {
     }
   }
 
-  async isInstantLoad(bibleTranslationId, bookCode) {
-    const bookChapterCount = await ipcNsi.getBookChapterCount(bibleTranslationId, bookCode);
-    const bookLoadingModeOption = app_controller.optionsMenu._bookLoadingModeOption;
-
-    var instantLoad = false;
-
-    switch (bookLoadingModeOption.value) {
-      case 'load-complete-book':
-        instantLoad = true;
-        break;
-
-      case 'load-chapters-large-books':
-        if (bookChapterCount <= INSTANT_LOADING_CHAPTER_LIMIT) {
-          instantLoad = true;
-        }
-        break;
-    }
-
-    return instantLoad;
-  }
-
   async selectBibleBook(bookCode, bookTitle, referenceBookTitle) {
     this.currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     if (this.currentBibleTranslationId == null || this.currentBibleTranslationId == undefined) {
@@ -177,8 +156,9 @@ class BookSelectionMenu {
 
       await this.loadChapterList(bookChapterCount);
 
-    } else {
-      var instantLoad = await this.isInstantLoad(this.currentBibleTranslationId, bookCode);
+    } else { // Load directly without first showing chapter list
+
+      var instantLoad = await app_controller.translation_controller.isInstantLoadingBook(this.currentBibleTranslationId, bookCode);
 
       this.loadBook(bookCode,
                     bookTitle,
@@ -208,7 +188,7 @@ class BookSelectionMenu {
         event.stopPropagation();
 
         let selectedChapter = parseInt(event.target.getAttribute('href'));
-        var instantLoad = await this.isInstantLoad(this.currentBibleTranslationId, this.currentBookCode);
+        var instantLoad = await app_controller.translation_controller.isInstantLoadingBook(this.currentBibleTranslationId, this.currentBookCode);
 
         this.loadBook(this.currentBookCode,
                       this.currentBookTitle,

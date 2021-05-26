@@ -383,10 +383,12 @@ class NavigationPane {
   async goToChapter(chapter) {
     this.highlightNavElement(chapter, true);
     var currentTab = app_controller.tab_controller.getTab();
-    var isInstantLoad = await app_controller.book_selection_menu.isInstantLoad(currentTab.getBibleTranslationId(),
-                                                                               currentTab.getBook());
+    var isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(
+      currentTab.getBibleTranslationId(),
+      currentTab.getBook()
+    );
 
-    if (currentTab.getChapter() != null && !isInstantLoad) {
+    if (currentTab.getChapter() != null && !isInstantLoadingBook) {
       app_controller.book_selection_menu.loadBook(currentTab.getBook(),
                                                   currentTab.getBookTitle(),
                                                   currentTab.getReferenceBookTitle(),
