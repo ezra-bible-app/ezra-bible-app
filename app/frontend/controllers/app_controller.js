@@ -613,8 +613,8 @@ class AppController {
 
   getCurrentVerseListLoadingIndicator(tabIndex=undefined) {
     var currentVerseListComposite = this.getCurrentVerseListComposite(tabIndex);
-    var loadingIndicator = currentVerseListComposite.find('.verse-list-loading-indicator');
-    return loadingIndicator;
+    var loadingIndicator = currentVerseListComposite[0].querySelector('.verse-list-loading-indicator');
+    return $(loadingIndicator);
   }
 
   getCurrentSearchProgressBar(tabIndex=undefined) {
