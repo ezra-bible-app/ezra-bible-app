@@ -91,6 +91,10 @@ class Tab {
     return this.book;
   }
 
+  setPreviousBook(previousBook) {
+    this.previousBook = previousBook;
+  }
+
   getPreviousBook() {
     return this.previousBook;
   }

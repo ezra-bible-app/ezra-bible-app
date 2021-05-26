@@ -311,6 +311,9 @@ class AppController {
     var isInstantLoad = true;
 
     if (currentTab.getTextType() == 'book') {
+      // We set the previous book to the current book. This will be used in NavigationPane to avoid reloading the chapter list.
+      currentTab.setPreviousBook(currentTab.getBook());
+      
       isInstantLoad = await app_controller.book_selection_menu.isInstantLoad(newBibleTranslationId, currentTab.getBook());
     }
 
