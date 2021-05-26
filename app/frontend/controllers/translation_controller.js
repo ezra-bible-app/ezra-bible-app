@@ -370,7 +370,7 @@ class TranslationController {
         moduleBookStatus = await ipcNsi.getModuleBookStatus(currentBook);
       }
 
-      let selectOptions = bibleSelect.find('option');
+      let selectOptions = bibleSelect[0].querySelectorAll('option');
 
       for (let i = 0; i < selectOptions.length; i++) {
         let currentOption = selectOptions[i];
