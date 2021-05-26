@@ -164,7 +164,7 @@ class BookSelectionMenu {
     const selectChapterBeforeLoading = app_controller.optionsMenu._selectChapterBeforeLoadingOption;
     const bookChapterCount = await ipcNsi.getBookChapterCount(this.currentBibleTranslationId, bookCode);
 
-    if (selectChapterBeforeLoading.isChecked) {
+    if (selectChapterBeforeLoading.isChecked && bookChapterCount > 1) {
       //console.log(`Showing chapter list for ${bookTitle} ` +
       //            `since its chapter count (${bookChapterCount}) is above the limit for instant loading!`);
       
