@@ -607,8 +607,7 @@ h2 {
   border-top: 1px solid #DDDDDD;
 }
 
-#book-selection-menu {
-  overflow-y: scroll;
+#book-selection-menu-book-list, #book-selection-menu-chapter-list {
   padding-left: 0.5em;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
@@ -618,6 +617,10 @@ h2 {
   display: none;
   width: 39.5em;
   height: 26.5em;
+  overflow-y: scroll;
+}
+
+#book-selection-menu-chapter-list #chapter-list-chapters {
   flex-direction: row;
   flex-wrap: wrap;
   align-content: flex-start;

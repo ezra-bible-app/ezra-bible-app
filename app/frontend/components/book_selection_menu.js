@@ -190,13 +190,18 @@ class BookSelectionMenu {
 
   async loadChapterList(bookChapterCount) {
     var menuChapterList = document.getElementById('book-selection-menu-chapter-list');
-    menuChapterList.innerHTML = '';
+    menuChapterList.innerHTML = `
+      <h2>${this.currentBookTitle}</h2>
+      <div id='chapter-list-chapters'></div>
+    `;
+
+    var chapters = menuChapterList.querySelector('#chapter-list-chapters');
 
     for (let c = 1; c <= bookChapterCount; c++) {
       let newLink = document.createElement('a');
       newLink.href = c;
       newLink.innerText = c;
-      menuChapterList.appendChild(newLink);
+      chapters.appendChild(newLink);
 
       newLink.addEventListener('click', async (event) => {
         event.preventDefault();
@@ -213,7 +218,8 @@ class BookSelectionMenu {
       });
     }
 
-    menuChapterList.style.display = 'flex';
+    chapters.style.display = 'flex';
+    menuChapterList.style.display = 'block';
   }
 
   async loadBook(bookCode, bookTitle, referenceBookTitle, instantLoad=true, chapter=undefined) {
