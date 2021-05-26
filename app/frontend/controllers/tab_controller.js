@@ -629,11 +629,16 @@ class TabController {
       tabTitle += ' [' + bibleTranslationId + ']';
     }
 
-    link.html(tabTitle);
+    var currentTitle = link.html();
+    if (tabTitle != currentTitle) {
+      link.html(tabTitle);
 
-    // Resize the current verse list.
-    // This may be necessary, because the tab bar may have wrapped after setting the title.
-    uiHelper.resizeVerseList(index);
+      if (tabTitle.length != currentTitle.length) {
+        // Resize the current verse list.
+        // This may be necessary, because the tab bar may have wrapped after setting the title.
+        uiHelper.resizeVerseList(index);
+      }
+    }
   }
 
   getTabTitle() {
