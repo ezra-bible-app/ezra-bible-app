@@ -620,6 +620,11 @@ h2 {
   overflow-y: scroll;
 }
 
+#book-selection-menu-chapter-list h2 {
+  padding-top: 0;
+  margin-bottom: 0.5em;
+}
+
 #book-selection-menu-chapter-list #chapter-list-chapters {
   flex-direction: row;
   flex-wrap: wrap;
