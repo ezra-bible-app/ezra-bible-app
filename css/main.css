@@ -793,13 +793,6 @@ h2 {
   color: black;
 }
 
-.book-unavailable a:link,
-.book-unavailable a:hover,
-.book-unavailable a:visited,
-.book-unavailable a:focus {
-  color: grey;
-}
-
 .book-list-column li a:link,
 .book-list-column li.book-available a:visited,
 .book-list-column li.book-available a:hover,
@@ -834,10 +827,14 @@ h2 {
   color: #cccccc;
 }
 
-.darkmode--activated .book-unavailable a:link,
-.darkmode--activated .book-unavailable a:hover,
-.darkmode--activated .book-unavailable a:visited,
-.darkmode--activated .book-unavailable a:focus {
+li.book-unavailable a:link,
+li.book-unavailable a:hover,
+li.book-unavailable a:visited,
+li.book-unavailable a:focus,
+.darkmode--activated li.book-unavailable a:link,
+.darkmode--activated li.book-unavailable a:hover,
+.darkmode--activated li.book-unavailable a:visited,
+.darkmode--activated li.book-unavailable a:focus {
   color: grey;
 }
 
