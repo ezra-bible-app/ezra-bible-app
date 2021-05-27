@@ -26,8 +26,8 @@ Feature: Module installation
   Scenario: ASV installation
     Given I open the module installation assistant
     And I choose to add translations
-    And I select the CrossWire repository
     And I select the English language
+    And I select the CrossWire repository
     And I select the ASV module for installation
 
     When the installation is completed
