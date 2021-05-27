@@ -140,7 +140,7 @@ class InstallModuleAssistant {
   }
 
   async updateRepositoryConfig(force=false) {
-    var wizardPage = $('#module-settings-assistant-add-p-0');
+    var wizardPage = $('#module-settings-assistant-add-p-1');
     wizardPage.empty();
 
     var lastSwordRepoUpdateSaved = await ipcSettings.has('lastSwordRepoUpdate');
@@ -180,7 +180,7 @@ class InstallModuleAssistant {
     this.initAddModuleAssistant();
     $('#module-settings-assistant-add').show();
 
-    await this.updateRepositoryConfig();
+    await this.initLanguagesPage();
   }
 
   initAddModuleAssistant() {
@@ -213,32 +213,29 @@ class InstallModuleAssistant {
   }
 
   addModuleAssistantStepChanging(event, currentIndex, newIndex) {
-    if (currentIndex == 0 && newIndex == 1) { // Changing from Repositories (1) to Languages (2)
-      const wizardPage = "#module-settings-assistant-add-p-0";
-      this._selectedRepositories = this._helper.getSelectedSettingsAssistantElements(wizardPage);
-      return (this._selectedRepositories.length > 0);
-    } else if (currentIndex == 1 && newIndex == 2) { // Changing from Languages (2) to Modules (3)
-      const wizardPage = "#module-settings-assistant-add-p-1";
-      this._selectedLanguages = this._helper.getSelectedSettingsAssistantElements(wizardPage);
-      return (this._selectedLanguages.length > 0);
+    const wizardPage = `#module-settings-assistant-add-p-${currentIndex}`;
+    const selectedElements = this._helper.getSelectedSettingsAssistantElements(wizardPage);
+
+    if (currentIndex == 0 && newIndex == 1) { // Changing from Languages (1) to Repositories (2)
+      this._selectedLanguages = selectedElements;
+    } else if (currentIndex == 1 && newIndex == 2) { // Changing from Repositories (2) to Modules (3)
+      this._selectedRepositories = selectedElements;
     } else if (currentIndex == 2 && newIndex == 3) { // Changing from Modules (3) to Installation (4)
-      const wizardPage = "#module-settings-assistant-add-p-2";
-      this.selectedModules = this._helper.getSelectedSettingsAssistantElements(wizardPage);
-      return (this.selectedModules.length > 0);
+      this.selectedModules = selectedElements;
     } else if (currentIndex == 3 && newIndex != 3) {
       return false;
     }
 
-    return true;
+    return selectedElements.length > 0;
   }
 
   async addModuleAssistantStepChanged(event, currentIndex, priorIndex) {
     if (priorIndex == 0 && currentIndex == 1) {
-      await ipcSettings.set('selectedRepositories', this._selectedRepositories);
-      await this.initLanguagesPage();
+      await ipcSettings.set('selectedLanguages', this._selectedLanguages);
+      await this.updateRepositoryConfig();
 
     } else if (priorIndex == 1 && currentIndex == 2) {
-      await ipcSettings.set('selectedLanguages', this._selectedLanguages);
+      await ipcSettings.set('selectedRepositories', this._selectedRepositories);
       this.initModulesPage();
 
     } else if (currentIndex == 3) {
@@ -267,11 +264,11 @@ class InstallModuleAssistant {
   }
 
   async initLanguagesPage() {
-    var languagesPage = $('#module-settings-assistant-add-p-1');
-    languagesPage.empty();
-    languagesPage.append(`<p>${i18n.t("module-assistant.loading-languages")}</p>`);
+    // var languagesPage = $('#module-settings-assistant-add-p-0');
+    // languagesPage.empty();
+    // languagesPage.append(`<p>${i18n.t("module-assistant.loading-languages")}</p>`);
 
-    setTimeout(async () => { this.listLanguages(); }, 400);
+    await this.listLanguages();
   }
 
   async initModulesPage() {
@@ -572,7 +569,7 @@ class InstallModuleAssistant {
       selectedRepositories = await this.allRepositories;
     }
 
-    var wizardPage = $('#module-settings-assistant-add-p-1');
+    var wizardPage = $('#module-settings-assistant-add-p-0');
     wizardPage.empty();
 
     this.addLoadingIndicator(wizardPage);
@@ -602,24 +599,19 @@ class InstallModuleAssistant {
   }
 
   async listLanguageArray(languageArray) {
-    var wizardPage = document.getElementById('module-settings-assistant-add-p-1');
+    var wizardPage = document.getElementById('module-settings-assistant-add-p-0');
 
-    for (var i = 0; i < languageArray.length; i++) {
-      var currentLanguage = languageArray[i];
-      var currentLanguageCode = currentLanguage.languageCode;
-      var currentLanguageName = currentLanguage.languageName;
+    for (const {languageCode, languageName} of languageArray) {
+      const isChecked = (await this.previouslySelectedLanguages).includes(languageCode);
+      const translationCount = (await this.allLanguageModuleCount)[languageCode];
 
-      var checkboxChecked = "";
-      if ((await this.previouslySelectedLanguages).includes(currentLanguageCode)) {
-        checkboxChecked = " checked";
-      }
+      const languageHTML = `
+        <p style="float: left; width: 17em;">
+          <input type="checkbox" ${isChecked ? 'checked' : ''}>
+          <span class="label" id="${languageCode}">${languageName} (${translationCount})</span>
+        </p>`;
 
-      var currentLanguageTranslationCount = (await this.allLanguageModuleCount)[currentLanguageCode];
-      var currentLanguage = "<p style='float: left; width: 17em;'><input type='checkbox'" + checkboxChecked + "><span class='label' id='" + currentLanguageCode + "'>";
-      currentLanguage += currentLanguageName + ' (' + currentLanguageTranslationCount + ')';
-      currentLanguage += "</span></p>";
-
-      wizardPage.insertAdjacentHTML('beforeend', currentLanguage);
+      wizardPage.insertAdjacentHTML('beforeend', languageHTML);
     }
   }
 
@@ -878,7 +870,7 @@ class InstallModuleAssistant {
   }
 
   async listRepositories() {
-    var wizardPage = $('#module-settings-assistant-add-p-0');
+    var wizardPage = $('#module-settings-assistant-add-p-1');
 
     wizardPage.empty();
 
@@ -927,7 +919,7 @@ class InstallModuleAssistant {
       await this.updateRepositoryConfig(true);
     });
 
-    uiHelper.configureButtonStyles('#module-settings-assistant-add-p-0');
+    uiHelper.configureButtonStyles('#module-settings-assistant-add-p-1');
 
     var additionalInfo = "<p style='margin-top: 2em;'>" +
                          i18n.t("module-assistant.more-repo-information-needed") +
