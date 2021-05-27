@@ -20,6 +20,9 @@ const i18nController = require('../controllers/i18n_controller.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 const { sleep } = require('../helpers/ezra_helper.js');
 
+const INSTANT_LOADING_CHAPTER_LIMIT = 15;
+   
+
 /**
  * The TranslationController is used to handle the bible translation menu and to
  * access and generate various information about installed bible translations.

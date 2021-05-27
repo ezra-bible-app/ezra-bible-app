@@ -21,8 +21,6 @@ const i18nHelper = require('../helpers/i18n_helper.js');
 const i18nController = require('../controllers/i18n_controller.js');
 const cacheController = require('../controllers/cache_controller.js');
 
-const INSTANT_LOADING_CHAPTER_LIMIT = 15;
-   
 /**
  * The BookSelectionMenu component implements all event handling for the book selection menu.
  * 
