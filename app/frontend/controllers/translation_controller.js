@@ -363,6 +363,11 @@ class TranslationController {
 
     if (currentTab != null) {
       let currentBook = currentTab.getBook();
+      let previousBook = currentTab.getPreviousBook();
+
+      if (currentBook == previousBook) {
+        return;
+      }
 
       let moduleBookStatus = {};
 

@@ -97,6 +97,8 @@ class AssignLastTagButton {
   }
 
   async refreshLastTagButtonState(versesSelected, selectedVerseTags) {
+    var assignLastTagButtons = $('.assign-last-tag-button');
+
     if (versesSelected) {
       if (tags_controller.tag_store.latest_tag_id != null) {
         var tagFound = false;
@@ -112,16 +114,16 @@ class AssignLastTagButton {
         }
 
         if (!tagFound || selectedVerseTags.length == 0) {
-          $('.assign-last-tag-button').removeClass('ui-state-disabled');
+          assignLastTagButtons.removeClass('ui-state-disabled');
         } else {
-          $('.assign-last-tag-button').addClass('ui-state-disabled');
+          assignLastTagButtons.addClass('ui-state-disabled');
         }
 
       } else {
-        $('.assign-last-tag-button').addClass('ui-state-disabled');
+        assignLastTagButtons.addClass('ui-state-disabled');
       }
     } else {
-      $('.assign-last-tag-button').addClass('ui-state-disabled');
+      assignLastTagButtons.addClass('ui-state-disabled');
     }
   }
 }

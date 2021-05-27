@@ -294,7 +294,10 @@ class BookSelectionMenu {
 
   clearSelectedBookInMenu() {
     // Remove highlighting for previously selected book
-    $('.book-selected').removeClass('book-selected');
+    var selectedBook = document.getElementsByClassName('book-selected');
+    if (selectedBook.length > 0) {
+      selectedBook[0].classList.remove('book-selected');
+    }
   };
 
   highlightSelectedBookInMenu(bookCode) {
@@ -302,7 +305,7 @@ class BookSelectionMenu {
     
     // Highlight the newly selected book
     var bookId = '.book-' + bookCode;
-    $('#book-selection-menu-book-list').find(bookId).addClass('book-selected');
+    document.getElementById('book-selection-menu-book-list').querySelector(bookId).classList.add('book-selected');
   }
 }
 

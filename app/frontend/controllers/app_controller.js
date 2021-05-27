@@ -559,26 +559,26 @@ class AppController {
 
   getCurrentVerseListTabs(tabIndex=undefined) {
     var selectedTabId = this.tab_controller.getSelectedTabId(tabIndex);
-    var currentVerseListTabs = $('#' + selectedTabId);
-    return currentVerseListTabs;
+    var currentVerseListTabs = document.getElementById(selectedTabId);
+    return $(currentVerseListTabs);
   }
 
   getCurrentVerseListMenu(tabIndex=undefined) {
     var currentVerseListTabs = this.getCurrentVerseListTabs(tabIndex);
-    var currentVerseListMenu = currentVerseListTabs.find('.verse-list-menu');
-    return currentVerseListMenu;
+    var currentVerseListMenu = currentVerseListTabs[0].querySelector('.verse-list-menu');
+    return $(currentVerseListMenu);
   }
 
   getCurrentVerseListComposite(tabIndex=undefined) {
     var currentVerseListTabs = this.getCurrentVerseListTabs(tabIndex);
-    var currentVerseListComposite = currentVerseListTabs.find('.verse-list-composite');
-    return currentVerseListComposite;
+    var currentVerseListComposite = currentVerseListTabs[0].querySelector('.verse-list-composite');
+    return $(currentVerseListComposite);
   }
 
   getCurrentVerseListFrame(tabIndex=undefined) {
     var currentVerseListComposite = this.getCurrentVerseListComposite(tabIndex);
-    var currentVerseListFrame = currentVerseListComposite.find('.verse-list-frame');
-    return currentVerseListFrame;
+    var currentVerseListFrame = currentVerseListComposite[0].querySelector('.verse-list-frame');
+    return $(currentVerseListFrame);
   }
 
   getCurrentReferenceVerse(tabIndex=undefined) {
@@ -601,8 +601,8 @@ class AppController {
 
   getCurrentVerseList(tabIndex=undefined) {
     var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-    var verseList = currentVerseListFrame.find('.verse-list');
-    return verseList;
+    var verseList = currentVerseListFrame[0].querySelector('.verse-list');
+    return $(verseList);
   }
 
   getCurrentVerseListHeader(tabIndex=undefined) {
