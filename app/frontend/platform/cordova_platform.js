@@ -18,6 +18,7 @@
 
 const IpcGeneral = require('../ipc/ipc_general.js');
 const IpcI18n = require('../ipc/ipc_i18n.js');
+const i18nController = require('../controllers/i18n_controller.js');
 
 /**
  * This class controls Cordova platform specific functionality and it also contains the entry point to startup on Cordova (init):
@@ -232,7 +233,7 @@ class CordovaPlatform {
       uiHelper.updateLoadingSubtitle("Initializing i18n");
 
       window.ipcI18n = new IpcI18n();
-      await startup.initI18N();
+      await i18nController.initI18N();
 
       this.hasPermission().then((result) => {
         if (result == true) {
