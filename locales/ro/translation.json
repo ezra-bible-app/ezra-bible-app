@@ -142,6 +142,40 @@
     "help-text-translation-available": "Pentru a începe, selectează o carte sau o etichetă din meniul de mai sus.",
     "help-text-no-translations": "Pentru început, instsalează mai întâi cel puțin o traducere biblică. <br/> <br/> Poți deschide asistentul de instalare făcând clic pe pictograma de setări și apoi pe <i> Configurare traduceri </i>."
   },
+  "shortcuts": {
+    "tab-title": "Scurtături tastatură",
+    "description": "Poți folosi următoarele combinații de taste (scurtături) în Ezra Bible App:",
+
+    "summary" : {
+      "column-title": "Descriere",
+      "in-tab-search": "Căutare în fereastră",
+      "hide-in-tab-search-form": "Ascunde formularul de căutare în fereastră",
+      "jump-to-next-search-occurance": "Salt la următorul rezultat al căutării",
+      "jump-to-previous-occurance": "Salt la rezultatul anterior al căutării",
+      "copy-selected-verses-to-clipboard": "Copiază versetele selectate în clipboard",
+      "toggle-fullscreen-only-Win-Linux": "Comută ecranul întreg (doar Win/Linux)",
+      "enable-dynamic-Strong-s-display": "Activează afișarea concordanței dinamice Strong's ",
+      "open-new-tab": "Deschide filă nouă",
+      "increase-current-font-size": "Mărește dimensiunea curentă a fontului",
+      "decrease-current-font-size": "Micșorează dimensiunea curentă a fontului",
+      "reset-font-size-to-default": "Resetează dimeniunea fontului la valoarea implicită"
+    },
+
+    "shortcut": {
+      "column-title": "Combinații de taste (Scurtături) ",
+      "in-tab-search":"CTRL/CMD + f",
+      "hide-in-tab-search-form": "ESC",
+      "jump-to-next-search-occurance": "Enter",
+      "jump-to-previous-occurance": "Shift + Enter",
+      "copy-selected-verses-to-clipboard": "CTRL/CMD + c",
+      "toggle-fullscreen-only-Win-Linux": "F11",
+      "enable-dynamic-Strong-s-display": "Shift + mouse deasupra versetului",
+      "open-new-tab": "CTRL/CMD + t",
+      "increase-current-font-size": "CTRL/CMD +",
+      "decrease-current-font-size": "CTRL/CMD -",
+      "reset-font-size-to-default": "CTRL/CMD 0"
+    }
+  },
   "tags": {
     "new-tag": "Etichetă nouă",
     "create-tag": "Crează etichetă",
