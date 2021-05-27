@@ -1635,6 +1635,26 @@ s {
   overflow-y: scroll;
 }
 
+#info-table-shortcuts{
+  width: 100%;
+  padding: 10px;
+}
+
+#info-table-shortcuts th{
+  text-align:left;
+}
+
+
+code {
+  padding: .2em .4em;
+  margin: 0;
+  font-size: 90%;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  background-color: slategrey;
+  color: lightblue;
+  border-radius: 6px;
+}
+
 .text-loader {
   float: right;
 }
