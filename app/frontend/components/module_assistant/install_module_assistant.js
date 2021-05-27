@@ -111,8 +111,19 @@ class InstallModuleAssistant {
     this._unlockCancelled = false;
     this._currentModuleType = moduleType;
     this._moduleInstallationCancelled = false;
+
+    // Preload info while user reads internet usage warning
+    this.previouslySelectedLanguages = await ipcSettings.get('selectedLanguages', []);
+    this.previouslySelectedRepositories = await ipcSettings.get('selectedRepositories', []);
     this.allRepositories = await ipcNsi.getRepoNames();
-  }
+    this.allLanguagesByCategories = await this.getAvailableLanguagesFromSelectedRepos(this.allRepositories);
+    const allLanguages = this.allLanguagesByCategories.flat();
+
+    this.allLanguageModuleCount = await ipcNsi.getAllLanguageModuleCount(
+      this.allRepositories,
+      allLanguages,
+      this._currentModuleType);
+}
 
   async isModuleInstalled(moduleCode) {
     if (this._installedModules == null) {
@@ -203,17 +214,17 @@ class InstallModuleAssistant {
 
   addModuleAssistantStepChanging(event, currentIndex, newIndex) {
     if (currentIndex == 0 && newIndex == 1) { // Changing from Repositories (1) to Languages (2)
-      var wizardPage = "#module-settings-assistant-add-p-0";
-      var selectedRepositories = this._helper.getSelectedSettingsAssistantElements(wizardPage);
-      return (selectedRepositories.length > 0);
+      const wizardPage = "#module-settings-assistant-add-p-0";
+      this._selectedRepositories = this._helper.getSelectedSettingsAssistantElements(wizardPage);
+      return (this._selectedRepositories.length > 0);
     } else if (currentIndex == 1 && newIndex == 2) { // Changing from Languages (2) to Modules (3)
-      var wizardPage = "#module-settings-assistant-add-p-1";
-      var selectedLanguages = this._helper.getSelectedSettingsAssistantElements(wizardPage);
-      return (selectedLanguages.length > 0);
+      const wizardPage = "#module-settings-assistant-add-p-1";
+      this._selectedLanguages = this._helper.getSelectedSettingsAssistantElements(wizardPage);
+      return (this._selectedLanguages.length > 0);
     } else if (currentIndex == 2 && newIndex == 3) { // Changing from Modules (3) to Installation (4)
-      var wizardPage = "#module-settings-assistant-add-p-2";
-      var selectedModules = this._helper.getSelectedSettingsAssistantElements(wizardPage);
-      return (selectedModules.length > 0);
+      const wizardPage = "#module-settings-assistant-add-p-2";
+      this.selectedModules = this._helper.getSelectedSettingsAssistantElements(wizardPage);
+      return (this.selectedModules.length > 0);
     } else if (currentIndex == 3 && newIndex != 3) {
       return false;
     }
@@ -223,11 +234,11 @@ class InstallModuleAssistant {
 
   async addModuleAssistantStepChanged(event, currentIndex, priorIndex) {
     if (priorIndex == 0 && currentIndex == 1) {
-
+      await ipcSettings.set('selectedRepositories', this._selectedRepositories);
       await this.initLanguagesPage();
 
     } else if (priorIndex == 1 && currentIndex == 2) {
-
+      await ipcSettings.set('selectedLanguages', this._selectedLanguages);
       this.initModulesPage();
 
     } else if (currentIndex == 3) {
@@ -256,34 +267,16 @@ class InstallModuleAssistant {
   }
 
   async initLanguagesPage() {
-    // Repositories have been selected
-    var wizardPage = "#module-settings-assistant-add-p-0";
-    this._selectedRepositories = this._helper.getSelectedSettingsAssistantElements(wizardPage);
-
-    await ipcSettings.set('selectedRepositories', this._selectedRepositories);
-
     var languagesPage = $('#module-settings-assistant-add-p-1');
     languagesPage.empty();
-    languagesPage.append("<p>" + i18n.t("module-assistant.loading-languages") + "</p>");
-
-    this.previouslySelectedLanguages = await ipcSettings.get('selectedLanguages', null);
+    languagesPage.append(`<p>${i18n.t("module-assistant.loading-languages")}</p>`);
 
     setTimeout(async () => { this.listLanguages(); }, 400);
   }
 
   async initModulesPage() {
-    // Languages have been selected
-    var wizardPage = "#module-settings-assistant-add-p-1";
-    var languages = this._helper.getSelectedSettingsAssistantElements(wizardPage);
-    var languageCodes = [];
 
-    for (var i = 0; i < languages.length; i++) {
-      var currentCode = languages[i];
-      languageCodes.push(currentCode);
-    }
-
-    await ipcSettings.set('selectedLanguages', languages);
-    await this.listModules(languageCodes);
+    await this.listModules();
   }
 
   async installSelectedModules() {
@@ -592,7 +585,7 @@ class InstallModuleAssistant {
 
     wizardPage.append(introText);
 
-    const [knownLanguages, unknownLanguages] = await this.getAvailableLanguagesFromSelectedRepos(selectedRepositories);
+    const [knownLanguages, unknownLanguages] = await this.allLanguagesByCategories;
 
     await this.listLanguageArray(knownLanguages);
 
@@ -610,9 +603,6 @@ class InstallModuleAssistant {
 
   async listLanguageArray(languageArray) {
     var wizardPage = document.getElementById('module-settings-assistant-add-p-1');
-    var allLanguageModuleCount = await ipcNsi.getAllLanguageModuleCount(this._selectedRepositories,
-                                                                        languageArray,
-                                                                        this._currentModuleType);
 
     for (var i = 0; i < languageArray.length; i++) {
       var currentLanguage = languageArray[i];
@@ -620,11 +610,11 @@ class InstallModuleAssistant {
       var currentLanguageName = currentLanguage.languageName;
 
       var checkboxChecked = "";
-      if (this.hasLanguageBeenSelectedBefore(currentLanguageCode)) {
+      if ((await this.previouslySelectedLanguages).includes(currentLanguageCode)) {
         checkboxChecked = " checked";
       }
 
-      var currentLanguageTranslationCount = allLanguageModuleCount[currentLanguageCode];
+      var currentLanguageTranslationCount = (await this.allLanguageModuleCount)[currentLanguageCode];
       var currentLanguage = "<p style='float: left; width: 17em;'><input type='checkbox'" + checkboxChecked + "><span class='label' id='" + currentLanguageCode + "'>";
       currentLanguage += currentLanguageName + ' (' + currentLanguageTranslationCount + ')';
       currentLanguage += "</span></p>";
@@ -633,7 +623,7 @@ class InstallModuleAssistant {
     }
   }
 
-  async listModules(selectedLanguages) {
+  async listModules() {
     var wizardPage = $('#module-settings-assistant-add-p-2');
     var translationList = wizardPage.find('#module-list');
     translationList.empty();
@@ -661,15 +651,14 @@ class InstallModuleAssistant {
     $('#hebrew-strongs-dict-feature-filter-label').text(i18n.t('general.module-hebrew-strongs-dict'));
     $('#greek-strongs-dict-feature-filter-label').text(i18n.t('general.module-greek-strongs-dict'));
 
-    var languagesPage = "#module-settings-assistant-add-p-1";
-    var uiLanguages = this._helper.getSelectedSettingsAssistantElements(languagesPage);
+    var uiLanguages = [...this._selectedLanguages];
     for (let i = 0; i < uiLanguages.length; i++) {
       const currentLanguageCode = uiLanguages[i];
       const currentLanguageName = i18nHelper.getLanguageName(currentLanguageCode);
       uiLanguages[i] = `<b>${currentLanguageName ? currentLanguageName : currentLanguageCode}</b>`;
     }
 
-    var uiRepositories = this.getSelectedReposForUi();
+    var uiRepositories = this._selectedRepositories.map(rep => `<b>${rep}</b>`);
     var introText = "<p style='clear: both; margin-bottom: 2em;'>" +
                     i18n.t("module-assistant.the-selected-repositories") + " (" +
                     uiRepositories.join(', ') + ") " +
@@ -683,10 +672,10 @@ class InstallModuleAssistant {
     translationList.append(filteredModuleList);
 
     $('.module-feature-filter').bind('click', async () => {
-      this.listFilteredModules(selectedLanguages, uiLanguages);      
+      this.listFilteredModules(this._selectedLanguages, uiLanguages);      
     });
 
-    await this.listFilteredModules(selectedLanguages, uiLanguages);
+    await this.listFilteredModules(this._selectedLanguages, uiLanguages);
   }
 
   async listFilteredModules(selectedLanguages, uiLanguages) {
@@ -876,42 +865,6 @@ class InstallModuleAssistant {
     }
   }
 
-  hasRepoBeenSelectedBefore(repo) {
-    var hasBeenSelected = false;
-
-    if (this.previouslySelectedRepositories != null) {
-      var selectedRepositories = this.previouslySelectedRepositories;
-
-      for (var i = 0; i < selectedRepositories.length; i++) {
-        var currentRepo = selectedRepositories[i];
-        if (currentRepo == repo) {
-          hasBeenSelected = true;
-          break;
-        }
-      }
-    }
-
-    return hasBeenSelected;
-  }
-
-  hasLanguageBeenSelectedBefore(language) {
-    var hasBeenSelected = false;
-
-    if (this.previouslySelectedLanguages != null) {
-      var selectedLanguages = this.previouslySelectedLanguages;
-
-      for (var i = 0; i < selectedLanguages.length; i++) {
-        var currentLang = selectedLanguages[i];
-        if (currentLang == language) {
-          hasBeenSelected = true;
-          break;
-        }
-      }
-    }
-
-    return hasBeenSelected;
-  }
-
   addLoadingIndicator(wizardPage) {
     var loader = `
       <div class="loader" style="position: relative; float: right; display: block;">
@@ -925,7 +878,6 @@ class InstallModuleAssistant {
   }
 
   async listRepositories() {
-    this.previouslySelectedRepositories = await ipcSettings.get('selectedRepositories', null);
     var wizardPage = $('#module-settings-assistant-add-p-0');
 
     wizardPage.empty();
@@ -943,7 +895,7 @@ class InstallModuleAssistant {
 
       if (currentRepoTranslationCount > 0) {
         let checkboxChecked = "";
-        if (this.hasRepoBeenSelectedBefore(repository)) {
+        if ((await this.previouslySelectedRepositories).includes(repository)) {
           checkboxChecked = " checked";
         }
 
