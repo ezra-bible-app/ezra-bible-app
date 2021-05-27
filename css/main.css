@@ -615,9 +615,21 @@ h2 {
 
 #book-selection-menu-chapter-list {
   display: none;
-  width: 39.5em;
-  height: 26.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  width: 33em;
+  min-height: 20em;
+  max-height: 52em;
   overflow-y: scroll;
+}
+
+@media only screen and (min-width: 770px) {
+  #book-selection-menu-chapter-list {
+    width: 39.5em;
+    height: 26.5em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
 }
 
 #book-selection-menu-chapter-list h2 {
