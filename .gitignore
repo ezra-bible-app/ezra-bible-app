@@ -2,7 +2,6 @@
 /release
 package-lock.json
 *.code-workspace
-/.vscode
 /.idea
 /app/templates/verse_list.js
 /app/templates/tag_list.js
