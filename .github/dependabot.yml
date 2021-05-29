@@ -12,3 +12,4 @@ updates:
       interval: "daily"
     ignore:
       - dependency-name: "electron"
+      - dependency-name: "spectron"
