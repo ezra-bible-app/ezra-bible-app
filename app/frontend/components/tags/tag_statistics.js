@@ -54,8 +54,8 @@ class TagStatistics {
     var chapterCount = await ipcNsi.getBookChapterCount(currentBibleTranslationId, currentBook);
 
     var overall_verse_count = 0;
-    for (var i = 1; i <= chapterCount; i++) {
-      var currentChapterVerseCount = await ipcNsi.getChapterVerseCount(currentBibleTranslationId, currentBook, i);
+    for (let i = 1; i <= chapterCount; i++) {
+      let currentChapterVerseCount = await ipcNsi.getChapterVerseCount(currentBibleTranslationId, currentBook, i);
       overall_verse_count += currentChapterVerseCount;
     }
 
@@ -69,10 +69,10 @@ class TagStatistics {
     const MAX_CLUSTERS = 5;
     const MIN_CLUSTER_PERCENT = 5;
 
-    for (var i = 0; i < tags_by_verse_count.length; i++) {
-      var tag_title = tags_by_verse_count[i];
-      var tagged_verse_count = book_tag_statistics[tag_title];
-      var tagged_verse_percent = Math.round((tagged_verse_count / overall_verse_count) * 100);
+    for (let i = 0; i < tags_by_verse_count.length; i++) {
+      let tag_title = tags_by_verse_count[i];
+      let tagged_verse_count = book_tag_statistics[tag_title];
+      let tagged_verse_percent = Math.round((tagged_verse_count / overall_verse_count) * 100);
       
       if (tagged_verse_percent >= MIN_CLUSTER_PERCENT && !clusters.includes(tagged_verse_percent) && clusters.length < MAX_CLUSTERS) {
         clusters.push(tagged_verse_percent);
@@ -85,12 +85,16 @@ class TagStatistics {
 
     var is_more_frequent = true;
 
-    for (var i = 0; i < tags_by_verse_count.length; i++) {
-      var tag_title = tags_by_verse_count[i];
-      var tagged_verse_count = book_tag_statistics[tag_title];
-      var tagged_verse_percent = Math.round((tagged_verse_count / overall_verse_count) * 100);
+    for (let i = 0; i < tags_by_verse_count.length; i++) {
+      let tag_title = tags_by_verse_count[i];
+      let tagged_verse_count = book_tag_statistics[tag_title];
+      if (tagged_verse_count == 0) {
+        continue;
+      }
 
-      var current_row_html = "";
+      let tagged_verse_percent = Math.round((tagged_verse_count / overall_verse_count) * 100);
+
+      let current_row_html = "";
 
       if (i == 0) {
         current_row_html += `<tr><td style='font-weight: bold; font-style: italic; padding-top: 0.5em;' colspan='3'>${i18n.t('tags.most-frequently-used')}</td></tr>`;
@@ -98,9 +102,8 @@ class TagStatistics {
         current_row_html += `<tr><td style='font-weight: bold; font-style: italic; padding-top: 1em;' colspan='3'>${i18n.t('tags.less-frequently-used')}</td></tr>`;
       }
 
-      var current_row_html = current_row_html + `<tr><td style="width: 20em;">${tag_title}</td><td>${tagged_verse_count}</td><td>${tagged_verse_percent}</td></tr>`;
+      current_row_html = current_row_html + `<tr><td style="width: 20em;">${tag_title}</td><td>${tagged_verse_count}</td><td>${tagged_verse_percent}</td></tr>`;
       tag_statistics_html += current_row_html;
-
       
       is_more_frequent = clusters.includes(tagged_verse_percent);
     }
