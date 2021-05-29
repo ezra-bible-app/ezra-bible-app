@@ -16,9 +16,9 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const PlatformHelper = require('../../lib/platform_helper.js');
-const { waitUntilIdle } = require('../helpers/ezra_helper.js');
-const i18nController = require('../controllers/i18n_controller.js');
+const PlatformHelper = require('../../../lib/platform_helper.js');
+const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
+const i18nController = require('../../controllers/i18n_controller.js');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
@@ -38,7 +38,7 @@ class OptionsMenu {
     this.platformHelper = new PlatformHelper();
 
     if (this.platformHelper.isCordova()) {
-      var CordovaPlatform = require('../platform/cordova_platform.js');
+      var CordovaPlatform = require('../../platform/cordova_platform.js');
       this.cordovaPlatform = new CordovaPlatform();
     }
   }
