@@ -98,16 +98,18 @@ class SelectOption extends HTMLSelectElement {
 
   async loadOptionFromSettings() {
     var optionValue = await ipcSettings.get(this._settingsKey);
-    this.selectedValue = optionValue;
+    this.updatedSelectedValue(optionValue, false);
   }
 
-  set selectedValue(value) {
+  updatedSelectedValue(value, updateSettings=true) {
     if (value !== false) {
       this._selectedValue = value;
 
-      (async() => {
-        await ipcSettings.set(this._settingsKey, value);
-      })();
+      if (updateSettings) {
+        (async() => {
+          await ipcSettings.set(this._settingsKey, value);
+        })();
+      }
 
       for (let i = 0; i < this.options.length; i++) {
         if (this.options[i].value == value) {
@@ -121,10 +123,19 @@ class SelectOption extends HTMLSelectElement {
     }
   }
 
+  set selectedValue(value) {
+    this.updatedSelectedValue(value);
+  }
+
   get selectedValue() {
     return this._selectedValue;
   }
 
+  /**
+   * Checks whether the option has already been persisted. Returns a promise which eventually returns a Boolean.
+   * 
+   * @return {Promise}
+   */
   get persisted() {
     return (async() => {
       var hasSetting = await ipcSettings.has(this._settingsKey);
