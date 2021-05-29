@@ -123,10 +123,18 @@ class SelectOption extends HTMLSelectElement {
     }
   }
 
+  /**
+   * Sets the selected value of the widget and writes it to the settings
+   * 
+   * @param value - The value that shall be used for the update.
+   */
   set selectedValue(value) {
     this.updatedSelectedValue(value);
   }
 
+  /**
+   * Returns the currently selected value.
+   */
   get selectedValue() {
     return this._selectedValue;
   }
