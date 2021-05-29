@@ -346,6 +346,14 @@ class NavigationPane {
 
       await this.updateChapterNavigation(tabIndex);
 
+      var currentTranslationId = currentTab.getBibleTranslationId();
+      var isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentTab.getBook());
+      var selectChapterBeforeLoadingOption = app_controller.optionsMenu._selectChapterBeforeLoadingOption;
+
+      if (isInstantLoadingBook && selectChapterBeforeLoadingOption.isChecked) {
+        this.goToChapter(currentTab.getChapter());
+      }
+
     } else if (currentTextType == 'tagged_verses' && currentTagIdList != null) { // Update navigation based on tagged verses books
 
       this.updateBookNavigation(tabIndex);
