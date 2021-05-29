@@ -242,7 +242,14 @@ class Startup {
     await this.initIpcClients();
 
     console.log("Initializing i18n ...");
-    await i18nController.initI18N();
+    if (this._platformHelper.isElectron()) {
+      await i18nController.initI18N();
+    } else if (this._platformHelper.isCordova()) {
+      // The initI18N call already happened on Cordova, but not yet the initLocale one,
+      // because the initLocale call depends on persisting settings which can only be done now (after the permissions setup).
+      // At this point, we can write settings and can therefore call initLocale!
+      await i18nController.initLocale();
+    }
 
     console.log("Loading HTML fragments");
     this.loadHTML();
