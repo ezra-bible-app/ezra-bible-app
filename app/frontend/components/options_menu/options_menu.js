@@ -83,7 +83,7 @@ class OptionsMenu {
     this.initLocaleSwitchOption();
     await this.initNightModeOption();
 
-    this.adjustOptionsMenuForPlatform();
+    await this.adjustOptionsMenuForPlatform();
     this.refreshViewBasedOnOptions();
   }
 
@@ -126,7 +126,7 @@ class OptionsMenu {
     });
   }
 
-  adjustOptionsMenuForPlatform() {
+  async adjustOptionsMenuForPlatform() {
     if (!this.platformHelper.isCordova()) {
       // On the desktop (Electron) we do not need the screen-awake option!
       $(this._keepScreenAwakeOption).hide();
@@ -136,6 +136,11 @@ class OptionsMenu {
       // On the Cordova platform we cannot make use of the dictionary panel, because
       // it heavily depends on the mouse.
       $(this._dictionaryOption).hide();
+
+      var bookLoadingModeOptionPersisted = await this._bookLoadingModeOption.persisted;
+      if (!bookLoadingModeOptionPersisted) {
+        this._bookLoadingModeOption.selectedValue = 'load-chapters-all-books';
+      }
     }
   }
 
