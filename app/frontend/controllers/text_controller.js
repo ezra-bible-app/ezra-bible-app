@@ -255,12 +255,6 @@ class TextController {
 
     var verseTags = await ipcDb.getBookVerseTags(bibleBook.id, versification);
     var verseNotes = await ipcDb.getVerseNotesByBook(bibleBook.id, versification);
-
-    var moduleLang = i18nController.getLocale();
-    if (localSwordModule != null) {
-      moduleLang = localSwordModule.language;
-    }
-
     var bookIntroduction = null;
 
     if (start_verse_number == 1) { // Only load book introduction if starting with verse 1
