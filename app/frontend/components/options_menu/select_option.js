@@ -25,6 +25,7 @@ class SelectOption extends HTMLSelectElement {
     this._settingsKey = this.getAttribute('settingsKey');
     this._width = this.getAttribute('width');
     this._id = this.getAttribute('id');
+    this._selectedValue = null;
 
     var style = document.createElement('style');
     style.innerHTML = `
@@ -78,11 +79,11 @@ class SelectOption extends HTMLSelectElement {
     $(this).selectmenu({
       width: this._width,
       select: (event, ui) => {
-        (async() => {
-          await ipcSettings.set(this._settingsKey, this.value);
+        (async(event, ui) => {
+          this.selectedValue = this.value;
           this.dispatchEvent(this.changedEvent);
           await waitUntilIdle();
-        })();
+        })(event, ui);
       }
     });
   }
@@ -97,18 +98,38 @@ class SelectOption extends HTMLSelectElement {
 
   async loadOptionFromSettings() {
     var optionValue = await ipcSettings.get(this._settingsKey);
+    this.selectedValue = optionValue;
+  }
 
-    if (optionValue !== false) {
+  set selectedValue(value) {
+    if (value !== false) {
+      this._selectedValue = value;
+
+      (async() => {
+        await ipcSettings.set(this._settingsKey, value);
+      })();
+
       for (let i = 0; i < this.options.length; i++) {
-        if (this.options[i].value == optionValue) {
+        if (this.options[i].value == value) {
           this.options[i].setAttribute('selected', 'selected');
         } else {
           this.options[i].removeAttribute('selected');
         }
       }
 
-      this.value = optionValue;
+      this.initSelectMenu();
     }
+  }
+
+  get selectedValue() {
+    return this._selectedValue;
+  }
+
+  get persisted() {
+    return (async() => {
+      var hasSetting = await ipcSettings.has(this._settingsKey);
+      return hasSetting;
+    })();
   }
 }
 
