@@ -216,7 +216,7 @@ class AppController {
     }
 
     // Clear verse selection
-    this.verse_selection.clear_verse_selection();
+    this.verse_selection.clear_verse_selection(true, ui.index);
 
     // Refresh tags view
     // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
