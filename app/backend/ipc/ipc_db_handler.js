@@ -31,19 +31,21 @@ class IpcDbHandler {
     this.initIpcInterface();
   }
 
-  async initDatabase(isDebug) {
+  async initDatabase(isDebug, useInternalStorage=false) {
     const DbHelper = require('../database/db_helper.js');
-    var userDataDir = this.platformHelper.getUserDataPath();
+    var userDataDir = this.platformHelper.getUserDataPath(false, useInternalStorage);
 
     dbHelper = new DbHelper(userDataDir);
     this.dbDir = dbHelper.getDatabaseDir(isDebug);
+
+    console.log(`Initializing database at ${this.dbDir}`);
 
     const fs = require('fs');
     if (!fs.existsSync(this.dbDir)) {
       try {
         fs.mkdirSync(this.dbDir);
       } catch (e) {
-        through("Could not create db directory at " + this.dbDir);
+        throw("Could not create db directory at " + this.dbDir);
       }
     }
 

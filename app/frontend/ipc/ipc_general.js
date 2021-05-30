@@ -23,18 +23,18 @@ const i18nController = require('../controllers/i18n_controller.js');
       this._ipcRenderer = new IpcRenderer();
     }
 
-    async initPersistentIpc() {
+    async initPersistentIpc(useInternalStorage=false) {
       var timeoutMs = 15000;
       console.time('initPersistentIpc');
-      var result = await this._ipcRenderer.callWithTimeout('general_initPersistentIpc', timeoutMs);
+      var result = await this._ipcRenderer.callWithTimeout('general_initPersistentIpc', timeoutMs, useInternalStorage);
       console.timeEnd('initPersistentIpc');
       return result;
     }
 
-    async initDatabase() {
+    async initDatabase(useInternalStorage=false) {
       var timeoutMs = 15000;
       console.time('initDatabase');
-      var result = await this._ipcRenderer.callWithTimeout('general_initDatabase', timeoutMs);
+      var result = await this._ipcRenderer.callWithTimeout('general_initDatabase', timeoutMs, useInternalStorage);
       console.timeEnd('initDatabase');
       return result;
     }
