@@ -1,6 +1,18 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+### [1.0.1 - 2021-05-31]
+
+This is a bugfix release only applicable for Android.
+
+### Fixes
+
+* Fixed bug: Android 11 startup issues ([#322][i322])
+* Fixed bug: Icon-based note indicators were not synchronized with multiple tabs ([#234](i234))
+
+[i234]: https://github.com/ezra-project/ezra-project/issues/234
+[i322]: https://github.com/ezra-project/ezra-project/issues/322
+
 ### [1.0.0 - 2021-04-24]
 
 ### Features
