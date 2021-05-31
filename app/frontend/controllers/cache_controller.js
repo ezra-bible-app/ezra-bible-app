@@ -55,7 +55,6 @@ module.exports.setCachedItem = async function (key, value) {
 }
 
 module.exports.deleteCache = async function (key) {
-  //console.log('Saving tab configuration');
   await ipcSettings.delete(key, CACHE_NAME);
 }
 
@@ -67,10 +66,10 @@ module.exports.isCacheInvalid = async function () {
   var cacheLocale = await ipcSettings.get('cacheLocale', undefined, CACHE_NAME);
   var currentLocale = i18nController.getLocale();
 
-  console.log("Last version: " + lastUsedVersion);
+  /*console.log("Last version: " + lastUsedVersion);
   console.log("Current version: " + currentVersion);
   console.log("Last used language: " + cacheLocale);
-  console.log("Current language: " + currentLocale);
+  console.log("Current language: " + currentLocale);*/
 
   return currentVersion != lastUsedVersion || currentLocale != cacheLocale;
 }
