@@ -31,9 +31,9 @@ const CACHE_NAME = 'html-cache';
 module.exports.getCachedItem = async function (key, defaultValue=false, shouldCheckIfInvalid=true) {
   var cached = defaultValue;
 
-  const checkCacheInvalidity = shouldCheckIfInvalid && await this.isCacheInvalid();
+  const isCacheInvalid = shouldCheckIfInvalid && await this.isCacheInvalid();
 
-  if (!checkCacheInvalidity && (await this.hasCachedItem(key))) {
+  if (!isCacheInvalid && (await this.hasCachedItem(key))) {
     cached = await ipcSettings.get(key, defaultValue, CACHE_NAME);
   }
 
