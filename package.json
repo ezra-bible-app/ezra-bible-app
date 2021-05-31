@@ -59,7 +59,7 @@
     "@sentry/electron": "^2.0.3",
     "async-mutex": "^0.3.1",
     "buffer": "^6.0.3",
-    "chart.js": "^2.9.4",
+    "chart.js": "^3.3.2",
     "codemirror": "^5.61.0",
     "conf": "^7.1.2",
     "darkmode-js": "^1.5.7",
