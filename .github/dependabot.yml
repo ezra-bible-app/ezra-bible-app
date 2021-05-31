@@ -13,3 +13,4 @@ updates:
     ignore:
       - dependency-name: "electron"
       - dependency-name: "spectron"
+      - dependency-name: "chart.js"
