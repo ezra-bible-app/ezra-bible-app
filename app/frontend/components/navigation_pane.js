@@ -389,6 +389,9 @@ class NavigationPane {
   }
 
   async goToChapter(chapter) {
+    var previouslyHighlightedChapterElement = this.currentNavigationPane.find('.chapter-link.hl-nav-element');
+    var previouslyHighlightedChapter = parseInt(previouslyHighlightedChapterElement.text());
+    
     this.highlightNavElement(chapter, true);
     var currentTab = app_controller.tab_controller.getTab();
     var isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(
@@ -397,6 +400,10 @@ class NavigationPane {
     );
 
     if (currentTab.getChapter() != null && !isInstantLoadingBook) {
+      if (previouslyHighlightedChapter == chapter) { // We do not need to reload the chapter if it is already highlighted
+        return;
+      }
+
       app_controller.book_selection_menu.loadBook(currentTab.getBook(),
                                                   currentTab.getBookTitle(),
                                                   currentTab.getReferenceBookTitle(),
