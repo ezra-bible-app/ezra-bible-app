@@ -21,6 +21,7 @@ const ModuleAssistantHelper = require('./module_assistant_helper.js');
 const i18nController = require('../../controllers/i18n_controller.js');
 const i18nHelper = require('../../helpers/i18n_helper.js');
 const { sleep } = require('../../helpers/ezra_helper.js');
+require('../loading_indicator.js');
 
 /**
  * The InstallModuleAssistant component implements the dialog that handles module installations.
@@ -572,7 +573,7 @@ class InstallModuleAssistant {
     var wizardPage = $('#module-settings-assistant-add-p-0');
     wizardPage.empty();
 
-    this.addLoadingIndicator(wizardPage);
+    wizardPage.append(document.createElement('loading-indicator'));
   
     const uiRepositories = selectedRepositories.map(rep => `<b>${rep}</b>`);
     var introText = "<p style='margin-bottom: 2em;'>" +
@@ -593,7 +594,7 @@ class InstallModuleAssistant {
       await this.listLanguageArray(unknownLanguages);
     }
 
-    wizardPage.find('.loader').hide();
+    wizardPage.find('loading-indicator')[0].hide();
 
     this._helper.bindLabelEvents(wizardPage);
   }
@@ -716,12 +717,12 @@ class InstallModuleAssistant {
     filteredModuleList.find('.bible-module-info').bind('click', function() {
       var moduleCode = $(this).text();
       $('#module-info-content').empty();
-      $('#module-info').find('.loader').show();
+      $('#module-info').find('loading-indicator')[0].show();
 
       setTimeout(async () => {
         const swordModuleHelper = require('../../helpers/sword_module_helper.js');
         var moduleInfo = await swordModuleHelper.getModuleInfo(moduleCode, true);
-        $('#module-info').find('.loader').hide();
+        $('#module-info').find('loading-indicator')[0].hide();
         $('#module-info-content').append(moduleInfo);
       }, 200);
     });
@@ -857,24 +858,12 @@ class InstallModuleAssistant {
     }
   }
 
-  addLoadingIndicator(wizardPage) {
-    var loader = `
-      <div class="loader" style="position: relative; float: right; display: block;">
-        <div class="bounce1"></div>
-        <div class="bounce2"></div>
-        <div class="bounce3"></div>
-      </div>
-    `;
-
-    wizardPage.append(loader);
-  }
-
   async listRepositories() {
     var wizardPage = $('#module-settings-assistant-add-p-1');
 
     wizardPage.empty();
 
-    this.addLoadingIndicator(wizardPage);
+    wizardPage.append(document.createElement('loading-indicator'));
 
     var introText = "<p style='margin-bottom: 2em;'>" +
                     i18n.t("module-assistant.repo-selection-info-text", {module_type: this._moduleTypeText}) +
@@ -898,7 +887,7 @@ class InstallModuleAssistant {
       }
     }
 
-    wizardPage.find('.loader').hide();
+    wizardPage.find('loading-indicator')[0].hide();
 
     var lastUpdate = await ipcSettings.get('lastSwordRepoUpdate', undefined);
 
