@@ -145,7 +145,7 @@ class BookSelectionMenu {
       //console.log(`Showing chapter list for ${bookTitle} ` +
       //            `since its chapter count (${bookChapterCount}) is above the limit for instant loading!`);
       
-      var menuBookList = document.getElementById('book-selection-menu-book-list');
+      const menuBookList = document.getElementById('book-selection-menu-book-list');
       menuBookList.style.display = 'none';
 
       this.currentBookCode = bookCode;
@@ -156,7 +156,7 @@ class BookSelectionMenu {
 
     } else { // Load directly without first showing chapter list
 
-      var instantLoad = await app_controller.translation_controller.isInstantLoadingBook(this.currentBibleTranslationId, bookCode);
+      const instantLoad = await app_controller.translation_controller.isInstantLoadingBook(this.currentBibleTranslationId, bookCode);
 
       this.loadBook(bookCode,
                     bookTitle,
@@ -185,8 +185,8 @@ class BookSelectionMenu {
         event.preventDefault();
         event.stopPropagation();
 
-        let selectedChapter = parseInt(event.target.getAttribute('href'));
-        var instantLoad = await app_controller.translation_controller.isInstantLoadingBook(this.currentBibleTranslationId, this.currentBookCode);
+        const selectedChapter = parseInt(event.target.getAttribute('href'));
+        const instantLoad = await app_controller.translation_controller.isInstantLoadingBook(this.currentBibleTranslationId, this.currentBookCode);
 
         this.loadBook(this.currentBookCode,
                       this.currentBookTitle,

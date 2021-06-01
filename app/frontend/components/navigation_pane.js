@@ -346,9 +346,9 @@ class NavigationPane {
 
       await this.updateChapterNavigation(tabIndex);
 
-      var currentTranslationId = currentTab.getBibleTranslationId();
-      var isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentTab.getBook());
-      var selectChapterBeforeLoadingOption = app_controller.optionsMenu._selectChapterBeforeLoadingOption;
+      const currentTranslationId = currentTab.getBibleTranslationId();
+      const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentTab.getBook());
+      const selectChapterBeforeLoadingOption = app_controller.optionsMenu._selectChapterBeforeLoadingOption;
 
       if (isInstantLoadingBook && selectChapterBeforeLoadingOption.isChecked) {
         this.goToChapter(currentTab.getChapter());
@@ -393,8 +393,8 @@ class NavigationPane {
     var previouslyHighlightedChapter = parseInt(previouslyHighlightedChapterElement.text());
     
     this.highlightNavElement(chapter, true);
-    var currentTab = app_controller.tab_controller.getTab();
-    var isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(
+    const currentTab = app_controller.tab_controller.getTab();
+    const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(
       currentTab.getBibleTranslationId(),
       currentTab.getBook()
     );
@@ -410,14 +410,14 @@ class NavigationPane {
                                                   false,
                                                   chapter);
     } else {
-      var reference = '#top';
+      let reference = '#top';
 
       if (chapter > 1 || app_controller.optionsMenu._bookIntroOption.isChecked) {
-        var cachedVerseListTabId = this.getCachedVerseListTabId();
+        const cachedVerseListTabId = this.getCachedVerseListTabId();
         reference = '#' + cachedVerseListTabId + ' ' + chapter;
         window.location = reference;
       } else {
-        var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
+        const currentVerseListFrame = app_controller.getCurrentVerseListFrame();
         currentVerseListFrame[0].scrollTop = 0;
       }
     }
