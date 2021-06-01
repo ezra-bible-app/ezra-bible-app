@@ -16,13 +16,12 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const languageMapper = require('../../../lib/language_mapper.js');
 const ModuleAssistantHelper = require('./module_assistant_helper.js');
-const i18nController = require('../../controllers/i18n_controller.js');
 const i18nHelper = require('../../helpers/i18n_helper.js');
 const { sleep } = require('../../helpers/ezra_helper.js');
 require('../loading_indicator.js');
 require('./step_languages.js');
+require('./step_repositories.js');
 
 /**
  * The InstallModuleAssistant component implements the dialog that handles module installations.
@@ -115,7 +114,6 @@ class InstallModuleAssistant {
     this._moduleInstallationCancelled = false;
 
     // Preload info while user reads internet usage warning
-    this.previouslySelectedRepositories = await ipcSettings.get('selectedRepositories', []);
     this.allRepositories = await ipcNsi.getRepoNames();
   }
 
@@ -133,40 +131,17 @@ class InstallModuleAssistant {
     return false;
   }
 
-  async updateRepositoryConfig(force=false) {
-    var wizardPage = $('#module-settings-assistant-add-p-1');
+  async initRepositoryPage() {
+    this.repositoriesStep = document.createElement('step-repositories');
+    console.log('ASSISTANT: set repoStep props');
+    this.repositoriesStep.moduleType = this._currentModuleType;
+    this.repositoriesStep.repositories = this.allRepositories;
+    this.repositoriesStep.languages = this._selectedLanguages;
+
+    const wizardPage = $('#module-settings-assistant-add-p-1');
     wizardPage.empty();
 
-    var lastSwordRepoUpdateSaved = await ipcSettings.has('lastSwordRepoUpdate');
-    var listRepoTimeoutMs = 800;
-    var repoConfigExisting = await ipcNsi.repositoryConfigExisting();
-
-    if (!repoConfigExisting || !lastSwordRepoUpdateSaved || force) {
-      wizardPage.append('<p>' + i18n.t('module-assistant.updating-repository-data') + '</p>');
-
-      var loadingText = i18n.t('module-assistant.updating');
-      var progressBar = "<div id='repo-update-progress-bar' class='progress-bar'><div class='progress-label'>" + loadingText + "</div></div>";
-      wizardPage.append(progressBar);
-
-      uiHelper.initProgressBar($('#repo-update-progress-bar'));
-
-      try {
-        await ipcNsi.updateRepositoryConfig((progress) => {
-          var progressbar = $('#repo-update-progress-bar');
-          var progressPercent = progress.totalPercent;
-          progressbar.progressbar("value", progressPercent);
-        });
-
-        await ipcSettings.set('lastSwordRepoUpdate', new Date());
-      } catch(e) {
-        console.log("Caught exception while updating repository config: " + e);
-        listRepoTimeoutMs = 3000;
-        wizardPage.append('<p>' + i18n.t('module-assistant.update-repository-data-failed') + '</p>');
-      }
-    }
-
-    wizardPage.append('<p>' + i18n.t("module-assistant.loading-repositories") + '</p>');
-    setTimeout(async () => { this.listRepositories(); }, listRepoTimeoutMs);
+    wizardPage.append(this.repositoriesStep);
   }
 
   async openAddModuleAssistant() {
@@ -226,7 +201,7 @@ class InstallModuleAssistant {
   async addModuleAssistantStepChanged(event, currentIndex, priorIndex) {
     if (priorIndex == 0 && currentIndex == 1) {
       await ipcSettings.set('selectedLanguages', this._selectedLanguages);
-      await this.updateRepositoryConfig();
+      await this.initRepositoryPage();
 
     } else if (priorIndex == 1 && currentIndex == 2) {
       await ipcSettings.set('selectedRepositories', this._selectedRepositories);
@@ -258,9 +233,6 @@ class InstallModuleAssistant {
   }
 
   async initLanguagesPage() {
-    // var languagesPage = $('#module-settings-assistant-add-p-0');
-    // languagesPage.empty();
-    // languagesPage.append(`<p>${i18n.t("module-assistant.loading-languages")}</p>`);
     this.languagesStep = document.createElement('step-languages');
     this.languagesStep.moduleType = this._currentModuleType;
     this.languagesStep.repositories = this.allRepositories;
@@ -270,11 +242,14 @@ class InstallModuleAssistant {
 
     wizardPage.append(this.languagesStep);
 
-    // await this.listLanguages();
   }
 
   async initModulesPage() {
+    // this.modulesStep = document.createElement('step-repositories');
 
+    // const wizardPage = $('#module-settings-assistant-add-p-2');
+
+    // wizardPage.append(this.modulesStep);
     await this.listModules();
   }
 
@@ -767,80 +742,6 @@ class InstallModuleAssistant {
     }
   }
 
-  async listRepositories() {
-    var wizardPage = $('#module-settings-assistant-add-p-1');
-
-    wizardPage.empty();
-
-    wizardPage.append(document.createElement('loading-indicator'));
-
-    var introText = "<p style='margin-bottom: 2em;'>" +
-                    i18n.t("module-assistant.repo-selection-info-text", {module_type: this._moduleTypeText}) +
-                    "</p>";
-
-    wizardPage.append(introText);
-
-    for (const repository of (await this.allRepositories)) {
-      const currentRepoTranslationCount = await this.getRepoModuleCount(repository);
-
-      if (currentRepoTranslationCount > 0) {
-        let checkboxChecked = "";
-        if ((await this.previouslySelectedRepositories).includes(repository)) {
-          checkboxChecked = " checked";
-        }
-
-        let currentRepo = "<p style='float: left; width: 17em;'><input type='checkbox'" + checkboxChecked + "><span class='label' id='" + repository + "'>";
-        currentRepo += repository + ' (' + currentRepoTranslationCount + ')';
-        currentRepo += "</span></p>";
-        wizardPage.append(currentRepo);
-      }
-    }
-
-    wizardPage.find('loading-indicator')[0].hide();
-
-    var lastUpdate = await ipcSettings.get('lastSwordRepoUpdate', undefined);
-
-    if (lastUpdate !== undefined) {
-      lastUpdate = new Date(Date.parse(lastUpdate)).toLocaleDateString(i18nController.getLocale());
-    }
-
-    var lastUpdateInfo = "<p style='clear: both; padding-top: 1em;'>" +
-                         i18n.t("module-assistant.repo-data-last-updated", { date: lastUpdate }) + " " +
-                         "<button id='update-repo-data' class='fg-button ui-state-default ui-corner-all'>" +
-                         i18n.t("module-assistant.update-now") +
-                         "</button>" +
-                         "</p>";
-
-    wizardPage.append(lastUpdateInfo);
-
-    $('#update-repo-data').bind('click', async () => {
-      await this.updateRepositoryConfig(true);
-    });
-
-    uiHelper.configureButtonStyles('#module-settings-assistant-add-p-1');
-
-    var additionalInfo = "<p style='margin-top: 2em;'>" +
-                         i18n.t("module-assistant.more-repo-information-needed") +
-                         "</p>";
-
-    wizardPage.append(additionalInfo);
-    this._helper.bindLabelEvents(wizardPage);
-  }
-
-  async getRepoModuleCount(repo) {
-    var count = 0;
-    var allRepoModules = await ipcNsi.getAllRepoModules(repo, this._currentModuleType);
-
-    for (var i = 0; i < allRepoModules.length; i++) {
-      var module = allRepoModules[i];
-
-      if (languageMapper.mappingExists(module.language)) {
-        count += 1;
-      }
-    }
-
-    return count;
-  }
 }
 
 module.exports = InstallModuleAssistant;

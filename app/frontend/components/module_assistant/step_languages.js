@@ -31,7 +31,7 @@ const template = html`
 class StepLanguages extends HTMLElement {
   constructor() {
     super();
-    console.log('step constructor');
+    console.log('LANGS: step constructor');
     this.init();
   }
 
@@ -40,24 +40,24 @@ class StepLanguages extends HTMLElement {
     this._repositories = [];
     this._languages = null;
     this.selectedLanguages = await ipcSettings.get('selectedLanguages', []);
-    console.log('done with init');
+    console.log('LANGS: done with init');
   }
 
   async connectedCallback() {
     this.innerHTML = template.innerHTML;
-    console.log('started connectedCallback');
+    console.log('LANGS: started connectedCallback');
     
     this.querySelector('loading-indicator').show();
   
     const uiRepositories = this._repositories.map(rep => `<b>${rep}</b>`);
-    this.querySelector('.intro').textContent = i18n.t("module-assistant.pick-languages-from-repos") + uiRepositories.join(', ');
+    this.querySelector('.intro').innerHTML = i18n.t("module-assistant.pick-languages-from-repos") + uiRepositories.join(', ');
   }
 
   set repositories (repos) {
     this._repositories = repos;
-    console.log('setting repos property');
+    console.log('LANGS: setting repos property');
     this.getAvailableLanguagesFromSelectedRepos(repos).then(async languagesByCategories => {
-      console.log('got all languages');
+      console.log('LANGS: got all languages');
       
       const allLanguages = languagesByCategories.flat();
       const languageModuleCount = await ipcNsi.getAllLanguageModuleCount(repos, allLanguages, this.moduleType);
