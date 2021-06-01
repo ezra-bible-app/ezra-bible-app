@@ -113,6 +113,7 @@ class StepRepositories extends HTMLElement {
 
     this.listView.style.display = 'block';
 
+    this.repositoryList.innerHTML = '';
     for (const repository of (await this.repositories)) {
       const currentRepoTranslationCount = await this.getRepoModuleCount(repository);
 
