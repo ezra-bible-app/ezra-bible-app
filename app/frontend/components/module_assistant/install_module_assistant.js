@@ -22,6 +22,7 @@ const i18nController = require('../../controllers/i18n_controller.js');
 const i18nHelper = require('../../helpers/i18n_helper.js');
 const { sleep } = require('../../helpers/ezra_helper.js');
 require('../loading_indicator.js');
+require('./step_languages.js');
 
 /**
  * The InstallModuleAssistant component implements the dialog that handles module installations.
@@ -114,17 +115,9 @@ class InstallModuleAssistant {
     this._moduleInstallationCancelled = false;
 
     // Preload info while user reads internet usage warning
-    this.previouslySelectedLanguages = await ipcSettings.get('selectedLanguages', []);
     this.previouslySelectedRepositories = await ipcSettings.get('selectedRepositories', []);
     this.allRepositories = await ipcNsi.getRepoNames();
-    this.allLanguagesByCategories = await this.getAvailableLanguagesFromSelectedRepos(this.allRepositories);
-    const allLanguages = this.allLanguagesByCategories.flat();
-
-    this.allLanguageModuleCount = await ipcNsi.getAllLanguageModuleCount(
-      this.allRepositories,
-      allLanguages,
-      this._currentModuleType);
-}
+  }
 
   async isModuleInstalled(moduleCode) {
     if (this._installedModules == null) {
@@ -268,8 +261,16 @@ class InstallModuleAssistant {
     // var languagesPage = $('#module-settings-assistant-add-p-0');
     // languagesPage.empty();
     // languagesPage.append(`<p>${i18n.t("module-assistant.loading-languages")}</p>`);
+    this.languagesStep = document.createElement('step-languages');
+    this.languagesStep.moduleType = this._currentModuleType;
+    this.languagesStep.repositories = this.allRepositories;
 
-    await this.listLanguages();
+    const wizardPage = $('#module-settings-assistant-add-p-0');
+    wizardPage.empty();
+
+    wizardPage.append(this.languagesStep);
+
+    // await this.listLanguages();
   }
 
   async initModulesPage() {
@@ -521,98 +522,6 @@ class InstallModuleAssistant {
       existingProgressBar.before('<div style="margin-bottom: 1em;">&nbsp;' + i18n.t("general.done") + '.</div>');
     } else {
       existingProgressBar.before('<div style="margin-bottom: 1em;">&nbsp;' + i18n.t("general.module-install-failed") + '</div>');
-    }
-  }
-
-  async getAvailableLanguagesFromSelectedRepos(selectedRepositories) {
-    var knownLanguageCodes = [];
-    var unknownLanguageCodes = [];
-    var knownLanguages = [];
-    var unknownLanguages = [];
-
-    for (var i = 0;  i < selectedRepositories.length; i++) {
-      var currentRepo = selectedRepositories[i];
-      var repoLanguages = await ipcNsi.getRepoLanguages(currentRepo, this._currentModuleType);
-
-      for (let j = 0; j < repoLanguages.length; j++) {
-        const currentLanguageCode = repoLanguages[j];
-        const currentLanguageName = i18nHelper.getLanguageName(currentLanguageCode);
-
-        if (currentLanguageName) {
-          if (!knownLanguageCodes.includes(currentLanguageCode)) {
-            knownLanguageCodes.push(currentLanguageCode);
-            knownLanguages.push({
-              "languageCode": currentLanguageCode,
-              "languageName": currentLanguageName
-            });
-          }
-        } else {
-          console.log("Unknown lang: " + currentLanguageCode);
-          if (!unknownLanguageCodes.includes(currentLanguageCode)) {
-            unknownLanguageCodes.push(currentLanguageCode);
-            unknownLanguages.push({
-              "languageCode": currentLanguageCode,
-              "languageName": currentLanguageCode
-            });
-          }
-        }
-      }
-    }
-
-    knownLanguages = knownLanguages.sort(this._helper.sortBy('languageName'));
-    unknownLanguages = unknownLanguages.sort(this._helper.sortBy('languageCode'));
-
-    return [ knownLanguages, unknownLanguages ];
-  }
-
-  async listLanguages(selectedRepositories=null) {
-    if (selectedRepositories === null) {
-      selectedRepositories = await this.allRepositories;
-    }
-
-    var wizardPage = $('#module-settings-assistant-add-p-0');
-    wizardPage.empty();
-
-    wizardPage.append(document.createElement('loading-indicator'));
-  
-    const uiRepositories = selectedRepositories.map(rep => `<b>${rep}</b>`);
-    var introText = "<p style='margin-bottom: 2em;'>" +
-                    i18n.t("module-assistant.pick-languages-from-repos") +
-                    uiRepositories.join(', ') +
-                    ".</p>";
-
-    wizardPage.append(introText);
-
-    const [knownLanguages, unknownLanguages] = await this.allLanguagesByCategories;
-
-    await this.listLanguageArray(knownLanguages);
-
-    var otherLanguagesHeader = "<p style='padding-top: 2em; clear: both; font-weight: bold;'>Other languages</p>";
-
-    if (unknownLanguages.length > 0) {
-      wizardPage.append(otherLanguagesHeader);
-      await this.listLanguageArray(unknownLanguages);
-    }
-
-    wizardPage.find('loading-indicator')[0].hide();
-
-    this._helper.bindLabelEvents(wizardPage);
-  }
-
-  async listLanguageArray(languageArray) {
-    var wizardPage = document.getElementById('module-settings-assistant-add-p-0');
-
-    for (const {languageCode, languageName} of languageArray) {
-      const isChecked = (await this.previouslySelectedLanguages).includes(languageCode);
-      const translationCount = (await this.allLanguageModuleCount)[languageCode];
-
-      const languageHTML = `
-        <p style="float: left; width: 17em;">
-          <input type="checkbox" ${isChecked ? 'checked' : ''}>
-          <span class="label" id="${languageCode}">${languageName} (${translationCount})</span>
-        </p>`;
-
-      wizardPage.insertAdjacentHTML('beforeend', languageHTML);
     }
   }
 
