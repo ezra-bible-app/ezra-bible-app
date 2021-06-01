@@ -218,18 +218,20 @@ class VerseListPopup {
     swordNote.find('reference').each(async (index, element) => {
       var osisRef = $(element).attr('osisref');
 
-      if (osisRef.indexOf('-') != -1) {
-        // We have gotten a range (like Gal.1.15-Gal.1.16)
-        // We need to first turn into a list of individual references using node-sword-interface
-        var referenceList = await ipcNsi.getReferencesFromReferenceRange(osisRef);
+      if (osisRef != null) {
+        if (osisRef.indexOf('-') != -1) {
+          // We have gotten a range (like Gal.1.15-Gal.1.16)
+          // We need to first turn into a list of individual references using node-sword-interface
+          var referenceList = await ipcNsi.getReferencesFromReferenceRange(osisRef);
 
-        referenceList.forEach((ref) => {
-          this.currentXrefs.push(ref);
-        });
+          referenceList.forEach((ref) => {
+            this.currentXrefs.push(ref);
+          });
 
-      } else {
-        // We have got one single verse reference
-        this.currentXrefs.push(osisRef);
+        } else {
+          // We have got one single verse reference
+          this.currentXrefs.push(osisRef);
+        }
       }
     });
   }

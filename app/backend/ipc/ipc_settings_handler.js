@@ -22,12 +22,13 @@ const Conf = require('conf');
 const fs = require('fs-extra');
 
 class IpcSettingsHandler {
-  constructor() {
+  constructor(useInternalStorage=false) {
     this.platformHelper = new PlatformHelper();
     this._ipcMain = new IpcMain();
     this._isElectron = this.platformHelper.isElectron();
     this._isCordova = this.platformHelper.isCordova();
     this._isTest = this.platformHelper.isTest();
+    this._useInternalStorage = useInternalStorage;
     this._configurations = {};
     this.initIpcInterface();
   }
@@ -72,7 +73,7 @@ class IpcSettingsHandler {
         configName: configName,
       };
 
-      configOptions['cwd'] = this.platformHelper.getUserDataPath();
+      configOptions['cwd'] = this.platformHelper.getUserDataPath(false, this._useInternalStorage);
       this._configurations[configName] = new Conf(configOptions);
       this.migrate(configName, configOptions);
 

@@ -59,7 +59,7 @@ module.exports.getChapterTranslation = async function(lang) {
 module.exports.getPsalmTranslation = async function(lang) {
   var language = lang || i18nController.getLocale();
 
-  return await i18nController.getSpecificTranslation(language, 'bible-browser.psalm');
+  return await this.getSpecificTranslation(language, 'bible-browser.psalm');
 }
 
 module.exports.getLocalizedDate = function(timestamp) {
