@@ -1694,7 +1694,9 @@ s {
 }
 
 .text-loader {
-  float: right;
+  position: fixed;
+  right: 0;
+  margin-right: 1.5em;
 }
 
 .darkmode--activated p,
