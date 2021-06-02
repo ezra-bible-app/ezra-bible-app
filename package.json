@@ -51,7 +51,8 @@
     "build-mac": "./build_scripts/macos/build_mac.sh",
     "update-loc-metrics": "./build_scripts/update_loc_metrics.sh",
     "update-cc-metrics": "./build_scripts/update_complexity_metrics.sh",
-    "doc": "./node_modules/.bin/jsdoc -c jsdoc.conf --readme DESIGN.md -d docs/docs -r --verbose app"
+    "doc": "./node_modules/.bin/jsdoc -c jsdoc.conf --readme DESIGN.md -d docs/docs -r --verbose app",
+    "test": "jest"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.2",
@@ -103,6 +104,7 @@
     "electron-rebuild": "^2.3.2",
     "eslint": "^7.27.0",
     "git-to-json": "^2.1.4",
+    "jest-electron": "^0.1.11",
     "jsdoc": "^3.6.6",
     "node-abi": "^2.18.0",
     "node-gyp": "^8.0.0",
