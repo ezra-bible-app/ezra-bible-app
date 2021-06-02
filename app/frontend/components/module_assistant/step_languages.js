@@ -53,7 +53,7 @@ class StepLanguages extends HTMLElement {
     this.querySelector('.intro').innerHTML = i18n.t("module-assistant.pick-languages-from-repos") + uiRepositories.join(', ');
   }
 
-  set repositories (repos) {
+  set repositories(repos) {
     this._repositories = repos;
     console.log('LANGS: setting repos property');
     this.getAvailableLanguagesFromSelectedRepos(repos).then(async languagesByCategories => {
