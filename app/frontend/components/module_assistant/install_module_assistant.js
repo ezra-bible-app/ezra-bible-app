@@ -161,15 +161,18 @@ class InstallModuleAssistant {
 
     if (currentIndex == 0 && newIndex == 1) { // Changing from Languages (1) to Repositories (2)
       this._selectedLanguages = selectedElements;
+      return selectedElements.length > 0;
     } else if (currentIndex == 1 && newIndex == 2) { // Changing from Repositories (2) to Modules (3)
       this._selectedRepositories = selectedElements;
+      return selectedElements.length > 0;
     } else if (currentIndex == 2 && newIndex == 3) { // Changing from Modules (3) to Installation (4)
       this.selectedModules = selectedElements;
+      return selectedElements.length > 0;
     } else if (currentIndex == 3 && newIndex != 3) {
       return false;
     }
 
-    return selectedElements.length > 0;
+    return true;
   }
 
   async addModuleAssistantStepChanged(event, currentIndex, priorIndex) {
