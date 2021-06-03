@@ -317,6 +317,7 @@ class Startup {
 
     // Restore the scroll position of the first tab.
     app_controller.tab_controller.restoreScrollPosition(0);
+    // FIXME: Also highlight the last navigation element in the navigation pane and scroll to it
 
     if (this._platformHelper.isElectron()) {
       const { ipcRenderer } = require('electron');

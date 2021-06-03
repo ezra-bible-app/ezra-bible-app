@@ -136,8 +136,14 @@ class NavigationPane {
     var scrollToNavElement = allNavElements[scrollToNavElementIndex];
     scrollToNavElement.scrollIntoView(false);
   }
+  
+  highlightLastNavElement() {
+    var currentTab = app_controller.tab_controller.getTab();
+    var lastHighlightedNavElementIndex = currentTab.getLastHighlightedNavElementIndex();
+    this.highlightNavElement(lastHighlightedNavElementIndex);
+  }
 
-  highlightNavElement(navElementNumber, onClick=false, navElementType='CHAPTER') {
+  highlightNavElement(navElementNumber, scrollIntoView=true, navElementType='CHAPTER') {
     this.currentNavigationPane = this.getCurrentNavigationPane();
     var navElementTypeClass = null;
 
@@ -163,7 +169,7 @@ class NavigationPane {
       lastHighlightedNavElementLink.removeClass('hl-nav-element');
       highlightedNavElementLink.addClass('hl-nav-element');
 
-      if (!onClick) {
+      if (scrollIntoView) {
         this.scrollNavElementIntoView(navElementIndex, this.allNavElementLinks);
       }
     }
@@ -314,8 +320,9 @@ class NavigationPane {
   }
 
   clearNavigationPane() {
-    if (this.currentNavigationPane != null) {
+    if (this.currentNavigationPane != null && this.currentNavigationPane[0].childNodes.length > 1) {
       this.currentNavigationPane[0].innerHTML = "";
+      app_controller.tab_controller.clearLastHighlightedNavElementIndex();
     }
   }
 
@@ -350,7 +357,9 @@ class NavigationPane {
       const selectChapterBeforeLoadingOption = app_controller.optionsMenu._selectChapterBeforeLoadingOption;
 
       if (isInstantLoadingBook && selectChapterBeforeLoadingOption.isChecked) {
-        this.goToChapter(currentTab.getChapter());
+        this.goToChapter(currentTab.getChapter(), true);
+      } else {
+        this.highlightNavElement(currentTab.getChapter(), currentTab.isBookChanged());
       }
 
     } else if (currentTextType == 'tagged_verses' && currentTagIdList != null) { // Update navigation based on tagged verses books
@@ -398,10 +407,10 @@ class NavigationPane {
     return highlightedChapter;
   }
 
-  async goToChapter(chapter) {
+  async goToChapter(chapter, scrollIntoView=false) {
     var previouslyHighlightedChapter = this.getHighlightedChapter();
     
-    this.highlightNavElement(chapter, true);
+    this.highlightNavElement(chapter, scrollIntoView);
     const currentTab = app_controller.tab_controller.getTab();
     const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(
       currentTab.getBibleTranslationId(),

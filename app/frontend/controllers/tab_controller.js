@@ -735,6 +735,12 @@ class TabController {
     }
   }
 
+  clearLastHighlightedNavElementIndex() {
+    var currentTabIndex = this.getSelectedTabIndex();
+    this.metaTabs[currentTabIndex].lastHighlightedHeaderIndex = null;
+    this.metaTabs[currentTabIndex].lastHighlightedChapterIndex = null;
+  }
+
   setCurrentBibleTranslationId(bibleTranslationId) {
     this.getTab().setBibleTranslationId(bibleTranslationId);
 

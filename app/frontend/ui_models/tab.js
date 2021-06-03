@@ -212,6 +212,10 @@ class Tab {
     return this.textType;
   }
 
+  getLastHighlightedNavElementIndex() {
+    return this.lastHighlightedNavElementIndex;
+  }
+
   setBibleTranslationId(bibleTranslationId) {
     this.bibleTranslationId = bibleTranslationId;
   }
