@@ -32,7 +32,7 @@ const template = html`
 </label>
 `;
 
-class ModuleCheckbox extends HTMLElement {
+class AssistantCheckbox extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
@@ -67,5 +67,5 @@ class ModuleCheckbox extends HTMLElement {
 
 }
 
-customElements.define('module-checkbox', ModuleCheckbox);
-module.exports = ModuleCheckbox;
+customElements.define('assistant-checkbox', AssistantCheckbox);
+module.exports = AssistantCheckbox;
