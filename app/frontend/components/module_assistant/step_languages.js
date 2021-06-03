@@ -18,7 +18,8 @@
 
 
 const { html } = require('../../helpers/ezra_helper.js');
-const i18nHelper = require('../../helpers/i18n_helper.js');
+const i18nController = require('../../controllers/i18n_controller.js');
+const languageMapper = require('../../../lib/language_mapper.js');
 require('../loading_indicator.js');
 require('./assistant_checkbox.js');
 
@@ -38,8 +39,10 @@ class StepLanguages extends HTMLElement {
 
   async init() {
     this.moduleType = null;
-    this._repositories = [];
+    this._repositories = null;
     this._languages = null;
+    this._allLanguageCodes = new Set();
+
     this._selectedLanguages = await ipcSettings.get('selectedLanguages', []);
     console.log('LANGS: done with init');
   }
@@ -52,18 +55,14 @@ class StepLanguages extends HTMLElement {
   
     const uiRepositories = this._repositories.map(rep => `<b>${rep}</b>`);
     this.querySelector('.intro').innerHTML = i18n.t("module-assistant.pick-languages-from-repos") + uiRepositories.join(', ');
+
+    this.listLanguages(await this._languages);
   }
 
   set repositories(repos) {
     this._repositories = repos;
     console.log('LANGS: setting repos property');
-    getAvailableLanguagesFromSelectedRepos(repos).then(async languagesByCategories => {
-      console.log('LANGS: got all languages', languagesByCategories);
-      
-      const allLanguageCodes = languagesByCategories.flat().map(lang => lang.code);
-      const languageModuleCount = await ipcNsi.getAllLanguageModuleCount(repos, allLanguageCodes, this.moduleType);
-      this.listLanguages(languagesByCategories, languageModuleCount);
-    }); 
+    this._languages = this.getAvailableLanguagesFromRepos(repos); 
   }
 
   get languages() {
@@ -75,66 +74,94 @@ class StepLanguages extends HTMLElement {
     return selectedLanguages;
   }
 
-  async listLanguages(languages, languageModuleCount) {
-    console.log('listLanguages!');
-    const [knownLanguages, unknownLanguages] = languages;
-
-    this.appendChild(listCheckboxArray(knownLanguages, languageModuleCount, await this._selectedLanguages));
-
-    var otherLanguagesHeader = "<p style='padding-top: 2em; clear: both; font-weight: bold;'>Other languages</p>";
-
-    if (unknownLanguages.length > 0) {
-      this.append(otherLanguagesHeader);
-      this.appendChild(listCheckboxArray(unknownLanguages, languageModuleCount, await this._selectedLanguages));
+  async listLanguages(languages) {
+    console.log('LANGS: listLanguages!');
+    
+    for(const category in languages) {
+      const languageMap = languages[category];
+      if (languageMap.size > 0) {
+        this.appendChild(listCheckboxSection(languageMap, await this._selectedLanguages, i18n.t(category)));
+      }
     }
+    
+    await this.updateLanguageCount();
 
     this.querySelector('loading-indicator').hide();
+  }
+
+  async updateLanguageCount() {
+    if (this._allLanguageCodes.size === 0 || !this._repositories) {
+      return;
+    }
+
+    const languageModuleCount = await ipcNsi.getAllLanguageModuleCount(this._repositories, [...this._allLanguageCodes], this.moduleType);
+    // TODO: update count
+  }
+
+  async getAvailableLanguagesFromRepos(repositories) {
+    console.log('LANGS: getAvailableLanguagesFromRepos');
+
+    var appSystemLanguages = new Set([i18nController.getLocale(), i18nController.getSystemLocale(), ]);
+    var bibleLanguages = new Set(['grc', 'hbo']);
+    var mostSpeakingLanguages = new Set(['en', 'cmn', 'hi', 'es', 'arb', 'bn', 'fr', 'ru', 'pt', 'ur']); // source: https://en.wikipedia.org/wiki/List_of_languages_by_total_number_of_speakers
+    const historicalLanguageTypes = new Set(['ancient', 'extinct', 'historical']);
+  
+    var languages = {
+      'app-system-languages': new Map(),
+      'bible-languages': new Map(),
+      'most-speaking-languages': new Map(),
+      'historical-languages': new Map(),
+      'known-languages': new Map(),
+      'other-languages': new Map(),
+      'unknown-languages': new Map(),
+    };
+
+  
+    for (const currentRepo of repositories) {
+      var repoLanguages = await ipcNsi.getRepoLanguages(currentRepo, this.moduleType);
+  
+      for (const currentLanguageCode of repoLanguages) {
+        const languageInfo = languageMapper.getLanguageDetails(currentLanguageCode, i18nController.getLocale());
+  
+        if (appSystemLanguages.has(languageInfo.languageCode)) {
+          this.addLanguage(languages['app-system-languages'], languageInfo, currentLanguageCode);
+        } else if (bibleLanguages.has(languageInfo.languageCode)) {
+          this.addLanguage(languages['bible-languages'], languageInfo, currentLanguageCode);
+        } else if (mostSpeakingLanguages.has(languageInfo.languageCode)) {
+          this.addLanguage(languages['most-speaking-languages'], languageInfo, currentLanguageCode);
+        } else if (historicalLanguageTypes.has(languageInfo.type)) {
+          this.addLanguage(languages['historical-languages'], languageInfo, currentLanguageCode);
+        } else if (languageInfo.localized) {
+          this.addLanguage(languages['known-languages'], languageInfo, currentLanguageCode);
+        } else if (languageInfo.languageName) {
+          this.addLanguage(languages['other-languages'], languageInfo, currentLanguageCode);
+        } else {
+          console.log("Unknown lang:", languageInfo);
+          this.addLanguage(languages['unknown-languages'], languageInfo, currentLanguageCode);          
+        }
+      }
+    }
+  
+    // knownLanguages = knownLanguages.sort(sortBy('text'));
+    // unknownLanguages = unknownLanguages.sort(sortBy('code'));
+  
+    return languages;
+  }
+
+  addLanguage(languageMap, info, fullLanguageCode) {
+    languageMap.set(fullLanguageCode, info.languageName);
+    // if (languageMap.has(info.languageCode) && info.languageCode !== fullLanguageCode) {
+    //   // TODO
+    // } else {
+    //   languageMap.set(info.languageCode, info.languageName);
+    // }
+
   }
 }
 
 customElements.define('step-languages', StepLanguages);
 module.exports = StepLanguages;
 
-async function getAvailableLanguagesFromSelectedRepos(selectedRepositories) {
-  var knownLanguageCodes = [];
-  var unknownLanguageCodes = [];
-  var knownLanguages = [];
-  var unknownLanguages = [];
-
-  for (var i = 0;  i < selectedRepositories.length; i++) {
-    var currentRepo = selectedRepositories[i];
-    var repoLanguages = await ipcNsi.getRepoLanguages(currentRepo, this._currentModuleType);
-
-    for (let j = 0; j < repoLanguages.length; j++) {
-      const currentLanguageCode = repoLanguages[j];
-      const currentLanguageName = i18nHelper.getLanguageName(currentLanguageCode);
-
-      if (currentLanguageName) {
-        if (!knownLanguageCodes.includes(currentLanguageCode)) {
-          knownLanguageCodes.push(currentLanguageCode);
-          knownLanguages.push({
-            "code": currentLanguageCode,
-            "text": currentLanguageName
-          });
-        }
-      } else {
-        console.log("Unknown lang: " + currentLanguageCode);
-        if (!unknownLanguageCodes.includes(currentLanguageCode)) {
-          unknownLanguageCodes.push(currentLanguageCode);
-          unknownLanguages.push({
-            "code": currentLanguageCode,
-            "text": currentLanguageCode
-          });
-        }
-      }
-    }
-  }
-
-  knownLanguages = knownLanguages.sort(sortBy('text'));
-  unknownLanguages = unknownLanguages.sort(sortBy('code'));
-
-  return [ knownLanguages, unknownLanguages ];
-}
 
 function sortBy(field) {
   return function(a, b) {
@@ -147,13 +174,17 @@ function sortBy(field) {
   };
 }
 
-function listCheckboxArray(arr, counts, selected) {
+function listCheckboxSection(valuesMap, selected, sectionTitle = "") {
 
-  const checkboxes = arr.map(({code, text}) => 
-    `<assistant-checkbox code="${code}" count="${counts[code]}" ${selected.includes(code) ? 'checked' : ''}>${text ? text : code}</assistant-checkbox>`
-  );
+  var checkboxes = [];
+  for (let [code, value] of valuesMap) {
+    const text = value;
+    const cb = `<assistant-checkbox code="${code}" ${selected.includes(code) ? 'checked' : ''}>${text ? text : code}</assistant-checkbox>`;
+    checkboxes.push(cb);
+  }
 
   const template = html`
+    <h3>${sectionTitle}</h3>
     <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 0.5em; padding: 0.5em;">
       ${checkboxes}
     </div>`;

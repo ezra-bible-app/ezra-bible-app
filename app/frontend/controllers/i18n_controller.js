@@ -136,6 +136,8 @@ module.exports.getLocale = function() {
   return locale.slice(0, 2); // just in case we got language with the region code (i.e "en-US") we want only the language code ("en")
 };
 
+module.exports.getSystemLocale = () => systemLocale;
+
 module.exports.getAvailableLocales = function() {
   return AVAILABLE_LOCALES.sort();
 };

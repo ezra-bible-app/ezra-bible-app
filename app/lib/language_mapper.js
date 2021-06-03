@@ -44,15 +44,17 @@ module.exports.getLanguageDetails = function (languageCode, localeCode = 'en') {
   const details = findLanguage(normalizedCode);
 
   var languageName;
+  var localized = false;
   // Try to get localized name through standard Internationalization API
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DisplayNames/of
   if (Intl && typeof Intl === "object") {
     languageName = (new Intl.DisplayNames(localeCode, { type: 'language', fallback: 'none' })).of(normalizedCode);
   }
   if (!languageName) { // fallback to ISO-693.3 name
-    languageName = details.name || normalizedCode;
+    languageName = details.name;
   } else {
     languageName = toTitleCase(languageName);
+    localized = true;
   }
 
   var languageScript;
@@ -67,7 +69,8 @@ module.exports.getLanguageDetails = function (languageCode, localeCode = 'en') {
 
   return {
     ...details,
-    languageCode,
+    localized,
+    languageCode: normalizedCode,
     languageName,
     languageScript,
     languageRegion,
