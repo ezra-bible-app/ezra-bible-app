@@ -31,7 +31,7 @@ class IpcNsiHandler {
     this.initIpcInterface();
   }
 
-  initNSI() {
+  initNSI(customSwordDir=undefined) {
     if (this._platformHelper.isTest()) {
 
       const userDataDir = this._platformHelper.getUserDataPath();
@@ -45,7 +45,11 @@ class IpcNsiHandler {
 
     } else {
 
-      this._nsi = new NodeSwordInterface();
+      if (customSwordDir !== undefined) {
+        this._nsi = new NodeSwordInterface(customSwordDir);
+      } else {
+        this._nsi = new NodeSwordInterface();
+      }
     }
 
     this._nsi.enableMarkup();

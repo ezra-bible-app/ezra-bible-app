@@ -28,8 +28,8 @@ class IpcI18n {
 
   async getTranslation(language) {
     // Reading the translation file from the disk may take a while on slower/older devices ...
-    // That's why we change the default timeout to 10s (instead of just 2s)
-    var timeoutMs = 10000;
+    // That's why we change the default timeout to 20s (instead of just 2s)
+    var timeoutMs = 20000;
 
     if (this._isCordova) console.time('getTranslation');
 

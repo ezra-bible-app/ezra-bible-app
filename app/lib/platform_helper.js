@@ -204,7 +204,7 @@ class PlatformHelper {
     }
   }
 
-  getUserDataPath(getOldPath=false) {
+  getUserDataPath(getOldPath=false, useInternalStorage=false) {
     if (this.isElectron()) {
 
       var { app } = require('electron');
@@ -237,10 +237,17 @@ class PlatformHelper {
 
     } else if (this.isCordova()) {
 
-      var appId = getOldPath ? 'de.ezraproject.cordova' : 'net.ezrabibleapp.cordova';
+      var userDataDir = "";
 
-      // TODO adapt this for ios later
-      return `/sdcard/Android/data/${appId}`;
+      if (useInternalStorage) {
+        userDataDir = cordova.app.datadir() + '/ezra_storage';
+      } else {
+        var appId = getOldPath ? 'de.ezraproject.cordova' : 'net.ezrabibleapp.cordova';
+        // TODO adapt this for ios later
+        userDataDir = `/sdcard/Android/data/${appId}`;
+      }
+
+      return userDataDir;
     }
   }
 
