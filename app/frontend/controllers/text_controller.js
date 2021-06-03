@@ -39,6 +39,47 @@ class TextController {
     this.platformHelper = new PlatformHelper();
     this.verseReferenceHelper = new VerseReferenceHelper(ipcNsi);
   }
+  
+  async loadBook(bookCode, bookTitle, referenceBookTitle, instantLoad=true, chapter=undefined) {
+    app_controller.book_selection_menu.hideBookMenu();
+    app_controller.book_selection_menu.highlightSelectedBookInMenu(bookCode);
+
+    var currentTab = app_controller.tab_controller.getTab();
+    currentTab.setTextType('book');
+    app_controller.tab_controller.setCurrentTabBook(bookCode, bookTitle, referenceBookTitle, chapter);
+
+    app_controller.tag_selection_menu.resetTagMenu();
+    app_controller.module_search_controller.resetSearch();
+    await this.prepareForNewText(true, false);
+
+    setTimeout(async () => {
+      // Set selected tags and search term to null, since we just switched to a book
+      var currentTab = app_controller.tab_controller.getTab();
+      currentTab.setTagIdList(null);
+      currentTab.setSearchTerm(null);
+      currentTab.setXrefs(null);
+      currentTab.setReferenceVerseElementId(null);
+
+      var currentVerseList = app_controller.getCurrentVerseList();
+      currentTab.tab_search.setVerseList(currentVerseList);
+
+      var currentTabId = app_controller.tab_controller.getSelectedTabId();
+      var currentBook = currentTab.getBook();
+
+      await this.requestTextUpdate(currentTabId,
+                                   currentBook,
+                                   null,
+                                   null,
+                                   null,
+                                   null,
+                                   null,
+                                   chapter,
+                                   instantLoad);
+
+      await waitUntilIdle();
+      tags_controller.updateTagList(currentBook);
+    }, 50);
+  }
 
   async prepareForNewText(resetView, isSearch=false, tabIndex=undefined) {
     if (!isSearch) {

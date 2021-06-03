@@ -158,11 +158,11 @@ class BookSelectionMenu {
 
       const instantLoad = await app_controller.translation_controller.isInstantLoadingBook(this.currentBibleTranslationId, bookCode);
 
-      this.loadBook(bookCode,
-                    bookTitle,
-                    referenceBookTitle,
-                    instantLoad,
-                    1);
+      app_controller.text_controller.loadBook(bookCode,
+                                              bookTitle,
+                                              referenceBookTitle,
+                                              instantLoad,
+                                              1);
     }
   }
 
@@ -188,58 +188,16 @@ class BookSelectionMenu {
         const selectedChapter = parseInt(event.target.getAttribute('href'));
         const instantLoad = await app_controller.translation_controller.isInstantLoadingBook(this.currentBibleTranslationId, this.currentBookCode);
 
-        this.loadBook(this.currentBookCode,
-                      this.currentBookTitle,
-                      this.currentReferenceBookTitle,
-                      instantLoad,
-                      selectedChapter);
+        app_controller.text_controller.loadBook(this.currentBookCode,
+                                                this.currentBookTitle,
+                                                this.currentReferenceBookTitle,
+                                                instantLoad,
+                                                selectedChapter);
       });
     }
 
     chapters.style.display = 'flex';
     menuChapterList.style.display = 'block';
-  }
-
-  async loadBook(bookCode, bookTitle, referenceBookTitle, instantLoad=true, chapter=undefined) {
-    app_controller.book_selection_menu.hideBookMenu();
-    app_controller.book_selection_menu.highlightSelectedBookInMenu(bookCode);
-
-    var currentTab = app_controller.tab_controller.getTab();
-    currentTab.setTextType('book');
-    app_controller.tab_controller.setCurrentTabBook(bookCode, bookTitle, referenceBookTitle, chapter);
-
-    app_controller.tag_selection_menu.resetTagMenu();
-    app_controller.module_search_controller.resetSearch();
-
-    await app_controller.text_controller.prepareForNewText(true, false);
-
-    setTimeout(async () => {
-      // Set selected tags and search term to null, since we just switched to a book
-      var currentTab = app_controller.tab_controller.getTab();
-      currentTab.setTagIdList(null);
-      currentTab.setSearchTerm(null);
-      currentTab.setXrefs(null);
-      currentTab.setReferenceVerseElementId(null);
-
-      var currentVerseList = app_controller.getCurrentVerseList();
-      currentTab.tab_search.setVerseList(currentVerseList);
-
-      var currentTabId = app_controller.tab_controller.getSelectedTabId();
-      var currentBook = currentTab.getBook();
-
-      await app_controller.text_controller.requestTextUpdate(currentTabId,
-                                                             currentBook,
-                                                             null,
-                                                             null,
-                                                             null,
-                                                             null,
-                                                             null,
-                                                             chapter,
-                                                             instantLoad);
-
-      await waitUntilIdle();
-      tags_controller.updateTagList(currentBook);
-    }, 50);
   }
 
   hideBookMenu() {

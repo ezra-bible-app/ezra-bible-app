@@ -404,11 +404,11 @@ class NavigationPane {
         return;
       }
 
-      app_controller.book_selection_menu.loadBook(currentTab.getBook(),
-                                                  currentTab.getBookTitle(),
-                                                  currentTab.getReferenceBookTitle(),
-                                                  false,
-                                                  chapter);
+      app_controller.text_controller.loadBook(currentTab.getBook(),
+                                              currentTab.getBookTitle(),
+                                              currentTab.getReferenceBookTitle(),
+                                              false,
+                                              chapter);
     } else {
       let reference = '#top';
 
