@@ -17,75 +17,62 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 
-var langs = null;
-function getLangs() {
-  if (langs == null) {
-    langs = require('iso-639-3');
-  }
-
-  return langs;
-}
-
-function mappingMatchesCode(mapping, languageCode) {
-  return (languageCode == mapping.iso6393 ||
-    languageCode == mapping.iso6392B ||
-    languageCode == mapping.iso6392T ||
-    languageCode == mapping.iso6391);
-}
-
-function normalizeLanguageCode(languageCode) {
-  var normalizedCode = languageCode.split('-');
-  return normalizedCode[0];
-}
-
 var mappingExistsCache = {};
-module.exports.mappingExists = function (languageCode) {
-  if (languageCode in mappingExistsCache) {
-    return mappingExistsCache[languageCode];
-
-  } else {
-    mappingExistsCache[languageCode] = this.getLanguageName(languageCode);
-
-    return mappingExistsCache[languageCode];
-  }
-}
-
-function toTitleCase(str) {
-  return str.slice(0, 1).toLocaleUpperCase() + str.slice(1);
-}
-
-module.exports.getLanguageName = function (languageCode, localeCode = 'en') {
+module.exports.getLanguageName = (languageCode, localeCode = 'en') => {
   if (mappingExistsCache[languageCode] && mappingExistsCache[languageCode][localeCode]) {
     return mappingExistsCache[languageCode][localeCode];
   }
-  
-  var languageName = "";
-  if (Intl && typeof Intl === "object") {
-    languageName = (new Intl.DisplayNames(localeCode, { type: 'language' })).of(languageCode);
-  }
 
-  let languageNameParts = languageName.split(' '); // Intl.DisplayName might know only second script part
-  const normalizedCode = normalizeLanguageCode(languageCode);
-  if (languageNameParts[0].length && normalizedCode !== languageNameParts[0]) { // If the first part is not a code
-    languageName = toTitleCase(languageName);
-  } else {
+  const { languageName } = this.getLanguageDetails(languageCode, localeCode);
 
-    const langs = getLangs();
-
-    for (let i = 0; i < langs.length; i++) {
-      const currentLang = langs[i];
-      if (mappingMatchesCode(currentLang, normalizedCode)) {
-        languageNameParts[0] = currentLang.name;
-        return languageNameParts.join(' ');
-      }
-    }
-  }
   if (!mappingExistsCache[languageCode]) {
     mappingExistsCache[languageCode] = {};
-  } 
+  }
   mappingExistsCache[languageCode][localeCode] = languageName;
+
   return languageName;
-}
+};
+
+module.exports.getLanguageDetails = function (languageCode, localeCode = 'en') {
+
+  var [normalizedCode, scriptCode, regionCode] = languageCode.split('-');
+  if (scriptCode && scriptCode.length < 4) { // if a only a regionCode
+    regionCode = scriptCode;
+    scriptCode = undefined;
+  }
+
+  const details = findLanguage(normalizedCode);
+
+  var languageName;
+  // Try to get localized name through standard Internationalization API
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DisplayNames/of
+  if (Intl && typeof Intl === "object") {
+    languageName = (new Intl.DisplayNames(localeCode, { type: 'language', fallback: 'none' })).of(normalizedCode);
+  }
+  if (!languageName) { // fallback to ISO-693.3 name
+    languageName = details.name || normalizedCode;
+  } else {
+    languageName = toTitleCase(languageName);
+  }
+
+  var languageScript;
+  if (scriptCode && Intl && typeof Intl === "object") {
+    languageScript = (new Intl.DisplayNames(localeCode, { type: 'script', fallback: 'none' })).of(scriptCode);
+  }
+
+  var languageRegion;
+  if (regionCode && Intl && typeof Intl === "object") {
+    languageScript = (new Intl.DisplayNames(localeCode, { type: 'region', fallback: 'none' })).of(regionCode);
+  }
+
+  return {
+    ...details,
+    languageCode,
+    languageName,
+    languageScript,
+    languageRegion,
+  };
+};
 
 module.exports.getLanguageCode = function (languageName) {
   var langs = getLangs();
@@ -113,5 +100,36 @@ module.exports.getLanguageCode = function (languageName) {
   }
 
   return null;
+};
+
+function findLanguage(normalizedCode) {
+  const langs = getLangs();
+
+  for (let i = 0; i < langs.length; i++) {
+    const currentLang = langs[i];
+    if (mappingMatchesCode(currentLang, normalizedCode)) {
+      return currentLang;
+    }
+  }
+  return {};
 }
 
+var langs = null;
+function getLangs() {
+  if (langs == null) {
+    langs = require('iso-639-3');
+  }
+
+  return langs;
+}
+
+function mappingMatchesCode(mapping, languageCode) {
+  return (languageCode == mapping.iso6393 ||
+    languageCode == mapping.iso6392B ||
+    languageCode == mapping.iso6392T ||
+    languageCode == mapping.iso6391);
+}
+
+function toTitleCase(str) {
+  return str.slice(0, 1).toLocaleUpperCase() + str.slice(1);
+}
