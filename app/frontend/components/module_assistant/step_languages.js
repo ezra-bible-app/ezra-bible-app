@@ -20,6 +20,7 @@
 const { html } = require('../../helpers/ezra_helper.js');
 const i18nHelper = require('../../helpers/i18n_helper.js');
 require('../loading_indicator.js');
+require('./module_checkbox.js');
 
 const template = html`
 <style>
@@ -44,7 +45,7 @@ class StepLanguages extends HTMLElement {
   }
 
   async connectedCallback() {
-    this.innerHTML = template.innerHTML;
+    this.appendChild(template.content);
     console.log('LANGS: started connectedCallback');
     
     this.querySelector('loading-indicator').show();
@@ -56,8 +57,8 @@ class StepLanguages extends HTMLElement {
   set repositories(repos) {
     this._repositories = repos;
     console.log('LANGS: setting repos property');
-    this.getAvailableLanguagesFromSelectedRepos(repos).then(async languagesByCategories => {
-      console.log('LANGS: got all languages');
+    getAvailableLanguagesFromSelectedRepos(repos).then(async languagesByCategories => {
+      console.log('LANGS: got all languages', languagesByCategories);
       
       const allLanguages = languagesByCategories.flat();
       const languageModuleCount = await ipcNsi.getAllLanguageModuleCount(repos, allLanguages, this.moduleType);
@@ -67,90 +68,92 @@ class StepLanguages extends HTMLElement {
 
   async listLanguages(languages, languageModuleCount) {
     console.log('listLanguages!');
-    const [knownLanguages, unknownLanguages] = languages;
+    const [knownLanguages, unknownLanguages] = languages.map(langCategory => 
+      langCategory.map(({languageCode, languageName}) => {
+        return {
+          code: languageCode,
+          text: languageName,
+        };
+      })
+    );
 
-    await this.listLanguageArray(knownLanguages, languageModuleCount);
+    this.appendChild(listCheckboxArray(knownLanguages, languageModuleCount, await this.selectedLanguages));
 
     var otherLanguagesHeader = "<p style='padding-top: 2em; clear: both; font-weight: bold;'>Other languages</p>";
 
     if (unknownLanguages.length > 0) {
       this.append(otherLanguagesHeader);
-      await this.listLanguageArray(unknownLanguages, languageModuleCount);
+      this.appendChild(listCheckboxArray(unknownLanguages, languageModuleCount, await this.selectedLanguages));
     }
 
     this.querySelector('loading-indicator').hide();
   }
-
-  async listLanguageArray(languageArray, languageModuleCount) {
-
-    for (const {languageCode, languageName} of languageArray) {
-      const isChecked = (await this.selectedLanguages).includes(languageCode);
-      const translationCount = (await languageModuleCount)[languageCode];
-      
-      if(translationCount > 0) {
-        const languageHTML = `
-          <p style="float: left; width: 17em;">
-            <input type="checkbox" ${isChecked ? 'checked' : ''}>
-            <span class="label" id="${languageCode}">${languageName} (${translationCount})</span>
-          </p>`;
-        this.insertAdjacentHTML('beforeend', languageHTML);
-      }
-    }
-  }
-
-  async getAvailableLanguagesFromSelectedRepos(selectedRepositories) {
-    var knownLanguageCodes = [];
-    var unknownLanguageCodes = [];
-    var knownLanguages = [];
-    var unknownLanguages = [];
-
-    for (var i = 0;  i < selectedRepositories.length; i++) {
-      var currentRepo = selectedRepositories[i];
-      var repoLanguages = await ipcNsi.getRepoLanguages(currentRepo, this._currentModuleType);
-
-      for (let j = 0; j < repoLanguages.length; j++) {
-        const currentLanguageCode = repoLanguages[j];
-        const currentLanguageName = i18nHelper.getLanguageName(currentLanguageCode);
-
-        if (currentLanguageName) {
-          if (!knownLanguageCodes.includes(currentLanguageCode)) {
-            knownLanguageCodes.push(currentLanguageCode);
-            knownLanguages.push({
-              "languageCode": currentLanguageCode,
-              "languageName": currentLanguageName
-            });
-          }
-        } else {
-          console.log("Unknown lang: " + currentLanguageCode);
-          if (!unknownLanguageCodes.includes(currentLanguageCode)) {
-            unknownLanguageCodes.push(currentLanguageCode);
-            unknownLanguages.push({
-              "languageCode": currentLanguageCode,
-              "languageName": currentLanguageCode
-            });
-          }
-        }
-      }
-    }
-
-    knownLanguages = knownLanguages.sort(this.sortBy('languageName'));
-    unknownLanguages = unknownLanguages.sort(this.sortBy('languageCode'));
-
-    return [ knownLanguages, unknownLanguages ];
-  }
-
-  sortBy(field) {
-    return function(a, b) {
-      if (a[field] < b[field]) {
-        return -1;
-      } else if (a[field] > b[field]) {
-        return 1;
-      }
-      return 0;
-    };
-  }
-
 }
 
 customElements.define('step-languages', StepLanguages);
 module.exports = StepLanguages;
+
+async function getAvailableLanguagesFromSelectedRepos(selectedRepositories) {
+  var knownLanguageCodes = [];
+  var unknownLanguageCodes = [];
+  var knownLanguages = [];
+  var unknownLanguages = [];
+
+  for (var i = 0;  i < selectedRepositories.length; i++) {
+    var currentRepo = selectedRepositories[i];
+    var repoLanguages = await ipcNsi.getRepoLanguages(currentRepo, this._currentModuleType);
+
+    for (let j = 0; j < repoLanguages.length; j++) {
+      const currentLanguageCode = repoLanguages[j];
+      const currentLanguageName = i18nHelper.getLanguageName(currentLanguageCode);
+
+      if (currentLanguageName) {
+        if (!knownLanguageCodes.includes(currentLanguageCode)) {
+          knownLanguageCodes.push(currentLanguageCode);
+          knownLanguages.push({
+            "languageCode": currentLanguageCode,
+            "languageName": currentLanguageName
+          });
+        }
+      } else {
+        console.log("Unknown lang: " + currentLanguageCode);
+        if (!unknownLanguageCodes.includes(currentLanguageCode)) {
+          unknownLanguageCodes.push(currentLanguageCode);
+          unknownLanguages.push({
+            "languageCode": currentLanguageCode,
+            "languageName": currentLanguageCode
+          });
+        }
+      }
+    }
+  }
+
+  knownLanguages = knownLanguages.sort(sortBy('languageName'));
+  unknownLanguages = unknownLanguages.sort(sortBy('languageCode'));
+
+  return [ knownLanguages, unknownLanguages ];
+}
+
+function sortBy(field) {
+  return function(a, b) {
+    if (a[field] < b[field]) {
+      return -1;
+    } else if (a[field] > b[field]) {
+      return 1;
+    }
+    return 0;
+  };
+}
+
+function listCheckboxArray(arr, counts, selected) {
+
+  const checkboxes = arr.map(({code, text}) => 
+    `<module-checkbox code="${code}" count="${counts[code]}" ${selected.includes(code) ? 'checked' : ''}>${text ? text : code}</module-checkbox>`
+  );
+
+  const template = html`
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 0.5em; padding: 0.5em;">
+      ${checkboxes}
+    </div>`;
+  return template.content;
+}
