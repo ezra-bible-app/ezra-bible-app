@@ -99,6 +99,14 @@ class Tab {
     return this.previousBook;
   }
 
+  isBookChanged() {
+    return this.book != this.previousBook;
+  }
+
+  isBookUnchanged() {
+    return !this.isBookChanged();
+  }
+
   getBookTitle() {
     return this.bookTitle;
   }

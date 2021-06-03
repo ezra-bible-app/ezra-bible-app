@@ -209,9 +209,8 @@ class NavigationPane {
 
     var currentTranslation = currentTab.getBibleTranslationId();
     var currentBook = currentTab.getBook();
-    var previousBook = currentTab.getPreviousBook();
 
-    if (currentTranslation == null || currentBook == null || currentBook == previousBook) {
+    if (currentTranslation == null || currentBook == null || currentTab.isBookUnchanged()) {
       return;
     }
 
@@ -388,9 +387,19 @@ class NavigationPane {
     return cachedVerseListTabId;
   }
 
+  getHighlightedChapter() {
+    var highlightedChapter = null;
+
+    try {
+      var highlightedChapterElement = this.currentNavigationPane.find('.chapter-link.hl-nav-element');
+      highlightedChapter = parseInt(highlightedChapterElement.text());
+    } catch (e) {}
+
+    return highlightedChapter;
+  }
+
   async goToChapter(chapter) {
-    var previouslyHighlightedChapterElement = this.currentNavigationPane.find('.chapter-link.hl-nav-element');
-    var previouslyHighlightedChapter = parseInt(previouslyHighlightedChapterElement.text());
+    var previouslyHighlightedChapter = this.getHighlightedChapter();
     
     this.highlightNavElement(chapter, true);
     const currentTab = app_controller.tab_controller.getTab();

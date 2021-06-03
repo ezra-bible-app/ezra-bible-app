@@ -101,9 +101,18 @@ class TextController {
       }
     }
 
-    var textType = app_controller.tab_controller.getTab(tabIndex).getTextType();    
+    var textType = currentTab != null ? currentTab.getTextType() : null;
     if (textType != 'book') {
       app_controller.book_selection_menu.clearSelectedBookInMenu();
+    }
+
+    if (textType == 'book' && currentTab != null && currentTab.isBookUnchanged()) {
+      // Do not reset verse list view if the book has not changed.
+      resetView = false;
+
+      if (platformHelper.isCordova() && (tabIndex == 0 || tabIndex == undefined)) {
+        uiHelper.showTextLoadingIndicator();
+      }
     }
 
     if (resetView && (tabIndex == 0 || tabIndex == undefined)) {
