@@ -121,14 +121,13 @@ class IpcNsiHandler {
       return this._nsi.getAllLocalModules(moduleType);
     });
 
-    this._ipcMain.add('nsi_getAllLanguageModuleCount', (selectedRepos, languageArray, moduleType='BIBLE') => {
+    this._ipcMain.add('nsi_getAllLanguageModuleCount', (selectedRepos, languageCodeArray, moduleType='BIBLE') => {
       var allLanguageModuleCount = {};
 
-      for (var i = 0; i < languageArray.length; i++) {
-        var currentLanguage = languageArray[i];
-        var currentLanguageCode = currentLanguage.languageCode;
+      for (let i = 0; i < languageCodeArray.length; i++) {
+        const currentLanguageCode = languageCodeArray[i];
 
-        var currentLanguageModuleCount = this.getLanguageModuleCount(selectedRepos, currentLanguageCode, moduleType);
+        const currentLanguageModuleCount = this.getLanguageModuleCount(selectedRepos, currentLanguageCode, moduleType);
         allLanguageModuleCount[currentLanguageCode] = currentLanguageModuleCount;
       }
 

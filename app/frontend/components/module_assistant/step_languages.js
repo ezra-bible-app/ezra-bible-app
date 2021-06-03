@@ -60,8 +60,8 @@ class StepLanguages extends HTMLElement {
     getAvailableLanguagesFromSelectedRepos(repos).then(async languagesByCategories => {
       console.log('LANGS: got all languages', languagesByCategories);
       
-      const allLanguages = languagesByCategories.flat();
-      const languageModuleCount = await ipcNsi.getAllLanguageModuleCount(repos, allLanguages, this.moduleType);
+      const allLanguageCodes = languagesByCategories.flat().map(lang => lang.code);
+      const languageModuleCount = await ipcNsi.getAllLanguageModuleCount(repos, allLanguageCodes, this.moduleType);
       this.listLanguages(languagesByCategories, languageModuleCount);
     }); 
   }
@@ -77,14 +77,7 @@ class StepLanguages extends HTMLElement {
 
   async listLanguages(languages, languageModuleCount) {
     console.log('listLanguages!');
-    const [knownLanguages, unknownLanguages] = languages.map(langCategory => 
-      langCategory.map(({languageCode, languageName}) => {
-        return {
-          code: languageCode,
-          text: languageName,
-        };
-      })
-    );
+    const [knownLanguages, unknownLanguages] = languages;
 
     this.appendChild(listCheckboxArray(knownLanguages, languageModuleCount, await this._selectedLanguages));
 
@@ -120,8 +113,8 @@ async function getAvailableLanguagesFromSelectedRepos(selectedRepositories) {
         if (!knownLanguageCodes.includes(currentLanguageCode)) {
           knownLanguageCodes.push(currentLanguageCode);
           knownLanguages.push({
-            "languageCode": currentLanguageCode,
-            "languageName": currentLanguageName
+            "code": currentLanguageCode,
+            "text": currentLanguageName
           });
         }
       } else {
@@ -129,16 +122,16 @@ async function getAvailableLanguagesFromSelectedRepos(selectedRepositories) {
         if (!unknownLanguageCodes.includes(currentLanguageCode)) {
           unknownLanguageCodes.push(currentLanguageCode);
           unknownLanguages.push({
-            "languageCode": currentLanguageCode,
-            "languageName": currentLanguageCode
+            "code": currentLanguageCode,
+            "text": currentLanguageCode
           });
         }
       }
     }
   }
 
-  knownLanguages = knownLanguages.sort(sortBy('languageName'));
-  unknownLanguages = unknownLanguages.sort(sortBy('languageCode'));
+  knownLanguages = knownLanguages.sort(sortBy('text'));
+  unknownLanguages = unknownLanguages.sort(sortBy('code'));
 
   return [ knownLanguages, unknownLanguages ];
 }
