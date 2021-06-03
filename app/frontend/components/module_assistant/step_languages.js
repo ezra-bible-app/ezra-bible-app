@@ -20,7 +20,7 @@
 const { html } = require('../../helpers/ezra_helper.js');
 const i18nHelper = require('../../helpers/i18n_helper.js');
 require('../loading_indicator.js');
-require('./module_checkbox.js');
+require('./assistant_checkbox.js');
 
 const template = html`
 <style>
@@ -40,7 +40,7 @@ class StepLanguages extends HTMLElement {
     this.moduleType = null;
     this._repositories = [];
     this._languages = null;
-    this.selectedLanguages = await ipcSettings.get('selectedLanguages', []);
+    this._selectedLanguages = await ipcSettings.get('selectedLanguages', []);
     console.log('LANGS: done with init');
   }
 
@@ -66,6 +66,15 @@ class StepLanguages extends HTMLElement {
     }); 
   }
 
+  get languages() {
+    const selectedCheckboxes = Array.from(this.querySelectorAll('assistant-checkbox[checked]'));
+    const selectedLanguages = selectedCheckboxes.map(cb => cb.code);
+
+    ipcSettings.set('selectedLanguages', selectedLanguages);
+    
+    return selectedLanguages;
+  }
+
   async listLanguages(languages, languageModuleCount) {
     console.log('listLanguages!');
     const [knownLanguages, unknownLanguages] = languages.map(langCategory => 
@@ -77,13 +86,13 @@ class StepLanguages extends HTMLElement {
       })
     );
 
-    this.appendChild(listCheckboxArray(knownLanguages, languageModuleCount, await this.selectedLanguages));
+    this.appendChild(listCheckboxArray(knownLanguages, languageModuleCount, await this._selectedLanguages));
 
     var otherLanguagesHeader = "<p style='padding-top: 2em; clear: both; font-weight: bold;'>Other languages</p>";
 
     if (unknownLanguages.length > 0) {
       this.append(otherLanguagesHeader);
-      this.appendChild(listCheckboxArray(unknownLanguages, languageModuleCount, await this.selectedLanguages));
+      this.appendChild(listCheckboxArray(unknownLanguages, languageModuleCount, await this._selectedLanguages));
     }
 
     this.querySelector('loading-indicator').hide();
@@ -148,7 +157,7 @@ function sortBy(field) {
 function listCheckboxArray(arr, counts, selected) {
 
   const checkboxes = arr.map(({code, text}) => 
-    `<module-checkbox code="${code}" count="${counts[code]}" ${selected.includes(code) ? 'checked' : ''}>${text ? text : code}</module-checkbox>`
+    `<assistant-checkbox code="${code}" count="${counts[code]}" ${selected.includes(code) ? 'checked' : ''}>${text ? text : code}</assistant-checkbox>`
   );
 
   const template = html`

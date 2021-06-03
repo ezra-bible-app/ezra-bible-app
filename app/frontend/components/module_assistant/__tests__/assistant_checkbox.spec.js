@@ -14,12 +14,14 @@ describe('<assistant-checkbox>', () => {
   });
 
   it('renders correctly', () => {
-    document.body.innerHTML = '<assistant-checkbox count="5" checked>Test</assistant-checkbox>';
+    document.body.innerHTML = '<assistant-checkbox count="5" code="grc" checked>Test</assistant-checkbox>';
     const el = document.querySelector('assistant-checkbox');
     
     expect(el.shadowRoot.textContent).toContain('Test (5)');
 
     expect(el.shadowRoot.querySelector('input[type="checkbox"]').hasAttribute('checked')).toEqual(true);
+
+    expect(el.code).toEqual("grc");
   });
 
 });

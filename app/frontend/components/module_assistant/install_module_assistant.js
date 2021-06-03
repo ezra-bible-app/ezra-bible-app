@@ -160,8 +160,8 @@ class InstallModuleAssistant {
     const selectedElements = this._helper.getSelectedSettingsAssistantElements(wizardPage);
 
     if (currentIndex == 0 && newIndex == 1) { // Changing from Languages (1) to Repositories (2)
-      this._selectedLanguages = selectedElements;
-      return selectedElements.length > 0;
+      this._selectedLanguages = this.languagesStep.languages;
+      return this._selectedLanguages.length > 0;
     } else if (currentIndex == 1 && newIndex == 2) { // Changing from Repositories (2) to Modules (3)
       this._selectedRepositories = selectedElements;
       return selectedElements.length > 0;
@@ -177,7 +177,6 @@ class InstallModuleAssistant {
 
   async addModuleAssistantStepChanged(event, currentIndex, priorIndex) {
     if (priorIndex == 0 && currentIndex == 1) {
-      await ipcSettings.set('selectedLanguages', this._selectedLanguages);
       await this.initRepositoryPage();
 
     } else if (priorIndex == 1 && currentIndex == 2) {
