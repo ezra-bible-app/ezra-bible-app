@@ -142,16 +142,16 @@ class InstallModuleAssistant {
 
       uiHelper.initProgressBar($('#repo-update-progress-bar'));
 
-      try {
-        await ipcNsi.updateRepositoryConfig((progress) => {
-          var progressbar = $('#repo-update-progress-bar');
-          var progressPercent = progress.totalPercent;
-          progressbar.progressbar("value", progressPercent);
-        });
+      var ret = await ipcNsi.updateRepositoryConfig((progress) => {
+        var progressbar = $('#repo-update-progress-bar');
+        var progressPercent = progress.totalPercent;
+        progressbar.progressbar("value", progressPercent);
+      });
 
+      if (ret == 0) {
         await ipcSettings.set('lastSwordRepoUpdate', new Date());
-      } catch(e) {
-        console.log("Caught exception while updating repository config: " + e);
+      } else {
+        console.log("Failed to update the repository configuration!");
         listRepoTimeoutMs = 3000;
         wizardPage.append('<p>' + i18n.t('module-assistant.update-repository-data-failed') + '</p>');
       }
