@@ -83,16 +83,23 @@ module.exports.sortSection = function(valuesMap) {
 module.exports.listCheckboxSection = function(valuesMap, selected, sectionTitle = "") {
 
   var checkboxes = [];
-  for (let [code, value] of valuesMap) {
-    const {text, description} = value;
-    const cb = `
+  for (const item of valuesMap) {
+    let code, text = undefined, description = undefined, count = undefined;
+    if (Array.isArray(item)) {
+      [code, {text, description, count}] = item;
+    } else {
+      code = item;
+    }
+
+    const checkbox = `
     <assistant-checkbox 
       code="${code}" 
       ${selected.includes(code) ? 'checked' : ''}
+      ${count ? `count="${count}"` : ''}
       ${description ? `description="${description}"` : ''}>
       ${text ? text : code}
     </assistant-checkbox>`;
-    checkboxes.push(cb);
+    checkboxes.push(checkbox);
   }
 
   const template = html`
@@ -102,3 +109,9 @@ module.exports.listCheckboxSection = function(valuesMap, selected, sectionTitle 
     </div>`;
   return template.content;
 };
+
+
+module.exports.getSelelectedSettings = function(sectionElement) {
+  const selectedCheckboxes = Array.from(sectionElement.querySelectorAll('assistant-checkbox[checked]'));
+  return selectedCheckboxes.map(cb => cb.code);
+}

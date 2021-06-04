@@ -22,7 +22,6 @@ const i18nController = require('../../controllers/i18n_controller.js');
 const languageMapper = require('../../../lib/language_mapper.js');
 const assistantHelper = require('./assistant_helper.js');
 require('../loading_indicator.js');
-require('./assistant_checkbox.js');
 
 const template = html`
 <style>
@@ -67,8 +66,7 @@ class StepLanguages extends HTMLElement {
   }
 
   get languages() {
-    const selectedCheckboxes = Array.from(this.querySelectorAll('assistant-checkbox[checked]'));
-    const selectedLanguages = selectedCheckboxes.map(cb => cb.code);
+    const selectedLanguages = assistantHelper.getSelelectedSettings(this);
 
     ipcSettings.set('selectedLanguages', selectedLanguages);
     
