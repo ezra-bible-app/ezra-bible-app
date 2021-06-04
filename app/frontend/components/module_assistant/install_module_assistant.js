@@ -162,8 +162,8 @@ class InstallModuleAssistant {
       this._selectedLanguages = this.languagesStep.languages;
       return this._selectedLanguages.length > 0;
     } else if (currentIndex == 1 && newIndex == 2) { // Changing from Repositories (2) to Modules (3)
-      this._selectedRepositories = selectedElements;
-      return selectedElements.length > 0;
+      this._selectedRepositories = this.repositoriesStep.repositories;
+      return this._selectedRepositories.length > 0;
     } else if (currentIndex == 2 && newIndex == 3) { // Changing from Modules (3) to Installation (4)
       this.selectedModules = selectedElements;
       return selectedElements.length > 0;
@@ -179,7 +179,6 @@ class InstallModuleAssistant {
       await this.initRepositoryPage();
 
     } else if (priorIndex == 1 && currentIndex == 2) {
-      await ipcSettings.set('selectedRepositories', this._selectedRepositories);
       this.initModulesPage();
 
     } else if (currentIndex == 3) {
@@ -223,8 +222,8 @@ class InstallModuleAssistant {
     this.repositoriesStep = document.createElement('step-repositories');
     console.log('ASSISTANT: set repoStep props');
     this.repositoriesStep.moduleType = this._currentModuleType;
-    this.repositoriesStep.repositories = this.allRepositories;
     this.repositoriesStep.languages = this._selectedLanguages;
+    this.repositoriesStep.allRepositories = this.allRepositories;
 
     const wizardPage = $('#module-settings-assistant-add-p-1');
     wizardPage.empty();
@@ -235,8 +234,8 @@ class InstallModuleAssistant {
   async initModulesPage() {
     this.modulesStep = document.createElement('step-modules');
     this.modulesStep.moduleType = this._currentModuleType;
-    this.modulesStep.repositories = this._selectedRepositories;
     this.modulesStep.languages = this._selectedLanguages;
+    this.modulesStep.repositories = this._selectedRepositories;
 
     const wizardPage = $('#module-settings-assistant-add-p-2');
     wizardPage.empty();

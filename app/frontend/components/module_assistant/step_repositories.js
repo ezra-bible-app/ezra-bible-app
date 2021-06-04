@@ -19,6 +19,7 @@
 
 const { html } = require('../../helpers/ezra_helper.js');
 const i18nController = require('../../controllers/i18n_controller.js');
+const assistantHelper = require('./assistant_helper.js');
 require('../loading_indicator.js');
 
 const template = html`
@@ -57,7 +58,7 @@ class StepRepositories extends HTMLElement {
 
   async init() {
     this.moduleType = null;
-    this.repositories = [];
+    this.allRepositories = [];
     this.languages = [];
     this.lastUpdate = null;
 
@@ -66,7 +67,7 @@ class StepRepositories extends HTMLElement {
   }
 
   async connectedCallback() {
-    this.innerHTML = template.innerHTML;
+    this.appendChild(template.content);
     this.localize();
     console.log('REPOS: started connectedCallback');
     
@@ -86,6 +87,14 @@ class StepRepositories extends HTMLElement {
     } else {
       this.updateRepositoryConfig();
     }
+  }
+
+  get repositories() {
+    const selectedRepositories = assistantHelper.getSelelectedSettings(this);
+
+    ipcSettings.set('selectedRepositories', selectedRepositories);
+
+    return selectedRepositories;
   }
 
   async wasUpdated() {
@@ -113,22 +122,13 @@ class StepRepositories extends HTMLElement {
 
     this.listView.style.display = 'block';
 
+    const repositoriesMap = await Promise.all(
+      this.allRepositories.map(async repo => 
+        [repo, {count: await this.getRepoModuleCount(repo)}]
+      ));
+
     this.repositoryList.innerHTML = '';
-    for (const repository of (await this.repositories)) {
-      const currentRepoTranslationCount = await this.getRepoModuleCount(repository);
-
-      if (currentRepoTranslationCount > 0) {
-        let checkboxChecked = "";
-        if ((await this.selectedRepositories).includes(repository)) {
-          checkboxChecked = " checked";
-        }
-
-        let currentRepo = "<p style='float: left; width: 17em;'><input type='checkbox'" + checkboxChecked + "><span class='label' id='" + repository + "'>";
-        currentRepo += repository + ' (' + currentRepoTranslationCount + ')';
-        currentRepo += "</span></p>";
-        this.repositoryList.insertAdjacentHTML('beforeend', currentRepo);
-      }
-    }
+    this.repositoryList.appendChild(assistantHelper.listCheckboxSection(repositoriesMap, await this.selectedRepositories));
 
     this.querySelector('.update-info').textContent = i18n.t("module-assistant.repo-data-last-updated", { date: this.lastUpdate });
     uiHelper.configureButtonStyles('#module-settings-assistant-add-p-1');

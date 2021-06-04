@@ -99,7 +99,9 @@ module.exports.listCheckboxSection = function(valuesMap, selected, sectionTitle 
       ${description ? `description="${description}"` : ''}>
       ${text ? text : code}
     </assistant-checkbox>`;
-    checkboxes.push(checkbox);
+    if (count !== 0) {
+      checkboxes.push(checkbox);
+    }
   }
 
   const template = html`
@@ -114,4 +116,4 @@ module.exports.listCheckboxSection = function(valuesMap, selected, sectionTitle 
 module.exports.getSelelectedSettings = function(sectionElement) {
   const selectedCheckboxes = Array.from(sectionElement.querySelectorAll('assistant-checkbox[checked]'));
   return selectedCheckboxes.map(cb => cb.code);
-}
+};
