@@ -37,26 +37,30 @@ class IpcNsiHandler {
     }
 
     if (this._platformHelper.isTest()) {
-
       const userDataDir = this._platformHelper.getUserDataPath();
-
-      // If the user data directory is not existing at this point ... create it!
-      if (!fs.existsSync(userDataDir)) {
-        fs.mkdirSync(userDataDir);
-      }
-
-      this._nsi = new NodeSwordInterface(userDataDir);
-
+      this._nsi = this.createNsi(userDataDir);
     } else {
-
-      if (customSwordDir !== undefined) {
-        this._nsi = new NodeSwordInterface(customSwordDir);
-      } else {
-        this._nsi = new NodeSwordInterface();
-      }
+      this._nsi = this.createNsi(customSwordDir);
     }
 
     this._nsi.enableMarkup();
+  }
+
+  createNsi(customSwordDir=undefined) {
+    var nsi = null;
+
+    if (customSwordDir !== undefined) {
+      // If the custom SWORD directory is not existing at this point ... create it!
+      if (!fs.existsSync(customSwordDir)) {
+        fs.mkdirSync(customSwordDir);
+      }
+
+      nsi = new NodeSwordInterface(customSwordDir);
+    } else {
+      nsi = new NodeSwordInterface();
+    }
+
+    return nsi;
   }
 
   getNSI() {
