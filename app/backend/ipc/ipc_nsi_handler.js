@@ -85,7 +85,12 @@ class IpcNsiHandler {
 
     this._ipcMain.addWithProgressCallback('nsi_updateRepositoryConfig',
       async (progressCB) => {
-        return await this._nsi.updateRepositoryConfig(progressCB);
+        try {
+          await this._nsi.updateRepositoryConfig(progressCB);
+          return 0;
+        } catch (e) {
+          return -1;
+        }
       },
       'nsi_updateRepoConfigProgress'
     );
@@ -152,7 +157,12 @@ class IpcNsiHandler {
 
     this._ipcMain.addWithProgressCallback('nsi_installModule',
       async (progressCB, moduleCode) => { 
-        return await this._nsi.installModule(progressCB, moduleCode); 
+        try {
+          await this._nsi.installModule(progressCB, moduleCode); 
+          return 0;
+        } catch (e) {
+          return -1;
+        }
       },
       'nsi_updateInstallProgress'
     );
@@ -162,7 +172,12 @@ class IpcNsiHandler {
     })
 
     this._ipcMain.addSync('nsi_installModuleSync', async (moduleCode) => {
-      return await this._nsi.installModule(undefined, moduleCode);
+      try {
+        await this._nsi.installModule(undefined, moduleCode);
+        return 0;
+      } catch (e) {
+        return -1;
+      }
     });
 
     this._ipcMain.add('nsi_uninstallModule', (moduleCode) => {
