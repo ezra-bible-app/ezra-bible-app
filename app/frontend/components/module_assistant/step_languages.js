@@ -148,8 +148,9 @@ class StepLanguages extends HTMLElement {
       }
     }
   
-    // knownLanguages = knownLanguages.sort(sortBy('text'));
-    // unknownLanguages = unknownLanguages.sort(sortBy('code'));
+    for(const category in languages) {
+      languages[category] = sortSection(languages[category]);
+    }
   
     return languages;
   }
@@ -171,16 +172,13 @@ class StepLanguages extends HTMLElement {
 customElements.define('step-languages', StepLanguages);
 module.exports = StepLanguages;
 
+function sortSection(valuesMap) {
+  return new Map([...valuesMap].sort(([codeA, detailsA], [codeB, detailsB]) => {
+    const a = detailsA.text ? detailsA.text : codeA;
+    const b = detailsB.text ? detailsB.text : codeB;
 
-function sortBy(field) {
-  return function(a, b) {
-    if (a[field] < b[field]) {
-      return -1;
-    } else if (a[field] > b[field]) {
-      return 1;
-    }
-    return 0;
-  };
+    return a.localeCompare(b, {sensitivity: 'base', ignorePunctuation: true});
+  }));
 }
 
 function listCheckboxSection(valuesMap, selected, sectionTitle = "") {
