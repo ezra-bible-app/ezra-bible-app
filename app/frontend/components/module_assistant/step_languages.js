@@ -77,9 +77,9 @@ class StepLanguages extends HTMLElement {
     console.log('LANGS: listLanguages!');
     
     for(const category in languages) {
-      const languageMap = languages[category];
-      if (languageMap.size > 0) {
-        this.appendChild(assistantHelper.listCheckboxSection(languageMap, await this._selectedLanguages, i18n.t(`module-assistant.${category}`)));
+      const languageArr = languages[category];
+      if (languageArr.length > 0) {
+        this.appendChild(assistantHelper.listCheckboxSection(languageArr, await this._selectedLanguages, i18n.t(`module-assistant.${category}`)));
       }
     }
     
@@ -147,8 +147,9 @@ class StepLanguages extends HTMLElement {
       }
     }
   
-    for(const category in languages) {
-      languages[category] = assistantHelper.sortSection(languages[category]);
+    for(const category in languages) { 
+      const languageArr = [...languages[category].values()];
+      languages[category] = languageArr.sort(assistantHelper.sortByText);
     }
   
     return languages;
@@ -162,8 +163,9 @@ class StepLanguages extends HTMLElement {
     if (info.languageScript) {
       descriptionArr.push(info.languageScript);
     }
-    languageMap.set(fullLanguageCode, 
-                    {text: info.languageName,
+    languageMap.set(fullLanguageCode,
+                    {code: fullLanguageCode,
+                     text: info.languageName,
                      description: descriptionArr.join(' – ') });
   }
 }

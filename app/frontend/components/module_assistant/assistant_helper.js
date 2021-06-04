@@ -71,49 +71,46 @@ module.exports.unlockDialog = function (wizardId) {
   $('.module-assistant-dialog').find('.ui-dialog-titlebar-close').show();
 };
 
-module.exports.sortSection = function(valuesMap) {
-  return new Map([...valuesMap].sort(([codeA, detailsA], [codeB, detailsB]) => {
-    const a = detailsA.text ? detailsA.text : codeA;
-    const b = detailsB.text ? detailsB.text : codeB;
+module.exports.sortByText = function(itemA, itemB) {
+  const a = typeof itemA === 'string' ? itemA : itemA.text ? itemA.text : itemA.code;
+  const b = typeof itemB === 'string' ? itemB : itemB.text ? itemB.text : itemB.code;
 
-    return a.localeCompare(b, {sensitivity: 'base', ignorePunctuation: true});
-  }));
+  return a.localeCompare(b, { sensitivity: 'base', ignorePunctuation: true });
 };
 
-module.exports.listCheckboxSection = function(valuesMap, selected, sectionTitle = "") {
+module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "", columns = 2) {
 
   var checkboxes = [];
-  for (const item of valuesMap) {
-    let code, text = undefined, description = undefined, count = undefined;
-    if (Array.isArray(item)) {
-      [code, {text, description, count}] = item;
+  for (const item of arr) {
+    if (typeof item === 'string') {
+      checkboxes.push(`<assistant-checkbox code="${item}"${selected.includes(item) ? 'checked' : ''}>${item}</assistant-checkbox>`);
     } else {
-      code = item;
-    }
+      const checkbox = `
+        <assistant-checkbox 
+          code="${item.code}" 
+          ${selected.includes(item.code) ? 'checked' : ''}
+          ${item.count ? `count="${item.count}"` : ''}
+          ${item.description ? `description="${item.description}"` : ''}>
+          ${item.text ? item.text : item.code}
+        </assistant-checkbox>`;
 
-    const checkbox = `
-    <assistant-checkbox 
-      code="${code}" 
-      ${selected.includes(code) ? 'checked' : ''}
-      ${count ? `count="${count}"` : ''}
-      ${description ? `description="${description}"` : ''}>
-      ${text ? text : code}
-    </assistant-checkbox>`;
-    if (count !== 0) {
-      checkboxes.push(checkbox);
+      if (item.count !== 0) {
+        checkboxes.push(checkbox);
+      }
     }
   }
 
+
   const template = html`
     <h3 style="margin: 1em 0 0;">${sectionTitle}</h3>
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 0.5em; padding: 0.5em;">
+    <div style="display: grid; grid-template-columns: repeat(${columns}, 1fr); grid-gap: 0.5em; padding: 0.5em;">
       ${checkboxes}
     </div>`;
   return template.content;
 };
 
 
-module.exports.getSelelectedSettings = function(sectionElement) {
+module.exports.getSelelectedSettings = function (sectionElement) {
   const selectedCheckboxes = Array.from(sectionElement.querySelectorAll('assistant-checkbox[checked]'));
   return selectedCheckboxes.map(cb => cb.code);
 };

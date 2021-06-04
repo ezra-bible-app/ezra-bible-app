@@ -122,13 +122,14 @@ class StepRepositories extends HTMLElement {
 
     this.listView.style.display = 'block';
 
-    const repositoriesMap = await Promise.all(
-      this.allRepositories.map(async repo => 
-        [repo, {count: await this.getRepoModuleCount(repo)}]
-      ));
+    const repositoriesArr = await Promise.all(
+      this.allRepositories.map(async repo => ({
+        code: repo,
+        count: await this.getRepoModuleCount(repo)
+      })));
 
     this.repositoryList.innerHTML = '';
-    this.repositoryList.appendChild(assistantHelper.listCheckboxSection(repositoriesMap, await this.selectedRepositories));
+    this.repositoryList.appendChild(assistantHelper.listCheckboxSection(repositoriesArr, await this.selectedRepositories));
 
     this.querySelector('.update-info').textContent = i18n.t("module-assistant.repo-data-last-updated", { date: this.lastUpdate });
     uiHelper.configureButtonStyles('#module-settings-assistant-add-p-1');
