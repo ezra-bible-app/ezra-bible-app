@@ -28,11 +28,11 @@ describe('<assistant-checkbox>', () => {
     document.body.innerHTML = '<assistant-checkbox code="grc">Test</assistant-checkbox>';
     const el = document.querySelector('assistant-checkbox');
     
-    expect(el.shadowRoot.textContent.trim()).toEqual('Test');
+    expect(el.shadowRoot.querySelector('label').textContent.trim()).toEqual('Test');
 
     el.count = 7;    
 
-    expect(el.shadowRoot.textContent.trim()).toEqual('Test (7)');
+    expect(el.shadowRoot.querySelector('label').textContent.trim()).toEqual('Test (7)');
   });
 
 });

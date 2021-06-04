@@ -98,7 +98,6 @@ class StepLanguages extends HTMLElement {
     console.log('LANGS: got languageModuleCount, trying to update', languageModuleCount);
 
     this.querySelectorAll('assistant-checkbox').forEach(checkbox => {
-      console.log('updating', checkbox.code, languageModuleCount[checkbox.code]);
       checkbox.count = languageModuleCount[checkbox.code];
     });
   }
@@ -108,7 +107,7 @@ class StepLanguages extends HTMLElement {
 
     var appSystemLanguages = new Set([i18nController.getLocale(), i18nController.getSystemLocale(), ]);
     var bibleLanguages = new Set(['grc', 'hbo']);
-    var mostSpeakingLanguages = new Set(['en', 'cmn', 'hi', 'es', 'arb', 'bn', 'fr', 'ru', 'pt', 'ur']); // source: https://en.wikipedia.org/wiki/List_of_languages_by_total_number_of_speakers
+    var mostSpeakingLanguages = new Set(['en', 'zh', 'hi', 'es', 'ar', 'bn', 'fr', 'ru', 'pt', 'ur']); // source: https://en.wikipedia.org/wiki/List_of_languages_by_total_number_of_speakers
     const historicalLanguageTypes = new Set(['ancient', 'extinct', 'historical']);
   
     var languages = {
@@ -141,7 +140,7 @@ class StepLanguages extends HTMLElement {
         } else if (languageInfo.languageName) {
           this.addLanguage(languages['other-languages'], languageInfo, currentLanguageCode);
         } else {
-          console.log("Unknown lang:", languageInfo);
+          console.log("Unknown lang:", currentLanguageCode, languageInfo);
           this.addLanguage(languages['unknown-languages'], languageInfo, currentLanguageCode);          
         }
 
@@ -156,13 +155,16 @@ class StepLanguages extends HTMLElement {
   }
 
   addLanguage(languageMap, info, fullLanguageCode) {
-    languageMap.set(fullLanguageCode, info.languageName);
-    // if (languageMap.has(info.languageCode) && info.languageCode !== fullLanguageCode) {
-    //   // TODO
-    // } else {
-    //   languageMap.set(info.languageCode, info.languageName);
-    // }
-
+    var descriptionArr = [];
+    if (info.languageRegion) {
+      descriptionArr.push(info.languageRegion);
+    }
+    if (info.languageScript) {
+      descriptionArr.push(info.languageScript);
+    }
+    languageMap.set(fullLanguageCode, 
+                    {text: info.languageName,
+                     description: descriptionArr.join(' – ') });
   }
 }
 
@@ -185,13 +187,19 @@ function listCheckboxSection(valuesMap, selected, sectionTitle = "") {
 
   var checkboxes = [];
   for (let [code, value] of valuesMap) {
-    const text = value;
-    const cb = `<assistant-checkbox code="${code}" ${selected.includes(code) ? 'checked' : ''}>${text ? text : code}</assistant-checkbox>`;
+    const {text, description} = value;
+    const cb = `
+    <assistant-checkbox 
+      code="${code}" 
+      ${selected.includes(code) ? 'checked' : ''}
+      ${description ? `description="${description}"` : ''}>
+      ${text ? text : code}
+    </assistant-checkbox>`;
     checkboxes.push(cb);
   }
 
   const template = html`
-    <h3>${sectionTitle}</h3>
+    <h3 style="margin: 1em 0 0;">${sectionTitle}</h3>
     <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 0.5em; padding: 0.5em;">
       ${checkboxes}
     </div>`;

@@ -21,17 +21,31 @@ const { html } = require('../../helpers/ezra_helper.js');
 //FIXME: move styles from css/loader.css
 const template = html`
 <style>
+  :host {
+    min-height: 1.5em;
+  }
+  #count {
+    opacity: 0.8;
+  }
+  #description {
+    font-size: 0.8em;
+    opacity: 0.8;
+    margin-top: -0.5em;
+    margin-bottom: -0.5em;
+    margin-inline-start: 2.2em;
+  }
 </style>
  
 <label>  
   <input type="checkbox">
   <span id="label-text"></span><span id="count"></span>
 </label>
+<div id="description"></div>
 `;
 
 class AssistantCheckbox extends HTMLElement {
   static get observedAttributes() {
-    return ['count'];
+    return ['count', 'description'];
   }
 
   constructor() {
@@ -65,11 +79,11 @@ class AssistantCheckbox extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if (name === 'count') {
-      this.setCount(newValue);
-      return;
-    } 
+    if (name === 'count' && newValue) {
+      newValue = ` (${newValue})`;
+    }
 
+    this.update(name, newValue);
   }
 
   set count(n) {
@@ -80,9 +94,15 @@ class AssistantCheckbox extends HTMLElement {
     }
   }
 
-  setCount(n) {
-    this.shadowRoot.querySelector('#count').textContent = n ? ` (${n})` : '';
-
+  set description(text) {
+    if (text) {
+      this.setAttribute('description', text);
+    } else {
+      this.removeAttribute('description');
+    }
+  }
+  update(elementId, value) {
+    this.shadowRoot.querySelector(`#${elementId}`).textContent = value ? value : '';
   }
 
 }
