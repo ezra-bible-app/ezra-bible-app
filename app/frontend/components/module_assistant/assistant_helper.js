@@ -16,6 +16,9 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const { html } = require('../../helpers/ezra_helper.js');
+require('./assistant_checkbox.js');
+
 module.exports.getSelectedSettingsAssistantElements = function (wizardPage) {
   var selectedElements = [];
 
@@ -68,3 +71,34 @@ module.exports.unlockDialog = function (wizardId) {
   $('.module-assistant-dialog').find('.ui-dialog-titlebar-close').show();
 };
 
+module.exports.sortSection = function(valuesMap) {
+  return new Map([...valuesMap].sort(([codeA, detailsA], [codeB, detailsB]) => {
+    const a = detailsA.text ? detailsA.text : codeA;
+    const b = detailsB.text ? detailsB.text : codeB;
+
+    return a.localeCompare(b, {sensitivity: 'base', ignorePunctuation: true});
+  }));
+};
+
+module.exports.listCheckboxSection = function(valuesMap, selected, sectionTitle = "") {
+
+  var checkboxes = [];
+  for (let [code, value] of valuesMap) {
+    const {text, description} = value;
+    const cb = `
+    <assistant-checkbox 
+      code="${code}" 
+      ${selected.includes(code) ? 'checked' : ''}
+      ${description ? `description="${description}"` : ''}>
+      ${text ? text : code}
+    </assistant-checkbox>`;
+    checkboxes.push(cb);
+  }
+
+  const template = html`
+    <h3 style="margin: 1em 0 0;">${sectionTitle}</h3>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 0.5em; padding: 0.5em;">
+      ${checkboxes}
+    </div>`;
+  return template.content;
+};

@@ -20,6 +20,7 @@
 const { html } = require('../../helpers/ezra_helper.js');
 const i18nController = require('../../controllers/i18n_controller.js');
 const languageMapper = require('../../../lib/language_mapper.js');
+const assistantHelper = require('./assistant_helper.js');
 require('../loading_indicator.js');
 require('./assistant_checkbox.js');
 
@@ -80,7 +81,7 @@ class StepLanguages extends HTMLElement {
     for(const category in languages) {
       const languageMap = languages[category];
       if (languageMap.size > 0) {
-        this.appendChild(listCheckboxSection(languageMap, await this._selectedLanguages, i18n.t(`module-assistant.${category}`)));
+        this.appendChild(assistantHelper.listCheckboxSection(languageMap, await this._selectedLanguages, i18n.t(`module-assistant.${category}`)));
       }
     }
     
@@ -149,7 +150,7 @@ class StepLanguages extends HTMLElement {
     }
   
     for(const category in languages) {
-      languages[category] = sortSection(languages[category]);
+      languages[category] = assistantHelper.sortSection(languages[category]);
     }
   
     return languages;
@@ -172,34 +173,3 @@ class StepLanguages extends HTMLElement {
 customElements.define('step-languages', StepLanguages);
 module.exports = StepLanguages;
 
-function sortSection(valuesMap) {
-  return new Map([...valuesMap].sort(([codeA, detailsA], [codeB, detailsB]) => {
-    const a = detailsA.text ? detailsA.text : codeA;
-    const b = detailsB.text ? detailsB.text : codeB;
-
-    return a.localeCompare(b, {sensitivity: 'base', ignorePunctuation: true});
-  }));
-}
-
-function listCheckboxSection(valuesMap, selected, sectionTitle = "") {
-
-  var checkboxes = [];
-  for (let [code, value] of valuesMap) {
-    const {text, description} = value;
-    const cb = `
-    <assistant-checkbox 
-      code="${code}" 
-      ${selected.includes(code) ? 'checked' : ''}
-      ${description ? `description="${description}"` : ''}>
-      ${text ? text : code}
-    </assistant-checkbox>`;
-    checkboxes.push(cb);
-  }
-
-  const template = html`
-    <h3 style="margin: 1em 0 0;">${sectionTitle}</h3>
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 0.5em; padding: 0.5em;">
-      ${checkboxes}
-    </div>`;
-  return template.content;
-}
