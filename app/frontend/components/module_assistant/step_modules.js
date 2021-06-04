@@ -19,6 +19,7 @@
 
 const { html } = require('../../helpers/ezra_helper.js');
 const i18nHelper = require('../../helpers/i18n_helper.js');
+const assistantHelper = require('./assistant_helper.js');
 require('../loading_indicator.js');
 
 const template = html`
@@ -92,7 +93,7 @@ class StepModules extends HTMLElement {
   }
 
   async connectedCallback() {
-    this.innerHTML = template.innerHTML;
+    this.appendChild(template.content);
     this.localize();
     console.log('MODULES: started connectedCallback');
 
@@ -102,6 +103,7 @@ class StepModules extends HTMLElement {
       this.listFilteredModules();
     }));
 
+    this._installedModules = await app_controller.translation_controller.getInstalledModules(this.moduleType);
 
     this.listModules();
   }
@@ -158,8 +160,17 @@ class StepModules extends HTMLElement {
         currentLangModules = currentLangModules.concat(currentRepoLangModules);
       }
 
-      currentLangModules = currentLangModules.sort(this.sortBy('description'));
-      await this.listLanguageModules(currentUiLanguage, currentLangModules, renderHeader);
+      const modulesArr = currentLangModules.map(mod => ({
+        code: mod.name,
+        text: mod.description,
+      }));
+      modulesArr.sort(assistantHelper.sortByText);
+
+      filteredModuleList.appendChild(assistantHelper.listCheckboxSection(modulesArr, 
+                                                                         this._installedModules, 
+                                                                         renderHeader ? currentUiLanguage : undefined, 
+                                                                         {columns: 1, disableSelected: true}));
+      // await this.listLanguageModules(currentUiLanguage, currentLangModules, renderHeader);
     }
 
     const moduleInfo = this.querySelector('#module-info');
@@ -248,31 +259,11 @@ class StepModules extends HTMLElement {
     }
   }
 
-  async isModuleInstalled(moduleCode) {
-    if (this._installedModules == null) {
-      this._installedModules = await app_controller.translation_controller.getInstalledModules(this.moduleType);
-    }
-
-    return this._installedModules.includes(moduleCode);
-  }
-
   localize() {
     this.querySelectorAll('[i18n]').forEach(element => {
       element.innerHTML = i18n.t(element.getAttribute('i18n'));
     });
   }
-
-  sortBy(field) {
-    return function (a, b) {
-      if (a[field] < b[field]) {
-        return -1;
-      } else if (a[field] > b[field]) {
-        return 1;
-      }
-      return 0;
-    };
-  }
-
 }
 
 customElements.define('step-modules', StepModules);

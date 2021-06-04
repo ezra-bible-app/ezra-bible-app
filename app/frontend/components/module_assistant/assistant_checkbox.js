@@ -54,6 +54,7 @@ class AssistantCheckbox extends HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     this.checked = false;
+    this.disabled = false;
     this.code = "";
   }
 
@@ -64,11 +65,22 @@ class AssistantCheckbox extends HTMLElement {
     this.code = this.getAttribute('code');
 
     const checkbox = this.shadowRoot.querySelector('input[type="checkbox"]');
+
     this.checked = this.hasAttribute('checked');
     if (this.checked) {
       checkbox.setAttribute('checked', '');
     }
+
+    this.disabled = this.hasAttribute('disabled');
+    if (this.disabled) {
+      checkbox.setAttribute('disabled', '');
+    }
+    
     checkbox.addEventListener('change', () => {
+      if (this.disabled) {
+        return;
+      }
+
       this.checked = checkbox.checked;
       if (this.checked) {
         this.setAttribute('checked', '');

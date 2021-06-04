@@ -78,17 +78,26 @@ module.exports.sortByText = function(itemA, itemB) {
   return a.localeCompare(b, { sensitivity: 'base', ignorePunctuation: true });
 };
 
-module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "", columns = 2) {
+module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "", options={}) {
+  options = {
+    columns: 2,
+    disableSelected: false,
+    ...options
+  };
 
   var checkboxes = [];
   for (const item of arr) {
     if (typeof item === 'string') {
       checkboxes.push(`<assistant-checkbox code="${item}"${selected.includes(item) ? 'checked' : ''}>${item}</assistant-checkbox>`);
     } else {
+      const checked = selected.includes(item.code);
+      const disabled = item.disabled || options.disableSelected && checked;
+
       const checkbox = `
         <assistant-checkbox 
           code="${item.code}" 
-          ${selected.includes(item.code) ? 'checked' : ''}
+          ${checked ? 'checked' : ''}
+          ${disabled ? 'disabled' : ''}
           ${item.count ? `count="${item.count}"` : ''}
           ${item.description ? `description="${item.description}"` : ''}>
           ${item.text ? item.text : item.code}
@@ -103,7 +112,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "",
 
   const template = html`
     <h3 style="margin: 1em 0 0;">${sectionTitle}</h3>
-    <div style="display: grid; grid-template-columns: repeat(${columns}, 1fr); grid-gap: 0.5em; padding: 0.5em;">
+    <div style="display: grid; grid-template-columns: repeat(${options.columns}, 1fr); grid-gap: 0.5em; padding: 0.5em;">
       ${checkboxes}
     </div>`;
   return template.content;
