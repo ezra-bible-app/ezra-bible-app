@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const ModuleAssistantHelper = require('./module_assistant_helper.js');
+const assistantHelper = require('./module_assistant_helper.js');
 const i18nHelper = require('../../helpers/i18n_helper.js');
 const { sleep } = require('../../helpers/ezra_helper.js');
 require('../loading_indicator.js');
@@ -31,7 +31,6 @@ require('./step_modules.js');
  */
 class InstallModuleAssistant {
   constructor() {
-    this._helper = new ModuleAssistantHelper();
     this._addModuleAssistantOriginalContent = undefined;
 
     var addButton = $('#add-modules-button');
@@ -101,7 +100,7 @@ class InstallModuleAssistant {
       minHeight: 280
     });
 
-    this._helper.unlockDialog();
+    assistantHelper.unlockDialog();
   }
 
   async init(moduleType) {
@@ -157,7 +156,7 @@ class InstallModuleAssistant {
 
   addModuleAssistantStepChanging(event, currentIndex, newIndex) {
     const wizardPage = `#module-settings-assistant-add-p-${currentIndex}`;
-    const selectedElements = this._helper.getSelectedSettingsAssistantElements(wizardPage);
+    const selectedElements = assistantHelper.getSelectedSettingsAssistantElements(wizardPage);
 
     if (currentIndex == 0 && newIndex == 1) { // Changing from Languages (1) to Repositories (2)
       this._selectedLanguages = this.languagesStep.languages;
@@ -248,10 +247,10 @@ class InstallModuleAssistant {
   async installSelectedModules() {
     // Bible modules have been selected
 
-    this._helper.lockDialogForAction('module-settings-assistant-add');
+    assistantHelper.lockDialogForAction('module-settings-assistant-add');
 
     var moduleListPage = "#module-settings-assistant-add-p-2";
-    var modules = this._helper.getSelectedSettingsAssistantElements(moduleListPage);
+    var modules = assistantHelper.getSelectedSettingsAssistantElements(moduleListPage);
 
     this._moduleInstallStatus = 'IN_PROGRESS';
 
@@ -303,7 +302,7 @@ class InstallModuleAssistant {
 
     $('#cancel-module-installation-button').addClass('ui-state-disabled');
     this._moduleInstallStatus = 'DONE';
-    this._helper.unlockDialog('module-settings-assistant-add');
+    assistantHelper.unlockDialog('module-settings-assistant-add');
   }
 
   localizeModuleInstallProgressMessage(rawMessage) {
