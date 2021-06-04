@@ -22,16 +22,20 @@ const NodeSwordInterface = require('node-sword-interface');
 const fs = require('fs');
 
 class IpcNsiHandler {
-  constructor() {
+  constructor(customSwordDir=undefined) {
     this._ipcMain = new IpcMain();
     this._platformHelper = new PlatformHelper();
     this._nsi = null;
 
-    this.initNSI();
+    this.initNSI(customSwordDir);
     this.initIpcInterface();
   }
 
   initNSI(customSwordDir=undefined) {
+    if (customSwordDir !== undefined) {
+      console.log("Initializing node-sword-interface with custom SWORD directory: " + customSwordDir);
+    }
+
     if (this._platformHelper.isTest()) {
 
       const userDataDir = this._platformHelper.getUserDataPath();
