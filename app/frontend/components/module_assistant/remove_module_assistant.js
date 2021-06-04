@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const ModuleAssistantHelper = require('./module_assistant_helper.js');
+const assistantHelper = require('./assistant_helper.js');
 
 /**
  * The RemoteModuleAssistant component implements the dialog that handles module removals.
@@ -25,7 +25,6 @@ const ModuleAssistantHelper = require('./module_assistant_helper.js');
  */
 class RemoveModuleAssistant {
   constructor() {
-    this._helper = new ModuleAssistantHelper();
     this._moduleRemovalStatus = 'DONE';
 
     var removeButton = $('#remove-modules-button');
@@ -102,7 +101,7 @@ class RemoveModuleAssistant {
       languageBox.append(currentTranslationHtml);
     }
 
-    this._helper.bindLabelEvents(wizardPage);
+    assistantHelper.bindLabelEvents(wizardPage);
   }
 
   initRemoveModuleAssistant() {
@@ -137,7 +136,7 @@ class RemoveModuleAssistant {
   removeModuleAssistantStepChanging(event, currentIndex, newIndex) {
     if (currentIndex == 0 && newIndex == 1) { // Changing from Translations (1) to Removal (2)
       var wizardPage = "#module-settings-assistant-remove-p-0";
-      var selectedLanguages = this._helper.getSelectedSettingsAssistantElements(wizardPage);
+      var selectedLanguages = assistantHelper.getSelectedSettingsAssistantElements(wizardPage);
       return (selectedLanguages.length > 0);
     } else if (currentIndex == 1 && newIndex != 1) {
       return false;
@@ -148,11 +147,11 @@ class RemoveModuleAssistant {
 
   async removeModuleAssistantStepChanged(event, currentIndex, priorIndex) {
     if (priorIndex == 0) {
-      this._helper.lockDialogForAction('module-settings-assistant-remove');
+      assistantHelper.lockDialogForAction('module-settings-assistant-remove');
 
       // Bible modules have been selected
       var modulesPage = "#module-settings-assistant-remove-p-0";
-      this._uninstallModules = this._helper.getSelectedSettingsAssistantElements(modulesPage);
+      this._uninstallModules = assistantHelper.getSelectedSettingsAssistantElements(modulesPage);
 
       this._moduleRemovalStatus = 'IN_PROGRESS';
 
@@ -205,7 +204,7 @@ class RemoveModuleAssistant {
         }
 
         this._moduleRemovalStatus = 'DONE';
-        this._helper.unlockDialog('module-settings-assistant-remove');
+        assistantHelper.unlockDialog('module-settings-assistant-remove');
       }, 800);
     }
   }
