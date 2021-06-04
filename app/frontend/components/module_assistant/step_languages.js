@@ -95,7 +95,12 @@ class StepLanguages extends HTMLElement {
     }
 
     const languageModuleCount = await ipcNsi.getAllLanguageModuleCount(this._repositories, [...this._allLanguageCodes], this.moduleType);
-    // TODO: update count
+    console.log('LANGS: got languageModuleCount, trying to update', languageModuleCount);
+
+    this.querySelectorAll('assistant-checkbox').forEach(checkbox => {
+      console.log('updating', checkbox.code, languageModuleCount[checkbox.code]);
+      checkbox.count = languageModuleCount[checkbox.code];
+    });
   }
 
   async getAvailableLanguagesFromRepos(repositories) {
@@ -139,6 +144,8 @@ class StepLanguages extends HTMLElement {
           console.log("Unknown lang:", languageInfo);
           this.addLanguage(languages['unknown-languages'], languageInfo, currentLanguageCode);          
         }
+
+        this._allLanguageCodes.add(currentLanguageCode); 
       }
     }
   

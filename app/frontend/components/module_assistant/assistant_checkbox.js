@@ -21,32 +21,31 @@ const { html } = require('../../helpers/ezra_helper.js');
 //FIXME: move styles from css/loader.css
 const template = html`
 <style>
-  label {
-    width: 17em;
-  }
 </style>
  
 <label>  
   <input type="checkbox">
-  <span id="label-text"></span> (<span id="count"></span>)
+  <span id="label-text"></span><span id="count"></span>
 </label>
 `;
 
 class AssistantCheckbox extends HTMLElement {
+  static get observedAttributes() {
+    return ['count'];
+  }
+
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     this.checked = false;
     this.code = "";
   }
 
-  connectedCallback() {
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
-    
+  connectedCallback() {  
     this.shadowRoot.querySelector('#label-text').innerHTML = this.textContent;
     this.textContent = '';
-    this.shadowRoot.querySelector('#count').textContent = this.getAttribute('count');
 
     this.code = this.getAttribute('code');
 
@@ -63,6 +62,27 @@ class AssistantCheckbox extends HTMLElement {
         this.removeAttribute('checked');
       }
     });
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'count') {
+      this.setCount(newValue);
+      return;
+    } 
+
+  }
+
+  set count(n) {
+    if (n) {
+      this.setAttribute('count', n);
+    } else {
+      this.removeAttribute('count');
+    }
+  }
+
+  setCount(n) {
+    this.shadowRoot.querySelector('#count').textContent = n ? ` (${n})` : '';
+
   }
 
 }
