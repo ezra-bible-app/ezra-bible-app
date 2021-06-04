@@ -75,7 +75,15 @@
     "module-lock-info": "This module is license-protected and requires that you purchase an unlock key from the content owner!",
     "unlock-key": "Unlock key",
     "enter-unlock-key": "{{moduleId}} is license protected. Please enter the unlock key!",
-    "unlock-failed": "Unlock failed! Please enter the correct unlock key."
+    "unlock-failed": "Unlock failed! Please enter the correct unlock key.",
+    "app-system-languages": "Used and System Languages",
+    "bible-languages": "Bible Languages",
+    "most-speaking-languages": "Most Speaking Languages",
+    "historical-languages": "Historical Languages",
+    "known-languages": "Other Languages",
+    "other-languages": "Rear Languages",
+    "unknown-languages": "Unrecognized Languages"
+
   },
   "module-sync": {
     "module-sync-header": "Installing additional modules"

@@ -80,7 +80,7 @@ class StepLanguages extends HTMLElement {
     for(const category in languages) {
       const languageMap = languages[category];
       if (languageMap.size > 0) {
-        this.appendChild(listCheckboxSection(languageMap, await this._selectedLanguages, i18n.t(category)));
+        this.appendChild(listCheckboxSection(languageMap, await this._selectedLanguages, i18n.t(`module-assistant.${category}`)));
       }
     }
     
