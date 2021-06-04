@@ -1,6 +1,16 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+### [1.0.2 - 2021-06-04]
+
+This is a bugfix release only applicable for Android.
+
+### Fixes
+
+* Fixed bug: Repositories not loaded on Android ([#330](i330))
+
+[i330]: https://github.com/ezra-project/ezra-project/issues/330
+
 ### [1.0.1 - 2021-05-31]
 
 This is a bugfix release only applicable for Android.
