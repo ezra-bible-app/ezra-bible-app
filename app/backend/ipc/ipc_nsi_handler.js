@@ -80,8 +80,11 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.addWithProgressCallback('nsi_updateRepositoryConfig',
-                                          async (progressCB) => { await this._nsi.updateRepositoryConfig(progressCB); },
-                                          'nsi_updateRepoConfigProgress');
+      async (progressCB) => {
+        return await this._nsi.updateRepositoryConfig(progressCB);
+      },
+      'nsi_updateRepoConfigProgress'
+    );
     
     this._ipcMain.add('nsi_getRepoNames', () => {
       return this._nsi.getRepoNames();
@@ -144,17 +147,18 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.addWithProgressCallback('nsi_installModule',
-                                          async (progressCB, moduleCode) => { 
-                                            await this._nsi.installModule(progressCB, moduleCode); 
-                                          },
-                                          'nsi_updateInstallProgress');
+      async (progressCB, moduleCode) => { 
+        return await this._nsi.installModule(progressCB, moduleCode); 
+      },
+      'nsi_updateInstallProgress'
+    );
     
     this._ipcMain.add('nsi_cancelInstallation', () => {
       return this._nsi.cancelInstallation();
     })
 
     this._ipcMain.addSync('nsi_installModuleSync', async (moduleCode) => {
-      await this._nsi.installModule(undefined, moduleCode);
+      return await this._nsi.installModule(undefined, moduleCode);
     });
 
     this._ipcMain.add('nsi_uninstallModule', (moduleCode) => {
