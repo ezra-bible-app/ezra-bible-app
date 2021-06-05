@@ -66,6 +66,13 @@ const i18nController = require('../controllers/i18n_controller.js');
     async getIpcCallStats() {
       return await this._ipcRenderer.call('general_getIpcCallStats');
     }
+
+    /**
+     * Resets the IPC call statistics.
+     */
+    async resetIpcCallStats() {
+      return await this._ipcRenderer.call('general_resetIpcCallStats');
+    }
    }
 
    module.exports = IpcGeneral;

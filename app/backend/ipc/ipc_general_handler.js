@@ -129,6 +129,12 @@ class IpcGeneralHandler {
 
       return filteredStats;
     });
+
+    this._ipcMain.add('general_resetIpcCallStats', async() => {
+      for (const [key, value] of Object.entries(global.callCounters)) {
+        global.callCounters[key] = 0;
+      }
+    });
   }
 }
 
