@@ -17,6 +17,8 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 
+const hasIntlDisplayNames = Intl && typeof Intl === "object" && typeof Intl.DisplayNames === "function";
+
 var mappingExistsCache = {};
 module.exports.getLanguageName = (languageCode, localeCode = 'en') => {
   if (mappingExistsCache[languageCode] && mappingExistsCache[languageCode][localeCode]) {
@@ -47,7 +49,7 @@ module.exports.getLanguageDetails = function (languageCode, localeCode = 'en') {
   var localized = false;
   // Try to get localized name through standard Internationalization API
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DisplayNames/of
-  if (Intl && typeof Intl === "object" && typeof Intl.DisplayNames === "function") {
+  if (hasIntlDisplayNames) {
     languageName = (new Intl.DisplayNames(localeCode, { type: 'language', fallback: 'none' })).of(normalizedCode);
   }
   if (!languageName) { // fallback to ISO-693.3 name
@@ -58,12 +60,12 @@ module.exports.getLanguageDetails = function (languageCode, localeCode = 'en') {
   }
 
   var languageScript;
-  if (scriptCode && Intl && typeof Intl === "object" && typeof Intl.DisplayNames === "function") {
+  if (scriptCode && hasIntlDisplayNames) {
     languageScript = (new Intl.DisplayNames(localeCode, { type: 'script', fallback: 'none' })).of(scriptCode);
   }
 
   var languageRegion;
-  if (regionCode && Intl && typeof Intl === "object" && typeof Intl.DisplayNames === "function") {
+  if (regionCode && hasIntlDisplayNames) {
     languageScript = (new Intl.DisplayNames(localeCode, { type: 'region', fallback: 'none' })).of(regionCode);
   }
 
