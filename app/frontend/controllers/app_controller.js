@@ -1008,6 +1008,7 @@ class AppController {
     }
 
     this.verse_selection.init(tabIndex);
+    await this.optionsMenu.handleBookLoadingModeOptionChange(tabIndex);
     this.optionsMenu.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     await this.navigation_pane.updateNavigation(tabIndex);
     this.notes_controller.initForTab(tabIndex);

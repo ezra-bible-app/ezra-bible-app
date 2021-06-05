@@ -78,7 +78,7 @@ class OptionsMenu {
     this._keepScreenAwakeOption = this.initConfigOption('keepScreenAwakeOption', () => { this.keepScreenAwakeBasedOnOption(); });
     this._textSizeAdjustTagsNotesOption = this.initConfigOption('adjustTagsNotesTextSizeOption', () => { app_controller.textSizeSettings.updateTagsNotes(this._textSizeAdjustTagsNotesOption.isChecked); }, true);
     this._selectChapterBeforeLoadingOption = this.initConfigOption('selectChapterBeforeLoadingOption', () => {});
-    this._bookLoadingModeOption = this.initConfigOption('bookLoadingModeOption', () => {});
+    this._bookLoadingModeOption = this.initConfigOption('bookLoadingModeOption', async () => { this.handleBookLoadingModeOptionChange(); });
 
     this.initLocaleSwitchOption();
     await this.initNightModeOption();
@@ -441,6 +441,24 @@ class OptionsMenu {
     }
   }
 
+  async handleBookLoadingModeOptionChange(tabIndex=undefined) {
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+    var enableOption = true;
+
+    if (currentTab.getTextType() == 'book') {
+      var isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(
+        currentTab.getBibleTranslationId(),
+        currentTab.getBook()
+      );
+
+      if (!isInstantLoadingBook) {
+        enableOption = false;
+      }
+    }
+
+    this._headerNavOption.enabled = enableOption;
+  }
+
   changeTagsLayoutBasedOnOption(tabIndex=undefined) {
     var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
@@ -471,6 +489,7 @@ class OptionsMenu {
     this.showOrHideStrongsBasedOnOption(tabIndex);
     this.showOrHideVerseNotesBasedOnOption(tabIndex);
     this.fixNotesHeightBasedOnOption(tabIndex);
+    this.handleBookLoadingModeOptionChange(tabIndex);
     this.keepScreenAwakeBasedOnOption();
     theme_controller.useNightModeBasedOnOption();
   }

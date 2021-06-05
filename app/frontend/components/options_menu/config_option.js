@@ -69,6 +69,12 @@ class ConfigOption extends HTMLElement {
       this._autoLoad = false;
     }
 
+    $(this.querySelector('.switch-box')).bind('click', (event) => {
+      if (!this.enabled) {
+        event.preventDefault();
+      }
+    });
+
     $(this.querySelector('.switch-box')).bind('change', async () => {
       await waitUntilIdle();
       await ipcSettings.set(this._settingsKey, this._isChecked());
@@ -91,8 +97,7 @@ class ConfigOption extends HTMLElement {
 
   _isChecked() {
     var checkboxChecked = $(this.querySelector('.toggle-config-option-switch')).prop('checked');
-    var elementDisabled = this.querySelector('.switch-box').classList.contains('ui-state-disabled');
-    return checkboxChecked && !elementDisabled;
+    return checkboxChecked && this.enabled;
   }
 
   get isChecked() {
@@ -119,6 +124,10 @@ class ConfigOption extends HTMLElement {
     }
   }
 
+  get enabled() {
+    return !this.querySelector('.switch-box').classList.contains('ui-state-disabled');
+  }
+
   set checkedByDefault(value) {
     if (value == true) {
       ipcSettings.has(this._settingsKey).then((isAvailable) => {
@@ -143,10 +152,17 @@ class ConfigOption extends HTMLElement {
 
   setOptionEnabled() {
     $(this.querySelector('.switch-box')).removeClass('ui-state-disabled');
+    $(this.querySelector('.switch-box')).addClass('fg-button-toggleable');
+
+    if (this.isChecked) {
+      $(this.querySelector('.switch-box')).addClass('ui-state-active');
+    }
   }
 
   setOptionDisabled() {
     $(this.querySelector('.switch-box')).addClass('ui-state-disabled');
+    $(this.querySelector('.switch-box')).removeClass('fg-button-toggleable');
+    $(this.querySelector('.switch-box')).removeClass('ui-state-active');
   }
 
   async loadOptionFromSettings() {
