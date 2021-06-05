@@ -52,15 +52,15 @@ class OptionsMenu {
       app_controller.openModuleSettingsAssistant('DICT'); 
     });
 
-    var toolBarEnabledByDefault = true;
+    var toolBarcheckedByDefault = true;
     var openVerseListsInNewTabByDefault = false;
 
     if (this.platformHelper.isCordova()) {
-      toolBarEnabledByDefault = false;
+      toolBarcheckedByDefault = false;
       openVerseListsInNewTabByDefault = true;
     }
 
-    this._toolBarOption = this.initConfigOption('showToolBarOption', () => { this.showOrHideToolBarBasedOnOption(); }, toolBarEnabledByDefault);
+    this._toolBarOption = this.initConfigOption('showToolBarOption', () => { this.showOrHideToolBarBasedOnOption(); }, toolBarcheckedByDefault);
     this._bookIntroOption = this.initConfigOption('showBookIntroOption', () => { this.showOrHideBookIntroductionBasedOnOption(); });
     this._sectionTitleOption = this.initConfigOption('showSectionTitleOption', () => { this.showOrHideSectionTitlesBasedOnOption(); });
     this._xrefsOption = this.initConfigOption('showXrefsOption', () => { this.showOrHideXrefsBasedOnOption(); });
@@ -103,7 +103,7 @@ class OptionsMenu {
       uiHelper.hideGlobalLoadingIndicator();
     });
 
-    this._nightModeOption.enabled = await theme_controller.isNightModeUsed();
+    this._nightModeOption.checked = await theme_controller.isNightModeUsed();
 
     var isMojaveOrLater = await this.platformHelper.isMacOsMojaveOrLater();
     if (isMojaveOrLater) {
@@ -149,9 +149,9 @@ class OptionsMenu {
     currentVerseListMenu.find('.display-options-button').bind('click', (event) => { this.handleMenuClick(event); });
   }
 
-  initConfigOption(configOptionId, eventHandler, enabledByDefault=false) {
+  initConfigOption(configOptionId, eventHandler, checkedByDefault=false) {
     var option = document.getElementById(configOptionId);
-    option.enabledByDefault = enabledByDefault;
+    option.checkedByDefault = checkedByDefault;
 
     option.addEventListener("optionChanged", async () => {
       await eventHandler();
