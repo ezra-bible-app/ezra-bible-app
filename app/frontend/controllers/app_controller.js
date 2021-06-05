@@ -359,7 +359,6 @@ class AppController {
     await tags_controller.updateTagUiBasedOnTagAvailability();
     var installedTranslations = await this.translation_controller.getInstalledModules();
     this.tab_controller.onTranslationRemoved(translationId, installedTranslations);
-    ipcNsi.removeModuleFromCache(translationId);
   }
 
   getTabHtmlTemplate() {

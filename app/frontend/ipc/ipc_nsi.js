@@ -120,6 +120,7 @@ class IpcNsi {
 
   async uninstallModule(moduleCode) {
     var returnValue = this._ipcRenderer.call('nsi_uninstallModule', moduleCode);
+    this._removeModuleFromCache(moduleCode);
     return returnValue;
   }
 
@@ -274,7 +275,7 @@ class IpcNsi {
     return module;
   }
 
-  removeModuleFromCache(moduleCode) {
+  _removeModuleFromCache(moduleCode) {
     if (moduleCode in this._moduleCache) {
       delete this._moduleCache[moduleCode];
     }
