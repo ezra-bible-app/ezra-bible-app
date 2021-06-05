@@ -266,7 +266,6 @@ class AppController {
     this.tag_selection_menu.init(tabIndex);
     this.tag_assignment_menu.init(tabIndex);
     this.module_search_controller.initModuleSearch(tabIndex);
-    await this.translation_controller.initTranslationsMenu(previousTabIndex, tabIndex);
     this.info_popup.initAppInfoButton();
     this.textSizeSettings.init(tabIndex);
     
