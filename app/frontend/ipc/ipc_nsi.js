@@ -25,6 +25,7 @@ class IpcNsi {
     var platformHelper = new PlatformHelper();
     this._isCordova = platformHelper.isCordova();
     this._bookChapterCountCache = {};
+    this._chapterVerseCountCache = {};
     this._allChapterVerseCountCache = {};
     this._bookListCache = {};
     this._moduleBookStatusCache = {};
@@ -203,7 +204,32 @@ class IpcNsi {
   }
 
   async getChapterVerseCount(moduleCode, bookCode, chapter) {
-    var returnValue = this._ipcRenderer.call('nsi_getChapterVerseCount', moduleCode, bookCode, chapter);
+    var returnValue = null;
+
+    if (moduleCode in this._chapterVerseCountCache && 
+        bookCode in this._chapterVerseCountCache[moduleCode] &&
+        chapter in this._chapterVerseCountCache[moduleCode][bookCode]) {
+
+      // Fetch from cache
+      returnValue = this._chapterVerseCountCache[moduleCode][bookCode][chapter];
+
+    } else {
+      // Fill the cache
+      returnValue = this._ipcRenderer.call('nsi_getChapterVerseCount', moduleCode, bookCode, chapter);
+
+      if (!(moduleCode in this._chapterVerseCountCache)) {
+        this._chapterVerseCountCache[moduleCode] = {};
+      }
+
+      if (!(bookCode in this._chapterVerseCountCache[moduleCode])) {
+        this._chapterVerseCountCache[moduleCode][bookCode] = {};
+      }
+
+      if (!(chapter in this._chapterVerseCountCache[moduleCode][bookCode])) {
+        this._chapterVerseCountCache[moduleCode][bookCode][chapter] = returnValue;
+      }
+    }
+
     return returnValue;
   }
 
