@@ -22,37 +22,45 @@ const NodeSwordInterface = require('node-sword-interface');
 const fs = require('fs');
 
 class IpcNsiHandler {
-  constructor() {
+  constructor(customSwordDir=undefined) {
     this._ipcMain = new IpcMain();
     this._platformHelper = new PlatformHelper();
     this._nsi = null;
 
-    this.initNSI();
+    this.initNSI(customSwordDir);
     this.initIpcInterface();
   }
 
   initNSI(customSwordDir=undefined) {
+    if (customSwordDir !== undefined) {
+      console.log("Initializing node-sword-interface with custom SWORD directory: " + customSwordDir);
+    }
+
     if (this._platformHelper.isTest()) {
-
       const userDataDir = this._platformHelper.getUserDataPath();
-
-      // If the user data directory is not existing at this point ... create it!
-      if (!fs.existsSync(userDataDir)) {
-        fs.mkdirSync(userDataDir);
-      }
-
-      this._nsi = new NodeSwordInterface(userDataDir);
-
+      this._nsi = this.createNsi(userDataDir);
     } else {
-
-      if (customSwordDir !== undefined) {
-        this._nsi = new NodeSwordInterface(customSwordDir);
-      } else {
-        this._nsi = new NodeSwordInterface();
-      }
+      this._nsi = this.createNsi(customSwordDir);
     }
 
     this._nsi.enableMarkup();
+  }
+
+  createNsi(customSwordDir=undefined) {
+    var nsi = null;
+
+    if (customSwordDir !== undefined) {
+      // If the custom SWORD directory is not existing at this point ... create it!
+      if (!fs.existsSync(customSwordDir)) {
+        fs.mkdirSync(customSwordDir);
+      }
+
+      nsi = new NodeSwordInterface(customSwordDir);
+    } else {
+      nsi = new NodeSwordInterface();
+    }
+
+    return nsi;
   }
 
   getNSI() {
@@ -76,8 +84,16 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.addWithProgressCallback('nsi_updateRepositoryConfig',
-                                          async (progressCB) => { await this._nsi.updateRepositoryConfig(progressCB); },
-                                          'nsi_updateRepoConfigProgress');
+      async (progressCB) => {
+        try {
+          await this._nsi.updateRepositoryConfig(progressCB);
+          return 0;
+        } catch (e) {
+          return -1;
+        }
+      },
+      'nsi_updateRepoConfigProgress'
+    );
     
     this._ipcMain.add('nsi_getRepoNames', () => {
       return this._nsi.getRepoNames();
@@ -140,17 +156,28 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.addWithProgressCallback('nsi_installModule',
-                                          async (progressCB, moduleCode) => { 
-                                            await this._nsi.installModule(progressCB, moduleCode); 
-                                          },
-                                          'nsi_updateInstallProgress');
+      async (progressCB, moduleCode) => { 
+        try {
+          await this._nsi.installModule(progressCB, moduleCode); 
+          return 0;
+        } catch (e) {
+          return -1;
+        }
+      },
+      'nsi_updateInstallProgress'
+    );
     
     this._ipcMain.add('nsi_cancelInstallation', () => {
       return this._nsi.cancelInstallation();
     })
 
     this._ipcMain.addSync('nsi_installModuleSync', async (moduleCode) => {
-      await this._nsi.installModule(undefined, moduleCode);
+      try {
+        await this._nsi.installModule(undefined, moduleCode);
+        return 0;
+      } catch (e) {
+        return -1;
+      }
     });
 
     this._ipcMain.add('nsi_uninstallModule', (moduleCode) => {
