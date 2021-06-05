@@ -274,6 +274,12 @@ class IpcNsi {
     return module;
   }
 
+  removeModuleFromCache(moduleCode) {
+    if (moduleCode in this._moduleCache) {
+      delete this._moduleCache[moduleCode];
+    }
+  }
+
   async isModuleInUserDir(moduleCode) {
     var returnValue = this._ipcRenderer.call('nsi_isModuleInUserDir', moduleCode);
     return returnValue;
