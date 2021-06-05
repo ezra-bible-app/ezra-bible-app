@@ -158,6 +158,10 @@ class IpcDb {
     return await this._ipcRenderer.call('db_getVerseReferencesByBookAndAbsoluteVerseNumber', bookCode, absoluteVerseNr, versification);
   }
 
+  async getVerseReferencesFromVerseObjects(verseObjects, versification) {
+    return await this._ipcRenderer.call('db_getVerseReferencesFromVerseObjects', verseObjects, versification);
+  }
+
   async getVerseReferencesByTagIds(tagIds) {
     return await this._ipcRenderer.call('db_getVerseReferencesByTagIds', tagIds);
   }

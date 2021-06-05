@@ -22,6 +22,7 @@ const i18nController = require('./i18n_controller.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const VerseReferenceHelper = require('../helpers/verse_reference_helper.js');
+const Verse = require('../ui_models/verse.js');
 
 /**
  * The TextController is used to load bible text into the text area of a tab.
@@ -419,17 +420,20 @@ class TextController {
       verses.push(currentVerse);
     }
 
-    var verseReferenceIds = [];
+    var verseObjects = [];
+
     for (var i = 0; i < verses.length; i++) {
       var currentVerse = verses[i];
-      var currentVerseReferences = await ipcDb.getVerseReferencesByBookAndAbsoluteVerseNumber(currentVerse.bibleBookShortTitle,
-                                                                                              currentVerse.absoluteVerseNr,
-                                                                                              versification);
-      if (currentVerseReferences.length > 0) {
-        verseReferenceIds.push(currentVerseReferences[0].id);
-      }
+      var currentVerseObject = new Verse(currentVerse.bibleBookShortTitle,
+                                         currentVerse.absoluteVerseNr,
+                                         currentVerse.chapter,
+                                         currentVerse.verseNr,
+                                         false);
+
+      verseObjects.push(currentVerseObject);
     }
 
+    var verseReferenceIds = await ipcDb.getVerseReferencesFromVerseObjects(verseObjects, versification);
     var verseTags = await ipcDb.getVerseTagsByVerseReferenceIds(verseReferenceIds, versification);
     var verseNotes = await ipcDb.getNotesByVerseReferenceIds(verseReferenceIds, versification);
     
