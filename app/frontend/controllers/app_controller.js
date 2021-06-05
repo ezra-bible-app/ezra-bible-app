@@ -204,7 +204,7 @@ class AppController {
     }
 
     // Refresh the view based on the options selected
-    this.optionsMenu.refreshViewBasedOnOptions(ui.index);
+    await this.optionsMenu.refreshViewBasedOnOptions(ui.index);
 
     // When switching tabs we need to end any note editing.
     this.notes_controller.restoreCurrentlyEditedNotes();
@@ -259,7 +259,7 @@ class AppController {
     await this.module_search_controller.cancelModuleSearch();
 
     // Refresh the view based on the options selected
-    this.optionsMenu.refreshViewBasedOnOptions(tabIndex);
+    await this.optionsMenu.refreshViewBasedOnOptions(tabIndex);
     uiHelper.resizeVerseList(tabIndex);
     
     await this.initCurrentVerseListMenu(tabIndex);

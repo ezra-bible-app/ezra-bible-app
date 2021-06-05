@@ -474,12 +474,11 @@ class OptionsMenu {
     }
   }
 
-  refreshViewBasedOnOptions(tabIndex=undefined) {
+  async refreshViewBasedOnOptions(tabIndex=undefined) {
     this.showOrHideToolBarBasedOnOption(tabIndex);
     this.showOrHideBookIntroductionBasedOnOption(tabIndex);
     this.showOrHideSectionTitlesBasedOnOption(tabIndex);
     this.showOrHideBookChapterNavigationBasedOnOption(tabIndex);
-    this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     this.showOrHideTabSearchFormBasedOnOption(tabIndex);
     this.showOrHideXrefsBasedOnOption(tabIndex);
     this.showOrHideFootnotesBasedOnOption(tabIndex);
@@ -489,7 +488,8 @@ class OptionsMenu {
     this.showOrHideStrongsBasedOnOption(tabIndex);
     this.showOrHideVerseNotesBasedOnOption(tabIndex);
     this.fixNotesHeightBasedOnOption(tabIndex);
-    this.handleBookLoadingModeOptionChange(tabIndex);
+    await this.handleBookLoadingModeOptionChange(tabIndex);
+    this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     this.keepScreenAwakeBasedOnOption();
     theme_controller.useNightModeBasedOnOption();
   }

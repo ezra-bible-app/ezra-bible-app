@@ -125,7 +125,8 @@ class ConfigOption extends HTMLElement {
   }
 
   get enabled() {
-    return !this.querySelector('.switch-box').classList.contains('ui-state-disabled');
+    var isEnabled = !this.querySelector('.switch-box').classList.contains('ui-state-disabled');
+    return isEnabled;
   }
 
   set checkedByDefault(value) {
