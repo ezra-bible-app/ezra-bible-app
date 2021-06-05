@@ -25,6 +25,8 @@ class IpcNsi {
     var platformHelper = new PlatformHelper();
     this._isCordova = platformHelper.isCordova();
     this._bookChapterCountCache = {};
+    this._allChapterVerseCountCache = {};
+    this._bookListCache = {};
   }
 
   async repositoryConfigExisting() {
@@ -164,7 +166,15 @@ class IpcNsi {
   }
 
   async getBookList(moduleCode) {
-    var returnValue = this._ipcRenderer.call('nsi_getBookList', moduleCode);
+    var returnValue = null;
+    
+    if (moduleCode in this._bookListCache) {
+      returnValue = this._bookListCache[moduleCode];
+    } else {
+      returnValue = this._ipcRenderer.call('nsi_getBookList', moduleCode);
+      this._bookListCache[moduleCode] = returnValue;
+    }
+
     return returnValue;
   }
 
@@ -197,7 +207,25 @@ class IpcNsi {
   }
 
   async getAllChapterVerseCounts(moduleCode, bookCode) {
-    var returnValue = this._ipcRenderer.call('nsi_getAllChapterVerseCounts', moduleCode, bookCode);
+    var returnValue = null;
+
+    if (moduleCode in this._allChapterVerseCountCache && bookCode in this._allChapterVerseCountCache[moduleCode]) {
+      // Fetch from cache
+      returnValue = this._allChapterVerseCountCache[moduleCode][bookCode];
+
+    } else {
+      // Fill the cache
+      if (!(moduleCode in this._allChapterVerseCountCache)) {
+        this._allChapterVerseCountCache[moduleCode] = {};
+      }
+
+      returnValue = this._ipcRenderer.call('nsi_getAllChapterVerseCounts', moduleCode, bookCode);
+
+      if (!(bookCode in this._allChapterVerseCountCache[moduleCode])) {
+        this._allChapterVerseCountCache[moduleCode][bookCode] = returnValue;
+      }
+    }
+
     return returnValue;
   }
 
