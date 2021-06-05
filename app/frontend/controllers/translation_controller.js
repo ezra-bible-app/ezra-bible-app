@@ -418,10 +418,13 @@ class TranslationController {
   }
 
   async isInstantLoadingBook(bibleTranslationId, bookCode) {
-    const bookChapterCount = await ipcNsi.getBookChapterCount(bibleTranslationId, bookCode);
-    const bookLoadingModeOption = app_controller.optionsMenu._bookLoadingModeOption;
+    if (bibleTranslationId == null || bookCode == null) {
+      return false;
+    }
 
     var instantLoad = false;
+    const bookChapterCount = await ipcNsi.getBookChapterCount(bibleTranslationId, bookCode);
+    const bookLoadingModeOption = app_controller.optionsMenu._bookLoadingModeOption;
 
     switch (bookLoadingModeOption.value) {
       case 'open-complete-book':
