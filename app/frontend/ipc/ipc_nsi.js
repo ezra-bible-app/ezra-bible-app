@@ -24,6 +24,7 @@ class IpcNsi {
     this._ipcRenderer = new IpcRenderer();
     var platformHelper = new PlatformHelper();
     this._isCordova = platformHelper.isCordova();
+    this._bookChapterCountCache = {};
   }
 
   async repositoryConfigExisting() {
@@ -168,7 +169,25 @@ class IpcNsi {
   }
 
   async getBookChapterCount(moduleCode, bookCode) {
-    var returnValue = this._ipcRenderer.call('nsi_getBookChapterCount', moduleCode, bookCode);
+    var returnValue = null;
+
+    if (moduleCode in this._bookChapterCountCache && bookCode in this._bookChapterCountCache[moduleCode]) {
+      // Fetch from cache
+      returnValue = this._bookChapterCountCache[moduleCode][bookCode];
+
+    } else {
+      // Fill the cache
+      if (!(moduleCode in this._bookChapterCountCache)) {
+        this._bookChapterCountCache[moduleCode] = {};
+      }
+
+      returnValue = this._ipcRenderer.call('nsi_getBookChapterCount', moduleCode, bookCode);
+
+      if (!(bookCode in this._bookChapterCountCache[moduleCode])) {
+        this._bookChapterCountCache[moduleCode][bookCode] = returnValue;
+      }
+    }
+
     return returnValue;
   }
 
