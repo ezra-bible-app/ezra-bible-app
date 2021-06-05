@@ -21,6 +21,7 @@ const i18nController = require('../controllers/i18n_controller.js');
    class IpcGeneral {
     constructor() {
       this._ipcRenderer = new IpcRenderer();
+      this._cachedAppVersion = null;
     }
 
     async initPersistentIpc(useInternalStorage=false) {
@@ -44,7 +45,11 @@ const i18nController = require('../controllers/i18n_controller.js');
     }
 
     async getAppVersion() {
-      return await this._ipcRenderer.call('general_getAppVersion');
+      if (this._cachedAppVersion == null) {
+        this._cachedAppVersion = await this._ipcRenderer.call('general_getAppVersion');
+      }
+
+      return this._cachedAppVersion;
     }
 
     async isTest() {
