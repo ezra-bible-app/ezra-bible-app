@@ -74,6 +74,12 @@ module.exports.initI18N = async function() {
     parseDefaultValueFromContent: true // parses default values from content ele.val or ele.text
   });
 
+  if (platformHelper.isElectron()) {
+    this.initLocale();
+  }
+}
+
+module.exports.initLocale = async function() {
   if (await ipcSettings.has(SETTINGS_KEY)) {
     await i18n.changeLanguage(await ipcSettings.get(SETTINGS_KEY, FALLBACK_LOCALE));
   }

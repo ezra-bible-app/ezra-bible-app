@@ -60,6 +60,18 @@ class CordovaPlatform {
     }, false);
   }
 
+  getAndroidVersion() {
+    var userAgent = navigator.userAgent.toLowerCase(); 
+    var match = userAgent.match(/android\s([0-9\.]*)/i);
+    var version = match ? match[1] : undefined;
+
+    if (version !== undefined) {
+      version = parseInt(version, 10);
+    }
+
+    return version;
+  }
+
   async hasPermission() {
     return new Promise((resolve, reject) => {
       var permissions = cordova.plugins.permissions;
@@ -215,6 +227,13 @@ class CordovaPlatform {
     });
   }
 
+  isAndroidWithScopedStorage() {
+    var androidVersion = this.getAndroidVersion();
+    const FIRST_ANDROID_VERSION_WITH_SCOPED_STORAGE = 11;
+
+    return androidVersion >= FIRST_ANDROID_VERSION_WITH_SCOPED_STORAGE;
+  }
+
   async startNodeJsEngine() {
     var isDebug = await this.isDebug();
 
@@ -235,9 +254,16 @@ class CordovaPlatform {
       window.ipcI18n = new IpcI18n();
       await i18nController.initI18N();
 
+
       this.hasPermission().then((result) => {
-        if (result == true) {
-          this.initPersistenceAndStart();
+        let isScopedStorage = this.isAndroidWithScopedStorage();
+        if (isScopedStorage) {
+          var version = this.getAndroidVersion();
+          console.log(`Android ${version} with scoped storage! Using internal storage ...`);
+        }
+
+        if (result == true || isScopedStorage) {
+          this.initPersistenceAndStart(isScopedStorage);
         } else {
           this.showPermissionInfo();
         }
@@ -247,14 +273,14 @@ class CordovaPlatform {
     });
   }
 
-  async initPersistenceAndStart() {
+  async initPersistenceAndStart(isScopedStorage=false) {
     window.ipcGeneral = new IpcGeneral();
 
     uiHelper.updateLoadingSubtitle("Initializing SWORD");
-    await ipcGeneral.initPersistentIpc();
+    await ipcGeneral.initPersistentIpc(isScopedStorage);
 
     uiHelper.updateLoadingSubtitle("Initializing database");
-    await ipcGeneral.initDatabase();
+    await ipcGeneral.initDatabase(isScopedStorage);
 
     await startup.initApplication();
   }

@@ -152,18 +152,18 @@ class StepRepositories extends HTMLElement {
 
       uiHelper.initProgressBar($('#repo-update-progress-bar'));
 
-      try {
-        await ipcNsi.updateRepositoryConfig((progress) => {
-          const progressbar = $('#repo-update-progress-bar');
-          const progressPercent = progress.totalPercent;
-          progressbar.progressbar("value", progressPercent);
-        });
+      var ret = await ipcNsi.updateRepositoryConfig((progress) => {
+        var progressbar = $('#repo-update-progress-bar');
+        var progressPercent = progress.totalPercent;
+        progressbar.progressbar("value", progressPercent);
+      });
 
+      if (ret == 0) {
         await ipcSettings.set('lastSwordRepoUpdate', new Date());
-      } catch(e) {
-        console.log("Caught exception while updating repository config: " + e);
+      } else {
+        console.log("Failed to update the repository configuration!");
         listRepoTimeoutMs = 3000;
-        this.querySelector('#update-failed').style.display = 'block';
+        this.querySelector('#update-failed').style.display = 'block';     
       }
     }
 
