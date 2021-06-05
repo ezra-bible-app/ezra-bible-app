@@ -177,6 +177,11 @@ class IpcNsi {
     return returnValue;
   }
 
+  async getAllChapterVerseCounts(moduleCode, bookCode) {
+    var returnValue = this._ipcRenderer.call('nsi_getAllChapterVerseCounts', moduleCode, bookCode);
+    return returnValue;
+  }
+
   async getBookIntroduction(moduleCode, bookCode) {
     var returnValue = this._ipcRenderer.call('nsi_getBookIntroduction', moduleCode, bookCode);
     return returnValue;

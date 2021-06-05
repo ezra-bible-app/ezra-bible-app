@@ -40,9 +40,10 @@ class VerseReferenceHelper
 
   async referenceToAbsoluteVerseNr(translation, bible_book, chapter, verse) {
     var verse_nr = 0;
+    var allChapterVerseCounts = await this._nsi.getAllChapterVerseCounts(translation, bible_book);
   
     for (var i = 1; i <= chapter - 1; i++) {
-      var currentChapterVerseCount = await this._nsi.getChapterVerseCount(translation, bible_book, i);
+      var currentChapterVerseCount = allChapterVerseCounts[i];
       verse_nr += currentChapterVerseCount;
     }
     
