@@ -247,10 +247,7 @@ class IpcNsi {
       }
 
       returnValue = this._ipcRenderer.call('nsi_getAllChapterVerseCounts', moduleCode, bookCode);
-
-      if (!(bookCode in this._allChapterVerseCountCache[moduleCode])) {
-        this._allChapterVerseCountCache[moduleCode][bookCode] = returnValue;
-      }
+      this._allChapterVerseCountCache[moduleCode][bookCode] = returnValue;
     }
 
     return returnValue;
