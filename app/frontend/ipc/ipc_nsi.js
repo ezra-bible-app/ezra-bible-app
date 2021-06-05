@@ -25,7 +25,6 @@ class IpcNsi {
     var platformHelper = new PlatformHelper();
     this._isCordova = platformHelper.isCordova();
     this._bookChapterCountCache = {};
-    this._moduleCache = {};
   }
 
   async repositoryConfigExisting() {
@@ -120,7 +119,6 @@ class IpcNsi {
 
   async uninstallModule(moduleCode) {
     var returnValue = this._ipcRenderer.call('nsi_uninstallModule', moduleCode);
-    this._removeModuleFromCache(moduleCode);
     return returnValue;
   }
 
@@ -263,22 +261,8 @@ class IpcNsi {
   }
 
   async getLocalModule(moduleCode) {
-    var module = null;
-
-    if (moduleCode in this._moduleCache) {
-      module = this._moduleCache[moduleCode];
-    } else {
-      module = this._ipcRenderer.call('nsi_getLocalModule', moduleCode);
-      this._moduleCache[moduleCode] = module;
-    }
-
+    var module = this._ipcRenderer.call('nsi_getLocalModule', moduleCode);
     return module;
-  }
-
-  _removeModuleFromCache(moduleCode) {
-    if (moduleCode in this._moduleCache) {
-      delete this._moduleCache[moduleCode];
-    }
   }
 
   async isModuleInUserDir(moduleCode) {
