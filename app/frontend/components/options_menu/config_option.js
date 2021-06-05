@@ -106,6 +106,16 @@ class ConfigOption extends HTMLElement {
   set checked(value) {
     if (value == true) {
       this.setOptionChecked();
+    } else {
+      this.setOptionUnchecked();
+    }
+  }
+
+  set enabled(value) {
+    if (value == true) {
+      this.setOptionEnabled();
+    } else {
+      this.setOptionDisabled();
     }
   }
 
@@ -129,6 +139,14 @@ class ConfigOption extends HTMLElement {
   setOptionUnchecked() {
     $(this.querySelector('.toggle-config-option-switch')).removeAttr('checked');
     $(this.querySelector('.switch-box')).removeClass('ui-state-active');
+  }
+
+  setOptionEnabled() {
+    $(this.querySelector('.switch-box')).removeClass('ui-state-disabled');
+  }
+
+  setOptionDisabled() {
+    $(this.querySelector('.switch-box')).addClass('ui-state-disabled');
   }
 
   async loadOptionFromSettings() {
