@@ -27,6 +27,7 @@ class IpcNsi {
     this._bookChapterCountCache = {};
     this._allChapterVerseCountCache = {};
     this._bookListCache = {};
+    this._moduleBookStatusCache = {};
   }
 
   async repositoryConfigExisting() {
@@ -240,8 +241,16 @@ class IpcNsi {
   }
 
   async getModuleBookStatus(bookCode) {
-    var moduleBookStatus = this._ipcRenderer.call('nsi_getModuleBookStatus', bookCode);
-    return moduleBookStatus;
+    var returnValue = null;
+    
+    if (bookCode in this._moduleBookStatusCache) {
+      returnValue = this._moduleBookStatusCache[bookCode];
+    } else {
+      returnValue = this._ipcRenderer.call('nsi_getModuleBookStatus', bookCode);
+      this._moduleBookStatusCache[bookCode] = returnValue;
+    }
+
+    return returnValue;
   }
 
   async getModuleSearchResults(progressCB,
