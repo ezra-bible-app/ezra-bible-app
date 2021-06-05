@@ -165,8 +165,8 @@ class InstallModuleAssistant {
       this._selectedRepositories = this.repositoriesStep.repositories;
       return this._selectedRepositories.length > 0;
     } else if (currentIndex == 2 && newIndex == 3) { // Changing from Modules (3) to Installation (4)
-      this.selectedModules = selectedElements;
-      return selectedElements.length > 0;
+      this.selectedModules = this.modulesStep.modules;
+      return this.selectedModules > 0;
     } else if (currentIndex == 3 && newIndex != 3) {
       return false;
     }

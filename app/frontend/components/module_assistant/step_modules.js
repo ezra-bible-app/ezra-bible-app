@@ -97,8 +97,6 @@ class StepModules extends HTMLElement {
     this.localize();
     console.log('MODULES: started connectedCallback');
 
-    this.querySelector('loading-indicator').show();
-
     this.querySelectorAll('.module-feature-filter').forEach(checkbox => checkbox.addEventListener('click', async () => {
       this.listFilteredModules();
     }));
@@ -106,6 +104,11 @@ class StepModules extends HTMLElement {
     this._installedModules = await app_controller.translation_controller.getInstalledModules(this.moduleType);
 
     this.listModules();
+  }
+
+  get modules() {
+    const selectedModules = assistantHelper.getSelelectedSettings(this);
+    return selectedModules;
   }
 
   async listModules() {
