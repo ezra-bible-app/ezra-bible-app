@@ -617,7 +617,7 @@ h2 {
   display: none;
   padding-left: 1em;
   padding-right: 1em;
-  width: 33em;
+  width: 34em;
   min-height: 20em;
   max-height: 52em;
   overflow-y: auto;
@@ -625,7 +625,7 @@ h2 {
 
 @media only screen and (min-width: 770px) {
   #book-selection-menu-chapter-list {
-    width: 39.5em;
+    width: 40.25em;
     height: 26.5em;
     padding-left: 0.5em;
     padding-right: 0.5em;
@@ -647,14 +647,20 @@ h2 {
   width: 2em;
   height: 2.5em;
   line-height: 2.5em;
-  flex: 0 0 3.3em;
+  flex: 0 0 2.8em;
   text-align: center;
   color: black;
 }
 
+@media only screen and (min-width: 770px) {
+  #book-selection-menu-chapter-list a {
+    flex: 0 0 3.3em;
+  }
+}
+
 .book-list-column {
   float: left;
-  width: 10em;
+  width: 10.25em;
   list-style-type: none;
   padding: 0.8em;
   padding-bottom: 0;
