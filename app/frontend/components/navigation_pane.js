@@ -457,16 +457,22 @@ class NavigationPane {
   }
 
   async updateNavigationFromVerseBox(focussedElement, verseBox=undefined) {
+    var currentTab = app_controller.tab_controller.getTab();
+    const currentBook = currentTab.getBook();
+    const currentTextType = currentTab.getTextType();
+    const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(bibleTranslationId, currentBook);
+
+    if (currentTextType == 'book' && !isInstantLoadingBook) {
+      // We do not dynamically update the navigation based on versebox mouseover if we only display one chapter anyway.
+      return;
+    }
+
     if (verseBox == undefined) {
       verseBox = focussedElement.closest('.verse-box');
     }
 
-    var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
-
-    var currentTab = app_controller.tab_controller.getTab();
-    var currentBook = currentTab.getBook();
-    var currentTextType = currentTab.getTextType();
+    const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
 
     if (currentTextType == 'book' && currentBook != null) {
 
