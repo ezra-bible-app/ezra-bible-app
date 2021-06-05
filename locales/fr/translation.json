@@ -222,9 +222,9 @@
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Ajuster la taille de la police des étiquettes et des notes",
     "new-note-hint": "Cliques pour ajouter une note",
-    "load-complete-book": "Open books completely",
-    "load-chapters-large-books": "Open large books chapter-wise",
-    "load-chapters-all-books": "Open all books chapter-wise"
+    "open-complete-book": "Open books completely",
+    "open-chapters-large-books": "Open large books chapter-wise",
+    "open-chapters-all-books": "Open all books chapter-wise"
   },
   "dictionary-info-box": {
     "greek-dict": "Dictionnaire grec",

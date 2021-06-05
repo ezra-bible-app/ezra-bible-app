@@ -424,11 +424,11 @@ class TranslationController {
     var instantLoad = false;
 
     switch (bookLoadingModeOption.value) {
-      case 'load-complete-book':
+      case 'open-complete-book':
         instantLoad = true;
         break;
 
-      case 'load-chapters-large-books':
+      case 'open-chapters-large-books':
         if (bookChapterCount <= INSTANT_LOADING_CHAPTER_LIMIT) {
           instantLoad = true;
         }

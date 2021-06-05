@@ -221,9 +221,9 @@
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Ajustează dimensiunea fontului pentru etichete și note",
     "new-note-hint": "Click pentru a adăuga o notă",
-    "load-complete-book": "Open books completely",
-    "load-chapters-large-books": "Open large books chapter-wise",
-    "load-chapters-all-books": "Open all books chapter-wise"
+    "open-complete-book": "Open books completely",
+    "open-chapters-large-books": "Open large books chapter-wise",
+    "open-chapters-all-books": "Open all books chapter-wise"
   },
   "dictionary-info-box": {
     "greek-dict": "Dicționar grec",

@@ -222,9 +222,9 @@
     "footnote-character": "*",
     "adjust-font-size-tags-notes": "Зміна розміру тексту нотаток та міт",
     "new-note-hint": "Click to add a note",
-    "load-complete-book": "Open books completely",
-    "load-chapters-large-books": "Open large books chapter-wise",
-    "load-chapters-all-books": "Open all books chapter-wise"
+    "open-complete-book": "Open books completely",
+    "open-chapters-large-books": "Open large books chapter-wise",
+    "open-chapters-all-books": "Open all books chapter-wise"
   },
   "dictionary-info-box": {
     "greek-dict": "Грецький Словник грецької мови",

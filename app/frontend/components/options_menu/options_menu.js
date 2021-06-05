@@ -139,7 +139,7 @@ class OptionsMenu {
 
       var bookLoadingModeOptionPersisted = await this._bookLoadingModeOption.persisted;
       if (!bookLoadingModeOptionPersisted) {
-        this._bookLoadingModeOption.selectedValue = 'load-chapters-all-books';
+        this._bookLoadingModeOption.selectedValue = 'open-chapters-all-books';
       }
     }
   }
