@@ -143,6 +143,7 @@ class TagStatistics {
         book_tag_statistics_button.removeClass('events-configured');
       }
 
+      book_tag_statistics_button.unbind('click');
       book_tag_statistics_button.bind('click', (event) => {
         if (!$(event.target).hasClass('ui-state-disabled')) {
           this.openBookTagStatistics();
@@ -150,7 +151,7 @@ class TagStatistics {
       });
       book_tag_statistics_button.show();
     } else {
-      book_tag_statistics_button.unbind()
+      book_tag_statistics_button.unbind();
       book_tag_statistics_button.addClass('ui-state-disabled');
       book_tag_statistics_button.addClass('events-configured');
     }

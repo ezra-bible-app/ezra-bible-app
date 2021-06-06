@@ -26,7 +26,12 @@ class VerseContextController {
   }
 
   initButtonEvents() {
-    this.getButton().bind('click', async () => {
+    var button = this.getButton();
+
+    button.unbind('click');
+    button.bind('click', async (event) => {
+      event.stopPropagation();
+
       if (this.isButtonEnabled()) {
         await this.handleButtonClick();
       }
