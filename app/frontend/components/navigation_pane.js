@@ -119,7 +119,7 @@ class NavigationPane {
       var currentTitle = allHeaderLinks[i].innerText;
 
       if (currentTitle == title) {
-        this.highlightNavElement(i + 1, false, "HEADER");
+        this.highlightNavElement(undefined, i + 1, false, "HEADER");
         break;
       }
     }
@@ -140,11 +140,11 @@ class NavigationPane {
   highlightLastNavElement() {
     var currentTab = app_controller.tab_controller.getTab();
     var lastHighlightedNavElementIndex = currentTab.getLastHighlightedNavElementIndex();
-    this.highlightNavElement(lastHighlightedNavElementIndex);
+    this.highlightNavElement(undefined, lastHighlightedNavElementIndex);
   }
 
-  highlightNavElement(navElementNumber, scrollIntoView=true, navElementType='CHAPTER') {
-    this.currentNavigationPane = this.getCurrentNavigationPane();
+  highlightNavElement(tabIndex, navElementNumber, scrollIntoView=true, navElementType='CHAPTER') {
+    this.currentNavigationPane = this.getCurrentNavigationPane(tabIndex);
     var navElementTypeClass = null;
 
     if (navElementType == 'CHAPTER') {
@@ -359,7 +359,7 @@ class NavigationPane {
       if (isInstantLoadingBook && selectChapterBeforeLoadingOption.isChecked) {
         this.goToChapter(currentTab.getChapter(), true);
       } else {
-        this.highlightNavElement(currentTab.getChapter(), currentTab.isBookChanged());
+        this.highlightNavElement(tabIndex, currentTab.getChapter(), currentTab.isBookChanged());
       }
 
     } else if (currentTextType == 'tagged_verses' && currentTagIdList != null) { // Update navigation based on tagged verses books
@@ -410,7 +410,7 @@ class NavigationPane {
   async goToChapter(chapter, scrollIntoView=false) {
     var previouslyHighlightedChapter = this.getHighlightedChapter();
     
-    this.highlightNavElement(chapter, scrollIntoView);
+    this.highlightNavElement(undefined, chapter, scrollIntoView);
     const currentTab = app_controller.tab_controller.getTab();
     const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(
       currentTab.getBibleTranslationId(),
@@ -442,15 +442,15 @@ class NavigationPane {
   }
 
   goToSection(sectionHeaderId, sectionHeaderNumber, chapter) {
-    this.highlightNavElement(chapter, true);
-    this.highlightNavElement(sectionHeaderNumber, true, "HEADER");
+    this.highlightNavElement(undefined, chapter, true);
+    this.highlightNavElement(undefined, sectionHeaderNumber, true, "HEADER");
 
     var reference = '#' + sectionHeaderId;
     window.location = reference;
   }
 
   goToBook(book, bookNr) {
-    this.highlightNavElement(bookNr, true, "OTHER");
+    this.highlightNavElement(undefined, bookNr, true, "OTHER");
     var cachedVerseListTabId = this.getCachedVerseListTabId();
     var reference = '#' + cachedVerseListTabId + ' ' + book;
     window.location = reference;
@@ -478,7 +478,7 @@ class NavigationPane {
 
       var verseReferenceContent = verseBox.querySelector('.verse-reference-content').innerText;
       var currentChapter = app_controller.getChapterFromReference(verseReferenceContent, separator);
-      this.highlightNavElement(currentChapter);
+      this.highlightNavElement(undefined, currentChapter);
 
       var sectionTitle = "";
       if (focussedElement.classList.contains('sword-section-title')) {
@@ -498,7 +498,7 @@ class NavigationPane {
       
       var bibleBookNumber = app_controller.getVerseListBookNumber(currentBookName);
       if (bibleBookNumber != -1) {
-        this.highlightNavElement(bibleBookNumber, false, "OTHER");
+        this.highlightNavElement(undefined, bibleBookNumber, false, "OTHER");
       }
     }
   }
