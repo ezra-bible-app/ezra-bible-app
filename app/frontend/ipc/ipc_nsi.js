@@ -18,17 +18,18 @@
 
 const IpcRenderer = require('./ipc_renderer.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
+const HierarchicalObjectCache = require('./hierarchical_object_cache.js');
 
 class IpcNsi {
   constructor() {
     this._ipcRenderer = new IpcRenderer();
     var platformHelper = new PlatformHelper();
     this._isCordova = platformHelper.isCordova();
-    this._bookChapterCountCache = {};
-    this._chapterVerseCountCache = {};
-    this._allChapterVerseCountCache = {};
-    this._bookListCache = {};
-    this._moduleBookStatusCache = {};
+    this._bookChapterCountCache = new HierarchicalObjectCache();
+    this._chapterVerseCountCache = new HierarchicalObjectCache();
+    this._allChapterVerseCountCache = new HierarchicalObjectCache();
+    this._bookListCache = new HierarchicalObjectCache();
+    this._moduleBookStatusCache = new HierarchicalObjectCache();
   }
 
   async repositoryConfigExisting() {
@@ -168,89 +169,27 @@ class IpcNsi {
   }
 
   async getBookList(moduleCode) {
-    var returnValue = null;
-    
-    if (moduleCode in this._bookListCache) {
-      returnValue = this._bookListCache[moduleCode];
-    } else {
-      returnValue = this._ipcRenderer.call('nsi_getBookList', moduleCode);
-      this._bookListCache[moduleCode] = returnValue;
-    }
-
-    return returnValue;
+    return await this._bookListCache.fetch(async () => {
+      return await this._ipcRenderer.call('nsi_getBookList', moduleCode);
+    }, moduleCode);
   }
 
   async getBookChapterCount(moduleCode, bookCode) {
-    var returnValue = null;
-
-    if (moduleCode in this._bookChapterCountCache && bookCode in this._bookChapterCountCache[moduleCode]) {
-      // Fetch from cache
-      returnValue = this._bookChapterCountCache[moduleCode][bookCode];
-
-    } else {
-      // Fill the cache
-      if (!(moduleCode in this._bookChapterCountCache)) {
-        this._bookChapterCountCache[moduleCode] = {};
-      }
-
-      returnValue = this._ipcRenderer.call('nsi_getBookChapterCount', moduleCode, bookCode);
-
-      if (!(bookCode in this._bookChapterCountCache[moduleCode])) {
-        this._bookChapterCountCache[moduleCode][bookCode] = returnValue;
-      }
-    }
-
-    return returnValue;
+    return await this._bookChapterCountCache.fetch(async () => {
+      return await this._ipcRenderer.call('nsi_getBookChapterCount', moduleCode, bookCode);
+    }, moduleCode, bookCode);
   }
 
   async getChapterVerseCount(moduleCode, bookCode, chapter) {
-    var returnValue = null;
-
-    if (moduleCode in this._chapterVerseCountCache && 
-        bookCode in this._chapterVerseCountCache[moduleCode] &&
-        chapter in this._chapterVerseCountCache[moduleCode][bookCode]) {
-
-      // Fetch from cache
-      returnValue = this._chapterVerseCountCache[moduleCode][bookCode][chapter];
-
-    } else {
-      // Fill the cache
-      returnValue = this._ipcRenderer.call('nsi_getChapterVerseCount', moduleCode, bookCode, chapter);
-
-      if (!(moduleCode in this._chapterVerseCountCache)) {
-        this._chapterVerseCountCache[moduleCode] = {};
-      }
-
-      if (!(bookCode in this._chapterVerseCountCache[moduleCode])) {
-        this._chapterVerseCountCache[moduleCode][bookCode] = {};
-      }
-
-      if (!(chapter in this._chapterVerseCountCache[moduleCode][bookCode])) {
-        this._chapterVerseCountCache[moduleCode][bookCode][chapter] = returnValue;
-      }
-    }
-
-    return returnValue;
+    return await this._chapterVerseCountCache.fetch(async () => {
+      return await this._ipcRenderer.call('nsi_getChapterVerseCount', moduleCode, bookCode, chapter);
+    }, moduleCode, bookCode, chapter);
   }
 
   async getAllChapterVerseCounts(moduleCode, bookCode) {
-    var returnValue = null;
-
-    if (moduleCode in this._allChapterVerseCountCache && bookCode in this._allChapterVerseCountCache[moduleCode]) {
-      // Fetch from cache
-      returnValue = this._allChapterVerseCountCache[moduleCode][bookCode];
-
-    } else {
-      // Fill the cache
-      if (!(moduleCode in this._allChapterVerseCountCache)) {
-        this._allChapterVerseCountCache[moduleCode] = {};
-      }
-
-      returnValue = this._ipcRenderer.call('nsi_getAllChapterVerseCounts', moduleCode, bookCode);
-      this._allChapterVerseCountCache[moduleCode][bookCode] = returnValue;
-    }
-
-    return returnValue;
+    return await this._allChapterVerseCountCache.fetch(async () => {
+      return await this._ipcRenderer.call('nsi_getAllChapterVerseCounts', moduleCode, bookCode);
+    }, moduleCode, bookCode);
   }
 
   async getBookIntroduction(moduleCode, bookCode) {
@@ -264,16 +203,9 @@ class IpcNsi {
   }
 
   async getModuleBookStatus(bookCode) {
-    var returnValue = null;
-    
-    if (bookCode in this._moduleBookStatusCache) {
-      returnValue = this._moduleBookStatusCache[bookCode];
-    } else {
-      returnValue = this._ipcRenderer.call('nsi_getModuleBookStatus', bookCode);
-      this._moduleBookStatusCache[bookCode] = returnValue;
-    }
-
-    return returnValue;
+    return await this._moduleBookStatusCache.fetch(async () => {
+      return await this._ipcRenderer.call('nsi_getModuleBookStatus', bookCode);
+    }, bookCode);
   }
 
   async getModuleSearchResults(progressCB,
