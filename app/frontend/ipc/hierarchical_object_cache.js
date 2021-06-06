@@ -26,7 +26,6 @@
 class HierarchicalObjectCache {
   constructor() {
     this._cache = {};
-    this._hierarchyEstablished = false;
   }
 
   /**
