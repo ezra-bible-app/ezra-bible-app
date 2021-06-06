@@ -1010,6 +1010,7 @@ class AppController {
     await this.optionsMenu.handleBookLoadingModeOptionChange(tabIndex);
     this.optionsMenu.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     await this.navigation_pane.updateNavigation(tabIndex);
+    this.navigation_pane.scrollToTop(tabIndex);
     this.notes_controller.initForTab(tabIndex);
     this.sword_notes.initForTab(tabIndex);
     await this.translation_controller.toggleTranslationsBasedOnCurrentBook(tabIndex);

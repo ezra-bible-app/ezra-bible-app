@@ -417,27 +417,27 @@ class NavigationPane {
       currentTab.getBook()
     );
 
-    if (currentTab.getChapter() != null && !isInstantLoadingBook) {
-      if (previouslyHighlightedChapter == chapter) { // We do not need to reload the chapter if it is already highlighted
-        return;
-      }
-
+    if (currentTab.getChapter() != null && !isInstantLoadingBook && chapter != previouslyHighlightedChapter) {
       app_controller.text_controller.loadBook(currentTab.getBook(),
                                               currentTab.getBookTitle(),
                                               currentTab.getReferenceBookTitle(),
                                               false,
                                               chapter);
     } else {
-      let reference = '#top';
+      this.scrollToTop(undefined, chapter);
+    }
+  }
 
-      if (chapter > 1 || app_controller.optionsMenu._bookIntroOption.isChecked) {
-        const cachedVerseListTabId = this.getCachedVerseListTabId();
-        reference = '#' + cachedVerseListTabId + ' ' + chapter;
-        window.location = reference;
-      } else {
-        const currentVerseListFrame = app_controller.getCurrentVerseListFrame();
-        currentVerseListFrame[0].scrollTop = 0;
-      }
+  scrollToTop(tabIndex=undefined, chapter=1) {
+    let reference = '#top';
+
+    if (chapter > 1) {
+      const cachedVerseListTabId = this.getCachedVerseListTabId(tabIndex);
+      reference = '#' + cachedVerseListTabId + ' ' + chapter;
+      window.location = reference;
+    } else {
+      const currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+      currentVerseListFrame[0].scrollTop = 0;
     }
   }
 
