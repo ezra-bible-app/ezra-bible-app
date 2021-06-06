@@ -292,6 +292,7 @@ class ModuleSearchController {
 
     this.disableOtherFunctionsDuringSearch();
 
+    app_controller.navigation_pane.resetNavigationPane(tabIndex, true);
     app_controller.verse_statistics_chart.resetChart(tabIndex);
 
     if (tabIndex === undefined) {
