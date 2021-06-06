@@ -28,8 +28,12 @@ class InfoPopup {
   }
 
   initAppInfoButton() {
-    $('.app-info-button').unbind('click');
-    $('.app-info-button').bind('click', async () => {
+    var appInfoButton = $('.app-info-button');
+
+    appInfoButton.unbind('click');
+    appInfoButton.bind('click', async (event) => {
+      event.stopPropagation();
+
       if (!$(this).hasClass('ui-state-disabled')) {
         app_controller.hideAllMenus();
         await this.showAppInfo();

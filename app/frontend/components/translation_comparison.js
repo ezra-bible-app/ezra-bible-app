@@ -34,8 +34,17 @@ class TranslationComparison {
     return $('.show-parallel-translations-button');
   }
 
+  getAllButtons() {
+    return document.getElementsByClassName('show-parallel-translations-button');
+  }
+
   initButtonEvents() {
-    this.getButton().bind('click', async () => {
+    var button = this.getButton();
+
+    button.unbind('click');
+    button.bind('click', async (event) => {
+      event.stopPropagation();
+
       if (this.isButtonEnabled()) {
         await this.handleButtonClick();
       }
@@ -55,11 +64,17 @@ class TranslationComparison {
   }
 
   enableComparisonButton() {
-    this.getButton().removeClass('ui-state-disabled');
+    var allButtons = this.getAllButtons();
+    for (let button of allButtons) {
+      button.classList.remove('ui-state-disabled');
+    };
   }
 
   disableComparisonButton() {
-    this.getButton().addClass('ui-state-disabled');
+    var allButtons = this.getAllButtons();
+    for (let button of allButtons) {
+      button.classList.add('ui-state-disabled');
+    };
   }
 
   initCompareTranslationsBox() {

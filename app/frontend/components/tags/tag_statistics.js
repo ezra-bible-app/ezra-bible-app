@@ -52,10 +52,11 @@ class TagStatistics {
     }
 
     var chapterCount = await ipcNsi.getBookChapterCount(currentBibleTranslationId, currentBook);
+    var allChapterVerseCounts = await ipcNsi.getAllChapterVerseCounts(currentBibleTranslationId, currentBook);
 
     var overall_verse_count = 0;
-    for (let i = 1; i <= chapterCount; i++) {
-      let currentChapterVerseCount = await ipcNsi.getChapterVerseCount(currentBibleTranslationId, currentBook, i);
+    for (let i = 0; i < chapterCount; i++) {
+      let currentChapterVerseCount = allChapterVerseCounts[i];
       overall_verse_count += currentChapterVerseCount;
     }
 
@@ -120,12 +121,14 @@ class TagStatistics {
 
     tag_statistics_html += "</table>";
 
-    $('#book-tag-statistics-box-content').empty();
-    $('#book-tag-statistics-box-content').html(tag_statistics_html);
+    var bookTagStatisticsBoxContent = document.getElementById('book-tag-statistics-box-content');
+    bookTagStatisticsBoxContent.innerHTML = tag_statistics_html;
   }
 
   async toggleBookTagStatisticsButton(index=undefined) {
-    var book_tag_statistics_button = $('.show-book-tag-statistics-button');
+    var verseListTabs = document.getElementById('verse-list-tabs');
+    var book_tag_statistics_button = $(verseListTabs).find('.show-book-tag-statistics-button');
+
     if (index === undefined) {
       index = app_controller.tab_controller.getSelectedTabIndex();
     }
@@ -140,6 +143,7 @@ class TagStatistics {
         book_tag_statistics_button.removeClass('events-configured');
       }
 
+      book_tag_statistics_button.unbind('click');
       book_tag_statistics_button.bind('click', (event) => {
         if (!$(event.target).hasClass('ui-state-disabled')) {
           this.openBookTagStatistics();
@@ -147,7 +151,7 @@ class TagStatistics {
       });
       book_tag_statistics_button.show();
     } else {
-      book_tag_statistics_button.unbind()
+      book_tag_statistics_button.unbind();
       book_tag_statistics_button.addClass('ui-state-disabled');
       book_tag_statistics_button.addClass('events-configured');
     }

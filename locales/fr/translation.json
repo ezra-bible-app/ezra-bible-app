@@ -211,6 +211,7 @@
     "show-notes": "Montrer les notes",
     "limit-notes-display-size": "Limiter la taille des notes",
     "use-tags-column": "Utiliser des colonnes d'étiquettes",
+    "select-chapter-before-loading": "Open books with chapter selection",
     "use-night-mode": "Mode nuit",
     "keep-screen-on": "Garder l'écran allumé",
     "tag-statistics": "Statistiques des étiquettes",
@@ -220,7 +221,10 @@
     "open-verselist-in-new-tab": "Ouvrir la liste des versets dans un nouvel onglet",
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Ajuster la taille de la police des étiquettes et des notes",
-    "new-note-hint": "Cliques pour ajouter une note"
+    "new-note-hint": "Cliques pour ajouter une note",
+    "open-complete-book": "Open books completely",
+    "open-chapters-large-books": "Open large books chapter-wise",
+    "open-chapters-all-books": "Open all books chapter-wise"
   },
   "dictionary-info-box": {
     "greek-dict": "Dictionnaire grec",

@@ -211,6 +211,7 @@
     "show-notes": "Zobraziť poznámky",
     "limit-notes-display-size": "Obmedzte veľkosť zobrazenia poznámok",
     "use-tags-column": "Použite stĺpec značiek",
+    "select-chapter-before-loading": "Open books with chapter selection",
     "use-night-mode": "Nočný mód",
     "keep-screen-on": "Ponechať zapnutý displej",
     "tag-statistics": "Štatistiky štítkov",
@@ -220,7 +221,10 @@
     "open-verselist-in-new-tab": "Otvoriť zoznam veršov na novej karte",
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Úprava veľkosti textu štítkov & poznámok",
-    "new-note-hint": "Kliknite pre pridanie poznámky"
+    "new-note-hint": "Kliknite pre pridanie poznámky",
+    "open-complete-book": "Open books completely",
+    "open-chapters-large-books": "Open large books chapter-wise",
+    "open-chapters-all-books": "Open all books chapter-wise"
   },
   "dictionary-info-box": {
     "greek-dict": "Grécky slovník",

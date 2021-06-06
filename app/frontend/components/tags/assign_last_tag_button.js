@@ -29,12 +29,18 @@ const i18nController = require('../../controllers/i18n_controller.js');
  * @category Component
  */
 class AssignLastTagButton {
-  constructor() {}
+  constructor() {
+    this._localeChangeSubscriptionDone = false;
+  }
 
   init(tabIndex=undefined) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+    var assignLastTagButton = currentVerseListMenu.find('.assign-last-tag-button');
 
-    currentVerseListMenu.find('.assign-last-tag-button').bind('click', async (event) => {
+    assignLastTagButton.unbind('click');
+    assignLastTagButton.bind('click', async (event) => {
+      event.stopPropagation();
+
       if (!event.target.classList.contains('ui-state-disabled')) {
         uiHelper.showTextLoadingIndicator();
         await waitUntilIdle();
@@ -43,9 +49,13 @@ class AssignLastTagButton {
       }
     });
 
-    i18nController.addLocaleChangeSubscriber(async () => {
-      await this.updateLabel();
-    });
+    if (!this._localeChangeSubscriptionDone) {
+      this._localeChangeSubscriptionDone = true;
+
+      i18nController.addLocaleChangeSubscriber(async () => {
+        await this.updateLabel();
+      });
+    } 
   }
 
   async updateLabel(tagTitle=undefined) {
@@ -97,6 +107,8 @@ class AssignLastTagButton {
   }
 
   async refreshLastTagButtonState(versesSelected, selectedVerseTags) {
+    var assignLastTagButtons = $('.assign-last-tag-button');
+
     if (versesSelected) {
       if (tags_controller.tag_store.latest_tag_id != null) {
         var tagFound = false;
@@ -112,16 +124,16 @@ class AssignLastTagButton {
         }
 
         if (!tagFound || selectedVerseTags.length == 0) {
-          $('.assign-last-tag-button').removeClass('ui-state-disabled');
+          assignLastTagButtons.removeClass('ui-state-disabled');
         } else {
-          $('.assign-last-tag-button').addClass('ui-state-disabled');
+          assignLastTagButtons.addClass('ui-state-disabled');
         }
 
       } else {
-        $('.assign-last-tag-button').addClass('ui-state-disabled');
+        assignLastTagButtons.addClass('ui-state-disabled');
       }
     } else {
-      $('.assign-last-tag-button').addClass('ui-state-disabled');
+      assignLastTagButtons.addClass('ui-state-disabled');
     }
   }
 }
