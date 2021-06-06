@@ -18,7 +18,10 @@
 
 /**
  * This class implements a hierarchical cache that establishes multiple levels of a cached hierarchy
- * where the number of hierarchy levels depends on the number of arguments provided.
+ * where the number of hierarchy levels depends on the number of arguments provided. The assumption is that the items must only be read once
+ * from a source and will not change after that - which makes caching possible.
+ * 
+ * The only function used to access the cache is called `fetch`.
  */
 class HierarchicalObjectCache {
   constructor() {
@@ -26,6 +29,14 @@ class HierarchicalObjectCache {
     this._hierarchyEstablished = false;
   }
 
+  /**
+   * Checks whether there is already an object at the cache position based on the parameters 
+   * and either returns it directly if existing or fetches it using the provided `fetchFunction`.
+   * 
+   * @param {Function} fetchFunction 
+   * @param  {...any} args The provided arguments are used as keys for the hierarchical cache. With e.g. SWORD objects the hierarchy could be based on Module/Book/Chapter.
+   * @returns The value retrieved from cache if already existing or via the provided fetchFunction if not existing.
+   */
   async fetch(fetchFunction, ...args) {
     this._establishHierarchy(...args);
     
