@@ -8,15 +8,12 @@ jobs:
         runs-on: ubuntu-20.04
         steps:
         - uses: actions/checkout@v2
-        - uses: actions/setup-node@v2
-          with:
-            node-version: '10'
 
         - name: Install dependencies
           run: sudo apt install -y libcurl4-gnutls-dev & npm install
         
         - name: Run test
-          run: npm run test
+          run: npm test
 
     e2e-test:
         name: Run Cucumber tests
