@@ -51,6 +51,7 @@
     "build-mac": "./build_scripts/macos/build_mac.sh",
     "update-loc-metrics": "./build_scripts/update_loc_metrics.sh",
     "update-cc-metrics": "./build_scripts/update_complexity_metrics.sh",
+    "doc": "./node_modules/.bin/jsdoc -c jsdoc.conf --readme DESIGN.md -d docs/docs -r --verbose app",
     "test": "./node_modules/.bin/jest"
   },
   "dependencies": {
