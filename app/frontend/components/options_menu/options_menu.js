@@ -16,9 +16,9 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const PlatformHelper = require('../../lib/platform_helper.js');
-const { waitUntilIdle } = require('../helpers/ezra_helper.js');
-const i18nController = require('../controllers/i18n_controller.js');
+const PlatformHelper = require('../../../lib/platform_helper.js');
+const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
+const i18nController = require('../../controllers/i18n_controller.js');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
@@ -38,7 +38,7 @@ class OptionsMenu {
     this.platformHelper = new PlatformHelper();
 
     if (this.platformHelper.isCordova()) {
-      var CordovaPlatform = require('../platform/cordova_platform.js');
+      var CordovaPlatform = require('../../platform/cordova_platform.js');
       this.cordovaPlatform = new CordovaPlatform();
     }
   }
@@ -52,15 +52,15 @@ class OptionsMenu {
       app_controller.openModuleSettingsAssistant('DICT'); 
     });
 
-    var toolBarEnabledByDefault = true;
+    var toolBarcheckedByDefault = true;
     var openVerseListsInNewTabByDefault = false;
 
     if (this.platformHelper.isCordova()) {
-      toolBarEnabledByDefault = false;
+      toolBarcheckedByDefault = false;
       openVerseListsInNewTabByDefault = true;
     }
 
-    this._toolBarOption = this.initConfigOption('showToolBarOption', () => { this.showOrHideToolBarBasedOnOption(); }, toolBarEnabledByDefault);
+    this._toolBarOption = this.initConfigOption('showToolBarOption', () => { this.showOrHideToolBarBasedOnOption(); }, toolBarcheckedByDefault);
     this._bookIntroOption = this.initConfigOption('showBookIntroOption', () => { this.showOrHideBookIntroductionBasedOnOption(); });
     this._sectionTitleOption = this.initConfigOption('showSectionTitleOption', () => { this.showOrHideSectionTitlesBasedOnOption(); });
     this._xrefsOption = this.initConfigOption('showXrefsOption', () => { this.showOrHideXrefsBasedOnOption(); });
@@ -77,11 +77,13 @@ class OptionsMenu {
     this._verseNotesFixedHeightOption = this.initConfigOption('fixNotesHeightOption', () => { this.fixNotesHeightBasedOnOption(); });
     this._keepScreenAwakeOption = this.initConfigOption('keepScreenAwakeOption', () => { this.keepScreenAwakeBasedOnOption(); });
     this._textSizeAdjustTagsNotesOption = this.initConfigOption('adjustTagsNotesTextSizeOption', () => { app_controller.textSizeSettings.updateTagsNotes(this._textSizeAdjustTagsNotesOption.isChecked); }, true);
+    this._selectChapterBeforeLoadingOption = this.initConfigOption('selectChapterBeforeLoadingOption', () => {});
+    this._bookLoadingModeOption = this.initConfigOption('bookLoadingModeOption', async () => { this.handleBookLoadingModeOptionChange(); });
 
     this.initLocaleSwitchOption();
     await this.initNightModeOption();
 
-    this.adjustOptionsMenuForPlatform();
+    await this.adjustOptionsMenuForPlatform();
     this.refreshViewBasedOnOptions();
   }
 
@@ -101,7 +103,7 @@ class OptionsMenu {
       uiHelper.hideGlobalLoadingIndicator();
     });
 
-    this._nightModeOption.enabled = await theme_controller.isNightModeUsed();
+    this._nightModeOption.checked = await theme_controller.isNightModeUsed();
 
     var isMojaveOrLater = await this.platformHelper.isMacOsMojaveOrLater();
     if (isMojaveOrLater) {
@@ -124,7 +126,7 @@ class OptionsMenu {
     });
   }
 
-  adjustOptionsMenuForPlatform() {
+  async adjustOptionsMenuForPlatform() {
     if (!this.platformHelper.isCordova()) {
       // On the desktop (Electron) we do not need the screen-awake option!
       $(this._keepScreenAwakeOption).hide();
@@ -134,6 +136,11 @@ class OptionsMenu {
       // On the Cordova platform we cannot make use of the dictionary panel, because
       // it heavily depends on the mouse.
       $(this._dictionaryOption).hide();
+
+      var bookLoadingModeOptionPersisted = await this._bookLoadingModeOption.persisted;
+      if (!bookLoadingModeOptionPersisted) {
+        this._bookLoadingModeOption.selectedValue = 'open-chapters-all-books';
+      }
     }
   }
 
@@ -142,9 +149,9 @@ class OptionsMenu {
     currentVerseListMenu.find('.display-options-button').bind('click', (event) => { this.handleMenuClick(event); });
   }
 
-  initConfigOption(configOptionId, eventHandler, enabledByDefault=false) {
+  initConfigOption(configOptionId, eventHandler, checkedByDefault=false) {
     var option = document.getElementById(configOptionId);
-    option.enabledByDefault = enabledByDefault;
+    option.checkedByDefault = checkedByDefault;
 
     option.addEventListener("optionChanged", async () => {
       await eventHandler();
@@ -434,6 +441,24 @@ class OptionsMenu {
     }
   }
 
+  async handleBookLoadingModeOptionChange(tabIndex=undefined) {
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+    var enableOption = true;
+
+    if (currentTab.getTextType() == 'book') {
+      var isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(
+        currentTab.getBibleTranslationId(),
+        currentTab.getBook()
+      );
+
+      if (!isInstantLoadingBook) {
+        enableOption = false;
+      }
+    }
+
+    this._headerNavOption.enabled = enableOption;
+  }
+
   changeTagsLayoutBasedOnOption(tabIndex=undefined) {
     var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
@@ -449,12 +474,11 @@ class OptionsMenu {
     }
   }
 
-  refreshViewBasedOnOptions(tabIndex=undefined) {
+  async refreshViewBasedOnOptions(tabIndex=undefined) {
     this.showOrHideToolBarBasedOnOption(tabIndex);
     this.showOrHideBookIntroductionBasedOnOption(tabIndex);
     this.showOrHideSectionTitlesBasedOnOption(tabIndex);
     this.showOrHideBookChapterNavigationBasedOnOption(tabIndex);
-    this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     this.showOrHideTabSearchFormBasedOnOption(tabIndex);
     this.showOrHideXrefsBasedOnOption(tabIndex);
     this.showOrHideFootnotesBasedOnOption(tabIndex);
@@ -464,6 +488,8 @@ class OptionsMenu {
     this.showOrHideStrongsBasedOnOption(tabIndex);
     this.showOrHideVerseNotesBasedOnOption(tabIndex);
     this.fixNotesHeightBasedOnOption(tabIndex);
+    await this.handleBookLoadingModeOptionChange(tabIndex);
+    this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     this.keepScreenAwakeBasedOnOption();
     theme_controller.useNightModeBasedOnOption();
   }

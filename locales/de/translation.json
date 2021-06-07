@@ -212,6 +212,7 @@
     "show-notes": "Zeige Notizen",
     "limit-notes-display-size": "Limitiere Notizgröße",
     "use-tags-column": "Tags in Spalte",
+    "select-chapter-before-loading": "Open books with chapter selection",
     "use-night-mode": "Nachtmodus",
     "keep-screen-on": "Display angeschaltet lassen",
     "tag-statistics": "Tag Statistiken",
@@ -221,7 +222,10 @@
     "open-verselist-in-new-tab": "Versliste in neuem Tab öffnen",
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Tags und Notizschriftgröße anpassen",
-    "new-note-hint": "Klicken um neue Notiz hinzuzufügen"
+    "new-note-hint": "Klicken um neue Notiz hinzuzufügen",
+    "open-complete-book": "Open books completely",
+    "open-chapters-large-books": "Open large books chapter-wise",
+    "open-chapters-all-books": "Open all books chapter-wise"
   },
   "dictionary-info-box": {
     "greek-dict": "Griechisches Wörterbuch",

@@ -211,6 +211,7 @@
     "show-notes": "Show notes",
     "limit-notes-display-size": "Limit notes display size",
     "use-tags-column": "Use tags column",
+    "select-chapter-before-loading": "Open books with chapter selection",
     "use-night-mode": "Night mode",
     "keep-screen-on": "Keep screen on",
     "tag-statistics": "Tag statistics",
@@ -220,7 +221,10 @@
     "open-verselist-in-new-tab": "Open verse list in new tab",
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Adjust tags & notes font size",
-    "new-note-hint": "Click to add a note"
+    "new-note-hint": "Click to add a note",
+    "open-complete-book": "Open books completely",
+    "open-chapters-large-books": "Open large books chapter-wise",
+    "open-chapters-all-books": "Open all books chapter-wise"
   },
   "dictionary-info-box": {
     "greek-dict": "Greek Dictionary",

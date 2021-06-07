@@ -16,11 +16,11 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const i18nHelper = require('../helpers/i18n_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
+const i18nHelper = require('../helpers/i18n_helper.js');
 const i18nController = require('../controllers/i18n_controller.js');
 const cacheController = require('../controllers/cache_controller.js');
-   
+
 /**
  * The BookSelectionMenu component implements all event handling for the book selection menu.
  * 
@@ -35,15 +35,15 @@ class BookSelectionMenu {
   async init() {
     if (this.init_completed) return;
 
-    const menu = document.querySelector('#app-container #book-selection-menu');
-    menu.addEventListener('click', app_controller.handleBodyClick);
+    const menuBookList = document.querySelector('#app-container #book-selection-menu-book-list');
+    menuBookList.addEventListener('click', app_controller.handleBodyClick);
 
     var cachedHtml = await cacheController.getCachedItem('bookSelectionMenuCache');
 
     if (cachedHtml) {
-      menu.innerHTML = cachedHtml;
+      menuBookList.innerHTML = cachedHtml;
     } else {
-      console.log("Localizing book selection menu ...")
+      console.log("Localizing book selection menu ...");
       await this.localizeBookSelectionMenu();
     }
 
@@ -53,7 +53,7 @@ class BookSelectionMenu {
   }
 
   initLinks() {
-    var menu = $('#app-container').find('#book-selection-menu');
+    var menu = $('#app-container').find('#book-selection-menu-book-list');
     var links = menu.find('a');
 
     for (var i = 0; i < links.length; i++) {
@@ -80,7 +80,7 @@ class BookSelectionMenu {
 
   // This function is rather slow and it delays app startup! (~175ms)
   async localizeBookSelectionMenu() {
-    var aElements = document.querySelectorAll("#book-selection-menu a");
+    var aElements = document.querySelectorAll("#book-selection-menu-book-list a");
 
     for (var i = 0; i < aElements.length; i++) {
       var currentBook = aElements[i];
@@ -92,7 +92,7 @@ class BookSelectionMenu {
       }
     }
 
-    var html = document.getElementById("book-selection-menu").innerHTML;
+    var html = document.getElementById("book-selection-menu-book-list").innerHTML;
     cacheController.setCachedItem('bookSelectionMenuCache', html);
   }
 
@@ -104,7 +104,7 @@ class BookSelectionMenu {
 
       if (currentBibleTranslationId != null) {
         var books = await ipcNsi.getBookList(currentBibleTranslationId);
-        var book_links = document.getElementById('book-selection-menu').querySelectorAll('li');
+        var book_links = document.getElementById('book-selection-menu-book-list').querySelectorAll('li');
 
         for (var i = 0; i < book_links.length; i++) {
           var current_book_link = book_links[i];
@@ -123,61 +123,81 @@ class BookSelectionMenu {
     }
   }
 
-  async selectBibleBook(book_code, book_title, reference_book_title) {
-    var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    if (currentBibleTranslationId == null || currentBibleTranslationId == undefined) {
+  async selectBibleBook(bookCode, bookTitle, referenceBookTitle) {
+    this.currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    if (this.currentBibleTranslationId == null || this.currentBibleTranslationId == undefined) {
       return;
     }
 
     Sentry.addBreadcrumb({category: "app",
-                          message: `Selected book ${book_code} using translation ${currentBibleTranslationId}`,
+                          message: `Selected book ${bookCode} using translation ${this.currentBibleTranslationId}`,
                           level: Sentry.Severity.Info});
     
-    var books = await ipcNsi.getBookList(currentBibleTranslationId);
-    if (!books.includes(book_code)) {
+    var books = await ipcNsi.getBookList(this.currentBibleTranslationId);
+    if (!books.includes(bookCode)) {
       return;
     }
 
-    app_controller.book_selection_menu.hideBookMenu();
-    app_controller.book_selection_menu.highlightSelectedBookInMenu(book_code);
+    const selectChapterBeforeLoading = app_controller.optionsMenu._selectChapterBeforeLoadingOption;
+    const bookChapterCount = await ipcNsi.getBookChapterCount(this.currentBibleTranslationId, bookCode);
 
-    var currentTab = app_controller.tab_controller.getTab();
-    currentTab.setTextType('book');
-    app_controller.tab_controller.setCurrentTabBook(book_code, book_title, reference_book_title);
+    if (selectChapterBeforeLoading.isChecked && bookChapterCount > 1) {
+      //console.log(`Showing chapter list for ${bookTitle} ` +
+      //            `since its chapter count (${bookChapterCount}) is above the limit for instant loading!`);
+      
+      const menuBookList = document.getElementById('book-selection-menu-book-list');
+      menuBookList.style.display = 'none';
 
-    app_controller.tag_selection_menu.hideTagMenu();
-    app_controller.tag_selection_menu.resetTagMenu();
-    app_controller.module_search_controller.hideSearchMenu();
-    app_controller.module_search_controller.resetSearch();
-    app_controller.tag_assignment_menu.hideTagAssignmentMenu();
+      this.currentBookCode = bookCode;
+      this.currentBookTitle = bookTitle;
+      this.currentReferenceBookTitle = referenceBookTitle;
 
-    await app_controller.text_controller.prepareForNewText(true, false);
+      await this.loadChapterList(bookChapterCount);
 
-    setTimeout(async () => {
-      // Set selected tags and search term to null, since we just switched to a book
-      var currentTab = app_controller.tab_controller.getTab();
-      currentTab.setTagIdList(null);
-      currentTab.setSearchTerm(null);
-      currentTab.setXrefs(null);
-      currentTab.setReferenceVerseElementId(null);
+    } else { // Load directly without first showing chapter list
 
-      var currentVerseList = app_controller.getCurrentVerseList();
-      currentTab.tab_search.setVerseList(currentVerseList);
+      const instantLoad = await app_controller.translation_controller.isInstantLoadingBook(this.currentBibleTranslationId, bookCode);
 
-      var currentTabId = app_controller.tab_controller.getSelectedTabId();
-      var currentBook = currentTab.getBook();
+      app_controller.text_controller.loadBook(bookCode,
+                                              bookTitle,
+                                              referenceBookTitle,
+                                              instantLoad,
+                                              1);
+    }
+  }
 
-      await app_controller.text_controller.requestTextUpdate(currentTabId,
-                                                             currentBook,
-                                                             null,
-                                                             null,
-                                                             null,
-                                                             null,
-                                                             null);
+  async loadChapterList(bookChapterCount) {
+    var menuChapterList = document.getElementById('book-selection-menu-chapter-list');
+    menuChapterList.innerHTML = `
+      <h2>${this.currentBookTitle}</h2>
+      <div id='chapter-list-chapters'></div>
+    `;
 
-      await waitUntilIdle();
-      tags_controller.updateTagList(currentBook);
-    }, 50);
+    var chapters = menuChapterList.querySelector('#chapter-list-chapters');
+
+    for (let c = 1; c <= bookChapterCount; c++) {
+      let newLink = document.createElement('a');
+      newLink.href = c;
+      newLink.innerText = c;
+      chapters.appendChild(newLink);
+
+      newLink.addEventListener('click', async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const selectedChapter = parseInt(event.target.getAttribute('href'));
+        const instantLoad = await app_controller.translation_controller.isInstantLoadingBook(this.currentBibleTranslationId, this.currentBookCode);
+
+        app_controller.text_controller.loadBook(this.currentBookCode,
+                                                this.currentBookTitle,
+                                                this.currentReferenceBookTitle,
+                                                instantLoad,
+                                                selectedChapter);
+      });
+    }
+
+    chapters.style.display = 'flex';
+    menuChapterList.style.display = 'block';
   }
 
   hideBookMenu() {
@@ -187,6 +207,12 @@ class BookSelectionMenu {
 
       var book_button = $('#app-container').find('.book-select-button');
       book_button.removeClass('ui-state-active');
+
+      var menuBookList = document.getElementById('book-selection-menu-book-list');
+      menuBookList.style.display = 'block';
+
+      var menuChapterList = document.getElementById('book-selection-menu-chapter-list');
+      menuChapterList.style.display = 'none';
     }
   }
 
@@ -224,15 +250,18 @@ class BookSelectionMenu {
 
   clearSelectedBookInMenu() {
     // Remove highlighting for previously selected book
-    $('.book-selected').removeClass('book-selected');
+    var selectedBook = document.getElementsByClassName('book-selected');
+    if (selectedBook.length > 0) {
+      selectedBook[0].classList.remove('book-selected');
+    }
   };
 
-  highlightSelectedBookInMenu(book_code) {
+  highlightSelectedBookInMenu(bookCode) {
     this.clearSelectedBookInMenu();
     
     // Highlight the newly selected book
-    var bookId = '.book-' + book_code;
-    $('#book-selection-menu').find(bookId).addClass('book-selected');
+    var bookId = '.book-' + bookCode;
+    document.getElementById('book-selection-menu-book-list').querySelector(bookId).classList.add('book-selected');
   }
 }
 

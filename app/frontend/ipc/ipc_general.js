@@ -21,6 +21,7 @@ const i18nController = require('../controllers/i18n_controller.js');
    class IpcGeneral {
     constructor() {
       this._ipcRenderer = new IpcRenderer();
+      this._cachedAppVersion = null;
     }
 
     async initPersistentIpc(useInternalStorage=false) {
@@ -44,7 +45,11 @@ const i18nController = require('../controllers/i18n_controller.js');
     }
 
     async getAppVersion() {
-      return await this._ipcRenderer.call('general_getAppVersion');
+      if (this._cachedAppVersion == null) {
+        this._cachedAppVersion = await this._ipcRenderer.call('general_getAppVersion');
+      }
+
+      return this._cachedAppVersion;
     }
 
     async isTest() {
@@ -57,6 +62,21 @@ const i18nController = require('../controllers/i18n_controller.js');
 
     async getBookNames(bibleBooks, localeCode=i18nController.getLocale()) {
       return await this._ipcRenderer.call('general_getBookNames', bibleBooks, localeCode);
+    }
+
+    /**
+     * This can be used to check which functions are called how often as a basis for performance optimization.
+     * Returns an object where the keys are function names and values call counts.
+     */
+    async getIpcCallStats() {
+      return await this._ipcRenderer.call('general_getIpcCallStats');
+    }
+
+    /**
+     * Resets the IPC call statistics.
+     */
+    async resetIpcCallStats() {
+      return await this._ipcRenderer.call('general_resetIpcCallStats');
     }
    }
 

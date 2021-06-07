@@ -35,7 +35,7 @@ const TextController = require("./text_controller.js");
 const VerseContextController = require("./verse_context_controller.js");
 const TabSearch = require("../components/tab_search/tab_search.js");
 const TabController = require("./tab_controller.js");
-const OptionsMenu = require("../components/options_menu.js");
+const OptionsMenu = require("../components/options_menu/options_menu.js");
 const NavigationPane = require("../components/navigation_pane.js");
 const TranslationComparison = require("../components/translation_comparison.js");
 const BookSelectionMenu = require("../components/book_selection_menu.js");
@@ -204,7 +204,7 @@ class AppController {
     }
 
     // Refresh the view based on the options selected
-    this.optionsMenu.refreshViewBasedOnOptions(ui.index);
+    await this.optionsMenu.refreshViewBasedOnOptions(ui.index);
 
     // When switching tabs we need to end any note editing.
     this.notes_controller.restoreCurrentlyEditedNotes();
@@ -216,7 +216,7 @@ class AppController {
     }
 
     // Clear verse selection
-    this.verse_selection.clear_verse_selection();
+    this.verse_selection.clear_verse_selection(true, ui.index);
 
     // Refresh tags view
     // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
@@ -259,14 +259,13 @@ class AppController {
     await this.module_search_controller.cancelModuleSearch();
 
     // Refresh the view based on the options selected
-    this.optionsMenu.refreshViewBasedOnOptions(tabIndex);
+    await this.optionsMenu.refreshViewBasedOnOptions(tabIndex);
     uiHelper.resizeVerseList(tabIndex);
     
     await this.initCurrentVerseListMenu(tabIndex);
     this.tag_selection_menu.init(tabIndex);
     this.tag_assignment_menu.init(tabIndex);
     this.module_search_controller.initModuleSearch(tabIndex);
-    await this.translation_controller.initTranslationsMenu(previousTabIndex, tabIndex);
     this.info_popup.initAppInfoButton();
     this.textSizeSettings.init(tabIndex);
     
@@ -308,19 +307,32 @@ class AppController {
     // The tab search is not valid anymore if the translation is changing. Therefore we reset it.
     currentTab.tab_search.resetSearch();
 
+    var isInstantLoadingBook = true;
+
+    if (currentTab.getTextType() == 'book') {
+      // We set the previous book to the current book. This will be used in NavigationPane to avoid reloading the chapter list.
+      currentTab.setPreviousBook(currentTab.getBook());
+
+      isInstantLoadingBook = await this.translation_controller.isInstantLoadingBook(newBibleTranslationId, currentTab.getBook());
+    }
+
     if (currentTab.getTextType() == 'search_results') {
       await this.text_controller.prepareForNewText(true, true);
       this.module_search_controller.startSearch(null, this.tab_controller.getSelectedTabIndex(), currentTab.getSearchTerm());
     } else {
       if (!this.tab_controller.isCurrentTabEmpty()) {
         await this.text_controller.prepareForNewText(false, false);
-        await this.text_controller.requestTextUpdate(this.tab_controller.getSelectedTabId(),
-                                                 currentTab.getBook(),
-                                                 currentTab.getTagIdList(),
-                                                 null,
-                                                 null,
-                                                 null,
-                                                 currentTab.getXrefs());
+        await this.text_controller.requestTextUpdate(
+          this.tab_controller.getSelectedTabId(),
+          currentTab.getBook(),
+          currentTab.getTagIdList(),
+          null,
+          null,
+          null,
+          currentTab.getXrefs(),
+          currentTab.getChapter(),
+          isInstantLoadingBook
+        );
 
         if (currentTab.getReferenceVerseElementId() != null) {
           await this.updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId);
@@ -380,7 +392,7 @@ class AppController {
       await this.tab_controller.loadTabConfiguration();
       await this.translation_controller.loadSettings();
     } catch (e) {
-      console.error("Failed to load settings ... got exception: " + e);
+      console.trace("Failed to load settings ... got exception.", e);
     }
     
     this.tab_controller.bindEvents();
@@ -419,7 +431,7 @@ class AppController {
       uiHelper.configureButtonStyles('#' + tabId);
     }
 
-    await this.navigation_pane.updateNavigation();
+    await this.navigation_pane.updateNavigation(tabIndex);
   }
 
   initGlobalShortCuts() {
@@ -546,26 +558,26 @@ class AppController {
 
   getCurrentVerseListTabs(tabIndex=undefined) {
     var selectedTabId = this.tab_controller.getSelectedTabId(tabIndex);
-    var currentVerseListTabs = $('#' + selectedTabId);
-    return currentVerseListTabs;
+    var currentVerseListTabs = document.getElementById(selectedTabId);
+    return $(currentVerseListTabs);
   }
 
   getCurrentVerseListMenu(tabIndex=undefined) {
     var currentVerseListTabs = this.getCurrentVerseListTabs(tabIndex);
-    var currentVerseListMenu = currentVerseListTabs.find('.verse-list-menu');
-    return currentVerseListMenu;
+    var currentVerseListMenu = currentVerseListTabs[0].querySelector('.verse-list-menu');
+    return $(currentVerseListMenu);
   }
 
   getCurrentVerseListComposite(tabIndex=undefined) {
     var currentVerseListTabs = this.getCurrentVerseListTabs(tabIndex);
-    var currentVerseListComposite = currentVerseListTabs.find('.verse-list-composite');
-    return currentVerseListComposite;
+    var currentVerseListComposite = currentVerseListTabs[0].querySelector('.verse-list-composite');
+    return $(currentVerseListComposite);
   }
 
   getCurrentVerseListFrame(tabIndex=undefined) {
     var currentVerseListComposite = this.getCurrentVerseListComposite(tabIndex);
-    var currentVerseListFrame = currentVerseListComposite.find('.verse-list-frame');
-    return currentVerseListFrame;
+    var currentVerseListFrame = currentVerseListComposite[0].querySelector('.verse-list-frame');
+    return $(currentVerseListFrame);
   }
 
   getCurrentReferenceVerse(tabIndex=undefined) {
@@ -588,8 +600,8 @@ class AppController {
 
   getCurrentVerseList(tabIndex=undefined) {
     var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-    var verseList = currentVerseListFrame.find('.verse-list');
-    return verseList;
+    var verseList = currentVerseListFrame[0].querySelector('.verse-list');
+    return $(verseList);
   }
 
   getCurrentVerseListHeader(tabIndex=undefined) {
@@ -600,8 +612,8 @@ class AppController {
 
   getCurrentVerseListLoadingIndicator(tabIndex=undefined) {
     var currentVerseListComposite = this.getCurrentVerseListComposite(tabIndex);
-    var loadingIndicator = currentVerseListComposite.find('.verse-list-loading-indicator');
-    return loadingIndicator;
+    var loadingIndicator = currentVerseListComposite[0].querySelector('.verse-list-loading-indicator');
+    return $(loadingIndicator);
   }
 
   getCurrentSearchProgressBar(tabIndex=undefined) {
@@ -947,13 +959,17 @@ class AppController {
       var resetView = this.tab_controller.getTab().getTextType() != 'tagged_verses';
 
       await this.text_controller.prepareForNewText(resetView, false);
-      this.text_controller.requestTextUpdate(currentTabId,
-                                         null,
-                                         currentTagIdList,
-                                         null,
-                                         null,
-                                         null,
-                                         null);
+
+      this.text_controller.requestTextUpdate(
+        currentTabId,
+        null,
+        currentTagIdList,
+        null,
+        null,
+        null,
+        null
+      );
+
       await waitUntilIdle();
       tags_controller.updateTagList();
     }
@@ -971,7 +987,6 @@ class AppController {
       currentVerseList.innerHTML = "";
     }
 
-    this.navigation_pane.resetNavigationPane();
     this.taggedVerseExport.disableTaggedVersesExportButton();
   }
 
@@ -992,8 +1007,10 @@ class AppController {
     }
 
     this.verse_selection.init(tabIndex);
+    await this.optionsMenu.handleBookLoadingModeOptionChange(tabIndex);
     this.optionsMenu.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     await this.navigation_pane.updateNavigation(tabIndex);
+    this.navigation_pane.scrollToTop(tabIndex);
     this.notes_controller.initForTab(tabIndex);
     this.sword_notes.initForTab(tabIndex);
     await this.translation_controller.toggleTranslationsBasedOnCurrentBook(tabIndex);

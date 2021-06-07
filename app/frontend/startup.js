@@ -90,8 +90,9 @@ class Startup {
 
     const fs = require('fs');
 
-    require('./components/config_option.js');
-    require('./components/locale_switch.js');
+    require('./components/options_menu/config_option.js');
+    require('./components/options_menu/select_option.js');
+    require('./components/options_menu/locale_switch.js');
 
     var bookSelectionMenu = fs.readFileSync('html/book_selection_menu.html');
     var tagSelectionMenu = fs.readFileSync('html/tag_selection_menu.html');
@@ -102,8 +103,8 @@ class Startup {
     var displayOptionsMenu = fs.readFileSync('html/display_options_menu.html');
     var verseListTabs = fs.readFileSync('html/verse_list_tabs.html');
     var boxes = fs.readFileSync('html/boxes.html');
-
-    document.getElementById('book-selection-menu').innerHTML = bookSelectionMenu;
+  
+    document.getElementById('book-selection-menu-book-list').innerHTML = bookSelectionMenu;
     document.getElementById('tag-selection-menu').innerHTML = tagSelectionMenu;
     document.getElementById('tag-assignment-menu').innerHTML = tagAssignmentMenu;
     document.getElementById('bible-browser-toolbox').innerHTML = bibleBrowserToolbox;
@@ -316,6 +317,7 @@ class Startup {
 
     // Restore the scroll position of the first tab.
     app_controller.tab_controller.restoreScrollPosition(0);
+    // FIXME: Also highlight the last navigation element in the navigation pane and scroll to it
 
     if (this._platformHelper.isElectron()) {
       const { ipcRenderer } = require('electron');
