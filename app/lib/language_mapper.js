@@ -25,7 +25,8 @@ module.exports.getLanguageName = (languageCode, localeCode = 'en') => {
     return mappingExistsCache[languageCode][localeCode];
   }
 
-  const { languageName } = this.getLanguageDetails(languageCode, localeCode);
+  const details = this.getLanguageDetails(languageCode, localeCode);
+  const languageName = details.localized || localeCode === 'en' ? details.languageName : undefined;
 
   if (!mappingExistsCache[languageCode]) {
     mappingExistsCache[languageCode] = {};

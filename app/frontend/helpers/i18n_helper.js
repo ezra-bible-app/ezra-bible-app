@@ -70,7 +70,13 @@ module.exports.getLocalizedDate = function(timestamp) {
 
 module.exports.getLanguageName = function(code, includeNativeName = false, currentLocale = null) {
   currentLocale = currentLocale || i18nController.getLocale();
-  const localeName = languageMapper.getLanguageName(code, currentLocale);
+  var localeName = languageMapper.getLanguageName(code, currentLocale);
 
-  return localeName + (includeNativeName && code !== currentLocale ? ` (${languageMapper.getLanguageName(code, code)})` : '');
+  if (localeName) {
+    return localeName + (includeNativeName && code !== currentLocale ? ` (${languageMapper.getLanguageName(code, code)})` : '');
+  }
+
+  localeName = languageMapper.getLanguageName(code); //get locale name without localization
+
+  return localeName || code;
 }

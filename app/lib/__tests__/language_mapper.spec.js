@@ -25,4 +25,9 @@ describe('languageMapper', () => {
     const result = languageMapper.getLanguageCode('Hebrew');
     expect(result).toEqual('he');
   });
+
+  it('returns undefined when localized code not available', () => {
+    const result = languageMapper.getLanguageName('he', 'ru');
+    expect(result).toEqual(undefined);
+  });
 });
