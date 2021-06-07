@@ -80,7 +80,7 @@ module.exports.getLanguageDetails = function (languageCode, localeCode = 'en') {
 };
 
 module.exports.getLanguageCode = function(languageName) {
-  var langs = this.getLangs();
+  var langs = getLangs();
 
   for (var i = 0; i < langs.length; i++) {
     var currentLang = langs[i];
