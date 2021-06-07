@@ -103,6 +103,7 @@
     "electron-packager": "^15.1.0",
     "electron-rebuild": "^2.3.2",
     "git-to-json": "^2.1.4",
+    "jest": "^24.9.0",
     "jest-electron": "^0.1.11",
     "jsdoc": "^3.6.6",
     "node-abi": "^2.18.0",
