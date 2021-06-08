@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
 require('./step_languages.js');
 require('./step_repositories.js');
@@ -36,7 +37,7 @@ class InstallModuleAssistant {
   }
 
   async openAssistant(moduleType) {
-    this.init(moduleType);
+    await assistantController.initState(moduleType);
 
     var appContainerWidth = $(window).width() - 10;
     var wizardWidth = null;
@@ -54,7 +55,7 @@ class InstallModuleAssistant {
     $('#module-settings-assistant-remove').hide();
     $('#module-settings-assistant-init').show();
 
-    var modules = await app_controller.translation_controller.getInstalledModules(moduleType);
+    const modules = await assistantController.get('installedModules');
 
     $('#add-modules-button').removeClass('ui-state-disabled');
 
@@ -110,9 +111,6 @@ class InstallModuleAssistant {
     this._unlockCancelled = false;
     this._currentModuleType = moduleType;
     this._moduleInstallationCancelled = false;
-
-    // Preload info while user reads internet usage warning
-    this.allRepositories = await ipcNsi.getRepoNames();
   }
 
   async openAddModuleAssistant() {
@@ -141,7 +139,7 @@ class InstallModuleAssistant {
       stepsOrientation: 1,
       onStepChanging: (event, currentIndex, newIndex) => this.addModuleAssistantStepChanging(event, currentIndex, newIndex),
       onStepChanged: async (event, currentIndex, priorIndex) => this.addModuleAssistantStepChanged(event, currentIndex, priorIndex),
-      onFinishing: (event, currentIndex) => this.addModuleAssistantFinishing(event, currentIndex),
+      onFinishing: (event, currentIndex) => assistantController.isInstallCompleted(),
       onFinished: (event, currentIndex) => this.addModuleAssistantFinished(event, currentIndex),
       labels: {
         cancel: i18n.t("general.cancel"),
@@ -154,14 +152,17 @@ class InstallModuleAssistant {
 
   addModuleAssistantStepChanging(event, currentIndex, newIndex) {
     if (currentIndex == 0 && newIndex == 1) { // Changing from Languages (1) to Repositories (2)
-      this._selectedLanguages = this.languagesStep.languages;
-      return this._selectedLanguages.length > 0;
+      const selectedLanguages = this.languagesStep.languages;
+      assistantController.set('selectedLanguages', selectedLanguages);
+      return selectedLanguages.length > 0;
     } else if (currentIndex == 1 && newIndex == 2) { // Changing from Repositories (2) to Modules (3)
-      this._selectedRepositories = this.repositoriesStep.repositories;
-      return this._selectedRepositories.length > 0;
+      const selectedRepositories = this.repositoriesStep.repositories;
+      assistantController.set('selectedRepositories', selectedRepositories);
+      return selectedRepositories.length > 0;
     } else if (currentIndex == 2 && newIndex == 3) { // Changing from Modules (3) to Installation (4)
-      this.selectedModules = this.modulesStep.modules;
-      return this.selectedModules.length > 0;
+      const selectedModules = this.modulesStep.modules;
+      assistantController.set('selectedModules', selectedModules);
+      return selectedModules.length > 0;
     } else if (currentIndex == 3 && newIndex != 3) {
       return false;
     }
@@ -182,15 +183,11 @@ class InstallModuleAssistant {
     }
   }
 
-  addModuleAssistantFinishing(event, currentIndex) {
-    return this._moduleInstallStatus != 'IN_PROGRESS';
-  }
-
   async addModuleAssistantFinished(event, currentIndex) {
     $('#module-settings-assistant').dialog('close');
-    this._installedModules = await app_controller.translation_controller.getInstalledModules();
+    assistantController.set('installedModules', await app_controller.translation_controller.getInstalledModules());
 
-    if (this._currentModuleType == 'BIBLE') {
+    if (assistantController.get('moduleType') == 'BIBLE') {
       await app_controller.translation_controller.initTranslationsMenu();
       await tags_controller.updateTagUiBasedOnTagAvailability();
     }
