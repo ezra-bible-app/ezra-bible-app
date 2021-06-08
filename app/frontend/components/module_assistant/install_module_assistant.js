@@ -17,12 +17,10 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const assistantHelper = require('./assistant_helper.js');
-const i18nHelper = require('../../helpers/i18n_helper.js');
-const { sleep } = require('../../helpers/ezra_helper.js');
-require('../loading_indicator.js');
 require('./step_languages.js');
 require('./step_repositories.js');
 require('./step_modules.js');
+require('./step_install.js');
 
 /**
  * The InstallModuleAssistant component implements the dialog that handles module installations.
@@ -180,7 +178,7 @@ class InstallModuleAssistant {
 
     } else if (currentIndex == 3) {
 
-      this.installSelectedModules();
+      this.initInstallPage();
     }
   }
 
@@ -240,251 +238,24 @@ class InstallModuleAssistant {
     wizardPage.append(this.modulesStep);
   }
 
-  async installSelectedModules() {
+  async initInstallPage() {
     // Bible modules have been selected
 
     assistantHelper.lockDialogForAction('module-settings-assistant-add');
 
-    var moduleListPage = "#module-settings-assistant-add-p-2";
-    var modules = assistantHelper.getSelectedSettingsAssistantElements(moduleListPage);
-
     this._moduleInstallStatus = 'IN_PROGRESS';
 
-    var installPage = $("#module-settings-assistant-add-p-3");
-    installPage.empty();
+    this.installStep = document.createElement('step-install');
+    this.installStep.moduleType = this._currentModuleType;
+    this.installStep.modules = this.selectedModules;
 
-    var installingModules = "";
-    var itTakesTime = "";
-    if (this._currentModuleType == 'BIBLE') {
-      installingModules = i18n.t("module-assistant.installing-translations");
-      itTakesTime = i18n.t("module-assistant.it-takes-time-to-install-translation");
-    } else if (this._currentModuleType == 'DICT') {
-      installingModules = i18n.t("module-assistant.installing-dictionaries");
-      itTakesTime = i18n.t("module-assistant.it-takes-time-to-install-dictionary");
-    }
+    const wizardPage = $('#module-settings-assistant-add-p-3');
+    wizardPage.empty();
 
-    installPage.append('<h3>' + installingModules + '</h3>');
-    installPage.append('<p style="margin-bottom: 2em;">' + itTakesTime + '</p>');
+    wizardPage.append(this.installStep);
 
-    for (var i = 0; i < modules.length; i++) {
-      var currentModule = modules[i];
-      var swordModule = await ipcNsi.getRepoModule(currentModule);
-      var unlockFailed = true;
-
-      while (unlockFailed) {
-        try {
-          await this.installModule(installPage, currentModule);
-          unlockFailed = false;
-
-        } catch (e) {
-          if (e == "UnlockError") {
-            unlockFailed = true;
-          }
-        }
-
-        if (unlockFailed) {
-          this.showUnlockDialog(swordModule);
-
-          while (this._unlockDialogOpened) {
-            await sleep(200);
-          }
-
-          if (this._unlockCancelled) {
-            break;
-          }
-        }
-      }
-    }
-
-    $('#cancel-module-installation-button').addClass('ui-state-disabled');
     this._moduleInstallStatus = 'DONE';
     assistantHelper.unlockDialog('module-settings-assistant-add');
-  }
-
-  localizeModuleInstallProgressMessage(rawMessage) {
-    // rawMessage: Downloading (1 of 6): nt.bzz
-    rawMessage = rawMessage.replace("Downloading ", "");
-    var splittedMessage = rawMessage.split(": ");
-
-    var partOfTotal = splittedMessage[0];
-    partOfTotal = partOfTotal.replace("(", "");
-    partOfTotal = partOfTotal.replace(")", "");
-    var fileName = splittedMessage[1];
-
-    var splittedPartOfTotal = partOfTotal.split(" of ");
-    var part = splittedPartOfTotal[0];
-    var total = splittedPartOfTotal[1];
-
-    var localizedMessage = i18n.t("module-assistant.downloading") + " (" + part + " " + i18n.t("module-assistant.part-of-total") + " " + total + "): " + fileName;
-
-    return localizedMessage;
-  }
-
-  handleModuleInstallProgress(progress) {
-    var progressPercent = progress.totalPercent;
-    var progressMessage = progress.message;
-
-    var progressMessageBox = $('#module-install-progress-msg');
-    var progressbar = $('#module-install-progress-bar');
-
-    progressbar.progressbar("value", progressPercent);
-
-    if (progressMessage != '') {
-      var localizedMessage = this.localizeModuleInstallProgressMessage(progressMessage);
-      progressMessageBox.text(localizedMessage);
-    }
-    
-    if (progressPercent == 100) {
-      progressMessageBox.empty();
-    }
-  }
-
-  async installModule(installPage, moduleCode) {
-    var swordModule = await ipcNsi.getRepoModule(moduleCode);
-
-    var existingProgressBar = $('#module-install-progress-bar');
-    var installingModuleText = "<div style='float: left; margin-bottom: 1em;'>" + i18n.t("module-assistant.installing") + " <i>" + swordModule.description + "</i> ... </div>";
-
-    if (existingProgressBar.length == 0) {
-      installPage.append(installingModuleText);
-    } else {
-      existingProgressBar.before(installingModuleText);
-    }
-
-    var installingText = i18n.t('module-assistant.installing');
-
-    if (document.getElementById('module-install-progress-bar') == null) {
-      var progressBar = "<div id='progress-bar-container'><div id='module-install-progress-bar' style='width: 80%; float: left;' class='progress-bar'><div class='progress-label'>" + installingText + "</div></div>";
-      var progressMessage = "<div id='module-install-progress-msg' style='width: 80%; clear: both; padding-top: 0.5em; text-align: center;'></div></div>";
-      installPage.append(progressBar);
-      installPage.append(progressMessage);
-    }
-
-    uiHelper.initProgressBar($('#module-install-progress-bar'));
-    existingProgressBar = $('#module-install-progress-bar');
-
-    if (document.getElementById('cancel-module-installation-button') == null) {
-      var cancelModuleInstallationText = i18n.t("general.cancel");
-      var cancelInstallButtonHtml = "<div style='float: left;'><button id='cancel-module-installation-button' class='fg-button ui-corner-all ui-state-default'>" + cancelModuleInstallationText + "</button></div>";
-      var progressBarContainer = $('#progress-bar-container');
-      progressBarContainer.append(cancelInstallButtonHtml);
-      uiHelper.configureButtonStyles('#module-settings-assistant-add-p-3');
-
-      var cancelInstallButton = $('#cancel-module-installation-button');
-      cancelInstallButton.bind('click', async () => {
-        cancelInstallButton.addClass('ui-state-disabled');
-        this._moduleInstallationCancelled = true;
-        ipcNsi.cancelInstallation();
-      });
-    }
-
-    var installSuccessful = true;
-    var unlockSuccessful = true;
-    
-    try {
-      var moduleInstalled = false;
-      var localModule = await ipcNsi.getLocalModule(moduleCode);
-      if (localModule !== undefined && localModule !== null) {
-        moduleInstalled = true;
-      }
-
-      if (!moduleInstalled) {
-        var progressMessageBox = $('#module-install-progress-msg');
-        progressMessageBox.empty();
-        await ipcNsi.installModule(moduleCode, (progress) => { this.handleModuleInstallProgress(progress); });
-      }
-
-      // FIXME
-      // Sleep a bit after installation. This is actually a hack to prevent
-      // a "white screen error" right after module installation. The exact reason
-      // for that error is unclear, but the sleeping prevents it.
-      await sleep(100);
-
-      if (swordModule.locked) {
-        console.log("Module is locked ... saving unlock key");
-        var unlockKey = this._unlockKeys[moduleCode];
-        await ipcNsi.saveModuleUnlockKey(moduleCode, unlockKey);
-        var moduleReadable = await ipcNsi.isModuleReadable(moduleCode);
-
-        if (!moduleReadable) {
-          unlockSuccessful = false;
-          const errorMessage = "Locked module is not readable! Wrong unlock key?";
-          throw errorMessage;
-        }
-      }
-
-      // FIXME: Put this in a callback
-      if (this._currentModuleType == 'BIBLE') {
-        await app_controller.updateUiAfterBibleTranslationAvailable(moduleCode);
-      }
-    } catch (e) {
-      console.log("Error during installation: " + e);
-      installSuccessful = false;
-    }
-
-    if (installSuccessful) {
-      Sentry.addBreadcrumb({category: "app",
-                            message: `Installed module ${moduleCode}`,
-                            level: Sentry.Severity.Info});
-
-      existingProgressBar.before('<div style="margin-bottom: 1em;">&nbsp;' + i18n.t("general.done") + '.</div>');
-      existingProgressBar.progressbar("value", 100);
-      var strongsAvailable = await ipcNsi.strongsAvailable();
-
-      if (this._currentModuleType == 'BIBLE' && swordModule.hasStrongs && !strongsAvailable) {
-        await this.installStrongsModules(installPage);
-      }
-    } else {
-      var errorMessage = "";
-
-      if (!unlockSuccessful) {
-        errorMessage = i18n.t("general.module-unlock-failed");
-      } else {
-        if (this._moduleInstallationCancelled) {
-          errorMessage = i18n.t("general.module-install-cancelled");
-        } else {
-          errorMessage = i18n.t("general.module-install-failed");
-        }
-      }
-
-      existingProgressBar.before('<div style="margin-bottom: 1em;">&nbsp;' + errorMessage + '</div>');
-    }
-
-    if (swordModule.locked && !unlockSuccessful) {
-      console.log(swordModule);
-      throw "UnlockError";
-    }
-  }
-
-  async installStrongsModules(installPage) {
-
-    var existingProgressBar = $('#module-install-progress-bar');
-    existingProgressBar.before("<div style='float: left; margin-bottom: 1em;'>" + i18n.t("general.installing-strongs") + " ... </div>");
-
-    var strongsInstallSuccessful = true;
-
-    try {
-      var hebrewStrongsAvailable = await ipcNsi.hebrewStrongsAvailable();
-      var greekStrongsAvailable = await ipcNsi.greekStrongsAvailable();
-
-      if (!hebrewStrongsAvailable) {
-        await ipcNsi.installModule("StrongsHebrew", (progress) => { this.handleModuleInstallProgress(progress); });
-      }
-
-      if (!greekStrongsAvailable) {
-        await ipcNsi.installModule("StrongsGreek", (progress) => { this.handleModuleInstallProgress(progress); });
-      }
-    } catch (e) {
-      strongsInstallSuccessful = false;
-    }
-
-    if (strongsInstallSuccessful) {
-      app_controller.dictionary_controller.runAvailabilityCheck();
-      
-      existingProgressBar.before('<div style="margin-bottom: 1em;">&nbsp;' + i18n.t("general.done") + '.</div>');
-    } else {
-      existingProgressBar.before('<div style="margin-bottom: 1em;">&nbsp;' + i18n.t("general.module-install-failed") + '</div>');
-    }
   }
 
   showUnlockDialog(swordModule, checkbox=undefined) {
