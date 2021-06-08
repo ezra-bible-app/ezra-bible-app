@@ -27,7 +27,8 @@ var state = {
 };
 
 module.exports.initState = async function(moduleType) {
-  if(moduleType !== 'BIBLE' || moduleType !== 'DICT') {
+  console.log('addModuleAssistant.initState', moduleType);
+  if(moduleType !== 'BIBLE' && moduleType !== 'DICT') {
     console.log('ERROR: addModuleAssistant.initState: unable to recognize module type', moduleType);
     return false;
   }
@@ -37,7 +38,6 @@ module.exports.initState = async function(moduleType) {
 
   // don't wait for following properties to resolve at init call 
   state.allRepositories = ipcNsi.getRepoNames();
-
 };
 
 module.exports.get = (key) => state[key];

@@ -200,8 +200,6 @@ class InstallModuleAssistant {
 
   async initLanguagesPage() {
     this.languagesStep = document.createElement('step-languages');
-    this.languagesStep.moduleType = this._currentModuleType;
-    this.languagesStep.repositories = this.allRepositories;
 
     const wizardPage = $('#module-settings-assistant-add-p-0');
     wizardPage.empty();

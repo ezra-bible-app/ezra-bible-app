@@ -18,6 +18,7 @@
 
 
 const { html } = require('../../helpers/ezra_helper.js');
+const assistantController = require('./assistant_controller.js');
 const i18nController = require('../../controllers/i18n_controller.js');
 const languageMapper = require('../../../lib/language_mapper.js');
 const assistantHelper = require('./assistant_helper.js');
@@ -37,13 +38,13 @@ class StepLanguages extends HTMLElement {
     this.init();
   }
 
-  async init() {
-    this.moduleType = null;
-    this._repositories = null;
-    this._languages = null;
+  init() {
     this._allLanguageCodes = new Set();
+    this._repositories = assistantController.get('allRepositories');
 
-    this._selectedLanguages = await ipcSettings.get('selectedLanguages', []);
+    this._languages = this.getAvailableLanguagesFromRepos(); 
+    this._selectedLanguages = ipcSettings.get('selectedLanguages', []);
+
     console.log('LANGS: done with init');
   }
 
@@ -53,16 +54,10 @@ class StepLanguages extends HTMLElement {
     
     this.querySelector('loading-indicator').show();
   
-    const uiRepositories = this._repositories.map(rep => `<b>${rep}</b>`);
+    const uiRepositories = (await this._repositories).map(rep => `<b>${rep}</b>`);
     this.querySelector('.intro').innerHTML = i18n.t("module-assistant.pick-languages-from-repos") + uiRepositories.join(', ');
 
     this.listLanguages(await this._languages);
-  }
-
-  set repositories(repos) {
-    this._repositories = repos;
-    console.log('LANGS: setting repos property');
-    this._languages = this.getAvailableLanguagesFromRepos(repos); 
   }
 
   get languages() {
@@ -93,7 +88,9 @@ class StepLanguages extends HTMLElement {
       return;
     }
 
-    const languageModuleCount = await ipcNsi.getAllLanguageModuleCount(this._repositories, [...this._allLanguageCodes], this.moduleType);
+    const languageModuleCount = await ipcNsi.getAllLanguageModuleCount(await this._repositories, 
+                                                                       [...this._allLanguageCodes], 
+                                                                       assistantController.get('moduleType'));
     console.log('LANGS: got languageModuleCount, trying to update', languageModuleCount);
 
     this.querySelectorAll('assistant-checkbox').forEach(checkbox => {
@@ -101,7 +98,7 @@ class StepLanguages extends HTMLElement {
     });
   }
 
-  async getAvailableLanguagesFromRepos(repositories) {
+  async getAvailableLanguagesFromRepos() {
     console.log('LANGS: getAvailableLanguagesFromRepos');
 
     var appSystemLanguages = new Set([i18nController.getLocale(), i18nController.getSystemLocale(), ]);
@@ -119,9 +116,9 @@ class StepLanguages extends HTMLElement {
       'unknown-languages': new Map(),
     };
 
-  
+    const repositories = await assistantController.get('allRepositories');
     for (const currentRepo of repositories) {
-      var repoLanguages = await ipcNsi.getRepoLanguages(currentRepo, this.moduleType);
+      var repoLanguages = await ipcNsi.getRepoLanguages(currentRepo, assistantController.get('moduleType'));
   
       for (const currentLanguageCode of repoLanguages) {
         const languageInfo = languageMapper.getLanguageDetails(currentLanguageCode, i18nController.getLocale());
