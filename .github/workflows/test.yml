@@ -9,8 +9,10 @@ jobs:
         steps:
         - uses: actions/checkout@v2
 
-        - name: Install dependencies
-          run: sudo apt install -y libcurl4-gnutls-dev & npm install
+        - name: Install system library dependencies
+          run: sudo apt install -y libcurl4-gnutls-dev
+        - name: Install package.json dependencies (except node-sword-interface)
+          run: npm uninstall node-sword-interface
         
         - name: Run test
           run: npm test
