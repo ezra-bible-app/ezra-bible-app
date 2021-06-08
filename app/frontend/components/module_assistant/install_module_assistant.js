@@ -155,9 +155,6 @@ class InstallModuleAssistant {
   }
 
   addModuleAssistantStepChanging(event, currentIndex, newIndex) {
-    const wizardPage = `#module-settings-assistant-add-p-${currentIndex}`;
-    const selectedElements = assistantHelper.getSelectedSettingsAssistantElements(wizardPage);
-
     if (currentIndex == 0 && newIndex == 1) { // Changing from Languages (1) to Repositories (2)
       this._selectedLanguages = this.languagesStep.languages;
       return this._selectedLanguages.length > 0;
@@ -166,7 +163,7 @@ class InstallModuleAssistant {
       return this._selectedRepositories.length > 0;
     } else if (currentIndex == 2 && newIndex == 3) { // Changing from Modules (3) to Installation (4)
       this.selectedModules = this.modulesStep.modules;
-      return this.selectedModules > 0;
+      return this.selectedModules.length > 0;
     } else if (currentIndex == 3 && newIndex != 3) {
       return false;
     }

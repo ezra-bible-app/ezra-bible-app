@@ -120,6 +120,6 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "",
 
 
 module.exports.getSelelectedSettings = function (sectionElement) {
-  const selectedCheckboxes = Array.from(sectionElement.querySelectorAll('assistant-checkbox[checked]'));
+  const selectedCheckboxes = Array.from(sectionElement.querySelectorAll('assistant-checkbox[checked]:not([disabled])'));
   return selectedCheckboxes.map(cb => cb.code);
 };
