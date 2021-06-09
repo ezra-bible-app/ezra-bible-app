@@ -20,6 +20,7 @@
 const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const i18nController = require('../../controllers/i18n_controller.js');
+const i18nHelper = require('../../helpers/i18n_helper.js');
 const assistantHelper = require('./assistant_helper.js');
 require('../loading_indicator.js');
 
@@ -122,10 +123,7 @@ class StepRepositories extends HTMLElement {
     this.listView.style.display = 'block';
 
     const repositoriesArr = await Promise.all(
-      (await assistantController.get('allRepositories')).map(async repo => ({
-        code: repo,
-        count: await this.getRepoModuleCount(repo)
-      })));
+      (await assistantController.get('allRepositories')).map(getRepoModuleDetails));
 
     this.repositoryList.innerHTML = '';
     this.repositoryList.appendChild(assistantHelper.listCheckboxSection(repositoriesArr, await this.selectedRepositories));
@@ -174,15 +172,31 @@ class StepRepositories extends HTMLElement {
       element.innerHTML = i18n.t(element.getAttribute('i18n'));
     });
   }
-
-  async getRepoModuleCount(repo) {
-    const allRepoModules = await ipcNsi.getAllRepoModules(repo, assistantController.get('moduleType'));
-    const selectedLanguages = await assistantController.get('selectedLanguages');
-    const langModules = allRepoModules.filter(module => selectedLanguages.includes(module.language));
-    return langModules.length;
-  }
-
 }
 
 customElements.define('step-repositories', StepRepositories);
 module.exports = StepRepositories;
+
+async function getRepoModuleDetails(repo) {
+  const moduleType = assistantController.get('moduleType');
+  const allRepoModules = await ipcNsi.getAllRepoModules(repo, moduleType);
+  const selectedLanguages = await assistantController.get('selectedLanguages');
+  
+  var repoLanguageCodes = new Set();
+  var count = 0;
+
+  for(const module of allRepoModules) {
+    if (selectedLanguages.includes(module.language)) {
+      count++;
+      repoLanguageCodes.add(module.language);
+    }
+  }  
+
+  const repoLanguages = [...repoLanguageCodes].map(lang => i18nHelper.getLanguageName(lang)).sort(assistantHelper.sortByText);
+
+  return {
+    code: repo,
+    description: repoLanguages.join(', '),
+    count,
+  };
+}
