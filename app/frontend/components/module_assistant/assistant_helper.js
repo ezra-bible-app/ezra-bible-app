@@ -93,6 +93,8 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "",
       const checked = selected.includes(item.code);
       const disabled = item.disabled || options.disableSelected && checked;
 
+      const icon = item.icon ? `<span slot="label-icon">${item.icon}</span>` : '';
+
       const checkbox = `
         <assistant-checkbox 
           code="${item.code}" 
@@ -100,7 +102,8 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "",
           ${disabled ? 'disabled' : ''}
           ${item.count ? `count="${item.count}"` : ''}
           ${item.description ? `description="${item.description}"` : ''}>
-          ${item.text ? item.text : item.code}
+          ${icon}
+          <span slot="label-text">${item.text ? item.text : item.code}</span>
         </assistant-checkbox>`;
 
       if (item.count !== 0) {
@@ -112,7 +115,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "",
 
   const template = html`
     <h3 style="margin: 1em 0 0;">${sectionTitle}</h3>
-    <div style="display: grid; grid-template-columns: repeat(${options.columns}, 1fr); grid-gap: 0.5em; padding: 0.5em;">
+    <div style="display: grid; grid-template-columns: repeat(${options.columns}, 1fr); grid-row-gap: 0.5em; grid-column-gap: 1em; padding: 0.5em 0.5em 0.5em 1em;">
       ${checkboxes}
     </div>`;
   return template.content;

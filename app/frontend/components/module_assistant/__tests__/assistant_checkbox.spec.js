@@ -3,7 +3,7 @@ require('../assistant_checkbox');
 describe('<assistant-checkbox>', () => {
 
   it('renders without errors', () => {
-    document.body.innerHTML = '<assistant-checkbox>Test</assistant-checkbox>';
+    document.body.innerHTML = '<assistant-checkbox></assistant-checkbox>';
     expect(document.body.innerHTML).toEqual('<assistant-checkbox></assistant-checkbox>');
   });
 
@@ -14,10 +14,11 @@ describe('<assistant-checkbox>', () => {
   });
 
   it('renders correctly', () => {
-    document.body.innerHTML = '<assistant-checkbox count="5" code="grc" checked>Test</assistant-checkbox>';
+    document.body.innerHTML = '<assistant-checkbox count="5" code="grc" checked><span slot="label-text">Test</span></assistant-checkbox>';
     const el = document.querySelector('assistant-checkbox');
     
-    expect(el.shadowRoot.textContent).toContain('Test (5)');
+    expect(el.querySelector('[slot="label-text"]').textContent).toEqual('Test');
+    expect(el.shadowRoot.textContent).toContain('(5)');
 
     expect(el.shadowRoot.querySelector('input[type="checkbox"]').hasAttribute('checked')).toEqual(true);
 
@@ -25,14 +26,12 @@ describe('<assistant-checkbox>', () => {
   });
 
   it('updates count attribute', () => {
-    document.body.innerHTML = '<assistant-checkbox code="grc">Test</assistant-checkbox>';
+    document.body.innerHTML = '<assistant-checkbox code="grc"></assistant-checkbox>';
     const el = document.querySelector('assistant-checkbox');
     
-    expect(el.shadowRoot.querySelector('label').textContent.trim()).toEqual('Test');
-
     el.count = 7;    
 
-    expect(el.shadowRoot.querySelector('label').textContent.trim()).toEqual('Test (7)');
+    expect(el.shadowRoot.querySelector('#count').textContent).toEqual(' (7)');
   });
 
 });

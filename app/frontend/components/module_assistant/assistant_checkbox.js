@@ -18,11 +18,19 @@
 
 const { html } = require('../../helpers/ezra_helper.js');
 
-//FIXME: move styles from css/loader.css
 const template = html`
 <style>
   :host {
     min-height: 1.5em;
+    position: relative;
+  }
+  [name="label-icon"]::slotted(*) {
+    position: absolute;
+    left: -1em;
+    top: 0.1em;
+    height: 0.8em;
+    width: 0.8em;
+    fill: var(--accent-color, gray);
   }
   #count {
     opacity: 0.8;
@@ -38,7 +46,8 @@ const template = html`
  
 <label>  
   <input type="checkbox">
-  <span id="label-text"></span><span id="count"></span>
+  <slot name="label-icon"></slot>
+  <slot name="label-text">No text provided</slot><span id="count"></span>
 </label>
 <div id="description"></div>
 `;
@@ -59,9 +68,6 @@ class AssistantCheckbox extends HTMLElement {
   }
 
   connectedCallback() {  
-    this.shadowRoot.querySelector('#label-text').innerHTML = this.textContent;
-    this.textContent = '';
-
     this.code = this.getAttribute('code');
 
     const checkbox = this.shadowRoot.querySelector('input[type="checkbox"]');
