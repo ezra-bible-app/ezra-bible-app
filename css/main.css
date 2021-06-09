@@ -45,6 +45,7 @@ body {
      Instead we use a scrollbar for individual components within the window. */
   overflow: hidden;
   touch-action: none;
+  --accent-color: #2779AA;
 }
 
 body.darkmode--activated {
@@ -469,7 +470,7 @@ h2 {
 
 .verse-reference .visible,
 .darkmode--activated .verse-reference .visible {
-  color: #2779AA;
+  color: var(--accent-color,#2779AA);
   opacity: 1;
   /*visibility: visible;*/
 }
@@ -652,7 +653,7 @@ h2 {
 }
 
 .verse-list-menu .focused-button {
-  border: 1px dashed #2779aa;
+  border: 1px dashed var(--accent-color, #2779aa);
 }
 
 .fullscreen-button {
@@ -1581,7 +1582,7 @@ s {
 }
 
 .sword-note-marker {
-  color: #2779AA;
+  color: var(--accent-color, #2779AA);
 }
 
 .sword-xref-marker {
