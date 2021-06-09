@@ -22,7 +22,6 @@ var state = {
   selectedLanguages: [],
   selectedRepositories: [],
   selectedModules: [],
-  unlockKeys: {},
   moduleType: null, 
 };
 
@@ -52,6 +51,9 @@ module.exports.set = (key, value) => {
   }
   return oldValue;
 };
+
+var unlockKeys = {};
+module.exports.setUnlockKey = (moduleId, unlockKey) => unlockKeys[moduleId] = unlockKey;
 
 var moduleInstallStatus = 'DONE';
 module.exports.isInstallCompleted = () => moduleInstallStatus !== 'IN_PROGRESS'; 
