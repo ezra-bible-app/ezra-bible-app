@@ -73,9 +73,12 @@ class StepLanguages extends HTMLElement {
     console.log('LANGS: listLanguages!');
     
     for(const category in languages) {
-      const languageArr = languages[category];
+      const languageArr = [...languages[category].values()].sort(assistantHelper.sortByText);
+      
       if (languageArr.length > 0) {
-        this.appendChild(assistantHelper.listCheckboxSection(languageArr, await this._selectedLanguages, i18n.t(`module-assistant.${category}`)));
+        const sectionHeader = ['app-system-languages', 'bible-languages', 'most-speaking-languages', 'historical-languages'].includes(category) 
+          ? i18n.t(`module-assistant.${category}`) : category === 'iso6391-languages' ? i18n.t('module-assistant.other-languages') : undefined;
+        this.appendChild(assistantHelper.listCheckboxSection(languageArr, await this._selectedLanguages, sectionHeader));
       }
     }
     
@@ -117,8 +120,9 @@ async function getAvailableLanguagesFromRepos() {
     'bible-languages': new Map(),
     'most-speaking-languages': new Map(),
     'historical-languages': new Map(),
-    'known-languages': new Map(),
-    'other-languages': new Map(),
+    'iso6391-languages': new Map(),
+    'iso6392T-languages': new Map(),
+    'iso6393-languages': new Map(),
     'unknown-languages': new Map(),
   };
   
@@ -139,10 +143,12 @@ async function getAvailableLanguagesFromRepos() {
         addLanguage(languages['most-speaking-languages'], languageInfo, currentLanguageCode);
       } else if (historicalLanguageTypes.has(languageInfo.type)) {
         addLanguage(languages['historical-languages'], languageInfo, currentLanguageCode);
-      } else if (languageInfo.localized) {
-        addLanguage(languages['known-languages'], languageInfo, currentLanguageCode);
-      } else if (languageInfo.languageName) {
-        addLanguage(languages['other-languages'], languageInfo, currentLanguageCode);
+      } else if (languageInfo.iso6391) {
+        addLanguage(languages['iso6391-languages'], languageInfo, currentLanguageCode);
+      } else if (languageInfo.iso6392T) {
+        addLanguage(languages['iso6392T-languages'], languageInfo, currentLanguageCode);
+      } else if (languageInfo.iso6393) {
+        addLanguage(languages['iso6393-languages'], languageInfo, currentLanguageCode);
       } else {
         console.log("Unknown lang:", currentLanguageCode, languageInfo);
         addLanguage(languages['unknown-languages'], languageInfo, currentLanguageCode);          
@@ -150,11 +156,6 @@ async function getAvailableLanguagesFromRepos() {
 
       allLanguageCodes.add(currentLanguageCode); 
     }
-  }
-
-  for(const category in languages) { 
-    const languageArr = [...languages[category].values()];
-    languages[category] = languageArr.sort(assistantHelper.sortByText);
   }
 
   return {

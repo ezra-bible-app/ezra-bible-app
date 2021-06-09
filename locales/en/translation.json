@@ -80,10 +80,7 @@
     "bible-languages": "Bible Languages",
     "most-speaking-languages": "Most Spoken Languages",
     "historical-languages": "Historical Languages",
-    "known-languages": "Other Languages",
-    "other-languages": "Rear Languages",
-    "unknown-languages": "Unrecognized Languages"
-
+    "other-languages": "Other Languages"
   },
   "module-sync": {
     "module-sync-header": "Installing additional modules"
