@@ -219,9 +219,6 @@ class InstallModuleAssistant {
 
   async initModulesPage() {
     this.modulesStep = document.createElement('step-modules');
-    this.modulesStep.moduleType = this._currentModuleType;
-    this.modulesStep.languages = this._selectedLanguages;
-    this.modulesStep.repositories = this._selectedRepositories;
 
     const wizardPage = $('#module-settings-assistant-add-p-2');
     wizardPage.empty();

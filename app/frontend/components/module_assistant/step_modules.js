@@ -18,6 +18,7 @@
 
 
 const { html } = require('../../helpers/ezra_helper.js');
+const assistantController = require('./assistant_controller.js');
 const i18nHelper = require('../../helpers/i18n_helper.js');
 const assistantHelper = require('./assistant_helper.js');
 require('../loading_indicator.js');
@@ -67,6 +68,11 @@ const template = html`
 `;
 
 class StepModules extends HTMLElement {
+  get modules() {
+    const selectedModules = assistantHelper.getSelelectedSettings(this);
+    return selectedModules;
+  }
+
   constructor() {
     super();
     console.log('MODULES: step constructor');
@@ -74,22 +80,9 @@ class StepModules extends HTMLElement {
   }
 
   async init() {
-    this.moduleType = null;
-    this.repositories = [];
-    this.languageCodes = [];
-    this._installedModules == null;
+    this.installedModules == null;
 
     console.log('MODULES: done with init');
-  }
-
-  set languages(codes) {
-    console.log('MODULES: set languages prop');
-    this.languageCodes = codes;
-
-    this.uiLanguages = codes.map(code => {
-      const languageName = i18nHelper.getLanguageName(code);
-      return `<b>${languageName ? languageName : code}</b>`;
-    });
   }
 
   async connectedCallback() {
@@ -101,28 +94,28 @@ class StepModules extends HTMLElement {
       this.listFilteredModules();
     }));
 
-    this._installedModules = await app_controller.translation_controller.getInstalledModules(this.moduleType);
+    this.installedModules = await app_controller.translation_controller.getInstalledModules(this.moduleType);
 
     this.listModules();
-  }
-
-  get modules() {
-    const selectedModules = assistantHelper.getSelelectedSettings(this);
-    return selectedModules;
   }
 
   async listModules() {
     console.log('MODULES: listModules');
   
-    if (this.moduleType == 'BIBLE') {
+    const moduleType = assistantController.get('moduleType');
+    if (moduleType == 'BIBLE') {
       this.querySelector("#bible-module-feature-filter").style.display = 'block';
-    } else if (this.moduleType == 'DICT') {
+    } else if (moduleType == 'DICT') {
       this.querySelector("#dict-module-feature-filter").style.display = 'block';
     }
 
-    const uiRepositories = this.repositories.map(rep => `<b>${rep}</b>`);
+    const uiRepositories = (await assistantController.get('selectedRepositories')).map(rep => `<b>${rep}</b>`);
+    const uiLanguages = (await assistantController.get('selectedLanguages')).map(code => {
+      const languageName = i18nHelper.getLanguageName(code);
+      return `<b>${languageName ? languageName : code}</b>`;
+    });
     this.querySelector('.intro').innerHTML = `${i18n.t("module-assistant.the-selected-repositories")} (${uiRepositories.join(', ')}) 
-      ${i18n.t("module-assistant.contain-the-following-modules")} (${this.uiLanguages.join(', ')})`;
+      ${i18n.t("module-assistant.contain-the-following-modules")} (${uiLanguages.join(', ')})`;
 
     await this.listFilteredModules();
   }
@@ -139,21 +132,22 @@ class StepModules extends HTMLElement {
     const hebrewStrongsFilter = this.querySelector('#hebrew-strongs-dict-feature-filter').checked;
     const greekStrongsFilter = this.querySelector('#greek-strongs-dict-feature-filter').checked;
 
+    const languageCodes = await assistantController.get('selectedLanguages');
+
     let renderHeader = false;
-    if (this.languageCodes.length > 1) {
+    if (languageCodes.length > 1) {
       renderHeader = true;
     }
 
-    for (let i = 0; i < this.languageCodes.length; i++) {
-      const currentLanguage = this.languageCodes[i];
-      const currentUiLanguage = this.uiLanguages[i];
+    const repositories = await assistantController.get('selectedRepositories');
+
+    for (const currentLanguageCode of languageCodes) {
       let currentLangModules = [];
 
-      for (let j = 0; j < this.repositories.length; j++) {
-        const currentRepo = this.repositories[j];
+      for (const currentRepo of repositories) {
         let currentRepoLangModules = await ipcNsi.getRepoModulesByLang(currentRepo,
-                                                                       currentLanguage,
-                                                                       this.moduleType,
+                                                                       currentLanguageCode,
+                                                                       assistantController.get('moduleType'),
                                                                        headingsFilter,
                                                                        strongsFilter,
                                                                        hebrewStrongsFilter,
@@ -170,10 +164,9 @@ class StepModules extends HTMLElement {
       modulesArr.sort(assistantHelper.sortByText);
 
       filteredModuleList.appendChild(assistantHelper.listCheckboxSection(modulesArr, 
-                                                                         this._installedModules, 
-                                                                         renderHeader ? currentUiLanguage : undefined, 
+                                                                         this.installedModules, 
+                                                                         renderHeader ? i18nHelper.getLanguageName(currentLanguageCode) : undefined, 
                                                                          {columns: 1, disableSelected: true}));
-      // await this.listLanguageModules(currentUiLanguage, currentLangModules, renderHeader);
     }
 
     const moduleInfo = this.querySelector('#module-info');
