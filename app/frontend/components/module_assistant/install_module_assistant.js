@@ -22,6 +22,7 @@ require('./step_languages.js');
 require('./step_repositories.js');
 require('./step_modules.js');
 require('./step_install.js');
+require('./unlock_dialog.js');
 
 /**
  * The InstallModuleAssistant component implements the dialog that handles module installations.
@@ -100,17 +101,6 @@ class InstallModuleAssistant {
     });
 
     assistantHelper.unlockDialog();
-  }
-
-  async init(moduleType) {
-    this._installedModules = null;
-    this._moduleInstallStatus = 'DONE';
-    this._translationRemovalStatus = 'DONE';
-    this._unlockKeys = {};
-    this._unlockDialogOpened = false;
-    this._unlockCancelled = false;
-    this._currentModuleType = moduleType;
-    this._moduleInstallationCancelled = false;
   }
 
   async openAddModuleAssistant() {
@@ -218,7 +208,11 @@ class InstallModuleAssistant {
   }
 
   async initModulesPage() {
+    this.unlockDialog = document.createElement('unlock-dialog');
+    document.body.appendChild(this.unlockDialog);
+
     this.modulesStep = document.createElement('step-modules');
+    this.modulesStep.unlockDialog = this.unlockDialog;
 
     const wizardPage = $('#module-settings-assistant-add-p-2');
     wizardPage.empty();
@@ -232,6 +226,7 @@ class InstallModuleAssistant {
     assistantHelper.lockDialogForAction('module-settings-assistant-add');
 
     this.installStep = document.createElement('step-install');
+    this.modulesStep.unlockDialog = this.unlockDialog;
 
     const wizardPage = $('#module-settings-assistant-add-p-3');
     wizardPage.empty();
@@ -239,57 +234,6 @@ class InstallModuleAssistant {
     wizardPage.append(this.installStep);
 
     assistantHelper.unlockDialog('module-settings-assistant-add');
-  }
-
-  showUnlockDialog(swordModule, checkbox=undefined) {
-    this._unlockDialogOpened = true;
-    this._unlockCancelled = false;
-
-    if (swordModule.unlockInfo != "") {
-      $('#dialog-unlock-info').html(swordModule.unlockInfo);
-    }
-
-    var unlockDialog = $('#module-settings-assistant-unlock-dialog');
-    var unlockFailedMsg = $('#unlock-failed-msg');
-
-    if (checkbox === undefined) {
-      unlockFailedMsg.show();
-    } else {
-      unlockFailedMsg.hide();
-    }
-
-    var unlockDialogOptions = {
-      modal: true,
-      title: i18n.t("module-assistant.enter-unlock-key", { moduleId: swordModule.name }),
-      dialogClass: 'ezra-dialog',
-      width: 450,
-      minHeight: 200
-    };
-
-    unlockDialogOptions.buttons = {};    
-    unlockDialogOptions.buttons[i18n.t("general.cancel")] = (event) => {
-      unlockDialog.dialog("close");
-      this._unlockDialogOpened = false;
-      this._unlockCancelled = true;
-    };
-
-    unlockDialogOptions.buttons[i18n.t("general.ok")] = (event) => {
-      var unlockKey = $('#unlock-key-input').val().trim();
-
-      if (unlockKey.length > 0) {
-        this._unlockKeys[swordModule.name] = unlockKey;
-
-        if (checkbox !== undefined) {
-          checkbox.prop('checked', true);
-        }
-
-        unlockDialog.dialog("close");
-        this._unlockDialogOpened = false;
-      }
-    };
-    
-    unlockDialog.dialog(unlockDialogOptions);
-    $('#unlock-key-input').focus();
   }
 
 }
