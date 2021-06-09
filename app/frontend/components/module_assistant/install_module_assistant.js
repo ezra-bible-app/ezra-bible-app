@@ -210,10 +210,6 @@ class InstallModuleAssistant {
 
   async initRepositoryPage() {
     this.repositoriesStep = document.createElement('step-repositories');
-    console.log('ASSISTANT: set repoStep props');
-    this.repositoriesStep.moduleType = this._currentModuleType;
-    this.repositoriesStep.languages = this._selectedLanguages;
-    this.repositoriesStep.allRepositories = this.allRepositories;
 
     const wizardPage = $('#module-settings-assistant-add-p-1');
     wizardPage.empty();

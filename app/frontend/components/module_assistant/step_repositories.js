@@ -18,6 +18,7 @@
 
 
 const { html } = require('../../helpers/ezra_helper.js');
+const assistantController = require('./assistant_controller.js');
 const i18nController = require('../../controllers/i18n_controller.js');
 const assistantHelper = require('./assistant_helper.js');
 require('../loading_indicator.js');
@@ -57,9 +58,6 @@ class StepRepositories extends HTMLElement {
   }
 
   async init() {
-    this.moduleType = null;
-    this.allRepositories = [];
-    this.languages = [];
     this.lastUpdate = null;
 
     this.selectedRepositories = await ipcSettings.get('selectedRepositories', []);
@@ -113,9 +111,10 @@ class StepRepositories extends HTMLElement {
     this.updateView.style.display = 'none';
 
     let moduleTypeText = "";
-    if (this.moduleType == "BIBLE") {
+    const moduleType = assistantController.get('moduleType');
+    if (moduleType == "BIBLE") {
       moduleTypeText = i18n.t("module-assistant.module-type-bible");
-    } else if (this.moduleType == "DICT") {
+    } else if (moduleType == "DICT") {
       moduleTypeText = i18n.t("module-assistant.module-type-dict");
     }
     this.querySelector('.intro').innerHTML = i18n.t("module-assistant.repo-selection-info-text", {module_type: moduleTypeText});
@@ -123,7 +122,7 @@ class StepRepositories extends HTMLElement {
     this.listView.style.display = 'block';
 
     const repositoriesArr = await Promise.all(
-      this.allRepositories.map(async repo => ({
+      (await assistantController.get('allRepositories')).map(async repo => ({
         code: repo,
         count: await this.getRepoModuleCount(repo)
       })));
@@ -177,8 +176,9 @@ class StepRepositories extends HTMLElement {
   }
 
   async getRepoModuleCount(repo) {
-    const allRepoModules = await ipcNsi.getAllRepoModules(repo, this.moduleType);
-    const langModules = allRepoModules.filter(module => this.languages.includes(module.language));
+    const allRepoModules = await ipcNsi.getAllRepoModules(repo, assistantController.get('moduleType'));
+    const selectedLanguages = await assistantController.get('selectedLanguages');
+    const langModules = allRepoModules.filter(module => selectedLanguages.includes(module.language));
     return langModules.length;
   }
 
