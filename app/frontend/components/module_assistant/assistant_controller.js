@@ -55,3 +55,5 @@ module.exports.set = (key, value) => {
 
 var moduleInstallStatus = 'DONE';
 module.exports.isInstallCompleted = () => moduleInstallStatus !== 'IN_PROGRESS'; 
+module.exports.setInstallInProgress = () => moduleInstallStatus = 'IN_PROGRESS';
+module.exports.setInstallDone = () => moduleInstallStatus = 'DONE';

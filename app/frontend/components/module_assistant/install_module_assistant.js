@@ -231,18 +231,13 @@ class InstallModuleAssistant {
 
     assistantHelper.lockDialogForAction('module-settings-assistant-add');
 
-    this._moduleInstallStatus = 'IN_PROGRESS';
-
     this.installStep = document.createElement('step-install');
-    this.installStep.moduleType = this._currentModuleType;
-    this.installStep.modules = this.selectedModules;
 
     const wizardPage = $('#module-settings-assistant-add-p-3');
     wizardPage.empty();
 
     wizardPage.append(this.installStep);
 
-    this._moduleInstallStatus = 'DONE';
     assistantHelper.unlockDialog('module-settings-assistant-add');
   }
 

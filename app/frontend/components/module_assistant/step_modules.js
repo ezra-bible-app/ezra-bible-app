@@ -76,13 +76,6 @@ class StepModules extends HTMLElement {
   constructor() {
     super();
     console.log('MODULES: step constructor');
-    this.init();
-  }
-
-  async init() {
-    this.installedModules == null;
-
-    console.log('MODULES: done with init');
   }
 
   async connectedCallback() {
@@ -93,8 +86,6 @@ class StepModules extends HTMLElement {
     this.querySelectorAll('.module-feature-filter').forEach(checkbox => checkbox.addEventListener('click', async () => {
       this.listFilteredModules();
     }));
-
-    this.installedModules = await app_controller.translation_controller.getInstalledModules(this.moduleType);
 
     this.listModules();
   }
@@ -164,7 +155,7 @@ class StepModules extends HTMLElement {
       modulesArr.sort(assistantHelper.sortByText);
 
       filteredModuleList.appendChild(assistantHelper.listCheckboxSection(modulesArr, 
-                                                                         this.installedModules, 
+                                                                         await assistantController.get('installedModules'), 
                                                                          renderHeader ? i18nHelper.getLanguageName(currentLanguageCode) : undefined, 
                                                                          {columns: 1, disableSelected: true}));
     }

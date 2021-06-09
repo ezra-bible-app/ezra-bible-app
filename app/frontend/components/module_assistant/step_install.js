@@ -18,6 +18,7 @@
 
 
 const { html, sleep } = require('../../helpers/ezra_helper.js');
+const assistantController = require('./assistant_controller.js');
 const i18nHelper = require('../../helpers/i18n_helper.js');
 const assistantHelper = require('./assistant_helper.js');
 
@@ -59,14 +60,6 @@ class StepInstall extends HTMLElement {
   constructor() {
     super();
     console.log('INSTALL: step constructor');
-    this.init();
-  }
-
-  async init() {
-    this.moduleType = null;
-    this.modules = [];
-
-    console.log('INSTALL: done with init');
   }
 
 
@@ -92,10 +85,10 @@ class StepInstall extends HTMLElement {
 
   async installSelectedModules() {
 
-    this._moduleInstallStatus = 'IN_PROGRESS';
+    assistantController.setInstallInProgress();
 
-
-    for (const currentModule of this.modules) {
+    const selectedModules = await assistantController.get('selectedModules');
+    for (const currentModule of selectedModules) {
       var swordModule = await ipcNsi.getRepoModule(currentModule);
       var unlockFailed = true;
 
@@ -125,7 +118,7 @@ class StepInstall extends HTMLElement {
     }
 
     $('#cancel-module-installation-button').addClass('ui-state-disabled');
-    this._moduleInstallStatus = 'DONE';
+    assistantController.setInstallDone();
   }
 
   async installModule(installPage, moduleCode) {
@@ -171,7 +164,7 @@ class StepInstall extends HTMLElement {
       }
 
       // FIXME: Put this in a callback
-      if (this.moduleType == 'BIBLE') {
+      if (assistantController.get('moduleType') == 'BIBLE') {
         await app_controller.updateUiAfterBibleTranslationAvailable(moduleCode);
       }
     } catch (e) {
@@ -188,7 +181,7 @@ class StepInstall extends HTMLElement {
       this.$progressBar.progressbar("value", 100);
       var strongsAvailable = await ipcNsi.strongsAvailable();
 
-      if (this.moduleType == 'BIBLE' && swordModule.hasStrongs && !strongsAvailable) {
+      if (assistantController.get('moduleType') == 'BIBLE' && swordModule.hasStrongs && !strongsAvailable) {
         await this.installStrongsModules(installPage);
       }
     } else {
@@ -260,10 +253,11 @@ class StepInstall extends HTMLElement {
   localize() {
     var installingModules = "";
     var itTakesTime = "";
-    if (this.moduleType == 'BIBLE') {
+    const moduleType = assistantController.get('moduleType');
+    if (moduleType == 'BIBLE') {
       installingModules = i18n.t("module-assistant.installing-translations");
       itTakesTime = i18n.t("module-assistant.it-takes-time-to-install-translation");
-    } else if (this.moduleType == 'DICT') {
+    } else if (moduleType == 'DICT') {
       installingModules = i18n.t("module-assistant.installing-dictionaries");
       itTakesTime = i18n.t("module-assistant.it-takes-time-to-install-dictionary");
     }
