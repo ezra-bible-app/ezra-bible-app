@@ -93,6 +93,16 @@ class AssistantCheckbox extends HTMLElement {
       } else {
         this.removeAttribute('checked');
       }
+
+      this.dispatchEvent(new CustomEvent("itemSelected", {
+        bubbles: true,
+        cancelable: false,
+        composed: true,
+        detail: { 
+          code: this.code,
+          checked: this.checked
+        }
+      }));  
     });
   }
 
