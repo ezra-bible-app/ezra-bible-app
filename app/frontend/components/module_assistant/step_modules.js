@@ -89,6 +89,9 @@ class StepModules extends HTMLElement {
       this.listFilteredModules();
     }));
 
+    this.filteredModuleList = this.querySelector('#filtered-module-list');
+    this.filteredModuleList.addEventListener('itemSelected', (e) => this.handleCheckboxClick(e));
+
     this.listModules();
   }
 
@@ -116,8 +119,7 @@ class StepModules extends HTMLElement {
   async listFilteredModules() {
     console.log('MODULES: listFilteredModules');
 
-    var filteredModuleList = this.querySelector('#filtered-module-list');
-    filteredModuleList.innerHTML = '';
+    this.filteredModuleList.innerHTML = '';
 
     const headingsFilter = this.querySelector('#headings-feature-filter').checked;
     const strongsFilter = this.querySelector('#strongs-feature-filter').checked;
@@ -156,6 +158,7 @@ class StepModules extends HTMLElement {
           if (swordModule.locked) {
             moduleInfo['icon'] = ICON_LOCKED;
             moduleInfo['title'] = i18n.t("module-assistant.module-lock-info");
+            moduleInfo['locked'] = "locked";
           }
 
           return moduleInfo;
@@ -171,14 +174,14 @@ class StepModules extends HTMLElement {
                                                                     await assistantController.get('installedModules'),
                                                                     renderHeader ? i18nHelper.getLanguageName(currentLanguageCode) : undefined,
                                                                     { columns: 1, disableSelected: true });
-      filteredModuleList.appendChild(langModuleSection);
+      this.filteredModuleList.appendChild(langModuleSection);
     }
 
     const moduleInfo = this.querySelector('#module-info');
     const moduleInfoContent = moduleInfo.querySelector('#module-info-content');
     const loadingIndicator = moduleInfo.querySelector('loading-indicator');
 
-    filteredModuleList.querySelectorAll('.bible-module-info').forEach(el => el.addEventListener('click', function () {
+    this.filteredModuleList.querySelectorAll('.bible-module-info').forEach(el => el.addEventListener('click', function () {
       const moduleCode = el.textContent;
 
       moduleInfoContent.innerHTML = '';
@@ -191,6 +194,12 @@ class StepModules extends HTMLElement {
         loadingIndicator.hide();
       }, 200);
     }));
+
+
+  }
+
+  handleCheckboxClick(event) {
+    console.log('MODULE checkbox', event.detail, event.target.hasAttribute('locked'));
 
     // 'mousedown': async (event) => {
     //   const checkbox = event.target;
@@ -206,7 +215,6 @@ class StepModules extends HTMLElement {
     //     }
     //   }
     // }
-
   }
 
   // FIXME: remove this

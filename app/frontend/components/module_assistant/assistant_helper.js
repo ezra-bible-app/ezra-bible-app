@@ -90,24 +90,27 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "",
     if (typeof item === 'string') {
       checkboxes.push(`<assistant-checkbox code="${item}"${selected.includes(item) ? 'checked' : ''}>${item}</assistant-checkbox>`);
     } else {
-      const checked = selected.includes(item.code);
-      const disabled = item.disabled || options.disableSelected && checked;
+      const {code, text, description, count, disabled, icon, ...rest} = item;
+      const checkedProp = selected.includes(code);
+      const disabledProp = disabled || options.disableSelected && checkedProp;
 
-      const icon = item.icon ? `<span slot="label-icon">${item.icon}</span>` : '';
+      const iconSpan = icon ? `<span slot="label-icon">${icon}</span>` : '';
+
+      const extraAttr = Object.entries(rest).map(([attr, val]) => `${attr}="${val}"`);
 
       const checkbox = `
         <assistant-checkbox 
-          code="${item.code}" 
-          ${checked ? 'checked' : ''}
-          ${disabled ? 'disabled' : ''}
-          ${item.title ? `title="${item.title}"` : ''}
-          ${item.count ? `count="${item.count}"` : ''}
-          ${item.description ? `description="${item.description}"` : ''}>
-          ${icon}
-          <span slot="label-text">${item.text ? item.text : item.code}</span>
+          code="${code}" 
+          ${checkedProp ? 'checked' : ''}
+          ${disabledProp ? 'disabled' : ''}
+          ${count ? `count="${count}"` : ''}
+          ${description ? `description="${description}"` : ''}
+          ${extraAttr.join(' ')}>
+          ${iconSpan}
+          <span slot="label-text">${text ? text : code}</span>
         </assistant-checkbox>`;
 
-      if (item.count !== 0) {
+      if (count !== 0) {
         checkboxes.push(checkbox);
       }
     }
