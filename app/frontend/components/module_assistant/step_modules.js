@@ -67,6 +67,8 @@ const template = html`
 <p class="intro"></p>   
 `;
 
+const ICON_LOCKED = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"/></svg>';
+
 class StepModules extends HTMLElement {
   get modules() {
     const selectedModules = assistantHelper.getSelelectedSettings(this);
@@ -92,7 +94,7 @@ class StepModules extends HTMLElement {
 
   async listModules() {
     console.log('MODULES: listModules');
-  
+
     const moduleType = assistantController.get('moduleType');
     if (moduleType == 'BIBLE') {
       this.querySelector("#bible-module-feature-filter").style.display = 'block';
@@ -148,16 +150,41 @@ class StepModules extends HTMLElement {
         currentLangModules = currentLangModules.concat(currentRepoLangModules);
       }
 
-      const modulesArr = currentLangModules.map(mod => ({
-        code: mod.name,
-        text: mod.description,
-      }));
+      const modulesArr = currentLangModules.map(swordModule => {
+        let moduleInfo = {
+          code: swordModule.name,
+          text: swordModule.description,
+        };
+
+        if (swordModule.locked) {
+          moduleInfo['icon'] = ICON_LOCKED;
+          moduleInfo['title'] = i18n.t("module-assistant.module-lock-info");
+          moduleInfo['events'] = {
+            'mousedown': async (event) => {
+              const checkbox = event.target;
+              if (checkbox.prop('checked') == false) {
+                if (swordModule.locked) {
+                  this.unlockDialog.show(swordModule, checkbox);
+                }
+              } else {
+                if (swordModule.locked) {
+                  // Checkbox unchecked!
+                  // Reset the unlock key for this module
+                  this.unlockDialog.resetKey(swordModule);
+                }
+              }
+            }
+          };
+        }
+
+        return moduleInfo;
+      });
       modulesArr.sort(assistantHelper.sortByText);
 
-      filteredModuleList.appendChild(assistantHelper.listCheckboxSection(modulesArr, 
-                                                                         await assistantController.get('installedModules'), 
-                                                                         renderHeader ? i18nHelper.getLanguageName(currentLanguageCode) : undefined, 
-                                                                         {columns: 1, disableSelected: true}));
+      filteredModuleList.appendChild(assistantHelper.listCheckboxSection(modulesArr,
+                                                                         await assistantController.get('installedModules'),
+                                                                         renderHeader ? i18nHelper.getLanguageName(currentLanguageCode) : undefined,
+                                                                         { columns: 1, disableSelected: true }));
     }
 
     const moduleInfo = this.querySelector('#module-info');
@@ -166,9 +193,9 @@ class StepModules extends HTMLElement {
 
     filteredModuleList.querySelectorAll('.bible-module-info').forEach(el => el.addEventListener('click', function () {
       const moduleCode = el.textContent;
-      
+
       moduleInfoContent.innerHTML = '';
-      
+
       loadingIndicator.show();
 
       setTimeout(async () => {
@@ -177,39 +204,9 @@ class StepModules extends HTMLElement {
         loadingIndicator.hide();
       }, 200);
     }));
-
-    $(filteredModuleList).find('.module-checkbox, .label').bind('mousedown', async (event) => {
-      var checkbox = null;
-
-      if (event.target.classList.contains('module-checkbox')) {
-        checkbox = $(event.target);
-      } else {
-        checkbox = $(event.target).closest('.selectable-translation-module').find('.module-checkbox');
-      }
-
-      const moduleId = checkbox.parent().find('.bible-module-info').text();
-
-      try {
-        const swordModule = await ipcNsi.getRepoModule(moduleId);
-
-        if (checkbox.prop('checked') == false) {
-          if (swordModule.locked) {
-            this.showUnlockDialog(swordModule, checkbox); // FIXME move to different module
-          }
-        } else {
-          if (swordModule.locked) {
-            // Checkbox unchecked!
-            // Reset the unlock key for this module
-            $('#unlock-key-input').val('');
-            this._unlockKeys[moduleId] = '';   // FIXME move to different module
-          }
-        }
-      } catch (e) {
-        console.warn("Got exception while trying to check module unlock status: " + e);
-      }
-    });
   }
 
+  // FIXME: remove this
   async listLanguageModules(lang, modules, renderHeader) {
     const translationList = this.querySelector('#filtered-module-list');
 

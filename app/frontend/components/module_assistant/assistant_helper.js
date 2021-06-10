@@ -100,6 +100,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "",
           code="${item.code}" 
           ${checked ? 'checked' : ''}
           ${disabled ? 'disabled' : ''}
+          ${item.title ? `title="${item.title}"` : ''}
           ${item.count ? `count="${item.count}"` : ''}
           ${item.description ? `description="${item.description}"` : ''}>
           ${icon}

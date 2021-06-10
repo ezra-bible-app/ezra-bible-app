@@ -90,7 +90,7 @@ class UnlockDialog extends HTMLElement {
         assistantController.setUnlockKey(swordModule.name, unlockKey);
 
         if (checkbox !== undefined) {
-          checkbox.prop('checked', true);
+          checkbox.setAttribute('checked', '');
         }
 
         $unlockDialog.dialog("close");
