@@ -138,53 +138,40 @@ class StepModules extends HTMLElement {
       let currentLangModules = [];
 
       for (const currentRepo of repositories) {
-        let currentRepoLangModules = await ipcNsi.getRepoModulesByLang(currentRepo,
-                                                                       currentLanguageCode,
-                                                                       assistantController.get('moduleType'),
-                                                                       headingsFilter,
-                                                                       strongsFilter,
-                                                                       hebrewStrongsFilter,
-                                                                       greekStrongsFilter);
+        const currentRepoLangModules = await ipcNsi.getRepoModulesByLang(currentRepo,
+                                                                         currentLanguageCode,
+                                                                         assistantController.get('moduleType'),
+                                                                         headingsFilter,
+                                                                         strongsFilter,
+                                                                         hebrewStrongsFilter,
+                                                                         greekStrongsFilter);
+
+        const modulesArr = currentRepoLangModules.map(swordModule => {
+          let moduleInfo = {
+            code: swordModule.name,
+            text: swordModule.description,
+            description: `${i18n.t('general.module-version')}: ${swordModule.version}; ${swordModule.repository}`,
+          };
+
+          if (swordModule.locked) {
+            moduleInfo['icon'] = ICON_LOCKED;
+            moduleInfo['title'] = i18n.t("module-assistant.module-lock-info");
+          }
+
+          return moduleInfo;
+        });
 
         // Append this repo's modules to the overall language list
-        currentLangModules = currentLangModules.concat(currentRepoLangModules);
+        currentLangModules = currentLangModules.concat(modulesArr);
       }
 
-      const modulesArr = currentLangModules.map(swordModule => {
-        let moduleInfo = {
-          code: swordModule.name,
-          text: swordModule.description,
-        };
+      currentLangModules.sort(assistantHelper.sortByText);
 
-        if (swordModule.locked) {
-          moduleInfo['icon'] = ICON_LOCKED;
-          moduleInfo['title'] = i18n.t("module-assistant.module-lock-info");
-          moduleInfo['events'] = {
-            'mousedown': async (event) => {
-              const checkbox = event.target;
-              if (checkbox.prop('checked') == false) {
-                if (swordModule.locked) {
-                  this.unlockDialog.show(swordModule, checkbox);
-                }
-              } else {
-                if (swordModule.locked) {
-                  // Checkbox unchecked!
-                  // Reset the unlock key for this module
-                  this.unlockDialog.resetKey(swordModule);
-                }
-              }
-            }
-          };
-        }
-
-        return moduleInfo;
-      });
-      modulesArr.sort(assistantHelper.sortByText);
-
-      filteredModuleList.appendChild(assistantHelper.listCheckboxSection(modulesArr,
-                                                                         await assistantController.get('installedModules'),
-                                                                         renderHeader ? i18nHelper.getLanguageName(currentLanguageCode) : undefined,
-                                                                         { columns: 1, disableSelected: true }));
+      const langModuleSection = assistantHelper.listCheckboxSection(currentLangModules,
+                                                                    await assistantController.get('installedModules'),
+                                                                    renderHeader ? i18nHelper.getLanguageName(currentLanguageCode) : undefined,
+                                                                    { columns: 1, disableSelected: true });
+      filteredModuleList.appendChild(langModuleSection);
     }
 
     const moduleInfo = this.querySelector('#module-info');
@@ -204,6 +191,22 @@ class StepModules extends HTMLElement {
         loadingIndicator.hide();
       }, 200);
     }));
+
+    // 'mousedown': async (event) => {
+    //   const checkbox = event.target;
+    //   if (checkbox.prop('checked') == false) {
+    //     if (swordModule.locked) {
+    //       this.unlockDialog.show(swordModule, checkbox);
+    //     }
+    //   } else {
+    //     if (swordModule.locked) {
+    //       // Checkbox unchecked!
+    //       // Reset the unlock key for this module
+    //       this.unlockDialog.resetKey(swordModule);
+    //     }
+    //   }
+    // }
+
   }
 
   // FIXME: remove this
