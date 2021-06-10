@@ -55,6 +55,14 @@ module.exports.set = (key, value) => {
 var unlockKeys = {};
 module.exports.setUnlockKey = (moduleId, unlockKey) => unlockKeys[moduleId] = unlockKey;
 
+module.exports.applyUnlockKey = async (moduleId) => {
+  console.log("Module is locked ... saving unlock key");
+  const unlockKey = unlockKeys[moduleId];
+  await ipcNsi.saveModuleUnlockKey(moduleId, unlockKey);
+  const moduleReadable = await ipcNsi.isModuleReadable(moduleId);
+  return moduleReadable;
+};
+
 var moduleInstallStatus = 'DONE';
 module.exports.isInstallCompleted = () => moduleInstallStatus !== 'IN_PROGRESS'; 
 module.exports.setInstallInProgress = () => moduleInstallStatus = 'IN_PROGRESS';

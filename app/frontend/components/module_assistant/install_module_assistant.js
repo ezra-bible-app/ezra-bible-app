@@ -226,7 +226,7 @@ class InstallModuleAssistant {
     assistantHelper.lockDialogForAction('module-settings-assistant-add');
 
     this.installStep = document.createElement('step-install');
-    this.modulesStep.unlockDialog = this.unlockDialog;
+    this.installStep.unlockDialog = this.unlockDialog;
 
     const wizardPage = $('#module-settings-assistant-add-p-3');
     wizardPage.empty();

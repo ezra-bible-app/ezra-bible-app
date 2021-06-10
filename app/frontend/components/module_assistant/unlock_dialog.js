@@ -107,6 +107,14 @@ class UnlockDialog extends HTMLElement {
     assistantController.setUnlockKey(swordModule.name, '');
   }
 
+  get opened() {
+    return this._unlockDialogOpened;
+  }
+
+  get cancelled() {
+    return this._unlockCancelled;
+  }
+
   localize() {
     this.querySelectorAll('[i18n]').forEach(element => {
       element.innerHTML = i18n.t(element.getAttribute('i18n'));

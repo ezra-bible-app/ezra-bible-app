@@ -19,8 +19,6 @@
 
 const { html, sleep } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
-const i18nHelper = require('../../helpers/i18n_helper.js');
-const assistantHelper = require('./assistant_helper.js');
 
 const template = html`
 <style>
@@ -104,13 +102,13 @@ class StepInstall extends HTMLElement {
         }
 
         if (unlockFailed) {
-          this.showUnlockDialog(swordModule);
+          this.unlockDialog.show(swordModule);
 
-          while (this._unlockDialogOpened) {
+          while (this.unlockDialog.opened) {
             await sleep(200);
           }
 
-          if (this._unlockCancelled) {
+          if (this.unlockDialog.cancelled) {
             break;
           }
         }
@@ -151,13 +149,8 @@ class StepInstall extends HTMLElement {
       await sleep(100);
 
       if (swordModule.locked) {
-        console.log("Module is locked ... saving unlock key");
-        const unlockKey = this.unlockKeys[moduleCode];
-        await ipcNsi.saveModuleUnlockKey(moduleCode, unlockKey);
-        const moduleReadable = await ipcNsi.isModuleReadable(moduleCode);
-
-        if (!moduleReadable) {
-          unlockSuccessful = false;
+        const unlockSuccessful = assistantController.applyUnlockKey(moduleCode);
+        if (!unlockSuccessful) {
           const errorMessage = "Locked module is not readable! Wrong unlock key?";
           throw errorMessage;
         }
