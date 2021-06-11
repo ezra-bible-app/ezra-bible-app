@@ -67,7 +67,7 @@ class StepRepositories extends HTMLElement {
 
   async connectedCallback() {
     this.appendChild(template.content);
-    this.localize();
+    assistantHelper.localize(this);
     console.log('REPOS: started connectedCallback');
     
     this.loadingIndicator = this.querySelector('loading-indicator');
@@ -165,12 +165,6 @@ class StepRepositories extends HTMLElement {
     }
 
     setTimeout(async () => { this.listRepositories(); }, listRepoTimeoutMs);
-  }
-
-  localize() {
-    this.querySelectorAll('[i18n]').forEach(element => {
-      element.innerHTML = i18n.t(element.getAttribute('i18n'));
-    });
   }
 }
 

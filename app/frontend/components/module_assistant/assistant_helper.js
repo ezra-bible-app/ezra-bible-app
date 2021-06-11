@@ -130,3 +130,9 @@ module.exports.getSelelectedSettings = function (sectionElement) {
   const selectedCheckboxes = Array.from(sectionElement.querySelectorAll('assistant-checkbox[checked]:not([disabled])'));
   return selectedCheckboxes.map(cb => cb.code);
 };
+
+module.exports.localize = function(container) {
+  container.querySelectorAll('[i18n]').forEach(element => {
+    element.innerHTML = i18n.t(element.getAttribute('i18n'));
+  });
+};

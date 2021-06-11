@@ -82,7 +82,7 @@ class StepModules extends HTMLElement {
 
   async connectedCallback() {
     this.appendChild(template.content);
-    this.localize();
+    assistantHelper.localize(this);
     console.log('MODULES: started connectedCallback');
 
     this.querySelectorAll('.module-feature-filter').forEach(checkbox => checkbox.addEventListener('click', async () => {
@@ -252,12 +252,6 @@ class StepModules extends HTMLElement {
 
       translationList.insertAdjacentHTML('beforeend', currentModuleElement);
     }
-  }
-
-  localize() {
-    this.querySelectorAll('[i18n]').forEach(element => {
-      element.innerHTML = i18n.t(element.getAttribute('i18n'));
-    });
   }
 }
 

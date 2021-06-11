@@ -302,9 +302,7 @@ class StepInstall extends HTMLElement {
     this.querySelector('h3').textContent = installingModules;
     this.querySelector('.intro').textContent = itTakesTime;
 
-    this.querySelectorAll('[i18n]').forEach(element => {
-      element.innerHTML = i18n.t(element.getAttribute('i18n'));
-    });
+    assistantHelper.localize(this);
   }
 }
 
