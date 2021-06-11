@@ -22,7 +22,15 @@ const spectronHelper = require('../helpers/spectron_helper.js');
 const nsiHelper = require("../helpers/nsi_helper.js");
 const uiHelper = require("../helpers/ui_helper.js");
 
-async function clickCheckbox(selector, parentSelector='#module-settings-assistant-add') {
+async function clickCheckbox(checkboxCodeAttr, parentSelector='#module-settings-assistant-add') {
+  var parent = await spectronHelper.getWebClient().$(parentSelector);
+  var checkbox = await parent.$(`[code="${checkboxCodeAttr}"]`);
+  await spectronHelper.getWebClient().waitUntil(async () => { return await checkbox.isExisting(); }, { timeout: 40000 });
+  var label = await checkbox.$('[slot="label-text"]');
+  await label.click();
+}
+
+async function clickCheckboxOld(selector, parentSelector='#module-settings-assistant-add') {
   var parent = await spectronHelper.getWebClient().$(parentSelector);
   var label = await parent.$(selector);
   await spectronHelper.getWebClient().waitUntil(async () => { return await label.isExisting(); }, { timeout: 40000 });
@@ -65,22 +73,22 @@ Given('I choose to remove translations', async function () {
 });
 
 Given('I select the CrossWire repository', {timeout: 40 * 1000}, async function () {
-  await clickCheckbox('#CrossWire');
+  await clickCheckbox('CrossWire');
   await clickNext();
 });
 
 Given('I select the English language', {timeout: 40 * 1000}, async function () {
-  await clickCheckbox('#en');
+  await clickCheckbox('en');
   await clickNext();
 });
 
 Given('I select the ASV module for installation', {timeout: 40 * 1000}, async function () {
-  await clickCheckbox('#ASV');
+  await clickCheckbox('ASV');
   await clickNext();
 });
 
 Given('I select the ASV module for removal', {timeout: 40 * 1000}, async function () {
-  await clickCheckbox('#ASV', '#module-settings-assistant-remove');
+  await clickCheckboxOld('#ASV', '#module-settings-assistant-remove');
   await clickNext('#module-settings-assistant-remove');
 });
 
