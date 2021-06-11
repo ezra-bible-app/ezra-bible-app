@@ -147,7 +147,9 @@
     "description": "You can use the following shortcuts within Ezra Bible App:",
 
     "summary" : {
-      "column-title": "Summary",
+      "font-section-title": "Font",
+      "current-tab-search-section-title": "Current Tab Search",
+      "miscellaneous-section-title": "Miscellaneous",
       "in-tab-search": "In tab search",
       "hide-in-tab-search-form": "Hide in tab search form",
       "jump-to-next-search-occurance": "Jump to next search occurance",
@@ -162,7 +164,6 @@
     },
 
     "shortcut": {
-      "column-title": "Shortcut",
       "in-tab-search":"CTRL/CMD + f",
       "hide-in-tab-search-form": "ESC",
       "jump-to-next-search-occurance": "Enter",
