@@ -147,7 +147,9 @@
     "description": "Poți folosi următoarele combinații de taste (scurtături) în Ezra Bible App:",
 
     "summary" : {
-      "column-title": "Descriere",
+      "font-section-title": "Font",
+      "current-tab-search-section-title": "Căutare în fereastra curentă",
+      "miscellaneous-section-title": "Diverse",
       "in-tab-search": "Căutare în fereastră",
       "hide-in-tab-search-form": "Ascunde formularul de căutare în fereastră",
       "jump-to-next-search-occurance": "Salt la următorul rezultat al căutării",
@@ -162,7 +164,6 @@
     },
 
     "shortcut": {
-      "column-title": "Combinații de taste (Scurtături) ",
       "in-tab-search":"CTRL/CMD + f",
       "hide-in-tab-search-form": "ESC",
       "jump-to-next-search-occurance": "Enter",
