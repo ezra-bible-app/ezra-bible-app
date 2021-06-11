@@ -52,7 +52,7 @@ class InfoPopup {
 
     $('#info-popup').dialog({
       width: width,
-      height: 500,
+      height: 550,
       autoOpen: false,
       dialogClass: 'ezra-dialog'
     });
@@ -125,20 +125,28 @@ class InfoPopup {
       <div id='app-info-tabs-4' class='info-tabs scrollable'>
        <h2>${i18n.t("shortcuts.description")}</h2>
         <table role="table" id="info-table-shortcuts">
-          <thead>
+
           <tr>
-            <th>${i18n.t("shortcuts.summary.column-title")}</th>
-            <th>${i18n.t("shortcuts.shortcut.column-title")}</th>
+            <th>${i18n.t("shortcuts.summary.font-section-title")}</th>
           </tr>
-          </thead>
-           
+          
           <tr><td>${i18n.t("shortcuts.summary.increase-current-font-size")}</td><td><code>${i18n.t("shortcuts.shortcut.increase-current-font-size")}</code></td></tr>
           <tr><td>${i18n.t("shortcuts.summary.decrease-current-font-size")}</td><td><code>${i18n.t("shortcuts.shortcut.decrease-current-font-size")}</code></td></tr>
           <tr><td>${i18n.t("shortcuts.summary.reset-font-size-to-default")}</td><td><code>${i18n.t("shortcuts.shortcut.reset-font-size-to-default")}</code></td></tr>
+
+          <tr>
+            <th>${i18n.t("shortcuts.summary.current-tab-search-section-title")}</th>
+          </tr>
+          
           <tr><td>${i18n.t("shortcuts.summary.in-tab-search")}</td><td><code>${i18n.t("shortcuts.shortcut.in-tab-search")}</code></td></tr>
           <tr><td>${i18n.t("shortcuts.summary.hide-in-tab-search-form")}</td><td><code>${i18n.t("shortcuts.shortcut.hide-in-tab-search-form")}</code></td></tr>
           <tr><td>${i18n.t("shortcuts.summary.jump-to-next-search-occurance")}</td><td><code>${i18n.t("shortcuts.shortcut.jump-to-next-search-occurance")}</code></td></tr>
           <tr><td>${i18n.t("shortcuts.summary.jump-to-previous-occurance")}</td><td><code>${i18n.t("shortcuts.shortcut.jump-to-previous-occurance")}</code></td></tr>
+
+          <tr>
+            <th>${i18n.t("shortcuts.summary.miscellaneous-section-title")}</th>
+          </tr>
+          
           <tr><td>${i18n.t("shortcuts.summary.copy-selected-verses-to-clipboard")}</td><td><code>${i18n.t("shortcuts.shortcut.copy-selected-verses-to-clipboard")}</code></td></tr>
           <tr><td>${i18n.t("shortcuts.summary.toggle-fullscreen-only-Win-Linux")}</td><td><code>${i18n.t("shortcuts.shortcut.toggle-fullscreen-only-Win-Linux")}</code></td></tr>
           <tr><td>${i18n.t("shortcuts.summary.enable-dynamic-Strong-s-display")}</td><td><code>${i18n.t("shortcuts.shortcut.enable-dynamic-Strong-s-display")}</code></td></tr>
