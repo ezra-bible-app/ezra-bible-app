@@ -222,9 +222,6 @@ class InstallModuleAssistant {
 
   async initInstallPage() {
     // Bible modules have been selected
-
-    assistantHelper.lockDialogForAction('module-settings-assistant-add');
-
     this.installStep = document.createElement('step-install');
     this.installStep.unlockDialog = this.unlockDialog;
 
@@ -232,8 +229,6 @@ class InstallModuleAssistant {
     wizardPage.empty();
 
     wizardPage.append(this.installStep);
-
-    assistantHelper.unlockDialog('module-settings-assistant-add');
   }
 
 }

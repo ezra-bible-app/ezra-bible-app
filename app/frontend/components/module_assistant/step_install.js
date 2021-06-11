@@ -19,6 +19,7 @@
 
 const { html, sleep } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
+const assistantHelper = require('./assistant_helper.js');
 
 const template = html`
 <style>
@@ -104,7 +105,7 @@ class StepInstall extends HTMLElement {
 
   async installSelectedModules() {
     console.log('INSTALL: installSelectedModules');
-
+    assistantHelper.lockDialogForAction('module-settings-assistant-add');
     assistantController.setInstallInProgress();
 
     const selectedModules = await assistantController.get('selectedModules');
@@ -139,6 +140,7 @@ class StepInstall extends HTMLElement {
 
     this.querySelector('#cancel-module-installation-button').classList.add('ui-state-disabled');
     assistantController.setInstallDone();
+    assistantHelper.unlockDialog('module-settings-assistant-add');
   }
 
   async installModule(moduleCode) {
