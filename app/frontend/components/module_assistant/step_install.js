@@ -25,13 +25,28 @@ const template = html`
   .intro {
     margin-bottom: 2em;
   }
+  .install-info-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1em;
+  }
+  .install-info-container > div {
+    margin-right: 1em;
+  }
+  .install-info-container .install-description {
+    font-style: italic;
+  }
+  .install-info-container .install-status.error {
+    color: red;
+  }
+  #progress-bar-container {
+    display: flex;
+  }
   #module-install-progress-bar {
     width: 80%; 
-    float: left;
   }
   #module-install-progress-msg {
     width: 80%; 
-    clear: both; 
     padding-top: 0.5em; 
     text-align: center;
   }
@@ -39,19 +54,22 @@ const template = html`
 
 <h3></h3>
 <p class="intro"></p>
-<div id='progress-bar-container'>
-  <div style='float: left; margin-bottom: 1em;'>
-    <span i18n="module-assistant.installing"></span>
-    <i id="module-info"></i> ... 
-  </div>
+<div id="progress-bar-container">
   <div id="module-install-progress-bar" class="progress-bar">
     <div class="progress-label" i18n="module-assistant.installing"></div>
   </div>
-  <div style='float: left;'>
-    <button id='cancel-module-installation-button' class='fg-button ui-corner-all ui-state-default' i18n="general.cancel"></button>
-  </div>
-  <div id="module-install-progress-msg"></div>
+  <button id='cancel-module-installation-button' class='fg-button ui-corner-all ui-state-default' i18n="general.cancel"></button>
 </div>
+<div id="module-install-progress-msg"></div>
+`;
+
+const templateInfoContainer = html`
+  <div class="install-info-container">
+    <div class="install-general-info" i18n="module-assistant.installing"></div>
+    <div class="install-description"></div>
+    <div>...</div> 
+    <div class="install-status"></div>
+  </div>
 `;
 
 class StepInstall extends HTMLElement {
@@ -68,10 +86,11 @@ class StepInstall extends HTMLElement {
     this.localize();
     console.log('INSTALL: started connectedCallback');
 
-    this.$progressBar = $(document.querySelector('#module-install-progress-bar'));
+    this.progressContainer = document.querySelector('#progress-bar-container');
+    this.progressBar = document.querySelector('#module-install-progress-bar');
     this.progressMessage = this.querySelector('#module-install-progress-msg');
 
-    uiHelper.configureButtonStyles('#module-settings-assistant-add-p-3');
+    uiHelper.configureButtonStyles(this);
 
     const cancelInstallButton = this.querySelector('#cancel-module-installation-button');
     cancelInstallButton.addEventListener('click', async () => {
@@ -95,9 +114,8 @@ class StepInstall extends HTMLElement {
 
       while (unlockFailed) {
         try {
-          await this.installModule(currentModule);
           unlockFailed = false;
-
+          await this.installModule(currentModule);
         } catch (e) {
           if (e == "UnlockError") {
             unlockFailed = true;
@@ -119,7 +137,7 @@ class StepInstall extends HTMLElement {
       }
     }
 
-    $('#cancel-module-installation-button').addClass('ui-state-disabled');
+    this.querySelector('#cancel-module-installation-button').classList.add('ui-state-disabled');
     assistantController.setInstallDone();
   }
 
@@ -127,10 +145,9 @@ class StepInstall extends HTMLElement {
     console.log('INSTALL: installModule', moduleCode);
     var swordModule = await ipcNsi.getRepoModule(moduleCode);
 
-    this.querySelector('#module-info').textContent = swordModule.description;
+    this.appendInstallationInfo(swordModule.description);
 
-
-    uiHelper.initProgressBar(this.$progressBar);
+    uiHelper.initProgressBar($(this.progressBar));
 
     var installSuccessful = true;
     var unlockSuccessful = true;
@@ -175,27 +192,27 @@ class StepInstall extends HTMLElement {
                             message: `Installed module ${moduleCode}`,
                             level: Sentry.Severity.Info});
 
-      this.$progressBar.before('<div style="margin-bottom: 1em;">&nbsp;' + i18n.t("general.done") + '.</div>');
-      this.$progressBar.progressbar("value", 100);
+      this.setInstallationInfoStatus();
+      $(this.progressBar).progressbar("value", 100);
       var strongsAvailable = await ipcNsi.strongsAvailable();
 
       if (assistantController.get('moduleType') == 'BIBLE' && swordModule.hasStrongs && !strongsAvailable) {
         await this.installStrongsModules();
       }
     } else {
-      var errorMessage = "";
+      let errorType = "";
 
       if (!unlockSuccessful) {
-        errorMessage = i18n.t("general.module-unlock-failed");
+        errorType = "module-unlock-failed";
       } else {
         if (this._moduleInstallationCancelled) {
-          errorMessage = i18n.t("general.module-install-cancelled");
+          errorType = "module-install-cancelled";
         } else {
-          errorMessage = i18n.t("general.module-install-failed");
+          errorType = "module-install-failed";
         }
       }
 
-      this.$progressBar.before('<div style="margin-bottom: 1em;">&nbsp;' + errorMessage + '</div>');
+      this.setInstallationInfoStatus(errorType);
     }
 
     if (swordModule.locked && !unlockSuccessful) {
@@ -205,10 +222,9 @@ class StepInstall extends HTMLElement {
   }
 
   handleModuleInstallProgress(progress) {
-    console.log('INSTALL: handleModuleInstallProgress', progress.message);
     const {totalPercent, message} = progress;
 
-    this.$progressbar.progressbar("value", totalPercent);
+    $(this.progressBar).progressbar("value", totalPercent);
 
     if (message != '') {
       this.progressMessage.textContent = localizeModuleInstallProgressMessage(message);
@@ -222,7 +238,7 @@ class StepInstall extends HTMLElement {
   async installStrongsModules() {
     console.log('INSTALL: installStrongsModules');
 
-    this.$progressBar.before("<div style='float: left; margin-bottom: 1em;'>" + i18n.t("general.installing-strongs") + " ... </div>");
+    this.appendInstallationInfo(i18n.t("general.installing-strongs"), true);
 
     var strongsInstallSuccessful = true;
 
@@ -243,10 +259,29 @@ class StepInstall extends HTMLElement {
 
     if (strongsInstallSuccessful) {
       app_controller.dictionary_controller.runAvailabilityCheck();
-      
-      this.$progressBar.before('<div style="margin-bottom: 1em;">&nbsp;' + i18n.t("general.done") + '.</div>');
+      this.setInstallationInfoStatus();
     } else {
-      this.$progressBar.before('<div style="margin-bottom: 1em;">&nbsp;' + i18n.t("general.module-install-failed") + '</div>');
+      this.setInstallationInfoStatus("module-install-failed");
+    }
+  }
+
+  appendInstallationInfo(description, hideGeneralInfo=false) {
+    const infoContainer = templateInfoContainer.content.cloneNode(true);
+    infoContainer.querySelector('.install-description').textContent = description;
+    if (!hideGeneralInfo) {
+      const generalInfo = infoContainer.querySelector('.install-general-info');
+      generalInfo.textContent = i18n.t(generalInfo.getAttribute('i18n'));
+    }
+    this.progressContainer.parentElement.insertBefore(infoContainer, this.progressContainer);
+  }
+
+  setInstallationInfoStatus(errorType="") {
+    const infoContainer = this.progressContainer.previousElementSibling;
+    var infoStatus = infoContainer.querySelector('.install-status');
+    const i18nKey = errorType === "" ? "done" : errorType;
+    infoStatus.textContent = i18n.t(`general.${i18nKey}`);
+    if (errorType !== "") {
+      infoStatus.classList.add('error');
     }
   }
 
