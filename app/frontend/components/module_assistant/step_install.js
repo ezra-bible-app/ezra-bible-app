@@ -57,6 +57,8 @@ const template = html`
 class StepInstall extends HTMLElement {
   constructor() {
     super();
+
+    this._moduleInstallationCancelled = false;
     console.log('INSTALL: step constructor');
   }
 
@@ -66,7 +68,7 @@ class StepInstall extends HTMLElement {
     this.localize();
     console.log('INSTALL: started connectedCallback');
 
-    this.$progressBar = $(this.querySelector('#module-install-progress-bar'));
+    this.$progressBar = $(document.querySelector('#module-install-progress-bar'));
     this.progressMessage = this.querySelector('#module-install-progress-msg');
 
     uiHelper.configureButtonStyles('#module-settings-assistant-add-p-3');
@@ -82,6 +84,7 @@ class StepInstall extends HTMLElement {
   }
 
   async installSelectedModules() {
+    console.log('INSTALL: installSelectedModules');
 
     assistantController.setInstallInProgress();
 
@@ -102,6 +105,7 @@ class StepInstall extends HTMLElement {
         }
 
         if (unlockFailed) {
+          console.log('INSTALL: installSelectedModules unlockFailed');
           this.unlockDialog.show(swordModule.name, swordModule.unlockInfo);
 
           while (this.unlockDialog.opened) {
@@ -119,7 +123,8 @@ class StepInstall extends HTMLElement {
     assistantController.setInstallDone();
   }
 
-  async installModule(installPage, moduleCode) {
+  async installModule(moduleCode) {
+    console.log('INSTALL: installModule', moduleCode);
     var swordModule = await ipcNsi.getRepoModule(moduleCode);
 
     this.querySelector('#module-info').textContent = swordModule.description;
@@ -138,7 +143,7 @@ class StepInstall extends HTMLElement {
       }
 
       if (!moduleInstalled) {
-        this.progressMessageBox.innerHTML('');
+        this.progressMessage.innerHTML = '';
         await ipcNsi.installModule(moduleCode, progress => this.handleModuleInstallProgress(progress));
       }
 
@@ -146,10 +151,10 @@ class StepInstall extends HTMLElement {
       // Sleep a bit after installation. This is actually a hack to prevent
       // a "white screen error" right after module installation. The exact reason
       // for that error is unclear, but the sleeping prevents it.
-      await sleep(100);
+      // await sleep(100);
 
       if (swordModule.locked) {
-        const unlockSuccessful = assistantController.applyUnlockKey(moduleCode);
+        unlockSuccessful = assistantController.applyUnlockKey(moduleCode);
         if (!unlockSuccessful) {
           const errorMessage = "Locked module is not readable! Wrong unlock key?";
           throw errorMessage;
@@ -175,7 +180,7 @@ class StepInstall extends HTMLElement {
       var strongsAvailable = await ipcNsi.strongsAvailable();
 
       if (assistantController.get('moduleType') == 'BIBLE' && swordModule.hasStrongs && !strongsAvailable) {
-        await this.installStrongsModules(installPage);
+        await this.installStrongsModules();
       }
     } else {
       var errorMessage = "";
@@ -200,20 +205,22 @@ class StepInstall extends HTMLElement {
   }
 
   handleModuleInstallProgress(progress) {
+    console.log('INSTALL: handleModuleInstallProgress', progress.message);
     const {totalPercent, message} = progress;
 
     this.$progressbar.progressbar("value", totalPercent);
 
     if (message != '') {
-      this.progressMessageBox.textContent = localizeModuleInstallProgressMessage(message);
+      this.progressMessage.textContent = localizeModuleInstallProgressMessage(message);
     }
     
     if (totalPercent == 100) {
-      this.progressMessageBox.innerHTML = '';
+      this.progressMessage.innerHTML = '';
     }
   }
 
   async installStrongsModules() {
+    console.log('INSTALL: installStrongsModules');
 
     this.$progressBar.before("<div style='float: left; margin-bottom: 1em;'>" + i18n.t("general.installing-strongs") + " ... </div>");
 

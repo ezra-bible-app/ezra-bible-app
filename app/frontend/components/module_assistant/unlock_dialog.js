@@ -40,7 +40,7 @@ class UnlockDialog extends HTMLElement {
   constructor() {
     super();
 
-    this._unlockDialogOpened = true;
+    this._unlockDialogOpened = false;
     this._unlockCancelled = false;
   }
 
@@ -51,6 +51,9 @@ class UnlockDialog extends HTMLElement {
   }
 
   show(moduleId, unlockInfo="", checkbox=undefined) {
+    if (this._unlockDialogOpened) {
+      return;
+    }
 
     const unlockDialog = document.querySelector('#module-settings-assistant-unlock-dialog');
     const unlockFailedMsg = unlockDialog.querySelector('#unlock-failed-msg');
