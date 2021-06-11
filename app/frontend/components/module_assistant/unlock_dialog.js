@@ -83,8 +83,7 @@ class UnlockDialog extends HTMLElement {
       this._unlockDialogOpened = false;
       this._unlockCancelled = true;
       if (checkbox !== undefined) {
-        console.log('should remove checked', checkbox);
-        checkbox.removeAttribute('checked');
+        checkbox.checked = false; 
       }
     };
 
@@ -95,8 +94,7 @@ class UnlockDialog extends HTMLElement {
         assistantController.setUnlockKey(moduleId, unlockKey);
       } else {
         if (checkbox !== undefined) {
-          console.log('should remove checked', checkbox);
-          checkbox.removeAttribute('checked');
+          checkbox.checked = false;
         }
       }
       $(unlockDialog).dialog("close");

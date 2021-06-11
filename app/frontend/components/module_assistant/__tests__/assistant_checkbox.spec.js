@@ -20,7 +20,7 @@ describe('<assistant-checkbox>', () => {
     expect(el.querySelector('[slot="label-text"]').textContent).toEqual('Test');
     expect(el.shadowRoot.textContent).toContain('(5)');
 
-    expect(el.shadowRoot.querySelector('input[type="checkbox"]').hasAttribute('checked')).toEqual(true);
+    expect(el.shadowRoot.querySelector('input[type="checkbox"]').checked).toEqual(true);
 
     expect(el.code).toEqual("grc");
   });

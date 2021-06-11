@@ -62,20 +62,19 @@ class AssistantCheckbox extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
-    this.checked = false;
-    this.disabled = false;
+    this._checked = false;
+    this._disabled = false;
     this.code = "";
 
     this.checkbox = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.checkbox.addEventListener('change', () => this.handleCheckboxChecked());
-    this._checkedProcessed = true;
   }
 
   connectedCallback() {  
     this.code = this.getAttribute('code');
     
-    this.disabled = this.hasAttribute('disabled');
-    if (this.disabled) {
+    this._disabled = this.hasAttribute('disabled');
+    if (this._disabled) {
       this.checkbox.setAttribute('disabled', '');
     }
   }
@@ -109,26 +108,29 @@ class AssistantCheckbox extends HTMLElement {
     }
   }
 
+  set checked(isChecked) {
+    if (isChecked) {
+      this.setAttribute('checked', '');
+    } else {
+      this.removeAttribute('checked');
+    }
+  }
+
   handleCheckedAttr(oldValue, newValue) {
-    this.checked = newValue !== null;
-    console.log('attribute checked', this.checked, '"'+oldValue+'"', '"'+newValue+'"');
-    this.checkbox.checked = this.checked;
-    // if (this.checked) {
-    //   this.checkbox.setAttribute('checked', '');
-    // } else {
-    //   this.checkbox.removeAttribute('checked');
-    // }
+    this._checked = newValue !== null;
+    console.log('attribute checked', this._checked, '"'+oldValue+'"', '"'+newValue+'"');
+    this.checkbox.checked = this._checked;
   }
 
   handleCheckboxChecked() {
-    if (this.disabled) {
+    if (this._disabled) {
       return;
     }
 
     console.log('checkbox checked');
 
-    this.checked = this.checkbox.checked;
-    if (this.checked) {
+    this._checked = this.checkbox.checked;
+    if (this._checked) {
       this.setAttribute('checked', '');
     } else {
       this.removeAttribute('checked');
@@ -138,7 +140,7 @@ class AssistantCheckbox extends HTMLElement {
       bubbles: true,
       detail: { 
         code: this.code,
-        checked: this.checked
+        checked: this._checked
       }
     }));  
   }
