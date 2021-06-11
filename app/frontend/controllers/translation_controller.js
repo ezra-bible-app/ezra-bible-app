@@ -20,6 +20,9 @@ const i18nController = require('../controllers/i18n_controller.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 const { sleep } = require('../helpers/ezra_helper.js');
 
+const INSTANT_LOADING_CHAPTER_LIMIT = 15;
+   
+
 /**
  * The TranslationController is used to handle the bible translation menu and to
  * access and generate various information about installed bible translations.
@@ -363,6 +366,11 @@ class TranslationController {
 
     if (currentTab != null) {
       let currentBook = currentTab.getBook();
+      let previousBook = currentTab.getPreviousBook();
+
+      if (currentBook == previousBook) {
+        return;
+      }
 
       let moduleBookStatus = {};
 
@@ -370,7 +378,7 @@ class TranslationController {
         moduleBookStatus = await ipcNsi.getModuleBookStatus(currentBook);
       }
 
-      let selectOptions = bibleSelect.find('option');
+      let selectOptions = bibleSelect[0].querySelectorAll('option');
 
       for (let i = 0; i < selectOptions.length; i++) {
         let currentOption = selectOptions[i];
@@ -409,6 +417,29 @@ class TranslationController {
     bibleSelect.selectmenu();
   }
 
+  async isInstantLoadingBook(bibleTranslationId, bookCode) {
+    if (bibleTranslationId == null || bookCode == null) {
+      return false;
+    }
+
+    var instantLoad = false;
+    const bookChapterCount = await ipcNsi.getBookChapterCount(bibleTranslationId, bookCode);
+    const bookLoadingModeOption = app_controller.optionsMenu._bookLoadingModeOption;
+
+    switch (bookLoadingModeOption.value) {
+      case 'open-complete-book':
+        instantLoad = true;
+        break;
+
+      case 'open-chapters-large-books':
+        if (bookChapterCount <= INSTANT_LOADING_CHAPTER_LIMIT) {
+          instantLoad = true;
+        }
+        break;
+    }
+
+    return instantLoad;
+  }
 }
 
 module.exports = TranslationController;

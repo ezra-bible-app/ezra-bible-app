@@ -20,12 +20,14 @@ const IpcRenderer = require('./ipc_renderer.js');
 const VerseBox = require('../ui_models/verse_box.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const i18nController = require('../controllers/i18n_controller.js');
+
 class IpcDb {
   constructor() {
     this._ipcRenderer = new IpcRenderer();
     this._platformHelper = new PlatformHelper();
     this._isCordova = this._platformHelper.isCordova();
     this._getAllTagsCounter = 0;
+    this._cachedBookTitleTranslations = {};
   }
 
   async getDatabasePath() {
@@ -135,7 +137,21 @@ class IpcDb {
   }
 
   async getBookTitleTranslation(shortName) {
-    return await this._ipcRenderer.call('db_getBookTitleTranslation', shortName, i18nController.getLocale());
+    var currentLocale = i18nController.getLocale();
+    var translation = null;
+
+    if (!(currentLocale in this._cachedBookTitleTranslations)) {
+      this._cachedBookTitleTranslations[currentLocale] = {}
+    }
+
+    if (!(shortName in this._cachedBookTitleTranslations[currentLocale])) {
+      translation = await this._ipcRenderer.call('db_getBookTitleTranslation', shortName, i18nController.getLocale());
+      this._cachedBookTitleTranslations[currentLocale][shortName] = translation;
+    } else {
+      translation = this._cachedBookTitleTranslations[currentLocale][shortName];
+    }
+
+    return translation;
   }
 
   async getBookLongTitle(bookCode) {
@@ -156,6 +172,10 @@ class IpcDb {
 
   async getVerseReferencesByBookAndAbsoluteVerseNumber(bookCode, absoluteVerseNr, versification) {
     return await this._ipcRenderer.call('db_getVerseReferencesByBookAndAbsoluteVerseNumber', bookCode, absoluteVerseNr, versification);
+  }
+
+  async getVerseReferencesFromVerseObjects(verseObjects, versification) {
+    return await this._ipcRenderer.call('db_getVerseReferencesFromVerseObjects', verseObjects, versification);
   }
 
   async getVerseReferencesByTagIds(tagIds) {

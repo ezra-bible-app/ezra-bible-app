@@ -211,6 +211,7 @@
     "show-notes": "Toon aantekeningen",
     "limit-notes-display-size": "Beperk grootte van aantekeningen",
     "use-tags-column": "Gebruik tags-kolom",
+    "select-chapter-before-loading": "Open books with chapter selection",
     "use-night-mode": "Nachtmodus",
     "keep-screen-on": "Houd het beeldscherm ingeschakeld",
     "tag-statistics": "Tagstatistieken",
@@ -220,7 +221,10 @@
     "open-verselist-in-new-tab": "Open verslijst in nieuw tabblad",
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Pas de lettergrootte van tags en notities aan",
-    "new-note-hint": "Klik om een notitie toe te voegen"
+    "new-note-hint": "Klik om een notitie toe te voegen",
+    "open-complete-book": "Open books completely",
+    "open-chapters-large-books": "Open large books chapter-wise",
+    "open-chapters-all-books": "Open all books chapter-wise"
   },
   "dictionary-info-box": {
     "greek-dict": "Grieks woordenboek",

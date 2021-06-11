@@ -31,19 +31,21 @@ class IpcDbHandler {
     this.initIpcInterface();
   }
 
-  async initDatabase(isDebug) {
+  async initDatabase(isDebug, useInternalStorage=false) {
     const DbHelper = require('../database/db_helper.js');
-    var userDataDir = this.platformHelper.getUserDataPath();
+    var userDataDir = this.platformHelper.getUserDataPath(false, useInternalStorage);
 
     dbHelper = new DbHelper(userDataDir);
     this.dbDir = dbHelper.getDatabaseDir(isDebug);
+
+    console.log(`Initializing database at ${this.dbDir}`);
 
     const fs = require('fs');
     if (!fs.existsSync(this.dbDir)) {
       try {
         fs.mkdirSync(this.dbDir);
       } catch (e) {
-        through("Could not create db directory at " + this.dbDir);
+        throw("Could not create db directory at " + this.dbDir);
       }
     }
 
@@ -191,6 +193,28 @@ class IpcDbHandler {
       var sequelizeVerseReferences = await models.VerseReference.findByBookAndAbsoluteVerseNumber(bookShortTitle, absoluteVerseNr, versification);
       var verseReferences = this.makeSequelizeResultsSerializable(sequelizeVerseReferences);
       return verseReferences;
+    });
+
+    this._ipcMain.add('db_getVerseReferencesFromVerseObjects', async (verseObjects, versification) => {
+      var allVerseReferences = [];
+
+      for (let i = 0; i < verseObjects.length; i++) {
+        var currentVerseObject = verseObjects[i];
+
+        var sequelizeVerseReferences = await models.VerseReference.findByBookAndAbsoluteVerseNumber(
+          currentVerseObject._bibleBookShortTitle,
+          currentVerseObject._absoluteVerseNr,
+          versification
+        );
+
+        var currentVerseReferences = this.makeSequelizeResultsSerializable(sequelizeVerseReferences);
+
+        if (currentVerseReferences.length > 0) {
+          allVerseReferences.push(currentVerseReferences[0].id);
+        }
+      }
+
+      return allVerseReferences;
     });
 
     this._ipcMain.add('db_getVerseReferencesByTagIds', async (tagIds) => {
