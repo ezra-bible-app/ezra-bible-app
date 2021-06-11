@@ -50,17 +50,18 @@ class UnlockDialog extends HTMLElement {
 
   }
 
-  show(swordModule, checkbox=undefined) {
+  show(moduleId, unlockInfo="", checkbox=undefined) {
 
-    const unlockInfoElement = this.querySelector('#dialog-unlock-info');
-    const inputElement = this.querySelector('#unlock-key-input');
+    const unlockDialog = document.querySelector('#module-settings-assistant-unlock-dialog');
+    const unlockFailedMsg = unlockDialog.querySelector('#unlock-failed-msg');
+    const unlockInfoElement = unlockDialog.querySelector('#dialog-unlock-info');
+    const inputElement = unlockDialog.querySelector('#unlock-key-input');
+    inputElement.value = "";
 
-    if (swordModule.unlockInfo != "") {
-      unlockInfoElement.innerHTML = swordModule.unlockInfo;
+    if (unlockInfo != "") {
+      unlockInfoElement.innerHTML = unlockInfo;
     }
 
-    var $unlockDialog = $(this.querySelector('#module-settings-assistant-unlock-dialog'));
-    var unlockFailedMsg = this.querySelector('#unlock-failed-msg');
 
     if (checkbox === undefined) {
       unlockFailedMsg.style.display = 'block';
@@ -70,7 +71,7 @@ class UnlockDialog extends HTMLElement {
 
     var unlockDialogOptions = {
       modal: true,
-      title: i18n.t("module-assistant.enter-unlock-key", { moduleId: swordModule.name }),
+      title: i18n.t("module-assistant.enter-unlock-key", { moduleId }),
       dialogClass: 'ezra-dialog',
       width: 450,
       minHeight: 200
@@ -78,33 +79,36 @@ class UnlockDialog extends HTMLElement {
 
     unlockDialogOptions.buttons = {};    
     unlockDialogOptions.buttons[i18n.t("general.cancel")] = () => {
-      $unlockDialog.dialog("close");
+      $(unlockDialog).dialog("close");
       this._unlockDialogOpened = false;
       this._unlockCancelled = true;
+      if (checkbox !== undefined) {
+        console.log('should remove checked', checkbox);
+        checkbox.removeAttribute('checked');
+      }
     };
 
     unlockDialogOptions.buttons[i18n.t("general.ok")] = () => {
       const unlockKey = inputElement.value.trim();
 
       if (unlockKey.length > 0) {
-        assistantController.setUnlockKey(swordModule.name, unlockKey);
-
+        assistantController.setUnlockKey(moduleId, unlockKey);
+      } else {
         if (checkbox !== undefined) {
-          checkbox.setAttribute('checked', '');
+          console.log('should remove checked', checkbox);
+          checkbox.removeAttribute('checked');
         }
-
-        $unlockDialog.dialog("close");
-        this._unlockDialogOpened = false;
       }
+      $(unlockDialog).dialog("close");
+      this._unlockDialogOpened = false;
     };
     
-    $unlockDialog.dialog(unlockDialogOptions);
+    $(unlockDialog).dialog(unlockDialogOptions);
     inputElement.focus();
   }
 
-  resetKey(swordModule) {
-    this.querySelector('#unlock-key-input').value = '';
-    assistantController.setUnlockKey(swordModule.name, '');
+  resetKey(moduleId) {
+    assistantController.setUnlockKey(moduleId, '');
   }
 
   get opened() {

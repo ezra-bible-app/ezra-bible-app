@@ -54,7 +54,7 @@ const template = html`
 
 class AssistantCheckbox extends HTMLElement {
   static get observedAttributes() {
-    return ['count', 'description'];
+    return ['count', 'description', 'checked'];
   }
 
   constructor() {
@@ -65,48 +65,27 @@ class AssistantCheckbox extends HTMLElement {
     this.checked = false;
     this.disabled = false;
     this.code = "";
+
+    this.checkbox = this.shadowRoot.querySelector('input[type="checkbox"]');
+    this.checkbox.addEventListener('change', () => this.handleCheckboxChecked());
+    this._checkedProcessed = true;
   }
 
   connectedCallback() {  
     this.code = this.getAttribute('code');
-
-    const checkbox = this.shadowRoot.querySelector('input[type="checkbox"]');
-
-    this.checked = this.hasAttribute('checked');
-    if (this.checked) {
-      checkbox.setAttribute('checked', '');
-    }
-
+    
     this.disabled = this.hasAttribute('disabled');
     if (this.disabled) {
-      checkbox.setAttribute('disabled', '');
+      this.checkbox.setAttribute('disabled', '');
     }
-    
-    checkbox.addEventListener('change', () => {
-      if (this.disabled) {
-        return;
-      }
-
-      this.checked = checkbox.checked;
-      if (this.checked) {
-        this.setAttribute('checked', '');
-      } else {
-        this.removeAttribute('checked');
-      }
-
-      this.dispatchEvent(new CustomEvent("itemSelected", {
-        bubbles: true,
-        cancelable: false,
-        composed: true,
-        detail: { 
-          code: this.code,
-          checked: this.checked
-        }
-      }));  
-    });
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'checked') {
+      this.handleCheckedAttr(oldValue, newValue);
+      return;
+    }
+
     if (name === 'count' && newValue) {
       newValue = ` (${newValue})`;
     }
@@ -129,6 +108,41 @@ class AssistantCheckbox extends HTMLElement {
       this.removeAttribute('description');
     }
   }
+
+  handleCheckedAttr(oldValue, newValue) {
+    this.checked = newValue !== null;
+    console.log('attribute checked', this.checked, '"'+oldValue+'"', '"'+newValue+'"');
+    this.checkbox.checked = this.checked;
+    // if (this.checked) {
+    //   this.checkbox.setAttribute('checked', '');
+    // } else {
+    //   this.checkbox.removeAttribute('checked');
+    // }
+  }
+
+  handleCheckboxChecked() {
+    if (this.disabled) {
+      return;
+    }
+
+    console.log('checkbox checked');
+
+    this.checked = this.checkbox.checked;
+    if (this.checked) {
+      this.setAttribute('checked', '');
+    } else {
+      this.removeAttribute('checked');
+    }
+
+    this.dispatchEvent(new CustomEvent("itemSelected", {
+      bubbles: true,
+      detail: { 
+        code: this.code,
+        checked: this.checked
+      }
+    }));  
+  }
+
   update(elementId, value) {
     this.shadowRoot.querySelector(`#${elementId}`).textContent = value ? value : '';
   }

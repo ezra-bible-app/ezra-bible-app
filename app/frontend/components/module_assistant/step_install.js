@@ -102,7 +102,7 @@ class StepInstall extends HTMLElement {
         }
 
         if (unlockFailed) {
-          this.unlockDialog.show(swordModule);
+          this.unlockDialog.show(swordModule.name, swordModule.unlockInfo);
 
           while (this.unlockDialog.opened) {
             await sleep(200);

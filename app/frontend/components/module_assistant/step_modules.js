@@ -159,6 +159,7 @@ class StepModules extends HTMLElement {
             moduleInfo['icon'] = ICON_LOCKED;
             moduleInfo['title'] = i18n.t("module-assistant.module-lock-info");
             moduleInfo['locked'] = "locked";
+            moduleInfo['unlock-info'] = swordModule.unlockInfo;
           }
 
           return moduleInfo;
@@ -199,22 +200,21 @@ class StepModules extends HTMLElement {
   }
 
   handleCheckboxClick(event) {
-    console.log('MODULE checkbox', event.detail, event.target.hasAttribute('locked'));
+    const checkbox = event.target;
+    const moduleId = event.detail.code;
 
-    // 'mousedown': async (event) => {
-    //   const checkbox = event.target;
-    //   if (checkbox.prop('checked') == false) {
-    //     if (swordModule.locked) {
-    //       this.unlockDialog.show(swordModule, checkbox);
-    //     }
-    //   } else {
-    //     if (swordModule.locked) {
-    //       // Checkbox unchecked!
-    //       // Reset the unlock key for this module
-    //       this.unlockDialog.resetKey(swordModule);
-    //     }
-    //   }
-    // }
+    if (!checkbox.hasAttribute('locked')) {
+      return;
+    }
+    
+    if (event.detail.checked) {
+      console.log('MODULE checkbox locked checked', event.detail, event.target);
+      this.unlockDialog.show(moduleId, checkbox.getAttribute('unlock-info'), checkbox);
+    } else {
+      // Checkbox unchecked!
+      // Reset the unlock key for this module
+      this.unlockDialog.resetKey(moduleId);
+    }
   }
 
   // FIXME: remove this
