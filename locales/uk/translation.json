@@ -142,6 +142,41 @@
     "help-text-translation-available": "Для початку оберіть книгу або міту з меню вище.",
     "help-text-no-translations": "Для початку спочатку встановіть хоча б один переклад Біблії. <br/><br/>Ви можете відкрити помічника встановлення, натиснувши піктограму налаштувань, а потім <i>Переклади Біблії< / i>."
   },
+  "shortcuts": {
+    "tab-title": "Keyboard Shortcuts",
+    "description": "You can use the following shortcuts within Ezra Bible App:",
+
+    "summary" : {
+      "font-section-title": "Font",
+      "current-tab-search-section-title": "Current Tab Search",
+      "miscellaneous-section-title": "Miscellaneous",
+      "in-tab-search": "In tab search",
+      "hide-in-tab-search-form": "Hide in tab search form",
+      "jump-to-next-search-occurance": "Jump to next search occurance",
+      "jump-to-previous-occurance": "Jump to previous occurance",
+      "copy-selected-verses-to-clipboard": "Copy selected verses to clipboard",
+      "toggle-fullscreen-only-Win-Linux": "Toggle fullscreen (only Win/Linux)",
+      "enable-dynamic-Strong-s-display": "Enable dynamic Strong's display",
+      "open-new-tab": "Open new tab",
+      "increase-current-font-size": "Increase current font size",
+      "decrease-current-font-size": "Decrease current font size",
+      "reset-font-size-to-default": "Reset font size to default"
+    },
+
+    "shortcut": {
+      "in-tab-search":"CTRL/CMD + f",
+      "hide-in-tab-search-form": "ESC",
+      "jump-to-next-search-occurance": "Enter",
+      "jump-to-previous-occurance": "Shift + Enter",
+      "copy-selected-verses-to-clipboard": "CTRL/CMD + c",
+      "toggle-fullscreen-only-Win-Linux": "F11",
+      "enable-dynamic-Strong-s-display": "Shift + mouse over verse while dictionary info is opened",
+      "open-new-tab": "CTRL/CMD + t",
+      "increase-current-font-size": "CTRL/CMD +",
+      "decrease-current-font-size": "CTRL/CMD -",
+      "reset-font-size-to-default": "CTRL/CMD 0"
+    }
+  },
   "tags": {
     "new-tag": "Нова міта",
     "create-tag": "Створити міту",
