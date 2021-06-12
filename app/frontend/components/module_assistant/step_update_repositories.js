@@ -27,26 +27,26 @@ const template = html`
 <style>
 </style>
 
-<loading-indicator></loading-indicator>
 
+<p class="intro"></p>   
 <div class="update-view"> 
   <p i18n="module-assistant.updating-repository-data"></p>
+  <loading-indicator></loading-indicator>
   <div id="repo-update-progress-bar" class="progress-bar">
     <div class="progress-label" i18n="module-assistant.updating"></div>
   </div>
-  <p id="update-failed" style="display: none" i18n="module-assistant.update-repository-data-failed"></p>
+  <p class="loading-repos" i18n="module-assistant.loading-repositories"></p>
 </div>  
 
-<p class="loading-repos" i18n="module-assistant.loading-repositories"></p>
-
 <div class="info-view">
-  <p class="intro"></p>   
   <p style="clear: both; padding-top: 1em;">
     <span class="update-info"></span>
     <button id="update-repo-data" class="fg-button ui-state-default ui-corner-all" i18n="module-assistant.update-now"></button>
   </p>
-  <p style="margin-top: 2em;" i18n="module-assistant.more-repo-information-needed"></p>
 </div>
+
+<p id="update-failed" style="display: none" i18n="module-assistant.update-repository-data-failed"></p>
+<p style="margin-top: 2em;" i18n="module-assistant.more-repo-information-needed"></p>
 `;
 
 class StepUpdateRepositories extends HTMLElement {
@@ -61,12 +61,9 @@ class StepUpdateRepositories extends HTMLElement {
     this.localize();
     console.log('UPDATE: started connectedCallback');
     
-    this.loadingIndicator = this.querySelector('loading-indicator');
     this.infoView = this.querySelector('.info-view');
     this.updateView = this.querySelector('.update-view');
     this.repositoryList = this.querySelector('.repository-list');
-
-    this.loadingIndicator.show();
   
     this.querySelector('#update-repo-data').addEventListener('click', async () => {
       await this.updateRepositoryConfig();
@@ -80,10 +77,12 @@ class StepUpdateRepositories extends HTMLElement {
   }
 
   async wasUpdated() {
+    const repoConfigExists = await ipcNsi.repositoryConfigExisting();
+
     const lastUpdate = await ipcSettings.get('lastSwordRepoUpdate', undefined);
     
-    if (lastUpdate !== undefined) {
-      this.lastUpdate = new Date(Date.parse(lastUpdate)).toLocaleDateString(i18nController.getLocale());
+    if (repoConfigExists && lastUpdate !== undefined) {
+      this.updateDate(new Date(Date.parse(lastUpdate))); 
       return true;
     }
 
@@ -93,44 +92,42 @@ class StepUpdateRepositories extends HTMLElement {
   async showUpdateInfo() {
     console.log('UPDATE: showUpdateInfo');
     this.updateView.style.display = 'none';
-
     this.infoView.style.display = 'block';
 
     this.querySelector('.update-info').textContent = i18n.t("module-assistant.repo-data-last-updated", { date: this.lastUpdate });
     uiHelper.configureButtonStyles(this);
-    this.querySelector('.loading-repos').style.display = 'none';
   }
 
   async updateRepositoryConfig() {
     console.log('UPDATE: updateRepositoryConfig');
+    this.infoView.style.display = 'none';
+    this.updateView.style.display = 'block';
 
     var listRepoTimeoutMs = 500;
-    var repoConfigExisting = await ipcNsi.repositoryConfigExisting();
 
-    if (!repoConfigExisting) {
-      this.infoView.style.display = 'none';
-      this.updateView.style.display = 'block';
-      this.loadingIndicator.show();
-      this.querySelector('loading-repos').style.display = 'block';
+    uiHelper.initProgressBar($('#repo-update-progress-bar'));
+    var ret = await ipcNsi.updateRepositoryConfig((progress) => {
+      var progressBar = $('#repo-update-progress-bar');
+      var progressPercent = progress.totalPercent;
+      progressBar.progressbar("value", progressPercent);
+    });
 
-      uiHelper.initProgressBar($('#repo-update-progress-bar'));
-
-      var ret = await ipcNsi.updateRepositoryConfig((progress) => {
-        var progressBar = $('#repo-update-progress-bar');
-        var progressPercent = progress.totalPercent;
-        progressBar.progressbar("value", progressPercent);
-      });
-
-      if (ret == 0) {
-        await ipcSettings.set('lastSwordRepoUpdate', new Date());
-      } else {
-        console.log("Failed to update the repository configuration!");
-        listRepoTimeoutMs = 3000;
-        this.querySelector('#update-failed').style.display = 'block';     
-      }
+    if (ret == 0) {
+      const today = new Date();
+      this.updateDate(today);
+      await ipcSettings.set('lastSwordRepoUpdate', today);
+      await assistantController.updateAllRepositoryData();
+    } else {
+      console.log("Failed to update the repository configuration!");
+      listRepoTimeoutMs = 3000;
+      this.querySelector('#update-failed').style.display = 'block';     
     }
 
     setTimeout(async () => { this.showUpdateInfo(); }, listRepoTimeoutMs);
+  }
+
+  updateDate(date) {
+    this.lastUpdate = date.toLocaleDateString(i18nController.getLocale());
   }
 
   localize() {
