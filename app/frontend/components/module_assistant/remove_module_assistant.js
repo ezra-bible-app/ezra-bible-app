@@ -171,7 +171,7 @@ class RemoveModuleAssistant {
       setTimeout(async () => {
         for (var i = 0; i < this._uninstallModules.length; i++) {
           var moduleCode = this._uninstallModules[i];
-          var localModule = await ipcNsi.getLocalModule(moduleCode);
+          var localModule = await ipcNsi.getLocalModule(moduleCode, true);
           var moduleName = localModule.description;
 
           removalPage.append('<span>' + i18n.t("module-assistant.removing") + ' <i>' + moduleName + '</i> ... </span>');

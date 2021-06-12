@@ -209,6 +209,7 @@
     "show-notes": "Заметки",
     "limit-notes-display-size": "Ограничить высоту заметок",
     "use-tags-column": "Метки в отдельном столбце",
+    "select-chapter-before-loading": "Open books with chapter selection",
     "use-night-mode": "Ночной режим",
     "keep-screen-on": "Не отключать экран",
     "tag-statistics": "Статистика меток",
@@ -218,7 +219,10 @@
     "open-verselist-in-new-tab": "Открыть список стихов в новой вкладке",
     "footnote-character": "*",
     "adjust-font-size-tags-notes": "Настраивать текст меток/заметок",
-    "new-note-hint": "Click to add a note"
+    "new-note-hint": "Click to add a note",
+    "open-complete-book": "Open books completely",
+    "open-chapters-large-books": "Open large books chapter-wise",
+    "open-chapters-all-books": "Open all books chapter-wise"
   },
   "dictionary-info-box": {
     "greek-dict": "Словарь греческого языка",

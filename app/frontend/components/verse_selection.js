@@ -113,10 +113,16 @@ class VerseSelection {
     this.selected_verse_references = selectedVerseReferences;
   }
 
-  clear_verse_selection(updateViews=true) {
+  clear_verse_selection(updateViews=true, tabIndex=undefined) {
     this.selected_verse_references = new Array;
     this.selected_verse_box_elements = new Array;
-    $('.verse-text').removeClass('ui-selectee ui-selected ui-state-highlight');
+
+    var verseList = app_controller.getCurrentVerseList(tabIndex);
+    verseList[0].querySelectorAll('.ui-selected').forEach((verseText) => {
+      verseText.classList.remove('ui-selectee');
+      verseText.classList.remove('ui-selected')
+      verseText.classList.remove('ui-state-highlight');
+    });
 
     if (updateViews) {
       this.updateViewsAfterVerseSelection();

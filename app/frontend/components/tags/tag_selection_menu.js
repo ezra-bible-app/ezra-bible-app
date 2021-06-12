@@ -303,10 +303,10 @@ class TagSelectionMenu {
   
   resetTagMenu() {
     var taglist_container = this.getTagListContainer();
-    var tag_cb_list = taglist_container.find('.tag-browser-tag-cb');
+    var tag_cb_list = taglist_container[0].querySelectorAll('.tag-browser-tag-cb');
 
     for (var i = 0; i < tag_cb_list.length; i++) {
-      $(tag_cb_list[i]).removeAttr('checked');
+      tag_cb_list[i].checked = false;
     }
   }
 

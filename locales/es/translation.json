@@ -211,6 +211,7 @@
     "show-notes": "Mostrar notas",
     "limit-notes-display-size": "Limitar el tamaño de las notas",
     "use-tags-column": "Usar columna de etiquetas",
+    "select-chapter-before-loading": "Open books with chapter selection",
     "use-night-mode": "Modo Noche",
     "keep-screen-on": "Mantener la pantalla activa",
     "tag-statistics": "Estadística de etiquetas",
@@ -220,7 +221,10 @@
     "open-verselist-in-new-tab": "Abrir la lista de versos en una nueva pestaña",
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Ajustar el tamaño de fuente de notas y etiquetas",
-    "new-note-hint": "Presione para añadir una nota"
+    "new-note-hint": "Presione para añadir una nota",
+    "open-complete-book": "Open books completely",
+    "open-chapters-large-books": "Open large books chapter-wise",
+    "open-chapters-all-books": "Open all books chapter-wise"
   },
   "dictionary-info-box": {
     "greek-dict": "Diccionario Griego",

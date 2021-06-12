@@ -227,6 +227,18 @@ class IpcNsiHandler {
       return this._nsi.getChapterVerseCount(moduleCode, bookCode, chapter);
     });
 
+    this._ipcMain.add('nsi_getAllChapterVerseCounts', (moduleCode, bookCode) => {
+      var chapterVerseCounts = [];
+
+      var bookChapterCount = this._nsi.getBookChapterCount(moduleCode, bookCode);
+      for (let i = 0; i < bookChapterCount; i++) {
+        let currentChapterVerseCount = this._nsi.getChapterVerseCount(moduleCode, bookCode, i);
+        chapterVerseCounts.push(currentChapterVerseCount);
+      }
+
+      return chapterVerseCounts;
+    });
+
     this._ipcMain.add('nsi_getBookIntroduction', (moduleCode, bookCode) => {
       return this._nsi.getBookIntroduction(moduleCode, bookCode);
     });

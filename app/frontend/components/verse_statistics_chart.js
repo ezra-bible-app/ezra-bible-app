@@ -42,13 +42,14 @@ class VerseStatisticsChart {
 
   resetChart(tabIndex=undefined) {
     var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
-    var container = currentVerseListFrame.find('.verse-statistics-chart-container');
+    var container = currentVerseListFrame[0].querySelector('.verse-statistics-chart-container');
 
-    container.hide();
-    container.empty();
+    container.style.display = 'none';
+    container.innerHTML = '';
 
-    var canvasElement = "<canvas class='verse-statistics-chart'></canvas>";
-    container.append(canvasElement);
+    var canvasElement = document.createElement("canvas");
+    canvasElement.classList.add('verse-statistics-chart');
+    container.appendChild(canvasElement);
   }
 
   async repaintChart(tabIndex=undefined) {

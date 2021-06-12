@@ -24,6 +24,8 @@
 
 const i18nHelper = require('./i18n_helper.js');
 
+var _moduleVersificationCache = {};
+
 module.exports.getModuleDescription = async function(moduleId, isRemote=false) {
   var moduleInfo = "No info available!";
 
@@ -161,6 +163,10 @@ module.exports.getVersification = async function(moduleId) {
     return null;
   }
 
+  if (moduleId in _moduleVersificationCache) {
+    return _moduleVersificationCache[moduleId];
+  }
+
   var versification = null;
   var psalm3Verses = [];
   var revelation12Verses = [];
@@ -192,6 +198,7 @@ module.exports.getVersification = async function(moduleId) {
     console.log("Revelation 12 has " + revelation12Verses.length + " verses.");*/
   }
 
+  _moduleVersificationCache[moduleId] = versification;
   return versification;
 }
 
