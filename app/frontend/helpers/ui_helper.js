@@ -173,7 +173,7 @@ class UiHelper {
   }
 
   getMaxDialogWidth() {
-    var width = 800;
+    var width = 900;
     var windowWidth = $(window).width();
 
     if (windowWidth > 400 && windowWidth < 700) {
