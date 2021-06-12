@@ -30,24 +30,11 @@ const template = html`
 
 <loading-indicator></loading-indicator>
 
-<div class="update-view" style="display: none">
-  <p i18n="module-assistant.updating-repository-data"></p>
-  <div id="repo-update-progress-bar" class="progress-bar">
-    <div class="progress-label" i18n="module-assistant.updating"></div>
-  </div>
-  <p id="update-failed" style="display: none" i18n="module-assistant.update-repository-data-failed"></p>
-</div>  
-
 <p class="loading-repos" i18n="module-assistant.loading-repositories"></p>
 
 <div class="list-view">
   <p class="intro"></p>   
   <div class="repository-list"></div>
-  <p style="clear: both; padding-top: 1em;">
-    <span class="update-info"></span>
-    <button id="update-repo-data" class="fg-button ui-state-default ui-corner-all" i18n="module-assistant.update-now"></button>
-  </p>
-  <p style="margin-top: 2em;" i18n="module-assistant.more-repo-information-needed"></p>
 </div>
 `;
 
@@ -77,15 +64,7 @@ class StepRepositories extends HTMLElement {
 
     this.loadingIndicator.show();
   
-    this.querySelector('#update-repo-data').addEventListener('click', async () => {
-      await this.updateRepositoryConfig();
-    });
-
-    if (await this.wasUpdated()) {
-      this.listRepositories();
-    } else {
-      this.updateRepositoryConfig();
-    }
+    this.listRepositories();
   }
 
   get repositories() {
@@ -96,20 +75,8 @@ class StepRepositories extends HTMLElement {
     return selectedRepositories;
   }
 
-  async wasUpdated() {
-    const lastUpdate = await ipcSettings.get('lastSwordRepoUpdate', undefined);
-    
-    if (lastUpdate !== undefined) {
-      this.lastUpdate = new Date(Date.parse(lastUpdate)).toLocaleDateString(i18nController.getLocale());
-      return true;
-    }
-
-    return false;
-  }
-
   async listRepositories() {
     console.log('REPOS: listRepositories');
-    this.updateView.style.display = 'none';
 
     let moduleTypeText = "";
     const moduleType = assistantController.get('moduleType');
@@ -120,51 +87,14 @@ class StepRepositories extends HTMLElement {
     }
     this.querySelector('.intro').innerHTML = i18n.t("module-assistant.repo-selection-info-text", {module_type: moduleTypeText});
 
-    this.listView.style.display = 'block';
-
     const repositoriesArr = await Promise.all(
       (await assistantController.get('allRepositories')).map(getRepoModuleDetails));
 
     this.repositoryList.innerHTML = '';
     this.repositoryList.appendChild(assistantHelper.listCheckboxSection(repositoriesArr, await this.selectedRepositories));
 
-    this.querySelector('.update-info').textContent = i18n.t("module-assistant.repo-data-last-updated", { date: this.lastUpdate });
-    uiHelper.configureButtonStyles('#module-settings-assistant-add-p-1');
-
     this.querySelector('loading-indicator').hide();
     this.querySelector('.loading-repos').style.display = 'none';
-  }
-
-  async updateRepositoryConfig() {
-    console.log('REPOS: updateRepositoryConfig');
-
-    var listRepoTimeoutMs = 500;
-    var repoConfigExisting = await ipcNsi.repositoryConfigExisting();
-
-    if (!repoConfigExisting) {
-      this.listView.style.display = 'none';
-      this.updateView.style.display = 'block';
-      this.loadingIndicator.show();
-      this.querySelector('loading-repos').style.display = 'block';
-
-      uiHelper.initProgressBar($('#repo-update-progress-bar'));
-
-      var ret = await ipcNsi.updateRepositoryConfig((progress) => {
-        var progressbar = $('#repo-update-progress-bar');
-        var progressPercent = progress.totalPercent;
-        progressbar.progressbar("value", progressPercent);
-      });
-
-      if (ret == 0) {
-        await ipcSettings.set('lastSwordRepoUpdate', new Date());
-      } else {
-        console.log("Failed to update the repository configuration!");
-        listRepoTimeoutMs = 3000;
-        this.querySelector('#update-failed').style.display = 'block';     
-      }
-    }
-
-    setTimeout(async () => { this.listRepositories(); }, listRepoTimeoutMs);
   }
 }
 
