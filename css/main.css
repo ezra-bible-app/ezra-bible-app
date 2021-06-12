@@ -1699,6 +1699,10 @@ s {
   overflow-y: scroll;
 }
 
+.info-tab-section-title {
+  padding: 1em 0;
+}
+
 #info-table-shortcuts{
   width: 100%;
   padding: 10px;

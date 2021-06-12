@@ -127,7 +127,7 @@ class InfoPopup {
         <table role="table" id="info-table-shortcuts">
 
           <tr>
-            <th>${i18n.t("shortcuts.summary.font-section-title")}</th>
+            <th class="info-tab-section-title">${i18n.t("shortcuts.summary.font-section-title")}</th>
           </tr>
           
           <tr><td>${i18n.t("shortcuts.summary.increase-current-font-size")}</td><td><code>${i18n.t("shortcuts.shortcut.increase-current-font-size")}</code></td></tr>
@@ -135,7 +135,7 @@ class InfoPopup {
           <tr><td>${i18n.t("shortcuts.summary.reset-font-size-to-default")}</td><td><code>${i18n.t("shortcuts.shortcut.reset-font-size-to-default")}</code></td></tr>
 
           <tr>
-            <th>${i18n.t("shortcuts.summary.current-tab-search-section-title")}</th>
+            <th class="info-tab-section-title">${i18n.t("shortcuts.summary.current-tab-search-section-title")}</th>
           </tr>
           
           <tr><td>${i18n.t("shortcuts.summary.in-tab-search")}</td><td><code>${i18n.t("shortcuts.shortcut.in-tab-search")}</code></td></tr>
@@ -144,7 +144,7 @@ class InfoPopup {
           <tr><td>${i18n.t("shortcuts.summary.jump-to-previous-occurance")}</td><td><code>${i18n.t("shortcuts.shortcut.jump-to-previous-occurance")}</code></td></tr>
 
           <tr>
-            <th>${i18n.t("shortcuts.summary.miscellaneous-section-title")}</th>
+            <th class="info-tab-section-title">${i18n.t("shortcuts.summary.miscellaneous-section-title")}</th>
           </tr>
           
           <tr><td>${i18n.t("shortcuts.summary.copy-selected-verses-to-clipboard")}</td><td><code>${i18n.t("shortcuts.shortcut.copy-selected-verses-to-clipboard")}</code></td></tr>
