@@ -35,8 +35,7 @@ module.exports.initState = async function(moduleType) {
 
   state.installedModules = await app_controller.translation_controller.getInstalledModules(moduleType);
 
-  // don't wait for following properties to resolve at init call 
-  state.allRepositories = ipcNsi.getRepoNames();
+  state.allRepositories = await ipcNsi.getRepoNames();
 };
 
 module.exports.get = (key) => state[key];

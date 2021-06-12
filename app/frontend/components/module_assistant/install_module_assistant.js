@@ -18,6 +18,7 @@
 
 const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
+require('./step_update_repositories.js');
 require('./step_languages.js');
 require('./step_repositories.js');
 require('./step_modules.js');
@@ -29,6 +30,13 @@ require('./unlock_dialog.js');
  * 
  * @category Component
  */
+
+const UPDATE_REPOSITORIES_INDEX = 0;
+const LANGUAGES_INDEX = 1;
+const REPOSITORIES_INDEX = 2;
+const MODULES_INDEX = 3;
+const INSTALL_INDEX = 4;
+
 class InstallModuleAssistant {
   constructor() {
     this._addModuleAssistantOriginalContent = undefined;
@@ -108,7 +116,7 @@ class InstallModuleAssistant {
     this.initAddModuleAssistant();
     $('#module-settings-assistant-add').show();
 
-    await this.initLanguagesPage();
+    await this.initUpdateRepoConfigPage();
   }
 
   initAddModuleAssistant() {
@@ -141,19 +149,21 @@ class InstallModuleAssistant {
   }
 
   addModuleAssistantStepChanging(event, currentIndex, newIndex) {
-    if (currentIndex == 0 && newIndex == 1) { // Changing from Languages (1) to Repositories (2)
+    if (currentIndex == UPDATE_REPOSITORIES_INDEX && newIndex == LANGUAGES_INDEX) {
+      return assistantController.get('allRepositories').length > 0;
+    } else if (currentIndex == LANGUAGES_INDEX && newIndex == REPOSITORIES_INDEX) { // Changing from Languages to Repositories
       const selectedLanguages = this.languagesStep.languages;
       assistantController.set('selectedLanguages', selectedLanguages);
       return selectedLanguages.length > 0;
-    } else if (currentIndex == 1 && newIndex == 2) { // Changing from Repositories (2) to Modules (3)
+    } else if (currentIndex == REPOSITORIES_INDEX && newIndex == MODULES_INDEX) { // Changing from Repositories to Modules 
       const selectedRepositories = this.repositoriesStep.repositories;
       assistantController.set('selectedRepositories', selectedRepositories);
       return selectedRepositories.length > 0;
-    } else if (currentIndex == 2 && newIndex == 3) { // Changing from Modules (3) to Installation (4)
+    } else if (currentIndex == MODULES_INDEX && newIndex == INSTALL_INDEX) { // Changing from Modules to Installation
       const selectedModules = this.modulesStep.modules;
       assistantController.set('selectedModules', selectedModules);
       return selectedModules.length > 0;
-    } else if (currentIndex == 3 && newIndex != 3) {
+    } else if (currentIndex == INSTALL_INDEX && newIndex != INSTALL_INDEX) {
       return false;
     }
 
@@ -161,14 +171,13 @@ class InstallModuleAssistant {
   }
 
   async addModuleAssistantStepChanged(event, currentIndex, priorIndex) {
-    if (priorIndex == 0 && currentIndex == 1) {
+    if (priorIndex == UPDATE_REPOSITORIES_INDEX && currentIndex == LANGUAGES_INDEX) {
+      await this.initLanguagesPage();
+    } else if (priorIndex == LANGUAGES_INDEX && currentIndex == REPOSITORIES_INDEX) {
       await this.initRepositoryPage();
-
-    } else if (priorIndex == 1 && currentIndex == 2) {
+    } else if (priorIndex == REPOSITORIES_INDEX && currentIndex == MODULES_INDEX) {
       this.initModulesPage();
-
-    } else if (currentIndex == 3) {
-
+    } else if (currentIndex == INSTALL_INDEX) {
       this.initInstallPage();
     }
   }
@@ -184,24 +193,33 @@ class InstallModuleAssistant {
   }
 
   // This is only for testing!!
+  /** @deprecated */
   resetInstalledModules() {
     this._installedModules = [];
+  }
+
+  async initUpdateRepoConfigPage() {
+    this.updateConfigStep = document.createElement('step-update-repositories');
+
+    const wizardPage = $('#module-settings-assistant-add-p-'+UPDATE_REPOSITORIES_INDEX);
+    wizardPage.empty();
+
+    wizardPage.append(this.updateConfigStep);
   }
 
   async initLanguagesPage() {
     this.languagesStep = document.createElement('step-languages');
 
-    const wizardPage = $('#module-settings-assistant-add-p-0');
+    const wizardPage = $('#module-settings-assistant-add-p-'+LANGUAGES_INDEX);
     wizardPage.empty();
 
     wizardPage.append(this.languagesStep);
-
   }
 
   async initRepositoryPage() {
     this.repositoriesStep = document.createElement('step-repositories');
 
-    const wizardPage = $('#module-settings-assistant-add-p-1');
+    const wizardPage = $('#module-settings-assistant-add-p-'+REPOSITORIES_INDEX);
     wizardPage.empty();
 
     wizardPage.append(this.repositoriesStep);
@@ -214,7 +232,7 @@ class InstallModuleAssistant {
     this.modulesStep = document.createElement('step-modules');
     this.modulesStep.unlockDialog = this.unlockDialog;
 
-    const wizardPage = $('#module-settings-assistant-add-p-2');
+    const wizardPage = $('#module-settings-assistant-add-p-'+MODULES_INDEX);
     wizardPage.empty();
 
     wizardPage.append(this.modulesStep);
@@ -225,7 +243,7 @@ class InstallModuleAssistant {
     this.installStep = document.createElement('step-install');
     this.installStep.unlockDialog = this.unlockDialog;
 
-    const wizardPage = $('#module-settings-assistant-add-p-3');
+    const wizardPage = $('#module-settings-assistant-add-p-'+INSTALL_INDEX);
     wizardPage.empty();
 
     wizardPage.append(this.installStep);
