@@ -21,7 +21,6 @@ const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const i18nController = require('../../controllers/i18n_controller.js');
 const assistantHelper = require('./assistant_helper.js');
-require('../loading_indicator.js');
 
 const template = html`
 <style>
@@ -31,7 +30,6 @@ const template = html`
 <p class="intro"></p>   
 <div class="update-view"> 
   <p i18n="module-assistant.updating-repository-data"></p>
-  <loading-indicator></loading-indicator>
   <div id="repo-update-progress-bar" class="progress-bar">
     <div class="progress-label" i18n="module-assistant.updating"></div>
   </div>
