@@ -136,7 +136,7 @@ class StepUpdateRepositories extends HTMLElement {
     } else if (moduleType == "DICT") {
       moduleTypeText = i18n.t("module-assistant.module-type-dict");
     }
-    this.querySelector('.intro').innerHTML = i18n.t("module-assistant.repo-selection-info-text", {module_type: moduleTypeText});
+    this.querySelector('.intro').innerHTML = i18n.t("module-assistant.update-data-info-text", {module_type: moduleTypeText});
 
     assistantHelper.localize(this);
   }

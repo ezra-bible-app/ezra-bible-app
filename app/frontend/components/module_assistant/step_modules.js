@@ -106,12 +106,8 @@ class StepModules extends HTMLElement {
     }
 
     const uiRepositories = (await assistantController.get('selectedRepositories')).map(rep => `<b>${rep}</b>`);
-    const uiLanguages = (await assistantController.get('selectedLanguages')).map(code => {
-      const languageName = i18nHelper.getLanguageName(code);
-      return `<b>${languageName ? languageName : code}</b>`;
-    });
     this.querySelector('.intro').innerHTML = `${i18n.t("module-assistant.the-selected-repositories")} (${uiRepositories.join(', ')}) 
-      ${i18n.t("module-assistant.contain-the-following-modules")} (${uiLanguages.join(', ')})`;
+      ${i18n.t("module-assistant.contain-the-following-modules")}`;
 
     await this.listFilteredModules();
   }

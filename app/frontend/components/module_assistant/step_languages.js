@@ -62,9 +62,7 @@ class StepLanguages extends HTMLElement {
     console.log('LANGS: started connectedCallback');
     
     this.querySelector('loading-indicator').show();
-  
-    const uiRepositories = (await this._repositories).map(rep => `<b>${rep}</b>`);
-    this.querySelector('.intro').innerHTML = i18n.t("module-assistant.pick-languages-from-repos") + uiRepositories.join(', ');
+    this.querySelector('.intro').innerHTML = i18n.t("module-assistant.pick-languages-from-repos");
 
     this.listLanguages((await this._languageData).languages);
   }
