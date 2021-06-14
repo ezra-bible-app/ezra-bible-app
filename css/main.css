@@ -1701,7 +1701,7 @@ s {
 
 .info-tab-section-title {
   padding-top: 1em;
-  min-width: 15em;
+  width: 18em;
 }
 
 #info-table-shortcuts{
