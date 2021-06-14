@@ -23,6 +23,12 @@ const i18nHelper = require('../../helpers/i18n_helper.js');
 const assistantHelper = require('./assistant_helper.js');
 require('../loading_indicator.js');
 
+
+const ICON_LOCKED = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"/></svg>';
+
+const ICON_INFO = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"/></svg>`;
+
 const template = html`
 <style>
   .feature-filter-wrapper {
@@ -33,11 +39,19 @@ const template = html`
     clear: both; 
     margin-bottom: 2em;
   }
+  #module-step-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
   #module-list {
-    height: 60%;
+    overflow-y: scroll;
   }
   #module-info {
-    height: 40%;
+    display: block;
+    height: 30em; 
+    overflow-y: scroll;
     margin-top: 0.5em;
     border-top: 1px solid gray;
     padding: 1em;
@@ -45,39 +59,38 @@ const template = html`
 
 </style>
 
-<div id="module-list" class="scrollable">
+<div id="module-step-wrapper">
+  <div id="module-list" class="scrollable">
 
-  <p><b i18n="module-assistant.module-feature-filter"></b></p>
+    <p><b i18n="module-assistant.module-feature-filter"></b></p>
 
-  <div id="bible-module-feature-filter" class="feature-filter-wrapper">
-    <input id="headings-feature-filter" class="module-feature-filter" type="checkbox"/> 
-    <label id="headings-feature-filter-label" for="headings-feature-filter" i18n="general.module-headings"></label>
+    <div id="bible-module-feature-filter" class="feature-filter-wrapper">
+      <input id="headings-feature-filter" class="module-feature-filter" type="checkbox"/> 
+      <label id="headings-feature-filter-label" for="headings-feature-filter" i18n="general.module-headings"></label>
 
-    <input id="strongs-feature-filter" class="module-feature-filter" type="checkbox"/>
-    <label id="strongs-feature-filter-label" for="strongs-feature-filter" i18n="general.module-strongs"></label>
+      <input id="strongs-feature-filter" class="module-feature-filter" type="checkbox"/>
+      <label id="strongs-feature-filter-label" for="strongs-feature-filter" i18n="general.module-strongs"></label>
+    </div>
+
+    <div id="dict-module-feature-filter" class="feature-filter-wrapper">
+      <input id="hebrew-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
+      <label id="hebrew-strongs-dict-feature-filter-label" for="hebrew-strongs-dict-feature-filter" i18n="general.module-hebrew-strongs-dict"></label>
+
+      <input id="greek-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
+      <label id="greek-strongs-dict-feature-filter-label" for="greek-strongs-dict-feature-filter" i18n="general.module-greek-strongs-dict"></label>
+    </div>
+
+    <p class="intro"></p>
+
+    <div id="filtered-module-list"></div>
   </div>
 
-  <div id="dict-module-feature-filter" class="feature-filter-wrapper">
-    <input id="hebrew-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
-    <label id="hebrew-strongs-dict-feature-filter-label" for="hebrew-strongs-dict-feature-filter" i18n="general.module-hebrew-strongs-dict"></label>
-    
-    <input id="greek-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
-    <label id="greek-strongs-dict-feature-filter-label" for="greek-strongs-dict-feature-filter" i18n="general.module-greek-strongs-dict"></label>
+  <div id="module-info" class="scrollable">
+    <div id="module-info-content"></div>
+    <loading-indicator style="display: none"></loading-indicator>
   </div>
-
-  <p class="intro"></p>
-
-  <div id="filtered-module-list"></div>
 </div>
-
-<div id="module-info" class="scrollable">
-  <div id="module-info-content" i18n="module-assistant.click-to-show-detailed-module-info"></div>
-  <loading-indicator style="display: none"></loading-indicator>
-</div>
-<p class="intro"></p>   
 `;
-
-const ICON_LOCKED = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"/></svg>';
 
 class StepModules extends HTMLElement {
   get modules() {
@@ -205,9 +218,13 @@ class StepModules extends HTMLElement {
   }
 
   handleInfoClick(event) {
-    const moduleCode = event.target.code;
+    
+    const moduleCode = event.detail.code;
 
     const moduleInfo = this.querySelector('#module-info');
+    // moduleInfo.style.display = 'block';
+    // event.target.scrollIntoView({behavior: 'smooth', block: 'end'});
+
     const moduleInfoContent = moduleInfo.querySelector('#module-info-content');
     const loadingIndicator = moduleInfo.querySelector('loading-indicator');
 
