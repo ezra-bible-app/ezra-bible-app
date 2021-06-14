@@ -80,6 +80,14 @@ class InfoPopup {
     const moduleDescription = await swordModuleHelper.getModuleDescription(currentBibleTranslationId);
     const moduleInfo = await swordModuleHelper.getModuleInfo(currentBibleTranslationId, false, false);
 
+    var toggleFullScreenLine = '';
+
+    if (this.platformHelper.isWin() || this.platformHelper.isLinux()) {
+      toggleFullScreenLine = `
+        <tr><td>${i18n.t("shortcuts.summary.toggle-fullscreen-only-Win-Linux")}</td><td><code>${i18n.t("shortcuts.shortcut.toggle-fullscreen-only-Win-Linux")}</code></td></tr>
+      `;
+    }
+
     const appInfo = html`
     <div id='app-info-tabs'>
       <ul>
@@ -148,9 +156,9 @@ class InfoPopup {
           </tr>
           
           <tr><td>${i18n.t("shortcuts.summary.copy-selected-verses-to-clipboard")}</td><td><code>${i18n.t("shortcuts.shortcut.copy-selected-verses-to-clipboard")}</code></td></tr>
-          <tr><td>${i18n.t("shortcuts.summary.toggle-fullscreen-only-Win-Linux")}</td><td><code>${i18n.t("shortcuts.shortcut.toggle-fullscreen-only-Win-Linux")}</code></td></tr>
           <tr><td>${i18n.t("shortcuts.summary.enable-dynamic-strongs-display")}</td><td><code>${i18n.t("shortcuts.shortcut.enable-dynamic-strongs-display")}</code></td></tr>
           <tr><td>${i18n.t("shortcuts.summary.open-new-tab")}</td><td><code>${i18n.t("shortcuts.shortcut.open-new-tab")}</code></td></tr>
+          ${toggleFullScreenLine}
          
         </table>
       </div>
