@@ -156,7 +156,7 @@
       "jump-to-previous-occurance": "Salt la rezultatul anterior al căutării",
       "copy-selected-verses-to-clipboard": "Copiază versetele selectate în clipboard",
       "toggle-fullscreen-only-Win-Linux": "Comută ecranul întreg (doar Win/Linux)",
-      "enable-dynamic-Strong-s-display": "Activează afișarea concordanței dinamice Strong's ",
+      "enable-dynamic-strongs-display": "Activează afișarea concordanței dinamice Strong's ",
       "open-new-tab": "Deschide filă nouă",
       "increase-current-font-size": "Mărește dimensiunea curentă a fontului",
       "decrease-current-font-size": "Micșorează dimensiunea curentă a fontului",
@@ -164,17 +164,17 @@
     },
 
     "shortcut": {
-      "in-tab-search":"CTRL/CMD + f",
-      "hide-in-tab-search-form": "ESC",
+      "in-tab-search":"Ctrl/Cmd + f",
+      "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
-      "copy-selected-verses-to-clipboard": "CTRL/CMD + c",
+      "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
-      "enable-dynamic-Strong-s-display": "Shift + mouse deasupra versetului",
-      "open-new-tab": "CTRL/CMD + t",
-      "increase-current-font-size": "CTRL/CMD +",
-      "decrease-current-font-size": "CTRL/CMD -",
-      "reset-font-size-to-default": "CTRL/CMD 0"
+      "enable-dynamic-strongs-display": "Shift + mouse deasupra versetului",
+      "open-new-tab": "Ctrl/Cmd + t",
+      "increase-current-font-size": "Ctrl/Cmd +",
+      "decrease-current-font-size": "Ctrl/Cmd -",
+      "reset-font-size-to-default": "Ctrl/Cmd 0"
     }
   },
   "tags": {
