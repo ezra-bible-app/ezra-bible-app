@@ -82,6 +82,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "",
   options = {
     columns: 2,
     disableSelected: false,
+    info: false,
     ...options
   };
 
@@ -105,6 +106,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "",
           ${disabledProp ? 'disabled' : ''}
           ${count ? `count="${count}"` : ''}
           ${description ? `description="${description}"` : ''}
+          ${options.info ? `info=${i18n.t("module-assistant.click-to-show-detailed-module-info")}` : ''}
           ${extraAttr.join(' ')}>
           ${iconSpan}
           <span slot="label-text">${text ? text : code}</span>
