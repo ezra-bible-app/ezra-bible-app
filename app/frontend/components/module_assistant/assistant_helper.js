@@ -106,7 +106,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "",
           ${disabledProp ? 'disabled' : ''}
           ${count ? `count="${count}"` : ''}
           ${description ? `description="${description}"` : ''}
-          ${options.info ? `info=${i18n.t("module-assistant.click-to-show-detailed-module-info")}` : ''}
+          ${options.info ? `info="${i18n.t("module-assistant.click-to-show-detailed-module-info")}"` : ''}
           ${extraAttr.join(' ')}>
           ${iconSpan}
           <span slot="label-text">${text ? text : code}</span>
