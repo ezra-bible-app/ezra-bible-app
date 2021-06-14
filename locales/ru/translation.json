@@ -142,6 +142,41 @@
     "help-text-translation-available": "Для начала выберите книгу или метку в меню выше.",
     "help-text-no-translations": "Для начала установите хотя бы один перевод Библии. <br/><br/> Вы можете открыть помощник по установке, щелкнув по иконке настроек, а затем <i>Управление переводами< /i>. "
   },
+  "shortcuts": {
+    "tab-title": "Keyboard Shortcuts",
+    "description": "You can use the following shortcuts:",
+
+    "summary" : {
+      "font-section-title": "Font",
+      "current-tab-search-section-title": "Current Tab Search",
+      "miscellaneous-section-title": "Miscellaneous",
+      "in-tab-search": "Open current tab search",
+      "hide-in-tab-search-form": "Hide current tab search form",
+      "jump-to-next-search-occurance": "Jump to next search occurance",
+      "jump-to-previous-occurance": "Jump to previous occurance",
+      "copy-selected-verses-to-clipboard": "Copy selected verses to clipboard",
+      "toggle-fullscreen-only-Win-Linux": "Toggle fullscreen (only Win/Linux)",
+      "enable-dynamic-strongs-display": "Show dynamic dictionary info for Strong's",
+      "open-new-tab": "Open new tab",
+      "increase-current-font-size": "Increase current font size",
+      "decrease-current-font-size": "Decrease current font size",
+      "reset-font-size-to-default": "Reset font size to default"
+    },
+
+    "shortcut": {
+      "in-tab-search":"Ctrl/Cmd + f",
+      "hide-in-tab-search-form": "Esc",
+      "jump-to-next-search-occurance": "Enter",
+      "jump-to-previous-occurance": "Shift + Enter",
+      "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
+      "toggle-fullscreen-only-Win-Linux": "F11",
+      "enable-dynamic-strongs-display": "Shift + mouse over verse",
+      "open-new-tab": "Ctrl/Cmd + t",
+      "increase-current-font-size": "Ctrl/Cmd +",
+      "decrease-current-font-size": "Ctrl/Cmd -",
+      "reset-font-size-to-default": "Ctrl/Cmd 0"
+    }
+  },
   "tags": {
     "new-tag": "Новая метка",
     "create-tag": "Создать метку",

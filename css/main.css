@@ -1695,8 +1695,33 @@ s {
 }
 
 .info-tabs {
-  height: 390px;
+  height: 430px;
   overflow-y: scroll;
+}
+
+.info-tab-section-title {
+  padding-top: 1em;
+  width: 18em;
+}
+
+#info-table-shortcuts{
+  width: 100%;
+  padding: 10px;
+}
+
+#info-table-shortcuts th{
+  text-align:left;
+}
+
+
+code {
+  padding: .2em .4em;
+  margin: 0;
+  font-size: 90%;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  background-color: slategrey;
+  color: lightblue;
+  border-radius: 6px;
 }
 
 .text-loader {

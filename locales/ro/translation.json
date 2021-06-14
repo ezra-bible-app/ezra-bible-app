@@ -142,6 +142,41 @@
     "help-text-translation-available": "Pentru a începe, selectează o carte sau o etichetă din meniul de mai sus.",
     "help-text-no-translations": "Pentru început, instsalează mai întâi cel puțin o traducere biblică. <br/> <br/> Poți deschide asistentul de instalare făcând clic pe pictograma de setări și apoi pe <i> Configurare traduceri </i>."
   },
+  "shortcuts": {
+    "tab-title": "Scurtături tastatură",
+    "description": "Poți folosi următoarele combinații de taste (scurtături):",
+
+    "summary" : {
+      "font-section-title": "Font",
+      "current-tab-search-section-title": "Căutare în fereastra curentă",
+      "miscellaneous-section-title": "Diverse",
+      "in-tab-search": "Căutare în fereastră",
+      "hide-in-tab-search-form": "Ascunde formularul de căutare în fereastră",
+      "jump-to-next-search-occurance": "Salt la următorul rezultat al căutării",
+      "jump-to-previous-occurance": "Salt la rezultatul anterior al căutării",
+      "copy-selected-verses-to-clipboard": "Copiază versetele selectate în clipboard",
+      "toggle-fullscreen-only-Win-Linux": "Comută ecranul întreg (doar Win/Linux)",
+      "enable-dynamic-strongs-display": "Activează afișarea concordanței dinamice Strong's ",
+      "open-new-tab": "Deschide filă nouă",
+      "increase-current-font-size": "Mărește dimensiunea curentă a fontului",
+      "decrease-current-font-size": "Micșorează dimensiunea curentă a fontului",
+      "reset-font-size-to-default": "Resetează dimeniunea fontului la valoarea implicită"
+    },
+
+    "shortcut": {
+      "in-tab-search":"Ctrl/Cmd + f",
+      "hide-in-tab-search-form": "Esc",
+      "jump-to-next-search-occurance": "Enter",
+      "jump-to-previous-occurance": "Shift + Enter",
+      "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
+      "toggle-fullscreen-only-Win-Linux": "F11",
+      "enable-dynamic-strongs-display": "Shift + mouse deasupra versetului",
+      "open-new-tab": "Ctrl/Cmd + t",
+      "increase-current-font-size": "Ctrl/Cmd +",
+      "decrease-current-font-size": "Ctrl/Cmd -",
+      "reset-font-size-to-default": "Ctrl/Cmd 0"
+    }
+  },
   "tags": {
     "new-tag": "Etichetă nouă",
     "create-tag": "Crează etichetă",
