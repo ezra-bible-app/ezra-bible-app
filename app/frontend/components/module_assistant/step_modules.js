@@ -91,6 +91,7 @@ class StepModules extends HTMLElement {
 
     this.filteredModuleList = this.querySelector('#filtered-module-list');
     this.filteredModuleList.addEventListener('itemSelected', (e) => this.handleCheckboxClick(e));
+    this.filteredModuleList.addEventListener('itemInfoRequested', (e) => this.handleInfoClick(e));
 
     this.listModules();
   }
@@ -147,7 +148,7 @@ class StepModules extends HTMLElement {
         const modulesArr = currentRepoLangModules.map(swordModule => {
           let moduleInfo = {
             code: swordModule.name,
-            text: swordModule.description,
+            text: `${swordModule.description} [${swordModule.name}]`,
             description: `${i18n.t('general.module-version')}: ${swordModule.version}; ${swordModule.repository}`,
           };
 
@@ -170,29 +171,9 @@ class StepModules extends HTMLElement {
       const langModuleSection = assistantHelper.listCheckboxSection(currentLangModules,
                                                                     await assistantController.get('installedModules'),
                                                                     renderHeader ? i18nHelper.getLanguageName(currentLanguageCode) : undefined,
-                                                                    { columns: 1, disableSelected: true });
+                                                                    { columns: 1, disableSelected: true, info: true });
       this.filteredModuleList.appendChild(langModuleSection);
     }
-
-    const moduleInfo = this.querySelector('#module-info');
-    const moduleInfoContent = moduleInfo.querySelector('#module-info-content');
-    const loadingIndicator = moduleInfo.querySelector('loading-indicator');
-
-    this.filteredModuleList.querySelectorAll('.bible-module-info').forEach(el => el.addEventListener('click', function () {
-      const moduleCode = el.textContent;
-
-      moduleInfoContent.innerHTML = '';
-
-      loadingIndicator.show();
-
-      setTimeout(async () => {
-        const swordModuleHelper = require('../../helpers/sword_module_helper.js');
-        moduleInfoContent.innerHTML = await swordModuleHelper.getModuleInfo(moduleCode, true);
-        loadingIndicator.hide();
-      }, 200);
-    }));
-
-
   }
 
   handleCheckboxClick(event) {
@@ -213,41 +194,22 @@ class StepModules extends HTMLElement {
     }
   }
 
-  // FIXME: remove this
-  async listLanguageModules(lang, modules, renderHeader) {
-    const translationList = this.querySelector('#filtered-module-list');
+  handleInfoClick(event) {
+    const moduleCode = event.target.code;
 
-    if (renderHeader) {
-      const languageHeader = "<p style='font-weight: bold; margin-top: 2em;'>" + lang + "</p>";
-      translationList.insertAdjacentHTML('beforeend', languageHeader);
-    }
+    const moduleInfo = this.querySelector('#module-info');
+    const moduleInfoContent = moduleInfo.querySelector('#module-info-content');
+    const loadingIndicator = moduleInfo.querySelector('loading-indicator');
 
-    for (const currentModule of modules) {
-      let checkboxDisabled = "";
-      let labelClass = "label";
-      const moduleInstalled = await this.isModuleInstalled(currentModule.name);
+    moduleInfoContent.innerHTML = '';
+    loadingIndicator.show();
 
-      if (moduleInstalled) {
-        checkboxDisabled = "disabled='disabled' checked";
-        labelClass = "disabled-label";
-      }
+    setTimeout(async () => {
+      const swordModuleHelper = require('../../helpers/sword_module_helper.js');
+      moduleInfoContent.innerHTML = await swordModuleHelper.getModuleInfo(moduleCode, true);
+      loadingIndicator.hide();
+    }, 200);
 
-      let moduleTitle = "";
-      if (currentModule.locked) {
-        const moduleLockInfo = i18n.t("module-assistant.module-lock-info");
-        moduleTitle = "title='" + moduleLockInfo + "'";
-      }
-
-      var currentModuleElement = `
-        <p class="selectable-translation-module">
-          <input class="module-checkbox" type="checkbox" ${checkboxDisabled}>
-          <span ${moduleTitle} class="${labelClass}" id="${currentModule.name}">${currentModule.description}</span>&nbsp;&nbsp;
-          [<span class="bible-module-info">${currentModule.name}</span>]
-          ${currentModule.locked ? '<img style="margin-left: 0.5em; margin-bottom: -0.4em;" src="images/lock.png" width="20" height="20"/>' : ''}
-        </p>`;
-
-      translationList.insertAdjacentHTML('beforeend', currentModuleElement);
-    }
   }
 }
 
