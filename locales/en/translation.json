@@ -51,7 +51,7 @@
     "update-data-info-text": "Ezra Bible App works with {{module_type}} provided by <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> and the <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a>.<br/><br/>Modules are downloaded from SWORD repositories published by CrossWire. A repository is an internet storage location that contains a set of {{module_type}}.<br/><br/>Keeping repository data updated ensures that you have access to the latest published modules.",
     "repo-selection-info-text": "Select at least one of the repositories to install {{module_type}}. Next to each repository is the number of {{module_type}} available from that repository.<br/><br/>The <i>CrossWire</i> and <i>eBible.org</i> repositories are a good place to start.",
     "more-repo-information-needed": "You need more information about these repositories?<br/>Have a look at the <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>.",
-    "click-to-show-detailed-module-info": "Click on a module code (link after module name) to show detailed information here.",
+    "click-to-show-detailed-module-info": "Click to show detailed information about module",
     "updating-repository-data": "Updating repository data! This will take a few seconds ...",
     "updating": "Updating ...",
     "update-repository-data-failed": "Updating repository data failed! Are you offline?",
