@@ -562,12 +562,6 @@ h2 {
   overflow-y: scroll;
 }
 
-#module-list {
-  height: 100%;
-  width: 45%;
-  float: left;
-}
-
 #remove-module-list {
   overflow-y: scroll;
   height: 75%;
@@ -575,11 +569,6 @@ h2 {
 
 #remove-module-list h2 {
   margin-left: 0;
-}
-
-#module-info {
-  height: 100%;
-  padding: 1em;
 }
 
 .selectable-translation-module {
@@ -1008,11 +997,6 @@ li.book-unavailable a:focus,
   margin-right: 0.2em;
   padding: 4px 6px;
   float: left;
-}
-
-.bible-module-info {
-  cursor: pointer;
-  text-decoration: underline;
 }
 
 .switch-label,

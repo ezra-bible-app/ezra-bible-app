@@ -33,6 +33,16 @@ const template = html`
     clear: both; 
     margin-bottom: 2em;
   }
+  #module-list {
+    height: 60%;
+  }
+  #module-info {
+    height: 40%;
+    margin-top: 0.5em;
+    border-top: 1px solid gray;
+    padding: 1em;
+  }
+
 </style>
 
 <div id="module-list" class="scrollable">
