@@ -20,18 +20,18 @@
 const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
-require('./step_update_repositories.js');
-require('./step_languages.js');
-require('./step_repositories.js');
-require('./step_modules.js');
-require('./step_install.js');
-require('./unlock_dialog.js');
+const StepUpdateRepositories = require('./step_update_repositories.js');
+const StepLanguages = require('./step_languages.js');
+const StepRepositories = require('./step_repositories.js');
+const StepModules = require('./step_modules.js');
+const StepInstall = require('./step_install.js');
+const UnlockDialog = require('./unlock_dialog.js');
 
 const template = html`
 <style>
 </style>
 
-<div id="module-settings-assistant-add">
+<div id="module-settings-assistant-add" style="display: none;">
   <h3 i18n="module-assistant.update-repository-data"></h3>
   <section id="module-update-repositories" class="scrollable">
     <step-update-repositories></step-update-repositories>
@@ -57,6 +57,8 @@ const template = html`
     <step-install></step-install>
   </section>
 </div>
+
+<unlock-dialog></unlock-dialog>
 `;
 
 const UPDATE_REPOSITORIES_INDEX = 0;
@@ -75,19 +77,28 @@ class ModuleAssistant extends HTMLElement {
 
   async connectedCallback() {
     this.appendChild(template.content);
-    this.localize();
+    this._localize();
     console.log('ASSISTANT: started connectedCallback');
 
+    /** @type {StepUpdateRepositories} */
     this.updateConfigStep = this.querySelector('step-update-repositories');
+    /** @type {StepLanguages} */
     this.languagesStep = this.querySelector('step-languages');
+    /** @type {StepRepositories} */
     this.repositoriesStep = this.querySelector('step-repositories');
+    /** @type {StepModules} */
     this.modulesStep = this.querySelector('step-modules');
+    /** @type {StepInstall} */
     this.installStep = this.querySelector('step-install');
+    /** @type {UnlockDialog} */
+    this.unlockDialog = this.querySelector('unlock-dialog');
 
-    this.initAddModuleAssistant();
+    this.modulesStep.unlockDialog = this.unlockDialog;
+    this.installStep.unlockDialog = this.unlockDialog;
   }
 
-  initAddModuleAssistant() {
+  async initAddModuleAssistant() {
+    console.log('ASSISTANT: initAddModuleAssistant');
     if (this._jQueryStepsInitialized) {
       $('#module-settings-assistant-add').steps("destroy");
     } else {
@@ -100,10 +111,10 @@ class ModuleAssistant extends HTMLElement {
       contentContainerTag: "module-settings-assistant-add",
       autoFocus: true,
       stepsOrientation: 1,
-      onStepChanging: (event, currentIndex, newIndex) => this.addModuleAssistantStepChanging(event, currentIndex, newIndex),
-      onStepChanged: async (event, currentIndex, priorIndex) => this.addModuleAssistantStepChanged(event, currentIndex, priorIndex),
+      onStepChanging: (event, currentIndex, newIndex) => this._addModuleAssistantStepChanging(event, currentIndex, newIndex),
+      onStepChanged: async (event, currentIndex, priorIndex) => this._addModuleAssistantStepChanged(event, currentIndex, priorIndex),
       onFinishing: () => assistantController.isInstallCompleted(),
-      onFinished: (event, currentIndex) => this.addModuleAssistantFinished(event, currentIndex),
+      onFinished: () => this._addModuleAssistantFinished(),
       labels: {
         cancel: i18n.t("general.cancel"),
         finish: i18n.t("general.finish"),
@@ -111,9 +122,12 @@ class ModuleAssistant extends HTMLElement {
         previous: i18n.t("general.previous")
       }
     });
+
+    await this.languagesStep.init();
+    await this.updateConfigStep.init();
   }
 
-  addModuleAssistantStepChanging(event, currentIndex, newIndex) {
+  _addModuleAssistantStepChanging(event, currentIndex, newIndex) {
     if (currentIndex == UPDATE_REPOSITORIES_INDEX && newIndex == LANGUAGES_INDEX) {
       return assistantController.get('allRepositories').length > 0;
     } else if (currentIndex == LANGUAGES_INDEX && newIndex == REPOSITORIES_INDEX) { // Changing from Languages to Repositories
@@ -135,19 +149,19 @@ class ModuleAssistant extends HTMLElement {
     return true;
   }
 
-  async addModuleAssistantStepChanged(event, currentIndex, priorIndex) {
+  async _addModuleAssistantStepChanged(event, currentIndex, priorIndex) {
     if (priorIndex == UPDATE_REPOSITORIES_INDEX && currentIndex == LANGUAGES_INDEX) {
-      // await this.initLanguagesPage();
+      await this.languagesStep.listLanguages();
     } else if (priorIndex == LANGUAGES_INDEX && currentIndex == REPOSITORIES_INDEX) {
-      // await this.initRepositoryPage();
+      await this.repositoriesStep.listRepositories();
     } else if (priorIndex == REPOSITORIES_INDEX && currentIndex == MODULES_INDEX) {
-      // this.initModulesPage();
+      await this.modulesStep.listModules();
     } else if (currentIndex == INSTALL_INDEX) {
-      // this.initInstallPage();
+      await this.installStep.installSelectedModules();
     }
   }
 
-  async addModuleAssistantFinished(event, currentIndex) {
+  async _addModuleAssistantFinished() {
     $('#module-settings-assistant').dialog('close');
     assistantController.set('installedModules', await app_controller.translation_controller.getInstalledModules());
 
@@ -157,50 +171,9 @@ class ModuleAssistant extends HTMLElement {
     }
   }
 
-  async initUpdateRepoConfigPage() {
-    this.updateConfigStep = document.createElement('step-update-repositories');
-
-    const wizardPage = $('#module-settings-assistant-add-p-'+UPDATE_REPOSITORIES_INDEX);
-    wizardPage.empty();
-
-    wizardPage.append(this.updateConfigStep);
-  }
-
-  async initLanguagesPage() {
-    this.languagesStep = document.createElement('step-languages');
-
-    const wizardPage = $('#module-settings-assistant-add-p-'+LANGUAGES_INDEX);
-    wizardPage.empty();
-
-    wizardPage.append(this.languagesStep);
-  }
-
-  async initRepositoryPage() {
-    this.repositoriesStep = document.createElement('step-repositories');
-
-    const wizardPage = $('#module-settings-assistant-add-p-'+REPOSITORIES_INDEX);
-    wizardPage.empty();
-
-    wizardPage.append(this.repositoriesStep);
-  }
-
-  async initModulesPage() {
-    this.unlockDialog = document.createElement('unlock-dialog');
-    document.body.appendChild(this.unlockDialog);
-
-    this.modulesStep = document.createElement('step-modules');
-    this.modulesStep.unlockDialog = this.unlockDialog;
-
-    const wizardPage = $('#module-settings-assistant-add-p-'+MODULES_INDEX);
-    wizardPage.empty();
-
-    wizardPage.append(this.modulesStep);
-  }
-
   async initInstallPage() {
     // Bible modules have been selected
     this.installStep = document.createElement('step-install');
-    this.installStep.unlockDialog = this.unlockDialog;
 
     const wizardPage = $('#module-settings-assistant-add-p-'+INSTALL_INDEX);
     wizardPage.empty();
@@ -208,7 +181,7 @@ class ModuleAssistant extends HTMLElement {
     wizardPage.append(this.installStep);
   }
 
-  localize() {
+  _localize() {
     var moduleTypeText = "";
     const moduleType = assistantController.get('moduleType');
     if (moduleType == 'BIBLE') {
