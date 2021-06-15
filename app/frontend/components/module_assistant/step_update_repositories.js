@@ -52,29 +52,29 @@ class StepUpdateRepositories extends HTMLElement {
     super();
     console.log('UPDATE: step constructor');
     this.lastUpdate = null;
+
+    this.appendChild(template.content);
+    this._localize();
+
+    this._infoView = this.querySelector('.info-view');
+    this._updateView = this.querySelector('.update-view');
+  
+    this.querySelector('#update-repo-data').addEventListener('click', async () => await this._updateRepositoryConfig());
   }
 
   async connectedCallback() {
-    this.appendChild(template.content);
-    this.localize();
     console.log('UPDATE: started connectedCallback');
-    
-    this.infoView = this.querySelector('.info-view');
-    this.updateView = this.querySelector('.update-view');
-    this.repositoryList = this.querySelector('.repository-list');
-  
-    this.querySelector('#update-repo-data').addEventListener('click', async () => {
-      await this.updateRepositoryConfig();
-    });
+  }
 
-    if (await this.wasUpdated()) {
-      this.showUpdateInfo();
+  async init() {
+    if (await this._wasUpdated()) {
+      this._showUpdateInfo();
     } else {
-      this.updateRepositoryConfig();
+      this._updateRepositoryConfig();
     }
   }
 
-  async wasUpdated() {
+  async _wasUpdated() {
     const repoConfigExists = await ipcNsi.repositoryConfigExisting();
 
     const lastUpdate = await ipcSettings.get('lastSwordRepoUpdate', undefined);
@@ -87,19 +87,19 @@ class StepUpdateRepositories extends HTMLElement {
     return false;
   }
 
-  async showUpdateInfo() {
+  async _showUpdateInfo() {
     console.log('UPDATE: showUpdateInfo');
-    this.updateView.style.display = 'none';
-    this.infoView.style.display = 'block';
+    this._updateView.style.display = 'none';
+    this._infoView.style.display = 'block';
 
     this.querySelector('.update-info').textContent = i18n.t("module-assistant.repo-data-last-updated", { date: this.lastUpdate });
     uiHelper.configureButtonStyles(this);
   }
 
-  async updateRepositoryConfig() {
+  async _updateRepositoryConfig() {
     console.log('UPDATE: updateRepositoryConfig');
-    this.infoView.style.display = 'none';
-    this.updateView.style.display = 'block';
+    this._infoView.style.display = 'none';
+    this._updateView.style.display = 'block';
 
     var listRepoTimeoutMs = 500;
 
@@ -121,14 +121,14 @@ class StepUpdateRepositories extends HTMLElement {
       this.querySelector('#update-failed').style.display = 'block';     
     }
 
-    setTimeout(async () => { this.showUpdateInfo(); }, listRepoTimeoutMs);
+    setTimeout(async () => { this._showUpdateInfo(); }, listRepoTimeoutMs);
   }
 
   updateDate(date) {
     this.lastUpdate = date.toLocaleDateString(i18nController.getLocale());
   }
 
-  localize() {
+  _localize() {
     let moduleTypeText = "";
     const moduleType = assistantController.get('moduleType');
     if (moduleType == "BIBLE") {

@@ -37,46 +37,64 @@ const template = html`
 </div>
 `;
 
+/**
+ * @module StepRepositories
+ * component retrieves, sorts and displays all available repositories for module installation
+ * @example
+ * <step-repositories></step-repositories>
+ * @category Component
+ */
 class StepRepositories extends HTMLElement {
-  constructor() {
-    super();
-    console.log('REPOS: step constructor');
-    this.init();
-  }
-
-  async init() {
-    this.lastUpdate = null;
-
-    this.selectedRepositories = await ipcSettings.get('selectedRepositories', []);
-    console.log('REPOS: done with init');
-  }
-
-  async connectedCallback() {
-    this.appendChild(template.content);
-    assistantHelper.localize(this);
-    console.log('REPOS: started connectedCallback');
-    
-    this.loadingIndicator = this.querySelector('loading-indicator');
-    this.listView = this.querySelector('.list-view');
-    this.updateView = this.querySelector('.update-view');
-    this.repositoryList = this.querySelector('.repository-list');
-
-    this.loadingIndicator.show();
-  
-    this.listRepositories();
-  }
 
   get repositories() {
     const selectedRepositories = assistantHelper.getSelelectedSettings(this);
-
     ipcSettings.set('selectedRepositories', selectedRepositories);
-
     return selectedRepositories;
+  }
+
+  constructor() {
+    super();
+    console.log('REPOS: step constructor');
+
+    this.appendChild(template.content);
+    this._localize();
+
+    this._loadingIndicator = this.querySelector('loading-indicator');
+    this._listView = this.querySelector('.list-view');
+    this._repositoryList = this.querySelector('.repository-list');
+
+    this._initialized = false;
+  }
+
+  async connectedCallback() {
+    console.log('REPOS: started connectedCallback', this.isConnected);    
+    this._loadingIndicator.show();
+  }
+
+  async init() {
+    console.log('REPOS: init');
+    this.selectedRepositories = await ipcSettings.get('selectedRepositories', []);
+    this._initialized = true;
   }
 
   async listRepositories() {
     console.log('REPOS: listRepositories');
+    if (!this._initialized) {
+      await this.init();
+    }
+    
 
+    const repositoriesArr = await Promise.all(
+      (await assistantController.get('allRepositories')).map(getRepoModuleDetails));
+
+    this._repositoryList.innerHTML = '';
+    this._repositoryList.appendChild(assistantHelper.listCheckboxSection(repositoriesArr, await this.selectedRepositories));
+
+    this.querySelector('loading-indicator').hide();
+    this.querySelector('.loading-repos').style.display = 'none';
+  }
+
+  _localize() {
     let moduleTypeText = "";
     const moduleType = assistantController.get('moduleType');
     if (moduleType == "BIBLE") {
@@ -86,14 +104,7 @@ class StepRepositories extends HTMLElement {
     }
     this.querySelector('.intro').innerHTML = i18n.t("module-assistant.repo-selection-info-text", {module_type: moduleTypeText});
 
-    const repositoriesArr = await Promise.all(
-      (await assistantController.get('allRepositories')).map(getRepoModuleDetails));
-
-    this.repositoryList.innerHTML = '';
-    this.repositoryList.appendChild(assistantHelper.listCheckboxSection(repositoriesArr, await this.selectedRepositories));
-
-    this.querySelector('loading-indicator').hide();
-    this.querySelector('.loading-repos').style.display = 'none';
+    assistantHelper.localize(this);
   }
 }
 

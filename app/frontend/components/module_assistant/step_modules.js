@@ -21,6 +21,7 @@ const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const i18nHelper = require('../../helpers/i18n_helper.js');
 const assistantHelper = require('./assistant_helper.js');
+const UnlockDialog = require('./unlock_dialog.js');
 require('../loading_indicator.js');
 
 
@@ -102,6 +103,13 @@ const template = html`
 </div>
 `;
 
+/**
+ * @module StepModules
+ * component displays available for installation modules from selected repositories and languages
+ * @example
+ * <step-modules></step-modules>
+ * @category Component
+ */
 class StepModules extends HTMLElement {
   get modules() {
     const selectedModules = assistantHelper.getSelelectedSettings(this);
@@ -111,22 +119,26 @@ class StepModules extends HTMLElement {
   constructor() {
     super();
     console.log('MODULES: step constructor');
+
+    this.appendChild(template.content);
+    assistantHelper.localize(this);
+
+    /** @type {UnlockDialog} */
+    this.unlockDialog = null;
+
+    this._filteredModuleList = this.querySelector('#filtered-module-list');
+
+    this.querySelectorAll('.module-feature-filter').forEach(checkbox => checkbox.addEventListener('click', async () => {
+      this._listFilteredModules();
+    }));
+
+    this._filteredModuleList.addEventListener('itemSelected', (e) => this._handleCheckboxClick(e));
+    this._filteredModuleList.addEventListener('itemInfoRequested', (e) => this._handleInfoClick(e));
+
   }
 
   async connectedCallback() {
-    this.appendChild(template.content);
-    assistantHelper.localize(this);
     console.log('MODULES: started connectedCallback');
-
-    this.querySelectorAll('.module-feature-filter').forEach(checkbox => checkbox.addEventListener('click', async () => {
-      this.listFilteredModules();
-    }));
-
-    this.filteredModuleList = this.querySelector('#filtered-module-list');
-    this.filteredModuleList.addEventListener('itemSelected', (e) => this.handleCheckboxClick(e));
-    this.filteredModuleList.addEventListener('itemInfoRequested', (e) => this.handleInfoClick(e));
-
-    this.listModules();
   }
 
   async listModules() {
@@ -143,13 +155,13 @@ class StepModules extends HTMLElement {
     this.querySelector('.intro').innerHTML = `${i18n.t("module-assistant.the-selected-repositories")} (${uiRepositories.join(', ')}) 
       ${i18n.t("module-assistant.contain-the-following-modules")}`;
 
-    await this.listFilteredModules();
+    await this._listFilteredModules();
   }
 
-  async listFilteredModules() {
+  async _listFilteredModules() {
     console.log('MODULES: listFilteredModules');
 
-    this.filteredModuleList.innerHTML = '';
+    this._filteredModuleList.innerHTML = '';
 
     const headingsFilter = this.querySelector('#headings-feature-filter').checked;
     const strongsFilter = this.querySelector('#strongs-feature-filter').checked;
@@ -205,11 +217,11 @@ class StepModules extends HTMLElement {
                                                                     await assistantController.get('installedModules'),
                                                                     renderHeader ? i18nHelper.getLanguageName(currentLanguageCode) : undefined,
                                                                     { columns: 1, disableSelected: true, info: true });
-      this.filteredModuleList.appendChild(langModuleSection);
+      this._filteredModuleList.appendChild(langModuleSection);
     }
   }
 
-  handleCheckboxClick(event) {
+  _handleCheckboxClick(event) {
     const checkbox = event.target;
     const moduleId = event.detail.code;
 
@@ -227,7 +239,7 @@ class StepModules extends HTMLElement {
     }
   }
 
-  handleInfoClick(event) {
+  _handleInfoClick(event) {
     
     const moduleCode = event.detail.code;
 

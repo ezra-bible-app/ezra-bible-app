@@ -29,54 +29,63 @@ const template = html`
 <style>
 </style>
 <loading-indicator></loading-indicator>
-<p class="intro"></p>   
+<p class="intro" i18n="module-assistant.pick-languages-from-repos"></p>   
 `;
 
+/**
+ * @module StepLanguages
+ * component retrieves, sorts and displays all available languages for module installation
+ * @example
+ * <step-languages></step-languages>
+ * @category Component
+ */
 class StepLanguages extends HTMLElement {
+  
   get languages() {
     const selectedLanguages = assistantHelper.getSelelectedSettings(this);
-
     ipcSettings.set('selectedLanguages', selectedLanguages);
-    
     return selectedLanguages;
   }
 
   constructor() {
     super();
     console.log('LANGS: step constructor');
-    this.init();
-  }
 
-  init() {
-    this._allLanguageCodes = new Set();
-    this._repositories = assistantController.get('allRepositories');
-    
-    this._languageData = getAvailableLanguagesFromRepos(); 
-    this._selectedLanguages = ipcSettings.get('selectedLanguages', []);
-
-    console.log('LANGS: done with init');
-  }
-
-  async connectedCallback() {
     this.appendChild(template.content);
-    console.log('LANGS: started connectedCallback');
-    
-    this.querySelector('loading-indicator').show();
-    this.querySelector('.intro').innerHTML = i18n.t("module-assistant.pick-languages-from-repos");
+    assistantHelper.localize(this);
 
-    this.listLanguages((await this._languageData).languages);
+    this._initialized = false;
   }
 
-  async listLanguages(languages) {
-    console.log('LANGS: listLanguages!');
+  connectedCallback() {
+    console.log('LANGS: started connectedCallback', this.isConnected);
+    this.querySelector('loading-indicator').show();
+  }
+
+  async init() {
+    console.log('LANGS: init');
     
+    this._selectedLanguages = await ipcSettings.get('selectedLanguages', []);
+    this._languageData = await getAvailableLanguagesFromRepos(); 
+    
+    this._initialized = true;
+  }
+
+  async listLanguages() {
+    console.log('LANGS: listLanguages!');
+    if (!this._initialized) {
+      await this.init();
+    }
+    
+    const languages = this._languageData.languages;
+
     for(const category in languages) {
       const languageArr = [...languages[category].values()].sort(assistantHelper.sortByText);
       
       if (languageArr.length > 0) {
         const sectionHeader = ['app-system-languages', 'bible-languages', 'most-speaking-languages', 'historical-languages'].includes(category) 
           ? i18n.t(`module-assistant.${category}`) : category === 'iso6391-languages' ? i18n.t('module-assistant.other-languages') : undefined;
-        this.appendChild(assistantHelper.listCheckboxSection(languageArr, await this._selectedLanguages, sectionHeader));
+        this.appendChild(assistantHelper.listCheckboxSection(languageArr, this._selectedLanguages, sectionHeader));
       }
     }
     
@@ -86,12 +95,14 @@ class StepLanguages extends HTMLElement {
   }
 
   async updateLanguageCount() {
-    const allLanguageCodes = (await this._languageData).allLanguageCodes;
-    if (allLanguageCodes.size === 0 || !this._repositories) {
+    const allLanguageCodes = this._languageData.allLanguageCodes;
+
+    if (allLanguageCodes.size === 0) {
       return;
     }
+    const repositories = await assistantController.get('allRepositories');
 
-    const languageModuleCount = await ipcNsi.getAllLanguageModuleCount(await this._repositories, 
+    const languageModuleCount = await ipcNsi.getAllLanguageModuleCount(repositories, 
                                                                        [...allLanguageCodes], 
                                                                        assistantController.get('moduleType'));
     console.log('LANGS: got languageModuleCount, trying to update', languageModuleCount);

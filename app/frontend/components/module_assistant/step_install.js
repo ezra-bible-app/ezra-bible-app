@@ -20,6 +20,7 @@
 const { html, sleep } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
+const UnlockDialog = require('./unlock_dialog.js');
 
 const template = html`
 <style>
@@ -78,14 +79,14 @@ class StepInstall extends HTMLElement {
     super();
 
     this._moduleInstallationCancelled = false;
+    
+    /** @type {UnlockDialog} */
+    this.unlockDialog = null;
+    
     console.log('INSTALL: step constructor');
-  }
 
-
-  async connectedCallback() {
     this.appendChild(template.content);
-    this.localize();
-    console.log('INSTALL: started connectedCallback');
+    this._localize();
 
     this.progressContainer = document.querySelector('#progress-bar-container');
     this.progressBar = document.querySelector('#module-install-progress-bar');
@@ -93,14 +94,11 @@ class StepInstall extends HTMLElement {
 
     uiHelper.configureButtonStyles(this);
 
-    const cancelInstallButton = this.querySelector('#cancel-module-installation-button');
-    cancelInstallButton.addEventListener('click', async () => {
-      cancelInstallButton.classList.add('ui-state-disabled');
-      this._moduleInstallationCancelled = true;
-      ipcNsi.cancelInstallation();
-    });
+    this.querySelector('#cancel-module-installation-button').addEventListener('click', async (e) => await this._handleCancelClick(e));
+  }
 
-    this.installSelectedModules();
+  async connectedCallback() {
+    console.log('INSTALL: started connectedCallback');
   }
 
   async installSelectedModules() {
@@ -116,7 +114,7 @@ class StepInstall extends HTMLElement {
       while (unlockFailed) {
         try {
           unlockFailed = false;
-          await this.installModule(currentModule);
+          await this._installModule(currentModule);
         } catch (e) {
           if (e == "UnlockError") {
             unlockFailed = true;
@@ -143,11 +141,11 @@ class StepInstall extends HTMLElement {
     assistantHelper.unlockDialog('module-settings-assistant-add');
   }
 
-  async installModule(moduleCode) {
+  async _installModule(moduleCode) {
     console.log('INSTALL: installModule', moduleCode);
     var swordModule = await ipcNsi.getRepoModule(moduleCode);
 
-    this.appendInstallationInfo(swordModule.description);
+    this._appendInstallationInfo(swordModule.description);
 
     uiHelper.initProgressBar($(this.progressBar));
 
@@ -163,7 +161,7 @@ class StepInstall extends HTMLElement {
 
       if (!moduleInstalled) {
         this.progressMessage.innerHTML = '';
-        await ipcNsi.installModule(moduleCode, progress => this.handleModuleInstallProgress(progress));
+        await ipcNsi.installModule(moduleCode, progress => this._handleModuleInstallProgress(progress));
       }
 
       // FIXME
@@ -194,12 +192,12 @@ class StepInstall extends HTMLElement {
                             message: `Installed module ${moduleCode}`,
                             level: Sentry.Severity.Info});
 
-      this.setInstallationInfoStatus();
+      this._setInstallationInfoStatus();
       $(this.progressBar).progressbar("value", 100);
       var strongsAvailable = await ipcNsi.strongsAvailable();
 
       if (assistantController.get('moduleType') == 'BIBLE' && swordModule.hasStrongs && !strongsAvailable) {
-        await this.installStrongsModules();
+        await this._installStrongsModules();
       }
     } else {
       let errorType = "";
@@ -214,7 +212,7 @@ class StepInstall extends HTMLElement {
         }
       }
 
-      this.setInstallationInfoStatus(errorType);
+      this._setInstallationInfoStatus(errorType);
     }
 
     if (swordModule.locked && !unlockSuccessful) {
@@ -223,7 +221,7 @@ class StepInstall extends HTMLElement {
     }
   }
 
-  handleModuleInstallProgress(progress) {
+  _handleModuleInstallProgress(progress) {
     const {totalPercent, message} = progress;
 
     $(this.progressBar).progressbar("value", totalPercent);
@@ -237,10 +235,10 @@ class StepInstall extends HTMLElement {
     }
   }
 
-  async installStrongsModules() {
+  async _installStrongsModules() {
     console.log('INSTALL: installStrongsModules');
 
-    this.appendInstallationInfo(i18n.t("general.installing-strongs"), true);
+    this._appendInstallationInfo(i18n.t("general.installing-strongs"), true);
 
     var strongsInstallSuccessful = true;
 
@@ -249,11 +247,11 @@ class StepInstall extends HTMLElement {
       var greekStrongsAvailable = await ipcNsi.greekStrongsAvailable();
 
       if (!hebrewStrongsAvailable) {
-        await ipcNsi.installModule("StrongsHebrew", (progress) => { this.handleModuleInstallProgress(progress); });
+        await ipcNsi.installModule("StrongsHebrew", (progress) => { this._handleModuleInstallProgress(progress); });
       }
 
       if (!greekStrongsAvailable) {
-        await ipcNsi.installModule("StrongsGreek", (progress) => { this.handleModuleInstallProgress(progress); });
+        await ipcNsi.installModule("StrongsGreek", (progress) => { this._handleModuleInstallProgress(progress); });
       }
     } catch (e) {
       strongsInstallSuccessful = false;
@@ -261,13 +259,13 @@ class StepInstall extends HTMLElement {
 
     if (strongsInstallSuccessful) {
       app_controller.dictionary_controller.runAvailabilityCheck();
-      this.setInstallationInfoStatus();
+      this._setInstallationInfoStatus();
     } else {
-      this.setInstallationInfoStatus("module-install-failed");
+      this._setInstallationInfoStatus("module-install-failed");
     }
   }
 
-  appendInstallationInfo(description, hideGeneralInfo=false) {
+  _appendInstallationInfo(description, hideGeneralInfo=false) {
     const infoContainer = templateInfoContainer.content.cloneNode(true);
     infoContainer.querySelector('.install-description').textContent = description;
     if (!hideGeneralInfo) {
@@ -277,7 +275,7 @@ class StepInstall extends HTMLElement {
     this.progressContainer.parentElement.insertBefore(infoContainer, this.progressContainer);
   }
 
-  setInstallationInfoStatus(errorType="") {
+  _setInstallationInfoStatus(errorType="") {
     const infoContainer = this.progressContainer.previousElementSibling;
     var infoStatus = infoContainer.querySelector('.install-status');
     const i18nKey = errorType === "" ? "done" : errorType;
@@ -287,7 +285,13 @@ class StepInstall extends HTMLElement {
     }
   }
 
-  localize() {
+  async _handleCancelClick(event) {
+    event.target.classList.add('ui-state-disabled');
+    this._moduleInstallationCancelled = true;
+    await ipcNsi.cancelInstallation();
+  }
+
+  _localize() {
     var installingModules = "";
     var itTakesTime = "";
     const moduleType = assistantController.get('moduleType');
