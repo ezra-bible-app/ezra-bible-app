@@ -23,8 +23,6 @@
  * @category Utility
  */
 
- const hasIntlDisplayNames = Intl && typeof Intl === "object" && typeof Intl.DisplayNames === "function";
-
 var mappingExistsCache = {};
 /**
  * Function to get language name based on ISO language code. Caches returned values by localeCode
@@ -83,6 +81,7 @@ module.exports.getLanguageName = (languageCode, localeCode = 'en') => {
 
   // Try to get localized name through standard Internationalization API
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DisplayNames/of
+  const hasIntlDisplayNames = Intl && typeof Intl.DisplayNames === "function";
   if (hasIntlDisplayNames) {
     languageName = (new Intl.DisplayNames(localeCode, { type: 'language', fallback: 'none' })).of(normalizedCode);
   }
