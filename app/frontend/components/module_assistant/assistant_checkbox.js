@@ -150,7 +150,6 @@ class AssistantCheckbox extends HTMLElement {
 
   handleCheckedAttr(oldValue, newValue) {
     this._checked = newValue !== null;
-    console.log('attribute checked', this._checked, '"'+oldValue+'"', '"'+newValue+'"');
     this.checkbox.checked = this._checked;
   }
 
@@ -158,8 +157,6 @@ class AssistantCheckbox extends HTMLElement {
     if (this._disabled) {
       return;
     }
-
-    console.log('checkbox checked');
 
     this._checked = this.checkbox.checked;
     if (this._checked) {

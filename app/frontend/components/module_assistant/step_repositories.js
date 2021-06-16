@@ -59,15 +59,11 @@ class StepRepositories extends HTMLElement {
 
   async connectedCallback() {
     console.log('REPOS: started connectedCallback', this.isConnected);    
-    this.appendChild(template.content);
+    this.appendChild(template.content.cloneNode(true));
     this._localize();
 
-    this._loadingIndicator = this.querySelector('loading-indicator');
-    this._listView = this.querySelector('.list-view');
-    this._repositoryList = this.querySelector('.repository-list');
-
     this._initialized = false;
-    this._loadingIndicator.show();
+    this.querySelector('loading-indicator').show();
   }
 
   async init() {
@@ -86,8 +82,9 @@ class StepRepositories extends HTMLElement {
     const repositoriesArr = await Promise.all(
       (await assistantController.get('allRepositories')).map(getRepoModuleDetails));
 
-    this._repositoryList.innerHTML = '';
-    this._repositoryList.appendChild(assistantHelper.listCheckboxSection(repositoriesArr, await this.selectedRepositories));
+    const repositoryList = this.querySelector('.repository-list');
+    repositoryList.innerHTML = '';
+    repositoryList.appendChild(assistantHelper.listCheckboxSection(repositoriesArr, await this.selectedRepositories));
 
     this.querySelector('loading-indicator').hide();
     this.querySelector('.loading-repos').style.display = 'none';

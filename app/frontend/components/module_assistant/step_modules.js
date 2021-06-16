@@ -126,17 +126,16 @@ class StepModules extends HTMLElement {
 
   async connectedCallback() {
     console.log('MODULES: started connectedCallback');
-    this.appendChild(template.content);
+    this.appendChild(template.content.cloneNode(true));
     assistantHelper.localize(this);
-
-    this._filteredModuleList = this.querySelector('#filtered-module-list');
 
     this.querySelectorAll('.module-feature-filter').forEach(checkbox => checkbox.addEventListener('click', async () => {
       this._listFilteredModules();
     }));
 
-    this._filteredModuleList.addEventListener('itemSelected', (e) => this._handleCheckboxClick(e));
-    this._filteredModuleList.addEventListener('itemInfoRequested', (e) => this._handleInfoClick(e));
+    const filteredModuleList = this.querySelector('#filtered-module-list');
+    filteredModuleList.addEventListener('itemSelected', (e) => this._handleCheckboxClick(e));
+    filteredModuleList.addEventListener('itemInfoRequested', (e) => this._handleInfoClick(e));
   }
 
   async listModules() {
@@ -159,7 +158,8 @@ class StepModules extends HTMLElement {
   async _listFilteredModules() {
     console.log('MODULES: listFilteredModules');
 
-    this._filteredModuleList.innerHTML = '';
+    const filteredModuleList = this.querySelector('#filtered-module-list');
+    filteredModuleList.innerHTML = '';
 
     const headingsFilter = this.querySelector('#headings-feature-filter').checked;
     const strongsFilter = this.querySelector('#strongs-feature-filter').checked;
@@ -215,7 +215,7 @@ class StepModules extends HTMLElement {
                                                                     await assistantController.get('installedModules'),
                                                                     renderHeader ? i18nHelper.getLanguageName(currentLanguageCode) : undefined,
                                                                     { columns: 1, disableSelected: true, info: true });
-      this._filteredModuleList.appendChild(langModuleSection);
+      filteredModuleList.appendChild(langModuleSection);
     }
   }
 

@@ -55,7 +55,7 @@ class StepLanguages extends HTMLElement {
 
   connectedCallback() {
     console.log('LANGS: started connectedCallback', this.isConnected);
-    this.appendChild(template.content);
+    this.appendChild(template.content.cloneNode(true));
     assistantHelper.localize(this);
     this.querySelector('loading-indicator').show();
   }

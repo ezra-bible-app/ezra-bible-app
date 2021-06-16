@@ -56,11 +56,8 @@ class StepUpdateRepositories extends HTMLElement {
 
   async connectedCallback() {
     console.log('UPDATE: started connectedCallback');
-    this.appendChild(template.content);
+    this.appendChild(template.content.cloneNode(true));
     this._localize();
-
-    this._infoView = this.querySelector('.info-view');
-    this._updateView = this.querySelector('.update-view');
   
     this.querySelector('#update-repo-data').addEventListener('click', async () => await this._updateRepositoryConfig());
   }
@@ -79,7 +76,7 @@ class StepUpdateRepositories extends HTMLElement {
     const lastUpdate = await ipcSettings.get('lastSwordRepoUpdate', undefined);
     
     if (repoConfigExists && lastUpdate !== undefined) {
-      this.updateDate(new Date(Date.parse(lastUpdate))); 
+      this._updateDate(new Date(Date.parse(lastUpdate))); 
       return true;
     }
 
@@ -88,8 +85,7 @@ class StepUpdateRepositories extends HTMLElement {
 
   async _showUpdateInfo() {
     console.log('UPDATE: showUpdateInfo');
-    this._updateView.style.display = 'none';
-    this._infoView.style.display = 'block';
+    this._toggleViews('INFO');
 
     this.querySelector('.update-info').textContent = i18n.t("module-assistant.repo-data-last-updated", { date: this._lastUpdate });
     uiHelper.configureButtonStyles(this);
@@ -97,8 +93,7 @@ class StepUpdateRepositories extends HTMLElement {
 
   async _updateRepositoryConfig() {
     console.log('UPDATE: updateRepositoryConfig');
-    this._infoView.style.display = 'none';
-    this._updateView.style.display = 'block';
+    this._toggleViews('UPDATE');
 
     var listRepoTimeoutMs = 500;
 
@@ -111,7 +106,7 @@ class StepUpdateRepositories extends HTMLElement {
 
     if (ret == 0) {
       const today = new Date();
-      this.updateDate(today);
+      this._updateDate(today);
       await ipcSettings.set('lastSwordRepoUpdate', today);
       await assistantController.updateAllRepositoryData();
     } else {
@@ -123,8 +118,20 @@ class StepUpdateRepositories extends HTMLElement {
     setTimeout(async () => { this._showUpdateInfo(); }, listRepoTimeoutMs);
   }
 
-  updateDate(date) {
+  _updateDate(date) {
     this._lastUpdate = date.toLocaleDateString(i18nController.getLocale());
+  }
+
+  _toggleViews(view='INFO') {
+    const infoView = this.querySelector('.info-view');
+    const updateView = this.querySelector('.update-view');
+    if (view === 'UPDATE') {
+      infoView.style.display = 'none';
+      updateView.style.display = 'block';  
+    } else {
+      updateView.style.display = 'none';
+      infoView.style.display = 'block';
+    }
   }
 
   _localize() {

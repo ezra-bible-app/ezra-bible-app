@@ -88,12 +88,8 @@ class StepInstall extends HTMLElement {
 
   async connectedCallback() {
     console.log('INSTALL: started connectedCallback');
-    this.appendChild(template.content);
+    this.appendChild(template.content.cloneNode(true));
     this._localize();
-
-    this.progressContainer = document.querySelector('#progress-bar-container');
-    this.progressBar = document.querySelector('#module-install-progress-bar');
-    this.progressMessage = this.querySelector('#module-install-progress-msg');
 
     uiHelper.configureButtonStyles(this);
 
@@ -146,7 +142,8 @@ class StepInstall extends HTMLElement {
 
     this._appendInstallationInfo(swordModule.description);
 
-    uiHelper.initProgressBar($(this.progressBar));
+    const $progressBar = $(this.querySelector('#module-install-progress-bar'));
+    uiHelper.initProgressBar($progressBar);
 
     var installSuccessful = true;
     var unlockSuccessful = true;
@@ -159,7 +156,7 @@ class StepInstall extends HTMLElement {
       }
 
       if (!moduleInstalled) {
-        this.progressMessage.innerHTML = '';
+        this.querySelector('#module-install-progress-msg').innerHTML = '';
         await ipcNsi.installModule(moduleCode, progress => this._handleModuleInstallProgress(progress));
       }
 
@@ -192,7 +189,7 @@ class StepInstall extends HTMLElement {
                             level: Sentry.Severity.Info});
 
       this._setInstallationInfoStatus();
-      $(this.progressBar).progressbar("value", 100);
+      $progressBar.progressbar("value", 100);
       var strongsAvailable = await ipcNsi.strongsAvailable();
 
       if (assistantController.get('moduleType') == 'BIBLE' && swordModule.hasStrongs && !strongsAvailable) {
@@ -223,14 +220,16 @@ class StepInstall extends HTMLElement {
   _handleModuleInstallProgress(progress) {
     const {totalPercent, message} = progress;
 
-    $(this.progressBar).progressbar("value", totalPercent);
+    const $progressBar = $(document.querySelector('#module-install-progress-bar'));
+    $progressBar.progressbar("value", totalPercent);
 
+    const progressMessage = this.querySelector('#module-install-progress-msg');
     if (message != '') {
-      this.progressMessage.textContent = localizeModuleInstallProgressMessage(message);
+      progressMessage.textContent = localizeModuleInstallProgressMessage(message);
     }
     
     if (totalPercent == 100) {
-      this.progressMessage.innerHTML = '';
+      progressMessage.innerHTML = '';
     }
   }
 
@@ -271,11 +270,13 @@ class StepInstall extends HTMLElement {
       const generalInfo = infoContainer.querySelector('.install-general-info');
       generalInfo.textContent = i18n.t(generalInfo.getAttribute('i18n'));
     }
-    this.progressContainer.parentElement.insertBefore(infoContainer, this.progressContainer);
+
+    var progressContainer = this.querySelector('#progress-bar-container');
+    progressContainer.parentElement.insertBefore(infoContainer, progressContainer);
   }
 
   _setInstallationInfoStatus(errorType="") {
-    const infoContainer = this.progressContainer.previousElementSibling;
+    const infoContainer = this.querySelector('#progress-bar-container').previousElementSibling;
     var infoStatus = infoContainer.querySelector('.install-status');
     const i18nKey = errorType === "" ? "done" : errorType;
     infoStatus.textContent = i18n.t(`general.${i18nKey}`);
