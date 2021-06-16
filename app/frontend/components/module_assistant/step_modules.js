@@ -120,11 +120,14 @@ class StepModules extends HTMLElement {
     super();
     console.log('MODULES: step constructor');
 
-    this.appendChild(template.content);
-    assistantHelper.localize(this);
-
     /** @type {UnlockDialog} */
     this.unlockDialog = null;
+  }
+
+  async connectedCallback() {
+    console.log('MODULES: started connectedCallback');
+    this.appendChild(template.content);
+    assistantHelper.localize(this);
 
     this._filteredModuleList = this.querySelector('#filtered-module-list');
 
@@ -134,11 +137,6 @@ class StepModules extends HTMLElement {
 
     this._filteredModuleList.addEventListener('itemSelected', (e) => this._handleCheckboxClick(e));
     this._filteredModuleList.addEventListener('itemInfoRequested', (e) => this._handleInfoClick(e));
-
-  }
-
-  async connectedCallback() {
-    console.log('MODULES: started connectedCallback');
   }
 
   async listModules() {

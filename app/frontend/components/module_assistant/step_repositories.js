@@ -55,7 +55,10 @@ class StepRepositories extends HTMLElement {
   constructor() {
     super();
     console.log('REPOS: step constructor');
+  }
 
+  async connectedCallback() {
+    console.log('REPOS: started connectedCallback', this.isConnected);    
     this.appendChild(template.content);
     this._localize();
 
@@ -64,10 +67,6 @@ class StepRepositories extends HTMLElement {
     this._repositoryList = this.querySelector('.repository-list');
 
     this._initialized = false;
-  }
-
-  async connectedCallback() {
-    console.log('REPOS: started connectedCallback', this.isConnected);    
     this._loadingIndicator.show();
   }
 

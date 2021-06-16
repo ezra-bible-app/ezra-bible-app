@@ -84,7 +84,10 @@ class StepInstall extends HTMLElement {
     this.unlockDialog = null;
     
     console.log('INSTALL: step constructor');
+  }
 
+  async connectedCallback() {
+    console.log('INSTALL: started connectedCallback');
     this.appendChild(template.content);
     this._localize();
 
@@ -95,10 +98,6 @@ class StepInstall extends HTMLElement {
     uiHelper.configureButtonStyles(this);
 
     this.querySelector('#cancel-module-installation-button').addEventListener('click', async (e) => await this._handleCancelClick(e));
-  }
-
-  async connectedCallback() {
-    console.log('INSTALL: started connectedCallback');
   }
 
   async installSelectedModules() {

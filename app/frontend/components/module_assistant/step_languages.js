@@ -50,15 +50,13 @@ class StepLanguages extends HTMLElement {
   constructor() {
     super();
     console.log('LANGS: step constructor');
-
-    this.appendChild(template.content);
-    assistantHelper.localize(this);
-
     this._initialized = false;
   }
 
   connectedCallback() {
     console.log('LANGS: started connectedCallback', this.isConnected);
+    this.appendChild(template.content);
+    assistantHelper.localize(this);
     this.querySelector('loading-indicator').show();
   }
 

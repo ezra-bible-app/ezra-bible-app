@@ -51,8 +51,11 @@ class StepUpdateRepositories extends HTMLElement {
   constructor() {
     super();
     console.log('UPDATE: step constructor');
-    this.lastUpdate = null;
+    this._lastUpdate = null;
+  }
 
+  async connectedCallback() {
+    console.log('UPDATE: started connectedCallback');
     this.appendChild(template.content);
     this._localize();
 
@@ -60,10 +63,6 @@ class StepUpdateRepositories extends HTMLElement {
     this._updateView = this.querySelector('.update-view');
   
     this.querySelector('#update-repo-data').addEventListener('click', async () => await this._updateRepositoryConfig());
-  }
-
-  async connectedCallback() {
-    console.log('UPDATE: started connectedCallback');
   }
 
   async init() {
@@ -92,7 +91,7 @@ class StepUpdateRepositories extends HTMLElement {
     this._updateView.style.display = 'none';
     this._infoView.style.display = 'block';
 
-    this.querySelector('.update-info').textContent = i18n.t("module-assistant.repo-data-last-updated", { date: this.lastUpdate });
+    this.querySelector('.update-info').textContent = i18n.t("module-assistant.repo-data-last-updated", { date: this._lastUpdate });
     uiHelper.configureButtonStyles(this);
   }
 
@@ -125,7 +124,7 @@ class StepUpdateRepositories extends HTMLElement {
   }
 
   updateDate(date) {
-    this.lastUpdate = date.toLocaleDateString(i18nController.getLocale());
+    this._lastUpdate = date.toLocaleDateString(i18nController.getLocale());
   }
 
   _localize() {
