@@ -22,7 +22,7 @@
    since Ezra Bible App 0.12.0 was released (2020-03-17).
 */
 
-const LanguageMapper = require('../../../lib/language_mapper.js');
+const languageMapper = require('../../../lib/language_mapper.js');
 
 var bookMap = {
   "Gen"    : 1,
@@ -205,7 +205,6 @@ module.exports = (sequelize, DataTypes) => {
 
     var module = nsi.getLocalModule(translationCode);
 
-    var languageMapper = new LanguageMapper();
     var languageName = languageMapper.getLanguageName(module.language);
 
     if (!reImport) {

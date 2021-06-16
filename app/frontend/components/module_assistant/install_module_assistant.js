@@ -16,9 +16,9 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const LanguageMapper = require('../../../lib/language_mapper.js');
 const ModuleAssistantHelper = require('./module_assistant_helper.js');
 const i18nController = require('../../controllers/i18n_controller.js');
+const i18nHelper = require('../../helpers/i18n_helper.js');
 const { sleep } = require('../../helpers/ezra_helper.js');
 
 /**
@@ -29,7 +29,6 @@ const { sleep } = require('../../helpers/ezra_helper.js');
 class InstallModuleAssistant {
   constructor() {
     this._helper = new ModuleAssistantHelper();
-    this.languageMapper = new LanguageMapper();
     this._addModuleAssistantOriginalContent = undefined;
 
     var addButton = $('#add-modules-button');
@@ -542,12 +541,12 @@ class InstallModuleAssistant {
       var currentRepo = selectedRepositories[i];
       var repoLanguages = await ipcNsi.getRepoLanguages(currentRepo, this._currentModuleType);
 
-      for (var j = 0; j < repoLanguages.length; j++) {
-        var currentLanguageCode = repoLanguages[j];
+      for (let j = 0; j < repoLanguages.length; j++) {
+        const currentLanguageCode = repoLanguages[j];
+        const currentLanguageName = i18nHelper.getLanguageName(currentLanguageCode);
 
-        if (this.languageMapper.mappingExists(currentLanguageCode)) {
+        if (currentLanguageName) {
           if (!knownLanguageCodes.includes(currentLanguageCode)) {
-            var currentLanguageName = this.languageMapper.getLanguageName(currentLanguageCode);
             knownLanguageCodes.push(currentLanguageCode);
             knownLanguages.push({
               "languageCode": currentLanguageCode,
@@ -670,12 +669,10 @@ class InstallModuleAssistant {
 
     var languagesPage = "#module-settings-assistant-add-p-1";
     var uiLanguages = this._helper.getSelectedSettingsAssistantElements(languagesPage);
-    for (var i = 0; i < uiLanguages.length; i++) {
-      var currentLanguageName = uiLanguages[i];
-      if (this.languageMapper.mappingExists(currentLanguageName)) {
-        currentLanguageName = this.languageMapper.getLanguageName(currentLanguageName);
-      }
-      uiLanguages[i] = "<b>" + currentLanguageName + "</b>";
+    for (let i = 0; i < uiLanguages.length; i++) {
+      const currentLanguageCode = uiLanguages[i];
+      const currentLanguageName = i18nHelper.getLanguageName(currentLanguageCode);
+      uiLanguages[i] = `<b>${currentLanguageName ? currentLanguageName : currentLanguageCode}</b>`;
     }
 
     var uiRepositories = this.getSelectedReposForUi();
@@ -1002,7 +999,7 @@ class InstallModuleAssistant {
     for (var i = 0; i < allRepoModules.length; i++) {
       var module = allRepoModules[i];
 
-      if (this.languageMapper.mappingExists(module.language)) {
+      if (i18nHelper.getLanguageName(module.language)) {
         count += 1;
       }
     }
