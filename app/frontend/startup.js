@@ -335,6 +335,24 @@ class Startup {
       newReleaseChecker.check();
     }
   }
+
+  /** 
+   * Localize "Loading" strings early if localStorage available 
+   */
+  earlyRestoreLocalizedString() {
+    const loadingStr = window.localStorage && window.localStorage.getItem('general.loading');
+    const loadingElement = document.querySelector('[i18n="general.loading"]');
+    if (loadingElement) {
+      loadingElement.textContent = loadingStr || 'Loading';
+    }
+    const loadingSubtitleStr = window.localStorage && window.localStorage.getItem('cordova.starting-app');
+    const loadingSubtitleElement = document.querySelector('#loading-subtitle');
+    if (loadingSubtitleElement) {
+      loadingSubtitleElement.textContent = loadingSubtitleStr || 'Starting app';
+    }
+  }
+  
+  
 }
 
 module.exports = Startup;
