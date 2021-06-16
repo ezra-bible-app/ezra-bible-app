@@ -32,33 +32,36 @@ const template = html`
 </style>
 
 <div id="module-settings-assistant-add" style="display: none;">
+</div>
+
+<unlock-dialog></unlock-dialog>
+`;
+
+const templateAddSteps = html`
   <h3 i18n="module-assistant.update-repository-data"></h3>
-  <section id="module-update-repositories" class="scrollable">
+  <section id="module-update-repositories" class="module-assistant-step">
     <!-- <step-update-repositories></step-update-repositories> -->
   </section>
 
   <h3 i18n="module-assistant.languages"></h3>
-  <section id="module-languages" class="scrollable">
+  <section id="module-languages" class="module-assistant-step scrollable">
     <!-- <step-languages></step-languages> -->
   </section>
 
   <h3 i18n="module-assistant.repositories"></h3>
-  <section id="module-repositories" class="scrollable">
+  <section id="module-repositories" class="module-assistant-step scrollable">
     <!-- <step-repositories></step-repositories> -->
   </section>
 
   <h3 class="module-settings-assistant-section-header-module-type"></h3>
-  <section id="module-list">
+  <section id="module-list" class="module-assistant-step">
     <!-- <step-modules></step-modules> -->
   </section>
 
   <h3 i18n="module-assistant.installation"></h3>
-  <section id="install" class="scrollable">
+  <section id="install" class="module-assistant-step scrollable">
     <!-- <step-install></step-install> -->
   </section>
-</div>
-
-<unlock-dialog></unlock-dialog>
 `;
 
 const UPDATE_REPOSITORIES_INDEX = 0;
@@ -73,26 +76,34 @@ class ModuleAssistant extends HTMLElement {
     super();
     console.log('ASSISTANT: step constructor');
     this._jQueryStepsInitialized = false;
+    this._initialized = false;
   }
 
   async connectedCallback() {
-    this.appendChild(template.content);
-    this._localize();
     console.log('ASSISTANT: started connectedCallback');
+    if (!this._initialized) {
+      this.appendChild(template.content);
+    }
   }
 
   async initAddModuleAssistant() {
-    console.log('ASSISTANT: initAddModuleAssistant');
-    const $addModuleAssistantContainer = $('#module-settings-assistant-add');
+    var addModuleAssistantContainer = this.querySelector('#module-settings-assistant-add');
+    var $addModuleAssistantContainer = $(addModuleAssistantContainer);
+    console.log('ASSISTANT: initAddModuleAssistant. Steps:', $addModuleAssistantContainer.data('steps'), addModuleAssistantContainer.isConnected);
     $addModuleAssistantContainer.show();
 
     if (this._jQueryStepsInitialized) {
-      $($addModuleAssistantContainer).steps("destroy");
+      $addModuleAssistantContainer.steps("destroy"); 
+      // jQuery.steps("destroy") is messing up with DOM :( we need to find the right element again
+      addModuleAssistantContainer = this.querySelector('#module-settings-assistant-add');
+      $addModuleAssistantContainer = $(addModuleAssistantContainer);
     } else {
       this._jQueryStepsInitialized = true;
     }
 
-    $($addModuleAssistantContainer).steps({
+    this._setupPages(addModuleAssistantContainer);
+
+    $addModuleAssistantContainer.steps({
       headerTag: "h3",
       bodyTag: "section",
       contentContainerTag: "module-settings-assistant-add",
@@ -110,38 +121,11 @@ class ModuleAssistant extends HTMLElement {
       }
     });
 
-    this.setupSteps();
+    // jQuery.steps() is messing up with DOM :( we need to reassign step components
+    this._setupSteps(addModuleAssistantContainer);
 
     await this.updateConfigStep.init();
     await this.languagesStep.init();
-  }
-
-  setupSteps() {
-    /** @type {StepUpdateRepositories} */
-    this.updateConfigStep = document.createElement('step-update-repositories');
-    this._initPage(this.updateConfigStep, UPDATE_REPOSITORIES_INDEX);
-
-    /** @type {StepLanguages} */
-    this.languagesStep = document.createElement('step-languages');
-    this._initPage(this.languagesStep, LANGUAGES_INDEX);
-
-    /** @type {StepRepositories} */
-    this.repositoriesStep = document.createElement('step-repositories');
-    this._initPage(this.repositoriesStep, REPOSITORIES_INDEX);
-
-    /** @type {StepModules} */
-    this.modulesStep = document.createElement('step-modules');
-    this._initPage(this.modulesStep, MODULES_INDEX);
-    
-    /** @type {StepInstall} */
-    this.installStep = document.createElement('step-install');
-    this._initPage(this.installStep, INSTALL_INDEX);
-
-    /** @type {UnlockDialog} */
-    this.unlockDialog = this.querySelector('unlock-dialog');
-
-    this.modulesStep.unlockDialog = this.unlockDialog;
-    this.installStep.unlockDialog = this.unlockDialog;
   }
 
   _addModuleAssistantStepChanging(event, currentIndex, newIndex) {
@@ -188,26 +172,69 @@ class ModuleAssistant extends HTMLElement {
     }
   }
 
-  _initPage(component, pageIndex) {
-    const wizardPage = this.querySelector('#module-settings-assistant-add-p-'+pageIndex);
-    wizardPage.innerHTML = '';
-    wizardPage.appendChild(component);
+  /** 
+   * @param {HTMLElement} container 
+   */
+  _setupPages(container) {
+    container.innerHTML = '';
+    container.appendChild(templateAddSteps.content.cloneNode(true));
+    localize(container);
   }
 
-  _localize() {
-    var moduleTypeText = "";
-    const moduleType = assistantController.get('moduleType');
-    if (moduleType == 'BIBLE') {
-      moduleTypeText = i18n.t("module-assistant.module-type-bible");
-    } else if (moduleType == 'DICT') {
-      moduleTypeText = i18n.t("module-assistant.module-type-dict");
-    }
+  _setupSteps(container) {
+    /** @type {StepUpdateRepositories} */
+    // this.updateConfigStep = container.querySelector('step-update-repositories');
+    this.updateConfigStep = document.createElement('step-update-repositories');
+    this._initPage(this.updateConfigStep, UPDATE_REPOSITORIES_INDEX, container);
 
-    this.querySelector('.module-settings-assistant-section-header-module-type').textContent = moduleTypeText;
+    /** @type {StepLanguages} */
+    // this.languagesStep = container.querySelector('step-languages');
+    this.languagesStep = document.createElement('step-languages');
+    this._initPage(this.languagesStep, LANGUAGES_INDEX, container);
 
-    assistantHelper.localize(this);
+    /** @type {StepRepositories} */
+    // this.repositoriesStep = container.querySelector('step-repositories');
+    this.repositoriesStep = document.createElement('step-repositories');
+    this._initPage(this.repositoriesStep, REPOSITORIES_INDEX, container);
+
+    /** @type {StepModules} */
+    // this.modulesStep = container.querySelector('step-modules');
+    this.modulesStep = document.createElement('step-modules');
+    this._initPage(this.modulesStep, MODULES_INDEX, container);
+
+    /** @type {StepInstall} */
+    // this.installStep = container.querySelector('step-install');
+    this.installStep = document.createElement('step-install');
+    this._initPage(this.installStep, INSTALL_INDEX, container);
+
+    /** @type {UnlockDialog} */
+    this.unlockDialog = this.querySelector('unlock-dialog');
+
+    this.modulesStep.unlockDialog = this.unlockDialog;
+    this.installStep.unlockDialog = this.unlockDialog;
+  }
+
+  _initPage(component, pageIndex, container=null) {
+    container = container || this;
+    const wizardPage = container.querySelector('#module-settings-assistant-add-p-'+pageIndex);
+    wizardPage.appendChild(component);
   }
 }
 
 customElements.define('module-assistant', ModuleAssistant);
 module.exports = ModuleAssistant;
+
+
+function localize(element) {
+  var moduleTypeText = "";
+  const moduleType = assistantController.get('moduleType');
+  if (moduleType == 'BIBLE') {
+    moduleTypeText = i18n.t("module-assistant.module-type-bible");
+  } else if (moduleType == 'DICT') {
+    moduleTypeText = i18n.t("module-assistant.module-type-dict");
+  }
+
+  element.querySelector('.module-settings-assistant-section-header-module-type').textContent = moduleTypeText;
+
+  assistantHelper.localize(element);
+}
