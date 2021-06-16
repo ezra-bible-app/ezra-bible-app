@@ -292,6 +292,13 @@
     "enable-storage-access": "Povoliť prístup k internému úložisku",
     "storage-permission-denied": "Rozhodli ste sa odmietnuť prístup k úložisku. <br> Môžete to zmeniť stlačením tlačidla nižšie!",
     "permanent-permission-decision-part1": "Predtým ste sa rozhodli natrvalo odmietnuť prístup k úložisku! <br> <br> Toto rozhodnutie môžete vrátiť iba v nastaveniach povolení v konfigurácii systému Android.",
-    "permanent-permission-decision-part2": "Ak nezmeníte nastavenia povolení, <br> projekt Ezra sa <span style = 'text-decoration: underline'> nespustí úspešne </span>."
+    "permanent-permission-decision-part2": "Ak nezmeníte nastavenia povolení, <br> projekt Ezra sa <span style = 'text-decoration: underline'> nespustí úspešne </span>.",
+    "starting-app": "Starting app",
+    "init-i18n": "Initializing i18n",
+    "init-sword": "Initializing SWORD",
+    "init-database": "Initializing database",
+    "init-user-interface": "Initializing user interface",
+    "loading-settings": "Loading settings",
+    "waiting-app-ready": "Waiting for app to get ready"
   }
 }

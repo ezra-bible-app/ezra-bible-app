@@ -290,6 +290,13 @@
     "enable-storage-access": "Разрешить доступ к хранилищу устройства",
     "storage-permission-denied": "Вы решили запретить доступ к хранилищу. <br>Вы можете изменить это, нажав кнопку ниже!",
     "permanent-permission-decision-part1": "Ранее вы решили окончательно запретить доступ к хранилищу! <br><br> Вы можете отменить это решение только в настройках разрешений в конфигурации системы Android.",
-    "permanent-permission-decision-part2": "Если вы не измените настройки разрешений, приложение Ezra Bible App <span style='text-decoration: underline'>не запустится успешно</span>."
+    "permanent-permission-decision-part2": "Если вы не измените настройки разрешений, приложение Ezra Bible App <span style='text-decoration: underline'>не запустится успешно</span>.",
+    "starting-app": "Запуск приложения",
+    "init-i18n": "Инициализация i18n",
+    "init-sword": "Инициализация SWORD",
+    "init-database": "Инициализация базы данных",
+    "init-user-interface": "Инициализация интерфейса",
+    "loading-settings": "Загрузка настроек",
+    "waiting-app-ready": "Жду, когда приложение будет готово"
   }
 }

@@ -257,6 +257,13 @@
     "enable-storage-access": "Permitir acceso al almacenamiento del dispositivo",
     "storage-permission-denied": "Usted a decidido denegar el acceso al almacenamiento.<br>Puede cambiarlo presionando el botón de abajo!",
     "permanent-permission-decision-part1": "Previamente usted decidió denegar permanentemente el acceso al almacenamiento!<br><br>Sólo puede revertir esa decisión en la sección de permisos de aplicaciones en la configuración del sistema.",
-    "permanent-permission-decision-part2": "Si no cambia la configuración de permisos,<br>Ezra Bible App <span style='text-decoration: underline'> no podrá iniciar correctamente</span>."
+    "permanent-permission-decision-part2": "Si no cambia la configuración de permisos,<br>Ezra Bible App <span style='text-decoration: underline'> no podrá iniciar correctamente</span>.",
+    "starting-app": "Starting app",
+    "init-i18n": "Initializing i18n",
+    "init-sword": "Initializing SWORD",
+    "init-database": "Initializing database",
+    "init-user-interface": "Initializing user interface",
+    "loading-settings": "Loading settings",
+    "waiting-app-ready": "Waiting for app to get ready"
   }
 }
