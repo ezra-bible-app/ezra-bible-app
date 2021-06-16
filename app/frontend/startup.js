@@ -340,15 +340,14 @@ class Startup {
    * Localize "Loading" strings early if localStorage available 
    */
   earlyRestoreLocalizedString() {
-    const loadingStr = window.localStorage && window.localStorage.getItem('general.loading');
     const loadingElement = document.querySelector('[i18n="general.loading"]');
     if (loadingElement) {
-      loadingElement.textContent = loadingStr || 'Loading';
+      loadingElement.textContent = i18nController.getStringForStartup("general.loading", "Loading");
     }
-    const loadingSubtitleStr = window.localStorage && window.localStorage.getItem('cordova.starting-app');
+
     const loadingSubtitleElement = document.querySelector('#loading-subtitle');
     if (loadingSubtitleElement) {
-      loadingSubtitleElement.textContent = loadingSubtitleStr || 'Starting app';
+      loadingSubtitleElement.textContent = i18nController.getStringForStartup("cordova.starting-app", "Starting app");
     }
   }
   
