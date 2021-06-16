@@ -236,7 +236,7 @@ class Startup {
     loadingIndicator.show();
     loadingIndicator.find('.loader').show();
 
-    uiHelper.updateLoadingSubtitle("Initializing user interface");
+    uiHelper.updateLoadingSubtitle("cordova.init-user-interface", "Initializing user interface");
 
     console.log("Initializing IPC clients ...");
     await this.initIpcClients();
@@ -297,12 +297,12 @@ class Startup {
     await waitUntilIdle();
 
     console.log("Loading settings ...");
-    uiHelper.updateLoadingSubtitle("Loading settings");
+    uiHelper.updateLoadingSubtitle("cordova.loading-settings");
     if (this._platformHelper.isElectron() || this._platformHelper.isCordova()) {
       await app_controller.loadSettings();
     }
 
-    uiHelper.updateLoadingSubtitle("Waiting for app to get ready");
+    uiHelper.updateLoadingSubtitle("cordova.waiting-app-ready");
 
     // Wait for the UI to render, before we hide the loading indicator
     await waitUntilIdle();

@@ -196,10 +196,16 @@ class UiHelper {
     $('#main-content').show();
   }
 
-  updateLoadingSubtitle(text) {
-    if (platformHelper.isCordova()) {
-      $('#loading-subtitle').text(text);
+  updateLoadingSubtitle(i18nKey, fallbackText="") {
+    if (!platformHelper.isCordova()) {
+      return;
     }
+    
+    var text = fallbackText;
+    if (window.i18n !== undefined && typeof window.i18n.t === 'function') {
+      text = window.i18n.t(i18nKey);
+    }
+    document.querySelector('#loading-subtitle').textContent = text;
   }
 
   getCurrentTextLoadingIndicator(tabIndex=undefined) {

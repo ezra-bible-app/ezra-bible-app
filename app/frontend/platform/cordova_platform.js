@@ -249,7 +249,7 @@ class CordovaPlatform {
 
     `, async () => {
 
-      uiHelper.updateLoadingSubtitle("Initializing i18n");
+      uiHelper.updateLoadingSubtitle("cordova.init-i18n", "Initializing i18n");
 
       window.ipcI18n = new IpcI18n();
       await i18nController.initI18N();
@@ -276,10 +276,10 @@ class CordovaPlatform {
   async initPersistenceAndStart(isScopedStorage=false) {
     window.ipcGeneral = new IpcGeneral();
 
-    uiHelper.updateLoadingSubtitle("Initializing SWORD");
+    uiHelper.updateLoadingSubtitle("cordova.init-sword", "Initializing SWORD");
     await ipcGeneral.initPersistentIpc(isScopedStorage);
 
-    uiHelper.updateLoadingSubtitle("Initializing database");
+    uiHelper.updateLoadingSubtitle("cordova.init-database", "Initializing database");
     await ipcGeneral.initDatabase(isScopedStorage);
 
     await startup.initApplication();
