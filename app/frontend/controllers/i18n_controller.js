@@ -18,7 +18,7 @@
 
 /**
  * This controller initializes the app locale at startup and updates it on demand when changing the locale
- * @module i18n_controller
+ * @module i18nController
  * @category Controller
  */
 
@@ -147,11 +147,16 @@ module.exports.detectLocale = async function() {
   await ipcSettings.delete(SETTINGS_KEY);
 }
 
+/** returns current app locale (2-letter language code) */
 module.exports.getLocale = function() {
   var locale = i18n.language;
   return locale.slice(0, 2); // just in case we got language with the region code (i.e "en-US") we want only the language code ("en")
 }
 
+/** returns detected OS locale */
+module.exports.getSystemLocale = () => systemLocale;
+
+/** returns 2-letter language code list of all available locales for the app */
 module.exports.getAvailableLocales = function() {
   return AVAILABLE_LOCALES.sort();
 }

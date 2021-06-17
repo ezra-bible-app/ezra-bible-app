@@ -3,7 +3,19 @@ name: Ezra Bible App test suite
 on: push
 
 jobs:
-    test:
+    unit-test:
+        name: Run jest tests
+        runs-on: macos-latest
+        steps:
+        - uses: actions/checkout@v2
+
+        - name: Install package.json dependencies (except node-sword-interface)
+          run: npm uninstall node-sword-interface
+        
+        - name: Run test
+          run: npm test
+
+    e2e-test:
         name: Run Cucumber tests
         runs-on: ubuntu-20.04
         steps:
