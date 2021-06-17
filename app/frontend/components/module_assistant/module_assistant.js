@@ -88,12 +88,20 @@ class ModuleAssistant extends HTMLElement {
     }
   }
 
-  async initAddModuleAssistant() {
+  show() {
     this.querySelector('#module-assistant-add-info').style.display = 'block';
+    this.querySelector('#module-settings-assistant-add').style.display = 'block';
+  }
+
+  hide() {
+    this.querySelector('#module-assistant-add-info').style.display = 'none';
+    this.querySelector('#module-settings-assistant-add').style.display = 'none';
+  }
+
+  async initAddModuleAssistant() {
     var addModuleAssistantContainer = this.querySelector('#module-settings-assistant-add');
     var $addModuleAssistantContainer = $(addModuleAssistantContainer);
     console.log('ASSISTANT: initAddModuleAssistant. Steps:', $addModuleAssistantContainer.data('steps'), addModuleAssistantContainer.isConnected);
-    $addModuleAssistantContainer.show();
 
     if (this._jQueryStepsInitialized) {
       $addModuleAssistantContainer.steps("destroy"); 

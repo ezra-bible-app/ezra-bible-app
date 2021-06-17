@@ -30,8 +30,11 @@ class InstallModuleAssistant {
   constructor() {
     this._addModuleAssistantOriginalContent = undefined;
 
-    var addButton = $('#add-modules-button');
-    addButton.bind('click', () => this.openAddModuleAssistant());
+    const addButton = document.querySelector('#add-modules-button');
+    addButton.addEventListener('click', () => this.openAddModuleAssistant());
+
+    /** @type {ModuleAssistant} */
+    this.assistant = document.querySelector('module-assistant');
   }
 
   async openAssistant(moduleType) {
@@ -49,7 +52,7 @@ class InstallModuleAssistant {
     var offsetLeft = appContainerWidth - wizardWidth - 100;
     var offsetTop = 20;
 
-    $('#module-settings-assistant-add').hide();
+    this.assistant.hide();
     $('#module-settings-assistant-remove').hide();
     $('#module-settings-assistant-init').show();
 
@@ -104,9 +107,8 @@ class InstallModuleAssistant {
   async openAddModuleAssistant() {
     $('#module-settings-assistant-init').hide();
     
-    /** @type {ModuleAssistant} */
-    const assistant = document.querySelector('module-assistant');
-    await assistant.initAddModuleAssistant();
+    this.assistant.show();
+    await this.assistant.initAddModuleAssistant();
   }
 
 
