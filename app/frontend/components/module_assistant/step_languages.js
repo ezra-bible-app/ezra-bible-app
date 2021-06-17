@@ -136,6 +136,7 @@ async function getAvailableLanguagesFromRepos() {
   var allLanguageCodes = new Set();
 
   const repositories = await assistantController.get('allRepositories');
+  console.log('LANGS: getAvailableLanguagesFromRepos: got repos', repositories);
   for (const currentRepo of repositories) {
     var repoLanguages = await ipcNsi.getRepoLanguages(currentRepo, assistantController.get('moduleType'));
 

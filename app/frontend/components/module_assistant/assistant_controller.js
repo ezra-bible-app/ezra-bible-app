@@ -23,6 +23,7 @@ var state = {
   selectedRepositories: [],
   selectedModules: [],
   moduleType: null, 
+  repositoriesAvailable: false,
 };
 
 module.exports.initState = async function(moduleType) {
@@ -35,11 +36,31 @@ module.exports.initState = async function(moduleType) {
 
   state.installedModules = await app_controller.translation_controller.getInstalledModules(moduleType);
 
-  await this.updateAllRepositoryData();
+  state.repositoriesAvailable = await ipcNsi.repositoryConfigExisting();
+  console.log('assistantController repositoriesAvailable', state.repositoriesAvailable);
+  waitUntilRepositoriesAvailable();  
 };
 
-module.exports.updateAllRepositoryData = async () => {
-  state.allRepositories = await ipcNsi.getRepoNames();
+async function waitUntilRepositoriesAvailable() {
+  state.allRepositories = await new Promise(resolve => {
+    const intervalId = setInterval(() => {
+      if (state.repositoriesAvailable) {
+        clearInterval(intervalId);
+        console.log('assistantController resolving repositories', state.repositoriesAvailable);
+        resolve(ipcNsi.getRepoNames());
+      }
+    }, 200);
+  });
+}
+
+module.exports.pendingAllRepositoryData = async () => {
+  state.repositoriesAvailable = false;
+  console.log('assistantController pending repositories', state.repositoriesAvailable);
+  waitUntilRepositoriesAvailable();
+};
+
+module.exports.resolveAllRepositoryData = async () => {
+  state.repositoriesAvailable = true;
 };
 
 module.exports.get = (key) => state[key];

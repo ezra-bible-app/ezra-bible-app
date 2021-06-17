@@ -85,16 +85,16 @@ class StepUpdateRepositories extends HTMLElement {
     if (await this._wasUpdated()) {
       this._showUpdateInfo();
     } else {
-      this._updateRepositoryConfig();
+      await this._updateRepositoryConfig();
     }
   }
 
   async _wasUpdated() {
-    const repoConfigExists = await ipcNsi.repositoryConfigExisting();
+    const repoConfigExists = assistantController.get('repositoriesAvailable');
 
     const lastUpdate = await ipcSettings.get('lastSwordRepoUpdate', undefined);
-    
-    if (repoConfigExists && lastUpdate !== undefined) {
+
+    if (repoConfigExists && lastUpdate) {
       this._updateDate(new Date(Date.parse(lastUpdate))); 
       return true;
     }
@@ -102,7 +102,7 @@ class StepUpdateRepositories extends HTMLElement {
     return false;
   }
 
-  async _showUpdateInfo() {
+  _showUpdateInfo() {
     console.log('UPDATE: showUpdateInfo');
     this._toggleViews('INFO');
 
@@ -113,6 +113,8 @@ class StepUpdateRepositories extends HTMLElement {
   async _updateRepositoryConfig() {
     console.log('UPDATE: updateRepositoryConfig');
     this._toggleViews('UPDATE');
+
+    assistantController.pendingAllRepositoryData();
 
     var listRepoTimeoutMs = 500;
 
@@ -127,14 +129,14 @@ class StepUpdateRepositories extends HTMLElement {
       const today = new Date();
       this._updateDate(today);
       await ipcSettings.set('lastSwordRepoUpdate', today);
-      await assistantController.updateAllRepositoryData();
     } else {
       console.log("Failed to update the repository configuration!");
       listRepoTimeoutMs = 3000;
       this.querySelector('#update-failed').style.display = 'block';     
     }
 
-    setTimeout(async () => { this._showUpdateInfo(); }, listRepoTimeoutMs);
+    assistantController.resolveAllRepositoryData();
+    setTimeout(() => { this._showUpdateInfo(); }, listRepoTimeoutMs);
   }
 
   _updateDate(date) {
