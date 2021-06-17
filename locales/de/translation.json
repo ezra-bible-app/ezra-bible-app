@@ -258,6 +258,13 @@
     "enable-storage-access": "Zugriff auf Gerätespeicher aktivieren",
     "storage-permission-denied": "Sie haben entschieden, den Zugriff auf den Gerätespeicher zu verweigern.<br>Sie können dies ändern, indem Sie den Button unten drücken!",
     "permanent-permission-decision-part1": "Sie haben zuletzt entschieden, Ezra Bible App keinen Zugriff auf den Gerätespeicher zu geben!<br><br>Sie können diese Entscheidung nur in den Android Einstellungen im Bereich App Berechtigungen rückgängig machen.",
-    "permanent-permission-decision-part2": "Wenn Sie die Zugriffseinstellungen nicht ändern,<br>wird Ezra Bible App <span style='text-decoration: underline'>nicht erfolgreich starten</span>."
+    "permanent-permission-decision-part2": "Wenn Sie die Zugriffseinstellungen nicht ändern,<br>wird Ezra Bible App <span style='text-decoration: underline'>nicht erfolgreich starten</span>.",
+    "starting-app": "Starting app",
+    "init-i18n": "Initializing i18n",
+    "init-sword": "Initializing SWORD",
+    "init-database": "Initializing database",
+    "init-user-interface": "Initializing user interface",
+    "loading-settings": "Loading settings",
+    "waiting-app-ready": "Waiting for app to get ready"
   }
 }

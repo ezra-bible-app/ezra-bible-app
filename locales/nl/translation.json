@@ -292,6 +292,13 @@
     "enable-storage-access": "Schakel toegang tot apparaatopslag in",
     "storage-permission-denied": "U heeft besloten de opslagtoegang te weigeren. <br> U kunt dit wijzigen door op de onderstaande knop te drukken!",
     "permanent-permission-decision-part1": "Eerder besloot u de opslagtoegang permanent te weigeren! <br> <br> U kunt die beslissing alleen ongedaan maken in de toestemmingsinstellingen in de Android-systeemconfiguratie.",
-    "permanent-permission-decision-part2": "Als je de toestemmingsinstellingen niet wijzigt, <br> Ezra Bible App zal <span style = 'text-decoration: underline'>niet succesvol opstarten</span>."
+    "permanent-permission-decision-part2": "Als je de toestemmingsinstellingen niet wijzigt, <br> Ezra Bible App zal <span style = 'text-decoration: underline'>niet succesvol opstarten</span>.",
+    "starting-app": "Starting app",
+    "init-i18n": "Initializing i18n",
+    "init-sword": "Initializing SWORD",
+    "init-database": "Initializing database",
+    "init-user-interface": "Initializing user interface",
+    "loading-settings": "Loading settings",
+    "waiting-app-ready": "Waiting for app to get ready"
   }
 }

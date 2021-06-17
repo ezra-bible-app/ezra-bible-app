@@ -292,6 +292,13 @@
     "enable-storage-access": "Activer l'accès au stockage de l'appareil",
     "storage-permission-denied": "Vous avez décidé de refuser l'accès au stockage. <br> Vous pouvez modifier cela en appuyant sur le bouton ci-dessous !",
     "permanent-permission-decision-part1": "Auparavant, vous avez décidé de refuser définitivement l'accès au stockage! <br> <br> Vous ne pouvez annuler cette décision que dans les paramètres d'autorisation de la configuration du système d'Android",
-    "permanent-permission-decision-part2": "Si vous ne modifiez pas les paramètres d'autorisation, <br> Ezra Bible App <span style='text-decoration: underline'>ne démarrera pas avec succès</span>."
+    "permanent-permission-decision-part2": "Si vous ne modifiez pas les paramètres d'autorisation, <br> Ezra Bible App <span style='text-decoration: underline'>ne démarrera pas avec succès</span>.",
+    "starting-app": "Starting app",
+    "init-i18n": "Initializing i18n",
+    "init-sword": "Initializing SWORD",
+    "init-database": "Initializing database",
+    "init-user-interface": "Initializing user interface",
+    "loading-settings": "Loading settings",
+    "waiting-app-ready": "Waiting for app to get ready"
   }
 }

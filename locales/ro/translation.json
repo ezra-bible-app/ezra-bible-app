@@ -291,6 +291,13 @@
     "enable-storage-access": "Activează accesul la stocarea dispozitivului",
     "storage-permission-denied": "Ai decis să refuzi accesul la stocare.<br>Poți schimba acest lucru apăsând butonul de mai jos!",
     "permanent-permission-decision-part1": "Mai înainte, ai decis să refuzi definitiv accesul la stocare!<br><br>Poți reveni la această decizie numai în setările de permisiune din configurația sistemului Android.",
-    "permanent-permission-decision-part2": "Dacă nu modifici setările de permisiune,<br>Ezra Bible App <span style='text-decoration: underline'>nu va porni cu succes</span>."
+    "permanent-permission-decision-part2": "Dacă nu modifici setările de permisiune,<br>Ezra Bible App <span style='text-decoration: underline'>nu va porni cu succes</span>.",
+    "starting-app": "Starting app",
+    "init-i18n": "Initializing i18n",
+    "init-sword": "Initializing SWORD",
+    "init-database": "Initializing database",
+    "init-user-interface": "Initializing user interface",
+    "loading-settings": "Loading settings",
+    "waiting-app-ready": "Waiting for app to get ready"
   }
 }

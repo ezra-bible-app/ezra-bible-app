@@ -292,6 +292,13 @@
     "enable-storage-access": "Надайте дозвіл на доступ до сховища пристрою",
     "storage-permission-denied": "Ви заборонили доступ до сховища пристрою.<br>Ви можете змінити це, натиснувши кнопку нижче!",
     "permanent-permission-decision-part1": "Раніше ви остаточно заборонили доступ до сховища присторою для цього застосунку!<br><br>Ви можете скасувати це лише в налаштуваннях дозволу в конфігурації системи Android.",
-    "permanent-permission-decision-part2": "Якщо ви не зміните налаштування дозволу,<br>Біблійний застосунок Єздри <span style= 'text-decoration: undeуine'>не запуститься вдало</span>."
- }
+    "permanent-permission-decision-part2": "Якщо ви не зміните налаштування дозволу,<br>Біблійний застосунок Єздри <span style= 'text-decoration: undeуine'>не запуститься вдало</span>.",
+    "starting-app": "Запуск застосунку",
+    "init-i18n": "Початкування i18n",
+    "init-sword": "Початкування SWORD",
+    "init-database": "Початкування бази даних",
+    "init-user-interface": "Початкування відобразу",
+    "loading-settings": "Завантаження налаштувань",
+    "waiting-app-ready": "Чекаємо, поки застосунок підготується"
+  }
 }

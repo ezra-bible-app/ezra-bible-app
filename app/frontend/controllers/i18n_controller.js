@@ -85,7 +85,7 @@ module.exports.initLocale = async function() {
   }
 
   // We need to save some locale strings separately, so that they are accessible at startup before i18next is available
-  preserveLocaleForStartup();
+  preserveStringsForStartup();
 
   if (platformHelper.isTest()) { // Use English for test mode
     await i18n.changeLanguage('en');
@@ -94,17 +94,27 @@ module.exports.initLocale = async function() {
   window.reference_separator = i18n.t('general.chapter-verse-separator');
 }
 
-function preserveLocaleForStartup() {
-  if (window.localStorage) {
-    let localeStorage = window.localStorage;
-    localeStorage.setItem('loading', i18n.t('general.loading'));
+function preserveStringsForStartup() {
+  if (!window.localStorage) {
+    return;
+  } 
+  
+  const localeStorage = window.localStorage;
+  const keys = ["general.loading", "cordova.starting-app", "cordova.init-i18n", "cordova.init-sword", "cordova.init-database", "cordova.init-user-interface"];
+  for(const key of keys) {
+    localeStorage.setItem(key, i18n.t(key));
   }
+}
+
+module.exports.getStringForStartup = function(key, fallbackText) {
+  const localizedText = window.localStorage && window.localStorage.getItem(key);
+  return localizedText || fallbackText;
 }
 
 module.exports.changeLocale = async function(newLocale, saveSettings=true) {
 
   await i18n.changeLanguage(newLocale);
-  preserveLocaleForStartup();
+  preserveStringsForStartup();
 
   if (saveSettings) {
     await ipcSettings.set(SETTINGS_KEY, newLocale);
