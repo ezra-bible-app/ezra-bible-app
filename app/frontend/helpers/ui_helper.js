@@ -206,6 +206,7 @@ class UiHelper {
     if (text === fallbackText && window.i18n !== undefined && typeof window.i18n.t === 'function') {
       text = window.i18n.t(i18nKey);
     }
+
     document.querySelector('#loading-subtitle').textContent = text !== i18nKey ? text : fallbackText;
   }
 
