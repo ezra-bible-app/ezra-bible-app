@@ -24,27 +24,42 @@ const assistantHelper = require('./assistant_helper.js');
 
 const template = html`
 <style>
+  #update-repository-data-wrapper {
+    padding: 2.5%;
+    background-color: #eee;
+    border-radius: 5px;
+  }
+  #update-repository-data-wrapper .intro{
+    margin: 0 0 1em;
+  }
+  #update-repository-data-progress {
+    min-height: 3.5em;
+  }
+  #update-repository-data-progress p, #update-repository-data-progress .progress-bar{
+    margin: 0;
+  }
+  #update-repository-data-info {
+    text-align: center;
+    min-height: 3.5em;
+  }
 </style>
 
-
+<div id="update-repository-data-wrapper">
 <p class="intro"></p>   
-<div class="update-view"> 
+<div id="update-repository-data-progress" class="update-view"> 
   <p i18n="module-assistant.updating-repository-data"></p>
   <div id="repo-update-progress-bar" class="progress-bar">
     <div class="progress-label" i18n="module-assistant.updating"></div>
   </div>
-  <p class="loading-repos" i18n="module-assistant.loading-repositories"></p>
 </div>  
 
-<div class="info-view">
-  <p style="clear: both; padding-top: 1em;">
-    <span class="update-info"></span>
-    <button id="update-repo-data" class="fg-button ui-state-default ui-corner-all" i18n="module-assistant.update-now"></button>
-  </p>
+<div id="update-repository-data-info" class="info-view">
+  <span class="update-info"></span>
+  <button id="update-repo-data" class="fg-button ui-state-default ui-corner-all" i18n="module-assistant.update-now"></button>
 </div>
 
 <p id="update-failed" style="display: none" i18n="module-assistant.update-repository-data-failed"></p>
-<p style="margin-top: 2em;" i18n="module-assistant.more-repo-information-needed"></p>
+</div>
 `;
 
 class StepUpdateRepositories extends HTMLElement {
@@ -52,17 +67,21 @@ class StepUpdateRepositories extends HTMLElement {
     super();
     console.log('UPDATE: step constructor');
     this._lastUpdate = null;
+    this._children_initialized = false;
   }
 
   async connectedCallback() {
     console.log('UPDATE: started connectedCallback');
-    this.appendChild(template.content.cloneNode(true));
-    this._localize();
+    if (!this._children_initialized) {
+      this.appendChild(template.content.cloneNode(true));
   
-    this.querySelector('#update-repo-data').addEventListener('click', async () => await this._updateRepositoryConfig());
+      this.querySelector('#update-repo-data').addEventListener('click', async () => await this._updateRepositoryConfig());
+      this._children_initialized = true;
+    }  
   }
 
   async init() {
+    this._localize();
     if (await this._wasUpdated()) {
       this._showUpdateInfo();
     } else {

@@ -29,8 +29,15 @@ const UnlockDialog = require('./unlock_dialog.js');
 
 const template = html`
 <style>
+  #module-assistant-add-info {
+    margin-left: 20%;
+    padding: 0 2.5% 1em;
+  }
 </style>
 
+<div id="module-assistant-add-info" style="display: none;">
+      <step-update-repositories></step-update-repositories>
+</div>
 <div id="module-settings-assistant-add" style="display: none;">
 </div>
 
@@ -38,11 +45,6 @@ const template = html`
 `;
 
 const templateAddSteps = html`
-  <h3 i18n="module-assistant.update-repository-data"></h3>
-  <section id="module-update-repositories" class="module-assistant-step">
-    <!-- <step-update-repositories></step-update-repositories> -->
-  </section>
-
   <h3 i18n="module-assistant.languages"></h3>
   <section id="module-languages" class="module-assistant-step scrollable">
     <!-- <step-languages></step-languages> -->
@@ -64,11 +66,11 @@ const templateAddSteps = html`
   </section>
 `;
 
-const UPDATE_REPOSITORIES_INDEX = 0;
-const LANGUAGES_INDEX = 1;
-const REPOSITORIES_INDEX = 2;
-const MODULES_INDEX = 3;
-const INSTALL_INDEX = 4;
+// const UPDATE_REPOSITORIES_INDEX = 0;
+const LANGUAGES_INDEX = 0;
+const REPOSITORIES_INDEX = LANGUAGES_INDEX + 1;
+const MODULES_INDEX = REPOSITORIES_INDEX + 1;
+const INSTALL_INDEX = MODULES_INDEX + 1;
 
 
 class ModuleAssistant extends HTMLElement {
@@ -87,6 +89,7 @@ class ModuleAssistant extends HTMLElement {
   }
 
   async initAddModuleAssistant() {
+    this.querySelector('#module-assistant-add-info').style.display = 'block';
     var addModuleAssistantContainer = this.querySelector('#module-settings-assistant-add');
     var $addModuleAssistantContainer = $(addModuleAssistantContainer);
     console.log('ASSISTANT: initAddModuleAssistant. Steps:', $addModuleAssistantContainer.data('steps'), addModuleAssistantContainer.isConnected);
@@ -126,12 +129,14 @@ class ModuleAssistant extends HTMLElement {
 
     await this.updateConfigStep.init();
     await this.languagesStep.init();
+    await this.languagesStep.listLanguages();
   }
 
   _addModuleAssistantStepChanging(event, currentIndex, newIndex) {
-    if (currentIndex == UPDATE_REPOSITORIES_INDEX && newIndex == LANGUAGES_INDEX) {
-      return assistantController.get('allRepositories').length > 0;
-    } else if (currentIndex == LANGUAGES_INDEX && newIndex == REPOSITORIES_INDEX) { // Changing from Languages to Repositories
+    // if (currentIndex == UPDATE_REPOSITORIES_INDEX && newIndex == LANGUAGES_INDEX) {
+    //   return assistantController.get('allRepositories').length > 0;
+    // } else 
+    if (currentIndex == LANGUAGES_INDEX && newIndex == REPOSITORIES_INDEX) { // Changing from Languages to Repositories
       const selectedLanguages = this.languagesStep.languages;
       assistantController.set('selectedLanguages', selectedLanguages);
       return selectedLanguages.length > 0;
@@ -151,9 +156,10 @@ class ModuleAssistant extends HTMLElement {
   }
 
   async _addModuleAssistantStepChanged(event, currentIndex, priorIndex) {
-    if (priorIndex == UPDATE_REPOSITORIES_INDEX && currentIndex == LANGUAGES_INDEX) {
-      await this.languagesStep.listLanguages();
-    } else if (priorIndex == LANGUAGES_INDEX && currentIndex == REPOSITORIES_INDEX) {
+    // if (priorIndex == UPDATE_REPOSITORIES_INDEX && currentIndex == LANGUAGES_INDEX) {
+    //   await this.languagesStep.listLanguages();
+    // } else 
+    if (priorIndex == LANGUAGES_INDEX && currentIndex == REPOSITORIES_INDEX) {
       await this.repositoriesStep.listRepositories();
     } else if (priorIndex == REPOSITORIES_INDEX && currentIndex == MODULES_INDEX) {
       await this.modulesStep.listModules();
@@ -183,9 +189,9 @@ class ModuleAssistant extends HTMLElement {
 
   _setupSteps(container) {
     /** @type {StepUpdateRepositories} */
-    // this.updateConfigStep = container.querySelector('step-update-repositories');
-    this.updateConfigStep = document.createElement('step-update-repositories');
-    this._initPage(this.updateConfigStep, UPDATE_REPOSITORIES_INDEX, container);
+    this.updateConfigStep = this.querySelector('step-update-repositories');
+    // this.updateConfigStep = document.createElement('step-update-repositories');
+    // this._initPage(this.updateConfigStep, UPDATE_REPOSITORIES_INDEX, container);
 
     /** @type {StepLanguages} */
     // this.languagesStep = container.querySelector('step-languages');
