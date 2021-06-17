@@ -35,6 +35,8 @@ const template = html`
   <p class="intro"></p>   
   <div class="repository-list"></div>
 </div>
+
+<p style="margin-top: 2em;" i18n="module-assistant.more-repo-information-needed"></p>
 `;
 
 /**

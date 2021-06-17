@@ -35,7 +35,7 @@ const template = html`
     margin-bottom: 1em;
     display: none;
   }
-  .intro {
+  #module-list-intro {
     clear: both; 
     margin-bottom: 2em;
   }
@@ -90,7 +90,7 @@ const template = html`
       <label id="greek-strongs-dict-feature-filter-label" for="greek-strongs-dict-feature-filter" i18n="general.module-greek-strongs-dict"></label>
     </div>
 
-    <p class="intro"></p>
+    <p id="module-list-intro" class="intro"></p>
 
     <div id="filtered-module-list"></div>
   </div>

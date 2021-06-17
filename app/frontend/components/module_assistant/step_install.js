@@ -24,7 +24,7 @@ const UnlockDialog = require('./unlock_dialog.js');
 
 const template = html`
 <style>
-  .intro {
+  #module-install-intro {
     margin-bottom: 2em;
   }
   .install-info-container {
@@ -55,7 +55,7 @@ const template = html`
 </style>
 
 <h3></h3>
-<p class="intro"></p>
+<p id="module-install-intro" class="intro"></p>
 <div id="progress-bar-container">
   <div id="module-install-progress-bar" class="progress-bar">
     <div class="progress-label" i18n="module-assistant.installing"></div>
