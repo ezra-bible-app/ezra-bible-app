@@ -148,6 +148,41 @@
     "help-text-translation-available": "To start, select a book or a tag from the menu above.",
     "help-text-no-translations": "To start, first install at least one Bible translation. <br/><br/>You can open the installation assistent by clicking on the settings icon and then <i>Configure translations</i>."
   },
+  "shortcuts": {
+    "tab-title": "Keyboard Shortcuts",
+    "description": "You can use the following shortcuts:",
+
+    "summary" : {
+      "font-section-title": "Font",
+      "current-tab-search-section-title": "Current Tab Search",
+      "miscellaneous-section-title": "Miscellaneous",
+      "in-tab-search": "Open current tab search",
+      "hide-in-tab-search-form": "Hide current tab search form",
+      "jump-to-next-search-occurance": "Jump to next search occurance",
+      "jump-to-previous-occurance": "Jump to previous occurance",
+      "copy-selected-verses-to-clipboard": "Copy selected verses to clipboard",
+      "toggle-fullscreen-only-Win-Linux": "Toggle fullscreen (only Win/Linux)",
+      "enable-dynamic-strongs-display": "Enable dynamic Strong's display",
+      "open-new-tab": "Open new tab",
+      "increase-current-font-size": "Increase current font size",
+      "decrease-current-font-size": "Decrease current font size",
+      "reset-font-size-to-default": "Reset font size to default"
+    },
+
+    "shortcut": {
+      "in-tab-search":"Ctrl/Cmd + f",
+      "hide-in-tab-search-form": "Esc",
+      "jump-to-next-search-occurance": "Enter",
+      "jump-to-previous-occurance": "Shift + Enter",
+      "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
+      "toggle-fullscreen-only-Win-Linux": "F11",
+      "enable-dynamic-strongs-display": "Shift + mouse over verse",
+      "open-new-tab": "Ctrl/Cmd + t",
+      "increase-current-font-size": "Ctrl/Cmd +",
+      "decrease-current-font-size": "Ctrl/Cmd -",
+      "reset-font-size-to-default": "Ctrl/Cmd 0"
+    }
+  },
   "tags": {
     "new-tag": "New tag",
     "create-tag": "Create tag",
@@ -263,6 +298,13 @@
     "enable-storage-access": "Enable access to device storage",
     "storage-permission-denied": "You decided to deny storage access.<br>You can change this by pressing the button below!",
     "permanent-permission-decision-part1": "Previously, you decided to permanently deny storage access!<br><br>You can only revert that decision in the permission settings in the Android system configuration.",
-    "permanent-permission-decision-part2": "If you do not change the permission settings,<br>Ezra Bible App will <span style='text-decoration: underline'>not start up successfully</span>."
+    "permanent-permission-decision-part2": "If you do not change the permission settings,<br>Ezra Bible App will <span style='text-decoration: underline'>not start up successfully</span>.",
+    "starting-app": "Starting app",
+    "init-i18n": "Initializing i18n",
+    "init-sword": "Initializing SWORD",
+    "init-database": "Initializing database",
+    "init-user-interface": "Initializing user interface",
+    "loading-settings": "Loading settings",
+    "waiting-app-ready": "Waiting for app to get ready"
   }
 }

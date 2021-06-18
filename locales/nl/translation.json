@@ -142,6 +142,41 @@
     "help-text-translation-available": "Om te beginnen, selecteer een boek of een tag uit het bovenstaande menu.",
     "help-text-no-translations": "Om te beginnen, installeer eerst ten minste één bijbelvertaling. <br/><br/>U kunt de installatiewizard openen door op het pictogram Instellingen te klikken en vervolgens op <i>Vertalingen configureren</i>."
   },
+  "shortcuts": {
+    "tab-title": "Keyboard Shortcuts",
+    "description": "You can use the following shortcuts:",
+
+    "summary" : {
+      "font-section-title": "Font",
+      "current-tab-search-section-title": "Current Tab Search",
+      "miscellaneous-section-title": "Miscellaneous",
+      "in-tab-search": "Open current tab search",
+      "hide-in-tab-search-form": "Hide current tab search form",
+      "jump-to-next-search-occurance": "Jump to next search occurance",
+      "jump-to-previous-occurance": "Jump to previous occurance",
+      "copy-selected-verses-to-clipboard": "Copy selected verses to clipboard",
+      "toggle-fullscreen-only-Win-Linux": "Toggle fullscreen (only Win/Linux)",
+      "enable-dynamic-strongs-display": "Show dynamic dictionary info for Strong's",
+      "open-new-tab": "Open new tab",
+      "increase-current-font-size": "Increase current font size",
+      "decrease-current-font-size": "Decrease current font size",
+      "reset-font-size-to-default": "Reset font size to default"
+    },
+
+    "shortcut": {
+      "in-tab-search":"Ctrl/Cmd + f",
+      "hide-in-tab-search-form": "Esc",
+      "jump-to-next-search-occurance": "Enter",
+      "jump-to-previous-occurance": "Shift + Enter",
+      "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
+      "toggle-fullscreen-only-Win-Linux": "F11",
+      "enable-dynamic-strongs-display": "Shift + mouse over verse",
+      "open-new-tab": "Ctrl/Cmd + t",
+      "increase-current-font-size": "Ctrl/Cmd +",
+      "decrease-current-font-size": "Ctrl/Cmd -",
+      "reset-font-size-to-default": "Ctrl/Cmd 0"
+    }
+  },
   "tags": {
     "new-tag": "Nieuwe tag",
     "create-tag": "Maak tag",
@@ -257,6 +292,13 @@
     "enable-storage-access": "Schakel toegang tot apparaatopslag in",
     "storage-permission-denied": "U heeft besloten de opslagtoegang te weigeren. <br> U kunt dit wijzigen door op de onderstaande knop te drukken!",
     "permanent-permission-decision-part1": "Eerder besloot u de opslagtoegang permanent te weigeren! <br> <br> U kunt die beslissing alleen ongedaan maken in de toestemmingsinstellingen in de Android-systeemconfiguratie.",
-    "permanent-permission-decision-part2": "Als je de toestemmingsinstellingen niet wijzigt, <br> Ezra Bible App zal <span style = 'text-decoration: underline'>niet succesvol opstarten</span>."
+    "permanent-permission-decision-part2": "Als je de toestemmingsinstellingen niet wijzigt, <br> Ezra Bible App zal <span style = 'text-decoration: underline'>niet succesvol opstarten</span>.",
+    "starting-app": "Starting app",
+    "init-i18n": "Initializing i18n",
+    "init-sword": "Initializing SWORD",
+    "init-database": "Initializing database",
+    "init-user-interface": "Initializing user interface",
+    "loading-settings": "Loading settings",
+    "waiting-app-ready": "Waiting for app to get ready"
   }
 }

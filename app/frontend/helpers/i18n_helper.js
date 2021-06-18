@@ -16,6 +16,14 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+
+/**
+ * This module contains utility functions to get various locale specific data (internationalization functions)
+ * @module i18NHelper
+ * @category Utility
+ */
+
+
 const i18nController = require('../controllers/i18n_controller.js');
 const languageMapper = require('../../lib/language_mapper.js');
 
@@ -68,9 +76,22 @@ module.exports.getLocalizedDate = function(timestamp) {
   return new Date(Date.parse(timestamp)).toLocaleDateString(locale);
 }
 
-module.exports.getLanguageName = function(code, includeNativeName = false, currentLocale = null) {
+/**
+ * Function to get localized language name. Uses module:languageMapper.getLanguageName under the hood
+ * @param {string} code 2-letter ISO 639-1 or 3-letter ISO 639-2/T  or 3-letter language code
+ * @param {boolean} [includeNativeName=false] either to add an extra native name in parenthesis 
+ * @param {string} [currentLocale=null] language code to return language name in (language name localization). If not provided uses current app locale
+ * @returns {string} localized language name if available. Otherwise language name in default locale (English) or initial language code
+ */
+module.exports.getLanguageName = function(code, includeNativeName=false, currentLocale=null) {
   currentLocale = currentLocale || i18nController.getLocale();
-  const localeName = languageMapper.getLanguageName(code, currentLocale);
+  var localeName = languageMapper.getLanguageName(code, currentLocale);
 
-  return localeName + (includeNativeName && code !== currentLocale ? ` (${languageMapper.getLanguageName(code, code)})` : '');
+  if (localeName) {
+    return localeName + (includeNativeName && code !== currentLocale ? ` (${languageMapper.getLanguageName(code, code)})` : '');
+  }
+
+  localeName = languageMapper.getLanguageName(code); // get locale name without localization
+
+  return localeName || code;
 }
