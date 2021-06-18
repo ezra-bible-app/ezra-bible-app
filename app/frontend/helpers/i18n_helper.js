@@ -88,7 +88,8 @@ module.exports.getLanguageName = function(code, includeNativeName=false, current
   var localeName = languageMapper.getLanguageName(code, currentLocale);
 
   if (localeName) {
-    return localeName + (includeNativeName && code !== currentLocale ? ` (${languageMapper.getLanguageName(code, code)})` : '');
+    const nativeLocaleName = includeNativeName && code !== currentLocale ? languageMapper.getLanguageName(code, code) : undefined;
+    return localeName + (nativeLocaleName ? ` (${nativeLocaleName})` : '');
   }
 
   localeName = languageMapper.getLanguageName(code); // get locale name without localization
