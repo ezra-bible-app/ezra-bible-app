@@ -78,8 +78,6 @@ Given('I check repository data update date', {timeout: 40 * 1000}, async functio
 
   const today = (new Date()).toLocaleDateString('en');
   expect(await updateInfo.getText(), "Date doesn't match today's date").to.equal(`Repository data was last updated on ${today}.`);
-
-  await clickNext();
 });
 
 Given('I select the CrossWire repository', {timeout: 40 * 1000}, async function () {
