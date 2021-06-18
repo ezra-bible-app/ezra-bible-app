@@ -533,11 +533,6 @@ h2 {
   text-align: center;
 }
 
-#module-settings-assistant-add,
-#module-settings-assistant-add .content {
-  min-height: 570px;
-}
-
 #module-settings-assistant .label {
   margin-left: 0.5em;
   cursor: default;

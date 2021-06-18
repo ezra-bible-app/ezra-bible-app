@@ -33,6 +33,11 @@ const template = html`
     margin-left: 20%;
     padding: 0 2.5% 1em;
   }
+  #module-settings-assistant-add,
+  #module-settings-assistant-add .content {
+    min-height: 380px;
+  }
+
 </style>
 
 <div id="module-assistant-add-info" style="display: none;">
