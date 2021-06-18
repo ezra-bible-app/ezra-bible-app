@@ -133,9 +133,9 @@
     "developers": "Entwickler",
     "translators": "Übersetzer",
     "versions-and-paths": "Versionen und Pfade",
-    "app-language": "Application Language",
+    "app-language": "Sprache",
     "detect-locale": "Auto",
-    "detect-locale-hint": "Automatically detect locale based on system language"
+    "detect-locale-hint": "Sprache automatisch erkennen"
   },
   "help": {
     "help-text-no-tags-book-opened": "Sie wollen anfangen mit Tags zu arbeiten?<br/><br/>Erstellen Sie Ihren ersten Tag, indem Sie auf den Button <i>Neuer&nbsp;Tag</i> klicken.<br/><br/>Danach können Sie beim Studium des Bibeltexts den Tag zuordnen, indem Sie auf den Vers klicken oder mehrere Verse mit gehaltener Maustaste auswählen und dann links die Auswahlbox neben dem gerade erstellten Tag anklicken.",
@@ -212,7 +212,7 @@
     "show-notes": "Zeige Notizen",
     "limit-notes-display-size": "Limitiere Notizgröße",
     "use-tags-column": "Tags in Spalte",
-    "select-chapter-before-loading": "Open books with chapter selection",
+    "select-chapter-before-loading": "Öffne Bücher mit Kapitelauswahl",
     "use-night-mode": "Nachtmodus",
     "keep-screen-on": "Display angeschaltet lassen",
     "tag-statistics": "Tag Statistiken",
@@ -223,9 +223,9 @@
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Tags und Notizschriftgröße anpassen",
     "new-note-hint": "Klicken um neue Notiz hinzuzufügen",
-    "open-complete-book": "Open books completely",
-    "open-chapters-large-books": "Open large books chapter-wise",
-    "open-chapters-all-books": "Open all books chapter-wise"
+    "open-complete-book": "Bücher vollständig öffnen",
+    "open-chapters-large-books": "Große Bücher kapitelweise öffnen",
+    "open-chapters-all-books": "Alle Bücher kapitelweise öffnen"
   },
   "dictionary-info-box": {
     "greek-dict": "Griechisches Wörterbuch",
@@ -237,19 +237,19 @@
     "related-strongs": "Verwandte Strong's"
   },
   "emoji": {
-    "search": "Search emojis...",
-    "notFound": "No emojis found",
+    "search": "Durchsuche Emojis...",
+    "notFound": "Keine Emojis gefunden",
     "categories": {
-      "recents": "Recent Emojis",
-      "smileys": "Smileys & Emotion",
-      "people": "People & Body",
-      "animals": "Animals & Nature",
-      "food": "Food & Drink",
-      "activities": "Activities",
-      "travel": "Travel & Places",
-      "objects": "Objects",
-      "symbols": "Symbols",
-      "flags": "Flags"
+      "recents": "Kürzlich verwendete Emojis",
+      "smileys": "Smileys und Emotion",
+      "people": "Menschen und Körper",
+      "animals": "Tiere und Natur",
+      "food": "Essen und Trinken",
+      "activities": "Aktivitäten",
+      "travel": "Reisen und Orte",
+      "objects": "Objekte",
+      "symbols": "Symbole",
+      "flags": "Flaggen"
     }
   },
   "cordova": {
@@ -259,12 +259,12 @@
     "storage-permission-denied": "Sie haben entschieden, den Zugriff auf den Gerätespeicher zu verweigern.<br>Sie können dies ändern, indem Sie den Button unten drücken!",
     "permanent-permission-decision-part1": "Sie haben zuletzt entschieden, Ezra Bible App keinen Zugriff auf den Gerätespeicher zu geben!<br><br>Sie können diese Entscheidung nur in den Android Einstellungen im Bereich App Berechtigungen rückgängig machen.",
     "permanent-permission-decision-part2": "Wenn Sie die Zugriffseinstellungen nicht ändern,<br>wird Ezra Bible App <span style='text-decoration: underline'>nicht erfolgreich starten</span>.",
-    "starting-app": "Starting app",
-    "init-i18n": "Initializing i18n",
-    "init-sword": "Initializing SWORD",
-    "init-database": "Initializing database",
-    "init-user-interface": "Initializing user interface",
-    "loading-settings": "Loading settings",
-    "waiting-app-ready": "Waiting for app to get ready"
+    "starting-app": "Starte App",
+    "init-i18n": "Initialisiere i18n",
+    "init-sword": "Initialisiere SWORD",
+    "init-database": "Initialisiere Datenbank",
+    "init-user-interface": "Initialisiere Benutzeroberfläche",
+    "loading-settings": "Lade Einstellungen",
+    "waiting-app-ready": "Schließe Ladevorgang ab"
   }
 }
