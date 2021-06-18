@@ -16,7 +16,6 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 const i18nController = require('../controllers/i18n_controller.js');
 const cacheController = require('../controllers/cache_controller.js');
