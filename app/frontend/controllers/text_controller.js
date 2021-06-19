@@ -117,6 +117,10 @@ class TextController {
     }
 
     if (resetView && (tabIndex == 0 || tabIndex == undefined)) {
+      if (currentTab.hasTextTypeChanged()) {
+        app_controller.navigation_pane.resetNavigationPane(tabIndex, true);
+      }
+      
       app_controller.resetVerseListView();
       var loadingMessage = "";
 

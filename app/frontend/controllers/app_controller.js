@@ -935,9 +935,8 @@ class AppController {
     currentTab.tab_search.setVerseList(currentVerseList);
 
     if (xrefs.length > 0) {
-      // Only reset the view if the current text type is not xrefs.
-      // So, in case of xrefs we just "refresh" the view.
-      var resetView = this.tab_controller.getTab().getTextType() != 'xrefs';
+      // Only reset the view if the current text type has changed
+      var resetView = this.tab_controller.getTab().hasTextTypeChanged();
 
       await this.text_controller.prepareForNewText(resetView, false);
       this.text_controller.requestTextUpdate(currentTabId, null, null, null, null, null, xrefs);
@@ -953,10 +952,8 @@ class AppController {
     currentTab.tab_search.setVerseList(currentVerseList);
 
     if (currentTagIdList != "") {
-      // Only reset the view if the current text type is not tagged_verses.
-      // So, in case of tagged_verses we just "refresh" the view.
-      // FIXME: This leads to weird visual effects when switching from bible text
-      var resetView = this.tab_controller.getTab().getTextType() != 'tagged_verses';
+      // Only reset the view if the current text type has changed
+      var resetView = this.tab_controller.getTab().hasTextTypeChanged();
 
       await this.text_controller.prepareForNewText(resetView, false);
 
