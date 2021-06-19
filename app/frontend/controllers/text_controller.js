@@ -333,13 +333,19 @@ class TextController {
 
     var separator = await i18nHelper.getReferenceSeparator(currentBibleTranslationId);
 
+    var currentTab = app_controller.tab_controller.getTab(tab_index);
+    var isInstantLoadingBook = true;
+    if (currentTab != null && currentTab.getTextType() == 'book') {
+      isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentBibleTranslationId, book_short_title);
+    }
+
     var verses_as_html = verseListTemplate({
       versification: versification,
       verseListId: current_tab_id,
       renderVerseMetaInfo: true,
       renderBibleBookHeaders: false,
       // only render chapter headers with the full book requested
-      renderChapterHeaders: (start_verse_number == -1),
+      renderChapterHeaders: isInstantLoadingBook && !localSwordModule.hasHeadings,
       renderBookNotes: (start_verse_number == 1),
       bookIntroduction: bookIntroduction,
       bookNotes: bookNotes,

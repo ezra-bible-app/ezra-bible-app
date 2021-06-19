@@ -83,6 +83,10 @@ h2 {
   clear: both;
 }
 
+h2:nth-of-type(1) {
+  padding-top: 0;
+}
+
 .ezra-dialog h2 {
   margin-left: inherit;
 }
@@ -170,7 +174,7 @@ h2 {
   overflow-y: scroll;*/
 }
 
-.verse-list {
+.verse-list:not(.verse-list-with-section-titles) {
   padding-top: 0.5em;
 }
 
