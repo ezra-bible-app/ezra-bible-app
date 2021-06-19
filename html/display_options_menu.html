@@ -13,11 +13,19 @@
 </div>
 
 <div class="options-group">
-  <div class="options-header" i18n="bible-browser.display"></div>
+  <div class="options-header" i18n="bible-browser.bible-browser-layout"></div>
 
   <config-option id="showToolBarOption" settingsKey="showToolBar" label="bible-browser.show-tool-bar" checkedByDefault="true"></config-option>
   <config-option id="showDictionaryOption" settingsKey="showStrongs" label="bible-browser.show-dictionary" checkedByDefault="false"></config-option>
-  <config-option id="openVerseListsInNewTabOption" settingsKey="openVerseListsInNewTab" label="bible-browser.open-verse-lists-in-new-tab" checkedByDefault="false"></config-option>
+  <config-option id="useTagsColumnOption" settingsKey="useTagsColumn" label="bible-browser.use-tags-column" checkedByDefault="false"></config-option>
+  <config-option id="showBookChapterNavigationOption" settingsKey="showBookChapterNavigation" label="bible-browser.show-book-chapter-navigation" checkedByDefault="true"></config-option>
+  <config-option id="showHeaderNavigationOption" settingsKey="showHeaderNavigation" label="bible-browser.show-header-navigation" checkedByDefault="false"></config-option>
+  <config-option id="showTabSearchOption" settingsKey="showTabSearch" label="bible-browser.show-tab-search" checkedByDefault="false"></config-option>
+</div>
+
+<div class="options-group" style="clear: both;">
+  <div class="options-header" i18n="bible-browser.display"></div>
+
   <config-option id="selectChapterBeforeLoadingOption" settingsKey="selectChapterBeforeLoading" label="bible-browser.select-chapter-before-loading" checkedByDefault="false"></config-option>
 
   <select is="select-option" id="bookLoadingModeOption" settingsKey="bookLoadingMode" width="19em">
@@ -26,11 +34,14 @@
     <option value="open-chapters-all-books" label="bible-browser.open-chapters-all-books"></option>
   </select>
 
+  <config-option id="openVerseListsInNewTabOption" settingsKey="openVerseListsInNewTab" label="bible-browser.open-verse-lists-in-new-tab" checkedByDefault="false"></config-option>
+  <config-option id="adjustTagsNotesTextSizeOption" settingsKey="adjustTagsNotesTagSize" label="bible-browser.adjust-font-size-tags-notes" checkedByDefault="false"></config-option>
+  <config-option id="fixNotesHeightOption" settingsKey="fixNotesHeight" label="bible-browser.limit-notes-display-size" checkedByDefault="false"></config-option>
   <config-option id="useNightModeOption" settingsKey="useNightMode" label="bible-browser.use-night-mode" checkedByDefault="false" autoLoad="false"></config-option>
   <config-option id="keepScreenAwakeOption" settingsKey="keepScreenAwake" label="bible-browser.keep-screen-on" checkedByDefault="false"></config-option>
 </div>
 
-<div class="options-group" style="clear: both;">
+<div class="options-group">
   <div class="options-header" i18n="bible-browser.text-options"></div>
 
   <config-option id="showBookIntroOption" settingsKey="showBookIntro" label="bible-browser.show-book-intro" checkedByDefault="false"></config-option>
@@ -40,15 +51,4 @@
   <config-option id="showUserDataIndicatorOption" settingsKey="showUserDataIndicators" label="bible-browser.show-notes-tags-indicators" checkedByDefault="false"></config-option>
   <config-option id="showTagsOption" settingsKey="showTags" label="bible-browser.show-tags" checkedByDefault="true"></config-option>
   <config-option id="showNotesOption" settingsKey="showNotes" label="bible-browser.show-notes" checkedByDefault="false"></config-option>
-</div>
-
-<div class="options-group">
-  <div class="options-header" i18n="bible-browser.bible-browser-layout"></div>
-
-  <config-option id="useTagsColumnOption" settingsKey="useTagsColumn" label="bible-browser.use-tags-column" checkedByDefault="false"></config-option>
-  <config-option id="fixNotesHeightOption" settingsKey="fixNotesHeight" label="bible-browser.limit-notes-display-size" checkedByDefault="false"></config-option>
-  <config-option id="adjustTagsNotesTextSizeOption" settingsKey="adjustTagsNotesTagSize" label="bible-browser.adjust-font-size-tags-notes" checkedByDefault="false"></config-option>
-  <config-option id="showBookChapterNavigationOption" settingsKey="showBookChapterNavigation" label="bible-browser.show-book-chapter-navigation" checkedByDefault="true"></config-option>
-  <config-option id="showHeaderNavigationOption" settingsKey="showHeaderNavigation" label="bible-browser.show-header-navigation" checkedByDefault="false"></config-option>
-  <config-option id="showTabSearchOption" settingsKey="showTabSearch" label="bible-browser.show-tab-search" checkedByDefault="false"></config-option>
 </div>
