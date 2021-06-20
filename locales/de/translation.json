@@ -171,7 +171,7 @@
       "jump-to-previous-occurance": "Shift + Enter",
       "copy-selected-verses-to-clipboard": "Strg/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
-      "enable-dynamic-strongs-display": "Shift + mouse over verse",
+      "enable-dynamic-strongs-display": "Shift + Maus über aktuellen Vers",
       "open-new-tab": "Strg/Cmd + t",
       "increase-current-font-size": "Strg/Cmd +",
       "decrease-current-font-size": "Strg/Cmd -",
