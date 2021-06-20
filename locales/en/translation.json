@@ -158,8 +158,8 @@
       "toggle-fullscreen-only-Win-Linux": "Toggle fullscreen",
       "enable-dynamic-strongs-display": "Enable dynamic Strong's display",
       "open-new-tab": "Open new tab",
-      "increase-current-font-size": "Increase current font size",
-      "decrease-current-font-size": "Decrease current font size",
+      "increase-current-font-size": "Increase font size",
+      "decrease-current-font-size": "Decrease font size",
       "reset-font-size-to-default": "Reset font size to default"
     },
 
