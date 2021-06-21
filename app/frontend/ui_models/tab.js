@@ -37,6 +37,7 @@ class Tab {
     this.referenceVerseElementId = null;
     this.xrefTitle = null;
     this.textType = null;
+    this.previousTextType = null;
     this.lastHighlightedNavElementIndex = null;
     this.bibleTranslationId = defaultBibleTranslationId;
     this.selectCount = 0;
@@ -205,11 +206,20 @@ class Tab {
   }
 
   setTextType(textType) {
+    this.previousTextType = this.textType;
     this.textType = textType;
   }
 
   getTextType() {
     return this.textType;
+  }
+
+  getPreviousTextType() {
+    return this.previousTextType;
+  }
+
+  hasTextTypeChanged() {
+    return this.textType != this.previousTextType;
   }
 
   getLastHighlightedNavElementIndex() {

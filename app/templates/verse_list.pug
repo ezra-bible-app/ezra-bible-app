@@ -65,6 +65,9 @@ each bibleBook in bibleBooks
 
   - var verse_count = 0
   - var old_chapter = null;
+  if verses[0].verseNr != 1
+    - old_chapter = verses[0].chapter
+
   - var bibleBookId = bibleBook.shortTitle.toLowerCase()
   
   each verse in verses
@@ -83,7 +86,7 @@ each bibleBook in bibleBooks
           span(i18n=chapterText) #{i18n.t(chapterText)}
           | &nbsp;#{verse.chapter}
 
-      - old_chapter = verse.chapter
+    - old_chapter = verse.chapter
     
     - var current_verse_id = bibleBookId + '-' + verse.chapter + '-' + verse.verseNr
     - var current_verse_reference_id = versification + '-' + bibleBookId + '-' + verse.absoluteVerseNr

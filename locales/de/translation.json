@@ -143,6 +143,41 @@
     "help-text-translation-available": "Legen Sie los, indem Sie ein Buch oder einen Tag über das Menü oben auswählen.",
     "help-text-no-translations": "Legen Sie los, indem Sie zunächst eine Bibelübersetzung installieren. <br/><br/>Klicken Sie auf das Einstellungssymbol und dann auf den Button <i>Übersetzungen konfigurieren</i>."
   },
+  "shortcuts": {
+    "tab-title": "Tastenkürzel",
+    "description": "Sie können die folgenden Tastenkürzel verwenden:",
+
+    "summary" : {
+      "font-section-title": "Schriftgröße",
+      "current-tab-search-section-title": "Suche für aktuellen Tab",
+      "miscellaneous-section-title": "Verschiedene",
+      "in-tab-search": "Suche für aktuellen Tab öffnen",
+      "hide-in-tab-search-form": "Suche für aktuellen Tab ausblenden",
+      "jump-to-next-search-occurance": "Zum nächsten Suchergebnis springen",
+      "jump-to-previous-occurance": "Zum vorherigen Suchergebnis springen",
+      "copy-selected-verses-to-clipboard": "Ausgewählte Verse in die Zwischenablage kopieren",
+      "toggle-fullscreen-only-Win-Linux": "Vollbildmodus umschalten",
+      "enable-dynamic-strongs-display": "Dynamische Anzeige von Strong's aktivieren",
+      "open-new-tab": "Neuen Tab öffnen",
+      "increase-current-font-size": "Schrift vergrößern",
+      "decrease-current-font-size": "Schrift verkleinern",
+      "reset-font-size-to-default": "Auf Standardschriftgröße zurücksetzen"
+    },
+
+    "shortcut": {
+      "in-tab-search":"Strg/Cmd + f",
+      "hide-in-tab-search-form": "Esc",
+      "jump-to-next-search-occurance": "Enter",
+      "jump-to-previous-occurance": "Shift + Enter",
+      "copy-selected-verses-to-clipboard": "Strg/Cmd + c",
+      "toggle-fullscreen-only-Win-Linux": "F11",
+      "enable-dynamic-strongs-display": "Shift + Maus über aktuellen Vers",
+      "open-new-tab": "Strg/Cmd + t",
+      "increase-current-font-size": "Strg/Cmd +",
+      "decrease-current-font-size": "Strg/Cmd -",
+      "reset-font-size-to-default": "Strg/Cmd 0"
+    }
+  },
   "tags": {
     "new-tag": "Neuer Tag",
     "create-tag": "Tag erstellen",
