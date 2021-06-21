@@ -105,7 +105,8 @@ function preserveStringsForStartup() {
   const localeStorage = window.localStorage;
   const keys = ["general.loading", "cordova.starting-app", "cordova.init-i18n", "cordova.init-sword", "cordova.init-database", "cordova.init-user-interface"];
   for(const key of keys) {
-    localeStorage.setItem(key, i18n.t(key));
+    let translation = i18n.t(key);
+    localeStorage.setItem(key, translation);
   }
 }
 
