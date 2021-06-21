@@ -246,6 +246,7 @@
     "show-notes": "Afișează note",
     "limit-notes-display-size": "Limitează dimensiunea afișării notelor",
     "use-tags-column": "Folosește coloana Tag-uri",
+    "select-chapter-before-loading": "Deschide cărțile cu selecție de capitol",
     "use-night-mode": "Mod de noapte",
     "keep-screen-on": "Menține ecranul aprins",
     "tag-statistics": "Statistici etichete",
@@ -256,9 +257,9 @@
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Ajustează dimensiunea fontului pentru etichete și note",
     "new-note-hint": "Click pentru a adăuga o notă",
-    "open-complete-book": "Open books completely",
-    "open-chapters-large-books": "Open large books chapter-wise",
-    "open-chapters-all-books": "Open all books chapter-wise"
+    "open-complete-book": "Deschide cărțile în întregime",
+    "open-chapters-large-books": "Deschide cărțile mari per capitol",
+    "open-chapters-all-books": "Deschide toate cărțile per capitol"
   },
   "dictionary-info-box": {
     "greek-dict": "Dicționar grec",
@@ -292,12 +293,12 @@
     "storage-permission-denied": "Ai decis să refuzi accesul la stocare.<br>Poți schimba acest lucru apăsând butonul de mai jos!",
     "permanent-permission-decision-part1": "Mai înainte, ai decis să refuzi definitiv accesul la stocare!<br><br>Poți reveni la această decizie numai în setările de permisiune din configurația sistemului Android.",
     "permanent-permission-decision-part2": "Dacă nu modifici setările de permisiune,<br>Ezra Bible App <span style='text-decoration: underline'>nu va porni cu succes</span>.",
-    "starting-app": "Starting app",
-    "init-i18n": "Initializing i18n",
-    "init-sword": "Initializing SWORD",
-    "init-database": "Initializing database",
-    "init-user-interface": "Initializing user interface",
-    "loading-settings": "Loading settings",
-    "waiting-app-ready": "Waiting for app to get ready"
+    "starting-app": "Pornire aplicație",
+    "init-i18n": "Inițializare i18n",
+    "init-sword": "Inițializare SWORD",
+    "init-database": "Inițializare database",
+    "init-user-interface": "Inițializare interfața utilizator",
+    "loading-settings": "Se încarcă setările",
+    "waiting-app-ready": "Așteptare ca aplicație să fie pregătită"
   }
 }
