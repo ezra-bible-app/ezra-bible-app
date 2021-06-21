@@ -296,7 +296,7 @@
     "starting-app": "Pornire aplicație",
     "init-i18n": "Inițializare i18n",
     "init-sword": "Inițializare SWORD",
-    "init-database": "Inițializare database",
+    "init-database": "Inițializare baza de date",
     "init-user-interface": "Inițializare interfața utilizator",
     "loading-settings": "Se încarcă setările",
     "waiting-app-ready": "Așteptare ca aplicație să fie pregătită"
