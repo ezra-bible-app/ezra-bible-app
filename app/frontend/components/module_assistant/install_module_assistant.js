@@ -33,6 +33,10 @@ class InstallModuleAssistant {
 
     var addButton = $('#add-modules-button');
     addButton.bind('click', () => this.openAddModuleAssistant());
+
+    i18nController.addLocaleChangeSubscriber(() => {
+      this.resetModuleAssistantContent();
+    });
   }
 
   init(moduleType) {
@@ -44,6 +48,7 @@ class InstallModuleAssistant {
     this._unlockCancelled = false;
     this._currentModuleType = moduleType;
     this._moduleInstallationCancelled = false;
+    this._stepsInitialized = false;
   }
 
   async isModuleInstalled(moduleCode) {
@@ -170,13 +175,22 @@ class InstallModuleAssistant {
     await this.updateRepositoryConfig();
   }
 
-  initAddModuleAssistant() {
+  resetModuleAssistantContent() {
     if (this._addModuleAssistantOriginalContent != undefined) {
+      if (this._stepsInitialized) {
         $('#module-settings-assistant-add').steps("destroy");
-        $('#module-settings-assistant-add').html(this._addModuleAssistantOriginalContent);
+      }
+
+      $('#module-settings-assistant-add').html(this._addModuleAssistantOriginalContent);
     } else {
-        this._addModuleAssistantOriginalContent = $('#module-settings-assistant-add').html();
+      this._addModuleAssistantOriginalContent = $('#module-settings-assistant-add').html();
     }
+
+    $('#module-settings-assistant-add').localize();
+  }
+
+  initAddModuleAssistant() {
+    this.resetModuleAssistantContent();
 
     $('.module-settings-assistant-section-header-module-type').html(this._moduleTypeText);
 
@@ -197,6 +211,8 @@ class InstallModuleAssistant {
         previous: i18n.t("general.previous")
       }
     });
+
+    this._stepsInitialized = true;
   }
 
   addModuleAssistantStepChanging(event, currentIndex, newIndex) {
