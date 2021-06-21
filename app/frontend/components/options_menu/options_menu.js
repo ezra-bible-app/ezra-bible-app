@@ -116,13 +116,13 @@ class OptionsMenu {
     this._localeSwitchOption = document.querySelector('#localeSwitchOption');
 
     this._localeSwitchOption.addEventListener('localeChanged', async (e) => {
-      await i18nController.changeLocale(e.detail.locale);
       this.slowlyHideDisplayMenu();
+      await i18nController.changeLocale(e.detail.locale);
     });
 
     this._localeSwitchOption.addEventListener('localeDetectClicked', async () => {
-      await i18nController.detectLocale();
       this.slowlyHideDisplayMenu();
+      await i18nController.detectLocale();
     });
   }
 
