@@ -145,7 +145,7 @@ async function initPicker(locale=i18nController.getLocale()) {
   await waitUntilIdle();
 
   const emojiHelper = require('../helpers/emoji_helper.js');
-  const { EmojiButton } = require('emoji-button/dist/index.cjs');
+  const EmojiButton = emojiHelper.getEmojiButtonLib();
 
   // FIXME: get data from state instead of config option
   const nightModeOption = app_controller.optionsMenu._nightModeOption;

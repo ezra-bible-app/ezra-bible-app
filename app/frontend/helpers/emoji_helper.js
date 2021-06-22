@@ -27,6 +27,11 @@
 
 const LIB_PATH = 'emoji-button/dist/';
 
+module.exports.getEmojiButtonLib = function() {
+  const { EmojiButton } = require(LIB_PATH + '/index.cjs');
+  return EmojiButton;
+}
+
 module.exports.getLocalizedData = function(locale) {
   const localePath = LIB_PATH + 'locale/emoji_' + locale;
 
@@ -35,4 +40,4 @@ module.exports.getLocalizedData = function(locale) {
   } catch (error) {
     console.log(`EmojiButtonTrigger: Can't upload emoji annotations for locale: ${locale}. Using default`);    
   }
-}
+};
