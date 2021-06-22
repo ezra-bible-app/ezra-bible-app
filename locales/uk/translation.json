@@ -150,16 +150,16 @@
       "font-section-title": "Текст Біблії",
       "current-tab-search-section-title": "Пошук у поточній вкладці",
       "miscellaneous-section-title": "Інше",
-      "in-tab-search": "Відобразити пошук по поточній вкладці",
+      "in-tab-search": "Відобразити форму пошуку",
       "hide-in-tab-search-form": "Сховати форму пошуку",
       "jump-to-next-search-occurance": "Перейти до наступного результату",
       "jump-to-previous-occurance": "Перейти до попереднього результату",
       "copy-selected-verses-to-clipboard": "Копіювати вибраний уривок до кишені",
       "toggle-fullscreen-only-Win-Linux": "Переключити у повноекранний режим",
-      "enable-dynamic-strongs-display": "Показати статтю словника по числу Стронга",
+      "enable-dynamic-strongs-display": "Показати статтю словника за числом Стронга",
       "open-new-tab": "Відкрити нову вкладку",
-      "increase-current-font-size": "Збільшити поточний розмір тексту",
-      "decrease-current-font-size": "Зменшити поточний розмір тексту",
+      "increase-current-font-size": "Збільшити розмір тексту",
+      "decrease-current-font-size": "Зменшити розмір тексту",
       "reset-font-size-to-default": "Усталений розмір тексту"
     },
 
@@ -256,10 +256,10 @@
     "open-verselist-in-new-tab": "Відкрити перелік віршів у новій вкладці",
     "footnote-character": "*",
     "adjust-font-size-tags-notes": "Зміна розміру тексту нотаток та міт",
-    "new-note-hint": "Натисніть, щоб додати нотатку",
-    "open-complete-book": "Працювати з цілими книгами Біблії",
-    "open-chapters-large-books": "Працювати по розділу з великими книгами",
-    "open-chapters-all-books": "Працювати по розділу з усіма книгами"
+    "new-note-hint": "Додати нотатку",
+    "open-complete-book": "Відкривати книги повністю",
+    "open-chapters-large-books": "Відкривати за розділом великі книги",
+    "open-chapters-all-books": "Відкривати за розділом усі книги"
   },
   "dictionary-info-box": {
     "greek-dict": "Словник грецької",
