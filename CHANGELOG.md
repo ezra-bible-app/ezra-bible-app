@@ -30,6 +30,7 @@ All notable changes to Ezra Bible App are documented in this file.
 ### Enablers
 
 * Added Romanian translation of the user interface. ([#308](i308))
+* Introduced web components. Refactored display options as web components ([#247](i247))
 
 [i165]: https://github.com/ezra-bible-app/ezra-bible-app/issues/165
 [i166]: https://github.com/ezra-bible-app/ezra-bible-app/issues/166
@@ -38,6 +39,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i233]: https://github.com/ezra-bible-app/ezra-bible-app/issues/233
 [i237]: https://github.com/ezra-bible-app/ezra-bible-app/issues/237
 [i240]: https://github.com/ezra-bible-app/ezra-bible-app/issues/240
+[i247]: https://github.com/ezra-bible-app/ezra-bible-app/pull/247
 [i274]: https://github.com/ezra-bible-app/ezra-bible-app/issues/274
 [i275]: https://github.com/ezra-bible-app/ezra-bible-app/issues/275
 [i283]: https://github.com/ezra-bible-app/ezra-bible-app/issues/283
