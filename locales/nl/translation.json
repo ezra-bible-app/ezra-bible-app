@@ -132,9 +132,9 @@
     "developers": "Ontwikkelaars",
     "translators": "Vertalers",
     "versions-and-paths": "Versies en paden",
-    "app-language": "Application Language",
+    "app-language": "Applicatietaal",
     "detect-locale": "Auto",
-    "detect-locale-hint": "Automatically detect locale based on system language"
+    "detect-locale-hint": "Automatisch regionale parameters detecteren op basis van systeemtaal"
   },
   "help": {
     "help-text-no-tags-book-opened": "Om te beginnen met tags te werken, maak uw eerste tag door te klikken op de knop  <i>Nieuwe&nbsp;tag</i>.<br/><br/>Daarna kunt u door de bijbeltekst bladeren, verzen aanklikken of slepen-selecteren en vervolgens de tag toewijzen die u zojuist hebt gemaakt.",
@@ -143,24 +143,24 @@
     "help-text-no-translations": "Om te beginnen, installeer eerst ten minste één bijbelvertaling. <br/><br/>U kunt de installatiewizard openen door op het pictogram Instellingen te klikken en vervolgens op <i>Vertalingen configureren</i>."
   },
   "shortcuts": {
-    "tab-title": "Keyboard Shortcuts",
-    "description": "You can use the following shortcuts:",
+    "tab-title": "Sneltoetsen",
+    "description": "U kunt de volgende sneltoetsen gebruiken:",
 
     "summary" : {
-      "font-section-title": "Font",
-      "current-tab-search-section-title": "Current Tab Search",
-      "miscellaneous-section-title": "Miscellaneous",
-      "in-tab-search": "Open current tab search",
-      "hide-in-tab-search-form": "Hide current tab search form",
-      "jump-to-next-search-occurance": "Jump to next search occurance",
-      "jump-to-previous-occurance": "Jump to previous occurance",
-      "copy-selected-verses-to-clipboard": "Copy selected verses to clipboard",
-      "toggle-fullscreen-only-Win-Linux": "Toggle fullscreen",
-      "enable-dynamic-strongs-display": "Show dynamic dictionary info for Strong's",
-      "open-new-tab": "Open new tab",
-      "increase-current-font-size": "Increase current font size",
-      "decrease-current-font-size": "Decrease current font size",
-      "reset-font-size-to-default": "Reset font size to default"
+      "font-section-title": "Lettertype",
+      "current-tab-search-section-title": "Zoeken in huidig tabblad",
+      "miscellaneous-section-title": "Diversen",
+      "in-tab-search": "Open zoeken in huidig tabblad",
+      "hide-in-tab-search-form": "Zoekformulier voor huidig tabblad verbergen",
+      "jump-to-next-search-occurance": "Spring naar volgend zoekresultaat",
+      "jump-to-previous-occurance": "Spring naar vorig zoekresultaat",
+      "copy-selected-verses-to-clipboard": "Kopieer geselecteerde verzen naar klembord",
+      "toggle-fullscreen-only-Win-Linux": "Volledig scherm omschakelen",
+      "enable-dynamic-strongs-display": "Dynamische Strong's weergave inschakelen",
+      "open-new-tab": "Open nieuw tabblad",
+      "increase-current-font-size": "Huidige lettergrootte vergroten",
+      "decrease-current-font-size": "Huidige lettergrootte verkleinen",
+      "reset-font-size-to-default": "Zet lettergrootte opnieuw naar standaard"
     },
 
     "shortcut": {
@@ -170,7 +170,7 @@
       "jump-to-previous-occurance": "Shift + Enter",
       "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
-      "enable-dynamic-strongs-display": "Shift + mouse over verse",
+      "enable-dynamic-strongs-display": "Shift + cursor over vers",
       "open-new-tab": "Ctrl/Cmd + t",
       "increase-current-font-size": "Ctrl/Cmd +",
       "decrease-current-font-size": "Ctrl/Cmd -",
@@ -246,7 +246,7 @@
     "show-notes": "Toon aantekeningen",
     "limit-notes-display-size": "Beperk grootte van aantekeningen",
     "use-tags-column": "Gebruik tags-kolom",
-    "select-chapter-before-loading": "Open books with chapter selection",
+    "select-chapter-before-loading": "Open boeken met hoofdstukselectie",
     "use-night-mode": "Nachtmodus",
     "keep-screen-on": "Houd het beeldscherm ingeschakeld",
     "tag-statistics": "Tagstatistieken",
@@ -257,9 +257,9 @@
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Pas de lettergrootte van tags en notities aan",
     "new-note-hint": "Klik om een notitie toe te voegen",
-    "open-complete-book": "Open books completely",
-    "open-chapters-large-books": "Open large books chapter-wise",
-    "open-chapters-all-books": "Open all books chapter-wise"
+    "open-complete-book": "Open boeken volledig",
+    "open-chapters-large-books": "Open grote boeken volgens hoofdstuk",
+    "open-chapters-all-books": "Open alle boeken volgens hoofdstuk"
   },
   "dictionary-info-box": {
     "greek-dict": "Grieks woordenboek",
@@ -271,19 +271,19 @@
     "related-strongs": "Gerelateerde Strongs"
   },
   "emoji": {
-    "search": "Search emojis...",
-    "notFound": "No emojis found",
+    "search": "Zoek emojis...",
+    "notFound": "Geen emojis gevonden",
     "categories": {
-      "recents": "Recent Emojis",
-      "smileys": "Smileys & Emotion",
-      "people": "People & Body",
-      "animals": "Animals & Nature",
-      "food": "Food & Drink",
-      "activities": "Activities",
-      "travel": "Travel & Places",
-      "objects": "Objects",
-      "symbols": "Symbols",
-      "flags": "Flags"
+      "recents": "Recente Emojis",
+      "smileys": "Smileys & Emotie",
+      "people": "Mens & Lichaam",
+      "animals": "Dier & Natuur",
+      "food": "Voedsel & Drank",
+      "activities": "Activiteiten",
+      "travel": "Reizen & Plaatsen",
+      "objects": "Voorwerpen",
+      "symbols": "Symbolen",
+      "flags": "Vlaggen"
     }
   },
   "cordova" : {
@@ -293,12 +293,12 @@
     "storage-permission-denied": "U heeft besloten de opslagtoegang te weigeren. <br> U kunt dit wijzigen door op de onderstaande knop te drukken!",
     "permanent-permission-decision-part1": "Eerder besloot u de opslagtoegang permanent te weigeren! <br> <br> U kunt die beslissing alleen ongedaan maken in de toestemmingsinstellingen in de Android-systeemconfiguratie.",
     "permanent-permission-decision-part2": "Als je de toestemmingsinstellingen niet wijzigt, <br> Ezra Bible App zal <span style = 'text-decoration: underline'>niet succesvol opstarten</span>.",
-    "starting-app": "Starting app",
-    "init-i18n": "Initializing i18n",
-    "init-sword": "Initializing SWORD",
-    "init-database": "Initializing database",
-    "init-user-interface": "Initializing user interface",
-    "loading-settings": "Loading settings",
-    "waiting-app-ready": "Waiting for app to get ready"
+    "starting-app": "App starten",
+    "init-i18n": "I18n initialiseren",
+    "init-sword": "SWORD initialiseren",
+    "init-database": "Databank initialiseren",
+    "init-user-interface": "Gebruikersinterface initialiseren",
+    "loading-settings": "Instellingen laden",
+    "waiting-app-ready": "Wachten tot applicatie klaar is"
   }
 }
