@@ -968,7 +968,7 @@ class AppController {
       );
 
       await waitUntilIdle();
-      tags_controller.updateTagList();
+      tags_controller.updateTagList(null, currentTab.getContentId());
     }
   }
 

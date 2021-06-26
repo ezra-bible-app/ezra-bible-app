@@ -1,7 +1,7 @@
 {
   "name": "ezra-bible-app",
   "productName": "Ezra Bible App",
-  "version": "1.1.0-Dev",
+  "version": "1.2.0-Dev",
   "description": "Ezra Bible App is a Bible study tool focussing on topical study based on keywords/tags",
   "author": "Tobias Klein",
   "license": "GPL-2.0+",
@@ -69,7 +69,7 @@
     "electron-settings": "^3.2.0",
     "electron-squirrel-startup": "^1.0.0",
     "electron-window-state": "^5.0.3",
-    "emoji-button": "github:zhuiks/emoji-button#master",
+    "emoji-button": "github:zhuiks/emoji-button",
     "fs-extra": "^9.0.1",
     "i18next": "^20.2.4",
     "i18next-electron-language-detector": "0.0.10",

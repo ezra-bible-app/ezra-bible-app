@@ -204,6 +204,8 @@ function getLocalizedData(locale) {
       return require('emoji-button/dist/locale/emoji_fr');
     case 'nl':
       return require('emoji-button/dist/locale/emoji_nl');
+    case 'ro':
+      return require('emoji-button/dist/locale/emoji_ro');
     case 'ru':
       return require('emoji-button/dist/locale/emoji_ru');
     case 'sk':
