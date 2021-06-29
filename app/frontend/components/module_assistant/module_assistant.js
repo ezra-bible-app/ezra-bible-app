@@ -18,6 +18,7 @@
 
 
 const { html } = require('../../helpers/ezra_helper.js');
+const i18nController = require('../../controllers/i18n_controller.js');
 const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
 const StepUpdateRepositories = require('./step_update_repositories.js');
@@ -104,20 +105,11 @@ class ModuleAssistant extends HTMLElement {
   }
 
   async initAddModuleAssistant() {
+    this._resetModuleAssistantContent();
+
     var addModuleAssistantContainer = this.querySelector('#module-settings-assistant-add');
     var $addModuleAssistantContainer = $(addModuleAssistantContainer);
     console.log('ASSISTANT: initAddModuleAssistant. Steps:', $addModuleAssistantContainer.data('steps'), addModuleAssistantContainer.isConnected);
-
-    if (this._jQueryStepsInitialized) {
-      $addModuleAssistantContainer.steps("destroy"); 
-      // jQuery.steps("destroy") is messing up with DOM :( we need to find the right element again
-      addModuleAssistantContainer = this.querySelector('#module-settings-assistant-add');
-      $addModuleAssistantContainer = $(addModuleAssistantContainer);
-    } else {
-      this._jQueryStepsInitialized = true;
-    }
-
-    this._setupPages(addModuleAssistantContainer);
 
     $addModuleAssistantContainer.steps({
       headerTag: "h3",
@@ -136,6 +128,7 @@ class ModuleAssistant extends HTMLElement {
         previous: i18n.t("general.previous")
       }
     });
+    this._jQueryStepsInitialized = true;
 
     // jQuery.steps() is messing up with DOM :( we need to reassign step components
     this._setupSteps(addModuleAssistantContainer);
@@ -143,6 +136,21 @@ class ModuleAssistant extends HTMLElement {
     await this.updateConfigStep.init();
     await this.languagesStep.init();
     await this.languagesStep.listLanguages();
+  }
+
+  _resetModuleAssistantContent() {
+    var addModuleAssistantContainer = this.querySelector('#module-settings-assistant-add');
+    var $addModuleAssistantContainer = $(addModuleAssistantContainer);
+    
+    if (this._jQueryStepsInitialized) {
+      $addModuleAssistantContainer.steps("destroy"); 
+      // jQuery.steps("destroy") is messing up with DOM :( we need to find the right element again
+      addModuleAssistantContainer = this.querySelector('#module-settings-assistant-add');
+    }
+
+    addModuleAssistantContainer.innerHTML = '';
+    addModuleAssistantContainer.appendChild(templateAddSteps.content.cloneNode(true));
+    localize(addModuleAssistantContainer);
   }
 
   _addModuleAssistantStepChanging(event, currentIndex, newIndex) {
@@ -189,15 +197,6 @@ class ModuleAssistant extends HTMLElement {
       await app_controller.translation_controller.initTranslationsMenu();
       await tags_controller.updateTagUiBasedOnTagAvailability();
     }
-  }
-
-  /** 
-   * @param {HTMLElement} container 
-   */
-  _setupPages(container) {
-    container.innerHTML = '';
-    container.appendChild(templateAddSteps.content.cloneNode(true));
-    localize(container);
   }
 
   _setupSteps(container) {

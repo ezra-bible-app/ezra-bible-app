@@ -111,7 +111,6 @@ class InstallModuleAssistant {
     await this.assistant.initAddModuleAssistant();
   }
 
-
   // This is only for testing!!
   /** @deprecated */
   resetInstalledModules() {

@@ -17,6 +17,8 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const assistantHelper = require('./assistant_helper.js');
+const i18nController = require('../../controllers/i18n_controller.js');
+
 
 /**
  * The RemoteModuleAssistant component implements the dialog that handles module removals.
