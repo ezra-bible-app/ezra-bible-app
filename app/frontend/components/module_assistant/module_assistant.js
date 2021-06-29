@@ -18,7 +18,6 @@
 
 
 const { html } = require('../../helpers/ezra_helper.js');
-const i18nController = require('../../controllers/i18n_controller.js');
 const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
 const StepUpdateRepositories = require('./step_update_repositories.js');
@@ -31,8 +30,7 @@ const UnlockDialog = require('./unlock_dialog.js');
 const template = html`
 <style>
   #module-assistant-add-info {
-    margin-left: 20%;
-    padding: 0 2.5% 1em;
+    padding: 0 2.5% 1em 0.5em;
   }
   #module-settings-assistant-add,
   #module-settings-assistant-add .content {

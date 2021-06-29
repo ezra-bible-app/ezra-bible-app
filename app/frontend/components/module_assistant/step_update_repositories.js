@@ -24,42 +24,41 @@ const assistantHelper = require('./assistant_helper.js');
 
 const template = html`
 <style>
-  #update-repository-data-wrapper {
-    padding: 2.5%;
-    background-color: #eee;
+  .update-repository-data-wrapper {
+    padding: 1em 2.5%;
+    min-height: 6em;
+    background: #eee;
     border-radius: 5px;
-  }
-  #update-repository-data-wrapper .intro{
-    margin: 0 0 1em;
-  }
-  #update-repository-data-progress {
-    min-height: 3.5em;
-  }
-  #update-repository-data-progress p, #update-repository-data-progress .progress-bar{
-    margin: 0;
   }
   #update-repository-data-info {
     text-align: center;
-    min-height: 3.5em;
+  }
+  #update-repository-data-info .intro{
+    margin: 0 0 1em;
+  }
+
+  #update-repository-data-progress p, #update-repository-data-progress .progress-bar{
+    margin: 0;
   }
 </style>
 
-<div id="update-repository-data-wrapper">
-<p class="intro"></p>   
-<div id="update-repository-data-progress" class="update-view"> 
-  <p i18n="module-assistant.updating-repository-data"></p>
-  <div id="repo-update-progress-bar" class="progress-bar">
-    <div class="progress-label" i18n="module-assistant.updating"></div>
+<section class="update-repository-data-wrapper">
+  
+  <div id="update-repository-data-info" class="info-view">
+    <p class="intro"></p>   
+    <span class="update-info"></span>
+    <button id="update-repo-data" class="fg-button ui-state-default ui-corner-all" i18n="module-assistant.update-now"></button>
   </div>
-</div>  
+  
+  <div id="update-repository-data-progress" class="update-view"> 
+    <p i18n="module-assistant.updating-repository-data"></p>
+    <div id="repo-update-progress-bar" class="progress-bar">
+      <div class="progress-label" i18n="module-assistant.updating"></div>
+    </div>
+  </div>  
+  <p id="update-failed" style="display: none" i18n="module-assistant.update-repository-data-failed"></p>
 
-<div id="update-repository-data-info" class="info-view">
-  <span class="update-info"></span>
-  <button id="update-repo-data" class="fg-button ui-state-default ui-corner-all" i18n="module-assistant.update-now"></button>
-</div>
-
-<p id="update-failed" style="display: none" i18n="module-assistant.update-repository-data-failed"></p>
-</div>
+</section>
 `;
 
 class StepUpdateRepositories extends HTMLElement {
