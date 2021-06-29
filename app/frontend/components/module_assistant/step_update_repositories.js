@@ -67,6 +67,7 @@ class StepUpdateRepositories extends HTMLElement {
     console.log('UPDATE: step constructor');
     this._lastUpdate = null;
     this._children_initialized = false;
+    this.updateDisabled = false;
   }
 
   async connectedCallback() {
@@ -86,6 +87,16 @@ class StepUpdateRepositories extends HTMLElement {
     } else {
       await this._updateRepositoryConfig();
     }
+  }
+
+  disableUpdate() {
+    this.updateDisabled = true;
+    this.querySelector('#update-repo-data').classList.add('disabled');
+  }
+
+  enableUpdate() {
+    this.updateDisabled = false;
+    this.querySelector('#update-repo-data').classList.remove('disabled');
   }
 
   async _wasUpdated() {
@@ -110,6 +121,9 @@ class StepUpdateRepositories extends HTMLElement {
   }
 
   async _updateRepositoryConfig() {
+    if (this.updateDisabled) {
+      return;
+    }
     console.log('UPDATE: updateRepositoryConfig');
     this._toggleViews('UPDATE');
 

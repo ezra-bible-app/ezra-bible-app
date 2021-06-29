@@ -185,6 +185,12 @@ class ModuleAssistant extends HTMLElement {
     } else if (currentIndex == INSTALL_INDEX) {
       await this.installStep.installSelectedModules();
     }
+
+    if (currentIndex < MODULES_INDEX) {
+      this.updateConfigStep.enableUpdate();
+    } else {
+      this.updateConfigStep.disableUpdate();
+    }
   }
 
   async _addModuleAssistantFinished() {
