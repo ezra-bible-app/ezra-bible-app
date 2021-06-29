@@ -27,6 +27,9 @@ require('../loading_indicator.js');
 
 const template = html`
 <style>
+  step-languages .intro {
+    margin-top: 0;
+  }
 </style>
 <loading-indicator></loading-indicator>
 <p class="intro" i18n="module-assistant.pick-languages-from-repos"></p>   

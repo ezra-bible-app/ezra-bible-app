@@ -25,6 +25,9 @@ require('../loading_indicator.js');
 
 const template = html`
 <style>
+  step-repositories .intro {
+    margin-top: 0;
+  }
 </style>
 
 <loading-indicator></loading-indicator>
