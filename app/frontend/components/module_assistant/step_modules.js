@@ -41,19 +41,20 @@ const template = html`
   }
   #module-step-wrapper {
     display: flex;
-    flex-direction: column;
     height: 100%;
+    margin-right: -2.5%;
+    margin-top: -2.5%;
     overflow: hidden;
   }
   #module-list {
-    overflow-y: scroll;
+    overflow-y: auto;
+    width: 50%;
+    padding-right: 1em;
   }
   #module-info {
     display: block;
-    height: 30em; 
+    width: 50%;
     overflow-y: auto !important;
-    margin-top: 0.5em;
-    border-top: 1px solid gray;
     padding: 1em;
     position: relative;
     z-index: 10;
