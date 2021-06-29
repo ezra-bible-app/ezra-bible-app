@@ -177,7 +177,7 @@ class UiHelper {
     var width = 900;
     var windowWidth = $(window).width();
 
-    if (windowWidth > 400 && windowWidth < 700) {
+    if (windowWidth > 400 && windowWidth < width) {
       width = windowWidth - 20;
     }
 

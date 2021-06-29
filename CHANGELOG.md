@@ -1,7 +1,78 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
-### [1.0.0 - 2021-04-24]
+## [1.1.0 - 2021-06-26]
+
+### Features
+
+* Desktop app: Added emoji picker to input fields (Create/rename tag, notes). ([#166][i166])
+* Added a locale select box in the options menu that can be used to instantly switch to a different user interface language. ([#203][i203])
+* Added functionality for opening and navigating book chapters individually. ([#283][i283])
+
+### Enhancements
+
+* Enhanced layout of current tab search function. ([#165][i165])
+* Made dictionary component more responsive. ([#240][i240])
+* Fixed text rendering issues with New English Translation. ([#237][i237])
+* Disable Bible translation in translation select box if it does not contain the book that is opened in the current tab. ([#274][i274])
+* Tag statistics - hide tags that have 0 occurrences. ([#324][i324])
+* Added online help that gives an overview for all keyboard shortcuts (New tab in info popup dialog). ([#198][i198])
+* Android: Localized startup messages. ([#323][i323])
+
+### Fixes
+
+* Fixed locale issues in Ukrainian and Russian book list. ([#233][i233])
+* Fixed bug: Inconsistent cached Bible book list. ([#275][i275])
+* Fixed bug: Labels in menu were wrapping when loading text. ([#325][i325])
+* Fixed bug: Missing chapter title for modules without embedded chapter title. ([#329][i329])
+* Fixed bug: Compare translations function too slow on Android. ([#331][i331])
+
+### Enablers
+
+* Added Romanian translation of the user interface. ([#308][i308])
+* Introduced web components. Refactored display options as web components ([#247][i247])
+
+[i165]: https://github.com/ezra-bible-app/ezra-bible-app/issues/165
+[i166]: https://github.com/ezra-bible-app/ezra-bible-app/issues/166
+[i198]: https://github.com/ezra-bible-app/ezra-bible-app/issues/198
+[i203]: https://github.com/ezra-bible-app/ezra-bible-app/issues/203
+[i233]: https://github.com/ezra-bible-app/ezra-bible-app/issues/233
+[i237]: https://github.com/ezra-bible-app/ezra-bible-app/issues/237
+[i240]: https://github.com/ezra-bible-app/ezra-bible-app/issues/240
+[i247]: https://github.com/ezra-bible-app/ezra-bible-app/pull/247
+[i274]: https://github.com/ezra-bible-app/ezra-bible-app/issues/274
+[i275]: https://github.com/ezra-bible-app/ezra-bible-app/issues/275
+[i283]: https://github.com/ezra-bible-app/ezra-bible-app/issues/283
+[i308]: https://github.com/ezra-bible-app/ezra-bible-app/pull/308
+[i323]: https://github.com/ezra-bible-app/ezra-bible-app/issues/323
+[i324]: https://github.com/ezra-bible-app/ezra-bible-app/issues/324
+[i325]: https://github.com/ezra-bible-app/ezra-bible-app/issues/325
+[i329]: https://github.com/ezra-bible-app/ezra-bible-app/issues/329
+[i331]: https://github.com/ezra-bible-app/ezra-bible-app/issues/331
+
+## [1.0.2 - 2021-06-04]
+
+This is a bugfix release only applicable for Android.
+
+### Fixes
+
+* Fixed bug: Repositories not loaded on Android ([#330][i330])
+
+[i330]: https://github.com/ezra-project/ezra-project/issues/330
+
+## [1.0.1 - 2021-05-31]
+
+This is a bugfix release only applicable for Android.
+
+### Fixes
+
+* Fixed bug: Android 11 startup issues ([#322][i322])
+* Fixed bug: Icon-based note indicators were not synchronized with multiple tabs ([#234][i234])
+
+[i234]: https://github.com/ezra-project/ezra-project/issues/234
+[i322]: https://github.com/ezra-project/ezra-project/issues/322
+
+## [1.0.0 - 2021-04-24]
 
 ### Features
 
@@ -32,7 +103,7 @@ All notable changes to Ezra Bible App are documented in this file.
 
 * Fixed bug: Assign last tag button not updated with newly created tag any longer. ([#207][i207])
 * Improved perceived loading performance of Tags menu and Change tags menu with a large tag database. ([#209][i209])
-* Re-established execution of Cucumber acceptance tests via GitHub Actions. ([#213](i213))
+* Re-established execution of Cucumber acceptance tests via GitHub Actions. ([#213][i213])
 
 ### Enablers
 
@@ -66,7 +137,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i216]: https://github.com/ezra-project/ezra-project/issues/216
 [i222]: https://github.com/ezra-project/ezra-project/issues/222
 
-### [0.17.1 - 2021-02-21]
+## [0.17.1 - 2021-02-21]
 
 This is a bugfix release only applicable for macOS and Android.
 

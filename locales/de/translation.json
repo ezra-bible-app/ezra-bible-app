@@ -133,15 +133,50 @@
     "developers": "Entwickler",
     "translators": "Übersetzer",
     "versions-and-paths": "Versionen und Pfade",
-    "app-language": "Application Language",
+    "app-language": "Sprache",
     "detect-locale": "Auto",
-    "detect-locale-hint": "Automatically detect locale based on system language"
+    "detect-locale-hint": "Sprache automatisch erkennen"
   },
   "help": {
     "help-text-no-tags-book-opened": "Sie wollen anfangen mit Tags zu arbeiten?<br/><br/>Erstellen Sie Ihren ersten Tag, indem Sie auf den Button <i>Neuer&nbsp;Tag</i> klicken.<br/><br/>Danach können Sie beim Studium des Bibeltexts den Tag zuordnen, indem Sie auf den Vers klicken oder mehrere Verse mit gehaltener Maustaste auswählen und dann links die Auswahlbox neben dem gerade erstellten Tag anklicken.",
     "help-text-no-tags-no-book-opened": "Sie wollen anfangen mit Tags zu arbeiten?<br/><br/>Wählen Sie zunächst ein Buch, dass Sie studieren wollen.",
     "help-text-translation-available": "Legen Sie los, indem Sie ein Buch oder einen Tag über das Menü oben auswählen.",
     "help-text-no-translations": "Legen Sie los, indem Sie zunächst eine Bibelübersetzung installieren. <br/><br/>Klicken Sie auf das Einstellungssymbol und dann auf den Button <i>Übersetzungen konfigurieren</i>."
+  },
+  "shortcuts": {
+    "tab-title": "Tastenkürzel",
+    "description": "Sie können die folgenden Tastenkürzel verwenden:",
+
+    "summary" : {
+      "font-section-title": "Schriftgröße",
+      "current-tab-search-section-title": "Suche für aktuellen Tab",
+      "miscellaneous-section-title": "Verschiedene",
+      "in-tab-search": "Suche für aktuellen Tab öffnen",
+      "hide-in-tab-search-form": "Suche für aktuellen Tab ausblenden",
+      "jump-to-next-search-occurance": "Zum nächsten Suchergebnis springen",
+      "jump-to-previous-occurance": "Zum vorherigen Suchergebnis springen",
+      "copy-selected-verses-to-clipboard": "Ausgewählte Verse in die Zwischenablage kopieren",
+      "toggle-fullscreen-only-Win-Linux": "Vollbildmodus umschalten",
+      "enable-dynamic-strongs-display": "Dynamische Anzeige von Strong's aktivieren",
+      "open-new-tab": "Neuen Tab öffnen",
+      "increase-current-font-size": "Schrift vergrößern",
+      "decrease-current-font-size": "Schrift verkleinern",
+      "reset-font-size-to-default": "Auf Standardschriftgröße zurücksetzen"
+    },
+
+    "shortcut": {
+      "in-tab-search":"Strg/Cmd + f",
+      "hide-in-tab-search-form": "Esc",
+      "jump-to-next-search-occurance": "Enter",
+      "jump-to-previous-occurance": "Shift + Enter",
+      "copy-selected-verses-to-clipboard": "Strg/Cmd + c",
+      "toggle-fullscreen-only-Win-Linux": "F11",
+      "enable-dynamic-strongs-display": "Shift + Maus über aktuellen Vers",
+      "open-new-tab": "Strg/Cmd + t",
+      "increase-current-font-size": "Strg/Cmd +",
+      "decrease-current-font-size": "Strg/Cmd -",
+      "reset-font-size-to-default": "Strg/Cmd 0"
+    }
   },
   "tags": {
     "new-tag": "Neuer Tag",
@@ -212,7 +247,7 @@
     "show-notes": "Zeige Notizen",
     "limit-notes-display-size": "Limitiere Notizgröße",
     "use-tags-column": "Tags in Spalte",
-    "select-chapter-before-loading": "Open books with chapter selection",
+    "select-chapter-before-loading": "Öffne Bücher mit Kapitelauswahl",
     "use-night-mode": "Nachtmodus",
     "keep-screen-on": "Display angeschaltet lassen",
     "tag-statistics": "Tag Statistiken",
@@ -223,9 +258,9 @@
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Tags und Notizschriftgröße anpassen",
     "new-note-hint": "Klicken um neue Notiz hinzuzufügen",
-    "open-complete-book": "Open books completely",
-    "open-chapters-large-books": "Open large books chapter-wise",
-    "open-chapters-all-books": "Open all books chapter-wise"
+    "open-complete-book": "Bücher vollständig öffnen",
+    "open-chapters-large-books": "Große Bücher kapitelweise öffnen",
+    "open-chapters-all-books": "Alle Bücher kapitelweise öffnen"
   },
   "dictionary-info-box": {
     "greek-dict": "Griechisches Wörterbuch",
@@ -237,19 +272,19 @@
     "related-strongs": "Verwandte Strong's"
   },
   "emoji": {
-    "search": "Search emojis...",
-    "notFound": "No emojis found",
+    "search": "Durchsuche Emojis...",
+    "notFound": "Keine Emojis gefunden",
     "categories": {
-      "recents": "Recent Emojis",
-      "smileys": "Smileys & Emotion",
-      "people": "People & Body",
-      "animals": "Animals & Nature",
-      "food": "Food & Drink",
-      "activities": "Activities",
-      "travel": "Travel & Places",
-      "objects": "Objects",
-      "symbols": "Symbols",
-      "flags": "Flags"
+      "recents": "Kürzlich verwendete Emojis",
+      "smileys": "Smileys und Emotion",
+      "people": "Menschen und Körper",
+      "animals": "Tiere und Natur",
+      "food": "Essen und Trinken",
+      "activities": "Aktivitäten",
+      "travel": "Reisen und Orte",
+      "objects": "Objekte",
+      "symbols": "Symbole",
+      "flags": "Flaggen"
     }
   },
   "cordova": {
@@ -259,12 +294,12 @@
     "storage-permission-denied": "Sie haben entschieden, den Zugriff auf den Gerätespeicher zu verweigern.<br>Sie können dies ändern, indem Sie den Button unten drücken!",
     "permanent-permission-decision-part1": "Sie haben zuletzt entschieden, Ezra Bible App keinen Zugriff auf den Gerätespeicher zu geben!<br><br>Sie können diese Entscheidung nur in den Android Einstellungen im Bereich App Berechtigungen rückgängig machen.",
     "permanent-permission-decision-part2": "Wenn Sie die Zugriffseinstellungen nicht ändern,<br>wird Ezra Bible App <span style='text-decoration: underline'>nicht erfolgreich starten</span>.",
-    "starting-app": "Starting app",
-    "init-i18n": "Initializing i18n",
-    "init-sword": "Initializing SWORD",
-    "init-database": "Initializing database",
-    "init-user-interface": "Initializing user interface",
-    "loading-settings": "Loading settings",
-    "waiting-app-ready": "Waiting for app to get ready"
+    "starting-app": "Starte App",
+    "init-i18n": "Initialisiere i18n",
+    "init-sword": "Initialisiere SWORD",
+    "init-database": "Initialisiere Datenbank",
+    "init-user-interface": "Initialisiere Benutzeroberfläche",
+    "loading-settings": "Lade Einstellungen",
+    "waiting-app-ready": "Schließe Ladevorgang ab"
   }
 }

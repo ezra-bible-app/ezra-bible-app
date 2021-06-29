@@ -37,6 +37,7 @@ class Tab {
     this.referenceVerseElementId = null;
     this.xrefTitle = null;
     this.textType = null;
+    this.previousTextType = null;
     this.lastHighlightedNavElementIndex = null;
     this.bibleTranslationId = defaultBibleTranslationId;
     this.selectCount = 0;
@@ -89,6 +90,30 @@ class Tab {
 
   getBook() {
     return this.book;
+  }
+
+  getContentId() {
+    var contentId = null;
+
+    switch (this.textType) {
+      case 'book':
+        contentId = this.book;
+        break;
+      
+      case 'tagged_verses':
+        contentId = this.tagTitleList;
+        break;
+
+      case 'search_results':
+        contentId = this.searchTerm;
+        break;
+      
+      case 'xrefs':
+        contentId = this.xrefs;
+        break;
+    }
+
+    return contentId;
   }
 
   setPreviousBook(previousBook) {
@@ -205,11 +230,20 @@ class Tab {
   }
 
   setTextType(textType) {
+    this.previousTextType = this.textType;
     this.textType = textType;
   }
 
   getTextType() {
     return this.textType;
+  }
+
+  getPreviousTextType() {
+    return this.previousTextType;
+  }
+
+  hasTextTypeChanged() {
+    return this.textType != this.previousTextType;
   }
 
   getLastHighlightedNavElementIndex() {

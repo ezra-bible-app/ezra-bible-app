@@ -134,7 +134,7 @@
     "versions-and-paths": "Verzie a cesty",
     "app-language": "Application Language",
     "detect-locale": "Auto",
-    "detect-locale-hint": "Automatically detect locale based on system language"
+    "detect-locale-hint": "Automaticky zistiť miestne nastavenie podľa jazyka systému"
   },
   "help": {
     "help-text-no-tags-book-opened": "Ak chcete začať pracovať so značkami, vytvorte svoju prvú značku kliknutím na tlačidlo <i>Nová&nbsp;značka</i>.<br/><br/>Potom môžete listovať v biblickom texte, kliknúť alebo vybrať jednotlivé verše a potom im priradiť značku, ktorú ste práve vytvorili.",
@@ -143,24 +143,24 @@
     "help-text-no-translations": "Ak chcete začať, najskôr nainštalujte aspoň jeden preklad Biblie. <br/><br/>Pomocníka pri inštalácii môžete otvoriť kliknutím na ikonu Nastavení, a potom na položku <i>Nastaviť preklady</i>."
   },
   "shortcuts": {
-    "tab-title": "Keyboard Shortcuts",
-    "description": "You can use the following shortcuts:",
+    "tab-title": "Klávesové skratky",
+    "description": "Môžete použiť nasledujúce klávesové skratky:",
 
     "summary" : {
-      "font-section-title": "Font",
-      "current-tab-search-section-title": "Current Tab Search",
-      "miscellaneous-section-title": "Miscellaneous",
-      "in-tab-search": "Open current tab search",
-      "hide-in-tab-search-form": "Hide current tab search form",
-      "jump-to-next-search-occurance": "Jump to next search occurance",
-      "jump-to-previous-occurance": "Jump to previous occurance",
-      "copy-selected-verses-to-clipboard": "Copy selected verses to clipboard",
-      "toggle-fullscreen-only-Win-Linux": "Toggle fullscreen (only Win/Linux)",
-      "enable-dynamic-strongs-display": "Show dynamic dictionary info for Strong's",
-      "open-new-tab": "Open new tab",
-      "increase-current-font-size": "Increase current font size",
-      "decrease-current-font-size": "Decrease current font size",
-      "reset-font-size-to-default": "Reset font size to default"
+      "font-section-title": "Písmo",
+      "current-tab-search-section-title": "Vyhľadávanie na aktuálnej karte",
+      "miscellaneous-section-title": "Rôzne",
+      "in-tab-search": "Otvoriť vyhľadávanie na aktuálnej karte",
+      "hide-in-tab-search-form": "Skryť vzhľadávanie na aktuálnej karte",
+      "jump-to-next-search-occurance": "Preskočiť na ďalší výskyt",
+      "jump-to-previous-occurance": "Preskočiť na predchádzajúci výskyt",
+      "copy-selected-verses-to-clipboard": "Skopírovať vybrané verše do schránky",
+      "toggle-fullscreen-only-Win-Linux": "Prepnúť na celú obrazovku",
+      "enable-dynamic-strongs-display": "Zobraziť dynamické slovníkové informácie pre Strong",
+      "open-new-tab": "Otvoriť novú kartu",
+      "increase-current-font-size": "Zväčšiť aktuálnu veľkosť písma",
+      "decrease-current-font-size": "Zmenšiť aktuálnu veľkosť písma",
+      "reset-font-size-to-default": "Obnoviť predvolenú veľkosť písma"
     },
 
     "shortcut": {
@@ -170,7 +170,7 @@
       "jump-to-previous-occurance": "Shift + Enter",
       "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
-      "enable-dynamic-strongs-display": "Shift + mouse over verse",
+      "enable-dynamic-strongs-display": "Shift + myš nad veršom",
       "open-new-tab": "Ctrl/Cmd + t",
       "increase-current-font-size": "Ctrl/Cmd +",
       "decrease-current-font-size": "Ctrl/Cmd -",
@@ -187,7 +187,7 @@
     "recently-used-tags": "Najpoužívanejšie štítky",
     "really-delete": "Naozaj chete odstrániť nasledujúci štítok: ",
     "tag-info-would-be-deleted": "Štítok bude odstránený <b>zo všetkých priradených veršov!</b>",
-    "really-remove-tag-assignment": "Naoyaj chcete odstrániť štítok &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; z vyznačeného verša?",
+    "really-remove-tag-assignment": "Naozaj chcete odstrániť štítok &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; z vyznačeného verša?",
     "remove-tag-assignment": "Odstrániť pridelené štítky",
     "verses-tagged-with": "Verše so štítkom ",
     "loading-tags": "Nahrávam štítky",
@@ -257,9 +257,9 @@
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Úprava veľkosti textu štítkov & poznámok",
     "new-note-hint": "Kliknite pre pridanie poznámky",
-    "open-complete-book": "Open books completely",
-    "open-chapters-large-books": "Open large books chapter-wise",
-    "open-chapters-all-books": "Open all books chapter-wise"
+    "open-complete-book": "Otvorte knihy úplne",
+    "open-chapters-large-books": "Otvárajte veľké knihy po kapitolách",
+    "open-chapters-all-books": "Otvorte všetky knihy po kapitolách"
   },
   "dictionary-info-box": {
     "greek-dict": "Grécky slovník",
@@ -271,19 +271,19 @@
     "related-strongs": "Súvisiace Strongy"
   },
   "emoji": {
-    "search": "Search emojis...",
-    "notFound": "No emojis found",
+    "search": "Vyhľadajte emodži...",
+    "notFound": "Neboli nájdené žiadne emodži",
     "categories": {
-      "recents": "Recent Emojis",
-      "smileys": "Smileys & Emotion",
-      "people": "People & Body",
-      "animals": "Animals & Nature",
-      "food": "Food & Drink",
-      "activities": "Activities",
-      "travel": "Travel & Places",
-      "objects": "Objects",
-      "symbols": "Symbols",
-      "flags": "Flags"
+      "recents": "Posledné emodži",
+      "smileys": "Úsmevy & Emócie",
+      "people": "Ľudia & Telo",
+      "animals": "Zvieratá & Príroda",
+      "food": "Jedlo & Nápoje",
+      "activities": "Aktivity",
+      "travel": "Cestovanie & Miesta",
+      "objects": "Objekty",
+      "symbols": "Symboly",
+      "flags": "Zástavy"
     }
   },
   "cordova" : {
@@ -293,12 +293,12 @@
     "storage-permission-denied": "Rozhodli ste sa odmietnuť prístup k úložisku. <br> Môžete to zmeniť stlačením tlačidla nižšie!",
     "permanent-permission-decision-part1": "Predtým ste sa rozhodli natrvalo odmietnuť prístup k úložisku! <br> <br> Toto rozhodnutie môžete vrátiť iba v nastaveniach povolení v konfigurácii systému Android.",
     "permanent-permission-decision-part2": "Ak nezmeníte nastavenia povolení, <br> projekt Ezra sa <span style = 'text-decoration: underline'> nespustí úspešne </span>.",
-    "starting-app": "Starting app",
-    "init-i18n": "Initializing i18n",
-    "init-sword": "Initializing SWORD",
-    "init-database": "Initializing database",
-    "init-user-interface": "Initializing user interface",
-    "loading-settings": "Loading settings",
-    "waiting-app-ready": "Waiting for app to get ready"
+    "starting-app": "Spúšťam aplikáciu",
+    "init-i18n": "Inicializujem i18n",
+    "init-sword": "Inicializujem SWORD",
+    "init-database": "Inicializujem databázu",
+    "init-user-interface": "Inicializujem užívateľské prostredie",
+    "loading-settings": "Nahrávam nastavenia",
+    "waiting-app-ready": "Čaká sa na spustenie aplikácie"
   }
 }

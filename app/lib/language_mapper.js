@@ -16,7 +16,6 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-
 /**
  * This module contains utility functions to get language name and details by ISO language code or vise versa
  * @module languageMapper
@@ -24,6 +23,7 @@
  */
 
 var mappingExistsCache = {};
+
 /**
  * Function to get language name based on ISO language code. Caches returned values by localeCode
  * @param {string} languageCode 2-letter ISO 639-1 or 3-letter ISO 639-2/T or 3-letter language code, might have optional sub-tags for Script and Region that won't be used. See getLanguageDetails
@@ -60,6 +60,7 @@ module.exports.getLanguageName = (languageCode, localeCode = 'en') => {
  * @property {(string|undefined)} iso6392T ISO 693-2/T 3-letter language code
  * @property {(string|undefined)} iso6391 ISO 693-1 2-letter language code
  */
+
 /**
  * Function to get various language details
  * @param {string} languageCode Language identifier is a combination of sub-tags (Language[-Script][-Region]) for Language and optionally Script, and/or Region, according to BCP 47 and RFC 4647
@@ -151,6 +152,7 @@ function findLanguage(normalizedCode) {
       return currentLang;
     }
   }
+
   return {};
 }
 

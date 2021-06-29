@@ -37,11 +37,16 @@ class RemoveModuleAssistant {
         this.openRemoveModuleAssistant(currentModuleType);
       }
     });
+
+    i18nController.addLocaleChangeSubscriber(() => {
+      this.resetModuleAssistantContent();
+    });
   }
 
   init(onAllTranslationsRemoved, onTranslationRemoved) {
     this.onAllTranslationsRemoved = onAllTranslationsRemoved;
     this.onTranslationRemoved = onTranslationRemoved;
+    this._stepsInitialized = false;
   }
 
   async openRemoveModuleAssistant(moduleType) {
@@ -104,13 +109,19 @@ class RemoveModuleAssistant {
     assistantHelper.bindLabelEvents(wizardPage);
   }
 
-  initRemoveModuleAssistant() {
+  resetModuleAssistantContent() {
     if (this._removeModuleAssistantOriginalContent != undefined) {
       $('#module-settings-assistant-remove').steps("destroy");
       $('#module-settings-assistant-remove').html(this._removeModuleAssistantOriginalContent);
     } else {
       this._removeModuleAssistantOriginalContent = $('#module-settings-assistant-remove').html();
     }
+
+    $('#module-settings-assistant-remove').localize();
+  }
+
+  initRemoveModuleAssistant() {
+    this.resetModuleAssistantContent();
 
     $('.module-settings-assistant-section-header-module-type').html(app_controller.install_module_assistant._moduleTypeText);
 

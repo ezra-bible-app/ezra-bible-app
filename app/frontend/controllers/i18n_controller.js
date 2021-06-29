@@ -75,13 +75,16 @@ module.exports.initI18N = async function() {
   });
 
   if (platformHelper.isElectron()) {
-    this.initLocale();
+    await this.initLocale();
   }
 }
 
 module.exports.initLocale = async function() {
   if (await ipcSettings.has(SETTINGS_KEY)) {
-    await i18n.changeLanguage(await ipcSettings.get(SETTINGS_KEY, FALLBACK_LOCALE));
+    let locale = await ipcSettings.get(SETTINGS_KEY, FALLBACK_LOCALE);
+
+    console.log(`Using locale ${locale}`);
+    await i18n.changeLanguage(locale);
   }
 
   // We need to save some locale strings separately, so that they are accessible at startup before i18next is available
@@ -102,7 +105,8 @@ function preserveStringsForStartup() {
   const localeStorage = window.localStorage;
   const keys = ["general.loading", "cordova.starting-app", "cordova.init-i18n", "cordova.init-sword", "cordova.init-database", "cordova.init-user-interface"];
   for(const key of keys) {
-    localeStorage.setItem(key, i18n.t(key));
+    let translation = i18n.t(key);
+    localeStorage.setItem(key, translation);
   }
 }
 

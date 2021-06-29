@@ -132,9 +132,9 @@
     "developers": "Développeurs",
     "translators": "Traducteurs",
     "versions-and-paths": "Versions et chemins",
-    "app-language": "Application Language",
+    "app-language": "Langue de l'application",
     "detect-locale": "Auto",
-    "detect-locale-hint": "Automatically detect locale based on system language"
+    "detect-locale-hint": "Détecter automatiquement les paramètres régionaux à l'aide de la langue du système" 
   },
   "help": {
     "help-text-no-tags-book-opened": "Pour commencer à utiliser les étiquettes, créez votre première étiquette en cliquant sur le bouton <i>Nouvelle étiquette</i>.<br/><br/>Ensuite, vous pouvez parcourir le texte biblique, cliquer ou faire glisser les versets, puis attribuer l'étiquette que vous venez de créer.",
@@ -143,34 +143,34 @@
     "help-text-no-translations": "Pour commencer, installez d’abord au moins une traduction de la Bible.<br/><br/>Vous pouvez ouvrir l'assistant d'installation en cliquant sur l'icône des paramètres, puis sur <i>Configurer les traductions</i>."
   },
   "shortcuts": {
-    "tab-title": "Keyboard Shortcuts",
-    "description": "You can use the following shortcuts:",
+    "tab-title": "Raccourcis clavier",
+    "description": "Vous pouvez utiliser les raccourcis suivants:",
 
     "summary" : {
-      "font-section-title": "Font",
-      "current-tab-search-section-title": "Current Tab Search",
-      "miscellaneous-section-title": "Miscellaneous",
-      "in-tab-search": "Open current tab search",
-      "hide-in-tab-search-form": "Hide current tab search form",
-      "jump-to-next-search-occurance": "Jump to next search occurance",
-      "jump-to-previous-occurance": "Jump to previous occurance",
-      "copy-selected-verses-to-clipboard": "Copy selected verses to clipboard",
-      "toggle-fullscreen-only-Win-Linux": "Toggle fullscreen (only Win/Linux)",
-      "enable-dynamic-strongs-display": "Show dynamic dictionary info for Strong's",
-      "open-new-tab": "Open new tab",
-      "increase-current-font-size": "Increase current font size",
-      "decrease-current-font-size": "Decrease current font size",
-      "reset-font-size-to-default": "Reset font size to default"
+      "font-section-title": "Police",
+      "current-tab-search-section-title": "Recherche dans l'onglet actuel",
+      "miscellaneous-section-title": "Divers",
+      "in-tab-search": "Ouvrir la recherche dans l'onglet actuel",
+      "hide-in-tab-search-form": "Masquer le formulaire de recherche de l'onglet actuel",
+      "jump-to-next-search-occurance": "Passer à la prochaine occurrence de recherche",
+      "jump-to-previous-occurance": "Passer à l'occurrence précédente",
+      "copy-selected-verses-to-clipboard": "Copier les versets sélectionnés dans le presse-papiers",
+      "toggle-fullscreen-only-Win-Linux": "Basculer en plein écran",
+      "enable-dynamic-strongs-display": "Activer l'affichage dynamique de Strong",
+      "open-new-tab": "Ouvrir un nouvel onglet",
+      "increase-current-font-size": "Augmenter la taille de police actuelle",
+      "decrease-current-font-size": "Diminuer la taille de police actuelle",
+      "reset-font-size-to-default": "Réinitialiser la taille de police par défaut"
     },
 
     "shortcut": {
       "in-tab-search":"Ctrl/Cmd + f",
       "hide-in-tab-search-form": "Esc",
       "jump-to-next-search-occurance": "Enter",
-      "jump-to-previous-occurance": "Shift + Enter",
+      "jump-to-previous-occurance": "Maj + Enter",
       "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
       "toggle-fullscreen-only-Win-Linux": "F11",
-      "enable-dynamic-strongs-display": "Shift + mouse over verse",
+      "enable-dynamic-strongs-display": "Maj + souris sur le verset",
       "open-new-tab": "Ctrl/Cmd + t",
       "increase-current-font-size": "Ctrl/Cmd +",
       "decrease-current-font-size": "Ctrl/Cmd -",
@@ -246,7 +246,7 @@
     "show-notes": "Montrer les notes",
     "limit-notes-display-size": "Limiter la taille des notes",
     "use-tags-column": "Utiliser des colonnes d'étiquettes",
-    "select-chapter-before-loading": "Open books with chapter selection",
+    "select-chapter-before-loading": "Ouvrir les livres avec sélection de chapitre",
     "use-night-mode": "Mode nuit",
     "keep-screen-on": "Garder l'écran allumé",
     "tag-statistics": "Statistiques des étiquettes",
@@ -257,9 +257,9 @@
     "footnote-character": "n",
     "adjust-font-size-tags-notes": "Ajuster la taille de la police des étiquettes et des notes",
     "new-note-hint": "Cliques pour ajouter une note",
-    "open-complete-book": "Open books completely",
-    "open-chapters-large-books": "Open large books chapter-wise",
-    "open-chapters-all-books": "Open all books chapter-wise"
+    "open-complete-book": "Ouvrir les livres complètement",
+    "open-chapters-large-books": "Ouvrir les gros livres par chapitre",
+    "open-chapters-all-books": "Ouvrir tous les livres par chapitre"
   },
   "dictionary-info-box": {
     "greek-dict": "Dictionnaire grec",
@@ -271,19 +271,19 @@
     "related-strongs": "Strong associés"
   },
   "emoji": {
-    "search": "Search emojis...",
-    "notFound": "No emojis found",
+    "search": "Rechercher des emojis...",
+    "notFound": "Aucun emoji trouvé",
     "categories": {
-      "recents": "Recent Emojis",
-      "smileys": "Smileys & Emotion",
-      "people": "People & Body",
-      "animals": "Animals & Nature",
-      "food": "Food & Drink",
-      "activities": "Activities",
-      "travel": "Travel & Places",
-      "objects": "Objects",
-      "symbols": "Symbols",
-      "flags": "Flags"
+      "recents": "Emojis récents",
+      "smileys": "Smileys & Émotion",
+      "people": "Gens & Corps",
+      "animals": "Animaux & Nature",
+      "food": "Nourriture & Boisson",
+      "activities": "Activités",
+      "travel": "Voyage & Lieux",
+      "objects": "Objets",
+      "symbols": "Symboles",
+      "flags": "Drapeaux"
     }
   },
   "cordova" : {
@@ -293,12 +293,12 @@
     "storage-permission-denied": "Vous avez décidé de refuser l'accès au stockage. <br> Vous pouvez modifier cela en appuyant sur le bouton ci-dessous !",
     "permanent-permission-decision-part1": "Auparavant, vous avez décidé de refuser définitivement l'accès au stockage! <br> <br> Vous ne pouvez annuler cette décision que dans les paramètres d'autorisation de la configuration du système d'Android",
     "permanent-permission-decision-part2": "Si vous ne modifiez pas les paramètres d'autorisation, <br> Ezra Bible App <span style='text-decoration: underline'>ne démarrera pas avec succès</span>.",
-    "starting-app": "Starting app",
-    "init-i18n": "Initializing i18n",
-    "init-sword": "Initializing SWORD",
-    "init-database": "Initializing database",
-    "init-user-interface": "Initializing user interface",
-    "loading-settings": "Loading settings",
-    "waiting-app-ready": "Waiting for app to get ready"
+    "starting-app": "Démarrage de l'application",
+    "init-i18n": "Initialisation de i18n",
+    "init-sword": "Initialisation de SWORD",
+    "init-database": "Initialisation de la base de données",
+    "init-user-interface": "Initialisation de l'interface utilisateur",
+    "loading-settings": "Chargement des paramètres",
+    "waiting-app-ready": "En attente de la préparation de l'application"
   }
 }
