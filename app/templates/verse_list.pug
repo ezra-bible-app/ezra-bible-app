@@ -65,7 +65,7 @@ each bibleBook in bibleBooks
 
   - var verse_count = 0
   - var old_chapter = null;
-  if verses[0].verseNr != 1
+  if verses.length > 0 && verses[0].verseNr != 1
     - old_chapter = verses[0].chapter
 
   - var bibleBookId = bibleBook.shortTitle.toLowerCase()

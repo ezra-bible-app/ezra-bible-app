@@ -92,6 +92,30 @@ class Tab {
     return this.book;
   }
 
+  getContentId() {
+    var contentId = null;
+
+    switch (this.textType) {
+      case 'book':
+        contentId = this.book;
+        break;
+      
+      case 'tagged_verses':
+        contentId = this.tagTitleList;
+        break;
+
+      case 'search_results':
+        contentId = this.searchTerm;
+        break;
+      
+      case 'xrefs':
+        contentId = this.xrefs;
+        break;
+    }
+
+    return contentId;
+  }
+
   setPreviousBook(previousBook) {
     this.previousBook = previousBook;
   }
