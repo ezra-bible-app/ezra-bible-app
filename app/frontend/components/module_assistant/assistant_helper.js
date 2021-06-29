@@ -79,8 +79,12 @@ module.exports.sortByText = function(itemA, itemB) {
 };
 
 module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "", options={}) {
+  if (arr.length === 0) {
+    return '';
+  }
+  
   options = {
-    columns: 2,
+    columns: 3,
     disableSelected: false,
     info: false,
     ...options
@@ -89,11 +93,13 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "",
   var checkboxes = [];
   for (const item of arr) {
     if (typeof item === 'string') {
-      checkboxes.push(`<assistant-checkbox code="${item}"${selected.includes(item) ? 'checked' : ''}>${item}</assistant-checkbox>`);
+      checkboxes.push(`<assistant-checkbox code="${item}" ${selected.includes(item) ? 'checked' : ''}>${item}</assistant-checkbox>`);
     } else {
       const {code, text, description, count, disabled, icon, ...rest} = item;
       const checkedProp = selected.includes(code);
       const disabledProp = disabled || options.disableSelected && checkedProp;
+
+      const style = text && text.length > 27 ? 'style="grid-column-end: span 2"' : '';
 
       const iconSpan = icon ? `<span slot="label-icon">${icon}</span>` : '';
 
@@ -101,6 +107,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "",
 
       const checkbox = `
         <assistant-checkbox 
+          ${style}
           code="${code}" 
           ${checkedProp ? 'checked' : ''}
           ${disabledProp ? 'disabled' : ''}
@@ -121,7 +128,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "",
 
   const template = html`
     <h3 style="margin: 1em 0 0;">${sectionTitle}</h3>
-    <div style="display: grid; grid-template-columns: repeat(${options.columns}, 1fr); grid-row-gap: 0.5em; grid-column-gap: 1em; padding: 0.5em 0.5em 0.5em 1em;">
+    <div style="display: grid; grid-template-columns: repeat(${options.columns}, 1fr); grid-row-gap: 0.5em; grid-column-gap: 1em; grid-auto-flow: dense; padding: 0.5em 0;">
       ${checkboxes}
     </div>`;
   return template.content;
