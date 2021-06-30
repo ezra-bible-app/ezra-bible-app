@@ -20,12 +20,12 @@
 const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
-const StepUpdateRepositories = require('./step_update_repositories.js');
-const StepLanguages = require('./step_languages.js');
-const StepRepositories = require('./step_repositories.js');
-const StepModules = require('./step_modules.js');
-const StepInstall = require('./step_install.js');
-const UnlockDialog = require('./unlock_dialog.js');
+require('./step_update_repositories.js');
+require('./step_languages.js');
+require('./step_repositories.js');
+require('./step_modules.js');
+require('./step_install.js');
+require('./unlock_dialog.js');
 
 const template = html`
 <style>
@@ -36,7 +36,7 @@ const template = html`
   #module-settings-assistant-add .content {
     min-height: 380px;
   }
-  #module-settings-assistant {
+#module-settings-assistant {
   user-select: none;
 }
 
@@ -53,15 +53,6 @@ const template = html`
 .Android #module-settings-assistant input[type="checkbox"] {
   float: left;
   margin-right: 0.5em;
-}
-
-#module-settings-assistant .disabled {
-  color: gray;
-}
-
-#module-settings-assistant .disabled-label {
-  margin-left: 0.5em;
-  color: grey;
 }
 
 #module-settings-assistant section.scrollable {
@@ -235,32 +226,32 @@ class ModuleAssistant extends HTMLElement {
   }
 
   _setupSteps(container) {
-    /** @type {StepUpdateRepositories} */
+    /** @type {import('./step_update_repositories')} */
     this.updateConfigStep = this.querySelector('step-update-repositories');
     // this.updateConfigStep = document.createElement('step-update-repositories');
     // this._initPage(this.updateConfigStep, UPDATE_REPOSITORIES_INDEX, container);
 
-    /** @type {StepLanguages} */
+    /** @type {import('./step_languages')} */
     // this.languagesStep = container.querySelector('step-languages');
     this.languagesStep = document.createElement('step-languages');
     this._initPage(this.languagesStep, LANGUAGES_INDEX, container);
 
-    /** @type {StepRepositories} */
+    /** @type {import('./step_repositories')} */
     // this.repositoriesStep = container.querySelector('step-repositories');
     this.repositoriesStep = document.createElement('step-repositories');
     this._initPage(this.repositoriesStep, REPOSITORIES_INDEX, container);
 
-    /** @type {StepModules} */
+    /** @type {import('./step_modules')} */
     // this.modulesStep = container.querySelector('step-modules');
     this.modulesStep = document.createElement('step-modules');
     this._initPage(this.modulesStep, MODULES_INDEX, container);
 
-    /** @type {StepInstall} */
+    /** @type {import('./step_install')} */
     // this.installStep = container.querySelector('step-install');
     this.installStep = document.createElement('step-install');
     this._initPage(this.installStep, INSTALL_INDEX, container);
 
-    /** @type {UnlockDialog} */
+    /** @type {import('./unlock_dialog')*/
     this.unlockDialog = this.querySelector('unlock-dialog');
 
     this.modulesStep.unlockDialog = this.unlockDialog;

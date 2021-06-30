@@ -18,7 +18,7 @@
 
 const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
-const ModuleAssistant = require('./module_assistant.js');
+require('./module_assistant.js');
 
 /**
  * The InstallModuleAssistant component implements the dialog that handles module installations.
@@ -33,7 +33,7 @@ class InstallModuleAssistant {
     const addButton = document.querySelector('#add-modules-button');
     addButton.addEventListener('click', () => this.openAddModuleAssistant());
 
-    /** @type {ModuleAssistant} */
+    /** @type {import('./module_assistant')} */
     this.assistant = document.querySelector('module-assistant');
   }
 
