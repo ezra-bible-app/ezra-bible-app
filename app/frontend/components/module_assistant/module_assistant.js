@@ -197,6 +197,12 @@ class ModuleAssistant extends HTMLElement {
   }
 
   async _addModuleAssistantStepChanged(event, currentIndex, priorIndex) {
+    if (currentIndex < MODULES_INDEX) {
+      this.updateConfigStep.enableUpdate();
+    } else {
+      this.updateConfigStep.disableUpdate();
+    }
+
     // if (priorIndex == UPDATE_REPOSITORIES_INDEX && currentIndex == LANGUAGES_INDEX) {
     //   await this.languagesStep.listLanguages();
     // } else 
@@ -206,12 +212,6 @@ class ModuleAssistant extends HTMLElement {
       await this.modulesStep.listModules();
     } else if (currentIndex == INSTALL_INDEX) {
       await this.installStep.installSelectedModules();
-    }
-
-    if (currentIndex < MODULES_INDEX) {
-      this.updateConfigStep.enableUpdate();
-    } else {
-      this.updateConfigStep.disableUpdate();
     }
   }
 

@@ -91,12 +91,12 @@ class StepUpdateRepositories extends HTMLElement {
 
   disableUpdate() {
     this.updateDisabled = true;
-    this.querySelector('#update-repo-data').classList.add('disabled');
+    this.querySelector('#update-repo-data').classList.add('ui-state-disabled');
   }
 
   enableUpdate() {
     this.updateDisabled = false;
-    this.querySelector('#update-repo-data').classList.remove('disabled');
+    this.querySelector('#update-repo-data').classList.remove('ui-state-disabled');
   }
 
   async _wasUpdated() {
