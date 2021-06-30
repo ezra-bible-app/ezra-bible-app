@@ -19,12 +19,14 @@
 var state = {
   allRepositories: [],
   installedModules: [],
-  selectedLanguages: [],
+  selectedLanguages: new Set(),
   selectedRepositories: [],
   selectedModules: [],
   moduleType: null, 
   repositoriesAvailable: false,
 };
+
+const stateSetItems = new Set(['selectedLanguages']);
 
 module.exports.initState = async function(moduleType) {
   console.log('assistantController.initState', moduleType);
@@ -64,6 +66,23 @@ module.exports.resolveAllRepositoryData = async () => {
 };
 
 module.exports.get = (key) => state[key];
+
+module.exports.init = (key, arr) => {
+  if (!stateSetItems.has(key)) {
+    return;
+  }
+
+  state[key] = new Set(arr);
+}
+
+module.exports.add = (key, value) => {
+  if (!stateSetItems.has(key)) {
+    return;
+  }
+
+  state[key].add(value);
+
+}
 
 module.exports.set = (key, value) => {
   var oldValue;

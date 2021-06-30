@@ -178,9 +178,7 @@ class ModuleAssistant extends HTMLElement {
     //   return assistantController.get('allRepositories').length > 0;
     // } else 
     if (currentIndex == LANGUAGES_INDEX && newIndex == REPOSITORIES_INDEX) { // Changing from Languages to Repositories
-      const selectedLanguages = this.languagesStep.languages;
-      assistantController.set('selectedLanguages', selectedLanguages);
-      return selectedLanguages.length > 0;
+      return assistantController.get('selectedLanguages').size > 0;
     } else if (currentIndex == REPOSITORIES_INDEX && newIndex == MODULES_INDEX) { // Changing from Repositories to Modules 
       const selectedRepositories = this.repositoriesStep.repositories;
       assistantController.set('selectedRepositories', selectedRepositories);
@@ -206,7 +204,11 @@ class ModuleAssistant extends HTMLElement {
     // if (priorIndex == UPDATE_REPOSITORIES_INDEX && currentIndex == LANGUAGES_INDEX) {
     //   await this.languagesStep.listLanguages();
     // } else 
-    if (priorIndex == LANGUAGES_INDEX && currentIndex == REPOSITORIES_INDEX) {
+    if (priorIndex == LANGUAGES_INDEX) {
+      this.languagesStep.saveSelected();
+    }
+    
+    if (currentIndex == REPOSITORIES_INDEX) {
       await this.repositoriesStep.listRepositories();
     } else if (priorIndex == REPOSITORIES_INDEX && currentIndex == MODULES_INDEX) {
       await this.modulesStep.listModules();

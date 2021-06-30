@@ -45,12 +45,6 @@ const template = html`
  */
 class StepLanguages extends HTMLElement {
   
-  get languages() {
-    const selectedLanguages = assistantHelper.getSelelectedSettings(this);
-    ipcSettings.set('selectedLanguages', selectedLanguages);
-    return selectedLanguages;
-  }
-
   constructor() {
     super();
     console.log('LANGS: step constructor');
@@ -62,12 +56,14 @@ class StepLanguages extends HTMLElement {
     this.appendChild(template.content.cloneNode(true));
     assistantHelper.localize(this);
     this.querySelector('loading-indicator').show();
+    this.addEventListener('itemSelected', (e) => this._handleCheckboxClick(e));
   }
 
   async init() {
     console.log('LANGS: init');
     
-    this._selectedLanguages = await ipcSettings.get('selectedLanguages', []);
+    assistantController.init('selectedLanguages', await ipcSettings.get('selectedLanguages', []));
+
     this._languageData = await getAvailableLanguagesFromRepos(); 
     
     this._initialized = true;
@@ -87,16 +83,25 @@ class StepLanguages extends HTMLElement {
       if (languageArr.length > 0) {
         const sectionHeader = ['app-system-languages', 'bible-languages', 'most-speaking-languages', 'historical-languages'].includes(category) 
           ? i18n.t(`module-assistant.${category}`) : category === 'iso6391-languages' ? i18n.t('module-assistant.other-languages') : undefined;
-        this.append(assistantHelper.listCheckboxSection(languageArr, this._selectedLanguages, sectionHeader));
+        this.append(assistantHelper.listCheckboxSection(languageArr, [...assistantController.get('selectedLanguages')], sectionHeader));
       }
     }
     
-    await this.updateLanguageCount();
+    await this._updateLanguageCount();
 
     this.querySelector('loading-indicator').hide();
   }
 
-  async updateLanguageCount() {
+  saveSelected() {
+    ipcSettings.set('selectedLanguages', [...assistantController.get('selectedLanguages')]);
+  }
+
+  _handleCheckboxClick(event) {
+    const languageCode = event.detail.code;
+    assistantController.add('selectedLanguages', languageCode);
+  }
+
+  async _updateLanguageCount() {
     const allLanguageCodes = this._languageData.allLanguageCodes;
 
     if (allLanguageCodes.size === 0) {

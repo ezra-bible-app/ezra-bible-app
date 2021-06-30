@@ -123,7 +123,7 @@ async function getRepoModuleDetails(repo) {
   var count = 0;
 
   for (const module of allRepoModules) {
-    if (selectedLanguages.includes(module.language)) {
+    if (selectedLanguages.has(module.language)) {
       count++;
       repoLanguageCodes.add(module.language);
     }
