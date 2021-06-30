@@ -215,7 +215,7 @@ class StepModules extends HTMLElement {
       const langModuleSection = assistantHelper.listCheckboxSection(currentLangModules,
                                                                     await assistantController.get('installedModules'),
                                                                     renderHeader ? i18nHelper.getLanguageName(currentLanguageCode) : undefined,
-                                                                    { columns: 1, disableSelected: true, info: true });
+                                                                    { columns: 1, disableSelected: true, info: true, extraIndent: true });
       filteredModuleList.appendChild(langModuleSection);
     }
   }

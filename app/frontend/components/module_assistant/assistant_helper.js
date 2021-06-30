@@ -82,11 +82,12 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "",
   if (arr.length === 0) {
     return '';
   }
-  
+
   options = {
     columns: 3,
     disableSelected: false,
     info: false,
+    extraIndent: false,
     ...options
   };
 
@@ -125,10 +126,11 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "",
     }
   }
 
+  const paddingLeft = options.extraIndent ? '1em' : '0';
 
   const template = html`
     <h3 style="margin: 1em 0 0;">${sectionTitle}</h3>
-    <div style="display: grid; grid-template-columns: repeat(${options.columns}, 1fr); grid-row-gap: 0.5em; grid-column-gap: 1em; grid-auto-flow: dense; padding: 0.5em 0;">
+    <div style="display: grid; grid-template-columns: repeat(${options.columns}, 1fr); grid-row-gap: 0.5em; grid-column-gap: 1em; grid-auto-flow: dense; padding: 0.5em 0 0.5em ${paddingLeft};">
       ${checkboxes}
     </div>`;
   return template.content;

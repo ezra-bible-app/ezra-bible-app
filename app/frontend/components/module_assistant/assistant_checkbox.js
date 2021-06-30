@@ -30,14 +30,23 @@ const template = html`
   #label-wrapper {
     display: flex;
     align-items: center;
+    padding-inline-start: 1.75em;
+  }
+  label {
+    cursor: pointer;
+    text-indent: -1.75em;
+    line-height: 1.2em;
+  }
+  label.disabled {
+    color: gray;
   }
   [name="label-icon"]::slotted(*) {
     position: absolute;
-    left: -1em;
-    top: 0.1em;
+    left: 0.8em;
+    top: 0.15em;
     height: 0.8em;
     width: 0.8em;
-    fill: var(--accent-color, gray);
+    fill: var(--accent-color, currentColor);
   }
   #count {
     opacity: 0.8;
@@ -45,9 +54,9 @@ const template = html`
   #description {
     font-size: 0.8em;
     opacity: 0.8;
-    margin-top: -0.5em;
     margin-bottom: -0.5em;
     margin-inline-start: 2.2em;
+    line-height: 1em;
   }
   #info {
     display: none;
@@ -97,6 +106,7 @@ class AssistantCheckbox extends HTMLElement {
     this._disabled = this.hasAttribute('disabled');
     if (this._disabled) {
       this.checkbox.setAttribute('disabled', '');
+      this.shadowRoot.querySelector('label').classList.add('disabled');
     }
 
     if (this.hasAttribute('info')) {
