@@ -99,6 +99,12 @@ class StepLanguages extends HTMLElement {
   _handleCheckboxClick(event) {
     const languageCode = event.detail.code;
     const checked = event.detail.checked;
+
+    this.querySelectorAll(`assistant-checkbox[code="${languageCode}"]`).forEach(checkbox => {
+      if (checkbox !== event.target) {
+        checkbox.checked = checked;
+      }
+    });
     
     if (checked) {
       assistantController.add('selectedLanguages', languageCode);
@@ -160,7 +166,9 @@ async function getAvailableLanguagesFromRepos() {
 
       if (appSystemLanguages.has(languageInfo.languageCode)) {
         addLanguage(languages['app-system-languages'], languageInfo, currentLanguageCode);
-      } else if (bibleLanguages.has(languageInfo.languageCode)) {
+      } 
+      
+      if (bibleLanguages.has(languageInfo.languageCode)) {
         addLanguage(languages['bible-languages'], languageInfo, currentLanguageCode);
       } else if (mostSpeakingLanguages.has(languageInfo.languageCode)) {
         addLanguage(languages['most-speaking-languages'], languageInfo, currentLanguageCode);
