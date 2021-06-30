@@ -180,13 +180,9 @@ class ModuleAssistant extends HTMLElement {
     if (currentIndex == LANGUAGES_INDEX && newIndex == REPOSITORIES_INDEX) { // Changing from Languages to Repositories
       return assistantController.get('selectedLanguages').size > 0;
     } else if (currentIndex == REPOSITORIES_INDEX && newIndex == MODULES_INDEX) { // Changing from Repositories to Modules 
-      const selectedRepositories = this.repositoriesStep.repositories;
-      assistantController.set('selectedRepositories', selectedRepositories);
-      return selectedRepositories.length > 0;
+      return assistantController.get('selectedRepositories').size > 0;
     } else if (currentIndex == MODULES_INDEX && newIndex == INSTALL_INDEX) { // Changing from Modules to Installation
-      const selectedModules = this.modulesStep.modules;
-      assistantController.set('selectedModules', selectedModules);
-      return selectedModules.length > 0;
+      return assistantController.get('selectedModules').size > 0;
     } else if (currentIndex == INSTALL_INDEX && newIndex != INSTALL_INDEX) {
       return false;
     }
@@ -201,16 +197,15 @@ class ModuleAssistant extends HTMLElement {
       this.updateConfigStep.disableUpdate();
     }
 
-    // if (priorIndex == UPDATE_REPOSITORIES_INDEX && currentIndex == LANGUAGES_INDEX) {
-    //   await this.languagesStep.listLanguages();
-    // } else 
     if (priorIndex == LANGUAGES_INDEX) {
       this.languagesStep.saveSelected();
-    }
-    
+    } else if (priorIndex == REPOSITORIES_INDEX) {
+      this.repositoriesStep.saveSelected();
+    } 
+
     if (currentIndex == REPOSITORIES_INDEX) {
       await this.repositoriesStep.listRepositories();
-    } else if (priorIndex == REPOSITORIES_INDEX && currentIndex == MODULES_INDEX) {
+    } else if (currentIndex == MODULES_INDEX) {
       await this.modulesStep.listModules();
     } else if (currentIndex == INSTALL_INDEX) {
       await this.installStep.installSelectedModules();

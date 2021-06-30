@@ -83,7 +83,7 @@ class StepLanguages extends HTMLElement {
       if (languageArr.length > 0) {
         const sectionHeader = ['app-system-languages', 'bible-languages', 'most-speaking-languages', 'historical-languages'].includes(category) 
           ? i18n.t(`module-assistant.${category}`) : category === 'iso6391-languages' ? i18n.t('module-assistant.other-languages') : undefined;
-        this.append(assistantHelper.listCheckboxSection(languageArr, [...assistantController.get('selectedLanguages')], sectionHeader));
+        this.append(assistantHelper.listCheckboxSection(languageArr, assistantController.get('selectedLanguages'), sectionHeader));
       }
     }
     
@@ -98,7 +98,13 @@ class StepLanguages extends HTMLElement {
 
   _handleCheckboxClick(event) {
     const languageCode = event.detail.code;
-    assistantController.add('selectedLanguages', languageCode);
+    const checked = event.detail.checked;
+    
+    if (checked) {
+      assistantController.add('selectedLanguages', languageCode);
+    } else {
+      assistantController.remove('selectedLanguages', languageCode);
+    }
   }
 
   async _updateLanguageCount() {
@@ -196,6 +202,6 @@ function addLanguage(languageMap, info, fullLanguageCode) {
 }
 
 async function getInstalledLanguages() {
-  const installedModules = await assistantController.get('installedModules');
+  const installedModules = assistantController.get('installedModules');
   return Promise.all(installedModules.map(async moduleId => await swordModuleHelper.getModuleLanguage(moduleId)));
 }

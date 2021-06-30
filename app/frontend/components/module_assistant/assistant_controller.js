@@ -20,13 +20,13 @@ var state = {
   allRepositories: [],
   installedModules: [],
   selectedLanguages: new Set(),
-  selectedRepositories: [],
-  selectedModules: [],
+  selectedRepositories: new Set(),
+  selectedModules: new Set,
   moduleType: null, 
   repositoriesAvailable: false,
 };
 
-const stateSetItems = new Set(['selectedLanguages']);
+const stateSetItems = new Set(['selectedLanguages', 'selectedRepositories', 'selectedModules']);
 
 module.exports.initState = async function(moduleType) {
   console.log('assistantController.initState', moduleType);
@@ -71,7 +71,6 @@ module.exports.init = (key, arr) => {
   if (!stateSetItems.has(key)) {
     return;
   }
-
   state[key] = new Set(arr);
 }
 
@@ -79,9 +78,14 @@ module.exports.add = (key, value) => {
   if (!stateSetItems.has(key)) {
     return;
   }
-
   state[key].add(value);
+}
 
+module.exports.remove = (key, value) => {
+  if (!stateSetItems.has(key)) {
+    return;
+  }
+  state[key].delete(value);
 }
 
 module.exports.set = (key, value) => {

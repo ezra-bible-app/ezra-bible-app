@@ -81,7 +81,7 @@ module.exports.sortByText = function(itemA, itemB) {
 /**
  * Generates an HTML fragment with title and checkboxes from array of items
  * @param {[]} arr array of items
- * @param {string[]} selected array of values that will be shown as checked
+ * @param {Set<string>} selected array of values that will be shown as checked
  * @param {string=} sectionTitle Section title
  * @param {object} options additional options for the layout
  * @param {number} [options.columns=3] number of columns
@@ -108,13 +108,13 @@ module.exports.sortByText = function(itemA, itemB) {
   var checkboxes = [];
   for (const item of arr) {
     if (typeof item === 'string') {
-      checkboxes.push(`<assistant-checkbox code="${item}" ${selected.includes(item) ? 'checked' : ''}>${item}</assistant-checkbox>`);
+      checkboxes.push(`<assistant-checkbox code="${item}" ${selected.has(item) ? 'checked' : ''}>${item}</assistant-checkbox>`);
     } else {
       const {code, text, description, count, disabled, icon, ...rest} = item;
-      const checkedProp = selected.includes(code);
+      const checkedProp = selected.has(code);
       const disabledProp = disabled || options.disableSelected && checkedProp;
 
-      const style = text && text.length > 27 ? 'style="grid-column-end: span 2"' : '';
+      const style = text && text.length > 27 && options.columns > 1 ? 'style="grid-column-end: span 2"' : '';
 
       const iconSpan = icon ? `<span slot="label-icon">${icon}</span>` : '';
 

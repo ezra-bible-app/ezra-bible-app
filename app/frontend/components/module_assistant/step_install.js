@@ -101,7 +101,7 @@ class StepInstall extends HTMLElement {
     assistantHelper.lockDialogForAction('module-settings-assistant-add');
     assistantController.setInstallInProgress();
 
-    const selectedModules = await assistantController.get('selectedModules');
+    const selectedModules = assistantController.get('selectedModules');
     for (const currentModule of selectedModules) {
       var swordModule = await ipcNsi.getRepoModule(currentModule);
       var unlockFailed = true;

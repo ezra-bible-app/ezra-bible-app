@@ -149,7 +149,7 @@ class StepModules extends HTMLElement {
       this.querySelector("#dict-module-feature-filter").style.display = 'block';
     }
 
-    const uiRepositories = (await assistantController.get('selectedRepositories')).map(rep => `<b>${rep}</b>`);
+    const uiRepositories = [...assistantController.get('selectedRepositories')].map(rep => `<b>${rep}</b>`);
     this.querySelector('.intro').innerHTML = `${i18n.t("module-assistant.the-selected-repositories")} (${uiRepositories.join(', ')}) 
       ${i18n.t("module-assistant.contain-the-following-modules")}`;
 
@@ -168,14 +168,14 @@ class StepModules extends HTMLElement {
     const hebrewStrongsFilter = this.querySelector('#hebrew-strongs-dict-feature-filter').checked;
     const greekStrongsFilter = this.querySelector('#greek-strongs-dict-feature-filter').checked;
 
-    const languageCodes = await assistantController.get('selectedLanguages');
+    const languageCodes = [...assistantController.get('selectedLanguages')];
 
     let renderHeader = false;
     if (languageCodes.length > 1) {
       renderHeader = true;
     }
 
-    const repositories = await assistantController.get('selectedRepositories');
+    const repositories = [...assistantController.get('selectedRepositories')];
 
     for (const currentLanguageCode of languageCodes) {
       let currentLangModules = [];
@@ -213,7 +213,7 @@ class StepModules extends HTMLElement {
       currentLangModules.sort(assistantHelper.sortByText);
 
       const langModuleSection = assistantHelper.listCheckboxSection(currentLangModules,
-                                                                    await assistantController.get('installedModules'),
+                                                                    new Set(assistantController.get('installedModules')),
                                                                     renderHeader ? i18nHelper.getLanguageName(currentLanguageCode) : undefined,
                                                                     { columns: 1, disableSelected: true, info: true, extraIndent: true });
       filteredModuleList.append(langModuleSection);
@@ -223,12 +223,19 @@ class StepModules extends HTMLElement {
   _handleCheckboxClick(event) {
     const checkbox = event.target;
     const moduleId = event.detail.code;
+    const checked = event.detail.checked;
+    
+    if (checked) {
+      assistantController.add('selectedModules', moduleId);
+    } else {
+      assistantController.remove('selectedModules', moduleId);
+    }
 
     if (!checkbox.hasAttribute('locked')) {
       return;
     }
     
-    if (event.detail.checked) {
+    if (checked) {
       console.log('MODULE checkbox locked checked', event.detail, event.target);
       this.unlockDialog.show(moduleId, checkbox.getAttribute('unlock-info'), checkbox);
     } else {

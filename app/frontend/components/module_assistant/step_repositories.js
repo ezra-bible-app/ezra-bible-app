@@ -53,12 +53,6 @@ const template = html`
  */
 class StepRepositories extends HTMLElement {
 
-  get repositories() {
-    const selectedRepositories = assistantHelper.getSelelectedSettings(this);
-    ipcSettings.set('selectedRepositories', selectedRepositories);
-    return selectedRepositories;
-  }
-
   constructor() {
     super();
     console.log('REPOS: step constructor');
@@ -75,7 +69,8 @@ class StepRepositories extends HTMLElement {
 
   async init() {
     console.log('REPOS: init');
-    this.selectedRepositories = await ipcSettings.get('selectedRepositories', []);
+    assistantController.init('selectedRepositories', await ipcSettings.get('selectedRepositories', []));
+    this.addEventListener('itemSelected', (e) => this._handleCheckboxClick(e));
     this._initialized = true;
   }
 
@@ -91,10 +86,25 @@ class StepRepositories extends HTMLElement {
 
     const repositoryList = this.querySelector('.repository-list');
     repositoryList.innerHTML = '';
-    repositoryList.append(assistantHelper.listCheckboxSection(repositoriesArr, await this.selectedRepositories, "", {rowGap: '1.5em'}));
+    repositoryList.append(assistantHelper.listCheckboxSection(repositoriesArr, assistantController.get('selectedRepositories'), "", {rowGap: '1.5em'}));
 
     this.querySelector('loading-indicator').hide();
     this.querySelector('.loading-repos').style.display = 'none';
+  }
+
+  saveSelected() {
+    ipcSettings.set('selectedRepositories', [...assistantController.get('selectedRepositories')]);
+  }
+
+  _handleCheckboxClick(event) {
+    const repoName = event.detail.code;
+    const checked = event.detail.checked;
+    
+    if (checked) {
+      assistantController.add('selectedRepositories', repoName);
+    } else {
+      assistantController.remove('selectedRepositories', repoName);
+    }
   }
 
   _localize() {
@@ -117,7 +127,7 @@ module.exports = StepRepositories;
 async function getRepoModuleDetails(repo) {
   const moduleType = assistantController.get('moduleType');
   const allRepoModules = await ipcNsi.getAllRepoModules(repo, moduleType);
-  const selectedLanguages = await assistantController.get('selectedLanguages');
+  const selectedLanguages = assistantController.get('selectedLanguages');
 
   var repoLanguageCodes = new Set();
   var count = 0;
