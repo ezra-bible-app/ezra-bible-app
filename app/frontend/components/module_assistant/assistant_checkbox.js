@@ -50,6 +50,10 @@ const template = html`
   }
   #count {
     opacity: 0.8;
+    transition: opacity 0.5s;
+  }
+  #count.empty {
+    opacity: 0;
   }
   #description {
     font-size: 0.8em;
@@ -75,7 +79,7 @@ const template = html`
     <input type="checkbox">
     <slot name="label-icon"></slot>
     <slot name="label-text">No text provided</slot>
-    <span id="count"></span>
+    <span id="count" class="empty"></span>
   </label>
   <a id="info" href="#">${ICON_INFO}</a>
 </div>
@@ -194,7 +198,14 @@ class AssistantCheckbox extends HTMLElement {
   }
 
   update(elementId, value) {
-    this.shadowRoot.querySelector(`#${elementId}`).textContent = value ? value : '';
+    const element = this.shadowRoot.querySelector(`#${elementId}`);
+    if (value) {
+      element.textContent = value ;
+      element.classList.remove('empty');
+    } else {
+      element.textContent = value ;
+      element.classList.add('empty');
+    }
   }
 
 }

@@ -29,6 +29,7 @@ const template = html`
 <style>
   step-languages .intro {
     margin-top: 0;
+    margin-right: 5em;
   }
 </style>
 <loading-indicator></loading-indicator>
