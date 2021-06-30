@@ -28,8 +28,8 @@ require('../loading_indicator.js');
 const template = html`
 <style>
   step-languages .intro {
-    margin-top: 0;
-    margin-right: 5em;
+    margin: 0 5em 1em;
+    text-align: center;
   }
 </style>
 <loading-indicator></loading-indicator>

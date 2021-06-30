@@ -78,7 +78,7 @@ module.exports.sortByText = function(itemA, itemB) {
   return a.localeCompare(b, { sensitivity: 'base', ignorePunctuation: true });
 };
 
-module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "", options={}) {
+module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", options={}) {
   if (arr.length === 0) {
     return '';
   }
@@ -88,6 +88,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "",
     disableSelected: false,
     info: false,
     extraIndent: false,
+    rowGap: '0.5em',
     ...options
   };
 
@@ -106,6 +107,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "",
 
       const extraAttr = Object.entries(rest).map(([attr, val]) => `${attr}="${val}"`);
 
+      /**@type {import('./assistant_checkbox')} */
       const checkbox = `
         <assistant-checkbox 
           ${style}
@@ -130,7 +132,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle = "",
 
   const template = html`
     <h3 style="margin: 1em 0 0;">${sectionTitle}</h3>
-    <div style="display: grid; grid-template-columns: repeat(${options.columns}, 1fr); grid-row-gap: 0.5em; grid-column-gap: 1em; grid-auto-flow: dense; padding: 0.5em 0 0.5em ${paddingLeft};">
+    <div style="display: grid; grid-template-columns: repeat(${options.columns}, 1fr); grid-row-gap: ${options.rowGap}; grid-column-gap: 1em; grid-auto-flow: dense; padding: 0.5em 0 0.5em ${paddingLeft};">
       ${checkboxes}
     </div>`;
   return template.content;

@@ -26,18 +26,20 @@ require('../loading_indicator.js');
 const template = html`
 <style>
   step-repositories .intro {
-    margin-top: 0;
+    margin: 0 5em 1em;
+    text-align: center;
+  }
+  step-repositories .repository-list {
+    min-width: 2em;
   }
 </style>
 
 <loading-indicator></loading-indicator>
 
-<p class="loading-repos" i18n="module-assistant.loading-repositories"></p>
+<p class="intro"></p>   
 
-<div class="list-view">
-  <p class="intro"></p>   
-  <div class="repository-list"></div>
-</div>
+<p class="loading-repos" i18n="module-assistant.loading-repositories"></p>
+<div class="repository-list"></div>
 
 <p style="margin-top: 2em;" i18n="module-assistant.more-repo-information-needed"></p>
 `;
@@ -63,7 +65,7 @@ class StepRepositories extends HTMLElement {
   }
 
   async connectedCallback() {
-    console.log('REPOS: started connectedCallback', this.isConnected);    
+    console.log('REPOS: started connectedCallback', this.isConnected);
     this.appendChild(template.content.cloneNode(true));
     this._localize();
 
@@ -82,14 +84,14 @@ class StepRepositories extends HTMLElement {
     if (!this._initialized) {
       await this.init();
     }
-    
+
 
     const repositoriesArr = await Promise.all(
       (await assistantController.get('allRepositories')).map(getRepoModuleDetails));
 
     const repositoryList = this.querySelector('.repository-list');
     repositoryList.innerHTML = '';
-    repositoryList.appendChild(assistantHelper.listCheckboxSection(repositoriesArr, await this.selectedRepositories));
+    repositoryList.appendChild(assistantHelper.listCheckboxSection(repositoriesArr, await this.selectedRepositories, "", {rowGap: '1.5em'}));
 
     this.querySelector('loading-indicator').hide();
     this.querySelector('.loading-repos').style.display = 'none';
@@ -103,7 +105,7 @@ class StepRepositories extends HTMLElement {
     } else if (moduleType == "DICT") {
       moduleTypeText = i18n.t("module-assistant.module-type-dict");
     }
-    this.querySelector('.intro').innerHTML = i18n.t("module-assistant.repo-selection-info-text", {module_type: moduleTypeText});
+    this.querySelector('.intro').innerHTML = i18n.t("module-assistant.repo-selection-info-text", { module_type: moduleTypeText });
 
     assistantHelper.localize(this);
   }
@@ -116,16 +118,16 @@ async function getRepoModuleDetails(repo) {
   const moduleType = assistantController.get('moduleType');
   const allRepoModules = await ipcNsi.getAllRepoModules(repo, moduleType);
   const selectedLanguages = await assistantController.get('selectedLanguages');
-  
+
   var repoLanguageCodes = new Set();
   var count = 0;
 
-  for(const module of allRepoModules) {
+  for (const module of allRepoModules) {
     if (selectedLanguages.includes(module.language)) {
       count++;
       repoLanguageCodes.add(module.language);
     }
-  }  
+  }
 
   const repoLanguages = [...repoLanguageCodes].map(lang => i18nHelper.getLanguageName(lang)).sort(assistantHelper.sortByText);
 
