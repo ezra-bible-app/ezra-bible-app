@@ -87,7 +87,7 @@ class StepLanguages extends HTMLElement {
       if (languageArr.length > 0) {
         const sectionHeader = ['app-system-languages', 'bible-languages', 'most-speaking-languages', 'historical-languages'].includes(category) 
           ? i18n.t(`module-assistant.${category}`) : category === 'iso6391-languages' ? i18n.t('module-assistant.other-languages') : undefined;
-        this.appendChild(assistantHelper.listCheckboxSection(languageArr, this._selectedLanguages, sectionHeader));
+        this.append(assistantHelper.listCheckboxSection(languageArr, this._selectedLanguages, sectionHeader));
       }
     }
     

@@ -216,7 +216,7 @@ class StepModules extends HTMLElement {
                                                                     await assistantController.get('installedModules'),
                                                                     renderHeader ? i18nHelper.getLanguageName(currentLanguageCode) : undefined,
                                                                     { columns: 1, disableSelected: true, info: true, extraIndent: true });
-      filteredModuleList.appendChild(langModuleSection);
+      filteredModuleList.append(langModuleSection);
     }
   }
 

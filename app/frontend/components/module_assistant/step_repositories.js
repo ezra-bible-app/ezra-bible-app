@@ -91,7 +91,7 @@ class StepRepositories extends HTMLElement {
 
     const repositoryList = this.querySelector('.repository-list');
     repositoryList.innerHTML = '';
-    repositoryList.appendChild(assistantHelper.listCheckboxSection(repositoriesArr, await this.selectedRepositories, "", {rowGap: '1.5em'}));
+    repositoryList.append(assistantHelper.listCheckboxSection(repositoriesArr, await this.selectedRepositories, "", {rowGap: '1.5em'}));
 
     this.querySelector('loading-indicator').hide();
     this.querySelector('.loading-repos').style.display = 'none';
