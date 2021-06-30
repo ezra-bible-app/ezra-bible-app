@@ -112,10 +112,6 @@ const template = html`
  * @category Component
  */
 class StepModules extends HTMLElement {
-  get modules() {
-    const selectedModules = assistantHelper.getSelelectedSettings(this);
-    return selectedModules;
-  }
 
   constructor() {
     super();

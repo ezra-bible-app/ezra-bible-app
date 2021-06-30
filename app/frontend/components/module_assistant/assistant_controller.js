@@ -68,6 +68,11 @@ module.exports.resolveAllRepositoryData = async () => {
 module.exports.get = (key) => state[key];
 
 module.exports.init = (key, arr) => {
+  if (key === 'installedModules') {
+    state['installedModules'] = arr;
+    return;
+  }
+
   if (!stateSetItems.has(key)) {
     return;
   }
@@ -88,16 +93,6 @@ module.exports.remove = (key, value) => {
   state[key].delete(value);
 }
 
-module.exports.set = (key, value) => {
-  var oldValue;
-  if (key in state) {
-    oldValue = state[key];
-    state[key] = value;
-  } else {
-    console.log('ERROR: addModuleAssistant.set: trying to set unrecognized property', key);
-  }
-  return oldValue;
-};
 
 var unlockKeys = {};
 module.exports.setUnlockKey = (moduleId, unlockKey) => unlockKeys[moduleId] = unlockKey;

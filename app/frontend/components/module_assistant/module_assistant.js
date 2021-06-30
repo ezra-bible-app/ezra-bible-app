@@ -214,7 +214,7 @@ class ModuleAssistant extends HTMLElement {
 
   async _addModuleAssistantFinished() {
     $('#module-settings-assistant').dialog('close');
-    assistantController.set('installedModules', await app_controller.translation_controller.getInstalledModules());
+    assistantController.init('installedModules', await app_controller.translation_controller.getInstalledModules());
 
     if (assistantController.get('moduleType') == 'BIBLE') {
       await app_controller.translation_controller.initTranslationsMenu();
