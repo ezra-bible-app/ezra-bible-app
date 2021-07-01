@@ -16,20 +16,46 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
 require('./assistant_steps_add.js');
 require('./assistant_steps_remove.js');
 
 /**
- * The InstallModuleAssistant component implements the dialog that handles module installations.
- * 
+ * @module ModuleAssistant
+ * The component implements the dialog that handles module installations and removal.
+ * @example
+ * <module-assistant></module-assistant>
  * @category Component
  */
 
-class ModuleAssistant {
+const template = html`
+<div id="module-settings-assistant" style="display: none;">
+  <div id="module-settings-assistant-init">
+    <p id="module-settings-assistant-internet-usage" style="margin-bottom: 2em;"></p>
+    <button id="add-modules-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled"></button>
+    <button id="remove-modules-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled"></button>
+  </div>
+
+  <assistant-steps-add></assistant-steps-add>
+
+  <assistant-steps-remove></assistant-steps-remove>
+</div>
+`;
+
+class ModuleAssistant extends HTMLElement{
   constructor() {
-    this._addModuleAssistantOriginalContent = undefined;
+    super();
+    this._initialized = false;
+  }
+
+  connectedCallback() {
+    if (this._initialized) {
+      return;
+    }
+
+    this.appendChild(template.content);
 
     const addButton = document.querySelector('#add-modules-button');
     addButton.addEventListener('click', async () => this._startAddModuleAssistant());
@@ -38,14 +64,16 @@ class ModuleAssistant {
     removeButton.addEventListener('click', async () => this._startRemoveModuleAssistant());
 
     /** @type {import('./assistant_steps_add')} */
-    this.assistantAdd = document.querySelector('assistant-steps-add');
+    this._assistantAdd = document.querySelector('assistant-steps-add');
 
     /** @type {import('./assistant_steps_remove')} */
-    this.assistantRemove = document.querySelector('assistant-steps-remove');
+    this._assistantRemove = document.querySelector('assistant-steps-remove');
+
+    this._initialized = true;
   }
 
   initCallbacks(onAllTranslationsRemoved, onTranslationRemoved) {
-    this.assistantRemove.initCallbacks(onAllTranslationsRemoved, onTranslationRemoved);
+    this._assistantRemove.initCallbacks(onAllTranslationsRemoved, onTranslationRemoved);
   }
 
   async openAssistant(moduleType) {
@@ -63,8 +91,8 @@ class ModuleAssistant {
     var offsetLeft = appContainerWidth - wizardWidth - 100;
     var offsetTop = 20;
 
-    this.assistantAdd.hide();
-    $('#module-settings-assistant-remove').hide();
+    this._assistantAdd.hide();
+    this._assistantRemove.hide();
     $('#module-settings-assistant-init').show();
 
     const modules = await assistantController.get('installedModules');
@@ -79,29 +107,14 @@ class ModuleAssistant {
 
     uiHelper.configureButtonStyles('#module-settings-assistant-init');
 
+    this._localize();
     var title = "";
-    var moduleTypeText = "";
-    var addModuleText = "";
-    var removeModuleText = "";
-
     if (moduleType == "BIBLE") {
       title = i18n.t("module-assistant.bible-header");
-      moduleTypeText = i18n.t("module-assistant.module-type-bible");
-      addModuleText = i18n.t("module-assistant.add-translations");
-      removeModuleText = i18n.t("module-assistant.remove-translations");
     } else if (moduleType == "DICT") {
       title = i18n.t("module-assistant.dict-header");
-      moduleTypeText = i18n.t("module-assistant.module-type-dict");
-      addModuleText = i18n.t("module-assistant.add-dicts");
-      removeModuleText = i18n.t("module-assistant.remove-dicts");
-    } else {
-      console.error("InstallModuleAssistant: Unknown module type!");
     }
 
-    var internetUsageNote = i18n.t("module-assistant.internet-usage-note", { module_type: moduleTypeText });
-    $('#module-settings-assistant-internet-usage').html(internetUsageNote);
-    $('#add-modules-button').html(addModuleText);
-    $('#remove-modules-button').html(removeModuleText);
 
     $('#module-settings-assistant').dialog({
       position: [offsetLeft, offsetTop],
@@ -117,7 +130,7 @@ class ModuleAssistant {
 
   async _startAddModuleAssistant() {
     $('#module-settings-assistant-init').hide();
-    await this.assistantAdd.startModuleAssistantSteps();
+    await this._assistantAdd.startModuleAssistantSteps();
   }
 
   async _startRemoveModuleAssistant() {
@@ -125,9 +138,35 @@ class ModuleAssistant {
 
     const modules = await assistantController.get('installedModules');
     if (modules.length > 0) {
-      this.assistantRemove.startModuleAssistantSteps();
+      this._assistantRemove.startModuleAssistantSteps();
     }
+  }
+
+  _localize() {
+    var moduleTypeText = "";
+    var addModuleText = "";
+    var removeModuleText = "";
+
+    const moduleType = assistantController.get('moduleType');
+
+    if (moduleType == "BIBLE") {
+      moduleTypeText = i18n.t("module-assistant.module-type-bible");
+      addModuleText = i18n.t("module-assistant.add-translations");
+      removeModuleText = i18n.t("module-assistant.remove-translations");
+    } else if (moduleType == "DICT") {
+      moduleTypeText = i18n.t("module-assistant.module-type-dict");
+      addModuleText = i18n.t("module-assistant.add-dicts");
+      removeModuleText = i18n.t("module-assistant.remove-dicts");
+    } else {
+      console.error("InstallModuleAssistant: Unknown module type!");
+    }
+
+    var internetUsageNote = i18n.t("module-assistant.internet-usage-note", { module_type: moduleTypeText });
+    document.querySelector('#module-settings-assistant-internet-usage').innerHTML = internetUsageNote;
+    document.querySelector('#add-modules-button').textContent = addModuleText;
+    document.querySelector('#remove-modules-button').textContent = removeModuleText;
   }
 }
 
+customElements.define('module-assistant', ModuleAssistant);
 module.exports = ModuleAssistant;

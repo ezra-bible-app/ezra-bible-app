@@ -29,7 +29,6 @@ const TagStatistics = require("../components/tags/tag_statistics.js");
 const TaggedVerseExport = require("../components/tags/tagged_verse_export.js");
 const ModuleSearchController = require("./module_search_controller.js");
 const TranslationController = require("./translation_controller.js");
-const ModuleAssistant = require("../components/module_assistant/module_assistant.js");
 const TextController = require("./text_controller.js");
 const VerseContextController = require("./verse_context_controller.js");
 const TabSearch = require("../components/tab_search/tab_search.js");
@@ -96,7 +95,6 @@ class AppController {
     this.init_component("AssignLastTagButton", "assign_last_tag_button");
     this.init_component("ModuleSearchController", "module_search_controller");
     this.init_component("TranslationController", "translation_controller");
-    this.init_component("ModuleAssistant", "moduleAssistant");
     this.init_component("TextController", "text_controller");
     this.init_component("VerseContextController", "verse_context_controller");
     this.init_component("TabController", "tab_controller");
@@ -111,6 +109,9 @@ class AppController {
     this.init_component("InfoPopup", "info_popup");
     this.init_component("TextSizeSettings", "textSizeSettings");
     this.init_component("VerseStatisticsChart", "verse_statistics_chart");
+
+    /**@type {import('../components/module_assistant/module_assistant')} */
+    this.moduleAssistant = document.querySelector('module-assistant');
 
     this.initGlobalShortCuts();
 
