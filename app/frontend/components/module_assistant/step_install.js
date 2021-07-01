@@ -29,7 +29,6 @@ const template = html`
   }
   .install-info-container {
     display: flex;
-    align-items: center;
     margin-bottom: 1em;
   }
   .install-info-container > div {
@@ -37,6 +36,9 @@ const template = html`
   }
   .install-info-container .install-description {
     font-style: italic;
+  }
+  .install-info-container :nth-child(3), .install-info-container :last-child {
+    align-self: flex-end;
   }
   .install-info-container .install-status.error {
     color: red;
