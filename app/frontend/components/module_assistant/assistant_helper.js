@@ -20,35 +20,6 @@ const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 require('./assistant_checkbox.js');
 
-module.exports.getSelectedSettingsAssistantElements = function (wizardPage) {
-  var selectedElements = [];
-
-  var allElements = $(wizardPage).find('p');
-  for (var i = 0; i < allElements.length; i++) {
-    var currentElement = $(allElements[i]);
-    var currentCheckbox = currentElement.find('input');
-    var isChecked = currentCheckbox.prop('checked');
-    var isDisabled = currentCheckbox.prop('disabled');
-
-    if (isChecked && !isDisabled) {
-      var currentId = currentElement.find('span').attr('id');
-
-      if (currentId != undefined) {
-        selectedElements.push(currentId);
-      }
-    }
-  }
-
-  return selectedElements;
-};
-
-module.exports.bindLabelEvents = function (wizardPage) {
-  wizardPage.find('.label').bind('click', function () {
-    var checkbox = $(this).prev();
-    checkbox.click();
-  });
-};
-
 module.exports.lockDialogForAction = function (wizardId) {
   wizardId = '#' + wizardId;
 

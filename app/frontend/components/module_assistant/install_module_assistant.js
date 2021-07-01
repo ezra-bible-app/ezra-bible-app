@@ -128,12 +128,6 @@ class InstallModuleAssistant {
       this.assistantRemove.startModuleAssistantSteps();
     }
   }
-
-  // This is only for testing!!
-  /** @deprecated */
-  resetInstalledModules() {
-    this._installedModules = [];
-  }
 }
 
 module.exports = InstallModuleAssistant;

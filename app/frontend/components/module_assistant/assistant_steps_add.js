@@ -171,7 +171,7 @@ class AssistantStepsAdd extends HTMLElement {
 
     addModuleAssistantContainer.innerHTML = '';
     addModuleAssistantContainer.appendChild(templateAddSteps.content.cloneNode(true));
-    localize(addModuleAssistantContainer);
+    assistantHelper.localizeContainer(addModuleAssistantContainer);
   }
 
   _addModuleAssistantStepChanging(event, currentIndex, newIndex) {
@@ -265,18 +265,3 @@ class AssistantStepsAdd extends HTMLElement {
 
 customElements.define('assistant-steps-add', AssistantStepsAdd);
 module.exports = AssistantStepsAdd;
-
-
-function localize(element) {
-  var moduleTypeText = "";
-  const moduleType = assistantController.get('moduleType');
-  if (moduleType == 'BIBLE') {
-    moduleTypeText = i18n.t("module-assistant.module-type-bible");
-  } else if (moduleType == 'DICT') {
-    moduleTypeText = i18n.t("module-assistant.module-type-dict");
-  }
-
-  element.querySelector('.module-settings-assistant-section-header-module-type').textContent = moduleTypeText;
-
-  assistantHelper.localize(element);
-}
