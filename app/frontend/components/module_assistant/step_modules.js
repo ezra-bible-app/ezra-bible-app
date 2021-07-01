@@ -21,7 +21,6 @@ const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const i18nHelper = require('../../helpers/i18n_helper.js');
 const assistantHelper = require('./assistant_helper.js');
-const UnlockDialog = require('./unlock_dialog.js');
 require('../loading_indicator.js');
 
 
@@ -117,7 +116,7 @@ class StepModules extends HTMLElement {
     super();
     console.log('MODULES: step constructor');
 
-    /** @type {UnlockDialog} */
+    /** @type {import('./unlock_dialog')} */
     this.unlockDialog = null;
   }
 

@@ -120,7 +120,7 @@ class AppController {
     });
 
     this.moduleAssistant.initCallbacks(async () => { await this.onAllTranslationsRemoved(); },
-                                      async (translationId) => { await this.onTranslationRemoved(translationId); });
+                                       async (translationId) => { await this.onTranslationRemoved(translationId); });
 
     await this.book_selection_menu.init();
 

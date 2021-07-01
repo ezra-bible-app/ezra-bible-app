@@ -81,21 +81,21 @@ module.exports.init = (key, arr) => {
     return;
   }
   state[key] = new Set(arr);
-}
+};
 
 module.exports.add = (key, value) => {
   if (!stateSetItems.has(key)) {
     return;
   }
   state[key].add(value);
-}
+};
 
 module.exports.remove = (key, value) => {
   if (!stateSetItems.has(key)) {
     return;
   }
   state[key].delete(value);
-}
+};
 
 
 var unlockKeys = {};

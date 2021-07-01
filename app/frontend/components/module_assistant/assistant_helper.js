@@ -63,7 +63,7 @@ module.exports.sortByText = function(itemA, itemB) {
  * @param {string} [options.info="0.5em"] CSS size for the gap between the rows
  * @returns {DocumentFragment} HTML fragment with appropriate <assistant-checkbox> elements for each item
  */
- module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", options={}) {
+module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", options={}) {
   if (arr.length === 0) {
     return '';
   }
@@ -142,4 +142,4 @@ module.exports.localizeContainer = function(container) {
   container.querySelector('.module-settings-assistant-section-header-module-type').textContent = moduleTypeText;
 
   this.localize(container);
-}
+};

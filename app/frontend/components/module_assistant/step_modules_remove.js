@@ -106,7 +106,7 @@ async function getInstalledModulesByLanguage() {
   const moduleType = assistantController.get('moduleType');
   const modules = await ipcNsi.getAllLocalModules(moduleType);
 
-  var moduleList = {}
+  var moduleList = {};
   const fixedDictionaries = [ "StrongsHebrew", "StrongsGreek" ];
 
   for (const swordModule of modules) {
@@ -120,7 +120,7 @@ async function getInstalledModulesByLanguage() {
     if (!moduleIsInUserDir ||
         (moduleType == "DICT" && fixedDictionaries.includes(swordModule.name))) {
 
-        moduleInfo.disabled = true;
+      moduleInfo.disabled = true;
     }
 
     moduleList[swordModule.language] = moduleList[swordModule.language] || [];

@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 
-const { html, sleep } = require('../../helpers/ezra_helper.js');
+const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
 

@@ -20,7 +20,6 @@
 const { html, sleep } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
-const UnlockDialog = require('./unlock_dialog.js');
 
 const template = html`
 <style>
@@ -82,7 +81,7 @@ class StepInstall extends HTMLElement {
 
     this._moduleInstallationCancelled = false;
     
-    /** @type {UnlockDialog} */
+    /** @type {import('./unlock_dialog')} */
     this.unlockDialog = null;
     
     console.log('INSTALL: step constructor');
