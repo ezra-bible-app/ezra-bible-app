@@ -25,7 +25,6 @@ const template = html`
 <style>
   .removal-info-container {
     display: flex;
-    align-items: center;
     margin-bottom: 1em;
   }
   .removal-info-container > div {
