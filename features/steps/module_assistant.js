@@ -30,14 +30,6 @@ async function clickCheckbox(checkboxCodeAttr, parentSelector='#module-settings-
   await label.click();
 }
 
-async function clickCheckboxOld(selector, parentSelector='#module-settings-assistant-add') {
-  var parent = await spectronHelper.getWebClient().$(parentSelector);
-  var label = await parent.$(selector);
-  await spectronHelper.getWebClient().waitUntil(async () => { return await label.isExisting(); }, { timeout: 40000 });
-  var checkbox = await label.$('../child::input');
-  await checkbox.click();
-}
-
 async function getNavLinks(moduleSettingsDialogId='#module-settings-assistant-add') {
   var moduleSettingsAssistantAdd = await spectronHelper.getWebClient().$(moduleSettingsDialogId);
   var actionsDiv = await moduleSettingsAssistantAdd.$('.actions');
@@ -96,7 +88,7 @@ Given('I select the ASV module for installation', {timeout: 40 * 1000}, async fu
 });
 
 Given('I select the ASV module for removal', {timeout: 40 * 1000}, async function () {
-  await clickCheckboxOld('#ASV', '#module-settings-assistant-remove');
+  await clickCheckbox('ASV', '#module-settings-assistant-remove');
   await clickNext('#module-settings-assistant-remove');
 });
 
