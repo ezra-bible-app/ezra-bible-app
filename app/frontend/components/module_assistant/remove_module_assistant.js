@@ -16,9 +16,11 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
 const i18nController = require('../../controllers/i18n_controller.js');
 require('./step_modules_remove.js');
+require('./step_remove.js');
 
 /**
  * The RemoteModuleAssistant component implements the dialog that handles module removals.
@@ -103,9 +105,7 @@ class RemoveModuleAssistant {
 
   removeModuleAssistantStepChanging(event, currentIndex, newIndex) {
     if (currentIndex == 0 && newIndex == 1) { // Changing from Translations (1) to Removal (2)
-      var wizardPage = "#module-settings-assistant-remove-p-0";
-      var selectedLanguages = assistantHelper.getSelectedSettingsAssistantElements(wizardPage);
-      return (selectedLanguages.length > 0);
+      return assistantController.get('selectedModules').size > 0;
     } else if (currentIndex == 1 && newIndex != 1) {
       return false;
     }
@@ -115,65 +115,14 @@ class RemoveModuleAssistant {
 
   async removeModuleAssistantStepChanged(event, currentIndex, priorIndex) {
     if (priorIndex == 0) {
-      assistantHelper.lockDialogForAction('module-settings-assistant-remove');
-
-      // Bible modules have been selected
-      var modulesPage = "#module-settings-assistant-remove-p-0";
-      this._uninstallModules = assistantHelper.getSelectedSettingsAssistantElements(modulesPage);
-
-      this._moduleRemovalStatus = 'IN_PROGRESS';
-
       var removalPage = $("#module-settings-assistant-remove-p-1");
       removalPage.empty();
 
-      var currentModuleType = app_controller.install_module_assistant._currentModuleType;
-      var removingModules = "";
-      if (currentModuleType == 'BIBLE') {
-        removingModules = i18n.t("module-assistant.removing-translations");
-      } else if (currentModuleType == 'DICT') {
-        removingModules = i18n.t("module-assistant.removing-dictionaries");
-      }
+      /**@type {import('./step_remove')} */
+      const removeStep = document.createElement('step-remove');
+      removalPage.append(removeStep);
 
-      removalPage.append('<h3>' + removingModules + '</h3>');
-
-      setTimeout(async () => {
-        for (var i = 0; i < this._uninstallModules.length; i++) {
-          var moduleCode = this._uninstallModules[i];
-          var localModule = await ipcNsi.getLocalModule(moduleCode, true);
-          var moduleName = localModule.description;
-
-          removalPage.append('<span>' + i18n.t("module-assistant.removing") + ' <i>' + moduleName + '</i> ... </span>');
-          
-          Sentry.addBreadcrumb({category: "app",
-                                message: `Removing module ${moduleCode}`,
-                                level: Sentry.Severity.Info});
-
-          await ipcNsi.uninstallModule(moduleCode);
-
-          var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-
-          if (currentBibleTranslationId == moduleCode) {
-            var modules = await app_controller.translation_controller.getInstalledModules('BIBLE');
-
-            if (modules.length > 0) {
-              // FIXME: Also put this in a callback
-              app_controller.tab_controller.setCurrentBibleTranslationId(modules[0]);
-              app_controller.onBibleTranslationChanged();
-              await app_controller.navigation_pane.updateNavigation();
-            } else {
-              this.onAllTranslationsRemoved();
-            }
-
-            await this.onTranslationRemoved(moduleCode);
-          }
-
-          removalPage.append('<span>' + i18n.t("general.done") + '.</span>');
-          removalPage.append('<br/><br/>');
-        }
-
-        this._moduleRemovalStatus = 'DONE';
-        assistantHelper.unlockDialog('module-settings-assistant-remove');
-      }, 800);
+      removeStep.uninstallSelectedModules(this.onAllTranslationsRemoved, this.onTranslationRemoved);
     }
   }
 

@@ -55,7 +55,9 @@ class StepModulesRemove extends HTMLElement {
   async listModules() {
     console.log('MODULES-REMOVE: listModules');
 
-    const installedModulesByLanguage = await getInstalledModules();
+    const installedModulesByLanguage = await getInstalledModulesByLanguage();
+    assistantController.init('selectedModules', []);
+
     this.querySelector('loading-indicator').hide();
 
     const moduleList = this.querySelector('#remove-module-list');
@@ -64,7 +66,7 @@ class StepModulesRemove extends HTMLElement {
       modules.sort(assistantHelper.sortByText);
 
       const langModuleSection = assistantHelper.listCheckboxSection(modules,
-                                                                    new Set(),
+                                                                    assistantController.get('selectedModules'),
                                                                     i18nHelper.getLanguageName(languageCode),
                                                                     { columns: 1, extraIndent: true });
       moduleList.append(langModuleSection);
@@ -100,7 +102,7 @@ class StepModulesRemove extends HTMLElement {
 customElements.define('step-modules-remove', StepModulesRemove);
 module.exports = StepModulesRemove;
 
-async function getInstalledModules() {
+async function getInstalledModulesByLanguage() {
   const moduleType = assistantController.get('moduleType');
   const modules = await ipcNsi.getAllLocalModules(moduleType);
 
