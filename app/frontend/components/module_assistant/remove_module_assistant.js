@@ -18,7 +18,7 @@
 
 const assistantHelper = require('./assistant_helper.js');
 const i18nController = require('../../controllers/i18n_controller.js');
-
+require('./step_modules_remove.js');
 
 /**
  * The RemoteModuleAssistant component implements the dialog that handles module removals.
@@ -59,56 +59,11 @@ class RemoveModuleAssistant {
     var wizardPage = $('#module-settings-assistant-remove-p-0');
     wizardPage.empty();
 
-    var headerText = "";
-    if (moduleType == 'BIBLE') {
-      headerText = i18n.t("module-assistant.select-translations-to-be-removed");
-    } else if (moduleType == 'DICT') {
-      headerText = i18n.t("module-assistant.select-dictionaries-to-be-removed");
-    }
+    /**@type {import('./step_modules_remove')} */
+    const removeModuleListStep = document.createElement('step-modules-remove');
+    wizardPage.append(removeModuleListStep);
 
-    var header = "<p>" + headerText + "</p>";
-    wizardPage.append(header);
-
-    wizardPage.append("<div id='remove-module-list'></div>");
-    var removeModuleList = $('#remove-module-list');
-
-    var languages = await app_controller.translation_controller.getLanguages(moduleType);
-
-    for (var i = 0; i < languages.length; i++) {
-      var currentLang = languages[i];
-
-      var newLanguageBox = "<div>" +
-                           "<h2>" + currentLang.languageName + "</h2>" +
-                           "<div id='remove-module-assistant-" + currentLang.languageCode + "-modules'></div>" +
-                           "</div>";
-
-      removeModuleList.append(newLanguageBox);
-    }
-
-    var modules = await ipcNsi.getAllLocalModules(moduleType);
-
-    for (var module of modules) {
-      var checkboxDisabled = '';
-      var currentModuleClass = "class='label' ";
-      var fixedDictionaries = [ "StrongsHebrew", "StrongsGreek" ];
-      var moduleIsInUserDir = await ipcNsi.isModuleInUserDir(module.name);
-      
-      if (!moduleIsInUserDir ||
-          (moduleType == "DICT" && fixedDictionaries.includes(module.name))) {
-
-        checkboxDisabled = "disabled='disabled' ";
-        currentModuleClass = "class='label disabled'";
-      }
-
-      var currentTranslationHtml = "<p><input type='checkbox'" + checkboxDisabled + ">" + 
-                                    "<span " + currentModuleClass + " id='" + module.name + "'>";
-      currentTranslationHtml += module.description + "&nbsp; [" + module.name + "]</span></p>";
-
-      var languageBox = $('#remove-module-assistant-' + module.language + '-modules');
-      languageBox.append(currentTranslationHtml);
-    }
-
-    assistantHelper.bindLabelEvents(wizardPage);
+    removeModuleListStep.listModules()
   }
 
   resetModuleAssistantContent() {
