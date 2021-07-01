@@ -21,7 +21,7 @@ var state = {
   installedModules: [],
   selectedLanguages: new Set(),
   selectedRepositories: new Set(),
-  selectedModules: new Set,
+  selectedModules: new Set(),
   moduleType: null, 
   repositoriesAvailable: false,
 };
@@ -35,6 +35,10 @@ module.exports.initState = async function(moduleType) {
     return false;
   }
   state.moduleType = moduleType;
+
+  for(const item of stateSetItems) {
+    state[item].clear();
+  }
 
   state.installedModules = await app_controller.translation_controller.getInstalledModules(moduleType);
 
