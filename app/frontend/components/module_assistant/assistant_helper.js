@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { html } = require('../../helpers/ezra_helper.js');
+const assistantController = require('./assistant_controller.js');
 require('./assistant_checkbox.js');
 
 module.exports.getSelectedSettingsAssistantElements = function (wizardPage) {
@@ -157,3 +158,17 @@ module.exports.localize = function(container) {
     element.innerHTML = i18n.t(element.getAttribute('i18n'));
   });
 };
+
+module.exports.localizeContainer = function(container) {
+  var moduleTypeText = "";
+  const moduleType = assistantController.get('moduleType');
+  if (moduleType == 'BIBLE') {
+    moduleTypeText = i18n.t("module-assistant.module-type-bible");
+  } else if (moduleType == 'DICT') {
+    moduleTypeText = i18n.t("module-assistant.module-type-dict");
+  }
+
+  container.querySelector('.module-settings-assistant-section-header-module-type').textContent = moduleTypeText;
+
+  this.localize(container);
+}

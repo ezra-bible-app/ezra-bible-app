@@ -30,7 +30,6 @@ const TaggedVerseExport = require("../components/tags/tagged_verse_export.js");
 const ModuleSearchController = require("./module_search_controller.js");
 const TranslationController = require("./translation_controller.js");
 const InstallModuleAssistant = require("../components/module_assistant/install_module_assistant.js");
-const RemoveModuleAssistant = require("../components/module_assistant/remove_module_assistant.js");
 const TextController = require("./text_controller.js");
 const VerseContextController = require("./verse_context_controller.js");
 const TabSearch = require("../components/tab_search/tab_search.js");
@@ -98,7 +97,6 @@ class AppController {
     this.init_component("ModuleSearchController", "module_search_controller");
     this.init_component("TranslationController", "translation_controller");
     this.init_component("InstallModuleAssistant", "install_module_assistant");
-    this.init_component("RemoveModuleAssistant", "remove_module_assistant");
     this.init_component("TextController", "text_controller");
     this.init_component("VerseContextController", "verse_context_controller");
     this.init_component("TabController", "tab_controller");
@@ -120,7 +118,7 @@ class AppController {
       await this.onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId);
     });
 
-    this.remove_module_assistant.init(async () => { await this.onAllTranslationsRemoved(); },
+    this.install_module_assistant.initCallbacks(async () => { await this.onAllTranslationsRemoved(); },
                                       async (translationId) => { await this.onTranslationRemoved(translationId); });
 
     await this.book_selection_menu.init();

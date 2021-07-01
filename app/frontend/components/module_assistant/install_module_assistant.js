@@ -19,6 +19,7 @@
 const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
 require('./module_assistant.js');
+require('./assistant_remove_steps.js');
 
 /**
  * The InstallModuleAssistant component implements the dialog that handles module installations.
@@ -31,10 +32,20 @@ class InstallModuleAssistant {
     this._addModuleAssistantOriginalContent = undefined;
 
     const addButton = document.querySelector('#add-modules-button');
-    addButton.addEventListener('click', () => this.openAddModuleAssistant());
+    addButton.addEventListener('click', async () => this.openAddModuleAssistant());
+
+    const removeButton = document.querySelector('#remove-modules-button');
+    removeButton.addEventListener('click', async () => this.openRemoveModuleAssistant());
 
     /** @type {import('./module_assistant')} */
     this.assistant = document.querySelector('module-assistant');
+
+    /** @type {import('./assistant_remove_steps')} */
+    this.assistantRemove = document.querySelector('assistant-remove-steps');
+  }
+
+  initCallbacks(onAllTranslationsRemoved, onTranslationRemoved) {
+    this.assistantRemove.initCallbacks(onAllTranslationsRemoved, onTranslationRemoved);
   }
 
   async openAssistant(moduleType) {
@@ -106,9 +117,18 @@ class InstallModuleAssistant {
 
   async openAddModuleAssistant() {
     $('#module-settings-assistant-init').hide();
-    
+
     this.assistant.show();
     await this.assistant.initAddModuleAssistant();
+  }
+
+  async openRemoveModuleAssistant() {
+    $('#module-settings-assistant-init').hide();
+
+    const modules = await assistantController.get('installedModules');
+    if (modules.length > 0) {
+      this.assistantRemove.startModuleAssistantSteps();
+    }
   }
 
   // This is only for testing!!
