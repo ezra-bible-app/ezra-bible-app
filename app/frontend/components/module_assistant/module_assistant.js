@@ -27,7 +27,7 @@ require('./assistant_steps_remove.js');
  * @category Component
  */
 
-class InstallModuleAssistant {
+class ModuleAssistant {
   constructor() {
     this._addModuleAssistantOriginalContent = undefined;
 
@@ -130,4 +130,4 @@ class InstallModuleAssistant {
   }
 }
 
-module.exports = InstallModuleAssistant;
+module.exports = ModuleAssistant;

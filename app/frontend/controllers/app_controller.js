@@ -29,7 +29,7 @@ const TagStatistics = require("../components/tags/tag_statistics.js");
 const TaggedVerseExport = require("../components/tags/tagged_verse_export.js");
 const ModuleSearchController = require("./module_search_controller.js");
 const TranslationController = require("./translation_controller.js");
-const InstallModuleAssistant = require("../components/module_assistant/install_module_assistant.js");
+const ModuleAssistant = require("../components/module_assistant/module_assistant.js");
 const TextController = require("./text_controller.js");
 const VerseContextController = require("./verse_context_controller.js");
 const TabSearch = require("../components/tab_search/tab_search.js");
@@ -96,7 +96,7 @@ class AppController {
     this.init_component("AssignLastTagButton", "assign_last_tag_button");
     this.init_component("ModuleSearchController", "module_search_controller");
     this.init_component("TranslationController", "translation_controller");
-    this.init_component("InstallModuleAssistant", "install_module_assistant");
+    this.init_component("ModuleAssistant", "moduleAssistant");
     this.init_component("TextController", "text_controller");
     this.init_component("VerseContextController", "verse_context_controller");
     this.init_component("TabController", "tab_controller");
@@ -118,7 +118,7 @@ class AppController {
       await this.onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId);
     });
 
-    this.install_module_assistant.initCallbacks(async () => { await this.onAllTranslationsRemoved(); },
+    this.moduleAssistant.initCallbacks(async () => { await this.onAllTranslationsRemoved(); },
                                       async (translationId) => { await this.onTranslationRemoved(translationId); });
 
     await this.book_selection_menu.init();
@@ -1032,7 +1032,7 @@ class AppController {
 
   openModuleSettingsAssistant(moduleType) {
     this.optionsMenu.hideDisplayMenu();
-    this.install_module_assistant.openAssistant(moduleType);
+    this.moduleAssistant.openAssistant(moduleType);
   }
 
   getChapterFromReference(reference, separator=reference_separator) {
