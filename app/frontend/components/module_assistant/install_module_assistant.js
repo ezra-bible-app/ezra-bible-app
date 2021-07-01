@@ -18,7 +18,7 @@
 
 const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
-require('./module_assistant.js');
+require('./assistant_steps_add.js');
 require('./assistant_remove_steps.js');
 
 /**
@@ -32,13 +32,13 @@ class InstallModuleAssistant {
     this._addModuleAssistantOriginalContent = undefined;
 
     const addButton = document.querySelector('#add-modules-button');
-    addButton.addEventListener('click', async () => this.openAddModuleAssistant());
+    addButton.addEventListener('click', async () => this._startAddModuleAssistant());
 
     const removeButton = document.querySelector('#remove-modules-button');
-    removeButton.addEventListener('click', async () => this.openRemoveModuleAssistant());
+    removeButton.addEventListener('click', async () => this._startRemoveModuleAssistant());
 
-    /** @type {import('./module_assistant')} */
-    this.assistant = document.querySelector('module-assistant');
+    /** @type {import('./assistant_steps_add')} */
+    this.assistantAdd = document.querySelector('assistant-steps-add');
 
     /** @type {import('./assistant_remove_steps')} */
     this.assistantRemove = document.querySelector('assistant-remove-steps');
@@ -63,7 +63,7 @@ class InstallModuleAssistant {
     var offsetLeft = appContainerWidth - wizardWidth - 100;
     var offsetTop = 20;
 
-    this.assistant.hide();
+    this.assistantAdd.hide();
     $('#module-settings-assistant-remove').hide();
     $('#module-settings-assistant-init').show();
 
@@ -115,14 +115,12 @@ class InstallModuleAssistant {
     assistantHelper.unlockDialog();
   }
 
-  async openAddModuleAssistant() {
+  async _startAddModuleAssistant() {
     $('#module-settings-assistant-init').hide();
-
-    this.assistant.show();
-    await this.assistant.initAddModuleAssistant();
+    await this.assistantAdd.startModuleAssistantSteps();
   }
 
-  async openRemoveModuleAssistant() {
+  async _startRemoveModuleAssistant() {
     $('#module-settings-assistant-init').hide();
 
     const modules = await assistantController.get('installedModules');

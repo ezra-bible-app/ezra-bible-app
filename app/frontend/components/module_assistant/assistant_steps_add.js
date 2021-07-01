@@ -99,7 +99,7 @@ const MODULES_INDEX = REPOSITORIES_INDEX + 1;
 const INSTALL_INDEX = MODULES_INDEX + 1;
 
 
-class ModuleAssistant extends HTMLElement {
+class AssistantStepsAdd extends HTMLElement {
   constructor() {
     super();
     console.log('ASSISTANT: step constructor');
@@ -124,7 +124,8 @@ class ModuleAssistant extends HTMLElement {
     this.querySelector('#module-settings-assistant-add').style.display = 'none';
   }
 
-  async initAddModuleAssistant() {
+  async startModuleAssistantSteps() {
+    this.show();
     this._resetModuleAssistantContent();
 
     var addModuleAssistantContainer = this.querySelector('#module-settings-assistant-add');
@@ -262,8 +263,8 @@ class ModuleAssistant extends HTMLElement {
   }
 }
 
-customElements.define('module-assistant', ModuleAssistant);
-module.exports = ModuleAssistant;
+customElements.define('assistant-steps-add', AssistantStepsAdd);
+module.exports = AssistantStepsAdd;
 
 
 function localize(element) {
