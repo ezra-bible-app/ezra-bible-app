@@ -19,7 +19,7 @@
 const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
 require('./assistant_steps_add.js');
-require('./assistant_remove_steps.js');
+require('./assistant_steps_remove.js');
 
 /**
  * The InstallModuleAssistant component implements the dialog that handles module installations.
@@ -40,8 +40,8 @@ class InstallModuleAssistant {
     /** @type {import('./assistant_steps_add')} */
     this.assistantAdd = document.querySelector('assistant-steps-add');
 
-    /** @type {import('./assistant_remove_steps')} */
-    this.assistantRemove = document.querySelector('assistant-remove-steps');
+    /** @type {import('./assistant_steps_remove')} */
+    this.assistantRemove = document.querySelector('assistant-steps-remove');
   }
 
   initCallbacks(onAllTranslationsRemoved, onTranslationRemoved) {

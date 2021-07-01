@@ -72,7 +72,7 @@ const MODULES_INDEX = 0;
 const REMOVE_INDEX = MODULES_INDEX + 1;
 
 
-class AssistantRemoveSteps extends HTMLElement {
+class AssistantStepsRemove extends HTMLElement {
   constructor() {
     super();
     console.log('ASSISTANT REMOVE: step constructor');
@@ -193,5 +193,5 @@ class AssistantRemoveSteps extends HTMLElement {
   }
 }
 
-customElements.define('assistant-remove-steps', AssistantRemoveSteps);
-module.exports = AssistantRemoveSteps;
+customElements.define('assistant-steps-remove', AssistantStepsRemove);
+module.exports = AssistantStepsRemove;
