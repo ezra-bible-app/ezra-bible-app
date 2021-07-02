@@ -66,16 +66,16 @@ class FuzzySearch extends HTMLElement {
       this.minLength = parseInt(this.getAttribute('min-length'));
     }
     if (this.hasAttribute('max-result')) {
-      this.minLength = parseInt(this.getAttribute('max-result'));
+      this.maxResult = parseInt(this.getAttribute('max-result'));
     }
     if (this.hasAttribute('search-delay')) {
-      this.minLength = parseInt(this.getAttribute('search-delay'));
+      this.searchDelay = parseInt(this.getAttribute('search-delay'));
     }
     if (this.hasAttribute('threshold')) {
-      this.minLength = parseInt(this.getAttribute('threshold'));
+      this.threshold = parseInt(this.getAttribute('threshold'));
     }
     if (this.hasAttribute('distance')) {
-      this.minLength = parseInt(this.getAttribute('distance'));
+      this.distance = parseInt(this.getAttribute('distance'));
     }
   }
 
