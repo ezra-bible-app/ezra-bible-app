@@ -16,6 +16,17 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+:root {
+  --accent-color: #2779AA;
+  --background-color: #f2f5f7;
+  --widget-bg-color: #eeeeee;
+  --text-color: #362b36;
+}
+:root body.darkmode--activated {
+  --background-color: #1e1e1e;
+  --widget-bg-color: #1e1e1e;
+  --text-color: #cccccc;
+}
 .bold {
   font-weight: bold;
 }
@@ -45,15 +56,15 @@ body {
      Instead we use a scrollbar for individual components within the window. */
   overflow: hidden;
   touch-action: none;
-  --accent-color: #2779AA;
+  background-color: var(--background-color);
 }
 
-body.darkmode--activated {
+/* body.darkmode--activated {
   background-color: #1e1e1e !important;
-}
+} */
 
 .darkmode-layer {
-  background-color: #1e1e1e !important;
+  background-color: var(--background-color) !important;
   mix-blend-mode: unset !important;
 }
 
@@ -227,7 +238,7 @@ h2:nth-of-type(1) {
 }
 
 .darkmode--activated .verse-reference {
-  color: #cccccc;
+  color: var(--text-color);
 }
 
 .verse-reference-content {
@@ -285,7 +296,7 @@ h2:nth-of-type(1) {
 
 .darkmode--activated .tag {
   border: 0px;
-  color: #cccccc;
+  color: var(--text-color);
   background-color: darkslategray;
 }
 
@@ -474,7 +485,7 @@ h2:nth-of-type(1) {
 
 .verse-reference .visible,
 .darkmode--activated .verse-reference .visible {
-  color: var(--accent-color,#2779AA);
+  color: var(--accent-color);
   opacity: 1;
   /*visibility: visible;*/
 }
@@ -507,7 +518,7 @@ h2:nth-of-type(1) {
 }
 
 .darkmode--activated .ui-widget-content {
-  color: #cccccc;
+  color: var(--text-color);
 }
 
 
@@ -659,7 +670,7 @@ h2:nth-of-type(1) {
 }
 
 .verse-list-menu .focused-button {
-  border: 1px dashed var(--accent-color, #2779aa);
+  border: 1px dashed var(--accent-color);
 }
 
 .fullscreen-button {
@@ -798,7 +809,7 @@ h2:nth-of-type(1) {
 .darkmode--activated #book-selection-menu-chapter-list a:hover,
 .darkmode--activated #book-selection-menu-chapter-list a:focus {
   border: 1px;
-  color: #cccccc;
+  color: var(--text-color);
 }
 
 li.book-unavailable a:link,
@@ -978,7 +989,7 @@ li.book-unavailable a:focus,
 
 .temporary-help {
   display: none;
-  background-color: #F2F5F7;
+  background-color: var(--background-color);
   z-index: 999;
   position: fixed;
 }
@@ -1136,7 +1147,7 @@ li.book-unavailable a:focus,
 }
 
 .darkmode--activated #tag-selection-menu {
-  color: #cccccc;
+  color: var(--text-color);
 }
 
 #tag-assignment-menu-filter {
@@ -1212,11 +1223,11 @@ li.book-unavailable a:focus,
 .darkmode--activated .verse-selection-menu,
 .darkmode--activated #display-options-menu {
   background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat;
-  color: #cccccc;
+  color: var(--text-color);
 }
 
 .darkmode--activated .verse-selection-menu span {
-  color: #cccccc;
+  color: var(--text-color);
 }
 
 #tag-selection-taglist-global,
@@ -1358,8 +1369,8 @@ li.book-unavailable a:focus,
 }
 
 .darkmode--activated .tab-search {
-  background-color: #1e1e1e;
-  color: #cccccc;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .tab-search-form, .tab-search-options {
@@ -1380,7 +1391,7 @@ li.book-unavailable a:focus,
 .darkmode--activated input,
 .darkmode--activated .tab-search-type,
 .darkmode--activated .tab-search-is-case-sensitive {
-  background-color: #cccccc;
+  background-color: var(--text-color);
 }
 
 .tab-search-input:focus {
@@ -1598,7 +1609,7 @@ s {
 }
 
 .sword-note-marker {
-  color: var(--accent-color, #2779AA);
+  color: var(--accent-color);
 }
 
 .sword-xref-marker {
@@ -1683,7 +1694,7 @@ code {
 
 .darkmode--activated p,
 .darkmode--activated .verse-list-composite {
-  color: #cccccc;
+  color: var(--text-color);
 }
 
 .darkmode--activated .logo {
@@ -1692,8 +1703,8 @@ code {
 
 .darkmode--activated section {
   background: none;
-  background-color: #1e1e1e;
-  color: #cccccc;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .darkmode--activated .assistant>.steps .disabled a,
