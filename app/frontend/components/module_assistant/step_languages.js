@@ -219,8 +219,21 @@ async function getAvailableLanguagesFromRepos() {
   
   var allLanguages = new Map();
 
-  const repositories = await assistantController.get('allRepositories');
+  var repositories = [];
+
+  await new Promise(resolve => {
+    const waitForRepoInterval = setInterval(async () => {
+      repositories = await assistantController.get('allRepositories');
+
+      if (repositories.length > 0) {
+        clearInterval(waitForRepoInterval);
+        resolve();
+      }
+    }, 200);
+  });
+
   console.log('LANGS: getAvailableLanguagesFromRepos: got repos', repositories);
+
   for (const currentRepo of repositories) {
     var repoLanguages = await ipcNsi.getRepoLanguages(currentRepo, assistantController.get('moduleType'));
 
