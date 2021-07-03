@@ -24,6 +24,7 @@ const languageMapper = require('../../../lib/language_mapper.js');
 const assistantHelper = require('./assistant_helper.js');
 const swordModuleHelper = require('../../helpers/sword_module_helper.js');
 require('../loading_indicator.js');
+require('../generic/fuzzy_search.js');
 
 const template = html`
 <style>
@@ -31,9 +32,26 @@ const template = html`
     margin: 0 5em 1em;
     text-align: center;
   }
+  step-languages fuzzy-search {
+    display: block;
+    text-align: end;
+    margin-top: 1.5em;
+    margin-inline-end: 2em;
+    font-size: 0.8em;
+  }
+  step-languages .search-result {
+    height: auto;
+    opacity: 1;
+    transition: all 0.5s ease-in-out;
+  }
 </style>
+
 <loading-indicator></loading-indicator>
-<p class="intro" i18n="module-assistant.pick-languages-from-repos"></p>   
+<p class="intro" i18n="module-assistant.pick-languages-from-repos"></p> 
+<div class="app-system-languages"></div>
+<fuzzy-search max-result="12" style="display: none;" title="search-menu.search"></fuzzy-search>
+<div class="search-result"></div>
+<div class="all-languages"></div>
 `;
 
 /**
@@ -54,9 +72,10 @@ class StepLanguages extends HTMLElement {
   connectedCallback() {
     console.log('LANGS: started connectedCallback', this.isConnected);
     this.appendChild(template.content.cloneNode(true));
-    assistantHelper.localize(this);
+    this._localize();
     this.querySelector('loading-indicator').show();
     this.addEventListener('itemSelected', (e) => this._handleCheckboxClick(e));
+    this.addEventListener('searchResultReady', (e) => this._handleSearchResult(e));
   }
 
   async init() {
@@ -75,15 +94,25 @@ class StepLanguages extends HTMLElement {
       await this.init();
     }
     
-    const languages = this._languageData.languages;
+    const selectedLanguages = assistantController.get('selectedLanguages');
 
+    const appSystemLanguages = [...this._languageData.appSystemLanguages.values()].sort(assistantHelper.sortByText);
+    this.querySelector('.app-system-languages').append(assistantHelper.listCheckboxSection(appSystemLanguages,
+                                                                                           selectedLanguages, 
+                                                                                           i18n.t('module-assistant.app-system-languages')));
+
+    this._initSearch(this._languageData.allLanguages);
+
+    const languageContainer = this.querySelector('.all-languages');
+
+    const languages = this._languageData.languages;
     for(const category in languages) {
       const languageArr = [...languages[category].values()].sort(assistantHelper.sortByText);
       
       if (languageArr.length > 0) {
-        const sectionHeader = ['app-system-languages', 'bible-languages', 'most-speaking-languages', 'historical-languages'].includes(category) 
+        const sectionHeader = ['bible-languages', 'most-speaking-languages', 'historical-languages'].includes(category) 
           ? i18n.t(`module-assistant.${category}`) : category === 'iso6391-languages' ? i18n.t('module-assistant.other-languages') : undefined;
-        this.append(assistantHelper.listCheckboxSection(languageArr, assistantController.get('selectedLanguages'), sectionHeader));
+        languageContainer.append(assistantHelper.listCheckboxSection(languageArr, selectedLanguages, sectionHeader));
       }
     }
     
@@ -114,21 +143,55 @@ class StepLanguages extends HTMLElement {
   }
 
   async _updateLanguageCount() {
-    const allLanguageCodes = this._languageData.allLanguageCodes;
+    const allLanguageCodes = [...this._languageData.allLanguages.keys()];
 
-    if (allLanguageCodes.size === 0) {
+    if (allLanguageCodes.length === 0) {
       return;
     }
     const repositories = await assistantController.get('allRepositories');
 
     const languageModuleCount = await ipcNsi.getAllLanguageModuleCount(repositories, 
-                                                                       [...allLanguageCodes], 
+                                                                       allLanguageCodes, 
                                                                        assistantController.get('moduleType'));
     console.log('LANGS: got languageModuleCount, trying to update', languageModuleCount);
 
     this.querySelectorAll('assistant-checkbox').forEach(checkbox => {
       checkbox.count = languageModuleCount[checkbox.code];
     });
+  }
+
+  _initSearch(languages) {
+    if (languages.size < 25) { // no need for search if language count is small
+      return;
+    }
+
+    /**@type {import('../generic/fuzzy_search')} */
+    const search = this.querySelector('fuzzy-search');
+    search.style.display = 'block';
+
+    search.init([...this._languageData.allLanguages.values()], 
+                [{name: 'text', weight: 1}, 
+                 {name: 'code', weight: 0.5}, 
+                 {name: 'description', weight: 0.1}]);
+  }
+
+  _handleSearchResult(event) {
+    const result = event.detail.result.map(r => r.item);
+
+    const resultContainer = this.querySelector('.search-result');
+    resultContainer.innerHTML = '';
+    resultContainer.append(assistantHelper.listCheckboxSection(result, 
+                                                               assistantController.get('selectedLanguages'), 
+                                                               i18n.t('module-assistant.search-result')));
+  }
+
+  _localize() {
+    const search = this.querySelector('fuzzy-search');
+    var title = search && search.getAttribute('title');
+    if (title) {
+      search.setAttribute('title', i18n.t(title));
+    }
+    assistantHelper.localize(this);    
   }
 }
 
@@ -138,13 +201,13 @@ module.exports = StepLanguages;
 async function getAvailableLanguagesFromRepos() {
   console.log('LANGS: getAvailableLanguagesFromRepos');
 
-  var appSystemLanguages = new Set([i18nController.getLocale(), i18nController.getSystemLocale(), ...(await getInstalledLanguages())]);
+  var appSystemLanguageCodes = new Set([i18nController.getLocale(), i18nController.getSystemLocale(), ...(await getInstalledLanguages())]);
   var bibleLanguages = new Set(['grc', 'hbo']);
   var mostSpeakingLanguages = new Set(['en', 'zh', 'hi', 'es', 'ar', 'bn', 'fr', 'ru', 'pt', 'ur']); // source: https://en.wikipedia.org/wiki/List_of_languages_by_total_number_of_speakers
   const historicalLanguageTypes = new Set(['ancient', 'extinct', 'historical']);
 
+  var appSystemLanguages = new Map();
   var languages = {
-    'app-system-languages': new Map(),
     'bible-languages': new Map(),
     'most-speaking-languages': new Map(),
     'historical-languages': new Map(),
@@ -154,7 +217,7 @@ async function getAvailableLanguagesFromRepos() {
     'unknown-languages': new Map(),
   };
   
-  var allLanguageCodes = new Set();
+  var allLanguages = new Map();
 
   const repositories = await assistantController.get('allRepositories');
   console.log('LANGS: getAvailableLanguagesFromRepos: got repos', repositories);
@@ -164,8 +227,8 @@ async function getAvailableLanguagesFromRepos() {
     for (const currentLanguageCode of repoLanguages) {
       const languageInfo = languageMapper.getLanguageDetails(currentLanguageCode, i18nController.getLocale());
 
-      if (appSystemLanguages.has(languageInfo.languageCode)) {
-        addLanguage(languages['app-system-languages'], languageInfo, currentLanguageCode);
+      if (appSystemLanguageCodes.has(languageInfo.languageCode)) {
+        addLanguage(appSystemLanguages, languageInfo, currentLanguageCode);
       } 
       
       if (bibleLanguages.has(languageInfo.languageCode)) {
@@ -185,13 +248,14 @@ async function getAvailableLanguagesFromRepos() {
         addLanguage(languages['unknown-languages'], languageInfo, currentLanguageCode);          
       }
 
-      allLanguageCodes.add(currentLanguageCode); 
+      addLanguage(allLanguages, languageInfo, currentLanguageCode); 
     }
   }
 
   return {
+    appSystemLanguages,
     languages,
-    allLanguageCodes
+    allLanguages
   };
 }
 

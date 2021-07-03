@@ -81,7 +81,8 @@
     "bible-languages": "Bible Languages",
     "most-speaking-languages": "Most Spoken Languages",
     "historical-languages": "Historical Languages",
-    "other-languages": "Other Languages"
+    "other-languages": "Other Languages",
+    "search-result": "Matches Found"
   },
   "module-sync": {
     "module-sync-header": "Installing additional modules"

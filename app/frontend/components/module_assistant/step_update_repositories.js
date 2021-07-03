@@ -27,7 +27,7 @@ const template = html`
   .update-repository-data-wrapper {
     padding: 1em 2.5%;
     min-height: 6em;
-    background: #eee;
+    background: var(--widget-bg-color, #eee);
     border-radius: 5px;
   }
   #update-repository-data-info {
