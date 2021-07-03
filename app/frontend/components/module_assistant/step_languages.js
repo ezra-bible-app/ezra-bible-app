@@ -223,6 +223,7 @@ async function getAvailableLanguagesFromRepos() {
   while (repositories.length < 1) {
     repositories = await assistantController.get('allRepositories');
     await sleep(100);
+    // FIXME: Add some sort of timeout to handle situation when repositories are never populated correctly.
   }
 
   console.log('LANGS: getAvailableLanguagesFromRepos: got repos', repositories);
