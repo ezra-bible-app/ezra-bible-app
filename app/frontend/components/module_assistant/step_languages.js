@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 
-const { html } = require('../../helpers/ezra_helper.js');
+const { html, sleep } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const i18nController = require('../../controllers/i18n_controller.js');
 const languageMapper = require('../../../lib/language_mapper.js');
@@ -218,19 +218,12 @@ async function getAvailableLanguagesFromRepos() {
   };
   
   var allLanguages = new Map();
-
   var repositories = [];
 
-  await new Promise(resolve => {
-    const waitForRepoInterval = setInterval(async () => {
-      repositories = await assistantController.get('allRepositories');
-
-      if (repositories.length > 0) {
-        clearInterval(waitForRepoInterval);
-        resolve();
-      }
-    }, 200);
-  });
+  while (repositories.length < 1) {
+    repositories = await assistantController.get('allRepositories');
+    await sleep(100);
+  }
 
   console.log('LANGS: getAvailableLanguagesFromRepos: got repos', repositories);
 
