@@ -49,6 +49,7 @@ input[type="search"] {
   border-radius: 2em;
   transition: width 800ms cubic-bezier(0.68, -0.55, 0.27, 1.55), border-radius 800ms ease-in;
   -webkit-appearance: none;
+  cursor: pointer;
 }
 input[type="search"]::-webkit-search-decoration {
 	-webkit-appearance: none;
@@ -148,9 +149,11 @@ class FuzzySearch extends HTMLElement {
 
   _handleInput(event) {
     clearTimeout(this._searchTimeout);
+
     if (!this._fuse) {
       return;
     }
+
     const value = event.target.value.trim();
     this._searchTimeout = setTimeout(() => {
       const searchResult = value.length < this.minLength ? [] : this._fuse.search(value);
