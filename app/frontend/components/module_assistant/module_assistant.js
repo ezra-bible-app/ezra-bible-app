@@ -31,11 +31,54 @@ require('./assistant_steps_remove.js');
  */
 
 const template = html`
+<style>
+#module-settings-assistant {
+  user-select: none;
+}
+
+#module-settings-assistant-init {
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+#module-settings-assistant-init > section {
+  padding: 2em 5em; 
+  border-radius: 5px;
+  min-width: 50%;
+}
+
+#module-settings-assistant-init > .module-assistant-type-buttons {
+  align-self: start;
+  display: flex;
+  min-width: 50%;
+  justify-content: space-between;
+}
+
+#module-settings-assistant-init button {
+  height: 2.2em;
+  padding: 0 2em;
+}
+
+#module-settings-assistant section.scrollable {
+  overflow-y: auto;
+}
+
+</style>
+
 <div id="module-settings-assistant" style="display: none;">
   <div id="module-settings-assistant-init">
-    <p id="module-settings-assistant-internet-usage" style="margin-bottom: 2em;"></p>
-    <button id="add-modules-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled"></button>
-    <button id="remove-modules-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled"></button>
+    <section>
+      <p id="module-settings-assistant-internet-usage" style="margin-bottom: 2em;"></p>
+    </section>
+    <div class="module-assistant-type-buttons">
+      <button id="add-modules-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled"></button>
+      <button id="remove-modules-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled"></button>
+    </div>
   </div>
 
   <assistant-steps-add></assistant-steps-add>
@@ -88,9 +131,6 @@ class ModuleAssistant extends HTMLElement{
       wizardWidth = 1100;
     }
 
-    var offsetLeft = appContainerWidth - wizardWidth - 100;
-    var offsetTop = 20;
-
     this._assistantAdd.hide();
     this._assistantRemove.hide();
     $('#module-settings-assistant-init').show();
@@ -117,12 +157,11 @@ class ModuleAssistant extends HTMLElement{
 
 
     $('#module-settings-assistant').dialog({
-      position: [offsetLeft, offsetTop],
       modal: true,
       title: title,
       dialogClass: 'ezra-dialog module-assistant-dialog',
       width: wizardWidth,
-      minHeight: 280
+      minHeight: 610
     });
 
     assistantHelper.unlockDialog();

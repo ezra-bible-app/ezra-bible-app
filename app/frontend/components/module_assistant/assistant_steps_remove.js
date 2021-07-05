@@ -25,35 +25,16 @@ require('./step_remove.js');
 
 const template = html`
 <style>
-  #module-settings-assistant-add,
-  #module-settings-assistant-add .content {
-    min-height: 380px;
+  #module-settings-assistant-remove,
+  #module-settings-assistant-remove .content {
+    min-height: 480px;
   }
-#module-settings-assistant {
-  user-select: none;
-}
-
-#module-settings-assistant-init {
-  padding-top: 2em;
-  text-align: center;
-}
-
-
-.Android #module-settings-assistant input[type="checkbox"] {
-  float: left;
-  margin-right: 0.5em;
-}
-
-#module-settings-assistant section.scrollable {
-  overflow-y: auto;
-}
-
+  #module-settings-assistant-remove {
+    margin-top: 2.5%;
+  }
 </style>
 
-<div id="module-settings-assistant-remove" style="display: none;">
-</div>
-
-<unlock-dialog></unlock-dialog>
+<div id="module-settings-assistant-remove" style="display: none;"></div>
 `;
 
 const templateSteps = html`
