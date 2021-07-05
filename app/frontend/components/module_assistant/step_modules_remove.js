@@ -56,19 +56,20 @@ class StepModulesRemove extends HTMLElement {
     console.log('MODULES-REMOVE: listModules');
 
     const installedModulesByLanguage = await getInstalledModulesByLanguage();
+    const languages = Object.keys(installedModulesByLanguage).sort(assistantHelper.sortByText);
     assistantController.init('selectedModules', []);
 
     this.querySelector('loading-indicator').hide();
 
     const moduleList = this.querySelector('#remove-module-list');
 
-    for (let [languageCode, modules] of Object.entries(installedModulesByLanguage)) {
-      modules.sort(assistantHelper.sortByText);
+    for (let languageName of languages) {
+      const modules = installedModulesByLanguage[languageName].sort(assistantHelper.sortByText);
 
       const langModuleSection = assistantHelper.listCheckboxSection(modules,
                                                                     assistantController.get('selectedModules'),
-                                                                    i18nHelper.getLanguageName(languageCode),
-                                                                    { columns: 1, extraIndent: true });
+                                                                    languageName,
+                                                                    { columns: 1, rowGap: '1.5em', extraIndent: true });
       moduleList.append(langModuleSection);
     }
   }
@@ -123,9 +124,11 @@ async function getInstalledModulesByLanguage() {
       moduleInfo.disabled = true;
     }
 
-    moduleList[swordModule.language] = moduleList[swordModule.language] || [];
+    const languageName = i18nHelper.getLanguageName(swordModule.language);
 
-    moduleList[swordModule.language].push(moduleInfo);
+    moduleList[languageName] = moduleList[languageName] || [];
+
+    moduleList[languageName].push(moduleInfo);
   }
 
   return moduleList;

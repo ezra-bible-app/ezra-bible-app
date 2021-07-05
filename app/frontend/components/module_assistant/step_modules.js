@@ -163,7 +163,9 @@ class StepModules extends HTMLElement {
     const hebrewStrongsFilter = this.querySelector('#hebrew-strongs-dict-feature-filter').checked;
     const greekStrongsFilter = this.querySelector('#greek-strongs-dict-feature-filter').checked;
 
-    const languageCodes = [...assistantController.get('selectedLanguages')];
+    const languageCodes = [...assistantController.get('selectedLanguages')].sort((codeA, codeB) => {
+      return assistantHelper.sortByText(i18nHelper.getLanguageName(codeA), i18nHelper.getLanguageName(codeB));
+    });
 
     let renderHeader = false;
     if (languageCodes.length > 1) {
@@ -188,7 +190,7 @@ class StepModules extends HTMLElement {
           let moduleInfo = {
             code: swordModule.name,
             text: `${swordModule.description} [${swordModule.name}]`,
-            description: `${i18n.t('general.module-version')}: ${swordModule.version}; ${swordModule.repository}`,
+            description: `${i18n.t('general.module-version')}: ${swordModule.version}; ${i18n.t("general.module-size")}: ${Math.round(swordModule.size / 1024)} KB; ${swordModule.repository}`,
           };
 
           if (swordModule.locked) {
@@ -210,7 +212,7 @@ class StepModules extends HTMLElement {
       const langModuleSection = assistantHelper.listCheckboxSection(currentLangModules,
                                                                     new Set(assistantController.get('installedModules')),
                                                                     renderHeader ? i18nHelper.getLanguageName(currentLanguageCode) : undefined,
-                                                                    { columns: 1, disableSelected: true, info: true, extraIndent: true });
+                                                                    { columns: 1, disableSelected: true, rowGap: '1.5em', info: true, extraIndent: true });
       filteredModuleList.append(langModuleSection);
     }
   }
