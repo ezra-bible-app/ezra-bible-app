@@ -55,7 +55,7 @@ input[type="search"]::-webkit-search-decoration {
 	-webkit-appearance: none;
 }
 input[type="search"]:focus {
-  outline: none;
+  outline: none;          
 }
 input[type="search"]:focus,
 input[type="search"]:not(:placeholder-shown) {
@@ -63,6 +63,7 @@ input[type="search"]:not(:placeholder-shown) {
   padding-right: 2.25em;
   padding-left: 0.75em;
   border-radius: 5px;
+  cursor: text;
 }
 
 button[type="reset"] {
