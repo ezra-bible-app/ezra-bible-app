@@ -65,8 +65,6 @@ const template = html`
   #info {
     display: none;
     margin-left: 0.5em;
-    padding-bottom: 2px;
-    border-bottom: 1px dashed gray;
   }
   #info svg {
     height: 1.2em;
