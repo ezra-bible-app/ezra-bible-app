@@ -68,7 +68,7 @@ const templateAddSteps = html`
   </section>
 
   <h3 class="module-settings-assistant-section-header-module-type"></h3>
-  <section id="module-list" class="module-assistant-step">
+  <section id="module-list" class="module-assistant-step scrollable">
     <!-- <step-modules></step-modules> -->
   </section>
 

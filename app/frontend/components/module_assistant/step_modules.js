@@ -38,69 +38,65 @@ const template = html`
     clear: both; 
     margin-bottom: 2em;
   }
-  #module-step-wrapper {
+  /* #module-step-wrapper {
     display: flex;
     height: 100%;
     margin-right: -2.5%;
     margin-top: -2.5%;
     overflow: hidden;
-  }
-  #module-list {
+  } */
+  .module-info {
     overflow-y: auto;
-    width: 50%;
-    padding-right: 1em;
-  }
-  #module-info {
-    display: block;
-    width: 50%;
-    overflow-y: auto !important;
     padding: 1em;
     position: relative;
     z-index: 10;
+    border-bottom: 1px solid #69696955;
+    height: 20em;
+    display: none;
   }
-  #module-info .background {
+  .module-info.active {
+    display: block;
+  }
+  .module-info .background {
     position: absolute;
     z-index: -1;
     width: 17em;
     margin-top: -4em;
     margin-left: -4em;
     opacity: 0.1;
-    fill: dimgray;
+    fill: #696969;
   }
 </style>
 
 <div id="module-step-wrapper">
-  <div id="module-list" class="scrollable">
+  <p><b i18n="module-assistant.module-feature-filter"></b></p>
 
-    <p><b i18n="module-assistant.module-feature-filter"></b></p>
-
-    <div id="bible-module-feature-filter" class="feature-filter-wrapper">
-      <input id="headings-feature-filter" class="module-feature-filter" type="checkbox"/> 
-      <label id="headings-feature-filter-label" for="headings-feature-filter" i18n="general.module-headings"></label>
-
-      <input id="strongs-feature-filter" class="module-feature-filter" type="checkbox"/>
-      <label id="strongs-feature-filter-label" for="strongs-feature-filter" i18n="general.module-strongs"></label>
-    </div>
-
-    <div id="dict-module-feature-filter" class="feature-filter-wrapper">
-      <input id="hebrew-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
-      <label id="hebrew-strongs-dict-feature-filter-label" for="hebrew-strongs-dict-feature-filter" i18n="general.module-hebrew-strongs-dict"></label>
-
-      <input id="greek-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
-      <label id="greek-strongs-dict-feature-filter-label" for="greek-strongs-dict-feature-filter" i18n="general.module-greek-strongs-dict"></label>
-    </div>
-
-    <p id="module-list-intro" class="intro"></p>
-
-    <div id="filtered-module-list"></div>
+  <div id="bible-module-feature-filter" class="feature-filter-wrapper">
+    <input id="headings-feature-filter" class="module-feature-filter" type="checkbox"/> 
+    <label id="headings-feature-filter-label" for="headings-feature-filter" i18n="general.module-headings"></label>
+    <input id="strongs-feature-filter" class="module-feature-filter" type="checkbox"/>
+    <label id="strongs-feature-filter-label" for="strongs-feature-filter" i18n="general.module-strongs"></label>
   </div>
 
-  <div id="module-info" class="scrollable">
-    <div class="background">${ICON_INFO}</div>
-    <div id="module-info-content"></div>
-    <loading-indicator style="display: none"></loading-indicator>
+  <div id="dict-module-feature-filter" class="feature-filter-wrapper">
+    <input id="hebrew-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
+    <label id="hebrew-strongs-dict-feature-filter-label" for="hebrew-strongs-dict-feature-filter" i18n="general.module-hebrew-strongs-dict"></label>
+    <input id="greek-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
+    <label id="greek-strongs-dict-feature-filter-label" for="greek-strongs-dict-feature-filter" i18n="general.module-greek-strongs-dict"></label>
   </div>
+
+  <p id="module-list-intro" class="intro"></p>
+
+  <div id="filtered-module-list"></div>
 </div>
+`;
+
+const templateInfo = html`
+  <div class="module-info" class="scrollable">
+    <div class="background">${ICON_INFO}</div>
+    <div class="module-info-content"></div>
+    <loading-indicator></loading-indicator>
+  </div>
 `;
 
 /**
@@ -174,45 +170,20 @@ class StepModules extends HTMLElement {
 
     const repositories = [...assistantController.get('selectedRepositories')];
 
-    for (const currentLanguageCode of languageCodes) {
-      let currentLangModules = [];
+    const sectionOptions = {columns: 1, 
+                            disableSelected: true, 
+                            rowGap: '1.5em', 
+                            info: true, 
+                            afterTemplate: templateInfo,
+                            extraIndent: true};
 
-      for (const currentRepo of repositories) {
-        const currentRepoLangModules = await ipcNsi.getRepoModulesByLang(currentRepo,
-                                                                         currentLanguageCode,
-                                                                         assistantController.get('moduleType'),
-                                                                         headingsFilter,
-                                                                         strongsFilter,
-                                                                         hebrewStrongsFilter,
-                                                                         greekStrongsFilter);
+    for (const language of languageCodes) {
+      const modules = await getModulesByLang(language, repositories, headingsFilter, strongsFilter, hebrewStrongsFilter, greekStrongsFilter);
 
-        const modulesArr = currentRepoLangModules.map(swordModule => {
-          let moduleInfo = {
-            code: swordModule.name,
-            text: `${swordModule.description} [${swordModule.name}]`,
-            description: `${i18n.t('general.module-version')}: ${swordModule.version}; ${i18n.t("general.module-size")}: ${Math.round(swordModule.size / 1024)} KB; ${swordModule.repository}`,
-          };
-
-          if (swordModule.locked) {
-            moduleInfo['icon'] = ICON_LOCKED;
-            moduleInfo['title'] = i18n.t("module-assistant.module-lock-info");
-            moduleInfo['locked'] = "locked";
-            moduleInfo['unlock-info'] = swordModule.unlockInfo;
-          }
-
-          return moduleInfo;
-        });
-
-        // Append this repo's modules to the overall language list
-        currentLangModules = currentLangModules.concat(modulesArr);
-      }
-
-      currentLangModules.sort(assistantHelper.sortByText);
-
-      const langModuleSection = assistantHelper.listCheckboxSection(currentLangModules,
+      const langModuleSection = assistantHelper.listCheckboxSection(modules,
                                                                     new Set(assistantController.get('installedModules')),
-                                                                    renderHeader ? i18nHelper.getLanguageName(currentLanguageCode) : undefined,
-                                                                    { columns: 1, disableSelected: true, rowGap: '1.5em', info: true, extraIndent: true });
+                                                                    renderHeader ? i18nHelper.getLanguageName(language) : undefined,
+                                                                    sectionOptions);
       filteredModuleList.append(langModuleSection);
     }
   }
@@ -221,7 +192,7 @@ class StepModules extends HTMLElement {
     const checkbox = event.target;
     const moduleId = event.detail.code;
     const checked = event.detail.checked;
-    
+
     if (checked) {
       assistantController.add('selectedModules', moduleId);
     } else {
@@ -231,7 +202,7 @@ class StepModules extends HTMLElement {
     if (!checkbox.hasAttribute('locked')) {
       return;
     }
-    
+
     if (checked) {
       console.log('MODULE checkbox locked checked', event.detail, event.target);
       this.unlockDialog.show(moduleId, checkbox.getAttribute('unlock-info'), checkbox);
@@ -243,27 +214,65 @@ class StepModules extends HTMLElement {
   }
 
   _handleInfoClick(event) {
-    
+
     const moduleCode = event.detail.code;
 
-    const moduleInfo = this.querySelector('#module-info');
-    // moduleInfo.style.display = 'block';
-    // event.target.scrollIntoView({behavior: 'smooth', block: 'end'});
+    const moduleInfo = this.querySelector(`assistant-checkbox[code="${moduleCode}"] + .module-info`);
+    if (!moduleInfo.classList.contains('active')) {
+      this.querySelectorAll('.module-info.active').forEach(el => el.classList.remove('active'));
+      moduleInfo.classList.add('active');
+    }
 
-    const moduleInfoContent = moduleInfo.querySelector('#module-info-content');
-    const loadingIndicator = moduleInfo.querySelector('loading-indicator');
-
-    moduleInfoContent.innerHTML = '';
-    loadingIndicator.show();
-
-    setTimeout(async () => {
-      const swordModuleHelper = require('../../helpers/sword_module_helper.js');
-      moduleInfoContent.innerHTML = await swordModuleHelper.getModuleInfo(moduleCode, true);
-      loadingIndicator.hide();
-    }, 200);
+    const moduleInfoContent = moduleInfo.querySelector('.module-info-content');
+    
+    if (moduleInfoContent.textContent === '') {
+      setTimeout(async () => {
+        const swordModuleHelper = require('../../helpers/sword_module_helper.js');
+        moduleInfoContent.innerHTML = await swordModuleHelper.getModuleInfo(moduleCode, true);
+        
+        moduleInfo.querySelector('loading-indicator').hide();
+      }, 100);
+    }
 
   }
+
 }
 
 customElements.define('step-modules', StepModules);
 module.exports = StepModules;
+
+async function getModulesByLang(languageCode, repositories, headingsFilter, strongsFilter, hebrewStrongsFilter, greekStrongsFilter) {
+  var currentLangModules = [];
+
+  for (const currentRepo of repositories) {
+    const currentRepoLangModules = await ipcNsi.getRepoModulesByLang(currentRepo,
+                                                                     languageCode,
+                                                                     assistantController.get('moduleType'),
+                                                                     headingsFilter,
+                                                                     strongsFilter,
+                                                                     hebrewStrongsFilter,
+                                                                     greekStrongsFilter);
+
+    const modulesArr = currentRepoLangModules.map(swordModule => {
+      let moduleInfo = {
+        code: swordModule.name,
+        text: `${swordModule.description} [${swordModule.name}]`,
+        description: `${i18n.t('general.module-version')}: ${swordModule.version}; ${i18n.t("general.module-size")}: ${Math.round(swordModule.size / 1024)} KB; ${swordModule.repository}`,
+      };
+
+      if (swordModule.locked) {
+        moduleInfo['icon'] = ICON_LOCKED;
+        moduleInfo['title'] = i18n.t("module-assistant.module-lock-info");
+        moduleInfo['locked'] = "locked";
+        moduleInfo['unlock-info'] = swordModule.unlockInfo;
+      }
+
+      return moduleInfo;
+    });
+
+    // Append this repo's modules to the overall language list
+    currentLangModules = currentLangModules.concat(modulesArr);
+  }
+
+  return currentLangModules.sort(assistantHelper.sortByText);
+}

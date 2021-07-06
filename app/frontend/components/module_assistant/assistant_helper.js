@@ -56,11 +56,12 @@ module.exports.sortByText = function(itemA, itemB) {
  * @param {Set<string>} selected array of values that will be shown as checked
  * @param {string=} sectionTitle Section title
  * @param {object} options additional options for the layout
- * @param {number} [options.columns=3] number of columns
+ * @param {number} [options.columns='auto-fill'] number of columns
  * @param {boolean} [options.disableSelected=false] mark all checked items as disabled
  * @param {boolean} [options.info=false] display info icon and generate event on click
  * @param {boolean} [options.extraIndent=false] add extra indent to make sure that all item icons will be visible
  * @param {string} [options.info="0.5em"] CSS size for the gap between the rows
+ * @param {HTMLTemplateElement} [options.afterTemplate=null] optional template to insert after each checkbox
  * @returns {DocumentFragment} HTML fragment with appropriate <assistant-checkbox> elements for each item
  */
 module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", options={}) {
@@ -74,6 +75,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
     info: false,
     extraIndent: false,
     rowGap: '0.5em',
+    afterTemplate: null,
     ...options
   };
 
@@ -111,6 +113,10 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
         checkboxes.push(checkbox);
       }
     }
+  }
+
+  if (options.afterTemplate && options.afterTemplate instanceof HTMLTemplateElement) {
+    checkboxes = checkboxes.map(checkbox => `<div>${checkbox}${options.afterTemplate.innerHTML}</div>`);
   }
 
   const paddingLeft = options.extraIndent ? '1em' : '0';
