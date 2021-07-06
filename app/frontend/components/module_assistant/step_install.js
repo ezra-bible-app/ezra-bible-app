@@ -104,7 +104,9 @@ class StepInstall extends HTMLElement {
 
     const selectedModules = assistantController.get('selectedModules');
     for (const currentModule of selectedModules) {
-      var unlockFailed = true;
+      let unlockFailed = true;
+      this._moduleInstallationCancelled = false;
+      this.querySelector('#cancel-module-installation-button').classList.remove('ui-state-disabled');
 
       while (unlockFailed) {
         try {
@@ -275,7 +277,7 @@ class StepInstall extends HTMLElement {
   _setInstallationInfoStatus(errorType="") {
     const infoContainer = this.querySelector('#progress-bar-container').previousElementSibling;
     var infoStatus = infoContainer.querySelector('.install-status');
-    const i18nKey = errorType === "" ? "done" : errorType;
+    const i18nKey = errorType === "" ? this._moduleInstallationCancelled ? "module-install-cancelled" : "done" : errorType;
     infoStatus.textContent = i18n.t(`general.${i18nKey}`);
     if (errorType !== "") {
       infoStatus.classList.add('error');
