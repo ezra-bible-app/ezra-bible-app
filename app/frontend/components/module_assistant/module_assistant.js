@@ -53,8 +53,12 @@ const template = html`
 }
 
 #module-settings-assistant-init > p {
-  min-width: 50%;
+  width: 60%;
   padding: 2em 5em; 
+  margin: 0;
+  text-align: center;
+  font-size: 1.2em;
+  line-height: 1.5em;
   border-radius: 5px;
   background: var(--widget-bg-color);
 }

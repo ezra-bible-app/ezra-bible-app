@@ -25,20 +25,31 @@ const assistantHelper = require('./assistant_helper.js');
 const template = html`
 <style>
   .update-repository-data-wrapper {
-    padding: 1em 2.5%;
-    min-height: 3em;
+    padding: 5px 2.5%;
+    height: 3em;
+    box-sizing: border-box;
+    display: grid;
+    place-items: center;
     background: var(--widget-bg-color, #eee);
     border-radius: 5px;
   }
   #update-repository-data-info {
     text-align: center;
   }
-  #update-repository-data-info .intro{
-    margin: 0 0 1em;
+  #update-repository-data-info button {
+    height: 2em;
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-left: 1em;
   }
-
-  #update-repository-data-progress p, #update-repository-data-progress .progress-bar{
+  #update-repository-data-progress {
+    width: 100%;
+  }
+  #update-repository-data-progress .progress-bar, #update-repository-data-failed{
     margin: 0;
+  }
+  #update-repository-data-failed {
+    color: red;
   }
 </style>
 
@@ -50,12 +61,11 @@ const template = html`
   </div>
   
   <div id="update-repository-data-progress" class="update-view"> 
-    <p i18n="module-assistant.updating-repository-data"></p>
     <div id="repo-update-progress-bar" class="progress-bar">
       <div class="progress-label" i18n="module-assistant.updating"></div>
     </div>
   </div>  
-  <p id="update-failed" style="display: none" i18n="module-assistant.update-repository-data-failed"></p>
+  <p id="update-repository-data-failed" style="display: none" i18n="module-assistant.update-repository-data-failed"></p>
 
 </section>
 `;
@@ -144,7 +154,7 @@ class StepUpdateRepositories extends HTMLElement {
     } else {
       console.log("Failed to update the repository configuration!");
       listRepoTimeoutMs = 3000;
-      this.querySelector('#update-failed').style.display = 'block';     
+      this.querySelector('#update-repository-data-failed').style.display = 'block';     
     }
 
     assistantController.resolveAllRepositoryData();
