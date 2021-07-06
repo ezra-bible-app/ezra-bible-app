@@ -18,6 +18,7 @@
 
 const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
+const assistantHelper = require('./assistant_helper.js');
 
 const template = html`
 <style>
@@ -37,6 +38,14 @@ const template = html`
 `;
 
 class UnlockDialog extends HTMLElement {
+  get opened() {
+    return this._unlockDialogOpened;
+  }
+
+  get cancelled() {
+    return this._unlockCancelled;
+  }
+
   constructor() {
     super();
 
@@ -46,8 +55,7 @@ class UnlockDialog extends HTMLElement {
 
   connectedCallback() {  
     this.appendChild(template.content);
-    this.localize();
-
+    assistantHelper.localize(this);
   }
 
   show(moduleId, unlockInfo="", checkbox=undefined) {
@@ -105,25 +113,13 @@ class UnlockDialog extends HTMLElement {
     };
     
     $(unlockDialog).dialog(unlockDialogOptions);
+    this._unlockDialogOpened = true;
+    
     inputElement.focus();
   }
 
   resetKey(moduleId) {
     assistantController.setUnlockKey(moduleId, '');
-  }
-
-  get opened() {
-    return this._unlockDialogOpened;
-  }
-
-  get cancelled() {
-    return this._unlockCancelled;
-  }
-
-  localize() {
-    this.querySelectorAll('[i18n]').forEach(element => {
-      element.innerHTML = i18n.t(element.getAttribute('i18n'));
-    });
   }
 }
 

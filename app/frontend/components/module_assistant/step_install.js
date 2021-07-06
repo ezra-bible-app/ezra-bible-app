@@ -104,7 +104,6 @@ class StepInstall extends HTMLElement {
 
     const selectedModules = assistantController.get('selectedModules');
     for (const currentModule of selectedModules) {
-      var swordModule = await ipcNsi.getRepoModule(currentModule);
       var unlockFailed = true;
 
       while (unlockFailed) {
@@ -119,13 +118,15 @@ class StepInstall extends HTMLElement {
 
         if (unlockFailed) {
           console.log('INSTALL: installSelectedModules unlockFailed');
+          const swordModule = await ipcNsi.getRepoModule(currentModule);
           this.unlockDialog.show(swordModule.name, swordModule.unlockInfo);
 
           while (this.unlockDialog.opened) {
-            await sleep(200);
+            await sleep(500);
           }
 
           if (this.unlockDialog.cancelled) {
+            await ipcNsi.uninstallModule(currentModule);
             break;
           }
         }
@@ -161,37 +162,32 @@ class StepInstall extends HTMLElement {
         await ipcNsi.installModule(moduleCode, progress => this._handleModuleInstallProgress(progress));
       }
 
-      // FIXME
-      // Sleep a bit after installation. This is actually a hack to prevent
-      // a "white screen error" right after module installation. The exact reason
-      // for that error is unclear, but the sleeping prevents it.
-      // await sleep(100);
-
       if (swordModule.locked) {
-        unlockSuccessful = assistantController.applyUnlockKey(moduleCode);
+        unlockSuccessful = await assistantController.applyUnlockKey(moduleCode);
         if (!unlockSuccessful) {
           const errorMessage = "Locked module is not readable! Wrong unlock key?";
           throw errorMessage;
         }
       }
 
-      // FIXME: Put this in a callback
-      if (assistantController.get('moduleType') == 'BIBLE') {
-        await app_controller.updateUiAfterBibleTranslationAvailable(moduleCode);
-      }
     } catch (e) {
       console.log("Error during installation: " + e);
       installSuccessful = false;
     }
-
+    
     if (installSuccessful) {
       Sentry.addBreadcrumb({category: "app",
                             message: `Installed module ${moduleCode}`,
                             level: Sentry.Severity.Info});
-
+      
       this._setInstallationInfoStatus();
       $progressBar.progressbar("value", 100);
       var strongsAvailable = await ipcNsi.strongsAvailable();
+      
+      // FIXME: Put this in a callback
+      if (assistantController.get('moduleType') == 'BIBLE') {
+        await app_controller.updateUiAfterBibleTranslationAvailable(moduleCode);
+      }
 
       if (assistantController.get('moduleType') == 'BIBLE' && swordModule.hasStrongs && !strongsAvailable) {
         await this._installStrongsModules();
