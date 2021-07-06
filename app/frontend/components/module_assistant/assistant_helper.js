@@ -69,7 +69,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
   }
 
   options = {
-    columns: 3,
+    columns: 'auto-fill',
     disableSelected: false,
     info: false,
     extraIndent: false,
@@ -86,7 +86,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
       const checkedProp = selected.has(code);
       const disabledProp = disabled || options.disableSelected && checkedProp;
 
-      const style = text && text.length > 27 && options.columns > 1 ? 'style="grid-column-end: span 2"' : '';
+      const style = text && text.length > 22 && (options.columns === 'auto-fill' || options.columns > 1) ? 'style="grid-column-end: span 2"' : '';
 
       const iconSpan = icon ? `<span slot="label-icon">${icon}</span>` : '';
 
@@ -117,7 +117,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
 
   const template = html`
     <h3 style="margin: 1em 0 0;">${sectionTitle}</h3>
-    <div style="display: grid; grid-template-columns: repeat(${options.columns}, 1fr); grid-row-gap: ${options.rowGap}; grid-column-gap: 1em; grid-auto-flow: dense; padding: 0.5em 0 0.5em ${paddingLeft};">
+    <div style="display: grid; grid-template-columns: repeat(${options.columns}, minmax(15em, 1fr)); grid-row-gap: ${options.rowGap}; grid-column-gap: 1em; grid-auto-flow: dense; padding: 0.5em 0 0.5em ${paddingLeft};">
       ${checkboxes}
     </div>`;
   return template.content;
