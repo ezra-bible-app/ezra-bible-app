@@ -56,7 +56,9 @@ const template = html`
   padding: 2em 5em; 
   border-radius: 5px;
   min-width: 50%;
+  background: var(--widget-bg-color);
 }
+
 
 #module-settings-assistant-init > .module-assistant-type-buttons {
   align-self: start;

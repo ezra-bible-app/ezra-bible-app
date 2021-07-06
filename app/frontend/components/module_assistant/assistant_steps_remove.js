@@ -27,9 +27,7 @@ const template = html`
 <style>
   #module-settings-assistant-remove .content {
     min-height: calc(100% - 4em);
-  }
-  .darkmode--activated {
-    background: var(--background-color);
+    background: var(--widget-bg-color);
   }
   #module-settings-assistant-remove {
     height: 100%;
