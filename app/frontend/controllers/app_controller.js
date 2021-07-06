@@ -563,20 +563,35 @@ class AppController {
 
   getCurrentVerseListMenu(tabIndex=undefined) {
     var currentVerseListTabs = this.getCurrentVerseListTabs(tabIndex);
-    var currentVerseListMenu = currentVerseListTabs[0].querySelector('.verse-list-menu');
-    return $(currentVerseListMenu);
+    var currentVerseListMenu = null;
+
+    try {
+      currentVerseListMenu = $(currentVerseListTabs[0].querySelector('.verse-list-menu'));
+    } catch (e) { };
+
+    return currentVerseListMenu;
   }
 
   getCurrentVerseListComposite(tabIndex=undefined) {
     var currentVerseListTabs = this.getCurrentVerseListTabs(tabIndex);
-    var currentVerseListComposite = currentVerseListTabs[0].querySelector('.verse-list-composite');
-    return $(currentVerseListComposite);
+    var currentVerseListComposite = null;
+
+    try {
+      currentVerseListComposite = $(currentVerseListTabs[0].querySelector('.verse-list-composite'));
+    } catch (e) { };
+
+    return currentVerseListComposite;
   }
 
   getCurrentVerseListFrame(tabIndex=undefined) {
     var currentVerseListComposite = this.getCurrentVerseListComposite(tabIndex);
-    var currentVerseListFrame = currentVerseListComposite[0].querySelector('.verse-list-frame');
-    return $(currentVerseListFrame);
+    var currentVerseListFrame = null;
+
+    try {
+      currentVerseListFrame = $(currentVerseListComposite[0].querySelector('.verse-list-frame'));
+    } catch (e) { };
+
+    return currentVerseListFrame;
   }
 
   getCurrentReferenceVerse(tabIndex=undefined) {
