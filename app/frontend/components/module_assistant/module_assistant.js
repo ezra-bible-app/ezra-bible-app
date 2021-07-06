@@ -52,13 +52,12 @@ const template = html`
   text-align: center;
 }
 
-#module-settings-assistant-init > section {
+#module-settings-assistant-init > p {
+  min-width: 50%;
   padding: 2em 5em; 
   border-radius: 5px;
-  min-width: 50%;
   background: var(--widget-bg-color);
 }
-
 
 #module-settings-assistant-init > .module-assistant-type-buttons {
   align-self: start;
@@ -86,9 +85,10 @@ const template = html`
 <div id="module-settings-assistant" style="display: none;">
   <div class="container">
   <div id="module-settings-assistant-init">
-    <section>
-      <p id="module-settings-assistant-internet-usage" style="margin-bottom: 2em;"></p>
-    </section>
+
+    <p id="module-settings-assistant-intro"></p>   
+    <p id="module-settings-assistant-internet-usage" style="margin-bottom: 2em;"></p>
+
     <div class="module-assistant-type-buttons">
       <button id="add-modules-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled"></button>
       <button id="remove-modules-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled"></button>
@@ -204,7 +204,7 @@ class ModuleAssistant extends HTMLElement{
     var removeModuleText = "";
 
     const moduleType = assistantController.get('moduleType');
-
+    
     if (moduleType == "BIBLE") {
       moduleTypeText = i18n.t("module-assistant.module-type-bible");
       addModuleText = i18n.t("module-assistant.add-translations");
@@ -216,8 +216,9 @@ class ModuleAssistant extends HTMLElement{
     } else {
       console.error("InstallModuleAssistant: Unknown module type!");
     }
-
+    
     var internetUsageNote = i18n.t("module-assistant.internet-usage-note", { module_type: moduleTypeText });
+    document.querySelector('#module-settings-assistant-intro').innerHTML = i18n.t("module-assistant.update-data-info-text", {module_type: moduleTypeText});
     document.querySelector('#module-settings-assistant-internet-usage').innerHTML = internetUsageNote;
     document.querySelector('#add-modules-button').textContent = addModuleText;
     document.querySelector('#remove-modules-button').textContent = removeModuleText;

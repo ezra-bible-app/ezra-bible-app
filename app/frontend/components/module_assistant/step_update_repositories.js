@@ -26,7 +26,7 @@ const template = html`
 <style>
   .update-repository-data-wrapper {
     padding: 1em 2.5%;
-    min-height: 6em;
+    min-height: 3em;
     background: var(--widget-bg-color, #eee);
     border-radius: 5px;
   }
@@ -45,7 +45,6 @@ const template = html`
 <section class="update-repository-data-wrapper">
   
   <div id="update-repository-data-info" class="info-view">
-    <p class="intro"></p>   
     <span class="update-info"></span>
     <button id="update-repo-data" class="fg-button ui-state-default ui-corner-all" i18n="module-assistant.update-now"></button>
   </div>
@@ -81,7 +80,7 @@ class StepUpdateRepositories extends HTMLElement {
   }
 
   async init() {
-    this._localize();
+    assistantHelper.localize(this);
     if (await this._wasUpdated()) {
       this._showUpdateInfo();
     } else {
@@ -168,18 +167,6 @@ class StepUpdateRepositories extends HTMLElement {
     }
   }
 
-  _localize() {
-    let moduleTypeText = "";
-    const moduleType = assistantController.get('moduleType');
-    if (moduleType == "BIBLE") {
-      moduleTypeText = i18n.t("module-assistant.module-type-bible");
-    } else if (moduleType == "DICT") {
-      moduleTypeText = i18n.t("module-assistant.module-type-dict");
-    }
-    this.querySelector('.intro').innerHTML = i18n.t("module-assistant.update-data-info-text", {module_type: moduleTypeText});
-
-    assistantHelper.localize(this);
-  }
 }
 
 customElements.define('step-update-repositories', StepUpdateRepositories);
