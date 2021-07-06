@@ -25,12 +25,14 @@ require('./step_remove.js');
 
 const template = html`
 <style>
-  #module-settings-assistant-remove,
   #module-settings-assistant-remove .content {
-    min-height: 480px;
+    min-height: calc(100% - 4em);
+  }
+  .darkmode--activated {
+    background: var(--background-color);
   }
   #module-settings-assistant-remove {
-    margin-top: 2.5%;
+    height: 100%;
   }
 </style>
 
@@ -39,7 +41,7 @@ const template = html`
 
 const templateSteps = html`
   <h3 class="module-settings-assistant-section-header-module-type"></h3>
-  <section class="module-list" class="scrollable">
+  <section id="module-list" class="scrollable">
     <!-- <step-module-remove></step-module-remove> -->
   </section>
 

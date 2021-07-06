@@ -36,6 +36,12 @@ const template = html`
   user-select: none;
 }
 
+#module-settings-assistant > .container {
+  height: 100%;
+  box-sizing: border-box;
+  padding-top: 1em;
+}
+
 #module-settings-assistant-init {
   width: 100%;
   height: 100%;
@@ -54,9 +60,9 @@ const template = html`
 
 #module-settings-assistant-init > .module-assistant-type-buttons {
   align-self: start;
-  display: flex;
-  min-width: 50%;
-  justify-content: space-between;
+  display: grid;
+  grid-auto-flow: column;
+  gap: 5em;
 }
 
 #module-settings-assistant-init button {
@@ -67,10 +73,16 @@ const template = html`
 #module-settings-assistant section.scrollable {
   overflow-y: auto;
 }
+#module-settings-assistant .content .body {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
 
 </style>
 
 <div id="module-settings-assistant" style="display: none;">
+  <div class="container">
   <div id="module-settings-assistant-init">
     <section>
       <p id="module-settings-assistant-internet-usage" style="margin-bottom: 2em;"></p>
@@ -84,6 +96,7 @@ const template = html`
   <assistant-steps-add></assistant-steps-add>
 
   <assistant-steps-remove></assistant-steps-remove>
+  </div>
 </div>
 `;
 
@@ -122,7 +135,7 @@ class ModuleAssistant extends HTMLElement{
   async openAssistant(moduleType) {
     await assistantController.initState(moduleType);
 
-    var appContainerWidth = $(window).width() - 10;
+    const appContainerWidth = $(window).width() - 10;
     var wizardWidth = null;
 
     if (appContainerWidth < 1100) {
@@ -130,6 +143,8 @@ class ModuleAssistant extends HTMLElement{
     } else {
       wizardWidth = 1100;
     }
+
+    const wizardHeight = $(window).height() * 0.75;
 
     this._assistantAdd.hide();
     this._assistantRemove.hide();
@@ -161,7 +176,7 @@ class ModuleAssistant extends HTMLElement{
       title: title,
       dialogClass: 'ezra-dialog module-assistant-dialog',
       width: wizardWidth,
-      minHeight: 610
+      height: wizardHeight,
     });
 
     assistantHelper.unlockDialog();

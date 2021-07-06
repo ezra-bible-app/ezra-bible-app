@@ -29,19 +29,28 @@ require('./unlock_dialog.js');
 
 const template = html`
 <style>
+  #module-settings-assistant-add-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  #module-settings-assistant-add {
+    height: 100%;
+  }
+  #module-settings-assistant-add .content {
+    min-height: calc(100% - 4em);
+  }
   #module-assistant-add-info {
     padding: 0 2.5% 1em 0.5em;
   }
-  #module-settings-assistant-add,
-  #module-settings-assistant-add .content {
-    min-height: 380px;
-  }
 </style>
 
-<div id="module-assistant-add-info" style="display: none;">
-      <step-update-repositories></step-update-repositories>
-</div>
-<div id="module-settings-assistant-add" style="display: none;">
+<div id="module-settings-assistant-add-wrapper" style="display: none;">
+  <div id="module-assistant-add-info">
+    <step-update-repositories></step-update-repositories>
+  </div>
+
+  <div id="module-settings-assistant-add"></div>
 </div>
 
 <unlock-dialog></unlock-dialog>
@@ -92,13 +101,11 @@ class AssistantStepsAdd extends HTMLElement {
   }
 
   show() {
-    this.querySelector('#module-assistant-add-info').style.display = 'block';
-    this.querySelector('#module-settings-assistant-add').style.display = 'block';
+    this.querySelector('#module-settings-assistant-add-wrapper').style.display = 'flex';
   }
 
   hide() {
-    this.querySelector('#module-assistant-add-info').style.display = 'none';
-    this.querySelector('#module-settings-assistant-add').style.display = 'none';
+    this.querySelector('#module-settings-assistant-add-wrapper').style.display = 'none';
   }
 
   async startModuleAssistantSteps() {

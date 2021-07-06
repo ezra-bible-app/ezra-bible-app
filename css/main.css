@@ -539,15 +539,6 @@ h2:nth-of-type(1) {
   display: none;
 }
 
-#remove-module-list {
-  overflow-y: scroll;
-  height: 75%;
-}
-
-#remove-module-list h2 {
-  margin-left: 0;
-}
-
 .selectable-translation-module {
   text-indent: -20px;
   padding-left: 20px;
