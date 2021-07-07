@@ -28,7 +28,9 @@ class UiHelper {
       context = document;
     } else if (typeof context === 'string') {
       context = document.querySelector(context);
-    } 
+    } else {
+      throw new Error('context should be css selector string or null for the document context');
+    }
   
     var buttons = context.querySelectorAll('.fg-button');
   

@@ -64,7 +64,7 @@ Given('I choose to remove translations', async function () {
   await removeModulesButton.click();
 });
 
-Given('I check repository data update date', {timeout: 40 * 1000}, async function () {
+Given('the repository update date matches today', {timeout: 40 * 1000}, async function () {
   var updateInfo = await spectronHelper.getWebClient().$('step-update-repositories .update-info');
   await spectronHelper.getWebClient().waitUntil(async () => { return await updateInfo.getText() !== ""; }, { timeout: 40000 });
 

@@ -59,10 +59,6 @@ body {
   background-color: var(--background-color);
 }
 
-/* body.darkmode--activated {
-  background-color: #1e1e1e !important;
-} */
-
 .darkmode-layer {
   background-color: var(--background-color) !important;
   mix-blend-mode: unset !important;
