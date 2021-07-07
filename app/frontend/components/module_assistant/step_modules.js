@@ -61,6 +61,9 @@ const template = html`
     color: #696969;
     width: 100%;
   }
+  .darkmode--activated #module-info {
+    color: #929292;
+  }
   #module-info .background {
     position: absolute;
     z-index: -1;
