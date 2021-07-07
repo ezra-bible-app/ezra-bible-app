@@ -20,24 +20,24 @@ const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 require('./assistant_checkbox.js');
 
-module.exports.lockDialogForAction = function (wizardId) {
-  wizardId = '#' + wizardId;
+module.exports.lockDialogForAction = function (elementId) {
+  elementId = '#' + elementId;
 
   // Disable close button of dialog, at this point we don't allow the user to close the dialog any longer
   $('.module-assistant-dialog').find('.ui-dialog-titlebar-close').hide();
 
   // Disable the back button, there is no way back from here
-  $($(wizardId).find('.actions').find('li')[0]).addClass('disabled');
+  $($(elementId).find('.actions').find('li')[0]).addClass('disabled');
 
   // Disable the finish button as long as we haven't finished
-  $($(wizardId).find('.actions').find('li')[2]).addClass('disabled');
+  $($(elementId).find('.actions').find('li')[2]).addClass('disabled');
 };
 
-module.exports.unlockDialog = function (wizardId) {
-  wizardId = '#' + wizardId;
+module.exports.unlockDialog = function (elementId) {
+  elementId = '#' + elementId;
 
   // Enable the finish button
-  $($(wizardId).find('.actions').find('li')[2]).removeClass('disabled');
+  $($(elementId).find('.actions').find('li')[2]).removeClass('disabled');
 
   // Enable close button of dialog
   $('.module-assistant-dialog').find('.ui-dialog-titlebar-close').show();

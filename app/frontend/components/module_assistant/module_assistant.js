@@ -19,8 +19,8 @@
 const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
-require('./assistant_steps_add.js');
-require('./assistant_steps_remove.js');
+require('./assistant_steps_add_modules.js');
+require('./assistant_steps_remove_modules.js');
 
 /**
  * @module ModuleAssistant
@@ -100,9 +100,9 @@ const template = html`
     </div>
   </div>
 
-  <assistant-steps-add></assistant-steps-add>
+  <assistant-steps-add-modules></assistant-steps-add-modules>
 
-  <assistant-steps-remove></assistant-steps-remove>
+  <assistant-steps-remove-modules></assistant-steps-remove-modules>
   </div>
 </div>
 `;
@@ -126,11 +126,11 @@ class ModuleAssistant extends HTMLElement{
     const removeButton = document.querySelector('#remove-modules-button');
     removeButton.addEventListener('click', async () => this._startRemoveModuleAssistant());
 
-    /** @type {import('./assistant_steps_add')} */
-    this._assistantAdd = document.querySelector('assistant-steps-add');
+    /** @type {import('./assistant_steps_add_modules')} */
+    this._assistantAdd = document.querySelector('assistant-steps-add-modules');
 
-    /** @type {import('./assistant_steps_remove')} */
-    this._assistantRemove = document.querySelector('assistant-steps-remove');
+    /** @type {import('./assistant_steps_remove_modules')} */
+    this._assistantRemove = document.querySelector('assistant-steps-remove-modules');
 
     this._initialized = true;
   }
@@ -143,15 +143,15 @@ class ModuleAssistant extends HTMLElement{
     await assistantController.initState(moduleType);
 
     const appContainerWidth = $(window).width() - 10;
-    var wizardWidth = null;
+    var dialogWidth = null;
 
     if (appContainerWidth < 1100) {
-      wizardWidth = appContainerWidth;
+      dialogWidth = appContainerWidth;
     } else {
-      wizardWidth = 1100;
+      dialogWidth = 1100;
     }
 
-    const wizardHeight = $(window).height() * 0.75;
+    const dialogHeight = $(window).height() * 0.75;
 
     this._assistantAdd.hide();
     this._assistantRemove.hide();
@@ -182,8 +182,8 @@ class ModuleAssistant extends HTMLElement{
       modal: true,
       title: title,
       dialogClass: 'ezra-dialog module-assistant-dialog',
-      width: wizardWidth,
-      height: wizardHeight,
+      width: dialogWidth,
+      height: dialogHeight,
     });
 
     assistantHelper.unlockDialog();

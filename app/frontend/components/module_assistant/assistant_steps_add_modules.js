@@ -85,7 +85,7 @@ const MODULES_INDEX = REPOSITORIES_INDEX + 1;
 const INSTALL_INDEX = MODULES_INDEX + 1;
 
 
-class AssistantStepsAdd extends HTMLElement {
+class AssistantStepsAddModules extends HTMLElement {
   constructor() {
     super();
     console.log('ASSISTANT: step constructor');
@@ -242,10 +242,10 @@ class AssistantStepsAdd extends HTMLElement {
 
   _initPage(component, pageIndex, container=null) {
     container = container || this;
-    const wizardPage = container.querySelector('#module-settings-assistant-add-p-'+pageIndex);
-    wizardPage.appendChild(component);
+    const stepsPage = container.querySelector('#module-settings-assistant-add-p-'+pageIndex);
+    stepsPage.appendChild(component);
   }
 }
 
-customElements.define('assistant-steps-add', AssistantStepsAdd);
-module.exports = AssistantStepsAdd;
+customElements.define('assistant-steps-add-modules', AssistantStepsAddModules);
+module.exports = AssistantStepsAddModules;
