@@ -16,9 +16,6 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { html } = require('../../helpers/ezra_helper.js');
-const assistantController = require('./assistant_controller.js');
-require('./assistant_checkbox.js');
 
 module.exports.lockDialogForAction = function (elementId) {
   elementId = '#' + elementId;
@@ -67,6 +64,9 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
   if (arr.length === 0) {
     return '';
   }
+
+  const { html } = require('../../helpers/ezra_helper.js');
+  require('./assistant_checkbox.js');
 
   options = {
     columns: 'auto-fill',
@@ -130,9 +130,9 @@ module.exports.localize = function(container) {
   });
 };
 
-module.exports.localizeContainer = function(container) {
+module.exports.localizeContainer = function(container, moduleType='BIBLE') {
   var moduleTypeText = "";
-  const moduleType = assistantController.get('moduleType');
+
   if (moduleType == 'BIBLE') {
     moduleTypeText = i18n.t("module-assistant.module-type-bible");
   } else if (moduleType == 'DICT') {

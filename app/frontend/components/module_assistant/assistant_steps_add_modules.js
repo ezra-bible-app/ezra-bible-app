@@ -146,7 +146,7 @@ class AssistantStepsAddModules extends HTMLElement {
 
     addModuleAssistantContainer.innerHTML = '';
     addModuleAssistantContainer.appendChild(templateAddSteps.content.cloneNode(true));
-    assistantHelper.localizeContainer(addModuleAssistantContainer);
+    assistantHelper.localizeContainer(addModuleAssistantContainer, assistantController.get('moduleType'));
   }
 
   _addModuleAssistantStepChanging(event, currentIndex, newIndex) {

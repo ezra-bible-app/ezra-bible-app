@@ -126,7 +126,7 @@ class AssistantStepsRemoveModules extends HTMLElement {
 
     moduleAssistantStepsContainer.innerHTML = '';
     moduleAssistantStepsContainer.appendChild(templateSteps.content.cloneNode(true));
-    assistantHelper.localizeContainer(moduleAssistantStepsContainer);
+    assistantHelper.localizeContainer(moduleAssistantStepsContainer, assistantController.get('moduleType'));
   }
 
   _stepChanging(event, currentIndex, newIndex) {
