@@ -47,7 +47,7 @@ const template = html`
   } */
   .module-info {
     overflow-y: hidden;
-    margin-top: 0.5em;
+    margin-top: 1em;
     margin-left: 2em;
     padding: 0.5em 1em 1em;
     position: relative;
@@ -227,7 +227,7 @@ class StepModules extends HTMLElement {
     if (moduleInfo.classList.contains('active')) {
       moduleInfo.classList.toggle('active');
     } else {
-      this.querySelectorAll('.module-info.active').forEach(el => el.classList.remove('active'));
+      // this.querySelectorAll('.module-info.active').forEach(el => el.classList.remove('active'));
       moduleInfo.classList.add('active');
       this.querySelector(`assistant-checkbox[code="${moduleCode}"]`).scrollIntoView({behavior: 'smooth'});
     }
