@@ -23,6 +23,7 @@ var state = {
   selectedRepositories: new Set(),
   selectedModules: new Set(),
   moduleType: null, 
+  moduleTypeText: "",
   repositoriesAvailable: false,
 };
 
@@ -35,6 +36,11 @@ module.exports.initState = async function(moduleType) {
     return false;
   }
   state.moduleType = moduleType;
+  if (moduleType == "BIBLE") {
+    state.moduleTypeText = i18n.t("module-assistant.module-type-bible");
+  } else if (moduleType == "DICT") {
+    state.moduleTypeText = i18n.t("module-assistant.module-type-dict");
+  } 
 
   for(const item of stateSetItems) {
     state[item].clear();
