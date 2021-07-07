@@ -133,7 +133,7 @@ class StepModules extends HTMLElement {
     }));
 
     const filteredModuleList = this.querySelector('#filtered-module-list');
-    filteredModuleList.addEventListener('itemSelected', (e) => this._handleCheckboxClick(e));
+    filteredModuleList.addEventListener('itemChanged', (e) => this._handleCheckboxClick(e));
     filteredModuleList.addEventListener('itemInfoRequested', (e) => this._handleInfoClick(e));
   }
 

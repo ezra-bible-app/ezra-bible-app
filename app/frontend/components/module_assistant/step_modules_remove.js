@@ -49,7 +49,7 @@ class StepModulesRemove extends HTMLElement {
     this.appendChild(template.content.cloneNode(true));
     this._localize();
 
-    this.addEventListener('itemSelected', (e) => this._handleCheckboxClick(e));
+    this.addEventListener('itemChanged', (e) => this._handleCheckboxClick(e));
   }
 
   async listModules() {

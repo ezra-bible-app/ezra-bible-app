@@ -70,7 +70,7 @@ class StepRepositories extends HTMLElement {
   async init() {
     console.log('REPOS: init');
     assistantController.init('selectedRepositories', await ipcSettings.get('selectedRepositories', []));
-    this.addEventListener('itemSelected', (e) => this._handleCheckboxClick(e));
+    this.addEventListener('itemChanged', (e) => this._handleCheckboxClick(e));
     this._initialized = true;
   }
 

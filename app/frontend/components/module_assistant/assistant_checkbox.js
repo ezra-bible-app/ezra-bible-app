@@ -177,7 +177,7 @@ class AssistantCheckbox extends HTMLElement {
       this.removeAttribute('checked');
     }
 
-    this.dispatchEvent(new CustomEvent("itemSelected", {
+    this.dispatchEvent(new CustomEvent("itemChanged", {
       bubbles: true,
       detail: { 
         code: this.code,

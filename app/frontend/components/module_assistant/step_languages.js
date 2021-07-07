@@ -74,7 +74,7 @@ class StepLanguages extends HTMLElement {
     this.appendChild(template.content.cloneNode(true));
     this._localize();
     this.querySelector('loading-indicator').show();
-    this.addEventListener('itemSelected', (e) => this._handleCheckboxClick(e));
+    this.addEventListener('itemChanged', (e) => this._handleCheckboxClick(e));
     this.addEventListener('searchResultsReady', (e) => this._handleSearchResult(e));
   }
 
