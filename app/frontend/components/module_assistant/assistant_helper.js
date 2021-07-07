@@ -124,9 +124,9 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
 };
 
 
-module.exports.localize = function(container) {
+module.exports.localize = function(container, moduleTypeText="") {
   container.querySelectorAll('[i18n]').forEach(element => {
-    element.innerHTML = i18n.t(element.getAttribute('i18n'));
+    element.innerHTML = i18n.t(element.getAttribute('i18n'), {module_type: moduleTypeText});
   });
 };
 
