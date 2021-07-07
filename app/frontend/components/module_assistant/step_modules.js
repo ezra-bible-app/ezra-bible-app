@@ -38,32 +38,30 @@ const template = html`
     clear: both; 
     margin-bottom: 2em;
   }
-  /* #module-step-wrapper {
+  #module-step-wrapper {
     display: flex;
-    height: 100%;
-    margin-right: -2.5%;
-    margin-top: -2.5%;
+    height: calc(100% + 3em);
+    margin-right: -1.5em;
+    margin-top: -1.5em;
     overflow: hidden;
-  } */
-  .module-info {
-    overflow-y: hidden;
-    margin-top: 1em;
-    margin-left: 2em;
-    padding: 0.5em 1em 1em;
+  }
+  #module-list {
+    overflow-y: auto;
+    width: 100%;
+    padding-right: 1em;
+    padding-bottom: 1.5em;
+  }
+
+  #module-info {
+    overflow-y: auto;
+    display: block;
+    padding: 1em;
     position: relative;
     z-index: 10;
-    box-shadow: 1px 1px 3px #0005 inset;
-    background: var(--background-color);
     color: #696969;
-    /* height: 0; */
-    display: none;
-    /* transition: height 1s ease-in-out; */
+    width: 100%;
   }
-  .module-info.active {
-    /* height: auto; */
-    display: block;
-  }
-  .module-info .background {
+  #module-info .background {
     position: absolute;
     z-index: -1;
     width: 17em;
@@ -75,34 +73,34 @@ const template = html`
 </style>
 
 <div id="module-step-wrapper">
-  <p><b i18n="module-assistant.module-feature-filter"></b></p>
+  <div id="module-list" class="scrollable">
+    <p><b i18n="module-assistant.module-feature-filter"></b></p>
 
-  <div id="bible-module-feature-filter" class="feature-filter-wrapper">
-    <input id="headings-feature-filter" class="module-feature-filter" type="checkbox"/> 
-    <label id="headings-feature-filter-label" for="headings-feature-filter" i18n="general.module-headings"></label>
-    <input id="strongs-feature-filter" class="module-feature-filter" type="checkbox"/>
-    <label id="strongs-feature-filter-label" for="strongs-feature-filter" i18n="general.module-strongs"></label>
-  </div>
+    <div id="bible-module-feature-filter" class="feature-filter-wrapper">
+      <input id="headings-feature-filter" class="module-feature-filter" type="checkbox"/> 
+      <label id="headings-feature-filter-label" for="headings-feature-filter" i18n="general.module-headings"></label>
+      <input id="strongs-feature-filter" class="module-feature-filter" type="checkbox"/>
+      <label id="strongs-feature-filter-label" for="strongs-feature-filter" i18n="general.module-strongs"></label>
+    </div>
 
-  <div id="dict-module-feature-filter" class="feature-filter-wrapper">
-    <input id="hebrew-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
-    <label id="hebrew-strongs-dict-feature-filter-label" for="hebrew-strongs-dict-feature-filter" i18n="general.module-hebrew-strongs-dict"></label>
-    <input id="greek-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
-    <label id="greek-strongs-dict-feature-filter-label" for="greek-strongs-dict-feature-filter" i18n="general.module-greek-strongs-dict"></label>
-  </div>
+    <div id="dict-module-feature-filter" class="feature-filter-wrapper">
+      <input id="hebrew-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
+      <label id="hebrew-strongs-dict-feature-filter-label" for="hebrew-strongs-dict-feature-filter" i18n="general.module-hebrew-strongs-dict"></label>
+      <input id="greek-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
+      <label id="greek-strongs-dict-feature-filter-label" for="greek-strongs-dict-feature-filter" i18n="general.module-greek-strongs-dict"></label>
+    </div>
 
-  <p id="module-list-intro" class="intro"></p>
+    <p id="module-list-intro" class="intro"></p>
 
-  <div id="filtered-module-list"></div>
-</div>
-`;
+    <div id="filtered-module-list"></div>
+  </div>  
 
-const templateInfo = html`
-  <div class="module-info" class="scrollable">
+  <div id="module-info" class="scrollable">
     <div class="background">${ICON_INFO}</div>
-    <div class="module-info-content"></div>
-    <loading-indicator></loading-indicator>
+    <div id="module-info-content" i18n="module-assistant.click-to-show-detailed-module-info"></div>
+    <loading-indicator style="display: none"></loading-indicator>
   </div>
+</div>
 `;
 
 /**
@@ -180,7 +178,6 @@ class StepModules extends HTMLElement {
                             disableSelected: true, 
                             rowGap: '1.5em', 
                             info: true, 
-                            afterTemplate: templateInfo,
                             extraIndent: true};
 
     for (const language of languageCodes) {
@@ -223,26 +220,22 @@ class StepModules extends HTMLElement {
 
     const moduleCode = event.detail.code;
 
-    const moduleInfo = this.querySelector(`assistant-checkbox[code="${moduleCode}"] + .module-info`);
-    if (moduleInfo.classList.contains('active')) {
-      moduleInfo.classList.toggle('active');
-    } else {
-      // this.querySelectorAll('.module-info.active').forEach(el => el.classList.remove('active'));
-      moduleInfo.classList.add('active');
-      this.querySelector(`assistant-checkbox[code="${moduleCode}"]`).scrollIntoView({behavior: 'smooth'});
-    }
+    const moduleInfo = this.querySelector('#module-info');
+    if (moduleInfo.getAttribute('code') !== moduleCode) {
+      moduleInfo.setAttribute('code', moduleCode);
 
-    const moduleInfoContent = moduleInfo.querySelector('.module-info-content');
-    
-    if (moduleInfoContent.textContent === '') {
+      const moduleInfoContent = moduleInfo.querySelector('#module-info-content');
+      const loadingIndicator = moduleInfo.querySelector('loading-indicator');
+
+      moduleInfoContent.innerHTML = '';
+      loadingIndicator.show();
+
       setTimeout(async () => {
         const swordModuleHelper = require('../../helpers/sword_module_helper.js');
         moduleInfoContent.innerHTML = await swordModuleHelper.getModuleInfo(moduleCode, true);
-        
-        moduleInfo.querySelector('loading-indicator').hide();
+        loadingIndicator.hide();
       }, 100);
-    }
-
+    }  
   }
 
 }

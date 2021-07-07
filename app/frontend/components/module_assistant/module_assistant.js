@@ -82,6 +82,7 @@ const template = html`
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+  padding: 1.5em;
 }
 
 </style>
