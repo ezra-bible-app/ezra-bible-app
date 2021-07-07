@@ -46,15 +46,21 @@ const template = html`
     overflow: hidden;
   } */
   .module-info {
-    overflow-y: auto;
-    padding: 1em;
+    overflow-y: hidden;
+    margin-top: 0.5em;
+    margin-left: 2em;
+    padding: 0.5em 1em 1em;
     position: relative;
     z-index: 10;
-    border-bottom: 1px solid #69696955;
-    height: 20em;
+    box-shadow: 1px 1px 3px #0005 inset;
+    background: var(--background-color);
+    color: #696969;
+    /* height: 0; */
     display: none;
+    /* transition: height 1s ease-in-out; */
   }
   .module-info.active {
+    /* height: auto; */
     display: block;
   }
   .module-info .background {
@@ -218,9 +224,12 @@ class StepModules extends HTMLElement {
     const moduleCode = event.detail.code;
 
     const moduleInfo = this.querySelector(`assistant-checkbox[code="${moduleCode}"] + .module-info`);
-    if (!moduleInfo.classList.contains('active')) {
+    if (moduleInfo.classList.contains('active')) {
+      moduleInfo.classList.toggle('active');
+    } else {
       this.querySelectorAll('.module-info.active').forEach(el => el.classList.remove('active'));
       moduleInfo.classList.add('active');
+      this.querySelector(`assistant-checkbox[code="${moduleCode}"]`).scrollIntoView({behavior: 'smooth'});
     }
 
     const moduleInfoContent = moduleInfo.querySelector('.module-info-content');
