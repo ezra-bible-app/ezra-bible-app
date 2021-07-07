@@ -110,7 +110,7 @@ class StepLanguages extends HTMLElement {
       const languageArr = [...languages[category].values()].sort(assistantHelper.sortByText);
       
       if (languageArr.length > 0) {
-        const sectionHeader = ['bible-languages', 'most-speaking-languages', 'historical-languages'].includes(category) 
+        const sectionHeader = ['bible-languages', 'most-spoken-languages', 'historical-languages'].includes(category) 
           ? i18n.t(`module-assistant.${category}`) : category === 'iso6391-languages' ? i18n.t('module-assistant.other-languages') : undefined;
         languageContainer.append(assistantHelper.listCheckboxSection(languageArr, selectedLanguages, sectionHeader));
       }
@@ -209,7 +209,7 @@ async function getAvailableLanguagesFromRepos() {
   var appSystemLanguages = new Map();
   var languages = {
     'bible-languages': new Map(),
-    'most-speaking-languages': new Map(),
+    'most-spoken-languages': new Map(),
     'historical-languages': new Map(),
     'iso6391-languages': new Map(),
     'iso6392T-languages': new Map(),
@@ -241,7 +241,7 @@ async function getAvailableLanguagesFromRepos() {
       if (bibleLanguages.has(languageInfo.languageCode)) {
         addLanguage(languages['bible-languages'], languageInfo, currentLanguageCode);
       } else if (mostSpeakingLanguages.has(languageInfo.languageCode)) {
-        addLanguage(languages['most-speaking-languages'], languageInfo, currentLanguageCode);
+        addLanguage(languages['most-spoken-languages'], languageInfo, currentLanguageCode);
       } else if (historicalLanguageTypes.has(languageInfo.type)) {
         addLanguage(languages['historical-languages'], languageInfo, currentLanguageCode);
       } else if (languageInfo.iso6391) {
