@@ -20,7 +20,7 @@
 const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
-require('./step_update_repositories.js');
+require('./update_repositories.js');
 require('./step_languages.js');
 require('./step_repositories.js');
 require('./step_modules.js');
@@ -47,7 +47,7 @@ const template = html`
 
 <div id="module-settings-assistant-add-wrapper" style="display: none;">
   <div id="module-assistant-add-info">
-    <step-update-repositories></step-update-repositories>
+    <update-repositories></update-repositories>
   </div>
 
   <div id="module-settings-assistant-add"></div>
@@ -138,7 +138,7 @@ class AssistantStepsAddModules extends HTMLElement {
     // jQuery.steps() is messing up with DOM :( we need to reassign step components
     this._setupSteps(addModuleAssistantContainer);
 
-    await this.updateConfigStep.init();
+    await this.updateRepositories.init();
     await this.languagesStep.init();
     await this.languagesStep.listLanguages();
   }
@@ -177,9 +177,9 @@ class AssistantStepsAddModules extends HTMLElement {
 
   async _addModuleAssistantStepChanged(event, currentIndex, priorIndex) {
     if (currentIndex < MODULES_INDEX) {
-      this.updateConfigStep.enableUpdate();
+      this.updateRepositories.enableUpdate();
     } else {
-      this.updateConfigStep.disableUpdate();
+      this.updateRepositories.disableUpdate();
     }
 
     if (priorIndex == LANGUAGES_INDEX) {
@@ -208,9 +208,9 @@ class AssistantStepsAddModules extends HTMLElement {
   }
 
   _setupSteps(container) {
-    /** @type {import('./step_update_repositories')} */
-    this.updateConfigStep = this.querySelector('step-update-repositories');
-    // this.updateConfigStep = document.createElement('step-update-repositories');
+    /** @type {import('./update_repositories')} */
+    this.updateRepositories = this.querySelector('update-repositories');
+    // this.updateRepositories = document.createElement('update-repositories');
     // this._initPage(this.updateConfigStep, UPDATE_REPOSITORIES_INDEX, container);
 
     /** @type {import('./step_languages')} */

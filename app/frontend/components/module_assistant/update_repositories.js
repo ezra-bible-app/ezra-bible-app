@@ -70,7 +70,7 @@ const template = html`
 </section>
 `;
 
-class StepUpdateRepositories extends HTMLElement {
+class UpdateRepositories extends HTMLElement {
   constructor() {
     super();
     console.log('UPDATE: step constructor');
@@ -179,5 +179,5 @@ class StepUpdateRepositories extends HTMLElement {
 
 }
 
-customElements.define('step-update-repositories', StepUpdateRepositories);
-module.exports = StepUpdateRepositories;
+customElements.define('update-repositories', UpdateRepositories);
+module.exports = UpdateRepositories;
