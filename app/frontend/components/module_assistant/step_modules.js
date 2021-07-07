@@ -30,26 +30,27 @@ const ICON_INFO = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
 
 const template = html`
 <style>
-  .feature-filter-wrapper {
-    margin-bottom: 1em;
-    display: none;
-  }
-  #module-list-intro {
-    clear: both; 
-    margin-bottom: 2em;
-  }
   #module-step-wrapper {
     display: flex;
-    height: calc(100% + 3em);
-    margin-right: -1.5em;
-    margin-top: -1.5em;
+    height: 100%;
+    border-radius: 5px;
     overflow: hidden;
   }
   #module-list {
     overflow-y: auto;
     width: 100%;
     padding-right: 1em;
-    padding-bottom: 1.5em;
+  }
+  .feature-filter-wrapper {
+    margin-bottom: 1em;
+    display: none;
+  }
+  #module-list > p:first-child {
+    margin-top: 0;
+  }
+  #module-list-intro {
+    clear: both; 
+    margin-bottom: 2em;
   }
 
   #module-info {

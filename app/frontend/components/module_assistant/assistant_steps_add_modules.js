@@ -20,7 +20,6 @@
 const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
-require('./update_repositories.js');
 require('./step_languages.js');
 require('./step_repositories.js');
 require('./step_modules.js');
@@ -29,41 +28,34 @@ require('./unlock_dialog.js');
 
 const template = html`
 <style>
-  #module-settings-assistant-add-wrapper {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
   #module-settings-assistant-add {
     height: 100%;
   }
   #module-settings-assistant-add .content {
     min-height: calc(100% - 4em);
-  }
-  #module-assistant-add-info {
-    padding: 0 2.5% 1em 0.5em;
+    background: transparent;
+    border-radius: unset;
   }
 </style>
 
-<div id="module-settings-assistant-add-wrapper" style="display: none;">
+<div id="module-settings-assistant-add" style="display: none;"></div>
+<!-- <div id="module-settings-assistant-add-wrapper" style="display: none;">
   <div id="module-assistant-add-info">
-    <update-repositories></update-repositories>
   </div>
 
-  <div id="module-settings-assistant-add"></div>
-</div>
+</div> -->
 
 <unlock-dialog></unlock-dialog>
 `;
 
 const templateAddSteps = html`
   <h3 i18n="module-assistant.languages"></h3>
-  <section id="module-languages" class="module-assistant-step scrollable">
+  <section id="module-languages" class="module-assistant-step">
     <!-- <step-languages></step-languages> -->
   </section>
 
   <h3 i18n="module-assistant.repositories"></h3>
-  <section id="module-repositories" class="module-assistant-step scrollable">
+  <section id="module-repositories" class="module-assistant-step">
     <!-- <step-repositories></step-repositories> -->
   </section>
 
@@ -101,11 +93,11 @@ class AssistantStepsAddModules extends HTMLElement {
   }
 
   show() {
-    this.querySelector('#module-settings-assistant-add-wrapper').style.display = 'flex';
+    this.querySelector('#module-settings-assistant-add').style.display = 'block';
   }
 
   hide() {
-    this.querySelector('#module-settings-assistant-add-wrapper').style.display = 'none';
+    this.querySelector('#module-settings-assistant-add').style.display = 'none';
   }
 
   async startModuleAssistantSteps() {
@@ -138,7 +130,6 @@ class AssistantStepsAddModules extends HTMLElement {
     // jQuery.steps() is messing up with DOM :( we need to reassign step components
     this._setupSteps(addModuleAssistantContainer);
 
-    await this.updateRepositories.init();
     await this.languagesStep.init();
     await this.languagesStep.listLanguages();
   }
@@ -176,12 +167,6 @@ class AssistantStepsAddModules extends HTMLElement {
   }
 
   async _addModuleAssistantStepChanged(event, currentIndex, priorIndex) {
-    if (currentIndex < MODULES_INDEX) {
-      this.updateRepositories.enableUpdate();
-    } else {
-      this.updateRepositories.disableUpdate();
-    }
-
     if (priorIndex == LANGUAGES_INDEX) {
       this.languagesStep.saveSelected();
     } else if (priorIndex == REPOSITORIES_INDEX) {
@@ -208,11 +193,6 @@ class AssistantStepsAddModules extends HTMLElement {
   }
 
   _setupSteps(container) {
-    /** @type {import('./update_repositories')} */
-    this.updateRepositories = this.querySelector('update-repositories');
-    // this.updateRepositories = document.createElement('update-repositories');
-    // this._initPage(this.updateConfigStep, UPDATE_REPOSITORIES_INDEX, container);
-
     /** @type {import('./step_languages')} */
     // this.languagesStep = container.querySelector('step-languages');
     this.languagesStep = document.createElement('step-languages');

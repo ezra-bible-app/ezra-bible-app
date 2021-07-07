@@ -23,35 +23,56 @@ const i18nController = require('../../controllers/i18n_controller.js');
 const languageMapper = require('../../../lib/language_mapper.js');
 const assistantHelper = require('./assistant_helper.js');
 const swordModuleHelper = require('../../helpers/sword_module_helper.js');
+require('./update_repositories.js');
 require('../loading_indicator.js');
 require('../generic/fuzzy_search.js');
 
 const template = html`
 <style>
-  step-languages .intro {
+  #language-step-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #language-list-wrapper {
+    border-radius: 5px;
+    flex-grow: 1;
+  }
+  #language-list-wrapper .intro {
     margin: 0 5em 1em;
     text-align: center;
   }
-  step-languages fuzzy-search {
+  #language-list-wrapper fuzzy-search {
     display: block;
     text-align: end;
     margin-top: 1.5em;
     margin-inline-end: 2em;
     font-size: 0.8em;
   }
-  step-languages .search-result {
+  #language-list-wrapper .search-result {
     height: auto;
     opacity: 1;
     transition: all 0.5s ease-in-out;
   }
 </style>
 
-<loading-indicator></loading-indicator>
-<p class="intro" i18n="module-assistant.pick-languages-from-repos"></p> 
-<div class="app-system-languages"></div>
-<fuzzy-search max-result="12" style="display: none;" title="search-menu.search"></fuzzy-search>
-<div class="search-result"></div>
-<div class="all-languages"></div>
+<div id="language-step-wrapper">
+  <update-repositories></update-repositories>
+
+  <div id="language-list-wrapper" class="scrollable">
+    <loading-indicator></loading-indicator>
+    <p class="intro" i18n="module-assistant.pick-languages-from-repos"></p> 
+
+    <div class="app-system-languages"></div>
+
+    <fuzzy-search max-result="12" style="display: none;" title="search-menu.search"></fuzzy-search>
+    <div class="search-result"></div>
+
+    <div class="all-languages"></div>
+  </div>
+
+</div>
 `;
 
 /**
@@ -73,6 +94,10 @@ class StepLanguages extends HTMLElement {
     console.log('LANGS: started connectedCallback', this.isConnected);
     this.appendChild(template.content.cloneNode(true));
     this._localize();
+
+    /** @type {import('./update_repositories')} */
+    this.updateRepositories = this.querySelector('update-repositories');
+
     this.querySelector('loading-indicator').show();
     this.addEventListener('itemChanged', (e) => this._handleCheckboxClick(e));
     this.addEventListener('searchResultsReady', (e) => this._handleSearchResult(e));
@@ -80,7 +105,6 @@ class StepLanguages extends HTMLElement {
 
   async init() {
     console.log('LANGS: init');
-    
     assistantController.init('selectedLanguages', await ipcSettings.get('selectedLanguages', []));
 
     this._languageData = await getAvailableLanguagesFromRepos(); 

@@ -32,6 +32,7 @@ const template = html`
     place-items: center;
     background: var(--widget-bg-color, #eee);
     border-radius: 5px;
+    margin-bottom: 1em;
   }
   #update-repository-data-info {
     text-align: center;
@@ -76,7 +77,6 @@ class UpdateRepositories extends HTMLElement {
     console.log('UPDATE: step constructor');
     this._lastUpdate = null;
     this._children_initialized = false;
-    this.updateDisabled = false;
   }
 
   async connectedCallback() {
@@ -87,25 +87,13 @@ class UpdateRepositories extends HTMLElement {
       this.querySelector('#update-repo-data').addEventListener('click', async () => await this._updateRepositoryConfig());
       this._children_initialized = true;
     }  
-  }
 
-  async init() {
     assistantHelper.localize(this);
     if (await this._wasUpdated()) {
       this._showUpdateInfo();
     } else {
       await this._updateRepositoryConfig();
     }
-  }
-
-  disableUpdate() {
-    this.updateDisabled = true;
-    this.querySelector('#update-repo-data').classList.add('ui-state-disabled');
-  }
-
-  enableUpdate() {
-    this.updateDisabled = false;
-    this.querySelector('#update-repo-data').classList.remove('ui-state-disabled');
   }
 
   async _wasUpdated() {
@@ -130,9 +118,6 @@ class UpdateRepositories extends HTMLElement {
   }
 
   async _updateRepositoryConfig() {
-    if (this.updateDisabled) {
-      return;
-    }
     console.log('UPDATE: updateRepositoryConfig');
     this._toggleViews('UPDATE');
 

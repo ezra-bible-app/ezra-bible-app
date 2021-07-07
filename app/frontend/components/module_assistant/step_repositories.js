@@ -21,27 +21,45 @@ const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const i18nHelper = require('../../helpers/i18n_helper.js');
 const assistantHelper = require('./assistant_helper.js');
+require('./update_repositories.js');
 require('../loading_indicator.js');
 
 const template = html`
 <style>
-  step-repositories .intro {
+  #repo-step-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #repo-list-wrapper {
+    border-radius: 5px;
+    flex-grow: 1;
+  }
+  #repo-list-wrapper .intro {
     margin: 0 5em 1em;
     text-align: center;
   }
-  step-repositories .repository-list {
+  #repo-list-wrapper .repository-list {
     min-width: 2em;
   }
 </style>
 
-<loading-indicator></loading-indicator>
+<div id="repo-step-wrapper">
+  <update-repositories></update-repositories>
 
-<p class="intro"></p>   
+  <div id="repo-list-wrapper" class="scrollable">
+    <loading-indicator></loading-indicator>
 
-<p class="loading-repos" i18n="module-assistant.loading-repositories"></p>
-<div class="repository-list"></div>
+    <p class="intro"></p>   
 
-<p style="margin-top: 2em;" i18n="module-assistant.more-repo-information-needed"></p>
+    <p class="loading-repos" i18n="module-assistant.loading-repositories"></p>
+    <div class="repository-list"></div>
+
+    <p style="margin-top: 2em;" i18n="module-assistant.more-repo-information-needed"></p>
+  </div>
+  
+</div>  
 `;
 
 /**

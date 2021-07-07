@@ -75,13 +75,18 @@ const template = html`
   padding: 0 2em;
 }
 
-#module-settings-assistant section.scrollable {
-  overflow-y: auto;
-}
 #module-settings-assistant .content .body {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+  padding: 0;
+}
+#module-settings-assistant section.scrollable {
+  border-radius: 5px;
+}
+#module-settings-assistant .content .scrollable {
+  overflow-y: auto;
+  background: var(--widget-bg-color);
   padding: 1.5em;
 }
 
