@@ -61,7 +61,7 @@ const template = html`
     color: #696969;
     width: 100%;
   }
-  .darkmode--activated #module-info {
+  .darkmode--activated #module-info, .darkmode--activated #module-info p {
     color: #929292;
   }
   #module-info .background {

@@ -75,7 +75,7 @@ class StepLanguages extends HTMLElement {
     this._localize();
     this.querySelector('loading-indicator').show();
     this.addEventListener('itemSelected', (e) => this._handleCheckboxClick(e));
-    this.addEventListener('searchResultReady', (e) => this._handleSearchResult(e));
+    this.addEventListener('searchResultsReady', (e) => this._handleSearchResult(e));
   }
 
   async init() {
@@ -176,7 +176,7 @@ class StepLanguages extends HTMLElement {
   }
 
   _handleSearchResult(event) {
-    const result = event.detail.result.map(r => r.item);
+    const result = event.detail.results.map(r => r.item);
 
     const resultContainer = this.querySelector('.search-result');
     resultContainer.innerHTML = '';

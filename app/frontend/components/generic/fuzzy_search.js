@@ -95,9 +95,23 @@ button[type="reset"] svg {
 
 /**
  * @module FuzzySearch
- * component displays search input field and triggers 'searchResultReady'
+ * component displays search input field; when initialized with data by init method 
+ * it will trigger custom 'searchResultsReady' event with "fuzzy" (approximate) search results.
+ * Component internally uses fuse.js (https://fusejs.io) and 
+ * shape of results returned in 'searchResultsReady' event.detail.results reflects 
+ * results returned by fuse.js (https://fusejs.io/examples.html)
+ * 
+ * <fuzzy-search></fuzzy-search> will generate only search input field. Providing data to search in and getting results of 
+ * the search should be done with 'init' method and handling of 'searchResultsReady' event respectively
+ * 
  * @example
- * <fuzzy-search min-length="2"></fuzzy-search>
+ * <fuzzy-search max-result="10" distance="30"></fuzzy-search>
+ * 
+ * @prop {number} [minLength=2] min-length attribute is limiting minimal length of the input value to perform a search
+ * @prop {number} [maxResult=100] max-result attribute is limiting the amount of result items returned
+ * @prop {number} [searchDelay=200] search-delay attribute is number of ms between triggering search with 'input' event of the input field
+ * @prop {number} [threshold=0.6] threshold param for the search (https://fusejs.io/api/options.html#threshold)
+ * @prop {number} [distance=20] distance param for the search (https://fusejs.io/api/options.html#distance)
  * @category Component
  */
 class FuzzySearch extends HTMLElement {
@@ -109,15 +123,10 @@ class FuzzySearch extends HTMLElement {
     this._fuse = null;
     this._searchTimeout = undefined;
 
-    /**min lens of the input to trigger search */
     this.minLength = 2;
-    /** max number of result items */
     this.maxResult = 100;
-    /**delay between triggering keyup events */
     this.searchDelay = 200;
-    /**threshold param for the search (https://fusejs.io/api/options.html#threshold) */
     this.threshold = 0.6;
-    /**distance param for the search (https://fusejs.io/api/options.html#distance) */
     this.distance = 20;
 
     this.attachShadow({mode: 'open'});
@@ -144,6 +153,11 @@ class FuzzySearch extends HTMLElement {
     }
   }
 
+  /**
+   * Initializes search with data
+   * @param {Array} dataArr array of strings or objects with string values to make search in (https://fusejs.io/examples.html#search-string-array)
+   * @param {Array} keys list of keys that will be searched. That supports nested paths and weighted search (https://fusejs.io/api/options.html#keys) 
+   */
   init(dataArr, keys=[]) {
     this._fuse = new Fuse(dataArr, { includeScore: true,  threshold: this.threshold, distance: this.distance, minMatchCharLength: 2, keys });
   }
@@ -157,12 +171,12 @@ class FuzzySearch extends HTMLElement {
 
     const value = event.target.value.trim();
     this._searchTimeout = setTimeout(() => {
-      const searchResult = value.length < this.minLength ? [] : this._fuse.search(value);
+      const searchResults = value.length < this.minLength ? [] : this._fuse.search(value, {limit: this.maxResult});
 
-      this.dispatchEvent(new CustomEvent("searchResultReady", {
+      this.dispatchEvent(new CustomEvent("searchResultsReady", {
         bubbles: true,
         detail: { 
-          result: searchResult.slice(0, this.maxResult),
+          results: searchResults,
         }
       }));
     }, this.searchDelay);
