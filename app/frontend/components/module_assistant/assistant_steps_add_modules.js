@@ -59,7 +59,7 @@ const templateAddSteps = html`
     <!-- <step-repositories></step-repositories> -->
   </section>
 
-  <h3 class="module-settings-assistant-section-header-module-type"></h3>
+  <h3 i18n="{{module_type}}"></h3>
   <section id="module-list" class="module-assistant-step">
     <!-- <step-modules></step-modules> -->
   </section>
@@ -135,18 +135,18 @@ class AssistantStepsAddModules extends HTMLElement {
   }
 
   _resetModuleAssistantContent() {
-    var addModuleAssistantContainer = this.querySelector('#module-settings-assistant-add');
-    var $addModuleAssistantContainer = $(addModuleAssistantContainer);
+    var moduleAssistantStepsContainer = this.querySelector('#module-settings-assistant-add');
+    var $addModuleAssistantContainer = $(moduleAssistantStepsContainer);
     
     if (this._jQueryStepsInitialized) {
       $addModuleAssistantContainer.steps("destroy"); 
       // jQuery.steps("destroy") is messing up with DOM :( we need to find the right element again
-      addModuleAssistantContainer = this.querySelector('#module-settings-assistant-add');
+      moduleAssistantStepsContainer = this.querySelector('#module-settings-assistant-add');
     }
 
-    addModuleAssistantContainer.innerHTML = '';
-    addModuleAssistantContainer.appendChild(templateAddSteps.content.cloneNode(true));
-    assistantHelper.localizeContainer(addModuleAssistantContainer, assistantController.get('moduleType'));
+    moduleAssistantStepsContainer.innerHTML = '';
+    moduleAssistantStepsContainer.appendChild(templateAddSteps.content.cloneNode(true));
+    assistantHelper.localize(moduleAssistantStepsContainer, assistantController.get('moduleTypeText'));
   }
 
   _addModuleAssistantStepChanging(event, currentIndex, newIndex) {

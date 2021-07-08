@@ -61,6 +61,14 @@ const template = html`
   line-height: 1.5em;
   border-radius: 5px;
   background: var(--widget-bg-color);
+  color: var(--accent-color);
+  border: 1px solid;
+}
+#module-settings-assistant-init a {
+  color: var(--accent-color);
+}
+p#module-settings-assistant-internet-usage {
+  color: #f00a;
 }
 
 #module-settings-assistant-init > .module-assistant-type-buttons {
@@ -96,8 +104,8 @@ const template = html`
   <div class="container">
   <div id="module-settings-assistant-init">
 
-    <p id="module-settings-assistant-intro"></p>   
-    <p id="module-settings-assistant-internet-usage" style="margin-bottom: 2em;"></p>
+    <p id="module-settings-assistant-intro" i18n="module-assistant.intro-text"></p>   
+    <p id="module-settings-assistant-internet-usage" i18n="module-assistant.internet-usage-note"></p>
 
     <div class="module-assistant-type-buttons">
       <button id="add-modules-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled"></button>
@@ -174,14 +182,7 @@ class ModuleAssistant extends HTMLElement{
 
     uiHelper.configureButtonStyles('#module-settings-assistant-init');
 
-    this._localize();
-    var title = "";
-    if (moduleType == "BIBLE") {
-      title = i18n.t("module-assistant.bible-header");
-    } else if (moduleType == "DICT") {
-      title = i18n.t("module-assistant.dict-header");
-    }
-
+    const title = this._localize();
 
     $('#module-settings-assistant').dialog({
       modal: true,
@@ -209,29 +210,29 @@ class ModuleAssistant extends HTMLElement{
   }
 
   _localize() {
-    var moduleTypeText = "";
+    var dialogTitle = "";
     var addModuleText = "";
     var removeModuleText = "";
 
     const moduleType = assistantController.get('moduleType');
     
     if (moduleType == "BIBLE") {
-      moduleTypeText = i18n.t("module-assistant.module-type-bible");
+      dialogTitle = i18n.t("module-assistant.bible-header");
       addModuleText = i18n.t("module-assistant.add-translations");
       removeModuleText = i18n.t("module-assistant.remove-translations");
     } else if (moduleType == "DICT") {
-      moduleTypeText = i18n.t("module-assistant.module-type-dict");
+      dialogTitle = i18n.t("module-assistant.dict-header");
       addModuleText = i18n.t("module-assistant.add-dicts");
       removeModuleText = i18n.t("module-assistant.remove-dicts");
     } else {
       console.error("InstallModuleAssistant: Unknown module type!");
     }
     
-    var internetUsageNote = i18n.t("module-assistant.internet-usage-note", { module_type: moduleTypeText });
-    document.querySelector('#module-settings-assistant-intro').innerHTML = i18n.t("module-assistant.update-data-info-text", {module_type: moduleTypeText});
-    document.querySelector('#module-settings-assistant-internet-usage').innerHTML = internetUsageNote;
     document.querySelector('#add-modules-button').textContent = addModuleText;
     document.querySelector('#remove-modules-button').textContent = removeModuleText;
+    assistantHelper.localize(this, assistantController.get('moduleTypeText'));
+
+    return dialogTitle;
   }
 }
 

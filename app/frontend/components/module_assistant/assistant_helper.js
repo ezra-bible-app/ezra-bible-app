@@ -129,17 +129,3 @@ module.exports.localize = function(container, moduleTypeText="") {
     element.innerHTML = i18n.t(element.getAttribute('i18n'), {module_type: moduleTypeText});
   });
 };
-
-module.exports.localizeContainer = function(container, moduleType='BIBLE') {
-  var moduleTypeText = "";
-
-  if (moduleType == 'BIBLE') {
-    moduleTypeText = i18n.t("module-assistant.module-type-bible");
-  } else if (moduleType == 'DICT') {
-    moduleTypeText = i18n.t("module-assistant.module-type-dict");
-  }
-
-  container.querySelector('.module-settings-assistant-section-header-module-type').textContent = moduleTypeText;
-
-  this.localize(container);
-};

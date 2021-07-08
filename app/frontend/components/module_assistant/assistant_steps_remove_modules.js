@@ -38,7 +38,7 @@ const template = html`
 `;
 
 const templateSteps = html`
-  <h3 class="module-settings-assistant-section-header-module-type"></h3>
+  <h3 i18n="{{module_type}}"></h3>
   <section id="module-list" class="scrollable">
     <!-- <step-module-remove></step-module-remove> -->
   </section>
@@ -126,7 +126,7 @@ class AssistantStepsRemoveModules extends HTMLElement {
 
     moduleAssistantStepsContainer.innerHTML = '';
     moduleAssistantStepsContainer.appendChild(templateSteps.content.cloneNode(true));
-    assistantHelper.localizeContainer(moduleAssistantStepsContainer, assistantController.get('moduleType'));
+    assistantHelper.localize(moduleAssistantStepsContainer, assistantController.get('moduleTypeText'));
   }
 
   _stepChanging(event, currentIndex, newIndex) {
