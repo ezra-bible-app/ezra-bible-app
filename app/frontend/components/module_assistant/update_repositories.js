@@ -63,7 +63,7 @@ const template = html`
   
   <div id="update-repository-data-progress" class="update-view"> 
     <div id="repo-update-progress-bar" class="progress-bar">
-      <div class="progress-label" i18n="module-assistant.updating"></div>
+      <div class="progress-label" i18n="module-assistant.updating-repo-data"></div>
     </div>
   </div>  
   <p id="update-repository-data-failed" style="display: none" i18n="module-assistant.update-repository-data-failed"></p>
