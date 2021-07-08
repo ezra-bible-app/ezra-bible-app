@@ -78,23 +78,32 @@ const template = html`
 
 <div id="module-step-wrapper">
   <div id="module-list" class="scrollable">
-    <p><b i18n="module-assistant.module-feature-filter"></b></p>
+    <p id="module-list-intro" class="intro" i18n="module-assistant.pick-module-info"></p>
+    
+    <p><b i18n="module-assistant.module-display-preferences"></b></p>
 
     <div id="bible-module-feature-filter" class="feature-filter-wrapper">
-      <input id="headings-feature-filter" class="module-feature-filter" type="checkbox"/> 
-      <label id="headings-feature-filter-label" for="headings-feature-filter" i18n="general.module-headings"></label>
-      <input id="strongs-feature-filter" class="module-feature-filter" type="checkbox"/>
-      <label id="strongs-feature-filter-label" for="strongs-feature-filter" i18n="general.module-strongs"></label>
+      <label>
+        <input id="headings-feature-filter" class="module-feature-filter" type="checkbox"/> 
+        <span id="headings-feature-filter-label" for="headings-feature-filter" i18n="$t(module-assistant.module-with) $t(general.module-headings)"></span>
+      </label>
+      <label>
+        <input id="strongs-feature-filter" class="module-feature-filter" type="checkbox"/>
+        <span id="strongs-feature-filter-label" for="strongs-feature-filter" i18n="$t(module-assistant.module-with) $t(general.module-strongs)"></span>
+      </label>
     </div>
 
     <div id="dict-module-feature-filter" class="feature-filter-wrapper">
-      <input id="hebrew-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
-      <label id="hebrew-strongs-dict-feature-filter-label" for="hebrew-strongs-dict-feature-filter" i18n="general.module-hebrew-strongs-dict"></label>
-      <input id="greek-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
-      <label id="greek-strongs-dict-feature-filter-label" for="greek-strongs-dict-feature-filter" i18n="general.module-greek-strongs-dict"></label>
+      <label>
+        <input id="hebrew-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
+        <span id="hebrew-strongs-dict-feature-filter-label" for="hebrew-strongs-dict-feature-filter" i18n="$t(module-assistant.module-with) $t(general.module-hebrew-strongs-dict)"></span>
+      </label>
+      <label>
+        <input id="greek-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
+        <span id="greek-strongs-dict-feature-filter-label" for="greek-strongs-dict-feature-filter" i18n="$t(module-assistant.module-with) $t(general.module-greek-strongs-dict)"></span>
+      </label>
     </div>
 
-    <p id="module-list-intro" class="intro"></p>
 
     <div id="filtered-module-list"></div>
   </div>  
@@ -127,17 +136,17 @@ class StepModules extends HTMLElement {
   async connectedCallback() {
     console.log('MODULES: started connectedCallback');
     this.appendChild(template.content.cloneNode(true));
-    assistantHelper.localize(this);
-
+    assistantHelper.localize(this, assistantController.get('moduleTypeText'));
+    
     this.querySelectorAll('.module-feature-filter').forEach(checkbox => checkbox.addEventListener('click', async () => {
       this._listFilteredModules();
     }));
-
+    
     const filteredModuleList = this.querySelector('#filtered-module-list');
     filteredModuleList.addEventListener('itemChanged', (e) => this._handleCheckboxClick(e));
     filteredModuleList.addEventListener('itemInfoRequested', (e) => this._handleInfoClick(e));
   }
-
+  
   async listModules() {
     console.log('MODULES: listModules');
 
@@ -147,10 +156,6 @@ class StepModules extends HTMLElement {
     } else if (moduleType == 'DICT') {
       this.querySelector("#dict-module-feature-filter").style.display = 'block';
     }
-
-    const uiRepositories = [...assistantController.get('selectedRepositories')].map(rep => `<b>${rep}</b>`);
-    this.querySelector('.intro').innerHTML = `${i18n.t("module-assistant.the-selected-repositories")} (${uiRepositories.join(', ')}) 
-      ${i18n.t("module-assistant.contain-the-following-modules")}`;
 
     await this._listFilteredModules();
   }
@@ -263,7 +268,7 @@ async function getModulesByLang(languageCode, repositories, headingsFilter, stro
       let moduleInfo = {
         code: swordModule.name,
         text: `${swordModule.description} [${swordModule.name}]`,
-        description: `${i18n.t('general.module-version')}: ${swordModule.version}; ${i18n.t("general.module-size")}: ${Math.round(swordModule.size / 1024)} KB; ${swordModule.repository}`,
+        description: `${swordModule.repository}; ${i18n.t('general.module-version')}: ${swordModule.version}; ${i18n.t("general.module-size")}: ${Math.round(swordModule.size / 1024)} KB`,
       };
 
       if (swordModule.locked) {
