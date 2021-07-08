@@ -40,7 +40,7 @@ const template = html`
     flex-grow: 1;
   }
   #language-list-wrapper .intro {
-    margin: 0 5em 1em;
+    margin: 0 3em 1em;
     text-align: center;
   }
   #language-list-wrapper fuzzy-search {
@@ -62,7 +62,7 @@ const template = html`
 
   <div id="language-list-wrapper" class="scrollable">
     <loading-indicator></loading-indicator>
-    <p class="intro" i18n="module-assistant.pick-languages-from-repos"></p> 
+    <p class="intro" i18n="module-assistant.pick-languages"></p> 
 
     <div class="app-system-languages"></div>
 
@@ -73,6 +73,10 @@ const template = html`
   </div>
 
 </div>
+`;
+
+const ICON_STAR = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"/></svg>
 `;
 
 /**
@@ -120,10 +124,13 @@ class StepLanguages extends HTMLElement {
     
     const selectedLanguages = assistantController.get('selectedLanguages');
 
-    const appSystemLanguages = [...this._languageData.appSystemLanguages.values()].sort(assistantHelper.sortByText);
+    const appSystemLanguages = [...this._languageData.appSystemLanguages.values()]
+      .sort(assistantHelper.sortByText)
+      .map(lang => ({...lang, icon: ICON_STAR}));
     this.querySelector('.app-system-languages').append(assistantHelper.listCheckboxSection(appSystemLanguages,
                                                                                            selectedLanguages, 
-                                                                                           i18n.t('module-assistant.app-system-languages')));
+                                                                                           i18n.t('module-assistant.app-system-languages'),
+                                                                                           {extraIndent: true}));
 
     this._initSearch(this._languageData.allLanguages);
 
@@ -215,7 +222,7 @@ class StepLanguages extends HTMLElement {
     if (title) {
       search.setAttribute('title', i18n.t(title));
     }
-    assistantHelper.localize(this);    
+    assistantHelper.localize(this, assistantController.get('moduleTypeText'));    
   }
 }
 
