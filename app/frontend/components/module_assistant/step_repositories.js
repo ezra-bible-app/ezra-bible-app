@@ -37,7 +37,7 @@ const template = html`
     flex-grow: 1;
   }
   #repo-list-wrapper .intro {
-    margin: 0 5em 1em;
+    margin: 0 3em 1em;
     text-align: center;
   }
   #repo-list-wrapper .repository-list {
@@ -49,10 +49,10 @@ const template = html`
   <update-repositories></update-repositories>
 
   <div id="repo-list-wrapper" class="scrollable">
+    
+    <p class="intro" i18n="module-assistant.repo-selection-info-text"></p>   
+    
     <loading-indicator></loading-indicator>
-
-    <p class="intro"></p>   
-
     <p class="loading-repos" i18n="module-assistant.loading-repositories"></p>
     <div class="repository-list"></div>
 
@@ -60,6 +60,10 @@ const template = html`
   </div>
   
 </div>  
+`;
+
+const ICON_STAR = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"/></svg>
 `;
 
 /**
@@ -79,7 +83,7 @@ class StepRepositories extends HTMLElement {
   async connectedCallback() {
     console.log('REPOS: started connectedCallback', this.isConnected);
     this.appendChild(template.content.cloneNode(true));
-    this._localize();
+    assistantHelper.localize(this, assistantController.get('moduleTypeText'));
 
     this._initialized = false;
     this.querySelector('loading-indicator').show();
@@ -104,7 +108,10 @@ class StepRepositories extends HTMLElement {
 
     const repositoryList = this.querySelector('.repository-list');
     repositoryList.innerHTML = '';
-    repositoryList.append(assistantHelper.listCheckboxSection(repositoriesArr, assistantController.get('selectedRepositories'), "", {rowGap: '1.5em'}));
+    repositoryList.append(assistantHelper.listCheckboxSection(repositoriesArr, 
+                                                              assistantController.get('selectedRepositories'), 
+                                                              "", 
+                                                              {rowGap: '1.5em', extraIndent: true}));
 
     this.querySelector('loading-indicator').hide();
     this.querySelector('.loading-repos').style.display = 'none';
@@ -125,18 +132,6 @@ class StepRepositories extends HTMLElement {
     }
   }
 
-  _localize() {
-    let moduleTypeText = "";
-    const moduleType = assistantController.get('moduleType');
-    if (moduleType == "BIBLE") {
-      moduleTypeText = i18n.t("module-assistant.module-type-bible");
-    } else if (moduleType == "DICT") {
-      moduleTypeText = i18n.t("module-assistant.module-type-dict");
-    }
-    this.querySelector('.intro').innerHTML = i18n.t("module-assistant.repo-selection-info-text", { module_type: moduleTypeText });
-
-    assistantHelper.localize(this);
-  }
 }
 
 customElements.define('step-repositories', StepRepositories);
@@ -159,9 +154,15 @@ async function getRepoModuleDetails(repo) {
 
   const repoLanguages = [...repoLanguageCodes].map(lang => i18nHelper.getLanguageName(lang)).sort(assistantHelper.sortByText);
 
-  return {
+  var repoInfo = {
     code: repo,
     description: repoLanguages.join(', '),
     count,
   };
+  if (repo === "CrossWire" || repo === "eBible.org") {
+    repoInfo['icon'] = ICON_STAR;
+    repoInfo['title'] = i18n.t("module-assistant.repo-recommended");
+  }
+
+  return repoInfo;
 }
