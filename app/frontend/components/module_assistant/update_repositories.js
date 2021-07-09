@@ -34,39 +34,39 @@ const template = html`
     border-radius: 5px;
     margin-bottom: 1em;
   }
-  #update-repository-data-info {
+  .update-repository-data-info {
     text-align: center;
   }
-  #update-repository-data-info button {
+  .update-repository-data-info button {
     height: 2em;
     padding-left: 1em;
     padding-right: 1em;
     margin-left: 1em;
   }
-  #update-repository-data-progress {
+  .update-repository-data-progress {
     width: 100%;
   }
-  #update-repository-data-progress .progress-bar, #update-repository-data-failed{
+  .update-repository-data-progress .progress-bar, .update-repository-data-failed{
     margin: 0;
   }
-  #update-repository-data-failed {
+  .update-repository-data-failed {
     color: red;
   }
 </style>
 
 <section class="update-repository-data-wrapper">
   
-  <div id="update-repository-data-info" class="info-view">
+  <div class="update-repository-data-info">
     <span class="update-info"></span>
-    <button id="update-repo-data" class="fg-button ui-state-default ui-corner-all" i18n="module-assistant.update-now"></button>
+    <button class="update-repo-data fg-button ui-state-default ui-corner-all" i18n="module-assistant.update-now"></button>
   </div>
   
-  <div id="update-repository-data-progress" class="update-view"> 
-    <div id="repo-update-progress-bar" class="progress-bar">
+  <div class="update-repository-data-progress" style="display: none"> 
+    <div class="repo-update-progress-bar progress-bar">
       <div class="progress-label" i18n="module-assistant.updating-repo-data"></div>
     </div>
   </div>  
-  <p id="update-repository-data-failed" style="display: none" i18n="module-assistant.update-repository-data-failed"></p>
+  <p class="update-repository-data-failed" style="display: none" i18n="module-assistant.update-repository-data-failed"></p>
 
 </section>
 `;
@@ -83,18 +83,17 @@ class UpdateRepositories extends HTMLElement {
     console.log('UPDATE: started connectedCallback');
     if (!this._initialized) {
       this.appendChild(template.content.cloneNode(true));
+      uiHelper.configureButtonStyles(this);
   
-      this.querySelector('#update-repo-data').addEventListener('click', async () => await assistantController.updateRepositories());
+      this.querySelector('.update-repo-data').addEventListener('click', async () => await assistantController.updateRepositories());
       assistantController.onStartRepositoriesUpdate(() => this.prepareProgressBar());
       assistantController.onProgressRepositoriesUpdate(process => this.handleUpdateProgress(process));
-      assistantController.onCompletedRepositoriesUpdate(result => this.updateDateInfo(result));
+      assistantController.onCompletedRepositoriesUpdate(status => this.updateDateInfo(status));
       this._initialized = true;
     }  
 
     assistantHelper.localize(this);
-    if (assistantController.get('reposUpdated')) {
-      this._showUpdateInfo();
-    } else {
+    if (!assistantController.get('reposUpdated')) {
       await assistantController.updateRepositories();
     }
   }
@@ -108,34 +107,33 @@ class UpdateRepositories extends HTMLElement {
       date = date.toLocaleDateString(i18nController.getLocale());
       this.querySelector('.update-info').textContent = i18n.t("module-assistant.repo-data-last-updated", { date });
     }
-    uiHelper.configureButtonStyles(this);
   }
 
   prepareProgressBar() {
     this._toggleViews('UPDATE');
-    uiHelper.initProgressBar($('#repo-update-progress-bar'));
+    uiHelper.initProgressBar($(this.querySelector('.repo-update-progress-bar')));
   }
 
   handleUpdateProgress(progress) {
-    const progressBar = this.querySelector('#repo-update-progress-bar');
+    const progressBar = this.querySelector('.repo-update-progress-bar');
     const progressPercent = progress.totalPercent;
     $(progressBar).progressbar("value", progressPercent);
   }
 
-  updateDateInfo(result) {
+  updateDateInfo(status) {
     console.log('UPDATE: updateCompleted');
 
-    if (result != 0) {
+    if (status != 0) {
       console.log("Failed to update the repository configuration!");
       this._toggleViews('ERROR');
     }
-    setTimeout(() => { this._showUpdateInfo(); }, result == 0 ? 500 : 3000);
+    setTimeout(() => { this._showUpdateInfo(); }, status == 0 ? 500 : 5000);
   }
 
   _toggleViews(view='INFO') {
-    const infoView = this.querySelector('.info-view');
-    const updateView = this.querySelector('.update-view');
-    const errorView = this.querySelector('#update-repository-data-failed');     
+    const infoView = this.querySelector('.update-repository-data-info');
+    const updateView = this.querySelector('.update-repository-data-progress');
+    const errorView = this.querySelector('.update-repository-data-failed');     
     if (view === 'UPDATE') {
       infoView.style.display = 'none';
       errorView.style.display = 'none';
