@@ -56,6 +56,8 @@ module.exports.initState = async function(moduleType) {
     state.allRepositories = await ipcNsi.getRepoNames();
   }
   this.resetRepositoryUpdateSubscribers();
+
+  state.selectedLanguages = new Set(await ipcSettings.get('selectedLanguages', []));
 };
 
 module.exports.get = (key) => state[key];
@@ -131,12 +133,13 @@ module.exports.onCompletedRepositoriesUpdate = callback => addUpdateSubscriber('
 
 module.exports.updateRepositories = async function() {
   await notifySubscribers('startUpdate');
-  const result = await ipcNsi.updateRepositoryConfig(process => notifySubscribers('progressUpdate', process));
-  if (result == 0) {
+  const status = await ipcNsi.updateRepositoryConfig(process => notifySubscribers('progressUpdate', process));
+  if (status == 0) {
     const today = new Date();
     state.reposUpdated = today;
     await ipcSettings.set('lastSwordRepoUpdate', today);
   }
-  await notifySubscribers('completedUpdate', result);
+  await notifySubscribers('completedUpdate', status);
 };
 
+module.exports.notifyRepositoriesAvailable = async () => notifySubscribers('completedUpdate', 0);

@@ -70,7 +70,6 @@ const templateAddSteps = html`
   </section>
 `;
 
-// const UPDATE_REPOSITORIES_INDEX = 0;
 const LANGUAGES_INDEX = 0;
 const REPOSITORIES_INDEX = LANGUAGES_INDEX + 1;
 const MODULES_INDEX = REPOSITORIES_INDEX + 1;
@@ -130,8 +129,9 @@ class AssistantStepsAddModules extends HTMLElement {
     // jQuery.steps() is messing up with DOM :( we need to reassign step components
     this._setupSteps(addModuleAssistantContainer);
 
-    await this.languagesStep.init();
-    await this.languagesStep.listLanguages();
+    if (assistantController.get('reposUpdated')) {
+      await assistantController.notifyRepositoriesAvailable();
+    }
   }
 
   _resetModuleAssistantContent() {
@@ -150,9 +150,6 @@ class AssistantStepsAddModules extends HTMLElement {
   }
 
   _addModuleAssistantStepChanging(event, currentIndex, newIndex) {
-    // if (currentIndex == UPDATE_REPOSITORIES_INDEX && newIndex == LANGUAGES_INDEX) {
-    //   return assistantController.get('allRepositories').length > 0;
-    // } else 
     if (currentIndex == LANGUAGES_INDEX && newIndex == REPOSITORIES_INDEX) { // Changing from Languages to Repositories
       return assistantController.get('selectedLanguages').size > 0;
     } else if (currentIndex == REPOSITORIES_INDEX && newIndex == MODULES_INDEX) { // Changing from Repositories to Modules 

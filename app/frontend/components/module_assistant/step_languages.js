@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 
-const { html, sleep } = require('../../helpers/ezra_helper.js');
+const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const i18nController = require('../../controllers/i18n_controller.js');
 const languageMapper = require('../../../lib/language_mapper.js');
@@ -61,12 +61,14 @@ const template = html`
   <update-repositories></update-repositories>
 
   <div id="language-list-wrapper" class="scrollable">
-    <loading-indicator></loading-indicator>
     <p class="intro" i18n="module-assistant.pick-languages"></p> 
+
+    <loading-indicator></loading-indicator>
+    <p class="loading-text" i18n="module-assistant.loading-languages"></p>
 
     <div class="app-system-languages"></div>
 
-    <fuzzy-search max-result="12" style="display: none;" title="search-menu.search"></fuzzy-search>
+    <fuzzy-search max-result="12" style="display: none;" title="search-menu.search" style="display: none;"></fuzzy-search>
     <div class="search-result"></div>
 
     <div class="all-languages"></div>
@@ -97,44 +99,59 @@ class StepLanguages extends HTMLElement {
   connectedCallback() {
     console.log('LANGS: started connectedCallback', this.isConnected);
     this.appendChild(template.content.cloneNode(true));
+    
+    this._loading = this.querySelector('loading-indicator');
+    this._loading_text = this.querySelector('.loading-text');
+    this._app_languages = this.querySelector('.app-system-languages');
+    /**@type {import('../generic/fuzzy_search')} */
+    this._search = this.querySelector('fuzzy-search');
+    this._search_results = this.querySelector('.search-result');
+    this._all_languages = this.querySelector('.all-languages');
+
     this._localize();
 
     /** @type {import('./update_repositories')} */
     this.updateRepositories = this.querySelector('update-repositories');
 
-    this.querySelector('loading-indicator').show();
     this.addEventListener('itemChanged', (e) => this._handleCheckboxClick(e));
     this.addEventListener('searchResultsReady', (e) => this._handleSearchResult(e));
+
+    assistantController.onStartRepositoriesUpdate(async () => await this.resetView());
+    assistantController.onCompletedRepositoriesUpdate(async status => {
+      if (status == 0) {
+        this._languageData = await getAvailableLanguagesFromRepos(); 
+      }
+      await this.listLanguages();
+    });
   }
 
-  async init() {
-    console.log('LANGS: init');
-    assistantController.init('selectedLanguages', await ipcSettings.get('selectedLanguages', []));
+  async resetView() {
+    console.log('LANGS: resetView');
 
-    this._languageData = await getAvailableLanguagesFromRepos(); 
+    this._all_languages.innerHTML = '';
+    this._search_results.innerHTML = '';
+    this._app_languages.innerHTML = '';
+    this._search.style.display = 'none';
     
-    this._initialized = true;
+    this._loading.show();
+    this._loading_text.style.display = 'block';
   }
 
   async listLanguages() {
     console.log('LANGS: listLanguages!');
-    if (!this._initialized) {
-      await this.init();
-    }
+    this._loading_text.style.display = 'none';
     
     const selectedLanguages = assistantController.get('selectedLanguages');
 
     const appSystemLanguages = [...this._languageData.appSystemLanguages.values()]
       .sort(assistantHelper.sortByText)
       .map(lang => ({...lang, icon: ICON_STAR}));
-    this.querySelector('.app-system-languages').append(assistantHelper.listCheckboxSection(appSystemLanguages,
-                                                                                           selectedLanguages, 
-                                                                                           i18n.t('module-assistant.app-system-languages'),
-                                                                                           {extraIndent: true}));
+    this._app_languages.append(assistantHelper.listCheckboxSection(appSystemLanguages,
+                                                                   selectedLanguages, 
+                                                                   i18n.t('module-assistant.app-system-languages'),
+                                                                   {extraIndent: true}));
 
     this._initSearch(this._languageData.allLanguages);
-
-    const languageContainer = this.querySelector('.all-languages');
 
     const languages = this._languageData.languages;
     for(const category in languages) {
@@ -143,13 +160,12 @@ class StepLanguages extends HTMLElement {
       if (languageArr.length > 0) {
         const sectionHeader = ['bible-languages', 'most-spoken-languages', 'historical-languages'].includes(category) 
           ? i18n.t(`module-assistant.${category}`) : category === 'iso6391-languages' ? i18n.t('module-assistant.other-languages') : undefined;
-        languageContainer.append(assistantHelper.listCheckboxSection(languageArr, selectedLanguages, sectionHeader));
+        this._all_languages.append(assistantHelper.listCheckboxSection(languageArr, selectedLanguages, sectionHeader));
       }
     }
     
     await this._updateLanguageCount();
-
-    this.querySelector('loading-indicator').hide();
+    this._loading.hide();
   }
 
   saveSelected() {
@@ -179,7 +195,7 @@ class StepLanguages extends HTMLElement {
     if (allLanguageCodes.length === 0) {
       return;
     }
-    const repositories = await assistantController.get('allRepositories');
+    const repositories = assistantController.get('allRepositories');
 
     const languageModuleCount = await ipcNsi.getAllLanguageModuleCount(repositories, 
                                                                        allLanguageCodes, 
@@ -196,32 +212,29 @@ class StepLanguages extends HTMLElement {
       return;
     }
 
-    /**@type {import('../generic/fuzzy_search')} */
-    const search = this.querySelector('fuzzy-search');
-    search.style.display = 'block';
+    this._search.style.display = 'block';
 
-    search.init([...this._languageData.allLanguages.values()], 
-                [{name: 'text', weight: 1}, 
-                 {name: 'code', weight: 0.5}, 
-                 {name: 'description', weight: 0.1}]);
+    this._search.init([...this._languageData.allLanguages.values()], 
+                      [{name: 'text', weight: 1}, 
+                       {name: 'code', weight: 0.5}, 
+                       {name: 'description', weight: 0.1}]);
   }
 
   _handleSearchResult(event) {
     const result = event.detail.results.map(r => r.item);
 
-    const resultContainer = this.querySelector('.search-result');
-    resultContainer.innerHTML = '';
-    resultContainer.append(assistantHelper.listCheckboxSection(result, 
-                                                               assistantController.get('selectedLanguages'), 
-                                                               i18n.t('module-assistant.search-result')));
+    this._search_results.innerHTML = '';
+    this._search_results.append(assistantHelper.listCheckboxSection(result, 
+                                                                    assistantController.get('selectedLanguages'), 
+                                                                    i18n.t('module-assistant.search-result')));
   }
 
   _localize() {
-    const search = this.querySelector('fuzzy-search');
-    var title = search && search.getAttribute('title');
+    var title = this._search && this._search.getAttribute('title');
     if (title) {
-      search.setAttribute('title', i18n.t(title));
+      this._search.setAttribute('title', i18n.t(title));
     }
+
     assistantHelper.localize(this, assistantController.get('moduleTypeText'));    
   }
 }
@@ -249,13 +262,8 @@ async function getAvailableLanguagesFromRepos() {
   };
   
   var allLanguages = new Map();
-  var repositories = [];
 
-  while (repositories.length < 1) {
-    repositories = await assistantController.get('allRepositories');
-    await sleep(100);
-    // FIXME: Add some sort of timeout to handle situation when repositories are never populated correctly.
-  }
+  const repositories = assistantController.get('allRepositories');
 
   console.log('LANGS: getAvailableLanguagesFromRepos: got repos', repositories);
 
