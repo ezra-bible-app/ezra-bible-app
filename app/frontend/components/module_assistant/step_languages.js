@@ -138,6 +138,10 @@ class StepLanguages extends HTMLElement {
 
   async listLanguages() {
     console.log('LANGS: listLanguages!');
+    if (!this._languageData) {
+      return;
+    }
+    
     this._loading_text.style.display = 'none';
     
     const selectedLanguages = assistantController.get('selectedLanguages');

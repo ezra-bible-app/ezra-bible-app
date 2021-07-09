@@ -132,7 +132,13 @@ module.exports.onStartRepositoriesUpdate = callback => addUpdateSubscriber('star
 module.exports.onProgressRepositoriesUpdate = callback => addUpdateSubscriber('progressUpdate', callback);
 module.exports.onCompletedRepositoriesUpdate = callback => addUpdateSubscriber('completedUpdate', callback);
 
+var updateInProgress = false;
 module.exports.updateRepositories = async function() {
+  if (updateInProgress) {
+    return;
+  }
+  updateInProgress = true;
+
   await notifySubscribers('startUpdate');
   const status = await ipcNsi.updateRepositoryConfig(process => notifySubscribers('progressUpdate', process));
   if (status == 0) {
@@ -141,6 +147,12 @@ module.exports.updateRepositories = async function() {
     await ipcSettings.set('lastSwordRepoUpdate', today);
   }
   await notifySubscribers('completedUpdate', status);
+
+  updateInProgress = false;
 };
 
-module.exports.notifyRepositoriesAvailable = async () => notifySubscribers('completedUpdate', 0);
+module.exports.notifyRepositoriesAvailable = async () => {
+  if (!updateInProgress) {
+    notifySubscribers('completedUpdate', 0);
+  }
+};
