@@ -43,6 +43,9 @@ const template = html`
   #repo-list-wrapper .repository-list {
     min-width: 2em;
   }
+  .more-info {
+    margin-top: 2em;
+  }
 </style>
 
 <div id="repo-step-wrapper">
@@ -56,7 +59,7 @@ const template = html`
     <p class="loading-repos" i18n="module-assistant.loading-repositories"></p>
     <div class="repository-list"></div>
 
-    <p style="margin-top: 2em;" i18n="module-assistant.more-repo-information-needed"></p>
+    <p class="more-info" i18n="module-assistant.more-repo-information-needed" style="display: none;"></p>
   </div>
   
 </div>  
@@ -85,36 +88,36 @@ class StepRepositories extends HTMLElement {
     this.appendChild(template.content.cloneNode(true));
     assistantHelper.localize(this, assistantController.get('moduleTypeText'));
 
-    this._initialized = false;
-    this.querySelector('loading-indicator').show();
-  }
+    assistantController.onStartRepositoriesUpdate(async () => await this.resetView());
+    assistantController.onCompletedRepositoriesUpdate(async () => await this.listRepositories());
 
-  async init() {
-    console.log('REPOS: init');
-    assistantController.init('selectedRepositories', await ipcSettings.get('selectedRepositories', []));
     this.addEventListener('itemChanged', (e) => this._handleCheckboxClick(e));
-    this._initialized = true;
+  }
+  
+  async resetView() {
+    console.log('REPOS: resetView');
+    this.querySelector('loading-indicator').show();
+    this.querySelector('.loading-repos').style.display = 'block';
+    this.querySelector('.more-info').style.display = 'none';
+    
+    this.querySelector('.repository-list').innerHTML = '';
   }
 
   async listRepositories() {
     console.log('REPOS: listRepositories');
-    if (!this._initialized) {
-      await this.init();
-    }
 
-
-    const repositoriesArr = await Promise.all(
-      (await assistantController.get('allRepositories')).map(getRepoModuleDetails));
-
-    const repositoryList = this.querySelector('.repository-list');
-    repositoryList.innerHTML = '';
-    repositoryList.append(assistantHelper.listCheckboxSection(repositoriesArr, 
-                                                              assistantController.get('selectedRepositories'), 
-                                                              "", 
-                                                              {rowGap: '1.5em', extraIndent: true}));
-
-    this.querySelector('loading-indicator').hide();
     this.querySelector('.loading-repos').style.display = 'none';
+
+    const repositoriesArr = await Promise.all(assistantController.get('allRepositories').map(getRepoModuleDetails));
+
+    this.querySelector('.repository-list').innerHTML = '';
+    this.querySelector('.repository-list').append(assistantHelper.listCheckboxSection(repositoriesArr, 
+                                                                                      assistantController.get('selectedRepositories'), 
+                                                                                      "", 
+                                                                                      {rowGap: '1.5em', extraIndent: true}));
+
+    this.querySelector('.more-info').style.display = 'block';
+    this.querySelector('loading-indicator').hide();
   }
 
   saveSelected() {

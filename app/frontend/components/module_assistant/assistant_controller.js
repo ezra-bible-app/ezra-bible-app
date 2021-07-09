@@ -58,6 +58,7 @@ module.exports.initState = async function(moduleType) {
   this.resetRepositoryUpdateSubscribers();
 
   state.selectedLanguages = new Set(await ipcSettings.get('selectedLanguages', []));
+  state.selectedRepositories = new Set(await ipcSettings.get('selectedRepositories', []));
 };
 
 module.exports.get = (key) => state[key];

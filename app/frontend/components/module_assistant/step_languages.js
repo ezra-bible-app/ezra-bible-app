@@ -93,7 +93,6 @@ class StepLanguages extends HTMLElement {
   constructor() {
     super();
     console.log('LANGS: step constructor');
-    this._initialized = false;
   }
 
   connectedCallback() {
