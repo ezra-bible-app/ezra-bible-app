@@ -76,88 +76,77 @@ class UpdateRepositories extends HTMLElement {
     super();
     console.log('UPDATE: step constructor');
     this._lastUpdate = null;
-    this._children_initialized = false;
+    this._initialized = false;
   }
 
   async connectedCallback() {
     console.log('UPDATE: started connectedCallback');
-    if (!this._children_initialized) {
+    if (!this._initialized) {
       this.appendChild(template.content.cloneNode(true));
   
-      this.querySelector('#update-repo-data').addEventListener('click', async () => await this._updateRepositoryConfig());
-      this._children_initialized = true;
+      this.querySelector('#update-repo-data').addEventListener('click', async () => await assistantController.updateRepositories());
+      assistantController.onStartRepositoriesUpdate(() => this.prepareProgressBar());
+      assistantController.onProgressRepositoriesUpdate(process => this.handleUpdateProgress(process));
+      assistantController.onCompletedRepositoriesUpdate(result => this.updateDateInfo(result));
+      this._initialized = true;
     }  
 
     assistantHelper.localize(this);
-    if (await this._wasUpdated()) {
+    if (assistantController.get('reposUpdated')) {
       this._showUpdateInfo();
     } else {
-      await this._updateRepositoryConfig();
+      await assistantController.updateRepositories();
     }
-  }
-
-  async _wasUpdated() {
-    const repoConfigExists = assistantController.get('repositoriesAvailable');
-
-    const lastUpdate = await ipcSettings.get('lastSwordRepoUpdate', undefined);
-
-    if (repoConfigExists && lastUpdate) {
-      this._updateDate(new Date(Date.parse(lastUpdate))); 
-      return true;
-    }
-
-    return false;
   }
 
   _showUpdateInfo() {
     console.log('UPDATE: showUpdateInfo');
     this._toggleViews('INFO');
 
-    this.querySelector('.update-info').textContent = i18n.t("module-assistant.repo-data-last-updated", { date: this._lastUpdate });
+    var date = assistantController.get('reposUpdated');
+    if (date) {
+      date = date.toLocaleDateString(i18nController.getLocale());
+      this.querySelector('.update-info').textContent = i18n.t("module-assistant.repo-data-last-updated", { date });
+    }
     uiHelper.configureButtonStyles(this);
   }
 
-  async _updateRepositoryConfig() {
-    console.log('UPDATE: updateRepositoryConfig');
+  prepareProgressBar() {
     this._toggleViews('UPDATE');
-
-    assistantController.pendingAllRepositoryData();
-
-    var listRepoTimeoutMs = 500;
-
     uiHelper.initProgressBar($('#repo-update-progress-bar'));
-    var ret = await ipcNsi.updateRepositoryConfig((progress) => {
-      var progressBar = $('#repo-update-progress-bar');
-      var progressPercent = progress.totalPercent;
-      progressBar.progressbar("value", progressPercent);
-    });
-
-    if (ret == 0) {
-      const today = new Date();
-      this._updateDate(today);
-      await ipcSettings.set('lastSwordRepoUpdate', today);
-    } else {
-      console.log("Failed to update the repository configuration!");
-      listRepoTimeoutMs = 3000;
-      this.querySelector('#update-repository-data-failed').style.display = 'block';     
-    }
-
-    assistantController.resolveAllRepositoryData();
-    setTimeout(() => { this._showUpdateInfo(); }, listRepoTimeoutMs);
   }
 
-  _updateDate(date) {
-    this._lastUpdate = date.toLocaleDateString(i18nController.getLocale());
+  handleUpdateProgress(progress) {
+    const progressBar = this.querySelector('#repo-update-progress-bar');
+    const progressPercent = progress.totalPercent;
+    $(progressBar).progressbar("value", progressPercent);
+  }
+
+  updateDateInfo(result) {
+    console.log('UPDATE: updateCompleted');
+
+    if (result != 0) {
+      console.log("Failed to update the repository configuration!");
+      this._toggleViews('ERROR');
+    }
+    setTimeout(() => { this._showUpdateInfo(); }, result == 0 ? 500 : 3000);
   }
 
   _toggleViews(view='INFO') {
     const infoView = this.querySelector('.info-view');
     const updateView = this.querySelector('.update-view');
+    const errorView = this.querySelector('#update-repository-data-failed');     
     if (view === 'UPDATE') {
       infoView.style.display = 'none';
+      errorView.style.display = 'none';
       updateView.style.display = 'block';  
+    } else if (view === 'ERROR') {
+      updateView.style.display = 'none';
+      infoView.style.display = 'none';
+      errorView.style.display = 'block';
     } else {
       updateView.style.display = 'none';
+      errorView.style.display = 'none';
       infoView.style.display = 'block';
     }
   }

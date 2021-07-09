@@ -24,7 +24,7 @@ var state = {
   selectedModules: new Set(),
   moduleType: null, 
   moduleTypeText: "",
-  repositoriesAvailable: false,
+  reposUpdated: null,
 };
 
 const stateSetItems = new Set(['selectedLanguages', 'selectedRepositories', 'selectedModules']);
@@ -48,31 +48,14 @@ module.exports.initState = async function(moduleType) {
 
   state.installedModules = await app_controller.translation_controller.getInstalledModules(moduleType);
 
-  state.repositoriesAvailable = await ipcNsi.repositoryConfigExisting();
-  console.log('assistantController repositoriesAvailable', state.repositoriesAvailable);
-  waitUntilRepositoriesAvailable();  
-};
+  const lastUpdate = await ipcSettings.get('lastSwordRepoUpdate', null);
+  const repositoriesAvailable = lastUpdate && await ipcNsi.repositoryConfigExisting();
 
-async function waitUntilRepositoriesAvailable() {
-  state.allRepositories = await new Promise(resolve => {
-    const intervalId = setInterval(() => {
-      if (state.repositoriesAvailable) {
-        clearInterval(intervalId);
-        console.log('assistantController resolving repositories', state.repositoriesAvailable);
-        resolve(ipcNsi.getRepoNames());
-      }
-    }, 200);
-  });
-}
-
-module.exports.pendingAllRepositoryData = async () => {
-  state.repositoriesAvailable = false;
-  console.log('assistantController pending repositories', state.repositoriesAvailable);
-  waitUntilRepositoriesAvailable();
-};
-
-module.exports.resolveAllRepositoryData = async () => {
-  state.repositoriesAvailable = true;
+  if (repositoriesAvailable) {
+    state.reposUpdated = new Date(Date.parse(lastUpdate));
+    state.allRepositories = await ipcNsi.getRepoNames();
+  }
+  this.resetRepositoryUpdateSubscribers();
 };
 
 module.exports.get = (key) => state[key];
@@ -119,3 +102,41 @@ var moduleInstallStatus = 'DONE';
 module.exports.isInstallCompleted = () => moduleInstallStatus !== 'IN_PROGRESS'; 
 module.exports.setInstallInProgress = () => moduleInstallStatus = 'IN_PROGRESS';
 module.exports.setInstallDone = () => moduleInstallStatus = 'DONE';
+
+
+var updatingRepositoriesEvents;
+module.exports.resetRepositoryUpdateSubscribers = function() {
+  updatingRepositoriesEvents = {
+    startUpdate: [],
+    progressUpdate: [],
+    completedUpdate: [
+      async result => state.allRepositories = result == 0 ? await ipcNsi.getRepoNames() : []
+    ],
+  };
+};
+
+function addUpdateSubscriber(event, callback) {
+  updatingRepositoriesEvents[event].push(callback);
+}
+async function notifySubscribers(event, payload=undefined) {
+  for (let subscriberCallback of updatingRepositoriesEvents[event]) {
+    if (typeof subscriberCallback === 'function') {
+      await subscriberCallback(payload);
+    }
+  }
+}
+module.exports.onStartRepositoriesUpdate = callback => addUpdateSubscriber('startUpdate', callback);
+module.exports.onProgressRepositoriesUpdate = callback => addUpdateSubscriber('progressUpdate', callback);
+module.exports.onCompletedRepositoriesUpdate = callback => addUpdateSubscriber('completedUpdate', callback);
+
+module.exports.updateRepositories = async function() {
+  await notifySubscribers('startUpdate');
+  const result = await ipcNsi.updateRepositoryConfig(process => notifySubscribers('progressUpdate', process));
+  if (result == 0) {
+    const today = new Date();
+    state.reposUpdated = today;
+    await ipcSettings.set('lastSwordRepoUpdate', today);
+  }
+  await notifySubscribers('completedUpdate', result);
+};
+
