@@ -75,34 +75,40 @@ class UpdateRepositories extends HTMLElement {
   constructor() {
     super();
     console.log('UPDATE: step constructor');
-    this._lastUpdate = null;
     this._initialized = false;
   }
 
   async connectedCallback() {
+    if (this._initialized || !this.isConnected) {
+      return;
+    }
     console.log('UPDATE: started connectedCallback');
-    if (!this._initialized) {
-      this.appendChild(template.content.cloneNode(true));
-      uiHelper.configureButtonStyles(this);
-  
-      this.querySelector('.update-repo-data').addEventListener('click', async () => await assistantController.updateRepositories());
-      assistantController.onStartRepositoriesUpdate(() => this.prepareProgressBar());
-      assistantController.onProgressRepositoriesUpdate(process => this.handleUpdateProgress(process));
-      assistantController.onCompletedRepositoriesUpdate(status => this.updateDateInfo(status));
-      this._initialized = true;
-    }  
 
+    this.appendChild(template.content.cloneNode(true));
+    uiHelper.configureButtonStyles(this);
+
+    this.querySelector('.update-repo-data').addEventListener('click', async () => await assistantController.updateRepositories());
+    assistantController.onStartRepositoriesUpdate(() => this.prepareProgressBar());
+    assistantController.onProgressRepositoriesUpdate(process => this.handleUpdateProgress(process));
+    assistantController.onCompletedRepositoriesUpdate(status => this.updateDateInfo(status));
+    
     assistantHelper.localize(this);
+
+    this._initialized = true;
+
     if (!assistantController.get('reposUpdated')) {
       await assistantController.updateRepositories();
+    } else {
+      this._showUpdateInfo();
     }
   }
 
   _showUpdateInfo() {
-    console.log('UPDATE: showUpdateInfo');
     this._toggleViews('INFO');
-
+    
     var date = assistantController.get('reposUpdated');
+    console.log('UPDATE: showUpdateInfo', date);
+
     if (date) {
       date = date.toLocaleDateString(i18nController.getLocale());
       this.querySelector('.update-info').textContent = i18n.t("module-assistant.repo-data-last-updated", { date });

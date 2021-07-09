@@ -135,6 +135,7 @@ class AssistantStepsAddModules extends HTMLElement {
   }
 
   _resetModuleAssistantContent() {
+    assistantController.resetRepositoryUpdateSubscribers();
     var moduleAssistantStepsContainer = this.querySelector('#module-settings-assistant-add');
     var $addModuleAssistantContainer = $(moduleAssistantStepsContainer);
     

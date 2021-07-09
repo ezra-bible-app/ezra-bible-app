@@ -53,7 +53,6 @@ module.exports.initState = async function(moduleType) {
 
   if (repositoriesAvailable) {
     state.reposUpdated = new Date(Date.parse(lastUpdate));
-    state.allRepositories = await ipcNsi.getRepoNames();
   }
   this.resetRepositoryUpdateSubscribers();
 
