@@ -44,7 +44,7 @@
     "remove-dicts": "Remove dictionaries",
     "repo-data-last-updated": "Repository data was last updated on {{date}}.",
     "update-now": "Update now",
-    "updating-repo-data": "Updating repository data...",
+    "updating-repository-data": "Updating repository data! This will take a few seconds ...",
     "update-repository-data-failed": "Updating repository data failed! Are you offline?",
     "languages": "Languages",
     "pick-languages": "Please choose at least one of the following languages. <br/>Next to each language is the number of available {{module_type}}.",
@@ -82,8 +82,7 @@
     "module-lock-info": "This module is license-protected and requires that you purchase an unlock key from the content owner!",
     "unlock-key": "Unlock key",
     "enter-unlock-key": "{{moduleId}} is license protected. Please enter the unlock key!",
-    "unlock-failed": "Unlock failed! Please enter the correct unlock key.",
-    "updating-repository-data": "Updating repository data! This will take a few seconds ..."
+    "unlock-failed": "Unlock failed! Please enter the correct unlock key."
   },
   "module-sync": {
     "module-sync-header": "Installing additional modules"
