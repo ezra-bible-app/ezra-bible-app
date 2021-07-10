@@ -78,7 +78,7 @@ const template = html`
 
 <div id="module-step-wrapper">
   <div id="module-list" class="scrollable">
-    <p id="module-list-intro" class="intro" i18n="module-assistant.pick-module-info"></p>
+    <p id="module-list-intro" class="intro" i18n="module-assistant.select-module"></p>
     
     <p><b i18n="module-assistant.module-display-preferences"></b></p>
 
@@ -110,7 +110,7 @@ const template = html`
 
   <div id="module-info" class="scrollable">
     <div class="background">${ICON_INFO}</div>
-    <div id="module-info-content" i18n="module-assistant.click-to-show-detailed-module-info"></div>
+    <div id="module-info-content"></div>
     <loading-indicator style="display: none"></loading-indicator>
   </div>
 </div>
@@ -136,7 +136,7 @@ class StepModules extends HTMLElement {
   async connectedCallback() {
     console.log('MODULES: started connectedCallback');
     this.appendChild(template.content.cloneNode(true));
-    assistantHelper.localize(this, assistantController.get('moduleTypeText'));
+    this._localize();
     
     this.querySelectorAll('.module-feature-filter').forEach(checkbox => checkbox.addEventListener('click', async () => {
       this._listFilteredModules();
@@ -245,6 +245,21 @@ class StepModules extends HTMLElement {
         loadingIndicator.hide();
       }, 100);
     }  
+  }
+
+  _localize() {
+    var moduleInfoNote = "";
+    const moduleType = assistantController.get('moduleType');
+    
+    if (moduleType == "BIBLE") {
+      moduleInfoNote = i18n.t("module-assistant.show-detailed-info-translations");
+    } else if (moduleType == "DICT") {
+      moduleInfoNote = i18n.t("module-assistant.show-detailed-info-dictionaries");
+    } 
+    
+    this.querySelector('#module-info-content').innerHTML = moduleInfoNote;
+
+    assistantHelper.localize(this, assistantController.get('moduleTypeText'));
   }
 
 }

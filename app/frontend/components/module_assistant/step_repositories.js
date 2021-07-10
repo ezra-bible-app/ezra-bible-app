@@ -53,7 +53,8 @@ const template = html`
 
   <div id="repo-list-wrapper" class="scrollable">
     
-    <p class="intro" i18n="module-assistant.repo-selection-info-text"></p>   
+    <p class="intro" i18n="module-assistant.select-repository"></p>   
+    <p class="assistant-note" i18n="module-assistant.total-modules-repo"></p>
     
     <loading-indicator></loading-indicator>
     <p class="loading-repos" i18n="module-assistant.loading-repositories"></p>

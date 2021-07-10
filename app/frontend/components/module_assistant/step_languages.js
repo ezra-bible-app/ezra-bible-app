@@ -61,7 +61,8 @@ const template = html`
   <update-repositories></update-repositories>
 
   <div id="language-list-wrapper" class="scrollable">
-    <p class="intro" i18n="module-assistant.pick-languages"></p> 
+    <p class="intro" i18n="module-assistant.select-language"></p> 
+    <p class="assistant-note" i18n="module-assistant.total-modules-language"></p>
 
     <loading-indicator></loading-indicator>
     <p class="loading-text" i18n="module-assistant.loading-languages"></p>

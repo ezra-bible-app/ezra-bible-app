@@ -52,7 +52,7 @@ const template = html`
   text-align: center;
 }
 
-#module-settings-assistant-init > p {
+#module-settings-assistant-init > section {
   width: 60%;
   padding: 2em 5em; 
   margin: 0;
@@ -67,7 +67,7 @@ const template = html`
 #module-settings-assistant-init a {
   color: var(--accent-color);
 }
-p#module-settings-assistant-internet-usage {
+section#module-settings-assistant-internet-usage {
   color: #f00a;
 }
 
@@ -81,6 +81,15 @@ p#module-settings-assistant-internet-usage {
 #module-settings-assistant-init button {
   height: 2.2em;
   padding: 0 2em;
+}
+
+#module-settings-assistant .repository-explanation {
+  font-style: italic;
+}
+
+#module-settings-assistant .assistant-note {
+  font-size: 0.8em;
+  text-align: center;
 }
 
 #module-settings-assistant .content .body {
@@ -104,8 +113,14 @@ p#module-settings-assistant-internet-usage {
   <div class="container">
   <div id="module-settings-assistant-init">
 
-    <p id="module-settings-assistant-intro" i18n="module-assistant.intro-text"></p>   
-    <p id="module-settings-assistant-internet-usage" i18n="module-assistant.internet-usage-note"></p>
+    <section id="module-settings-assistant-intro">
+      <p i18n="module-assistant.intro-text"></p>
+      <p class="repository-explanation assistant-note" i18n="module-assistant.what-is-repository"></p>
+    </section>
+
+    <section id="module-settings-assistant-internet-usage">
+      <p i18n="module-assistant.internet-usage-note"></p>
+    </section>
 
     <div class="module-assistant-type-buttons">
       <button id="add-modules-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled"></button>

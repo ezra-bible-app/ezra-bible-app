@@ -31,7 +31,7 @@ const template = html`
 </style>
 
 <loading-indicator></loading-indicator>
-<p class="intro"></p>
+<p class="intro" i18n="module-assistant.select-module-to-be-removed"></p>
 <div id="remove-module-list"></div>
 `;
 
@@ -89,13 +89,13 @@ class StepModulesRemove extends HTMLElement {
     let introText = "";
     const moduleType = assistantController.get('moduleType');
     if (moduleType == "BIBLE") {
-      introText = i18n.t("module-assistant.select-translations-to-be-removed");
+      introText = i18n.t("module-assistant.select-module-to-be-removed");
     } else if (moduleType == "DICT") {
       introText = i18n.t("module-assistant.select-dictionaries-to-be-removed");
     }
     this.querySelector('.intro').innerHTML = introText;
 
-    assistantHelper.localize(this);
+    assistantHelper.localize(this, assistantController.get('moduleTypeText'));
 
   }
 }
@@ -122,6 +122,7 @@ async function getInstalledModulesByLanguage() {
         (moduleType == "DICT" && fixedDictionaries.includes(swordModule.name))) {
 
       moduleInfo.disabled = true;
+      moduleInfo.title = i18n.t(moduleType == 'DICT' ? "module-assistant.disable-remove-dictionary" : "module-assistant.disable-remove-translation");
     }
 
     const languageName = i18nHelper.getLanguageName(swordModule.language);
