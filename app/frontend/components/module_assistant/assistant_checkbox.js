@@ -124,13 +124,11 @@ class AssistantCheckbox extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if (name === 'checked') {
+    if (name.startsWith('co') && newValue) { // count
+      newValue = ` (${newValue})`;
+    } else if (name.startsWith('ch')) { // checked
       this.handleCheckedAttr(oldValue, newValue);
       return;
-    }
-
-    if (name === 'count' && newValue) {
-      newValue = ` (${newValue})`;
     }
 
     this.update(name, newValue);
