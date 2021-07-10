@@ -146,7 +146,9 @@ module.exports.getLanguageCode = function(languageName) {
 function findLanguage(normalizedCode) {
   const langs = getLangs();
 
-  for (let i = 0; i < langs.length; i++) {
+  const languageCount = langs.length;
+
+  for (let i = 0; i < languageCount; i++) {
     const currentLang = langs[i];
     if (mappingMatchesCode(currentLang, normalizedCode)) {
       return currentLang;
