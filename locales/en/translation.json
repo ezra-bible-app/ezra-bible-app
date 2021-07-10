@@ -56,7 +56,7 @@
     "most-spoken-languages": "Most Spoken Languages",
     "historical-languages": "Historical Languages",
     "other-languages": "Other Languages",
-    "language-search-result": "Matches Found",
+    "language-search-results": "Matches Found",
     "repositories": "Repositories",
     "select-repository": "Select at least one of the following SWORD repositories.",
     "total-modules-repo": "Next to each repository is the number of {{module_type}} available from the repository.",

@@ -230,7 +230,7 @@ class StepLanguages extends HTMLElement {
     this._search_results.innerHTML = '';
     this._search_results.append(assistantHelper.listCheckboxSection(result, 
                                                                     assistantController.get('selectedLanguages'), 
-                                                                    i18n.t('module-assistant.search-result')));
+                                                                    i18n.t('module-assistant.language-search-results')));
   }
 
   _localize() {
