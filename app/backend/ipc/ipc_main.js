@@ -92,9 +92,10 @@ class IpcMain {
         if (this._showDebugOutput) {
           console.log(functionName + ' ' + global.callCounters[functionName]);
         }
-        return callbackFunction((progress) => { 
+        var returnValue = await callbackFunction((progress) => { 
           this.message(progressChannel, progress); 
         }, ...args);
+        return returnValue;
       });
 
     } else if (this._isCordova) {
