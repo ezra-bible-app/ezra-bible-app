@@ -87,8 +87,8 @@ class IpcNsiHandler {
       try {
         var retCode = await this._nsi.updateRepositoryConfig(progressCB);
         return retCode;
-      } catch (e) {
-        return -1;
+      } catch (retCode) {
+        return retCode;
       }
     }, 'nsi_updateRepoConfigProgress');
     
