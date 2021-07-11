@@ -775,10 +775,12 @@ class AppController {
     tagBoxes.bind('mousedown', tags_controller.clear_verse_selection).addClass('tag-events-configured');
 
     tags.bind('mousedown', async (event) => {
+      event.stopPropagation();
       await this.handleReferenceClick(event);
     }).addClass('tag-events-configured');
 
     xref_markers.bind('mousedown', async (event) => {
+      event.stopPropagation();
       await this.handleReferenceClick(event);
     }).addClass('events-configured');
 
