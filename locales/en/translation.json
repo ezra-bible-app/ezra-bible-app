@@ -36,7 +36,7 @@
     "dict-header": "Configure dictionaries",
     "module-type-bible": "Bible translations",
     "module-type-dict": "Dictionaries",
-    "intro-text": "Ezra Bible App installs {{module_type}} using your internet connection. {{module_type}} are distributed by the <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> and will be downloaded from <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> repositories. <br/><br/>You may select languages and particular repositories from which you will install {{module_type}}.",
+    "intro-text": "Ezra Bible App installs {{module_type}} using your internet connection. {{module_type}} are distributed by the <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> and will be downloaded from <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> repositories.",
     "internet-usage-note": "<b>IMPORTANT NOTE</b><br/>If you are located in a country where Christians are persecuted,<br/>be aware that your internet provider will be able to detect<br/>that <b>you are accessing Christian resources</b>!",
     "add-translations": "Add Bible translations",
     "remove-translations": "Remove Bible translations",

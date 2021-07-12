@@ -55,6 +55,7 @@ const template = html`
     
     <p class="intro" i18n="module-assistant.select-repository"></p>   
     <p class="assistant-note" i18n="module-assistant.total-modules-repo"></p>
+    <p class="repository-explanation assistant-note" i18n="module-assistant.what-is-repository"></p>
     
     <loading-indicator></loading-indicator>
     <p class="loading-repos" i18n="module-assistant.loading-repositories"></p>
