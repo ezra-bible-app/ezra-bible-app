@@ -91,6 +91,9 @@ section#module-settings-assistant-internet-usage {
   font-size: 0.8em;
   text-align: center;
 }
+#module-settings-assistant .error {
+  color: red;
+}
 
 #module-settings-assistant .content .body {
   width: 100%;

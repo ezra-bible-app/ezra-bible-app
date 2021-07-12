@@ -40,6 +40,9 @@ const template = html`
     margin: 0 3em 1em;
     text-align: center;
   }
+  #repo-list-wrapper .update-repository-data-failed {
+    text-align: center;
+  }
   #repo-list-wrapper .repository-list {
     min-width: 2em;
   }
@@ -59,6 +62,7 @@ const template = html`
     
     <loading-indicator></loading-indicator>
     <p class="loading-repos" i18n="module-assistant.loading-repositories"></p>
+    <p class="update-repository-data-failed error" style="display: none" i18n="module-assistant.update-repository-data-failed"></p>
     <div class="repository-list"></div>
 
     <p class="more-info" i18n="module-assistant.more-repo-information-needed" style="display: none;"></p>
@@ -91,7 +95,15 @@ class StepRepositories extends HTMLElement {
     assistantHelper.localize(this, assistantController.get('moduleTypeText'));
 
     assistantController.onStartRepositoriesUpdate(async () => await this.resetView());
-    assistantController.onCompletedRepositoriesUpdate(async () => await this.listRepositories());
+    assistantController.onCompletedRepositoriesUpdate(async status => {
+      if (status == 0) {
+        await this.listRepositories();
+      } else {
+        this.querySelector('.loading-repos').style.display = 'none';
+        this.querySelector('loading-indicator').hide();
+        this.querySelector('.update-repository-data-failed').style.display = 'block';
+      }
+    });
 
     this.addEventListener('itemChanged', (e) => this._handleCheckboxClick(e));
   }
@@ -101,6 +113,7 @@ class StepRepositories extends HTMLElement {
     this.querySelector('loading-indicator').show();
     this.querySelector('.loading-repos').style.display = 'block';
     this.querySelector('.more-info').style.display = 'none';
+    this.querySelector('.update-repository-data-failed').style.display = 'none';
     
     this.querySelector('.repository-list').innerHTML = '';
   }

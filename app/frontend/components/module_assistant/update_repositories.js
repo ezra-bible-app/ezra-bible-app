@@ -46,11 +46,8 @@ const template = html`
   .update-repository-data-progress {
     width: 100%;
   }
-  .update-repository-data-progress .progress-bar, .update-repository-data-failed{
+  .update-repository-data-progress .progress-bar, .update-failed{
     margin: 0;
-  }
-  .update-repository-data-failed {
-    color: red;
   }
 </style>
 
@@ -66,7 +63,7 @@ const template = html`
       <div class="progress-label" i18n="module-assistant.updating-repository-data"></div>
     </div>
   </div>  
-  <p class="update-repository-data-failed" style="display: none" i18n="module-assistant.update-repository-data-failed"></p>
+  <p class="update-failed error" style="display: none" i18n="module-assistant.update-failed"></p>
 
 </section>
 `;
@@ -139,7 +136,7 @@ class UpdateRepositories extends HTMLElement {
   _toggleViews(view='INFO') {
     const infoView = this.querySelector('.update-repository-data-info');
     const updateView = this.querySelector('.update-repository-data-progress');
-    const errorView = this.querySelector('.update-repository-data-failed');     
+    const errorView = this.querySelector('.update-failed');     
     if (view === 'UPDATE') {
       infoView.style.display = 'none';
       errorView.style.display = 'none';

@@ -46,6 +46,7 @@
     "repo-data-last-updated": "Repository data was last updated on {{date}}.",
     "update-now": "Update now",
     "updating-repository-data": "Updating repository data! This will take a few seconds ...",
+    "update-failed": "Update failed",
     "update-repository-data-failed": "Updating repository data failed! Are you offline?",
     "languages": "Languages",
     "select-language": "Please choose at least one of the following languages.",

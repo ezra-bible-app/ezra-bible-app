@@ -43,6 +43,9 @@ const template = html`
     margin: 0 3em 1em;
     text-align: center;
   }
+  #language-list-wrapper .update-repository-data-failed {
+    text-align: center;
+  }
   #language-list-wrapper fuzzy-search {
     display: block;
     text-align: end;
@@ -66,6 +69,7 @@ const template = html`
 
     <loading-indicator></loading-indicator>
     <p class="loading-text" i18n="module-assistant.loading-languages"></p>
+    <p class="update-repository-data-failed error" style="display: none" i18n="module-assistant.update-repository-data-failed"></p>
 
     <div class="app-system-languages"></div>
 
@@ -101,12 +105,13 @@ class StepLanguages extends HTMLElement {
     this.appendChild(template.content.cloneNode(true));
     
     this._loading = this.querySelector('loading-indicator');
-    this._loading_text = this.querySelector('.loading-text');
-    this._app_languages = this.querySelector('.app-system-languages');
+    this._loadingText = this.querySelector('.loading-text');
+    this._errorText = this.querySelector('.update-repository-data-failed');
+    this._appLanguages = this.querySelector('.app-system-languages');
     /**@type {import('../generic/fuzzy_search')} */
     this._search = this.querySelector('fuzzy-search');
-    this._search_results = this.querySelector('.search-result');
-    this._all_languages = this.querySelector('.all-languages');
+    this._searchResults = this.querySelector('.search-result');
+    this._allLanguages = this.querySelector('.all-languages');
 
     this._localize();
 
@@ -120,21 +125,26 @@ class StepLanguages extends HTMLElement {
     assistantController.onCompletedRepositoriesUpdate(async status => {
       if (status == 0) {
         this._languageData = await getAvailableLanguagesFromRepos(); 
+        await this.listLanguages();
+      } else {
+        this._loadingText.style.display = 'none';
+        this._loading.hide();
+        this._errorText.style.display = 'block';
       }
-      await this.listLanguages();
     });
   }
 
   async resetView() {
     console.log('LANGS: resetView');
 
-    this._all_languages.innerHTML = '';
-    this._search_results.innerHTML = '';
-    this._app_languages.innerHTML = '';
+    this._allLanguages.innerHTML = '';
+    this._searchResults.innerHTML = '';
+    this._appLanguages.innerHTML = '';
     this._search.style.display = 'none';
+    this._errorText.style.display = 'none';
     
     this._loading.show();
-    this._loading_text.style.display = 'block';
+    this._loadingText.style.display = 'block';
   }
 
   async listLanguages() {
@@ -143,17 +153,17 @@ class StepLanguages extends HTMLElement {
       return;
     }
     
-    this._loading_text.style.display = 'none';
+    this._loadingText.style.display = 'none';
     
     const selectedLanguages = assistantController.get('selectedLanguages');
 
     const appSystemLanguages = [...this._languageData.appSystemLanguages.values()]
       .sort(assistantHelper.sortByText)
       .map(lang => ({...lang, icon: ICON_STAR}));
-    this._app_languages.append(assistantHelper.listCheckboxSection(appSystemLanguages,
-                                                                   selectedLanguages, 
-                                                                   i18n.t('module-assistant.app-system-languages'),
-                                                                   {extraIndent: true}));
+    this._appLanguages.append(assistantHelper.listCheckboxSection(appSystemLanguages,
+                                                                  selectedLanguages, 
+                                                                  i18n.t('module-assistant.app-system-languages'),
+                                                                  {extraIndent: true}));
 
     this._initSearch(this._languageData.allLanguages);
 
@@ -164,7 +174,7 @@ class StepLanguages extends HTMLElement {
       if (languageArr.length > 0) {
         const sectionHeader = ['bible-languages', 'most-spoken-languages', 'historical-languages'].includes(category) 
           ? i18n.t(`module-assistant.${category}`) : category === 'iso6391-languages' ? i18n.t('module-assistant.other-languages') : undefined;
-        this._all_languages.append(assistantHelper.listCheckboxSection(languageArr, selectedLanguages, sectionHeader));
+        this._allLanguages.append(assistantHelper.listCheckboxSection(languageArr, selectedLanguages, sectionHeader));
       }
     }
     
@@ -227,10 +237,10 @@ class StepLanguages extends HTMLElement {
   _handleSearchResult(event) {
     const result = event.detail.results.map(r => r.item);
 
-    this._search_results.innerHTML = '';
-    this._search_results.append(assistantHelper.listCheckboxSection(result, 
-                                                                    assistantController.get('selectedLanguages'), 
-                                                                    i18n.t('module-assistant.language-search-results')));
+    this._searchResults.innerHTML = '';
+    this._searchResults.append(assistantHelper.listCheckboxSection(result, 
+                                                                   assistantController.get('selectedLanguages'), 
+                                                                   i18n.t('module-assistant.language-search-results')));
   }
 
   _localize() {
