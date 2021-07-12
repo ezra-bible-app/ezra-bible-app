@@ -243,9 +243,10 @@ class ModuleAssistant extends HTMLElement{
       console.error("InstallModuleAssistant: Unknown module type!");
     }
     
-    document.querySelector('#add-modules-button').textContent = addModuleText;
-    document.querySelector('#remove-modules-button').textContent = removeModuleText;
-    assistantHelper.localize(this, assistantController.get('moduleTypeText'));
+    const container = document.querySelector('#module-settings-assistant-init');
+    container.querySelector('#add-modules-button').textContent = addModuleText;
+    container.querySelector('#remove-modules-button').textContent = removeModuleText;
+    assistantHelper.localize(container, assistantController.get('moduleTypeText'));
 
     return dialogTitle;
   }
