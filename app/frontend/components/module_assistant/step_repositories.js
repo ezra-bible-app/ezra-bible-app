@@ -108,7 +108,7 @@ class StepRepositories extends HTMLElement {
 
     this.addEventListener('itemChanged', (e) => this._handleCheckboxClick(e));
     
-    this._savedRepositories = ipcSettings.get(SETTINGS_KEY, []);
+    this._savedReposPromise = ipcSettings.get(SETTINGS_KEY, []);
   }
   
   async resetView() {
@@ -125,9 +125,17 @@ class StepRepositories extends HTMLElement {
 
   async listRepositories() {
     console.log('REPOS: listRepositories');
-    assistantController.init('selectedRepositories', await this._savedRepositories);
+    assistantController.init('selectedRepositories', await this._savedReposPromise);
 
     this.querySelector('.loading-repos').style.display = 'none';
+
+    const languageRepos = assistantController.get('languageRepositories');
+    for(const language of assistantController.get('selectedLanguages')) {
+      if (languageRepos[language] && languageRepos[language].length === 1) { // if only that language is in only one repository
+        const onlyRepoWithLanguage = languageRepos[language][0];
+        assistantController.add('selectedRepositories', onlyRepoWithLanguage); // preselect that repository
+      }
+    }
 
     const repositoriesArr = await Promise.all(assistantController.get('allRepositories').map(getRepoModuleDetails));
 

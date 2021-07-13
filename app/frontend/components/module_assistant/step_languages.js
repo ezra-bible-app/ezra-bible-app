@@ -134,7 +134,7 @@ class StepLanguages extends HTMLElement {
       }
     });
 
-    this._savedLanguages = ipcSettings.get(SETTINGS_KEY, []);
+    this._savedLanguagesPromise = ipcSettings.get(SETTINGS_KEY, []);
   }
 
   async resetView() {
@@ -153,11 +153,12 @@ class StepLanguages extends HTMLElement {
 
   async listLanguages() {
     console.log('LANGS: listLanguages!');
-    assistantController.init('selectedLanguages', await this._savedLanguages);
-
+    
     if (!this._languageData) {
       return;
     }
+    assistantController.init('selectedLanguages', await this._savedLanguagesPromise);
+    assistantController.init('languageRepositories', this._languageData.languageRepositories);
     
     this._loadingText.style.display = 'none';
     
@@ -282,6 +283,7 @@ async function getAvailableLanguagesFromRepos() {
   };
   
   var allLanguages = new Map();
+  var languageRepositories = {};
 
   const repositories = assistantController.get('allRepositories');
 
@@ -315,13 +317,18 @@ async function getAvailableLanguagesFromRepos() {
       }
 
       addLanguage(allLanguages, languageInfo, currentLanguageCode); 
+
+      languageRepositories[currentLanguageCode] = languageRepositories[currentLanguageCode] || [];
+      languageRepositories[currentLanguageCode].push(currentRepo);
+  
     }
   }
 
   return {
     appSystemLanguages,
     languages,
-    allLanguages
+    allLanguages,
+    languageRepositories,
   };
 }
 

@@ -25,6 +25,7 @@ var state = {
   moduleType: null, 
   moduleTypeText: "",
   reposUpdated: null,
+  languageRepositories: {},
 };
 
 const stateSetItems = new Set(['selectedLanguages', 'selectedRepositories', 'selectedModules']);
@@ -63,6 +64,8 @@ module.exports.init = (key, arr) => {
   if (key === 'installedModules') {
     state['installedModules'] = arr;
     return;
+  } else if (key === 'languageRepositories') {
+    state['languageRepositories'] = arr;
   }
 
   if (!stateSetItems.has(key)) {
