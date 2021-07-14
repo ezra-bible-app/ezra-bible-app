@@ -164,10 +164,10 @@ class StepLanguages extends HTMLElement {
     
     const selectedLanguages = assistantController.get('selectedLanguages');
 
-    const appSystemLanguages = [...this._languageData.appSystemLanguages.values()]
-      .sort(assistantHelper.sortByText)
-      .map(lang => ({...lang, icon: ICON_STAR}));
-    this._appLanguages.append(assistantHelper.listCheckboxSection(appSystemLanguages,
+    // const appSystemLanguages = [...this._languageData.appSystemLanguages.values()]
+    //   .sort(assistantHelper.sortByText)
+    //   .map(lang => ({...lang, icon: ICON_STAR}));
+    this._appLanguages.append(assistantHelper.listCheckboxSection(this._languageData.appSystemLanguages,
                                                                   selectedLanguages, 
                                                                   i18n.t('module-assistant.step-languages.app-system-languages'),
                                                                   {extraIndent: true}));
@@ -176,12 +176,13 @@ class StepLanguages extends HTMLElement {
 
     const languages = this._languageData.languages;
     for(const category in languages) {
-      const languageArr = [...languages[category].values()].sort(assistantHelper.sortByText);
+
+      // const languageArr = [...languages[category].values()].sort(assistantHelper.sortByText);
       
-      if (languageArr.length > 0) {
+      if (languages[category].size > 0) {
         const sectionHeader = ['bible-languages', 'most-spoken-languages', 'historical-languages'].includes(category) 
           ? i18n.t(`module-assistant.step-languages.${category}`) : category === 'iso6391-languages' ? i18n.t('module-assistant.step-languages.other-languages') : undefined;
-        this._allLanguages.append(assistantHelper.listCheckboxSection(languageArr, selectedLanguages, sectionHeader));
+        this._allLanguages.append(assistantHelper.listCheckboxSection(languages[category], selectedLanguages, sectionHeader));
       }
     }
     
@@ -316,7 +317,7 @@ async function getAvailableLanguagesFromRepos() {
         addLanguage(languages['unknown-languages'], languageInfo, currentLanguageCode);          
       }
 
-      addLanguage(allLanguages, languageInfo, currentLanguageCode); 
+      addLanguage(allLanguages, languageInfo, currentLanguageCode, false); 
 
       languageRepositories[currentLanguageCode] = languageRepositories[currentLanguageCode] || [];
       languageRepositories[currentLanguageCode].push(currentRepo);
@@ -332,7 +333,7 @@ async function getAvailableLanguagesFromRepos() {
   };
 }
 
-function addLanguage(languageMap, info, fullLanguageCode) {
+function addLanguage(languageMap, info, fullLanguageCode, keyAsLanguageName=true) {
   var descriptionArr = [];
   if (info.languageRegion) {
     descriptionArr.push(info.languageRegion);
@@ -340,7 +341,9 @@ function addLanguage(languageMap, info, fullLanguageCode) {
   if (info.languageScript) {
     descriptionArr.push(info.languageScript);
   }
-  languageMap.set(fullLanguageCode,
+
+  const key = keyAsLanguageName ? info.languageName + (info.languageScript || '') + (info.languageRegion || '') : fullLanguageCode;
+  languageMap.set(key,
                   {code: fullLanguageCode,
                    text: info.languageName,
                    description: descriptionArr.join(' – ') });

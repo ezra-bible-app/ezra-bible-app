@@ -76,40 +76,22 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
   };
 
   var checkboxes = [];
-  for (const item of arr) {
-    if (typeof item === 'string') {
-      checkboxes.push(`<assistant-checkbox code="${item}" ${selected.has(item) ? 'checked' : ''}>${item}</assistant-checkbox>`);
-    } else {
-      const {code, text, description, count, disabled, icon, ...rest} = item;
-      const checkedProp = selected.has(code);
-
-      const style = text && text.length > 22 && (options.columns === 'auto-fill' || options.columns > 1) ? 'style="grid-column-end: span 2"' : '';
-
-      const iconSpan = icon ? `<span slot="label-icon">${icon}</span>` : '';
-
-      const extraAttr = Object.entries(rest).map(([attr, val]) => `${attr}="${val}"`);
-
-      /**@type {import('./assistant_checkbox')} */
-      const checkbox = `
-        <assistant-checkbox 
-          ${style}
-          code="${code}" 
-          ${checkedProp ? 'checked' : ''}
-          ${disabled ? 'disabled' : ''}
-          ${count ? `count="${count}"` : ''}
-          ${description ? `description="${description}"` : ''}
-          ${options.info ? `info="${i18n.t("module-assistant.step-modules.show-module-info")}"` : ''}
-          ${extraAttr.join(' ')}>
-          ${iconSpan}
-          <span slot="label-text">${text ? text : code}</span>
-        </assistant-checkbox>`;
-
-      if (count !== 0) {
-        checkboxes.push(checkbox);
+  if (arr instanceof Map) {
+    const sortedKeys = [...arr.keys()].sort((a, b) => a.localeCompare(b, { sensitivity: 'base', ignorePunctuation: true }));
+    for(const key of sortedKeys) {
+      const item = arr.get(key);
+      if (!item.count || item.count && item.count !== 0) {
+        checkboxes.push(generateCheckbox(item, typeof selected.has(item === 'string' ? item : item.code), options));
+      }
+    }
+  } else {
+    for (const item of arr) {
+      if (!item.count || item.count && item.count !== 0) {
+        checkboxes.push(generateCheckbox(item, typeof selected.has(item === 'string' ? item : item.code), options));
       }
     }
   }
-
+  
   const paddingLeft = options.extraIndent ? '1em' : '0';
 
   const template = html`
@@ -119,6 +101,38 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
     </div>`;
   return template.content;
 };
+
+function generateCheckbox(item, checked, options) {
+  if (typeof item === 'string') {
+    return `<assistant-checkbox code="${item}" ${checked ? 'checked' : ''}>${item}</assistant-checkbox>`;
+  } else {
+    const {code, text, description, count, disabled, icon, ...rest} = item;
+
+    const style = text && text.length > 22 && (options.columns === 'auto-fill' || options.columns > 1) ? 'style="grid-column-end: span 2"' : '';
+
+    const iconSpan = icon ? `<span slot="label-icon">${icon}</span>` : '';
+
+    const extraAttr = Object.entries(rest).map(([attr, val]) => `${attr}="${val}"`);
+
+    /**@type {import('./assistant_checkbox')} */
+    const checkbox = `
+      <assistant-checkbox 
+        ${style}
+        code="${code}" 
+        ${checked ? 'checked' : ''}
+        ${disabled ? 'disabled' : ''}
+        ${count ? `count="${count}"` : ''}
+        ${description ? `description="${description}"` : ''}
+        ${options.info ? `info="${i18n.t("module-assistant.step-modules.show-module-info")}"` : ''}
+        ${extraAttr.join(' ')}>
+        ${iconSpan}
+        <span slot="label-text">${text ? text : code}</span>
+      </assistant-checkbox>`;
+
+    return checkbox;
+  }
+
+}
 
 module.exports.localizeContainer = function(container, module_type) {
   container.querySelectorAll('[i18n]').forEach(element => {
