@@ -1156,7 +1156,7 @@ li.book-unavailable a:focus,
   border-top: 1px solid lightgrey;
   clear: both;
   margin-top: 2em;
-  height: 440px;
+  height: 450px;
   overflow-y: scroll;
 }
 
@@ -1172,10 +1172,10 @@ li.book-unavailable a:focus,
   margin-bottom: 6em;
 }
 
-@media only screen and (max-height: 780px) {
+@media only screen and (max-height: 1024px) {
   #tag-assignment-menu-taglist,
   #tag-assignment-menu-taglist-overlay {
-    height: 220px;
+    height: 300px;
   }
 }
 
