@@ -164,9 +164,6 @@ class StepLanguages extends HTMLElement {
     
     const selectedLanguages = assistantController.get('selectedLanguages');
 
-    // const appSystemLanguages = [...this._languageData.appSystemLanguages.values()]
-    //   .sort(assistantHelper.sortByText)
-    //   .map(lang => ({...lang, icon: ICON_STAR}));
     this._appLanguages.append(assistantHelper.listCheckboxSection(this._languageData.appSystemLanguages,
                                                                   selectedLanguages, 
                                                                   i18n.t('module-assistant.step-languages.app-system-languages'),
@@ -176,8 +173,6 @@ class StepLanguages extends HTMLElement {
 
     const languages = this._languageData.languages;
     for(const category in languages) {
-
-      // const languageArr = [...languages[category].values()].sort(assistantHelper.sortByText);
       
       if (languages[category].size > 0) {
         const sectionHeader = ['bible-languages', 'most-spoken-languages', 'historical-languages'].includes(category) 
@@ -296,25 +291,28 @@ async function getAvailableLanguagesFromRepos() {
     for (const currentLanguageCode of repoLanguages) {
       const languageInfo = languageMapper.getLanguageDetails(currentLanguageCode, i18nController.getLocale());
 
+      let starred = false;
+
       if (appSystemLanguageCodes.has(languageInfo.languageCode)) {
-        addLanguage(appSystemLanguages, languageInfo, currentLanguageCode);
+        starred = true;
+        addLanguage(appSystemLanguages, languageInfo, currentLanguageCode, starred);
       } 
       
       if (bibleLanguages.has(languageInfo.languageCode)) {
-        addLanguage(languages['bible-languages'], languageInfo, currentLanguageCode);
+        addLanguage(languages['bible-languages'], languageInfo, currentLanguageCode, starred);
       } else if (mostSpeakingLanguages.has(languageInfo.languageCode)) {
-        addLanguage(languages['most-spoken-languages'], languageInfo, currentLanguageCode);
+        addLanguage(languages['most-spoken-languages'], languageInfo, currentLanguageCode, starred);
       } else if (historicalLanguageTypes.has(languageInfo.type)) {
-        addLanguage(languages['historical-languages'], languageInfo, currentLanguageCode);
+        addLanguage(languages['historical-languages'], languageInfo, currentLanguageCode, starred);
       } else if (languageInfo.iso6391) {
-        addLanguage(languages['iso6391-languages'], languageInfo, currentLanguageCode);
+        addLanguage(languages['iso6391-languages'], languageInfo, currentLanguageCode, starred);
       } else if (languageInfo.iso6392T) {
-        addLanguage(languages['iso6392T-languages'], languageInfo, currentLanguageCode);
+        addLanguage(languages['iso6392T-languages'], languageInfo, currentLanguageCode, starred);
       } else if (languageInfo.iso6393) {
-        addLanguage(languages['iso6393-languages'], languageInfo, currentLanguageCode);
+        addLanguage(languages['iso6393-languages'], languageInfo, currentLanguageCode, starred);
       } else {
         console.log("Unknown lang:", currentLanguageCode, languageInfo);
-        addLanguage(languages['unknown-languages'], languageInfo, currentLanguageCode);          
+        addLanguage(languages['unknown-languages'], languageInfo, currentLanguageCode, starred);          
       }
 
       addLanguage(allLanguages, languageInfo, currentLanguageCode, false); 
@@ -333,7 +331,7 @@ async function getAvailableLanguagesFromRepos() {
   };
 }
 
-function addLanguage(languageMap, info, fullLanguageCode, keyAsLanguageName=true) {
+function addLanguage(languageMap, info, fullLanguageCode, starred=false, keyAsLanguageName=true) {
   var descriptionArr = [];
   if (info.languageRegion) {
     descriptionArr.push(info.languageRegion);
@@ -342,11 +340,17 @@ function addLanguage(languageMap, info, fullLanguageCode, keyAsLanguageName=true
     descriptionArr.push(info.languageScript);
   }
 
+  const checkboxInfo = {
+    code: fullLanguageCode,
+    text: info.languageName,
+    description: descriptionArr.join(' – ') 
+  };
+  if (starred) {
+    checkboxInfo.icon = ICON_STAR;
+  }
+  
   const key = keyAsLanguageName ? info.languageName + (info.languageScript || '') + (info.languageRegion || '') : fullLanguageCode;
-  languageMap.set(key,
-                  {code: fullLanguageCode,
-                   text: info.languageName,
-                   description: descriptionArr.join(' – ') });
+  languageMap.set(key, checkboxInfo);
 }
 
 async function getInstalledLanguages() {
