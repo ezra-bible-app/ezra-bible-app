@@ -129,8 +129,9 @@ module.exports.localizeContainer = function(container, module_type) {
   });
 };
 
-module.exports.localizeText = function(key, module_type) {
-  return i18n.t(key, {module_type,
+module.exports.localizeText = function(key, data) {
+  data = typeof data === 'string' ? {module_type: data} : data;
+  return i18n.t(key, {...data,
                       interpolation: {
                         alwaysFormat: true,
                       }});

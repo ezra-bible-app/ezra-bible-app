@@ -19,7 +19,6 @@
 
 const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
-const i18nController = require('../../controllers/i18n_controller.js');
 const assistantHelper = require('./assistant_helper.js');
 
 const template = html`
@@ -103,12 +102,11 @@ class UpdateRepositories extends HTMLElement {
   _showUpdateInfo() {
     this._toggleViews('INFO');
     
-    var date = assistantController.get('reposUpdated');
+    const date = assistantController.get('reposUpdated');
     console.log('UPDATE: showUpdateInfo', date);
 
     if (date) {
-      date = date.toLocaleDateString(i18nController.getLocale());
-      this.querySelector('.update-info').textContent = i18n.t("module-assistant.update-data.repo-data-last-updated", { date });
+      this.querySelector('.update-info').textContent = assistantHelper.localizeText("module-assistant.update-data.repo-data-last-updated", { date });
     }
   }
 

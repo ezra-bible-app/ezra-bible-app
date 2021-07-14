@@ -43,8 +43,11 @@ const i18nextOptions = {
      * ...
      */
     format(value, format, lng) { 
+      if (value instanceof Date) {
+        return value.toLocaleDateString(lng);
+      }
+      
       var context = format;
-
       if (format) {
         const parts = format.split(',');
         if (parts.length > 1) {
