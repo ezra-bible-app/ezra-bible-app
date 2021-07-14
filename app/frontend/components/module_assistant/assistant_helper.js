@@ -54,7 +54,6 @@ module.exports.sortByText = function(itemA, itemB) {
  * @param {string=} sectionTitle Section title
  * @param {object} options additional options for the layout
  * @param {number} [options.columns='auto-fill'] number of columns
- * @param {boolean} [options.disableSelected=false] mark all checked items as disabled
  * @param {boolean} [options.info=false] display info icon and generate event on click
  * @param {boolean} [options.extraIndent=false] add extra indent to make sure that all item icons will be visible
  * @param {string} [options.info="0.5em"] CSS size for the gap between the rows
@@ -70,7 +69,6 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
 
   options = {
     columns: 'auto-fill',
-    disableSelected: false,
     info: false,
     extraIndent: false,
     rowGap: '0.5em',
@@ -84,7 +82,6 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
     } else {
       const {code, text, description, count, disabled, icon, ...rest} = item;
       const checkedProp = selected.has(code);
-      const disabledProp = disabled || options.disableSelected && checkedProp;
 
       const style = text && text.length > 22 && (options.columns === 'auto-fill' || options.columns > 1) ? 'style="grid-column-end: span 2"' : '';
 
@@ -98,7 +95,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
           ${style}
           code="${code}" 
           ${checkedProp ? 'checked' : ''}
-          ${disabledProp ? 'disabled' : ''}
+          ${disabled ? 'disabled' : ''}
           ${count ? `count="${count}"` : ''}
           ${description ? `description="${description}"` : ''}
           ${options.info ? `info="${i18n.t("module-assistant.step-modules.show-module-info")}"` : ''}

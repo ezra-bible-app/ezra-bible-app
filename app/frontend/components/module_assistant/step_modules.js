@@ -85,22 +85,22 @@ const template = html`
     <div id="bible-module-feature-filter" class="feature-filter-wrapper">
       <label>
         <input id="headings-feature-filter" class="module-feature-filter" type="checkbox"/> 
-        <span id="headings-feature-filter-label" for="headings-feature-filter" i18n="$t(module-assistant.step-modules.module-with) $t(general.module-headings)"></span>
+        <span id="headings-feature-filter-label" for="headings-feature-filter" i18n="$t(module-assistant.step-modules.module-with, {'feature_type': 'general.module-headings'})"></span>
       </label>
       <label>
         <input id="strongs-feature-filter" class="module-feature-filter" type="checkbox"/>
-        <span id="strongs-feature-filter-label" for="strongs-feature-filter" i18n="$t(module-assistant.step-modules.module-with) $t(general.module-strongs)"></span>
+        <span id="strongs-feature-filter-label" for="strongs-feature-filter" i18n="$t(module-assistant.step-modules.module-with, {'feature_type': 'general.module-strongs'})"></span>
       </label>
     </div>
 
     <div id="dict-module-feature-filter" class="feature-filter-wrapper">
       <label>
         <input id="hebrew-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
-        <span id="hebrew-strongs-dict-feature-filter-label" for="hebrew-strongs-dict-feature-filter" i18n="$t(module-assistant.step-modules.module-with) $t(general.module-hebrew-strongs-dict)"></span>
+        <span id="hebrew-strongs-dict-feature-filter-label" for="hebrew-strongs-dict-feature-filter" i18n="$t(module-assistant.step-modules.module-with, {'feature_type': 'general.module-hebrew-strongs-dict'})"></span>
       </label>
       <label>
         <input id="greek-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
-        <span id="greek-strongs-dict-feature-filter-label" for="greek-strongs-dict-feature-filter" i18n="$t(module-assistant.step-modules.module-with) $t(general.module-greek-strongs-dict)"></span>
+        <span id="greek-strongs-dict-feature-filter-label" for="greek-strongs-dict-feature-filter" i18n="$t(module-assistant.step-modules.module-with, {'feature_type': 'general.module-greek-strongs-dict'})"></span>
       </label>
     </div>
 
@@ -183,17 +183,24 @@ class StepModules extends HTMLElement {
 
     const repositories = [...assistantController.get('selectedRepositories')];
 
+    const installedModules = new Set(assistantController.get('installedModules'));
+
     const sectionOptions = {columns: 1, 
-                            disableSelected: true, 
                             rowGap: '1.5em', 
                             info: true, 
                             extraIndent: true};
 
     for (const language of languageCodes) {
-      const modules = await getModulesByLang(language, repositories, headingsFilter, strongsFilter, hebrewStrongsFilter, greekStrongsFilter);
+      const modules = await getModulesByLang(language, 
+                                             repositories, 
+                                             installedModules, 
+                                             headingsFilter, 
+                                             strongsFilter, 
+                                             hebrewStrongsFilter, 
+                                             greekStrongsFilter);
 
       const langModuleSection = assistantHelper.listCheckboxSection(modules,
-                                                                    new Set(assistantController.get('installedModules')),
+                                                                    installedModules,
                                                                     renderHeader ? i18nHelper.getLanguageName(language) : undefined,
                                                                     sectionOptions);
       filteredModuleList.append(langModuleSection);
@@ -251,7 +258,7 @@ class StepModules extends HTMLElement {
 customElements.define('step-modules', StepModules);
 module.exports = StepModules;
 
-async function getModulesByLang(languageCode, repositories, headingsFilter, strongsFilter, hebrewStrongsFilter, greekStrongsFilter) {
+async function getModulesByLang(languageCode, repositories, installedModules, headingsFilter, strongsFilter, hebrewStrongsFilter, greekStrongsFilter) {
   var currentLangModules = [];
 
   for (const currentRepo of repositories) {
@@ -272,9 +279,16 @@ async function getModulesByLang(languageCode, repositories, headingsFilter, stro
 
       if (swordModule.locked) {
         moduleInfo['icon'] = ICON_LOCKED;
-        moduleInfo['title'] = assistantHelper.localizeText("module-assistant.unlock.module-lock-info", assistantController.get('moduleType'));
         moduleInfo['locked'] = "locked";
         moduleInfo['unlock-info'] = swordModule.unlockInfo;
+        moduleInfo['title'] = assistantHelper.localizeText("module-assistant.unlock.module-lock-info", 
+                                                           assistantController.get('moduleType'));
+      }
+      
+      if (installedModules.has(swordModule.name)) {
+        moduleInfo['disabled'] = true;
+        moduleInfo['title'] = assistantHelper.localizeText("module-assistant.step-modules.module-already-installed", 
+                                                           assistantController.get('moduleType'));
       }
 
       return moduleInfo;

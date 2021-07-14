@@ -66,7 +66,7 @@ const i18nextOptions = {
       if (format === 'capitalize') {
         value = value.replace(/^\S/, (c) => c.toLocaleUpperCase());
       } else if (format === 'title-case') {
-        value = value.replace(/\S*/g, (w) => (w.replace(/^\w/, (c) => c.toLocaleUpperCase())));
+        value = value.replace(/\S*/g, (w) => (w.replace(/^\S/, (c) => c.toLocaleUpperCase())));
       }
 
       return value;

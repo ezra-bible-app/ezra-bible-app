@@ -82,14 +82,15 @@
     "step-modules": {  
       "select-module": "Please choose {{module_type}} to install.",
       "module-display-preferences": "Filter preferences:",
-      "module-with": "{{module_type, capitalize}} with",
+      "module-with": "{{module_type, capitalize}} with {{feature_type, instrumental}}",
+      "module-already-installed": "This {{module_type, singular}} is already installed!",
       "show-module-info":"Show info",
       "show-detailed-module-info": "Press on the information icon for more details about the {{module_type, singular}}."
     },
     "step-install": {
       "installing-modules": "Installing selected {{module_type, accusative}}",
       "installing": "Installing",
-      "it-takes-time-to-install": "Note that it takes some time for each {{module_type, singular}} to be downloaded and then installed.",
+      "it-takes-time-to-install": "Note that it takes some time for each {{module_type, singular-genitive}} to be downloaded and then installed.",
       "downloading": "Downloading",
       "part-of-total": "of"
     },
@@ -128,9 +129,13 @@
     "module-language": "Language",
     "module-license": "License",
     "module-strongs": "Strong's",
+    "module-strongs_instrumental": "Strong's",
     "module-hebrew-strongs-dict": "Hebrew Strong's",
+    "module-hebrew-strongs-dict_instrumental": "Hebrew Strong's",
     "module-greek-strongs-dict": "Greek Strong's",
+    "module-greek-strongs-dict_instrumental": "Greek Strong's",
     "module-headings": "Headings",
+    "module-headings_instrumental": "Headings",
     "module-footnotes": "Footnotes",
     "module-xrefs": "Cross references",
     "module-redletter": "Red letter words",
