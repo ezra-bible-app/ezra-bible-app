@@ -34,12 +34,16 @@
   "module-assistant": {
     "module-type-bible": "Bible translations",
     "module-type-bible_accusative": "Bible translations",
+    "module-type-bible_genitive": "Bible translations",
     "module-type-bible_instrumental": "Bible translations",
     "module-type-bible_singular": "translation",
+    "module-type-bible_singular-genitive": "translation",
     "module-type-dict": "dictionaries",
     "module-type-dict_accusative": "dictionaries",
+    "module-type-dict_genitive": "dictionaries",
     "module-type-dict_instrumental": "dictionaries",
     "module-type-dict_singular": "dictionary",
+    "module-type-dict_singular-genitive": "dictionary",
     "header": "Configure {{module_type, instrumental, title-case}}",
     "intro-text": "Ezra Bible App installs <b>{{module_type, accusative}}</b> using your internet connection. {{module_type, capitalize}} are distributed by the <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> and will be downloaded from <a class='external' href='http://www.crosswire.org/sword'>the SWORD project</a> repositories.",
     "internet-usage-note": "<b>IMPORTANT NOTE</b><br/>If you are located in a country where Christians are persecuted,<br/>be aware that your internet provider will be able to detect<br/>that <b>you are accessing Christian resources</b>!",
@@ -98,7 +102,7 @@
     "unlock": {
       "module-lock-info": "This {{module_type}} is license-protected and requires that you purchase an unlock key from the content owner!",
       "unlock-key": "Unlock key",
-      "enter-unlock-key": "{{moduleId}} is license protected. Please enter the unlock key!",
+      "enter-unlock-key": "{{moduleId, singular}} is license protected. Please enter the unlock key!",
       "unlock-failed": "Unlock failed! Please enter the correct unlock key."
     }  
   },
