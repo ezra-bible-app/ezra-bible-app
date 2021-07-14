@@ -31,7 +31,7 @@ const template = html`
 </style>
 
 <loading-indicator></loading-indicator>
-<p class="intro" i18n="module-assistant.select-module-to-be-removed"></p>
+<p class="intro" i18n="module-assistant.remove.select-module-to-be-removed"></p>
 <div id="remove-module-list"></div>
 `;
 
@@ -47,7 +47,7 @@ class StepModulesRemove extends HTMLElement {
   async connectedCallback() {
     console.log('MODULES-REMOVE: started connectedCallback');
     this.appendChild(template.content.cloneNode(true));
-    this._localize();
+    assistantHelper.localizeContainer(this, assistantController.get('moduleType'));
 
     this.addEventListener('itemChanged', (e) => this._handleCheckboxClick(e));
   }
@@ -84,20 +84,6 @@ class StepModulesRemove extends HTMLElement {
       assistantController.remove('selectedModules', moduleId);
     }
   }
-
-  _localize() {
-    let introText = "";
-    const moduleType = assistantController.get('moduleType');
-    if (moduleType == "BIBLE") {
-      introText = i18n.t("module-assistant.select-module-to-be-removed");
-    } else if (moduleType == "DICT") {
-      introText = i18n.t("module-assistant.select-dictionaries-to-be-removed");
-    }
-    this.querySelector('.intro').innerHTML = introText;
-
-    assistantHelper.localize(this, assistantController.get('moduleTypeText'));
-
-  }
 }
 
 customElements.define('step-modules-remove', StepModulesRemove);
@@ -122,7 +108,7 @@ async function getInstalledModulesByLanguage() {
         (moduleType == "DICT" && fixedDictionaries.includes(swordModule.name))) {
 
       moduleInfo.disabled = true;
-      moduleInfo.title = i18n.t(moduleType == 'DICT' ? "module-assistant.disable-remove-dictionary" : "module-assistant.disable-remove-translation");
+      moduleInfo.title = assistantHelper.localizeText("module-assistant.remove.disable-remove-note", moduleType);
     }
 
     const languageName = i18nHelper.getLanguageName(swordModule.language);

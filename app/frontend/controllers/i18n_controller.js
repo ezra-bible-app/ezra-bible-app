@@ -31,7 +31,46 @@ const jqueryI18next = require('jquery-i18next');
 const i18nextOptions = {
   debug: false,
   interpolation: {
-    escapeValue: false
+    escapeValue: false,
+    /** 
+     * adds context and format to the interpolation
+     * @example translation.json:
+     * ...
+     * term: "переклади Біблії",
+     * term_locative: "перекладах Біблії",
+     * ...
+     * message: Інформація о {{term, locative}},
+     * ...
+     */
+    format(value, format, lng) { 
+      var context = format;
+
+      if (format) {
+        const parts = format.split(',');
+        if (parts.length > 1) {
+          context = parts.shift().trim();
+          format = parts.join(',').trim();
+        } else if (format === 'capitalize' || format === 'title-case') {
+          context = undefined;
+        }
+      }
+
+      if (value == 'BIBLE') {
+        value = "module-assistant.module-type-bible";
+      } else if (value == 'DICT') {
+        value = "module-assistant.module-type-dict";
+      }
+
+      value = i18n.t(value, {context});
+
+      if (format === 'capitalize') {
+        value = value.replace(/^\S/, (c) => c.toLocaleUpperCase());
+      } else if (format === 'title-case') {
+        value = value.replace(/\S*/g, (w) => (w.replace(/^\w/, (c) => c.toLocaleUpperCase())));
+      }
+
+      return value;
+    }
   },
   saveMissing: false,
   fallbackLng: FALLBACK_LOCALE,

@@ -56,16 +56,16 @@ const template = html`
 
   <div id="repo-list-wrapper" class="scrollable">
     
-    <p class="intro" i18n="module-assistant.select-repository"></p>   
-    <p class="assistant-note" i18n="module-assistant.total-modules-repo"></p>
-    <p class="repository-explanation assistant-note" i18n="module-assistant.what-is-repository"></p>
+    <p class="intro" i18n="module-assistant.step-repositories.select-repository"></p>   
+    <p class="assistant-note" i18n="module-assistant.step-repositories.total-modules-repo"></p>
+    <p class="repository-explanation assistant-note" i18n="module-assistant.step-repositories.what-is-repository"></p>
     
     <loading-indicator></loading-indicator>
-    <p class="loading-repos" i18n="module-assistant.loading-repositories"></p>
-    <p class="update-repository-data-failed error" style="display: none" i18n="module-assistant.update-repository-data-failed"></p>
+    <p class="loading-repos" i18n="module-assistant.step-repositories.loading-repositories"></p>
+    <p class="update-repository-data-failed error" style="display: none" i18n="module-assistant.update-data.update-repository-data-failed"></p>
     <div class="repository-list"></div>
 
-    <p class="more-info" i18n="module-assistant.more-repo-information-needed" style="display: none;"></p>
+    <p class="more-info" i18n="module-assistant.step-repositories.more-repo-information-needed" style="display: none;"></p>
   </div>
   
 </div>  
@@ -93,7 +93,7 @@ class StepRepositories extends HTMLElement {
   async connectedCallback() {
     console.log('REPOS: started connectedCallback', this.isConnected);
     this.appendChild(template.content.cloneNode(true));
-    assistantHelper.localize(this, assistantController.get('moduleTypeText'));
+    assistantHelper.localizeContainer(this, assistantController.get('moduleType'));
 
     assistantController.onStartRepositoriesUpdate(async () => await this.resetView());
     assistantController.onCompletedRepositoriesUpdate(async status => {
@@ -193,7 +193,7 @@ async function getRepoModuleDetails(repo) {
   };
   if (repo === "CrossWire" || repo === "eBible.org") {
     repoInfo['icon'] = ICON_STAR;
-    repoInfo['title'] = i18n.t("module-assistant.repo-recommended");
+    repoInfo['title'] = i18n.t("module-assistant.step-repositories.repo-recommended");
   }
 
   return repoInfo;

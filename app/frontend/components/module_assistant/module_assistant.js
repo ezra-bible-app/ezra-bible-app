@@ -118,7 +118,7 @@ section#module-settings-assistant-internet-usage {
 
     <section id="module-settings-assistant-intro">
       <p i18n="module-assistant.intro-text"></p>
-      <p class="repository-explanation assistant-note" i18n="module-assistant.what-is-repository"></p>
+      <p class="repository-explanation assistant-note" i18n="module-assistant.step-repositories.what-is-repository"></p>
     </section>
 
     <section id="module-settings-assistant-internet-usage">
@@ -126,8 +126,8 @@ section#module-settings-assistant-internet-usage {
     </section>
 
     <div class="module-assistant-type-buttons">
-      <button id="add-modules-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled"></button>
-      <button id="remove-modules-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled"></button>
+      <button id="add-modules-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="module-assistant.add-modules"></button>
+      <button id="remove-modules-button" class="fg-button ui-corner-all ui-state-default ui-state-disabled" i18n="module-assistant.remove-modules"></button>
     </div>
   </div>
 
@@ -200,11 +200,11 @@ class ModuleAssistant extends HTMLElement{
 
     uiHelper.configureButtonStyles('#module-settings-assistant-init');
 
-    const title = this._localize();
+    assistantHelper.localizeContainer(document.querySelector('#module-settings-assistant-init'), moduleType);
 
     $('#module-settings-assistant').dialog({
       modal: true,
-      title: title,
+      title: assistantHelper.localizeText("module-assistant.header", moduleType),
       dialogClass: 'ezra-dialog module-assistant-dialog',
       width: dialogWidth,
       height: dialogHeight,
@@ -225,33 +225,6 @@ class ModuleAssistant extends HTMLElement{
     if (modules.length > 0) {
       this._assistantRemove.startModuleAssistantSteps();
     }
-  }
-
-  _localize() {
-    var dialogTitle = "";
-    var addModuleText = "";
-    var removeModuleText = "";
-
-    const moduleType = assistantController.get('moduleType');
-    
-    if (moduleType == "BIBLE") {
-      dialogTitle = i18n.t("module-assistant.bible-header");
-      addModuleText = i18n.t("module-assistant.add-translations");
-      removeModuleText = i18n.t("module-assistant.remove-translations");
-    } else if (moduleType == "DICT") {
-      dialogTitle = i18n.t("module-assistant.dict-header");
-      addModuleText = i18n.t("module-assistant.add-dicts");
-      removeModuleText = i18n.t("module-assistant.remove-dicts");
-    } else {
-      console.error("InstallModuleAssistant: Unknown module type!");
-    }
-    
-    const container = document.querySelector('#module-settings-assistant-init');
-    container.querySelector('#add-modules-button').textContent = addModuleText;
-    container.querySelector('#remove-modules-button').textContent = removeModuleText;
-    assistantHelper.localize(container, assistantController.get('moduleTypeText'));
-
-    return dialogTitle;
   }
 }
 

@@ -78,29 +78,29 @@ const template = html`
 
 <div id="module-step-wrapper">
   <div id="module-list" class="scrollable">
-    <p id="module-list-intro" class="intro" i18n="module-assistant.select-module"></p>
+    <p id="module-list-intro" class="intro" i18n="module-assistant.step-modules.select-module"></p>
     
-    <p><b i18n="module-assistant.module-display-preferences"></b></p>
+    <p><b i18n="module-assistant.step-modules.module-display-preferences"></b></p>
 
     <div id="bible-module-feature-filter" class="feature-filter-wrapper">
       <label>
         <input id="headings-feature-filter" class="module-feature-filter" type="checkbox"/> 
-        <span id="headings-feature-filter-label" for="headings-feature-filter" i18n="$t(module-assistant.module-with) $t(general.module-headings)"></span>
+        <span id="headings-feature-filter-label" for="headings-feature-filter" i18n="$t(module-assistant.step-modules.module-with) $t(general.module-headings)"></span>
       </label>
       <label>
         <input id="strongs-feature-filter" class="module-feature-filter" type="checkbox"/>
-        <span id="strongs-feature-filter-label" for="strongs-feature-filter" i18n="$t(module-assistant.module-with) $t(general.module-strongs)"></span>
+        <span id="strongs-feature-filter-label" for="strongs-feature-filter" i18n="$t(module-assistant.step-modules.module-with) $t(general.module-strongs)"></span>
       </label>
     </div>
 
     <div id="dict-module-feature-filter" class="feature-filter-wrapper">
       <label>
         <input id="hebrew-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
-        <span id="hebrew-strongs-dict-feature-filter-label" for="hebrew-strongs-dict-feature-filter" i18n="$t(module-assistant.module-with) $t(general.module-hebrew-strongs-dict)"></span>
+        <span id="hebrew-strongs-dict-feature-filter-label" for="hebrew-strongs-dict-feature-filter" i18n="$t(module-assistant.step-modules.module-with) $t(general.module-hebrew-strongs-dict)"></span>
       </label>
       <label>
         <input id="greek-strongs-dict-feature-filter" class="module-feature-filter" type="checkbox"/>
-        <span id="greek-strongs-dict-feature-filter-label" for="greek-strongs-dict-feature-filter" i18n="$t(module-assistant.module-with) $t(general.module-greek-strongs-dict)"></span>
+        <span id="greek-strongs-dict-feature-filter-label" for="greek-strongs-dict-feature-filter" i18n="$t(module-assistant.step-modules.module-with) $t(general.module-greek-strongs-dict)"></span>
       </label>
     </div>
 
@@ -110,7 +110,7 @@ const template = html`
 
   <div id="module-info" class="scrollable">
     <div class="background">${ICON_INFO}</div>
-    <div id="module-info-content"></div>
+    <div id="module-info-content" i18n="module-assistant.step-modules.show-detailed-module-info"></div>
     <loading-indicator style="display: none"></loading-indicator>
   </div>
 </div>
@@ -136,7 +136,7 @@ class StepModules extends HTMLElement {
   async connectedCallback() {
     console.log('MODULES: started connectedCallback');
     this.appendChild(template.content.cloneNode(true));
-    this._localize();
+    assistantHelper.localizeContainer(this, assistantController.get('moduleType'));
     
     this.querySelectorAll('.module-feature-filter').forEach(checkbox => checkbox.addEventListener('click', async () => {
       this._listFilteredModules();
@@ -246,22 +246,6 @@ class StepModules extends HTMLElement {
       }, 100);
     }  
   }
-
-  _localize() {
-    var moduleInfoNote = "";
-    const moduleType = assistantController.get('moduleType');
-    
-    if (moduleType == "BIBLE") {
-      moduleInfoNote = i18n.t("module-assistant.show-detailed-info-translations");
-    } else if (moduleType == "DICT") {
-      moduleInfoNote = i18n.t("module-assistant.show-detailed-info-dictionaries");
-    } 
-    
-    this.querySelector('#module-info-content').innerHTML = moduleInfoNote;
-
-    assistantHelper.localize(this, assistantController.get('moduleTypeText'));
-  }
-
 }
 
 customElements.define('step-modules', StepModules);
@@ -288,7 +272,7 @@ async function getModulesByLang(languageCode, repositories, headingsFilter, stro
 
       if (swordModule.locked) {
         moduleInfo['icon'] = ICON_LOCKED;
-        moduleInfo['title'] = i18n.t("module-assistant.module-lock-info");
+        moduleInfo['title'] = assistantHelper.localizeText("module-assistant.unlock.module-lock-info", assistantController.get('moduleType'));
         moduleInfo['locked'] = "locked";
         moduleInfo['unlock-info'] = swordModule.unlockInfo;
       }

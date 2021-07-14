@@ -59,7 +59,7 @@ const templateAddSteps = html`
     <!-- <step-repositories></step-repositories> -->
   </section>
 
-  <h3 i18n="{{module_type}}"></h3>
+  <h3 i18n="{{module_type, title-case}}"></h3>
   <section id="module-list" class="module-assistant-step">
     <!-- <step-modules></step-modules> -->
   </section>
@@ -147,7 +147,7 @@ class AssistantStepsAddModules extends HTMLElement {
 
     moduleAssistantStepsContainer.innerHTML = '';
     moduleAssistantStepsContainer.appendChild(templateAddSteps.content.cloneNode(true));
-    assistantHelper.localize(moduleAssistantStepsContainer, assistantController.get('moduleTypeText'));
+    assistantHelper.localizeContainer(moduleAssistantStepsContainer, assistantController.get('moduleType'));
   }
 
   _addModuleAssistantStepChanging(event, currentIndex, newIndex) {

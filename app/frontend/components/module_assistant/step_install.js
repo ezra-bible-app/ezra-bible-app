@@ -55,11 +55,11 @@ const template = html`
   }
 </style>
 
-<h3></h3>
-<p id="module-install-intro" class="intro"></p>
+<h3 i18n="module-assistant.step-install.installing-modules"></h3>
+<p id="module-install-intro" class="intro" i18n="module-assistant.step-install.it-takes-time-to-install"></p>
 <div id="progress-bar-container">
   <div id="module-install-progress-bar" class="progress-bar">
-    <div class="progress-label" i18n="module-assistant.installing"></div>
+    <div class="progress-label" i18n="module-assistant.step-install.installing"></div>
   </div>
   <button id='cancel-module-installation-button' class='fg-button ui-corner-all ui-state-default' i18n="general.cancel"></button>
 </div>
@@ -68,7 +68,7 @@ const template = html`
 
 const templateInfoContainer = html`
   <div class="install-info-container">
-    <div class="install-general-info" i18n="module-assistant.installing"></div>
+    <div class="install-general-info" i18n="module-assistant.step-install.installing"></div>
     <div class="install-description"></div>
     <div>...</div> 
     <div class="install-status"></div>
@@ -90,7 +90,7 @@ class StepInstall extends HTMLElement {
   async connectedCallback() {
     console.log('INSTALL: started connectedCallback');
     this.appendChild(template.content.cloneNode(true));
-    this._localize();
+    assistantHelper.localizeContainer(this, assistantController.get('moduleType'));
 
     uiHelper.configureButtonStyles(this);
 
@@ -289,24 +289,6 @@ class StepInstall extends HTMLElement {
     this._moduleInstallationCancelled = true;
     await ipcNsi.cancelInstallation();
   }
-
-  _localize() {
-    var installingModules = "";
-    var itTakesTime = "";
-    const moduleType = assistantController.get('moduleType');
-    if (moduleType == 'BIBLE') {
-      installingModules = i18n.t("module-assistant.installing-translations");
-      itTakesTime = i18n.t("module-assistant.it-takes-time-to-install-translation");
-    } else if (moduleType == 'DICT') {
-      installingModules = i18n.t("module-assistant.installing-dictionaries");
-      itTakesTime = i18n.t("module-assistant.it-takes-time-to-install-dictionary");
-    }
-
-    this.querySelector('h3').textContent = installingModules;
-    this.querySelector('.intro').textContent = itTakesTime;
-
-    assistantHelper.localize(this);
-  }
 }
 
 customElements.define('step-install', StepInstall);
@@ -326,7 +308,7 @@ function localizeModuleInstallProgressMessage(rawMessage) {
   var part = splittedPartOfTotal[0];
   var total = splittedPartOfTotal[1];
 
-  var localizedMessage = i18n.t("module-assistant.downloading") + " (" + part + " " + i18n.t("module-assistant.part-of-total") + " " + total + "): " + fileName;
+  var localizedMessage = i18n.t("module-assistant.step-install.downloading") + " (" + part + " " + i18n.t("module-assistant.step-install.part-of-total") + " " + total + "): " + fileName;
 
   return localizedMessage;
 }

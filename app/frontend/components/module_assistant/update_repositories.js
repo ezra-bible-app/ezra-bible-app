@@ -55,15 +55,15 @@ const template = html`
   
   <div class="update-repository-data-info">
     <span class="update-info"></span>
-    <button class="update-repo-data fg-button ui-state-default ui-corner-all" i18n="module-assistant.update-now"></button>
+    <button class="update-repo-data fg-button ui-state-default ui-corner-all" i18n="module-assistant.update-data.update-now"></button>
   </div>
   
   <div class="update-repository-data-progress" style="display: none"> 
     <div class="repo-update-progress-bar progress-bar">
-      <div class="progress-label" i18n="module-assistant.updating-repository-data"></div>
+      <div class="progress-label" i18n="module-assistant.update-data.updating-repository-data"></div>
     </div>
   </div>  
-  <p class="update-failed error" style="display: none" i18n="module-assistant.update-failed"></p>
+  <p class="update-failed error" style="display: none" i18n="module-assistant.update-data.update-failed"></p>
 
 </section>
 `;
@@ -89,7 +89,7 @@ class UpdateRepositories extends HTMLElement {
     assistantController.onProgressRepositoriesUpdate(process => this.handleUpdateProgress(process));
     assistantController.onCompletedRepositoriesUpdate(status => this.updateDateInfo(status));
     
-    assistantHelper.localize(this);
+    assistantHelper.localizeContainer(this);
 
     this._initialized = true;
 
@@ -108,7 +108,7 @@ class UpdateRepositories extends HTMLElement {
 
     if (date) {
       date = date.toLocaleDateString(i18nController.getLocale());
-      this.querySelector('.update-info').textContent = i18n.t("module-assistant.repo-data-last-updated", { date });
+      this.querySelector('.update-info').textContent = i18n.t("module-assistant.update-data.repo-data-last-updated", { date });
     }
   }
 

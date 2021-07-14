@@ -101,7 +101,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
           ${disabledProp ? 'disabled' : ''}
           ${count ? `count="${count}"` : ''}
           ${description ? `description="${description}"` : ''}
-          ${options.info ? `info="${i18n.t("module-assistant.show-module-info")}"` : ''}
+          ${options.info ? `info="${i18n.t("module-assistant.step-modules.show-module-info")}"` : ''}
           ${extraAttr.join(' ')}>
           ${iconSpan}
           <span slot="label-text">${text ? text : code}</span>
@@ -123,9 +123,18 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
   return template.content;
 };
 
-
-module.exports.localize = function(container, moduleTypeText="") {
+module.exports.localizeContainer = function(container, module_type) {
   container.querySelectorAll('[i18n]').forEach(element => {
-    element.innerHTML = i18n.t(element.getAttribute('i18n'), {module_type: moduleTypeText});
+    element.innerHTML = i18n.t(element.getAttribute('i18n'), {module_type,
+                                                              interpolation: {
+                                                                alwaysFormat: true,
+                                                              }});
   });
+};
+
+module.exports.localizeText = function(key, module_type) {
+  return i18n.t(key, {module_type,
+                      interpolation: {
+                        alwaysFormat: true,
+                      }});
 };

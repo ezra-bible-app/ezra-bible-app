@@ -32,8 +32,8 @@ const template = html`
  
 <div id="module-settings-assistant-unlock-dialog" style="display: none;">
   <p id="dialog-unlock-info" class="external"></p>
-  <p id="unlock-failed-msg" style="display: none;" i18n="module-assistant.unlock-failed"></p>
-  <span id="unlock-key-label" i18n="module-assistant.unlock-key"></span>: <input id="unlock-key-input" type="text" maxlength="255" />
+  <p id="unlock-failed-msg" style="display: none;" i18n="module-assistant.unlock.unlock-failed"></p>
+  <span id="unlock-key-label" i18n="module-assistant.unlock.unlock-key"></span>: <input id="unlock-key-input" type="text" maxlength="255" />
 </div>
 `;
 
@@ -55,7 +55,7 @@ class UnlockDialog extends HTMLElement {
 
   connectedCallback() {  
     this.appendChild(template.content);
-    assistantHelper.localize(this);
+    assistantHelper.localizeContainer(this);
   }
 
   show(moduleId, unlockInfo="", checkbox=undefined) {
@@ -82,7 +82,7 @@ class UnlockDialog extends HTMLElement {
 
     var unlockDialogOptions = {
       modal: true,
-      title: i18n.t("module-assistant.enter-unlock-key", { moduleId }),
+      title: i18n.t("module-assistant.unlock.enter-unlock-key", { moduleId }),
       dialogClass: 'ezra-dialog',
       width: 450,
       minHeight: 200

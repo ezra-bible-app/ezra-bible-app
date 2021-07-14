@@ -64,12 +64,12 @@ const template = html`
   <update-repositories></update-repositories>
 
   <div id="language-list-wrapper" class="scrollable">
-    <p class="intro" i18n="module-assistant.select-language"></p> 
-    <p class="assistant-note" i18n="module-assistant.total-modules-language"></p>
+    <p class="intro" i18n="module-assistant.step-languages.select-language"></p> 
+    <p class="assistant-note" i18n="module-assistant.step-languages.total-modules-language"></p>
 
     <loading-indicator></loading-indicator>
-    <p class="loading-text" i18n="module-assistant.loading-languages"></p>
-    <p class="update-repository-data-failed error" style="display: none" i18n="module-assistant.update-repository-data-failed"></p>
+    <p class="loading-text" i18n="module-assistant.step-languages.loading-languages"></p>
+    <p class="update-repository-data-failed error" style="display: none" i18n="module-assistant.update-data.update-repository-data-failed"></p>
 
     <div class="app-system-languages"></div>
 
@@ -169,7 +169,7 @@ class StepLanguages extends HTMLElement {
       .map(lang => ({...lang, icon: ICON_STAR}));
     this._appLanguages.append(assistantHelper.listCheckboxSection(appSystemLanguages,
                                                                   selectedLanguages, 
-                                                                  i18n.t('module-assistant.app-system-languages'),
+                                                                  i18n.t('module-assistant.step-languages.app-system-languages'),
                                                                   {extraIndent: true}));
 
     this._initSearch(this._languageData.allLanguages);
@@ -180,7 +180,7 @@ class StepLanguages extends HTMLElement {
       
       if (languageArr.length > 0) {
         const sectionHeader = ['bible-languages', 'most-spoken-languages', 'historical-languages'].includes(category) 
-          ? i18n.t(`module-assistant.${category}`) : category === 'iso6391-languages' ? i18n.t('module-assistant.other-languages') : undefined;
+          ? i18n.t(`module-assistant.step-languages.${category}`) : category === 'iso6391-languages' ? i18n.t('module-assistant.step-languages.other-languages') : undefined;
         this._allLanguages.append(assistantHelper.listCheckboxSection(languageArr, selectedLanguages, sectionHeader));
       }
     }
@@ -247,7 +247,7 @@ class StepLanguages extends HTMLElement {
     this._searchResults.innerHTML = '';
     this._searchResults.append(assistantHelper.listCheckboxSection(result, 
                                                                    assistantController.get('selectedLanguages'), 
-                                                                   i18n.t('module-assistant.language-search-results')));
+                                                                   i18n.t('module-assistant.step-languages.language-search-results')));
   }
 
   _localize() {
@@ -256,7 +256,7 @@ class StepLanguages extends HTMLElement {
       this._search.setAttribute('title', i18n.t(title));
     }
 
-    assistantHelper.localize(this, assistantController.get('moduleTypeText'));    
+    assistantHelper.localizeContainer(this, assistantController.get('moduleType'));    
   }
 }
 

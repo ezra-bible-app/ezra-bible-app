@@ -38,12 +38,12 @@ const template = html`
   }
 </style>
 
-<h3></h3>
+<h3 i18n="module-assistant.remove.removing-modules"></h3>
 `;
 
 const templateInfoContainer = html`
   <div class="removal-info-container">
-    <div class="removal-general-info" i18n="module-assistant.removing"></div>
+    <div class="removal-general-info" i18n="module-assistant.remove.removing"></div>
     <div class="removal-description"></div>
     <div>...</div>
     <div class="removal-status"></div>
@@ -54,7 +54,7 @@ class StepRemove extends HTMLElement {
   async connectedCallback() {
     console.log('REMOVE: started connectedCallback');
     this.appendChild(template.content.cloneNode(true));
-    this._localize();
+    assistantHelper.localizeContainer(this, assistantController.get('moduleType'));
   }
 
   async uninstallSelectedModules(onAllTranslationsRemoved, onTranslationRemoved) {
@@ -122,20 +122,6 @@ class StepRemove extends HTMLElement {
     var infoStatus = infoContainer.querySelector('.removal-status');
 
     infoStatus.textContent = i18n.t('general.done');
-  }
-
-  _localize() {
-    var removingModules = "";
-    const moduleType = assistantController.get('moduleType');
-    if (moduleType == 'BIBLE') {
-      removingModules = i18n.t("module-assistant.removing-translations");
-    } else if (moduleType == 'DICT') {
-      removingModules = i18n.t("module-assistant.removing-dictionaries");
-    }
-
-    this.querySelector('h3').textContent = removingModules;
-
-    assistantHelper.localize(this);
   }
 }
 
