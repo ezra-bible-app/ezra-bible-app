@@ -172,11 +172,16 @@ class StepLanguages extends HTMLElement {
     this._initSearch(this._languageData.allLanguages);
 
     const languages = this._languageData.languages;
-    for(const category in languages) {
-      
+    for(const category of ['bible-languages', 'most-spoken-languages', 'historical-languages']) {      
       if (languages[category].size > 0) {
-        const sectionHeader = ['bible-languages', 'most-spoken-languages', 'historical-languages'].includes(category) 
-          ? i18n.t(`module-assistant.step-languages.${category}`) : category === 'iso6391-languages' ? i18n.t('module-assistant.step-languages.other-languages') : undefined;
+        const sectionHeader = i18n.t(`module-assistant.step-languages.${category}`);
+        this._allLanguages.append(assistantHelper.listCheckboxSection(languages[category], selectedLanguages, sectionHeader));
+      }
+    }
+
+    for(const category of ['iso6391-languages', 'iso6392T-languages', 'iso6393-languages', 'unknown-languages']) {      
+      if (languages[category].size > 0) {
+        const sectionHeader = category === 'iso6391-languages' ? i18n.t('module-assistant.step-languages.other-languages') : undefined;
         this._allLanguages.append(assistantHelper.listCheckboxSection(languages[category], selectedLanguages, sectionHeader));
       }
     }
@@ -315,7 +320,7 @@ async function getAvailableLanguagesFromRepos() {
         addLanguage(languages['unknown-languages'], languageInfo, currentLanguageCode, starred);          
       }
 
-      addLanguage(allLanguages, languageInfo, currentLanguageCode, false); 
+      addLanguage(allLanguages, languageInfo, currentLanguageCode, false, false); 
 
       languageRepositories[currentLanguageCode] = languageRepositories[currentLanguageCode] || [];
       languageRepositories[currentLanguageCode].push(currentRepo);

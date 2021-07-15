@@ -77,21 +77,24 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
 
   var checkboxes = [];
   if (arr instanceof Map) {
-    const sortedKeys = [...arr.keys()].sort((a, b) => a.localeCompare(b, { sensitivity: 'base', ignorePunctuation: true }));
+    const sortedKeys = [...arr.keys()].sort(
+      function sortCheckboxText(a, b) {
+        return a.localeCompare(b);
+      });
     for(const key of sortedKeys) {
       const item = arr.get(key);
       if (!item.count || item.count && item.count !== 0) {
-        checkboxes.push(generateCheckbox(item, typeof selected.has(item === 'string' ? item : item.code), options));
+        checkboxes.push(generateCheckbox(item, selected.has(typeof item === 'string' ? item : item.code), options));
       }
     }
   } else {
     for (const item of arr) {
       if (!item.count || item.count && item.count !== 0) {
-        checkboxes.push(generateCheckbox(item, typeof selected.has(item === 'string' ? item : item.code), options));
+        checkboxes.push(generateCheckbox(item, selected.has(typeof item === 'string' ? item : item.code), options));
       }
     }
   }
-  
+
   const paddingLeft = options.extraIndent ? '1em' : '0';
 
   const template = html`
