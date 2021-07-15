@@ -21,6 +21,7 @@ const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
 require('./assistant_steps_add_modules.js');
 require('./assistant_steps_remove_modules.js');
+require('./assistant_checkbox.js');
 
 /**
  * @module ModuleAssistant

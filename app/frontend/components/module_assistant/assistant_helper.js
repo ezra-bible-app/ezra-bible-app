@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const { html } = require('../../helpers/ezra_helper.js');
 
 module.exports.lockDialogForAction = function (elementId) {
   elementId = '#' + elementId;
@@ -64,9 +65,6 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
     return '';
   }
 
-  const { html } = require('../../helpers/ezra_helper.js');
-  require('./assistant_checkbox.js');
-
   options = {
     columns: 'auto-fill',
     info: false,
@@ -83,13 +81,13 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
       });
     for(const key of sortedKeys) {
       const item = arr.get(key);
-      if (!item.count || item.count && item.count !== 0) {
+      if (item.count === undefined || item.count && item.count !== 0) {
         checkboxes.push(generateCheckbox(item, selected.has(typeof item === 'string' ? item : item.code), options));
       }
     }
   } else {
     for (const item of arr) {
-      if (!item.count || item.count && item.count !== 0) {
+      if (item.count === undefined || item.count && item.count !== 0) {
         checkboxes.push(generateCheckbox(item, selected.has(typeof item === 'string' ? item : item.code), options));
       }
     }

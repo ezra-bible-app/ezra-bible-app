@@ -57,7 +57,6 @@ class AssistantStepsRemoveModules extends HTMLElement {
   constructor() {
     super();
     console.log('ASSISTANT REMOVE: step constructor');
-    this._jQueryStepsInitialized = false;
     this._initialized = false;
   }
 
@@ -65,6 +64,7 @@ class AssistantStepsRemoveModules extends HTMLElement {
     console.log('ASSISTANT REMOVE: started connectedCallback');
     if (!this._initialized) {
       this.appendChild(template.content);
+      this._initialized = true;
     }
   }
 
@@ -106,7 +106,6 @@ class AssistantStepsRemoveModules extends HTMLElement {
         previous: i18n.t("general.previous")
       }
     });
-    this._jQueryStepsInitialized = true;
 
     // jQuery.steps() is messing up with DOM :( we need to reassign step components
     this._setupSteps(moduleAssistantStepsContainer);
@@ -115,16 +114,9 @@ class AssistantStepsRemoveModules extends HTMLElement {
   }
 
   _resetModuleAssistantContent() {
-    var moduleAssistantStepsContainer = this.querySelector('#module-settings-assistant-remove');
-    var $removeModuleAssistantContainer = $(moduleAssistantStepsContainer);
-    
-    if (this._jQueryStepsInitialized) {
-      $removeModuleAssistantContainer.steps("destroy"); 
-      // jQuery.steps("destroy") is messing up with DOM :( we need to find the right element again
-      moduleAssistantStepsContainer = this.querySelector('#module-settings-assistant-remove');
-    }
-
+    var moduleAssistantStepsContainer = this.querySelector('#module-settings-assistant-remove');    
     moduleAssistantStepsContainer.innerHTML = '';
+    
     moduleAssistantStepsContainer.appendChild(templateSteps.content.cloneNode(true));
     assistantHelper.localizeContainer(moduleAssistantStepsContainer, assistantController.get('moduleType'));
   }

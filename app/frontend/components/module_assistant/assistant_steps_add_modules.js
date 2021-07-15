@@ -80,7 +80,6 @@ class AssistantStepsAddModules extends HTMLElement {
   constructor() {
     super();
     console.log('ASSISTANT: step constructor');
-    this._jQueryStepsInitialized = false;
     this._initialized = false;
   }
 
@@ -88,6 +87,7 @@ class AssistantStepsAddModules extends HTMLElement {
     console.log('ASSISTANT: started connectedCallback');
     if (!this._initialized) {
       this.appendChild(template.content);
+      this._initialized = true;
     }
   }
 
@@ -124,7 +124,6 @@ class AssistantStepsAddModules extends HTMLElement {
         previous: i18n.t("general.previous")
       }
     });
-    this._jQueryStepsInitialized = true;
 
     // jQuery.steps() is messing up with DOM :( we need to reassign step components
     this._setupSteps(addModuleAssistantContainer);
@@ -136,16 +135,10 @@ class AssistantStepsAddModules extends HTMLElement {
 
   _resetModuleAssistantContent() {
     assistantController.resetRepositoryUpdateSubscribers();
-    var moduleAssistantStepsContainer = this.querySelector('#module-settings-assistant-add');
-    var $addModuleAssistantContainer = $(moduleAssistantStepsContainer);
-    
-    if (this._jQueryStepsInitialized) {
-      $addModuleAssistantContainer.steps("destroy"); 
-      // jQuery.steps("destroy") is messing up with DOM :( we need to find the right element again
-      moduleAssistantStepsContainer = this.querySelector('#module-settings-assistant-add');
-    }
 
+    var moduleAssistantStepsContainer = this.querySelector('#module-settings-assistant-add');
     moduleAssistantStepsContainer.innerHTML = '';
+
     moduleAssistantStepsContainer.appendChild(templateAddSteps.content.cloneNode(true));
     assistantHelper.localizeContainer(moduleAssistantStepsContainer, assistantController.get('moduleType'));
   }
@@ -171,11 +164,15 @@ class AssistantStepsAddModules extends HTMLElement {
       this.repositoriesStep.saveSelected();
     } 
 
+    const container = this.querySelector('#module-settings-assistant-add');
     if (currentIndex == REPOSITORIES_INDEX) {
+      this._initPage(this.repositoriesStep, REPOSITORIES_INDEX, container);
       await this.repositoriesStep.listRepositories();
     } else if (currentIndex == MODULES_INDEX) {
+      this._initPage(this.modulesStep, MODULES_INDEX, container);
       await this.modulesStep.listModules();
     } else if (currentIndex == INSTALL_INDEX) {
+      this._initPage(this.installStep, INSTALL_INDEX, container);
       await this.installStep.installSelectedModules();
     }
   }
@@ -199,17 +196,14 @@ class AssistantStepsAddModules extends HTMLElement {
     /** @type {import('./step_repositories')} */
     // this.repositoriesStep = container.querySelector('step-repositories');
     this.repositoriesStep = document.createElement('step-repositories');
-    this._initPage(this.repositoriesStep, REPOSITORIES_INDEX, container);
 
     /** @type {import('./step_modules')} */
     // this.modulesStep = container.querySelector('step-modules');
     this.modulesStep = document.createElement('step-modules');
-    this._initPage(this.modulesStep, MODULES_INDEX, container);
 
     /** @type {import('./step_install')} */
     // this.installStep = container.querySelector('step-install');
     this.installStep = document.createElement('step-install');
-    this._initPage(this.installStep, INSTALL_INDEX, container);
 
     /** @type {import('./unlock_dialog')*/
     this.unlockDialog = this.querySelector('unlock-dialog');
@@ -219,6 +213,9 @@ class AssistantStepsAddModules extends HTMLElement {
   }
 
   _initPage(component, pageIndex, container=null) {
+    if (component.isConnected) {
+      return;
+    }
     container = container || this;
     const stepsPage = container.querySelector('#module-settings-assistant-add-p-'+pageIndex);
     stepsPage.appendChild(component);
