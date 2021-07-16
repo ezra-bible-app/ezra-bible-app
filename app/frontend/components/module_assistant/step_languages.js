@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 
-const { html } = require('../../helpers/ezra_helper.js');
+const { html, waitUntilIdle } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const i18nController = require('../../controllers/i18n_controller.js');
 const languageMapper = require('../../../lib/language_mapper.js');
@@ -182,39 +182,33 @@ class StepLanguages extends HTMLElement {
                        selectedLanguages, 
                        i18n.t(`module-assistant.step-languages.${category}`));
     }
-
+      
     this._allLanguages.appendChild(containerSmallList);
     containerSmallList.animate({opacity: [0, 1]}, 500);
-
-    var languageModuleCount;
-    const containerLongList = document.createElement('div');
-    const _this = this;
-
+      
+      
     // schedule other work for idle loop; browser should do layout and paint and be ready to interact with user
-    window.requestIdleCallback( async function callGetLanguageCount() {
-      languageModuleCount = await getLanguageCount([...languageData.allLanguages.keys()]); 
+    await waitUntilIdle();    
+    const languageModuleCount = await getLanguageCount([...languageData.allLanguages.keys()]); 
+      
+    await waitUntilIdle();
+    const containerLongList = document.createElement('div');
+    for(const category of ['iso6391-languages', 'iso6392T-languages', 'iso6393-languages', 'unknown-languages']) {      
+      this._appendList(containerLongList, 
+                       languages[category], 
+                       selectedLanguages, 
+                       category === 'iso6391-languages' ? i18n.t('module-assistant.step-languages.other-languages') : undefined);
+    }
 
-      window.requestIdleCallback( function appendRestLanguagesToUnattachedContainer() {
-        for(const category of ['iso6391-languages', 'iso6392T-languages', 'iso6393-languages', 'unknown-languages']) {      
-          _this._appendList(containerLongList, 
-                            languages[category], 
-                            selectedLanguages, 
-                            category === 'iso6391-languages' ? i18n.t('module-assistant.step-languages.other-languages') : undefined);
-        }
-
-        window.requestIdleCallback( function callUpdateLanguageCount() {
-          _this._updateLanguageCount(languageModuleCount, _this._appLanguages);
-          _this._updateLanguageCount(languageModuleCount, containerSmallList);
-          _this._updateLanguageCount(languageModuleCount, containerLongList);
-
-          _this._loading.hide();
-
-          window.requestIdleCallback( function appendContainerWithRestLanguages() {
-            _this._allLanguages.appendChild(containerLongList);
-          });  
-        });
-      });
-    });
+    await waitUntilIdle();
+    this._updateLanguageCount(languageModuleCount, this._appLanguages);
+    this._updateLanguageCount(languageModuleCount, containerSmallList);
+    this._updateLanguageCount(languageModuleCount, containerLongList);
+    
+    this._loading.hide();
+    
+    await waitUntilIdle();
+    this._allLanguages.appendChild(containerLongList);
   }
 
   _appendList(container, languageMap, selectedLanguages, sectionHeader) {
