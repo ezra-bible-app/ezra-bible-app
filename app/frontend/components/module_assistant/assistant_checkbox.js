@@ -98,6 +98,10 @@ class AssistantCheckbox extends HTMLElement {
   connectedCallback() {  
     this.shadowRoot.querySelector('#checkbox').addEventListener('change', () => this.handleCheckboxChecked());
     this.code = this.getAttribute('code');
+
+    if (this.hasAttribute('description')) {
+      this.shadowRoot.querySelector('#description').textContent = this.getAttribute('description');
+    }
     
     this._disabled = this.hasAttribute('disabled');
     if (this._disabled) {
