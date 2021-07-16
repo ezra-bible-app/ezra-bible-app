@@ -50,10 +50,6 @@ const template = html`
   }
   #count {
     opacity: 0.8;
-    transition: opacity 0.5s;
-  }
-  #count.empty {
-    opacity: 0;
   }
   #description {
     font-size: 0.8em;
@@ -74,10 +70,10 @@ const template = html`
  
 <div id="label-wrapper">
   <label>  
-    <input type="checkbox">
+    <input type="checkbox" id="checkbox">
     <slot name="label-icon"></slot>
     <slot name="label-text">No text provided</slot>
-    <span id="count" class="empty"></span>
+    <span id="count"></span>
   </label>
   <a id="info" href="#">${ICON_INFO}</a>
 </div>
@@ -86,7 +82,7 @@ const template = html`
 
 class AssistantCheckbox extends HTMLElement {
   static get observedAttributes() {
-    return ['count', 'description', 'checked'];
+    return ['count', 'checked'];
   }
 
   constructor() {
@@ -97,17 +93,15 @@ class AssistantCheckbox extends HTMLElement {
     this._checked = false;
     this._disabled = false;
     this.code = "";
-
-    this.checkbox = this.shadowRoot.querySelector('input[type="checkbox"]');
-    this.checkbox.addEventListener('change', () => this.handleCheckboxChecked());
   }
-
+  
   connectedCallback() {  
+    this.shadowRoot.querySelector('#checkbox').addEventListener('change', () => this.handleCheckboxChecked());
     this.code = this.getAttribute('code');
     
     this._disabled = this.hasAttribute('disabled');
     if (this._disabled) {
-      this.checkbox.setAttribute('disabled', '');
+      this.shadowRoot.querySelector('#checkbox').setAttribute('disabled', '');
       this.shadowRoot.querySelector('label').classList.add('disabled');
     }
 
@@ -125,13 +119,10 @@ class AssistantCheckbox extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (name.startsWith('co') && newValue) { // count
-      newValue = ` (${newValue})`;
+      this.updateCount(name, newValue);
     } else if (name.startsWith('ch')) { // checked
       this.handleCheckedAttr(oldValue, newValue);
-      return;
     }
-
-    this.update(name, newValue);
   }
 
   set count(n) {
@@ -139,14 +130,6 @@ class AssistantCheckbox extends HTMLElement {
       this.setAttribute('count', n);
     } else {
       this.removeAttribute('count');
-    }
-  }
-
-  set description(text) {
-    if (text) {
-      this.setAttribute('description', text);
-    } else {
-      this.removeAttribute('description');
     }
   }
 
@@ -160,7 +143,7 @@ class AssistantCheckbox extends HTMLElement {
 
   handleCheckedAttr(oldValue, newValue) {
     this._checked = newValue !== null;
-    this.checkbox.checked = this._checked;
+    this.shadowRoot.querySelector('#checkbox').checked = this._checked;
   }
 
   handleCheckboxChecked() {
@@ -168,7 +151,7 @@ class AssistantCheckbox extends HTMLElement {
       return;
     }
 
-    this._checked = this.checkbox.checked;
+    this._checked = this.shadowRoot.querySelector('#checkbox').checked;
     if (this._checked) {
       this.setAttribute('checked', '');
     } else {
@@ -193,14 +176,13 @@ class AssistantCheckbox extends HTMLElement {
     }));  
   }
 
-  update(elementId, value) {
+  updateCount(elementId, value) {
     const element = this.shadowRoot.querySelector(`#${elementId}`);
     if (value) {
-      element.textContent = value ;
-      element.classList.remove('empty');
+      element.textContent = ` (${value})`;
+      element.animate({opacity: [0, 0.8]}, 300);
     } else {
-      element.textContent = value ;
-      element.classList.add('empty');
+      element.textContent = '';
     }
   }
 
