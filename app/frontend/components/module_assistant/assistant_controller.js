@@ -50,7 +50,13 @@ module.exports.initState = async function(moduleType) {
     state.reposUpdated = new Date(Date.parse(lastUpdate));
   }
   this.resetRepositoryUpdateSubscribers();
+
+  await restoreSelected('Languages');
+  await restoreSelected('Repositories');
 };
+
+
+// *** Modify state functions ****************************
 
 module.exports.get = (key) => state[key];
 
@@ -83,6 +89,36 @@ module.exports.remove = (key, value) => {
 };
 
 
+// *** Functions to restore/save selected state ****************************
+
+async function restoreSelected(key) {
+  key = `selected${key}`;
+  state[key] = new Set(await ipcSettings.get(key, []));
+}
+async function saveSelected(key) {
+  key = `selected${key}`;
+  await ipcSettings.set(key, [...state[key]]);
+}
+
+var selectedLanguagesTemp;
+var selectedRepositoriesTemp;
+function preserveSelectedState() {
+  selectedLanguagesTemp = state.selectedLanguages;
+  state.selectedLanguages = new Set();
+  selectedRepositoriesTemp = state.selectedRepositories;
+  state.selectedRepositories = new Set();
+}
+function restoreSelectedState() {
+  state.selectedLanguages = selectedLanguagesTemp;
+  state.selectedRepositories = selectedRepositoriesTemp;
+}
+
+module.exports.saveSelectedLanguages = async () => saveSelected('Languages');
+module.exports.saveSelectedRepositories = async () => saveSelected('Repositories');
+
+
+// *** Functions to save and apply module unlock keys ****************************
+
 var unlockKeys = {};
 module.exports.setUnlockKey = (moduleId, unlockKey) => unlockKeys[moduleId] = unlockKey;
 
@@ -94,11 +130,16 @@ module.exports.applyUnlockKey = async (moduleId) => {
   return moduleReadable;
 };
 
+
+// *** Functions to track installation progress ****************************
+
 var moduleInstallStatus = 'DONE';
 module.exports.isInstallCompleted = () => moduleInstallStatus !== 'IN_PROGRESS'; 
 module.exports.setInstallInProgress = () => moduleInstallStatus = 'IN_PROGRESS';
 module.exports.setInstallDone = () => moduleInstallStatus = 'DONE';
 
+
+// *** Functions to deal with repository data update ****************************
 
 var updatingRepositoriesEvents;
 module.exports.resetRepositoryUpdateSubscribers = function() {
@@ -131,10 +172,13 @@ module.exports.updateRepositories = async function() {
     return;
   }
   updateInProgress = true;
+  
+  preserveSelectedState();
 
   await notifySubscribers('startUpdate');
   const status = await ipcNsi.updateRepositoryConfig(process => notifySubscribers('progressUpdate', process));
   if (status == 0) {
+    restoreSelectedState();
     const today = new Date();
     state.reposUpdated = today;
     await ipcSettings.set('lastSwordRepoUpdate', today);

@@ -159,9 +159,9 @@ class AssistantStepsAddModules extends HTMLElement {
 
   async _addModuleAssistantStepChanged(event, currentIndex, priorIndex) {
     if (priorIndex == LANGUAGES_INDEX) {
-      this.languagesStep.saveSelected();
+      assistantController.saveSelectedLanguages();
     } else if (priorIndex == REPOSITORIES_INDEX) {
-      this.repositoriesStep.saveSelected();
+      assistantController.saveSelectedRepositories();
     } 
 
     const container = this.querySelector('#module-settings-assistant-add');
