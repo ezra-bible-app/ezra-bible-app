@@ -199,12 +199,14 @@ class StepModules extends HTMLElement {
                                              strongsFilter, 
                                              hebrewStrongsFilter, 
                                              greekStrongsFilter);
-
-      const langModuleSection = assistantHelper.listCheckboxSection(modules,
-                                                                    installedModules,
-                                                                    renderHeader ? i18nHelper.getLanguageName(language) : undefined,
-                                                                    sectionOptions);
-      filteredModuleList.append(langModuleSection);
+      
+      if (modules.size > 0) {
+        const langModuleSection = assistantHelper.listCheckboxSection(modules,
+                                                                      installedModules,
+                                                                      renderHeader ? i18nHelper.getLanguageName(language) : undefined,
+                                                                      sectionOptions);
+        filteredModuleList.append(langModuleSection);
+      }  
     }
   }
 
