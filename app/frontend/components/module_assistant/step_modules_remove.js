@@ -64,7 +64,7 @@ class StepModulesRemove extends HTMLElement {
     const moduleList = this.querySelector('#remove-module-list');
 
     for (let languageName of languages) {
-      const modules = installedModulesByLanguage[languageName].sort(assistantHelper.sortByText);
+      const modules = installedModulesByLanguage[languageName];
 
       const langModuleSection = assistantHelper.listCheckboxSection(modules,
                                                                     assistantController.get('selectedModules'),
@@ -113,9 +113,9 @@ async function getInstalledModulesByLanguage() {
 
     const languageName = i18nHelper.getLanguageName(swordModule.language);
 
-    moduleList[languageName] = moduleList[languageName] || [];
+    moduleList[languageName] = moduleList[languageName] || new Map();
 
-    moduleList[languageName].push(moduleInfo);
+    moduleList[languageName].set(swordModule.description, moduleInfo);
   }
 
   return moduleList;

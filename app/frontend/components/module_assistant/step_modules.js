@@ -187,8 +187,7 @@ class StepModules extends HTMLElement {
 
     const sectionOptions = {columns: 1, 
                             rowGap: '1.5em', 
-                            info: true, 
-                            extraIndent: true};
+                            info: true};
 
     for (const language of languageCodes) {
       const modules = await getModulesByLang(language, 
@@ -259,7 +258,7 @@ customElements.define('step-modules', StepModules);
 module.exports = StepModules;
 
 async function getModulesByLang(languageCode, repositories, installedModules, headingsFilter, strongsFilter, hebrewStrongsFilter, greekStrongsFilter) {
-  var currentLangModules = [];
+  var currentLangModules = new Map();
 
   for (const currentRepo of repositories) {
     const currentRepoLangModules = await ipcNsi.getRepoModulesByLang(currentRepo,
@@ -270,7 +269,7 @@ async function getModulesByLang(languageCode, repositories, installedModules, he
                                                                      hebrewStrongsFilter,
                                                                      greekStrongsFilter);
 
-    const modulesArr = currentRepoLangModules.map(swordModule => {
+    for( const swordModule of currentRepoLangModules) {
       let moduleInfo = {
         code: swordModule.name,
         text: `${swordModule.description} [${swordModule.name}]`,
@@ -291,12 +290,9 @@ async function getModulesByLang(languageCode, repositories, installedModules, he
                                                            assistantController.get('moduleType'));
       }
 
-      return moduleInfo;
-    });
-
-    // Append this repo's modules to the overall language list
-    currentLangModules = currentLangModules.concat(modulesArr);
+      currentLangModules.set(swordModule.description, moduleInfo);
+    }
   }
 
-  return currentLangModules.sort(assistantHelper.sortByText);
+  return currentLangModules;
 }
