@@ -41,11 +41,8 @@ module.exports.unlockDialog = function (elementId) {
   $('.module-assistant-dialog').find('.ui-dialog-titlebar-close').show();
 };
 
-module.exports.sortByText = function(itemA, itemB) {
-  const a = typeof itemA === 'string' ? itemA : itemA.text ? itemA.text : itemA.code;
-  const b = typeof itemB === 'string' ? itemB : itemB.text ? itemB.text : itemB.code;
-
-  return a.localeCompare(b, { sensitivity: 'base', ignorePunctuation: true });
+module.exports.sortByText = function(strA, strB) {
+  return strA.localeCompare(strB);
 };
 
 /**
@@ -75,10 +72,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
 
   var checkboxes = [];
   if (arr instanceof Map) {
-    const sortedKeys = [...arr.keys()].sort(
-      function sortCheckboxText(a, b) {
-        return a.localeCompare(b);
-      });
+    const sortedKeys = [...arr.keys()].sort(this.sortByText);
     for(const key of sortedKeys) {
       const item = arr.get(key);
       if (item.count === undefined || item.count && item.count !== 0) {

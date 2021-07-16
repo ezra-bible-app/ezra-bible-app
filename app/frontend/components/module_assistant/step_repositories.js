@@ -137,10 +137,10 @@ class StepRepositories extends HTMLElement {
       }
     }
 
-    const repositoriesArr = await Promise.all(assistantController.get('allRepositories').map(getRepoModuleDetails));
+    const repositoryMap = await getRepoModuleDetails(assistantController.get('allRepositories'));
 
     this.querySelector('.repository-list').innerHTML = '';
-    this.querySelector('.repository-list').append(assistantHelper.listCheckboxSection(repositoriesArr, 
+    this.querySelector('.repository-list').append(assistantHelper.listCheckboxSection(repositoryMap, 
                                                                                       assistantController.get('selectedRepositories'), 
                                                                                       "", 
                                                                                       {rowGap: '1.5em', extraIndent: true}));
@@ -169,32 +169,38 @@ class StepRepositories extends HTMLElement {
 customElements.define('step-repositories', StepRepositories);
 module.exports = StepRepositories;
 
-async function getRepoModuleDetails(repo) {
+async function getRepoModuleDetails(repos) {
   const moduleType = assistantController.get('moduleType');
-  const allRepoModules = await ipcNsi.getAllRepoModules(repo, moduleType);
   const selectedLanguages = assistantController.get('selectedLanguages');
+  
+  var repoData = new Map();
 
-  var repoLanguageCodes = new Set();
-  var count = 0;
+  for(const repo of repos) {
+    const allRepoModules = await ipcNsi.getAllRepoModules(repo, moduleType);
 
-  for (const module of allRepoModules) {
-    if (selectedLanguages.has(module.language)) {
-      count++;
-      repoLanguageCodes.add(module.language);
+    let repoLanguageCodes = new Set();
+    let count = 0;
+
+    for (const module of allRepoModules) {
+      if (selectedLanguages.has(module.language)) {
+        count++;
+        repoLanguageCodes.add(module.language);
+      }
     }
+
+    const repoLanguages = [...repoLanguageCodes].map(lang => i18nHelper.getLanguageName(lang)).sort(assistantHelper.sortByText);
+
+    var repoInfo = {
+      code: repo,
+      description: repoLanguages.join(', '),
+      count,
+    };
+    if (repo === "CrossWire" || repo === "eBible.org") {
+      repoInfo['icon'] = ICON_STAR;
+      repoInfo['title'] = i18n.t("module-assistant.step-repositories.repo-recommended");
+    }
+    repoData.set(repo, repoInfo);
   }
-
-  const repoLanguages = [...repoLanguageCodes].map(lang => i18nHelper.getLanguageName(lang)).sort(assistantHelper.sortByText);
-
-  var repoInfo = {
-    code: repo,
-    description: repoLanguages.join(', '),
-    count,
-  };
-  if (repo === "CrossWire" || repo === "eBible.org") {
-    repoInfo['icon'] = ICON_STAR;
-    repoInfo['title'] = i18n.t("module-assistant.step-repositories.repo-recommended");
-  }
-
-  return repoInfo;
+  
+  return repoData;
 }

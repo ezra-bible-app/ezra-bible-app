@@ -147,10 +147,9 @@ class StepLanguages extends HTMLElement {
     console.log('LANGS: resetView');
     assistantController.init('selectedLanguages', []);
 
-    this._appLanguages.animate({opacity: [1, 0]}, 1000);
     this._allLanguages.innerHTML = '';
-    this._searchResults.innerHTML = '';
     this._appLanguages.innerHTML = '';
+    this._searchResults.innerHTML = '';
     this._search.style.display = 'none';
     this._errorText.style.display = 'none';
     
