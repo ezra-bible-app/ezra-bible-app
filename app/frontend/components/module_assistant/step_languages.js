@@ -183,27 +183,37 @@ class StepLanguages extends HTMLElement {
     this._initSearch(languageData.allLanguages);
 
     const languages = languageData.languages;
-    // for(const category of ['bible-languages', 'most-spoken-languages', 'historical-languages']) {      
-    //   this._appendList(this._allLanguages, 
-    //                    languages[category], 
-    //                    selectedLanguages, 
-    //                    i18n.t(`module-assistant.step-languages.${category}`));
-    // }
 
-    // this._allLanguages.animate({opacity: [0, 1]}, 500);
+    const containerSmallList = document.createElement('div');
+    for(const category of ['bible-languages', 'most-spoken-languages', 'historical-languages']) {      
+      this._appendList(containerSmallList, 
+                       languages[category], 
+                       selectedLanguages, 
+                       i18n.t(`module-assistant.step-languages.${category}`));
+    }
+
+    this._allLanguages.appendChild(containerSmallList);
+    containerSmallList.animate({opacity: [0, 1]}, 500);
 
     const languageModuleCount = await getLanguageCount([...languageData.allLanguages.keys()]); // browser should do layout and paint
     
-    // for(const category of ['iso6391-languages', 'iso6392T-languages', 'iso6393-languages', 'unknown-languages']) {      
-    //   this._appendList(this._allLanguages, 
-    //                    languages[category], 
-    //                    selectedLanguages, 
-    //                    category === 'iso6391-languages' ? i18n.t('module-assistant.step-languages.other-languages') : undefined);
-    // }
+    const containerLongList = document.createElement('div');
+    for(const category of ['iso6391-languages', 'iso6392T-languages', 'iso6393-languages', 'unknown-languages']) {      
+      this._appendList(containerLongList, 
+                       languages[category], 
+                       selectedLanguages, 
+                       category === 'iso6391-languages' ? i18n.t('module-assistant.step-languages.other-languages') : undefined);
+    }
       
       
-    this._updateLanguageCount(languageModuleCount);
+    this._updateLanguageCount(languageModuleCount, this._appLanguages);
+    this._updateLanguageCount(languageModuleCount, containerSmallList);
+    this._updateLanguageCount(languageModuleCount, containerLongList);
+    
     this._loading.hide();
+
+    //FIXME: takes long time and triggers browser reflow/layout
+    this._allLanguages.appendChild(containerLongList);
   }
 
   _appendList(container, languageMap, selectedLanguages, sectionHeader) {
@@ -212,10 +222,8 @@ class StepLanguages extends HTMLElement {
     }
   }
 
-  _updateLanguageCount(languageModuleCount) {
-    console.log('LANGS: got languageModuleCount, trying to update', languageModuleCount);
-
-    this.querySelectorAll('assistant-checkbox').forEach(checkbox => {
+  _updateLanguageCount(languageModuleCount, container) {
+    container.querySelectorAll('assistant-checkbox').forEach(checkbox => {
       checkbox.count = languageModuleCount[checkbox.code];
     });
   }
