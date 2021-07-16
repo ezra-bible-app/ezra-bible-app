@@ -81,6 +81,7 @@ class AssistantStepsAddModules extends HTMLElement {
     super();
     console.log('ASSISTANT: step constructor');
     this._initialized = false;
+    this._jQueryStepsInitialized = false;
   }
 
   async connectedCallback() {
@@ -107,16 +108,20 @@ class AssistantStepsAddModules extends HTMLElement {
     var $addModuleAssistantContainer = $(addModuleAssistantContainer);
     console.log('ASSISTANT: initAddModuleAssistant. Steps:', $addModuleAssistantContainer.data('steps'), addModuleAssistantContainer.isConnected);
 
+    var events = this._jQueryStepsInitialized ? {} : {
+      onStepChanging: (event, currentIndex, newIndex) => this._addModuleAssistantStepChanging(event, currentIndex, newIndex),
+      onStepChanged: async (event, currentIndex, priorIndex) => this._addModuleAssistantStepChanged(event, currentIndex, priorIndex),
+      onFinishing: () => assistantController.isInstallCompleted(),
+      onFinished: () => this._addModuleAssistantFinished(),
+    };
+  
     $addModuleAssistantContainer.steps({
+      ...events,
       headerTag: "h3",
       bodyTag: "section",
       contentContainerTag: "module-settings-assistant-add",
       autoFocus: true,
       stepsOrientation: 1,
-      onStepChanging: (event, currentIndex, newIndex) => this._addModuleAssistantStepChanging(event, currentIndex, newIndex),
-      onStepChanged: async (event, currentIndex, priorIndex) => this._addModuleAssistantStepChanged(event, currentIndex, priorIndex),
-      onFinishing: () => assistantController.isInstallCompleted(),
-      onFinished: () => this._addModuleAssistantFinished(),
       labels: {
         cancel: i18n.t("general.cancel"),
         finish: i18n.t("general.finish"),
@@ -124,6 +129,7 @@ class AssistantStepsAddModules extends HTMLElement {
         previous: i18n.t("general.previous")
       }
     });
+    this._jQueryStepsInitialized = true;
 
     // jQuery.steps() is messing up with DOM :( we need to reassign step components
     this._setupSteps(addModuleAssistantContainer);

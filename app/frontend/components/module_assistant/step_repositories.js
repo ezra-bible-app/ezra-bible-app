@@ -134,12 +134,19 @@ class StepRepositories extends HTMLElement {
 
     const repositoryMap = await getRepoModuleDetails(assistantController.get('allRepositories'));
 
-    this.querySelector('.repository-list').innerHTML = '';
-    this.querySelector('.repository-list').append(assistantHelper.listCheckboxSection(repositoryMap, 
-                                                                                      assistantController.get('selectedRepositories'), 
-                                                                                      "", 
-                                                                                      {rowGap: '1.5em', extraIndent: true}));
-
+    const container = this.querySelector('.repository-list');
+    const shouldAnimateIn = container.childElementCount === 0;
+    
+    container.innerHTML = '';
+    container.appendChild(assistantHelper.listCheckboxSection(repositoryMap, 
+                                                              assistantController.get('selectedRepositories'), 
+                                                              "", 
+                                                              {rowGap: '1.5em', extraIndent: true}));
+    
+    if (shouldAnimateIn) {
+      container.animate({opacity: [0, 1]}, 200);
+    }  
+    
     this.querySelector('.more-info').style.display = 'block';
     this.querySelector('loading-indicator').hide();
   }

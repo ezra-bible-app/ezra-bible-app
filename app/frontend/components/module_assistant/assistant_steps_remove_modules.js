@@ -58,6 +58,7 @@ class AssistantStepsRemoveModules extends HTMLElement {
     super();
     console.log('ASSISTANT REMOVE: step constructor');
     this._initialized = false;
+    this._jQueryStepsInitialized = false;
   }
 
   async connectedCallback() {
@@ -89,16 +90,20 @@ class AssistantStepsRemoveModules extends HTMLElement {
     var $moduleStepsAssistantContainer = $(moduleAssistantStepsContainer);
     console.log('ASSISTANT REMOVE: initAddModuleAssistant. Steps:', $moduleStepsAssistantContainer.data('steps'), moduleAssistantStepsContainer.isConnected);
 
+    var events = this._jQueryStepsInitialized ? {} : {
+      onStepChanging: (event, currentIndex, newIndex) => this._stepChanging(event, currentIndex, newIndex),
+      onStepChanged: async (event, currentIndex, priorIndex) => this._stepChanged(event, currentIndex, priorIndex),
+      onFinishing: () => assistantController.isInstallCompleted(),
+      onFinished: () => this._finished(),
+    };
+
     $moduleStepsAssistantContainer.steps({
+      ...events,
       headerTag: "h3",
       bodyTag: "section",
       contentContainerTag: "module-settings-assistant-remove",
       autoFocus: true,
       stepsOrientation: 1,
-      onStepChanging: (event, currentIndex, newIndex) => this._stepChanging(event, currentIndex, newIndex),
-      onStepChanged: async (event, currentIndex, priorIndex) => this._stepChanged(event, currentIndex, priorIndex),
-      onFinishing: () => assistantController.isInstallCompleted(),
-      onFinished: () => this._finished(),
       labels: {
         cancel: i18n.t("general.cancel"),
         finish: i18n.t("general.finish"),
@@ -106,6 +111,7 @@ class AssistantStepsRemoveModules extends HTMLElement {
         previous: i18n.t("general.previous")
       }
     });
+    this._jQueryStepsInitialized = true;
 
     // jQuery.steps() is messing up with DOM :( we need to reassign step components
     this._setupSteps(moduleAssistantStepsContainer);
