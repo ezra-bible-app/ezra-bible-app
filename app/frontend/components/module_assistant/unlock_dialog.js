@@ -69,7 +69,7 @@ class UnlockDialog extends HTMLElement {
     const inputElement = unlockDialog.querySelector('#unlock-key-input');
     inputElement.value = "";
 
-    if (unlockInfo != "") {
+    if (unlockInfo.trim() != "") {
       unlockInfoElement.innerHTML = unlockInfo;
     }
 
