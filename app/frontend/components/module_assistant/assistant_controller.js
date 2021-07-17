@@ -30,7 +30,6 @@ var state = {
 const stateSetItems = new Set(['selectedLanguages', 'selectedRepositories', 'selectedModules']);
 
 module.exports.initState = async function(moduleType) {
-  console.log('assistantController.initState', moduleType);
   if(moduleType !== 'BIBLE' && moduleType !== 'DICT') {
     console.log('ERROR: addModuleAssistant.initState: unable to recognize module type', moduleType);
     return false;
@@ -123,7 +122,7 @@ var unlockKeys = {};
 module.exports.setUnlockKey = (moduleId, unlockKey) => unlockKeys[moduleId] = unlockKey;
 
 module.exports.applyUnlockKey = async (moduleId) => {
-  console.log("Module is locked ... saving unlock key");
+  // console.log("Module is locked ... saving unlock key");
   const unlockKey = unlockKeys[moduleId];
   await ipcNsi.saveModuleUnlockKey(moduleId, unlockKey);
   const moduleReadable = await ipcNsi.isModuleReadable(moduleId);

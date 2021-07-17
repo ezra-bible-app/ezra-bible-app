@@ -56,13 +56,11 @@ const REMOVE_INDEX = MODULES_INDEX + 1;
 class AssistantStepsRemoveModules extends HTMLElement {
   constructor() {
     super();
-    console.log('ASSISTANT REMOVE: step constructor');
     this._initialized = false;
     this._jQueryStepsInitialized = false;
   }
 
   async connectedCallback() {
-    console.log('ASSISTANT REMOVE: started connectedCallback');
     if (!this._initialized) {
       this.appendChild(template.content);
       this._initialized = true;
@@ -88,7 +86,6 @@ class AssistantStepsRemoveModules extends HTMLElement {
 
     var moduleAssistantStepsContainer = this.querySelector('#module-settings-assistant-remove');
     var $moduleStepsAssistantContainer = $(moduleAssistantStepsContainer);
-    console.log('ASSISTANT REMOVE: initAddModuleAssistant. Steps:', $moduleStepsAssistantContainer.data('steps'), moduleAssistantStepsContainer.isConnected);
 
     var events = this._jQueryStepsInitialized ? {} : {
       onStepChanging: (event, currentIndex, newIndex) => this._stepChanging(event, currentIndex, newIndex),

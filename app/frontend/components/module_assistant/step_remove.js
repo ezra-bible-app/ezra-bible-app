@@ -52,13 +52,11 @@ const templateInfoContainer = html`
 
 class StepRemove extends HTMLElement {
   async connectedCallback() {
-    console.log('REMOVE: started connectedCallback');
     this.appendChild(template.content.cloneNode(true));
     assistantHelper.localizeContainer(this, assistantController.get('moduleType'));
   }
 
   async uninstallSelectedModules(onAllTranslationsRemoved, onTranslationRemoved) {
-    console.log('REMOVE: removeSelectedModules');
     assistantHelper.lockDialogForAction('module-settings-assistant-remove');
     assistantController.setInstallInProgress();
 
@@ -74,7 +72,6 @@ class StepRemove extends HTMLElement {
   }
 
   async _uninstallModule(moduleCode, onAllTranslationsRemoved, onTranslationRemoved) {
-    console.log('REMOVE: _removeModule', moduleCode);
     var localModule = await ipcNsi.getLocalModule(moduleCode, true);
 
     this._appendRemovalInfo(localModule.description);

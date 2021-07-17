@@ -79,13 +79,11 @@ const INSTALL_INDEX = MODULES_INDEX + 1;
 class AssistantStepsAddModules extends HTMLElement {
   constructor() {
     super();
-    console.log('ASSISTANT: step constructor');
     this._initialized = false;
     this._jQueryStepsInitialized = false;
   }
 
   async connectedCallback() {
-    console.log('ASSISTANT: started connectedCallback');
     if (!this._initialized) {
       this.appendChild(template.content);
       this._initialized = true;
@@ -106,7 +104,6 @@ class AssistantStepsAddModules extends HTMLElement {
 
     var addModuleAssistantContainer = this.querySelector('#module-settings-assistant-add');
     var $addModuleAssistantContainer = $(addModuleAssistantContainer);
-    console.log('ASSISTANT: initAddModuleAssistant. Steps:', $addModuleAssistantContainer.data('steps'), addModuleAssistantContainer.isConnected);
 
     var events = this._jQueryStepsInitialized ? {} : {
       onStepChanging: (event, currentIndex, newIndex) => this._addModuleAssistantStepChanging(event, currentIndex, newIndex),

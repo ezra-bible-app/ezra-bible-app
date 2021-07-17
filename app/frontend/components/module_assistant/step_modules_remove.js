@@ -45,7 +45,6 @@ const template = html`
 class StepModulesRemove extends HTMLElement {
 
   async connectedCallback() {
-    console.log('MODULES-REMOVE: started connectedCallback');
     this.appendChild(template.content.cloneNode(true));
     assistantHelper.localizeContainer(this, assistantController.get('moduleType'));
 
@@ -53,8 +52,6 @@ class StepModulesRemove extends HTMLElement {
   }
 
   async listModules() {
-    console.log('MODULES-REMOVE: listModules');
-
     const installedModulesByLanguage = await getInstalledModulesByLanguage();
     const languages = Object.keys(installedModulesByLanguage).sort(assistantHelper.sortByText);
     assistantController.init('selectedModules', []);

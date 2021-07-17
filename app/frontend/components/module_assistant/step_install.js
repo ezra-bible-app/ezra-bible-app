@@ -83,12 +83,9 @@ class StepInstall extends HTMLElement {
     
     /** @type {import('./unlock_dialog')} */
     this.unlockDialog = null;
-    
-    console.log('INSTALL: step constructor');
   }
 
   async connectedCallback() {
-    console.log('INSTALL: started connectedCallback');
     this.appendChild(template.content.cloneNode(true));
     assistantHelper.localizeContainer(this, assistantController.get('moduleType'));
 
@@ -98,7 +95,6 @@ class StepInstall extends HTMLElement {
   }
 
   async installSelectedModules() {
-    console.log('INSTALL: installSelectedModules');
     assistantHelper.lockDialogForAction('module-settings-assistant-add');
     assistantController.setInstallInProgress();
 
@@ -119,7 +115,6 @@ class StepInstall extends HTMLElement {
         }
 
         if (unlockFailed) {
-          console.log('INSTALL: installSelectedModules unlockFailed');
           const swordModule = await ipcNsi.getRepoModule(currentModule);
           this.unlockDialog.show(swordModule.name, swordModule.unlockInfo);
 
@@ -141,7 +136,6 @@ class StepInstall extends HTMLElement {
   }
 
   async _installModule(moduleCode) {
-    console.log('INSTALL: installModule', moduleCode);
     var swordModule = await ipcNsi.getRepoModule(moduleCode);
 
     this._appendInstallationInfo(swordModule.description);
@@ -211,7 +205,6 @@ class StepInstall extends HTMLElement {
     }
 
     if (swordModule.locked && !unlockSuccessful) {
-      console.log(swordModule);
       throw "UnlockError";
     }
   }
@@ -233,8 +226,6 @@ class StepInstall extends HTMLElement {
   }
 
   async _installStrongsModules() {
-    console.log('INSTALL: installStrongsModules');
-
     this._appendInstallationInfo(i18n.t("general.installing-strongs"), true);
 
     var strongsInstallSuccessful = true;

@@ -95,12 +95,10 @@ class StepLanguages extends HTMLElement {
   
   constructor() {
     super();
-    console.log('LANGS: step constructor');
     this._initialized = false;
   }
 
   connectedCallback() {
-    console.log('LANGS: started connectedCallback', this.isConnected, this._initialized);
     if (this._initialized) {
       return;
     }
@@ -138,8 +136,6 @@ class StepLanguages extends HTMLElement {
   }
 
   async resetView() {
-    console.log('LANGS: resetView');
-
     this._allLanguages.innerHTML = '';
     this._searchResults.innerHTML = '';
     this._search.style.display = 'none';
@@ -149,9 +145,7 @@ class StepLanguages extends HTMLElement {
     this._loadingText.style.display = 'block';
   }
 
-  async listLanguages() {
-    console.log('LANGS: listLanguages!');
-    
+  async listLanguages() {    
     const languageData = await getAvailableLanguagesFromRepos(); 
 
     assistantController.init('languageRepositories', languageData.languageRepositories);
@@ -273,8 +267,6 @@ customElements.define('step-languages', StepLanguages);
 module.exports = StepLanguages;
 
 async function getAvailableLanguagesFromRepos() {
-  console.log('LANGS: getAvailableLanguagesFromRepos');
-
   var appSystemLanguageCodes = new Set([i18nController.getLocale(), i18nController.getSystemLocale(), ...(await getInstalledLanguages())]);
   var bibleLanguages = new Set(['grc', 'hbo']);
   var mostSpeakingLanguages = new Set(['en', 'zh', 'hi', 'es', 'ar', 'bn', 'fr', 'ru', 'pt', 'ur']); // source: https://en.wikipedia.org/wiki/List_of_languages_by_total_number_of_speakers
@@ -295,8 +287,6 @@ async function getAvailableLanguagesFromRepos() {
   var languageRepositories = {};
 
   const repositories = assistantController.get('allRepositories');
-
-  console.log('LANGS: getAvailableLanguagesFromRepos: got repos', repositories);
 
   for (const currentRepo of repositories) {
     var repoLanguages = await ipcNsi.getRepoLanguages(currentRepo, assistantController.get('moduleType'));

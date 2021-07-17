@@ -86,11 +86,9 @@ class StepRepositories extends HTMLElement {
 
   constructor() {
     super();
-    console.log('REPOS: step constructor');
   }
 
   async connectedCallback() {
-    console.log('REPOS: started connectedCallback', this.isConnected);
     this.appendChild(template.content.cloneNode(true));
     assistantHelper.localizeContainer(this, assistantController.get('moduleType'));
 
@@ -109,8 +107,6 @@ class StepRepositories extends HTMLElement {
   }
   
   async resetView() {
-    console.log('REPOS: resetView');
-
     this.querySelector('loading-indicator').show();
     this.querySelector('.loading-repos').style.display = 'block';
     this.querySelector('.more-info').style.display = 'none';
@@ -120,8 +116,6 @@ class StepRepositories extends HTMLElement {
   }
 
   async listRepositories() {
-    console.log('REPOS: listRepositories');
-
     this.querySelector('.loading-repos').style.display = 'none';
 
     const languageRepos = assistantController.get('languageRepositories');

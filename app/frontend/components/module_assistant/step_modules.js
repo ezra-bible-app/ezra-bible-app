@@ -129,14 +129,12 @@ class StepModules extends HTMLElement {
 
   constructor() {
     super();
-    console.log('MODULES: step constructor');
 
     /** @type {import('./unlock_dialog')} */
     this.unlockDialog = null;
   }
 
   async connectedCallback() {
-    console.log('MODULES: started connectedCallback');
     this.appendChild(template.content.cloneNode(true));
     assistantHelper.localizeContainer(this, assistantController.get('moduleType'));
     
@@ -150,8 +148,6 @@ class StepModules extends HTMLElement {
   }
   
   async listModules() {
-    console.log('MODULES: listModules');
-
     const moduleType = assistantController.get('moduleType');
     if (moduleType == 'BIBLE') {
       this.querySelector("#bible-module-feature-filter").style.display = 'block';
@@ -163,8 +159,6 @@ class StepModules extends HTMLElement {
   }
 
   async _listFilteredModules() {
-    console.log('MODULES: listFilteredModules');
-
     const filteredModuleList = this.querySelector('#filtered-module-list');
     filteredModuleList.innerHTML = '';
 
@@ -226,7 +220,6 @@ class StepModules extends HTMLElement {
     }
 
     if (checked) {
-      console.log('MODULE checkbox locked checked', event.detail, event.target);
       this.unlockDialog.show(moduleId, unlockInfo[moduleId], checkbox);
     } else {
       // Checkbox unchecked!

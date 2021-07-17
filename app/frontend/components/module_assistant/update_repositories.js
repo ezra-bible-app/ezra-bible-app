@@ -70,7 +70,6 @@ const template = html`
 class UpdateRepositories extends HTMLElement {
   constructor() {
     super();
-    console.log('UPDATE: step constructor');
     this._initialized = false;
   }
 
@@ -78,7 +77,6 @@ class UpdateRepositories extends HTMLElement {
     if (this._initialized || !this.isConnected) {
       return;
     }
-    console.log('UPDATE: started connectedCallback');
 
     this.appendChild(template.content.cloneNode(true));
     uiHelper.configureButtonStyles(this);
@@ -103,7 +101,6 @@ class UpdateRepositories extends HTMLElement {
     this._toggleViews('INFO');
     
     const date = assistantController.get('reposUpdated');
-    console.log('UPDATE: showUpdateInfo', date);
 
     if (date) {
       this.querySelector('.update-info').textContent = assistantHelper.localizeText("module-assistant.update-data.repo-data-last-updated", { date });
@@ -122,8 +119,6 @@ class UpdateRepositories extends HTMLElement {
   }
 
   updateDateInfo(status) {
-    console.log('UPDATE: updateCompleted');
-
     if (status != 0) {
       console.log("Failed to update the repository configuration!");
       this._toggleViews('ERROR');
