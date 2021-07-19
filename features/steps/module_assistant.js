@@ -26,8 +26,8 @@ async function clickCheckbox(checkboxCodeAttr, parentSelector='#module-settings-
   var parent = await spectronHelper.getWebClient().$(parentSelector);
   var checkbox = await parent.$(`[code="${checkboxCodeAttr}"]`);
   await spectronHelper.getWebClient().waitUntil(async () => { return await checkbox.isExisting(); }, { timeout: 40000 });
-  var label = await checkbox.$('[slot="label-text"]');
-  await label.click();
+  // click in the shadow
+  spectronHelper.getWebClient().execute((p, c) => document.querySelector(`${p} [code="${c}"]`).shadowRoot.querySelector('#label').click(), parentSelector, checkboxCodeAttr);
 }
 
 async function getNavLinks(moduleSettingsDialogId='#module-settings-assistant-add') {
