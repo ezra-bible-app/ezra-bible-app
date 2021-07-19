@@ -101,11 +101,9 @@ function generateCheckbox(item, checked, options) {
   if (typeof item === 'string') {
     return `<assistant-checkbox code="${item}" ${checked ? 'checked' : ''}>${item}</assistant-checkbox>`;
   } else {
-    const {code, text, description, count, disabled, icon, ...rest} = item;
+    const {code, text, description, count, disabled, ...rest} = item;
 
     const style = text && text.length > 22 && (options.columns === 'auto-fill' || options.columns > 1) ? 'style="grid-column-end: span 2"' : '';
-
-    const iconSpan = icon ? `<span slot="label-icon">${icon}</span>` : '';
 
     const extraAttr = Object.entries(rest).map(([attr, val]) => `${attr}="${val}"`);
 
@@ -120,8 +118,7 @@ function generateCheckbox(item, checked, options) {
         ${description ? `description="${description}"` : ''}
         ${options.info ? `info="${i18n.t("module-assistant.step-modules.show-module-info")}"` : ''}
         ${extraAttr.join(' ')}>
-        ${iconSpan}
-        <span slot="label-text">${text ? text : code}</span>
+        ${text ? text : code}
       </assistant-checkbox>`;
 
     return checkbox;
