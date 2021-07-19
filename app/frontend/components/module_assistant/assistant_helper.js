@@ -54,7 +54,8 @@ module.exports.sortByText = function(strA, strB) {
  * @param {number} [options.columns='auto-fill'] number of columns
  * @param {boolean} [options.info=false] display info icon and generate event on click
  * @param {boolean} [options.extraIndent=false] add extra indent to make sure that all item icons will be visible
- * @param {string} [options.info="0.5em"] CSS size for the gap between the rows
+ * @param {string} [options.rowGap="0.5em"] CSS size for the gap between the rows
+ * @param {boolean} [options.limitRows=false] Explicity set grid rows height (for performance)
  * @returns {DocumentFragment} HTML fragment with appropriate <assistant-checkbox> elements for each item
  */
 module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", options={}) {
@@ -88,10 +89,11 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
   }
 
   const paddingLeft = options.extraIndent ? '1em' : '0';
+  const rowHight = options.limitRows ? '1.8em' : 'auto';
 
   const template = html`
     <h3 style="margin: 1em 0 0;">${sectionTitle}</h3>
-    <div style="display: grid; grid-template-columns: repeat(${options.columns}, minmax(15em, 1fr)); grid-row-gap: ${options.rowGap}; grid-column-gap: 1em; grid-auto-flow: dense; padding: 0.5em 0 0.5em ${paddingLeft};">
+    <div style="display: grid; grid-template-columns: repeat(${options.columns}, minmax(15em, 1fr)); grid-row-gap: ${options.rowGap}; grid-column-gap: 1em; grid-auto-flow: dense; padding: 0.5em 0 0.5em ${paddingLeft}; grid-auto-rows:${rowHight};">
       ${checkboxes}
     </div>`;
   return template.content;

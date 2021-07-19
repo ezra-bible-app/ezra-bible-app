@@ -199,7 +199,7 @@ class StepLanguages extends HTMLElement {
 
   _appendList(container, languageMap, selectedLanguages, sectionHeader) {
     if (languageMap.size > 0) {
-      container.appendChild(assistantHelper.listCheckboxSection(languageMap, selectedLanguages, sectionHeader));
+      container.appendChild(assistantHelper.listCheckboxSection(languageMap, selectedLanguages, sectionHeader, {limitRows: true}));
     }
   }
 
