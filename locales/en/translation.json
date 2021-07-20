@@ -101,7 +101,7 @@
       "removing": "Removing"
     },
     "unlock": {
-      "module-lock-info": "This {{module_type}} is license-protected and requires that you purchase an unlock key from the content owner!",
+      "module-lock-info": "This {{module_type, singular}} is license-protected and requires that you purchase an unlock key from the content owner!",
       "unlock-key": "Unlock key",
       "enter-unlock-key": "{{moduleId, singular}} is license protected. Please enter the unlock key!",
       "unlock-failed": "Unlock failed! Please enter the correct unlock key."
