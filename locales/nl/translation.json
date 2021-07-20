@@ -74,7 +74,7 @@
     "step-repositories": {
       "select-repository": "Select at least one of the following SWORD repositories.",
       "total-modules-repo": "Next to each repository is the number of {{module_type}} available from the repository.",
-      "what-is-repository": "A repository is an internet storage location that contains a set of {{module_type}}",
+      "what-is-repository": "A repository is an internet storage location that contains a set of {{module_type}}.",
       "loading-repositories": "Depots laden ...",
       "repo-recommended": "This repository is a good place to start",
       "more-repo-information-needed": "Heeft u nood aan meer informatie over deze depots?<br/>Bekijk de <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a>."
