@@ -24,12 +24,11 @@ const ICON_SEARCH = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
 `;
 
-// animation inspired by https://codepen.io/takaneichinose/pen/ErGwPZ?editors=0100
 const template = html`
 <style>
-#search-box {
-  margin: auto 0 auto auto;
-  display: inline-block;
+  #search-box {
+    margin: auto 0 auto auto;
+    display: inline-block;
   position: relative;
   border-radius: 2.5em;
   height: 2.5em;
@@ -39,37 +38,39 @@ const template = html`
 #search-box__input {
   font-size: 1em;
   color: var(--text-color, currentColor);
-  /* width: 2.5em; */
   height: 2.5em;
-  padding: 0.25em 1.2em;
+  padding: 0.25em 2.25em 0.25em 1.2em;
   border: solid 1px var(--text-color, currentColor);
   background: #0000;
   z-index: 1;
   box-sizing: border-box;
-  /* border-radius: 2em; */
-  /* transition: width 800ms cubic-bezier(0.68, -0.55, 0.27, 1.55), border-radius 800ms ease-in; */
   -webkit-appearance: none;
-  /* cursor: pointer; */
   width: 15em;
-  padding-right: 2.25em;
-  padding-left: 0.75em;
   border-radius: 5px;
   cursor: text;
 }
 #search-box__input::-webkit-search-decoration {
-	-webkit-appearance: none;
+  -webkit-appearance: none;
 }
 #search-box__input:focus {
   outline: none;          
 }
-/* #search-box__input:focus,
-#search-box__input:not(:placeholder-shown) {
+/* animation inspired by https://codepen.io/takaneichinose/pen/ErGwPZ?editors=0100 */
+#search-box__input.animate {
+  width: 2.5em;
+  border-radius: 2em;
+  padding: 0.25em 1.125em;
+  transition: width 800ms cubic-bezier(0.68, -0.55, 0.27, 1.55), border-radius 800ms ease-in;
+  cursor: pointer;
+}
+#search-box__input.animate:focus,
+#search-box__input.animate:not(:placeholder-shown) {
   width: 15em;
   padding-right: 2.25em;
   padding-left: 0.75em;
   border-radius: 5px;
   cursor: text;
-} */
+}
 
 #search-box__button {
   font-size: 0.6em;
@@ -112,6 +113,7 @@ const template = html`
  * @example
  * <fuzzy-search max-result="10" distance="30"></fuzzy-search>
  * 
+ * @prop {boolean} animate attribute adds animated transition from search button to search input on click
  * @prop {number} [minLength=2] min-length attribute is limiting minimal length of the input value to perform a search
  * @prop {number} [maxResult=100] max-result attribute is limiting the amount of result items returned
  * @prop {number} [searchDelay=200] search-delay attribute is number of ms between triggering search with 'input' event of the input field
@@ -141,6 +143,9 @@ class FuzzySearch extends HTMLElement {
   }
 
   async connectedCallback() {
+    if (this.hasAttribute('animate')) {
+      this.shadowRoot.querySelector('#search-box__input').classList.add('animate');
+    }
     if (this.hasAttribute('min-length')) {
       this.minLength = parseInt(this.getAttribute('min-length'));
     }
