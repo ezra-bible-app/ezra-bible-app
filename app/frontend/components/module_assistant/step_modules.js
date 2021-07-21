@@ -142,7 +142,6 @@ class StepModules extends HTMLElement {
     
     const filteredModuleList = this.querySelector('#filtered-module-list');
     filteredModuleList.addEventListener('itemChanged', (e) => this._handleCheckboxClick(e));
-    filteredModuleList.addEventListener('itemInfoRequested', (e) => this._handleInfoClick(e));
   }
   
   async listModules() {
@@ -198,6 +197,9 @@ class StepModules extends HTMLElement {
                                                                       renderHeader ? i18nHelper.getLanguageName(language) : undefined,
                                                                       sectionOptions);
         filteredModuleList.append(langModuleSection);
+        filteredModuleList.querySelectorAll('.module-info-button').forEach(element => {
+          element.addEventListener('click', (e) => this._handleInfoClick(e));
+        });
       }  
     }
   }
@@ -228,7 +230,7 @@ class StepModules extends HTMLElement {
 
   _handleInfoClick(event) {
 
-    const moduleCode = event.detail.code;
+    const moduleCode = event.currentTarget.parentElement.firstElementChild.code;
 
     const moduleInfo = this.querySelector('#module-info');
     if (moduleInfo.getAttribute('code') !== moduleCode) {
