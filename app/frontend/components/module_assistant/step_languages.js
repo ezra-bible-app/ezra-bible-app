@@ -46,17 +46,16 @@ const template = html`
   #language-list-wrapper .update-repository-data-failed {
     text-align: center;
   }
+
   #language-list-wrapper fuzzy-search {
-    display: block;
+    display: none;
     text-align: end;
     margin-top: 1.5em;
     margin-inline-end: 2em;
     font-size: 0.8em;
   }
-  #language-list-wrapper .search-result {
-    height: auto;
-    opacity: 1;
-    transition: all 0.5s ease-in-out;
+  .language-extra-info-container {
+    min-height: 3em;
   }
 </style>
 
@@ -67,12 +66,14 @@ const template = html`
     <p class="intro" i18n="module-assistant.step-languages.select-language"></p> 
     <p class="assistant-note" i18n="module-assistant.step-languages.total-modules-language"></p>
 
+    <div class="language-extra-info-container">
     <fuzzy-search max-result="12" style="display: none;" title="search-menu.search" style="display: none;"></fuzzy-search>
     <div class="search-result"></div>
     
     <loading-indicator></loading-indicator>
     <p class="loading-text" i18n="module-assistant.step-languages.loading-languages"></p>
     <p class="update-repository-data-failed error" style="display: none" i18n="module-assistant.update-data.update-repository-data-failed"></p>
+    </div>
 
     <div class="all-languages"></div>
   </div>
@@ -216,7 +217,7 @@ class StepLanguages extends HTMLElement {
     }
 
     this._search.style.display = 'block';
-    this._search.animate([{transform: "translateY(-60%)", opacity: 0}, {transform: "translateY(0)", opacity: 1}], 200);
+    // this._search.animate([{transform: "translateY(-60%)", opacity: 0}, {transform: "translateY(0)", opacity: 1}], 200);
 
     this._search.init([...languages.values()], 
                       [{name: 'text', weight: 1}, 

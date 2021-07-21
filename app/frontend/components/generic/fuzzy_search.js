@@ -27,7 +27,7 @@ const ICON_SEARCH = `
 // animation inspired by https://codepen.io/takaneichinose/pen/ErGwPZ?editors=0100
 const template = html`
 <style>
-.search-box {
+#search-box {
   margin: auto 0 auto auto;
   display: inline-block;
   position: relative;
@@ -36,37 +36,42 @@ const template = html`
   background: var(--widget-bg-color, white);
   z-index: 1;
 }
-input[type="search"] {
+#search-box__input {
   font-size: 1em;
   color: var(--text-color, currentColor);
-  width: 2.5em;
+  /* width: 2.5em; */
   height: 2.5em;
   padding: 0.25em 1.2em;
   border: solid 1px var(--text-color, currentColor);
   background: #0000;
   z-index: 1;
   box-sizing: border-box;
-  border-radius: 2em;
-  transition: width 800ms cubic-bezier(0.68, -0.55, 0.27, 1.55), border-radius 800ms ease-in;
+  /* border-radius: 2em; */
+  /* transition: width 800ms cubic-bezier(0.68, -0.55, 0.27, 1.55), border-radius 800ms ease-in; */
   -webkit-appearance: none;
-  cursor: pointer;
-}
-input[type="search"]::-webkit-search-decoration {
-	-webkit-appearance: none;
-}
-input[type="search"]:focus {
-  outline: none;          
-}
-input[type="search"]:focus,
-input[type="search"]:not(:placeholder-shown) {
+  /* cursor: pointer; */
   width: 15em;
   padding-right: 2.25em;
   padding-left: 0.75em;
   border-radius: 5px;
   cursor: text;
 }
+#search-box__input::-webkit-search-decoration {
+	-webkit-appearance: none;
+}
+#search-box__input:focus {
+  outline: none;          
+}
+/* #search-box__input:focus,
+#search-box__input:not(:placeholder-shown) {
+  width: 15em;
+  padding-right: 2.25em;
+  padding-left: 0.75em;
+  border-radius: 5px;
+  cursor: text;
+} */
 
-button[type="reset"] {
+#search-box__button {
   font-size: 0.6em;
   background-color: transparent;
   width: 2em;
@@ -82,14 +87,14 @@ button[type="reset"] {
   right: 1em;
   z-index: -1;
 }
-button[type="reset"] svg {
+#search-box__button svg {
   width: 100%;
   fill: var(--text-color, currentColor);
 }
 </style>
-<form class="search-box">
-  <input type="search" placeholder=" ">
-  <button type="reset">${ICON_SEARCH}</button>
+<form id="search-box">
+  <input id="search-box__input" type="search" placeholder=" ">
+  <button id="search-box__button" type="reset">${ICON_SEARCH}</button>
 </form>
 `;
 
@@ -132,7 +137,7 @@ class FuzzySearch extends HTMLElement {
     this.attachShadow({mode: 'open'});
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
-    this.shadowRoot.querySelector('.search-box input[type="search"]').addEventListener('input', (e) => this._handleInput(e));
+    this.shadowRoot.querySelector('#search-box__input').addEventListener('input', (e) => this._handleInput(e));
   }
 
   async connectedCallback() {
