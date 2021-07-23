@@ -47,8 +47,12 @@ const template = html`
     flex-shrink: 0;
     fill: var(--accent-color, currentColor);
   }
-  #label.top-align {
+  #label.align-top {
     align-items: flex-start;
+  }
+  #label.align-top #checkbox,
+  #label.align-top #label-icon {
+    margin-top: 0.2rem;
   }
 
   #count {
@@ -98,11 +102,15 @@ class AssistantCheckbox extends HTMLElement {
     this._disabled = this.hasAttribute('disabled');
     if (this._disabled) {
       this.shadowRoot.querySelector('#checkbox').setAttribute('disabled', '');
-      this.shadowRoot.querySelector('label').classList.add('disabled');
+      this.shadowRoot.querySelector('#label').classList.add('disabled');
     }
 
     if (this.hasAttribute('icon')) {
       this.shadowRoot.querySelector('#label-icon').innerHTML = ICONS[this.getAttribute('icon')];
+    }
+
+    if (this.hasAttribute('flex-align-top')) {
+      this.shadowRoot.querySelector('#label').classList.add('align-top');
     }
   }
 

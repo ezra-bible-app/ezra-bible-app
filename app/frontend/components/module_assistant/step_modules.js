@@ -36,8 +36,7 @@ const template = html`
     border-radius: 5px;
     overflow: hidden;
   }
-  #module-list {
-    overflow-y: auto;
+  #module-list#module-list {
     width: 100%;
     padding-right: 1em;
   }
