@@ -25,47 +25,50 @@ const ICONS = {
 
 const template = html`
 <style>
-  #label-wrapper {
-    position: relative;
-    display: flex;
-    padding-inline-start: 1.75em;
-  }
   #label {
+    display: flex;
+    position: relative;
+    align-items: center;
     cursor: pointer;
-    text-indent: -1.75em;
-    line-height: 1.2em;
+    line-height: 1.2rem;
+    margin-inline-start: -1rem;
   }
   #label.disabled {
     color: gray;
   }
+  #checkbox {
+    margin: 0;
+    width: 1.5rem;
+    flex-shrink: 0;
+  }
   #label-icon {
-    position: absolute;
-    left: 0.8em;
-    top: 0.15em;
-    height: 0.8em;
-    width: 0.8em;
+    height: 0.7rem;
+    width: 0.7rem;
+    flex-shrink: 0;
     fill: var(--accent-color, currentColor);
   }
+  #label.top-align {
+    align-items: flex-start;
+  }
+
   #count {
     opacity: 0.8;
+    margin-inline-start: 0.5em;
   }
   #description {
-    font-size: 0.8em;
+    margin-inline-start: 1.2rem;
+    font-size: 0.7rem;
+    line-height: 0.7rem;
     opacity: 0.8;
-    margin-bottom: -0.5em;
-    margin-inline-start: 2.2em;
-    line-height: 1em;
   }
 </style>
  
-<div id="label-wrapper">
   <label id="label">  
-    <input type="checkbox" id="checkbox">
     <span id="label-icon"></span>
+    <input type="checkbox" id="checkbox">
     <slot>No text provided</slot>
     <span id="count"></span>
   </label>
-</div>
 <div id="description"></div>
 `;
 
@@ -83,15 +86,15 @@ class AssistantCheckbox extends HTMLElement {
     this._disabled = false;
     this.code = "";
   }
-  
-  connectedCallback() {  
+
+  connectedCallback() {
     this.shadowRoot.querySelector('#checkbox').addEventListener('change', () => this.handleCheckboxChecked());
     this.code = this.getAttribute('code');
 
     if (this.hasAttribute('description')) {
       this.shadowRoot.querySelector('#description').textContent = this.getAttribute('description');
     }
-    
+
     this._disabled = this.hasAttribute('disabled');
     if (this._disabled) {
       this.shadowRoot.querySelector('#checkbox').setAttribute('disabled', '');
@@ -146,18 +149,18 @@ class AssistantCheckbox extends HTMLElement {
 
     this.dispatchEvent(new CustomEvent("itemChanged", {
       bubbles: true,
-      detail: { 
+      detail: {
         code: this.code,
         checked: this._checked
       }
-    }));  
+    }));
   }
 
   updateCount(elementId, value) {
     const element = this.shadowRoot.querySelector(`#${elementId}`);
     if (value) {
       element.textContent = ` (${value})`;
-      element.animate({opacity: [0, 0.8]}, 300);
+      element.animate({ opacity: [0, 0.8] }, 300);
     } else {
       element.textContent = '';
     }
