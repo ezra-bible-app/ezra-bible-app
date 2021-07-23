@@ -535,15 +535,6 @@ h2:nth-of-type(1) {
   display: none;
 }
 
-.selectable-translation-module {
-  text-indent: -20px;
-  padding-left: 20px;
-}
-
-.Android .selectable-translation-module {
-  text-indent: inherit;
-}
-
 #display-options-menu {
   padding-top: 0.5em;
   width: 40em;
@@ -1487,14 +1478,6 @@ s {
 
 .darkmode--activated .strongs-current-verse w {
   color: lightgreen;
-}
-
-#module-feature-filter label {
-  margin-right: 1em;
-}
-
-.Android #module-feature-filter label {
-  float: left;
 }
 
 .progress-bar {
