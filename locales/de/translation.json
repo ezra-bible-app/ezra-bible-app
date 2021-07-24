@@ -34,17 +34,13 @@
   "module-assistant": {
     "module-type-bible": "Bibelübersetzungen",
     "module-type-bible_accusative": "Bibelübersetzungen",
-    "module-type-bible_genitive": "Bibelübersetzungen",
-    "module-type-bible_instrumental": "Bibelübersetzungen",
-    "module-type-bible_singular": "Übersetzung",
-    "module-type-bible_singular-genitive": "Bibelübersetzung",
+    "module-type-bible_singular": "Diese Übersetzung",
+    "module-type-bible_singular-dative": "der Bibelübersetzung",
     "module-type-dict": "Wörterbücher",
     "module-type-dict_accusative": "Wörterbücher",
-    "module-type-dict_genitive": "Wörterbücher",
-    "module-type-dict_instrumental": "Wörterbücher",
     "module-type-dict_singular": "Wörterbuch",
-    "module-type-dict_singular-genitive": "Wörterbuchs",
-    "header": "Konfiguriere {{module_type, instrumental, title-case}}",
+    "module-type-dict_singular-dative": "dem Wörterbuch",
+    "header": "Konfiguriere {{module_type, title-case}}",
     "intro-text": "Ezra Bible App installiert <b>{{module_type, accusative}}</b> und benutzt dabei Ihre Internetverbindung. {{module_type, capitalize}} werden von der <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> vertrieben und werden von <a class='external' href='http://www.crosswire.org/sword'>SWORD</a> Modularchiven heruntergeladen.",
     "internet-usage-note": "<b>WICHTIGER HINWEIS</b><br/>Wenn Sie sich in einem Land befinden wo Christen verfolgt werden<br/>seien Sie sich bewusst, dass Ihr Internet Provider <br/><b>den Zugriff auf christliche Materialien erkennen kann</b>!",
     "add-modules": "{{module_type, accusative}} hinzufügen",
@@ -82,26 +78,26 @@
     "step-modules": {  
       "select-module": "Bitte wählen Sie {{module_type}} zur Installation.",
       "module-display-preferences": "Filtereinstellungen:",
-      "module-with": "{{module_type, capitalize}} mit {{feature_type, instrumental}}",
+      "module-with": "{{module_type, capitalize}} mit {{feature_type}}",
       "module-already-installed": "{{module_type, singular}} ist bereits installiert",
       "show-module-info":"Zeige Informationen",
-      "show-detailed-module-info": "Klicken Sie auf das Informationssymbol um mehr Informationen zu dem Modul ({{module_type, singular}}) anzuzeigen."
+      "show-detailed-module-info": "Klicken Sie auf das Informationssymbol um mehr Informationen zu {{module_type, singular-dative}} anzuzeigen."
     },
     "step-install": {
       "installing-modules": "Installiere ausgewählte {{module_type, accusative}}",
       "installing": "Installiere",
-      "it-takes-time-to-install": "Beachten Sie, dass etwas Zeit benötigt wird um jedes einzelne Modul ({{module_type, singular-genitive}}) herunterzuladen und zu installieren.",
+      "it-takes-time-to-install": "Beachten Sie, dass etwas Zeit benötigt wird um {{module_type}} herunterzuladen und zu installieren.",
       "downloading": "Lade",
       "part-of-total": "von"
     },
     "remove": {  
-      "select-module-to-be-removed": "Wählen Sie das Modul ({{module_type, accusative}}) dass Sie entfernen wollen.",
-      "disable-remove-note": "Dieses Modul {{module_type, singular}} ist nicht im Benutzerverzeichnis installiert oder unbedingt nötig für die Grundfunktionalität von Ezra Bible App.",
+      "select-module-to-be-removed": "Wählen Sie {{module_type, accusative}} die Sie entfernen wollen.",
+      "disable-remove-note": "{{module_type, singular}} ist nicht im Benutzerverzeichnis installiert oder unbedingt nötig für die Grundfunktionalität von Ezra Bible App.",
       "removing-modules": "Entferne {{module_type, accusative}}",
       "removing": "Entferne"
     },
     "unlock": {
-      "module-lock-info": "Dieses Modul {{module_type, singular}} ist lizenzgeschützt und setzt voraus, dass Sie einen Freischaltschlüssel vom Rechtehalter erwerben!",
+      "module-lock-info": "{{module_type, singular}} ist lizenzgeschützt und setzt voraus, dass Sie einen Freischaltschlüssel vom Rechtehalter erwerben!",
       "unlock-key": "Freischaltschlüssel",
       "enter-unlock-key": "{{moduleId}} ist lizenzgeschützt. Bitte geben Sie den Freischaltschlüssel ein!",
       "unlock-failed": "Freischalten fehlgeschlagen! Bitte geben Sie den korrekten Freischaltschlüssel ein."
@@ -129,13 +125,9 @@
     "module-language": "Sprache",
     "module-license": "Lizenz",
     "module-strongs": "Strong's",
-    "module-strongs_instrumental": "Strong's",
     "module-hebrew-strongs-dict": "Strong's Hebräisch",
-    "module-hebrew-strongs-dict_instrumental": "Hebrew Strong's",
     "module-greek-strongs-dict": "Strong's Griechisch",
-    "module-greek-strongs-dict_instrumental": "Greek Strong's",
     "module-headings": "Überschriften",
-    "module-headings_instrumental": "Überschriften",
     "module-footnotes": "Fußnoten",
     "module-xrefs": "Parallelstellen",
     "module-redletter": "Jesu Worte in rot",
