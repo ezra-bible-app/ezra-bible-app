@@ -24,7 +24,7 @@ jobs:
           with:
             node-version: '10'
 
-        - run: sudo apt install -y libcurl4-gnutls-dev xvfb
+        - run: sudo apt update && sudo apt install -y libcurl4-gnutls-dev xvfb
         - run: npm install
         
         - name: Compile templates
