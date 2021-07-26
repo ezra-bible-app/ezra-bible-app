@@ -488,13 +488,15 @@ class ModuleSearchController {
   getBibleBookStatsFromSearchResults(search_results) {
     var bibleBookStats = {};
 
-    for (var i = 0; i < search_results.length; i++) {
-      var bibleBookId = search_results[i].bibleBookShortTitle;
+    if (search_results != null) {
+      for (var i = 0; i < search_results.length; i++) {
+        var bibleBookId = search_results[i].bibleBookShortTitle;
 
-      if (bibleBookStats[bibleBookId] === undefined) {
-        bibleBookStats[bibleBookId] = 1;
-      } else {
-        bibleBookStats[bibleBookId] += 1;
+        if (bibleBookStats[bibleBookId] === undefined) {
+          bibleBookStats[bibleBookId] = 1;
+        } else {
+          bibleBookStats[bibleBookId] += 1;
+        }
       }
     }
 
