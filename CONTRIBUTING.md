@@ -58,6 +58,43 @@ const AVAILABLE_LOCALES = ['de', 'en', 'nl', 'fr', 'es', 'sk', 'uk', 'ru'];  <==
 
 7) Submit a pull request once you have a working draft.
 
+### Using different word forms in translations
+
+Unlike English some languages have more complicated grammar with word forms changing depending upon their role in the sentence (cases) and articles changing depending on their gender or number. To accommodate this it is possible to define additional forms of the word:
+```json
+    "module-type-dict": "Словари",
+    "module-type-dict_genitive": "словарей",
+    "module-type-dict_instrumental": "словарями",
+    "module-type-dict_singular": "словарь",
+    "module-type-dict_singular-genitive": "словаря",
+    "module-type-dict_singular-instrumental": "словаре",
+```
+To use these definitions in the translation string add the appropriate word form (part after underscore) as an additional format parameter. For example (Russian):
+```json
+      "show-detailed-module-info": "Нажмите на иконке информации для отображения подробностей о {{module_type, singular-instrumental}}."
+```
+Please note, that different languages may require different forms. So as a translator you may need to add an extra form. (For English the forms are given as an example in the localization file. Feel free to delete unused forms for your language).
+
+The string in the example above will use the nominative form in English:
+```json
+      "show-detailed-module-info": "Click on the information icon to see more details about the {{module_type, singular}}."
+```
+But it will need an extra form in German because demonstrative pronouns change depending on the gender of the word:
+```json
+      "show-detailed-module-info": "Klicken Sie auf das Informationssymbol um mehr Informationen zu {{module_type, singular-demonstrative-pronoun}} anzuzeigen."
+```
+So an extra form needs to be added:
+```json
+    "module-type-bible_singular-demonstrative-pronoun": "die Bibelübersetzung",
+    "module-type-dict_singular-demonstrative-pronoun": " das Wörterbuch",
+```
+
+### Translating Translations and Dictionary Assistant
+
+The Assistant for installing and removing modules is a crucial part of the onboarding process for new users. Please keep in mind new non-technical users and try to clearly communicate the idea behind phrase versus literal translation. Avoid using technical terms such as "module" unless there no way around it ("repository" is unavoidable). As the process of installation is the same for Bible translations and Dictionaries, `{{module_type}}` is used in place of the appropriate word in the translation. Please note that `{{module_type}}` is using word forms as mentioned in the previous section. Additionally, changing case is available as an additional parameter. I.e. use `{{module_type, capitalize}}` to capitalize only the first letter of the first word. Or use `title-case` to capitalize the first letter of each word. There is no lowercase function, so the initial word form should be lowercase if there are rules about that in your language. 
+
+Please, feel free to add your suggestions in the (Discussions)[https://github.com/ezra-bible-app/ezra-bible-app/discussions].
+
 ### Translating emoji categories
 
 Emojis are standardized in [Unicode](http://unicode.org/emoji/charts/full-emoji-list.html). Their descriptions/annotations for searching are available in multiple languages via [CLDR](https://unicode-org.github.io/cldr-staging/charts/latest/annotations/index.html). This is used to assemble an emoji list automatically in any locale. 
