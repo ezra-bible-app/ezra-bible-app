@@ -105,20 +105,18 @@ class AssistantStepsAddModules extends HTMLElement {
     var addModuleAssistantContainer = this.querySelector('#module-settings-assistant-add');
     var $addModuleAssistantContainer = $(addModuleAssistantContainer);
 
-    var events = this._jQueryStepsInitialized ? {} : {
-      onStepChanging: (event, currentIndex, newIndex) => this._addModuleAssistantStepChanging(event, currentIndex, newIndex),
-      onStepChanged: async (event, currentIndex, priorIndex) => this._addModuleAssistantStepChanged(event, currentIndex, priorIndex),
-      onFinishing: () => assistantController.isInstallCompleted(),
-      onFinished: () => this._addModuleAssistantFinished(),
-    };
-  
+    assistantHelper.unbindJquerySteps($addModuleAssistantContainer);
+
     $addModuleAssistantContainer.steps({
-      ...events,
       headerTag: "h3",
       bodyTag: "section",
       contentContainerTag: "module-settings-assistant-add",
       autoFocus: true,
       stepsOrientation: 1,
+      onStepChanging: (event, currentIndex, newIndex) => this._addModuleAssistantStepChanging(event, currentIndex, newIndex),
+      onStepChanged: async (event, currentIndex, priorIndex) => this._addModuleAssistantStepChanged(event, currentIndex, priorIndex),
+      onFinishing: () => assistantController.isInstallCompleted(),
+      onFinished: () => this._addModuleAssistantFinished(),
       labels: {
         cancel: i18n.t("general.cancel"),
         finish: i18n.t("general.finish"),
@@ -152,6 +150,7 @@ class AssistantStepsAddModules extends HTMLElement {
     } else if (currentIndex == REPOSITORIES_INDEX && newIndex == MODULES_INDEX) { // Changing from Repositories to Modules 
       return assistantController.get('selectedRepositories').size > 0;
     } else if (currentIndex == MODULES_INDEX && newIndex == INSTALL_INDEX) { // Changing from Modules to Installation
+      console.log(assistantController.get('selectedModules'), assistantController.get('selectedModules').size > 0);
       return assistantController.get('selectedModules').size > 0;
     } else if (currentIndex == INSTALL_INDEX && newIndex != INSTALL_INDEX) {
       return false;
