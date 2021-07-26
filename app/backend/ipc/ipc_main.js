@@ -177,7 +177,11 @@ class IpcMain {
 
   async electronIpcMessage(channel, message) {
     if (this._mainWindow != null) {
-      return this._mainWindow.webContents.send(channel, message);
+      try {
+        return this._mainWindow.webContents.send(channel, message);
+      } catch (e) {
+        return undefined;
+      }
     }
   }
 
