@@ -80,7 +80,6 @@ class AssistantStepsAddModules extends HTMLElement {
   constructor() {
     super();
     this._initialized = false;
-    this._jQueryStepsInitialized = false;
   }
 
   async connectedCallback() {
@@ -100,23 +99,23 @@ class AssistantStepsAddModules extends HTMLElement {
 
   async startModuleAssistantSteps() {
     this.show();
-    this._resetModuleAssistantContent();
+    
+    var moduleAssistantStepsContainer = this.querySelector('#module-settings-assistant-add');
+    
+    assistantController.resetRepositoryUpdateSubscribers();
+    assistantHelper.resetModuleAssistantContent(moduleAssistantStepsContainer, templateAddSteps.content.cloneNode(true));
+    assistantHelper.localizeContainer(moduleAssistantStepsContainer, assistantController.get('moduleType'));
 
-    var addModuleAssistantContainer = this.querySelector('#module-settings-assistant-add');
-    var $addModuleAssistantContainer = $(addModuleAssistantContainer);
-
-    assistantHelper.unbindJquerySteps($addModuleAssistantContainer);
-
-    $addModuleAssistantContainer.steps({
+    $(moduleAssistantStepsContainer).steps({
       headerTag: "h3",
       bodyTag: "section",
       contentContainerTag: "module-settings-assistant-add",
       autoFocus: true,
       stepsOrientation: 1,
-      onStepChanging: (event, currentIndex, newIndex) => this._addModuleAssistantStepChanging(event, currentIndex, newIndex),
-      onStepChanged: async (event, currentIndex, priorIndex) => this._addModuleAssistantStepChanged(event, currentIndex, priorIndex),
+      onStepChanging: (event, currentIndex, newIndex) => this._stepChanging(event, currentIndex, newIndex),
+      onStepChanged: async (event, currentIndex, priorIndex) => this._stepChanged(event, currentIndex, priorIndex),
       onFinishing: () => assistantController.isInstallCompleted(),
-      onFinished: () => this._addModuleAssistantFinished(),
+      onFinished: () => this._stepsFinished(),
       labels: {
         cancel: i18n.t("general.cancel"),
         finish: i18n.t("general.finish"),
@@ -124,33 +123,21 @@ class AssistantStepsAddModules extends HTMLElement {
         previous: i18n.t("general.previous")
       }
     });
-    this._jQueryStepsInitialized = true;
 
     // jQuery.steps() is messing up with DOM :( we need to reassign step components
-    this._setupSteps(addModuleAssistantContainer);
+    this._setupSteps(moduleAssistantStepsContainer);
 
     if (assistantController.get('reposUpdated')) {
       await assistantController.notifyRepositoriesAvailable();
     }
   }
 
-  _resetModuleAssistantContent() {
-    assistantController.resetRepositoryUpdateSubscribers();
-
-    var moduleAssistantStepsContainer = this.querySelector('#module-settings-assistant-add');
-    moduleAssistantStepsContainer.innerHTML = '';
-
-    moduleAssistantStepsContainer.appendChild(templateAddSteps.content.cloneNode(true));
-    assistantHelper.localizeContainer(moduleAssistantStepsContainer, assistantController.get('moduleType'));
-  }
-
-  _addModuleAssistantStepChanging(event, currentIndex, newIndex) {
+  _stepChanging(event, currentIndex, newIndex) {
     if (currentIndex == LANGUAGES_INDEX && newIndex == REPOSITORIES_INDEX) { // Changing from Languages to Repositories
       return assistantController.get('selectedLanguages').size > 0;
     } else if (currentIndex == REPOSITORIES_INDEX && newIndex == MODULES_INDEX) { // Changing from Repositories to Modules 
       return assistantController.get('selectedRepositories').size > 0;
     } else if (currentIndex == MODULES_INDEX && newIndex == INSTALL_INDEX) { // Changing from Modules to Installation
-      console.log(assistantController.get('selectedModules'), assistantController.get('selectedModules').size > 0);
       return assistantController.get('selectedModules').size > 0;
     } else if (currentIndex == INSTALL_INDEX && newIndex != INSTALL_INDEX) {
       return false;
@@ -159,7 +146,7 @@ class AssistantStepsAddModules extends HTMLElement {
     return true;
   }
 
-  async _addModuleAssistantStepChanged(event, currentIndex, priorIndex) {
+  async _stepChanged(event, currentIndex, priorIndex) {
     if (priorIndex == LANGUAGES_INDEX) {
       assistantController.saveSelectedLanguages();
     } else if (priorIndex == REPOSITORIES_INDEX) {
@@ -179,7 +166,7 @@ class AssistantStepsAddModules extends HTMLElement {
     }
   }
 
-  async _addModuleAssistantFinished() {
+  async _stepsFinished() {
     $('#module-settings-assistant').dialog('close');
     assistantController.init('installedModules', await app_controller.translation_controller.getInstalledModules());
 

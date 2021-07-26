@@ -57,7 +57,6 @@ class AssistantStepsRemoveModules extends HTMLElement {
   constructor() {
     super();
     this._initialized = false;
-    this._jQueryStepsInitialized = false;
   }
 
   async connectedCallback() {
@@ -82,25 +81,23 @@ class AssistantStepsRemoveModules extends HTMLElement {
 
   async startModuleAssistantSteps() {
     this.show();
-    this._resetModuleAssistantContent();
 
     var moduleAssistantStepsContainer = this.querySelector('#module-settings-assistant-remove');
-    var $moduleStepsAssistantContainer = $(moduleAssistantStepsContainer);
 
-    var events = this._jQueryStepsInitialized ? {} : {
-      onStepChanging: (event, currentIndex, newIndex) => this._stepChanging(event, currentIndex, newIndex),
-      onStepChanged: async (event, currentIndex, priorIndex) => this._stepChanged(event, currentIndex, priorIndex),
-      onFinishing: () => assistantController.isInstallCompleted(),
-      onFinished: () => this._finished(),
-    };
+    assistantController.resetRepositoryUpdateSubscribers();
+    assistantHelper.resetModuleAssistantContent(moduleAssistantStepsContainer, templateSteps.content.cloneNode(true));
+    assistantHelper.localizeContainer(moduleAssistantStepsContainer, assistantController.get('moduleType'));
 
-    $moduleStepsAssistantContainer.steps({
-      ...events,
+    $(moduleAssistantStepsContainer).steps({
       headerTag: "h3",
       bodyTag: "section",
       contentContainerTag: "module-settings-assistant-remove",
       autoFocus: true,
       stepsOrientation: 1,
+      onStepChanging: (event, currentIndex, newIndex) => this._stepChanging(event, currentIndex, newIndex),
+      onStepChanged: async (event, currentIndex, priorIndex) => this._stepChanged(event, currentIndex, priorIndex),
+      onFinishing: () => assistantController.isInstallCompleted(),
+      onFinished: () => this._finished(),
       labels: {
         cancel: i18n.t("general.cancel"),
         finish: i18n.t("general.finish"),
@@ -108,20 +105,11 @@ class AssistantStepsRemoveModules extends HTMLElement {
         previous: i18n.t("general.previous")
       }
     });
-    this._jQueryStepsInitialized = true;
 
     // jQuery.steps() is messing up with DOM :( we need to reassign step components
     this._setupSteps(moduleAssistantStepsContainer);
 
     await this.modulesStep.listModules();
-  }
-
-  _resetModuleAssistantContent() {
-    var moduleAssistantStepsContainer = this.querySelector('#module-settings-assistant-remove');    
-    moduleAssistantStepsContainer.innerHTML = '';
-    
-    moduleAssistantStepsContainer.appendChild(templateSteps.content.cloneNode(true));
-    assistantHelper.localizeContainer(moduleAssistantStepsContainer, assistantController.get('moduleType'));
   }
 
   _stepChanging(event, currentIndex, newIndex) {

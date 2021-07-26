@@ -41,18 +41,21 @@ module.exports.unlockDialog = function (elementId) {
   $('.module-assistant-dialog').find('.ui-dialog-titlebar-close').show();
 };
 
-module.exports.unbindJquerySteps = function ($stepsContainer) {
+module.exports.resetModuleAssistantContent = function (container, htmlTemplate) {
+  container.innerHTML = '';
+
+  const $container = $(container);
+
   // light version of $.fn.steps('destroy')
-
-  const eventNamespace = $stepsContainer.data("eventNamespace");
-
+  const eventNamespace = $container.data("eventNamespace");
   if (eventNamespace) {
     // Remove virtual data objects from the wizard
-    $stepsContainer.unbind(eventNamespace).removeData("uid").removeData("options")
+    $container.unbind(eventNamespace).removeData("uid").removeData("options")
       .removeData("state").removeData("steps").removeData("eventNamespace")
       .find(".actions a").unbind(eventNamespace);
   }
 
+  container.appendChild(htmlTemplate);
 };
 
 module.exports.sortByText = function (strA, strB) {
