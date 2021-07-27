@@ -35,7 +35,8 @@
             "FunctionExpression": {"parameters": "first"},
             "CallExpression": {"arguments": "first"},
             "ArrayExpression": "first",
-            "ObjectExpression": "first" 
+            "ObjectExpression": "first",
+            "ignoreComments": true 
         }],
         // "quotes": ["warn", "single"], // commented because of to many errors
         "semi": ["warn", "always"], // can be error (default) to enforce the rule
