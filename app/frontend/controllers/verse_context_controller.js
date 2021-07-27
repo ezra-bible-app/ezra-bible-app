@@ -26,7 +26,12 @@ class VerseContextController {
   }
 
   initButtonEvents() {
-    this.getButton().bind('click', async () => {
+    var button = this.getButton();
+
+    button.unbind('click');
+    button.bind('click', async (event) => {
+      event.stopPropagation();
+
       if (this.isButtonEnabled()) {
         await this.handleButtonClick();
       }
@@ -173,16 +178,26 @@ class VerseContextController {
     return $('.show-context-button');
   }
 
+  getAllButtons() {
+    return document.getElementsByClassName('show-context-button');
+  }
+
   isButtonEnabled() {
     return !(this.getButton().hasClass('ui-state-disabled'));
   }
 
   enableContextButton() {
-    this.getButton().removeClass('ui-state-disabled');
+    var allButtons = this.getAllButtons();
+    for (let button of allButtons) {
+      button.classList.remove('ui-state-disabled');
+    };
   }
 
   disableContextButton() {
-    this.getButton().addClass('ui-state-disabled');
+    var allButtons = this.getAllButtons();
+    for (let button of allButtons) {
+      button.classList.add('ui-state-disabled');
+    };
   }
 }
 

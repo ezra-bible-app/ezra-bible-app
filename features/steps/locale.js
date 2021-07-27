@@ -33,7 +33,7 @@ When('I change to the {string} locale', async function (localeNative) {
 
 Then('the {interface_element} text is {string}', async function(selector, text) {
    const element = await spectronHelper.getWebClient().$(selector);
-   const elementText = await element.getText();
+   const elementText = await element.getAttribute("innerText");
    
    expect(elementText, `${selector} text doesn't match`).to.equal(text);
    await spectronHelper.sleep(500);

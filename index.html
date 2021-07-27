@@ -73,7 +73,6 @@
       <div class="bounce3"></div>
     </div>
     <div id="loading-subtitle" style="display: none; clear: both; padding-top: 1em; font-size: 70%;">
-      Starting app
     </div>
   </div>
 
@@ -82,11 +81,15 @@
 
     <div id="app-container">
       <main class="content">
-        <div id="book-selection-menu" class="verse-selection-menu"></div>
+        <div id="book-selection-menu" class="verse-selection-menu">
+          <div id="book-selection-menu-book-list"></div>
+          <div id="book-selection-menu-chapter-list">
+          </div>
+        </div>
         <div id="tag-selection-menu" class="verse-selection-menu"></div>
         <div id="module-search-menu" class="module-search-menu"></div>
         <div id="display-options-menu" class="display-options-menu"></div>
-        <div id="module-settings-assistant" style="display: none;"></div>
+        <module-assistant></module-assistant>
         <div id="tag-assignment-menu" class="verse-selection-menu"></div>
 
         <div id="permissions-box">
@@ -114,7 +117,7 @@
             <div id="dictionary-info-box-breadcrumbs"></div>
             <div id="dictionary-info-box-content"></div>
           </div>
-        </div>        
+        </div>
       </section>
     </div>
   </div>

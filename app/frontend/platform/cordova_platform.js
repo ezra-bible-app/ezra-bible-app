@@ -18,6 +18,7 @@
 
 const IpcGeneral = require('../ipc/ipc_general.js');
 const IpcI18n = require('../ipc/ipc_i18n.js');
+const i18nController = require('../controllers/i18n_controller.js');
 
 /**
  * This class controls Cordova platform specific functionality and it also contains the entry point to startup on Cordova (init):
@@ -57,6 +58,18 @@ class CordovaPlatform {
 
       this.startNodeJsEngine();
     }, false);
+  }
+
+  getAndroidVersion() {
+    var userAgent = navigator.userAgent.toLowerCase(); 
+    var match = userAgent.match(/android\s([0-9\.]*)/i);
+    var version = match ? match[1] : undefined;
+
+    if (version !== undefined) {
+      version = parseInt(version, 10);
+    }
+
+    return version;
   }
 
   async hasPermission() {
@@ -214,6 +227,13 @@ class CordovaPlatform {
     });
   }
 
+  isAndroidWithScopedStorage() {
+    var androidVersion = this.getAndroidVersion();
+    const FIRST_ANDROID_VERSION_WITH_SCOPED_STORAGE = 11;
+
+    return androidVersion >= FIRST_ANDROID_VERSION_WITH_SCOPED_STORAGE;
+  }
+
   async startNodeJsEngine() {
     var isDebug = await this.isDebug();
 
@@ -229,14 +249,21 @@ class CordovaPlatform {
 
     `, async () => {
 
-      uiHelper.updateLoadingSubtitle("Initializing i18n");
+      uiHelper.updateLoadingSubtitle("cordova.init-i18n", "Initializing i18n");
 
       window.ipcI18n = new IpcI18n();
-      await startup.initI18N();
+      await i18nController.initI18N();
+
 
       this.hasPermission().then((result) => {
-        if (result == true) {
-          this.initPersistenceAndStart();
+        let isScopedStorage = this.isAndroidWithScopedStorage();
+        if (isScopedStorage) {
+          var version = this.getAndroidVersion();
+          console.log(`Android ${version} with scoped storage! Using internal storage ...`);
+        }
+
+        if (result == true || isScopedStorage) {
+          this.initPersistenceAndStart(isScopedStorage);
         } else {
           this.showPermissionInfo();
         }
@@ -246,14 +273,14 @@ class CordovaPlatform {
     });
   }
 
-  async initPersistenceAndStart() {
+  async initPersistenceAndStart(isScopedStorage=false) {
     window.ipcGeneral = new IpcGeneral();
 
-    uiHelper.updateLoadingSubtitle("Initializing SWORD");
-    await ipcGeneral.initPersistentIpc();
+    uiHelper.updateLoadingSubtitle("cordova.init-sword", "Initializing SWORD");
+    await ipcGeneral.initPersistentIpc(isScopedStorage);
 
-    uiHelper.updateLoadingSubtitle("Initializing database");
-    await ipcGeneral.initDatabase();
+    uiHelper.updateLoadingSubtitle("cordova.init-database", "Initializing database");
+    await ipcGeneral.initDatabase(isScopedStorage);
 
     await startup.initApplication();
   }

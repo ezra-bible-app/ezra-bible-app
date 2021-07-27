@@ -16,6 +16,17 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+:root {
+  --accent-color: #2779AA;
+  --background-color: #f2f5f7;
+  --widget-bg-color: #eeeeee;
+  --text-color: #362b36;
+}
+:root body.darkmode--activated {
+  --background-color: #1e1e1e;
+  --widget-bg-color: #1e1e1e;
+  --text-color: #cccccc;
+}
 .bold {
   font-weight: bold;
 }
@@ -46,14 +57,11 @@ body {
      Instead we use a scrollbar for individual components within the window. */
   overflow: hidden;
   touch-action: none;
-}
-
-body.darkmode--activated {
-  background-color: #1e1e1e !important;
+  background-color: var(--background-color);
 }
 
 .darkmode-layer {
-  background-color: #1e1e1e !important;
+  background-color: var(--background-color) !important;
   mix-blend-mode: unset !important;
 }
 
@@ -82,6 +90,10 @@ h2 {
   font-size: 1.2em;
   margin-left: 0.5em;
   clear: both;
+}
+
+h2:nth-of-type(1) {
+  padding-top: 0;
 }
 
 .ezra-dialog h2 {
@@ -185,7 +197,7 @@ h2 {
   overflow-y: scroll;*/
 }
 
-.verse-list {
+.verse-list:not(.verse-list-with-section-titles) {
   padding-top: 0.5em;
 }
 
@@ -237,7 +249,7 @@ h2 {
 }
 
 .darkmode--activated .verse-reference {
-  color: #cccccc;
+  color: var(--text-color);
 }
 
 .verse-reference-content {
@@ -295,7 +307,7 @@ h2 {
 
 .darkmode--activated .tag {
   border: 0px;
-  color: #cccccc;
+  color: var(--text-color);
   background-color: darkslategray;
 }
 
@@ -484,7 +496,7 @@ h2 {
 
 .verse-reference .visible,
 .darkmode--activated .verse-reference .visible {
-  color: #2779AA;
+  color: var(--accent-color);
   opacity: 1;
   /*visibility: visible;*/
 }
@@ -526,7 +538,7 @@ main.content {
 }
 
 .darkmode--activated .ui-widget-content {
-  color: #cccccc;
+  color: var(--text-color);
 }
 
 
@@ -547,73 +559,6 @@ main.content {
   display: none;
 }
 
-#module-settings-assistant {
-  user-select: none;
-}
-
-#module-settings-assistant-init {
-  padding-top: 2em;
-  text-align: center;
-}
-
-#module-settings-assistant-add,
-#module-settings-assistant-add .content {
-  min-height: 570px;
-}
-
-#module-settings-assistant .label {
-  margin-left: 0.5em;
-  cursor: default;
-}
-
-.Android #module-settings-assistant input[type="checkbox"] {
-  float: left;
-  margin-right: 0.5em;
-}
-
-#module-settings-assistant .disabled {
-  color: gray;
-}
-
-#module-settings-assistant .disabled-label {
-  margin-left: 0.5em;
-  color: grey;
-}
-
-#module-settings-assistant section.scrollable,
-#module-settings-assistant div.scrollable {
-  overflow-y: scroll;
-}
-
-#module-list {
-  height: 100%;
-  width: 45%;
-  float: left;
-}
-
-#remove-module-list {
-  overflow-y: scroll;
-  height: 75%;
-}
-
-#remove-module-list h2 {
-  margin-left: 0;
-}
-
-#module-info {
-  height: 100%;
-  padding: 1em;
-}
-
-.selectable-translation-module {
-  text-indent: -20px;
-  padding-left: 20px;
-}
-
-.Android .selectable-translation-module {
-  text-indent: inherit;
-}
-
 #display-options-menu {
   padding-top: 0.5em;
   width: 40em;
@@ -631,9 +576,60 @@ main.content {
   border-top: 1px solid #DDDDDD;
 }
 
+#book-selection-menu-book-list, #book-selection-menu-chapter-list {
+  padding-left: 0.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+#book-selection-menu-chapter-list {
+  display: none;
+  padding-left: 1em;
+  padding-right: 1em;
+  width: 34em;
+  min-height: 20em;
+  max-height: 52em;
+  overflow-y: auto;
+}
+
+@media only screen and (min-width: 770px) {
+  #book-selection-menu-chapter-list {
+    width: 40.25em;
+    height: 26.5em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+}
+
+#book-selection-menu-chapter-list h2 {
+  padding-top: 0;
+  margin-bottom: 0.5em;
+}
+
+#book-selection-menu-chapter-list #chapter-list-chapters {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+#book-selection-menu-chapter-list a {
+  width: 2em;
+  height: 2.5em;
+  line-height: 2.5em;
+  flex: 0 0 2.8em;
+  text-align: center;
+  color: black;
+}
+
+@media only screen and (min-width: 770px) {
+  #book-selection-menu-chapter-list a {
+    flex: 0 0 3.3em;
+  }
+}
+
 .book-list-column {
   float: left;
-  width: 10em;
+  width: 10.25em;
   list-style-type: none;
   padding: 0.8em;
   padding-bottom: 0;
@@ -676,7 +672,7 @@ main.content {
 }
 
 .verse-list-menu .focused-button {
-  border: 1px dashed #2779aa;
+  border: 1px dashed var(--accent-color);
 }
 
 .fullscreen-button {
@@ -776,21 +772,22 @@ main.content {
 .book-available a:link,
 .book-available a:hover,
 .book-available a:visited,
-.book-available a:focus {
+.book-available a:focus
+#book-selection-menu-chapter-list a:link,
+#book-selection-menu-chapter-list a:hover,
+#book-selection-menu-chapter-list a:visited,
+#book-selection-menu-chapter-list a:focus {
   color: black;
-}
-
-.book-unavailable a:link,
-.book-unavailable a:hover,
-.book-unavailable a:visited,
-.book-unavailable a:focus {
-  color: grey;
 }
 
 .book-list-column li a:link,
 .book-list-column li.book-available a:visited,
 .book-list-column li.book-available a:hover,
-.book-list-column li.book-available a:focus {
+.book-list-column li.book-available a:focus,
+#book-selection-menu-chapter-list a:link,
+#book-selection-menu-chapter-list a:visited,
+#book-selection-menu-chapter-list a:hover,
+#book-selection-menu-chapter-list a:focus {
   text-decoration: none;
   cursor: default;
   border: 1px solid white;
@@ -798,28 +795,40 @@ main.content {
   margin: 1px;
 }
 
-.darkmode--activated .book-list-column li a:link,
-.darkmode--activated .book-list-column li.book-available a:visited,
-.darkmode--activated .book-list-column li.book-available a:hover,
-.darkmode--activated .book-list-column li.book-available a:focus {
-  border: 1px;
-  color: #cccccc;
-}
-
-.darkmode--activated .book-unavailable a:link,
-.darkmode--activated .book-unavailable a:hover,
-.darkmode--activated .book-unavailable a:visited,
-.darkmode--activated .book-unavailable a:focus {
-  color: grey;
-}
-
 .book-list-column li.book-available a:link,
-.book-list-column li.book-available a:visited {
+.book-list-column li.book-available a:visited,
+#book-selection-menu-chapter-list a:link,
+#book-selection-menu-chapter-list a:visited {
   cursor: pointer;
 }
 
+.darkmode--activated .book-list-column li a:link,
+.darkmode--activated .book-list-column li.book-available a:visited,
+.darkmode--activated .book-list-column li.book-available a:hover,
+.darkmode--activated .book-list-column li.book-available a:focus,
+.darkmode--activated #book-selection-menu-chapter-list a:link,
+.darkmode--activated #book-selection-menu-chapter-list a:visited,
+.darkmode--activated #book-selection-menu-chapter-list a:hover,
+.darkmode--activated #book-selection-menu-chapter-list a:focus {
+  border: 1px;
+  color: var(--text-color);
+}
+
+li.book-unavailable a:link,
+li.book-unavailable a:hover,
+li.book-unavailable a:visited,
+li.book-unavailable a:focus,
+.darkmode--activated li.book-unavailable a:link,
+.darkmode--activated li.book-unavailable a:hover,
+.darkmode--activated li.book-unavailable a:visited,
+.darkmode--activated li.book-unavailable a:focus {
+  color: grey;
+}
+
 .book-list-column li.book-available a:hover,
-.book-list-column li.book-available a:focus {
+.book-list-column li.book-available a:focus,
+#book-selection-menu-chapter-list a:hover,
+#book-selection-menu-chapter-list a:focus {
   /*text-decoration: underline;*/
   border: 1px solid #74B2E2;
   margin: 1px;
@@ -829,7 +838,9 @@ main.content {
 }
 
 .darkmode--activated .book-list-column li.book-available a:hover,
-.darkmode--activated .book-list-column li.book-available a:focus {
+.darkmode--activated .book-list-column li.book-available a:focus,
+.darkmode--activated #book-selection-menu-chapter-list a:hover,
+.darkmode--activated #book-selection-menu-chapter-list a:focus {
   background: none;
   background-color: #00396a;
 }
@@ -933,7 +944,6 @@ main.content {
 }
 
 .select-all-search-results-button,
-#module-settings-assistant-init button,
 #start-module-search-button {
   margin-left: 0.8em;
   height: 2.2em;
@@ -967,11 +977,6 @@ main.content {
   float: left;
 }
 
-.bible-module-info {
-  cursor: pointer;
-  text-decoration: underline;
-}
-
 .switch-label,
 .tag-select-label,
 .module-search-label {
@@ -985,7 +990,7 @@ main.content {
 
 .temporary-help {
   display: none;
-  background-color: #F2F5F7;
+  background-color: var(--background-color);
   z-index: 999;
   position: fixed;
 }
@@ -1059,9 +1064,7 @@ main.content {
   display: none;
   font-style: italic;
   line-height: 1.5em;
-  margin-top: 1em;
-  margin-bottom: 1em;
-  margin-left: 0.5em;
+  margin: 1em;
 }
 
 .verse-list-with-section-titles .chapter-header {
@@ -1145,7 +1148,7 @@ main.content {
 }
 
 .darkmode--activated #tag-selection-menu {
-  color: #cccccc;
+  color: var(--text-color);
 }
 
 #tag-assignment-menu-filter {
@@ -1168,7 +1171,7 @@ main.content {
   border-top: 1px solid lightgrey;
   clear: both;
   margin-top: 2em;
-  height: 440px;
+  height: 450px;
   overflow-y: scroll;
 }
 
@@ -1184,10 +1187,10 @@ main.content {
   margin-bottom: 6em;
 }
 
-@media only screen and (max-height: 780px) {
+@media only screen and (max-height: 1024px) {
   #tag-assignment-menu-taglist,
   #tag-assignment-menu-taglist-overlay {
-    height: 220px;
+    height: 300px;
   }
 }
 
@@ -1221,11 +1224,11 @@ main.content {
 .darkmode--activated .verse-selection-menu,
 .darkmode--activated #display-options-menu {
   background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat;
-  color: #cccccc;
+  color: var(--text-color);
 }
 
 .darkmode--activated .verse-selection-menu span {
-  color: #cccccc;
+  color: var(--text-color);
 }
 
 #tag-selection-taglist-global,
@@ -1371,8 +1374,8 @@ main.content {
 }
 
 .darkmode--activated .tab-search {
-  background-color: #1e1e1e;
-  color: #cccccc;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .tab-search-form, .tab-search-options {
@@ -1393,7 +1396,7 @@ main.content {
 .darkmode--activated input,
 .darkmode--activated .tab-search-type,
 .darkmode--activated .tab-search-is-case-sensitive {
-  background-color: #cccccc;
+  background-color: var(--text-color);
 }
 
 .tab-search-input:focus {
@@ -1505,14 +1508,6 @@ s {
   color: lightgreen;
 }
 
-#module-feature-filter label {
-  margin-right: 1em;
-}
-
-.Android #module-feature-filter label {
-  float: left;
-}
-
 .progress-bar {
   margin-top: 1em;
   height: 2em;
@@ -1533,6 +1528,7 @@ s {
   top: 4px;
   font-weight: bold;
   text-shadow: 1px 1px 0 #fff;
+  transform: translateX(-50%);
 }
 
 .darkmode--activated .progress-label {
@@ -1611,7 +1607,7 @@ s {
 }
 
 .sword-note-marker {
-  color: #2779AA;
+  color: var(--accent-color);
 }
 
 .sword-xref-marker {
@@ -1659,17 +1655,44 @@ s {
 }
 
 .info-tabs {
-  height: 390px;
+  height: 430px;
   overflow-y: scroll;
 }
 
+.info-tab-section-title {
+  padding-top: 1em;
+  width: 24em;
+}
+
+#info-table-shortcuts{
+  width: 100%;
+  padding: 10px;
+}
+
+#info-table-shortcuts th{
+  text-align:left;
+}
+
+
+code {
+  padding: .2em .4em;
+  margin: 0;
+  font-size: 90%;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  background-color: slategrey;
+  color: lightblue;
+  border-radius: 6px;
+}
+
 .text-loader {
-  float: right;
+  position: fixed;
+  right: 0;
+  margin-right: 1.5em;
 }
 
 .darkmode--activated p,
 .darkmode--activated .verse-list-container {
-  color: #cccccc;
+  color: var(--text-color);
 }
 
 .darkmode--activated .logo {
@@ -1678,8 +1701,8 @@ s {
 
 .darkmode--activated section {
   background: none;
-  background-color: #1e1e1e;
-  color: #cccccc;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .darkmode--activated .assistant>.steps .disabled a,

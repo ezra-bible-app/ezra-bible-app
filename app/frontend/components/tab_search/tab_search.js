@@ -146,7 +146,7 @@ class TabSearch {
     this.searchForm.hide();
     uiHelper.resizeVerseList();
   }
-
+  
   focus() {
     this.inputField.focus();
   }

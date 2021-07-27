@@ -90,24 +90,24 @@ class Startup {
 
     const fs = require('fs');
 
-    require('./components/config_option.js');
-    require('./components/locale_switch.js');
+    require('./components/options_menu/config_option.js');
+    require('./components/options_menu/select_option.js');
+    require('./components/options_menu/locale_switch.js');
+    require('./components/module_assistant/module_assistant.js');
 
     var bookSelectionMenu = fs.readFileSync('html/book_selection_menu.html');
     var tagSelectionMenu = fs.readFileSync('html/tag_selection_menu.html');
     var tagAssignmentMenu = fs.readFileSync('html/tag_assignment_menu.html');
     var bibleBrowserToolbox = fs.readFileSync('html/bible_browser_toolbox.html');
-    var moduleSettingsAssistant = fs.readFileSync('html/module_settings_assistant.html');
     var moduleSearchMenu = fs.readFileSync('html/module_search_menu.html');
     var displayOptionsMenu = fs.readFileSync('html/display_options_menu.html');
     var verseListTabs = fs.readFileSync('html/verse_list_tabs.html');
     var boxes = fs.readFileSync('html/boxes.html');
-
-    document.getElementById('book-selection-menu').innerHTML = bookSelectionMenu;
+  
+    document.getElementById('book-selection-menu-book-list').innerHTML = bookSelectionMenu;
     document.getElementById('tag-selection-menu').innerHTML = tagSelectionMenu;
     document.getElementById('tag-assignment-menu').innerHTML = tagAssignmentMenu;
     document.getElementById('bible-browser-toolbox').innerHTML = bibleBrowserToolbox;
-    document.getElementById('module-settings-assistant').innerHTML = moduleSettingsAssistant;
     document.getElementById('module-search-menu').innerHTML = moduleSearchMenu;
     document.getElementById('display-options-menu').innerHTML = displayOptionsMenu;
     document.getElementById('verse-list-tabs').innerHTML = verseListTabs;
@@ -235,13 +235,20 @@ class Startup {
     loadingIndicator.show();
     loadingIndicator.find('.loader').show();
 
-    uiHelper.updateLoadingSubtitle("Initializing user interface");
+    uiHelper.updateLoadingSubtitle("cordova.init-user-interface", "Initializing user interface");
 
     console.log("Initializing IPC clients ...");
     await this.initIpcClients();
 
     console.log("Initializing i18n ...");
-    await i18nController.initI18N();
+    if (this._platformHelper.isElectron()) {
+      await i18nController.initI18N();
+    } else if (this._platformHelper.isCordova()) {
+      // The initI18N call already happened on Cordova, but not yet the initLocale one,
+      // because the initLocale call depends on persisting settings which can only be done now (after the permissions setup).
+      // At this point, we can write settings and can therefore call initLocale!
+      await i18nController.initLocale();
+    }
 
     console.log("Loading HTML fragments");
     this.loadHTML();
@@ -289,12 +296,12 @@ class Startup {
     await waitUntilIdle();
 
     console.log("Loading settings ...");
-    uiHelper.updateLoadingSubtitle("Loading settings");
+    uiHelper.updateLoadingSubtitle("cordova.loading-settings");
     if (this._platformHelper.isElectron() || this._platformHelper.isCordova()) {
       await app_controller.loadSettings();
     }
 
-    uiHelper.updateLoadingSubtitle("Waiting for app to get ready");
+    uiHelper.updateLoadingSubtitle("cordova.waiting-app-ready");
 
     // Wait for the UI to render, before we hide the loading indicator
     await waitUntilIdle();
@@ -309,6 +316,7 @@ class Startup {
 
     // Restore the scroll position of the first tab.
     app_controller.tab_controller.restoreScrollPosition(0);
+    // FIXME: Also highlight the last navigation element in the navigation pane and scroll to it
 
     if (this._platformHelper.isElectron()) {
       const { ipcRenderer } = require('electron');
@@ -326,6 +334,23 @@ class Startup {
       newReleaseChecker.check();
     }
   }
+
+  /** 
+   * Localize "Loading" strings early if localStorage available 
+   */
+  earlyRestoreLocalizedString() {
+    const loadingElement = document.querySelector('[i18n="general.loading"]');
+    if (loadingElement) {
+      loadingElement.textContent = i18nController.getStringForStartup("general.loading", "Loading");
+    }
+
+    const loadingSubtitleElement = document.querySelector('#loading-subtitle');
+    if (loadingSubtitleElement) {
+      loadingSubtitleElement.textContent = i18nController.getStringForStartup("cordova.starting-app", "Starting app");
+    }
+  }
+  
+  
 }
 
 module.exports = Startup;

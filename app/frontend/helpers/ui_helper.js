@@ -16,24 +16,27 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const i18nController = require('../controllers/i18n_controller.js');
 
 class UiHelper {
   constructor() {
     this.app_container_height = null;
   }
 
-  configureButtonStyles(context = null) {
+  configureButtonStyles(context=null) {
     if (context == null) {
       context = document;
-    } else {
-      var context = document.querySelector(context);
+    } else if (typeof context === 'string') {
+      context = document.querySelector(context);
+    } else if (!(context instanceof HTMLElement)) {
+      throw new Error('context should be HTMLElement, css selector string or null for the document context');
     }
   
     var buttons = context.querySelectorAll('.fg-button');
   
-    for (var i = 0; i < buttons.length; i++) {
-      var currentButton = buttons[i];
-      var currentButtonClasses = currentButton.classList;
+    for (let i = 0; i < buttons.length; i++) {
+      const currentButton = buttons[i];
+      const currentButtonClasses = currentButton.classList;
   
       if (!currentButtonClasses.contains("ui-state-disabled") && !currentButtonClasses.contains("events-configured")) {
         currentButton.addEventListener('mouseover', function(e) {
@@ -173,10 +176,10 @@ class UiHelper {
   }
 
   getMaxDialogWidth() {
-    var width = 700;
+    var width = 900;
     var windowWidth = $(window).width();
 
-    if (windowWidth > 400 && windowWidth < 700) {
+    if (windowWidth > 400 && windowWidth < width) {
       width = windowWidth - 20;
     }
 
@@ -196,10 +199,17 @@ class UiHelper {
     $('#main-content').show();
   }
 
-  updateLoadingSubtitle(text) {
-    if (platformHelper.isCordova()) {
-      $('#loading-subtitle').text(text);
+  updateLoadingSubtitle(i18nKey, fallbackText="") {
+    if (!platformHelper.isCordova()) {
+      return;
     }
+    
+    var text = i18nController.getStringForStartup(i18nKey, fallbackText);
+    if (text === fallbackText && window.i18n !== undefined && typeof window.i18n.t === 'function') {
+      text = window.i18n.t(i18nKey);
+    }
+
+    document.querySelector('#loading-subtitle').textContent = text !== i18nKey ? text : fallbackText;
   }
 
   getCurrentTextLoadingIndicator(tabIndex=undefined) {

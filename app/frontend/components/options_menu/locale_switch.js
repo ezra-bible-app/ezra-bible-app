@@ -16,9 +16,9 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { html, waitUntilIdle } = require('../helpers/ezra_helper.js');
-const i18nController = require('../controllers/i18n_controller.js');
-const i18nHelper = require('../helpers/i18n_helper.js');
+const { html, waitUntilIdle } = require('../../helpers/ezra_helper.js');
+const i18nController = require('../../controllers/i18n_controller.js');
+const i18nHelper = require('../../helpers/i18n_helper.js');
 const locales = i18nController.getAvailableLocales();
 
 const LOCALE_SELECT_WIDTH = '170px'; // FIXME: magic number that works with jQuery UI is not reliable way for constructing stable layout
@@ -64,8 +64,7 @@ const template = html`
   <div class="options-header"></div>
     <div class="locale-switch-container">
       <select name="locale-select" class="locale-select">
-        ${locales.map(code =>
-  `<option value="${code}">${i18nHelper.getLanguageName(code, true)}</option>`)}
+        ${locales.map(code => `<option value="${code}">${i18nHelper.getLanguageName(code, true)}</option>`)}
       </select>
       <div class="fg-button locale-detect ui-state-default ui-corner-right" i18n="[title]general.detect-locale-hint">
         <i class="fas fa-globe"></i><span i18n="general.detect-locale"></span>

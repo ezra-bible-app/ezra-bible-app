@@ -18,8 +18,8 @@
 
 
 /**
- * This module contains utility functions that are used througt the app
- * @module ezra_helper
+ * This module contains utility functions that are used through the app
+ * @module ezraHelper
  * @category Utility
  */
 

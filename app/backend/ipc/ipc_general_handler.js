@@ -28,12 +28,12 @@ class IpcGeneralHandler {
 
   initIpcInterface() {
     if (this._platformHelper.isCordova()) {
-      this._ipcMain.add('general_initPersistentIpc', async() => {
-        return global.main.initPersistentIpc();
+      this._ipcMain.add('general_initPersistentIpc', async(useInternalStorage=false) => {
+        return global.main.initPersistentIpc(useInternalStorage);
       });
 
-      this._ipcMain.add('general_initDatabase', async() => {
-        return global.main.initDatabase();
+      this._ipcMain.add('general_initDatabase', async(useInternalStorage=false) => {
+        return global.main.initDatabase(useInternalStorage);
       });
     }
 
@@ -115,6 +115,25 @@ class IpcGeneralHandler {
       }
 
       return bookNames;
+    });
+
+    this._ipcMain.add('general_getIpcCallStats', async() => {
+      var fullStats = global.callCounters;
+      var filteredStats = {};
+
+      for (const [key, value] of Object.entries(fullStats)) {
+        if (value > 0) {
+          filteredStats[key] = value;
+        }
+      }
+
+      return filteredStats;
+    });
+
+    this._ipcMain.add('general_resetIpcCallStats', async() => {
+      for (const [key, value] of Object.entries(global.callCounters)) {
+        global.callCounters[key] = 0;
+      }
     });
   }
 }

@@ -119,7 +119,7 @@ class NavigationPane {
       var currentTitle = allHeaderLinks[i].innerText;
 
       if (currentTitle == title) {
-        this.highlightNavElement(i + 1, false, "HEADER");
+        this.highlightNavElement(undefined, i + 1, false, "HEADER");
         break;
       }
     }
@@ -136,9 +136,15 @@ class NavigationPane {
     var scrollToNavElement = allNavElements[scrollToNavElementIndex];
     scrollToNavElement.scrollIntoView(false);
   }
+  
+  highlightLastNavElement() {
+    var currentTab = app_controller.tab_controller.getTab();
+    var lastHighlightedNavElementIndex = currentTab.getLastHighlightedNavElementIndex();
+    this.highlightNavElement(undefined, lastHighlightedNavElementIndex);
+  }
 
-  highlightNavElement(navElementNumber, onClick=false, navElementType='CHAPTER') {
-    this.currentNavigationPane = this.getCurrentNavigationPane();
+  highlightNavElement(tabIndex, navElementNumber, scrollIntoView=true, navElementType='CHAPTER') {
+    this.currentNavigationPane = this.getCurrentNavigationPane(tabIndex);
     var navElementTypeClass = null;
 
     if (navElementType == 'CHAPTER') {
@@ -163,7 +169,7 @@ class NavigationPane {
       lastHighlightedNavElementLink.removeClass('hl-nav-element');
       highlightedNavElementLink.addClass('hl-nav-element');
 
-      if (!onClick) {
+      if (scrollIntoView) {
         this.scrollNavElementIntoView(navElementIndex, this.allNavElementLinks);
       }
     }
@@ -210,9 +216,11 @@ class NavigationPane {
     var currentTranslation = currentTab.getBibleTranslationId();
     var currentBook = currentTab.getBook();
 
-    if (currentTranslation == null || currentBook == null) {
+    if (currentTranslation == null || currentBook == null || currentTab.isBookUnchanged()) {
       return;
     }
+
+    this.resetNavigationPane(tabIndex);
 
     var chapterCount = await ipcNsi.getBookChapterCount(currentTranslation, currentBook);
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
@@ -301,19 +309,27 @@ class NavigationPane {
     navigationPane[0].innerHTML = navigationPaneHtml;
   }
 
-  resetNavigationPane(tabIndex) {
+  resetNavigationPane(tabIndex, clear=true) {
     this.currentNavigationPane = this.getCurrentNavigationPane(tabIndex);
-    this.currentNavigationPane[0].innerHTML = "";
+    
+    if (clear) {
+      this.clearNavigationPane();
+    }
 
     app_controller.optionsMenu.showOrHideBookChapterNavigationBasedOnOption(tabIndex);
+  }
+
+  clearNavigationPane() {
+    if (this.currentNavigationPane != null && this.currentNavigationPane[0].childNodes.length > 1) {
+      this.currentNavigationPane[0].innerHTML = "";
+      app_controller.tab_controller.clearLastHighlightedNavElementIndex();
+    }
   }
 
   async updateNavigation(tabIndex=undefined) {
     if (tabIndex === undefined) {
       var tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     }
-
-    this.resetNavigationPane(tabIndex);
 
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentTagIdList = null;
@@ -326,9 +342,25 @@ class NavigationPane {
       currentTextType = currentTab.getTextType();
     }
 
+    if (currentTextType != 'book') {
+      this.resetNavigationPane(tabIndex);
+    } else {
+      this.resetNavigationPane(tabIndex, false);
+    }
+
     if (currentTextType == 'book') { // Update navigation based on book chapters
 
       await this.updateChapterNavigation(tabIndex);
+
+      const currentTranslationId = currentTab.getBibleTranslationId();
+      const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentTab.getBook());
+      const selectChapterBeforeLoadingOption = app_controller.optionsMenu._selectChapterBeforeLoadingOption;
+
+      if (isInstantLoadingBook && selectChapterBeforeLoadingOption.isChecked) {
+        this.goToChapter(currentTab.getChapter(), true);
+      } else {
+        this.highlightNavElement(tabIndex, currentTab.getChapter(), currentTab.isBookChanged());
+      }
 
     } else if (currentTextType == 'tagged_verses' && currentTagIdList != null) { // Update navigation based on tagged verses books
 
@@ -364,54 +396,89 @@ class NavigationPane {
     return cachedVerseListTabId;
   }
 
-  goToChapter(chapter) {
-    this.highlightNavElement(chapter, true);
+  getHighlightedChapter() {
+    var highlightedChapter = null;
 
-    var reference = '#top';
+    try {
+      var highlightedChapterElement = this.currentNavigationPane.find('.chapter-link.hl-nav-element');
+      highlightedChapter = parseInt(highlightedChapterElement.text());
+    } catch (e) {}
 
-    if (chapter > 1 || app_controller.optionsMenu._bookIntroOption.isChecked) {
-      var cachedVerseListTabId = this.getCachedVerseListTabId();
+    return highlightedChapter;
+  }
+
+  async goToChapter(chapter, scrollIntoView=false) {
+    var previouslyHighlightedChapter = this.getHighlightedChapter();
+    
+    this.highlightNavElement(undefined, chapter, scrollIntoView);
+    const currentTab = app_controller.tab_controller.getTab();
+    const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(
+      currentTab.getBibleTranslationId(),
+      currentTab.getBook()
+    );
+
+    if (currentTab.getChapter() != null && !isInstantLoadingBook && chapter != previouslyHighlightedChapter) {
+      app_controller.text_controller.loadBook(currentTab.getBook(),
+                                              currentTab.getBookTitle(),
+                                              currentTab.getReferenceBookTitle(),
+                                              false,
+                                              chapter);
+    } else {
+      this.scrollToTop(undefined, chapter);
+    }
+  }
+
+  scrollToTop(tabIndex=undefined, chapter=1) {
+    let reference = '#top';
+
+    if (chapter > 1) {
+      const cachedVerseListTabId = this.getCachedVerseListTabId(tabIndex);
       reference = '#' + cachedVerseListTabId + ' ' + chapter;
       window.location = reference;
     } else {
-      var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
+      const currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
       currentVerseListFrame[0].scrollTop = 0;
     }
   }
 
   goToSection(sectionHeaderId, sectionHeaderNumber, chapter) {
-    this.highlightNavElement(chapter, true);
-    this.highlightNavElement(sectionHeaderNumber, true, "HEADER");
+    this.highlightNavElement(undefined, chapter, true);
+    this.highlightNavElement(undefined, sectionHeaderNumber, true, "HEADER");
 
     var reference = '#' + sectionHeaderId;
     window.location = reference;
   }
 
   goToBook(book, bookNr) {
-    this.highlightNavElement(bookNr, true, "OTHER");
-
+    this.highlightNavElement(undefined, bookNr, true, "OTHER");
     var cachedVerseListTabId = this.getCachedVerseListTabId();
     var reference = '#' + cachedVerseListTabId + ' ' + book;
     window.location = reference;
   }
 
   async updateNavigationFromVerseBox(focussedElement, verseBox=undefined) {
+    var currentTab = app_controller.tab_controller.getTab();
+    const currentBook = currentTab.getBook();
+    const currentTextType = currentTab.getTextType();
+    const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(bibleTranslationId, currentBook);
+
+    if (currentTextType == 'book' && !isInstantLoadingBook) {
+      // We do not dynamically update the navigation based on versebox mouseover if we only display one chapter anyway.
+      return;
+    }
+
     if (verseBox == undefined) {
       verseBox = focussedElement.closest('.verse-box');
     }
 
-    var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
-
-    var currentTab = app_controller.tab_controller.getTab();
-    var currentBook = currentTab.getBook();
-    var currentTextType = currentTab.getTextType();
+    const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
 
     if (currentTextType == 'book' && currentBook != null) {
 
       var verseReferenceContent = verseBox.querySelector('.verse-reference-content').innerText;
       var currentChapter = app_controller.getChapterFromReference(verseReferenceContent, separator);
-      this.highlightNavElement(currentChapter);
+      this.highlightNavElement(undefined, currentChapter);
 
       var sectionTitle = "";
       if (focussedElement.classList.contains('sword-section-title')) {
@@ -431,7 +498,7 @@ class NavigationPane {
       
       var bibleBookNumber = app_controller.getVerseListBookNumber(currentBookName);
       if (bibleBookNumber != -1) {
-        this.highlightNavElement(bibleBookNumber, false, "OTHER");
+        this.highlightNavElement(undefined, bibleBookNumber, false, "OTHER");
       }
     }
   }

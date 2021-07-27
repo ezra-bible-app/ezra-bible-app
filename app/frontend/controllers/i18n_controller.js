@@ -18,7 +18,7 @@
 
 /**
  * This controller initializes the app locale at startup and updates it on demand when changing the locale
- * @module i18n_controller
+ * @module i18nController
  * @category Controller
  */
 
@@ -31,7 +31,49 @@ const jqueryI18next = require('jquery-i18next');
 const i18nextOptions = {
   debug: false,
   interpolation: {
-    escapeValue: false
+    escapeValue: false,
+    /** 
+     * adds context and format to the interpolation
+     * @example translation.json:
+     * ...
+     * term: "переклади Біблії",
+     * term_locative: "перекладах Біблії",
+     * ...
+     * message: Інформація о {{term, locative}},
+     * ...
+     */
+    format(value, format, lng) { 
+      if (value instanceof Date) {
+        return value.toLocaleDateString(lng);
+      }
+      
+      var context = format;
+      if (format) {
+        const parts = format.split(',');
+        if (parts.length > 1) {
+          context = parts.shift().trim();
+          format = parts.join(',').trim();
+        } else if (format === 'capitalize' || format === 'title-case') {
+          context = undefined;
+        }
+      }
+
+      if (value == 'BIBLE') {
+        value = "module-assistant.module-type-bible";
+      } else if (value == 'DICT') {
+        value = "module-assistant.module-type-dict";
+      }
+
+      value = i18n.t(value, {context});
+
+      if (format === 'capitalize') {
+        value = value.replace(/^\S/, (c) => c.toLocaleUpperCase());
+      } else if (format === 'title-case') {
+        value = value.replace(/\S*/g, (w) => (w.replace(/^\S/, (c) => c.toLocaleUpperCase())));
+      }
+
+      return value;
+    }
   },
   saveMissing: false,
   fallbackLng: FALLBACK_LOCALE,
@@ -74,31 +116,51 @@ module.exports.initI18N = async function() {
     parseDefaultValueFromContent: true // parses default values from content ele.val or ele.text
   });
 
+  if (platformHelper.isElectron()) {
+    await this.initLocale();
+  }
+}
+
+module.exports.initLocale = async function() {
   if (await ipcSettings.has(SETTINGS_KEY)) {
-    await i18n.changeLanguage(await ipcSettings.get(SETTINGS_KEY, FALLBACK_LOCALE));
+    let locale = await ipcSettings.get(SETTINGS_KEY, FALLBACK_LOCALE);
+
+    console.log(`Using locale ${locale}`);
+    await i18n.changeLanguage(locale);
   }
 
   // We need to save some locale strings separately, so that they are accessible at startup before i18next is available
-  preserveLocaleForStartup();
+  preserveStringsForStartup();
 
   if (platformHelper.isTest()) { // Use English for test mode
     await i18n.changeLanguage('en');
   }
 
   window.reference_separator = i18n.t('general.chapter-verse-separator');
+};
+
+function preserveStringsForStartup() {
+  if (!window.localStorage) {
+    return;
+  } 
+  
+  const localeStorage = window.localStorage;
+  const keys = ["general.loading", "cordova.starting-app", "cordova.init-i18n", "cordova.init-sword", "cordova.init-database", "cordova.init-user-interface"];
+  for(const key of keys) {
+    let translation = i18n.t(key);
+    localeStorage.setItem(key, translation);
+  }
 }
 
-function preserveLocaleForStartup() {
-  if (window.localStorage) {
-    let localeStorage = window.localStorage;
-    localeStorage.setItem('loading', i18n.t('general.loading'));
-  }
+module.exports.getStringForStartup = function(key, fallbackText) {
+  const localizedText = window.localStorage && window.localStorage.getItem(key);
+  return localizedText || fallbackText;
 }
 
 module.exports.changeLocale = async function(newLocale, saveSettings=true) {
 
   await i18n.changeLanguage(newLocale);
-  preserveLocaleForStartup();
+  preserveStringsForStartup();
 
   if (saveSettings) {
     await ipcSettings.set(SETTINGS_KEY, newLocale);
@@ -111,14 +173,14 @@ module.exports.changeLocale = async function(newLocale, saveSettings=true) {
   // Since the new locale may require more or less space vertically we need to adjust
   // the height of the app container now.
   uiHelper.resizeAppContainer();
-}
+};
 
 var localeSubscribers = [];
 module.exports.addLocaleChangeSubscriber = function(subscriberCallback) {
   if (typeof subscriberCallback === 'function') {
     localeSubscribers.push(subscriberCallback);
   }
-}
+};
 
 async function notifySubscribers(locale) {
   for (let subscriberCallback of localeSubscribers) {
@@ -129,13 +191,20 @@ async function notifySubscribers(locale) {
 module.exports.detectLocale = async function() {
   await this.changeLocale(systemLocale || FALLBACK_LOCALE, false);
   await ipcSettings.delete(SETTINGS_KEY);
-}
+};
 
+/** returns current app locale (2-letter language code) */
 module.exports.getLocale = function() {
   var locale = i18n.language;
   return locale.slice(0, 2); // just in case we got language with the region code (i.e "en-US") we want only the language code ("en")
-}
+};
 
+module.exports.getSystemLocale = () => systemLocale;
+
+/** returns detected OS locale */
+module.exports.getSystemLocale = () => systemLocale;
+
+/** returns 2-letter language code list of all available locales for the app */
 module.exports.getAvailableLocales = function() {
   return AVAILABLE_LOCALES.sort();
-}
+};

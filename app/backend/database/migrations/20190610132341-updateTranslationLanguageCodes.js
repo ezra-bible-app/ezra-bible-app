@@ -1,10 +1,9 @@
 'use strict';
 
-const LanguageMapper = require('../../../lib/language_mapper.js');
+const languageMapper = require('../../../lib/language_mapper.js');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    var languageMapper = new LanguageMapper();
 
     var query = "SELECT * FROM BibleTranslations ORDER BY languageName ASC";
 

@@ -24,7 +24,6 @@ const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
 const i18nController = require('./i18n_controller.js');
 const cacheController = require('./cache_controller.js');
-const { ipcRenderer } = require('electron');
 
 /**
  * The TabController manages the tab bar and the state of each tab.
@@ -109,6 +108,7 @@ class TabController {
 
   exitLog(logMessage) {
     if (platformHelper.isElectron()) {
+      const { ipcRenderer } = require('electron');
       ipcRenderer.send('log', logMessage);
     } else {
       console.log(logMessage);
@@ -149,6 +149,7 @@ class TabController {
 
       var copiedMetaTab = Object.assign({}, this.metaTabs[i]);
       copiedMetaTab.cachedText = this.getTabHtml(i);
+      copiedMetaTab.previousBook = null;
 
       if (copiedMetaTab.referenceVerseElementId != null) {
         copiedMetaTab.cachedReferenceVerse = this.getReferenceVerseHtml(i);
@@ -195,7 +196,7 @@ class TabController {
     var loadedTabCount = 0;
 
     for (var i = 0; i < savedMetaTabs.length; i++) {
-      var currentMetaTab = Tab.fromJsonObject(savedMetaTabs[i]);
+      var currentMetaTab = Tab.fromJsonObject(savedMetaTabs[i], i);
 
       if (!currentMetaTab.isValid()) {
         // We ignore the meta tab if it is invalid
@@ -254,15 +255,17 @@ class TabController {
 
         await app_controller.module_search_controller.populateSearchMenu(i);
 
-        var requestedBookId = -1; // all books requested
+        var searchResultBookId = -1; // all books requested
         if (app_controller.module_search_controller.searchResultsExceedPerformanceLimit(i)) {
-          requestedBookId = 0; // no books requested - only list headers at first
+          searchResultBookId = 0; // no books requested - only list headers at first
         }
-
-        await app_controller.module_search_controller.renderCurrentSearchResults(requestedBookId,
+  
+        await app_controller.module_search_controller.renderCurrentSearchResults(
+          searchResultBookId,
           i,
           undefined,
-          currentMetaTab.cachedText);
+          currentMetaTab.cachedText
+        );
 
       } else {
 
@@ -274,6 +277,8 @@ class TabController {
           currentMetaTab.cachedReferenceVerse,
           null,
           currentMetaTab.xrefs,
+          currentMetaTab.chapter,
+          true,
           i
         );
 
@@ -581,7 +586,7 @@ class TabController {
     this.getTab().setTagIdList("");
     this.getTab().setXrefs(null);
     this.getTab().setReferenceVerseElementId(null);
-    this.setCurrentTabBook(null, "", "");
+    this.setCurrentTabBook(null, "", "", null);
     this.resetCurrentTabTitle();
     if (this.persistanceEnabled) {
       await cacheController.deleteCache('tabConfiguration');
@@ -624,11 +629,16 @@ class TabController {
       tabTitle += ' [' + bibleTranslationId + ']';
     }
 
-    link.html(tabTitle);
+    var currentTitle = link.html();
+    if (tabTitle != currentTitle) {
+      link.html(tabTitle);
 
-    // Resize the current verse list.
-    // This may be necessary, because the tab bar may have wrapped after setting the title.
-    uiHelper.resizeVerseList(index);
+      if (tabTitle.length != currentTitle.length) {
+        // Resize the current verse list.
+        // This may be necessary, because the tab bar may have wrapped after setting the title.
+        uiHelper.resizeVerseList(index);
+      }
+    }
   }
 
   getTabTitle() {
@@ -646,8 +656,8 @@ class TabController {
     this.setTabTitle(currentTabTitle, bibleTranslationId);
   }
 
-  setCurrentTabBook(bookCode, bookTitle, referenceBookTitle) {
-    this.getTab().setBook(bookCode, bookTitle, referenceBookTitle);
+  setCurrentTabBook(bookCode, bookTitle, referenceBookTitle, chapter=undefined) {
+    this.getTab().setBook(bookCode, bookTitle, referenceBookTitle, chapter);
     var currentTranslationId = this.getTab().getBibleTranslationId();
 
     if (bookTitle != undefined && bookTitle != null) {
@@ -723,6 +733,12 @@ class TabController {
     } else {
       return this.metaTabs[currentTabIndex].lastHighlightedChapterIndex;
     }
+  }
+
+  clearLastHighlightedNavElementIndex() {
+    var currentTabIndex = this.getSelectedTabIndex();
+    this.metaTabs[currentTabIndex].lastHighlightedHeaderIndex = null;
+    this.metaTabs[currentTabIndex].lastHighlightedChapterIndex = null;
   }
 
   setCurrentBibleTranslationId(bibleTranslationId) {
