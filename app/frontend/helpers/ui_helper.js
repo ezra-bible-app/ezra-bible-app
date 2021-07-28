@@ -93,6 +93,8 @@ class UiHelper {
     });
   }
 
+  // FIXME: responsiveness should be done via CSS
+  // the only thing that relays on this class is .verse-notes
   adaptVerseList(verseListFrame=undefined) {
     if (verseListFrame === undefined) {
       verseListFrame = app_controller.getCurrentVerseListFrame();

@@ -429,10 +429,6 @@ h2:nth-of-type(1) {
   float: none;
 }
 
-.verse-list-frame-small-screen {
-  height: 88%;
-}
-
 .verse-list-frame-small-screen .verse-notes:not(.book-notes) {
   width: 30%;
 }
