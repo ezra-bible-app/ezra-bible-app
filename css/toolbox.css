@@ -22,8 +22,14 @@
   flex-direction: column;
   width: 30em;
   min-width: 30em;
-  padding: 0 0.5em 0 0;
+  padding: 0 1em 0 0;
   overflow: hidden;
+}
+
+#side-panel:not(.with-tags):not(.with-dictionary) {
+  width: 0 !important;
+  min-width: 0;
+  padding-right: 0;
 }
 
 #side-panel > * {
