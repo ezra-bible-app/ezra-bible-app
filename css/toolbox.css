@@ -41,6 +41,19 @@
 
 #bottom-panel {
   grid-area: bottom-panel;
+  height: 12em;
+  padding: 0 0.5em;
+}
+#bottom-panel:empty {
+  height: 0;
+}
+
+#bottom-panel > :first-child {
+  margin-top: 1em;
+}
+#bottom-panel > * {
+  height: 100%;
+  box-sizing: border-box;
   padding: 0;
 }
 

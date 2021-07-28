@@ -142,13 +142,29 @@ class UiHelper {
     var verseListTabsWidth = verseListTabs.width();
     var windowWidth = window.innerWidth;
 
+    const sidePanel = document.querySelector('#side-panel');
+    const bottomPanel = document.querySelector('#bottom-panel');
+
     if (windowWidth >= 200 && windowWidth < 1200) {
       // Automatically hide toolbar on smaller screens
-      // var currentToolBar = $('#side-panel');
-      // currentToolBar.hide();
-      // app_controller.tag_assignment_menu.moveTagAssignmentList(true);
+      sidePanel.style.display='none';
+      app_controller.tag_assignment_menu.moveTagAssignmentList(true);
+
+      // Move dictionary to bottom panel
+      const dictionary = sidePanel.querySelector('#dictionary-info-box');
+      if (dictionary) {
+        bottomPanel.appendChild(dictionary);
+      }
+      
     } else if (!cycle) {
-      app_controller.optionsMenu.showOrHideToolBarBasedOnOption(undefined);
+      sidePanel.style.display='';
+      app_controller.tag_assignment_menu.moveTagAssignmentList(false);
+
+      // Move dictionary back to side panel
+      const dictionary = bottomPanel.querySelector('#dictionary-info-box');
+      if (dictionary) {
+        sidePanel.appendChild(dictionary);      
+      }
     }
 
     if (verseListTabsWidth >= 200 && // Initially, at program start the width is very small (100) - in this
@@ -252,7 +268,7 @@ class UiHelper {
         currentElement = document.elementFromPoint(firstElementOffsetX, firstElementOffsetY + 10);
       }
 
-      if (currentElement == null) {
+      if (currentElement == null) {
         return null;
       }
 
