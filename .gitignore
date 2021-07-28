@@ -10,7 +10,7 @@ package-lock.json
 strongs_todo.txt
 .DS_Store
 complexity_metrics.html
-test_screenshot.png
+/test_*.*
 /doc
 /dist
 chromedriverlog.txt

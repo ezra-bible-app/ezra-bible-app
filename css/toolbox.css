@@ -20,25 +20,28 @@
   grid-area: side-panel;
   display: flex;
   flex-direction: column;
-  width: 30rem;
-  min-width: 30rem;
-  padding-right: 1rem;
+  width: 30em;
+  min-width: 30em;
+  padding: 0 0.5em 0 0;
+  overflow: hidden;
+}
+
+#side-panel > * {
+  width: 100%;
+  height: 0;
+  flex: 1 0 0;
+  padding: 0;
 }
 
 #bottom-panel {
   grid-area: bottom-panel;
-  padding-left: 0.5em;
-  padding-right: 0.2em;
+  padding: 0;
 }
 
 #bible-browser-toolbox {
-  width: 100%;
-  flex-grow: 1;
   /* margin-top disabled as long as we don't have a logo */
   /* margin-top: 3em; */
   z-index: 10;
-  /* only manually resize */
-  /* height: 100%; */
 }
 
 #bible-browser-toolbox ol li {
@@ -58,6 +61,7 @@
 #tags-content {
   height: 100%;
   box-sizing: border-box;
+  padding: 0;
 }
 
 .accordion-panel .ui-accordion-header {
@@ -80,18 +84,17 @@
 #dictionary-info-box {
   display: none;
   user-select: none;
-  height: 100%;
-  width: 100%;
 }
 .with-tags>#dictionary-info-box {
-  height: calc(50% - 0.5rem);
-  padding-top: 1rem;
+  margin-top: 1em;
 }
 
 #dictionary-info-box-panel {
   clear: both;
-  height: calc(100% - 3.4em) !important;
-  /* overwrite default jqueryUI Accordion */
+  height: calc(100% - 2.6em) !important;  /* overwrite default jqueryUI Accordion */
+  box-sizing: border-box;
+  padding: 0.5em;
+  margin: 0.1em 0 0 0;
 }
 
 .strongs-short-info {
@@ -117,10 +120,6 @@
   font-style: italic;
   color: grey;
   display: none;
-}
-
-#dictionary-info-box div {
-  padding: 0.5em;
 }
 
 #dictionary-info-box-header {
@@ -199,10 +198,11 @@ tr.td-underline td {
 }
 
 #tags-content-global {
-  margin-top: 0.1em;
+  margin: 0.1em 0 0 0;
   padding: 0.5em;
   user-select: none;
-  height: calc(100% - 3.4em);
+  height: calc(100% - 2.6em);
+  box-sizing: border-box;
 }
 
 .checkbox-tag {
