@@ -17,8 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 
-const { html } = require('../helpers/ezra_helper.js');
-
 let jsStrongs = null;
 
 /**
@@ -161,9 +159,10 @@ class DictionaryInfoBox {
     var additionalStrongsLinks = this.getAdditionalStrongsEntryLinks(additionalStrongsEntries);
 
     for (var i = 0; i < this.dictionaryInfoBoxStack.length; i++) {
+      let currentCrumb;
       if (i < this.dictionaryInfoBoxStack.length - 1) {
-        var currentRewindNumber = this.dictionaryInfoBoxStack.length - i - 1;
-        var currentCrumb = "<a href='javascript:app_controller.dictionary_controller.dictionaryInfoBox.rewindDictInfo(" + currentRewindNumber + ")'>";
+        const currentRewindNumber = this.dictionaryInfoBoxStack.length - i - 1;
+        currentCrumb = "<a href='javascript:app_controller.dictionary_controller.dictionaryInfoBox.rewindDictInfo(" + currentRewindNumber + ")'>";
 
         if (i == 0) {
           currentCrumb += this.currentFirstStrongsEntry.rawKey;
@@ -316,18 +315,23 @@ class DictionaryInfoBox {
       await this.getStrongsReferenceTableRow(ref, i == (strongsEntry.references.length - 1))
     ))).join('');
 
+    var relatedStrongsContent = "";
+    if (relatedStrongs.length > 0) {
+      relatedStrongsContent = `
+      <hr/>
+      <b>${i18n.t("dictionary-info-box.related-strongs")}:</b><br/>
+      <table class="strongs-refs">
+      ${relatedStrongs}
+      </table>`;
+    }
+
     var extendedStrongsInfo = `
       <b>${this.getShortInfo(strongsEntry, lemma)}</b>
       <p>${this.getFindAllLink(strongsEntry)} | ${this.getBlueletterLink(strongsEntry)}</p>
       ${extraDictContent}
       <b>Strong's</b>
       <pre class='strongs-definition'>${strongsEntry.definition}</pre>
-    ${relatedStrongs.length > 0 && `<hr/>
-      <b>${i18n.t("dictionary-info-box.related-strongs")}:</b><br/>
-      <table class="strongs-refs">
-      ${relatedStrongs}
-      </table>`
-    }`;    
+      ${relatedStrongsContent}`;    
 
     return extendedStrongsInfo;
   }
