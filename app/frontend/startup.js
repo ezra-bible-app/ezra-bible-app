@@ -144,8 +144,8 @@ class Startup {
   initUi() {
     this._platformHelper.addPlatformCssClass();
 
-    // Setup resizable function for divider between tags toolbox and verse list
-    $('#bible-browser-toolbox').resizable({
+    // Setup resizable function for divider between side panel and verse list
+    $('#side-panel').resizable({
       handles: 'e',
       resize: function (event, ui) {
         uiHelper.adaptVerseList();

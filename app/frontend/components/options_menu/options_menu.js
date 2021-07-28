@@ -204,12 +204,14 @@ class OptionsMenu {
       updated = app_controller.tag_assignment_menu.moveTagAssignmentList(false);
       if (updated || currentToolBar.is(':hidden')) {
         currentToolBar.show();
+        currentToolBar.parent().addClass('with-tags');
         updated = true;
       }
     } else {
       updated = app_controller.tag_assignment_menu.moveTagAssignmentList(true);
       if (updated || currentToolBar.is(':visible')) {
         currentToolBar.hide();
+        currentToolBar.parent().removeClass('with-tags');
         updated = true;
       }
     }

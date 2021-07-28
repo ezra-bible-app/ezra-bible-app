@@ -16,10 +16,24 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+#side-panel {
+  grid-area: side-panel;
+  display: flex;
+  flex-direction: column;
+  width: 30rem;
+  min-width: 30rem;
+  padding-right: 1rem;
+}
+
+#bottom-panel {
+  grid-area: bottom-panel;
+  padding-left: 0.5em;
+  padding-right: 0.2em;
+}
+
 #bible-browser-toolbox {
-  grid-area: side-view;
-  width: 30em;
-  min-width: 30em;
+  width: 100%;
+  flex-grow: 1;
   /* margin-top disabled as long as we don't have a logo */
   /* margin-top: 3em; */
   z-index: 10;
@@ -33,7 +47,7 @@
 }
 
 .ui-tabs .ui-tabs-panel {
-  padding: 0.5em;
+  padding: 0.5em 0.5em 0;
 }
 
 .accordion-panel {
@@ -44,10 +58,6 @@
 #tags-content {
   height: 100%;
   box-sizing: border-box;
-}
-
-.with-dictionary > #tags-content {
-  height: 50%;
 }
 
 .accordion-panel .ui-accordion-header {
@@ -67,23 +77,21 @@
   padding-left: 1em;
 }
 
-#bottom-view {
-  grid-area: bottom-view;
-  padding-left: 0.5em;
-  padding-right: 0.2em;
-}
-
 #dictionary-info-box {
   display: none;
   user-select: none;
-  height: 15em;
+  height: 100%;
   width: 100%;
+}
+.with-tags>#dictionary-info-box {
+  height: calc(50% - 0.5rem);
+  padding-top: 1rem;
 }
 
 #dictionary-info-box-panel {
   clear: both;
-  height: calc(100% - 3.4em) 
-          !important; /* overwrite default jqueryUI Accordion */
+  height: calc(100% - 3.4em) !important;
+  /* overwrite default jqueryUI Accordion */
 }
 
 .strongs-short-info {

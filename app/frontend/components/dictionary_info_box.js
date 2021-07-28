@@ -63,7 +63,6 @@ class DictionaryInfoBox {
   hideDictInfoBox() {
     if (this.infoBox.is(":visible")) {
       this.infoBox.hide();
-      this.infoBox.parent().removeClass('with-dictionary');
       return true;
     }
 
@@ -80,7 +79,6 @@ class DictionaryInfoBox {
 
     if (this.infoBox.is(":hidden")) {
       this.infoBox.show();
-      this.infoBox.parent().addClass('with-dictionary');
       return true;
     }
 

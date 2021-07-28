@@ -365,7 +365,7 @@ class AppController {
       if (tagListWidthAvailable) {
         var tagListWidth = await ipcSettings.get('tagListWidth');
 
-        $('#bible-browser-toolbox').css('width', tagListWidth);
+        $('#side-panel').css('width', tagListWidth);
         uiHelper.resizeAppContainer();
       }
 

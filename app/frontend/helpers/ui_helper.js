@@ -142,9 +142,9 @@ class UiHelper {
 
     if (windowWidth >= 200 && windowWidth < 1200) {
       // Automatically hide toolbar on smaller screens
-      var currentToolBar = $('#bible-browser-toolbox');
-      currentToolBar.hide();
-      app_controller.tag_assignment_menu.moveTagAssignmentList(true);
+      // var currentToolBar = $('#side-panel');
+      // currentToolBar.hide();
+      // app_controller.tag_assignment_menu.moveTagAssignmentList(true);
     } else if (!cycle) {
       app_controller.optionsMenu.showOrHideToolBarBasedOnOption(undefined);
     }
@@ -153,7 +153,7 @@ class UiHelper {
                                      // case we don't add the small-screen class to avoid flickering.
         verseListTabsWidth <= 1000) {
 
-      verseListTabs.addClass('verse-list-tabs-small-screen')
+      verseListTabs.addClass('verse-list-tabs-small-screen');
 
       if (windowWidth < 850) {
         verseListTabs.addClass('verse-list-tabs-tiny-screen');

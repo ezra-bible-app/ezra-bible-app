@@ -519,9 +519,8 @@ h2:nth-of-type(1) {
   grid-template-columns: minmax(0, auto) 1fr;
   grid-template-rows: 1fr minmax(0, auto);
   grid-template-areas: 
-    "side-view content"
-    "side-view bottom-view";
-  gap: 1em;  
+    "side-panel content"
+    "side-panel bottom-panel";
 }
 
 main.content {
