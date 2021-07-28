@@ -44,7 +44,7 @@
   height: 12em;
   padding: 0 0.5em;
 }
-#bottom-panel:empty {
+#bottom-panel:empty, #bottom-panel:not(.with-dictionary) {
   height: 0;
 }
 
