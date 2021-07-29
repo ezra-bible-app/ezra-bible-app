@@ -120,7 +120,7 @@ class DictionaryController {
 
   async getStrongsEntryWithRawKey(rawKey, normalizedKey=undefined) {
     if (normalizedKey == undefined) {
-      var normalizedKey = this.getNormalizedStrongsId(rawKey);
+      normalizedKey = this.getNormalizedStrongsId(rawKey);
     }
 
     var strongsEntry = null;
@@ -149,10 +149,14 @@ class DictionaryController {
             if (strongsId != undefined) {
               strongsIds.push(strongsId);
             }
-          } catch (e) {}
+          } catch (e) {
+            console.error(e);
+          }
         }
       }
-    } catch (e) { }
+    } catch (e) { 
+      console.error(e);
+    }
 
     return strongsIds;
   }
@@ -192,7 +196,7 @@ class DictionaryController {
       var firstStrongsEntry = null;
       var additionalStrongsEntries = [];
 
-      for (var i = 0; i < normalizedStrongsIds.length; i++) {
+      for (let i = 0; i < normalizedStrongsIds.length; i++) {
         var strongsEntry = await this.getStrongsEntryWithRawKey(strongsIds[i], normalizedStrongsIds[i]);
 
         if (i == 0) {
@@ -208,7 +212,7 @@ class DictionaryController {
       if (shortInfos.length > 1) {
         strongsShortInfo = "<table>";
 
-        for (var i = 0; i < shortInfos.length; i++) {
+        for (let i = 0; i < shortInfos.length; i++) {
           strongsShortInfo += "<tr>";
           strongsShortInfo += "<td>" + shortInfos[i].split(":")[0] + ":</td>";
           strongsShortInfo += "<td style='text-align: left;'>" + shortInfos[i].split(":")[1] + "</td>";
