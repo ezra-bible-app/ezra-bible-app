@@ -16,6 +16,9 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+
+/* inspired by https://github.com/john-doherty/long-press-event */
+   
 const LONG_PRESS_DELAY = 1500;
 const MAX_TOUCH_SHIFT = 10;
 
@@ -29,9 +32,9 @@ var hasPointerEvents = (('PointerEvent' in window) || (window.navigator && 'msPo
 var isTouch = (('ontouchstart' in window) || (navigator.MaxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
 
 // switch to pointer events or touch events if using a touch screen
-var mouseDown = hasPointerEvents ? 'pointerdown' : isTouch ? 'touchstart' : 'mousedown';
-var mouseUp = hasPointerEvents ? 'pointerup' : isTouch ? 'touchend' : 'mouseup';
-var mouseMove = hasPointerEvents ? 'pointermove' : isTouch ? 'touchmove' : 'mousemove';
+var touchStart = hasPointerEvents ? 'pointerdown' : isTouch ? 'touchstart' : 'mousedown';
+var touchEnd = hasPointerEvents ? 'pointerup' : isTouch ? 'touchend' : 'mouseup';
+var touchMove = hasPointerEvents ? 'pointermove' : isTouch ? 'touchmove' : 'mousemove';
 
 document.addEventListener('wheel', clearLongPressTimer);
 document.addEventListener('scroll', clearLongPressTimer);
@@ -43,17 +46,17 @@ document.addEventListener('scroll', clearLongPressTimer);
  */
 module.exports.subscribe = function (element, callback) {
   longPressCallback = callback;
-  console.log('LONG PRESS: subscribe', element, mouseDown);
+  console.log('LONG PRESS: subscribe', element, touchStart);
 
-  element.addEventListener(mouseDown, mouseDownHandler); // <- start
+  element.addEventListener(touchStart, handleTouchStart); // <- start
   
-  element.addEventListener(mouseMove, mouseMoveHandler);
+  element.addEventListener(touchMove, handleTouchMove);
 
-  element.addEventListener(mouseUp, clearLongPressTimer);
+  element.addEventListener(touchEnd, clearLongPressTimer);
   
 };
 
-function mouseDownHandler(event) {
+function handleTouchStart(event) {
   console.log('LONG PRESS: mouseDown', event);
   startX = event.clientX;
   startY = event.clientY;
@@ -68,7 +71,7 @@ function mouseDownHandler(event) {
  * If the finger moves MAX_TOUCH_SHIFT pixels during long-press, cancel the timer
  * @param {MouseEvent} event - browser event object
  */
-function mouseMoveHandler(event) {
+function handleTouchMove(event) {
   if (!timer) {
     return;
   }
