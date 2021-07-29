@@ -18,7 +18,10 @@
 
 const Mousetrap = require('mousetrap');
 const DictionaryInfoBox = require('../components/dictionary_info_box.js');
+const longpressController = require('./longpress_controller.js');
 let jsStrongs = null;
+
+
 
 /**
  * The DictionaryController handles functionality for the lookup of dictionary information based on Strong's keys.
@@ -32,14 +35,14 @@ let jsStrongs = null;
  */
 class DictionaryController {
   constructor() {
-    this.currentStrongsIds = null;
-    this.currentStrongsElement = null;
+    this._currentStrongsIds = null;
+    this._currentStrongsElement = null;
     /**@type {HTMLElement} */
-    this.currentVerseText = null;
+    this._currentVerseText = null;
     this.strongsBox = $('#strongs-box');
     this.shiftKeyPressed = false;
     this.strongsAvailable = false;
-    this.dictionaryInfoBox = new DictionaryInfoBox(this);
+    this._dictionaryInfoBox = new DictionaryInfoBox(this);
 
     this.strongsBox.bind('mouseout', () => {
       this.hideStrongsBox();
@@ -72,23 +75,23 @@ class DictionaryController {
   }
 
   hideStrongsBox(removeHl=false) {
-    if (this.currentStrongsElement != null && removeHl) {
-      this.currentStrongsElement.removeClass('strongs-hl');
+    if (this._currentStrongsElement != null && removeHl) {
+      this._currentStrongsElement.removeClass('strongs-hl');
     }
 
     this.strongsBox.hide();
   }
 
   showInfoBox() {
-    return this.dictionaryInfoBox.showDictInfoBox();
+    return this._dictionaryInfoBox.showDictInfoBox();
   }
 
   hideInfoBox() {
-    return this.dictionaryInfoBox.hideDictInfoBox();
+    return this._dictionaryInfoBox.hideDictInfoBox();
   }
 
   clearInfoBox() {
-    this.dictionaryInfoBox.clearDictInfoBox();
+    this._dictionaryInfoBox.clearDictInfoBox();
   }
 
   async bindAfterBibleTextLoaded(tabIndex=undefined) {
@@ -116,10 +119,14 @@ class DictionaryController {
     
     const wElements = currentVerseList.querySelectorAll('w');
     wElements.forEach(wElement => { 
+      wElement.classList.remove('strongs-hl');
+
+      longpressController.subscribe(wElement, (el) => this._handleStrongWord(el));
+
       wElement.addEventListener('mousemove', async (e) => {
         var currentTab = app_controller.tab_controller.getTab();
         currentTab.tab_search.blurInputField();
-        await this.handleStrongsMouseMove(e);
+        await this._handleShiftMouseMove(e);
       });
     });
   
@@ -227,13 +234,13 @@ class DictionaryController {
       }
 
       this.strongsBox.html(strongsShortInfo);
-      this.dictionaryInfoBox.updateDictInfoBox(firstStrongsEntry, additionalStrongsEntries, true);
+      this._dictionaryInfoBox.updateDictInfoBox(firstStrongsEntry, additionalStrongsEntries, true);
     } catch (e) {
       console.log(e);
     }
 
-    if (this.currentStrongsElement != null) {
-      this.currentStrongsElement.bind('mouseout', () => {
+    if (this._currentStrongsElement != null) {
+      this._currentStrongsElement.bind('mouseout', () => {
         if (!this.shiftKeyPressed) {
           this.hideStrongsBox();
         }
@@ -243,13 +250,13 @@ class DictionaryController {
         this.strongsBox.show().position({
           my: "bottom",
           at: "center top",
-          of: this.currentStrongsElement
+          of: this._currentStrongsElement
         });
       }
     }
   }
 
-  async handleStrongsMouseMove(event) {
+  async _handleShiftMouseMove(event) {
     if (!app_controller.optionsMenu._dictionaryOption.isChecked) {
       return;
     }
@@ -258,30 +265,30 @@ class DictionaryController {
       return;
     }
 
-    await this.handleStrongWord(event.currentTarget);
+    await this._handleStrongWord(event.currentTarget);
   }
 
-  async handleStrongWord(strongsElement) {
+  async _handleStrongWord(strongsElement) {
     if (this.strongsAvailable) {
       var strongsIds = this.getStrongsIdsFromStrongsElement(strongsElement);
       
-      if (this.currentStrongsElement != null && 
-          this.currentStrongsElement[0] == strongsElement) {
+      if (this._currentStrongsElement != null && 
+          this._currentStrongsElement[0] == strongsElement) {
         return;
       }
 
-      this.currentStrongsIds = strongsIds;
+      this._currentStrongsIds = strongsIds;
 
-      if (this.currentStrongsElement != null) {
-        this.currentStrongsElement.removeClass('strongs-hl');
+      if (this._currentStrongsElement != null) {
+        this._currentStrongsElement.removeClass('strongs-hl');
       }
         
-      this.currentStrongsElement = $(strongsElement);
+      this._currentStrongsElement = $(strongsElement);
 
       if (strongsIds.length > 0) {
-        this.currentStrongsElement.addClass('strongs-hl');    
+        this._currentStrongsElement.addClass('strongs-hl');    
         this.strongsBox.css({
-          'fontSize': this.currentStrongsElement.css('fontSize')
+          'fontSize': this._currentStrongsElement.css('fontSize')
         });
 
         await this.showStrongsInfo(strongsIds);
@@ -298,17 +305,17 @@ class DictionaryController {
       return;
     }
 
-    if (this.currentVerseText != null) {
-      this.currentVerseText.classList.remove('strongs-current-verse');
+    if (this._currentVerseText != null) {
+      this._currentVerseText.classList.remove('strongs-current-verse');
     }
 
-    this.currentVerseText = verseTextElement;
-    this.currentVerseText.classList.add('strongs-current-verse');
+    this._currentVerseText = verseTextElement;
+    this._currentVerseText.classList.add('strongs-current-verse');
   }
 
   _removeHighlight() {
-    if (this.currentVerseText) {
-      this.currentVerseText.classList.remove('strongs-current-verse');
+    if (this._currentVerseText) {
+      this._currentVerseText.classList.remove('strongs-current-verse');
     }
   }
 
