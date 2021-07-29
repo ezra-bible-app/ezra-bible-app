@@ -52,6 +52,7 @@ class DictionaryController {
     $(document).on('keyup', (e) => {
       if (e.key == 'Shift') {
         this.shiftKeyPressed = false;
+        this._removeHighlight();
       }
     });
 
@@ -303,6 +304,12 @@ class DictionaryController {
 
     this.currentVerseText = verseTextElement;
     this.currentVerseText.classList.add('strongs-current-verse');
+  }
+
+  _removeHighlight() {
+    if (this.currentVerseText) {
+      this.currentVerseText.classList.remove('strongs-current-verse');
+    }
   }
 
   logDoubleStrongs() {
