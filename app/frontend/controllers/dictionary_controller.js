@@ -34,6 +34,7 @@ class DictionaryController {
   constructor() {
     this.currentStrongsIds = null;
     this.currentStrongsElement = null;
+    /**@type {HTMLElement} */
     this.currentVerseText = null;
     this.strongsBox = $('#strongs-box');
     this.shiftKeyPressed = false;
@@ -95,27 +96,32 @@ class DictionaryController {
       return;
     }
     
-    var currentBibleTranslationId = currentTab.getBibleTranslationId();
+    const currentBibleTranslationId = currentTab.getBibleTranslationId();
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
-    var translationHasStrongs = await swordModuleHelper.moduleHasStrongs(currentBibleTranslationId);
-
-    if (translationHasStrongs) {
-      var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
-      var currentWElements = currentVerseList.find('w');
-      var currentVerseTextElements = currentVerseList.find('.verse-text');
-
-      currentVerseTextElements.bind('mousemove', (e) => {
-        var currentTab = app_controller.tab_controller.getTab();
-        currentTab.tab_search.blurInputField();
-        this.handleVerseMouseMove(e);
-      });
-
-      currentWElements.bind('mousemove', async (e) => {
+    const translationHasStrongs = await swordModuleHelper.moduleHasStrongs(currentBibleTranslationId);
+    if (!translationHasStrongs) { 
+      return;
+    }
+    
+    /**@type {HTMLElement}*/
+    const currentVerseList = app_controller.getCurrentVerseList(tabIndex)[0];
+    
+    const verseTextElements = currentVerseList.querySelectorAll('.verse-text');
+    verseTextElements.forEach(verseElement => verseElement.addEventListener('mousemove', () => {
+      var currentTab = app_controller.tab_controller.getTab();
+      currentTab.tab_search.blurInputField();
+      this._highlightStrongsInVerse(verseElement);
+    }));
+    
+    const wElements = currentVerseList.querySelectorAll('w');
+    wElements.forEach(wElement => { 
+      wElement.addEventListener('mousemove', async (e) => {
         var currentTab = app_controller.tab_controller.getTab();
         currentTab.tab_search.blurInputField();
         await this.handleStrongsMouseMove(e);
       });
-    }
+    });
+  
   }
 
   async getStrongsEntryWithRawKey(rawKey, normalizedKey=undefined) {
@@ -135,27 +141,21 @@ class DictionaryController {
     return strongsEntry;
   }
 
+  /**
+   * 
+   * @param {HTMLElement} strongsElement element to extract Strongs Numbers from
+   * @returns {Array} an array of Strongs Ids or an empty array 
+   */
   getStrongsIdsFromStrongsElement(strongsElement) {
     var strongsIds = [];
 
-    try {
-      var rawStrongsIdList = strongsElement.attr('class').split(' ');
-
-      for (var i = 0; i < rawStrongsIdList.length; i++) {
-        if (rawStrongsIdList[i].indexOf('strong') != -1) {
-          try {
-            var strongsId = rawStrongsIdList[i].split(':')[1];
-
-            if (strongsId != undefined) {
-              strongsIds.push(strongsId);
-            }
-          } catch (e) {
-            console.error(e);
-          }
+    if (strongsElement) {
+      strongsElement.classList.forEach(cls => {
+        if (cls.startsWith('strong:')) {
+          const strongsId = cls.slice(7);
+          strongsIds.push(strongsId);
         }
-      }
-    } catch (e) { 
-      console.error(e);
+      });
     }
 
     return strongsIds;
@@ -257,11 +257,15 @@ class DictionaryController {
       return;
     }
 
+    await this.handleStrongWord(event.currentTarget);
+  }
+
+  async handleStrongWord(strongsElement) {
     if (this.strongsAvailable) {
-      var strongsIds = this.getStrongsIdsFromStrongsElement($(event.target).closest('w'));
+      var strongsIds = this.getStrongsIdsFromStrongsElement(strongsElement);
       
       if (this.currentStrongsElement != null && 
-          this.currentStrongsElement[0] == event.target) {
+          this.currentStrongsElement[0] == strongsElement) {
         return;
       }
 
@@ -271,7 +275,7 @@ class DictionaryController {
         this.currentStrongsElement.removeClass('strongs-hl');
       }
         
-      this.currentStrongsElement = $(event.target);
+      this.currentStrongsElement = $(strongsElement);
 
       if (strongsIds.length > 0) {
         this.currentStrongsElement.addClass('strongs-hl');    
@@ -284,7 +288,7 @@ class DictionaryController {
     }
   }
 
-  handleVerseMouseMove(event) {
+  _highlightStrongsInVerse(verseTextElement) {
     if (!app_controller.optionsMenu._dictionaryOption.isChecked) {
       return;
     }
@@ -294,11 +298,11 @@ class DictionaryController {
     }
 
     if (this.currentVerseText != null) {
-      this.currentVerseText.removeClass('strongs-current-verse');
+      this.currentVerseText.classList.remove('strongs-current-verse');
     }
 
-    this.currentVerseText = $(event.target).closest('.verse-text');
-    this.currentVerseText.addClass('strongs-current-verse');
+    this.currentVerseText = verseTextElement;
+    this.currentVerseText.classList.add('strongs-current-verse');
   }
 
   logDoubleStrongs() {
