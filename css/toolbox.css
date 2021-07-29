@@ -41,7 +41,7 @@
 
 #bottom-panel {
   grid-area: bottom-panel;
-  height: 12em;
+  height: 30vh;
   padding: 0 0.5em;
 }
 #bottom-panel:empty, #bottom-panel:not(.with-dictionary) {
