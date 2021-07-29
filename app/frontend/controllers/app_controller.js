@@ -245,7 +245,6 @@ class AppController {
     this.dictionary_controller.hideStrongsBox();
     this.verse_context_controller.hide_verse_expand_box();
 
-    uiHelper.resizeVerseList(ui.index);
     uiHelper.configureButtonStyles('.verse-list-menu');
   }
 
@@ -257,7 +256,6 @@ class AppController {
 
     // Refresh the view based on the options selected
     await this.optionsMenu.refreshViewBasedOnOptions(tabIndex);
-    uiHelper.resizeVerseList(tabIndex);
     
     await this.initCurrentVerseListMenu(tabIndex);
     this.tag_selection_menu.init(tabIndex);
@@ -360,13 +358,13 @@ class AppController {
 
   async loadSettings() {
     try {
-      var tagListWidthAvailable = await ipcSettings.has('tagListWidth');
+      var sidePanelWidthAvailable = await ipcSettings.has('tagListWidth');
 
-      if (tagListWidthAvailable) {
-        var tagListWidth = await ipcSettings.get('tagListWidth');
+      if (sidePanelWidthAvailable) {
+        var sidePanelWidth = await ipcSettings.get('tagListWidth');
 
-        $('#side-panel').css('width', tagListWidth);
-        uiHelper.resizeAppContainer();
+        $('#side-panel').css('width', sidePanelWidth);
+        uiHelper.resizeAppContainer(sidePanelWidth);
       }
 
       if (this.tab_controller.getTab().isValid() && await ipcDb.getTagCount() > 0) {
