@@ -65,10 +65,9 @@ div.CodeMirror {
 }
 
 .verse-list-with-notes .book-notes {
-  margin-left: 0.7em;
-  margin-right: 0.6em;
-  margin-top: 1em;
-  margin-bottom: 0.5em;
+  margin: 1em 0.6em 0.5em 0.7em;
+  box-sizing: border-box;
+  width: calc(100% - 1.8em);
 }
 
 .verse-list-with-notes:not(.verse-list-scroll-notes) .verse-notes-text.edited {

@@ -429,10 +429,6 @@ h2:nth-of-type(1) {
   float: none;
 }
 
-.book-notes {
-  width: 600px;
-}
-
 .ui-selected,
 .ui-selecting {
   border: 0;
