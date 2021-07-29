@@ -18,7 +18,7 @@
 
 
 /* inspired by https://github.com/john-doherty/long-press-event */
-   
+
 const LONG_PRESS_DELAY = 1500;
 const MAX_TOUCH_SHIFT = 10;
 
@@ -46,7 +46,6 @@ document.addEventListener('scroll', clearLongPressTimer);
  */
 module.exports.subscribe = function (element, callback) {
   longPressCallback = callback;
-  console.log('LONG PRESS: subscribe', element, touchStart);
 
   element.addEventListener(touchStart, handleTouchStart); // <- start
   
@@ -57,7 +56,6 @@ module.exports.subscribe = function (element, callback) {
 };
 
 function handleTouchStart(event) {
-  console.log('LONG PRESS: mouseDown', event);
   startX = event.clientX;
   startY = event.clientY;
 
@@ -80,8 +78,6 @@ function handleTouchMove(event) {
   var diffX = Math.abs(startX - event.clientX);
   var diffY = Math.abs(startY - event.clientY);
 
-  console.log('LONG PRESS: mouseMove', diffX, diffY);
-
   // if pointer has moved more than allowed, cancel the long-press timer and therefore the event
   if (diffX >= MAX_TOUCH_SHIFT || diffY >= MAX_TOUCH_SHIFT) {
     clearLongPressTimer();
@@ -94,7 +90,6 @@ function handleTouchMove(event) {
  * @returns {object} handle to the timeout object
  */
 function startTimer(element) {
-  console.log('LONG PRESS: startTimer');
 
   var start = new Date().getTime();
   var handle = {};
@@ -105,7 +100,6 @@ function startTimer(element) {
 
     if (delta >= LONG_PRESS_DELAY) { // It's time to run the callback!
       clearLongPressTimer();
-      console.log('LONG PRESS: fire callback!');
       longPressCallback(element);
     }
     else {
@@ -123,7 +117,6 @@ function startTimer(element) {
  */
 function clearLongPressTimer() {
   if (timer) {
-    console.log('LONG PRESS: clearTimer');
     window.cancelAnimationFrame(timer.value);
     timer = null;
   }
