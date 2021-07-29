@@ -148,7 +148,7 @@ class Startup {
     $('#side-panel').resizable({
       handles: 'e',
       resize: function (event, ui) {
-        uiHelper.adaptVerseList();
+        uiHelper.adaptVerseList(ui.size.width);
       },
       stop: function (event, ui) {
         //console.log("Saving new tag list width: " + ui.size.width);

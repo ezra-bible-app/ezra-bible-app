@@ -95,51 +95,32 @@ class UiHelper {
 
   // FIXME: responsiveness should be done via CSS
   // the only thing that relays on this class is .verse-notes
-  adaptVerseList(verseListFrame=undefined) {
-    if (verseListFrame === undefined) {
-      verseListFrame = app_controller.getCurrentVerseListFrame();
+  adaptVerseList(sidePanelWidth, windowWidth=undefined) {
+    if (!windowWidth) {
+      windowWidth = window.innerWidth;
     }
-    
-    if (verseListFrame.width() < 650) {
-      verseListFrame.addClass('verse-list-frame-small-screen');
+
+    var verseListTabsClassList = document.querySelector('#verse-list-tabs').classList;
+    var verseListTabsWidth = windowWidth - sidePanelWidth;
+
+    if (verseListTabsWidth >= 200 && // Initially, at program start the width is very small (100) - in this
+                                     // case we don't add the small-screen class to avoid flickering.
+        verseListTabsWidth <= 1000) {
+
+      verseListTabsClassList.add('verse-list-tabs-small-screen');
+
+      if (verseListTabsWidth < 850) {
+        verseListTabsClassList.add('verse-list-tabs-tiny-screen');
+      } else {
+        verseListTabsClassList.remove('verse-list-tabs-tiny-screen');
+      }
+
     } else {
-      verseListFrame.removeClass('verse-list-frame-small-screen');
+      verseListTabsClassList.remove('verse-list-tabs-small-screen', 'verse-list-tabs-tiny-screen');
     }
   }
   
-  // FIXME: implement responsive resizing with css 
-  resizeVerseList(tabIndex=undefined) {
-    // if (tabIndex === undefined) {
-    //   tabIndex = app_controller.tab_controller.getSelectedTabIndex();
-    // }
-
-    // var tabsNav = $(document.getElementById('verse-list-tabs').querySelector('.ui-tabs-nav'));
-    // var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    // var verseListComposite = app_controller.getCurrentVerseListComposite(tabIndex);
-
-    // var currentTabSearch = verseListComposite.find('.tab-search');
-//    var currentTabSearchHeight = currentTabSearch.height() + 15;
-    // var tabSearchVisible = false;
-    // if (currentTabSearch.css('display') != 'none') {
-    //   tabSearchVisible = true;
-    // }
-
-    // var navigationPane = verseListComposite.find('.navigation-pane');
-    var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
-  
-    // var navPaneHeight = this.app_container_height - tabsNav.height() - currentVerseListMenu.height() - 40;
-    // navigationPane.css('height', navPaneHeight);
-
-    // var verseListHeight = tabSearchVisible ? navPaneHeight - currentTabSearchHeight : navPaneHeight;
-    // verseListFrame.css('height', verseListHeight);
-  
-    this.adaptVerseList(verseListFrame);
-  }
-  
-  // FIXME: Optimize this to be tab-specific
-  resizeAppContainer(e, cycle=false) {
-    var verseListTabs = $(document.getElementById('verse-list-tabs'));
-    var verseListTabsWidth = verseListTabs.width();
+  resizeAppContainer(sidePanelWidth=undefined, cycle=false) {
     var windowWidth = window.innerWidth;
 
     const sidePanel = document.querySelector('#side-panel');
@@ -154,6 +135,8 @@ class UiHelper {
       const dictionary = sidePanel.querySelector('#dictionary-info-box');
       if (dictionary) {
         bottomPanel.appendChild(dictionary);
+        bottomPanel.classList.add('with-dictionary');
+        sidePanel.classList.remove('with-dictionary');
       }
       
     } else if (!cycle) {
@@ -163,34 +146,14 @@ class UiHelper {
       // Move dictionary back to side panel
       const dictionary = bottomPanel.querySelector('#dictionary-info-box');
       if (dictionary) {
-        sidePanel.appendChild(dictionary);      
+        sidePanel.appendChild(dictionary);
+        sidePanel.classList.add('with-dictionary');
+        bottomPanel.classList.remove('with-dictionary');
       }
     }
 
-    if (verseListTabsWidth >= 200 && // Initially, at program start the width is very small (100) - in this
-                                     // case we don't add the small-screen class to avoid flickering.
-        verseListTabsWidth <= 1000) {
-
-      verseListTabs.addClass('verse-list-tabs-small-screen');
-
-      if (windowWidth < 850) {
-        verseListTabs.addClass('verse-list-tabs-tiny-screen');
-      } else {
-        verseListTabs.removeClass('verse-list-tabs-tiny-screen');
-      }
-
-    } else {
-      verseListTabs.removeClass('verse-list-tabs-small-screen');
-      verseListTabs.removeClass('verse-list-tabs-tiny-screen');
-    }
-
-    // this.app_container_height = $(window).height() - 10;
-    // $("#app-container").css("height", this.app_container_height);
-  
-    var tabCount = app_controller.tab_controller.getTabCount();
-    for (var i = 0; i < tabCount; i++) {
-      this.resizeVerseList(i);
-    }
+    sidePanelWidth = sidePanelWidth || sidePanel.offsetWidth; 
+    this.adaptVerseList(sidePanelWidth, windowWidth);
   }
 
   getMaxDialogWidth() {

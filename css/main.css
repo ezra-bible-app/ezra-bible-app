@@ -429,7 +429,7 @@ h2:nth-of-type(1) {
   float: none;
 }
 
-.verse-list-frame-small-screen .verse-notes:not(.book-notes) {
+.verse-list-tabs-tiny-screen .verse-notes:not(.book-notes) {
   width: 30%;
 }
 
