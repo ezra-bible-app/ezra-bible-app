@@ -141,6 +141,11 @@ class DictionaryController {
 
     try {
       strongsEntry = await ipcNsi.getStrongsEntry(normalizedKey);
+      console.log(normalizedKey, strongsEntry);
+      if (!strongsEntry.key) {
+        throw(new Error());
+      }
+
       strongsEntry['rawKey'] = rawKey;
     } catch (e) {
       console.log("DictionaryController.getStrongsEntryWithRawKey: Got exception when getting strongs entry for key " + normalizedKey);
