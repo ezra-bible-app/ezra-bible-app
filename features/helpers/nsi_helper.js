@@ -35,14 +35,6 @@ module.exports.getBookShortTitle = function(book_long_title) {
   return -1;
 };
 
-module.exports.backupSwordDir = async function() {
-  var userDataDir = await spectronHelper.getUserDataDir();
-  var swordDir = userDataDir + '/.sword';
-  var backupDir = userDataDir + '/.swordBackup';
-
-  copydir.sync(swordDir, backupDir);
-};
-
 module.exports.getLocalModule = async function(moduleCode) {
   var app = spectronHelper.getApp();
 
