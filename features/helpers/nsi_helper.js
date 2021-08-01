@@ -1,10 +1,10 @@
-const path = require('path');
 const copydir = require('copy-dir');
-const fs = require('fs');
+const fs = require('fs-extra');
 const NodeSwordInterface = require('node-sword-interface');
 const VerseReferenceHelper = require('../../app/frontend/helpers/verse_reference_helper.js');
-require('../../app/backend/database/models/biblebook.js');
+const { assert } = require("chai");
 
+require('../../app/backend/database/models/biblebook.js');
 const spectronHelper = require('./spectron_helper.js');
 
 var nsi = null;
@@ -22,7 +22,7 @@ module.exports.getVerseReferenceHelper = async function() {
   var verseReferenceHelper = new VerseReferenceHelper(await getNSI());
   verseReferenceHelper.setReferenceSeparator(':');
   return verseReferenceHelper;
-}
+};
 
 module.exports.getBookShortTitle = function(book_long_title) {
   for (var i = 0; i < global.bible_books.length; i++) {
@@ -53,7 +53,7 @@ module.exports.backupSwordDir = async function() {
   var backupDir = userDataDir + '/.swordBackup';
 
   copydir.sync(swordDir, backupDir);
-}
+};
 
 module.exports.installASV = async function() {
   var userDataDir = await spectronHelper.getUserDataDir();
@@ -75,11 +75,11 @@ module.exports.installASV = async function() {
     var asvAvailable = await isAsvAvailable();
     assert(asvAvailable);
 
-    await backupSwordDir();
+    await this.backupSwordDir();
   }
 
   await spectronHelper.sleep(500);
-}
+};
 
 module.exports.getLocalModule = async function(moduleCode) {
   var app = spectronHelper.getApp();
@@ -97,7 +97,7 @@ module.exports.getLocalModule = async function(moduleCode) {
   }
 
   return null;
-}
+};
 
 module.exports.splitVerseReference = async function(verseReference, translation = 'KJV') {
   var [book, verseReferenceString] = verseReference.split(' ');
@@ -109,5 +109,5 @@ module.exports.splitVerseReference = async function(verseReference, translation 
   return {
     bookId,
     absoluteVerseNumber
-  }
-}
+  };
+};

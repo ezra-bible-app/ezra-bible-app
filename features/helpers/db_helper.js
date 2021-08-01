@@ -30,7 +30,7 @@ module.exports.initDatabase = async function() {
   }
 
   return global.models;
-}
+};
 
 module.exports.getDbVerseReferenceId = async function(verseReference) {
   var { bookId, absoluteVerseNumber } = await nsiHelper.splitVerseReference(verseReference);
@@ -48,4 +48,4 @@ module.exports.getDbVerseReferenceId = async function(verseReference) {
   expect(dbVerseReference, `Could not find a db verse reference for the given book (${dbBibleBook.id}) and absoluteVerseNr (${absoluteVerseNumber}). Total # of verse references: ${allVerseReferences.length}`).to.not.be.null;
 
   return dbVerseReference.id;
-}
+};
