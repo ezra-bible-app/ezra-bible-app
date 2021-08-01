@@ -34,6 +34,10 @@ Given('I open the {first_tab_menu} menu/dialog', {timeout: 60 * 1000}, async fun
   await spectronHelper.sleep(500);
 });
 
+Given('I set the book loading option to {string}', async function (bookLoadingMode) {
+  await uiHelper.setBookLoadingOption(bookLoadingMode);
+});
+
 Then('I close the {first_tab_menu} menu/dialog', {timeout: 60 * 1000}, async function (buttonSelector) {
   var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
   var menuButton = await verseListTabs.$(buttonSelector);
@@ -81,6 +85,34 @@ Then('the book of Ephesians is opened in the current tab', async function () {
 
   assert(firstVerseTextContent == ephesiansOneOne, `The first verse does not match the expected content! Actual: "${firstVerseTextContent}" / Expected: "${ephesiansOneOne}"`);
   assert(lastVerseTextContent == ephesiansSixTwentyFour, `The last verse does not match the expected content! Actual: "${lastVerseTextContent}" / Expected: "${ephesiansSixTwentyFour}"`);
+});
+
+Then('{bible_book} chapter {int} is opened in the current tab', async function (bible_book, chapter) {
+  const bookShortTitle = await nsiHelper.getBookShortTitle(bible_book);
+  const expectedBookChapterVerseCount = await nsiHelper.getBookChapterVerseCount("KJV", bookShortTitle, chapter);
+
+  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var verseBoxes = await verseListTabs.$$('.verse-box');
+  assert(verseBoxes.length == expectedBookChapterVerseCount,
+    `The number of verses does not match the expectation for Ephesians chapter ${chapter} (${expectedBookChapterVerseCount}): ${verseBoxes.length}`);
+
+  const expectedLastVerseContent = await nsiHelper.getChapterLastVerseContent("KJV", bookShortTitle, chapter);
+  const actualLastVerseElement = await verseBoxes[verseBoxes.length - 1].$('.verse-text');
+  const actualLastVerseContent = await actualLastVerseElement.getText();
+
+  assert(actualLastVerseContent == expectedLastVerseContent,
+    `The content of the last verse of ${bible_book} chapter ${chapter} does NOT match:\n\n` + 
+    `ACTUAL: ${actualLastVerseContent} EXPECTED: ${expectedLastVerseContent}`);
+});
+
+When('I click on chapter {int}', async function (chapter) {
+  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var navigationPane = await verseListTabs.$('.navigation-pane');
+  var allChapterLinks = await navigationPane.$$('.chapter-link');
+  var selectedChapterLink = allChapterLinks[chapter - 1];
+
+  await selectedChapterLink.click();
+  await uiHelper.waitUntilGlobalLoaderIsHidden();
 });
 
 Given('I select the verse {string}', async function (selectedVerse) {

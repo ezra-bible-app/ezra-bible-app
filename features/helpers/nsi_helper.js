@@ -1,8 +1,5 @@
-const copydir = require('copy-dir');
-const fs = require('fs-extra');
 const NodeSwordInterface = require('node-sword-interface');
 const VerseReferenceHelper = require('../../app/frontend/helpers/verse_reference_helper.js');
-const { assert } = require("chai");
 
 require('../../app/backend/database/models/biblebook.js');
 const spectronHelper = require('./spectron_helper.js');
@@ -34,6 +31,24 @@ module.exports.getBookShortTitle = function(book_long_title) {
 
   return -1;
 };
+
+module.exports.getBookChapterVerseCount = async function(moduleCode, bookCode, chapter) {
+  const nsi = await getNSI();
+  const chapterVerseCount = nsi.getChapterVerseCount(moduleCode, bookCode, chapter);
+  return chapterVerseCount;
+}
+
+module.exports.getChapterLastVerseContent = async function(moduleCode, bookCode, chapter) {
+  const nsi = await getNSI();
+  const verseReferenceHelper = await this.getVerseReferenceHelper();
+  const chapterVerseCount = await this.getBookChapterVerseCount(moduleCode, bookCode, chapter);
+  const absoluteVerseNumber = await verseReferenceHelper.referenceToAbsoluteVerseNr(moduleCode,
+                                                                                    bookCode,
+                                                                                    chapter,
+                                                                                    chapterVerseCount);
+  const verses = nsi.getBookText(moduleCode, bookCode, absoluteVerseNumber, 1);
+  return verses[0].content;
+}
 
 module.exports.getLocalModule = async function(moduleCode) {
   var app = spectronHelper.getApp();
