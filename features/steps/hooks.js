@@ -35,7 +35,7 @@ function hasTag(scenario, tag) {
 }
 
 BeforeAll({ timeout: 2000 }, async function () {
-  await nsiHelper.deleteSwordDir();
+  await spectronHelper.deleteUserDataDir();
 });
 
 Before({ timeout: 80000}, async function (scenario) {
