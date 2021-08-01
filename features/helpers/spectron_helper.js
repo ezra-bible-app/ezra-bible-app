@@ -56,7 +56,7 @@ module.exports.initApp = function(additionalArgs = [], force = false) {
   }
   
   return app;
-}
+};
 
 module.exports.getApp = () => app;
 module.exports.getWebClient = () => app.client; // https://webdriver.io/docs/api
@@ -67,7 +67,7 @@ module.exports.sleep = function(time = 200) {
       resolve();
     }, time);
   });
-}
+};
 
 module.exports.getUserDataDir = async function() {
   var electronApp = app.electron.remote.app;
@@ -75,4 +75,4 @@ module.exports.getUserDataDir = async function() {
   var appDataPath = await electronApp.getPath('appData');
   var userDataDir = path.join(appDataPath, pjson.name + '-test');
   return userDataDir;
-}
+};

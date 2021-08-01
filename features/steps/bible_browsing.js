@@ -26,7 +26,7 @@ Given('I open the {first_tab_menu} menu/dialog', {timeout: 60 * 1000}, async fun
   var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
   var menuButton = await verseListTabs.$(buttonSelector);
   
-  await uiHelper.buttonIsEnabled(menuButton, timeoutMs=1000);
+  await uiHelper.buttonIsEnabled(menuButton, 1000);
   if (await uiHelper.buttonIsActive(menuButton)) {
     return;
   }
