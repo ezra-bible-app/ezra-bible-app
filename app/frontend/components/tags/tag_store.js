@@ -52,6 +52,19 @@ class TagStore {
     return this.tagList;
   }
 
+  async tagExists(tagTitle) {
+    var tagList = await this.getTagList();
+
+    for (var i = 0; i < tagList.length; i++) {
+      var currentTag = tagList[i];
+      if (currentTag.title == tagTitle) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   async renameTag(tagId, newTitle) {
     var tag = await this.getTag(tagId);
     tag.title = newTitle;
