@@ -69,10 +69,13 @@ module.exports.sleep = function(time = 200) {
   });
 };
 
-module.exports.getUserDataDir = async function() {
-  var electronApp = app.electron.remote.app;
+module.exports.getUserDataDir = async function(appDataPath=null) {
+  if (!appDataPath) {
+    var electronApp = app.electron.remote.app;
+    appDataPath = await electronApp.getPath('appData');
+  }
+
   var pjson = require('../../package.json');
-  var appDataPath = await electronApp.getPath('appData');
   var userDataDir = path.join(appDataPath, pjson.name + '-test');
   return userDataDir;
 };

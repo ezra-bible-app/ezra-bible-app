@@ -1,10 +1,11 @@
 const copydir = require('copy-dir');
-const fs = require('fs');
+const fs = require('fs-extra');
 const NodeSwordInterface = require('node-sword-interface');
 const VerseReferenceHelper = require('../../app/frontend/helpers/verse_reference_helper.js');
 const { assert } = require("chai");
-require('../../app/backend/database/models/biblebook.js');
+const os = require('os');
 
+require('../../app/backend/database/models/biblebook.js');
 const spectronHelper = require('./spectron_helper.js');
 
 var nsi = null;
@@ -53,6 +54,32 @@ module.exports.backupSwordDir = async function() {
   var backupDir = userDataDir + '/.swordBackup';
 
   copydir.sync(swordDir, backupDir);
+};
+
+module.exports.deleteSwordDir = async function() {
+  var appDataPath = null;
+
+  if (os.type() == 'Linux') {
+    appDataPath = process.env.HOME + '/.config';
+  } else if (os.type() == 'Darwin') {
+    appDataPath = process.env.HOME + '/Library/Application Support';
+  }
+
+  const userDataDir = await spectronHelper.getUserDataDir(appDataPath);
+  const swordDir = userDataDir + '/.sword';
+  const backupDir = userDataDir + '/.swordBackup';
+
+  try {
+    fs.removeSync(swordDir);
+  } catch (e) {
+    console.log(`Could not delete sword dir ${swordDir}!`);
+  }
+
+  try {
+    fs.removeSync(backupDir);
+  } catch (e) {
+    console.log(`Could not delete sword backup dir ${backupDir}!`);
+  }
 };
 
 module.exports.installASV = async function() {

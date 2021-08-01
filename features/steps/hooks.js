@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { AfterAll, BeforeAll, Before, After, Status } = require("cucumber");
+const { AfterAll, Before, After, Status, BeforeAll } = require("cucumber");
 
 const chaiAsPromised = require("chai-as-promised");
 const spectronHelper = require("../helpers/spectron_helper.js");
@@ -33,6 +33,10 @@ function hasTag(scenario, tag) {
 
   return false;
 }
+
+BeforeAll({ timeout: 2000 }, async function () {
+  await nsiHelper.deleteSwordDir();
+});
 
 Before({ timeout: 80000}, async function (scenario) {
   var args = [];
@@ -75,7 +79,6 @@ Before({ timeout: 80000}, async function (scenario) {
 
   if (app == null || !app.isRunning()) {
     app = spectronHelper.initApp(args, true);
-
     chaiAsPromised.transferPromiseness = app.transferPromiseness;
     await app.start();
   }
