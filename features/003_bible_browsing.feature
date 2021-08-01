@@ -27,3 +27,13 @@ Feature: Bible browsing
     When I select the book Ephesians
     Then the tab title is "Ephesians [KJV]"
     And the book of Ephesians is opened in the current tab
+  
+  Scenario: Chapter-based browing
+    Given I open the options dialog
+    And I set the book loading option to "Open all books chapter-wise"
+    And I open the book selection menu
+    When I select the book Ephesians
+    Then the tab title is "Ephesians [KJV]"
+    And Ephesians chapter 1 is opened in the current tab
+    When I click on chapter 3
+    Then Ephesians chapter 3 is opened in the current tab
