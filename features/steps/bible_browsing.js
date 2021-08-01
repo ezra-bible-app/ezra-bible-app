@@ -35,14 +35,7 @@ Given('I open the {first_tab_menu} menu/dialog', {timeout: 60 * 1000}, async fun
 });
 
 Given('I set the book loading option to {string}', async function (bookLoadingMode) {
-   const dropdownButton = await spectronHelper.getWebClient().$('#bookLoadingModeOption-button');
-   await dropdownButton.click();
-   await spectronHelper.sleep();
-
-   const dropdownList = await spectronHelper.getWebClient().$('#bookLoadingModeOption-menu');
-   const selectedOption = await dropdownList.$(`./li/a[contains(text(), '${bookLoadingMode}')]`);
-   await selectedOption.click();
-   await spectronHelper.sleep(500);
+  await uiHelper.setBookLoadingOption(bookLoadingMode);
 });
 
 Then('I close the {first_tab_menu} menu/dialog', {timeout: 60 * 1000}, async function (buttonSelector) {

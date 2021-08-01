@@ -21,6 +21,7 @@ const { AfterAll, Before, After, Status, BeforeAll } = require("cucumber");
 const chaiAsPromised = require("chai-as-promised");
 const spectronHelper = require("../helpers/spectron_helper.js");
 const nsiHelper = require("../helpers/nsi_helper.js");
+const uiHelper = require("../helpers/ui_helper.js");
 
 function hasTag(scenario, tag) {
   for (var i = 0; i < scenario.pickle.tags.length; i++) {
@@ -82,6 +83,15 @@ Before({ timeout: 80000}, async function (scenario) {
     chaiAsPromised.transferPromiseness = app.transferPromiseness;
     await app.start();
   }
+});
+
+After("@reset-book-loading-mode-after-scenario", async function() {
+  var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
+  var menuButton = await verseListTabs.$('.display-options-button');
+  await menuButton.click();
+  await spectronHelper.sleep();
+
+  await uiHelper.setBookLoadingOption("Open books completely");
 });
 
 After("@remove-last-tag-after-scenario", async function() {
