@@ -35,50 +35,12 @@ module.exports.getBookShortTitle = function(book_long_title) {
   return -1;
 };
 
-async function isAsvAvailable(refreshNsi = false) {
-  const nsi = await getNSI(refreshNsi);
-  var allLocalModules = nsi.getAllLocalModules();
-  var asvFound = false;
-
-  allLocalModules.forEach((module) => {
-    if (module.name == 'ASV') asvFound = true;
-  });
-
-  return asvFound;
-}
-
 module.exports.backupSwordDir = async function() {
   var userDataDir = await spectronHelper.getUserDataDir();
   var swordDir = userDataDir + '/.sword';
   var backupDir = userDataDir + '/.swordBackup';
 
   copydir.sync(swordDir, backupDir);
-};
-
-module.exports.installASV = async function() {
-  var userDataDir = await spectronHelper.getUserDataDir();
-  var swordDir = userDataDir + '/.sword';
-  var backupDir = userDataDir + '/.swordBackup';
-
-  if (fs.existsSync(backupDir)) {
-    copydir.sync(backupDir, swordDir);
-    await spectronHelper.sleep(500);
-  }
-
-  var asvFound = await isAsvAvailable(true);
-
-  if (!asvFound) {
-    const nsi = await getNSI(true);
-    await nsi.updateRepositoryConfig();
-    await nsi.installModule(undefined, 'ASV');
-
-    var asvAvailable = await isAsvAvailable();
-    assert(asvAvailable);
-
-    await this.backupSwordDir();
-  }
-
-  await spectronHelper.sleep(500);
 };
 
 module.exports.getLocalModule = async function(moduleCode) {
