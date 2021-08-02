@@ -76,11 +76,11 @@ class InfoPopup {
     if (this.platformHelper.isElectron()) {
       version = app.getVersion();
     } else if (this.platformHelper.isCordova()) {
-      version = await window.cordova.getAppVersion.getVersionNumber();
+      version = await cordova.getAppVersion.getVersionNumber();
     }
 
     const swordVersion = await ipcNsi.getSwordVersion();
-    const chromiumVersion = window.getChromiumVersion();
+    const chromiumVersion = getChromiumVersion();
     const databasePath = await ipcDb.getDatabasePath();
     const configFilePath = await ipcSettings.getConfigFilePath();
 
