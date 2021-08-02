@@ -133,8 +133,8 @@ class PlatformHelper {
       document.body.classList.add('OSX');
     } else if (this.isAndroid()) {
       document.body.classList.add('Android');
-      if (window.getChromiumMajorVersion() < 83) {
-        document.body.classList.add('chrome-older'); // in Android it's possible to have lower versions of WebView
+      if (window.isChromiumOlder()) {
+        document.body.classList.add('webview-older'); // in Android it's possible to have lower versions of WebView
       }
     } else if (this.isLinux()) {
       document.body.classList.add('Linux');

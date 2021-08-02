@@ -28,98 +28,10 @@
  * @category Startup
  */
 
-window.getChromiumVersion = function() {
-  var userAgent = navigator.userAgent;
-  var splittedUserAgent = userAgent.split(' ');
-  var chromiumVersion = null;
 
-  for (var i = 0; i < splittedUserAgent.length; i++) {
-    if (splittedUserAgent[i].indexOf('Chrome/') != -1) {
-      chromiumVersion = splittedUserAgent[i].replace('Chrome/', '');
-      break;
-    }
-  }
 
-  return chromiumVersion;
-}
-
-window.getChromiumMajorVersion = function() {
-  var chromiumVersion = getChromiumVersion();
-  var splittedVersion = chromiumVersion.split('.');
-  chromiumVersion = parseInt(splittedVersion[0]);
-  return chromiumVersion;
-}
-
-window.supportsEcmaScript2017 = function() {
-  var chromiumVersion = getChromiumMajorVersion();
-
-  if (chromiumVersion == null) {
-    return undefined;
-  }
-
-  var minimumVersionSupportingES2017 = 55; 
-
-  return chromiumVersion >= minimumVersionSupportingES2017;
-}
-
-window.isAndroidWebView = function() {
-  return navigator.userAgent.indexOf('; wv') != -1;
-}
-
-window.getOutdatedWebViewMessage = function() {
-  var chromiumVersion = getChromiumMajorVersion();
-
-  var generalInfoBoxMessage = "Your Android WebView component is too old (" + chromiumVersion + ")" +
-                                " and does not support Ezra Bible App.<br><br>" +
-                                "To run Ezra Bible App you need a newer version" +
-                                " of the <b>Android System WebView</b> component, at least version 55.<br><br>" +
-                                "You can install a newer version of that app from the Play Store!";
-
-  return generalInfoBoxMessage;
-}
-
-window.showOutdatedWebviewMessage = function() {
-  var title = 'Android WebView not compatible!';
-  var message = getOutdatedWebViewMessage();
-
-  showMessage(title, message);
-}
-
-window.showIncompatibleWebviewMessage = function() {
-  var title = "Android WebView not compatible!";
-  var message = "The exact Android WebView version is not available for some reason. Compatibility is unclear.<br>" +
-                "Try to install a newer version of the <b>Android System WebView</b> component from the Play Store.";
-
-  showMessage(title, message);
-}
-
-window.showMessage = function(title, message) {
-  var loadingIndicator = $('#startup-loading-indicator');
-  loadingIndicator.hide();
-  $('#main-content').show();
-
-  var generalInfoBoxBox = $('#general-info-box');
-  var generalInfoBoxBoxContent = $('#general-info-box-content');
-
-  generalInfoBoxBoxContent.html(message);
-
-  generalInfoBoxBox.dialog({
-    title: title,
-    width: 400,
-    autoOpen: true,
-    dialogClass: 'ezra-dialog dialog-without-close-button android-dialog-large-fontsize',
-    modal: true,
-    resizable: false
-  });
-}
-
-window.loadScript = function(script) {
-  var head = document.getElementsByTagName('head')[0];
-  var js = document.createElement("script");
-  js.type = "text/javascript";
-  js.src = script;
-  head.appendChild(js);
-}
+const CHROMIUM_VERSION_MIN = 55; // Do not support Chromium/WebView below version that supports ES2017
+const CHROMIUM_VERSION_UP_TO_DATE = 83; // Version that works without extra hacks
 
 window.initPlatform = function() {
   if (isAndroidWebView()) {
@@ -164,11 +76,106 @@ window.initPlatform = function() {
     }
 
     if (isDev) {
-      console.log("DEV mode: Loading app/frontend/ezra_init.js")
+      console.log("DEV mode: Loading app/frontend/ezra_init.js");
       loadScript('app/frontend/ezra_init.js');
     } else {
       console.log('PRODUCTION mode: Loading dist/ezra_init.js');
       loadScript('dist/ezra_init.js');
     }
   }
+};
+
+window.loadScript = function(script) {
+  var head = document.getElementsByTagName('head')[0];
+  var js = document.createElement("script");
+  js.type = "text/javascript";
+  js.src = script;
+  head.appendChild(js);
+};
+
+window.getChromiumVersion = function() {
+  var userAgent = navigator.userAgent;
+  var splittedUserAgent = userAgent.split(' ');
+  var chromiumVersion = null;
+
+  for (var i = 0; i < splittedUserAgent.length; i++) {
+    if (splittedUserAgent[i].indexOf('Chrome/') != -1) {
+      chromiumVersion = splittedUserAgent[i].replace('Chrome/', '');
+      break;
+    }
+  }
+
+  return chromiumVersion;
+};
+
+window.isChromiumOlder = function() {
+  return window.getChromiumMajorVersion() < CHROMIUM_VERSION_UP_TO_DATE;
+};
+
+function getChromiumMajorVersion() {
+  var chromiumVersion = window.getChromiumVersion();
+  var splittedVersion = chromiumVersion.split('.');
+  chromiumVersion = parseInt(splittedVersion[0]);
+  return chromiumVersion;
+}
+
+function supportsEcmaScript2017() {
+  var chromiumVersion = getChromiumMajorVersion();
+
+  if (chromiumVersion == null) {
+    return undefined;
+  }
+
+  return chromiumVersion >= CHROMIUM_VERSION_MIN;
+}
+
+function isAndroidWebView() {
+  return navigator.userAgent.indexOf('; wv') != -1;
+}
+
+function getOutdatedWebViewMessage() {
+  var chromiumVersion = getChromiumMajorVersion();
+
+  var generalInfoBoxMessage = "Your Android WebView component is too old (" + chromiumVersion + ")" +
+                                " and does not support Ezra Bible App.<br><br>" +
+                                "To run Ezra Bible App you need a newer version" +
+                                " of the <b>Android System WebView</b> component, at least version 55.<br><br>" +
+                                "You can install a newer version of that app from the Play Store!";
+
+  return generalInfoBoxMessage;
+}
+
+function showOutdatedWebviewMessage() {
+  var title = 'Android WebView not compatible!';
+  var message = getOutdatedWebViewMessage();
+
+  showMessage(title, message);
+}
+
+function showIncompatibleWebviewMessage() {
+  var title = "Android WebView not compatible!";
+  var message = "The exact Android WebView version is not available for some reason. Compatibility is unclear.<br>" +
+                "Try to install a newer version of the <b>Android System WebView</b> component from the Play Store.";
+
+  showMessage(title, message);
+}
+
+function showMessage(title, message) {
+  var loadingIndicator = $('#startup-loading-indicator');
+  loadingIndicator.hide();
+  $('#main-content').show();
+
+  var generalInfoBoxBox = $('#general-info-box');
+  var generalInfoBoxBoxContent = $('#general-info-box-content');
+
+  generalInfoBoxBoxContent.html(message);
+
+  generalInfoBoxBox.dialog({
+    title: title,
+    width: 400,
+    autoOpen: true,
+    dialogClass: 'ezra-dialog dialog-without-close-button android-dialog-large-fontsize',
+    modal: true,
+    resizable: false
+  });
 }
