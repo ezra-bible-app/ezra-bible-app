@@ -108,7 +108,6 @@ async function finishOnceProcessCompleted(moduleSettingsDialogId='#module-settin
 
 When('the installation is completed', {timeout: 100 * 1000}, async function () {
   await finishOnceProcessCompleted();
-  await nsiHelper.backupSwordDir();
 });
 
 When('the removal is completed', {timeout: 5 * 1000}, async function () {

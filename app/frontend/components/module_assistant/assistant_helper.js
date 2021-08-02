@@ -95,7 +95,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
       const item = arr.get(key);
       if (item.count === undefined || item.count && item.count !== 0) {
         if (options.info) {
-          checkboxes.push('<div style="display: flex; align-items: center">');
+          checkboxes.push('<div style="display: flex;">');
         }
         checkboxes.push(generateCheckbox(item, selected.has(typeof item === 'string' ? item : item.code), options));
         if (options.info) {
@@ -153,7 +153,7 @@ function generateCheckbox(item, checked, options) {
 }
 
 function generateInfoButton() {
-  return `<a href="#" class="module-info-button" title="${i18n.t("module-assistant.step-modules.show-module-info")}" style="margin-inline-start: 0.2rem; margin-top: 0.5em;"><svg style="height: 1.1rem; fill: var(--accent-color, gray);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"/></svg></a>`;
+  return `<a href="#" class="module-info-button" title="${i18n.t("module-assistant.step-modules.show-module-info")}" style="margin-inline-start: auto;"><svg style="height: 1.1rem; fill: var(--accent-color, gray);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"/></svg></a>`;
 }
 
 module.exports.localizeContainer = function (container, module_type) {

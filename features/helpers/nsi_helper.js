@@ -1,10 +1,7 @@
-const path = require('path');
-const copydir = require('copy-dir');
-const fs = require('fs');
 const NodeSwordInterface = require('node-sword-interface');
 const VerseReferenceHelper = require('../../app/frontend/helpers/verse_reference_helper.js');
-require('../../app/backend/database/models/biblebook.js');
 
+require('../../app/backend/database/models/biblebook.js');
 const spectronHelper = require('./spectron_helper.js');
 
 var nsi = null;
@@ -22,7 +19,7 @@ module.exports.getVerseReferenceHelper = async function() {
   var verseReferenceHelper = new VerseReferenceHelper(await getNSI());
   verseReferenceHelper.setReferenceSeparator(':');
   return verseReferenceHelper;
-}
+};
 
 module.exports.getBookShortTitle = function(book_long_title) {
   for (var i = 0; i < global.bible_books.length; i++) {
@@ -35,50 +32,22 @@ module.exports.getBookShortTitle = function(book_long_title) {
   return -1;
 };
 
-async function isAsvAvailable(refreshNsi = false) {
-  const nsi = await getNSI(refreshNsi);
-  var allLocalModules = nsi.getAllLocalModules();
-  var asvFound = false;
-
-  allLocalModules.forEach((module) => {
-    if (module.name == 'ASV') asvFound = true;
-  });
-
-  return asvFound;
+module.exports.getBookChapterVerseCount = async function(moduleCode, bookCode, chapter) {
+  const nsi = await getNSI();
+  const chapterVerseCount = nsi.getChapterVerseCount(moduleCode, bookCode, chapter);
+  return chapterVerseCount;
 }
 
-module.exports.backupSwordDir = async function() {
-  var userDataDir = await spectronHelper.getUserDataDir();
-  var swordDir = userDataDir + '/.sword';
-  var backupDir = userDataDir + '/.swordBackup';
-
-  copydir.sync(swordDir, backupDir);
-}
-
-module.exports.installASV = async function() {
-  var userDataDir = await spectronHelper.getUserDataDir();
-  var swordDir = userDataDir + '/.sword';
-  var backupDir = userDataDir + '/.swordBackup';
-
-  if (fs.existsSync(backupDir)) {
-    copydir.sync(backupDir, swordDir);
-    await spectronHelper.sleep(500);
-  }
-
-  var asvFound = await isAsvAvailable(true);
-
-  if (!asvFound) {
-    const nsi = await getNSI(true);
-    await nsi.updateRepositoryConfig();
-    await nsi.installModule(undefined, 'ASV');
-
-    var asvAvailable = await isAsvAvailable();
-    assert(asvAvailable);
-
-    await backupSwordDir();
-  }
-
-  await spectronHelper.sleep(500);
+module.exports.getChapterLastVerseContent = async function(moduleCode, bookCode, chapter) {
+  const nsi = await getNSI();
+  const verseReferenceHelper = await this.getVerseReferenceHelper();
+  const chapterVerseCount = await this.getBookChapterVerseCount(moduleCode, bookCode, chapter);
+  const absoluteVerseNumber = await verseReferenceHelper.referenceToAbsoluteVerseNr(moduleCode,
+                                                                                    bookCode,
+                                                                                    chapter,
+                                                                                    chapterVerseCount);
+  const verses = nsi.getBookText(moduleCode, bookCode, absoluteVerseNumber, 1);
+  return verses[0].content;
 }
 
 module.exports.getLocalModule = async function(moduleCode) {
@@ -97,7 +66,7 @@ module.exports.getLocalModule = async function(moduleCode) {
   }
 
   return null;
-}
+};
 
 module.exports.splitVerseReference = async function(verseReference, translation = 'KJV') {
   var [book, verseReferenceString] = verseReference.split(' ');
@@ -109,5 +78,5 @@ module.exports.splitVerseReference = async function(verseReference, translation 
   return {
     bookId,
     absoluteVerseNumber
-  }
-}
+  };
+};

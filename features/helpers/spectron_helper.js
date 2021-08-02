@@ -20,6 +20,8 @@ const path = require('path');
 const Application = require('spectron').Application;
 const chaiAsPromised = require('chai-as-promised');
 const chai = require('chai');
+const fs = require('fs-extra');
+const os = require('os');
 
 var app = null;
 
@@ -56,7 +58,7 @@ module.exports.initApp = function(additionalArgs = [], force = false) {
   }
   
   return app;
-}
+};
 
 module.exports.getApp = () => app;
 module.exports.getWebClient = () => app.client; // https://webdriver.io/docs/api
@@ -67,12 +69,35 @@ module.exports.sleep = function(time = 200) {
       resolve();
     }, time);
   });
-}
+};
 
-module.exports.getUserDataDir = async function() {
-  var electronApp = app.electron.remote.app;
+module.exports.getUserDataDir = async function(appDataPath=null) {
+  if (!appDataPath) {
+    var electronApp = app.electron.remote.app;
+    appDataPath = await electronApp.getPath('appData');
+  }
+
   var pjson = require('../../package.json');
-  var appDataPath = await electronApp.getPath('appData');
   var userDataDir = path.join(appDataPath, pjson.name + '-test');
   return userDataDir;
-}
+};
+
+module.exports.deleteUserDataDir = async function() {
+  var appDataPath = null;
+
+  if (os.type() == 'Linux') {
+    appDataPath = process.env.HOME + '/.config';
+  } else if (os.type() == 'Darwin') {
+    appDataPath = process.env.HOME + '/Library/Application Support';
+  } else {
+    throw "Unsupported OS for testing";
+  }
+
+  const userDataDir = await this.getUserDataDir(appDataPath);
+
+  try {
+    fs.removeSync(userDataDir);
+  } catch (e) {
+    console.log(`Could not delete user data dir ${userDataDir}!`);
+  }
+};
