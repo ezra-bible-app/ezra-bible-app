@@ -22,7 +22,9 @@
         "theme_controller": "readonly",
         "uiHelper": "readonly",
         "i18n": "readonly",
-        "platformHelper": "readonly"
+        "platformHelper": "readonly",
+        "device": "readonly",
+        "cordova": "readonly"
     },
     "extends": "eslint:recommended",
     "parserOptions": {

@@ -163,6 +163,8 @@ class PlatformHelper {
       // see https://en.wikipedia.org/wiki/Darwin_(operating_system)#Release_history
       // macOS Mojave starts with the Darwin kernel version 18.0.0
       isMojaveOrLater = (majorOsVersion >= 18);
+
+    // eslint-disable-next-line no-empty
     } catch (e) {}
 
     return isMojaveOrLater;
@@ -217,13 +219,13 @@ class PlatformHelper {
   getUserDataPath(getOldPath=false, useInternalStorage=false) {
     if (this.isElectron()) {
 
-      var { app } = require('electron');
+      const { app } = require('electron');
       const path = require('path');
 
-      var pjson = require('../../package.json');
+      const pjson = require('../../package.json');
 
-      var appName = null;
-      var newAppName = null;
+      let appName = null;
+      let newAppName = null;
 
       if (this.isWin()) {
         // On Windows we use productName (containing spaces) for the user data path.
@@ -233,7 +235,7 @@ class PlatformHelper {
         newAppName = pjson.name;
       }
 
-      var oldName = 'ezra-project';
+      let oldName = 'ezra-project';
 
       if (this.isTest()) {
         oldName += '-test';
@@ -242,17 +244,17 @@ class PlatformHelper {
 
       appName = getOldPath ? oldName : newAppName;
 
-      var userDataDir = path.join(app.getPath('appData'), appName);
+      const userDataDir = path.join(app.getPath('appData'), appName);
       return userDataDir;
 
     } else if (this.isCordova()) {
 
-      var userDataDir = "";
+      let userDataDir = "";
 
       if (useInternalStorage) {
         userDataDir = cordova.app.datadir() + '/ezra_storage';
       } else {
-        var appId = getOldPath ? 'de.ezraproject.cordova' : 'net.ezrabibleapp.cordova';
+        const appId = getOldPath ? 'de.ezraproject.cordova' : 'net.ezrabibleapp.cordova';
         // TODO adapt this for ios later
         userDataDir = `/sdcard/Android/data/${appId}`;
       }
