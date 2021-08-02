@@ -128,7 +128,7 @@ class AppController {
     var defaultBibleTranslationId = null;
 
     if (bibleTranslations != null && bibleTranslations.length > 0) {
-      var defaultBibleTranslationId = bibleTranslations[0].name;
+      defaultBibleTranslationId = bibleTranslations[0].name;
     }
 
     var tabHtmlTemplate = this.getTabHtmlTemplate();
@@ -187,6 +187,7 @@ class AppController {
     this.dictionary_controller.bindAfterBibleTextLoaded();
   }
 
+  // eslint-disable-next-line no-unused-vars
   async onTabSelected(event = undefined, ui = { 'index' : 0}) {
     await waitUntilIdle();
 
@@ -567,7 +568,8 @@ class AppController {
 
     try {
       currentVerseListMenu = $(currentVerseListTabs[0].querySelector('.verse-list-menu'));
-    } catch (e) { };
+    // eslint-disable-next-line no-empty
+    } catch (e) { }
 
     return currentVerseListMenu;
   }
@@ -578,7 +580,8 @@ class AppController {
 
     try {
       currentVerseListComposite = $(currentVerseListTabs[0].querySelector('.verse-list-composite'));
-    } catch (e) { };
+    // eslint-disable-next-line no-empty
+    } catch (e) { }
 
     return currentVerseListComposite;
   }
@@ -589,7 +592,8 @@ class AppController {
 
     try {
       currentVerseListFrame = $(currentVerseListComposite[0].querySelector('.verse-list-frame'));
-    } catch (e) { };
+    // eslint-disable-next-line no-empty
+    } catch (e) { }
 
     return currentVerseListFrame;
   }
@@ -724,7 +728,7 @@ class AppController {
       }
     } else {
       if (isXrefMarker) {
-        var referenceType = "XREFS";
+        let referenceType = "XREFS";
 
         if (app_controller.optionsMenu._verseListNewTabOption.isChecked) {
           this.verse_list_popup.currentReferenceType = referenceType;
@@ -734,7 +738,7 @@ class AppController {
           await this.verse_list_popup.openVerseListPopup(event, referenceType);
         }
       } else if (isTag) {
-        var referenceType = "TAGGED_VERSES";
+        let referenceType = "TAGGED_VERSES";
 
         if (app_controller.optionsMenu._verseListNewTabOption.isChecked) {
           this.verse_list_popup.currentReferenceType = referenceType;
@@ -1053,17 +1057,17 @@ class AppController {
     this.moduleAssistant.openAssistant(moduleType);
   }
 
-  getChapterFromReference(reference, separator=reference_separator) {
+  getChapterFromReference(reference, separator=window.reference_separator) {
     var chapter = Number(reference.split(separator)[0]);
     return chapter;
   }
 
-  getVerseFromReference(reference, separator=reference_separator) {
+  getVerseFromReference(reference, separator=window.reference_separator) {
     var verse = Number(reference.split(separator)[1]);
     return verse;
   }
 
-  getBibleBookStatsFromVerseList(tabIndex) {
+  getBibleBookStatsFromVerseList(tabIndex) {
     var bibleBookStats = {};    
     var currentVerseList = this.getCurrentVerseList(tabIndex)[0];
     var verseBoxList = currentVerseList.querySelectorAll('.verse-box');
@@ -1081,26 +1085,6 @@ class AppController {
 
     return bibleBookStats;
   }
-
-/*
-  jumpToReference(reference, highlight) {
-    var currentTabId = this.tab_controller.getSelectedTabId();
-    var chapter = this.getChapterFromReference(reference);
-    var verse = this.getVerseFromReference(reference);
-
-    var uniqueReference = '#' + currentTabId + ' ' + chapter + ':' + verse;
-
-    if (chapter == 1 && verse < 5) {
-      var currentVerseListComposite = this.getCurrentVerseListComposite();
-      currentVerseListComposite[0].scrollTop = 0;
-    } else {
-      window.location = uniqueReference;
-    }
-
-    this.navigation_pane.highlightNavElement(chapter);
-  }
-*/
-
 }
 
 module.exports = AppController;
