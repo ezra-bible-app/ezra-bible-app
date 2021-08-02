@@ -165,8 +165,13 @@ class IpcNsiHandler {
       }
     });
 
-    this._ipcMain.add('nsi_uninstallModule', (moduleCode) => {
-      return this._nsi.uninstallModule(moduleCode);
+    this._ipcMain.add('nsi_uninstallModule', async (moduleCode) => {
+      try {
+        await this._nsi.uninstallModule(moduleCode);
+        return 0;
+      } catch (e) {
+        return -1;
+      }
     });
 
     this._ipcMain.addSync('nsi_resetNsi', () => {
@@ -174,7 +179,12 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.add('nsi_saveModuleUnlockKey', (moduleCode, key) => {
-      return this._nsi.saveModuleUnlockKey(moduleCode, key);
+      try {
+        this._nsi.saveModuleUnlockKey(moduleCode, key);
+        return 0;
+      } catch (e) {
+        return -1;
+      }
     });
 
     this._ipcMain.add('nsi_isModuleReadable', (moduleCode) => {
