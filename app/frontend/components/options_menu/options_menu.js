@@ -133,10 +133,6 @@ class OptionsMenu {
     }
 
     if (this.platformHelper.isCordova()) {
-      // On the Cordova platform we cannot make use of the dictionary panel, because
-      // it heavily depends on the mouse.
-      $(this._dictionaryOption).hide();
-
       var bookLoadingModeOptionPersisted = await this._bookLoadingModeOption.persisted;
       if (!bookLoadingModeOptionPersisted) {
         this._bookLoadingModeOption.selectedValue = 'open-chapters-all-books';
