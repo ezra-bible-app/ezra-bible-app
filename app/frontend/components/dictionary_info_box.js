@@ -60,12 +60,10 @@ class DictionaryInfoBox {
 
   hideDictInfoBox() {
     if (this.infoBox.is(":visible")) {
-      this.infoBox.hide();
-      this.infoBox.parent().removeClass('with-dictionary');
-      return true;
+      this.clearDictInfoBox();
     }
-
-    return false;
+    this.infoBox.hide();
+    this.infoBox.parent().removeClass('with-dictionary');
   }
 
   showDictInfoBox() {
@@ -76,15 +74,27 @@ class DictionaryInfoBox {
 
     this.getJsStrongs();
 
-    if (this.infoBox.is(":hidden")) {
-      this.infoBox.show();
-      this.infoBox.parent().addClass('with-dictionary');
-      return true;
-    }
-
-    return false;
+    this.infoBox.show();
+    this.infoBox.parent().addClass('with-dictionary');
   }
 
+  moveDictInfoBox(fromContainer=null, toContainer=null) {
+    if (!fromContainer) {
+      fromContainer = document.querySelector('#side-panel');
+    }
+    if (!toContainer) {
+      toContainer = document.querySelector('#bottom-panel');
+    }
+
+    if (this.infoBox && this.infoBox.length > 0) {
+      toContainer.appendChild(this.infoBox[0]);
+      if (this.infoBox.is(':visible')) {
+        toContainer.classList.add('with-dictionary');
+      }
+      fromContainer.classList.remove('with-dictionary');
+    }
+  }
+  
   async updateDictInfoBox(strongsEntry, additionalStrongsEntries=[], firstUpdate=false) {
     if (strongsEntry == null) {
       return;

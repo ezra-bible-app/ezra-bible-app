@@ -320,19 +320,16 @@ class OptionsMenu {
     var updated = false;
 
     if (!this._dictionaryOption.isChecked) { 
-      updated = app_controller.dictionary_controller.hideInfoBox();
+      app_controller.dictionary_controller.hideInfoBox();
       if (updated) {
         app_controller.dictionary_controller.clearInfoBox();
       }
 
       app_controller.dictionary_controller.hideStrongsBox(true);
     } else {
-      updated = app_controller.dictionary_controller.showInfoBox();
+      app_controller.dictionary_controller.showInfoBox();
     }
 
-    if (updated) {
-      uiHelper.resizeAppContainer();
-    }
   }
 
   showOrHideBookChapterNavigationBasedOnOption(tabIndex=undefined) {
