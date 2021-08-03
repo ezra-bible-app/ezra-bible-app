@@ -30,15 +30,15 @@
 
 
 
-const CHROMIUM_VERSION_MIN = 55; // Do not support Chromium/WebView below version that supports ES2017
+const CHROMIUM_VERSION_MIN = 57; // Do not support Chromium/WebView below the version that supports ES2017 and CSS grid
 const CHROMIUM_VERSION_UP_TO_DATE = 83; // Version that works without extra hacks
 
 window.initPlatform = function() {
   if (isAndroidWebView()) {
-    var supportsES2017 = supportsEcmaScript2017();
-
-    if (supportsES2017 != undefined) {
-      if (supportsES2017) {
+    const webViewVersion = getChromiumMajorVersion();
+    
+    if (webViewVersion) {
+      if (webViewVersion >=  CHROMIUM_VERSION_MIN) {
         loadScript('cordova.js');
 
         console.log("Using customizable theme.css!");
@@ -49,7 +49,7 @@ window.initPlatform = function() {
         loadScript('dist/ezra_init.js');
 
       } else {
-        console.log("Android WebView is too old (< 55). Cannot continue!");
+        console.log(`Android WebView is too old (< ${CHROMIUM_VERSION_MIN}). Cannot continue!`);
 
         window.addEventListener('load', showOutdatedWebviewMessage);
       }
@@ -119,16 +119,6 @@ function getChromiumMajorVersion() {
   return chromiumVersion;
 }
 
-function supportsEcmaScript2017() {
-  var chromiumVersion = getChromiumMajorVersion();
-
-  if (chromiumVersion == null) {
-    return undefined;
-  }
-
-  return chromiumVersion >= CHROMIUM_VERSION_MIN;
-}
-
 function isAndroidWebView() {
   return navigator.userAgent.indexOf('; wv') != -1;
 }
@@ -136,11 +126,10 @@ function isAndroidWebView() {
 function getOutdatedWebViewMessage() {
   var chromiumVersion = getChromiumMajorVersion();
 
-  var generalInfoBoxMessage = "Your Android WebView component is too old (" + chromiumVersion + ")" +
-                                " and does not support Ezra Bible App.<br><br>" +
-                                "To run Ezra Bible App you need a newer version" +
-                                " of the <b>Android System WebView</b> component, at least version 55.<br><br>" +
-                                "You can install a newer version of that app from the Play Store!";
+  var generalInfoBoxMessage = `
+Your Android WebView component is too old (${chromiumVersion}) and does not support Ezra Bible App.<br><br>
+To run Ezra Bible App you need a newer version of the <b>Android System WebView</b> component, at least version ${CHROMIUM_VERSION_MIN}.<br><br>
+You can install a newer version of that app from the Play Store!`;
 
   return generalInfoBoxMessage;
 }
