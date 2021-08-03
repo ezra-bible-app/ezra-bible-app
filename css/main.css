@@ -512,6 +512,10 @@ h2:nth-of-type(1) {
     "side-panel bottom-panel";
 }
 
+.webview-older #app-container {
+  grid-template-rows: minmax(55vh, 100vh) minmax(0, 23vh);
+}
+
 main.content {
   grid-area: content;
   height: 100%;
