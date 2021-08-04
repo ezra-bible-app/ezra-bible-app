@@ -22,8 +22,9 @@
  * @category Helper
  */
 
-const LanguageMapper = require('../../lib/language_mapper.js');
-const languageMapper = new LanguageMapper();
+const i18nHelper = require('./i18n_helper.js');
+
+var _moduleVersificationCache = {};
 
 module.exports.getModuleDescription = async function(moduleId, isRemote=false) {
   var moduleInfo = "No info available!";
@@ -92,7 +93,7 @@ module.exports.getModuleInfo = async function(moduleId, isRemote=false, includeM
     moduleInfo += "<table>";
     moduleInfo += "<tr><td style='width: 11em;'>" + i18n.t("general.module-name") + ":</td><td>" + swordModule.name + "</td></tr>";
     moduleInfo += "<tr><td>" + i18n.t("general.module-version") + ":</td><td>" + swordModule.version + "</td></tr>";
-    moduleInfo += "<tr><td>" + i18n.t("general.module-language") + ":</td><td>" + languageMapper.getLanguageName(swordModule.language) + "</td></tr>";
+    moduleInfo += "<tr><td>" + i18n.t("general.module-language") + ":</td><td>" + i18nHelper.getLanguageName(swordModule.language) + "</td></tr>";
     moduleInfo += "<tr><td>" + i18n.t("general.module-license") + ":</td><td>" + swordModule.distributionLicense + "</td></tr>";
 
     if (swordModule.type == 'Biblical Texts') {
@@ -162,6 +163,10 @@ module.exports.getVersification = async function(moduleId) {
     return null;
   }
 
+  if (moduleId in _moduleVersificationCache) {
+    return _moduleVersificationCache[moduleId];
+  }
+
   var versification = null;
   var psalm3Verses = [];
   var revelation12Verses = [];
@@ -193,10 +198,21 @@ module.exports.getVersification = async function(moduleId) {
     console.log("Revelation 12 has " + revelation12Verses.length + " verses.");*/
   }
 
+  _moduleVersificationCache[moduleId] = versification;
   return versification;
 }
 
 module.exports.getThreeLetterVersification = async function(moduleId) {
   var versification = (await this.getVersification(moduleId) == 'ENGLISH' ? 'eng' : 'heb');
   return versification;
+}
+
+module.exports.getModuleLanguage = async function(moduleId) {
+  var swordModule = await this.getSwordModule(moduleId);
+
+  if (swordModule != null) {
+    return swordModule.language;
+  } else {
+    return false;
+  }
 }

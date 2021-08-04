@@ -32,21 +32,21 @@ async function waitUntilButtonHasClass(button, className, timeoutMs = 100) {
 
 module.exports.buttonIsDisabled = async function(button, timeoutMs = 100) {
   await waitUntilButtonHasClass(button, 'ui-state-disabled', timeoutMs);
-}
+};
 
 module.exports.buttonIsEnabled = async function(button, timeoutMs = 100) {
   await waitUntilButtonHasClass(button, 'ui-state-default', timeoutMs);
-}
+};
 
 module.exports.buttonIsActive = async function(button) {
   return await buttonHasClass(button, 'ui-state-active');
-}
+};
 
 module.exports.getVerseBox = async function(verseReference) {
   var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
   var { absoluteVerseNumber } = await nsiHelper.splitVerseReference(verseReference);
   return await verseListTabs.$(`.verse-nr-${absoluteVerseNumber}`);
-}
+};
 
 module.exports.waitUntilGlobalLoaderIsHidden = async function(timeoutMs = 20000) {
   var verseListMenu = await spectronHelper.getWebClient().$('.verse-list-menu');
@@ -59,4 +59,15 @@ module.exports.waitUntilGlobalLoaderIsHidden = async function(timeoutMs = 20000)
 
     return loaderDisplay.value == "none";
   }, { timeout: timeoutMs, timeoutMsg: `The loader has not disappeared after waiting ${timeoutMs}ms.` });
-}
+};
+
+module.exports.setBookLoadingOption = async function(selectedOptionText) {
+  const dropdownButton = await spectronHelper.getWebClient().$('#bookLoadingModeOption-button');
+  await dropdownButton.click();
+  await spectronHelper.sleep();
+
+  const dropdownList = await spectronHelper.getWebClient().$('#bookLoadingModeOption-menu');
+  const selectedOption = await dropdownList.$(`./li/a[contains(text(), '${selectedOptionText}')]`);
+  await selectedOption.click();
+  await spectronHelper.sleep();
+};

@@ -34,12 +34,15 @@ class PlatformHelper {
       var isDebug = require('electron-is-dev');
       return isDebug;
 
-    } else if (this.isCordova()) {
+    } else if (this.isCordovaFrontend()) {
 
       var CordovaPlatform = require('../frontend/platform/cordova_platform.js');
       var cordovaPlatform = new CordovaPlatform();
       return await cordovaPlatform.isDebug();
 
+    } else if (this.isCordovaBackend()) {
+
+      return global.main.isDebug;
     }
   }
 
@@ -81,16 +84,20 @@ class PlatformHelper {
   }
 
   isCordova() {
-    if (typeof window !== 'undefined' && !!window.cordova) {
+    if (this.isCordovaFrontend() || this.isCordovaBackend()){
       return true;
-    }
+    } 
     
-    if (typeof global !== 'undefined' && !!global.cordova) {
-      return true;
-    }
-
     return false;
   }
+
+  isCordovaBackend() {
+    return (typeof global !== 'undefined' && !!global.cordova);
+  } 
+
+  isCordovaFrontend() {
+    return (typeof window !== 'undefined' && !!window.cordova);
+  } 
 
   // https://github.com/electron/electron/issues/2288
   isElectron() {

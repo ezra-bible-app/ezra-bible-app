@@ -69,7 +69,7 @@ class TagsController {
     this.deleteTagConfirmationDialogInitDone = false;
     this.removeTagAssignmentConfirmationDialogInitDone = false;
     this.renameStandardTagDialogInitDone = false;
-    this.lastBook = null;
+    this.lastContentId = null;
 
     i18nController.addLocaleChangeSubscriber(async () => {
       this.updateTagsView(undefined, true);
@@ -259,7 +259,8 @@ class TagsController {
     var new_tag = await ipcDb.createNewTag(new_tag_title);
 
     tags_controller.tag_store.resetBookTagStatistics();
-    await tags_controller.updateTagList(app_controller.tab_controller.getTab().getBook(), true);
+    var tab = app_controller.tab_controller.getTab();
+    await tags_controller.updateTagList(tab.getBook(), tab.getContentId(), true);
     await app_controller.tag_selection_menu.requestTagsForMenu();
     var current_timestamp = new Date(Date.now()).getTime();
     tags_controller.tag_store.updateTagTimestamp(new_tag.id, current_timestamp);
@@ -647,18 +648,22 @@ class TagsController {
     return tagList;
   }
 
-  async updateTagList(currentBook, forceRefresh=false) {
+  async updateTagList(currentBook, contentId=null, forceRefresh=false) {
     if (forceRefresh) {
       this.initialRenderingDone = false;
     }
 
-    if (currentBook != this.lastBook || forceRefresh) {
+    if (contentId == null) {
+      contentId = currentBook;
+    }
+
+    if (contentId != this.lastContentId || forceRefresh) {
       var tagList = await this.tag_store.getTagList(forceRefresh);
       var tagStatistics = await this.tag_store.getBookTagStatistics(currentBook, forceRefresh);
       await this.renderTags(tagList, tagStatistics, currentBook != null);
       await waitUntilIdle();
 
-      this.lastBook = currentBook;
+      this.lastContentId = contentId;
     }
   }
 
@@ -1249,7 +1254,8 @@ class TagsController {
         await waitUntilIdle();
 
         var currentTabBook = currentTab.getBook();
-        this.updateTagList(currentTabBook, forceRefresh);
+        var currentTabContentId = currentTab.getContentId();
+        this.updateTagList(currentTabBook, currentTabContentId, forceRefresh);
       }
     }
   }

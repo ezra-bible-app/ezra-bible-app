@@ -116,6 +116,25 @@ class IpcGeneralHandler {
 
       return bookNames;
     });
+
+    this._ipcMain.add('general_getIpcCallStats', async() => {
+      var fullStats = global.callCounters;
+      var filteredStats = {};
+
+      for (const [key, value] of Object.entries(fullStats)) {
+        if (value > 0) {
+          filteredStats[key] = value;
+        }
+      }
+
+      return filteredStats;
+    });
+
+    this._ipcMain.add('general_resetIpcCallStats', async() => {
+      for (const [key, value] of Object.entries(global.callCounters)) {
+        global.callCounters[key] = 0;
+      }
+    });
   }
 }
 

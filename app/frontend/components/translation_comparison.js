@@ -34,8 +34,17 @@ class TranslationComparison {
     return $('.show-parallel-translations-button');
   }
 
+  getAllButtons() {
+    return document.getElementsByClassName('show-parallel-translations-button');
+  }
+
   initButtonEvents() {
-    this.getButton().bind('click', async () => {
+    var button = this.getButton();
+
+    button.unbind('click');
+    button.bind('click', async (event) => {
+      event.stopPropagation();
+
       if (this.isButtonEnabled()) {
         await this.handleButtonClick();
       }
@@ -47,7 +56,7 @@ class TranslationComparison {
   }
 
   getBoxContent() {
-    return $('#compare-translations-box-content');
+    return document.getElementById('compare-translations-box-content');
   }
 
   isButtonEnabled() {
@@ -55,11 +64,17 @@ class TranslationComparison {
   }
 
   enableComparisonButton() {
-    this.getButton().removeClass('ui-state-disabled');
+    var allButtons = this.getAllButtons();
+    for (let button of allButtons) {
+      button.classList.remove('ui-state-disabled');
+    };
   }
 
   disableComparisonButton() {
-    this.getButton().addClass('ui-state-disabled');
+    var allButtons = this.getAllButtons();
+    for (let button of allButtons) {
+      button.classList.add('ui-state-disabled');
+    };
   }
 
   initCompareTranslationsBox() {
@@ -144,6 +159,17 @@ class TranslationComparison {
     return compareTranslationContent;
   }
 
+  showLoadingIndicator() {
+    var loadingIndicator = document.getElementById('compare-translations-loading-indicator');
+    loadingIndicator.querySelector('.loader').style.display = 'block';
+    loadingIndicator.style.display = 'block';
+  }
+  
+  hideLoadingIndicator() {
+    var loadingIndicator = document.getElementById('compare-translations-loading-indicator');
+    loadingIndicator.style.display = 'none';
+  }
+
   async handleButtonClick() {
     if (!this.initDone) {
       this.initCompareTranslationsBox();
@@ -154,24 +180,22 @@ class TranslationComparison {
       app_controller.verse_selection.getSelectedVersesLabel().text();
 
     var width = uiHelper.getMaxDialogWidth();
+    var box = this.getBox();
 
-    this.getBox().dialog({
+    box.dialog({
       width: width,
       title: boxTitle
     });
 
-    this.getBoxContent().html("");
-
-    $('#compare-translations-loading-indicator').find('.loader').show();
-    $('#compare-translations-loading-indicator').show();
-
-    this.getBox().dialog("open");
+    this.getBoxContent().innerHTML = "";
+    this.showLoadingIndicator();
+    box.dialog("open");
 
     setTimeout(async () => {
       var compareTranslationContent = await this.getCompareTranslationContent();
 
-      $('#compare-translations-loading-indicator').hide();
-      this.getBoxContent().html(compareTranslationContent);
+      this.hideLoadingIndicator();
+      this.getBoxContent().innerHTML = compareTranslationContent;
     }, 50);
   }
 }

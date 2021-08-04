@@ -195,6 +195,28 @@ class IpcDbHandler {
       return verseReferences;
     });
 
+    this._ipcMain.add('db_getVerseReferencesFromVerseObjects', async (verseObjects, versification) => {
+      var allVerseReferences = [];
+
+      for (let i = 0; i < verseObjects.length; i++) {
+        var currentVerseObject = verseObjects[i];
+
+        var sequelizeVerseReferences = await models.VerseReference.findByBookAndAbsoluteVerseNumber(
+          currentVerseObject._bibleBookShortTitle,
+          currentVerseObject._absoluteVerseNr,
+          versification
+        );
+
+        var currentVerseReferences = this.makeSequelizeResultsSerializable(sequelizeVerseReferences);
+
+        if (currentVerseReferences.length > 0) {
+          allVerseReferences.push(currentVerseReferences[0].id);
+        }
+      }
+
+      return allVerseReferences;
+    });
+
     this._ipcMain.add('db_getVerseReferencesByTagIds', async (tagIds) => {
       var sequelizeVerseReferences = await models.VerseReference.findByTagIds(tagIds);
       var verseReferences = this.makeSequelizeResultsSerializable(sequelizeVerseReferences);

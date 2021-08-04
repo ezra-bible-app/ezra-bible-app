@@ -76,9 +76,9 @@ class ThemeController {
       const nativeTheme = require('electron').remote.nativeTheme;
 
       if (nativeTheme.shouldUseDarkColors) {
-        app_controller.optionsMenu._nightModeOption.enableOption();
+        app_controller.optionsMenu._nightModeOption.checked = true;
       } else {
-        app_controller.optionsMenu._nightModeOption.disableOption();
+        app_controller.optionsMenu._nightModeOption.checked = false;
       }
 
       this.useNightModeBasedOnOption();

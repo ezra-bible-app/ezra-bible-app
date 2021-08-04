@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { html, waitUntilIdle } = require('../helpers/ezra_helper.js');
+const { html, waitUntilIdle } = require('../../helpers/ezra_helper.js');
 
 const template = html`
 <style>
@@ -63,11 +63,17 @@ class ConfigOption extends HTMLElement {
     });
 
     this._settingsKey = this.getAttribute('settingsKey');
-    this._enabledByDefault = (this.getAttribute('enabledByDefault') == "true");
+    this._checkedByDefault = (this.getAttribute('checkedByDefault') == "true");
     this._autoLoad = true;
     if (this.hasAttribute('autoLoad') && this.getAttribute('autoLoad') == "false") {
       this._autoLoad = false;
     }
+
+    $(this.querySelector('.switch-box')).bind('click', (event) => {
+      if (!this.enabled) {
+        event.preventDefault();
+      }
+    });
 
     $(this.querySelector('.switch-box')).bind('change', async () => {
       await waitUntilIdle();
@@ -89,58 +95,85 @@ class ConfigOption extends HTMLElement {
     labelEl.setAttribute('i18n', i18nId);
   }
 
-  _isChecked(force = false) {
-    if (force) {
-      return true;
-    } else {
-      return $(this.querySelector('.toggle-config-option-switch')).prop('checked');
-    }
+  _isChecked() {
+    var checkboxChecked = $(this.querySelector('.toggle-config-option-switch')).prop('checked');
+    return checkboxChecked && this.enabled;
   }
 
   get isChecked() {
     return this._isChecked();
   }
 
-  get enabledByDefault() {
-    return this._enabledByDefault;
+  get checkedByDefault() {
+    return this._checkedByDefault;
+  }
+
+  set checked(value) {
+    if (value == true) {
+      this.setOptionChecked();
+    } else {
+      this.setOptionUnchecked();
+    }
   }
 
   set enabled(value) {
     if (value == true) {
-      this.enableOption();
+      this.setOptionEnabled();
+    } else {
+      this.setOptionDisabled();
     }
   }
 
-  set enabledByDefault(value) {
+  get enabled() {
+    var isEnabled = !this.querySelector('.switch-box').classList.contains('ui-state-disabled');
+    return isEnabled;
+  }
+
+  set checkedByDefault(value) {
     if (value == true) {
       ipcSettings.has(this._settingsKey).then((isAvailable) => {
         if (!isAvailable) {
-          this._enabledByDefault = true;
-          this.enableOption();
+          this._checkedByDefault = true;
+          this.setOptionChecked();
         }
       });
     }
   }
 
-  enableOption() {
+  setOptionChecked() {
     $(this.querySelector('.toggle-config-option-switch')).attr('checked', 'checked');
     $(this.querySelector('.toggle-config-option-switch')).removeAttr('disabled');
     $(this.querySelector('.switch-box')).addClass('ui-state-active');
   }
 
-  disableOption() {
+  setOptionUnchecked() {
     $(this.querySelector('.toggle-config-option-switch')).removeAttr('checked');
     $(this.querySelector('.switch-box')).removeClass('ui-state-active');
   }
 
+  setOptionEnabled() {
+    $(this.querySelector('.switch-box')).removeClass('ui-state-disabled');
+    $(this.querySelector('.switch-box')).addClass('fg-button-toggleable');
+
+    if (this.isChecked) {
+      $(this.querySelector('.switch-box')).addClass('ui-state-active');
+    }
+  }
+
+  setOptionDisabled() {
+    $(this.querySelector('.switch-box')).addClass('ui-state-disabled');
+    $(this.querySelector('.switch-box')).removeClass('fg-button-toggleable');
+    $(this.querySelector('.switch-box')).removeClass('ui-state-active');
+  }
+
   async loadOptionFromSettings() {
-    var optionValue = await ipcSettings.get(this._settingsKey, this.enabledByDefault);
-    //console.log(`Option ${this._settingsKey} value: ${optionValue}; enabledByDefault: ${this.enabledByDefault}`);
+    var optionValue = await ipcSettings.get(this._settingsKey, this.checkedByDefault);
+    //console.log(`Option ${this._settingsKey} value: ${optionValue}; checkedByDefault: ${this.checkedByDefault}`);
 
     if (optionValue == true) {
-      this.enableOption();
+      this.setOptionChecked();
     } else {
-      this.disableOption();
+      this.setOptionUnchecked();
     }
   }
 }

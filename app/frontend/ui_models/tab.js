@@ -16,11 +16,15 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const TabSearch = require('../components/tab_search/tab_search.js');
+
 class Tab {
   constructor(defaultBibleTranslationId, interactive=true) {
     this.elementId = null;
     this.book = null;
+    this.previousBook = null;
     this.bookTitle = null;
+    this.chapter = null;
     this.referenceBookTitle = null;
     this.tagIdList = "";
     this.tagTitleList = "";
@@ -33,6 +37,7 @@ class Tab {
     this.referenceVerseElementId = null;
     this.xrefTitle = null;
     this.textType = null;
+    this.previousTextType = null;
     this.lastHighlightedNavElementIndex = null;
     this.bibleTranslationId = defaultBibleTranslationId;
     this.selectCount = 0;
@@ -74,19 +79,69 @@ class Tab {
     return i18n.t("menu.search") + ": " + searchTerm;
   }
 
-  setBook(bookCode, bookTitle, referenceBookTitle) {
+  setBook(bookCode, bookTitle, referenceBookTitle, chapter=undefined) {
+    this.previousBook = this.book;
     this.searchResults = null;
     this.book = bookCode;
     this.bookTitle = bookTitle;
     this.referenceBookTitle = referenceBookTitle;
+    this.chapter = chapter;
   }
 
   getBook() {
     return this.book;
   }
 
+  getContentId() {
+    var contentId = null;
+
+    switch (this.textType) {
+      case 'book':
+        contentId = this.book;
+        break;
+      
+      case 'tagged_verses':
+        contentId = this.tagTitleList;
+        break;
+
+      case 'search_results':
+        contentId = this.searchTerm;
+        break;
+      
+      case 'xrefs':
+        contentId = this.xrefs;
+        break;
+    }
+
+    return contentId;
+  }
+
+  setPreviousBook(previousBook) {
+    this.previousBook = previousBook;
+  }
+
+  getPreviousBook() {
+    return this.previousBook;
+  }
+
+  isBookChanged() {
+    return this.book != this.previousBook;
+  }
+
+  isBookUnchanged() {
+    return !this.isBookChanged();
+  }
+
   getBookTitle() {
     return this.bookTitle;
+  }
+
+  getChapter() {
+    return this.chapter;
+  }
+
+  setChapter(chapter) {
+    this.chapter = chapter;
   }
 
   getReferenceBookTitle() {
@@ -175,11 +230,24 @@ class Tab {
   }
 
   setTextType(textType) {
+    this.previousTextType = this.textType;
     this.textType = textType;
   }
 
   getTextType() {
     return this.textType;
+  }
+
+  getPreviousTextType() {
+    return this.previousTextType;
+  }
+
+  hasTextTypeChanged() {
+    return this.textType != this.previousTextType;
+  }
+
+  getLastHighlightedNavElementIndex() {
+    return this.lastHighlightedNavElementIndex;
   }
 
   setBibleTranslationId(bibleTranslationId) {
@@ -211,11 +279,31 @@ class Tab {
   setLocation(value) {
     this.location = value;
   }
+
+  initTabSearch(tabIndex=undefined) {
+    var verseListComposite = app_controller.getCurrentVerseListComposite(tabIndex);
+
+    this.tab_search = new TabSearch();
+    this.tab_search.init(
+      verseListComposite,
+      '.tab-search',
+      '.tab-search-input',
+      '.tab-search-occurances',
+      '.tab-search-previous',
+      '.tab-search-next',
+      '.tab-search-is-case-sensitive',
+      '.tab-search-type',
+      async (occurances) => { await app_controller.onTabSearchResultsAvailable(occurances); },
+      () => { app_controller.onTabSearchReset(); }
+    );
+  }
 }
 
-Tab.fromJsonObject = function(jsonObject) {
+Tab.fromJsonObject = function(jsonObject, tabIndex) {
   tab = new Tab();
   Object.assign(tab, jsonObject);
+  tab.initTabSearch(tabIndex);
+
   return tab;
 }
 

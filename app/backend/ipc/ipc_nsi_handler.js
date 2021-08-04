@@ -22,37 +22,45 @@ const NodeSwordInterface = require('node-sword-interface');
 const fs = require('fs');
 
 class IpcNsiHandler {
-  constructor() {
+  constructor(customSwordDir=undefined) {
     this._ipcMain = new IpcMain();
     this._platformHelper = new PlatformHelper();
     this._nsi = null;
 
-    this.initNSI();
+    this.initNSI(customSwordDir);
     this.initIpcInterface();
   }
 
   initNSI(customSwordDir=undefined) {
+    if (customSwordDir !== undefined) {
+      console.log("Initializing node-sword-interface with custom SWORD directory: " + customSwordDir);
+    }
+
     if (this._platformHelper.isTest()) {
-
       const userDataDir = this._platformHelper.getUserDataPath();
-
-      // If the user data directory is not existing at this point ... create it!
-      if (!fs.existsSync(userDataDir)) {
-        fs.mkdirSync(userDataDir);
-      }
-
-      this._nsi = new NodeSwordInterface(userDataDir);
-
+      this._nsi = this.createNsi(userDataDir);
     } else {
-
-      if (customSwordDir !== undefined) {
-        this._nsi = new NodeSwordInterface(customSwordDir);
-      } else {
-        this._nsi = new NodeSwordInterface();
-      }
+      this._nsi = this.createNsi(customSwordDir);
     }
 
     this._nsi.enableMarkup();
+  }
+
+  createNsi(customSwordDir=undefined) {
+    var nsi = null;
+
+    if (customSwordDir !== undefined) {
+      // If the custom SWORD directory is not existing at this point ... create it!
+      if (!fs.existsSync(customSwordDir)) {
+        fs.mkdirSync(customSwordDir);
+      }
+
+      nsi = new NodeSwordInterface(customSwordDir);
+    } else {
+      nsi = new NodeSwordInterface();
+    }
+
+    return nsi;
   }
 
   getNSI() {
@@ -75,9 +83,14 @@ class IpcNsiHandler {
       return this._nsi.repositoryConfigExisting();
     });
 
-    this._ipcMain.addWithProgressCallback('nsi_updateRepositoryConfig',
-                                          async (progressCB) => { await this._nsi.updateRepositoryConfig(progressCB); },
-                                          'nsi_updateRepoConfigProgress');
+    this._ipcMain.addWithProgressCallback('nsi_updateRepositoryConfig', async (progressCB) => {
+      try {
+        var retCode = await this._nsi.updateRepositoryConfig(progressCB);
+        return retCode;
+      } catch (retCode) {
+        return retCode;
+      }
+    }, 'nsi_updateRepoConfigProgress');
     
     this._ipcMain.add('nsi_getRepoNames', () => {
       return this._nsi.getRepoNames();
@@ -91,15 +104,7 @@ class IpcNsiHandler {
       return this._nsi.getAllRepoModules(repositoryName, moduleType);
     });
 
-    this._ipcMain.add('nsi_getRepoModulesByLang',
-                      (repositoryName,
-                       language,
-                       moduleType,
-                       headersFilter,
-                       strongsFilter,
-                       hebrewStrongsKeys,
-                       greekStrongsKeys) => {
-
+    this._ipcMain.add('nsi_getRepoModulesByLang', (repositoryName, language, moduleType, headersFilter, strongsFilter, hebrewStrongsKeys, greekStrongsKeys) => {
       return this._nsi.getRepoModulesByLang(repositoryName,
                                             language,
                                             moduleType,
@@ -125,36 +130,48 @@ class IpcNsiHandler {
       return this._nsi.getAllLocalModules(moduleType);
     });
 
-    this._ipcMain.add('nsi_getAllLanguageModuleCount', (selectedRepos, languageArray, moduleType='BIBLE') => {
+    this._ipcMain.add('nsi_getAllLanguageModuleCount', (selectedRepos, languageCodeArray, moduleType='BIBLE') => {
       var allLanguageModuleCount = {};
 
-      for (var i = 0; i < languageArray.length; i++) {
-        var currentLanguage = languageArray[i];
-        var currentLanguageCode = currentLanguage.languageCode;
+      for (let i = 0; i < languageCodeArray.length; i++) {
+        const currentLanguageCode = languageCodeArray[i];
 
-        var currentLanguageModuleCount = this.getLanguageModuleCount(selectedRepos, currentLanguageCode, moduleType);
+        const currentLanguageModuleCount = this.getLanguageModuleCount(selectedRepos, currentLanguageCode, moduleType);
         allLanguageModuleCount[currentLanguageCode] = currentLanguageModuleCount;
       }
 
       return allLanguageModuleCount;
     });
 
-    this._ipcMain.addWithProgressCallback('nsi_installModule',
-                                          async (progressCB, moduleCode) => { 
-                                            await this._nsi.installModule(progressCB, moduleCode); 
-                                          },
-                                          'nsi_updateInstallProgress');
+    this._ipcMain.addWithProgressCallback('nsi_installModule', async (progressCB, moduleCode) => { 
+      try {
+        await this._nsi.installModule(progressCB, moduleCode); 
+        return 0;
+      } catch (e) {
+        return -1;
+      }
+    }, 'nsi_updateInstallProgress');
     
     this._ipcMain.add('nsi_cancelInstallation', () => {
       return this._nsi.cancelInstallation();
-    })
-
-    this._ipcMain.addSync('nsi_installModuleSync', async (moduleCode) => {
-      await this._nsi.installModule(undefined, moduleCode);
     });
 
-    this._ipcMain.add('nsi_uninstallModule', (moduleCode) => {
-      return this._nsi.uninstallModule(moduleCode);
+    this._ipcMain.addSync('nsi_installModuleSync', async (moduleCode) => {
+      try {
+        await this._nsi.installModule(undefined, moduleCode);
+        return 0;
+      } catch (e) {
+        return -1;
+      }
+    });
+
+    this._ipcMain.add('nsi_uninstallModule', async (moduleCode) => {
+      try {
+        await this._nsi.uninstallModule(moduleCode);
+        return 0;
+      } catch (e) {
+        return -1;
+      }
     });
 
     this._ipcMain.addSync('nsi_resetNsi', () => {
@@ -162,12 +179,17 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.add('nsi_saveModuleUnlockKey', (moduleCode, key) => {
-      return this._nsi.saveModuleUnlockKey(moduleCode, key);
+      try {
+        this._nsi.saveModuleUnlockKey(moduleCode, key);
+        return 0;
+      } catch (e) {
+        return -1;
+      }
     });
 
     this._ipcMain.add('nsi_isModuleReadable', (moduleCode) => {
       return this._nsi.isModuleReadable(moduleCode);
-    })
+    });
 
     this._ipcMain.add('nsi_getRawModuleEntry', (moduleCode, key) => {
       return this._nsi.getRawModuleEntry(moduleCode, key);
@@ -175,7 +197,7 @@ class IpcNsiHandler {
 
     this._ipcMain.add('nsi_getChapterText', (moduleCode, bookCode, chapter) => {
       return this._nsi.getChapterText(moduleCode, bookCode, chapter);
-    }) 
+    });
 
     this._ipcMain.add('nsi_getBookText', (moduleCode, bookCode, startVerseNr=-1, verseCount=-1) => {
       return this._nsi.getBookText(moduleCode, bookCode, startVerseNr, verseCount);
@@ -199,6 +221,18 @@ class IpcNsiHandler {
 
     this._ipcMain.add('nsi_getChapterVerseCount', (moduleCode, bookCode, chapter) => {
       return this._nsi.getChapterVerseCount(moduleCode, bookCode, chapter);
+    });
+
+    this._ipcMain.add('nsi_getAllChapterVerseCounts', (moduleCode, bookCode) => {
+      var chapterVerseCounts = [];
+
+      var bookChapterCount = this._nsi.getBookChapterCount(moduleCode, bookCode);
+      for (let i = 0; i < bookChapterCount; i++) {
+        let currentChapterVerseCount = this._nsi.getChapterVerseCount(moduleCode, bookCode, i);
+        chapterVerseCounts.push(currentChapterVerseCount);
+      }
+
+      return chapterVerseCounts;
     });
 
     this._ipcMain.add('nsi_getBookIntroduction', (moduleCode, bookCode) => {

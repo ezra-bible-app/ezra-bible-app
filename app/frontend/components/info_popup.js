@@ -28,8 +28,12 @@ class InfoPopup {
   }
 
   initAppInfoButton() {
-    $('.app-info-button').unbind('click');
-    $('.app-info-button').bind('click', async () => {
+    var appInfoButton = $('.app-info-button');
+
+    appInfoButton.unbind('click');
+    appInfoButton.bind('click', async (event) => {
+      event.stopPropagation();
+
       if (!$(this).hasClass('ui-state-disabled')) {
         app_controller.hideAllMenus();
         await this.showAppInfo();
@@ -48,7 +52,7 @@ class InfoPopup {
 
     $('#info-popup').dialog({
       width: width,
-      height: 500,
+      height: 550,
       autoOpen: false,
       dialogClass: 'ezra-dialog'
     });
@@ -76,12 +80,21 @@ class InfoPopup {
     const moduleDescription = await swordModuleHelper.getModuleDescription(currentBibleTranslationId);
     const moduleInfo = await swordModuleHelper.getModuleInfo(currentBibleTranslationId, false, false);
 
+    var toggleFullScreenLine = '';
+
+    if (this.platformHelper.isWin() || this.platformHelper.isLinux()) {
+      toggleFullScreenLine = `
+        <tr><td>${i18n.t("shortcuts.summary.toggle-fullscreen-only-Win-Linux")}</td><td><code>${i18n.t("shortcuts.shortcut.toggle-fullscreen-only-Win-Linux")}</code></td></tr>
+      `;
+    }
+
     const appInfo = html`
     <div id='app-info-tabs'>
       <ul>
         <li><a href='#app-info-tabs-1'>${i18n.t('general.sword-module-description')}</a></li>
         <li><a href='#app-info-tabs-2'>${i18n.t('general.sword-module-details')}</a></li>
         <li><a href='#app-info-tabs-3'>${i18n.t('general.application-info')}</a></li>
+        <li><a href='#app-info-tabs-4'>${i18n.t('shortcuts.tab-title')}</a></li>
       </ul>
 
       <div id='app-info-tabs-1' class='info-tabs scrollable'>
@@ -114,6 +127,39 @@ class InfoPopup {
           <tr><td>${i18n.t("general.chromium-version")}:</td><td>${chromiumVersion}</td></tr>
           <tr><td>${i18n.t("general.database-path")}:</td><td>${databasePath}</td></tr>
           <tr><td>${i18n.t("general.config-file-path")}:</td><td>${configFilePath}</td></tr>
+        </table>
+      </div>
+
+      <div id='app-info-tabs-4' class='info-tabs scrollable'>
+       <h2>${i18n.t("shortcuts.description")}</h2>
+        <table role="table" id="info-table-shortcuts">
+
+          <tr>
+            <th class="info-tab-section-title">${i18n.t("shortcuts.summary.font-section-title")}</th>
+          </tr>
+          
+          <tr><td>${i18n.t("shortcuts.summary.increase-current-font-size")}</td><td><code>${i18n.t("shortcuts.shortcut.increase-current-font-size")}</code></td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.decrease-current-font-size")}</td><td><code>${i18n.t("shortcuts.shortcut.decrease-current-font-size")}</code></td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.reset-font-size-to-default")}</td><td><code>${i18n.t("shortcuts.shortcut.reset-font-size-to-default")}</code></td></tr>
+
+          <tr>
+            <th class="info-tab-section-title">${i18n.t("shortcuts.summary.current-tab-search-section-title")}</th>
+          </tr>
+          
+          <tr><td>${i18n.t("shortcuts.summary.in-tab-search")}</td><td><code>${i18n.t("shortcuts.shortcut.in-tab-search")}</code></td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.hide-in-tab-search-form")}</td><td><code>${i18n.t("shortcuts.shortcut.hide-in-tab-search-form")}</code></td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.jump-to-next-search-occurance")}</td><td><code>${i18n.t("shortcuts.shortcut.jump-to-next-search-occurance")}</code></td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.jump-to-previous-occurance")}</td><td><code>${i18n.t("shortcuts.shortcut.jump-to-previous-occurance")}</code></td></tr>
+
+          <tr>
+            <th class="info-tab-section-title">${i18n.t("shortcuts.summary.miscellaneous-section-title")}</th>
+          </tr>
+          
+          <tr><td>${i18n.t("shortcuts.summary.copy-selected-verses-to-clipboard")}</td><td><code>${i18n.t("shortcuts.shortcut.copy-selected-verses-to-clipboard")}</code></td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.enable-dynamic-strongs-display")}</td><td><code>${i18n.t("shortcuts.shortcut.enable-dynamic-strongs-display")}</code></td></tr>
+          <tr><td>${i18n.t("shortcuts.summary.open-new-tab")}</td><td><code>${i18n.t("shortcuts.shortcut.open-new-tab")}</code></td></tr>
+          ${toggleFullScreenLine}
+         
         </table>
       </div>
     </div>`;
