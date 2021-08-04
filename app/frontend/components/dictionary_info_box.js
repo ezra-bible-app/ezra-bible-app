@@ -320,20 +320,7 @@ class DictionaryInfoBox {
     }
 
     var extraDictContent = await this.getExtraDictionaryContent(lang, strongsEntry);
-
-    var relatedStrongs = (await Promise.all(strongsEntry.references.map(async (ref, i) => 
-      await this.getStrongsReferenceTableRow(ref, i == (strongsEntry.references.length - 1))
-    ))).join('');
-
-    var relatedStrongsContent = "";
-    if (relatedStrongs.length > 0) {
-      relatedStrongsContent = `
-      <hr/>
-      <b>${i18n.t("dictionary-info-box.related-strongs")}:</b><br/>
-      <table class="strongs-refs">
-      ${relatedStrongs}
-      </table>`;
-    }
+    var relatedStrongsContent = await this.getRelatedStrongsContent(strongsEntry.references);
 
     var extendedStrongsInfo = `
       <b>${this.getShortInfo(strongsEntry, lemma)}</b>
@@ -344,6 +331,26 @@ class DictionaryInfoBox {
       ${relatedStrongsContent}`;    
 
     return extendedStrongsInfo;
+  }
+
+  async getRelatedStrongsContent(strongsReferences) {
+    if (!strongsReferences.length) {
+      return '';
+    }
+
+    var relatedStrongsRows = (await Promise.all(strongsReferences.map(async (ref, i) => {
+      const isLast = i == (strongsReferences.length - 1);
+      return await this.getStrongsReferenceTableRow(ref, isLast);
+    }))).join('');
+
+    const relatedStrongsContent = `
+      <hr/>
+      <b>${i18n.t("dictionary-info-box.related-strongs")}:</b><br/>
+      <table class="strongs-refs">
+      ${relatedStrongsRows}
+      </table>`;
+
+    return relatedStrongsContent;
   }
 
   async openStrongsReference(key) {
