@@ -67,7 +67,7 @@ module.exports.getLanguageName = (languageCode, localeCode = 'en') => {
  * @param {string} [localeCode='en'] Locale/Language code to localize language information into
  * @returns {LanguageDetails} details Language details 
  */
- module.exports.getLanguageDetails = function (languageCode, localeCode = 'en') {
+module.exports.getLanguageDetails = function (languageCode, localeCode = 'en') {
 
   var [normalizedCode, scriptCode, regionCode] = languageCode.split('-');
   if (scriptCode && scriptCode.length < 4) { // if a only a regionCode

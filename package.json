@@ -110,6 +110,7 @@
     "jsdoc": "^3.6.6",
     "node-abi": "^2.18.0",
     "node-gyp": "^8.0.0",
+    "nodefetchline": "^1.0.1",
     "pug-cli": "^1.0.0-alpha6",
     "sequelize-cli": "^6.2.0",
     "spectron": "^11.1.0",
