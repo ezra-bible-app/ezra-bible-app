@@ -201,7 +201,7 @@
     "uk": "Аймара"
   },
   "az": {
-    "name": "Azərbaycan / Азәрбајҹан / آذربایجان",
+    "name": "Azərbaycan",
     "type": "living",
     "scope": "macrolanguage",
     "iso6393": "aze",
@@ -1635,7 +1635,7 @@
     "uk": "Канурі"
   },
   "ks": {
-    "name": "कॉशुर / کٲشُر",
+    "name": "कॉशुर",
     "type": "living",
     "scope": "individual",
     "iso6393": "kas",
@@ -1657,7 +1657,7 @@
     "uk": "Кашмірська"
   },
   "ku": {
-    "name": "Kurdî / كوردی / К'ӧрди",
+    "name": "Kurdî",
     "type": "living",
     "scope": "macrolanguage",
     "iso6393": "kur",
@@ -2379,7 +2379,7 @@
     "uk": "Осетинська"
   },
   "pa": {
-    "name": "ਪੰਜਾਬੀ / پنجابی / पंजाबी",
+    "name": "ਪੰਜਾਬੀ",
     "type": "living",
     "scope": "individual",
     "iso6393": "pan",
@@ -2828,7 +2828,7 @@
     "uk": "Албанська"
   },
   "sr": {
-    "name": "Српски / Srpski",
+    "name": "Српски",
     "type": "living",
     "scope": "individual",
     "iso6393": "srp",
@@ -2976,7 +2976,7 @@
     "uk": "Телугу"
   },
   "tg": {
-    "name": "Тоҷикӣ / Tojikī / تاجیکی",
+    "name": "Тоҷикӣ",
     "type": "living",
     "scope": "individual",
     "iso6393": "tgk",
@@ -3035,7 +3035,7 @@
     "uk": "Тигринья"
   },
   "tk": {
-    "name": "Türkmençe / Түркменче / تورکمنچه",
+    "name": "Türkmençe",
     "type": "living",
     "scope": "individual",
     "iso6393": "tuk",
@@ -3151,7 +3151,7 @@
     "uk": "Тсонга"
   },
   "tt": {
-    "name": "Tatarça / Татарча",
+    "name": "Tatarça",
     "type": "living",
     "scope": "individual",
     "iso6393": "tat",
@@ -3209,7 +3209,7 @@
     "uk": "Таїтянська"
   },
   "ug": {
-    "name": "Uyghurche‎ / ئۇيغۇرچە / Уйғурчә",
+    "name": "Uyghurche‎",
     "type": "living",
     "scope": "individual",
     "iso6393": "uig",
@@ -3250,7 +3250,7 @@
     "uk": "Українська"
   },
   "ur": {
-    "name": "اردو / उर्दू",
+    "name": "اردو",
     "type": "living",
     "scope": "individual",
     "iso6393": "urd",
@@ -3272,7 +3272,7 @@
     "uk": "Урду"
   },
   "uz": {
-    "name": "O'zbek / Ўзбек",
+    "name": "O'zbek",
     "type": "living",
     "scope": "macrolanguage",
     "iso6393": "uzb",
@@ -4570,7 +4570,7 @@
     "en": "Kahua"
   },
   "agx": {
-    "name": "Агъул чӀал / Ağul ҫ̇al",
+    "name": "Агъул чӀал",
     "type": "living",
     "scope": "individual",
     "iso6393": "agx",
@@ -7172,7 +7172,7 @@
     "en": "Azha"
   },
   "azb": {
-    "name": "Azərbaycan / Азәрбајҹан / آذربایجان",
+    "name": "Azərbaycan",
     "type": "living",
     "scope": "individual",
     "iso6393": "azb",
@@ -7194,7 +7194,7 @@
     "en": "San Pedro Amuzgos Amuzgo"
   },
   "azj": {
-    "name": "Azərbaycan / Азәрбајҹан / آذربایجان",
+    "name": "Azərbaycan",
     "type": "living",
     "scope": "individual",
     "iso6393": "azj",

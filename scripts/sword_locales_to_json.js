@@ -61,7 +61,7 @@ function getLanguageDetails(languageCodes) {
  *   ...
  * will be converted to
  *   "az": {
- *     "name": "Azərbaycan / Азәрбајҹан / آذربایجان",
+ *     "name": "Azərbaycan",
  *     "en": "Azerbaijani",
  *     "scripts": [ "Cyrl", "Arab", "Latn" ]
  *   }
@@ -99,12 +99,16 @@ function parseLine(line) {
     console.log(`Skipping line: "${line}"`);
     return undefined;
   }
+
+  const nameParts = found.groups.name.split('/'); // We want only the first part from the strings like "Azərbaycan / Азәрбајҹан / آذربایجان"
+  const name = nameParts[0].trim() || found.groups.name; // fallback for the strings like "//Ani"
+
   return {
     code: found.groups.code,
     script: found.groups.script,
     region: found.groups.region,
     locale: found.groups.locale,
-    name: found.groups.name,
+    name,
   };
 }
 
