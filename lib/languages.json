@@ -170,20 +170,9 @@
     "iso6392T": "ava",
     "iso6391": "av",
     "en": "Avaric",
-    "scripts": {
-      "Cyrl": {
-        "name": "Авар мацӏ",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    },
+    "scripts": [
+      "Cyrl"
+    ],
     "de": "Awarisch",
     "es": "Avar",
     "fr": "Avar",
@@ -219,44 +208,11 @@
     "iso6392B": "aze",
     "iso6392T": "aze",
     "iso6391": "az",
-    "scripts": {
-      "Cyrl": {
-        "name": "Азәрбајҹан",
-        "de": "Kyrillisch",
-        "en": "Cyrillic",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      },
-      "Arab": {
-        "name": "آذربایجان",
-        "de": "Arabisch",
-        "en": "Arabic",
-        "es": "árabe",
-        "fr": "arabe",
-        "nl": "Arabisch",
-        "ro": "arabă",
-        "ru": "арабица",
-        "sk": "arabské",
-        "uk": "арабиця"
-      },
-      "Latn": {
-        "name": "Azərbaycan",
-        "de": "Lateinisch",
-        "en": "Latin",
-        "es": "latino",
-        "fr": "latin",
-        "nl": "Latijns",
-        "ro": "latină",
-        "ru": "латиница",
-        "sk": "latinka",
-        "uk": "латиниця"
-      }
-    },
+    "scripts": [
+      "Cyrl",
+      "Arab",
+      "Latn"
+    ],
     "en": "Azerbaijani",
     "de": "Aserbaidschanisch",
     "es": "Azerbaiyano",
@@ -276,20 +232,9 @@
     "iso6392T": "bak",
     "iso6391": "ba",
     "en": "Bashkir",
-    "scripts": {
-      "Cyrl": {
-        "name": "Башҡортса",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    },
+    "scripts": [
+      "Cyrl"
+    ],
     "de": "Baschkirisch",
     "es": "Baskir",
     "fr": "Bachkir",
@@ -474,20 +419,9 @@
     "iso6392T": "che",
     "iso6391": "ce",
     "en": "Chechen",
-    "scripts": {
-      "Cyrl": {
-        "name": "Нохчийн",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    },
+    "scripts": [
+      "Cyrl"
+    ],
     "de": "Tschetschenisch",
     "es": "Checheno",
     "fr": "Tchétchène",
@@ -596,20 +530,9 @@
     "iso6392T": "chv",
     "iso6391": "cv",
     "en": "Chuvash",
-    "scripts": {
-      "Cyrl": {
-        "name": "Чӑвашла",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    },
+    "scripts": [
+      "Cyrl"
+    ],
     "de": "Tschuwaschisch",
     "es": "Chuvasio",
     "fr": "Tchouvache",
@@ -1719,32 +1642,10 @@
     "iso6392B": "kas",
     "iso6392T": "kas",
     "iso6391": "ks",
-    "scripts": {
-      "Arab": {
-        "name": "کٲشُر",
-        "de": "Arabisch",
-        "en": "Arabic",
-        "es": "árabe",
-        "fr": "arabe",
-        "nl": "Arabisch",
-        "ro": "arabă",
-        "ru": "арабица",
-        "sk": "arabské",
-        "uk": "арабиця"
-      },
-      "Deva": {
-        "name": "कॉशुर",
-        "de": "Devanagari",
-        "en": "Devanagari",
-        "es": "devanagari",
-        "fr": "dévanagari",
-        "nl": "Devanagari",
-        "ro": "devanagari",
-        "ru": "деванагари",
-        "sk": "dévanágarí",
-        "uk": "деванагарі"
-      }
-    },
+    "scripts": [
+      "Arab",
+      "Deva"
+    ],
     "en": "Kashmiri",
     "de": "Kaschmiri",
     "es": "Cachemiro",
@@ -1763,44 +1664,11 @@
     "iso6392B": "kur",
     "iso6392T": "kur",
     "iso6391": "ku",
-    "scripts": {
-      "Arab": {
-        "name": "كوردی",
-        "de": "Arabisch",
-        "en": "Arabic",
-        "es": "árabe",
-        "fr": "arabe",
-        "nl": "Arabisch",
-        "ro": "arabă",
-        "ru": "арабица",
-        "sk": "arabské",
-        "uk": "арабиця"
-      },
-      "Cyrl": {
-        "name": "К'ӧрди",
-        "de": "Kyrillisch",
-        "en": "Cyrillic",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      },
-      "Latn": {
-        "name": "Kurdî",
-        "de": "Lateinisch",
-        "en": "Latin",
-        "es": "latino",
-        "fr": "latin",
-        "nl": "Latijns",
-        "ro": "latină",
-        "ru": "латиница",
-        "sk": "latinka",
-        "uk": "латиниця"
-      }
-    },
+    "scripts": [
+      "Arab",
+      "Cyrl",
+      "Latn"
+    ],
     "en": "Kurdish",
     "de": "Kurdisch",
     "es": "Kurdo",
@@ -1856,32 +1724,10 @@
     "iso6392T": "kir",
     "iso6391": "ky",
     "en": "Kyrgyz",
-    "scripts": {
-      "Arab": {
-        "name": "قىرعىز تىلى",
-        "en": "Arabic",
-        "de": "Arabisch",
-        "es": "árabe",
-        "fr": "arabe",
-        "nl": "Arabisch",
-        "ro": "arabă",
-        "ru": "арабица",
-        "sk": "arabské",
-        "uk": "арабиця"
-      },
-      "Cyrl": {
-        "name": "Кыргыз тили",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    },
+    "scripts": [
+      "Arab",
+      "Cyrl"
+    ],
     "de": "Kirgisisch",
     "es": "Kirguís",
     "fr": "Kirghize",
@@ -2540,44 +2386,11 @@
     "iso6392B": "pan",
     "iso6392T": "pan",
     "iso6391": "pa",
-    "scripts": {
-      "Arab": {
-        "name": "پنجابی",
-        "de": "Arabisch",
-        "en": "Arabic",
-        "es": "árabe",
-        "fr": "arabe",
-        "nl": "Arabisch",
-        "ro": "arabă",
-        "ru": "арабица",
-        "sk": "arabské",
-        "uk": "арабиця"
-      },
-      "Deva": {
-        "name": "पंजाबी",
-        "de": "Devanagari",
-        "en": "Devanagari",
-        "es": "devanagari",
-        "fr": "dévanagari",
-        "nl": "Devanagari",
-        "ro": "devanagari",
-        "ru": "деванагари",
-        "sk": "dévanágarí",
-        "uk": "деванагарі"
-      },
-      "Guru": {
-        "name": "ਪੰਜਾਬੀ",
-        "de": "Gurmukhi",
-        "en": "Gurmukhi",
-        "es": "gurmuji",
-        "fr": "gourmoukhî",
-        "nl": "Gurmukhi",
-        "ro": "gurmukhi",
-        "ru": "гурмукхи",
-        "sk": "gurmukhi",
-        "uk": "гурмухі"
-      }
-    },
+    "scripts": [
+      "Arab",
+      "Deva",
+      "Guru"
+    ],
     "en": "Punjabi",
     "de": "Punjabi",
     "es": "Punyabí",
@@ -3022,32 +2835,10 @@
     "iso6392B": "srp",
     "iso6392T": "srp",
     "iso6391": "sr",
-    "scripts": {
-      "Cyrl": {
-        "name": "Српски",
-        "de": "Kyrillisch",
-        "en": "Cyrillic",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      },
-      "Latn": {
-        "name": "Srpski",
-        "de": "Lateinisch",
-        "en": "Latin",
-        "es": "latino",
-        "fr": "latin",
-        "nl": "Latijns",
-        "ro": "latină",
-        "ru": "латиница",
-        "sk": "latinka",
-        "uk": "латиниця"
-      }
-    },
+    "scripts": [
+      "Cyrl",
+      "Latn"
+    ],
     "en": "Serbian",
     "de": "Serbisch",
     "es": "Serbio",
@@ -3193,44 +2984,11 @@
     "iso6392T": "tgk",
     "iso6391": "tg",
     "en": "Tajik",
-    "scripts": {
-      "Arab": {
-        "name": "تاجیکی",
-        "en": "Arabic",
-        "de": "Arabisch",
-        "es": "árabe",
-        "fr": "arabe",
-        "nl": "Arabisch",
-        "ro": "arabă",
-        "ru": "арабица",
-        "sk": "arabské",
-        "uk": "арабиця"
-      },
-      "Cyrl": {
-        "name": "Тоҷикӣ",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      },
-      "Latn": {
-        "name": "Tojikī",
-        "en": "Latin",
-        "de": "Lateinisch",
-        "es": "latino",
-        "fr": "latin",
-        "nl": "Latijns",
-        "ro": "latină",
-        "ru": "латиница",
-        "sk": "latinka",
-        "uk": "латиниця"
-      }
-    },
+    "scripts": [
+      "Arab",
+      "Cyrl",
+      "Latn"
+    ],
     "de": "Tadschikisch",
     "es": "Tayiko",
     "fr": "Tadjik",
@@ -3285,44 +3043,11 @@
     "iso6392T": "tuk",
     "iso6391": "tk",
     "en": "Turkmen",
-    "scripts": {
-      "Arab": {
-        "name": "تورکمنچه",
-        "en": "Arabic",
-        "de": "Arabisch",
-        "es": "árabe",
-        "fr": "arabe",
-        "nl": "Arabisch",
-        "ro": "arabă",
-        "ru": "арабица",
-        "sk": "arabské",
-        "uk": "арабиця"
-      },
-      "Cyrl": {
-        "name": "Түркменче",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      },
-      "Latn": {
-        "name": "Türkmençe",
-        "en": "Latin",
-        "de": "Lateinisch",
-        "es": "latino",
-        "fr": "latin",
-        "nl": "Latijns",
-        "ro": "latină",
-        "ru": "латиница",
-        "sk": "latinka",
-        "uk": "латиниця"
-      }
-    },
+    "scripts": [
+      "Arab",
+      "Cyrl",
+      "Latn"
+    ],
     "de": "Turkmenisch",
     "es": "Turcomano",
     "fr": "Turkmène",
@@ -3341,18 +3066,9 @@
     "iso6392T": "tgl",
     "iso6391": "tl",
     "en": "Tagalog",
-    "scripts": {
-      "Tglg": {
-        "name": "ᜆᜄᜎᜓᜄ",
-        "de": "Tagalog",
-        "en": "Tagalog",
-        "es": "tagalo",
-        "fr": "tagal",
-        "nl": "Tagalog",
-        "ru": "тагалог",
-        "uk": "тагальський"
-      }
-    },
+    "scripts": [
+      "Tglg"
+    ],
     "de": "Tagalog",
     "es": "Tagalo",
     "fr": "Tagalog",
@@ -3443,32 +3159,10 @@
     "iso6392T": "tat",
     "iso6391": "tt",
     "en": "Tatar",
-    "scripts": {
-      "Cyrl": {
-        "name": "Татарча",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      },
-      "Latn": {
-        "name": "Tatarça",
-        "en": "Latin",
-        "de": "Lateinisch",
-        "es": "latino",
-        "fr": "latin",
-        "nl": "Latijns",
-        "ro": "latină",
-        "ru": "латиница",
-        "sk": "latinka",
-        "uk": "латиниця"
-      }
-    },
+    "scripts": [
+      "Cyrl",
+      "Latn"
+    ],
     "de": "Tatarisch",
     "es": "Tártaro",
     "fr": "Tatar",
@@ -3522,44 +3216,11 @@
     "iso6392B": "uig",
     "iso6392T": "uig",
     "iso6391": "ug",
-    "scripts": {
-      "Arab": {
-        "name": "ئۇيغۇرچە",
-        "de": "Arabisch",
-        "en": "Arabic",
-        "es": "árabe",
-        "fr": "arabe",
-        "nl": "Arabisch",
-        "ro": "arabă",
-        "ru": "арабица",
-        "sk": "arabské",
-        "uk": "арабиця"
-      },
-      "Cyrl": {
-        "name": "Уйғурчә",
-        "de": "Kyrillisch",
-        "en": "Cyrillic",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      },
-      "Latn": {
-        "name": "Uyghurche‎",
-        "de": "Lateinisch",
-        "en": "Latin",
-        "es": "latino",
-        "fr": "latin",
-        "nl": "Latijns",
-        "ro": "latină",
-        "ru": "латиница",
-        "sk": "latinka",
-        "uk": "латиниця"
-      }
-    },
+    "scripts": [
+      "Arab",
+      "Cyrl",
+      "Latn"
+    ],
     "en": "Uyghur",
     "de": "Uigurisch",
     "es": "Uigur",
@@ -3596,32 +3257,10 @@
     "iso6392B": "urd",
     "iso6392T": "urd",
     "iso6391": "ur",
-    "scripts": {
-      "Arab": {
-        "name": "اردو",
-        "de": "Arabisch",
-        "en": "Arabic",
-        "es": "árabe",
-        "fr": "arabe",
-        "nl": "Arabisch",
-        "ro": "arabă",
-        "ru": "арабица",
-        "sk": "arabské",
-        "uk": "арабиця"
-      },
-      "Deva": {
-        "name": "उर्दू",
-        "de": "Devanagari",
-        "en": "Devanagari",
-        "es": "devanagari",
-        "fr": "dévanagari",
-        "nl": "Devanagari",
-        "ro": "devanagari",
-        "ru": "деванагари",
-        "sk": "dévanágarí",
-        "uk": "деванагарі"
-      }
-    },
+    "scripts": [
+      "Arab",
+      "Deva"
+    ],
     "en": "Urdu",
     "de": "Urdu",
     "es": "Urdu",
@@ -3641,32 +3280,10 @@
     "iso6392T": "uzb",
     "iso6391": "uz",
     "en": "Uzbek",
-    "scripts": {
-      "Cyrl": {
-        "name": "Ўзбек",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      },
-      "Latn": {
-        "name": "O'zbek",
-        "en": "Latin",
-        "de": "Lateinisch",
-        "es": "latino",
-        "fr": "latin",
-        "nl": "Latijns",
-        "ro": "latină",
-        "ru": "латиница",
-        "sk": "latinka",
-        "uk": "латиниця"
-      }
-    },
+    "scripts": [
+      "Cyrl",
+      "Latn"
+    ],
     "de": "Usbekisch",
     "es": "Uzbeko",
     "fr": "Ouzbek",
@@ -3847,32 +3464,10 @@
     "iso6392T": "zho",
     "iso6391": "zh",
     "en": "Chinese",
-    "scripts": {
-      "Hans": {
-        "name": "简体中文",
-        "de": "Vereinfacht",
-        "en": "Simplified",
-        "es": "simplificado",
-        "fr": "simplifié",
-        "nl": "vereenvoudigd",
-        "ro": "simplificată",
-        "ru": "упрощенная китайская",
-        "sk": "zjednodušené",
-        "uk": "спрощена"
-      },
-      "Hant": {
-        "name": "繁体中文",
-        "de": "Traditionell",
-        "en": "Traditional",
-        "es": "tradicional",
-        "fr": "traditionnel",
-        "nl": "traditioneel",
-        "ro": "tradițională",
-        "ru": "традиционная китайская",
-        "sk": "tradičné",
-        "uk": "традиційна"
-      }
-    },
+    "scripts": [
+      "Hans",
+      "Hant"
+    ],
     "de": "Chinesisch",
     "es": "Chino",
     "fr": "Chinois",
@@ -4564,20 +4159,9 @@
     "iso6392B": "ady",
     "iso6392T": "ady",
     "en": "Adyghe",
-    "scripts": {
-      "Cyrl": {
-        "name": "Адыгaбзэ",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    },
+    "scripts": [
+      "Cyrl"
+    ],
     "de": "Adygeisch",
     "es": "Adigué",
     "fr": "Adyguéen",
@@ -4991,20 +4575,9 @@
     "scope": "individual",
     "iso6393": "agx",
     "en": "Aghul",
-    "scripts": {
-      "Cyrl": {
-        "name": "Агъул чӀал",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    }
+    "scripts": [
+      "Cyrl"
+    ]
   },
   "agy": {
     "name": "Southern Alta",
@@ -5666,20 +5239,9 @@
     "iso6392B": "alt",
     "iso6392T": "alt",
     "en": "Southern Altai",
-    "scripts": {
-      "Cyrl": {
-        "name": "Тÿштÿк алтай",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    },
+    "scripts": [
+      "Cyrl"
+    ],
     "de": "Süd-Altaisch",
     "es": "Altái meridional",
     "fr": "Altaï du Sud",
@@ -7615,44 +7177,11 @@
     "scope": "individual",
     "iso6393": "azb",
     "en": "South Azerbaijani",
-    "scripts": {
-      "Arab": {
-        "name": "آذربایجان",
-        "en": "Arabic",
-        "de": "Arabisch",
-        "es": "árabe",
-        "fr": "arabe",
-        "nl": "Arabisch",
-        "ro": "arabă",
-        "ru": "арабица",
-        "sk": "arabské",
-        "uk": "арабиця"
-      },
-      "Cyrl": {
-        "name": "Азәрбајҹан",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      },
-      "Latn": {
-        "name": "Azərbaycan",
-        "en": "Latin",
-        "de": "Lateinisch",
-        "es": "latino",
-        "fr": "latin",
-        "nl": "Latijns",
-        "ro": "latină",
-        "ru": "латиница",
-        "sk": "latinka",
-        "uk": "латиниця"
-      }
-    }
+    "scripts": [
+      "Arab",
+      "Cyrl",
+      "Latn"
+    ]
   },
   "azc": {
     "en": "Uto-Aztecan languages"
@@ -7670,44 +7199,11 @@
     "scope": "individual",
     "iso6393": "azj",
     "en": "North Azerbaijani",
-    "scripts": {
-      "Arab": {
-        "name": "آذربایجان",
-        "en": "Arabic",
-        "de": "Arabisch",
-        "es": "árabe",
-        "fr": "arabe",
-        "nl": "Arabisch",
-        "ro": "arabă",
-        "ru": "арабица",
-        "sk": "arabské",
-        "uk": "арабиця"
-      },
-      "Cyrl": {
-        "name": "Азәрбајҹан",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      },
-      "Latn": {
-        "name": "Azərbaycan",
-        "en": "Latin",
-        "de": "Lateinisch",
-        "es": "latino",
-        "fr": "latin",
-        "nl": "Latijns",
-        "ro": "latină",
-        "ru": "латиница",
-        "sk": "latinka",
-        "uk": "латиниця"
-      }
-    }
+    "scripts": [
+      "Arab",
+      "Cyrl",
+      "Latn"
+    ]
   },
   "azm": {
     "name": "Ipalapa Amuzgo",
@@ -11349,20 +10845,9 @@
     "iso6392B": "bua",
     "iso6392T": "bua",
     "en": "Buriat",
-    "scripts": {
-      "Cyrl": {
-        "name": "буряад хэлэн",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    },
+    "scripts": [
+      "Cyrl"
+    ],
     "de": "Burjatisch",
     "es": "Buriato",
     "fr": "Bouriate",
@@ -13442,20 +12927,9 @@
     "scope": "individual",
     "iso6393": "cjs",
     "en": "Shor",
-    "scripts": {
-      "Cyrl": {
-        "name": "Шор тили",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    }
+    "scripts": [
+      "Cyrl"
+    ]
   },
   "cjv": {
     "name": "Chuave",
@@ -13537,20 +13011,9 @@
     "scope": "individual",
     "iso6393": "ckt",
     "en": "Chukchi",
-    "scripts": {
-      "Cyrl": {
-        "name": "Ԓыгъоравэтԓьэн йиԓыйиԓ",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    }
+    "scripts": [
+      "Cyrl"
+    ]
   },
   "cku": {
     "name": "Koasati",
@@ -14170,20 +13633,9 @@
     "iso6392B": "crh",
     "iso6392T": "crh",
     "en": "Crimean Turkish",
-    "scripts": {
-      "Cyrl": {
-        "name": "Къырымтатар тили",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    },
+    "scripts": [
+      "Cyrl"
+    ],
     "de": "Krimtatarisch",
     "es": "Tártaro de Crimea",
     "fr": "Turc de Crimée",
@@ -14933,20 +14385,9 @@
     "iso6392B": "dar",
     "iso6392T": "dar",
     "en": "Dargwa",
-    "scripts": {
-      "Cyrl": {
-        "name": "Дарган мез",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    },
+    "scripts": [
+      "Cyrl"
+    ],
     "de": "Darginisch",
     "es": "Dargva",
     "fr": "Dargwa",
@@ -18451,32 +17892,10 @@
     "scope": "individual",
     "iso6393": "gag",
     "en": "Gagauz",
-    "scripts": {
-      "Cyrl": {
-        "name": "Гагаузы",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      },
-      "Latn": {
-        "name": "Gagauz",
-        "en": "Latin",
-        "de": "Lateinisch",
-        "es": "latino",
-        "fr": "latin",
-        "nl": "Latijns",
-        "ro": "latină",
-        "ru": "латиница",
-        "sk": "latinka",
-        "uk": "латиниця"
-      }
-    },
+    "scripts": [
+      "Cyrl",
+      "Latn"
+    ],
     "de": "Gagausisch",
     "es": "Gagauzo",
     "fr": "Gagaouze",
@@ -24187,32 +23606,10 @@
     "iso6392B": "kaa",
     "iso6392T": "kaa",
     "en": "Kara-Kalpak",
-    "scripts": {
-      "Cyrl": {
-        "name": "Қарақалпақ тили",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      },
-      "Latn": {
-        "name": "Karakalpak",
-        "en": "Latin",
-        "de": "Lateinisch",
-        "es": "latino",
-        "fr": "latin",
-        "nl": "Latijns",
-        "ro": "latină",
-        "ru": "латиница",
-        "sk": "latinka",
-        "uk": "латиниця"
-      }
-    },
+    "scripts": [
+      "Cyrl",
+      "Latn"
+    ],
     "de": "Karakalpakisch",
     "es": "Karakalpako",
     "fr": "Karakalpak",
@@ -24351,20 +23748,9 @@
     "scope": "individual",
     "iso6393": "kap",
     "en": "Bezhta",
-    "scripts": {
-      "Cyrl": {
-        "name": "бежкьалас миц",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    }
+    "scripts": [
+      "Cyrl"
+    ]
   },
   "kaq": {
     "name": "Capanahua",
@@ -25950,20 +25336,9 @@
     "scope": "individual",
     "iso6393": "kjh",
     "en": "Khakas",
-    "scripts": {
-      "Cyrl": {
-        "name": "Xaкac тiлi",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    }
+    "scripts": [
+      "Cyrl"
+    ]
   },
   "kji": {
     "name": "Zabana",
@@ -26592,32 +25967,10 @@
     "scope": "individual",
     "iso6393": "kmr",
     "en": "Northern Kurdish",
-    "scripts": {
-      "Cyrl": {
-        "name": "Кӧрманщи",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      },
-      "Latn": {
-        "name": "Kurmandji",
-        "en": "Latin",
-        "de": "Lateinisch",
-        "es": "latino",
-        "fr": "latin",
-        "nl": "Latijns",
-        "ro": "latină",
-        "ru": "латиница",
-        "sk": "latinka",
-        "uk": "латиниця"
-      }
-    }
+    "scripts": [
+      "Cyrl",
+      "Latn"
+    ]
   },
   "kms": {
     "name": "Kamasau",
@@ -27205,20 +26558,9 @@
     "scope": "individual",
     "iso6393": "kpy",
     "en": "Koryak",
-    "scripts": {
-      "Cyrl": {
-        "name": "Нымылг’ын",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    }
+    "scripts": [
+      "Cyrl"
+    ]
   },
   "kpz": {
     "name": "Kupsabiny",
@@ -29750,20 +29092,9 @@
     "iso6392B": "lez",
     "iso6392T": "lez",
     "en": "Lezghian",
-    "scripts": {
-      "Cyrl": {
-        "name": "Лезги чIал",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    },
+    "scripts": [
+      "Cyrl"
+    ],
     "de": "Lesgisch",
     "es": "Lezgiano",
     "fr": "Lezghien",
@@ -38420,20 +37751,9 @@
     "iso6392B": "nog",
     "iso6392T": "nog",
     "en": "Nogai",
-    "scripts": {
-      "Cyrl": {
-        "name": "Ногай тили",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    },
+    "scripts": [
+      "Cyrl"
+    ],
     "de": "Nogai",
     "es": "Nogai",
     "fr": "Nogaï",
@@ -44802,20 +44122,9 @@
     "iso6392B": "sah",
     "iso6392T": "sah",
     "en": "Sakha",
-    "scripts": {
-      "Cyrl": {
-        "name": "Саха тыла",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    },
+    "scripts": [
+      "Cyrl"
+    ],
     "de": "Jakutisch",
     "es": "Sakha",
     "fr": "Iakoute",
@@ -50028,20 +49337,9 @@
     "scope": "individual",
     "iso6393": "tkr",
     "en": "Tsakhur",
-    "scripts": {
-      "Cyrl": {
-        "name": "ЦIаьхна миз",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    },
+    "scripts": [
+      "Cyrl"
+    ],
     "de": "Tsachurisch",
     "fr": "Tsakhour",
     "nl": "Tsakhur"
@@ -55348,20 +54646,9 @@
     "iso6392B": "xal",
     "iso6392T": "xal",
     "en": "Kalmyk",
-    "scripts": {
-      "Cyrl": {
-        "name": "Хальмг келн",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    },
+    "scripts": [
+      "Cyrl"
+    ],
     "de": "Kalmückisch",
     "es": "Kalmyk",
     "fr": "Kalmouk",
@@ -58252,20 +57539,9 @@
     "scope": "individual",
     "iso6393": "yrk",
     "en": "Nenets",
-    "scripts": {
-      "Cyrl": {
-        "name": "Ненэцяʼ вада",
-        "en": "Cyrillic",
-        "de": "Kyrillisch",
-        "es": "cirílico",
-        "fr": "cyrillique",
-        "nl": "Cyrillisch",
-        "ro": "chirilică",
-        "ru": "кириллица",
-        "sk": "cyrilika",
-        "uk": "кирилиця"
-      }
-    }
+    "scripts": [
+      "Cyrl"
+    ]
   },
   "yrl": {
     "name": "Nhengatu",
@@ -59921,388 +59197,1249 @@
     "name": "繁體字"
   },
   "Arab": {
-    "en": "Arabic"
+    "en": "Arabic",
+    "de": "Arabisch",
+    "es": "árabe",
+    "fr": "arabe",
+    "nl": "Arabisch",
+    "ro": "arabă",
+    "ru": "арабица",
+    "sk": "arabské",
+    "uk": "арабиця"
   },
   "Armi": {
-    "en": "Imperial Aramaic"
+    "en": "Imperial Aramaic",
+    "fr": "araméen impérial",
+    "nl": "Keizerlijk Aramees",
+    "ru": "арамейская",
+    "uk": "армі"
   },
   "Armn": {
-    "en": "Armenian"
+    "en": "Armenian",
+    "de": "Armenisch",
+    "es": "armenio",
+    "fr": "arménien",
+    "nl": "Armeens",
+    "ro": "armeană",
+    "ru": "армянская",
+    "sk": "arménske",
+    "uk": "вірменська"
   },
   "Avst": {
-    "en": "Avestan"
+    "en": "Avestan",
+    "de": "Avestisch",
+    "es": "avéstico",
+    "fr": "avestique",
+    "nl": "Avestaans",
+    "ru": "авестийская",
+    "uk": "авестійський"
   },
   "Bali": {
-    "en": "Balinese"
+    "en": "Balinese",
+    "de": "Balinesisch",
+    "es": "balinés",
+    "fr": "balinais",
+    "nl": "Balinees",
+    "ro": "balineză",
+    "ru": "балийская",
+    "sk": "balijský",
+    "uk": "балійський"
   },
   "Bamu": {
-    "en": "Bamum"
+    "en": "Bamum",
+    "de": "Bamun",
+    "nl": "Bamoun",
+    "ru": "бамум",
+    "uk": "бамум"
   },
   "Batk": {
-    "en": "Batak"
+    "en": "Batak",
+    "de": "Battakisch",
+    "es": "batak",
+    "fr": "batak",
+    "nl": "Batak",
+    "ru": "батакская",
+    "uk": "батак"
   },
   "Beng": {
-    "en": "Bengali"
+    "en": "Bangla",
+    "de": "Bengalisch",
+    "es": "bengalí",
+    "fr": "bengali",
+    "nl": "Bengaals",
+    "ro": "bengaleză",
+    "ru": "бенгальская",
+    "sk": "bengálske",
+    "uk": "бенгальська"
   },
   "Blis": {
-    "en": "Blissymbols"
+    "en": "Blissymbols",
+    "de": "Bliss-Symbole",
+    "es": "símbolos blis",
+    "fr": "symboles Bliss",
+    "nl": "Blissymbolen",
+    "ru": "блиссимволика",
+    "uk": "символи Блісса"
   },
   "Bopo": {
-    "en": "Bopomofo"
+    "en": "Bopomofo",
+    "de": "Bopomofo",
+    "es": "bopomofo",
+    "fr": "bopomofo",
+    "nl": "Bopomofo",
+    "ro": "bopomofo",
+    "ru": "бопомофо",
+    "sk": "bopomofo",
+    "uk": "бопомофо"
   },
   "Brah": {
-    "en": "Brahmi"
+    "en": "Brahmi",
+    "de": "Brahmi",
+    "es": "brahmi",
+    "fr": "brâhmî",
+    "nl": "Brahmi",
+    "ru": "брахми",
+    "uk": "брахмі"
   },
   "Brai": {
-    "en": "Braille"
+    "en": "Braille",
+    "de": "Braille",
+    "es": "braille",
+    "fr": "braille",
+    "nl": "braille",
+    "ro": "braille",
+    "ru": "шрифт Брайля",
+    "sk": "braillovo",
+    "uk": "шрифт Брайля"
   },
   "Bugi": {
-    "en": "Buginese"
+    "en": "Buginese",
+    "de": "Buginesisch",
+    "es": "buginés",
+    "fr": "bouguis",
+    "nl": "Buginees",
+    "ru": "бугинизийская",
+    "uk": "бугійський"
   },
   "Buhd": {
-    "en": "Buhid"
+    "en": "Buhid",
+    "de": "Buhid",
+    "es": "buhid",
+    "fr": "bouhide",
+    "nl": "Buhid",
+    "ru": "бухид",
+    "uk": "бухід"
   },
   "Cakm": {
-    "en": "Chakma"
+    "en": "Chakma",
+    "de": "Chakma",
+    "fr": "chakma",
+    "nl": "Chakma",
+    "ru": "чакмийская",
+    "uk": "чакма"
   },
   "Cans": {
-    "en": "Unified Canadian Aboriginal Syllabics"
+    "en": "Unified Canadian Aboriginal Syllabics",
+    "de": "UCAS",
+    "es": "silabarios aborígenes canadienses unificados",
+    "fr": "syllabaire autochtone canadien unifié",
+    "nl": "Verenigde Canadese Aboriginal-symbolen",
+    "ro": "silabică aborigenă canadiană unificată",
+    "ru": "канадское слоговое письмо",
+    "uk": "уніфіковані символи канадських тубільців"
   },
   "Cari": {
-    "en": "Carian"
+    "en": "Carian",
+    "de": "Karisch",
+    "es": "cario",
+    "fr": "carien",
+    "nl": "Carisch",
+    "ru": "карийская",
+    "uk": "каріанський"
   },
   "Cham": {
-    "en": "Cham"
+    "en": "Cham",
+    "es": "cham",
+    "fr": "cham",
+    "nl": "Cham",
+    "ru": "чамская",
+    "uk": "хамітський"
   },
   "Cher": {
-    "en": "Cherokee"
+    "en": "Cherokee",
+    "de": "Cherokee",
+    "es": "cherokee",
+    "fr": "cherokee",
+    "nl": "Cherokee",
+    "ru": "чероки",
+    "uk": "черокі"
   },
   "Cirt": {
-    "en": "Cirth"
+    "en": "Cirth",
+    "de": "Cirth",
+    "es": "cirth",
+    "fr": "cirth",
+    "nl": "Cirth",
+    "ru": "кирт",
+    "uk": "кирт"
   },
   "Copt": {
-    "en": "Coptic"
+    "en": "Coptic",
+    "de": "Koptisch",
+    "es": "copto",
+    "fr": "copte",
+    "nl": "Koptisch",
+    "ro": "coptă",
+    "ru": "коптская",
+    "uk": "коптський"
   },
   "Cprt": {
-    "en": "Cypriot"
+    "en": "Cypriot",
+    "de": "Zypriotisch",
+    "es": "chipriota",
+    "fr": "syllabaire chypriote",
+    "nl": "Cyprisch",
+    "ro": "cipriotă",
+    "ru": "кипрская",
+    "uk": "кіпрський"
   },
   "Cyrl": {
-    "en": "Cyrillic"
+    "en": "Cyrillic",
+    "de": "Kyrillisch",
+    "es": "cirílico",
+    "fr": "cyrillique",
+    "nl": "Cyrillisch",
+    "ro": "chirilică",
+    "ru": "кириллица",
+    "sk": "cyrilika",
+    "uk": "кирилиця"
   },
   "Cyrs": {
-    "en": "Cyrillic (Old Church Slavonic variant)"
+    "en": "Old Church Slavonic Cyrillic",
+    "de": "Altkirchenslawisch",
+    "es": "cirílico del antiguo eslavo eclesiástico",
+    "fr": "cyrillique (variante slavonne)",
+    "nl": "Oudkerkslavisch Cyrillisch",
+    "ro": "chirilică slavonă bisericească veche",
+    "ru": "старославянская",
+    "uk": "давньоцерковнословʼянський"
   },
   "Deva": {
-    "en": "Devanagari"
+    "en": "Devanagari",
+    "de": "Devanagari",
+    "es": "devanagari",
+    "fr": "dévanagari",
+    "nl": "Devanagari",
+    "ro": "devanagari",
+    "ru": "деванагари",
+    "sk": "dévanágarí",
+    "uk": "деванагарі"
   },
   "Dsrt": {
-    "en": "Deseret"
+    "en": "Deseret",
+    "de": "Deseret",
+    "es": "deseret",
+    "fr": "déséret",
+    "nl": "Deseret",
+    "ro": "mormonă",
+    "ru": "дезерет",
+    "uk": "дезерет"
   },
   "Egyd": {
-    "en": "Egyptian demotic"
+    "en": "Egyptian demotic",
+    "de": "Ägyptisch - Demotisch",
+    "es": "egipcio demótico",
+    "fr": "démotique égyptien",
+    "nl": "Egyptisch demotisch",
+    "ro": "demotică egipteană",
+    "ru": "египетская демотическая",
+    "uk": "єгипетський демотичний"
   },
   "Egyh": {
-    "en": "Egyptian hieratic"
+    "en": "Egyptian hieratic",
+    "de": "Ägyptisch - Hieratisch",
+    "es": "egipcio hierático",
+    "fr": "hiératique égyptien",
+    "nl": "Egyptisch hiëratisch",
+    "ro": "hieratică egipteană",
+    "ru": "египетская иератическая",
+    "uk": "єгипетський ієратичний"
   },
   "Egyp": {
-    "en": "Egyptian hieroglyphs"
+    "en": "Egyptian hieroglyphs",
+    "de": "Ägyptische Hieroglyphen",
+    "es": "jeroglíficos egipcios",
+    "fr": "hiéroglyphes égyptiens",
+    "nl": "Egyptische hiërogliefen",
+    "ro": "hieroglife egiptene",
+    "ru": "египетская иероглифическая",
+    "sk": "egyptské hieroglyfy",
+    "uk": "єгипетський ієрогліфічний"
   },
   "Ethi": {
-    "en": "Ethiopic"
+    "en": "Ethiopic",
+    "de": "Äthiopisch",
+    "es": "etiópico",
+    "fr": "éthiopique",
+    "nl": "Ethiopisch",
+    "ro": "etiopiană",
+    "ru": "эфиопская",
+    "sk": "etiópske",
+    "uk": "ефіопська"
   },
   "Geok": {
-    "en": "Khutsuri (Asomtavruli and Nuskhuri)"
+    "en": "Georgian Khutsuri",
+    "de": "Khutsuri",
+    "es": "georgiano eclesiástico",
+    "fr": "géorgien khoutsouri",
+    "nl": "Georgisch Khutsuri",
+    "ro": "georgiană bisericească",
+    "ru": "грузинская хуцури",
+    "uk": "кхутсурі"
   },
   "Geor": {
-    "en": "Georgian (Mkhedruli)"
+    "en": "Georgian",
+    "de": "Georgisch",
+    "es": "georgiano",
+    "fr": "géorgien",
+    "nl": "Georgisch",
+    "ro": "georgiană",
+    "ru": "грузинская",
+    "sk": "gruzínske",
+    "uk": "грузинська"
   },
   "Glag": {
-    "en": "Glagolitic"
+    "en": "Glagolitic",
+    "de": "Glagolitisch",
+    "es": "glagolítico",
+    "fr": "glagolitique",
+    "nl": "Glagolitisch",
+    "ro": "glagolitică",
+    "ru": "глаголица",
+    "sk": "hlaholika",
+    "uk": "глаголичний"
   },
   "Goth": {
-    "en": "Gothic"
+    "en": "Gothic",
+    "de": "Gotisch",
+    "es": "gótico",
+    "fr": "gotique",
+    "nl": "Gothisch",
+    "ro": "gotică",
+    "ru": "готская",
+    "sk": "gotický",
+    "uk": "готичний"
   },
   "Grek": {
-    "en": "Greek"
+    "en": "Greek",
+    "de": "Griechisch",
+    "es": "griego",
+    "fr": "grec",
+    "nl": "Grieks",
+    "ro": "greacă",
+    "ru": "греческая",
+    "sk": "grécke",
+    "uk": "грецька"
   },
   "Gujr": {
-    "en": "Gujarati"
+    "en": "Gujarati",
+    "de": "Gujarati",
+    "es": "gujarati",
+    "fr": "goudjarâtî",
+    "nl": "Gujarati",
+    "ro": "gujarati",
+    "ru": "гуджарати",
+    "sk": "gudžarátí",
+    "uk": "гуджараті"
   },
   "Guru": {
-    "en": "Gurmukhi"
+    "en": "Gurmukhi",
+    "de": "Gurmukhi",
+    "es": "gurmuji",
+    "fr": "gourmoukhî",
+    "nl": "Gurmukhi",
+    "ro": "gurmukhi",
+    "ru": "гурмукхи",
+    "sk": "gurmukhi",
+    "uk": "гурмухі"
   },
   "Hang": {
-    "en": "Hangul"
+    "en": "Hangul",
+    "de": "Hangul",
+    "es": "hangul",
+    "fr": "hangûl",
+    "nl": "Hangul",
+    "ro": "hangul",
+    "ru": "хангыль",
+    "sk": "hangul",
+    "uk": "хангиль"
   },
   "Hani": {
-    "en": "Han"
+    "en": "Han",
+    "de": "Chinesisch",
+    "es": "han",
+    "fr": "sinogrammes",
+    "nl": "Han",
+    "ro": "han",
+    "ru": "китайская",
+    "sk": "čínske",
+    "uk": "китайська"
   },
   "Hano": {
-    "en": "Hanunoo"
+    "en": "Hanunoo",
+    "de": "Hanunoo",
+    "es": "hanunoo",
+    "fr": "hanounóo",
+    "nl": "Hanunoo",
+    "ru": "хануну",
+    "uk": "хануну"
   },
   "Hans": {
-    "en": "Han (Simplified variant)"
+    "en": "Simplified",
+    "de": "Vereinfacht",
+    "es": "simplificado",
+    "fr": "simplifié",
+    "nl": "vereenvoudigd",
+    "ro": "simplificată",
+    "ru": "упрощенная китайская",
+    "sk": "zjednodušené",
+    "uk": "спрощена"
   },
   "Hant": {
-    "en": "Han (Traditional variant)"
+    "en": "Traditional",
+    "de": "Traditionell",
+    "es": "tradicional",
+    "fr": "traditionnel",
+    "nl": "traditioneel",
+    "ro": "tradițională",
+    "ru": "традиционная китайская",
+    "sk": "tradičné",
+    "uk": "традиційна"
   },
   "Hebr": {
-    "en": "Hebrew"
+    "en": "Hebrew",
+    "de": "Hebräisch",
+    "es": "hebreo",
+    "fr": "hébreu",
+    "nl": "Hebreeuws",
+    "ro": "ebraică",
+    "ru": "еврейская",
+    "sk": "hebrejské",
+    "uk": "іврит"
   },
   "Hira": {
-    "en": "Hiragana"
+    "en": "Hiragana",
+    "de": "Hiragana",
+    "es": "hiragana",
+    "fr": "hiragana",
+    "nl": "Hiragana",
+    "ro": "hiragana",
+    "ru": "хирагана",
+    "sk": "hiragana",
+    "uk": "хірагана"
   },
   "Hmng": {
-    "en": "Pahawh Hmong"
+    "en": "Pahawh Hmong",
+    "de": "Pahawh Hmong",
+    "es": "pahawh hmong",
+    "fr": "pahawh hmong",
+    "nl": "Pahawh Hmong",
+    "ru": "пахау хмонг",
+    "uk": "пахау хмонг"
   },
   "Hrkt": {
-    "en": "(alias for Hiragana + Katakana)"
+    "en": "Japanese syllabaries",
+    "de": "Japanische Silbenschrift",
+    "es": "silabarios japoneses",
+    "fr": "katakana ou hiragana",
+    "nl": "Katakana of Hiragana",
+    "ro": "silabică japoneză",
+    "ru": "катакана и хирагана",
+    "sk": "kana",
+    "uk": "японські силабарії"
   },
   "Hung": {
-    "en": "Old Hungarian"
+    "en": "Old Hungarian",
+    "de": "Altungarisch",
+    "es": "húngaro antiguo",
+    "fr": "ancien hongrois",
+    "nl": "Oudhongaars",
+    "ro": "maghiară veche",
+    "ru": "старовенгерская",
+    "uk": "давньоугорський"
   },
   "Inds": {
-    "en": "Indus"
+    "en": "Indus",
+    "de": "Indus-Schrift",
+    "es": "Indio (harappan)",
+    "fr": "indus",
+    "nl": "Indus",
+    "ro": "indus",
+    "ru": "хараппская (письменность долины Инда)",
+    "uk": "харапський"
   },
   "Ital": {
-    "en": "Old Italic (Etruscan, Oscan, etc.)"
+    "en": "Old Italic",
+    "de": "Altitalisch",
+    "es": "antigua bastardilla",
+    "fr": "ancien italique",
+    "nl": "Oud-italisch",
+    "ro": "italică veche",
+    "ru": "староитальянская",
+    "uk": "давньоіталійський"
   },
   "Java": {
-    "en": "Javanese"
+    "en": "Javanese",
+    "de": "Javanesisch",
+    "es": "javanés",
+    "fr": "javanais",
+    "nl": "Javaans",
+    "ro": "javaneză",
+    "ru": "яванская",
+    "uk": "яванський"
   },
   "Jpan": {
-    "en": "Japanese (alias for Han + Hiragana + Katakana)"
+    "en": "Japanese",
+    "de": "Japanisch",
+    "es": "japonés",
+    "fr": "japonais",
+    "nl": "Japans",
+    "ro": "japoneză",
+    "ru": "японская",
+    "sk": "japonské",
+    "uk": "японська"
   },
   "Kali": {
-    "en": "Kayah Li"
+    "en": "Kayah Li",
+    "de": "Kayah Li",
+    "es": "kayah li",
+    "fr": "kayah li",
+    "nl": "Kayah Li",
+    "ru": "кайа",
+    "uk": "кая лі"
   },
   "Kana": {
-    "en": "Katakana"
+    "en": "Katakana",
+    "de": "Katakana",
+    "es": "katakana",
+    "fr": "katakana",
+    "nl": "Katakana",
+    "ro": "katakana",
+    "ru": "катакана",
+    "sk": "katakana",
+    "uk": "катакана"
   },
   "Khar": {
-    "en": "Kharoshthi"
+    "en": "Kharoshthi",
+    "de": "Kharoshthi",
+    "es": "kharosthi",
+    "fr": "kharochthî",
+    "nl": "Kharoshthi",
+    "ru": "кхароштхи",
+    "uk": "кхароштхі"
   },
   "Khmr": {
-    "en": "Khmer"
+    "en": "Khmer",
+    "de": "Khmer",
+    "es": "jemer",
+    "fr": "khmer",
+    "nl": "Khmer",
+    "ro": "khmeră",
+    "ru": "кхмерская",
+    "sk": "khmérske",
+    "uk": "кхмерська"
   },
   "Knda": {
-    "en": "Kannada"
+    "en": "Kannada",
+    "de": "Kannada",
+    "es": "canarés",
+    "fr": "kannara",
+    "nl": "Kannada",
+    "ro": "kannada",
+    "ru": "каннада",
+    "sk": "kannadské",
+    "uk": "каннада"
   },
   "Kore": {
-    "en": "Korean (alias for Hangul + Han)"
+    "en": "Korean",
+    "de": "Koreanisch",
+    "es": "coreano",
+    "fr": "coréen",
+    "nl": "Koreaans",
+    "ro": "coreeană",
+    "ru": "корейская",
+    "sk": "kórejské",
+    "uk": "корейська"
   },
   "Kthi": {
-    "en": "Kaithi"
+    "en": "Kaithi",
+    "de": "Kaithi",
+    "fr": "kaithî",
+    "nl": "Kaithi",
+    "ru": "кайтхи",
+    "uk": "каїті"
   },
   "Lana": {
-    "en": "Tai Tham"
+    "en": "Lanna",
+    "de": "Lanna",
+    "es": "lanna",
+    "fr": "lanna",
+    "nl": "Lanna",
+    "ru": "ланна",
+    "uk": "ланна"
   },
   "Laoo": {
-    "en": "Lao"
+    "en": "Lao",
+    "de": "Laotisch",
+    "es": "laosiano",
+    "fr": "lao",
+    "nl": "Laotiaans",
+    "ro": "laoțiană",
+    "ru": "лаосская",
+    "sk": "laoské",
+    "uk": "лаоська"
   },
   "Latf": {
-    "en": "Latin (Fraktur variant)"
+    "en": "Fraktur Latin",
+    "de": "Lateinisch - Fraktur-Variante",
+    "es": "latino fraktur",
+    "fr": "latin (variante brisée)",
+    "nl": "Gotisch Latijns",
+    "ro": "latină Fraktur",
+    "ru": "латинская фрактура",
+    "uk": "латинський фрактурний"
   },
   "Latg": {
-    "en": "Latin (Gaelic variant)"
+    "en": "Gaelic Latin",
+    "de": "Lateinisch - Gälische Variante",
+    "es": "latino gaélico",
+    "fr": "latin (variante gaélique)",
+    "nl": "Gaelisch Latijns",
+    "ro": "latină gaelică",
+    "ru": "гэльская латинская",
+    "uk": "латинський гельський"
   },
   "Latn": {
-    "en": "Latin"
+    "en": "Latin",
+    "de": "Lateinisch",
+    "es": "latino",
+    "fr": "latin",
+    "nl": "Latijns",
+    "ro": "latină",
+    "ru": "латиница",
+    "sk": "latinka",
+    "uk": "латиниця"
   },
   "Lepc": {
-    "en": "Lepcha"
+    "en": "Lepcha",
+    "de": "Lepcha",
+    "es": "lepcha",
+    "fr": "lepcha",
+    "nl": "Lepcha",
+    "ru": "лепха",
+    "uk": "лепча"
   },
   "Limb": {
-    "en": "Limbu"
+    "en": "Limbu",
+    "de": "Limbu",
+    "es": "limbu",
+    "fr": "limbou",
+    "nl": "Limbu",
+    "ru": "лимбу",
+    "uk": "лімбу"
   },
   "Lina": {
-    "en": "Linear A"
+    "en": "Linear A",
+    "de": "Linear A",
+    "es": "lineal A",
+    "fr": "linéaire A",
+    "nl": "Lineair A",
+    "ro": "lineară A",
+    "ru": "линейное письмо А",
+    "sk": "lineárna A",
+    "uk": "лінійний А"
   },
   "Linb": {
-    "en": "Linear B"
+    "en": "Linear B",
+    "de": "Linear B",
+    "es": "lineal B",
+    "fr": "linéaire B",
+    "nl": "Lineair B",
+    "ro": "lineară B",
+    "ru": "линейное письмо Б",
+    "sk": "lineárna B",
+    "uk": "лінійний В"
   },
   "Lisu": {
-    "en": "Lisu"
+    "en": "Fraser",
+    "de": "Fraser",
+    "nl": "Fraser",
+    "ru": "лису",
+    "uk": "абетка Фрейзера"
   },
   "Lyci": {
-    "en": "Lycian"
+    "en": "Lycian",
+    "de": "Lykisch",
+    "es": "licio",
+    "fr": "lycien",
+    "nl": "Lycisch",
+    "ru": "лициан",
+    "uk": "лікійський"
   },
   "Lydi": {
-    "en": "Lydian"
+    "en": "Lydian",
+    "de": "Lydisch",
+    "es": "lidio",
+    "fr": "lydien",
+    "nl": "Lydisch",
+    "ro": "lidiană",
+    "ru": "лидийская",
+    "uk": "лідійський"
   },
   "Mand": {
-    "en": "Mandaic"
+    "en": "Mandaean",
+    "de": "Mandäisch",
+    "es": "mandeo",
+    "fr": "mandéen",
+    "nl": "Mandaeans",
+    "ru": "мандейская",
+    "uk": "мандейський"
   },
   "Mani": {
-    "en": "Manichaean"
+    "en": "Manichaean",
+    "de": "Manichäisch",
+    "fr": "manichéen",
+    "nl": "Manicheaans",
+    "ru": "манихейская",
+    "uk": "маніхейський"
   },
   "Maya": {
-    "en": "Mayan hieroglyphs"
+    "en": "Mayan hieroglyphs",
+    "de": "Maya-Hieroglyphen",
+    "es": "jeroglíficos mayas",
+    "fr": "hiéroglyphes mayas",
+    "nl": "Mayahiërogliefen",
+    "ro": "hieroglife maya",
+    "ru": "майя",
+    "sk": "mayské hieroglyfy",
+    "uk": "майя ієрогліфічний"
   },
   "Mero": {
-    "en": "Meroitic"
+    "en": "Meroitic",
+    "de": "Meroitisch",
+    "es": "meroítico",
+    "fr": "méroïtique",
+    "nl": "Meroïtisch",
+    "ru": "мероитская",
+    "uk": "мероїтський"
   },
   "Mlym": {
-    "en": "Malayalam"
+    "en": "Malayalam",
+    "de": "Malayalam",
+    "es": "malayálam",
+    "fr": "malayalam",
+    "nl": "Malayalam",
+    "ro": "malayalam",
+    "ru": "малаялам",
+    "sk": "malajálamske",
+    "uk": "малаяламська"
   },
   "Mong": {
-    "en": "Mongolian"
+    "en": "Mongolian",
+    "de": "Mongolisch",
+    "es": "mongol",
+    "fr": "mongol",
+    "nl": "Mongools",
+    "ro": "mongolă",
+    "ru": "монгольская",
+    "sk": "mongolské",
+    "uk": "монгольська"
   },
   "Moon": {
-    "en": "Moon"
+    "en": "Moon",
+    "de": "Moon",
+    "es": "moon",
+    "fr": "moon",
+    "nl": "Moon",
+    "ru": "азбука муна",
+    "uk": "мун"
   },
   "Mtei": {
-    "en": "Meitei Mayek"
+    "en": "Meitei Mayek",
+    "de": "Meitei Mayek",
+    "es": "manipuri",
+    "fr": "meitei mayek",
+    "nl": "Meitei",
+    "ro": "meitei mayek",
+    "ru": "манипури",
+    "sk": "mejtej majek (manipurské)",
+    "uk": "мейтей майєк"
   },
   "Mymr": {
-    "en": "Myanmar"
+    "en": "Myanmar",
+    "de": "Birmanisch",
+    "es": "birmano",
+    "fr": "birman",
+    "nl": "Birmaans",
+    "ro": "birmană",
+    "ru": "мьянманская",
+    "sk": "barmské",
+    "uk": "мʼянмська"
   },
   "Nkgb": {
-    "en": "Nakhi Geba"
+    "en": "Naxi Geba",
+    "de": "Geba",
+    "nl": "Naxi Geba",
+    "ru": "наси геба"
   },
   "Nkoo": {
-    "en": "N’Ko"
+    "en": "N’Ko",
+    "de": "N’Ko",
+    "es": "n’ko",
+    "fr": "n’ko",
+    "nl": "N’Ko",
+    "ru": "нко",
+    "uk": "нко"
   },
   "Ogam": {
-    "en": "Ogham"
+    "en": "Ogham",
+    "de": "Ogham",
+    "es": "ogham",
+    "fr": "ogam",
+    "nl": "Ogham",
+    "ru": "огамическая",
+    "uk": "огамічний"
   },
   "Olck": {
-    "en": "Ol Chiki"
+    "en": "Ol Chiki",
+    "de": "Ol Chiki",
+    "es": "ol ciki",
+    "fr": "ol tchiki",
+    "nl": "Ol Chiki",
+    "ro": "ol chiki",
+    "ru": "ол чики",
+    "sk": "santálske (ol chiki)",
+    "uk": "сантальський"
   },
   "Orkh": {
-    "en": "Old Turkic"
+    "en": "Orkhon",
+    "de": "Orchon-Runen",
+    "es": "orkhon",
+    "fr": "orkhon",
+    "nl": "Orkhon",
+    "ru": "орхоно-енисейская",
+    "uk": "орхонський"
   },
   "Orya": {
-    "en": "Oriya"
+    "en": "Odia",
+    "de": "Oriya",
+    "es": "oriya",
+    "fr": "odia",
+    "nl": "Odia",
+    "ro": "oriya",
+    "ru": "ория",
+    "sk": "uríjske",
+    "uk": "орія"
   },
   "Osma": {
-    "en": "Osmanya"
+    "en": "Osmanya",
+    "de": "Osmanisch",
+    "es": "osmaniya",
+    "fr": "osmanais",
+    "nl": "Osmanya",
+    "ru": "османская",
+    "sk": "osmanský",
+    "uk": "османський"
   },
   "Perm": {
-    "en": "Old Permic"
+    "en": "Old Permic",
+    "de": "Altpermisch",
+    "es": "permiano antiguo",
+    "fr": "ancien permien",
+    "nl": "Oudpermisch",
+    "ru": "древнепермская",
+    "uk": "давньопермський"
   },
   "Phag": {
-    "en": "Phags-pa"
+    "en": "Phags-pa",
+    "de": "Phags-pa",
+    "es": "phags-pa",
+    "fr": "phags pa",
+    "nl": "Phags-pa",
+    "ru": "пагспа",
+    "uk": "пхагс-па"
   },
   "Phli": {
-    "en": "Inscriptional Pahlavi"
+    "en": "Inscriptional Pahlavi",
+    "de": "Buch-Pahlavi",
+    "fr": "pehlevi des inscriptions",
+    "nl": "Inscriptioneel Pahlavi",
+    "ru": "пехлевийская",
+    "uk": "пехлеві написів"
   },
   "Phlp": {
-    "en": "Psalter Pahlavi"
+    "en": "Psalter Pahlavi",
+    "de": "Psalter-Pahlavi",
+    "fr": "pehlevi des psautiers",
+    "nl": "Psalmen Pahlavi",
+    "ru": "пахлави псалтирная",
+    "uk": "пехлеві релігійний"
   },
   "Phlv": {
-    "en": "Book Pahlavi"
+    "en": "Book Pahlavi",
+    "de": "Pahlavi",
+    "fr": "pehlevi des livres",
+    "nl": "Boek Pahlavi",
+    "ru": "пахлави книжная",
+    "uk": "пехлеві літературний"
   },
   "Phnx": {
-    "en": "Phoenician"
+    "en": "Phoenician",
+    "de": "Phönizisch",
+    "es": "fenicio",
+    "fr": "phénicien",
+    "nl": "Foenicisch",
+    "ro": "feniciană",
+    "ru": "финикийская",
+    "uk": "фінікійський"
   },
   "Plrd": {
-    "en": "Miao"
+    "en": "Pollard Phonetic",
+    "de": "Pollard Phonetisch",
+    "es": "Pollard Miao",
+    "fr": "phonétique de Pollard",
+    "nl": "Pollard-fonetisch",
+    "ru": "поллардовская фонетика",
+    "uk": "писемність Полларда"
   },
   "Prti": {
-    "en": "Inscriptional Parthian"
+    "en": "Inscriptional Parthian",
+    "de": "Parthisch",
+    "fr": "parthe des inscriptions",
+    "nl": "Inscriptioneel Parthisch",
+    "ru": "парфянская",
+    "uk": "парфянський"
   },
   "Rjng": {
-    "en": "Rejang"
+    "en": "Rejang",
+    "de": "Rejang",
+    "es": "rejang",
+    "fr": "rejang",
+    "nl": "Rejang",
+    "ru": "реджангская",
+    "uk": "реджанг"
   },
   "Roro": {
-    "en": "Rongorongo"
+    "en": "Rongorongo",
+    "de": "Rongorongo",
+    "es": "rongo-rongo",
+    "fr": "rongorongo",
+    "nl": "Rongorongo",
+    "ru": "ронго-ронго",
+    "uk": "ронго-ронго"
   },
   "Runr": {
-    "en": "Runic"
+    "en": "Runic",
+    "de": "Runenschrift",
+    "es": "rúnico",
+    "fr": "runique",
+    "nl": "Runic",
+    "ro": "runică",
+    "ru": "руническая",
+    "sk": "Runové písmo",
+    "uk": "рунічний"
   },
   "Samr": {
-    "en": "Samaritan"
+    "en": "Samaritan",
+    "de": "Samaritanisch",
+    "fr": "samaritain",
+    "nl": "Samaritaans",
+    "ru": "самаритянская",
+    "uk": "самаритянський"
   },
   "Sara": {
-    "en": "Sarati"
+    "en": "Sarati",
+    "de": "Sarati",
+    "es": "sarati",
+    "fr": "sarati",
+    "nl": "Sarati",
+    "ru": "сарати",
+    "uk": "сараті"
   },
   "Sarb": {
-    "en": "Old South Arabian"
+    "en": "Old South Arabian",
+    "de": "Altsüdarabisch",
+    "nl": "Oud Zuid-Arabisch",
+    "ru": "староюжноарабская"
   },
   "Saur": {
-    "en": "Saurashtra"
+    "en": "Saurashtra",
+    "de": "Saurashtra",
+    "es": "saurashtra",
+    "fr": "saurashtra",
+    "nl": "Saurashtra",
+    "ru": "саураштра",
+    "uk": "саураштра"
   },
   "Sgnw": {
-    "en": "SignWriting"
+    "en": "SignWriting",
+    "de": "Gebärdensprache",
+    "es": "SignWriting",
+    "fr": "écriture des signes",
+    "nl": "SignWriting",
+    "ru": "язык знаков",
+    "uk": "знаковий"
   },
   "Shaw": {
-    "en": "Shavian"
+    "en": "Shavian",
+    "de": "Shaw-Alphabet",
+    "es": "shaviano",
+    "fr": "shavien",
+    "nl": "Shavian",
+    "ru": "алфавит Шоу",
+    "uk": "шоу"
   },
   "Sinh": {
-    "en": "Sinhala"
+    "en": "Sinhala",
+    "de": "Singhalesisch",
+    "es": "cingalés",
+    "fr": "cingalais",
+    "nl": "Singalees",
+    "ro": "singaleză",
+    "ru": "сингальская",
+    "sk": "sinhálske",
+    "uk": "сингальська"
   },
   "Sund": {
-    "en": "Sundanese"
+    "en": "Sundanese",
+    "de": "Sundanesisch",
+    "es": "sundanés",
+    "fr": "sundanais",
+    "nl": "Soendanees",
+    "ru": "сунданская",
+    "uk": "сунданський"
   },
   "Sylo": {
-    "en": "Syloti Nagri"
+    "en": "Syloti Nagri",
+    "de": "Syloti Nagri",
+    "es": "syloti nagri",
+    "fr": "sylotî nâgrî",
+    "nl": "Syloti Nagri",
+    "ru": "силоти нагри",
+    "uk": "сілоті нагрі"
   },
   "Syrc": {
-    "en": "Syriac"
+    "en": "Syriac",
+    "de": "Syrisch",
+    "es": "siriaco",
+    "fr": "syriaque",
+    "nl": "Syriac",
+    "ro": "siriacă",
+    "ru": "сирийская",
+    "uk": "сирійський"
   },
   "Syre": {
-    "en": "Syriac (Estrangelo variant)"
+    "en": "Estrangelo Syriac",
+    "de": "Syrisch - Estrangelo-Variante",
+    "es": "siriaco estrangelo",
+    "fr": "syriaque estranghélo",
+    "nl": "Estrangelo Aramees",
+    "ru": "сирийская эстрангело",
+    "uk": "давньосирійський естрангело"
   },
   "Syrj": {
-    "en": "Syriac (Western variant)"
+    "en": "Western Syriac",
+    "de": "Westsyrisch",
+    "es": "siriaco occidental",
+    "fr": "syriaque occidental",
+    "nl": "West-Aramees",
+    "ro": "siriacă occidentală",
+    "ru": "западносирийская",
+    "uk": "давньосирійський західний"
   },
   "Syrn": {
-    "en": "Syriac (Eastern variant)"
+    "en": "Eastern Syriac",
+    "de": "Ostsyrisch",
+    "es": "siriaco oriental",
+    "fr": "syriaque oriental",
+    "nl": "Oost-Aramees",
+    "ro": "siriacă orientală",
+    "ru": "восточно-сирийская",
+    "uk": "давньосирійський східний"
   },
   "Tagb": {
-    "en": "Tagbanwa"
+    "en": "Tagbanwa",
+    "de": "Tagbanwa",
+    "es": "tagbanúa",
+    "fr": "tagbanoua",
+    "nl": "Tagbanwa",
+    "ru": "тагбанва",
+    "uk": "тагбанва"
   },
   "Tale": {
-    "en": "Tai Le"
+    "en": "Tai Le",
+    "de": "Tai Le",
+    "es": "tai le",
+    "fr": "taï-le",
+    "nl": "Tai Le",
+    "ru": "тайский ле",
+    "uk": "тай-лі"
   },
   "Talu": {
-    "en": "New Tai Lue"
+    "en": "New Tai Lue",
+    "de": "Tai Lue",
+    "es": "nuevo tai lue",
+    "fr": "nouveau taï-lue",
+    "nl": "Nieuw Tai Lue",
+    "ru": "новый тайский ле",
+    "uk": "новий тайський луе"
   },
   "Taml": {
-    "en": "Tamil"
+    "en": "Tamil",
+    "de": "Tamilisch",
+    "es": "tamil",
+    "fr": "tamoul",
+    "nl": "Tamil",
+    "ro": "tamilă",
+    "ru": "тамильская",
+    "sk": "tamilské",
+    "uk": "тамільська"
   },
   "Tavt": {
-    "en": "Tai Viet"
+    "en": "Tai Viet",
+    "de": "Tai-Viet",
+    "fr": "taï viêt",
+    "nl": "Tai Viet",
+    "ru": "тай-вьет",
+    "uk": "тай-вʼєт"
   },
   "Telu": {
-    "en": "Telugu"
+    "en": "Telugu",
+    "de": "Telugu",
+    "es": "telugu",
+    "fr": "télougou",
+    "nl": "Telugu",
+    "ro": "telugu",
+    "ru": "телугу",
+    "sk": "telugské",
+    "uk": "телугу"
   },
   "Teng": {
-    "en": "Tengwar"
+    "en": "Tengwar",
+    "de": "Tengwar",
+    "es": "tengwar",
+    "fr": "tengwar",
+    "nl": "Tengwar",
+    "ru": "тенгварская",
+    "uk": "тенгвар"
   },
   "Tfng": {
-    "en": "Tifinagh"
+    "en": "Tifinagh",
+    "de": "Tifinagh",
+    "es": "tifinagh",
+    "fr": "tifinagh",
+    "nl": "Tifinagh",
+    "ro": "berberă",
+    "ru": "древнеливийская",
+    "uk": "тифінаг"
   },
   "Tglg": {
-    "en": "Tagalog"
+    "en": "Tagalog",
+    "de": "Tagalog",
+    "es": "tagalo",
+    "fr": "tagal",
+    "nl": "Tagalog",
+    "ru": "тагалог",
+    "uk": "тагальський"
   },
   "Thaa": {
-    "en": "Thaana"
+    "en": "Thaana",
+    "de": "Thaana",
+    "es": "thaana",
+    "fr": "thâna",
+    "nl": "Thaana",
+    "ro": "thaana",
+    "ru": "тана",
+    "sk": "tána",
+    "uk": "таана"
   },
   "Thai": {
-    "en": "Thai"
+    "en": "Thai",
+    "de": "Thai",
+    "es": "tailandés",
+    "fr": "thaï",
+    "nl": "Thai",
+    "ro": "thailandeză",
+    "ru": "тайская",
+    "sk": "thajské",
+    "uk": "тайська"
   },
   "Tibt": {
-    "en": "Tibetan"
+    "en": "Tibetan",
+    "de": "Tibetisch",
+    "es": "tibetano",
+    "fr": "tibétain",
+    "nl": "Tibetaans",
+    "ro": "tibetană",
+    "ru": "тибетская",
+    "sk": "tibetské",
+    "uk": "тибетська"
   },
   "Ugar": {
-    "en": "Ugaritic"
+    "en": "Ugaritic",
+    "de": "Ugaritisch",
+    "es": "ugarítico",
+    "fr": "ougaritique",
+    "nl": "Ugaritisch",
+    "ru": "угаритская",
+    "uk": "угаритський"
   },
   "Vaii": {
-    "en": "Vai"
+    "en": "Vai",
+    "de": "Vai",
+    "es": "vai",
+    "fr": "vaï",
+    "nl": "Vai",
+    "ru": "вайская",
+    "uk": "ваї"
   },
   "Visp": {
-    "en": "Visible Speech"
+    "en": "Visible Speech",
+    "de": "Sichtbare Sprache",
+    "es": "lenguaje visible",
+    "fr": "parole visible",
+    "nl": "Zichtbare spraak",
+    "ru": "видимая речь",
+    "uk": "видиме мовлення"
   },
   "Xpeo": {
-    "en": "Old Persian"
+    "en": "Old Persian",
+    "de": "Altpersisch",
+    "es": "persa antiguo",
+    "fr": "cunéiforme persépolitain",
+    "nl": "Oudperzisch",
+    "ro": "persană veche",
+    "ru": "староперсидская",
+    "uk": "давньоперський"
   },
   "Xsux": {
-    "en": "Sumero-Akkadian cuneiform"
+    "en": "Sumero-Akkadian Cuneiform",
+    "de": "Sumerisch-akkadische Keilschrift",
+    "es": "cuneiforme sumerio-acadio",
+    "fr": "cunéiforme suméro-akkadien",
+    "nl": "Sumero-Akkadian Cuneiform",
+    "ro": "cuneiformă sumero-akkadiană",
+    "ru": "шумеро-аккадская клинопись",
+    "uk": "шумеро-аккадський клінопис"
   },
   "Yiii": {
-    "en": "Yi"
+    "en": "Yi",
+    "de": "Yi",
+    "es": "yi",
+    "fr": "yi",
+    "nl": "Yi",
+    "ru": "и",
+    "uk": "йї"
   },
   "aluku": {
     "en": "Aluku dialect"

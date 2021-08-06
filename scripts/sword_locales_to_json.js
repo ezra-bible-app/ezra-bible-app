@@ -23,7 +23,9 @@ parseSwordLocales().then(languages => {
     for (const locale of allLocales) {
       languages[code] = addI18nData(code, locale, languages[code]);
     }
-    languages[code] = addIso639Details(code, languages[code]);
+    if (code.length < 4) {
+      languages[code] = addIso639Details(code, languages[code]);
+    }
   }
 
   fs.writeFileSync(`lib/languages.json`, JSON.stringify(languages, null, 2));
@@ -146,23 +148,19 @@ function addI18nData(code, localeCode, data) {
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DisplayNames/of
   if (hasFullICU) {
 
-    try {
+    if (code.length >= 2 && code.length <= 3) {
       const languagesInLocale = new Intl.DisplayNames(localeCode, { type: 'language', fallback: 'none' });
       const languageName = languagesInLocale.of(code);
       if (languageName) {
         data[localeCode] = toTitleCase(languageName);
       }
-    } catch (e) {
-      console.log(`Some problem getting i18n data for ${code} in ${localeCode}: ${e}`);
-    }
-
-    if (data.scripts) {
-      for (const scriptCode in data.scripts) {
-        const languageScript = (new Intl.DisplayNames(localeCode, { type: 'script', fallback: 'none' })).of(scriptCode);
-        if (languageScript) {
-          data.scripts[scriptCode][localeCode] = languageScript;
-        }
+    } else if (code.length == 4) {
+      const languageScript = (new Intl.DisplayNames(localeCode, { type: 'script', fallback: 'none' })).of(code);
+      if (languageScript) {
+        data[localeCode] = languageScript;
       }
+    } else {
+      console.log(`Non standard language code "${code}" while trying to i18n in "${localeCode}"`);
     }
 
     if (data.regions) {
@@ -187,5 +185,4 @@ function toTitleCase(str) {
 module.exports = {
   parseLine,
   addDataToMap,
-  addI18nData,
 };
