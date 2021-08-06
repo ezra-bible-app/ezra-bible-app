@@ -60527,5 +60527,47 @@
   },
   "wadegile": {
     "en": "Wade-Giles romanization"
+  },
+  "cek": {
+    "name": "Eastern Khumi Chin",
+    "type": "living",
+    "scope": "individual",
+    "iso6393": "cek"
+  },
+  "cth": {
+    "name": "Thaiphum Chin",
+    "type": "living",
+    "scope": "individual",
+    "iso6393": "cth"
+  },
+  "dnj": {
+    "name": "Dan",
+    "type": "living",
+    "scope": "individual",
+    "iso6393": "dnj"
+  },
+  "esg": {
+    "name": "Aheri Gondi",
+    "type": "living",
+    "scope": "individual",
+    "iso6393": "esg"
+  },
+  "iqw": {
+    "name": "Ikwo",
+    "type": "living",
+    "scope": "individual",
+    "iso6393": "iqw"
+  },
+  "izz": {
+    "name": "Izii",
+    "type": "living",
+    "scope": "individual",
+    "iso6393": "izz"
+  },
+  "ncq": {
+    "name": "Northern Katang",
+    "type": "living",
+    "scope": "individual",
+    "iso6393": "ncq"
   }
 }

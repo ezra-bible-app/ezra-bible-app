@@ -5,6 +5,8 @@ const i18nController = require('../app/frontend/controllers/i18n_controller.js')
 
 
 const SWORD_LANGUAGES_URL = "https://crosswire.org/svn/sword/trunk/locales.d/locales.conf";
+const extraLanguageCodes = ['cek', 'cth', 'dnj', 'esg', 'iqw', 'izz', 'ncq'];
+const allLocales = i18nController.getAvailableLocales();
 
 // https://nodejs.org/dist/latest-v14.x/docs/api/intl.html#intl_detecting_internationalization_support
 const hasFullICU = (() => {
@@ -18,22 +20,34 @@ const hasFullICU = (() => {
 console.log(`Running on node version ${process.version}. Full ICU support: ${hasFullICU}`);
 
 parseSwordLocales().then(languages => {
-  const allLocales = i18nController.getAvailableLocales();
   for (const code in languages) {
-    for (const locale of allLocales) {
-      languages[code] = addI18nData(code, locale, languages[code]);
-    }
+    languages[code] = addI18nData(code, allLocales, languages[code]);
+
     if (code.length < 4) {
       languages[code] = addIso639Details(code, languages[code]);
     }
   }
 
-  fs.writeFileSync(`lib/languages.json`, JSON.stringify(languages, null, 2));
+  const extraLanguages = getLanguageDetails(extraLanguageCodes);
+
+  saveToJsonFile({ ...languages, ...extraLanguages }, `lib/languages.json`);
 });
 const indexedLangs = getIndexedLangs();
 
 
+function saveToJsonFile(data, filename) {
+  const jsonData = JSON.stringify(data, null, 2);
+  fs.writeFileSync(filename, jsonData);
+}
 
+function getLanguageDetails(languageCodes) {
+  var languages = {};
+  for (const code of languageCodes) {
+    languages[code] = addIso639Details(code);
+    languages[code] = addI18nData(code, allLocales, languages[code]);
+  }
+  return languages;
+}
 
 /**
  * Converts SWORD locales.conf to object/JSON:
@@ -94,7 +108,7 @@ function parseLine(line) {
   };
 }
 
-function addDataToMap(langObj, name, script = undefined, locale = undefined, region = undefined) {
+function addDataToMap(langObj, name, script=undefined, locale=undefined, region=undefined) {
   const nameObj = locale ? { [locale]: name } : { 'name': name };
   if (script) {
     if (!langObj.scripts || langObj.scripts && !langObj.scripts.includes(script)) {
@@ -118,7 +132,7 @@ function addDataToMap(langObj, name, script = undefined, locale = undefined, reg
   return langObj;
 }
 
-function addIso639Details(code, data) {
+function addIso639Details(code, data={}) {
   if (indexedLangs[code]) {
     return {
       ...indexedLangs[code],
@@ -143,35 +157,37 @@ function getIndexedLangs() {
   return indexedLangs;
 }
 
-function addI18nData(code, localeCode, data) {
+function addI18nData(code, localeCodes, data={}) {
   // Try to get localized name through standard Internationalization API, requires node >= 14
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DisplayNames/of
   if (hasFullICU) {
+    for (const localeCode of localeCodes) {
 
-    if (code.length >= 2 && code.length <= 3) {
-      const languagesInLocale = new Intl.DisplayNames(localeCode, { type: 'language', fallback: 'none' });
-      const languageName = languagesInLocale.of(code);
-      if (languageName) {
-        data[localeCode] = toTitleCase(languageName);
+      if (code.length >= 2 && code.length <= 3) {
+        const languagesInLocale = new Intl.DisplayNames(localeCode, { type: 'language', fallback: 'none' });
+        const languageName = languagesInLocale.of(code);
+        if (languageName) {
+          data[localeCode] = toTitleCase(languageName);
+        }
+      } else if (code.length == 4) {
+        const languageScript = (new Intl.DisplayNames(localeCode, { type: 'script', fallback: 'none' })).of(code);
+        if (languageScript) {
+          data[localeCode] = languageScript;
+        }
+      } else {
+        console.log(`Non standard language code "${code}" while trying to i18n in "${localeCode}"`);
       }
-    } else if (code.length == 4) {
-      const languageScript = (new Intl.DisplayNames(localeCode, { type: 'script', fallback: 'none' })).of(code);
-      if (languageScript) {
-        data[localeCode] = languageScript;
-      }
-    } else {
-      console.log(`Non standard language code "${code}" while trying to i18n in "${localeCode}"`);
-    }
 
-    if (data.regions) {
-      for (const regionCode in data.regions) {
-        const languageRegion = (new Intl.DisplayNames(localeCode, { type: 'region', fallback: 'none' })).of(regionCode);
-        if (languageRegion) {
-          data.regions[regionCode][localeCode] = languageRegion;
+      if (data.regions) {
+        for (const regionCode in data.regions) {
+          const languageRegion = (new Intl.DisplayNames(localeCode, { type: 'region', fallback: 'none' })).of(regionCode);
+          if (languageRegion) {
+            data.regions[regionCode][localeCode] = languageRegion;
+          }
         }
       }
-    }
 
+    }
   }
   return data;
 }
