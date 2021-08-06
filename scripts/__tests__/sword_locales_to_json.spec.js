@@ -13,9 +13,7 @@ describe('SWORD languages data parsing', () => {
 
   it('transforms data to object', () => {
     var langData = {
-      scripts: {
-        "Cyrl": { name: "Азәрбајҹан" }
-      }
+      scripts: ["Cyrl"]
     };
     expect(addDataToMap({}, "Азәрбајҹан", "Cyrl")).toEqual(langData);
 
@@ -26,24 +24,13 @@ describe('SWORD languages data parsing', () => {
 
     expect(addDataToMap(langData, "Azərbaycan", "Latn")).toEqual({
       ...langData,
-      scripts: {
-        "Cyrl": { name: "Азәрбајҹан" },
-        "Latn": { name: "Azərbaycan" },
-      }
+      scripts: ["Cyrl", "Latn"],
     });
 
     langData = {
-      scripts: {
-        "Cyrl": { name: "Башҡортса" }
-      }
+      scripts: ["Cyrl"],
     };
-    expect(addDataToMap(langData, "Bashkir (Cyrillic script)", "Cyrl", "en")).toEqual({ 
-      scripts: {
-        "Cyrl": {
-          name: "Башҡортса",
-          en: "Bashkir (Cyrillic script)",
-        }
-      }});
+    expect(addDataToMap(langData, "Bashkir (Cyrillic script)", "Cyrl", "en")).toEqual(langData);
 
   });
 });

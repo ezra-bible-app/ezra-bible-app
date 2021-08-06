@@ -47,17 +47,7 @@ const indexedLangs = getIndexedLangs();
  *   "az": {
  *     "name": "Azərbaycan / Азәрбајҹан / آذربایجان",
  *     "en": "Azerbaijani",
- *     "scripts": {
- *       "Cyrl": {
- *         "name": "Азәрбајҹан"
- *       },
- *       "Arab": {
- *         "name": "آذربایجان"
- *       },
- *       "Latn": {
- *         "name": "Azərbaycan"
- *       }
- *     }
+ *     "scripts": [ "Cyrl", "Arab", "Latn" ]
  *   }
  * 
  * @returns {Object} Map of languages by code
@@ -103,18 +93,16 @@ function parseLine(line) {
 }
 
 function addDataToMap(langObj, name, script = undefined, locale = undefined, region = undefined) {
-  var newLangObj;
   const nameObj = locale ? { [locale]: name } : { 'name': name };
   if (script) {
-    newLangObj = {
-      ...langObj,
-      scripts: {
-        ...langObj.scripts,
-        [script]: langObj.scripts ? { ...langObj.scripts[script], ...nameObj } : nameObj
-      }
-    };
+    if (!langObj.scripts || langObj.scripts && !langObj.scripts.includes(script)) {
+      langObj = {
+        ...langObj,
+        scripts: langObj.scripts ? [...langObj.scripts, script] : [script]
+      };
+    }
   } else if (region) { // region will be skipped if script is present. So far SWORD data has either script or region present
-    newLangObj = {
+    langObj = {
       ...langObj,
       regions: {
         ...langObj.regions,
@@ -122,10 +110,10 @@ function addDataToMap(langObj, name, script = undefined, locale = undefined, reg
       }
     };
   } else {
-    newLangObj = { ...langObj, ...nameObj };
+    langObj = { ...langObj, ...nameObj };
   }
 
-  return newLangObj;
+  return langObj;
 }
 
 function addIso639Details(code, data) {
