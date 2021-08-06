@@ -101,7 +101,7 @@ module.exports.getLanguageDetails = function (languageCode, localeCode = 'en') {
 
   var languageRegion;
   if (regionCode && hasIntlDisplayNames) {
-    languageScript = (new Intl.DisplayNames(localeCode, { type: 'region', fallback: 'none' })).of(regionCode);
+    languageRegion = (new Intl.DisplayNames(localeCode, { type: 'region', fallback: 'none' })).of(regionCode);
   }
 
   return {
