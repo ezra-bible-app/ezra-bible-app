@@ -88,8 +88,10 @@ module.exports.getLanguageDetails = function (languageCode, localeCode='en') {
     languageName = details[localeCode];
     localized = true;
   } else {
-    languageName = details.name || details["en"];
+    languageName = details.en && details.name && details.en != details.name ? `${details.en} (${details.name})` : details.en || details.name;
   }
+  languageName = languageName.replace("(individual language)", "").trim(); // this phrase is not useful in the Install Assistant language list
+
 
   var languageScript;
   if (scriptCode) {
