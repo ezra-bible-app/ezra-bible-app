@@ -155,27 +155,6 @@ module.exports.getLanguageCode = function(languageName) {
   return null;
 };
 
-
-function findLanguage(normalizedCode) {
-  const indexedLangs = getIndexedLangs();
-  var indexedResult = indexedLangs[normalizedCode];
-  if (indexedResult !== undefined) {
-    return indexedResult;
-  }
-
-  const langs = getLangs();
-  const languageCount = langs.length;
-
-  for (let i = 0; i < languageCount; i++) {
-    const currentLang = langs[i];
-    if (mappingMatchesCode(currentLang, normalizedCode)) {
-      return currentLang;
-    }
-  }
-
-  return {};
-}
-
 var langs = null;
 function getLangs() {
   if (langs == null) {
@@ -183,34 +162,4 @@ function getLangs() {
   }
 
   return langs;
-}
-
-var indexedLangs = null;
-function getIndexedLangs() {
-  if (indexedLangs == null) {
-    const langs = getLangs();
-
-    indexedLangs = {};
-
-    const languageCount = langs.length;
-    for (let i = 0; i < languageCount; i++) {
-      const currentLang = langs[i];
-      if (currentLang.iso6393 !== undefined) {
-        indexedLangs[currentLang.iso6393] = currentLang;
-      }
-    }
-  }
-
-  return indexedLangs;
-}
-
-function mappingMatchesCode(mapping, languageCode) {
-  return (languageCode == mapping.iso6393 ||
-    languageCode == mapping.iso6392B ||
-    languageCode == mapping.iso6392T ||
-    languageCode == mapping.iso6391);
-}
-
-function toTitleCase(str) {
-  return str.slice(0, 1).toLocaleUpperCase() + str.slice(1);
 }
