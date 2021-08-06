@@ -312,7 +312,7 @@ async function getAvailableLanguagesFromRepos() {
       } else if (languageInfo.iso6393) {
         addLanguage(languages['iso6393-languages'], languageInfo, currentLanguageCode, starred);
       } else {
-        console.log("Unknown lang:", currentLanguageCode, languageInfo);
+        console.log("Non-standard language code:", currentLanguageCode, languageInfo);
         addLanguage(languages['unknown-languages'], languageInfo, currentLanguageCode, starred);          
       }
 
