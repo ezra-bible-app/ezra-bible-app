@@ -1,12 +1,15 @@
 const { parseLine, addDataToMap } = require("../sword_languages_to_json.js");
 
 describe('SWORD languages data parsing', () => {
+
   it('extracts data from the line', () => {
     expect(parseLine("ce-Cyrl.en=Chechen (Cyrillic script)")).toEqual({ code: "ce", script: "Cyrl", locale: "en", name: "Chechen (Cyrillic script)" });
     expect(parseLine("dz.en=Dzongkha")).toEqual({ code: "dz", script: undefined, locale: "en", name: "Dzongkha" });
     expect(parseLine("dz=རྫོང་ཁ")).toEqual({ code: "dz", script: undefined, locale: undefined, name: "རྫོང་ཁ" });
     expect(parseLine("Xsux.en=Sumero-Akkadian cuneiform")).toEqual({ code: "Xsux", script: undefined, locale: "en", name: "Sumero-Akkadian cuneiform" });
   });
+
+
 
   it('transforms data to object', () => {
     var langData = {

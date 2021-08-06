@@ -1,18 +1,36 @@
 const fetchline = require('nodefetchline');
 const fs = require('fs');
 const iso6393 = require('iso-639-3');
+const i18nController = require('../app/frontend/controllers/i18n_controller.js');
 
 
 const SWORD_LANGUAGES_URL = "https://crosswire.org/svn/sword/trunk/locales.d/locales.conf";
 
+// https://nodejs.org/dist/latest-v14.x/docs/api/intl.html#intl_detecting_internationalization_support
+const hasFullICU = (() => {
+  try {
+    const ukrainian = new Intl.DisplayNames('uk', { type: 'language', fallback: 'none' });
+    return ukrainian.of('en') === 'англійська';
+  } catch (err) {
+    return false;
+  }
+})();
+console.log(`Running on node version ${process.version}. Full ICU support: ${hasFullICU}`);
+
 parseSwordLocales().then(languages => {
-  for(const code in languages) {
+  const allLocales = i18nController.getAvailableLocales();
+  for (const code in languages) {
+    for (const locale of allLocales) {
+      languages[code] = addI18nData(code, locale, languages[code]);
+    }
     languages[code] = addIso639Details(code, languages[code]);
   }
 
   fs.writeFileSync(`lib/languages.json`, JSON.stringify(languages, null, 2));
 });
 const indexedLangs = getIndexedLangs();
+
+
 
 
 /**
@@ -111,7 +129,7 @@ function addDataToMap(langObj, name, script = undefined, locale = undefined, reg
 }
 
 function addIso639Details(code, data) {
-  if(indexedLangs[code]) {
+  if (indexedLangs[code]) {
     return {
       ...indexedLangs[code],
       ...data,
@@ -135,9 +153,51 @@ function getIndexedLangs() {
   return indexedLangs;
 }
 
+function addI18nData(code, localeCode, data) {
+  // Try to get localized name through standard Internationalization API, requires node >= 14
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DisplayNames/of
+  if (hasFullICU) {
+
+    try {
+      const languagesInLocale = new Intl.DisplayNames(localeCode, { type: 'language', fallback: 'none' });
+      const languageName = languagesInLocale.of(code);
+      if (languageName) {
+        data[localeCode] = toTitleCase(languageName);
+      }
+    } catch (e) {
+      console.log(`Some problem getting i18n data for ${code} in ${localeCode}: ${e}`);
+    }
+
+    if (data.scripts) {
+      for (const scriptCode in data.scripts) {
+        const languageScript = (new Intl.DisplayNames(localeCode, { type: 'script', fallback: 'none' })).of(scriptCode);
+        if (languageScript) {
+          data.scripts[scriptCode][localeCode] = languageScript;
+        }
+      }
+    }
+
+    if (data.regions) {
+      for (const regionCode in data.regions) {
+        const languageRegion = (new Intl.DisplayNames(localeCode, { type: 'region', fallback: 'none' })).of(regionCode);
+        if (languageRegion) {
+          data.regions[regionCode][localeCode] = languageRegion;
+        }
+      }
+    }
+
+  }
+  return data;
+}
+
+function toTitleCase(str) {
+  return str.slice(0, 1).toLocaleUpperCase() + str.slice(1);
+}
+
 
 // export functions for unit testing
 module.exports = {
   parseLine,
   addDataToMap,
+  addI18nData,
 };
