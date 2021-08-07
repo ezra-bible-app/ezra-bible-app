@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "Debug Renderer Process",
-      "type": "chrome",
+      "type": "pwa-chrome",
       "request": "launch",
       "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron",
       "windows": {
