@@ -26,8 +26,8 @@ describe('languageMapper', () => {
     expect(result).toEqual('he');
   });
 
-  it('returns undefined when localized code not available', () => {
+  it('returns result even when Intl API is not available', () => {
     const result = languageMapper.getLanguageName('he', 'ru');
-    expect(result).toEqual(undefined);
+    expect(result).toEqual('Иврит');
   });
 });
