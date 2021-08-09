@@ -111,9 +111,11 @@ Note that for adding a new locale you must also add an entry in the whitelist in
 <a name='layout'></a>
 ## App layout
 
-The application layout is based on [CSS grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout) under `index.html`.
+![Grid Layout](/images/Grid%20Layout.png)
 
-- `<div id="app-container">` serves as the main grid container.
+The main application layout in `index.html` is based on [CSS grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout).
+
+- `<div id="app-container">` serves as the main grid container and defines template areas.
 - |--- `<main class="content">` serves as the main tab container with Bible text, search results or verse list content in each tab.
 - |--- `<aside id="side-panel">` is a container for quick reference info such as tag list and Strong's dictionary.
 - |--- `<footer id="bottom-panel">` is a container for detailed information regarding selected verse (interlinear view) or clicked Cross reference link.
