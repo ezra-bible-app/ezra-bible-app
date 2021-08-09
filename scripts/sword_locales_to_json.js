@@ -7,6 +7,7 @@ const i18nController = require('../app/frontend/controllers/i18n_controller.js')
 const SWORD_LANGUAGES_URL = "https://crosswire.org/svn/sword/trunk/locales.d/locales.conf";
 const extraLanguageCodes = ['cek', 'cth', 'dnj', 'esg', 'iqw', 'izz', 'ncq'];
 const allLocales = i18nController.getAvailableLocales();
+var indexedLangs;
 
 // https://nodejs.org/dist/latest-v14.x/docs/api/intl.html#intl_detecting_internationalization_support
 const hasFullICU = (() => {
@@ -19,21 +20,26 @@ const hasFullICU = (() => {
 })();
 console.log(`Running on node version ${process.version}. Full ICU support: ${hasFullICU}`);
 
-parseSwordLocales().then(languages => {
-  for (const code in languages) {
-    languages[code] = addI18nData(code, allLocales, languages[code]);
+function isTestingWithJest() {
+  return process.env.JEST_WORKER_ID !== undefined;
+}
 
-    if (code.length < 4) {
-      languages[code] = addIso639Details(code, languages[code]);
+if (!isTestingWithJest()) {
+  parseSwordLocales().then(languages => {
+    for (const code in languages) {
+      languages[code] = addI18nData(code, allLocales, languages[code]);
+
+      if (code.length < 4) {
+        languages[code] = addIso639Details(code, languages[code]);
+      }
     }
-  }
 
-  const extraLanguages = getLanguageDetails(extraLanguageCodes);
+    const extraLanguages = getLanguageDetails(extraLanguageCodes);
 
-  saveToJsonFile({ ...languages, ...extraLanguages }, `lib/languages.json`);
-});
-const indexedLangs = getIndexedLangs();
-
+    saveToJsonFile({ ...languages, ...extraLanguages }, `lib/languages.json`);
+  });
+  indexedLangs = getIndexedLangs();
+}
 
 function saveToJsonFile(data, filename) {
   const jsonData = JSON.stringify(data, null, 2);
@@ -112,7 +118,7 @@ function parseLine(line) {
   };
 }
 
-function addDataToMap(langObj, name, script=undefined, locale=undefined, region=undefined) {
+function addDataToMap(langObj, name, script = undefined, locale = undefined, region = undefined) {
   const nameObj = locale ? { [locale]: name } : { 'name': name };
   if (script) {
     if (!langObj.scripts || langObj.scripts && !langObj.scripts.includes(script)) {
@@ -136,7 +142,7 @@ function addDataToMap(langObj, name, script=undefined, locale=undefined, region=
   return langObj;
 }
 
-function addIso639Details(code, data={}) {
+function addIso639Details(code, data = {}) {
   if (indexedLangs[code]) {
     return {
       ...indexedLangs[code],
@@ -161,7 +167,7 @@ function getIndexedLangs() {
   return indexedLangs;
 }
 
-function addI18nData(code, localeCodes, data={}) {
+function addI18nData(code, localeCodes, data = {}) {
   // Try to get localized name through standard Internationalization API, requires node >= 14
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DisplayNames/of
   if (hasFullICU) {
