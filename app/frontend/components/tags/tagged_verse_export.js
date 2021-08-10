@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const i18nHelper = require('../../helpers/i18n_helper.js');
+const exportController = require('../../controllers/export_controller.js');
 
 /**
  * The TaggedVerseExport component implements the export of tagged verses into a Word document.
@@ -191,60 +192,32 @@ class TaggedVerseExport {
     docx.generate(out);
   }
 
-  getPaddedNumber(number) {
-    var paddedNumber = "" + number;
-    if (number < 10) {
-      paddedNumber = "0" + number;
-    }
-    return paddedNumber;
-  }
-
   getUnixTagTitleList() {
     var currentTagTitleList = app_controller.tab_controller.getTab().getTagTitleList();
     var unixTagTitleList = currentTagTitleList.replace(/, /g, "__");
     unixTagTitleList = unixTagTitleList.replace(/ /g, "_");
 
     // Eliminate all special characters in the tag title list
-    var specialCharacters = /[',;:\(\)\[\]{}=+\-\?\/\"><|@\*~#$%§!^°&`]/g;
+    var specialCharacters = /[',;:()[\]{}=+\-?/"><|@*~#$%§!^°&`]/g;
     unixTagTitleList = unixTagTitleList.replace(specialCharacters, "");
 
     return unixTagTitleList;
   }
 
-  getExportDialogOptions() {
-    const app = require('electron').remote.app;
-    var today = new Date();
-    var month = this.getPaddedNumber(today.getMonth()+1);
-    var day = this.getPaddedNumber(today.getDate());
-    var date = today.getFullYear() + '_' + month + '_' + day;
-    var unixTagTitleList = this.getUnixTagTitleList();
-    var fileName = date + '__' + unixTagTitleList + '.docx';
-
-    var dialogOptions = {
-      defaultPath: app.getPath('documents') + '/' + fileName,
-      title: i18n.t("tags.export-tagged-verse-list"),
-      buttonLabel: i18n.t("tags.run-export")
-    }
-
-    return dialogOptions;
-  }
-
   runExport() {
-    const dialog = require('electron').remote.dialog;
-    var dialogOptions = this.getExportDialogOptions();
+    const unixTagTitleList = this.getUnixTagTitleList();
+    exportController.showSaveDialog(unixTagTitleList).then(filePath => {
+      if (filePath) {
+        this.exportFilePath = filePath;
 
-    dialog.showSaveDialog(null, dialogOptions).then(result => {
-      this.exportFilePath = result.filePath;
-
-      if (!result.canceled && this.exportFilePath != undefined) {
-        var currentTab = app_controller.tab_controller.getTab();
-        var currentTagIdList = currentTab.getTagIdList();
+        const currentTab = app_controller.tab_controller.getTab();
+        const currentTagIdList = currentTab.getTagIdList();
   
         app_controller.text_controller.requestVersesForSelectedTags(
           undefined,
           null,
           currentTagIdList,
-          async (bibleBooks, groupedVerseTags, verses) => { await this.renderWordDocument(bibleBooks, groupedVerseTags, verses) },
+          async (bibleBooks, groupedVerseTags, verses) => { await this.renderWordDocument(bibleBooks, groupedVerseTags, verses); },
           'docx',
           false
         );
