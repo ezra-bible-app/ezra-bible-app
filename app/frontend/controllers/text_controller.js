@@ -198,8 +198,8 @@ class TextController {
           var verseCount = await ipcNsi.getChapterVerseCount(currentBibleTranslationId, book, chapter);
 
           await this.requestBookText(tabIndex, tabId, book,
-            async (htmlVerseList) => { 
-              await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, false);
+            async (htmlVerseList, hasNotes) => { 
+              await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, false, hasNotes);
             }, startVerseNr, verseCount
           );
 
@@ -362,7 +362,12 @@ class TextController {
       } 
     });
 
-    render_function(verses_as_html);
+    const hasNotes = bookNotes || Object.keys(verseNotes).some(verseReferenceId => {
+      const noteVerseNumber = parseInt(verseReferenceId.split('-')[2]);
+      return noteVerseNumber >= start_verse_number && noteVerseNumber < start_verse_number + number_of_verses;
+    });
+
+    render_function(verses_as_html, hasNotes);
   }
 
   getBibleBookStatsFromVerses(verses) {
@@ -608,7 +613,7 @@ class TextController {
     render_function(verses_as_html, verses.length);
   }
 
-  async renderVerseList(htmlVerseList, referenceVerseHtml, listType, tabIndex=undefined, renderChart=false, isCache=false, target=undefined, append=false) {
+  async renderVerseList(htmlVerseList, referenceVerseHtml, listType, tabIndex=undefined, renderChart=false, isCache=false, target=undefined, append=false, hasNotes=false) {
     app_controller.hideVerseListLoadingIndicator();
     app_controller.hideSearchProgressBar();
     var initialRendering = true;
@@ -638,6 +643,12 @@ class TextController {
       app_controller.module_search_controller.resetSearch(tabIndex);
 
       target.addClass('verse-list-book');
+
+      if (hasNotes) {
+        app_controller.notesTaggedVerseExport.enableExportButton(tabIndex, 'NOTES');
+      } else {
+        app_controller.notesTaggedVerseExport.disableExportButton(tabIndex);
+      }
 
     } else if (listType == 'tagged_verses') {
 
