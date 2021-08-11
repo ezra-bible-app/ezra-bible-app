@@ -362,10 +362,7 @@ class TextController {
       } 
     });
 
-    const hasNotes = bookNotes || Object.keys(verseNotes).some(verseReferenceId => {
-      const noteVerseNumber = parseInt(verseReferenceId.split('-')[2]);
-      return noteVerseNumber >= start_verse_number && noteVerseNumber < start_verse_number + number_of_verses;
-    });
+    const hasNotes = bookNotes || requestedVersesHaveNotes(verseNotes, start_verse_number, start_verse_number + number_of_verses - 1);
 
     render_function(verses_as_html, hasNotes);
   }
@@ -737,3 +734,10 @@ class TextController {
 
 module.exports = TextController;
 
+function requestedVersesHaveNotes(verseNotes, startVerseNr, endVerseNr) {
+  const verseReferenceIds = Object.keys(verseNotes);
+  return verseReferenceIds.some(verseReferenceId => {
+    const noteVerseNumber = parseInt(verseReferenceId.split('-')[2]);
+    return noteVerseNumber >= startVerseNr && noteVerseNumber <= endVerseNr;
+  });
+}
