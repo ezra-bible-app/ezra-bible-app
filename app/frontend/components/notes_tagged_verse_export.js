@@ -23,16 +23,16 @@ const exportController = require('../controllers/export_controller.js');
  * 
  * @category Component
  */
-class TaggedVerseExport {
+class NotesTaggedVerseExport {
 
-  enableTaggedVersesExportButton(tabIndex) {
+  enableExportButton(tabIndex, type='TAGS') {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     var exportButton = currentVerseListMenu.find('.export-tagged-verses-button');
     exportButton.removeClass('ui-state-disabled');
     exportButton.unbind('click');
     exportButton.bind('click', (event) => {
       if (!$(event.target).hasClass('ui-state-disabled')) {
-        this._runExport();
+        this._runExport(type);
       }
     });
     exportButton.show();
@@ -40,14 +40,18 @@ class TaggedVerseExport {
     uiHelper.configureButtonStyles('.verse-list-menu');
   }
 
-  disableTaggedVersesExportButton(tabIndex=undefined) {
+  disableExportButton(tabIndex=undefined) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.export-tagged-verses-button').addClass('ui-state-disabled');
   }
 
-  _runExport() {
-    const unixTagTitleList = this._getUnixTagTitleList();
-    exportController.showSaveDialog(unixTagTitleList).then(filePath => {
+  _runExport(type) {
+    var fileName;
+    if (type === 'TAGS') {
+      fileName = this._getUnixTagTitleList();
+    }
+
+    exportController.showSaveDialog(fileName).then(filePath => {
       if (filePath) {
 
         const currentTab = app_controller.tab_controller.getTab();
@@ -82,4 +86,4 @@ class TaggedVerseExport {
   }
 }
 
-module.exports = TaggedVerseExport;
+module.exports = NotesTaggedVerseExport;

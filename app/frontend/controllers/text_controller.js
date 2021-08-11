@@ -644,7 +644,7 @@ class TextController {
       app_controller.module_search_controller.resetSearch(tabIndex);
 
       if (this.platformHelper.isElectron()) {
-        app_controller.taggedVerseExport.enableTaggedVersesExportButton(tabIndex);
+        app_controller.notesTaggedVerseExport.enableExportButton(tabIndex, 'TAGS');
       }
 
       if (!currentTab.hasReferenceVerse()) {

@@ -26,7 +26,7 @@ const TagSelectionMenu = require("../components/tags/tag_selection_menu.js");
 const TagAssignmentMenu = require("../components/tags/tag_assignment_menu.js");
 const AssignLastTagButton = require("../components/tags/assign_last_tag_button.js");
 const TagStatistics = require("../components/tags/tag_statistics.js");
-const TaggedVerseExport = require("../components/tags/tagged_verse_export.js");
+const NotesTaggedVerseExport = require("../components/notes_tagged_verse_export.js");
 const ModuleSearchController = require("./module_search_controller.js");
 const TranslationController = require("./translation_controller.js");
 const TextController = require("./text_controller.js");
@@ -90,12 +90,12 @@ class AppController {
     this.init_component("VerseSelection", "verse_selection");
     this.init_component("TagSelectionMenu", "tag_selection_menu");
     this.init_component("TagAssignmentMenu", "tag_assignment_menu");
-    this.init_component("TaggedVerseExport", "taggedVerseExport");
     this.init_component("TagStatistics", "tag_statistics");
     this.init_component("AssignLastTagButton", "assign_last_tag_button");
     this.init_component("ModuleSearchController", "module_search_controller");
     this.init_component("TranslationController", "translation_controller");
     this.init_component("TextController", "text_controller");
+    this.init_component("NotesTaggedVerseExport", "notesTaggedVerseExport");
     this.init_component("VerseContextController", "verse_context_controller");
     this.init_component("TabController", "tab_controller");
     this.init_component("OptionsMenu", "optionsMenu");
@@ -1004,7 +1004,7 @@ class AppController {
       currentVerseList.innerHTML = "";
     }
 
-    this.taggedVerseExport.disableTaggedVersesExportButton();
+    this.notesTaggedVerseExport.disableExportButton();
   }
 
   async initApplicationForVerseList(tabIndex=undefined) {
