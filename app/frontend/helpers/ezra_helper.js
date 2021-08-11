@@ -30,7 +30,7 @@ module.exports.sleep = async function (time) {
       resolve();
     }, time);
   });
-}
+};
 
 module.exports.waitUntilIdle = async function () {
   return new Promise(resolve => {
@@ -38,12 +38,12 @@ module.exports.waitUntilIdle = async function () {
       resolve();
     });
   });
-}
+};
 
 // based on https://stackoverflow.com/questions/3115150/how-to-escape-regular-expression-special-characters-using-javascript
 module.exports.escapeRegExp = function (text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
-}
+};
 
 /**
  * This little function gives us the possibility for html tagged template literals.
@@ -52,7 +52,6 @@ module.exports.escapeRegExp = function (text) {
  * clash in the global namespace.
  * 
  * proof of concept; utilizing tagged templates https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates
- * FIXME: move to utility module or use the npm package
  */
 module.exports.html = (literals, ...substs) => {
   const template = document.createElement('template');
@@ -66,5 +65,9 @@ module.exports.html = (literals, ...substs) => {
   });
 
   return template;
-}
+};
 
+/**
+ * This function parses string into HTML fragment
+ */
+module.exports.parseHTML = Range.prototype.createContextualFragment.bind(document.createRange());

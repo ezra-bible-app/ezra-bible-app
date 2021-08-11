@@ -18,6 +18,7 @@
 
 const marked = require('marked');
 const i18nHelper = require('../helpers/i18n_helper.js');
+const { parseHTML } = require('../helpers/ezra_helper.js');
 
 /**
  * The ExportController implements the export of certain verses with notes or tags into a Word document.
@@ -27,7 +28,6 @@ const i18nHelper = require('../helpers/i18n_helper.js');
 
 
 var exportFilePath = null;
-const parseHTML = Range.prototype.createContextualFragment.bind(document.createRange());
 
 module.exports.showSaveDialog = async function (fileTitle) {
   const dialog = require('electron').remote.dialog;
