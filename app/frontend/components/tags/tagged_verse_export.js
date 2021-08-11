@@ -32,7 +32,7 @@ class TaggedVerseExport {
     exportButton.unbind('click');
     exportButton.bind('click', (event) => {
       if (!$(event.target).hasClass('ui-state-disabled')) {
-        this.runExport();
+        this._runExport();
       }
     });
     exportButton.show();
@@ -45,20 +45,8 @@ class TaggedVerseExport {
     currentVerseListMenu.find('.export-tagged-verses-button').addClass('ui-state-disabled');
   }
 
-  getUnixTagTitleList() {
-    var currentTagTitleList = app_controller.tab_controller.getTab().getTagTitleList();
-    var unixTagTitleList = currentTagTitleList.replace(/, /g, "__");
-    unixTagTitleList = unixTagTitleList.replace(/ /g, "_");
-
-    // Eliminate all special characters in the tag title list
-    var specialCharacters = /[',;:()[\]{}=+\-?/"><|@*~#$%§!^°&`]/g;
-    unixTagTitleList = unixTagTitleList.replace(specialCharacters, "");
-
-    return unixTagTitleList;
-  }
-
-  runExport() {
-    const unixTagTitleList = this.getUnixTagTitleList();
+  _runExport() {
+    const unixTagTitleList = this._getUnixTagTitleList();
     exportController.showSaveDialog(unixTagTitleList).then(filePath => {
       if (filePath) {
 
@@ -79,6 +67,18 @@ class TaggedVerseExport {
         );
       }
     });
+  }
+  
+  _getUnixTagTitleList() {
+    var currentTagTitleList = app_controller.tab_controller.getTab().getTagTitleList();
+    var unixTagTitleList = currentTagTitleList.replace(/, /g, "__");
+    unixTagTitleList = unixTagTitleList.replace(/ /g, "_");
+
+    // Eliminate all special characters in the tag title list
+    var specialCharacters = /[',;:()[\]{}=+\-?/"><|@*~#$%§!^°&`]/g;
+    unixTagTitleList = unixTagTitleList.replace(specialCharacters, "");
+
+    return unixTagTitleList;
   }
 }
 
