@@ -101,9 +101,9 @@ function renderCurrentChapterNotesForExport(currentTab) {
     undefined,
     currentTab.getBook(),
     currentTab.getChapter(),
-    (verses, verseNotes, bookNotes) => {
+    (verses, notes) => {
       const title = `${currentTab.getBookTitle()} ${currentTab.getChapter()}`;
-      exportController.saveWordDocument(title, verses);
+      exportController.saveWordDocument(title, verses, undefined, notes);
     },
     'docx'
   );

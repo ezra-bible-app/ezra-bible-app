@@ -44,7 +44,7 @@ module.exports.showSaveDialog = async function (fileTitle) {
   });
 };
 
-module.exports.saveWordDocument = async function(title, verses, bibleBooks=undefined) {
+module.exports.saveWordDocument = async function(title, verses, bibleBooks=undefined, notes={}) {
   if (!exportFilePath) {
     console.log('Export error: exportFilePath is not defined with showSaveDialog()');
   }
@@ -95,13 +95,13 @@ module.exports.saveWordDocument = async function(title, verses, bibleBooks=undef
       p.addLineBreak();
 
       const allBlocks = getBibleBookVerseBlocks(currentBook, verses);
-      await renderVerseBlocks(p, allBlocks, currentBook);
+      await renderVerseBlocks(p, allBlocks, currentBook, notes);
 
       // Line break after book end
       p.addLineBreak();
     }
   } else {
-    await renderVerseBlocks(p, [verses]);
+    await renderVerseBlocks(p, [verses], undefined, notes);
   }
 
   //console.log("Generating word document " + exportFilePath);
@@ -169,7 +169,7 @@ function getBibleBookVerseBlocks(bibleBook, verses) {
   return allBlocks;
 }
 
-async function renderVerseBlocks(paragraph, verseBlocks, bibleBook=undefined) {
+async function renderVerseBlocks(paragraph, verseBlocks, bibleBook=undefined, notes={}) {
   const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
   const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
 
@@ -199,6 +199,12 @@ async function renderVerseBlocks(paragraph, verseBlocks, bibleBook=undefined) {
       paragraph.addLineBreak();
     }
 
+    const bookReferenceId = currentBlock[0].bibleBookShortTitle.toLowerCase();
+    if (notes[bookReferenceId]) {
+      addNote(paragraph, notes[bookReferenceId].text);
+      paragraph.addLineBreak();
+    }
+
     for (let k = 0; k < currentBlock.length; k++) {
       const currentVerse = currentBlock[k];
       let currentVerseContent = "";
@@ -218,9 +224,19 @@ async function renderVerseBlocks(paragraph, verseBlocks, bibleBook=undefined) {
       paragraph.addText(currentVerse.verseNr + "", { superscript: true });
       paragraph.addText(" " + currentVerseContent);
       paragraph.addLineBreak();
+
+      const referenceId = `${currentVerse.bibleBookShortTitle.toLowerCase()}-${currentVerse.absoluteVerseNr}`;
+      if (notes[referenceId]) {
+        addNote(paragraph, notes[referenceId].text);
+      }
     }
 
     // Line break after block end
     paragraph.addLineBreak();
   }
+}
+
+function addNote(paragraph, markdown) {
+  paragraph.addText(markdown, {color: '2779AA'});
+  paragraph.addLineBreak();
 }
