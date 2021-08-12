@@ -44,7 +44,7 @@ module.exports.showSaveDialog = async function (fileTitle) {
   });
 };
 
-module.exports.saveWordDocument = async function(title, bibleBooks, verses) {
+module.exports.saveWordDocument = async function(title, verses, bibleBooks=undefined) {
   if (!exportFilePath) {
     console.log('Export error: exportFilePath is not defined with showSaveDialog()');
   }
@@ -86,21 +86,25 @@ module.exports.saveWordDocument = async function(title, bibleBooks, verses) {
   p.addLineBreak();
   p.addLineBreak();
 
-  for (let i = 0; i < bibleBooks.length; i++) {
-    const currentBook = bibleBooks[i];
-    const bookTitle = await i18nHelper.getSwordTranslation(currentBook.longTitle);
+  if (bibleBooks && Array.isArray(bibleBooks)) {
+    for (let i = 0; i < bibleBooks.length; i++) {
+      const currentBook = bibleBooks[i];
+      const bookTitle = await i18nHelper.getSwordTranslation(currentBook.longTitle);
 
-    p.addText(bookTitle, { bold: true });
-    p.addLineBreak();
+      p.addText(bookTitle, { bold: true });
+      p.addLineBreak();
 
-    const allBlocks = getBibleBookVerseBlocks(currentBook, verses);
-    await renderVerseBlocks(p, currentBook, allBlocks);
+      const allBlocks = getBibleBookVerseBlocks(currentBook, verses);
+      await renderVerseBlocks(p, allBlocks, currentBook);
 
-    // Line break after book end
-    p.addLineBreak();
+      // Line break after book end
+      p.addLineBreak();
+    }
+  } else {
+    await renderVerseBlocks(p, [verses]);
   }
 
-  //console.log("Generating word document " + this.saveFilePath);
+  //console.log("Generating word document " + exportFilePath);
   var out = fs.createWriteStream(exportFilePath);
 
   out.on('error', function(err) {
@@ -143,8 +147,8 @@ function getBibleBookVerseBlocks(bibleBook, verses) {
   var currentBlock = [];
 
   // Transform the list of verses into a list of verse blocks (verses that belong together)
-  for (var j = 0; j < verses.length; j++) {
-    var currentVerse = verses[j];
+  for (let j = 0; j < verses.length; j++) {
+    const currentVerse = verses[j];
 
     if (currentVerse.bibleBookShortTitle == bibleBook.shortTitle) {
 
@@ -165,7 +169,7 @@ function getBibleBookVerseBlocks(bibleBook, verses) {
   return allBlocks;
 }
 
-async function renderVerseBlocks(paragraph, bibleBook, verseBlocks) {
+async function renderVerseBlocks(paragraph, verseBlocks, bibleBook=undefined) {
   const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
   const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
 
@@ -175,23 +179,25 @@ async function renderVerseBlocks(paragraph, bibleBook, verseBlocks) {
     const firstVerse = currentBlock[0];
     const lastVerse = currentBlock[currentBlock.length - 1];
     
+    if (bibleBook) {
     // Output the verse reference of this block
-    const bookTitle = await i18nHelper.getSwordTranslation(bibleBook.longTitle);
-    paragraph.addText(bookTitle);
-    paragraph.addText(" " + firstVerse.chapter + separator + firstVerse.verseNr);
+      const bookTitle = await i18nHelper.getSwordTranslation(bibleBook.longTitle);
+      paragraph.addText(bookTitle);
+      paragraph.addText(" " + firstVerse.chapter + separator + firstVerse.verseNr);
+      
+      if (currentBlock.length >= 2) { // At least 2 verses, a bigger block
+        let secondRef = "";
 
-    if (currentBlock.length >= 2) { // At least 2 verses, a bigger block
-      let secondRef = "";
+        if (lastVerse.chapter == firstVerse.chapter) {
+          secondRef = "-" + lastVerse.verseNr;
+        } else {
+          secondRef = " - " + lastVerse.chapter + separator + lastVerse.verseNr;
+        }
 
-      if (lastVerse.chapter == firstVerse.chapter) {
-        secondRef = "-" + lastVerse.verseNr;
-      } else {
-        secondRef = " - " + lastVerse.chapter + separator + lastVerse.verseNr;
+        paragraph.addText(secondRef);
       }
-
-      paragraph.addText(secondRef);
+      paragraph.addLineBreak();
     }
-    paragraph.addLineBreak();
 
     for (let k = 0; k < currentBlock.length; k++) {
       const currentVerse = currentBlock[k];

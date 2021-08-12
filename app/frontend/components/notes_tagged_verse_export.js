@@ -88,7 +88,9 @@ function renderCurrentTagsForExport(currentTab) {
     undefined,
     null,
     currentTagIdList,
-    async (bibleBooks, groupedVerseTags, verses) => { await exportController.saveWordDocument(title, bibleBooks, verses); },
+    (verses, bibleBooks, groupedVerseTags) => { 
+      exportController.saveWordDocument(title, verses, bibleBooks); 
+    },
     'docx',
     false
   );
@@ -100,8 +102,8 @@ function renderCurrentChapterNotesForExport(currentTab) {
     currentTab.getBook(),
     currentTab.getChapter(),
     (verses, verseNotes, bookNotes) => {
-      console.log(currentTab.getBookTitle(), currentTab.getChapter());
-      console.log(verses);
+      const title = `${currentTab.getBookTitle()} ${currentTab.getChapter()}`;
+      exportController.saveWordDocument(title, verses);
     },
     'docx'
   );
