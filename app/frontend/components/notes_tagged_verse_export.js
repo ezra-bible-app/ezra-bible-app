@@ -45,45 +45,76 @@ class NotesTaggedVerseExport {
     currentVerseListMenu.find('.export-tagged-verses-button').addClass('ui-state-disabled');
   }
 
+  /**
+   * exports to Word
+   * @param {'NOTES'|'TAGS'} type 
+   */
   _runExport(type) {
+    /**@type {import('../ui_models/tab')} */
+    var currentTab = app_controller.tab_controller.getTab();
     var fileName;
+
     if (type === 'TAGS') {
-      fileName = this._getUnixTagTitleList();
+      fileName = getUnixTagTitleList(currentTab);
+    } else if (type === 'NOTES') {
+      fileName = `${currentTab.getBookTitle()}_${currentTab.getChapter()}`;
+    } else {
+      console.log('Unrecognized export type:', type);
+      return;
     }
 
     exportController.showSaveDialog(fileName).then(filePath => {
       if (filePath) {
-
-        const currentTab = app_controller.tab_controller.getTab();
-        const currentTagIdList = currentTab.getTagIdList();
-  
-        const currentTagTitleList = app_controller.tab_controller.getTab().getTagTitleList();
-        const title = `${i18n.t("tags.verses-tagged-with")} _${currentTagTitleList}_`;
-    
-    
-        app_controller.text_controller.requestVersesForSelectedTags(
-          undefined,
-          null,
-          currentTagIdList,
-          async (bibleBooks, groupedVerseTags, verses) => { await exportController.saveWordDocument(title, bibleBooks, verses); },
-          'docx',
-          false
-        );
+        if (type === 'TAGS') {
+          renderCurrentTagsForExport(currentTab);
+        } else if (type === 'NOTES') {
+          renderCurrentChapterNotesForExport(currentTab);
+        }
       }
     });
   }
   
-  _getUnixTagTitleList() {
-    var currentTagTitleList = app_controller.tab_controller.getTab().getTagTitleList();
-    var unixTagTitleList = currentTagTitleList.replace(/, /g, "__");
-    unixTagTitleList = unixTagTitleList.replace(/ /g, "_");
-
-    // Eliminate all special characters in the tag title list
-    var specialCharacters = /[',;:()[\]{}=+\-?/"><|@*~#$%§!^°&`]/g;
-    unixTagTitleList = unixTagTitleList.replace(specialCharacters, "");
-
-    return unixTagTitleList;
-  }
 }
 
 module.exports = NotesTaggedVerseExport;
+
+function renderCurrentTagsForExport(currentTab) {
+  const currentTagIdList = currentTab.getTagIdList();
+  
+  const currentTagTitleList = currentTab.getTagTitleList();
+  const title = `${i18n.t("tags.verses-tagged-with")} _${currentTagTitleList}_`;
+
+  app_controller.text_controller.requestVersesForSelectedTags(
+    undefined,
+    null,
+    currentTagIdList,
+    async (bibleBooks, groupedVerseTags, verses) => { await exportController.saveWordDocument(title, bibleBooks, verses); },
+    'docx',
+    false
+  );
+}
+
+function renderCurrentChapterNotesForExport(currentTab) {
+  app_controller.text_controller.requestNotesForChapter(
+    undefined,
+    currentTab.getBook(),
+    currentTab.getChapter(),
+    (verses, verseNotes, bookNotes) => {
+      console.log(currentTab.getBookTitle(), currentTab.getChapter());
+      console.log(verses);
+    },
+    'docx'
+  );
+}
+
+function getUnixTagTitleList(currentTab) {
+  var currentTagTitleList = currentTab.getTagTitleList();
+  var unixTagTitleList = currentTagTitleList.replace(/, /g, "__");
+  unixTagTitleList = unixTagTitleList.replace(/ /g, "_");
+
+  // Eliminate all special characters in the tag title list
+  var specialCharacters = /[',;:()[\]{}=+\-?/"><|@*~#$%§!^°&`]/g;
+  unixTagTitleList = unixTagTitleList.replace(specialCharacters, "");
+
+  return unixTagTitleList;
+}
