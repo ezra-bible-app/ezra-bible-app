@@ -1,10 +1,9 @@
-const fetchline = require('nodefetchline');
 const fs = require('fs');
 const iso6393 = require('iso-639-3');
 const i18nController = require('../app/frontend/controllers/i18n_controller.js');
 
 
-const SWORD_LANGUAGES_URL = "https://crosswire.org/svn/sword/trunk/locales.d/locales.conf";
+const SWORD_LOCALES = "node_modules/node-sword-interface/locales.d/locales.conf";
 const extraLanguageCodes = ['cek', 'cth', 'dnj', 'esg', 'iqw', 'izz', 'ncq'];
 const allLocales = i18nController.getAvailableLocales();
 var indexedLangs;
@@ -25,34 +24,21 @@ function isTestingWithJest() {
 }
 
 if (!isTestingWithJest()) {
-  parseSwordLocales().then(languages => {
-    for (const code in languages) {
-      languages[code] = addI18nData(code, allLocales, languages[code]);
-
-      if (code.length < 4) {
-        languages[code] = addIso639Details(code, languages[code]);
-      }
-    }
-
-    const extraLanguages = getLanguageDetails(extraLanguageCodes);
-
-    saveToJsonFile({ ...languages, ...extraLanguages }, `lib/languages.json`);
-  });
   indexedLangs = getIndexedLangs();
-}
 
-function saveToJsonFile(data, filename) {
-  const jsonData = JSON.stringify(data, null, 2);
-  fs.writeFileSync(filename, jsonData);
-}
+  const languages = parseSwordLocales();
 
-function getLanguageDetails(languageCodes) {
-  var languages = {};
-  for (const code of languageCodes) {
-    languages[code] = addIso639Details(code);
+  for (const code in languages) {
     languages[code] = addI18nData(code, allLocales, languages[code]);
+
+    if (code.length < 4) {
+      languages[code] = addIso639Details(code, languages[code]);
+    }
   }
-  return languages;
+
+  const extraLanguages = getLanguageDetails(extraLanguageCodes);
+
+  saveToJsonFile({ ...languages, ...extraLanguages }, `lib/languages.json`);
 }
 
 /**
@@ -74,27 +60,32 @@ function getLanguageDetails(languageCodes) {
  * 
  * @returns {Object} Map of languages by code
  */
-async function parseSwordLocales() {
+function parseSwordLocales() {
   var languages = {};
   var isTextSection = false;
 
-  const lineIterator = fetchline(SWORD_LANGUAGES_URL);
-  for await (const line of lineIterator) {
-    if (line.trim() == '[Text]') {
-      isTextSection = true;
-      continue;
-    }
-    if (!isTextSection || line[0] == '#' || line.trim() == '') {
-      continue;
-    }
+  try {
+    const data = fs.readFileSync(SWORD_LOCALES, 'utf-8');
+    const lines = data.split(/\r?\n/);
 
-    const data = parseLine(line.trim());
-    if (!data) {
-      continue;
+    for (const line of lines) {
+      if (line.trim() == '[Text]') {
+        isTextSection = true;
+        continue;
+      }
+      if (!isTextSection || line[0] == '#' || line.trim() == '') {
+        continue;
+      }
+
+      const data = parseLine(line.trim());
+      if (!data) {
+        continue;
+      }
+
+      languages[data.code] = addDataToMap(languages[data.code] || {}, data.name, data.script, data.locale, data.region);
     }
-
-    languages[data.code] = addDataToMap(languages[data.code] || {}, data.name, data.script, data.locale, data.region);
-
+  } catch(err) {
+    console.error(err);
   }
   return languages;
 }
@@ -205,6 +196,21 @@ function addI18nData(code, localeCodes, data = {}) {
 function toTitleCase(str) {
   return str.slice(0, 1).toLocaleUpperCase() + str.slice(1);
 }
+
+function saveToJsonFile(data, filename) {
+  const jsonData = JSON.stringify(data, null, 2);
+  fs.writeFileSync(filename, jsonData);
+}
+
+function getLanguageDetails(languageCodes) {
+  var languages = {};
+  for (const code of languageCodes) {
+    languages[code] = addIso639Details(code);
+    languages[code] = addI18nData(code, allLocales, languages[code]);
+  }
+  return languages;
+}
+
 
 
 // export functions for unit testing
