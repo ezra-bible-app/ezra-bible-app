@@ -54,7 +54,6 @@ module.exports.saveWordDocument = async function(title, verses, bibleBooks=undef
   const shell = require('electron').remote.shell;
 
   const titleFragment = parseHTML(marked(title));
-  const titleParts = titleFragment.firstElementChild.childNodes;
 
   var docx = officegen({
     type: 'docx',
@@ -80,10 +79,7 @@ module.exports.saveWordDocument = async function(title, verses, bibleBooks=undef
   
   var p = docx.createP();
   
-  for(let i = 0; i < titleParts.length; i++) {
-    p.addText(titleParts[i].textContent, { font_size: 14, bold: true, italic: titleParts[i].nodeName == 'EM' });
-  }
-  p.addLineBreak();
+  addMarkdown(p, `# ${title}`);
   p.addLineBreak();
 
   if (bibleBooks && Array.isArray(bibleBooks)) {
@@ -199,9 +195,11 @@ async function renderVerseBlocks(paragraph, verseBlocks, bibleBook=undefined, no
       paragraph.addLineBreak();
     }
 
+    const notesStyle = {color: '2779AA'};
+
     const bookReferenceId = currentBlock[0].bibleBookShortTitle.toLowerCase();
     if (notes[bookReferenceId]) {
-      addNote(paragraph, notes[bookReferenceId].text);
+      addMarkdown(paragraph, notes[bookReferenceId].text, notesStyle);
       paragraph.addLineBreak();
     }
 
@@ -227,7 +225,7 @@ async function renderVerseBlocks(paragraph, verseBlocks, bibleBook=undefined, no
 
       const referenceId = `${currentVerse.bibleBookShortTitle.toLowerCase()}-${currentVerse.absoluteVerseNr}`;
       if (notes[referenceId]) {
-        addNote(paragraph, notes[referenceId].text);
+        addMarkdown(paragraph, notes[referenceId].text, notesStyle);
       }
     }
 
@@ -236,8 +234,8 @@ async function renderVerseBlocks(paragraph, verseBlocks, bibleBook=undefined, no
   }
 }
 
-function addNote(paragraph, markdown) {
-  convertMarkDownTokens(paragraph, marked.lexer(markdown), {color: '2779AA'});
+function addMarkdown(paragraph, markdown, options={}) {
+  convertMarkDownTokens(paragraph, marked.lexer(markdown), options);
   paragraph.addLineBreak();
 }
 
