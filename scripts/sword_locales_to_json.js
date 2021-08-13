@@ -19,11 +19,7 @@ const hasFullICU = (() => {
 })();
 console.log(`Running on node version ${process.version}. Full ICU support: ${hasFullICU}`);
 
-function isTestingWithJest() {
-  return process.env.JEST_WORKER_ID !== undefined;
-}
-
-if (!isTestingWithJest()) {
+if (!isTesting()) {
   indexedLangs = getIndexedLangs();
 
   const languages = parseSwordLocales();
@@ -209,6 +205,10 @@ function getLanguageDetails(languageCodes) {
     languages[code] = addI18nData(code, allLocales, languages[code]);
   }
   return languages;
+}
+
+function isTesting() {
+  return process.env.NODE_ENV == 'test' || process.env.JEST_WORKER_ID !== undefined;
 }
 
 
