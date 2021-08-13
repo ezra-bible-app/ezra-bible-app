@@ -237,6 +237,53 @@ async function renderVerseBlocks(paragraph, verseBlocks, bibleBook=undefined, no
 }
 
 function addNote(paragraph, markdown) {
-  paragraph.addText(markdown, {color: '2779AA'});
+  convertMarkDownTokens(paragraph, marked.lexer(markdown), {color: '2779AA'});
   paragraph.addLineBreak();
+}
+
+// https://marked.js.org/using_pro#lexer
+function convertMarkDownTokens(paragraph, tokenArr, options={}) {
+  for (const token of tokenArr) {
+    let tokenOptions = {};
+    switch (token.type) {
+      case 'em': 
+        tokenOptions.italic = true;
+        break;
+      case 'strong': 
+        tokenOptions.bold = true;
+        break;
+      case 'codespan':
+        tokenOptions.highlight = 'yellow';
+        break;
+      case 'hr':  
+      case 'space':
+        paragraph.addLineBreak();
+        break;
+      case 'heading':
+        tokenOptions.bold = true;
+        tokenOptions.font_size = 14 - (token.depth - 1); // FIXME: this is not the best representation of the headings
+        break;
+      case 'link':
+        // tokenOptions.link = token.href; // FIXME: this should work, but it doesn't: https://github.com/Ziv-Barber/officegen/tree/master/manual/docx#prgapi
+        break;   
+    }
+
+    if (token.tokens) {
+      convertMarkDownTokens(paragraph, token.tokens, {...options, ...tokenOptions});
+    } else if (token.items) {
+      convertMarkDownTokens(paragraph, token.items, {...options, ...tokenOptions});
+    } else if (token.text) {
+      paragraph.addText(token.text, {...options, ...tokenOptions});
+    }
+
+    // Link hack
+    if(token.type == 'link' && token.href) {
+      paragraph.addText(`(${token.href})`);
+    }
+
+    // Add line break after block tokens
+    if (['paragraph', 'heading', 'blockquote', 'list_item'].includes(token.type)) {
+      paragraph.addLineBreak();
+    }
+  }
 }
