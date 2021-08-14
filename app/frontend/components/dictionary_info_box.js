@@ -100,13 +100,18 @@ class DictionaryInfoBox {
       return;
     }
 
+    var jsStrongsEntry = this.getJsStrongs()[strongsEntry.key];
+    if (jsStrongsEntry == null) {
+      return;
+    }
+
     if (firstUpdate) {
       this.dictionaryInfoBoxStack = [ strongsEntry.rawKey ];
     }
 
     this.currentStrongsEntry = strongsEntry;
     this.currentAdditionalStrongsEntries = additionalStrongsEntries;
-    this.currentLemma = this.getJsStrongs()[strongsEntry.key].lemma;
+    this.currentLemma = jsStrongsEntry.lemma;
 
     var dictInfoHeader = this.getDictInfoHeader(strongsEntry);
     this.dictionaryInfoBoxHeader.html(dictInfoHeader);
@@ -293,7 +298,12 @@ class DictionaryInfoBox {
       return null;
     }
     
-    var referenceStrongsLemma = this.getJsStrongs()[referenceKey].lemma;
+    var referenceStrongsEntry = this.getJsStrongs()[referenceKey];
+    if (referenceStrongsEntry == null) {
+      return null;
+    }
+
+    var referenceStrongsLemma = referenceStrongsEntry.lemma;
 
     var referenceLink = "<a href=\"javascript:app_controller.dictionary_controller._dictionaryInfoBox.openStrongsReference('";
     referenceLink += referenceKey;
