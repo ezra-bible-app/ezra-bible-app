@@ -1,7 +1,24 @@
+/* This file is part of Ezra Bible App.
+
+   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+
+   Ezra Bible App is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 2 of the License, or
+   (at your option) any later version.
+
+   Ezra Bible App is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Ezra Bible App. See the file LICENSE.
+   If not, see <http://www.gnu.org/licenses/>. */
+
 const fs = require('fs');
 const iso6393 = require('iso-639-3');
 const i18nController = require('../app/frontend/controllers/i18n_controller.js');
-
 
 const SWORD_LOCALES = "node_modules/node-sword-interface/locales.d/locales.conf";
 const extraLanguageCodes = ['cek', 'cth', 'dnj', 'esg', 'iqw', 'izz', 'ncq'];
@@ -17,6 +34,7 @@ const hasFullICU = (() => {
     return false;
   }
 })();
+
 console.log(`Running on node version ${process.version}. Full ICU support: ${hasFullICU}`);
 
 if (!isTesting()) {
@@ -33,7 +51,6 @@ if (!isTesting()) {
   }
 
   const extraLanguages = getLanguageDetails(extraLanguageCodes);
-
   saveToJsonFile({ ...languages, ...extraLanguages }, `lib/languages.json`);
 }
 
@@ -88,6 +105,7 @@ function parseSwordLocales() {
 
 function parseLine(line) {
   const found = line.match(/^(?<code>[a-z0-9]{2,})(?:-(?<script>[a-z]{4}))?(?:-(?<region>[a-z]{2}))?(?:\.(?<locale>[a-z]{2,3}))?=(?<name>.+)$/i);
+
   if (!found) {
     console.log(`Skipping line: "${line}"`);
     return undefined;
@@ -107,6 +125,7 @@ function parseLine(line) {
 
 function addDataToMap(langObj, name, script = undefined, locale = undefined, region = undefined) {
   const nameObj = locale ? { [locale]: name } : { 'name': name };
+
   if (script) {
     if (!langObj.scripts || langObj.scripts && !langObj.scripts.includes(script)) {
       langObj = {
@@ -183,9 +202,9 @@ function addI18nData(code, localeCodes, data = {}) {
           }
         }
       }
-
     }
   }
+
   return data;
 }
 
@@ -200,17 +219,18 @@ function saveToJsonFile(data, filename) {
 
 function getLanguageDetails(languageCodes) {
   var languages = {};
+
   for (const code of languageCodes) {
     languages[code] = addIso639Details(code);
     languages[code] = addI18nData(code, allLocales, languages[code]);
   }
+
   return languages;
 }
 
 function isTesting() {
   return process.env.NODE_ENV == 'test' || process.env.JEST_WORKER_ID !== undefined;
 }
-
 
 
 // export functions for unit testing
