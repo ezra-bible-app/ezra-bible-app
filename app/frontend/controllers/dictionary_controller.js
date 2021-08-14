@@ -18,9 +18,7 @@
 
 const Mousetrap = require('mousetrap');
 const DictionaryInfoBox = require('../components/dictionary_info_box.js');
-const longpressController = require('./longpress_controller.js');
 let jsStrongs = null;
-
 
 
 /**
@@ -120,15 +118,23 @@ class DictionaryController {
       currentTab.tab_search.blurInputField();
       this._highlightStrongsInVerse(verseElement);
     }));
+
+    var longpressController;
+    if (platformHelper.isCordova()) {
+      longpressController = require('./longpress_controller.js');
+    }
     
     const wElements = currentVerseList.querySelectorAll('w');
+
     wElements.forEach(wElement => { 
       wElement.classList.remove('strongs-hl');
 
-      longpressController.subscribe(wElement, (el) => this._handleStrongWord(el));
+      if (platformHelper.isCordova()) {
+        longpressController.subscribe(wElement, (el) => this._handleStrongWord(el));
+      } 
 
       wElement.addEventListener('mousemove', async (e) => {
-        var currentTab = app_controller.tab_controller.getTab();
+        let currentTab = app_controller.tab_controller.getTab();
         currentTab.tab_search.blurInputField();
         await this._handleShiftMouseMove(e);
       });
