@@ -24,9 +24,10 @@ let jsStrongs = null;
 /**
  * The DictionaryController handles functionality for the lookup of dictionary information based on Strong's keys.
  * It handles the mouse move events when the user is hovering individual words in the text while holding SHIFT.
- * It also handles the state of the dictionary info box.
+ * It handles the long presses on Android (alternative for mousemove).
+ * It handles the state of the dictionary info box.
  * 
- * Like all other controllers it is only initialized once. It is accessible at the
+ * Like other controllers it is only initialized once. It is accessible at the
  * global object `app_controller.dictionary_controller`.
  * 
  * @category Controller
@@ -53,7 +54,7 @@ class DictionaryController {
     $(document).on('keyup', (e) => {
       if (e.key == 'Shift') {
         this.shiftKeyPressed = false;
-        this._removeHighlight();
+        this.removeHighlight();
       }
     });
 
@@ -116,7 +117,7 @@ class DictionaryController {
     verseTextElements.forEach(verseElement => verseElement.addEventListener('mousemove', () => {
       var currentTab = app_controller.tab_controller.getTab();
       currentTab.tab_search.blurInputField();
-      this._highlightStrongsInVerse(verseElement);
+      this.highlightStrongsInVerse(verseElement);
     }));
 
     var longpressController;
@@ -139,7 +140,6 @@ class DictionaryController {
         await this._handleShiftMouseMove(e);
       });
     });
-  
   }
 
   async getStrongsEntryWithRawKey(rawKey, normalizedKey=undefined) {
@@ -311,12 +311,12 @@ class DictionaryController {
     }
   }
 
-  _highlightStrongsInVerse(verseTextElement) {
+  highlightStrongsInVerse(verseTextElement, force=false) {
     if (!app_controller.optionsMenu._dictionaryOption.isChecked) {
       return;
     }
 
-    if (!this.shiftKeyPressed) {
+    if (!force && !this.shiftKeyPressed) {
       return;
     }
 
@@ -328,7 +328,7 @@ class DictionaryController {
     this._currentVerseText.classList.add('strongs-current-verse');
   }
 
-  _removeHighlight() {
+  removeHighlight() {
     if (this._currentVerseText) {
       this._currentVerseText.classList.remove('strongs-current-verse');
     }

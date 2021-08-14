@@ -406,9 +406,21 @@ class VerseSelection {
       if (currentTab.isVerseList()) {
         app_controller.verse_context_controller.enableContextButton();
       }
+
+      if (this.selected_verse_box_elements.length == 1 &&
+          platformHelper.isCordova()) {
+        
+        app_controller.dictionary_controller.removeHighlight();
+        app_controller.dictionary_controller.highlightStrongsInVerse(this.selected_verse_box_elements[0], true);
+      }
+
     } else { // No verses selected!
       app_controller.translationComparison.disableComparisonButton();
       app_controller.verse_context_controller.disableContextButton();
+
+      if (platformHelper.isCordova()) {
+        app_controller.dictionary_controller.removeHighlight();
+      }
     }
 
     var tabId = app_controller.tab_controller.getSelectedTabId();
