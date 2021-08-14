@@ -60,7 +60,7 @@ class OptionsMenu {
       openVerseListsInNewTabByDefault = true;
     }
 
-    this._toolBarOption = this.initConfigOption('showToolBarOption', () => { this.showOrHideToolBarBasedOnOption(); }, toolBarcheckedByDefault);
+    this._toolBarOption = this.initConfigOption('showTagListOption', () => { this.showOrHideToolBarBasedOnOption(); }, toolBarcheckedByDefault);
     this._bookIntroOption = this.initConfigOption('showBookIntroOption', () => { this.showOrHideBookIntroductionBasedOnOption(); });
     this._sectionTitleOption = this.initConfigOption('showSectionTitleOption', () => { this.showOrHideSectionTitlesBasedOnOption(); });
     this._xrefsOption = this.initConfigOption('showXrefsOption', () => { this.showOrHideXrefsBasedOnOption(); });

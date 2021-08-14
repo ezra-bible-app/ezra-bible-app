@@ -56,7 +56,7 @@ defineParameterType({
       case 'footnotes':
         return '#showFootnotesOption';
       case 'toolbar':
-        return '#showToolBarOption';
+        return '#showTagListOption';
       case 'dictionary': 
         return '#showDictionaryOption';
       case 'navigation':
