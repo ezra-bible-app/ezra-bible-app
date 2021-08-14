@@ -127,7 +127,7 @@ class DictionaryInfoBox {
   }
 
   getAlternativeStrongsLink(strongsKey) {
-    var functionCall = `app_controller.dictionary_controller.dictionaryInfoBox.updateDictInfoBoxWithKey("${strongsKey}")`;
+    var functionCall = `app_controller.dictionary_controller._dictionaryInfoBox.updateDictInfoBoxWithKey("${strongsKey}")`;
     var currentLink = `<a href='javascript:${functionCall}'>${strongsKey}</a>`;
     return currentLink;
   }
@@ -172,7 +172,7 @@ class DictionaryInfoBox {
       let currentCrumb;
       if (i < this.dictionaryInfoBoxStack.length - 1) {
         const currentRewindNumber = this.dictionaryInfoBoxStack.length - i - 1;
-        currentCrumb = "<a href='javascript:app_controller.dictionary_controller.dictionaryInfoBox.rewindDictInfo(" + currentRewindNumber + ")'>";
+        currentCrumb = "<a href='javascript:app_controller.dictionary_controller._dictionaryInfoBox.rewindDictInfo(" + currentRewindNumber + ")'>";
 
         if (i == 0) {
           currentCrumb += this.currentFirstStrongsEntry.rawKey;
@@ -255,7 +255,7 @@ class DictionaryInfoBox {
 
   getFindAllLink(strongsEntry) {
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var functionCall = "javascript:app_controller.dictionary_controller.dictionaryInfoBox.findAllOccurrences('" +
+    var functionCall = "javascript:app_controller.dictionary_controller._dictionaryInfoBox.findAllOccurrences('" +
       strongsEntry.rawKey + "','" + currentBibleTranslationId + "')";
 
     var link = "<a href=\"" + functionCall + "\">" + 
@@ -295,7 +295,7 @@ class DictionaryInfoBox {
     
     var referenceStrongsLemma = this.getJsStrongs()[referenceKey].lemma;
 
-    var referenceLink = "<a href=\"javascript:app_controller.dictionary_controller.dictionaryInfoBox.openStrongsReference('";
+    var referenceLink = "<a href=\"javascript:app_controller.dictionary_controller._dictionaryInfoBox.openStrongsReference('";
     referenceLink += referenceKey;
     referenceLink += "')\">" + referenceKey + "</a>";
     var trClass = (isLastRow ? "" : "class='td-underline'");
