@@ -131,7 +131,13 @@ class DictionaryController {
       wElement.classList.remove('strongs-hl');
 
       if (platformHelper.isCordova()) {
-        longpressController.subscribe(wElement, (el) => this._handleStrongWord(el));
+        longpressController.subscribe(wElement, (el) => {
+
+          // TODO: Remove the previous strong's highlighting
+          let currentVerseText = el.closest('.verse-text');
+          app_controller.verse_selection.setVerseAsSelection(currentVerseText);
+          this._handleStrongsWord(el);
+        });
       } 
 
       wElement.addEventListener('mousemove', async (e) => {
@@ -280,10 +286,10 @@ class DictionaryController {
       return;
     }
 
-    await this._handleStrongWord(event.currentTarget);
+    await this._handleStrongsWord(event.currentTarget);
   }
 
-  async _handleStrongWord(strongsElement) {
+  async _handleStrongsWord(strongsElement) {
     if (this.strongsAvailable) {
       var strongsIds = this.getStrongsIdsFromStrongsElement(strongsElement);
       
