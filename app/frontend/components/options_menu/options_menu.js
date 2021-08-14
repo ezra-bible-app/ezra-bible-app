@@ -133,10 +133,6 @@ class OptionsMenu {
     }
 
     if (this.platformHelper.isCordova()) {
-      // On the Cordova platform we cannot make use of the dictionary panel, because
-      // it heavily depends on the mouse.
-      $(this._dictionaryOption).hide();
-
       var bookLoadingModeOptionPersisted = await this._bookLoadingModeOption.persisted;
       if (!bookLoadingModeOptionPersisted) {
         this._bookLoadingModeOption.selectedValue = 'open-chapters-all-books';
@@ -204,12 +200,14 @@ class OptionsMenu {
       updated = app_controller.tag_assignment_menu.moveTagAssignmentList(false);
       if (updated || currentToolBar.is(':hidden')) {
         currentToolBar.show();
+        currentToolBar.parent().addClass('with-tags');
         updated = true;
       }
     } else {
       updated = app_controller.tag_assignment_menu.moveTagAssignmentList(true);
       if (updated || currentToolBar.is(':visible')) {
         currentToolBar.hide();
+        currentToolBar.parent().removeClass('with-tags');
         updated = true;
       }
     }
@@ -322,19 +320,16 @@ class OptionsMenu {
     var updated = false;
 
     if (!this._dictionaryOption.isChecked) { 
-      updated = app_controller.dictionary_controller.hideInfoBox();
+      app_controller.dictionary_controller.hideInfoBox();
       if (updated) {
         app_controller.dictionary_controller.clearInfoBox();
       }
 
       app_controller.dictionary_controller.hideStrongsBox(true);
     } else {
-      updated = app_controller.dictionary_controller.showInfoBox();
+      app_controller.dictionary_controller.showInfoBox();
     }
 
-    if (updated) {
-      uiHelper.resizeAppContainer();
-    }
   }
 
   showOrHideBookChapterNavigationBasedOnOption(tabIndex=undefined) {

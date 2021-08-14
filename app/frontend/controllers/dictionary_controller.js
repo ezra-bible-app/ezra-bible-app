@@ -78,15 +78,20 @@ class DictionaryController {
   }
 
   showInfoBox() {
-    return this.dictionaryInfoBox.showDictInfoBox();
+    this.dictionaryInfoBox.showDictInfoBox();
   }
 
   hideInfoBox() {
-    return this.dictionaryInfoBox.hideDictInfoBox();
+    this.dictionaryInfoBox.hideDictInfoBox();
   }
 
   clearInfoBox() {
     this.dictionaryInfoBox.clearDictInfoBox();
+  }
+
+
+  moveInfoBoxFromTo(fromContainer, toContainer) {
+    this.dictionaryInfoBox.moveDictInfoBox(fromContainer, toContainer);
   }
 
   async bindAfterBibleTextLoaded(tabIndex=undefined) {

@@ -134,23 +134,15 @@ class TabSearch {
   }
 
   show() {
-    var verseListComposite = app_controller.getCurrentVerseListComposite();
-
-    if (!verseListComposite.hasClass('tab-search-active')) {
-      verseListComposite.addClass('tab-search-active');
-      this.searchForm.css('display', 'flex');
-      uiHelper.resizeVerseList();
-    }
+    var verseListFrame = app_controller.getCurrentVerseListFrame();
+    verseListFrame.addClass('tab-search-active');
+    this.searchForm.css('display', 'flex');
   }
 
   hide() {
-    var verseListComposite = app_controller.getCurrentVerseListComposite();
-
-    if (verseListComposite.hasClass('tab-search-active')) {
-      verseListComposite.removeClass('tab-search-active');
-      this.searchForm.hide();
-      uiHelper.resizeVerseList();
-    }
+    var verseListFrame = app_controller.getCurrentVerseListFrame();
+    verseListFrame.removeClass('tab-search-active');
+    this.searchForm.hide();
   }
 
   focus() {
@@ -266,7 +258,7 @@ class TabSearch {
   }
 
   jumpToCurrentOccurance() {
-    // Jump to occurance in window
+    // Jump to occurrence in window
     this.currentOccuranceElement = this.allOccurances[this.currentOccuranceIndex];
     var currentOccuranceVerseBox = this.currentOccuranceElement.closest('.verse-box');
     var currentOccuranceAnchor = '#' + currentOccuranceVerseBox.querySelector('a').getAttribute('name');
@@ -277,7 +269,7 @@ class TabSearch {
     // Remove previous element's highlighting
     if (this.previousOccuranceElement != null) {
       this.previousOccuranceElement.classList.remove('current-hl');
-      let closestVerseBox = this.previousOccuranceElement.closest('.verse-box')
+      let closestVerseBox = this.previousOccuranceElement.closest('.verse-box');
       if (closestVerseBox != null) closestVerseBox.querySelector('.verse-text').classList.remove('ui-selected');
       app_controller.verse_selection.clear_verse_selection(false);
     }
@@ -299,14 +291,14 @@ class TabSearch {
   }
 
   updateOccurancesLabel() {
-    var occurancesString = "";
+    var occurrencesString = "";
 
     if (this.currentOccurancesCount > 0) {
       let currentOccuranceNumber = this.currentOccuranceIndex + 1;
-      occurancesString = currentOccuranceNumber + '/' + this.currentOccurancesCount;
+      occurrencesString = currentOccuranceNumber + '/' + this.currentOccurancesCount;
     }
 
-    this.searchOccurancesElement[0].innerHTML = occurancesString;
+    this.searchOccurancesElement[0].innerHTML = occurrencesString;
   }
 
   async doSearch(searchString) {
