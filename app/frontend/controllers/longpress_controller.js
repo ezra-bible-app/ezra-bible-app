@@ -19,7 +19,7 @@
 
 /* inspired by https://github.com/john-doherty/long-press-event */
 
-const LONG_PRESS_DELAY = 1500;
+const LONG_PRESS_DELAY = 500;
 const MAX_TOUCH_SHIFT = 10;
 
 var startX = 0; // mouse x position when timer started
@@ -44,7 +44,7 @@ document.addEventListener('scroll', clearLongPressTimer);
  * @param {MouseEvent} event - browser event object
  * @returns {void}
  */
-module.exports.subscribe = function (element, callback) {
+module.exports.subscribe = function(element, callback) {
   longPressCallback = callback;
 
   element.addEventListener(touchStart, handleTouchStart); // <- start
@@ -52,7 +52,6 @@ module.exports.subscribe = function (element, callback) {
   element.addEventListener(touchMove, handleTouchMove);
 
   element.addEventListener(touchEnd, clearLongPressTimer);
-  
 };
 
 function handleTouchStart(event) {
@@ -90,7 +89,6 @@ function handleTouchMove(event) {
  * @returns {object} handle to the timeout object
  */
 function startTimer(element) {
-
   var start = new Date().getTime();
   var handle = {};
 
@@ -101,14 +99,12 @@ function startTimer(element) {
     if (delta >= LONG_PRESS_DELAY) { // It's time to run the callback!
       clearLongPressTimer();
       longPressCallback(element);
-    }
-    else {
+    } else {
       handle.value = window.requestAnimationFrame(loop);
     }
   };
 
   handle.value = window.requestAnimationFrame(loop);
-
   return handle;
 }
 
