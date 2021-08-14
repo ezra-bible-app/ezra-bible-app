@@ -131,25 +131,13 @@ class UiHelper {
       sidePanel.style.display='none';
       app_controller.tag_assignment_menu.moveTagAssignmentList(true);
 
-      // Move dictionary to bottom panel
-      const dictionary = sidePanel.querySelector('#dictionary-info-box');
-      if (dictionary) {
-        bottomPanel.appendChild(dictionary);
-        bottomPanel.classList.add('with-dictionary');
-        sidePanel.classList.remove('with-dictionary');
-      }
+      app_controller.dictionary_controller.moveInfoBoxFromTo(sidePanel, bottomPanel);
       
     } else if (!cycle) {
       sidePanel.style.display='';
       app_controller.tag_assignment_menu.moveTagAssignmentList(false);
 
-      // Move dictionary back to side panel
-      const dictionary = bottomPanel.querySelector('#dictionary-info-box');
-      if (dictionary) {
-        sidePanel.appendChild(dictionary);
-        sidePanel.classList.add('with-dictionary');
-        bottomPanel.classList.remove('with-dictionary');
-      }
+      app_controller.dictionary_controller.moveInfoBoxFromTo(bottomPanel, sidePanel);
     }
 
     sidePanelWidth = sidePanelWidth || sidePanel.offsetWidth; 

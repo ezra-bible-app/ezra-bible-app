@@ -94,6 +94,10 @@ class DictionaryController {
     this._dictionaryInfoBox.clearDictInfoBox();
   }
 
+  moveInfoBoxFromTo(fromContainer, toContainer) {
+    this._dictionaryInfoBox.moveDictInfoBox(fromContainer, toContainer);
+  }
+
   async bindAfterBibleTextLoaded(tabIndex=undefined) {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     if (currentTab == null) {

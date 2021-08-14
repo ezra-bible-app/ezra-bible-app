@@ -101,7 +101,6 @@
 }
 
 #dictionary-info-box {
-  display: none;
   user-select: none;
 }
 .with-tags>#dictionary-info-box {

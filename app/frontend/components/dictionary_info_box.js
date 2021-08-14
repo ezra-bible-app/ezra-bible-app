@@ -60,12 +60,10 @@ class DictionaryInfoBox {
 
   hideDictInfoBox() {
     if (this.infoBox.is(":visible")) {
-      this.infoBox.hide();
-      this.infoBox.parent().removeClass('with-dictionary');
-      return true;
+      this.clearDictInfoBox();
     }
-
-    return false;
+    this.infoBox.hide();
+    this.infoBox.parent().removeClass('with-dictionary');
   }
 
   showDictInfoBox() {
@@ -76,15 +74,27 @@ class DictionaryInfoBox {
 
     this.getJsStrongs();
 
-    if (this.infoBox.is(":hidden")) {
-      this.infoBox.show();
-      this.infoBox.parent().addClass('with-dictionary');
-      return true;
-    }
-
-    return false;
+    this.infoBox.show();
+    this.infoBox.parent().addClass('with-dictionary');
   }
 
+  moveDictInfoBox(fromContainer=null, toContainer=null) {
+    if (!fromContainer) {
+      fromContainer = document.querySelector('#side-panel');
+    }
+    if (!toContainer) {
+      toContainer = document.querySelector('#bottom-panel');
+    }
+
+    if (this.infoBox && this.infoBox.length > 0) {
+      toContainer.appendChild(this.infoBox[0]);
+      if (this.infoBox.is(':visible')) {
+        toContainer.classList.add('with-dictionary');
+      }
+      fromContainer.classList.remove('with-dictionary');
+    }
+  }
+  
   async updateDictInfoBox(strongsEntry, additionalStrongsEntries=[], firstUpdate=false) {
     if (strongsEntry == null) {
       return;
@@ -310,20 +320,7 @@ class DictionaryInfoBox {
     }
 
     var extraDictContent = await this.getExtraDictionaryContent(lang, strongsEntry);
-
-    var relatedStrongs = (await Promise.all(strongsEntry.references.map(async (ref, i) => 
-      await this.getStrongsReferenceTableRow(ref, i == (strongsEntry.references.length - 1))
-    ))).join('');
-
-    var relatedStrongsContent = "";
-    if (relatedStrongs.length > 0) {
-      relatedStrongsContent = `
-      <hr/>
-      <b>${i18n.t("dictionary-info-box.related-strongs")}:</b><br/>
-      <table class="strongs-refs">
-      ${relatedStrongs}
-      </table>`;
-    }
+    var relatedStrongsContent = await this.getRelatedStrongsContent(strongsEntry.references);
 
     var extendedStrongsInfo = `
       <b>${this.getShortInfo(strongsEntry, lemma)}</b>
@@ -334,6 +331,26 @@ class DictionaryInfoBox {
       ${relatedStrongsContent}`;    
 
     return extendedStrongsInfo;
+  }
+
+  async getRelatedStrongsContent(strongsReferences) {
+    if (!strongsReferences.length) {
+      return '';
+    }
+
+    var relatedStrongsRows = (await Promise.all(strongsReferences.map(async (ref, i) => {
+      const isLast = i == (strongsReferences.length - 1);
+      return await this.getStrongsReferenceTableRow(ref, isLast);
+    }))).join('');
+
+    const relatedStrongsContent = `
+      <hr/>
+      <b>${i18n.t("dictionary-info-box.related-strongs")}:</b><br/>
+      <table class="strongs-refs">
+      ${relatedStrongsRows}
+      </table>`;
+
+    return relatedStrongsContent;
   }
 
   async openStrongsReference(key) {

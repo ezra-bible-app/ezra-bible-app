@@ -11,20 +11,22 @@
         "app": "readonly",
         "isDev": "readonly",
         "Sentry": "readonly",
-        "loadScript": "readonly",
+        "loadScript": "readonly",   // FIXME: should not be global, move to helper module
         "verseListTemplate": "readonly",
         "ipcNsi": "readonly",
         "ipcSettings": "readonly",
         "ipcDb": "readonly",
         "ipcGeneral": "readonly",
-        "app_controller": "readonly",
-        "tags_controller": "readonly",
-        "theme_controller": "readonly",
-        "uiHelper": "readonly",
+        "app_controller": "readonly", // FIXME: should not be global, include module directly
+        "tags_controller": "readonly", // FIXME: should not be global, include module directly
+        "theme_controller": "readonly", // FIXME: should not be global, include module directly
+        "uiHelper": "readonly", // FIXME: should not be global, include module directly
         "i18n": "readonly",
-        "platformHelper": "readonly"
+        "platformHelper": "readonly",
+        "device": "readonly",
+        "cordova": "readonly"
     },
-    "extends": "eslint:recommended",
+    "extends": "eslint:recommended", // defaults to: https://eslint.org/docs/rules/
     "parserOptions": {
         "ecmaVersion": 12
     },
