@@ -145,7 +145,7 @@ class DictionaryController {
 
     try {
       strongsEntry = await ipcNsi.getStrongsEntry(normalizedKey);
-      console.log(normalizedKey, strongsEntry);
+      //console.log(normalizedKey, strongsEntry);
       if (!strongsEntry.key) {
         throw(new Error());
       }
