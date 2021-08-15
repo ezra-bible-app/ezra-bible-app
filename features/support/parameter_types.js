@@ -42,7 +42,7 @@ defineParameterType({
 
 defineParameterType({
   name: 'display_option',
-  regexp: /tags|notes|indicators|xrefs|footnotes|toolbar|dictionary|navigation|current tab search/,
+  regexp: /tags|notes|indicators|xrefs|footnotes|taglist|dictionary|navigation|current tab search/,
   transformer: s => {
     switch (s) {
       case 'tags':
@@ -55,8 +55,8 @@ defineParameterType({
         return '#showXrefsOption';
       case 'footnotes':
         return '#showFootnotesOption';
-      case 'toolbar':
-        return '#showToolBarOption';
+      case 'taglist':
+        return '#showTagListOption';
       case 'dictionary': 
         return '#showDictionaryOption';
       case 'navigation':

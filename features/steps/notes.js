@@ -22,22 +22,6 @@ const spectronHelper = require('../helpers/spectron_helper.js');
 const dbHelper = require("../helpers/db_helper.js");
 const uiHelper = require("../helpers/ui_helper.js");
 
-
-Given('I have {display_option} {state}', { timeout: 40 * 1000 }, async function (displayOptionSelector, state) {
-  const configOption = await spectronHelper.getWebClient().$(displayOptionSelector);
-  const checkbox = await configOption.$('.toggle-config-option-switch');
-  const checked = await checkbox.getAttribute('checked');
-  if (state && !checked || !state && checked) {
-    const verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
-    const displayOptionsButton = await verseListTabs.$('.display-options-button');
-
-    await displayOptionsButton.click();
-    await spectronHelper.sleep(500);
-    await checkbox.click();
-    await spectronHelper.sleep(500);
-  }
-});
-
 Given('I click on {string} note', async function (verseReference) {
   var verseBox = await uiHelper.getVerseBox(verseReference);
   var classes = await verseBox.getAttribute('class');
