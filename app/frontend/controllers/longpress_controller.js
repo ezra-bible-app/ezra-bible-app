@@ -36,8 +36,8 @@ var touchStart = hasPointerEvents ? 'pointerdown' : isTouch ? 'touchstart' : 'mo
 var touchEnd = hasPointerEvents ? 'pointerup' : isTouch ? 'touchend' : 'mouseup';
 var touchMove = hasPointerEvents ? 'pointermove' : isTouch ? 'touchmove' : 'mousemove';
 
-document.addEventListener('wheel', clearLongPressTimer);
-document.addEventListener('scroll', clearLongPressTimer);
+window.addEventListener('wheel', clearLongPressTimer);
+window.addEventListener('scroll', clearLongPressTimer);
 
 /**
  * Starts the timer on mouse down and logs current position
