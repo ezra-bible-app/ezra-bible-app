@@ -52,15 +52,15 @@ class OptionsMenu {
       app_controller.openModuleSettingsAssistant('DICT'); 
     });
 
-    var toolBarcheckedByDefault = true;
+    var tagListOptionCheckedByDefault = true;
     var openVerseListsInNewTabByDefault = false;
 
     if (this.platformHelper.isCordova()) {
-      toolBarcheckedByDefault = false;
+      tagListOptionCheckedByDefault = false;
       openVerseListsInNewTabByDefault = true;
     }
 
-    this._toolBarOption = this.initConfigOption('showToolBarOption', () => { this.showOrHideToolBarBasedOnOption(); }, toolBarcheckedByDefault);
+    this._tagListOption = this.initConfigOption('showTagListOption', () => { this.showOrHideToolBarBasedOnOption(); }, tagListOptionCheckedByDefault);
     this._bookIntroOption = this.initConfigOption('showBookIntroOption', () => { this.showOrHideBookIntroductionBasedOnOption(); });
     this._sectionTitleOption = this.initConfigOption('showSectionTitleOption', () => { this.showOrHideSectionTitlesBasedOnOption(); });
     this._xrefsOption = this.initConfigOption('showXrefsOption', () => { this.showOrHideXrefsBasedOnOption(); });
@@ -196,7 +196,7 @@ class OptionsMenu {
     var currentToolBar = $('#bible-browser-toolbox');
     var updated = false;
 
-    if (this._toolBarOption.isChecked) {
+    if (this._tagListOption.isChecked) {
       updated = app_controller.tag_assignment_menu.moveTagAssignmentList(false);
       if (updated || currentToolBar.is(':hidden')) {
         currentToolBar.show();
