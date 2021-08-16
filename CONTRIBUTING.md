@@ -93,7 +93,7 @@ So an extra form needs to be added:
 
 The Assistant for installing and removing modules is a crucial part of the onboarding process for new users. Please keep in mind new non-technical users and try to clearly communicate the idea behind phrase versus literal translation. Avoid using technical terms such as "module" unless there no way around it ("repository" is unavoidable). As the process of installation is the same for Bible translations and Dictionaries, `{{module_type}}` is used in place of the appropriate word in the translation. Please note that `{{module_type}}` is using word forms as mentioned in the previous section. Additionally, changing case is available as an additional parameter. I.e. use `{{module_type, capitalize}}` to capitalize only the first letter of the first word. Or use `title-case` to capitalize the first letter of each word. There is no lowercase function, so the initial word form should be lowercase if there are rules about that in your language. 
 
-Please, feel free to add your suggestions in the (Discussions)[https://github.com/ezra-bible-app/ezra-bible-app/discussions].
+Please, feel free to add your suggestions in the [Discussions](https://github.com/ezra-bible-app/ezra-bible-app/discussions).
 
 ### Translating emoji categories
 

@@ -1,6 +1,6 @@
 Welcome to the Design documentation of Ezra Bible App!
 
-<a href='#file-structure'>File structure</a> | <a href='#db-schema'>Database schema</a>
+<a href='#file-structure'>File structure</a> | <a href='#layout'>App layout</a> | <a href='#db-schema'>Database schema</a>
 
 ## Architecture overview
 
@@ -106,6 +106,23 @@ This directory contains static HTML files (e.g. for the book selection menu, the
 Here you find [i18next](https://www.i18next.com/) locale files (JSON format).
 
 Note that for adding a new locale you must also add an entry in the whitelist in `app/helpers/i18n_helper.js` (line 42).
+
+
+<a name='layout'></a>
+## App layout
+
+![Grid Layout](/images/grid_layout.png)
+
+The main application layout in `index.html` is based on [CSS grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout).
+
+- `<div id="app-container">` serves as the main grid container and defines template areas.
+- |--- `<main class="content">` serves as the main tab container with Bible text, search results or verse list content in each tab.
+- |--- `<aside id="side-panel">` is a container for quick reference info such as tag list and Strong's dictionary.
+- |--- `<footer id="bottom-panel">` is a container for detailed information regarding selected verse (interlinear view) or clicked Cross reference link.
+
+Please note, that each tab in `<main class="content">` has a subgrid for layout in that particular tab.
+Dictionary view on smaller screen sizes (tablets) will be displayed in the `bottom-panel` area.
+
 
 <a name='db-schema'></a>
 

@@ -20,6 +20,7 @@ const Mousetrap = require('mousetrap');
 const DictionaryInfoBox = require('../components/dictionary_info_box.js');
 let jsStrongs = null;
 
+
 /**
  * The DictionaryController handles functionality for the lookup of dictionary information based on Strong's keys.
  * It handles the mouse move events when the user is hovering individual words in the text while holding SHIFT.
@@ -32,13 +33,14 @@ let jsStrongs = null;
  */
 class DictionaryController {
   constructor() {
-    this.currentStrongsIds = null;
-    this.currentStrongsElement = null;
-    this.currentVerseText = null;
+    this._currentStrongsIds = null;
+    this._currentStrongsElement = null;
+    /**@type {HTMLElement} */
+    this._currentVerseText = null;
     this.strongsBox = $('#strongs-box');
     this.shiftKeyPressed = false;
     this.strongsAvailable = false;
-    this.dictionaryInfoBox = new DictionaryInfoBox(this);
+    this._dictionaryInfoBox = new DictionaryInfoBox(this);
 
     this.strongsBox.bind('mouseout', () => {
       this.hideStrongsBox();
@@ -51,6 +53,7 @@ class DictionaryController {
     $(document).on('keyup', (e) => {
       if (e.key == 'Shift') {
         this.shiftKeyPressed = false;
+        this._removeHighlight();
       }
     });
 
@@ -70,23 +73,27 @@ class DictionaryController {
   }
 
   hideStrongsBox(removeHl=false) {
-    if (this.currentStrongsElement != null && removeHl) {
-      this.currentStrongsElement.removeClass('strongs-hl');
+    if (this._currentStrongsElement != null && removeHl) {
+      this._currentStrongsElement.removeClass('strongs-hl');
     }
 
     this.strongsBox.hide();
   }
 
   showInfoBox() {
-    return this.dictionaryInfoBox.showDictInfoBox();
+    return this._dictionaryInfoBox.showDictInfoBox();
   }
 
   hideInfoBox() {
-    return this.dictionaryInfoBox.hideDictInfoBox();
+    return this._dictionaryInfoBox.hideDictInfoBox();
   }
 
   clearInfoBox() {
-    this.dictionaryInfoBox.clearDictInfoBox();
+    this._dictionaryInfoBox.clearDictInfoBox();
+  }
+
+  moveInfoBoxFromTo(fromContainer, toContainer) {
+    this._dictionaryInfoBox.moveDictInfoBox(fromContainer, toContainer);
   }
 
   async bindAfterBibleTextLoaded(tabIndex=undefined) {
@@ -95,38 +102,60 @@ class DictionaryController {
       return;
     }
     
-    var currentBibleTranslationId = currentTab.getBibleTranslationId();
+    const currentBibleTranslationId = currentTab.getBibleTranslationId();
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
-    var translationHasStrongs = await swordModuleHelper.moduleHasStrongs(currentBibleTranslationId);
-
-    if (translationHasStrongs) {
-      var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
-      var currentWElements = currentVerseList.find('w');
-      var currentVerseTextElements = currentVerseList.find('.verse-text');
-
-      currentVerseTextElements.bind('mousemove', (e) => {
-        var currentTab = app_controller.tab_controller.getTab();
-        currentTab.tab_search.blurInputField();
-        this.handleVerseMouseMove(e);
-      });
-
-      currentWElements.bind('mousemove', async (e) => {
-        var currentTab = app_controller.tab_controller.getTab();
-        currentTab.tab_search.blurInputField();
-        await this.handleStrongsMouseMove(e);
-      });
+    const translationHasStrongs = await swordModuleHelper.moduleHasStrongs(currentBibleTranslationId);
+    if (!translationHasStrongs) { 
+      return;
     }
+    
+    /**@type {HTMLElement}*/
+    const currentVerseList = app_controller.getCurrentVerseList(tabIndex)[0];
+    
+    const verseTextElements = currentVerseList.querySelectorAll('.verse-text');
+    verseTextElements.forEach(verseElement => verseElement.addEventListener('mousemove', () => {
+      var currentTab = app_controller.tab_controller.getTab();
+      currentTab.tab_search.blurInputField();
+      this._highlightStrongsInVerse(verseElement);
+    }));
+
+    var longpressController;
+    if (platformHelper.isCordova()) {
+      longpressController = require('./longpress_controller.js');
+    }
+    
+    const wElements = currentVerseList.querySelectorAll('w');
+
+    wElements.forEach(wElement => { 
+      wElement.classList.remove('strongs-hl');
+
+      if (platformHelper.isCordova()) {
+        longpressController.subscribe(wElement, (el) => this._handleStrongWord(el));
+      } 
+
+      wElement.addEventListener('mousemove', async (e) => {
+        let currentTab = app_controller.tab_controller.getTab();
+        currentTab.tab_search.blurInputField();
+        await this._handleShiftMouseMove(e);
+      });
+    });
+  
   }
 
   async getStrongsEntryWithRawKey(rawKey, normalizedKey=undefined) {
     if (normalizedKey == undefined) {
-      var normalizedKey = this.getNormalizedStrongsId(rawKey);
+      normalizedKey = this.getNormalizedStrongsId(rawKey);
     }
 
     var strongsEntry = null;
 
     try {
       strongsEntry = await ipcNsi.getStrongsEntry(normalizedKey);
+      //console.log(normalizedKey, strongsEntry);
+      if (!strongsEntry.key) {
+        throw(new Error());
+      }
+
       strongsEntry['rawKey'] = rawKey;
     } catch (e) {
       console.log("DictionaryController.getStrongsEntryWithRawKey: Got exception when getting strongs entry for key " + normalizedKey);
@@ -135,24 +164,22 @@ class DictionaryController {
     return strongsEntry;
   }
 
+  /**
+   * 
+   * @param {HTMLElement} strongsElement element to extract Strongs Numbers from
+   * @returns {Array} an array of Strongs Ids or an empty array 
+   */
   getStrongsIdsFromStrongsElement(strongsElement) {
     var strongsIds = [];
 
-    try {
-      var rawStrongsIdList = strongsElement.attr('class').split(' ');
-
-      for (var i = 0; i < rawStrongsIdList.length; i++) {
-        if (rawStrongsIdList[i].indexOf('strong') != -1) {
-          try {
-            var strongsId = rawStrongsIdList[i].split(':')[1];
-
-            if (strongsId != undefined) {
-              strongsIds.push(strongsId);
-            }
-          } catch (e) {}
+    if (strongsElement) {
+      strongsElement.classList.forEach(cls => {
+        if (cls.startsWith('strong:')) {
+          const strongsId = cls.slice(7);
+          strongsIds.push(strongsId);
         }
-      }
-    } catch (e) { }
+      });
+    }
 
     return strongsIds;
   }
@@ -192,7 +219,7 @@ class DictionaryController {
       var firstStrongsEntry = null;
       var additionalStrongsEntries = [];
 
-      for (var i = 0; i < normalizedStrongsIds.length; i++) {
+      for (let i = 0; i < normalizedStrongsIds.length; i++) {
         var strongsEntry = await this.getStrongsEntryWithRawKey(strongsIds[i], normalizedStrongsIds[i]);
 
         if (i == 0) {
@@ -208,7 +235,7 @@ class DictionaryController {
       if (shortInfos.length > 1) {
         strongsShortInfo = "<table>";
 
-        for (var i = 0; i < shortInfos.length; i++) {
+        for (let i = 0; i < shortInfos.length; i++) {
           strongsShortInfo += "<tr>";
           strongsShortInfo += "<td>" + shortInfos[i].split(":")[0] + ":</td>";
           strongsShortInfo += "<td style='text-align: left;'>" + shortInfos[i].split(":")[1] + "</td>";
@@ -222,13 +249,13 @@ class DictionaryController {
       }
 
       this.strongsBox.html(strongsShortInfo);
-      this.dictionaryInfoBox.updateDictInfoBox(firstStrongsEntry, additionalStrongsEntries, true);
+      this._dictionaryInfoBox.updateDictInfoBox(firstStrongsEntry, additionalStrongsEntries, true);
     } catch (e) {
       console.log(e);
     }
 
-    if (this.currentStrongsElement != null) {
-      this.currentStrongsElement.bind('mouseout', () => {
+    if (this._currentStrongsElement != null) {
+      this._currentStrongsElement.bind('mouseout', () => {
         if (!this.shiftKeyPressed) {
           this.hideStrongsBox();
         }
@@ -238,13 +265,13 @@ class DictionaryController {
         this.strongsBox.show().position({
           my: "bottom",
           at: "center top",
-          of: this.currentStrongsElement
+          of: this._currentStrongsElement
         });
       }
     }
   }
 
-  async handleStrongsMouseMove(event) {
+  async _handleShiftMouseMove(event) {
     if (!app_controller.optionsMenu._dictionaryOption.isChecked) {
       return;
     }
@@ -253,26 +280,30 @@ class DictionaryController {
       return;
     }
 
+    await this._handleStrongWord(event.currentTarget);
+  }
+
+  async _handleStrongWord(strongsElement) {
     if (this.strongsAvailable) {
-      var strongsIds = this.getStrongsIdsFromStrongsElement($(event.target).closest('w'));
+      var strongsIds = this.getStrongsIdsFromStrongsElement(strongsElement);
       
-      if (this.currentStrongsElement != null && 
-          this.currentStrongsElement[0] == event.target) {
+      if (this._currentStrongsElement != null && 
+          this._currentStrongsElement[0] == strongsElement) {
         return;
       }
 
-      this.currentStrongsIds = strongsIds;
+      this._currentStrongsIds = strongsIds;
 
-      if (this.currentStrongsElement != null) {
-        this.currentStrongsElement.removeClass('strongs-hl');
+      if (this._currentStrongsElement != null) {
+        this._currentStrongsElement.removeClass('strongs-hl');
       }
         
-      this.currentStrongsElement = $(event.target);
+      this._currentStrongsElement = $(strongsElement);
 
       if (strongsIds.length > 0) {
-        this.currentStrongsElement.addClass('strongs-hl');    
+        this._currentStrongsElement.addClass('strongs-hl');    
         this.strongsBox.css({
-          'fontSize': this.currentStrongsElement.css('fontSize')
+          'fontSize': this._currentStrongsElement.css('fontSize')
         });
 
         await this.showStrongsInfo(strongsIds);
@@ -280,7 +311,7 @@ class DictionaryController {
     }
   }
 
-  handleVerseMouseMove(event) {
+  _highlightStrongsInVerse(verseTextElement) {
     if (!app_controller.optionsMenu._dictionaryOption.isChecked) {
       return;
     }
@@ -289,12 +320,18 @@ class DictionaryController {
       return;
     }
 
-    if (this.currentVerseText != null) {
-      this.currentVerseText.removeClass('strongs-current-verse');
+    if (this._currentVerseText != null) {
+      this._currentVerseText.classList.remove('strongs-current-verse');
     }
 
-    this.currentVerseText = $(event.target).closest('.verse-text');
-    this.currentVerseText.addClass('strongs-current-verse');
+    this._currentVerseText = verseTextElement;
+    this._currentVerseText.classList.add('strongs-current-verse');
+  }
+
+  _removeHighlight() {
+    if (this._currentVerseText) {
+      this._currentVerseText.classList.remove('strongs-current-verse');
+    }
   }
 
   logDoubleStrongs() {

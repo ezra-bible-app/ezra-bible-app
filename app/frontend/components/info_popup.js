@@ -16,7 +16,6 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const CommitInfo = require('../../commit_info.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const { html } = require('../helpers/ezra_helper.js');
 
@@ -59,6 +58,16 @@ class InfoPopup {
   }
 
   async showAppInfo() {
+    var CommitInfo = null;
+    var gitCommit = "";
+
+    try {
+      CommitInfo = require('../../commit_info.js');
+      gitCommit = CommitInfo.commit.slice(0, 8);
+    } catch (e) {
+      console.log("Did not find commit_info.js!");
+    }
+
     this.initAppInfoBox();
 
     const currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
@@ -70,7 +79,6 @@ class InfoPopup {
       version = await cordova.getAppVersion.getVersionNumber();
     }
 
-    const gitCommit = CommitInfo.commit.slice(0, 8);
     const swordVersion = await ipcNsi.getSwordVersion();
     const chromiumVersion = getChromiumVersion();
     const databasePath = await ipcDb.getDatabasePath();

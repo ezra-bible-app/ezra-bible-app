@@ -72,8 +72,7 @@ class AppController {
   }
 
   async init() {
-    this.verse_list_menu_template = $($('.verse-list-menu')[0]).html();
-    this.verse_list_composite_template = $($('.verse-list-composite')[0]).html();
+    this.tabHtmlTemplate = $($('.verse-list-container')[0]).html();
 
     if (platformHelper.isElectron()) {
       this.settings = require('electron-settings');
@@ -131,12 +130,11 @@ class AppController {
       defaultBibleTranslationId = bibleTranslations[0].name;
     }
 
-    var tabHtmlTemplate = this.getTabHtmlTemplate();
     this.tab_controller.init('verse-list-tabs',
                              'verse-list-container',
                              'add-tab-button',
                              this.settings,
-                             tabHtmlTemplate,
+                             this.tabHtmlTemplate,
                              (event = undefined, ui = { 'index' : 0}) => { this.onTabSelected(event, ui); },
                              async (previousTabIndex, tabIndex) => { await this.onTabAdded(previousTabIndex, tabIndex); },
                              defaultBibleTranslationId);
@@ -248,7 +246,6 @@ class AppController {
     this.dictionary_controller.hideStrongsBox();
     this.verse_context_controller.hide_verse_expand_box();
 
-    uiHelper.resizeVerseList(ui.index);
     uiHelper.configureButtonStyles('.verse-list-menu');
   }
 
@@ -260,7 +257,6 @@ class AppController {
 
     // Refresh the view based on the options selected
     await this.optionsMenu.refreshViewBasedOnOptions(tabIndex);
-    uiHelper.resizeVerseList(tabIndex);
     
     await this.initCurrentVerseListMenu(tabIndex);
     this.tag_selection_menu.init(tabIndex);
@@ -271,31 +267,32 @@ class AppController {
     
     var currentTab = this.tab_controller.getTab(tabIndex);
 
-    if (currentTab != null) {
-      var currentBibleTranslationId = currentTab.getBibleTranslationId();
+    if (currentTab) {
+      const currentBibleTranslationId = currentTab.getBibleTranslationId();
       if (currentBibleTranslationId != null) {
         this.info_popup.enableCurrentAppInfoButton(tabIndex);
       }
+
+      const verseListContainer = this.getCurrentVerseListFrame(tabIndex).parent();
+
+      currentTab.tab_search = new TabSearch();
+      currentTab.tab_search.init(
+        verseListContainer,
+        '.tab-search',
+        '.tab-search-input',
+        '.tab-search-occurances',
+        '.tab-search-previous',
+        '.tab-search-next',
+        '.tab-search-is-case-sensitive',
+        '.tab-search-type',
+        async (occurances) => { await this.onTabSearchResultsAvailable(occurances); },
+        () => { this.onTabSearchReset(); }
+      );
+  
     }
 
     this.optionsMenu.initCurrentOptionsMenu(tabIndex);
     this.book_selection_menu.clearSelectedBookInMenu();
-
-    var verseListComposite = this.getCurrentVerseListComposite(tabIndex);
-
-    currentTab.tab_search = new TabSearch();
-    currentTab.tab_search.init(
-      verseListComposite,
-      '.tab-search',
-      '.tab-search-input',
-      '.tab-search-occurances',
-      '.tab-search-previous',
-      '.tab-search-next',
-      '.tab-search-is-case-sensitive',
-      '.tab-search-type',
-      async (occurances) => { await this.onTabSearchResultsAvailable(occurances); },
-      () => { this.onTabSearchReset(); }
-    );
 
     // We need to refresh the last used tag button, because the button is not yet initialized in the tab html template
     app_controller.assign_last_tag_button.onLatestUsedTagChanged(undefined, undefined);
@@ -360,29 +357,15 @@ class AppController {
     this.tab_controller.onTranslationRemoved(translationId, installedTranslations);
   }
 
-  getTabHtmlTemplate() {
-    var tabHtmlTemplate = "";
-
-    tabHtmlTemplate += "<div class='verse-list-menu'>";
-    tabHtmlTemplate += this.verse_list_menu_template;
-    tabHtmlTemplate += "</div>";
-
-    tabHtmlTemplate += "<div class='verse-list-composite'>";
-    tabHtmlTemplate += this.verse_list_composite_template;
-    tabHtmlTemplate += "</div>";
-
-    return tabHtmlTemplate;
-  }
-
   async loadSettings() {
     try {
-      var tagListWidthAvailable = await ipcSettings.has('tagListWidth');
+      var sidePanelWidthAvailable = await ipcSettings.has('tagListWidth');
 
-      if (tagListWidthAvailable) {
-        var tagListWidth = await ipcSettings.get('tagListWidth');
+      if (sidePanelWidthAvailable) {
+        var sidePanelWidth = await ipcSettings.get('tagListWidth');
 
-        $('#bible-browser-toolbox').css('width', tagListWidth);
-        uiHelper.resizeAppContainer();
+        $('#side-panel').css('width', sidePanelWidth);
+        uiHelper.resizeAppContainer(sidePanelWidth);
       }
 
       if (this.tab_controller.getTab().isValid() && await ipcDb.getTagCount() > 0) {
@@ -574,27 +557,9 @@ class AppController {
     return currentVerseListMenu;
   }
 
-  getCurrentVerseListComposite(tabIndex=undefined) {
-    var currentVerseListTabs = this.getCurrentVerseListTabs(tabIndex);
-    var currentVerseListComposite = null;
-
-    try {
-      currentVerseListComposite = $(currentVerseListTabs[0].querySelector('.verse-list-composite'));
-    // eslint-disable-next-line no-empty
-    } catch (e) { }
-
-    return currentVerseListComposite;
-  }
-
   getCurrentVerseListFrame(tabIndex=undefined) {
-    var currentVerseListComposite = this.getCurrentVerseListComposite(tabIndex);
-    var currentVerseListFrame = null;
-
-    try {
-      currentVerseListFrame = $(currentVerseListComposite[0].querySelector('.verse-list-frame'));
-    // eslint-disable-next-line no-empty
-    } catch (e) { }
-
+    var currentVerseListTabs = this.getCurrentVerseListTabs(tabIndex);
+    var currentVerseListFrame = currentVerseListTabs.find('.verse-list-frame');
     return currentVerseListFrame;
   }
 
@@ -629,20 +594,20 @@ class AppController {
   }
 
   getCurrentVerseListLoadingIndicator(tabIndex=undefined) {
-    var currentVerseListComposite = this.getCurrentVerseListComposite(tabIndex);
-    var loadingIndicator = currentVerseListComposite[0].querySelector('.verse-list-loading-indicator');
-    return $(loadingIndicator);
+    var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
+    var loadingIndicator = currentVerseListFrame.find('.verse-list-loading-indicator');
+    return loadingIndicator;
   }
 
   getCurrentSearchProgressBar(tabIndex=undefined) {
-    var currentVerseListComposite = this.getCurrentVerseListComposite(tabIndex);
-    var searchProgressBar = currentVerseListComposite.find('.search-progress-bar');
+    var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
+    var searchProgressBar = currentVerseListFrame.find('.search-progress-bar');
     return searchProgressBar;
   }
 
   getCurrentSearchCancelButtonContainer(tabIndex=undefined) {
-    var currentVerseListComposite = this.getCurrentVerseListComposite(tabIndex);
-    var searchCancelButton = currentVerseListComposite.find('.cancel-module-search-button-container');
+    var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
+    var searchCancelButton = currentVerseListFrame.find('.cancel-module-search-button-container');
     return searchCancelButton;
   }
 

@@ -32,6 +32,7 @@ const template = html`
       padding: 3px;
       fill: #5f5f5f;
       display: inline-block;
+      cursor: pointer;
     }
   </style>
 
