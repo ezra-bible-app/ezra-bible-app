@@ -1,4 +1,4 @@
-const { parseLine, addDataToMap } = require("../sword_locales_to_json.js");
+const { parseLine, addDataToMap } = require("../sword_locales_to_json");
 
 describe('SWORD languages data parsing', () => {
 

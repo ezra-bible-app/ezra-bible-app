@@ -18,11 +18,9 @@
 
 const fs = require('fs');
 const iso6393 = require('iso-639-3');
-const i18nController = require('../app/frontend/controllers/i18n_controller.js');
-
 const SWORD_LOCALES = "node_modules/node-sword-interface/locales.d/locales.conf";
 const extraLanguageCodes = ['cek', 'cth', 'dnj', 'esg', 'iqw', 'izz', 'ncq'];
-const allLocales = i18nController.getAvailableLocales();
+const allLocales = require('../locales/locales.json').available.sort();
 var indexedLangs;
 
 // https://nodejs.org/dist/latest-v14.x/docs/api/intl.html#intl_detecting_internationalization_support
@@ -36,6 +34,9 @@ const hasFullICU = (() => {
 })();
 
 console.log(`Running on node version ${process.version}. Full ICU support: ${hasFullICU}`);
+if (!hasFullICU) {
+  console.log(`No Intl API support detected for this node version. Script results will be limited`);
+}
 
 if (!isTesting()) {
   indexedLangs = getIndexedLangs();
@@ -191,7 +192,8 @@ function addI18nData(code, localeCodes, data = {}) {
           data[localeCode] = languageScript;
         }
       } else {
-        console.log(`Non standard language code "${code}" while trying to i18n in "${localeCode}"`);
+        console.log(`Non standard language code "${code}" for Intl API of "${localeCode}"`);
+        break;
       }
 
       if (data.regions) {
