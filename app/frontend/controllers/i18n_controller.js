@@ -16,14 +16,14 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const locales = require('../../../locales/locales.json');
+
 /**
  * This controller initializes the app locale at startup and updates it on demand when changing the locale
  * @module i18nController
  * @category Controller
  */
 
-const AVAILABLE_LOCALES = ['de', 'en', 'nl', 'fr', 'es', 'sk', 'uk', 'ru', 'ro'];
-const FALLBACK_LOCALE = 'en';
 const SETTINGS_KEY = 'appLocale';
 
 const jqueryI18next = require('jquery-i18next');
@@ -76,8 +76,8 @@ const i18nextOptions = {
     }
   },
   saveMissing: false,
-  fallbackLng: FALLBACK_LOCALE,
-  whitelist: AVAILABLE_LOCALES,
+  fallbackLng: locales.fallback,
+  whitelist: locales.available,
   react: {
     wait: false
   }
@@ -123,7 +123,7 @@ module.exports.initI18N = async function() {
 
 module.exports.initLocale = async function() {
   if (await ipcSettings.has(SETTINGS_KEY)) {
-    let locale = await ipcSettings.get(SETTINGS_KEY, FALLBACK_LOCALE);
+    let locale = await ipcSettings.get(SETTINGS_KEY, locales.fallback);
 
     console.log(`Using locale ${locale}`);
     await i18n.changeLanguage(locale);
@@ -189,7 +189,7 @@ async function notifySubscribers(locale) {
 }
 
 module.exports.detectLocale = async function() {
-  await this.changeLocale(systemLocale || FALLBACK_LOCALE, false);
+  await this.changeLocale(systemLocale || locales.fallback, false);
   await ipcSettings.delete(SETTINGS_KEY);
 };
 
@@ -206,5 +206,5 @@ module.exports.getSystemLocale = () => systemLocale;
 
 /** returns 2-letter language code list of all available locales for the app */
 module.exports.getAvailableLocales = function() {
-  return AVAILABLE_LOCALES.sort();
+  return locales.available.sort();
 };
