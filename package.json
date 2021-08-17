@@ -53,7 +53,7 @@
     "update-cc-metrics": "./build_scripts/update_complexity_metrics.sh",
     "doc": "./node_modules/.bin/jsdoc -c jsdoc.conf --readme DESIGN.md -d docs/docs -r --verbose app",
     "test": "./node_modules/.bin/jest",
-    "convert-sword-locales": "node build_scripts/frontend/sword_locales_to_json.js"
+    "convert-sword-languages": "node build_scripts/frontend/sword_locales_to_json.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.2",
