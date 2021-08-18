@@ -77,7 +77,7 @@
     "i18next-electron-language-detector": "0.0.10",
     "jquery-i18next": "^1.2.1",
     "log-timestamp": "^0.3.0",
-    "marked": "^2.0.0",
+    "marked": "^3.0.0",
     "mousetrap": "^1.6.5",
     "node-sword-interface": "^0.234.0",
     "officegen": "^0.6.4",
