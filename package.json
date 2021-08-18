@@ -52,7 +52,8 @@
     "update-loc-metrics": "./build_scripts/update_loc_metrics.sh",
     "update-cc-metrics": "./build_scripts/update_complexity_metrics.sh",
     "doc": "./node_modules/.bin/jsdoc -c jsdoc.conf --readme DESIGN.md -d docs/docs -r --verbose app",
-    "test": "./node_modules/.bin/jest"
+    "test": "./node_modules/.bin/jest",
+    "convert-sword-languages": "node build_scripts/frontend/sword_locales_to_json.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.2",
@@ -74,7 +75,6 @@
     "fuse.js": "^6.4.6",
     "i18next": "^20.2.4",
     "i18next-electron-language-detector": "0.0.10",
-    "iso-639-3": "^2.2.0",
     "jquery-i18next": "^1.2.1",
     "log-timestamp": "^0.3.0",
     "marked": "^2.0.0",
@@ -105,6 +105,7 @@
     "electron-rebuild": "^2.3.2",
     "eslint": "^7.27.0",
     "git-to-json": "^2.1.4",
+    "iso-639-3": "^2.2.0",
     "jest": "^24.9.0",
     "jest-electron": "^0.1.11",
     "jsdoc": "^3.6.6",

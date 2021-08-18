@@ -6,14 +6,14 @@ describe('languageMapper', () => {
     const details = languageMapper.getLanguageDetails('es');
     expect(details.languageName).toEqual('Spanish');
     expect(details.type).toEqual('living');
-    expect(details.localized).toEqual(false);
+    expect(details.localized).toEqual(true);
   });
 
   it('gets three letter code language details', () => {
     const result = languageMapper.getLanguageDetails('grc');
-    expect(result.languageName).toEqual('Ancient Greek (to 1453)');
+    expect(result.languageName).toEqual('Ancient Greek');
     expect(result.type).toEqual('historical');
-    expect(result.localized).toEqual(false);
+    expect(result.localized).toEqual(true);
   });
 
   it('gets language name', () => {
@@ -21,13 +21,8 @@ describe('languageMapper', () => {
     expect(result).toEqual('Romanian');
   });
 
-  it('gets language code', () => {
-    const result = languageMapper.getLanguageCode('Hebrew');
-    expect(result).toEqual('he');
-  });
-
-  it('returns undefined when localized code not available', () => {
+  it('returns result even when Intl API is not available', () => {
     const result = languageMapper.getLanguageName('he', 'ru');
-    expect(result).toEqual(undefined);
+    expect(result).toEqual('Иврит');
   });
 });

@@ -54,9 +54,11 @@ Please do not translate the product name "Ezra Bible App" and also keep unique t
 
 5) Add your name and GitHub profile link to the list of translators in [`app/frontend/components/info_popup.js`](https://github.com/ezra-bible-app/ezra-bible-app/blob/master/app/frontend/components/info_popup.js#L106).
 
-6) You can test the new translation by installing all dependencies (see BUILD.md) and starting the app using `npm start`. Once you start the app there should be the new option under App Language select box in the settings.
+6) If you have node 14 and above, run `npm run convert-sword-languages` to regenerate `lib/languages.json` with included language names in your language.
 
-7) Submit a pull request once you have a working draft.
+7) You can test the new translation by installing all dependencies (see BUILD.md) and starting the app using `npm start`. Once you start the app there should be the new option under App Language select box in the settings.
+
+8) Submit a pull request once you have a working draft.
 
 ### Using different word forms in translations
 

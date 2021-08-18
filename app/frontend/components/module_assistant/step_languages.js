@@ -189,12 +189,12 @@ class StepLanguages extends HTMLElement {
     }
 
     await waitUntilIdle();
+    this._allLanguages.appendChild(containerLongList);
+
+    await waitUntilIdle();
     this._updateLanguageCount(languageModuleCount, this._allLanguages);
     this._updateLanguageCount(languageModuleCount, containerLongList);
     
-    await waitUntilIdle();
-    this._allLanguages.appendChild(containerLongList);
-
     await waitUntilIdle();
     this._loading.hide();
   }
@@ -307,12 +307,12 @@ async function getAvailableLanguagesFromRepos() {
         addLanguage(languages['historical-languages'], languageInfo, currentLanguageCode, starred);
       } else if (languageInfo.iso6391) {
         addLanguage(languages['iso6391-languages'], languageInfo, currentLanguageCode, starred);
-      } else if (languageInfo.iso6392T) {
+      } else if (languageInfo.localized || languageInfo.iso6392T) {
         addLanguage(languages['iso6392T-languages'], languageInfo, currentLanguageCode, starred);
       } else if (languageInfo.iso6393) {
         addLanguage(languages['iso6393-languages'], languageInfo, currentLanguageCode, starred);
       } else {
-        console.log("Unknown lang:", currentLanguageCode, languageInfo);
+        console.log("Non-standard language code:", currentLanguageCode, languageInfo);
         addLanguage(languages['unknown-languages'], languageInfo, currentLanguageCode, starred);          
       }
 

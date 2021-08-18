@@ -119,7 +119,7 @@ module.exports.initI18N = async function() {
   if (platformHelper.isElectron()) {
     await this.initLocale();
   }
-}
+};
 
 module.exports.initLocale = async function() {
   if (await ipcSettings.has(SETTINGS_KEY)) {
@@ -155,7 +155,7 @@ function preserveStringsForStartup() {
 module.exports.getStringForStartup = function(key, fallbackText) {
   const localizedText = window.localStorage && window.localStorage.getItem(key);
   return localizedText || fallbackText;
-}
+};
 
 module.exports.changeLocale = async function(newLocale, saveSettings=true) {
 
