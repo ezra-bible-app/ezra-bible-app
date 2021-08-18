@@ -47,9 +47,9 @@ If you want to help with a new translation, these are the steps:
 
 Please do not translate the product name "Ezra Bible App" and also keep unique terms like "Strong's", "CrossWire Bible Society" and "SWORD".
 
-4) Once the translation is complete, it needs to be added to the `AVAILABLE_LOCALES` list in [`/app/frontend/controllers/i18n_controller.js`](https://github.com/ezra-bible-app/ezra-bible-app/blob/master/app/frontend/controllers/i18n_controller.js):
-```
-const AVAILABLE_LOCALES = ['de', 'en', 'nl', 'fr', 'es', 'sk', 'uk', 'ru'];  <== Add the language
+4) Once the translation is complete, it needs to be added to the `available` locales list in [`/locales/locales.json`](https://github.com/ezra-bible-app/ezra-bible-app/blob/master/locales/locales.json):
+```json
+  "available": ["de", "en", "nl", "fr", "es", "sk", "uk", "ru", "ro"], // <== Add the language
 ```
 
 5) Add your name and GitHub profile link to the list of translators in [`app/frontend/components/info_popup.js`](https://github.com/ezra-bible-app/ezra-bible-app/blob/master/app/frontend/components/info_popup.js#L106).
