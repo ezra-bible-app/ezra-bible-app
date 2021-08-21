@@ -138,7 +138,7 @@ jobs:
         # because for some reason electron-installer-redhat is not properly
         # working on Fedora 33!
         - name: Create package
-          run: npm install electron-installer-redhat && npm run rpm_fedora29
+          run: npm install electron-installer-redhat && npm run rpm_fedora
         - name: Rename package
           run: mv release/packages/*.rpm $GITHUB_WORKSPACE/ezra-bible-app_latest.rpm
         - name: Upload rpm file
