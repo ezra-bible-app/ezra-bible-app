@@ -43,7 +43,7 @@
     "deb_mint18": "electron-installer-debian --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_mint18.json",
     "deb_buster": "electron-installer-debian --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_debian10.json",
     "rpm_centos": "electron-installer-redhat --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_centos.json",
-    "rpm_fedora29": "electron-installer-redhat --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_fedora29.json",
+    "rpm_fedora": "electron-installer-redhat --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_fedora.json",
     "rpm_opensuse_leap": "electron-installer-redhat --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_opensuse_leap.json",
     "install-node-prune": "bash build_scripts/install_node_prune.sh",
     "install-node-prune-win": "build_scripts\\win32\\install_node_prune_win32.bat",
