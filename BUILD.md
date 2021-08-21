@@ -79,7 +79,7 @@ The following instructions have been verified on macOS _Big Sur_. The assumption
 
 ### Setup and build
 
-1. Ensure that you have a compatible nodejs version (12.x). You should be able to switch node versions using the nvm command (see [this blog post](https://michael-kuehnel.de/node.js/2015/09/08/using-vm-to-switch-node-versions.html)).
+1. Ensure that you have a compatible nodejs version (14.x). You should be able to switch node versions using the nvm command (see [this blog post](https://michael-kuehnel.de/node.js/2015/09/08/using-vm-to-switch-node-versions.html)).
 2. Clone Ezra Bible App from git repo or unpack sources from release
 3. Install Ezra Bible App dependencies by running this commmand in the project dir: `npm install`
 4. Rebuild C/C++ dependencies by running this command in the project dir: `npm run rebuild`
