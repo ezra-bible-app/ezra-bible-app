@@ -1,7 +1,7 @@
 # Building Ezra Bible App
 
-Independent of the operating system, ensure to use a compatible nodejs version. On Windows and Linux you should use 10.x, while on macOS 12.x has been used successfully.
-These are the versions currently used for development and testing and compatibility with other versions cannot necessarily be guaranteed.
+Independent of the operating system, ensure to use a compatible nodejs version. We're currently using v14.x (Active LTS), which is supported until 2023-04-30.
+This is the version currently used for development and testing. Compatibility with other versions cannot necessarily be guaranteed.
 
 ## Windows
 
@@ -9,7 +9,7 @@ On Windows Ezra Bible App is built using a pre-built SWORD library from the repo
 
 ### Setup and build
 
-1. Install [git](https://git-scm.com/download/win) and [nodejs](https://nodejs.org). Ensure to install the x86 version of nodejs 10.x.
+1. Install [git](https://git-scm.com/download/win) and [nodejs](https://nodejs.org). Ensure to install the x86 version of nodejs 14.x.
 2. Install [windows-build-tools][windows-build-tools] (VS 2015 Compiler) by running the following command in an administrator powershell:\
 `npm install --vs2015 --global windows-build-tools`
 3. Install [electron-installer-windows][electron-installer-windows] by running the following command in an administrator powershell:\
@@ -42,7 +42,7 @@ The installer binary within that directory is named `ezra_project-x.y.z-setup.ex
 
 ### Install dependencies
 
-The following dependencies are valid for Debian/Ubuntu based distributions. Ezra Bible App has been successfully built for other distributions as well (Linux Mint 18, Debian 10, Fedora 29, OpenSuse, CentOS). To see how the dependencies look like for your distribution, have a look at the Docker files [here](https://github.com/ezra-project/ezra-project/tree/master/docker).
+The following dependencies are valid for Debian/Ubuntu based distributions. Ezra Bible App has been successfully built for other distributions as well (Linux Mint 18, Debian 10, Fedora 33, OpenSuse, CentOS). To see how the dependencies look like for your distribution, have a look at the Docker files [here](https://github.com/ezra-project/ezra-project/tree/master/docker).
 
 Install compiler/lib dependencies by running the following command: `sudo apt-get install build-essential npm nodejs libsqlite3-0 libcurl4-gnutls-dev libicu-dev pkg-config git cmake`
 
