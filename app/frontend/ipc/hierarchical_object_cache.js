@@ -54,7 +54,7 @@ class HierarchicalObjectCache {
   }
 
   _establishHierarchy(...args) {
-    var levelsNeeded = arguments.length - 1;
+    var levelsNeeded = args.length - 1;
     if (levelsNeeded < 1) {
       return;
     }
