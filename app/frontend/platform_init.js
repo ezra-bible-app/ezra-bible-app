@@ -38,7 +38,7 @@ window.initPlatform = function() {
     const webViewVersion = getChromiumMajorVersion();
     
     if (webViewVersion) {
-      if (webViewVersion >=  CHROMIUM_VERSION_MIN) {
+      if (webViewVersion >= CHROMIUM_VERSION_MIN) {
         loadScript('cordova.js');
 
         console.log("Using customizable theme.css!");
@@ -108,8 +108,9 @@ window.getChromiumVersion = function() {
   return chromiumVersion;
 };
 
+// FIXME: Remove this function, since it is not used anywhere?
 window.isChromiumOlder = function() {
-  return window.getChromiumMajorVersion() < CHROMIUM_VERSION_UP_TO_DATE;
+  return getChromiumMajorVersion() < CHROMIUM_VERSION_UP_TO_DATE;
 };
 
 function getChromiumMajorVersion() {
