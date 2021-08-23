@@ -754,7 +754,10 @@ class AppController {
 
     verseList.find('.verse-box').bind('mouseover', (e) => { this.onVerseBoxMouseOver(e); });
     this.dictionary_controller.bindAfterBibleTextLoaded(tabIndex);
-    this.verse_context_controller.init_verse_expand_box(tabIndex);
+
+    if (platformHelper.isElectron()) {
+      this.verse_context_controller.init_verse_expand_box(tabIndex);
+    }
   }
 
   getVerseListBookNumber(bibleBookLongTitle, bookHeaders=undefined) {
