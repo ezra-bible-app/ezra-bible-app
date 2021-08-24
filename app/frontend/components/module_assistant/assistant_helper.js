@@ -157,10 +157,18 @@ function generateInfoButton() {
 }
 
 module.exports.localizeContainer = function (container, module_type) {
+  var context;
+  if (module_type == 'BIBLE') {
+    context = i18n.t("module-assistant.module-type-bible", {context: 'gender'});
+  } else if (module_type == 'DICT') {
+    context = i18n.t("module-assistant.module-type-dict", {context: 'gender'});
+  }
+
   container.querySelectorAll('[i18n]').forEach(element => {
     element.innerHTML = i18n.t(element.getAttribute('i18n'), 
                                {
                                  module_type,
+                                 context,
                                  interpolation: {
                                    alwaysFormat: true,
                                  }
@@ -169,10 +177,20 @@ module.exports.localizeContainer = function (container, module_type) {
 };
 
 module.exports.localizeText = function (key, data) {
-  data = typeof data === 'string' ? { module_type: data } : data;
+  var context;
+  if (typeof data === 'string') {
+    if (data == 'BIBLE') {
+      context = i18n.t("module-assistant.module-type-bible", {context: 'gender'});
+    } else if (data == 'DICT') {
+      context = i18n.t("module-assistant.module-type-dict", {context: 'gender'});
+    }
+    data = { module_type: data };
+  }
+  
   return i18n.t(key, 
                 {
                   ...data,
+                  context,
                   interpolation: {
                     alwaysFormat: true,
                   }
