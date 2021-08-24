@@ -170,7 +170,7 @@
     "versions-and-paths": "Версия и месторасположение",
     "app-language": "Язык приложения",
     "detect-locale": "Авто",
-    "detect-locale-hint": "Установить автоматическое определение основываясь на языке системы"
+    "detect-locale-hint": "Определить автоматически основываясь на языке системы"
   },
   "help": {
     "help-text-no-tags-book-opens": "Чтобы начать работу с метками, создайте свою первую метку, нажав кнопку <i>Новая&nbsp;метка</i>.<br/> <br/> После этого вы можете просматривать текст Библии, нажимать или перетаскивать выделенные стихи чтобы назначить только что созданную метку.",
@@ -265,12 +265,12 @@
     "display": "Параметры отображения",
     "text-options": "Параметры текста",
     "bible-browser-layout": "Параметры окна Библии",
-    "show-tag-list": "Show tag list",
+    "show-tag-list": "Список меток",
     "show-book-intro": "Введения книг",
     "show-section-titles": "Заголовки разделов",
     "show-xrefs": "Перекрестные ссылки",
     "show-footnotes": "Примечания",
-    "show-dictionary": "Окно словаря",
+    "show-dictionary": "Словарь",
     "show-book-chapter-navigation": "Навигация по главам",
     "show-header-navigation": "Навигация по заголовкам",
     "show-tab-search": "Показать форму поиска по текущей вкладке",
@@ -328,11 +328,11 @@
     "permanent-permission-decision-part1": "Ранее вы решили окончательно запретить доступ к хранилищу! <br><br> Вы можете отменить это решение только в настройках разрешений в конфигурации системы Android.",
     "permanent-permission-decision-part2": "Если вы не измените настройки разрешений, приложение Ezra Bible App <span style='text-decoration: underline'>не запустится успешно</span>.",
     "starting-app": "Запуск приложения",
-    "init-i18n": "Инициализация i18n",
+    "init-i18n": "Инициализация локализации",
     "init-sword": "Инициализация SWORD",
     "init-database": "Инициализация базы данных",
     "init-user-interface": "Инициализация интерфейса",
     "loading-settings": "Загрузка настроек",
-    "waiting-app-ready": "Жду, когда приложение будет готово"
+    "waiting-app-ready": "Ожидание готовности приложения"
   }
 }
