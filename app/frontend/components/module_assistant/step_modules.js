@@ -116,8 +116,8 @@ const template = html`
 `;
 
 /**
- * @module StepModules
  * component displays available for installation modules from selected repositories and languages
+ * @module StepModules
  * @example
  * <step-modules></step-modules>
  * @category Component
