@@ -72,8 +72,8 @@ const template = html`
 `;
 
 /**
- * @module StepRepositories
  * component retrieves, sorts and displays all available repositories for module installation
+ * @module StepRepositories
  * @example
  * <step-repositories></step-repositories>
  * @category Component

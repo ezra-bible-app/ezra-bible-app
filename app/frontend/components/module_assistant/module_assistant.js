@@ -24,8 +24,8 @@ require('./assistant_steps_remove_modules.js');
 require('./assistant_checkbox.js');
 
 /**
- * @module ModuleAssistant
  * The component implements the dialog that handles module installations and removal.
+ * @module ModuleAssistant
  * @example
  * <module-assistant></module-assistant>
  * @category Component
