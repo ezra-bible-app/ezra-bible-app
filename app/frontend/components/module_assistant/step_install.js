@@ -80,8 +80,6 @@ class StepInstall extends HTMLElement {
     super();
 
     this._moduleInstallationCancelled = false;
-    
-    /** @type {import('./unlock_dialog')} */
     this.unlockDialog = null;
   }
 

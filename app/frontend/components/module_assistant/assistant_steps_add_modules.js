@@ -177,24 +177,19 @@ class AssistantStepsAddModules extends HTMLElement {
   }
 
   _setupSteps(container) {
-    /** @type {import('./step_languages')} */
     // this.languagesStep = container.querySelector('step-languages');
     this.languagesStep = document.createElement('step-languages');
     this._initPage(this.languagesStep, LANGUAGES_INDEX, container);
 
-    /** @type {import('./step_repositories')} */
     // this.repositoriesStep = container.querySelector('step-repositories');
     this.repositoriesStep = document.createElement('step-repositories');
 
-    /** @type {import('./step_modules')} */
     // this.modulesStep = container.querySelector('step-modules');
     this.modulesStep = document.createElement('step-modules');
 
-    /** @type {import('./step_install')} */
     // this.installStep = container.querySelector('step-install');
     this.installStep = document.createElement('step-install');
 
-    /** @type {import('./unlock_dialog')*/
     this.unlockDialog = this.querySelector('unlock-dialog');
 
     this.modulesStep.unlockDialog = this.unlockDialog;

@@ -139,12 +139,10 @@ class AssistantStepsRemoveModules extends HTMLElement {
   }
 
   _setupSteps(container) {
-    /** @type {import('./step_modules_remove')} */
     // this.modulesStep = container.querySelector('step-modules-remove');
     this.modulesStep = document.createElement('step-modules-remove');
     this._initPage(this.modulesStep, MODULES_INDEX, container);
 
-    /** @type {import('./step_remove')} */
     // this.installStep = container.querySelector('step-remove');
     this.removeStep = document.createElement('step-remove');
     this._initPage(this.removeStep, REMOVE_INDEX, container);

@@ -64,7 +64,7 @@ module.exports.sortByText = function (strA, strB) {
 
 /**
  * Generates an HTML fragment with title and checkboxes from array of items
- * @param {[]} arr array of items
+ * @param {Array} arr array of items
  * @param {Set<string>} selected array of values that will be shown as checked
  * @param {string=} sectionTitle Section title
  * @param {object} options additional options for the layout
@@ -133,7 +133,6 @@ function generateCheckbox(item, checked, options) {
 
     const extraAttr = Object.entries(rest).map(([attr, val]) => `${attr}="${val}"`);
 
-    /**@type {import('./assistant_checkbox')} */
     const checkbox = `
       <assistant-checkbox 
         ${style}

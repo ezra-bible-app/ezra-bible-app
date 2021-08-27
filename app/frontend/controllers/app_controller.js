@@ -109,7 +109,6 @@ class AppController {
     this.init_component("TextSizeSettings", "textSizeSettings");
     this.init_component("VerseStatisticsChart", "verse_statistics_chart");
 
-    /**@type {import('../components/module_assistant/module_assistant')} */
     this.moduleAssistant = document.querySelector('module-assistant');
 
     this.initGlobalShortCuts();

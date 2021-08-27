@@ -127,7 +127,6 @@ class StepModules extends HTMLElement {
   constructor() {
     super();
 
-    /** @type {import('./unlock_dialog')} */
     this.unlockDialog = null;
   }
 

@@ -158,10 +158,7 @@ class ModuleAssistant extends HTMLElement{
     const removeButton = document.querySelector('#remove-modules-button');
     removeButton.addEventListener('click', async () => this._startRemoveModuleAssistant());
 
-    /** @type {import('./assistant_steps_add_modules')} */
     this._assistantAdd = document.querySelector('assistant-steps-add-modules');
-
-    /** @type {import('./assistant_steps_remove_modules')} */
     this._assistantRemove = document.querySelector('assistant-steps-remove-modules');
 
     this._initialized = true;

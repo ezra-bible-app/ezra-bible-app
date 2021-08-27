@@ -105,14 +105,12 @@ class StepLanguages extends HTMLElement {
     this._loading = this.querySelector('loading-indicator');
     this._loadingText = this.querySelector('.loading-text');
     this._errorText = this.querySelector('.update-repository-data-failed');
-    /**@type {import('../generic/fuzzy_search')} */
     this._search = this.querySelector('fuzzy-search');
     this._searchResults = this.querySelector('.search-result');
     this._allLanguages = this.querySelector('.all-languages');
 
     this._localize();
 
-    /** @type {import('./update_repositories')} */
     this.updateRepositories = this.querySelector('update-repositories');
 
     this.addEventListener('itemChanged', (e) => this._handleCheckboxClick(e));
