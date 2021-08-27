@@ -111,7 +111,7 @@ Note that for adding a new locale you must also add an entry in the whitelist in
 <a name='layout'></a>
 ## App layout
 
-![Grid Layout](/images/grid_layout.png)
+![Grid Layout](https://raw.githubusercontent.com/ezra-bible-app/ezra-bible-app/master/images/grid_layout.png)
 
 The main application layout in `index.html` is based on [CSS grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout).
 
