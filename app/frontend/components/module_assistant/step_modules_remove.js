@@ -36,8 +36,8 @@ const template = html`
 `;
 
 /**
- * @module StepModulesRemove
  * component displays installed modules available to remove
+ * @module StepModulesRemove
  * @example
  * <step-modules-remove></step-modules-remove>
  * @category Component
