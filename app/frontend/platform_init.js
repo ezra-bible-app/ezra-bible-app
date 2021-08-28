@@ -34,6 +34,9 @@ const CHROMIUM_VERSION_UP_TO_DATE = 83; // Version that works without extra hack
 window.initPlatform = function() {
   if (isAndroidWebView()) {
     const webViewVersion = getChromiumMajorVersion();
+
+    window.isAndroid = true;
+    window.isElectron = false;
     
     if (webViewVersion) {
       if (webViewVersion >= CHROMIUM_VERSION_MIN) {
@@ -60,6 +63,8 @@ window.initPlatform = function() {
     }
   } else { // Electron!
 
+    window.isElectron = true;
+    window.isAndroid = false;
     window.isDev = false;
 
     if (typeof window !== 'undefined' &&
