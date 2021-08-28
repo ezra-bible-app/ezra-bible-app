@@ -88,21 +88,41 @@ class Startup {
       window.Buffer = require('buffer/').Buffer;
     }
 
-    const fs = require('fs');
-
     require('./components/options_menu/config_option.js');
     require('./components/options_menu/select_option.js');
     require('./components/options_menu/locale_switch.js');
     require('./components/module_assistant/module_assistant.js');
 
-    var bookSelectionMenu = fs.readFileSync('html/book_selection_menu.html');
-    var tagSelectionMenu = fs.readFileSync('html/tag_selection_menu.html');
-    var tagAssignmentMenu = fs.readFileSync('html/tag_assignment_menu.html');
-    var bibleBrowserToolbox = fs.readFileSync('html/bible_browser_toolbox.html');
-    var moduleSearchMenu = fs.readFileSync('html/module_search_menu.html');
-    var displayOptionsMenu = fs.readFileSync('html/display_options_menu.html');
-    var verseListTabs = fs.readFileSync('html/verse_list_tabs.html');
-    var boxes = fs.readFileSync('html/boxes.html');
+    const fs = require('fs');
+
+    var bookSelectionMenu = null;
+    var tagSelectionMenu = null;
+    var tagAssignmentMenu = null;
+    var bibleBrowserToolbox = null;
+    var moduleSearchMenu = null;
+    var displayOptionsMenu = null;
+    var verseListTabs = null;
+    var boxes = null;
+
+    if (this._platformHelper.isElectron() && !isDev) {
+      bookSelectionMenu = fs.readFileSync('../../html/book_selection_menu.html');
+      tagSelectionMenu = fs.readFileSync('../../html/tag_selection_menu.html');
+      tagAssignmentMenu = fs.readFileSync('../../html/tag_assignment_menu.html');
+      bibleBrowserToolbox = fs.readFileSync('../../html/bible_browser_toolbox.html');
+      moduleSearchMenu = fs.readFileSync('../../html/module_search_menu.html');
+      displayOptionsMenu = fs.readFileSync('../../html/display_options_menu.html');
+      verseListTabs = fs.readFileSync('../../html/verse_list_tabs.html');
+      boxes = fs.readFileSync('../../html/boxes.html');
+    } else {
+      bookSelectionMenu = fs.readFileSync('html/book_selection_menu.html');
+      tagSelectionMenu = fs.readFileSync('html/tag_selection_menu.html');
+      tagAssignmentMenu = fs.readFileSync('html/tag_assignment_menu.html');
+      bibleBrowserToolbox = fs.readFileSync('html/bible_browser_toolbox.html');
+      moduleSearchMenu = fs.readFileSync('html/module_search_menu.html');
+      displayOptionsMenu = fs.readFileSync('html/display_options_menu.html');
+      verseListTabs = fs.readFileSync('html/verse_list_tabs.html');
+      boxes = fs.readFileSync('html/boxes.html');
+    }
   
     document.getElementById('book-selection-menu-book-list').innerHTML = bookSelectionMenu;
     document.getElementById('tag-selection-menu').innerHTML = tagSelectionMenu;
