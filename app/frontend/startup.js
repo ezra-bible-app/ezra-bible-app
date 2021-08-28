@@ -83,15 +83,6 @@ class Startup {
     }
   }
 
-  loadFile(filePath) {
-    const path = require('path');
-    const fs = require('fs');
-
-    var absoluteFilePath = path.join(__dirname, '../../' + filePath);
-    var fileContent = fs.readFileSync(absoluteFilePath);
-    return fileContent;
-  }
-
   loadHTML() {
     if (!this._platformHelper.isElectron()) {
       window.Buffer = require('buffer/').Buffer;
@@ -116,16 +107,22 @@ class Startup {
     if (this._platformHelper.isElectron() && !isDev) {
       // Electron Production
 
-      bookSelectionMenu = this.loadFile('html/book_selection_menu.html');
-      tagSelectionMenu = this.loadFile('html/tag_selection_menu.html');
-      tagAssignmentMenu = this.loadFile('html/tag_assignment_menu.html');
-      bibleBrowserToolbox = this.loadFile('html/bible_browser_toolbox.html');
-      moduleSearchMenu = this.loadFile('html/module_search_menu.html');
-      displayOptionsMenu = this.loadFile('html/display_options_menu.html');
-      verseListTabs = this.loadFile('html/verse_list_tabs.html');
-      boxes = this.loadFile('html/boxes.html');
+      const { loadFile } = require('./helpers/fs_helper.js');
+
+      console.log("Loading HTML files via Electron production approach");
+
+      bookSelectionMenu = loadFile('html/book_selection_menu.html');
+      tagSelectionMenu = loadFile('html/tag_selection_menu.html');
+      tagAssignmentMenu = loadFile('html/tag_assignment_menu.html');
+      bibleBrowserToolbox = loadFile('html/bible_browser_toolbox.html');
+      moduleSearchMenu = loadFile('html/module_search_menu.html');
+      displayOptionsMenu = loadFile('html/display_options_menu.html');
+      verseListTabs = loadFile('html/verse_list_tabs.html');
+      boxes = loadFile('html/boxes.html');
     } else {
       // Development & Cordova/Android
+
+      console.log("Loading HTML files via Development / Cordova / Android aproach");
 
       // Note that for Cordova these readFileSync calls are all inlined, which means the content of those files
       // becomes part of the bundle when bundling up the sources with Browserify.
