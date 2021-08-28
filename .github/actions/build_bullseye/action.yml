@@ -1,0 +1,6 @@
+# action.yml
+name: 'build-bullseye'
+description: 'Build Ezra Bible App for Debian Bullseye'
+runs:
+    using: 'docker'
+    image: 'docker://toklein/ezra-bullseye:latest'

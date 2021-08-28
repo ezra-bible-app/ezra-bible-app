@@ -42,6 +42,7 @@
     "deb_2004": "electron-installer-debian --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_ubuntu2004.json",
     "deb_mint18": "electron-installer-debian --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_mint18.json",
     "deb_buster": "electron-installer-debian --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_debian10.json",
+    "deb_bullseye": "electron-installer-debian --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch amd64 --config package_config/deb_config_debian11.json",
     "rpm_centos": "electron-installer-redhat --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_centos.json",
     "rpm_fedora": "electron-installer-redhat --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_fedora.json",
     "rpm_opensuse_leap": "electron-installer-redhat --src release/ezra-bible-app-linux-x64/ --dest release/packages/ --arch x86_64 --config package_config/rpm_config_opensuse_leap.json",
