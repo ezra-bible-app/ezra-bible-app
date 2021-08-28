@@ -7,7 +7,6 @@ export MACOSX_DEPLOYMENT_TARGET=10.10
 npm install
 npm run compile-pug
 npm run commit-info
-npm run bundle
 npm run install-node-prune
 npm run rebuild
 npm run prune-node-modules

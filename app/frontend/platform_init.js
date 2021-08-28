@@ -28,8 +28,6 @@
  * @category Startup
  */
 
-
-
 const CHROMIUM_VERSION_MIN = 57; // Do not support Chromium/WebView below the version that supports ES2017 and CSS grid
 const CHROMIUM_VERSION_UP_TO_DATE = 83; // Version that works without extra hacks
 
@@ -76,12 +74,12 @@ window.initPlatform = function() {
     }
 
     if (isDev) {
-      console.log("DEV mode: Loading app/frontend/ezra_init.js");
-      loadScript('app/frontend/ezra_init.js');
+      console.log("DEV mode!");
     } else {
-      console.log('PRODUCTION mode: Loading dist/ezra_init.js');
-      loadScript('dist/ezra_init.js');
+      console.log('PRODUCTION mode!');
     }
+
+    loadScript('app/frontend/ezra_init.js');
   }
 };
 
