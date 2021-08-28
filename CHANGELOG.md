@@ -19,6 +19,7 @@ All notable changes to Ezra Bible App are documented in this file.
 * Fixed module paths on macOS (also consider `$HOME/Library/Application Support/Sword`). ([#356][i356])
 * Fixed bugs related to the repository update. ([#390][i390])
 * Fixed bug on Android: Showing toolbar resulted in invalid / buggy layout. ([#337][i337])
+* Fixed bug: Strong's dictionaries were not automatically installed. ([#404][i404])
 
 ### Enablers
 
@@ -34,6 +35,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i365]: https://github.com/ezra-bible-app/ezra-bible-app/issues/365
 [i384]: https://github.com/ezra-bible-app/ezra-bible-app/issues/384
 [i390]: https://github.com/ezra-bible-app/ezra-bible-app/issues/390
+[i404]: https://github.com/ezra-bible-app/ezra-bible-app/issues/404
 [i413]: https://github.com/ezra-bible-app/ezra-bible-app/issues/413
 
 ## [1.1.0 - 2021-06-26]
