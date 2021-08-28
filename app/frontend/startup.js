@@ -83,6 +83,15 @@ class Startup {
     }
   }
 
+  loadFile(filePath) {
+    const path = require('path');
+    const fs = require('fs');
+
+    var absoluteFilePath = path.join(__dirname, filePath);
+    var fileContent = fs.readFileSync(absoluteFilePath);
+    return fileContent;
+  }
+
   loadHTML() {
     if (!this._platformHelper.isElectron()) {
       window.Buffer = require('buffer/').Buffer;
@@ -105,15 +114,19 @@ class Startup {
     var boxes = null;
 
     if (this._platformHelper.isElectron() && !isDev) {
-      bookSelectionMenu = fs.readFileSync('../../html/book_selection_menu.html');
-      tagSelectionMenu = fs.readFileSync('../../html/tag_selection_menu.html');
-      tagAssignmentMenu = fs.readFileSync('../../html/tag_assignment_menu.html');
-      bibleBrowserToolbox = fs.readFileSync('../../html/bible_browser_toolbox.html');
-      moduleSearchMenu = fs.readFileSync('../../html/module_search_menu.html');
-      displayOptionsMenu = fs.readFileSync('../../html/display_options_menu.html');
-      verseListTabs = fs.readFileSync('../../html/verse_list_tabs.html');
-      boxes = fs.readFileSync('../../html/boxes.html');
+      // Electron Production
+
+      bookSelectionMenu = this.loadFile('html/book_selection_menu.html');
+      tagSelectionMenu = this.loadFile('html/tag_selection_menu.html');
+      tagAssignmentMenu = this.loadFile('html/tag_assignment_menu.html');
+      bibleBrowserToolbox = this.loadFile('html/bible_browser_toolbox.html');
+      moduleSearchMenu = this.loadFile('html/module_search_menu.html');
+      displayOptionsMenu = this.loadFile('html/display_options_menu.html');
+      verseListTabs = this.loadFile('html/verse_list_tabs.html');
+      boxes = this.loadFile('html/boxes.html');
     } else {
+      // Development & Cordova/Android
+
       bookSelectionMenu = fs.readFileSync('html/book_selection_menu.html');
       tagSelectionMenu = fs.readFileSync('html/tag_selection_menu.html');
       tagAssignmentMenu = fs.readFileSync('html/tag_assignment_menu.html');
