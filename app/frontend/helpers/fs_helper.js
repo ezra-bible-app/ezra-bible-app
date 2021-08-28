@@ -18,11 +18,18 @@
 
 
 /**
- * This module contains filesystem functions that are used during startup on the Electron platform
+ * This module contains filesystem functions that are used during startup on the Electron platform.
+ * The module is explicitly excluded from the Android bundling, because it is not compatible with Browserify.
  * @module fsHelper
  * @category Utility
  */
 
+/**
+ * Loads the file content of html files during startup on the Electron platform.
+ * 
+ * @param {string} filePath The path to the file ('html/*.html')
+ * @returns file content
+ */
 module.exports.loadFile = function(filePath) {
   const fs = require('fs');
   const path = require('path');
