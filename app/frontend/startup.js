@@ -87,7 +87,7 @@ class Startup {
     const path = require('path');
     const fs = require('fs');
 
-    var absoluteFilePath = path.join(__dirname, filePath);
+    var absoluteFilePath = path.join(__dirname, '../../' + filePath);
     var fileContent = fs.readFileSync(absoluteFilePath);
     return fileContent;
   }
@@ -126,6 +126,9 @@ class Startup {
       boxes = this.loadFile('html/boxes.html');
     } else {
       // Development & Cordova/Android
+
+      // Note that for Cordova these readFileSync calls are all inlined, which means the content of those files
+      // becomes part of the bundle when bundling up the sources with Browserify.
 
       bookSelectionMenu = fs.readFileSync('html/book_selection_menu.html');
       tagSelectionMenu = fs.readFileSync('html/tag_selection_menu.html');
