@@ -171,7 +171,7 @@
     "module-install-failed": "échec. Êtes-vous connecté à Internet ?",
     "module-install-cancelled": "annulée.",
     "module-unlock-failed": "échec (problème de déverrouillage).",
-    "installing-strongs": "Installation du <i>dictionnaire de Strong</i>",
+    "installing-strongs": "dictionnaire de Strong",
     "applying-migrations": "Migration de la base de données vers la nouvelle version",
     "developers": "Développeurs",
     "translators": "Traducteurs",

@@ -163,7 +163,7 @@
     "module-install-failed": "не удалось. Вы подключены к Интернету?",
     "module-install-cancelled": "отменена.",
     "module-unlock-failed": "не удалось (проблема с разблокировкой).",
-    "installing-strongs": "Установка <i>словарей Стронга</i>",
+    "installing-strongs": "словарей Стронга",
     "applying-migrations": "Перенос базы данных на новую версию",
     "developers": "Разработка",
     "translators": "Перевод",

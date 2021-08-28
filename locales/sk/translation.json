@@ -161,7 +161,7 @@
     "module-install-failed": "zlyhal. Ste online?",
     "module-install-cancelled": "zrušené.",
     "module-unlock-failed": "zlyhal (Problémy s odomknutím).",
-    "installing-strongs": "Inštalujem <i>Strongove slovníky</i>",
+    "installing-strongs": "Strongove slovníky",
     "applying-migrations": "Migrujem databázu na novú verziu",
     "developers": "Vývojári",
     "translators": "Prekladatelia",

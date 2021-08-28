@@ -161,7 +161,7 @@
     "module-install-failed": "eșuat. Ești conectat la Internet?",
     "module-install-cancelled": "anulat.",
     "module-unlock-failed": "anulat (Problemă de deblocare).",
-    "installing-strongs": "Se instalează  <i>dicționarele pentru concordanță (Strong's)</i>",
+    "installing-strongs": "dicționarele pentru concordanță (Strong's)",
     "applying-migrations": "Migrarea bazei de date la versiunea nouă",
     "developers": "Dezvoltatori",
     "translators": "Traducători",

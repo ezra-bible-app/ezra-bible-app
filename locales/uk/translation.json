@@ -161,7 +161,7 @@
     "module-install-failed": "не вдало. Ви підключені до Інтернету?",
     "module-install-cancelled": "скасовано.",
     "module-unlock-failed": "не вдало (проблема розблокування).",
-    "installing-strongs": "Встановлення <i>словників Стронга</i>",
+    "installing-strongs": "словників Стронга",
     "applying-migrations": "Оновлення бази даних до нової версії",
     "developers": "Розробка",
     "translators": "Переклад",

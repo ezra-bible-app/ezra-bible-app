@@ -163,7 +163,7 @@
     "module-install-failed": "mislukt. Bent u verbonden met het internet?",
     "module-install-cancelled": "geannuleerd.",
     "module-unlock-failed": "mislukt (Ontgrendelingsfout).",
-    "installing-strongs": "<i>Strongs woordenboeken</i> installeren",
+    "installing-strongs": "Strongs woordenboeken",
     "applying-migrations": "Databank migreren naar nieuwe versie",
     "developers": "Ontwikkelaars",
     "translators": "Vertalers",
