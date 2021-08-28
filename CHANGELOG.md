@@ -34,6 +34,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i356]: https://github.com/ezra-bible-app/ezra-bible-app/issues/356
 [i365]: https://github.com/ezra-bible-app/ezra-bible-app/issues/365
 [i384]: https://github.com/ezra-bible-app/ezra-bible-app/issues/384
+[i389]: https://github.com/ezra-bible-app/ezra-bible-app/issues/389
 [i390]: https://github.com/ezra-bible-app/ezra-bible-app/issues/390
 [i404]: https://github.com/ezra-bible-app/ezra-bible-app/issues/404
 [i413]: https://github.com/ezra-bible-app/ezra-bible-app/issues/413
