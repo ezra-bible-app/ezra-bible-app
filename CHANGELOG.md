@@ -24,6 +24,7 @@ All notable changes to Ezra Bible App are documented in this file.
 ### Enablers
 
 * Introduced new CSS Grid based Layout. ([#302][i302])
+* Added Debian 11 package. ([#431][i431])
 
 [i77]: https://github.com/ezra-bible-app/ezra-bible-app/issues/77
 [i201]: https://github.com/ezra-bible-app/ezra-bible-app/issues/201
@@ -38,6 +39,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i390]: https://github.com/ezra-bible-app/ezra-bible-app/issues/390
 [i404]: https://github.com/ezra-bible-app/ezra-bible-app/issues/404
 [i413]: https://github.com/ezra-bible-app/ezra-bible-app/issues/413
+[i431]: https://github.com/ezra-bible-app/ezra-bible-app/issues/431
 
 ## [1.1.0 - 2021-06-26]
 
