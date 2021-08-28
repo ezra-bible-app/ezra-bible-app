@@ -75,8 +75,8 @@ class Startup {
         await ipcNsi.updateRepositoryConfig();
       }
 
-      var kjvModule = await ipcNsi.getLocalModule('ASV');
-      if (kjvModule == null) {
+      var asvModule = await ipcNsi.getLocalModule('ASV');
+      if (asvModule == null) {
         $('#loading-subtitle').text("Installing ASV");
         await ipcNsi.installModule('ASV');
       }
