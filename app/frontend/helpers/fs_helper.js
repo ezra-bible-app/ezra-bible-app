@@ -34,7 +34,7 @@ module.exports.loadFile = function(filePath) {
   const fs = require('fs');
   const path = require('path');
 
-  var absoluteFilePath = path.join(__dirname, '../../' + filePath);
+  var absoluteFilePath = path.join(__dirname, '../../../' + filePath);
   var fileContent = fs.readFileSync(absoluteFilePath);
   return fileContent;
 }
