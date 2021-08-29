@@ -302,7 +302,9 @@ class AppController {
     var currentTab = this.tab_controller.getTab();
 
     // The tab search is not valid anymore if the translation is changing. Therefore we reset it.
-    currentTab.tab_search.resetSearch();
+    if (currentTab.tab_search != null) {
+      currentTab.tab_search.resetSearch();
+    }
 
     var isInstantLoadingBook = true;
 
