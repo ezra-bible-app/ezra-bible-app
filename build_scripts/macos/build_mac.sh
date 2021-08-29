@@ -8,7 +8,7 @@ npm install
 npm run compile-pug
 npm run commit-info
 npm run install-node-prune
-npm run rebuild
+# npm run rebuild
 npm run prune-node-modules
 npm run purge-build-artifacts
 npm run package-mac
