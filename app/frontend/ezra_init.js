@@ -29,7 +29,7 @@ window.app = null;
 var PlatformHelper = null;
 var Startup = null;
 
-if (isDev) {
+if (isElectron) {
   PlatformHelper = require('./app/lib/platform_helper.js');
   Startup = require('./app/frontend/startup.js');
 } else {
@@ -64,14 +64,7 @@ window.addEventListener('load', function() {
 
   } else if (platformHelper.isElectron()) {
 
-    var ElectronPlatform = null;
-
-    if (isDev) {
-      ElectronPlatform = require('./app/frontend/platform/electron_platform.js');
-    } else {
-      ElectronPlatform = require('./platform/electron_platform.js');
-    }
-
+    var ElectronPlatform = require('./app/frontend/platform/electron_platform.js');
     electronPlatform = new ElectronPlatform();
 
     console.log("Initializing app on Electron platform ...");

@@ -82,8 +82,8 @@ const template = html`
 `;
 
 /**
- * @module StepLanguages
  * component retrieves, sorts and displays all available languages for module installation
+ * @module StepLanguages
  * @example
  * <step-languages></step-languages>
  * @category Component
