@@ -87,7 +87,7 @@
     "remove-markdown": "^0.3.0",
     "sanitize-html": "^2.3.3",
     "sequelize": "^5.22.4",
-    "sqlite3": "5.0.0",
+    "sqlite3": "5.0.2",
     "strongs": "^1.0.2",
     "umzug": "^2.3.0",
     "v8-compile-cache": "^2.2.0"
