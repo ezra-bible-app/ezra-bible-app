@@ -25,12 +25,12 @@
  * @category Utility
  */
 
-const LIB_PATH = 'emoji-button/dist/';
+const LIB_PATH = 'simple-emoji-button/dist/';
 
 module.exports.getEmojiButtonLib = function() {
   const { EmojiButton } = require(LIB_PATH + '/index.cjs');
   return EmojiButton;
-}
+};
 
 module.exports.getLocalizedData = function(locale) {
   const localePath = LIB_PATH + 'locale/emoji_' + locale;
