@@ -22,7 +22,9 @@
         "theme_controller": "readonly", // FIXME: should not be global, include module directly
         "uiHelper": "readonly", // FIXME: should not be global, include module directly
         "i18n": "readonly",
-        "platformHelper": "readonly"
+        "platformHelper": "readonly",
+        "device": "readonly",
+        "cordova": "readonly"
     },
     "extends": "eslint:recommended", // defaults to: https://eslint.org/docs/rules/
     "parserOptions": {
@@ -35,7 +37,8 @@
             "FunctionExpression": {"parameters": "first"},
             "CallExpression": {"arguments": "first"},
             "ArrayExpression": "first",
-            "ObjectExpression": "first" 
+            "ObjectExpression": "first",
+            "ignoreComments": true 
         }],
         // "quotes": ["warn", "single"], // commented because of to many errors
         "semi": ["warn", "always"], // can be error (default) to enforce the rule

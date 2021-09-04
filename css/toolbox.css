@@ -16,18 +16,51 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-#bible-browser-toolbox {
+#side-panel {
+  grid-area: side-panel;
+  display: flex;
+  flex-direction: column;
   width: 30em;
   min-width: 30em;
-  padding: 0.5em;
-  padding-top: 0;
-  margin-right: 0.5em;
+  padding: 0 1em 0 0;
+  overflow: hidden;
+}
+
+#side-panel:not(.with-tags):not(.with-dictionary) {
+  width: 0 !important;
+  min-width: 0;
+  padding-right: 0;
+}
+
+#side-panel > section {
+  width: 100%;
+  height: 0;
+  flex: 1 0 0;
+  padding: 0;
+}
+
+#bottom-panel {
+  grid-area: bottom-panel;
+  height: 30vh;
+  padding: 0 0.5em;
+}
+#bottom-panel:empty, #bottom-panel:not(.with-dictionary) {
+  height: 0;
+}
+
+#bottom-panel > :first-child {
+  margin-top: 1em;
+}
+#bottom-panel > * {
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+#bible-browser-toolbox {
   /* margin-top disabled as long as we don't have a logo */
   /* margin-top: 3em; */
   z-index: 10;
-  flex: 0 0 auto;
-  /* only manually resize */
-  height: 100%;
 }
 
 #bible-browser-toolbox ol li {
@@ -36,7 +69,7 @@
 }
 
 .ui-tabs .ui-tabs-panel {
-  padding: 0.5em;
+  padding: 0.5em 0.5em 0;
 }
 
 .accordion-panel {
@@ -45,11 +78,9 @@
 }
 
 #tags-content {
-  height: calc(100% - 7px);
-}
-
-.with-dictionary > #tags-content {
-  height: 50%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0;
 }
 
 .accordion-panel .ui-accordion-header {
@@ -70,17 +101,18 @@
 }
 
 #dictionary-info-box {
-  display: none;
-  margin-top: 1em;
-  padding: 0;
   user-select: none;
-  height: calc(50% - 22px);
+}
+.with-tags>#dictionary-info-box {
+  margin-top: 1em;
 }
 
 #dictionary-info-box-panel {
   clear: both;
-  height: calc(100% - 3.4em) 
-          !important; /* overwrite default jqueryUI Accordion */
+  height: calc(100% - 2.6em) !important;  /* overwrite default jqueryUI Accordion */
+  box-sizing: border-box;
+  padding: 0.5em;
+  margin: 0.1em 0 0 0;
 }
 
 .strongs-short-info {
@@ -106,10 +138,6 @@
   font-style: italic;
   color: grey;
   display: none;
-}
-
-#dictionary-info-box div {
-  padding: 0.5em;
 }
 
 #dictionary-info-box-header {
@@ -188,10 +216,11 @@ tr.td-underline td {
 }
 
 #tags-content-global {
-  margin-top: 0.1em;
+  margin: 0.1em 0 0 0;
   padding: 0.5em;
   user-select: none;
-  height: calc(100% - 3.4em);
+  height: calc(100% - 2.6em);
+  box-sizing: border-box;
 }
 
 .checkbox-tag {

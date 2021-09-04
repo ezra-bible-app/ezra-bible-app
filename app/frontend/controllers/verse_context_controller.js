@@ -95,8 +95,7 @@ class VerseContextController {
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
 
     currentVerseList.find('.verse-reference-content').filter(":not('.tag-events-configured')").bind('mouseover',
-      this.mouse_over_verse_reference_content
-    );
+                                                                                                    this.mouse_over_verse_reference_content);
 
     $("#expand-button").prop("title", i18n.t("bible-browser.load-verse-context"));
 
@@ -190,14 +189,14 @@ class VerseContextController {
     var allButtons = this.getAllButtons();
     for (let button of allButtons) {
       button.classList.remove('ui-state-disabled');
-    };
+    }
   }
 
   disableContextButton() {
     var allButtons = this.getAllButtons();
     for (let button of allButtons) {
       button.classList.add('ui-state-disabled');
-    };
+    }
   }
 }
 

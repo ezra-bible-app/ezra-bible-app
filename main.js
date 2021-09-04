@@ -142,6 +142,7 @@ async function createWindow () {
                                   title: "Ezra Bible App " + app.getVersion() + (isDev ? ` [${app.getLocale()}]` : ''),
                                   webPreferences: {
                                     nodeIntegration: true,
+                                    contextIsolation: false,
                                     preload: preloadScript,
                                     enableRemoteModule: true,
                                     defaultEncoding: "UTF-8"

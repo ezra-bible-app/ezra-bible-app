@@ -23,6 +23,7 @@ const chai = require('chai');
 const fs = require('fs-extra');
 const os = require('os');
 
+/** @type {Application | null} */
 var app = null;
 
 function initializeSpectron(additionalArgs = []) {

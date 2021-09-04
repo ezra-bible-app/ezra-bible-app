@@ -5,7 +5,6 @@ cloc --md --exclude-dir=__tests__ \
           app \
           build_scripts \
           css \
-          docker \
           html \
           locales \
           package_config \

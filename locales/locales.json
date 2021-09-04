@@ -1,0 +1,4 @@
+{
+  "available": ["de", "en", "nl", "fr", "es", "sk", "uk", "ru", "ro"],
+  "fallback": "en"
+}

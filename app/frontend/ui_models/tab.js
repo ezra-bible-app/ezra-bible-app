@@ -281,11 +281,11 @@ class Tab {
   }
 
   initTabSearch(tabIndex=undefined) {
-    var verseListComposite = app_controller.getCurrentVerseListComposite(tabIndex);
+    var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
 
     this.tab_search = new TabSearch();
     this.tab_search.init(
-      verseListComposite,
+      verseListFrame.parent(),
       '.tab-search',
       '.tab-search-input',
       '.tab-search-occurances',
@@ -293,18 +293,18 @@ class Tab {
       '.tab-search-next',
       '.tab-search-is-case-sensitive',
       '.tab-search-type',
-      async (occurances) => { await app_controller.onTabSearchResultsAvailable(occurances); },
+      async (occurrences) => { await app_controller.onTabSearchResultsAvailable(occurrences); },
       () => { app_controller.onTabSearchReset(); }
     );
   }
 }
 
 Tab.fromJsonObject = function(jsonObject, tabIndex) {
-  tab = new Tab();
+  var tab = new Tab();
   Object.assign(tab, jsonObject);
   tab.initTabSearch(tabIndex);
 
   return tab;
-}
+};
 
 module.exports = Tab;

@@ -31,7 +31,7 @@ class TagStore {
   }
 
   updateTagTimestamp(id, timestamp) {
-    for (var i = 0; i < this.tagList.length; i++) {
+    for (let i = 0; i < this.tagList.length; i++) {
       if (this.tagList[i].id == id) {
         this.tagList[i].lastUsed = timestamp;
         break;
@@ -52,6 +52,19 @@ class TagStore {
     return this.tagList;
   }
 
+  async tagExists(tagTitle) {
+    var tagList = await this.getTagList();
+
+    for (let i = 0; i < tagList.length; i++) {
+      let currentTag = tagList[i];
+      if (currentTag.title == tagTitle) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   async renameTag(tagId, newTitle) {
     var tag = await this.getTag(tagId);
     tag.title = newTitle;
@@ -60,8 +73,8 @@ class TagStore {
   async getTag(tagId) {
     var tagList = await this.getTagList();
 
-    for (var i = 0; i < tagList.length; i++) {
-      var currentTag = tagList[i];
+    for (let i = 0; i < tagList.length; i++) {
+      let currentTag = tagList[i];
       if (currentTag.id == tagId) {
         return currentTag;
       }
@@ -89,11 +102,11 @@ class TagStore {
     var bibleBookId = await this.getBibleBookDbId(book);
 
     if (!(bibleBookId in this.bookTagStatistics) || forceRefresh) {
-      var tagListWithStats = await ipcDb.getAllTags(bibleBookId, false, true);
-      var tagStatsDict = {};
+      let tagListWithStats = await ipcDb.getAllTags(bibleBookId, false, true);
+      let tagStatsDict = {};
 
-      for (var i = 0; i < tagListWithStats.length; i++) {
-        var currentTag = tagListWithStats[i];
+      for (let i = 0; i < tagListWithStats.length; i++) {
+        let currentTag = tagListWithStats[i];
         tagStatsDict[currentTag.id] = currentTag;
       }
 
@@ -136,9 +149,9 @@ class TagStore {
     var all_timestamps = [];
     var tagList = await this.getTagList();
 
-    for (var i = 0; i < tagList.length; i++) {
-      var tag = tagList[i];
-      var current_timestamp = parseInt(tag.lastUsed);
+    for (let i = 0; i < tagList.length; i++) {
+      let tag = tagList[i];
+      let current_timestamp = parseInt(tag.lastUsed);
 
       if (!all_timestamps.includes(current_timestamp) && !Number.isNaN(current_timestamp)) {
         all_timestamps.push(current_timestamp);
@@ -162,9 +175,9 @@ class TagStore {
     var latest_tag_found = false;
     var previousLatestTagId = this.latest_tag_id;
 
-    for (var i = 0; i < tagList.length; i++) {
-      var tag = tagList[i];
-      var current_timestamp = parseInt(tag.lastUsed);
+    for (let i = 0; i < tagList.length; i++) {
+      let tag = tagList[i];
+      let current_timestamp = parseInt(tag.lastUsed);
 
       if (current_timestamp == this.latest_timestamp) {
         this.latest_tag_id = tag.id;
@@ -194,7 +207,7 @@ class TagStore {
         !Number.isNaN(this.latest_timestamp) &&
         !Number.isNaN(this.oldest_recent_timestamp)) {
       
-      var timestampInRange = (tag_timestamp >= this.oldest_recent_timestamp &&
+      let timestampInRange = (tag_timestamp >= this.oldest_recent_timestamp &&
                               tag_timestamp <= this.latest_timestamp);
 
       return !timestampInRange;

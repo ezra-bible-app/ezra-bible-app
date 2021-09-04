@@ -86,7 +86,6 @@ class TagAssignmentMenu {
 
       await waitUntilIdle();
 
-      menu.find('#tags-content-global').css('height', 'unset');
       menu.find('#tag-assignment-menu-taglist').show();
       overlay.hide();
       $('#tags-search-input').select();
@@ -96,24 +95,15 @@ class TagAssignmentMenu {
     }
   }
 
-  getTagsContainer() {
-    return document.getElementById('tags-content-global');
-  }
-
-  getTagsContainerParentId() {
-    var tagsContainer = this.getTagsContainer();
-    return tagsContainer.parentNode.getAttribute('id');
-  }
-
+  // FIXME: moving tags toolbar depending on screen size is not good from usability perspective
   moveTagAssignmentList(moveToMenu=false) {
-    var tagsContainer = this.getTagsContainer();
-    var parentId = this.getTagsContainerParentId();
-    var toolBarId = 'tags-content';
-    var menuId = 'tag-assignment-menu-taglist';
-    var filterId = 'tag-assignment-menu-filter';
-    var tagFilterMenuId = 'tag-filter-menu';
-    var tagFilterMenu = document.getElementById(tagFilterMenuId);
+    var tagsContainer = document.querySelector('#tags-content-global');
+    var menu = document.querySelector('#tag-assignment-menu-taglist');
+    var toolBar = document.querySelector('#tags-content');
+    var tagFilterMenu = document.querySelector('#tag-filter-menu');
+    var $tagFilterMenu =$(tagFilterMenu);
     var assignTagMenuButton = this.getCurrentMenuButton();
+
 
     if (moveToMenu) {
       assignTagMenuButton.show();
@@ -123,35 +113,33 @@ class TagAssignmentMenu {
 
     var updated = false;
 
-    if (parentId == toolBarId && moveToMenu) {
+    if (tagsContainer.parentElement == toolBar && moveToMenu) {
       $('#tag-list-filter-button').unbind();
 
-      var menu = document.getElementById(menuId);
       menu.appendChild(tagsContainer);
 
-      var filter = document.getElementById(filterId);
-      var tagsSearchInput = document.getElementById('tags-search-input');
+      var filter = document.querySelector('#tag-assignment-menu-filter');
+      var tagsSearchInput = document.querySelector('#tags-search-input');
 
       filter.appendChild(tagsSearchInput);
       filter.appendChild(tagFilterMenu);
 
-      $('#tag-filter-menu').find("br:not('#tag-filter-menu-separator')").hide();
-      $('#tag-filter-menu').show();
+      $tagFilterMenu.find("br:not('#tag-filter-menu-separator')").hide();
+      $tagFilterMenu.show();
 
       $('#tag-list-filter-button').unbind();
       $('#tag-list-filter-button').bind('click', tags_controller.handleFilterButtonClick);
-      $('#tag-filter-menu').find('input').unbind();
-      $('#tag-filter-menu').find('input').bind('click', tags_controller.handleTagFilterTypeClick);
+      $tagFilterMenu.find('input').unbind();
+      $tagFilterMenu.find('input').bind('click', tags_controller.handleTagFilterTypeClick);
 
       updated = true;
 
-    } else if (parentId == menuId && !moveToMenu) {
+    } else if (tagsContainer.parentElement == menu && !moveToMenu) {
       tags_controller.handleTagAccordionChange();
-      var toolBar = document.getElementById(toolBarId);
       var boxes = document.getElementById('boxes');
       toolBar.appendChild(tagsContainer);
-      $('#tag-filter-menu').hide();
-      $('#tag-filter-menu').find("br:not('#tag-filter-menu-separator')").show();
+      $tagFilterMenu.hide();
+      $tagFilterMenu.find("br:not('#tag-filter-menu-separator')").show();
       boxes.appendChild(tagFilterMenu);
       updated = true;
     }

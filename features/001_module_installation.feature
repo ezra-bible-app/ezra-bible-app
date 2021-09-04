@@ -34,4 +34,5 @@ Feature: Module installation
     When the installation is completed
 
     Then the ASV is available as a local module
+    And Strong's are available as local modules
     And the relevant buttons in the menu are enabled

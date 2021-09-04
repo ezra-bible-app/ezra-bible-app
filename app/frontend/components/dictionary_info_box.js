@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+
 let jsStrongs = null;
 
 /**
@@ -59,12 +60,10 @@ class DictionaryInfoBox {
 
   hideDictInfoBox() {
     if (this.infoBox.is(":visible")) {
-      this.infoBox.hide();
-      this.infoBox.parent().removeClass('with-dictionary');
-      return true;
+      this.clearDictInfoBox();
     }
-
-    return false;
+    this.infoBox.hide();
+    this.infoBox.parent().removeClass('with-dictionary');
   }
 
   showDictInfoBox() {
@@ -75,17 +74,34 @@ class DictionaryInfoBox {
 
     this.getJsStrongs();
 
-    if (this.infoBox.is(":hidden")) {
-      this.infoBox.show();
-      this.infoBox.parent().addClass('with-dictionary');
-      return true;
-    }
-
-    return false;
+    this.infoBox.show();
+    this.infoBox.parent().addClass('with-dictionary');
   }
 
+  moveDictInfoBox(fromContainer=null, toContainer=null) {
+    if (!fromContainer) {
+      fromContainer = document.querySelector('#side-panel');
+    }
+    if (!toContainer) {
+      toContainer = document.querySelector('#bottom-panel');
+    }
+
+    if (this.infoBox && this.infoBox.length > 0) {
+      toContainer.appendChild(this.infoBox[0]);
+      if (this.infoBox.is(':visible')) {
+        toContainer.classList.add('with-dictionary');
+      }
+      fromContainer.classList.remove('with-dictionary');
+    }
+  }
+  
   async updateDictInfoBox(strongsEntry, additionalStrongsEntries=[], firstUpdate=false) {
     if (strongsEntry == null) {
+      return;
+    }
+
+    var jsStrongsEntry = this.getJsStrongs()[strongsEntry.key];
+    if (jsStrongsEntry == null) {
       return;
     }
 
@@ -95,7 +111,7 @@ class DictionaryInfoBox {
 
     this.currentStrongsEntry = strongsEntry;
     this.currentAdditionalStrongsEntries = additionalStrongsEntries;
-    this.currentLemma = this.getJsStrongs()[strongsEntry.key].lemma;
+    this.currentLemma = jsStrongsEntry.lemma;
 
     var dictInfoHeader = this.getDictInfoHeader(strongsEntry);
     this.dictionaryInfoBoxHeader.html(dictInfoHeader);
@@ -116,7 +132,7 @@ class DictionaryInfoBox {
   }
 
   getAlternativeStrongsLink(strongsKey) {
-    var functionCall = `app_controller.dictionary_controller.dictionaryInfoBox.updateDictInfoBoxWithKey("${strongsKey}")`;
+    var functionCall = `app_controller.dictionary_controller._dictionaryInfoBox.updateDictInfoBoxWithKey("${strongsKey}")`;
     var currentLink = `<a href='javascript:${functionCall}'>${strongsKey}</a>`;
     return currentLink;
   }
@@ -158,9 +174,10 @@ class DictionaryInfoBox {
     var additionalStrongsLinks = this.getAdditionalStrongsEntryLinks(additionalStrongsEntries);
 
     for (var i = 0; i < this.dictionaryInfoBoxStack.length; i++) {
+      let currentCrumb;
       if (i < this.dictionaryInfoBoxStack.length - 1) {
-        var currentRewindNumber = this.dictionaryInfoBoxStack.length - i - 1;
-        var currentCrumb = "<a href='javascript:app_controller.dictionary_controller.dictionaryInfoBox.rewindDictInfo(" + currentRewindNumber + ")'>";
+        const currentRewindNumber = this.dictionaryInfoBoxStack.length - i - 1;
+        currentCrumb = "<a href='javascript:app_controller.dictionary_controller._dictionaryInfoBox.rewindDictInfo(" + currentRewindNumber + ")'>";
 
         if (i == 0) {
           currentCrumb += this.currentFirstStrongsEntry.rawKey;
@@ -238,15 +255,12 @@ class DictionaryInfoBox {
   }
 
   getShortInfo(strongsEntry, lemma) {
-    var strongsShortInfo = strongsEntry.transcription + " &mdash; " + 
-                           strongsEntry.phoneticTranscription + " &mdash; " + 
-                           lemma;
-    return strongsShortInfo;
+    return `${strongsEntry.transcription} &mdash; ${strongsEntry.phoneticTranscription} &mdash; ${lemma}`;
   }
 
   getFindAllLink(strongsEntry) {
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var functionCall = "javascript:app_controller.dictionary_controller.dictionaryInfoBox.findAllOccurrences('" +
+    var functionCall = "javascript:app_controller.dictionary_controller._dictionaryInfoBox.findAllOccurrences('" +
       strongsEntry.rawKey + "','" + currentBibleTranslationId + "')";
 
     var link = "<a href=\"" + functionCall + "\">" + 
@@ -261,7 +275,10 @@ class DictionaryInfoBox {
     var blueLetterTranslations = ['KJV', 'NASB', 'ASV', 'WEB'];
     if (!blueLetterTranslations.includes(bible)) {
       bible = 'KJV';
+    } else if (bible === 'NASB') {
+      bible = 'NASB20'; // There are two versions NASB1995 and NASB2020 on BLB
     }
+
 
     var blueLetterLink = `https://www.blueletterbible.org/lang/lexicon/lexicon.cfm?Strongs=${strongsEntry.key}&t=${bible}`;
     var blueLetterLinkText = i18n.t("dictionary-info-box.open-in-blueletter");
@@ -281,9 +298,14 @@ class DictionaryInfoBox {
       return null;
     }
     
-    var referenceStrongsLemma = this.getJsStrongs()[referenceKey].lemma;
+    var referenceStrongsEntry = this.getJsStrongs()[referenceKey];
+    if (referenceStrongsEntry == null) {
+      return null;
+    }
 
-    var referenceLink = "<a href=\"javascript:app_controller.dictionary_controller.dictionaryInfoBox.openStrongsReference('";
+    var referenceStrongsLemma = referenceStrongsEntry.lemma;
+
+    var referenceLink = "<a href=\"javascript:app_controller.dictionary_controller._dictionaryInfoBox.openStrongsReference('";
     referenceLink += referenceKey;
     referenceLink += "')\">" + referenceKey + "</a>";
     var trClass = (isLastRow ? "" : "class='td-underline'");
@@ -299,10 +321,6 @@ class DictionaryInfoBox {
   }
 
   async getExtendedStrongsInfo(strongsEntry, lemma) {
-    var extendedStrongsInfo = "";
-    var strongsShortInfo = this.getShortInfo(strongsEntry, lemma);
-    var findAllLink = this.getFindAllLink(strongsEntry);
-    var blueLetterLink = this.getBlueletterLink(strongsEntry);
 
     var lang = "";
     if (strongsEntry.key[0] == 'G') {
@@ -312,38 +330,37 @@ class DictionaryInfoBox {
     }
 
     var extraDictContent = await this.getExtraDictionaryContent(lang, strongsEntry);
+    var relatedStrongsContent = await this.getRelatedStrongsContent(strongsEntry.references);
 
-    extendedStrongsInfo += "<b>" + strongsShortInfo + "</b>";
-    extendedStrongsInfo += "<p>";
-    extendedStrongsInfo += findAllLink;
-    extendedStrongsInfo += " | ";
-    extendedStrongsInfo += blueLetterLink;
-    extendedStrongsInfo += "</p>";
-    extendedStrongsInfo += extraDictContent;
-    extendedStrongsInfo += "<b>Strong's</b>";
-    extendedStrongsInfo += "<pre class='strongs-definition'>";
-    extendedStrongsInfo += strongsEntry.definition;
-    extendedStrongsInfo += "</pre>";
-
-    if (strongsEntry.references.length > 0) {
-      extendedStrongsInfo += "<hr></hr>";
-      var relatedStrongs = "<b>" + i18n.t("dictionary-info-box.related-strongs") + ":</b><br/>";
-      extendedStrongsInfo += relatedStrongs;
-      extendedStrongsInfo += "<table class='strongs-refs'>";
-
-      for (var i = 0;  i < strongsEntry.references.length; i++) {
-        var isLastRow = (i == (strongsEntry.references.length - 1));
-        var referenceTableRow = await this.getStrongsReferenceTableRow(strongsEntry.references[i], isLastRow);
-
-        if (referenceTableRow != null) {
-          extendedStrongsInfo += referenceTableRow;
-        }
-      }
-
-      extendedStrongsInfo += "</table>";
-    }    
+    var extendedStrongsInfo = `
+      <b>${this.getShortInfo(strongsEntry, lemma)}</b>
+      <p>${this.getFindAllLink(strongsEntry)} | ${this.getBlueletterLink(strongsEntry)}</p>
+      ${extraDictContent}
+      <b>Strong's</b>
+      <pre class='strongs-definition'>${strongsEntry.definition}</pre>
+      ${relatedStrongsContent}`;    
 
     return extendedStrongsInfo;
+  }
+
+  async getRelatedStrongsContent(strongsReferences) {
+    if (!strongsReferences.length) {
+      return '';
+    }
+
+    var relatedStrongsRows = (await Promise.all(strongsReferences.map(async (ref, i) => {
+      const isLast = i == (strongsReferences.length - 1);
+      return await this.getStrongsReferenceTableRow(ref, isLast);
+    }))).join('');
+
+    const relatedStrongsContent = `
+      <hr/>
+      <b>${i18n.t("dictionary-info-box.related-strongs")}:</b><br/>
+      <table class="strongs-refs">
+      ${relatedStrongsRows}
+      </table>`;
+
+    return relatedStrongsContent;
   }
 
   async openStrongsReference(key) {

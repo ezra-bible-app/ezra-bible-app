@@ -30,7 +30,7 @@ var mappingExistsCache = {};
  * @param {string} [localeCode='en'] locale/language code to localize language name into
  * @returns {(string|undefined)} localized language name or undefined if there is no localization available
  */
-module.exports.getLanguageName = (languageCode, localeCode = 'en') => {
+module.exports.getLanguageName = (languageCode, localeCode='en') => {
   if (mappingExistsCache[languageCode] && mappingExistsCache[languageCode][localeCode]) {
     return mappingExistsCache[languageCode][localeCode];
   }
@@ -67,7 +67,7 @@ module.exports.getLanguageName = (languageCode, localeCode = 'en') => {
  * @param {string} [localeCode='en'] Locale/Language code to localize language information into
  * @returns {LanguageDetails} details Language details 
  */
- module.exports.getLanguageDetails = function (languageCode, localeCode = 'en') {
+module.exports.getLanguageDetails = function (languageCode, localeCode='en') {
 
   var [normalizedCode, scriptCode, regionCode] = languageCode.split('-');
   if (scriptCode && scriptCode.length < 4) { // if a only a regionCode
@@ -75,33 +75,37 @@ module.exports.getLanguageName = (languageCode, localeCode = 'en') => {
     scriptCode = undefined;
   }
 
-  const details = findLanguage(normalizedCode);
+  const details = getDetailsByCode(normalizedCode);
+  if (!details) {
+    console.log(`Can't find details for the "${languageCode}" (${normalizedCode}) language`);
+    return {};
+  }
 
   var languageName;
   var localized = false;
-
-  // Try to get localized name through standard Internationalization API
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DisplayNames/of
-  const hasIntlDisplayNames = Intl && typeof Intl.DisplayNames === "function";
-  if (hasIntlDisplayNames) {
-    languageName = (new Intl.DisplayNames(localeCode, { type: 'language', fallback: 'none' })).of(normalizedCode);
-  }
-
-  if (!languageName) { // fallback to ISO-693.3 name
-    languageName = details.name;
-  } else {
-    languageName = toTitleCase(languageName);
+  
+  if (details[localeCode]) {
+    languageName = details[localeCode];
     localized = true;
+  } else {
+    languageName = details.en && details.name && details.en != details.name ? `${details.en} (${details.name})` : details.en || details.name;
   }
+  languageName = languageName.replace("(individual language)", "").trim(); // this phrase is not useful in the Install Assistant language list
+
 
   var languageScript;
-  if (scriptCode && hasIntlDisplayNames) {
-    languageScript = (new Intl.DisplayNames(localeCode, { type: 'script', fallback: 'none' })).of(scriptCode);
+  if (scriptCode) {
+    const scriptDetails = getDetailsByCode(scriptCode);
+    languageScript = scriptDetails[localeCode] || scriptDetails["en"];
   }
 
   var languageRegion;
-  if (regionCode && hasIntlDisplayNames) {
-    languageScript = (new Intl.DisplayNames(localeCode, { type: 'region', fallback: 'none' })).of(regionCode);
+  if (regionCode) {
+    if (details.regions && details.regions[regionCode]) {
+      languageRegion = details.regions[regionCode][localeCode];
+    } else {
+      console.log(`Can't map ${normalizedCode}-${regionCode} region`, details);
+    }
   }
 
   return {
@@ -114,90 +118,10 @@ module.exports.getLanguageName = (languageCode, localeCode = 'en') => {
   };
 };
 
-/** returns ISO 639 language code (2-letter if available or 3-letter otherwise) */
-module.exports.getLanguageCode = function(languageName) {
-  var langs = getLangs();
-
-  for (var i = 0; i < langs.length; i++) {
-    var currentLang = langs[i];
-
-    if (currentLang.name == languageName) {
-      if (currentLang.iso6391 != null) {
-        return currentLang.iso6391;
-      }
-
-      if (currentLang.iso6392T != null) {
-        return currentLang.iso6392T;
-      }
-
-      if (currentLang.iso6392B != null) {
-        return currentLang.iso6392B;
-      }
-
-      if (currentLang.iso6393 != null) {
-        return currentLang.iso6393;
-      }
-    }
+var langData;
+function getDetailsByCode(code) {
+  if (!langData) {
+    langData = require('../../lib/languages.json');
   }
-
-  return null;
-};
-
-function findLanguage(normalizedCode) {
-  const indexedLangs = getIndexedLangs();
-  var indexedResult = indexedLangs[normalizedCode];
-  if (indexedResult !== undefined) {
-    return indexedResult;
-  }
-
-  const langs = getLangs();
-  const languageCount = langs.length;
-
-  for (let i = 0; i < languageCount; i++) {
-    const currentLang = langs[i];
-    if (mappingMatchesCode(currentLang, normalizedCode)) {
-      return currentLang;
-    }
-  }
-
-  return {};
-}
-
-var langs = null;
-function getLangs() {
-  if (langs == null) {
-    langs = require('iso-639-3');
-  }
-
-  return langs;
-}
-
-var indexedLangs = null;
-function getIndexedLangs() {
-  if (indexedLangs == null) {
-    const langs = getLangs();
-
-    indexedLangs = {};
-
-    const languageCount = langs.length;
-    for (let i = 0; i < languageCount; i++) {
-      const currentLang = langs[i];
-      if (currentLang.iso6393 !== undefined) {
-        indexedLangs[currentLang.iso6393] = currentLang;
-      }
-    }
-  }
-
-  return indexedLangs;
-}
-
-function mappingMatchesCode(mapping, languageCode) {
-  return (languageCode == mapping.iso6393 ||
-    languageCode == mapping.iso6392B ||
-    languageCode == mapping.iso6392T ||
-    languageCode == mapping.iso6391);
-}
-
-function toTitleCase(str) {
-  return str.slice(0, 1).toLocaleUpperCase() + str.slice(1);
+  return langData[code];
 }

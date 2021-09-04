@@ -75,8 +75,8 @@ class Startup {
         await ipcNsi.updateRepositoryConfig();
       }
 
-      var kjvModule = await ipcNsi.getLocalModule('ASV');
-      if (kjvModule == null) {
+      var asvModule = await ipcNsi.getLocalModule('ASV');
+      if (asvModule == null) {
         $('#loading-subtitle').text("Installing ASV");
         await ipcNsi.installModule('ASV');
       }
@@ -88,21 +88,54 @@ class Startup {
       window.Buffer = require('buffer/').Buffer;
     }
 
-    const fs = require('fs');
-
     require('./components/options_menu/config_option.js');
     require('./components/options_menu/select_option.js');
     require('./components/options_menu/locale_switch.js');
     require('./components/module_assistant/module_assistant.js');
 
-    var bookSelectionMenu = fs.readFileSync('html/book_selection_menu.html');
-    var tagSelectionMenu = fs.readFileSync('html/tag_selection_menu.html');
-    var tagAssignmentMenu = fs.readFileSync('html/tag_assignment_menu.html');
-    var bibleBrowserToolbox = fs.readFileSync('html/bible_browser_toolbox.html');
-    var moduleSearchMenu = fs.readFileSync('html/module_search_menu.html');
-    var displayOptionsMenu = fs.readFileSync('html/display_options_menu.html');
-    var verseListTabs = fs.readFileSync('html/verse_list_tabs.html');
-    var boxes = fs.readFileSync('html/boxes.html');
+    const fs = require('fs');
+
+    var bookSelectionMenu = null;
+    var tagSelectionMenu = null;
+    var tagAssignmentMenu = null;
+    var bibleBrowserToolbox = null;
+    var moduleSearchMenu = null;
+    var displayOptionsMenu = null;
+    var verseListTabs = null;
+    var boxes = null;
+
+    if (this._platformHelper.isElectron() && !isDev) {
+      // Electron Production
+
+      const { loadFile } = require('./helpers/fs_helper.js');
+
+      console.log("Loading HTML files via Electron production approach");
+
+      bookSelectionMenu = loadFile('html/book_selection_menu.html');
+      tagSelectionMenu = loadFile('html/tag_selection_menu.html');
+      tagAssignmentMenu = loadFile('html/tag_assignment_menu.html');
+      bibleBrowserToolbox = loadFile('html/bible_browser_toolbox.html');
+      moduleSearchMenu = loadFile('html/module_search_menu.html');
+      displayOptionsMenu = loadFile('html/display_options_menu.html');
+      verseListTabs = loadFile('html/verse_list_tabs.html');
+      boxes = loadFile('html/boxes.html');
+    } else {
+      // Development & Cordova/Android
+
+      console.log("Loading HTML files via Development / Cordova / Android aproach");
+
+      // Note that for Cordova these readFileSync calls are all inlined, which means the content of those files
+      // becomes part of the bundle when bundling up the sources with Browserify.
+
+      bookSelectionMenu = fs.readFileSync('html/book_selection_menu.html');
+      tagSelectionMenu = fs.readFileSync('html/tag_selection_menu.html');
+      tagAssignmentMenu = fs.readFileSync('html/tag_assignment_menu.html');
+      bibleBrowserToolbox = fs.readFileSync('html/bible_browser_toolbox.html');
+      moduleSearchMenu = fs.readFileSync('html/module_search_menu.html');
+      displayOptionsMenu = fs.readFileSync('html/display_options_menu.html');
+      verseListTabs = fs.readFileSync('html/verse_list_tabs.html');
+      boxes = fs.readFileSync('html/boxes.html');
+    }
   
     document.getElementById('book-selection-menu-book-list').innerHTML = bookSelectionMenu;
     document.getElementById('tag-selection-menu').innerHTML = tagSelectionMenu;
@@ -144,11 +177,11 @@ class Startup {
   initUi() {
     this._platformHelper.addPlatformCssClass();
 
-    // Setup resizable function for divider between tags toolbox and verse list
-    $('#bible-browser-toolbox').resizable({
+    // Setup resizable function for divider between side panel and verse list
+    $('#side-panel').resizable({
       handles: 'e',
       resize: function (event, ui) {
-        uiHelper.adaptVerseList();
+        uiHelper.adaptVerseList(ui.size.width);
       },
       stop: function (event, ui) {
         //console.log("Saving new tag list width: " + ui.size.width);

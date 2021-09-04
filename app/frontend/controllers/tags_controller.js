@@ -106,19 +106,52 @@ class TagsController {
     new_standard_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {
       $(this).dialog("close");
     };
-    new_standard_tag_dlg_options.buttons[i18n.t("tags.create-tag")] = function() {
-      tags_controller.saveNewTag(this, "standard");
+    new_standard_tag_dlg_options.buttons[i18n.t("tags.create-tag")] = {
+      id: 'create-tag-button',
+      text: i18n.t("tags.create-tag"),
+      click: function() {
+        tags_controller.saveNewTag(this, "standard");
+      }
     };
   
     $('#new-standard-tag-dialog').dialog(new_standard_tag_dlg_options);
 
     // Handle the enter key in the tag title field and create the tag when it is pressed
-    $('#new-standard-tag-title-input:not(.bound)').addClass('bound').on("keypress", (event) => {
+    $('#new-standard-tag-title-input:not(.bound)').addClass('bound').on("keypress", async (event) => {
       if (event.which == 13) {
+        var tag_title = $('#new-standard-tag-title-input').val();
+        var tag_existing = await this.updateButtonStateBasedOnTagTitleValidation(tag_title, 'create-tag-button');
+
+        if (tag_existing) {
+          return;
+        }
+
         $('#new-standard-tag-dialog').dialog("close");
         tags_controller.saveNewTag(event, "standard");
       }
+    }).on("keyup", async (event) => {
+      var tag_title = $('#new-standard-tag-title-input').val();
+      await this.updateButtonStateBasedOnTagTitleValidation(tag_title, 'create-tag-button');
     });
+  }
+
+  async updateButtonStateBasedOnTagTitleValidation(tagTitle, buttonId) {
+    var tag_existing = await this.tagExists(tagTitle);
+    let tagButton = document.getElementById(buttonId);
+
+    if (tag_existing || tagTitle == "") {
+      tagButton.classList.add('ui-state-disabled');
+      tagButton.setAttribute('disabled', true);
+    } else {
+      tagButton.classList.remove('ui-state-disabled');
+      tagButton.removeAttribute('disabled');
+    }
+
+    return tag_existing;
+  }
+
+  async tagExists(tagTitle) {
+    return await this.tag_store.tagExists(tagTitle);
   }
 
   initDeleteTagConfirmationDialog(force=false) {
@@ -201,8 +234,12 @@ class TagsController {
     rename_standard_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {
       $(this).dialog("close");
     };
-    rename_standard_tag_dlg_options.buttons[i18n.t("general.rename")] = function() {
-      tags_controller.closeDialogAndRenameTag();
+    rename_standard_tag_dlg_options.buttons[i18n.t("general.rename")] = {
+      id: 'rename-tag-button',
+      text: i18n.t("general.rename"),
+      click: function() {
+        tags_controller.closeDialogAndRenameTag();
+      }
     };
     $('#rename-standard-tag-dialog').dialog(rename_standard_tag_dlg_options);
   
@@ -211,12 +248,21 @@ class TagsController {
       if (event.which == 13) {
         tags_controller.closeDialogAndRenameTag();
       }
+    }).on("keyup", async (event) => {
+      var tag_title = $('#rename-standard-tag-title-input').val();
+      await this.updateButtonStateBasedOnTagTitleValidation(tag_title, 'rename-tag-button');
     });
   }
 
   async closeDialogAndRenameTag() {
-    $('#rename-standard-tag-dialog').dialog('close');
     var new_title = $('#rename-standard-tag-title-input').val();
+    var tag_existing = await this.updateButtonStateBasedOnTagTitleValidation(new_title, 'rename-tag-button');
+
+    if (tag_existing) {
+      return;
+    }
+
+    $('#rename-standard-tag-dialog').dialog('close');
     var checkbox_tag = this.getCheckboxTag(tags_controller.rename_standard_tag_id);
     var is_global = (checkbox_tag.parent().attr('id') == 'tags-content-global');
     
@@ -280,6 +326,7 @@ class TagsController {
     const $tagInput = $('#new-' + type + '-tag-title-input');
 
     $tagInput.val(''); 
+    this.updateButtonStateBasedOnTagTitleValidation('', 'create-tag-button');
     $('#new-' + type + '-tag-dialog').dialog('open');
     $tagInput.focus();
   }
@@ -823,6 +870,7 @@ class TagsController {
     var cb_label = checkbox_tag.find('.cb-label').text();
 
     const $tagInput = $('#rename-standard-tag-title-input');
+    this.updateButtonStateBasedOnTagTitleValidation('', 'rename-tag-button');
     $tagInput.val(cb_label);
     $('#rename-standard-tag-dialog').dialog('open');
     $('#rename-standard-tag-title-input').focus();

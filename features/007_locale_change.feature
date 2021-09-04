@@ -23,10 +23,10 @@ Feature: Change app language (locale)
   Background:
     Given I open the book selection menu
     And I select the book Ezra
-    And I have toolbar displayed
-    And I have dictionary displayed
-    And I have navigation displayed
-    And I have current tab search displayed
+    And I have the taglist displayed
+    And I have the dictionary displayed
+    And I have the navigation displayed
+    And I have the current tab search displayed
 
   Scenario Outline:: Switch app locale
     Given I open the options dialog

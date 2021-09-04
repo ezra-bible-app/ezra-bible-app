@@ -119,6 +119,14 @@ Then('the ASV is available as a local module', async function () {
   assert(asvModule != null, "Got null when checking for the ASV module!");
 });
 
+Then("Strong's are available as local modules", async function () {
+  var greekStrongsModule = await nsiHelper.getLocalModule('StrongsGreek', 'DICTIONARY');
+  assert(greekStrongsModule != null, "Got null when checking for the StrongsGreek module!");
+
+  var hebrewStrongsModule = await nsiHelper.getLocalModule('StrongsHebrew', 'DICTIONARY');
+  assert(hebrewStrongsModule != null, "Got null when checking for the StrongsHebrew module!");
+});
+
 Then('the ASV is no longer available as a local module', async function () {
   var asvModule = await nsiHelper.getLocalModule('ASV');
   assert(asvModule == null, "ASV should no longer be available, but it is!");

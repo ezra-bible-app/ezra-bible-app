@@ -435,9 +435,6 @@ class TabController {
     this.tabs.find('span.close-tab-button').on("mousedown", (event) => {
       this.removeTab(event);
 
-      var currentTabIndex = this.getSelectedTabIndex();
-      uiHelper.resizeVerseList(currentTabIndex);
-
       setTimeout(() => {
         app_controller.book_selection_menu.highlightCurrentlySelectedBookInMenu();
       }, 250);
@@ -632,12 +629,6 @@ class TabController {
     var currentTitle = link.html();
     if (tabTitle != currentTitle) {
       link.html(tabTitle);
-
-      if (tabTitle.length != currentTitle.length) {
-        // Resize the current verse list.
-        // This may be necessary, because the tab bar may have wrapped after setting the title.
-        uiHelper.resizeVerseList(index);
-      }
     }
   }
 

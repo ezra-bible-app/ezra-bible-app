@@ -28,6 +28,74 @@
  * @category Startup
  */
 
+const CHROMIUM_VERSION_MIN = 57; // Do not support Chromium/WebView below the version that supports ES2017 and CSS grid
+const CHROMIUM_VERSION_UP_TO_DATE = 83; // Version that works without extra hacks
+
+window.initPlatform = function() {
+  if (isAndroidWebView()) {
+    const webViewVersion = getChromiumMajorVersion();
+
+    window.isAndroid = true;
+    window.isElectron = false;
+    
+    if (webViewVersion) {
+      if (webViewVersion >= CHROMIUM_VERSION_MIN) {
+        loadScript('cordova.js');
+
+        console.log("Using customizable theme.css!");
+        document.getElementById("cordova-theme-css").href = "file:///sdcard/Android/data/net.ezrabibleapp.cordova/theme.css";
+
+        window.isDev = false;
+
+        loadScript('dist/ezra_init.js');
+
+      } else {
+        console.log(`Android WebView is too old (< ${CHROMIUM_VERSION_MIN}). Cannot continue!`);
+
+        window.addEventListener('load', showOutdatedWebviewMessage);
+      }
+    } else {
+      // This should never happen!!!
+
+      console.error("Could not check whether ES2017 is supported or not!");
+
+      window.addEventListener('load', showIncompatibleWebviewMessage);
+    }
+  } else { // Electron!
+
+    window.isElectron = true;
+    window.isAndroid = false;
+    window.isDev = false;
+
+    if (typeof window !== 'undefined' &&
+        typeof window.process === 'object' &&
+        window.process.type === 'renderer') {
+      
+      // We only require these modules when running on Electron
+      require('v8-compile-cache');
+      require('log-timestamp');
+
+      window.isDev = require('electron-is-dev');
+    }
+
+    if (isDev) {
+      console.log("DEV mode!");
+    } else {
+      console.log('PRODUCTION mode!');
+    }
+
+    loadScript('app/frontend/ezra_init.js');
+  }
+};
+
+window.loadScript = function(script) {
+  var head = document.getElementsByTagName('head')[0];
+  var js = document.createElement("script");
+  js.type = "text/javascript";
+  js.src = script;
+  head.appendChild(js);
+};
+
 window.getChromiumVersion = function() {
   var userAgent = navigator.userAgent;
   var splittedUserAgent = userAgent.split(' ');
@@ -41,51 +109,43 @@ window.getChromiumVersion = function() {
   }
 
   return chromiumVersion;
-}
+};
 
-window.getChromiumMajorVersion = function() {
-  var chromiumVersion = getChromiumVersion();
+// FIXME: Remove this function, since it is not used anywhere?
+window.isChromiumOlder = function() {
+  return getChromiumMajorVersion() < CHROMIUM_VERSION_UP_TO_DATE;
+};
+
+function getChromiumMajorVersion() {
+  var chromiumVersion = window.getChromiumVersion();
   var splittedVersion = chromiumVersion.split('.');
   chromiumVersion = parseInt(splittedVersion[0]);
   return chromiumVersion;
 }
 
-window.supportsEcmaScript2017 = function() {
-  var chromiumVersion = getChromiumMajorVersion();
-
-  if (chromiumVersion == null) {
-    return undefined;
-  }
-
-  var minimumVersionSupportingES2017 = 55; 
-
-  return chromiumVersion >= minimumVersionSupportingES2017;
-}
-
-window.isAndroidWebView = function() {
+function isAndroidWebView() {
   return navigator.userAgent.indexOf('; wv') != -1;
 }
 
-window.getOutdatedWebViewMessage = function() {
+function getOutdatedWebViewMessage() {
   var chromiumVersion = getChromiumMajorVersion();
 
-  var generalInfoBoxMessage = "Your Android WebView component is too old (" + chromiumVersion + ")" +
-                                " and does not support Ezra Bible App.<br><br>" +
-                                "To run Ezra Bible App you need a newer version" +
-                                " of the <b>Android System WebView</b> component, at least version 55.<br><br>" +
-                                "You can install a newer version of that app from the Play Store!";
+  var generalInfoBoxMessage = `
+Your Android WebView component is too old (${chromiumVersion}) and does not support Ezra Bible App.<br><br>
+To run Ezra Bible App you need a newer version of the <b>Android System WebView</b> component, at least version ${CHROMIUM_VERSION_MIN}.<br><br>
+You can install a newer version of that app from the Play Store!`;
 
   return generalInfoBoxMessage;
 }
 
-window.showOutdatedWebviewMessage = function() {
+function showOutdatedWebviewMessage() {
   var title = 'Android WebView not compatible!';
   var message = getOutdatedWebViewMessage();
 
   showMessage(title, message);
 }
 
-window.showIncompatibleWebviewMessage = function() {
+function showIncompatibleWebviewMessage() {
   var title = "Android WebView not compatible!";
   var message = "The exact Android WebView version is not available for some reason. Compatibility is unclear.<br>" +
                 "Try to install a newer version of the <b>Android System WebView</b> component from the Play Store.";
@@ -93,7 +153,7 @@ window.showIncompatibleWebviewMessage = function() {
   showMessage(title, message);
 }
 
-window.showMessage = function(title, message) {
+function showMessage(title, message) {
   var loadingIndicator = $('#startup-loading-indicator');
   loadingIndicator.hide();
   $('#main-content').show();
@@ -111,64 +171,4 @@ window.showMessage = function(title, message) {
     modal: true,
     resizable: false
   });
-}
-
-window.loadScript = function(script) {
-  var head = document.getElementsByTagName('head')[0];
-  var js = document.createElement("script");
-  js.type = "text/javascript";
-  js.src = script;
-  head.appendChild(js);
-}
-
-window.initPlatform = function() {
-  if (isAndroidWebView()) {
-    var supportsES2017 = supportsEcmaScript2017();
-
-    if (supportsES2017 != undefined) {
-      if (supportsES2017) {
-        loadScript('cordova.js');
-
-        console.log("Using customizable theme.css!");
-        document.getElementById("cordova-theme-css").href = "file:///sdcard/Android/data/net.ezrabibleapp.cordova/theme.css";
-
-        window.isDev = false;
-
-        loadScript('dist/ezra_init.js');
-
-      } else {
-        console.log("Android WebView is too old (< 55). Cannot continue!");
-
-        window.addEventListener('load', showOutdatedWebviewMessage);
-      }
-    } else {
-      // This should never happen!!!
-
-      console.error("Could not check whether ES2017 is supported or not!");
-
-      window.addEventListener('load', showIncompatibleWebviewMessage);
-    }
-  } else { // Electron!
-
-    window.isDev = false;
-
-    if (typeof window !== 'undefined' &&
-        typeof window.process === 'object' &&
-        window.process.type === 'renderer') {
-      
-      // We only require these modules when running on Electron
-      require('v8-compile-cache');
-      require('log-timestamp');
-
-      window.isDev = require('electron-is-dev');
-    }
-
-    if (isDev) {
-      console.log("DEV mode: Loading app/frontend/ezra_init.js")
-      loadScript('app/frontend/ezra_init.js');
-    } else {
-      console.log('PRODUCTION mode: Loading dist/ezra_init.js');
-      loadScript('dist/ezra_init.js');
-    }
-  }
 }
