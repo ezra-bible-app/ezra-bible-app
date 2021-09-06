@@ -38,7 +38,7 @@ module.exports.getModuleDescription = async function(moduleId, isRemote=false) {
       swordModule = await ipcNsi.getLocalModule(moduleId);
     }
     
-    var moduleInfo = "";
+    moduleInfo = "";
     
     if (isRemote) {
       moduleInfo += "<b>" + swordModule.description + "</b><br><br>";
@@ -54,7 +54,7 @@ module.exports.getModuleDescription = async function(moduleId, isRemote=false) {
   }
 
   return moduleInfo;
-}
+};
 
 module.exports.getModuleInfo = async function(moduleId, isRemote=false, includeModuleDescription=true) {
   var moduleInfo = "No info available!";
@@ -68,7 +68,7 @@ module.exports.getModuleInfo = async function(moduleId, isRemote=false, includeM
       swordModule = await ipcNsi.getLocalModule(moduleId);
     }
     
-    var moduleInfo = "";
+    moduleInfo = "";
 
     if (includeModuleDescription) {
       if (isRemote) {
@@ -120,7 +120,7 @@ module.exports.getModuleInfo = async function(moduleId, isRemote=false, includeM
   }
 
   return moduleInfo;
-}
+};
 
 module.exports.getSwordModule = async function(moduleId) {
   if (moduleId == null) {
@@ -136,7 +136,7 @@ module.exports.getSwordModule = async function(moduleId) {
   }
 
   return swordModule;
-}
+};
 
 module.exports.moduleHasStrongs = async function(moduleId) {
   var swordModule = await this.getSwordModule(moduleId);
@@ -146,7 +146,7 @@ module.exports.moduleHasStrongs = async function(moduleId) {
   } else {
     return false;
   }
-}
+};
 
 module.exports.moduleHasHeaders = async function(moduleId) {
   var swordModule = await this.getSwordModule(moduleId);
@@ -156,7 +156,7 @@ module.exports.moduleHasHeaders = async function(moduleId) {
   } else {
     return false;
   }
-}
+};
 
 module.exports.getVersification = async function(moduleId) {
   if (moduleId == null) {
@@ -191,7 +191,7 @@ module.exports.getVersification = async function(moduleId) {
 
   } else { // Unknown versification
 
-    versification = "UNKNOWN"
+    versification = "UNKNOWN";
 
     /*console.log("Unknown versification!");
     console.log("Psalm 3 has " + psalm3Verses.length + " verses.");
@@ -200,12 +200,12 @@ module.exports.getVersification = async function(moduleId) {
 
   _moduleVersificationCache[moduleId] = versification;
   return versification;
-}
+};
 
 module.exports.getThreeLetterVersification = async function(moduleId) {
   var versification = (await this.getVersification(moduleId) == 'ENGLISH' ? 'eng' : 'heb');
   return versification;
-}
+};
 
 module.exports.getModuleLanguage = async function(moduleId) {
   var swordModule = await this.getSwordModule(moduleId);
@@ -215,4 +215,4 @@ module.exports.getModuleLanguage = async function(moduleId) {
   } else {
     return false;
   }
-}
+};
