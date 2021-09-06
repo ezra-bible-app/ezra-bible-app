@@ -79,6 +79,8 @@ module.exports.saveWordDocument = async function(title, verses, bibleBooks=undef
   
   var p = docx.createP();
   
+  await addBibleTranslationInfo(p);
+
   addMarkdown(p, `# ${title}`);
   p.addLineBreak();
 
@@ -99,6 +101,7 @@ module.exports.saveWordDocument = async function(title, verses, bibleBooks=undef
   } else {
     await renderVerseBlocks(p, [verses], undefined, notes);
   }
+
 
   //console.log("Generating word document " + exportFilePath);
   var out = fs.createWriteStream(exportFilePath);
@@ -284,4 +287,25 @@ function convertMarkDownTokens(paragraph, tokenArr, options={}) {
       paragraph.addLineBreak();
     }
   }
+}
+
+async function addBibleTranslationInfo(paragraph) {
+  const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+  const swordModule = await ipcNsi.getLocalModule(bibleTranslationId);
+  const copyright = swordModule.shortCopyright || swordModule.copyright;
+  
+  paragraph.addText("Scripture taken from: ");
+  paragraph.addText(swordModule.description, {bold: true});
+  if (swordModule.distributionLicense) {
+    paragraph.addText(` (${swordModule.distributionLicense})`);
+  }
+  paragraph.addLineBreak();
+  
+  if (copyright) {
+    paragraph.addText(copyright);
+    paragraph.addLineBreak();
+  }
+
+  paragraph.addLineBreak();
+    
 }
