@@ -177,8 +177,8 @@ class TextController {
 
           // 1) Only request the first 50 verses and render immediately
           await this.requestBookText(tabIndex, tabId, book,
-                                     async (htmlVerseList) => {
-                                       await this.renderVerseList(htmlVerseList, null, 'book', tabIndex);
+                                     async (htmlVerseList, hasNotes) => {
+                                       await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, false, hasNotes);
                                      }, 1, 50
           );
 
@@ -187,8 +187,8 @@ class TextController {
           // 2) Now request the rest of the book
           await this.requestBookText(
             tabIndex, tabId, book,
-            async (htmlVerseList) => {
-              await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, true);
+            async (htmlVerseList, hasNotes) => {
+              await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, true, hasNotes);
             }, 51, -1
           );
 
@@ -367,7 +367,7 @@ class TextController {
         }
       });
 
-      const hasNotes = bookNotes || filterNotesReferenceIds(verseNotes, startVerseNumber, startVerseNumber + numberOfVerses - 1).length > 0;
+      const hasNotes = bookNotes !== null || filterNotesReferenceIds(verseNotes, startVerseNumber, startVerseNumber + numberOfVerses - 1).length > 0;
 
       renderFunction(verses_as_html, hasNotes);
       
@@ -597,12 +597,12 @@ class TextController {
     }
   }
 
-  async requestNotesForChapter(tabIndex, book, chapter, renderFunction, renderType = 'html') {
+  async requestNotesForExport(tabIndex, book, chapter, renderFunction, renderType = 'html') {
     var currentBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
     var separator = await i18nHelper.getReferenceSeparator(currentBibleTranslationId);
-    var reference = chapter + separator + '1';
+    var reference = chapter || '1' + separator + '1';
     var startVerseNr = await this.verseReferenceHelper.referenceStringToAbsoluteVerseNr(currentBibleTranslationId, book, reference);
-    var verseCount = await ipcNsi.getChapterVerseCount(currentBibleTranslationId, book, chapter);
+    var verseCount = chapter !== null ? await ipcNsi.getChapterVerseCount(currentBibleTranslationId, book, chapter) : -1;
 
     await this.requestBookText(tabIndex, undefined, book, renderFunction, startVerseNr, verseCount, renderType);
   }
@@ -769,7 +769,7 @@ function filterNotesReferenceIds(verseNotes, startVerseNr, endVerseNr) {
   const verseReferenceIds = Object.keys(verseNotes);
   return verseReferenceIds.filter(verseReferenceId => {
     const noteVerseNumber = parseInt(verseReferenceId.split('-')[2]);
-    return noteVerseNumber >= startVerseNr && noteVerseNumber <= endVerseNr;
+    return noteVerseNumber >= startVerseNr && (endVerseNr < startVerseNr || noteVerseNumber <= endVerseNr);
   });
 }
 

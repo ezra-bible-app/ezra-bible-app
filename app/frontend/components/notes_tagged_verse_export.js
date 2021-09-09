@@ -53,15 +53,17 @@ class NotesTaggedVerseExport {
    * exports to Word
    * @param {'NOTES'|'TAGS'} type 
    */
-  _runExport(type) {
+  async _runExport(type) {
     /**@type {import('../ui_models/tab')} */
     var currentTab = app_controller.tab_controller.getTab();
     var fileName;
+    var isLoadingWholeBook = false;
 
     if (type === 'TAGS') {
       fileName = getUnixTagTitleList(currentTab);
     } else if (type === 'NOTES') {
-      fileName = `${currentTab.getBookTitle()}_${currentTab.getChapter()}`;
+      isLoadingWholeBook = await app_controller.translation_controller.isInstantLoadingBook(currentTab.getBibleTranslationId(), currentTab.getBook());
+      fileName = currentTab.getBookTitle() + (isLoadingWholeBook ? '' : `_${currentTab.getChapter()}`);
     } else {
       console.log('Unrecognized export type:', type);
       return;
@@ -72,7 +74,7 @@ class NotesTaggedVerseExport {
         if (type === 'TAGS') {
           renderCurrentTagsForExport(currentTab);
         } else if (type === 'NOTES') {
-          renderCurrentChapterNotesForExport(currentTab);
+          renderCurrentChapterNotesForExport(currentTab, isLoadingWholeBook);
         }
       }
     });
@@ -100,13 +102,13 @@ function renderCurrentTagsForExport(currentTab) {
   );
 }
 
-function renderCurrentChapterNotesForExport(currentTab) {
-  app_controller.text_controller.requestNotesForChapter(
+function renderCurrentChapterNotesForExport(currentTab, isWholeBook=false) {
+  app_controller.text_controller.requestNotesForExport(
     undefined,
     currentTab.getBook(),
-    currentTab.getChapter(),
+    isWholeBook ? null : currentTab.getChapter(),
     (verses, notes) => {
-      const title = `${currentTab.getBookTitle()} ${currentTab.getChapter()}`;
+      const title = currentTab.getBookTitle() + (isWholeBook ? '' : ` ${currentTab.getChapter()}`);
       exportController.saveWordDocument(title, verses, undefined, notes);
     },
     'docx'
