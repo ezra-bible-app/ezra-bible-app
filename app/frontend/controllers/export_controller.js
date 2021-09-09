@@ -294,7 +294,7 @@ async function addBibleTranslationInfo(paragraph) {
   const swordModule = await ipcNsi.getLocalModule(bibleTranslationId);
   const copyright = swordModule.shortCopyright || swordModule.copyright;
   
-  paragraph.addText("Scripture taken from: ");
+  paragraph.addText(`${i18n.t("general.scripture-quote-from")}`);
   paragraph.addText(swordModule.description, {bold: true});
   if (swordModule.distributionLicense) {
     paragraph.addText(` (${swordModule.distributionLicense})`);
