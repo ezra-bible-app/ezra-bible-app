@@ -162,11 +162,15 @@ class TextController {
     }
 
     if (textType == 'book') { // Book text mode
-      if (tabIndex === undefined) { $('#export-tagged-verses-button').addClass('ui-state-disabled'); }
+
+      if (tabIndex === undefined) { 
+        app_controller.notesTaggedVerseExport.disableExportButton();
+      }
       currentVerseListMenu.find('.book-select-button').addClass('focused-button');
 
       if (cachedText != null) {
-        await this.renderVerseList(cachedText, cachedReferenceVerse, 'book', tabIndex, false, true);
+        const hasNotes = /\snotes-content\s?=\s?["'][^"']+["']/g.test(cachedText);
+        await this.renderVerseList(cachedText, cachedReferenceVerse, 'book', tabIndex, false, true, undefined, false, hasNotes);
       } else {
 
         if (instantLoad) { // Load the whole book instantaneously
@@ -363,7 +367,7 @@ class TextController {
         }
       });
 
-      const hasNotes = bookNotes || filterNotesReferenceIds(verseNotes, startVerseNumber, startVerseNumber + numberOfVerses - 1);
+      const hasNotes = bookNotes || filterNotesReferenceIds(verseNotes, startVerseNumber, startVerseNumber + numberOfVerses - 1).length > 0;
 
       renderFunction(verses_as_html, hasNotes);
       
@@ -629,7 +633,15 @@ class TextController {
     render_function(verses_as_html, verses.length);
   }
 
-  async renderVerseList(htmlVerseList, referenceVerseHtml, listType, tabIndex = undefined, renderChart = false, isCache = false, target = undefined, append = false, hasNotes = false) {
+  async renderVerseList(htmlVerseList, 
+                        referenceVerseHtml, 
+                        listType, 
+                        tabIndex=undefined, 
+                        renderChart=false, 
+                        isCache=false, 
+                        target=undefined, 
+                        append=false, 
+                        hasNotes=false) {
     app_controller.hideVerseListLoadingIndicator();
     app_controller.hideSearchProgressBar();
     var initialRendering = true;
@@ -717,7 +729,7 @@ class TextController {
         headerElementClass = '.reference-verse-list-header';
       }
 
-      const verseListHeader = app_controller.getCurrentVerseListComposite(tabIndex).find(headerElementClass).find('h2');
+      const verseListHeader = app_controller.getCurrentVerseListFrame(tabIndex).find(headerElementClass).find('h2');
       const headerWithResultNumber = `${verseListHeader.html()} (${numberOfTaggedVerses})`;
       verseListHeader.html(headerWithResultNumber);
     }

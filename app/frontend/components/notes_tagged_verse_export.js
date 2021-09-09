@@ -41,8 +41,12 @@ class NotesTaggedVerseExport {
   }
 
   disableExportButton(tabIndex=undefined) {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    currentVerseListMenu.find('.export-tagged-verses-button').addClass('ui-state-disabled');
+    if (tabIndex !== undefined) {
+      const currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+      currentVerseListMenu.find('.export-tagged-verses-button').addClass('ui-state-disabled');
+    } else {
+      $('#export-tagged-verses-button').addClass('ui-state-disabled');
+    }
   }
 
   /**
