@@ -621,9 +621,9 @@ main.content {
 
 .book-list-column {
   float: left;
-  width: 10.25em;
+  width: 8.4em;
   list-style-type: none;
-  padding: 0.8em;
+  padding: 0.5em;
   padding-bottom: 0;
   margin-top: 0;
   margin-bottom: 0;
@@ -631,7 +631,7 @@ main.content {
 
 .ot-column {
   border-bottom: 1px solid lightgrey;
-  height: 26.5em;
+  height: 24em;
 }
 
 .book-list-column li {
