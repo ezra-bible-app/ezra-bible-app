@@ -99,7 +99,8 @@ module.exports.saveWordDocument = async function(title, verses, bibleBooks=undef
       p.addLineBreak();
     }
   } else {
-    await renderVerseBlocks(p, [verses], undefined, notes);
+    const allBlocks = getBookBlockByChapter(verses);
+    await renderVerseBlocks(p, allBlocks, undefined, notes);
   }
 
 
@@ -168,9 +169,34 @@ function getBibleBookVerseBlocks(bibleBook, verses) {
   return allBlocks;
 }
 
+function getBookBlockByChapter(verses) {
+  var prevVerseChapter;
+  var allBlocks = [];
+  var currentBlock = [];
+
+  for (const currentVerse of verses) {
+
+    if (currentVerse.chapter != prevVerseChapter) {
+      prevVerseChapter = currentVerse.chapter;
+      if (currentBlock.length > 0) {
+        allBlocks.push(currentBlock);
+        currentBlock = [];
+      }
+    } 
+    
+    currentBlock.push(currentVerse);
+  }
+
+  allBlocks.push(currentBlock);
+
+  return allBlocks;
+}
+
 async function renderVerseBlocks(paragraph, verseBlocks, bibleBook=undefined, notes={}) {
   const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
   const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
+
+  const notesStyle = {color: '2779AA'};
 
   for (let j = 0; j < verseBlocks.length; j++) {
     const currentBlock = verseBlocks[j];
@@ -178,8 +204,15 @@ async function renderVerseBlocks(paragraph, verseBlocks, bibleBook=undefined, no
     const firstVerse = currentBlock[0];
     const lastVerse = currentBlock[currentBlock.length - 1];
     
-    if (bibleBook) {
-    // Output the verse reference of this block
+    if (j === 0) {
+      const bookReferenceId = firstVerse.bibleBookShortTitle.toLowerCase();
+      if (notes[bookReferenceId]) {
+        addMarkdown(paragraph, notes[bookReferenceId].text, notesStyle);
+        paragraph.addLineBreak();
+      }
+    }
+  
+    if (bibleBook) { // Output the verse reference of this block
       const bookTitle = await i18nHelper.getSwordTranslation(bibleBook.longTitle);
       paragraph.addText(bookTitle);
       paragraph.addText(" " + firstVerse.chapter + separator + firstVerse.verseNr);
@@ -196,14 +229,8 @@ async function renderVerseBlocks(paragraph, verseBlocks, bibleBook=undefined, no
         paragraph.addText(secondRef);
       }
       paragraph.addLineBreak();
-    }
-
-    const notesStyle = {color: '2779AA'};
-
-    const bookReferenceId = currentBlock[0].bibleBookShortTitle.toLowerCase();
-    if (notes[bookReferenceId]) {
-      addMarkdown(paragraph, notes[bookReferenceId].text, notesStyle);
-      paragraph.addLineBreak();
+    } else if (verseBlocks.length > 1) { // Output chapter reference
+      paragraph.addText(firstVerse.chapter.toString(), {bold: true});
     }
 
     for (let k = 0; k < currentBlock.length; k++) {

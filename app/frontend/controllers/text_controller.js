@@ -175,9 +175,12 @@ class TextController {
 
         if (instantLoad) { // Load the whole book instantaneously
 
+          let firstPartHasNotes = false;
+
           // 1) Only request the first 50 verses and render immediately
           await this.requestBookText(tabIndex, tabId, book,
                                      async (htmlVerseList, hasNotes) => {
+                                       firstPartHasNotes = hasNotes;
                                        await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, false, hasNotes);
                                      }, 1, 50
           );
@@ -188,7 +191,7 @@ class TextController {
           await this.requestBookText(
             tabIndex, tabId, book,
             async (htmlVerseList, hasNotes) => {
-              await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, true, hasNotes);
+              await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, true, firstPartHasNotes || hasNotes);
             }, 51, -1
           );
 
