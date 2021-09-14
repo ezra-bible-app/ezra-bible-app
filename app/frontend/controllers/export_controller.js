@@ -87,7 +87,7 @@ module.exports.saveWordDocument = async function (title, verses, bibleBooks=unde
       children.push(
         new docx.Paragraph({
           text: bookTitle,
-          heading: docx.HeadingLevel.HEADING_3,
+          heading: docx.HeadingLevel.HEADING_2,
           spacing: {before: 200},
         }),
         ...blockParagraphs
@@ -214,9 +214,10 @@ function getBookBlockByChapter(verses) {
   return allBlocks;
 }
 
-async function renderVerseBlocks(verseBlocks, bibleBook = undefined, notes = {}) {
+async function renderVerseBlocks(verseBlocks, bibleBook=undefined, notes={}) {
   const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
   const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
+  const chapterText = i18nHelper.getChapterText(undefined, bibleBook || verseBlocks[0][0].bibleBookShortTitle);
 
   const notesStyle = { color: '2779AA' };
 
@@ -238,23 +239,29 @@ async function renderVerseBlocks(verseBlocks, bibleBook = undefined, notes = {})
 
     if (bibleBook) { // Output the verse reference of this block
       const bookTitle = await i18nHelper.getSwordTranslation(bibleBook.longTitle);
-      // paragraph.addText(bookTitle);
-      // paragraph.addText(" " + firstVerse.chapter + separator + firstVerse.verseNr);
+      const firstRef = `${firstVerse.chapter}${separator}${firstVerse.verseNr}`;
 
+      let secondRef = "";
       if (currentBlock.length >= 2) { // At least 2 verses, a bigger block
-        let secondRef = "";
-
         if (lastVerse.chapter == firstVerse.chapter) {
           secondRef = "-" + lastVerse.verseNr;
         } else {
           secondRef = " - " + lastVerse.chapter + separator + lastVerse.verseNr;
-        }
-
-        // paragraph.addText(secondRef);
+        }        
       }
-      // paragraph.addLineBreak();
+
+      paragraphs.push(new docx.Paragraph({
+        text: `${bookTitle} ${firstRef}${secondRef}`,
+        heading: docx.HeadingLevel.HEADING_3,
+        spacing: {before: 200},
+      }));
+
     } else if (verseBlocks.length > 1) { // Output chapter reference
-      // paragraph.addText(firstVerse.chapter.toString(), { bold: true });
+      paragraphs.push(new docx.Paragraph({
+        text: `${chapterText} ${firstVerse.chapter}`,
+        heading: docx.HeadingLevel.HEADING_3,
+        spacing: {before: 300, after: 100},
+      }));
     }
 
     const verseParagraphs = currentBlock.map(renderVerse);
@@ -264,7 +271,7 @@ async function renderVerseBlocks(verseBlocks, bibleBook = undefined, notes = {})
     // }
 
     // Line break after block end
-    paragraphs.push(...verseParagraphs, new docx.Paragraph(""));
+    paragraphs.push(...verseParagraphs);
   }
 
   return paragraphs;
@@ -274,23 +281,13 @@ function renderVerse(verse) {
 
   let currentVerseContent = "";
   const fixedContent = verse.content.replace(/<([a-z]+)(\s?[^>]*?)\/>/g, '<$1$2></$1>'); // replace self clothing tags FIXME: Should it be in the NSI?
-  const currentVerseNodes = parseHTML(fixedContent).childNodes;
+  const currentVerseNodes = Array.from(parseHTML(fixedContent).childNodes);
 
-  // currentVerseContent = currentVerseNodes.reduce((prevContent, currentNode) => {
-  //   // We export everything that is not a DIV
-  //   // DIV elements contain markup that should not be in the word document
-  //   return currentNode.nodeName !== 'DIV' ? prevContent + currentNode.textContent : prevContent;
-  // }, "");
-
-  for (let i = 0; i < currentVerseNodes.length; i++) {
-    const currentNode = currentVerseNodes[i];
-    const currentNodeName = currentNode.nodeName;
+  currentVerseContent = currentVerseNodes.reduce((prevContent, currentNode) => {
     // We export everything that is not a DIV
     // DIV elements contain markup that should not be in the word document
-    if (currentNodeName != 'DIV') {
-      currentVerseContent += currentNode.textContent;
-    }
-  }
+    return currentNode.nodeName !== 'DIV' ? prevContent + currentNode.textContent : prevContent;
+  }, "");
 
   return new docx.Paragraph({
     children: [
