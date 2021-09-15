@@ -63,23 +63,15 @@ module.exports.saveWordDocument = async function (title, verses, bibleBooks=unde
   //   console.log(err);
   // });
 
-  const titleP = new docx.Paragraph({
-    text: title,
-    heading: docx.HeadingLevel.TITLE
-  });
-
-  // addMarkdown(p, `# ${title}`);
-  // p.addLineBreak();
-
-  var children = [titleP];
+  var children = [];
 
   if (bibleBooks && Array.isArray(bibleBooks)) {
+    
+    children.push(renderMarkdown(`# ${title}`));
+
     for (const currentBook of bibleBooks) {
 
       const bookTitle = await i18nHelper.getSwordTranslation(currentBook.longTitle);
-
-      // p.addText(bookTitle, { bold: true });
-      // p.addLineBreak();
 
       const allBlocks = getBibleBookVerseBlocks(currentBook, verses);
       const blockParagraphs = await renderVerseBlocks(allBlocks, currentBook, notes);
@@ -93,10 +85,18 @@ module.exports.saveWordDocument = async function (title, verses, bibleBooks=unde
         ...blockParagraphs
       );
     }
+
   } else {
+
+    const titleP = new docx.Paragraph({
+      text: title,
+      heading: docx.HeadingLevel.TITLE
+    });
+
     const allBlocks = getBookBlockByChapter(verses);
     const chapterParagraphs = await renderVerseBlocks(allBlocks, undefined, notes);
-    children.push(...chapterParagraphs);
+    children.push(titleP, ...chapterParagraphs);
+
   }
 
   const footers = await addBibleTranslationInfo();
@@ -111,13 +111,13 @@ module.exports.saveWordDocument = async function (title, verses, bibleBooks=unde
     sections: [{
       children,
       footers,
+      margins: {
+        top: 1000,
+        bottom: 1000,
+        left: 1000,
+        right: 1000
+      }
     }],
-    // pageMargins: {
-    //   top: 1200,
-    //   bottom: 1200,
-    //   left: 1000,
-    //   right: 1000
-    // }
   });
 
   console.log("Generating word document " + exportFilePath);
@@ -220,8 +220,6 @@ async function renderVerseBlocks(verseBlocks, bibleBook=undefined, notes={}) {
   const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
   const chapterText = i18nHelper.getChapterText(undefined, bibleBook || verseBlocks[0][0].bibleBookShortTitle);
 
-  const notesStyle = { color: '2779AA' };
-
   var paragraphs = [];
 
   for (let j = 0; j < verseBlocks.length; j++) {
@@ -230,31 +228,10 @@ async function renderVerseBlocks(verseBlocks, bibleBook=undefined, notes={}) {
 
     if (bibleBook) { // render as tags
       paragraphs.push(...(await renderTagVerseLayout(currentBlock, bibleBook, separator)));
-    } else {
-      const firstVerse = currentBlock[0];
-
-      if (j === 0) {
-        const bookReferenceId = firstVerse.bibleBookShortTitle.toLowerCase();
-        if (notes[bookReferenceId]) {
-          paragraphs.push(...renderMarkdown(notes[bookReferenceId].text, notesStyle));
-        }
-      }
-
-      if (verseBlocks.length > 1) { // Output chapter reference
-        paragraphs.push(new docx.Paragraph({
-          text: `${chapterText} ${firstVerse.chapter}`,
-          heading: docx.HeadingLevel.HEADING_3,
-          spacing: {before: 300, after: 100},
-        }));
-      }
-
-      const verseParagraphs = currentBlock.map(renderVerse);
-    // const referenceId = `${currentVerse.bibleBookShortTitle.toLowerCase()}-${currentVerse.absoluteVerseNr}`;
-    // if (notes[referenceId]) {
-    //   addMarkdown(paragraph, notes[referenceId].text, notesStyle);
-    // }
-
-      paragraphs.push(...verseParagraphs);
+    } else { // render as notes
+      const isFirstChapter = j === 0;
+      const isMultipleChapters = verseBlocks.length > 1;
+      paragraphs.push(...renderNotesVerseLayout(currentBlock, notes, isFirstChapter, isMultipleChapters, chapterText));
     }
   }
 
@@ -291,8 +268,51 @@ async function renderTagVerseLayout(verses, bibleBook, separator=":") {
   return paragraphs;
 }
 
-function renderNotesVerseLayout(verses, notes) {
+function renderNotesVerseLayout(currentBlock, notes, isFirstChapter, isMultipleChapters, chapterText) {
+  const notesStyle = { color: '2779AA' };  
+  const firstVerse = currentBlock[0];
 
+  var paragraphs = [];
+
+  if (isFirstChapter) {
+    const bookReferenceId = firstVerse.bibleBookShortTitle.toLowerCase();
+    if (notes[bookReferenceId]) {
+      paragraphs.push(...renderMarkdown(notes[bookReferenceId].text, notesStyle));
+    }
+  }
+
+  if (isMultipleChapters) { // Output chapter reference
+    paragraphs.push(new docx.Paragraph({
+      text: `${chapterText} ${firstVerse.chapter}`,
+      heading: docx.HeadingLevel.HEADING_3,
+      spacing: {before: 300, after: 100},
+    }));
+  }
+
+  const table = new docx.Table({
+    rows: currentBlock.map(verse => {
+      const referenceId = `${verse.bibleBookShortTitle.toLowerCase()}-${verse.absoluteVerseNr}`;
+
+      return new docx.TableRow({
+        children: [
+          new docx.TableCell({
+            children: [renderVerse(verse)],
+            width: { size: 50, type: docx.WidthType.PERCENTAGE }
+          }),
+          new docx.TableCell({
+            children: notes[referenceId] ? renderMarkdown(notes[referenceId].text, notesStyle) : [],
+            width: { size: 50, type: docx.WidthType.PERCENTAGE }
+          })
+        ],
+        // cantSplit: true
+      });
+    }),
+    width: {size: 100, type: docx.WidthType.PERCENTAGE}
+  });
+
+  paragraphs.push(table);
+
+  return paragraphs;
 }
 
 function renderVerse(verse) {
