@@ -603,7 +603,7 @@ class TextController {
   async requestNotesForExport(tabIndex, book, chapter, renderFunction, renderType = 'html') {
     var currentBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
     var separator = await i18nHelper.getReferenceSeparator(currentBibleTranslationId);
-    var reference = chapter || '1' + separator + '1';
+    var reference = (chapter || '1') + separator + '1';
     var startVerseNr = await this.verseReferenceHelper.referenceStringToAbsoluteVerseNr(currentBibleTranslationId, book, reference);
     var verseCount = chapter !== null ? await ipcNsi.getChapterVerseCount(currentBibleTranslationId, book, chapter) : -1;
 
