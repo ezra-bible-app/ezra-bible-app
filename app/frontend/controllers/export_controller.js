@@ -279,7 +279,6 @@ function renderNotesVerseLayout(currentBlock, notes, isFirstChapter, isMultipleC
     paragraphs.push(new docx.Paragraph({
       text: `${chapterText} ${firstVerse.chapter}`,
       heading: docx.HeadingLevel.HEADING_3,
-      spacing: {before: 300, after: 100},
     }));
   }
 
@@ -291,17 +290,35 @@ function renderNotesVerseLayout(currentBlock, notes, isFirstChapter, isMultipleC
         children: [
           new docx.TableCell({
             children: [renderVerse(verse)],
-            width: { size: 50, type: docx.WidthType.PERCENTAGE }
+            width: {
+              type: docx.WidthType.DXA,
+              size: docx.convertMillimetersToTwip(95)
+            },
           }),
           new docx.TableCell({
             children: notes[referenceId] ? renderMarkdown(notes[referenceId].text, 'notes') : [],
-            width: { size: 50, type: docx.WidthType.PERCENTAGE }
+            width: {
+              type: docx.WidthType.DXA,
+              size: docx.convertMillimetersToTwip(95)
+            },
           })
         ],
-        // cantSplit: true
+        cantSplit: true
       });
     }),
-    width: {size: 100, type: docx.WidthType.PERCENTAGE}
+    margins: {
+      marginUnitType: docx.WidthType.DXA,
+      top: docx.convertMillimetersToTwip(2),
+      bottom: docx.convertMillimetersToTwip(2),
+      left: docx.convertMillimetersToTwip(2),
+      right: docx.convertMillimetersToTwip(2),
+    },
+    width: {
+      type: docx.WidthType.DXA,
+      size: docx.convertMillimetersToTwip(190)
+    },
+    columnWidths: [docx.convertMillimetersToTwip(95), docx.convertMillimetersToTwip(95)],
+
   });
 
   paragraphs.push(table);
@@ -485,6 +502,7 @@ function getDocStyles() {
         run: {
           size: 32,
           bold: true,
+          color: "FF0000",
         },
         paragraph: {
           spacing: {
