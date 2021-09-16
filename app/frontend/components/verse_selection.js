@@ -30,6 +30,7 @@ class VerseSelection {
   constructor() {
     this.selected_verse_references = null;
     this.selected_verse_box_elements = null;
+    this.verseReferenceHelper = null;
 
     i18nController.addLocaleChangeSubscriber(async () => {
       await this.updateSelectedVersesLabel();
@@ -229,6 +230,10 @@ class VerseSelection {
   }
 
   async verse_reference_list_to_absolute_verse_nr_list(list, bookId=undefined) {
+    if (this.verseReferenceHelper == null) {
+      return [];
+    }
+
     var new_list = new Array;
 
     var translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
