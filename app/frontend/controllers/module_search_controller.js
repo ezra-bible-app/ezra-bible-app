@@ -139,8 +139,11 @@ class ModuleSearchController {
     this.toggleMenuButtons(true);
 
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(this.currentSearchTabIndex);
-    var bibleSelect = currentVerseListMenu.find('select.bible-select');
-    bibleSelect.selectmenu("enable");
+
+    if (currentVerseListMenu != null) {
+      var bibleSelect = currentVerseListMenu.find('select.bible-select');
+      bibleSelect.selectmenu("enable");
+    }
   }
 
   validateSearchTerm() {
