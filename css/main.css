@@ -569,9 +569,7 @@ main.content {
 }
 
 #book-selection-menu-book-list, #book-selection-menu-chapter-list {
-  padding-left: 0.5em;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
+  padding: 0.5em;
 }
 
 #book-selection-menu-chapter-list {
@@ -619,47 +617,57 @@ main.content {
   }
 }
 
+#book-selection-menu-book-list {
+  display: flex;
+  flex-direction: column;
+}
+
 .book-list-column {
-  float: left;
-  width: 8.4em;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  grid-auto-flow: column;
+  /* width: 8.4em; */
   list-style-type: none;
-  padding: 0.5em;
-  padding-bottom: 0;
+  padding: 0.5em 0 0;
   margin-top: 0;
   margin-bottom: 0;
+  text-align: center;
 }
 
-.ot-column {
-  border-bottom: 1px solid lightgrey;
-  height: 24em;
+.ot-books {
+  /* border-bottom: 1px solid lightgrey; */
+  /* height: 24em; */
 }
-
-.book-list-column li {
-  margin-bottom: 0.7em;
+.nt-books {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(9, 1fr);
 }
 
 .ot-nt-divider {
-  clear: both;
+  margin-top: 0.5em;
+  border-top: 1px solid lightgray;
 }
 
+.book-list-column li{
+  max-width: 9em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 2em;
+}
 
 /* Formatting for large tablets and desktop */
-
 @media only screen and (min-width: 770px) {
-  .ot-column {
-    border-bottom: unset;
-    height: unset;
+  #book-selection-menu-book-list {
+    flex-direction: row;
   }
-  .book-list-column {
-    width: unset;
-  }
+
   .ot-nt-divider {
-    clear: none;
-    border-left: 1px solid #DDDDDD;
-    margin-left: 0.5em;
-  }
-  .ot-nt-divider li {
-    margin-left: 1em;
+    border-left: 1px solid lightgray;
+    border-top: none;
+    margin-top: 0;
+    /* padding-bottom: 2em; */ /* to align NT and OT rows */
   }
 }
 
