@@ -130,12 +130,14 @@ class UiHelper {
       // Automatically hide toolbar on smaller screens
       sidePanel.style.display='none';
       app_controller.tag_assignment_menu.moveTagAssignmentList(true);
-
       app_controller.dictionary_controller.moveInfoBoxFromTo(sidePanel, bottomPanel);
-      
+    
     } else if (!cycle) {
       sidePanel.style.display='';
-      app_controller.tag_assignment_menu.moveTagAssignmentList(false);
+      
+      if (app_controller.optionsMenu._tagListOption.isChecked) {
+        app_controller.tag_assignment_menu.moveTagAssignmentList(false);
+      }
 
       app_controller.dictionary_controller.moveInfoBoxFromTo(bottomPanel, sidePanel);
     }
