@@ -73,7 +73,7 @@ class TagStatistics {
     return [ clusters, maxClusterPercentage ];
   }
 
-  async updateBookTagStatisticsBox(bookTagStatistics=undefined) {
+  async updateBookTagStatistics(bookTagStatistics=undefined) {
     if (bookTagStatistics === undefined) {
       this._currentBookTagStatistics = this.getBookTagStatistics();
     } else {
@@ -148,6 +148,21 @@ class TagStatistics {
 
     var bookTagStatisticsBoxContent = document.getElementById('book-tag-statistics-box-content');
     bookTagStatisticsBoxContent.innerHTML = tagStatisticsHTML;
+
+    this.highlightFrequentlyUsedTags();
+  }
+
+  highlightFrequentlyUsedTags() {
+    var currentVerseList = app_controller.getCurrentVerseList()[0];
+    var allTags = currentVerseList.querySelectorAll('.tag');
+
+    allTags.forEach((tag) => {
+      let tagTitle = tag.innerText;
+
+      if (this._frequentTagsList.includes(tagTitle)) {
+        tag.classList.add('tag-highly-frequent');
+      }
+    });
   }
 
   async toggleBookTagStatisticsButton(index=undefined) {

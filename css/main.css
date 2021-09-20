@@ -312,6 +312,10 @@ h2:nth-of-type(1) {
   background-color: darkslategray;
 }
 
+.tag-highly-frequent {
+  font-weight: bold;
+}
+
 #verse-list-popup,
 #book-tag-statistics-box,
 #info-popup {
