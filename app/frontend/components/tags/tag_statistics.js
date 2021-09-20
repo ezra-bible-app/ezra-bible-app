@@ -161,6 +161,8 @@ class TagStatistics {
 
       if (this._frequentTagsList.includes(tagTitle)) {
         tag.classList.add('tag-highly-frequent');
+      } else {
+        tag.classList.remove('tag-highly-frequent');
       }
     });
   }
