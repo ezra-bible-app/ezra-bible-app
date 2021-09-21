@@ -145,7 +145,7 @@ class IpcNsiHandler {
 
     this._ipcMain.addWithProgressCallback('nsi_installModule', async (progressCB, moduleCode) => { 
       try {
-        await this._nsi.installModule(progressCB, moduleCode); 
+        await this._nsi.installModule(moduleCode, progressCB); 
         return 0;
       } catch (e) {
         return -1;
@@ -158,7 +158,7 @@ class IpcNsiHandler {
 
     this._ipcMain.addSync('nsi_installModuleSync', async (moduleCode) => {
       try {
-        await this._nsi.installModule(undefined, moduleCode);
+        await this._nsi.installModule(moduleCode, undefined);
         return 0;
       } catch (e) {
         return -1;
@@ -265,9 +265,9 @@ class IpcNsiHandler {
              isCaseSensitive,
              useExtendedVerseBoundaries) => {
 
-        return await this._nsi.getModuleSearchResults(progressCB,
-                                                      moduleCode,
+        return await this._nsi.getModuleSearchResults(moduleCode,
                                                       searchTerm,
+                                                      progressCB,
                                                       searchType,
                                                       isCaseSensitive,
                                                       useExtendedVerseBoundaries);
