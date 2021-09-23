@@ -45,6 +45,7 @@ const TextSizeSettings = require("../components/text_size_settings.js");
 const VerseStatisticsChart = require('../components/verse_statistics_chart.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
+const wheelnavController = require('../controllers/wheelnav_controller.js');
 
 /**
  * AppController is Ezra Bible App's main controller class which initiates all other controllers and components.
@@ -760,6 +761,8 @@ class AppController {
     if (platformHelper.isElectron()) {
       this.verse_context_controller.init_verse_expand_box(tabIndex);
     }
+
+    wheelnavController.bindEventsForVerseList(tabIndex);
   }
 
   getVerseListBookNumber(bibleBookLongTitle, bookHeaders=undefined) {
