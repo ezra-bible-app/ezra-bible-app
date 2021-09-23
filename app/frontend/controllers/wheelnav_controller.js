@@ -63,20 +63,16 @@ function createWheelNav() {
     closeOnClick: true,
     menuItems   : [
       {
-        id: 'item1',
-        title: 'Item 1'
+        id: 'compare',
+        title: 'Compare'
       },
       {
-        id: 'item2',
-        title: 'Item 2'
+        id: 'tags',
+        title: 'Change tags'
       },
       {
-        id: 'item3',
-        title: 'Item 3'
-      },
-      {
-        id: 'item4',
-        title: 'Item 4'
+        id: 'assign_last_tag',
+        title: 'Assign last tag'
       }
     ],
     onClick: function (item) {

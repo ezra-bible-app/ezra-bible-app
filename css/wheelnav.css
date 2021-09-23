@@ -22,7 +22,7 @@ div.menuHolder {
     position: relative;
     z-index: 100;
     top: -90px;
-    left: -62px;
+    left: -52px;
     margin: 0;
 }
 
@@ -105,4 +105,8 @@ svg.menu > g.center > text,
 svg.menu > g.center > use {
     cursor: pointer;
     fill: white;
+}
+
+svg.menu > g.sector > text {
+    font-weight: bold;
 }
