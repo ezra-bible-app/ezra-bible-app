@@ -582,6 +582,10 @@ main.content {
   overflow-y: auto;
 }
 
+.select-chapter #book-selection-menu-chapter-list {
+  display: block;
+}
+
 @media only screen and (min-width: 770px) {
   #book-selection-menu-chapter-list {
     width: 40.25em;
@@ -597,6 +601,7 @@ main.content {
 }
 
 #book-selection-menu-chapter-list #chapter-list-chapters {
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-content: flex-start;
@@ -620,6 +625,10 @@ main.content {
 #book-selection-menu-book-list {
   display: flex;
   flex-direction: column;
+}
+
+.select-chapter #book-selection-menu-book-list {
+  display: none;
 }
 
 .book-list-column {
