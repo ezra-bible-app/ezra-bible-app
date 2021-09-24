@@ -635,7 +635,6 @@ main.content {
 }
 
 .nt-books {
-  grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(9, 1fr);
 }
 
@@ -658,13 +657,18 @@ main.content {
     flex-direction: row;
   }
 
+  .nt-books {
+    grid-template-columns: repeat(3, 1fr);
+    padding-bottom: 2em; /* to align NT and OT rows */
+  }
+
   .ot-nt-divider {
     border-left: 1px solid lightgray;
     border-top: none;
     margin-top: 0;
     padding-left: 0.5em;
-    /* padding-bottom: 2em; */ /* to align NT and OT rows */
   }
+
 }
 
 .verse-list-menu .focused-button {
