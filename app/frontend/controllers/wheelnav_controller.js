@@ -69,31 +69,55 @@ function highlightCurrentVerseText(event) {
 }
 
 function createWheelNavComponent() {
+  var menuItems = getMenuItems();
+
   currentSvgMenu = new RadialMenu({
     parent      : currentWheelNavElement,
     size        : 150,
     closeOnClick: true,
-    menuItems   : [
-      {
-        id: 'compare',
-        title: 'Compare'
-      },
-      {
-        id: 'tags',
-        title: 'Change tags'
-      },
-      {
-        id: 'assign_last_tag',
-        title: 'Assign last tag'
-      }
-    ],
-    onClick: function (item) {
-      console.log('You have clicked:', item);
-    },
+    menuItems   : menuItems,
+    onClick: handleMenuClick,
     onClose: function () {
       app_controller.verse_selection.clear_verse_selection();
     }
  });
 
  currentSvgMenu.open();
+}
+
+function getMenuItems() {
+  var items = [
+    {
+      id: 'compare',
+      title: 'Compare'
+    },
+    {
+      id: 'tags',
+      title: 'Change tags'
+    },
+    {
+      id: 'assign_last_tag',
+      title: 'Assign last tag'
+    }
+  ];
+
+  return items;
+}
+
+function handleMenuClick(item) {
+  switch (item.id) {
+    case 'compare':
+      if (app_controller.translationComparison.isButtonEnabled()) {
+        app_controller.translationComparison.handleButtonClick();
+      }
+      break;
+    case 'tags':
+      break;
+    case 'assign_last_tag':
+      app_controller.assign_last_tag_button.handleClick();
+      break;
+    default:
+      console.log("Unknown item id " + item.id);
+      break;
+  }
 }
