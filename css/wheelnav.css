@@ -21,8 +21,8 @@ div.menuHolder {
     -moz-user-select: none;
     position: relative;
     z-index: 100;
-    top: -90px;
-    left: -52px;
+    top: -85px;
+    left: -62px;
     margin: 0;
 }
 
@@ -91,14 +91,13 @@ svg.menu > g.sector.selected > path {
     /*fill: #32CD32D0 !important;*/
 }
 
-svg.menu > g.center:hover > circle {
-    /*fill: #F9A602D0;*/
+/*svg.menu > g.center:hover > circle {
     fill: #0894ebd0;
-}
+}*/
 
 svg.menu > g.center > circle {
     cursor: pointer;
-    fill: #00000080;
+    fill: #00000000;
 }
 
 svg.menu > g.center > text,
