@@ -89,15 +89,15 @@ function getMenuItems() {
   var items = [
     {
       id: 'compare',
-      title: 'Compare'
+      title: i18n.t('tags-toolbar.compare')
     },
     {
       id: 'tags',
-      title: 'Change tags'
+      title: i18n.t('tags.change-tags')
     },
     {
       id: 'assign_last_tag',
-      title: 'Assign last tag'
+      title: i18n.t('tags-toolbar.assign-last-tag')
     }
   ];
 
