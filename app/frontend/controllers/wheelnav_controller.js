@@ -28,13 +28,29 @@ module.exports.bindEventsForVerseList = function(tabIndex=undefined) {
   });
 };
 
-function handleVerseReferenceClick(event) {
-  clearMenu(event);
-  updateId(event);
-  createWheelNav();
+module.exports.closeWheelNav = function() {
+  if (currentSvgMenu) {
+    currentSvgMenu.close();
+  }
 }
 
-function updateId(event) {
+function handleVerseReferenceClick(event) {
+  clearMenu(event);
+  setCurrentWheelNavElement(event);
+  highlightCurrentVerseText(event);
+  createWheelNavComponent();
+}
+
+function clearMenu(event) {
+  if (currentSvgMenu) {
+    currentSvgMenu.close();
+
+    var menuHolder = currentWheelNavElement.querySelector('.menuHolder');
+    menuHolder.parentElement.removeChild(menuHolder);
+  }
+}
+
+function setCurrentWheelNavElement(event) {
   if (!event) {
     return;
   }
@@ -47,19 +63,15 @@ function updateId(event) {
   currentWheelNavElement.setAttribute('id', 'currentWheelNav');
 }
 
-function clearMenu(event) {
-  if (currentSvgMenu) {
-    currentSvgMenu.close();
-
-    var menuHolder = currentWheelNavElement.querySelector('.menuHolder');
-    menuHolder.parentElement.removeChild(menuHolder);
-  }
+function highlightCurrentVerseText(event) {
+  var verseText = event.target.parentElement.parentElement.querySelector('.verse-text');
+  app_controller.verse_selection.setVerseAsSelection(verseText);
 }
 
-function createWheelNav() {
+function createWheelNavComponent() {
   currentSvgMenu = new RadialMenu({
     parent      : currentWheelNavElement,
-    size        : 180,
+    size        : 150,
     closeOnClick: true,
     menuItems   : [
       {
@@ -77,6 +89,9 @@ function createWheelNav() {
     ],
     onClick: function (item) {
       console.log('You have clicked:', item);
+    },
+    onClose: function () {
+      app_controller.verse_selection.clear_verse_selection();
     }
  });
 

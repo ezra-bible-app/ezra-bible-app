@@ -660,6 +660,7 @@ class AppController {
     this.module_search_controller.hideSearchMenu();
     this.optionsMenu.hideDisplayMenu();
     this.textSizeSettings.hideTextSizeMenu();
+    wheelnavController.closeWheelNav();
   }
   
   async handleReferenceClick(event) {
