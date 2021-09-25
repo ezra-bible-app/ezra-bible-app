@@ -588,8 +588,8 @@ main.content {
 
 @media only screen and (min-width: 770px) {
   #book-selection-menu-chapter-list {
-    width: 50.5em;
-    min-height: 20.8em;
+    width: 50.6em;
+    min-height: 20.5em;
     padding-left: 0.5em;
     padding-right: 0.5em;
   }
@@ -638,7 +638,7 @@ main.content {
   grid-template-rows: repeat(10, 1fr);
   grid-auto-flow: column;
   list-style-type: none;
-  padding: 0.5em 0.8em;
+  padding: 0.3em 0.8em;
   margin-top: 0;
   margin-bottom: 0;
   text-align: center;
@@ -649,7 +649,7 @@ main.content {
 }
 
 .ot-nt-divider {
-  margin-top: 0.5em;
+  margin-top: 0.2em;
   border-top: 1px solid lightgray;
 }
 
