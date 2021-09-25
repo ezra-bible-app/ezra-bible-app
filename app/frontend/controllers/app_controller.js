@@ -491,11 +491,21 @@ class AppController {
       fullScreenButton.setAttribute('title', i18n.t('menu.exit-fullscreen'));
       fullScreenButton.firstElementChild.classList.add('fa-compress');
       fullScreenButton.firstElementChild.classList.remove('fa-expand');
+      this.hideMenu();
     } else {
       fullScreenButton.setAttribute('title', i18n.t('menu.fullscreen'));
       fullScreenButton.firstElementChild.classList.add('fa-expand');
       fullScreenButton.firstElementChild.classList.remove('fa-compress');
+      this.showMenu();
     }
+  }
+
+  showMenu() {
+    document.getElementById('verse-list-tabs').classList.remove('fullscreen');
+  }
+
+  hideMenu() {
+    document.getElementById('verse-list-tabs').classList.add('fullscreen');
   }
   
   getLineBreak() {
