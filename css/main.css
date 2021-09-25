@@ -576,9 +576,9 @@ main.content {
   display: none;
   padding-left: 1em;
   padding-right: 1em;
-  width: 34em;
+  width: 35.4em;
   min-height: 20em;
-  max-height: 52em;
+  max-height: 40em;
   overflow-y: auto;
 }
 
@@ -588,8 +588,8 @@ main.content {
 
 @media only screen and (min-width: 770px) {
   #book-selection-menu-chapter-list {
-    width: 40.25em;
-    height: 26.5em;
+    width: 50.5em;
+    /*height: 20.4em;*/
     padding-left: 0.5em;
     padding-right: 0.5em;
   }
@@ -605,6 +605,7 @@ main.content {
   flex-direction: row;
   flex-wrap: wrap;
   align-content: flex-start;
+  max-inline-size: 40em;
 }
 
 #book-selection-menu-chapter-list a {
@@ -637,7 +638,7 @@ main.content {
   grid-template-rows: repeat(10, 1fr);
   grid-auto-flow: column;
   list-style-type: none;
-  padding: 0.5em 0 0;
+  padding: 0.5em 0.8em;
   margin-top: 0;
   margin-bottom: 0;
   text-align: center;
