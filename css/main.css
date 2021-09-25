@@ -589,7 +589,7 @@ main.content {
 @media only screen and (min-width: 770px) {
   #book-selection-menu-chapter-list {
     width: 50.5em;
-    /*height: 20.4em;*/
+    min-height: 20.8em;
     padding-left: 0.5em;
     padding-right: 0.5em;
   }
