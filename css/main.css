@@ -569,7 +569,8 @@ main.content {
 }
 
 #book-selection-menu {
-  width: 35em;
+  width: 45em;
+  margin-right: 2em;
 }
 
 #book-selection-menu-book-list, #book-selection-menu-chapter-list {
@@ -580,9 +581,8 @@ main.content {
   display: none;
   padding-left: 1em;
   padding-right: 1em;
-  width: 100%;
   min-height: 20em;
-  max-height: 40em;
+  max-height: 38.3em;
   overflow-y: auto;
 }
 
@@ -590,9 +590,9 @@ main.content {
   display: block;
 }
 
-@media only screen and (min-width: 770px) {
+@media only screen and (min-width: 1000px) {
   #book-selection-menu {
-    width: 50.6em;
+    width: 62em;
   }
 
   #book-selection-menu-chapter-list {
@@ -612,7 +612,7 @@ main.content {
   flex-direction: row;
   flex-wrap: wrap;
   align-content: flex-start;
-  max-inline-size: 40em;
+  max-inline-size: 36em;
 }
 
 #book-selection-menu-chapter-list a {
@@ -624,7 +624,7 @@ main.content {
   color: black;
 }
 
-@media only screen and (min-width: 770px) {
+@media only screen and (min-width: 1000px) {
   #book-selection-menu-chapter-list a {
     flex: 0 0 3.3em;
   }
@@ -649,6 +649,7 @@ main.content {
   padding: 0.3em 0.8em;
   margin-top: 0;
   margin-bottom: 0;
+  margin-right: 1em;
   text-align: center;
 }
 
@@ -669,7 +670,7 @@ main.content {
 }
 
 /* Formatting for large tablets and desktop */
-@media only screen and (min-width: 770px) {
+@media only screen and (min-width: 1000px) {
   #book-selection-menu-book-list {
     flex-direction: row;
   }
@@ -1298,7 +1299,7 @@ li.book-unavailable a:focus,
 
 /* Large tablets and desktop */
 
-@media only screen and (min-width: 770px) {
+@media only screen and (min-width: 1000px) {
   #module-search-input {
     width: 21em;
   }
