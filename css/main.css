@@ -633,6 +633,7 @@ main.content {
 #book-selection-menu-book-list {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .select-chapter #book-selection-menu-book-list {
@@ -673,13 +674,9 @@ main.content {
     flex-direction: row;
   }
 
-  .ot-books {
-    flex-basis: 58%; /* 4 columns of 7 column layout + divider */ 
-  }
-
   .nt-books {
     grid-template-columns: repeat(3, 1fr);
-    flex-basis: 40%; /* 3 columns of 7 column layout + divider */ 
+    flex-basis: 45%; /* 3 columns of 7 column layout + divider */ 
     padding-bottom: 2em; /* to align NT and OT rows */
   }
 
