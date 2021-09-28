@@ -675,6 +675,10 @@ main.content {
     flex-direction: row;
   }
 
+  .ot-books {
+      flex-basis: 55%;
+  }
+
   .nt-books {
     grid-template-columns: repeat(3, 1fr);
     flex-basis: 45%; /* 3 columns of 7 column layout + divider */ 
