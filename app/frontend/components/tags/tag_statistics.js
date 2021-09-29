@@ -46,7 +46,24 @@ class TagStatistics {
     return tagsByVerseCount;
   }
 
-  getHighFrequencyClusters(overallVerseCount) {
+  getOverallTagCount(bookTagStatistics) {
+    var overallTagCount = 0;
+
+    for (var tag in bookTagStatistics) {
+      let tagVerseCount = bookTagStatistics[tag];
+      overallTagCount += tagVerseCount;
+    }
+
+    return overallTagCount;
+  }
+
+  getTagPercentage(bookTagStatistics, tagTitle, overallTagCount) {
+    let taggedVerseCount = bookTagStatistics[tagTitle];
+    let taggedVersePercent = Math.round((taggedVerseCount / overallTagCount) * 100);
+    return taggedVersePercent;
+  }
+
+  getHighFrequencyClusters(overallTagCount) {
     const MAX_CLUSTERS = 6;
 
     var clusters = [];
@@ -54,8 +71,7 @@ class TagStatistics {
 
     for (let i = 0; i < this._tagsByVerseCount.length; i++) {
       let tagTitle = this._tagsByVerseCount[i];
-      let taggedVerseCount = this._currentBookTagStatistics[tagTitle];
-      let taggedVersePercent = Math.round((taggedVerseCount / overallVerseCount) * 100);
+      let taggedVersePercent = this.getTagPercentage(this._currentBookTagStatistics, tagTitle, overallTagCount);
       
       if (!clusters.includes(taggedVersePercent) && clusters.length < MAX_CLUSTERS) {
         if (taggedVersePercent > maxClusterPercentage) {
@@ -83,6 +99,7 @@ class TagStatistics {
     this._frequentTagsList = [];
 
     this._tagsByVerseCount = this.getTagsByVerseCount(this._currentBookTagStatistics);
+    this._overallTagCount = this.getOverallTagCount(this._currentBookTagStatistics);
 
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     var currentBook = app_controller.tab_controller.getTab().getBook();
@@ -108,8 +125,8 @@ class TagStatistics {
                         +  "<th style='text-align: left; width: 2em;'>#</th>"
                         +  "<th style='text-align: left; width: 2em;'>%</th></tr>";
     
-    var [clusters, maxClusterPercentage] = this.getHighFrequencyClusters(overallVerseCount);
-    var MIN_CLUSTER_PERCENT = 3;
+    var [clusters, maxClusterPercentage] = this.getHighFrequencyClusters(this._overallTagCount);
+    var MIN_CLUSTER_PERCENT = 2;
 
     if (maxClusterPercentage == MIN_CLUSTER_PERCENT) {
       MIN_CLUSTER_PERCENT -= 1;
@@ -124,7 +141,7 @@ class TagStatistics {
         continue;
       }
 
-      let taggedVersePercent = Math.round((taggedVerseCount / overallVerseCount) * 100);
+      let taggedVersePercent = this.getTagPercentage(this._currentBookTagStatistics, tag_title, this._overallTagCount);
       let isLessFrequent = taggedVersePercent < MIN_CLUSTER_PERCENT || !clusters.includes(taggedVersePercent);
       let currentRowHTML = "";
 
