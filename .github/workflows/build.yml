@@ -12,6 +12,9 @@ jobs:
         runs-on: windows-latest
         steps:
         - uses: actions/checkout@v1
+        - name: Remove docs folder
+          run: Remove-Item -Recurse -Force docs
+          shell: pwsh
         - name: Install electron-installer-windows
           run: powershell npm install electron-installer-windows
 #        - name: Install VS 2017 Build Tools
