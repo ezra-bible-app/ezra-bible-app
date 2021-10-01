@@ -19,19 +19,35 @@
 var currentWheelNavElement = null;
 var currentSvgMenu = null;
 
-module.exports.bindEventsForVerseList = function(tabIndex=undefined) {
-  var verseList = app_controller.getCurrentVerseList(tabIndex);
-  var verseReferences = verseList[0].querySelectorAll('.verse-reference-content');
+module.exports.bindEvents = function() {
+  var verseReferences = getVerseReferences();
 
   verseReferences.forEach(verseReference => {
     verseReference.addEventListener('click', handleVerseReferenceClick);
   });
 };
 
+module.exports.unbindAndClose = function() {
+  var verseReferences = getVerseReferences();
+
+  verseReferences.forEach(verseReference => {
+    verseReference.removeEventListener('click', handleVerseReferenceClick);
+  });
+
+  app_controller.tag_assignment_menu.closePopup();
+  this.closeWheelNav();
+}
+
 module.exports.closeWheelNav = function() {
   if (currentSvgMenu) {
     currentSvgMenu.close();
   }
+}
+
+function getVerseReferences() {
+  var verseList = app_controller.getCurrentVerseList();
+  var verseReferences = verseList[0].querySelectorAll('.verse-reference-content');
+  return verseReferences;
 }
 
 function handleVerseReferenceClick(event) {

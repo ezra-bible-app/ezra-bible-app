@@ -492,6 +492,7 @@ class AppController {
       fullScreenButton.firstElementChild.classList.add('fa-compress');
       fullScreenButton.firstElementChild.classList.remove('fa-expand');
       app_controller.tag_assignment_menu.moveTagAssignmentList("POPUP");
+      wheelnavController.bindEvents();
       this.hideMenu();
 
     } else {
@@ -499,6 +500,7 @@ class AppController {
       fullScreenButton.firstElementChild.classList.add('fa-expand');
       fullScreenButton.firstElementChild.classList.remove('fa-compress');
       app_controller.tag_assignment_menu.moveTagAssignmentList("PREVIOUS");
+      wheelnavController.unbindAndClose();
       this.showMenu();
     }
   }
@@ -772,8 +774,6 @@ class AppController {
     if (platformHelper.isElectron()) {
       this.verse_context_controller.init_verse_expand_box(tabIndex);
     }
-
-    wheelnavController.bindEventsForVerseList(tabIndex);
   }
 
   getVerseListBookNumber(bibleBookLongTitle, bookHeaders=undefined) {
