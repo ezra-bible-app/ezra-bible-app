@@ -102,20 +102,25 @@ function createWheelNavComponent() {
 }
 
 function getMenuItems() {
-  var items = [
-    {
-      id: 'compare',
-      title: i18n.t('tags-toolbar.compare')
-    },
-    {
+
+  var items = [];
+
+  items.push({
+    id: 'compare',
+    title: i18n.t('tags-toolbar.compare')
+  });
+
+  if (!app_controller.optionsMenu._tagListOption.isChecked) {
+    items.push({
       id: 'tags',
       title: i18n.t('tags.change-tags')
-    },
-    {
-      id: 'assign_last_tag',
-      title: i18n.t('tags-toolbar.assign-last-tag')
-    }
-  ];
+    });
+  }
+
+  items.push({
+    id: 'assign_last_tag',
+    title: i18n.t('tags-toolbar.assign-last-tag')
+  });
 
   return items;
 }
