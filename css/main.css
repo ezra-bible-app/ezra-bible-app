@@ -326,7 +326,8 @@ h2:nth-of-type(1) {
 
 #verse-list-popup,
 #book-tag-statistics-box,
-#info-popup {
+#info-popup,
+#change-tags-box {
   display: none;
 }
 
@@ -348,6 +349,12 @@ h2:nth-of-type(1) {
   width: 600px;
   height: 400px;
   overflow: inherit;
+}
+
+#change-tags-box {
+  width: 600px;
+  max-height: 500px;
+  overflow-y: scroll;
 }
 
 .verse-list-without-tags .tag-box,
