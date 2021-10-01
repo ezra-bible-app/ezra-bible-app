@@ -29,6 +29,7 @@ class TagAssignmentMenu {
   constructor() {
     this.menuIsOpened = false;
     this._lastTagListContainer = "MENU";
+    this._currentTagListContainer = "MENU";
     this._changeTagPopupInitDone = false;
 
     i18nController.addLocaleChangeSubscriber(async () => {
@@ -50,7 +51,7 @@ class TagAssignmentMenu {
 
     var changeTagDialogOptions = {
       title: i18n.t("tags.change-tags"),
-      width: 600,
+      width: 500,
       position: [60,180],
       autoOpen: false,
       dialogClass: 'ezra-dialog'
@@ -62,6 +63,10 @@ class TagAssignmentMenu {
 
   showPopup() {
     $('#change-tags-box').dialog("open");
+  }
+
+  closePopup() {
+    $('#change-tags-box').dialog("close");
   }
 
   getMenu() {
@@ -152,7 +157,7 @@ class TagAssignmentMenu {
 
     var updated = false;
 
-    if (tagsContainer.parentElement == toolBar && target == "MENU") {
+    if ((tagsContainer.parentElement == toolBar || tagsContainer.parentElement == popup) && target == "MENU") {
       $('#tag-list-filter-button').unbind();
 
       menu.appendChild(tagsContainer);
@@ -190,7 +195,10 @@ class TagAssignmentMenu {
       updated = true;
     }
 
-    this._lastTagListContainer = target;
+    if (updated) {
+      this._lastTagListContainer = this._currentTagListContainer;
+      this._currentTagListContainer = target;
+    }
 
     return updated;
   }

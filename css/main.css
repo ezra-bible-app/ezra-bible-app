@@ -352,9 +352,14 @@ h2:nth-of-type(1) {
 }
 
 #change-tags-box {
-  width: 600px;
+  width: 500px;
   max-height: 500px;
   overflow-y: scroll;
+  padding: unset !important;
+}
+
+#change-tags-box .ui-widget-content {
+  border: unset;
 }
 
 .verse-list-without-tags .tag-box,
