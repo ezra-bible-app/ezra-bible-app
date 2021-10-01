@@ -469,19 +469,21 @@ class AppController {
       return false;
     });
   }
-
-  toggleFullScreen() {
+  
+  getPlatform() {
     var platform = null;
 
     if (platformHelper.isElectron()) {
-
       platform = electronPlatform;
-
     } else if (platformHelper.isAndroid()) {
-
       platform = cordovaPlatform;
-
     }
+
+    return platform;
+  }
+
+  toggleFullScreen() {
+    var platform = this.getPlatform();
 
     platform.toggleFullScreen();
 
