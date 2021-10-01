@@ -30,7 +30,6 @@ class TagAssignmentMenu {
     this.menuIsOpened = false;
     this._lastTagListContainer = "MENU";
     this._currentTagListContainer = "MENU";
-    this._changeTagPopupInitDone = false;
 
     i18nController.addLocaleChangeSubscriber(async () => {
       this.initChangeTagPopup();
@@ -68,6 +67,12 @@ class TagAssignmentMenu {
 
   showPopup() {
     $('#change-tags-box').dialog("open");
+
+    setTimeout(() => {
+      if (!app_controller.optionsMenu._tagListOption.isChecked) {
+        app_controller.tag_assignment_menu.moveTagAssignmentList("POPUP");
+      }
+    }, 100);
   }
 
   closePopup() {
