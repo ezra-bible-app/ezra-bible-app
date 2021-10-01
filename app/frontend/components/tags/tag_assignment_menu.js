@@ -40,6 +40,11 @@ class TagAssignmentMenu {
   }
 
   init(tabIndex=undefined) {
+    if (app_controller.optionsMenu._tagListOption.isChecked) {
+      this._lastTagListContainer = "SIDE_PANEL";
+      this._currentTagListContainer = "SIDE_PANEL";
+    }
+
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.assign-tag-menu-button').bind('click', (event) => { this.handleMenuClick(event); });
   }
@@ -184,7 +189,7 @@ class TagAssignmentMenu {
 
       updated = true;
 
-    } else if (tagsContainer.parentElement == menu && target == "SIDE_PANEL") {
+    } else if ((tagsContainer.parentElement == menu || tagsContainer.parentElement == popup) && target == "SIDE_PANEL") {
 
       tags_controller.handleTagAccordionChange();
       var boxes = document.getElementById('boxes');
