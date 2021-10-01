@@ -120,6 +120,14 @@ h2:nth-of-type(1) {
   margin-right: 4.5em;
 }
 
+#app-container.fullscreen .ui-tabs-nav {
+  display: none;
+}
+
+#app-container.fullscreen .ui-tabs-panel {
+  padding: 0;
+}
+
 #verse-list-tabs ul li span {
   padding: 0.5em 0.7em 0.5em 0;
   display: inline-block;
@@ -155,7 +163,7 @@ h2:nth-of-type(1) {
   flex-wrap: wrap;
 }
 
-#verse-list-tabs.fullscreen .verse-list-menu {
+#app-container.fullscreen .verse-list-menu {
   display: none;
 }
 
@@ -520,6 +528,10 @@ h2:nth-of-type(1) {
   grid-template-areas: 
     "side-panel content"
     "side-panel bottom-panel";
+}
+
+#app-container.fullscreen {
+  padding: unset;
 }
 
 .webview-older #app-container {

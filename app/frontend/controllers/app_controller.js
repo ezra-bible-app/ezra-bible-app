@@ -501,11 +501,11 @@ class AppController {
   }
 
   showMenu() {
-    document.getElementById('verse-list-tabs').classList.remove('fullscreen');
+    document.getElementById('app-container').classList.remove('fullscreen');
   }
 
   hideMenu() {
-    document.getElementById('verse-list-tabs').classList.add('fullscreen');
+    document.getElementById('app-container').classList.add('fullscreen');
   }
   
   getLineBreak() {
