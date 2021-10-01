@@ -525,7 +525,8 @@ h2:nth-of-type(1) {
 }
 
 #app-container.fullscreen {
-  padding: unset;
+  padding: 0.2em;
+  padding-left: 0.4em;
 }
 
 .webview-older #app-container {
