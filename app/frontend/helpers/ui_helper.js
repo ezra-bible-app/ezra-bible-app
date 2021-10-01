@@ -278,6 +278,10 @@ class UiHelper {
 
     if (leftOffset + $menu.width() > $(window).width() - OFFSET_FROM_EDGE) {
       leftOffset = ($(window).width() - $menu.width()) / 2;
+
+      if (leftOffset < 0) {
+        leftOffset = 0;
+      }
     }
 
     $menu.css('top', topOffset);
