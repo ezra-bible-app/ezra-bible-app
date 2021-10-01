@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
+const i18nController = require('../../controllers/i18n_controller.js');
 
 /**
  * The TagAssignmentMenu component implements the menu event handling and dynamic movement of the tag assignment menu,
@@ -27,11 +28,40 @@ const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
 class TagAssignmentMenu {
   constructor() {
     this.menuIsOpened = false;
+    this._lastTagListContainer = "MENU";
+    this._changeTagPopupInitDone = false;
+
+    i18nController.addLocaleChangeSubscriber(async () => {
+      this.initChangeTagPopup();
+    });
+
+    this.initChangeTagPopup();
   }
 
   init(tabIndex=undefined) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.assign-tag-menu-button').bind('click', (event) => { this.handleMenuClick(event); });
+  }
+
+  initChangeTagPopup() {
+    if (this._changeTagPopupInitDone) {
+      return;
+    }
+
+    var changeTagDialogOptions = {
+      title: i18n.t("tags.change-tags"),
+      width: 600,
+      position: [60,180],
+      autoOpen: false,
+      dialogClass: 'ezra-dialog'
+    };
+
+    $('#change-tags-box').dialog(changeTagDialogOptions);
+    this._changeTagPopupInitDone = true;
+  }
+
+  showPopup() {
+    $('#change-tags-box').dialog("open");
   }
 
   getMenu() {
@@ -102,16 +132,25 @@ class TagAssignmentMenu {
   }
 
   // FIXME: moving tags toolbar depending on screen size is not good from usability perspective
-  moveTagAssignmentList(moveToMenu=false) {
+  /**
+   * 
+   * @param {string} target SIDE_PANEL | MENU | POPUP | PREVIOUS
+   */
+  moveTagAssignmentList(target="SIDE_PANEL") {
+  //moveTagAssignmentList(moveToMenu=false) {
     var tagsContainer = document.querySelector('#tags-content-global');
     var menu = document.querySelector('#tag-assignment-menu-taglist');
     var toolBar = document.querySelector('#tags-content');
     var tagFilterMenu = document.querySelector('#tag-filter-menu');
     var $tagFilterMenu =$(tagFilterMenu);
     var assignTagMenuButton = this.getCurrentMenuButton();
+    var popup = document.querySelector("#change-tags-box-content");
 
+    if (target == "PREVIOUS") {
+      target = this._lastTagListContainer;
+    }
 
-    if (moveToMenu) {
+    if (target != "SIDE_PANEL") {
       assignTagMenuButton.show();
     } else {
       assignTagMenuButton.hide();
@@ -119,7 +158,7 @@ class TagAssignmentMenu {
 
     var updated = false;
 
-    if (tagsContainer.parentElement == toolBar && moveToMenu) {
+    if (tagsContainer.parentElement == toolBar && target == "MENU") {
       $('#tag-list-filter-button').unbind();
 
       menu.appendChild(tagsContainer);
@@ -140,7 +179,8 @@ class TagAssignmentMenu {
 
       updated = true;
 
-    } else if (tagsContainer.parentElement == menu && !moveToMenu) {
+    } else if (tagsContainer.parentElement == menu && target == "SIDE_PANEL") {
+
       tags_controller.handleTagAccordionChange();
       var boxes = document.getElementById('boxes');
       toolBar.appendChild(tagsContainer);
@@ -148,7 +188,15 @@ class TagAssignmentMenu {
       $tagFilterMenu.find("br:not('#tag-filter-menu-separator')").show();
       boxes.appendChild(tagFilterMenu);
       updated = true;
+
+    } else if (target == "POPUP") {
+
+      $tagFilterMenu.hide();
+      popup.appendChild(tagsContainer);
+      updated = true;
     }
+
+    this._lastTagListContainer = target;
 
     return updated;
   }

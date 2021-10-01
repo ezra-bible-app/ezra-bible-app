@@ -197,14 +197,14 @@ class OptionsMenu {
     var updated = false;
 
     if (this._tagListOption.isChecked) {
-      updated = app_controller.tag_assignment_menu.moveTagAssignmentList(false);
+      updated = app_controller.tag_assignment_menu.moveTagAssignmentList("SIDE_PANEL");
       if (updated || currentToolBar.is(':hidden')) {
         currentToolBar.show();
         currentToolBar.parent().addClass('with-tags');
         updated = true;
       }
     } else {
-      updated = app_controller.tag_assignment_menu.moveTagAssignmentList(true);
+      updated = app_controller.tag_assignment_menu.moveTagAssignmentList("MENU");
       if (updated || currentToolBar.is(':visible')) {
         currentToolBar.hide();
         currentToolBar.parent().removeClass('with-tags');

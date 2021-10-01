@@ -88,7 +88,8 @@
 }
 
 .accordion-panel input,
-#tag-assignment-menu-taglist input {
+#tag-assignment-menu-taglist input,
+#change-tags-box input {
   margin-right: 0.5em;
 }
 

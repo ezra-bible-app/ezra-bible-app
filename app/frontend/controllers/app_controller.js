@@ -491,11 +491,14 @@ class AppController {
       fullScreenButton.setAttribute('title', i18n.t('menu.exit-fullscreen'));
       fullScreenButton.firstElementChild.classList.add('fa-compress');
       fullScreenButton.firstElementChild.classList.remove('fa-expand');
+      app_controller.tag_assignment_menu.moveTagAssignmentList("POPUP");
       this.hideMenu();
+
     } else {
       fullScreenButton.setAttribute('title', i18n.t('menu.fullscreen'));
       fullScreenButton.firstElementChild.classList.add('fa-expand');
       fullScreenButton.firstElementChild.classList.remove('fa-compress');
+      app_controller.tag_assignment_menu.moveTagAssignmentList("PREVIOUS");
       this.showMenu();
     }
   }
