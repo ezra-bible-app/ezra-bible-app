@@ -51,7 +51,7 @@ class TagAssignmentMenu {
 
     var changeTagDialogOptions = {
       title: i18n.t("tags.change-tags"),
-      width: 500,
+      width: 550,
       position: [60,180],
       autoOpen: false,
       dialogClass: 'ezra-dialog'

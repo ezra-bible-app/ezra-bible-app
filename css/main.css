@@ -356,7 +356,7 @@ h2:nth-of-type(1) {
 }
 
 #change-tags-box {
-  width: 500px;
+  width: 550px;
   max-height: 500px;
   overflow-y: scroll;
   padding: unset !important;
