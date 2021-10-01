@@ -56,6 +56,7 @@ class TagAssignmentMenu {
     var changeTagDialogOptions = {
       title: i18n.t("tags.change-tags"),
       width: 550,
+      height: 500,
       position: [60,180],
       autoOpen: false,
       dialogClass: 'ezra-dialog'
@@ -66,11 +67,13 @@ class TagAssignmentMenu {
   }
 
   showPopup() {
+    $('#change-tags-box-content').hide();
     $('#change-tags-box').dialog("open");
 
     setTimeout(() => {
       if (!app_controller.optionsMenu._tagListOption.isChecked) {
         app_controller.tag_assignment_menu.moveTagAssignmentList("POPUP");
+        $('#change-tags-box-content').show();
       }
     }, 100);
   }
