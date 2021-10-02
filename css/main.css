@@ -210,6 +210,13 @@ h2:nth-of-type(1) {
   overflow-y: scroll;*/
 }
 
+#app-container.fullscreen .verse-list {
+  /* This is to ensure that there is enough space for the radial menu in fullscreen mode
+     when it is used for the first verse of the verse list.
+   */
+  padding-top: 3em;
+}
+
 .verse-list:not(.verse-list-with-section-titles) {
   padding-top: 0.5em;
 }
