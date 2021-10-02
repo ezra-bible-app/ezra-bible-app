@@ -298,12 +298,12 @@ class DictionaryInfoBox {
       return null;
     }
     
-    var referenceStrongsEntry = this.getJsStrongs()[referenceKey];
-    if (referenceStrongsEntry == null) {
+    var jsStrongsEntry = this.getJsStrongs()[referenceKey];
+    if (jsStrongsEntry == null) {
       return null;
     }
 
-    var referenceStrongsLemma = referenceStrongsEntry.lemma;
+    var referenceStrongsLemma = jsStrongsEntry.lemma;
 
     var referenceLink = "<a href=\"javascript:app_controller.dictionary_controller._dictionaryInfoBox.openStrongsReference('";
     referenceLink += referenceKey;
