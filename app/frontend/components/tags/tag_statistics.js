@@ -64,7 +64,7 @@ class TagStatistics {
   }
 
   getHighFrequencyClusters(overallTagCount) {
-    const MAX_CLUSTERS = 6;
+    const MAX_CLUSTERS = 4;
 
     var clusters = [];
     var maxClusterPercentage = 0;
@@ -112,12 +112,6 @@ class TagStatistics {
 
     if (chapterCount == null || allChapterVerseCounts == null) {
       return;
-    }
-
-    var overallVerseCount = 0;
-    for (let i = 0; i < chapterCount; i++) {
-      let currentChapterVerseCount = allChapterVerseCounts[i];
-      overallVerseCount += currentChapterVerseCount;
     }
 
     var tagStatisticsHTML = "<table class='tag-statistics'>";
