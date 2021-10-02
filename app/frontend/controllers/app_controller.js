@@ -236,6 +236,9 @@ class AppController {
       if (textType == 'book') this.book_selection_menu.highlightCurrentlySelectedBookInMenu(ui.index);
     }
 
+    // Refresh 'assign last tag' button
+    this.assign_last_tag_button.init(ui.index);
+
     // Toggle book statistics
     this.tag_statistics.toggleBookTagStatisticsButton(ui.index);
 
