@@ -717,7 +717,9 @@ class AppController {
       if (isXrefMarker) {
         let referenceType = "XREFS";
 
-        if (app_controller.optionsMenu._verseListNewTabOption.isChecked) {
+        if (app_controller.optionsMenu._verseListNewTabOption.isChecked &&
+            !this.getPlatform().isFullScreen()) { // No tabs available in fullscreen!
+          
           this.verse_list_popup.currentReferenceType = referenceType;
           await this.verse_list_popup.initCurrentXrefs(event.target);
           this.verse_list_popup.openVerseListInNewTab();
@@ -727,7 +729,9 @@ class AppController {
       } else if (isTag) {
         let referenceType = "TAGGED_VERSES";
 
-        if (app_controller.optionsMenu._verseListNewTabOption.isChecked) {
+        if (app_controller.optionsMenu._verseListNewTabOption.isChecked &&
+            !this.getPlatform().isFullScreen()) { // No tabs available in fullscreen!
+          
           this.verse_list_popup.currentReferenceType = referenceType;
           this.verse_list_popup.initCurrentTag(event.target);
           this.verse_list_popup.openVerseListInNewTab();
