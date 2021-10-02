@@ -1026,6 +1026,10 @@ class AppController {
     await this.translation_controller.toggleTranslationsBasedOnCurrentBook(tabIndex);
 
     this.bindEventsAfterBibleTextLoaded(tabIndex);
+
+    if (this.getPlatform().isFullScreen()) {
+      wheelnavController.bindEvents();
+    }
   }
 
   async updateUiAfterBibleTranslationAvailable(translationCode) {
