@@ -583,7 +583,7 @@ class TextController {
   }
 
   async getVersesAsHtml(current_tab_id,
-                        tabIndex,
+                        tabIndex, // TODO: Remove this parameter, because it is not used!
                         bibleBooks,
                         bookNames,
                         bibleBookStats,
