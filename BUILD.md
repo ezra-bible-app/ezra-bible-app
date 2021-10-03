@@ -12,15 +12,12 @@ On Windows Ezra Bible App is built using a pre-built SWORD library from the repo
 1. Install [git](https://git-scm.com/download/win) and [nodejs](https://nodejs.org). Ensure to install the x86 version of nodejs 14.x.
 2. Install [windows-build-tools][windows-build-tools] (VS 2015 Compiler) by running the following command in an administrator powershell:\
 `npm install --vs2015 --global windows-build-tools`
-3. Install [electron-installer-windows][electron-installer-windows] by running the following command in an administrator powershell:\
-`npm install --global electron-installer-windows`
-4. Clone Ezra Bible App from git repo or unpack sources from release
-5. Install dependencies and rebuild native extensions by running this command in the project dir: `.\build_win32.bat`
+3. Clone Ezra Bible App from git repo or unpack sources from release
+4. Install dependencies and rebuild native extensions by running this command in the project dir: `.\build_win32.bat`
 
 After performing these steps you can run Ezra Bible App by running this command in the project dir: `npm start`
 
 [windows-build-tools]: https://www.npmjs.com/package/windows-build-tools
-[electron-installer-windows]: https://www.npmjs.com/package/electron-installer-windows
 
 ### Create a release directory
 
@@ -30,8 +27,6 @@ After running the above command you will find a new directory `<project-dir>\rel
 The application binary within that directory is named `ezra-project.exe`.
 
 ### Create an installer
-
-Since the installer is platform-specific you first need to install the package [electron-installer-windows](https://github.com/electron-userland/electron-installer-windows) by running the following command in an administrator powershell: `npm install --global electron-installer-windows`
 
 To create an installer, run the following command in the project dir: `npm run installer-win`
 
