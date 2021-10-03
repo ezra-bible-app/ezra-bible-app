@@ -15,12 +15,6 @@ jobs:
         - name: Remove docs folder
           run: Remove-Item -Recurse -Force docs
           shell: pwsh
-        - name: Install electron-installer-windows
-          run: powershell npm install electron-installer-windows
-#        - name: Install VS 2017 Build Tools
-#          run: powershell choco install visualstudio2017buildtools
-#        - name: Install VS C++ features
-#          run: powershell choco install visualstudio2017-workload-vctools
         - name: Build
           run: powershell .\build_scripts\win32\build_win32.bat
         - name: Upload symbols
@@ -28,7 +22,7 @@ jobs:
           env:
             SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         - name: Rename installer
-          run: Get-ChildItem release\packages\*setup.exe | rename-item -NewName { "ezra-bible-app_win32_setup_latest.exe" }
+          run: Get-ChildItem release\packages\*Setup.exe | rename-item -NewName { "ezra-bible-app_win32_setup_latest.exe" }
           shell: pwsh
         - name: Upload installer
           uses: actions/upload-artifact@v1.0.0
