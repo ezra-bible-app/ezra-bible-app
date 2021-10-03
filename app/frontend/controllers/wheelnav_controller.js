@@ -62,7 +62,10 @@ function clearMenu(event) {
     currentSvgMenu.close();
 
     var menuHolder = currentWheelNavElement.querySelector('.menuHolder');
-    menuHolder.parentElement.removeChild(menuHolder);
+
+    if (menuHolder != null) {
+      menuHolder.parentElement.removeChild(menuHolder);
+    }
   }
 }
 
