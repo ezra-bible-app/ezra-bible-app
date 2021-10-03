@@ -365,12 +365,22 @@ h2:nth-of-type(1) {
 #change-tags-box {
   width: 550px;
   max-height: 500px;
-  overflow-y: scroll;
   padding: unset !important;
+}
+
+#change-tags-box.ui-dialog-content {
+  overflow: unset;
 }
 
 #change-tags-box .ui-widget-content {
   border: unset;
+}
+
+#change-tags-box #tags-content-global {
+  border-top: 1px solid lightgrey;
+  overflow-y: scroll;
+  height: 345px;
+  margin: 0.5em;
 }
 
 .verse-list-without-tags .tag-box,
@@ -1223,6 +1233,13 @@ li.book-unavailable a:focus,
   height: 4em;
 }
 
+#change-tags-box-content #tag-assignment-menu-filter {
+  height: 6em;
+  padding-top: 1em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
 #tag-assignment-menu-filter #tag-filter-menu {
   border: 0;
   box-shadow: unset;
@@ -1274,7 +1291,7 @@ li.book-unavailable a:focus,
   padding-top: 1em;
 }
 
-#tag-assignment-menu #tags-search-input {
+#tag-assignment-menu #tags-search-input, #change-tags-box #tags-search-input {
   float: none;
   width: 20em;
 }
