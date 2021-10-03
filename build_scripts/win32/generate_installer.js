@@ -11,6 +11,7 @@ const electronInstaller = require('electron-winstaller');
         outputDirectory: 'release/packages',
         noMsi: true,
         setupIcon: 'icons/ezra.ico',
+        loadingGif: 'images/windows_installer_banner.gif',
         exe: 'Ezra Bible App.exe'
       });
       console.log('Win32 installer generated successfully!');
