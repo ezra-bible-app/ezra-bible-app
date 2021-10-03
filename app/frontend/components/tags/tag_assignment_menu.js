@@ -157,7 +157,8 @@ class TagAssignmentMenu {
   moveTagAssignmentList(target="SIDE_PANEL") {
   //moveTagAssignmentList(moveToMenu=false) {
     var tagsContainer = document.querySelector('#tags-content-global');
-    var menu = document.querySelector('#tag-assignment-menu-taglist');
+    var tagAssignmentMenu = document.querySelector('#tag-assignment-menu');
+    var menuTagList = document.querySelector('#tag-assignment-menu-taglist');
     var toolBar = document.querySelector('#tags-content');
     var tagFilterMenu = document.querySelector('#tag-filter-menu');
     var $tagFilterMenu =$(tagFilterMenu);
@@ -179,10 +180,15 @@ class TagAssignmentMenu {
     if ((tagsContainer.parentElement == toolBar || tagsContainer.parentElement == popup) && target == "MENU") {
       $('#tag-list-filter-button').unbind();
 
-      menu.appendChild(tagsContainer);
-
       var filter = document.querySelector('#tag-assignment-menu-filter');
       var tagsSearchInput = document.querySelector('#tags-search-input');
+
+      if (tagsContainer.parentElement == popup) {
+        // Move the complete filter box back to the tag assignment menu
+        tagAssignmentMenu.prepend(filter);
+      }
+
+      menuTagList.appendChild(tagsContainer);
 
       filter.appendChild(tagsSearchInput);
       filter.appendChild(tagFilterMenu);
@@ -197,7 +203,7 @@ class TagAssignmentMenu {
 
       updated = true;
 
-    } else if ((tagsContainer.parentElement == menu || tagsContainer.parentElement == popup) && target == "SIDE_PANEL") {
+    } else if ((tagsContainer.parentElement == menuTagList || tagsContainer.parentElement == popup) && target == "SIDE_PANEL") {
 
       tags_controller.handleTagAccordionChange();
       var boxes = document.getElementById('boxes');
@@ -209,8 +215,19 @@ class TagAssignmentMenu {
 
     } else if (target == "POPUP") {
 
-      $tagFilterMenu.hide();
+      var filter = document.querySelector('#tag-assignment-menu-filter');
+      var tagsSearchInput = document.querySelector('#tags-search-input');
+      var tagAssignmentMenuFilter = document.querySelector('#tag-assignment-menu-filter');
+
+      filter.appendChild(tagsSearchInput);
+      filter.appendChild(tagFilterMenu);
+
+      $tagFilterMenu.find("br:not('#tag-filter-menu-separator')").hide();
+      $tagFilterMenu.show();
+
+      popup.appendChild(tagAssignmentMenuFilter);
       popup.appendChild(tagsContainer);
+
       updated = true;
     }
 
