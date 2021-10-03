@@ -126,7 +126,7 @@ class TranslationController {
   }
 
   addTranslationsToBibleSelectMenu(tabIndex, translations) {
-    var bibleSelect = this.getBibleSelect(tabIndex);
+    var bibleSelect = this.getBibleSelect(tabIndex)[0];
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentBibleTranslationId = null;
 
@@ -135,19 +135,20 @@ class TranslationController {
     }
 
     for (var translation of translations) {
-      var selected = '';
+      var currentTranslationEl = document.createElement('option');
+      currentTranslationEl.value = translation.name;
+      currentTranslationEl.innerText = translation.description;
+
       if (currentBibleTranslationId == translation.name) {
-        var selected = ' selected=\"selected\"';
+        currentTranslationEl.selected = "selected";
       }
 
-      var current_translation_html = "<option value='" + translation.name + "'" + selected + ">" + translation.description + "</option>"
-      var optGroup = bibleSelect.find('.bible-select-' + translation.language + '-translations');
-      optGroup.append(current_translation_html);
+      var optGroup = bibleSelect.querySelector('.bible-select-' + translation.language + '-translations');
+      optGroup.append(currentTranslationEl);
     }
   }
 
   async initTranslationsMenu(previousTabIndex=-1, tabIndex=undefined) {
-    console.time('part1');
     if (tabIndex === undefined) {
       var tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     }
@@ -160,20 +161,16 @@ class TranslationController {
 
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     var bibleSelect = null;
-    console.timeEnd('part1');
 
     if (previousVerseListMenu != null && previousVerseListMenu.length > 0) {
       
-      console.timeEnd('part2a');
       var previousBibleSelect = previousVerseListMenu.find('select.bible-select').clone();
       var currentBibleSelect = currentVerseListMenu.find('select.bible-select');
       currentBibleSelect.replaceWith(previousBibleSelect);
       bibleSelect = currentVerseListMenu.find('select.bible-select');
-      console.timeEnd('part2a');
 
     } else {
 
-      console.time('part2b');
       bibleSelect = currentVerseListMenu.find('select.bible-select');
       bibleSelect.empty();
 
@@ -205,7 +202,6 @@ class TranslationController {
       
       this.addTranslationsToBibleSelectMenu(tabIndex, translations);
       i18nController.addLocaleChangeSubscriber(locale => this.updateLanguages(locale, bibleSelect));
-      console.timeEnd('part2b');
     }
 
     bibleSelect.selectmenu({
