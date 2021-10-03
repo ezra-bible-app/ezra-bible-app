@@ -7,7 +7,7 @@ const electronInstaller = require('electron-winstaller');
         title: 'EzraBibleApp',
         name: 'EzraBibleApp',
         appDirectory: 'release/Ezra Bible App-win32-ia32',
-        outputDirectory: 'release',
+        outputDirectory: 'release/packages',
         noMsi: true,
         authors: 'Ezra Bible App Developers',
         exe: 'Ezra Bible App.exe'
