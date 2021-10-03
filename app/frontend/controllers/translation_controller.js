@@ -78,14 +78,14 @@ class TranslationController {
     return bibleSelect;
   }
 
-  async addLanguageGroupsToBibleSelectMenu(tabIndex) {
+  async addLanguageGroupsToBibleSelectMenu(tabIndex, localModules=undefined) {
     var bibleSelect = this.getBibleSelect(tabIndex);
-    var languages = await this.getLanguages();
+    var languages = await this.getLanguages('BIBLE', localModules);
 
-    for (var i = 0; i < languages.length; i++) {
-      var currentLang = languages[i];
+    for (let i = 0; i < languages.length; i++) {
+      let currentLang = languages[i];
 
-      var newOptGroup = "<optgroup class='bible-select-" + currentLang.languageCode + "-translations' label='" + currentLang.languageName + "'></optgroup>";
+      let newOptGroup = "<optgroup class='bible-select-" + currentLang.languageCode + "-translations' label='" + currentLang.languageName + "'></optgroup>";
       bibleSelect.append(newOptGroup);
     }
   }
@@ -126,7 +126,7 @@ class TranslationController {
   }
 
   addTranslationsToBibleSelectMenu(tabIndex, translations) {
-    var bibleSelect = this.getBibleSelect(tabIndex);
+    var bibleSelect = this.getBibleSelect(tabIndex)[0];
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentBibleTranslationId = null;
 
@@ -135,14 +135,16 @@ class TranslationController {
     }
 
     for (var translation of translations) {
-      var selected = '';
+      var currentTranslationEl = document.createElement('option');
+      currentTranslationEl.value = translation.name;
+      currentTranslationEl.innerText = translation.description;
+
       if (currentBibleTranslationId == translation.name) {
-        var selected = ' selected=\"selected\"';
+        currentTranslationEl.selected = "selected";
       }
 
-      var current_translation_html = "<option value='" + translation.name + "'" + selected + ">" + translation.description + "</option>"
-      var optGroup = bibleSelect.find('.bible-select-' + translation.language + '-translations');
-      optGroup.append(current_translation_html);
+      var optGroup = bibleSelect.querySelector('.bible-select-' + translation.language + '-translations');
+      optGroup.append(currentTranslationEl);
     }
   }
 
@@ -172,9 +174,8 @@ class TranslationController {
       bibleSelect = currentVerseListMenu.find('select.bible-select');
       bibleSelect.empty();
 
-      await this.addLanguageGroupsToBibleSelectMenu(tabIndex);
-
-      var translations = await ipcNsi.getAllLocalModules();
+      var translations = await ipcNsi.getAllLocalModules('BIBLE');
+      await this.addLanguageGroupsToBibleSelectMenu(tabIndex, translations);
 
       if (translations == null) translations = [];
 
@@ -201,7 +202,6 @@ class TranslationController {
       
       this.addTranslationsToBibleSelectMenu(tabIndex, translations);
       i18nController.addLocaleChangeSubscriber(locale => this.updateLanguages(locale, bibleSelect));
-
     }
 
     bibleSelect.selectmenu({
@@ -309,8 +309,10 @@ class TranslationController {
     $('#bible-sync-box').dialog("close");
   }
 
-  async getLanguages(moduleType='BIBLE') {
-    var localModules = await ipcNsi.getAllLocalModules(moduleType);
+  async getLanguages(moduleType='BIBLE', localModules=undefined) {
+    if (localModules == undefined) {
+      localModules = await ipcNsi.getAllLocalModules(moduleType);
+    }
 
     if (localModules == null) {
       return [];
