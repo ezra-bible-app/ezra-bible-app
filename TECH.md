@@ -25,7 +25,7 @@ To test Ezra Bible App, the following components are used:
 
 To package Ezra Bible App, the following components are used:
 * [electron-packager](https://github.com/electron/electron-packager)
-* [electron-installer-windows](https://github.com/electron-userland/electron-installer-windows)
+* [windows-installer](https://github.com/electron/windows-installer)
 * [electron-installer-debian](https://github.com/electron-userland/electron-installer-debian)
 * [electron-installer-redhat](https://github.com/electron-userland/electron-installer-redhat)
 * [electron-installer-dmg](https://github.com/electron-userland/electron-installer-dmg)
