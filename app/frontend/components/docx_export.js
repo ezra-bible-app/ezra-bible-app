@@ -74,7 +74,7 @@ class DocxExport {
         if (type === 'TAGS') {
           renderCurrentTagsForExport(currentTab);
         } else if (type === 'NOTES') {
-          renderCurrentChapterNotesForExport(currentTab, isLoadingWholeBook);
+          renderNotesForExport(currentTab, isLoadingWholeBook);
         }
       }
     });
@@ -102,7 +102,7 @@ function renderCurrentTagsForExport(currentTab) {
   );
 }
 
-function renderCurrentChapterNotesForExport(currentTab, isWholeBook=false) {
+function renderNotesForExport(currentTab, isWholeBook=false) {
   app_controller.text_controller.requestNotesForExport(
     undefined,
     currentTab.getBook(),

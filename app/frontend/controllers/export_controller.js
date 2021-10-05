@@ -31,6 +31,8 @@ var exportFilePath;
 var docx;
 
 module.exports.showSaveDialog = async function (fileTitle) {
+  if (platformHelper.isCordova()) return null; //TODO: figure out the way to save files in Cordova
+
   const dialog = require('electron').remote.dialog;
   var dialogOptions = getExportDialogOptions(fileTitle);
 
@@ -51,17 +53,6 @@ module.exports.saveWordDocument = async function (title, verses, bibleBooks=unde
   }
 
   docx = require("docx");
-
-
-  // // Officegen calling this function after finishing to generate the docx document:
-  // docx.on('finalize', (written) => {
-  //   shell.openPath(exportFilePath);
-  // });
-
-  // // Officegen calling this function to report errors:
-  // docx.on('error', function(err) {
-  //   console.log(err);
-  // });
 
   var children = [];
 
@@ -123,14 +114,6 @@ module.exports.saveWordDocument = async function (title, verses, bibleBooks=unde
 
   const shell = require('electron').shell;
   shell.openPath(exportFilePath);
-  // var out = fs.createWriteStream(exportFilePath);
-
-  // out.on('error', function(err) {
-  //   console.log(err);
-  // });
-
-  // Async call to generate the output file:
-  // docx.generate(out);
 };
 
 

@@ -370,14 +370,14 @@ class TextController {
         }
       });
 
-      const hasNotes = bookNotes !== null || filterNotesReferenceIds(verseNotes, startVerseNumber, startVerseNumber + numberOfVerses - 1).length > 0;
+      const hasNotes = bookNotes !== null || getReferenceIdsFromNotes(verseNotes, startVerseNumber, startVerseNumber + numberOfVerses - 1).length > 0;
 
       renderFunction(verses_as_html, hasNotes);
       
     } else if (renderType == 'docx') {
       const notes = {
         [bookShortTitle.toLowerCase()]:  bookNotes,
-        ...filterNotesForVerses(verseNotes, startVerseNumber, startVerseNumber + numberOfVerses - 1)
+        ...getNotesForSection(verseNotes, startVerseNumber, startVerseNumber + numberOfVerses - 1)
       };
       renderFunction(verses, notes);
     }
@@ -768,7 +768,7 @@ class TextController {
 
 module.exports = TextController;
 
-function filterNotesReferenceIds(verseNotes, startVerseNr, endVerseNr) {
+function getReferenceIdsFromNotes(verseNotes, startVerseNr, endVerseNr) {
   const verseReferenceIds = Object.keys(verseNotes);
   return verseReferenceIds.filter(verseReferenceId => {
     const noteVerseNumber = parseInt(verseReferenceId.split('-')[2]);
@@ -776,8 +776,8 @@ function filterNotesReferenceIds(verseNotes, startVerseNr, endVerseNr) {
   });
 }
 
-function filterNotesForVerses(verseNotes, startVerseNr, endVerseNr) {
-  const includedIds = filterNotesReferenceIds(verseNotes, startVerseNr, endVerseNr);
+function getNotesForSection(verseNotes, startVerseNr, endVerseNr) {
+  const includedIds = getReferenceIdsFromNotes(verseNotes, startVerseNr, endVerseNr);
   var includedNotes = {};
   includedIds.forEach(referenceId => {
     const referenceIdWithoutVersification = referenceId.slice(4); // strip 3-letter versification + '-'
