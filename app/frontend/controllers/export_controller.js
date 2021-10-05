@@ -58,7 +58,7 @@ module.exports.saveWordDocument = async function (title, verses, bibleBooks=unde
 
   if (bibleBooks && Array.isArray(bibleBooks)) {
     
-    children.push(renderMarkdown(`# ${title}`));
+    children.push(...renderMarkdown(`# ${title}`));
 
     for (const currentBook of bibleBooks) {
 
@@ -380,7 +380,6 @@ function renderMarkdown(markdown, style=undefined) {
           paragraphs.push(new docx.Paragraph({
             children: currentParagraphText,
             heading: docx.HeadingLevel[`HEADING_${token.depth}`],
-            style,
           }));
           currentParagraphText = [];
           break;
