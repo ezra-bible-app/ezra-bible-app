@@ -23,7 +23,7 @@ const exportController = require('../controllers/export_controller.js');
  * 
  * @category Component
  */
-class NotesTaggedVerseExport {
+class DocxExport {
 
   enableExportButton(tabIndex, type='TAGS') {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
@@ -82,7 +82,7 @@ class NotesTaggedVerseExport {
   
 }
 
-module.exports = NotesTaggedVerseExport;
+module.exports = DocxExport;
 
 function renderCurrentTagsForExport(currentTab) {
   const currentTagIdList = currentTab.getTagIdList();

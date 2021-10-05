@@ -164,7 +164,7 @@ class TextController {
     if (textType == 'book') { // Book text mode
 
       if (tabIndex === undefined) { 
-        app_controller.notesTaggedVerseExport.disableExportButton();
+        app_controller.docxExport.disableExportButton();
       }
       currentVerseListMenu.find('.book-select-button').addClass('focused-button');
 
@@ -676,9 +676,9 @@ class TextController {
       target.addClass('verse-list-book');
 
       if (hasNotes) {
-        app_controller.notesTaggedVerseExport.enableExportButton(tabIndex, 'NOTES');
+        app_controller.docxExport.enableExportButton(tabIndex, 'NOTES');
       } else {
-        app_controller.notesTaggedVerseExport.disableExportButton(tabIndex);
+        app_controller.docxExport.disableExportButton(tabIndex);
       }
 
     } else if (listType == 'tagged_verses') {
@@ -686,7 +686,7 @@ class TextController {
       app_controller.module_search_controller.resetSearch(tabIndex);
 
       if (this.platformHelper.isElectron()) {
-        app_controller.notesTaggedVerseExport.enableExportButton(tabIndex, 'TAGS');
+        app_controller.docxExport.enableExportButton(tabIndex, 'TAGS');
       }
 
       if (!currentTab.hasReferenceVerse()) {
