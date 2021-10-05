@@ -352,10 +352,11 @@ function renderMarkdown(markdown, style=undefined) {
           textOptions.highlight = 'yellow';
           break;
         case 'link':
-          tempText = currentParagraphText;
-          currentParagraphText = [];
-          // tokenOptions.link = token.href; // FIXME: this should work, but it doesn't: https://github.com/Ziv-Barber/officegen/tree/master/manual/docx#prgapi
-          break;
+          currentParagraphText.push(new docx.ExternalHyperlink({ 
+            child: new docx.TextRun({text: token.text,  style: 'Hyperlink'}),
+            link: token.href
+          }));
+          continue;
       }
 
       if (token.tokens) {
@@ -364,12 +365,8 @@ function renderMarkdown(markdown, style=undefined) {
         convertMarkDownTokens(token.items, { ...currentOptions, ...textOptions });  
       } else if (token.text) {
         currentParagraphText.push(new docx.TextRun({text: token.text, ...currentOptions, ...textOptions }));
+        continue;
       }
-
-      // Link hack
-      // if (token.type == 'link' && token.href) {
-      //   paragraph.addText(`(${token.href})`);
-      // }
 
       switch (token.type) { // check for block types
         case 'paragraph':
@@ -406,13 +403,13 @@ function renderMarkdown(markdown, style=undefined) {
           paragraphs.push(new docx.Paragraph(""));
           break;
         case 'link':
-          currentParagraphText = [
-            ...tempText, 
-            new docx.ExternalHyperlink({ 
+          paragraphs.push(new docx.Paragraph({
+            children: [new docx.ExternalHyperlink({ 
               children: currentParagraphText,
               link: token.href
-            })
-          ];
+            })]
+          }));
+          currentParagraphText = [];
           break;
       }
     }
