@@ -600,7 +600,7 @@ class TextController {
     }
   }
 
-  async requestNotesForExport(tabIndex, book, chapter, renderFunction, renderType = 'html') {
+  async requestNotesForExport(tabIndex, book, chapter, renderFunction, renderType='html') {
     var currentBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
     var separator = await i18nHelper.getReferenceSeparator(currentBibleTranslationId);
     var reference = (chapter || '1') + separator + '1';
@@ -610,8 +610,25 @@ class TextController {
     await this.requestBookText(tabIndex, undefined, book, renderFunction, startVerseNr, verseCount, renderType);
   }
 
-  async getVersesAsHtml(current_tab_id, tabIndex, bibleBooks, bookNames, bibleBookStats, groupedVerseTags, groupedVerseNotes, verses, versification, render_function, renderBibleBookHeaders = true, renderVerseMetaInfo = true) {
-    var bibleTranslationId = app_controller.tab_controller.getTabById(current_tab_id).getBibleTranslationId();
+  async getVersesAsHtml(current_tab_id,
+                        tabIndex, // TODO: Remove this parameter, because it is not used!
+                        bibleBooks,
+                        bookNames,
+                        bibleBookStats,
+                        groupedVerseTags,
+                        groupedVerseNotes,
+                        verses,
+                        versification,
+                        render_function,
+                        renderBibleBookHeaders=true,
+                        renderVerseMetaInfo=true) {    
+
+    var tab = app_controller.tab_controller.getTabById(current_tab_id);
+    var bibleTranslationId = null;
+    if (tab != null) {
+      bibleTranslationId = tab.getBibleTranslationId();
+    }
+
     var separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
 
     var verses_as_html = verseListTemplate({
