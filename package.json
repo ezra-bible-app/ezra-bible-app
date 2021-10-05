@@ -82,7 +82,6 @@
     "marked": "^3.0.0",
     "mousetrap": "^1.6.5",
     "node-sword-interface": "^0.235.0",
-    "officegen": "^0.6.5",
     "pug": "^3.0.0",
     "remove-markdown": "^0.3.0",
     "sanitize-html": "^2.3.3",
