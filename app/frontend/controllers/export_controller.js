@@ -334,6 +334,7 @@ function renderMarkdown(markdown, style=undefined) {
   var paragraphs = [];
   var currentParagraphText = [];
   var isOrderedList = false;
+  var isBlockquote = false;
 
   convertMarkDownTokens(marked.lexer(markdown));
 
@@ -360,6 +361,8 @@ function renderMarkdown(markdown, style=undefined) {
         case 'list':
           isOrderedList = token.ordered;
           break;
+        case 'blockquote':
+          isBlockquote = true;  
       }
 
       if (token.tokens) {
@@ -373,7 +376,7 @@ function renderMarkdown(markdown, style=undefined) {
 
       switch (token.type) { // check for block types
         case 'paragraph':
-          paragraphs.push(new docx.Paragraph({children: currentParagraphText, style}));
+          paragraphs.push(new docx.Paragraph({children: currentParagraphText, style: isBlockquote ? 'blockquote' : style}));
           currentParagraphText = [];
           break;
         case 'heading':
@@ -384,11 +387,7 @@ function renderMarkdown(markdown, style=undefined) {
           currentParagraphText = [];
           break;
         case 'blockquote':
-          paragraphs.push(new docx.Paragraph({
-            children: currentParagraphText,
-            style: 'blockquote'
-          }));
-          currentParagraphText = [];
+          isBlockquote = false;
           break;
         case 'list_item': 
           paragraphs.push(new docx.Paragraph({
@@ -575,13 +574,21 @@ function getDocStyles() {
         next: "Notes",
         quickFormat: true,
         run: {
-          size: 14,
+          size: 22,
         },
         paragraph: {
           indent: {
             left: docx.convertMillimetersToTwip(10),
           },
           spacing: { before: docx.convertMillimetersToTwip(3), after: docx.convertMillimetersToTwip(3) },
+          border: {
+            left: {
+              color: "BBBBBB",
+              space: 20,
+              value: "single",
+              size: 12
+            }
+          }
         },
       },
     ],
