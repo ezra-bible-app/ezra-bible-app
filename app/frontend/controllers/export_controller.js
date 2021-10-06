@@ -333,7 +333,7 @@ function renderVerse(verse) {
 function renderMarkdown(markdown, style=undefined) {
   var paragraphs = [];
   var currentParagraphText = [];
-  var tempText;
+  var isOrderedList = false;
 
   convertMarkDownTokens(marked.lexer(markdown));
 
@@ -357,6 +357,9 @@ function renderMarkdown(markdown, style=undefined) {
             link: token.href
           }));
           continue;
+        case 'list':
+          isOrderedList = token.ordered;
+          break;
       }
 
       if (token.tokens) {
@@ -392,13 +395,26 @@ function renderMarkdown(markdown, style=undefined) {
             children: currentParagraphText,
             style,
             numbering: {
-              reference: 'custom-bullets',
+              reference: isOrderedList ? 'custom-numbers' : 'custom-bullets',
               level: 0
             }
           }));
           currentParagraphText = [];
           break;
         case 'hr':
+          paragraphs.push(new docx.Paragraph({
+            text: "",
+            border: {
+              bottom: {
+                color: "auto",
+                space: 1,
+                value: "single",
+                size: 6,
+              },
+            },
+            spacing: { after: 150 },
+          }));
+          break;
         case 'space':
           paragraphs.push(new docx.Paragraph(""));
           break;
@@ -471,6 +487,21 @@ function getNumberingConfig() {
           },
         },
       ],
+    }, {
+      reference: "custom-numbers",
+      levels: [
+        {
+          level: 0,
+          format: docx.LevelFormat.DECIMAL,
+          text: "%1.",
+          alignment: docx.AlignmentType.START,
+          style: {
+            paragraph: {
+              indent: { left: 300, hanging: 250 },
+            },
+          },
+        },
+      ]
     }]};
 }
 
