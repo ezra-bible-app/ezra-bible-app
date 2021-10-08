@@ -255,6 +255,7 @@ function renderNotesVerseLayout(currentBlock, notes, isFirstChapter, isMultipleC
     const bookReferenceId = firstVerse.bibleBookShortTitle.toLowerCase();
     if (notes[bookReferenceId]) {
       paragraphs.push(...renderMarkdown(notes[bookReferenceId].text, 'notes'));
+      paragraphs.push(new docx.Paragraph(""));
     }
   }
 
@@ -277,12 +278,24 @@ function renderNotesVerseLayout(currentBlock, notes, isFirstChapter, isMultipleC
               type: docx.WidthType.DXA,
               size: docx.convertMillimetersToTwip(95)
             },
+            borders: {
+              top: {color: '555555'},
+              left: {color: '555555'},
+              bottom: {color: '555555'},
+              right: {color: '555555'},
+            },
           }),
           new docx.TableCell({
             children: notes[referenceId] ? renderMarkdown(notes[referenceId].text, 'notes') : [],
             width: {
               type: docx.WidthType.DXA,
               size: docx.convertMillimetersToTwip(95)
+            },
+            borders: {
+              top: {color: '555555'},
+              left: {color: '555555'},
+              bottom: {color: '555555'},
+              right: {color: '555555'},
             },
           })
         ],
@@ -405,7 +418,7 @@ function renderMarkdown(markdown, style=undefined) {
             text: "",
             border: {
               bottom: {
-                color: "auto",
+                color: "999999",
                 space: 1,
                 value: "single",
                 size: 6,
@@ -449,7 +462,8 @@ async function addBibleTranslationInfo() {
     default: new docx.Footer({
       children: [
         new docx.Paragraph({
-          children
+          children,
+          style: 'page-footer',
         })
       ]
     })
@@ -509,42 +523,61 @@ function getDocStyles() {
     default: {
       title: {
         run: {
-          size: 32,
-          bold: true,
-          color: "FF0000",
+          size: 48,
+          allCaps: true,
         },
         paragraph: {
+          alignment: docx.AlignmentType.CENTER,
           spacing: {
-            after: docx.convertMillimetersToTwip(5),
+            before: docx.convertMillimetersToTwip(7),
+            after: docx.convertMillimetersToTwip(14),
           }
         }
       },
       heading1: {
         run: {
-          size: 28,
-          bold: true,
-          italics: true,
-          color: "FF0000",
+          size: 30,
         },
         paragraph: {
           spacing: {
-            after: 120,
+            before: docx.convertMillimetersToTwip(10),
+            after: docx.convertMillimetersToTwip(5),
           },
         },
       },
       heading2: {
         run: {
-          size: 26,
+          size: 24,
           bold: true,
-          underline: {
-            type: docx.UnderlineType.DOUBLE,
-            color: "FF0000",
-          },
         },
         paragraph: {
           spacing: {
-            before: 240,
-            after: 120,
+            before: docx.convertMillimetersToTwip(5),
+            after: docx.convertMillimetersToTwip(3),
+          },
+        },
+      },
+      heading3: {
+        run: {
+          size: 18,
+          allCaps: true,
+        },
+        paragraph: {
+          spacing: {
+            before: docx.convertMillimetersToTwip(5),
+            after: docx.convertMillimetersToTwip(3),
+          },
+        },
+      },
+      heading4: {
+        run: {
+          size: 14,
+          bold: true,
+        },
+        paragraph: {
+          spacing: {
+            before: docx.convertMillimetersToTwip(3),
+            after: docx.convertMillimetersToTwip(1),
           },
         },
       },
@@ -578,17 +611,27 @@ function getDocStyles() {
         },
         paragraph: {
           indent: {
-            left: docx.convertMillimetersToTwip(10),
+            left: docx.convertMillimetersToTwip(7),
           },
           spacing: { before: docx.convertMillimetersToTwip(3), after: docx.convertMillimetersToTwip(3) },
           border: {
             left: {
               color: "BBBBBB",
-              space: 20,
+              space: 10,
               value: "single",
               size: 12
             }
           }
+        },
+      },
+      {
+        id: "page-footer",
+        name: "PageFooter",
+        basedOn: "Notes",
+        next: "PageFooter",
+        quickFormat: true,
+        run: {
+          color: '888888',
         },
       },
     ],
