@@ -71,3 +71,24 @@ module.exports.html = (literals, ...substs) => {
  * This function parses string into HTML fragment
  */
 module.exports.parseHTML = Range.prototype.createContextualFragment.bind(document.createRange());
+
+// https://stackoverflow.com/a/9609450/5681184
+module.exports.decodeEntities = (function() {
+  // this prevents any overhead from creating the object each time
+  var element = document.createElement('div');
+
+  function decodeHTMLEntities (str) {
+    if(str && typeof str === 'string') {
+      // strip script/html tags
+      str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
+      str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
+      element.innerHTML = str;
+      str = element.textContent;
+      element.textContent = '';
+    }
+
+    return str;
+  }
+
+  return decodeHTMLEntities;
+})();

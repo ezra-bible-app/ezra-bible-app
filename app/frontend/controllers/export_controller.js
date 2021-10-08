@@ -18,7 +18,7 @@
 
 const marked = require('marked');
 const i18nHelper = require('../helpers/i18n_helper.js');
-const { parseHTML } = require('../helpers/ezra_helper.js');
+const { parseHTML, decodeEntities } = require('../helpers/ezra_helper.js');
 
 /**
  * The ExportController implements the export of certain verses with notes or tags into a Word document.
@@ -370,7 +370,7 @@ function renderMarkdown(markdown, style=undefined) {
       } else if (token.items) {
         convertMarkDownTokens(token.items, { ...currentOptions, ...textOptions });  
       } else if (token.text) {
-        currentParagraphText.push(new docx.TextRun({text: token.text, ...currentOptions, ...textOptions }));
+        currentParagraphText.push(new docx.TextRun({text: decodeEntities(token.text), ...currentOptions, ...textOptions }));
         continue;
       }
 
