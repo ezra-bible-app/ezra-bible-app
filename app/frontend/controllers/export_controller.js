@@ -52,6 +52,16 @@ module.exports.saveWordDocument = async function (title, verses, bibleBooks=unde
     console.log('Export error: exportFilePath is not defined with showSaveDialog()');
   }
 
+  const buffer = await this.generateWordDocument(title, verses, bibleBooks, notes);
+
+  const fs = require('fs/promises');
+  await fs.writeFile(exportFilePath, buffer);
+
+  const shell = require('electron').shell;
+  shell.openPath(exportFilePath);
+};
+
+module.exports.generateWordDocument = async function(title, verses, bibleBooks=undefined, notes={}) {
   docx = require("docx");
 
   var children = [];
@@ -107,15 +117,9 @@ module.exports.saveWordDocument = async function (title, verses, bibleBooks=unde
   });
 
   console.log("Generating word document " + exportFilePath);
-  const buffer = await docx.Packer.toBuffer(doc);
 
-  const fs = require('fs/promises');
-  await fs.writeFile(exportFilePath, buffer);
-
-  const shell = require('electron').shell;
-  shell.openPath(exportFilePath);
+  return docx.Packer.toBuffer(doc);
 };
-
 
 function getExportDialogOptions(title) {
   const app = require('electron').remote.app;
@@ -448,13 +452,15 @@ function renderMarkdown(markdown, style=undefined) {
 
 async function addBibleTranslationInfo() {
   const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-  const swordModule = await ipcNsi.getLocalModule(bibleTranslationId);
-  const copyright = swordModule.shortCopyright || swordModule.copyright;
+  const moduleHelper = require('../helpers/sword_module_helper.js');
+
+  const license = await moduleHelper.getModuleLicense(bibleTranslationId);
+  const copyright = await moduleHelper.getModuleCopyright(bibleTranslationId);
 
   const children = [
     new docx.TextRun(`${i18n.t("general.scripture-quote-from")} `),
-    new docx.TextRun({ text: swordModule.description, bold: true }),
-    swordModule.distributionLicense ? new docx.TextRun(` (${swordModule.distributionLicense})`) : undefined,
+    new docx.TextRun({ text: await moduleHelper.getModuleFullName(bibleTranslationId), bold: true }),
+    license ? new docx.TextRun(` (${license})`) : undefined,
     copyright ? new docx.TextRun({ text: copyright, break: 1 }) : undefined
   ];
 

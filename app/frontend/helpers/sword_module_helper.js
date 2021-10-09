@@ -216,3 +216,33 @@ module.exports.getModuleLanguage = async function(moduleId) {
     return false;
   }
 };
+
+module.exports.getModuleFullName = async function(moduleId) {
+  var swordModule = await this.getSwordModule(moduleId);
+
+  if (swordModule != null) {
+    return swordModule.description;
+  } else {
+    return moduleId;
+  }
+};
+
+module.exports.getModuleCopyright = async function(moduleId) {
+  var swordModule = await this.getSwordModule(moduleId);
+
+  if (swordModule != null) {
+    return swordModule.shortCopyright || swordModule.copyright;
+  } else {
+    return false;
+  }
+};
+
+module.exports.getModuleLicense = async function(moduleId) {
+  var swordModule = await this.getSwordModule(moduleId);
+
+  if (swordModule != null) {
+    return swordModule.distributionLicense;
+  } else {
+    return false;
+  }
+};
