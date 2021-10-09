@@ -1230,6 +1230,10 @@ li.book-unavailable a:focus,
   padding-right: 0.5em;
 }
 
+#change-tags-box-content #tag-assignment-menu-taglist-overlay {
+  margin-top: unset;
+}
+
 #tag-assignment-menu-filter #tag-filter-menu {
   border: 0;
   box-shadow: unset;

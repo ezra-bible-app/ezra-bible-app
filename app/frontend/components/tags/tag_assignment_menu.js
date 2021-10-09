@@ -68,12 +68,15 @@ class TagAssignmentMenu {
 
   showPopup() {
     $('#change-tags-box-content').hide();
+    var tagsContainer = document.querySelector('#tags-content-global');
+    tagsContainer.style.display = 'none';
+
     $('#change-tags-box').dialog("open");
 
     setTimeout(() => {
       if (!app_controller.optionsMenu._tagListOption.isChecked) {
-        app_controller.tag_assignment_menu.moveTagAssignmentList("POPUP");
         $('#change-tags-box-content').show();
+        app_controller.tag_assignment_menu.moveTagAssignmentList("POPUP");
       }
     }, 100);
   }
@@ -153,14 +156,23 @@ class TagAssignmentMenu {
     var tagsContainer = document.querySelector('#tags-content-global');
     var tagAssignmentMenu = document.querySelector('#tag-assignment-menu');
     var menuTagList = document.querySelector('#tag-assignment-menu-taglist');
+    var menuTagListOverlay = document.querySelector('#tag-assignment-menu-taglist-overlay');
     var toolBar = document.querySelector('#tags-content');
     var tagFilterMenu = document.querySelector('#tag-filter-menu');
     var $tagFilterMenu =$(tagFilterMenu);
     var assignTagMenuButton = this.getCurrentMenuButton();
     var popup = document.querySelector("#change-tags-box-content");
 
-    if (target == "PREVIOUS") {
-      target = this._lastTagListContainer;
+    if (target != this._currentTagListContainer) {
+      if (target == "PREVIOUS") {
+        target = this._lastTagListContainer;
+      }
+
+      if (this._currentTagListContainer != this._lastTagListContainer) {
+        this._lastTagListContainer = this._currentTagListContainer;
+      }
+      
+      this._currentTagListContainer = target;
     }
 
     if (target != "SIDE_PANEL") {
@@ -180,6 +192,7 @@ class TagAssignmentMenu {
       if (tagsContainer.parentElement == popup) {
         // Move the complete filter box back to the tag assignment menu
         tagAssignmentMenu.prepend(filter);
+        tagAssignmentMenu.append(menuTagListOverlay);
       }
 
       menuTagList.appendChild(tagsContainer);
@@ -213,6 +226,8 @@ class TagAssignmentMenu {
       var tagsSearchInput = document.querySelector('#tags-search-input');
       var tagAssignmentMenuFilter = document.querySelector('#tag-assignment-menu-filter');
 
+      tagsContainer.style.display = 'none';
+
       filter.appendChild(tagsSearchInput);
       filter.appendChild(tagFilterMenu);
 
@@ -220,14 +235,18 @@ class TagAssignmentMenu {
       $tagFilterMenu.show();
 
       popup.appendChild(tagAssignmentMenuFilter);
-      popup.appendChild(tagsContainer);
+      popup.appendChild(menuTagListOverlay);
+
+      menuTagListOverlay.style.display = 'flex';
+      menuTagListOverlay.querySelector('.loader').style.display = 'block';
+
+      setTimeout(() => {
+        popup.appendChild(tagsContainer);
+        tagsContainer.style.display = 'block';
+        menuTagListOverlay.style.display = 'none';
+      }, 300);
 
       updated = true;
-    }
-
-    if (updated) {
-      this._lastTagListContainer = this._currentTagListContainer;
-      this._currentTagListContainer = target;
     }
 
     return updated;

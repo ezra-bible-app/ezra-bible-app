@@ -503,6 +503,8 @@ class AppController {
       fullScreenButton.firstElementChild.classList.remove('fa-expand');
       wheelnavController.bindEvents();
       this.hideMenu();
+
+      app_controller.tag_assignment_menu.moveTagAssignmentList("POPUP");
     } else {
       fullScreenButton.setAttribute('title', i18n.t('menu.fullscreen'));
       fullScreenButton.firstElementChild.classList.add('fa-expand');
