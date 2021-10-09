@@ -116,8 +116,11 @@ module.exports.generateWordDocument = async function(title, verses, bibleBooks=u
     }],
   });
 
-  console.log("Generating word document " + exportFilePath);
+  if (!exportFilePath) { // For test environment return all doc details as array
+    return [children, footers, getDocStyles(), getNumberingConfig()];
+  }
 
+  console.log("Generating word document " + exportFilePath);
   return docx.Packer.toBuffer(doc);
 };
 

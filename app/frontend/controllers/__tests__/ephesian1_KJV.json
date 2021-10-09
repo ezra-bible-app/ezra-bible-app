@@ -1,0 +1,26 @@
+[
+  {
+    "moduleCode": "KJV",
+    "bibleBookShortTitle": "Eph",
+    "chapter": 1,
+    "verseNr": 1,
+    "absoluteVerseNr": 1,
+    "content": "<chapter class=\"sword-markup sword-chapter\" chapterTitle=\"CHAPTER 1.\" osisID=\"Eph.1\" sID=\"gen1792\"/> <div class=\"sword-markup sword-section-title\" chapter=\"1\" type=\"chapter\">CHAPTER 1. </div><w class=\"strong:G3588 lemma.TR:τοις\" morph=\"robinson:T-DPM\" src=\"8\"/><w class=\"strong:G3972 lemma.TR:παυλος\" morph=\"robinson:N-NSM\" src=\"1\">Paul</w>, <w class=\"strong:G652 lemma.TR:αποστολος\" morph=\"robinson:N-NSM\" src=\"2\">an&nbsp;apostle</w> <w class=\"strong:G2424 lemma.TR:ιησου\" morph=\"robinson:N-GSM\" src=\"3\">of&nbsp;Jesus</w> <w class=\"strong:G5547 lemma.TR:χριστου\" morph=\"robinson:N-GSM\" src=\"4\">Christ</w> <w class=\"strong:G1223 lemma.TR:δια\" morph=\"robinson:PREP\" src=\"5\">by</w> <w class=\"strong:G2307 lemma.TR:θεληματος\" morph=\"robinson:N-GSN\" src=\"6\">the&nbsp;will</w> <w class=\"strong:G2316 lemma.TR:θεου\" morph=\"robinson:N-GSM\" src=\"7\">of&nbsp;God</w>, <w class=\"strong:G40 lemma.TR:αγιοις\" morph=\"robinson:A-DPM\" src=\"9\">to&nbsp;the&nbsp;saints</w> <w class=\"strong:G3588 lemma.TR:τοις\" morph=\"robinson:T-DPM\" src=\"10\">which</w> <w class=\"strong:G5607 lemma.TR:ουσιν\" morph=\"robinson:V-PXP-DPM\" src=\"11\">are</w> <w class=\"strong:G1722 lemma.TR:εν\" morph=\"robinson:PREP\" src=\"12\">at</w> <w class=\"strong:G2181 lemma.TR:εφεσω\" morph=\"robinson:N-DSF\" src=\"13\">Ephesus</w>, <w class=\"strong:G2532 lemma.TR:και\" morph=\"robinson:CONJ\" src=\"14\">and</w> <w class=\"strong:G4103 lemma.TR:πιστοις\" morph=\"robinson:A-DPM\" src=\"15\">to&nbsp;the&nbsp;faithful</w> <w class=\"strong:G1722 lemma.TR:εν\" morph=\"robinson:PREP\" src=\"16\">in</w> <w class=\"strong:G5547 lemma.TR:χριστω\" morph=\"robinson:N-DSM\" src=\"17\">Christ</w> <w class=\"strong:G2424 lemma.TR:ιησου\" morph=\"robinson:N-DSM\" src=\"18\">Jesus</w>:"
+  },
+  {
+    "moduleCode": "KJV",
+    "bibleBookShortTitle": "Eph",
+    "chapter": 1,
+    "verseNr": 2,
+    "absoluteVerseNr": 2,
+    "content": "<w class=\"strong:G5485 lemma.TR:χαρις\" morph=\"robinson:N-NSF\" src=\"1\">Grace</w> <transChange type=\"added\">be</transChange> <w class=\"strong:G5213 lemma.TR:υμιν\" morph=\"robinson:P-2DP\" src=\"2\">to&nbsp;you</w>, <w class=\"strong:G2532 lemma.TR:και\" morph=\"robinson:CONJ\" src=\"3\">and</w> <w class=\"strong:G1515 lemma.TR:ειρηνη\" morph=\"robinson:N-NSF\" src=\"4\">peace</w>, <w class=\"strong:G575 lemma.TR:απο\" morph=\"robinson:PREP\" src=\"5\">from</w> <w class=\"strong:G2316 lemma.TR:θεου\" morph=\"robinson:N-GSM\" src=\"6\">God</w> <w class=\"strong:G2257 lemma.TR:ημων\" morph=\"robinson:P-1GP\" src=\"8\">our</w> <w class=\"strong:G3962 lemma.TR:πατρος\" morph=\"robinson:N-GSM\" src=\"7\">Father</w>, <w class=\"strong:G2532 lemma.TR:και\" morph=\"robinson:CONJ\" src=\"9\">and</w> <transChange type=\"added\">from</transChange> <w class=\"strong:G2962 lemma.TR:κυριου\" morph=\"robinson:N-GSM\" src=\"10\">the&nbsp;Lord</w> <w class=\"strong:G2424 lemma.TR:ιησου\" morph=\"robinson:N-GSM\" src=\"11\">Jesus</w> <w class=\"strong:G5547 lemma.TR:χριστου\" morph=\"robinson:N-GSM\" src=\"12\">Christ</w>."
+  },
+  {
+    "moduleCode": "KJV",
+    "bibleBookShortTitle": "Eph",
+    "chapter": 1,
+    "verseNr": 3,
+    "absoluteVerseNr": 3,
+    "content": "<w class=\"strong:G3588 lemma.TR:τοις\" morph=\"robinson:T-DPN\" src=\"19\"/><w class=\"strong:G2128 lemma.TR:ευλογητος\" morph=\"robinson:A-NSM\" src=\"1\">Blessed</w> <transChange type=\"added\">be</transChange> <w class=\"strong:G3588 strong:G2316 lemma.TR:ο lemma.TR:θεος\" morph=\"robinson:T-NSM robinson:N-NSM\" src=\"2 3\">the&nbsp;God</w> <w class=\"strong:G2532 lemma.TR:και\" morph=\"robinson:CONJ\" src=\"4\">and</w> <w class=\"strong:G3962 lemma.TR:πατηρ\" morph=\"robinson:N-NSM\" src=\"5\">Father</w> <w class=\"strong:G2257 lemma.TR:ημων\" morph=\"robinson:P-1GP\" src=\"8\">of&nbsp;our</w> <w class=\"strong:G3588 strong:G2962 lemma.TR:του lemma.TR:κυριου\" morph=\"robinson:T-GSM robinson:N-GSM\" src=\"6 7\">Lord</w> <w class=\"strong:G2424 lemma.TR:ιησου\" morph=\"robinson:N-GSM\" src=\"9\">Jesus</w> <w class=\"strong:G5547 lemma.TR:χριστου\" morph=\"robinson:N-GSM\" src=\"10\">Christ</w>, <w class=\"strong:G3588 lemma.TR:ο\" morph=\"robinson:T-NSM\" src=\"11\">who</w> <w class=\"strong:G2127 lemma.TR:ευλογησας\" morph=\"robinson:V-AAP-NSM\" src=\"12\">hath&nbsp;blessed</w> <w class=\"strong:G2248 lemma.TR:ημας\" morph=\"robinson:P-1AP\" src=\"13\">us</w> <w class=\"strong:G1722 lemma.TR:εν\" morph=\"robinson:PREP\" src=\"14\">with</w> <w class=\"strong:G3956 lemma.TR:παση\" morph=\"robinson:A-DSF\" src=\"15\">all</w> <w class=\"strong:G4152 lemma.TR:πνευματικη\" morph=\"robinson:A-DSF\" src=\"17\">spiritual</w> <w class=\"strong:G2129 lemma.TR:ευλογια\" morph=\"robinson:N-DSF\" src=\"16\">blessings</w> <w class=\"strong:G1722 lemma.TR:εν\" morph=\"robinson:PREP\" src=\"18\">in</w> <w class=\"strong:G2032 lemma.TR:επουρανιοις\" morph=\"robinson:A-DPN\" src=\"20\">heavenly</w> <transChange type=\"added\">places</transChange> <w class=\"strong:G1722 lemma.TR:εν\" morph=\"robinson:PREP\" src=\"21\">in</w> <w class=\"strong:G5547 lemma.TR:χριστω\" morph=\"robinson:N-DSM\" src=\"22\">Christ</w>:"
+  }
+]
