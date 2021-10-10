@@ -199,6 +199,11 @@ module.exports.getLocale = function() {
   return locale.slice(0, 2); // just in case we got language with the region code (i.e "en-US") we want only the language code ("en")
 };
 
+module.exports.getFullLocale = function() {
+  var locale = i18n.language;
+  return locale;
+}
+
 module.exports.getSystemLocale = () => systemLocale;
 
 /** returns detected OS locale */

@@ -83,7 +83,11 @@ module.exports.getLanguageDetails = function (languageCode, localeCode='en') {
 
   var languageName;
   var localized = false;
-  
+
+  // We need to convert the locale code to lower case
+  // because the language details are completely stored in lower case
+  localeCode = localeCode.toLowerCase();
+
   if (details[localeCode]) {
     languageName = details[localeCode];
     localized = true;
