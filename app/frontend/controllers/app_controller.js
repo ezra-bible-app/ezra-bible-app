@@ -501,6 +501,7 @@ class AppController {
       fullScreenButton.setAttribute('title', i18n.t('menu.exit-fullscreen'));
       fullScreenButton.firstElementChild.classList.add('fa-compress');
       fullScreenButton.firstElementChild.classList.remove('fa-expand');
+      this.verse_list_popup.disableNewTabButton();
       wheelnavController.bindEvents();
       this.hideMenu();
 
@@ -509,6 +510,7 @@ class AppController {
       fullScreenButton.setAttribute('title', i18n.t('menu.fullscreen'));
       fullScreenButton.firstElementChild.classList.add('fa-expand');
       fullScreenButton.firstElementChild.classList.remove('fa-compress');
+      this.verse_list_popup.enableNewTabButton();
       wheelnavController.unbindAndClose();
       this.showMenu();
 
