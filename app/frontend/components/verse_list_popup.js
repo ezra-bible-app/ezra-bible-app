@@ -50,7 +50,11 @@ class VerseListPopup {
       this.handleCurrentBookFilterClick();
     });
 
-    this.getNewTabButton().bind('mousedown', () => {
+    this.getNewTabButton().bind('mousedown', (event) => {
+      if (event.target.classList.includes('ui-state-disabled')) {
+        return;
+      }
+
       this.handleNewTabButtonClick();
     });
 
@@ -374,8 +378,23 @@ class VerseListPopup {
     return overlay_box_position;
   }
 
+  enableNewTabButton() {
+    this.getNewTabButton().removeClass('ui-state-disabled');
+  }
+
+  disableNewTabButton() {
+    this.getNewTabButton().addClass('ui-state-disabled');
+  }
+
   renderVerseListInPopup(htmlVerses, verseCount) {
     $('#verse-list-popup-loading-indicator').hide();
+
+    if (app_controller.getPlatform().isFullScreen()) {
+      this.disableNewTabButton();
+    } else {
+      this.enableNewTabButton();
+    }
+
     this.getNewTabButton().show();
     var tagReferenceBoxTitle = $('#verse-list-popup').dialog('option', 'title');
     tagReferenceBoxTitle += ' (' + verseCount + ')';
