@@ -84,7 +84,7 @@ module.exports.getLocalizedDate = function(timestamp) {
  * @returns {string} localized language name if available. Otherwise language name in default locale (English) or initial language code
  */
 module.exports.getLanguageName = function(code, includeNativeName=false, currentLocale=null) {
-  currentLocale = currentLocale || i18nController.getFullLocale();
+  currentLocale = currentLocale || i18nController.getLocale();
   var localeName = languageMapper.getLanguageName(code, currentLocale);
 
   if (localeName) {
