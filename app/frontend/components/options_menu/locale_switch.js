@@ -85,7 +85,7 @@ class LocaleSwitch extends HTMLElement {
 
     this.querySelector('.locale-detect').addEventListener('click', () => this.handleDetectClick());
 
-    this.setSelected(i18nController.getFullLocale());
+    this.setSelected(i18nController.getLocale());
 
     $(this.selectEl).selectmenu({
       appendTo: this.querySelector('.locale-switch-container'),
