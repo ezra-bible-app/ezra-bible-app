@@ -96,12 +96,12 @@
     },
     "remove": {  
       "select-module-to-be-removed": "Seleccione el {{module_type, accusative}} que le gustaría eliminar.",
-      "disable-remove-note": "Este {{module_type, singular}} no se encuentra instalado en el directorio del usuario o es esencial para el funcionamieno de Ezra Bible App's.",
+      "disable-remove-note": "Este {{module_type, singular}} no se encuentra instalado en el directorio del usuario o es esencial para el funcionamiento de Ezra Bible App's.",
       "removing-modules": "Quitando {{module_type, accusative}}",
       "removing": "Quitando"
     },
     "unlock": {
-      "module-lock-info": "Este {{module_type, singular}} esta protegido por una licencia y requiere que usted compre una clave de desbloqueo del dueño del contenido!",
+      "module-lock-info": "Este {{module_type, singular}} está protegido por una licencia y requiere que usted compre una clave de desbloqueo del dueño del contenido!",
       "unlock-key": "Clave de desbloqueo",
       "enter-unlock-key": "{{moduleId}} está protegido por licencia. Por favor ingrese la clave de desbloqueo!",
       "unlock-failed": "Fallo al desbloquear! Por favor ingrese la clave correcta."
@@ -171,8 +171,8 @@
     "detect-locale-hint": "Detecta automáticamente el idioma basado en el idioma del sistema"
   },
   "help": {
-    "help-text-no-tags-book-opened": "Para comenzar trabajando con las etiquetas, debe crear su primera etiqueta pulsando en el botón <i>Nueva&nbsp;etiqueta</i>.<br/><br/>Después usted podrá seleccionar los textos de La Biblia que desee, para ello pulse sobre un verso o arrastre para seleccionar varios versos y asigne los a la etiqueta que acaba de crear.",
-    "help-text-no-tags-no-book-opened": "Para comenzar a trabajar con etiquetas, seleccione primero un libro de La Bilia que desea estudiar.",
+    "help-text-no-tags-book-opened": "Para comenzar trabajando con las etiquetas, debe crear su primera etiqueta pulsando en el botón <i>Nueva&nbsp;etiqueta</i>.<br/><br/>Después usted podrá seleccionar los textos de La Biblia que desee, para ello pulse sobre un verso o arrastre para seleccionar varios versos y asignelos a la etiqueta que acaba de crear.",
+    "help-text-no-tags-no-book-opened": "Para comenzar a trabajar con etiquetas, seleccione primero un libro de La Biblia que desea estudiar.",
     "help-text-translation-available": "Para empezar, seleccione un libro o etiqueta del menú que se muestra encima.",
     "help-text-no-translations": "Primero instale al menos una traducción de La Biblia . <br/><br/>Usted puede abrir el asistente de instalación pulsando en el ícono de configuración y después <i>Configure translations</i>."
   },
@@ -184,7 +184,7 @@
       "font-section-title": "Fuentes",
       "current-tab-search-section-title": "Buscar en la Pestaña Actual",
       "miscellaneous-section-title": "Miscelánea",
-      "in-tab-search": "Abrir Busqueda en Pestaña Actual",
+      "in-tab-search": "Abrir Búsqueda en Pestaña Actual",
       "hide-in-tab-search-form": "Ocultar Búsqueda en Pestaña Actual",
       "jump-to-next-search-occurance": "Ir al resultado siguiente",
       "jump-to-previous-occurance": "Ir al resultado anterior",
@@ -253,7 +253,7 @@
     "searching-for": "Buscando",
     "search-result-header": "Resultados para ",
     "no-search-results": "No se encontraron resultados para la consulta ",
-    "module-search-cancelled": "La busqueda de módulos fue cancelada cuando se buscaba ",
+    "module-search-cancelled": "La búsqueda de módulos fue cancelada cuando se buscaba ",
     "load-verse-context": "Cargar el contexto del verso",
     "tag-hint": "Pulse para mostrar todos los versos con esta etiqueta",
     "show-search-results": "Mostrar resultados de la búsqueda",
