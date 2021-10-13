@@ -24,6 +24,8 @@
 
 const i18nHelper = require('./i18n_helper.js');
 
+const PUBLIC_LICENSES = ['Public Domain', 'General public license for distribution for any purpose'];
+
 var _moduleVersificationCache = {};
 
 module.exports.getModuleDescription = async function(moduleId, isRemote=false) {
@@ -245,4 +247,9 @@ module.exports.getModuleLicense = async function(moduleId) {
   } else {
     return false;
   }
+};
+
+module.exports.isPublicDomain = async function(moduleId) {
+  const license = await this.getModuleLicense(moduleId);
+  return !license || PUBLIC_LICENSES.includes(license);
 };

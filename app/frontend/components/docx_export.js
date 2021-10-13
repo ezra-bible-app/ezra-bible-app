@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const exportController = require('../controllers/export_controller.js');
+const swordHelper = require('../helpers/sword_module_helper.js');
 
 /**
  * The TaggedVerseExport component implements the export of tagged verses into a Word document.
@@ -55,14 +56,21 @@ class DocxExport {
    */
   async _runExport(type) {
     /**@type {import('../ui_models/tab')} */
-    var currentTab = app_controller.tab_controller.getTab();
+    const currentTab = app_controller.tab_controller.getTab();
+    const translationId = currentTab.getBibleTranslationId();
+
+    if (!(await swordHelper.isPublicDomain(translationId)) && !(await agreeDisclaimerDialog(translationId))) {
+      return;
+    }
+    
     var fileName;
     var isLoadingWholeBook = false;
+
 
     if (type === 'TAGS') {
       fileName = getUnixTagTitleList(currentTab);
     } else if (type === 'NOTES') {
-      isLoadingWholeBook = await app_controller.translation_controller.isInstantLoadingBook(currentTab.getBibleTranslationId(), currentTab.getBook());
+      isLoadingWholeBook = await app_controller.translation_controller.isInstantLoadingBook(translationId, currentTab.getBook());
       fileName = currentTab.getBookTitle() + (isLoadingWholeBook ? '' : `_${currentTab.getChapter()}`);
     } else {
       console.log('Unrecognized export type:', type);
@@ -125,4 +133,10 @@ function getUnixTagTitleList(currentTab) {
   unixTagTitleList = unixTagTitleList.replace(specialCharacters, "");
 
   return unixTagTitleList;
+}
+
+
+async function agreeDisclaimerDialog(moduleId) {
+  console.log(await swordHelper.getModuleCopyright(moduleId));
+  return true;
 }
