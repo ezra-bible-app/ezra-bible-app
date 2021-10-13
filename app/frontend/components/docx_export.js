@@ -138,12 +138,19 @@ function getUnixTagTitleList(currentTab) {
 
 
 async function agreeDisclaimerDialog(moduleId) {
-  
+
+  const module_name = `<strong>${await swordHelper.getModuleFullName(moduleId)}</strong>`;
+
   const dialogBoxTemplate = html`
   <div id="module-disclaimer">
     <div id="module-disclaimer-content">
+      <p>${i18n.t("general.module-copyright-intro", {module_name})}</p>
       <p class="external">${await swordHelper.getModuleCopyright(moduleId)}</p>
-      <button id="agree-disclaimer" class="fg-button ui-corners-all ui-state-default">Ok</button>
+      <p>${i18n.t("general.module-copyright-disclaimer", {module_name})}</p>
+      <div style="text-align: center; line-height: 1.2">
+        <button id="cancel-disclaimer" class="fg-button ui-corner-all ui-state-default" style="margin: 0.5em; padding: 0.3em 1em;">${i18n.t("general.cancel")}</button>
+        <button id="agree-disclaimer" class="fg-button ui-corner-all ui-state-default"  style="margin: 0.5em; padding: 0.3em 1em;">${i18n.t("general.ok")}</button>
+      </div>
     </div>
   </div>
   `;
@@ -158,6 +165,9 @@ async function agreeDisclaimerDialog(moduleId) {
       agreed = true;
       $dialogBox.dialog('close');
     });
+    document.querySelector('#cancel-disclaimer').addEventListener('click', () => {
+      $dialogBox.dialog('close');
+    });
   
     const width = 480;
     const offsetLeft = ($(window).width() - width)/2;
@@ -165,8 +175,9 @@ async function agreeDisclaimerDialog(moduleId) {
     $dialogBox.dialog({
       width,
       position: [offsetLeft, 120],
-      title: i18n.t('general.module-application-info'),
+      title: i18n.t('general.module-copyright'),
       resizable: false,
+      dialogClass: 'ezra-dialog',
       close() {
         $dialogBox.dialog('destroy');
         $dialogBox.remove();
