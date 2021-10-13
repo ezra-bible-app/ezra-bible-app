@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const exportController = require('../controllers/export_controller.js');
+const { html } = require('../helpers/ezra_helper.js');
 const swordHelper = require('../helpers/sword_module_helper.js');
 
 /**
@@ -137,6 +138,41 @@ function getUnixTagTitleList(currentTab) {
 
 
 async function agreeDisclaimerDialog(moduleId) {
-  console.log(await swordHelper.getModuleCopyright(moduleId));
-  return true;
+  
+  const dialogBoxTemplate = html`
+  <div id="module-disclaimer">
+    <div id="module-disclaimer-content">
+      <p class="external">${await swordHelper.getModuleCopyright(moduleId)}</p>
+      <button id="agree-disclaimer" class="fg-button ui-corners-all ui-state-default">Ok</button>
+    </div>
+  </div>
+  `;
+
+  return new Promise((resolve) => {
+
+    document.querySelector('#boxes').appendChild(dialogBoxTemplate.content);
+    const $dialogBox = $('#module-disclaimer');
+    
+    var agreed = false;
+    document.querySelector('#agree-disclaimer').addEventListener('click', () => {
+      agreed = true;
+      $dialogBox.dialog('close');
+    });
+  
+    const width = 480;
+    const offsetLeft = ($(window).width() - width)/2;
+  
+    $dialogBox.dialog({
+      width,
+      position: [offsetLeft, 120],
+      title: i18n.t('general.module-application-info'),
+      resizable: false,
+      close() {
+        $dialogBox.dialog('destroy');
+        $dialogBox.remove();
+        resolve(agreed);
+      } 
+    });
+    
+  });
 }
