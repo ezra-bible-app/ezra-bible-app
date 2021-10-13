@@ -339,6 +339,10 @@ class AppController {
         if (currentTab.getReferenceVerseElementId() != null) {
           await this.updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId);
         }
+
+        if (currentTab.getTextType() == 'book') {
+          this.tag_statistics.highlightFrequentlyUsedTags();
+        }
       }
     }
   }
