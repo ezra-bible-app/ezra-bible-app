@@ -29,6 +29,7 @@ class DocxExport {
   enableExportButton(tabIndex, type='TAGS') {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     var exportButton = currentVerseListMenu.find('.export-tagged-verses-button');
+
     exportButton.removeClass('ui-state-disabled');
     exportButton.unbind('click');
     exportButton.bind('click', (event) => {
