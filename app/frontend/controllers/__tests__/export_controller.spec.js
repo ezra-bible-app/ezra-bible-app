@@ -19,8 +19,17 @@
 const exportController = require('../export_controller.js');
 
 // test input
-const verses = require('./ephesian1_KJV.json');
-const notes = {
+const versesData = require('./ephesian1_KJV.json');
+const anotherBookVerseData =   {
+  "moduleCode": "KJV",
+  "bibleBookShortTitle": "John",
+  "chapter": 15,
+  "verseNr": 4,
+  "absoluteVerseNr": 659,
+  content: '<div class="sword-markup sword-quote-jesus"></div><w class="strong:G3306 lemma.TR:μεινατε" morph="robinson:V-AAM-2P" src="1">Abide</w> <w class="strong:G1722 lemma.TR:εν" morph="robinson:PREP" src="2">in</w> <w class="strong:G1698 lemma.TR:εμοι" morph="robinson:P-1DS" src="3">me</w>, <w class="strong:G2504 lemma.TR:καγω" morph="robinson:P-1NS-C" src="4">and&nbsp;I</w> <w class="strong:G1722 lemma.TR:εν" morph="robinson:PREP" src="5">in</w> <w class="strong:G5213 lemma.TR:υμιν" morph="robinson:P…son:ADV" src="22 23">no&nbsp;more&nbsp;can</w> <w class="strong:G5210 lemma.TR:υμεις" morph="robinson:P-2NP" src="24">ye</w>, <w class="strong:G1437 strong:G3361 lemma.TR:εαν lemma.TR:μη" morph="robinson:COND robinson:PRT-N" src="25 26">except</w> <w class="strong:G3306 lemma.TR:μεινητε" morph="robinson:V-AAS-2P" src="29">ye&nbsp;abide</w> <w class="strong:G1722 lemma.TR:εν" morph="robinson:PREP" src="27">in</w> <w class="strong:G1698 lemma.TR:εμοι" morph="robinson:P-1DS" src="28">me</w>. </q>'
+};
+
+const notesData = {
   eph: {
     id: 1,
     verseReferenceId: 64,
@@ -38,6 +47,10 @@ const notes = {
     absoluteVerseNrHeb: 1
   }
 };
+const bibleBooksData = [
+  {id: 43, number: 43, shortTitle: 'John', longTitle: 'John'},
+  {id: 49, number: 49, shortTitle: 'Eph', longTitle: 'Ephesians'}, 
+];
 
 // mocking some functions
 global.app_controller = {
@@ -56,6 +69,7 @@ global.i18n = {
 jest.mock('../../helpers/i18n_helper.js', () => ({
   getReferenceSeparator: () => ':',
   getChapterText: () => 'Chapter',
+  getSwordTranslation: (book) => book + "(localized)",
 }));
 
 jest.mock('../../helpers/sword_module_helper.js', () => ({
@@ -66,7 +80,14 @@ jest.mock('../../helpers/sword_module_helper.js', () => ({
 
 describe('ExportController', () => {
   it('exports docx for notes', async () => {
-    const docx = await exportController.generateWordDocument("Ephesian 1", verses, undefined, notes);
+    const docx = await exportController.generateWordDocument("Ephesian 1", versesData, undefined, notesData);
+    expect(docx).toMatchSnapshot();
+  });
+
+  it('exports docx for tags', async () => {
+    const docx = await exportController.generateWordDocument("'Verses tagged with  _in Christ 🍇_'", 
+                                                             [...versesData, anotherBookVerseData], 
+                                                             bibleBooksData);
     expect(docx).toMatchSnapshot();
   });
 });

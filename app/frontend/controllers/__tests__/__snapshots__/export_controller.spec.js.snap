@@ -17698,3 +17698,2071 @@ Array [
   },
 ]
 `;
+
+exports[`ExportController exports docx for tags 1`] = `
+Array [
+  Array [
+    Paragraph {
+      "deleted": false,
+      "properties": ParagraphProperties {
+        "deleted": false,
+        "numberingReferences": Array [],
+        "root": Array [
+          Style {
+            "deleted": false,
+            "root": Array [
+              Attributes {
+                "deleted": false,
+                "root": Object {
+                  "val": "Heading1",
+                },
+                "rootKey": "_attr",
+                "xmlKeys": Object {
+                  "bottom": "w:bottom",
+                  "color": "w:color",
+                  "fill": "w:fill",
+                  "footer": "w:footer",
+                  "gutter": "w:gutter",
+                  "h": "w:h",
+                  "header": "w:header",
+                  "left": "w:left",
+                  "linePitch": "w:linePitch",
+                  "pos": "w:pos",
+                  "right": "w:right",
+                  "rsidR": "w:rsidR",
+                  "rsidRPr": "w:rsidRPr",
+                  "rsidSect": "w:rsidSect",
+                  "space": "w:space",
+                  "sz": "w:sz",
+                  "top": "w:top",
+                  "type": "w:type",
+                  "val": "w:val",
+                  "w": "w:w",
+                },
+              },
+            ],
+            "rootKey": "w:pStyle",
+          },
+        ],
+        "rootKey": "w:pPr",
+      },
+      "root": Array [
+        ParagraphProperties {
+          "deleted": false,
+          "numberingReferences": Array [],
+          "root": Array [
+            Style {
+              "deleted": false,
+              "root": Array [
+                Attributes {
+                  "deleted": false,
+                  "root": Object {
+                    "val": "Heading1",
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "bottom": "w:bottom",
+                    "color": "w:color",
+                    "fill": "w:fill",
+                    "footer": "w:footer",
+                    "gutter": "w:gutter",
+                    "h": "w:h",
+                    "header": "w:header",
+                    "left": "w:left",
+                    "linePitch": "w:linePitch",
+                    "pos": "w:pos",
+                    "right": "w:right",
+                    "rsidR": "w:rsidR",
+                    "rsidRPr": "w:rsidRPr",
+                    "rsidSect": "w:rsidSect",
+                    "space": "w:space",
+                    "sz": "w:sz",
+                    "top": "w:top",
+                    "type": "w:type",
+                    "val": "w:val",
+                    "w": "w:w",
+                  },
+                },
+              ],
+              "rootKey": "w:pStyle",
+            },
+          ],
+          "rootKey": "w:pPr",
+        },
+        TextRun {
+          "deleted": false,
+          "properties": RunProperties {
+            "deleted": false,
+            "root": Array [],
+            "rootKey": "w:rPr",
+          },
+          "root": Array [
+            RunProperties {
+              "deleted": false,
+              "root": Array [],
+              "rootKey": "w:rPr",
+            },
+            Text {
+              "deleted": false,
+              "root": Array [
+                TextAttributes {
+                  "deleted": false,
+                  "root": Object {
+                    "space": "preserve",
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "space": "xml:space",
+                  },
+                },
+                "'Verses tagged with  ",
+              ],
+              "rootKey": "w:t",
+            },
+          ],
+          "rootKey": "w:r",
+        },
+        TextRun {
+          "deleted": false,
+          "properties": RunProperties {
+            "deleted": false,
+            "root": Array [
+              Italics {
+                "deleted": false,
+                "root": Array [
+                  Attributes {
+                    "deleted": false,
+                    "root": Object {
+                      "val": true,
+                    },
+                    "rootKey": "_attr",
+                    "xmlKeys": Object {
+                      "bottom": "w:bottom",
+                      "color": "w:color",
+                      "fill": "w:fill",
+                      "footer": "w:footer",
+                      "gutter": "w:gutter",
+                      "h": "w:h",
+                      "header": "w:header",
+                      "left": "w:left",
+                      "linePitch": "w:linePitch",
+                      "pos": "w:pos",
+                      "right": "w:right",
+                      "rsidR": "w:rsidR",
+                      "rsidRPr": "w:rsidRPr",
+                      "rsidSect": "w:rsidSect",
+                      "space": "w:space",
+                      "sz": "w:sz",
+                      "top": "w:top",
+                      "type": "w:type",
+                      "val": "w:val",
+                      "w": "w:w",
+                    },
+                  },
+                ],
+                "rootKey": "w:i",
+              },
+              ItalicsComplexScript {
+                "deleted": false,
+                "root": Array [
+                  Attributes {
+                    "deleted": false,
+                    "root": Object {
+                      "val": true,
+                    },
+                    "rootKey": "_attr",
+                    "xmlKeys": Object {
+                      "bottom": "w:bottom",
+                      "color": "w:color",
+                      "fill": "w:fill",
+                      "footer": "w:footer",
+                      "gutter": "w:gutter",
+                      "h": "w:h",
+                      "header": "w:header",
+                      "left": "w:left",
+                      "linePitch": "w:linePitch",
+                      "pos": "w:pos",
+                      "right": "w:right",
+                      "rsidR": "w:rsidR",
+                      "rsidRPr": "w:rsidRPr",
+                      "rsidSect": "w:rsidSect",
+                      "space": "w:space",
+                      "sz": "w:sz",
+                      "top": "w:top",
+                      "type": "w:type",
+                      "val": "w:val",
+                      "w": "w:w",
+                    },
+                  },
+                ],
+                "rootKey": "w:iCs",
+              },
+            ],
+            "rootKey": "w:rPr",
+          },
+          "root": Array [
+            RunProperties {
+              "deleted": false,
+              "root": Array [
+                Italics {
+                  "deleted": false,
+                  "root": Array [
+                    Attributes {
+                      "deleted": false,
+                      "root": Object {
+                        "val": true,
+                      },
+                      "rootKey": "_attr",
+                      "xmlKeys": Object {
+                        "bottom": "w:bottom",
+                        "color": "w:color",
+                        "fill": "w:fill",
+                        "footer": "w:footer",
+                        "gutter": "w:gutter",
+                        "h": "w:h",
+                        "header": "w:header",
+                        "left": "w:left",
+                        "linePitch": "w:linePitch",
+                        "pos": "w:pos",
+                        "right": "w:right",
+                        "rsidR": "w:rsidR",
+                        "rsidRPr": "w:rsidRPr",
+                        "rsidSect": "w:rsidSect",
+                        "space": "w:space",
+                        "sz": "w:sz",
+                        "top": "w:top",
+                        "type": "w:type",
+                        "val": "w:val",
+                        "w": "w:w",
+                      },
+                    },
+                  ],
+                  "rootKey": "w:i",
+                },
+                ItalicsComplexScript {
+                  "deleted": false,
+                  "root": Array [
+                    Attributes {
+                      "deleted": false,
+                      "root": Object {
+                        "val": true,
+                      },
+                      "rootKey": "_attr",
+                      "xmlKeys": Object {
+                        "bottom": "w:bottom",
+                        "color": "w:color",
+                        "fill": "w:fill",
+                        "footer": "w:footer",
+                        "gutter": "w:gutter",
+                        "h": "w:h",
+                        "header": "w:header",
+                        "left": "w:left",
+                        "linePitch": "w:linePitch",
+                        "pos": "w:pos",
+                        "right": "w:right",
+                        "rsidR": "w:rsidR",
+                        "rsidRPr": "w:rsidRPr",
+                        "rsidSect": "w:rsidSect",
+                        "space": "w:space",
+                        "sz": "w:sz",
+                        "top": "w:top",
+                        "type": "w:type",
+                        "val": "w:val",
+                        "w": "w:w",
+                      },
+                    },
+                  ],
+                  "rootKey": "w:iCs",
+                },
+              ],
+              "rootKey": "w:rPr",
+            },
+            Text {
+              "deleted": false,
+              "root": Array [
+                TextAttributes {
+                  "deleted": false,
+                  "root": Object {
+                    "space": "preserve",
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "space": "xml:space",
+                  },
+                },
+                "in Christ 🍇",
+              ],
+              "rootKey": "w:t",
+            },
+          ],
+          "rootKey": "w:r",
+        },
+        TextRun {
+          "deleted": false,
+          "properties": RunProperties {
+            "deleted": false,
+            "root": Array [],
+            "rootKey": "w:rPr",
+          },
+          "root": Array [
+            RunProperties {
+              "deleted": false,
+              "root": Array [],
+              "rootKey": "w:rPr",
+            },
+            Text {
+              "deleted": false,
+              "root": Array [
+                TextAttributes {
+                  "deleted": false,
+                  "root": Object {
+                    "space": "preserve",
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "space": "xml:space",
+                  },
+                },
+                "'",
+              ],
+              "rootKey": "w:t",
+            },
+          ],
+          "rootKey": "w:r",
+        },
+      ],
+      "rootKey": "w:p",
+    },
+    Paragraph {
+      "deleted": false,
+      "properties": ParagraphProperties {
+        "deleted": false,
+        "numberingReferences": Array [],
+        "root": Array [
+          Style {
+            "deleted": false,
+            "root": Array [
+              Attributes {
+                "deleted": false,
+                "root": Object {
+                  "val": "Heading2",
+                },
+                "rootKey": "_attr",
+                "xmlKeys": Object {
+                  "bottom": "w:bottom",
+                  "color": "w:color",
+                  "fill": "w:fill",
+                  "footer": "w:footer",
+                  "gutter": "w:gutter",
+                  "h": "w:h",
+                  "header": "w:header",
+                  "left": "w:left",
+                  "linePitch": "w:linePitch",
+                  "pos": "w:pos",
+                  "right": "w:right",
+                  "rsidR": "w:rsidR",
+                  "rsidRPr": "w:rsidRPr",
+                  "rsidSect": "w:rsidSect",
+                  "space": "w:space",
+                  "sz": "w:sz",
+                  "top": "w:top",
+                  "type": "w:type",
+                  "val": "w:val",
+                  "w": "w:w",
+                },
+              },
+            ],
+            "rootKey": "w:pStyle",
+          },
+        ],
+        "rootKey": "w:pPr",
+      },
+      "root": Array [
+        ParagraphProperties {
+          "deleted": false,
+          "numberingReferences": Array [],
+          "root": Array [
+            Style {
+              "deleted": false,
+              "root": Array [
+                Attributes {
+                  "deleted": false,
+                  "root": Object {
+                    "val": "Heading2",
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "bottom": "w:bottom",
+                    "color": "w:color",
+                    "fill": "w:fill",
+                    "footer": "w:footer",
+                    "gutter": "w:gutter",
+                    "h": "w:h",
+                    "header": "w:header",
+                    "left": "w:left",
+                    "linePitch": "w:linePitch",
+                    "pos": "w:pos",
+                    "right": "w:right",
+                    "rsidR": "w:rsidR",
+                    "rsidRPr": "w:rsidRPr",
+                    "rsidSect": "w:rsidSect",
+                    "space": "w:space",
+                    "sz": "w:sz",
+                    "top": "w:top",
+                    "type": "w:type",
+                    "val": "w:val",
+                    "w": "w:w",
+                  },
+                },
+              ],
+              "rootKey": "w:pStyle",
+            },
+          ],
+          "rootKey": "w:pPr",
+        },
+        TextRun {
+          "deleted": false,
+          "properties": RunProperties {
+            "deleted": false,
+            "root": Array [],
+            "rootKey": "w:rPr",
+          },
+          "root": Array [
+            RunProperties {
+              "deleted": false,
+              "root": Array [],
+              "rootKey": "w:rPr",
+            },
+            Text {
+              "deleted": false,
+              "root": Array [
+                TextAttributes {
+                  "deleted": false,
+                  "root": Object {
+                    "space": "preserve",
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "space": "xml:space",
+                  },
+                },
+                "John(localized)",
+              ],
+              "rootKey": "w:t",
+            },
+          ],
+          "rootKey": "w:r",
+        },
+      ],
+      "rootKey": "w:p",
+    },
+    Paragraph {
+      "deleted": false,
+      "properties": ParagraphProperties {
+        "deleted": false,
+        "numberingReferences": Array [],
+        "root": Array [
+          Spacing {
+            "deleted": false,
+            "root": Array [
+              SpacingAttributes {
+                "deleted": false,
+                "root": Object {
+                  "before": 200,
+                },
+                "rootKey": "_attr",
+                "xmlKeys": Object {
+                  "after": "w:after",
+                  "before": "w:before",
+                  "line": "w:line",
+                  "lineRule": "w:lineRule",
+                },
+              },
+            ],
+            "rootKey": "w:spacing",
+          },
+          Style {
+            "deleted": false,
+            "root": Array [
+              Attributes {
+                "deleted": false,
+                "root": Object {
+                  "val": "Heading3",
+                },
+                "rootKey": "_attr",
+                "xmlKeys": Object {
+                  "bottom": "w:bottom",
+                  "color": "w:color",
+                  "fill": "w:fill",
+                  "footer": "w:footer",
+                  "gutter": "w:gutter",
+                  "h": "w:h",
+                  "header": "w:header",
+                  "left": "w:left",
+                  "linePitch": "w:linePitch",
+                  "pos": "w:pos",
+                  "right": "w:right",
+                  "rsidR": "w:rsidR",
+                  "rsidRPr": "w:rsidRPr",
+                  "rsidSect": "w:rsidSect",
+                  "space": "w:space",
+                  "sz": "w:sz",
+                  "top": "w:top",
+                  "type": "w:type",
+                  "val": "w:val",
+                  "w": "w:w",
+                },
+              },
+            ],
+            "rootKey": "w:pStyle",
+          },
+        ],
+        "rootKey": "w:pPr",
+      },
+      "root": Array [
+        ParagraphProperties {
+          "deleted": false,
+          "numberingReferences": Array [],
+          "root": Array [
+            Spacing {
+              "deleted": false,
+              "root": Array [
+                SpacingAttributes {
+                  "deleted": false,
+                  "root": Object {
+                    "before": 200,
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "after": "w:after",
+                    "before": "w:before",
+                    "line": "w:line",
+                    "lineRule": "w:lineRule",
+                  },
+                },
+              ],
+              "rootKey": "w:spacing",
+            },
+            Style {
+              "deleted": false,
+              "root": Array [
+                Attributes {
+                  "deleted": false,
+                  "root": Object {
+                    "val": "Heading3",
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "bottom": "w:bottom",
+                    "color": "w:color",
+                    "fill": "w:fill",
+                    "footer": "w:footer",
+                    "gutter": "w:gutter",
+                    "h": "w:h",
+                    "header": "w:header",
+                    "left": "w:left",
+                    "linePitch": "w:linePitch",
+                    "pos": "w:pos",
+                    "right": "w:right",
+                    "rsidR": "w:rsidR",
+                    "rsidRPr": "w:rsidRPr",
+                    "rsidSect": "w:rsidSect",
+                    "space": "w:space",
+                    "sz": "w:sz",
+                    "top": "w:top",
+                    "type": "w:type",
+                    "val": "w:val",
+                    "w": "w:w",
+                  },
+                },
+              ],
+              "rootKey": "w:pStyle",
+            },
+          ],
+          "rootKey": "w:pPr",
+        },
+        TextRun {
+          "deleted": false,
+          "properties": RunProperties {
+            "deleted": false,
+            "root": Array [],
+            "rootKey": "w:rPr",
+          },
+          "root": Array [
+            RunProperties {
+              "deleted": false,
+              "root": Array [],
+              "rootKey": "w:rPr",
+            },
+            Text {
+              "deleted": false,
+              "root": Array [
+                TextAttributes {
+                  "deleted": false,
+                  "root": Object {
+                    "space": "preserve",
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "space": "xml:space",
+                  },
+                },
+                "John(localized) 15:4",
+              ],
+              "rootKey": "w:t",
+            },
+          ],
+          "rootKey": "w:r",
+        },
+      ],
+      "rootKey": "w:p",
+    },
+    Paragraph {
+      "deleted": false,
+      "properties": ParagraphProperties {
+        "deleted": false,
+        "numberingReferences": Array [],
+        "root": Array [],
+        "rootKey": "w:pPr",
+      },
+      "root": Array [
+        ParagraphProperties {
+          "deleted": false,
+          "numberingReferences": Array [],
+          "root": Array [],
+          "rootKey": "w:pPr",
+        },
+        TextRun {
+          "deleted": false,
+          "properties": RunProperties {
+            "deleted": false,
+            "root": Array [
+              SuperScript {
+                "deleted": false,
+                "root": Array [
+                  Attributes {
+                    "deleted": false,
+                    "root": Object {
+                      "val": "superscript",
+                    },
+                    "rootKey": "_attr",
+                    "xmlKeys": Object {
+                      "bottom": "w:bottom",
+                      "color": "w:color",
+                      "fill": "w:fill",
+                      "footer": "w:footer",
+                      "gutter": "w:gutter",
+                      "h": "w:h",
+                      "header": "w:header",
+                      "left": "w:left",
+                      "linePitch": "w:linePitch",
+                      "pos": "w:pos",
+                      "right": "w:right",
+                      "rsidR": "w:rsidR",
+                      "rsidRPr": "w:rsidRPr",
+                      "rsidSect": "w:rsidSect",
+                      "space": "w:space",
+                      "sz": "w:sz",
+                      "top": "w:top",
+                      "type": "w:type",
+                      "val": "w:val",
+                      "w": "w:w",
+                    },
+                  },
+                ],
+                "rootKey": "w:vertAlign",
+              },
+            ],
+            "rootKey": "w:rPr",
+          },
+          "root": Array [
+            RunProperties {
+              "deleted": false,
+              "root": Array [
+                SuperScript {
+                  "deleted": false,
+                  "root": Array [
+                    Attributes {
+                      "deleted": false,
+                      "root": Object {
+                        "val": "superscript",
+                      },
+                      "rootKey": "_attr",
+                      "xmlKeys": Object {
+                        "bottom": "w:bottom",
+                        "color": "w:color",
+                        "fill": "w:fill",
+                        "footer": "w:footer",
+                        "gutter": "w:gutter",
+                        "h": "w:h",
+                        "header": "w:header",
+                        "left": "w:left",
+                        "linePitch": "w:linePitch",
+                        "pos": "w:pos",
+                        "right": "w:right",
+                        "rsidR": "w:rsidR",
+                        "rsidRPr": "w:rsidRPr",
+                        "rsidSect": "w:rsidSect",
+                        "space": "w:space",
+                        "sz": "w:sz",
+                        "top": "w:top",
+                        "type": "w:type",
+                        "val": "w:val",
+                        "w": "w:w",
+                      },
+                    },
+                  ],
+                  "rootKey": "w:vertAlign",
+                },
+              ],
+              "rootKey": "w:rPr",
+            },
+            Text {
+              "deleted": false,
+              "root": Array [
+                TextAttributes {
+                  "deleted": false,
+                  "root": Object {
+                    "space": "preserve",
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "space": "xml:space",
+                  },
+                },
+                4,
+              ],
+              "rootKey": "w:t",
+            },
+          ],
+          "rootKey": "w:r",
+        },
+        TextRun {
+          "deleted": false,
+          "properties": RunProperties {
+            "deleted": false,
+            "root": Array [],
+            "rootKey": "w:rPr",
+          },
+          "root": Array [
+            RunProperties {
+              "deleted": false,
+              "root": Array [],
+              "rootKey": "w:rPr",
+            },
+            Text {
+              "deleted": false,
+              "root": Array [
+                TextAttributes {
+                  "deleted": false,
+                  "root": Object {
+                    "space": "preserve",
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "space": "xml:space",
+                  },
+                },
+                " Abide in me, and I in no more can ye, except ye abide in me. ",
+              ],
+              "rootKey": "w:t",
+            },
+          ],
+          "rootKey": "w:r",
+        },
+      ],
+      "rootKey": "w:p",
+    },
+    Paragraph {
+      "deleted": false,
+      "properties": ParagraphProperties {
+        "deleted": false,
+        "numberingReferences": Array [],
+        "root": Array [
+          Style {
+            "deleted": false,
+            "root": Array [
+              Attributes {
+                "deleted": false,
+                "root": Object {
+                  "val": "Heading2",
+                },
+                "rootKey": "_attr",
+                "xmlKeys": Object {
+                  "bottom": "w:bottom",
+                  "color": "w:color",
+                  "fill": "w:fill",
+                  "footer": "w:footer",
+                  "gutter": "w:gutter",
+                  "h": "w:h",
+                  "header": "w:header",
+                  "left": "w:left",
+                  "linePitch": "w:linePitch",
+                  "pos": "w:pos",
+                  "right": "w:right",
+                  "rsidR": "w:rsidR",
+                  "rsidRPr": "w:rsidRPr",
+                  "rsidSect": "w:rsidSect",
+                  "space": "w:space",
+                  "sz": "w:sz",
+                  "top": "w:top",
+                  "type": "w:type",
+                  "val": "w:val",
+                  "w": "w:w",
+                },
+              },
+            ],
+            "rootKey": "w:pStyle",
+          },
+        ],
+        "rootKey": "w:pPr",
+      },
+      "root": Array [
+        ParagraphProperties {
+          "deleted": false,
+          "numberingReferences": Array [],
+          "root": Array [
+            Style {
+              "deleted": false,
+              "root": Array [
+                Attributes {
+                  "deleted": false,
+                  "root": Object {
+                    "val": "Heading2",
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "bottom": "w:bottom",
+                    "color": "w:color",
+                    "fill": "w:fill",
+                    "footer": "w:footer",
+                    "gutter": "w:gutter",
+                    "h": "w:h",
+                    "header": "w:header",
+                    "left": "w:left",
+                    "linePitch": "w:linePitch",
+                    "pos": "w:pos",
+                    "right": "w:right",
+                    "rsidR": "w:rsidR",
+                    "rsidRPr": "w:rsidRPr",
+                    "rsidSect": "w:rsidSect",
+                    "space": "w:space",
+                    "sz": "w:sz",
+                    "top": "w:top",
+                    "type": "w:type",
+                    "val": "w:val",
+                    "w": "w:w",
+                  },
+                },
+              ],
+              "rootKey": "w:pStyle",
+            },
+          ],
+          "rootKey": "w:pPr",
+        },
+        TextRun {
+          "deleted": false,
+          "properties": RunProperties {
+            "deleted": false,
+            "root": Array [],
+            "rootKey": "w:rPr",
+          },
+          "root": Array [
+            RunProperties {
+              "deleted": false,
+              "root": Array [],
+              "rootKey": "w:rPr",
+            },
+            Text {
+              "deleted": false,
+              "root": Array [
+                TextAttributes {
+                  "deleted": false,
+                  "root": Object {
+                    "space": "preserve",
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "space": "xml:space",
+                  },
+                },
+                "Ephesians(localized)",
+              ],
+              "rootKey": "w:t",
+            },
+          ],
+          "rootKey": "w:r",
+        },
+      ],
+      "rootKey": "w:p",
+    },
+    Paragraph {
+      "deleted": false,
+      "properties": ParagraphProperties {
+        "deleted": false,
+        "numberingReferences": Array [],
+        "root": Array [
+          Spacing {
+            "deleted": false,
+            "root": Array [
+              SpacingAttributes {
+                "deleted": false,
+                "root": Object {
+                  "before": 200,
+                },
+                "rootKey": "_attr",
+                "xmlKeys": Object {
+                  "after": "w:after",
+                  "before": "w:before",
+                  "line": "w:line",
+                  "lineRule": "w:lineRule",
+                },
+              },
+            ],
+            "rootKey": "w:spacing",
+          },
+          Style {
+            "deleted": false,
+            "root": Array [
+              Attributes {
+                "deleted": false,
+                "root": Object {
+                  "val": "Heading3",
+                },
+                "rootKey": "_attr",
+                "xmlKeys": Object {
+                  "bottom": "w:bottom",
+                  "color": "w:color",
+                  "fill": "w:fill",
+                  "footer": "w:footer",
+                  "gutter": "w:gutter",
+                  "h": "w:h",
+                  "header": "w:header",
+                  "left": "w:left",
+                  "linePitch": "w:linePitch",
+                  "pos": "w:pos",
+                  "right": "w:right",
+                  "rsidR": "w:rsidR",
+                  "rsidRPr": "w:rsidRPr",
+                  "rsidSect": "w:rsidSect",
+                  "space": "w:space",
+                  "sz": "w:sz",
+                  "top": "w:top",
+                  "type": "w:type",
+                  "val": "w:val",
+                  "w": "w:w",
+                },
+              },
+            ],
+            "rootKey": "w:pStyle",
+          },
+        ],
+        "rootKey": "w:pPr",
+      },
+      "root": Array [
+        ParagraphProperties {
+          "deleted": false,
+          "numberingReferences": Array [],
+          "root": Array [
+            Spacing {
+              "deleted": false,
+              "root": Array [
+                SpacingAttributes {
+                  "deleted": false,
+                  "root": Object {
+                    "before": 200,
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "after": "w:after",
+                    "before": "w:before",
+                    "line": "w:line",
+                    "lineRule": "w:lineRule",
+                  },
+                },
+              ],
+              "rootKey": "w:spacing",
+            },
+            Style {
+              "deleted": false,
+              "root": Array [
+                Attributes {
+                  "deleted": false,
+                  "root": Object {
+                    "val": "Heading3",
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "bottom": "w:bottom",
+                    "color": "w:color",
+                    "fill": "w:fill",
+                    "footer": "w:footer",
+                    "gutter": "w:gutter",
+                    "h": "w:h",
+                    "header": "w:header",
+                    "left": "w:left",
+                    "linePitch": "w:linePitch",
+                    "pos": "w:pos",
+                    "right": "w:right",
+                    "rsidR": "w:rsidR",
+                    "rsidRPr": "w:rsidRPr",
+                    "rsidSect": "w:rsidSect",
+                    "space": "w:space",
+                    "sz": "w:sz",
+                    "top": "w:top",
+                    "type": "w:type",
+                    "val": "w:val",
+                    "w": "w:w",
+                  },
+                },
+              ],
+              "rootKey": "w:pStyle",
+            },
+          ],
+          "rootKey": "w:pPr",
+        },
+        TextRun {
+          "deleted": false,
+          "properties": RunProperties {
+            "deleted": false,
+            "root": Array [],
+            "rootKey": "w:rPr",
+          },
+          "root": Array [
+            RunProperties {
+              "deleted": false,
+              "root": Array [],
+              "rootKey": "w:rPr",
+            },
+            Text {
+              "deleted": false,
+              "root": Array [
+                TextAttributes {
+                  "deleted": false,
+                  "root": Object {
+                    "space": "preserve",
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "space": "xml:space",
+                  },
+                },
+                "Ephesians(localized) 1:1-3",
+              ],
+              "rootKey": "w:t",
+            },
+          ],
+          "rootKey": "w:r",
+        },
+      ],
+      "rootKey": "w:p",
+    },
+    Paragraph {
+      "deleted": false,
+      "properties": ParagraphProperties {
+        "deleted": false,
+        "numberingReferences": Array [],
+        "root": Array [],
+        "rootKey": "w:pPr",
+      },
+      "root": Array [
+        ParagraphProperties {
+          "deleted": false,
+          "numberingReferences": Array [],
+          "root": Array [],
+          "rootKey": "w:pPr",
+        },
+        TextRun {
+          "deleted": false,
+          "properties": RunProperties {
+            "deleted": false,
+            "root": Array [
+              SuperScript {
+                "deleted": false,
+                "root": Array [
+                  Attributes {
+                    "deleted": false,
+                    "root": Object {
+                      "val": "superscript",
+                    },
+                    "rootKey": "_attr",
+                    "xmlKeys": Object {
+                      "bottom": "w:bottom",
+                      "color": "w:color",
+                      "fill": "w:fill",
+                      "footer": "w:footer",
+                      "gutter": "w:gutter",
+                      "h": "w:h",
+                      "header": "w:header",
+                      "left": "w:left",
+                      "linePitch": "w:linePitch",
+                      "pos": "w:pos",
+                      "right": "w:right",
+                      "rsidR": "w:rsidR",
+                      "rsidRPr": "w:rsidRPr",
+                      "rsidSect": "w:rsidSect",
+                      "space": "w:space",
+                      "sz": "w:sz",
+                      "top": "w:top",
+                      "type": "w:type",
+                      "val": "w:val",
+                      "w": "w:w",
+                    },
+                  },
+                ],
+                "rootKey": "w:vertAlign",
+              },
+            ],
+            "rootKey": "w:rPr",
+          },
+          "root": Array [
+            RunProperties {
+              "deleted": false,
+              "root": Array [
+                SuperScript {
+                  "deleted": false,
+                  "root": Array [
+                    Attributes {
+                      "deleted": false,
+                      "root": Object {
+                        "val": "superscript",
+                      },
+                      "rootKey": "_attr",
+                      "xmlKeys": Object {
+                        "bottom": "w:bottom",
+                        "color": "w:color",
+                        "fill": "w:fill",
+                        "footer": "w:footer",
+                        "gutter": "w:gutter",
+                        "h": "w:h",
+                        "header": "w:header",
+                        "left": "w:left",
+                        "linePitch": "w:linePitch",
+                        "pos": "w:pos",
+                        "right": "w:right",
+                        "rsidR": "w:rsidR",
+                        "rsidRPr": "w:rsidRPr",
+                        "rsidSect": "w:rsidSect",
+                        "space": "w:space",
+                        "sz": "w:sz",
+                        "top": "w:top",
+                        "type": "w:type",
+                        "val": "w:val",
+                        "w": "w:w",
+                      },
+                    },
+                  ],
+                  "rootKey": "w:vertAlign",
+                },
+              ],
+              "rootKey": "w:rPr",
+            },
+            Text {
+              "deleted": false,
+              "root": Array [
+                TextAttributes {
+                  "deleted": false,
+                  "root": Object {
+                    "space": "preserve",
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "space": "xml:space",
+                  },
+                },
+                1,
+              ],
+              "rootKey": "w:t",
+            },
+          ],
+          "rootKey": "w:r",
+        },
+        TextRun {
+          "deleted": false,
+          "properties": RunProperties {
+            "deleted": false,
+            "root": Array [],
+            "rootKey": "w:rPr",
+          },
+          "root": Array [
+            RunProperties {
+              "deleted": false,
+              "root": Array [],
+              "rootKey": "w:rPr",
+            },
+            Text {
+              "deleted": false,
+              "root": Array [
+                TextAttributes {
+                  "deleted": false,
+                  "root": Object {
+                    "space": "preserve",
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "space": "xml:space",
+                  },
+                },
+                "  Paul, an apostle of Jesus Christ by the will of God, to the saints which are at Ephesus, and to the faithful in Christ Jesus:",
+              ],
+              "rootKey": "w:t",
+            },
+          ],
+          "rootKey": "w:r",
+        },
+      ],
+      "rootKey": "w:p",
+    },
+    Paragraph {
+      "deleted": false,
+      "properties": ParagraphProperties {
+        "deleted": false,
+        "numberingReferences": Array [],
+        "root": Array [],
+        "rootKey": "w:pPr",
+      },
+      "root": Array [
+        ParagraphProperties {
+          "deleted": false,
+          "numberingReferences": Array [],
+          "root": Array [],
+          "rootKey": "w:pPr",
+        },
+        TextRun {
+          "deleted": false,
+          "properties": RunProperties {
+            "deleted": false,
+            "root": Array [
+              SuperScript {
+                "deleted": false,
+                "root": Array [
+                  Attributes {
+                    "deleted": false,
+                    "root": Object {
+                      "val": "superscript",
+                    },
+                    "rootKey": "_attr",
+                    "xmlKeys": Object {
+                      "bottom": "w:bottom",
+                      "color": "w:color",
+                      "fill": "w:fill",
+                      "footer": "w:footer",
+                      "gutter": "w:gutter",
+                      "h": "w:h",
+                      "header": "w:header",
+                      "left": "w:left",
+                      "linePitch": "w:linePitch",
+                      "pos": "w:pos",
+                      "right": "w:right",
+                      "rsidR": "w:rsidR",
+                      "rsidRPr": "w:rsidRPr",
+                      "rsidSect": "w:rsidSect",
+                      "space": "w:space",
+                      "sz": "w:sz",
+                      "top": "w:top",
+                      "type": "w:type",
+                      "val": "w:val",
+                      "w": "w:w",
+                    },
+                  },
+                ],
+                "rootKey": "w:vertAlign",
+              },
+            ],
+            "rootKey": "w:rPr",
+          },
+          "root": Array [
+            RunProperties {
+              "deleted": false,
+              "root": Array [
+                SuperScript {
+                  "deleted": false,
+                  "root": Array [
+                    Attributes {
+                      "deleted": false,
+                      "root": Object {
+                        "val": "superscript",
+                      },
+                      "rootKey": "_attr",
+                      "xmlKeys": Object {
+                        "bottom": "w:bottom",
+                        "color": "w:color",
+                        "fill": "w:fill",
+                        "footer": "w:footer",
+                        "gutter": "w:gutter",
+                        "h": "w:h",
+                        "header": "w:header",
+                        "left": "w:left",
+                        "linePitch": "w:linePitch",
+                        "pos": "w:pos",
+                        "right": "w:right",
+                        "rsidR": "w:rsidR",
+                        "rsidRPr": "w:rsidRPr",
+                        "rsidSect": "w:rsidSect",
+                        "space": "w:space",
+                        "sz": "w:sz",
+                        "top": "w:top",
+                        "type": "w:type",
+                        "val": "w:val",
+                        "w": "w:w",
+                      },
+                    },
+                  ],
+                  "rootKey": "w:vertAlign",
+                },
+              ],
+              "rootKey": "w:rPr",
+            },
+            Text {
+              "deleted": false,
+              "root": Array [
+                TextAttributes {
+                  "deleted": false,
+                  "root": Object {
+                    "space": "preserve",
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "space": "xml:space",
+                  },
+                },
+                2,
+              ],
+              "rootKey": "w:t",
+            },
+          ],
+          "rootKey": "w:r",
+        },
+        TextRun {
+          "deleted": false,
+          "properties": RunProperties {
+            "deleted": false,
+            "root": Array [],
+            "rootKey": "w:rPr",
+          },
+          "root": Array [
+            RunProperties {
+              "deleted": false,
+              "root": Array [],
+              "rootKey": "w:rPr",
+            },
+            Text {
+              "deleted": false,
+              "root": Array [
+                TextAttributes {
+                  "deleted": false,
+                  "root": Object {
+                    "space": "preserve",
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "space": "xml:space",
+                  },
+                },
+                " Grace be to you, and peace, from God our Father, and from the Lord Jesus Christ.",
+              ],
+              "rootKey": "w:t",
+            },
+          ],
+          "rootKey": "w:r",
+        },
+      ],
+      "rootKey": "w:p",
+    },
+    Paragraph {
+      "deleted": false,
+      "properties": ParagraphProperties {
+        "deleted": false,
+        "numberingReferences": Array [],
+        "root": Array [],
+        "rootKey": "w:pPr",
+      },
+      "root": Array [
+        ParagraphProperties {
+          "deleted": false,
+          "numberingReferences": Array [],
+          "root": Array [],
+          "rootKey": "w:pPr",
+        },
+        TextRun {
+          "deleted": false,
+          "properties": RunProperties {
+            "deleted": false,
+            "root": Array [
+              SuperScript {
+                "deleted": false,
+                "root": Array [
+                  Attributes {
+                    "deleted": false,
+                    "root": Object {
+                      "val": "superscript",
+                    },
+                    "rootKey": "_attr",
+                    "xmlKeys": Object {
+                      "bottom": "w:bottom",
+                      "color": "w:color",
+                      "fill": "w:fill",
+                      "footer": "w:footer",
+                      "gutter": "w:gutter",
+                      "h": "w:h",
+                      "header": "w:header",
+                      "left": "w:left",
+                      "linePitch": "w:linePitch",
+                      "pos": "w:pos",
+                      "right": "w:right",
+                      "rsidR": "w:rsidR",
+                      "rsidRPr": "w:rsidRPr",
+                      "rsidSect": "w:rsidSect",
+                      "space": "w:space",
+                      "sz": "w:sz",
+                      "top": "w:top",
+                      "type": "w:type",
+                      "val": "w:val",
+                      "w": "w:w",
+                    },
+                  },
+                ],
+                "rootKey": "w:vertAlign",
+              },
+            ],
+            "rootKey": "w:rPr",
+          },
+          "root": Array [
+            RunProperties {
+              "deleted": false,
+              "root": Array [
+                SuperScript {
+                  "deleted": false,
+                  "root": Array [
+                    Attributes {
+                      "deleted": false,
+                      "root": Object {
+                        "val": "superscript",
+                      },
+                      "rootKey": "_attr",
+                      "xmlKeys": Object {
+                        "bottom": "w:bottom",
+                        "color": "w:color",
+                        "fill": "w:fill",
+                        "footer": "w:footer",
+                        "gutter": "w:gutter",
+                        "h": "w:h",
+                        "header": "w:header",
+                        "left": "w:left",
+                        "linePitch": "w:linePitch",
+                        "pos": "w:pos",
+                        "right": "w:right",
+                        "rsidR": "w:rsidR",
+                        "rsidRPr": "w:rsidRPr",
+                        "rsidSect": "w:rsidSect",
+                        "space": "w:space",
+                        "sz": "w:sz",
+                        "top": "w:top",
+                        "type": "w:type",
+                        "val": "w:val",
+                        "w": "w:w",
+                      },
+                    },
+                  ],
+                  "rootKey": "w:vertAlign",
+                },
+              ],
+              "rootKey": "w:rPr",
+            },
+            Text {
+              "deleted": false,
+              "root": Array [
+                TextAttributes {
+                  "deleted": false,
+                  "root": Object {
+                    "space": "preserve",
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "space": "xml:space",
+                  },
+                },
+                3,
+              ],
+              "rootKey": "w:t",
+            },
+          ],
+          "rootKey": "w:r",
+        },
+        TextRun {
+          "deleted": false,
+          "properties": RunProperties {
+            "deleted": false,
+            "root": Array [],
+            "rootKey": "w:rPr",
+          },
+          "root": Array [
+            RunProperties {
+              "deleted": false,
+              "root": Array [],
+              "rootKey": "w:rPr",
+            },
+            Text {
+              "deleted": false,
+              "root": Array [
+                TextAttributes {
+                  "deleted": false,
+                  "root": Object {
+                    "space": "preserve",
+                  },
+                  "rootKey": "_attr",
+                  "xmlKeys": Object {
+                    "space": "xml:space",
+                  },
+                },
+                " Blessed be the God and Father of our Lord Jesus Christ, who hath blessed us with all spiritual blessings in heavenly places in Christ:",
+              ],
+              "rootKey": "w:t",
+            },
+          ],
+          "rootKey": "w:r",
+        },
+      ],
+      "rootKey": "w:p",
+    },
+  ],
+  Object {
+    "default": Footer {
+      "options": Object {
+        "children": Array [
+          Paragraph {
+            "deleted": false,
+            "properties": ParagraphProperties {
+              "deleted": false,
+              "numberingReferences": Array [],
+              "root": Array [
+                Style {
+                  "deleted": false,
+                  "root": Array [
+                    Attributes {
+                      "deleted": false,
+                      "root": Object {
+                        "val": "page-footer",
+                      },
+                      "rootKey": "_attr",
+                      "xmlKeys": Object {
+                        "bottom": "w:bottom",
+                        "color": "w:color",
+                        "fill": "w:fill",
+                        "footer": "w:footer",
+                        "gutter": "w:gutter",
+                        "h": "w:h",
+                        "header": "w:header",
+                        "left": "w:left",
+                        "linePitch": "w:linePitch",
+                        "pos": "w:pos",
+                        "right": "w:right",
+                        "rsidR": "w:rsidR",
+                        "rsidRPr": "w:rsidRPr",
+                        "rsidSect": "w:rsidSect",
+                        "space": "w:space",
+                        "sz": "w:sz",
+                        "top": "w:top",
+                        "type": "w:type",
+                        "val": "w:val",
+                        "w": "w:w",
+                      },
+                    },
+                  ],
+                  "rootKey": "w:pStyle",
+                },
+              ],
+              "rootKey": "w:pPr",
+            },
+            "root": Array [
+              ParagraphProperties {
+                "deleted": false,
+                "numberingReferences": Array [],
+                "root": Array [
+                  Style {
+                    "deleted": false,
+                    "root": Array [
+                      Attributes {
+                        "deleted": false,
+                        "root": Object {
+                          "val": "page-footer",
+                        },
+                        "rootKey": "_attr",
+                        "xmlKeys": Object {
+                          "bottom": "w:bottom",
+                          "color": "w:color",
+                          "fill": "w:fill",
+                          "footer": "w:footer",
+                          "gutter": "w:gutter",
+                          "h": "w:h",
+                          "header": "w:header",
+                          "left": "w:left",
+                          "linePitch": "w:linePitch",
+                          "pos": "w:pos",
+                          "right": "w:right",
+                          "rsidR": "w:rsidR",
+                          "rsidRPr": "w:rsidRPr",
+                          "rsidSect": "w:rsidSect",
+                          "space": "w:space",
+                          "sz": "w:sz",
+                          "top": "w:top",
+                          "type": "w:type",
+                          "val": "w:val",
+                          "w": "w:w",
+                        },
+                      },
+                    ],
+                    "rootKey": "w:pStyle",
+                  },
+                ],
+                "rootKey": "w:pPr",
+              },
+              TextRun {
+                "deleted": false,
+                "properties": RunProperties {
+                  "deleted": false,
+                  "root": Array [],
+                  "rootKey": "w:rPr",
+                },
+                "root": Array [
+                  RunProperties {
+                    "deleted": false,
+                    "root": Array [],
+                    "rootKey": "w:rPr",
+                  },
+                  Text {
+                    "deleted": false,
+                    "root": Array [
+                      TextAttributes {
+                        "deleted": false,
+                        "root": Object {
+                          "space": "preserve",
+                        },
+                        "rootKey": "_attr",
+                        "xmlKeys": Object {
+                          "space": "xml:space",
+                        },
+                      },
+                      "general.scripture-quote-from ",
+                    ],
+                    "rootKey": "w:t",
+                  },
+                ],
+                "rootKey": "w:r",
+              },
+              TextRun {
+                "deleted": false,
+                "properties": RunProperties {
+                  "deleted": false,
+                  "root": Array [
+                    Bold {
+                      "deleted": false,
+                      "root": Array [
+                        Attributes {
+                          "deleted": false,
+                          "root": Object {
+                            "val": true,
+                          },
+                          "rootKey": "_attr",
+                          "xmlKeys": Object {
+                            "bottom": "w:bottom",
+                            "color": "w:color",
+                            "fill": "w:fill",
+                            "footer": "w:footer",
+                            "gutter": "w:gutter",
+                            "h": "w:h",
+                            "header": "w:header",
+                            "left": "w:left",
+                            "linePitch": "w:linePitch",
+                            "pos": "w:pos",
+                            "right": "w:right",
+                            "rsidR": "w:rsidR",
+                            "rsidRPr": "w:rsidRPr",
+                            "rsidSect": "w:rsidSect",
+                            "space": "w:space",
+                            "sz": "w:sz",
+                            "top": "w:top",
+                            "type": "w:type",
+                            "val": "w:val",
+                            "w": "w:w",
+                          },
+                        },
+                      ],
+                      "rootKey": "w:b",
+                    },
+                    BoldComplexScript {
+                      "deleted": false,
+                      "root": Array [
+                        Attributes {
+                          "deleted": false,
+                          "root": Object {
+                            "val": true,
+                          },
+                          "rootKey": "_attr",
+                          "xmlKeys": Object {
+                            "bottom": "w:bottom",
+                            "color": "w:color",
+                            "fill": "w:fill",
+                            "footer": "w:footer",
+                            "gutter": "w:gutter",
+                            "h": "w:h",
+                            "header": "w:header",
+                            "left": "w:left",
+                            "linePitch": "w:linePitch",
+                            "pos": "w:pos",
+                            "right": "w:right",
+                            "rsidR": "w:rsidR",
+                            "rsidRPr": "w:rsidRPr",
+                            "rsidSect": "w:rsidSect",
+                            "space": "w:space",
+                            "sz": "w:sz",
+                            "top": "w:top",
+                            "type": "w:type",
+                            "val": "w:val",
+                            "w": "w:w",
+                          },
+                        },
+                      ],
+                      "rootKey": "w:bCs",
+                    },
+                  ],
+                  "rootKey": "w:rPr",
+                },
+                "root": Array [
+                  RunProperties {
+                    "deleted": false,
+                    "root": Array [
+                      Bold {
+                        "deleted": false,
+                        "root": Array [
+                          Attributes {
+                            "deleted": false,
+                            "root": Object {
+                              "val": true,
+                            },
+                            "rootKey": "_attr",
+                            "xmlKeys": Object {
+                              "bottom": "w:bottom",
+                              "color": "w:color",
+                              "fill": "w:fill",
+                              "footer": "w:footer",
+                              "gutter": "w:gutter",
+                              "h": "w:h",
+                              "header": "w:header",
+                              "left": "w:left",
+                              "linePitch": "w:linePitch",
+                              "pos": "w:pos",
+                              "right": "w:right",
+                              "rsidR": "w:rsidR",
+                              "rsidRPr": "w:rsidRPr",
+                              "rsidSect": "w:rsidSect",
+                              "space": "w:space",
+                              "sz": "w:sz",
+                              "top": "w:top",
+                              "type": "w:type",
+                              "val": "w:val",
+                              "w": "w:w",
+                            },
+                          },
+                        ],
+                        "rootKey": "w:b",
+                      },
+                      BoldComplexScript {
+                        "deleted": false,
+                        "root": Array [
+                          Attributes {
+                            "deleted": false,
+                            "root": Object {
+                              "val": true,
+                            },
+                            "rootKey": "_attr",
+                            "xmlKeys": Object {
+                              "bottom": "w:bottom",
+                              "color": "w:color",
+                              "fill": "w:fill",
+                              "footer": "w:footer",
+                              "gutter": "w:gutter",
+                              "h": "w:h",
+                              "header": "w:header",
+                              "left": "w:left",
+                              "linePitch": "w:linePitch",
+                              "pos": "w:pos",
+                              "right": "w:right",
+                              "rsidR": "w:rsidR",
+                              "rsidRPr": "w:rsidRPr",
+                              "rsidSect": "w:rsidSect",
+                              "space": "w:space",
+                              "sz": "w:sz",
+                              "top": "w:top",
+                              "type": "w:type",
+                              "val": "w:val",
+                              "w": "w:w",
+                            },
+                          },
+                        ],
+                        "rootKey": "w:bCs",
+                      },
+                    ],
+                    "rootKey": "w:rPr",
+                  },
+                  Text {
+                    "deleted": false,
+                    "root": Array [
+                      TextAttributes {
+                        "deleted": false,
+                        "root": Object {
+                          "space": "preserve",
+                        },
+                        "rootKey": "_attr",
+                        "xmlKeys": Object {
+                          "space": "xml:space",
+                        },
+                      },
+                      "King James Version",
+                    ],
+                    "rootKey": "w:t",
+                  },
+                ],
+                "rootKey": "w:r",
+              },
+              TextRun {
+                "deleted": false,
+                "properties": RunProperties {
+                  "deleted": false,
+                  "root": Array [],
+                  "rootKey": "w:rPr",
+                },
+                "root": Array [
+                  RunProperties {
+                    "deleted": false,
+                    "root": Array [],
+                    "rootKey": "w:rPr",
+                  },
+                  Text {
+                    "deleted": false,
+                    "root": Array [
+                      TextAttributes {
+                        "deleted": false,
+                        "root": Object {
+                          "space": "preserve",
+                        },
+                        "rootKey": "_attr",
+                        "xmlKeys": Object {
+                          "space": "xml:space",
+                        },
+                      },
+                      " (General Public License)",
+                    ],
+                    "rootKey": "w:t",
+                  },
+                ],
+                "rootKey": "w:r",
+              },
+              TextRun {
+                "deleted": false,
+                "properties": RunProperties {
+                  "deleted": false,
+                  "root": Array [],
+                  "rootKey": "w:rPr",
+                },
+                "root": Array [
+                  RunProperties {
+                    "deleted": false,
+                    "root": Array [],
+                    "rootKey": "w:rPr",
+                  },
+                  Break {
+                    "deleted": false,
+                    "root": Array [],
+                    "rootKey": "w:br",
+                  },
+                  Text {
+                    "deleted": false,
+                    "root": Array [
+                      TextAttributes {
+                        "deleted": false,
+                        "root": Object {
+                          "space": "preserve",
+                        },
+                        "rootKey": "_attr",
+                        "xmlKeys": Object {
+                          "space": "xml:space",
+                        },
+                      },
+                      "Public Domain",
+                    ],
+                    "rootKey": "w:t",
+                  },
+                ],
+                "rootKey": "w:r",
+              },
+            ],
+            "rootKey": "w:p",
+          },
+        ],
+      },
+    },
+  },
+  Object {
+    "default": Object {
+      "heading1": Object {
+        "paragraph": Object {
+          "spacing": Object {
+            "after": 283,
+            "before": 566,
+          },
+        },
+        "run": Object {
+          "size": 30,
+        },
+      },
+      "heading2": Object {
+        "paragraph": Object {
+          "spacing": Object {
+            "after": 170,
+            "before": 283,
+          },
+        },
+        "run": Object {
+          "bold": true,
+          "size": 24,
+        },
+      },
+      "heading3": Object {
+        "paragraph": Object {
+          "spacing": Object {
+            "after": 170,
+            "before": 283,
+          },
+        },
+        "run": Object {
+          "allCaps": true,
+          "size": 18,
+        },
+      },
+      "heading4": Object {
+        "paragraph": Object {
+          "spacing": Object {
+            "after": 56,
+            "before": 170,
+          },
+        },
+        "run": Object {
+          "bold": true,
+          "size": 14,
+        },
+      },
+      "listParagraph": Object {
+        "run": Object {
+          "color": "FF0000",
+        },
+      },
+      "title": Object {
+        "paragraph": Object {
+          "alignment": "center",
+          "spacing": Object {
+            "after": 793,
+            "before": 396,
+          },
+        },
+        "run": Object {
+          "allCaps": true,
+          "size": 48,
+        },
+      },
+    },
+    "paragraphStyles": Array [
+      Object {
+        "basedOn": "Normal",
+        "id": "notes",
+        "name": "Notes",
+        "next": "Notes",
+        "paragraph": Object {},
+        "quickFormat": true,
+        "run": Object {
+          "color": "2779AA",
+        },
+      },
+      Object {
+        "basedOn": "Notes",
+        "id": "blockquote",
+        "name": "BlockQuote",
+        "next": "Notes",
+        "paragraph": Object {
+          "border": Object {
+            "left": Object {
+              "color": "BBBBBB",
+              "size": 12,
+              "space": 10,
+              "value": "single",
+            },
+          },
+          "indent": Object {
+            "left": 396,
+          },
+          "spacing": Object {
+            "after": 170,
+            "before": 170,
+          },
+        },
+        "quickFormat": true,
+        "run": Object {
+          "size": 22,
+        },
+      },
+      Object {
+        "basedOn": "Notes",
+        "id": "page-footer",
+        "name": "PageFooter",
+        "next": "PageFooter",
+        "quickFormat": true,
+        "run": Object {
+          "color": "888888",
+        },
+      },
+    ],
+  },
+  Object {
+    "config": Array [
+      Object {
+        "levels": Array [
+          Object {
+            "alignment": "left",
+            "format": "bullet",
+            "level": 0,
+            "style": Object {
+              "paragraph": Object {
+                "indent": Object {
+                  "hanging": 150,
+                  "left": 300,
+                },
+              },
+            },
+            "text": "•",
+          },
+        ],
+        "reference": "custom-bullets",
+      },
+      Object {
+        "levels": Array [
+          Object {
+            "alignment": "start",
+            "format": "decimal",
+            "level": 0,
+            "style": Object {
+              "paragraph": Object {
+                "indent": Object {
+                  "hanging": 250,
+                  "left": 300,
+                },
+              },
+            },
+            "text": "%1.",
+          },
+        ],
+        "reference": "custom-numbers",
+      },
+    ],
+  },
+]
+`;

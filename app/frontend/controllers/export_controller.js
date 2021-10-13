@@ -116,7 +116,7 @@ module.exports.generateWordDocument = async function(title, verses, bibleBooks=u
     }],
   });
 
-  if (!exportFilePath) { // For test environment return all doc details as array
+  if (typeof jest !== 'undefined') { // For test environment return all doc details as array without timestamps
     return [children, footers, getDocStyles(), getNumberingConfig()];
   }
 
