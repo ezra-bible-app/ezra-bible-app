@@ -20,6 +20,7 @@ const exportController = require('../export_controller.js');
 
 // test input
 const versesData = require('./ephesian1_KJV.json');
+
 const anotherBookVerseData =   {
   "moduleCode": "KJV",
   "bibleBookShortTitle": "John",
@@ -47,6 +48,7 @@ const notesData = {
     absoluteVerseNrHeb: 1
   }
 };
+
 const bibleBooksData = [
   {id: 43, number: 43, shortTitle: 'John', longTitle: 'John'},
   {id: 49, number: 49, shortTitle: 'Eph', longTitle: 'Ephesians'}, 
@@ -62,6 +64,7 @@ global.app_controller = {
     }
   }
 };
+
 global.i18n = {
   t: jest.fn(key => key)
 };
