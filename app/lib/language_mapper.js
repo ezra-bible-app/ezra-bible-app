@@ -83,8 +83,11 @@ module.exports.getLanguageDetails = function (languageCode, localeCode='en') {
 
   var languageName;
   var localized = false;
-  
-  if (details[localeCode]) {
+
+  if (languageCode === localeCode && regionCode) {
+    languageName = details.regions[regionCode].name;
+    localized = true;
+  } else if (details[localeCode]) {
     languageName = details[localeCode];
     localized = true;
   } else {
