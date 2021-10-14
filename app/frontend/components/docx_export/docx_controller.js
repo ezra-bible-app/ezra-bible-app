@@ -164,6 +164,9 @@ async function renderVerseBlocks(verseBlocks, bibleBook=undefined, notes={}) {
 }
 
 async function renderTagVerseLayout(verses, bibleBook, separator=":") {
+  if (verses.length == 0) {
+    return [];
+  }
 
   const firstVerse = verses[0];
   const lastVerse = verses[verses.length - 1];
