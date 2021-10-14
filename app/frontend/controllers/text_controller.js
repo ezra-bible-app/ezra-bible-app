@@ -169,7 +169,7 @@ class TextController {
       currentVerseListMenu.find('.book-select-button').addClass('focused-button');
 
       if (cachedText != null) {
-        const hasNotes = /\snotes-content\s?=\s?["'][^"']+["']/g.test(cachedText);
+        const hasNotes = /\snotes-content\s?=\s?["'][^"']+["']/g.test(cachedText); // check if there are any non-empty notes-content attributes
         await this.renderVerseList(cachedText, cachedReferenceVerse, 'book', tabIndex, false, true, undefined, false, hasNotes);
       } else {
 

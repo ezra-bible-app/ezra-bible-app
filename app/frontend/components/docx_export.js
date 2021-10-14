@@ -21,7 +21,7 @@ const { html } = require('../helpers/ezra_helper.js');
 const swordHelper = require('../helpers/sword_module_helper.js');
 
 /**
- * The TaggedVerseExport component implements the export of tagged verses into a Word document.
+ * The DocxExport component implements the export of tagged verses or verses and notes into a Word (docx) document.
  * 
  * @category Component
  */
@@ -66,14 +66,14 @@ class DocxExport {
     }
     
     var fileName;
-    var isLoadingWholeBook = false;
+    var isInstantLoadingBook = false;
 
 
     if (type === 'TAGS') {
       fileName = getUnixTagTitleList(currentTab);
     } else if (type === 'NOTES') {
-      isLoadingWholeBook = await app_controller.translation_controller.isInstantLoadingBook(translationId, currentTab.getBook());
-      fileName = currentTab.getBookTitle() + (isLoadingWholeBook ? '' : `_${currentTab.getChapter()}`);
+      isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(translationId, currentTab.getBook());
+      fileName = currentTab.getBookTitle() + (isInstantLoadingBook ? '' : `_${currentTab.getChapter()}`);
     } else {
       console.log('Unrecognized export type:', type);
       return;
@@ -84,7 +84,7 @@ class DocxExport {
         if (type === 'TAGS') {
           renderCurrentTagsForExport(currentTab);
         } else if (type === 'NOTES') {
-          renderNotesForExport(currentTab, isLoadingWholeBook);
+          renderNotesForExport(currentTab, isInstantLoadingBook);
         }
       }
     });
