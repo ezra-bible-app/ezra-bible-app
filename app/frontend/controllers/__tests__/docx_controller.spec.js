@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const exportController = require('../export_controller.js');
+const docxController = require('../docx_controller.js');
 
 // test input
 const versesData = require('./ephesian1_KJV.json');
@@ -83,14 +83,14 @@ jest.mock('../../helpers/sword_module_helper.js', () => ({
 
 describe('ExportController', () => {
   it('exports docx for notes', async () => {
-    const docx = await exportController.generateWordDocument("Ephesian 1", versesData, undefined, notesData);
+    const docx = await docxController.generateDocument("Ephesian 1", versesData, undefined, notesData);
     expect(docx).toMatchSnapshot();
   });
 
   it('exports docx for tags', async () => {
-    const docx = await exportController.generateWordDocument("'Verses tagged with  _in Christ 🍇_'", 
-                                                             [...versesData, anotherBookVerseData], 
-                                                             bibleBooksData);
+    const docx = await docxController.generateDocument("'Verses tagged with  _in Christ 🍇_'", 
+                                                       [...versesData, anotherBookVerseData], 
+                                                       bibleBooksData);
     expect(docx).toMatchSnapshot();
   });
 });
