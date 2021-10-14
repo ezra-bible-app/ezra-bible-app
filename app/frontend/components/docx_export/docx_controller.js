@@ -43,13 +43,15 @@ module.exports.generateDocument = async function(title, verses, bibleBooks=undef
       const allBlocks = getBibleBookVerseBlocks(currentBook, verses);
       const blockParagraphs = await renderVerseBlocks(allBlocks, currentBook, notes);
 
-      children.push(
-        new docx.Paragraph({
-          text: bookTitle,
-          heading: docx.HeadingLevel.HEADING_2,
-        }),
-        ...blockParagraphs
-      );
+      if (blockParagraphs.length > 0) {
+        children.push(
+          new docx.Paragraph({
+            text: bookTitle,
+            heading: docx.HeadingLevel.HEADING_2,
+          }),
+          ...blockParagraphs
+        );
+      }
     }
 
   } else {
