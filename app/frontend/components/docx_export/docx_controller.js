@@ -18,9 +18,9 @@
 
 const docx = require('docx');
 const marked = require('marked');
-const docxHelper = require('../helpers/docx_helper.js');
-const i18nHelper = require('../helpers/i18n_helper.js');
-const { parseHTML } = require('../helpers/ezra_helper.js');
+const docxHelper = require('./docx_helper.js');
+const i18nHelper = require('../../helpers/i18n_helper.js');
+const { parseHTML } = require('../../helpers/ezra_helper.js');
 
 /**
  * The docxController implements the generation of a Word document with certain verses with notes or tags.

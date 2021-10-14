@@ -16,9 +16,9 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const exportController = require('../controllers/export_controller.js');
-const { html } = require('../helpers/ezra_helper.js');
-const swordHelper = require('../helpers/sword_module_helper.js');
+const exportController = require('./export_controller.js');
+const { html } = require('../../helpers/ezra_helper.js');
+const swordHelper = require('../../helpers/sword_module_helper.js');
 
 /**
  * The DocxExport component implements the export of tagged verses or verses and notes into a Word (docx) document.
@@ -57,7 +57,7 @@ class DocxExport {
    * @param {'NOTES'|'TAGS'} type 
    */
   async _runExport(type) {
-    /**@type {import('../ui_models/tab')} */
+    /**@type {import('../../ui_models/tab')} */
     const currentTab = app_controller.tab_controller.getTab();
     const translationId = currentTab.getBibleTranslationId();
 
@@ -104,7 +104,7 @@ function renderCurrentTagsForExport(currentTab) {
     undefined,
     null,
     currentTagIdList,
-    (verses, bibleBooks, groupedVerseTags) => { 
+    (verses, bibleBooks) => { 
       exportController.saveWordDocument(title, verses, bibleBooks); 
     },
     'docx',

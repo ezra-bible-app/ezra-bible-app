@@ -69,13 +69,13 @@ global.i18n = {
   t: jest.fn(key => key)
 };
 
-jest.mock('../../helpers/i18n_helper.js', () => ({
+jest.mock('../../../helpers/i18n_helper.js', () => ({
   getReferenceSeparator: () => ':',
   getChapterText: () => 'Chapter',
   getSwordTranslation: (book) => book + "(localized)",
 }));
 
-jest.mock('../../helpers/sword_module_helper.js', () => ({
+jest.mock('../../../helpers/sword_module_helper.js', () => ({
   getModuleFullName: () => 'King James Version',
   getModuleLicense: () => 'General Public License',
   getModuleCopyright: () => 'Public Domain',

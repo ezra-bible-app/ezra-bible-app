@@ -19,7 +19,7 @@
 
 const docx = require('docx');
 const marked = require('marked');
-const { decodeEntities } = require('../helpers/ezra_helper.js');
+const { decodeEntities } = require('../../helpers/ezra_helper.js');
 
 module.exports.getPageProps = function() {
   return {
@@ -192,14 +192,14 @@ module.exports.getDocStyles = function() {
 
 module.exports.addBibleTranslationInfo = async function() {
   const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-  const moduleHelper = require('../helpers/sword_module_helper.js');
+  const swordHelper = require('../../helpers/sword_module_helper.js');
 
-  const license = await moduleHelper.getModuleLicense(bibleTranslationId);
-  const copyright = await moduleHelper.getModuleCopyright(bibleTranslationId);
+  const license = await swordHelper.getModuleLicense(bibleTranslationId);
+  const copyright = await swordHelper.getModuleCopyright(bibleTranslationId);
 
   const children = [
     new docx.TextRun(`${i18n.t("general.scripture-quote-from")} `),
-    new docx.TextRun({ text: await moduleHelper.getModuleFullName(bibleTranslationId), bold: true }),
+    new docx.TextRun({ text: await swordHelper.getModuleFullName(bibleTranslationId), bold: true }),
     license ? new docx.TextRun(` (${license})`) : undefined,
     copyright ? new docx.TextRun({ text: copyright, break: 1 }) : undefined
   ];
