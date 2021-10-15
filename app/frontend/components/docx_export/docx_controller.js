@@ -24,6 +24,8 @@ const { parseHTML } = require('../../helpers/ezra_helper.js');
 
 /**
  * The docxController implements the generation of a Word document with certain verses with notes or tags.
+ * docxController.generateDocument gets called from exportController.
+ * Paragraph and heading styles for the generated Word document as well as some other helpful functions located in docxHelper.
  *
  * @category Controller
  */
