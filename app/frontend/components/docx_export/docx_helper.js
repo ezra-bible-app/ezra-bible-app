@@ -100,6 +100,7 @@ module.exports.getDocStyles = function() {
       heading2: {
         run: {
           size: 24,
+          allCaps: true,
           bold: true,
         },
         paragraph: {
