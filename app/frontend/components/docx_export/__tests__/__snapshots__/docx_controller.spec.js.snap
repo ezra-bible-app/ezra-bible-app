@@ -17556,6 +17556,7 @@ Array [
           },
         },
         "run": Object {
+          "allCaps": true,
           "bold": true,
           "size": 24,
         },
@@ -19624,6 +19625,7 @@ Array [
           },
         },
         "run": Object {
+          "allCaps": true,
           "bold": true,
           "size": 24,
         },
