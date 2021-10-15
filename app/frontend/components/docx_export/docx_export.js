@@ -141,12 +141,17 @@ function getUnixTagTitleList(currentTab) {
 async function agreeDisclaimerDialog(moduleId) {
 
   const module_name = `<strong>${await swordHelper.getModuleFullName(moduleId)}</strong>`;
+  const copyright = await swordHelper.getModuleCopyright(moduleId);
 
   const dialogBoxTemplate = html`
   <div id="module-disclaimer">
     <div id="module-disclaimer-content">
       <p>${i18n.t("general.module-copyright-intro", {module_name})}</p>
-      <p class="external">${await swordHelper.getModuleCopyright(moduleId)}</p>
+      ${copyright ? `<p class="external">${copyright}</p>` : ''}
+      <details ${!copyright ? 'open' : ''}>
+        <summary>${i18n.t('general.more-info')}</summary>
+        ${await swordHelper.getModuleAbout(moduleId)}
+      </details>
       <p>${i18n.t("general.module-copyright-disclaimer", {module_name})}</p>
       <div style="text-align: center; line-height: 1.2">
         <button id="cancel-disclaimer" class="fg-button ui-corner-all ui-state-default" style="margin: 0.5em; padding: 0.3em 1em;">${i18n.t("general.cancel")}</button>
@@ -170,11 +175,13 @@ async function agreeDisclaimerDialog(moduleId) {
       $dialogBox.dialog('close');
     });
   
-    const width = 480;
+    const width = 640;
+    const height = 360;
     const offsetLeft = ($(window).width() - width)/2;
   
     $dialogBox.dialog({
       width,
+      height,
       position: [offsetLeft, 120],
       title: i18n.t('general.module-copyright'),
       resizable: false,
