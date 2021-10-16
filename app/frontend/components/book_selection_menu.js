@@ -144,8 +144,8 @@ class BookSelectionMenu {
       //console.log(`Showing chapter list for ${bookTitle} ` +
       //            `since its chapter count (${bookChapterCount}) is above the limit for instant loading!`);
       
-      const menuBookList = document.getElementById('book-selection-menu-book-list');
-      menuBookList.style.display = 'none';
+      const bookMenu = document.getElementById('book-selection-menu');
+      bookMenu.classList.add('select-chapter');
 
       this.currentBookCode = bookCode;
       this.currentBookTitle = bookTitle;
@@ -194,24 +194,18 @@ class BookSelectionMenu {
                                                 selectedChapter);
       });
     }
-
-    chapters.style.display = 'flex';
-    menuChapterList.style.display = 'block';
   }
 
   hideBookMenu() {
     if (this.book_menu_is_opened) {
-      $('#app-container').find('#book-selection-menu').hide();
+      var bookMenu = document.querySelector('#app-container #book-selection-menu');
+      bookMenu.style.display = 'none';
+      bookMenu.classList.remove('select-chapter');
       this.book_menu_is_opened = false;
 
-      var book_button = $('#app-container').find('.book-select-button');
-      book_button.removeClass('ui-state-active');
+      var bookButton = document.querySelector('#app-container .book-select-button');
+      bookButton.classList.remove('ui-state-active');
 
-      var menuBookList = document.getElementById('book-selection-menu-book-list');
-      menuBookList.style.display = 'block';
-
-      var menuChapterList = document.getElementById('book-selection-menu-chapter-list');
-      menuChapterList.style.display = 'none';
     }
   }
 
@@ -253,7 +247,7 @@ class BookSelectionMenu {
     if (selectedBook.length > 0) {
       selectedBook[0].classList.remove('book-selected');
     }
-  };
+  }
 
   highlightSelectedBookInMenu(bookCode) {
     this.clearSelectedBookInMenu();

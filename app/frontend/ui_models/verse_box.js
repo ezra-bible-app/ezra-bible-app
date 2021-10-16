@@ -224,6 +224,17 @@ class VerseBox {
   getNewTagInfoTitleArray(tag_info_title, tag_title, action) {
     var already_there = false;
     var current_tag_info_title_array = new Array;
+    var original_tag_title = tag_title;
+
+    // If the tag title itself contains a comma then we need to replace it with
+    // something else while we generate the new tag info title array,
+    // because we use the comma as separator there.
+    while (tag_title.indexOf(',') != -1) {
+      tag_title = tag_title.replace(',', '|');
+    }
+
+    tag_info_title = tag_info_title.replace(original_tag_title, tag_title);
+
     if (tag_info_title != "" && tag_info_title != undefined) {
       current_tag_info_title_array = tag_info_title.split(', ');
     }
@@ -238,7 +249,7 @@ class VerseBox {
         }
 
         if (!already_there) {
-          current_tag_info_title_array.push(tag_title);
+          current_tag_info_title_array.push(original_tag_title);
           current_tag_info_title_array.sort();
         }
         break;

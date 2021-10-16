@@ -56,52 +56,52 @@
     "update-data": { 
       "repo-data-last-updated": "Los datos del repositorio se actualizaron el {{date}}.",
       "update-now": "Actualizar ahora",
-      "updating-repository-data": "Actualizando datos de repositorio! Esto tomará unos segundos ...",
-      "update-failed": "Update failed",
+      "updating-repository-data": "Actualizando datos de repositorio! Esto tomará unos segundos...",
+      "update-failed": "Actualización fallida",
       "update-repository-data-failed": "Falló la actualización del repositorio! Usted está conectado?"
     },
     "step-languages": {  
-      "select-language": "Please choose at least one of the following languages.",
-      "total-modules-language": "Next to each language is the number of {{module_type}} available in the SWORD repositories.",
+      "select-language": "Por favor, seleccione al menos uno de los siguientes idiomas.",
+      "total-modules-language": "Al lado del idioma se encuentra la cantidad de {{module_type}} disponibles en los repositorios SWORD.",
       "loading-languages": "Cargando Idiomas ...",
-      "app-system-languages": "Existing Languages and System Languages",
-      "bible-languages": "Bible Languages",
-      "most-spoken-languages": "Most Spoken Languages",
-      "historical-languages": "Historical Languages",
-      "other-languages": "Other Languages",
-      "language-search-results": "Matches Found"
+      "app-system-languages": "Idiomas Existentes e Idiomas del Sistema",
+      "bible-languages": "Idiomas de la Biblia",
+      "most-spoken-languages": "Idiomas con más hablantes",
+      "historical-languages": "Idiomas Históricos",
+      "other-languages": "Otros idiomas",
+      "language-search-results": "Resultados Encontrados"
     },
     "step-repositories": {
-      "select-repository": "Select at least one of the following SWORD repositories.",
-      "total-modules-repo": "Next to each repository is the number of {{module_type}} available from the repository.",
-      "what-is-repository": "A repository is an internet storage location that contains a set of {{module_type}}.",
+      "select-repository": "Seleccione al menos uno de los siguientes repositorios SWORD.",
+      "total-modules-repo": "Al lado de cada repositorio está el número de {{module_type}} disponibles desde el repositorio.",
+      "what-is-repository": "Un repositorio es un lugar en internet que contiene un grupo de {{module_type}}.",
       "loading-repositories": "Cargando repositorios ...",
-      "repo-recommended": "This repository is a good place to start",
+      "repo-recommended": "Este repositorio es un buen lugar para comenzar.",
       "more-repo-information-needed": "¿Usted necesita más información sobre estos repositorios?<br/>Consulte <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> (disponible en inglés)."
     },
     "step-modules": {  
-      "select-module": "Please choose {{module_type}} to install.",
-      "module-display-preferences": "Filter preferences:",
-      "module-with": "{{module_type, capitalize}} with {{feature_type, instrumental}}",
-      "module-already-installed": "This {{module_type, singular}} is already installed",
-      "show-module-info":"Show info",
-      "show-detailed-module-info": "Click on the information icon to see more details about the {{module_type, singular}}."
+      "select-module": "Por favor seleccione {{module_type}} que desea instalar.",
+      "module-display-preferences": "Filtrado de preferencias:",
+      "module-with": "{{module_type, capitalize}} con {{feature_type, instrumental}}",
+      "module-already-installed": "Este {{module_type, singular}} ya está instalado",
+      "show-module-info":"Mostrar información",
+      "show-detailed-module-info": "Presione el icono de información para más detalles sobre el {{module_type, singular}}."
     },
     "step-install": {
-      "installing-modules": "Installing selected {{module_type, accusative}}",
+      "installing-modules": "Instalando el {{module_type, accusative}} seleccionado",
       "installing": "Instalando",
-      "it-takes-time-to-install": "Note that it takes some time for each {{module_type, singular-genitive}} to be downloaded and then installed.",
+      "it-takes-time-to-install": "Tomará algo de tiempo descargar e instalar {{module_type, singular-genitive}}.",
       "downloading": "Descargando",
       "part-of-total": "de"
     },
     "remove": {  
-      "select-module-to-be-removed": "Select the {{module_type, accusative}} that you would like to remove.",
-      "disable-remove-note": "This {{module_type, singular}} is not installed in the user's directory or is essential for Ezra Bible App's functionality.",
-      "removing-modules": "Removing {{module_type, accusative}}",
-      "removing": "Quitandolo"
+      "select-module-to-be-removed": "Seleccione el {{module_type, accusative}} que le gustaría eliminar.",
+      "disable-remove-note": "Este {{module_type, singular}} no se encuentra instalado en el directorio del usuario o es esencial para el funcionamiento de Ezra Bible App's.",
+      "removing-modules": "Quitando {{module_type, accusative}}",
+      "removing": "Quitando"
     },
     "unlock": {
-      "module-lock-info": "This {{module_type, singular}} is license-protected and requires that you purchase an unlock key from the content owner!",
+      "module-lock-info": "Este {{module_type, singular}} está protegido por una licencia y requiere que usted compre una clave de desbloqueo del dueño del contenido!",
       "unlock-key": "Clave de desbloqueo",
       "enter-unlock-key": "{{moduleId}} está protegido por licencia. Por favor ingrese la clave de desbloqueo!",
       "unlock-failed": "Fallo al desbloquear! Por favor ingrese la clave correcta."
@@ -168,7 +168,12 @@
     "versions-and-paths": "Versiones y rutas",
     "app-language": "Idioma",
     "detect-locale": "Automático",
-    "detect-locale-hint": "Detecta automáticamente el idioma basado en el idioma del sistema"
+    "detect-locale-hint": "Detecta automáticamente el idioma basado en el idioma del sistema",
+    "more-info": "More information",
+    "module-copyright": "Bible Translation Copyright",
+    "module-copyright-intro": "Please be aware that the {{module_name}} is copyrighted:",
+    "module-copyright-disclaimer": "By proceeding with exporting you hereby agree to this translation's copyright policy and any restrictions regarding quotations from the {{module_name}}.",
+    "scripture-quote-from": "Scripture taken from:"
   },
   "help": {
     "help-text-no-tags-book-opened": "Para comenzar a trabajar con las etiquetas, debe crear la primera pulsando en el botón <i>Nueva&nbsp;etiqueta</i>.<br/><br/>Después usted podrá seleccionar los textos de La Biblia que desee, para ello pulse sobre un verso o arrastre para seleccionar varios versos y agreguelos a la etiqueta que acaba de crear.",

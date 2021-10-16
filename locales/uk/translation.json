@@ -161,14 +161,19 @@
     "module-install-failed": "не вдало. Ви підключені до Інтернету?",
     "module-install-cancelled": "скасовано.",
     "module-unlock-failed": "не вдало (проблема розблокування).",
-    "installing-strongs": "Встановлення <i>словників Стронга</i>",
+    "installing-strongs": "словників Стронга",
     "applying-migrations": "Оновлення бази даних до нової версії",
     "developers": "Розробка",
     "translators": "Переклад",
     "versions-and-paths": "Версія та розташування",
     "app-language": "Мова застосунку",
     "detect-locale": "Авто",
-    "detect-locale-hint": "Визначити автоматично за мовою системи"
+    "detect-locale-hint": "Визначити автоматично за мовою системи",
+    "more-info": "More information",
+    "module-copyright": "Bible Translation Copyright",
+    "module-copyright-intro": "Please be aware that the {{module_name}} is copyrighted:",
+    "module-copyright-disclaimer": "By proceeding with exporting you hereby agree to this translation's copyright policy and any restrictions regarding quotations from the {{module_name}}.",
+    "scripture-quote-from": "Scripture taken from:"
   },
   "help": {
     "help-text-no-tags-book-opened": "Щоб розпочати роботу з мітами, створіть свою першу міту, натиснувши кнопку <i>Нова&nbsp;міта</i>. <br/><br/>Після цього ви можете переглядати текст Біблії, клацати або перетягувати вірші, щоб призначати щойно створену міту.",

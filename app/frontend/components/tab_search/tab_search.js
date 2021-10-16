@@ -261,8 +261,11 @@ class TabSearch {
     // Jump to occurrence in window
     this.currentOccuranceElement = this.allOccurances[this.currentOccuranceIndex];
     var currentOccuranceVerseBox = this.currentOccuranceElement.closest('.verse-box');
-    var currentOccuranceAnchor = '#' + currentOccuranceVerseBox.querySelector('a').getAttribute('name');
-    window.location = currentOccuranceAnchor;
+
+    if (currentOccuranceVerseBox != null) {
+      var currentOccuranceAnchor = '#' + currentOccuranceVerseBox.querySelector('a').getAttribute('name');
+      window.location = currentOccuranceAnchor;
+    }
   }
 
   async highlightCurrentOccurance() {
