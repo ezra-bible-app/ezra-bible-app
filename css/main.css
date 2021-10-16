@@ -739,7 +739,7 @@ main.content {
 
 .verse-list-menu .display-options-button,
 .verse-list-menu .app-info-button,
-.verse-list-menu .export-tagged-verses-button {
+.verse-list-menu .export-docx-button {
   justify-content: center;
 }
 
@@ -986,7 +986,7 @@ li.book-unavailable a:focus,
 }
 
 /* On Android we disable the possibility to export tagged verses to a document */
-.Android .export-tagged-verses-button {
+.Android .export-docx-button {
   display: none;
 }
 

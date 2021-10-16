@@ -29,7 +29,7 @@ class DocxExport {
 
   enableExportButton(tabIndex, type='TAGS') {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    var exportButton = currentVerseListMenu.find('.export-tagged-verses-button');
+    var exportButton = currentVerseListMenu.find('.export-docx-button');
 
     exportButton.removeClass('ui-state-disabled');
     exportButton.unbind('click');
@@ -46,9 +46,9 @@ class DocxExport {
   disableExportButton(tabIndex=undefined) {
     if (tabIndex !== undefined) {
       const currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-      currentVerseListMenu.find('.export-tagged-verses-button').addClass('ui-state-disabled');
+      currentVerseListMenu.find('.export-docx-button').addClass('ui-state-disabled');
     } else {
-      $('#export-tagged-verses-button').addClass('ui-state-disabled');
+      $('#export-docx-button').addClass('ui-state-disabled');
     }
   }
 
