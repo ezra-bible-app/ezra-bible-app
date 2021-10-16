@@ -178,7 +178,12 @@
     "versions-and-paths": "Versions et chemins",
     "app-language": "Langue de l’application",
     "detect-locale": "Auto",
-    "detect-locale-hint": "Détecter automatiquement les paramètres régionaux à l’aide de la langue du système"
+    "detect-locale-hint": "Détecter automatiquement les paramètres régionaux à l’aide de la langue du système",
+    "more-info": "More information",
+    "module-copyright": "Bible Translation Copyright",
+    "module-copyright-intro": "Please be aware that the {{module_name}} is copyrighted:",
+    "module-copyright-disclaimer": "By proceeding with exporting you hereby agree to this translation's copyright policy and any restrictions regarding quotations from the {{module_name}}.",
+    "scripture-quote-from": "Scripture taken from:"
   },
   "help": {
     "help-text-no-tags-book-opened": "Pour commencer à utiliser les étiquettes, créez votre première étiquette en cliquant sur le bouton <i>Nouvelle étiquette</i>.<br/><br/>Ensuite, vous pouvez parcourir le texte biblique, cliquer ou faire glisser les versets, puis attribuer l’étiquette que vous venez de créer.",

@@ -18,7 +18,6 @@
 
 const PlatformHelper = require('../../lib/platform_helper.js');
 const notesHelper = require('../helpers/notes_helper.js');
-const i18nController = require('./i18n_controller.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const VerseReferenceHelper = require('../helpers/verse_reference_helper.js');
@@ -40,8 +39,8 @@ class TextController {
     this.platformHelper = new PlatformHelper();
     this.verseReferenceHelper = new VerseReferenceHelper(ipcNsi);
   }
-  
-  async loadBook(bookCode, bookTitle, referenceBookTitle, instantLoad=true, chapter=undefined) {
+
+  async loadBook(bookCode, bookTitle, referenceBookTitle, instantLoad = true, chapter = undefined) {
     app_controller.book_selection_menu.hideBookMenu();
     app_controller.book_selection_menu.highlightSelectedBookInMenu(bookCode);
 
@@ -82,14 +81,14 @@ class TextController {
     }, 50);
   }
 
-  async prepareForNewText(resetView, isSearch=false, tabIndex=undefined) {
+  async prepareForNewText(resetView, isSearch = false, tabIndex = undefined) {
     if (!isSearch) {
       app_controller.module_search_controller.cancelModuleSearch();
     }
 
     app_controller.module_search_controller.hideModuleSearchHeader(tabIndex);
-    
-    var currentTab = app_controller.tab_controller.getTab(tabIndex);
+
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
     if (currentTab != null && currentTab.tab_search != null) {
       currentTab.tab_search.resetSearch();
     }
@@ -120,19 +119,19 @@ class TextController {
       if (currentTab.hasTextTypeChanged()) {
         app_controller.navigation_pane.resetNavigationPane(tabIndex, true);
       }
-      
+
       app_controller.resetVerseListView();
-      var loadingMessage = "";
+      let loadingMessage = "";
 
       if (isSearch) {
-        var currentTab = app_controller.tab_controller.getTab(tabIndex);
-        var searchTerm = currentTab.getSearchTerm();
+        const currentTab = app_controller.tab_controller.getTab(tabIndex);
+        const searchTerm = currentTab.getSearchTerm();
         loadingMessage = i18n.t("bible-browser.searching-for") + " <i>" + searchTerm + "</i>";
       } else {
         loadingMessage = i18n.t("bible-browser.loading-bible-text");
       }
 
-      app_controller.showVerseListLoadingIndicator(tabIndex, loadingMessage, !isSearch /* Only show loader visualization if we are not searching */ );
+      app_controller.showVerseListLoadingIndicator(tabIndex, loadingMessage, !isSearch /* Only show loader visualization if we are not searching */);
       uiHelper.showTextLoadingIndicator();
     }
 
@@ -163,19 +162,27 @@ class TextController {
     }
 
     if (textType == 'book') { // Book text mode
-      if (tabIndex === undefined) { $('#export-tagged-verses-button').addClass('ui-state-disabled'); }
+
+      if (tabIndex === undefined) { 
+        app_controller.docxExport.disableExportButton();
+      }
+
       currentVerseListMenu.find('.book-select-button').addClass('focused-button');
 
       if (cachedText != null) {
-        await this.renderVerseList(cachedText, cachedReferenceVerse, 'book', tabIndex, false, true);
+        const hasNotes = /\snotes-content\s?=\s?["'][^"']+["']/g.test(cachedText); // check if there are any non-empty notes-content attributes
+        await this.renderVerseList(cachedText, cachedReferenceVerse, 'book', tabIndex, false, true, undefined, false, hasNotes);
       } else {
 
         if (instantLoad) { // Load the whole book instantaneously
 
+          let firstPartHasNotes = false;
+
           // 1) Only request the first 50 verses and render immediately
           await this.requestBookText(tabIndex, tabId, book,
-                                     async (htmlVerseList) => { 
-                                       await this.renderVerseList(htmlVerseList, null, 'book', tabIndex);
+                                     async (htmlVerseList, hasNotes) => {
+                                       firstPartHasNotes = hasNotes;
+                                       await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, false, hasNotes);
                                      }, 1, 50
           );
 
@@ -184,8 +191,8 @@ class TextController {
           // 2) Now request the rest of the book
           await this.requestBookText(
             tabIndex, tabId, book,
-            async (htmlVerseList) => { 
-              await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, true);
+            async (htmlVerseList, hasNotes) => {
+              await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, true, firstPartHasNotes || hasNotes);
             }, 51, -1
           );
 
@@ -198,9 +205,9 @@ class TextController {
           var verseCount = await ipcNsi.getChapterVerseCount(currentBibleTranslationId, book, chapter);
 
           await this.requestBookText(tabIndex, tabId, book,
-            async (htmlVerseList) => { 
-              await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, false);
-            }, startVerseNr, verseCount
+                                     async (htmlVerseList, hasNotes) => {
+                                       await this.renderVerseList(htmlVerseList, null, 'book', tabIndex, false, false, undefined, false, hasNotes);
+                                     }, startVerseNr, verseCount
           );
 
           uiHelper.hideTextLoadingIndicator();
@@ -229,7 +236,7 @@ class TextController {
     } else if (textType == 'search_results') { // Search result mode
       if (tabIndex === undefined) { $('.show-book-tag-statistics-button').addClass('ui-state-disabled'); }
       currentVerseListMenu.find('.module-search-button').addClass('focused-button');
-      
+
       if (cachedText != null) {
         await this.renderVerseList(cachedText, null, 'search_results', tabIndex, true, true);
       } else {
@@ -246,7 +253,7 @@ class TextController {
     } else if (textType == 'xrefs') {
 
       uiHelper.showTextLoadingIndicator();
-      
+
       if (cachedText != null) {
         await this.renderVerseList(cachedText, cachedReferenceVerse, 'xrefs', tabIndex, true, true);
       } else {
@@ -262,14 +269,15 @@ class TextController {
     }
   }
 
-  async requestBookText(tab_index,
-                        current_tab_id,
-                        book_short_title,
-                        render_function,
-                        start_verse_number=-1,
-                        number_of_verses=-1) {
+  async requestBookText(tabIndex,
+                        currentTabId,
+                        bookShortTitle,
+                        renderFunction,
+                        startVerseNumber=-1,
+                        numberOfVerses = -1,
+                        renderType='html') {
 
-    var currentBibleTranslationId = app_controller.tab_controller.getTab(tab_index).getBibleTranslationId();
+    var currentBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
     var localSwordModule = null;
 
     try {
@@ -278,9 +286,9 @@ class TextController {
       console.log("ERROR: Could not get local Sword module for " + currentBibleTranslationId);
     }
 
-    if (currentBibleTranslationId == null || 
-        currentBibleTranslationId == "" ||
-        localSwordModule == null) {
+    if (currentBibleTranslationId == null ||
+      currentBibleTranslationId == "" ||
+      localSwordModule == null) {
 
       $('#verse-list-loading-indicator').hide();
       return;
@@ -288,12 +296,12 @@ class TextController {
 
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
     var versification = await swordModuleHelper.getThreeLetterVersification(currentBibleTranslationId);
-    var bibleBook = await ipcDb.getBibleBook(book_short_title);
+    var bibleBook = await ipcDb.getBibleBook(bookShortTitle);
 
     // Only necessary because old saved short titles may not be found directly
     if (bibleBook == null) {
-      book_short_title = await ipcDb.findBookTitle(book_short_title);
-      bibleBook = await ipcDb.getBibleBook(book_short_title);
+      bookShortTitle = await ipcDb.findBookTitle(bookShortTitle);
+      bibleBook = await ipcDb.getBibleBook(bookShortTitle);
     }
 
     if (bibleBook == null) {
@@ -301,8 +309,8 @@ class TextController {
       $('#verse-list-loading-indicator').hide();
       return;
     }
-    
-    var verses = await ipcNsi.getBookText(currentBibleTranslationId, book_short_title, start_verse_number, number_of_verses);
+
+    var verses = await ipcNsi.getBookText(currentBibleTranslationId, bookShortTitle, startVerseNumber, numberOfVerses);
     if (verses == null) {
       console.error("Got null result when requesting book text!");
       return;
@@ -312,10 +320,10 @@ class TextController {
     var verseNotes = await ipcDb.getVerseNotesByBook(bibleBook.id, versification);
     var bookIntroduction = null;
 
-    if (start_verse_number == 1) { // Only load book introduction if starting with verse 1
-      try {        
+    if (startVerseNumber == 1) { // Only load book introduction if starting with verse 1
+      try {
         if (localSwordModule != null && localSwordModule.hasHeadings) {
-          bookIntroduction = await ipcNsi.getBookIntroduction(currentBibleTranslationId, book_short_title);
+          bookIntroduction = await ipcNsi.getBookIntroduction(currentBibleTranslationId, bookShortTitle);
 
           var sanitizeHtml = require('sanitize-html');
           bookIntroduction = sanitizeHtml(bookIntroduction);
@@ -324,45 +332,56 @@ class TextController {
         console.log("Could not retrieve book introduction for module " + currentBibleTranslationId);
       }
     }
-    
+
     var bookNotes = null;
 
-    if (start_verse_number == 1) {
-      bookNotes = await ipcDb.getBookNotes(book_short_title);
+    if (startVerseNumber == 1) {
+      bookNotes = await ipcDb.getBookNotes(bookShortTitle);
     }
 
     var separator = await i18nHelper.getReferenceSeparator(currentBibleTranslationId);
 
-    var currentTab = app_controller.tab_controller.getTab(tab_index);
+    var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var isInstantLoadingBook = true;
     if (currentTab != null && currentTab.getTextType() == 'book') {
-      isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentBibleTranslationId, book_short_title);
+      isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentBibleTranslationId, bookShortTitle);
     }
 
-    var verses_as_html = verseListTemplate({
-      versification: versification,
-      verseListId: current_tab_id,
-      renderVerseMetaInfo: true,
-      renderBibleBookHeaders: false,
-      // only render chapter headers with the full book requested
-      renderChapterHeaders: isInstantLoadingBook && !localSwordModule.hasHeadings,
-      renderBookNotes: (start_verse_number == 1),
-      bookIntroduction: bookIntroduction,
-      bookNotes: bookNotes,
-      bibleBooks: [bibleBook],
-      verses: verses,
-      verseTags: verseTags,
-      verseNotes: verseNotes,
-      marked: this.marked,
-      referenceSeparator: separator,
-      chapterText: book_short_title === 'Ps' ? "bible-browser.psalm": "bible-browser.chapter",
-      helper: {
-        getNotesTooltip: notesHelper.getTooltipText,
-        getLocalizedDate: i18nHelper.getLocalizedDate,
-      } 
-    });
+    if (renderType == 'html') {
+      var verses_as_html = verseListTemplate({
+        versification: versification,
+        verseListId: currentTabId,
+        renderVerseMetaInfo: true,
+        renderBibleBookHeaders: false,
+        // only render chapter headers with the full book requested
+        renderChapterHeaders: isInstantLoadingBook && !localSwordModule.hasHeadings,
+        renderBookNotes: (startVerseNumber == 1),
+        bookIntroduction: bookIntroduction,
+        bookNotes: bookNotes,
+        bibleBooks: [bibleBook],
+        verses: verses,
+        verseTags: verseTags,
+        verseNotes: verseNotes,
+        marked: this.marked,
+        referenceSeparator: separator,
+        chapterText: bookShortTitle === 'Ps' ? "bible-browser.psalm" : "bible-browser.chapter",
+        helper: {
+          getNotesTooltip: notesHelper.getTooltipText,
+          getLocalizedDate: i18nHelper.getLocalizedDate,
+        }
+      });
 
-    render_function(verses_as_html);
+      const hasNotes = bookNotes !== null || getReferenceIdsFromNotes(verseNotes, startVerseNumber, startVerseNumber + numberOfVerses - 1).length > 0;
+
+      renderFunction(verses_as_html, hasNotes);
+      
+    } else if (renderType == 'docx') {
+      const notes = {
+        [bookShortTitle.toLowerCase()]:  bookNotes,
+        ...getNotesForSection(verseNotes, startVerseNumber, startVerseNumber + numberOfVerses - 1)
+      };
+      renderFunction(verses, notes);
+    }
   }
 
   getBibleBookStatsFromVerses(verses) {
@@ -374,7 +393,7 @@ class TextController {
       }
 
       var bibleBookShortTitle = verses[i].bibleBookShortTitle;
-      
+
       if (bibleBookStats[bibleBookShortTitle] === undefined) {
         bibleBookStats[bibleBookShortTitle] = 1;
       } else {
@@ -387,7 +406,7 @@ class TextController {
 
   getBibleTranslationId(tab_index) {
     var bibleTranslationId = null;
-        
+
     if (app_controller.tab_controller.getTab(tab_index).getBibleTranslationId() == null) {
       bibleTranslationId = app_controller.tab_controller.defaultBibleTranslationId;
     } else {
@@ -418,9 +437,9 @@ class TextController {
     var bibleBookStats = app_controller.module_search_controller.getBibleBookStatsFromSearchResults(search_results);
     var verses = [];
 
-    for (var i = 0; i < search_results.length; i++) {
-      var currentVerse = search_results[i];
-      var currentBookId = currentVerse.bibleBookShortTitle;
+    for (let i = 0; i < search_results.length; i++) {
+      const currentVerse = search_results[i];
+      const currentBookId = currentVerse.bibleBookShortTitle;
 
       if (searchResultBookId != -1 && currentBookId != searchResultBookId) {
         // Skip the books that are not requested;
@@ -432,13 +451,13 @@ class TextController {
 
     var verseObjects = [];
 
-    for (var i = 0; i < verses.length; i++) {
-      var currentVerse = verses[i];
-      var currentVerseObject = new Verse(currentVerse.bibleBookShortTitle,
-                                         currentVerse.absoluteVerseNr,
-                                         currentVerse.chapter,
-                                         currentVerse.verseNr,
-                                         false);
+    for (let i = 0; i < verses.length; i++) {
+      const currentVerse = verses[i];
+      const currentVerseObject = new Verse(currentVerse.bibleBookShortTitle,
+                                           currentVerse.absoluteVerseNr,
+                                           currentVerse.chapter,
+                                           currentVerse.verseNr,
+                                           false);
 
       verseObjects.push(currentVerseObject);
     }
@@ -446,9 +465,9 @@ class TextController {
     var verseReferenceIds = await ipcDb.getVerseReferencesFromVerseObjects(verseObjects, versification);
     var verseTags = await ipcDb.getVerseTagsByVerseReferenceIds(verseReferenceIds, versification);
     var verseNotes = await ipcDb.getNotesByVerseReferenceIds(verseReferenceIds, versification);
-    
+
     if (render_type == "html") {
-      
+
       await this.getVersesAsHtml(current_tab_id,
                                  tab_index,
                                  bibleBooks,
@@ -461,9 +480,9 @@ class TextController {
                                  render_function,
                                  searchResultBookId <= 0,
                                  renderVerseMetaInfo);
-      
+
     } else if (render_type == "docx") {
-      render_function(bibleBooks, groupedVerseTags, verses);
+      render_function(verses, bibleBooks);
     }
   }
 
@@ -490,11 +509,11 @@ class TextController {
       verseReferenceIds.push(currentVerseReference.id);
 
       var currentAbsoluteVerseNumber = versification == 'eng' ? currentVerseReference.absoluteVerseNrEng : currentVerseReference.absoluteVerseNrHeb;
-      
+
       var resultVerses = await ipcNsi.getBookText(bibleTranslationId,
                                                   currentVerseReference.bibleBookShortTitle,
                                                   currentAbsoluteVerseNumber,
-                                                  1)
+                                                  1);
       var verse = resultVerses[0];
 
       if (verse !== undefined) {
@@ -510,7 +529,7 @@ class TextController {
     var verseNotes = await ipcDb.getNotesByVerseReferenceIds(verseReferenceIds, versification);
 
     if (render_type == "html") {
-      
+
       await this.getVersesAsHtml(current_tab_id,
                                  tab_index,
                                  bibleBooks,
@@ -523,9 +542,9 @@ class TextController {
                                  render_function,
                                  true,
                                  renderVerseMetaInfo);
-    
+
     } else if (render_type == "docx") {
-      render_function(bibleBooks, verseTags, verses);
+      render_function(verses, bibleBooks, verseTags);
     }
   }
 
@@ -549,7 +568,7 @@ class TextController {
 
     for (var i = 0; i < verseReferences.length; i++) {
       var currentVerseReference = verseReferences[i];
-      
+
       if (currentVerseReference != undefined) {
         verseReferenceIds.push(currentVerseReference.id);
       }
@@ -563,7 +582,7 @@ class TextController {
     var verseNotes = await ipcDb.getNotesByVerseReferenceIds(verseReferenceIds, versification);
 
     if (render_type == "html") {
-      
+
       await this.getVersesAsHtml(current_tab_id,
                                  tab_index,
                                  bibleBooks,
@@ -576,16 +595,43 @@ class TextController {
                                  render_function,
                                  true,
                                  renderVerseMetaInfo);
-    
+
     } else if (render_type == "docx") {
-      render_function(bibleBooks, groupedVerseTags, verses);
+      render_function(verses, bibleBooks);
     }
   }
 
-  async getVersesAsHtml(current_tab_id, tabIndex, bibleBooks, bookNames, bibleBookStats, groupedVerseTags, groupedVerseNotes, verses, versification, render_function, renderBibleBookHeaders=true, renderVerseMetaInfo=true) {    
-    var bibleTranslationId = app_controller.tab_controller.getTabById(current_tab_id).getBibleTranslationId();
+  async requestNotesForExport(tabIndex, book, chapter, renderFunction, renderType='html') {
+    var currentBibleTranslationId = app_controller.tab_controller.getTab(tabIndex).getBibleTranslationId();
+    var separator = await i18nHelper.getReferenceSeparator(currentBibleTranslationId);
+    var reference = (chapter || '1') + separator + '1';
+    var startVerseNr = await this.verseReferenceHelper.referenceStringToAbsoluteVerseNr(currentBibleTranslationId, book, reference);
+    var verseCount = chapter !== null ? await ipcNsi.getChapterVerseCount(currentBibleTranslationId, book, chapter) : -1;
+
+    await this.requestBookText(tabIndex, undefined, book, renderFunction, startVerseNr, verseCount, renderType);
+  }
+
+  async getVersesAsHtml(current_tab_id,
+                        tabIndex, // TODO: Remove this parameter, because it is not used!
+                        bibleBooks,
+                        bookNames,
+                        bibleBookStats,
+                        groupedVerseTags,
+                        groupedVerseNotes,
+                        verses,
+                        versification,
+                        render_function,
+                        renderBibleBookHeaders=true,
+                        renderVerseMetaInfo=true) {    
+
+    var tab = app_controller.tab_controller.getTabById(current_tab_id);
+    var bibleTranslationId = null;
+    if (tab != null) {
+      bibleTranslationId = tab.getBibleTranslationId();
+    }
+
     var separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
-    
+
     var verses_as_html = verseListTemplate({
       versification: versification,
       verseListId: current_tab_id,
@@ -602,13 +648,22 @@ class TextController {
       helper: {
         getNotesTooltip: notesHelper.getTooltipText,
         getLocalizedDate: i18nHelper.getLocalizedDate,
-      } 
+      }
     });
 
     render_function(verses_as_html, verses.length);
   }
 
-  async renderVerseList(htmlVerseList, referenceVerseHtml, listType, tabIndex=undefined, renderChart=false, isCache=false, target=undefined, append=false) {
+  async renderVerseList(htmlVerseList, 
+                        referenceVerseHtml, 
+                        listType, 
+                        tabIndex=undefined, 
+                        renderChart=false, 
+                        isCache=false, 
+                        target=undefined, 
+                        append=false, 
+                        hasNotes=false) {
+
     app_controller.hideVerseListLoadingIndicator();
     app_controller.hideSearchProgressBar();
     var initialRendering = true;
@@ -639,12 +694,18 @@ class TextController {
 
       target.addClass('verse-list-book');
 
+      if (this.platformHelper.isElectron() && hasNotes) {
+        app_controller.docxExport.enableExportButton(tabIndex, 'NOTES');
+      } else {
+        app_controller.docxExport.disableExportButton(tabIndex);
+      }
+
     } else if (listType == 'tagged_verses') {
 
       app_controller.module_search_controller.resetSearch(tabIndex);
 
       if (this.platformHelper.isElectron()) {
-        app_controller.taggedVerseExport.enableTaggedVersesExportButton(tabIndex);
+        app_controller.docxExport.enableExportButton(tabIndex, 'TAGS');
       }
 
       if (!currentTab.hasReferenceVerse()) {
@@ -690,14 +751,14 @@ class TextController {
         headerElementClass = '.reference-verse-list-header';
       }
 
-      var verseListHeader = app_controller.getCurrentVerseListFrame(tabIndex).find(headerElementClass).find('h2');
-      var headerWithResultNumber = `${verseListHeader.html()} (${numberOfTaggedVerses})`;
+      const verseListHeader = app_controller.getCurrentVerseListFrame(tabIndex).find(headerElementClass).find('h2');
+      const headerWithResultNumber = `${verseListHeader.html()} (${numberOfTaggedVerses})`;
       verseListHeader.html(headerWithResultNumber);
     }
 
     if (listType == 'search_results') {
-      var currentTab = app_controller.tab_controller.getTab(tabIndex);
-      var currentSearchTerm = currentTab.getSearchTerm();
+      const currentTab = app_controller.tab_controller.getTab(tabIndex);
+      const currentSearchTerm = currentTab.getSearchTerm();
       app_controller.module_search_controller.highlightSearchResults(currentSearchTerm, tabIndex);
     }
 
@@ -713,12 +774,12 @@ class TextController {
     }
 
     if (isCache ||
-        listType != 'book' ||
-        listType == 'book' && append ||
-        !isInstantLoadingBook) {
+      listType != 'book' ||
+      listType == 'book' && append ||
+      !isInstantLoadingBook) {
 
       app_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
-      await app_controller.initApplicationForVerseList(tabIndex);      
+      await app_controller.initApplicationForVerseList(tabIndex);
       uiHelper.hideTextLoadingIndicator();
     }
   }
@@ -726,3 +787,20 @@ class TextController {
 
 module.exports = TextController;
 
+function getReferenceIdsFromNotes(verseNotes, startVerseNr, endVerseNr) {
+  const verseReferenceIds = Object.keys(verseNotes);
+  return verseReferenceIds.filter(verseReferenceId => {
+    const noteVerseNumber = parseInt(verseReferenceId.split('-')[2]);
+    return noteVerseNumber >= startVerseNr && (endVerseNr < startVerseNr || noteVerseNumber <= endVerseNr);
+  });
+}
+
+function getNotesForSection(verseNotes, startVerseNr, endVerseNr) {
+  const includedIds = getReferenceIdsFromNotes(verseNotes, startVerseNr, endVerseNr);
+  var includedNotes = {};
+  includedIds.forEach(referenceId => {
+    const referenceIdWithoutVersification = referenceId.slice(4); // strip 3-letter versification + '-'
+    includedNotes[referenceIdWithoutVersification] = verseNotes[referenceId];
+  });
+  return includedNotes;
+}

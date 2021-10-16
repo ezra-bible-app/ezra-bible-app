@@ -1,4 +1,3 @@
-REM On Windows we use Electron 8, because the latest sqlite3 (needed for Electron 9) does not run successfully yet.
 call npm install --arch=ia32
 call npm install sqlite3@4.2.0 --arch=ia32
 call node_modules\.bin\electron-rebuild.cmd --arch=ia32 -f -w node-sword-interface -v 13.2.3
