@@ -20,6 +20,7 @@
 const docx = require('docx');
 const marked = require('marked');
 const { decodeEntities } = require('../../helpers/ezra_helper.js');
+const { parseHTML } = require('../../helpers/ezra_helper.js');
 
 module.exports.getPageProps = function() {
   return {
@@ -319,3 +320,76 @@ module.exports.markdownToDocx = function(markdown, style=undefined) {
 
   return paragraphs;
 };
+
+module.exports.getTableFromVerseBlock = function(verseBlock, notes) {
+  var table = new docx.Table({
+    rows: verseBlock.map(verse => {
+      const referenceId = `${verse.bibleBookShortTitle.toLowerCase()}-${verse.absoluteVerseNr}`;
+
+      return new docx.TableRow({
+        children: [
+          new docx.TableCell({
+            children: [renderVerse(verse)],
+            width: {
+              type: docx.WidthType.DXA,
+              size: docx.convertMillimetersToTwip(95)
+            },
+            borders: {
+              top: {color: '555555'},
+              left: {color: '555555'},
+              bottom: {color: '555555'},
+              right: {color: '555555'},
+            },
+          }),
+          new docx.TableCell({
+            children: notes[referenceId] ? this.markdownToDocx(notes[referenceId].text, 'notes') : [],
+            width: {
+              type: docx.WidthType.DXA,
+              size: docx.convertMillimetersToTwip(95)
+            },
+            borders: {
+              top: {color: '555555'},
+              left: {color: '555555'},
+              bottom: {color: '555555'},
+              right: {color: '555555'},
+            },
+          })
+        ],
+        cantSplit: true
+      });
+    }),
+    margins: {
+      marginUnitType: docx.WidthType.DXA,
+      top: docx.convertMillimetersToTwip(2),
+      bottom: docx.convertMillimetersToTwip(2),
+      left: docx.convertMillimetersToTwip(2),
+      right: docx.convertMillimetersToTwip(2),
+    },
+    width: {
+      type: docx.WidthType.DXA,
+      size: docx.convertMillimetersToTwip(190)
+    },
+    columnWidths: [docx.convertMillimetersToTwip(95), docx.convertMillimetersToTwip(95)],
+  });
+
+  return table;
+};
+
+function renderVerse(verse) {
+  let currentVerseContent = "";
+  const fixedContent = verse.content.replace(/<([a-z]+)(\s?[^>]*?)\/>/g, '<$1$2></$1>'); // replace self clothing tags FIXME: Should it be in the NSI?
+  const currentVerseNodes = Array.from(parseHTML(fixedContent).childNodes);
+
+  currentVerseContent = currentVerseNodes.reduce((prevContent, currentNode) => {
+    // We export everything that is not a DIV
+    // DIV elements contain markup that should not be in the word document
+    return currentNode.nodeName !== 'DIV' ? prevContent + currentNode.textContent : prevContent;
+  }, "");
+
+  return new docx.Paragraph({
+    children: [
+      new docx.TextRun({text: verse.verseNr, superScript: true}),
+      new docx.TextRun(" " + currentVerseContent)
+    ]
+  });
+}
