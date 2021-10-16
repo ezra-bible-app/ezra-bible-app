@@ -169,10 +169,10 @@
     "app-language": "Application Language",
     "detect-locale": "Auto",
     "detect-locale-hint": "Automatically detect locale based on system language",
-    "module-copyright": "Bible Translation Copyright",
-    "module-copyright-intro": "Please, be aware that {{module_name}} is copyrighted:",
     "more-info": "More information",
-    "module-copyright-disclaimer": "By proceeding with exporting you hereby agree to this copyright policy and any restrictions regarding quotation from {{module_name}}.",
+    "module-copyright": "Bible Translation Copyright",
+    "module-copyright-intro": "Please be aware that {{module_name}} is copyrighted:",
+    "module-copyright-disclaimer": "By proceeding with exporting you hereby agree to this translation's copyright policy and any restrictions regarding quotations from {{module_name}}.",
     "scripture-quote-from": "Scripture taken from:"
   },
   "help": {
