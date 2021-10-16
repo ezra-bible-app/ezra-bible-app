@@ -171,8 +171,8 @@
     "detect-locale-hint": "Automatically detect locale based on system language",
     "more-info": "More information",
     "module-copyright": "Bible Translation Copyright",
-    "module-copyright-intro": "Please be aware that {{module_name}} is copyrighted:",
-    "module-copyright-disclaimer": "By proceeding with exporting you hereby agree to this translation's copyright policy and any restrictions regarding quotations from {{module_name}}.",
+    "module-copyright-intro": "Please be aware that the {{module_name}} is copyrighted:",
+    "module-copyright-disclaimer": "By proceeding with exporting you hereby agree to this translation's copyright policy and any restrictions regarding quotations from the {{module_name}}.",
     "scripture-quote-from": "Scripture taken from:"
   },
   "help": {
