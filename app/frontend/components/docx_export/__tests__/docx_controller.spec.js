@@ -81,7 +81,7 @@ jest.mock('../../../helpers/sword_module_helper.js', () => ({
   getModuleCopyright: () => 'Public Domain',
 }));
 
-describe('ExportController', () => {
+describe('DocxController', () => {
   it('exports docx for notes', async () => {
     const docx = await docxController.generateDocument("Ephesian 1", versesData, undefined, notesData);
     expect(docx).toMatchSnapshot();

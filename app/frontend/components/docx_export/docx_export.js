@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const exportController = require('./export_controller.js');
+const docxController = require('./docx_controller.js');
 const { html } = require('../../helpers/ezra_helper.js');
 const swordHelper = require('../../helpers/sword_module_helper.js');
 
@@ -79,7 +79,7 @@ class DocxExport {
       return;
     }
 
-    exportController.showSaveDialog(fileName).then(filePath => {
+    showSaveDialog(fileName).then(filePath => {
       if (filePath) {
         if (type === 'TAGS') {
           renderCurrentTagsForExport(currentTab);
@@ -105,7 +105,7 @@ function renderCurrentTagsForExport(currentTab) {
     null,
     currentTagIdList,
     (verses, bibleBooks) => { 
-      exportController.saveWordDocument(title, verses, bibleBooks); 
+      saveWordDocument(title, verses, bibleBooks); 
     },
     'docx',
     false
@@ -119,7 +119,7 @@ function renderNotesForExport(currentTab, isWholeBook=false) {
     isWholeBook ? null : currentTab.getChapter(),
     (verses, notes) => {
       const title = currentTab.getBookTitle() + (isWholeBook ? '' : ` ${currentTab.getChapter()}`);
-      exportController.saveWordDocument(title, verses, undefined, notes);
+      saveWordDocument(title, verses, undefined, notes);
     },
     'docx'
   );
@@ -191,4 +191,64 @@ async function agreeDisclaimerDialog(moduleId) {
       }
     });
   });
+}
+
+var exportFilePath;
+
+async function saveWordDocument(title, verses, bibleBooks=undefined, notes={}) {
+  if (!exportFilePath) {
+    console.log('Export error: exportFilePath is not defined with showSaveDialog()');
+  }
+
+  const buffer = await docxController.generateDocument(title, verses, bibleBooks, notes);
+
+  console.log("Saving word document " + exportFilePath);
+
+  const fs = require('fs/promises');
+  await fs.writeFile(exportFilePath, buffer);
+
+  const shell = require('electron').shell;
+  shell.openPath(exportFilePath);
+};
+
+async function showSaveDialog (fileTitle) {
+  if (platformHelper.isCordova()) return null; //TODO: figure out the way to save files in Cordova
+
+  const dialog = require('electron').remote.dialog;
+  var dialogOptions = getExportDialogOptions(fileTitle);
+
+  return dialog.showSaveDialog(null, dialogOptions).then(result => {
+    exportFilePath = result.filePath;
+
+    if (!result.canceled && exportFilePath != undefined) {
+      return exportFilePath;
+    } else {
+      return null;
+    }
+  });
+}
+
+function getExportDialogOptions(title) {
+  const app = require('electron').remote.app;
+  var today = new Date();
+  var month = getPaddedNumber(today.getMonth() + 1);
+  var day = getPaddedNumber(today.getDate());
+  var date = today.getFullYear() + '_' + month + '_' + day;
+  var fileName = date + '__' + title + '.docx';
+
+  var dialogOptions = {
+    defaultPath: app.getPath('documents') + '/' + fileName,
+    title: i18n.t("tags.export-tagged-verse-list"),
+    buttonLabel: i18n.t("tags.run-export")
+  };
+
+  return dialogOptions;
+}
+
+function getPaddedNumber(number) {
+  var paddedNumber = "" + number;
+  if (number < 10) {
+    paddedNumber = "0" + number;
+  }
+  return paddedNumber;
 }
