@@ -166,6 +166,7 @@ class TextController {
       if (tabIndex === undefined) { 
         app_controller.docxExport.disableExportButton();
       }
+
       currentVerseListMenu.find('.book-select-button').addClass('focused-button');
 
       if (cachedText != null) {
@@ -662,6 +663,7 @@ class TextController {
                         target=undefined, 
                         append=false, 
                         hasNotes=false) {
+
     app_controller.hideVerseListLoadingIndicator();
     app_controller.hideSearchProgressBar();
     var initialRendering = true;
@@ -692,7 +694,7 @@ class TextController {
 
       target.addClass('verse-list-book');
 
-      if (hasNotes) {
+      if (this.platformHelper.isElectron() && hasNotes) {
         app_controller.docxExport.enableExportButton(tabIndex, 'NOTES');
       } else {
         app_controller.docxExport.disableExportButton(tabIndex);
