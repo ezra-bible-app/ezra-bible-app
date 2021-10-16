@@ -153,10 +153,6 @@ async function agreeDisclaimerDialog(moduleId) {
         ${await swordHelper.getModuleAbout(moduleId)}
       </details>
       <p>${i18n.t("general.module-copyright-disclaimer", {module_name})}</p>
-      <div style="text-align: center; line-height: 1.2">
-        <button id="cancel-disclaimer" class="fg-button ui-corner-all ui-state-default" style="margin: 0.5em; padding: 0.3em 1em;">${i18n.t("general.cancel")}</button>
-        <button id="agree-disclaimer" class="fg-button ui-corner-all ui-state-default"  style="margin: 0.5em; padding: 0.3em 1em;">${i18n.t("general.ok")}</button>
-      </div>
     </div>
   </div>
   `;
@@ -167,17 +163,18 @@ async function agreeDisclaimerDialog(moduleId) {
     const $dialogBox = $('#module-disclaimer');
     
     var agreed = false;
-    document.querySelector('#agree-disclaimer').addEventListener('click', () => {
-      agreed = true;
-      $dialogBox.dialog('close');
-    });
-    document.querySelector('#cancel-disclaimer').addEventListener('click', () => {
-      $dialogBox.dialog('close');
-    });
-  
     const width = 640;
     const height = 360;
     const offsetLeft = ($(window).width() - width)/2;
+
+    var buttons = {};
+    buttons[i18n.t('general.cancel')] = function() {
+      $(this).dialog('close');
+    };
+    buttons[i18n.t('general.ok')] = function() {
+      agreed = true;
+      $(this).dialog('close');
+    }
   
     $dialogBox.dialog({
       width,
@@ -186,12 +183,12 @@ async function agreeDisclaimerDialog(moduleId) {
       title: i18n.t('general.module-copyright'),
       resizable: false,
       dialogClass: 'ezra-dialog',
+      buttons: buttons,
       close() {
         $dialogBox.dialog('destroy');
         $dialogBox.remove();
         resolve(agreed);
-      } 
+      }
     });
-    
   });
 }
