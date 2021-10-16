@@ -171,7 +171,7 @@
     "detect-locale-hint": "Detectează automat localizarea pe baza limbii sistemului",
     "more-info": "Mai multe informații",
     "module-copyright": "Copyright Traducere Biblie",
-    "module-copyright-intro": "Te rog să ai în vedere că {{module_name}} are copyright (drepturi de autor):",
+    "module-copyright-intro": "Te rog să ai în vedere că {{module_name}} dețin copyright (drepturi de autor):",
     "module-copyright-disclaimer": "Prin continuarea exportului, îți exprimi acordul cu politica de copyright a acestei traduceri și cu orice restricții referitoare la citatele din {{module_name}}.",
     "scripture-quote-from": "Citat preluat din:"
   },
