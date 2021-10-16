@@ -145,10 +145,10 @@ async function agreeDisclaimerDialog(moduleId) {
 
   const dialogBoxTemplate = html`
   <div id="module-disclaimer">
-    <div id="module-disclaimer-content">
+    <div id="module-disclaimer-content" style="margin-right: 0.5em;">
       <p>${i18n.t("general.module-copyright-intro", {module_name})}</p>
       ${copyright ? `<p class="external">${copyright}</p>` : ''}
-      <details ${!copyright ? 'open' : ''}>
+      <details ${!copyright ? 'open' : ''} style="margin-left: 1em;">
         <summary>${i18n.t('general.more-info')}</summary>
         ${await swordHelper.getModuleAbout(moduleId)}
       </details>
