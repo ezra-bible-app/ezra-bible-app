@@ -168,7 +168,12 @@
     "versions-and-paths": "Versiuni și căi",
     "app-language": "Limbă Aplicație",
     "detect-locale": "Auto",
-    "detect-locale-hint": "Detectează automat localizarea pe baza limbii sistemului"
+    "detect-locale-hint": "Detectează automat localizarea pe baza limbii sistemului",
+    "more-info": "More information",
+    "module-copyright": "Bible Translation Copyright",
+    "module-copyright-intro": "Please be aware that the {{module_name}} is copyrighted:",
+    "module-copyright-disclaimer": "By proceeding with exporting you hereby agree to this translation's copyright policy and any restrictions regarding quotations from the {{module_name}}.",
+    "scripture-quote-from": "Scripture taken from:"
   },
   "help": {
     "help-text-no-tags-book-opened": "Pentru a începe să lucrezi cu etichete, crează prima ta etichetă făcând click pe butonul <i> Etichetă &nbsp;nouă </i>. <br/> <br/> După aceea poți răsfoi textul biblic, fă clic sau trage-selectează versetele și apoi atribuie eticheta pe care tocmai ai creat-o.",

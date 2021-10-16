@@ -168,7 +168,12 @@
     "versions-and-paths": "Verzie a cesty",
     "app-language": "Jazyk aplikácie",
     "detect-locale": "Auto",
-    "detect-locale-hint": "Automaticky zistiť miestne nastavenie podľa jazyka systému"
+    "detect-locale-hint": "Automaticky zistiť miestne nastavenie podľa jazyka systému",
+    "more-info": "More information",
+    "module-copyright": "Bible Translation Copyright",
+    "module-copyright-intro": "Please be aware that the {{module_name}} is copyrighted:",
+    "module-copyright-disclaimer": "By proceeding with exporting you hereby agree to this translation's copyright policy and any restrictions regarding quotations from the {{module_name}}.",
+    "scripture-quote-from": "Scripture taken from:"
   },
   "help": {
     "help-text-no-tags-book-opened": "Ak chcete začať pracovať so značkami, vytvorte svoju prvú značku kliknutím na tlačidlo <i>Nová&nbsp;značka</i>.<br/><br/>Potom môžete listovať v biblickom texte, kliknúť alebo vybrať jednotlivé verše a potom im priradiť značku, ktorú ste práve vytvorili.",
