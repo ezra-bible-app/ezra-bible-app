@@ -194,7 +194,7 @@ async function renderTagVerseLayout(verses, bibleBook, separator=":") {
     spacing: {before: 200},
   })];
 
-  const verseParagraphs = verses.map(renderVerse);
+  const verseParagraphs = verses.map(docxHelper.renderVerse);
   paragraphs.push(...verseParagraphs);
 
   return paragraphs;

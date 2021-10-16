@@ -329,7 +329,7 @@ module.exports.getTableFromVerseBlock = function(verseBlock, notes) {
       return new docx.TableRow({
         children: [
           new docx.TableCell({
-            children: [renderVerse(verse)],
+            children: [this.renderVerse(verse)],
             width: {
               type: docx.WidthType.DXA,
               size: docx.convertMillimetersToTwip(95)
@@ -375,7 +375,7 @@ module.exports.getTableFromVerseBlock = function(verseBlock, notes) {
   return table;
 };
 
-function renderVerse(verse) {
+module.exports.renderVerse = function(verse) {
   let currentVerseContent = "";
   const fixedContent = verse.content.replace(/<([a-z]+)(\s?[^>]*?)\/>/g, '<$1$2></$1>'); // replace self clothing tags FIXME: Should it be in the NSI?
   const currentVerseNodes = Array.from(parseHTML(fixedContent).childNodes);

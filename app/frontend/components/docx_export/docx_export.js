@@ -82,7 +82,7 @@ class DocxExport {
     showSaveDialog(fileName).then(filePath => {
       if (filePath) {
         if (type === 'TAGS') {
-          renderCurrentTagsForExport(currentTab);
+          renderTagsForExport(currentTab);
         } else if (type === 'NOTES') {
           renderNotesForExport(currentTab, isInstantLoadingBook);
         }
@@ -94,7 +94,7 @@ class DocxExport {
 
 module.exports = DocxExport;
 
-function renderCurrentTagsForExport(currentTab) {
+function renderTagsForExport(currentTab) {
   const currentTagIdList = currentTab.getTagIdList();
   
   const currentTagTitleList = currentTab.getTagTitleList();
