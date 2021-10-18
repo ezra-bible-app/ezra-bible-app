@@ -169,11 +169,11 @@
     "app-language": "Мова застосунку",
     "detect-locale": "Авто",
     "detect-locale-hint": "Визначити автоматично за мовою системи",
-    "more-info": "More information",
-    "module-copyright": "Bible Translation Copyright",
-    "module-copyright-intro": "Please be aware that the {{module_name}} is copyrighted:",
-    "module-copyright-disclaimer": "By proceeding with exporting you hereby agree to this translation's copyright policy and any restrictions regarding quotations from the {{module_name}}.",
-    "scripture-quote-from": "Scripture taken from:"
+    "more-info": "Більше інформації",
+    "module-copyright": "Авторські права на поточний переклад Біблії",
+    "module-copyright-intro": "Будь ласка, зауважте, що переклад \"{{module_name}}\" захищено авторськими правами:",
+    "module-copyright-disclaimer": "Продовжуючи вивіз у текстовий документ ви ПОГОДЖУЄТЕСЬ з умовами авторських прав на обмеження цитування перекладу {{module_name}}.",
+    "scripture-quote-from": "Писання процитовано з:"
   },
   "help": {
     "help-text-no-tags-book-opened": "Щоб розпочати роботу з мітами, створіть свою першу міту, натиснувши кнопку <i>Нова&nbsp;міта</i>. <br/><br/>Після цього ви можете переглядати текст Біблії, клацати або перетягувати вірші, щоб призначати щойно створену міту.",
