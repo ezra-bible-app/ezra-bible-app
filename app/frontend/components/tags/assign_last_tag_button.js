@@ -63,9 +63,9 @@ class AssignLastTagButton {
       tagTitle = await this.getCurrentTag();
     }
 
-    var assignLastTagButton = $('.assign-last-tag-button');
     var label = i18n.t('tags-toolbar.assign-last-tag') + ': ' + tagTitle;
-    assignLastTagButton.text(label);
+    var assignLastTagButton = document.querySelectorAll('.assign-last-tag-button');
+    assignLastTagButton.forEach((el) => { el.innerText = label; });
   }
 
   async getCurrentTag() {
@@ -91,12 +91,12 @@ class AssignLastTagButton {
 
     if (currentTag != null) {
       await this.updateLabel(currentTag.title);
-      var assignLastTagButton = $('.assign-last-tag-button');
+      var assignLastTagButton = document.querySelectorAll('.assign-last-tag-button');
 
       if (added) {
-        assignLastTagButton.addClass('ui-state-disabled');
+        assignLastTagButton.forEach((el) => el.classList.add('ui-state-disabled'));
       } else {
-        assignLastTagButton.removeClass('ui-state-disabled');
+        assignLastTagButton.forEach((el) => el.classList.remove('ui-state-disabled'));
       }
 
       // Resize the verse list in case the tag label change had an impact on the
