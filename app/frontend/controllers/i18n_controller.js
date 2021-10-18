@@ -196,7 +196,7 @@ module.exports.detectLocale = async function() {
 /** returns current app locale (2-letter language code or 2-letter language - 2-letter region) */
 module.exports.getLocale = function() {
   var locale = i18n.language; // FIXME: case when the language comes with the region code (i.e "en-US") we want only the language code ("en") from available locales
-  console.log('getting 2 code locale:', locale);
+  //console.log('getting 2 code locale:', locale);
   return locale; 
 };
 
