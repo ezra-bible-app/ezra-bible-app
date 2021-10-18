@@ -391,26 +391,26 @@ class AppController {
   }
 
   async initCurrentVerseListMenu(tabIndex=undefined) {
-    var currentVerseListMenu = this.getCurrentVerseListMenu(tabIndex);
+    var currentVerseListMenu = this.getCurrentVerseListMenu(tabIndex)[0];
 
-    currentVerseListMenu.find('.fg-button').removeClass('events-configured');
-    var bookSelectButton = currentVerseListMenu.find('.book-select-button');
-    var moduleSearchButton = currentVerseListMenu.find('.module-search-button');
+    currentVerseListMenu.querySelectorAll('.fg-button').forEach((el) => el.classList.remove('events-configured'));
+    var bookSelectButton = currentVerseListMenu.querySelector('.book-select-button');
+    var moduleSearchButton = currentVerseListMenu.querySelector('.module-search-button');
 
     var bibleTranslations = await ipcNsi.getAllLocalModules();
     if (bibleTranslations.length > 0) {
-      bookSelectButton.removeClass('ui-state-disabled');
-      moduleSearchButton.removeClass('ui-state-disabled');
+      bookSelectButton.classList.remove('ui-state-disabled');
+      moduleSearchButton.classList.remove('ui-state-disabled');
     } else {
-      bookSelectButton.addClass('ui-state-disabled');
-      moduleSearchButton.addClass('ui-state-disabled');
+      bookSelectButton.classList.add('ui-state-disabled');
+      moduleSearchButton.classList.add('ui-state-disabled');
     }
 
-    bookSelectButton.bind('click', (event) => {
+    bookSelectButton.addEventListener('click', (event) => {
       this.book_selection_menu.handleBookMenuClick(event);
     });
 
-    currentVerseListMenu.find('.new-standard-tag-button').bind('click', function() {
+    currentVerseListMenu.querySelector('.new-standard-tag-button').addEventListener('click', function() {
       tags_controller.handleNewTagButtonClick($(this), "standard");
     });
 
