@@ -171,11 +171,11 @@
     "app-language": "Язык приложения",
     "detect-locale": "Авто",
     "detect-locale-hint": "Определить автоматически основываясь на языке системы",
-    "more-info": "More information",
-    "module-copyright": "Bible Translation Copyright",
-    "module-copyright-intro": "Please be aware that the {{module_name}} is copyrighted:",
-    "module-copyright-disclaimer": "By proceeding with exporting you hereby agree to this translation's copyright policy and any restrictions regarding quotations from the {{module_name}}.",
-    "scripture-quote-from": "Scripture taken from:"
+    "more-info": "Больше информации",
+    "module-copyright": "Авторские права на выбранный перевод Библии",
+    "module-copyright-intro": "Пожалуйста, заметьте, что перевод \"{{module_name}}\" защищено авторскими правами:",
+    "module-copyright-disclaimer": "Продолжая экспорт в текстовый документ вы СОГЛАШАЕТЕСЬ с условиями авторских прав на ограничение цитирования из перевода {{module_name}}.",
+    "scripture-quote-from": "Писание процитированно из:"
   },
   "help": {
     "help-text-no-tags-book-opens": "Чтобы начать работу с метками, создайте свою первую метку, нажав кнопку <i>Новая&nbsp;метка</i>.<br/> <br/> После этого вы можете просматривать текст Библии, нажимать или перетаскивать выделенные стихи чтобы назначить только что созданную метку.",
