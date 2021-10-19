@@ -36,13 +36,13 @@ module.exports.unbindAndClose = function() {
 
   app_controller.tag_assignment_menu.closePopup();
   this.closeWheelNav();
-}
+};
 
 module.exports.closeWheelNav = function() {
   if (currentSvgMenu) {
     currentSvgMenu.close();
   }
-}
+};
 
 function getVerseReferences() {
   var verseList = app_controller.getCurrentVerseList();
@@ -99,9 +99,9 @@ function createWheelNavComponent() {
     onClose: function () {
       app_controller.verse_selection.clear_verse_selection();
     }
- });
+  });
 
- currentSvgMenu.open();
+  currentSvgMenu.open();
 }
 
 function getMenuItems() {
@@ -110,19 +110,19 @@ function getMenuItems() {
 
   items.push({
     id: 'compare',
-    title: i18n.t('tags-toolbar.compare')
+    icon: '#compare'
   });
 
   if (!app_controller.optionsMenu._tagListOption.isChecked) {
     items.push({
       id: 'tags',
-      title: i18n.t('tags.change-tags')
+      icon: '#tags'
     });
   }
 
   items.push({
     id: 'assign_last_tag',
-    title: i18n.t('tags-toolbar.assign-last-tag')
+    icon: '#tag'
   });
 
   return items;
