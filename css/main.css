@@ -278,6 +278,10 @@ h2:nth-of-type(1) {
   width: 4em;
 }
 
+#app-container.fullscreen .verse-reference-content {
+  text-decoration: underline dashed gray;
+}
+
 .verse-content {
   padding: 0.2em;
   flex: 1 1;  
