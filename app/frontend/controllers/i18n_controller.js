@@ -44,7 +44,13 @@ const i18nextOptions = {
      */
     format(value, format, lng) { 
       if (value instanceof Date) {
-        return value.toLocaleDateString(lng);
+        let dateStr = '';
+        try {
+          dateStr = value.toLocaleDateString(lng);
+        } catch(err) {
+          console.log('Unable to localize date:', err);
+        }
+        return dateStr;
       }
       
       var context = format;
