@@ -16,32 +16,44 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-class I18NextBrowserLanguageDetector {
-  constructor() {
-    this.type = 'languageDetector';
-    this.async = false;
+const locales = require('../../../locales/locales.json');
+
+function detect() {
+  var locale; // this can be either 4 letter (en-US) or 2 letter (en)
+
+  if (platformHelper.isElectron()) {
+    const _electron = require('electron');
+    locale = (_electron.app || _electron.remote.app).getLocale();
+
+  } else {
+    locale = navigator.language;
+  }
+  
+  // match detected locale to the list of available locales
+  
+  // if full match
+  if (locales.available.includes(locale)) { 
+    return locale;
   }
 
-  init(services, detectorOptions, i18nextOptions) {
-    /* use services and options */
+  // if only language match, e.g. "en"
+  const firstPart = locale.split('-')[0];
+  if (locales.available.includes(firstPart)) {
+    return firstPart;
   }
 
-  detect(callback) { // You'll receive a callback if you passed async true
-    /* return detected language */
-    // callback('de'); if you used the async flag
-
-    var navigatorLanguage = navigator.language;
-
-    if (navigatorLanguage.indexOf('-') != -1) {
-      navigatorLanguage = navigatorLanguage.split('-')[0];
-    }
-    
-    return navigatorLanguage;
+  const sameLangDiffRegions = locales.available.find(l => l.split('-')[0] === firstPart);
+  if (sameLangDiffRegions) {
+    return sameLangDiffRegions;
   }
 
-  cacheUserLanguage(lng) {
-    /* cache language */
-  }
+  //if no match return detected locale
+  return locale;
 }
 
-module.exports = I18NextBrowserLanguageDetector;
+module.exports = {
+  'init': Function.prototype,
+  'type': 'languageDetector',
+  'detect': detect,
+  'cacheUserLanguage': Function.prototype
+};
