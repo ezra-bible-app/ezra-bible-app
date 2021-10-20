@@ -95,7 +95,7 @@ module.exports.initI18N = async function() {
   window.i18n = require('i18next');
   const I18nIpcBackend = require('../ipc/i18n_ipc_backend.js');
 
-  let LanguageDetector = require('../platform/i18next_browser_language_detector.js');
+  let LanguageDetector = require('../platform/i18next_language_detector.js');
 
   await i18n
     .use(LanguageDetector)
