@@ -16,6 +16,6 @@ DOS Batch|3|0|0|15
 --------|--------|--------|--------|--------
 SUM:|253|7790|4323|32771
 
-The above metrics include both the frontend (mostly JavaScript) and the [backend](https://github.com/ezra-project/node-sword-interface) (mostly C++).
+The above metrics include both the frontend (mostly JavaScript) and the [backend](https://github.com/ezra-bible-app/node-sword-interface) (mostly C++).
 
-Generated on Thu 21 Oct 2021 08:47:30 PM CEST using [cloc](https://github.com/AlDanial/cloc).
+Generated on Thu 21 Oct 2021 08:53:26 PM CEST using [cloc](https://github.com/AlDanial/cloc).
