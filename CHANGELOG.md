@@ -10,8 +10,8 @@ All notable changes to Ezra Bible App are documented in this file.
 ### Enhancements
 
 * Book text: Render tags in bold if they are used very often. ([#208][i208])
-* Exchange tag statistics button with compare button. ([#446][i446])
-* Optimize formatting of book selection menu by using four columns for OT ([#442][i442])
+* Exchanged tag statistics button with compare button. ([#446][i446])
+* Optimized formatting of book selection menu by using four columns for OT ([#442][i442])
 
 ### Fixes
 
