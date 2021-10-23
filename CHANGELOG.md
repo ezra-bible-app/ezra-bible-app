@@ -1,6 +1,83 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.3.0 - 2021-10-23]
+
+### Features
+
+* Notes document export ([#96][i96])
+
+### Enhancements
+
+* Book text: Render tags in bold if they are used very often. ([#208][i208])
+* Exchanged tag statistics button with compare button. ([#446][i446])
+* Optimized formatting of book selection menu by using four columns for OT ([#442][i442])
+
+### Fixes
+
+* Fixed bug: Auto-detected locale was sometimes not matching with list of available locales. ([#467][i467])
+* Fixed bug: Chapter loading mode was not considered when re-loading tabs after app upgrade. ([#488][i488])
+* Fixed bug: Strongs transcription and phonetic transcription was showing `undefined` for related Strong's entries. ([#455][i455])
+* Fixed bug: Change tags button was disappearing unintendedly with bigger screen resolutions. ([#448][i448])
+
+### Enablers
+
+* Added Brazilian Portuguese locale, thanks to Christian De Britto. ([#464][i464])
+* Switched windows installer framework from electron-installer-windows to electron/windows-installer. ([#460][i460])
+* Upgraded to latest Electron 13.x. ([#437][i437])
+
+[i96]: https://github.com/ezra-bible-app/ezra-bible-app/issues/96
+[i208]: https://github.com/ezra-bible-app/ezra-bible-app/issues/208
+[i446]: https://github.com/ezra-bible-app/ezra-bible-app/issues/446
+[i442]: https://github.com/ezra-bible-app/ezra-bible-app/pull/442
+[i467]: https://github.com/ezra-bible-app/ezra-bible-app/issues/467
+[i488]: https://github.com/ezra-bible-app/ezra-bible-app/issues/488
+[i460]: https://github.com/ezra-bible-app/ezra-bible-app/pull/460
+[i455]: https://github.com/ezra-bible-app/ezra-bible-app/issues/455
+[i448]: https://github.com/ezra-bible-app/ezra-bible-app/issues/448
+[i464]: https://github.com/ezra-bible-app/ezra-bible-app/pull/464
+[i437]: https://github.com/ezra-bible-app/ezra-bible-app/issues/437
+
+## [1.2.0 - 2021-08-29]
+
+### Enhancements
+
+* Reworked module install assistant ([#201][i201], [#238][i238], [#272][i272])
+  * Show language selection as first step.
+  * Optimized language listing.
+* Android: Reduced height of tag assignment menu. ([#365][i365])
+* Show dictionary box below the text when left toolbar is hidden. ([#77][i77])
+* Android: Implemented dictionary word lookup for touch screens. ([#389][i389])
+* Android: Highlight strongs words in currently selected verse. ([#413][i413])
+
+### Fixes
+
+* Fixed issues with NA28 rendering. ([#384][i384])
+* Fixed module paths on macOS (also consider `$HOME/Library/Application Support/Sword`). ([#356][i356])
+* Fixed bugs related to the repository update. ([#390][i390])
+* Fixed bug on Android: Showing toolbar resulted in invalid / buggy layout. ([#337][i337])
+* Fixed bug: Strong's dictionaries were not automatically installed. ([#404][i404])
+
+### Enablers
+
+* Introduced new CSS Grid based Layout. ([#302][i302])
+* Added Debian 11 package. ([#431][i431])
+
+[i77]: https://github.com/ezra-bible-app/ezra-bible-app/issues/77
+[i201]: https://github.com/ezra-bible-app/ezra-bible-app/issues/201
+[i238]: https://github.com/ezra-bible-app/ezra-bible-app/issues/238
+[i272]: https://github.com/ezra-bible-app/ezra-bible-app/issues/272
+[i302]: https://github.com/ezra-bible-app/ezra-bible-app/pull/302
+[i337]: https://github.com/ezra-bible-app/ezra-bible-app/issues/337
+[i356]: https://github.com/ezra-bible-app/ezra-bible-app/issues/356
+[i365]: https://github.com/ezra-bible-app/ezra-bible-app/issues/365
+[i384]: https://github.com/ezra-bible-app/ezra-bible-app/issues/384
+[i389]: https://github.com/ezra-bible-app/ezra-bible-app/issues/389
+[i390]: https://github.com/ezra-bible-app/ezra-bible-app/issues/390
+[i404]: https://github.com/ezra-bible-app/ezra-bible-app/issues/404
+[i413]: https://github.com/ezra-bible-app/ezra-bible-app/issues/413
+[i431]: https://github.com/ezra-bible-app/ezra-bible-app/issues/431
+
 ## [1.1.0 - 2021-06-26]
 
 ### Features

@@ -4,7 +4,6 @@
 npm install
 npm run compile-pug
 npm run commit-info
-npm run bundle
 npm run install-node-prune
 npm i node-pre-gyp rebuild
 #npm run rebuild

@@ -16,32 +16,25 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-class I18NextBrowserLanguageDetector {
-  constructor() {
-    this.type = 'languageDetector';
-    this.async = false;
-  }
 
-  init(services, detectorOptions, i18nextOptions) {
-    /* use services and options */
-  }
+/**
+ * This module contains filesystem functions that are used during startup on the Electron platform.
+ * The module is explicitly excluded from the Android bundling, because it is not compatible with Browserify.
+ * @module fsHelper
+ * @category Utility
+ */
 
-  detect(callback) { // You'll receive a callback if you passed async true
-    /* return detected language */
-    // callback('de'); if you used the async flag
+/**
+ * Loads the file content of html files during startup on the Electron platform.
+ * 
+ * @param {string} filePath The path to the file ('html/*.html')
+ * @returns file content
+ */
+module.exports.loadFile = function(filePath) {
+  const fs = require('fs');
+  const path = require('path');
 
-    var navigatorLanguage = navigator.language;
-
-    if (navigatorLanguage.indexOf('-') != -1) {
-      navigatorLanguage = navigatorLanguage.split('-')[0];
-    }
-    
-    return navigatorLanguage;
-  }
-
-  cacheUserLanguage(lng) {
-    /* cache language */
-  }
+  var absoluteFilePath = path.join(__dirname, '../../../' + filePath);
+  var fileContent = fs.readFileSync(absoluteFilePath);
+  return fileContent;
 }
-
-module.exports = I18NextBrowserLanguageDetector;

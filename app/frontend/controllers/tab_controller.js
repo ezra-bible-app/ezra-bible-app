@@ -145,7 +145,9 @@ class TabController {
     var savedMetaTabs = [];
 
     for (var i = 0; i < this.metaTabs.length; i++) {
-      this.metaTabs[i].tab_search.resetSearch();
+      if (this.metaTabs[i].tab_search != null) {
+        this.metaTabs[i].tab_search.resetSearch();
+      }
 
       var copiedMetaTab = Object.assign({}, this.metaTabs[i]);
       copiedMetaTab.cachedText = this.getTabHtml(i);
@@ -269,6 +271,9 @@ class TabController {
 
       } else {
 
+        const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentMetaTab.getBibleTranslationId(),
+                                                                                                      currentMetaTab.getBook());
+
         await app_controller.text_controller.requestTextUpdate(
           currentMetaTab.elementId,
           currentMetaTab.book,
@@ -278,7 +283,7 @@ class TabController {
           null,
           currentMetaTab.xrefs,
           currentMetaTab.chapter,
-          true,
+          isInstantLoadingBook,
           i
         );
 

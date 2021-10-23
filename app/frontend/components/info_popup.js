@@ -124,6 +124,7 @@ class InfoPopup {
         <a class='external' href='https://github.com/lemtom'>Tom Lemmens (French, Dutch)</a><br>
         <a class='external' href='https://github.com/reyespinosa1996'>Reinaldo R. Espinosa (Spanish)</a><br>
         <a class='external' href='https://github.com/MartinIIOT'>MartinIIOT (Slovakian)</a><br>
+        <a class='external' href='https://github.com/debritto'>Christian De Britto (Brazilian Portuguese)</a><br>
         <a class='external' href='https://github.com/zhuiks'>Evgen Kucherov (Ukrainian, Russian)</a><br>
         <a class='external' href='https://github.com/augustin-colesnic'>Augustin Colesnic (Romanian)</a><br>
 

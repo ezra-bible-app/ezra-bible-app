@@ -224,7 +224,7 @@ class StepInstall extends HTMLElement {
   }
 
   async _installStrongsModules() {
-    this._appendInstallationInfo(i18n.t("general.installing-strongs"), true);
+    this._appendInstallationInfo(i18n.t("general.installing-strongs"));
 
     var strongsInstallSuccessful = true;
 

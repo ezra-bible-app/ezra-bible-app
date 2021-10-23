@@ -18,7 +18,7 @@
   ],
   "icon": "icons/ezra.png",
   "maintainer": "Ezra Bible App Development Team <contact@ezrabibleapp.net>",
-  "homepage": "https://github.com/ezra-project/ezra-project",
+  "homepage": "https://github.com/ezra-bible-app/ezra-bible-app",
   "lintianOverrides": [
     "changelog-file-missing-in-native-package"
   ]

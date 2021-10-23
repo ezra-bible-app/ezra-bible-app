@@ -26,7 +26,7 @@ const TagSelectionMenu = require("../components/tags/tag_selection_menu.js");
 const TagAssignmentMenu = require("../components/tags/tag_assignment_menu.js");
 const AssignLastTagButton = require("../components/tags/assign_last_tag_button.js");
 const TagStatistics = require("../components/tags/tag_statistics.js");
-const TaggedVerseExport = require("../components/tags/tagged_verse_export.js");
+const DocxExport = require("../components/docx_export/docx_export.js");
 const ModuleSearchController = require("./module_search_controller.js");
 const TranslationController = require("./translation_controller.js");
 const TextController = require("./text_controller.js");
@@ -89,12 +89,12 @@ class AppController {
     this.init_component("VerseSelection", "verse_selection");
     this.init_component("TagSelectionMenu", "tag_selection_menu");
     this.init_component("TagAssignmentMenu", "tag_assignment_menu");
-    this.init_component("TaggedVerseExport", "taggedVerseExport");
     this.init_component("TagStatistics", "tag_statistics");
     this.init_component("AssignLastTagButton", "assign_last_tag_button");
     this.init_component("ModuleSearchController", "module_search_controller");
     this.init_component("TranslationController", "translation_controller");
     this.init_component("TextController", "text_controller");
+    this.init_component("DocxExport", "docxExport");
     this.init_component("VerseContextController", "verse_context_controller");
     this.init_component("TabController", "tab_controller");
     this.init_component("OptionsMenu", "optionsMenu");
@@ -235,6 +235,9 @@ class AppController {
       if (textType == 'book') this.book_selection_menu.highlightCurrentlySelectedBookInMenu(ui.index);
     }
 
+    // Refresh 'assign last tag' button
+    this.assign_last_tag_button.init(ui.index);
+
     // Toggle book statistics
     this.tag_statistics.toggleBookTagStatisticsButton(ui.index);
 
@@ -301,7 +304,9 @@ class AppController {
     var currentTab = this.tab_controller.getTab();
 
     // The tab search is not valid anymore if the translation is changing. Therefore we reset it.
-    currentTab.tab_search.resetSearch();
+    if (currentTab.tab_search != null) {
+      currentTab.tab_search.resetSearch();
+    }
 
     var isInstantLoadingBook = true;
 
@@ -332,6 +337,10 @@ class AppController {
 
         if (currentTab.getReferenceVerseElementId() != null) {
           await this.updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId);
+        }
+
+        if (currentTab.getTextType() == 'book') {
+          this.tag_statistics.highlightFrequentlyUsedTags();
         }
       }
     }
@@ -381,26 +390,26 @@ class AppController {
   }
 
   async initCurrentVerseListMenu(tabIndex=undefined) {
-    var currentVerseListMenu = this.getCurrentVerseListMenu(tabIndex);
+    var currentVerseListMenu = this.getCurrentVerseListMenu(tabIndex)[0];
 
-    currentVerseListMenu.find('.fg-button').removeClass('events-configured');
-    var bookSelectButton = currentVerseListMenu.find('.book-select-button');
-    var moduleSearchButton = currentVerseListMenu.find('.module-search-button');
+    currentVerseListMenu.querySelectorAll('.fg-button').forEach((el) => el.classList.remove('events-configured'));
+    var bookSelectButton = currentVerseListMenu.querySelector('.book-select-button');
+    var moduleSearchButton = currentVerseListMenu.querySelector('.module-search-button');
 
     var bibleTranslations = await ipcNsi.getAllLocalModules();
     if (bibleTranslations.length > 0) {
-      bookSelectButton.removeClass('ui-state-disabled');
-      moduleSearchButton.removeClass('ui-state-disabled');
+      bookSelectButton.classList.remove('ui-state-disabled');
+      moduleSearchButton.classList.remove('ui-state-disabled');
     } else {
-      bookSelectButton.addClass('ui-state-disabled');
-      moduleSearchButton.addClass('ui-state-disabled');
+      bookSelectButton.classList.add('ui-state-disabled');
+      moduleSearchButton.classList.add('ui-state-disabled');
     }
 
-    bookSelectButton.bind('click', (event) => {
+    bookSelectButton.addEventListener('click', (event) => {
       this.book_selection_menu.handleBookMenuClick(event);
     });
 
-    currentVerseListMenu.find('.new-standard-tag-button').bind('click', function() {
+    currentVerseListMenu.querySelector('.new-standard-tag-button').addEventListener('click', function() {
       tags_controller.handleNewTagButtonClick($(this), "standard");
     });
 
@@ -971,7 +980,7 @@ class AppController {
       currentVerseList.innerHTML = "";
     }
 
-    this.taggedVerseExport.disableTaggedVersesExportButton();
+    this.docxExport.disableExportButton();
   }
 
   async initApplicationForVerseList(tabIndex=undefined) {
