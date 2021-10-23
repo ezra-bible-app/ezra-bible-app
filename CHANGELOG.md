@@ -22,7 +22,7 @@ All notable changes to Ezra Bible App are documented in this file.
 
 ### Enablers
 
-* Add Brazilian Portuguese locale, thanks to Christian De Britto. ([#464][i464])
+* Added Brazilian Portuguese locale, thanks to Christian De Britto. ([#464][i464])
 * Switched windows installer framework from electron-installer-windows to electron/windows-installer. ([#460][i460])
 * Upgraded to latest Electron 13.x. ([#437][i437])
 
