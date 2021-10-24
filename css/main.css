@@ -616,7 +616,7 @@ main.content {
   flex-direction: row;
   flex-wrap: wrap;
   align-content: flex-start;
-  max-inline-size: 36em;
+  max-inline-size: 41em;
 }
 
 #book-selection-menu-chapter-list a {
