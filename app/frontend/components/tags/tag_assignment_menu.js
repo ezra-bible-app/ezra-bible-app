@@ -54,6 +54,12 @@ class TagAssignmentMenu {
     }
   }
 
+  hideTagAssignmentMenuAfterDelay() {
+    setTimeout(() => {
+      this.hideTagAssignmentMenu();
+    }, 500);
+  }
+
   async handleMenuClick(event) {
     var assignTagMenuButton = this.getCurrentMenuButton();
 
