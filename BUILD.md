@@ -11,7 +11,7 @@ On Windows Ezra Bible App is built using a pre-built SWORD library from the repo
 
 
 1. Install [git](https://git-scm.com/download/win) and [nodejs](https://nodejs.org). Ensure to install the x86 version of nodejs 14.x.
-   When the setup assistant asks about Tools for native modules, make sure to tick the checkbox *Automatically install the necessary tools*. This will then install the windows build tools required to build the native addons of Ezra Bible App.
+   When the setup assistant asks about *Tools for native modules*, make sure to tick the checkbox *Automatically install the necessary tools*. This will then install the windows build tools required to build the native addons of Ezra Bible App.
 
 ![Tools for native addons](https://raw.githubusercontent.com/ezra-bible-app/ezrabibleapp.net/master/assets/screenshots/nodejs_tools_for_native_addons.png)
 
