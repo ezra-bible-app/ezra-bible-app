@@ -302,7 +302,9 @@
     "new-note-hint": "Kliknite pre pridanie poznámky",
     "open-complete-book": "Otvorte knihy úplne",
     "open-chapters-large-books": "Otvárajte veľké knihy po kapitolách",
-    "open-chapters-all-books": "Otvorte všetky knihy po kapitolách"
+    "open-chapters-all-books": "Otvorte všetky knihy po kapitolách",
+    "copy": "Copy",
+    "edit-note": "Edit note"
   },
   "dictionary-info-box": {
     "greek-dict": "Grécky slovník",

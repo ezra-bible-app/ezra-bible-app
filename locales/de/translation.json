@@ -294,7 +294,9 @@
     "new-note-hint": "Klicken um neue Notiz hinzuzufügen",
     "open-complete-book": "Bücher vollständig öffnen",
     "open-chapters-large-books": "Große Bücher kapitelweise öffnen",
-    "open-chapters-all-books": "Alle Bücher kapitelweise öffnen"
+    "open-chapters-all-books": "Alle Bücher kapitelweise öffnen",
+    "copy": "Copy",
+    "edit-note": "Edit note"
   },
   "dictionary-info-box": {
     "greek-dict": "Griechisches Wörterbuch",
