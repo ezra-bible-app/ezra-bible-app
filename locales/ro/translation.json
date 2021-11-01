@@ -4,7 +4,7 @@
     "tag-statistics": "Statistici etichete",
     "assign-last-tag": "Atribuie ultima etichetă",
     "configure-translations": "Configurează traducerile",
-    "configure-dicts": "Configurează dictionarele",
+    "configure-dicts": "Configurează dicționarele",
     "show-parallel-translations": "Compară traducerile",
     "compare": "Compară",
     "context": "Context"
@@ -13,15 +13,15 @@
     "book": "Carte",
     "tags": "Etichete",
     "search": "Caută",
-    "options": "Optiuni",
+    "options": "Opțiuni",
     "export": "Export ca document text",
     "show-module-info": "Arată info modul",
     "fullscreen": "Comută pe întregul ecran",
     "exit-fullscreen": "Ieși din modul ecran-întreg",
     "text-size": "Ajustează dimensiunea font-ului pentru verset",
-    "text-size-decrease": "Micșorează dimensiunea fontu-lui",
-    "text-size-reset": "Resetează dimensiunea fontu-lui la implicit",
-    "text-size-increase": "Mărește dimensiunea fontu-lui"
+    "text-size-decrease": "Micșorează dimensiunea fontului",
+    "text-size-reset": "Resetează dimensiunea fontului la implicit",
+    "text-size-increase": "Mărește dimensiunea fontului"
   },
   "search-menu": {
     "search": "Căutare",
@@ -33,11 +33,11 @@
   },
   "module-assistant": {
     "module-type-bible": "traduceri biblice",
-    "module-type-bible_accusative": "treduceri biblice",
-    "module-type-bible_genitive": "treducerilor biblice",
-    "module-type-bible_instrumental": "treduceri biblice",
+    "module-type-bible_accusative": "traduceri biblice",
+    "module-type-bible_genitive": "traducerilor biblice",
+    "module-type-bible_instrumental": "traduceri biblice",
     "module-type-bible_singular": "treducere",
-    "module-type-bible_singular-genitive": "treducerii",
+    "module-type-bible_singular-genitive": "traducerii",
     "module-type-dict": "dicționare",
     "module-type-dict_accusative": "dicționare",
     "module-type-dict_genitive": "dicționarelor",
@@ -103,8 +103,8 @@
     "unlock": {
       "module-lock-info": "Acest {{module_type, singular}} este protejat prin licență și necesită achiziționarea unuei chei pentru deblocare de la proprietarul conținutului!",
       "unlock-key": "Cheia de deblocare",
-      "enter-unlock-key": "{{moduleId}} este protejat prin licență. Te rog introdu Cheia de deblocare!",
-      "unlock-failed": "Deblocare eșuată! Te rog introdu Cheia de deblocare corectă."
+      "enter-unlock-key": "{{moduleId}} este protejat prin licență. Te rog introdu cheia de deblocare!",
+      "unlock-failed": "Deblocare eșuată! Te rog introdu cheia de deblocare corectă."
     }
   },
   "module-sync": {
@@ -135,7 +135,7 @@
     "module-greek-strongs-dict": "Concordanță (Strong's) Greacă",
     "module-greek-strongs-dict_instrumental": "Greek Strong's",
     "module-headings": "Titluri",
-    "module-headings_instrumental": "headings",
+    "module-headings_instrumental": "titluri",
     "module-footnotes": "Note de subsol",
     "module-xrefs": "Referințe încrucișate",
     "module-redletter": "Cuvinte roșii",
@@ -168,13 +168,18 @@
     "versions-and-paths": "Versiuni și căi",
     "app-language": "Limbă Aplicație",
     "detect-locale": "Auto",
-    "detect-locale-hint": "Detectează automat localizarea pe baza limbii sistemului"
+    "detect-locale-hint": "Detectează automat localizarea pe baza limbii sistemului",
+    "more-info": "Mai multe informații",
+    "module-copyright": "Copyright Traducere Biblie",
+    "module-copyright-intro": "Te rog să ai în vedere că {{module_name}} deține copyright (drepturi de autor):",
+    "module-copyright-disclaimer": "Prin continuarea exportului, îți exprimi acordul cu politica de copyright a acestei traduceri și cu orice restricții referitoare la citatele din {{module_name}}.",
+    "scripture-quote-from": "Citat preluat din:"
   },
   "help": {
-    "help-text-no-tags-book-opened": "Pentru a începe să lucrezi cu etichete, crează prima ta etichetă făcând click pe butonul <i> Etichetă &nbsp;nouă </i>. <br/> <br/> După aceea poți răsfoi textul biblic, fă clic sau trage-selectează versetele și apoi atribuie eticheta pe care tocmai ai creat-o.",
+    "help-text-no-tags-book-opened": "Pentru a începe să lucrezi cu etichete, crează prima ta etichetă făcând click pe butonul <i> Etichetă &nbsp;nouă </i>. <br/> <br/> După aceea poți răsfoi textul biblic, fă click sau trage-selectează versetele și apoi atribuie eticheta pe care tocmai ai creat-o.",
     "help-text-no-tags-no-book-opened": "Pentru a începe să lucrezi cu etichete, selectează mai întâi o carte biblică pentru a studia.",
     "help-text-translation-available": "Pentru a începe, selectează o carte sau o etichetă din meniul de mai sus.",
-    "help-text-no-translations": "Pentru început, instsalează mai întâi cel puțin o traducere biblică. <br/> <br/> Poți deschide asistentul de instalare făcând clic pe pictograma de setări și apoi pe <i> Configurare traduceri </i>."
+    "help-text-no-translations": "Pentru început, instalează mai întâi cel puțin o traducere biblică. <br/> <br/> Poți deschide asistentul de instalare făcând click pe pictograma de setări și apoi pe <i> Configurare traduceri </i>."
   },
   "shortcuts": {
     "tab-title": "Scurtături tastatură",
@@ -219,7 +224,7 @@
     "assigned-tags": "Etichete atribuite",
     "unassigned-tags": "Etichete neatribuite",
     "recently-used-tags": "Etichete folosite recent",
-    "really-delete": "Doriști cu adevărat să ștergi următoarea etichetă: ",
+    "really-delete": "Dorești cu adevărat să ștergi următoarea etichetă: ",
     "tag-info-would-be-deleted": "Informațiile despre etichetă vor fi șterse <b> pentru toate versetele asociate!</b>",
     "really-remove-tag-assignment": "Chiar doriți să eliminați eticheta &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; din versetele alese?",
     "remove-tag-assignment": "Elimină atribuirea etichetei",
@@ -265,7 +270,7 @@
     "display": "Afișare",
     "text-options": "Opțiuni text",
     "bible-browser-layout": "Aspectul navigatorului biblic",
-    "show-tag-list": "Show tag list",
+    "show-tag-list": "Arată lista de etichete",
     "show-book-intro": "Afișează introducerea cărții",
     "show-section-titles": "Afișează titlurile secțiunii",
     "show-xrefs": "Afișează referințe încrucișate",
@@ -279,7 +284,7 @@
     "show-tags": "Afișează etichete",
     "show-notes": "Afișează note",
     "limit-notes-display-size": "Limitează dimensiunea afișării notelor",
-    "use-tags-column": "Folosește coloana Tag-uri",
+    "use-tags-column": "Folosește coloana Etichete",
     "select-chapter-before-loading": "Deschide cărțile cu selecție de capitol",
     "use-night-mode": "Mod de noapte",
     "keep-screen-on": "Menține ecranul aprins",
@@ -333,6 +338,6 @@
     "init-database": "Inițializare baza de date",
     "init-user-interface": "Inițializare interfața utilizator",
     "loading-settings": "Se încarcă setările",
-    "waiting-app-ready": "Așteptare ca aplicație să fie pregătită"
+    "waiting-app-ready": "În așteptare ca aplicație să fie pregătită"
   }
 }

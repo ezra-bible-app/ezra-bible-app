@@ -440,7 +440,7 @@ class OptionsMenu {
     const currentTab = app_controller.tab_controller.getTab(tabIndex);
     var enableOption = true;
 
-    if (currentTab.getTextType() == 'book') {
+    if (currentTab != null && currentTab.getTextType() == 'book') {
       var isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(
         currentTab.getBibleTranslationId(),
         currentTab.getBook()

@@ -360,7 +360,7 @@ class TagsController {
       await app_controller.tag_selection_menu.requestTagsForMenu(true);
       await tags_controller.updateTagsViewAfterVerseSelection(true);
       await tags_controller.updateTagUiBasedOnTagAvailability();
-      await app_controller.tag_statistics.updateBookTagStatisticsBox();
+      await app_controller.tag_statistics.updateBookTagStatistics();
     }, 50);
   }
 
@@ -503,7 +503,7 @@ class TagsController {
       await tags_controller.updateTagUiBasedOnTagAvailability();
 
       if (currentBook != null) {
-        await app_controller.tag_statistics.updateBookTagStatisticsBox();
+        await app_controller.tag_statistics.updateBookTagStatistics();
       }
 
     } else {
@@ -624,7 +624,7 @@ class TagsController {
     var currentBook = app_controller.tab_controller.getTab().getBook();
     tags_controller.updateTagCountAfterRendering(currentBook != null);
     tags_controller.updateTagUiBasedOnTagAvailability();
-    await app_controller.tag_statistics.updateBookTagStatisticsBox();
+    await app_controller.tag_statistics.updateBookTagStatistics();
 
     tags_controller.remove_tag_assignment_job = null;
     tags_controller.persistence_ongoing = false;
@@ -686,7 +686,7 @@ class TagsController {
     }
 
     if (current_book != null) {
-      await app_controller.tag_statistics.updateBookTagStatisticsBox(book_tag_statistics);
+      await app_controller.tag_statistics.updateBookTagStatistics(book_tag_statistics);
     }
   }
 
@@ -711,6 +711,8 @@ class TagsController {
       await waitUntilIdle();
 
       this.lastContentId = contentId;
+    } else {
+      app_controller.tag_statistics.highlightFrequentlyUsedTags();
     }
   }
 

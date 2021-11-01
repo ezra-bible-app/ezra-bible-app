@@ -271,6 +271,9 @@ class TabController {
 
       } else {
 
+        const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentMetaTab.getBibleTranslationId(),
+                                                                                                      currentMetaTab.getBook());
+
         await app_controller.text_controller.requestTextUpdate(
           currentMetaTab.elementId,
           currentMetaTab.book,
@@ -280,7 +283,7 @@ class TabController {
           null,
           currentMetaTab.xrefs,
           currentMetaTab.chapter,
-          true,
+          isInstantLoadingBook,
           i
         );
 

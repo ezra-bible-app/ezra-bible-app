@@ -42,11 +42,11 @@ module.exports.initState = async function(moduleType) {
 
   state.installedModules = await app_controller.translation_controller.getInstalledModules(moduleType);
 
-  const lastUpdate = await ipcSettings.get('lastSwordRepoUpdate', null);
+  const lastUpdate = Date.parse(await ipcSettings.get('lastSwordRepoUpdate', null));
   const repositoriesAvailable = lastUpdate && await ipcNsi.repositoryConfigExisting();
 
   if (repositoriesAvailable) {
-    state.reposUpdated = new Date(Date.parse(lastUpdate));
+    state.reposUpdated = new Date(lastUpdate);
   }
   this.resetRepositoryUpdateSubscribers();
 

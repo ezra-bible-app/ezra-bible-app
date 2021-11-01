@@ -15,7 +15,7 @@
     "search": "Пошук",
     "options": "Налаштування",
     "export": "Вивіз у текстовий документ",
-    "show-module-info": "Показати відощі про модуль та застосунок",
+    "show-module-info": "Показати відомості про модуль та застосунок",
     "fullscreen": "Переключити у повноекранний режим",
     "exit-fullscreen": "Вийти з повноекранного режиму",
     "text-size": "Налаштувати розмір тексту Біблії",
@@ -77,7 +77,7 @@
       "what-is-repository": "Під сховищем розуміється хмарне інтернет-сховище з певними {{module_type, instrumental}}",
       "loading-repositories": "Завантаження переліку сховищ ...",
       "repo-recommended": "Рекомендоване сховище",
-      "more-repo-information-needed": "Додаткові відощі про сховища можна знайти за посиланням <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> (англійською)."
+      "more-repo-information-needed": "Додаткові відомості про сховища можна знайти за посиланням <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> (англійською)."
     },
     "step-modules": {  
       "select-module": "Будь ласка, оберіть {{module_type}} для встановлення.",
@@ -112,12 +112,12 @@
   },
   "general": {
     "chapter-verse-separator": ":",
-    "module-application-info": "Відощі модуля SWORD та застосунку",
-    "application-info": "Відощі застосунку",
+    "module-application-info": "Відомості про переклад Біблії та застосунок",
+    "application-info": "Відомості застосунку",
     "sword-module-description": "Про цей модуль",
     "sword-module-details": "Подробиці модуля",
-    "sword-module-info": "Відощі про модуль SWORD",
-    "sword-unlock-info": "Відощі розблокування SWORD",
+    "sword-module-info": "Відомості про переклад Біблії",
+    "sword-unlock-info": "Відомості розблокування SWORD",
     "application-version": "Версія застосунку",
     "git-commit": "Git commit",
     "sword-version": "Версія SWORD",
@@ -168,7 +168,12 @@
     "versions-and-paths": "Версія та розташування",
     "app-language": "Мова застосунку",
     "detect-locale": "Авто",
-    "detect-locale-hint": "Визначити автоматично за мовою системи"
+    "detect-locale-hint": "Визначити автоматично за мовою системи",
+    "more-info": "Більше інформації",
+    "module-copyright": "Авторські права на поточний переклад Біблії",
+    "module-copyright-intro": "Будь ласка, зауважте, що переклад \"{{module_name}}\" захищено авторськими правами:",
+    "module-copyright-disclaimer": "Продовжуючи вивіз у текстовий документ ви ПОГОДЖУЄТЕСЬ з умовами авторських прав на обмеження цитування перекладу {{module_name}}.",
+    "scripture-quote-from": "Писання процитовано з:"
   },
   "help": {
     "help-text-no-tags-book-opened": "Щоб розпочати роботу з мітами, створіть свою першу міту, натиснувши кнопку <i>Нова&nbsp;міта</i>. <br/><br/>Після цього ви можете переглядати текст Біблії, клацати або перетягувати вірші, щоб призначати щойно створену міту.",

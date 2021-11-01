@@ -67,9 +67,9 @@ class AssignLastTagButton {
       tagTitle = await this.getCurrentTag();
     }
 
-    var assignLastTagButton = $('.assign-last-tag-button');
     var label = i18n.t('tags-toolbar.assign-last-tag') + ': ' + tagTitle;
-    assignLastTagButton.text(label);
+    var assignLastTagButton = document.querySelectorAll('.assign-last-tag-button');
+    assignLastTagButton.forEach((el) => { el.innerText = label; });
   }
 
   async getCurrentTag() {
@@ -95,12 +95,12 @@ class AssignLastTagButton {
 
     if (currentTag != null) {
       await this.updateLabel(currentTag.title);
-      var assignLastTagButton = $('.assign-last-tag-button');
+      var assignLastTagButton = document.querySelectorAll('.assign-last-tag-button');
 
       if (added) {
-        assignLastTagButton.addClass('ui-state-disabled');
+        assignLastTagButton.forEach((el) => el.classList.add('ui-state-disabled'));
       } else {
-        assignLastTagButton.removeClass('ui-state-disabled');
+        assignLastTagButton.forEach((el) => el.classList.remove('ui-state-disabled'));
       }
 
       // Resize the verse list in case the tag label change had an impact on the
@@ -110,7 +110,7 @@ class AssignLastTagButton {
   }
 
   async refreshLastTagButtonState(versesSelected, selectedVerseTags) {
-    var assignLastTagButtons = $('.assign-last-tag-button');
+    var assignLastTagButtons = document.querySelectorAll('.assign-last-tag-button');
 
     if (versesSelected) {
       if (tags_controller.tag_store.latest_tag_id != null) {
@@ -127,16 +127,16 @@ class AssignLastTagButton {
         }
 
         if (!tagFound || selectedVerseTags.length == 0) {
-          assignLastTagButtons.removeClass('ui-state-disabled');
+          assignLastTagButtons.forEach((el) => el.classList.remove('ui-state-disabled'));
         } else {
-          assignLastTagButtons.addClass('ui-state-disabled');
+          assignLastTagButtons.forEach((el) => el.classList.add('ui-state-disabled'));
         }
 
       } else {
-        assignLastTagButtons.addClass('ui-state-disabled');
+        assignLastTagButtons.forEach((e) => e.classList.add('ui-state-disabled'));
       }
     } else {
-      assignLastTagButtons.addClass('ui-state-disabled');
+      assignLastTagButtons.forEach((e) => e.classList.add('ui-state-disabled'));
     }
   }
 }

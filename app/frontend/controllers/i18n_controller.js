@@ -44,7 +44,13 @@ const i18nextOptions = {
      */
     format(value, format, lng) { 
       if (value instanceof Date) {
-        return value.toLocaleDateString(lng);
+        let dateStr = '';
+        try {
+          dateStr = value.toLocaleDateString(lng);
+        } catch(err) {
+          console.log('Unable to localize date:', err);
+        }
+        return dateStr;
       }
       
       var context = format;
@@ -89,14 +95,7 @@ module.exports.initI18N = async function() {
   window.i18n = require('i18next');
   const I18nIpcBackend = require('../ipc/i18n_ipc_backend.js');
 
-  let LanguageDetector = null;
-
-  if (platformHelper.isElectron()) {
-    LanguageDetector = require('i18next-electron-language-detector');
-  } else {
-    const _LanguageDetector = require('../platform/i18next_browser_language_detector.js');
-    LanguageDetector = new _LanguageDetector();
-  }
+  let LanguageDetector = require('../platform/i18next_language_detector.js');
 
   await i18n
     .use(LanguageDetector)
@@ -193,10 +192,11 @@ module.exports.detectLocale = async function() {
   await ipcSettings.delete(SETTINGS_KEY);
 };
 
-/** returns current app locale (2-letter language code) */
+/** returns current app locale (2-letter language code or 2-letter language - 2-letter region) */
 module.exports.getLocale = function() {
-  var locale = i18n.language;
-  return locale.slice(0, 2); // just in case we got language with the region code (i.e "en-US") we want only the language code ("en")
+  var locale = i18n.language; // FIXME: case when the language comes with the region code (i.e "en-US") we want only the language code ("en") from available locales
+  //console.log('getting 2 code locale:', locale);
+  return locale; 
 };
 
 module.exports.getSystemLocale = () => systemLocale;
@@ -204,7 +204,7 @@ module.exports.getSystemLocale = () => systemLocale;
 /** returns detected OS locale */
 module.exports.getSystemLocale = () => systemLocale;
 
-/** returns 2-letter language code list of all available locales for the app */
+/** returns code list of all available locales for the app */
 module.exports.getAvailableLocales = function() {
   return locales.available.sort();
 };
