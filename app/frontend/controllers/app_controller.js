@@ -129,6 +129,50 @@ class AppController {
                              defaultBibleTranslationId);
   }
 
+  initVerseButtons(tabIndex=undefined) {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+    var editNoteButton = currentVerseListMenu.find('.edit-note-button');
+    var copyButton = currentVerseListMenu.find('.copy-clipboard-button');
+
+    editNoteButton.bind('click', (event) => {
+      event.stopPropagation();
+
+      if (!$(this).hasClass('ui-state-disabled')) {
+        app_controller.hideAllMenus();
+        app_controller.notes_controller.editVerseNotesForCurrentlySelectedVerse();
+      }
+    });
+
+    copyButton.bind('click', (event) => {
+      event.stopPropagation();
+
+      if (!$(this).hasClass('ui-state-disabled')) {
+        app_controller.hideAllMenus();
+        app_controller.copySelectedVerseTextToClipboard();
+      }
+    });
+
+    this.assign_last_tag_button.init(tabIndex);
+    this.translationComparison.initButtonEvents();
+    this.verse_context_controller.initButtonEvents();
+  }
+
+  enableVerseButtons() {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
+    var editNoteButton = currentVerseListMenu.find('.edit-note-button');
+    var copyButton = currentVerseListMenu.find('.copy-clipboard-button');
+    editNoteButton[0].classList.remove('ui-state-disabled');
+    copyButton[0].classList.remove('ui-state-disabled');
+  }
+
+  disableVerseButtons() {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
+    var editNoteButton = currentVerseListMenu.find('.edit-note-button');
+    var copyButton = currentVerseListMenu.find('.copy-clipboard-button');
+    editNoteButton[0].classList.add('ui-state-disabled');
+    copyButton[0].classList.add('ui-state-disabled');
+  }
+
   async onTabSearchResultsAvailable(occurances) {
     // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
     await this.dictionary_controller.bindAfterBibleTextLoaded();
@@ -403,9 +447,7 @@ class AppController {
       tags_controller.handleNewTagButtonClick($(this), "standard");
     });
 
-    this.assign_last_tag_button.init(tabIndex);
-    this.translationComparison.initButtonEvents();
-    this.verse_context_controller.initButtonEvents();
+    app_controller.initVerseButtons(tabIndex);
 
     var tabId = this.tab_controller.getSelectedTabId(tabIndex);
     if (tabId !== undefined) {
@@ -511,6 +553,11 @@ class AppController {
         app_controller.tag_assignment_menu.moveTagAssignmentList("PREVIOUS");
       }
     }
+  }
+
+  async copySelectedVerseTextToClipboard() {
+    var selectedVerseText = await this.verse_selection.getSelectedVerseText();
+    this.getPlatform().copyTextToClipboard(selectedVerseText);
   }
 
   showMenu() {

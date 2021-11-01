@@ -434,11 +434,14 @@ class VerseSelection {
         app_controller.verse_context_controller.enableContextButton();
       }
 
+      app_controller.enableVerseButtons();
+
       this.highlightStrongs();
 
     } else { // No verses selected!
       app_controller.translationComparison.disableComparisonButton();
       app_controller.verse_context_controller.disableContextButton();
+      app_controller.disableVerseButtons();
 
       if (platformHelper.isCordova()) {
         app_controller.dictionary_controller.removeHighlight();
