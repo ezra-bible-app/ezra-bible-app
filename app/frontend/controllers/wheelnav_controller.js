@@ -92,7 +92,7 @@ function createWheelNavComponent() {
 
   currentSvgMenu = new RadialMenu({
     parent      : currentWheelNavElement,
-    size        : 150,
+    size        : 160,
     closeOnClick: true,
     menuItems   : menuItems,
     onClick: handleMenuClick,
@@ -110,19 +110,29 @@ function getMenuItems() {
 
   items.push({
     id: 'compare',
-    icon: '#compare'
+    icon: '#compare-icon'
   });
 
   if (!app_controller.optionsMenu._tagListOption.isChecked) {
     items.push({
       id: 'tags',
-      icon: '#tags'
+      icon: '#tags-icon'
     });
   }
 
   items.push({
     id: 'assign_last_tag',
-    icon: '#tag'
+    icon: '#tag-icon'
+  });
+
+  items.push({
+    id: 'copy_to_clipboard',
+    icon: '#clipboard-icon'
+  });
+
+  items.push({
+    id: 'edit_note',
+    icon: '#note-icon'
   });
 
   return items;
@@ -143,6 +153,12 @@ function handleMenuClick(item) {
       break;
     case 'assign_last_tag':
       app_controller.assign_last_tag_button.handleClick();
+      break;
+    case 'copy_to_clipboard':
+      app_controller.getPlatform().copySelectedVersesToClipboard();
+      break;
+    case 'edit_note':
+      console.log('Taking note!');
       break;
     default:
       console.log("Unknown item id " + item.id);
