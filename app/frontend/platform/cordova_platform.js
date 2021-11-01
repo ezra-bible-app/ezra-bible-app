@@ -325,6 +325,10 @@ class CordovaPlatform {
     // Note that the following code depends on having the cordova-plugin-insomnia available
     window.plugins.insomnia.allowSleepAgain();
   }
+
+  copySelectedVersesToClipboard() {
+    // TODO
+  }
 }
 
 module.exports = CordovaPlatform;
