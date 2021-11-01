@@ -57,6 +57,14 @@ class CordovaPlatform {
         });
       }
 
+      window.addEventListener('keyboardDidShow', (event) => {
+        document.body.classList.add('keyboard-shown');
+      });
+
+      window.addEventListener('keyboardDidHide', (event) => {
+        document.body.classList.remove('keyboard-shown');
+      });
+
       this.startNodeJsEngine();
     }, false);
   }

@@ -588,7 +588,7 @@ main.content {
   overflow: hidden;
 }
 
-.Android #app-container:not(.fullscreen) main.content {
+.Android:not(.keyboard-shown) #app-container:not(.fullscreen) main.content {
   height: 95%;
 }
 
