@@ -157,6 +157,17 @@ class NotesController {
   _handleNotesIndicatorClick(e, verseNotes) {
     e.stopPropagation();
     e.target.closest('.notes-info').classList.toggle('active');
+    this._showAndClickVerseNotes(verseNotes);
+  }
+
+  editVerseNotesForCurrentlySelectedVerse() {
+    const selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
+    const firstVerseBox = selectedVerseBoxes[0];
+    const verseNotes = firstVerseBox.querySelector('.verse-notes');
+    this._showAndClickVerseNotes(verseNotes);
+  }
+
+  _showAndClickVerseNotes(verseNotes) {
     verseNotes.classList.toggle('visible');
 
     if (verseNotes.classList.contains('verse-notes-empty')) {
