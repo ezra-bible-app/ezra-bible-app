@@ -384,7 +384,7 @@ h2:nth-of-type(1) {
 #change-tags-box #tags-content-global {
   border-top: 1px solid lightgrey;
   overflow-y: scroll;
-  height: 345px;
+  height: 375px;
   margin: 0.5em;
 }
 
