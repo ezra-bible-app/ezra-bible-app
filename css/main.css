@@ -578,6 +578,10 @@ main.content {
   overflow: hidden;
 }
 
+.Android #app-container:not(.fullscreen) main.content {
+  height: 95%;
+}
+
 #app-container .ui-tabs-panel,
 #app-container .ui-widget-content {
   background-color: white;
