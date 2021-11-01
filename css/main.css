@@ -279,7 +279,8 @@ h2:nth-of-type(1) {
 }
 
 #app-container.fullscreen .verse-reference-content {
-  text-decoration: underline dashed gray;
+  text-decoration: underline gray;
+  cursor: pointer;
 }
 
 .verse-content {
