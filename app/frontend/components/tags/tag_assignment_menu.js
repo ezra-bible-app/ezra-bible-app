@@ -54,9 +54,9 @@ class TagAssignmentMenu {
     }
 
     var changeTagDialogOptions = {
-      title: i18n.t("tags.change-tags"),
+      title: i18n.t('tags.change-tags'),
       width: 550,
-      height: 500,
+      height: 700,
       position: [60,180],
       autoOpen: false,
       dialogClass: 'ezra-dialog'
@@ -66,23 +66,23 @@ class TagAssignmentMenu {
     this._changeTagPopupInitDone = true;
   }
 
-  showPopup() {
+  async showPopup() {
     $('#change-tags-box-content').hide();
+    $('#change-tags-box').dialog('open');
+    await waitUntilIdle();
+
     var tagsContainer = document.querySelector('#tags-content-global');
     tagsContainer.style.display = 'none';
 
-    $('#change-tags-box').dialog("open");
-
-    setTimeout(() => {
-      if (!app_controller.optionsMenu._tagListOption.isChecked) {
-        $('#change-tags-box-content').show();
-        app_controller.tag_assignment_menu.moveTagAssignmentList("POPUP");
-      }
-    }, 100);
+    if (!app_controller.optionsMenu._tagListOption.isChecked) {
+      $('#change-tags-box-content').show();
+      await waitUntilIdle();
+      app_controller.tag_assignment_menu.moveTagAssignmentList('POPUP');
+    }
   }
 
   closePopup() {
-    $('#change-tags-box').dialog("close");
+    $('#change-tags-box').dialog('close');
   }
 
   getMenu() {
@@ -151,8 +151,7 @@ class TagAssignmentMenu {
    * 
    * @param {string} target SIDE_PANEL | MENU | POPUP | PREVIOUS
    */
-  moveTagAssignmentList(target="SIDE_PANEL") {
-  //moveTagAssignmentList(moveToMenu=false) {
+  async moveTagAssignmentList(target="SIDE_PANEL") {
     var tagsContainer = document.querySelector('#tags-content-global');
     var tagAssignmentMenu = document.querySelector('#tag-assignment-menu');
     var menuTagList = document.querySelector('#tag-assignment-menu-taglist');
@@ -161,7 +160,7 @@ class TagAssignmentMenu {
     var tagFilterMenu = document.querySelector('#tag-filter-menu');
     var $tagFilterMenu =$(tagFilterMenu);
     var assignTagMenuButton = this.getCurrentMenuButton();
-    var popup = document.querySelector("#change-tags-box-content");
+    var popup = document.querySelector('#change-tags-box-content');
 
     if (target != this._currentTagListContainer) {
       if (target == "PREVIOUS") {
@@ -240,11 +239,10 @@ class TagAssignmentMenu {
       menuTagListOverlay.style.display = 'flex';
       menuTagListOverlay.querySelector('.loader').style.display = 'block';
 
-      setTimeout(() => {
-        popup.appendChild(tagsContainer);
-        tagsContainer.style.display = 'block';
-        menuTagListOverlay.style.display = 'none';
-      }, 300);
+      await waitUntilIdle();
+      popup.appendChild(tagsContainer);
+      tagsContainer.style.display = 'block';
+      menuTagListOverlay.style.display = 'none';
 
       updated = true;
     }
