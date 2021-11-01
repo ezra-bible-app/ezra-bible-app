@@ -422,7 +422,7 @@ class AppController {
     }
 
     Mousetrap.bind(shortCut, () => {
-      this.copySelectedVersesToClipboard();
+      this.getPlatform().copySelectedVersesToClipboard();
       return false;
     });
 
@@ -518,45 +518,6 @@ class AppController {
 
   hideMenu() {
     document.getElementById('app-container').classList.add('fullscreen');
-  }
-  
-  getLineBreak() {
-    if (process.platform === 'win32') {
-      return "\r\n";
-    } else {
-      return "\n";
-    }
-  }
-
-  async copySelectedVersesToClipboard() {
-    const { clipboard } = require('electron');
-    var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
-    
-    var selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
-    
-    var selectedText = "";
-    var multipleVerses = selectedVerseBoxes.length > 1;
-
-    for (var i = 0; i < selectedVerseBoxes.length; i++) {
-      var currentVerseBox = $(selectedVerseBoxes[i]);
-      var verseReferenceContent = currentVerseBox.find('.verse-reference-content').text();
-      var currentVerseNr = verseReferenceContent.split(separator)[1];
-      
-      var currentText = currentVerseBox.find('.verse-text').clone();
-      currentText.find('.sword-markup').remove();
-
-      if (multipleVerses) {
-        selectedText += currentVerseNr + " ";
-      }
-
-      selectedText += currentText.text().trim() + " ";
-    }
-
-    selectedText = selectedText.trim();
-    selectedText += " " + this.getLineBreak() + this.verse_selection.getSelectedVersesLabel().text();
-
-    clipboard.writeText(selectedText);
   }
 
   getCurrentVerseListTabs(tabIndex=undefined) {
