@@ -214,7 +214,15 @@ h2:nth-of-type(1) {
   /* This is to ensure that there is enough space for the radial menu in fullscreen mode
      when it is used for the first verse of the verse list.
    */
-  padding-top: 3.5em;
+  padding-top: 4.5em;
+  padding-bottom: 3.5em;
+}
+
+#app-container.fullscreen .verse-list-with-section-titles {
+  /* This is to ensure that there is enough space for the radial menu in fullscreen mode
+     when it is used for the first verse of the verse list.
+   */
+  padding-top: 2.2em;
 }
 
 .verse-list:not(.verse-list-with-section-titles) {
