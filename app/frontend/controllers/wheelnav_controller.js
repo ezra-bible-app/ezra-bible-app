@@ -92,7 +92,7 @@ function createWheelNavComponent() {
 
   currentSvgMenu = new RadialMenu({
     parent      : currentWheelNavElement,
-    size        : 160,
+    size        : 170,
     closeOnClick: true,
     menuItems   : menuItems,
     onClick: handleMenuClick,
