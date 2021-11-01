@@ -46,44 +46,10 @@ class ElectronPlatform {
     var window = this.getWindow();
     return window.isFullScreen();
   }
-  
-  getLineBreak() {
-    if (process.platform === 'win32') {
-      return "\r\n";
-    } else {
-      return "\n";
-    }
-  }
 
-  async copySelectedVersesToClipboard() {
+  async copyTextToClipboard(text) {
     const { clipboard } = require('electron');
-    const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
-    
-    var selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
-    
-    var selectedText = "";
-    const selectionHasMultipleVerses = selectedVerseBoxes.length > 1;
-
-    for (let i = 0; i < selectedVerseBoxes.length; i++) {
-      let currentVerseBox = $(selectedVerseBoxes[i]);
-      let verseReferenceContent = currentVerseBox.find('.verse-reference-content').text();
-      let currentVerseNr = verseReferenceContent.split(separator)[1];
-      
-      let currentText = currentVerseBox.find('.verse-text').clone();
-      currentText.find('.sword-markup').remove();
-
-      if (selectionHasMultipleVerses) {
-        selectedText += currentVerseNr + " ";
-      }
-
-      selectedText += currentText.text().trim() + " ";
-    }
-
-    selectedText = selectedText.trim();
-    selectedText += " " + this.getLineBreak() + app_controller.verse_selection.getSelectedVersesLabel().text();
-
-    clipboard.writeText(selectedText);
+    clipboard.writeText(text);
   }
 }
 
