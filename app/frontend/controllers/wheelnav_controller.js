@@ -126,13 +126,13 @@ function getMenuItems() {
   });
 
   items.push({
-    id: 'copy_to_clipboard',
-    icon: '#clipboard-icon'
+    id: 'edit_note',
+    icon: '#note-icon'
   });
 
   items.push({
-    id: 'edit_note',
-    icon: '#note-icon'
+    id: 'copy_to_clipboard',
+    icon: '#clipboard-icon'
   });
 
   return items;
