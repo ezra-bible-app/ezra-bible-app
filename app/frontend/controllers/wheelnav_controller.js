@@ -158,7 +158,7 @@ function handleMenuClick(item) {
       app_controller.getPlatform().copySelectedVersesToClipboard();
       break;
     case 'edit_note':
-      console.log('Taking note!');
+      app_controller.notes_controller.editVerseNotesForCurrentlySelectedVerse();
       break;
     default:
       console.log("Unknown item id " + item.id);
