@@ -138,7 +138,7 @@ function getMenuItems() {
   return items;
 }
 
-function handleMenuClick(item) {
+async function handleMenuClick(item) {
   switch (item.id) {
     case 'compare':
       if (app_controller.translationComparison.isButtonEnabled()) {
@@ -155,7 +155,8 @@ function handleMenuClick(item) {
       app_controller.assign_last_tag_button.handleClick();
       break;
     case 'copy_to_clipboard':
-      app_controller.getPlatform().copySelectedVersesToClipboard();
+      var selectedVerseText = await app_controller.verse_selection.getSelectedVerseText();
+      app_controller.getPlatform().copyTextToClipboard(selectedVerseText);
       break;
     case 'edit_note':
       app_controller.notes_controller.editVerseNotesForCurrentlySelectedVerse();

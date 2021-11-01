@@ -25,6 +25,7 @@ const i18nController = require('../controllers/i18n_controller.js');
  * - Init code with permission handling and nodejs startup
  * - Cordova-specific fullscreen toggling
  * - Code to keep screen awake (keep the display turned on)
+ * - Code to copy text to clipboard
  */
 class CordovaPlatform {
   constructor() {}
@@ -138,7 +139,7 @@ class CordovaPlatform {
   }
 
   requestPermission() {
-    // Note that the following code depends on having the cordova-plugin-android-permisssions available
+    // Note that the following code depends on having cordova-plugin-android-permissions available
 
     console.log("Getting permissions ...");
 
@@ -162,7 +163,7 @@ class CordovaPlatform {
   }
 
   isDebug() {
-    // The following code depends on having the cordova-plugin-is-debug available
+    // The following code depends on having cordova-plugin-is-debug available
 
     return new Promise((resolve, reject) => {
       cordova.plugins.IsDebug.getIsDebug((isDebug) => {
@@ -290,7 +291,7 @@ class CordovaPlatform {
   }
 
   toggleFullScreen() {
-    // Note that the following code depends on having the cordova-plugin-fullscreen available
+    // Note that the following code depends on having cordova-plugin-fullscreen available
 
     if (this._isFullScreenMode) {
       this._isFullScreenMode = false;
@@ -317,17 +318,18 @@ class CordovaPlatform {
   }
 
   keepScreenAwake() {
-    // Note that the following code depends on having the cordova-plugin-insomnia available
+    // Note that the following code depends on having cordova-plugin-insomnia available
     window.plugins.insomnia.keepAwake();
   }
 
   allowScreenToSleep() {
-    // Note that the following code depends on having the cordova-plugin-insomnia available
+    // Note that the following code depends on having cordova-plugin-insomnia available
     window.plugins.insomnia.allowSleepAgain();
   }
 
-  copySelectedVersesToClipboard() {
-    // TODO
+  copyTextToClipboard(text) {
+    // Note that the following code depends on having cordova-clipboard available
+    cordova.plugins.clipboard.copy(text);
   }
 }
 

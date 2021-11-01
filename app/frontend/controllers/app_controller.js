@@ -433,8 +433,9 @@ class AppController {
       shortCut = 'command+c';
     }
 
-    Mousetrap.bind(shortCut, () => {
-      this.getPlatform().copySelectedVersesToClipboard();
+    Mousetrap.bind(shortCut, async () => {
+      var selectedVerseText = await this.verse_selection.getSelectedVerseText();
+      this.getPlatform().copyTextToClipboard(selectedVerseText);
       return false;
     });
 
