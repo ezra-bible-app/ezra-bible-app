@@ -298,7 +298,9 @@
     "new-note-hint": "Clicar para adicionar nota",
     "open-complete-book": "Abrir livros completamente",
     "open-chapters-large-books": "Abrir grandes livros em modo capítulo-inteligente",
-    "open-chapters-all-books": "Abrir todos os livros em modo capítulo-inteligente"
+    "open-chapters-all-books": "Abrir todos os livros em modo capítulo-inteligente",
+    "copy": "Copy",
+    "edit-note": "Edit note"
   },
   "dictionary-info-box": {
     "greek-dict": "Dicionário de Grego",

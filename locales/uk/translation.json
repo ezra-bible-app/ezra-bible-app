@@ -298,7 +298,9 @@
     "new-note-hint": "Додати нотатку",
     "open-complete-book": "Відкривати книги повністю",
     "open-chapters-large-books": "Відкривати за розділом великі книги",
-    "open-chapters-all-books": "Відкривати за розділом усі книги"
+    "open-chapters-all-books": "Відкривати за розділом усі книги",
+    "copy": "Copy",
+    "edit-note": "Edit note"
   },
   "dictionary-info-box": {
     "greek-dict": "Словник грецької",

@@ -300,7 +300,9 @@
     "new-note-hint": "Klik om een notitie toe te voegen",
     "open-complete-book": "Open boeken volledig",
     "open-chapters-large-books": "Open grote boeken volgens hoofdstuk",
-    "open-chapters-all-books": "Open alle boeken volgens hoofdstuk"
+    "open-chapters-all-books": "Open alle boeken volgens hoofdstuk",
+    "copy": "Copy",
+    "edit-note": "Edit note"
   },
   "dictionary-info-box": {
     "greek-dict": "Grieks woordenboek",
