@@ -57,10 +57,12 @@ class CordovaPlatform {
         });
       }
 
+      // cordova-plugin-ionic-keyboard event binding
       window.addEventListener('keyboardDidShow', (event) => {
         document.body.classList.add('keyboard-shown');
       });
 
+      // cordova-plugin-ionic-keyboard event binding
       window.addEventListener('keyboardDidHide', (event) => {
         document.body.classList.remove('keyboard-shown');
       });
