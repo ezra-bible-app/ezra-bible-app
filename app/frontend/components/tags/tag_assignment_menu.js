@@ -57,7 +57,7 @@ class TagAssignmentMenu {
   hideTagAssignmentMenuAfterDelay() {
     setTimeout(() => {
       this.hideTagAssignmentMenu();
-    }, 500);
+    }, 600);
   }
 
   async handleMenuClick(event) {
