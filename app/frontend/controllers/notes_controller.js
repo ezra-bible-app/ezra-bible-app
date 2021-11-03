@@ -267,7 +267,7 @@ class NotesController {
   }
 
   _getRenderedEditorContent(original = false) {
-    const marked = require("marked");
+    const { marked } = require("marked");
 
     var content = null;
 
