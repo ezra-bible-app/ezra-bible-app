@@ -116,7 +116,13 @@ In the dev tools you can inspect the DOM, debug your JavaScript code, etc. - as 
 
 ### Automated tests
 
-[Jest](https://jestjs.io/docs/expect) is used for unit testing. Please add unit tests whenever is possible. For example of how mocking can be implemented see [docx_controller.spec.js](https://github.com/ezra-project/ezra-project/blob/c4957dee0c7e66e4708a1d532292ec46ff01f4fa/app/frontend/components/docx_export/__tests__/docx_controller.spec.js). For examples of rendering DOM UI elements see [loading_indicator.spec.js](https://github.com/ezra-project/ezra-project/blob/2349d6a20dfb02cef32a54efe436b31c1d2507e0/app/frontend/components/__tests__/loading_indicator.spec.js) and [assistant_checkbox.spec.js](https://github.com/ezra-project/ezra-project/blob/eb9fd583451f843597a26089ebfd28c0c2bcedd2/app/frontend/components/module_assistant/__tests__/assistant_checkbox.spec.js). DOM rendering is done through `jest-electron`, that requires lower version of `jest`. You can run `npm test` to execute all unit tests.
+#### Jest (unit testing)
+
+[Jest](https://jestjs.io/docs/expect) is used for unit testing. Please add unit tests whenever is possible. For example of how mocking can be implemented see [docx_controller.spec.js](https://github.com/ezra-project/ezra-project/blob/c4957dee0c7e66e4708a1d532292ec46ff01f4fa/app/frontend/components/docx_export/__tests__/docx_controller.spec.js). For examples of rendering DOM UI elements see [loading_indicator.spec.js](https://github.com/ezra-project/ezra-project/blob/2349d6a20dfb02cef32a54efe436b31c1d2507e0/app/frontend/components/__tests__/loading_indicator.spec.js) and [assistant_checkbox.spec.js](https://github.com/ezra-project/ezra-project/blob/eb9fd583451f843597a26089ebfd28c0c2bcedd2/app/frontend/components/module_assistant/__tests__/assistant_checkbox.spec.js). DOM rendering is done through `jest-electron`, that requires lower version of `jest`.
+
+You can run `npm test` to execute all unit tests.
+
+#### Cucumber (end-to-end acceptance testing)
 
 [Cucumber](https://cucumber.io/docs/cucumber/) is used for end-to-end functional/acceptance testing. 
 
@@ -126,7 +132,10 @@ You should regularly run the tests to ensure that new code does not result in re
 - `npm run headless-test` to execute the acceptance tests in the background without showing the window (Linux-only).
 - `npm run dev-test` to execute the acceptance tests only until an error is encountered (Stop after the first error).
 
+#### Automated execution of tests via GitHub Actions
+
 Please note, that all tests will be executed automatically on push as a part of CI through [GitHub Actions](https://github.com/ezra-project/ezra-project/blob/594dc99ccc7049111b274a16c4d96e9f4e17ae51/.github/workflows/test.yml).
+
 ### Impact of Browserify (Android only)
 
 [Browserify](http://browserify.org/) is used to package all JavaScript files into one file for production (Android only!). This enhances performance during production and is required for Android. Your code will have to work with Browserify and there are a few things to consider:
