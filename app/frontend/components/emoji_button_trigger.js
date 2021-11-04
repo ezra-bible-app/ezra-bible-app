@@ -33,6 +33,7 @@ const template = html`
       fill: #5f5f5f;
       display: inline-block;
       cursor: pointer;
+      z-index: 1000;
     }
   </style>
 
