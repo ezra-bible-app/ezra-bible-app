@@ -38,11 +38,11 @@ class IpcNsi {
   }
 
   async updateRepositoryConfig(progressCallback=undefined) {
-    var returnValue = await this._ipcRenderer.callWithProgressCallback('nsi_updateRepositoryConfig',
-                                                                       'nsi_updateRepoConfigProgress',
-                                                                       progressCallback,
-                                                                       60000);
-    return returnValue;
+    var repoUpdateStatus = await this._ipcRenderer.callWithProgressCallback('nsi_updateRepositoryConfig',
+                                                                            'nsi_updateRepoConfigProgress',
+                                                                            progressCallback,
+                                                                            60000);
+    return repoUpdateStatus;
   }
 
   async getRepoNames() {
