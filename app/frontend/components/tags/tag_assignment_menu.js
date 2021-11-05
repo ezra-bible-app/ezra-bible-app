@@ -167,6 +167,7 @@ class TagAssignmentMenu {
     var $tagFilterMenu =$(tagFilterMenu);
     var assignTagMenuButton = this.getCurrentMenuButton();
     var popup = document.querySelector('#change-tags-box-content');
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
 
     if (target != this._currentTagListContainer) {
       if (target == "PREVIOUS") {
@@ -198,6 +199,10 @@ class TagAssignmentMenu {
         // Move the complete filter box back to the tag assignment menu
         tagAssignmentMenu.prepend(filter);
         tagAssignmentMenu.append(menuTagListOverlay);
+
+        // Remove the new tag button again - in menu mode the button is located in the menu
+        var newTagButton = tagAssignmentMenu.querySelector('.new-standard-tag-button');
+        newTagButton.remove();
       }
 
       menuTagList.appendChild(tagsContainer);
@@ -230,11 +235,23 @@ class TagAssignmentMenu {
       var filter = document.querySelector('#tag-assignment-menu-filter');
       var tagsSearchInput = document.querySelector('#tags-search-input');
       var tagAssignmentMenuFilter = document.querySelector('#tag-assignment-menu-filter');
+      var newTagButton = currentVerseListMenu.find('.new-standard-tag-button')[0].cloneNode(true);
 
       tagsContainer.style.display = 'none';
 
       filter.appendChild(tagsSearchInput);
       filter.appendChild(tagFilterMenu);
+
+      if (filter.querySelector('.new-standard-tag-button') == null) {
+        filter.appendChild(newTagButton);
+
+        newTagButton.classList.remove('events-configured');
+        uiHelper.configureButtonStyles(filter);
+
+        newTagButton.addEventListener('click', function() {
+          tags_controller.handleNewTagButtonClick($(this), "standard");
+        });
+      }
 
       $tagFilterMenu.find("br:not('#tag-filter-menu-separator')").hide();
       $tagFilterMenu.show();

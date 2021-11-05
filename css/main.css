@@ -1272,6 +1272,15 @@ li.book-unavailable a:focus,
   font-size: 1em;
 }
 
+#tag-assignment-menu-filter .new-standard-tag-button {
+  width: fit-content;
+  float: right;
+  padding-right: 0.5em;
+  padding-left: 0.5em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+}
+
 #tag-assignment-menu-taglist,
 #tag-assignment-menu-taglist-overlay {
   border-top: 1px solid lightgrey;
