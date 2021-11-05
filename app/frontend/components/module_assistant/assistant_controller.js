@@ -170,20 +170,39 @@ module.exports.updateRepositories = async function() {
   if (updateInProgress) {
     return;
   }
-  updateInProgress = true;
-  
-  preserveSelectedState();
 
+  updateInProgress = true;  
+  preserveSelectedState();
   await notifySubscribers('startUpdate');
-  const status = await ipcNsi.updateRepositoryConfig(process => notifySubscribers('progressUpdate', process));
-  if (status == 0) {
+
+  const MAX_FAILED_UPDATE_COUNT = 2;
+  var failedUpdateCount = 0;
+  const repoUpdateStatus = await ipcNsi.updateRepositoryConfig(process => notifySubscribers('progressUpdate', process));
+
+  for (var key in repoUpdateStatus) {
+    if (key != 'result' && repoUpdateStatus[key] == false) {
+      failedUpdateCount += 1;
+      console.warn("Repo update failed for " + key);
+    }
+  }
+
+  if (failedUpdateCount > 0) {
+    console.warn("Total failed updates: " + failedUpdateCount);
+  }
+
+  var overallStatus = 0;
+  if (failedUpdateCount > MAX_FAILED_UPDATE_COUNT) {
+    overallStatus = -1;
+  }
+
+  if (overallStatus == 0) {
     restoreSelectedState();
     const today = new Date();
     state.reposUpdated = today;
     await ipcSettings.set('lastSwordRepoUpdate', today);
   }
-  await notifySubscribers('completedUpdate', status);
 
+  await notifySubscribers('completedUpdate', overallStatus);
   updateInProgress = false;
 };
 
