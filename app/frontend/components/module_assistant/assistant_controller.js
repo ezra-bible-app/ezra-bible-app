@@ -179,7 +179,7 @@ module.exports.updateRepositories = async function() {
   var failedUpdateCount = 0;
   const repoUpdateStatus = await ipcNsi.updateRepositoryConfig(process => notifySubscribers('progressUpdate', process));
 
-  for (var key in repoUpdateStatus) {
+  for (let key in repoUpdateStatus) {
     if (key != 'result' && repoUpdateStatus[key] == false) {
       failedUpdateCount += 1;
       console.warn("Repo update failed for " + key);
