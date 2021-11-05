@@ -60,4 +60,4 @@ Your contributions to Ezra Bible App are very welcome!
 Ideally you should bring some experience in working with web-based frontends, specifically HTML, CSS, JavaScript. Furthermore, experience with relational database design is a plus. However, if you're not a developer you can still help with testing, translation and user documentation!
 Have a look at the [contribution guidelines][contributing] for some more details!
 
-Feel free to drop me an email ([contact@tklein.info](mailto:contact@tklein.info)) if you are interested in joining the team!
+Feel free to drop us an email ([contact@ezrabibleapp.net](mailto:contact@ezrabibleapp.net)) if you are interested in joining the team!
