@@ -84,12 +84,8 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.addWithProgressCallback('nsi_updateRepositoryConfig', async (progressCB) => {
-      try {
-        var retCode = await this._nsi.updateRepositoryConfig(progressCB);
-        return retCode;
-      } catch (retCode) {
-        return retCode;
-      }
+        var repoUpdateStatus = await this._nsi.updateRepositoryConfig(progressCB);
+        return repoUpdateStatus;
     }, 'nsi_updateRepoConfigProgress');
     
     this._ipcMain.add('nsi_getRepoNames', () => {
