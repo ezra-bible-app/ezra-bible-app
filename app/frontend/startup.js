@@ -53,7 +53,7 @@ class Startup {
 
   async initTest() {
     if (app.commandLine.hasSwitch('install-kjv')) {
-      var repoConfigExisting = await ipcNsi.repositoryConfigExisting();
+      let repoConfigExisting = await ipcNsi.repositoryConfigExisting();
 
       if (!repoConfigExisting) {
         $('#loading-subtitle').text("Updating repository config");
@@ -68,7 +68,7 @@ class Startup {
     }
 
     if (app.commandLine.hasSwitch('install-asv')) {
-      var repoConfigExisting = await ipcNsi.repositoryConfigExisting();
+      let repoConfigExisting = await ipcNsi.repositoryConfigExisting();
 
       if (!repoConfigExisting) {
         $('#loading-subtitle').text("Updating repository config");
