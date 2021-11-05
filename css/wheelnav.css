@@ -66,6 +66,10 @@ svg.menu > g > path {
     fill: #00000080;
 }
 
+.darkmode--activated svg.menu > g > path {
+  fill: #636262bb;
+}
+
 svg.menu > g.sector > path {
     cursor: pointer;
     /*transition: 0.1s;*/
