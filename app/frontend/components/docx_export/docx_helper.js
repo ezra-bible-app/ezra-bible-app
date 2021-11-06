@@ -18,7 +18,6 @@
 
 
 const docx = require('docx');
-const { marked } = require('marked/marked.min.js');
 const { decodeEntities } = require('../../helpers/ezra_helper.js');
 
 module.exports.getPageProps = function() {

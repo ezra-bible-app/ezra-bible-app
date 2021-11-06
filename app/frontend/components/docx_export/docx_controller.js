@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const docx = require('docx');
-const { marked } = require('marked/marked.min.js');
 const docxHelper = require('./docx_helper.js');
 const i18nHelper = require('../../helpers/i18n_helper.js');
 const { parseHTML } = require('../../helpers/ezra_helper.js');
