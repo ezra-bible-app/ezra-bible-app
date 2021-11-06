@@ -21,7 +21,6 @@ const fs = require('fs');
 const SWORD_LOCALES = "node_modules/node-sword-interface/locales.d/locales.conf";
 const extraLanguageCodes = ['cek', 'cth', 'dnj', 'esg', 'iqw', 'izz', 'ncq'];
 const allLocales = require('../../locales/locales.json').available.sort();
-var indexedLangs;
 
 // https://nodejs.org/dist/latest-v14.x/docs/api/intl.html#intl_detecting_internationalization_support
 const hasFullICU = (() => {
