@@ -258,6 +258,7 @@ class IpcNsiHandler {
              moduleCode,
              searchTerm,
              searchType,
+             searchScope,
              isCaseSensitive,
              useExtendedVerseBoundaries) => {
 
@@ -265,6 +266,7 @@ class IpcNsiHandler {
                                                       searchTerm,
                                                       progressCB,
                                                       searchType,
+                                                      searchScope,
                                                       isCaseSensitive,
                                                       useExtendedVerseBoundaries);
       },

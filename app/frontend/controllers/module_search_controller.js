@@ -50,8 +50,13 @@ class ModuleSearchController {
       this.validateSearchTerm();
     });
 
-    var selectField = document.getElementById('module-search-menu').querySelector('#search-type');
-    $(selectField).on("change", () => {
+    var searchTypeField = document.getElementById('module-search-menu').querySelector('#search-type');
+    $(searchTypeField).on("change", () => {
+      this.validateSearchTerm();
+    });
+
+    var searchScopeField = document.getElementById('module-search-menu').querySelector('#search-scope');
+    $(searchScopeField).on("change", () => {
       this.validateSearchTerm();
     });
 
@@ -167,6 +172,7 @@ class ModuleSearchController {
   resetSearch(tabIndex=undefined) {
     $('#module-search-input').val('');
     $('#search-type')[0].value = "phrase";
+    $('#search-scope')[0].value = "BIBLE";
     $('#search-is-case-sensitive').prop("checked", false);
     $('#search-extended-verse-boundaries').prop("checked", false);
     this.hideModuleSearchHeader(tabIndex);
@@ -182,11 +188,13 @@ class ModuleSearchController {
 
     if (currentTab != null) {
       var searchType = currentTab.getSearchOptions()['searchType'];
+      var searchScope = currentTab.getSearchOptions()['searchScope'];
       var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
       var useExtendedVerseBoundaries = currentTab.getSearchOptions()['extendedVerseBoundaries'];
       var searchTerm = currentTab.getSearchTerm();
 
       $('#search-type').val(searchType);
+      $('#search-scope').val(searchScope);
       $('#search-is-case-sensitive').prop("checked", isCaseSensitive);
       $('#search-extended-verse-boundaries').prop("checked", useExtendedVerseBoundaries);
       $('#module-search-input').val(searchTerm);
@@ -231,6 +239,12 @@ class ModuleSearchController {
 
   getSearchType() {
     var selectField = document.getElementById('module-search-menu').querySelector('#search-type');
+    var selectedValue = selectField.options[selectField.selectedIndex].value;
+    return selectedValue;
+  }
+
+  getSearchScope() {
+    var selectField = document.getElementById('module-search-menu').querySelector('#search-scope');
     var selectedValue = selectField.options[selectField.selectedIndex].value;
     return selectedValue;
   }
@@ -300,7 +314,7 @@ class ModuleSearchController {
 
     if (tabIndex === undefined) {
       var tab = app_controller.tab_controller.getTab();
-      tab.setSearchOptions(this.getSearchType(), this.isCaseSensitive(), this.useExtendedVerseBoundaries());
+      tab.setSearchOptions(this.getSearchType(), this.getSearchScope(), this.isCaseSensitive(), this.useExtendedVerseBoundaries());
       tab.setTextType('search_results');
       tab.setSearchCancelled(false);
     }
@@ -311,6 +325,12 @@ class ModuleSearchController {
     if (currentTab != null) {
       var currentBibleTranslationId = currentTab.getBibleTranslationId();
       var searchType = currentTab.getSearchOptions()['searchType'];
+
+      var searchScope = currentTab.getSearchOptions()['searchScope'];
+      if (searchScope == null) {
+          searchScope = "BIBLE";
+      }
+
       var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
       var useExtendedVerseBoundaries = currentTab.getSearchOptions()['extendedVerseBoundaries'];
 
@@ -361,6 +381,7 @@ class ModuleSearchController {
                                                                 currentBibleTranslationId,
                                                                 this.currentSearchTerm,
                                                                 searchType,
+                                                                searchScope,
                                                                 isCaseSensitive,
                                                                 useExtendedVerseBoundaries);
 

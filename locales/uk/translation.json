@@ -29,6 +29,9 @@
     "exact-phrase": "Точна фраза",
     "multi-word": "Кілька слів",
     "strongs": "Число Стронга",
+    "whole-bible": "Whole Bible",
+    "ot": "Old Testament",
+    "nt": "New Testament",
     "extended-verse-boundaries": "Розширити межі вірша (два вірші)"
   },
   "module-assistant": {

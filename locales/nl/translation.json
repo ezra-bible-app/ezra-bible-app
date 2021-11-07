@@ -29,6 +29,9 @@
     "exact-phrase": "Exacte zin",
     "multi-word": "Meerdere woorden",
     "strongs": "Strongs nummer",
+    "whole-bible": "Whole Bible",
+    "ot": "Old Testament",
+    "nt": "New Testament",
     "extended-verse-boundaries": "Uitgebreide versgrenzen (Twee verzen)"
   },
   "module-assistant": {

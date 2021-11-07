@@ -29,6 +29,9 @@
     "exact-phrase": "Frază exactă",
     "multi-word": "Cuvinte multiple",
     "strongs": "Index de concordanță (Strong's)",
+    "whole-bible": "Whole Bible",
+    "ot": "Old Testament",
+    "nt": "New Testament",
     "extended-verse-boundaries": "Limite extinse pentru verset (Două versete)"
   },
   "module-assistant": {
