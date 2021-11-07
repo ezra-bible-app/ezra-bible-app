@@ -29,6 +29,9 @@
     "exact-phrase": "Phrase exacte",
     "multi-word": "Mots multiples",
     "strongs": "Nombre de Strong",
+    "whole-bible": "Whole Bible",
+    "ot": "Old Testament",
+    "nt": "New Testament",
     "extended-verse-boundaries": "Limites étendues des versets (deux versets)"
   },
   "module-assistant": {

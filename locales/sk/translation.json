@@ -29,6 +29,9 @@
     "exact-phrase": "Presná fráza",
     "multi-word": "Viac slov",
     "strongs": "Strongove číslo",
+    "whole-bible": "Whole Bible",
+    "ot": "Old Testament",
+    "nt": "New Testament",
     "extended-verse-boundaries": "Rozšírené hranice veršov (dva verše)"
   },
   "module-assistant": {
