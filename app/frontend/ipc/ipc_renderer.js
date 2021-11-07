@@ -28,12 +28,20 @@ class IpcRenderer {
       const { ipcRenderer } = require('electron');
       this._electronIpcRenderer = ipcRenderer;
     } else if (this._isCordova) {
-      const { Mutex } = require('async-mutex');
       this.callCounter = 0;
       this.returnValues = {};
       this.waitCounters = {};
-      this.ipcLock = new Mutex();
+      this.ipcLocks = {};
     }
+  }
+
+  getFunctionLock(functionName) {
+    if (!this.ipcLocks.hasOwnProperty(functionName)) {
+      const { Mutex } = require('async-mutex');
+      this.ipcLocks[functionName] = new Mutex();
+    }
+
+    return this.ipcLocks[functionName];
   }
 
   async call(functionName, ...args) {
@@ -87,7 +95,8 @@ class IpcRenderer {
        with the correct calling instance. Therefore we use a lock/semaphore to protect this critical section and release
        it again before returning.
      */
-    const releaseIpcLock = await this.ipcLock.acquire();
+    const ipcLock = this.getFunctionLock(functionName);
+    const releaseIpcLock = await ipcLock.acquire();
 
     if (!this.returnValues.hasOwnProperty(functionName)) {
       this.registerNodeCallback(functionName);
