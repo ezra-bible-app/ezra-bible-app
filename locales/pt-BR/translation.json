@@ -50,7 +50,8 @@
     "add-modules": "Adicionar {{module_type, accusative}}",
     "remove-modules": "Remover {{module_type, accusative}}",
     "languages": "Idioma",
-    "repositories": "Repositórios",
+    "repository_singular": "Repository",
+    "repository_plural": "Repositórios",
     "installation": "Instalação",
     "removal": "Remoção",
     "update-data": { 

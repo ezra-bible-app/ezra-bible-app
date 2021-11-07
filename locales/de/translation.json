@@ -46,7 +46,8 @@
     "add-modules": "{{module_type, accusative}} hinzufügen",
     "remove-modules": "{{module_type, accusative}} entfernen",
     "languages": "Sprachen",
-    "repositories": "Modularchive",
+    "repository_singular": "Modularchiv",
+    "repository_plural": "Modularchive",
     "installation": "Installation",
     "removal": "Entfernen",
     "update-data": { 

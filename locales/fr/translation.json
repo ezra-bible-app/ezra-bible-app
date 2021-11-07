@@ -56,7 +56,8 @@
     "add-modules": "Ajouter {{module_type, accusative}}",
     "remove-modules": "Supprimer {{module_type, accusative}}",
     "languages": "Langues",
-    "repositories": "Dépôts",
+    "repository_singular": "Repository",
+    "repository_plural": "Dépôts",
     "installation": "Installation",
     "removal": "Suppression",
     "update-data": { 
