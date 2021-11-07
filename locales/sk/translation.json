@@ -53,7 +53,8 @@
     "add-modules": "Pridať {{module_type, accusative}}",
     "remove-modules": "Odstrániť {{module_type, accusative}}",
     "languages": "Jazyky",
-    "repositories": "Archívy",
+    "repository_singular": "Repository",
+    "repository_plural": "Archívy",
     "installation": "Inštalácia",
     "removal": "Odstránenie",
     "update-data": { 

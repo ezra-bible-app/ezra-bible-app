@@ -55,7 +55,8 @@
     "add-modules": "Добавить {{module_type, accusative}}",
     "remove-modules": "Удалить {{module_type, accusative}}",
     "languages": "Языки",
-    "repositories": "Репозитории",
+    "repository_singular": "Repository",
+    "repository_plural": "Репозитории",
     "installation": "Установка",
     "removal": "Удаление",
     "update-data": { 

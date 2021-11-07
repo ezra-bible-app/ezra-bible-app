@@ -53,7 +53,8 @@
     "add-modules": "Додати {{module_type, accusative}}",
     "remove-modules": "Видалити {{module_type, accusative}}",
     "languages": "Мови",
-    "repositories": "Сховища",
+    "repository_singular": "Repository",
+    "repository_plural": "Сховища",
     "installation": "Встановлення",
     "removal": "Видалення",
     "update-data": { 
