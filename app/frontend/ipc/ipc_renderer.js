@@ -35,15 +35,6 @@ class IpcRenderer {
     }
   }
 
-  getFunctionLock(functionName) {
-    if (!this.ipcLocks.hasOwnProperty(functionName)) {
-      const { Mutex } = require('async-mutex');
-      this.ipcLocks[functionName] = new Mutex();
-    }
-
-    return this.ipcLocks[functionName];
-  }
-
   async call(functionName, ...args) {
     if (this._isElectron) {
       return this.electronIpcCall(functionName, ...args);
@@ -88,8 +79,21 @@ class IpcRenderer {
     return this._electronIpcRenderer.invoke(functionName, ...args);
   }
 
+  /**
+   * Cordova specific method that returns a Mutex for a given function name, ensuring that always the same
+   * Mutex is used per function name.
+   */
+  getFunctionLock(functionName) {
+    if (!this.ipcLocks.hasOwnProperty(functionName)) {
+      const { Mutex } = require('async-mutex');
+      this.ipcLocks[functionName] = new Mutex();
+    }
+
+    return this.ipcLocks[functionName];
+  }
+
   async cordovaIpcCall(functionName, timeoutMs, ...args) {
-    /* What follows is a critical section and this code is not re-entrant.
+    /* What follows is a critical section and this code is not re-entrant per function.
        The reason is that the functionName we are using as reference is unique for this function call.
        If the same function would be executed twice (asynchronously) we would not be able to match the response
        with the correct calling instance. Therefore we use a lock/semaphore to protect this critical section and release
