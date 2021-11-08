@@ -16,6 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const eventController = require('../../controllers/event_controller.js');
+
 var state = {
   allRepositories: [],
   installedModules: [],
@@ -140,30 +142,10 @@ module.exports.setInstallDone = () => moduleInstallStatus = 'DONE';
 
 // *** Functions to deal with repository data update ****************************
 
-var updatingRepositoriesEvents;
 module.exports.resetRepositoryUpdateSubscribers = function() {
-  updatingRepositoriesEvents = {
-    startUpdate: [],
-    progressUpdate: [],
-    completedUpdate: [
-      async result => state.allRepositories = result == 0 ? await ipcNsi.getRepoNames() : []
-    ],
-  };
+  eventController.unsubscribeAll(/on-[^-]+-repo-update/);
 };
 
-function addUpdateSubscriber(event, callback) {
-  updatingRepositoriesEvents[event].push(callback);
-}
-async function notifySubscribers(event, payload=undefined) {
-  for (let subscriberCallback of updatingRepositoriesEvents[event]) {
-    if (typeof subscriberCallback === 'function') {
-      await subscriberCallback(payload);
-    }
-  }
-}
-module.exports.onStartRepositoriesUpdate = callback => addUpdateSubscriber('startUpdate', callback);
-module.exports.onProgressRepositoriesUpdate = callback => addUpdateSubscriber('progressUpdate', callback);
-module.exports.onCompletedRepositoriesUpdate = callback => addUpdateSubscriber('completedUpdate', callback);
 
 var updateInProgress = false;
 module.exports.updateRepositories = async function() {
@@ -173,11 +155,11 @@ module.exports.updateRepositories = async function() {
 
   updateInProgress = true;  
   preserveSelectedState();
-  await notifySubscribers('startUpdate');
+  await eventController.publishAsync('on-start-repo-update');
 
   const MAX_FAILED_UPDATE_COUNT = 2;
   var failedUpdateCount = 0;
-  const repoUpdateStatus = await ipcNsi.updateRepositoryConfig(process => notifySubscribers('progressUpdate', process));
+  const repoUpdateStatus = await ipcNsi.updateRepositoryConfig(process => eventController.publish('on-progress-repo-update', process));
 
   for (let key in repoUpdateStatus) {
     if (key != 'result' && repoUpdateStatus[key] == false) {
@@ -199,15 +181,18 @@ module.exports.updateRepositories = async function() {
     restoreSelectedState();
     const today = new Date();
     state.reposUpdated = today;
+    state.allRepositories = await ipcNsi.getRepoNames();
     await ipcSettings.set('lastSwordRepoUpdate', today);
+  } else {
+    state.allRepositories = [];
   }
 
-  await notifySubscribers('completedUpdate', overallStatus);
+  await eventController.publishAsync('on-complete-repo-update', overallStatus);
   updateInProgress = false;
 };
 
 module.exports.notifyRepositoriesAvailable = async () => {
   if (!updateInProgress) {
-    notifySubscribers('completedUpdate', 0);
+    await eventController.publishAsync('on-complete-repo-update', 0);
   }
 };
