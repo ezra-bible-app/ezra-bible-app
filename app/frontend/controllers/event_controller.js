@@ -103,8 +103,17 @@ module.exports.publishAsync = async function publishAsync(event, payload=undefin
 
   const promisifiedResults = this.publish(event, payload);
 
-  // TODO: It's better to use Promise.allSettled() and add some error catching in case of rejections.
-  return await Promise.all(promisifiedResults);
+  var results = [];
+  
+  try {
+    // TODO: It's better to use Promise.allSettled()
+    results = await Promise.all(promisifiedResults);
+  } catch(error) {
+    console.log('One of callbacks was rejected:', error);
+    console.trace();
+  }
+
+  return results;
 };
 
 /**
