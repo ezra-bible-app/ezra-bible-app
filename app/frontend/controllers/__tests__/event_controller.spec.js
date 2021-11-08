@@ -1,6 +1,6 @@
 const eventController = require('../event_controller.js');
 
-const  TEST_EVENT = 'test-event';
+const  TEST_EVENT = 'on-test-event';
 
 
 describe('eventController', ()=> {
@@ -52,5 +52,19 @@ describe('eventController', ()=> {
     expect(simpleMock.mock.calls.length).toBe(1);
 
     asyncSubscription.remove();
+  });
+
+  it('unsubscribes all callbacks', () => {
+    eventController.unsubscribeAll(TEST_EVENT);
+    eventController.publish(TEST_EVENT);
+
+    expect(simpleMock.mock.calls.length).toBe(0);
+  });
+
+  it('unsubscribes all callbacks with RegExp', () => {
+    eventController.unsubscribeAll(/on-test.*/i);
+    eventController.publish(TEST_EVENT);
+
+    expect(simpleMock.mock.calls.length).toBe(0);
   });
 });

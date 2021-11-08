@@ -33,6 +33,14 @@ function notCreated(event) {
 }
 
 /**
+ * @typedef { "on-start-repo-update" | "on-progress-repo-update" | "on-complete-repo-update" } RepoUpdateEvents
+ */
+/**
+ * For consistency event name should be a string in-kebab-case with the following template: "on-[action]-[object]"
+ * @typedef { RepoUpdateEvents } Event
+ */
+
+/**
  * @callback SubscribedCallback
  * @param {*} payload Optional payload
  */
@@ -43,8 +51,8 @@ function notCreated(event) {
  */
 
 /**
- * The function to be called to subscribe to the future events
- * @param {string} event Event key to be notified on publish
+ * This function subscribes callback to be called when future events are published
+ * @param {Event} event Event key to be notified on publish
  * @param {SubscribedCallback} callback Function to call when when event is published
  * @returns {Subscription} subscription
  */
@@ -62,6 +70,12 @@ module.exports.subscribe = function subscribe(event, callback) {
   };
 };
 
+/**
+ * This function calls all callbacks that subscribed to the specific event
+ * @param {Event} event Event key to be notified
+ * @param {*} payload 
+ * @returns {[]} Array of callback results
+ */
 module.exports.publish = function publish(event, payload=undefined) {
   if (notCreated(event)) {
     return;
@@ -79,10 +93,35 @@ module.exports.publish = function publish(event, payload=undefined) {
   return results;
 };
 
+/**
+ * This function calls all callbacks that subscribed to the specific event and awaits for all callbacks to finish
+ * @param {Event} event Event key to be notified
+ * @param {*} payload 
+ * @returns {Promise<[]>} Promise that resolves to array of callback results
+ */
 module.exports.publishAsync = async function publishAsync(event, payload=undefined) {
 
   const promisifiedResults = this.publish(event, payload);
 
+  // TODO: It's better to use Promise.allSettled() and add some error catching in case of rejections.
   return await Promise.all(promisifiedResults);
 };
 
+/**
+ * This function unsubscribes all callbacks from the specific event
+ * @param { Event | RegExp } event Event key to unsubscribe, can be a RegExp
+ */
+module.exports.unsubscribeAll = function unsubscribeAll(event) {
+  if (typeof event === 'string') {
+    messages[event] = [];
+
+  } else if (event instanceof RegExp) {
+    const allEvents = Object.keys(messages);
+    
+    allEvents.forEach(key => {
+      if (event.test(key)) {
+        messages[key] = [];
+      }
+    });
+  }
+};
