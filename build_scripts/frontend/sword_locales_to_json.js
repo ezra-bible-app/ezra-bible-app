@@ -17,11 +17,10 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const fs = require('fs');
-const iso6393 = require('iso-639-3');
+
 const SWORD_LOCALES = "node_modules/node-sword-interface/locales.d/locales.conf";
 const extraLanguageCodes = ['cek', 'cth', 'dnj', 'esg', 'iqw', 'izz', 'ncq'];
 const allLocales = require('../../locales/locales.json').available.sort();
-var indexedLangs;
 
 // https://nodejs.org/dist/latest-v14.x/docs/api/intl.html#intl_detecting_internationalization_support
 const hasFullICU = (() => {
@@ -39,20 +38,22 @@ if (!hasFullICU) {
 }
 
 if (!isTesting()) {
-  indexedLangs = getIndexedLangs();
+  getIndexedLangs().then((indexedLangs) => {
 
-  const languages = parseSwordLocales();
+    const languages = parseSwordLocales();
 
-  for (const code in languages) {
-    languages[code] = addI18nData(code, allLocales, languages[code]);
+    for (const code in languages) {
+      languages[code] = addI18nData(code, allLocales, languages[code]);
 
-    if (code.length < 4) {
-      languages[code] = addIso639Details(code, languages[code]);
+      if (code.length < 4) {
+        languages[code] = addIso639Details(indexedLangs, code, languages[code]);
+      }
     }
-  }
 
-  const extraLanguages = getLanguageDetails(extraLanguageCodes);
-  saveToJsonFile({ ...languages, ...extraLanguages }, `lib/languages.json`);
+    const extraLanguages = getLanguageDetails(indexedLangs, extraLanguageCodes);
+    saveToJsonFile({ ...languages, ...extraLanguages }, `lib/languages.json`);
+
+  });
 }
 
 /**
@@ -149,7 +150,7 @@ function addDataToMap(langObj, name, script = undefined, locale = undefined, reg
   return langObj;
 }
 
-function addIso639Details(code, data = {}) {
+function addIso639Details(indexedLangs, code, data = {}) {
   if (indexedLangs[code]) {
     return {
       ...indexedLangs[code],
@@ -160,8 +161,10 @@ function addIso639Details(code, data = {}) {
   return data;
 }
 
-function getIndexedLangs() {
+async function getIndexedLangs() {
   var indexedLangs = {};
+
+  const {iso6393} = await import('iso-639-3');
 
   for (const currentLang of iso6393) {
     if (currentLang.iso6391) {
@@ -219,11 +222,11 @@ function saveToJsonFile(data, filename) {
   fs.writeFileSync(filename, jsonData);
 }
 
-function getLanguageDetails(languageCodes) {
+function getLanguageDetails(indexedLangs, languageCodes) {
   var languages = {};
 
   for (const code of languageCodes) {
-    languages[code] = addIso639Details(code);
+    languages[code] = addIso639Details(indexedLangs, code);
     languages[code] = addI18nData(code, allLocales, languages[code]);
   }
 
