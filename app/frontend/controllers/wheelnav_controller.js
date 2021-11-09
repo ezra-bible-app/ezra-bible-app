@@ -16,6 +16,12 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+/**
+ * This controller handles the lifecycle of the circular wheel navigation which becomes active in fullscreen mode.
+ * @module wheelnavController
+ * @category Controller
+ */
+
 var currentWheelNavElement = null;
 var currentSvgMenu = null;
 
