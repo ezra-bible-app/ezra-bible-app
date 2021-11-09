@@ -47,6 +47,7 @@ const VerseStatisticsChart = require('../components/verse_statistics_chart.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 const wheelnavController = require('../controllers/wheelnav_controller.js');
+const fullscreenController = require('../controllers/fullscreen_controller.js');
 
 /**
  * AppController is Ezra Bible App's main controller class which initiates all other controllers and components.
@@ -141,11 +142,7 @@ class AppController {
                              async (previousTabIndex, tabIndex) => { await this.onTabAdded(previousTabIndex, tabIndex); },
                              defaultBibleTranslationId);
     
-    if (platformHelper.isMac()) {
-      require('electron').ipcRenderer.on('fullscreen-changed', (event, message) => {
-        this.onFullscreenChanged();
-      });
-    }
+    fullscreenController.init();
   }
 
   initVerseButtons(tabIndex=undefined) {
@@ -488,12 +485,6 @@ class AppController {
       return false;
     });
 
-    if (platformHelper.isWin() || platformHelper.isLinux()) {
-      Mousetrap.bind('f11', () => {
-        this.toggleFullScreen();
-      });
-    }
-
     var searchShortCut = 'ctrl+f';
     if (platformHelper.isMac()) {
       searchShortCut = 'command+f';
@@ -530,48 +521,6 @@ class AppController {
       currentTab.tab_search.jumpToNextOccurance(false);
       return false;
     });
-  }
-
-  toggleFullScreen() {
-    var platform = getPlatform();
-    platform.toggleFullScreen();
-
-    this.onFullscreenChanged();
-  }
-
-  onFullscreenChanged() {
-    var platform = getPlatform();
-    const fullScreenButton = document.getElementById('app-container').querySelector('.fullscreen-button');
-
-    if (platform.isFullScreen()) {
-      fullScreenButton.setAttribute('title', i18n.t('menu.exit-fullscreen'));
-      fullScreenButton.firstElementChild.classList.add('fa-compress');
-      fullScreenButton.firstElementChild.classList.remove('fa-expand');
-      this.verse_list_popup.disableNewTabButton();
-      wheelnavController.bindEvents();
-      this.hideMenu();
-
-      app_controller.tag_assignment_menu.moveTagAssignmentList("POPUP");
-    } else {
-      fullScreenButton.setAttribute('title', i18n.t('menu.fullscreen'));
-      fullScreenButton.firstElementChild.classList.add('fa-expand');
-      fullScreenButton.firstElementChild.classList.remove('fa-compress');
-      this.verse_list_popup.enableNewTabButton();
-      wheelnavController.unbindAndClose();
-      this.showMenu();
-
-      if (!app_controller.optionsMenu._tagListOption.isChecked) {
-        app_controller.tag_assignment_menu.moveTagAssignmentList("PREVIOUS");
-      }
-    }    
-  }
-
-  showMenu() {
-    document.getElementById('app-container').classList.remove('fullscreen');
-  }
-
-  hideMenu() {
-    document.getElementById('app-container').classList.add('fullscreen');
   }
 
   getCurrentVerseListTabs(tabIndex=undefined) {
