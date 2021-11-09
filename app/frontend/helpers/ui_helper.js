@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const i18nController = require('../controllers/i18n_controller.js');
-
+const { getPlatform } = require('../helpers/ezra_helper.js');
 class UiHelper {
   constructor() {
     this.app_container_height = null;
@@ -126,7 +126,7 @@ class UiHelper {
     const sidePanel = document.querySelector('#side-panel');
     const bottomPanel = document.querySelector('#bottom-panel');
 
-    var platform = app_controller.getPlatform();
+    var platform = getPlatform();
 
     if (windowWidth >= 200 && windowWidth < 1200) {
       // Automatically hide toolbar on smaller screens

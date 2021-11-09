@@ -20,6 +20,7 @@ const VerseBox = require("../ui_models/verse_box.js");
 const VerseReferenceHelper = require("../helpers/verse_reference_helper.js");
 const i18nHelper = require('../helpers/i18n_helper.js');
 const i18nController = require('../controllers/i18n_controller.js');
+const { getPlatform } = require('../helpers/ezra_helper.js');
 
 /**
  * The VerseSelection component implements the label that shows the currently selected verses.
@@ -495,6 +496,11 @@ class VerseSelection {
     selectedText += " " + this.getLineBreak() + app_controller.verse_selection.getSelectedVersesLabel().text();
 
     return selectedText;
+  }
+
+  async copySelectedVerseTextToClipboard() {
+    var selectedVerseText = await this.getSelectedVerseText();
+    getPlatform().copyTextToClipboard(selectedVerseText);
   }
 }
 
