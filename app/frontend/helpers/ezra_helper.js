@@ -16,7 +16,6 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-
 /**
  * This module contains utility functions that are used through the app
  * @module ezraHelper
@@ -38,6 +37,18 @@ module.exports.waitUntilIdle = async function () {
       resolve();
     });
   });
+};
+
+module.exports.getPlatform = function() {
+  var platform = null;
+
+  if (platformHelper.isElectron()) {
+    platform = window.electronPlatform;
+  } else if (platformHelper.isAndroid()) {
+    platform = window.cordovaPlatform;
+  }
+
+  return platform;
 };
 
 // based on https://stackoverflow.com/questions/3115150/how-to-escape-regular-expression-special-characters-using-javascript

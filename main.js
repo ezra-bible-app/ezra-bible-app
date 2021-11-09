@@ -168,6 +168,14 @@ async function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+  mainWindow.on('enter-full-screen', function () {
+    mainWindow.webContents.send('fullscreen-changed');
+  });
+
+  mainWindow.on('leave-full-screen', function () {
+    mainWindow.webContents.send('fullscreen-changed');
+  });
 }
 
 // This method will be called when Electron has finished
@@ -182,7 +190,7 @@ app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
-    app.quit()
+    app.quit();
   }
 });
 

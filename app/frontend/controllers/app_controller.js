@@ -18,6 +18,7 @@
 
 const Mousetrap = require('mousetrap');
 const VerseBox = require('../ui_models/verse_box.js');
+const { getPlatform } = require('../helpers/ezra_helper.js');
 
 const VerseBoxHelper = require("../helpers/verse_box_helper.js");
 const VerseSelection = require("../components/verse_selection.js");
@@ -127,26 +128,32 @@ class AppController {
                              (event = undefined, ui = { 'index' : 0}) => { this.onTabSelected(event, ui); },
                              async (previousTabIndex, tabIndex) => { await this.onTabAdded(previousTabIndex, tabIndex); },
                              defaultBibleTranslationId);
+    
+    if (platformHelper.isMac()) {
+      require('electron').ipcRenderer.on('fullscreen-changed', (event, message) => {
+        this.onFullscreenChanged();
+      });
+    }
   }
 
   initVerseButtons(tabIndex=undefined) {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    var editNoteButton = currentVerseListMenu.find('.edit-note-button');
-    var copyButton = currentVerseListMenu.find('.copy-clipboard-button');
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex)[0];
+    var editNoteButton = currentVerseListMenu.querySelector('.edit-note-button');
+    var copyButton = currentVerseListMenu.querySelector('.copy-clipboard-button');
 
-    editNoteButton.bind('click', (event) => {
+    editNoteButton.addEventListener('click', (event) => {
       event.stopPropagation();
 
-      if (!$(this).hasClass('ui-state-disabled')) {
+      if (!event.target.classList.contains('ui-state-disabled')) {
         app_controller.hideAllMenus();
         app_controller.notes_controller.editVerseNotesForCurrentlySelectedVerse();
       }
     });
 
-    copyButton.bind('click', (event) => {
+    copyButton.addEventListener('click', (event) => {
       event.stopPropagation();
 
-      if (!$(this).hasClass('ui-state-disabled')) {
+      if (!event.target.classList.contains('ui-state-disabled')) {
         app_controller.hideAllMenus();
         app_controller.copySelectedVerseTextToClipboard();
       }
@@ -158,19 +165,19 @@ class AppController {
   }
 
   enableVerseButtons() {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
-    var editNoteButton = currentVerseListMenu.find('.edit-note-button');
-    var copyButton = currentVerseListMenu.find('.copy-clipboard-button');
-    editNoteButton[0].classList.remove('ui-state-disabled');
-    copyButton[0].classList.remove('ui-state-disabled');
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu()[0];
+    var editNoteButton = currentVerseListMenu.querySelector('.edit-note-button');
+    var copyButton = currentVerseListMenu.querySelector('.copy-clipboard-button');
+    editNoteButton.classList.remove('ui-state-disabled');
+    copyButton.classList.remove('ui-state-disabled');
   }
 
   disableVerseButtons() {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
-    var editNoteButton = currentVerseListMenu.find('.edit-note-button');
-    var copyButton = currentVerseListMenu.find('.copy-clipboard-button');
-    editNoteButton[0].classList.add('ui-state-disabled');
-    copyButton[0].classList.add('ui-state-disabled');
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu()[0];
+    var editNoteButton = currentVerseListMenu.querySelector('.edit-note-button');
+    var copyButton = currentVerseListMenu.querySelector('.copy-clipboard-button');
+    editNoteButton.classList.add('ui-state-disabled');
+    copyButton.classList.add('ui-state-disabled');
   }
 
   async onTabSearchResultsAvailable(occurances) {
@@ -465,7 +472,7 @@ class AppController {
 
     Mousetrap.bind(shortCut, async () => {
       var selectedVerseText = await this.verse_selection.getSelectedVerseText();
-      this.getPlatform().copyTextToClipboard(selectedVerseText);
+      getPlatform().copyTextToClipboard(selectedVerseText);
       return false;
     });
 
@@ -512,24 +519,16 @@ class AppController {
       return false;
     });
   }
-  
-  getPlatform() {
-    var platform = null;
-
-    if (platformHelper.isElectron()) {
-      platform = electronPlatform;
-    } else if (platformHelper.isAndroid()) {
-      platform = cordovaPlatform;
-    }
-
-    return platform;
-  }
 
   toggleFullScreen() {
-    var platform = this.getPlatform();
-
+    var platform = getPlatform();
     platform.toggleFullScreen();
 
+    this.onFullscreenChanged();
+  }
+
+  onFullscreenChanged() {
+    var platform = getPlatform();
     const fullScreenButton = document.getElementById('app-container').querySelector('.fullscreen-button');
 
     if (platform.isFullScreen()) {
@@ -552,12 +551,7 @@ class AppController {
       if (!app_controller.optionsMenu._tagListOption.isChecked) {
         app_controller.tag_assignment_menu.moveTagAssignmentList("PREVIOUS");
       }
-    }
-  }
-
-  async copySelectedVerseTextToClipboard() {
-    var selectedVerseText = await this.verse_selection.getSelectedVerseText();
-    this.getPlatform().copyTextToClipboard(selectedVerseText);
+    }    
   }
 
   showMenu() {
@@ -726,7 +720,7 @@ class AppController {
         let referenceType = "XREFS";
 
         if (app_controller.optionsMenu._verseListNewTabOption.isChecked &&
-            !this.getPlatform().isFullScreen()) { // No tabs available in fullscreen!
+            !getPlatform().isFullScreen()) { // No tabs available in fullscreen!
           
           this.verse_list_popup.currentReferenceType = referenceType;
           await this.verse_list_popup.initCurrentXrefs(event.target);
@@ -738,7 +732,7 @@ class AppController {
         let referenceType = "TAGGED_VERSES";
 
         if (app_controller.optionsMenu._verseListNewTabOption.isChecked &&
-            !this.getPlatform().isFullScreen()) { // No tabs available in fullscreen!
+            !getPlatform().isFullScreen()) { // No tabs available in fullscreen!
           
           this.verse_list_popup.currentReferenceType = referenceType;
           this.verse_list_popup.initCurrentTag(event.target);
@@ -1044,7 +1038,7 @@ class AppController {
 
     this.bindEventsAfterBibleTextLoaded(tabIndex);
 
-    if (this.getPlatform().isFullScreen()) {
+    if (getPlatform().isFullScreen()) {
       wheelnavController.bindEvents();
     }
   }
