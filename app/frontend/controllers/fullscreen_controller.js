@@ -32,7 +32,7 @@ const wheelnavController = require('../controllers/wheelnav_controller.js');
 module.exports.init = function() {
   if (platformHelper.isMac()) {
     require('electron').ipcRenderer.on('fullscreen-changed', (event, message) => {
-      this.onFullscreenChanged();
+      onFullscreenChanged();
     });
   } else {
     $('.fullscreen-button').bind('click', () => {
