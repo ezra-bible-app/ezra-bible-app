@@ -45,6 +45,7 @@ const TextSizeSettings = require("../components/text_size_settings.js");
 const VerseStatisticsChart = require('../components/verse_statistics_chart.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
+const eventController = require('../controllers/event_controller.js');
 
 /**
  * AppController is Ezra Bible App's main controller class which initiates all other controllers and components.
@@ -138,6 +139,10 @@ class AppController {
                              (event = undefined, ui = { 'index' : 0}) => { this.onTabSelected(event, ui); },
                              async (previousTabIndex, tabIndex) => { await this.onTabAdded(previousTabIndex, tabIndex); },
                              defaultBibleTranslationId);
+    
+    eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
+      this.bindEventsAfterBibleTextLoaded(tabIndex);
+    });
   }
 
   async onTabSearchResultsAvailable(occurances) {
@@ -734,7 +739,7 @@ class AppController {
     }).addClass('events-configured');
   }
 
-  async bindEventsAfterBibleTextLoaded(tabIndex=undefined, preventDoubleBinding=false, verseList=undefined) {
+  bindEventsAfterBibleTextLoaded(tabIndex=undefined, preventDoubleBinding=false, verseList=undefined) {
     if (verseList == undefined) {
       verseList = this.getCurrentVerseList(tabIndex);
     }
@@ -982,40 +987,6 @@ class AppController {
     }
 
     this.docxExport.disableExportButton();
-  }
-
-  async initApplicationForVerseList(tabIndex=undefined) {
-    var selectedTabIndex = this.tab_controller.getSelectedTabIndex();
-    var tabIsCurrentTab = false;
-
-    if (tabIndex == selectedTabIndex) {
-      tabIsCurrentTab = true;
-    }
-
-    if (tabIndex === undefined) {
-      var tabIndex = selectedTabIndex;
-    }
-
-    var currentTab = this.tab_controller.getTab(tabIndex);
-
-    if (tabIsCurrentTab) {
-      this.tag_statistics.toggleBookTagStatisticsButton(tabIndex);
-    }
-
-    this.verse_selection.init(tabIndex);
-    await this.optionsMenu.handleBookLoadingModeOptionChange(tabIndex);
-    this.optionsMenu.showOrHideHeaderNavigationBasedOnOption(tabIndex);
-    
-    await this.navigation_pane.updateNavigation(tabIndex);
-    if (currentTab != null && currentTab.getTextType() != 'search_results') {
-      this.navigation_pane.scrollToTop(tabIndex);
-    }
-
-    this.notes_controller.initForTab(tabIndex);
-    this.sword_notes.initForTab(tabIndex);
-    await this.translation_controller.toggleTranslationsBasedOnCurrentBook(tabIndex);
-
-    this.bindEventsAfterBibleTextLoaded(tabIndex);
   }
 
   async updateUiAfterBibleTranslationAvailable(translationCode) {

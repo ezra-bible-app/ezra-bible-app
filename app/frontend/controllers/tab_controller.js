@@ -757,6 +757,11 @@ class TabController {
     return currentTab.book == null && currentTab.tagIdList == "" && currentTab.xrefs == null;
   }
 
+  isCurrentTab(tabIndex) {
+    var selectedTabIndex = this.getSelectedTabIndex();
+    return (tabIndex == selectedTabIndex);
+  }
+
   updateTabTitleAfterTagRenaming(old_title, new_title) {
     for (var i = 0; i < this.metaTabs.length; i++) {
       var currentMetaTab = this.metaTabs[i];

@@ -19,6 +19,7 @@
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
+const eventController = require('../controllers/event_controller.js');
 
 /**
  * The NavigationPane class implements the update and event handling of the
@@ -31,6 +32,16 @@ class NavigationPane {
     this.currentNavigationPane = null;
     this.verse_box_helper = new VerseBoxHelper();
     this.verseListFrameNoChapterNavCss = 'no-chapter-nav';
+
+    eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
+      await this.updateNavigation(tabIndex);
+
+      var currentTab = app_controller.tab_controller.getTab(tabIndex);
+
+      if (currentTab != null && currentTab.getTextType() != 'search_results') {
+        this.scrollToTop(tabIndex);
+      }
+    });
   }
 
   getCurrentNavigationPane(tabIndex=undefined) {

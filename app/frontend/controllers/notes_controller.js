@@ -22,6 +22,7 @@ const verseBoxHelper = new VerseBoxHelper();
 const VerseBox = require('../ui_models/verse_box.js');
 const notesHelper = require('../helpers/notes_helper.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
+const eventController = require('../controllers/event_controller.js');
 require('../components/emoji_button_trigger.js');
 
 let CodeMirror = null;
@@ -51,6 +52,10 @@ class NotesController {
   constructor() {
     this.theme = this.getCurrentTheme();
     this._reset();
+
+    eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
+      this.initForTab(tabIndex);
+    });
   }
 
   initForTab(tabIndex = undefined) {

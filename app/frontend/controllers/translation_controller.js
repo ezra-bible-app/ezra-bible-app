@@ -18,6 +18,7 @@
 
 const i18nController = require('../controllers/i18n_controller.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
+const eventController = require('../controllers/event_controller.js');
 const { sleep } = require('../helpers/ezra_helper.js');
 
 const INSTANT_LOADING_CHAPTER_LIMIT = 15;
@@ -36,6 +37,10 @@ class TranslationController {
   constructor() {
     this.translationCount = null;
     this.initBibleSyncBoxDone = false;
+
+    eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
+      await this.toggleTranslationsBasedOnCurrentBook(tabIndex);
+    });
   }
 
   getTranslationCount() {

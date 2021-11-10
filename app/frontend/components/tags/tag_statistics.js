@@ -16,9 +16,19 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const eventController = require('../../controllers/event_controller.js');
+
 class TagStatistics {
   constructor() {
     this._frequentTagsList = [];
+
+    eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
+      var tabIsCurrentTab = app_controller.tab_controller.isCurrentTab(tabIndex);
+
+      if (tabIsCurrentTab) {
+        await this.toggleBookTagStatisticsButton(tabIndex);
+      }
+    });
   }
 
   getBookTagStatistics() {

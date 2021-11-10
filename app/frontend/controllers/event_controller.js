@@ -36,8 +36,11 @@ function notCreated(event) {
  * @typedef { "on-start-repo-update" | "on-progress-repo-update" | "on-complete-repo-update" } RepoUpdateEvents
  */
 /**
+ * @typedef { "on-bible-text-loaded" } BibleTextEvents
+ */
+/**
  * For consistency event name should be a string in-kebab-case with the following template: "on-[action]-[object]"
- * @typedef { RepoUpdateEvents } Event
+ * @typedef { RepoUpdateEvents | BibleTextEvents } Event
  */
 
 /**
