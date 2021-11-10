@@ -779,8 +779,6 @@ class TextController {
       listType == 'book' && append ||
       !isInstantLoadingBook) {
 
-      app_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
-
       var selectedTabIndex = app_controller.tab_controller.getSelectedTabIndex();
       if (tabIndex === undefined) {
         tabIndex = selectedTabIndex;
