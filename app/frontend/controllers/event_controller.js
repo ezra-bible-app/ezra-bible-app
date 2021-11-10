@@ -39,8 +39,11 @@ function notCreated(event) {
  * @typedef { "on-bible-text-loaded" } BibleTextEvents
  */
 /**
+ * @typedef { "on-all-translations-removed" | "on-translation-removed" } ModuleAssistantEvents
+ */
+/**
  * For consistency event name should be a string in-kebab-case with the following template: "on-[action]-[object]"
- * @typedef { RepoUpdateEvents | BibleTextEvents } Event
+ * @typedef { RepoUpdateEvents | BibleTextEvents | ModuleAssistantEvents } Event
  */
 
 /**

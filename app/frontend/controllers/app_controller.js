@@ -119,8 +119,9 @@ class AppController {
       await this.onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId);
     });
 
-    this.moduleAssistant.initCallbacks(async () => { await this.onAllTranslationsRemoved(); },
-                                       async (translationId) => { await this.onTranslationRemoved(translationId); });
+    await eventController.subscribe('on-all-translations-removed', async () => {
+      await this.onAllTranslationsRemoved();
+    });
 
     await this.book_selection_menu.init();
 
@@ -354,21 +355,10 @@ class AppController {
 
   // Re-init application to state without Bible translations
   async onAllTranslationsRemoved() {
-    await this.tab_controller.reset();
     this.resetVerseListView();
     this.hideVerseListLoadingIndicator();
     this.getCurrentVerseList().append("<div class='help-text'>" + i18n.t("help.help-text-no-translations") + "</div>");
-    this.info_popup.disableCurrentAppInfoButton();
-    this.verse_selection.clear_verse_selection();
     $('.book-select-value').text(i18n.t("menu.book"));
-  }
-
-  async onTranslationRemoved(translationId) {
-    $("select#bible-select").empty();
-    await this.translation_controller.initTranslationsMenu();
-    await tags_controller.updateTagUiBasedOnTagAvailability();
-    var installedTranslations = await this.translation_controller.getInstalledModules();
-    this.tab_controller.onTranslationRemoved(translationId, installedTranslations);
   }
 
   async loadSettings() {

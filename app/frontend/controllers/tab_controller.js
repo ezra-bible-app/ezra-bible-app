@@ -24,6 +24,7 @@ const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
 const i18nController = require('./i18n_controller.js');
 const cacheController = require('./cache_controller.js');
+const eventController = require('./event_controller.js');
 
 /**
  * The TabController manages the tab bar and the state of each tab.
@@ -103,6 +104,15 @@ class TabController {
     i18nController.addLocaleChangeSubscriber(async () => {
       this.localizeTemplate();
       await this.updateTabTitlesAfterLocaleChange();
+    });
+
+    eventController.subscribe('on-translation-removed', async (translationId) => {
+      var installedTranslations = await app_controller.translation_controller.getInstalledModules();
+      this.onTranslationRemoved(translationId, installedTranslations);
+    });
+
+    eventController.subscribe('on-all-translations-removed', async () => {
+      await this.reset();
     });
   }
 

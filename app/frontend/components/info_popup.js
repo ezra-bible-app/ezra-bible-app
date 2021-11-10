@@ -18,12 +18,17 @@
 
 const PlatformHelper = require('../../lib/platform_helper.js');
 const { html } = require('../helpers/ezra_helper.js');
+const eventController = require('../controllers/event_controller.js');
 
 class InfoPopup {
   constructor() {
     this.platformHelper = new PlatformHelper();
     this.initAppInfoBoxDone = false;
     this.initAppInfoButton();
+
+    eventController.subscribe('on-all-translations-removed', () => {
+      this.disableCurrentAppInfoButton();
+    });
   }
 
   initAppInfoButton() {

@@ -40,6 +40,10 @@ class VerseSelection {
     eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
       this.init(tabIndex);
     });
+
+    eventController.subscribe('on-all-translations-removed', () => {
+      this.clear_verse_selection();
+    });
   }
 
   initHelper(nsi) {
