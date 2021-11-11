@@ -74,17 +74,6 @@ class AppController {
   async init() {
     this.tabHtmlTemplate = $($('.verse-list-container')[0]).html();
 
-    if (platformHelper.isElectron()) {
-      this.settings = require('electron-settings');
-    } else {
-      this.settings = {
-        has: function() { return false; },
-        get: function() { return null; },
-        set: function() { return; },
-        delete: function() { return; }
-      };
-    }
-
     this.init_component("VerseBoxHelper", "verse_box_helper");
     this.init_component("VerseSelection", "verse_selection");
     this.init_component("TagSelectionMenu", "tag_selection_menu");
@@ -133,7 +122,6 @@ class AppController {
     this.tab_controller.init('verse-list-tabs',
                              'verse-list-container',
                              'add-tab-button',
-                             this.settings,
                              this.tabHtmlTemplate,
                              (event = undefined, ui = { 'index' : 0}) => { this.onTabSelected(event, ui); },
                              async (previousTabIndex, tabIndex) => { await this.onTabAdded(previousTabIndex, tabIndex); },
