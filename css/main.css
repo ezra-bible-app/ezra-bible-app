@@ -533,7 +533,7 @@ h2:nth-of-type(1) {
 .tag-info,
 .notes-info,
 .verse-reference-content {
-  float: left;
+  text-align: center;
 }
 
 .darkmode--activated .tag-info,

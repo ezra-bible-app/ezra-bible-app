@@ -17,17 +17,17 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 div.menuHolder {
-    user-select: none;
-    -moz-user-select: none;
-    position: relative;
-    z-index: 100;
-    top: -95px;
-    left: -58px;
-    margin: 0;
+  user-select: none;
+  -moz-user-select: none;
+  position: relative;
+  z-index: 100;
+  top: -6.5em;
+  left: -9.8em;
+  margin: 0;
 }
 
 div.info {
-	margin: 15px 0;
+  margin: 15px 0;
 }
 
 div.info * {
@@ -40,30 +40,30 @@ div.info * {
 }
 
 svg.icons {
-    display: none;
+  display: none;
 }
 
 svg.menu {
-    position: absolute;
-    overflow: visible;
-    transition: 0.2s;
-    transition-timing-function: ease-out;
+  position: absolute;
+  overflow: visible;
+  transition: 0.2s;
+  transition-timing-function: ease-out;
 }
 
 svg.menu.inner {
-    transform: scale(0.66) rotate(-10deg);
-    opacity: 0;
-    visibility: hidden;
+  transform: scale(0.66) rotate(-10deg);
+  opacity: 0;
+  visibility: hidden;
 }
 
 svg.menu.outer {
-    transform: scale(1.5) rotate(10deg);
-    opacity: 0;
-    visibility: hidden;
+  transform: scale(1.5) rotate(10deg);
+  opacity: 0;
+  visibility: hidden;
 }
 
 svg.menu > g > path {
-    fill: #00000080;
+  fill: #00000080;
 }
 
 .darkmode--activated svg.menu > g > path {
@@ -71,45 +71,34 @@ svg.menu > g > path {
 }
 
 svg.menu > g.sector > path {
-    cursor: pointer;
-    /*transition: 0.1s;*/
+  cursor: pointer;
+  /*transition: 0.1s;*/
 }
 
 svg.menu > g.sector > text,
 svg.menu > g.sector > use {
-    cursor: pointer;
-    fill: white;
+  cursor: pointer;
+  fill: white;
 
-    /*text-shadow: 1px 1px 0 #000000A0;*/
+  /*text-shadow: 1px 1px 0 #000000A0;*/
 }
 
 svg.menu > g.sector:hover > path {
-    /*fill: #F9A602D0;*/
-    fill: #0894ebd0;
-
+  /*fill: #F9A602D0;*/
+  fill: #0894ebd0;
 }
-
-svg.menu > g.sector.selected > path {
-    /*fill: #F9A602D0;*/
-    /*fill: #009900D0 !important;*/
-    /*fill: #32CD32D0 !important;*/
-}
-
-/*svg.menu > g.center:hover > circle {
-    fill: #0894ebd0;
-}*/
 
 svg.menu > g.center > circle {
-    cursor: pointer;
-    fill: #00000000;
+  cursor: pointer;
+  fill: #00000000;
 }
 
 svg.menu > g.center > text,
 svg.menu > g.center > use {
-    cursor: pointer;
-    fill: white;
+  cursor: pointer;
+  fill: white;
 }
 
 svg.menu > g.sector > text {
-    font-weight: bold;
+  font-weight: bold;
 }
