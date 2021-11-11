@@ -17,9 +17,11 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 
+require('../event_types.js');
+
 /**
  * This controller implements pub/sub pattern and serves as a broker (event bus) between
- * event emitter (publisher) and event consumer subscriber.
+ * event emitter (publisher) and event consumer (subscriber).
  * https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern
  * 
  * @module eventController
@@ -33,23 +35,6 @@ function notCreated(event) {
 }
 
 /**
- * @typedef { "on-start-repo-update" | "on-progress-repo-update" | "on-complete-repo-update" } RepoUpdateEvents
- */
-/**
- * @typedef { "on-bible-text-loaded" | "on-bible-translation-changed" } BibleTextEvents
- */
-/**
- * @typedef { "on-all-translations-removed" | "on-translation-removed" } ModuleAssistantEvents
- */
-/**
- * @typedef { "on-locale-changed" } I18nEvents
- */
-/**
- * For consistency event name should be a string in-kebab-case with the following template: "on-[action]-[object]"
- * @typedef { RepoUpdateEvents | BibleTextEvents | ModuleAssistantEvents | I18nEvents } Event
- */
-
-/**
  * @callback SubscribedCallback
  * @param {*} payload Optional payload
  */
@@ -61,7 +46,7 @@ function notCreated(event) {
 
 /**
  * This function subscribes callback to be called when future events are published
- * @param {Event} event Event key to be notified on publish
+ * @param {EzraEvent} event Event key to be notified on publish
  * @param {SubscribedCallback} callback Function to call when when event is published
  * @returns {Subscription} subscription
  */
@@ -81,7 +66,7 @@ module.exports.subscribe = function subscribe(event, callback) {
 
 /**
  * This function calls all callbacks that subscribed to the specific event
- * @param {Event} event Event key to be notified
+ * @param {EzraEvent} event Event key to be notified
  * @param {*} payload 
  * @returns {[]} Array of callback results
  */
@@ -104,7 +89,7 @@ module.exports.publish = function publish(event, payload=undefined) {
 
 /**
  * This function calls all callbacks that subscribed to the specific event and awaits for all callbacks to finish
- * @param {Event} event Event key to be notified
+ * @param {EzraEvent} event Event key to be notified
  * @param {*} payload 
  * @returns {Promise<[]>} Promise that resolves to array of callback results
  */
@@ -127,7 +112,7 @@ module.exports.publishAsync = async function publishAsync(event, payload=undefin
 
 /**
  * This function unsubscribes all callbacks from the specific event
- * @param { Event | RegExp } event Event key to unsubscribe, can be a RegExp
+ * @param { EzraEvent | RegExp } event Event key to unsubscribe, can be a RegExp
  */
 module.exports.unsubscribeAll = function unsubscribeAll(event) {
   if (typeof event === 'string') {
