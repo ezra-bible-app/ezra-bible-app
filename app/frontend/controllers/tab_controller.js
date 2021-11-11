@@ -47,14 +47,13 @@ class TabController {
     this.verseBoxHelper = new VerseBoxHelper();
   }
 
-  init(tabsElement, tabsPanelClass, addTabElement, settings, tabHtmlTemplate, onTabSelected, onTabAdded, defaultBibleTranslationId) {
+  init(tabsElement, tabsPanelClass, addTabElement, settings, tabHtmlTemplate, onTabSelected, defaultBibleTranslationId) {
     this.tabsElement = tabsElement;
     this.tabsPanelClass = tabsPanelClass;
     this.addTabElement = addTabElement;
     this.settings = settings;
     this.tabHtmlTemplate = tabHtmlTemplate;
     this.onTabSelected = onTabSelected;
-    this.onTabAdded = onTabAdded;
     this.defaultBibleTranslationId = defaultBibleTranslationId;
     this.initFirstTab();
 
@@ -230,7 +229,7 @@ class TabController {
 
       var tabTitle = currentMetaTab.getTitle();
       this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), loadedTabCount);
-      this.onTabAdded(i - 1, i);
+      eventController.publish('on-tab-added', i);
       loadedTabCount += 1;
     }
 
@@ -324,9 +323,9 @@ class TabController {
       }
     }
 
-    // If no tabs are loaded from a previous session we need to explicitly invoke the onTabAdded callback on the first tab
+    // If no tabs are loaded from a previous session we need to explicitly invoke the on-tab-added event on the first tab
     if (loadedTabCount == 0) {
-      this.onTabAdded(-1, 0);
+      eventController.publish('on-tab-added', 0);
     }
 
     // Give the UI some time to render
@@ -556,7 +555,7 @@ class TabController {
     this.updateFirstTabCloseButton();
 
     if (!initialLoading) {
-      this.onTabAdded(this.lastSelectedTabIndex, this.tabCounter - 1);
+      eventController.publish('on-tab-added', this.tabCounter - 1);
     }
   }
 

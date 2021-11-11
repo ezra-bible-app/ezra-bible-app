@@ -27,11 +27,17 @@
  * @typedef { "on-bible-text-loaded" | "on-bible-translation-changed" } BibleTextEvents
  */
 /**
+ * @typedef { "on-tab-changed" | "on-tab-added" } TabEvents
+ */
+/**
  * @typedef { "on-all-translations-removed" | "on-translation-removed" } ModuleAssistantEvents
  */
 /**
  * @typedef { "on-locale-changed" } I18nEvents
  */
+
+
+
 /**
- * @typedef { RepoUpdateEvents | BibleTextEvents | ModuleAssistantEvents | I18nEvents } EzraEvent
+ * @typedef { RepoUpdateEvents | BibleTextEvents | TabEvents | ModuleAssistantEvents | I18nEvents } EzraEvent
  */

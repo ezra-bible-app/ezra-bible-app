@@ -134,9 +134,12 @@ class AppController {
                              this.settings,
                              this.tabHtmlTemplate,
                              (event = undefined, ui = { 'index' : 0}) => { this.onTabSelected(event, ui); },
-                             async (previousTabIndex, tabIndex) => { await this.onTabAdded(previousTabIndex, tabIndex); },
                              defaultBibleTranslationId);
     
+    eventController.subscribe('on-tab-added', (tabIndex) => {
+      this.onTabAdded(tabIndex);
+    });
+
     eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
       this.bindEventsAfterBibleTextLoaded(tabIndex);
     });
@@ -254,7 +257,7 @@ class AppController {
     uiHelper.configureButtonStyles('.verse-list-menu');
   }
 
-  async onTabAdded(previousTabIndex, tabIndex=0) {
+  async onTabAdded(tabIndex=0) {
     this.hideAllMenus();
 
     // Cancel any potentially ongoing module search
