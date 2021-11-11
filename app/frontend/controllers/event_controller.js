@@ -26,10 +26,10 @@
  * @category Controller
  */
 
-var messages = {};
+var subscribers = {};
 
 function notCreated(event) {
-  return !(event in messages);
+  return !(event in subscribers);
 }
 
 /**
@@ -64,14 +64,14 @@ function notCreated(event) {
  */
 module.exports.subscribe = function subscribe(event, callback) {
   if (notCreated(event)) {
-    messages[event] = [];
+    subscribers[event] = [];
   }
 
-  const index = messages[event].push(callback) - 1;
+  const index = subscribers[event].push(callback) - 1;
   
   return {
     remove: () => {
-      delete messages[event][index];
+      delete subscribers[event][index];
     }
   };
 };
@@ -89,7 +89,7 @@ module.exports.publish = function publish(event, payload=undefined) {
   
   var results = [];
 
-  for (let subscribedCallback of messages[event]) {
+  for (let subscribedCallback of subscribers[event]) {
     if (typeof subscribedCallback === 'function') {
       const r = subscribedCallback(payload);
       results.push(r);
@@ -128,14 +128,14 @@ module.exports.publishAsync = async function publishAsync(event, payload=undefin
  */
 module.exports.unsubscribeAll = function unsubscribeAll(event) {
   if (typeof event === 'string') {
-    messages[event] = [];
+    subscribers[event] = [];
 
   } else if (event instanceof RegExp) {
-    const allEvents = Object.keys(messages);
+    const allEvents = Object.keys(subscribers);
     
     allEvents.forEach(key => {
       if (event.test(key)) {
-        messages[key] = [];
+        subscribers[key] = [];
       }
     });
   }
