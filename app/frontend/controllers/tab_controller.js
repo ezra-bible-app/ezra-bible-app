@@ -105,6 +105,8 @@ class TabController {
       await this.updateTabTitlesAfterLocaleChange();
     });
 
+    eventController.subscribe('on-bible-translation-changed', async (data) => await this.onBibleTranslationChanged(data));
+
     eventController.subscribe('on-translation-removed', async (translationId) => {
       var installedTranslations = await app_controller.translation_controller.getInstalledModules();
       this.onTranslationRemoved(translationId, installedTranslations);
@@ -835,6 +837,52 @@ class TabController {
           this.setCurrentTabXrefTitle(tabTitle, i);
         }
           break;
+      }
+    }
+  }
+
+  async onBibleTranslationChanged({ from: oldBibleTranslationId, to: newBibleTranslationId }) {
+    var currentTab = this.getTab();
+
+    // The tab search is not valid anymore if the translation is changing. Therefore we reset it.
+    if (currentTab.tab_search != null) {
+      currentTab.tab_search.resetSearch();
+    }
+
+    var isInstantLoadingBook = true;
+
+    if (currentTab.getTextType() == 'book') {
+      // We set the previous book to the current book. This will be used in NavigationPane to avoid reloading the chapter list.
+      currentTab.setPreviousBook(currentTab.getBook());
+
+      isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(newBibleTranslationId, currentTab.getBook());
+    }
+
+    if (currentTab.getTextType() == 'search_results') {
+      await app_controller.text_controller.prepareForNewText(true, true);
+      app_controller.module_search_controller.startSearch(null, this.getSelectedTabIndex(), currentTab.getSearchTerm());
+    } else {
+      if (!this.isCurrentTabEmpty()) {
+        await app_controller.text_controller.prepareForNewText(false, false);
+        await app_controller.text_controller.requestTextUpdate(
+          this.getSelectedTabId(),
+          currentTab.getBook(),
+          currentTab.getTagIdList(),
+          null,
+          null,
+          null,
+          currentTab.getXrefs(),
+          currentTab.getChapter(),
+          isInstantLoadingBook
+        );
+
+        if (currentTab.getReferenceVerseElementId() != null) {
+          await app_controller.updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId);
+        }
+
+        if (currentTab.getTextType() == 'book') {
+          app_controller.tag_statistics.highlightFrequentlyUsedTags();
+        }
       }
     }
   }

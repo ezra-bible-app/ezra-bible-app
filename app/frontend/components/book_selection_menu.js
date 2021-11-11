@@ -47,7 +47,7 @@ class BookSelectionMenu {
     }
 
     this.initLinks();
-    this.subscribeForLocaleUpdates();
+    this.subscribeForEvents();
     this.init_completed = true;
   }
 
@@ -71,7 +71,9 @@ class BookSelectionMenu {
     }
   }
 
-  subscribeForLocaleUpdates() {
+  subscribeForEvents() {
+    eventController.subscribe('on-bible-translation-changed', () => this.updateAvailableBooks());
+
     eventController.subscribe('on-locale-changed', async () => {
       this.localizeBookSelectionMenu();
     });

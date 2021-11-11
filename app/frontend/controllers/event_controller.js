@@ -36,7 +36,7 @@ function notCreated(event) {
  * @typedef { "on-start-repo-update" | "on-progress-repo-update" | "on-complete-repo-update" } RepoUpdateEvents
  */
 /**
- * @typedef { "on-bible-text-loaded" } BibleTextEvents
+ * @typedef { "on-bible-text-loaded" | "on-bible-translation-changed" } BibleTextEvents
  */
 /**
  * @typedef { "on-all-translations-removed" | "on-translation-removed" } ModuleAssistantEvents

@@ -115,11 +115,7 @@ class AppController {
 
     this.initGlobalShortCuts();
 
-    this.translation_controller.init(async (oldBibleTranslationId, newBibleTranslationId) => {
-      await this.onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId);
-    });
-
-    await eventController.subscribe('on-all-translations-removed', async () => {
+    eventController.subscribe('on-all-translations-removed', async () => {
       await this.onAllTranslationsRemoved();
     });
 
@@ -305,52 +301,6 @@ class AppController {
 
     // We need to refresh the last used tag button, because the button is not yet initialized in the tab html template
     app_controller.assign_last_tag_button.onLatestUsedTagChanged(undefined, undefined);
-  }
-
-  async onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId) {
-    var currentTab = this.tab_controller.getTab();
-
-    // The tab search is not valid anymore if the translation is changing. Therefore we reset it.
-    if (currentTab.tab_search != null) {
-      currentTab.tab_search.resetSearch();
-    }
-
-    var isInstantLoadingBook = true;
-
-    if (currentTab.getTextType() == 'book') {
-      // We set the previous book to the current book. This will be used in NavigationPane to avoid reloading the chapter list.
-      currentTab.setPreviousBook(currentTab.getBook());
-
-      isInstantLoadingBook = await this.translation_controller.isInstantLoadingBook(newBibleTranslationId, currentTab.getBook());
-    }
-
-    if (currentTab.getTextType() == 'search_results') {
-      await this.text_controller.prepareForNewText(true, true);
-      this.module_search_controller.startSearch(null, this.tab_controller.getSelectedTabIndex(), currentTab.getSearchTerm());
-    } else {
-      if (!this.tab_controller.isCurrentTabEmpty()) {
-        await this.text_controller.prepareForNewText(false, false);
-        await this.text_controller.requestTextUpdate(
-          this.tab_controller.getSelectedTabId(),
-          currentTab.getBook(),
-          currentTab.getTagIdList(),
-          null,
-          null,
-          null,
-          currentTab.getXrefs(),
-          currentTab.getChapter(),
-          isInstantLoadingBook
-        );
-
-        if (currentTab.getReferenceVerseElementId() != null) {
-          await this.updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId);
-        }
-
-        if (currentTab.getTextType() == 'book') {
-          this.tag_statistics.highlightFrequentlyUsedTags();
-        }
-      }
-    }
   }
 
   // Re-init application to state without Bible translations

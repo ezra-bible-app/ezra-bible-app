@@ -51,10 +51,6 @@ class TranslationController {
     return this.translationCount;
   }
 
-  init(onBibleTranslationChanged) {
-    this.onBibleTranslationChanged = onBibleTranslationChanged;
-  }
-
   initBibleSyncBox() {
     if (this.initBibleSyncBoxDone) {
       return;
@@ -230,7 +226,7 @@ class TranslationController {
         app_controller.tab_controller.refreshBibleTranslationInTabTitle(newBibleTranslationId);
 
         setTimeout(() => {
-          this.handleBibleTranslationChange(oldBibleTranslationId, newBibleTranslationId)
+          eventController.publish('on-bible-translation-changed', {from: oldBibleTranslationId, to: newBibleTranslationId});
         }, 50);
       }
     });
@@ -248,11 +244,6 @@ class TranslationController {
     var allSectionTitles = currentVerseList.querySelectorAll(query);
 
     return allSectionTitles.length > 0;
-  }
-
-  async handleBibleTranslationChange(oldBibleTranslationId, newBibleTranslationId) {
-    await app_controller.book_selection_menu.updateAvailableBooks();
-    this.onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId);
   }
 
   async isStrongsTranslationAvailable() {
