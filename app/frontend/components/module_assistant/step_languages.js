@@ -119,8 +119,8 @@ class StepLanguages extends HTMLElement {
     this.addEventListener('itemChanged', (e) => this._handleCheckboxClick(e));
     this.addEventListener('searchResultsReady', (e) => this._handleSearchResult(e));
 
-    eventController.subscribe('on-start-repo-update', () => this.resetView());
-    eventController.subscribe('on-complete-repo-update', async status => {
+    eventController.subscribe('on-repo-update-started', () => this.resetView());
+    eventController.subscribe('on-repo-update-completed', async status => {
       console.log('Ready to list languages, repos updated:', status);
       if (status == 0) {
         await this.listLanguages();

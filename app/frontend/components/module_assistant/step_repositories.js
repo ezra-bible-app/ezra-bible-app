@@ -89,8 +89,8 @@ class StepRepositories extends HTMLElement {
     this.appendChild(template.content.cloneNode(true));
     assistantHelper.localizeContainer(this, assistantController.get('moduleType'));
 
-    eventController.subscribe('on-start-repo-update', async () => await this.resetView());
-    eventController.subscribe('on-complete-repo-update', async status => {
+    eventController.subscribe('on-repo-update-started', async () => await this.resetView());
+    eventController.subscribe('on-repo-update-completed', async status => {
       if (status == 0) {
         await this.listRepositories();
       } else {

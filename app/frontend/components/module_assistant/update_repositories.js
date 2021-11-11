@@ -83,9 +83,9 @@ class UpdateRepositories extends HTMLElement {
     uiHelper.configureButtonStyles(this);
 
     this.querySelector('.update-repo-data').addEventListener('click', async () => await assistantController.updateRepositories());
-    eventController.subscribe('on-start-repo-update', () => this.prepareProgressBar());
-    eventController.subscribe('on-progress-repo-update', process => this.handleUpdateProgress(process));
-    eventController.subscribe('on-complete-repo-update', status => this.updateDateInfo(status));
+    eventController.subscribe('on-repo-update-started', () => this.prepareProgressBar());
+    eventController.subscribe('on-repo-update-progress', process => this.handleUpdateProgress(process));
+    eventController.subscribe('on-repo-update-completed', status => this.updateDateInfo(status));
     
     assistantHelper.localizeContainer(this);
 

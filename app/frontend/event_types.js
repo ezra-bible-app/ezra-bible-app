@@ -21,7 +21,7 @@
 // For consistency event name should be a string in-kebab-case with the following template: "on-[(optional)object]-[action]"
 
 /**
- * @typedef { "on-start-repo-update" | "on-progress-repo-update" | "on-complete-repo-update" } RepoUpdateEvents
+ * @typedef { "on-repo-update-started" | "on-repo-update-progress" | "on-repo-update-completed" } RepoUpdateEvents
  */
 /**
  * @typedef { "on-bible-text-loaded" | "on-bible-translation-changed" } BibleTextEvents

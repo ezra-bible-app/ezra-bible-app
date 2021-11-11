@@ -155,11 +155,11 @@ module.exports.updateRepositories = async function() {
 
   updateInProgress = true;  
   preserveSelectedState();
-  await eventController.publishAsync('on-start-repo-update');
+  await eventController.publishAsync('on-repo-update-started');
 
   const MAX_FAILED_UPDATE_COUNT = 2;
   var failedUpdateCount = 0;
-  const repoUpdateStatus = await ipcNsi.updateRepositoryConfig(process => eventController.publish('on-progress-repo-update', process));
+  const repoUpdateStatus = await ipcNsi.updateRepositoryConfig(process => eventController.publish('on-repo-update-progress', process));
 
   for (let key in repoUpdateStatus) {
     if (key != 'result' && repoUpdateStatus[key] == false) {
@@ -187,12 +187,12 @@ module.exports.updateRepositories = async function() {
     state.allRepositories = [];
   }
 
-  await eventController.publishAsync('on-complete-repo-update', overallStatus);
+  await eventController.publishAsync('on-repo-update-completed', overallStatus);
   updateInProgress = false;
 };
 
 module.exports.notifyRepositoriesAvailable = async () => {
   if (!updateInProgress) {
-    await eventController.publishAsync('on-complete-repo-update', 0);
+    await eventController.publishAsync('on-repo-update-completed', 0);
   }
 };
