@@ -22,7 +22,6 @@ const i18nHelper = require('../helpers/i18n_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
-const i18nController = require('./i18n_controller.js');
 const cacheController = require('./cache_controller.js');
 const eventController = require('./event_controller.js');
 
@@ -101,7 +100,7 @@ class TabController {
 
     this.initTabs();
 
-    i18nController.addLocaleChangeSubscriber(async () => {
+    eventController.subscribe('on-locale-changed', async () => {
       this.localizeTemplate();
       await this.updateTabTitlesAfterLocaleChange();
     });

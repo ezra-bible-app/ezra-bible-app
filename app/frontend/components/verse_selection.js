@@ -19,7 +19,6 @@
 const VerseBox = require("../ui_models/verse_box.js");
 const VerseReferenceHelper = require("../helpers/verse_reference_helper.js");
 const i18nHelper = require('../helpers/i18n_helper.js');
-const i18nController = require('../controllers/i18n_controller.js');
 const eventController = require('../controllers/event_controller.js');
 
 /**
@@ -33,7 +32,7 @@ class VerseSelection {
     this.selected_verse_box_elements = null;
     this.verseReferenceHelper = null;
 
-    i18nController.addLocaleChangeSubscriber(async () => {
+    eventController.subscribe('on-locale-changed', async () => {
       await this.updateSelectedVersesLabel();
     });
 

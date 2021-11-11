@@ -21,7 +21,6 @@ const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
 require('../components/emoji_button_trigger.js');
 const { waitUntilIdle, sleep } = require('../helpers/ezra_helper.js');
-const i18nController = require('./i18n_controller.js');
 const eventController = require('./event_controller.js');
 
 /**
@@ -72,7 +71,7 @@ class TagsController {
     this.renameStandardTagDialogInitDone = false;
     this.lastContentId = null;
 
-    i18nController.addLocaleChangeSubscriber(async () => {
+    eventController.subscribe('on-locale-changed', async () => {
       this.updateTagsView(undefined, true);
       this.refreshTagDialogs();
     });

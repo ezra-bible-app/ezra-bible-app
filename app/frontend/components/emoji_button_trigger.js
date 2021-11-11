@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const i18nController = require('../controllers/i18n_controller.js');
+const eventController = require('../controllers/event_controller.js');
 const { html, sleep, waitUntilIdle } = require('../helpers/ezra_helper.js');
 
 var emojiPicker; // to keep only one instance of the picker
@@ -203,7 +204,7 @@ function subscribePicker() {
 
   emojiPickerSubscribed = true;
 
-  i18nController.addLocaleChangeSubscriber(async locale => {
+  eventController.subscribe('on-locale-changed', async locale => {
     // FIXME: Handle properly
     try {
       (await emojiPicker).destroyPicker();
