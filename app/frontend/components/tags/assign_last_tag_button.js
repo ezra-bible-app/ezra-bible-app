@@ -35,6 +35,11 @@ class AssignLastTagButton {
       this.init(tabIndex);
     });
 
+    eventController.subscribe('on-tab-added', () => {
+      // We need to refresh the last used tag button, because the button is not yet initialized in the tab html template
+      this.onLatestUsedTagChanged(undefined, undefined);
+    });
+
     eventController.subscribe('on-locale-changed', async () => {
       await this.updateLabel();
     });

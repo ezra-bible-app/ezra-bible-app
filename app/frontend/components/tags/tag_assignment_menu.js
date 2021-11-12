@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
-
+const eventController = require('../../controllers/event_controller.js');
 /**
  * The TagAssignmentMenu component implements the menu event handling and dynamic movement of the tag assignment menu,
  * which can move between the left toolbar and the dropdown button in the verse list menu.
@@ -27,6 +27,10 @@ const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
 class TagAssignmentMenu {
   constructor() {
     this.menuIsOpened = false;
+
+    eventController.subscribe('on-tab-added', (tabIndex) => {
+      this.init(tabIndex);
+    });
   }
 
   init(tabIndex=undefined) {

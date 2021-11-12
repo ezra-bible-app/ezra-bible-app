@@ -73,6 +73,13 @@ class ModuleSearchController {
       // Populate search menu based on last search (if any)
       this.populateSearchMenu(tabIndex);
     });
+
+    eventController.subscribe('on-tab-added', async (tabIndex) => {
+      // Cancel any potentially ongoing module search
+      await this.cancelModuleSearch();
+
+      this.initModuleSearch(tabIndex);
+    });
   }
 
   async cancelModuleSearch() {

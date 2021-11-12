@@ -28,6 +28,14 @@ class TagSelectionMenu {
   constructor() {
     this.tag_menu_is_opened = false;
     this.tag_menu_populated = false;
+
+    eventController.subscribe('on-tab-selected', async (tabIndex) => {
+      await this.updateTagSelectionMenu(tabIndex);
+    });
+
+    eventController.subscribe('on-tab-added', (tabIndex) => {
+      this.init(tabIndex);
+    });
   }
 
   init(tabIndex=undefined) {
@@ -37,10 +45,6 @@ class TagSelectionMenu {
 
     $('#tag-selection-recently-used-checkbox').bind('click', (event) => {
       this.applyCurrentFilters();
-    });
-
-    eventController.subscribe('on-tab-selected', async (tabIndex) => {
-      await this.updateTagSelectionMenu(tabIndex);
     });
   }
 

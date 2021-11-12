@@ -211,28 +211,12 @@ class AppController {
 
   async onTabAdded(tabIndex=0) {
     this.hideAllMenus();
-
-    // Cancel any potentially ongoing module search
-    await this.module_search_controller.cancelModuleSearch();
-
-    // Refresh the view based on the options selected
-    await this.optionsMenu.refreshViewBasedOnOptions(tabIndex);
     
     await this.initCurrentVerseListMenu(tabIndex);
-    this.tag_selection_menu.init(tabIndex);
-    this.tag_assignment_menu.init(tabIndex);
-    this.module_search_controller.initModuleSearch(tabIndex);
-    this.info_popup.initAppInfoButton();
-    this.textSizeSettings.init(tabIndex);
     
     var currentTab = this.tab_controller.getTab(tabIndex);
 
     if (currentTab) {
-      const currentBibleTranslationId = currentTab.getBibleTranslationId();
-      if (currentBibleTranslationId != null) {
-        this.info_popup.enableCurrentAppInfoButton(tabIndex);
-      }
-
       const verseListContainer = this.getCurrentVerseListFrame(tabIndex).parent();
 
       currentTab.tab_search = new TabSearch();
@@ -250,12 +234,6 @@ class AppController {
       );
   
     }
-
-    this.optionsMenu.initCurrentOptionsMenu(tabIndex);
-    this.book_selection_menu.clearSelectedBookInMenu();
-
-    // We need to refresh the last used tag button, because the button is not yet initialized in the tab html template
-    app_controller.assign_last_tag_button.onLatestUsedTagChanged(undefined, undefined);
   }
 
   // Re-init application to state without Bible translations

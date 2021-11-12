@@ -94,6 +94,10 @@ class BookSelectionMenu {
 
     });
 
+    eventController.subscribe('on-tab-added', async () => {
+      this.clearSelectedBookInMenu();
+    });
+
     eventController.subscribe('on-locale-changed', async () => {
       this.localizeBookSelectionMenu();
     });

@@ -26,6 +26,18 @@ class InfoPopup {
     this.initAppInfoBoxDone = false;
     this.initAppInfoButton();
 
+    eventController.subscribe('on-tab-added', (tabIndex) => {
+      this.initAppInfoButton();
+
+      var currentTab = app_controller.tab_controller.getTab(tabIndex);
+      if (currentTab) {
+        const currentBibleTranslationId = currentTab.getBibleTranslationId();
+        if (currentBibleTranslationId != null) {
+          this.enableCurrentAppInfoButton(tabIndex);
+        }
+      }  
+    });
+
     eventController.subscribe('on-all-translations-removed', () => {
       this.disableCurrentAppInfoButton();
     });

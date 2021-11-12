@@ -94,8 +94,13 @@ class OptionsMenu {
     });
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
-      // Refresh the view based on the options selected
       await this.refreshViewBasedOnOptions(tabIndex);
+    });
+
+    eventController.subscribe('on-tab-added', async (tabIndex) => {
+      await this.refreshViewBasedOnOptions(tabIndex);
+
+      this.initCurrentOptionsMenu(tabIndex);
     });
   }
 
