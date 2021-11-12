@@ -41,6 +41,10 @@ class TranslationController {
       await this.toggleTranslationsBasedOnCurrentBook(tabIndex);
     });
 
+    eventController.subscribe('on-tab-selected', async (tabIndex) => {
+      await this.initTranslationsMenu(-1, tabIndex);
+    });
+
     eventController.subscribe('on-translation-removed', async (translationId) => {
       $("select#bible-select").empty();
       await this.initTranslationsMenu();

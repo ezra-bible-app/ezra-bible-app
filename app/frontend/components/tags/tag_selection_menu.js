@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
+const eventController = require('../../controllers/event_controller.js');
 
 /**
  * The TagSelectionMenu component implements the menu for selecting a tagged verse list.
@@ -36,6 +37,10 @@ class TagSelectionMenu {
 
     $('#tag-selection-recently-used-checkbox').bind('click', (event) => {
       this.applyCurrentFilters();
+    });
+
+    eventController.subscribe('on-tab-selected', async (tabIndex) => {
+      await this.updateTagSelectionMenu(tabIndex);
     });
   }
 

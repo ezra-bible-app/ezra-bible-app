@@ -71,6 +71,13 @@ class TagsController {
     this.renameStandardTagDialogInitDone = false;
     this.lastContentId = null;
 
+    eventController.subscribe('on-tab-selected', async (tabIndex) => {
+      // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
+      this.verses_were_selected_before = true;
+      await this.updateTagsView(tabIndex);
+
+    });
+
     eventController.subscribe('on-locale-changed', async () => {
       this.updateTagsView(undefined, true);
       this.refreshTagDialogs();

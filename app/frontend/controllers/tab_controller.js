@@ -47,13 +47,12 @@ class TabController {
     this.verseBoxHelper = new VerseBoxHelper();
   }
 
-  init(tabsElement, tabsPanelClass, addTabElement, settings, tabHtmlTemplate, onTabSelected, defaultBibleTranslationId) {
+  init(tabsElement, tabsPanelClass, addTabElement, settings, tabHtmlTemplate, defaultBibleTranslationId) {
     this.tabsElement = tabsElement;
     this.tabsPanelClass = tabsPanelClass;
     this.addTabElement = addTabElement;
     this.settings = settings;
     this.tabHtmlTemplate = tabHtmlTemplate;
-    this.onTabSelected = onTabSelected;
     this.defaultBibleTranslationId = defaultBibleTranslationId;
     this.initFirstTab();
 
@@ -332,7 +331,7 @@ class TabController {
     await waitUntilIdle();
 
     // Call this method explicitly to initialize the first tab
-    await this.onTabSelected();
+    await eventController.publishAsync('on-tab-selected');
 
     await waitUntilIdle();
 
@@ -385,7 +384,7 @@ class TabController {
         var metaTab = this.getTab(index);
         metaTab.selectCount += 1;
 
-        if (metaTab.addedInteractively || metaTab.selectCount > 1) { // We only run the onTabSelected callback
+        if (metaTab.addedInteractively || metaTab.selectCount > 1) { // We only run the on-tab-selected callbacks
           // if the tab has been added interactively
           // or after the initial select.
           // This is necessary to ensure good visual performance when
@@ -412,7 +411,7 @@ class TabController {
           }
 
           this.lastSelectedTabIndex = index;
-          this.onTabSelected(event, ui);
+          eventController.publish('on-tab-selected', ui.index);
         }
       },
       show: (event, ui) => {

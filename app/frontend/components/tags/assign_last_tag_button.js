@@ -30,7 +30,14 @@ const eventController = require('../../controllers/event_controller.js');
  */
 class AssignLastTagButton {
   constructor() {
-    this._localeChangeSubscriptionDone = false;
+
+    eventController.subscribe('on-tab-selected', (tabIndex) => {
+      this.init(tabIndex);
+    });
+
+    eventController.subscribe('on-locale-changed', async () => {
+      await this.updateLabel();
+    });
   }
 
   init(tabIndex=undefined) {
@@ -48,14 +55,6 @@ class AssignLastTagButton {
         uiHelper.hideTextLoadingIndicator();
       }
     });
-
-    if (!this._localeChangeSubscriptionDone) {
-      this._localeChangeSubscriptionDone = true;
-
-      eventController.subscribe('on-locale-changed', async () => {
-        await this.updateLabel();
-      });
-    } 
   }
 
   async updateLabel(tagTitle=undefined) {

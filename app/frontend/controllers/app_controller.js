@@ -133,9 +133,11 @@ class AppController {
                              'add-tab-button',
                              this.settings,
                              this.tabHtmlTemplate,
-                             (event = undefined, ui = { 'index' : 0}) => { this.onTabSelected(event, ui); },
                              defaultBibleTranslationId);
-    
+    eventController.subscribe('on-tab-selected', async (tabIndex=0) => {
+      await this.onTabSelected(tabIndex);
+    });
+
     eventController.subscribe('on-tab-added', (tabIndex) => {
       this.onTabAdded(tabIndex);
     });
@@ -190,69 +192,19 @@ class AppController {
     this.dictionary_controller.bindAfterBibleTextLoaded();
   }
 
-  // eslint-disable-next-line no-unused-vars
-  async onTabSelected(event = undefined, ui = { 'index' : 0}) {
-    await waitUntilIdle();
-
-    // Cancel any potentially ongoing module search
-    await this.module_search_controller.cancelModuleSearch();
-
-    var metaTab = this.tab_controller.getTab(ui.index);
+  async onTabSelected(tabIndex=0) {
+    var metaTab = this.tab_controller.getTab(tabIndex);
 
     if (metaTab != null && metaTab.selectCount >= 2) {
-      // Only perform the following actions from the 2nd select (The first is done when the tab is created)
-
+      // Only perform the following action from the 2nd select (The first is done when the tab is created)
       this.hideAllMenus();
-      this.book_selection_menu.clearSelectedBookInMenu();
     }
 
-    // Refresh the view based on the options selected
-    await this.optionsMenu.refreshViewBasedOnOptions(ui.index);
-
-    // When switching tabs we need to end any note editing.
-    this.notes_controller.restoreCurrentlyEditedNotes();
-
     // Re-configure tab search
-    var currentVerseList = this.getCurrentVerseList(ui.index);
+    var currentVerseList = this.getCurrentVerseList(tabIndex);
     if (metaTab != null && metaTab.tab_search != null) {
       metaTab.tab_search.setVerseList(currentVerseList);
     }
-
-    // Clear verse selection
-    this.verse_selection.clear_verse_selection(true, ui.index);
-
-    // Refresh tags view
-    // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
-    tags_controller.verses_were_selected_before = true;
-    await tags_controller.updateTagsView(ui.index);
-
-    // Refresh tags selection menu (It's global!)
-    await this.tag_selection_menu.updateTagSelectionMenu(ui.index);
-
-    // Update available books for current translation
-    await this.book_selection_menu.updateAvailableBooks(ui.index);
-
-    // Refresh translations menu
-    await this.translation_controller.initTranslationsMenu(-1, ui.index);
-
-    // Highlight currently selected book (only in book mode)
-    if (metaTab != null) {
-      var textType = metaTab.getTextType();
-      if (textType == 'book') this.book_selection_menu.highlightCurrentlySelectedBookInMenu(ui.index);
-    }
-
-    // Refresh 'assign last tag' button
-    this.assign_last_tag_button.init(ui.index);
-
-    // Toggle book statistics
-    this.tag_statistics.toggleBookTagStatisticsButton(ui.index);
-
-    // Populate search menu based on last search (if any)
-    this.module_search_controller.populateSearchMenu(ui.index);
-
-    // Hide elements present from previous tab's usage
-    this.dictionary_controller.hideStrongsBox();
-    this.verse_context_controller.hide_verse_expand_box();
 
     uiHelper.configureButtonStyles('.verse-list-menu');
   }

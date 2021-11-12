@@ -29,6 +29,10 @@ class TagStatistics {
         await this.toggleBookTagStatisticsButton(tabIndex);
       }
     });
+
+    eventController.subscribe('on-tab-selected', (tabIndex) => {
+      this.toggleBookTagStatisticsButton(tabIndex);
+    });
   }
 
   getBookTagStatistics() {

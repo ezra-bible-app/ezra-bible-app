@@ -18,6 +18,8 @@
 
 const Mousetrap = require('mousetrap');
 const DictionaryInfoBox = require('../components/dictionary_info_box.js');
+const eventController = require('./event_controller.js');
+
 let jsStrongs = null;
 
 
@@ -56,6 +58,10 @@ class DictionaryController {
         this.shiftKeyPressed = false;
         this.removeHighlight();
       }
+    });
+
+    eventController.subscribe('on-tab-selected', () => {
+      this.hideStrongsBox();
     });
 
     this.runAvailabilityCheck();

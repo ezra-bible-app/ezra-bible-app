@@ -27,7 +27,7 @@
  * @typedef { "on-bible-text-loaded" | "on-bible-translation-changed" } BibleTextEvents
  */
 /**
- * @typedef { "on-tab-changed" | "on-tab-added" } TabEvents
+ * @typedef { "on-tab-selected" | "on-tab-added" } TabEvents
  */
 /**
  * @typedef { "on-all-translations-removed" | "on-translation-removed" } ModuleAssistantEvents

@@ -56,6 +56,11 @@ class NotesController {
     eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
       this.initForTab(tabIndex);
     });
+
+    eventController.subscribe('on-tab-selected', () => {
+      // When switching tabs we need to end any note editing.
+      this.restoreCurrentlyEditedNotes();
+    });
   }
 
   initForTab(tabIndex = undefined) {

@@ -40,6 +40,10 @@ class VerseSelection {
       this.init(tabIndex);
     });
 
+    eventController.subscribe('on-tab-selected', (tabIndex) => {
+      this.clear_verse_selection(true, tabIndex);
+    });
+
     eventController.subscribe('on-all-translations-removed', () => {
       this.clear_verse_selection();
     });

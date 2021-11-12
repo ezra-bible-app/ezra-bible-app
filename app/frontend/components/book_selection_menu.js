@@ -66,13 +66,33 @@ class BookSelectionMenu {
         var current_book_title = $(event.target).html();
         var current_reference_book_title = $(event.target).attr('book-name');
 
-        app_controller.book_selection_menu.selectBibleBook(current_link_href, current_book_title, current_reference_book_title);
+        this.selectBibleBook(current_link_href, current_book_title, current_reference_book_title);
       });
     }
   }
 
   subscribeForEvents() {
-    eventController.subscribe('on-bible-translation-changed', () => this.updateAvailableBooks());
+    eventController.subscribe('on-bible-translation-changed', async () => {
+      await this.updateAvailableBooks();
+    });
+
+    eventController.subscribe('on-tab-selected', async (tabIndex) => {
+      var metaTab = app_controller.tab_controller.getTab(tabIndex);
+
+      if (metaTab != null && metaTab.selectCount >= 2) {
+        // Only perform the following action from the 2nd select (The first is done when the tab is created)
+        this.clearSelectedBookInMenu();
+      }
+
+      await this.updateAvailableBooks(tabIndex);
+
+      // Highlight currently selected book (only in book mode)
+      if (metaTab != null) {
+        const textType = metaTab.getTextType();
+        if (textType == 'book') this.highlightCurrentlySelectedBookInMenu(tabIndex);
+      }
+
+    });
 
     eventController.subscribe('on-locale-changed', async () => {
       this.localizeBookSelectionMenu();

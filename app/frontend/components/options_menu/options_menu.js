@@ -92,6 +92,11 @@ class OptionsMenu {
       this.showOrHideSectionTitlesBasedOnOption(tabIndex);
       this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     });
+
+    eventController.subscribe('on-tab-selected', async (tabIndex) => {
+      // Refresh the view based on the options selected
+      await this.refreshViewBasedOnOptions(tabIndex);
+    });
   }
 
   async initNightModeOption() {
