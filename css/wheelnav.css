@@ -19,10 +19,9 @@
 div.menuHolder {
   user-select: none;
   -moz-user-select: none;
-  position: relative;
+  position: absolute;
+  display: flex;
   z-index: 100;
-  top: -6.5em;
-  left: -9.8em;
   margin: 0;
 }
 
@@ -44,7 +43,6 @@ svg.icons {
 }
 
 svg.menu {
-  position: absolute;
   overflow: visible;
   transition: 0.2s;
   transition-timing-function: ease-out;
