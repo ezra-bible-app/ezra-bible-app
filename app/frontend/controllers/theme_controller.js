@@ -87,11 +87,13 @@ class ThemeController {
 
   switchToDarkTheme() {
     this.switchToTheme('css/jquery-ui/dark-hive/jquery-ui.css');
+    this.switchToBootstrapTheme('node_modules/bootstrap-dark-5/dist/css/bootstrap-night.min.css');
     app_controller.notes_controller.setDarkTheme();
   }
   
   switchToRegularTheme() {
     this.switchToTheme('css/jquery-ui/cupertino/jquery-ui.css');
+    this.switchToBootstrapTheme('node_modules/bootstrap/dist/css/bootstrap.min.css');
     app_controller.notes_controller.setLightTheme();
   }
   
@@ -100,6 +102,14 @@ class ThemeController {
   
     if (currentTheme.indexOf(theme) == -1) { // Only switch the theme if it is different from the current theme
       document.getElementById("theme-css").href = theme;
+    }
+  }
+
+  switchToBootstrapTheme(theme) {
+    var currentTheme = document.getElementById("bootstrap-theme-css").href;
+  
+    if (currentTheme.indexOf(theme) == -1) { // Only switch the theme if it is different from the current theme
+      document.getElementById("bootstrap-theme-css").href = theme;
     }
   }
 
