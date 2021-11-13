@@ -62,13 +62,16 @@ class TagAssignmentMenu {
       dialogClass: 'ezra-dialog'
     };
 
-    $('#change-tags-box').dialog(changeTagDialogOptions);
+    document.getElementById('change-tags-box').querySelector('.modal-title').innerText = i18n.t('tags.change-tags');
+
+    //$('#change-tags-box').dialog(changeTagDialogOptions);
     this._changeTagPopupInitDone = true;
   }
 
   async showPopup() {
     $('#change-tags-box-content').hide();
-    $('#change-tags-box').dialog('open');
+    $('#change-tags-box').modal("show");
+    //$('#change-tags-box').dialog('open');
     await waitUntilIdle();
 
     var tagsContainer = document.querySelector('#tags-content-global');
