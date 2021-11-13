@@ -19,6 +19,7 @@
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
 const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
+const { getPlatform } = require('../helpers/ezra_helper.js');
 
 /**
  * The VerseListPopup component implements a dialog that shows a tagged verse list or a list of cross references.
@@ -389,7 +390,7 @@ class VerseListPopup {
   renderVerseListInPopup(htmlVerses, verseCount) {
     $('#verse-list-popup-loading-indicator').hide();
 
-    if (app_controller.getPlatform().isFullScreen()) {
+    if (getPlatform().isFullScreen()) {
       this.disableNewTabButton();
     } else {
       this.enableNewTabButton();
