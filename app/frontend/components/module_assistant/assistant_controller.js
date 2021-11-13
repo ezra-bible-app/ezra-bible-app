@@ -177,12 +177,17 @@ module.exports.updateRepositories = async function() {
 
   const MAX_FAILED_UPDATE_COUNT = 2;
   var failedUpdateCount = 0;
+  var successfulUpdateCount = 0;
   const repoUpdateStatus = await ipcNsi.updateRepositoryConfig(process => notifySubscribers('progressUpdate', process));
 
   for (let key in repoUpdateStatus) {
-    if (key != 'result' && repoUpdateStatus[key] == false) {
-      failedUpdateCount += 1;
-      console.warn("Repo update failed for " + key);
+    if (key != 'result') {
+      if (repoUpdateStatus[key] == false) {
+        failedUpdateCount += 1;
+        console.warn("Repo update failed for " + key);
+      } else {
+        successfulUpdateCount += 1;
+      }
     }
   }
 
@@ -191,7 +196,10 @@ module.exports.updateRepositories = async function() {
   }
 
   var overallStatus = 0;
-  if (failedUpdateCount > MAX_FAILED_UPDATE_COUNT) {
+
+  if (successfulUpdateCount == 0 || // This happens when there is no internet connection
+      failedUpdateCount > MAX_FAILED_UPDATE_COUNT) // This happens when too many individual repositories are offline
+  {
     overallStatus = -1;
   }
 
