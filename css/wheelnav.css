@@ -21,9 +21,14 @@ div.menuHolder {
   -moz-user-select: none;
   position: relative;
   z-index: 100;
-  top: -6.5em;
-  left: -9.8em;
+  top: -95px;
+  left: -140px;
   margin: 0;
+}
+
+.Android div.menuHolder {
+  top: -97px;
+  left: -138px;
 }
 
 div.info {

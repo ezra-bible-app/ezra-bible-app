@@ -222,7 +222,7 @@ h2:nth-of-type(1) {
   /* This is to ensure that there is enough space for the radial menu in fullscreen mode
      when it is used for the first verse of the verse list.
    */
-  padding-top: 2.2em;
+  padding-top: 4.2em;
 }
 
 .verse-list:not(.verse-list-with-section-titles) {
@@ -396,6 +396,11 @@ h2:nth-of-type(1) {
   border-top: 1px solid lightgrey;
   overflow-y: scroll;
   height: 375px;
+  margin: 0.5em;
+}
+
+#change-tags-box #tag-assignment-menu-taglist-overlay {
+  height: 375px !important;
   margin: 0.5em;
 }
 
