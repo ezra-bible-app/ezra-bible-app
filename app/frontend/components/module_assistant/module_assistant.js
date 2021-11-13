@@ -35,6 +35,7 @@ const template = html`
 <style>
 #module-settings-assistant {
   user-select: none;
+  overflow: hidden;
 }
 
 #module-settings-assistant > .container {

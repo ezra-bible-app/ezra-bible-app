@@ -1,5 +1,5 @@
 *, ::after, ::before {
-  box-sizing: unset !important;
+  box-sizing: initial !important;
 }
 
 @media (min-width: 1200px) {

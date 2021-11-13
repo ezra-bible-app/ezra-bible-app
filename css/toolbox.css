@@ -79,7 +79,7 @@
 
 #tags-content {
   height: 100%;
-  box-sizing: border-box;
+  box-sizing: border-box !important;
   padding: 0;
 }
 
@@ -111,7 +111,7 @@
 #dictionary-info-box-panel {
   clear: both;
   height: calc(100% - 2.6em) !important;  /* overwrite default jqueryUI Accordion */
-  box-sizing: border-box;
+  box-sizing: border-box !important;
   padding: 0.5em;
   margin: 0.1em 0 0 0;
 }
@@ -221,7 +221,7 @@ tr.td-underline td {
   padding: 0.5em;
   user-select: none;
   height: calc(100% - 2.6em);
-  box-sizing: border-box;
+  box-sizing: border-box !important;
 }
 
 .checkbox-tag {

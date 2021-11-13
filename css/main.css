@@ -79,17 +79,17 @@ input {
 }
 
 h1 {
-  padding-top: 0.5em;
-  font-size: 1.3em;
-  margin-left: 0.5em;
-  clear: both;
+  padding-top: 0.5em !important;
+  font-size: 1.3em !important;
+  margin-left: 0.5em !important;
+  clear: both !important;
 }
 
 h2 {
-  padding-top: 0.5em;
-  font-size: 1.2em;
-  margin-left: 0.5em;
-  clear: both;
+  padding-top: 0.5em !important;
+  font-size: 1.2em !important;
+  margin-left: 0.5em !important;
+  clear: both !important;
 }
 
 h2:nth-of-type(1) {
@@ -376,9 +376,12 @@ h2:nth-of-type(1) {
 }
 
 #change-tags-box {
-  width: 550px;
-  max-height: 500px;
   padding: unset !important;
+  overflow: hidden !important;
+}
+
+#change-tags-box .modal-dialog {
+  max-width: 600px !important;
 }
 
 #change-tags-box.ui-dialog-content {
@@ -560,7 +563,7 @@ h2:nth-of-type(1) {
 
 #app-container {
   position: relative;
-  box-sizing: border-box;
+  box-sizing: border-box !important;
   width: 100vw;
   height: 100vh;
   display: grid;
@@ -1248,9 +1251,9 @@ li.book-unavailable a:focus,
 
 #change-tags-box-content #tag-assignment-menu-filter {
   height: 6em;
-  padding-top: 1em;
   padding-left: 0.5em;
   padding-right: 0.5em;
+  margin-bottom: 1em;
 }
 
 #change-tags-box-content #tag-assignment-menu-taglist-overlay {
@@ -1275,6 +1278,7 @@ li.book-unavailable a:focus,
   padding-left: 0.5em;
   padding-top: 0.2em;
   padding-bottom: 0.2em;
+  margin-top: 0.5em;
 }
 
 #tag-assignment-menu-taglist,
@@ -1320,6 +1324,10 @@ li.book-unavailable a:focus,
 #tag-assignment-menu #tags-search-input, #change-tags-box #tags-search-input {
   float: none;
   width: 20em;
+}
+
+#change-tags-box #tags-search-input {
+  margin-top: 0.5em;
 }
 
 #module-search-menu {
