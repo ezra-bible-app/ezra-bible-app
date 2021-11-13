@@ -29,6 +29,9 @@
     "exact-phrase": "Exacte zin",
     "multi-word": "Meerdere woorden",
     "strongs": "Strongs nummer",
+    "whole-bible": "Whole Bible",
+    "ot": "Old Testament",
+    "nt": "New Testament",
     "extended-verse-boundaries": "Uitgebreide versgrenzen (Twee verzen)"
   },
   "module-assistant": {
@@ -52,7 +55,8 @@
     "add-modules": "Voeg {{module_type, accusative}} toe",
     "remove-modules": "Verwijder {{module_type, accusative}}",
     "languages": "Talen",
-    "repositories": "Depots",
+    "repository_singular": "Repository",
+    "repository_plural": "Depots",
     "installation": "Installatie",
     "removal": "Verwijdering",
     "update-data": {

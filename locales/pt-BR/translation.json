@@ -29,6 +29,9 @@
     "exact-phrase": "Frase exata",
     "multi-word": "Múltiplas palavras",
     "strongs": "Números de Strong",
+    "whole-bible": "Whole Bible",
+    "ot": "Old Testament",
+    "nt": "New Testament",
     "extended-verse-boundaries": "Limites do versículo estendido (dois versículos)"
   },
   "module-assistant": {
@@ -50,7 +53,8 @@
     "add-modules": "Adicionar {{module_type, accusative}}",
     "remove-modules": "Remover {{module_type, accusative}}",
     "languages": "Idioma",
-    "repositories": "Repositórios",
+    "repository_singular": "Repository",
+    "repository_plural": "Repositórios",
     "installation": "Instalação",
     "removal": "Remoção",
     "update-data": { 

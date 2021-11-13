@@ -212,6 +212,7 @@ class IpcNsi {
                                moduleCode,
                                searchTerm,
                                searchType,
+                               searchScope,
                                isCaseSensitive,
                                useExtendedVerseBoundaries) {
 
@@ -222,6 +223,7 @@ class IpcNsi {
                                                                  moduleCode,
                                                                  searchTerm,
                                                                  searchType,
+                                                                 searchScope,
                                                                  isCaseSensitive,
                                                                  useExtendedVerseBoundaries);
     return returnValue;

@@ -29,6 +29,9 @@
     "exact-phrase": "Точная фраза",
     "multi-word": "Несколько слов",
     "strongs": "По номеру Стронга",
+    "whole-bible": "Whole Bible",
+    "ot": "Old Testament",
+    "nt": "New Testament",
     "extended-verse-boundaries": "Расширенные границы стиха (два стиха)"
   },
   "module-assistant": {
@@ -52,7 +55,8 @@
     "add-modules": "Добавить {{module_type, accusative}}",
     "remove-modules": "Удалить {{module_type, accusative}}",
     "languages": "Языки",
-    "repositories": "Репозитории",
+    "repository_singular": "Repository",
+    "repository_plural": "Репозитории",
     "installation": "Установка",
     "removal": "Удаление",
     "update-data": { 

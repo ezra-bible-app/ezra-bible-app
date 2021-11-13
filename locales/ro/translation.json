@@ -29,6 +29,9 @@
     "exact-phrase": "Frază exactă",
     "multi-word": "Cuvinte multiple",
     "strongs": "Index de concordanță (Strong's)",
+    "whole-bible": "Whole Bible",
+    "ot": "Old Testament",
+    "nt": "New Testament",
     "extended-verse-boundaries": "Limite extinse pentru verset (Două versete)"
   },
   "module-assistant": {
@@ -50,7 +53,8 @@
     "add-modules": "Adaugă {{module_type, accusative}}",
     "remove-modules": "Dezinstalează {{module_type, accusative}}",
     "languages": "Limbi",
-    "repositories": "Depozite",
+    "repository_singular": "Repository",
+    "repository_plural": "Depozite",
     "installation": "Instalare",
     "removal": "Ștergere",
     "update-data": { 
