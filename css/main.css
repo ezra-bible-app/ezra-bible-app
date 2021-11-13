@@ -282,8 +282,14 @@ h2:nth-of-type(1) {
 
 .verse-reference-content {
   text-align: left;
+  margin-top: 0.15em;
   margin-left: 0.8em;
   width: 4em;
+  max-height: 1em;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #app-container.fullscreen .verse-reference-content {
