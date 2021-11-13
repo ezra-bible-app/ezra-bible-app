@@ -53,17 +53,6 @@ class TagAssignmentMenu {
       return;
     }
 
-    var changeTagDialogOptions = {
-      title: i18n.t('tags.change-tags'),
-      width: 550,
-      height: 700,
-      position: [60,180],
-      autoOpen: false,
-      dialogClass: 'ezra-dialog'
-    };
-
-    document.getElementById('change-tags-box').querySelector('.modal-title').innerText = i18n.t('tags.change-tags');
-
     //$('#change-tags-box').dialog(changeTagDialogOptions);
     this._changeTagPopupInitDone = true;
   }

@@ -50,10 +50,29 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"></h5>
+        <h5 class="modal-title" i18n="tags.change-tags"></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id="change-tags-box-content">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="new-standard-tag-dialog" class="modal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="new-standard-tag-dialog-title" i18n="tags.new-tag"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <span id="new-standard-tag-title-label" i18n="tags.title"></span>: <input id="new-standard-tag-title-input" type="text" maxlength="255" />
+        <emoji-button-trigger></emoji-button-trigger>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" i18n="general.cancel"></button>
+        <button type="button" class="btn btn-primary" id="create-tag-button" i18n="general.save"></button>
       </div>
     </div>
   </div>

@@ -93,28 +93,10 @@ class TagsController {
     }
 
     this.newTagDialogInitDone = true;
-
-    var new_standard_tag_dlg_options = {
-      title: i18n.t("tags.new-tag"),
-      width: 400,
-      position: [60,180],
-      autoOpen: false,
-      dialogClass: 'ezra-dialog'
-    };
   
-    new_standard_tag_dlg_options.buttons = {};
-    new_standard_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {
-      $(this).dialog("close");
-    };
-    new_standard_tag_dlg_options.buttons[i18n.t("tags.create-tag")] = {
-      id: 'create-tag-button',
-      text: i18n.t("tags.create-tag"),
-      click: function() {
-        tags_controller.saveNewTag(this, "standard");
-      }
-    };
-  
-    $('#new-standard-tag-dialog').dialog(new_standard_tag_dlg_options);
+    document.getElementById('create-tag-button').addEventListener('click', (event) => {
+      this.saveNewTag(this, "standard");
+    });
 
     // Handle the enter key in the tag title field and create the tag when it is pressed
     $('#new-standard-tag-title-input:not(.bound)').addClass('bound').on("keypress", async (event) => {
@@ -126,7 +108,7 @@ class TagsController {
           return;
         }
 
-        $('#new-standard-tag-dialog').dialog("close");
+        $('#new-standard-tag-dialog').modal("hide");
         tags_controller.saveNewTag(event, "standard");
       }
     }).on("keyup", async (event) => {
@@ -140,10 +122,10 @@ class TagsController {
     let tagButton = document.getElementById(buttonId);
 
     if (tag_existing || tagTitle == "") {
-      tagButton.classList.add('ui-state-disabled');
+      tagButton.classList.add('disabled');
       tagButton.setAttribute('disabled', true);
     } else {
-      tagButton.classList.remove('ui-state-disabled');
+      tagButton.classList.remove('disabled');
       tagButton.removeAttribute('disabled');
     }
 
@@ -294,7 +276,7 @@ class TagsController {
 
   async saveNewTag(e, type) {
     uiHelper.showTextLoadingIndicator();
-    $(e).dialog("close");
+    $('#new-standard-tag-dialog').modal("hide");
 
     await waitUntilIdle(); // Give the dialog some time to close
 
@@ -327,7 +309,8 @@ class TagsController {
 
     $tagInput.val(''); 
     this.updateButtonStateBasedOnTagTitleValidation('', 'create-tag-button');
-    $('#new-' + type + '-tag-dialog').dialog('open');
+    //$('#new-' + type + '-tag-dialog').dialog('open');
+    $('#new-' + type + '-tag-dialog').modal("show");
     $tagInput.focus();
   }
 
