@@ -682,6 +682,10 @@ main.content {
   max-inline-size: 41em;
 }
 
+.Android #book-selection-menu-chapter-list #chapter-list-chapters {
+  max-inline-size: 34em;
+}
+
 #book-selection-menu-chapter-list a {
   width: 2em;
   height: 2.5em;
