@@ -47,7 +47,7 @@ class TabController {
     this.verseBoxHelper = new VerseBoxHelper();
   }
 
-  init(tabsElement, tabsPanelClass, addTabElement, tabHtmlTemplate, onTabSelected, onTabAdded, defaultBibleTranslationId) {
+  init(tabsElement, tabsPanelClass, addTabElement, tabHtmlTemplate, defaultBibleTranslationId) {
     this.tabsElement = tabsElement;
     this.tabsPanelClass = tabsPanelClass;
     this.addTabElement = addTabElement;
@@ -330,7 +330,7 @@ class TabController {
     await waitUntilIdle();
 
     // Call this method explicitly to initialize the first tab
-    await eventController.publishAsync('on-tab-selected');
+    await eventController.publishAsync('on-tab-selected', 0);
 
     await waitUntilIdle();
 
