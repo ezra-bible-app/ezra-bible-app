@@ -61,6 +61,21 @@ class NotesController {
       // When switching tabs we need to end any note editing.
       this.restoreCurrentlyEditedNotes();
     });
+
+    eventController.subscribe('on-theme-changed', (theme) => {
+      switch (theme) {
+        case 'dark':
+          this.setDarkTheme();
+          break;
+
+        case 'regular':
+          this.setLightTheme();
+          break;
+
+        default:
+          console.error('Unknown theme ' + theme);
+      }
+    });
   }
 
   initForTab(tabIndex = undefined) {

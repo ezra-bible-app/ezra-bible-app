@@ -35,9 +35,12 @@
 /**
  * @typedef { "on-locale-changed" } I18nEvents
  */
+/**
+ * @typedef { "on-theme-changed" } AppEvents
+ */
 
 
 
 /**
- * @typedef { RepoUpdateEvents | BibleTextEvents | TabEvents | ModuleAssistantEvents | I18nEvents } EzraEvent
+ * @typedef { RepoUpdateEvents | BibleTextEvents | TabEvents | ModuleAssistantEvents | I18nEvents | AppEvents } EzraEvent
  */
