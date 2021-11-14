@@ -229,9 +229,9 @@ class BookSelectionMenu {
       bookMenu.classList.remove('select-chapter');
       this.book_menu_is_opened = false;
 
-      var bookButton = document.querySelector('#app-container .book-select-button');
+      var currentVerseListMenu = app_controller.getCurrentVerseListMenu()[0];
+      var bookButton = currentVerseListMenu.querySelector('.book-select-button');
       bookButton.classList.remove('ui-state-active');
-
     }
   }
 
