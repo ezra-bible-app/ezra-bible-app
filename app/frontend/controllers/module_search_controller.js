@@ -35,7 +35,7 @@ class ModuleSearchController {
     this.verseSearch = new VerseSearch();
     this.searchResultPerformanceLimit = platformHelper.getSearchResultPerformanceLimit();
 
-    eventController.subscribe('on-tab-selected', async () => {
+    eventController.subscribe('on-tab-selected', async (tabIndex) => {
       await waitUntilIdle();
 
       // Cancel any potentially ongoing module search
