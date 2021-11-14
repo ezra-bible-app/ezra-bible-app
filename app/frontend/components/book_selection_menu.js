@@ -76,6 +76,10 @@ class BookSelectionMenu {
       await this.updateAvailableBooks();
     });
 
+    eventController.subscribe('on-translation-added', async () => {
+      await this.updateAvailableBooks();
+    });
+
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
       var metaTab = app_controller.tab_controller.getTab(tabIndex);
 

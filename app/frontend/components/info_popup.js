@@ -41,6 +41,10 @@ class InfoPopup {
     eventController.subscribe('on-all-translations-removed', () => {
       this.disableCurrentAppInfoButton();
     });
+
+    eventController.subscribe('on-translation-added', () => {
+      this.enableCurrentAppInfoButton();
+    });
   }
 
   initAppInfoButton() {

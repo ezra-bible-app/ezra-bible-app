@@ -109,6 +109,15 @@ class TabController {
       this.onTranslationRemoved(translationId, installedTranslations);
     });
 
+    eventController.subscribe('on-translation-added', (translationCode) => {
+      var currentBibleTranslationId = this.getTab().getBibleTranslationId();
+      if (currentBibleTranslationId == "" || 
+          currentBibleTranslationId == null) { // Update UI after a Bible translation becomes available
+  
+        this.setCurrentBibleTranslationId(translationCode);
+      }
+    });
+
     eventController.subscribe('on-all-translations-removed', async () => {
       await this.reset();
     });

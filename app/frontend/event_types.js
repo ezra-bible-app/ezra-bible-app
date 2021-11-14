@@ -30,7 +30,7 @@
  * @typedef { "on-tab-selected" | "on-tab-added" } TabEvents
  */
 /**
- * @typedef { "on-all-translations-removed" | "on-translation-removed" } ModuleAssistantEvents
+ * @typedef { "on-all-translations-removed" | "on-translation-removed" | "on-translation-added" } ModuleAssistantEvents
  */
 /**
  * @typedef { "on-locale-changed" } I18nEvents

@@ -20,6 +20,7 @@
 const { html, sleep } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
+const eventController = require('../../controllers/event_controller.js');
 
 const template = html`
 <style>
@@ -182,7 +183,7 @@ class StepInstall extends HTMLElement {
       
       // FIXME: Put this in a callback
       if (assistantController.get('moduleType') == 'BIBLE') {
-        await app_controller.updateUiAfterBibleTranslationAvailable(moduleCode);
+        await eventController.publishAsync('on-translation-added', moduleCode);
       }
 
       if (assistantController.get('moduleType') == 'BIBLE' && swordModule.hasStrongs && !strongsAvailable) {

@@ -104,10 +104,6 @@ class AppController {
 
     this.initGlobalShortCuts();
 
-    eventController.subscribe('on-all-translations-removed', async () => {
-      await this.onAllTranslationsRemoved();
-    });
-
     await this.book_selection_menu.init();
 
     var bibleTranslations = await ipcNsi.getAllLocalModules();
@@ -122,6 +118,10 @@ class AppController {
                              'add-tab-button',
                              this.tabHtmlTemplate,
                              defaultBibleTranslationId);
+    
+    eventController.subscribe('on-all-translations-removed', async () => {
+      await this.onAllTranslationsRemoved();
+    });
 
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => {
       await this.onTabSelected(tabIndex);
@@ -851,17 +851,6 @@ class AppController {
     }
 
     this.docxExport.disableExportButton();
-  }
-
-  async updateUiAfterBibleTranslationAvailable(translationCode) {
-    var currentBibleTranslationId = this.tab_controller.getTab().getBibleTranslationId();
-    if (currentBibleTranslationId == "" || 
-        currentBibleTranslationId == null) { // Update UI after a Bible translation becomes available
-
-      this.tab_controller.setCurrentBibleTranslationId(translationCode);
-      await this.book_selection_menu.updateAvailableBooks();
-      this.info_popup.enableCurrentAppInfoButton();
-    }
   }
 
   openModuleSettingsAssistant(moduleType) {
