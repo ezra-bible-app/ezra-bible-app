@@ -29,6 +29,9 @@
     "exact-phrase": "Exakter Ausdruck",
     "multi-word": "Mehrere Worte",
     "strongs": "Strongs Nr.",
+    "whole-bible": "Whole Bible",
+    "ot": "Old Testament",
+    "nt": "New Testament",
     "extended-verse-boundaries": "Erweiterte Versgrenzen (Zwei Verse)"
   },
   "module-assistant": {
@@ -46,7 +49,8 @@
     "add-modules": "{{module_type, accusative}} hinzufügen",
     "remove-modules": "{{module_type, accusative}} entfernen",
     "languages": "Sprachen",
-    "repositories": "Modularchive",
+    "repository_singular": "Modularchiv",
+    "repository_plural": "Modularchive",
     "installation": "Installation",
     "removal": "Entfernen",
     "update-data": { 

@@ -75,17 +75,6 @@ class AppController {
   async init() {
     this.tabHtmlTemplate = $($('.verse-list-container')[0]).html();
 
-    if (platformHelper.isElectron()) {
-      this.settings = require('electron-settings');
-    } else {
-      this.settings = {
-        has: function() { return false; },
-        get: function() { return null; },
-        set: function() { return; },
-        delete: function() { return; }
-      };
-    }
-
     this.init_component("VerseBoxHelper", "verse_box_helper");
     this.init_component("VerseSelection", "verse_selection");
     this.init_component("TagSelectionMenu", "tag_selection_menu");
@@ -131,7 +120,6 @@ class AppController {
     this.tab_controller.init('verse-list-tabs',
                              'verse-list-container',
                              'add-tab-button',
-                             this.settings,
                              this.tabHtmlTemplate,
                              defaultBibleTranslationId);
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => {
@@ -606,6 +594,8 @@ class AppController {
   bindXrefEvents(tabIndex=undefined) {
     var verseList = this.getCurrentVerseList(tabIndex);
     var xref_markers = verseList.find('.sword-xref-marker');
+
+    xref_markers.unbind();
     
     xref_markers.bind('mousedown', async (event) => {
       await this.handleReferenceClick(event);

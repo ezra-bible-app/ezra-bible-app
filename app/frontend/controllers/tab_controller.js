@@ -47,11 +47,10 @@ class TabController {
     this.verseBoxHelper = new VerseBoxHelper();
   }
 
-  init(tabsElement, tabsPanelClass, addTabElement, settings, tabHtmlTemplate, defaultBibleTranslationId) {
+  init(tabsElement, tabsPanelClass, addTabElement, tabHtmlTemplate, onTabSelected, onTabAdded, defaultBibleTranslationId) {
     this.tabsElement = tabsElement;
     this.tabsPanelClass = tabsPanelClass;
     this.addTabElement = addTabElement;
-    this.settings = settings;
     this.tabHtmlTemplate = tabHtmlTemplate;
     this.defaultBibleTranslationId = defaultBibleTranslationId;
     this.initFirstTab();

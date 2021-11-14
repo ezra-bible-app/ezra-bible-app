@@ -29,6 +29,9 @@
     "exact-phrase": "Presná fráza",
     "multi-word": "Viac slov",
     "strongs": "Strongove číslo",
+    "whole-bible": "Whole Bible",
+    "ot": "Old Testament",
+    "nt": "New Testament",
     "extended-verse-boundaries": "Rozšírené hranice veršov (dva verše)"
   },
   "module-assistant": {
@@ -50,7 +53,8 @@
     "add-modules": "Pridať {{module_type, accusative}}",
     "remove-modules": "Odstrániť {{module_type, accusative}}",
     "languages": "Jazyky",
-    "repositories": "Archívy",
+    "repository_singular": "Repository",
+    "repository_plural": "Archívy",
     "installation": "Inštalácia",
     "removal": "Odstránenie",
     "update-data": { 
