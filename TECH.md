@@ -18,10 +18,11 @@ Furthermore, the following components are used (among others):
 * [fontawesome](https://fontawesome.com/) for the icon set
 * [fuse.js](https://fusejs.io) for fuzzy (approximate) search algorithm
 
-To test Ezra Bible App, the following components are used:
+To test Ezra Bible App, the following frameworks are used:
 * [Cucumber.js](https://github.com/cucumber/cucumber-js)
 * [Chai](https://www.chaijs.com/)
 * [Spectron](https://www.electronjs.org/spectron)
+* [Jest](https://jestjs.io)
 
 To package Ezra Bible App, the following components are used:
 * [electron-packager](https://github.com/electron/electron-packager)
