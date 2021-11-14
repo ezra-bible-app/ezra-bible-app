@@ -160,7 +160,9 @@ module.exports.updateRepositories = async function() {
   const MAX_FAILED_UPDATE_COUNT = 2;
   var failedUpdateCount = 0;
   var successfulUpdateCount = 0;
-  const repoUpdateStatus = await ipcNsi.updateRepositoryConfig(process => notifySubscribers('progressUpdate', process));
+  const repoUpdateStatus = await ipcNsi.updateRepositoryConfig(async (progress) => { 
+    await eventController.publishAsync('on-repo-update-progress', progress);
+  });
 
   for (let key in repoUpdateStatus) {
     if (key != 'result') {
