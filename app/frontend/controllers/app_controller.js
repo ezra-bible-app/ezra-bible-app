@@ -122,6 +122,7 @@ class AppController {
                              'add-tab-button',
                              this.tabHtmlTemplate,
                              defaultBibleTranslationId);
+
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => {
       await this.onTabSelected(tabIndex);
     });
