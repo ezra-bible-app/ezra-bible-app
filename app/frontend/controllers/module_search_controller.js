@@ -34,6 +34,23 @@ class ModuleSearchController {
     this.search_menu_opened = false;
     this.verseSearch = new VerseSearch();
     this.searchResultPerformanceLimit = platformHelper.getSearchResultPerformanceLimit();
+
+    eventController.subscribe('on-tab-selected', async () => {
+      await waitUntilIdle();
+
+      // Cancel any potentially ongoing module search
+      this.cancelModuleSearch();
+
+      // Populate search menu based on last search (if any)
+      this.populateSearchMenu(tabIndex);
+    });
+
+    eventController.subscribe('on-tab-added', async (tabIndex) => {
+      // Cancel any potentially ongoing module search
+      await this.cancelModuleSearch();
+
+      this.initModuleSearch(tabIndex);
+    });
   }
 
   initModuleSearch(tabIndex=undefined) {
@@ -62,23 +79,6 @@ class ModuleSearchController {
 
     cancelSearchButton[0].addEventListener('mousedown', async () => {
       this.cancelModuleSearch();
-    });
-
-    eventController.subscribe('on-tab-selected', async () => {
-      await waitUntilIdle();
-
-      // Cancel any potentially ongoing module search
-      this.cancelModuleSearch();
-
-      // Populate search menu based on last search (if any)
-      this.populateSearchMenu(tabIndex);
-    });
-
-    eventController.subscribe('on-tab-added', async (tabIndex) => {
-      // Cancel any potentially ongoing module search
-      await this.cancelModuleSearch();
-
-      this.initModuleSearch(tabIndex);
     });
   }
 
