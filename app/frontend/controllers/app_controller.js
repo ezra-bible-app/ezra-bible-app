@@ -716,6 +716,8 @@ class AppController {
   bindXrefEvents(tabIndex=undefined) {
     var verseList = this.getCurrentVerseList(tabIndex);
     var xref_markers = verseList.find('.sword-xref-marker');
+
+    xref_markers.unbind();
     
     xref_markers.bind('mousedown', async (event) => {
       await this.handleReferenceClick(event);
