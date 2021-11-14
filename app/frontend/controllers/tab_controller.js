@@ -603,9 +603,17 @@ class TabController {
     }
   }
 
+  /**
+   * @param {Number} index The tab index of the requested Tab
+   * @returns @type Tab
+   */
   getTab(index = undefined) {
     if (index === undefined) {
       var index = this.getSelectedTabIndex();
+    }
+
+    if (index >= this.metaTabs.length) {
+      index = this.metaTabs.length - 1;
     }
 
     return this.metaTabs[index];
