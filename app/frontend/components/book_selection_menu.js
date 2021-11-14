@@ -72,7 +72,7 @@ class BookSelectionMenu {
   }
 
   subscribeForEvents() {
-    eventController.subscribe('on-bible-translation-changed', async () => {
+    eventController.subscribe('on-translation-changed', async () => {
       await this.updateAvailableBooks();
     });
 

@@ -230,7 +230,7 @@ class TranslationController {
         app_controller.tab_controller.refreshBibleTranslationInTabTitle(newBibleTranslationId);
 
         setTimeout(() => {
-          eventController.publish('on-bible-translation-changed', {from: oldBibleTranslationId, to: newBibleTranslationId});
+          eventController.publish('on-translation-changed', {from: oldBibleTranslationId, to: newBibleTranslationId});
         }, 50);
       }
     });

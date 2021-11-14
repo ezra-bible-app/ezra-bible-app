@@ -102,7 +102,7 @@ class TabController {
       await this.updateTabTitlesAfterLocaleChange();
     });
 
-    eventController.subscribe('on-bible-translation-changed', async (data) => await this.onBibleTranslationChanged(data));
+    eventController.subscribe('on-translation-changed', async (data) => await this.onBibleTranslationChanged(data));
 
     eventController.subscribe('on-translation-removed', async (translationId) => {
       var installedTranslations = await app_controller.translation_controller.getInstalledModules();

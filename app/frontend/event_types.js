@@ -24,7 +24,7 @@
  * @typedef { "on-repo-update-started" | "on-repo-update-progress" | "on-repo-update-completed" } RepoUpdateEvents
  */
 /**
- * @typedef { "on-bible-text-loaded" | "on-bible-translation-changed" } BibleTextEvents
+ * @typedef { "on-bible-text-loaded" | "on-translation-changed" } BibleTextEvents
  */
 /**
  * @typedef { "on-tab-selected" | "on-tab-added" } TabEvents
