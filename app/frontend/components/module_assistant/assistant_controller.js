@@ -143,7 +143,7 @@ module.exports.setInstallDone = () => moduleInstallStatus = 'DONE';
 // *** Functions to deal with repository data update ****************************
 
 module.exports.resetRepositoryUpdateSubscribers = function() {
-  eventController.unsubscribeAll(/on-[^-]+-repo-update/);
+  eventController.unsubscribeAll(/on-repo-update-.+$/);
 };
 
 
