@@ -136,44 +136,6 @@ class AppController {
     });
   }
 
-  async onTabSearchResultsAvailable(occurances) {
-    // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
-    await this.dictionary_controller.bindAfterBibleTextLoaded();
-
-    var currentVerseListFrame = this.getCurrentVerseListFrame();
-    var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
-
-    var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
-
-    // Highlight occurances in navigation pane
-    for (var i = 0; i < occurances.length; i++) {
-      var currentOccurance = $(occurances[i]);
-      var verseBox = currentOccurance.closest('.verse-box');
-      var currentTab = this.tab_controller.getTab();
-      var currentTextType = currentTab.getTextType();
-
-      if (currentTextType == 'book') {
-        // Highlight chapter if we are searching in a book
-
-        var verseReferenceContent = verseBox.find('.verse-reference-content').text();
-        var chapter = this.getChapterFromReference(verseReferenceContent, separator);
-        this.navigation_pane.highlightSearchResult(chapter);
-
-      } else {
-
-        // Highlight bible book if we are searching in a tagged verses list
-        var currentBibleBookShortName = new VerseBox(verseBox[0]).getBibleBookShortTitle();
-        var currentBookName = await ipcDb.getBookTitleTranslation(currentBibleBookShortName);
-
-        var bibleBookNumber = this.getVerseListBookNumber(currentBookName, bookHeaders);
-        if (bibleBookNumber != -1) {
-          this.navigation_pane.highlightSearchResult(bibleBookNumber, "OTHER");
-        }
-      }
-    }
-  }
-
   onTabSearchReset() {
     this.navigation_pane.clearHighlightedSearchResults();
 
@@ -218,7 +180,6 @@ class AppController {
         '.tab-search-next',
         '.tab-search-is-case-sensitive',
         '.tab-search-type',
-        async (occurances) => { await this.onTabSearchResultsAvailable(occurances); },
         () => { this.onTabSearchReset(); }
       );
   

@@ -42,13 +42,17 @@ class NavigationPane {
         this.scrollToTop(tabIndex);
       }
     });
+
+    eventController.subscribe('on-tab-search-results-available', async occurrences => {
+      await this.onTabSearchResultsAvailable(occurrences);
+    });
   }
 
   getCurrentNavigationPane(tabIndex=undefined) {
     var currentVerseListTabs = app_controller.getCurrentVerseListTabs(tabIndex);
     var navigationPane = currentVerseListTabs.find('.navigation-pane');
     return navigationPane;
-  };
+  }
 
   show(tabIndex) {
     var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
@@ -510,6 +514,42 @@ class NavigationPane {
       var bibleBookNumber = app_controller.getVerseListBookNumber(currentBookName);
       if (bibleBookNumber != -1) {
         this.highlightNavElement(undefined, bibleBookNumber, false, "OTHER");
+      }
+    }
+  }
+
+  async onTabSearchResultsAvailable(occurrences) {
+
+    var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
+    var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
+
+    var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    var separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
+
+    // Highlight occurrences in navigation pane
+    for (var i = 0; i < occurrences.length; i++) {
+      var currentOccurrences = $(occurrences[i]);
+      var verseBox = currentOccurrences.closest('.verse-box');
+      var currentTab = app_controller.tab_controller.getTab();
+      var currentTextType = currentTab.getTextType();
+
+      if (currentTextType == 'book') {
+        // Highlight chapter if we are searching in a book
+
+        var verseReferenceContent = verseBox.find('.verse-reference-content').text();
+        var chapter = app_controller.getChapterFromReference(verseReferenceContent, separator);
+        this.highlightSearchResult(chapter);
+
+      } else {
+
+        // Highlight bible book if we are searching in a tagged verses list
+        var currentBibleBookShortName = new VerseBox(verseBox[0]).getBibleBookShortTitle();
+        var currentBookName = await ipcDb.getBookTitleTranslation(currentBibleBookShortName);
+
+        var bibleBookNumber = app_controller.getVerseListBookNumber(currentBookName, bookHeaders);
+        if (bibleBookNumber != -1) {
+          this.highlightSearchResult(bibleBookNumber, "OTHER");
+        }
       }
     }
   }

@@ -18,6 +18,7 @@
 
 const VerseSearch = require('./verse_search.js');
 const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
+const eventController = require('../../controllers/event_controller.js');
 
 /**
  * The TabSearch component implements the in-tab search functionality which is enabled with CTRL + f / CMD + f.
@@ -36,7 +37,6 @@ class TabSearch {
        nextButton,
        caseSensitiveCheckbox,
        searchTypeSelect,
-       onSearchResultsAvailable,
        onSearchReset) {
 
     this.parentTab = parentTab;
@@ -52,7 +52,6 @@ class TabSearch {
     this.allOccurances = [];
     this.previousOccuranceElement = null;
     this.currentOccuranceElement = null;
-    this.onSearchResultsAvailable = onSearchResultsAvailable;
     this.onSearchReset = onSearchReset;
     this.lastSearchString = null;
     this.mouseTrapEvent = false;
@@ -336,7 +335,7 @@ class TabSearch {
       this.resetOccurances();
     }
 
-    await this.onSearchResultsAvailable(this.allOccurances);
+    await eventController.publishAsync('on-on-tab-search-results-available', this.allOccurances);
   }
 
   removeAllHighlighting() {

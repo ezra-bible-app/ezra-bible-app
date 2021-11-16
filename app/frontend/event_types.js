@@ -21,16 +21,19 @@
 // For consistency event name should be a string in-kebab-case with the following template: "on-[(optional)object]-[action]"
 
 /**
- * @typedef { "on-repo-update-started" | "on-repo-update-progress" | "on-repo-update-completed" } RepoUpdateEvents
- */
-/**
  * @typedef { "on-bible-text-loaded" | "on-translation-changed" } BibleTextEvents
  */
 /**
  * @typedef { "on-tab-selected" | "on-tab-added" } TabEvents
  */
 /**
+ * @typedef { "on-tab-search-results-available" | "on-tab-search-reset" } TabSearchEvents
+ */
+/**
  * @typedef { "on-all-translations-removed" | "on-translation-removed" | "on-translation-added" } ModuleAssistantEvents
+ */
+/**
+ * @typedef { "on-repo-update-started" | "on-repo-update-progress" | "on-repo-update-completed" } RepoUpdateEvents
  */
 /**
  * @typedef { "on-locale-changed" } I18nEvents
@@ -42,5 +45,5 @@
 
 
 /**
- * @typedef { RepoUpdateEvents | BibleTextEvents | TabEvents | ModuleAssistantEvents | I18nEvents | AppEvents } EzraEvent
+ * @typedef { BibleTextEvents | TabEvents | TabSearchEvents | ModuleAssistantEvents | RepoUpdateEvents | I18nEvents | AppEvents } EzraEvent
  */

@@ -294,7 +294,6 @@ class Tab {
       '.tab-search-next',
       '.tab-search-is-case-sensitive',
       '.tab-search-type',
-      async (occurrences) => { await app_controller.onTabSearchResultsAvailable(occurrences); },
       () => { app_controller.onTabSearchReset(); }
     );
   }
