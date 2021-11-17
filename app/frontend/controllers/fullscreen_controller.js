@@ -18,7 +18,7 @@
 
 const Mousetrap = require('mousetrap');
 const { getPlatform } = require('../helpers/ezra_helper.js');
-const wheelnavController = require('../controllers/wheelnav_controller.js');
+const eventController = require('../controllers/event_controller.js');
 
 /**
  * This controller handles the fullscreen toggling of the app.
@@ -45,7 +45,7 @@ module.exports.init = function() {
       toggleFullScreen();
     });
   }
-}
+};
 
 function toggleFullScreen() {
   var platform = getPlatform();
@@ -56,29 +56,24 @@ function toggleFullScreen() {
 
 function onFullscreenChanged() {
   var platform = getPlatform();
+  var isFullScreen = platform.isFullScreen();
+
+  eventController.publish('on-fullscreen-changed', isFullScreen);
+  
   const fullScreenButton = document.getElementById('app-container').querySelector('.fullscreen-button');
 
-  if (platform.isFullScreen()) {
+  if (isFullScreen) {
     fullScreenButton.setAttribute('title', i18n.t('menu.exit-fullscreen'));
     fullScreenButton.firstElementChild.classList.add('fa-compress');
     fullScreenButton.firstElementChild.classList.remove('fa-expand');
-    app_controller.verse_list_popup.disableNewTabButton();
-    wheelnavController.bindEvents();
-    document.getElementById('app-container').classList.add('fullscreen');
 
-    if (!app_controller.optionsMenu._tagListOption.isChecked) {
-      app_controller.tag_assignment_menu.moveTagAssignmentList("POPUP");
-    }
+    document.getElementById('app-container').classList.add('fullscreen');    
+
   } else {
     fullScreenButton.setAttribute('title', i18n.t('menu.fullscreen'));
     fullScreenButton.firstElementChild.classList.add('fa-expand');
     fullScreenButton.firstElementChild.classList.remove('fa-compress');
-    app_controller.verse_list_popup.enableNewTabButton();
-    wheelnavController.unbindAndClose();
-    document.getElementById('app-container').classList.remove('fullscreen');
 
-    if (!app_controller.optionsMenu._tagListOption.isChecked) {
-      app_controller.tag_assignment_menu.moveTagAssignmentList("PREVIOUS");
-    }
-  }    
+    document.getElementById('app-container').classList.remove('fullscreen');
+  }
 }

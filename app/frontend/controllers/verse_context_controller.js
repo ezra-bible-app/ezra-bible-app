@@ -17,12 +17,17 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const VerseBox = require('../ui_models/verse_box.js');
+const eventController = require('./event_controller.js');
 
 class VerseContextController {
 
   constructor() {
     this.context_verse = null;
     this.current_mouseover_verse_reference = null;
+
+    eventController.subscribe('on-tab-selected', () => {
+      this.hide_verse_expand_box();
+    });
   }
 
   initButtonEvents() {

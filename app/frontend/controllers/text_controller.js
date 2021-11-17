@@ -22,6 +22,7 @@ const i18nHelper = require('../helpers/i18n_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const VerseReferenceHelper = require('../helpers/verse_reference_helper.js');
 const Verse = require('../ui_models/verse.js');
+const eventController = require('../controllers/event_controller.js');
 
 /**
  * The TextController is used to load bible text into the text area of a tab.
@@ -778,8 +779,12 @@ class TextController {
       listType == 'book' && append ||
       !isInstantLoadingBook) {
 
-      app_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
-      await app_controller.initApplicationForVerseList(tabIndex);
+      var selectedTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+      if (tabIndex === undefined) {
+        tabIndex = selectedTabIndex;
+      }
+
+      await eventController.publishAsync('on-bible-text-loaded', tabIndex);
       uiHelper.hideTextLoadingIndicator();
     }
   }

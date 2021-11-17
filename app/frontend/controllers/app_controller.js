@@ -46,6 +46,7 @@ const TextSizeSettings = require("../components/text_size_settings.js");
 const VerseStatisticsChart = require('../components/verse_statistics_chart.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
+const eventController = require('../controllers/event_controller.js');
 const wheelnavController = require('../controllers/wheelnav_controller.js');
 const fullscreenController = require('../controllers/fullscreen_controller.js');
 
@@ -106,13 +107,6 @@ class AppController {
 
     this.initGlobalShortCuts();
 
-    this.translation_controller.init(async (oldBibleTranslationId, newBibleTranslationId) => {
-      await this.onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId);
-    });
-
-    this.moduleAssistant.initCallbacks(async () => { await this.onAllTranslationsRemoved(); },
-                                       async (translationId) => { await this.onTranslationRemoved(translationId); });
-
     await this.book_selection_menu.init();
 
     var bibleTranslations = await ipcNsi.getAllLocalModules();
@@ -122,15 +116,15 @@ class AppController {
       defaultBibleTranslationId = bibleTranslations[0].name;
     }
 
-    this.tab_controller.init('verse-list-tabs',
-                             'verse-list-container',
-                             'add-tab-button',
-                             this.tabHtmlTemplate,
-                             (event = undefined, ui = { 'index' : 0}) => { this.onTabSelected(event, ui); },
-                             async (previousTabIndex, tabIndex) => { await this.onTabAdded(previousTabIndex, tabIndex); },
-                             defaultBibleTranslationId);
+    this.tab_controller.init('verse-list-tabs', 'verse-list-container', 'add-tab-button', this.tabHtmlTemplate, defaultBibleTranslationId);
     
     fullscreenController.init();
+    wheelnavController.init();
+
+    eventController.subscribe('on-all-translations-removed', async () => { await this.onAllTranslationsRemoved(); });
+    eventController.subscribe('on-tab-selected', async (tabIndex=0) => { await this.onTabSelected(tabIndex); });
+    eventController.subscribe('on-tab-added', (tabIndex) => { this.onTabAdded(tabIndex); });
+    eventController.subscribe('on-bible-text-loaded', (tabIndex) => { this.bindEventsAfterBibleTextLoaded(tabIndex); });
   }
 
   initVerseButtons(tabIndex=undefined) {
@@ -177,142 +171,31 @@ class AppController {
     copyButton.classList.add('ui-state-disabled');
   }
 
-  async onTabSearchResultsAvailable(occurances) {
-    // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
-    await this.dictionary_controller.bindAfterBibleTextLoaded();
-
-    var currentVerseListFrame = this.getCurrentVerseListFrame();
-    var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
-
-    var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
-
-    // Highlight occurances in navigation pane
-    for (var i = 0; i < occurances.length; i++) {
-      var currentOccurance = $(occurances[i]);
-      var verseBox = currentOccurance.closest('.verse-box');
-      var currentTab = this.tab_controller.getTab();
-      var currentTextType = currentTab.getTextType();
-
-      if (currentTextType == 'book') {
-        // Highlight chapter if we are searching in a book
-
-        var verseReferenceContent = verseBox.find('.verse-reference-content').text();
-        var chapter = this.getChapterFromReference(verseReferenceContent, separator);
-        this.navigation_pane.highlightSearchResult(chapter);
-
-      } else {
-
-        // Highlight bible book if we are searching in a tagged verses list
-        var currentBibleBookShortName = new VerseBox(verseBox[0]).getBibleBookShortTitle();
-        var currentBookName = await ipcDb.getBookTitleTranslation(currentBibleBookShortName);
-
-        var bibleBookNumber = this.getVerseListBookNumber(currentBookName, bookHeaders);
-        if (bibleBookNumber != -1) {
-          this.navigation_pane.highlightSearchResult(bibleBookNumber, "OTHER");
-        }
-      }
-    }
-  }
-
-  onTabSearchReset() {
-    this.navigation_pane.clearHighlightedSearchResults();
-
-    // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
-    this.dictionary_controller.bindAfterBibleTextLoaded();
-  }
-
-  // eslint-disable-next-line no-unused-vars
-  async onTabSelected(event = undefined, ui = { 'index' : 0}) {
-    await waitUntilIdle();
-
-    // Cancel any potentially ongoing module search
-    await this.module_search_controller.cancelModuleSearch();
-
-    var metaTab = this.tab_controller.getTab(ui.index);
+  async onTabSelected(tabIndex=0) {
+    var metaTab = this.tab_controller.getTab(tabIndex);
 
     if (metaTab != null && metaTab.selectCount >= 2) {
-      // Only perform the following actions from the 2nd select (The first is done when the tab is created)
-
+      // Only perform the following action from the 2nd select (The first is done when the tab is created)
       this.hideAllMenus();
-      this.book_selection_menu.clearSelectedBookInMenu();
     }
 
-    // Refresh the view based on the options selected
-    await this.optionsMenu.refreshViewBasedOnOptions(ui.index);
-
-    // When switching tabs we need to end any note editing.
-    this.notes_controller.restoreCurrentlyEditedNotes();
-
     // Re-configure tab search
-    var currentVerseList = this.getCurrentVerseList(ui.index);
+    var currentVerseList = this.getCurrentVerseList(tabIndex);
     if (metaTab != null && metaTab.tab_search != null) {
       metaTab.tab_search.setVerseList(currentVerseList);
     }
 
-    // Clear verse selection
-    this.verse_selection.clear_verse_selection(true, ui.index);
-
-    // Refresh tags view
-    // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
-    tags_controller.verses_were_selected_before = true;
-    await tags_controller.updateTagsView(ui.index);
-
-    // Refresh tags selection menu (It's global!)
-    await this.tag_selection_menu.updateTagSelectionMenu(ui.index);
-
-    // Update available books for current translation
-    await this.book_selection_menu.updateAvailableBooks(ui.index);
-
-    // Refresh translations menu
-    await this.translation_controller.initTranslationsMenu(-1, ui.index);
-
-    // Highlight currently selected book (only in book mode)
-    if (metaTab != null) {
-      var textType = metaTab.getTextType();
-      if (textType == 'book') this.book_selection_menu.highlightCurrentlySelectedBookInMenu(ui.index);
-    }
-
-    // Refresh 'assign last tag' button
-    this.assign_last_tag_button.init(ui.index);
-
-    // Toggle book statistics
-    this.tag_statistics.toggleBookTagStatisticsButton(ui.index);
-
-    // Populate search menu based on last search (if any)
-    this.module_search_controller.populateSearchMenu(ui.index);
-
-    // Hide elements present from previous tab's usage
-    this.dictionary_controller.hideStrongsBox();
-    this.verse_context_controller.hide_verse_expand_box();
-
     uiHelper.configureButtonStyles('.verse-list-menu');
   }
 
-  async onTabAdded(previousTabIndex, tabIndex=0) {
+  async onTabAdded(tabIndex=0) {
     this.hideAllMenus();
-
-    // Cancel any potentially ongoing module search
-    await this.module_search_controller.cancelModuleSearch();
-
-    // Refresh the view based on the options selected
-    await this.optionsMenu.refreshViewBasedOnOptions(tabIndex);
     
     await this.initCurrentVerseListMenu(tabIndex);
-    this.tag_selection_menu.init(tabIndex);
-    this.tag_assignment_menu.init(tabIndex);
-    this.module_search_controller.initModuleSearch(tabIndex);
-    this.info_popup.initAppInfoButton();
-    this.textSizeSettings.init(tabIndex);
     
     var currentTab = this.tab_controller.getTab(tabIndex);
 
     if (currentTab) {
-      const currentBibleTranslationId = currentTab.getBibleTranslationId();
-      if (currentBibleTranslationId != null) {
-        this.info_popup.enableCurrentAppInfoButton(tabIndex);
-      }
-
       const verseListContainer = this.getCurrentVerseListFrame(tabIndex).parent();
 
       currentTab.tab_search = new TabSearch();
@@ -325,82 +208,17 @@ class AppController {
         '.tab-search-next',
         '.tab-search-is-case-sensitive',
         '.tab-search-type',
-        async (occurances) => { await this.onTabSearchResultsAvailable(occurances); },
-        () => { this.onTabSearchReset(); }
       );
   
-    }
-
-    this.optionsMenu.initCurrentOptionsMenu(tabIndex);
-    this.book_selection_menu.clearSelectedBookInMenu();
-
-    // We need to refresh the last used tag button, because the button is not yet initialized in the tab html template
-    app_controller.assign_last_tag_button.onLatestUsedTagChanged(undefined, undefined);
-  }
-
-  async onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId) {
-    var currentTab = this.tab_controller.getTab();
-
-    // The tab search is not valid anymore if the translation is changing. Therefore we reset it.
-    if (currentTab.tab_search != null) {
-      currentTab.tab_search.resetSearch();
-    }
-
-    var isInstantLoadingBook = true;
-
-    if (currentTab.getTextType() == 'book') {
-      // We set the previous book to the current book. This will be used in NavigationPane to avoid reloading the chapter list.
-      currentTab.setPreviousBook(currentTab.getBook());
-
-      isInstantLoadingBook = await this.translation_controller.isInstantLoadingBook(newBibleTranslationId, currentTab.getBook());
-    }
-
-    if (currentTab.getTextType() == 'search_results') {
-      await this.text_controller.prepareForNewText(true, true);
-      this.module_search_controller.startSearch(null, this.tab_controller.getSelectedTabIndex(), currentTab.getSearchTerm());
-    } else {
-      if (!this.tab_controller.isCurrentTabEmpty()) {
-        await this.text_controller.prepareForNewText(false, false);
-        await this.text_controller.requestTextUpdate(
-          this.tab_controller.getSelectedTabId(),
-          currentTab.getBook(),
-          currentTab.getTagIdList(),
-          null,
-          null,
-          null,
-          currentTab.getXrefs(),
-          currentTab.getChapter(),
-          isInstantLoadingBook
-        );
-
-        if (currentTab.getReferenceVerseElementId() != null) {
-          await this.updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId);
-        }
-
-        if (currentTab.getTextType() == 'book') {
-          this.tag_statistics.highlightFrequentlyUsedTags();
-        }
-      }
     }
   }
 
   // Re-init application to state without Bible translations
   async onAllTranslationsRemoved() {
-    await this.tab_controller.reset();
     this.resetVerseListView();
     this.hideVerseListLoadingIndicator();
     this.getCurrentVerseList().append("<div class='help-text'>" + i18n.t("help.help-text-no-translations") + "</div>");
-    this.info_popup.disableCurrentAppInfoButton();
-    this.verse_selection.clear_verse_selection();
     $('.book-select-value').text(i18n.t("menu.book"));
-  }
-
-  async onTranslationRemoved(translationId) {
-    $("select#bible-select").empty();
-    await this.translation_controller.initTranslationsMenu();
-    await tags_controller.updateTagUiBasedOnTagAvailability();
-    var installedTranslations = await this.translation_controller.getInstalledModules();
-    this.tab_controller.onTranslationRemoved(translationId, installedTranslations);
   }
 
   async loadSettings() {
@@ -704,7 +522,7 @@ class AppController {
     }).addClass('events-configured');
   }
 
-  async bindEventsAfterBibleTextLoaded(tabIndex=undefined, preventDoubleBinding=false, verseList=undefined) {
+  bindEventsAfterBibleTextLoaded(tabIndex=undefined, preventDoubleBinding=false, verseList=undefined) {
     if (verseList == undefined) {
       verseList = this.getCurrentVerseList(tabIndex);
     }
@@ -736,6 +554,10 @@ class AppController {
 
     if (platformHelper.isElectron()) {
       this.verse_context_controller.init_verse_expand_box(tabIndex);
+    }
+
+    if (getPlatform().isFullScreen()) {
+      wheelnavController.bindEvents();
     }
   }
 
@@ -952,55 +774,6 @@ class AppController {
     }
 
     this.docxExport.disableExportButton();
-  }
-
-  async initApplicationForVerseList(tabIndex=undefined) {
-    var selectedTabIndex = this.tab_controller.getSelectedTabIndex();
-    var tabIsCurrentTab = false;
-
-    if (tabIndex == selectedTabIndex) {
-      tabIsCurrentTab = true;
-    }
-
-    if (tabIndex === undefined) {
-      var tabIndex = selectedTabIndex;
-    }
-
-    var currentTab = this.tab_controller.getTab(tabIndex);
-
-    if (tabIsCurrentTab) {
-      this.tag_statistics.toggleBookTagStatisticsButton(tabIndex);
-    }
-
-    this.verse_selection.init(tabIndex);
-    await this.optionsMenu.handleBookLoadingModeOptionChange(tabIndex);
-    this.optionsMenu.showOrHideHeaderNavigationBasedOnOption(tabIndex);
-    
-    await this.navigation_pane.updateNavigation(tabIndex);
-    if (currentTab != null && currentTab.getTextType() != 'search_results') {
-      this.navigation_pane.scrollToTop(tabIndex);
-    }
-
-    this.notes_controller.initForTab(tabIndex);
-    this.sword_notes.initForTab(tabIndex);
-    await this.translation_controller.toggleTranslationsBasedOnCurrentBook(tabIndex);
-
-    this.bindEventsAfterBibleTextLoaded(tabIndex);
-
-    if (getPlatform().isFullScreen()) {
-      wheelnavController.bindEvents();
-    }
-  }
-
-  async updateUiAfterBibleTranslationAvailable(translationCode) {
-    var currentBibleTranslationId = this.tab_controller.getTab().getBibleTranslationId();
-    if (currentBibleTranslationId == "" || 
-        currentBibleTranslationId == null) { // Update UI after a Bible translation becomes available
-
-      this.tab_controller.setCurrentBibleTranslationId(translationCode);
-      await this.book_selection_menu.updateAvailableBooks();
-      this.info_popup.enableCurrentAppInfoButton();
-    }
   }
 
   openModuleSettingsAssistant(moduleType) {

@@ -22,8 +22,8 @@ const i18nHelper = require('../helpers/i18n_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
-const i18nController = require('./i18n_controller.js');
 const cacheController = require('./cache_controller.js');
+const eventController = require('./event_controller.js');
 
 /**
  * The TabController manages the tab bar and the state of each tab.
@@ -47,13 +47,11 @@ class TabController {
     this.verseBoxHelper = new VerseBoxHelper();
   }
 
-  init(tabsElement, tabsPanelClass, addTabElement, tabHtmlTemplate, onTabSelected, onTabAdded, defaultBibleTranslationId) {
+  init(tabsElement, tabsPanelClass, addTabElement, tabHtmlTemplate, defaultBibleTranslationId) {
     this.tabsElement = tabsElement;
     this.tabsPanelClass = tabsPanelClass;
     this.addTabElement = addTabElement;
     this.tabHtmlTemplate = tabHtmlTemplate;
-    this.onTabSelected = onTabSelected;
-    this.onTabAdded = onTabAdded;
     this.defaultBibleTranslationId = defaultBibleTranslationId;
     this.initFirstTab();
 
@@ -99,9 +97,29 @@ class TabController {
 
     this.initTabs();
 
-    i18nController.addLocaleChangeSubscriber(async () => {
+    eventController.subscribe('on-locale-changed', async () => {
       this.localizeTemplate();
       await this.updateTabTitlesAfterLocaleChange();
+    });
+
+    eventController.subscribe('on-translation-changed', async (data) => await this.onBibleTranslationChanged(data));
+
+    eventController.subscribe('on-translation-removed', async (translationId) => {
+      var installedTranslations = await app_controller.translation_controller.getInstalledModules();
+      this.onTranslationRemoved(translationId, installedTranslations);
+    });
+
+    eventController.subscribe('on-translation-added', (translationCode) => {
+      var currentBibleTranslationId = this.getTab().getBibleTranslationId();
+      if (currentBibleTranslationId == "" || 
+          currentBibleTranslationId == null) { // Update UI after a Bible translation becomes available
+  
+        this.setCurrentBibleTranslationId(translationCode);
+      }
+    });
+
+    eventController.subscribe('on-all-translations-removed', async () => {
+      await this.reset();
     });
   }
 
@@ -218,7 +236,7 @@ class TabController {
 
       var tabTitle = currentMetaTab.getTitle();
       this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), loadedTabCount);
-      this.onTabAdded(i - 1, i);
+      eventController.publish('on-tab-added', i);
       loadedTabCount += 1;
     }
 
@@ -312,16 +330,16 @@ class TabController {
       }
     }
 
-    // If no tabs are loaded from a previous session we need to explicitly invoke the onTabAdded callback on the first tab
+    // If no tabs are loaded from a previous session we need to explicitly invoke the on-tab-added event on the first tab
     if (loadedTabCount == 0) {
-      this.onTabAdded(-1, 0);
+      eventController.publish('on-tab-added', 0);
     }
 
     // Give the UI some time to render
     await waitUntilIdle();
 
     // Call this method explicitly to initialize the first tab
-    await this.onTabSelected();
+    await eventController.publishAsync('on-tab-selected', 0);
 
     await waitUntilIdle();
 
@@ -374,7 +392,7 @@ class TabController {
         var metaTab = this.getTab(index);
         metaTab.selectCount += 1;
 
-        if (metaTab.addedInteractively || metaTab.selectCount > 1) { // We only run the onTabSelected callback
+        if (metaTab.addedInteractively || metaTab.selectCount > 1) { // We only run the on-tab-selected callbacks
           // if the tab has been added interactively
           // or after the initial select.
           // This is necessary to ensure good visual performance when
@@ -401,7 +419,7 @@ class TabController {
           }
 
           this.lastSelectedTabIndex = index;
-          this.onTabSelected(event, ui);
+          eventController.publish('on-tab-selected', ui.index);
         }
       },
       show: (event, ui) => {
@@ -544,7 +562,7 @@ class TabController {
     this.updateFirstTabCloseButton();
 
     if (!initialLoading) {
-      this.onTabAdded(this.lastSelectedTabIndex, this.tabCounter - 1);
+      eventController.publish('on-tab-added', this.tabCounter - 1);
     }
   }
 
@@ -594,9 +612,17 @@ class TabController {
     }
   }
 
+  /**
+   * @param {Number} index The tab index of the requested Tab
+   * @returns @type Tab
+   */
   getTab(index = undefined) {
     if (index === undefined) {
       var index = this.getSelectedTabIndex();
+    }
+
+    if (index >= this.metaTabs.length) {
+      index = this.metaTabs.length - 1;
     }
 
     return this.metaTabs[index];
@@ -756,6 +782,11 @@ class TabController {
     return currentTab.book == null && currentTab.tagIdList == "" && currentTab.xrefs == null;
   }
 
+  isCurrentTab(tabIndex) {
+    var selectedTabIndex = this.getSelectedTabIndex();
+    return (tabIndex == selectedTabIndex);
+  }
+
   updateTabTitleAfterTagRenaming(old_title, new_title) {
     for (var i = 0; i < this.metaTabs.length; i++) {
       var currentMetaTab = this.metaTabs[i];
@@ -820,6 +851,52 @@ class TabController {
           this.setCurrentTabXrefTitle(tabTitle, i);
         }
           break;
+      }
+    }
+  }
+
+  async onBibleTranslationChanged({ from: oldBibleTranslationId, to: newBibleTranslationId }) {
+    var currentTab = this.getTab();
+
+    // The tab search is not valid anymore if the translation is changing. Therefore we reset it.
+    if (currentTab.tab_search != null) {
+      currentTab.tab_search.resetSearch();
+    }
+
+    var isInstantLoadingBook = true;
+
+    if (currentTab.getTextType() == 'book') {
+      // We set the previous book to the current book. This will be used in NavigationPane to avoid reloading the chapter list.
+      currentTab.setPreviousBook(currentTab.getBook());
+
+      isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(newBibleTranslationId, currentTab.getBook());
+    }
+
+    if (currentTab.getTextType() == 'search_results') {
+      await app_controller.text_controller.prepareForNewText(true, true);
+      app_controller.module_search_controller.startSearch(null, this.getSelectedTabIndex(), currentTab.getSearchTerm());
+    } else {
+      if (!this.isCurrentTabEmpty()) {
+        await app_controller.text_controller.prepareForNewText(false, false);
+        await app_controller.text_controller.requestTextUpdate(
+          this.getSelectedTabId(),
+          currentTab.getBook(),
+          currentTab.getTagIdList(),
+          null,
+          null,
+          null,
+          currentTab.getXrefs(),
+          currentTab.getChapter(),
+          isInstantLoadingBook
+        );
+
+        if (currentTab.getReferenceVerseElementId() != null) {
+          await app_controller.updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId);
+        }
+
+        if (currentTab.getTextType() == 'book') {
+          app_controller.tag_statistics.highlightFrequentlyUsedTags();
+        }
       }
     }
   }

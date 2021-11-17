@@ -16,8 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const i18nController = require('../controllers/i18n_controller.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
+const eventController = require('../controllers/event_controller.js');
 const { sleep } = require('../helpers/ezra_helper.js');
 
 const INSTANT_LOADING_CHAPTER_LIMIT = 15;
@@ -36,14 +36,23 @@ class TranslationController {
   constructor() {
     this.translationCount = null;
     this.initBibleSyncBoxDone = false;
+
+    eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
+      await this.toggleTranslationsBasedOnCurrentBook(tabIndex);
+    });
+
+    eventController.subscribe('on-tab-selected', async (tabIndex) => {
+      await this.initTranslationsMenu(-1, tabIndex);
+    });
+
+    eventController.subscribe('on-translation-removed', async (translationId) => {
+      $("select#bible-select").empty();
+      await this.initTranslationsMenu();
+    });
   }
 
   getTranslationCount() {
     return this.translationCount;
-  }
-
-  init(onBibleTranslationChanged) {
-    this.onBibleTranslationChanged = onBibleTranslationChanged;
   }
 
   initBibleSyncBox() {
@@ -201,7 +210,7 @@ class TranslationController {
       }
       
       this.addTranslationsToBibleSelectMenu(tabIndex, translations);
-      i18nController.addLocaleChangeSubscriber(locale => this.updateLanguages(locale, bibleSelect));
+      eventController.subscribe('on-locale-changed', locale => this.updateLanguages(locale, bibleSelect));
     }
 
     bibleSelect.selectmenu({
@@ -221,7 +230,7 @@ class TranslationController {
         app_controller.tab_controller.refreshBibleTranslationInTabTitle(newBibleTranslationId);
 
         setTimeout(() => {
-          this.handleBibleTranslationChange(oldBibleTranslationId, newBibleTranslationId)
+          eventController.publish('on-translation-changed', {from: oldBibleTranslationId, to: newBibleTranslationId});
         }, 50);
       }
     });
@@ -239,11 +248,6 @@ class TranslationController {
     var allSectionTitles = currentVerseList.querySelectorAll(query);
 
     return allSectionTitles.length > 0;
-  }
-
-  async handleBibleTranslationChange(oldBibleTranslationId, newBibleTranslationId) {
-    await app_controller.book_selection_menu.updateAvailableBooks();
-    this.onBibleTranslationChanged(oldBibleTranslationId, newBibleTranslationId);
   }
 
   async isStrongsTranslationAvailable() {

@@ -18,6 +18,7 @@
 
 const VerseSearch = require('./verse_search.js');
 const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
+const eventController = require('../../controllers/event_controller.js');
 
 /**
  * The TabSearch component implements the in-tab search functionality which is enabled with CTRL + f / CMD + f.
@@ -35,9 +36,7 @@ class TabSearch {
        prevButton,
        nextButton,
        caseSensitiveCheckbox,
-       searchTypeSelect,
-       onSearchResultsAvailable,
-       onSearchReset) {
+       searchTypeSelect) {
 
     this.parentTab = parentTab;
     this.searchForm = parentTab.find(searchForm);
@@ -52,8 +51,6 @@ class TabSearch {
     this.allOccurances = [];
     this.previousOccuranceElement = null;
     this.currentOccuranceElement = null;
-    this.onSearchResultsAvailable = onSearchResultsAvailable;
-    this.onSearchReset = onSearchReset;
     this.lastSearchString = null;
     this.mouseTrapEvent = false;
     this.shiftKeyPressed = false;
@@ -177,7 +174,7 @@ class TabSearch {
 
     this.searchTimeout = setTimeout(async () => {
       app_controller.verse_selection.clear_verse_selection(false);
-      this.onSearchReset();
+      await eventController.publishAsync('on-tab-search-reset');
       this.lastSearchString = searchString;
 
       await this.doSearch(searchString);
@@ -200,7 +197,7 @@ class TabSearch {
     this.allOccurances = [];
     this.currentOccurancesCount = 0;
     this.updateOccurancesLabel();
-    this.onSearchReset();
+    eventController.publish('on-tab-search-reset');
   }
 
   resetSearch() {
@@ -336,7 +333,7 @@ class TabSearch {
       this.resetOccurances();
     }
 
-    await this.onSearchResultsAvailable(this.allOccurances);
+    await eventController.publishAsync('on-on-tab-search-results-available', this.allOccurances);
   }
 
   removeAllHighlighting() {

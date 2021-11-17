@@ -18,6 +18,8 @@
 
 const Mousetrap = require('mousetrap');
 const DictionaryInfoBox = require('../components/dictionary_info_box.js');
+const eventController = require('./event_controller.js');
+
 let jsStrongs = null;
 
 
@@ -56,6 +58,20 @@ class DictionaryController {
         this.shiftKeyPressed = false;
         this.removeHighlight();
       }
+    });
+
+    eventController.subscribe('on-tab-selected', () => {
+      this.hideStrongsBox();
+    });
+
+    eventController.subscribe('on-tab-search-results-available', async () => {
+      // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
+      await this.bindAfterBibleTextLoaded();
+    });
+
+    eventController.subscribe('on-tab-search-reset', async () => {
+      // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
+      await this.bindAfterBibleTextLoaded();
     });
 
     this.runAvailabilityCheck();

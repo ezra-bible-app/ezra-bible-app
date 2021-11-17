@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
+const eventController = require('../../controllers/event_controller.js');
 
 /**
  * The TagSelectionMenu component implements the menu for selecting a tagged verse list.
@@ -27,6 +28,14 @@ class TagSelectionMenu {
   constructor() {
     this.tag_menu_is_opened = false;
     this.tag_menu_populated = false;
+
+    eventController.subscribe('on-tab-selected', async (tabIndex) => {
+      await this.updateTagSelectionMenu(tabIndex);
+    });
+
+    eventController.subscribe('on-tab-added', (tabIndex) => {
+      this.init(tabIndex);
+    });
   }
 
   init(tabIndex=undefined) {

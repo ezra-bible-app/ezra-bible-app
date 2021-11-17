@@ -66,11 +66,6 @@ class AssistantStepsRemoveModules extends HTMLElement {
     }
   }
 
-  initCallbacks(onAllTranslationsRemoved, onTranslationRemoved) {
-    this.onAllTranslationsRemoved = onAllTranslationsRemoved;
-    this.onTranslationRemoved = onTranslationRemoved;
-  }
-
   show() {
     this.querySelector('#module-settings-assistant-remove').style.display = 'block';
   }
@@ -124,7 +119,7 @@ class AssistantStepsRemoveModules extends HTMLElement {
 
   async _stepChanged(event, currentIndex, priorIndex) {
     if (priorIndex == MODULES_INDEX) {
-      await this.removeStep.uninstallSelectedModules(this.onAllTranslationsRemoved, this.onTranslationRemoved);
+      await this.removeStep.uninstallSelectedModules();
     }
   }
 

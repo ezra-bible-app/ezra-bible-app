@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Darkmode = require('darkmode-js');
+const eventController = require('./event_controller.js');
 
 /**
  * The ThemeController contains functions for switching between the standard (light theme)
@@ -87,12 +88,12 @@ class ThemeController {
 
   switchToDarkTheme() {
     this.switchToTheme('css/jquery-ui/dark-hive/jquery-ui.css');
-    app_controller.notes_controller.setDarkTheme();
+    eventController.publish('on-theme-changed', 'dark');
   }
   
   switchToRegularTheme() {
     this.switchToTheme('css/jquery-ui/cupertino/jquery-ui.css');
-    app_controller.notes_controller.setLightTheme();
+    eventController.publish('on-theme-changed', 'regular');
   }
   
   switchToTheme(theme) {

@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const eventController = require('../controllers/event_controller.js');
 
 let jsStrongs = null;
 
@@ -427,9 +428,9 @@ class DictionaryInfoBox {
                                                              /* tabIndex */   undefined,
                                                              /* searchTerm */ strongsKey);
 
-    // Run the onTabSelected actions at the end, because we added a tab
-    var ui = { 'index' : app_controller.tab_controller.getSelectedTabIndex()};
-    await app_controller.onTabSelected(undefined, ui);
+    // Run the on-tab-selected actions at the end, because we added a tab
+    const tabIndex = app_controller.tab_controller.getSelectedTabIndex();
+    await eventController.publishAsync('on-tab-selected', tabIndex);
   }
 
   async getAllExtraDictModules(lang='GREEK') {

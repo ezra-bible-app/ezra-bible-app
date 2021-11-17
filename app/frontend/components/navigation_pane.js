@@ -19,6 +19,7 @@
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
+const eventController = require('../controllers/event_controller.js');
 
 /**
  * The NavigationPane class implements the update and event handling of the
@@ -31,13 +32,31 @@ class NavigationPane {
     this.currentNavigationPane = null;
     this.verse_box_helper = new VerseBoxHelper();
     this.verseListFrameNoChapterNavCss = 'no-chapter-nav';
+
+    eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
+      await this.updateNavigation(tabIndex);
+
+      var currentTab = app_controller.tab_controller.getTab(tabIndex);
+
+      if (currentTab != null && currentTab.getTextType() != 'search_results') {
+        this.scrollToTop(tabIndex);
+      }
+    });
+
+    eventController.subscribe('on-tab-search-results-available', async occurrences => {
+      await this.onTabSearchResultsAvailable(occurrences);
+    });
+
+    eventController.subscribe('on-tab-search-reset', () => {
+      this.clearHighlightedSearchResults();
+    });
   }
 
   getCurrentNavigationPane(tabIndex=undefined) {
     var currentVerseListTabs = app_controller.getCurrentVerseListTabs(tabIndex);
     var navigationPane = currentVerseListTabs.find('.navigation-pane');
     return navigationPane;
-  };
+  }
 
   show(tabIndex) {
     var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
@@ -499,6 +518,42 @@ class NavigationPane {
       var bibleBookNumber = app_controller.getVerseListBookNumber(currentBookName);
       if (bibleBookNumber != -1) {
         this.highlightNavElement(undefined, bibleBookNumber, false, "OTHER");
+      }
+    }
+  }
+
+  async onTabSearchResultsAvailable(occurrences) {
+
+    var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
+    var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
+
+    var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    var separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
+
+    // Highlight occurrences in navigation pane
+    for (var i = 0; i < occurrences.length; i++) {
+      var currentOccurrences = $(occurrences[i]);
+      var verseBox = currentOccurrences.closest('.verse-box');
+      var currentTab = app_controller.tab_controller.getTab();
+      var currentTextType = currentTab.getTextType();
+
+      if (currentTextType == 'book') {
+        // Highlight chapter if we are searching in a book
+
+        var verseReferenceContent = verseBox.find('.verse-reference-content').text();
+        var chapter = app_controller.getChapterFromReference(verseReferenceContent, separator);
+        this.highlightSearchResult(chapter);
+
+      } else {
+
+        // Highlight bible book if we are searching in a tagged verses list
+        var currentBibleBookShortName = new VerseBox(verseBox[0]).getBibleBookShortTitle();
+        var currentBookName = await ipcDb.getBookTitleTranslation(currentBibleBookShortName);
+
+        var bibleBookNumber = app_controller.getVerseListBookNumber(currentBookName, bookHeaders);
+        if (bibleBookNumber != -1) {
+          this.highlightSearchResult(bibleBookNumber, "OTHER");
+        }
       }
     }
   }

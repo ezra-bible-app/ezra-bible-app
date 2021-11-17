@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
-const i18nController = require('../../controllers/i18n_controller.js');
+const eventController = require('../../controllers/event_controller.js');
 
 /**
  * The TagAssignmentMenu component implements the menu event handling and dynamic movement of the tag assignment menu,
@@ -30,9 +30,27 @@ class TagAssignmentMenu {
     this.menuIsOpened = false;
     this._lastTagListContainer = "MENU";
     this._currentTagListContainer = "MENU";
-
-    i18nController.addLocaleChangeSubscriber(async () => {
+    
+    eventController.subscribe('on-tab-added', (tabIndex) => {
+      this.init(tabIndex);
+    });
+    
+    eventController.subscribe('on-locale-changed', async () => {
       this.initChangeTagPopup();
+    });
+
+    eventController.subscribe('on-fullscreen-changed', (isFullScreen) => {
+      if (isFullScreen) {
+        if (!app_controller.optionsMenu._tagListOption.isChecked) {
+          this.moveTagAssignmentList("POPUP");
+        }
+      } else {
+        this.closePopup();
+        
+        if (!app_controller.optionsMenu._tagListOption.isChecked) {
+          this.moveTagAssignmentList("PREVIOUS");
+        }
+      }
     });
 
     this.initChangeTagPopup();

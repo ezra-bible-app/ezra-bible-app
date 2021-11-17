@@ -16,6 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const eventController = require('./event_controller.js');
+const {waitUntilIdle} = require('../helpers/ezra_helper.js');
 const VerseSearch = require('../components/tab_search/verse_search.js');
 
 const CANCEL_SEARCH_PERCENT_LIMIT = 90;
@@ -32,6 +34,23 @@ class ModuleSearchController {
     this.search_menu_opened = false;
     this.verseSearch = new VerseSearch();
     this.searchResultPerformanceLimit = platformHelper.getSearchResultPerformanceLimit();
+
+    eventController.subscribe('on-tab-selected', async (tabIndex) => {
+      await waitUntilIdle();
+
+      // Cancel any potentially ongoing module search
+      this.cancelModuleSearch();
+
+      // Populate search menu based on last search (if any)
+      this.populateSearchMenu(tabIndex);
+    });
+
+    eventController.subscribe('on-tab-added', async (tabIndex) => {
+      // Cancel any potentially ongoing module search
+      await this.cancelModuleSearch();
+
+      this.initModuleSearch(tabIndex);
+    });
   }
 
   initModuleSearch(tabIndex=undefined) {
@@ -93,7 +112,9 @@ class ModuleSearchController {
 
     try {
       currentProgressValue = parseInt(searchProgressBar[0].getAttribute("aria-valuenow"));
-    } catch (e) {}
+    } catch (e) {
+      console.log('Got error from progress bar', e);
+    }
 
     return currentProgressValue;
   }

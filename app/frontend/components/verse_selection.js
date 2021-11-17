@@ -19,7 +19,7 @@
 const VerseBox = require("../ui_models/verse_box.js");
 const VerseReferenceHelper = require("../helpers/verse_reference_helper.js");
 const i18nHelper = require('../helpers/i18n_helper.js');
-const i18nController = require('../controllers/i18n_controller.js');
+const eventController = require('../controllers/event_controller.js');
 const { getPlatform } = require('../helpers/ezra_helper.js');
 
 /**
@@ -33,8 +33,20 @@ class VerseSelection {
     this.selected_verse_box_elements = null;
     this.verseReferenceHelper = null;
 
-    i18nController.addLocaleChangeSubscriber(async () => {
+    eventController.subscribe('on-locale-changed', async () => {
       await this.updateSelectedVersesLabel();
+    });
+
+    eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
+      this.init(tabIndex);
+    });
+
+    eventController.subscribe('on-tab-selected', (tabIndex) => {
+      this.clear_verse_selection(true, tabIndex);
+    });
+
+    eventController.subscribe('on-all-translations-removed', () => {
+      this.clear_verse_selection();
     });
   }
 

@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
-const i18nController = require('../../controllers/i18n_controller.js');
+const eventController = require('../../controllers/event_controller.js');
 
 /**
  * The AssignLastTagButton always shows the latest used tag. It gets updated when
@@ -30,7 +30,19 @@ const i18nController = require('../../controllers/i18n_controller.js');
  */
 class AssignLastTagButton {
   constructor() {
-    this._localeChangeSubscriptionDone = false;
+    eventController.subscribe('on-tab-selected', (tabIndex) => {
+      this.init(tabIndex);
+    });
+
+    eventController.subscribe('on-tab-added', () => {
+      // We need to refresh the last used tag button, because the button is not yet initialized in the tab html template
+      this.onLatestUsedTagChanged(undefined, undefined);
+    });
+
+    eventController.subscribe('on-locale-changed', async () => {
+      await this.updateLabel();
+    });
+
     this._button = null;
   }
 
@@ -43,14 +55,6 @@ class AssignLastTagButton {
       event.stopPropagation();
       await this.handleClick();
     });
-
-    if (!this._localeChangeSubscriptionDone) {
-      this._localeChangeSubscriptionDone = true;
-
-      i18nController.addLocaleChangeSubscriber(async () => {
-        await this.updateLabel();
-      });
-    } 
   }
 
   async handleClick() {

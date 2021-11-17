@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
-const i18nController = require('../../controllers/i18n_controller.js');
+const eventController = require('../../controllers/event_controller.js');
 
 class SelectOption extends HTMLSelectElement {
   constructor() {
@@ -55,7 +55,7 @@ class SelectOption extends HTMLSelectElement {
 
     this.localize();
 
-    i18nController.addLocaleChangeSubscriber(() => {
+    eventController.subscribe('on-locale-changed', () => {
       this.localize();
       this.initSelectMenu();
     });

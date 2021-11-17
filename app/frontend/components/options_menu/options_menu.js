@@ -19,6 +19,7 @@
 const PlatformHelper = require('../../../lib/platform_helper.js');
 const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
 const i18nController = require('../../controllers/i18n_controller.js');
+const eventController = require('../../controllers/event_controller.js');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
@@ -85,6 +86,22 @@ class OptionsMenu {
 
     await this.adjustOptionsMenuForPlatform();
     this.refreshViewBasedOnOptions();
+
+    eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
+      await this.handleBookLoadingModeOptionChange();
+      this.showOrHideSectionTitlesBasedOnOption(tabIndex);
+      this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
+    });
+
+    eventController.subscribe('on-tab-selected', async (tabIndex) => {
+      await this.refreshViewBasedOnOptions(tabIndex);
+    });
+
+    eventController.subscribe('on-tab-added', async (tabIndex) => {
+      await this.refreshViewBasedOnOptions(tabIndex);
+
+      this.initCurrentOptionsMenu(tabIndex);
+    });
   }
 
   async initNightModeOption() {

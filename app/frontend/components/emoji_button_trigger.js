@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const i18nController = require('../controllers/i18n_controller.js');
+const eventController = require('../controllers/event_controller.js');
 const { html, sleep, waitUntilIdle } = require('../helpers/ezra_helper.js');
 
 var emojiPicker; // to keep only one instance of the picker
@@ -185,11 +186,6 @@ async function initPicker(locale=i18nController.getLocale()) {
     }
   });
 
-  if (nightModeOption) {
-    //FIXME: we should listen to state changes and not the option itself 
-    nightModeOption.addEventListener("optionChanged", updatePickerTheme);
-  }
-
   subscribePicker();
 
   return picker;
@@ -203,7 +199,7 @@ function subscribePicker() {
 
   emojiPickerSubscribed = true;
 
-  i18nController.addLocaleChangeSubscriber(async locale => {
+  eventController.subscribe('on-locale-changed', async locale => {
     // FIXME: Handle properly
     try {
       (await emojiPicker).destroyPicker();
@@ -211,16 +207,23 @@ function subscribePicker() {
       console.log('EmojiButtonTrigger: Got the following error when destroying external emojiPicker after locale change:', e);
     }
     
-    app_controller.optionsMenu._nightModeOption.removeEventListener("optionChanged", updatePickerTheme);
     emojiPicker = await initPicker(locale);
+  });
+
+  eventController.subscribe('on-theme-changed', async theme => {
+    const picker = await emojiPicker;
+    switch (theme) {
+      case 'dark':
+        picker.setTheme('dark');
+        break;
+
+      case 'regular':
+        picker.setTheme('light');
+        break;
+
+      default:
+        console.error('Unknown theme ' + theme);
+    }
   });
 }
 
-async function updatePickerTheme() {
-  const picker = await emojiPicker;
-  if (app_controller.optionsMenu._nightModeOption.isChecked) {
-    picker.setTheme('dark');
-  } else {
-    picker.setTheme('light');
-  }
-} 
