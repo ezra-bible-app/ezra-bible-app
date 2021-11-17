@@ -30,6 +30,10 @@ The most notable Controller is the `AppController`, which is responsible for ini
 
 Components are classes that usually represent one specific "graphical component" of the UI, e.g. the options menu or the book selection menu.
 
+### Events
+
+To decouple different parts of the front end it is strongly encourage to emit events that the other components or controllers can react to if they are subscribed. For this Pub/Sub pattern is implemented in `eventController`. All possible events should be documented in `app/frontend/event_types.js` to help with code completions inside IDE.
+
 ### Sequelize Models
 
 Sequelize (an object-oriented wrapper) is used to manage the interface to the (SQLite) database. Each database table is represented by one model. Besides the standard Sequelize API that is attached to every model, you find various custom querying functions in the models.
