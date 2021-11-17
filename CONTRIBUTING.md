@@ -13,7 +13,7 @@ The following is a set of guidelines for contributing to Ezra Bible App. These a
 
 ## Suggesting Enhancements and New Features
 
-`TODO`
+Before opening an issue for enhancements / new features it makes sense to [start a discussion](https://github.com/ezra-bible-app/ezra-bible-app/discussions). This ensures that we have a good dialogue around the user needs / requirements before going into implementation planning.
 
 ## Pull Requests
 
