@@ -31,6 +31,14 @@ class VerseListPopup {
   constructor() {
     this.verseBoxHelper = new VerseBoxHelper();
     this.dialogInitDone = false;
+
+    eventController.subscribe('on-fullscreen-changed', (isFullScreen) => {
+      if (isFullScreen) {
+        this.disableNewTabButton();
+      } else {
+        this.enableNewTabButton();
+      }
+    });
   }
 
   initVerseListPopup() {
@@ -53,7 +61,7 @@ class VerseListPopup {
     });
 
     this.getNewTabButton().bind('mousedown', (event) => {
-      if (event.target.classList.includes('ui-state-disabled')) {
+      if (event.target.classList.contains('ui-state-disabled')) {
         return;
       }
 

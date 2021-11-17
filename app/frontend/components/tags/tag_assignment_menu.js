@@ -39,6 +39,20 @@ class TagAssignmentMenu {
       this.initChangeTagPopup();
     });
 
+    eventController.subscribe('on-fullscreen-changed', (isFullScreen) => {
+      if (isFullScreen) {
+        if (!app_controller.optionsMenu._tagListOption.isChecked) {
+          this.moveTagAssignmentList("POPUP");
+        }
+      } else {
+        this.closePopup();
+        
+        if (!app_controller.optionsMenu._tagListOption.isChecked) {
+          this.moveTagAssignmentList("PREVIOUS");
+        }
+      }
+    });
+
     this.initChangeTagPopup();
   }
 

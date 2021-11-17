@@ -39,7 +39,7 @@
  * @typedef { "on-locale-changed" } I18nEvents
  */
 /**
- * @typedef { "on-theme-changed" } AppEvents
+ * @typedef { "on-theme-changed" | "on-fullscreen-changed" } AppEvents
  */
 
 

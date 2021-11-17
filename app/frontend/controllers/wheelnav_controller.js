@@ -16,6 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const eventController = require('../controllers/event_controller.js');
+
 /**
  * This controller handles the lifecycle of the circular wheel navigation which becomes active in fullscreen mode.
  * @module wheelnavController
@@ -24,6 +26,16 @@
 
 var currentWheelNavElement = null;
 var currentSvgMenu = null;
+
+module.exports.init = function() {
+  eventController.subscribe('on-fullscreen-changed', (isFullScreen) => {
+    if (isFullScreen) {
+      this.bindEvents();
+    } else {
+      this.unbindAndClose();
+    }
+  });
+};
 
 module.exports.bindEvents = function() {
   var verseReferences = getVerseReferences();
@@ -40,7 +52,6 @@ module.exports.unbindAndClose = function() {
     verseReference.removeEventListener('click', handleVerseReferenceClick);
   });
 
-  app_controller.tag_assignment_menu.closePopup();
   this.closeWheelNav();
 };
 

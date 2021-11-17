@@ -123,6 +123,7 @@ class AppController {
                              defaultBibleTranslationId);
     
     fullscreenController.init();
+    wheelnavController.init();
 
     eventController.subscribe('on-all-translations-removed', async () => {
       await this.onAllTranslationsRemoved();
