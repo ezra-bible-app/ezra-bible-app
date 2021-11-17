@@ -66,7 +66,9 @@ function onFullscreenChanged() {
     wheelnavController.bindEvents();
     document.getElementById('app-container').classList.add('fullscreen');
 
-    app_controller.tag_assignment_menu.moveTagAssignmentList("POPUP");
+    if (!app_controller.optionsMenu._tagListOption.isChecked) {
+      app_controller.tag_assignment_menu.moveTagAssignmentList("POPUP");
+    }
   } else {
     fullScreenButton.setAttribute('title', i18n.t('menu.fullscreen'));
     fullScreenButton.firstElementChild.classList.add('fa-expand');
