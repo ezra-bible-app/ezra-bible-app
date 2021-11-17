@@ -32,7 +32,8 @@ Components are classes that usually represent one specific "graphical component"
 
 ### Events
 
-To decouple different parts of the front end it is strongly encourage to emit events that the other components or controllers can react to if they are subscribed. For this Pub/Sub pattern is implemented in `eventController`. All possible events should be documented in `app/frontend/event_types.js` to help with code completions inside IDE.
+To decouple different parts of the frontend it is strongly recommended to emit events that other components or controllers can react to if they are subscribed.
+This [Pub/Sub pattern](https://en.wikipedia.org/wiki/Publish–subscribe_pattern) is implemented in `eventController`. All events must be documented in `app/frontend/event_types.js` to help with code completions inside the IDE.
 
 ### Sequelize Models
 
