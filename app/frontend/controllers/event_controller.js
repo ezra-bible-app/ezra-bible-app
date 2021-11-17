@@ -71,11 +71,12 @@ module.exports.subscribe = function subscribe(event, callback) {
  * @returns {[]} Array of callback results
  */
 module.exports.publish = function publish(event, payload=undefined) {
+  var results = [];
+
   if (notCreated(event)) {
-    return;
+    return results;
   }
   
-  var results = [];
 
   for (let subscribedCallback of subscribers[event]) {
     if (typeof subscribedCallback === 'function') {
