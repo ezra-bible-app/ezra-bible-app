@@ -116,30 +116,15 @@ class AppController {
       defaultBibleTranslationId = bibleTranslations[0].name;
     }
 
-    this.tab_controller.init('verse-list-tabs',
-                             'verse-list-container',
-                             'add-tab-button',
-                             this.tabHtmlTemplate,
-                             defaultBibleTranslationId);
+    this.tab_controller.init('verse-list-tabs', 'verse-list-container', 'add-tab-button', this.tabHtmlTemplate, defaultBibleTranslationId);
     
     fullscreenController.init();
     wheelnavController.init();
 
-    eventController.subscribe('on-all-translations-removed', async () => {
-      await this.onAllTranslationsRemoved();
-    });
-
-    eventController.subscribe('on-tab-selected', async (tabIndex=0) => {
-      await this.onTabSelected(tabIndex);
-    });
-
-    eventController.subscribe('on-tab-added', (tabIndex) => {
-      this.onTabAdded(tabIndex);
-    });
-
-    eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
-      this.bindEventsAfterBibleTextLoaded(tabIndex);
-    });
+    eventController.subscribe('on-all-translations-removed', async () => { await this.onAllTranslationsRemoved(); });
+    eventController.subscribe('on-tab-selected', async (tabIndex=0) => { await this.onTabSelected(tabIndex); });
+    eventController.subscribe('on-tab-added', (tabIndex) => { this.onTabAdded(tabIndex); });
+    eventController.subscribe('on-bible-text-loaded', (tabIndex) => { this.bindEventsAfterBibleTextLoaded(tabIndex); });
   }
 
   initVerseButtons(tabIndex=undefined) {
