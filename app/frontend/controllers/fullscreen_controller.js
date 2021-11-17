@@ -27,7 +27,7 @@ const wheelnavController = require('../controllers/wheelnav_controller.js');
  */
 
 /**
- * Initializes fullscreen handling (specifically on macOS)
+ * Initializes fullscreen handling
  */
 module.exports.init = function() {
   if (platformHelper.isMac()) {
