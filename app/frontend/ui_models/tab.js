@@ -294,7 +294,6 @@ class Tab {
       '.tab-search-next',
       '.tab-search-is-case-sensitive',
       '.tab-search-type',
-      () => { app_controller.onTabSearchReset(); }
     );
   }
 }

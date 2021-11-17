@@ -69,6 +69,11 @@ class DictionaryController {
       await this.bindAfterBibleTextLoaded();
     });
 
+    eventController.subscribe('on-tab-search-reset', async () => {
+      // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
+      await this.bindAfterBibleTextLoaded();
+    });
+
     this.runAvailabilityCheck();
   }
 

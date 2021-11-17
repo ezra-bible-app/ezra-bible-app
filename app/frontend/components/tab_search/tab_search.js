@@ -36,8 +36,7 @@ class TabSearch {
        prevButton,
        nextButton,
        caseSensitiveCheckbox,
-       searchTypeSelect,
-       onSearchReset) {
+       searchTypeSelect) {
 
     this.parentTab = parentTab;
     this.searchForm = parentTab.find(searchForm);
@@ -52,7 +51,6 @@ class TabSearch {
     this.allOccurances = [];
     this.previousOccuranceElement = null;
     this.currentOccuranceElement = null;
-    this.onSearchReset = onSearchReset;
     this.lastSearchString = null;
     this.mouseTrapEvent = false;
     this.shiftKeyPressed = false;
@@ -176,7 +174,7 @@ class TabSearch {
 
     this.searchTimeout = setTimeout(async () => {
       app_controller.verse_selection.clear_verse_selection(false);
-      this.onSearchReset();
+      await eventController.publishAsync('on-tab-search-reset');
       this.lastSearchString = searchString;
 
       await this.doSearch(searchString);
@@ -199,7 +197,7 @@ class TabSearch {
     this.allOccurances = [];
     this.currentOccurancesCount = 0;
     this.updateOccurancesLabel();
-    this.onSearchReset();
+    eventController.publish('on-tab-search-reset');
   }
 
   resetSearch() {

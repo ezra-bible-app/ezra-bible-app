@@ -46,6 +46,10 @@ class NavigationPane {
     eventController.subscribe('on-tab-search-results-available', async occurrences => {
       await this.onTabSearchResultsAvailable(occurrences);
     });
+
+    eventController.subscribe('on-tab-search-reset', () => {
+      this.clearHighlightedSearchResults();
+    });
   }
 
   getCurrentNavigationPane(tabIndex=undefined) {

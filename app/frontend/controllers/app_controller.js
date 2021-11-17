@@ -136,13 +136,6 @@ class AppController {
     });
   }
 
-  onTabSearchReset() {
-    this.navigation_pane.clearHighlightedSearchResults();
-
-    // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
-    this.dictionary_controller.bindAfterBibleTextLoaded();
-  }
-
   async onTabSelected(tabIndex=0) {
     var metaTab = this.tab_controller.getTab(tabIndex);
 
@@ -180,7 +173,6 @@ class AppController {
         '.tab-search-next',
         '.tab-search-is-case-sensitive',
         '.tab-search-type',
-        () => { this.onTabSearchReset(); }
       );
   
     }
