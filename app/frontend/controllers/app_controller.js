@@ -152,7 +152,7 @@ class AppController {
 
       if (!event.target.classList.contains('ui-state-disabled')) {
         app_controller.hideAllMenus();
-        app_controller.copySelectedVerseTextToClipboard();
+        app_controller.verse_selection.copySelectedVerseTextToClipboard();
       }
     });
 

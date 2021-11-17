@@ -161,7 +161,7 @@ function handleMenuClick(item) {
       app_controller.assign_last_tag_button.handleClick();
       break;
     case 'copy_to_clipboard':
-      app_controller.copySelectedVerseTextToClipboard();
+      app_controller.verse_selection.copySelectedVerseTextToClipboard();
       break;
     case 'edit_note':
       app_controller.notes_controller.editVerseNotesForCurrentlySelectedVerse();
