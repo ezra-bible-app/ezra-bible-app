@@ -302,7 +302,9 @@
     "new-note-hint": "Click to add a note",
     "open-complete-book": "Open books completely",
     "open-chapters-large-books": "Open large books chapter-wise",
-    "open-chapters-all-books": "Open all books chapter-wise"
+    "open-chapters-all-books": "Open all books chapter-wise",
+    "copy": "Copy",
+    "edit-note": "Edit note"
   },
   "dictionary-info-box": {
     "greek-dict": "Greek Dictionary",

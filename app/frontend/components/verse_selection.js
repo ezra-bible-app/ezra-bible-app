@@ -20,6 +20,7 @@ const VerseBox = require("../ui_models/verse_box.js");
 const VerseReferenceHelper = require("../helpers/verse_reference_helper.js");
 const i18nHelper = require('../helpers/i18n_helper.js');
 const eventController = require('../controllers/event_controller.js');
+const { getPlatform } = require('../helpers/ezra_helper.js');
 
 /**
  * The VerseSelection component implements the label that shows the currently selected verses.
@@ -60,7 +61,7 @@ class VerseSelection {
 
     verseList.selectable({
       filter: '.verse-text',
-      cancel: '.sword-xref-marker, .verse-notes, .verse-content-edited, .tag-box, .tag, .load-book-results, .select-all-search-results-button',
+      cancel: '.verse-reference-content, .sword-xref-marker, .verse-notes, .verse-content-edited, .tag-box, .tag, .load-book-results, .select-all-search-results-button',
 
       start: (event, ui) => {
         // Only reset existing selection if metaKey and ctrlKey are not pressed.
@@ -446,11 +447,14 @@ class VerseSelection {
         app_controller.verse_context_controller.enableContextButton();
       }
 
+      app_controller.enableVerseButtons();
+
       this.highlightStrongs();
 
     } else { // No verses selected!
       app_controller.translationComparison.disableComparisonButton();
       app_controller.verse_context_controller.disableContextButton();
+      app_controller.disableVerseButtons();
 
       if (platformHelper.isCordova()) {
         app_controller.dictionary_controller.removeHighlight();
@@ -466,6 +470,49 @@ class VerseSelection {
   getSelectedVersesLabel() {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
     return $(currentVerseListMenu.find('.selected-verses')[0]);
+  }
+  
+  getLineBreak() {
+    if (platformHelper.isElectron() && process.platform === 'win32') {
+      return "\r\n";
+    } else {
+      return "\n";
+    }
+  }
+
+  async getSelectedVerseText() {
+    const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
+    
+    var selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
+    
+    var selectedText = "";
+    const selectionHasMultipleVerses = selectedVerseBoxes.length > 1;
+
+    for (let i = 0; i < selectedVerseBoxes.length; i++) {
+      let currentVerseBox = $(selectedVerseBoxes[i]);
+      let verseReferenceContent = currentVerseBox.find('.verse-reference-content').text();
+      let currentVerseNr = verseReferenceContent.split(separator)[1];
+      
+      let currentText = currentVerseBox.find('.verse-text').clone();
+      currentText.find('.sword-markup').remove();
+
+      if (selectionHasMultipleVerses) {
+        selectedText += currentVerseNr + " ";
+      }
+
+      selectedText += currentText.text().trim() + " ";
+    }
+
+    selectedText = selectedText.trim();
+    selectedText += " " + this.getLineBreak() + app_controller.verse_selection.getSelectedVersesLabel().text();
+
+    return selectedText;
+  }
+
+  async copySelectedVerseTextToClipboard() {
+    var selectedVerseText = await this.getSelectedVerseText();
+    getPlatform().copyTextToClipboard(selectedVerseText);
   }
 }
 

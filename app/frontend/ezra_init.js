@@ -29,7 +29,7 @@ window.app = null;
 var PlatformHelper = null;
 var Startup = null;
 
-if (isElectron) {
+if (window.isElectron) {
   PlatformHelper = require('./app/lib/platform_helper.js');
   Startup = require('./app/frontend/startup.js');
 } else {

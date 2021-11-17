@@ -30,7 +30,6 @@ const eventController = require('../../controllers/event_controller.js');
  */
 class AssignLastTagButton {
   constructor() {
-
     eventController.subscribe('on-tab-selected', (tabIndex) => {
       this.init(tabIndex);
     });
@@ -43,23 +42,28 @@ class AssignLastTagButton {
     eventController.subscribe('on-locale-changed', async () => {
       await this.updateLabel();
     });
+
+    this._button = null;
   }
 
   init(tabIndex=undefined) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    var assignLastTagButton = currentVerseListMenu.find('.assign-last-tag-button');
+    this._button = currentVerseListMenu.find('.assign-last-tag-button');
 
-    assignLastTagButton.unbind('click');
-    assignLastTagButton.bind('click', async (event) => {
+    this._button.unbind('click');
+    this._button.bind('click', async (event) => {
       event.stopPropagation();
-
-      if (!event.target.classList.contains('ui-state-disabled')) {
-        uiHelper.showTextLoadingIndicator();
-        await waitUntilIdle();
-        await tags_controller.assignLastTag();
-        uiHelper.hideTextLoadingIndicator();
-      }
+      await this.handleClick();
     });
+  }
+
+  async handleClick() {
+    if (!this._button[0].classList.contains('ui-state-disabled')) {
+      uiHelper.showTextLoadingIndicator();
+      await waitUntilIdle();
+      await tags_controller.assignLastTag();
+      uiHelper.hideTextLoadingIndicator();
+    }
   }
 
   async updateLabel(tagTitle=undefined) {

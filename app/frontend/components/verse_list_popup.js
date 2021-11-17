@@ -20,6 +20,7 @@ const eventController = require('../controllers/event_controller.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
 const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
+const { getPlatform } = require('../helpers/ezra_helper.js');
 
 /**
  * The VerseListPopup component implements a dialog that shows a tagged verse list or a list of cross references.
@@ -51,7 +52,11 @@ class VerseListPopup {
       this.handleCurrentBookFilterClick();
     });
 
-    this.getNewTabButton().bind('mousedown', () => {
+    this.getNewTabButton().bind('mousedown', (event) => {
+      if (event.target.classList.includes('ui-state-disabled')) {
+        return;
+      }
+
       this.handleNewTabButtonClick();
     });
 
@@ -375,8 +380,23 @@ class VerseListPopup {
     return overlay_box_position;
   }
 
+  enableNewTabButton() {
+    this.getNewTabButton().removeClass('ui-state-disabled');
+  }
+
+  disableNewTabButton() {
+    this.getNewTabButton().addClass('ui-state-disabled');
+  }
+
   renderVerseListInPopup(htmlVerses, verseCount) {
     $('#verse-list-popup-loading-indicator').hide();
+
+    if (getPlatform().isFullScreen()) {
+      this.disableNewTabButton();
+    } else {
+      this.enableNewTabButton();
+    }
+
     this.getNewTabButton().show();
     var tagReferenceBoxTitle = $('#verse-list-popup').dialog('option', 'title');
     tagReferenceBoxTitle += ' (' + verseCount + ')';

@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const i18nController = require('../controllers/i18n_controller.js');
-
+const { getPlatform } = require('../helpers/ezra_helper.js');
 class UiHelper {
   constructor() {
     this.app_container_height = null;
@@ -126,17 +126,23 @@ class UiHelper {
     const sidePanel = document.querySelector('#side-panel');
     const bottomPanel = document.querySelector('#bottom-panel');
 
+    var platform = getPlatform();
+
     if (windowWidth >= 200 && windowWidth < 1200) {
       // Automatically hide toolbar on smaller screens
       sidePanel.style.display='none';
-      app_controller.tag_assignment_menu.moveTagAssignmentList(true);
+
+      if (!platform.isFullScreen()) {
+        app_controller.tag_assignment_menu.moveTagAssignmentList("MENU");
+      }
+
       app_controller.dictionary_controller.moveInfoBoxFromTo(sidePanel, bottomPanel);
     
     } else if (!cycle) {
       sidePanel.style.display='';
       
-      if (app_controller.optionsMenu._tagListOption.isChecked) {
-        app_controller.tag_assignment_menu.moveTagAssignmentList(false);
+      if (!platform.isFullScreen && app_controller.optionsMenu._tagListOption.isChecked) {
+        app_controller.tag_assignment_menu.moveTagAssignmentList("SIDE_PANEL");
       }
 
       app_controller.dictionary_controller.moveInfoBoxFromTo(bottomPanel, sidePanel);

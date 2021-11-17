@@ -302,7 +302,9 @@
     "new-note-hint": "Добавить заметку",
     "open-complete-book": "Открывать книги полностью",
     "open-chapters-large-books": "Открывать по главам большие книги",
-    "open-chapters-all-books": "Открывать по главам все книги"
+    "open-chapters-all-books": "Открывать по главам все книги",
+    "copy": "Copy",
+    "edit-note": "Edit note"
   },
   "dictionary-info-box": {
     "greek-dict": "Словарь греческого языка",

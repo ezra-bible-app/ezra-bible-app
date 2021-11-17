@@ -1049,13 +1049,12 @@ class TagsController {
       tags_controller.verse_selection_blocked = false;
     }, 300);
 
-    var app_container = document.getElementById('app-container');
     var versesSelected = app_controller.verse_selection.selected_verse_box_elements.length > 0;
 
     if (versesSelected) { // Verses are selected
 
       var selected_verse_tags = tags_controller.currentVerseSelectionTags();
-      var checkbox_tags = app_container.querySelectorAll('.checkbox-tag');
+      var checkbox_tags = document.querySelectorAll('.checkbox-tag');
 
       for (var i = 0; i < checkbox_tags.length; i++) {
         this.formatCheckboxElementBasedOnSelection(checkbox_tags[i], selected_verse_tags);

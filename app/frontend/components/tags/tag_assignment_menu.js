@@ -18,6 +18,7 @@
 
 const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
 const eventController = require('../../controllers/event_controller.js');
+
 /**
  * The TagAssignmentMenu component implements the menu event handling and dynamic movement of the tag assignment menu,
  * which can move between the left toolbar and the dropdown button in the verse list menu.
@@ -27,15 +28,65 @@ const eventController = require('../../controllers/event_controller.js');
 class TagAssignmentMenu {
   constructor() {
     this.menuIsOpened = false;
-
+    this._lastTagListContainer = "MENU";
+    this._currentTagListContainer = "MENU";
+    
     eventController.subscribe('on-tab-added', (tabIndex) => {
       this.init(tabIndex);
     });
+    
+    eventController.subscribe('on-locale-changed', async () => {
+      this.initChangeTagPopup();
+    });
+
+    this.initChangeTagPopup();
   }
 
   init(tabIndex=undefined) {
+    if (app_controller.optionsMenu._tagListOption.isChecked) {
+      this._lastTagListContainer = "SIDE_PANEL";
+      this._currentTagListContainer = "SIDE_PANEL";
+    }
+
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.assign-tag-menu-button').bind('click', (event) => { this.handleMenuClick(event); });
+  }
+
+  initChangeTagPopup() {
+    if (this._changeTagPopupInitDone) {
+      return;
+    }
+
+    var changeTagDialogOptions = {
+      title: i18n.t('tags.change-tags'),
+      width: 550,
+      height: 700,
+      position: [60,180],
+      autoOpen: false,
+      dialogClass: 'ezra-dialog'
+    };
+
+    $('#change-tags-box').dialog(changeTagDialogOptions);
+    this._changeTagPopupInitDone = true;
+  }
+
+  async showPopup() {
+    $('#change-tags-box-content').hide();
+    $('#change-tags-box').dialog('open');
+    await waitUntilIdle();
+
+    var tagsContainer = document.querySelector('#tags-content-global');
+    tagsContainer.style.display = 'none';
+
+    if (!app_controller.optionsMenu._tagListOption.isChecked) {
+      $('#change-tags-box-content').show();
+      await waitUntilIdle();
+      app_controller.tag_assignment_menu.moveTagAssignmentList('POPUP');
+    }
+  }
+
+  closePopup() {
+    $('#change-tags-box').dialog('close');
   }
 
   getMenu() {
@@ -106,16 +157,35 @@ class TagAssignmentMenu {
   }
 
   // FIXME: moving tags toolbar depending on screen size is not good from usability perspective
-  moveTagAssignmentList(moveToMenu=false) {
+  /**
+   * 
+   * @param {string} target SIDE_PANEL | MENU | POPUP | PREVIOUS
+   */
+  async moveTagAssignmentList(target="SIDE_PANEL") {
     var tagsContainer = document.querySelector('#tags-content-global');
-    var menu = document.querySelector('#tag-assignment-menu-taglist');
+    var tagAssignmentMenu = document.querySelector('#tag-assignment-menu');
+    var menuTagList = document.querySelector('#tag-assignment-menu-taglist');
+    var menuTagListOverlay = document.querySelector('#tag-assignment-menu-taglist-overlay');
     var toolBar = document.querySelector('#tags-content');
     var tagFilterMenu = document.querySelector('#tag-filter-menu');
     var $tagFilterMenu =$(tagFilterMenu);
     var assignTagMenuButton = this.getCurrentMenuButton();
+    var popup = document.querySelector('#change-tags-box-content');
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
 
+    if (target != this._currentTagListContainer) {
+      if (target == "PREVIOUS") {
+        target = this._lastTagListContainer;
+      }
 
-    if (moveToMenu) {
+      if (this._currentTagListContainer != this._lastTagListContainer) {
+        this._lastTagListContainer = this._currentTagListContainer;
+      }
+      
+      this._currentTagListContainer = target;
+    }
+
+    if (target != "SIDE_PANEL") {
       assignTagMenuButton.show();
     } else {
       assignTagMenuButton.hide();
@@ -123,13 +193,23 @@ class TagAssignmentMenu {
 
     var updated = false;
 
-    if (tagsContainer.parentElement == toolBar && moveToMenu) {
+    if ((tagsContainer.parentElement == toolBar || tagsContainer.parentElement == popup) && target == "MENU") {
       $('#tag-list-filter-button').unbind();
-
-      menu.appendChild(tagsContainer);
 
       var filter = document.querySelector('#tag-assignment-menu-filter');
       var tagsSearchInput = document.querySelector('#tags-search-input');
+
+      if (tagsContainer.parentElement == popup) {
+        // Move the complete filter box back to the tag assignment menu
+        tagAssignmentMenu.prepend(filter);
+        tagAssignmentMenu.append(menuTagListOverlay);
+
+        // Remove the new tag button again - in menu mode the button is located in the menu
+        var newTagButton = tagAssignmentMenu.querySelector('.new-standard-tag-button');
+        newTagButton.remove();
+      }
+
+      menuTagList.appendChild(tagsContainer);
 
       filter.appendChild(tagsSearchInput);
       filter.appendChild(tagFilterMenu);
@@ -144,13 +224,53 @@ class TagAssignmentMenu {
 
       updated = true;
 
-    } else if (tagsContainer.parentElement == menu && !moveToMenu) {
+    } else if ((tagsContainer.parentElement == menuTagList || tagsContainer.parentElement == popup) && target == "SIDE_PANEL") {
+
       tags_controller.handleTagAccordionChange();
       var boxes = document.getElementById('boxes');
       toolBar.appendChild(tagsContainer);
       $tagFilterMenu.hide();
       $tagFilterMenu.find("br:not('#tag-filter-menu-separator')").show();
       boxes.appendChild(tagFilterMenu);
+      updated = true;
+
+    } else if (target == "POPUP") {
+
+      var filter = document.querySelector('#tag-assignment-menu-filter');
+      var tagsSearchInput = document.querySelector('#tags-search-input');
+      var tagAssignmentMenuFilter = document.querySelector('#tag-assignment-menu-filter');
+      var newTagButton = currentVerseListMenu.find('.new-standard-tag-button')[0].cloneNode(true);
+
+      tagsContainer.style.display = 'none';
+
+      filter.appendChild(tagsSearchInput);
+      filter.appendChild(tagFilterMenu);
+
+      if (filter.querySelector('.new-standard-tag-button') == null) {
+        filter.appendChild(newTagButton);
+
+        newTagButton.classList.remove('events-configured');
+        uiHelper.configureButtonStyles(filter);
+
+        newTagButton.addEventListener('click', function() {
+          tags_controller.handleNewTagButtonClick($(this), "standard");
+        });
+      }
+
+      $tagFilterMenu.find("br:not('#tag-filter-menu-separator')").hide();
+      $tagFilterMenu.show();
+
+      popup.appendChild(tagAssignmentMenuFilter);
+      popup.appendChild(menuTagListOverlay);
+
+      menuTagListOverlay.style.display = 'flex';
+      menuTagListOverlay.querySelector('.loader').style.display = 'block';
+
+      await waitUntilIdle();
+      popup.appendChild(tagsContainer);
+      tagsContainer.style.display = 'block';
+      menuTagListOverlay.style.display = 'none';
+
       updated = true;
     }
 
