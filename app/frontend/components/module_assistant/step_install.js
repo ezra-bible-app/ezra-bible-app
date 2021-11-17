@@ -181,7 +181,6 @@ class StepInstall extends HTMLElement {
       $progressBar.progressbar("value", 100);
       var strongsAvailable = await ipcNsi.strongsAvailable();
       
-      // FIXME: Put this in a callback
       if (assistantController.get('moduleType') == 'BIBLE') {
         await eventController.publishAsync('on-translation-added', moduleCode);
       }
