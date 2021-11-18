@@ -88,7 +88,7 @@ class Startup {
       window.Buffer = require('buffer/').Buffer;
     }
 
-    require('./components/panel_buttons.js');
+    require('./components/side-panel/panel_buttons.js');
     require('./components/options_menu/config_option.js');
     require('./components/options_menu/select_option.js');
     require('./components/options_menu/locale_switch.js');

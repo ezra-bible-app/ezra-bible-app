@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { html } = require('../helpers/ezra_helper.js');
+const { html } = require('../../helpers/ezra_helper.js');
 
 const template = html`
    <style>
