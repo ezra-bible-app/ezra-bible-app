@@ -21,6 +21,9 @@
   --background-color: #f2f5f7;
   --widget-bg-color: #eeeeee;
   --text-color: #362b36;
+  --border-color: #dddddd;
+  --border-radius: 6px;
+  --area-border: 1px solid var(--border-color);
 }
 :root body.darkmode--activated {
   --background-color: #1e1e1e;
@@ -563,12 +566,16 @@ h2:nth-of-type(1) {
   width: 100vw;
   height: 100vh;
   display: grid;
-  padding: 1em;
+  padding: 1em 1em 1em 0.5em;
   grid-template-columns: minmax(0, auto) 1fr;
   grid-template-rows: 1fr minmax(0, auto);
   grid-template-areas: 
-    "side-panel content"
-    "side-panel bottom-panel";
+    "panel-buttons side-panel content"
+    "panel-buttons side-panel bottom-panel";
+}
+
+.webview-older #app-container {
+  grid-template-rows: minmax(55vh, 100vh) minmax(0, 23vh);
 }
 
 #app-container.fullscreen {
@@ -576,8 +583,8 @@ h2:nth-of-type(1) {
   padding-left: 0.4em;
 }
 
-.webview-older #app-container {
-  grid-template-rows: minmax(55vh, 100vh) minmax(0, 23vh);
+panel-buttons {
+  height: 100%;
 }
 
 main.content {
