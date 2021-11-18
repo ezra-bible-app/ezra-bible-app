@@ -23,10 +23,10 @@
   padding-right: 1em;
   padding-bottom: 0.5em;
   overflow-y: scroll;
-  border: 1px solid #DDDDDD;
+  border: var(--area-border);
   border-right: none;
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
   user-select: none;
   display: none;
 }

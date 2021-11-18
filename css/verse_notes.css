@@ -32,7 +32,7 @@ div.CodeMirror {
   /*border: 1px solid #FFF500;
   background-color: #FFFF88; */
 
-  border-radius: 6px;
+  border-radius: var(--border-radius);
 
   /* BLUEISH */
   background-color: #DEEDF7;
@@ -120,7 +120,7 @@ div.CodeMirror {
 
 .verse-notes-empty {
   min-height: 1.9em;
-  border: 1px solid #DDDDDD;
+  border: var(--area-border);
   background-color: inherit;
   padding-top: 1.1em;
   padding-bottom: 1.1em;

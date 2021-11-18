@@ -173,7 +173,7 @@ table.strongs-refs td {
 }
 
 tr.td-underline td {
-  border-bottom: 1px solid #DDDDDD;
+  border-bottom: var(--area-border);
 }
 
 #tag-list-filter-button {
@@ -201,7 +201,7 @@ tr.td-underline td {
   padding: 0.1em;
   border: 2px solid #AED0EA;
   z-index: 100;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
   box-shadow: 5px 5px 5px #A0A0A0;
   position: fixed;
   background-color: white;
