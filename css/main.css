@@ -584,7 +584,7 @@ h2:nth-of-type(1) {
 }
 
 panel-buttons {
-  height: 100%;
+  grid-area: panel-buttons;
 }
 
 main.content {

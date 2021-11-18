@@ -20,6 +20,9 @@ const { html } = require('../../helpers/ezra_helper.js');
 
 const template = html`
    <style>
+     :host {
+        height: 100%;
+     }
      #panel-switches {
       --button-switch-size: 1.5em; 
       height: 100%;
@@ -37,33 +40,21 @@ const template = html`
       border-radius: var(--border-radius);
       margin-block-end: 0.5em;
     }
-    #panel-switches button.bottom {
-      margin-top: auto;
-      margin-bottom: 0;
-    }
    </style>
     
    <nav id="panel-switches">
-     <button id="switch-tags-panel"><i class="fa fa-tags"></i></button>
-     <button id="switch-dictionary-panel" class="bottom"><i class="fa fa-book"></i></button>
-  </nav>
+     <slot></slot>
+   </nav>
    `;
 
 class PanelButtons extends HTMLElement {
   constructor() {
     super();
-    this.appendChild(template.content.cloneNode(true));
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
   }
 
   connectedCallback() {
-  }
-
-  show() {
-    this.style.display = 'block';
-  }
-
-  hide() {
-    this.style.display = 'none';
   }
 }
 
