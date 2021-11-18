@@ -61,12 +61,13 @@ class OptionsMenu {
       openVerseListsInNewTabByDefault = true;
     }
 
-    this._tagListOption = this.initConfigOption('showTagListOption', () => { this.showOrHideToolBarBasedOnOption(); }, tagListOptionCheckedByDefault);
+    // FIXME: this hack can be completely removed if tag assignment is always in side panel
+    this._tagListOption = { isChecked: tagListOptionCheckedByDefault };
     this._bookIntroOption = this.initConfigOption('showBookIntroOption', () => { this.showOrHideBookIntroductionBasedOnOption(); });
     this._sectionTitleOption = this.initConfigOption('showSectionTitleOption', () => { this.showOrHideSectionTitlesBasedOnOption(); });
     this._xrefsOption = this.initConfigOption('showXrefsOption', () => { this.showOrHideXrefsBasedOnOption(); });
     this._footnotesOption = this.initConfigOption('showFootnotesOption', () => { this.showOrHideFootnotesBasedOnOption(); });
-    this._dictionaryOption = this.initConfigOption('showDictionaryOption', () => { this.showOrHideStrongsBasedOnOption(); });
+    // this._dictionaryOption = this.initConfigOption('showDictionaryOption', () => { this.showOrHideStrongsBasedOnOption(); });
     this._bookChapterNavOption = this.initConfigOption('showBookChapterNavigationOption', () => { this.showOrHideBookChapterNavigationBasedOnOption(); });
     this._headerNavOption = this.initConfigOption('showHeaderNavigationOption', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
     this._tabSearchOption = this.initConfigOption('showTabSearchOption', () => { this.showOrHideTabSearchFormBasedOnOption(undefined, true); });
@@ -207,31 +208,6 @@ class OptionsMenu {
     }
   }
 
-  async showOrHideToolBarBasedOnOption(tabIndex=undefined) {
-    await waitUntilIdle();
-
-    var currentToolBar = $('#bible-browser-toolbox');
-    var updated = false;
-
-    if (this._tagListOption.isChecked) {
-      updated = app_controller.tag_assignment_menu.moveTagAssignmentList("SIDE_PANEL");
-      if (updated || currentToolBar.is(':hidden')) {
-        currentToolBar.show();
-        currentToolBar.parent().addClass('with-tags');
-        updated = true;
-      }
-    } else {
-      updated = app_controller.tag_assignment_menu.moveTagAssignmentList("MENU");
-      if (updated || currentToolBar.is(':visible')) {
-        currentToolBar.hide();
-        currentToolBar.parent().removeClass('with-tags');
-        updated = true;
-      }
-    }
-
-    if (updated) uiHelper.resizeAppContainer(undefined, true);
-  }
-
   showOrHideBookIntroductionBasedOnOption(tabIndex=undefined) {
     var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
 
@@ -336,7 +312,7 @@ class OptionsMenu {
   showOrHideStrongsBasedOnOption(tabIndex=undefined) {
     var updated = false;
 
-    if (!this._dictionaryOption.isChecked) { 
+    if (true || !this._dictionaryOption.isChecked) { 
       app_controller.dictionary_controller.hideInfoBox();
       if (updated) {
         app_controller.dictionary_controller.clearInfoBox();
@@ -487,7 +463,6 @@ class OptionsMenu {
   }
 
   async refreshViewBasedOnOptions(tabIndex=undefined) {
-    this.showOrHideToolBarBasedOnOption(tabIndex);
     this.showOrHideBookIntroductionBasedOnOption(tabIndex);
     this.showOrHideSectionTitlesBasedOnOption(tabIndex);
     this.showOrHideBookChapterNavigationBasedOnOption(tabIndex);

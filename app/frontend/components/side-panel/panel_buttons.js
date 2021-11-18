@@ -46,7 +46,7 @@ const template = html`
     ::slotted(button.active) {
       border-color: #aed0ea;
       border-width: 2px;
-      background: #e3f1fa;
+      background: #e4f1fb;
       box-shadow: none;
       transform: translateX(1px);
     }
@@ -80,7 +80,7 @@ class PanelButtons extends HTMLElement {
 
     buttonElement.addEventListener('click', async (e) => {
       e.preventDefault();
-      await this.updatePanel(buttonElement, this.panelStates[settingsKey]);
+      await this.updatePanel(buttonElement, !this.panelStates[settingsKey]);
     });
   }
   
@@ -90,17 +90,18 @@ class PanelButtons extends HTMLElement {
    */
   async updatePanel(buttonElement, isOpen, saveSettings=true) {
     if (!buttonElement.hasAttribute('settings-key')) {
-      console.log('Attribute "settings-key" is required for panel buttons!');
+      console.error('Attribute "settings-key" is required for panel buttons!');
       return;
     }
     const settingsKey = buttonElement.getAttribute('settings-key');
 
     if (!buttonElement.hasAttribute('event')) {
-      console.log('Attribute "event" is required for panel buttons!');
+      console.error('Attribute "event" is required for panel buttons!');
       return;
     }
     const emitEvent = buttonElement.getAttribute('event');
 
+    console.info(`Panel switch ${emitEvent} isOpen=${isOpen}`);
     this.panelStates[settingsKey] = isOpen;
     if (isOpen) {
       buttonElement.classList.add('active');

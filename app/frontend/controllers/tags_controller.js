@@ -83,8 +83,32 @@ class TagsController {
       this.refreshTagDialogs();
     });
 
-    eventController.subscribe('on-translation-removed', async (translationId) => {
+    eventController.subscribe('on-translation-removed', async () => {
       await this.updateTagUiBasedOnTagAvailability();
+    });
+
+    eventController.subscribe('on-tags-panel-switched', isOpen => {
+      var currentToolBar = $('#bible-browser-toolbox');
+      var updated = false;
+  
+      if (isOpen) {
+        updated = app_controller.tag_assignment_menu.moveTagAssignmentList("SIDE_PANEL");
+        if (updated || currentToolBar.is(':hidden')) {
+          currentToolBar.show();
+          currentToolBar.parent().addClass('with-tags');
+          updated = true;
+        }
+      } else {
+        updated = app_controller.tag_assignment_menu.moveTagAssignmentList("MENU");
+        if (updated || currentToolBar.is(':visible')) {
+          currentToolBar.hide();
+          currentToolBar.parent().removeClass('with-tags');
+          updated = true;
+        }
+      }
+  
+      if (updated) uiHelper.resizeAppContainer(undefined, true);
+  
     });
   }
 
