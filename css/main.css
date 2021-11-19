@@ -21,14 +21,28 @@
   --background-color: #f2f5f7;
   --widget-bg-color: #eeeeee;
   --text-color: #362b36;
+  
   --border-color: #dddddd;
   --border-radius: 6px;
   --area-border: 1px solid var(--border-color);
+
+  --highlight-bg-color: #e4f1fb;
+  --highlight-bg: var(--highlight-bg-color) url(images/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
+  --highlight-border-color: #74b2e2;
+  --highlight-border: 1px solid var(--highlight-border-color);
+  --highlight-color: var(--accent-color);
+  --highlight-shadow: 1px 1px 6px #0002;
 }
 :root body.darkmode--activated {
   --background-color: #1e1e1e;
   --widget-bg-color: #1e1e1e;
   --text-color: #cccccc;
+
+  --highlight-bg-color: #003147;
+  --highlight-bg: var(--highlight-bg-color) url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
+  --highlight-border-color: #0b93d5;
+  --highlight-color: var(--text-color);
+  --highlight-shadow: 2px 1px 6px #fff4;
 }
 .bold {
   font-weight: bold;
@@ -931,11 +945,11 @@ li.book-unavailable a:focus,
 #book-selection-menu-chapter-list a:hover,
 #book-selection-menu-chapter-list a:focus {
   /*text-decoration: underline;*/
-  border: 1px solid #74B2E2;
+  border: var(--highlight-border);
   margin: 1px;
   padding: 2px;
   border-radius: 4px;
-  background: #e4f1fb url(images/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
+  background: var(--highlight-bg);
 }
 
 .darkmode--activated .book-list-column li.book-available a:hover,
@@ -949,11 +963,11 @@ li.book-unavailable a:focus,
 .book-list-column li.book-selected a:link,
 .book-list-column li.book-selected a:visited,
 .book-list-column li.book-selected a:focus {
-  border: 1px solid #74B2E2;
+  border: var(--highlight-border);
   margin: 1px;
   border-radius: 4px;
   padding: 2px;
-  background: #e4f1fb url(images/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
+  background: var(--highlight-bg);
 }
 
 .darkmode--activated .book-list-column li.book-selected a:link,
@@ -1607,7 +1621,7 @@ s {
   padding-right: 0.2em;
   border: 1px solid gray;
   border-radius: 5px;
-  background-color: #e4f1fb;
+  background-color: var(--highlight-bg-color);
   z-index: 100;
   /*opacity: 0.8;*/
   user-select: none;
@@ -1615,7 +1629,7 @@ s {
 }
 
 .strongs-hl {
-  background-color: #e4f1fb;
+  background-color: var(--highlight-bg-color);
 }
 
 .darkmode--activated .strongs-hl {
