@@ -109,8 +109,9 @@ class PanelButtons extends HTMLElement {
       buttonElement.classList.remove('active');
     }
 
+    await waitUntilIdle();
+    
     if (saveSettings) {
-      await waitUntilIdle();
       await ipcSettings.set(settingsKey, isOpen);
     }
 

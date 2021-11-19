@@ -63,11 +63,11 @@ class OptionsMenu {
 
     // FIXME: this hack can be completely removed if tag assignment is always in side panel
     this._tagListOption = { isChecked: tagListOptionCheckedByDefault };
+
     this._bookIntroOption = this.initConfigOption('showBookIntroOption', () => { this.showOrHideBookIntroductionBasedOnOption(); });
     this._sectionTitleOption = this.initConfigOption('showSectionTitleOption', () => { this.showOrHideSectionTitlesBasedOnOption(); });
     this._xrefsOption = this.initConfigOption('showXrefsOption', () => { this.showOrHideXrefsBasedOnOption(); });
     this._footnotesOption = this.initConfigOption('showFootnotesOption', () => { this.showOrHideFootnotesBasedOnOption(); });
-    // this._dictionaryOption = this.initConfigOption('showDictionaryOption', () => { this.showOrHideStrongsBasedOnOption(); });
     this._bookChapterNavOption = this.initConfigOption('showBookChapterNavigationOption', () => { this.showOrHideBookChapterNavigationBasedOnOption(); });
     this._headerNavOption = this.initConfigOption('showHeaderNavigationOption', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
     this._tabSearchOption = this.initConfigOption('showTabSearchOption', () => { this.showOrHideTabSearchFormBasedOnOption(undefined, true); });
@@ -309,22 +309,6 @@ class OptionsMenu {
     }
   }
 
-  showOrHideStrongsBasedOnOption(tabIndex=undefined) {
-    var updated = false;
-
-    if (true || !this._dictionaryOption.isChecked) { 
-      app_controller.dictionary_controller.hideInfoBox();
-      if (updated) {
-        app_controller.dictionary_controller.clearInfoBox();
-      }
-
-      app_controller.dictionary_controller.hideStrongsBox(true);
-    } else {
-      app_controller.dictionary_controller.showInfoBox();
-    }
-
-  }
-
   showOrHideBookChapterNavigationBasedOnOption(tabIndex=undefined) {
     if (this._bookChapterNavOption.isChecked) {
       app_controller.navigation_pane.show(tabIndex);
@@ -472,7 +456,6 @@ class OptionsMenu {
     this.showOrHideUserDataIndicatorsBasedOnOption(tabIndex);
     this.showOrHideVerseTagsBasedOnOption(tabIndex);
     this.changeTagsLayoutBasedOnOption(tabIndex);
-    this.showOrHideStrongsBasedOnOption(tabIndex);
     this.showOrHideVerseNotesBasedOnOption(tabIndex);
     this.fixNotesHeightBasedOnOption(tabIndex);
     await this.handleBookLoadingModeOptionChange(tabIndex);
