@@ -92,14 +92,14 @@ class TagsController {
       var updated = false;
   
       if (isOpen) {
-        updated = app_controller.tag_assignment_menu.moveTagAssignmentList("SIDE_PANEL");
+        // updated = app_controller.tag_assignment_menu.moveTagAssignmentList("SIDE_PANEL");
         if (updated || currentToolBar.is(':hidden')) {
           currentToolBar.show();
           currentToolBar.parent().addClass('with-tags');
           updated = true;
         }
       } else {
-        updated = app_controller.tag_assignment_menu.moveTagAssignmentList("MENU");
+        // updated = app_controller.tag_assignment_menu.moveTagAssignmentList("MENU");
         if (updated || currentToolBar.is(':visible')) {
           currentToolBar.hide();
           currentToolBar.parent().removeClass('with-tags');

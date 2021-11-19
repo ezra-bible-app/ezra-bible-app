@@ -130,20 +130,20 @@ class UiHelper {
 
     if (windowWidth >= 200 && windowWidth < 1200) {
       // Automatically hide toolbar on smaller screens
-      sidePanel.style.display='none';
+      // sidePanel.style.display='none';
 
-      if (!platform.isFullScreen()) {
-        app_controller.tag_assignment_menu.moveTagAssignmentList("MENU");
-      }
+      // if (!platform.isFullScreen()) {
+      //   app_controller.tag_assignment_menu.moveTagAssignmentList("MENU");
+      // }
 
       app_controller.dictionary_controller.moveInfoBoxFromTo(sidePanel, bottomPanel);
     
     } else if (!cycle) {
-      sidePanel.style.display='';
+      // sidePanel.style.display='';
       
-      if (!platform.isFullScreen && app_controller.optionsMenu._tagListOption.isChecked) {
-        app_controller.tag_assignment_menu.moveTagAssignmentList("SIDE_PANEL");
-      }
+      // if (!platform.isFullScreen && app_controller.optionsMenu._tagListOption.isChecked) {
+      //   app_controller.tag_assignment_menu.moveTagAssignmentList("SIDE_PANEL");
+      // }
 
       app_controller.dictionary_controller.moveInfoBoxFromTo(bottomPanel, sidePanel);
     }

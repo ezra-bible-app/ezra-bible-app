@@ -39,19 +39,19 @@ class TagAssignmentMenu {
       this.initChangeTagPopup();
     });
 
-    eventController.subscribe('on-fullscreen-changed', (isFullScreen) => {
-      if (isFullScreen) {
-        if (!app_controller.optionsMenu._tagListOption.isChecked) {
-          this.moveTagAssignmentList("POPUP");
-        }
-      } else {
-        this.closePopup();
+    // eventController.subscribe('on-fullscreen-changed', (isFullScreen) => {
+    //   if (isFullScreen) {
+    //     if (!app_controller.optionsMenu._tagListOption.isChecked) {
+    //       this.moveTagAssignmentList("POPUP");
+    //     }
+    //   } else {
+    //     this.closePopup();
         
-        if (!app_controller.optionsMenu._tagListOption.isChecked) {
-          this.moveTagAssignmentList("PREVIOUS");
-        }
-      }
-    });
+    //     if (!app_controller.optionsMenu._tagListOption.isChecked) {
+    //       this.moveTagAssignmentList("PREVIOUS");
+    //     }
+    //   }
+    // });
 
     this.initChangeTagPopup();
   }
@@ -92,11 +92,11 @@ class TagAssignmentMenu {
     var tagsContainer = document.querySelector('#tags-content-global');
     tagsContainer.style.display = 'none';
 
-    if (!app_controller.optionsMenu._tagListOption.isChecked) {
-      $('#change-tags-box-content').show();
-      await waitUntilIdle();
-      app_controller.tag_assignment_menu.moveTagAssignmentList('POPUP');
-    }
+    // if (!app_controller.optionsMenu._tagListOption.isChecked) {
+    //   $('#change-tags-box-content').show();
+    //   await waitUntilIdle();
+    //   app_controller.tag_assignment_menu.moveTagAssignmentList('POPUP');
+    // }
   }
 
   closePopup() {
