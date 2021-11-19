@@ -40,13 +40,18 @@ const template = html`
       border: var(--area-border);
       border-radius: var(--border-radius);
       margin-block-end: 0.5em;
-      box-shadow: 1px 1px 6px #0002;
+      box-shadow: var(--highlight-shadow);
+    }
+
+    ::slotted(button.bottom) {
+      margin-block-start: auto;
+      margin-block-end: 0;
     }
 
     ::slotted(button.active) {
-      border-color: #aed0ea;
+      border-color: var(--highlight-border-color);
       border-width: 2px;
-      background: #e4f1fb;
+      background: var(--highlight-bg-color);
       box-shadow: none;
       transform: translateX(1px);
     }
@@ -110,7 +115,7 @@ class PanelButtons extends HTMLElement {
     }
 
     await waitUntilIdle();
-    
+
     if (saveSettings) {
       await ipcSettings.set(settingsKey, isOpen);
     }
