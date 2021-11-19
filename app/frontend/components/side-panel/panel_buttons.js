@@ -27,14 +27,18 @@ const template = html`
      #panel-switches {
       --button-switch-size: 1.5em; 
       height: 100%;
+      width: calc(2 * var(---button-switch-size));
       display: flex;
       flex-direction: column;
+      align-items: flex-start;
       margin-inline-end: 0.5em;
     }
     
     ::slotted(button) {
       font-size: var(--button-switch-size) !important; /* There is an issue with ::slotted specificity: https://github.com/w3c/csswg-drafts/issues/6466 */
       color: var(--accent-color);
+      width: calc(var(--button-switch-size) + 8px);
+      height: calc(var(--button-switch-size) + 8px);
       background: none;
       padding: 6px;
       border: var(--area-border);
@@ -48,7 +52,8 @@ const template = html`
       margin-block-end: 0;
     }
 
-    ::slotted(button.active) {
+    ::slotted(button.active),
+    ::slotted(button:hover)  {
       border-color: var(--highlight-border-color);
       border-width: 2px;
       background: var(--highlight-bg-color);
