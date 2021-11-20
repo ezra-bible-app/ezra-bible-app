@@ -240,9 +240,10 @@ class TagAssignmentMenu {
 
     } else if ((tagsContainer.parentElement == menuTagList || tagsContainer.parentElement == popup) && target == "SIDE_PANEL") {
 
-      var new_reference_link = $('#tags-content').find('.ui-state-active').find('a');
+      // Move tags search field back to side panel tag list header
+      var panelHeaderLink = $('#tags-content').find('.ui-state-active').find('a');
       var tagsSearchInput = $('#tags-search-input');
-      new_reference_link.append(tagsSearchInput);
+      panelHeaderLink.append(tagsSearchInput);
 
       var boxes = document.getElementById('boxes');
       toolBar.appendChild(tagsContainer);
