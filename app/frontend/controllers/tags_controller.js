@@ -1106,19 +1106,7 @@ class TagsController {
     }
   }
 
-  handleTagAccordionChange() {
-    var new_reference_link = $('#tags-content').find('.ui-state-active').find('a');
-    var tags_search_input = $('#tags-search-input');
-    new_reference_link.append(tags_search_input);
-  }
-
   initTagsUI() {
-    // $('#tags-content').accordion({
-    //   autoHeight: false,
-    //   animated: false,
-    //   change: tags_controller.handleTagAccordionChange
-    // });
-
     $('#tag-list-filter-button').bind('click', tags_controller.handleFilterButtonClick);
 
     $('#tags-content-global').bind('mouseover', () => { this.hideTagFilterMenuIfInToolBar(); });
