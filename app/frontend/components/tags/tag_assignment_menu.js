@@ -241,9 +241,9 @@ class TagAssignmentMenu {
     } else if ((tagsContainer.parentElement == menuTagList || tagsContainer.parentElement == popup) && target == "SIDE_PANEL") {
 
       // Move tags search field back to side panel tag list header
-      var panelHeaderLink = $('#tags-content').find('.ui-state-active').find('a');
-      var tagsSearchInput = $('#tags-search-input');
-      panelHeaderLink.append(tagsSearchInput);
+      var tagsSearchInput = document.querySelector('#tags-search-input');
+      var panelHeaderLink = document.getElementById('tags-content').querySelector('.ui-state-active').querySelector('a');
+      panelHeaderLink.appendChild(tagsSearchInput);
 
       var boxes = document.getElementById('boxes');
       toolBar.appendChild(tagsContainer);
