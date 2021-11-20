@@ -75,11 +75,19 @@ class PanelButtons extends HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     this.panelStates = {};
+    this.slottedElements = [];
+
+    eventController.subscribe('on-fullscreen-changed', (isFullScreen) => {
+      this.slottedElements.forEach(el => {
+        const shouldBeOpen = !isFullScreen;
+        this.updatePanel(el, shouldBeOpen);
+      });
+    });
   }
 
   connectedCallback() {
-    const slottedElements = this.shadowRoot.querySelector('slot').assignedElements();
-    slottedElements.forEach(el => this.initButton(el));
+    this.slottedElements = this.shadowRoot.querySelector('slot').assignedElements();
+    this.slottedElements.forEach(el => this.initButton(el));
   }
 
   async initButton(buttonElement) {
@@ -104,6 +112,9 @@ class PanelButtons extends HTMLElement {
       return;
     }
     const settingsKey = buttonElement.getAttribute('settings-key');
+
+    // if state is the same
+    if (this.panelStates[settingsKey] === isOpen) return;
 
     if (!buttonElement.hasAttribute('event')) {
       console.error('Attribute "event" is required for panel buttons!');
