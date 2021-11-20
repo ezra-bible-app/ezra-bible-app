@@ -141,7 +141,7 @@ class UiHelper {
     } else if (!cycle) {
       sidePanel.style.display='';
       
-      if (!platform.isFullScreen && app_controller.optionsMenu._tagListOption.isChecked) {
+      if (!platform.isFullScreen() && app_controller.optionsMenu._tagListOption.isChecked) {
         app_controller.tag_assignment_menu.moveTagAssignmentList("SIDE_PANEL");
       }
 
