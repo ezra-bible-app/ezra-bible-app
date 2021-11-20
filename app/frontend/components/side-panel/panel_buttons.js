@@ -93,7 +93,8 @@ class PanelButtons extends HTMLElement {
   async initButton(buttonElement) {
     const settingsKey = buttonElement.getAttribute('settings-key');
     const defaultOpen = (buttonElement.getAttribute('default') == "true");
-    const isOpen = await ipcSettings.get(settingsKey, defaultOpen);
+    const isBottomButton = buttonElement.classList.contains('bottom');
+    const isOpen = uiHelper.isSmallScreen && isBottomButton ? false : await ipcSettings.get(settingsKey, defaultOpen);
     await this.updatePanel(buttonElement, isOpen, false);
 
     buttonElement.addEventListener('click', async (e) => {

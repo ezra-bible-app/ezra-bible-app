@@ -21,6 +21,7 @@ const { getPlatform } = require('../helpers/ezra_helper.js');
 class UiHelper {
   constructor() {
     this.app_container_height = null;
+    this.windowWidth = window.innerWidth;
   }
 
   configureButtonStyles(context=null) {
@@ -95,13 +96,9 @@ class UiHelper {
 
   // FIXME: responsiveness should be done via CSS
   // the only thing that relays on this class is .verse-notes
-  adaptVerseList(sidePanelWidth, windowWidth=undefined) {
-    if (!windowWidth) {
-      windowWidth = window.innerWidth;
-    }
-
+  adaptVerseList(sidePanelWidth) {
     var verseListTabsClassList = document.querySelector('#verse-list-tabs').classList;
-    var verseListTabsWidth = windowWidth - sidePanelWidth;
+    var verseListTabsWidth = this.windowWidth - sidePanelWidth;
 
     if (verseListTabsWidth >= 200 && // Initially, at program start the width is very small (100) - in this
                                      // case we don't add the small-screen class to avoid flickering.
@@ -121,14 +118,14 @@ class UiHelper {
   }
   
   resizeAppContainer(sidePanelWidth=undefined, cycle=false) {
-    var windowWidth = window.innerWidth;
+    this.windowWidth = window.innerWidth;
 
     const sidePanel = document.querySelector('#side-panel');
     const bottomPanel = document.querySelector('#bottom-panel');
 
     var platform = getPlatform();
 
-    if (windowWidth >= 200 && windowWidth < 1200) {
+    if (this.windowWidth >= 200 && this.windowWidth < 1200) {
       // Automatically hide toolbar on smaller screens
       // sidePanel.style.display='none';
 
@@ -149,7 +146,11 @@ class UiHelper {
     }
 
     sidePanelWidth = sidePanelWidth || sidePanel.offsetWidth; 
-    this.adaptVerseList(sidePanelWidth, windowWidth);
+    this.adaptVerseList(sidePanelWidth);
+  }
+
+  get isSmallScreen() {
+    return this.windowWidth < 1200;
   }
 
   getMaxDialogWidth() {
