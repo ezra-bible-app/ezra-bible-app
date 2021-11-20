@@ -240,7 +240,10 @@ class TagAssignmentMenu {
 
     } else if ((tagsContainer.parentElement == menuTagList || tagsContainer.parentElement == popup) && target == "SIDE_PANEL") {
 
-      tags_controller.handleTagAccordionChange();
+      var new_reference_link = $('#tags-content').find('.ui-state-active').find('a');
+      var tagsSearchInput = $('#tags-search-input');
+      new_reference_link.append(tagsSearchInput);
+
       var boxes = document.getElementById('boxes');
       toolBar.appendChild(tagsContainer);
       $tagFilterMenu.hide();
