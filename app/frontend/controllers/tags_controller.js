@@ -842,7 +842,7 @@ class TagsController {
         tagStatistics: tag_statistics,
         current_book: current_book,
         current_filter: $('#tags-search-input').val(),
-        rename_tag_label: i18n.t("tags.rename-tag-button"),
+        rename_tag_label: i18n.t("tags.rename-tag"),
         delete_tag_label: i18n.t("tags.delete-tag-permanently"),
       });
 
@@ -927,7 +927,7 @@ class TagsController {
     tags_box.addEventListener('click', async function(event) {
       if (event.target.matches('.tag-delete-icon')) {
         tags_controller.handleDeleteTagButtonClick(event);
-      } else if (event.target.matches('.rename-tag-label')) {
+      } else if (event.target.matches('.tag-rename-icon')) {
         tags_controller.handleRenameTagClick(event);
       } else if (event.target.matches('.tag-cb')) {
         await tags_controller.handleTagCbClick(event);
@@ -935,37 +935,6 @@ class TagsController {
         await tags_controller.handleTagLabelClick(event);
       } else {
         return;
-      }
-    }, false);
-
-    tags_box.addEventListener('mouseover', function(event) {
-      if (event.target.matches('.cb-label') ||
-          event.target.matches('.cb-label-tag-assignment-count') ||
-          event.target.matches('.checkbox-tag')) {
-
-        var current_id = $(event.target).attr('tag-id');
-
-        if (tags_controller.last_mouseover_id !== undefined && 
-            tags_controller.last_mouseover_element !== undefined &&
-            current_id != tags_controller.last_mouseover_id) {
-              
-          $(tags_controller.last_mouseover_element).find('.rename-tag-label').hide();
-        }
-
-        if (current_id != tags_controller.last_mouseover_id) {
-          $(event.target).closest('.checkbox-tag').find('.rename-tag-label').show();
-        }
-
-        tags_controller.last_mouseover_element = $(event.target).closest('.checkbox-tag');
-        tags_controller.last_mouseover_id = $(event.target).closest('.checkbox-tag').attr('tag-id');
-      }
-    }, false);
-
-    tags_box.addEventListener('mouseout', function(event) {
-      if (event.target.matches('.tags-content-global')) {
-        if (tags_controller.last_mouseover_element !== undefined) {
-          $(tags_controller.last_mouseover_element).find('.rename-tag-label').hide();
-        }
       }
     }, false);
   }
