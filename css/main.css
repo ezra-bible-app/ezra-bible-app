@@ -519,6 +519,12 @@ h2:nth-of-type(1) {
   height: 17px;
 }
 
+.Android .tag-delete-button, .Android .tag-rename-button {
+  width: 24px;
+  height: 24px;
+  margin-right: 1em;
+}
+
 .tag-delete-button {
   clear: both;
 }

@@ -93,6 +93,12 @@
   margin-right: 0.5em;
 }
 
+.Android .accordion-panel input,
+.Android #tag-assignment-menu-taglist input,
+.Android #change-tags-box input {
+  margin-right: 1em;
+}
+
 .accordion-panel .ui-icon-triangle-1-s {
   display: none;
 }
@@ -227,6 +233,12 @@ tr.td-underline td {
 .checkbox-tag {
   height: 1em;
   margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+}
+
+.Android .checkbox-tag {
+  height: 1.8em;
 }
 
 .checkbox-tag a {
@@ -239,6 +251,8 @@ tr.td-underline td {
 
 .Android .tag-cb {
   margin-top: 0.1em;
+  margin-left: 0.5em;
+  transform: scale(1.5);
 }
 
 .cb-label,
