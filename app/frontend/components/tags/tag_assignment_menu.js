@@ -163,7 +163,10 @@ class TagAssignmentMenu {
 
       menu.find('#tag-assignment-menu-taglist').show();
       overlay.hide();
-      $('#tags-search-input').select();
+
+      if (platformHelper.isElectron()) {
+        $('#tags-search-input').select();
+      }
 
       this.menuIsOpened = true;
       event.stopPropagation();
