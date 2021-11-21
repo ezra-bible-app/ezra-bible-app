@@ -1437,6 +1437,10 @@ li.book-unavailable a:focus,
   margin-bottom: 0.5em;
 }
 
+.Android .tag-browser-tag {
+  margin-bottom: 1em;
+}
+
 .tag-browser-tag-title {
   /*float: left;*/
   margin-left: 1.5em;
