@@ -138,9 +138,9 @@ class UiHelper {
     } else if (!cycle) {
       // sidePanel.style.display='';
       
-      // if (!platform.isFullScreen && app_controller.optionsMenu._tagListOption.isChecked) {
-      //   app_controller.tag_assignment_menu.moveTagAssignmentList("SIDE_PANEL");
-      // }
+      if (!platform.isFullScreen() && app_controller.optionsMenu._tagListOption.isChecked) {
+        app_controller.tag_assignment_menu.moveTagAssignmentList("SIDE_PANEL");
+      }
 
       app_controller.dictionary_controller.moveInfoBoxFromTo(bottomPanel, sidePanel);
     }
