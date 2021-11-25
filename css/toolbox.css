@@ -231,13 +231,22 @@ tr.td-underline td {
 }
 
 .checkbox-tag {
-  height: 1em;
-  margin-bottom: 1em;
-  align-items: center;
+  height: 2em;
+  padding: 0.1em;
+  padding-top: 0.5em;
+  padding-left: 0.5em;  
 }
 
 .Android .checkbox-tag {
-  height: 1.8em;
+  height: 2em;
+}
+
+.checkbox-tag:nth-child(odd) {
+  background: lightgray;
+}
+
+.darkmode--activated .checkbox-tag:nth-child(odd) {
+  background: black;
 }
 
 .checkbox-tag a {
