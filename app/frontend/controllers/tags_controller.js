@@ -1241,13 +1241,30 @@ class TagsController {
       //console.time('filter-tag-list');
       var tags_content = document.getElementById('tags-content-global');
       var tag_labels = tags_content.querySelectorAll('.cb-label');
-      $(tags_content).find('.checkbox-tag').hide();
+      tags_content.querySelectorAll('.checkbox-tag').forEach((el) => {
+        el.classList.add('hidden');
+        el.classList.remove('odd');
+        el.classList.remove('even');
+      });
+
+      var visibleCounter = 1;
 
       for (var i = 0; i < tag_labels.length; i++) {
         var current_label = $(tag_labels[i]);
 
         if (tags_controller.tagTitleMatchesFilter(current_label.text(), search_value)) {
-          $(current_label.closest('.checkbox-tag')).show();
+          let checkboxTag = $(current_label.closest('.checkbox-tag'));
+          checkboxTag.removeClass('hidden');
+
+          if (search_value != "") {
+            if (visibleCounter % 2 != 0) {
+              checkboxTag.addClass('odd');
+            } else {
+              checkboxTag.addClass('even');
+            }
+          }
+
+          visibleCounter += 1;
         }
       }
       //console.timeEnd('filter-tag-list');

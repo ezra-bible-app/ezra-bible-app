@@ -231,13 +231,21 @@ tr.td-underline td {
   padding-left: 0.5em;
 }
 
-.checkbox-tag:nth-child(odd) {
+.checkbox-tag:nth-child(odd), .checkbox-tag.odd {
   background: lightgray;
 }
 
-.darkmode--activated .checkbox-tag:nth-child(odd) {
+.darkmode--activated .checkbox-tag:nth-child(odd), .darkmode--activated .checkbox-tag.odd {
   background: black;
 }
+
+.checkbox-tag.even {
+  background: inherit;
+}
+
+/*.checkbox-tag.hidden ~ .checkbox-tag:nth-child(odd) {
+  background: inherit;
+}*/
 
 .checkbox-tag a {
   text-decoration: none;
