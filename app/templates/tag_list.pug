@@ -45,12 +45,6 @@ each tag in tags
                    global-assignment-count=globalAssignmentCount,
                    last-used-timestamp=last_used_timestamp)
 
-    div(i18n='[title]tags.delete-tag', title=delete_tag_label class='tag-delete-button fg-button fg-button-icon-left ui-state-default ui-corner-all')
-      i(class='fas fa-trash-alt tag-delete-icon')
-
-    div(i18n='[title]tags.rename-tag', title=rename_tag_label class='tag-rename-button fg-button fg-button-icon-left ui-state-default ui-corner-all')
-      i(class='fas fa-edit tag-rename-icon')
-
     if currentStats != null
       - var tag_counts = currentStats.globalAssignmentCount
       if current_book != null
@@ -64,3 +58,10 @@ each tag in tags
       span(class='cb-label-tag-assignment-count' id=stats_id) (#{tag_counts})
 
     span.cb-label-postfix
+
+    div(i18n='[title]tags.delete-tag', title=delete_tag_label class='tag-delete-button fg-button fg-button-icon-left ui-state-default ui-corner-all')
+      i(class='fas fa-trash-alt tag-delete-icon')
+
+    div(i18n='[title]tags.rename-tag', title=rename_tag_label class='tag-rename-button fg-button fg-button-icon-left ui-state-default ui-corner-all')
+      i(class='fas fa-edit tag-rename-icon')
+
