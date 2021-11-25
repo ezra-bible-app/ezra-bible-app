@@ -78,6 +78,14 @@ class IpcNsiHandler {
     return count;
   }
 
+  /**
+   * SWORD uses an underscore as a separator (like pt_BR), while i18next uses a hyphen.
+   * So here we replace any hyphen in the localeCode with an underscore, so that this works with SWORD.
+   */
+  getSwordLocaleCode(localeCode) {
+    return localeCode.replace('-', '_');
+  }
+
   initIpcInterface() {
     this._ipcMain.add('nsi_repositoryConfigExisting', () => {
       return this._nsi.repositoryConfigExisting();
@@ -306,10 +314,12 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.add('nsi_getSwordTranslation', (originalString, localeCode) => {
+      localeCode = this.getSwordLocaleCode(localeCode);
       return this._nsi.getSwordTranslation(originalString, localeCode);
     });
 
     this._ipcMain.add('nsi_getBookAbbreviation', (moduleCode, bookCode, localeCode) => {
+      localeCode = this.getSwordLocaleCode(localeCode);
       return this._nsi.getBookAbbreviation(moduleCode, bookCode, localeCode);
     });
 
