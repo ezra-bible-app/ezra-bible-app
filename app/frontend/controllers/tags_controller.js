@@ -1171,6 +1171,14 @@ class TagsController {
     }
   }
 
+  addAlternatingClass(element, counter) {
+    if (counter % 2 != 0) {
+      element.classList.add('odd');
+    } else {
+      element.classList.add('even');
+    }
+  }
+
   async handleTagFilterTypeClick(e) {
     await waitUntilIdle();
     tags_controller.showTagSelectionFilterLoadingIndicator();
@@ -1178,24 +1186,47 @@ class TagsController {
 
     var selected_type = $(this)[0].value;
     var tags_content_global = $('#tags-content-global');
-    tags_content_global.find('.checkbox-tag').show();
+
+    if (selected_type != "all") {
+      tags_controller.hideAllCheckboxTags();
+    } else {
+      tags_controller.showAllCheckboxTags();
+    }
+
     $('#tag-list-filter-button-active').hide();
+
+    var visibleCounter = 1;
 
     switch (selected_type) {
       case "assigned":
-        tags_content_global.find('.checkbox-tag[book-assignment-count="' + 0 + '"]').hide();
+        tags_content_global.find('.checkbox-tag[book-assignment-count!="' + 0 + '"]').each((index, checkboxTag) => {
+          checkboxTag.classList.remove('hidden');
+          tags_controller.addAlternatingClass(checkboxTag, visibleCounter);
+          visibleCounter += 1;
+        });
+
         $('#tag-list-filter-button-active').show();
         break;
 
       case "unassigned":
-        tags_content_global.find('.checkbox-tag[book-assignment-count!="' + 0 + '"]').hide();
+        tags_content_global.find('.checkbox-tag[book-assignment-count="' + 0 + '"]').each((index, checkboxTag) => {
+          checkboxTag.classList.remove('hidden');
+          tags_controller.addAlternatingClass(checkboxTag, visibleCounter);
+          visibleCounter += 1;
+        });
+
         $('#tag-list-filter-button-active').show();
         break;
       
       case "recently-used":
         tags_content_global.find('.checkbox-tag').filter(function() {
-          return tags_controller.tag_store.filterRecentlyUsedTags(this);
-        }).hide();
+          return !tags_controller.tag_store.filterRecentlyUsedTags(this);
+        }).each((index, checkboxTag) => {
+          checkboxTag.classList.remove('hidden');
+          tags_controller.addAlternatingClass(checkboxTag, visibleCounter);
+          visibleCounter += 1;
+        });
+
         $('#tag-list-filter-button-active').show();
         break;
 
@@ -1233,6 +1264,26 @@ class TagsController {
     return tag_title.toLowerCase().indexOf(filter.toLowerCase()) != -1;
   }
 
+  hideAllCheckboxTags() {
+    var tags_content = document.getElementById('tags-content-global');
+
+    tags_content.querySelectorAll('.checkbox-tag').forEach((el) => {
+      el.classList.add('hidden');
+      el.classList.remove('odd');
+      el.classList.remove('even');
+    });
+  }
+
+  showAllCheckboxTags() {
+    var tags_content = document.getElementById('tags-content-global');
+
+    tags_content.querySelectorAll('.checkbox-tag').forEach((el) => {
+      el.classList.remove('hidden');
+      el.classList.remove('odd');
+      el.classList.remove('even');
+    });
+  }
+
   handleTagSearchInput(e) {
     clearTimeout(tags_controller.tag_search_timeout);
     var search_value = $(this).val();
@@ -1241,27 +1292,20 @@ class TagsController {
       //console.time('filter-tag-list');
       var tags_content = document.getElementById('tags-content-global');
       var tag_labels = tags_content.querySelectorAll('.cb-label');
-      tags_content.querySelectorAll('.checkbox-tag').forEach((el) => {
-        el.classList.add('hidden');
-        el.classList.remove('odd');
-        el.classList.remove('even');
-      });
+
+      tags_controller.hideAllCheckboxTags();
 
       var visibleCounter = 1;
 
       for (var i = 0; i < tag_labels.length; i++) {
-        var current_label = $(tag_labels[i]);
+        let current_label = $(tag_labels[i]);
 
         if (tags_controller.tagTitleMatchesFilter(current_label.text(), search_value)) {
           let checkboxTag = $(current_label.closest('.checkbox-tag'));
           checkboxTag.removeClass('hidden');
 
           if (search_value != "") {
-            if (visibleCounter % 2 != 0) {
-              checkboxTag.addClass('odd');
-            } else {
-              checkboxTag.addClass('even');
-            }
+            tags_controller.addAlternatingClass(checkboxTag[0], visibleCounter);
           }
 
           visibleCounter += 1;
