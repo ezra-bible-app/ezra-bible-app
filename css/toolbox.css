@@ -233,7 +233,6 @@ tr.td-underline td {
 .checkbox-tag {
   height: 1em;
   margin-bottom: 1em;
-  display: flex;
   align-items: center;
 }
 
@@ -277,6 +276,11 @@ tr.td-underline td {
 .meta-tag-number-of-tags-container {
   margin-left: 0.5em;
   color: #808080;
+}
+
+.cb-input-label-stats {
+  display: inline-block;
+  max-width: 80%;
 }
 
 .cb-label {
