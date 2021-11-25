@@ -510,17 +510,13 @@ h2:nth-of-type(1) {
 }
 
 .tag-delete-button, .tag-rename-button {
-  margin-right: 0.5em;
-  float: left;
   display: flex;
+  float: right;
+  margin-right: 0.5em;
   align-items: center;
   justify-content: center;
   width: 17px;
   height: 17px;
-}
-
-.tag-delete-button {
-  clear: both;
 }
 
 .tag-info,
