@@ -238,7 +238,8 @@ tr.td-underline td {
 }
 
 .Android .checkbox-tag {
-  height: 2em;
+  height: 2.5em;
+  padding-top: 0.8em;
 }
 
 .checkbox-tag:nth-child(odd) {
