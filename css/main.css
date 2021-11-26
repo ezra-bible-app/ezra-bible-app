@@ -19,14 +19,18 @@
 :root {
   --accent-color: #2779AA;
   --background-color: #f2f5f7;
+  --background-color-darker: #e6e9eb;
   --widget-bg-color: #eeeeee;
   --text-color: #362b36;
 }
+
 :root body.darkmode--activated {
   --background-color: #1e1e1e;
+  --background-color-darker: #171717;
   --widget-bg-color: #1e1e1e;
   --text-color: #cccccc;
 }
+
 .bold {
   font-weight: bold;
 }

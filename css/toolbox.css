@@ -232,11 +232,7 @@ tr.td-underline td {
 }
 
 .checkbox-tag:nth-child(odd), .checkbox-tag.odd {
-  background: lightgray;
-}
-
-.darkmode--activated .checkbox-tag:nth-child(odd), .darkmode--activated .checkbox-tag.odd {
-  background: black;
+  background: var(--background-color-darker);
 }
 
 .checkbox-tag.even {
