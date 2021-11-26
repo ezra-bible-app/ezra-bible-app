@@ -239,10 +239,6 @@ tr.td-underline td {
   background: inherit;
 }
 
-/*.checkbox-tag.hidden ~ .checkbox-tag:nth-child(odd) {
-  background: inherit;
-}*/
-
 .checkbox-tag a {
   text-decoration: none;
 }
