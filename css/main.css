@@ -1434,14 +1434,13 @@ li.book-unavailable a:focus,
 
 .tag-browser-tag {
   clear: both;
+  height: 1.2em;
   margin-bottom: 0.5em;
   content-visibility: auto;
-  contain-intrinsic-size: 1em;
 }
 
 .Android .tag-browser-tag {
   margin-bottom: 1em;
-  contain-intrinsic-size: 1.5em;
 }
 
 .tag-browser-tag-title {
