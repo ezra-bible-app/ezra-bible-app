@@ -1114,7 +1114,7 @@ class TagsController {
     $('#tags-content-global').bind('mouseover', () => { this.hideTagFilterMenuIfInToolBar(); });
     $('#tag-filter-menu').find('input').bind('click', tags_controller.handleTagFilterTypeClick);
 
-    $('#tags-search-input').bind('keyup', tags_controller.handleTagSearchInput);
+    $('#tags-search-input').bind('keyup', (e) => { this.handleTagSearchInput(e); });
     $('#tags-search-input').bind('keydown', function(e) {
       e.stopPropagation(); 
     });
@@ -1288,26 +1288,25 @@ class TagsController {
 
   handleTagSearchInput(e) {
     clearTimeout(tags_controller.tag_search_timeout);
-    var search_value = $(this).val();
+    var search_value = $(e.target).val();
 
-    tags_controller.tag_search_timeout = setTimeout(function filter_tag_list() {
+    this.tag_search_timeout = setTimeout(() => {
       //console.time('filter-tag-list');
+      this.hideAllCheckboxTags();
+
       var tags_content = document.getElementById('tags-content-global');
       var tag_labels = tags_content.querySelectorAll('.cb-label');
-
-      tags_controller.hideAllCheckboxTags();
-
       var visibleCounter = 1;
 
       for (let i = 0; i < tag_labels.length; i++) {
         let current_label = $(tag_labels[i]);
 
-        if (tags_controller.tagTitleMatchesFilter(current_label.text(), search_value)) {
+        if (this.tagTitleMatchesFilter(current_label.text(), search_value)) {
           let checkboxTag = $(current_label.closest('.checkbox-tag'));
           checkboxTag.removeClass('hidden');
 
           if (search_value != "") {
-            tags_controller.addAlternatingClass(checkboxTag[0], visibleCounter);
+            this.addAlternatingClass(checkboxTag[0], visibleCounter);
           }
 
           visibleCounter += 1;
