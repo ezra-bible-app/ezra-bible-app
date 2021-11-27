@@ -523,6 +523,12 @@ h2:nth-of-type(1) {
   height: 17px;
 }
 
+.Android .tag-delete-button, .Android .tag-rename-button {
+  width: 24px;
+  height: 24px;
+  margin-right: 1em;
+}
+
 .tag-info,
 .notes-info {
   font-weight: bold;
@@ -1429,6 +1435,10 @@ li.book-unavailable a:focus,
 .tag-browser-tag {
   clear: both;
   margin-bottom: 0.5em;
+}
+
+.Android .tag-browser-tag {
+  margin-bottom: 1em;
 }
 
 .tag-browser-tag-title {

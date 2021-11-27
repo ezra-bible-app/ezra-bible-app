@@ -925,9 +925,11 @@ class TagsController {
     var tags_box = document.getElementById('tags-content-global');
 
     tags_box.addEventListener('click', async function(event) {
-      if (event.target.matches('.tag-delete-icon')) {
+      // Use event delegation, so that we do not have to add an event listener to each element.
+
+      if (event.target.matches('.tag-delete-icon') || event.target.matches('.tag-delete-button')) {
         tags_controller.handleDeleteTagButtonClick(event);
-      } else if (event.target.matches('.tag-rename-icon')) {
+      } else if (event.target.matches('.tag-rename-icon') || event.target.matches('.tag-rename-button')) {
         tags_controller.handleRenameTagClick(event);
       } else if (event.target.matches('.tag-cb')) {
         await tags_controller.handleTagCbClick(event);

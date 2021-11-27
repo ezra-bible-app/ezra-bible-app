@@ -163,7 +163,12 @@ class TagAssignmentMenu {
 
       menu.find('#tag-assignment-menu-taglist').show();
       overlay.hide();
-      $('#tags-search-input').select();
+
+      if (platformHelper.isElectron()) {
+        // We're only focussing the search filter on Electron, because on Android it would trigger the screen keyboard right away
+        // and that would be disturbing from a usability perspective.
+        $('#tags-search-input').select();
+      }
 
       this.menuIsOpened = true;
       event.stopPropagation();

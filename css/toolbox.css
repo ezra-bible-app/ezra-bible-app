@@ -93,6 +93,12 @@
   margin-right: 0.5em;
 }
 
+.Android .accordion-panel input,
+.Android #tag-assignment-menu-taglist input,
+.Android #change-tags-box input {
+  margin-right: 1em;
+}
+
 .accordion-panel .ui-icon-triangle-1-s {
   display: none;
 }
@@ -228,7 +234,12 @@ tr.td-underline td {
   height: 2em;
   padding: 0.1em;
   padding-top: 0.5em;
-  padding-left: 0.5em;
+  padding-left: 0.5em;  
+}
+
+.Android .checkbox-tag {
+  height: 2.5em;
+  padding-top: 0.8em;
 }
 
 .checkbox-tag:nth-child(odd), .checkbox-tag.odd {
@@ -249,6 +260,8 @@ tr.td-underline td {
 
 .Android .tag-cb {
   margin-top: 0.1em;
+  margin-left: 0.5em;
+  transform: scale(1.5);
 }
 
 .cb-label,
@@ -273,6 +286,11 @@ tr.td-underline td {
 .meta-tag-number-of-tags-container {
   margin-left: 0.5em;
   color: #808080;
+}
+
+.cb-input-label-stats {
+  display: inline-block;
+  max-width: 80%;
 }
 
 .cb-label {
