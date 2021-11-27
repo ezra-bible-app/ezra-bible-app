@@ -232,6 +232,7 @@ tr.td-underline td {
 
 .checkbox-tag {
   height: 2em;
+  content-visibility: auto;
   padding: 0.1em;
   padding-top: 0.5em;
   padding-left: 0.5em;  
