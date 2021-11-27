@@ -1299,7 +1299,7 @@ class TagsController {
 
       var visibleCounter = 1;
 
-      for (var i = 0; i < tag_labels.length; i++) {
+      for (let i = 0; i < tag_labels.length; i++) {
         let current_label = $(tag_labels[i]);
 
         if (tags_controller.tagTitleMatchesFilter(current_label.text(), search_value)) {
