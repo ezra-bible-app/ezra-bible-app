@@ -163,7 +163,12 @@ class TagAssignmentMenu {
 
       menu.find('#tag-assignment-menu-taglist').show();
       overlay.hide();
-      $('#tags-search-input').select();
+
+      if (platformHelper.isElectron()) {
+        // We're only focussing the search filter on Electron, because on Android it would trigger the screen keyboard right away
+        // and that would be disturbing from a usability perspective.
+        $('#tags-search-input').select();
+      }
 
       this.menuIsOpened = true;
       event.stopPropagation();
@@ -232,15 +237,19 @@ class TagAssignmentMenu {
       $tagFilterMenu.show();
 
       $('#tag-list-filter-button').unbind();
-      $('#tag-list-filter-button').bind('click', tags_controller.handleFilterButtonClick);
+      $('#tag-list-filter-button').bind('click', (e) => { tags_controller.handleFilterButtonClick(e); });
       $tagFilterMenu.find('input').unbind();
-      $tagFilterMenu.find('input').bind('click', tags_controller.handleTagFilterTypeClick);
+      $tagFilterMenu.find('input').bind('click', (e) => { tags_controller.handleTagFilterTypeClick(e); });
 
       updated = true;
 
     } else if ((tagsContainer.parentElement == menuTagList || tagsContainer.parentElement == popup) && target == "SIDE_PANEL") {
 
-      tags_controller.handleTagAccordionChange();
+      // Move tags search field back to side panel tag list header
+      var tagsSearchInput = document.querySelector('#tags-search-input');
+      var panelHeaderLink = document.getElementById('tags-content').querySelector('.ui-state-active').querySelector('a');
+      panelHeaderLink.appendChild(tagsSearchInput);
+
       var boxes = document.getElementById('boxes');
       toolBar.appendChild(tagsContainer);
       $tagFilterMenu.hide();

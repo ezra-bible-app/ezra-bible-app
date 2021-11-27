@@ -842,7 +842,7 @@ class TagsController {
         tagStatistics: tag_statistics,
         current_book: current_book,
         current_filter: $('#tags-search-input').val(),
-        rename_tag_label: i18n.t("tags.rename-tag-button"),
+        rename_tag_label: i18n.t("tags.rename-tag"),
         delete_tag_label: i18n.t("tags.delete-tag-permanently"),
       });
 
@@ -925,9 +925,11 @@ class TagsController {
     var tags_box = document.getElementById('tags-content-global');
 
     tags_box.addEventListener('click', async function(event) {
-      if (event.target.matches('.tag-delete-icon')) {
+      // Use event delegation, so that we do not have to add an event listener to each element.
+
+      if (event.target.matches('.tag-delete-icon') || event.target.matches('.tag-delete-button')) {
         tags_controller.handleDeleteTagButtonClick(event);
-      } else if (event.target.matches('.rename-tag-label')) {
+      } else if (event.target.matches('.tag-rename-icon') || event.target.matches('.tag-rename-button')) {
         tags_controller.handleRenameTagClick(event);
       } else if (event.target.matches('.tag-cb')) {
         await tags_controller.handleTagCbClick(event);
@@ -935,37 +937,6 @@ class TagsController {
         await tags_controller.handleTagLabelClick(event);
       } else {
         return;
-      }
-    }, false);
-
-    tags_box.addEventListener('mouseover', function(event) {
-      if (event.target.matches('.cb-label') ||
-          event.target.matches('.cb-label-tag-assignment-count') ||
-          event.target.matches('.checkbox-tag')) {
-
-        var current_id = $(event.target).attr('tag-id');
-
-        if (tags_controller.last_mouseover_id !== undefined && 
-            tags_controller.last_mouseover_element !== undefined &&
-            current_id != tags_controller.last_mouseover_id) {
-              
-          $(tags_controller.last_mouseover_element).find('.rename-tag-label').hide();
-        }
-
-        if (current_id != tags_controller.last_mouseover_id) {
-          $(event.target).closest('.checkbox-tag').find('.rename-tag-label').show();
-        }
-
-        tags_controller.last_mouseover_element = $(event.target).closest('.checkbox-tag');
-        tags_controller.last_mouseover_id = $(event.target).closest('.checkbox-tag').attr('tag-id');
-      }
-    }, false);
-
-    tags_box.addEventListener('mouseout', function(event) {
-      if (event.target.matches('.tags-content-global')) {
-        if (tags_controller.last_mouseover_element !== undefined) {
-          $(tags_controller.last_mouseover_element).find('.rename-tag-label').hide();
-        }
       }
     }, false);
   }
@@ -1137,25 +1108,13 @@ class TagsController {
     }
   }
 
-  handleTagAccordionChange() {
-    var new_reference_link = $('#tags-content').find('.ui-state-active').find('a');
-    var tags_search_input = $('#tags-search-input');
-    new_reference_link.append(tags_search_input);
-  }
-
   initTagsUI() {
-    // $('#tags-content').accordion({
-    //   autoHeight: false,
-    //   animated: false,
-    //   change: tags_controller.handleTagAccordionChange
-    // });
-
-    $('#tag-list-filter-button').bind('click', tags_controller.handleFilterButtonClick);
+    $('#tag-list-filter-button').bind('click', (e) => { tags_controller.handleFilterButtonClick(e); });
 
     $('#tags-content-global').bind('mouseover', () => { this.hideTagFilterMenuIfInToolBar(); });
-    $('#tag-filter-menu').find('input').bind('click', tags_controller.handleTagFilterTypeClick);
+    $('#tag-filter-menu').find('input').bind('click', (e) => { tags_controller.handleTagFilterTypeClick(e); });
 
-    $('#tags-search-input').bind('keyup', tags_controller.handleTagSearchInput);
+    $('#tags-search-input').bind('keyup', (e) => { this.handleTagSearchInput(e); });
     $('#tags-search-input').bind('keydown', function(e) {
       e.stopPropagation(); 
     });
@@ -1202,7 +1161,7 @@ class TagsController {
   }
 
   handleFilterButtonClick(e) {
-    var position = $(this).offset();
+    var position = $(e.target).offset();
     var filter_menu = $('#tag-filter-menu');
 
     if (filter_menu.is(':visible')) {
@@ -1214,31 +1173,62 @@ class TagsController {
     }
   }
 
+  addAlternatingClass(element, counter) {
+    if (counter % 2 != 0) {
+      element.classList.add('odd');
+    } else {
+      element.classList.add('even');
+    }
+  }
+
+  addAlternatingClassAndIncrementCounter(checkboxTag, counter) {
+    checkboxTag.classList.remove('hidden');
+    this.addAlternatingClass(checkboxTag, counter);
+    return (counter + 1);
+  }
+
   async handleTagFilterTypeClick(e) {
     await waitUntilIdle();
     tags_controller.showTagSelectionFilterLoadingIndicator();
     await sleep(500);
 
-    var selected_type = $(this)[0].value;
+    var selected_type = $(e.target)[0].value;
     var tags_content_global = $('#tags-content-global');
-    tags_content_global.find('.checkbox-tag').show();
+
+    if (selected_type != "all") {
+      tags_controller.hideAllCheckboxTags();
+    } else {
+      tags_controller.showAllCheckboxTags();
+    }
+
     $('#tag-list-filter-button-active').hide();
+
+    var visibleCounter = 1;
 
     switch (selected_type) {
       case "assigned":
-        tags_content_global.find('.checkbox-tag[book-assignment-count="' + 0 + '"]').hide();
+        tags_content_global.find('.checkbox-tag[book-assignment-count!="' + 0 + '"]').each((index, checkboxTag) => {
+          visibleCounter = tags_controller.addAlternatingClassAndIncrementCounter(checkboxTag, visibleCounter);
+        });
+
         $('#tag-list-filter-button-active').show();
         break;
 
       case "unassigned":
-        tags_content_global.find('.checkbox-tag[book-assignment-count!="' + 0 + '"]').hide();
+        tags_content_global.find('.checkbox-tag[book-assignment-count="' + 0 + '"]').each((index, checkboxTag) => {
+          visibleCounter = tags_controller.addAlternatingClassAndIncrementCounter(checkboxTag, visibleCounter);
+        });
+
         $('#tag-list-filter-button-active').show();
         break;
       
       case "recently-used":
-        tags_content_global.find('.checkbox-tag').filter(function() {
-          return tags_controller.tag_store.filterRecentlyUsedTags(this);
-        }).hide();
+        tags_content_global.find('.checkbox-tag').filter((index, element) => {
+          return !tags_controller.tag_store.filterRecentlyUsedTags(element);
+        }).each((index, checkboxTag) => {
+          visibleCounter = tags_controller.addAlternatingClassAndIncrementCounter(checkboxTag, visibleCounter);
+        });
+
         $('#tag-list-filter-button-active').show();
         break;
 
@@ -1276,21 +1266,50 @@ class TagsController {
     return tag_title.toLowerCase().indexOf(filter.toLowerCase()) != -1;
   }
 
+  hideAllCheckboxTags() {
+    var tags_content = document.getElementById('tags-content-global');
+
+    tags_content.querySelectorAll('.checkbox-tag').forEach((el) => {
+      el.classList.add('hidden');
+      el.classList.remove('odd');
+      el.classList.remove('even');
+    });
+  }
+
+  showAllCheckboxTags() {
+    var tags_content = document.getElementById('tags-content-global');
+
+    tags_content.querySelectorAll('.checkbox-tag').forEach((el) => {
+      el.classList.remove('hidden');
+      el.classList.remove('odd');
+      el.classList.remove('even');
+    });
+  }
+
   handleTagSearchInput(e) {
     clearTimeout(tags_controller.tag_search_timeout);
-    var search_value = $(this).val();
+    var search_value = $(e.target).val();
 
-    tags_controller.tag_search_timeout = setTimeout(function filter_tag_list() {
+    this.tag_search_timeout = setTimeout(() => {
       //console.time('filter-tag-list');
+      this.hideAllCheckboxTags();
+
       var tags_content = document.getElementById('tags-content-global');
       var tag_labels = tags_content.querySelectorAll('.cb-label');
-      $(tags_content).find('.checkbox-tag').hide();
+      var visibleCounter = 1;
 
-      for (var i = 0; i < tag_labels.length; i++) {
-        var current_label = $(tag_labels[i]);
+      for (let i = 0; i < tag_labels.length; i++) {
+        let current_label = $(tag_labels[i]);
 
-        if (tags_controller.tagTitleMatchesFilter(current_label.text(), search_value)) {
-          $(current_label.closest('.checkbox-tag')).show();
+        if (this.tagTitleMatchesFilter(current_label.text(), search_value)) {
+          let checkboxTag = $(current_label.closest('.checkbox-tag'));
+          checkboxTag.removeClass('hidden');
+
+          if (search_value != "") {
+            this.addAlternatingClass(checkboxTag[0], visibleCounter);
+          }
+
+          visibleCounter += 1;
         }
       }
       //console.timeEnd('filter-tag-list');
