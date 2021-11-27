@@ -237,9 +237,9 @@ class TagAssignmentMenu {
       $tagFilterMenu.show();
 
       $('#tag-list-filter-button').unbind();
-      $('#tag-list-filter-button').bind('click', tags_controller.handleFilterButtonClick);
+      $('#tag-list-filter-button').bind('click', (e) => { tags_controller.handleFilterButtonClick(e); });
       $tagFilterMenu.find('input').unbind();
-      $tagFilterMenu.find('input').bind('click', tags_controller.handleTagFilterTypeClick);
+      $tagFilterMenu.find('input').bind('click', (e) => { tags_controller.handleTagFilterTypeClick(e); });
 
       updated = true;
 

@@ -1109,10 +1109,10 @@ class TagsController {
   }
 
   initTagsUI() {
-    $('#tag-list-filter-button').bind('click', tags_controller.handleFilterButtonClick);
+    $('#tag-list-filter-button').bind('click', (e) => { tags_controller.handleFilterButtonClick(e); });
 
     $('#tags-content-global').bind('mouseover', () => { this.hideTagFilterMenuIfInToolBar(); });
-    $('#tag-filter-menu').find('input').bind('click', tags_controller.handleTagFilterTypeClick);
+    $('#tag-filter-menu').find('input').bind('click', (e) => { tags_controller.handleTagFilterTypeClick(e); });
 
     $('#tags-search-input').bind('keyup', (e) => { this.handleTagSearchInput(e); });
     $('#tags-search-input').bind('keydown', function(e) {
@@ -1161,7 +1161,7 @@ class TagsController {
   }
 
   handleFilterButtonClick(e) {
-    var position = $(this).offset();
+    var position = $(e.target).offset();
     var filter_menu = $('#tag-filter-menu');
 
     if (filter_menu.is(':visible')) {
@@ -1181,12 +1181,18 @@ class TagsController {
     }
   }
 
+  addAlternatingClassAndIncrementCounter(checkboxTag, counter) {
+    checkboxTag.classList.remove('hidden');
+    this.addAlternatingClass(checkboxTag, counter);
+    return (counter + 1);
+  }
+
   async handleTagFilterTypeClick(e) {
     await waitUntilIdle();
     tags_controller.showTagSelectionFilterLoadingIndicator();
     await sleep(500);
 
-    var selected_type = $(this)[0].value;
+    var selected_type = $(e.target)[0].value;
     var tags_content_global = $('#tags-content-global');
 
     if (selected_type != "all") {
@@ -1202,9 +1208,7 @@ class TagsController {
     switch (selected_type) {
       case "assigned":
         tags_content_global.find('.checkbox-tag[book-assignment-count!="' + 0 + '"]').each((index, checkboxTag) => {
-          checkboxTag.classList.remove('hidden');
-          tags_controller.addAlternatingClass(checkboxTag, visibleCounter);
-          visibleCounter += 1;
+          visibleCounter = tags_controller.addAlternatingClassAndIncrementCounter(checkboxTag, visibleCounter);
         });
 
         $('#tag-list-filter-button-active').show();
@@ -1212,21 +1216,17 @@ class TagsController {
 
       case "unassigned":
         tags_content_global.find('.checkbox-tag[book-assignment-count="' + 0 + '"]').each((index, checkboxTag) => {
-          checkboxTag.classList.remove('hidden');
-          tags_controller.addAlternatingClass(checkboxTag, visibleCounter);
-          visibleCounter += 1;
+          visibleCounter = tags_controller.addAlternatingClassAndIncrementCounter(checkboxTag, visibleCounter);
         });
 
         $('#tag-list-filter-button-active').show();
         break;
       
       case "recently-used":
-        tags_content_global.find('.checkbox-tag').filter(function() {
-          return !tags_controller.tag_store.filterRecentlyUsedTags(this);
+        tags_content_global.find('.checkbox-tag').filter((index, element) => {
+          return !tags_controller.tag_store.filterRecentlyUsedTags(element);
         }).each((index, checkboxTag) => {
-          checkboxTag.classList.remove('hidden');
-          tags_controller.addAlternatingClass(checkboxTag, visibleCounter);
-          visibleCounter += 1;
+          visibleCounter = tags_controller.addAlternatingClassAndIncrementCounter(checkboxTag, visibleCounter);
         });
 
         $('#tag-list-filter-button-active').show();
