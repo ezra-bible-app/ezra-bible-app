@@ -514,6 +514,55 @@ class VerseSelection {
     var selectedVerseText = await this.getSelectedVerseText();
     getPlatform().copyTextToClipboard(selectedVerseText);
   }
+
+  getCurrentSelectionTags() {
+    var verse_selection_tags = new Array;
+
+    if (this.selected_verse_box_elements == null) {
+      return verse_selection_tags;
+    }
+
+    for (let i = 0; i < this.selected_verse_box_elements.length; i++) {
+      let current_verse_box = $(this.selected_verse_box_elements[i]);
+      let current_tag_list = current_verse_box.find('.tag-data').children();
+
+      for (let j = 0; j < current_tag_list.length; j++) {
+        let current_tag = $(current_tag_list[j]);
+        let current_tag_title = current_tag.find('.tag-title').html();
+        let tag_obj = null;
+
+        for (let k = 0; k < verse_selection_tags.length; k++) {
+          let current_tag_obj = verse_selection_tags[k];
+
+          if (current_tag_obj.title == current_tag_title &&
+              current_tag_obj.category == current_tag.attr('class')) {
+
+            tag_obj = current_tag_obj;
+            break;
+          }
+        }
+
+        if (tag_obj == null) {
+          tag_obj = {
+            title: current_tag_title,
+            category: current_tag.attr('class'),
+            count: 0
+          }
+
+          verse_selection_tags.push(tag_obj);
+        }
+
+        tag_obj.count += 1;
+      }
+    }
+
+    for (let i = 0; i < verse_selection_tags.length; i++) {
+      let current_tag_obj = verse_selection_tags[i];
+      current_tag_obj.complete = (current_tag_obj.count == this.selected_verse_box_elements.length);
+    }
+
+    return verse_selection_tags;
+  }
 }
 
 module.exports = VerseSelection;

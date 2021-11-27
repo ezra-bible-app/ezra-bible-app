@@ -958,57 +958,6 @@ class TagsController {
     }
   }
 
-  currentVerseSelectionTags() {
-    var verse_selection_tags = new Array;
-
-    if (app_controller.verse_selection.selected_verse_box_elements == null) {
-      return verse_selection_tags;
-    }
-
-    var selected_verse_boxes = app_controller.verse_selection.selected_verse_box_elements;
-
-    for (var i = 0; i < selected_verse_boxes.length; i++) {
-      var current_verse_box = $(selected_verse_boxes[i]);
-      var current_tag_list = current_verse_box.find('.tag-data').children();
-
-      for (var j = 0; j < current_tag_list.length; j++) {
-        var current_tag = $(current_tag_list[j]);
-        var current_tag_title = current_tag.find('.tag-title').html();
-        var tag_obj = null;
-
-        for (var k = 0; k < verse_selection_tags.length; k++) {
-          var current_tag_obj = verse_selection_tags[k];
-
-          if (current_tag_obj.title == current_tag_title &&
-              current_tag_obj.category == current_tag.attr('class')) {
-
-            tag_obj = current_tag_obj;
-            break;
-          }
-        }
-
-        if (tag_obj == null) {
-          tag_obj = {
-            title: current_tag_title,
-            category: current_tag.attr('class'),
-            count: 0
-          }
-
-          verse_selection_tags.push(tag_obj);
-        }
-
-        tag_obj.count += 1;
-      }
-    }
-
-    for (var i = 0; i < verse_selection_tags.length; i++) {
-      var current_tag_obj = verse_selection_tags[i];
-      current_tag_obj.complete = (current_tag_obj.count == selected_verse_boxes.length);
-    }
-
-    return verse_selection_tags;
-  }
-
   async updateTagsViewAfterVerseSelection(force) {
     //console.time('updateTagsViewAfterVerseSelection');
     if (tags_controller.verse_selection_blocked && force !== true) {
@@ -1024,7 +973,7 @@ class TagsController {
 
     if (versesSelected) { // Verses are selected
 
-      var selected_verse_tags = tags_controller.currentVerseSelectionTags();
+      var selected_verse_tags = app_controller.verse_selection.getCurrentSelectionTags();
       var checkbox_tags = document.querySelectorAll('.checkbox-tag');
 
       for (var i = 0; i < checkbox_tags.length; i++) {
