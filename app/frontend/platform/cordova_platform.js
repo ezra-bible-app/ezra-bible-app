@@ -115,7 +115,6 @@ class CordovaPlatform {
     console.log("Permission to access storage has been GRANTED!");
     this.getPermissionBox().dialog('close');
     uiHelper.showGlobalLoadingIndicator();
-
     this.initPersistenceAndStart();
   }
 
@@ -265,16 +264,9 @@ class CordovaPlatform {
       window.ipcI18n = new IpcI18n();
       await i18nController.initI18N();
 
-
       this.hasPermission().then((result) => {
-        let isScopedStorage = this.isAndroidWithScopedStorage();
-        if (isScopedStorage) {
-          var version = this.getAndroidVersion();
-          console.log(`Android ${version} with scoped storage! Using internal storage ...`);
-        }
-
-        if (result == true || isScopedStorage) {
-          this.initPersistenceAndStart(isScopedStorage);
+        if (result == true) {
+          this.initPersistenceAndStart();
         } else {
           this.showPermissionInfo();
         }
@@ -284,14 +276,15 @@ class CordovaPlatform {
     });
   }
 
-  async initPersistenceAndStart(isScopedStorage=false) {
+  async initPersistenceAndStart() {
+    const androidVersion = this.getAndroidVersion();
     window.ipcGeneral = new IpcGeneral();
 
     uiHelper.updateLoadingSubtitle("cordova.init-sword", "Initializing SWORD");
-    await ipcGeneral.initPersistentIpc(isScopedStorage);
+    await ipcGeneral.initPersistentIpc(androidVersion);
 
     uiHelper.updateLoadingSubtitle("cordova.init-database", "Initializing database");
-    await ipcGeneral.initDatabase(isScopedStorage);
+    await ipcGeneral.initDatabase(androidVersion);
 
     await startup.initApplication();
   }
