@@ -408,17 +408,21 @@ class NotesController {
     });
 
     this.currentEditor = editor;
-    this._focusEditor();
+    this._focusEditor(true);
     notesElementText.querySelector('.btn-picker').attachEditor(editor);
   }
 
-  _focusEditor() {
+  _focusEditor(moveCursorToEnd=false) {
     setTimeout(() => {
       if (this.currentEditor != null) {
         this.currentEditor.refresh();
         this.currentEditor.getInputField().focus();
+
+        if (moveCursorToEnd) {
+          this.currentEditor.execCommand('goDocEnd');
+        }
       }
-    }, 200);
+    }, 50);
   }
 
   getCurrentTheme() {
