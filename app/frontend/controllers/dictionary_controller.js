@@ -60,6 +60,10 @@ class DictionaryController {
       this.hideStrongsBox();
     });
 
+    document.body.addEventListener('touchmove', () => {
+      this.hideStrongsBox();
+    });
+
     window.addEventListener('scroll', () => {
       this.hideStrongsBox();
     });
