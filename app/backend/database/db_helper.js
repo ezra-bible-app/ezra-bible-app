@@ -30,10 +30,6 @@ class DbHelper {
       console.log('Cannot initialize DbHelper with userDataDir "undefined"');
     }
 
-    if (this.platformHelper.isElectron()) {
-      this.settings = require('electron-settings');
-    }
-
     this.userDataDir = userDataDir;
   }
 
