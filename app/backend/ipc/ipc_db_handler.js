@@ -49,7 +49,7 @@ class IpcDbHandler {
       }
     }
 
-    await dbHelper.initDatabase(this.dbDir);
+    await dbHelper.initDatabase(this.dbDir, androidVersion);
     global.models = require('../database/models')(this.dbDir);
   }
 
