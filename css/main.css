@@ -579,6 +579,10 @@ h2:nth-of-type(1) {
     "side-panel bottom-panel";
 }
 
+.Android.landscape #app-container {
+  height: 97vh;
+}
+
 #app-container.fullscreen {
   padding: 0.2em;
   padding-left: 0.4em;
