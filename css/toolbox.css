@@ -291,6 +291,11 @@ tr.td-underline td {
 
 .cb-input-label-stats {
   display: inline-block;
+  max-width: 80%;
+}
+
+
+.Android .cb-input-label-stats {
   max-width: 70%;
 }
 
