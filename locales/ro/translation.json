@@ -125,6 +125,7 @@
     "application-version": "Versiune aplicație",
     "git-commit": "Git commit",
     "sword-version": "versiune SWORD",
+    "sword-path": "SWORD module path",
     "chromium-version": "versiune Chromium",
     "database-path": "cale Bază de date",
     "config-file-path": "cale Configurare",

@@ -326,6 +326,10 @@ class IpcNsiHandler {
     this._ipcMain.add('nsi_getSwordVersion', () => {
       return this._nsi.getSwordVersion();
     });
+
+    this._ipcMain.add('nsi_getSwordPath', () => {
+      return this._nsi.getSwordPath();
+    });
   }
 
   setMainWindow(mainWindow) {

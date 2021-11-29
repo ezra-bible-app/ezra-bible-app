@@ -278,6 +278,11 @@ class IpcNsi {
     var returnValue = this._ipcRenderer.call('nsi_getSwordVersion');
     return returnValue;
   }
+
+  async getSwordPath() {
+    var returnValue = this._ipcRenderer.call('nsi_getSwordPath');
+    return returnValue;
+  }
 }
 
 module.exports = IpcNsi;

@@ -127,6 +127,7 @@
     "application-version": "Applicatie-versie",
     "git-commit": "Git commit",
     "sword-version": "SWORD-versie",
+    "sword-path": "SWORD module path",
     "chromium-version": "Chromiumversie",
     "database-path": "Pad van databank",
     "config-file-path": "Pad van configuratie",

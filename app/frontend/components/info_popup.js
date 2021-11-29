@@ -104,6 +104,7 @@ class InfoPopup {
     const chromiumVersion = getChromiumVersion();
     const databasePath = await ipcDb.getDatabasePath();
     const configFilePath = await ipcSettings.getConfigFilePath();
+    const swordPath = await ipcNsi.getSwordPath();
 
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
     const moduleDescription = await swordModuleHelper.getModuleDescription(currentBibleTranslationId);
@@ -157,6 +158,7 @@ class InfoPopup {
           <tr><td>${i18n.t("general.chromium-version")}:</td><td>${chromiumVersion}</td></tr>
           <tr><td>${i18n.t("general.database-path")}:</td><td>${databasePath}</td></tr>
           <tr><td>${i18n.t("general.config-file-path")}:</td><td>${configFilePath}</td></tr>
+          <tr><td>${i18n.t("general.sword-path")}:</td><td>${swordPath}</td></tr>
         </table>
       </div>
 

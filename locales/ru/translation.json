@@ -127,6 +127,7 @@
     "application-version": "Версия приложения",
     "git-commit": "Git commit",
     "sword-version": "Версия SWORD",
+    "sword-path": "SWORD module path",
     "chromium-version": "Версия Chromium",
     "database-path": "Расположение базы данных",
     "config-file-path": "Расположение файла конфигурации",
