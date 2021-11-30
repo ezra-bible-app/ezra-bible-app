@@ -96,12 +96,5 @@ defineParameterType({
 defineParameterType({
   name: 'tool_panel_type',
   regexp: /tag|dictionary/,
-  transformer: s => {
-    switch (s) {
-      case 'tag':
-        return 'button[event="on-tags-panel-switched"]';
-      case 'dictionary':
-        return 'button[event="on-dictionary-panel-switched"]';
-    }
-  }
+  transformer: s => `button[event="on-${s}-panel-switched"]`
 });

@@ -87,7 +87,7 @@ class TagsController {
       await this.updateTagUiBasedOnTagAvailability();
     });
 
-    eventController.subscribe('on-tags-panel-switched', isOpen => {
+    eventController.subscribe('on-tag-panel-switched', isOpen => {
       var currentToolBar = $('#bible-browser-toolbox');
       var updated = false;
   
