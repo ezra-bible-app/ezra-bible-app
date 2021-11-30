@@ -38,11 +38,11 @@ defineParameterType({
         return '.bible-select-block .ui-selectmenu'; 
     }
   }
-})
+});
 
 defineParameterType({
   name: 'display_option',
-  regexp: /tags|notes|indicators|xrefs|footnotes|taglist|dictionary|navigation|current tab search/,
+  regexp: /tags|notes|indicators|xrefs|footnotes|navigation|current tab search/,
   transformer: s => {
     switch (s) {
       case 'tags':
@@ -55,12 +55,8 @@ defineParameterType({
         return '#showXrefsOption';
       case 'footnotes':
         return '#showFootnotesOption';
-      case 'taglist':
-        return '#showTagListOption';
-      case 'dictionary': 
-        return '#showDictionaryOption';
       case 'navigation':
-        return '#showBookChapterNavigationOption' 
+        return '#showBookChapterNavigationOption';
       case 'current tab search':
         return '#showTabSearchOption';
     }
@@ -95,4 +91,17 @@ defineParameterType({
         return '.ui-selectmenu-open .ui-selectmenu-group-0 .ui-selectmenu-group-label';
     }
   }
-})
+});
+
+defineParameterType({
+  name: 'tool_panel_type',
+  regexp: /tag|dictionary/,
+  transformer: s => {
+    switch (s) {
+      case 'tag':
+        return 'button[event="on-tags-panel-switched"]';
+      case 'dictionary':
+        return 'button[event="on-dictionary-panel-switched"]';
+    }
+  }
+});
