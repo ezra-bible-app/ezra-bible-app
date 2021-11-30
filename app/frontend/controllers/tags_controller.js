@@ -17,10 +17,11 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const TagStore = require('../components/tags/tag_store.js');
+const TagListFilter = require('../components/tags/tag_list_filter.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
 require('../components/emoji_button_trigger.js');
-const { waitUntilIdle, sleep } = require('../helpers/ezra_helper.js');
+const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const eventController = require('./event_controller.js');
 
 /**
@@ -36,6 +37,7 @@ class TagsController {
     loadScript("app/templates/tag_list.js");
 
     this.tag_store = new TagStore();
+    this.tag_list_filter = new TagListFilter();
     this.tag_store.onLatestUsedTagChanged = (tagId) => { app_controller.assign_last_tag_button.onLatestUsedTagChanged(tagId) };
     this.verse_box_helper = new VerseBoxHelper();
     this.tag_stats_element_cache = {};
@@ -866,7 +868,7 @@ class TagsController {
         tagStatistics: tag_statistics,
         current_book: current_book,
         current_filter: $('#tags-search-input').val(),
-        rename_tag_label: i18n.t("tags.rename-tag-button"),
+        rename_tag_label: i18n.t("tags.rename-tag"),
         delete_tag_label: i18n.t("tags.delete-tag-permanently"),
       });
 
@@ -949,9 +951,11 @@ class TagsController {
     var tags_box = document.getElementById('tags-content-global');
 
     tags_box.addEventListener('click', async function(event) {
-      if (event.target.matches('.tag-delete-icon')) {
+      // Use event delegation, so that we do not have to add an event listener to each element.
+
+      if (event.target.matches('.tag-delete-icon') || event.target.matches('.tag-delete-button')) {
         tags_controller.handleDeleteTagButtonClick(event);
-      } else if (event.target.matches('.rename-tag-label')) {
+      } else if (event.target.matches('.tag-rename-icon') || event.target.matches('.tag-rename-button')) {
         tags_controller.handleRenameTagClick(event);
       } else if (event.target.matches('.tag-cb')) {
         await tags_controller.handleTagCbClick(event);
@@ -959,37 +963,6 @@ class TagsController {
         await tags_controller.handleTagLabelClick(event);
       } else {
         return;
-      }
-    }, false);
-
-    tags_box.addEventListener('mouseover', function(event) {
-      if (event.target.matches('.cb-label') ||
-          event.target.matches('.cb-label-tag-assignment-count') ||
-          event.target.matches('.checkbox-tag')) {
-
-        var current_id = $(event.target).attr('tag-id');
-
-        if (tags_controller.last_mouseover_id !== undefined && 
-            tags_controller.last_mouseover_element !== undefined &&
-            current_id != tags_controller.last_mouseover_id) {
-              
-          $(tags_controller.last_mouseover_element).find('.rename-tag-label').hide();
-        }
-
-        if (current_id != tags_controller.last_mouseover_id) {
-          $(event.target).closest('.checkbox-tag').find('.rename-tag-label').show();
-        }
-
-        tags_controller.last_mouseover_element = $(event.target).closest('.checkbox-tag');
-        tags_controller.last_mouseover_id = $(event.target).closest('.checkbox-tag').attr('tag-id');
-      }
-    }, false);
-
-    tags_box.addEventListener('mouseout', function(event) {
-      if (event.target.matches('.tags-content-global')) {
-        if (tags_controller.last_mouseover_element !== undefined) {
-          $(tags_controller.last_mouseover_element).find('.rename-tag-label').hide();
-        }
       }
     }, false);
   }
@@ -1011,57 +984,6 @@ class TagsController {
     }
   }
 
-  currentVerseSelectionTags() {
-    var verse_selection_tags = new Array;
-
-    if (app_controller.verse_selection.selected_verse_box_elements == null) {
-      return verse_selection_tags;
-    }
-
-    var selected_verse_boxes = app_controller.verse_selection.selected_verse_box_elements;
-
-    for (var i = 0; i < selected_verse_boxes.length; i++) {
-      var current_verse_box = $(selected_verse_boxes[i]);
-      var current_tag_list = current_verse_box.find('.tag-data').children();
-
-      for (var j = 0; j < current_tag_list.length; j++) {
-        var current_tag = $(current_tag_list[j]);
-        var current_tag_title = current_tag.find('.tag-title').html();
-        var tag_obj = null;
-
-        for (var k = 0; k < verse_selection_tags.length; k++) {
-          var current_tag_obj = verse_selection_tags[k];
-
-          if (current_tag_obj.title == current_tag_title &&
-              current_tag_obj.category == current_tag.attr('class')) {
-
-            tag_obj = current_tag_obj;
-            break;
-          }
-        }
-
-        if (tag_obj == null) {
-          tag_obj = {
-            title: current_tag_title,
-            category: current_tag.attr('class'),
-            count: 0
-          }
-
-          verse_selection_tags.push(tag_obj);
-        }
-
-        tag_obj.count += 1;
-      }
-    }
-
-    for (var i = 0; i < verse_selection_tags.length; i++) {
-      var current_tag_obj = verse_selection_tags[i];
-      current_tag_obj.complete = (current_tag_obj.count == selected_verse_boxes.length);
-    }
-
-    return verse_selection_tags;
-  }
-
   async updateTagsViewAfterVerseSelection(force) {
     //console.time('updateTagsViewAfterVerseSelection');
     if (tags_controller.verse_selection_blocked && force !== true) {
@@ -1077,7 +999,7 @@ class TagsController {
 
     if (versesSelected) { // Verses are selected
 
-      var selected_verse_tags = tags_controller.currentVerseSelectionTags();
+      var selected_verse_tags = app_controller.verse_selection.getCurrentSelectionTags();
       var checkbox_tags = document.querySelectorAll('.checkbox-tag');
 
       for (var i = 0; i < checkbox_tags.length; i++) {
@@ -1161,25 +1083,13 @@ class TagsController {
     }
   }
 
-  handleTagAccordionChange() {
-    var new_reference_link = $('#tags-content').find('.ui-state-active').find('a');
-    var tags_search_input = $('#tags-search-input');
-    new_reference_link.append(tags_search_input);
-  }
-
   initTagsUI() {
-    // $('#tags-content').accordion({
-    //   autoHeight: false,
-    //   animated: false,
-    //   change: tags_controller.handleTagAccordionChange
-    // });
+    $('#tag-list-filter-button').bind('click', (e) => { this.tag_list_filter.handleFilterButtonClick(e); });
 
-    $('#tag-list-filter-button').bind('click', tags_controller.handleFilterButtonClick);
+    $('#tags-content-global').bind('mouseover', () => { this.tag_list_filter.hideTagFilterMenuIfInToolBar(); });
+    $('#tag-filter-menu').find('input').bind('click', (e) => { tags_controller.tag_list_filter.handleTagFilterTypeClick(e); });
 
-    $('#tags-content-global').bind('mouseover', () => { this.hideTagFilterMenuIfInToolBar(); });
-    $('#tag-filter-menu').find('input').bind('click', tags_controller.handleTagFilterTypeClick);
-
-    $('#tags-search-input').bind('keyup', tags_controller.handleTagSearchInput);
+    $('#tags-search-input').bind('keyup', (e) => { this.tag_list_filter.handleTagSearchInput(e); });
     $('#tags-search-input').bind('keydown', function(e) {
       e.stopPropagation(); 
     });
@@ -1214,111 +1124,6 @@ class TagsController {
         $('.show-book-tag-statistics-button').removeClass('ui-state-disabled');
       }
     }
-  }
-
-  stringMatches(search_string, search_value) {
-    if (search_value == "") {
-      return true;
-    }
-
-    var result = eval("search_string.search(/" + search_value + "/i)");
-    return result != -1;
-  }
-
-  handleFilterButtonClick(e) {
-    var position = $(this).offset();
-    var filter_menu = $('#tag-filter-menu');
-
-    if (filter_menu.is(':visible')) {
-      filter_menu.css('display', 'none');
-    } else {
-      filter_menu.css('top', position.top + 20);
-      filter_menu.css('left', position.left);
-      filter_menu.show();
-    }
-  }
-
-  async handleTagFilterTypeClick(e) {
-    await waitUntilIdle();
-    tags_controller.showTagSelectionFilterLoadingIndicator();
-    await sleep(500);
-
-    var selected_type = $(this)[0].value;
-    var tags_content_global = $('#tags-content-global');
-    tags_content_global.find('.checkbox-tag').show();
-    $('#tag-list-filter-button-active').hide();
-
-    switch (selected_type) {
-      case "assigned":
-        tags_content_global.find('.checkbox-tag[book-assignment-count="' + 0 + '"]').hide();
-        $('#tag-list-filter-button-active').show();
-        break;
-
-      case "unassigned":
-        tags_content_global.find('.checkbox-tag[book-assignment-count!="' + 0 + '"]').hide();
-        $('#tag-list-filter-button-active').show();
-        break;
-      
-      case "recently-used":
-        tags_content_global.find('.checkbox-tag').filter(function() {
-          return tags_controller.tag_store.filterRecentlyUsedTags(this);
-        }).hide();
-        $('#tag-list-filter-button-active').show();
-        break;
-
-      case "all":
-      default:
-        break;
-    }
-
-    tags_controller.hideTagSelectionFilterLoadingIndicator();
-
-    setTimeout(() => {
-      tags_controller.hideTagFilterMenuIfInToolBar();
-    }, 500);
-  }
-
-  hideTagFilterMenuIfInToolBar() {
-    var tagFilterMenu = document.getElementById('tag-filter-menu');
-    if (tagFilterMenu.parentNode.getAttribute('id') == 'boxes') {
-      $('#tag-filter-menu').hide();
-    }
-  }
-
-  showTagSelectionFilterLoadingIndicator() {
-    var tagFilterMenu = document.getElementById('tag-filter-menu');
-    if (tagFilterMenu.parentNode.getAttribute('id') != 'boxes') {
-      $('#tag-selection-filter-loading-indicator').find('.loader').css('visibility', 'visible');
-    }
-  }
-
-  hideTagSelectionFilterLoadingIndicator() {
-    $('#tag-selection-filter-loading-indicator').find('.loader').css('visibility', 'hidden');
-  }
-
-  tagTitleMatchesFilter(tag_title, filter) {
-    return tag_title.toLowerCase().indexOf(filter.toLowerCase()) != -1;
-  }
-
-  handleTagSearchInput(e) {
-    clearTimeout(tags_controller.tag_search_timeout);
-    var search_value = $(this).val();
-
-    tags_controller.tag_search_timeout = setTimeout(function filter_tag_list() {
-      //console.time('filter-tag-list');
-      var tags_content = document.getElementById('tags-content-global');
-      var tag_labels = tags_content.querySelectorAll('.cb-label');
-      $(tags_content).find('.checkbox-tag').hide();
-
-      for (var i = 0; i < tag_labels.length; i++) {
-        var current_label = $(tag_labels[i]);
-
-        if (tags_controller.tagTitleMatchesFilter(current_label.text(), search_value)) {
-          $(current_label.closest('.checkbox-tag')).show();
-        }
-      }
-      //console.timeEnd('filter-tag-list');
-    }, 200);
   }
 
   showTagListLoadingIndicator() {

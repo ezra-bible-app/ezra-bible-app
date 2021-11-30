@@ -119,6 +119,15 @@ class UiHelper {
   
   resizeAppContainer(sidePanelWidth=undefined, cycle=false) {
     this.windowWidth = window.innerWidth;
+    var screenOrientation = screen.orientation.type;
+
+    if (screenOrientation.indexOf('portrait') != -1) {
+      document.body.classList.remove('landscape');
+      document.body.classList.add('portrait');
+    } else if (screenOrientation.indexOf('landscape') != -1) {
+      document.body.classList.remove('portrait');
+      document.body.classList.add('landscape');
+    }
 
     const sidePanel = document.querySelector('#side-panel');
     const bottomPanel = document.querySelector('#bottom-panel');

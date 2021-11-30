@@ -24,18 +24,18 @@ const i18nController = require('../controllers/i18n_controller.js');
       this._cachedAppVersion = null;
     }
 
-    async initPersistentIpc(useInternalStorage=false) {
+    async initPersistentIpc(androidVersion=undefined) {
       var timeoutMs = 15000;
       console.time('initPersistentIpc');
-      var result = await this._ipcRenderer.callWithTimeout('general_initPersistentIpc', timeoutMs, useInternalStorage);
+      var result = await this._ipcRenderer.callWithTimeout('general_initPersistentIpc', timeoutMs, androidVersion);
       console.timeEnd('initPersistentIpc');
       return result;
     }
 
-    async initDatabase(useInternalStorage=false) {
+    async initDatabase(androidVersion=undefined) {
       var timeoutMs = 15000;
       console.time('initDatabase');
-      var result = await this._ipcRenderer.callWithTimeout('general_initDatabase', timeoutMs, useInternalStorage);
+      var result = await this._ipcRenderer.callWithTimeout('general_initDatabase', timeoutMs, androidVersion);
       console.timeEnd('initDatabase');
       return result;
     }

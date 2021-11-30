@@ -32,6 +32,7 @@ const template = html`
     cursor: pointer;
     line-height: 1.2rem;
     margin-inline-start: -1rem;
+    content-visibility: auto;
   }
   #label.disabled {
     color: gray;

@@ -125,7 +125,12 @@ class TagSelectionMenu {
 
       tagList.show();
       tagListOverlay.hide();
-      $('#tag-selection-filter-input').select();
+
+      if (platformHelper.isElectron()) {
+        // We're only focussing the search filter on Electron, because on Android it would trigger the screen keyboard right away
+        // and that would be disturbing from a usability perspective.
+        $('#tag-selection-filter-input').select();
+      }
 
       this.tag_menu_is_opened = true;
       event.stopPropagation();

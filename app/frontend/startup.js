@@ -193,6 +193,7 @@ class Startup {
     tags_controller.initTagsUI();
     uiHelper.configureButtonStyles();
     $(window).bind("resize", () => { uiHelper.resizeAppContainer(); });
+    $(window).bind("orientationchange", () => { uiHelper.resizeAppContainer(); });
   }
 
   async earlyHideToolBar() {

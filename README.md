@@ -29,9 +29,11 @@ For more details regarding the used components have a look [here][tech].
 
 [tech]: https://github.com/ezra-bible-app/ezra-bible-app/blob/master/TECH.md
 
-### Design documentation
+### Design
 
-Design documentation is available here: https://apidocs.ezrabibleapp.net
+Ezra Bible App's architecture is designed in a modular way and should make it easy for new developers. There is a backend and a frontend. The backend deals with the SWORD API as well as database persistence and settings. The frontend is component-based and uses an event bus for establishing communication between the components in a loosely coupled fashion.
+
+Detailed design documentation is available here: https://apidocs.ezrabibleapp.net
 
 ### Building Ezra Bible App
 

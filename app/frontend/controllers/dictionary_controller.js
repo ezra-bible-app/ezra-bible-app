@@ -46,10 +46,6 @@ class DictionaryController {
     this.strongsAvailable = false;
     this._dictionaryInfoBox = new DictionaryInfoBox(this);
 
-    this.strongsBox.bind('mouseout', () => {
-      this.hideStrongsBox();
-    });
-
     Mousetrap.bind('shift', () => {
       this.shiftKeyPressed = true;
     });
@@ -59,6 +55,18 @@ class DictionaryController {
         this.shiftKeyPressed = false;
         this.removeHighlight();
       }
+    });
+
+    this.strongsBox.bind('mouseout', () => {
+      this.hideStrongsBox();
+    });
+
+    document.body.addEventListener('touchmove', () => {
+      this.hideStrongsBox();
+    });
+
+    window.addEventListener('scroll', () => {
+      this.hideStrongsBox();
     });
 
     eventController.subscribe('on-tab-selected', () => {

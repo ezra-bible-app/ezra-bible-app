@@ -22,47 +22,15 @@ const Conf = require('conf');
 const fs = require('fs-extra');
 
 class IpcSettingsHandler {
-  constructor(useInternalStorage=false) {
+  constructor(androidVersion=undefined) {
     this.platformHelper = new PlatformHelper();
     this._ipcMain = new IpcMain();
     this._isElectron = this.platformHelper.isElectron();
     this._isCordova = this.platformHelper.isCordova();
     this._isTest = this.platformHelper.isTest();
-    this._useInternalStorage = useInternalStorage;
+    this._androidVersion = androidVersion;
     this._configurations = {};
     this.initIpcInterface();
-  }
-
-  migrate(configName, configOptions) {
-    if (configName == 'config') {
-      var configPath = this._configurations[configName].path;
-      var oldConfigPath = null;
-
-      if (this.platformHelper.isWin()) {
-        oldConfigPath = configPath.replace('Ezra Bible App', 'ezra-project\\Config');
-      } else {
-        oldConfigPath = configPath.replace('ezra-bible-app', 'ezra-project');
-      }
-
-      const migratedOption = 'migratedToEzraBibleApp';
-      var configMigrated = this._configurations[configName].has(migratedOption);
-      
-      if (!configMigrated && fs.existsSync(oldConfigPath)) {
-        console.log(`Found old configuration for Ezra Bible App at ${oldConfigPath}... moving it to the new directory ${configPath}.`);
-
-        try {
-          fs.moveSync(oldConfigPath, configPath, { overwrite: true });
-
-          console.log("Re-loading configuration based on moved file");
-          this._configurations[configName] = new Conf(configOptions);
-        } catch (e) {
-          console.error(`Could not migrate configuration from ${oldConfigPath} to ${configPath}!`);
-        }
-
-        // We set this flag in any case (whether or not the operation above was successfull)
-        this._configurations[configName].set(migratedOption, true);
-      }
-    }
   }
 
   getConfig(configName='config') {
@@ -73,9 +41,13 @@ class IpcSettingsHandler {
         configName: configName,
       };
 
-      configOptions['cwd'] = this.platformHelper.getUserDataPath(false, this._useInternalStorage);
+      const userDataPath = this.platformHelper.getUserDataPath(false, this._androidVersion);
+      if (!fs.existsSync(userDataPath)) {
+        fs.mkdirSync(userDataPath, { recursive: true });
+      }
+
+      configOptions['cwd'] = userDataPath;
       this._configurations[configName] = new Conf(configOptions);
-      this.migrate(configName, configOptions);
 
       console.log('Using settings file ' + this._configurations[configName].path);
     }

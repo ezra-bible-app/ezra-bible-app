@@ -54,7 +54,7 @@ class IPC {
     }
   }
 
-  async init(isDebug, electronMainWindow=undefined, useInternalStorage=false) {
+  async init(isDebug, electronMainWindow=undefined, androidVersion=undefined) {
     if (!global.ipcInitialized) {
       global.ipcInitialized = true;
 
@@ -62,27 +62,22 @@ class IPC {
 
       if (this.platformHelper.isCordova()) {
         // In case of Electron this has already been initalized before (see c'tor), but for Cordova we still need to do it!
-        this.ipcSettingsHandler = new IpcSettingsHandler(useInternalStorage);
+        this.ipcSettingsHandler = new IpcSettingsHandler(androidVersion);
       }
 
-      if (useInternalStorage) {
-        var customSwordDir = this.platformHelper.getUserDataPath(false, useInternalStorage) + '/sword';
-        global.ipcNsiHandler = new IpcNsiHandler(customSwordDir);
-      } else {
-        global.ipcNsiHandler = new IpcNsiHandler();
-      }
+      global.ipcNsiHandler = new IpcNsiHandler();
 
       if (this.platformHelper.isElectron()) {
         ipcNsiHandler.setMainWindow(electronMainWindow);
 
-        await this.initDatabase(isDebug, useInternalStorage);
+        await this.initDatabase(isDebug);
       }
     }
   }
 
-  async initDatabase(isDebug, useInternalStorage=false) {
+  async initDatabase(isDebug, androidVersion=undefined) {
     global.ipcDbHandler = new IpcDbHandler();
-    await ipcDbHandler.initDatabase(isDebug, useInternalStorage);
+    await ipcDbHandler.initDatabase(isDebug, androidVersion);
   }
 }
 

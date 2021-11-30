@@ -19,6 +19,7 @@
 :root {
   --accent-color: #2779AA;
   --background-color: #f2f5f7;
+  --background-color-darker: #e6e9eb;
   --widget-bg-color: #eeeeee;
   --text-color: #362b36;
   
@@ -33,8 +34,10 @@
   --highlight-color: var(--accent-color);
   --highlight-shadow: 1px 1px 6px #0002;
 }
+
 :root body.darkmode--activated {
   --background-color: #1e1e1e;
+  --background-color-darker: #171717;
   --widget-bg-color: #1e1e1e;
   --text-color: #cccccc;
 
@@ -44,6 +47,7 @@
   --highlight-color: var(--text-color);
   --highlight-shadow: 2px 1px 6px #fff4;
 }
+
 .bold {
   font-weight: bold;
 }
@@ -526,16 +530,20 @@ h2:nth-of-type(1) {
   height: 2.2em;
 }
 
-.tag-delete-button {
+.tag-delete-button, .tag-rename-button {
+  display: flex;
+  float: right;
   margin-right: 0.5em;
-  float: left;
-  display: block;
+  align-items: center;
+  justify-content: center;
   width: 17px;
   height: 17px;
 }
 
-.tag-delete-button {
-  clear: both;
+.Android .tag-delete-button, .Android .tag-rename-button {
+  width: 24px;
+  height: 24px;
+  margin-right: 1em;
 }
 
 .tag-info,
@@ -590,6 +598,10 @@ h2:nth-of-type(1) {
 
 .webview-older #app-container {
   grid-template-rows: minmax(55vh, 100vh) minmax(0, 23vh);
+}
+
+.Android.landscape #app-container {
+  height: 97vh;
 }
 
 #app-container.fullscreen {
@@ -1238,7 +1250,7 @@ li.book-unavailable a:focus,
 }
 
 .hidden {
-  visibility: hidden;
+  display: none;
 }
 
 .bible-select-block {
@@ -1449,6 +1461,12 @@ li.book-unavailable a:focus,
 .tag-browser-tag {
   clear: both;
   margin-bottom: 0.5em;
+  content-visibility: auto;
+  contain-intrinsic-size: 1.2em;
+}
+
+.Android .tag-browser-tag {
+  margin-bottom: 1em;
 }
 
 .tag-browser-tag-title {
