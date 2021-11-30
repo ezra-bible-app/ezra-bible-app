@@ -164,10 +164,9 @@ class UiHelper {
 
   getMaxDialogWidth() {
     var width = 900;
-    var windowWidth = $(window).width();
 
-    if (windowWidth > 400 && windowWidth < width) {
-      width = windowWidth - 20;
+    if (this.windowWidth > 400 && this.windowWidth < width) {
+      width = this.windowWidth - 20;
     }
 
     return width;
@@ -292,8 +291,8 @@ class UiHelper {
     var topOffset = buttonOffset.top + $button.height() + 1;
     var leftOffset = buttonOffset.left;
 
-    if (leftOffset + $menu.width() > $(window).width() - OFFSET_FROM_EDGE) {
-      leftOffset = ($(window).width() - $menu.width()) / 2;
+    if (leftOffset + $menu.width() > this.windowWidth - OFFSET_FROM_EDGE) {
+      leftOffset = (this.windowWidth - $menu.width()) / 2;
 
       if (leftOffset < 0) {
         leftOffset = 0;
