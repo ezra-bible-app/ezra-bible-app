@@ -614,8 +614,9 @@ main.content {
 
 #app-container .ui-tabs-panel,
 #app-container .ui-widget-content {
-  background-color: white;
   background: none;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .darkmode--activated .ui-widget-content {
