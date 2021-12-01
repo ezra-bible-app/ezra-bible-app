@@ -16,8 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-#side-panel {
-  grid-area: side-panel;
+#tool-panel {
+  grid-area: tool-panel;
   display: flex;
   flex-direction: column;
   width: 30em;
@@ -27,21 +27,21 @@
   overflow: hidden;
 }
 
-#side-panel:not(.with-tags):not(.with-dictionary) {
+#tool-panel:not(.with-tags):not(.with-dictionary) {
   width: 0 !important;
   min-width: 0;
   padding-right: 0;
 }
 
 @media screen and (max-width: 1199px) {
-  #side-panel {
+  #tool-panel {
     position: absolute;
     top: auto !important;
     left: auto !important;
   }
 }
 
-#side-panel > section {
+#tool-panel > section {
   width: 100%;
   height: 0;
   flex: 1 0 0;

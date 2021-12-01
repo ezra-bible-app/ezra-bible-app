@@ -81,7 +81,7 @@ class DictionaryInfoBox {
 
   moveDictInfoBox(fromContainer=null, toContainer=null) {
     if (!fromContainer) {
-      fromContainer = document.querySelector('#side-panel');
+      fromContainer = document.querySelector('#tool-panel');
     }
     if (!toContainer) {
       toContainer = document.querySelector('#bottom-panel');

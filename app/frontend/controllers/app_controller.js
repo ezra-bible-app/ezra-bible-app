@@ -228,7 +228,7 @@ class AppController {
       if (sidePanelWidthAvailable) {
         var sidePanelWidth = await ipcSettings.get('tagListWidth');
 
-        $('#side-panel').css('width', sidePanelWidth);
+        $('#tool-panel').css('width', sidePanelWidth);
         uiHelper.resizeAppContainer(sidePanelWidth);
       }
 

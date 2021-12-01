@@ -592,8 +592,8 @@ h2:nth-of-type(1) {
   grid-template-columns: minmax(0, auto) 1fr;
   grid-template-rows: 1fr minmax(0, auto);
   grid-template-areas: 
-    "panel-buttons side-panel content"
-    "panel-buttons side-panel bottom-panel";
+    "panel-buttons tool-panel content"
+    "panel-buttons tool-panel bottom-panel";
 }
 
 .webview-older #app-container {

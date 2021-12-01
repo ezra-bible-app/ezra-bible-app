@@ -129,7 +129,7 @@ class UiHelper {
       document.body.classList.add('landscape');
     }
 
-    const sidePanel = document.querySelector('#side-panel');
+    const toolPanel = document.querySelector('#tool-panel');
     const bottomPanel = document.querySelector('#bottom-panel');
 
     var platform = getPlatform();
@@ -142,7 +142,7 @@ class UiHelper {
       //   app_controller.tag_assignment_menu.moveTagAssignmentList("MENU");
       // }
 
-      app_controller.dictionary_controller.moveInfoBoxFromTo(sidePanel, bottomPanel);
+      app_controller.dictionary_controller.moveInfoBoxFromTo(toolPanel, bottomPanel);
     
     } else if (!cycle) {
       // sidePanel.style.display='';
@@ -151,10 +151,10 @@ class UiHelper {
       //  app_controller.tag_assignment_menu.moveTagAssignmentList("SIDE_PANEL");
       // }
 
-      app_controller.dictionary_controller.moveInfoBoxFromTo(bottomPanel, sidePanel);
+      app_controller.dictionary_controller.moveInfoBoxFromTo(bottomPanel, toolPanel);
     }
 
-    sidePanelWidth = sidePanelWidth || sidePanel.offsetWidth; 
+    sidePanelWidth = sidePanelWidth || toolPanel.offsetWidth; 
     this.adaptVerseList(sidePanelWidth);
   }
 

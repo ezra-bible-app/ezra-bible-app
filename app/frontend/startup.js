@@ -88,7 +88,7 @@ class Startup {
       window.Buffer = require('buffer/').Buffer;
     }
 
-    require('./components/side-panel/panel_buttons.js');
+    require('./components/tool_panel/panel_buttons.js');
     require('./components/options_menu/config_option.js');
     require('./components/options_menu/select_option.js');
     require('./components/options_menu/locale_switch.js');
@@ -178,8 +178,8 @@ class Startup {
   initUi() {
     this._platformHelper.addPlatformCssClass();
 
-    // Setup resizable function for divider between side panel and verse list
-    $('#side-panel').resizable({
+    // Setup resizable function for divider between tool panel and verse list
+    $('#tool-panel').resizable({
       handles: 'e',
       resize: function (event, ui) {
         uiHelper.adaptVerseList(ui.size.width);
