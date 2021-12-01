@@ -47,9 +47,18 @@ const template = html`
       box-shadow: var(--highlight-shadow);
     }
 
-    ::slotted(button.bottom) {
-      margin-block-start: auto;
-      margin-block-end: 0;
+    @media (orientation: portrait) {
+      #panel-switches {
+        height: calc(2 * var(---button-switch-size));
+        width: 100%;
+        flex-direction: row;
+        margin-block-start: 0.5em;
+        margin-inline-end: 0;
+      }
+      ::slotted(button) {
+        margin-inline-end: 0.5em;
+        margin-block-end: 0;
+      }
     }
 
     ::slotted(button.active),

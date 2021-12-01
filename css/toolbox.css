@@ -27,19 +27,21 @@
   overflow: hidden;
 }
 
-#tool-panel:not(.with-tags):not(.with-dictionary) {
-  width: 0 !important;
-  min-width: 0;
-  padding-right: 0;
-}
-
-@media screen and (max-width: 1199px) {
+@media (orientation: portrait) {
   #tool-panel {
-    position: absolute;
-    top: auto !important;
-    left: auto !important;
+    flex-direction: column;
+    height: 30em;
+    width: 100%;
+    min-width: auto;
+    padding: 1em 0 0 0;
   }
 }
+#tool-panel.hidden {
+  width: 0 !important;
+  min-width: 0;
+  padding: 0;
+}
+
 
 #tool-panel > section {
   width: 100%;
@@ -79,6 +81,12 @@
 
 .ui-tabs .ui-tabs-panel {
   padding: 0.5em 0.5em 0;
+}
+
+@media (orientation: portrait) {
+  .ui-tabs .ui-tabs-panel {
+    padding-left: 0;
+  }
 }
 
 .accordion-panel {
