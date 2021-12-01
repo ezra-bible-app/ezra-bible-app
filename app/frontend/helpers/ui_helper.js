@@ -130,7 +130,7 @@ class UiHelper {
     }
 
     const toolPanel = document.querySelector('#tool-panel');
-    const bottomPanel = document.querySelector('#bottom-panel');
+    const detailPanel = document.querySelector('#detail-panel');
 
     var platform = getPlatform();
 
@@ -142,7 +142,7 @@ class UiHelper {
       //   app_controller.tag_assignment_menu.moveTagAssignmentList("MENU");
       // }
 
-      app_controller.dictionary_controller.moveInfoBoxFromTo(toolPanel, bottomPanel);
+      // app_controller.dictionary_controller.moveInfoBoxFromTo(toolPanel, detailPanel);
     
     } else if (!cycle) {
       // sidePanel.style.display='';
@@ -151,7 +151,7 @@ class UiHelper {
       //  app_controller.tag_assignment_menu.moveTagAssignmentList("SIDE_PANEL");
       // }
 
-      app_controller.dictionary_controller.moveInfoBoxFromTo(bottomPanel, toolPanel);
+      // app_controller.dictionary_controller.moveInfoBoxFromTo(detailPanel, toolPanel);
     }
 
     sidePanelWidth = sidePanelWidth || toolPanel.offsetWidth; 

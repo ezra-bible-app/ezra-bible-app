@@ -50,19 +50,19 @@
   display: block;
 }
 
-#bottom-panel {
-  grid-area: bottom-panel;
+#detail-panel {
+  grid-area: detail-panel;
   height: 30vh;
   padding: 0 0.5em;
 }
-#bottom-panel:empty, #bottom-panel:not(.with-dictionary) {
+#detail-panel:empty, #detail-panel.hidden {
   height: 0;
 }
 
-#bottom-panel > :first-child {
+#detail-panel > :first-child {
   margin-top: 1em;
 }
-#bottom-panel > * {
+#detail-panel > * {
   height: 100%;
   box-sizing: border-box;
   padding: 0;

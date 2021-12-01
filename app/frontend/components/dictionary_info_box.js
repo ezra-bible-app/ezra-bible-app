@@ -84,7 +84,7 @@ class DictionaryInfoBox {
       fromContainer = document.querySelector('#tool-panel');
     }
     if (!toContainer) {
-      toContainer = document.querySelector('#bottom-panel');
+      toContainer = document.querySelector('#detail-panel');
     }
 
     if (this.infoBox && this.infoBox.length > 0) {
