@@ -90,7 +90,7 @@ class TagsController {
     });
 
     // eventController.subscribe('on-tag-panel-switched', isOpen => {
-    //   var currentToolBar = $('#bible-browser-toolbox');
+    //   var currentToolBar = $('#tag-panel');
     //   var updated = false;
   
     //   if (isOpen) {

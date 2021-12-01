@@ -19,6 +19,8 @@
 const { html, waitUntilIdle } = require('../../helpers/ezra_helper.js');
 const eventController = require('../../controllers/event_controller.js');
 
+const SETTINGS_KEY = "activeToolPanel";
+
 const template = html`
    <style>
      :host {
@@ -83,70 +85,90 @@ class PanelButtons extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
-    this.panelStates = {};
-    this.slottedElements = [];
-
-    eventController.subscribe('on-fullscreen-changed', (isFullScreen) => {
-      this.slottedElements.forEach(el => {
-        const shouldBeOpen = !isFullScreen;
-        this.updatePanel(el, shouldBeOpen);
-      });
-    });
+    this.toolPanelElement = null;
+    this.activePanel = null;
+    this.defaultFirstOpen = true;
+    this.panelEvents = {};
   }
 
-  connectedCallback() {
-    this.slottedElements = this.shadowRoot.querySelector('slot').assignedElements();
-    this.slottedElements.forEach(el => this.initButton(el));
+  async connectedCallback() {
+    this.toolPanelElement = document.querySelector('#tool-panel');
+    this.activePanel = await ipcSettings.get(SETTINGS_KEY, null);
+
+    const slottedElements = this.shadowRoot.querySelector('slot').assignedElements();
+    slottedElements.forEach(el => this.initButton(el));
   }
 
   async initButton(buttonElement) {
-    const settingsKey = buttonElement.getAttribute('settings-key');
     const defaultOpen = (buttonElement.getAttribute('default') == "true");
-    const isBottomButton = buttonElement.classList.contains('bottom');
-    const isOpen = uiHelper.isSmallScreen && !isBottomButton ? false : await ipcSettings.get(settingsKey, defaultOpen);
-    await this.updatePanel(buttonElement, isOpen, false);
+    if (this.defaultFirstOpen && defaultOpen) {
+      this.activePanel = buttonElement.getAttribute('rel');
+      this.defaultFirstOpen = false;
+    }
 
-    buttonElement.addEventListener('click', async (e) => {
-      e.preventDefault();
-      await this.updatePanel(buttonElement, !this.panelStates[settingsKey]);
-    });
-  }
-  
-  /**
-   * @param {HTMLElement} buttonElement 
-   * @param {boolean} isOpen 
-   */
-  async updatePanel(buttonElement, isOpen, saveSettings=true) {
-    if (!buttonElement.hasAttribute('settings-key')) {
-      console.error('Attribute "settings-key" is required for panel buttons!');
+    if (!buttonElement.hasAttribute('rel')) {
+      console.error('Attribute "rel" is required for panel buttons!');
       return;
     }
-    const settingsKey = buttonElement.getAttribute('settings-key');
-
-    // if state is the same
-    if (this.panelStates[settingsKey] === isOpen) return;
+    const targetPanel = buttonElement.getAttribute('rel');
 
     if (!buttonElement.hasAttribute('event')) {
       console.error('Attribute "event" is required for panel buttons!');
       return;
     }
-    const emitEvent = buttonElement.getAttribute('event');
+    this.panelEvents[targetPanel] = buttonElement.getAttribute('event');
 
-    console.info(`Panel switch ${emitEvent} isOpen=${isOpen}`);
-    this.panelStates[settingsKey] = isOpen;
-    if (isOpen) {
+    await this.updatePanel(targetPanel, false);
+
+    buttonElement.addEventListener('click', async (e) => {
+      e.preventDefault();
+      await this.updatePanel(targetPanel);
+    });
+  }
+  
+  async updatePanel(targetPanel, saveSettings=true) {
+
+    // if active panel - hide the whole tool panel
+    if (this.activePanel === targetPanel) {
+      this.activePanel = "";
+      this.toolPanelElement.classList.add('hidden');
+      await this.togglePanel(targetPanel, false);
+    } else {
+      await this.togglePanel(this.activePanel, false);
+
+      this.activePanel = targetPanel;
+      await this.togglePanel(targetPanel, true);
+      this.toolPanelElement.classList.remove('hidden');
+    }
+
+    if (saveSettings) {
+      await ipcSettings.set(SETTINGS_KEY, this.activePanel);
+    }
+
+  }
+
+  async togglePanel(panelId, isActive) {
+    if (!panelId) return;
+
+    console.info(`Panel switch ${panelId} isOpen=${isActive}`);
+    const buttonElement = this.querySelector(`button[rel="${panelId}"]`);
+    const panelElement = this.toolPanelElement.querySelector(`#${panelId}`);
+
+    if (!buttonElement || !panelElement) {
+      console.error(`Button or panel "${panelId} is not found in the DOM`);
+      return;
+    }  
+
+    if (isActive) {
       buttonElement.classList.add('active');
+      panelElement.classList.add('active');
     } else {
       buttonElement.classList.remove('active');
+      panelElement.classList.remove('active');
     }
 
     await waitUntilIdle();
-
-    if (saveSettings) {
-      await ipcSettings.set(settingsKey, isOpen);
-    }
-
-    eventController.publishAsync(emitEvent, isOpen);
+    await eventController.publishAsync(this.panelEvents[panelId], isActive);
   }
 }
 

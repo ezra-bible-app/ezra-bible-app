@@ -99,7 +99,7 @@ class Startup {
     var bookSelectionMenu = null;
     var tagSelectionMenu = null;
     var tagAssignmentMenu = null;
-    var bibleBrowserToolbox = null;
+    var tagPanel = null;
     var moduleSearchMenu = null;
     var displayOptionsMenu = null;
     var verseListTabs = null;
@@ -115,7 +115,7 @@ class Startup {
       bookSelectionMenu = loadFile('html/book_selection_menu.html');
       tagSelectionMenu = loadFile('html/tag_selection_menu.html');
       tagAssignmentMenu = loadFile('html/tag_assignment_menu.html');
-      bibleBrowserToolbox = loadFile('html/bible_browser_toolbox.html');
+      tagPanel = loadFile('html/bible_browser_toolbox.html');
       moduleSearchMenu = loadFile('html/module_search_menu.html');
       displayOptionsMenu = loadFile('html/display_options_menu.html');
       verseListTabs = loadFile('html/verse_list_tabs.html');
@@ -131,7 +131,7 @@ class Startup {
       bookSelectionMenu = fs.readFileSync('html/book_selection_menu.html');
       tagSelectionMenu = fs.readFileSync('html/tag_selection_menu.html');
       tagAssignmentMenu = fs.readFileSync('html/tag_assignment_menu.html');
-      bibleBrowserToolbox = fs.readFileSync('html/bible_browser_toolbox.html');
+      tagPanel = fs.readFileSync('html/bible_browser_toolbox.html');
       moduleSearchMenu = fs.readFileSync('html/module_search_menu.html');
       displayOptionsMenu = fs.readFileSync('html/display_options_menu.html');
       verseListTabs = fs.readFileSync('html/verse_list_tabs.html');
@@ -141,7 +141,7 @@ class Startup {
     document.getElementById('book-selection-menu-book-list').innerHTML = bookSelectionMenu;
     document.getElementById('tag-selection-menu').innerHTML = tagSelectionMenu;
     document.getElementById('tag-assignment-menu').innerHTML = tagAssignmentMenu;
-    document.getElementById('bible-browser-toolbox').innerHTML = bibleBrowserToolbox;
+    document.getElementById('tag-panel').innerHTML = tagPanel;
     document.getElementById('module-search-menu').innerHTML = moduleSearchMenu;
     document.getElementById('display-options-menu').innerHTML = displayOptionsMenu;
     document.getElementById('verse-list-tabs').innerHTML = verseListTabs;
@@ -202,7 +202,7 @@ class Startup {
     var showToolBar = await ipcSettings.get('showToolBar', true);
 
     if (!showToolBar) {
-      $('#bible-browser-toolbox').hide();
+      $('#tag-panel').hide();
     }
   }
 
