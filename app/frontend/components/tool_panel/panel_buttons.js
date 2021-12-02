@@ -87,7 +87,6 @@ class PanelButtons extends HTMLElement {
 
     this.toolPanelElement = null;
     this.activePanel = null;
-    this.defaultFirstOpen = true;
     this.panelEvents = {};
   }
 
@@ -97,15 +96,16 @@ class PanelButtons extends HTMLElement {
 
     const slottedElements = this.shadowRoot.querySelector('slot').assignedElements();
     slottedElements.forEach(el => this.initButton(el));
+
+    if (this.activePanel) {
+      await this.togglePanel(this.activePanel, true);
+    } else {
+      this.toolPanelElement.classList.add('hidden');
+    }
+    
   }
 
-  async initButton(buttonElement) {
-    const defaultOpen = (buttonElement.getAttribute('default') == "true");
-    if (this.defaultFirstOpen && defaultOpen) {
-      this.activePanel = buttonElement.getAttribute('rel');
-      this.defaultFirstOpen = false;
-    }
-
+  initButton(buttonElement) {
     if (!buttonElement.hasAttribute('rel')) {
       console.error('Attribute "rel" is required for panel buttons!');
       return;
@@ -118,7 +118,10 @@ class PanelButtons extends HTMLElement {
     }
     this.panelEvents[targetPanel] = buttonElement.getAttribute('event');
 
-    await this.updatePanel(targetPanel, false);
+    const defaultOpen = (buttonElement.getAttribute('default') == "true");
+    if (this.activePanel === null && defaultOpen) {
+      this.activePanel = targetPanel;
+    }
 
     buttonElement.addEventListener('click', async (e) => {
       e.preventDefault();
@@ -126,7 +129,7 @@ class PanelButtons extends HTMLElement {
     });
   }
   
-  async updatePanel(targetPanel, saveSettings=true) {
+  async updatePanel(targetPanel) {
 
     // if active panel - hide the whole tool panel
     if (this.activePanel === targetPanel) {
@@ -141,16 +144,13 @@ class PanelButtons extends HTMLElement {
       this.toolPanelElement.classList.remove('hidden');
     }
 
-    if (saveSettings) {
-      await ipcSettings.set(SETTINGS_KEY, this.activePanel);
-    }
-
+    await ipcSettings.set(SETTINGS_KEY, this.activePanel);
   }
 
   async togglePanel(panelId, isActive) {
     if (!panelId) return;
 
-    console.info(`Panel switch ${panelId} isOpen=${isActive}`);
+    console.info(`toggle panel ${panelId} isOpen=${isActive}`);
     const buttonElement = this.querySelector(`button[rel="${panelId}"]`);
     const panelElement = this.toolPanelElement.querySelector(`#${panelId}`);
 

@@ -196,16 +196,6 @@ class Startup {
     $(window).bind("orientationchange", () => { uiHelper.resizeAppContainer(); });
   }
 
-  async earlyHideToolBar() {
-    //var settings = require('electron-settings');
-
-    var showToolBar = await ipcSettings.get('showToolBar', true);
-
-    if (!showToolBar) {
-      $('#tag-panel').hide();
-    }
-  }
-
   async earlyInitNightMode() {
     var useNightMode = await ipcSettings.get('useNightMode', false);
 
@@ -280,10 +270,6 @@ class Startup {
 
     console.log("Loading HTML fragments");
     this.loadHTML();
-
-    if (this._platformHelper.isElectron()) {
-      await this.earlyHideToolBar();
-    }
 
     if (this._platformHelper.isCordova()) {
       await this.earlyInitNightMode();
