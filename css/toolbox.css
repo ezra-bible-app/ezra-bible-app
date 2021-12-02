@@ -118,14 +118,11 @@
   padding-left: 1em;
 }
 
-#dictionary-info-box {
+#dictionary-panel {
   user-select: none;
 }
-.with-tags>#dictionary-info-box {
-  margin-top: 1em;
-}
 
-#dictionary-info-box-panel {
+#dictionary-panel-wrapper {
   clear: both;
   height: calc(100% - 2.6em) !important;  /* overwrite default jqueryUI Accordion */
   box-sizing: border-box;
@@ -137,45 +134,45 @@
   font-weight: bold;
 }
 
-#dictionary-info-box-content .strongs-definition {
+#dictionary-panel-content .strongs-definition {
   margin-top: 0;
   font-size: 110%;
   white-space: pre-wrap;
   color: black;
 }
 
-.OSX #dictionary-info-box-content .strongs-definition {
+.OSX #dictionary-panel-content .strongs-definition {
   font-size: 120%;
 }
 
-.darkmode--activated #dictionary-info-box-content .strongs-definition {
+.darkmode--activated #dictionary-panel-content .strongs-definition {
   color: #cccccc;
 }
 
-#dictionary-info-box-lock {
+#dictionary-panel-lock {
   font-style: italic;
   color: grey;
   display: none;
 }
 
-#dictionary-info-box-header {
+#dictionary-panel-header {
   float: left;
 }
 
-#dictionary-info-box-help {
+#dictionary-panel-help {
   margin-top: 2em;
 }
 
-#dictionary-info-box-panel a:link {
+#dictionary-panel-wrapper a:link {
   text-decoration: none;
   color: #2779aa;
 }
 
-.darkmode--activated #dictionary-info-box-panel a:link {
+.darkmode--activated #dictionary-panel-panel a:link {
   color: #97d0ff;
 }
 
-#dictionary-info-box-panel a:hover {
+#dictionary-panel-panel a:hover {
   text-decoration: underline;
 }
 

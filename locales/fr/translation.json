@@ -316,7 +316,7 @@
     "copy": "Copy",
     "edit-note": "Edit note"
   },
-  "dictionary-info-box": {
+  "dictionary-panel": {
     "greek-dict": "Dictionnaire grec",
     "hebrew-dict": "Dictionnaire hébreu",
     "default-header": "<b>Dictionnaire</b>",
