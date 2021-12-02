@@ -39,28 +39,14 @@ class TagAssignmentMenu {
       this.initChangeTagPopup();
     });
 
-    // eventController.subscribe('on-fullscreen-changed', (isFullScreen) => {
-    //   if (isFullScreen) {
-    //     if (!app_controller.optionsMenu._tagListOption.isChecked) {
-    //       this.moveTagAssignmentList("POPUP");
-    //     }
-    //   } else {
-    //     this.closePopup();
-        
-    //     if (!app_controller.optionsMenu._tagListOption.isChecked) {
-    //       this.moveTagAssignmentList("PREVIOUS");
-    //     }
-    //   }
-    // });
-
     this.initChangeTagPopup();
   }
 
   init(tabIndex=undefined) {
-    if (app_controller.optionsMenu._tagListOption.isChecked) {
-      this._lastTagListContainer = "SIDE_PANEL";
-      this._currentTagListContainer = "SIDE_PANEL";
-    }
+    // if (app_controller.optionsMenu._tagListOption.isChecked) {
+    //   this._lastTagListContainer = "SIDE_PANEL";
+    //   this._currentTagListContainer = "SIDE_PANEL";
+    // }
 
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find('.assign-tag-menu-button').bind('click', (event) => { this.handleMenuClick(event); });
@@ -92,11 +78,6 @@ class TagAssignmentMenu {
     var tagsContainer = document.querySelector('#tags-content-global');
     tagsContainer.style.display = 'none';
 
-    // if (!app_controller.optionsMenu._tagListOption.isChecked) {
-    //   $('#change-tags-box-content').show();
-    //   await waitUntilIdle();
-    //   app_controller.tag_assignment_menu.moveTagAssignmentList('POPUP');
-    // }
   }
 
   closePopup() {

@@ -151,7 +151,6 @@ class PanelButtons extends HTMLElement {
   async togglePanel(panelId, isActive) {
     if (!panelId) return;
 
-    console.info(`toggle panel ${panelId} isOpen=${isActive}`);
     const buttonElement = this.querySelector(`button[rel="${panelId}"]`);
     const panelElement = this.toolPanelElement.querySelector(`#${panelId}`);
 

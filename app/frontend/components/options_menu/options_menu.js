@@ -53,16 +53,11 @@ class OptionsMenu {
       app_controller.openModuleSettingsAssistant('DICT'); 
     });
 
-    var tagListOptionCheckedByDefault = true;
     var openVerseListsInNewTabByDefault = false;
 
     if (this.platformHelper.isCordova()) {
-      tagListOptionCheckedByDefault = false;
       openVerseListsInNewTabByDefault = true;
     }
-
-    // FIXME: this hack can be completely removed if tag assignment is always in side panel
-    this._tagListOption = { isChecked: tagListOptionCheckedByDefault };
 
     this._bookIntroOption = this.initConfigOption('showBookIntroOption', () => { this.showOrHideBookIntroductionBasedOnOption(); });
     this._sectionTitleOption = this.initConfigOption('showSectionTitleOption', () => { this.showOrHideSectionTitlesBasedOnOption(); });

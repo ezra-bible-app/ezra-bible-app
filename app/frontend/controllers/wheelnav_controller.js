@@ -130,13 +130,6 @@ function getMenuItems() {
     icon: '#compare-icon'
   });
 
-  if (!app_controller.optionsMenu._tagListOption.isChecked) {
-    items.push({
-      id: 'tags',
-      icon: '#tags-icon'
-    });
-  }
-
   items.push({
     id: 'assign_last_tag',
     icon: '#tag-icon'

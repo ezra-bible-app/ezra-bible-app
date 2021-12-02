@@ -117,36 +117,13 @@ class UiHelper {
     }
   }
   
-  resizeAppContainer(sidePanelWidth=undefined, cycle=false) {
+  resizeAppContainer(toolPanelWidth=undefined, cycle=false) {
     this.windowWidth = window.innerWidth;
 
     const toolPanel = document.querySelector('#tool-panel');
-    const detailPanel = document.querySelector('#detail-panel');
 
-    var platform = getPlatform();
-
-    if (this.windowWidth >= 200 && this.windowWidth < 1200) {
-      // Automatically hide toolbar on smaller screens
-      // sidePanel.style.display='none';
-
-      // if (!platform.isFullScreen()) {
-      //   app_controller.tag_assignment_menu.moveTagAssignmentList("MENU");
-      // }
-
-      // app_controller.dictionary_controller.moveInfoBoxFromTo(toolPanel, detailPanel);
-    
-    } else if (!cycle) {
-      // sidePanel.style.display='';
-      
-      // if (!platform.isFullScreen() && app_controller.optionsMenu._tagListOption.isChecked) {
-      //  app_controller.tag_assignment_menu.moveTagAssignmentList("SIDE_PANEL");
-      // }
-
-      // app_controller.dictionary_controller.moveInfoBoxFromTo(detailPanel, toolPanel);
-    }
-
-    sidePanelWidth = sidePanelWidth || toolPanel.offsetWidth; 
-    this.adaptVerseList(sidePanelWidth);
+    toolPanelWidth = toolPanelWidth || toolPanel.offsetWidth; 
+    this.adaptVerseList(toolPanelWidth);
   }
 
   get isSmallScreen() {

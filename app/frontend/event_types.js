@@ -42,11 +42,11 @@
  * @typedef { "on-theme-changed" | "on-fullscreen-changed" } AppEvents
  */
 /**
- * @typedef { "on-tag-panel-switched" | "on-dictionary-panel-switched" } PanelsEvents
+ * @typedef { "on-tag-panel-switched" | "on-dictionary-panel-switched" } PanelEvents
  */
 
 
 
 /**
- * @typedef { BibleTextEvents | TabEvents | TabSearchEvents | ModuleAssistantEvents | RepoUpdateEvents | I18nEvents | AppEvents | PanelsEvents } EzraEvent
+ * @typedef { BibleTextEvents | TabEvents | TabSearchEvents | ModuleAssistantEvents | RepoUpdateEvents | I18nEvents | AppEvents | PanelEvents } EzraEvent
  */
