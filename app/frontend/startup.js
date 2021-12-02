@@ -115,7 +115,7 @@ class Startup {
       bookSelectionMenu = loadFile('html/book_selection_menu.html');
       tagSelectionMenu = loadFile('html/tag_selection_menu.html');
       tagAssignmentMenu = loadFile('html/tag_assignment_menu.html');
-      tagPanel = loadFile('html/bible_browser_toolbox.html');
+      tagPanel = loadFile('html/tag_panel.html');
       moduleSearchMenu = loadFile('html/module_search_menu.html');
       displayOptionsMenu = loadFile('html/display_options_menu.html');
       verseListTabs = loadFile('html/verse_list_tabs.html');
@@ -131,7 +131,7 @@ class Startup {
       bookSelectionMenu = fs.readFileSync('html/book_selection_menu.html');
       tagSelectionMenu = fs.readFileSync('html/tag_selection_menu.html');
       tagAssignmentMenu = fs.readFileSync('html/tag_assignment_menu.html');
-      tagPanel = fs.readFileSync('html/bible_browser_toolbox.html');
+      tagPanel = fs.readFileSync('html/tag_panel.html');
       moduleSearchMenu = fs.readFileSync('html/module_search_menu.html');
       displayOptionsMenu = fs.readFileSync('html/display_options_menu.html');
       verseListTabs = fs.readFileSync('html/verse_list_tabs.html');
