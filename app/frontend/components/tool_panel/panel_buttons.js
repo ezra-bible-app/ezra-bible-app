@@ -27,9 +27,10 @@ const template = html`
         height: 100%;
      }
      #panel-switches {
-      --button-switch-size: 1.5em; 
+      --icon-size: 1em; 
+      --button-size: calc(var(--icon-size) + 1em);
       height: 100%;
-      width: calc(2 * var(---button-switch-size));
+      width: var(--button-size);
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -37,12 +38,12 @@ const template = html`
     }
     
     ::slotted(button) {
-      font-size: var(--button-switch-size) !important; /* There is an issue with ::slotted specificity: https://github.com/w3c/csswg-drafts/issues/6466 */
+      font-size: var(--icon-size) !important; /* There is an issue with ::slotted specificity: https://github.com/w3c/csswg-drafts/issues/6466 */
       color: var(--accent-color);
-      width: calc(var(--button-switch-size) + 8px);
-      height: calc(var(--button-switch-size) + 8px);
+      width: var(--button-size);
+      height: var(--button-size);
       background: none;
-      padding: 6px;
+      padding: 0;
       border: var(--area-border);
       border-radius: var(--border-radius);
       margin-block-end: 0.5em;
@@ -51,7 +52,7 @@ const template = html`
 
     @media (orientation: portrait) {
       #panel-switches {
-        height: calc(2 * var(---button-switch-size));
+        height: var(--button-size);
         width: 100%;
         flex-direction: row;
         margin-block-start: 0.5em;
