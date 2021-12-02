@@ -98,15 +98,11 @@
   height: 2.2em;
 }
 
-.accordion-panel input,
-#tag-assignment-menu-taglist input,
-#change-tags-box input {
+.accordion-panel input {
   margin-right: 0.5em;
 }
 
-.Android .accordion-panel input,
-.Android #tag-assignment-menu-taglist input,
-.Android #change-tags-box input {
+.Android .accordion-panel input {
   margin-right: 1em;
 }
 

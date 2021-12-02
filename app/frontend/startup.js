@@ -98,7 +98,6 @@ class Startup {
 
     var bookSelectionMenu = null;
     var tagSelectionMenu = null;
-    var tagAssignmentMenu = null;
     var tagPanel = null;
     var moduleSearchMenu = null;
     var displayOptionsMenu = null;
@@ -114,7 +113,6 @@ class Startup {
 
       bookSelectionMenu = loadFile('html/book_selection_menu.html');
       tagSelectionMenu = loadFile('html/tag_selection_menu.html');
-      tagAssignmentMenu = loadFile('html/tag_assignment_menu.html');
       tagPanel = loadFile('html/tag_panel.html');
       moduleSearchMenu = loadFile('html/module_search_menu.html');
       displayOptionsMenu = loadFile('html/display_options_menu.html');
@@ -130,7 +128,6 @@ class Startup {
 
       bookSelectionMenu = fs.readFileSync('html/book_selection_menu.html');
       tagSelectionMenu = fs.readFileSync('html/tag_selection_menu.html');
-      tagAssignmentMenu = fs.readFileSync('html/tag_assignment_menu.html');
       tagPanel = fs.readFileSync('html/tag_panel.html');
       moduleSearchMenu = fs.readFileSync('html/module_search_menu.html');
       displayOptionsMenu = fs.readFileSync('html/display_options_menu.html');
@@ -140,7 +137,6 @@ class Startup {
   
     document.getElementById('book-selection-menu-book-list').innerHTML = bookSelectionMenu;
     document.getElementById('tag-selection-menu').innerHTML = tagSelectionMenu;
-    document.getElementById('tag-assignment-menu').innerHTML = tagAssignmentMenu;
     document.getElementById('tag-panel').innerHTML = tagPanel;
     document.getElementById('module-search-menu').innerHTML = moduleSearchMenu;
     document.getElementById('display-options-menu').innerHTML = displayOptionsMenu;

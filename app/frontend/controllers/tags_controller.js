@@ -519,7 +519,6 @@ class TagsController {
         await app_controller.tag_statistics.updateBookTagStatistics();
       }
 
-      app_controller.tag_assignment_menu.hideTagAssignmentMenuAfterDelay();
 
     } else {
 
@@ -610,7 +609,6 @@ class TagsController {
   async removeTagAssignmentAfterConfirmation() {
     tags_controller.persistence_ongoing = true;
     $('#remove-tag-assignment-confirmation-dialog').dialog('close');
-    app_controller.tag_assignment_menu.hideTagAssignmentMenuAfterDelay();
 
     var job = tags_controller.remove_tag_assignment_job;
     tags_controller.changeVerseListTagInfo(job.id,

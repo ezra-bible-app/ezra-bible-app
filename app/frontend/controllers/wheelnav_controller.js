@@ -155,12 +155,6 @@ function handleMenuClick(item) {
         app_controller.translationComparison.handleButtonClick();
       }
       break;
-    case 'tags':
-      setTimeout(() => {
-        app_controller.tag_assignment_menu.showPopup();
-        tags_controller.updateTagsViewAfterVerseSelection(false);
-      }, 100);
-      break;
     case 'assign_last_tag':
       app_controller.assign_last_tag_button.handleClick();
       break;
