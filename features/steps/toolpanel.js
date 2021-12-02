@@ -22,9 +22,9 @@ const spectronHelper = require('../helpers/spectron_helper.js');
 When('I open the {tool_panel_type} panel', async function (toolPanelButtonSelector) {
   const panelButtons = await spectronHelper.getWebClient().$('#app-container panel-buttons');
   const button = await panelButtons.$(toolPanelButtonSelector);
-  const classes = (await button.getAttribute('class')).split(' ');
+  const classes = (await button.getAttribute('class'));
 
-  if (!classes.includes('active')) {
+  if (!classes || classes.split(' ').includes('active')) {
     await button.click();
     await spectronHelper.sleep();
   }
