@@ -85,18 +85,12 @@ class DictionaryController {
 
     eventController.subscribe('on-dictionary-panel-switched', isOpen => {
       this._isDictionaryOpen = isOpen;
-      var updated = false;
 
       if (!isOpen) { 
-        this.hideInfoBox();
-        if (updated) {
-          this.clearInfoBox();
-        }
-  
+        this.clearInfoBox();  
         this.hideStrongsBox(true);
-      } else {
-        this.showInfoBox();
-      }  
+      }
+      
     });
 
     this.runAvailabilityCheck();
@@ -122,20 +116,8 @@ class DictionaryController {
     this.strongsBox.hide();
   }
 
-  showInfoBox() {
-    return this._dictionaryInfoBox.showDictInfoBox();
-  }
-
-  hideInfoBox() {
-    return this._dictionaryInfoBox.hideDictInfoBox();
-  }
-
   clearInfoBox() {
     this._dictionaryInfoBox.clearDictInfoBox();
-  }
-
-  moveInfoBoxFromTo(fromContainer, toContainer) {
-    this._dictionaryInfoBox.moveDictInfoBox(fromContainer, toContainer);
   }
 
   async bindAfterBibleTextLoaded(tabIndex=undefined) {

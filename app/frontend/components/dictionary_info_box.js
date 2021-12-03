@@ -59,43 +59,6 @@ class DictionaryInfoBox {
     this.dictionaryInfoBoxHelp.show();
   }
 
-  hideDictInfoBox() {
-    if (this.infoBox.is(":visible")) {
-      this.clearDictInfoBox();
-    }
-    this.infoBox.hide();
-    this.infoBox.parent().removeClass('with-dictionary');
-  }
-
-  showDictInfoBox() {
-    if (!this.uiInitDone) {
-      this.uiInitDone = true;
-      $('#dictionary-panel').accordion();
-    }
-
-    this.getJsStrongs();
-
-    this.infoBox.show();
-    this.infoBox.parent().addClass('with-dictionary');
-  }
-
-  moveDictInfoBox(fromContainer=null, toContainer=null) {
-    if (!fromContainer) {
-      fromContainer = document.querySelector('#tool-panel');
-    }
-    if (!toContainer) {
-      toContainer = document.querySelector('#detail-panel');
-    }
-
-    if (this.infoBox && this.infoBox.length > 0) {
-      toContainer.appendChild(this.infoBox[0]);
-      if (this.infoBox.is(':visible')) {
-        toContainer.classList.add('with-dictionary');
-      }
-      fromContainer.classList.remove('with-dictionary');
-    }
-  }
-  
   async updateDictInfoBox(strongsEntry, additionalStrongsEntries=[], firstUpdate=false) {
     if (strongsEntry == null) {
       return;

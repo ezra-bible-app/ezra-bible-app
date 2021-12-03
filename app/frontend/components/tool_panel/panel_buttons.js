@@ -133,12 +133,12 @@ class PanelButtons extends HTMLElement {
     if (this.activePanel === targetPanel) {
       this.activePanel = "";
       this.toolPanelElement.classList.add('hidden');
-      await this.togglePanel(targetPanel, false);
+      this.togglePanel(targetPanel, false);
     } else {
-      await this.togglePanel(this.activePanel, false);
+      this.togglePanel(this.activePanel, false);
 
       this.activePanel = targetPanel;
-      await this.togglePanel(targetPanel, true);
+      this.togglePanel(targetPanel, true);
       this.toolPanelElement.classList.remove('hidden');
     }
 
@@ -164,7 +164,6 @@ class PanelButtons extends HTMLElement {
       panelElement.classList.remove('active');
     }
 
-    await waitUntilIdle();
     await eventController.publishAsync(this.panelEvents[panelId], isActive);
   }
 }
