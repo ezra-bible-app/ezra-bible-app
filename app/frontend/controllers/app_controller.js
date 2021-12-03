@@ -44,6 +44,7 @@ const SwordNotes = require("../components/sword_notes.js");
 const InfoPopup = require("../components/info_popup.js");
 const TextSizeSettings = require("../components/text_size_settings.js");
 const VerseStatisticsChart = require('../components/verse_statistics_chart.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 const referenceVerseController = require('../controllers/reference_verse_controller.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
@@ -690,25 +691,6 @@ class AppController {
   openModuleSettingsAssistant(moduleType) {
     this.optionsMenu.hideDisplayMenu();
     this.moduleAssistant.openAssistant(moduleType);
-  }
-
-  getBibleBookStatsFromVerseList(tabIndex) {
-    var bibleBookStats = {};    
-    var currentVerseList = this.getCurrentVerseList(tabIndex)[0];
-    var verseBoxList = currentVerseList.querySelectorAll('.verse-box');
-
-    for (var i = 0; i < verseBoxList.length; i++) {
-      var currentVerseBox = verseBoxList[i];
-      var bibleBookShortTitle = new VerseBox(currentVerseBox).getBibleBookShortTitle();
-
-      if (bibleBookStats[bibleBookShortTitle] === undefined) {
-        bibleBookStats[bibleBookShortTitle] = 1;
-      } else {
-        bibleBookStats[bibleBookShortTitle] += 1;
-      }
-    }
-
-    return bibleBookStats;
   }
 }
 
