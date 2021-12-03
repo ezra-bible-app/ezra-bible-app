@@ -285,11 +285,12 @@ class NavigationPane {
       
       try {
         currentChapter = parseInt(sectionTitleElement.getAttribute('chapter'));
+      // eslint-disable-next-line no-empty
       } catch (exc) {}
 
       if (currentChapter != null && currentChapter == chapter) {
         var sectionHeader = sectionTitleElement.textContent;
-        var chapter = sectionTitleElement.getAttribute('chapter');
+        chapter = sectionTitleElement.getAttribute('chapter');
         var sectionHeaderId = this.getUnixSectionHeaderId(cachedVerseListTabId, chapter, sectionHeader);
 
         var currentHeaderLink = document.createElement('a');
@@ -305,7 +306,7 @@ class NavigationPane {
         chapterSectionHeaderIndex++;
         sectionHeaderNumber++;
       }
-    };
+    }
 
     return sectionHeaderNumber;
   }
@@ -349,7 +350,7 @@ class NavigationPane {
 
   async updateNavigation(tabIndex=undefined) {
     if (tabIndex === undefined) {
-      var tabIndex = app_controller.tab_controller.getSelectedTabIndex();
+      tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     }
 
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
@@ -405,13 +406,13 @@ class NavigationPane {
 
     try {
       var firstLink = currentVerseList[0].querySelector('a.nav');
-      var cachedVerseListTabId = null;
+      cachedVerseListTabId = null;
       
       if (firstLink !== null) {
         cachedVerseListTabId = firstLink.getAttribute('name').split(' ')[0];
       }
     } catch (e) {
-      console.log("NavigationPane: Could not get cached verse list tab id!");s
+      console.log("NavigationPane: Could not get cached verse list tab id!");
     }
 
     return cachedVerseListTabId;
@@ -423,6 +424,7 @@ class NavigationPane {
     try {
       var highlightedChapterElement = this.currentNavigationPane.find('.chapter-link.hl-nav-element');
       highlightedChapter = parseInt(highlightedChapterElement.text());
+    // eslint-disable-next-line no-empty
     } catch (e) {}
 
     return highlightedChapter;
