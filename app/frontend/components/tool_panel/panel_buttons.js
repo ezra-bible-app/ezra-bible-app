@@ -39,15 +39,14 @@ const template = html`
     
     ::slotted(button) {
       font-size: var(--icon-size) !important; /* There is an issue with ::slotted specificity: https://github.com/w3c/csswg-drafts/issues/6466 */
-      color: var(--accent-color);
+      color: #8e8e8e;
       width: var(--button-size);
       height: var(--button-size);
       background: none;
       padding: 0;
-      border: var(--area-border);
+      border: 1px solid #8e8e8e;
       border-radius: var(--border-radius);
       margin-block-end: 0.5em;
-      box-shadow: var(--highlight-shadow);
     }
 
     @media (orientation: portrait) {
@@ -66,11 +65,9 @@ const template = html`
 
     ::slotted(button.active),
     ::slotted(button:hover)  {
+      color: white;
       border-color: var(--highlight-border-color);
-      border-width: 2px;
-      background: var(--highlight-bg-color);
-      box-shadow: none;
-      transform: translateX(1px);
+      background: var(--accent-color);
     }
    </style>
     

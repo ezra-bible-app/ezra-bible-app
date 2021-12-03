@@ -32,7 +32,6 @@
   --highlight-border-color: #74b2e2;
   --highlight-border: 1px solid var(--highlight-border-color);
   --highlight-color: var(--accent-color);
-  --highlight-shadow: 1px 1px 6px #0002;
 }
 
 :root body.darkmode--activated {
@@ -45,7 +44,6 @@
   --highlight-bg: var(--highlight-bg-color) url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
   --highlight-border-color: #0b93d5;
   --highlight-color: var(--text-color);
-  --highlight-shadow: 2px 1px 6px #fff4;
 }
 
 .bold {
