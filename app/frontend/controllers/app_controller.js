@@ -367,12 +367,6 @@ class AppController {
     return verseListHeader;
   }
 
-  getCurrentVerseListLoadingIndicator(tabIndex=undefined) {
-    var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-    var loadingIndicator = currentVerseListFrame.find('.verse-list-loading-indicator');
-    return loadingIndicator;
-  }
-
   getCurrentSearchProgressBar(tabIndex=undefined) {
     var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
     var searchProgressBar = currentVerseListFrame.find('.search-progress-bar');
@@ -383,29 +377,6 @@ class AppController {
     var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
     var searchCancelButton = currentVerseListFrame.find('.cancel-module-search-button-container');
     return searchCancelButton;
-  }
-
-  showVerseListLoadingIndicator(tabIndex=undefined, message=undefined, withLoader=true) {
-    var loadingIndicator = this.getCurrentVerseListLoadingIndicator(tabIndex);
-    var loadingText = loadingIndicator.find('.verse-list-loading-indicator-text');
-    if (message === undefined) {
-      message = i18n.t("bible-browser.loading-bible-text");
-    }
-
-    loadingText.html(message);
-
-    if (withLoader) {
-      loadingIndicator.find('.loader').show();
-    } else {
-      loadingIndicator.find('.loader').hide();
-    }
-
-    loadingIndicator.show();
-  }
-
-  hideVerseListLoadingIndicator(tabIndex=undefined) {
-    var loadingIndicator = this.getCurrentVerseListLoadingIndicator(tabIndex);
-    loadingIndicator.hide();
   }
 
   hideSearchProgressBar(tabIndex=undefined) {

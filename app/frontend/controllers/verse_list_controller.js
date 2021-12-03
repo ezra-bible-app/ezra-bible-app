@@ -18,6 +18,35 @@
 
 const VerseBox = require('../ui_models/verse_box.js');
 
+function getCurrentVerseListLoadingIndicator(tabIndex=undefined) {
+  var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+  var loadingIndicator = currentVerseListFrame.find('.verse-list-loading-indicator');
+  return loadingIndicator;
+}
+
+function showVerseListLoadingIndicator(tabIndex=undefined, message=undefined, withLoader=true) {
+  var loadingIndicator = getCurrentVerseListLoadingIndicator(tabIndex);
+  var loadingText = loadingIndicator.find('.verse-list-loading-indicator-text');
+  if (message === undefined) {
+    message = i18n.t("bible-browser.loading-bible-text");
+  }
+
+  loadingText.html(message);
+
+  if (withLoader) {
+    loadingIndicator.find('.loader').show();
+  } else {
+    loadingIndicator.find('.loader').hide();
+  }
+
+  loadingIndicator.show();
+}
+
+function hideVerseListLoadingIndicator(tabIndex=undefined) {
+  var loadingIndicator = getCurrentVerseListLoadingIndicator(tabIndex);
+  loadingIndicator.hide();
+}
+
 function getBibleBookStatsFromVerseList(tabIndex) {
   var bibleBookStats = {};    
   var currentVerseList = app_controller.getCurrentVerseList(tabIndex)[0];
@@ -53,6 +82,9 @@ function resetVerseListView() {
 }
 
 module.exports = {
+  getCurrentVerseListLoadingIndicator,
+  showVerseListLoadingIndicator,
+  hideVerseListLoadingIndicator,
   getBibleBookStatsFromVerseList,
   resetVerseListView
 };

@@ -25,6 +25,7 @@ const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
 const cacheController = require('./cache_controller.js');
 const eventController = require('./event_controller.js');
 const referenceVerseController = require('../controllers/reference_verse_controller.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 /**
  * The TabController manages the tab bar and the state of each tab.
@@ -320,13 +321,13 @@ class TabController {
 
     if (await cacheController.hasCachedItem('tabConfiguration')) {
       uiHelper.showTextLoadingIndicator();
-      app_controller.showVerseListLoadingIndicator();
+      verseListController.showVerseListLoadingIndicator();
       loadedTabCount = await this.loadMetaTabsFromSettings();
 
       if (loadedTabCount > 0) {
         await this.populateFromMetaTabs();
       } else {
-        app_controller.hideVerseListLoadingIndicator();
+        verseListController.hideVerseListLoadingIndicator();
         uiHelper.hideTextLoadingIndicator();
       }
     }
@@ -399,7 +400,7 @@ class TabController {
           // This is necessary to ensure good visual performance when
           // adding tabs automatically (like for finding all Strong's references).
 
-          var index = this.getCorrectedIndex(ui);
+          index = this.getCorrectedIndex(ui);
           ui.index = index;
 
           if (metaTab.selectCount > 1) {
@@ -415,7 +416,7 @@ class TabController {
             currentVerseListHeader.hide();
             currentReferenceVerse.hide();
 
-            app_controller.showVerseListLoadingIndicator(index);
+            verseListController.showVerseListLoadingIndicator(index);
             app_controller.verse_statistics_chart.resetChart(index);
           }
 

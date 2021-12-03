@@ -134,7 +134,7 @@ class TextController {
         loadingMessage = i18n.t("bible-browser.loading-bible-text");
       }
 
-      app_controller.showVerseListLoadingIndicator(tabIndex, loadingMessage, !isSearch /* Only show loader visualization if we are not searching */);
+      verseListController.showVerseListLoadingIndicator(tabIndex, loadingMessage, !isSearch /* Only show loader visualization if we are not searching */);
       uiHelper.showTextLoadingIndicator();
     }
 
