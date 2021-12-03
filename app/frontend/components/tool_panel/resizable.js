@@ -25,7 +25,10 @@
 var toolPanel;
 // var topHandle, sideHandle;
 
-module.exports.initResizable = async function initResizable() {
+const MIN_WIDTH = 30 * 16;
+const MIN_HEIGHT = 10 * 16;
+
+module.exports.initResizable = function initResizable() {
   toolPanel = document.querySelector('#tool-panel');
 
   // TODO: to be used in a future with custom resizable
@@ -33,7 +36,7 @@ module.exports.initResizable = async function initResizable() {
   // topHandle = topHandleFragment.children[0];
   // topHandle.classList.add('ui-resizable-n');
   // toolPanel.appendChild(topHandleFragment);
-  
+
   // const sideHandleFragment = template.content.cloneNode(true);
   // sideHandle = sideHandleFragment.children[0];
   // sideHandle.classList.add('ui-resizable-e');
@@ -41,38 +44,58 @@ module.exports.initResizable = async function initResizable() {
 
   createResizable();
 
-  var sidePanelWidthAvailable = await ipcSettings.has('tagListWidth');
-
-  if (sidePanelWidthAvailable) {
-    var sidePanelWidth = await ipcSettings.get('tagListWidth');
-
-    $('#tool-panel').css('width', sidePanelWidth);
-  }
-
   window.addEventListener('resize', () => {
     $(toolPanel).resizable('destroy');
     createResizable();
   });
+
+  loadSettings();
 };
 
-function createResizable() {
-  $(toolPanel).resizable({
-    handles: getResizeHandle(),
-    resize: function (event, ui) {
-      uiHelper.adaptVerseList(ui.size.width);
-    },
-    stop: function (event, ui) {
-      //console.log("Saving new tag list width: " + ui.size.width);
-      ipcSettings.set('tagListWidth', ui.size.width);
-    }
-  });
+async function loadSettings() {
+  const toolPanelWidthAvailable = await ipcSettings.has('toolPanelWidth');
+  if (toolPanelWidthAvailable) {
+    const toolPanelWidth = await ipcSettings.get('toolPanelWidth');
+    toolPanel.style.width = toolPanelWidth + 'px';
+  }
 
+  const toolPanelHeightAvailable = await ipcSettings.has('toolPanelHeight');
+  if (toolPanelHeightAvailable) {
+    const toolPanelHeight = await ipcSettings.get('toolPanelHeight');
+    toolPanel.style.height = toolPanelHeight + 'px';
+  }
 }
 
-function getResizeHandle() {
+
+function createResizable() {
   const isPortrait = screen.orientation.type.startsWith('portrait');
-  const resizeSide = isPortrait ? 'n' : 'e';
-  return resizeSide;
+
+  if (isPortrait) {
+
+    $(toolPanel).resizable({
+      handles: 'n',
+      minHeight: MIN_HEIGHT,
+      maxHeight: window.innerHeight - 3*MIN_HEIGHT,
+      stop: function (event, ui) {
+        ipcSettings.set('toolPanelHeight', ui.size.height);
+      }
+    });
+
+  } else {
+
+    $(toolPanel).resizable({
+      handles: 'e',
+      minWidth: MIN_WIDTH,
+      maxWidth: window.innerWidth - 2*MIN_WIDTH,
+      resize: function (event, ui) {
+        uiHelper.adaptVerseList(ui.size.width);
+      },
+      stop: function (event, ui) {
+        ipcSettings.set('toolPanelWidth', ui.size.width);
+      }
+    });
+
+  }
 }
 
 
