@@ -174,20 +174,12 @@ class Startup {
   initUi() {
     this._platformHelper.addPlatformCssClass();
 
-    // Setup resizable function for divider between tool panel and verse list
-    $('#tool-panel').resizable({
-      handles: 'e',
-      resize: function (event, ui) {
-        uiHelper.adaptVerseList(ui.size.width);
-      },
-      stop: function (event, ui) {
-        //console.log("Saving new tag list width: " + ui.size.width);
-        ipcSettings.set('tagListWidth', ui.size.width);
-      }
-    });
-
     tags_controller.initTagsUI();
     uiHelper.configureButtonStyles();
+    
+    const resizable = require('./components/tool_panel/resizable.js');
+    resizable.initResizable();
+
     $(window).bind("resize", () => { uiHelper.resizeAppContainer(); });
     $(window).bind("orientationchange", () => { uiHelper.resizeAppContainer(); });
   }

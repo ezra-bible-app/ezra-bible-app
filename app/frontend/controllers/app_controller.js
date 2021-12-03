@@ -221,15 +221,6 @@ class AppController {
 
   async loadSettings() {
     try {
-      var sidePanelWidthAvailable = await ipcSettings.has('tagListWidth');
-
-      if (sidePanelWidthAvailable) {
-        var sidePanelWidth = await ipcSettings.get('tagListWidth');
-
-        $('#tool-panel').css('width', sidePanelWidth);
-        uiHelper.resizeAppContainer(sidePanelWidth);
-      }
-
       if (this.tab_controller.getTab().isValid() && await ipcDb.getTagCount() > 0) {
         tags_controller.showTagListLoadingIndicator();
       }

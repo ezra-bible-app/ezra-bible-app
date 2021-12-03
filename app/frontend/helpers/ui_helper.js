@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const i18nController = require('../controllers/i18n_controller.js');
-const { getPlatform } = require('../helpers/ezra_helper.js');
 class UiHelper {
   constructor() {
     this.app_container_height = null;
@@ -117,17 +116,13 @@ class UiHelper {
     }
   }
   
-  resizeAppContainer(toolPanelWidth=undefined, cycle=false) {
+  resizeAppContainer(toolPanelWidth=undefined) {
     this.windowWidth = window.innerWidth;
 
     const toolPanel = document.querySelector('#tool-panel');
 
     toolPanelWidth = toolPanelWidth || toolPanel.offsetWidth; 
     this.adaptVerseList(toolPanelWidth);
-  }
-
-  get isSmallScreen() {
-    return this.windowWidth < 1200;
   }
 
   getMaxDialogWidth() {

@@ -172,6 +172,7 @@ module.exports.changeLocale = async function(newLocale, saveSettings=true) {
   
   // Since the new locale may require more or less space vertically we need to adjust
   // the height of the app container now.
+  // FIXME: maybe it's not required with new layout
   uiHelper.resizeAppContainer();
 };
 

@@ -40,6 +40,8 @@
   --widget-bg-color: #1e1e1e;
   --text-color: #cccccc;
 
+  --border-color: #555555;
+
   --highlight-bg-color: #003147;
   --highlight-bg: var(--highlight-bg-color) url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
   --highlight-border-color: #0b93d5;

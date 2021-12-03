@@ -33,12 +33,17 @@
     padding: 1em 0 0 0;
   }
 }
+@media (orientation: landscape) {
+  #tool-panel {
+    height: 100% !important;
+  }
+}
+
 #tool-panel.hidden {
   width: 0 !important;
   min-width: 0;
   padding: 0;
 }
-
 
 #tool-panel > section {
   width: 100%;
@@ -48,6 +53,36 @@
 }
 #tool-panel > section.active {
   display: block;
+}
+
+#tool-panel.ui-resizable {
+  top: 0 !important; /* override jQuery UI resizable */
+  left: 0 !important;
+}
+
+#tool-panel .ui-resizable-n {
+  border-bottom: 1px solid var(--border-color);
+  top: 0;
+  left: 10px;
+  width: calc(100% - 20px);
+  display: none;
+}
+
+#tool-panel .ui-resizable-e {
+  border-left: 1px solid var(--border-color);
+  right: 0;
+  top: 10px;
+  height: calc(100% - 20px);
+}
+
+@media (orientation: portrait) {
+  #tool-panel .ui-resizable-n {
+    display: block;
+  }
+  
+  #tool-panel .ui-resizable-e {
+    display: none;
+  }  
 }
 
 #detail-panel {
