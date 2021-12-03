@@ -197,7 +197,7 @@ class AppController {
     var currentTab = this.tab_controller.getTab(tabIndex);
 
     if (currentTab) {
-      const verseListContainer = this.getCurrentVerseListFrame(tabIndex).parent();
+      const verseListContainer = verseListController.getCurrentVerseListFrame(tabIndex).parent();
 
       currentTab.tab_search = new TabSearch();
       currentTab.tab_search.init(

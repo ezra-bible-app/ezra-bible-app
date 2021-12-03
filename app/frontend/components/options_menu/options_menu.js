@@ -21,7 +21,7 @@ const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
 const i18nController = require('../../controllers/i18n_controller.js');
 const eventController = require('../../controllers/event_controller.js');
 const referenceVerseController = require('../../controllers/reference_verse_controller.js');
-const verseListController = require('../controllers/verse_list_controller.js');
+const verseListController = require('../../controllers/verse_list_controller.js');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
