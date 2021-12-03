@@ -24,6 +24,7 @@ const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
 const cacheController = require('./cache_controller.js');
 const eventController = require('./event_controller.js');
+const referenceVerseController = require('../controllers/reference_verse_controller.js');
 
 /**
  * The TabController manages the tab bar and the state of each tab.
@@ -408,7 +409,7 @@ class TabController {
           if (metaTab.getTextType() != null) {
             var currentVerseList = app_controller.getCurrentVerseList(index);
             var currentVerseListHeader = app_controller.getCurrentVerseListHeader(index);
-            var currentReferenceVerse = app_controller.getCurrentReferenceVerse(index);
+            var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(index);
 
             currentVerseList.hide();
             currentVerseListHeader.hide();
@@ -435,7 +436,7 @@ class TabController {
               var index = this.getCorrectedIndex(ui);
               var currentVerseList = app_controller.getCurrentVerseList(index);
               var currentVerseListHeader = app_controller.getCurrentVerseListHeader(index);
-              var currentReferenceVerse = app_controller.getCurrentReferenceVerse(index);
+              var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(index);
 
               currentVerseList.show();
               currentVerseListHeader.show();
@@ -891,7 +892,7 @@ class TabController {
         );
 
         if (currentTab.getReferenceVerseElementId() != null) {
-          await app_controller.updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId);
+          await referenceVerseController.updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId);
         }
 
         if (currentTab.getTextType() == 'book') {

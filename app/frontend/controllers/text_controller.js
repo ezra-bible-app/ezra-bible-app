@@ -23,6 +23,7 @@ const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const VerseReferenceHelper = require('../helpers/verse_reference_helper.js');
 const Verse = require('../ui_models/verse.js');
 const eventController = require('../controllers/event_controller.js');
+const referenceVerseController = require('../controllers/reference_verse_controller.js');
 
 /**
  * The TextController is used to load bible text into the text area of a tab.
@@ -740,7 +741,7 @@ class TextController {
       var referenceVerseContainer = verseListFrame.find('.reference-verse');
       referenceVerseContainer.html(referenceVerseHtml);
       var referenceVerseBox = referenceVerseContainer.find('.verse-box');
-      app_controller.renderReferenceVerse(referenceVerseBox, tabIndex);
+      referenceVerseController.renderReferenceVerse(referenceVerseBox, tabIndex);
       referenceVerseContainer.show();
     }
 
