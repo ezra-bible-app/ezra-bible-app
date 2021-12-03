@@ -21,6 +21,7 @@ const VerseBox = require('../ui_models/verse_box.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const VerseReferenceHelper = require('../helpers/verse_reference_helper.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 /**
  * The NavigationPane class implements the update and event handling of the
@@ -519,7 +520,7 @@ class NavigationPane {
       var bibleBookShortTitle = new VerseBox(verseBox).getBibleBookShortTitle();
       var currentBookName = await ipcDb.getBookTitleTranslation(bibleBookShortTitle);
       
-      var bibleBookNumber = app_controller.getVerseListBookNumber(currentBookName);
+      var bibleBookNumber = verseListController.getVerseListBookNumber(currentBookName);
       if (bibleBookNumber != -1) {
         this.highlightNavElement(undefined, bibleBookNumber, false, "OTHER");
       }
@@ -554,7 +555,7 @@ class NavigationPane {
         var currentBibleBookShortName = new VerseBox(verseBox[0]).getBibleBookShortTitle();
         var currentBookName = await ipcDb.getBookTitleTranslation(currentBibleBookShortName);
 
-        var bibleBookNumber = app_controller.getVerseListBookNumber(currentBookName, bookHeaders);
+        var bibleBookNumber = verseListController.getVerseListBookNumber(currentBookName, bookHeaders);
         if (bibleBookNumber != -1) {
           this.highlightSearchResult(bibleBookNumber, "OTHER");
         }

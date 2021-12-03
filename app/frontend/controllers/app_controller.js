@@ -516,27 +516,6 @@ class AppController {
     }
   }
 
-  getVerseListBookNumber(bibleBookLongTitle, bookHeaders=undefined) {
-    var bibleBookNumber = -1;
-
-    if (bookHeaders === undefined) {
-      var currentVerseListFrame = this.getCurrentVerseListFrame();
-      bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
-    }
-
-    for (var i = 0; i < bookHeaders.length; i++) {
-      var currentBookHeader = $(bookHeaders[i]);
-      var currentBookHeaderText = currentBookHeader.text();
-
-      if (currentBookHeaderText.includes(bibleBookLongTitle)) {
-        bibleBookNumber = i + 1;
-        break;
-      }
-    }
-
-    return bibleBookNumber;
-  }
-
   onVerseBoxMouseOver(event) {
     var focussedElement = event.target;
     this.navigation_pane.updateNavigationFromVerseBox(focussedElement);

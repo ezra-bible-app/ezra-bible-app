@@ -81,10 +81,32 @@ function resetVerseListView() {
   app_controller.docxExport.disableExportButton();
 }
 
+function getVerseListBookNumber(bibleBookLongTitle, bookHeaders=undefined) {
+  var bibleBookNumber = -1;
+
+  if (bookHeaders === undefined) {
+    var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
+    bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
+  }
+
+  for (let i = 0; i < bookHeaders.length; i++) {
+    var currentBookHeader = $(bookHeaders[i]);
+    var currentBookHeaderText = currentBookHeader.text();
+
+    if (currentBookHeaderText.includes(bibleBookLongTitle)) {
+      bibleBookNumber = i + 1;
+      break;
+    }
+  }
+
+  return bibleBookNumber;
+}
+
 module.exports = {
   getCurrentVerseListLoadingIndicator,
   showVerseListLoadingIndicator,
   hideVerseListLoadingIndicator,
   getBibleBookStatsFromVerseList,
-  resetVerseListView
+  resetVerseListView,
+  getVerseListBookNumber
 };
