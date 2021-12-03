@@ -37,6 +37,22 @@ function getBibleBookStatsFromVerseList(tabIndex) {
   return bibleBookStats;
 }
 
+function resetVerseListView() {
+  var textType = app_controller.tab_controller.getTab().getTextType();
+  if (textType != 'xrefs' && textType != 'tagged_verses') {
+    var currentReferenceVerse = app_controller.getCurrentVerseListFrame().find('.reference-verse');
+    currentReferenceVerse[0].innerHTML = "";
+  }
+
+  var currentVerseList = app_controller.getCurrentVerseList()[0];
+  if (currentVerseList != undefined) {
+    currentVerseList.innerHTML = "";
+  }
+
+  app_controller.docxExport.disableExportButton();
+}
+
 module.exports = {
-  getBibleBookStatsFromVerseList
+  getBibleBookStatsFromVerseList,
+  resetVerseListView
 };

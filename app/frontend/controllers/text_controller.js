@@ -24,6 +24,7 @@ const VerseReferenceHelper = require('../helpers/verse_reference_helper.js');
 const Verse = require('../ui_models/verse.js');
 const eventController = require('../controllers/event_controller.js');
 const referenceVerseController = require('../controllers/reference_verse_controller.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 /**
  * The TextController is used to load bible text into the text area of a tab.
@@ -122,7 +123,7 @@ class TextController {
         app_controller.navigation_pane.resetNavigationPane(tabIndex, true);
       }
 
-      app_controller.resetVerseListView();
+      verseListController.resetVerseListView();
       let loadingMessage = "";
 
       if (isSearch) {

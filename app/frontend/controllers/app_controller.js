@@ -217,7 +217,7 @@ class AppController {
 
   // Re-init application to state without Bible translations
   async onAllTranslationsRemoved() {
-    this.resetVerseListView();
+    verseListController.resetVerseListView();
     this.hideVerseListLoadingIndicator();
     this.getCurrentVerseList().append("<div class='help-text'>" + i18n.t("help.help-text-no-translations") + "</div>");
     $('.book-select-value').text(i18n.t("menu.book"));
@@ -671,21 +671,6 @@ class AppController {
       await waitUntilIdle();
       tags_controller.updateTagList(null, currentTab.getContentId());
     }
-  }
-
-  resetVerseListView() {
-    var textType = this.tab_controller.getTab().getTextType();
-    if (textType != 'xrefs' && textType != 'tagged_verses') {
-      var currentReferenceVerse = this.getCurrentVerseListFrame().find('.reference-verse');
-      currentReferenceVerse[0].innerHTML = "";
-    }
-
-    var currentVerseList = this.getCurrentVerseList()[0];
-    if (currentVerseList != undefined) {
-      currentVerseList.innerHTML = "";
-    }
-
-    this.docxExport.disableExportButton();
   }
 
   openModuleSettingsAssistant(moduleType) {
