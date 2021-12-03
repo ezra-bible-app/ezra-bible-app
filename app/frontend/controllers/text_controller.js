@@ -667,7 +667,7 @@ class TextController {
                         append=false, 
                         hasNotes=false) {
 
-    app_controller.hideVerseListLoadingIndicator();
+    verseListController.hideVerseListLoadingIndicator();
     app_controller.hideSearchProgressBar();
     var initialRendering = true;
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
