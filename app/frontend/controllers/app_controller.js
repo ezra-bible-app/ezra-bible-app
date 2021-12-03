@@ -589,14 +589,6 @@ class AppController {
     await this.getXrefVerses(xrefs);
   }
 
-  showReferenceContainer() {
-    if (this.tab_controller.getTab().hasReferenceVerse()) {
-      var currentVerseListFrame = this.getCurrentVerseListFrame();
-      var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
-      $(referenceVerseContainer).show();
-    }
-  }
-
   async openTaggedVerses(tagIdList, tagTitleList, referenceVerseBox=undefined) {
     var currentTab = this.tab_controller.getTab();
     currentTab.setTextType('tagged_verses');

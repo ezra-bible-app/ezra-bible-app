@@ -727,7 +727,7 @@ class TextController {
     }
 
     if (listType == 'xrefs' || listType == 'tagged_verses') {
-      app_controller.showReferenceContainer();
+      referenceVerseController.showReferenceContainer();
     }
 
     if (append) {
@@ -791,8 +791,6 @@ class TextController {
   }
 }
 
-module.exports = TextController;
-
 function getReferenceIdsFromNotes(verseNotes, startVerseNr, endVerseNr) {
   const verseReferenceIds = Object.keys(verseNotes);
   return verseReferenceIds.filter(verseReferenceId => {
@@ -810,3 +808,5 @@ function getNotesForSection(verseNotes, startVerseNr, endVerseNr) {
   });
   return includedNotes;
 }
+
+module.exports = TextController;

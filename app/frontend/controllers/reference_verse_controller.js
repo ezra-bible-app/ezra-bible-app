@@ -21,6 +21,14 @@ const VerseBox = require('../ui_models/verse_box.js');
 
 var verseBoxHelper = new VerseBoxHelper();
 
+function showReferenceContainer() {
+  if (app_controller.tab_controller.getTab().hasReferenceVerse()) {
+    var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
+    var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
+    $(referenceVerseContainer).show();
+  }
+}
+
 function getCurrentReferenceVerse(tabIndex=undefined) {
   var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
   var referenceVerse = currentVerseListFrame.find('.reference-verse');
@@ -104,6 +112,7 @@ async function renderReferenceVerse(verseBox, tabIndex=undefined) {
 }
 
 module.exports = {
+  showReferenceContainer,
   getCurrentReferenceVerse,
   getLocalizedReferenceVerse,
   updateReferenceVerseTranslation,
