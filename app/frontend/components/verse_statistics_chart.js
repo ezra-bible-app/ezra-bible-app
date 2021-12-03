@@ -37,12 +37,12 @@ class VerseStatisticsChart {
   }
 
   getVerseStatisticsChart(tabIndex=undefined) {
-    var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+    var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
     return currentVerseListFrame.find('.verse-statistics-chart');
   }
 
   resetChart(tabIndex=undefined) {
-    var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+    var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
     var container = currentVerseListFrame[0].querySelector('.verse-statistics-chart-container');
 
     container.style.display = 'none';

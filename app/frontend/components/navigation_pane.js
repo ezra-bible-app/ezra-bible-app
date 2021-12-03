@@ -62,13 +62,13 @@ class NavigationPane {
   }
 
   show(tabIndex) {
-    var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+    var verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
     verseListFrame.removeClass(this.verseListFrameNoChapterNavCss);
     this.getCurrentNavigationPane(tabIndex).show();
   }
 
   hide(tabIndex) {
-    var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+    var verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
     verseListFrame.addClass(this.verseListFrameNoChapterNavCss);
     this.getCurrentNavigationPane(tabIndex).hide();
   }
@@ -245,7 +245,7 @@ class NavigationPane {
     this.resetNavigationPane(tabIndex);
 
     var chapterCount = await ipcNsi.getBookChapterCount(currentTranslation, currentBook);
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
     var query = '.sword-section-title:not([subtype="x-Chapter"]):not([type="chapter"]):not([type="psalm"]):not([type="scope"]):not([type="acrostic"])';
     var sectionTitleElements = currentVerseList.find(query);
@@ -314,7 +314,7 @@ class NavigationPane {
 
   updateBookNavigation(tabIndex) {
     var navigationPane = this.getCurrentNavigationPane(tabIndex);
-    var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+    var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
     var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
     var navigationPaneHtml = "";
 
@@ -402,7 +402,7 @@ class NavigationPane {
   }
 
   getCachedVerseListTabId(tabIndex=undefined) {
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
     var cachedVerseListTabId = null;
 
     try {
@@ -460,7 +460,7 @@ class NavigationPane {
       reference = '#' + cachedVerseListTabId + ' ' + chapter;
       window.location = reference;
     } else {
-      const currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+      const currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
       currentVerseListFrame[0].scrollTop = 0;
     }
   }
@@ -529,7 +529,7 @@ class NavigationPane {
 
   async onTabSearchResultsAvailable(occurrences) {
 
-    var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
+    var currentVerseListFrame = verseListController.getCurrentVerseListFrame();
     var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
 
     var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();

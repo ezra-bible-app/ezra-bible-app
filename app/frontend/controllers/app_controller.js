@@ -349,44 +349,6 @@ class AppController {
     return currentVerseListMenu;
   }
 
-  getCurrentVerseListFrame(tabIndex=undefined) {
-    var currentVerseListTabs = this.getCurrentVerseListTabs(tabIndex);
-    var currentVerseListFrame = currentVerseListTabs.find('.verse-list-frame');
-    return currentVerseListFrame;
-  }
-
-  getCurrentVerseList(tabIndex=undefined) {
-    var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-    var verseList = currentVerseListFrame[0].querySelector('.verse-list');
-    return $(verseList);
-  }
-
-  getCurrentVerseListHeader(tabIndex=undefined) {
-    var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-    var verseListHeader = currentVerseListFrame.find('.verse-list-header');
-    return verseListHeader;
-  }
-
-  getCurrentSearchProgressBar(tabIndex=undefined) {
-    var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-    var searchProgressBar = currentVerseListFrame.find('.search-progress-bar');
-    return searchProgressBar;
-  }
-
-  getCurrentSearchCancelButtonContainer(tabIndex=undefined) {
-    var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-    var searchCancelButton = currentVerseListFrame.find('.cancel-module-search-button-container');
-    return searchCancelButton;
-  }
-
-  hideSearchProgressBar(tabIndex=undefined) {
-    var searchProgressBar = this.getCurrentSearchProgressBar(tabIndex);
-    searchProgressBar.hide();
-
-    var cancelSearchButtonContainer = this.getCurrentSearchCancelButtonContainer(tabIndex);
-    cancelSearchButtonContainer.hide();
-  }
-
   handleBodyClick(event) {
     if($(this).hasClass('verse-selection-menu')) {
       event.stopPropagation();

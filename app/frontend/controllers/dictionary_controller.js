@@ -19,6 +19,7 @@
 const Mousetrap = require('mousetrap');
 const DictionaryInfoBox = require('../components/dictionary_info_box.js');
 const eventController = require('./event_controller.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 let jsStrongs = null;
 
@@ -135,7 +136,7 @@ class DictionaryController {
     }
     
     /**@type {HTMLElement}*/
-    const currentVerseList = app_controller.getCurrentVerseList(tabIndex)[0];
+    const currentVerseList = verseListController.getCurrentVerseList(tabIndex)[0];
     
     const verseTextElements = currentVerseList.querySelectorAll('.verse-text');
     verseTextElements.forEach(verseElement => verseElement.addEventListener('mousemove', () => {
@@ -365,7 +366,7 @@ class DictionaryController {
   }
 
   logDoubleStrongs() {
-    var currentVerseList = app_controller.getCurrentVerseList();
+    var currentVerseList = verseListController.getCurrentVerseList();
     var currentWElements = currentVerseList.find('w');
 
     for (var i = 0; i < currentWElements.length; i++) {

@@ -18,6 +18,7 @@
 
 const i18nController = require('../controllers/i18n_controller.js');
 const { getPlatform } = require('../helpers/ezra_helper.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 class UiHelper {
   constructor() {
     this.app_container_height = null;
@@ -215,7 +216,7 @@ class UiHelper {
   }
 
   getFirstVisibleVerseAnchor() {
-    let verseListFrame = app_controller.getCurrentVerseListFrame();
+    let verseListFrame = verseListController.getCurrentVerseListFrame();
     let firstVisibleVerseAnchor = null;
 
     if (verseListFrame != null && verseListFrame.length > 0) {

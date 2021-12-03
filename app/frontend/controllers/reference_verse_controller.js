@@ -18,19 +18,20 @@
 
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 var verseBoxHelper = new VerseBoxHelper();
 
 function showReferenceContainer() {
   if (app_controller.tab_controller.getTab().hasReferenceVerse()) {
-    var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
+    var currentVerseListFrame = verseListController.getCurrentVerseListFrame();
     var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
     $(referenceVerseContainer).show();
   }
 }
 
 function getCurrentReferenceVerse(tabIndex=undefined) {
-  var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+  var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
   var referenceVerse = currentVerseListFrame.find('.reference-verse');
   return referenceVerse;
 }
@@ -48,7 +49,7 @@ async function getLocalizedReferenceVerse(tabIndex=undefined) {
 }
 
 async function updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId) {
-  var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
+  var currentVerseListFrame = verseListController.getCurrentVerseListFrame();
   var currentTab = app_controller.tab_controller.getTab();
   var currentBibleTranslationId = currentTab.getBibleTranslationId();
   var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
@@ -68,7 +69,7 @@ async function updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTr
 }
 
 function clearReferenceVerse(tabIndex=undefined) {
-  var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+  var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
   var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
 
   referenceVerseContainer.innerHTML = '';
@@ -77,8 +78,8 @@ function clearReferenceVerse(tabIndex=undefined) {
 async function renderReferenceVerse(verseBox, tabIndex=undefined) {
   if (verseBox == null || verseBox.length != 1) return;
 
-  var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
-  var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+  var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
+  var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
   var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
   var classList = currentVerseList[0].classList;
 

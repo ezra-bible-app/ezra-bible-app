@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const eventController = require('../controllers/event_controller.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 /**
  * The SwordNotes component implements the handling of SWORD-based note elements
@@ -42,7 +43,7 @@ class SwordNotes {
   }
 
   getCurrentTabNotes(tabIndex) {
-    var verseList = app_controller.getCurrentVerseList(tabIndex);
+    var verseList = verseListController.getCurrentVerseList(tabIndex);
     var swordNotes = verseList[0].querySelectorAll('.sword-note');
     return swordNotes;
   }

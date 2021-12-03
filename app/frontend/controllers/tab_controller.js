@@ -408,8 +408,8 @@ class TabController {
           }
 
           if (metaTab.getTextType() != null) {
-            var currentVerseList = app_controller.getCurrentVerseList(index);
-            var currentVerseListHeader = app_controller.getCurrentVerseListHeader(index);
+            var currentVerseList = verseListController.getCurrentVerseList(index);
+            var currentVerseListHeader = verseListController.getCurrentVerseListHeader(index);
             var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(index);
 
             currentVerseList.hide();
@@ -435,8 +435,8 @@ class TabController {
               await waitUntilIdle();
 
               var index = this.getCorrectedIndex(ui);
-              var currentVerseList = app_controller.getCurrentVerseList(index);
-              var currentVerseListHeader = app_controller.getCurrentVerseListHeader(index);
+              var currentVerseList = verseListController.getCurrentVerseList(index);
+              var currentVerseListHeader = verseListController.getCurrentVerseListHeader(index);
               var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(index);
 
               currentVerseList.show();
@@ -490,7 +490,7 @@ class TabController {
     var metaTab = this.getTab(tabIndex);
 
     if (metaTab != null) {
-      var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+      var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
 
       if (currentVerseListFrame != null) {
         const savedScrollTop = metaTab.getLocation();

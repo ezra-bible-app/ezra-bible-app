@@ -16,6 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const verseListController = require('../controllers/verse_list_controller.js');
+
 class NewReleaseChecker {
   constructor(infoBoxId) {
     this.infoBoxId = infoBoxId;
@@ -63,7 +65,7 @@ class NewReleaseChecker {
   async showNewRelease() {
     this.initNewReleaseBox();
 
-    var currentVerseList = app_controller.getCurrentVerseList();
+    var currentVerseList = verseListController.getCurrentVerseList();
     var verse_list_position = currentVerseList.offset();
     var infoBox = this.getInfoBox();
 
@@ -122,10 +124,10 @@ class NewReleaseChecker {
     const k = Math.min(v1.length, v2.length);
 
     for (let i = 0; i < k; ++ i) {
-        v1[i] = parseInt(v1[i], 10);
-        v2[i] = parseInt(v2[i], 10);
-        if (v1[i] > v2[i]) return 1;
-        if (v1[i] < v2[i]) return -1;        
+      v1[i] = parseInt(v1[i], 10);
+      v2[i] = parseInt(v2[i], 10);
+      if (v1[i] > v2[i]) return 1;
+      if (v1[i] < v2[i]) return -1;        
     }
 
     return v1.length == v2.length ? 0: (v1.length < v2.length ? -1 : 1);

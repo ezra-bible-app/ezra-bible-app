@@ -21,6 +21,7 @@ const VerseReferenceHelper = require("../helpers/verse_reference_helper.js");
 const i18nHelper = require('../helpers/i18n_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const { getPlatform } = require('../helpers/ezra_helper.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 /**
  * The VerseSelection component implements the label that shows the currently selected verses.
@@ -87,7 +88,7 @@ class VerseSelection {
   }
 
   init(tabIndex) {
-    var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+    var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
     this.initSelectable(currentVerseListFrame);
 
     // This event handler ensures that the selection is cancelled
@@ -124,7 +125,7 @@ class VerseSelection {
 
   updateSelected(verseList=undefined) {
     if (verseList == undefined) {
-      var verseList = app_controller.getCurrentVerseList();
+      var verseList = verseListController.getCurrentVerseList();
     }
 
     this.selected_verse_box_elements = verseList.find('.ui-selected').closest('.verse-box');
@@ -144,10 +145,10 @@ class VerseSelection {
     this.selected_verse_references = new Array;
     this.selected_verse_box_elements = new Array;
 
-    var verseList = app_controller.getCurrentVerseList(tabIndex);
+    var verseList = verseListController.getCurrentVerseList(tabIndex);
     verseList[0].querySelectorAll('.ui-selected').forEach((verseText) => {
       verseText.classList.remove('ui-selectee');
-      verseText.classList.remove('ui-selected')
+      verseText.classList.remove('ui-selected');
       verseText.classList.remove('ui-state-highlight');
     });
 

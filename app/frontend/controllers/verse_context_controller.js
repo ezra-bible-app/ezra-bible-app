@@ -18,6 +18,7 @@
 
 const VerseBox = require('../ui_models/verse_box.js');
 const eventController = require('./event_controller.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 class VerseContextController {
 
@@ -97,7 +98,7 @@ class VerseContextController {
   }
 
   init_verse_expand_box(tabIndex=undefined) {
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
     currentVerseList.find('.verse-reference-content').filter(":not('.tag-events-configured')").bind('mouseover',
                                                                                                     this.mouse_over_verse_reference_content);
