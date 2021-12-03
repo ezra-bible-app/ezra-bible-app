@@ -181,7 +181,7 @@ class AppController {
     }
 
     // Re-configure tab search
-    var currentVerseList = this.getCurrentVerseList(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
     if (metaTab != null && metaTab.tab_search != null) {
       metaTab.tab_search.setVerseList(currentVerseList);
     }
@@ -218,7 +218,7 @@ class AppController {
   async onAllTranslationsRemoved() {
     verseListController.resetVerseListView();
     verseListController.hideVerseListLoadingIndicator();
-    this.getCurrentVerseList().append("<div class='help-text'>" + i18n.t("help.help-text-no-translations") + "</div>");
+    verseListController.getCurrentVerseList().append("<div class='help-text'>" + i18n.t("help.help-text-no-translations") + "</div>");
     $('.book-select-value').text(i18n.t("menu.book"));
   }
 
@@ -428,7 +428,7 @@ class AppController {
   }
 
   bindXrefEvents(tabIndex=undefined) {
-    var verseList = this.getCurrentVerseList(tabIndex);
+    var verseList = verseListController.getCurrentVerseList(tabIndex);
     var xref_markers = verseList.find('.sword-xref-marker');
 
     xref_markers.unbind();
@@ -440,7 +440,7 @@ class AppController {
 
   bindEventsAfterBibleTextLoaded(tabIndex=undefined, preventDoubleBinding=false, verseList=undefined) {
     if (verseList == undefined) {
-      verseList = this.getCurrentVerseList(tabIndex);
+      verseList = verseListController.getCurrentVerseList(tabIndex);
     }
 
     var tagBoxes = verseList.find('.tag-box');
@@ -541,7 +541,7 @@ class AppController {
 
   async getXrefVerses(xrefs) {
     var currentTabId = this.tab_controller.getSelectedTabId();
-    var currentVerseList = this.getCurrentVerseList();
+    var currentVerseList = verseListController.getCurrentVerseList();
 
     var currentTab = this.tab_controller.getTab();
     currentTab.tab_search.setVerseList(currentVerseList);
@@ -559,7 +559,7 @@ class AppController {
     var currentTab = this.tab_controller.getTab();
     var currentTagIdList = currentTab.getTagIdList();
     var currentTabId = this.tab_controller.getSelectedTabId();
-    var currentVerseList = this.getCurrentVerseList();
+    var currentVerseList = verseListController.getCurrentVerseList();
 
     currentTab.tab_search.setVerseList(currentVerseList);
 
