@@ -47,7 +47,6 @@ const VerseStatisticsChart = require('../components/verse_statistics_chart.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 const referenceVerseController = require('../controllers/reference_verse_controller.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
-const i18nHelper = require('../helpers/i18n_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const wheelnavController = require('../controllers/wheelnav_controller.js');
 const fullscreenController = require('../controllers/fullscreen_controller.js');
