@@ -445,7 +445,7 @@ class TabController {
 
               await app_controller.verse_statistics_chart.repaintChart(index);
 
-              app_controller.hideVerseListLoadingIndicator(index);
+              verseListController.hideVerseListLoadingIndicator(index);
               this.restoreScrollPosition(index);
             }
           }

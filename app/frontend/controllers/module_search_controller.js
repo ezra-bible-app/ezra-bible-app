@@ -19,6 +19,7 @@
 const eventController = require('./event_controller.js');
 const {waitUntilIdle} = require('../helpers/ezra_helper.js');
 const VerseSearch = require('../components/tab_search/verse_search.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 const CANCEL_SEARCH_PERCENT_LIMIT = 90;
 
@@ -417,7 +418,7 @@ class ModuleSearchController {
         await this.renderCurrentSearchResults(searchResultBookId, this.currentSearchTabIndex);
       } catch (error) {
         console.log(error);
-        app_controller.hideVerseListLoadingIndicator();
+        verseListController.hideVerseListLoadingIndicator();
         this.enableOtherFunctionsAfterSearch();
       }
     }
@@ -462,7 +463,7 @@ class ModuleSearchController {
                                                              target);
       
     } else {
-      app_controller.hideVerseListLoadingIndicator(this.currentSearchTabIndex);
+      verseListController.hideVerseListLoadingIndicator(this.currentSearchTabIndex);
       uiHelper.hideTextLoadingIndicator(this.currentSearchTabIndex);
       app_controller.hideSearchProgressBar(this.currentSearchTabIndex);
     }

@@ -218,7 +218,7 @@ class AppController {
   // Re-init application to state without Bible translations
   async onAllTranslationsRemoved() {
     verseListController.resetVerseListView();
-    this.hideVerseListLoadingIndicator();
+    verseListController.hideVerseListLoadingIndicator();
     this.getCurrentVerseList().append("<div class='help-text'>" + i18n.t("help.help-text-no-translations") + "</div>");
     $('.book-select-value').text(i18n.t("menu.book"));
   }
