@@ -245,7 +245,7 @@ class Startup {
         Severity: {
           Info: undefined
         }
-      }
+      };
     }
 
     if (this._platformHelper.isElectron()) {

@@ -49,31 +49,31 @@ $.create_xml_doc = function(string)
 {
   var doc = (new DOMParser()).parseFromString(string, 'text/xml');
   return doc;
-}
+};
 
 window.addEventListener('load', function() {
   console.log("load event fired!");
 
-  startup.earlyRestoreLocalizedString();
+  window.startup.earlyRestoreLocalizedString();
 
   if (platformHelper.isCordova()) {
 
     var CordovaPlatform = require('./platform/cordova_platform.js');
-    cordovaPlatform = new CordovaPlatform();
-    cordovaPlatform.init();
+    window.cordovaPlatform = new CordovaPlatform();
+    window.cordovaPlatform.init();
 
   } else if (platformHelper.isElectron()) {
 
     var ElectronPlatform = require('./app/frontend/platform/electron_platform.js');
-    electronPlatform = new ElectronPlatform();
+    window.electronPlatform = new ElectronPlatform();
 
     console.log("Initializing app on Electron platform ...");
-    startup.initApplication();
+    window.startup.initApplication();
 
   } else {
 
     console.error("FATAL: Unknown platform");
-    startup.initApplication();
+    window.startup.initApplication();
   }
 });
 
