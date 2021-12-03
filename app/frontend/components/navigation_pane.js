@@ -20,6 +20,7 @@ const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 const eventController = require('../controllers/event_controller.js');
+const VerseReferenceHelper = require('../helpers/verse_reference_helper.js');
 
 /**
  * The NavigationPane class implements the update and event handling of the
@@ -31,6 +32,7 @@ class NavigationPane {
   constructor() {
     this.currentNavigationPane = null;
     this.verse_box_helper = new VerseBoxHelper();
+    this.verse_reference_helper = new VerseReferenceHelper();
     this.verseListFrameNoChapterNavCss = 'no-chapter-nav';
 
     eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
@@ -496,7 +498,7 @@ class NavigationPane {
     if (currentTextType == 'book' && currentBook != null) {
 
       var verseReferenceContent = verseBox.querySelector('.verse-reference-content').innerText;
-      var currentChapter = app_controller.getChapterFromReference(verseReferenceContent, separator);
+      var currentChapter = this.verse_reference_helper.getChapterFromReference(verseReferenceContent, separator);
       this.highlightNavElement(undefined, currentChapter);
 
       var sectionTitle = "";
@@ -541,7 +543,7 @@ class NavigationPane {
         // Highlight chapter if we are searching in a book
 
         var verseReferenceContent = verseBox.find('.verse-reference-content').text();
-        var chapter = app_controller.getChapterFromReference(verseReferenceContent, separator);
+        var chapter = this.verse_reference_helper.getChapterFromReference(verseReferenceContent, separator);
         this.highlightSearchResult(chapter);
 
       } else {
