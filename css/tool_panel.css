@@ -24,8 +24,10 @@
   overflow: hidden;
 }
 
-.Android #tool-panel #tag-list-stats {
-  display: none;
+@media (orientation: landscape) {
+  .Android #tool-panel #tag-list-stats {
+    display: none;
+  }
 }
 
 @media (min-width: 1200px) {
