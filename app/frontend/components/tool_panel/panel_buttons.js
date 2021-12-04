@@ -47,6 +47,7 @@ const template = html`
       border: 1px solid #8e8e8e;
       border-radius: var(--border-radius);
       margin-block-end: 0.5em;
+      cursor: pointer;
     }
 
     @media (orientation: portrait) {
