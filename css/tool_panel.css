@@ -83,7 +83,7 @@
   }
   
   #tool-panel .ui-resizable-e {
-    display: none;
+    display: none !important;
   }  
 }
 
