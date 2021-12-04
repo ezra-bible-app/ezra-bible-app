@@ -212,6 +212,10 @@ h2:nth-of-type(1) {
   padding-bottom: 1em;
 }
 
+#app-container.fullscreen .verse-list-frame {
+  margin-right: 0.2em;
+}
+
 .verse-list-frame-no-chapter-nav {
   border-top-left-radius: var(--border-radius);
   border-bottom-left-radius: var(--border-radius);
@@ -601,6 +605,7 @@ h2:nth-of-type(1) {
 #app-container.fullscreen {
   padding: 0.2em;
   padding-left: 0.4em;
+  padding-right: 0.5em;
 }
 
 panel-buttons {
@@ -796,7 +801,7 @@ main.content {
 .fullscreen-button {
   position: fixed;
   top: 0.5em;
-  right: 1em;
+  right: 1.2em;
   width: auto;
   height: auto;
   padding: 0.3em 0.4em;
@@ -808,10 +813,9 @@ main.content {
   display: none;
 }
 
-.display-options-button>i {
+.display-options-button > i {
   font-size: 1.3em;
 }
-
 
 .fg-button {
   cursor: pointer;
