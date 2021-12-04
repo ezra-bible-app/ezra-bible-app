@@ -48,9 +48,17 @@
     padding: 1em 0 0 0;
   }
 
+  #app-container.fullscreen #tool-panel {
+    height: 21.5em !important;
+  }
+
   @media (min-height: 1000px) {
     #tool-panel {
       height: 21.5em !important;
+    }
+
+    #app-container.fullscreen #tool-panel {
+      height: 25em !important;
     }
   }
 
