@@ -177,8 +177,10 @@ class Startup {
     tags_controller.initTagsUI();
     uiHelper.configureButtonStyles();
     
-    const resizable = require('./components/tool_panel/resizable.js');
-    resizable.initResizable();
+    if (platformHelper.isElectron()) {
+      const resizable = require('./components/tool_panel/resizable.js');
+      resizable.initResizable();
+    }
 
     window.addEventListener('resize', () => { uiHelper.resizeAppContainer(); });
   }
