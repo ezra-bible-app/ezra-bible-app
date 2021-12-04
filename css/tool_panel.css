@@ -27,12 +27,29 @@
 
 @media (orientation: portrait) {
   #tool-panel {
-    height: 21.5em !important;
+    height: 15em !important;
     width: 100% !important;
     min-width: auto;
     padding: 1em 0 0 0;
   }
+
+  @media (min-height: 1000px) {
+    #tool-panel {
+      height: 21.5em !important;
+    }
+  }
+
+  @media (min-height: 1200px) {
+    #tool-panel {
+      height: 25em !important;
+    }
+
+    #app-container.fullscreen #tool-panel {
+      height: 30em !important;
+    }
+  }
 }
+
 @media (orientation: landscape) {
   #tool-panel {
     height: 100% !important;
