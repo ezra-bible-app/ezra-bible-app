@@ -169,11 +169,6 @@ module.exports.changeLocale = async function(newLocale, saveSettings=true) {
   $(document).localize();
   window.reference_separator = i18n.t('general.chapter-verse-separator');
   await eventController.publishAsync('on-locale-changed', newLocale);
-  
-  // Since the new locale may require more or less space vertically we need to adjust
-  // the height of the app container now.
-  // FIXME: maybe it's not required with new layout
-  uiHelper.resizeAppContainer();
 };
 
 module.exports.detectLocale = async function() {

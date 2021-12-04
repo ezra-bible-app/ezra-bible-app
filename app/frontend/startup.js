@@ -180,8 +180,7 @@ class Startup {
     const resizable = require('./components/tool_panel/resizable.js');
     resizable.initResizable();
 
-    $(window).bind("resize", () => { uiHelper.resizeAppContainer(); });
-    $(window).bind("orientationchange", () => { uiHelper.resizeAppContainer(); });
+    window.addEventListener('resize', () => { uiHelper.resizeAppContainer(); });
   }
 
   async earlyInitNightMode() {
@@ -312,7 +311,6 @@ class Startup {
 
     // Show main content
     $('#main-content').show();
-    uiHelper.resizeAppContainer();
 
     await waitUntilIdle();
 

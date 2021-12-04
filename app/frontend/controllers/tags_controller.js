@@ -429,9 +429,6 @@ class TagsController {
 
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
     await tags_controller.handleCheckboxTagStateChange(checkbox_tag);
-
-    await waitUntilIdle();
-    uiHelper.resizeAppContainer();
   }
 
   async handleCheckboxTagStateChange(checkbox_tag) {
