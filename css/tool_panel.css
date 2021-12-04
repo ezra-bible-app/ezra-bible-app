@@ -21,7 +21,7 @@
   width: 30em;
   height: 100%;
   min-width: 30em;
-  padding: 0 1em 0 0;
+  padding: 0 1.3em 0 0;
   overflow: hidden;
 }
 
@@ -70,11 +70,17 @@
 }
 
 #tool-panel .ui-resizable-e {
-  border-left: 1px solid var(--border-color);
+  border-left: 1px dashed var(--border-color);
   right: 0;
   top: 10px;
   z-index: 10 !important;
   height: calc(100% - 20px);
+  cursor: col-resize !important;
+}
+
+#tool-panel .ui-resizable-e:hover, #tool-panel .ui-resizable-e:active {
+  border-left: 3px solid var(--highlight-border-color);
+  transition-delay: 0.5s;
 }
 
 @media (orientation: portrait) {
@@ -111,7 +117,7 @@
 }
 
 .ui-tabs .ui-tabs-panel {
-  padding: 0.5em 0.5em 0;
+  padding: 0.5em 0.2em 0;
 }
 
 @media (orientation: portrait) {
