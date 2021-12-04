@@ -118,6 +118,7 @@ class Startup {
       displayOptionsMenu = loadFile('html/display_options_menu.html');
       verseListTabs = loadFile('html/verse_list_tabs.html');
       boxes = loadFile('html/boxes.html');
+
     } else {
       // Development & Cordova/Android
 
@@ -280,7 +281,6 @@ class Startup {
     }
 
     loadingIndicator.find('.loader').show();
-
     $(document).localize();
 
     if (this._platformHelper.isTest()) {
@@ -312,7 +312,8 @@ class Startup {
     $('#loading-subtitle').hide();
 
     // Show main content
-    $('#main-content').show();
+    document.getElementById('main-content').style.display = 'block';
+    document.getElementById('panel-buttons').style.display = 'block';
 
     await waitUntilIdle();
 

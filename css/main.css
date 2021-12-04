@@ -121,7 +121,7 @@ h2:nth-of-type(1) {
   margin-left: inherit;
 }
 
-#main-content {
+#main-content, #panel-buttons {
   display: none;
 }
 
