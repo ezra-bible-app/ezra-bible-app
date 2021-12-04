@@ -22,13 +22,13 @@
 //   <div class="ui-resizable-handle"></div>
 // `;
 
-var toolPanel;
+const MIN_WIDTH = 30 * 16;
+const MIN_HEIGHT = 15 * 16;
+
+var toolPanel, panelHeight=MIN_HEIGHT, panelWidth=MIN_WIDTH;
 // var topHandle, sideHandle;
 
-const MIN_WIDTH = 30 * 16;
-const MIN_HEIGHT = 10 * 16;
-
-module.exports.initResizable = function initResizable() {
+module.exports.initResizable = async function initResizable() {
   toolPanel = document.querySelector('#tool-panel');
 
   // TODO: to be used in a future with custom resizable
@@ -42,6 +42,8 @@ module.exports.initResizable = function initResizable() {
   // sideHandle.classList.add('ui-resizable-e');
   // toolPanel.appendChild(sideHandleFragment);
 
+  await loadSettings();
+
   createResizable();
 
   window.addEventListener('resize', () => {
@@ -49,20 +51,17 @@ module.exports.initResizable = function initResizable() {
     createResizable();
   });
 
-  loadSettings();
 };
 
 async function loadSettings() {
   const toolPanelWidthAvailable = await ipcSettings.has('toolPanelWidth');
   if (toolPanelWidthAvailable) {
-    const toolPanelWidth = await ipcSettings.get('toolPanelWidth');
-    toolPanel.style.width = toolPanelWidth + 'px';
+    panelWidth = await ipcSettings.get('toolPanelWidth');
   }
 
   const toolPanelHeightAvailable = await ipcSettings.has('toolPanelHeight');
   if (toolPanelHeightAvailable) {
-    const toolPanelHeight = await ipcSettings.get('toolPanelHeight');
-    toolPanel.style.height = toolPanelHeight + 'px';
+    panelHeight = await ipcSettings.get('toolPanelHeight');
   }
 }
 
@@ -72,23 +71,27 @@ function createResizable() {
 
   if (isPortrait) {
 
+    toolPanel.style.height = panelHeight + 'px';
     $(toolPanel).resizable({
       handles: 'n',
       minHeight: MIN_HEIGHT,
-      maxHeight: window.innerHeight - 3*MIN_HEIGHT,
+      maxHeight: window.innerHeight - 2*MIN_HEIGHT,
       stop: function (event, ui) {
-        ipcSettings.set('toolPanelHeight', ui.size.height);
+        panelHeight = ui.size.height;
+        ipcSettings.set('toolPanelHeight', panelHeight);
       }
     });
 
   } else {
 
+    toolPanel.style.width = panelWidth + 'px';
     $(toolPanel).resizable({
       handles: 'e',
       minWidth: MIN_WIDTH,
       maxWidth: window.innerWidth - 2*MIN_WIDTH,
       stop: function (event, ui) {
-        ipcSettings.set('toolPanelWidth', ui.size.width);
+        panelWidth = ui.size.width;
+        ipcSettings.set('toolPanelWidth', panelWidth);
       }
     });
 
