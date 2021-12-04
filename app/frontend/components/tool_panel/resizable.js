@@ -88,7 +88,6 @@ function createResizable() {
     $(toolPanel).resizable({
       handles: 'e',
       minWidth: MIN_WIDTH,
-      maxWidth: window.innerWidth - 2*MIN_WIDTH,
       stop: function (event, ui) {
         panelWidth = ui.size.width;
         ipcSettings.set('toolPanelWidth', panelWidth);
