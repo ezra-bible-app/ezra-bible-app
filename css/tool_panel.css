@@ -118,6 +118,10 @@
   cursor: col-resize !important;
 }
 
+.Windows #tool-panel .ui-resizable-e {
+  cursor: ew-resize !important;
+}
+
 #tool-panel .ui-resizable-e:hover, #tool-panel .ui-resizable-e:active {
   border-left: 3px solid var(--highlight-border-color);
   transition-delay: 0.5s;
