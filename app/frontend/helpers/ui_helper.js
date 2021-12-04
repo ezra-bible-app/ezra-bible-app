@@ -93,36 +93,8 @@ class UiHelper {
     });
   }
 
-  // FIXME: responsiveness should be done via CSS
-  // the only thing that relays on this class is .verse-notes
-  adaptVerseList(sidePanelWidth) {
-    var verseListTabsClassList = document.querySelector('#verse-list-tabs').classList;
-    var verseListTabsWidth = this.windowWidth - sidePanelWidth;
-
-    if (verseListTabsWidth >= 200 && // Initially, at program start the width is very small (100) - in this
-                                     // case we don't add the small-screen class to avoid flickering.
-        verseListTabsWidth <= 1000) {
-
-      verseListTabsClassList.add('verse-list-tabs-small-screen');
-
-      if (verseListTabsWidth < 850) {
-        verseListTabsClassList.add('verse-list-tabs-tiny-screen');
-      } else {
-        verseListTabsClassList.remove('verse-list-tabs-tiny-screen');
-      }
-
-    } else {
-      verseListTabsClassList.remove('verse-list-tabs-small-screen', 'verse-list-tabs-tiny-screen');
-    }
-  }
-  
-  resizeAppContainer(toolPanelWidth=undefined) {
+  resizeAppContainer() {
     this.windowWidth = window.innerWidth;
-
-    const toolPanel = document.querySelector('#tool-panel');
-
-    toolPanelWidth = toolPanelWidth || toolPanel.offsetWidth; 
-    this.adaptVerseList(toolPanelWidth);
   }
 
   getMaxDialogWidth() {

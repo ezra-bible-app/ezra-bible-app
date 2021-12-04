@@ -55,10 +55,12 @@ div.CodeMirror {
 .verse-list:not(.verse-list-tags-column) .verse-notes:not(.book-notes) {
   width: 50%;
 }
-.verse-list-tabs-tiny-screen.verse-list-tabs-tiny-screen .verse-notes:not(.book-notes) {
-  width: 30%;
-}
 
+@media only screen and (max-width: 850px) {
+  .verse-notes:not(.book-notes) {
+    width: 30%;
+  }
+}
 
 .verse-notes.visible {
   display: block;

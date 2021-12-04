@@ -87,9 +87,6 @@ function createResizable() {
       handles: 'e',
       minWidth: MIN_WIDTH,
       maxWidth: window.innerWidth - 2*MIN_WIDTH,
-      resize: function (event, ui) {
-        uiHelper.adaptVerseList(ui.size.width);
-      },
       stop: function (event, ui) {
         ipcSettings.set('toolPanelWidth', ui.size.width);
       }

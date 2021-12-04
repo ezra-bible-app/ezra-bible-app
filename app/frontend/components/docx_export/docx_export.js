@@ -38,7 +38,7 @@ class DocxExport {
         this._runExport(type);
       }
     });
-    exportButton.show();
+    exportButton.css('display', 'flex');
     exportButton.removeClass('events-configured');
     uiHelper.configureButtonStyles('.verse-list-menu');
   }
