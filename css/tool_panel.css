@@ -18,11 +18,24 @@
 
 #tool-panel {
   grid-area: tool-panel;
-  width: 30em;
   height: 100%;
-  min-width: 30em;
+  min-width: 20em;
   padding: 0 1.3em 0 0;
   overflow: hidden;
+}
+
+.Android #tool-panel #tag-list-stats {
+  display: none;
+}
+
+@media (min-width: 1200px) {
+  #tool-panel {
+    min-width: 30em;
+  }
+
+  .Android #tool-panel #tag-list-stats {
+    display: inline-block;
+  }
 }
 
 @media (orientation: portrait) {

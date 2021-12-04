@@ -584,7 +584,13 @@ h2:nth-of-type(1) {
 
 @media (orientation: landscape) {
   .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
-    height: 92vh;
+    height: 89vh;
+  }
+
+  @media (min-height: 800px) {
+    .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
+      height: 92vh;
+    }
   }
 }
 
@@ -598,7 +604,13 @@ h2:nth-of-type(1) {
   }
 
   .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
-    height: 95vh;
+    height: 93.5vh;
+  }
+
+  @media (min-height: 1200px) {
+    .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
+      height: 95vh;
+    }
   }
 }
 
