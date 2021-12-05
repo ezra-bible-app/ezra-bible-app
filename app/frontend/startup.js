@@ -88,6 +88,7 @@ class Startup {
       window.Buffer = require('buffer/').Buffer;
     }
 
+    require('./components/tool_panel/panel_buttons.js');
     require('./components/options_menu/config_option.js');
     require('./components/options_menu/select_option.js');
     require('./components/options_menu/locale_switch.js');
@@ -97,8 +98,7 @@ class Startup {
 
     var bookSelectionMenu = null;
     var tagSelectionMenu = null;
-    var tagAssignmentMenu = null;
-    var bibleBrowserToolbox = null;
+    var tagPanel = null;
     var moduleSearchMenu = null;
     var displayOptionsMenu = null;
     var verseListTabs = null;
@@ -113,12 +113,12 @@ class Startup {
 
       bookSelectionMenu = loadFile('html/book_selection_menu.html');
       tagSelectionMenu = loadFile('html/tag_selection_menu.html');
-      tagAssignmentMenu = loadFile('html/tag_assignment_menu.html');
-      bibleBrowserToolbox = loadFile('html/bible_browser_toolbox.html');
+      tagPanel = loadFile('html/tag_panel.html');
       moduleSearchMenu = loadFile('html/module_search_menu.html');
       displayOptionsMenu = loadFile('html/display_options_menu.html');
       verseListTabs = loadFile('html/verse_list_tabs.html');
       boxes = loadFile('html/boxes.html');
+
     } else {
       // Development & Cordova/Android
 
@@ -129,8 +129,7 @@ class Startup {
 
       bookSelectionMenu = fs.readFileSync('html/book_selection_menu.html');
       tagSelectionMenu = fs.readFileSync('html/tag_selection_menu.html');
-      tagAssignmentMenu = fs.readFileSync('html/tag_assignment_menu.html');
-      bibleBrowserToolbox = fs.readFileSync('html/bible_browser_toolbox.html');
+      tagPanel = fs.readFileSync('html/tag_panel.html');
       moduleSearchMenu = fs.readFileSync('html/module_search_menu.html');
       displayOptionsMenu = fs.readFileSync('html/display_options_menu.html');
       verseListTabs = fs.readFileSync('html/verse_list_tabs.html');
@@ -139,12 +138,15 @@ class Startup {
   
     document.getElementById('book-selection-menu-book-list').innerHTML = bookSelectionMenu;
     document.getElementById('tag-selection-menu').innerHTML = tagSelectionMenu;
-    document.getElementById('tag-assignment-menu').innerHTML = tagAssignmentMenu;
-    document.getElementById('bible-browser-toolbox').innerHTML = bibleBrowserToolbox;
+    document.getElementById('tag-panel').innerHTML = tagPanel;
     document.getElementById('module-search-menu').innerHTML = moduleSearchMenu;
     document.getElementById('display-options-menu').innerHTML = displayOptionsMenu;
     document.getElementById('verse-list-tabs').innerHTML = verseListTabs;
     document.getElementById('boxes').innerHTML = boxes;
+
+    // The panel-buttons were hidden by default, because they already existed in the DOM before the Android permissions dialogue is shown.
+    // Therefore, he we actively enable the panel-buttons.
+    document.getElementById('panel-buttons').style.display = 'block';
   }
 
   async initIpcClients() {
@@ -177,32 +179,15 @@ class Startup {
   initUi() {
     this._platformHelper.addPlatformCssClass();
 
-    // Setup resizable function for divider between side panel and verse list
-    $('#side-panel').resizable({
-      handles: 'e',
-      resize: function (event, ui) {
-        uiHelper.adaptVerseList(ui.size.width);
-      },
-      stop: function (event, ui) {
-        //console.log("Saving new tag list width: " + ui.size.width);
-        ipcSettings.set('tagListWidth', ui.size.width);
-      }
-    });
-
     tags_controller.initTagsUI();
     uiHelper.configureButtonStyles();
-    $(window).bind("resize", () => { uiHelper.resizeAppContainer(); });
-    $(window).bind("orientationchange", () => { uiHelper.resizeAppContainer(); });
-  }
-
-  async earlyHideToolBar() {
-    //var settings = require('electron-settings');
-
-    var showToolBar = await ipcSettings.get('showToolBar', true);
-
-    if (!showToolBar) {
-      $('#bible-browser-toolbox').hide();
+    
+    if (platformHelper.isElectron()) {
+      const resizable = require('./components/tool_panel/resizable.js');
+      resizable.initResizable();
     }
+
+    window.addEventListener('resize', () => { uiHelper.resizeAppContainer(); });
   }
 
   async earlyInitNightMode() {
@@ -280,10 +265,6 @@ class Startup {
     console.log("Loading HTML fragments");
     this.loadHTML();
 
-    if (this._platformHelper.isElectron()) {
-      await this.earlyHideToolBar();
-    }
-
     if (this._platformHelper.isCordova()) {
       await this.earlyInitNightMode();
     }
@@ -304,7 +285,6 @@ class Startup {
     }
 
     loadingIndicator.find('.loader').show();
-
     $(document).localize();
 
     if (this._platformHelper.isTest()) {
@@ -336,8 +316,7 @@ class Startup {
     $('#loading-subtitle').hide();
 
     // Show main content
-    $('#main-content').show();
-    uiHelper.resizeAppContainer();
+    document.getElementById('main-content').style.display = 'block';
 
     await waitUntilIdle();
 

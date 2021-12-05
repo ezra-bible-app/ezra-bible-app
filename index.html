@@ -44,7 +44,7 @@
   <!-- CUSTOM STYLES -->
   <link href="css/loader.css" media="screen" rel="stylesheet" type="text/css" />
   <link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
-  <link href="css/toolbox.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="css/tool_panel.css" media="screen" rel="stylesheet" type="text/css" />
   <link href="css/navigation_pane.css" media="screen" rel="stylesheet" type="text/css" />
   <link href="css/verse_notes.css" media="screen" rel="stylesheet" type="text/css" />
   <link id="cordova-theme-css" href="" media="screen" rel="stylesheet" type="text/css" />
@@ -95,7 +95,6 @@
         <div id="module-search-menu" class="module-search-menu"></div>
         <div id="display-options-menu" class="display-options-menu"></div>
         <module-assistant></module-assistant>
-        <div id="tag-assignment-menu" class="verse-selection-menu"></div>
 
         <div id="permissions-box">
           <div id="permissions-box-content"></div>
@@ -109,20 +108,28 @@
 
         <div id="verse-list-tabs"></div>
       </main>
-      <aside id="side-panel">
-        <section id="bible-browser-toolbox"></section>
-        <section id="dictionary-info-box" class="accordion-panel">
-          <h3>
-            <a href="#" id="dictionary-info-box-header" i18n="[html]dictionary-info-box.default-header"></a>
+      <panel-buttons id="panel-buttons">
+        <button event="on-tag-panel-switched" i18n="[title]bible-browser.show-tag-list" rel="tag-panel" default="true">
+          <i class="fa fa-tags"></i>
+        </button>
+        <button event="on-dictionary-panel-switched" i18n="[title]bible-browser.show-dictionary" rel="dictionary-panel" default="false">
+          <i class="fa fa-book"></i>
+        </button>
+      </panel-buttons>
+      <aside id="tool-panel">
+        <section id="tag-panel"></section>
+        <section id="dictionary-panel" class="accordion-panel ui-accordion ui-widget ui-helper-reset ui-accordion-icons">
+          <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
+            <a href="#" id="dictionary-panel-header" i18n="[html]dictionary-panel.default-header"></a>
           </h3>
-          <div id="dictionary-info-box-panel" class="scrollable">
-            <div id="dictionary-info-box-help" i18n="[html]dictionary-info-box.help-instruction"></div>
-            <div id="dictionary-info-box-breadcrumbs"></div>
-            <div id="dictionary-info-box-content"></div>
+          <div id="dictionary-panel-wrapper" class="scrollable ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+            <div id="dictionary-panel-help" i18n="[html]dictionary-panel.help-instruction"></div>
+            <div id="dictionary-panel-breadcrumbs"></div>
+            <div id="dictionary-panel-content"></div>
           </div>
-        </section>        
+        </section>
       </aside>
-      <footer id="bottom-panel"></footer>
+      <footer id="detail-panel"></footer>
     </div>
   </div>
 

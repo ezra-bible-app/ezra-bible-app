@@ -37,6 +37,7 @@ let jsStrongs = null;
  */
 class DictionaryController {
   constructor() {
+    this._isDictionaryOpen = false;
     this._currentStrongsIds = null;
     this._currentStrongsElement = null;
     /**@type {HTMLElement} */
@@ -83,6 +84,16 @@ class DictionaryController {
       await this.bindAfterBibleTextLoaded();
     });
 
+    eventController.subscribe('on-dictionary-panel-switched', isOpen => {
+      this._isDictionaryOpen = isOpen;
+
+      if (!isOpen) { 
+        this.clearInfoBox();  
+        this.hideStrongsBox(true);
+      }
+      
+    });
+
     this.runAvailabilityCheck();
   }
 
@@ -106,20 +117,8 @@ class DictionaryController {
     this.strongsBox.hide();
   }
 
-  showInfoBox() {
-    return this._dictionaryInfoBox.showDictInfoBox();
-  }
-
-  hideInfoBox() {
-    return this._dictionaryInfoBox.hideDictInfoBox();
-  }
-
   clearInfoBox() {
     this._dictionaryInfoBox.clearDictInfoBox();
-  }
-
-  moveInfoBoxFromTo(fromContainer, toContainer) {
-    this._dictionaryInfoBox.moveDictInfoBox(fromContainer, toContainer);
   }
 
   async bindAfterBibleTextLoaded(tabIndex=undefined) {
@@ -303,7 +302,7 @@ class DictionaryController {
   }
 
   async _handleShiftMouseMove(event) {
-    if (!app_controller.optionsMenu._dictionaryOption.isChecked) {
+    if (!this._isDictionaryOpen) {
       return;
     }
 
@@ -343,7 +342,7 @@ class DictionaryController {
   }
 
   highlightStrongsInVerse(verseTextElement, force=false) {
-    if (!app_controller.optionsMenu._dictionaryOption.isChecked) {
+    if (!this._isDictionaryOpen) {
       return;
     }
 

@@ -306,7 +306,7 @@
     "copy": "Copy",
     "edit-note": "Edit note"
   },
-  "dictionary-info-box": {
+  "dictionary-panel": {
     "greek-dict": "Словник грецької",
     "hebrew-dict": "Словник івріту",
     "default-header": "<b>Словник</b>",
