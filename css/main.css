@@ -121,7 +121,7 @@ h2:nth-of-type(1) {
   margin-left: inherit;
 }
 
-#main-content, #panel-buttons {
+#main-content {
   display: none;
 }
 
@@ -621,6 +621,9 @@ h2:nth-of-type(1) {
 }
 
 panel-buttons {
+  /* This has to be display: none initially, because otherwise
+     it shows up already when the permissions dialogue is shown on Android. */
+  display: none; 
   grid-area: panel-buttons;
 }
 
