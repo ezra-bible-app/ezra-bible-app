@@ -298,7 +298,7 @@
     "copy": "Copy",
     "edit-note": "Edit note"
   },
-  "dictionary-info-box": {
+  "dictionary-panel": {
     "greek-dict": "Griechisches Wörterbuch",
     "hebrew-dict": "Hebräisches Wörterbuch",
     "default-header": "<b>Wörterbuch</b>",

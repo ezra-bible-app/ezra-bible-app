@@ -130,13 +130,6 @@ function getMenuItems() {
     icon: '#compare-icon'
   });
 
-  if (!app_controller.optionsMenu._tagListOption.isChecked) {
-    items.push({
-      id: 'tags',
-      icon: '#tags-icon'
-    });
-  }
-
   items.push({
     id: 'assign_last_tag',
     icon: '#tag-icon'
@@ -161,12 +154,6 @@ function handleMenuClick(item) {
       if (app_controller.translationComparison.isButtonEnabled()) {
         app_controller.translationComparison.handleButtonClick();
       }
-      break;
-    case 'tags':
-      setTimeout(() => {
-        app_controller.tag_assignment_menu.showPopup();
-        tags_controller.updateTagsViewAfterVerseSelection(false);
-      }, 100);
       break;
     case 'assign_last_tag':
       app_controller.assign_last_tag_button.handleClick();

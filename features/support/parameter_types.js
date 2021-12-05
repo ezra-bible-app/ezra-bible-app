@@ -38,11 +38,11 @@ defineParameterType({
         return '.bible-select-block .ui-selectmenu'; 
     }
   }
-})
+});
 
 defineParameterType({
   name: 'display_option',
-  regexp: /tags|notes|indicators|xrefs|footnotes|taglist|dictionary|navigation|current tab search/,
+  regexp: /tags|notes|indicators|xrefs|footnotes|navigation|current tab search/,
   transformer: s => {
     switch (s) {
       case 'tags':
@@ -55,12 +55,8 @@ defineParameterType({
         return '#showXrefsOption';
       case 'footnotes':
         return '#showFootnotesOption';
-      case 'taglist':
-        return '#showTagListOption';
-      case 'dictionary': 
-        return '#showDictionaryOption';
       case 'navigation':
-        return '#showBookChapterNavigationOption' 
+        return '#showBookChapterNavigationOption';
       case 'current tab search':
         return '#showTabSearchOption';
     }
@@ -82,7 +78,7 @@ defineParameterType({
       case 'tag stat':
         return '#tag-list-stats';
       case 'dictionary header':
-        return '#dictionary-info-box h3 > a';
+        return '#dictionary-panel h3 > a';
       case 'search button':
         return '#verse-list-tabs-1 .module-search-label';
       case 'tab search case option':
@@ -95,4 +91,10 @@ defineParameterType({
         return '.ui-selectmenu-open .ui-selectmenu-group-0 .ui-selectmenu-group-label';
     }
   }
-})
+});
+
+defineParameterType({
+  name: 'tool_panel_type',
+  regexp: /tag|dictionary/,
+  transformer: s => `button[event="on-${s}-panel-switched"]`
+});

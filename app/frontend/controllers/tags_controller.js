@@ -85,7 +85,7 @@ class TagsController {
       this.refreshTagDialogs();
     });
 
-    eventController.subscribe('on-translation-removed', async (translationId) => {
+    eventController.subscribe('on-translation-removed', async () => {
       await this.updateTagUiBasedOnTagAvailability();
     });
   }
@@ -429,9 +429,6 @@ class TagsController {
 
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
     await tags_controller.handleCheckboxTagStateChange(checkbox_tag);
-
-    await waitUntilIdle();
-    uiHelper.resizeAppContainer();
   }
 
   async handleCheckboxTagStateChange(checkbox_tag) {
@@ -519,7 +516,6 @@ class TagsController {
         await app_controller.tag_statistics.updateBookTagStatistics();
       }
 
-      app_controller.tag_assignment_menu.hideTagAssignmentMenuAfterDelay();
 
     } else {
 
@@ -610,7 +606,6 @@ class TagsController {
   async removeTagAssignmentAfterConfirmation() {
     tags_controller.persistence_ongoing = true;
     $('#remove-tag-assignment-confirmation-dialog').dialog('close');
-    app_controller.tag_assignment_menu.hideTagAssignmentMenuAfterDelay();
 
     var job = tags_controller.remove_tag_assignment_job;
     tags_controller.changeVerseListTagInfo(job.id,

@@ -29,12 +29,12 @@ let jsStrongs = null;
 class DictionaryInfoBox {
   constructor(dictionaryController) {
     this.dictionaryController = dictionaryController;
-    this.infoBox = $('#dictionary-info-box');
-    this.dictionaryInfoBoxPanel = $('#dictionary-info-box-panel');
-    this.dictionaryInfoBoxHeader = $('#dictionary-info-box-header');
-    this.dictionaryInfoBoxHelp = $('#dictionary-info-box-help');
-    this.dictionaryInfoBoxContent = $('#dictionary-info-box-content');
-    this.dictionaryInfoBoxBreadcrumbs = $('#dictionary-info-box-breadcrumbs');
+    this.infoBox = $('#dictionary-panel');
+    this.dictionaryInfoBoxPanel = $('#dictionary-panel-wrapper');
+    this.dictionaryInfoBoxHeader = $('#dictionary-panel-header');
+    this.dictionaryInfoBoxHelp = $('#dictionary-panel-help');
+    this.dictionaryInfoBoxContent = $('#dictionary-panel-content');
+    this.dictionaryInfoBoxBreadcrumbs = $('#dictionary-panel-breadcrumbs');
     this.dictionaryInfoBoxStack = [];
     this.currentStrongsEntry = null;
     this.currentFirstStrongsEntry = null;
@@ -54,48 +54,11 @@ class DictionaryInfoBox {
 
   clearDictInfoBox() {
     this.dictionaryInfoBoxPanel.find('div').empty();
-    this.dictionaryInfoBoxHeader.html(i18n.t("dictionary-info-box.default-header", { interpolation: {escapeValue: false} }));
-    this.dictionaryInfoBoxHelp.html(i18n.t("dictionary-info-box.help-instruction", { interpolation: {escapeValue: false} }));
+    this.dictionaryInfoBoxHeader.html(i18n.t("dictionary-panel.default-header", { interpolation: {escapeValue: false} }));
+    this.dictionaryInfoBoxHelp.html(i18n.t("dictionary-panel.help-instruction", { interpolation: {escapeValue: false} }));
     this.dictionaryInfoBoxHelp.show();
   }
 
-  hideDictInfoBox() {
-    if (this.infoBox.is(":visible")) {
-      this.clearDictInfoBox();
-    }
-    this.infoBox.hide();
-    this.infoBox.parent().removeClass('with-dictionary');
-  }
-
-  showDictInfoBox() {
-    if (!this.uiInitDone) {
-      this.uiInitDone = true;
-      $('#dictionary-info-box').accordion();
-    }
-
-    this.getJsStrongs();
-
-    this.infoBox.show();
-    this.infoBox.parent().addClass('with-dictionary');
-  }
-
-  moveDictInfoBox(fromContainer=null, toContainer=null) {
-    if (!fromContainer) {
-      fromContainer = document.querySelector('#side-panel');
-    }
-    if (!toContainer) {
-      toContainer = document.querySelector('#bottom-panel');
-    }
-
-    if (this.infoBox && this.infoBox.length > 0) {
-      toContainer.appendChild(this.infoBox[0]);
-      if (this.infoBox.is(':visible')) {
-        toContainer.classList.add('with-dictionary');
-      }
-      fromContainer.classList.remove('with-dictionary');
-    }
-  }
-  
   async updateDictInfoBox(strongsEntry, additionalStrongsEntries=[], firstUpdate=false) {
     if (strongsEntry == null) {
       return;
@@ -246,9 +209,9 @@ class DictionaryInfoBox {
     var languageDict;
 
     if (strongsEntry.key[0] == 'G') {
-      languageDict = i18n.t('dictionary-info-box.greek-dict');
+      languageDict = i18n.t('dictionary-panel.greek-dict');
     } else {
-      languageDict = i18n.t('dictionary-info-box.hebrew-dict');
+      languageDict = i18n.t('dictionary-panel.hebrew-dict');
     }
 
     infoHeader += "<b>" + languageDict + "</b>";
@@ -265,7 +228,7 @@ class DictionaryInfoBox {
       strongsEntry.rawKey + "','" + currentBibleTranslationId + "')";
 
     var link = "<a href=\"" + functionCall + "\">" + 
-               i18n.t("dictionary-info-box.find-all-occurrences") + 
+               i18n.t("dictionary-panel.find-all-occurrences") + 
                "</a>";
     return link;
   }
@@ -282,7 +245,7 @@ class DictionaryInfoBox {
 
 
     var blueLetterLink = `https://www.blueletterbible.org/lang/lexicon/lexicon.cfm?Strongs=${strongsEntry.key}&t=${bible}`;
-    var blueLetterLinkText = i18n.t("dictionary-info-box.open-in-blueletter");
+    var blueLetterLinkText = i18n.t("dictionary-panel.open-in-blueletter");
     var htmlBlueLetterLink = `<a class='external' href='${blueLetterLink}'>${blueLetterLinkText}</a>`;
     return htmlBlueLetterLink;
   }
@@ -356,7 +319,7 @@ class DictionaryInfoBox {
 
     const relatedStrongsContent = `
       <hr/>
-      <b>${i18n.t("dictionary-info-box.related-strongs")}:</b><br/>
+      <b>${i18n.t("dictionary-panel.related-strongs")}:</b><br/>
       <table class="strongs-refs">
       ${relatedStrongsRows}
       </table>`;

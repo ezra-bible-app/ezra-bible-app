@@ -308,7 +308,7 @@
     "copy": "Copy",
     "edit-note": "Edit note"
   },
-  "dictionary-info-box": {
+  "dictionary-panel": {
     "greek-dict": "Grieks woordenboek",
     "hebrew-dict": "Hebreeuws woordenboek",
     "default-header": "<b>Woordenboek</b>",

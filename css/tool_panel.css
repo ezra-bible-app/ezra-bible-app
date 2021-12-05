@@ -16,60 +16,158 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-#side-panel {
-  grid-area: side-panel;
-  display: flex;
-  flex-direction: column;
-  width: 30em;
-  min-width: 30em;
-  padding: 0 1em 0 0;
+#tool-panel {
+  grid-area: tool-panel;
+  height: 100%;
+  min-width: 20em;
+  padding: 0 1.3em 0 0;
   overflow: hidden;
 }
 
-#side-panel:not(.with-tags):not(.with-dictionary) {
-  width: 0 !important;
-  min-width: 0;
-  padding-right: 0;
+@media (orientation: landscape) {
+  .Android #tool-panel #tag-list-stats {
+    display: none;
+  }
 }
 
-#side-panel > section {
-  width: 100%;
-  height: 0;
-  flex: 1 0 0;
+@media (min-width: 1200px) {
+  #tool-panel {
+    min-width: 30em;
+  }
+
+  .Android #tool-panel #tag-list-stats {
+    display: inline-block;
+  }
+}
+
+@media (orientation: portrait) {
+  #tool-panel {
+    height: 15em !important;
+    width: 100% !important;
+    min-width: auto;
+    padding: 1em 0 0 0;
+  }
+
+  #app-container.fullscreen #tool-panel {
+    height: 21.5em !important;
+  }
+
+  @media (min-height: 1000px) {
+    #tool-panel {
+      height: 21.5em !important;
+    }
+
+    #app-container.fullscreen #tool-panel {
+      height: 25em !important;
+    }
+  }
+
+  @media (min-height: 1200px) {
+    #tool-panel {
+      height: 25em !important;
+    }
+
+    #app-container.fullscreen #tool-panel {
+      height: 30em !important;
+    }
+  }
+}
+
+@media (orientation: landscape) {
+  #tool-panel {
+    height: 100% !important;
+  }
+}
+
+#tool-panel.hidden {
+  width: 0 !important;
+  min-width: 0;
   padding: 0;
 }
 
-#bottom-panel {
-  grid-area: bottom-panel;
+#tool-panel > section {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  display: none;
+}
+#tool-panel > section.active {
+  display: block;
+}
+
+#tool-panel.ui-resizable {
+  top: 0 !important; /* override jQuery UI resizable */
+  left: 0 !important;
+}
+
+#tool-panel .ui-resizable-n {
+  border-bottom: 1px solid var(--border-color);
+  top: 0;
+  left: 10px;
+  z-index: 10 !important;
+  width: calc(100% - 20px);
+  display: none;
+}
+
+#tool-panel .ui-resizable-e {
+  border-left: 1px dashed var(--border-color);
+  right: 0;
+  top: 10px;
+  z-index: 10 !important;
+  height: calc(100% - 20px);
+  cursor: col-resize !important;
+}
+
+.Windows #tool-panel .ui-resizable-e {
+  cursor: ew-resize !important;
+}
+
+#tool-panel .ui-resizable-e:hover, #tool-panel .ui-resizable-e:active {
+  border-left: 3px solid var(--highlight-border-color);
+  transition-delay: 0.5s;
+}
+
+@media (orientation: portrait) {
+  #tool-panel .ui-resizable-n {
+    display: block;
+  }
+  
+  #tool-panel .ui-resizable-e {
+    display: none !important;
+  }  
+}
+
+#detail-panel {
+  grid-area: detail-panel;
   height: 30vh;
   padding: 0 0.5em;
 }
-#bottom-panel:empty, #bottom-panel:not(.with-dictionary) {
+#detail-panel:empty, #detail-panel.hidden {
   height: 0;
 }
 
-#bottom-panel > :first-child {
+#detail-panel > :first-child {
   margin-top: 1em;
 }
-#bottom-panel > * {
+#detail-panel > * {
   height: 100%;
   box-sizing: border-box;
   padding: 0;
 }
 
-#bible-browser-toolbox {
-  /* margin-top disabled as long as we don't have a logo */
-  /* margin-top: 3em; */
-  z-index: 10;
-}
-
-#bible-browser-toolbox ol li {
+#tag-panel ol li {
   /*clear: both;*/
   margin-bottom: 0.3em;
 }
 
 .ui-tabs .ui-tabs-panel {
-  padding: 0.5em 0.5em 0;
+  padding: 0.5em 0.2em 0;
+}
+
+@media (orientation: portrait) {
+  .ui-tabs .ui-tabs-panel {
+    padding-left: 0;
+  }
 }
 
 .accordion-panel {
@@ -87,15 +185,11 @@
   height: 2.2em;
 }
 
-.accordion-panel input,
-#tag-assignment-menu-taglist input,
-#change-tags-box input {
+.accordion-panel input {
   margin-right: 0.5em;
 }
 
-.Android .accordion-panel input,
-.Android #tag-assignment-menu-taglist input,
-.Android #change-tags-box input {
+.Android .accordion-panel input {
   margin-right: 1em;
 }
 
@@ -107,14 +201,11 @@
   padding-left: 1em;
 }
 
-#dictionary-info-box {
+#dictionary-panel {
   user-select: none;
 }
-.with-tags>#dictionary-info-box {
-  margin-top: 1em;
-}
 
-#dictionary-info-box-panel {
+#dictionary-panel-wrapper {
   clear: both;
   height: calc(100% - 2.6em) !important;  /* overwrite default jqueryUI Accordion */
   box-sizing: border-box;
@@ -126,45 +217,45 @@
   font-weight: bold;
 }
 
-#dictionary-info-box-content .strongs-definition {
+#dictionary-panel-content .strongs-definition {
   margin-top: 0;
   font-size: 110%;
   white-space: pre-wrap;
   color: black;
 }
 
-.OSX #dictionary-info-box-content .strongs-definition {
+.OSX #dictionary-panel-content .strongs-definition {
   font-size: 120%;
 }
 
-.darkmode--activated #dictionary-info-box-content .strongs-definition {
+.darkmode--activated #dictionary-panel-content .strongs-definition {
   color: #cccccc;
 }
 
-#dictionary-info-box-lock {
+#dictionary-panel-lock {
   font-style: italic;
   color: grey;
   display: none;
 }
 
-#dictionary-info-box-header {
+#dictionary-panel-header {
   float: left;
 }
 
-#dictionary-info-box-help {
+#dictionary-panel-help {
   margin-top: 2em;
 }
 
-#dictionary-info-box-panel a:link {
+#dictionary-panel-wrapper a:link {
   text-decoration: none;
   color: #2779aa;
 }
 
-.darkmode--activated #dictionary-info-box-panel a:link {
+.darkmode--activated #dictionary-panel-panel a:link {
   color: #97d0ff;
 }
 
-#dictionary-info-box-panel a:hover {
+#dictionary-panel-panel a:hover {
   text-decoration: underline;
 }
 
@@ -179,7 +270,7 @@ table.strongs-refs td {
 }
 
 tr.td-underline td {
-  border-bottom: 1px solid #DDDDDD;
+  border-bottom: var(--area-border);
 }
 
 #tag-list-filter-button {
@@ -207,7 +298,7 @@ tr.td-underline td {
   padding: 0.1em;
   border: 2px solid #AED0EA;
   z-index: 100;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
   box-shadow: 5px 5px 5px #A0A0A0;
   position: fixed;
   background-color: white;
@@ -362,10 +453,11 @@ tr.td-underline td {
 
 .selection-box {
   display: inline-block;
-  margin-left: 0.5em;
+  margin-left: 0.1em 0.1em 0.1em 0.5em;
 }
 
-.verse-list-tabs-small-screen .selection-box {
-  margin: 0.1em;
-  margin-left: 0.5em;
+@media only screen and (min-width: 1000px) {
+  .selection-box {
+    margin: 0 0 0 0.5em;
+  }  
 }

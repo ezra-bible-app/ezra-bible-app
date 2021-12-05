@@ -23,8 +23,6 @@ Feature: Change app language (locale)
   Background:
     Given I open the book selection menu
     And I select the book Ezra
-    And I have the taglist displayed
-    And I have the dictionary displayed
     And I have the navigation displayed
     And I have the current tab search displayed
 
@@ -32,7 +30,9 @@ Feature: Change app language (locale)
     Given I open the options dialog
     When I change to the "<locale_native>" locale
     Then the tab title is "<tab_title>"
+    And I open the tag panel
     And the tag stat text is "<tag_stat>"
+    And I open the dictionary panel
     And the dictionary header text is "<dictionary>"
     And the search button text is "<search>"
     And the tab search case option text is "<tab_search_option>"

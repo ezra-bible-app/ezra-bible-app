@@ -24,7 +24,6 @@ const VerseBoxHelper = require("../helpers/verse_box_helper.js");
 const VerseSelection = require("../components/verse_selection.js");
 const VerseListPopup = require("../components/verse_list_popup.js");
 const TagSelectionMenu = require("../components/tags/tag_selection_menu.js");
-const TagAssignmentMenu = require("../components/tags/tag_assignment_menu.js");
 const AssignLastTagButton = require("../components/tags/assign_last_tag_button.js");
 const TagStatistics = require("../components/tags/tag_statistics.js");
 const DocxExport = require("../components/docx_export/docx_export.js");
@@ -81,7 +80,6 @@ class AppController {
     this.init_component("VerseBoxHelper", "verse_box_helper");
     this.init_component("VerseSelection", "verse_selection");
     this.init_component("TagSelectionMenu", "tag_selection_menu");
-    this.init_component("TagAssignmentMenu", "tag_assignment_menu");
     this.init_component("TagStatistics", "tag_statistics");
     this.init_component("AssignLastTagButton", "assign_last_tag_button");
     this.init_component("ModuleSearchController", "module_search_controller");
@@ -223,15 +221,6 @@ class AppController {
 
   async loadSettings() {
     try {
-      var sidePanelWidthAvailable = await ipcSettings.has('tagListWidth');
-
-      if (sidePanelWidthAvailable) {
-        var sidePanelWidth = await ipcSettings.get('tagListWidth');
-
-        $('#side-panel').css('width', sidePanelWidth);
-        uiHelper.resizeAppContainer(sidePanelWidth);
-      }
-
       if (this.tab_controller.getTab().isValid() && await ipcDb.getTagCount() > 0) {
         tags_controller.showTagListLoadingIndicator();
       }
@@ -448,7 +437,6 @@ class AppController {
   hideAllMenus() {
     this.book_selection_menu.hideBookMenu();
     this.tag_selection_menu.hideTagMenu();
-    this.tag_assignment_menu.hideTagAssignmentMenu();
     this.module_search_controller.hideSearchMenu();
     this.optionsMenu.hideDisplayMenu();
     this.textSizeSettings.hideTextSizeMenu();

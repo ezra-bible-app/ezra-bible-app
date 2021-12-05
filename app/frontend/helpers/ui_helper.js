@@ -17,10 +17,10 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const i18nController = require('../controllers/i18n_controller.js');
-const { getPlatform } = require('../helpers/ezra_helper.js');
 class UiHelper {
   constructor() {
     this.app_container_height = null;
+    this.windowWidth = window.innerWidth;
   }
 
   configureButtonStyles(context=null) {
@@ -93,80 +93,15 @@ class UiHelper {
     });
   }
 
-  // FIXME: responsiveness should be done via CSS
-  // the only thing that relays on this class is .verse-notes
-  adaptVerseList(sidePanelWidth, windowWidth=undefined) {
-    if (!windowWidth) {
-      windowWidth = window.innerWidth;
-    }
-
-    var verseListTabsClassList = document.querySelector('#verse-list-tabs').classList;
-    var verseListTabsWidth = windowWidth - sidePanelWidth;
-
-    if (verseListTabsWidth >= 200 && // Initially, at program start the width is very small (100) - in this
-                                     // case we don't add the small-screen class to avoid flickering.
-        verseListTabsWidth <= 1000) {
-
-      verseListTabsClassList.add('verse-list-tabs-small-screen');
-
-      if (verseListTabsWidth < 850) {
-        verseListTabsClassList.add('verse-list-tabs-tiny-screen');
-      } else {
-        verseListTabsClassList.remove('verse-list-tabs-tiny-screen');
-      }
-
-    } else {
-      verseListTabsClassList.remove('verse-list-tabs-small-screen', 'verse-list-tabs-tiny-screen');
-    }
-  }
-  
-  resizeAppContainer(sidePanelWidth=undefined, cycle=false) {
-    var windowWidth = window.innerWidth;
-    var screenOrientation = screen.orientation.type;
-
-    if (screenOrientation.indexOf('portrait') != -1) {
-      document.body.classList.remove('landscape');
-      document.body.classList.add('portrait');
-    } else if (screenOrientation.indexOf('landscape') != -1) {
-      document.body.classList.remove('portrait');
-      document.body.classList.add('landscape');
-    }
-
-    const sidePanel = document.querySelector('#side-panel');
-    const bottomPanel = document.querySelector('#bottom-panel');
-
-    var platform = getPlatform();
-
-    if (windowWidth >= 200 && windowWidth < 1200) {
-      // Automatically hide toolbar on smaller screens
-      sidePanel.style.display='none';
-
-      if (!platform.isFullScreen()) {
-        app_controller.tag_assignment_menu.moveTagAssignmentList("MENU");
-      }
-
-      app_controller.dictionary_controller.moveInfoBoxFromTo(sidePanel, bottomPanel);
-    
-    } else if (!cycle) {
-      sidePanel.style.display='';
-      
-      if (!platform.isFullScreen() && app_controller.optionsMenu._tagListOption.isChecked) {
-        app_controller.tag_assignment_menu.moveTagAssignmentList("SIDE_PANEL");
-      }
-
-      app_controller.dictionary_controller.moveInfoBoxFromTo(bottomPanel, sidePanel);
-    }
-
-    sidePanelWidth = sidePanelWidth || sidePanel.offsetWidth; 
-    this.adaptVerseList(sidePanelWidth, windowWidth);
+  resizeAppContainer() {
+    this.windowWidth = window.innerWidth;
   }
 
   getMaxDialogWidth() {
     var width = 900;
-    var windowWidth = $(window).width();
 
-    if (windowWidth > 400 && windowWidth < width) {
-      width = windowWidth - 20;
+    if (this.windowWidth > 400 && this.windowWidth < width) {
+      width = this.windowWidth - 20;
     }
 
     return width;
@@ -291,8 +226,8 @@ class UiHelper {
     var topOffset = buttonOffset.top + $button.height() + 1;
     var leftOffset = buttonOffset.left;
 
-    if (leftOffset + $menu.width() > $(window).width() - OFFSET_FROM_EDGE) {
-      leftOffset = ($(window).width() - $menu.width()) / 2;
+    if (leftOffset + $menu.width() > this.windowWidth - OFFSET_FROM_EDGE) {
+      leftOffset = (this.windowWidth - $menu.width()) / 2;
 
       if (leftOffset < 0) {
         leftOffset = 0;
