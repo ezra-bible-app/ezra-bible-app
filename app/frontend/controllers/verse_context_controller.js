@@ -156,6 +156,7 @@ class VerseContextController {
     tags_controller.updateTagsViewAfterVerseSelection(true);
 
     verseListController.bindEventsAfterBibleTextLoaded(undefined, true);
+    app_controller.dictionary_controller.bindAfterBibleTextLoaded();
   }
 
   hide_verse_expand_box() {

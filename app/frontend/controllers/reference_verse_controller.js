@@ -63,6 +63,7 @@ async function updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTr
     verseText.innerHTML = verses[0].content;
     app_controller.sword_notes.initForContainer(referenceVerseContainer);
     verseListController.bindEventsAfterBibleTextLoaded(undefined, false, $(referenceVerseContainer));
+    app_controller.dictionary_controller.bindAfterBibleTextLoaded();
   } catch (e) {
     console.warn('Could not update translation for reference verse: ' + e);
   }
@@ -110,6 +111,7 @@ async function renderReferenceVerse(verseBox, tabIndex=undefined) {
 
   referenceVerseContainer.innerHTML += "<div class='reference-verse-list-header'><h2>" + textTypeHeader + "</h2></div>";
   verseListController.bindEventsAfterBibleTextLoaded(undefined, false, $(referenceVerseContainer));
+  app_controller.dictionary_controller.bindAfterBibleTextLoaded(tabIndex);
 }
 
 module.exports = {

@@ -175,7 +175,6 @@ function bindEventsAfterBibleTextLoaded(tabIndex=undefined, preventDoubleBinding
   }).addClass('events-configured');
 
   verseList.find('.verse-box').bind('mouseover', (e) => { onVerseBoxMouseOver(e); });
-  app_controller.dictionary_controller.bindAfterBibleTextLoaded(tabIndex);
 
   if (platformHelper.isElectron()) {
     app_controller.verse_context_controller.init_verse_expand_box(tabIndex);

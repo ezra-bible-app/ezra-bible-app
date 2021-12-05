@@ -70,6 +70,10 @@ class DictionaryController {
       this.hideStrongsBox();
     });
 
+    eventController.subscribe('on-bible-text-loaded', (tabIndex) => { 
+      this.bindAfterBibleTextLoaded(tabIndex);
+    });
+
     eventController.subscribe('on-tab-selected', () => {
       this.hideStrongsBox();
     });
@@ -91,7 +95,6 @@ class DictionaryController {
         this.clearInfoBox();  
         this.hideStrongsBox(true);
       }
-      
     });
 
     this.runAvailabilityCheck();
@@ -135,9 +138,9 @@ class DictionaryController {
     }
     
     /**@type {HTMLElement}*/
-    const currentVerseList = verseListController.getCurrentVerseList(tabIndex)[0];
+    const currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex)[0];
     
-    const verseTextElements = currentVerseList.querySelectorAll('.verse-text');
+    const verseTextElements = currentVerseListFrame.querySelectorAll('.verse-text');
     verseTextElements.forEach(verseElement => verseElement.addEventListener('mousemove', () => {
       var currentTab = app_controller.tab_controller.getTab();
       currentTab.tab_search.blurInputField();
@@ -149,7 +152,7 @@ class DictionaryController {
       longpressController = require('./longpress_controller.js');
     }
     
-    const wElements = currentVerseList.querySelectorAll('w');
+    const wElements = currentVerseListFrame.querySelectorAll('w');
 
     wElements.forEach(wElement => { 
       wElement.classList.remove('strongs-hl');
