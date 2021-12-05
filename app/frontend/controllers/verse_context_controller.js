@@ -155,7 +155,7 @@ class VerseContextController {
     // Update the tags view after the selection
     tags_controller.updateTagsViewAfterVerseSelection(true);
 
-    app_controller.bindEventsAfterBibleTextLoaded(undefined, true);
+    verseListController.bindEventsAfterBibleTextLoaded(undefined, true);
   }
 
   hide_verse_expand_box() {

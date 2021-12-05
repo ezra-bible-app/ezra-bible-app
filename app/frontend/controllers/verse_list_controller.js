@@ -17,6 +17,13 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const VerseBox = require('../ui_models/verse_box.js');
+const { getPlatform } = require('../helpers/ezra_helper.js');
+const wheelnavController = require('../controllers/wheelnav_controller.js');
+const eventController = require('../controllers/event_controller.js');
+
+function init() {
+  eventController.subscribe('on-bible-text-loaded', (tabIndex) => { bindEventsAfterBibleTextLoaded(tabIndex); });
+}
 
 function getCurrentVerseListFrame(tabIndex=undefined) {
   var currentVerseListTabs = app_controller.getCurrentVerseListTabs(tabIndex);
@@ -140,7 +147,52 @@ function getVerseListBookNumber(bibleBookLongTitle, bookHeaders=undefined) {
   return bibleBookNumber;
 }
 
+function bindEventsAfterBibleTextLoaded(tabIndex=undefined, preventDoubleBinding=false, verseList=undefined) {
+  if (verseList == undefined) {
+    verseList = getCurrentVerseList(tabIndex);
+  }
+
+  var tagBoxes = verseList.find('.tag-box');
+  var tags = verseList.find('.tag');
+  var xref_markers = verseList.find('.sword-xref-marker');
+
+  if (preventDoubleBinding) {
+    tagBoxes = tagBoxes.filter(":not('.tag-events-configured')");
+    tags = tags.filter(":not('.tag-events-configured')");
+    xref_markers = xref_markers.filter(":not('.events-configured')");
+  }
+
+  tagBoxes.bind('mousedown', tags_controller.clear_verse_selection).addClass('tag-events-configured');
+
+  tags.bind('mousedown', async (event) => {
+    event.stopPropagation();
+    await app_controller.handleReferenceClick(event);
+  }).addClass('tag-events-configured');
+
+  xref_markers.bind('mousedown', async (event) => {
+    event.stopPropagation();
+    await app_controller.handleReferenceClick(event);
+  }).addClass('events-configured');
+
+  verseList.find('.verse-box').bind('mouseover', (e) => { onVerseBoxMouseOver(e); });
+  app_controller.dictionary_controller.bindAfterBibleTextLoaded(tabIndex);
+
+  if (platformHelper.isElectron()) {
+    app_controller.verse_context_controller.init_verse_expand_box(tabIndex);
+  }
+
+  if (getPlatform().isFullScreen()) {
+    wheelnavController.bindEvents();
+  }
+}
+
+function onVerseBoxMouseOver(event) {
+  var focussedElement = event.target;
+  app_controller.navigation_pane.updateNavigationFromVerseBox(focussedElement);
+}
+
 module.exports = {
+  init,
   getCurrentVerseListHeader,
   getCurrentVerseListFrame,
   getCurrentVerseList,
@@ -152,5 +204,6 @@ module.exports = {
   hideVerseListLoadingIndicator,
   getBibleBookStatsFromVerseList,
   resetVerseListView,
-  getVerseListBookNumber
+  getVerseListBookNumber,
+  bindEventsAfterBibleTextLoaded
 };

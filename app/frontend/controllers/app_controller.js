@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Mousetrap = require('mousetrap');
-const VerseBox = require('../ui_models/verse_box.js');
 const { getPlatform } = require('../helpers/ezra_helper.js');
 
 const VerseBoxHelper = require("../helpers/verse_box_helper.js");
@@ -119,11 +118,11 @@ class AppController {
     
     fullscreenController.init();
     wheelnavController.init();
+    verseListController.init();
 
     eventController.subscribe('on-all-translations-removed', async () => { await this.onAllTranslationsRemoved(); });
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => { await this.onTabSelected(tabIndex); });
     eventController.subscribe('on-tab-added', (tabIndex) => { this.onTabAdded(tabIndex); });
-    eventController.subscribe('on-bible-text-loaded', (tabIndex) => { this.bindEventsAfterBibleTextLoaded(tabIndex); });
   }
 
   initVerseButtons(tabIndex=undefined) {
@@ -424,50 +423,6 @@ class AppController {
     xref_markers.bind('mousedown', async (event) => {
       await this.handleReferenceClick(event);
     }).addClass('events-configured');
-  }
-
-  bindEventsAfterBibleTextLoaded(tabIndex=undefined, preventDoubleBinding=false, verseList=undefined) {
-    if (verseList == undefined) {
-      verseList = verseListController.getCurrentVerseList(tabIndex);
-    }
-
-    var tagBoxes = verseList.find('.tag-box');
-    var tags = verseList.find('.tag');
-    var xref_markers = verseList.find('.sword-xref-marker');
-
-    if (preventDoubleBinding) {
-      tagBoxes = tagBoxes.filter(":not('.tag-events-configured')");
-      tags = tags.filter(":not('.tag-events-configured')");
-      xref_markers = xref_markers.filter(":not('.events-configured')");
-    }
-
-    tagBoxes.bind('mousedown', tags_controller.clear_verse_selection).addClass('tag-events-configured');
-
-    tags.bind('mousedown', async (event) => {
-      event.stopPropagation();
-      await this.handleReferenceClick(event);
-    }).addClass('tag-events-configured');
-
-    xref_markers.bind('mousedown', async (event) => {
-      event.stopPropagation();
-      await this.handleReferenceClick(event);
-    }).addClass('events-configured');
-
-    verseList.find('.verse-box').bind('mouseover', (e) => { this.onVerseBoxMouseOver(e); });
-    this.dictionary_controller.bindAfterBibleTextLoaded(tabIndex);
-
-    if (platformHelper.isElectron()) {
-      this.verse_context_controller.init_verse_expand_box(tabIndex);
-    }
-
-    if (getPlatform().isFullScreen()) {
-      wheelnavController.bindEvents();
-    }
-  }
-
-  onVerseBoxMouseOver(event) {
-    var focussedElement = event.target;
-    this.navigation_pane.updateNavigationFromVerseBox(focussedElement);
   }
 
   async openXrefVerses(referenceVerseBox, xrefTitle, xrefs) {
