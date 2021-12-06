@@ -120,7 +120,6 @@ class AppController {
     wheelnavController.init();
     verseListController.init();
 
-    eventController.subscribe('on-all-translations-removed', async () => { await this.onAllTranslationsRemoved(); });
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => { await this.onTabSelected(tabIndex); });
     eventController.subscribe('on-tab-added', (tabIndex) => { this.onTabAdded(tabIndex); });
   }
@@ -209,14 +208,6 @@ class AppController {
       );
   
     }
-  }
-
-  // Re-init application to state without Bible translations
-  async onAllTranslationsRemoved() {
-    verseListController.resetVerseListView();
-    verseListController.hideVerseListLoadingIndicator();
-    verseListController.getCurrentVerseList().append("<div class='help-text'>" + i18n.t("help.help-text-no-translations") + "</div>");
-    $('.book-select-value').text(i18n.t("menu.book"));
   }
 
   async loadSettings() {
