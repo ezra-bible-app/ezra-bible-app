@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Verse = require('./verse.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 class VerseBox {
   constructor(verseBoxElement) {
@@ -25,9 +26,10 @@ class VerseBox {
 
   getVerseObject() {
     var isBookNoteVerse = this.isBookNoteVerse();
+    var verse = undefined;
 
     if (isBookNoteVerse) {
-      var verse = new Verse(
+      verse = new Verse(
         app_controller.tab_controller.getTab().getBook(),
         null,
         null,
@@ -36,14 +38,13 @@ class VerseBox {
       );
 
     } else {
-      var verse = new Verse(
+      verse = new Verse(
         this.getBibleBookShortTitle(),
         this.getAbsoluteVerseNumber(),
         this.getChapter(),
         this.getVerseNumber(),
         isBookNoteVerse
       );
-
     }
 
     return verse;
@@ -195,7 +196,7 @@ class VerseBox {
 
     if (tag_title_array.length > 0) {
       $(this.verseBoxElement).find('.tag').bind('click', async (event) => {
-        await app_controller.handleReferenceClick(event);
+        await verseListController.handleReferenceClick(event);
       });
     }
   }

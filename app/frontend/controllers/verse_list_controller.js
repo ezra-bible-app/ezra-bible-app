@@ -166,12 +166,12 @@ function bindEventsAfterBibleTextLoaded(tabIndex=undefined, preventDoubleBinding
 
   tags.bind('mousedown', async (event) => {
     event.stopPropagation();
-    await app_controller.handleReferenceClick(event);
+    await handleReferenceClick(event);
   }).addClass('tag-events-configured');
 
   xref_markers.bind('mousedown', async (event) => {
     event.stopPropagation();
-    await app_controller.handleReferenceClick(event);
+    await handleReferenceClick(event);
   }).addClass('events-configured');
 
   verseList.find('.verse-box').bind('mouseover', (e) => { onVerseBoxMouseOver(e); });
@@ -190,6 +190,62 @@ function onVerseBoxMouseOver(event) {
   app_controller.navigation_pane.updateNavigationFromVerseBox(focussedElement);
 }
 
+async function handleReferenceClick(event) {
+  var currentTab = app_controller.tab_controller.getTab();
+  var currentTextType = currentTab.getTextType();
+  var verseBox = $(event.target).closest('.verse-box');
+  var isReferenceVerse = verseBox.parent().hasClass('reference-verse');
+  var isXrefMarker = event.target.classList.contains('sword-xref-marker');
+  var isTag = event.target.classList.contains('tag');
+
+  if (isReferenceVerse &&
+    ((currentTextType == 'xrefs') || (currentTextType == 'tagged_verses'))
+  ) {
+    if (isXrefMarker) {
+      await app_controller.verse_list_popup.initCurrentXrefs(event.target);
+
+      app_controller.openXrefVerses(this.verse_list_popup.currentReferenceVerseBox,
+                                    this.verse_list_popup.currentPopupTitle,
+                                    this.verse_list_popup.currentXrefs);
+
+    } else if (isTag) {
+
+      app_controller.verse_list_popup.initCurrentTag(event.target);
+
+      app_controller.openTaggedVerses(this.verse_list_popup.currentTagId,
+                                      this.verse_list_popup.currentTagTitle,
+                                      this.verse_list_popup.currentReferenceVerseBox);
+
+    }
+  } else {
+    if (isXrefMarker) {
+      let referenceType = "XREFS";
+
+      if (app_controller.optionsMenu._verseListNewTabOption.isChecked &&
+          !getPlatform().isFullScreen()) { // No tabs available in fullscreen!
+        
+        app_controller.verse_list_popup.currentReferenceType = referenceType;
+        await app_controller.verse_list_popup.initCurrentXrefs(event.target);
+        app_controller.verse_list_popup.openVerseListInNewTab();
+      } else {
+        await app_controller.verse_list_popup.openVerseListPopup(event, referenceType);
+      }
+    } else if (isTag) {
+      let referenceType = "TAGGED_VERSES";
+
+      if (app_controller.optionsMenu._verseListNewTabOption.isChecked &&
+          !getPlatform().isFullScreen()) { // No tabs available in fullscreen!
+        
+        app_controller.verse_list_popup.currentReferenceType = referenceType;
+        app_controller.verse_list_popup.initCurrentTag(event.target);
+        app_controller.verse_list_popup.openVerseListInNewTab();
+      } else {
+        await app_controller.verse_list_popup.openVerseListPopup(event, referenceType);
+      }
+    }
+  }
+}
+
 module.exports = {
   init,
   getCurrentVerseListHeader,
@@ -204,5 +260,6 @@ module.exports = {
   getBibleBookStatsFromVerseList,
   resetVerseListView,
   getVerseListBookNumber,
-  bindEventsAfterBibleTextLoaded
+  bindEventsAfterBibleTextLoaded,
+  handleReferenceClick
 };

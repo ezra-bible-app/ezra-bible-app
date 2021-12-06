@@ -358,62 +358,6 @@ class AppController {
     wheelnavController.closeWheelNav();
   }
   
-  async handleReferenceClick(event) {
-    var currentTab = this.tab_controller.getTab();
-    var currentTextType = currentTab.getTextType();
-    var verseBox = $(event.target).closest('.verse-box');
-    var isReferenceVerse = verseBox.parent().hasClass('reference-verse');
-    var isXrefMarker = event.target.classList.contains('sword-xref-marker');
-    var isTag = event.target.classList.contains('tag');
-
-    if (isReferenceVerse &&
-      ((currentTextType == 'xrefs') || (currentTextType == 'tagged_verses'))
-    ) {
-      if (isXrefMarker) {
-        await this.verse_list_popup.initCurrentXrefs(event.target);
-
-        this.openXrefVerses(this.verse_list_popup.currentReferenceVerseBox,
-                            this.verse_list_popup.currentPopupTitle,
-                            this.verse_list_popup.currentXrefs);
-
-      } else if (isTag) {
-
-        this.verse_list_popup.initCurrentTag(event.target);
-
-        this.openTaggedVerses(this.verse_list_popup.currentTagId,
-                              this.verse_list_popup.currentTagTitle,
-                              this.verse_list_popup.currentReferenceVerseBox);
-
-      }
-    } else {
-      if (isXrefMarker) {
-        let referenceType = "XREFS";
-
-        if (app_controller.optionsMenu._verseListNewTabOption.isChecked &&
-            !getPlatform().isFullScreen()) { // No tabs available in fullscreen!
-          
-          this.verse_list_popup.currentReferenceType = referenceType;
-          await this.verse_list_popup.initCurrentXrefs(event.target);
-          this.verse_list_popup.openVerseListInNewTab();
-        } else {
-          await this.verse_list_popup.openVerseListPopup(event, referenceType);
-        }
-      } else if (isTag) {
-        let referenceType = "TAGGED_VERSES";
-
-        if (app_controller.optionsMenu._verseListNewTabOption.isChecked &&
-            !getPlatform().isFullScreen()) { // No tabs available in fullscreen!
-          
-          this.verse_list_popup.currentReferenceType = referenceType;
-          this.verse_list_popup.initCurrentTag(event.target);
-          this.verse_list_popup.openVerseListInNewTab();
-        } else {
-          await this.verse_list_popup.openVerseListPopup(event, referenceType);
-        }
-      }
-    }
-  }
-
   bindXrefEvents(tabIndex=undefined) {
     var verseList = verseListController.getCurrentVerseList(tabIndex);
     var xref_markers = verseList.find('.sword-xref-marker');
@@ -421,7 +365,7 @@ class AppController {
     xref_markers.unbind();
     
     xref_markers.bind('mousedown', async (event) => {
-      await this.handleReferenceClick(event);
+      await verseListController.handleReferenceClick(event);
     }).addClass('events-configured');
   }
 
