@@ -182,7 +182,7 @@ class TabSearch {
 
       // This is necessary, beause the search "rewrites" the verse content and events
       // get lost by doing that, so we have to re-bind the xref events.
-      app_controller.bindXrefEvents();
+      verseListController.bindXrefEvents();
 
       if (!platformHelper.isCordova()) {
         this.focus();

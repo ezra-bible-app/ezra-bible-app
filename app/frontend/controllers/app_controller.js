@@ -357,17 +357,6 @@ class AppController {
     this.textSizeSettings.hideTextSizeMenu();
     wheelnavController.closeWheelNav();
   }
-  
-  bindXrefEvents(tabIndex=undefined) {
-    var verseList = verseListController.getCurrentVerseList(tabIndex);
-    var xref_markers = verseList.find('.sword-xref-marker');
-
-    xref_markers.unbind();
-    
-    xref_markers.bind('mousedown', async (event) => {
-      await verseListController.handleReferenceClick(event);
-    }).addClass('events-configured');
-  }
 
   async openXrefVerses(referenceVerseBox, xrefTitle, xrefs) {
     var xrefVerseReferenceId = this.verse_box_helper.getVerseReferenceId(referenceVerseBox);

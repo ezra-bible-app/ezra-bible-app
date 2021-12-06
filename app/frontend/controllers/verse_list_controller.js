@@ -184,6 +184,17 @@ function bindEventsAfterBibleTextLoaded(tabIndex=undefined, preventDoubleBinding
     wheelnavController.bindEvents();
   }
 }
+  
+function bindXrefEvents(tabIndex=undefined) {
+  var verseList = getCurrentVerseList(tabIndex);
+  var xref_markers = verseList.find('.sword-xref-marker');
+
+  xref_markers.unbind();
+  
+  xref_markers.bind('mousedown', async (event) => {
+    await handleReferenceClick(event);
+  }).addClass('events-configured');
+}
 
 function onVerseBoxMouseOver(event) {
   var focussedElement = event.target;
@@ -261,5 +272,6 @@ module.exports = {
   resetVerseListView,
   getVerseListBookNumber,
   bindEventsAfterBibleTextLoaded,
+  bindXrefEvents,
   handleReferenceClick
 };
