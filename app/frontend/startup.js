@@ -143,10 +143,6 @@ class Startup {
     document.getElementById('display-options-menu').innerHTML = displayOptionsMenu;
     document.getElementById('verse-list-tabs').innerHTML = verseListTabs;
     document.getElementById('boxes').innerHTML = boxes;
-
-    // The panel-buttons were hidden by default, because they already existed in the DOM before the Android permissions dialogue is shown.
-    // Therefore, he we actively enable the panel-buttons.
-    document.getElementById('panel-buttons').style.display = 'block';
   }
 
   async initIpcClients() {
