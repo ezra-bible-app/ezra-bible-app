@@ -97,6 +97,7 @@ class VerseContextController {
     $('#verse-expand-box').hide();
   }
 
+  // FIXME: Get rid of this function
   init_verse_expand_box(tabIndex=undefined) {
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
