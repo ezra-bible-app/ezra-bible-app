@@ -21,6 +21,13 @@ const { getPlatform } = require('../helpers/ezra_helper.js');
 const wheelnavController = require('../controllers/wheelnav_controller.js');
 const eventController = require('../controllers/event_controller.js');
 
+
+/**
+ * This controller provides an API for the verse list as well as event handlers for clicks within the verse list.
+ * @module verseListController
+ * @category Controller
+ */
+
 function init() {
   eventController.subscribe('on-bible-text-loaded', (tabIndex) => { bindEventsAfterBibleTextLoaded(tabIndex); });
   eventController.subscribe('on-all-translations-removed', async () => { onAllTranslationsRemoved(); });

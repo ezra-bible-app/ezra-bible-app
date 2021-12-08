@@ -20,6 +20,12 @@ const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
 const verseListController = require('../controllers/verse_list_controller.js');
 
+/**
+ * This controller handles the lifecycle of the ReferenceVerse box on top of the verse list, used both in case of x-refs as well as tagged verse lists.
+ * @module referenceVerseController
+ * @category Controller
+ */
+
 var verseBoxHelper = new VerseBoxHelper();
 
 function showReferenceContainer() {
