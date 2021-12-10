@@ -29,9 +29,9 @@
     "exact-phrase": "Frase exacta",
     "multi-word": "Múltiples palabras",
     "strongs": "Números Strong",
-    "whole-bible": "Whole Bible",
-    "ot": "Old Testament",
-    "nt": "New Testament",
+    "whole-bible": "Toda la Biblia",
+    "ot": "Antiguo Testamento",
+    "nt": "Nuevo Testamento",
     "extended-verse-boundaries": "Extenderse fuera del límite del verso (dos versos)"
   },
   "module-assistant": {
@@ -53,7 +53,7 @@
     "add-modules": "Añadir {{module_type, accusative}}",
     "remove-modules": "Quitar {{module_type, accusative}}",
     "languages": "Idiomas",
-    "repository_singular": "Repository",
+    "repository_singular": "Repositorio",
     "repository_plural": "Repositorios",
     "installation": "Instalación",
     "removal": "Desinstalación",
@@ -125,7 +125,7 @@
     "application-version": "Versión de la aplicación",
     "git-commit": "Git commit",
     "sword-version": "Versión de SWORD",
-    "sword-path": "SWORD module path",
+    "sword-path": "ruta del módulo SWORD",
     "chromium-version": "Versión de Chromium",
     "database-path": "Ruta al directorio de la base de datos",
     "config-file-path": "Ruta al directorio de configuración",
@@ -303,8 +303,8 @@
     "open-complete-book": "Abrir todo el libro",
     "open-chapters-large-books": "Abrir libros largos capítulo a capítulo",
     "open-chapters-all-books": "Abrir todos los libros capítulo a capítulo",
-    "copy": "Copy",
-    "edit-note": "Edit note"
+    "copy": "Copiar",
+    "edit-note": "Editar nota"
   },
   "dictionary-panel": {
     "greek-dict": "Diccionario Griego",
