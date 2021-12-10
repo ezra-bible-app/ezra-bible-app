@@ -29,9 +29,9 @@
     "exact-phrase": "Exacte zin",
     "multi-word": "Meerdere woorden",
     "strongs": "Strongs nummer",
-    "whole-bible": "Whole Bible",
-    "ot": "Old Testament",
-    "nt": "New Testament",
+    "whole-bible": "Hele Bijbel",
+    "ot": "Oude Testament",
+    "nt": "Nieuwe Testament",
     "extended-verse-boundaries": "Uitgebreide versgrenzen (Twee verzen)"
   },
   "module-assistant": {
@@ -55,7 +55,7 @@
     "add-modules": "Voeg {{module_type, accusative}} toe",
     "remove-modules": "Verwijder {{module_type, accusative}}",
     "languages": "Talen",
-    "repository_singular": "Repository",
+    "repository_singular": "Depot",
     "repository_plural": "Depots",
     "installation": "Installatie",
     "removal": "Verwijdering",
@@ -127,7 +127,7 @@
     "application-version": "Applicatie-versie",
     "git-commit": "Git commit",
     "sword-version": "SWORD-versie",
-    "sword-path": "SWORD module path",
+    "sword-path": "Pad van SWORD-module",
     "chromium-version": "Chromiumversie",
     "database-path": "Pad van databank",
     "config-file-path": "Pad van configuratie",
@@ -305,8 +305,8 @@
     "open-complete-book": "Open boeken volledig",
     "open-chapters-large-books": "Open grote boeken volgens hoofdstuk",
     "open-chapters-all-books": "Open alle boeken volgens hoofdstuk",
-    "copy": "Copy",
-    "edit-note": "Edit note"
+    "copy": "Kopiëren",
+    "edit-note": "Notitie aanpassen"
   },
   "dictionary-panel": {
     "greek-dict": "Grieks woordenboek",
