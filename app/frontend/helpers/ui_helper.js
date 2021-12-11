@@ -93,7 +93,7 @@ class UiHelper {
     });
   }
 
-  resizeAppContainer() {
+  onResize() {
     this.windowWidth = window.innerWidth;
   }
 
@@ -227,7 +227,10 @@ class UiHelper {
     var leftOffset = buttonOffset.left;
 
     if (leftOffset + $menu.width() > this.windowWidth - OFFSET_FROM_EDGE) {
+      console.log('windowWidth: ' + this.windowWidth);
+      console.log('$menu.width: ' + $menu.width());
       leftOffset = (this.windowWidth - $menu.width()) / 2;
+      console.log('leftOffset: ' + leftOffset);
 
       if (leftOffset < 0) {
         leftOffset = 0;
