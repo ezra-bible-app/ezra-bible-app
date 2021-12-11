@@ -29,9 +29,9 @@
     "exact-phrase": "Frază exactă",
     "multi-word": "Cuvinte multiple",
     "strongs": "Index de concordanță (Strong's)",
-    "whole-bible": "Whole Bible",
-    "ot": "Old Testament",
-    "nt": "New Testament",
+    "whole-bible": "Întreaga Biblie",
+    "ot": "Vechiul Testament",
+    "nt": "Noul Testament",
     "extended-verse-boundaries": "Limite extinse pentru verset (Două versete)"
   },
   "module-assistant": {
@@ -53,7 +53,7 @@
     "add-modules": "Adaugă {{module_type, accusative}}",
     "remove-modules": "Dezinstalează {{module_type, accusative}}",
     "languages": "Limbi",
-    "repository_singular": "Repository",
+    "repository_singular": "Depozit",
     "repository_plural": "Depozite",
     "installation": "Instalare",
     "removal": "Ștergere",
@@ -125,7 +125,7 @@
     "application-version": "Versiune aplicație",
     "git-commit": "Git commit",
     "sword-version": "versiune SWORD",
-    "sword-path": "SWORD module path",
+    "sword-path": "cale modul SWORD",
     "chromium-version": "versiune Chromium",
     "database-path": "cale Bază de date",
     "config-file-path": "cale Configurare",
@@ -303,8 +303,8 @@
     "open-complete-book": "Deschide cărțile în întregime",
     "open-chapters-large-books": "Deschide cărțile mari per capitol",
     "open-chapters-all-books": "Deschide toate cărțile per capitol",
-    "copy": "Copy",
-    "edit-note": "Edit note"
+    "copy": "Copiază",
+    "edit-note": "Editează nota"
   },
   "dictionary-panel": {
     "greek-dict": "Dicționar grec",
