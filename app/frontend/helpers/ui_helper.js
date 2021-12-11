@@ -95,7 +95,7 @@ class UiHelper {
     });
   }
 
-  resizeAppContainer() {
+  onResize() {
     this.windowWidth = window.innerWidth;
   }
 

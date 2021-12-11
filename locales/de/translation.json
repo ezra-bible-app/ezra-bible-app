@@ -29,9 +29,9 @@
     "exact-phrase": "Exakter Ausdruck",
     "multi-word": "Mehrere Worte",
     "strongs": "Strongs Nr.",
-    "whole-bible": "Whole Bible",
-    "ot": "Old Testament",
-    "nt": "New Testament",
+    "whole-bible": "Gesamte Bibel",
+    "ot": "Altes Testament",
+    "nt": "Neues Testament",
     "extended-verse-boundaries": "Erweiterte Versgrenzen (Zwei Verse)"
   },
   "module-assistant": {
@@ -121,7 +121,7 @@
     "application-version": "App Version",
     "git-commit": "Git commit",
     "sword-version": "SWORD Version",
-    "sword-path": "SWORD module path",
+    "sword-path": "SWORD Modulpfad",
     "chromium-version": "Chromium Version",
     "database-path": "Datenbankpfad",
     "config-file-path": "Konfigurationspfad",
@@ -295,8 +295,8 @@
     "open-complete-book": "Bücher vollständig öffnen",
     "open-chapters-large-books": "Große Bücher kapitelweise öffnen",
     "open-chapters-all-books": "Alle Bücher kapitelweise öffnen",
-    "copy": "Copy",
-    "edit-note": "Edit note"
+    "copy": "Kopieren",
+    "edit-note": "Notiz ändern"
   },
   "dictionary-panel": {
     "greek-dict": "Griechisches Wörterbuch",

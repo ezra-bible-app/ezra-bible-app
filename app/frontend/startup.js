@@ -183,7 +183,10 @@ class Startup {
       resizable.initResizable();
     }
 
-    window.addEventListener('resize', () => { uiHelper.resizeAppContainer(); });
+    window.addEventListener('resize', () => { uiHelper.onResize(); });
+
+    // We need to call onResize initially independent of an event in order to correctly initialize the innerWidth in uiHelper
+    uiHelper.onResize();
   }
 
   async earlyInitNightMode() {
