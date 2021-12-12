@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const eventController = require('../controllers/event_controller.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 /**
  * This controller handles the lifecycle of the circular wheel navigation which becomes active in fullscreen mode.
