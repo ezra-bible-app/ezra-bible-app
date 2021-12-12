@@ -252,11 +252,6 @@ module.exports.bindEventsAfterBibleTextLoaded = function(tabIndex=undefined, pre
 
   verseList.find('.verse-box').bind('mouseover', (e) => { onVerseBoxMouseOver(e); });
 
-  if (platformHelper.isElectron()) {
-    // FIXME: Get rid of this function
-    app_controller.verse_context_controller.init_verse_expand_box(tabIndex);
-  }
-
   if (getPlatform().isFullScreen()) {
     wheelnavController.bindEvents();
   }

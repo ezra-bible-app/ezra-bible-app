@@ -270,15 +270,6 @@ h2:nth-of-type(1) {
   color: black;
 }
 
-#expand-button {
-  width: 18px;
-  height: 25px;
-  background-image: url(images/expand.gif);
-  background-position: center;
-  background-repeat: no-repeat;
-  cursor: pointer;
-}
-
 .verse-reference {
   display: flex;
   padding-top: 0.3em;
@@ -1247,18 +1238,6 @@ li.book-unavailable a:focus,
 .selected-verses a:hover,
 .selected-verses a:active {
   text-decoration: underline;
-}
-
-#verse-expand-box {
-  position: fixed;
-  display: none;
-  border-radius: var(--border-radius);
-  border: 1px solid #AED0EA;
-  padding: 0.1em;
-  padding-left: 0.2em;
-  padding-right: 0.2em;
-  z-index: 110;
-  background: url("images/ui-bg_highlight-soft_100_deedf7_1x100.png") repeat-x scroll 50% 50% #DEEDF7;
 }
 
 .hidden {
