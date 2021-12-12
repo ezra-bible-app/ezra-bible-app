@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const eventController = require('../../controllers/event_controller.js');
+const verseListController = require('../../controllers/verse_list_controller.js');
 
 class TagStatistics {
   constructor() {
@@ -178,7 +179,7 @@ class TagStatistics {
   }
 
   highlightFrequentlyUsedTags() {
-    var currentVerseList = app_controller.getCurrentVerseList()[0];
+    var currentVerseList = verseListController.getCurrentVerseList()[0];
     var allTags = currentVerseList.querySelectorAll('.tag');
 
     allTags.forEach((tag) => {
@@ -227,7 +228,7 @@ class TagStatistics {
   };
 
   async openBookTagStatistics() {
-    var currentVerseList = app_controller.getCurrentVerseList();
+    var currentVerseList = verseListController.getCurrentVerseList();
     var verse_list_position = currentVerseList.offset();
     var currentTab = app_controller.tab_controller.getTab();
     var currentBookTranslation = await ipcDb.getBookTitleTranslation(currentTab.getBook());

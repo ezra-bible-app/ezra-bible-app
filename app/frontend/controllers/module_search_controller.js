@@ -19,6 +19,7 @@
 const eventController = require('./event_controller.js');
 const {waitUntilIdle} = require('../helpers/ezra_helper.js');
 const VerseSearch = require('../components/tab_search/verse_search.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 const CANCEL_SEARCH_PERCENT_LIMIT = 90;
 
@@ -79,7 +80,7 @@ class ModuleSearchController {
       this.validateSearchTerm();
     });
 
-    var cancelSearchButtonContainer = app_controller.getCurrentSearchCancelButtonContainer(tabIndex);
+    var cancelSearchButtonContainer = verseListController.getCurrentSearchCancelButtonContainer(tabIndex);
     var cancelSearchButton = cancelSearchButtonContainer.find('button');
 
     cancelSearchButton[0].addEventListener('mousedown', async () => {
@@ -107,7 +108,7 @@ class ModuleSearchController {
   }
 
   getCurrentProgressValue() {
-    var searchProgressBar = app_controller.getCurrentSearchProgressBar(this.currentSearchTabIndex);
+    var searchProgressBar = verseListController.getCurrentSearchProgressBar(this.currentSearchTabIndex);
     var currentProgressValue = null;
 
     try {
@@ -120,7 +121,7 @@ class ModuleSearchController {
   }
 
   disableCancelButton() {
-    var cancelSearchButtonContainer = app_controller.getCurrentSearchCancelButtonContainer(this.currentSearchTabIndex);
+    var cancelSearchButtonContainer = verseListController.getCurrentSearchCancelButtonContainer(this.currentSearchTabIndex);
     var cancelSearchButton = cancelSearchButtonContainer.find('button');
 
     cancelSearchButton.removeClass('ui-state-active');
@@ -279,7 +280,7 @@ class ModuleSearchController {
   }
 
   getModuleSearchHeader(tabIndex=undefined) {
-    var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+    var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
     return currentVerseListFrame.find('.verse-list-header');
   }
 
@@ -374,8 +375,8 @@ class ModuleSearchController {
       this.hideSearchMenu();
 
       if (tabIndex == undefined || tabIndex == app_controller.tab_controller.getSelectedTabIndex()) {
-        var searchProgressBar = app_controller.getCurrentSearchProgressBar();
-        var cancelSearchButtonContainer = app_controller.getCurrentSearchCancelButtonContainer(tabIndex);
+        var searchProgressBar = verseListController.getCurrentSearchProgressBar();
+        var cancelSearchButtonContainer = verseListController.getCurrentSearchCancelButtonContainer(tabIndex);
         var cancelSearchButton = cancelSearchButtonContainer.find('button');
         cancelSearchButton.removeClass('ui-state-disabled');
 
@@ -417,7 +418,7 @@ class ModuleSearchController {
         await this.renderCurrentSearchResults(searchResultBookId, this.currentSearchTabIndex);
       } catch (error) {
         console.log(error);
-        app_controller.hideVerseListLoadingIndicator();
+        verseListController.hideVerseListLoadingIndicator();
         this.enableOtherFunctionsAfterSearch();
       }
     }
@@ -427,7 +428,7 @@ class ModuleSearchController {
   }
 
   highlightSearchResults(searchTerm, tabIndex=undefined) {
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
     var verses = currentVerseList[0].querySelectorAll('.verse-text');
 
     var searchType = this.getSearchType();
@@ -462,9 +463,9 @@ class ModuleSearchController {
                                                              target);
       
     } else {
-      app_controller.hideVerseListLoadingIndicator(this.currentSearchTabIndex);
+      verseListController.hideVerseListLoadingIndicator(this.currentSearchTabIndex);
       uiHelper.hideTextLoadingIndicator(this.currentSearchTabIndex);
-      app_controller.hideSearchProgressBar(this.currentSearchTabIndex);
+      verseListController.hideSearchProgressBar(this.currentSearchTabIndex);
     }
 
     this.hideSearchMenu();
@@ -523,7 +524,7 @@ class ModuleSearchController {
   }
 
   selectAllSearchResults() {
-    var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
+    var currentVerseListFrame = verseListController.getCurrentVerseListFrame();
     var allVerseTextElements = currentVerseListFrame.find('.verse-text');
     allVerseTextElements.addClass('ui-selected');
     app_controller.verse_selection.updateSelected();

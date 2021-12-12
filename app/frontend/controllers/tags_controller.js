@@ -23,6 +23,7 @@ const VerseBox = require('../ui_models/verse_box.js');
 require('../components/emoji_button_trigger.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const eventController = require('./event_controller.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 /**
  * The TagsController handles most functionality related to tagging of verses.
@@ -477,7 +478,7 @@ class TagsController {
       $(cb).attr('title', i18n.t("tags.remove-tag-assignment"));
 
       var filteredVerseBoxes = [];
-      var currentVerseList = app_controller.getCurrentVerseList();
+      var currentVerseList = verseListController.getCurrentVerseList();
 
       // Create a list of filtered ids, that only contains the verses that do not have the selected tag yet
       for (var i = 0; i < current_verse_reference_ids.length; i++) {
@@ -618,7 +619,7 @@ class TagsController {
 
     var verse_boxes = [];
 
-    var currentVerseList = app_controller.getCurrentVerseList();
+    var currentVerseList = verseListController.getCurrentVerseList();
 
     for (var i = 0; i < job.verse_ids.length; i++) {
       var currentVerseReferenceId = job.verse_ids[i];
@@ -652,7 +653,7 @@ class TagsController {
 
     verse_selection = $(verse_selection);
     var selected_verses = verse_selection.find('verse');
-    var current_verse_list_frame = app_controller.getCurrentVerseListFrame();
+    var current_verse_list_frame = verseListController.getCurrentVerseListFrame();
 
     for (var i = 0; i < selected_verses.length; i++) {
       var current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();

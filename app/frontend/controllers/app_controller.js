@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const Mousetrap = require('mousetrap');
-const VerseBox = require('../ui_models/verse_box.js');
 const { getPlatform } = require('../helpers/ezra_helper.js');
 
 const VerseBoxHelper = require("../helpers/verse_box_helper.js");
@@ -43,8 +42,9 @@ const SwordNotes = require("../components/sword_notes.js");
 const InfoPopup = require("../components/info_popup.js");
 const TextSizeSettings = require("../components/text_size_settings.js");
 const VerseStatisticsChart = require('../components/verse_statistics_chart.js');
+const verseListController = require('../controllers/verse_list_controller.js');
+const referenceVerseController = require('../controllers/reference_verse_controller.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
-const i18nHelper = require('../helpers/i18n_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const wheelnavController = require('../controllers/wheelnav_controller.js');
 const fullscreenController = require('../controllers/fullscreen_controller.js');
@@ -118,11 +118,10 @@ class AppController {
     
     fullscreenController.init();
     wheelnavController.init();
+    verseListController.init();
 
-    eventController.subscribe('on-all-translations-removed', async () => { await this.onAllTranslationsRemoved(); });
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => { await this.onTabSelected(tabIndex); });
     eventController.subscribe('on-tab-added', (tabIndex) => { this.onTabAdded(tabIndex); });
-    eventController.subscribe('on-bible-text-loaded', (tabIndex) => { this.bindEventsAfterBibleTextLoaded(tabIndex); });
   }
 
   initVerseButtons(tabIndex=undefined) {
@@ -178,7 +177,7 @@ class AppController {
     }
 
     // Re-configure tab search
-    var currentVerseList = this.getCurrentVerseList(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
     if (metaTab != null && metaTab.tab_search != null) {
       metaTab.tab_search.setVerseList(currentVerseList);
     }
@@ -194,7 +193,7 @@ class AppController {
     var currentTab = this.tab_controller.getTab(tabIndex);
 
     if (currentTab) {
-      const verseListContainer = this.getCurrentVerseListFrame(tabIndex).parent();
+      const verseListContainer = verseListController.getCurrentVerseListFrame(tabIndex).parent();
 
       currentTab.tab_search = new TabSearch();
       currentTab.tab_search.init(
@@ -209,14 +208,6 @@ class AppController {
       );
   
     }
-  }
-
-  // Re-init application to state without Bible translations
-  async onAllTranslationsRemoved() {
-    this.resetVerseListView();
-    this.hideVerseListLoadingIndicator();
-    this.getCurrentVerseList().append("<div class='help-text'>" + i18n.t("help.help-text-no-translations") + "</div>");
-    $('.book-select-value').text(i18n.t("menu.book"));
   }
 
   async loadSettings() {
@@ -336,91 +327,6 @@ class AppController {
     return currentVerseListMenu;
   }
 
-  getCurrentVerseListFrame(tabIndex=undefined) {
-    var currentVerseListTabs = this.getCurrentVerseListTabs(tabIndex);
-    var currentVerseListFrame = currentVerseListTabs.find('.verse-list-frame');
-    return currentVerseListFrame;
-  }
-
-  getCurrentReferenceVerse(tabIndex=undefined) {
-    var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-    var referenceVerse = currentVerseListFrame.find('.reference-verse');
-    return referenceVerse;
-  }
-
-  async getLocalizedReferenceVerse(tabIndex=undefined) {
-    var currentReferenceVerse = this.getCurrentReferenceVerse(tabIndex);
-    var currentReferenceVerseBox = currentReferenceVerse[0].querySelector('.verse-box');
-    var localizedReferenceVerse = "";
-
-    if (currentReferenceVerseBox != null) {
-      localizedReferenceVerse = await this.verse_box_helper.getLocalizedVerseReference(currentReferenceVerseBox);
-    }
-
-    return localizedReferenceVerse;
-  }
-
-  getCurrentVerseList(tabIndex=undefined) {
-    var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-    var verseList = currentVerseListFrame[0].querySelector('.verse-list');
-    return $(verseList);
-  }
-
-  getCurrentVerseListHeader(tabIndex=undefined) {
-    var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-    var verseListHeader = currentVerseListFrame.find('.verse-list-header');
-    return verseListHeader;
-  }
-
-  getCurrentVerseListLoadingIndicator(tabIndex=undefined) {
-    var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-    var loadingIndicator = currentVerseListFrame.find('.verse-list-loading-indicator');
-    return loadingIndicator;
-  }
-
-  getCurrentSearchProgressBar(tabIndex=undefined) {
-    var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-    var searchProgressBar = currentVerseListFrame.find('.search-progress-bar');
-    return searchProgressBar;
-  }
-
-  getCurrentSearchCancelButtonContainer(tabIndex=undefined) {
-    var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-    var searchCancelButton = currentVerseListFrame.find('.cancel-module-search-button-container');
-    return searchCancelButton;
-  }
-
-  showVerseListLoadingIndicator(tabIndex=undefined, message=undefined, withLoader=true) {
-    var loadingIndicator = this.getCurrentVerseListLoadingIndicator(tabIndex);
-    var loadingText = loadingIndicator.find('.verse-list-loading-indicator-text');
-    if (message === undefined) {
-      message = i18n.t("bible-browser.loading-bible-text");
-    }
-
-    loadingText.html(message);
-
-    if (withLoader) {
-      loadingIndicator.find('.loader').show();
-    } else {
-      loadingIndicator.find('.loader').hide();
-    }
-
-    loadingIndicator.show();
-  }
-
-  hideVerseListLoadingIndicator(tabIndex=undefined) {
-    var loadingIndicator = this.getCurrentVerseListLoadingIndicator(tabIndex);
-    loadingIndicator.hide();
-  }
-
-  hideSearchProgressBar(tabIndex=undefined) {
-    var searchProgressBar = this.getCurrentSearchProgressBar(tabIndex);
-    searchProgressBar.hide();
-
-    var cancelSearchButtonContainer = this.getCurrentSearchCancelButtonContainer(tabIndex);
-    cancelSearchButtonContainer.hide();
-  }
-
   handleBodyClick(event) {
     if($(this).hasClass('verse-selection-menu')) {
       event.stopPropagation();
@@ -442,202 +348,6 @@ class AppController {
     this.textSizeSettings.hideTextSizeMenu();
     wheelnavController.closeWheelNav();
   }
-  
-  async handleReferenceClick(event) {
-    var currentTab = this.tab_controller.getTab();
-    var currentTextType = currentTab.getTextType();
-    var verseBox = $(event.target).closest('.verse-box');
-    var isReferenceVerse = verseBox.parent().hasClass('reference-verse');
-    var isXrefMarker = event.target.classList.contains('sword-xref-marker');
-    var isTag = event.target.classList.contains('tag');
-
-    if (isReferenceVerse &&
-      ((currentTextType == 'xrefs') || (currentTextType == 'tagged_verses'))
-    ) {
-      if (isXrefMarker) {
-        await this.verse_list_popup.initCurrentXrefs(event.target);
-
-        this.openXrefVerses(this.verse_list_popup.currentReferenceVerseBox,
-                            this.verse_list_popup.currentPopupTitle,
-                            this.verse_list_popup.currentXrefs);
-
-      } else if (isTag) {
-
-        this.verse_list_popup.initCurrentTag(event.target);
-
-        this.openTaggedVerses(this.verse_list_popup.currentTagId,
-                              this.verse_list_popup.currentTagTitle,
-                              this.verse_list_popup.currentReferenceVerseBox);
-
-      }
-    } else {
-      if (isXrefMarker) {
-        let referenceType = "XREFS";
-
-        if (app_controller.optionsMenu._verseListNewTabOption.isChecked &&
-            !getPlatform().isFullScreen()) { // No tabs available in fullscreen!
-          
-          this.verse_list_popup.currentReferenceType = referenceType;
-          await this.verse_list_popup.initCurrentXrefs(event.target);
-          this.verse_list_popup.openVerseListInNewTab();
-        } else {
-          await this.verse_list_popup.openVerseListPopup(event, referenceType);
-        }
-      } else if (isTag) {
-        let referenceType = "TAGGED_VERSES";
-
-        if (app_controller.optionsMenu._verseListNewTabOption.isChecked &&
-            !getPlatform().isFullScreen()) { // No tabs available in fullscreen!
-          
-          this.verse_list_popup.currentReferenceType = referenceType;
-          this.verse_list_popup.initCurrentTag(event.target);
-          this.verse_list_popup.openVerseListInNewTab();
-        } else {
-          await this.verse_list_popup.openVerseListPopup(event, referenceType);
-        }
-      }
-    }
-  }
-
-  bindXrefEvents(tabIndex=undefined) {
-    var verseList = this.getCurrentVerseList(tabIndex);
-    var xref_markers = verseList.find('.sword-xref-marker');
-
-    xref_markers.unbind();
-    
-    xref_markers.bind('mousedown', async (event) => {
-      await this.handleReferenceClick(event);
-    }).addClass('events-configured');
-  }
-
-  bindEventsAfterBibleTextLoaded(tabIndex=undefined, preventDoubleBinding=false, verseList=undefined) {
-    if (verseList == undefined) {
-      verseList = this.getCurrentVerseList(tabIndex);
-    }
-
-    var tagBoxes = verseList.find('.tag-box');
-    var tags = verseList.find('.tag');
-    var xref_markers = verseList.find('.sword-xref-marker');
-
-    if (preventDoubleBinding) {
-      tagBoxes = tagBoxes.filter(":not('.tag-events-configured')");
-      tags = tags.filter(":not('.tag-events-configured')");
-      xref_markers = xref_markers.filter(":not('.events-configured')");
-    }
-
-    tagBoxes.bind('mousedown', tags_controller.clear_verse_selection).addClass('tag-events-configured');
-
-    tags.bind('mousedown', async (event) => {
-      event.stopPropagation();
-      await this.handleReferenceClick(event);
-    }).addClass('tag-events-configured');
-
-    xref_markers.bind('mousedown', async (event) => {
-      event.stopPropagation();
-      await this.handleReferenceClick(event);
-    }).addClass('events-configured');
-
-    verseList.find('.verse-box').bind('mouseover', (e) => { this.onVerseBoxMouseOver(e); });
-    this.dictionary_controller.bindAfterBibleTextLoaded(tabIndex);
-
-    if (platformHelper.isElectron()) {
-      this.verse_context_controller.init_verse_expand_box(tabIndex);
-    }
-
-    if (getPlatform().isFullScreen()) {
-      wheelnavController.bindEvents();
-    }
-  }
-
-  getVerseListBookNumber(bibleBookLongTitle, bookHeaders=undefined) {
-    var bibleBookNumber = -1;
-
-    if (bookHeaders === undefined) {
-      var currentVerseListFrame = this.getCurrentVerseListFrame();
-      bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
-    }
-
-    for (var i = 0; i < bookHeaders.length; i++) {
-      var currentBookHeader = $(bookHeaders[i]);
-      var currentBookHeaderText = currentBookHeader.text();
-
-      if (currentBookHeaderText.includes(bibleBookLongTitle)) {
-        bibleBookNumber = i + 1;
-        break;
-      }
-    }
-
-    return bibleBookNumber;
-  }
-
-  onVerseBoxMouseOver(event) {
-    var focussedElement = event.target;
-    this.navigation_pane.updateNavigationFromVerseBox(focussedElement);
-  }
-
-  async updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId) {
-    var currentVerseListFrame = this.getCurrentVerseListFrame();
-    var currentTab = this.tab_controller.getTab();
-    var currentBibleTranslationId = currentTab.getBibleTranslationId();
-    var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
-    var referenceVerseBox = new VerseBox(referenceVerseContainer.querySelector('.verse-box'));
-    var bookShortTitle = referenceVerseBox.getBibleBookShortTitle();
-    var mappedAbsoluteVerseNumber = await referenceVerseBox.getMappedAbsoluteVerseNumber(oldBibleTranslationId, newBibleTranslationId);
-
-    try {
-      var verses = await ipcNsi.getBookText(currentBibleTranslationId, bookShortTitle, mappedAbsoluteVerseNumber, 1);
-      var verseText = referenceVerseContainer.querySelector('.verse-text');
-      verseText.innerHTML = verses[0].content;
-      this.sword_notes.initForContainer(referenceVerseContainer);
-      this.bindEventsAfterBibleTextLoaded(undefined, false, $(referenceVerseContainer));
-    } catch (e) {
-      console.warn('Could not update translation for reference verse: ' + e);
-    }
-  }
-
-  clearReferenceVerse(tabIndex=undefined) {
-    var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-    var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
-
-    referenceVerseContainer.innerHTML = '';
-  }
-
-  async renderReferenceVerse(verseBox, tabIndex=undefined) {
-    if (verseBox == null || verseBox.length != 1) return;
-
-    var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
-    var currentVerseList = this.getCurrentVerseList(tabIndex);
-    var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
-
-    var classList = currentVerseList[0].classList;
-    for (var i = 0; i < classList.length; i++) {
-      var currentClass = classList[i];
-
-      if (currentClass != "verse-list") {
-        referenceVerseContainer.classList.add(currentClass);
-      }
-    }
-
-    var clonedVerseBox = verseBox[0].cloneNode(true);
-    var header = await this.verse_box_helper.getLocalizedVerseReference(verseBox[0]);
-    var referenceVerseHeader = "<div class='reference-header'>" + header + "</div>";
-    referenceVerseContainer.innerHTML = referenceVerseHeader;
-    referenceVerseContainer.appendChild(clonedVerseBox);
-    referenceVerseContainer.innerHTML += "<br/><hr/>";
-
-    var currentTab = this.tab_controller.getTab(tabIndex);
-    var textType = currentTab.getTextType();
-    var textTypeHeader = "";
-
-    if (textType == 'xrefs') {
-      textTypeHeader = `<span i18n="general.module-xrefs">${i18n.t('general.module-xrefs')}</span>`;
-    } else if (textType == 'tagged_verses') {
-      textTypeHeader = `<span i18n="tags.verses-tagged-with">${i18n.t('tags.verses-tagged-with')}</span> <i>${currentTab.getTagTitleList()}</i>`;
-    }
-
-    referenceVerseContainer.innerHTML += "<div class='reference-verse-list-header'><h2>" + textTypeHeader + "</h2></div>";
-    this.bindEventsAfterBibleTextLoaded(undefined, false, $(referenceVerseContainer));
-  }
 
   async openXrefVerses(referenceVerseBox, xrefTitle, xrefs) {
     var xrefVerseReferenceId = this.verse_box_helper.getVerseReferenceId(referenceVerseBox);
@@ -654,16 +364,8 @@ class AppController {
     currentTab.setSearchTerm(null);
     currentTab.setTagIdList("");
 
-    await this.renderReferenceVerse(referenceVerseBox);
+    await referenceVerseController.renderReferenceVerse(referenceVerseBox);
     await this.getXrefVerses(xrefs);
-  }
-
-  showReferenceContainer() {
-    if (this.tab_controller.getTab().hasReferenceVerse()) {
-      var currentVerseListFrame = this.getCurrentVerseListFrame();
-      var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
-      $(referenceVerseContainer).show();
-    }
   }
 
   async openTaggedVerses(tagIdList, tagTitleList, referenceVerseBox=undefined) {
@@ -696,9 +398,9 @@ class AppController {
     }
 
     if (referenceVerseBox != undefined) {
-      await this.renderReferenceVerse(referenceVerseBox);
+      await referenceVerseController.renderReferenceVerse(referenceVerseBox);
     } else {
-      this.clearReferenceVerse();
+      referenceVerseController.clearReferenceVerse();
     }
 
     await this.getTaggedVerses();
@@ -706,7 +408,7 @@ class AppController {
 
   async getXrefVerses(xrefs) {
     var currentTabId = this.tab_controller.getSelectedTabId();
-    var currentVerseList = this.getCurrentVerseList();
+    var currentVerseList = verseListController.getCurrentVerseList();
 
     var currentTab = this.tab_controller.getTab();
     currentTab.tab_search.setVerseList(currentVerseList);
@@ -724,7 +426,7 @@ class AppController {
     var currentTab = this.tab_controller.getTab();
     var currentTagIdList = currentTab.getTagIdList();
     var currentTabId = this.tab_controller.getSelectedTabId();
-    var currentVerseList = this.getCurrentVerseList();
+    var currentVerseList = verseListController.getCurrentVerseList();
 
     currentTab.tab_search.setVerseList(currentVerseList);
 
@@ -749,53 +451,9 @@ class AppController {
     }
   }
 
-  resetVerseListView() {
-    var textType = this.tab_controller.getTab().getTextType();
-    if (textType != 'xrefs' && textType != 'tagged_verses') {
-      var currentReferenceVerse = this.getCurrentVerseListFrame().find('.reference-verse');
-      currentReferenceVerse[0].innerHTML = "";
-    }
-
-    var currentVerseList = this.getCurrentVerseList()[0];
-    if (currentVerseList != undefined) {
-      currentVerseList.innerHTML = "";
-    }
-
-    this.docxExport.disableExportButton();
-  }
-
   openModuleSettingsAssistant(moduleType) {
     this.optionsMenu.hideDisplayMenu();
     this.moduleAssistant.openAssistant(moduleType);
-  }
-
-  getChapterFromReference(reference, separator=window.reference_separator) {
-    var chapter = Number(reference.split(separator)[0]);
-    return chapter;
-  }
-
-  getVerseFromReference(reference, separator=window.reference_separator) {
-    var verse = Number(reference.split(separator)[1]);
-    return verse;
-  }
-
-  getBibleBookStatsFromVerseList(tabIndex) {
-    var bibleBookStats = {};    
-    var currentVerseList = this.getCurrentVerseList(tabIndex)[0];
-    var verseBoxList = currentVerseList.querySelectorAll('.verse-box');
-
-    for (var i = 0; i < verseBoxList.length; i++) {
-      var currentVerseBox = verseBoxList[i];
-      var bibleBookShortTitle = new VerseBox(currentVerseBox).getBibleBookShortTitle();
-
-      if (bibleBookStats[bibleBookShortTitle] === undefined) {
-        bibleBookStats[bibleBookShortTitle] = 1;
-      } else {
-        bibleBookStats[bibleBookShortTitle] += 1;
-      }
-    }
-
-    return bibleBookStats;
   }
 }
 

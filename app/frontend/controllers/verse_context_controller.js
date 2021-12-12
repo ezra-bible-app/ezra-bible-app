@@ -18,6 +18,7 @@
 
 const VerseBox = require('../ui_models/verse_box.js');
 const eventController = require('./event_controller.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 class VerseContextController {
 
@@ -96,8 +97,9 @@ class VerseContextController {
     $('#verse-expand-box').hide();
   }
 
+  // FIXME: Get rid of this function
   init_verse_expand_box(tabIndex=undefined) {
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
     currentVerseList.find('.verse-reference-content').filter(":not('.tag-events-configured')").bind('mouseover',
                                                                                                     this.mouse_over_verse_reference_content);
@@ -154,7 +156,8 @@ class VerseContextController {
     // Update the tags view after the selection
     tags_controller.updateTagsViewAfterVerseSelection(true);
 
-    app_controller.bindEventsAfterBibleTextLoaded(undefined, true);
+    verseListController.bindEventsAfterBibleTextLoaded(undefined, true);
+    app_controller.dictionary_controller.bindAfterBibleTextLoaded();
   }
 
   hide_verse_expand_box() {

@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const TabSearch = require('../components/tab_search/tab_search.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 class Tab {
   constructor(defaultBibleTranslationId, interactive=true) {
@@ -282,7 +283,7 @@ class Tab {
   }
 
   initTabSearch(tabIndex=undefined) {
-    var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+    var verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
 
     this.tab_search = new TabSearch();
     this.tab_search.init(

@@ -25,9 +25,10 @@ class VerseBox {
 
   getVerseObject() {
     var isBookNoteVerse = this.isBookNoteVerse();
+    var verse = undefined;
 
     if (isBookNoteVerse) {
-      var verse = new Verse(
+      verse = new Verse(
         app_controller.tab_controller.getTab().getBook(),
         null,
         null,
@@ -36,14 +37,13 @@ class VerseBox {
       );
 
     } else {
-      var verse = new Verse(
+      verse = new Verse(
         this.getBibleBookShortTitle(),
         this.getAbsoluteVerseNumber(),
         this.getChapter(),
         this.getVerseNumber(),
         isBookNoteVerse
       );
-
     }
 
     return verse;
@@ -86,7 +86,7 @@ class VerseBox {
       return null;
     } else {
       var verseReference = this.verseBoxElement.querySelector('.verse-reference-content').innerText;
-      var splittedReference = verseReference.split(reference_separator);
+      var splittedReference = verseReference.split(window.reference_separator);
       return splittedReference;
     }
   }
@@ -195,7 +195,8 @@ class VerseBox {
 
     if (tag_title_array.length > 0) {
       $(this.verseBoxElement).find('.tag').bind('click', async (event) => {
-        await app_controller.handleReferenceClick(event);
+        const verseListController = require('../controllers/verse_list_controller.js');
+        await verseListController.handleReferenceClick(event);
       });
     }
   }
@@ -241,7 +242,7 @@ class VerseBox {
 
     switch (action) {
       case "assign":
-        for (var j = 0; j < current_tag_info_title_array.length; j++) {
+        for (let j = 0; j < current_tag_info_title_array.length; j++) {
           if (current_tag_info_title_array[j] == tag_title) {
             already_there = true;
             break;
@@ -255,7 +256,7 @@ class VerseBox {
         break;
 
       case "remove":
-        for (var j = 0; j < current_tag_info_title_array.length; j++) {
+        for (let j = 0; j < current_tag_info_title_array.length; j++) {
           if (current_tag_info_title_array[j] == tag_title) {
             current_tag_info_title_array.splice(j, 1);
             break;

@@ -23,6 +23,7 @@ const VerseBox = require('../ui_models/verse_box.js');
 const notesHelper = require('../helpers/notes_helper.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 const eventController = require('../controllers/event_controller.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 require('../components/emoji_button_trigger.js');
 
 let CodeMirror = null;
@@ -80,7 +81,7 @@ class NotesController {
 
   initForTab(tabIndex = undefined) {
     this._reset();
-    var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+    var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
     if (currentVerseListFrame == null || currentVerseListFrame.length == 0) {
       return;
     }
@@ -205,7 +206,7 @@ class NotesController {
       return null;
     }
 
-    var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
+    var currentVerseListFrame = verseListController.getCurrentVerseListFrame();
     return currentVerseListFrame[0].querySelector('.verse-reference-id-' + this.currentVerseReferenceId);
   }
 

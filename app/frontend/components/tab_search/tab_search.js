@@ -19,6 +19,7 @@
 const VerseSearch = require('./verse_search.js');
 const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
 const eventController = require('../../controllers/event_controller.js');
+const verseListController = require('../../controllers/verse_list_controller.js');
 
 /**
  * The TabSearch component implements the in-tab search functionality which is enabled with CTRL + f / CMD + f.
@@ -131,13 +132,13 @@ class TabSearch {
   }
 
   show() {
-    var verseListFrame = app_controller.getCurrentVerseListFrame();
+    var verseListFrame = verseListController.getCurrentVerseListFrame();
     verseListFrame.addClass('tab-search-active');
     this.searchForm.css('display', 'flex');
   }
 
   hide() {
-    var verseListFrame = app_controller.getCurrentVerseListFrame();
+    var verseListFrame = verseListController.getCurrentVerseListFrame();
     verseListFrame.removeClass('tab-search-active');
     this.searchForm.hide();
   }
@@ -181,7 +182,7 @@ class TabSearch {
 
       // This is necessary, beause the search "rewrites" the verse content and events
       // get lost by doing that, so we have to re-bind the xref events.
-      app_controller.bindXrefEvents();
+      verseListController.bindXrefEvents();
 
       if (!platformHelper.isCordova()) {
         this.focus();

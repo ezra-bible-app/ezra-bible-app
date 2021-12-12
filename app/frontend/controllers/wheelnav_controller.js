@@ -62,7 +62,7 @@ module.exports.closeWheelNav = function() {
 };
 
 function getVerseReferences() {
-  var verseList = app_controller.getCurrentVerseList();
+  var verseList = verseListController.getCurrentVerseList();
   var verseReferences = verseList[0].querySelectorAll('.verse-reference-content');
   return verseReferences;
 }

@@ -21,6 +21,7 @@ const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
 const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
 const { getPlatform } = require('../helpers/ezra_helper.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 /**
  * The VerseListPopup component implements a dialog that shows a tagged verse list or a list of cross references.
@@ -347,7 +348,7 @@ class VerseListPopup {
   }
 
   getOverlayVerseBoxPosition(verse_box) {
-    var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
+    var currentVerseListFrame = verseListController.getCurrentVerseListFrame();
 
     var verse_box_position = verse_box.offset();
     var verse_box_class = verse_box.attr('class');

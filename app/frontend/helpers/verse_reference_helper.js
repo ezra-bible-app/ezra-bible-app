@@ -83,6 +83,16 @@ class VerseReferenceHelper
   
     return verse_nr;
   }
+
+  getChapterFromReference(reference, separator=window.reference_separator) {
+    var chapter = Number(reference.split(separator)[0]);
+    return chapter;
+  }
+
+  getVerseFromReference(reference, separator=window.reference_separator) {
+    var verse = Number(reference.split(separator)[1]);
+    return verse;
+  }
 }
 
 module.exports = VerseReferenceHelper;

@@ -20,6 +20,8 @@ const PlatformHelper = require('../../../lib/platform_helper.js');
 const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
 const i18nController = require('../../controllers/i18n_controller.js');
 const eventController = require('../../controllers/event_controller.js');
+const referenceVerseController = require('../../controllers/reference_verse_controller.js');
+const verseListController = require('../../controllers/verse_list_controller.js');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
@@ -204,7 +206,7 @@ class OptionsMenu {
   }
 
   showOrHideBookIntroductionBasedOnOption(tabIndex=undefined) {
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
       var bookIntro = currentVerseList.find('.book-intro');
@@ -230,7 +232,7 @@ class OptionsMenu {
   }
 
   async showOrHideSectionTitlesBasedOnOption(tabIndex=undefined) {
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex)[0];
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex)[0];
     var tabId = app_controller.tab_controller.getSelectedTabId(tabIndex);
     var all_section_titles = [];
 
@@ -269,8 +271,8 @@ class OptionsMenu {
   }
 
   showOrHideXrefsBasedOnOption(tabIndex=undefined) {
-    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
@@ -287,8 +289,8 @@ class OptionsMenu {
   }
 
   showOrHideFootnotesBasedOnOption(tabIndex=undefined) {
-    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
@@ -336,8 +338,8 @@ class OptionsMenu {
   }
 
   showOrHideUserDataIndicatorsBasedOnOption(tabIndex=undefined) {
-    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
       if (this._userDataIndicatorOption.isChecked) {
@@ -351,8 +353,8 @@ class OptionsMenu {
   }
 
   showOrHideVerseTagsBasedOnOption(tabIndex=undefined) {
-    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
       if (this._tagsOption.isChecked) {
@@ -366,8 +368,8 @@ class OptionsMenu {
   }
 
   showOrHideVerseNotesBasedOnOption(tabIndex=undefined) {
-    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
       if (this._verseNotesOption.isChecked) {
@@ -382,8 +384,8 @@ class OptionsMenu {
   }
 
   fixNotesHeightBasedOnOption(tabIndex=undefined) {
-    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
       if (this._verseNotesFixedHeightOption.isChecked) {
@@ -427,8 +429,8 @@ class OptionsMenu {
   }
 
   changeTagsLayoutBasedOnOption(tabIndex=undefined) {
-    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
       if (this._tagsColumnOption.isChecked) {

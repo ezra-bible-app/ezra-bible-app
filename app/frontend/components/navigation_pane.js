@@ -20,6 +20,8 @@ const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 const eventController = require('../controllers/event_controller.js');
+const VerseReferenceHelper = require('../helpers/verse_reference_helper.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 /**
  * The NavigationPane class implements the update and event handling of the
@@ -31,6 +33,7 @@ class NavigationPane {
   constructor() {
     this.currentNavigationPane = null;
     this.verse_box_helper = new VerseBoxHelper();
+    this.verse_reference_helper = new VerseReferenceHelper();
     this.verseListFrameNoChapterNavCss = 'no-chapter-nav';
 
     eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
@@ -59,13 +62,13 @@ class NavigationPane {
   }
 
   show(tabIndex) {
-    var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+    var verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
     verseListFrame.removeClass(this.verseListFrameNoChapterNavCss);
     this.getCurrentNavigationPane(tabIndex).show();
   }
 
   hide(tabIndex) {
-    var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+    var verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
     verseListFrame.addClass(this.verseListFrameNoChapterNavCss);
     this.getCurrentNavigationPane(tabIndex).hide();
   }
@@ -242,7 +245,7 @@ class NavigationPane {
     this.resetNavigationPane(tabIndex);
 
     var chapterCount = await ipcNsi.getBookChapterCount(currentTranslation, currentBook);
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
     var query = '.sword-section-title:not([subtype="x-Chapter"]):not([type="chapter"]):not([type="psalm"]):not([type="scope"]):not([type="acrostic"])';
     var sectionTitleElements = currentVerseList.find(query);
@@ -283,11 +286,12 @@ class NavigationPane {
       
       try {
         currentChapter = parseInt(sectionTitleElement.getAttribute('chapter'));
+      // eslint-disable-next-line no-empty
       } catch (exc) {}
 
       if (currentChapter != null && currentChapter == chapter) {
         var sectionHeader = sectionTitleElement.textContent;
-        var chapter = sectionTitleElement.getAttribute('chapter');
+        chapter = sectionTitleElement.getAttribute('chapter');
         var sectionHeaderId = this.getUnixSectionHeaderId(cachedVerseListTabId, chapter, sectionHeader);
 
         var currentHeaderLink = document.createElement('a');
@@ -303,14 +307,14 @@ class NavigationPane {
         chapterSectionHeaderIndex++;
         sectionHeaderNumber++;
       }
-    };
+    }
 
     return sectionHeaderNumber;
   }
 
   updateBookNavigation(tabIndex) {
     var navigationPane = this.getCurrentNavigationPane(tabIndex);
-    var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+    var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
     var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
     var navigationPaneHtml = "";
 
@@ -347,7 +351,7 @@ class NavigationPane {
 
   async updateNavigation(tabIndex=undefined) {
     if (tabIndex === undefined) {
-      var tabIndex = app_controller.tab_controller.getSelectedTabIndex();
+      tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     }
 
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
@@ -398,18 +402,18 @@ class NavigationPane {
   }
 
   getCachedVerseListTabId(tabIndex=undefined) {
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
     var cachedVerseListTabId = null;
 
     try {
       var firstLink = currentVerseList[0].querySelector('a.nav');
-      var cachedVerseListTabId = null;
+      cachedVerseListTabId = null;
       
       if (firstLink !== null) {
         cachedVerseListTabId = firstLink.getAttribute('name').split(' ')[0];
       }
     } catch (e) {
-      console.log("NavigationPane: Could not get cached verse list tab id!");s
+      console.log("NavigationPane: Could not get cached verse list tab id!");
     }
 
     return cachedVerseListTabId;
@@ -421,6 +425,7 @@ class NavigationPane {
     try {
       var highlightedChapterElement = this.currentNavigationPane.find('.chapter-link.hl-nav-element');
       highlightedChapter = parseInt(highlightedChapterElement.text());
+    // eslint-disable-next-line no-empty
     } catch (e) {}
 
     return highlightedChapter;
@@ -455,7 +460,7 @@ class NavigationPane {
       reference = '#' + cachedVerseListTabId + ' ' + chapter;
       window.location = reference;
     } else {
-      const currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+      const currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
       currentVerseListFrame[0].scrollTop = 0;
     }
   }
@@ -496,7 +501,7 @@ class NavigationPane {
     if (currentTextType == 'book' && currentBook != null) {
 
       var verseReferenceContent = verseBox.querySelector('.verse-reference-content').innerText;
-      var currentChapter = app_controller.getChapterFromReference(verseReferenceContent, separator);
+      var currentChapter = this.verse_reference_helper.getChapterFromReference(verseReferenceContent, separator);
       this.highlightNavElement(undefined, currentChapter);
 
       var sectionTitle = "";
@@ -515,7 +520,7 @@ class NavigationPane {
       var bibleBookShortTitle = new VerseBox(verseBox).getBibleBookShortTitle();
       var currentBookName = await ipcDb.getBookTitleTranslation(bibleBookShortTitle);
       
-      var bibleBookNumber = app_controller.getVerseListBookNumber(currentBookName);
+      var bibleBookNumber = verseListController.getVerseListBookNumber(currentBookName);
       if (bibleBookNumber != -1) {
         this.highlightNavElement(undefined, bibleBookNumber, false, "OTHER");
       }
@@ -524,7 +529,7 @@ class NavigationPane {
 
   async onTabSearchResultsAvailable(occurrences) {
 
-    var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
+    var currentVerseListFrame = verseListController.getCurrentVerseListFrame();
     var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
 
     var bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
@@ -541,7 +546,7 @@ class NavigationPane {
         // Highlight chapter if we are searching in a book
 
         var verseReferenceContent = verseBox.find('.verse-reference-content').text();
-        var chapter = app_controller.getChapterFromReference(verseReferenceContent, separator);
+        var chapter = this.verse_reference_helper.getChapterFromReference(verseReferenceContent, separator);
         this.highlightSearchResult(chapter);
 
       } else {
@@ -550,7 +555,7 @@ class NavigationPane {
         var currentBibleBookShortName = new VerseBox(verseBox[0]).getBibleBookShortTitle();
         var currentBookName = await ipcDb.getBookTitleTranslation(currentBibleBookShortName);
 
-        var bibleBookNumber = app_controller.getVerseListBookNumber(currentBookName, bookHeaders);
+        var bibleBookNumber = verseListController.getVerseListBookNumber(currentBookName, bookHeaders);
         if (bibleBookNumber != -1) {
           this.highlightSearchResult(bibleBookNumber, "OTHER");
         }
