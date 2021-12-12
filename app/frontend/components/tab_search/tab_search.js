@@ -18,6 +18,8 @@
 
 const VerseSearch = require('./verse_search.js');
 const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
+const eventController = require('../../controllers/event_controller.js');
+const verseListController = require('../../controllers/verse_list_controller.js');
 
 /**
  * The TabSearch component implements the in-tab search functionality which is enabled with CTRL + f / CMD + f.
@@ -35,9 +37,7 @@ class TabSearch {
        prevButton,
        nextButton,
        caseSensitiveCheckbox,
-       searchTypeSelect,
-       onSearchResultsAvailable,
-       onSearchReset) {
+       searchTypeSelect) {
 
     this.parentTab = parentTab;
     this.searchForm = parentTab.find(searchForm);
@@ -52,8 +52,6 @@ class TabSearch {
     this.allOccurances = [];
     this.previousOccuranceElement = null;
     this.currentOccuranceElement = null;
-    this.onSearchResultsAvailable = onSearchResultsAvailable;
-    this.onSearchReset = onSearchReset;
     this.lastSearchString = null;
     this.mouseTrapEvent = false;
     this.shiftKeyPressed = false;
@@ -134,13 +132,13 @@ class TabSearch {
   }
 
   show() {
-    var verseListFrame = app_controller.getCurrentVerseListFrame();
+    var verseListFrame = verseListController.getCurrentVerseListFrame();
     verseListFrame.addClass('tab-search-active');
     this.searchForm.css('display', 'flex');
   }
 
   hide() {
-    var verseListFrame = app_controller.getCurrentVerseListFrame();
+    var verseListFrame = verseListController.getCurrentVerseListFrame();
     verseListFrame.removeClass('tab-search-active');
     this.searchForm.hide();
   }
@@ -177,14 +175,14 @@ class TabSearch {
 
     this.searchTimeout = setTimeout(async () => {
       app_controller.verse_selection.clear_verse_selection(false);
-      this.onSearchReset();
+      await eventController.publishAsync('on-tab-search-reset');
       this.lastSearchString = searchString;
 
       await this.doSearch(searchString);
 
       // This is necessary, beause the search "rewrites" the verse content and events
       // get lost by doing that, so we have to re-bind the xref events.
-      app_controller.bindXrefEvents();
+      verseListController.bindXrefEvents();
 
       if (!platformHelper.isCordova()) {
         this.focus();
@@ -200,7 +198,7 @@ class TabSearch {
     this.allOccurances = [];
     this.currentOccurancesCount = 0;
     this.updateOccurancesLabel();
-    this.onSearchReset();
+    eventController.publish('on-tab-search-reset');
   }
 
   resetSearch() {
@@ -261,8 +259,11 @@ class TabSearch {
     // Jump to occurrence in window
     this.currentOccuranceElement = this.allOccurances[this.currentOccuranceIndex];
     var currentOccuranceVerseBox = this.currentOccuranceElement.closest('.verse-box');
-    var currentOccuranceAnchor = '#' + currentOccuranceVerseBox.querySelector('a').getAttribute('name');
-    window.location = currentOccuranceAnchor;
+
+    if (currentOccuranceVerseBox != null) {
+      var currentOccuranceAnchor = '#' + currentOccuranceVerseBox.querySelector('a').getAttribute('name');
+      window.location = currentOccuranceAnchor;
+    }
   }
 
   async highlightCurrentOccurance() {
@@ -333,7 +334,7 @@ class TabSearch {
       this.resetOccurances();
     }
 
-    await this.onSearchResultsAvailable(this.allOccurances);
+    await eventController.publishAsync('on-on-tab-search-results-available', this.allOccurances);
   }
 
   removeAllHighlighting() {

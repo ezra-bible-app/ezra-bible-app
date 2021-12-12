@@ -30,23 +30,19 @@ class DbHelper {
       console.log('Cannot initialize DbHelper with userDataDir "undefined"');
     }
 
-    if (this.platformHelper.isElectron()) {
-      this.settings = require('electron-settings');
-    }
-
     this.userDataDir = userDataDir;
   }
 
-  async initDatabase(databaseDir) {
-    this.initDbInUserDir();
+  async initDatabase(databaseDir, androidVersion=undefined) {
+    this.initDbInUserDir(androidVersion);
     await this.migrateDatabase(databaseDir);
   }
 
-  initDbInUserDir() {
+  initDbInUserDir(androidVersion=undefined) {
     var dbFileName = 'ezra.sqlite';
     var dbPath = path.join(this.userDataDir, dbFileName);
 
-    var oldUserDataDir = this.platformHelper.getUserDataPath(true);
+    var oldUserDataDir = this.platformHelper.getUserDataPath(true, androidVersion);
     var oldDbPath = path.join(oldUserDataDir, dbFileName);
 
     if (!fs.existsSync(dbPath)) {

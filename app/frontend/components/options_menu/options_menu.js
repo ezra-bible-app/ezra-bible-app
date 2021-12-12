@@ -19,6 +19,9 @@
 const PlatformHelper = require('../../../lib/platform_helper.js');
 const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
 const i18nController = require('../../controllers/i18n_controller.js');
+const eventController = require('../../controllers/event_controller.js');
+const referenceVerseController = require('../../controllers/reference_verse_controller.js');
+const verseListController = require('../../controllers/verse_list_controller.js');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
@@ -52,20 +55,16 @@ class OptionsMenu {
       app_controller.openModuleSettingsAssistant('DICT'); 
     });
 
-    var tagListOptionCheckedByDefault = true;
     var openVerseListsInNewTabByDefault = false;
 
     if (this.platformHelper.isCordova()) {
-      tagListOptionCheckedByDefault = false;
       openVerseListsInNewTabByDefault = true;
     }
 
-    this._tagListOption = this.initConfigOption('showTagListOption', () => { this.showOrHideToolBarBasedOnOption(); }, tagListOptionCheckedByDefault);
     this._bookIntroOption = this.initConfigOption('showBookIntroOption', () => { this.showOrHideBookIntroductionBasedOnOption(); });
     this._sectionTitleOption = this.initConfigOption('showSectionTitleOption', () => { this.showOrHideSectionTitlesBasedOnOption(); });
     this._xrefsOption = this.initConfigOption('showXrefsOption', () => { this.showOrHideXrefsBasedOnOption(); });
     this._footnotesOption = this.initConfigOption('showFootnotesOption', () => { this.showOrHideFootnotesBasedOnOption(); });
-    this._dictionaryOption = this.initConfigOption('showDictionaryOption', () => { this.showOrHideStrongsBasedOnOption(); });
     this._bookChapterNavOption = this.initConfigOption('showBookChapterNavigationOption', () => { this.showOrHideBookChapterNavigationBasedOnOption(); });
     this._headerNavOption = this.initConfigOption('showHeaderNavigationOption', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
     this._tabSearchOption = this.initConfigOption('showTabSearchOption', () => { this.showOrHideTabSearchFormBasedOnOption(undefined, true); });
@@ -85,6 +84,22 @@ class OptionsMenu {
 
     await this.adjustOptionsMenuForPlatform();
     this.refreshViewBasedOnOptions();
+
+    eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
+      await this.handleBookLoadingModeOptionChange();
+      this.showOrHideSectionTitlesBasedOnOption(tabIndex);
+      this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
+    });
+
+    eventController.subscribe('on-tab-selected', async (tabIndex) => {
+      await this.refreshViewBasedOnOptions(tabIndex);
+    });
+
+    eventController.subscribe('on-tab-added', async (tabIndex) => {
+      await this.refreshViewBasedOnOptions(tabIndex);
+
+      this.initCurrentOptionsMenu(tabIndex);
+    });
   }
 
   async initNightModeOption() {
@@ -190,33 +205,8 @@ class OptionsMenu {
     }
   }
 
-  async showOrHideToolBarBasedOnOption(tabIndex=undefined) {
-    await waitUntilIdle();
-
-    var currentToolBar = $('#bible-browser-toolbox');
-    var updated = false;
-
-    if (this._tagListOption.isChecked) {
-      updated = app_controller.tag_assignment_menu.moveTagAssignmentList(false);
-      if (updated || currentToolBar.is(':hidden')) {
-        currentToolBar.show();
-        currentToolBar.parent().addClass('with-tags');
-        updated = true;
-      }
-    } else {
-      updated = app_controller.tag_assignment_menu.moveTagAssignmentList(true);
-      if (updated || currentToolBar.is(':visible')) {
-        currentToolBar.hide();
-        currentToolBar.parent().removeClass('with-tags');
-        updated = true;
-      }
-    }
-
-    if (updated) uiHelper.resizeAppContainer(undefined, true);
-  }
-
   showOrHideBookIntroductionBasedOnOption(tabIndex=undefined) {
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
       var bookIntro = currentVerseList.find('.book-intro');
@@ -242,7 +232,7 @@ class OptionsMenu {
   }
 
   async showOrHideSectionTitlesBasedOnOption(tabIndex=undefined) {
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex)[0];
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex)[0];
     var tabId = app_controller.tab_controller.getSelectedTabId(tabIndex);
     var all_section_titles = [];
 
@@ -281,8 +271,8 @@ class OptionsMenu {
   }
 
   showOrHideXrefsBasedOnOption(tabIndex=undefined) {
-    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
@@ -299,8 +289,8 @@ class OptionsMenu {
   }
 
   showOrHideFootnotesBasedOnOption(tabIndex=undefined) {
-    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
     var tagBoxVerseList = $('#verse-list-popup-verse-list');
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
@@ -314,22 +304,6 @@ class OptionsMenu {
         tagBoxVerseList.addClass('verse-list-without-footnotes');
       }
     }
-  }
-
-  showOrHideStrongsBasedOnOption(tabIndex=undefined) {
-    var updated = false;
-
-    if (!this._dictionaryOption.isChecked) { 
-      app_controller.dictionary_controller.hideInfoBox();
-      if (updated) {
-        app_controller.dictionary_controller.clearInfoBox();
-      }
-
-      app_controller.dictionary_controller.hideStrongsBox(true);
-    } else {
-      app_controller.dictionary_controller.showInfoBox();
-    }
-
   }
 
   showOrHideBookChapterNavigationBasedOnOption(tabIndex=undefined) {
@@ -364,8 +338,8 @@ class OptionsMenu {
   }
 
   showOrHideUserDataIndicatorsBasedOnOption(tabIndex=undefined) {
-    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
       if (this._userDataIndicatorOption.isChecked) {
@@ -379,8 +353,8 @@ class OptionsMenu {
   }
 
   showOrHideVerseTagsBasedOnOption(tabIndex=undefined) {
-    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
       if (this._tagsOption.isChecked) {
@@ -394,8 +368,8 @@ class OptionsMenu {
   }
 
   showOrHideVerseNotesBasedOnOption(tabIndex=undefined) {
-    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
       if (this._verseNotesOption.isChecked) {
@@ -410,8 +384,8 @@ class OptionsMenu {
   }
 
   fixNotesHeightBasedOnOption(tabIndex=undefined) {
-    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
       if (this._verseNotesFixedHeightOption.isChecked) {
@@ -440,7 +414,7 @@ class OptionsMenu {
     const currentTab = app_controller.tab_controller.getTab(tabIndex);
     var enableOption = true;
 
-    if (currentTab.getTextType() == 'book') {
+    if (currentTab != null && currentTab.getTextType() == 'book') {
       var isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(
         currentTab.getBibleTranslationId(),
         currentTab.getBook()
@@ -455,8 +429,8 @@ class OptionsMenu {
   }
 
   changeTagsLayoutBasedOnOption(tabIndex=undefined) {
-    var currentReferenceVerse = app_controller.getCurrentReferenceVerse(tabIndex);
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
+    var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
+    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
       if (this._tagsColumnOption.isChecked) {
@@ -470,7 +444,6 @@ class OptionsMenu {
   }
 
   async refreshViewBasedOnOptions(tabIndex=undefined) {
-    this.showOrHideToolBarBasedOnOption(tabIndex);
     this.showOrHideBookIntroductionBasedOnOption(tabIndex);
     this.showOrHideSectionTitlesBasedOnOption(tabIndex);
     this.showOrHideBookChapterNavigationBasedOnOption(tabIndex);
@@ -480,7 +453,6 @@ class OptionsMenu {
     this.showOrHideUserDataIndicatorsBasedOnOption(tabIndex);
     this.showOrHideVerseTagsBasedOnOption(tabIndex);
     this.changeTagsLayoutBasedOnOption(tabIndex);
-    this.showOrHideStrongsBasedOnOption(tabIndex);
     this.showOrHideVerseNotesBasedOnOption(tabIndex);
     this.fixNotesHeightBasedOnOption(tabIndex);
     await this.handleBookLoadingModeOptionChange(tabIndex);

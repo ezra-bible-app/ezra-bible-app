@@ -24,65 +24,71 @@
 
 const i18nHelper = require('./i18n_helper.js');
 
+const PUBLIC_LICENSES = ['Public Domain', 'General public license for distribution for any purpose'];
+
 var _moduleVersificationCache = {};
+var _cachedModule;
 
-module.exports.getModuleDescription = async function(moduleId, isRemote=false) {
-  var moduleInfo = "No info available!";
-
-  try {
-    var swordModule = null;
-
-    if (isRemote) {
-      swordModule = await ipcNsi.getRepoModule(moduleId);
-    } else {
-      swordModule = await ipcNsi.getLocalModule(moduleId);
-    }
-    
-    var moduleInfo = "";
-    
-    if (isRemote) {
-      moduleInfo += "<b>" + swordModule.description + "</b><br><br>";
-    }
-
-    moduleInfo += "<p class='external'>";
-    var about = swordModule.about.replace(/\\pard/g, "").replace(/\\par/g, "<br>");
-    moduleInfo += about;
-    moduleInfo += "</p>";
-
-  } catch (ex) {
-    console.error("Got exception while trying to get module description: " + ex);
+module.exports.getSwordModule = async function(moduleId, isRemote=false) {
+  if (moduleId == null) {
+    return null;
   }
 
+  if (!_cachedModule || _cachedModule.name !== moduleId || (_cachedModule.name === moduleId && _cachedModule.remote !== isRemote)) {
+    let swordModule = null;
+
+    try {
+      if (isRemote) {
+        swordModule = await ipcNsi.getRepoModule(moduleId);
+      } else {
+        swordModule = await ipcNsi.getLocalModule(moduleId);
+      }
+      swordModule.remote = isRemote;
+
+      _cachedModule = swordModule;
+    } catch (e) {
+      console.log(`Could not get ${isRemote ? 'remote' : 'local'} sword module for ${moduleId}`);
+    }
+
+  }
+  return _cachedModule;
+};
+
+module.exports.getModuleDescription = async function(moduleId, isRemote=false) {
+
+  const swordModule = await this.getSwordModule(moduleId, isRemote);
+
+  if (!swordModule) {
+    return "No info available!";
+  }
+
+  var moduleInfo = "";   
+  if (isRemote) {
+    moduleInfo += "<b>" + swordModule.description + "</b><br><br>";
+  }
+  moduleInfo += await this.getModuleAbout(swordModule);
+
   return moduleInfo;
-}
+};
 
 module.exports.getModuleInfo = async function(moduleId, isRemote=false, includeModuleDescription=true) {
+
+  const swordModule = await this.getSwordModule(moduleId, isRemote);
+
+  if (!swordModule) {
+    return "No info available!";
+  }
+
   var moduleInfo = "No info available!";
 
   try {
-    var swordModule = null;
-
-    if (isRemote) {
-      swordModule = await ipcNsi.getRepoModule(moduleId);
-    } else {
-      swordModule = await ipcNsi.getLocalModule(moduleId);
-    }
     
-    var moduleInfo = "";
+    moduleInfo = "";
 
     if (includeModuleDescription) {
-      if (isRemote) {
-        moduleInfo += "<b>" + swordModule.description + "</b><br><br>";
-      }
-
-      moduleInfo += "<p class='external'>";
-      var about = swordModule.about.replace(/\\pard/g, "").replace(/\\par/g, "<br>");
-      moduleInfo += about;
-      moduleInfo += "</p>";
+      moduleInfo += await this.getModuleDescription(moduleId, isRemote);
     }
     
-    var moduleSize = Math.round(swordModule.size / 1024) + " KB";
-
     var yes = i18n.t("general.yes");
     var no = i18n.t("general.no");
 
@@ -104,8 +110,10 @@ module.exports.getModuleInfo = async function(moduleId, isRemote=false, includeM
       moduleInfo += "<tr><td>" + i18n.t("general.module-redletter") + ":</td><td>" + (swordModule.hasRedLetterWords ? yes : no) + "</td></tr>";
     }
 
-    moduleInfo += "<tr><td>" + i18n.t("general.module-size") + ":</td><td>" + moduleSize + "</td></tr>";
-    if (!isRemote) {
+    moduleInfo += "<tr><td>" + i18n.t("general.module-size") + ":</td><td>" + this.getModuleSize(swordModule) + "</td></tr>";
+    if (isRemote) {
+      moduleInfo += "<tr><td>" + i18n.t("module-assistant.repository_singular") + ":</td><td>" + swordModule.repository + "</td></tr>";
+    } else {
       moduleInfo += "<tr><td>" + i18n.t("general.module-location") + ":</td><td>" + swordModule.location + "</td></tr>";
     }
 
@@ -120,23 +128,31 @@ module.exports.getModuleInfo = async function(moduleId, isRemote=false, includeM
   }
 
   return moduleInfo;
-}
+};
 
-module.exports.getSwordModule = async function(moduleId) {
-  if (moduleId == null) {
-    return null;
+module.exports.getModuleAbout = async function(swordModuleOrId) {
+  var swordModule;
+  if (typeof swordModuleOrId === 'string') {
+    swordModule = await this.getSwordModule(swordModuleOrId);
+  } else {
+    swordModule = swordModuleOrId;
   }
 
-  var swordModule = null;
-
-  try {
-    swordModule = await ipcNsi.getLocalModule(moduleId);
-  } catch (e) {
-    console.log("Could not get local sword module for " + moduleId);
+  if (!swordModule || !swordModule.about) {
+    return '';
   }
+  
+  const about = `
+    <p class="external">
+      ${swordModule.about.replace(/\\pard/g, "").replace(/\\par/g, "<br>")}
+    </p>`;
 
-  return swordModule;
-}
+  return about;
+};
+
+module.exports.getModuleSize = function(swordModule) {
+  return Math.round(swordModule.size / 1024) + " KB";
+};
 
 module.exports.moduleHasStrongs = async function(moduleId) {
   var swordModule = await this.getSwordModule(moduleId);
@@ -146,7 +162,7 @@ module.exports.moduleHasStrongs = async function(moduleId) {
   } else {
     return false;
   }
-}
+};
 
 module.exports.moduleHasHeaders = async function(moduleId) {
   var swordModule = await this.getSwordModule(moduleId);
@@ -156,7 +172,7 @@ module.exports.moduleHasHeaders = async function(moduleId) {
   } else {
     return false;
   }
-}
+};
 
 module.exports.getVersification = async function(moduleId) {
   if (moduleId == null) {
@@ -191,7 +207,7 @@ module.exports.getVersification = async function(moduleId) {
 
   } else { // Unknown versification
 
-    versification = "UNKNOWN"
+    versification = "UNKNOWN";
 
     /*console.log("Unknown versification!");
     console.log("Psalm 3 has " + psalm3Verses.length + " verses.");
@@ -200,12 +216,12 @@ module.exports.getVersification = async function(moduleId) {
 
   _moduleVersificationCache[moduleId] = versification;
   return versification;
-}
+};
 
 module.exports.getThreeLetterVersification = async function(moduleId) {
   var versification = (await this.getVersification(moduleId) == 'ENGLISH' ? 'eng' : 'heb');
   return versification;
-}
+};
 
 module.exports.getModuleLanguage = async function(moduleId) {
   var swordModule = await this.getSwordModule(moduleId);
@@ -215,4 +231,39 @@ module.exports.getModuleLanguage = async function(moduleId) {
   } else {
     return false;
   }
-}
+};
+
+module.exports.getModuleFullName = async function(moduleId) {
+  var swordModule = await this.getSwordModule(moduleId);
+
+  if (swordModule != null) {
+    return swordModule.description;
+  } else {
+    return moduleId;
+  }
+};
+
+module.exports.getModuleCopyright = async function(moduleId) {
+  var swordModule = await this.getSwordModule(moduleId);
+
+  if (swordModule != null) {
+    return swordModule.shortCopyright || swordModule.copyright;
+  } else {
+    return false;
+  }
+};
+
+module.exports.getModuleLicense = async function(moduleId) {
+  var swordModule = await this.getSwordModule(moduleId);
+
+  if (swordModule != null) {
+    return swordModule.distributionLicense;
+  } else {
+    return false;
+  }
+};
+
+module.exports.isPublicDomain = async function(moduleId) {
+  const license = await this.getModuleLicense(moduleId);
+  return !license || PUBLIC_LICENSES.includes(license);
+};

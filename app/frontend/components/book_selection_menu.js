@@ -16,8 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const eventController = require('../controllers/event_controller.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
-const i18nController = require('../controllers/i18n_controller.js');
 const cacheController = require('../controllers/cache_controller.js');
 
 /**
@@ -47,7 +47,7 @@ class BookSelectionMenu {
     }
 
     this.initLinks();
-    this.subscribeForLocaleUpdates();
+    this.subscribeForEvents();
     this.init_completed = true;
   }
 
@@ -66,13 +66,43 @@ class BookSelectionMenu {
         var current_book_title = $(event.target).html();
         var current_reference_book_title = $(event.target).attr('book-name');
 
-        app_controller.book_selection_menu.selectBibleBook(current_link_href, current_book_title, current_reference_book_title);
+        this.selectBibleBook(current_link_href, current_book_title, current_reference_book_title);
       });
     }
   }
 
-  subscribeForLocaleUpdates() {
-    i18nController.addLocaleChangeSubscriber(async () => {
+  subscribeForEvents() {
+    eventController.subscribe('on-translation-changed', async () => {
+      await this.updateAvailableBooks();
+    });
+
+    eventController.subscribe('on-translation-added', async () => {
+      await this.updateAvailableBooks();
+    });
+
+    eventController.subscribe('on-tab-selected', async (tabIndex) => {
+      var metaTab = app_controller.tab_controller.getTab(tabIndex);
+
+      if (metaTab != null && metaTab.selectCount >= 2) {
+        // Only perform the following action from the 2nd select (The first is done when the tab is created)
+        this.clearSelectedBookInMenu();
+      }
+
+      await this.updateAvailableBooks(tabIndex);
+
+      // Highlight currently selected book (only in book mode)
+      if (metaTab != null) {
+        const textType = metaTab.getTextType();
+        if (textType == 'book') this.highlightCurrentlySelectedBookInMenu(tabIndex);
+      }
+
+    });
+
+    eventController.subscribe('on-tab-added', async () => {
+      this.clearSelectedBookInMenu();
+    });
+
+    eventController.subscribe('on-locale-changed', async () => {
       this.localizeBookSelectionMenu();
     });
   }
@@ -144,8 +174,8 @@ class BookSelectionMenu {
       //console.log(`Showing chapter list for ${bookTitle} ` +
       //            `since its chapter count (${bookChapterCount}) is above the limit for instant loading!`);
       
-      const menuBookList = document.getElementById('book-selection-menu-book-list');
-      menuBookList.style.display = 'none';
+      const bookMenu = document.getElementById('book-selection-menu');
+      bookMenu.classList.add('select-chapter');
 
       this.currentBookCode = bookCode;
       this.currentBookTitle = bookTitle;
@@ -194,24 +224,18 @@ class BookSelectionMenu {
                                                 selectedChapter);
       });
     }
-
-    chapters.style.display = 'flex';
-    menuChapterList.style.display = 'block';
   }
 
   hideBookMenu() {
     if (this.book_menu_is_opened) {
-      $('#app-container').find('#book-selection-menu').hide();
+      var bookMenu = document.querySelector('#app-container #book-selection-menu');
+      bookMenu.style.display = 'none';
+      bookMenu.classList.remove('select-chapter');
       this.book_menu_is_opened = false;
 
-      var book_button = $('#app-container').find('.book-select-button');
-      book_button.removeClass('ui-state-active');
-
-      var menuBookList = document.getElementById('book-selection-menu-book-list');
-      menuBookList.style.display = 'block';
-
-      var menuChapterList = document.getElementById('book-selection-menu-chapter-list');
-      menuChapterList.style.display = 'none';
+      var currentVerseListMenu = app_controller.getCurrentVerseListMenu()[0];
+      var bookButton = currentVerseListMenu.querySelector('.book-select-button');
+      bookButton.classList.remove('ui-state-active');
     }
   }
 
@@ -253,7 +277,7 @@ class BookSelectionMenu {
     if (selectedBook.length > 0) {
       selectedBook[0].classList.remove('book-selected');
     }
-  };
+  }
 
   highlightSelectedBookInMenu(bookCode) {
     this.clearSelectedBookInMenu();

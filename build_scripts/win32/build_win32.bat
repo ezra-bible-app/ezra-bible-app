@@ -1,12 +1,12 @@
-REM On Windows we use Electron 8, because the latest sqlite3 (needed for Electron 9) does not run successfully yet.
+echo *** Changing NPM configuration to use Python 2.7 ***
+call npm config set python python2.7
+call npm config ls
+echo *** Building sqlite3 ***
+call npm install sqlite3@5.0.0 --build-from-source --runtime=electron --target=13.2.3 --dist-url=https://electronjs.org/headers --target_arch=ia32
+echo *** Installing all other dependencies ***
 call npm install --arch=ia32
-call npm install sqlite3@4.2.0 --arch=ia32
-call node_modules\.bin\electron-rebuild.cmd --arch=ia32 -f -w node-sword-interface -v 9.4.4
+echo *** Rebuilding node-sword-interface ***
+call node_modules\.bin\electron-rebuild.cmd --arch=ia32 -f -o node-sword-interface -v 13.2.3
 call copy node_modules\node-sword-interface\build\sword-build-win32\lib\*.dll node_modules\node-sword-interface\build\Release\
+echo *** Generating commit info ***
 call npm run commit-info
-call npm run bundle
-call npm run install-node-prune-win
-call npm run prune-node-modules
-call npm run package-win
-call npm run fix-binary-timestamps
-call npm run installer-win

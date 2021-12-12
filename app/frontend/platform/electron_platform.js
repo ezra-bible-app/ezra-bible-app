@@ -16,9 +16,11 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const i18nHelper = require('../helpers/i18n_helper.js');
+
 /**
  * This class controls Electron platform specific functionality:
- * - Full screen toggling and status checking
+ * - Full screen toggling and status checking as well as writing to the clipboard
  */
 class ElectronPlatform {
   constructor() {}
@@ -43,6 +45,11 @@ class ElectronPlatform {
   isFullScreen() {
     var window = this.getWindow();
     return window.isFullScreen();
+  }
+
+  async copyTextToClipboard(text) {
+    const { clipboard } = require('electron');
+    clipboard.writeText(text);
   }
 }
 

@@ -25,6 +25,7 @@ const i18nController = require('../controllers/i18n_controller.js');
  * - Init code with permission handling and nodejs startup
  * - Cordova-specific fullscreen toggling
  * - Code to keep screen awake (keep the display turned on)
+ * - Code to copy text to clipboard
  */
 class CordovaPlatform {
   constructor() {}
@@ -55,6 +56,16 @@ class CordovaPlatform {
           release: version
         });
       }
+
+      // cordova-plugin-ionic-keyboard event binding
+      window.addEventListener('keyboardDidShow', (event) => {
+        document.body.classList.add('keyboard-shown');
+      });
+
+      // cordova-plugin-ionic-keyboard event binding
+      window.addEventListener('keyboardDidHide', (event) => {
+        document.body.classList.remove('keyboard-shown');
+      });
 
       this.startNodeJsEngine();
     }, false);
@@ -104,7 +115,6 @@ class CordovaPlatform {
     console.log("Permission to access storage has been GRANTED!");
     this.getPermissionBox().dialog('close');
     uiHelper.showGlobalLoadingIndicator();
-
     this.initPersistenceAndStart();
   }
 
@@ -138,7 +148,7 @@ class CordovaPlatform {
   }
 
   requestPermission() {
-    // Note that the following code depends on having the cordova-plugin-android-permisssions available
+    // Note that the following code depends on having cordova-plugin-android-permissions available
 
     console.log("Getting permissions ...");
 
@@ -162,7 +172,7 @@ class CordovaPlatform {
   }
 
   isDebug() {
-    // The following code depends on having the cordova-plugin-is-debug available
+    // The following code depends on having cordova-plugin-is-debug available
 
     return new Promise((resolve, reject) => {
       cordova.plugins.IsDebug.getIsDebug((isDebug) => {
@@ -254,16 +264,9 @@ class CordovaPlatform {
       window.ipcI18n = new IpcI18n();
       await i18nController.initI18N();
 
-
       this.hasPermission().then((result) => {
-        let isScopedStorage = this.isAndroidWithScopedStorage();
-        if (isScopedStorage) {
-          var version = this.getAndroidVersion();
-          console.log(`Android ${version} with scoped storage! Using internal storage ...`);
-        }
-
-        if (result == true || isScopedStorage) {
-          this.initPersistenceAndStart(isScopedStorage);
+        if (result == true) {
+          this.initPersistenceAndStart();
         } else {
           this.showPermissionInfo();
         }
@@ -273,14 +276,15 @@ class CordovaPlatform {
     });
   }
 
-  async initPersistenceAndStart(isScopedStorage=false) {
+  async initPersistenceAndStart() {
+    const androidVersion = this.getAndroidVersion();
     window.ipcGeneral = new IpcGeneral();
 
     uiHelper.updateLoadingSubtitle("cordova.init-sword", "Initializing SWORD");
-    await ipcGeneral.initPersistentIpc(isScopedStorage);
+    await ipcGeneral.initPersistentIpc(androidVersion);
 
     uiHelper.updateLoadingSubtitle("cordova.init-database", "Initializing database");
-    await ipcGeneral.initDatabase(isScopedStorage);
+    await ipcGeneral.initDatabase(androidVersion);
 
     await startup.initApplication();
   }
@@ -290,7 +294,7 @@ class CordovaPlatform {
   }
 
   toggleFullScreen() {
-    // Note that the following code depends on having the cordova-plugin-fullscreen available
+    // Note that the following code depends on having cordova-plugin-fullscreen available
 
     if (this._isFullScreenMode) {
       this._isFullScreenMode = false;
@@ -317,13 +321,18 @@ class CordovaPlatform {
   }
 
   keepScreenAwake() {
-    // Note that the following code depends on having the cordova-plugin-insomnia available
+    // Note that the following code depends on having cordova-plugin-insomnia available
     window.plugins.insomnia.keepAwake();
   }
 
   allowScreenToSleep() {
-    // Note that the following code depends on having the cordova-plugin-insomnia available
+    // Note that the following code depends on having cordova-plugin-insomnia available
     window.plugins.insomnia.allowSleepAgain();
+  }
+
+  copyTextToClipboard(text) {
+    // Note that the following code depends on having cordova-clipboard available
+    cordova.plugins.clipboard.copy(text);
   }
 }
 

@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { html, waitUntilIdle } = require('../../helpers/ezra_helper.js');
+const eventController = require('../../controllers/event_controller.js');
 const i18nController = require('../../controllers/i18n_controller.js');
 const i18nHelper = require('../../helpers/i18n_helper.js');
 const locales = i18nController.getAvailableLocales();
@@ -93,7 +94,7 @@ class LocaleSwitch extends HTMLElement {
       change: () => this.handleChange(),
     });
 
-    i18nController.addLocaleChangeSubscriber(locale => this.updateOptions(locale));
+    eventController.subscribe('on-locale-changed', locale => this.updateOptions(locale));
   }
 
   updateOptions(localeCode) {

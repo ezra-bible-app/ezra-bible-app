@@ -39,8 +39,8 @@ let mainWindow;
 let mainWindowState;
 
 if (process.platform === 'win32') {
-    // This is only needed for making the Windows installer work properly
-    if (require('electron-squirrel-startup')) app.quit();
+  // This is only needed for making the Windows installer work properly
+  if (require('electron-squirrel-startup')) app.quit();
 }
 
 if (!isDev) {
@@ -59,14 +59,13 @@ if (!isDev) {
     Severity: {
       Info: undefined
     }
-  }
-
+  };
 }
 
 require('electron-debug')({
-    isEnabled: true,
-    showDevTools: false,
-    devToolsMode: 'bottom',
+  isEnabled: true,
+  showDevTools: false,
+  devToolsMode: 'bottom'
 });
 
 function shouldUseDarkMode() {
@@ -77,7 +76,7 @@ function shouldUseDarkMode() {
       useDarkMode = true;
     }
   } else {
-    useDarkMode = ipc.ipcSettingsHandler.getConfig().get('useNightMode', false);
+    useDarkMode = global.ipc.ipcSettingsHandler.getConfig().get('useNightMode', false);
   }
 
   return useDarkMode;
@@ -101,10 +100,10 @@ async function createWindow () {
     defaultHeight: 800
   });
 
-  if (!ipcHandlersRegistered) {
+  if (!global.ipcHandlersRegistered) {
     // This ensures that we do not register ipc handlers twice, which is not possible.
     // This can happen on macOS, when the window is first closed and then opened another time.
-    ipcHandlersRegistered = true;
+    global.ipcHandlersRegistered = true;
 
     ipcMain.on('manageWindowState', async (event, arg) => {
       // Register listeners on the window, so we can update the state
@@ -118,7 +117,7 @@ async function createWindow () {
     });
 
     ipcMain.handle('initIpc', async (event, arg) => {
-      await ipc.init(isDev, mainWindow);
+      await global.ipc.init(isDev, mainWindow);
     });
 
     ipcMain.handle('startupCompleted', async (event, arg) => {
@@ -126,29 +125,31 @@ async function createWindow () {
     });
   }
 
+  var bgColor = '#ffffff';
+
   if (shouldUseDarkMode()) {
-    var bgColor = '#1e1e1e';
-  } else {
-    var bgColor = '#ffffff';
+    bgColor = '#1e1e1e';
   }
 
   // Create the browser window.
-  mainWindow = new BrowserWindow({x: mainWindowState.x,
-                                  y: mainWindowState.y,
-                                  width: mainWindowState.width,
-                                  height: mainWindowState.height,
-                                  show: true,
-                                  frame: true,
-                                  title: "Ezra Bible App " + app.getVersion() + (isDev ? ` [${app.getLocale()}]` : ''),
-                                  webPreferences: {
-                                    nodeIntegration: true,
-                                    preload: preloadScript,
-                                    enableRemoteModule: true,
-                                    defaultEncoding: "UTF-8"
-                                  },
-                                  icon: path.join(__dirname, `icons/${platformHelper.isWin() ? 'ezra.ico' : 'ezra.png'}`),
-                                  backgroundColor: bgColor
-                                 });
+  mainWindow = new BrowserWindow({
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
+    show: true,
+    frame: true,
+    title: "Ezra Bible App " + app.getVersion() + (isDev ? ` [${app.getLocale()}]` : ''),
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      preload: preloadScript,
+      enableRemoteModule: true,
+      defaultEncoding: "UTF-8"
+    },
+    icon: path.join(__dirname, `icons/${platformHelper.isWin() ? 'ezra.ico' : 'ezra.png'}`),
+    backgroundColor: bgColor
+  });
  
   // Disable the application menu
   Menu.setApplicationMenu(null);
@@ -167,6 +168,14 @@ async function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+  mainWindow.on('enter-full-screen', function () {
+    mainWindow.webContents.send('fullscreen-changed');
+  });
+
+  mainWindow.on('leave-full-screen', function () {
+    mainWindow.webContents.send('fullscreen-changed');
+  });
 }
 
 // This method will be called when Electron has finished
@@ -181,7 +190,7 @@ app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
-    app.quit()
+    app.quit();
   }
 });
 

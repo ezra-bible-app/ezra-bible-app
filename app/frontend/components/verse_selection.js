@@ -19,7 +19,9 @@
 const VerseBox = require("../ui_models/verse_box.js");
 const VerseReferenceHelper = require("../helpers/verse_reference_helper.js");
 const i18nHelper = require('../helpers/i18n_helper.js');
-const i18nController = require('../controllers/i18n_controller.js');
+const eventController = require('../controllers/event_controller.js');
+const { getPlatform } = require('../helpers/ezra_helper.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 /**
  * The VerseSelection component implements the label that shows the currently selected verses.
@@ -30,9 +32,22 @@ class VerseSelection {
   constructor() {
     this.selected_verse_references = null;
     this.selected_verse_box_elements = null;
+    this.verseReferenceHelper = null;
 
-    i18nController.addLocaleChangeSubscriber(async () => {
+    eventController.subscribe('on-locale-changed', async () => {
       await this.updateSelectedVersesLabel();
+    });
+
+    eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
+      this.init(tabIndex);
+    });
+
+    eventController.subscribe('on-tab-selected', (tabIndex) => {
+      this.clear_verse_selection(true, tabIndex);
+    });
+
+    eventController.subscribe('on-all-translations-removed', () => {
+      this.clear_verse_selection();
     });
   }
 
@@ -47,7 +62,7 @@ class VerseSelection {
 
     verseList.selectable({
       filter: '.verse-text',
-      cancel: '.sword-xref-marker, .verse-notes, .verse-content-edited, .tag-box, .tag, .load-book-results, .select-all-search-results-button',
+      cancel: '.verse-reference-content, .sword-xref-marker, .verse-notes, .verse-content-edited, .tag-box, .tag, .load-book-results, .select-all-search-results-button',
 
       start: (event, ui) => {
         // Only reset existing selection if metaKey and ctrlKey are not pressed.
@@ -73,7 +88,7 @@ class VerseSelection {
   }
 
   init(tabIndex) {
-    var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+    var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
     this.initSelectable(currentVerseListFrame);
 
     // This event handler ensures that the selection is cancelled
@@ -95,9 +110,22 @@ class VerseSelection {
     return currentVerseReference;
   }
 
+  setVerseAsSelection(verseText) {
+    if (verseText != null) {
+      this.clear_verse_selection(false, undefined);
+      verseText.classList.add('ui-selected');
+      verseText.classList.add('ui-selectee');
+      this.selected_verse_box_elements.push(verseText);
+
+      this.highlightStrongs();
+      this.updateSelected();
+      this.updateViewsAfterVerseSelection();
+    }
+  }
+
   updateSelected(verseList=undefined) {
     if (verseList == undefined) {
-      var verseList = app_controller.getCurrentVerseList();
+      var verseList = verseListController.getCurrentVerseList();
     }
 
     this.selected_verse_box_elements = verseList.find('.ui-selected').closest('.verse-box');
@@ -117,10 +145,10 @@ class VerseSelection {
     this.selected_verse_references = new Array;
     this.selected_verse_box_elements = new Array;
 
-    var verseList = app_controller.getCurrentVerseList(tabIndex);
+    var verseList = verseListController.getCurrentVerseList(tabIndex);
     verseList[0].querySelectorAll('.ui-selected').forEach((verseText) => {
       verseText.classList.remove('ui-selectee');
-      verseText.classList.remove('ui-selected')
+      verseText.classList.remove('ui-selected');
       verseText.classList.remove('ui-state-highlight');
     });
 
@@ -216,6 +244,10 @@ class VerseSelection {
   }
 
   async verse_reference_list_to_absolute_verse_nr_list(list, bookId=undefined) {
+    if (this.verseReferenceHelper == null) {
+      return [];
+    }
+
     var new_list = new Array;
 
     var translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
@@ -394,6 +426,15 @@ class VerseSelection {
     this.getSelectedVersesLabel().html(selectedVerseDisplayText);
   }
 
+  highlightStrongs() {
+    if (this.selected_verse_box_elements.length == 1 &&
+        platformHelper.isCordova()) {
+      
+      app_controller.dictionary_controller.removeHighlight();
+      app_controller.dictionary_controller.highlightStrongsInVerse(this.selected_verse_box_elements[0], true);
+    }
+  }
+
   async updateViewsAfterVerseSelection(selectedVerseDisplayText=undefined) {
     await this.updateSelectedVersesLabel(selectedVerseDisplayText);
     await tags_controller.updateTagsViewAfterVerseSelection(false);
@@ -406,9 +447,19 @@ class VerseSelection {
       if (currentTab.isVerseList()) {
         app_controller.verse_context_controller.enableContextButton();
       }
+
+      app_controller.enableVerseButtons();
+
+      this.highlightStrongs();
+
     } else { // No verses selected!
       app_controller.translationComparison.disableComparisonButton();
       app_controller.verse_context_controller.disableContextButton();
+      app_controller.disableVerseButtons();
+
+      if (platformHelper.isCordova()) {
+        app_controller.dictionary_controller.removeHighlight();
+      }
     }
 
     var tabId = app_controller.tab_controller.getSelectedTabId();
@@ -420,6 +471,98 @@ class VerseSelection {
   getSelectedVersesLabel() {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
     return $(currentVerseListMenu.find('.selected-verses')[0]);
+  }
+  
+  getLineBreak() {
+    if (platformHelper.isElectron() && process.platform === 'win32') {
+      return "\r\n";
+    } else {
+      return "\n";
+    }
+  }
+
+  async getSelectedVerseText() {
+    const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    const separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
+    
+    var selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
+    
+    var selectedText = "";
+    const selectionHasMultipleVerses = selectedVerseBoxes.length > 1;
+
+    for (let i = 0; i < selectedVerseBoxes.length; i++) {
+      let currentVerseBox = $(selectedVerseBoxes[i]);
+      let verseReferenceContent = currentVerseBox.find('.verse-reference-content').text();
+      let currentVerseNr = verseReferenceContent.split(separator)[1];
+      
+      let currentText = currentVerseBox.find('.verse-text').clone();
+      currentText.find('.sword-markup').remove();
+
+      if (selectionHasMultipleVerses) {
+        selectedText += currentVerseNr + " ";
+      }
+
+      selectedText += currentText.text().trim() + " ";
+    }
+
+    selectedText = selectedText.trim();
+    selectedText += " " + this.getLineBreak() + app_controller.verse_selection.getSelectedVersesLabel().text();
+
+    return selectedText;
+  }
+
+  async copySelectedVerseTextToClipboard() {
+    var selectedVerseText = await this.getSelectedVerseText();
+    getPlatform().copyTextToClipboard(selectedVerseText);
+  }
+
+  getCurrentSelectionTags() {
+    var verse_selection_tags = new Array;
+
+    if (this.selected_verse_box_elements == null) {
+      return verse_selection_tags;
+    }
+
+    for (let i = 0; i < this.selected_verse_box_elements.length; i++) {
+      let current_verse_box = $(this.selected_verse_box_elements[i]);
+      let current_tag_list = current_verse_box.find('.tag-data').children();
+
+      for (let j = 0; j < current_tag_list.length; j++) {
+        let current_tag = $(current_tag_list[j]);
+        let current_tag_title = current_tag.find('.tag-title').html();
+        let tag_obj = null;
+
+        for (let k = 0; k < verse_selection_tags.length; k++) {
+          let current_tag_obj = verse_selection_tags[k];
+
+          if (current_tag_obj.title == current_tag_title &&
+              current_tag_obj.category == current_tag.attr('class')) {
+
+            tag_obj = current_tag_obj;
+            break;
+          }
+        }
+
+        if (tag_obj == null) {
+          tag_obj = {
+            title: current_tag_title,
+            category: current_tag.attr('class'),
+            count: 0
+          }
+
+          verse_selection_tags.push(tag_obj);
+        }
+
+        tag_obj.count += 1;
+      }
+    }
+
+    for (let i = 0; i < verse_selection_tags.length; i++) {
+      let current_tag_obj = verse_selection_tags[i];
+      current_tag_obj.complete = (current_tag_obj.count == this.selected_verse_box_elements.length);
+    }
+
+    return verse_selection_tags;
   }
 }
 

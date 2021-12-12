@@ -19,14 +19,35 @@
 :root {
   --accent-color: #2779AA;
   --background-color: #f2f5f7;
+  --background-color-darker: #e6e9eb;
   --widget-bg-color: #eeeeee;
   --text-color: #362b36;
+  
+  --border-color: #dddddd;
+  --border-radius: 6px;
+  --area-border: 1px solid var(--border-color);
+
+  --highlight-bg-color: #e4f1fb;
+  --highlight-bg: var(--highlight-bg-color) url(images/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
+  --highlight-border-color: #74b2e2;
+  --highlight-border: 1px solid var(--highlight-border-color);
+  --highlight-color: var(--accent-color);
 }
+
 :root body.darkmode--activated {
   --background-color: #1e1e1e;
+  --background-color-darker: #171717;
   --widget-bg-color: #1e1e1e;
   --text-color: #cccccc;
+
+  --border-color: #555555;
+
+  --highlight-bg-color: #003147;
+  --highlight-bg: var(--highlight-bg-color) url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
+  --highlight-border-color: #0b93d5;
+  --highlight-color: var(--text-color);
 }
+
 .bold {
   font-weight: bold;
 }
@@ -112,12 +133,21 @@ h2:nth-of-type(1) {
   flex-direction: column;
   overflow: hidden;
   padding: 0;
+  margin-left: 0.2em;
 }
 
 #verse-list-tabs .ui-tabs-nav {
   padding-bottom: 0.1em;
   width: fit-content;
   margin-right: 4.5em;
+}
+
+#app-container.fullscreen .ui-tabs-nav {
+  display: none;
+}
+
+#app-container.fullscreen .ui-tabs-panel {
+  padding: 0;
 }
 
 #verse-list-tabs ul li span {
@@ -149,10 +179,14 @@ h2:nth-of-type(1) {
 .verse-list-menu {
   grid-area: menu;
   margin-bottom: 0.5em;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
   user-select: none;
   display: flex;
   flex-wrap: wrap;
+}
+
+#app-container.fullscreen .verse-list-menu {
+  display: none;
 }
 
 .verse-list-menu-line {
@@ -171,16 +205,20 @@ h2:nth-of-type(1) {
   overflow-y: scroll;
   overflow-x: hidden;
   /* This prevents a horizontal scrollbar on small screens  */
-  border: 1px solid #DDDDDD;
-  border-top-right-radius: 6px;
-  border-bottom-right-radius: 6px;
+  border: var(--area-border);
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
   user-select: none;
   padding-bottom: 1em;
 }
 
+#app-container.fullscreen .verse-list-frame {
+  margin-right: 0.2em;
+}
+
 .verse-list-frame-no-chapter-nav {
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
 }
 
 .verse-list-composite.tab-search-active .verse-list-frame {
@@ -196,6 +234,14 @@ h2:nth-of-type(1) {
   width: 100%;
   /*height: 100%;         // Needed because of selectable scroll-bug
   overflow-y: scroll;*/
+}
+
+#app-container.fullscreen .verse-list {
+  /* This is to ensure that there is enough space for the radial menu in fullscreen mode
+     when it is used for the first verse of the verse list.
+   */
+  padding-top: 4.8em;
+  padding-bottom: 3.5em;
 }
 
 .verse-list:not(.verse-list-with-section-titles) {
@@ -224,15 +270,6 @@ h2:nth-of-type(1) {
   color: black;
 }
 
-#expand-button {
-  width: 18px;
-  height: 25px;
-  background-image: url(images/expand.gif);
-  background-position: center;
-  background-repeat: no-repeat;
-  cursor: pointer;
-}
-
 .verse-reference {
   display: flex;
   padding-top: 0.3em;
@@ -255,8 +292,19 @@ h2:nth-of-type(1) {
 
 .verse-reference-content {
   text-align: left;
+  margin-top: 0.15em;
   margin-left: 0.8em;
   width: 4em;
+  max-height: 1em;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#app-container.fullscreen .verse-reference-content {
+  text-decoration: underline gray;
+  cursor: pointer;
 }
 
 .verse-content {
@@ -310,6 +358,10 @@ h2:nth-of-type(1) {
   border: 0px;
   color: var(--text-color);
   background-color: darkslategray;
+}
+
+.tag-highly-frequent {
+  font-weight: bold;
 }
 
 #verse-list-popup,
@@ -391,6 +443,8 @@ h2:nth-of-type(1) {
 .tab-search-input,
 #search-type,
 #search-type option,
+#search-scope,
+#search-scope option,
 .ui-dialog #bible-sync-box,
 .ui-dialog #new-release-info-box,
 .ui-widget:not(.ezra-dialog),
@@ -404,7 +458,6 @@ h2:nth-of-type(1) {
 .options-header,
 #book-selection-menu,
 #tag-selection-menu,
-#tag-assignment-menu,
 #display-options-menu {
   font-size: 0.9em;
 }
@@ -450,16 +503,20 @@ h2:nth-of-type(1) {
   height: 2.2em;
 }
 
-.tag-delete-button {
+.tag-delete-button, .tag-rename-button {
+  display: flex;
+  float: right;
   margin-right: 0.5em;
-  float: left;
-  display: block;
+  align-items: center;
+  justify-content: center;
   width: 17px;
   height: 17px;
 }
 
-.tag-delete-button {
-  clear: both;
+.Android .tag-delete-button, .Android .tag-rename-button {
+  width: 24px;
+  height: 24px;
+  margin-right: 1em;
 }
 
 .tag-info,
@@ -475,7 +532,7 @@ h2:nth-of-type(1) {
 .tag-info,
 .notes-info,
 .verse-reference-content {
-  float: left;
+  text-align: center;
 }
 
 .darkmode--activated .tag-info,
@@ -504,16 +561,64 @@ h2:nth-of-type(1) {
   width: 100vw;
   height: 100vh;
   display: grid;
-  padding: 1em;
+  padding: 1em 1em 1em 0.5em;
   grid-template-columns: minmax(0, auto) 1fr;
   grid-template-rows: 1fr minmax(0, auto);
   grid-template-areas: 
-    "side-panel content"
-    "side-panel bottom-panel";
+    "panel-buttons tool-panel content"
+    "panel-buttons tool-panel detail-panel";
 }
 
 .webview-older #app-container {
   grid-template-rows: minmax(55vh, 100vh) minmax(0, 23vh);
+}
+
+@media (orientation: landscape) {
+  .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
+    height: 89vh;
+  }
+
+  @media (min-height: 800px) {
+    .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
+      height: 92vh;
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  #app-container {
+    grid-template-areas: 
+      "content"
+      "detail-panel"
+      "tool-panel"
+      "panel-buttons";
+  }
+
+  .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
+    height: 93.5vh;
+  }
+
+  @media (min-height: 1200px) {
+    .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
+      height: 95vh;
+    }
+  }
+}
+
+#app-container.fullscreen {
+  padding: 0.2em;
+  padding-left: 0.4em;
+  padding-right: 0.5em;
+}
+
+panel-buttons {
+  grid-area: panel-buttons;
+}
+
+panel-buttons > * {
+  /* This has to be display: none initially, because otherwise
+     it shows up already when the permissions dialogue is shown on Android. */
+  display: none;     
 }
 
 main.content {
@@ -525,14 +630,14 @@ main.content {
 
 #app-container .ui-tabs-panel,
 #app-container .ui-widget-content {
-  background-color: white;
   background: none;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .darkmode--activated .ui-widget-content {
   color: var(--text-color);
 }
-
 
 /*.ui-widget-content {
   background-color: white;
@@ -543,8 +648,8 @@ main.content {
 #module-search-menu,
 #display-options-menu {
   position: fixed;
-  border: 2px solid #DDDDDD;
-  border-radius: 6px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
   box-shadow: 5px 5px 5px #A0A0A0;
   background-color: white;
   z-index: 100;
@@ -565,29 +670,38 @@ main.content {
   clear: both;
   margin: 0;
   padding: 0.5em;
-  border-top: 1px solid #DDDDDD;
+  border-top: var(--area-border);
+}
+
+#book-selection-menu {
+  width: 38em;
+  margin-right: 2em;
 }
 
 #book-selection-menu-book-list, #book-selection-menu-chapter-list {
-  padding-left: 0.5em;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
+  padding: 0.5em;
 }
 
 #book-selection-menu-chapter-list {
   display: none;
   padding-left: 1em;
   padding-right: 1em;
-  width: 34em;
   min-height: 20em;
-  max-height: 52em;
+  max-height: 38.3em;
   overflow-y: auto;
 }
 
-@media only screen and (min-width: 770px) {
+.select-chapter #book-selection-menu-chapter-list {
+  display: block;
+}
+
+@media only screen and (min-width: 1000px) {
+  #book-selection-menu {
+    width: 62em;
+  }
+
   #book-selection-menu-chapter-list {
-    width: 40.25em;
-    height: 26.5em;
+    min-height: 20.5em;
     padding-left: 0.5em;
     padding-right: 0.5em;
   }
@@ -599,9 +713,15 @@ main.content {
 }
 
 #book-selection-menu-chapter-list #chapter-list-chapters {
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-content: flex-start;
+  max-inline-size: 41em;
+}
+
+.Android #book-selection-menu-chapter-list #chapter-list-chapters {
+  max-inline-size: 34em;
 }
 
 #book-selection-menu-chapter-list a {
@@ -613,54 +733,74 @@ main.content {
   color: black;
 }
 
-@media only screen and (min-width: 770px) {
+@media only screen and (min-width: 1000px) {
   #book-selection-menu-chapter-list a {
     flex: 0 0 3.3em;
   }
 }
 
+#book-selection-menu-book-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.select-chapter #book-selection-menu-book-list {
+  display: none;
+}
+
 .book-list-column {
-  float: left;
-  width: 10.25em;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  grid-auto-flow: column;
   list-style-type: none;
-  padding: 0.8em;
-  padding-bottom: 0;
+  padding: 0.3em 0.8em;
   margin-top: 0;
   margin-bottom: 0;
+  margin-right: 1em;
+  text-align: center;
 }
 
-.ot-column {
-  border-bottom: 1px solid lightgrey;
-  height: 26.5em;
-}
-
-.book-list-column li {
-  margin-bottom: 0.7em;
+.nt-books {
+  grid-template-rows: repeat(9, 1fr);
 }
 
 .ot-nt-divider {
-  clear: both;
+  margin-top: 0.2em;
+  border-top: 1px solid lightgray;
 }
 
+.book-list-column li{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 2em;
+}
 
 /* Formatting for large tablets and desktop */
+@media only screen and (min-width: 1000px) {
+  #book-selection-menu-book-list {
+    flex-direction: row;
+  }
 
-@media only screen and (min-width: 770px) {
-  .ot-column {
-    border-bottom: unset;
-    height: unset;
+  .ot-books {
+      flex-basis: 55%;
   }
-  .book-list-column {
-    width: unset;
+
+  .nt-books {
+    grid-template-columns: repeat(3, 1fr);
+    flex-basis: 45%; /* 3 columns of 7 column layout + divider */ 
+    padding-bottom: 2em; /* to align NT and OT rows */
   }
+
   .ot-nt-divider {
-    clear: none;
-    border-left: 1px solid #DDDDDD;
-    margin-left: 0.5em;
+    border-left: 1px solid lightgray;
+    border-top: none;
+    margin-top: 0;
+    padding-left: 0.5em;
   }
-  .ot-nt-divider li {
-    margin-left: 1em;
-  }
+
 }
 
 .verse-list-menu .focused-button {
@@ -670,7 +810,7 @@ main.content {
 .fullscreen-button {
   position: fixed;
   top: 0.5em;
-  right: 1em;
+  right: 1.2em;
   width: auto;
   height: auto;
   padding: 0.3em 0.4em;
@@ -682,10 +822,9 @@ main.content {
   display: none;
 }
 
-.display-options-button>i {
+.display-options-button > i {
   font-size: 1.3em;
 }
-
 
 .fg-button {
   cursor: pointer;
@@ -704,7 +843,7 @@ main.content {
 
 .verse-list-menu .display-options-button,
 .verse-list-menu .app-info-button,
-.verse-list-menu .export-tagged-verses-button {
+.verse-list-menu .export-docx-button {
   justify-content: center;
 }
 
@@ -822,11 +961,11 @@ li.book-unavailable a:focus,
 #book-selection-menu-chapter-list a:hover,
 #book-selection-menu-chapter-list a:focus {
   /*text-decoration: underline;*/
-  border: 1px solid #74B2E2;
+  border: var(--highlight-border);
   margin: 1px;
   padding: 2px;
   border-radius: 4px;
-  background: #e4f1fb url(images/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
+  background: var(--highlight-bg);
 }
 
 .darkmode--activated .book-list-column li.book-available a:hover,
@@ -840,11 +979,11 @@ li.book-unavailable a:focus,
 .book-list-column li.book-selected a:link,
 .book-list-column li.book-selected a:visited,
 .book-list-column li.book-selected a:focus {
-  border: 1px solid #74B2E2;
+  border: var(--highlight-border);
   margin: 1px;
   border-radius: 4px;
   padding: 2px;
-  background: #e4f1fb url(images/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
+  background: var(--highlight-bg);
 }
 
 .darkmode--activated .book-list-column li.book-selected a:link,
@@ -951,7 +1090,7 @@ li.book-unavailable a:focus,
 }
 
 /* On Android we disable the possibility to export tagged verses to a document */
-.Android .export-tagged-verses-button {
+.Android .export-docx-button {
   display: none;
 }
 
@@ -1087,7 +1226,7 @@ li.book-unavailable a:focus,
 
 .selected-verses {
   display: inline-block;
-  width: 17em;
+  width: 14em;
 }
 
 .selected-verses a:link,
@@ -1101,20 +1240,8 @@ li.book-unavailable a:focus,
   text-decoration: underline;
 }
 
-#verse-expand-box {
-  position: fixed;
-  display: none;
-  border-radius: 6px;
-  border: 1px solid #AED0EA;
-  padding: 0.1em;
-  padding-left: 0.2em;
-  padding-right: 0.2em;
-  z-index: 110;
-  background: url("images/ui-bg_highlight-soft_100_deedf7_1x100.png") repeat-x scroll 50% 50% #DEEDF7;
-}
-
 .hidden {
-  visibility: hidden;
+  display: none;
 }
 
 .bible-select-block {
@@ -1128,79 +1255,13 @@ li.book-unavailable a:focus,
   display: none;
 }
 
-#tag-selection-menu,
-#tag-assignment-menu,
-#tag-assignment-menu-overlay {
+#tag-selection-menu {
   padding: 1em;
   width: 22em;
 }
 
-#tag-assignment-menu {
-  width: 37em;
-}
-
 .darkmode--activated #tag-selection-menu {
   color: var(--text-color);
-}
-
-#tag-assignment-menu-filter {
-  height: 4em;
-}
-
-#tag-assignment-menu-filter #tag-filter-menu {
-  border: 0;
-  box-shadow: unset;
-  position: unset;
-  margin-top: 0.5em;
-}
-
-#tag-assignment-menu #tag-assignment-menu-filter input {
-  font-size: 1em;
-}
-
-#tag-assignment-menu-taglist,
-#tag-assignment-menu-taglist-overlay {
-  border-top: 1px solid lightgrey;
-  clear: both;
-  margin-top: 2em;
-  height: 450px;
-  overflow-y: scroll;
-}
-
-#tag-assignment-menu-taglist-overlay {
-  overflow-y: unset;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#tag-assignment-menu-taglist-overlay .loader {
-  float: unset;
-  margin-bottom: 6em;
-}
-
-@media only screen and (max-height: 1024px) {
-  #tag-assignment-menu-taglist,
-  #tag-assignment-menu-taglist-overlay {
-    height: 300px;
-  }
-}
-
-@media only screen and (max-height: 500px) {
-  #tag-assignment-menu-taglist,
-  #tag-assignment-menu-taglist-overlay {
-    height: 150px;
-  }
-}
-
-#tag-assignment-menu-taglist .ui-widget-content {
-  border: 0;
-  padding-top: 1em;
-}
-
-#tag-assignment-menu #tags-search-input {
-  float: none;
-  width: 20em;
 }
 
 #module-search-menu {
@@ -1227,7 +1288,7 @@ li.book-unavailable a:focus,
 #tag-selection-taglist-overlay {
   margin-top: 1em;
   padding-top: 0.5em;
-  border-top: 1px solid #DDDDDD;
+  border-top: var(--area-border);
   height: 400px;
   overflow-y: scroll;
 }
@@ -1256,7 +1317,8 @@ li.book-unavailable a:focus,
 #rename-standard-tag-title-input,
 .tab-search-input,
 .tab-search-type,
-#search-type {
+#search-type,
+#search-scope {
   border: 1px solid lightgray;
   border-radius: 4px;
 }
@@ -1272,7 +1334,7 @@ li.book-unavailable a:focus,
 
 /* Large tablets and desktop */
 
-@media only screen and (min-width: 770px) {
+@media only screen and (min-width: 1000px) {
   #module-search-input {
     width: 21em;
   }
@@ -1304,6 +1366,12 @@ li.book-unavailable a:focus,
 .tag-browser-tag {
   clear: both;
   margin-bottom: 0.5em;
+  content-visibility: auto;
+  contain-intrinsic-size: 1.2em;
+}
+
+.Android .tag-browser-tag {
+  margin-bottom: 1em;
 }
 
 .tag-browser-tag-title {
@@ -1477,7 +1545,7 @@ s {
   padding-right: 0.2em;
   border: 1px solid gray;
   border-radius: 5px;
-  background-color: #e4f1fb;
+  background-color: var(--highlight-bg-color);
   z-index: 100;
   /*opacity: 0.8;*/
   user-select: none;
@@ -1485,7 +1553,7 @@ s {
 }
 
 .strongs-hl {
-  background-color: #e4f1fb;
+  background-color: var(--highlight-bg-color);
 }
 
 .darkmode--activated .strongs-hl {
@@ -1615,14 +1683,14 @@ s {
 .ui-widget-content::-webkit-scrollbar {
   width: 0.5em;
   border-width: 1px;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
 }
 
 .scrollable::-webkit-scrollbar-track,
 .ui-selectmenu-menu ul::-webkit-scrollbar-track,
 .ui-widget-content::-webkit-scrollbar-track {
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  border-radius: 6px;
+  border-radius: var(--border-radius);
 }
 
 .scrollable::-webkit-scrollbar-thumb,
@@ -1630,7 +1698,7 @@ s {
 .ui-widget-content::-webkit-scrollbar-thumb {
   background-color: darkgrey;
   border: 1px solid slategrey;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
 }
 
 .android-dialog-large-fontsize .ui-dialog-titlebar {
@@ -1673,7 +1741,7 @@ code {
   font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
   background-color: slategrey;
   color: lightblue;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
 }
 
 .text-loader {

@@ -15,7 +15,7 @@
     "search": "Пошук",
     "options": "Налаштування",
     "export": "Вивіз у текстовий документ",
-    "show-module-info": "Показати відощі про модуль та застосунок",
+    "show-module-info": "Показати відомості про модуль та застосунок",
     "fullscreen": "Переключити у повноекранний режим",
     "exit-fullscreen": "Вийти з повноекранного режиму",
     "text-size": "Налаштувати розмір тексту Біблії",
@@ -29,6 +29,9 @@
     "exact-phrase": "Точна фраза",
     "multi-word": "Кілька слів",
     "strongs": "Число Стронга",
+    "whole-bible": "Whole Bible",
+    "ot": "Old Testament",
+    "nt": "New Testament",
     "extended-verse-boundaries": "Розширити межі вірша (два вірші)"
   },
   "module-assistant": {
@@ -50,7 +53,8 @@
     "add-modules": "Додати {{module_type, accusative}}",
     "remove-modules": "Видалити {{module_type, accusative}}",
     "languages": "Мови",
-    "repositories": "Сховища",
+    "repository_singular": "Repository",
+    "repository_plural": "Сховища",
     "installation": "Встановлення",
     "removal": "Видалення",
     "update-data": { 
@@ -77,7 +81,7 @@
       "what-is-repository": "Під сховищем розуміється хмарне інтернет-сховище з певними {{module_type, instrumental}}",
       "loading-repositories": "Завантаження переліку сховищ ...",
       "repo-recommended": "Рекомендоване сховище",
-      "more-repo-information-needed": "Додаткові відощі про сховища можна знайти за посиланням <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> (англійською)."
+      "more-repo-information-needed": "Додаткові відомості про сховища можна знайти за посиланням <a class='external' href='https://wiki.crosswire.org/Official_and_Affiliated_Module_Repositories'>CrossWire Wiki</a> (англійською)."
     },
     "step-modules": {  
       "select-module": "Будь ласка, оберіть {{module_type}} для встановлення.",
@@ -112,15 +116,16 @@
   },
   "general": {
     "chapter-verse-separator": ":",
-    "module-application-info": "Відощі модуля SWORD та застосунку",
-    "application-info": "Відощі застосунку",
+    "module-application-info": "Відомості про переклад Біблії та застосунок",
+    "application-info": "Відомості застосунку",
     "sword-module-description": "Про цей модуль",
     "sword-module-details": "Подробиці модуля",
-    "sword-module-info": "Відощі про модуль SWORD",
-    "sword-unlock-info": "Відощі розблокування SWORD",
+    "sword-module-info": "Відомості про переклад Біблії",
+    "sword-unlock-info": "Відомості розблокування SWORD",
     "application-version": "Версія застосунку",
     "git-commit": "Git commit",
     "sword-version": "Версія SWORD",
+    "sword-path": "SWORD module path",
     "chromium-version": "Версія Chromium",
     "database-path": "Розташування бази даних",
     "config-file-path": "Розташування налаштувань",
@@ -161,14 +166,19 @@
     "module-install-failed": "не вдало. Ви підключені до Інтернету?",
     "module-install-cancelled": "скасовано.",
     "module-unlock-failed": "не вдало (проблема розблокування).",
-    "installing-strongs": "Встановлення <i>словників Стронга</i>",
+    "installing-strongs": "словників Стронга",
     "applying-migrations": "Оновлення бази даних до нової версії",
     "developers": "Розробка",
     "translators": "Переклад",
     "versions-and-paths": "Версія та розташування",
     "app-language": "Мова застосунку",
     "detect-locale": "Авто",
-    "detect-locale-hint": "Встановити автоматичне визначення за мовою системи"
+    "detect-locale-hint": "Визначити автоматично за мовою системи",
+    "more-info": "Більше інформації",
+    "module-copyright": "Авторські права на поточний переклад Біблії",
+    "module-copyright-intro": "Будь ласка, зауважте, що переклад \"{{module_name}}\" захищено авторськими правами:",
+    "module-copyright-disclaimer": "Продовжуючи вивіз у текстовий документ ви ПОГОДЖУЄТЕСЬ з умовами авторських прав на обмеження цитування перекладу {{module_name}}.",
+    "scripture-quote-from": "Писання процитовано з:"
   },
   "help": {
     "help-text-no-tags-book-opened": "Щоб розпочати роботу з мітами, створіть свою першу міту, натиснувши кнопку <i>Нова&nbsp;міта</i>. <br/><br/>Після цього ви можете переглядати текст Біблії, клацати або перетягувати вірші, щоб призначати щойно створену міту.",
@@ -234,7 +244,6 @@
     "delete-tag-permanently": "Видалити цю міту назавжди",
     "none-selected": "-",
     "rename-tag": "Перейменувати міту",
-    "rename-tag-button": "[Перейменувати]",
     "title": "Назва",
     "stats-used": "використано",
     "stats-total": "Всього",
@@ -265,12 +274,12 @@
     "display": "Параметри відображення",
     "text-options": "Параметри тексту",
     "bible-browser-layout": "Відобраз переглядача Біблії",
-    "show-tag-list": "Show tag list",
+    "show-tag-list": "Перелік міт",
     "show-book-intro": "Передмова до книг",
     "show-section-titles": "Заголовки розділів",
     "show-xrefs": "Перехресні посилання",
     "show-footnotes": "Примітки",
-    "show-dictionary": "Вікно словника",
+    "show-dictionary": "Словник",
     "show-book-chapter-navigation": "Вказівник розділів",
     "show-header-navigation": "Вказівник заголовків",
     "show-tab-search": "Відображати форму пошуку по поточній вкладці",
@@ -293,9 +302,11 @@
     "new-note-hint": "Додати нотатку",
     "open-complete-book": "Відкривати книги повністю",
     "open-chapters-large-books": "Відкривати за розділом великі книги",
-    "open-chapters-all-books": "Відкривати за розділом усі книги"
+    "open-chapters-all-books": "Відкривати за розділом усі книги",
+    "copy": "Copy",
+    "edit-note": "Edit note"
   },
-  "dictionary-info-box": {
+  "dictionary-panel": {
     "greek-dict": "Словник грецької",
     "hebrew-dict": "Словник івріту",
     "default-header": "<b>Словник</b>",
@@ -328,11 +339,11 @@
     "permanent-permission-decision-part1": "Раніше ви остаточно заборонили доступ до сховища присторою для цього застосунку!<br><br>Ви можете скасувати це лише в налаштуваннях дозволу в конфігурації системи Android.",
     "permanent-permission-decision-part2": "Якщо ви не зміните налаштування дозволу,<br>Біблійний застосунок Єздри <span style= 'text-decoration: undeуine'>не запуститься вдало</span>.",
     "starting-app": "Запуск застосунку",
-    "init-i18n": "Початкування i18n",
+    "init-i18n": "Початкування локалізації",
     "init-sword": "Початкування SWORD",
     "init-database": "Початкування бази даних",
     "init-user-interface": "Початкування відобразу",
     "loading-settings": "Завантаження налаштувань",
-    "waiting-app-ready": "Чекаємо, поки застосунок підготується"
+    "waiting-app-ready": "Очікування готовності застосунку"
   }
 }

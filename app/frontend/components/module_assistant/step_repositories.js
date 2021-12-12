@@ -19,6 +19,7 @@
 
 const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
+const eventController = require('../../controllers/event_controller.js');
 const i18nHelper = require('../../helpers/i18n_helper.js');
 const assistantHelper = require('./assistant_helper.js');
 require('./update_repositories.js');
@@ -72,8 +73,8 @@ const template = html`
 `;
 
 /**
- * @module StepRepositories
  * component retrieves, sorts and displays all available repositories for module installation
+ * @module StepRepositories
  * @example
  * <step-repositories></step-repositories>
  * @category Component
@@ -88,8 +89,8 @@ class StepRepositories extends HTMLElement {
     this.appendChild(template.content.cloneNode(true));
     assistantHelper.localizeContainer(this, assistantController.get('moduleType'));
 
-    assistantController.onStartRepositoriesUpdate(async () => await this.resetView());
-    assistantController.onCompletedRepositoriesUpdate(async status => {
+    eventController.subscribe('on-repo-update-started', async () => await this.resetView());
+    eventController.subscribe('on-repo-update-completed', async status => {
       if (status == 0) {
         await this.listRepositories();
       } else {

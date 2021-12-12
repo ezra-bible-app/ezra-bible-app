@@ -16,6 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const verseListController = require('../controllers/verse_list_controller.js');
 
 /**
  * The VerseStatisticsChart component renders a chart with verse count statistics per bible book. This is used by the ModuleSearch component.
@@ -36,12 +37,12 @@ class VerseStatisticsChart {
   }
 
   getVerseStatisticsChart(tabIndex=undefined) {
-    var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+    var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
     return currentVerseListFrame.find('.verse-statistics-chart');
   }
 
   resetChart(tabIndex=undefined) {
-    var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+    var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
     var container = currentVerseListFrame[0].querySelector('.verse-statistics-chart-container');
 
     container.style.display = 'none';
@@ -62,11 +63,11 @@ class VerseStatisticsChart {
     var bibleBookStats = null;
 
     if (currentTextType == 'search_results') {
-      var currentTab = app_controller.tab_controller.getTab(tabIndex);
+      currentTab = app_controller.tab_controller.getTab(tabIndex);
       var currentSearchResults = currentTab.getSearchResults();
       bibleBookStats = app_controller.module_search_controller.getBibleBookStatsFromSearchResults(currentSearchResults);
     } else {
-      bibleBookStats = app_controller.getBibleBookStatsFromVerseList(tabIndex);
+      bibleBookStats = verseListController.getBibleBookStatsFromVerseList(tabIndex);
     }
 
     var numberOfBibleBookStatsEntries = Object.keys(bibleBookStats).length;

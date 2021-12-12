@@ -29,6 +29,9 @@
     "exact-phrase": "Exakter Ausdruck",
     "multi-word": "Mehrere Worte",
     "strongs": "Strongs Nr.",
+    "whole-bible": "Gesamte Bibel",
+    "ot": "Altes Testament",
+    "nt": "Neues Testament",
     "extended-verse-boundaries": "Erweiterte Versgrenzen (Zwei Verse)"
   },
   "module-assistant": {
@@ -46,7 +49,8 @@
     "add-modules": "{{module_type, accusative}} hinzufügen",
     "remove-modules": "{{module_type, accusative}} entfernen",
     "languages": "Sprachen",
-    "repositories": "Modularchive",
+    "repository_singular": "Modularchiv",
+    "repository_plural": "Modularchive",
     "installation": "Installation",
     "removal": "Entfernen",
     "update-data": { 
@@ -117,6 +121,7 @@
     "application-version": "App Version",
     "git-commit": "Git commit",
     "sword-version": "SWORD Version",
+    "sword-path": "SWORD Modulpfad",
     "chromium-version": "Chromium Version",
     "database-path": "Datenbankpfad",
     "config-file-path": "Konfigurationspfad",
@@ -153,14 +158,19 @@
     "module-install-failed": "fehlgeschlagen. Sind Sie mit dem Internet verbunden?",
     "module-install-cancelled": "abgebrochen.",
     "module-unlock-failed": "fehlgeschlagen (Freischaltfehler).",
-    "installing-strongs": "Installiere <i>Strong's Wörterbücher</i>",
+    "installing-strongs": "Strong's Wörterbücher",
     "applying-migrations": "Migriere Datenbank auf neue Version",
     "developers": "Entwickler",
     "translators": "Übersetzer",
     "versions-and-paths": "Versionen und Pfade",
     "app-language": "Sprache",
     "detect-locale": "Auto",
-    "detect-locale-hint": "Sprache automatisch erkennen"
+    "detect-locale-hint": "Sprache automatisch erkennen",
+    "more-info": "Mehr Informationen",
+    "module-copyright": "Bibelübersetzung - Copyright",
+    "module-copyright-intro": "Bitte beachten Sie, dass die Übersetzung {{module_name}} copyright geschützt ist:",
+    "module-copyright-disclaimer": "Wenn Sie mit dem Export fortfahren stimmen Sie den Copyright Regelungen dieser Übersetzung zu und berücksichtigen ebenfalls mögliche Einschränkungen im Blick auf Zitate aus der {{module_name}}.",
+    "scripture-quote-from": "Zitiert aus folgender Bibelübersetzung:"
   },
   "help": {
     "help-text-no-tags-book-opened": "Sie wollen anfangen mit Tags zu arbeiten?<br/><br/>Erstellen Sie Ihren ersten Tag, indem Sie auf den Button <i>Neuer&nbsp;Tag</i> klicken.<br/><br/>Danach können Sie beim Studium des Bibeltexts den Tag zuordnen, indem Sie auf den Vers klicken oder mehrere Verse mit gehaltener Maustaste auswählen und dann links die Auswahlbox neben dem gerade erstellten Tag anklicken.",
@@ -226,7 +236,6 @@
     "delete-tag-permanently": "Diesen Tag dauerhaft löschen",
     "none-selected": "Keine",
     "rename-tag": "Tag umbenennen",
-    "rename-tag-button": "[Umbenennen]",
     "title": "Titel",
     "stats-used": "benutzt",
     "stats-total": "gesamt",
@@ -257,7 +266,7 @@
     "display": "Darstellung",
     "text-options": "Textoptionen",
     "bible-browser-layout": "Bibelbrowser Layout",
-    "show-tag-list": "Show tag list",
+    "show-tag-list": "Zeige Tagliste",
     "show-book-intro": "Zeige Bucheinleitung",
     "show-section-titles": "Zeige Überschriften",
     "show-xrefs": "Zeige Parallelstellen",
@@ -285,9 +294,11 @@
     "new-note-hint": "Klicken um neue Notiz hinzuzufügen",
     "open-complete-book": "Bücher vollständig öffnen",
     "open-chapters-large-books": "Große Bücher kapitelweise öffnen",
-    "open-chapters-all-books": "Alle Bücher kapitelweise öffnen"
+    "open-chapters-all-books": "Alle Bücher kapitelweise öffnen",
+    "copy": "Kopieren",
+    "edit-note": "Notiz ändern"
   },
-  "dictionary-info-box": {
+  "dictionary-panel": {
     "greek-dict": "Griechisches Wörterbuch",
     "hebrew-dict": "Hebräisches Wörterbuch",
     "default-header": "<b>Wörterbuch</b>",

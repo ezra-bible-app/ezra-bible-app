@@ -16,9 +16,12 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const eventController = require('../controllers/event_controller.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const VerseBox = require('../ui_models/verse_box.js');
 const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
+const { getPlatform } = require('../helpers/ezra_helper.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 /**
  * The VerseListPopup component implements a dialog that shows a tagged verse list or a list of cross references.
@@ -29,6 +32,14 @@ class VerseListPopup {
   constructor() {
     this.verseBoxHelper = new VerseBoxHelper();
     this.dialogInitDone = false;
+
+    eventController.subscribe('on-fullscreen-changed', (isFullScreen) => {
+      if (isFullScreen) {
+        this.disableNewTabButton();
+      } else {
+        this.enableNewTabButton();
+      }
+    });
   }
 
   initVerseListPopup() {
@@ -50,7 +61,11 @@ class VerseListPopup {
       this.handleCurrentBookFilterClick();
     });
 
-    this.getNewTabButton().bind('mousedown', () => {
+    this.getNewTabButton().bind('mousedown', (event) => {
+      if (event.target.classList.contains('ui-state-disabled')) {
+        return;
+      }
+
       this.handleNewTabButtonClick();
     });
 
@@ -108,8 +123,8 @@ class VerseListPopup {
     var bookHeaders = tagReferenceBox.querySelectorAll('.tag-browser-verselist-book-header');
     var verseBoxes = tagReferenceBox.querySelectorAll('.verse-box');
 
-    for (var i = 0; i < bookHeaders.length; i++) {
-      var currentHeaderBookName = bookHeaders[i].getAttribute('bookname');
+    for (let i = 0; i < bookHeaders.length; i++) {
+      const currentHeaderBookName = bookHeaders[i].getAttribute('bookname');
 
       if (!isChecked || isChecked && currentHeaderBookName == currentBook) {
         $(bookHeaders[i]).show();
@@ -118,9 +133,9 @@ class VerseListPopup {
       }
     }
 
-    for (var i = 0; i < verseBoxes.length; i++) {
-      var currentVerseBox = verseBoxes[i];
-      var currentVerseBoxBook = new VerseBox(currentVerseBox).getBibleBookShortTitle();
+    for (let i = 0; i < verseBoxes.length; i++) {
+      const currentVerseBox = verseBoxes[i];
+      const currentVerseBoxBook = new VerseBox(currentVerseBox).getBibleBookShortTitle();
 
       if (!isChecked || isChecked && currentVerseBoxBook == currentBook) {
         $(currentVerseBox).show();
@@ -153,9 +168,9 @@ class VerseListPopup {
       app_controller.openXrefVerses(this.currentReferenceVerseBox, this.currentPopupTitle, this.currentXrefs);
     }
 
-    // 3) Run the onTabSelected actions at the end, because we added a tab
-    var ui = { 'index' : app_controller.tab_controller.getSelectedTabIndex() };
-    await app_controller.onTabSelected(undefined, ui);
+    // 3) Run the on-tab-selected actions at the end, because we added a tab
+    const tabIndex = app_controller.tab_controller.getSelectedTabIndex();
+    await eventController.publishAsync('on-tab-selected', tabIndex);
   }
 
   getSelectedTagFromClickedElement(clickedElement) {
@@ -333,7 +348,7 @@ class VerseListPopup {
   }
 
   getOverlayVerseBoxPosition(verse_box) {
-    var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
+    var currentVerseListFrame = verseListController.getCurrentVerseListFrame();
 
     var verse_box_position = verse_box.offset();
     var verse_box_class = verse_box.attr('class');
@@ -374,8 +389,23 @@ class VerseListPopup {
     return overlay_box_position;
   }
 
+  enableNewTabButton() {
+    this.getNewTabButton().removeClass('ui-state-disabled');
+  }
+
+  disableNewTabButton() {
+    this.getNewTabButton().addClass('ui-state-disabled');
+  }
+
   renderVerseListInPopup(htmlVerses, verseCount) {
     $('#verse-list-popup-loading-indicator').hide();
+
+    if (getPlatform().isFullScreen()) {
+      this.disableNewTabButton();
+    } else {
+      this.enableNewTabButton();
+    }
+
     this.getNewTabButton().show();
     var tagReferenceBoxTitle = $('#verse-list-popup').dialog('option', 'title');
     tagReferenceBoxTitle += ' (' + verseCount + ')';

@@ -28,17 +28,18 @@
  * @category Startup
  */
 
-
-
 const CHROMIUM_VERSION_MIN = 57; // Do not support Chromium/WebView below the version that supports ES2017 and CSS grid
 const CHROMIUM_VERSION_UP_TO_DATE = 83; // Version that works without extra hacks
 
 window.initPlatform = function() {
   if (isAndroidWebView()) {
     const webViewVersion = getChromiumMajorVersion();
+
+    window.isAndroid = true;
+    window.isElectron = false;
     
     if (webViewVersion) {
-      if (webViewVersion >=  CHROMIUM_VERSION_MIN) {
+      if (webViewVersion >= CHROMIUM_VERSION_MIN) {
         loadScript('cordova.js');
 
         console.log("Using customizable theme.css!");
@@ -62,6 +63,8 @@ window.initPlatform = function() {
     }
   } else { // Electron!
 
+    window.isElectron = true;
+    window.isAndroid = false;
     window.isDev = false;
 
     if (typeof window !== 'undefined' &&
@@ -76,12 +79,12 @@ window.initPlatform = function() {
     }
 
     if (isDev) {
-      console.log("DEV mode: Loading app/frontend/ezra_init.js");
-      loadScript('app/frontend/ezra_init.js');
+      console.log("DEV mode!");
     } else {
-      console.log('PRODUCTION mode: Loading dist/ezra_init.js');
-      loadScript('dist/ezra_init.js');
+      console.log('PRODUCTION mode!');
     }
+
+    loadScript('app/frontend/ezra_init.js');
   }
 };
 
@@ -108,8 +111,9 @@ window.getChromiumVersion = function() {
   return chromiumVersion;
 };
 
+// FIXME: Remove this function, since it is not used anywhere?
 window.isChromiumOlder = function() {
-  return window.getChromiumMajorVersion() < CHROMIUM_VERSION_UP_TO_DATE;
+  return getChromiumMajorVersion() < CHROMIUM_VERSION_UP_TO_DATE;
 };
 
 function getChromiumMajorVersion() {

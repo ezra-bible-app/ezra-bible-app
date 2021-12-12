@@ -5,7 +5,6 @@ cloc --md --exclude-dir=__tests__ \
           app \
           build_scripts \
           css \
-          docker \
           html \
           locales \
           package_config \
@@ -21,7 +20,7 @@ cloc --md --exclude-dir=__tests__ \
 
 echo "" >> LOC_METRICS.md
 echo "The above metrics include both the frontend (mostly JavaScript) \
-and the [backend](https://github.com/ezra-project/node-sword-interface) (mostly C++)." >> LOC_METRICS.md
+and the [backend](https://github.com/ezra-bible-app/node-sword-interface) (mostly C++)." >> LOC_METRICS.md
 
 DATE=`date`
 echo "" >> LOC_METRICS.md

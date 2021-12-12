@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const locales = require('../../../locales/locales.json');
+const eventController = require('./event_controller.js');
 
 /**
  * This controller initializes the app locale at startup and updates it on demand when changing the locale
@@ -44,7 +45,13 @@ const i18nextOptions = {
      */
     format(value, format, lng) { 
       if (value instanceof Date) {
-        return value.toLocaleDateString(lng);
+        let dateStr = '';
+        try {
+          dateStr = value.toLocaleDateString(lng);
+        } catch(err) {
+          console.log('Unable to localize date:', err);
+        }
+        return dateStr;
       }
       
       var context = format;
@@ -89,14 +96,7 @@ module.exports.initI18N = async function() {
   window.i18n = require('i18next');
   const I18nIpcBackend = require('../ipc/i18n_ipc_backend.js');
 
-  let LanguageDetector = null;
-
-  if (platformHelper.isElectron()) {
-    LanguageDetector = require('i18next-electron-language-detector');
-  } else {
-    const _LanguageDetector = require('../platform/i18next_browser_language_detector.js');
-    LanguageDetector = new _LanguageDetector();
-  }
+  let LanguageDetector = require('../platform/i18next_language_detector.js');
 
   await i18n
     .use(LanguageDetector)
@@ -119,7 +119,7 @@ module.exports.initI18N = async function() {
   if (platformHelper.isElectron()) {
     await this.initLocale();
   }
-}
+};
 
 module.exports.initLocale = async function() {
   if (await ipcSettings.has(SETTINGS_KEY)) {
@@ -155,7 +155,7 @@ function preserveStringsForStartup() {
 module.exports.getStringForStartup = function(key, fallbackText) {
   const localizedText = window.localStorage && window.localStorage.getItem(key);
   return localizedText || fallbackText;
-}
+};
 
 module.exports.changeLocale = async function(newLocale, saveSettings=true) {
 
@@ -168,35 +168,19 @@ module.exports.changeLocale = async function(newLocale, saveSettings=true) {
 
   $(document).localize();
   window.reference_separator = i18n.t('general.chapter-verse-separator');
-  await notifySubscribers(newLocale);
-  
-  // Since the new locale may require more or less space vertically we need to adjust
-  // the height of the app container now.
-  uiHelper.resizeAppContainer();
+  await eventController.publishAsync('on-locale-changed', newLocale);
 };
-
-var localeSubscribers = [];
-module.exports.addLocaleChangeSubscriber = function(subscriberCallback) {
-  if (typeof subscriberCallback === 'function') {
-    localeSubscribers.push(subscriberCallback);
-  }
-};
-
-async function notifySubscribers(locale) {
-  for (let subscriberCallback of localeSubscribers) {
-    await subscriberCallback(locale);
-  }
-}
 
 module.exports.detectLocale = async function() {
   await this.changeLocale(systemLocale || locales.fallback, false);
   await ipcSettings.delete(SETTINGS_KEY);
 };
 
-/** returns current app locale (2-letter language code) */
+/** returns current app locale (2-letter language code or 2-letter language - 2-letter region) */
 module.exports.getLocale = function() {
-  var locale = i18n.language;
-  return locale.slice(0, 2); // just in case we got language with the region code (i.e "en-US") we want only the language code ("en")
+  var locale = i18n.language; // FIXME: case when the language comes with the region code (i.e "en-US") we want only the language code ("en") from available locales
+  //console.log('getting 2 code locale:', locale);
+  return locale; 
 };
 
 module.exports.getSystemLocale = () => systemLocale;
@@ -204,7 +188,7 @@ module.exports.getSystemLocale = () => systemLocale;
 /** returns detected OS locale */
 module.exports.getSystemLocale = () => systemLocale;
 
-/** returns 2-letter language code list of all available locales for the app */
+/** returns code list of all available locales for the app */
 module.exports.getAvailableLocales = function() {
   return locales.available.sort();
 };

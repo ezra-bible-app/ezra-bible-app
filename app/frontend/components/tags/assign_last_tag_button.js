@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { waitUntilIdle } = require('../../helpers/ezra_helper.js');
-const i18nController = require('../../controllers/i18n_controller.js');
+const eventController = require('../../controllers/event_controller.js');
 
 /**
  * The AssignLastTagButton always shows the latest used tag. It gets updated when
@@ -30,32 +30,40 @@ const i18nController = require('../../controllers/i18n_controller.js');
  */
 class AssignLastTagButton {
   constructor() {
-    this._localeChangeSubscriptionDone = false;
+    eventController.subscribe('on-tab-selected', (tabIndex) => {
+      this.init(tabIndex);
+    });
+
+    eventController.subscribe('on-tab-added', () => {
+      // We need to refresh the last used tag button, because the button is not yet initialized in the tab html template
+      this.onLatestUsedTagChanged(undefined, undefined);
+    });
+
+    eventController.subscribe('on-locale-changed', async () => {
+      await this.updateLabel();
+    });
+
+    this._button = null;
   }
 
   init(tabIndex=undefined) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    var assignLastTagButton = currentVerseListMenu.find('.assign-last-tag-button');
+    this._button = currentVerseListMenu.find('.assign-last-tag-button');
 
-    assignLastTagButton.unbind('click');
-    assignLastTagButton.bind('click', async (event) => {
+    this._button.unbind('click');
+    this._button.bind('click', async (event) => {
       event.stopPropagation();
-
-      if (!event.target.classList.contains('ui-state-disabled')) {
-        uiHelper.showTextLoadingIndicator();
-        await waitUntilIdle();
-        await tags_controller.assignLastTag();
-        uiHelper.hideTextLoadingIndicator();
-      }
+      await this.handleClick();
     });
+  }
 
-    if (!this._localeChangeSubscriptionDone) {
-      this._localeChangeSubscriptionDone = true;
-
-      i18nController.addLocaleChangeSubscriber(async () => {
-        await this.updateLabel();
-      });
-    } 
+  async handleClick() {
+    if (!this._button[0].classList.contains('ui-state-disabled')) {
+      uiHelper.showTextLoadingIndicator();
+      await waitUntilIdle();
+      await tags_controller.assignLastTag();
+      uiHelper.hideTextLoadingIndicator();
+    }
   }
 
   async updateLabel(tagTitle=undefined) {
@@ -63,9 +71,9 @@ class AssignLastTagButton {
       tagTitle = await this.getCurrentTag();
     }
 
-    var assignLastTagButton = $('.assign-last-tag-button');
     var label = i18n.t('tags-toolbar.assign-last-tag') + ': ' + tagTitle;
-    assignLastTagButton.text(label);
+    var assignLastTagButton = document.querySelectorAll('.assign-last-tag-button');
+    assignLastTagButton.forEach((el) => { el.innerText = label; });
   }
 
   async getCurrentTag() {
@@ -91,12 +99,12 @@ class AssignLastTagButton {
 
     if (currentTag != null) {
       await this.updateLabel(currentTag.title);
-      var assignLastTagButton = $('.assign-last-tag-button');
+      var assignLastTagButton = document.querySelectorAll('.assign-last-tag-button');
 
       if (added) {
-        assignLastTagButton.addClass('ui-state-disabled');
+        assignLastTagButton.forEach((el) => el.classList.add('ui-state-disabled'));
       } else {
-        assignLastTagButton.removeClass('ui-state-disabled');
+        assignLastTagButton.forEach((el) => el.classList.remove('ui-state-disabled'));
       }
 
       // Resize the verse list in case the tag label change had an impact on the
@@ -106,7 +114,7 @@ class AssignLastTagButton {
   }
 
   async refreshLastTagButtonState(versesSelected, selectedVerseTags) {
-    var assignLastTagButtons = $('.assign-last-tag-button');
+    var assignLastTagButtons = document.querySelectorAll('.assign-last-tag-button');
 
     if (versesSelected) {
       if (tags_controller.tag_store.latest_tag_id != null) {
@@ -123,16 +131,16 @@ class AssignLastTagButton {
         }
 
         if (!tagFound || selectedVerseTags.length == 0) {
-          assignLastTagButtons.removeClass('ui-state-disabled');
+          assignLastTagButtons.forEach((el) => el.classList.remove('ui-state-disabled'));
         } else {
-          assignLastTagButtons.addClass('ui-state-disabled');
+          assignLastTagButtons.forEach((el) => el.classList.add('ui-state-disabled'));
         }
 
       } else {
-        assignLastTagButtons.addClass('ui-state-disabled');
+        assignLastTagButtons.forEach((e) => e.classList.add('ui-state-disabled'));
       }
     } else {
-      assignLastTagButtons.addClass('ui-state-disabled');
+      assignLastTagButtons.forEach((e) => e.classList.add('ui-state-disabled'));
     }
   }
 }

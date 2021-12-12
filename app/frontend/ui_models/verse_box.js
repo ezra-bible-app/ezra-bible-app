@@ -25,9 +25,10 @@ class VerseBox {
 
   getVerseObject() {
     var isBookNoteVerse = this.isBookNoteVerse();
+    var verse = undefined;
 
     if (isBookNoteVerse) {
-      var verse = new Verse(
+      verse = new Verse(
         app_controller.tab_controller.getTab().getBook(),
         null,
         null,
@@ -36,14 +37,13 @@ class VerseBox {
       );
 
     } else {
-      var verse = new Verse(
+      verse = new Verse(
         this.getBibleBookShortTitle(),
         this.getAbsoluteVerseNumber(),
         this.getChapter(),
         this.getVerseNumber(),
         isBookNoteVerse
       );
-
     }
 
     return verse;
@@ -86,7 +86,7 @@ class VerseBox {
       return null;
     } else {
       var verseReference = this.verseBoxElement.querySelector('.verse-reference-content').innerText;
-      var splittedReference = verseReference.split(reference_separator);
+      var splittedReference = verseReference.split(window.reference_separator);
       return splittedReference;
     }
   }
@@ -195,7 +195,8 @@ class VerseBox {
 
     if (tag_title_array.length > 0) {
       $(this.verseBoxElement).find('.tag').bind('click', async (event) => {
-        await app_controller.handleReferenceClick(event);
+        const verseListController = require('../controllers/verse_list_controller.js');
+        await verseListController.handleReferenceClick(event);
       });
     }
   }
@@ -224,13 +225,24 @@ class VerseBox {
   getNewTagInfoTitleArray(tag_info_title, tag_title, action) {
     var already_there = false;
     var current_tag_info_title_array = new Array;
+    var original_tag_title = tag_title;
+
+    // If the tag title itself contains a comma then we need to replace it with
+    // something else while we generate the new tag info title array,
+    // because we use the comma as separator there.
+    while (tag_title.indexOf(',') != -1) {
+      tag_title = tag_title.replace(',', '|');
+    }
+
+    tag_info_title = tag_info_title.replace(original_tag_title, tag_title);
+
     if (tag_info_title != "" && tag_info_title != undefined) {
       current_tag_info_title_array = tag_info_title.split(', ');
     }
 
     switch (action) {
       case "assign":
-        for (var j = 0; j < current_tag_info_title_array.length; j++) {
+        for (let j = 0; j < current_tag_info_title_array.length; j++) {
           if (current_tag_info_title_array[j] == tag_title) {
             already_there = true;
             break;
@@ -238,13 +250,13 @@ class VerseBox {
         }
 
         if (!already_there) {
-          current_tag_info_title_array.push(tag_title);
+          current_tag_info_title_array.push(original_tag_title);
           current_tag_info_title_array.sort();
         }
         break;
 
       case "remove":
-        for (var j = 0; j < current_tag_info_title_array.length; j++) {
+        for (let j = 0; j < current_tag_info_title_array.length; j++) {
           if (current_tag_info_title_array[j] == tag_title) {
             current_tag_info_title_array.splice(j, 1);
             break;

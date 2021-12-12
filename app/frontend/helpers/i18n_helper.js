@@ -37,44 +37,45 @@ module.exports.getReferenceSeparator = async function(moduleCode=undefined) {
     
     try {
       var localModule = await ipcNsi.getLocalModule(moduleCode);
-      moduleReferenceSeparator = await this.getSpecificTranslation(localModule.language, 'general.chapter-verse-separator');
+      moduleReferenceSeparator = this.getSpecificTranslation(localModule.language, 'general.chapter-verse-separator');
     } catch (e) {}
     
     return moduleReferenceSeparator;
   }
-}
+};
 
 module.exports.getSwordTranslation = async function(originalString) {
   return await ipcNsi.getSwordTranslation(originalString, i18nController.getLocale());
-}
+};
 
 module.exports.getBookAbbreviation = async function(bookCode) {
   var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
   return await ipcNsi.getBookAbbreviation(currentBibleTranslationId, bookCode, i18nController.getLocale());
-}
+};
 
-module.exports.getSpecificTranslation = async function(lang, key) {
+module.exports.getSpecificTranslation = function(lang, key) {
   var specificTranslation = i18n.t(key, { lng: lang }); // https://www.i18next.com/translation-function/essentials
 
   return specificTranslation;
-}
+};
 
-module.exports.getChapterTranslation = async function(lang) {
-  var locale = lang || i18nController.getLocale();
+module.exports.getChapterText = function(lang, bookCode="") {
+  const locale = lang || i18nController.getLocale();
+  const key = bookCode === 'Ps' ? "bible-browser.psalm" : "bible-browser.chapter";
 
-  return await this.getSpecificTranslation(locale, 'bible-browser.chapter');
-}
+  return this.getSpecificTranslation(locale, key);
+};
 
-module.exports.getPsalmTranslation = async function(lang) {
+module.exports.getPsalmTranslation = function(lang) {
   var language = lang || i18nController.getLocale();
 
-  return await this.getSpecificTranslation(language, 'bible-browser.psalm');
-}
+  return this.getSpecificTranslation(language, 'bible-browser.psalm');
+};
 
 module.exports.getLocalizedDate = function(timestamp) {
   var locale = i18nController.getLocale();
   return new Date(Date.parse(timestamp)).toLocaleDateString(locale);
-}
+};
 
 /**
  * Function to get localized language name. Uses module:languageMapper.getLanguageName under the hood
@@ -95,4 +96,4 @@ module.exports.getLanguageName = function(code, includeNativeName=false, current
   localeName = languageMapper.getLanguageName(code); // get locale name without localization
 
   return localeName || code;
-}
+};

@@ -5,8 +5,12 @@ and to do it and to teach his statutes and rules in Israel." Ezra 7:10
 </p>
 
 <p align="center">
-  <a href="https://github.com/ezra-bible-app/ezra-bible-app/actions?query=workflow%3A%22Ezra+Bible+App+test+suite%22">
-    <img src="https://github.com/ezra-bible-app/ezra-bible-app/workflows/Ezra%20Bible%20App%20test%20suite/badge.svg"></img>
+  <a href="https://github.com/ezra-bible-app/ezra-bible-app/actions/workflows/test.yml">
+    <img src="https://github.com/ezra-bible-app/ezra-bible-app/actions/workflows/test.yml/badge.svg"></img>
+  </a>
+  
+  <a href="https://github.com/ezra-bible-app/ezra-bible-app/actions/workflows/build.yml">
+    <img src="https://github.com/ezra-bible-app/ezra-bible-app/actions/workflows/build.yml/badge.svg"></img>
   </a>
 </p>
 
@@ -25,9 +29,11 @@ For more details regarding the used components have a look [here][tech].
 
 [tech]: https://github.com/ezra-bible-app/ezra-bible-app/blob/master/TECH.md
 
-### Design documentation
+### Design
 
-Design documentation is available here: https://apidocs.ezrabibleapp.net
+Ezra Bible App's architecture is designed in a modular way and should make it easy for new developers. There is a backend and a frontend. The backend deals with the SWORD API as well as database persistence and settings. The frontend is component-based and uses an event bus for establishing communication between the components in a loosely coupled fashion.
+
+Detailed design documentation is available here: https://apidocs.ezrabibleapp.net
 
 ### Building Ezra Bible App
 
@@ -56,4 +62,4 @@ Your contributions to Ezra Bible App are very welcome!
 Ideally you should bring some experience in working with web-based frontends, specifically HTML, CSS, JavaScript. Furthermore, experience with relational database design is a plus. However, if you're not a developer you can still help with testing, translation and user documentation!
 Have a look at the [contribution guidelines][contributing] for some more details!
 
-Feel free to drop me an email ([contact@tklein.info](mailto:contact@tklein.info)) if you are interested in joining the team!
+Feel free to drop us an email ([contact@ezrabibleapp.net](mailto:contact@ezrabibleapp.net)) if you are interested in joining the team!

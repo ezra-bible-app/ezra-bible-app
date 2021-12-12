@@ -16,6 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const eventController = require('../../controllers/event_controller.js');
+
 var state = {
   allRepositories: [],
   installedModules: [],
@@ -42,11 +44,11 @@ module.exports.initState = async function(moduleType) {
 
   state.installedModules = await app_controller.translation_controller.getInstalledModules(moduleType);
 
-  const lastUpdate = await ipcSettings.get('lastSwordRepoUpdate', null);
+  const lastUpdate = Date.parse(await ipcSettings.get('lastSwordRepoUpdate', null));
   const repositoriesAvailable = lastUpdate && await ipcNsi.repositoryConfigExisting();
 
   if (repositoriesAvailable) {
-    state.reposUpdated = new Date(Date.parse(lastUpdate));
+    state.reposUpdated = new Date(lastUpdate);
   }
   this.resetRepositoryUpdateSubscribers();
 
@@ -140,55 +142,67 @@ module.exports.setInstallDone = () => moduleInstallStatus = 'DONE';
 
 // *** Functions to deal with repository data update ****************************
 
-var updatingRepositoriesEvents;
 module.exports.resetRepositoryUpdateSubscribers = function() {
-  updatingRepositoriesEvents = {
-    startUpdate: [],
-    progressUpdate: [],
-    completedUpdate: [
-      async result => state.allRepositories = result == 0 ? await ipcNsi.getRepoNames() : []
-    ],
-  };
+  eventController.unsubscribeAll(/on-repo-update-.+$/);
 };
 
-function addUpdateSubscriber(event, callback) {
-  updatingRepositoriesEvents[event].push(callback);
-}
-async function notifySubscribers(event, payload=undefined) {
-  for (let subscriberCallback of updatingRepositoriesEvents[event]) {
-    if (typeof subscriberCallback === 'function') {
-      await subscriberCallback(payload);
-    }
-  }
-}
-module.exports.onStartRepositoriesUpdate = callback => addUpdateSubscriber('startUpdate', callback);
-module.exports.onProgressRepositoriesUpdate = callback => addUpdateSubscriber('progressUpdate', callback);
-module.exports.onCompletedRepositoriesUpdate = callback => addUpdateSubscriber('completedUpdate', callback);
 
 var updateInProgress = false;
 module.exports.updateRepositories = async function() {
   if (updateInProgress) {
     return;
   }
-  updateInProgress = true;
-  
-  preserveSelectedState();
 
-  await notifySubscribers('startUpdate');
-  const status = await ipcNsi.updateRepositoryConfig(process => notifySubscribers('progressUpdate', process));
-  if (status == 0) {
+  updateInProgress = true;  
+  preserveSelectedState();
+  await eventController.publishAsync('on-repo-update-started');
+
+  const MAX_FAILED_UPDATE_COUNT = 2;
+  var failedUpdateCount = 0;
+  var successfulUpdateCount = 0;
+  const repoUpdateStatus = await ipcNsi.updateRepositoryConfig(async (progress) => { 
+    await eventController.publishAsync('on-repo-update-progress', progress);
+  });
+
+  for (let key in repoUpdateStatus) {
+    if (key != 'result') {
+      if (repoUpdateStatus[key] == false) {
+        failedUpdateCount += 1;
+        console.warn("Repo update failed for " + key);
+      } else {
+        successfulUpdateCount += 1;
+      }
+    }
+  }
+
+  if (failedUpdateCount > 0) {
+    console.warn("Total failed updates: " + failedUpdateCount);
+  }
+
+  var overallStatus = 0;
+
+  if (successfulUpdateCount == 0 || // This happens when there is no internet connection
+      failedUpdateCount > MAX_FAILED_UPDATE_COUNT) // This happens when too many individual repositories are offline
+  {
+    overallStatus = -1;
+  }
+
+  if (overallStatus == 0) {
     restoreSelectedState();
     const today = new Date();
     state.reposUpdated = today;
+    state.allRepositories = await ipcNsi.getRepoNames();
     await ipcSettings.set('lastSwordRepoUpdate', today);
+  } else {
+    state.allRepositories = [];
   }
-  await notifySubscribers('completedUpdate', status);
 
+  await eventController.publishAsync('on-repo-update-completed', overallStatus);
   updateInProgress = false;
 };
 
 module.exports.notifyRepositoriesAvailable = async () => {
   if (!updateInProgress) {
-    notifySubscribers('completedUpdate', 0);
+    await eventController.publishAsync('on-repo-update-completed', 0);
   }
 };

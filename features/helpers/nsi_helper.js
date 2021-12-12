@@ -50,11 +50,11 @@ module.exports.getChapterLastVerseContent = async function(moduleCode, bookCode,
   return verses[0].content;
 }
 
-module.exports.getLocalModule = async function(moduleCode) {
+module.exports.getLocalModule = async function(moduleCode, moduleType='BIBLE') {
   var app = spectronHelper.getApp();
 
   if (app) {
-    var allLocalModules = await app.webContents.executeJavaScript("ipcNsi.getAllLocalModulesSync()");
+    var allLocalModules = await app.webContents.executeJavaScript(`ipcNsi.getAllLocalModulesSync('${moduleType}')`);
 
     for (var i = 0; i < allLocalModules.length; i++) {
       var currentModule = allLocalModules[i];

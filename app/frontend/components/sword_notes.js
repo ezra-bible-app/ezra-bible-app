@@ -16,6 +16,9 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const eventController = require('../controllers/event_controller.js');
+const verseListController = require('../controllers/verse_list_controller.js');
+
 /**
  * The SwordNotes component implements the handling of SWORD-based note elements
  * like cross-references and footnotes.
@@ -25,6 +28,10 @@
 class SwordNotes {
   constructor() {
     this.notesCharacter = null;
+
+    eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
+      this.initForTab(tabIndex);
+    });
   }
   
   getNotesCharacter() {
@@ -36,7 +43,7 @@ class SwordNotes {
   }
 
   getCurrentTabNotes(tabIndex) {
-    var verseList = app_controller.getCurrentVerseList(tabIndex);
+    var verseList = verseListController.getCurrentVerseList(tabIndex);
     var swordNotes = verseList[0].querySelectorAll('.sword-note');
     return swordNotes;
   }

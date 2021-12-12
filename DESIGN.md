@@ -30,6 +30,11 @@ The most notable Controller is the `AppController`, which is responsible for ini
 
 Components are classes that usually represent one specific "graphical component" of the UI, e.g. the options menu or the book selection menu.
 
+### Events
+
+To decouple different parts of the frontend it is strongly recommended to emit events that other components or controllers can react to if they are subscribed.
+This [Pub/Sub pattern](https://en.wikipedia.org/wiki/Publish–subscribe_pattern) is implemented in `eventController`. All events must be documented in `app/frontend/event_types.js` to help with code completions inside the IDE.
+
 ### Sequelize Models
 
 Sequelize (an object-oriented wrapper) is used to manage the interface to the (SQLite) database. Each database table is represented by one model. Besides the standard Sequelize API that is attached to every model, you find various custom querying functions in the models.
@@ -111,17 +116,17 @@ Note that for adding a new locale you must also add an entry in the whitelist in
 <a name='layout'></a>
 ## App layout
 
-![Grid Layout](/images/grid_layout.png)
+![Grid Layout](https://raw.githubusercontent.com/ezra-bible-app/ezra-bible-app/master/images/grid_layout.png)
 
 The main application layout in `index.html` is based on [CSS grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout).
 
 - `<div id="app-container">` serves as the main grid container and defines template areas.
 - |--- `<main class="content">` serves as the main tab container with Bible text, search results or verse list content in each tab.
-- |--- `<aside id="side-panel">` is a container for quick reference info such as tag list and Strong's dictionary.
-- |--- `<footer id="bottom-panel">` is a container for detailed information regarding selected verse (interlinear view) or clicked Cross reference link.
+- |--- `<aside id="tool-panel">` is a container for quick reference info such as tag list and Strong's dictionary.
+- |--- `<footer id="detail-panel">` is a container for detailed information regarding selected verse (interlinear view) or clicked Cross reference link.
 
 Please note, that each tab in `<main class="content">` has a subgrid for layout in that particular tab.
-Dictionary view on smaller screen sizes (tablets) will be displayed in the `bottom-panel` area.
+Tool panel in portrait mode will be displayed on the bottom of the screen.
 
 
 <a name='db-schema'></a>

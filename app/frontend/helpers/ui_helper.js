@@ -21,6 +21,7 @@ const i18nController = require('../controllers/i18n_controller.js');
 class UiHelper {
   constructor() {
     this.app_container_height = null;
+    this.windowWidth = window.innerWidth;
   }
 
   configureButtonStyles(context=null) {
@@ -93,63 +94,15 @@ class UiHelper {
     });
   }
 
-  // FIXME: responsiveness should be done via CSS
-  // the only thing that relays on this class is .verse-notes
-  adaptVerseList(sidePanelWidth, windowWidth=undefined) {
-    if (!windowWidth) {
-      windowWidth = window.innerWidth;
-    }
-
-    var verseListTabsClassList = document.querySelector('#verse-list-tabs').classList;
-    var verseListTabsWidth = windowWidth - sidePanelWidth;
-
-    if (verseListTabsWidth >= 200 && // Initially, at program start the width is very small (100) - in this
-                                     // case we don't add the small-screen class to avoid flickering.
-        verseListTabsWidth <= 1000) {
-
-      verseListTabsClassList.add('verse-list-tabs-small-screen');
-
-      if (verseListTabsWidth < 850) {
-        verseListTabsClassList.add('verse-list-tabs-tiny-screen');
-      } else {
-        verseListTabsClassList.remove('verse-list-tabs-tiny-screen');
-      }
-
-    } else {
-      verseListTabsClassList.remove('verse-list-tabs-small-screen', 'verse-list-tabs-tiny-screen');
-    }
-  }
-  
-  resizeAppContainer(sidePanelWidth=undefined, cycle=false) {
-    var windowWidth = window.innerWidth;
-
-    const sidePanel = document.querySelector('#side-panel');
-    const bottomPanel = document.querySelector('#bottom-panel');
-
-    if (windowWidth >= 200 && windowWidth < 1200) {
-      // Automatically hide toolbar on smaller screens
-      sidePanel.style.display='none';
-      app_controller.tag_assignment_menu.moveTagAssignmentList(true);
-
-      app_controller.dictionary_controller.moveInfoBoxFromTo(sidePanel, bottomPanel);
-      
-    } else if (!cycle) {
-      sidePanel.style.display='';
-      app_controller.tag_assignment_menu.moveTagAssignmentList(false);
-
-      app_controller.dictionary_controller.moveInfoBoxFromTo(bottomPanel, sidePanel);
-    }
-
-    sidePanelWidth = sidePanelWidth || sidePanel.offsetWidth; 
-    this.adaptVerseList(sidePanelWidth, windowWidth);
+  onResize() {
+    this.windowWidth = window.innerWidth;
   }
 
   getMaxDialogWidth() {
     var width = 900;
-    var windowWidth = $(window).width();
 
-    if (windowWidth > 400 && windowWidth < width) {
-      width = windowWidth - 20;
+    if (this.windowWidth > 400 && this.windowWidth < width) {
+      width = this.windowWidth - 20;
     }
 
     return width;
@@ -197,75 +150,6 @@ class UiHelper {
     textLoadingIndicator.hide();
   }
 
-  getFirstVisibleVerseAnchor() {
-    let verseListFrame = app_controller.getCurrentVerseListFrame();
-    let firstVisibleVerseAnchor = null;
-
-    if (verseListFrame != null && verseListFrame.length > 0) {
-      let verseListFrameRect = verseListFrame[0].getBoundingClientRect();
-
-      let currentNavigationPane = app_controller.navigation_pane.getCurrentNavigationPane()[0];
-      let currentNavigationPaneWidth = currentNavigationPane.offsetWidth;
-
-      // We need to a add a few pixels to the coordinates of the verseListFrame so that we actually hit an element within the verseListFrame
-      const VERSE_LIST_CHILD_ELEMENT_OFFSET = 15;
-      let firstElementOffsetX = verseListFrameRect.x + currentNavigationPaneWidth + VERSE_LIST_CHILD_ELEMENT_OFFSET;
-      let firstElementOffsetY = verseListFrameRect.y + VERSE_LIST_CHILD_ELEMENT_OFFSET;
-      
-      let currentElement = document.elementFromPoint(firstElementOffsetX, firstElementOffsetY);
-
-      if (currentElement != null && currentElement.classList != null && currentElement.classList.contains('verse-list')) {
-        // If the current element is the verse-list then we try once more 10 pixels lower.
-        currentElement = document.elementFromPoint(firstElementOffsetX, firstElementOffsetY + 10);
-      }
-
-      if (currentElement == null) {
-        return null;
-      }
-
-      if (currentElement.classList != null && 
-          (currentElement.classList.contains('sword-section-title') ||
-           currentElement.classList.contains('tag-browser-verselist-book-header'))) {
-        // We are dealing with a section header element (either sword-section-title or tag-browser-verselist-book-header)
-
-        if (currentElement.previousElementSibling != null &&
-            currentElement.previousElementSibling.nodeName == 'A') {
-
-          currentElement = currentElement.previousElementSibling;
-        }
-      } else {
-        // We are dealing with an element inside a verse-box
-        const MAX_ELEMENT_NESTING = 7;
-
-        // Traverse up the DOM to find the verse-box
-        for (let i = 0; i < MAX_ELEMENT_NESTING; i++) {
-          if (currentElement == null) {
-            break;
-          }
-
-          if (currentElement.classList != null && currentElement.classList.contains('verse-box')) {
-
-            // We have gotten a verse-box ... now get the a.nav element inside it!
-            currentElement = currentElement.querySelector('a.nav');
-
-            // Leave the loop since we found the anchor!
-            break;
-
-          } else {
-            // Proceed with the next parentNode
-            currentElement = currentElement.parentNode;
-          }
-        }
-      }
-
-      if (currentElement != null && currentElement.nodeName == 'A') {
-        firstVisibleVerseAnchor = currentElement.name;
-      }
-    }
-
-    return firstVisibleVerseAnchor;
-  }
-
   showButtonMenu($button, $menu) {
     const OFFSET_FROM_EDGE = 20;
     $button.addClass('ui-state-active');
@@ -274,8 +158,12 @@ class UiHelper {
     var topOffset = buttonOffset.top + $button.height() + 1;
     var leftOffset = buttonOffset.left;
 
-    if (leftOffset + $menu.width() > $(window).width() - OFFSET_FROM_EDGE) {
-      leftOffset = ($(window).width() - $menu.width()) / 2;
+    if (leftOffset + $menu.width() > this.windowWidth - OFFSET_FROM_EDGE) {
+      leftOffset = (this.windowWidth - $menu.width()) / 2;
+
+      if (leftOffset < 0) {
+        leftOffset = 0;
+      }
     }
 
     $menu.css('top', topOffset);

@@ -1,0 +1,463 @@
+/* This file is part of Ezra Bible App.
+
+   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+
+   Ezra Bible App is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 2 of the License, or
+   (at your option) any later version.
+
+   Ezra Bible App is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Ezra Bible App. See the file LICENSE.
+   If not, see <http://www.gnu.org/licenses/>. */
+
+#tool-panel {
+  grid-area: tool-panel;
+  height: 100%;
+  min-width: 20em;
+  padding: 0 1.3em 0 0;
+  overflow: hidden;
+}
+
+@media (orientation: landscape) {
+  .Android #tool-panel #tag-list-stats {
+    display: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  #tool-panel {
+    min-width: 30em;
+  }
+
+  .Android #tool-panel #tag-list-stats {
+    display: inline-block;
+  }
+}
+
+@media (orientation: portrait) {
+  #tool-panel {
+    height: 15em !important;
+    width: 100% !important;
+    min-width: auto;
+    padding: 1em 0 0 0;
+  }
+
+  #app-container.fullscreen #tool-panel {
+    height: 21.5em !important;
+  }
+
+  @media (min-height: 1000px) {
+    #tool-panel {
+      height: 21.5em !important;
+    }
+
+    #app-container.fullscreen #tool-panel {
+      height: 25em !important;
+    }
+  }
+
+  @media (min-height: 1200px) {
+    #tool-panel {
+      height: 25em !important;
+    }
+
+    #app-container.fullscreen #tool-panel {
+      height: 30em !important;
+    }
+  }
+}
+
+@media (orientation: landscape) {
+  #tool-panel {
+    height: 100% !important;
+  }
+}
+
+#tool-panel.hidden {
+  width: 0 !important;
+  min-width: 0;
+  padding: 0;
+}
+
+#tool-panel > section {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  display: none;
+}
+#tool-panel > section.active {
+  display: block;
+}
+
+#tool-panel.ui-resizable {
+  top: 0 !important; /* override jQuery UI resizable */
+  left: 0 !important;
+}
+
+#tool-panel .ui-resizable-n {
+  border-bottom: 1px solid var(--border-color);
+  top: 0;
+  left: 10px;
+  z-index: 10 !important;
+  width: calc(100% - 20px);
+  display: none;
+}
+
+#tool-panel .ui-resizable-e {
+  border-left: 1px dashed var(--border-color);
+  right: 0;
+  top: 10px;
+  z-index: 10 !important;
+  height: calc(100% - 20px);
+  cursor: col-resize !important;
+}
+
+.Windows #tool-panel .ui-resizable-e {
+  cursor: ew-resize !important;
+}
+
+#tool-panel .ui-resizable-e:hover, #tool-panel .ui-resizable-e:active {
+  border-left: 3px solid var(--highlight-border-color);
+  transition-delay: 0.5s;
+}
+
+@media (orientation: portrait) {
+  #tool-panel .ui-resizable-n {
+    display: block;
+  }
+  
+  #tool-panel .ui-resizable-e {
+    display: none !important;
+  }  
+}
+
+#detail-panel {
+  grid-area: detail-panel;
+  height: 30vh;
+  padding: 0 0.5em;
+}
+#detail-panel:empty, #detail-panel.hidden {
+  height: 0;
+}
+
+#detail-panel > :first-child {
+  margin-top: 1em;
+}
+#detail-panel > * {
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+#tag-panel ol li {
+  /*clear: both;*/
+  margin-bottom: 0.3em;
+}
+
+.ui-tabs .ui-tabs-panel {
+  padding: 0.5em 0.2em 0;
+}
+
+@media (orientation: portrait) {
+  .ui-tabs .ui-tabs-panel {
+    padding-left: 0;
+  }
+}
+
+.accordion-panel {
+  padding: 0.2em;
+  user-select: none;
+}
+
+#tags-content {
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.accordion-panel .ui-accordion-header {
+  height: 2.2em;
+}
+
+.accordion-panel input {
+  margin-right: 0.5em;
+}
+
+.Android .accordion-panel input {
+  margin-right: 1em;
+}
+
+.accordion-panel .ui-icon-triangle-1-s {
+  display: none;
+}
+
+.accordion-panel .ui-accordion-header a {
+  padding-left: 1em;
+}
+
+#dictionary-panel {
+  user-select: none;
+}
+
+#dictionary-panel-wrapper {
+  clear: both;
+  height: calc(100% - 2.6em) !important;  /* overwrite default jqueryUI Accordion */
+  box-sizing: border-box;
+  padding: 0.5em;
+  margin: 0.1em 0 0 0;
+}
+
+.strongs-short-info {
+  font-weight: bold;
+}
+
+#dictionary-panel-content .strongs-definition {
+  margin-top: 0;
+  font-size: 110%;
+  white-space: pre-wrap;
+  color: black;
+}
+
+.OSX #dictionary-panel-content .strongs-definition {
+  font-size: 120%;
+}
+
+.darkmode--activated #dictionary-panel-content .strongs-definition {
+  color: #cccccc;
+}
+
+#dictionary-panel-lock {
+  font-style: italic;
+  color: grey;
+  display: none;
+}
+
+#dictionary-panel-header {
+  float: left;
+}
+
+#dictionary-panel-help {
+  margin-top: 2em;
+}
+
+#dictionary-panel-wrapper a:link {
+  text-decoration: none;
+  color: #2779aa;
+}
+
+.darkmode--activated #dictionary-panel-panel a:link {
+  color: #97d0ff;
+}
+
+#dictionary-panel-panel a:hover {
+  text-decoration: underline;
+}
+
+table.strongs-refs {
+  border-collapse: collapse;
+  margin-top: 0.5em;
+}
+
+table.strongs-refs td {
+  padding: 0.3em;
+  padding-right: 1.5em;
+}
+
+tr.td-underline td {
+  border-bottom: var(--area-border);
+}
+
+#tag-list-filter-button {
+  font-size: 0.8em;
+  padding-left: 1em;
+}
+
+#tag-list-filter-button-active {
+  display: none;
+  font-weight: bold;
+  color: black;
+  float: left;
+}
+
+#tags-search-input {
+  margin: 0;
+  margin-top: -0.2em;
+  float: right;
+  width: 12em;
+}
+
+#tag-filter-menu {
+  display: none;
+  font-size: 0.9em;
+  padding: 0.1em;
+  border: 2px solid #AED0EA;
+  z-index: 100;
+  border-radius: var(--border-radius);
+  box-shadow: 5px 5px 5px #A0A0A0;
+  position: fixed;
+  background-color: white;
+}
+
+.darkmode--activated #tag-filter-menu {
+  background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat;
+  color: #cccccc;
+}
+
+#tag-filter-menu input {
+  margin: 0.5em;
+}
+
+#tags-content-global {
+  margin: 0.1em 0 0 0;
+  padding: 0.5em;
+  user-select: none;
+  height: calc(100% - 2.6em);
+  box-sizing: border-box;
+}
+
+.checkbox-tag {
+  min-height: 2em;
+  content-visibility: auto;
+  padding: 0.1em;
+  padding-top: 0.5em;
+  padding-left: 0.5em;  
+}
+
+.Android .checkbox-tag {
+  height: 2.5em;
+  padding-top: 0.8em;
+}
+
+.checkbox-tag:nth-child(odd), .checkbox-tag.odd {
+  background: var(--background-color-darker);
+}
+
+.checkbox-tag.even {
+  background: inherit;
+}
+
+.checkbox-tag a {
+  text-decoration: none;
+}
+
+.tag-cb {
+  margin-top: 0.25em;
+}
+
+.Android .tag-cb {
+  margin-top: 0.1em;
+  margin-left: 0.5em;
+  transform: scale(1.5);
+}
+
+.cb-label,
+.cb-label-tag-assignment-count,
+.cb-label-postfix,
+.rename-tag-label {
+  margin-top: 0.1em;
+}
+
+.tag-cb,
+.cb-label,
+.cb-label-tag-assignment-count,
+.cb-label-postfix,
+.rename-tag-label,
+.meta-tag-title,
+.meta-tag-number-of-tags-container,
+.rename-meta-tag-label {
+  float: left;
+}
+
+.cb-label-tag-assignment-count,
+.meta-tag-number-of-tags-container {
+  margin-left: 0.5em;
+  color: #808080;
+}
+
+.cb-input-label-stats {
+  display: inline-block;
+  max-width: 80%;
+}
+
+
+.Android .cb-input-label-stats {
+  max-width: 70%;
+}
+
+.cb-label {
+  cursor: pointer;
+}
+
+.cb-label-assigned {
+  font-weight: bold;
+}
+
+.darkmode--activated .cb-label-assigned {
+  color: wheat;
+}
+
+.rename-tag-label,
+.rename-meta-tag-label {
+  display: none;
+  margin-left: 0.5em;
+  cursor: pointer;
+}
+
+#tags-content .ui-icon {
+  float: left;
+}
+
+.cb-label input {
+  display: inline;
+}
+
+.ezra-dialog {
+  font: caption;
+  font-size: 0.9em;
+  line-height: 150%;
+  border: 2px solid #aed0ea;
+  box-shadow: 0px 0px 20px #888888;
+  user-select: none;
+}
+
+.Linux .ezra-dialog {
+  font-family: "Liberation Sans", sans-serif;
+}
+
+.Windows .ezra-dialog {
+  font-family: "Segoe UI", sans-serif;
+}
+
+.OSX .ezra-dialog {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
+}
+
+#new-standard-tag-title-input,
+#rename-standard-tag-title-input {
+  width: 25em;
+}
+
+#new-tag-booktag-cb-label {
+  margin-left: 0.5em;
+}
+
+.is-global {
+  display: none;
+}
+
+.selection-box {
+  display: inline-block;
+  margin-left: 0.1em 0.1em 0.1em 0.5em;
+}
+
+@media only screen and (min-width: 1000px) {
+  .selection-box {
+    margin: 0 0 0 0.5em;
+  }  
+}
