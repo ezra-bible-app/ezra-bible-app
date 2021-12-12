@@ -21,7 +21,6 @@ const { getPlatform } = require('../helpers/ezra_helper.js');
 const wheelnavController = require('../controllers/wheelnav_controller.js');
 const eventController = require('../controllers/event_controller.js');
 
-
 /**
  * This controller provides an API for the verse list as well as event handlers for clicks within the verse list.
  * @module verseListController
@@ -293,17 +292,17 @@ module.exports.handleReferenceClick = async function(event) {
     if (isXrefMarker) {
       await app_controller.verse_list_popup.initCurrentXrefs(event.target);
 
-      app_controller.openXrefVerses(this.verse_list_popup.currentReferenceVerseBox,
-                                    this.verse_list_popup.currentPopupTitle,
-                                    this.verse_list_popup.currentXrefs);
+      app_controller.openXrefVerses(app_controller.verse_list_popup.currentReferenceVerseBox,
+                                    app_controller.verse_list_popup.currentPopupTitle,
+                                    app_controller.verse_list_popup.currentXrefs);
 
     } else if (isTag) {
 
       app_controller.verse_list_popup.initCurrentTag(event.target);
 
-      app_controller.openTaggedVerses(this.verse_list_popup.currentTagId,
-                                      this.verse_list_popup.currentTagTitle,
-                                      this.verse_list_popup.currentReferenceVerseBox);
+      app_controller.openTaggedVerses(app_controller.verse_list_popup.currentTagId,
+                                      app_controller.verse_list_popup.currentTagTitle,
+                                      app_controller.verse_list_popup.currentReferenceVerseBox);
 
     }
   } else {
