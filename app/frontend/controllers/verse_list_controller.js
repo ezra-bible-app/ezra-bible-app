@@ -28,57 +28,57 @@ const eventController = require('../controllers/event_controller.js');
  * @category Controller
  */
 
-function init() {
-  eventController.subscribe('on-bible-text-loaded', (tabIndex) => { bindEventsAfterBibleTextLoaded(tabIndex); });
+module.exports.init = function init() {
+  eventController.subscribe('on-bible-text-loaded', (tabIndex) => { this.bindEventsAfterBibleTextLoaded(tabIndex); });
   eventController.subscribe('on-all-translations-removed', async () => { onAllTranslationsRemoved(); });
-}
+};
 
-function getCurrentVerseListFrame(tabIndex=undefined) {
+module.exports.getCurrentVerseListFrame = function(tabIndex=undefined) {
   var currentVerseListTabs = app_controller.getCurrentVerseListTabs(tabIndex);
   var currentVerseListFrame = currentVerseListTabs.find('.verse-list-frame');
   return currentVerseListFrame;
-}
+};
 
-function getCurrentVerseList(tabIndex=undefined) {
-  var currentVerseListFrame = getCurrentVerseListFrame(tabIndex);
+module.exports.getCurrentVerseList = function(tabIndex=undefined) {
+  var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
   var verseList = currentVerseListFrame[0].querySelector('.verse-list');
   return $(verseList);
-}
+};
 
-function getCurrentVerseListHeader(tabIndex=undefined) {
-  var currentVerseListFrame = getCurrentVerseListFrame(tabIndex);
+module.exports.getCurrentVerseListHeader = function(tabIndex=undefined) {
+  var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
   var verseListHeader = currentVerseListFrame.find('.verse-list-header');
   return verseListHeader;
-}
+};
 
-function getCurrentSearchProgressBar(tabIndex=undefined) {
-  var currentVerseListFrame = getCurrentVerseListFrame(tabIndex);
+module.exports.getCurrentSearchProgressBar = function(tabIndex=undefined) {
+  var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
   var searchProgressBar = currentVerseListFrame.find('.search-progress-bar');
   return searchProgressBar;
-}
+};
 
-function getCurrentSearchCancelButtonContainer(tabIndex=undefined) {
-  var currentVerseListFrame = getCurrentVerseListFrame(tabIndex);
+module.exports.getCurrentSearchCancelButtonContainer = function(tabIndex=undefined) {
+  var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
   var searchCancelButton = currentVerseListFrame.find('.cancel-module-search-button-container');
   return searchCancelButton;
-}
+};
 
-function hideSearchProgressBar(tabIndex=undefined) {
-  var searchProgressBar = getCurrentSearchProgressBar(tabIndex);
+module.exports.hideSearchProgressBar = function(tabIndex=undefined) {
+  var searchProgressBar = this.getCurrentSearchProgressBar(tabIndex);
   searchProgressBar.hide();
 
-  var cancelSearchButtonContainer = getCurrentSearchCancelButtonContainer(tabIndex);
+  var cancelSearchButtonContainer = this.getCurrentSearchCancelButtonContainer(tabIndex);
   cancelSearchButtonContainer.hide();
-}
+};
 
-function getCurrentVerseListLoadingIndicator(tabIndex=undefined) {
-  var currentVerseListFrame = getCurrentVerseListFrame(tabIndex);
+module.exports.getCurrentVerseListLoadingIndicator = function(tabIndex=undefined) {
+  var currentVerseListFrame = this.getCurrentVerseListFrame(tabIndex);
   var loadingIndicator = currentVerseListFrame.find('.verse-list-loading-indicator');
   return loadingIndicator;
-}
+};
 
-function showVerseListLoadingIndicator(tabIndex=undefined, message=undefined, withLoader=true) {
-  var loadingIndicator = getCurrentVerseListLoadingIndicator(tabIndex);
+module.exports.showVerseListLoadingIndicator = function(tabIndex=undefined, message=undefined, withLoader=true) {
+  var loadingIndicator = this.getCurrentVerseListLoadingIndicator(tabIndex);
   var loadingText = loadingIndicator.find('.verse-list-loading-indicator-text');
   if (message === undefined) {
     message = i18n.t("bible-browser.loading-bible-text");
@@ -93,16 +93,16 @@ function showVerseListLoadingIndicator(tabIndex=undefined, message=undefined, wi
   }
 
   loadingIndicator.show();
-}
+};
 
-function hideVerseListLoadingIndicator(tabIndex=undefined) {
-  var loadingIndicator = getCurrentVerseListLoadingIndicator(tabIndex);
+module.exports.hideVerseListLoadingIndicator = function(tabIndex=undefined) {
+  var loadingIndicator = this.getCurrentVerseListLoadingIndicator(tabIndex);
   loadingIndicator.hide();
-}
+};
 
-function getBibleBookStatsFromVerseList(tabIndex) {
+module.exports.getBibleBookStatsFromVerseList = function(tabIndex) {
   var bibleBookStats = {};    
-  var currentVerseList = getCurrentVerseList(tabIndex)[0];
+  var currentVerseList = this.getCurrentVerseList(tabIndex)[0];
   var verseBoxList = currentVerseList.querySelectorAll('.verse-box');
 
   for (var i = 0; i < verseBoxList.length; i++) {
@@ -117,10 +117,10 @@ function getBibleBookStatsFromVerseList(tabIndex) {
   }
 
   return bibleBookStats;
-}
+};
 
-function getFirstVisibleVerseAnchor() {
-  let verseListFrame = getCurrentVerseListFrame();
+module.exports.getFirstVisibleVerseAnchor = function() {
+  let verseListFrame = this.getCurrentVerseListFrame();
   let firstVisibleVerseAnchor = null;
 
   if (verseListFrame != null && verseListFrame.length > 0) {
@@ -186,28 +186,28 @@ function getFirstVisibleVerseAnchor() {
   }
 
   return firstVisibleVerseAnchor;
-}
+};
 
-function resetVerseListView() {
+module.exports.resetVerseListView = function() {
   var textType = app_controller.tab_controller.getTab().getTextType();
   if (textType != 'xrefs' && textType != 'tagged_verses') {
-    var currentReferenceVerse = getCurrentVerseListFrame().find('.reference-verse');
+    var currentReferenceVerse = this.getCurrentVerseListFrame().find('.reference-verse');
     currentReferenceVerse[0].innerHTML = "";
   }
 
-  var currentVerseList = getCurrentVerseList()[0];
+  var currentVerseList = this.getCurrentVerseList()[0];
   if (currentVerseList != undefined) {
     currentVerseList.innerHTML = "";
   }
 
   app_controller.docxExport.disableExportButton();
-}
+};
 
-function getVerseListBookNumber(bibleBookLongTitle, bookHeaders=undefined) {
+module.exports.getVerseListBookNumber = function(bibleBookLongTitle, bookHeaders=undefined) {
   var bibleBookNumber = -1;
 
   if (bookHeaders === undefined) {
-    var currentVerseListFrame = getCurrentVerseListFrame();
+    var currentVerseListFrame = this.getCurrentVerseListFrame();
     bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
   }
 
@@ -222,11 +222,11 @@ function getVerseListBookNumber(bibleBookLongTitle, bookHeaders=undefined) {
   }
 
   return bibleBookNumber;
-}
+};
 
-function bindEventsAfterBibleTextLoaded(tabIndex=undefined, preventDoubleBinding=false, verseList=undefined) {
+module.exports.bindEventsAfterBibleTextLoaded = function(tabIndex=undefined, preventDoubleBinding=false, verseList=undefined) {
   if (verseList == undefined) {
-    verseList = getCurrentVerseList(tabIndex);
+    verseList = this.getCurrentVerseList(tabIndex);
   }
 
   var tagBoxes = verseList.find('.tag-box');
@@ -243,12 +243,12 @@ function bindEventsAfterBibleTextLoaded(tabIndex=undefined, preventDoubleBinding
 
   tags.bind('mousedown', async (event) => {
     event.stopPropagation();
-    await handleReferenceClick(event);
+    await this.handleReferenceClick(event);
   }).addClass('tag-events-configured');
 
   xref_markers.bind('mousedown', async (event) => {
     event.stopPropagation();
-    await handleReferenceClick(event);
+    await this.handleReferenceClick(event);
   }).addClass('events-configured');
 
   verseList.find('.verse-box').bind('mouseover', (e) => { onVerseBoxMouseOver(e); });
@@ -261,25 +261,25 @@ function bindEventsAfterBibleTextLoaded(tabIndex=undefined, preventDoubleBinding
   if (getPlatform().isFullScreen()) {
     wheelnavController.bindEvents();
   }
-}
+};
   
-function bindXrefEvents(tabIndex=undefined) {
-  var verseList = getCurrentVerseList(tabIndex);
+module.exports.bindXrefEvents = function(tabIndex=undefined) {
+  var verseList = this.getCurrentVerseList(tabIndex);
   var xref_markers = verseList.find('.sword-xref-marker');
 
   xref_markers.unbind();
   
   xref_markers.bind('mousedown', async (event) => {
-    await handleReferenceClick(event);
+    await this.handleReferenceClick(event);
   }).addClass('events-configured');
-}
+};
 
 function onVerseBoxMouseOver(event) {
   var focussedElement = event.target;
   app_controller.navigation_pane.updateNavigationFromVerseBox(focussedElement);
 }
 
-async function handleReferenceClick(event) {
+module.exports.handleReferenceClick = async function(event) {
   var currentTab = app_controller.tab_controller.getTab();
   var currentTextType = currentTab.getTextType();
   var verseBox = $(event.target).closest('.verse-box');
@@ -333,32 +333,12 @@ async function handleReferenceClick(event) {
       }
     }
   }
-}
+};
 
 // Re-init application to state without Bible translations
 function onAllTranslationsRemoved() {
-  resetVerseListView();
-  hideVerseListLoadingIndicator();
-  getCurrentVerseList().append("<div class='help-text'>" + i18n.t("help.help-text-no-translations") + "</div>");
+  this.resetVerseListView();
+  this.hideVerseListLoadingIndicator();
+  this.getCurrentVerseList().append("<div class='help-text'>" + i18n.t("help.help-text-no-translations") + "</div>");
   $('.book-select-value').text(i18n.t("menu.book"));
 }
-
-module.exports = {
-  init,
-  getCurrentVerseListHeader,
-  getCurrentVerseListFrame,
-  getCurrentVerseList,
-  getCurrentSearchProgressBar,
-  getCurrentSearchCancelButtonContainer,
-  hideSearchProgressBar,
-  getCurrentVerseListLoadingIndicator,
-  showVerseListLoadingIndicator,
-  hideVerseListLoadingIndicator,
-  getBibleBookStatsFromVerseList,
-  getFirstVisibleVerseAnchor,
-  resetVerseListView,
-  getVerseListBookNumber,
-  bindEventsAfterBibleTextLoaded,
-  bindXrefEvents,
-  handleReferenceClick
-};
