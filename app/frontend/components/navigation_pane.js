@@ -53,6 +53,10 @@ class NavigationPane {
     eventController.subscribe('on-tab-search-reset', () => {
       this.clearHighlightedSearchResults();
     });
+
+    eventController.subscribe('on-translation-changed', () => {
+      this.updateNavigation();
+    });
   }
 
   getCurrentNavigationPane(tabIndex=undefined) {
