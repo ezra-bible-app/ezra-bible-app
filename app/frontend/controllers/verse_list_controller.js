@@ -238,7 +238,7 @@ module.exports.bindEventsAfterBibleTextLoaded = function(tabIndex=undefined, pre
     xref_markers = xref_markers.filter(":not('.events-configured')");
   }
 
-  tagBoxes.bind('mousedown', app_controller.verse_selection.clear_verse_selection).addClass('tag-events-configured');
+  tagBoxes.bind('mousedown', () => { app_controller.verse_selection.clear_verse_selection(); }).addClass('tag-events-configured');
 
   tags.bind('mousedown', async (event) => {
     event.stopPropagation();
