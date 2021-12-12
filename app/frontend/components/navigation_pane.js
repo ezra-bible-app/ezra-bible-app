@@ -231,8 +231,9 @@ class NavigationPane {
     }
   }
 
+  // FIXME: This function is slow with long lists of chapters. It can be optimized by using the vanilla js append function.
   async updateChapterNavigation(tabIndex) {
-    var navigationPane = this.getCurrentNavigationPane(tabIndex);
+    var $navigationPane = this.getCurrentNavigationPane(tabIndex);
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     if (currentTab == null) {
@@ -258,18 +259,18 @@ class NavigationPane {
     navigationHeader.classList.add('nav-pane-header');
     navigationHeader.textContent = i18n.t('bible-browser.chapter-header');
     navigationHeader.setAttribute('i18n', 'bible-browser.chapter-header');
-    navigationPane.append(navigationHeader);
+    $navigationPane.append(navigationHeader);
 
     var cachedVerseListTabId = this.getCachedVerseListTabId(tabIndex);
     var sectionHeaderNumber = 1;
 
-    for (var i = 1; i <= chapterCount; i++) {
+    for (let i = 1; i <= chapterCount; i++) {
       var href = `javascript:app_controller.navigation_pane.goToChapter(${i})`;
       var chapterLinkHtml = `<a href='${href}' class='navigation-link chapter-link'>${i}</a>`;
-      navigationPane.append(chapterLinkHtml);
+      $navigationPane.append(chapterLinkHtml);
 
       if (cachedVerseListTabId != null) {
-        sectionHeaderNumber = this.addHeaderNavLinksForChapter(cachedVerseListTabId, navigationPane, sectionTitleElements, i, sectionHeaderNumber);
+        sectionHeaderNumber = this.addHeaderNavLinksForChapter(cachedVerseListTabId, $navigationPane, sectionTitleElements, i, sectionHeaderNumber);
       }
     }
   }
