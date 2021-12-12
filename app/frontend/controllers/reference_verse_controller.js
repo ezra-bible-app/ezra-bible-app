@@ -28,21 +28,21 @@ const verseListController = require('../controllers/verse_list_controller.js');
 
 var verseBoxHelper = new VerseBoxHelper();
 
-function showReferenceContainer() {
+module.exports.showReferenceContainer = function() {
   if (app_controller.tab_controller.getTab().hasReferenceVerse()) {
     var currentVerseListFrame = verseListController.getCurrentVerseListFrame();
     var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
     $(referenceVerseContainer).show();
   }
-}
+};
 
-function getCurrentReferenceVerse(tabIndex=undefined) {
+module.exports.getCurrentReferenceVerse = function(tabIndex=undefined) {
   var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
   var referenceVerse = currentVerseListFrame.find('.reference-verse');
   return referenceVerse;
-}
+};
 
-async function getLocalizedReferenceVerse(tabIndex=undefined) {
+module.exports.getLocalizedReferenceVerse = async function(tabIndex=undefined) {
   var currentReferenceVerse = this.getCurrentReferenceVerse(tabIndex);
   var currentReferenceVerseBox = currentReferenceVerse[0].querySelector('.verse-box');
   var localizedReferenceVerse = "";
@@ -52,9 +52,9 @@ async function getLocalizedReferenceVerse(tabIndex=undefined) {
   }
 
   return localizedReferenceVerse;
-}
+};
 
-async function updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId) {
+module.exports.updateReferenceVerseTranslation = async function(oldBibleTranslationId, newBibleTranslationId) {
   var currentVerseListFrame = verseListController.getCurrentVerseListFrame();
   var currentTab = app_controller.tab_controller.getTab();
   var currentBibleTranslationId = currentTab.getBibleTranslationId();
@@ -73,16 +73,16 @@ async function updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTr
   } catch (e) {
     console.warn('Could not update translation for reference verse: ' + e);
   }
-}
+};
 
-function clearReferenceVerse(tabIndex=undefined) {
+module.exports.clearReferenceVerse = function(tabIndex=undefined) {
   var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
   var referenceVerseContainer = currentVerseListFrame[0].querySelector('.reference-verse');
 
   referenceVerseContainer.innerHTML = '';
-}
+};
 
-async function renderReferenceVerse(verseBox, tabIndex=undefined) {
+module.exports.renderReferenceVerse = async function(verseBox, tabIndex=undefined) {
   if (verseBox == null || verseBox.length != 1) return;
 
   var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
@@ -118,13 +118,4 @@ async function renderReferenceVerse(verseBox, tabIndex=undefined) {
   referenceVerseContainer.innerHTML += "<div class='reference-verse-list-header'><h2>" + textTypeHeader + "</h2></div>";
   verseListController.bindEventsAfterBibleTextLoaded(undefined, false, $(referenceVerseContainer));
   app_controller.dictionary_controller.bindAfterBibleTextLoaded(tabIndex);
-}
-
-module.exports = {
-  showReferenceContainer,
-  getCurrentReferenceVerse,
-  getLocalizedReferenceVerse,
-  updateReferenceVerseTranslation,
-  clearReferenceVerse,
-  renderReferenceVerse
 };
