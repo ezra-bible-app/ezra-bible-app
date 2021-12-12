@@ -67,36 +67,6 @@ class TabController {
       return false;
     });
 
-    //FIXME: move exitEvent Listener to appController
-    var exitEvent = null;
-    var exitContext = window;
-
-    if (platformHelper.isElectron()) {
-      exitEvent = 'beforeunload';
-      exitContext = window;
-    } else if (platformHelper.isCordova()) {
-      exitEvent = 'pause';
-      exitContext = document;
-    }
-
-    exitContext.addEventListener(exitEvent, () => {
-      this.exitLog('Persisting data');
-
-      this.lastSelectedTabIndex = this.getSelectedTabIndex();
-      this.savePreviousTabScrollPosition();
-      
-      if (this.persistanceEnabled) {
-        this.exitLog('Saving tab configuration');
-        this.saveTabConfiguration();
-      }
-      
-      this.exitLog('Saving last locale');
-      cacheController.saveLastLocale();
-
-      this.exitLog('Saving last used version');
-      cacheController.saveLastUsedVersion();
-    });
-
     this.initTabs();
 
     eventController.subscribe('on-locale-changed', async () => {
@@ -123,15 +93,6 @@ class TabController {
     eventController.subscribe('on-all-translations-removed', async () => {
       await this.reset();
     });
-  }
-
-  exitLog(logMessage) {
-    if (platformHelper.isElectron()) {
-      const { ipcRenderer } = require('electron');
-      ipcRenderer.send('log', logMessage);
-    } else {
-      console.log(logMessage);
-    }
   }
 
   initFirstTab() {

@@ -48,6 +48,7 @@ const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const wheelnavController = require('../controllers/wheelnav_controller.js');
 const fullscreenController = require('../controllers/fullscreen_controller.js');
+const cacheController = require('./cache_controller.js');
 
 /**
  * AppController is Ezra Bible App's main controller class which initiates all other controllers and components.
@@ -122,6 +123,50 @@ class AppController {
 
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => { await this.onTabSelected(tabIndex); });
     eventController.subscribe('on-tab-added', (tabIndex) => { this.onTabAdded(tabIndex); });
+
+    this.initExitEvent();
+  }
+
+  initExitEvent() {
+    var exitEvent = null;
+    var exitContext = window;
+
+    if (platformHelper.isElectron()) {
+      exitEvent = 'beforeunload';
+      exitContext = window;
+    } else if (platformHelper.isCordova()) {
+      exitEvent = 'pause';
+      exitContext = document;
+    }
+
+    exitContext.addEventListener(exitEvent, () => {
+      // FIXME: Introduce new event on-exit and handle the below actions in a de-coupled way
+
+      this.exitLog('Persisting data');
+
+      this.tab_controller.lastSelectedTabIndex = this.tab_controller.getSelectedTabIndex();
+      this.tab_controller.savePreviousTabScrollPosition();
+      
+      if (this.tab_controller.persistanceEnabled) {
+        this.exitLog('Saving tab configuration');
+        this.tab_controller.saveTabConfiguration();
+      }
+      
+      this.exitLog('Saving last locale');
+      cacheController.saveLastLocale();
+
+      this.exitLog('Saving last used version');
+      cacheController.saveLastUsedVersion();
+    });
+  }
+
+  exitLog(logMessage) {
+    if (platformHelper.isElectron()) {
+      const { ipcRenderer } = require('electron');
+      ipcRenderer.send('log', logMessage);
+    } else {
+      console.log(logMessage);
+    }
   }
 
   initVerseButtons(tabIndex=undefined) {
