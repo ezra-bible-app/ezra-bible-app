@@ -359,6 +359,7 @@ class TabController {
 
     this.addTabElement = 'add-tab-button';
 
+    // eslint-disable-next-line no-unused-vars
     $('#' + this.addTabElement).on("mousedown", (event) => {
       setTimeout(() => {
         $('#' + this.addTabElement).removeClass('ui-state-active');
@@ -514,7 +515,7 @@ class TabController {
 
   getSelectedTabId(index = undefined) {
     if (index === undefined) {
-      var index = this.getSelectedTabIndex();
+      index = this.getSelectedTabIndex();
     }
 
     var allTabsPanels = document.getElementById(this.tabsElement).querySelectorAll('.' + this.tabsPanelClass);
@@ -522,7 +523,7 @@ class TabController {
     var selectedTabsPanelId = "verse-list-tabs-1";
 
     if (selectedTabsPanel != null) {
-      var selectedTabsPanelId = selectedTabsPanel.getAttribute('id');
+      selectedTabsPanelId = selectedTabsPanel.getAttribute('id');
     }
 
     return selectedTabsPanelId;
@@ -537,7 +538,7 @@ class TabController {
         this.defaultBibleTranslationId = bibleTranslationId;
       }
 
-      var metaTab = new Tab(this.defaultBibleTranslationId, interactive);
+      metaTab = new Tab(this.defaultBibleTranslationId, interactive);
     }
 
     metaTab.elementId = this.tabsElement + '-' + this.nextTabId;
@@ -620,7 +621,7 @@ class TabController {
    */
   getTab(index = undefined) {
     if (index === undefined) {
-      var index = this.getSelectedTabIndex();
+      index = this.getSelectedTabIndex();
     }
 
     if (index >= this.metaTabs.length) {
@@ -647,7 +648,7 @@ class TabController {
 
   setTabTitle(title, bibleTranslationId = undefined, index = undefined) {
     if (index === undefined) {
-      var index = this.getSelectedTabIndex();
+      index = this.getSelectedTabIndex();
     }
 
     var tabsElement = $('#' + this.tabsElement);
