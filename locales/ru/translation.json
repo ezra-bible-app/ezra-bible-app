@@ -29,9 +29,9 @@
     "exact-phrase": "Точная фраза",
     "multi-word": "Несколько слов",
     "strongs": "По номеру Стронга",
-    "whole-bible": "Whole Bible",
-    "ot": "Old Testament",
-    "nt": "New Testament",
+    "whole-bible": "Вся Библия",
+    "ot": "Старый Завет",
+    "nt": "Новый Завет",
     "extended-verse-boundaries": "Расширенные границы стиха (два стиха)"
   },
   "module-assistant": {
@@ -55,7 +55,7 @@
     "add-modules": "Добавить {{module_type, accusative}}",
     "remove-modules": "Удалить {{module_type, accusative}}",
     "languages": "Языки",
-    "repository_singular": "Repository",
+    "repository_singular": "Репозиторий",
     "repository_plural": "Репозитории",
     "installation": "Установка",
     "removal": "Удаление",
@@ -127,7 +127,7 @@
     "application-version": "Версия приложения",
     "git-commit": "Git commit",
     "sword-version": "Версия SWORD",
-    "sword-path": "SWORD module path",
+    "sword-path": "Путь к модулю SWORD",
     "chromium-version": "Версия Chromium",
     "database-path": "Расположение базы данных",
     "config-file-path": "Расположение файла конфигурации",
@@ -303,8 +303,8 @@
     "open-complete-book": "Открывать книги полностью",
     "open-chapters-large-books": "Открывать по главам большие книги",
     "open-chapters-all-books": "Открывать по главам все книги",
-    "copy": "Copy",
-    "edit-note": "Edit note"
+    "copy": "Скопировать",
+    "edit-note": "Редактировать заметку"
   },
   "dictionary-panel": {
     "greek-dict": "Словарь греческого языка",
