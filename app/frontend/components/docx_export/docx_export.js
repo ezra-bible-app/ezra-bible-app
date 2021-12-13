@@ -57,7 +57,6 @@ class DocxExport {
    * @param {'NOTES'|'TAGS'} type 
    */
   async _runExport(type) {
-    /**@type {import('../../ui_models/tab')} */
     const currentTab = app_controller.tab_controller.getTab();
     const translationId = currentTab.getBibleTranslationId();
 

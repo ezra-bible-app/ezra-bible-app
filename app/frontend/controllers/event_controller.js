@@ -68,7 +68,7 @@ module.exports.subscribe = function subscribe(event, callback) {
  * This function calls all callbacks that subscribed to the specific event
  * @param {EzraEvent} event Event key to be notified
  * @param {*} payload 
- * @returns {[]} Array of callback results
+ * @returns {Array} Array of callback results
  */
 module.exports.publish = function publish(event, payload=undefined) {
   var results = [];
@@ -92,7 +92,7 @@ module.exports.publish = function publish(event, payload=undefined) {
  * This function calls all callbacks that subscribed to the specific event and awaits for all callbacks to finish
  * @param {EzraEvent} event Event key to be notified
  * @param {*} payload 
- * @returns {Promise<[]>} Promise that resolves to array of callback results
+ * @returns {Promise<Array>} Promise that resolves to array of callback results
  */
 module.exports.publishAsync = async function publishAsync(event, payload=undefined) {
 
