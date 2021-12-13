@@ -18,6 +18,7 @@
 
 const Mousetrap = require('mousetrap');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
+const eventController = require('../controllers/event_controller.js');
 
 const DEFAULT_TEXT_SIZE = 10; // in em*10 so not to deal with float
 const MIN_SIZE = 7;
@@ -41,9 +42,13 @@ class TextSizeSettings {
     this.menuContainer = '.text-size-menu';
     this.menuIsOpened = false;
     this.stylesheet = null;  // instance of CSSStyleSheet https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet
+
+    eventController.subscribe('on-tab-added', (tabIndex) => {
+      this.init(tabIndex);
+    });
   }
 
-  async init(tabIndex = undefined) {
+  async init(tabIndex=undefined) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     currentVerseListMenu.find(this.openMenuButton).bind('click', (e) => {
       e.stopPropagation();

@@ -29,6 +29,9 @@
     "exact-phrase": "Exakter Ausdruck",
     "multi-word": "Mehrere Worte",
     "strongs": "Strongs Nr.",
+    "whole-bible": "Gesamte Bibel",
+    "ot": "Altes Testament",
+    "nt": "Neues Testament",
     "extended-verse-boundaries": "Erweiterte Versgrenzen (Zwei Verse)"
   },
   "module-assistant": {
@@ -46,7 +49,8 @@
     "add-modules": "{{module_type, accusative}} hinzufügen",
     "remove-modules": "{{module_type, accusative}} entfernen",
     "languages": "Sprachen",
-    "repositories": "Modularchive",
+    "repository_singular": "Modularchiv",
+    "repository_plural": "Modularchive",
     "installation": "Installation",
     "removal": "Entfernen",
     "update-data": { 
@@ -117,6 +121,7 @@
     "application-version": "App Version",
     "git-commit": "Git commit",
     "sword-version": "SWORD Version",
+    "sword-path": "SWORD Modulpfad",
     "chromium-version": "Chromium Version",
     "database-path": "Datenbankpfad",
     "config-file-path": "Konfigurationspfad",
@@ -231,7 +236,6 @@
     "delete-tag-permanently": "Diesen Tag dauerhaft löschen",
     "none-selected": "Keine",
     "rename-tag": "Tag umbenennen",
-    "rename-tag-button": "[Umbenennen]",
     "title": "Titel",
     "stats-used": "benutzt",
     "stats-total": "gesamt",
@@ -290,9 +294,11 @@
     "new-note-hint": "Klicken um neue Notiz hinzuzufügen",
     "open-complete-book": "Bücher vollständig öffnen",
     "open-chapters-large-books": "Große Bücher kapitelweise öffnen",
-    "open-chapters-all-books": "Alle Bücher kapitelweise öffnen"
+    "open-chapters-all-books": "Alle Bücher kapitelweise öffnen",
+    "copy": "Kopieren",
+    "edit-note": "Notiz ändern"
   },
-  "dictionary-info-box": {
+  "dictionary-panel": {
     "greek-dict": "Griechisches Wörterbuch",
     "hebrew-dict": "Hebräisches Wörterbuch",
     "default-header": "<b>Wörterbuch</b>",

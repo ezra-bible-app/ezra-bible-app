@@ -16,9 +16,24 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const eventController = require('../../controllers/event_controller.js');
+const verseListController = require('../../controllers/verse_list_controller.js');
+
 class TagStatistics {
   constructor() {
     this._frequentTagsList = [];
+
+    eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
+      var tabIsCurrentTab = app_controller.tab_controller.isCurrentTab(tabIndex);
+
+      if (tabIsCurrentTab) {
+        await this.toggleBookTagStatisticsButton(tabIndex);
+      }
+    });
+
+    eventController.subscribe('on-tab-selected', (tabIndex) => {
+      this.toggleBookTagStatisticsButton(tabIndex);
+    });
   }
 
   getBookTagStatistics() {
@@ -164,7 +179,7 @@ class TagStatistics {
   }
 
   highlightFrequentlyUsedTags() {
-    var currentVerseList = app_controller.getCurrentVerseList()[0];
+    var currentVerseList = verseListController.getCurrentVerseList()[0];
     var allTags = currentVerseList.querySelectorAll('.tag');
 
     allTags.forEach((tag) => {
@@ -213,7 +228,7 @@ class TagStatistics {
   };
 
   async openBookTagStatistics() {
-    var currentVerseList = app_controller.getCurrentVerseList();
+    var currentVerseList = verseListController.getCurrentVerseList();
     var verse_list_position = currentVerseList.offset();
     var currentTab = app_controller.tab_controller.getTab();
     var currentBookTranslation = await ipcDb.getBookTitleTranslation(currentTab.getBook());

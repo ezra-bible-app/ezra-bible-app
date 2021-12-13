@@ -19,6 +19,7 @@
 
 const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
+const eventController = require('../../controllers/event_controller.js');
 const assistantHelper = require('./assistant_helper.js');
 
 const template = html`
@@ -82,9 +83,9 @@ class UpdateRepositories extends HTMLElement {
     uiHelper.configureButtonStyles(this);
 
     this.querySelector('.update-repo-data').addEventListener('click', async () => await assistantController.updateRepositories());
-    assistantController.onStartRepositoriesUpdate(() => this.prepareProgressBar());
-    assistantController.onProgressRepositoriesUpdate(process => this.handleUpdateProgress(process));
-    assistantController.onCompletedRepositoriesUpdate(status => this.updateDateInfo(status));
+    eventController.subscribe('on-repo-update-started', () => this.prepareProgressBar());
+    eventController.subscribe('on-repo-update-progress', progress => this.handleUpdateProgress(progress));
+    eventController.subscribe('on-repo-update-completed', status => this.updateDateInfo(status));
     
     assistantHelper.localizeContainer(this);
 

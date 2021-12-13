@@ -18,6 +18,9 @@
 
 const Mousetrap = require('mousetrap');
 const DictionaryInfoBox = require('../components/dictionary_info_box.js');
+const eventController = require('./event_controller.js');
+const verseListController = require('../controllers/verse_list_controller.js');
+
 let jsStrongs = null;
 
 
@@ -34,6 +37,7 @@ let jsStrongs = null;
  */
 class DictionaryController {
   constructor() {
+    this._isDictionaryOpen = false;
     this._currentStrongsIds = null;
     this._currentStrongsElement = null;
     /**@type {HTMLElement} */
@@ -43,10 +47,6 @@ class DictionaryController {
     this.strongsAvailable = false;
     this._dictionaryInfoBox = new DictionaryInfoBox(this);
 
-    this.strongsBox.bind('mouseout', () => {
-      this.hideStrongsBox();
-    });
-
     Mousetrap.bind('shift', () => {
       this.shiftKeyPressed = true;
     });
@@ -55,6 +55,45 @@ class DictionaryController {
       if (e.key == 'Shift') {
         this.shiftKeyPressed = false;
         this.removeHighlight();
+      }
+    });
+
+    this.strongsBox.bind('mouseout', () => {
+      this.hideStrongsBox();
+    });
+
+    document.body.addEventListener('touchmove', () => {
+      this.hideStrongsBox();
+    });
+
+    window.addEventListener('scroll', () => {
+      this.hideStrongsBox();
+    });
+
+    eventController.subscribe('on-bible-text-loaded', (tabIndex) => { 
+      this.bindAfterBibleTextLoaded(tabIndex);
+    });
+
+    eventController.subscribe('on-tab-selected', () => {
+      this.hideStrongsBox();
+    });
+
+    eventController.subscribe('on-tab-search-results-available', async () => {
+      // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
+      await this.bindAfterBibleTextLoaded();
+    });
+
+    eventController.subscribe('on-tab-search-reset', async () => {
+      // We need to re-initialize the Strong's event handlers, because the search function rewrote the verse html elements
+      await this.bindAfterBibleTextLoaded();
+    });
+
+    eventController.subscribe('on-dictionary-panel-switched', isOpen => {
+      this._isDictionaryOpen = isOpen;
+
+      if (!isOpen) { 
+        this.clearInfoBox();  
+        this.hideStrongsBox(true);
       }
     });
 
@@ -81,20 +120,8 @@ class DictionaryController {
     this.strongsBox.hide();
   }
 
-  showInfoBox() {
-    return this._dictionaryInfoBox.showDictInfoBox();
-  }
-
-  hideInfoBox() {
-    return this._dictionaryInfoBox.hideDictInfoBox();
-  }
-
   clearInfoBox() {
     this._dictionaryInfoBox.clearDictInfoBox();
-  }
-
-  moveInfoBoxFromTo(fromContainer, toContainer) {
-    this._dictionaryInfoBox.moveDictInfoBox(fromContainer, toContainer);
   }
 
   async bindAfterBibleTextLoaded(tabIndex=undefined) {
@@ -111,9 +138,9 @@ class DictionaryController {
     }
     
     /**@type {HTMLElement}*/
-    const currentVerseList = app_controller.getCurrentVerseList(tabIndex)[0];
+    const currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex)[0];
     
-    const verseTextElements = currentVerseList.querySelectorAll('.verse-text');
+    const verseTextElements = currentVerseListFrame.querySelectorAll('.verse-text');
     verseTextElements.forEach(verseElement => verseElement.addEventListener('mousemove', () => {
       var currentTab = app_controller.tab_controller.getTab();
       currentTab.tab_search.blurInputField();
@@ -125,7 +152,7 @@ class DictionaryController {
       longpressController = require('./longpress_controller.js');
     }
     
-    const wElements = currentVerseList.querySelectorAll('w');
+    const wElements = currentVerseListFrame.querySelectorAll('w');
 
     wElements.forEach(wElement => { 
       wElement.classList.remove('strongs-hl');
@@ -278,7 +305,7 @@ class DictionaryController {
   }
 
   async _handleShiftMouseMove(event) {
-    if (!app_controller.optionsMenu._dictionaryOption.isChecked) {
+    if (!this._isDictionaryOpen) {
       return;
     }
 
@@ -318,7 +345,7 @@ class DictionaryController {
   }
 
   highlightStrongsInVerse(verseTextElement, force=false) {
-    if (!app_controller.optionsMenu._dictionaryOption.isChecked) {
+    if (!this._isDictionaryOpen) {
       return;
     }
 
@@ -341,7 +368,7 @@ class DictionaryController {
   }
 
   logDoubleStrongs() {
-    var currentVerseList = app_controller.getCurrentVerseList();
+    var currentVerseList = verseListController.getCurrentVerseList();
     var currentWElements = currentVerseList.find('w');
 
     for (var i = 0; i < currentWElements.length; i++) {

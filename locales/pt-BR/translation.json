@@ -29,6 +29,9 @@
     "exact-phrase": "Frase exata",
     "multi-word": "Múltiplas palavras",
     "strongs": "Números de Strong",
+    "whole-bible": "Bíblia Completa",
+    "ot": "Velho Testamento",
+    "nt": "Novo Testamento",
     "extended-verse-boundaries": "Limites do versículo estendido (dois versículos)"
   },
   "module-assistant": {
@@ -50,7 +53,8 @@
     "add-modules": "Adicionar {{module_type, accusative}}",
     "remove-modules": "Remover {{module_type, accusative}}",
     "languages": "Idioma",
-    "repositories": "Repositórios",
+    "repository_singular": "Repositório",
+    "repository_plural": "Repositórios",
     "installation": "Instalação",
     "removal": "Remoção",
     "update-data": { 
@@ -121,6 +125,7 @@
     "application-version": "Versão do Aplicativo",
     "git-commit": "Git commit",
     "sword-version": "Versão do The SWORD",
+    "sword-path": "Caminho do módulo SWORD",
     "chromium-version": "Versão do Chromium",
     "database-path": "Caminho do Banco de Dados",
     "config-file-path": "Caminho da Configuração",
@@ -239,7 +244,6 @@
     "delete-tag-permanently": "Apaga esta etiqueta permanentemente",
     "none-selected": "Nenhuma",
     "rename-tag": "Renomeia etiqueta",
-    "rename-tag-button": "[Renomear]",
     "title": "Título",
     "stats-used": "utilizado",
     "stats-total": "total",
@@ -298,9 +302,11 @@
     "new-note-hint": "Clicar para adicionar nota",
     "open-complete-book": "Abrir livros completamente",
     "open-chapters-large-books": "Abrir grandes livros em modo capítulo-inteligente",
-    "open-chapters-all-books": "Abrir todos os livros em modo capítulo-inteligente"
+    "open-chapters-all-books": "Abrir todos os livros em modo capítulo-inteligente",
+    "copy": "Copiar",
+    "edit-note": "Editar nota"
   },
-  "dictionary-info-box": {
+  "dictionary-panel": {
     "greek-dict": "Dicionário de Grego",
     "hebrew-dict": "Dicionário de Hebraico",
     "default-header": "<b>Dicionário</b>",

@@ -20,6 +20,7 @@
 const { html, waitUntilIdle } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const i18nController = require('../../controllers/i18n_controller.js');
+const eventController = require('../../controllers/event_controller.js');
 const languageMapper = require('../../../lib/language_mapper.js');
 const assistantHelper = require('./assistant_helper.js');
 const swordModuleHelper = require('../../helpers/sword_module_helper.js');
@@ -116,8 +117,9 @@ class StepLanguages extends HTMLElement {
     this.addEventListener('itemChanged', (e) => this._handleCheckboxClick(e));
     this.addEventListener('searchResultsReady', (e) => this._handleSearchResult(e));
 
-    assistantController.onStartRepositoriesUpdate(async () => await this.resetView());
-    assistantController.onCompletedRepositoriesUpdate(async status => {
+    eventController.subscribe('on-repo-update-started', () => this.resetView());
+    eventController.subscribe('on-repo-update-completed', async status => {
+      console.log('Ready to list languages, repos updated:', status);
       if (status == 0) {
         await this.listLanguages();
       } else {
@@ -130,7 +132,7 @@ class StepLanguages extends HTMLElement {
     this._initialized = true;
   }
 
-  async resetView() {
+  resetView() {
     this._allLanguages.innerHTML = '';
     this._searchResults.innerHTML = '';
     this._search.style.display = 'none';

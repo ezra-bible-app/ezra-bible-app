@@ -29,6 +29,9 @@
     "exact-phrase": "Точная фраза",
     "multi-word": "Несколько слов",
     "strongs": "По номеру Стронга",
+    "whole-bible": "Вся Библия",
+    "ot": "Старый Завет",
+    "nt": "Новый Завет",
     "extended-verse-boundaries": "Расширенные границы стиха (два стиха)"
   },
   "module-assistant": {
@@ -52,7 +55,8 @@
     "add-modules": "Добавить {{module_type, accusative}}",
     "remove-modules": "Удалить {{module_type, accusative}}",
     "languages": "Языки",
-    "repositories": "Репозитории",
+    "repository_singular": "Репозиторий",
+    "repository_plural": "Репозитории",
     "installation": "Установка",
     "removal": "Удаление",
     "update-data": { 
@@ -123,6 +127,7 @@
     "application-version": "Версия приложения",
     "git-commit": "Git commit",
     "sword-version": "Версия SWORD",
+    "sword-path": "Путь к модулю SWORD",
     "chromium-version": "Версия Chromium",
     "database-path": "Расположение базы данных",
     "config-file-path": "Расположение файла конфигурации",
@@ -241,7 +246,6 @@
     "delete-tag-constantly": "Окончательно удалить эту метку",
     "none-selected": "-",
     "rename-tag": "Переименовать метку",
-    "rename-tag-button": "[Переименовать]",
     "title": "Заголовок",
     "stats-used": "использовано",
     "stats-total": "всего",
@@ -298,9 +302,11 @@
     "new-note-hint": "Добавить заметку",
     "open-complete-book": "Открывать книги полностью",
     "open-chapters-large-books": "Открывать по главам большие книги",
-    "open-chapters-all-books": "Открывать по главам все книги"
+    "open-chapters-all-books": "Открывать по главам все книги",
+    "copy": "Скопировать",
+    "edit-note": "Редактировать заметку"
   },
-  "dictionary-info-box": {
+  "dictionary-panel": {
     "greek-dict": "Словарь греческого языка",
     "hebrew-dict": "Словарь иврита",
     "default-header": "<b>Словарь</b>",

@@ -38,11 +38,11 @@ class IpcNsi {
   }
 
   async updateRepositoryConfig(progressCallback=undefined) {
-    var returnValue = await this._ipcRenderer.callWithProgressCallback('nsi_updateRepositoryConfig',
-                                                                       'nsi_updateRepoConfigProgress',
-                                                                       progressCallback,
-                                                                       60000);
-    return returnValue;
+    var repoUpdateStatus = await this._ipcRenderer.callWithProgressCallback('nsi_updateRepositoryConfig',
+                                                                            'nsi_updateRepoConfigProgress',
+                                                                            progressCallback,
+                                                                            60000);
+    return repoUpdateStatus;
   }
 
   async getRepoNames() {
@@ -51,13 +51,13 @@ class IpcNsi {
   }
 
   async getRepoLanguages(repositoryName, moduleType) {
-    var timeoutMs = 10000;
+    var timeoutMs = 15000;
     var returnValue = this._ipcRenderer.callWithTimeout('nsi_getRepoLanguages', timeoutMs, repositoryName, moduleType);
     return returnValue;
   }
 
   async getAllRepoModules(repositoryName, moduleType) {
-    var timeoutMs = 10000;
+    var timeoutMs = 15000;
     var returnValue = this._ipcRenderer.callWithTimeout('nsi_getAllRepoModules', timeoutMs, repositoryName, moduleType);
     return returnValue;
   }
@@ -70,7 +70,7 @@ class IpcNsi {
                              hebrewStrongsKeys,
                              greekStrongsKeys) {
 
-    var timeoutMs = 10000;
+    var timeoutMs = 15000;
     var returnValue = this._ipcRenderer.callWithTimeout('nsi_getRepoModulesByLang',
                                                         timeoutMs,
                                                         repositoryName,
@@ -212,6 +212,7 @@ class IpcNsi {
                                moduleCode,
                                searchTerm,
                                searchType,
+                               searchScope,
                                isCaseSensitive,
                                useExtendedVerseBoundaries) {
 
@@ -222,6 +223,7 @@ class IpcNsi {
                                                                  moduleCode,
                                                                  searchTerm,
                                                                  searchType,
+                                                                 searchScope,
                                                                  isCaseSensitive,
                                                                  useExtendedVerseBoundaries);
     return returnValue;
@@ -274,6 +276,11 @@ class IpcNsi {
 
   async getSwordVersion() {
     var returnValue = this._ipcRenderer.call('nsi_getSwordVersion');
+    return returnValue;
+  }
+
+  async getSwordPath() {
+    var returnValue = this._ipcRenderer.call('nsi_getSwordPath');
     return returnValue;
   }
 }

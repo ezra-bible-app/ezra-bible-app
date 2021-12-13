@@ -216,7 +216,7 @@ class PlatformHelper {
     }
   }
 
-  getUserDataPath(getOldPath=false, useInternalStorage=false) {
+  getUserDataPath(getOldPath=false, androidVersion=undefined) {
     if (this.isElectron()) {
 
       const { app } = require('electron');
@@ -251,8 +251,10 @@ class PlatformHelper {
 
       let userDataDir = "";
 
-      if (useInternalStorage) {
-        userDataDir = cordova.app.datadir() + '/ezra_storage';
+      if (androidVersion !== undefined && androidVersion >= 11) {
+        let oldUserDataDir = cordova.app.datadir() + '/ezra_storage';
+
+        userDataDir = getOldPath ? oldUserDataDir : '/sdcard/Documents/ezra';
       } else {
         const appId = getOldPath ? 'de.ezraproject.cordova' : 'net.ezrabibleapp.cordova';
         // TODO adapt this for ios later

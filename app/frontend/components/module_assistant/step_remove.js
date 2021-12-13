@@ -20,6 +20,7 @@
 const { html } = require('../../helpers/ezra_helper.js');
 const assistantController = require('./assistant_controller.js');
 const assistantHelper = require('./assistant_helper.js');
+const eventController = require('../../controllers/event_controller.js');
 
 const template = html`
 <style>
@@ -56,14 +57,14 @@ class StepRemove extends HTMLElement {
     assistantHelper.localizeContainer(this, assistantController.get('moduleType'));
   }
 
-  async uninstallSelectedModules(onAllTranslationsRemoved, onTranslationRemoved) {
+  async uninstallSelectedModules() {
     assistantHelper.lockDialogForAction('module-settings-assistant-remove');
     assistantController.setInstallInProgress();
 
     const selectedModules = assistantController.get('selectedModules');
     setTimeout(async () => {
       for (const currentModule of selectedModules) {
-        await this._uninstallModule(currentModule, onAllTranslationsRemoved, onTranslationRemoved);
+        await this._uninstallModule(currentModule);
       }
 
       assistantController.setInstallDone();
@@ -71,7 +72,7 @@ class StepRemove extends HTMLElement {
     }, 800);
   }
 
-  async _uninstallModule(moduleCode, onAllTranslationsRemoved, onTranslationRemoved) {
+  async _uninstallModule(moduleCode) {
     var localModule = await ipcNsi.getLocalModule(moduleCode, true);
 
     this._appendRemovalInfo(localModule.description);
@@ -90,15 +91,12 @@ class StepRemove extends HTMLElement {
       var modules = await app_controller.translation_controller.getInstalledModules('BIBLE');
 
       if (modules.length > 0) {
-        // FIXME: Also put this in a callback
-        app_controller.tab_controller.setCurrentBibleTranslationId(modules[0]);
-        app_controller.onBibleTranslationChanged();
-        await app_controller.navigation_pane.updateNavigation();
+        await eventController.publishAsync('on-translation-changed', {from: currentBibleTranslationId, to: modules[0]});
       } else {
-        await onAllTranslationsRemoved();
+        await eventController.publishAsync('on-all-translations-removed');
       }
 
-      await onTranslationRemoved(moduleCode);
+      await eventController.publishAsync('on-translation-removed', moduleCode);
     }
 
     this._setRemovalInfoStatus();

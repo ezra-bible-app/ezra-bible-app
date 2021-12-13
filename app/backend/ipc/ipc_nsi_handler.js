@@ -78,18 +78,22 @@ class IpcNsiHandler {
     return count;
   }
 
+  /**
+   * SWORD uses an underscore as a separator (like pt_BR), while i18next uses a hyphen.
+   * So here we replace any hyphen in the localeCode with an underscore, so that this works with SWORD.
+   */
+  getSwordLocaleCode(localeCode) {
+    return localeCode.replace('-', '_');
+  }
+
   initIpcInterface() {
     this._ipcMain.add('nsi_repositoryConfigExisting', () => {
       return this._nsi.repositoryConfigExisting();
     });
 
     this._ipcMain.addWithProgressCallback('nsi_updateRepositoryConfig', async (progressCB) => {
-      try {
-        var retCode = await this._nsi.updateRepositoryConfig(progressCB);
-        return retCode;
-      } catch (retCode) {
-        return retCode;
-      }
+        var repoUpdateStatus = await this._nsi.updateRepositoryConfig(progressCB);
+        return repoUpdateStatus;
     }, 'nsi_updateRepoConfigProgress');
     
     this._ipcMain.add('nsi_getRepoNames', () => {
@@ -262,6 +266,7 @@ class IpcNsiHandler {
              moduleCode,
              searchTerm,
              searchType,
+             searchScope,
              isCaseSensitive,
              useExtendedVerseBoundaries) => {
 
@@ -269,6 +274,7 @@ class IpcNsiHandler {
                                                       searchTerm,
                                                       progressCB,
                                                       searchType,
+                                                      searchScope,
                                                       isCaseSensitive,
                                                       useExtendedVerseBoundaries);
       },
@@ -308,15 +314,21 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.add('nsi_getSwordTranslation', (originalString, localeCode) => {
+      localeCode = this.getSwordLocaleCode(localeCode);
       return this._nsi.getSwordTranslation(originalString, localeCode);
     });
 
     this._ipcMain.add('nsi_getBookAbbreviation', (moduleCode, bookCode, localeCode) => {
+      localeCode = this.getSwordLocaleCode(localeCode);
       return this._nsi.getBookAbbreviation(moduleCode, bookCode, localeCode);
     });
 
     this._ipcMain.add('nsi_getSwordVersion', () => {
       return this._nsi.getSwordVersion();
+    });
+
+    this._ipcMain.add('nsi_getSwordPath', () => {
+      return this._nsi.getSwordPath();
     });
   }
 

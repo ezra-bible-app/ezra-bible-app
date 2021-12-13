@@ -29,6 +29,9 @@
     "exact-phrase": "Точна фраза",
     "multi-word": "Кілька слів",
     "strongs": "Число Стронга",
+    "whole-bible": "Вся Біблія",
+    "ot": "Старий Завіт",
+    "nt": "Новий Завіт",
     "extended-verse-boundaries": "Розширити межі вірша (два вірші)"
   },
   "module-assistant": {
@@ -50,7 +53,8 @@
     "add-modules": "Додати {{module_type, accusative}}",
     "remove-modules": "Видалити {{module_type, accusative}}",
     "languages": "Мови",
-    "repositories": "Сховища",
+    "repository_singular": "Сховище",
+    "repository_plural": "Сховища",
     "installation": "Встановлення",
     "removal": "Видалення",
     "update-data": { 
@@ -121,6 +125,7 @@
     "application-version": "Версія застосунку",
     "git-commit": "Git commit",
     "sword-version": "Версія SWORD",
+    "sword-path": "Шлях до модую SWORD",
     "chromium-version": "Версія Chromium",
     "database-path": "Розташування бази даних",
     "config-file-path": "Розташування налаштувань",
@@ -239,7 +244,6 @@
     "delete-tag-permanently": "Видалити цю міту назавжди",
     "none-selected": "-",
     "rename-tag": "Перейменувати міту",
-    "rename-tag-button": "[Перейменувати]",
     "title": "Назва",
     "stats-used": "використано",
     "stats-total": "Всього",
@@ -298,9 +302,11 @@
     "new-note-hint": "Додати нотатку",
     "open-complete-book": "Відкривати книги повністю",
     "open-chapters-large-books": "Відкривати за розділом великі книги",
-    "open-chapters-all-books": "Відкривати за розділом усі книги"
+    "open-chapters-all-books": "Відкривати за розділом усі книги",
+    "copy": "Зкопіювати",
+    "edit-note": "Редагувати нотатку"
   },
-  "dictionary-info-box": {
+  "dictionary-panel": {
     "greek-dict": "Словник грецької",
     "hebrew-dict": "Словник івріту",
     "default-header": "<b>Словник</b>",

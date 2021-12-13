@@ -54,7 +54,7 @@ const templateAddSteps = html`
     <!-- <step-languages></step-languages> -->
   </section>
 
-  <h3 i18n="module-assistant.repositories"></h3>
+  <h3 i18n="module-assistant.repository_plural"></h3>
   <section id="module-repositories" class="module-assistant-step">
     <!-- <step-repositories></step-repositories> -->
   </section>

@@ -29,6 +29,9 @@
     "exact-phrase": "Frază exactă",
     "multi-word": "Cuvinte multiple",
     "strongs": "Index de concordanță (Strong's)",
+    "whole-bible": "Întreaga Biblie",
+    "ot": "Vechiul Testament",
+    "nt": "Noul Testament",
     "extended-verse-boundaries": "Limite extinse pentru verset (Două versete)"
   },
   "module-assistant": {
@@ -50,7 +53,8 @@
     "add-modules": "Adaugă {{module_type, accusative}}",
     "remove-modules": "Dezinstalează {{module_type, accusative}}",
     "languages": "Limbi",
-    "repositories": "Depozite",
+    "repository_singular": "Depozit",
+    "repository_plural": "Depozite",
     "installation": "Instalare",
     "removal": "Ștergere",
     "update-data": { 
@@ -121,6 +125,7 @@
     "application-version": "Versiune aplicație",
     "git-commit": "Git commit",
     "sword-version": "versiune SWORD",
+    "sword-path": "cale modul SWORD",
     "chromium-version": "versiune Chromium",
     "database-path": "cale Bază de date",
     "config-file-path": "cale Configurare",
@@ -239,7 +244,6 @@
     "delete-tag-permanently": "Șterge definitiv această etichetă",
     "none-selected": "Nimic",
     "rename-tag": "Redenumește eticheta",
-    "rename-tag-button": "[Redenumește]",
     "title": "Titlu",
     "stats-used": "folosit",
     "stats-total": "total",
@@ -298,9 +302,11 @@
     "new-note-hint": "Click pentru a adăuga o notă",
     "open-complete-book": "Deschide cărțile în întregime",
     "open-chapters-large-books": "Deschide cărțile mari per capitol",
-    "open-chapters-all-books": "Deschide toate cărțile per capitol"
+    "open-chapters-all-books": "Deschide toate cărțile per capitol",
+    "copy": "Copiază",
+    "edit-note": "Editează nota"
   },
-  "dictionary-info-box": {
+  "dictionary-panel": {
     "greek-dict": "Dicționar grec",
     "hebrew-dict": "Dicționar ebraic",
     "default-header": "<b>Dicţionar</b>",

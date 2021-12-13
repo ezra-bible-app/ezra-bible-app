@@ -22,8 +22,10 @@ const i18nHelper = require('../helpers/i18n_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const verseListTitleHelper = require('../helpers/verse_list_title_helper.js');
-const i18nController = require('./i18n_controller.js');
 const cacheController = require('./cache_controller.js');
+const eventController = require('./event_controller.js');
+const referenceVerseController = require('../controllers/reference_verse_controller.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 /**
  * The TabController manages the tab bar and the state of each tab.
@@ -47,14 +49,11 @@ class TabController {
     this.verseBoxHelper = new VerseBoxHelper();
   }
 
-  init(tabsElement, tabsPanelClass, addTabElement, settings, tabHtmlTemplate, onTabSelected, onTabAdded, defaultBibleTranslationId) {
+  init(tabsElement, tabsPanelClass, addTabElement, tabHtmlTemplate, defaultBibleTranslationId) {
     this.tabsElement = tabsElement;
     this.tabsPanelClass = tabsPanelClass;
     this.addTabElement = addTabElement;
-    this.settings = settings;
     this.tabHtmlTemplate = tabHtmlTemplate;
-    this.onTabSelected = onTabSelected;
-    this.onTabAdded = onTabAdded;
     this.defaultBibleTranslationId = defaultBibleTranslationId;
     this.initFirstTab();
 
@@ -68,51 +67,32 @@ class TabController {
       return false;
     });
 
-    //FIXME: move exitEvent Listener to appController
-    var exitEvent = null;
-    var exitContext = window;
-
-    if (platformHelper.isElectron()) {
-      exitEvent = 'beforeunload';
-      exitContext = window;
-    } else if (platformHelper.isCordova()) {
-      exitEvent = 'pause';
-      exitContext = document;
-    }
-
-    exitContext.addEventListener(exitEvent, () => {
-      this.exitLog('Persisting data');
-
-      this.lastSelectedTabIndex = this.getSelectedTabIndex();
-      this.savePreviousTabScrollPosition();
-      
-      if (this.persistanceEnabled) {
-        this.exitLog('Saving tab configuration');
-        this.saveTabConfiguration();
-      }
-      
-      this.exitLog('Saving last locale');
-      cacheController.saveLastLocale();
-
-      this.exitLog('Saving last used version');
-      cacheController.saveLastUsedVersion();
-    });
-
     this.initTabs();
 
-    i18nController.addLocaleChangeSubscriber(async () => {
+    eventController.subscribe('on-locale-changed', async () => {
       this.localizeTemplate();
       await this.updateTabTitlesAfterLocaleChange();
     });
-  }
 
-  exitLog(logMessage) {
-    if (platformHelper.isElectron()) {
-      const { ipcRenderer } = require('electron');
-      ipcRenderer.send('log', logMessage);
-    } else {
-      console.log(logMessage);
-    }
+    eventController.subscribe('on-translation-changed', async (data) => await this.onBibleTranslationChanged(data));
+
+    eventController.subscribe('on-translation-removed', async (translationId) => {
+      var installedTranslations = await app_controller.translation_controller.getInstalledModules();
+      this.onTranslationRemoved(translationId, installedTranslations);
+    });
+
+    eventController.subscribe('on-translation-added', (translationCode) => {
+      var currentBibleTranslationId = this.getTab().getBibleTranslationId();
+      if (currentBibleTranslationId == "" || 
+          currentBibleTranslationId == null) { // Update UI after a Bible translation becomes available
+  
+        this.setCurrentBibleTranslationId(translationCode);
+      }
+    });
+
+    eventController.subscribe('on-all-translations-removed', async () => {
+      await this.reset();
+    });
   }
 
   initFirstTab() {
@@ -219,7 +199,7 @@ class TabController {
 
       var tabTitle = currentMetaTab.getTitle();
       this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), loadedTabCount);
-      this.onTabAdded(i - 1, i);
+      eventController.publish('on-tab-added', i);
       loadedTabCount += 1;
     }
 
@@ -302,27 +282,27 @@ class TabController {
 
     if (await cacheController.hasCachedItem('tabConfiguration')) {
       uiHelper.showTextLoadingIndicator();
-      app_controller.showVerseListLoadingIndicator();
+      verseListController.showVerseListLoadingIndicator();
       loadedTabCount = await this.loadMetaTabsFromSettings();
 
       if (loadedTabCount > 0) {
         await this.populateFromMetaTabs();
       } else {
-        app_controller.hideVerseListLoadingIndicator();
+        verseListController.hideVerseListLoadingIndicator();
         uiHelper.hideTextLoadingIndicator();
       }
     }
 
-    // If no tabs are loaded from a previous session we need to explicitly invoke the onTabAdded callback on the first tab
+    // If no tabs are loaded from a previous session we need to explicitly invoke the on-tab-added event on the first tab
     if (loadedTabCount == 0) {
-      this.onTabAdded(-1, 0);
+      eventController.publish('on-tab-added', 0);
     }
 
     // Give the UI some time to render
     await waitUntilIdle();
 
     // Call this method explicitly to initialize the first tab
-    await this.onTabSelected();
+    await eventController.publishAsync('on-tab-selected', 0);
 
     await waitUntilIdle();
 
@@ -340,6 +320,7 @@ class TabController {
 
     this.addTabElement = 'add-tab-button';
 
+    // eslint-disable-next-line no-unused-vars
     $('#' + this.addTabElement).on("mousedown", (event) => {
       setTimeout(() => {
         $('#' + this.addTabElement).removeClass('ui-state-active');
@@ -375,13 +356,13 @@ class TabController {
         var metaTab = this.getTab(index);
         metaTab.selectCount += 1;
 
-        if (metaTab.addedInteractively || metaTab.selectCount > 1) { // We only run the onTabSelected callback
+        if (metaTab.addedInteractively || metaTab.selectCount > 1) { // We only run the on-tab-selected callbacks
           // if the tab has been added interactively
           // or after the initial select.
           // This is necessary to ensure good visual performance when
           // adding tabs automatically (like for finding all Strong's references).
 
-          var index = this.getCorrectedIndex(ui);
+          index = this.getCorrectedIndex(ui);
           ui.index = index;
 
           if (metaTab.selectCount > 1) {
@@ -389,20 +370,20 @@ class TabController {
           }
 
           if (metaTab.getTextType() != null) {
-            var currentVerseList = app_controller.getCurrentVerseList(index);
-            var currentVerseListHeader = app_controller.getCurrentVerseListHeader(index);
-            var currentReferenceVerse = app_controller.getCurrentReferenceVerse(index);
+            var currentVerseList = verseListController.getCurrentVerseList(index);
+            var currentVerseListHeader = verseListController.getCurrentVerseListHeader(index);
+            var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(index);
 
             currentVerseList.hide();
             currentVerseListHeader.hide();
             currentReferenceVerse.hide();
 
-            app_controller.showVerseListLoadingIndicator(index);
+            verseListController.showVerseListLoadingIndicator(index);
             app_controller.verse_statistics_chart.resetChart(index);
           }
 
           this.lastSelectedTabIndex = index;
-          this.onTabSelected(event, ui);
+          eventController.publish('on-tab-selected', ui.index);
         }
       },
       show: (event, ui) => {
@@ -416,9 +397,9 @@ class TabController {
               await waitUntilIdle();
 
               var index = this.getCorrectedIndex(ui);
-              var currentVerseList = app_controller.getCurrentVerseList(index);
-              var currentVerseListHeader = app_controller.getCurrentVerseListHeader(index);
-              var currentReferenceVerse = app_controller.getCurrentReferenceVerse(index);
+              var currentVerseList = verseListController.getCurrentVerseList(index);
+              var currentVerseListHeader = verseListController.getCurrentVerseListHeader(index);
+              var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(index);
 
               currentVerseList.show();
               currentVerseListHeader.show();
@@ -426,7 +407,7 @@ class TabController {
 
               await app_controller.verse_statistics_chart.repaintChart(index);
 
-              app_controller.hideVerseListLoadingIndicator(index);
+              verseListController.hideVerseListLoadingIndicator(index);
               this.restoreScrollPosition(index);
             }
           }
@@ -450,7 +431,7 @@ class TabController {
 
   saveTabScrollPosition(tabIndex) {
     var metaTab = this.getTab(tabIndex);
-    var firstVerseListAnchor = uiHelper.getFirstVisibleVerseAnchor();
+    var firstVerseListAnchor = verseListController.getFirstVisibleVerseAnchor();
 
     if (metaTab != null) {
       if (firstVerseListAnchor != null) {
@@ -471,7 +452,7 @@ class TabController {
     var metaTab = this.getTab(tabIndex);
 
     if (metaTab != null) {
-      var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+      var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
 
       if (currentVerseListFrame != null) {
         const savedScrollTop = metaTab.getLocation();
@@ -495,7 +476,7 @@ class TabController {
 
   getSelectedTabId(index = undefined) {
     if (index === undefined) {
-      var index = this.getSelectedTabIndex();
+      index = this.getSelectedTabIndex();
     }
 
     var allTabsPanels = document.getElementById(this.tabsElement).querySelectorAll('.' + this.tabsPanelClass);
@@ -503,7 +484,7 @@ class TabController {
     var selectedTabsPanelId = "verse-list-tabs-1";
 
     if (selectedTabsPanel != null) {
-      var selectedTabsPanelId = selectedTabsPanel.getAttribute('id');
+      selectedTabsPanelId = selectedTabsPanel.getAttribute('id');
     }
 
     return selectedTabsPanelId;
@@ -518,7 +499,7 @@ class TabController {
         this.defaultBibleTranslationId = bibleTranslationId;
       }
 
-      var metaTab = new Tab(this.defaultBibleTranslationId, interactive);
+      metaTab = new Tab(this.defaultBibleTranslationId, interactive);
     }
 
     metaTab.elementId = this.tabsElement + '-' + this.nextTabId;
@@ -545,7 +526,7 @@ class TabController {
     this.updateFirstTabCloseButton();
 
     if (!initialLoading) {
-      this.onTabAdded(this.lastSelectedTabIndex, this.tabCounter - 1);
+      eventController.publish('on-tab-added', this.tabCounter - 1);
     }
   }
 
@@ -595,9 +576,17 @@ class TabController {
     }
   }
 
+  /**
+   * @param {Number} index The tab index of the requested Tab
+   * @returns @type Tab
+   */
   getTab(index = undefined) {
     if (index === undefined) {
-      var index = this.getSelectedTabIndex();
+      index = this.getSelectedTabIndex();
+    }
+
+    if (index >= this.metaTabs.length) {
+      index = this.metaTabs.length - 1;
     }
 
     return this.metaTabs[index];
@@ -620,7 +609,7 @@ class TabController {
 
   setTabTitle(title, bibleTranslationId = undefined, index = undefined) {
     if (index === undefined) {
-      var index = this.getSelectedTabIndex();
+      index = this.getSelectedTabIndex();
     }
 
     var tabsElement = $('#' + this.tabsElement);
@@ -757,6 +746,11 @@ class TabController {
     return currentTab.book == null && currentTab.tagIdList == "" && currentTab.xrefs == null;
   }
 
+  isCurrentTab(tabIndex) {
+    var selectedTabIndex = this.getSelectedTabIndex();
+    return (tabIndex == selectedTabIndex);
+  }
+
   updateTabTitleAfterTagRenaming(old_title, new_title) {
     for (var i = 0; i < this.metaTabs.length; i++) {
       var currentMetaTab = this.metaTabs[i];
@@ -821,6 +815,54 @@ class TabController {
           this.setCurrentTabXrefTitle(tabTitle, i);
         }
           break;
+      }
+    }
+  }
+
+  async onBibleTranslationChanged({ from: oldBibleTranslationId, to: newBibleTranslationId }) {
+    var currentTab = this.getTab();
+
+    this.setCurrentBibleTranslationId(newBibleTranslationId);
+
+    // The tab search is not valid anymore if the translation is changing. Therefore we reset it.
+    if (currentTab.tab_search != null) {
+      currentTab.tab_search.resetSearch();
+    }
+
+    var isInstantLoadingBook = true;
+
+    if (currentTab.getTextType() == 'book') {
+      // We set the previous book to the current book. This will be used in NavigationPane to avoid reloading the chapter list.
+      currentTab.setPreviousBook(currentTab.getBook());
+
+      isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(newBibleTranslationId, currentTab.getBook());
+    }
+
+    if (currentTab.getTextType() == 'search_results') {
+      await app_controller.text_controller.prepareForNewText(true, true);
+      app_controller.module_search_controller.startSearch(null, this.getSelectedTabIndex(), currentTab.getSearchTerm());
+    } else {
+      if (!this.isCurrentTabEmpty()) {
+        await app_controller.text_controller.prepareForNewText(false, false);
+        await app_controller.text_controller.requestTextUpdate(
+          this.getSelectedTabId(),
+          currentTab.getBook(),
+          currentTab.getTagIdList(),
+          null,
+          null,
+          null,
+          currentTab.getXrefs(),
+          currentTab.getChapter(),
+          isInstantLoadingBook
+        );
+
+        if (currentTab.getReferenceVerseElementId() != null) {
+          await referenceVerseController.updateReferenceVerseTranslation(oldBibleTranslationId, newBibleTranslationId);
+        }
+
+        if (currentTab.getTextType() == 'book') {
+          app_controller.tag_statistics.highlightFrequentlyUsedTags();
+        }
       }
     }
   }

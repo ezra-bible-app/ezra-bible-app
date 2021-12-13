@@ -1,7 +1,56 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
-## [1.3.0 - 2021-10-23]
+## [1.4.0 - 2021-12-18]
+
+### Enhancements
+
+* Fullscreen mode with hidden menu and wheel navigation as verse context menu. ([#454][i454])
+* Made sidebar (tag view) and dictionary switchable by side buttons. ([#346][i346])
+* Use only one toolbox window for tag list and dictionary. ([#542][i542])
+* Added search scope option for module search functionality. ([#518][i518])
+* Added separate button to add note to the currently selected verse. ([#253][i253])
+* Added copy to clipboard button. ([#254][i254])
+* Optimized design of tag list panel. ([#475][i475] and [#532][i532])
+* When opening the notes editor put the cursor at the end of existing text. ([#544][i544])
+* Add the SWORD path to the list of versions and paths in the App info dialog. ([#548][i548])
+
+### Fixes
+
+* Fixed bug: Repository update failed already if only one repository was offline. ([#395][i395])
+* Fixed bug: It was not possible to press emoji button in notes with large amount of text. ([#504][i504])
+* Fixed bug: Cancelling module installation did not work on Android. ([#394][i394])
+* Fixed bug: Bible book locale was not rendered in case language code was hyphenated. ([#539](i539))
+* Fixed bug: Raised SWORD InstallMgr default timeout from 10s to 20s to fix issues with slow internet connections. ([#157][i157])
+* Fixed bug: The screen was cut off on Android in landscape mode. ([#545][i545])
+
+### Enablers
+
+* Android: Adjusted target API level to 30 / Android 11. ([#509][i509])
+* Refactoring: Use observer pattern for events currently handled by AppController. ([#282](i282))
+* Android: Use new storage path /sdcard/Documents. ([#468][i468])
+
+[i282]: https://github.com/ezra-bible-app/ezra-bible-app/issues/282
+[i394]: https://github.com/ezra-bible-app/ezra-bible-app/issues/394
+[i395]: https://github.com/ezra-bible-app/ezra-bible-app/issues/395
+[i504]: https://github.com/ezra-bible-app/ezra-bible-app/issues/504
+[i509]: https://github.com/ezra-bible-app/ezra-bible-app/issues/509
+[i518]: https://github.com/ezra-bible-app/ezra-bible-app/issues/518
+[i539]: https://github.com/ezra-bible-app/ezra-bible-app/issues/539
+[i454]: https://github.com/ezra-bible-app/ezra-bible-app/pull/454
+[i253]: https://github.com/ezra-bible-app/ezra-bible-app/issues/253
+[i254]: https://github.com/ezra-bible-app/ezra-bible-app/issues/254
+[i157]: https://github.com/ezra-bible-app/ezra-bible-app/issues/157
+[i475]: https://github.com/ezra-bible-app/ezra-bible-app/issues/475
+[i532]: https://github.com/ezra-bible-app/ezra-bible-app/issues/532
+[i544]: https://github.com/ezra-bible-app/ezra-bible-app/issues/544
+[i545]: https://github.com/ezra-bible-app/ezra-bible-app/issues/545
+[i468]: https://github.com/ezra-bible-app/ezra-bible-app/issues/468
+[i548]: https://github.com/ezra-bible-app/ezra-bible-app/issues/548
+[i346]: https://github.com/ezra-bible-app/ezra-bible-app/issues/346
+[i542]: https://github.com/ezra-bible-app/ezra-bible-app/issues/542
+
+## [1.3.0 - 2021-10-24]
 
 ### Features
 

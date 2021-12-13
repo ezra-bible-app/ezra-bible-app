@@ -17,12 +17,12 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const VerseBox = require('../ui_models/verse_box.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 class VerseContextController {
 
   constructor() {
     this.context_verse = null;
-    this.current_mouseover_verse_reference = null;
   }
 
   initButtonEvents() {
@@ -87,36 +87,6 @@ class VerseContextController {
       start_verse_nr,
       number_of_verses
     );
-
-    $('#verse-expand-box').hide();
-  }
-
-  init_verse_expand_box(tabIndex=undefined) {
-    var currentVerseList = app_controller.getCurrentVerseList(tabIndex);
-
-    currentVerseList.find('.verse-reference-content').filter(":not('.tag-events-configured')").bind('mouseover',
-                                                                                                    this.mouse_over_verse_reference_content);
-
-    $("#expand-button").prop("title", i18n.t("bible-browser.load-verse-context"));
-
-    $('#expand-button').filter(":not('.tag-events-configured')").bind('mouseover', function() {
-      $(this).addClass('state-highlighted');
-    });
-
-    $('#expand-button').filter(":not('.tag-events-configured')").bind('mouseout', function() {
-      $(this).removeClass('state-highlighted');
-    });
-
-    $('#expand-button').filter(":not('.tag-events-configured')").bind('click', () => {
-      this.handleButtonClick(true);
-    }).addClass('tag-events-configured');
-
-    // The following classes are representing the elements that will cause the the verse expand box to disappear when hovering over them
-    var mouseOverHideClasses = '.verse-content, .tag-info, .navigation-pane, .tag-browser-verselist-book-header, .verse-list-menu';
-
-    currentVerseList.find(mouseOverHideClasses).bind('mouseover', function() {
-      app_controller.verse_context_controller.hide_verse_expand_box();
-    }).addClass('tag-events-configured');
   }
 
   load_verse_context(verse_list) {
@@ -149,28 +119,8 @@ class VerseContextController {
     // Update the tags view after the selection
     tags_controller.updateTagsViewAfterVerseSelection(true);
 
-    app_controller.bindEventsAfterBibleTextLoaded(undefined, true);
-  }
-
-  hide_verse_expand_box() {
-    $('#verse-expand-box').hide();
-    app_controller.verse_context_controller.current_mouseover_verse_reference = null;
-  }
-
-  mouse_over_verse_reference_content() {
-    if ($(this)[0] != app_controller.verse_context_controller.current_mouseover_verse_reference) {
-      app_controller.verse_context_controller.current_mouseover_verse_reference = $(this)[0];
-      var verse_reference_position = $(this).offset();
-
-      $('#verse-expand-box').css('top', verse_reference_position.top - 7);
-      $('#verse-expand-box').css('left', verse_reference_position.left + 30);
-
-      var currentBook = app_controller.tab_controller.getTab().getBook();
-
-      if (currentBook == null) {
-        $('#verse-expand-box').show();
-      }
-    }
+    verseListController.bindEventsAfterBibleTextLoaded(undefined, true);
+    app_controller.dictionary_controller.bindAfterBibleTextLoaded();
   }
 
   getButton() {

@@ -29,6 +29,9 @@
     "exact-phrase": "Exacte zin",
     "multi-word": "Meerdere woorden",
     "strongs": "Strongs nummer",
+    "whole-bible": "Hele Bijbel",
+    "ot": "Oude Testament",
+    "nt": "Nieuwe Testament",
     "extended-verse-boundaries": "Uitgebreide versgrenzen (Twee verzen)"
   },
   "module-assistant": {
@@ -52,7 +55,8 @@
     "add-modules": "Voeg {{module_type, accusative}} toe",
     "remove-modules": "Verwijder {{module_type, accusative}}",
     "languages": "Talen",
-    "repositories": "Depots",
+    "repository_singular": "Depot",
+    "repository_plural": "Depots",
     "installation": "Installatie",
     "removal": "Verwijdering",
     "update-data": {
@@ -123,6 +127,7 @@
     "application-version": "Applicatie-versie",
     "git-commit": "Git commit",
     "sword-version": "SWORD-versie",
+    "sword-path": "Pad van SWORD-module",
     "chromium-version": "Chromiumversie",
     "database-path": "Pad van databank",
     "config-file-path": "Pad van configuratie",
@@ -241,7 +246,6 @@
     "delete-tag-permanently": "Deze tag permanent verwijderen",
     "none-selected": "Geen",
     "rename-tag": "Hernoem tag",
-    "rename-tag-button": "[Hernoem]",
     "title": "Titel",
     "stats-used": "gebruikt",
     "stats-total": "totaal",
@@ -300,9 +304,11 @@
     "new-note-hint": "Klik om een notitie toe te voegen",
     "open-complete-book": "Open boeken volledig",
     "open-chapters-large-books": "Open grote boeken volgens hoofdstuk",
-    "open-chapters-all-books": "Open alle boeken volgens hoofdstuk"
+    "open-chapters-all-books": "Open alle boeken volgens hoofdstuk",
+    "copy": "Kopiëren",
+    "edit-note": "Notitie aanpassen"
   },
-  "dictionary-info-box": {
+  "dictionary-panel": {
     "greek-dict": "Grieks woordenboek",
     "hebrew-dict": "Hebreeuws woordenboek",
     "default-header": "<b>Woordenboek</b>",

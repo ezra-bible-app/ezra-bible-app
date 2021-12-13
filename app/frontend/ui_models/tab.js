@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const TabSearch = require('../components/tab_search/tab_search.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 class Tab {
   constructor(defaultBibleTranslationId, interactive=true) {
@@ -186,8 +187,9 @@ class Tab {
     return this.searchResults;
   }
 
-  setSearchOptions(searchType, caseSensitive, extendedVerseBoundaries) {
+  setSearchOptions(searchType, searchScope, caseSensitive, extendedVerseBoundaries) {
     this.searchOptions['searchType'] = searchType;
+    this.searchOptions['searchScope'] = searchScope;
     this.searchOptions['caseSensitive'] = caseSensitive;
     this.searchOptions['extendedVerseBoundaries'] = extendedVerseBoundaries;
   }
@@ -281,7 +283,7 @@ class Tab {
   }
 
   initTabSearch(tabIndex=undefined) {
-    var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+    var verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
 
     this.tab_search = new TabSearch();
     this.tab_search.init(
@@ -293,8 +295,6 @@ class Tab {
       '.tab-search-next',
       '.tab-search-is-case-sensitive',
       '.tab-search-type',
-      async (occurrences) => { await app_controller.onTabSearchResultsAvailable(occurrences); },
-      () => { app_controller.onTabSearchReset(); }
     );
   }
 }

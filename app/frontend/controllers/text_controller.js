@@ -22,6 +22,9 @@ const i18nHelper = require('../helpers/i18n_helper.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const VerseReferenceHelper = require('../helpers/verse_reference_helper.js');
 const Verse = require('../ui_models/verse.js');
+const eventController = require('../controllers/event_controller.js');
+const referenceVerseController = require('../controllers/reference_verse_controller.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 
 /**
  * The TextController is used to load bible text into the text area of a tab.
@@ -60,7 +63,7 @@ class TextController {
       currentTab.setXrefs(null);
       currentTab.setReferenceVerseElementId(null);
 
-      var currentVerseList = app_controller.getCurrentVerseList();
+      var currentVerseList = verseListController.getCurrentVerseList();
       currentTab.tab_search.setVerseList(currentVerseList);
 
       var currentTabId = app_controller.tab_controller.getSelectedTabId();
@@ -120,7 +123,7 @@ class TextController {
         app_controller.navigation_pane.resetNavigationPane(tabIndex, true);
       }
 
-      app_controller.resetVerseListView();
+      verseListController.resetVerseListView();
       let loadingMessage = "";
 
       if (isSearch) {
@@ -131,11 +134,11 @@ class TextController {
         loadingMessage = i18n.t("bible-browser.loading-bible-text");
       }
 
-      app_controller.showVerseListLoadingIndicator(tabIndex, loadingMessage, !isSearch /* Only show loader visualization if we are not searching */);
+      verseListController.showVerseListLoadingIndicator(tabIndex, loadingMessage, !isSearch /* Only show loader visualization if we are not searching */);
       uiHelper.showTextLoadingIndicator();
     }
 
-    var temporary_help = app_controller.getCurrentVerseListFrame(tabIndex).find('.temporary-help, .help-text');
+    var temporary_help = verseListController.getCurrentVerseListFrame(tabIndex).find('.temporary-help, .help-text');
     temporary_help.hide();
   }
 
@@ -664,8 +667,8 @@ class TextController {
                         append=false, 
                         hasNotes=false) {
 
-    app_controller.hideVerseListLoadingIndicator();
-    app_controller.hideSearchProgressBar();
+    verseListController.hideVerseListLoadingIndicator();
+    verseListController.hideSearchProgressBar();
     var initialRendering = true;
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
 
@@ -685,7 +688,7 @@ class TextController {
 
     if (target === undefined) {
       //console.log("Undefined target. Getting verse list target based on tabIndex " + tabIndex);
-      target = app_controller.getCurrentVerseList(tabIndex);
+      target = verseListController.getCurrentVerseList(tabIndex);
     }
 
     if (listType == 'book') {
@@ -711,7 +714,7 @@ class TextController {
       if (!currentTab.hasReferenceVerse()) {
         var tagTitleList = currentTab.getTagTitleList();
         var headerText = `<h2><span i18n="tags.verses-tagged-with">${i18n.t('tags.verses-tagged-with')}</span> <i>${tagTitleList}</i></h2>`;
-        var verseListHeader = app_controller.getCurrentVerseListFrame(tabIndex).find('.verse-list-header');
+        var verseListHeader = verseListController.getCurrentVerseListFrame(tabIndex).find('.verse-list-header');
         verseListHeader.html(headerText);
         verseListHeader.show();
       }
@@ -725,7 +728,7 @@ class TextController {
     }
 
     if (listType == 'xrefs' || listType == 'tagged_verses') {
-      app_controller.showReferenceContainer();
+      referenceVerseController.showReferenceContainer();
     }
 
     if (append) {
@@ -735,11 +738,11 @@ class TextController {
     target.html(htmlVerseList);
 
     if (referenceVerseHtml != null) {
-      var verseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+      var verseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
       var referenceVerseContainer = verseListFrame.find('.reference-verse');
       referenceVerseContainer.html(referenceVerseHtml);
       var referenceVerseBox = referenceVerseContainer.find('.verse-box');
-      app_controller.renderReferenceVerse(referenceVerseBox, tabIndex);
+      referenceVerseController.renderReferenceVerse(referenceVerseBox, tabIndex);
       referenceVerseContainer.show();
     }
 
@@ -751,7 +754,7 @@ class TextController {
         headerElementClass = '.reference-verse-list-header';
       }
 
-      const verseListHeader = app_controller.getCurrentVerseListFrame(tabIndex).find(headerElementClass).find('h2');
+      const verseListHeader = verseListController.getCurrentVerseListFrame(tabIndex).find(headerElementClass).find('h2');
       const headerWithResultNumber = `${verseListHeader.html()} (${numberOfTaggedVerses})`;
       verseListHeader.html(headerWithResultNumber);
     }
@@ -778,14 +781,16 @@ class TextController {
       listType == 'book' && append ||
       !isInstantLoadingBook) {
 
-      app_controller.optionsMenu.showOrHideSectionTitlesBasedOnOption(tabIndex);
-      await app_controller.initApplicationForVerseList(tabIndex);
+      var selectedTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+      if (tabIndex === undefined) {
+        tabIndex = selectedTabIndex;
+      }
+
+      await eventController.publishAsync('on-bible-text-loaded', tabIndex);
       uiHelper.hideTextLoadingIndicator();
     }
   }
 }
-
-module.exports = TextController;
 
 function getReferenceIdsFromNotes(verseNotes, startVerseNr, endVerseNr) {
   const verseReferenceIds = Object.keys(verseNotes);
@@ -804,3 +809,5 @@ function getNotesForSection(verseNotes, startVerseNr, endVerseNr) {
   });
   return includedNotes;
 }
+
+module.exports = TextController;

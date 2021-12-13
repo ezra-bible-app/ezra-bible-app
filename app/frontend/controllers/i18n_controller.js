@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const locales = require('../../../locales/locales.json');
+const eventController = require('./event_controller.js');
 
 /**
  * This controller initializes the app locale at startup and updates it on demand when changing the locale
@@ -167,25 +168,8 @@ module.exports.changeLocale = async function(newLocale, saveSettings=true) {
 
   $(document).localize();
   window.reference_separator = i18n.t('general.chapter-verse-separator');
-  await notifySubscribers(newLocale);
-  
-  // Since the new locale may require more or less space vertically we need to adjust
-  // the height of the app container now.
-  uiHelper.resizeAppContainer();
+  await eventController.publishAsync('on-locale-changed', newLocale);
 };
-
-var localeSubscribers = [];
-module.exports.addLocaleChangeSubscriber = function(subscriberCallback) {
-  if (typeof subscriberCallback === 'function') {
-    localeSubscribers.push(subscriberCallback);
-  }
-};
-
-async function notifySubscribers(locale) {
-  for (let subscriberCallback of localeSubscribers) {
-    await subscriberCallback(locale);
-  }
-}
 
 module.exports.detectLocale = async function() {
   await this.changeLocale(systemLocale || locales.fallback, false);

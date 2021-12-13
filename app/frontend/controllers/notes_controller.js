@@ -22,6 +22,8 @@ const verseBoxHelper = new VerseBoxHelper();
 const VerseBox = require('../ui_models/verse_box.js');
 const notesHelper = require('../helpers/notes_helper.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
+const eventController = require('../controllers/event_controller.js');
+const verseListController = require('../controllers/verse_list_controller.js');
 require('../components/emoji_button_trigger.js');
 
 let CodeMirror = null;
@@ -51,11 +53,35 @@ class NotesController {
   constructor() {
     this.theme = this.getCurrentTheme();
     this._reset();
+
+    eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
+      this.initForTab(tabIndex);
+    });
+
+    eventController.subscribe('on-tab-selected', () => {
+      // When switching tabs we need to end any note editing.
+      this.restoreCurrentlyEditedNotes();
+    });
+
+    eventController.subscribe('on-theme-changed', (theme) => {
+      switch (theme) {
+        case 'dark':
+          this.setDarkTheme();
+          break;
+
+        case 'regular':
+          this.setLightTheme();
+          break;
+
+        default:
+          console.error('Unknown theme ' + theme);
+      }
+    });
   }
 
   initForTab(tabIndex = undefined) {
     this._reset();
-    var currentVerseListFrame = app_controller.getCurrentVerseListFrame(tabIndex);
+    var currentVerseListFrame = verseListController.getCurrentVerseListFrame(tabIndex);
     if (currentVerseListFrame == null || currentVerseListFrame.length == 0) {
       return;
     }
@@ -157,6 +183,17 @@ class NotesController {
   _handleNotesIndicatorClick(e, verseNotes) {
     e.stopPropagation();
     e.target.closest('.notes-info').classList.toggle('active');
+    this._showAndClickVerseNotes(verseNotes);
+  }
+
+  editVerseNotesForCurrentlySelectedVerse() {
+    const selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
+    const firstVerseBox = selectedVerseBoxes[0];
+    const verseNotes = firstVerseBox.querySelector('.verse-notes');
+    this._showAndClickVerseNotes(verseNotes);
+  }
+
+  _showAndClickVerseNotes(verseNotes) {
     verseNotes.classList.toggle('visible');
 
     if (verseNotes.classList.contains('verse-notes-empty')) {
@@ -169,7 +206,7 @@ class NotesController {
       return null;
     }
 
-    var currentVerseListFrame = app_controller.getCurrentVerseListFrame();
+    var currentVerseListFrame = verseListController.getCurrentVerseListFrame();
     return currentVerseListFrame[0].querySelector('.verse-reference-id-' + this.currentVerseReferenceId);
   }
 
@@ -372,17 +409,21 @@ class NotesController {
     });
 
     this.currentEditor = editor;
-    this._focusEditor();
+    this._focusEditor(true);
     notesElementText.querySelector('.btn-picker').attachEditor(editor);
   }
 
-  _focusEditor() {
+  _focusEditor(moveCursorToEnd=false) {
     setTimeout(() => {
       if (this.currentEditor != null) {
         this.currentEditor.refresh();
         this.currentEditor.getInputField().focus();
+
+        if (moveCursorToEnd) {
+          this.currentEditor.execCommand('goDocEnd');
+        }
       }
-    }, 200);
+    }, 50);
   }
 
   getCurrentTheme() {

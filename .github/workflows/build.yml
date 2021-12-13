@@ -17,6 +17,8 @@ jobs:
           shell: pwsh
         - name: Build
           run: powershell .\build_scripts\win32\build_win32.bat
+        - name: Build installer
+          run: powershell .\build_scripts\win32\build_installer_win32.bat
         - name: Upload symbols
           run: powershell .\build_scripts\win32\upload_symbols_to_sentry.bat
           env:

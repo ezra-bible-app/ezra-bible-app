@@ -28,12 +28,12 @@ class IpcGeneralHandler {
 
   initIpcInterface() {
     if (this._platformHelper.isCordova()) {
-      this._ipcMain.add('general_initPersistentIpc', async(useInternalStorage=false) => {
-        return global.main.initPersistentIpc(useInternalStorage);
+      this._ipcMain.add('general_initPersistentIpc', async(androidVersion=undefined) => {
+        return global.main.initPersistentIpc(androidVersion);
       });
 
-      this._ipcMain.add('general_initDatabase', async(useInternalStorage=false) => {
-        return global.main.initDatabase(useInternalStorage);
+      this._ipcMain.add('general_initDatabase', async(androidVersion=undefined) => {
+        return global.main.initDatabase(androidVersion);
       });
     }
 

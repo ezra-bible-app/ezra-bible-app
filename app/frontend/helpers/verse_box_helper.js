@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const VerseBox = require("../ui_models/verse_box.js");
+const verseListController = require('../controllers/verse_list_controller.js');
 
 class VerseBoxHelper {
   constructor() {}
@@ -150,7 +151,7 @@ class VerseBoxHelper {
           currentTargetVerseNr = absoluteVerseNrs.absoluteVerseNrEng;
         }
 
-        let targetVerseListFrame = app_controller.getCurrentVerseListFrame(i);
+        let targetVerseListFrame = verseListController.getCurrentVerseListFrame(i);
         let targetVerseBox = targetVerseListFrame[0].querySelectorAll('.verse-nr-' + currentTargetVerseNr);
 
         // There are potentially multiple verse boxes returned (could be the case for a tagged verse list or a search results list)

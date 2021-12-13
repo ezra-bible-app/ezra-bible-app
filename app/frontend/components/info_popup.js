@@ -18,12 +18,33 @@
 
 const PlatformHelper = require('../../lib/platform_helper.js');
 const { html } = require('../helpers/ezra_helper.js');
+const eventController = require('../controllers/event_controller.js');
 
 class InfoPopup {
   constructor() {
     this.platformHelper = new PlatformHelper();
     this.initAppInfoBoxDone = false;
     this.initAppInfoButton();
+
+    eventController.subscribe('on-tab-added', (tabIndex) => {
+      this.initAppInfoButton();
+
+      var currentTab = app_controller.tab_controller.getTab(tabIndex);
+      if (currentTab) {
+        const currentBibleTranslationId = currentTab.getBibleTranslationId();
+        if (currentBibleTranslationId != null) {
+          this.enableCurrentAppInfoButton(tabIndex);
+        }
+      }  
+    });
+
+    eventController.subscribe('on-all-translations-removed', () => {
+      this.disableCurrentAppInfoButton();
+    });
+
+    eventController.subscribe('on-translation-added', () => {
+      this.enableCurrentAppInfoButton();
+    });
   }
 
   initAppInfoButton() {
@@ -83,6 +104,7 @@ class InfoPopup {
     const chromiumVersion = getChromiumVersion();
     const databasePath = await ipcDb.getDatabasePath();
     const configFilePath = await ipcSettings.getConfigFilePath();
+    const swordPath = await ipcNsi.getSwordPath();
 
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
     const moduleDescription = await swordModuleHelper.getModuleDescription(currentBibleTranslationId);
@@ -136,6 +158,7 @@ class InfoPopup {
           <tr><td>${i18n.t("general.chromium-version")}:</td><td>${chromiumVersion}</td></tr>
           <tr><td>${i18n.t("general.database-path")}:</td><td>${databasePath}</td></tr>
           <tr><td>${i18n.t("general.config-file-path")}:</td><td>${configFilePath}</td></tr>
+          <tr><td>${i18n.t("general.sword-path")}:</td><td>${swordPath}</td></tr>
         </table>
       </div>
 
