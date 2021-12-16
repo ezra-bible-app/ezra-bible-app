@@ -51,13 +51,13 @@ class IpcNsi {
   }
 
   async getRepoLanguages(repositoryName, moduleType) {
-    var timeoutMs = 15000;
+    var timeoutMs = 25000;
     var returnValue = this._ipcRenderer.callWithTimeout('nsi_getRepoLanguages', timeoutMs, repositoryName, moduleType);
     return returnValue;
   }
 
   async getAllRepoModules(repositoryName, moduleType) {
-    var timeoutMs = 15000;
+    var timeoutMs = 25000;
     var returnValue = this._ipcRenderer.callWithTimeout('nsi_getAllRepoModules', timeoutMs, repositoryName, moduleType);
     return returnValue;
   }
