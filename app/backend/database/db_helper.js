@@ -16,6 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+/* eslint-disable no-undef */
+
 const fs = require('fs-extra');
 const path = require('path');
 const Sequelize = require('sequelize');
@@ -65,7 +67,7 @@ class DbHelper {
 
     var config = ipc.ipcSettingsHandler.getConfig();
 
-    if (config.has('customDatabaseDir')) {
+    if (config !== undefined && config.has('customDatabaseDir')) {
       databaseDir = config.get('customDatabaseDir', null);
       databaseDirKind = "custom";
     }
