@@ -41,7 +41,7 @@ class IpcNsi {
     var repoUpdateStatus = await this._ipcRenderer.callWithProgressCallback('nsi_updateRepositoryConfig',
                                                                             'nsi_updateRepoConfigProgress',
                                                                             progressCallback,
-                                                                            60000);
+                                                                            120000);
     return repoUpdateStatus;
   }
 
