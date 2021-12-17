@@ -76,8 +76,8 @@ class BookSelectionMenu {
       await this.updateAvailableBooks();
     });
 
-    eventController.subscribe('on-translation-added', async () => {
-      await this.updateAvailableBooks();
+    eventController.subscribe('on-translation-added', async (moduleCode) => {
+      await this.updateAvailableBooks(undefined, moduleCode);
     });
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
@@ -125,11 +125,15 @@ class BookSelectionMenu {
     cacheController.setCachedItem('bookSelectionMenuCache', html);
   }
 
-  async updateAvailableBooks(tabIndex=undefined) {
+  async updateAvailableBooks(tabIndex=undefined, moduleCode=undefined) {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     if (currentTab != null) {
       var currentBibleTranslationId = currentTab.getBibleTranslationId();
+
+      if (moduleCode !== undefined) {
+        currentBibleTranslationId = moduleCode;
+      }
 
       if (currentBibleTranslationId != null) {
         var books = await ipcNsi.getBookList(currentBibleTranslationId);
