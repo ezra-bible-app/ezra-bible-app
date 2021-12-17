@@ -18,66 +18,67 @@
 
 const IpcRenderer = require('./ipc_renderer.js');
 const i18nController = require('../controllers/i18n_controller.js');
-   class IpcGeneral {
-    constructor() {
-      this._ipcRenderer = new IpcRenderer();
-      this._cachedAppVersion = null;
+
+class IpcGeneral {
+  constructor() {
+    this._ipcRenderer = new IpcRenderer();
+    this._cachedAppVersion = null;
+  }
+
+  async initPersistentIpc(androidVersion=undefined) {
+    var timeoutMs = 15000;
+    console.time('initPersistentIpc');
+    var result = await this._ipcRenderer.callWithTimeout('general_initPersistentIpc', timeoutMs, androidVersion);
+    console.timeEnd('initPersistentIpc');
+    return result;
+  }
+
+  async initDatabase(androidVersion=undefined) {
+    var timeoutMs = 15000;
+    console.time('initDatabase');
+    var result = await this._ipcRenderer.callWithTimeout('general_initDatabase', timeoutMs, androidVersion);
+    console.timeEnd('initDatabase');
+    return result;
+  }
+
+  async getMajorOsVersion() {
+    return await this._ipcRenderer.call('general_getMajorOsVersion');
+  }
+
+  async getAppVersion() {
+    if (this._cachedAppVersion == null) {
+      this._cachedAppVersion = await this._ipcRenderer.call('general_getAppVersion');
     }
 
-    async initPersistentIpc(androidVersion=undefined) {
-      var timeoutMs = 15000;
-      console.time('initPersistentIpc');
-      var result = await this._ipcRenderer.callWithTimeout('general_initPersistentIpc', timeoutMs, androidVersion);
-      console.timeEnd('initPersistentIpc');
-      return result;
-    }
+    return this._cachedAppVersion;
+  }
 
-    async initDatabase(androidVersion=undefined) {
-      var timeoutMs = 15000;
-      console.time('initDatabase');
-      var result = await this._ipcRenderer.callWithTimeout('general_initDatabase', timeoutMs, androidVersion);
-      console.timeEnd('initDatabase');
-      return result;
-    }
+  async isTest() {
+    return await this._ipcRenderer.call('general_isTest');
+  }
 
-    async getMajorOsVersion() {
-      return await this._ipcRenderer.call('general_getMajorOsVersion');
-    }
+  async getSearchStatisticChartData(bibleTranslationId, bookList, bibleBookStats, localeCode=i18nController.getLocale()) {
+    return await this._ipcRenderer.call('general_getSearchStatisticChartData', bibleTranslationId, localeCode, bookList, bibleBookStats);
+  } 
 
-    async getAppVersion() {
-      if (this._cachedAppVersion == null) {
-        this._cachedAppVersion = await this._ipcRenderer.call('general_getAppVersion');
-      }
+  async getBookNames(bibleBooks, localeCode=i18nController.getLocale()) {
+    return await this._ipcRenderer.call('general_getBookNames', bibleBooks, localeCode);
+  }
 
-      return this._cachedAppVersion;
-    }
+  /**
+   * This can be used to check which functions are called how often as a basis for performance optimization.
+   * Returns an object where the keys are function names and values call counts.
+   */
+  async getIpcCallStats() {
+    return await this._ipcRenderer.call('general_getIpcCallStats');
+  }
 
-    async isTest() {
-      return await this._ipcRenderer.call('general_isTest');
-    }
+  /**
+   * Resets the IPC call statistics.
+   */
+  async resetIpcCallStats() {
+    return await this._ipcRenderer.call('general_resetIpcCallStats');
+  }
+}
 
-    async getSearchStatisticChartData(bibleTranslationId, bookList, bibleBookStats, localeCode=i18nController.getLocale()) {
-      return await this._ipcRenderer.call('general_getSearchStatisticChartData', bibleTranslationId, localeCode, bookList, bibleBookStats);
-    } 
-
-    async getBookNames(bibleBooks, localeCode=i18nController.getLocale()) {
-      return await this._ipcRenderer.call('general_getBookNames', bibleBooks, localeCode);
-    }
-
-    /**
-     * This can be used to check which functions are called how often as a basis for performance optimization.
-     * Returns an object where the keys are function names and values call counts.
-     */
-    async getIpcCallStats() {
-      return await this._ipcRenderer.call('general_getIpcCallStats');
-    }
-
-    /**
-     * Resets the IPC call statistics.
-     */
-    async resetIpcCallStats() {
-      return await this._ipcRenderer.call('general_resetIpcCallStats');
-    }
-   }
-
-   module.exports = IpcGeneral;
+module.exports = IpcGeneral;
