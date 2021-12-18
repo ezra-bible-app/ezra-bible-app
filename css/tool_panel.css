@@ -45,7 +45,7 @@
     height: 15em !important;
     width: 100% !important;
     min-width: auto;
-    padding: 1em 0 0 0;
+    padding: 1em 0 0 0.2em;
   }
 
   #app-container.fullscreen #tool-panel {
