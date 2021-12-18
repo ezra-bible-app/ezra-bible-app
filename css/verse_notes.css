@@ -29,6 +29,7 @@ div.CodeMirror {
 .verse-notes {
   padding: 1em 1em 0.2em;
   min-height: 3em !important;
+  margin-bottom: 0.5em;
   display: none;
   resize: vertical;
 
