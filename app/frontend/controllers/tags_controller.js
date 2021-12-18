@@ -865,8 +865,8 @@ class TagsController {
       // If the newly created tag doesn't match the current search input
       // we remove the current search condition. Otherwise the new tag
       // wouldn't show up in the list as expected.
-      if (!tags_controller.stringMatches(this.last_created_tag,
-                                          $('#tags-search-input')[0].value)) {
+      if (!tags_controller.tag_list_filter.stringMatches(this.last_created_tag,
+                                                         $('#tags-search-input')[0].value)) {
         $('#tags-search-input')[0].value = "";
         old_tags_search_input_value = "";
       }
