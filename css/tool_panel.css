@@ -80,9 +80,7 @@
 }
 
 #tool-panel.hidden {
-  width: 0 !important;
-  min-width: 0;
-  padding: 0;
+  display: none;
 }
 
 #tool-panel > section {
@@ -143,7 +141,7 @@
   padding: 0 0.5em;
 }
 #detail-panel:empty, #detail-panel.hidden {
-  height: 0;
+  display: none;
 }
 
 #detail-panel > :first-child {
