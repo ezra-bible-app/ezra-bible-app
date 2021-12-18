@@ -350,7 +350,7 @@ class ModuleSearchController {
 
       var searchScope = currentTab.getSearchOptions()['searchScope'];
       if (searchScope == null) {
-          searchScope = "BIBLE";
+        searchScope = "BIBLE";
       }
 
       var isCaseSensitive = currentTab.getSearchOptions()['caseSensitive'];
@@ -374,8 +374,9 @@ class ModuleSearchController {
 
       this.hideSearchMenu();
 
+      var searchProgressBar = verseListController.getCurrentSearchProgressBar();
+
       if (tabIndex == undefined || tabIndex == app_controller.tab_controller.getSelectedTabIndex()) {
-        var searchProgressBar = verseListController.getCurrentSearchProgressBar();
         var cancelSearchButtonContainer = verseListController.getCurrentSearchCancelButtonContainer(tabIndex);
         var cancelSearchButton = cancelSearchButtonContainer.find('button');
         cancelSearchButton.removeClass('ui-state-disabled');
@@ -393,19 +394,21 @@ class ModuleSearchController {
                               message: `Performing module search in ${currentBibleTranslationId}`,
                               level: Sentry.Severity.Info});
 
-        var searchResults = await ipcNsi.getModuleSearchResults((progress) => {
-                                                                  var progressPercent = progress.totalPercent;
-                                                                  searchProgressBar.progressbar("value", progressPercent);
-                                                                  if (progressPercent >= CANCEL_SEARCH_PERCENT_LIMIT) {
-                                                                    this.disableCancelButton();
-                                                                  }
-                                                                },
-                                                                currentBibleTranslationId,
-                                                                this.currentSearchTerm,
-                                                                searchType,
-                                                                searchScope,
-                                                                isCaseSensitive,
-                                                                useExtendedVerseBoundaries);
+        var searchResults = await ipcNsi.getModuleSearchResults(
+          (progress) => {
+            var progressPercent = progress.totalPercent;
+            searchProgressBar.progressbar("value", progressPercent);
+            if (progressPercent >= CANCEL_SEARCH_PERCENT_LIMIT) {
+              this.disableCancelButton();
+            }
+          },
+          currentBibleTranslationId,
+          this.currentSearchTerm,
+          searchType,
+          searchScope,
+          isCaseSensitive,
+          useExtendedVerseBoundaries
+        );
 
         //console.log("Got " + searchResults.length + " from Sword");
         currentTab.setSearchResults(searchResults);
