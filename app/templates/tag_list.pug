@@ -36,10 +36,10 @@ each tag in tags
 
   - var visibility = "";
   if !visible
-    - visibility = "display: none;"
+    - visibility = "hidden"
 
   - var last_used_timestamp = parseInt(tag.lastUsed);
-  div.checkbox-tag(style=visibility,
+  div.checkbox-tag(class=visibility,
                    tag-id=tag.id,
                    book-assignment-count=bookAssignmentCount,
                    global-assignment-count=globalAssignmentCount,
