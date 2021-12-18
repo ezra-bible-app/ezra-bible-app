@@ -22,6 +22,10 @@ div.CodeMirror {
   border-radius: 4px;
 }
 
+.Android div.CodeMirror {
+  height: 200px !important;
+}
+
 .verse-notes {
   padding: 1em 1em 0.2em;
   min-height: 4em;
@@ -56,12 +60,6 @@ div.CodeMirror {
   width: 45%;
 }
 
-@media only screen and (max-width: 850px) {
-  .verse-notes:not(.book-notes) {
-    width: 30%;
-  }
-}
-
 .verse-notes.visible {
   display: block;
 }
@@ -76,10 +74,18 @@ div.CodeMirror {
   min-height: 18em;
 }
 
+.Android .verse-list-with-notes:not(.verse-list-scroll-notes) .verse-notes-text.edited {
+  min-height: 12em;
+}
+
 .verse-list-scroll-notes .verse-notes-text {
   max-height: 300px; /* CodeMirror default height */
   overflow-y: hidden;
   overflow-x: hidden;
+}
+
+.Android .verse-list-scroll-notes .verse-notes-text {
+  max-height: 200px;
 }
 
 .verse-list-scroll-notes .verse-notes:not(.verse-notes-empty) .verse-notes-text:not(.edited) {
