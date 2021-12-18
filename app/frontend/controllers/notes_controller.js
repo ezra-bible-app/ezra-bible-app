@@ -366,7 +366,7 @@ class NotesController {
   _getNotesElementContent(notesElement) {
     var notesContent = "";
     if (notesElement.hasAttribute('notes-content')) {
-      notesContent = notesElement.getAttribute('notes-content')
+      notesContent = notesElement.getAttribute('notes-content');
     }
 
     return notesContent;
