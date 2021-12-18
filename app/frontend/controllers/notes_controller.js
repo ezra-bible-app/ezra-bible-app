@@ -236,7 +236,7 @@ class NotesController {
     var notesInfo = currentVerseBox.querySelector('.notes-info');
 
     if (notesInfo != null && noteValue == '') {
-        notesInfo.classList.remove('active');
+      notesInfo.classList.remove('active');
     }
   }
 
