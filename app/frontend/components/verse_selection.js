@@ -502,10 +502,13 @@ class VerseSelection {
         selectedText += currentVerseNr + " ";
       }
 
-      selectedText += currentText.text().trim() + " ";
+      selectedText += currentText.html().replace(/&nbsp;/g, ' ').trim() + " ";
     }
 
-    selectedText = selectedText.trim();
+    var parser = new DOMParser();
+    var htmlText = parser.parseFromString("<div>" + selectedText + "</div>", 'text/html');
+
+    selectedText = htmlText.querySelector('div').innerText;
     selectedText += " " + this.getLineBreak() + app_controller.verse_selection.getSelectedVersesLabel().text();
 
     return selectedText;
