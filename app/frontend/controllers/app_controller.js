@@ -157,6 +157,10 @@ class AppController {
 
       this.exitLog('Saving last used version');
       cacheController.saveLastUsedVersion();
+
+      if (platformHelper.isCordova()) {
+        ipcSettings.set('lastUsedAndroidVersion', getPlatform().getAndroidVersion());
+      }
     });
   }
 
