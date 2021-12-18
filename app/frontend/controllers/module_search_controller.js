@@ -528,8 +528,12 @@ class ModuleSearchController {
 
   selectAllSearchResults() {
     var currentVerseListFrame = verseListController.getCurrentVerseListFrame();
-    var allVerseTextElements = currentVerseListFrame.find('.verse-text');
-    allVerseTextElements.addClass('ui-selected');
+
+    var allVerseTextElements = currentVerseListFrame[0].querySelectorAll('.verse-text');
+    allVerseTextElements.forEach((verseTextElement) => {
+      verseTextElement.classList.add('ui-selected');
+    });
+
     app_controller.verse_selection.updateSelected();
     app_controller.verse_selection.updateViewsAfterVerseSelection(i18n.t('bible-browser.all-search-results'));
   }
