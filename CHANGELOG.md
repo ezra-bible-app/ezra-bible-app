@@ -29,6 +29,7 @@ All notable changes to Ezra Bible App are documented in this file.
 * Android: Adjusted target API level to 30 / Android 11. ([#509][i509])
 * Refactoring: Use observer pattern for events currently handled by AppController. ([#282](i282))
 * Android: Use new storage path /sdcard/Documents. ([#468][i468])
+* Android: Save last used Android version when app is closing. ([#546][i546])
 
 [i282]: https://github.com/ezra-bible-app/ezra-bible-app/issues/282
 [i394]: https://github.com/ezra-bible-app/ezra-bible-app/issues/394
@@ -49,6 +50,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i548]: https://github.com/ezra-bible-app/ezra-bible-app/issues/548
 [i346]: https://github.com/ezra-bible-app/ezra-bible-app/issues/346
 [i542]: https://github.com/ezra-bible-app/ezra-bible-app/issues/542
+[i546]: https://github.com/ezra-bible-app/ezra-bible-app/issues/546
 
 ## [1.3.0 - 2021-10-24]
 
