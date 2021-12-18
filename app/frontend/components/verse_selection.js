@@ -64,6 +64,7 @@ class VerseSelection {
       filter: '.verse-text',
       cancel: '.verse-reference-content, .sword-xref-marker, .verse-notes, .verse-content-edited, .tag-box, .tag, .load-book-results, .select-all-search-results-button',
 
+      // eslint-disable-next-line no-unused-vars
       start: (event, ui) => {
         // Only reset existing selection if metaKey and ctrlKey are not pressed.
         // If one of these keys is pressed that indicates that the user wants to select individual non-consecutive verses.
@@ -76,11 +77,13 @@ class VerseSelection {
         app_controller.handleBodyClick(event);
       },
 
+      // eslint-disable-next-line no-unused-vars
       stop: (event, ui) => {
         this.updateSelected(verseList);
         this.updateViewsAfterVerseSelection();
       },
 
+      // eslint-disable-next-line no-unused-vars
       selected: (event, ui) => {
         // Not needed anymore!
       }
@@ -125,7 +128,7 @@ class VerseSelection {
 
   updateSelected(verseList=undefined) {
     if (verseList == undefined) {
-      var verseList = verseListController.getCurrentVerseList();
+      verseList = verseListController.getCurrentVerseList();
     }
 
     this.selected_verse_box_elements = verseList.find('.ui-selected').closest('.verse-box');
@@ -300,7 +303,7 @@ class VerseSelection {
                                                                           current_start_index,
                                                                           i,
                                                                           link_references,
-                                                                          bookId)
+                                                                          bookId);
             }
           }
         }
@@ -325,7 +328,7 @@ class VerseSelection {
     var end_chapter = parseInt(end_reference.split(source_separator)[0]);
     var end_verse = parseInt(end_reference.split(source_separator)[1]);
   
-    var passage = start_chapter + reference_separator + start_verse;
+    var passage = start_chapter + window.reference_separator + start_verse;
     var endChapterVerseCount = await ipcNsi.getChapterVerseCount(bibleTranslationId, book_short_title, end_chapter);
   
     if (book_short_title != null &&
@@ -349,7 +352,7 @@ class VerseSelection {
           passage += '-' + end_verse;
         }
       } else {
-        passage += ' - ' + end_chapter + reference_separator + end_verse;
+        passage += ' - ' + end_chapter + window.reference_separator + end_verse;
       }
     }
   
@@ -551,7 +554,7 @@ class VerseSelection {
             title: current_tag_title,
             category: current_tag.attr('class'),
             count: 0
-          }
+          };
 
           verse_selection_tags.push(tag_obj);
         }
