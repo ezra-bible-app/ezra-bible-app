@@ -49,6 +49,7 @@ class VerseSearch {
 
     var occurancesCount = 0;
     var allTermsFound = true;
+    var allOccurances = [];
 
     for (var i = 0; i < searchTermList.length; i++) {
       var currentSearchTerm = searchTermList[i];
@@ -62,6 +63,7 @@ class VerseSearch {
 
       var currentOccurancesCount = occurances.length;
       occurancesCount += currentOccurancesCount;
+      allOccurances = allOccurances.concat(occurances);
 
       /*if (occurancesCount > 0) {
         var verseReference = $(verseElement).closest('.verse-box').find('.verse-reference-content').text();
@@ -80,7 +82,7 @@ class VerseSearch {
 
     if (allTermsFound || extendedVerseBoundaries) {
       searchTermList.forEach((currentSearchTerm) => {
-        this.highlightOccurancesInVerse(verseElement, occurances, currentSearchTerm, searchType, caseSensitive);
+        this.highlightOccurancesInVerse(verseElement, allOccurances, currentSearchTerm, searchType, caseSensitive);
       });
     }
 
@@ -119,7 +121,7 @@ class VerseSearch {
 
       if (searchString.indexOf(" ") != -1) {
         // Replace all white space with regular spaces
-        var verseText = verseText.replace(/\s/g, " ");
+        verseText = verseText.replace(/\s/g, " ");
       }
 
       if (!caseSensitive) {
@@ -128,8 +130,9 @@ class VerseSearch {
       }
 
       var currentIndex = 0;
+      var forever = true;
 
-      while (true) {
+      while (forever) {
         var nextOccurance = verseText.indexOf(searchString, currentIndex);
 
         if (nextOccurance == -1) {
@@ -168,6 +171,7 @@ class VerseSearch {
     var textNodes = [];
     var walk = document.createTreeWalker(verseElement, NodeFilter.SHOW_TEXT, customNodeFilter, false);
 
+    // eslint-disable-next-line no-cond-assign
     while (nextNode = walk.nextNode()) {
       textNodes.push(nextNode);
     }
