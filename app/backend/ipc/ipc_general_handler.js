@@ -60,26 +60,26 @@ class IpcGeneralHandler {
       var ntOnly = true;
       var otOnly = true;
 
-      for (var book in bibleBookStats) {
-        var isNtBook = models.BibleBook.isNtBook(book);
+      for (let book in bibleBookStats) {
+        let isNtBook = global.models.BibleBook.isNtBook(book);
 
         if (!isNtBook) {
           ntOnly = false;
         }
 
-        var isOtBook = models.BibleBook.isOtBook(book);
+        let isOtBook = global.models.BibleBook.isOtBook(book);
         if (!isOtBook) {
           otOnly = false;
         }
       }
 
-      var nsi = ipcNsiHandler.getNSI();
+      var nsi = global.ipcNsiHandler.getNSI();
 
-      for (var i = 0; i < bookList.length; i++) {
-        var book = bookList[i];
-        var includeCurrentBook = false;
-        var isNtBook = models.BibleBook.isNtBook(book);
-        var isOtBook = models.BibleBook.isOtBook(book);
+      for (let i = 0; i < bookList.length; i++) {
+        let book = bookList[i];
+        let includeCurrentBook = false;
+        let isNtBook = global.models.BibleBook.isNtBook(book);
+        let isOtBook = global.models.BibleBook.isOtBook(book);
 
         if (ntOnly && isNtBook) {
           includeCurrentBook = true;
@@ -90,7 +90,7 @@ class IpcGeneralHandler {
         }
 
         if (includeCurrentBook) {
-          var translatedBook = nsi.getBookAbbreviation(bibleTranslationId, book, languageCode);
+          let translatedBook = nsi.getBookAbbreviation(bibleTranslationId, book, languageCode);
           labels.push(translatedBook);
 
           var value = 0;
@@ -100,14 +100,14 @@ class IpcGeneralHandler {
 
           values.push(value);
         }
-      };
+      }
 
       return [labels, values];
     });
 
     this._ipcMain.add('general_getBookNames', async(bibleBooks, languageCode) => {
       var bookNames = {};
-      var nsi = ipcNsiHandler.getNSI();
+      var nsi = global.ipcNsiHandler.getNSI();
 
       for (var i = 0; i < bibleBooks.length; i++) {
         var currentBook = bibleBooks[i];
@@ -131,6 +131,7 @@ class IpcGeneralHandler {
     });
 
     this._ipcMain.add('general_resetIpcCallStats', async() => {
+      // eslint-disable-next-line no-unused-vars
       for (const [key, value] of Object.entries(global.callCounters)) {
         global.callCounters[key] = 0;
       }
