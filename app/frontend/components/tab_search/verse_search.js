@@ -51,7 +51,7 @@ class VerseSearch {
     var allTermsFound = true;
     var allOccurances = [];
 
-    for (var i = 0; i < searchTermList.length; i++) {
+    for (let i = 0; i < searchTermList.length; i++) {
       var currentSearchTerm = searchTermList[i];
       var occurances = [];
 
@@ -93,11 +93,11 @@ class VerseSearch {
     var occurances = [];
     var wElements = verseElement.querySelectorAll('w');
 
-    for (var i = 0; i < wElements.length; i++) {
+    for (let i = 0; i < wElements.length; i++) {
       var currentElement = wElements[i];
       var currentStrongsIds = app_controller.dictionary_controller.getStrongsIdsFromStrongsElement(currentElement);
 
-      for (var j = 0; j < currentStrongsIds.length; j++) {
+      for (let j = 0; j < currentStrongsIds.length; j++) {
         if (currentStrongsIds[j] == searchString) {
           occurances.push(currentElement);
         }
