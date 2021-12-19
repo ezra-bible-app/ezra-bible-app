@@ -268,8 +268,7 @@ jobs:
           mv ezra-bible-app_fedora33_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_fedora33-${GITHUB_REF##*/}.rpm
 
       - name: Publish artifacts
-        uses: skx/github-action-publish-binaries@release-0.15
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          args: 'packages/*.*'
+          files: packages/*.*
