@@ -43,6 +43,7 @@ class TagSelectionMenu {
     currentVerseListMenu.find('.tag-select-button').bind('click', (event) => { this.handleTagMenuClick(event); });
     $('#tag-selection-filter-input').bind('keyup', () => { this.handleTagSearchInput(); });
 
+    // eslint-disable-next-line no-unused-vars
     $('#tag-selection-recently-used-checkbox').bind('click', (event) => {
       this.applyCurrentFilters();
     });
@@ -280,7 +281,7 @@ class TagSelectionMenu {
       var current_tag_id = $(checked_cbs[i]).closest('.tag-browser-tag').find('.tag-browser-tag-id').html();
       tag_list += current_tag_id;
 
-      if (i < (checked_cbs.length - 1)) tag_list += ","
+      if (i < (checked_cbs.length - 1)) tag_list += ",";
     }
 
     return tag_list;
@@ -294,7 +295,7 @@ class TagSelectionMenu {
       var current_tag_title = $(checked_cbs[i]).closest('.tag-browser-tag').find('.tag-browser-tag-title-content').text();
       tag_list += current_tag_title;
 
-      if (i < (checked_cbs.length - 1)) tag_list += ", "
+      if (i < (checked_cbs.length - 1)) tag_list += ", ";
     }
 
     return tag_list;
@@ -324,6 +325,7 @@ class TagSelectionMenu {
     }
   }
 
+  // eslint-disable-next-line no-unused-vars
   async updateTagSelectionMenu(tabIndex) {
     if (!this.tag_menu_populated) {
       await this.requestTagsForMenu();

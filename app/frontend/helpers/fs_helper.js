@@ -37,4 +37,4 @@ module.exports.loadFile = function(filePath) {
   var absoluteFilePath = path.join(__dirname, '../../../' + filePath);
   var fileContent = fs.readFileSync(absoluteFilePath);
   return fileContent;
-}
+};

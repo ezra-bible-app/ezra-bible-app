@@ -75,6 +75,7 @@ function handleVerseReferenceClick(event) {
   createWheelNavComponent();
 }
 
+// eslint-disable-next-line no-unused-vars
 function clearMenu(event) {
   if (currentSvgMenu) {
     currentSvgMenu.close();

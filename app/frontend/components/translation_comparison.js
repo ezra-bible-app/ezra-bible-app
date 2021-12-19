@@ -67,14 +67,14 @@ class TranslationComparison {
     var allButtons = this.getAllButtons();
     for (let button of allButtons) {
       button.classList.remove('ui-state-disabled');
-    };
+    }
   }
 
   disableComparisonButton() {
     var allButtons = this.getAllButtons();
     for (let button of allButtons) {
       button.classList.add('ui-state-disabled');
-    };
+    }
   }
 
   initCompareTranslationsBox() {
@@ -86,7 +86,7 @@ class TranslationComparison {
       autoOpen: false,
       dialogClass: 'ezra-dialog'
     });
-  };
+  }
 
   async getVerseHtmlByTranslationId(sourceBibleTranslationId, targetTranslationId, verseBox, totalVerseCount) {
     var referenceVerseBox = new VerseBox(verseBox[0]);

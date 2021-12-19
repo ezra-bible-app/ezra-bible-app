@@ -46,6 +46,7 @@ class TranslationController {
       await this.initTranslationsMenu(-1, tabIndex);
     });
 
+    // eslint-disable-next-line no-unused-vars
     eventController.subscribe('on-translation-removed', async (translationId) => {
       $("select#bible-select").empty();
       await this.initTranslationsMenu();
@@ -109,7 +110,7 @@ class TranslationController {
       $('.tag-select-button').addClass('ui-state-disabled');
       $('.module-search-button').addClass('ui-state-disabled');
 
-      var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+      let currentVerseList = verseListController.getCurrentVerseList(tabIndex);
       // FIXME: This needs to be adjusted based on the new menu
       currentVerseList.find('.help-text').html(i18n.t("help.help-text-no-translations", { interpolation: {escapeValue: false} }));
     } else {
@@ -129,7 +130,7 @@ class TranslationController {
       }
 
       if (currentBook == null && currentTagIdList == "" && currentSearchTerm == null)  {
-        var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+        let currentVerseList = verseListController.getCurrentVerseList(tabIndex);
         currentVerseList.find('.help-text').text(i18n.t("help.help-text-translation-available"));
       }
     }
@@ -160,7 +161,7 @@ class TranslationController {
 
   async initTranslationsMenu(previousTabIndex=-1, tabIndex=undefined) {
     if (tabIndex === undefined) {
-      var tabIndex = app_controller.tab_controller.getSelectedTabIndex();
+      tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     }
     //console.log("initTranslationsMenu " + tabIndex);
 
