@@ -60,11 +60,13 @@ class CordovaPlatform {
       }
 
       // cordova-plugin-ionic-keyboard event binding
+      // eslint-disable-next-line no-unused-vars
       window.addEventListener('keyboardDidShow', (event) => {
         document.body.classList.add('keyboard-shown');
       });
 
       // cordova-plugin-ionic-keyboard event binding
+      // eslint-disable-next-line no-unused-vars
       window.addEventListener('keyboardDidHide', (event) => {
         document.body.classList.remove('keyboard-shown');
       });
@@ -75,6 +77,7 @@ class CordovaPlatform {
 
   getAndroidVersion() {
     var userAgent = navigator.userAgent.toLowerCase(); 
+    // eslint-disable-next-line no-useless-escape
     var match = userAgent.match(/android\s([0-9\.]*)/i);
     var version = match ? match[1] : undefined;
 

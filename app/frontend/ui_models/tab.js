@@ -163,6 +163,7 @@ class Tab {
     this.tagTitleList = tagTitleList;
   }
 
+  // eslint-disable-next-line no-unused-vars
   getTagTitleList(index=undefined) {
     return this.tagTitleList;
   }

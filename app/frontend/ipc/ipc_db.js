@@ -141,7 +141,7 @@ class IpcDb {
     var translation = null;
 
     if (!(currentLocale in this._cachedBookTitleTranslations)) {
-      this._cachedBookTitleTranslations[currentLocale] = {}
+      this._cachedBookTitleTranslations[currentLocale] = {};
     }
 
     if (!(shortName in this._cachedBookTitleTranslations[currentLocale])) {
