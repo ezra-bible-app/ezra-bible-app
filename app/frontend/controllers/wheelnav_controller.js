@@ -108,6 +108,7 @@ function highlightCurrentVerseText(event) {
 function createWheelNavComponent() {
   var menuItems = getMenuItems();
 
+  // eslint-disable-next-line no-undef
   currentSvgMenu = new RadialMenu({
     parent      : currentWheelNavElement,
     size        : 170,
