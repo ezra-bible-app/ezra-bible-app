@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   MetaRecord.getLastUpdate = async function() {
-    var record = await models.MetaRecord.findOne({
+    var record = await global.models.MetaRecord.findOne({
       where: {
         id: 1,
       }
