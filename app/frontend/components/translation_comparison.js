@@ -125,14 +125,13 @@ class TranslationComparison {
 
   async refreshCompareTranslationsBox() {
     if (platformHelper.isCordova()) {
+
       this.getBoxContent().innerHTML = "";
       this.showLoadingIndicator();
-
-      setTimeout(async () => {
-        await this.performRefresh();
-      }, 50);
+      this.performDelayedRefresh();
 
     } else {
+
       await this.performRefresh();
     }
   }
@@ -145,6 +144,12 @@ class TranslationComparison {
     }
 
     this.getBoxContent().innerHTML = compareTranslationContent;
+  }
+
+  performDelayedRefresh() {
+    setTimeout(async () => {
+      await this.performRefresh();
+    }, 50);
   }
 }
 
