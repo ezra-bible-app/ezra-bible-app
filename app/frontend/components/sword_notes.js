@@ -75,12 +75,13 @@ class SwordNotes {
 
     var textNodes = [];
 
-    for (var i = 0; i < filteredNotes.length; i++) {
+    for (let i = 0; i < filteredNotes.length; i++) {
       var currentNote = filteredNotes[i];
 
       var nextNode;
       var walk = document.createTreeWalker(currentNote, NodeFilter.SHOW_TEXT);
 
+      // eslint-disable-next-line no-cond-assign
       while (nextNode = walk.nextNode()) {
         if (nextNode.parentNode.nodeName != "REFERENCE") {
           textNodes.push(nextNode);
@@ -88,7 +89,7 @@ class SwordNotes {
       }
     }
 
-    for (var i = 0; i < textNodes.length; i++) {
+    for (let i = 0; i < textNodes.length; i++) {
       textNodes[i].replaceWith("");
     }
   }
@@ -101,7 +102,7 @@ class SwordNotes {
     this.cleanNotes(swordNotes);
     var notesCharacter = this.getNotesCharacter();
 
-    for (var i = 0; i < swordNotes.length; i++) {
+    for (let i = 0; i < swordNotes.length; i++) {
       var currentNote = swordNotes[i];
 
       if (currentNote.hasAttribute('type') && currentNote.getAttribute('type') == 'crossReference') {

@@ -116,6 +116,7 @@ class VerseStatisticsChart {
     var useNightMode = app_controller.optionsMenu._nightModeOption.isChecked;
     var labelFontColor = useNightMode ? "white" : "black";
     
+    // eslint-disable-next-line no-undef
     new Chart(chartElement, {
       type: 'bar',
       data: data,

@@ -38,47 +38,47 @@ module.exports = (sequelize, DataTypes) => {
 
   Tag.create_new_tag = async function(new_tag_title) {
     try {
-      var newTag = await models.Tag.create({
+      var newTag = await global.models.Tag.create({
         title: new_tag_title,
         bibleBookId: null
       });
 
-      await models.MetaRecord.updateLastModified();
+      await global.models.MetaRecord.updateLastModified();
       return newTag.dataValues;
 
     } catch (error) {
       console.error('An error occurred while trying to save the new tag: ' + error);
       return null;
     }
-  }
+  };
 
   Tag.destroy_tag = async function(id) {
     try {
-      await models.VerseTag.destroy({ where: { tagId: id } });
-      await models.Tag.destroy({ where: { id: id } });
-      await models.MetaRecord.updateLastModified();
+      await global.models.VerseTag.destroy({ where: { tagId: id } });
+      await global.models.Tag.destroy({ where: { id: id } });
+      await global.models.MetaRecord.updateLastModified();
 
     } catch(e) {
       console.error('An error occurred while trying to delete the tag with id ' + id + ': ' + e);
-    };
-  }
+    }
+  };
 
   Tag.update_tag = async function(id, title) {
-    await models.Tag.update(
+    await global.models.Tag.update(
       { title: title },
       { where: { id: id }}
     ).then(() => {
-      models.MetaRecord.updateLastModified();
+      global.models.MetaRecord.updateLastModified();
     }).catch(error => {
       console.error("An error occurred while trying to rename the tag!");
     });
-  }
+  };
 
   Tag.update_tags_on_verses = async function(tagId, verseObjects, versification, action) {
-    var tag = await models.Tag.findByPk(tagId);
+    var tag = await global.models.Tag.findByPk(tagId);
 
     for (var verseObject of verseObjects) {
-      var verseReference = await models.VerseReference.findOrCreateFromVerseObject(verseObject, versification);
+      var verseReference = await global.models.VerseReference.findOrCreateFromVerseObject(verseObject, versification);
       
       if (action == "add") {
         await verseReference.addTag(tag.id);
@@ -87,8 +87,8 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
 
-    await models.MetaRecord.updateLastModified();
-  }
+    await global.models.MetaRecord.updateLastModified();
+  };
 
   Tag.getAllTags = function(bibleBookId = 0, lastUsed=false, onlyStats=false) {
     var query = "SELECT t.*," +
@@ -108,12 +108,12 @@ module.exports = (sequelize, DataTypes) => {
       query += " ORDER BY t.title ASC";
     }
 
-    return sequelize.query(query, { model: models.Tag });
+    return sequelize.query(query, { model: global.models.Tag });
   };
 
   Tag.getTagCount = async function() {
     var query = "SELECT id FROM Tags t";
-    var records = await sequelize.query(query, { model: models.Tag });
+    var records = await sequelize.query(query, { model: global.models.Tag });
     return records.length;
   };
 

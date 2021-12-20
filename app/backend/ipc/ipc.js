@@ -68,7 +68,7 @@ class IPC {
       global.ipcNsiHandler = new IpcNsiHandler();
 
       if (this.platformHelper.isElectron()) {
-        ipcNsiHandler.setMainWindow(electronMainWindow);
+        global.ipcNsiHandler.setMainWindow(electronMainWindow);
 
         await this.initDatabase(isDebug);
       }
@@ -77,7 +77,7 @@ class IPC {
 
   async initDatabase(isDebug, androidVersion=undefined) {
     global.ipcDbHandler = new IpcDbHandler();
-    await ipcDbHandler.initDatabase(isDebug, androidVersion);
+    await global.ipcDbHandler.initDatabase(isDebug, androidVersion);
   }
 }
 

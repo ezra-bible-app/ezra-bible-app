@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
     } else {
       return null;
     }
-  }
+  };
 
   Note.findByVerseReferenceIds = function(verseReferenceIds) {
     var query = "SELECT n.*, b.shortTitle AS bibleBookId, vr.absoluteVerseNrEng, vr.absoluteVerseNrHeb" + 
@@ -53,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
                 " WHERE vr.id IN (" + verseReferenceIds + ")" +
                 " ORDER BY b.number ASC, vr.absoluteVerseNrEng ASC";
 
-    return sequelize.query(query, { model: models.Note });
+    return sequelize.query(query, { model: global.models.Note });
   };
 
   Note.groupNotesByVerse = function(notes, versification) {
@@ -73,13 +73,13 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Note.persistNote = function(noteValue, verseObject, versification) {
-    return models.VerseReference.findOrCreateFromVerseObject(verseObject, versification).then(vr => {
+    return global.models.VerseReference.findOrCreateFromVerseObject(verseObject, versification).then(vr => {
       return vr.getOrCreateNote().then(n => {
         if (noteValue != "") {
           // Save the note if it has content
           n.text = noteValue;
           return n.save().then(
-            models.MetaRecord.updateLastModified()
+            global.models.MetaRecord.updateLastModified()
           ).then(() => {
             return n;
           }).catch(function () {
@@ -88,7 +88,7 @@ module.exports = (sequelize, DataTypes) => {
         } else {
           // Delete the note if it does not have any content
           return n.destroy().then(
-            models.MetaRecord.updateLastModified()
+            global.models.MetaRecord.updateLastModified()
           ).catch(function () {
             console.error("ERROR: Could not delete note!");
           });

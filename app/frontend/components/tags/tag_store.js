@@ -96,7 +96,7 @@ class TagStore {
 
   async getBookTagStatistics(book, forceRefresh=false) {
     if (book === undefined) {
-      var book = app_controller.tab_controller.getTab().getBook();
+      book = app_controller.tab_controller.getTab().getBook();
     }
 
     var bibleBookId = await this.getBibleBookDbId(book);

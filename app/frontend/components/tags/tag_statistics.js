@@ -225,7 +225,7 @@ class TagStatistics {
     }
 
     uiHelper.configureButtonStyles('.verse-list-menu');
-  };
+  }
 
   async openBookTagStatistics() {
     var currentVerseList = verseListController.getCurrentVerseList();

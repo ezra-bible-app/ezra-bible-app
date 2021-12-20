@@ -311,6 +311,7 @@ class VerseBox {
         break;
 
       case "remove":
+        // eslint-disable-next-line no-unused-vars
         var existing_tag_data_div = current_tag_data_container.find('.tag-id').filter(function(index){
           return ($(this).html() == tag_id);
         }).parent();
