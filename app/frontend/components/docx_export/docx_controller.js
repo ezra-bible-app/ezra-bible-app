@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const docx = require('docx');
-const marked = require('marked');
+const { marked } = require('marked');
 const docxHelper = require('./docx_helper.js');
 const i18nHelper = require('../../helpers/i18n_helper.js');
 const { parseHTML } = require('../../helpers/ezra_helper.js');
@@ -71,7 +71,7 @@ module.exports.generateDocument = async function(title, verses, bibleBooks=undef
 
   const footers = await docxHelper.addBibleTranslationInfo();
 
-  const titleFragment = parseHTML(marked(title));
+  const titleFragment = parseHTML(marked.parse(title));
 
   var doc = new docx.Document({
     title: titleFragment.textContent,
