@@ -646,7 +646,7 @@ class TextController {
       verses: verses,
       verseTags: groupedVerseTags,
       verseNotes: groupedVerseNotes,
-      marked: this.marked,
+      marked: marked,
       referenceSeparator: separator,
       helper: {
         getNotesTooltip: notesHelper.getTooltipText,
