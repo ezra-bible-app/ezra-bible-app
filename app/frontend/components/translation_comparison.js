@@ -27,7 +27,6 @@ const i18nHelper = require('../helpers/i18n_helper.js');
  */
 class TranslationComparison {
   constructor() {
-    this.initDone = false;
   }
 
   getButton() {
@@ -75,17 +74,6 @@ class TranslationComparison {
     for (let button of allButtons) {
       button.classList.add('ui-state-disabled');
     }
-  }
-
-  initCompareTranslationsBox() {
-    var width = uiHelper.getMaxDialogWidth();
-
-    this.getBox().dialog({
-      width: width,
-      height: 500,
-      autoOpen: false,
-      dialogClass: 'ezra-dialog'
-    });
   }
 
   async getVerseHtmlByTranslationId(sourceBibleTranslationId, targetTranslationId, verseBox, totalVerseCount) {
@@ -171,25 +159,8 @@ class TranslationComparison {
   }
 
   async handleButtonClick() {
-    /*if (!this.initDone) {
-      this.initCompareTranslationsBox();
-      this.initDone = true;
-    }
-
-    var boxTitle = i18n.t("bible-browser.comparing-translations-for") + " " + 
-      app_controller.verse_selection.getSelectedVersesLabel().text();
-
-    var width = uiHelper.getMaxDialogWidth();
-    var box = this.getBox();
-
-    box.dialog({
-      width: width,
-      title: boxTitle
-    });*/
-
     this.getBoxContent().innerHTML = "";
-    /*this.showLoadingIndicator();
-    box.dialog("open");*/
+    //this.showLoadingIndicator();
 
     setTimeout(async () => {
       var compareTranslationContent = await this.getCompareTranslationContent();
