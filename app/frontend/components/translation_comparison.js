@@ -159,13 +159,18 @@ class TranslationComparison {
   }
 
   async handleButtonClick() {
-    this.getBoxContent().innerHTML = "";
-    //this.showLoadingIndicator();
+    if (platformHelper.isCordova()) {
+      this.getBoxContent().innerHTML = "";
+      this.showLoadingIndicator();
+    }
 
     setTimeout(async () => {
       var compareTranslationContent = await this.getCompareTranslationContent();
 
-      //this.hideLoadingIndicator();
+      if (platformHelper.isCordova()) {
+        this.hideLoadingIndicator();
+      }
+
       this.getBoxContent().innerHTML = compareTranslationContent;
     }, 50);
   }
