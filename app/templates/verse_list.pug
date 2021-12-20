@@ -33,7 +33,7 @@ if renderBookNotes
     - bookNotesClassList += ' verse-notes-empty'
   else
     - bookNotesRaw = bookNotes.text
-    - bookNotesText = marked(bookNotes.text);
+    - bookNotesText = marked.parse(bookNotes.text);
     - bookNotesUpdate = helper.getLocalizedDate(bookNotes.updatedAt);
 
   div(class=bookNotesClassList, verse-reference-id=firstBibleBookId.toLowerCase(), notes-content=bookNotesRaw)
@@ -154,7 +154,7 @@ each bibleBook in bibleBooks
           - var verseNoteClass = "verse-notes";
           - var verseNoteUpdate = helper.getLocalizedDate(current_verse_note.updatedAt);
           - var verseNoteTextRaw = current_verse_note.text;
-          - var verseNoteText = marked(current_verse_note.text);
+          - var verseNoteText = marked.parse(current_verse_note.text);
         else
           - var verseNoteClass = "verse-notes verse-notes-empty";
           - var verseNoteUpdate = "";
