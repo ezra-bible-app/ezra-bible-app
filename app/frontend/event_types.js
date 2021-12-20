@@ -21,7 +21,7 @@
 // For consistency event name should be a string in-kebab-case with the following template: "on-[(optional)object]-[action]"
 
 /**
- * @typedef { "on-bible-text-loaded" | "on-translation-changed" } BibleTextEvents
+ * @typedef { "on-bible-text-loaded" | "on-translation-changed" | "on-verses-selected" } BibleTextEvents
  */
 /**
  * @typedef { "on-tab-selected" | "on-tab-added" } TabEvents

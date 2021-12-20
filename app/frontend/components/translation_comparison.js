@@ -18,6 +18,7 @@
 
 const VerseBox = require("../ui_models/verse_box.js");
 const i18nHelper = require('../helpers/i18n_helper.js');
+const eventController = require('../controllers/event_controller.js');
 
 /**
  * The TranslationComparison component implements a dialog that shows selected verses
@@ -27,6 +28,9 @@ const i18nHelper = require('../helpers/i18n_helper.js');
  */
 class TranslationComparison {
   constructor() {
+    eventController.subscribe('on-verses-selected', () => {
+      this.refreshCompareTranslationsBox();
+    });
   }
 
   getButton() {
@@ -45,7 +49,7 @@ class TranslationComparison {
       event.stopPropagation();
 
       if (this.isButtonEnabled()) {
-        await this.handleButtonClick();
+        await this.refreshCompareTranslationsBox();
       }
     });
   }
@@ -158,7 +162,7 @@ class TranslationComparison {
     loadingIndicator.style.display = 'none';
   }
 
-  async handleButtonClick() {
+  async refreshCompareTranslationsBox() {
     if (platformHelper.isCordova()) {
       this.getBoxContent().innerHTML = "";
       this.showLoadingIndicator();
