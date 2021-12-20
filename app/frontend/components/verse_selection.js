@@ -447,7 +447,6 @@ class VerseSelection {
     var currentTab = app_controller.tab_controller.getTab();
 
     if (this.selected_verse_box_elements.length > 0) { // Verses are selected!
-      app_controller.translationComparison.enableComparisonButton();
 
       if (currentTab.isVerseList()) {
         app_controller.verse_context_controller.enableContextButton();
@@ -458,7 +457,6 @@ class VerseSelection {
       this.highlightStrongs();
 
     } else { // No verses selected!
-      app_controller.translationComparison.disableComparisonButton();
       app_controller.verse_context_controller.disableContextButton();
       app_controller.disableVerseButtons();
 
