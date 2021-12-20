@@ -100,7 +100,7 @@ class TextController {
 
     if (tabIndex === undefined) {
       if (app_controller.verse_selection != null) {
-        app_controller.verse_selection.clear_verse_selection();
+        app_controller.verse_selection.clearVerseSelection();
       }
     }
 

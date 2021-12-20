@@ -43,11 +43,11 @@ class VerseSelection {
     });
 
     eventController.subscribe('on-tab-selected', (tabIndex) => {
-      this.clear_verse_selection(true, tabIndex);
+      this.clearVerseSelection(true, tabIndex);
     });
 
     eventController.subscribe('on-all-translations-removed', () => {
-      this.clear_verse_selection();
+      this.clearVerseSelection();
     });
   }
 
@@ -103,7 +103,7 @@ class VerseSelection {
           e.target.matches('.verse-box') ||
           e.target.matches('.verse-list-frame')) {
         
-        this.clear_verse_selection();
+        this.clearVerseSelection();
         app_controller.handleBodyClick(e);
       }
     });
@@ -117,7 +117,7 @@ class VerseSelection {
 
   setVerseAsSelection(verseText) {
     if (verseText != null) {
-      this.clear_verse_selection(false, undefined);
+      this.clearVerseSelection(false, undefined);
       verseText.classList.add('ui-selected');
       verseText.classList.add('ui-selectee');
       this.selected_verse_box_elements.push(verseText);
@@ -146,7 +146,7 @@ class VerseSelection {
     this.selected_verse_references = selectedVerseReferences;
   }
 
-  clear_verse_selection(updateViews=true, tabIndex=undefined) {
+  clearVerseSelection(updateViews=true, tabIndex=undefined) {
     this.selected_verse_references = new Array;
     this.selected_verse_box_elements = new Array;
 
