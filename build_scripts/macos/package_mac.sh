@@ -8,7 +8,7 @@ node_modules/.bin/electron-packager . 'Ezra Bible App' \
 --arch=x64 \
 --prune=true \
 --out=release \
---electron-version=9.2.1 \
+--electron-version=13.2.3 \
 --executable-name='Ezra Bible App' \
 --app-bundle-id='net.ezrabibleapp.electron' \
 --app-category-type='public.app-category.education' \
