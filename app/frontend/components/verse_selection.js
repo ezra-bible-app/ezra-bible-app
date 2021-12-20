@@ -159,6 +159,7 @@ class VerseSelection {
 
     if (updateViews) {
       this.updateViewsAfterVerseSelection();
+      eventController.publish('on-verses-selected');
     }
   }
 
