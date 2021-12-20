@@ -127,17 +127,24 @@ class TranslationComparison {
     if (platformHelper.isCordova()) {
       this.getBoxContent().innerHTML = "";
       this.showLoadingIndicator();
+
+      setTimeout(async () => {
+        await this.performRefresh();
+      }, 50);
+
+    } else {
+      await this.performRefresh();
+    }
+  }
+
+  async performRefresh() {
+    var compareTranslationContent = await this.getCompareTranslationContent();
+
+    if (platformHelper.isCordova()) {
+      this.hideLoadingIndicator();
     }
 
-    setTimeout(async () => {
-      var compareTranslationContent = await this.getCompareTranslationContent();
-
-      if (platformHelper.isCordova()) {
-        this.hideLoadingIndicator();
-      }
-
-      this.getBoxContent().innerHTML = compareTranslationContent;
-    }, 50);
+    this.getBoxContent().innerHTML = compareTranslationContent;
   }
 }
 
