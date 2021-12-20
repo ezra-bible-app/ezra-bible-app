@@ -81,6 +81,8 @@ class VerseSelection {
       stop: (event, ui) => {
         this.updateSelected(verseList);
         this.updateViewsAfterVerseSelection();
+
+        eventController.publishAsync('on-verses-selected');
       },
 
       // eslint-disable-next-line no-unused-vars
