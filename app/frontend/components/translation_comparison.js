@@ -80,7 +80,7 @@ class TranslationComparison {
   async getCompareTranslationContent() {
     var sourceTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     var selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
-    var compareTranslationContent = "<table>";
+    var compareTranslationContent = "<table style='width: 100%;'>";
     var allTranslations = await ipcNsi.getAllLocalModules();
 
     if (selectedVerseBoxes.length > 0) {
@@ -92,8 +92,8 @@ class TranslationComparison {
           cssClass = 'compare-translation-row';
         }
 
-        compareTranslationContent += "<tr class='" + cssClass + "'>";
-        compareTranslationContent += "<td class='compare-translation-row' style='width: 16em; padding: 0.5em;'>" + currentTranslationName + "</td>";
+        compareTranslationContent += `<tr class='${cssClass}'>`;
+        compareTranslationContent += `<td class='compare-translation-row' style='width: 4em; padding: 0.5em;' title='${currentTranslationName}'>${currentTranslationId}</td>`;
         compareTranslationContent += "<td class='compare-translation-row'><table>";
 
         for (var j = 0; j < selectedVerseBoxes.length; j++) {
