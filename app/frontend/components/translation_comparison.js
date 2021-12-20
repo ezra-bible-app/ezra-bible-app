@@ -56,7 +56,7 @@ class TranslationComparison {
   }
 
   getBoxContent() {
-    return document.getElementById('compare-translations-box-content');
+    return document.getElementById('compare-panel-wrapper');
   }
 
   isButtonEnabled() {
@@ -171,7 +171,7 @@ class TranslationComparison {
   }
 
   async handleButtonClick() {
-    if (!this.initDone) {
+    /*if (!this.initDone) {
       this.initCompareTranslationsBox();
       this.initDone = true;
     }
@@ -185,16 +185,16 @@ class TranslationComparison {
     box.dialog({
       width: width,
       title: boxTitle
-    });
+    });*/
 
     this.getBoxContent().innerHTML = "";
-    this.showLoadingIndicator();
-    box.dialog("open");
+    /*this.showLoadingIndicator();
+    box.dialog("open");*/
 
     setTimeout(async () => {
       var compareTranslationContent = await this.getCompareTranslationContent();
 
-      this.hideLoadingIndicator();
+      //this.hideLoadingIndicator();
       this.getBoxContent().innerHTML = compareTranslationContent;
     }, 50);
   }
