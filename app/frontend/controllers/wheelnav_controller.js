@@ -117,7 +117,7 @@ function createWheelNavComponent() {
     menuItems   : menuItems,
     onClick: handleMenuClick,
     onClose: function () {
-      app_controller.verse_selection.clear_verse_selection();
+      app_controller.verse_selection.clearVerseSelection();
     }
   });
 

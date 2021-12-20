@@ -109,7 +109,7 @@ class VerseContextController {
     $(app_controller.verse_context_controller.context_verse).replaceWith(verse_list);
 
     // Clear the potentially existing verse selection
-    app_controller.verse_selection.clear_verse_selection();
+    app_controller.verse_selection.clearVerseSelection();
 
     // Select/highlight the tagged verse
     var selected_verse_box = $('.verse-reference-id-' + context_verse_id);
