@@ -33,51 +33,12 @@ class TranslationComparison {
     });
   }
 
-  getButton() {
-    return $('.show-parallel-translations-button');
-  }
-
-  getAllButtons() {
-    return document.getElementsByClassName('show-parallel-translations-button');
-  }
-
-  initButtonEvents() {
-    var button = this.getButton();
-
-    button.unbind('click');
-    button.bind('click', async (event) => {
-      event.stopPropagation();
-
-      if (this.isButtonEnabled()) {
-        await this.refreshCompareTranslationsBox();
-      }
-    });
-  }
-
   getBox() {
     return $('#compare-translations-box');
   }
 
   getBoxContent() {
     return document.getElementById('compare-panel-wrapper');
-  }
-
-  isButtonEnabled() {
-    return !(this.getButton().hasClass('ui-state-disabled'));
-  }
-
-  enableComparisonButton() {
-    var allButtons = this.getAllButtons();
-    for (let button of allButtons) {
-      button.classList.remove('ui-state-disabled');
-    }
-  }
-
-  disableComparisonButton() {
-    var allButtons = this.getAllButtons();
-    for (let button of allButtons) {
-      button.classList.add('ui-state-disabled');
-    }
   }
 
   async getVerseHtmlByTranslationId(sourceBibleTranslationId, targetTranslationId, verseBox, totalVerseCount) {

@@ -197,7 +197,6 @@ class AppController {
     });
 
     this.assign_last_tag_button.init(tabIndex);
-    this.translationComparison.initButtonEvents();
     this.verse_context_controller.initButtonEvents();
   }
 
