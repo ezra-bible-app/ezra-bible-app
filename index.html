@@ -115,6 +115,9 @@
         <button event="on-dictionary-panel-switched" i18n="[title]bible-browser.show-dictionary" rel="dictionary-panel" default="false">
           <i class="fa fa-book"></i>
         </button>
+        <button event="on-compare-panel-switched" i18n="[title]bible-browser.show-compare-panel" rel="compare-panel" default="false">
+          <i class="fa fa-align-left"></i>
+        </button>
       </panel-buttons>
       <aside id="tool-panel">
         <section id="tag-panel"></section>
@@ -126,6 +129,13 @@
             <div id="dictionary-panel-help" i18n="[html]dictionary-panel.help-instruction"></div>
             <div id="dictionary-panel-breadcrumbs"></div>
             <div id="dictionary-panel-content"></div>
+          </div>
+        </section>
+        <section id="compare-panel" class="accordion-panel ui-accordion ui-widget ui-helper-reset ui-accordion-icons">
+          <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
+            <a href="#" id="compare-panel-header" i18n="[html]compare-panel.default-header"></a>
+          </h3>
+          <div id="compare-panel-wrapper" class="scrollable ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
           </div>
         </section>
       </aside>
