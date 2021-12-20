@@ -203,7 +203,7 @@
   user-select: none;
 }
 
-#dictionary-panel-wrapper {
+#dictionary-panel-wrapper, #compare-panel-wrapper {
   clear: both;
   height: calc(100% - 2.6em) !important;  /* overwrite default jqueryUI Accordion */
   box-sizing: border-box;
