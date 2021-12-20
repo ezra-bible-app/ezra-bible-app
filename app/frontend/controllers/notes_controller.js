@@ -304,7 +304,7 @@ class NotesController {
   }
 
   _getRenderedEditorContent(original = false) {
-    const marked = require("marked");
+    const { marked } = require("marked");
 
     var content = null;
 
@@ -317,7 +317,7 @@ class NotesController {
     var renderedContent = "";
 
     if (content != "") {
-      renderedContent = marked(content);
+      renderedContent = marked.parse(content);
     }
 
     return renderedContent;
