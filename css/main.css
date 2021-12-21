@@ -1522,6 +1522,10 @@ s {
   text-decoration: none;
 }
 
+tr.compare-translation-row:nth-child(odd) {
+  background-color: var(--background-color-darker);
+}
+
 .compare-translation-row td.compare-translation-row {
   border-bottom: 1px dashed gray;
 }
