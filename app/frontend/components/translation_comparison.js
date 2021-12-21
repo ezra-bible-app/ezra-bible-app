@@ -28,8 +28,16 @@ const eventController = require('../controllers/event_controller.js');
  */
 class TranslationComparison {
   constructor() {
+    this.panelActive = false;
+
     eventController.subscribe('on-verses-selected', () => {
-      this.refreshCompareTranslationsBox();
+      if (this.panelActive) {
+        this.refreshCompareTranslationsBox();
+      }
+    });
+
+    eventController.subscribe('on-compare-panel-switched', (panelActive) => {
+      this.panelActive = panelActive;
     });
   }
 
