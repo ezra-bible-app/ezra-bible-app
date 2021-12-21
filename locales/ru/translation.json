@@ -315,6 +315,9 @@
     "open-in-blueletter": "Открыть в Blue Letter Bible",
     "related-strongs": "Связанные номера Стронга"
   },
+  "compare-panel": {
+    "default-header": "<b>Сравнить переводы</b>"
+  },
   "emoji": {
     "search": "Поиск эмодзи...",
     "notFound": "Эмодзи не найдено",

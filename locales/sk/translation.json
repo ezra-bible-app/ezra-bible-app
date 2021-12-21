@@ -315,6 +315,9 @@
     "open-in-blueletter": "Otvoriť v Blue Letter Bible",
     "related-strongs": "Súvisiace Strongy"
   },
+  "compare-panel": {
+    "default-header": "<b>Porovnanie prekladov</b>"
+  },
   "emoji": {
     "search": "Vyhľadajte emodži...",
     "notFound": "Neboli nájdené žiadne emodži",

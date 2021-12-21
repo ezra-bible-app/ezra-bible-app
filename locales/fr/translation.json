@@ -325,6 +325,9 @@
     "open-in-blueletter": "Ouvrir dans la Blue Letter Bible",
     "related-strongs": "Strong associés"
   },
+  "compare-panel": {
+    "default-header": "<b>Comparer les traductions</b>"
+  },
   "emoji": {
     "search": "Rechercher des emojis...",
     "notFound": "Aucun emoji trouvé",

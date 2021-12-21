@@ -315,6 +315,9 @@
     "open-in-blueletter": "Deschide în Biblia cu litere albastre",
     "related-strongs": "(Strong's) Concordanțe asociate"
   },
+  "compare-panel": {
+    "default-header": "<b>Compară traducerile</b>"
+  },
   "emoji": {
     "search": "Căută emoji ...",
     "notFound": "Nu s-au găsit emoji-uri",
