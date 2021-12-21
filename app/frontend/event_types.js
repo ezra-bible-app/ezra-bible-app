@@ -42,7 +42,7 @@
  * @typedef { "on-theme-changed" | "on-fullscreen-changed" } AppEvents
  */
 /**
- * @typedef { "on-tag-panel-switched" | "on-dictionary-panel-switched" } PanelEvents
+ * @typedef { "on-tag-panel-switched" | "on-dictionary-panel-switched" | "on-compare-panel-switched" } PanelEvents
  */
 
 
