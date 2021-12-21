@@ -169,6 +169,10 @@ class PanelButtons extends HTMLElement {
 
     await eventController.publishAsync(this.panelEvents[panelId], isActive);
   }
+
+  get currentlyActivePanel() {
+    return this.activePanel;
+  }
 }
 
 customElements.define('panel-buttons', PanelButtons);
