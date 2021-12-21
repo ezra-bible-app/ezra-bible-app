@@ -50,18 +50,14 @@ class TranslationComparison {
                                           bibleBookShortTitle,
                                           mappedAbsoluteVerseNumber,
                                           1);
+
     var targetTranslationVerse = verses[0];
     
-    var verseHtml = "<tr>";
+    var verseHtml = "";
     
-    if (targetTranslationVerse == null) {
-      console.log("Couldn't get verse " + bibleBookShortTitle + ' / ' + mappedAbsoluteVerseNumber + " for " + targetTranslationId);
-      if (totalVerseCount > 1) {
-        verseHtml += "<td></td>";
-      }
+    if (targetTranslationVerse != null && targetTranslationVerse.content != "") {
+      verseHtml += "<tr>";
 
-      verseHtml += "<td></td>";
-    } else {
       var moduleReferenceSeparator = await i18nHelper.getReferenceSeparator(targetTranslationId);
       var targetVerseReference = targetTranslationVerse.chapter + moduleReferenceSeparator + targetTranslationVerse.verseNr;
       
@@ -70,9 +66,8 @@ class TranslationComparison {
       }
 
       verseHtml += "<td class='verse-content-td'>" + targetTranslationVerse.content + "</td>";
+      verseHtml += "</tr>";
     }
-
-    verseHtml += "</tr>";
 
     return verseHtml;
   }
@@ -84,27 +79,41 @@ class TranslationComparison {
     var allTranslations = await ipcNsi.getAllLocalModules();
 
     if (selectedVerseBoxes.length > 0) {
-      for (var i = 0; i < allTranslations.length; i++) {
-        var currentTranslationId = allTranslations[i].name;
-        var currentTranslationName = allTranslations[i].description;
-        var cssClass = '';
+      for (let i = 0; i < allTranslations.length; i++) {
+        let currentTranslationId = allTranslations[i].name;
+        let currentTranslationName = allTranslations[i].description;
+        let cssClass = '';
         if (i < allTranslations.length) {
           cssClass = 'compare-translation-row';
         }
 
-        compareTranslationContent += `<tr class='${cssClass}'>`;
-        compareTranslationContent += `<td class='compare-translation-row' style='width: 4em; padding: 0.5em;' title='${currentTranslationName}'>${currentTranslationId}</td>`;
-        compareTranslationContent += "<td class='compare-translation-row'><table>";
+        let contentCounter = 0;
+        let compareTranslationRow = "";
+        
+        compareTranslationRow += `<tr class='${cssClass}'>`;
+        compareTranslationRow += `<td class='compare-translation-row' style='width: 4em; padding: 0.5em;' title='${currentTranslationName}'>${currentTranslationId}</td>`;
+        compareTranslationRow += "<td class='compare-translation-row'><table>";
 
-        for (var j = 0; j < selectedVerseBoxes.length; j++) {
-          var currentVerseBox = $(selectedVerseBoxes[j]);
-          var verseHtml = await this.getVerseHtmlByTranslationId(sourceTranslationId, currentTranslationId, currentVerseBox, selectedVerseBoxes.length);
-          compareTranslationContent += verseHtml;
+        for (let j = 0; j < selectedVerseBoxes.length; j++) {
+          let currentVerseBox = $(selectedVerseBoxes[j]);
+          let verseHtml = await this.getVerseHtmlByTranslationId(sourceTranslationId,
+                                                                 currentTranslationId,
+                                                                 currentVerseBox,
+                                                                 selectedVerseBoxes.length);
+
+          compareTranslationRow += verseHtml;
+
+          if (verseHtml != "") {
+            contentCounter += 1;
+          }
         }
 
-        compareTranslationContent += "</table></td>";
+        compareTranslationRow += "</table></td>";
+        compareTranslationRow += "</tr>";
 
-        compareTranslationContent += "</tr>";
+        if (contentCounter > 0) {
+          compareTranslationContent += compareTranslationRow;
+        }
       }
     }
 
