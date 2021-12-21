@@ -28,14 +28,11 @@ const eventController = require('../controllers/event_controller.js');
  */
 class TranslationComparison {
   constructor() {
-    this.panelActive = false;
-
     eventController.subscribe('on-verses-selected', () => {
       this.refreshCompareTranslationsBox();
     });
 
     eventController.subscribe('on-compare-panel-switched', (panelActive) => {
-      this.panelActive = panelActive;
       this.refreshCompareTranslationsBox();
     });
   }
@@ -144,8 +141,13 @@ class TranslationComparison {
     loadingIndicator.style.display = 'none';
   }
 
+  isPanelActive() {
+    var panelButtons = document.getElementById('panel-buttons');
+    return panelButtons.currentlyActivePanel == 'compare-panel';
+  }
+
   async refreshCompareTranslationsBox() {
-    if (!this.panelActive) {
+    if (!this.isPanelActive()) {
       return;
     }
 
