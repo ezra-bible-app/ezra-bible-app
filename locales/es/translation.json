@@ -315,6 +315,9 @@
     "open-in-blueletter": "Abrir en Blue Letter Bible",
     "related-strongs": "Números Strongs relacionados"
   },
+  "compare-panel": {
+    "default-header": "<b>Comparar traducciones</b>"
+  },
   "emoji": {
     "search": "Buscar emojis...",
     "notFound": "No se encontraron emojis",

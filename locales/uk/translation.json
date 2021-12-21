@@ -315,6 +315,9 @@
     "open-in-blueletter": "Відкрити у Blue Letter Bible",
     "related-strongs": "Пов'язані числа Стронга"
   },
+  "compare-panel": {
+    "default-header": "<b>Порівняти переклади</b>"
+  },
   "emoji": {
     "search": "Пошук образок...",
     "notFound": "Образок не знайдено",

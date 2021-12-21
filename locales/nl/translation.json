@@ -317,6 +317,9 @@
     "open-in-blueletter": "In Blue Letter Bible openen",
     "related-strongs": "Gerelateerde Strongs"
   },
+  "compare-panel": {
+    "default-header": "<b>Vertalingen vergelijken</b>"
+  },
   "emoji": {
     "search": "Zoek emojis...",
     "notFound": "Geen emojis gevonden",

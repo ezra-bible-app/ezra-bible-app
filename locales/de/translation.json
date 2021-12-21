@@ -307,6 +307,9 @@
     "open-in-blueletter": "In Blue Letter Bible öffnen",
     "related-strongs": "Verwandte Strong's"
   },
+  "compare-panel": {
+    "default-header": "<b>Übersetzungen vergleichen</b>"
+  },
   "emoji": {
     "search": "Durchsuche Emojis...",
     "notFound": "Keine Emojis gefunden",
