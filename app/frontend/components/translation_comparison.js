@@ -45,7 +45,7 @@ class TranslationComparison {
   }
 
   getBoxContent() {
-    return document.getElementById('compare-panel-wrapper');
+    return document.getElementById('compare-panel-content');
   }
 
   async getVerseHtmlByTranslationId(sourceBibleTranslationId, targetTranslationId, verseBox, totalVerseCount) {
