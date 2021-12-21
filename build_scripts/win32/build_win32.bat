@@ -1,8 +1,8 @@
 echo *** Changing NPM configuration to use Python 2.7 ***
 call npm config set python python2.7
 call npm config ls
-echo *** Installing sqlite3 ***
-call npm install sqlite3@4.2.0 --target_arch=ia32
+echo *** Building sqlite3 ***
+call npm install sqlite3@5.0.0 --build-from-source --runtime=electron --target=13.2.3 --dist-url=https://electronjs.org/headers --target_arch=ia32
 echo *** Installing all other dependencies ***
 call npm install --arch=ia32
 echo *** Rebuilding node-sword-interface ***
