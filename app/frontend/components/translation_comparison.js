@@ -31,13 +31,12 @@ class TranslationComparison {
     this.panelActive = false;
 
     eventController.subscribe('on-verses-selected', () => {
-      if (this.panelActive) {
-        this.refreshCompareTranslationsBox();
-      }
+      this.refreshCompareTranslationsBox();
     });
 
     eventController.subscribe('on-compare-panel-switched', (panelActive) => {
       this.panelActive = panelActive;
+      this.refreshCompareTranslationsBox();
     });
   }
 
@@ -81,7 +80,12 @@ class TranslationComparison {
   }
 
   async getCompareTranslationContent() {
-    var sourceTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    var tab = app_controller.tab_controller.getTab();
+    if (tab == null) {
+      return;
+    }
+
+    var sourceTranslationId = tab.getBibleTranslationId();
     var selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
     var compareTranslationContent = "<table style='width: 100%;'>";
     var allTranslations = await ipcNsi.getAllLocalModules();
@@ -141,6 +145,10 @@ class TranslationComparison {
   }
 
   async refreshCompareTranslationsBox() {
+    if (!this.panelActive) {
+      return;
+    }
+
     if (platformHelper.isCordova()) {
 
       this.getBoxContent().innerHTML = "";
