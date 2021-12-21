@@ -12,6 +12,9 @@ jobs:
         runs-on: windows-latest
         steps:
         - uses: actions/checkout@v1
+        - uses: actions/setup-node@v2
+          with:
+            node-version: '14'
         - name: Remove docs folder
           run: Remove-Item -Recurse -Force docs
           shell: pwsh
