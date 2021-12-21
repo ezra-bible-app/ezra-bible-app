@@ -410,7 +410,7 @@ class VerseSelection {
     return selected_verse_ids;
   }
 
-  async updateSelectedVersesLabel(selectedVerseDisplayText=undefined) {
+  async getSelectedVerseLabelText(selectedVerseDisplayText=undefined) {
     var preDefinedText = false;
 
     if (selectedVerseDisplayText == undefined) {
@@ -429,6 +429,11 @@ class VerseSelection {
       selectedVerseDisplayText = i18n.t('bible-browser.some-search-results');
     }
 
+    return selectedVerseDisplayText;
+  }
+
+  async updateSelectedVersesLabel(selectedVerseDisplayText=undefined) {
+    selectedVerseDisplayText = await this.getSelectedVerseLabelText(selectedVerseDisplayText);
     this.getSelectedVersesLabel().html(selectedVerseDisplayText);
   }
 

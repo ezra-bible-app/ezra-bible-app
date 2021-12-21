@@ -162,6 +162,22 @@ class TranslationComparison {
   }
 
   async performRefresh() {
+    var panelHeader = document.getElementById('compare-panel-header');
+    var panelTitle = "";
+
+    if (app_controller.verse_selection != null &&
+        app_controller.verse_selection.selected_verse_box_elements != null &&
+        app_controller.verse_selection.selected_verse_box_elements.length > 0) {
+
+      panelTitle = i18n.t("bible-browser.comparing-translations-for") + " " + 
+        await app_controller.verse_selection.getSelectedVerseLabelText();
+
+    } else {
+      panelTitle = i18n.t("compare-panel.default-header");
+    }
+
+    panelHeader.innerHTML = "<b>" + panelTitle + "</b>";
+
     var compareTranslationContent = await this.getCompareTranslationContent();
 
     if (platformHelper.isCordova()) {
