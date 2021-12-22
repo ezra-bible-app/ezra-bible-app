@@ -164,8 +164,13 @@ class TranslationComparison {
     }
   }
 
+  getHelpBox() {
+    return document.getElementById('compare-panel-help');
+  }
+
   async performRefresh() {
     var panelHeader = document.getElementById('compare-panel-header');
+    var helpBox = this.getHelpBox();
     var panelTitle = "";
 
     if (app_controller.verse_selection != null &&
@@ -175,8 +180,11 @@ class TranslationComparison {
       panelTitle = i18n.t("bible-browser.comparing-translations-for") + " " + 
         await app_controller.verse_selection.getSelectedVerseLabelText();
 
+      helpBox.classList.add('hidden');
+
     } else {
       panelTitle = i18n.t("compare-panel.default-header");
+      helpBox.classList.remove('hidden');
     }
 
     panelHeader.innerHTML = "<b>" + panelTitle + "</b>";

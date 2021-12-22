@@ -318,6 +318,7 @@
   "compare-panel": {
     "default-header": "<b>Vertalingen vergelijken</b>",
     "show-parallel-translations": "Vertalingen vergelijken",
+    "help-instruction": "To compare translations, you select one verse or a group of verses.<br><br> This area will then automatically list the selected verses from all available translations.",
     "compare": "Vergelijken"
   },
   "emoji": {

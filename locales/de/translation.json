@@ -308,6 +308,7 @@
   "compare-panel": {
     "default-header": "<b>Übersetzungen vergleichen</b>",
     "show-parallel-translations": "Übersetzungen vergleichen",
+    "help-instruction": "Um Übersetzungen zu vergleichen wählen Sie einen Vers oder eine Gruppe von Versen aus.<br><br> Dieser Bereich wird dann automatisch die Liste der gewählten Verse aus allen verfügbaren Übersetzungen anzeigen.",
     "compare": "Vergleichen"
   },
   "emoji": {

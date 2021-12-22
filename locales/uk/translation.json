@@ -316,6 +316,7 @@
   "compare-panel": {
     "default-header": "<b>Порівняти переклади</b>",
     "show-parallel-translations": "Порівняти переклади",
+    "help-instruction": "To compare translations, you select one verse or a group of verses.<br><br> This area will then automatically list the selected verses from all available translations.",
     "compare": "Порівняти"
   },
   "emoji": {
