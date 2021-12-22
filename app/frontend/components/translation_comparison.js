@@ -32,6 +32,7 @@ class TranslationComparison {
       this.refreshCompareTranslationsBox();
     });
 
+    // eslint-disable-next-line no-unused-vars
     eventController.subscribe('on-compare-panel-switched', (panelActive) => {
       this.refreshCompareTranslationsBox();
     });
