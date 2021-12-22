@@ -5,8 +5,6 @@
     "assign-last-tag": "Letzten Tag zuweisen",
     "configure-translations": "Übersetzungen konfigurieren",
     "configure-dicts": "Wörterbücher konfigurieren",
-    "show-parallel-translations": "Übersetzungen vergleichen",
-    "compare": "Vergleichen",
     "context": "Kontext"
   },
   "menu": {
@@ -308,7 +306,9 @@
     "related-strongs": "Verwandte Strong's"
   },
   "compare-panel": {
-    "default-header": "<b>Übersetzungen vergleichen</b>"
+    "default-header": "<b>Übersetzungen vergleichen</b>",
+    "show-parallel-translations": "Übersetzungen vergleichen",
+    "compare": "Vergleichen"
   },
   "emoji": {
     "search": "Durchsuche Emojis...",

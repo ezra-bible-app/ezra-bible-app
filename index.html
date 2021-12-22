@@ -115,12 +115,13 @@
         <button event="on-dictionary-panel-switched" i18n="[title]bible-browser.show-dictionary" rel="dictionary-panel" default="false">
           <i class="fa fa-book"></i>
         </button>
-        <button event="on-compare-panel-switched" i18n="[title]tags-toolbar.show-parallel-translations" rel="compare-panel" default="false">
+        <button event="on-compare-panel-switched" i18n="[title]compare-panel.show-parallel-translations" rel="compare-panel" default="false">
           <i class="fa fa-align-left"></i>
         </button>
       </panel-buttons>
       <aside id="tool-panel">
         <section id="tag-panel"></section>
+
         <section id="dictionary-panel" class="accordion-panel ui-accordion ui-widget ui-helper-reset ui-accordion-icons">
           <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
             <a href="#" id="dictionary-panel-header" i18n="[html]dictionary-panel.default-header"></a>
@@ -131,14 +132,13 @@
             <div id="dictionary-panel-content"></div>
           </div>
         </section>
+
         <section id="compare-panel" class="accordion-panel ui-accordion ui-widget ui-helper-reset ui-accordion-icons">
           <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
             <a href="#" id="compare-panel-header" i18n="[html]compare-panel.default-header"></a>
           </h3>
 
-
           <div id="compare-panel-wrapper" class="scrollable ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
-
             <div id="compare-translations-loading-indicator">
               <div style="float: left;" i18n="bible-browser.loading-verse-translations"></div>
 

@@ -5,8 +5,6 @@
     "assign-last-tag": "Assigner la dernière étiquette",
     "configure-translations": "Configurer des traductions",
     "configure-dicts": "Configurer des dictionnaires",
-    "show-parallel-translations": "Comparer les traductions",
-    "compare": "Comparer",
     "context": "Contexte"
   },
   "menu": {
@@ -326,7 +324,9 @@
     "related-strongs": "Strong associés"
   },
   "compare-panel": {
-    "default-header": "<b>Comparer les traductions</b>"
+    "default-header": "<b>Comparer les traductions</b>",
+    "show-parallel-translations": "Comparer les traductions",
+    "compare": "Comparer"
   },
   "emoji": {
     "search": "Rechercher des emojis...",

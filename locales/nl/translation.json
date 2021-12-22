@@ -5,8 +5,6 @@
     "assign-last-tag": "Laatste tag toewijzen",
     "configure-translations": "Vertalingen configureren",
     "configure-dicts": "Woordenboeken configureren",
-    "show-parallel-translations": "Vertalingen vergelijken",
-    "compare": "Vergelijken",
     "context": "Context"
   },
   "menu": {
@@ -318,7 +316,9 @@
     "related-strongs": "Gerelateerde Strongs"
   },
   "compare-panel": {
-    "default-header": "<b>Vertalingen vergelijken</b>"
+    "default-header": "<b>Vertalingen vergelijken</b>",
+    "show-parallel-translations": "Vertalingen vergelijken",
+    "compare": "Vergelijken"
   },
   "emoji": {
     "search": "Zoek emojis...",

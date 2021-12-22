@@ -5,8 +5,6 @@
     "assign-last-tag": "Priradiť poslednú značku",
     "configure-translations": "Nastavenie prekladov",
     "configure-dicts": "Nastavenie slovníkov",
-    "show-parallel-translations": "Porovnanie prekladov",
-    "compare": "Porovnať",
     "context": "Kontext"
   },
   "menu": {
@@ -316,7 +314,9 @@
     "related-strongs": "Súvisiace Strongy"
   },
   "compare-panel": {
-    "default-header": "<b>Porovnanie prekladov</b>"
+    "default-header": "<b>Porovnanie prekladov</b>",
+    "show-parallel-translations": "Porovnanie prekladov",
+    "compare": "Porovnať"
   },
   "emoji": {
     "search": "Vyhľadajte emodži...",
