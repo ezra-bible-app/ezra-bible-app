@@ -449,7 +449,6 @@ class VerseSelection {
 
   async updateViewsAfterVerseSelection(selectedVerseDisplayText=undefined) {
     await this.updateSelectedVersesLabel(selectedVerseDisplayText);
-    await tags_controller.updateTagsViewAfterVerseSelection(false);
     
     var currentTab = app_controller.tab_controller.getTab();
 

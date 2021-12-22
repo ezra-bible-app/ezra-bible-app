@@ -89,6 +89,10 @@ class TagsController {
     eventController.subscribe('on-translation-removed', async () => {
       await this.updateTagUiBasedOnTagAvailability();
     });
+
+    eventController.subscribe('on-verses-selected', async () => {
+      await this.updateTagsViewAfterVerseSelection(false);
+    });
   }
 
   /**
