@@ -125,6 +125,7 @@ class VerseSelection {
       this.highlightStrongs();
       this.updateSelected();
       this.updateViewsAfterVerseSelection();
+      eventController.publishAsync('on-verses-selected');
     }
   }
 
