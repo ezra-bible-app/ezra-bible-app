@@ -21,7 +21,7 @@ const i18nHelper = require('../helpers/i18n_helper.js');
 const eventController = require('../controllers/event_controller.js');
 
 /**
- * The TranslationComparison component implements a dialog that shows selected verses
+ * The TranslationComparison component implements a tool panel that shows selected verses
  * in a comparison table using all available Bible translations.
  * 
  * @category Component
