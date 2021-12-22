@@ -29,12 +29,12 @@ const eventController = require('../controllers/event_controller.js');
 class TranslationComparison {
   constructor() {
     eventController.subscribe('on-verses-selected', () => {
-      this.refreshCompareTranslationsBox();
+      this.performRefresh();
     });
 
     // eslint-disable-next-line no-unused-vars
     eventController.subscribe('on-compare-panel-switched', (panelActive) => {
-      this.refreshCompareTranslationsBox();
+      this.performRefresh();
     });
   }
 
@@ -147,28 +147,15 @@ class TranslationComparison {
     return panelButtons.currentlyActivePanel == 'compare-panel';
   }
 
-  async refreshCompareTranslationsBox() {
-    if (!this.isPanelActive()) {
-      return;
-    }
-
-    if (platformHelper.isCordova()) {
-
-      this.getBoxContent().innerHTML = "";
-      this.showLoadingIndicator();
-      this.performDelayedRefresh();
-
-    } else {
-
-      await this.performRefresh();
-    }
-  }
-
   getHelpBox() {
     return document.getElementById('compare-panel-help');
   }
 
   async performRefresh() {
+    if (!this.isPanelActive()) {
+      return;
+    }
+
     var panelHeader = document.getElementById('compare-panel-header');
     var helpBox = this.getHelpBox();
     var panelTitle = "";
@@ -189,6 +176,19 @@ class TranslationComparison {
 
     panelHeader.innerHTML = "<b>" + panelTitle + "</b>";
 
+    if (platformHelper.isCordova()) {
+
+      this.getBoxContent().innerHTML = "";
+      this.showLoadingIndicator();
+      this.performDelayedContentRefresh();
+
+    } else {
+
+      await this.performContentRefresh();
+    }
+  }
+
+  async performContentRefresh() {
     var compareTranslationContent = await this.getCompareTranslationContent();
 
     if (platformHelper.isCordova()) {
@@ -198,9 +198,9 @@ class TranslationComparison {
     this.getBoxContent().innerHTML = compareTranslationContent;
   }
 
-  performDelayedRefresh() {
+  performDelayedContentRefresh() {
     setTimeout(async () => {
-      await this.performRefresh();
+      await this.performContentRefresh();
     }, 50);
   }
 }
