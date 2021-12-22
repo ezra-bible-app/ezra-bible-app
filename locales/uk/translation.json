@@ -5,8 +5,6 @@
     "assign-last-tag": "Помітити",
     "configure-translations": "Переклади Біблії",
     "configure-dicts": "Словники",
-    "show-parallel-translations": "Порівняти переклади",
-    "compare": "Порівняти",
     "context": "Контекст"
   },
   "menu": {
@@ -316,7 +314,9 @@
     "related-strongs": "Пов'язані числа Стронга"
   },
   "compare-panel": {
-    "default-header": "<b>Порівняти переклади</b>"
+    "default-header": "<b>Порівняти переклади</b>",
+    "show-parallel-translations": "Порівняти переклади",
+    "compare": "Порівняти"
   },
   "emoji": {
     "search": "Пошук образок...",

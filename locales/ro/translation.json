@@ -5,8 +5,6 @@
     "assign-last-tag": "Atribuie ultima etichetă",
     "configure-translations": "Configurează traducerile",
     "configure-dicts": "Configurează dicționarele",
-    "show-parallel-translations": "Compară traducerile",
-    "compare": "Compară",
     "context": "Context"
   },
   "menu": {
@@ -316,7 +314,9 @@
     "related-strongs": "(Strong's) Concordanțe asociate"
   },
   "compare-panel": {
-    "default-header": "<b>Compară traducerile</b>"
+    "default-header": "<b>Compară traducerile</b>",
+    "show-parallel-translations": "Compară traducerile",
+    "compare": "Compară"
   },
   "emoji": {
     "search": "Căută emoji ...",
