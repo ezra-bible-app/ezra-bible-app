@@ -129,11 +129,6 @@ function getMenuItems() {
   var items = [];
 
   items.push({
-    id: 'compare',
-    icon: '#compare-icon'
-  });
-
-  items.push({
     id: 'assign_last_tag',
     icon: '#tag-icon'
   });
