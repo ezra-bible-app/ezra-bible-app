@@ -65,6 +65,7 @@ const template = html`
     font-size: 0.7rem;
     line-height: 0.7rem;
     opacity: 0.8;
+    content-visibility: auto;
   }
 </style>
  
