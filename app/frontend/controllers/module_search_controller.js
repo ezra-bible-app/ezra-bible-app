@@ -214,8 +214,13 @@ class ModuleSearchController {
     $('#search-scope')[0].value = "BIBLE";
     $('#search-is-case-sensitive').prop("checked", false);
     $('#search-extended-verse-boundaries').prop("checked", false);
+    this.clearModuleSearchHeader(tabIndex);
     this.hideModuleSearchHeader(tabIndex);
     app_controller.verse_statistics_chart.resetChart(tabIndex);
+  }
+
+  clearModuleSearchHeader(tabIndex=undefined) {
+    this.getModuleSearchHeader(tabIndex).html('');
   }
 
   hideModuleSearchHeader(tabIndex=undefined) {
