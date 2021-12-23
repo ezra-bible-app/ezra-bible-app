@@ -169,7 +169,7 @@ class AssistantCheckbox extends HTMLElement {
     const element = this.shadowRoot.querySelector(`#${elementId}`);
     if (value) {
       element.textContent = ` (${value})`;
-      element.animate({ opacity: [0, 0.8] }, 300);
+      //element.animate({ opacity: [0, 0.8] }, 300);
     } else {
       element.textContent = '';
     }
