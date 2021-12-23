@@ -86,7 +86,7 @@ class TextController {
 
   async prepareForNewText(resetView, isSearch = false, tabIndex = undefined) {
     if (!isSearch) {
-      app_controller.module_search_controller.cancelModuleSearch();
+      app_controller.module_search_controller.cancelAnyModuleSearch();
     }
 
     app_controller.module_search_controller.hideModuleSearchHeader(tabIndex);

@@ -40,7 +40,7 @@ class ModuleSearchController {
       await waitUntilIdle();
 
       // Cancel any potentially ongoing module search
-      this.cancelModuleSearch();
+      await this.cancelAnyModuleSearch();
 
       // Populate search menu based on last search (if any)
       this.populateSearchMenu(tabIndex);
@@ -48,7 +48,7 @@ class ModuleSearchController {
 
     eventController.subscribe('on-tab-added', async (tabIndex) => {
       // Cancel any potentially ongoing module search
-      await this.cancelModuleSearch();
+      await this.cancelAnyModuleSearch();
 
       this.initModuleSearch(tabIndex);
     });
@@ -88,17 +88,30 @@ class ModuleSearchController {
     });
   }
 
-  async cancelModuleSearch() {
+  async cancelAnyModuleSearch() {
+    for (let i = 0; i < app_controller.tab_controller.getTabCount(); i++) {
+      let tab = app_controller.tab_controller.getTab(i);
+      if (tab.getTextType() == 'search_results') {
+        this.cancelModuleSearch(i);
+      }
+    }
+  }
+
+  async cancelModuleSearch(tabIndex=undefined) {
     this.disableCancelButton();
 
-    var tab = app_controller.tab_controller.getTab(this.currentSearchTabIndex);
+    if (tabIndex === undefined) {
+      tabIndex = this.currentSearchTabIndex;
+    }
+
+    var tab = app_controller.tab_controller.getTab(tabIndex);
     if (tab != null) {
       tab.setSearchCancelled(true);
     }
 
     this.enableOtherFunctionsAfterSearch();
 
-    var currentProgressValue = this.getCurrentProgressValue();
+    var currentProgressValue = this.getCurrentProgressValue(tabIndex);
 
     if (currentProgressValue != null && !isNaN(currentProgressValue)) {
       if (currentProgressValue <= CANCEL_SEARCH_PERCENT_LIMIT) {
@@ -107,8 +120,12 @@ class ModuleSearchController {
     }
   }
 
-  getCurrentProgressValue() {
-    var searchProgressBar = verseListController.getCurrentSearchProgressBar(this.currentSearchTabIndex);
+  getCurrentProgressValue(tabIndex=undefined) {
+    if (tabIndex === undefined) {
+      tabIndex = this.currentSearchTabIndex;
+    }
+
+    var searchProgressBar = verseListController.getCurrentSearchProgressBar(tabIndex);
     var currentProgressValue = null;
 
     try {
