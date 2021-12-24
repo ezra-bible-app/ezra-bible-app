@@ -249,11 +249,11 @@
   color: #2779aa;
 }
 
-.darkmode--activated #dictionary-panel-panel a:link {
+.darkmode--activated #dictionary-panel a:link {
   color: #97d0ff;
 }
 
-#dictionary-panel-panel a:hover {
+#dictionary-panel a:hover {
   text-decoration: underline;
 }
 
