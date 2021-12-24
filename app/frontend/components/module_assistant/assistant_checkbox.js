@@ -65,6 +65,7 @@ const template = html`
     font-size: 0.7rem;
     line-height: 0.7rem;
     opacity: 0.8;
+    content-visibility: auto;
   }
 </style>
  
@@ -93,25 +94,25 @@ class AssistantCheckbox extends HTMLElement {
   }
 
   connectedCallback() {
-    this.shadowRoot.querySelector('#checkbox').addEventListener('change', () => this.handleCheckboxChecked());
+    this.shadowRoot.getElementById('checkbox').addEventListener('change', () => this.handleCheckboxChecked());
     this.code = this.getAttribute('code');
 
     if (this.hasAttribute('description')) {
-      this.shadowRoot.querySelector('#description').textContent = this.getAttribute('description');
+      this.shadowRoot.getElementById('description').textContent = this.getAttribute('description');
     }
 
     this._disabled = this.hasAttribute('disabled');
     if (this._disabled) {
-      this.shadowRoot.querySelector('#checkbox').setAttribute('disabled', '');
-      this.shadowRoot.querySelector('#label').classList.add('disabled');
+      this.shadowRoot.getElementById('checkbox').setAttribute('disabled', '');
+      this.shadowRoot.getElementById('label').classList.add('disabled');
     }
 
     if (this.hasAttribute('icon')) {
-      this.shadowRoot.querySelector('#label-icon').innerHTML = ICONS[this.getAttribute('icon')];
+      this.shadowRoot.getElementById('label-icon').innerHTML = ICONS[this.getAttribute('icon')];
     }
 
     if (this.hasAttribute('flex-align-top')) {
-      this.shadowRoot.querySelector('#label').classList.add('align-top');
+      this.shadowRoot.getElementById('label').classList.add('align-top');
     }
   }
 
@@ -141,7 +142,7 @@ class AssistantCheckbox extends HTMLElement {
 
   handleCheckedAttr(oldValue, newValue) {
     this._checked = newValue !== null;
-    this.shadowRoot.querySelector('#checkbox').checked = this._checked;
+    this.shadowRoot.getElementById('checkbox').checked = this._checked;
   }
 
   handleCheckboxChecked() {
@@ -149,7 +150,7 @@ class AssistantCheckbox extends HTMLElement {
       return;
     }
 
-    this._checked = this.shadowRoot.querySelector('#checkbox').checked;
+    this._checked = this.shadowRoot.getElementById('checkbox').checked;
     if (this._checked) {
       this.setAttribute('checked', '');
     } else {
@@ -166,10 +167,10 @@ class AssistantCheckbox extends HTMLElement {
   }
 
   updateCount(elementId, value) {
-    const element = this.shadowRoot.querySelector(`#${elementId}`);
+    const element = this.shadowRoot.getElementById(elementId);
     if (value) {
-      element.textContent = ` (${value})`;
-      element.animate({ opacity: [0, 0.8] }, 300);
+      element.textContent = ' (' + value + ')';
+      //element.animate({ opacity: [0, 0.8] }, 300);
     } else {
       element.textContent = '';
     }
