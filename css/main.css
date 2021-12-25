@@ -573,7 +573,7 @@ h2:nth-of-type(1) {
   grid-template-rows: minmax(55vh, 100vh) minmax(0, 23vh);
 }
 
-@media screen and (min-aspect-ratio: 12/9) {
+@media screen and (min-aspect-ratio: 14/10) {
   .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
     height: 89vh;
   }
@@ -585,13 +585,15 @@ h2:nth-of-type(1) {
   }
 }
 
-@media screen and (max-aspect-ratio: 12/9) {
+@media screen and (max-aspect-ratio: 14/10) {
   #app-container {
     grid-template-areas: 
       "content"
       "detail-panel"
       "tool-panel"
       "panel-buttons";
+
+    grid-template-columns: unset !important;
   }
 
   .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
