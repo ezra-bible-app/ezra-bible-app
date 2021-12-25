@@ -101,7 +101,7 @@ class InfoPopup {
     }
 
     const swordVersion = await ipcNsi.getSwordVersion();
-    const chromiumVersion = getChromiumVersion();
+    const chromiumVersion = window.getChromiumVersion();
     const databasePath = await ipcDb.getDatabasePath();
     const configFilePath = await ipcSettings.getConfigFilePath();
     const swordPath = await ipcNsi.getSwordPath();

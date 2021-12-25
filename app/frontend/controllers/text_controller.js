@@ -25,6 +25,7 @@ const Verse = require('../ui_models/verse.js');
 const eventController = require('../controllers/event_controller.js');
 const referenceVerseController = require('../controllers/reference_verse_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
+const { marked } = require('marked');
 
 /**
  * The TextController is used to load bible text into the text area of a tab.
@@ -38,7 +39,6 @@ const verseListController = require('../controllers/verse_list_controller.js');
 class TextController {
   constructor() {
     loadScript("app/templates/verse_list.js");
-    this.marked = require("marked");
     this.platformHelper = new PlatformHelper();
     this.verseReferenceHelper = new VerseReferenceHelper(ipcNsi);
   }
@@ -86,7 +86,7 @@ class TextController {
 
   async prepareForNewText(resetView, isSearch = false, tabIndex = undefined) {
     if (!isSearch) {
-      app_controller.module_search_controller.cancelModuleSearch();
+      app_controller.module_search_controller.cancelAnyModuleSearch();
     }
 
     app_controller.module_search_controller.hideModuleSearchHeader(tabIndex);
@@ -365,7 +365,7 @@ class TextController {
         verses: verses,
         verseTags: verseTags,
         verseNotes: verseNotes,
-        marked: this.marked,
+        marked: marked,
         referenceSeparator: separator,
         chapterText: bookShortTitle === 'Ps' ? "bible-browser.psalm" : "bible-browser.chapter",
         helper: {
@@ -646,7 +646,7 @@ class TextController {
       verses: verses,
       verseTags: groupedVerseTags,
       verseNotes: groupedVerseNotes,
-      marked: this.marked,
+      marked: marked,
       referenceSeparator: separator,
       helper: {
         getNotesTooltip: notesHelper.getTooltipText,

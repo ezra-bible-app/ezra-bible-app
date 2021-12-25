@@ -23,6 +23,7 @@ All notable changes to Ezra Bible App are documented in this file.
 * Fixed bug: Bible book locale was not rendered in case language code was hyphenated. ([#539](i539))
 * Fixed bug: Raised SWORD InstallMgr default timeout from 10s to 20s to fix issues with slow internet connections. ([#157][i157])
 * Fixed bug: The screen was cut off on Android in landscape mode. ([#545][i545])
+* Significant performance improvement for large tag lists. ([#543][i543])
 
 ### Enablers
 
@@ -51,6 +52,7 @@ All notable changes to Ezra Bible App are documented in this file.
 [i346]: https://github.com/ezra-bible-app/ezra-bible-app/issues/346
 [i542]: https://github.com/ezra-bible-app/ezra-bible-app/issues/542
 [i546]: https://github.com/ezra-bible-app/ezra-bible-app/issues/546
+[i543]: https://github.com/ezra-bible-app/ezra-bible-app/discussions/543
 
 ## [1.3.0 - 2021-10-24]
 

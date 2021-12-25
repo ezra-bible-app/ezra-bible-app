@@ -20,6 +20,7 @@ const IpcMain = require('./ipc_main.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const Conf = require('conf');
 const fs = require('fs-extra');
+const path = require('path');
 
 class IpcSettingsHandler {
   constructor(androidVersion=undefined) {

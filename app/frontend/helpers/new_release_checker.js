@@ -48,7 +48,7 @@ class NewReleaseChecker {
         }
       }
     });
-  };
+  }
 
   async check() {
     this.getLatestReleaseFromGitHub().then(async (latestRelease) => {
@@ -57,6 +57,7 @@ class NewReleaseChecker {
       if (this.isNewReleaseAvailable() && await this.isInfoWanted()) {
         this.showNewRelease();
       }
+    // eslint-disable-next-line no-unused-vars
     }).catch((error) => {
       console.error("Could not get latest release info from GitHub. Offline?");
     });

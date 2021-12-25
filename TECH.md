@@ -5,6 +5,7 @@ Ezra Bible App is a web-based Bible study app for desktop and tablet computers. 
 Furthermore, the following components are used (among others):
 * [Sequelize](http://docs.sequelizejs.com) [ORM](https://en.wikipedia.org/wiki/Object-relational_mapping) for handling database access
 * [Umzug](https://github.com/sequelize/umzug) Migration library for handling database schema upgrades
+* [conf](https://github.com/sindresorhus/conf) for persisting configuration
 * [Pug](https://pugjs.org) template engine for rendering verse list
 * [jQuery Steps](http://www.jquery-steps.com) for the bible translation assistant
 * [CodeMirror](https://github.com/codemirror/CodeMirror) in-browser editor for note editing

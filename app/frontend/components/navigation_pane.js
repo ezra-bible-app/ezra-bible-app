@@ -348,7 +348,7 @@ class NavigationPane {
   }
 
   clearNavigationPane() {
-    if (this.currentNavigationPane != null && this.currentNavigationPane[0].childNodes.length > 1) {
+    if (this.currentNavigationPane != null && this.currentNavigationPane[0].childNodes.length >= 1) {
       this.currentNavigationPane[0].innerHTML = "";
       app_controller.tab_controller.clearLastHighlightedNavElementIndex();
     }

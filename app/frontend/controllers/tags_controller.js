@@ -39,7 +39,7 @@ class TagsController {
 
     this.tag_store = new TagStore();
     this.tag_list_filter = new TagListFilter();
-    this.tag_store.onLatestUsedTagChanged = (tagId) => { app_controller.assign_last_tag_button.onLatestUsedTagChanged(tagId) };
+    this.tag_store.onLatestUsedTagChanged = (tagId) => { app_controller.assign_last_tag_button.onLatestUsedTagChanged(tagId); };
     this.verse_box_helper = new VerseBoxHelper();
     this.tag_stats_element_cache = {};
 
@@ -143,6 +143,7 @@ class TagsController {
         $('#new-standard-tag-dialog').dialog("close");
         tags_controller.saveNewTag(event, "standard");
       }
+    // eslint-disable-next-line no-unused-vars
     }).on("keyup", async (event) => {
       var tag_title = $('#new-standard-tag-title-input').val();
       await this.updateButtonStateBasedOnTagTitleValidation(tag_title, 'create-tag-button');
@@ -222,6 +223,7 @@ class TagsController {
     };
 
     $('#remove-tag-assignment-confirmation-dialog').dialog(remove_tag_assignment_confirmation_dlg_options);
+    // eslint-disable-next-line no-unused-vars
     $('#remove-tag-assignment-confirmation-dialog').bind('dialogbeforeclose', function(event) {
       if (!tags_controller.persistence_ongoing && tags_controller.remove_tag_assignment_job != null) {
         tags_controller.remove_tag_assignment_job.cb.attr('checked','checked');
@@ -262,6 +264,7 @@ class TagsController {
       if (event.which == 13) {
         tags_controller.closeDialogAndRenameTag();
       }
+    // eslint-disable-next-line no-unused-vars
     }).on("keyup", async (event) => {
       var tag_title = $('#rename-standard-tag-title-input').val();
       await this.updateButtonStateBasedOnTagTitleValidation(tag_title, 'rename-tag-button');
@@ -389,6 +392,7 @@ class TagsController {
 
     tags_controller.updateTagCountAfterRendering();
 
+    // eslint-disable-next-line no-unused-vars
     var tag_data_elements = $('.tag-id').filter(function(index){
       return ($(this).html() == tag_id);
     });
@@ -398,9 +402,9 @@ class TagsController {
     );
 
     tags_controller.changeVerseListTagInfo(tag_id,
-                                               tag_title,
-                                               verse_list,
-                                               "remove");
+                                           tag_title,
+                                           verse_list,
+                                           "remove");
   }
 
   async assignLastTag() {
@@ -503,9 +507,9 @@ class TagsController {
       ipcDb.assignTagToVerses(id, filteredVerseBoxes);
 
       tags_controller.changeVerseListTagInfo(id,
-                                                 cb_label,
-                                                 $.create_xml_doc(current_verse_selection),
-                                                 "assign");
+                                             cb_label,
+                                             $.create_xml_doc(current_verse_selection),
+                                             "assign");
 
       var currentBook = app_controller.tab_controller.getTab().getBook();
 
@@ -560,22 +564,24 @@ class TagsController {
 
     var current_book_count = 0;
     var current_global_count = 0;
+    var new_book_count = 0;
+    var new_global_count = 0;
 
     var currentBook = app_controller.tab_controller.getTab().getBook();
 
     if (currentBook == null) {
-      var current_global_count = parseInt(tag_assignment_count_values);
+      current_global_count = parseInt(tag_assignment_count_values);
     } else {
-      var current_book_count = parseInt(tag_assignment_count_values.split('|')[0]);
-      var current_global_count = parseInt(tag_assignment_count_values.split('|')[1]);
+      current_book_count = parseInt(tag_assignment_count_values.split('|')[0]);
+      current_global_count = parseInt(tag_assignment_count_values.split('|')[1]);
     }
 
     if (to_increment) {
-      var new_book_count = current_book_count + count;
-      var new_global_count = current_global_count + count;
+      new_book_count = current_book_count + count;
+      new_global_count = current_global_count + count;
     } else {
-      var new_book_count = current_book_count - count;
-      var new_global_count = current_global_count - count;
+      new_book_count = current_book_count - count;
+      new_global_count = current_global_count - count;
     }
 
     if (new_book_count > 0) {
@@ -610,9 +616,9 @@ class TagsController {
 
     var job = tags_controller.remove_tag_assignment_job;
     tags_controller.changeVerseListTagInfo(job.id,
-                                               job.cb_label,
-                                               job.xml_verse_selection,
-                                               "remove");
+                                           job.cb_label,
+                                           job.xml_verse_selection,
+                                           "remove");
 
     job.cb.attr('title', i18n.t("tags.assign-tag"));
     job.checkbox_tag.append(tags_controller.loading_indicator);
@@ -655,20 +661,20 @@ class TagsController {
     var selected_verses = verse_selection.find('verse');
     var current_verse_list_frame = verseListController.getCurrentVerseListFrame();
 
-    for (var i = 0; i < selected_verses.length; i++) {
-      var current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
-      var current_verse_box = current_verse_list_frame[0].querySelector('.verse-reference-id-' + current_verse_reference_id);
+    for (let i = 0; i < selected_verses.length; i++) {
+      let current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
+      let current_verse_box = current_verse_list_frame[0].querySelector('.verse-reference-id-' + current_verse_reference_id);
 
-      var verseBoxObj = new VerseBox(current_verse_box);
+      let verseBoxObj = new VerseBox(current_verse_box);
       verseBoxObj.changeVerseListTagInfo(tag_id, tag_title, action);
     }
 
-    for (var i = 0; i < selected_verses.length; i++) {
-      var current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
-      var current_verse_box = current_verse_list_frame[0].querySelector('.verse-reference-id-' + current_verse_reference_id);
+    for (let i = 0; i < selected_verses.length; i++) {
+      let current_verse_reference_id = $(selected_verses[i]).find('verse-reference-id').text();
+      let current_verse_box = current_verse_list_frame[0].querySelector('.verse-reference-id-' + current_verse_reference_id);
 
       await this.verse_box_helper.iterateAndChangeAllDuplicateVerseBoxes(current_verse_box, { tag_id: tag_id, tag_title: tag_title, action: action }, (changedValue, targetVerseBox) => {
-        var verseBoxObj = new VerseBox(targetVerseBox);
+        let verseBoxObj = new VerseBox(targetVerseBox);
         verseBoxObj.changeVerseListTagInfo(changedValue.tag_id, changedValue.tag_title, changedValue.action);
       });
     }
@@ -835,6 +841,7 @@ class TagsController {
       // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
       this.verses_were_selected_before = true;
 
+      // eslint-disable-next-line no-undef
       var all_tags_html = tagListTemplate({
         tags: tag_list,
         tagStatistics: tag_statistics,
@@ -942,6 +949,7 @@ class TagsController {
   updateTagTitlesInVerseList(tag_id, is_global, title) {
     var tag_class = is_global ? "tag-global" : "tag-book";
 
+    // eslint-disable-next-line no-unused-vars
     var tag_data_elements = $('.tag-id').filter(function(index) {
       return (($(this).html() == tag_id) && ($(this).parent().hasClass(tag_class)));
     }).closest('.' + tag_class);
@@ -968,10 +976,11 @@ class TagsController {
     }, 300);
 
     var versesSelected = app_controller.verse_selection.selected_verse_box_elements.length > 0;
+    var selected_verse_tags = [];
 
     if (versesSelected) { // Verses are selected
 
-      var selected_verse_tags = app_controller.verse_selection.getCurrentSelectionTags();
+      selected_verse_tags = app_controller.verse_selection.getCurrentSelectionTags();
       var checkbox_tags = document.querySelectorAll('.checkbox-tag');
 
       for (var i = 0; i < checkbox_tags.length; i++) {

@@ -30,8 +30,8 @@ class IpcI18nHandler {
   }
 
   getLocaleFile(locale) {
-      var fileName = path.join(__dirname, `../../../locales/${locale}/translation.json`);
-      return fileName;
+    var fileName = path.join(__dirname, `../../../locales/${locale}/translation.json`);
+    return fileName;
   }
 
   initIpcInterface() {

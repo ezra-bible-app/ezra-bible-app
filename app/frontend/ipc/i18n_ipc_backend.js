@@ -20,6 +20,7 @@ const IpcI18n = require('./ipc_i18n.js');
 const { sleep } = require('../helpers/ezra_helper.js');
 
 class I18nIpcBackend {
+  // eslint-disable-next-line no-unused-vars
   init(services, backendOptions, i18nextOptions) {
     this._ipcI18n = new IpcI18n();
     this._busy = false;

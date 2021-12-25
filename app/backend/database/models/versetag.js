@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
 
     for (var i = 0; i < verseTags.length; i++) {
       var vt = verseTags[i];
-      var bibleBookId = vt.bibleBookId.toLowerCase()
+      var bibleBookId = vt.bibleBookId.toLowerCase();
 
       var absoluteVerseNr = (versification == 'eng' ? vt.absoluteVerseNrEng : vt.absoluteVerseNrHeb);
       var verseReferenceId = versification + '-' + bibleBookId + '-' + absoluteVerseNr;
@@ -66,7 +66,7 @@ module.exports = (sequelize, DataTypes) => {
                 " WHERE vr.id IN (" + verseReferenceIds + ")" +
                 " ORDER BY b.number ASC, vr.absoluteVerseNrEng ASC, t.title ASC";
 
-    return sequelize.query(query, { model: models.VerseTag });
+    return sequelize.query(query, { model: global.models.VerseTag });
   };
 
   return VerseTag;

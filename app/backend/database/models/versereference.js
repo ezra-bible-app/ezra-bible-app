@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   VerseReference.prototype.getBibleBook = function() {
-    return models.BibleBook.findByPk(this.bibleBookId);
+    return global.models.BibleBook.findByPk(this.bibleBookId);
   };
 
   VerseReference.prototype.getOrCreateNote = async function() {
@@ -55,15 +55,17 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   VerseReference.findOrCreateFromVerseObject = async function(verseObject, versification) {
+    var bibleBook = null;
     var bibleBookId = null;
+    var bibleBookShortTitle = null;
     var conditions = null;
     var chapter = null;
     var verseNr = null;
     var absoluteVerseNrs = null;
 
     if (verseObject._isBookNoteVerse) {
-      var bibleBookShortTitle = verseObject._bibleBookShortTitle;
-      var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: bibleBookShortTitle } });
+      bibleBookShortTitle = verseObject._bibleBookShortTitle;
+      bibleBook = await global.models.BibleBook.findOne({ where: { shortTitle: bibleBookShortTitle } });
 
       conditions = { bibleBookId: bibleBook.id, chapter: 0, verseNr: 0 };
       chapter = 0;
@@ -74,16 +76,16 @@ module.exports = (sequelize, DataTypes) => {
 
     } else {
 
-      var bibleBookShortTitle = verseObject._bibleBookShortTitle;
-      var bibleBookId = verseObject._bibleBookId;
+      bibleBookShortTitle = verseObject._bibleBookShortTitle;
+      bibleBookId = verseObject._bibleBookId;
       var absoluteVerseNr = verseObject._absoluteVerseNr;
       chapter = verseObject._chapter;
       verseNr = verseObject._verseNr;
 
-      var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: bibleBookShortTitle } });
+      bibleBook = await global.models.BibleBook.findOne({ where: { shortTitle: bibleBookShortTitle } });
       bibleBookId = bibleBook.id;
 
-      absoluteVerseNrs = models.VerseReference.getAbsoluteVerseNrs(versification, bibleBookShortTitle, absoluteVerseNr, chapter, verseNr);
+      absoluteVerseNrs = global.models.VerseReference.getAbsoluteVerseNrs(versification, bibleBookShortTitle, absoluteVerseNr, chapter, verseNr);
 
       conditions = { bibleBookId: bibleBookId, absoluteVerseNrEng: absoluteVerseNr };
       if (versification == 'HEBREW') {
@@ -91,7 +93,8 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
 
-    const [ verseReference, created ] = await models.VerseReference.findOrCreate({
+    // eslint-disable-next-line no-unused-vars
+    const [ verseReference, created ] = await global.models.VerseReference.findOrCreate({
       where: conditions,
       defaults: {
         bibleBookId: bibleBook.id,
@@ -106,13 +109,13 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   VerseReference.getBookReference = async function(bookShortTitle) {
-    var bibleBook = await models.BibleBook.findOne({ where: { shortTitle: bookShortTitle } });
+    var bibleBook = await global.models.BibleBook.findOne({ where: { shortTitle: bookShortTitle } });
     var bibleBookId = bibleBook.id;
 
     return await this.findOne({
       where: { bibleBookId: bibleBookId, chapter: 0, verseNr: 0 }
     });
-  }
+  };
 
   VerseReference.findByBookAndAbsoluteVerseNumber = function(bookShortTitle, absoluteVerseNr, versification) {
     var absoluteVerseNrField = (versification == 'eng' ? 'absoluteVerseNrEng' : 'absoluteVerseNrHeb');
@@ -124,11 +127,11 @@ module.exports = (sequelize, DataTypes) => {
                 " INNER JOIN BibleBooks b ON" +
                 " vr.bibleBookId = b.id" +
                 " WHERE b.shortTitle = '" + bookShortTitle + "'" +
-                " AND vr." + absoluteVerseNrField + "=" + absoluteVerseNr;
+                " AND vr." + absoluteVerseNrField + "=" + absoluteVerseNr +
                 " ORDER BY vr.absoluteVerseNrEng ASC";
 
-    return sequelize.query(query, { model: models.VerseReference });    
-  }
+    return sequelize.query(query, { model: global.models.VerseReference });    
+  };
 
   VerseReference.findByTagIds = function(tagIds) {
     var query = "SELECT vr.*, " +
@@ -142,7 +145,7 @@ module.exports = (sequelize, DataTypes) => {
                 " WHERE vt.tagId IN (" + tagIds + ")" +
                 " ORDER BY vr.absoluteVerseNrEng ASC";
 
-    return sequelize.query(query, { model: models.VerseReference });
+    return sequelize.query(query, { model: global.models.VerseReference });
   };
 
   VerseReference.findByXrefs = async function(xrefs) {
@@ -167,7 +170,7 @@ module.exports = (sequelize, DataTypes) => {
       //console.log("CURRENT REFERENCE: ");
       //console.log(currentReferenceQuery);
 
-      var currentDbReferenceList = await sequelize.query(currentReferenceQuery, { model: models.VerseReference });
+      var currentDbReferenceList = await sequelize.query(currentReferenceQuery, { model: global.models.VerseReference });
 
       if (currentDbReferenceList.length > 0) {
         verseReferences.push(currentDbReferenceList[0]);
@@ -196,19 +199,19 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   VerseReference.getAbsoluteVerseNrHebFromEng = function(bibleBookShortTitle, absoluteVerseNrEng, chapter, verseNr) {
-    var offset = models.VerseReference.getOffsetForVerseReference(bibleBookShortTitle, chapter, verseNr);
+    var offset = global.models.VerseReference.getOffsetForVerseReference(bibleBookShortTitle, chapter, verseNr);
     var absoluteVerseNrHeb = absoluteVerseNrEng + offset;
     return absoluteVerseNrHeb;
   };
 
   VerseReference.getAbsoluteVerseNrEngFromHeb = function(bibleBookShortTitle, absoluteVerseNrHeb, chapter, verseNr) {
-    var offset = models.VerseReference.getOffsetForVerseReference(bibleBookShortTitle, chapter, verseNr);
+    var offset = global.models.VerseReference.getOffsetForVerseReference(bibleBookShortTitle, chapter, verseNr);
     var absoluteVerseNrEng = absoluteVerseNrHeb - offset;
     return absoluteVerseNrEng;
   };
 
   VerseReference.getOffsetTable = function(bibleBookShortTitle) {
-    var offset_tables = models.VerseReference.getAllOffsetTables();
+    var offset_tables = global.models.VerseReference.getAllOffsetTables();
 
     for (var key in offset_tables) {
       if (key.toLowerCase() == bibleBookShortTitle.toLowerCase()) {
@@ -217,20 +220,20 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     return null;
-  }
+  };
 
   VerseReference.getOffsetForVerseReference = function(bibleBookShortTitle, chapter, verseNr) {
     var offset = 0;
-    var offset_table = models.VerseReference.getOffsetTable(bibleBookShortTitle);
+    var offset_table = global.models.VerseReference.getOffsetTable(bibleBookShortTitle);
 
     if (offset_table != undefined) {
       for (var i = 0; i < offset_table.length; i++) {
-          var currentSection = offset_table[i];
-          
-          if (models.VerseReference.isInVerseRange(currentSection['start'], currentSection['end'], chapter, verseNr)) {
-            offset = currentSection['offset'];
-            break;
-          }
+        var currentSection = offset_table[i];
+        
+        if (global.models.VerseReference.isInVerseRange(currentSection['start'], currentSection['end'], chapter, verseNr)) {
+          offset = currentSection['offset'];
+          break;
+        }
       }
     }
 
