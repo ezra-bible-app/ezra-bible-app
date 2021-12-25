@@ -24,7 +24,7 @@
   overflow: hidden;
 }
 
-@media (orientation: landscape) {
+@media screen and (min-aspect-ratio: 12/9) {
   .Android #tool-panel #tag-list-stats {
     display: none;
   }
@@ -40,7 +40,8 @@
   }
 }
 
-@media (orientation: portrait) {
+
+@media screen and (max-aspect-ratio: 12/9) {
   #tool-panel {
     height: 15em !important;
     width: 100% !important;
@@ -73,7 +74,7 @@
   }
 }
 
-@media (orientation: landscape) {
+@media screen and (min-aspect-ratio: 12/9) {
   #tool-panel {
     height: 100% !important;
   }
@@ -125,7 +126,7 @@
   transition-delay: 0.5s;
 }
 
-@media (orientation: portrait) {
+@media screen and (max-aspect-ratio: 12/9) {
   #tool-panel .ui-resizable-n {
     display: block;
   }
@@ -162,7 +163,7 @@
   padding: 0.5em 0.2em 0;
 }
 
-@media (orientation: portrait) {
+@media screen and (max-aspect-ratio: 12/9) {
   .ui-tabs .ui-tabs-panel {
     padding-left: 0;
   }

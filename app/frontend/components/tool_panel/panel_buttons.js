@@ -52,7 +52,7 @@ const template = html`
       cursor: pointer;
     }
 
-    @media (orientation: portrait) {
+    @media screen and (max-aspect-ratio: 12/9) {
       #panel-switches {
         height: var(--button-size);
         width: 100%;
