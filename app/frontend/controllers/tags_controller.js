@@ -1075,6 +1075,10 @@ class TagsController {
       e.stopPropagation(); 
     });
 
+    document.getElementById('new-standard-tag-button').addEventListener('click', function() {
+      tags_controller.handleNewTagButtonClick($(this), "standard");
+    });
+
     tags_controller.bindTagEvents();
   }
 

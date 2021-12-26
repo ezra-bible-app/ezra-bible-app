@@ -294,9 +294,15 @@ tr.td-underline td {
   float: left;
 }
 
+#new-standard-tag-button {
+  display: inline-block;
+  margin-left: 1em;
+  margin-top: -0.2em;
+  padding: 0.2em;
+}
+
 #tags-search-input {
   margin: 0;
-  margin-top: -0.2em;
   float: right;
   width: 9em;
 }
