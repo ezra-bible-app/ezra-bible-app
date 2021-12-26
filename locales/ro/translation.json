@@ -1,7 +1,6 @@
 {
   "tags-toolbar": {
     "new-tag": "Eticheta nouă",
-    "tag-statistics": "Statistici etichete",
     "assign-last-tag": "Atribuie ultima etichetă",
     "configure-translations": "Configurează traducerile",
     "configure-dicts": "Configurează dicționarele",
@@ -292,7 +291,6 @@
     "select-chapter-before-loading": "Deschide cărțile cu selecție de capitol",
     "use-night-mode": "Mod de noapte",
     "keep-screen-on": "Menține ecranul aprins",
-    "tag-statistics": "Statistici etichete",
     "comparing-translations-for": "Comparare traduceri pentru",
     "strongs-number-not-valid": "Acesta nu este un număr valid de concordanță (Strong's)!",
     "open-new-tab": "Deschide filă nouă",
@@ -314,6 +312,9 @@
     "find-all-occurrences": "Găsește toate aparițiile",
     "open-in-blueletter": "Deschide în Biblia cu litere albastre",
     "related-strongs": "(Strong's) Concordanțe asociate"
+  },
+  "tag-statistics-panel": {
+    "default-header": "Statistici etichete"
   },
   "emoji": {
     "search": "Căută emoji ...",

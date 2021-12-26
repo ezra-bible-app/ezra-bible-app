@@ -1,7 +1,6 @@
 {
   "tags-toolbar": {
     "new-tag": "Nouvelle étiquette",
-    "tag-statistics": "Statistiques des étiquettes",
     "assign-last-tag": "Assigner la dernière étiquette",
     "configure-translations": "Configurer des traductions",
     "configure-dicts": "Configurer des dictionnaires",
@@ -302,7 +301,6 @@
     "select-chapter-before-loading": "Ouvrir les livres avec sélection de chapitre",
     "use-night-mode": "Mode nuit",
     "keep-screen-on": "Garder l’écran allumé",
-    "tag-statistics": "Statistiques des étiquettes",
     "comparing-translations-for": "Comparaison des traductions pour",
     "strongs-number-not-valid": "Ceci n’est pas un nombre de Strong valide !",
     "open-new-tab": "Ouvrir un nouvel onglet",
@@ -324,6 +322,9 @@
     "find-all-occurrences": "Trouver toutes les occurrences",
     "open-in-blueletter": "Ouvrir dans la Blue Letter Bible",
     "related-strongs": "Strong associés"
+  },
+  "tag-statistics-panel": {
+    "default-header": "Statistiques des étiquettes"
   },
   "emoji": {
     "search": "Rechercher des emojis...",

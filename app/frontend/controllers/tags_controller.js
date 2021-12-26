@@ -1133,6 +1133,8 @@ class TagsController {
         var currentTabBook = currentTab.getBook();
         var currentTabContentId = currentTab.getContentId();
         this.updateTagList(currentTabBook, currentTabContentId, forceRefresh);
+      } else {
+        this.lastContentId = null;
       }
     }
   }

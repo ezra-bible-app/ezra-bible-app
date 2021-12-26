@@ -1,7 +1,6 @@
 {
   "tags-toolbar": {
     "new-tag": "Нова міта",
-    "tag-statistics": "Перелік міт",
     "assign-last-tag": "Помітити",
     "configure-translations": "Переклади Біблії",
     "configure-dicts": "Словники",
@@ -292,7 +291,6 @@
     "select-chapter-before-loading": "Обирати розділ при відкритті книг",
     "use-night-mode": "Нічний режим",
     "keep-screen-on": "Тримати екран включеним",
-    "tag-statistics": "Перелік міт",
     "comparing-translations-for": "Порівняння перекладів",
     "strongs-number-not-valid": "Це не дійсне число Стронга!",
     "open-new-tab": "Відкрити нову вкладку",
@@ -314,6 +312,9 @@
     "find-all-occurrences": "Знайти всі випадки",
     "open-in-blueletter": "Відкрити у Blue Letter Bible",
     "related-strongs": "Пов'язані числа Стронга"
+  },
+  "tag-statistics-panel": {
+    "default-header": "Перелік міт"
   },
   "emoji": {
     "search": "Пошук образок...",

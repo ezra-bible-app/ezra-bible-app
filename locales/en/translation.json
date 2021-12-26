@@ -1,7 +1,6 @@
 {
   "tags-toolbar": {
     "new-tag": "New tag",
-    "tag-statistics": "Tag statistics",
     "assign-last-tag": "Assign last tag",
     "configure-translations": "Configure translations",
     "configure-dicts": "Configure dictionaries",
@@ -292,7 +291,6 @@
     "select-chapter-before-loading": "Open books with chapter selection",
     "use-night-mode": "Night mode",
     "keep-screen-on": "Keep screen on",
-    "tag-statistics": "Tag statistics",
     "comparing-translations-for": "Comparing translations for",
     "strongs-number-not-valid": "This is not a valid Strong's number!",
     "open-new-tab": "Open new tab",
@@ -314,6 +312,9 @@
     "find-all-occurrences": "Find all occurrences",
     "open-in-blueletter": "Open in Blue Letter Bible",
     "related-strongs": "Related Strong's"
+  },
+  "tag-statistics-panel": {
+    "default-header": "Tag statistics"
   },
   "emoji": {
     "search": "Search emojis...",

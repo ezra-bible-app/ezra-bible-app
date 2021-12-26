@@ -1,7 +1,6 @@
 {
   "tags-toolbar": {
     "new-tag": "Nová značka",
-    "tag-statistics": "Štatistika značiek",
     "assign-last-tag": "Priradiť poslednú značku",
     "configure-translations": "Nastavenie prekladov",
     "configure-dicts": "Nastavenie slovníkov",
@@ -292,7 +291,6 @@
     "select-chapter-before-loading": "Open books with chapter selection",
     "use-night-mode": "Nočný mód",
     "keep-screen-on": "Ponechať zapnutý displej",
-    "tag-statistics": "Štatistiky štítkov",
     "comparing-translations-for": "Porovnanie prekladov pre",
     "strongs-number-not-valid": "Toto nie je platné Strong číslo!",
     "open-new-tab": "Otvoriť novú kartu",
@@ -314,6 +312,9 @@
     "find-all-occurrences": "Nájsť všetky výskyty",
     "open-in-blueletter": "Otvoriť v Blue Letter Bible",
     "related-strongs": "Súvisiace Strongy"
+  },
+  "tag-statistics-panel": {
+    "default-header": "Štatistika značiek"
   },
   "emoji": {
     "search": "Vyhľadajte emodži...",

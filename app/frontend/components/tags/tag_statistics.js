@@ -24,16 +24,20 @@ class TagStatistics {
     this._frequentTagsList = [];
 
     eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
-      var tabIsCurrentTab = app_controller.tab_controller.isCurrentTab(tabIndex);
-
-      if (tabIsCurrentTab) {
-        await this.toggleBookTagStatisticsButton(tabIndex);
-      }
+      this.clearTagStatisticsPanel(tabIndex);
     });
 
     eventController.subscribe('on-tab-selected', (tabIndex) => {
-      this.toggleBookTagStatisticsButton(tabIndex);
+      this.clearTagStatisticsPanel(tabIndex);
     });
+  }
+
+  clearTagStatisticsPanel(tabIndex) {
+    var tab = app_controller.tab_controller.getTab(tabIndex);
+
+    if (tab.getTextType() != 'book') {
+      document.getElementById('tag-statistics-panel-wrapper').innerHTML = '';
+    }
   }
 
   getBookTagStatistics() {
@@ -160,7 +164,7 @@ class TagStatistics {
         currentRowHTML += `<tr><td style='font-weight: bold; font-style: italic; padding-top: 1em;' colspan='3'>${i18n.t('tags.less-frequently-used')}</td></tr>`;
       }
 
-      currentRowHTML = currentRowHTML + `<tr><td style="width: 20em;">${tag_title}</td><td>${taggedVerseCount}</td><td>${taggedVersePercent}</td></tr>`;
+      currentRowHTML = currentRowHTML + `<tr><td style="width: 22em;">${tag_title}</td><td>${taggedVerseCount}</td><td>${taggedVersePercent}</td></tr>`;
       tagStatisticsHTML += currentRowHTML;
       
       wasMoreFrequent = taggedVersePercent >= MIN_CLUSTER_PERCENT && clusters.includes(taggedVersePercent);
@@ -172,7 +176,7 @@ class TagStatistics {
 
     tagStatisticsHTML += "</table>";
 
-    var bookTagStatisticsBoxContent = document.getElementById('book-tag-statistics-box-content');
+    var bookTagStatisticsBoxContent = document.getElementById('tag-statistics-panel-wrapper');
     bookTagStatisticsBoxContent.innerHTML = tagStatisticsHTML;
 
     this.highlightFrequentlyUsedTags();
@@ -191,40 +195,6 @@ class TagStatistics {
         tag.classList.remove('tag-highly-frequent');
       }
     });
-  }
-
-  async toggleBookTagStatisticsButton(index=undefined) {
-    var verseListTabs = document.getElementById('verse-list-tabs');
-    var bookTagStatistics_button = $(verseListTabs).find('.show-book-tag-statistics-button');
-
-    if (index === undefined) {
-      index = app_controller.tab_controller.getSelectedTabIndex();
-    }
-    
-    var currentTab = app_controller.tab_controller.getTab(index);
-
-    if (currentTab != null && currentTab.getTextType() == 'book') {
-      var tagsCount = await ipcDb.getTagCount();
-
-      if (tagsCount > 0) {
-        bookTagStatistics_button.removeClass('ui-state-disabled');
-        bookTagStatistics_button.removeClass('events-configured');
-      }
-
-      bookTagStatistics_button.unbind('click');
-      bookTagStatistics_button.bind('click', (event) => {
-        if (!$(event.target).hasClass('ui-state-disabled')) {
-          this.openBookTagStatistics();
-        }
-      });
-      bookTagStatistics_button.show();
-    } else {
-      bookTagStatistics_button.unbind();
-      bookTagStatistics_button.addClass('ui-state-disabled');
-      bookTagStatistics_button.addClass('events-configured');
-    }
-
-    uiHelper.configureButtonStyles('.verse-list-menu');
   }
 
   async openBookTagStatistics() {

@@ -1,7 +1,6 @@
 {
   "tags-toolbar": {
     "new-tag": "Nieuwe tag",
-    "tag-statistics": "Tag-statistieken",
     "assign-last-tag": "Laatste tag toewijzen",
     "configure-translations": "Vertalingen configureren",
     "configure-dicts": "Woordenboeken configureren",
@@ -294,7 +293,6 @@
     "select-chapter-before-loading": "Open boeken met hoofdstukselectie",
     "use-night-mode": "Nachtmodus",
     "keep-screen-on": "Houd het beeldscherm ingeschakeld",
-    "tag-statistics": "Tagstatistieken",
     "comparing-translations-for": "Vertalingen vergelijken voor",
     "strongs-number-not-valid": "Dit is geen geldig Strongs nummer!",
     "open-new-tab": "Openen in nieuw tabblad",
@@ -316,6 +314,9 @@
     "find-all-occurrences": "Vind alle voorvallen",
     "open-in-blueletter": "In Blue Letter Bible openen",
     "related-strongs": "Gerelateerde Strongs"
+  },
+  "tag-statistics-panel": {
+    "default-header": "Tag-statistieken"
   },
   "emoji": {
     "search": "Zoek emojis...",

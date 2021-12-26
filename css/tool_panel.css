@@ -214,7 +214,7 @@
   user-select: none;
 }
 
-#dictionary-panel-wrapper {
+#dictionary-panel-wrapper, #tag-statistics-panel-wrapper {
   clear: both;
   height: calc(100% - 2.6em) !important;  /* overwrite default jqueryUI Accordion */
   box-sizing: border-box;
@@ -475,4 +475,14 @@ tr.td-underline td {
   .selection-box {
     margin: 0 0 0 0.5em;
   }  
+}
+
+table.tag-statistics {
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+}
+
+table.tag-statistics tr:nth-child(even) {
+  background: var(--background-color-darker);
 }
