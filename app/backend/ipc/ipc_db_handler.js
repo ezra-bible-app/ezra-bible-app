@@ -247,12 +247,17 @@ class IpcDbHandler {
       return lastUpdate;
     });
 
-    this._ipcMain.add('db_exportUserData', async() => {
+    this._ipcMain.add('db_exportUserData', async(csvFilePath=undefined) => {
       var verseReferences = await global.models.VerseReference.findAllWithUserData();
       const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
+      if (csvFilePath === undefined) {
+        const homeDir = require('os').homedir();
+        csvFilePath = path.join(homeDir, 'ezra_user_data_export.csv');
+      }
+
       const csvWriter = createCsvWriter({
-        path: 'out.csv',
+        path: csvFilePath,
         header: [
           {id: 'bibleBookShortTitle', title: 'Book'},
           {id: 'absoluteVerseNrEng', title: 'Absolute Verse Nr (ENG)'},
