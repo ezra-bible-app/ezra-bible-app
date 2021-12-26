@@ -19,6 +19,7 @@
 const PlatformHelper = require('../../lib/platform_helper.js');
 const { html } = require('../helpers/ezra_helper.js');
 const eventController = require('../controllers/event_controller.js');
+const exportHelper = require('../helpers/export_helper.js');
 
 class InfoPopup {
   constructor() {
@@ -160,6 +161,13 @@ class InfoPopup {
           <tr><td>${i18n.t("general.config-file-path")}:</td><td>${configFilePath}</td></tr>
           <tr><td>${i18n.t("general.sword-path")}:</td><td>${swordPath}</td></tr>
         </table>
+
+        <h2>${i18n.t("general.special-functions")}</h2>
+        <p>
+          <button id="export-user-data-button" class="fg-button ui-state-default ui-corner-all" i18n="general.export-user-data">
+            ${i18n.t("general.export-user-data")}
+          </button>
+        </p>
       </div>
 
       <div id='app-info-tabs-4' class='info-tabs scrollable'>
@@ -209,6 +217,14 @@ class InfoPopup {
     $('#info-popup-content').empty();
     $('#info-popup-content').html(appInfo.innerHTML);
     $('#app-info-tabs').tabs({ heightStyle: "fill" });
+
+    $('#export-user-data-button').bind('click', async () => {
+      var dialogTitle = i18n.t("general.export-user-data");
+      var filePath = await exportHelper.showSaveDialog('User_data_export', 'csv', dialogTitle);
+
+      await ipcDb.exportUserData(filePath);
+    });
+
     $('#info-popup').dialog("open");
   }
 
