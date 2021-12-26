@@ -61,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
 
     for (var i = 0; i < notes.length; i++) {
       var note = notes[i];
-      var bibleBookId = note.bibleBookId.toLowerCase()
+      var bibleBookId = note.bibleBookId.toLowerCase();
 
       var absoluteVerseNr = (versification == 'eng' ? note.absoluteVerseNrEng : note.absoluteVerseNrHeb);
       var verseReferenceId = versification + '-' + bibleBookId + '-' + absoluteVerseNr;
