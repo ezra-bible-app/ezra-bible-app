@@ -246,6 +246,25 @@ class IpcDbHandler {
       var lastUpdate = await global.models.MetaRecord.getLastUpdate();
       return lastUpdate;
     });
+
+    this._ipcMain.add('db_exportUserData', async() => {
+      var verseReferences = await global.models.VerseReference.findAllWithUserData();
+      const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+
+      const csvWriter = createCsvWriter({
+        path: 'out.csv',
+        header: [
+          {id: 'bibleBookShortTitle', title: 'Book'},
+          {id: 'chapter', title: 'Chapter'},
+          {id: 'verseNr', title: 'Verse Nr'},
+          {id: 'tagList', title: 'Tags'},
+          {id: 'noteText', title: 'Notes'},
+        ],
+        alwaysQuote: true
+      });
+
+      await csvWriter.writeRecords(verseReferences);
+    });
   }
 
   makeSequelizeResultsSerializable(sequelizeResults) {
