@@ -251,6 +251,8 @@ class IpcDbHandler {
         path: 'out.csv',
         header: [
           {id: 'bibleBookShortTitle', title: 'Book'},
+          {id: 'absoluteVerseNrEng', title: 'Absolute Verse Nr (ENG)'},
+          {id: 'absoluteVerseNrHeb', title: 'Absolute Verse Nr (HEB)'},
           {id: 'chapter', title: 'Chapter'},
           {id: 'verseNr', title: 'Verse Nr'},
           {id: 'tagList', title: 'Tags'},
