@@ -195,7 +195,7 @@ module.exports = (sequelize, DataTypes) => {
     var query = `SELECT vr.*, 
                  b.shortTitle as bibleBookShortTitle,
                  b.longTitle AS bibleBookLongTitle,
-                 GROUP_CONCAT(t.title) AS tagList,
+                 GROUP_CONCAT(t.title, ';') AS tagList,
                  n.text AS noteText
                  FROM VerseReferences vr
                  INNER JOIN BibleBooks b ON
