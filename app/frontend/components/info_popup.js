@@ -164,8 +164,8 @@ class InfoPopup {
 
         <h2>${i18n.t("general.special-functions")}</h2>
         <p>
-          <button id="export-user-data-button" class="fg-button ui-state-default ui-corner-all" i18n="general.export-user-data">
-            ${i18n.t("general.export-user-data")}
+          <button id="export-user-data-button" class="fg-button ui-state-default ui-corner-all" i18n="general.export-user-data-action">
+            ${i18n.t("general.export-user-data-action")}
           </button>
         </p>
       </div>
@@ -219,7 +219,7 @@ class InfoPopup {
     $('#app-info-tabs').tabs({ heightStyle: "fill" });
 
     $('#export-user-data-button').bind('click', async () => {
-      var dialogTitle = i18n.t("general.export-user-data");
+      var dialogTitle = i18n.t("general.export-user-data-action");
       var filePath = await exportHelper.showSaveDialog('User_data_export', 'csv', dialogTitle);
 
       await ipcDb.exportUserData(filePath);
