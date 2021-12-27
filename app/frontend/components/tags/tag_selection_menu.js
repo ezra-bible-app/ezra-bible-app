@@ -36,6 +36,18 @@ class TagSelectionMenu {
     eventController.subscribe('on-tab-added', (tabIndex) => {
       this.init(tabIndex);
     });
+
+    eventController.subscribe('on-tag-created', async () => {
+      await this.requestTagsForMenu();
+    });
+
+    eventController.subscribe('on-tag-deleted', async () => {
+      await this.requestTagsForMenu(true);
+    });
+
+    eventController.subscribe('on-tag-renamed', async() => {
+      await this.requestTagsForMenu();
+    });
   }
 
   init(tabIndex=undefined) {

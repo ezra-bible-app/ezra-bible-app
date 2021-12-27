@@ -284,18 +284,19 @@ class TagsController {
     var is_global = (checkbox_tag.parent().attr('id') == 'tags-content-global');
     
     tags_controller.updateTagTitlesInVerseList(tags_controller.rename_standard_tag_id, is_global, new_title);
-    ipcDb.updateTag(tags_controller.rename_standard_tag_id, new_title);
+    await ipcDb.updateTag(tags_controller.rename_standard_tag_id, new_title);
+
+    await eventController.publishAsync(
+      'on-tag-renamed',
+      {
+        tagId: tags_controller.rename_standard_tag_id,
+        oldTitle: tags_controller.rename_standard_tag_title,
+        newTitle: new_title
+      }
+    );
+
     tags_controller.sortTagLists();
-    
-    if (tags_controller.rename_standard_tag_id == tags_controller.tag_store.latest_tag_id) {
-      await tags_controller.tag_store.renameTag(tags_controller.rename_standard_tag_id, new_title);
-      app_controller.assign_last_tag_button.onLatestUsedTagChanged(undefined, undefined);
-    }
-
     await tags_controller.updateTagsViewAfterVerseSelection(true);
-
-    app_controller.tag_selection_menu.requestTagsForMenu();
-    app_controller.tab_controller.updateTabTitleAfterTagRenaming(tags_controller.rename_standard_tag_title, new_title);
   }
 
   renameTagInView(id, title) {
@@ -320,16 +321,11 @@ class TagsController {
     this.last_created_tag = new_tag_title;
 
     var new_tag = await ipcDb.createNewTag(new_tag_title);
+    await eventController.publishAsync('on-tag-created', new_tag.id);
 
-    tags_controller.tag_store.resetBookTagStatistics();
     var tab = app_controller.tab_controller.getTab();
     await tags_controller.updateTagList(tab.getBook(), tab.getContentId(), true);
-    await app_controller.tag_selection_menu.requestTagsForMenu();
-    var current_timestamp = new Date(Date.now()).getTime();
-    tags_controller.tag_store.updateTagTimestamp(new_tag.id, current_timestamp);
-    await tags_controller.tag_store.updateLatestAndOldestTagData();
     await tags_controller.updateTagsViewAfterVerseSelection(true);
-
     uiHelper.hideTextLoadingIndicator();
   }
 
@@ -373,11 +369,11 @@ class TagsController {
     setTimeout(async () => {
       await ipcDb.removeTag(tags_controller.tag_to_be_deleted);
 
+      await eventController.publishAsync('on-tag-deleted', tags_controller.tag_to_be_deleted);
+
       await tags_controller.removeTagById(tags_controller.tag_to_be_deleted, tags_controller.tag_to_be_deleted_title);
-      await app_controller.tag_selection_menu.requestTagsForMenu(true);
       await tags_controller.updateTagsViewAfterVerseSelection(true);
       await tags_controller.updateTagUiBasedOnTagAvailability();
-      await app_controller.tag_statistics.updateBookTagStatistics();
     }, 50);
   }
 

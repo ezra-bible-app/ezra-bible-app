@@ -34,6 +34,10 @@ class TagStatistics {
     eventController.subscribe('on-tab-selected', (tabIndex) => {
       this.toggleBookTagStatisticsButton(tabIndex);
     });
+
+    eventController.subscribe('on-tag-deleted', async () => {
+      await this.updateBookTagStatistics();
+    });
   }
 
   getBookTagStatistics() {

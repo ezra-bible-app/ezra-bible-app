@@ -16,6 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const eventController = require('../../controllers/event_controller.js');
+
 class TagStore {
   constructor() {
     this.tagList = null;
@@ -24,6 +26,19 @@ class TagStore {
     this.oldest_recent_timestamp = null;
     this.latest_tag_id = null;
     this.onLatestUsedTagChanged = null;
+
+    eventController.subscribePrioritized('on-tag-created', async (newTagId) => {
+      this.resetBookTagStatistics();
+
+      var currentTimestamp = new Date(Date.now()).getTime();
+      this.updateTagTimestamp(newTagId, currentTimestamp);
+
+      await this.updateLatestAndOldestTagData();
+    });
+
+    eventController.subscribePrioritized('on-tag-renamed', async ({ tagId, newTitle }) => {
+      await this.renameTag(tagId, newTitle);
+    });
   }
 
   resetBookTagStatistics() {
