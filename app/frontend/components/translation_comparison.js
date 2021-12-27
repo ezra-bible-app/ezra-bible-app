@@ -32,8 +32,11 @@ class TranslationComparison {
       this.performRefresh();
     });
 
-    // eslint-disable-next-line no-unused-vars
-    eventController.subscribe('on-compare-panel-switched', (panelActive) => {
+    eventController.subscribe('on-compare-panel-switched', () => {
+      this.performRefresh();
+    });
+
+    eventController.subscribe('on-locale-changed', () => {
       this.performRefresh();
     });
   }
