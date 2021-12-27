@@ -124,9 +124,9 @@ class AppController {
 
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => { await this.onTabSelected(tabIndex); });
     eventController.subscribe('on-tab-added', (tabIndex) => { this.onTabAdded(tabIndex); });
+    eventController.subscribe('on-verses-selected', () => { this.toggleVerseContextMenuButton(); });
 
     this.initVerseContextButtons();
-
     this.initExitEvent();
   }
 
@@ -224,6 +224,17 @@ class AppController {
         }
       }
     });
+  }
+
+  toggleVerseContextMenuButton() {
+    var currentVerseListMenu = this.getCurrentVerseListMenu();
+    var verseContextMenuButton = currentVerseListMenu[0].querySelector('.verse-context-menu-button');
+
+    if (app_controller.verse_selection.selected_verse_box_elements.length > 0) {
+      verseContextMenuButton.classList.remove('ui-state-disabled');
+    } else {
+      verseContextMenuButton.classList.add('ui-state-disabled');
+    }
   }
 
   enableVerseButtons() {
