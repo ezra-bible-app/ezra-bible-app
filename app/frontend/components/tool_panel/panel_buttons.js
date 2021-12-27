@@ -52,7 +52,7 @@ const template = html`
       cursor: pointer;
     }
 
-    @media screen and (max-aspect-ratio: 14/10) {
+    @media screen and (max-aspect-ratio: 15/10) {
       #panel-switches {
         height: var(--button-size);
         width: 100%;
