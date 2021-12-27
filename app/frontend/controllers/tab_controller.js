@@ -787,6 +787,7 @@ class TabController {
         tagTitle += "<i>" + tag_list.join(', ') + "</i>";
 
         this.setTabTitle(tagTitle, currentMetaTab.getBibleTranslationId(), i);
+        currentMetaTab.setTaggedVersesTitle(tagTitle);
       }
     }
   }
