@@ -30,6 +30,10 @@ class TagStatistics {
     eventController.subscribe('on-tab-selected', (tabIndex) => {
       this.clearTagStatisticsPanel(tabIndex);
     });
+
+    eventController.subscribe('on-tag-deleted', async () => {
+      await this.updateBookTagStatistics();
+    });
   }
 
   clearTagStatisticsPanel(tabIndex) {

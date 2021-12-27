@@ -44,9 +44,11 @@
 /**
  * @typedef { "on-tag-panel-switched" | "on-dictionary-panel-switched" | "on-compare-panel-switched" } PanelEvents
  */
-
+/**
+ * @typedef { "on-tag-created" | "on-tag-deleted" | "on-tag-renamed" } TagEvents
+ */
 
 
 /**
- * @typedef { BibleTextEvents | TabEvents | TabSearchEvents | ModuleAssistantEvents | RepoUpdateEvents | I18nEvents | AppEvents | PanelEvents } EzraEvent
+ * @typedef { BibleTextEvents | TabEvents | TabSearchEvents | ModuleAssistantEvents | RepoUpdateEvents | I18nEvents | AppEvents | PanelEvents | TagEvents } EzraEvent
  */

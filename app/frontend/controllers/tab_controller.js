@@ -93,6 +93,11 @@ class TabController {
     eventController.subscribe('on-all-translations-removed', async () => {
       await this.reset();
     });
+
+    // eslint-disable-next-line no-unused-vars
+    eventController.subscribe('on-tag-renamed', ({ tagId, oldTitle, newTitle }) => {
+      this.updateTabTitleAfterTagRenaming(oldTitle, newTitle);
+    });
   }
 
   initFirstTab() {
@@ -756,7 +761,7 @@ class TabController {
     return (tabIndex == selectedTabIndex);
   }
 
-  updateTabTitleAfterTagRenaming(old_title, new_title) {
+  async updateTabTitleAfterTagRenaming(old_title, new_title) {
     for (var i = 0; i < this.metaTabs.length; i++) {
       var currentMetaTab = this.metaTabs[i];
       if (currentMetaTab.getTextType() == 'tagged_verses') {
@@ -770,7 +775,15 @@ class TabController {
           }
         }
 
+        currentMetaTab.setTagTitleList(tag_list.join(', '));
+
         var tagTitle = "";
+
+        var referenceVerseElement = document.querySelector('.' + currentMetaTab.getReferenceVerseElementId());
+        if (referenceVerseElement != null) {
+          var localizedReference = await this.verseBoxHelper.getLocalizedVerseReference(referenceVerseElement);
+          if (localizedReference != null) tagTitle += localizedReference + " &ndash; ";
+        }
 
         if (platformHelper.isElectron()) {
           tagTitle += i18n.t('tags.verses-tagged-with') + " ";
@@ -779,6 +792,7 @@ class TabController {
         tagTitle += "<i>" + tag_list.join(', ') + "</i>";
 
         this.setTabTitle(tagTitle, currentMetaTab.getBibleTranslationId(), i);
+        currentMetaTab.setTaggedVersesTitle(tagTitle);
       }
     }
   }
