@@ -218,7 +218,7 @@
   clear: both;
   height: calc(100% - 2.6em) !important;  /* overwrite default jqueryUI Accordion */
   box-sizing: border-box;
-  padding: 0.5em;
+  padding: 0.5em 0.5em !important;
   margin: 0.1em 0 0 0;
 }
 
@@ -485,4 +485,8 @@ table.tag-statistics {
 
 table.tag-statistics tr:nth-child(even) {
   background: var(--background-color-darker);
+}
+
+table.tag-statistics td, table.tag-statistics th {
+  padding: 0.5em;
 }
