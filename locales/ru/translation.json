@@ -1,7 +1,6 @@
 {
   "tags-toolbar": {
     "new-tag": "Новая метка",
-    "tag-statistics": "Статистика меток",
     "assign-last-tag": "Прикрепить метку",
     "configure-translations": "Управлять переводами",
     "configure-dicts": "Управлять словарями",
@@ -290,7 +289,6 @@
     "select-chapter-before-loading": "Выбирать главу при выборе книги",
     "use-night-mode": "Ночной режим",
     "keep-screen-on": "Не отключать экран",
-    "tag-statistics": "Статистика меток",
     "comparing-translations-for": "Сравнение переводов отрывка",
     "strongs-number-not-valid": "Некоректный номер Стронга!",
     "open-new-tab": "Открыть в новой вкладке",
@@ -312,6 +310,9 @@
     "find-all-событий": "Найти все вхождения",
     "open-in-blueletter": "Открыть в Blue Letter Bible",
     "related-strongs": "Связанные номера Стронга"
+  },
+  "tag-statistics-panel": {
+    "default-header": "Статистика меток"
   },
   "compare-panel": {
     "default-header": "<b>Сравнить переводы</b>",

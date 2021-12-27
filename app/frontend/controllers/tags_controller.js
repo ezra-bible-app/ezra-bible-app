@@ -1079,6 +1079,10 @@ class TagsController {
       e.stopPropagation(); 
     });
 
+    document.getElementById('new-standard-tag-button').addEventListener('click', function() {
+      tags_controller.handleNewTagButtonClick($(this), "standard");
+    });
+
     tags_controller.bindTagEvents();
   }
 
@@ -1133,6 +1137,8 @@ class TagsController {
         var currentTabBook = currentTab.getBook();
         var currentTabContentId = currentTab.getContentId();
         this.updateTagList(currentTabBook, currentTabContentId, forceRefresh);
+      } else {
+        this.lastContentId = null;
       }
     }
   }

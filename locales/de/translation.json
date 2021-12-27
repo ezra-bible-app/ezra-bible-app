@@ -1,7 +1,6 @@
 {
   "tags-toolbar": {
     "new-tag": "Neuer Tag",
-    "tag-statistics": "Tag Statistiken",
     "assign-last-tag": "Letzten Tag zuweisen",
     "configure-translations": "Übersetzungen konfigurieren",
     "configure-dicts": "Wörterbücher konfigurieren",
@@ -282,7 +281,6 @@
     "select-chapter-before-loading": "Öffne Bücher mit Kapitelauswahl",
     "use-night-mode": "Nachtmodus",
     "keep-screen-on": "Display angeschaltet lassen",
-    "tag-statistics": "Tag Statistiken",
     "comparing-translations-for": "Vergleiche Übersetzungen für",
     "strongs-number-not-valid": "Dies ist keine gültige Strong's Nr.!",
     "open-new-tab": "Neuen Tab öffnen",
@@ -304,6 +302,9 @@
     "find-all-occurrences": "Alle Vorkommnisse finden",
     "open-in-blueletter": "In Blue Letter Bible öffnen",
     "related-strongs": "Verwandte Strong's"
+  },
+  "tag-statistics-panel": {
+    "default-header": "Tag Statistiken"
   },
   "compare-panel": {
     "default-header": "<b>Übersetzungen vergleichen</b>",

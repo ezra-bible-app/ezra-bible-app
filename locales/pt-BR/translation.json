@@ -1,7 +1,6 @@
 {
   "tags-toolbar": {
     "new-tag": "Nova etiqueta",
-    "tag-statistics": "Estatísticas de etiquetas",
     "assign-last-tag": "Atribuir última etiqueta",
     "configure-translations": "Configurar traduções",
     "configure-dicts": "Configurar dicionários",
@@ -290,7 +289,6 @@
     "select-chapter-before-loading": "Abrir livros com seleção por capítulo",
     "use-night-mode": "Modo noturno",
     "keep-screen-on": "Manter tela ativa",
-    "tag-statistics": "Estatísticas de etiquetas",
     "comparing-translations-for": "Comparando traduções para",
     "strongs-number-not-valid": "Este número de Strong não é válido!",
     "open-new-tab": "Abrir nova aba",
@@ -312,6 +310,9 @@
     "find-all-occurrences": "Encontrar todas as ocorrências",
     "open-in-blueletter": "Abrir na Bíblia Blue Letter",
     "related-strongs": "Strong's relacionados"
+  },
+  "tag-statistics-panel": {
+    "default-header": "Estatísticas de etiquetas"
   },
   "compare-panel": {
     "default-header": "<b>Comparar traduções</b>",

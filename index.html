@@ -113,6 +113,9 @@
         <button event="on-tag-panel-switched" i18n="[title]bible-browser.show-tag-list" rel="tag-panel" default="true">
           <i class="fa fa-tags"></i>
         </button>
+        <button event="on-tag-statistics-panel-switched" i18n="[title]tag-statistics-panel.default-header" rel="tag-statistics-panel" default="false">
+          <i class="fas fa-chart-line"></i>
+        </button>
         <button event="on-dictionary-panel-switched" i18n="[title]bible-browser.show-dictionary" rel="dictionary-panel" default="false">
           <i class="fa fa-book"></i>
         </button>
@@ -124,11 +127,19 @@
       <aside id="tool-panel">
         <section id="tag-panel"></section>
 
+        <section id="tag-statistics-panel" class="accordion-panel ui-accordion ui-widget ui-helper-reset ui-accordion-icons">
+          <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
+            <a href="#" id="tag-statistics-panel-header" i18n="[html]tag-statistics-panel.default-header"></a>
+          </h3>
+          <div id="tag-statistics-panel-wrapper" class="scrollable panel-wrapper ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+          </div>
+        </section>
+
         <section id="dictionary-panel" class="accordion-panel ui-accordion ui-widget ui-helper-reset ui-accordion-icons">
           <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
             <a href="#" id="dictionary-panel-header" i18n="[html]dictionary-panel.default-header"></a>
           </h3>
-          <div id="dictionary-panel-wrapper" class="scrollable ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+          <div id="dictionary-panel-wrapper" class="scrollable panel-wrapper ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
             <div id="dictionary-panel-help" i18n="[html]dictionary-panel.help-instruction"></div>
             <div id="dictionary-panel-breadcrumbs"></div>
             <div id="dictionary-panel-content"></div>
@@ -140,7 +151,7 @@
             <a href="#" id="compare-panel-header" i18n="[html]compare-panel.default-header"></a>
           </h3>
 
-          <div id="compare-panel-wrapper" class="scrollable ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+          <div id="compare-panel-wrapper" class="scrollable panel-wrapper ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
             <div id="compare-translations-loading-indicator">
               <div style="float: left;" i18n="bible-browser.loading-verse-translations"></div>
 

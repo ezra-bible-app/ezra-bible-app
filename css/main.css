@@ -178,7 +178,7 @@ h2:nth-of-type(1) {
 
 .verse-list-menu {
   grid-area: menu;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.2em;
   border-radius: var(--border-radius);
   user-select: none;
   display: flex;
@@ -561,7 +561,7 @@ h2:nth-of-type(1) {
   width: 100vw;
   height: 100vh;
   display: grid;
-  padding: 1em 1em 1em 0.5em;
+  padding: 0.5em 1em 1em 0.5em;
   grid-template-columns: minmax(0, auto) 1fr;
   grid-template-rows: 1fr minmax(0, auto);
   grid-template-areas: 
@@ -573,7 +573,7 @@ h2:nth-of-type(1) {
   grid-template-rows: minmax(55vh, 100vh) minmax(0, 23vh);
 }
 
-@media (orientation: landscape) {
+@media screen and (min-aspect-ratio: 14/10) {
   .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
     height: 89vh;
   }
@@ -585,13 +585,15 @@ h2:nth-of-type(1) {
   }
 }
 
-@media (orientation: portrait) {
+@media screen and (max-aspect-ratio: 14/10) {
   #app-container {
     grid-template-areas: 
       "content"
       "detail-panel"
       "tool-panel"
       "panel-buttons";
+
+    grid-template-columns: unset !important;
   }
 
   .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
@@ -1078,10 +1080,6 @@ li.book-unavailable a:focus,
 #start-module-search-button {
   margin-left: 0.8em;
   height: 2.2em;
-}
-
-.new-standard-tag-button {
-  margin-left: 0;
 }
 
 .assign-last-tag-button {

@@ -24,7 +24,7 @@
   overflow: hidden;
 }
 
-@media (orientation: landscape) {
+@media screen and (min-aspect-ratio: 14/10) {
   .Android #tool-panel #tag-list-stats {
     display: none;
   }
@@ -40,16 +40,27 @@
   }
 }
 
-@media (orientation: portrait) {
+
+@media screen and (max-aspect-ratio: 14/10) {
   #tool-panel {
-    height: 15em !important;
+    height: 10em !important;
     width: 100% !important;
     min-width: auto;
-    padding: 1em 0 0 0.2em;
+    padding: 0.5em 0 0 0.2em;
   }
 
   #app-container.fullscreen #tool-panel {
-    height: 21.5em !important;
+    height: 15em !important;
+  }
+
+  @media (min-height: 800px) {
+    #tool-panel {
+      height: 15em !important;
+    }
+
+    #app-container.fullscreen #tool-panel {
+      height: 21.5em !important;
+    }
   }
 
   @media (min-height: 1000px) {
@@ -73,7 +84,7 @@
   }
 }
 
-@media (orientation: landscape) {
+@media screen and (min-aspect-ratio: 14/10) {
   #tool-panel {
     height: 100% !important;
   }
@@ -125,7 +136,7 @@
   transition-delay: 0.5s;
 }
 
-@media (orientation: portrait) {
+@media screen and (max-aspect-ratio: 14/10) {
   #tool-panel .ui-resizable-n {
     display: block;
   }
@@ -162,7 +173,7 @@
   padding: 0.5em 0.2em 0;
 }
 
-@media (orientation: portrait) {
+@media screen and (max-aspect-ratio: 14/10) {
   .ui-tabs .ui-tabs-panel {
     padding-left: 0;
   }
@@ -203,7 +214,7 @@
   user-select: none;
 }
 
-#dictionary-panel-wrapper, #compare-panel-wrapper {
+.panel-wrapper {
   clear: both;
   height: calc(100% - 2.6em) !important;  /* overwrite default jqueryUI Accordion */
   box-sizing: border-box;
@@ -283,11 +294,17 @@ tr.td-underline td {
   float: left;
 }
 
+#new-standard-tag-button {
+  display: inline-block;
+  margin-left: 1em;
+  margin-top: -0.2em;
+  padding: 0.2em;
+}
+
 #tags-search-input {
   margin: 0;
-  margin-top: -0.2em;
   float: right;
-  width: 12em;
+  width: 9em;
 }
 
 #tag-filter-menu {
@@ -458,4 +475,14 @@ tr.td-underline td {
   .selection-box {
     margin: 0 0 0 0.5em;
   }  
+}
+
+table.tag-statistics {
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+}
+
+table.tag-statistics tr:nth-child(even) {
+  background: var(--background-color-darker);
 }

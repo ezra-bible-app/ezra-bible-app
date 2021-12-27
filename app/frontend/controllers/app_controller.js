@@ -293,10 +293,6 @@ class AppController {
       this.book_selection_menu.handleBookMenuClick(event);
     });
 
-    currentVerseListMenu.querySelector('.new-standard-tag-button').addEventListener('click', function() {
-      tags_controller.handleNewTagButtonClick($(this), "standard");
-    });
-
     app_controller.initVerseButtons(tabIndex);
 
     var tabId = this.tab_controller.getSelectedTabId(tabIndex);
