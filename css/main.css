@@ -1249,7 +1249,7 @@ li.book-unavailable a:focus,
 }
 
 .bible-select-block {
-  margin-right: 1em;
+  margin-right: 0.5em;
   margin-bottom: 0.5em;
   user-select: none;
 }
