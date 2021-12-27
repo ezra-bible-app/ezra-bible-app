@@ -38,7 +38,7 @@ class TagSelectionMenu {
     });
 
     eventController.subscribe('on-tag-created', async () => {
-      await this.requestTagsForMenu();
+      await this.requestTagsForMenu(true);
     });
 
     eventController.subscribe('on-tag-deleted', async () => {
