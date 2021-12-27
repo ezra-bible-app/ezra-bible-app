@@ -138,6 +138,10 @@ class TagStore {
 
   async updateTagCount(tagId, bookList, count=1, increment=true) {
     var firstKey = Object.keys(this.bookTagStatistics)[0];
+    if (firstKey === undefined) {
+      return;
+    }
+
     var firstBookTagStatistics = this.bookTagStatistics[firstKey];
     var globalAssignmentCount = firstBookTagStatistics[tagId].globalAssignmentCount;
     if (increment) {
