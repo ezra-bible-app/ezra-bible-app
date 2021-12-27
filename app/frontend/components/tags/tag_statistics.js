@@ -204,20 +204,6 @@ class TagStatistics {
       }
     });
   }
-
-  async openBookTagStatistics() {
-    var currentVerseList = verseListController.getCurrentVerseList();
-    var verse_list_position = currentVerseList.offset();
-    var currentTab = app_controller.tab_controller.getTab();
-    var currentBookTranslation = await ipcDb.getBookTitleTranslation(currentTab.getBook());
-
-    $('#book-tag-statistics-box').dialog({
-      dialogClass: 'ezra-dialog',
-      position: [verse_list_position.left + 50, verse_list_position.top + 50],
-      width: 350,
-      title: currentBookTranslation + ' - ' + i18n.t("bible-browser.tag-statistics")
-    });
-  }
 }
 
 module.exports = TagStatistics;
