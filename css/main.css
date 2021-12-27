@@ -458,8 +458,14 @@ h2:nth-of-type(1) {
 .options-header,
 #book-selection-menu,
 #tag-selection-menu,
-#display-options-menu {
+#display-options-menu,
+#verse-context-menu {
   font-size: 0.9em;
+}
+
+#verse-context-menu .fg-button {
+  margin: 0.8em;
+  padding: 0.5em;
 }
 
 #main-content,
@@ -648,7 +654,8 @@ main.content {
 
 .verse-selection-menu,
 #module-search-menu,
-#display-options-menu {
+#display-options-menu,
+#verse-context-menu {
   position: fixed;
   border: 2px solid var(--border-color);
   border-radius: var(--border-radius);

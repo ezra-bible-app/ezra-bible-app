@@ -50,9 +50,9 @@ class AssignLastTagButton {
     this._button = null;
   }
 
-  init(tabIndex=undefined) {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    this._button = currentVerseListMenu.find('.assign-last-tag-button');
+  init() {
+    var verseContextMenu = $('#verse-context-menu');
+    this._button = verseContextMenu.find('.assign-last-tag-button');
 
     this._button.unbind('click');
     this._button.bind('click', async (event) => {

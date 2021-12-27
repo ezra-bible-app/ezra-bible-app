@@ -59,6 +59,7 @@ const cacheController = require('./cache_controller.js');
 class AppController {
   constructor() {
     this.book_menu_is_opened = false;
+    this.verseContextMenuOpened = false;
     this.current_cr_verse_id = null;
   }
 
@@ -124,6 +125,8 @@ class AppController {
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => { await this.onTabSelected(tabIndex); });
     eventController.subscribe('on-tab-added', (tabIndex) => { this.onTabAdded(tabIndex); });
 
+    this.initVerseContextButtons();
+
     this.initExitEvent();
   }
 
@@ -173,10 +176,10 @@ class AppController {
     }
   }
 
-  initVerseButtons(tabIndex=undefined) {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex)[0];
-    var editNoteButton = currentVerseListMenu.querySelector('.edit-note-button');
-    var copyButton = currentVerseListMenu.querySelector('.copy-clipboard-button');
+  initVerseContextButtons() {
+    var verseContextMenu = document.getElementById('verse-context-menu');
+    var editNoteButton = verseContextMenu.querySelector('.edit-note-button');
+    var copyButton = verseContextMenu.querySelector('.copy-clipboard-button');
 
     editNoteButton.addEventListener('click', (event) => {
       event.stopPropagation();
@@ -196,22 +199,45 @@ class AppController {
       }
     });
 
-    this.assign_last_tag_button.init(tabIndex);
+    this.assign_last_tag_button.init();
     this.verse_context_controller.initButtonEvents();
   }
 
+  initVerseContextMenu(tabIndex=undefined) {
+    var currentVerseListMenu = this.getCurrentVerseListMenu(tabIndex);
+    var verseContextMenuButton = currentVerseListMenu[0].querySelector('.verse-context-menu-button');
+
+    verseContextMenuButton.addEventListener('click', (event) => {
+      event.stopPropagation();
+
+      var verseContextMenu = $('#verse-context-menu');
+
+      if (!event.target.classList.contains('ui-state-disabled')) {
+        if (this.verseContextMenuOpened) {
+          this.hideVerseContextMenu();
+          this.verseContextMenuOpened = false;
+        } else {
+          app_controller.hideAllMenus();
+          uiHelper.showButtonMenu($(verseContextMenuButton), verseContextMenu);
+          uiHelper.configureButtonStyles(document.getElementById('verse-context-menu'));
+          this.verseContextMenuOpened = true;
+        }
+      }
+    });
+  }
+
   enableVerseButtons() {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu()[0];
-    var editNoteButton = currentVerseListMenu.querySelector('.edit-note-button');
-    var copyButton = currentVerseListMenu.querySelector('.copy-clipboard-button');
+    var verseContextMenu = document.getElementById('verse-context-menu');
+    var editNoteButton = verseContextMenu.querySelector('.edit-note-button');
+    var copyButton = verseContextMenu.querySelector('.copy-clipboard-button');
     editNoteButton.classList.remove('ui-state-disabled');
     copyButton.classList.remove('ui-state-disabled');
   }
 
   disableVerseButtons() {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu()[0];
-    var editNoteButton = currentVerseListMenu.querySelector('.edit-note-button');
-    var copyButton = currentVerseListMenu.querySelector('.copy-clipboard-button');
+    var verseContextMenu = document.getElementById('verse-context-menu');
+    var editNoteButton = verseContextMenu.querySelector('.edit-note-button');
+    var copyButton = verseContextMenu.querySelector('.copy-clipboard-button');
     editNoteButton.classList.add('ui-state-disabled');
     copyButton.classList.add('ui-state-disabled');
   }
@@ -293,7 +319,7 @@ class AppController {
       this.book_selection_menu.handleBookMenuClick(event);
     });
 
-    app_controller.initVerseButtons(tabIndex);
+    this.initVerseContextMenu(tabIndex);
 
     var tabId = this.tab_controller.getSelectedTabId(tabIndex);
     if (tabId !== undefined) {
@@ -384,12 +410,21 @@ class AppController {
     currentTab.tab_search.blurInputField();
   }
 
+  hideVerseContextMenu() {
+    var currentVerseListMenu = this.getCurrentVerseListMenu();
+    var verseContextMenuButton = currentVerseListMenu[0].querySelector('.verse-context-menu-button');
+    verseContextMenuButton.classList.remove('ui-state-active');
+    document.getElementById('verse-context-menu').style.display = 'none';
+    this.verseContextMenuOpened = false;
+  }
+
   hideAllMenus() {
     this.book_selection_menu.hideBookMenu();
     this.tag_selection_menu.hideTagMenu();
     this.module_search_controller.hideSearchMenu();
     this.optionsMenu.hideDisplayMenu();
     this.textSizeSettings.hideTextSizeMenu();
+    this.hideVerseContextMenu();
     wheelnavController.closeWheelNav();
   }
 
