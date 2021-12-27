@@ -472,12 +472,6 @@ tr.td-underline td {
   min-width: 12em;
 }
 
-@media only screen and (min-width: 1000px) {
-  .selection-box {
-    margin: 0 0 0 0.5em;
-  }  
-}
-
 table.tag-statistics {
   margin-left: auto;
   margin-right: auto;
