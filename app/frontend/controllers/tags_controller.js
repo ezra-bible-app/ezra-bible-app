@@ -368,10 +368,9 @@ class TagsController {
    
     setTimeout(async () => {
       await ipcDb.removeTag(tags_controller.tag_to_be_deleted);
+      await tags_controller.removeTagById(tags_controller.tag_to_be_deleted, tags_controller.tag_to_be_deleted_title);
 
       await eventController.publishAsync('on-tag-deleted', tags_controller.tag_to_be_deleted);
-
-      await tags_controller.removeTagById(tags_controller.tag_to_be_deleted, tags_controller.tag_to_be_deleted_title);
       await tags_controller.updateTagsViewAfterVerseSelection(true);
       await tags_controller.updateTagUiBasedOnTagAvailability();
     }, 50);

@@ -36,6 +36,11 @@ class TagStore {
       await this.updateLatestAndOldestTagData();
     });
 
+    eventController.subscribePrioritized('on-tag-deleted', async () => {
+      this.resetBookTagStatistics();
+      await this.updateLatestAndOldestTagData();
+    });
+
     eventController.subscribePrioritized('on-tag-renamed', async ({ tagId, newTitle }) => {
       await this.renameTag(tagId, newTitle);
     });
