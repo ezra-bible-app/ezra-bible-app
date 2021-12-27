@@ -34,6 +34,10 @@ class TagStatistics {
     eventController.subscribe('on-tag-deleted', async () => {
       await this.updateBookTagStatistics();
     });
+
+    eventController.subscribe('on-tag-renamed', async () => {
+      await this.updateBookTagStatistics();
+    });
   }
 
   clearTagStatisticsPanel(tabIndex) {
