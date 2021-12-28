@@ -111,14 +111,7 @@ class IpcDbHandler {
     });
 
     this._ipcMain.add('db_persistNote', async (noteValue, verseObject, versification) => {
-      var sequelizeNote = await global.models.Note.persistNote(noteValue, verseObject, versification);
-      var note = undefined;
-
-      if (sequelizeNote !== undefined) {
-        note = sequelizeNote.dataValues;
-      }
-
-      return note;
+      return await global.models.Note.persistNote(noteValue, verseObject, versification);
     });
 
     this._ipcMain.add('db_getVerseNotesByBook', async (bibleBookId, versification) => {
