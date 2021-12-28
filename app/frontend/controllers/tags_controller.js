@@ -49,6 +49,7 @@ class TagsController {
 
     this.assign_tag_label = i18n.t("tags.assign-tag");
     this.unassign_tag_label = i18n.t("tags.remove-tag-assignment");
+    this.assign_tag_hint = i18n.t("tags.assign-tag-hint");
   
     this.tag_to_be_deleted = null;
     this.tag_to_be_deleted_title = null;
@@ -1003,6 +1004,7 @@ class TagsController {
 
   formatCheckboxElementBasedOnSelection(cb_element, selected_verse_tags) {
     var current_checkbox = cb_element.querySelector('.tag-cb');
+    var current_tag_button = cb_element.querySelector('.tag-button');
     var current_title_element = cb_element.querySelector('.cb-label');
     var current_title = current_title_element.innerHTML;
     var current_title_element_postfix = cb_element.querySelector('.cb-label-postfix');
@@ -1013,7 +1015,7 @@ class TagsController {
 
       if (current_tag_obj.title == current_title) {
         if (current_tag_obj.complete) {
-          current_checkbox.setAttribute('title', this.unassign_tag_label);
+          current_tag_button.setAttribute('title', this.unassign_tag_label);
           current_checkbox.checked = true;
           current_title_element_postfix.innerHTML = '';
           current_title_element.classList.remove('underline');
@@ -1030,14 +1032,13 @@ class TagsController {
 
     if (!match_found) {
       current_checkbox.checked = false;
-      current_checkbox.setAttribute('title', this.assign_tag_label);
+      current_tag_button.setAttribute('title', this.assign_tag_label);
       current_title_element.classList.remove('underline');
       current_title_element_postfix.innerHTML = '';
     }
 
     if (!this.verses_were_selected_before) {
       current_checkbox.removeAttribute('disabled');
-      current_checkbox.style.opacity = '1.0';
     }
   }
 
@@ -1049,10 +1050,10 @@ class TagsController {
         var current_checkbox_element = all_checkbox_elements[i];
 
         var current_cb = current_checkbox_element.querySelector('.tag-cb');
+        var current_tag_button = current_checkbox_element.querySelector('.tag-button');
         current_cb.checked = false;
         current_cb.setAttribute('disabled', 'disabled');
-        current_cb.setAttribute('title', '');
-        current_cb.style.opacity = '0.3';
+        current_tag_button.setAttribute('title', this.assign_tag_hint);
 
         var current_title_element = current_checkbox_element.querySelector('.cb-label');
         current_title_element.classList.remove('underline');
