@@ -194,14 +194,6 @@
   height: 2.2em;
 }
 
-.accordion-panel input {
-  margin-right: 0.5em;
-}
-
-.Android .accordion-panel input {
-  margin-right: 1em;
-}
-
 .accordion-panel .ui-icon-triangle-1-s {
   display: none;
 }
@@ -341,8 +333,8 @@ tr.td-underline td {
   min-height: 2em;
   content-visibility: auto;
   padding: 0.1em;
-  padding-top: 0.5em;
   padding-left: 0.5em;  
+  align-items: center;
 }
 
 .Android .checkbox-tag {
@@ -370,19 +362,6 @@ input.tag-cb ~ label.button-small {
   margin-right: 1em;
 }
 
-.Android .tag-cb {
-  margin-top: 0.1em;
-  margin-left: 0.5em;
-  transform: scale(1.5);
-}
-
-.cb-label,
-.cb-label-tag-assignment-count,
-.cb-label-postfix,
-.rename-tag-label {
-  margin-top: 0.1em;
-}
-
 .cb-label-tag-assignment-count,
 .meta-tag-number-of-tags-container {
   margin-left: 0.5em;
@@ -393,7 +372,6 @@ input.tag-cb ~ label.button-small {
   display: inline-block;
   max-width: 80%;
 }
-
 
 .Android .cb-input-label-stats {
   max-width: 70%;
@@ -455,10 +433,6 @@ input.tag-cb ~ label.button-small {
 
 .tag-rename-button {
   margin-left: auto;
-}
-
-.cb-label input {
-  display: inline;
 }
 
 .ezra-dialog {
