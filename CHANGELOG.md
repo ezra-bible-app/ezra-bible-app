@@ -1,6 +1,26 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.4.2 - 2021-12-28]
+
+Bugfix release for Android.
+
+### Fixes
+
+* Fixed bug: Repositories in Module Assistant were not initialized correctly even though data was available. ([#587][i587])
+* Fixed bug: Links in dictionary panel were not showing underline with mouseover anymore. ([#588][i588])
+* Fixed bug on Android: Screen keyboard on 8" tablet in portrait mode unintentionally triggers landscape layout. ([#589][i589])
+* Fixed bug on Android: Unhandled SQLITE_READONLY issue. ([#596][i596])
+
+[i587]: https://github.com/ezra-bible-app/ezra-bible-app/issues/587
+[i588]: https://github.com/ezra-bible-app/ezra-bible-app/issues/588
+[i589]: https://github.com/ezra-bible-app/ezra-bible-app/issues/589
+[i596]: https://github.com/ezra-bible-app/ezra-bible-app/issues/596
+
+## [1.4.1 - 2021-12-21]
+
+Bugfix release for Windows. The GitHub Actions build for Windows was broken in 1.4.0.
+
 ## [1.4.0 - 2021-12-18]
 
 ### Enhancements

@@ -66,6 +66,9 @@ module.exports = (sequelize, DataTypes) => {
     if (verseObject._isBookNoteVerse) {
       bibleBookShortTitle = verseObject._bibleBookShortTitle;
       bibleBook = await global.models.BibleBook.findOne({ where: { shortTitle: bibleBookShortTitle } });
+      if (bibleBook == null) {
+        throw `Could not get Bible book with title ${bibleBookShortTitle}`;
+      }
 
       conditions = { bibleBookId: bibleBook.id, chapter: 0, verseNr: 0 };
       chapter = 0;
@@ -83,6 +86,10 @@ module.exports = (sequelize, DataTypes) => {
       verseNr = verseObject._verseNr;
 
       bibleBook = await global.models.BibleBook.findOne({ where: { shortTitle: bibleBookShortTitle } });
+      if (bibleBook == null) {
+        throw `Could not get Bible book with title ${bibleBookShortTitle}`;
+      }
+
       bibleBookId = bibleBook.id;
 
       absoluteVerseNrs = global.models.VerseReference.getAbsoluteVerseNrs(versification, bibleBookShortTitle, absoluteVerseNr, chapter, verseNr);

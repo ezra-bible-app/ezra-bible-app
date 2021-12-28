@@ -44,11 +44,16 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       await global.models.MetaRecord.updateLastModified();
-      return newTag.dataValues;
+
+      return {
+        success: true,
+        dbObject: newTag.dataValues,
+      };
 
     } catch (error) {
       console.error('An error occurred while trying to save the new tag: ' + error);
-      return null;
+
+      return global.getDatabaseException(error);
     }
   };
 
@@ -58,36 +63,57 @@ module.exports = (sequelize, DataTypes) => {
       await global.models.Tag.destroy({ where: { id: id } });
       await global.models.MetaRecord.updateLastModified();
 
-    } catch(e) {
-      console.error('An error occurred while trying to delete the tag with id ' + id + ': ' + e);
+      return {
+        success: true
+      };
+
+    } catch (error) {
+      console.error('An error occurred while trying to delete the tag with id ' + id + ': ' + error);
+
+      return global.getDatabaseException(error);
     }
   };
 
   Tag.update_tag = async function(id, title) {
-    await global.models.Tag.update(
-      { title: title },
-      { where: { id: id }}
-    ).then(() => {
-      global.models.MetaRecord.updateLastModified();
-    }).catch(error => {
-      console.error("An error occurred while trying to rename the tag!");
-    });
+    try {
+      await global.models.Tag.update({ title: title }, { where: { id: id }});
+      await global.models.MetaRecord.updateLastModified();
+
+      return {
+        success: true
+      };
+
+    } catch (error) {
+      console.error("An error occurred while trying to rename the tag with id " + id + ": " + error);
+
+      return global.getDatabaseException(error);
+    }
   };
 
   Tag.update_tags_on_verses = async function(tagId, verseObjects, versification, action) {
-    var tag = await global.models.Tag.findByPk(tagId);
+    try {
+      var tag = await global.models.Tag.findByPk(tagId);
 
-    for (var verseObject of verseObjects) {
-      var verseReference = await global.models.VerseReference.findOrCreateFromVerseObject(verseObject, versification);
-      
-      if (action == "add") {
-        await verseReference.addTag(tag.id);
-      } else if (action == "remove") {
-        await verseReference.removeTag(tag.id);
+      for (var verseObject of verseObjects) {
+        var verseReference = await global.models.VerseReference.findOrCreateFromVerseObject(verseObject, versification);
+        
+        if (action == "add") {
+          await verseReference.addTag(tag.id);
+        } else if (action == "remove") {
+          await verseReference.removeTag(tag.id);
+        }
       }
-    }
 
-    await global.models.MetaRecord.updateLastModified();
+      await global.models.MetaRecord.updateLastModified();
+      return {
+        success: true
+      };
+      
+    } catch (error) {
+      console.error("An error occurred while trying to update tags on selected verses: " + error);
+
+      return global.getDatabaseException(error);
+    }
   };
 
   Tag.getAllTags = function(bibleBookId = 0, lastUsed=false, onlyStats=false) {
