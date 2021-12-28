@@ -51,6 +51,7 @@ class IPC {
       global.nonPersistentIpcInitialized = true;
       global.ipcI18nHandler = new IpcI18nHandler();
       global.ipcGeneralHandler = new IpcGeneralHandler();
+      global.ipcDbHandler = null;
     }
   }
 
@@ -78,6 +79,12 @@ class IPC {
   async initDatabase(isDebug, androidVersion=undefined) {
     global.ipcDbHandler = new IpcDbHandler();
     await global.ipcDbHandler.initDatabase(isDebug, androidVersion);
+  }
+
+  async closeDatabase() {
+    if (global.ipcDbHandler != null) {
+      await global.ipcDbHandler.closeDatabase();
+    }
   }
 }
 

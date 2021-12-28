@@ -30,6 +30,10 @@ class IpcDb {
     this._cachedBookTitleTranslations = {};
   }
 
+  async closeDatabase() {
+    return await this._ipcRenderer.call('db_close');
+  }
+
   async getDatabasePath() {
     return await this._ipcRenderer.call('db_getDatabasePath');
   }

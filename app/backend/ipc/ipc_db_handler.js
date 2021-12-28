@@ -53,7 +53,18 @@ class IpcDbHandler {
     global.models = require('../database/models')(this.dbDir);
   }
 
+  async closeDatabase() {
+    if (global.sequelize != null) {
+      await global.sequelize.close();
+      global.sequelize = null;
+    }
+  }
+
   initIpcInterface() {
+    this._ipcMain.add('db_close', async() => {
+      return await this.closeDatabase();
+    });
+
     this._ipcMain.add('db_getDatabasePath', async() => {
       return this.dbDir + path.sep + "ezra.sqlite";
     });
