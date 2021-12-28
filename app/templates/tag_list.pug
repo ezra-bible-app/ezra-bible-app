@@ -50,7 +50,10 @@ each tag in tags
       if current_book != null
         - tag_counts = currentStats.bookAssignmentCount + " | " + currentStats.globalAssignmentCount
     
-    input(class='tag-cb' type='checkbox' checked=false)
+    - var cb_id = 'tag-' + tag.id
+    input(id=cb_id class='tag-cb' type='checkbox' checked=false)
+    label(class='tag-button button-small' for=cb_id)
+      i(class='fas fa-tag')
 
     div(class='cb-input-label-stats')
       span(class='cb-label' class=used_in_book_class) #{tag.title}

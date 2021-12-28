@@ -362,8 +362,12 @@ tr.td-underline td {
   text-decoration: none;
 }
 
-.tag-cb {
-  margin-top: 0.25em;
+input.tag-cb {
+  display: none;
+}
+
+input.tag-cb ~ label.button-small {
+  margin-right: 1em;
 }
 
 .Android .tag-cb {
@@ -424,10 +428,22 @@ tr.td-underline td {
   color: #aaa;
 }
 .button-small.active, 
-.button-small.button-small:hover {
+.button-small.button-small:hover,
+#tool-panel input:checked ~ label.button-small {
   color: white;
   background-color: var(--accent-color);
   border-color: var(--highlight-border-color);
+}
+.button-small.disabled,
+#tool-panel input:disabled ~ label.button-small {
+  color: #bbb;
+  border-color: #bbb;
+  opacity: 0.8;
+}
+.darkmode--activated .button-small.disabled,
+.darkmode--activated #tool-panel input:disabled ~ label.button-small {
+  color: #555;
+  border-color: #555;
 }
 
 .Android .button-small {
