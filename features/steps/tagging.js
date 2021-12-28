@@ -48,8 +48,8 @@ When('I assign the tag {string} to the current verse selection', async function 
 
     if (currentLabelText == tagName) {
       tagFound = true;
-      this.currentTagCheckbox = await this.currentTag.$('.tag-cb');
-      await this.currentTagCheckbox.click();
+      this.currentTagButton = await this.currentTag.$('.tag-button');
+      await this.currentTagButton.click();
       break;
     }
   }
