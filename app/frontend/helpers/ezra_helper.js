@@ -100,6 +100,13 @@ module.exports.decodeEntities = function decodeHTMLEntities (str) {
   return str;
 };
 
+/**
+ * This function shows a modal error dialog to the user.
+ *  
+ * @param {string} dialogTitle The title of the dialog
+ * @param {string} errorMessage The message that shall be displayed
+ * @returns {Promise} A promise that resolves when the user confirms/closes the dialog
+ */
 module.exports.showErrorDialog = async function(dialogTitle, errorMessage) {
   const dialogBoxTemplate = module.exports.html`
   <div id="error-dialog">
