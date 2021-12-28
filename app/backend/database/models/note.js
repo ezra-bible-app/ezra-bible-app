@@ -100,9 +100,14 @@ module.exports = (sequelize, DataTypes) => {
     } catch (error) {
       console.error("ERROR: Could not persist note! " + error);
 
+      var errorMessage = error;
+      if (error.name) {
+        errorMessage = error.name;
+      }
+
       return {
         success: false,
-        exception: error
+        exception: errorMessage
       };
     }
   };
