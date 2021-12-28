@@ -18,6 +18,8 @@
 
 'use strict';
 
+global.sequelize = null;
+
 module.exports = function(dbDir) {
   var db        = {};
   var fs        = require('fs');
@@ -48,7 +50,7 @@ module.exports = function(dbDir) {
     }
   };
 
-  var sequelize = new Sequelize(config.database, config.username, config.password, config);
+  global.sequelize = new Sequelize(config.database, config.username, config.password, config);
 
   fs
     .readdirSync(__dirname)
@@ -56,7 +58,7 @@ module.exports = function(dbDir) {
       return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
     })
     .forEach(file => {
-      var model = require(path.join(__dirname, file))(sequelize, Sequelize);
+      var model = require(path.join(__dirname, file))(global.sequelize, Sequelize);
       db[model.name] = model;
     });
 
@@ -66,7 +68,7 @@ module.exports = function(dbDir) {
     }
   });
 
-  db.sequelize = sequelize;
+  db.sequelize = global.sequelize;
   db.Sequelize = Sequelize;
 
   return db;
