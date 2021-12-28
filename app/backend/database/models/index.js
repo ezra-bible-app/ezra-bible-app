@@ -20,6 +20,23 @@
 
 global.sequelize = null;
 
+global.getDatabaseException = function(exception) {
+  var errorMessage = exception;
+
+  if (exception.name) {
+    errorMessage = exception.name;
+  }
+
+  if (exception.original) {
+    errorMessage += " / " + exception.original;
+  }
+
+  return {
+    success: false,
+    exception: errorMessage
+  };
+};
+
 module.exports = function(dbDir) {
   var db        = {};
   var fs        = require('fs');
