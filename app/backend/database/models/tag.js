@@ -53,9 +53,14 @@ module.exports = (sequelize, DataTypes) => {
     } catch (error) {
       console.error('An error occurred while trying to save the new tag: ' + error);
 
+      var errorMessage = error;
+      if (error.name) {
+        errorMessage = error.name;
+      }
+
       return {
         success: false,
-        exception: error
+        exception: errorMessage
       };
     }
   };
@@ -73,9 +78,14 @@ module.exports = (sequelize, DataTypes) => {
     } catch (error) {
       console.error('An error occurred while trying to delete the tag with id ' + id + ': ' + error);
 
+      var errorMessage = error;
+      if (error.name) {
+        errorMessage = error.name;
+      }
+
       return {
         success: false,
-        exception: error
+        exception: errorMessage
       };
     }
   };
@@ -92,9 +102,14 @@ module.exports = (sequelize, DataTypes) => {
     } catch (error) {
       console.error("An error occurred while trying to rename the tag with id " + id + ": " + error);
 
+      var errorMessage = error;
+      if (error.name) {
+        errorMessage = error.name;
+      }
+
       return {
         success: false,
-        exception: error
+        exception: errorMessage
       };
     }
   };
@@ -120,9 +135,14 @@ module.exports = (sequelize, DataTypes) => {
       
     } catch (error) {
 
+      var errorMessage = error;
+      if (error.name) {
+        errorMessage = error.name;
+      }
+
       return {
         success: false,
-        exception: error
+        exception: errorMessage
       };
     }
   };
