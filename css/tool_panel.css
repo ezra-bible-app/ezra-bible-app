@@ -419,14 +419,15 @@ tr.td-underline td {
   border: 1px solid #8e8e8e;
   border-radius: calc(var(--border-radius) - 2px);
   background-color: var(--background-color);
-  box-shadow: inset -1px -1px 3px #0003;
 }
 .darkmode--activated .button-small {
   color: #aaa;
-  box-shadow: inset 1px 1px 3px #fff5;
 }
+.button-small.active, 
 .button-small.button-small:hover {
-  box-shadow: none;
+  color: white;
+  background-color: var(--accent-color);
+  border-color: var(--highlight-border-color);
 }
 
 .Android .button-small {
