@@ -337,6 +337,7 @@ tr.td-underline td {
 }
 
 .checkbox-tag {
+  display: flex;
   min-height: 2em;
   content-visibility: auto;
   padding: 0.1em;
@@ -378,17 +379,6 @@ tr.td-underline td {
   margin-top: 0.1em;
 }
 
-.tag-cb,
-.cb-label,
-.cb-label-tag-assignment-count,
-.cb-label-postfix,
-.rename-tag-label,
-.meta-tag-title,
-.meta-tag-number-of-tags-container,
-.rename-meta-tag-label {
-  float: left;
-}
-
 .cb-label-tag-assignment-count,
 .meta-tag-number-of-tags-container {
   margin-left: 0.5em;
@@ -417,15 +407,37 @@ tr.td-underline td {
   color: wheat;
 }
 
-.rename-tag-label,
-.rename-meta-tag-label {
-  display: none;
-  margin-left: 0.5em;
+.button-small {
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-content: center;
+  margin-right: 0.5em;
+  font-size: 0.7em;
   cursor: pointer;
+  color: #777;
+  border: 1px solid #8e8e8e;
+  border-radius: calc(var(--border-radius) - 2px);
+  background-color: var(--background-color);
+  box-shadow: inset -1px -1px 3px #0003;
+}
+.darkmode--activated .button-small {
+  color: #aaa;
+  box-shadow: inset 1px 1px 3px #fff5;
+}
+.button-small.button-small:hover {
+  box-shadow: none;
 }
 
-#tags-content .ui-icon {
-  float: left;
+.Android .button-small {
+  width: 24px;
+  height: 24px;
+  margin-right: 1em;
+  font-size: 1em;
+}
+
+.tag-rename-button {
+  margin-left: auto;
 }
 
 .cb-label input {

@@ -61,9 +61,8 @@ each tag in tags
 
       span.cb-label-postfix
 
-    div(i18n='[title]tags.delete-tag', title=delete_tag_label class='tag-delete-button fg-button fg-button-icon-left ui-state-default ui-corner-all')
+    div(i18n='[title]tags.rename-tag', title=rename_tag_label class='tag-rename-button button-small')
+      i(class='fas fa-pen tag-rename-icon')
+
+    div(i18n='[title]tags.delete-tag', title=delete_tag_label class='tag-delete-button button-small')
       i(class='fas fa-trash-alt tag-delete-icon')
-
-    div(i18n='[title]tags.rename-tag', title=rename_tag_label class='tag-rename-button fg-button fg-button-icon-left ui-state-default ui-corner-all')
-      i(class='fas fa-edit tag-rename-icon')
-
