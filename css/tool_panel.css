@@ -416,6 +416,7 @@ input.tag-cb ~ label.button-small {
 #tool-panel input:disabled ~ label.button-small {
   color: #bbb;
   border-color: #bbb;
+  background-color: transparent;
   opacity: 0.8;
 }
 .darkmode--activated .button-small.disabled,
