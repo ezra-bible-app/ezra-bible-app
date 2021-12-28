@@ -144,12 +144,6 @@ class AppController {
 
       this.exitLog('Persisting data');
 
-      if (platformHelper.isElectron()) {
-        // On Cordova this is done in the backend
-        this.exitLog('Closing database');
-        ipcDb.closeDatabase();
-      }
-
       this.tab_controller.lastSelectedTabIndex = this.tab_controller.getSelectedTabIndex();
       this.tab_controller.savePreviousTabScrollPosition();
       
