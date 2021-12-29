@@ -137,7 +137,7 @@ class TagStatistics {
     var chapterCount = await ipcNsi.getBookChapterCount(currentBibleTranslationId, currentBook);
     var allChapterVerseCounts = await ipcNsi.getAllChapterVerseCounts(currentBibleTranslationId, currentBook);
 
-    if (chapterCount == null || allChapterVerseCounts == null) {
+    if (chapterCount == null || allChapterVerseCounts == null || this._tagsByVerseCount.length == 0) {
       return;
     }
 
