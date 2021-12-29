@@ -1224,7 +1224,7 @@ li.book-unavailable a:focus,
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .bible-select-block {
