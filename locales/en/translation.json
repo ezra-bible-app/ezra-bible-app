@@ -247,7 +247,7 @@
     "only-currentbook-tagged-verses": "Only current book",
     "most-frequently-used": "Most frequently used",
     "less-frequently-used": "Less frequently used",
-    "assign-tag-hint": "Select the verse to assign the tag"
+    "assign-tag-hint": "Select a verse to assign the tag"
   },
   "bible-browser": {
     "chapter": "Chapter",
