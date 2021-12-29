@@ -304,7 +304,8 @@
     "related-strongs": "Verwandte Strong's"
   },
   "tag-statistics-panel": {
-    "default-header": "Tag Statistiken"
+    "default-header": "Tag Statistiken",
+    "help-instruction": "Here you will see statistics of tags based on how frequently they are used in a book.<br><br> There are currently no tag assignments in this book. Once you start assigning tags, the tag statistics will refresh automatically."
   },
   "compare-panel": {
     "default-header": "<b>Übersetzungen vergleichen</b>",

@@ -312,7 +312,8 @@
     "related-strongs": "(Strong's) Concordanțe asociate"
   },
   "tag-statistics-panel": {
-    "default-header": "Statistici etichete"
+    "default-header": "Statistici etichete",
+    "help-instruction": "Here you will see statistics of tags based on how frequently they are used in a book.<br><br> There are currently no tag assignments in this book. Once you start assigning tags, the tag statistics will refresh automatically."
   },
   "compare-panel": {
     "default-header": "<b>Compară traducerile</b>",

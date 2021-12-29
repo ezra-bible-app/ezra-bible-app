@@ -322,7 +322,8 @@
     "related-strongs": "Strong associés"
   },
   "tag-statistics-panel": {
-    "default-header": "Statistiques des étiquettes"
+    "default-header": "Statistiques des étiquettes",
+    "help-instruction": "Here you will see statistics of tags based on how frequently they are used in a book.<br><br> There are currently no tag assignments in this book. Once you start assigning tags, the tag statistics will refresh automatically."
   },
   "compare-panel": {
     "default-header": "<b>Comparer les traductions</b>",
