@@ -448,27 +448,8 @@ class VerseSelection {
     this.getSelectedVersesLabel().html(selectedVerseDisplayText);
   }
 
-  highlightStrongs() {
-    if (this.selected_verse_box_elements.length == 1 &&
-        platformHelper.isCordova()) {
-      
-      app_controller.dictionary_controller.removeHighlight();
-      app_controller.dictionary_controller.highlightStrongsInVerse(this.selected_verse_box_elements[0], true);
-    }
-  }
-
   async updateViewsAfterVerseSelection(selectedVerseDisplayText=undefined) {
     await this.updateSelectedVersesLabel(selectedVerseDisplayText);
-    
-    if (this.selected_verse_box_elements.length > 0) { // Verses are selected!
-
-      this.highlightStrongs();
-
-    } else { // No verses selected!
-      if (platformHelper.isCordova()) {
-        app_controller.dictionary_controller.removeHighlight();
-      }
-    }
 
     var tabId = app_controller.tab_controller.getSelectedTabId();
     if (tabId !== undefined) {

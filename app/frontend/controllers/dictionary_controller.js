@@ -101,6 +101,16 @@ class DictionaryController {
         this.hideStrongsBox(true);
       }
     });
+
+    if (platformHelper.isCordova()) {
+      eventController.subscribe('on-verses-selected', (selectionDetails) => {    
+        this.removeHighlight();
+
+        if (selectionDetails.selectedElements.length == 1) {
+          this.highlightStrongsInVerse(selectionDetails.selectedElements[0], true);
+        }
+      });
+    }
   }
 
   getJsStrongs() {
