@@ -47,6 +47,11 @@ class DictionaryController {
     this.strongsAvailable = false;
     this._dictionaryInfoBox = new DictionaryInfoBox(this);
 
+    this.bindEvents();
+    this.runAvailabilityCheck();
+  }
+
+  bindEvents() {
     Mousetrap.bind('shift', () => {
       this.shiftKeyPressed = true;
     });
@@ -96,8 +101,6 @@ class DictionaryController {
         this.hideStrongsBox(true);
       }
     });
-
-    this.runAvailabilityCheck();
   }
 
   getJsStrongs() {
