@@ -1090,7 +1090,7 @@ class TagsController {
           current_title_element_postfix.innerHTML = '';
           current_title_element.classList.remove('underline');
         } else {
-          current_checkbox.setAttribute('title', this.assign_tag_label);
+          current_tag_button.setAttribute('title', this.assign_tag_label);
           current_checkbox.checked = false;
           current_title_element_postfix.innerHTML = '&nbsp;*';
           current_title_element.classList.add('underline');
