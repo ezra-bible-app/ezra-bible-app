@@ -463,11 +463,6 @@ h2:nth-of-type(1) {
   font-size: 0.9em;
 }
 
-#verse-context-menu .fg-button {
-  margin: 0.8em;
-  padding: 0.5em;
-}
-
 #main-content,
 .ui-dialog .ui-dialog-content,
 .ezra-dialog,

@@ -33,6 +33,7 @@ class VerseContextController {
       event.stopPropagation();
 
       if (this.isButtonEnabled()) {
+        document.getElementById('verse-context-menu').hidden = true;
         await this.handleButtonClick();
       }
     });

@@ -93,6 +93,7 @@ class Startup {
     require('./components/options_menu/select_option.js');
     require('./components/options_menu/locale_switch.js');
     require('./components/module_assistant/module_assistant.js');
+    require('./components/verse_context_menu.js');
 
     const fs = require('fs');
 
@@ -101,7 +102,6 @@ class Startup {
     var tagPanel = null;
     var moduleSearchMenu = null;
     var displayOptionsMenu = null;
-    var verseContextMenu = null;
     var verseListTabs = null;
     var boxes = null;
 
@@ -117,7 +117,6 @@ class Startup {
       tagPanel = loadFile('html/tag_panel.html');
       moduleSearchMenu = loadFile('html/module_search_menu.html');
       displayOptionsMenu = loadFile('html/display_options_menu.html');
-      verseContextMenu = loadFile('html/verse_context_menu.html');
       verseListTabs = loadFile('html/verse_list_tabs.html');
       boxes = loadFile('html/boxes.html');
 
@@ -134,7 +133,6 @@ class Startup {
       tagPanel = fs.readFileSync('html/tag_panel.html');
       moduleSearchMenu = fs.readFileSync('html/module_search_menu.html');
       displayOptionsMenu = fs.readFileSync('html/display_options_menu.html');
-      verseContextMenu = fs.readFileSync('html/verse_context_menu.html');
       verseListTabs = fs.readFileSync('html/verse_list_tabs.html');
       boxes = fs.readFileSync('html/boxes.html');
     }
@@ -144,7 +142,6 @@ class Startup {
     document.getElementById('tag-panel').innerHTML = tagPanel;
     document.getElementById('module-search-menu').innerHTML = moduleSearchMenu;
     document.getElementById('display-options-menu').innerHTML = displayOptionsMenu;
-    document.getElementById('verse-context-menu').innerHTML = verseContextMenu;
     document.getElementById('verse-list-tabs').innerHTML = verseListTabs;
     document.getElementById('boxes').innerHTML = boxes;
   }

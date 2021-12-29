@@ -31,7 +31,7 @@ const verseListController = require('../controllers/verse_list_controller.js');
 class VerseSelection {
   constructor() {
     this.selected_verse_references = null;
-    this.selected_verse_box_elements = null;
+    this.selected_verse_box_elements = [];
     this.verseReferenceHelper = null;
 
     eventController.subscribe('on-locale-changed', async () => {
@@ -81,14 +81,20 @@ class VerseSelection {
       stop: (event, ui) => {
         this.updateSelected(verseList);
         this.updateViewsAfterVerseSelection();
-
-        eventController.publishAsync('on-verses-selected');
+        this.publishVersesSelected();
       },
 
       // eslint-disable-next-line no-unused-vars
       selected: (event, ui) => {
         // Not needed anymore!
       }
+    });
+  }
+
+  publishVersesSelected() {
+    eventController.publishAsync('on-verses-selected', {
+      'selectedElements': this.selected_verse_box_elements,
+      'selectedVerseTags': this.getCurrentSelectionTags()
     });
   }
 
@@ -109,6 +115,10 @@ class VerseSelection {
     });
   }
 
+  versesSelected() {
+    return this.selected_verse_box_elements.length > 0;
+  }
+
   getVerseReferenceFromAnchor(anchorText) {
     var splittedVerseReference = anchorText.split(" ");
     var currentVerseReference = splittedVerseReference[splittedVerseReference.length - 1];
@@ -125,7 +135,7 @@ class VerseSelection {
       this.highlightStrongs();
       this.updateSelected();
       this.updateViewsAfterVerseSelection();
-      eventController.publishAsync('on-verses-selected');
+      this.publishVersesSelected();
     }
   }
 
@@ -160,7 +170,7 @@ class VerseSelection {
 
     if (updateViews) {
       this.updateViewsAfterVerseSelection();
-      eventController.publish('on-verses-selected');
+      this.publishVersesSelected();
     }
   }
 
@@ -450,22 +460,11 @@ class VerseSelection {
   async updateViewsAfterVerseSelection(selectedVerseDisplayText=undefined) {
     await this.updateSelectedVersesLabel(selectedVerseDisplayText);
     
-    var currentTab = app_controller.tab_controller.getTab();
-
     if (this.selected_verse_box_elements.length > 0) { // Verses are selected!
-
-      if (currentTab.isVerseList()) {
-        app_controller.verse_context_controller.enableContextButton();
-      }
-
-      app_controller.enableVerseButtons();
 
       this.highlightStrongs();
 
     } else { // No verses selected!
-      app_controller.verse_context_controller.disableContextButton();
-      app_controller.disableVerseButtons();
-
       if (platformHelper.isCordova()) {
         app_controller.dictionary_controller.removeHighlight();
       }

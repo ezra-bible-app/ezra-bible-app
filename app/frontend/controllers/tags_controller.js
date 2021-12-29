@@ -40,7 +40,7 @@ class TagsController {
 
     this.tag_store = new TagStore();
     this.tag_list_filter = new TagListFilter();
-    this.tag_store.onLatestUsedTagChanged = (tagId) => { app_controller.assign_last_tag_button.onLatestUsedTagChanged(tagId); };
+
     this.verse_box_helper = new VerseBoxHelper();
     this.tag_stats_element_cache = {};
 
@@ -312,6 +312,11 @@ class TagsController {
       }
     );
 
+    await eventController.publishAsync('on-latest-tag-changed', {
+      'tagId': tags_controller.rename_standard_tag_id,
+      'added': false
+    });
+
     tags_controller.sortTagLists();
     await tags_controller.updateTagsViewAfterVerseSelection(true);
   }
@@ -350,6 +355,10 @@ class TagsController {
     }
 
     await eventController.publishAsync('on-tag-created', result.dbObject.id);
+    await eventController.publishAsync('on-latest-tag-changed', {
+      'tagId': result.dbObject.id,
+      'added': true
+    });
 
     var tab = app_controller.tab_controller.getTab();
     await tags_controller.updateTagList(tab.getBook(), tab.getContentId(), true);
@@ -550,6 +559,11 @@ class TagsController {
         return;
       }
 
+      await eventController.publishAsync('on-latest-tag-changed', {
+        'tagId': id,
+        'added': true
+      });
+
       tags_controller.changeVerseListTagInfo(id,
                                              cb_label,
                                              $.create_xml_doc(current_verse_selection),
@@ -688,10 +702,13 @@ class TagsController {
       return;
     }
 
+    await eventController.publishAsync('on-latest-tag-changed', {
+      'tagId': job.id,
+      'added': false
+    });
+
     // Drop the cached stats element, because it is outdated now
     this.dropCachedTagStats(job.id);
-
-    await app_controller.assign_last_tag_button.onLatestUsedTagChanged(job.id, false);
 
     var currentBook = app_controller.tab_controller.getTab().getBook();
     tags_controller.updateTagCountAfterRendering(currentBook != null);
@@ -1052,7 +1069,6 @@ class TagsController {
       this.verses_were_selected_before = false;
     }
 
-    await app_controller.assign_last_tag_button.refreshLastTagButtonState(versesSelected, selected_verse_tags);
     //console.timeEnd('updateTagsViewAfterVerseSelection');
   }
 

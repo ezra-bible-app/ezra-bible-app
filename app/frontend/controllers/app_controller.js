@@ -23,7 +23,6 @@ const VerseBoxHelper = require("../helpers/verse_box_helper.js");
 const VerseSelection = require("../components/verse_selection.js");
 const VerseListPopup = require("../components/verse_list_popup.js");
 const TagSelectionMenu = require("../components/tags/tag_selection_menu.js");
-const AssignLastTagButton = require("../components/tags/assign_last_tag_button.js");
 const TagStatistics = require("../components/tags/tag_statistics.js");
 const DocxExport = require("../components/docx_export/docx_export.js");
 const ModuleSearchController = require("./module_search_controller.js");
@@ -83,7 +82,6 @@ class AppController {
     this.init_component("VerseSelection", "verse_selection");
     this.init_component("TagSelectionMenu", "tag_selection_menu");
     this.init_component("TagStatistics", "tag_statistics");
-    this.init_component("AssignLastTagButton", "assign_last_tag_button");
     this.init_component("ModuleSearchController", "module_search_controller");
     this.init_component("TranslationController", "translation_controller");
     this.init_component("TextController", "text_controller");
@@ -126,7 +124,7 @@ class AppController {
     eventController.subscribe('on-tab-added', (tabIndex) => { this.onTabAdded(tabIndex); });
     eventController.subscribe('on-verses-selected', () => { this.toggleVerseContextMenuButton(); });
 
-    this.initVerseContextButtons();
+    this.verse_context_controller.initButtonEvents();
     this.initExitEvent();
   }
 
@@ -176,81 +174,16 @@ class AppController {
     }
   }
 
-  initVerseContextButtons() {
-    var verseContextMenu = document.getElementById('verse-context-menu');
-    var editNoteButton = verseContextMenu.querySelector('.edit-note-button');
-    var copyButton = verseContextMenu.querySelector('.copy-clipboard-button');
-
-    editNoteButton.addEventListener('click', (event) => {
-      event.stopPropagation();
-
-      if (!event.target.classList.contains('ui-state-disabled')) {
-        app_controller.hideAllMenus();
-        app_controller.notes_controller.editVerseNotesForCurrentlySelectedVerse();
-      }
-    });
-
-    copyButton.addEventListener('click', (event) => {
-      event.stopPropagation();
-
-      if (!event.target.classList.contains('ui-state-disabled')) {
-        app_controller.hideAllMenus();
-        app_controller.verse_selection.copySelectedVerseTextToClipboard();
-      }
-    });
-
-    this.assign_last_tag_button.init();
-    this.verse_context_controller.initButtonEvents();
-  }
-
-  initVerseContextMenu(tabIndex=undefined) {
-    var currentVerseListMenu = this.getCurrentVerseListMenu(tabIndex);
-    var verseContextMenuButton = currentVerseListMenu[0].querySelector('.verse-context-menu-button');
-
-    verseContextMenuButton.addEventListener('click', (event) => {
-      event.stopPropagation();
-
-      var verseContextMenu = $('#verse-context-menu');
-
-      if (!event.target.classList.contains('ui-state-disabled')) {
-        if (this.verseContextMenuOpened) {
-          this.hideVerseContextMenu();
-          this.verseContextMenuOpened = false;
-        } else {
-          app_controller.hideAllMenus();
-          uiHelper.showButtonMenu($(verseContextMenuButton), verseContextMenu);
-          uiHelper.configureButtonStyles(document.getElementById('verse-context-menu'));
-          this.verseContextMenuOpened = true;
-        }
-      }
-    });
-  }
 
   toggleVerseContextMenuButton() {
     var currentVerseListMenu = this.getCurrentVerseListMenu();
     var verseContextMenuButton = currentVerseListMenu[0].querySelector('.verse-context-menu-button');
 
-    if (app_controller.verse_selection.selected_verse_box_elements.length > 0) {
+    if (app_controller.verse_selection.versesSelected()) {
       verseContextMenuButton.classList.remove('ui-state-disabled');
     } else {
       verseContextMenuButton.classList.add('ui-state-disabled');
     }
-  }
-
-  enableVerseButtons() {
-    var verseContextMenu = document.getElementById('verse-context-menu');
-    var editNoteButton = verseContextMenu.querySelector('.edit-note-button');
-    var copyButton = verseContextMenu.querySelector('.copy-clipboard-button');
-    editNoteButton.classList.remove('ui-state-disabled');
-    copyButton.classList.remove('ui-state-disabled');
-  }
-
-  disableVerseButtons() {
-    var verseContextMenu = document.getElementById('verse-context-menu');
-    var editNoteButton = verseContextMenu.querySelector('.edit-note-button');
-    var copyButton = verseContextMenu.querySelector('.copy-clipboard-button');
-    editNoteButton.classList.add('ui-state-disabled');
-    copyButton.classList.add('ui-state-disabled');
   }
 
   async onTabSelected(tabIndex=0) {
@@ -330,7 +263,8 @@ class AppController {
       this.book_selection_menu.handleBookMenuClick(event);
     });
 
-    this.initVerseContextMenu(tabIndex);
+    var verseContextMenu = document.getElementById('verse-context-menu');
+    verseContextMenu.currentTabIndex = tabIndex;
 
     var tabId = this.tab_controller.getSelectedTabId(tabIndex);
     if (tabId !== undefined) {
@@ -421,21 +355,13 @@ class AppController {
     currentTab.tab_search.blurInputField();
   }
 
-  hideVerseContextMenu() {
-    var currentVerseListMenu = this.getCurrentVerseListMenu();
-    var verseContextMenuButton = currentVerseListMenu[0].querySelector('.verse-context-menu-button');
-    verseContextMenuButton.classList.remove('ui-state-active');
-    document.getElementById('verse-context-menu').style.display = 'none';
-    this.verseContextMenuOpened = false;
-  }
-
   hideAllMenus() {
     this.book_selection_menu.hideBookMenu();
     this.tag_selection_menu.hideTagMenu();
     this.module_search_controller.hideSearchMenu();
     this.optionsMenu.hideDisplayMenu();
     this.textSizeSettings.hideTextSizeMenu();
-    this.hideVerseContextMenu();
+    document.getElementById('verse-context-menu').hidden = true;
     wheelnavController.closeWheelNav();
   }
 

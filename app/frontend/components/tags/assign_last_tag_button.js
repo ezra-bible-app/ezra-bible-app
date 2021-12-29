@@ -47,6 +47,14 @@ class AssignLastTagButton {
       await this.onLatestUsedTagChanged(undefined, false);
     });
 
+    eventController.subscribe('on-verses-selected', async (selectionDetails) => {
+      await this.refreshLastTagButtonState(selectionDetails.selectedElements, selectionDetails.selectedVerseTags);
+    });
+
+    eventController.subscribe('on-latest-tag-changed', async (details) => {
+      await this.onLatestUsedTagChanged(details.tagId, details.added);
+    });
+
     this._button = null;
   }
 
