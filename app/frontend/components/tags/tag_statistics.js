@@ -134,8 +134,14 @@ class TagStatistics {
       return;
     }
 
+    var bookTagStatisticsBoxContent = document.getElementById('tag-statistics-panel-wrapper');
+
     var chapterCount = await ipcNsi.getBookChapterCount(currentBibleTranslationId, currentBook);
     var allChapterVerseCounts = await ipcNsi.getAllChapterVerseCounts(currentBibleTranslationId, currentBook);
+
+    if (this._tagsByVerseCount.length == 0) {
+      bookTagStatisticsBoxContent.innerHTML = i18n.t('tag-statistics-panel.help-instruction', { interpolation: {escapeValue: false} });
+    }
 
     if (chapterCount == null || allChapterVerseCounts == null || this._tagsByVerseCount.length == 0) {
       return;
@@ -184,7 +190,6 @@ class TagStatistics {
 
     tagStatisticsHTML += "</table>";
 
-    var bookTagStatisticsBoxContent = document.getElementById('tag-statistics-panel-wrapper');
     bookTagStatisticsBoxContent.innerHTML = tagStatisticsHTML;
 
     this.highlightFrequentlyUsedTags();
