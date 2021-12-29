@@ -53,7 +53,18 @@ class IpcDbHandler {
     global.models = require('../database/models')(this.dbDir);
   }
 
+  async closeDatabase() {
+    if (global.sequelize != null) {
+      await global.sequelize.close();
+      global.sequelize = null;
+    }
+  }
+
   initIpcInterface() {
+    this._ipcMain.add('db_close', async() => {
+      return await this.closeDatabase();
+    });
+
     this._ipcMain.add('db_getDatabasePath', async() => {
       return this.dbDir + path.sep + "ezra.sqlite";
     });
@@ -100,14 +111,7 @@ class IpcDbHandler {
     });
 
     this._ipcMain.add('db_persistNote', async (noteValue, verseObject, versification) => {
-      var sequelizeNote = await global.models.Note.persistNote(noteValue, verseObject, versification);
-      var note = undefined;
-
-      if (sequelizeNote !== undefined) {
-        note = sequelizeNote.dataValues;
-      }
-
-      return note;
+      return await global.models.Note.persistNote(noteValue, verseObject, versification);
     });
 
     this._ipcMain.add('db_getVerseNotesByBook', async (bibleBookId, versification) => {

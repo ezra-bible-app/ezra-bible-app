@@ -72,33 +72,36 @@ module.exports = (sequelize, DataTypes) => {
     return groupedVerseNotes;
   };
 
-  Note.persistNote = function(noteValue, verseObject, versification) {
-    return global.models.VerseReference.findOrCreateFromVerseObject(verseObject, versification).then(vr => {
-      return vr.getOrCreateNote().then(n => {
-        if (noteValue != "") {
-          // Save the note if it has content
-          n.text = noteValue;
-          return n.save().then(
-            global.models.MetaRecord.updateLastModified()
-          ).then(() => {
-            return n;
-          }).catch(function () {
-            console.error("ERROR: Could not save note!");
-          });
-        } else {
-          // Delete the note if it does not have any content
-          return n.destroy().then(
-            global.models.MetaRecord.updateLastModified()
-          ).catch(function () {
-            console.error("ERROR: Could not delete note!");
-          });
-        }
-      }).catch(function () {
-        console.error("ERROR: Could not get or create note!");
-      });
-    }).catch(function() {
-      console.error("ERROR: Could not find or create verse reference!");
-    });
+  Note.persistNote = async function(noteValue, verseObject, versification) {
+    try {
+      var vr = await global.models.VerseReference.findOrCreateFromVerseObject(verseObject, versification);
+      var n = await vr.getOrCreateNote();
+
+      if (noteValue != "") {
+        // Save the note if it has content
+        n.text = noteValue;
+        await n.save();
+        await global.models.MetaRecord.updateLastModified();
+
+        return {
+          success: true,
+          dbObject: n.dataValues
+        };
+      } else {
+        // Delete the note if it does not have any content
+        await n.destroy();
+        await global.models.MetaRecord.updateLastModified();
+
+        return {
+          success: true,
+          dbObject: n.dataValues
+        };
+      }
+    } catch (error) {
+      console.error("ERROR: Could not persist note! " + error);
+
+      return global.getDatabaseException(error);
+    }
   };
   
   return Note;

@@ -175,7 +175,7 @@ async function agreeDisclaimerDialog(moduleId) {
     buttons[i18n.t('general.ok')] = function() {
       agreed = true;
       $(this).dialog('close');
-    }
+    };
   
     $dialogBox.dialog({
       width,

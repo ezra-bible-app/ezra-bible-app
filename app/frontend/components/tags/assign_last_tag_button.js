@@ -43,6 +43,10 @@ class AssignLastTagButton {
       await this.updateLabel();
     });
 
+    eventController.subscribe('on-tag-renamed', async () => {
+      await this.onLatestUsedTagChanged(undefined, false);
+    });
+
     this._button = null;
   }
 

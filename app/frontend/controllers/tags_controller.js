@@ -24,6 +24,7 @@ require('../components/emoji_button_trigger.js');
 const { waitUntilIdle } = require('../helpers/ezra_helper.js');
 const eventController = require('./event_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
+const { showErrorDialog } = require('../helpers/ezra_helper.js');
 
 /**
  * The TagsController handles most functionality related to tagging of verses.
@@ -283,19 +284,31 @@ class TagsController {
     var checkbox_tag = this.getCheckboxTag(tags_controller.rename_standard_tag_id);
     var is_global = (checkbox_tag.parent().attr('id') == 'tags-content-global');
     
-    tags_controller.updateTagTitlesInVerseList(tags_controller.rename_standard_tag_id, is_global, new_title);
-    ipcDb.updateTag(tags_controller.rename_standard_tag_id, new_title);
-    tags_controller.sortTagLists();
-    
-    if (tags_controller.rename_standard_tag_id == tags_controller.tag_store.latest_tag_id) {
-      await tags_controller.tag_store.renameTag(tags_controller.rename_standard_tag_id, new_title);
-      app_controller.assign_last_tag_button.onLatestUsedTagChanged(undefined, undefined);
+    var result = await ipcDb.updateTag(tags_controller.rename_standard_tag_id, new_title);
+    if (result.success == false) {
+      var message = `The tag <i>${tags_controller.rename_standard_tag_title}</i> could not be renamed.<br>
+                     An unexpected database error occurred:<br><br>
+                     ${result.exception}<br><br>
+                     Please restart the app.`;
+
+      await showErrorDialog('Database Error', message);
+      uiHelper.hideTextLoadingIndicator();
+      return;
     }
 
-    await tags_controller.updateTagsViewAfterVerseSelection(true);
+    tags_controller.updateTagTitlesInVerseList(tags_controller.rename_standard_tag_id, is_global, new_title);
 
-    app_controller.tag_selection_menu.requestTagsForMenu();
-    app_controller.tab_controller.updateTabTitleAfterTagRenaming(tags_controller.rename_standard_tag_title, new_title);
+    await eventController.publishAsync(
+      'on-tag-renamed',
+      {
+        tagId: tags_controller.rename_standard_tag_id,
+        oldTitle: tags_controller.rename_standard_tag_title,
+        newTitle: new_title
+      }
+    );
+
+    tags_controller.sortTagLists();
+    await tags_controller.updateTagsViewAfterVerseSelection(true);
   }
 
   renameTagInView(id, title) {
@@ -319,17 +332,23 @@ class TagsController {
     tags_controller.new_tag_created = true;
     this.last_created_tag = new_tag_title;
 
-    var new_tag = await ipcDb.createNewTag(new_tag_title);
+    var result = await ipcDb.createNewTag(new_tag_title);
+    if (result.success == false) {
+      var message = `The new tag <i>${new_tag_title}</i> could not be saved.<br>
+                     An unexpected database error occurred:<br><br>
+                     ${result.exception}<br><br>
+                     Please restart the app.`;
 
-    tags_controller.tag_store.resetBookTagStatistics();
+      await showErrorDialog('Database Error', message);
+      uiHelper.hideTextLoadingIndicator();
+      return;
+    }
+
+    await eventController.publishAsync('on-tag-created', result.dbObject.id);
+
     var tab = app_controller.tab_controller.getTab();
     await tags_controller.updateTagList(tab.getBook(), tab.getContentId(), true);
-    await app_controller.tag_selection_menu.requestTagsForMenu();
-    var current_timestamp = new Date(Date.now()).getTime();
-    tags_controller.tag_store.updateTagTimestamp(new_tag.id, current_timestamp);
-    await tags_controller.tag_store.updateLatestAndOldestTagData();
     await tags_controller.updateTagsViewAfterVerseSelection(true);
-
     uiHelper.hideTextLoadingIndicator();
   }
 
@@ -371,13 +390,23 @@ class TagsController {
     $('#delete-tag-confirmation-dialog').dialog('close');
    
     setTimeout(async () => {
-      await ipcDb.removeTag(tags_controller.tag_to_be_deleted);
+      var result = await ipcDb.removeTag(tags_controller.tag_to_be_deleted);
+
+      if (result.success == false) {
+        var message = `The tag <i>${tags_controller.tag_to_be_deleted_title}</i> could not be deleted.<br>
+                      An unexpected database error occurred:<br><br>
+                      ${result.exception}<br><br>
+                      Please restart the app.`;
+
+        await showErrorDialog('Database Error', message);
+        uiHelper.hideTextLoadingIndicator();
+        return;
+      }
 
       await tags_controller.removeTagById(tags_controller.tag_to_be_deleted, tags_controller.tag_to_be_deleted_title);
-      await app_controller.tag_selection_menu.requestTagsForMenu(true);
+      await eventController.publishAsync('on-tag-deleted', tags_controller.tag_to_be_deleted);
       await tags_controller.updateTagsViewAfterVerseSelection(true);
       await tags_controller.updateTagUiBasedOnTagAvailability();
-      await app_controller.tag_statistics.updateBookTagStatistics();
     }, 50);
   }
 
@@ -504,7 +533,17 @@ class TagsController {
         }
       }
 
-      ipcDb.assignTagToVerses(id, filteredVerseBoxes);
+      var result = await ipcDb.assignTagToVerses(id, filteredVerseBoxes);
+      if (result.success == false) {
+        var message = `The tag <i>${cb_label}</i> could not be assigned to the selected verses.<br>
+                      An unexpected database error occurred:<br><br>
+                      ${result.exception}<br><br>
+                      Please restart the app.`;
+
+        await showErrorDialog('Database Error', message);
+        uiHelper.hideTextLoadingIndicator();
+        return;
+      }
 
       tags_controller.changeVerseListTagInfo(id,
                                              cb_label,
@@ -520,7 +559,6 @@ class TagsController {
       if (currentBook != null) {
         await app_controller.tag_statistics.updateBookTagStatistics();
       }
-
 
     } else {
 
@@ -633,10 +671,21 @@ class TagsController {
       verse_boxes.push(currentVerseBox);
     }
 
+    var result = await ipcDb.removeTagFromVerses(job.id, verse_boxes);
+    if (result.success == false) {
+      var message = `The tag <i>${job.cb_label}</i> could not be removed from the selected verses.<br>
+                    An unexpected database error occurred:<br><br>
+                    ${result.exception}<br><br>
+                    Please restart the app.`;
+
+      await showErrorDialog('Database Error', message);
+      uiHelper.hideTextLoadingIndicator();
+      return;
+    }
+
     // Drop the cached stats element, because it is outdated now
     this.dropCachedTagStats(job.id);
 
-    await ipcDb.removeTagFromVerses(job.id, verse_boxes);
     await app_controller.assign_last_tag_button.onLatestUsedTagChanged(job.id, false);
 
     var currentBook = app_controller.tab_controller.getTab().getBook();
