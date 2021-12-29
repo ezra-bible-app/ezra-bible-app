@@ -248,7 +248,8 @@
     "stats-total": "totaal",
     "only-currentbook-tagged-verses": "Alleen huidig boek",
     "most-frequently-used": "Frequentst gebruikt",
-    "less-frequently-used": "Minder frequent gebruikt"
+    "less-frequently-used": "Minder frequent gebruikt",
+    "assign-tag-hint": "Select a verse to assign the tag"
   },
   "bible-browser": {
     "chapter": "Hoofdstuk",

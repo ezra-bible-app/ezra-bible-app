@@ -246,7 +246,8 @@
     "stats-total": "Всього",
     "only-currentbook-tagged-verses": "Тільки у поточній книзі",
     "most-frequently-used": "Найчастіші",
-    "less-frequently-used": "Найрідкіші"
+    "less-frequently-used": "Найрідкіші",
+    "assign-tag-hint": "Select a verse to assign the tag"
   },
   "bible-browser": {
     "chapter": "Розділ",

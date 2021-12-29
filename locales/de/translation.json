@@ -238,7 +238,8 @@
     "stats-total": "gesamt",
     "only-currentbook-tagged-verses": "Nur aktuelles Buch",
     "most-frequently-used": "Am häufigsten benutzt",
-    "less-frequently-used": "Weniger häufig benutzt"
+    "less-frequently-used": "Weniger häufig benutzt",
+    "assign-tag-hint": "Select a verse to assign the tag"
   },
   "bible-browser": {
     "chapter": "Kapitel",
