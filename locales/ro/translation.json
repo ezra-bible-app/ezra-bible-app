@@ -255,7 +255,10 @@
     "stats-total": "total",
     "only-currentbook-tagged-verses": "Doar cartea curentă",
     "most-frequently-used": "Cel mai frecvent utilizat",
-    "less-frequently-used": "Mai puțin frecvent utilizate"
+    "less-frequently-used": "Mai puțin frecvent utilizate",
+    "show-tagged-verses": "Show tagged verses",
+    "tag-count-selected_one": "{{count}} tag selected",
+    "tag-count-selected_other": "{{count}} tags selected"
   },
   "bible-browser": {
     "chapter": "Capitol",

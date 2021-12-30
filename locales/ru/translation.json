@@ -255,7 +255,12 @@
     "title": "Заголовок",
     "stats-used": "использовано",
     "stats-total": "всего",
-    "only-currentbook-tagged-verses": "Только в текущей книге"
+    "only-currentbook-tagged-verses": "Только в текущей книге",
+    "most-frequently-used": "Most frequently used",
+    "less-frequently-used": "Less frequently used",
+    "show-tagged-verses": "Show tagged verses",
+    "tag-count-selected_one": "{{count}} tag selected",
+    "tag-count-selected_other": "{{count}} tags selected"
   },
   "bible-browser": {
     "chapter": "Глава",

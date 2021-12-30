@@ -256,7 +256,6 @@
     "only-currentbook-tagged-verses": "Only current book",
     "most-frequently-used": "Most frequently used",
     "less-frequently-used": "Less frequently used",
-    "assign-tag-hint": "Select the verse to assign the tag",
     "show-tagged-verses": "Show tagged verses",
     "tag-count-selected_one": "{{count}} tag selected",
     "tag-count-selected_other": "{{count}} tags selected"
