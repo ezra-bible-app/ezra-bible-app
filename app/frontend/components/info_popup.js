@@ -17,7 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const PlatformHelper = require('../../lib/platform_helper.js');
-const { html } = require('../helpers/ezra_helper.js');
+const { html, sleep } = require('../helpers/ezra_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const exportHelper = require('../helpers/export_helper.js');
 
@@ -170,6 +170,8 @@ class InfoPopup {
             <button id="export-user-data-button" title="${exportUserDataHint}" style="padding: 0.5em;" class="fg-button ui-state-default ui-corner-all" i18n="general.export-user-data-action">
               ${i18n.t("general.export-user-data-action")}
             </button>
+
+            <i id="user-data-export-result" class="fas fa-check fa-lg" style="display: none; margin-left: 0.5em; color: var(--checkmark-success-color);"></i>
           </p>
         <div>
       </div>
@@ -228,6 +230,10 @@ class InfoPopup {
         var filePath = await exportHelper.showSaveDialog('User_data_export', 'csv', dialogTitle);
 
         await ipcDb.exportUserData(filePath);
+
+        $('#user-data-export-result').fadeIn();
+        await sleep(1500);
+        $('#user-data-export-result').fadeOut();
       });
     } else {
       // We hide the export section on Cordova, because the function is not supported there.
