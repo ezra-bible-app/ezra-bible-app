@@ -111,6 +111,8 @@ class InfoPopup {
     const moduleDescription = await swordModuleHelper.getModuleDescription(currentBibleTranslationId);
     const moduleInfo = await swordModuleHelper.getModuleInfo(currentBibleTranslationId, false, false);
 
+    const exportUserDataHint = await i18n.t('general.export-user-data-hint');
+
     var toggleFullScreenLine = '';
 
     if (this.platformHelper.isWin() || this.platformHelper.isLinux()) {
@@ -162,9 +164,9 @@ class InfoPopup {
           <tr><td>${i18n.t("general.sword-path")}:</td><td>${swordPath}</td></tr>
         </table>
 
-        <h2>${i18n.t("general.special-functions")}</h2>
+        <h2>${i18n.t("general.export")}</h2>
         <p>
-          <button id="export-user-data-button" class="fg-button ui-state-default ui-corner-all" i18n="general.export-user-data-action">
+          <button id="export-user-data-button" title="${exportUserDataHint}" style="padding: 0.5em;" class="fg-button ui-state-default ui-corner-all" i18n="general.export-user-data-action">
             ${i18n.t("general.export-user-data-action")}
           </button>
         </p>
@@ -224,6 +226,8 @@ class InfoPopup {
 
       await ipcDb.exportUserData(filePath);
     });
+
+    uiHelper.configureButtonStyles('#info-popup-content');
 
     $('#info-popup').dialog("open");
   }
