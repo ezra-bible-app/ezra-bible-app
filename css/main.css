@@ -1288,8 +1288,10 @@ li.book-unavailable a:focus,
 #tag-selection-taglist-global,
 #tag-selection-taglist-overlay {
   margin-top: 1em;
+  margin-bottom: 1em;
   padding-top: 0.5em;
   border-top: var(--area-border);
+  border-bottom: var(--area-border);
   height: 400px;
   overflow-y: scroll;
 }
