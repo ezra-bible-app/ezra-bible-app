@@ -164,12 +164,14 @@ class InfoPopup {
           <tr><td>${i18n.t("general.sword-path")}:</td><td>${swordPath}</td></tr>
         </table>
 
-        <h2>${i18n.t("general.export")}</h2>
-        <p>
-          <button id="export-user-data-button" title="${exportUserDataHint}" style="padding: 0.5em;" class="fg-button ui-state-default ui-corner-all" i18n="general.export-user-data-action">
-            ${i18n.t("general.export-user-data-action")}
-          </button>
-        </p>
+        <div id="info-popup-export">
+          <h2>${i18n.t("general.export")}</h2>
+          <p>
+            <button id="export-user-data-button" title="${exportUserDataHint}" style="padding: 0.5em;" class="fg-button ui-state-default ui-corner-all" i18n="general.export-user-data-action">
+              ${i18n.t("general.export-user-data-action")}
+            </button>
+          </p>
+        <div>
       </div>
 
       <div id='app-info-tabs-4' class='info-tabs scrollable'>
@@ -220,12 +222,17 @@ class InfoPopup {
     $('#info-popup-content').html(appInfo.innerHTML);
     $('#app-info-tabs').tabs({ heightStyle: "fill" });
 
-    $('#export-user-data-button').bind('click', async () => {
-      var dialogTitle = i18n.t("general.export-user-data-action");
-      var filePath = await exportHelper.showSaveDialog('User_data_export', 'csv', dialogTitle);
+    if (this.platformHelper.isElectron()) {
+      $('#export-user-data-button').bind('click', async () => {
+        var dialogTitle = i18n.t("general.export-user-data-action");
+        var filePath = await exportHelper.showSaveDialog('User_data_export', 'csv', dialogTitle);
 
-      await ipcDb.exportUserData(filePath);
-    });
+        await ipcDb.exportUserData(filePath);
+      });
+    } else {
+      // We hide the export section on Cordova, because the function is not supported there.
+      $('#info-popup-export').hide();
+    }
 
     uiHelper.configureButtonStyles('#info-popup-content');
 
