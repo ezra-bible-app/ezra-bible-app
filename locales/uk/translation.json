@@ -249,7 +249,10 @@
     "stats-total": "Всього",
     "only-currentbook-tagged-verses": "Тільки у поточній книзі",
     "most-frequently-used": "Найчастіші",
-    "less-frequently-used": "Найрідкіші"
+    "less-frequently-used": "Найрідкіші",
+    "show-tagged-verses": "Show tagged verses",
+    "tag-count-selected_one": "{{count}} tag selected",
+    "tag-count-selected_other": "{{count}} tags selected"
   },
   "bible-browser": {
     "chapter": "Розділ",

@@ -249,7 +249,10 @@
     "stats-total": "spolu",
     "only-currentbook-tagged-verses": "Iba aktuálna kniha",
     "most-frequently-used": "Najviac používané",
-    "less-frequently-used": "Najmenej používané"
+    "less-frequently-used": "Najmenej používané",
+    "show-tagged-verses": "Show tagged verses",
+    "tag-count-selected_one": "{{count}} tag selected",
+    "tag-count-selected_other": "{{count}} tags selected"
   },
   "bible-browser": {
     "chapter": "Kapitola",

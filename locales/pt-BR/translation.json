@@ -249,7 +249,10 @@
     "stats-total": "total",
     "only-currentbook-tagged-verses": "Apenas livro atual",
     "most-frequently-used": "Utilizadas com maior frequência",
-    "less-frequently-used": "Usadas com menor frequência"
+    "less-frequently-used": "Usadas com menor frequência",
+    "show-tagged-verses": "Show tagged verses",
+    "tag-count-selected_one": "{{count}} tag selected",
+    "tag-count-selected_other": "{{count}} tags selected"
   },
   "bible-browser": {
     "chapter": "Capítulo",

@@ -251,7 +251,10 @@
     "stats-total": "totaal",
     "only-currentbook-tagged-verses": "Alleen huidig boek",
     "most-frequently-used": "Frequentst gebruikt",
-    "less-frequently-used": "Minder frequent gebruikt"
+    "less-frequently-used": "Minder frequent gebruikt",
+    "show-tagged-verses": "Show tagged verses",
+    "tag-count-selected_one": "{{count}} tag selected",
+    "tag-count-selected_other": "{{count}} tags selected"
   },
   "bible-browser": {
     "chapter": "Hoofdstuk",
