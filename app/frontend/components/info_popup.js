@@ -225,19 +225,19 @@ class InfoPopup {
     $('#app-info-tabs').tabs({ heightStyle: "fill" });
 
     if (this.platformHelper.isElectron()) {
-      $('#export-user-data-button').bind('click', async () => {
+      document.getElementById('export-user-data-button').addEventListener('click', async () => {
         var dialogTitle = i18n.t("general.export-user-data-action");
         var filePath = await exportHelper.showSaveDialog('User_data_export', 'csv', dialogTitle);
 
         await ipcDb.exportUserData(filePath);
 
         $('#user-data-export-result').fadeIn();
-        await sleep(1500);
+        await sleep(3000);
         $('#user-data-export-result').fadeOut();
       });
     } else {
       // We hide the export section on Cordova, because the function is not supported there.
-      $('#info-popup-export').hide();
+      document.getElementById('info-popup-export').style.display = 'none';
     }
 
     uiHelper.configureButtonStyles('#info-popup-content');
