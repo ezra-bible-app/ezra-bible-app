@@ -35,7 +35,7 @@ class TagStatistics {
       await this.updateBookTagStatistics();
     });
 
-    eventController.subscribe('on-tag-renamed', async () => {
+    eventController.subscribe('on-latest-tag-changed', async () => {
       await this.updateBookTagStatistics();
     });
   }
@@ -116,7 +116,31 @@ class TagStatistics {
     return [ clusters, maxClusterPercentage ];
   }
 
+  async refreshBookTagStatistics(tag_list, tag_statistics, current_book) {
+    var book_tag_statistics = [];
+    
+    for (var i = 0; i < tag_list.length; i++) {
+      var currentTag = tag_list[i];
+      var currentTagStatistics = tag_statistics[currentTag.id];
+
+      var is_used_in_current_book = (currentTagStatistics.bookAssignmentCount > 0) ? true : false;
+
+      if (current_book != null && is_used_in_current_book) {
+        book_tag_statistics[currentTag.title] = parseInt(currentTagStatistics.bookAssignmentCount);
+      }
+    }
+
+    if (current_book != null) {
+      await this.updateBookTagStatistics(book_tag_statistics);
+    }
+  }
+
   async updateBookTagStatistics(bookTagStatistics=undefined) {
+    var currentBook = app_controller.tab_controller.getTab().getBook();
+    if (currentBook == null) {
+      return;
+    }
+
     if (bookTagStatistics === undefined) {
       this._currentBookTagStatistics = this.getBookTagStatistics();
     } else {
@@ -129,7 +153,6 @@ class TagStatistics {
     this._overallTagCount = this.getOverallTagCount(this._currentBookTagStatistics);
 
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    var currentBook = app_controller.tab_controller.getTab().getBook();
     if (currentBook == null) {
       return;
     }

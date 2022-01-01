@@ -80,7 +80,6 @@ class TagsController {
       // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
       this.verses_were_selected_before = true;
       await this.updateTagsView(tabIndex);
-
     });
 
     eventController.subscribe('on-locale-changed', async () => {
@@ -559,25 +558,21 @@ class TagsController {
         return;
       }
 
-      await eventController.publishAsync('on-latest-tag-changed', {
-        'tagId': id,
-        'added': true
-      });
-
       tags_controller.changeVerseListTagInfo(id,
                                              cb_label,
                                              $.create_xml_doc(current_verse_selection),
                                              "assign");
+
+      await eventController.publishAsync('on-latest-tag-changed', {
+        'tagId': id,
+        'added': true
+      });
 
       var currentBook = app_controller.tab_controller.getTab().getBook();
 
       tags_controller.updateTagCountAfterRendering(currentBook != null);
       await tags_controller.updateTagsViewAfterVerseSelection(true);
       await tags_controller.updateTagUiBasedOnTagAvailability();
-
-      if (currentBook != null) {
-        await app_controller.tag_statistics.updateBookTagStatistics();
-      }
 
     } else {
 
@@ -713,7 +708,6 @@ class TagsController {
     var currentBook = app_controller.tab_controller.getTab().getBook();
     tags_controller.updateTagCountAfterRendering(currentBook != null);
     tags_controller.updateTagUiBasedOnTagAvailability();
-    await app_controller.tag_statistics.updateBookTagStatistics();
 
     tags_controller.remove_tag_assignment_job = null;
     tags_controller.persistence_ongoing = false;
@@ -758,25 +752,6 @@ class TagsController {
     };
 
     global_tags_box.find('.checkbox-tag').sort_elements(sort_function);
-  }
-
-  async refreshBookTagStatistics(tag_list, tag_statistics, current_book) {
-    var book_tag_statistics = [];
-    
-    for (var i = 0; i < tag_list.length; i++) {
-      var currentTag = tag_list[i];
-      var currentTagStatistics = tag_statistics[currentTag.id];
-
-      var is_used_in_current_book = (currentTagStatistics.bookAssignmentCount > 0) ? true : false;
-
-      if (current_book != null && is_used_in_current_book) {
-        book_tag_statistics[currentTag.title] = parseInt(currentTagStatistics.bookAssignmentCount);
-      }
-    }
-
-    if (current_book != null) {
-      await app_controller.tag_statistics.updateBookTagStatistics(book_tag_statistics);
-    }
   }
 
   async getTagList(forceRefresh=true) {
@@ -931,7 +906,7 @@ class TagsController {
       this.updateStatsElements(tag_statistics);
     }
 
-    await tags_controller.refreshBookTagStatistics(tag_list, tag_statistics, current_book);
+    await app_controller.tag_statistics.refreshBookTagStatistics(tag_list, tag_statistics, current_book);
     uiHelper.configureButtonStyles('#tags-content');
 
     tags_controller.updateTagsViewAfterVerseSelection(true);
