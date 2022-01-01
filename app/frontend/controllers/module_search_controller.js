@@ -353,15 +353,14 @@ class ModuleSearchController {
 
     this.disableOtherFunctionsDuringSearch();
 
-    app_controller.navigation_pane.resetNavigationPane(tabIndex, true);
-    app_controller.verse_statistics_chart.resetChart(tabIndex);
-
     if (tabIndex === undefined) {
       var tab = app_controller.tab_controller.getTab();
       tab.setSearchOptions(this.getSearchType(), this.getSearchScope(), this.isCaseSensitive(), this.useExtendedVerseBoundaries());
       tab.setTextType('search_results');
       tab.setSearchCancelled(false);
     }
+
+    await eventController.publishAsync('on-module-search-started', tabIndex);
 
     //console.log("Starting search for " + this.currentSearchTerm + " on tab " + tabIndex);
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
