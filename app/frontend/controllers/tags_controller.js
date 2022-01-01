@@ -80,15 +80,16 @@ class TagsController {
       // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
       this.verses_were_selected_before = true;
       await this.updateTagsView(tabIndex);
+      this.resetActivePanelToTagPanel(tabIndex);
+    });
 
-      var tab = app_controller.tab_controller.getTab(tabIndex);
-      var panelButtons = document.getElementById('panel-buttons');
+    eventController.subscribe('on-bible-text-loaded', () => {
+      var currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+      this.resetActivePanelToTagPanel(currentTabIndex);
+    });
 
-      if (panelButtons.activePanel != 'tag-panel') {
-        if (tab.isNew() || tab.isVerseList() || (tab.isBook() && panelButtons.activePanel != 'tag-statistics-panel')) {
-          panelButtons.activePanel = 'tag-panel';
-        }
-      }
+    eventController.subscribe('on-module-search-started', (tabIndex) => {
+      this.resetActivePanelToTagPanel(tabIndex);
     });
 
     eventController.subscribe('on-locale-changed', async () => {
@@ -103,6 +104,17 @@ class TagsController {
     eventController.subscribe('on-verses-selected', async () => {
       await this.updateTagsViewAfterVerseSelection(false);
     });
+  }
+
+  resetActivePanelToTagPanel(tabIndex) {
+    var panelButtons = document.getElementById('panel-buttons');
+    var tab = app_controller.tab_controller.getTab(tabIndex);
+
+    if (panelButtons.activePanel != 'tag-panel') {
+      if (tab.isNew() || tab.isVerseList() || (tab.isBook() && panelButtons.activePanel != 'tag-statistics-panel')) {
+        panelButtons.activePanel = 'tag-panel';
+      }
+    }
   }
 
   /**
