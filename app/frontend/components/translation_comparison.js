@@ -147,7 +147,7 @@ class TranslationComparison {
 
   isPanelActive() {
     var panelButtons = document.getElementById('panel-buttons');
-    return panelButtons.currentlyActivePanel == 'compare-panel';
+    return panelButtons.activePanel == 'compare-panel';
   }
 
   getHelpBox() {

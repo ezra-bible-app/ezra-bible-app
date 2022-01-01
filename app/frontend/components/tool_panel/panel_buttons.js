@@ -87,19 +87,19 @@ class PanelButtons extends HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     this.toolPanelElement = null;
-    this.activePanel = null;
+    this._activePanel = null;
     this.panelEvents = {};
   }
 
   async connectedCallback() {
     this.toolPanelElement = document.querySelector('#tool-panel');
-    this.activePanel = await ipcSettings.get(SETTINGS_KEY, null);
+    this._activePanel = await ipcSettings.get(SETTINGS_KEY, null);
 
     const slottedElements = this.shadowRoot.querySelector('slot').assignedElements();
     slottedElements.forEach(el => this.initButton(el));
 
-    if (this.activePanel) {
-      await this.togglePanel(this.activePanel, true);
+    if (this._activePanel) {
+      await this.togglePanel(this._activePanel, true);
     } else {
       this.toolPanelElement.classList.add('hidden');
     }
@@ -120,8 +120,8 @@ class PanelButtons extends HTMLElement {
     this.panelEvents[targetPanel] = buttonElement.getAttribute('event');
 
     const defaultOpen = (buttonElement.getAttribute('default') == "true");
-    if (this.activePanel === null && defaultOpen) {
-      this.activePanel = targetPanel;
+    if (this._activePanel === null && defaultOpen) {
+      this._activePanel = targetPanel;
     }
 
     buttonElement.addEventListener('click', async (e) => {
@@ -133,19 +133,19 @@ class PanelButtons extends HTMLElement {
   async updatePanel(targetPanel) {
 
     // if active panel - hide the whole tool panel
-    if (this.activePanel === targetPanel) {
-      this.activePanel = "";
+    if (this._activePanel === targetPanel) {
+      this._activePanel = "";
       this.toolPanelElement.classList.add('hidden');
       this.togglePanel(targetPanel, false);
     } else {
-      this.togglePanel(this.activePanel, false);
+      this.togglePanel(this._activePanel, false);
 
-      this.activePanel = targetPanel;
+      this._activePanel = targetPanel;
       this.togglePanel(targetPanel, true);
       this.toolPanelElement.classList.remove('hidden');
     }
 
-    await ipcSettings.set(SETTINGS_KEY, this.activePanel);
+    await ipcSettings.set(SETTINGS_KEY, this._activePanel);
   }
 
   async togglePanel(panelId, isActive) {
@@ -170,8 +170,12 @@ class PanelButtons extends HTMLElement {
     await eventController.publishAsync(this.panelEvents[panelId], isActive);
   }
 
-  get currentlyActivePanel() {
-    return this.activePanel;
+  get activePanel() {
+    return this._activePanel;
+  }
+
+  set activePanel(value) {
+    this.updatePanel(value);
   }
 }
 
