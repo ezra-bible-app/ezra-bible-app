@@ -80,6 +80,13 @@ class TagsController {
       // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
       this.verses_were_selected_before = true;
       await this.updateTagsView(tabIndex);
+
+      var tab = app_controller.tab_controller.getTab(tabIndex);
+      var panelButtons = document.getElementById('panel-buttons');
+
+      if ((tab.isNew() || tab.isVerseList()) && panelButtons.activePanel != 'tag-panel') {
+        panelButtons.activePanel = 'tag-panel';
+      }
     });
 
     eventController.subscribe('on-locale-changed', async () => {

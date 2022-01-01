@@ -271,6 +271,10 @@ class Tab {
            this.textType == 'xrefs' && this.xrefs != null;
   }
 
+  isNew() {
+    return this.textType == null;
+  }
+
   hasReferenceVerse() {
     return this.getReferenceVerseElementId() != null;
   }
