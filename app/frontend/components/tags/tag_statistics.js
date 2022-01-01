@@ -153,20 +153,16 @@ class TagStatistics {
     this._overallTagCount = this.getOverallTagCount(this._currentBookTagStatistics);
 
     var currentBibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    if (currentBook == null) {
-      return;
-    }
-
-    var bookTagStatisticsBoxContent = document.getElementById('tag-statistics-panel-wrapper');
-
     var chapterCount = await ipcNsi.getBookChapterCount(currentBibleTranslationId, currentBook);
     var allChapterVerseCounts = await ipcNsi.getAllChapterVerseCounts(currentBibleTranslationId, currentBook);
 
-    if (this._tagsByVerseCount.length == 0) {
+    var bookTagStatisticsBoxContent = document.getElementById('tag-statistics-panel-wrapper');
+
+    if (this.isEmpty()) {
       bookTagStatisticsBoxContent.innerHTML = i18n.t('tag-statistics-panel.help-instruction', { interpolation: {escapeValue: false} });
     }
 
-    if (chapterCount == null || allChapterVerseCounts == null || this._tagsByVerseCount.length == 0) {
+    if (chapterCount == null || allChapterVerseCounts == null || this.isEmpty()) {
       return;
     }
 
@@ -231,6 +227,10 @@ class TagStatistics {
         tag.classList.remove('tag-highly-frequent');
       }
     });
+  }
+
+  isEmpty() {
+    return this._tagsByVerseCount.length == 0;
   }
 }
 

@@ -84,8 +84,10 @@ class TagsController {
       var tab = app_controller.tab_controller.getTab(tabIndex);
       var panelButtons = document.getElementById('panel-buttons');
 
-      if ((tab.isNew() || tab.isVerseList()) && panelButtons.activePanel != 'tag-panel') {
-        panelButtons.activePanel = 'tag-panel';
+      if (panelButtons.activePanel != 'tag-panel') {
+        if (tab.isNew() || tab.isVerseList() || (tab.isBook() && panelButtons.activePanel != 'tag-statistics-panel')) {
+          panelButtons.activePanel = 'tag-panel';
+        }
       }
     });
 

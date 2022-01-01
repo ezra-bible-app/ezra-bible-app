@@ -275,6 +275,10 @@ class Tab {
     return this.textType == null;
   }
 
+  isBook() {
+    return this.textType == 'book';
+  }
+
   hasReferenceVerse() {
     return this.getReferenceVerseElementId() != null;
   }
