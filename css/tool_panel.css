@@ -337,7 +337,7 @@ tr.td-underline td {
   align-items: center;
 }
 
-.checkbox-tag * {
+.checkbox-tag *:not(.cb-input-label-stats) {
   content-visibility: auto;
 }
 
@@ -375,7 +375,6 @@ input.tag-cb ~ label.button-small {
 .cb-input-label-stats {
   display: inline-block;
   max-width: 80%;
-  content-visibility: unset;
 }
 
 .Android .cb-input-label-stats {
