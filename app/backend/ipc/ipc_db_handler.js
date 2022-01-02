@@ -246,6 +246,32 @@ class IpcDbHandler {
       var lastUpdate = await global.models.MetaRecord.getLastUpdate();
       return lastUpdate;
     });
+
+    this._ipcMain.add('db_exportUserData', async(csvFilePath=undefined) => {
+      var verseReferences = await global.models.VerseReference.findAllWithUserData();
+      const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+
+      if (csvFilePath === undefined) {
+        const homeDir = require('os').homedir();
+        csvFilePath = path.join(homeDir, 'ezra_user_data_export.csv');
+      }
+
+      const csvWriter = createCsvWriter({
+        path: csvFilePath,
+        header: [
+          {id: 'bibleBookShortTitle', title: 'Book'},
+          {id: 'absoluteVerseNrEng', title: 'Absolute Verse Nr (ENG)'},
+          {id: 'absoluteVerseNrHeb', title: 'Absolute Verse Nr (HEB)'},
+          {id: 'chapter', title: 'Chapter'},
+          {id: 'verseNr', title: 'Verse Nr'},
+          {id: 'tagList', title: 'Tags'},
+          {id: 'noteText', title: 'Notes'},
+        ],
+        alwaysQuote: true
+      });
+
+      await csvWriter.writeRecords(verseReferences);
+    });
   }
 
   makeSequelizeResultsSerializable(sequelizeResults) {
