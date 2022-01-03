@@ -43,7 +43,7 @@ The installer binary within that directory is named `ezra_bible_app-x.y.z-setup.
 
 The following dependencies are valid for Debian/Ubuntu based distributions. Ezra Bible App has been successfully built for other distributions as well (Linux Mint 18, Debian 10, Fedora 33, OpenSuse, CentOS). To see how the dependencies look like for your distribution, have a look at these Docker files [here](https://github.com/ezra-bible-app/ezra-bible-app-docker/tree/master/docker).
 
-Install compiler/lib dependencies by running the following command: `sudo apt-get install build-essential npm nodejs libsqlite3-0 libcurl4-gnutls-dev libicu-dev pkg-config git cmake`
+Install compiler/lib dependencies by running the following command: `sudo apt-get install build-essential npm nodejs libsqlite3-0 libcurl4-gnutls-dev libicu-dev pkg-config git cmake subversion`
 
 ### Setup and build
 
@@ -73,7 +73,7 @@ The following instructions have been verified on macOS _Big Sur_. The assumption
 1. Install XCode from the App Store
 2. Install Command Line Developer Tools (contains Compiler toolchain, svn, git, etc.) by running this command: `xcode-select --install`   
 2. Install the homebrew package manager by running this command: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
-3. Install some packages with homebrew by running this command: `brew install pkg-config cmake npm nvm icu4c`
+3. Install some packages with homebrew by running this command: `brew install pkg-config cmake svn npm nvm icu4c`
 4. Install the macOS specific npm package electron-installer-dmg by running this command: `npm install -g electron-installer-dmg`
 
 ### Setup and build
