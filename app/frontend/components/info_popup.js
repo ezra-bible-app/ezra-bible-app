@@ -173,7 +173,7 @@ class InfoPopup {
 
             <i id="user-data-export-result" class="fas fa-check fa-lg" style="display: none; margin-left: 0.5em; color: var(--checkmark-success-color);"></i>
           </p>
-        <div>
+        </div>
       </div>
 
       <div id='app-info-tabs-4' class='info-tabs scrollable'>
