@@ -1258,7 +1258,13 @@ li.book-unavailable a:focus,
 
 #tag-selection-menu {
   padding: 1em;
-  width: 22em;
+  width: 26em;
+}
+
+#tag-selection-menu button {
+  padding: 0.3em;
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
 }
 
 .darkmode--activated #tag-selection-menu {

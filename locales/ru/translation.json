@@ -254,7 +254,9 @@
     "less-frequently-used": "Less frequently used",
     "show-tagged-verses": "Show tagged verses",
     "tag-count-selected_one": "{{count}} tag selected",
-    "tag-count-selected_other": "{{count}} tags selected"
+    "tag-count-selected_other": "{{count}} tags selected",
+    "select-all-tags": "Select all",
+    "deselect-all-tags": "Deselect all"
   },
   "bible-browser": {
     "chapter": "Глава",

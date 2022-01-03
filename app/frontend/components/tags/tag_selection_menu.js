@@ -60,9 +60,35 @@ class TagSelectionMenu {
       this.applyCurrentFilters();
     });
 
+    $('#select-all-tags-button').bind('click', () => {
+      this.selectAllTags();
+    });
+
+    $('#deselect-all-tags-button').bind('click', () => {
+      this.deselectAllTags();
+    });
+
     $('#confirm-tag-selection-button').bind('click', () => {
       this.handleConfirmButtonClick();
     });
+  }
+
+  selectAllTags() {
+    var tagListContainer = this.getTagListContainer()[0];
+    tagListContainer.querySelectorAll('.tag-browser-tag-cb').forEach((cb) => { cb.checked = true; });
+    this.handleTagSelection();
+
+    var selectAllButton = document.getElementById('select-all-tags-button');
+    selectAllButton.classList.add('ui-state-disabled');
+  }
+
+  deselectAllTags() {
+    var tagListContainer = this.getTagListContainer()[0];
+    tagListContainer.querySelectorAll('.tag-browser-tag-cb').forEach((cb) => { cb.checked = false; });
+    this.handleTagSelection();
+
+    var selectAllButton = document.getElementById('select-all-tags-button');
+    selectAllButton.classList.remove('ui-state-disabled');
   }
 
   getTagListContainer() {
@@ -161,6 +187,11 @@ class TagSelectionMenu {
 
   renderTagsInMenu(tags) {
     this.resetTagsInMenu();
+
+    if (tags.length > 50) {
+      document.getElementById('select-all-tags-button').style.display = 'none';
+    }
+
     var taglist_container = this.getTagListContainer();
     this.renderTagList(tags, taglist_container, false);
     this.bindClickToCheckboxLabels();
@@ -326,6 +357,7 @@ class TagSelectionMenu {
   handleTagSelection() {
     var tagCountSelectedLabel = document.getElementById('tag-count-selected-label');
     var confirmButton = document.getElementById('confirm-tag-selection-button');
+    var deselectAllButton = document.getElementById('deselect-all-tags-button');
     var currentTagIdList = this.selectedTagIds();
     var currentTagTitleList = this.selectedTagTitles();
     var selectedTagCount = 0;
@@ -336,8 +368,10 @@ class TagSelectionMenu {
 
     if (selectedTagCount > 0) {
       confirmButton.classList.remove('ui-state-disabled');
+      deselectAllButton.classList.remove('ui-state-disabled');
     } else {
       confirmButton.classList.add('ui-state-disabled');
+      deselectAllButton.classList.add('ui-state-disabled');
     }
 
     var tagCountLabelText = i18n.t('tags.tag-count-selected', { count: selectedTagCount });
