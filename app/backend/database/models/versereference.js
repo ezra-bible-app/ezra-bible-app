@@ -31,7 +31,9 @@ module.exports = (sequelize, DataTypes) => {
     absoluteVerseNrEng: DataTypes.INTEGER,
     absoluteVerseNrHeb: DataTypes.INTEGER,
     bibleBookShortTitle: DataTypes.VIRTUAL,
-    bibleBookLongTitle: DataTypes.VIRTUAL
+    bibleBookLongTitle: DataTypes.VIRTUAL,
+    tagList: DataTypes.VIRTUAL,
+    noteText: DataTypes.VIRTUAL,
   }, {
     timestamps: false
   });
@@ -183,6 +185,30 @@ module.exports = (sequelize, DataTypes) => {
         verseReferences.push(currentDbReferenceList[0]);
       }
     }
+
+    return verseReferences;
+  };
+
+  VerseReference.findAllWithUserData = function() {
+    var verseReferences = null;
+
+    var query = `SELECT vr.*, 
+                 b.shortTitle as bibleBookShortTitle,
+                 b.longTitle AS bibleBookLongTitle,
+                 GROUP_CONCAT(t.title, ';') AS tagList,
+                 n.text AS noteText
+                 FROM VerseReferences vr
+                 INNER JOIN BibleBooks b ON
+                 vr.bibleBookId = b.id
+                 LEFT JOIN VerseTags vt ON
+                 vt.verseReferenceId = vr.id
+                 LEFT JOIN Tags t ON
+                 vt.verseReferenceId = vr.id AND vt.tagId = t.id
+                 LEFT JOIN Notes n ON n.verseReferenceId = vr.id
+                 GROUP BY vr.id
+                 ORDER BY b.number ASC, vr.absoluteVerseNrEng ASC`;
+
+    verseReferences = sequelize.query(query, { model: global.models.VerseReference });    
 
     return verseReferences;
   };

@@ -188,7 +188,10 @@
     "module-copyright": "Droits d'auteur de la traduction de la Bible",
     "module-copyright-intro": "Veuillez noter que {{module_name}} est protégé par copyright :",
     "module-copyright-disclaimer": "Quand vous exportez, vous acceptez par la présente la politique de droits d'auteur de cette traduction et toutes les restrictions concernant les citations de {{module_name}}.",
-    "scripture-quote-from": "Citation biblique extraite de :" 
+    "scripture-quote-from": "Citation biblique extraite de :",
+    "export": "Export",
+    "export-user-data-action": "Export user data",
+    "export-user-data-hint": "This function exports all user data (tags, notes) along with their verse references to a CSV file."
   },
   "help": {
     "help-text-no-tags-book-opened": "Pour commencer à utiliser les étiquettes, créez votre première étiquette en cliquant sur le bouton <i>Nouvelle étiquette</i>.<br/><br/>Ensuite, vous pouvez parcourir le texte biblique, cliquer ou faire glisser les versets, puis attribuer l’étiquette que vous venez de créer.",

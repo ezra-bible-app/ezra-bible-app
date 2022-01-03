@@ -206,6 +206,10 @@ class IpcDb {
   async getLastMetaRecordUpdate() {
     return await this._ipcRenderer.call('db_getLastMetaRecordUpdate');
   }
+
+  async exportUserData(exportFilePath=undefined) {
+    return await this._ipcRenderer.call('db_exportUserData', exportFilePath);
+  }
 }
 
 module.exports = IpcDb;

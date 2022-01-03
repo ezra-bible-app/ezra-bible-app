@@ -192,8 +192,11 @@ class NotesController {
   editVerseNotesForCurrentlySelectedVerse() {
     const selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
     const firstVerseBox = selectedVerseBoxes[0];
-    const verseNotes = firstVerseBox.querySelector('.verse-notes');
-    this._showAndClickVerseNotes(verseNotes);
+
+    if (firstVerseBox != null) {
+      const verseNotes = firstVerseBox.querySelector('.verse-notes');
+      this._showAndClickVerseNotes(verseNotes);
+    }
   }
 
   _showAndClickVerseNotes(verseNotes) {

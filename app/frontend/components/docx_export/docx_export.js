@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const exportController = require('./export_controller.js');
+const exportHelper = require('../../helpers/export_helper.js');
 const { html } = require('../../helpers/ezra_helper.js');
 const swordHelper = require('../../helpers/sword_module_helper.js');
 
@@ -68,7 +69,6 @@ class DocxExport {
     var fileName;
     var isInstantLoadingBook = false;
 
-
     if (type === 'TAGS') {
       fileName = getUnixTagTitleList(currentTab);
     } else if (type === 'NOTES') {
@@ -78,8 +78,10 @@ class DocxExport {
       console.log('Unrecognized export type:', type);
       return;
     }
+    
+    var dialogTitle = i18n.t("tags.export-tagged-verse-list");
 
-    exportController.showSaveDialog(fileName).then(filePath => {
+    exportHelper.showSaveDialog(fileName, 'docx', dialogTitle).then(filePath => {
       if (filePath) {
         if (type === 'TAGS') {
           renderCurrentTagsForExport(currentTab);
@@ -89,7 +91,6 @@ class DocxExport {
       }
     });
   }
-  
 }
 
 module.exports = DocxExport;

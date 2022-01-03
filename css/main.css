@@ -32,6 +32,8 @@
   --highlight-border-color: #74b2e2;
   --highlight-border: 1px solid var(--highlight-border-color);
   --highlight-color: var(--accent-color);
+
+  --checkmark-success-color: LimeGreen;
 }
 
 :root body.darkmode--activated {
