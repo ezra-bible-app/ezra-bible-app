@@ -362,7 +362,7 @@ input.tag-cb {
   display: none;
 }
 
-input.tag-cb ~ label.button-small {
+input.tag-cb + label.button-small {
   margin-right: 1em;
 }
 
@@ -411,20 +411,20 @@ input.tag-cb ~ label.button-small {
 }
 .button-small.active, 
 .button-small.button-small:hover,
-#tool-panel input:checked ~ label.button-small {
+#tool-panel input:checked + label.button-small {
   color: white;
   background-color: var(--accent-color);
   border-color: var(--highlight-border-color);
 }
 .button-small.disabled,
-#tool-panel input:disabled ~ label.button-small {
+#tool-panel input:disabled + label.button-small {
   color: #bbb;
   border-color: #bbb;
   background-color: transparent;
   opacity: 0.8;
 }
 .darkmode--activated .button-small.disabled,
-.darkmode--activated #tool-panel input:disabled ~ label.button-small {
+.darkmode--activated #tool-panel input:disabled + label.button-small {
   color: #555;
   border-color: #555;
 }
