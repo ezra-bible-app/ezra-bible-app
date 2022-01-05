@@ -1209,6 +1209,7 @@ li.book-unavailable a:focus,
   margin-right: 0.5em;
   margin-bottom: 0.5em;
   user-select: none;
+  min-width: 20em;
 }
 
 .bible-select-block select {
