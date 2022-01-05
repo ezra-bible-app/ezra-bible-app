@@ -921,8 +921,8 @@ class TagsController {
     global_tags_box_el.innerHTML = '';
     global_tags_box_el.innerHTML = all_tags_html;
 
-    this.initTagStatsElementCache();
-    /*this.initialRenderingDone = true;
+    /*this.initTagStatsElementCache();
+    this.initialRenderingDone = true;
     } else {
       this.updateStatsElements(tag_statistics);
     }*/
