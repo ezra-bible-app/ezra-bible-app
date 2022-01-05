@@ -1750,3 +1750,7 @@ code {
   background: none;
   background-color: gray;
 }
+
+transchange {
+  font-style: italic;
+}
