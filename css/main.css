@@ -1138,30 +1138,6 @@ li.book-unavailable a:focus,
   display: none;
 }
 
-.verse-content-edited {
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 0px 6px 6px 6px;
-  cursor: pointer;
-}
-
-.split-verse-marked-word {
-  background-color: #DEEDF7;
-}
-
-.split-verse-border {
-  border-right: 1px dashed black;
-}
-
-.split-verse-cancel-button-box {
-  padding-top: 0.3em;
-  text-align: right;
-}
-
-.split-verse-cancel-button {
-  margin: 0.5em;
-}
-
 .state-normal {
   opacity: 0.6;
   border: 1px solid #A0A0A0;
