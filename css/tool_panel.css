@@ -477,7 +477,7 @@ input.tag-cb + label.button-small {
 .selection-box {
   display: inline-block;
   margin: 0.1em 0.1em 0.3em 0.5em;
-  width: 15em;
+  width: 18em;
 }
 
 table.tag-statistics {
