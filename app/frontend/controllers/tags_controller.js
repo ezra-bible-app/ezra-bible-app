@@ -904,28 +904,28 @@ class TagsController {
     var current_book = app_controller.tab_controller.getTab().getBook();
     var global_tags_box_el = document.getElementById('tags-content-global');
 
-    if (!this.initialRenderingDone) {
-      // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
-      this.verses_were_selected_before = true;
+    //if (!this.initialRenderingDone) {
+    // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
+    this.verses_were_selected_before = true;
 
-      // eslint-disable-next-line no-undef
-      var all_tags_html = tagListTemplate({
-        tags: tag_list,
-        tagStatistics: tag_statistics,
-        current_book: current_book,
-        current_filter: $('#tags-search-input').val(),
-        rename_tag_label: i18n.t("tags.rename-tag"),
-        delete_tag_label: i18n.t("tags.delete-tag-permanently"),
-      });
+    // eslint-disable-next-line no-undef
+    var all_tags_html = tagListTemplate({
+      tags: tag_list,
+      tagStatistics: tag_statistics,
+      current_book: current_book,
+      current_filter: $('#tags-search-input').val(),
+      rename_tag_label: i18n.t("tags.rename-tag"),
+      delete_tag_label: i18n.t("tags.delete-tag-permanently"),
+    });
 
-      global_tags_box_el.innerHTML = '';
-      global_tags_box_el.innerHTML = all_tags_html;
+    global_tags_box_el.innerHTML = '';
+    global_tags_box_el.innerHTML = all_tags_html;
 
-      this.initTagStatsElementCache();
-      this.initialRenderingDone = true;
+    this.initTagStatsElementCache();
+    /*this.initialRenderingDone = true;
     } else {
       this.updateStatsElements(tag_statistics);
-    }
+    }*/
 
     await app_controller.tag_statistics.refreshBookTagStatistics(tag_list, tag_statistics, current_book);
     uiHelper.configureButtonStyles('#tags-content');
