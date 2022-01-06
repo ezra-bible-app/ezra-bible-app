@@ -42,7 +42,6 @@ class TagsController {
     this.tag_list_filter = new TagListFilter();
 
     this.verse_box_helper = new VerseBoxHelper();
-    this.tag_stats_element_cache = {};
 
     this.new_standard_tag_button = $('#new-standard-tag-button');
     this.verse_selection_blocked = false;
@@ -69,7 +68,6 @@ class TagsController {
     this.selected_verse_references = [];
     this.selected_verse_boxes = [];
 
-    this.initialRenderingDone = false;
     this.newTagDialogInitDone = false;
     this.deleteTagConfirmationDialogInitDone = false;
     this.removeTagAssignmentConfirmationDialogInitDone = false;
@@ -546,9 +544,6 @@ class TagsController {
       this.tag_store.updateTagTimestamp(id, current_timestamp);
       await this.tag_store.updateLatestAndOldestTagData();
 
-      // Drop the cached stats element, because it is outdated now
-      this.dropCachedTagStats(id);
-
       app_controller.tag_selection_menu.updateLastUsedTimestamp(id, current_timestamp);
       app_controller.tag_selection_menu.applyCurrentFilters();
 
@@ -733,9 +728,6 @@ class TagsController {
       'added': false
     });
 
-    // Drop the cached stats element, because it is outdated now
-    this.dropCachedTagStats(job.id);
-
     var currentBook = app_controller.tab_controller.getTab().getBook();
     tags_controller.updateTagCountAfterRendering(currentBook != null);
     tags_controller.updateTagUiBasedOnTagAvailability();
@@ -811,110 +803,11 @@ class TagsController {
     }
   }
 
-  getNewTagStatsElement(tag_statistics, currentElementId, tagId, current_book) {
-    var newElement = document.createElement('span');
-    newElement.classList.add('cb-label-tag-assignment-count');
-    newElement.setAttribute('id', currentElementId);
-
-    var currentTagStatistics = tag_statistics[tagId];
-    var bookCount = currentTagStatistics.bookAssignmentCount;
-    var globalCount = currentTagStatistics.globalAssignmentCount;
-    var newElementStats = "(";
-
-    if (current_book != "no-book") newElementStats += bookCount + ' | ';
-    newElementStats += globalCount + ')';
-    newElement.innerText = newElementStats;
-
-    return newElement;
-  }
-
-  updateStatsElements(tag_statistics) {
-    var current_book = app_controller.tab_controller.getTab().getBook();
-    if (current_book == null) current_book = "no-book";
-
-    if (!(current_book in this.tag_stats_element_cache)) {
-      this.tag_stats_element_cache[current_book] = {};
-    }
-
-    var global_tags_box_el = document.getElementById('tags-content-global');
-    var tag_stats_elements = global_tags_box_el.querySelectorAll('.cb-label-tag-assignment-count');
-
-    for (var i = 0; i < tag_stats_elements.length; i++) {
-      var currentElement = tag_stats_elements[i];
-      var currentElementId = currentElement.getAttribute('id');
-      var lastHyphenIndex = currentElementId.lastIndexOf('-');
-
-      if (lastHyphenIndex == -1) continue;
-
-      var tagId = currentElementId.substring(lastHyphenIndex + 1);
-
-      if (!(currentElementId in this.tag_stats_element_cache[current_book])) {
-        var newElement = this.getNewTagStatsElement(tag_statistics, currentElementId, tagId, current_book);
-        this.tag_stats_element_cache[current_book][currentElementId] = newElement;
-      }
-
-      var cachedElement = this.tag_stats_element_cache[current_book][currentElementId];
-      var cbLabel = currentElement.parentNode.querySelector('.cb-label');
-
-      if (current_book != "no-book") {
-        var cachedElementText = cachedElement.innerText;
-        var indexOfDivider = cachedElementText.indexOf('|');
-        var bookCount = parseInt(cachedElementText.substring(1, indexOfDivider));        
-        var cbLabelClassList = cbLabel.classList;
-
-        if (bookCount > 0 && !cbLabelClassList.contains('cb-label-assigned')) {
-          cbLabel.classList.add('cb-label-assigned');
-        }
-
-        if (bookCount == 0 && cbLabelClassList.contains('cb-label-assigned')) {
-          cbLabel.classList.remove('cb-label-assigned');
-        }
-
-        var checkbox_tag = cbLabel.parentNode;
-        checkbox_tag.setAttribute('book-assignment-count', bookCount);
-      } else {
-        cbLabel.classList.remove('cb-label-assigned');
-      }
-
-      currentElement.parentNode.replaceChild(cachedElement, currentElement);
-    }
-  }
-
-  initTagStatsElementCache() {
-    var current_book = app_controller.tab_controller.getTab().getBook();
-
-    if (!(current_book in this.tag_stats_element_cache)) {
-      this.tag_stats_element_cache[current_book] = {};
-    }
-
-    var global_tags_box_el = document.getElementById('tags-content-global');
-    var tag_stats_elements = global_tags_box_el.querySelectorAll('.cb-label-tag-assignment-count');
-
-    for (var i = 0; i < tag_stats_elements.length; i++) {
-      var currentElement = tag_stats_elements[i];
-      var currentElementId = currentElement.getAttribute('id');
-
-      this.tag_stats_element_cache[current_book][currentElementId] = currentElement;
-    }
-  }
-
-  dropCachedTagStats(tagId) {
-    for (var book in this.tag_stats_element_cache) {
-      var bookCache = this.tag_stats_element_cache[book];
-      var elementId = 'cb-label-tag-assignment-count-' + tagId;
-
-      if (elementId in bookCache) {
-        delete bookCache[elementId];
-      }
-    }
-  }
-
   async renderTags(tag_list, tag_statistics, is_book=false) {
     //console.time("renderTags");
     var current_book = app_controller.tab_controller.getTab().getBook();
     var global_tags_box_el = document.getElementById('tags-content-global');
 
-    //if (!this.initialRenderingDone) {
     // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
     this.verses_were_selected_before = true;
 
@@ -930,12 +823,6 @@ class TagsController {
 
     global_tags_box_el.innerHTML = '';
     global_tags_box_el.innerHTML = all_tags_html;
-
-    /*this.initTagStatsElementCache();
-    this.initialRenderingDone = true;
-    } else {
-      this.updateStatsElements(tag_statistics);
-    }*/
 
     await app_controller.tag_statistics.refreshBookTagStatistics(tag_list, tag_statistics, current_book);
     uiHelper.configureButtonStyles('#tags-content');
