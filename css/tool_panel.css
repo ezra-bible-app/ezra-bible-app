@@ -362,8 +362,8 @@ input.tag-cb {
   display: none;
 }
 
-input.tag-cb + label.button-small {
-  margin-right: 1em;
+.tag-button {
+  margin-right: 1em !important;
 }
 
 .cb-label-tag-assignment-count,
