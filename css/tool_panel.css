@@ -463,10 +463,6 @@ input.tag-cb {
   width: 25em;
 }
 
-#new-tag-booktag-cb-label {
-  margin-left: 0.5em;
-}
-
 .is-global {
   display: none;
 }
