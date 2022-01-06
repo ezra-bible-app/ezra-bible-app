@@ -243,6 +243,10 @@ class IpcNsiHandler {
       return this._nsi.getBookIntroduction(moduleCode, bookCode);
     });
 
+    this._ipcMain.add('nsi_getBookHeaderList', (moduleCode, bookCode, withAbsoluteVerseNumbers) => {
+      return this._nsi.getBookHeaderList(moduleCode, bookCode, withAbsoluteVerseNumbers);
+    });
+
     this._ipcMain.add('nsi_moduleHasBook', (moduleCode, bookCode) => {
       return this._nsi.moduleHasBook(moduleCode, bookCode);
     });

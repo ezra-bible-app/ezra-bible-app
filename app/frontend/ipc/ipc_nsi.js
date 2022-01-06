@@ -197,6 +197,23 @@ class IpcNsi {
     return returnValue;
   }
 
+  async getBookHeaderList(moduleCode, bookCode, withAbsoluteVerseNumbers=true) {
+    var headerList = await this._ipcRenderer.call('nsi_getBookHeaderList', moduleCode, bookCode, withAbsoluteVerseNumbers);
+    var domParser = new DOMParser();
+
+    for (let i = 0; i < headerList.length; i++) {
+      let currentHeader = headerList[i];
+
+      if (currentHeader.content != "") {
+        let parsedContent = domParser.parseFromString(currentHeader.content, 'text/html');
+        let parsedHeaderText = parsedContent.querySelector('div').innerText;
+        currentHeader.content = parsedHeaderText;
+      }
+    }
+
+    return headerList;
+  }
+
   async moduleHasBook(moduleCode, bookCode) {
     var returnValue = this._ipcRenderer.call('nsi_moduleHasBook', moduleCode, bookCode);
     return returnValue;
