@@ -410,21 +410,18 @@ input.tag-cb {
   color: #aaa;
 }
 .button-small.active, 
-.button-small.button-small:hover,
-#tool-panel input:checked + label.button-small {
+.button-small.button-small:hover {
   color: white;
   background-color: var(--accent-color);
   border-color: var(--highlight-border-color);
 }
-.button-small.disabled,
-#tool-panel input:disabled + label.button-small {
+.button-small.disabled {
   color: #bbb;
   border-color: #bbb;
   background-color: transparent;
   opacity: 0.8;
 }
-.darkmode--activated .button-small.disabled,
-.darkmode--activated #tool-panel input:disabled + label.button-small {
+.darkmode--activated .button-small.disabled {
   color: #555;
   border-color: #555;
 }
