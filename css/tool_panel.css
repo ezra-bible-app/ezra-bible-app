@@ -410,7 +410,7 @@ input.tag-cb {
   color: #aaa;
 }
 .button-small.active, 
-.button-small.button-small:hover:not(.disabled) {
+.button-small.button-small:hover:not(.disabled):not(.no-hl) {
   color: white;
   background-color: var(--accent-color);
   border-color: var(--highlight-border-color);

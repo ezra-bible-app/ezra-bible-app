@@ -495,9 +495,19 @@ class TagsController {
 
     if (isActive) {
       tag_button.classList.remove('active');
+
+      if (platformHelper.isElectron()) {
+        tag_button.classList.add('no-hl');
+        tag_button.addEventListener('mouseleave', tags_controller.removeTagButtonNoHl);
+      }
     } else {
       tag_button.classList.add('active');
     }
+  }
+
+  removeTagButtonNoHl(event) {
+    event.target.classList.remove('no-hl');
+    event.target.removeEventListener('mouseleave', tags_controller.removeTagButtonNoHl);
   }
 
   async handleTagCbClick(event) {
