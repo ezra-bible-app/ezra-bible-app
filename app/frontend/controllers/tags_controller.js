@@ -238,7 +238,7 @@ class TagsController {
   
     remove_tag_assignment_confirmation_dlg_options.buttons = {};
     remove_tag_assignment_confirmation_dlg_options.buttons[i18n.t("general.cancel")] = function() {
-      tags_controller.remove_tag_assignment_job.cb.attr('checked','checked');
+      tags_controller.remove_tag_assignment_job.tag_button.addClass('active');
       tags_controller.remove_tag_assignment_job = null;
   
       $(this).dialog("close");
@@ -252,7 +252,7 @@ class TagsController {
     // eslint-disable-next-line no-unused-vars
     $('#remove-tag-assignment-confirmation-dialog').bind('dialogbeforeclose', function(event) {
       if (!tags_controller.persistence_ongoing && tags_controller.remove_tag_assignment_job != null) {
-        tags_controller.remove_tag_assignment_job.cb.attr('checked','checked');
+        tags_controller.remove_tag_assignment_job.tag_button.addClass('active');
         tags_controller.remove_tag_assignment_job = null;
       }
     });
@@ -486,9 +486,19 @@ class TagsController {
     var current_verse_list = app_controller.verse_selection.selected_verse_references;
 
     if (!tags_controller.is_blocked && current_verse_list.length > 0) {
-      var checkbox = checkboxTag.find('.tag-cb');
-      checkbox.prop('checked', !checkbox.prop('checked'));
+      this.toggleTagButton(checkboxTag);
       await tags_controller.handleCheckboxTagStateChange(checkboxTag);
+    }
+  }
+
+  toggleTagButton(checkboxTag) {
+    var tag_button = checkboxTag[0].querySelector('.tag-button');
+    var isActive = tag_button.classList.contains('active');
+
+    if (isActive) {
+      tag_button.classList.remove('active');
+    } else {
+      tag_button.classList.add('active');
     }
   }
 
@@ -496,6 +506,7 @@ class TagsController {
     await waitUntilIdle();
 
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
+    this.toggleTagButton(checkbox_tag);
     await tags_controller.handleCheckboxTagStateChange(checkbox_tag);
   }
 
@@ -512,10 +523,9 @@ class TagsController {
     }, 300);
 
     var id = parseInt(checkbox_tag.attr('tag-id'));
-    var cb = checkbox_tag.find('.tag-cb')[0];
+    var tag_button = checkbox_tag[0].querySelector('.tag-button');
     var cb_label = checkbox_tag.find('.cb-label').html();
-    var checkbox_is_checked = $(cb).is(':checked');
-    cb.blur();
+    var tag_button_is_active = tag_button.classList.contains('active');
 
     var current_verse_selection = app_controller.verse_selection.current_verse_selection_as_xml(); 
     var current_verse_reference_ids = app_controller.verse_selection.current_verse_selection_as_verse_reference_ids();
@@ -528,7 +538,7 @@ class TagsController {
       is_global = true;
     }
 
-    if (checkbox_is_checked) {
+    if (tag_button_is_active) {
       // Update last used timestamp
       var current_timestamp = new Date(Date.now()).getTime();
       checkbox_tag.attr('last-used-timestamp', current_timestamp);
@@ -542,7 +552,7 @@ class TagsController {
       app_controller.tag_selection_menu.updateLastUsedTimestamp(id, current_timestamp);
       app_controller.tag_selection_menu.applyCurrentFilters();
 
-      $(cb).attr('title', i18n.t("tags.remove-tag-assignment"));
+      $(tag_button).attr('title', i18n.t("tags.remove-tag-assignment"));
 
       var filteredVerseBoxes = [];
       var currentVerseList = verseListController.getCurrentVerseList();
@@ -605,7 +615,7 @@ class TagsController {
         'verse_list': current_verse_list,
         'verse_ids': current_verse_reference_ids,
         'xml_verse_selection': $.create_xml_doc(current_verse_selection),
-        'cb': $(cb)
+        'tag_button': $(tag_button)
       };
 
       if (current_verse_list.length > 1) {
@@ -693,7 +703,7 @@ class TagsController {
                                            job.xml_verse_selection,
                                            "remove");
 
-    job.cb.attr('title', i18n.t("tags.assign-tag"));
+    job.tag_button.attr('title', i18n.t("tags.assign-tag"));
     job.checkbox_tag.append(tags_controller.loading_indicator);
 
     var verse_boxes = [];
@@ -1003,7 +1013,7 @@ class TagsController {
         tags_controller.handleDeleteTagButtonClick(event);
       } else if (event.target.matches('.tag-rename-icon') || event.target.matches('.tag-rename-button')) {
         tags_controller.handleRenameTagClick(event);
-      } else if (event.target.matches('.tag-cb')) {
+      } else if (event.target.matches('.tag-button')) {
         await tags_controller.handleTagCbClick(event);
       } else if (event.target.matches('.cb-label')) {
         await tags_controller.handleTagLabelClick(event);
@@ -1069,7 +1079,6 @@ class TagsController {
   }
 
   formatCheckboxElementBasedOnSelection(cb_element, selected_verse_tags) {
-    var current_checkbox = cb_element.querySelector('.tag-cb');
     var current_tag_button = cb_element.querySelector('.tag-button');
     var current_title_element = cb_element.querySelector('.cb-label');
     var current_title = current_title_element.innerHTML;
@@ -1082,12 +1091,12 @@ class TagsController {
       if (current_tag_obj.title == current_title) {
         if (current_tag_obj.complete) {
           current_tag_button.setAttribute('title', this.unassign_tag_label);
-          current_checkbox.checked = true;
+          current_tag_button.classList.add('active');
           current_title_element_postfix.innerHTML = '';
           current_title_element.classList.remove('underline');
         } else {
           current_tag_button.setAttribute('title', this.assign_tag_label);
-          current_checkbox.checked = false;
+          current_tag_button.classList.remove('active');
           current_title_element_postfix.innerHTML = '&nbsp;*';
           current_title_element.classList.add('underline');
         }
@@ -1097,14 +1106,14 @@ class TagsController {
     }
 
     if (!match_found) {
-      current_checkbox.checked = false;
+      current_tag_button.classList.remove('active');
       current_tag_button.setAttribute('title', this.assign_tag_label);
       current_title_element.classList.remove('underline');
       current_title_element_postfix.innerHTML = '';
     }
 
     if (!this.verses_were_selected_before) {
-      current_checkbox.removeAttribute('disabled');
+      current_tag_button.classList.remove('disabled');
     }
   }
 
@@ -1115,11 +1124,10 @@ class TagsController {
       for (var i = 0; i < all_checkbox_elements.length; i++) {
         var current_checkbox_element = all_checkbox_elements[i];
 
-        var current_cb = current_checkbox_element.querySelector('.tag-cb');
         var current_tag_button = current_checkbox_element.querySelector('.tag-button');
-        current_cb.checked = false;
-        current_cb.setAttribute('disabled', 'disabled');
         current_tag_button.setAttribute('title', this.assign_tag_hint);
+        current_tag_button.classList.add('disabled');
+        current_tag_button.classList.remove('active');
 
         var current_title_element = current_checkbox_element.querySelector('.cb-label');
         current_title_element.classList.remove('underline');
