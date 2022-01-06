@@ -51,9 +51,7 @@ each tag in tags
         - tag_counts = currentStats.bookAssignmentCount + " | " + currentStats.globalAssignmentCount
     
     - var cb_id = 'tag-' + tag.id
-    input(id=cb_id class='tag-cb' type='checkbox' checked=false)
-    label(class='tag-button button-small' for=cb_id)
-      i(class='fas fa-tag')
+    i(id=cb_id class='fas fa-tag tag-button button-small')
 
     div(class='cb-input-label-stats')
       span(class='cb-label' class=used_in_book_class) #{tag.title}
@@ -64,8 +62,5 @@ each tag in tags
 
       span.cb-label-postfix
 
-    div(i18n='[title]tags.rename-tag', title=rename_tag_label class='tag-rename-button button-small')
-      i(class='fas fa-pen tag-rename-icon')
-
-    div(i18n='[title]tags.delete-tag', title=delete_tag_label class='tag-delete-button button-small')
-      i(class='fas fa-trash-alt tag-delete-icon')
+    i(i18n='[title]tags.rename-tag', title=rename_tag_label, class='fas fa-pen tag-rename-icon tag-rename-button button-small')
+    i(i18n='[title]tags.delete-tag', title=delete_tag_label, class='fas fa-trash-alt tag-delete-icon, tag-delete-button button-small')
