@@ -243,8 +243,31 @@ class IpcNsiHandler {
       return this._nsi.getBookIntroduction(moduleCode, bookCode);
     });
 
-    this._ipcMain.add('nsi_getBookHeaderList', (moduleCode, bookCode, withAbsoluteVerseNumbers) => {
-      return this._nsi.getBookHeaderList(moduleCode, bookCode, withAbsoluteVerseNumbers);
+    this._ipcMain.add('nsi_getBookHeaderList', (moduleCode, bookCode) => {
+      var bookTextJson = this._nsi.getBookText(moduleCode, bookCode);
+
+      var bookTextHtml = "<div>";
+      bookTextJson.forEach((verse) => { bookTextHtml += verse.content; });
+      bookTextHtml += "</div>";
+
+      var HTMLParser = require('node-html-parser');
+      var root = HTMLParser.parse(bookTextHtml);
+      var rawSectionHeaders = root.querySelectorAll('.sword-section-title');
+      var sectionHeaders = [];
+
+      rawSectionHeaders.forEach((header) => {
+        let newSectionHeader = {};
+
+        newSectionHeader['moduleCode'] = moduleCode;
+        newSectionHeader['bibleBookShortTitle'] = bookCode;
+        newSectionHeader['chapter'] = header._attrs.chapter;
+        newSectionHeader['verseNr'] = header._attrs.verse;
+        newSectionHeader['content'] = header.firstChild._rawText;
+
+        sectionHeaders.push(newSectionHeader);
+      });
+
+      return sectionHeaders;
     });
 
     this._ipcMain.add('nsi_moduleHasBook', (moduleCode, bookCode) => {
