@@ -34,6 +34,8 @@
   --highlight-color: var(--accent-color);
 
   --checkmark-success-color: LimeGreen;
+  
+  --disabled-button-color: #bbbbbb;
 }
 
 :root body.darkmode--activated {
@@ -48,6 +50,8 @@
   --highlight-bg: var(--highlight-bg-color) url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
   --highlight-border-color: #0b93d5;
   --highlight-color: var(--text-color);
+
+  --disabled-button-color: #555555;
 }
 
 .bold {

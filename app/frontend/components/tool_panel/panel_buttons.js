@@ -74,8 +74,8 @@ const template = html`
     }
 
     ::slotted(button:disabled) {
-      color: #bbb;
-      border-color: #bbb;
+      color: var(--disabled-button-color);
+      border-color: var(--disabled-button-color);
       background-color: transparent;
       opacity: 0.8;
     }

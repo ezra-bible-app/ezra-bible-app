@@ -416,14 +416,10 @@ input.tag-cb {
   border-color: var(--highlight-border-color);
 }
 .button-small.disabled {
-  color: #bbb;
-  border-color: #bbb;
+  color: var(--disabled-button-color);
+  border-color: var(--disabled-button-color);
   background-color: transparent;
   opacity: 0.8;
-}
-.darkmode--activated .button-small.disabled {
-  color: #555;
-  border-color: #555;
 }
 
 .Android .button-small {
