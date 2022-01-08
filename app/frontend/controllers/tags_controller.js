@@ -109,7 +109,7 @@ class TagsController {
     var tab = app_controller.tab_controller.getTab(tabIndex);
 
     if (panelButtons.activePanel != 'tag-panel') {
-      if (tab.isNew() || tab.isVerseList() || (tab.isBook() && panelButtons.activePanel != 'tag-statistics-panel')) {
+      if (tab.isNew() || tab.isVerseList()) {
         panelButtons.activePanel = 'tag-panel';
       }
     }

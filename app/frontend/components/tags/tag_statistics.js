@@ -28,6 +28,7 @@ class TagStatistics {
     });
 
     eventController.subscribe('on-tab-selected', (tabIndex) => {
+      this.disableIfNeeded(tabIndex);
       this.clearTagStatisticsPanel(tabIndex);
     });
 
@@ -45,6 +46,16 @@ class TagStatistics {
 
     if (tab.getTextType() != 'book') {
       document.getElementById('tag-statistics-panel-wrapper').innerHTML = '';
+    }
+  }
+
+  disableIfNeeded(tabIndex) {
+    var panelButtons = document.getElementById('panel-buttons');
+    var tab = app_controller.tab_controller.getTab(tabIndex);
+    if (!tab.isBook()) {
+      panelButtons.disable('tag-statistics-panel');
+    } else {
+      panelButtons.enable('tag-statistics-panel');
     }
   }
 
