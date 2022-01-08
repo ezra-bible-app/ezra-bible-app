@@ -134,17 +134,20 @@ class PanelButtons extends HTMLElement {
 
     buttonElement.addEventListener('click', async (e) => {
       e.preventDefault();
-      await this._updatePanel(targetPanel);
+      await this._updatePanels(targetPanel);
     });
   }
   
-  async _updatePanel(targetPanel) {
+  async _updatePanels(targetPanel, hideIfActive=true) {
+    if (!targetPanel || this._disabledPanels.has(targetPanel)) return;
 
     // if active panel - hide the whole tool panel
     if (this._activePanel === targetPanel) {
-      this._activePanel = "";
-      this.toolPanelElement.classList.add('hidden');
-      this._togglePanel(targetPanel, false);
+      if (hideIfActive) {
+        this._activePanel = "";
+        this.toolPanelElement.classList.add('hidden');
+        this._togglePanel(targetPanel, false);
+      }
     } else {
       this._togglePanel(this._activePanel, false);
 
@@ -156,9 +159,8 @@ class PanelButtons extends HTMLElement {
     await ipcSettings.set(SETTINGS_KEY, this._activePanel);
   }
 
-  async _togglePanel(panelId, isActive) {
+  async _togglePanel(panelId, setActive) {
     if (!panelId) return;
-    if (this._disabledPanels.has(panelId)) return;
 
     const buttonElement = this._getButtonForPanel(panelId);
     const panelElement = this.toolPanelElement.querySelector(`#${panelId}`);
@@ -168,7 +170,7 @@ class PanelButtons extends HTMLElement {
       return;
     }  
 
-    if (isActive) {
+    if (setActive) {
       buttonElement.classList.add('active');
       panelElement.classList.add('active');
     } else {
@@ -176,7 +178,7 @@ class PanelButtons extends HTMLElement {
       panelElement.classList.remove('active');
     }
 
-    await eventController.publishAsync(this.panelEvents[panelId], isActive);
+    await eventController.publishAsync(this.panelEvents[panelId], setActive);
   }
 
   _getButtonForPanel(panelId) {
@@ -191,13 +193,19 @@ class PanelButtons extends HTMLElement {
     return this._activePanel;
   }
 
-  set activePanel(value) {
-    this._updatePanel(value);
+  set activePanel(panelId) {
+    this._updatePanels(panelId, false);
   }
   
   disable(panelId) {
     const button = this._getButtonForPanel(panelId);
     if (!button) return;
+
+    if (panelId === this._activePanel) {
+      const toSwitchButton = button.previousElementSibling || button.nextElementSibling;
+      const toSwitchPanel = toSwitchButton ? toSwitchButton.getAttribute('rel') : panelId;
+      this._updatePanels(toSwitchPanel);
+    }
 
     button.disabled = true;
     this._disabledPanels.add(panelId);
