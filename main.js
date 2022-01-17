@@ -154,6 +154,15 @@ async function createWindow () {
   // Disable the application menu
   Menu.setApplicationMenu(null);
 
+  if (platformHelper.isMac()) {
+    const menu = Menu.buildFromTemplate(
+      [{
+        label: '&File',
+        submenu: [ { label: 'Quit Ezra Bible App', accelerator: 'Ctrl+Q', click: function () { app.quit(); } } ] },
+      ]);
+    Menu.setApplicationMenu(menu);
+  }
+
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
