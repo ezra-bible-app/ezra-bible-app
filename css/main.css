@@ -553,7 +553,7 @@ h2:nth-of-type(1) {
   height: 100vh;
   display: grid;
   padding: 0.5em 1em 1em 0.5em;
-  grid-template-columns: minmax(0, auto) 1fr;
+  grid-template-columns: auto minmax(0, auto) 1fr;
   grid-template-rows: 1fr minmax(0, auto);
   grid-template-areas: 
     "panel-buttons tool-panel content"
