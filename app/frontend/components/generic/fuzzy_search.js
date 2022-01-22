@@ -193,5 +193,5 @@ class FuzzySearch extends HTMLElement {
   }
 }
 
-customElements.define('fuzzy-search', FuzzySearch);
+customElements.get('fuzzy-search') || customElements.define('fuzzy-search', FuzzySearch);
 module.exports = FuzzySearch;

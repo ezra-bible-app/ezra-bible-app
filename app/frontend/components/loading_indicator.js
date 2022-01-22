@@ -48,5 +48,5 @@ class LoadingIndicator extends HTMLElement {
   }
 }
 
-customElements.define('loading-indicator', LoadingIndicator);
+customElements.get('loading-indicator') || customElements.define('loading-indicator', LoadingIndicator);
 module.exports = LoadingIndicator;
