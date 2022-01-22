@@ -83,16 +83,14 @@ function shouldUseDarkMode() {
 }
 
 function updateMenu(labels=undefined) {
-  var fileLabel = '&File';
   var quitAppLabel = 'Quit Ezra Bible App';
 
   if (labels !== undefined) {
-    fileLabel = labels['file'];
     quitAppLabel = labels['quit-app'];
   }
 
   const menu = Menu.buildFromTemplate([{
-    label: fileLabel,
+    label: '&File',
     submenu: [{
       label: quitAppLabel,
       accelerator: 'Ctrl+Q',
