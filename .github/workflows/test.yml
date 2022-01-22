@@ -14,6 +14,8 @@ jobs:
         
         - name: Run test
           run: npm test
+          env:
+            CI: true
 
     e2e-test:
         name: Run Cucumber tests
