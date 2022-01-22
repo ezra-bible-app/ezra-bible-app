@@ -183,7 +183,6 @@ module.exports.localizeMenu = async function() {
   const { ipcRenderer } = require('electron');
 
   let menuLabels = {
-    'file': i18n.t('application-menu.file'),
     'quit-app': i18n.t('application-menu.quit-app')
   };
 
