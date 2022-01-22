@@ -137,7 +137,7 @@ class InfoPopup {
           cleanedText += split;
         } else {
           cleanedText += split.replace(urlRegex, function (url) {
-            return `<a href="${url}" target="_blank" title="${url}">${url}</a>`;
+            return `<a href="${url}" target="_blank">${url}</a>`;
           }
           )
         }
