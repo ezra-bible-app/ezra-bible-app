@@ -154,8 +154,23 @@ async function createWindow () {
     backgroundColor: bgColor
   });
  
-  // Disable the application menu
+  // The default menu will be created automatically if the app does not set one.
+  // It contains standard items such as File, Edit, View, Window and Help.
+  // We disable the menu by default and in a second step we enable it with minimal entries and only on macOS.
   Menu.setApplicationMenu(null);
+
+  if (platformHelper.isMac()) {
+    const menu = Menu.buildFromTemplate([{
+      label: '&File',
+      submenu: [{
+        label: 'Quit Ezra Bible App',
+        accelerator: 'Ctrl+Q',
+        click: function () { app.quit(); }
+      }]
+    }]);
+
+    Menu.setApplicationMenu(menu);
+  }
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
