@@ -108,7 +108,7 @@ class InfoPopup {
     const swordPath = await ipcNsi.getSwordPath();
 
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
-    const moduleDescription = await swordModuleHelper.getModuleDescription(currentBibleTranslationId);
+    var moduleDescription = await swordModuleHelper.getModuleDescription(currentBibleTranslationId);
     const moduleInfo = await swordModuleHelper.getModuleInfo(currentBibleTranslationId, false, false);
 
     const exportUserDataHint = await i18n.t('general.export-user-data-hint');
@@ -120,6 +120,17 @@ class InfoPopup {
         <tr><td>${i18n.t("shortcuts.summary.toggle-fullscreen-only-Win-Linux")}</td><td><code>${i18n.t("shortcuts.shortcut.toggle-fullscreen-only-Win-Linux")}</code></td></tr>
       `;
     }
+
+    function urlify(text) {
+      // replace urls in text with <a> html tag
+      // regex extracted from https://www.codegrepper.com/code-examples/whatever/use+regex+to+get+urls+from+string
+      var urlRegex = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/igm
+      return text.replace(urlRegex, function(url) {
+        console.log(url)
+        return '<a href="' + url + '" target="_blank" title="' + url + '">' + url + '</a>';
+      })
+    }
+    moduleDescription = urlify(moduleDescription)
 
     const appInfo = html`
     <div id='app-info-tabs'>
