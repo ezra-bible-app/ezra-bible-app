@@ -9,6 +9,9 @@
     "compare": "Vergleichen",
     "context": "Kontext"
   },
+  "application-menu": {
+    "quit-app": "Ezra Bible App beenden"
+  },
   "menu": {
     "book": "Buch",
     "tags": "Tags",

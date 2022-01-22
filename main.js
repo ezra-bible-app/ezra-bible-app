@@ -82,6 +82,25 @@ function shouldUseDarkMode() {
   return useDarkMode;
 }
 
+function updateMenu(labels=undefined) {
+  var quitAppLabel = 'Quit Ezra Bible App';
+
+  if (labels !== undefined) {
+    quitAppLabel = labels['quit-app'];
+  }
+
+  const menu = Menu.buildFromTemplate([{
+    label: '&File',
+    submenu: [{
+      label: quitAppLabel,
+      accelerator: 'Ctrl+Q',
+      click: function () { app.quit(); }
+    }]
+  }]);
+
+  Menu.setApplicationMenu(menu);
+}
+
 async function createWindow () {
   const path = require('path');
   const url = require('url');
@@ -126,6 +145,11 @@ async function createWindow () {
     ipcMain.handle('startupCompleted', async (event, arg) => {
       console.timeEnd('Startup');
     });
+
+    // eslint-disable-next-line no-unused-vars
+    ipcMain.handle('localizeMenu', async (event, menuLabels) => {
+      updateMenu(menuLabels);
+    });
   }
 
   var bgColor = '#ffffff';
@@ -160,16 +184,7 @@ async function createWindow () {
   Menu.setApplicationMenu(null);
 
   if (platformHelper.isMac()) {
-    const menu = Menu.buildFromTemplate([{
-      label: '&File',
-      submenu: [{
-        label: 'Quit Ezra Bible App',
-        accelerator: 'Ctrl+Q',
-        click: function () { app.quit(); }
-      }]
-    }]);
-
-    Menu.setApplicationMenu(menu);
+    updateMenu();
   }
 
   // and load the index.html of the app.
