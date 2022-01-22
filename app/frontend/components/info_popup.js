@@ -122,10 +122,10 @@ class InfoPopup {
     }
 
     function urlify(text) {
+      // replace urls in text with <a> html tag
       var aTagRegex = /(<a href.*?>.*?<\/a>)/g;
       var aSplits = text.split(aTagRegex);
 
-      // replace urls in text with <a> html tag
       // regex extracted from https://www.codegrepper.com/code-examples/whatever/use+regex+to+get+urls+from+string
       var urlRegex = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/igm;
 
@@ -137,7 +137,7 @@ class InfoPopup {
           cleanedText += split;
         } else {
           cleanedText += split.replace(urlRegex, function (url) {
-            return '<a href="' + url + '" target="_blank" title="' + url + '">' + url + '</a>';
+            return `<a href="${url}" target="_blank" title="${url}">${url}</a>`;
           }
           )
         }
