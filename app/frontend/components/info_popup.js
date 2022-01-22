@@ -36,7 +36,7 @@ class InfoPopup {
         if (currentBibleTranslationId != null) {
           this.enableCurrentAppInfoButton(tabIndex);
         }
-      }  
+      }
     });
 
     eventController.subscribe('on-all-translations-removed', () => {
@@ -122,14 +122,30 @@ class InfoPopup {
     }
 
     function urlify(text) {
+      var aTagRegex = /(<a href.*?>.*?<\/a>)/g
+      var aSplits = text.split(aTagRegex);
+
       // replace urls in text with <a> html tag
       // regex extracted from https://www.codegrepper.com/code-examples/whatever/use+regex+to+get+urls+from+string
       var urlRegex = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/igm
-      return text.replace(urlRegex, function(url) {
-        console.log(url)
-        return '<a href="' + url + '" target="_blank" title="' + url + '">' + url + '</a>';
-      })
+
+      var cleanedText = "";
+
+      for (let index = 0; index < aSplits.length; index++) {
+        var split = aSplits[index];
+        if (split.substring(0, 2) === '<a') {
+          cleanedText += split
+        } else {
+          cleanedText += split.replace(urlRegex, function (url) {
+            return '<a href="' + url + '" target="_blank" title="' + url + '">' + url + '</a>';
+          }
+          )
+        }
+      }
+      return cleanedText
     }
+    moduleDescription += `<a href="https://www.w3schools.com/">https://www.w3schools.com/</a>`
+    moduleDescription += `\n This is a later paragraph for reasons.`
     moduleDescription = urlify(moduleDescription)
 
     const appInfo = html`
@@ -222,7 +238,7 @@ class InfoPopup {
     </div>`;
 
     const width = uiHelper.getMaxDialogWidth();
-    const offsetLeft = ($(window).width() - width)/2;
+    const offsetLeft = ($(window).width() - width) / 2;
 
     $('#info-popup').dialog({
       width: width,
@@ -256,7 +272,7 @@ class InfoPopup {
     $('#info-popup').dialog("open");
   }
 
-  enableCurrentAppInfoButton(tabIndex=undefined) {
+  enableCurrentAppInfoButton(tabIndex = undefined) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     var appInfoButton = currentVerseListMenu.find('.app-info-button');
     appInfoButton.removeClass('ui-state-disabled');
