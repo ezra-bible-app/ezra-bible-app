@@ -9,6 +9,10 @@
     "compare": "Compare",
     "context": "Context"
   },
+  "application-menu": {
+    "file": "&File",
+    "quit-app": "Quit Ezra Bible App"
+  },
   "menu": {
     "book": "Book",
     "tags": "Tags",

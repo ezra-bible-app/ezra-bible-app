@@ -169,6 +169,17 @@ module.exports.changeLocale = async function(newLocale, saveSettings=true) {
   $(document).localize();
   window.reference_separator = i18n.t('general.chapter-verse-separator');
   await eventController.publishAsync('on-locale-changed', newLocale);
+
+  if (this._platformHelper.isMac()) {
+    const { ipcRenderer } = require('electron');
+
+    let menuLabels = {
+      'file': i18n.t('application-menu.file'),
+      'quit-app': i18n.t('application-menu.quit-app')
+    };
+
+    ipcRenderer.invoke('localizeMenu', menuLabels);
+  }
 };
 
 module.exports.detectLocale = async function() {
