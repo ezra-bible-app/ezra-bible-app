@@ -105,6 +105,7 @@ async function createWindow () {
     // This can happen on macOS, when the window is first closed and then opened another time.
     global.ipcHandlersRegistered = true;
 
+    // eslint-disable-next-line no-unused-vars
     ipcMain.on('manageWindowState', async (event, arg) => {
       // Register listeners on the window, so we can update the state
       // automatically (the listeners will be removed when the window is closed)
@@ -116,10 +117,12 @@ async function createWindow () {
       console.log("Log from renderer: " + message);
     });
 
+    // eslint-disable-next-line no-unused-vars
     ipcMain.handle('initIpc', async (event, arg) => {
       await global.ipc.init(isDev, mainWindow);
     });
 
+    // eslint-disable-next-line no-unused-vars
     ipcMain.handle('startupCompleted', async (event, arg) => {
       console.timeEnd('Startup');
     });
