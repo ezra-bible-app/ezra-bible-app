@@ -149,7 +149,7 @@ async function createWindow () {
     });
 
     // eslint-disable-next-line no-unused-vars
-    ipcMain.on('localizeMenu', async (event, menuLabels) => {
+    ipcMain.handle('localizeMenu', async (event, menuLabels) => {
       updateMenu(menuLabels);
     });
   }

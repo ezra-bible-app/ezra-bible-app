@@ -137,6 +137,10 @@ module.exports.initLocale = async function() {
   }
 
   window.reference_separator = i18n.t('general.chapter-verse-separator');
+
+  if (platformHelper.isMac()) {
+    await this.localizeMenu();
+  }
 };
 
 function preserveStringsForStartup() {
@@ -170,16 +174,20 @@ module.exports.changeLocale = async function(newLocale, saveSettings=true) {
   window.reference_separator = i18n.t('general.chapter-verse-separator');
   await eventController.publishAsync('on-locale-changed', newLocale);
 
-  if (this._platformHelper.isMac()) {
-    const { ipcRenderer } = require('electron');
-
-    let menuLabels = {
-      'file': i18n.t('application-menu.file'),
-      'quit-app': i18n.t('application-menu.quit-app')
-    };
-
-    ipcRenderer.invoke('localizeMenu', menuLabels);
+  if (platformHelper.isMac()) {
+    await this.localizeMenu();
   }
+};
+
+module.exports.localizeMenu = async function() {
+  const { ipcRenderer } = require('electron');
+
+  let menuLabels = {
+    'file': i18n.t('application-menu.file'),
+    'quit-app': i18n.t('application-menu.quit-app')
+  };
+
+  await ipcRenderer.invoke('localizeMenu', menuLabels);
 };
 
 module.exports.detectLocale = async function() {
