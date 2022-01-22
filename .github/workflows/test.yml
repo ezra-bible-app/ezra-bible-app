@@ -16,7 +16,7 @@ jobs:
           run: npm uninstall node-sword-interface
         
         - name: Run test
-          run: npm test
+          run: npm run test
           env:
             CI: true
             ISOLATE: true
