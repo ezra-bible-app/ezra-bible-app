@@ -122,19 +122,19 @@ class InfoPopup {
     }
 
     function urlify(text) {
-      var aTagRegex = /(<a href.*?>.*?<\/a>)/g
+      var aTagRegex = /(<a href.*?>.*?<\/a>)/g;
       var aSplits = text.split(aTagRegex);
 
       // replace urls in text with <a> html tag
       // regex extracted from https://www.codegrepper.com/code-examples/whatever/use+regex+to+get+urls+from+string
-      var urlRegex = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/igm
+      var urlRegex = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/igm;
 
       var cleanedText = "";
 
       for (let index = 0; index < aSplits.length; index++) {
         var split = aSplits[index];
         if (split.substring(0, 2) === '<a') {
-          cleanedText += split
+          cleanedText += split;
         } else {
           cleanedText += split.replace(urlRegex, function (url) {
             return '<a href="' + url + '" target="_blank" title="' + url + '">' + url + '</a>';
@@ -142,9 +142,9 @@ class InfoPopup {
           )
         }
       }
-      return cleanedText
+      return cleanedText;
     }
-    moduleDescription = urlify(moduleDescription)
+    moduleDescription = urlify(moduleDescription);
 
     const appInfo = html`
     <div id='app-info-tabs'>
