@@ -144,8 +144,6 @@ class InfoPopup {
       }
       return cleanedText
     }
-    moduleDescription += `<a href="https://www.w3schools.com/">https://www.w3schools.com/</a>`
-    moduleDescription += `\n This is a later paragraph for reasons.`
     moduleDescription = urlify(moduleDescription)
 
     const appInfo = html`
