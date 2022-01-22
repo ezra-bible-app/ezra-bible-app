@@ -112,7 +112,7 @@
     "eslint": "^8.1.0",
     "git-to-json": "^2.1.4",
     "jest": "^24.9.0",
-    "jest-electron": "^0.1.11",
+    "jest-electron": "^0.1.12",
     "jsdoc": "^3.6.6",
     "pug-cli": "^1.0.0-alpha6",
     "sequelize-cli": "^5.5.1",
