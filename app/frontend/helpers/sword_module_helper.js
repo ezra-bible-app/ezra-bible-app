@@ -287,6 +287,10 @@ function urlify(text) {
       cleanedText += split;
     } else {
       cleanedText += split.replace(urlRegex, function (url) {
+        if (url.startsWith('www')) {
+          url = 'http://' + url;
+        }
+
         return `<a href="${url}" target="_blank">${url}</a>`;
       });
     }
