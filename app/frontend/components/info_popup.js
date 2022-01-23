@@ -108,7 +108,7 @@ class InfoPopup {
     const swordPath = await ipcNsi.getSwordPath();
 
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
-    var moduleDescription = await swordModuleHelper.getModuleDescription(currentBibleTranslationId);
+    const moduleDescription = await swordModuleHelper.getModuleDescription(currentBibleTranslationId);
     const moduleInfo = await swordModuleHelper.getModuleInfo(currentBibleTranslationId, false, false);
 
     const exportUserDataHint = await i18n.t('general.export-user-data-hint');
@@ -120,31 +120,6 @@ class InfoPopup {
         <tr><td>${i18n.t("shortcuts.summary.toggle-fullscreen-only-Win-Linux")}</td><td><code>${i18n.t("shortcuts.shortcut.toggle-fullscreen-only-Win-Linux")}</code></td></tr>
       `;
     }
-
-    function urlify(text) {
-      // replace urls in text with <a> html tag
-      var aTagRegex = /(<a href.*?>.*?<\/a>)/g;
-      var aSplits = text.split(aTagRegex);
-
-      // regex extracted from https://www.codegrepper.com/code-examples/whatever/use+regex+to+get+urls+from+string
-      var urlRegex = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/igm;
-
-      var cleanedText = "";
-
-      for (let index = 0; index < aSplits.length; index++) {
-        var split = aSplits[index];
-        if (split.substring(0, 2) === '<a') {
-          cleanedText += split;
-        } else {
-          cleanedText += split.replace(urlRegex, function (url) {
-            return `<a href="${url}" target="_blank">${url}</a>`;
-          }
-          )
-        }
-      }
-      return cleanedText;
-    }
-    moduleDescription = urlify(moduleDescription);
 
     const appInfo = html`
     <div id='app-info-tabs'>
