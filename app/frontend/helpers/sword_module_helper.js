@@ -270,7 +270,6 @@ module.exports.isPublicDomain = async function(moduleId) {
   return !license || PUBLIC_LICENSES.includes(license);
 };
 
-
 function urlify(text) {
   // replace urls in text with <a> html tag
   var aTagRegex = /(<a href.*?>.*?<\/a>)/g;
@@ -283,14 +282,15 @@ function urlify(text) {
 
   for (let index = 0; index < aSplits.length; index++) {
     var split = aSplits[index];
+
     if (split.substring(0, 2) === '<a') {
       cleanedText += split;
     } else {
       cleanedText += split.replace(urlRegex, function (url) {
         return `<a href="${url}" target="_blank">${url}</a>`;
-      }
-      )
+      });
     }
   }
+
   return cleanedText;
 }
