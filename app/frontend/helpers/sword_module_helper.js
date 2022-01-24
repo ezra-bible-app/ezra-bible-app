@@ -68,6 +68,8 @@ module.exports.getModuleDescription = async function(moduleId, isRemote=false) {
   }
   moduleInfo += await this.getModuleAbout(swordModule);
 
+  moduleInfo = urlify(moduleInfo);
+
   return moduleInfo;
 };
 
@@ -267,3 +269,32 @@ module.exports.isPublicDomain = async function(moduleId) {
   const license = await this.getModuleLicense(moduleId);
   return !license || PUBLIC_LICENSES.includes(license);
 };
+
+function urlify(text) {
+  // replace urls in text with <a> html tag
+  var aTagRegex = /(<a href.*?>.*?<\/a>)/g;
+  var aSplits = text.split(aTagRegex);
+
+  // regex extracted from https://www.codegrepper.com/code-examples/whatever/use+regex+to+get+urls+from+string
+  var urlRegex = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/igm;
+
+  var cleanedText = "";
+
+  for (let index = 0; index < aSplits.length; index++) {
+    var split = aSplits[index];
+
+    if (split.substring(0, 2) === '<a') {
+      cleanedText += split;
+    } else {
+      cleanedText += split.replace(urlRegex, function (url) {
+        if (url.startsWith('www')) {
+          url = 'http://' + url;
+        }
+
+        return `<a href="${url}" target="_blank">${url}</a>`;
+      });
+    }
+  }
+
+  return cleanedText;
+}

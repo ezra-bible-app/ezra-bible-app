@@ -6,6 +6,9 @@
     "configure-dicts": "Wörterbücher konfigurieren",
     "context": "Kontext"
   },
+  "application-menu": {
+    "quit-app": "Ezra Bible App beenden"
+  },
   "menu": {
     "book": "Buch",
     "tags": "Tags",
@@ -242,7 +245,12 @@
     "only-currentbook-tagged-verses": "Nur aktuelles Buch",
     "most-frequently-used": "Am häufigsten benutzt",
     "less-frequently-used": "Weniger häufig benutzt",
-    "assign-tag-hint": "Select a verse to assign the tag"
+    "assign-tag-hint": "Select a verse to assign the tag",
+    "show-tagged-verses": "Show tagged verses",
+    "tag-count-selected_one": "{{count}} tag selected",
+    "tag-count-selected_other": "{{count}} tags selected",
+    "select-all-tags": "Select all",
+    "deselect-all-tags": "Deselect all"
   },
   "bible-browser": {
     "chapter": "Kapitel",

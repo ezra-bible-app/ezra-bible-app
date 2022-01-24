@@ -82,6 +82,25 @@ function shouldUseDarkMode() {
   return useDarkMode;
 }
 
+function updateMenu(labels=undefined) {
+  var quitAppLabel = 'Quit Ezra Bible App';
+
+  if (labels !== undefined) {
+    quitAppLabel = labels['quit-app'];
+  }
+
+  const menu = Menu.buildFromTemplate([{
+    label: '&File',
+    submenu: [{
+      label: quitAppLabel,
+      accelerator: 'Ctrl+Q',
+      click: function () { app.quit(); }
+    }]
+  }]);
+
+  Menu.setApplicationMenu(menu);
+}
+
 async function createWindow () {
   const path = require('path');
   const url = require('url');
@@ -105,6 +124,7 @@ async function createWindow () {
     // This can happen on macOS, when the window is first closed and then opened another time.
     global.ipcHandlersRegistered = true;
 
+    // eslint-disable-next-line no-unused-vars
     ipcMain.on('manageWindowState', async (event, arg) => {
       // Register listeners on the window, so we can update the state
       // automatically (the listeners will be removed when the window is closed)
@@ -116,12 +136,19 @@ async function createWindow () {
       console.log("Log from renderer: " + message);
     });
 
+    // eslint-disable-next-line no-unused-vars
     ipcMain.handle('initIpc', async (event, arg) => {
       await global.ipc.init(isDev, mainWindow);
     });
 
+    // eslint-disable-next-line no-unused-vars
     ipcMain.handle('startupCompleted', async (event, arg) => {
       console.timeEnd('Startup');
+    });
+
+    // eslint-disable-next-line no-unused-vars
+    ipcMain.handle('localizeMenu', async (event, menuLabels) => {
+      updateMenu(menuLabels);
     });
   }
 
@@ -151,8 +178,14 @@ async function createWindow () {
     backgroundColor: bgColor
   });
  
-  // Disable the application menu
+  // The default menu will be created automatically if the app does not set one.
+  // It contains standard items such as File, Edit, View, Window and Help.
+  // We disable the menu by default and in a second step we enable it with minimal entries and only on macOS.
   Menu.setApplicationMenu(null);
+
+  if (platformHelper.isMac()) {
+    updateMenu();
+  }
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({

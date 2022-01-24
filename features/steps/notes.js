@@ -39,7 +39,7 @@ Given('I click on {string} note', async function (verseReference) {
 Given('I click on note indicator for the verse {string}', async function (verseReference) {
   var verseBox = await uiHelper.getVerseBox(verseReference);
   var noteIndicator = await verseBox.$('.notes-info');
-  noteIndicator.click()
+  noteIndicator.click();
   await spectronHelper.sleep();
 
   this.noteBox = await verseBox.$('.verse-notes');
@@ -69,9 +69,9 @@ When('I click outside of the note editor', async function () {
 });
 
 Then('the note assigned to {string} in the database starts with text {string}', async function (verseReference, startText) {
-  models = await dbHelper.initDatabase();
+  global.models = await dbHelper.initDatabase();
 
-  var note = await models.Note.findByVerseReferenceId(await dbHelper.getDbVerseReferenceId(verseReference));
+  var note = await global.models.Note.findByVerseReferenceId(await dbHelper.getDbVerseReferenceId(verseReference));
 
   expect(note.text.startsWith(startText)).to.be.true;
 });
@@ -82,7 +82,7 @@ Then('the note assigned to {string} has {string} text {string}', async function 
 
   if(!(await verseNotesText.isDisplayed())) {
     var noteIndicator = await verseBox.$('.notes-info');
-    noteIndicator.click()
+    noteIndicator.click();
     await spectronHelper.sleep();  
   }
 

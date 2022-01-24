@@ -6,6 +6,9 @@
     "configure-dicts": "Configurează dicționarele",
     "context": "Context"
   },
+  "application-menu": {
+    "quit-app": "Quit Ezra Bible App"
+  },
   "menu": {
     "book": "Carte",
     "tags": "Etichete",
@@ -250,7 +253,12 @@
     "only-currentbook-tagged-verses": "Doar cartea curentă",
     "most-frequently-used": "Cel mai frecvent utilizat",
     "less-frequently-used": "Mai puțin frecvent utilizate",
-    "assign-tag-hint": "Select a verse to assign the tag"
+    "assign-tag-hint": "Select a verse to assign the tag",
+    "show-tagged-verses": "Show tagged verses",
+    "tag-count-selected_one": "{{count}} tag selected",
+    "tag-count-selected_other": "{{count}} tags selected",
+    "select-all-tags": "Select all",
+    "deselect-all-tags": "Deselect all"
   },
   "bible-browser": {
     "chapter": "Capitol",
