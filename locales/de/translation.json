@@ -1,12 +1,9 @@
 {
   "tags-toolbar": {
     "new-tag": "Neuer Tag",
-    "tag-statistics": "Tag Statistiken",
     "assign-last-tag": "Letzten Tag zuweisen",
     "configure-translations": "Übersetzungen konfigurieren",
     "configure-dicts": "Wörterbücher konfigurieren",
-    "show-parallel-translations": "Übersetzungen vergleichen",
-    "compare": "Vergleichen",
     "context": "Kontext"
   },
   "application-menu": {
@@ -248,6 +245,7 @@
     "only-currentbook-tagged-verses": "Nur aktuelles Buch",
     "most-frequently-used": "Am häufigsten benutzt",
     "less-frequently-used": "Weniger häufig benutzt",
+    "assign-tag-hint": "Select a verse to assign the tag",
     "show-tagged-verses": "Show tagged verses",
     "tag-count-selected_one": "{{count}} tag selected",
     "tag-count-selected_other": "{{count}} tags selected",
@@ -295,7 +293,6 @@
     "select-chapter-before-loading": "Öffne Bücher mit Kapitelauswahl",
     "use-night-mode": "Nachtmodus",
     "keep-screen-on": "Display angeschaltet lassen",
-    "tag-statistics": "Tag Statistiken",
     "comparing-translations-for": "Vergleiche Übersetzungen für",
     "strongs-number-not-valid": "Dies ist keine gültige Strong's Nr.!",
     "open-new-tab": "Neuen Tab öffnen",
@@ -317,6 +314,16 @@
     "find-all-occurrences": "Alle Vorkommnisse finden",
     "open-in-blueletter": "In Blue Letter Bible öffnen",
     "related-strongs": "Verwandte Strong's"
+  },
+  "tag-statistics-panel": {
+    "default-header": "Tag Statistiken",
+    "help-instruction": "Here you will see statistics of tags based on how frequently they are used in a book.<br><br> There are currently no tag assignments in this book. Once you start assigning tags, the tag statistics will refresh automatically."
+  },
+  "compare-panel": {
+    "default-header": "<b>Übersetzungen vergleichen</b>",
+    "show-parallel-translations": "Übersetzungen vergleichen",
+    "help-instruction": "Um Übersetzungen zu vergleichen wählen Sie einen Vers oder eine Gruppe von Versen aus.<br><br> Dieser Bereich wird dann automatisch die Liste der gewählten Verse aus allen verfügbaren Übersetzungen anzeigen.",
+    "compare": "Vergleichen"
   },
   "emoji": {
     "search": "Durchsuche Emojis...",

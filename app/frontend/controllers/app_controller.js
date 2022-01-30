@@ -23,7 +23,6 @@ const VerseBoxHelper = require("../helpers/verse_box_helper.js");
 const VerseSelection = require("../components/verse_selection.js");
 const VerseListPopup = require("../components/verse_list_popup.js");
 const TagSelectionMenu = require("../components/tags/tag_selection_menu.js");
-const AssignLastTagButton = require("../components/tags/assign_last_tag_button.js");
 const TagStatistics = require("../components/tags/tag_statistics.js");
 const DocxExport = require("../components/docx_export/docx_export.js");
 const ModuleSearchController = require("./module_search_controller.js");
@@ -59,6 +58,7 @@ const cacheController = require('./cache_controller.js');
 class AppController {
   constructor() {
     this.book_menu_is_opened = false;
+    this.verseContextMenuOpened = false;
     this.current_cr_verse_id = null;
   }
 
@@ -82,7 +82,6 @@ class AppController {
     this.init_component("VerseSelection", "verse_selection");
     this.init_component("TagSelectionMenu", "tag_selection_menu");
     this.init_component("TagStatistics", "tag_statistics");
-    this.init_component("AssignLastTagButton", "assign_last_tag_button");
     this.init_component("ModuleSearchController", "module_search_controller");
     this.init_component("TranslationController", "translation_controller");
     this.init_component("TextController", "text_controller");
@@ -123,7 +122,9 @@ class AppController {
 
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => { await this.onTabSelected(tabIndex); });
     eventController.subscribe('on-tab-added', (tabIndex) => { this.onTabAdded(tabIndex); });
+    eventController.subscribe('on-verses-selected', (details) => { this.toggleVerseContextMenuButton(details.tabIndex); });
 
+    this.verse_context_controller.initButtonEvents();
     this.initExitEvent();
   }
 
@@ -173,48 +174,15 @@ class AppController {
     }
   }
 
-  initVerseButtons(tabIndex=undefined) {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex)[0];
-    var editNoteButton = currentVerseListMenu.querySelector('.edit-note-button');
-    var copyButton = currentVerseListMenu.querySelector('.copy-clipboard-button');
+  toggleVerseContextMenuButton(tabIndex=undefined) {
+    var currentVerseListMenu = this.getCurrentVerseListMenu(tabIndex);
+    var verseContextMenuButton = currentVerseListMenu[0].querySelector('.verse-context-menu-button');
 
-    editNoteButton.addEventListener('click', (event) => {
-      event.stopPropagation();
-
-      if (!event.target.classList.contains('ui-state-disabled')) {
-        app_controller.hideAllMenus();
-        app_controller.notes_controller.editVerseNotesForCurrentlySelectedVerse();
-      }
-    });
-
-    copyButton.addEventListener('click', (event) => {
-      event.stopPropagation();
-
-      if (!event.target.classList.contains('ui-state-disabled')) {
-        app_controller.hideAllMenus();
-        app_controller.verse_selection.copySelectedVerseTextToClipboard();
-      }
-    });
-
-    this.assign_last_tag_button.init(tabIndex);
-    this.translationComparison.initButtonEvents();
-    this.verse_context_controller.initButtonEvents();
-  }
-
-  enableVerseButtons() {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu()[0];
-    var editNoteButton = currentVerseListMenu.querySelector('.edit-note-button');
-    var copyButton = currentVerseListMenu.querySelector('.copy-clipboard-button');
-    editNoteButton.classList.remove('ui-state-disabled');
-    copyButton.classList.remove('ui-state-disabled');
-  }
-
-  disableVerseButtons() {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu()[0];
-    var editNoteButton = currentVerseListMenu.querySelector('.edit-note-button');
-    var copyButton = currentVerseListMenu.querySelector('.copy-clipboard-button');
-    editNoteButton.classList.add('ui-state-disabled');
-    copyButton.classList.add('ui-state-disabled');
+    if (app_controller.verse_selection.versesSelected()) {
+      verseContextMenuButton.classList.remove('ui-state-disabled');
+    } else {
+      verseContextMenuButton.classList.add('ui-state-disabled');
+    }
   }
 
   async onTabSelected(tabIndex=0) {
@@ -294,11 +262,8 @@ class AppController {
       this.book_selection_menu.handleBookMenuClick(event);
     });
 
-    currentVerseListMenu.querySelector('.new-standard-tag-button').addEventListener('click', function() {
-      tags_controller.handleNewTagButtonClick($(this), "standard");
-    });
-
-    app_controller.initVerseButtons(tabIndex);
+    var verseContextMenu = document.getElementById('verse-context-menu');
+    verseContextMenu.currentTabIndex = tabIndex;
 
     var tabId = this.tab_controller.getSelectedTabId(tabIndex);
     if (tabId !== undefined) {
@@ -395,6 +360,7 @@ class AppController {
     this.module_search_controller.hideSearchMenu();
     this.optionsMenu.hideDisplayMenu();
     this.textSizeSettings.hideTextSizeMenu();
+    document.getElementById('verse-context-menu').hidden = true;
     wheelnavController.closeWheelNav();
   }
 

@@ -21,7 +21,7 @@
 // For consistency event name should be a string in-kebab-case with the following template: "on-[(optional)object]-[action]"
 
 /**
- * @typedef { "on-bible-text-loaded" | "on-translation-changed" } BibleTextEvents
+ * @typedef { "on-bible-text-loaded" | "on-translation-changed" | "on-verses-selected" } BibleTextEvents
  */
 /**
  * @typedef { "on-tab-selected" | "on-tab-added" } TabEvents
@@ -42,13 +42,16 @@
  * @typedef { "on-theme-changed" | "on-fullscreen-changed" } AppEvents
  */
 /**
- * @typedef { "on-tag-panel-switched" | "on-dictionary-panel-switched" } PanelEvents
+ * @typedef { "on-tag-panel-switched" | "on-dictionary-panel-switched" | "on-compare-panel-switched" } PanelEvents
  */
 /**
- * @typedef { "on-tag-created" | "on-tag-deleted" | "on-tag-renamed" } TagEvents
+ * @typedef { "on-tag-created" | "on-tag-deleted" | "on-tag-renamed" | "on-latest-tag-changed" } TagEvents
+ */
+/**
+ * @typedef { "on-module-search-started" } ModuleSearchEvents
  */
 
 
 /**
- * @typedef { BibleTextEvents | TabEvents | TabSearchEvents | ModuleAssistantEvents | RepoUpdateEvents | I18nEvents | AppEvents | PanelEvents | TagEvents } EzraEvent
+ * @typedef { BibleTextEvents | TabEvents | TabSearchEvents | ModuleAssistantEvents | RepoUpdateEvents | I18nEvents | AppEvents | PanelEvents | TagEvents | ModuleSearchEvents } EzraEvent
  */

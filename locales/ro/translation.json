@@ -1,12 +1,9 @@
 {
   "tags-toolbar": {
     "new-tag": "Eticheta nouă",
-    "tag-statistics": "Statistici etichete",
     "assign-last-tag": "Atribuie ultima etichetă",
     "configure-translations": "Configurează traducerile",
     "configure-dicts": "Configurează dicționarele",
-    "show-parallel-translations": "Compară traducerile",
-    "compare": "Compară",
     "context": "Context"
   },
   "application-menu": {
@@ -256,6 +253,7 @@
     "only-currentbook-tagged-verses": "Doar cartea curentă",
     "most-frequently-used": "Cel mai frecvent utilizat",
     "less-frequently-used": "Mai puțin frecvent utilizate",
+    "assign-tag-hint": "Select a verse to assign the tag",
     "show-tagged-verses": "Show tagged verses",
     "tag-count-selected_one": "{{count}} tag selected",
     "tag-count-selected_other": "{{count}} tags selected",
@@ -303,7 +301,6 @@
     "select-chapter-before-loading": "Deschide cărțile cu selecție de capitol",
     "use-night-mode": "Mod de noapte",
     "keep-screen-on": "Menține ecranul aprins",
-    "tag-statistics": "Statistici etichete",
     "comparing-translations-for": "Comparare traduceri pentru",
     "strongs-number-not-valid": "Acesta nu este un număr valid de concordanță (Strong's)!",
     "open-new-tab": "Deschide filă nouă",
@@ -325,6 +322,16 @@
     "find-all-occurrences": "Găsește toate aparițiile",
     "open-in-blueletter": "Deschide în Biblia cu litere albastre",
     "related-strongs": "(Strong's) Concordanțe asociate"
+  },
+  "tag-statistics-panel": {
+    "default-header": "Statistici etichete",
+    "help-instruction": "Here you will see statistics of tags based on how frequently they are used in a book.<br><br> There are currently no tag assignments in this book. Once you start assigning tags, the tag statistics will refresh automatically."
+  },
+  "compare-panel": {
+    "default-header": "<b>Compară traducerile</b>",
+    "show-parallel-translations": "Compară traducerile",
+    "help-instruction": "To compare translations, you select one verse or a group of verses.<br><br> This area will then automatically list the selected verses from all available translations.",
+    "compare": "Compară"
   },
   "emoji": {
     "search": "Căută emoji ...",

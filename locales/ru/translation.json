@@ -1,12 +1,9 @@
 {
   "tags-toolbar": {
     "new-tag": "Новая метка",
-    "tag-statistics": "Статистика меток",
     "assign-last-tag": "Прикрепить метку",
     "configure-translations": "Управлять переводами",
     "configure-dicts": "Управлять словарями",
-    "show-parallel-translations": "Сравнить переводы",
-    "compare": "Сравнить",
     "context": "Контекст"
   },
   "application-menu": {
@@ -258,6 +255,7 @@
     "only-currentbook-tagged-verses": "Только в текущей книге",
     "most-frequently-used": "Most frequently used",
     "less-frequently-used": "Less frequently used",
+    "assign-tag-hint": "Select a verse to assign the tag",
     "show-tagged-verses": "Show tagged verses",
     "tag-count-selected_one": "{{count}} tag selected",
     "tag-count-selected_other": "{{count}} tags selected",
@@ -305,7 +303,6 @@
     "select-chapter-before-loading": "Выбирать главу при выборе книги",
     "use-night-mode": "Ночной режим",
     "keep-screen-on": "Не отключать экран",
-    "tag-statistics": "Статистика меток",
     "comparing-translations-for": "Сравнение переводов отрывка",
     "strongs-number-not-valid": "Некоректный номер Стронга!",
     "open-new-tab": "Открыть в новой вкладке",
@@ -327,6 +324,16 @@
     "find-all-событий": "Найти все вхождения",
     "open-in-blueletter": "Открыть в Blue Letter Bible",
     "related-strongs": "Связанные номера Стронга"
+  },
+  "tag-statistics-panel": {
+    "default-header": "Статистика меток",
+    "help-instruction": "Here you will see statistics of tags based on how frequently they are used in a book.<br><br> There are currently no tag assignments in this book. Once you start assigning tags, the tag statistics will refresh automatically."
+  },
+  "compare-panel": {
+    "default-header": "<b>Сравнить переводы</b>",
+    "show-parallel-translations": "Сравнить переводы",
+    "help-instruction": "To compare translations, you select one verse or a group of verses.<br><br> This area will then automatically list the selected verses from all available translations.",
+    "compare": "Сравнить"
   },
   "emoji": {
     "search": "Поиск эмодзи...",

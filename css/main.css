@@ -34,6 +34,8 @@
   --highlight-color: var(--accent-color);
 
   --checkmark-success-color: LimeGreen;
+  
+  --disabled-button-color: #bbbbbb;
 }
 
 :root body.darkmode--activated {
@@ -48,6 +50,8 @@
   --highlight-bg: var(--highlight-bg-color) url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
   --highlight-border-color: #0b93d5;
   --highlight-color: var(--text-color);
+
+  --disabled-button-color: #555555;
 }
 
 .bold {
@@ -460,7 +464,8 @@ h2:nth-of-type(1) {
 .options-header,
 #book-selection-menu,
 #tag-selection-menu,
-#display-options-menu {
+#display-options-menu,
+#verse-context-menu {
   font-size: 0.9em;
 }
 
@@ -503,22 +508,6 @@ h2:nth-of-type(1) {
 
 #open-verselist-in-new-tab-button {
   height: 2.2em;
-}
-
-.tag-delete-button, .tag-rename-button {
-  display: flex;
-  float: right;
-  margin-right: 0.5em;
-  align-items: center;
-  justify-content: center;
-  width: 17px;
-  height: 17px;
-}
-
-.Android .tag-delete-button, .Android .tag-rename-button {
-  width: 24px;
-  height: 24px;
-  margin-right: 1em;
 }
 
 .tag-info,
@@ -564,7 +553,7 @@ h2:nth-of-type(1) {
   height: 100vh;
   display: grid;
   padding: 0.5em 1em 1em 0.5em;
-  grid-template-columns: minmax(0, auto) 1fr;
+  grid-template-columns: auto minmax(0, auto) 1fr;
   grid-template-rows: 1fr minmax(0, auto);
   grid-template-areas: 
     "panel-buttons tool-panel content"
@@ -575,7 +564,7 @@ h2:nth-of-type(1) {
   grid-template-rows: minmax(55vh, 100vh) minmax(0, 23vh);
 }
 
-@media screen and (min-aspect-ratio: 14/10) {
+@media screen and (min-aspect-ratio: 15/10) {
   .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
     height: 89vh;
   }
@@ -587,7 +576,7 @@ h2:nth-of-type(1) {
   }
 }
 
-@media screen and (max-aspect-ratio: 14/10) {
+@media screen and (max-aspect-ratio: 15/10) {
   #app-container {
     grid-template-areas: 
       "content"
@@ -650,7 +639,8 @@ main.content {
 
 .verse-selection-menu,
 #module-search-menu,
-#display-options-menu {
+#display-options-menu,
+#verse-context-menu {
   position: fixed;
   border: 2px solid var(--border-color);
   border-radius: var(--border-radius);
@@ -1051,7 +1041,7 @@ li.book-unavailable a:focus,
 .verse-list-header,
 .verse-statistics-chart-container {
   display: none;
-  margin-left: 1em;
+  margin-left: 0.2em;
   margin-top: 0.5em;
 }
 
@@ -1082,10 +1072,6 @@ li.book-unavailable a:focus,
 #start-module-search-button {
   margin-left: 0.8em;
   height: 2.2em;
-}
-
-.new-standard-tag-button {
-  margin-left: 0;
 }
 
 .assign-last-tag-button {
@@ -1220,13 +1206,14 @@ li.book-unavailable a:focus,
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .bible-select-block {
-  margin-right: 1em;
+  margin-right: 0.5em;
   margin-bottom: 0.5em;
   user-select: none;
+  min-width: 20em;
 }
 
 .bible-select-block select {
@@ -1508,6 +1495,10 @@ body:not(.darkmode--activated) .tab-search-occurances {
 /* This element only occurs in the NA28 sword module */
 s {
   text-decoration: none;
+}
+
+tr.compare-translation-row:nth-child(odd) {
+  background-color: var(--background-color-darker);
 }
 
 .compare-translation-row td.compare-translation-row {

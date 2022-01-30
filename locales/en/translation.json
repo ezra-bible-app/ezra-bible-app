@@ -1,12 +1,9 @@
 {
   "tags-toolbar": {
     "new-tag": "New tag",
-    "tag-statistics": "Tag statistics",
     "assign-last-tag": "Assign last tag",
     "configure-translations": "Configure translations",
     "configure-dicts": "Configure dictionaries",
-    "show-parallel-translations": "Compare translations",
-    "compare": "Compare",
     "context": "Context"
   },
   "application-menu": {
@@ -256,6 +253,7 @@
     "only-currentbook-tagged-verses": "Only current book",
     "most-frequently-used": "Most frequently used",
     "less-frequently-used": "Less frequently used",
+    "assign-tag-hint": "Select a verse to assign the tag",
     "show-tagged-verses": "Show tagged verses",
     "tag-count-selected_one": "{{count}} tag selected",
     "tag-count-selected_other": "{{count}} tags selected",
@@ -303,7 +301,6 @@
     "select-chapter-before-loading": "Open books with chapter selection",
     "use-night-mode": "Night mode",
     "keep-screen-on": "Keep screen on",
-    "tag-statistics": "Tag statistics",
     "comparing-translations-for": "Comparing translations for",
     "strongs-number-not-valid": "This is not a valid Strong's number!",
     "open-new-tab": "Open new tab",
@@ -325,6 +322,16 @@
     "find-all-occurrences": "Find all occurrences",
     "open-in-blueletter": "Open in Blue Letter Bible",
     "related-strongs": "Related Strong's"
+  },
+  "tag-statistics-panel": {
+    "default-header": "Tag statistics",
+    "help-instruction": "Here you will see statistics of tags based on how frequently they are used in a book.<br><br> There are currently no tag assignments in this book. Once you start assigning tags, the tag statistics will refresh automatically."
+  },
+  "compare-panel": {
+    "default-header": "<b>Compare translations</b>",
+    "show-parallel-translations": "Compare translations",
+    "help-instruction": "To compare translations, you select one verse or a group of verses.<br><br> This area will then automatically list the selected verses from all available translations.",
+    "compare": "Compare"
   },
   "emoji": {
     "search": "Search emojis...",

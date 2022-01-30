@@ -1,12 +1,9 @@
 {
   "tags-toolbar": {
     "new-tag": "Nieuwe tag",
-    "tag-statistics": "Tag-statistieken",
     "assign-last-tag": "Laatste tag toewijzen",
     "configure-translations": "Vertalingen configureren",
     "configure-dicts": "Woordenboeken configureren",
-    "show-parallel-translations": "Vertalingen vergelijken",
-    "compare": "Vergelijken",
     "context": "Context"
   },
   "application-menu": {
@@ -258,6 +255,7 @@
     "only-currentbook-tagged-verses": "Alleen huidig boek",
     "most-frequently-used": "Frequentst gebruikt",
     "less-frequently-used": "Minder frequent gebruikt",
+    "assign-tag-hint": "Select a verse to assign the tag",
     "show-tagged-verses": "Show tagged verses",
     "tag-count-selected_one": "{{count}} tag selected",
     "tag-count-selected_other": "{{count}} tags selected",
@@ -305,7 +303,6 @@
     "select-chapter-before-loading": "Open boeken met hoofdstukselectie",
     "use-night-mode": "Nachtmodus",
     "keep-screen-on": "Houd het beeldscherm ingeschakeld",
-    "tag-statistics": "Tagstatistieken",
     "comparing-translations-for": "Vertalingen vergelijken voor",
     "strongs-number-not-valid": "Dit is geen geldig Strongs nummer!",
     "open-new-tab": "Openen in nieuw tabblad",
@@ -327,6 +324,16 @@
     "find-all-occurrences": "Vind alle voorvallen",
     "open-in-blueletter": "In Blue Letter Bible openen",
     "related-strongs": "Gerelateerde Strongs"
+  },
+  "tag-statistics-panel": {
+    "default-header": "Tag-statistieken",
+    "help-instruction": "Here you will see statistics of tags based on how frequently they are used in a book.<br><br> There are currently no tag assignments in this book. Once you start assigning tags, the tag statistics will refresh automatically."
+  },
+  "compare-panel": {
+    "default-header": "<b>Vertalingen vergelijken</b>",
+    "show-parallel-translations": "Vertalingen vergelijken",
+    "help-instruction": "To compare translations, you select one verse or a group of verses.<br><br> This area will then automatically list the selected verses from all available translations.",
+    "compare": "Vergelijken"
   },
   "emoji": {
     "search": "Zoek emojis...",

@@ -174,7 +174,7 @@ class TabSearch {
     }
 
     this.searchTimeout = setTimeout(async () => {
-      app_controller.verse_selection.clear_verse_selection(false);
+      app_controller.verse_selection.clearVerseSelection(false);
       await eventController.publishAsync('on-tab-search-reset');
       this.lastSearchString = searchString;
 
@@ -272,7 +272,7 @@ class TabSearch {
       this.previousOccuranceElement.classList.remove('current-hl');
       let closestVerseBox = this.previousOccuranceElement.closest('.verse-box');
       if (closestVerseBox != null) closestVerseBox.querySelector('.verse-text').classList.remove('ui-selected');
-      app_controller.verse_selection.clear_verse_selection(false);
+      app_controller.verse_selection.clearVerseSelection(false);
     }
 
     // Highlight current element

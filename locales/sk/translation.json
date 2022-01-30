@@ -1,12 +1,9 @@
 {
   "tags-toolbar": {
     "new-tag": "Nová značka",
-    "tag-statistics": "Štatistika značiek",
     "assign-last-tag": "Priradiť poslednú značku",
     "configure-translations": "Nastavenie prekladov",
     "configure-dicts": "Nastavenie slovníkov",
-    "show-parallel-translations": "Porovnanie prekladov",
-    "compare": "Porovnať",
     "context": "Kontext"
   },
   "application-menu": {
@@ -256,6 +253,7 @@
     "only-currentbook-tagged-verses": "Iba aktuálna kniha",
     "most-frequently-used": "Najviac používané",
     "less-frequently-used": "Najmenej používané",
+    "assign-tag-hint": "Select a verse to assign the tag",
     "show-tagged-verses": "Show tagged verses",
     "tag-count-selected_one": "{{count}} tag selected",
     "tag-count-selected_other": "{{count}} tags selected",
@@ -303,7 +301,6 @@
     "select-chapter-before-loading": "Open books with chapter selection",
     "use-night-mode": "Nočný mód",
     "keep-screen-on": "Ponechať zapnutý displej",
-    "tag-statistics": "Štatistiky štítkov",
     "comparing-translations-for": "Porovnanie prekladov pre",
     "strongs-number-not-valid": "Toto nie je platné Strong číslo!",
     "open-new-tab": "Otvoriť novú kartu",
@@ -325,6 +322,16 @@
     "find-all-occurrences": "Nájsť všetky výskyty",
     "open-in-blueletter": "Otvoriť v Blue Letter Bible",
     "related-strongs": "Súvisiace Strongy"
+  },
+  "tag-statistics-panel": {
+    "default-header": "Štatistika značiek",
+    "help-instruction": "Here you will see statistics of tags based on how frequently they are used in a book.<br><br> There are currently no tag assignments in this book. Once you start assigning tags, the tag statistics will refresh automatically."
+  },
+  "compare-panel": {
+    "default-header": "<b>Porovnanie prekladov</b>",
+    "show-parallel-translations": "Porovnanie prekladov",
+    "help-instruction": "To compare translations, you select one verse or a group of verses.<br><br> This area will then automatically list the selected verses from all available translations.",
+    "compare": "Porovnať"
   },
   "emoji": {
     "search": "Vyhľadajte emodži...",
