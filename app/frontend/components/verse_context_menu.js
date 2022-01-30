@@ -70,6 +70,10 @@ class VerseContextMenu extends HTMLElement {
       }
     });
 
+    eventController.subscribe('on-tab-selected', (tabIndex) => {
+      this.hideVerseContextMenuButton(tabIndex);
+    });
+
     this.initVerseContextButtons();
   }
 
@@ -98,12 +102,16 @@ class VerseContextMenu extends HTMLElement {
 
   set hidden(value) {
     if (value == true) {
-      var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
-      var verseContextMenuButton = currentVerseListMenu[0].querySelector('.verse-context-menu-button');
-      verseContextMenuButton.classList.remove('ui-state-active');
-      document.getElementById('verse-context-menu').style.display = 'none';
-      this.verseContextMenuOpened = false;
+      this.hideVerseContextMenuButton();
     }
+  }
+
+  hideVerseContextMenuButton(tabIndex=undefined) {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+    var verseContextMenuButton = currentVerseListMenu[0].querySelector('.verse-context-menu-button');
+    verseContextMenuButton.classList.remove('ui-state-active');
+    document.getElementById('verse-context-menu').style.display = 'none';
+    this.verseContextMenuOpened = false;
   }
 
   enableVerseButtons() {
