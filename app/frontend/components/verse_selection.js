@@ -91,10 +91,11 @@ class VerseSelection {
     });
   }
 
-  publishVersesSelected() {
+  publishVersesSelected(tabIndex=undefined) {
     eventController.publishAsync('on-verses-selected', {
       'selectedElements': this.selected_verse_box_elements,
-      'selectedVerseTags': this.getCurrentSelectionTags()
+      'selectedVerseTags': this.getCurrentSelectionTags(),
+      'tabIndex': tabIndex
     });
   }
 
@@ -170,7 +171,7 @@ class VerseSelection {
 
     if (updateViews) {
       this.updateViewsAfterVerseSelection();
-      this.publishVersesSelected();
+      this.publishVersesSelected(tabIndex);
     }
   }
 
