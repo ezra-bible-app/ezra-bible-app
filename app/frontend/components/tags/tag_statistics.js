@@ -24,6 +24,7 @@ class TagStatistics {
     this._frequentTagsList = [];
 
     eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
+      this.disableIfNeeded(tabIndex);
       this.clearTagStatisticsPanel(tabIndex);
     });
 
@@ -52,6 +53,7 @@ class TagStatistics {
   disableIfNeeded(tabIndex) {
     var panelButtons = document.getElementById('panel-buttons');
     var tab = app_controller.tab_controller.getTab(tabIndex);
+
     if (!tab.isBook()) {
       panelButtons.disable('tag-statistics-panel');
     } else {
