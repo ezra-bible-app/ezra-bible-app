@@ -70,6 +70,10 @@ class DictionaryController {
       this.hideStrongsBox();
     });
 
+    eventController.subscribe('on-dictionary-added', () => {
+      this.runAvailabilityCheck();
+    });
+
     eventController.subscribe('on-bible-text-loaded', (tabIndex) => { 
       this.bindAfterBibleTextLoaded(tabIndex);
     });

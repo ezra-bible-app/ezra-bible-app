@@ -185,6 +185,10 @@ class StepInstall extends HTMLElement {
         await eventController.publishAsync('on-translation-added', moduleCode);
       }
 
+      if (assistantController.get('moduleType') == 'DICT') {
+        await eventController.publishAsync('on-dictionary-added', moduleCode);
+      }
+
       if (assistantController.get('moduleType') == 'BIBLE' && swordModule.hasStrongs && !strongsAvailable) {
         await this._installStrongsModules();
       }

@@ -30,7 +30,7 @@
  * @typedef { "on-tab-search-results-available" | "on-tab-search-reset" } TabSearchEvents
  */
 /**
- * @typedef { "on-all-translations-removed" | "on-translation-removed" | "on-translation-added" } ModuleAssistantEvents
+ * @typedef { "on-all-translations-removed" | "on-translation-removed" | "on-translation-added" | "on-dictionary-added" } ModuleAssistantEvents
  */
 /**
  * @typedef { "on-repo-update-started" | "on-repo-update-progress" | "on-repo-update-completed" } RepoUpdateEvents
