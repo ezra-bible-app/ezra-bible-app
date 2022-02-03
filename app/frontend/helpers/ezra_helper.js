@@ -81,7 +81,12 @@ module.exports.html = (literals, ...substs) => {
 /**
  * This function parses string into HTML fragment
  */
-module.exports.parseHTML = Range.prototype.createContextualFragment.bind(document.createRange());
+// module.exports.parseHTML = Range.prototype.createContextualFragment.bind(document.createRange());
+module.exports.parseHTML = (html) => {
+  const template = document.createElement('template');
+  template.innerHTML = html;
+  return template.content;
+};
 
 
 
