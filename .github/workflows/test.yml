@@ -17,9 +17,6 @@ jobs:
         
         - name: Run test
           run: npm run test
-          env:
-            CI: true
-            ISOLATE: true
 
     e2e-test:
         name: Run Cucumber tests
