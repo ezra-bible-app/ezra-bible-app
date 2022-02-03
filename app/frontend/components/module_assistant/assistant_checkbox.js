@@ -178,5 +178,5 @@ class AssistantCheckbox extends HTMLElement {
 
 }
 
-customElements.get('assistant-checkbox') || customElements.define('assistant-checkbox', AssistantCheckbox);
+customElements.define('assistant-checkbox', AssistantCheckbox);
 module.exports = AssistantCheckbox;
