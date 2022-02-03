@@ -56,7 +56,7 @@
     "update-loc-metrics": "./build_scripts/update_loc_metrics.sh",
     "update-cc-metrics": "./build_scripts/update_complexity_metrics.sh",
     "doc": "./node_modules/.bin/jsdoc -c jsdoc.conf --readme DESIGN.md -d docs/docs -r --verbose app",
-    "test": "./node_modules/.bin/jest --runInBand --detectOpenHandles --forceExit",
+    "test": "jest",
     "convert-sword-languages": "node build_scripts/frontend/sword_locales_to_json.js"
   },
   "dependencies": {
@@ -111,8 +111,7 @@
     "electron-winstaller": "^4.0.2",
     "eslint": "^8.1.0",
     "git-to-json": "^2.1.4",
-    "jest": "^24.9.0",
-    "jest-electron": "^0.1.12",
+    "jest": "^27.4.7",
     "jsdoc": "^3.6.6",
     "pug-cli": "^1.0.0-alpha6",
     "sequelize-cli": "^5.5.1",
