@@ -52,7 +52,7 @@ const template = html`
       cursor: pointer;
     }
 
-    @media screen and (max-aspect-ratio: 14/10) {
+    @media screen and (max-aspect-ratio: 15/10) {
       #panel-switches {
         height: var(--button-size);
         width: 100%;
@@ -72,6 +72,13 @@ const template = html`
       border-color: var(--highlight-border-color);
       background: var(--accent-color);
     }
+
+    ::slotted(button:disabled) {
+      color: var(--disabled-button-color);
+      border-color: var(--disabled-button-color);
+      background-color: transparent;
+      opacity: 0.8;
+    }
    </style>
     
    <nav id="panel-switches">
@@ -87,26 +94,27 @@ class PanelButtons extends HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     this.toolPanelElement = null;
-    this.activePanel = null;
+    this._activePanel = null;
     this.panelEvents = {};
+    this._disabledPanels = new Set();
   }
 
   async connectedCallback() {
     this.toolPanelElement = document.querySelector('#tool-panel');
-    this.activePanel = await ipcSettings.get(SETTINGS_KEY, null);
+    this._activePanel = await ipcSettings.get(SETTINGS_KEY, null);
 
     const slottedElements = this.shadowRoot.querySelector('slot').assignedElements();
-    slottedElements.forEach(el => this.initButton(el));
+    slottedElements.forEach(el => this._initButton(el));
 
-    if (this.activePanel) {
-      await this.togglePanel(this.activePanel, true);
+    if (this._activePanel) {
+      await this._togglePanel(this._activePanel, true);
     } else {
       this.toolPanelElement.classList.add('hidden');
     }
     
   }
 
-  initButton(buttonElement) {
+  _initButton(buttonElement) {
     if (!buttonElement.hasAttribute('rel')) {
       console.error('Attribute "rel" is required for panel buttons!');
       return;
@@ -120,38 +128,41 @@ class PanelButtons extends HTMLElement {
     this.panelEvents[targetPanel] = buttonElement.getAttribute('event');
 
     const defaultOpen = (buttonElement.getAttribute('default') == "true");
-    if (this.activePanel === null && defaultOpen) {
-      this.activePanel = targetPanel;
+    if (this._activePanel === null && defaultOpen) {
+      this._activePanel = targetPanel;
     }
 
     buttonElement.addEventListener('click', async (e) => {
       e.preventDefault();
-      await this.updatePanel(targetPanel);
+      await this._updatePanels(targetPanel);
     });
   }
   
-  async updatePanel(targetPanel) {
+  async _updatePanels(targetPanel, hideIfActive=true) {
+    if (!targetPanel || this._disabledPanels.has(targetPanel)) return;
 
     // if active panel - hide the whole tool panel
-    if (this.activePanel === targetPanel) {
-      this.activePanel = "";
-      this.toolPanelElement.classList.add('hidden');
-      this.togglePanel(targetPanel, false);
+    if (this._activePanel === targetPanel) {
+      if (hideIfActive) {
+        this._activePanel = "";
+        this.toolPanelElement.classList.add('hidden');
+        this._togglePanel(targetPanel, false);
+      }
     } else {
-      this.togglePanel(this.activePanel, false);
+      this._togglePanel(this._activePanel, false);
 
-      this.activePanel = targetPanel;
-      this.togglePanel(targetPanel, true);
+      this._activePanel = targetPanel;
+      this._togglePanel(targetPanel, true);
       this.toolPanelElement.classList.remove('hidden');
     }
 
-    await ipcSettings.set(SETTINGS_KEY, this.activePanel);
+    await ipcSettings.set(SETTINGS_KEY, this._activePanel);
   }
 
-  async togglePanel(panelId, isActive) {
+  async _togglePanel(panelId, setActive) {
     if (!panelId) return;
 
-    const buttonElement = this.querySelector(`button[rel="${panelId}"]`);
+    const buttonElement = this._getButtonForPanel(panelId);
     const panelElement = this.toolPanelElement.querySelector(`#${panelId}`);
 
     if (!buttonElement || !panelElement) {
@@ -159,7 +170,7 @@ class PanelButtons extends HTMLElement {
       return;
     }  
 
-    if (isActive) {
+    if (setActive) {
       buttonElement.classList.add('active');
       panelElement.classList.add('active');
     } else {
@@ -167,8 +178,47 @@ class PanelButtons extends HTMLElement {
       panelElement.classList.remove('active');
     }
 
-    await eventController.publishAsync(this.panelEvents[panelId], isActive);
+    await eventController.publishAsync(this.panelEvents[panelId], setActive);
   }
+
+  _getButtonForPanel(panelId) {
+    const buttonElement = this.querySelector(`button[rel="${panelId}"]`);
+    if (!buttonElement) {
+      console.log(`Button for panel "#${panelId} is not found in the DOM`);
+    }
+    return buttonElement;
+  }
+
+  get activePanel() {
+    return this._activePanel;
+  }
+
+  set activePanel(panelId) {
+    this._updatePanels(panelId, false);
+  }
+  
+  disable(panelId) {
+    const button = this._getButtonForPanel(panelId);
+    if (!button) return;
+
+    if (panelId === this._activePanel) {
+      const toSwitchButton = button.previousElementSibling || button.nextElementSibling;
+      const toSwitchPanel = toSwitchButton ? toSwitchButton.getAttribute('rel') : panelId;
+      this._updatePanels(toSwitchPanel);
+    }
+
+    button.disabled = true;
+    this._disabledPanels.add(panelId);
+  }
+
+  enable(panelId) {
+    const button = this._getButtonForPanel(panelId);
+    if (!button) return;
+
+    button.disabled = false;
+    this._disabledPanels.delete(panelId);
+  }
+
 }
 
 customElements.define('panel-buttons', PanelButtons);

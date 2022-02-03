@@ -57,6 +57,10 @@ class NavigationPane {
     eventController.subscribe('on-translation-changed', () => {
       this.updateNavigation();
     });
+
+    eventController.subscribe('on-module-search-started', (tabIndex) => {
+      this.resetNavigationPane(tabIndex);
+    });
   }
 
   getCurrentNavigationPane(tabIndex=undefined) {

@@ -87,13 +87,17 @@
 
     <div id="app-container">
       <main class="content">
+
         <div id="book-selection-menu" class="verse-selection-menu">
           <div id="book-selection-menu-book-list"></div>
           <div id="book-selection-menu-chapter-list" class="scrollable"></div>
         </div>
+
         <div id="tag-selection-menu" class="verse-selection-menu"></div>
         <div id="module-search-menu" class="module-search-menu"></div>
         <div id="display-options-menu" class="display-options-menu"></div>
+
+        <verse-context-menu id="verse-context-menu"></verse-context-menu>
         <module-assistant></module-assistant>
 
         <div id="permissions-box">
@@ -108,30 +112,70 @@
 
         <div id="verse-list-tabs"></div>
       </main>
+
       <panel-buttons id="panel-buttons">
         <button event="on-tag-panel-switched" i18n="[title]bible-browser.show-tag-list" rel="tag-panel" default="true">
           <i class="fa fa-tags"></i>
         </button>
+        <button event="on-tag-statistics-panel-switched" i18n="[title]tag-statistics-panel.default-header" rel="tag-statistics-panel" default="false">
+          <i class="fas fa-chart-line"></i>
+        </button>
         <button event="on-dictionary-panel-switched" i18n="[title]bible-browser.show-dictionary" rel="dictionary-panel" default="false">
           <i class="fa fa-book"></i>
         </button>
+        <button event="on-compare-panel-switched" i18n="[title]compare-panel.show-parallel-translations" rel="compare-panel" default="false">
+          <i class="fa fa-align-left"></i>
+        </button>
       </panel-buttons>
+
       <aside id="tool-panel">
         <section id="tag-panel"></section>
+
+        <section id="tag-statistics-panel" class="accordion-panel ui-accordion ui-widget ui-helper-reset ui-accordion-icons">
+          <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
+            <a href="#" id="tag-statistics-panel-header" i18n="[html]tag-statistics-panel.default-header"></a>
+          </h3>
+          <div id="tag-statistics-panel-wrapper" class="scrollable panel-wrapper ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+          </div>
+        </section>
+
         <section id="dictionary-panel" class="accordion-panel ui-accordion ui-widget ui-helper-reset ui-accordion-icons">
           <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
             <a href="#" id="dictionary-panel-header" i18n="[html]dictionary-panel.default-header"></a>
           </h3>
-          <div id="dictionary-panel-wrapper" class="scrollable ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+          <div id="dictionary-panel-wrapper" class="scrollable panel-wrapper ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
             <div id="dictionary-panel-help" i18n="[html]dictionary-panel.help-instruction"></div>
             <div id="dictionary-panel-breadcrumbs"></div>
             <div id="dictionary-panel-content"></div>
           </div>
         </section>
+
+        <section id="compare-panel" class="accordion-panel ui-accordion ui-widget ui-helper-reset ui-accordion-icons">
+          <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
+            <a href="#" id="compare-panel-header" i18n="[html]compare-panel.default-header"></a>
+          </h3>
+
+          <div id="compare-panel-wrapper" class="scrollable panel-wrapper ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+            <div id="compare-translations-loading-indicator">
+              <div style="float: left;" i18n="bible-browser.loading-verse-translations"></div>
+
+              <div class="loader">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+              </div>
+            </div>
+
+            <div id="compare-panel-help" i18n="[html]compare-panel.help-instruction"></div>
+
+            <div id="compare-panel-content"></div>
+          </div>
+        </section>
       </aside>
+
       <footer id="detail-panel"></footer>
-    </div>
-  </div>
+    </div> <!-- app-container -->
+  </div> <!-- main-content -->
 
 </body>
 

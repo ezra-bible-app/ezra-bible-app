@@ -1,13 +1,13 @@
 {
   "tags-toolbar": {
     "new-tag": "Нова міта",
-    "tag-statistics": "Перелік міт",
     "assign-last-tag": "Помітити",
     "configure-translations": "Переклади Біблії",
     "configure-dicts": "Словники",
-    "show-parallel-translations": "Порівняти переклади",
-    "compare": "Порівняти",
     "context": "Контекст"
+  },
+  "application-menu": {
+    "quit-app": "Quit Ezra Bible App"
   },
   "menu": {
     "book": "Книга",
@@ -252,7 +252,13 @@
     "stats-total": "Всього",
     "only-currentbook-tagged-verses": "Тільки у поточній книзі",
     "most-frequently-used": "Найчастіші",
-    "less-frequently-used": "Найрідкіші"
+    "less-frequently-used": "Найрідкіші",
+    "assign-tag-hint": "Select a verse to assign the tag",
+    "show-tagged-verses": "Show tagged verses",
+    "tag-count-selected_one": "{{count}} tag selected",
+    "tag-count-selected_other": "{{count}} tags selected",
+    "select-all-tags": "Select all",
+    "deselect-all-tags": "Deselect all"
   },
   "bible-browser": {
     "chapter": "Розділ",
@@ -295,7 +301,6 @@
     "select-chapter-before-loading": "Обирати розділ при відкритті книг",
     "use-night-mode": "Нічний режим",
     "keep-screen-on": "Тримати екран включеним",
-    "tag-statistics": "Перелік міт",
     "comparing-translations-for": "Порівняння перекладів",
     "strongs-number-not-valid": "Це не дійсне число Стронга!",
     "open-new-tab": "Відкрити нову вкладку",
@@ -317,6 +322,16 @@
     "find-all-occurrences": "Знайти всі випадки",
     "open-in-blueletter": "Відкрити у Blue Letter Bible",
     "related-strongs": "Пов'язані числа Стронга"
+  },
+  "tag-statistics-panel": {
+    "default-header": "Перелік міт",
+    "help-instruction": "Here you will see statistics of tags based on how frequently they are used in a book.<br><br> There are currently no tag assignments in this book. Once you start assigning tags, the tag statistics will refresh automatically."
+  },
+  "compare-panel": {
+    "default-header": "<b>Порівняти переклади</b>",
+    "show-parallel-translations": "Порівняти переклади",
+    "help-instruction": "To compare translations, you select one verse or a group of verses.<br><br> This area will then automatically list the selected verses from all available translations.",
+    "compare": "Порівняти"
   },
   "emoji": {
     "search": "Пошук образок...",

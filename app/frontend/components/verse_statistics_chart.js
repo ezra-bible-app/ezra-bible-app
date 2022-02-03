@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const verseListController = require('../controllers/verse_list_controller.js');
+const eventController = require('../controllers/event_controller.js');
 
 /**
  * The VerseStatisticsChart component renders a chart with verse count statistics per bible book. This is used by the ModuleSearch component.
@@ -34,6 +35,10 @@ class VerseStatisticsChart {
       purple: 'rgb(153, 102, 255)',
       grey: 'rgb(201, 203, 207)'
     };
+
+    eventController.subscribe('on-module-search-started', (tabIndex) => {
+      this.resetChart(tabIndex);
+    });
   }
 
   getVerseStatisticsChart(tabIndex=undefined) {

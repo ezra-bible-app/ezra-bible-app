@@ -1,13 +1,13 @@
 {
   "tags-toolbar": {
     "new-tag": "Nova etiqueta",
-    "tag-statistics": "Estatísticas de etiquetas",
     "assign-last-tag": "Atribuir última etiqueta",
     "configure-translations": "Configurar traduções",
     "configure-dicts": "Configurar dicionários",
-    "show-parallel-translations": "Comparar traduções",
-    "compare": "Comparar",
     "context": "Contexto"
+  },
+  "application-menu": {
+    "quit-app": "Quit Ezra Bible App"
   },
   "menu": {
     "book": "Livro",
@@ -252,7 +252,13 @@
     "stats-total": "total",
     "only-currentbook-tagged-verses": "Apenas livro atual",
     "most-frequently-used": "Utilizadas com maior frequência",
-    "less-frequently-used": "Usadas com menor frequência"
+    "less-frequently-used": "Usadas com menor frequência",
+    "assign-tag-hint": "Select a verse to assign the tag",
+    "show-tagged-verses": "Show tagged verses",
+    "tag-count-selected_one": "{{count}} tag selected",
+    "tag-count-selected_other": "{{count}} tags selected",
+    "select-all-tags": "Select all",
+    "deselect-all-tags": "Deselect all"
   },
   "bible-browser": {
     "chapter": "Capítulo",
@@ -295,7 +301,6 @@
     "select-chapter-before-loading": "Abrir livros com seleção por capítulo",
     "use-night-mode": "Modo noturno",
     "keep-screen-on": "Manter tela ativa",
-    "tag-statistics": "Estatísticas de etiquetas",
     "comparing-translations-for": "Comparando traduções para",
     "strongs-number-not-valid": "Este número de Strong não é válido!",
     "open-new-tab": "Abrir nova aba",
@@ -317,6 +322,16 @@
     "find-all-occurrences": "Encontrar todas as ocorrências",
     "open-in-blueletter": "Abrir na Bíblia Blue Letter",
     "related-strongs": "Strong's relacionados"
+  },
+  "tag-statistics-panel": {
+    "default-header": "Estatísticas de etiquetas",
+    "help-instruction": "Here you will see statistics of tags based on how frequently they are used in a book.<br><br> There are currently no tag assignments in this book. Once you start assigning tags, the tag statistics will refresh automatically."
+  },
+  "compare-panel": {
+    "default-header": "<b>Comparar traduções</b>",
+    "show-parallel-translations": "Comparar traduções",
+    "help-instruction": "To compare translations, you select one verse or a group of verses.<br><br> This area will then automatically list the selected verses from all available translations.",
+    "compare": "Comparar"
   },
   "emoji": {
     "search": "Buscar emojis...",

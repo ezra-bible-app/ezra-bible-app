@@ -26,7 +26,7 @@ require('../loading_indicator.js');
 const template = html`
 <style>
   step-modules-remove .intro {
-    margin: 0 5em 1em 5em;
+    margin: 0 5em 1em 0em;
   }
 </style>
 

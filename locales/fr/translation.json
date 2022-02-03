@@ -1,13 +1,13 @@
 {
   "tags-toolbar": {
     "new-tag": "Nouvelle étiquette",
-    "tag-statistics": "Statistiques des étiquettes",
     "assign-last-tag": "Assigner la dernière étiquette",
     "configure-translations": "Configurer des traductions",
     "configure-dicts": "Configurer des dictionnaires",
-    "show-parallel-translations": "Comparer les traductions",
-    "compare": "Comparer",
     "context": "Contexte"
+  },
+  "application-menu": {
+    "quit-app": "Quit Ezra Bible App"
   },
   "menu": {
     "book": "Livre",
@@ -262,7 +262,13 @@
     "stats-total": "total",
     "only-currentbook-tagged-verses": "Seulement le livre actuel",
     "most-frequently-used": "Le plus fréquemment utilisé",
-    "less-frequently-used": "Moins fréquemment utilisé"
+    "less-frequently-used": "Moins fréquemment utilisé",
+    "assign-tag-hint": "Select a verse to assign the tag",
+    "show-tagged-verses": "Show tagged verses",
+    "tag-count-selected_one": "{{count}} tag selected",
+    "tag-count-selected_other": "{{count}} tags selected",
+    "select-all-tags": "Select all",
+    "deselect-all-tags": "Deselect all"
   },
   "bible-browser": {
     "chapter": "Chapitre",
@@ -305,7 +311,6 @@
     "select-chapter-before-loading": "Ouvrir les livres avec sélection de chapitre",
     "use-night-mode": "Mode nuit",
     "keep-screen-on": "Garder l’écran allumé",
-    "tag-statistics": "Statistiques des étiquettes",
     "comparing-translations-for": "Comparaison des traductions pour",
     "strongs-number-not-valid": "Ceci n’est pas un nombre de Strong valide !",
     "open-new-tab": "Ouvrir un nouvel onglet",
@@ -327,6 +332,16 @@
     "find-all-occurrences": "Trouver toutes les occurrences",
     "open-in-blueletter": "Ouvrir dans la Blue Letter Bible",
     "related-strongs": "Strong associés"
+  },
+  "tag-statistics-panel": {
+    "default-header": "Statistiques des étiquettes",
+    "help-instruction": "Here you will see statistics of tags based on how frequently they are used in a book.<br><br> There are currently no tag assignments in this book. Once you start assigning tags, the tag statistics will refresh automatically."
+  },
+  "compare-panel": {
+    "default-header": "<b>Comparer les traductions</b>",
+    "show-parallel-translations": "Comparer les traductions",
+    "help-instruction": "To compare translations, you select one verse or a group of verses.<br><br> This area will then automatically list the selected verses from all available translations.",
+    "compare": "Comparer"
   },
   "emoji": {
     "search": "Rechercher des emojis...",
