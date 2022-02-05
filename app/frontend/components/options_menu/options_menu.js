@@ -86,7 +86,6 @@ class OptionsMenu {
     this.refreshViewBasedOnOptions();
 
     eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
-      await this.handleBookLoadingModeOptionChange();
       this.showOrHideSectionTitlesBasedOnOption(tabIndex);
       this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     });
