@@ -253,8 +253,8 @@ class NavigationPane {
 
     this.resetNavigationPane(tabIndex);
 
-    var chapterCount = await ipcNsi.getBookChapterCount(currentTranslation, currentBook);
-    var headerList = await ipcNsi.getBookHeaderList(currentTranslation, currentBook);
+    const chapterCount = await ipcNsi.getBookChapterCount(currentTranslation, currentBook);
+    const headerList = await ipcNsi.getBookHeaderList(currentTranslation, currentBook);
 
     var navigationHeader = document.createElement('div');
     navigationHeader.classList.add('nav-pane-header');
@@ -288,9 +288,8 @@ class NavigationPane {
 
     for (let i = 0; i < headerList.length; i++) {
       let header = headerList[i];
-      let currentChapter = header.chapter;
       
-      if (currentChapter == chapter &&
+      if (header.chapter == chapter &&
           header.subType != "x-Chapter" &&
           header.type != "chapter" &&
           header.type != "psalm" &&
@@ -303,7 +302,9 @@ class NavigationPane {
 
         let currentHeaderLink = document.createElement('a');
         currentHeaderLink.setAttribute('class', 'navigation-link header-link');
+
         let sectionHeaderLink = `javascript:app_controller.navigation_pane.goToSection('${sectionHeaderId}', ${sectionHeaderNumber}, ${chapter})`;
+
         currentHeaderLink.setAttribute('href', sectionHeaderLink);
         $(currentHeaderLink).html(sectionHeader);
         if (chapterSectionHeaderIndex == 0) {
@@ -449,11 +450,11 @@ class NavigationPane {
     );
 
     if (currentTab.getChapter() != null && !isInstantLoadingBook && chapter != previouslyHighlightedChapter) {
-      app_controller.text_controller.loadBook(currentTab.getBook(),
-                                              currentTab.getBookTitle(),
-                                              currentTab.getReferenceBookTitle(),
-                                              false,
-                                              chapter);
+      await app_controller.text_controller.loadBook(currentTab.getBook(),
+                                                    currentTab.getBookTitle(),
+                                                    currentTab.getReferenceBookTitle(),
+                                                    false,
+                                                    chapter);
     } else {
       this.scrollToTop(undefined, chapter);
     }
@@ -472,7 +473,18 @@ class NavigationPane {
     }
   }
 
-  goToSection(sectionHeaderId, sectionHeaderNumber, chapter) {
+  async goToSection(sectionHeaderId, sectionHeaderNumber, chapter) {
+    const currentTab = app_controller.tab_controller.getTab();
+    const currentChapter = currentTab.getChapter();
+    const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(
+      currentTab.getBibleTranslationId(),
+      currentTab.getBook()
+    );
+
+    if (!isInstantLoadingBook && chapter != currentChapter) {
+      await this.goToChapter(chapter);
+    }
+
     this.highlightNavElement(undefined, chapter, true);
     this.highlightNavElement(undefined, sectionHeaderNumber, true, "HEADER");
 
@@ -492,12 +504,13 @@ class NavigationPane {
     const currentBook = currentTab.getBook();
     const currentTextType = currentTab.getTextType();
     const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-    const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(bibleTranslationId, currentBook);
+
+    /*const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(bibleTranslationId, currentBook);
 
     if (currentTextType == 'book' && !isInstantLoadingBook) {
       // We do not dynamically update the navigation based on versebox mouseover if we only display one chapter anyway.
       return;
-    }
+    }*/
 
     if (verseBox == undefined) {
       verseBox = focussedElement.closest('.verse-box');
