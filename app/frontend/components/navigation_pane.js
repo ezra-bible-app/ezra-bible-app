@@ -131,14 +131,13 @@ class NavigationPane {
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
     
     if (swordModuleHelper.moduleHasHeaders(currentTranslationId)) {
-
       navigationPane.addClass('navigation-pane-headers');
     }
   }
 
   disableHeaderNavigation() {
     var navigationPane = this.getCurrentNavigationPane();
-    //navigationPane.removeClass('navigation-pane-headers');
+    navigationPane.removeClass('navigation-pane-headers');
   }
 
   highlightSectionHeaderByTitle(title) {
