@@ -481,12 +481,17 @@ class NavigationPane {
       currentTab.getBook()
     );
 
+    let scrollNavElementIntoView = true;
+    if (!isInstantLoadingBook) {
+      scrollNavElementIntoView = false;
+    }
+
     if (!isInstantLoadingBook && chapter != currentChapter) {
       await this.goToChapter(chapter);
     }
 
-    this.highlightNavElement(undefined, chapter, true);
-    this.highlightNavElement(undefined, sectionHeaderNumber, true, "HEADER");
+    this.highlightNavElement(undefined, chapter, scrollNavElementIntoView);
+    this.highlightNavElement(undefined, sectionHeaderNumber, scrollNavElementIntoView, "HEADER");
 
     var reference = '#' + sectionHeaderId;
     window.location = reference;
@@ -505,9 +510,9 @@ class NavigationPane {
     const currentTextType = currentTab.getTextType();
     const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
 
-    /*const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(bibleTranslationId, currentBook);
+    const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(bibleTranslationId, currentBook);
 
-    if (currentTextType == 'book' && !isInstantLoadingBook) {
+    /*if (currentTextType == 'book' && !isInstantLoadingBook) {
       // We do not dynamically update the navigation based on versebox mouseover if we only display one chapter anyway.
       return;
     }*/
@@ -522,7 +527,7 @@ class NavigationPane {
 
       var verseReferenceContent = verseBox.querySelector('.verse-reference-content').innerText;
       var currentChapter = this.verse_reference_helper.getChapterFromReference(verseReferenceContent, separator);
-      this.highlightNavElement(undefined, currentChapter);
+      this.highlightNavElement(undefined, currentChapter, isInstantLoadingBook);
 
       var sectionTitle = "";
       if (focussedElement.classList.contains('sword-section-title')) {
