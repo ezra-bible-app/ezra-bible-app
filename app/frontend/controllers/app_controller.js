@@ -269,8 +269,6 @@ class AppController {
     if (tabId !== undefined) {
       uiHelper.configureButtonStyles('#' + tabId);
     }
-
-    await this.navigation_pane.updateNavigation(tabIndex);
   }
 
   initGlobalShortCuts() {
