@@ -108,7 +108,7 @@ class TagsController {
     var panelButtons = document.getElementById('panel-buttons');
     var tab = app_controller.tab_controller.getTab(tabIndex);
 
-    if (panelButtons.activePanel != 'tag-panel') {
+    if (panelButtons.activePanel != "" && panelButtons.activePanel != 'tag-panel') {
       if (tab.isNew() || tab.isVerseList()) {
         panelButtons.activePanel = 'tag-panel';
       }
