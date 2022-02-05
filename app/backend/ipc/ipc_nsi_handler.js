@@ -260,6 +260,8 @@ class IpcNsiHandler {
 
         newSectionHeader['moduleCode'] = moduleCode;
         newSectionHeader['bibleBookShortTitle'] = bookCode;
+        newSectionHeader['type'] = header._attrs.type;
+        newSectionHeader['subType'] = header._attrs.subtype;
         newSectionHeader['chapter'] = header._attrs.chapter;
         newSectionHeader['verseNr'] = header._attrs.verse;
         newSectionHeader['content'] = header.firstChild._rawText;
