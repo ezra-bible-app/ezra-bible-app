@@ -35,7 +35,6 @@ class NavigationPane {
     this.verse_box_helper = new VerseBoxHelper();
     this.verse_reference_helper = new VerseReferenceHelper();
     this.verseListFrameNoChapterNavCss = 'no-chapter-nav';
-    this.headersLoaded = false;
 
     eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
       await this.updateNavigation(tabIndex);
@@ -126,33 +125,32 @@ class NavigationPane {
   }
 
   async enableHeaderNavigation(tabIndex=undefined) {
-    var navigationPane = this.getCurrentNavigationPane(tabIndex);
-    var currentTab = app_controller.tab_controller.getTab(tabIndex);
-    var currentTranslationId = currentTab.getBibleTranslationId();
+    const navigationPane = this.getCurrentNavigationPane(tabIndex);
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+    const currentTranslationId = currentTab.getBibleTranslationId();
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
     const headerNavOption = app_controller.optionsMenu._headerNavOption;
 
     if (headerNavOption.isChecked && swordModuleHelper.moduleHasHeaders(currentTranslationId)) {
-
-      if (!this.headersLoaded) {
-        await this.updateChapterNavigation(tabIndex);
-      }
-
       navigationPane.addClass('navigation-pane-headers');
+
+      if (!currentTab.headersLoaded) {
+        await this.updateNavigation(tabIndex);
+      }
     }
   }
 
   disableHeaderNavigation() {
-    var navigationPane = this.getCurrentNavigationPane();
+    const navigationPane = this.getCurrentNavigationPane();
     navigationPane.removeClass('navigation-pane-headers');
   }
 
   highlightSectionHeaderByTitle(title) {
     this.currentNavigationPane = this.getCurrentNavigationPane();
 
-    var allHeaderLinks = this.currentNavigationPane[0].querySelectorAll('.header-link');
+    const allHeaderLinks = this.currentNavigationPane[0].querySelectorAll('.header-link');
     for (var i = 0; i < allHeaderLinks.length; i++) {
-      var currentTitle = allHeaderLinks[i].innerText;
+      const currentTitle = allHeaderLinks[i].innerText;
 
       if (currentTitle == title) {
         this.highlightNavElement(undefined, i + 1, false, "HEADER");
@@ -273,6 +271,10 @@ class NavigationPane {
     var cachedVerseListTabId = this.getCachedVerseListTabId(tabIndex);
     var sectionHeaderNumber = 1;
 
+    if (headerNavOption.isChecked && headerCount > 0) {
+      currentTab.headersLoaded = true;
+    }
+
     for (let i = 1; i <= chapterCount; i++) {
       var href = `javascript:app_controller.navigation_pane.goToChapter(${i})`;
       var chapterLinkHtml = `<a href='${href}' class='navigation-link chapter-link'>${i}</a>`;
@@ -281,10 +283,6 @@ class NavigationPane {
       if (cachedVerseListTabId != null && headerNavOption.isChecked && headerCount > 0) {
         sectionHeaderNumber = this.addHeaderNavLinksForChapter(cachedVerseListTabId, $navigationPane, headerList, i, sectionHeaderNumber);
       }
-    }
-
-    if (headerNavOption.isChecked && headerCount > 0) {
-      this.headersLoaded = true;
     }
   }
 
@@ -363,8 +361,10 @@ class NavigationPane {
   }
 
   clearNavigationPane() {
+    var currentTab = app_controller.tab_controller.getTab();
+
     if (this.currentNavigationPane != null && this.currentNavigationPane[0].childNodes.length >= 1) {
-      this.headersLoaded = false;
+      currentTab.headersLoaded = false;
       this.currentNavigationPane[0].innerHTML = "";
       app_controller.tab_controller.clearLastHighlightedNavElementIndex();
     }
@@ -518,17 +518,11 @@ class NavigationPane {
   }
 
   async updateNavigationFromVerseBox(focussedElement, verseBox=undefined) {
-    var currentTab = app_controller.tab_controller.getTab();
+    const currentTab = app_controller.tab_controller.getTab();
     const currentBook = currentTab.getBook();
     const currentTextType = currentTab.getTextType();
     const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
-
     const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(bibleTranslationId, currentBook);
-
-    /*if (currentTextType == 'book' && !isInstantLoadingBook) {
-      // We do not dynamically update the navigation based on versebox mouseover if we only display one chapter anyway.
-      return;
-    }*/
 
     if (verseBox == undefined) {
       verseBox = focussedElement.closest('.verse-box');
@@ -566,7 +560,6 @@ class NavigationPane {
   }
 
   async onTabSearchResultsAvailable(occurrences) {
-
     var currentVerseListFrame = verseListController.getCurrentVerseListFrame();
     var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
 
@@ -574,7 +567,7 @@ class NavigationPane {
     var separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
 
     // Highlight occurrences in navigation pane
-    for (var i = 0; i < occurrences.length; i++) {
+    for (let i = 0; i < occurrences.length; i++) {
       var currentOccurrences = $(occurrences[i]);
       var verseBox = currentOccurrences.closest('.verse-box');
       var currentTab = app_controller.tab_controller.getTab();

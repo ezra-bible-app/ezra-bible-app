@@ -46,6 +46,7 @@ class Tab {
     this.cachedText = null;
     this.cachedReferenceVerse = null;
     this.location = null;
+    this.headersLoaded = false;
   }
 
   isValid() {
