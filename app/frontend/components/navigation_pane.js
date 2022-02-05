@@ -98,7 +98,7 @@ class NavigationPane {
       const swordModuleHelper = require('../helpers/sword_module_helper.js');
       var hasHeaders = await swordModuleHelper.moduleHasHeaders(currentTranslationId);
 
-      if (headerNavOption.isChecked && hasHeaders) {
+      if (/*headerNavOption.isChecked &&*/ hasHeaders) {
         
         navigationPane.removeClass('navigation-pane-chapters');
         navigationPane.addClass('navigation-pane-headers');
@@ -138,7 +138,7 @@ class NavigationPane {
 
   disableHeaderNavigation() {
     var navigationPane = this.getCurrentNavigationPane();
-    navigationPane.removeClass('navigation-pane-headers');
+    //navigationPane.removeClass('navigation-pane-headers');
   }
 
   highlightSectionHeaderByTitle(title) {
@@ -254,10 +254,7 @@ class NavigationPane {
     this.resetNavigationPane(tabIndex);
 
     var chapterCount = await ipcNsi.getBookChapterCount(currentTranslation, currentBook);
-    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
-
-    var query = '.sword-section-title:not([subtype="x-Chapter"]):not([type="chapter"]):not([type="psalm"]):not([type="scope"]):not([type="acrostic"])';
-    var sectionTitleElements = currentVerseList.find(query);
+    var headerList = await ipcNsi.getBookHeaderList(currentTranslation, currentBook);
 
     var navigationHeader = document.createElement('div');
     navigationHeader.classList.add('nav-pane-header');
@@ -274,7 +271,7 @@ class NavigationPane {
       $navigationPane.append(chapterLinkHtml);
 
       if (cachedVerseListTabId != null) {
-        sectionHeaderNumber = this.addHeaderNavLinksForChapter(cachedVerseListTabId, $navigationPane, sectionTitleElements, i, sectionHeaderNumber);
+        sectionHeaderNumber = this.addHeaderNavLinksForChapter(cachedVerseListTabId, $navigationPane, headerList, i, sectionHeaderNumber);
       }
     }
   }
@@ -286,26 +283,27 @@ class NavigationPane {
     return unixSectionHeaderId;
   }
 
-  addHeaderNavLinksForChapter(cachedVerseListTabId, navigationPane, sectionTitleElements, chapter, sectionHeaderNumber=1) {
+  addHeaderNavLinksForChapter(cachedVerseListTabId, navigationPane, headerList, chapter, sectionHeaderNumber=1) {
     var chapterSectionHeaderIndex = 0;
 
-    for (var i = 0; i < sectionTitleElements.length; i++) {
-      var sectionTitleElement = sectionTitleElements[i];
-      var currentChapter = null;
+    for (let i = 0; i < headerList.length; i++) {
+      let header = headerList[i];
+      let currentChapter = header.chapter;
       
-      try {
-        currentChapter = parseInt(sectionTitleElement.getAttribute('chapter'));
-      // eslint-disable-next-line no-empty
-      } catch (exc) {}
+      if (currentChapter == chapter &&
+          header.subType != "x-Chapter" &&
+          header.type != "chapter" &&
+          header.type != "psalm" &&
+          header.type != "scope" &&
+          header.type != "acrostic") {
 
-      if (currentChapter != null && currentChapter == chapter) {
-        var sectionHeader = sectionTitleElement.textContent;
-        chapter = sectionTitleElement.getAttribute('chapter');
-        var sectionHeaderId = this.getUnixSectionHeaderId(cachedVerseListTabId, chapter, sectionHeader);
+        let sectionHeader = header.content;
+        chapter = header.chapter;
+        let sectionHeaderId = this.getUnixSectionHeaderId(cachedVerseListTabId, chapter, sectionHeader);
 
-        var currentHeaderLink = document.createElement('a');
+        let currentHeaderLink = document.createElement('a');
         currentHeaderLink.setAttribute('class', 'navigation-link header-link');
-        var sectionHeaderLink = `javascript:app_controller.navigation_pane.goToSection('${sectionHeaderId}', ${sectionHeaderNumber}, ${chapter})`;
+        let sectionHeaderLink = `javascript:app_controller.navigation_pane.goToSection('${sectionHeaderId}', ${sectionHeaderNumber}, ${chapter})`;
         currentHeaderLink.setAttribute('href', sectionHeaderLink);
         $(currentHeaderLink).html(sectionHeader);
         if (chapterSectionHeaderIndex == 0) {
