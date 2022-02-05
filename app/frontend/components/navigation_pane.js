@@ -35,6 +35,7 @@ class NavigationPane {
     this.verse_box_helper = new VerseBoxHelper();
     this.verse_reference_helper = new VerseReferenceHelper();
     this.verseListFrameNoChapterNavCss = 'no-chapter-nav';
+    this.headersLoaded = false;
 
     eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
       await this.updateNavigation(tabIndex);
@@ -98,7 +99,7 @@ class NavigationPane {
       const swordModuleHelper = require('../helpers/sword_module_helper.js');
       var hasHeaders = await swordModuleHelper.moduleHasHeaders(currentTranslationId);
 
-      if (/*headerNavOption.isChecked &&*/ hasHeaders) {
+      if (headerNavOption.isChecked && hasHeaders) {
         
         navigationPane.removeClass('navigation-pane-chapters');
         navigationPane.addClass('navigation-pane-headers');
@@ -124,13 +125,19 @@ class NavigationPane {
     navigationPane.bind('mouseover', app_controller.verse_context_controller.hide_verse_expand_box);
   }
 
-  enableHeaderNavigation(tabIndex=undefined) {
+  async enableHeaderNavigation(tabIndex=undefined) {
     var navigationPane = this.getCurrentNavigationPane(tabIndex);
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentTranslationId = currentTab.getBibleTranslationId();
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
-    
-    if (swordModuleHelper.moduleHasHeaders(currentTranslationId)) {
+    const headerNavOption = app_controller.optionsMenu._headerNavOption;
+
+    if (headerNavOption.isChecked && swordModuleHelper.moduleHasHeaders(currentTranslationId)) {
+
+      if (!this.headersLoaded) {
+        await this.updateChapterNavigation(tabIndex);
+      }
+
       navigationPane.addClass('navigation-pane-headers');
     }
   }
@@ -237,14 +244,15 @@ class NavigationPane {
   // FIXME: This function is slow with long lists of chapters. It can be optimized by using the vanilla js append function.
   async updateChapterNavigation(tabIndex) {
     var $navigationPane = this.getCurrentNavigationPane(tabIndex);
-    var currentTab = app_controller.tab_controller.getTab(tabIndex);
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     if (currentTab == null) {
       return;
     }
 
-    var currentTranslation = currentTab.getBibleTranslationId();
-    var currentBook = currentTab.getBook();
+    const currentTranslation = currentTab.getBibleTranslationId();
+    const currentBook = currentTab.getBook();
+    const headerNavOption = app_controller.optionsMenu._headerNavOption;
 
     if (currentTranslation == null || currentBook == null || currentTab.isBookUnchanged()) {
       return;
@@ -254,6 +262,7 @@ class NavigationPane {
 
     const chapterCount = await ipcNsi.getBookChapterCount(currentTranslation, currentBook);
     const headerList = await ipcNsi.getBookHeaderList(currentTranslation, currentBook);
+    const headerCount = headerList.length;
 
     var navigationHeader = document.createElement('div');
     navigationHeader.classList.add('nav-pane-header');
@@ -269,9 +278,13 @@ class NavigationPane {
       var chapterLinkHtml = `<a href='${href}' class='navigation-link chapter-link'>${i}</a>`;
       $navigationPane.append(chapterLinkHtml);
 
-      if (cachedVerseListTabId != null) {
+      if (cachedVerseListTabId != null && headerNavOption.isChecked && headerCount > 0) {
         sectionHeaderNumber = this.addHeaderNavLinksForChapter(cachedVerseListTabId, $navigationPane, headerList, i, sectionHeaderNumber);
       }
+    }
+
+    if (headerNavOption.isChecked && headerCount > 0) {
+      this.headersLoaded = true;
     }
   }
 
@@ -351,6 +364,7 @@ class NavigationPane {
 
   clearNavigationPane() {
     if (this.currentNavigationPane != null && this.currentNavigationPane[0].childNodes.length >= 1) {
+      this.headersLoaded = false;
       this.currentNavigationPane[0].innerHTML = "";
       app_controller.tab_controller.clearLastHighlightedNavElementIndex();
     }
