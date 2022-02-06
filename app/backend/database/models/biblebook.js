@@ -82,7 +82,23 @@ global.bookMap = {
   "2John"  : 63,
   "3John"  : 64,
   "Jude"   : 65,
-  "Rev"    : 66 
+  "Rev"    : 66,
+  "Tob"    : 67,
+  "Wis"    : 68,
+  "Jdt"    : 69,
+  "Sir"    : 70,
+  "Bar"    : 71,
+  "1Macc"  : 72,
+  "2Macc"  : 73,
+  "AddEsth": 74,
+  "PrAzar" : 75,
+  "Sus"    : 76,
+  "Bel"    : 77,
+  "1Esd"   : 78,
+  "2Esd"   : 79,
+  "PrMan"  : 80,
+  "AddPs"  : 81,
+  "EpLao"  : 82
 };
 
 global.bible_books = [
@@ -217,7 +233,33 @@ global.bible_books = [
   { long_title : 'Jude',
     short_title : "Jude" },
   { long_title : 'Revelation of John',
-    short_title : "Rev" }
+    short_title : "Rev" },
+  { long_title : 'Tobit',
+    short_title : 'Tob' },
+  { long_title : 'Wisdom',
+    short_title : 'Wis' },
+  { long_title : 'Judith',
+    short_title : 'Jdt' },
+  { long_title : 'Sirach',
+    short_title : 'Sir' },
+  { long_title : 'Baruch',
+    short_title : 'Bar' },
+  { long_title : 'I Maccabees',
+    short_title : '1Macc' },
+  { long_title : 'II Maccabees',
+    short_title : '2Macc' },
+  { long_title : 'Esther with additions',
+    short_title : 'AddEsth' },
+  { long_title : 'I Esdras',
+    short_title : '1Esd' },
+  { long_title : 'II Esdras',
+    short_title : '2Esd' },
+  { long_title : 'Prayer of Manasseh',
+    short_title : 'PrMan' },
+  { long_title : 'Psalm 151',
+    short_title : 'AddPs' },
+  { long_title : 'Laodiceans',
+    short_title : 'EpLao' }
 ];
 
 const otBooks = [ "Gen", "Exod", "Lev", "Num", "Deut", "Josh", "Judg", "Ruth", "1Sam", "2Sam", "1Kgs", "2Kgs",
@@ -228,6 +270,8 @@ const otBooks = [ "Gen", "Exod", "Lev", "Num", "Deut", "Josh", "Judg", "Ruth", "
 const ntBooks = [ "Matt", "Mark", "Luke", "John", "Acts", "Rom", "1Cor", "2Cor", "Gal", "Eph", "Phil", "Col",
                   "1Thess", "2Thess", "1Tim", "2Tim", "Titus", "Phlm", "Heb", "Jas", "1Pet", "2Pet",
                   "1John", "2John", "3John", "Jude", "Rev" ];
+
+const apocryphalBooks = [ "Tob", "Wis", "Jdt", "Sir", "Bar", "1Macc", "2Macc", "AddEsth", "1Esd", "2Esd", "PrMan", "AddPs", "EpLao" ];
 
 'use strict';
 
@@ -378,6 +422,10 @@ module.exports = (sequelize, DataTypes) => {
 
   BibleBook.isOtBook = function(bookCode) {
     return otBooks.includes(bookCode);
+  };
+
+  BibleBook.isApocryphalBook = function(bookCode) {
+    return apocryphalBooks.includes(bookCode);
   };
 
   return BibleBook;
