@@ -762,10 +762,6 @@ main.content {
   border-top: 1px solid lightgray;
 }
 
-.book-1Esd, .book-2Esd, .book-PrMan, .book-AddPs, .book-EpLao {
-  grid-column-start: 4;
-}
-
 .nt-books {
   grid-template-rows: repeat(8, 1fr);
 }
@@ -795,7 +791,7 @@ main.content {
   .ot-books {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(14, 1fr);
-    flex-basis: 55%;
+    flex-basis: 53%;
   }
 
   .apocryphal-books {
@@ -803,14 +799,6 @@ main.content {
     grid-template-rows: repeat(8, 1fr);
     border-left: 1px solid lightgray;
     border-top: none;
-  }
-
-  .filler {
-    display: none;
-  }
-
-  .book-1Esd, .book-2Esd, .book-PrMan, .book-AddPs, .book-EpLao {
-    grid-column-start: auto;
   }
 
   .nt-books {
@@ -984,6 +972,10 @@ li.book-unavailable a:focus,
 .darkmode--activated li.book-unavailable a:visited,
 .darkmode--activated li.book-unavailable a:focus {
   color: grey;
+}
+
+.apocryphal-books li.book-unavailable {
+  display: none;
 }
 
 .book-list-column li.book-available a:hover,
