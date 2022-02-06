@@ -19,6 +19,7 @@
 const eventController = require('../controllers/event_controller.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 const cacheController = require('../controllers/cache_controller.js');
+const swordModuleHelper = require('../helpers/sword_module_helper.js');
 
 /**
  * The BookSelectionMenu component implements all event handling for the book selection menu.
@@ -135,26 +136,36 @@ class BookSelectionMenu {
         currentBibleTranslationId = moduleCode;
       }
 
+      var moduleHasApocryphalBooks = await swordModuleHelper.moduleHasApocryphalBooks(currentBibleTranslationId);
+
       if (currentBibleTranslationId != null) {
         const books = await ipcNsi.getBookList(currentBibleTranslationId);
-        let book_links = document.getElementById('book-selection-menu-book-list').querySelectorAll('li');
+        let bookLinks = document.getElementById('book-selection-menu-book-list').querySelectorAll('li');
 
-        for (let i = 0; i < book_links.length; i++) {
-          let current_book_link = book_links[i];
+        for (let i = 0; i < bookLinks.length; i++) {
+          let currentBookLink = bookLinks[i];
 
-          if (current_book_link.getAttribute('class') != null) {
-            let current_link_book = current_book_link.getAttribute('class').split(' ')[0];
-            let current_book_id = current_link_book.split('-')[1];
-            
-            if (books.includes(current_book_id)) {
-              current_book_link.classList.remove('book-unavailable');
-              current_book_link.classList.add('book-available');
+          if (currentBookLink.getAttribute('class') != null) {
+            let currentBook = currentBookLink.getAttribute('class').split(' ')[0];
+            let currentBookId = currentBook.split('-')[1];
+
+            if (books.includes(currentBookId)) {
+              currentBookLink.classList.remove('book-unavailable');
+              currentBookLink.classList.add('book-available');
             } else {
-              current_book_link.classList.add('book-unavailable');
-              current_book_link.classList.remove('book-available');
+              currentBookLink.classList.add('book-unavailable');
+              currentBookLink.classList.remove('book-available');
             }
           }
         }
+      }
+
+      let apocryphalBookList = document.getElementsByClassName('apocryphal-books')[0];
+
+      if (moduleHasApocryphalBooks) {
+        apocryphalBookList.style.display = '';
+      } else {
+        apocryphalBookList.style.display = 'none';
       }
     }
   }

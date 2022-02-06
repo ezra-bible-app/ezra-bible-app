@@ -176,6 +176,21 @@ module.exports.moduleHasHeaders = async function(moduleId) {
   }
 };
 
+module.exports.moduleHasApocryphalBooks = async function(moduleId) {
+  const books = await ipcNsi.getBookList(moduleId);
+
+  for (let i = 0; i < books.length; i++) {
+    let bookId = books[i];
+    let isApocryphal = await ipcDb.isApocryphalBook(bookId);
+
+    if (isApocryphal) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
 module.exports.getVersification = async function(moduleId) {
   if (moduleId == null) {
     return null;
