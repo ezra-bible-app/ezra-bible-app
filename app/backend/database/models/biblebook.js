@@ -248,7 +248,7 @@ global.bible_books = [
     short_title : '1Macc' },
   { long_title : 'II Maccabees',
     short_title : '2Macc' },
-  { long_title : 'Esther with additions',
+  { long_title : 'Additions to Esther',
     short_title : 'AddEsth' },
   { long_title : 'Prayer of Azariah',
     short_title : 'PrAzar' },

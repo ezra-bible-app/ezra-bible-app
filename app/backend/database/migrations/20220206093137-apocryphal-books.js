@@ -10,7 +10,7 @@ module.exports = {
       { id: 71,  number: 71,  shortTitle: 'Bar',    longTitle: 'Baruch'                },
       { id: 72,  number: 72,  shortTitle: '1Macc',  longTitle: 'I Maccabees'           },
       { id: 73,  number: 73,  shortTitle: '2Macc',  longTitle: 'II Maccabees'          },
-      { id: 74,  number: 74,  shortTitle: 'AddEsth',longTitle: 'Esther with additions' },
+      { id: 74,  number: 74,  shortTitle: 'AddEsth',longTitle: 'Additions to Esther'   },
       { id: 75,  number: 75,  shortTitle: 'PrAzar', longTitle: 'Prayer of Azariah'     },
       { id: 76,  number: 76,  shortTitle: 'Sus',    longTitle: 'Susanna'               },
       { id: 77,  number: 77,  shortTitle: 'Bel',    longTitle: 'Bel and the Dragon'    },
