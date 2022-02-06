@@ -16,8 +16,8 @@ module.exports = {
       { id: 77,  number: 77,  shortTitle: 'Bel',    longTitle: 'Bel and the Dragon'    },
       { id: 78,  number: 78,  shortTitle: '1Esd',   longTitle: 'I Esdras'              },
       { id: 79,  number: 79,  shortTitle: '2Esd',   longTitle: 'II Esdras'             },
-      { id: 80,  number: 80,  shortTitle: 'PrMan',  longTitle: 'Prayer of Manasseh'    },
-      { id: 81,  number: 81,  shortTitle: 'AddPs',  longTitle: 'Psalm 151'             },
+      { id: 80,  number: 80,  shortTitle: 'PrMan',  longTitle: 'Prayer of Manasses'    },
+      { id: 81,  number: 81,  shortTitle: 'AddPs',  longTitle: 'Additional Psalm'      },
       { id: 82,  number: 82,  shortTitle: 'EpLao',  longTitle: 'Laodiceans'            }
     ]);
   },

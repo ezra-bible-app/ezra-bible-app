@@ -260,9 +260,9 @@ global.bible_books = [
     short_title : '1Esd' },
   { long_title : 'II Esdras',
     short_title : '2Esd' },
-  { long_title : 'Prayer of Manasseh',
+  { long_title : 'Prayer of Manasses',
     short_title : 'PrMan' },
-  { long_title : 'Psalm 151',
+  { long_title : 'Additional Psalm',
     short_title : 'AddPs' },
   { long_title : 'Laodiceans',
     short_title : 'EpLao' }
