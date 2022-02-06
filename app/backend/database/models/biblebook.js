@@ -250,6 +250,12 @@ global.bible_books = [
     short_title : '2Macc' },
   { long_title : 'Esther with additions',
     short_title : 'AddEsth' },
+  { long_title : 'Prayer of Azariah',
+    short_title : 'PrAzar' },
+  { long_title : 'Susanna',
+    short_title : 'Sus' },
+  { long_title : 'Bel and the Dragon',
+    short_title : 'Bel' },
   { long_title : 'I Esdras',
     short_title : '1Esd' },
   { long_title : 'II Esdras',
@@ -271,7 +277,8 @@ const ntBooks = [ "Matt", "Mark", "Luke", "John", "Acts", "Rom", "1Cor", "2Cor",
                   "1Thess", "2Thess", "1Tim", "2Tim", "Titus", "Phlm", "Heb", "Jas", "1Pet", "2Pet",
                   "1John", "2John", "3John", "Jude", "Rev" ];
 
-const apocryphalBooks = [ "Tob", "Wis", "Jdt", "Sir", "Bar", "1Macc", "2Macc", "AddEsth", "1Esd", "2Esd", "PrMan", "AddPs", "EpLao" ];
+const apocryphalBooks = [ "Tob", "Wis", "Jdt", "Sir", "Bar", "1Macc", "2Macc", "AddEsth",
+                          "PrAzar", "Sus", "Bel", "1Esd", "2Esd", "PrMan", "AddPs", "EpLao" ];
 
 'use strict';
 
