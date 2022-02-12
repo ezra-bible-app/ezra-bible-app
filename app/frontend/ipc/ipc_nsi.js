@@ -202,6 +202,11 @@ class IpcNsi {
     return returnValue;
   }
 
+  async moduleHasApocryphalBooks(moduleCode) {
+    var returnValue = this._ipcRenderer.call('nsi_moduleHasApocryphalBooks', moduleCode);
+    return returnValue;
+  }
+
   async getModuleBookStatus(bookCode) {
     return await this._moduleBookStatusCache.fetch(async () => {
       return await this._ipcRenderer.call('nsi_getModuleBookStatus', bookCode);
