@@ -43,6 +43,18 @@ class TextController {
     this.verseReferenceHelper = new VerseReferenceHelper(ipcNsi);
   }
 
+  async bookHasHeadings(swordModule, bibleTranslationId, book) {
+    var hasHeadings = swordModule.hasHeadings;
+    if (hasHeadings) {
+      const headerList = await ipcNsi.getBookHeaderList(bibleTranslationId, book);
+      if (headerList.length == 0) {
+        hasHeadings = false;
+      }
+    }
+
+    return hasHeadings;
+  }
+
   async loadBook(bookCode, bookTitle, referenceBookTitle, instantLoad = true, chapter = undefined) {
     app_controller.book_selection_menu.hideBookMenu();
     app_controller.book_selection_menu.highlightSelectedBookInMenu(bookCode);
@@ -321,10 +333,14 @@ class TextController {
     var verseTags = await ipcDb.getBookVerseTags(bibleBook.id, versification);
     var verseNotes = await ipcDb.getVerseNotesByBook(bibleBook.id, versification);
     var bookIntroduction = null;
+    var bookHasHeadings = false;
+    if (localSwordModule != null) {
+      bookHasHeadings = await this.bookHasHeadings(localSwordModule, currentBibleTranslationId, bookShortTitle);
+    }
 
     if (startVerseNumber == 1) { // Only load book introduction if starting with verse 1
       try {
-        if (localSwordModule != null && localSwordModule.hasHeadings) {
+        if (bookHasHeadings) {
           bookIntroduction = await ipcNsi.getBookIntroduction(currentBibleTranslationId, bookShortTitle);
 
           var sanitizeHtml = require('sanitize-html');
@@ -356,7 +372,7 @@ class TextController {
         renderVerseMetaInfo: true,
         renderBibleBookHeaders: false,
         // only render chapter headers with the full book requested
-        renderChapterHeaders: isInstantLoadingBook && !localSwordModule.hasHeadings,
+        renderChapterHeaders: isInstantLoadingBook && !bookHasHeadings,
         renderBookNotes: (startVerseNumber == 1),
         bookIntroduction: bookIntroduction,
         bookNotes: bookNotes,
