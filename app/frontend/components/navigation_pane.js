@@ -96,16 +96,9 @@ class NavigationPane {
       navigationPane.removeClass('navigation-pane-books');
 
       const swordModuleHelper = require('../helpers/sword_module_helper.js');
-      var hasHeaders = await swordModuleHelper.moduleHasHeaders(currentTranslationId);
-      
-      if (hasHeaders) {
-        const headerList = await ipcNsi.getBookHeaderList(currentTranslationId, currentBook);
-        if (headerList.length == 0) {
-          hasHeaders = false;
-        }
-      }
+      var bookHasHeaders = await swordModuleHelper.bookHasHeaders(currentTranslationId, currentBook);
 
-      if (headerNavOption.isChecked && hasHeaders) {
+      if (headerNavOption.isChecked && bookHasHeaders) {
         
         navigationPane.removeClass('navigation-pane-chapters');
         navigationPane.addClass('navigation-pane-headers');
