@@ -128,10 +128,13 @@ class NavigationPane {
     const navigationPane = this.getCurrentNavigationPane(tabIndex);
     const currentTab = app_controller.tab_controller.getTab(tabIndex);
     const currentTranslationId = currentTab.getBibleTranslationId();
-    const swordModuleHelper = require('../helpers/sword_module_helper.js');
+    const currentBook = currentTab.getBook();
     const headerNavOption = app_controller.optionsMenu._headerNavOption;
 
-    if (headerNavOption.isChecked && swordModuleHelper.moduleHasHeaders(currentTranslationId)) {
+    const swordModuleHelper = require('../helpers/sword_module_helper.js');
+    const hasHeaders = await swordModuleHelper.bookHasHeaders(currentTranslationId, currentBook);
+
+    if (headerNavOption.isChecked && hasHeaders) {
       navigationPane.addClass('navigation-pane-headers');
 
       if (!currentTab.headersLoaded) {

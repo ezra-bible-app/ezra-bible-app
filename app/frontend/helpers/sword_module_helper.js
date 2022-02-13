@@ -166,24 +166,17 @@ module.exports.moduleHasStrongs = async function(moduleId) {
   }
 };
 
-module.exports.moduleHasHeaders = async function(moduleId) {
+module.exports.bookHasHeaders = async function(moduleId, book) {
+  var hasHeaders = false;
   var swordModule = await this.getSwordModule(moduleId);
 
   if (swordModule != null) {
-    return swordModule.hasHeadings;
-  } else {
-    return false;
-  }
-};
-
-module.exports.bookHasHeaders = async function(moduleId, book) {
-  var swordModule = await this.getSwordModule(moduleId);
-
-  var hasHeaders = swordModule.hasHeadings;
-  if (hasHeaders) {
-    const headerList = await ipcNsi.getBookHeaderList(moduleId, book);
-    if (headerList.length == 0) {
-      hasHeaders = false;
+    hasHeaders = swordModule.hasHeadings;
+    if (hasHeaders) {
+      const headerList = await ipcNsi.getBookHeaderList(moduleId, book);
+      if (headerList.length == 0) {
+        hasHeaders = false;
+      }
     }
   }
 
