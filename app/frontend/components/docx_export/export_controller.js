@@ -24,19 +24,20 @@ const docxController = require('./docx_controller.js');
  * @category Controller
  */
 
-module.exports.saveWordDocument = async function (title, verses, bibleBooks=undefined, notes={}) {
-  if (!window.exportFilePath) {
+module.exports.saveWordDocument = async function (exportFilePath, title, verses, bibleBooks=undefined, notes={}) {
+  if (!exportFilePath) {
     console.log('Export error: exportFilePath is not defined with showSaveDialog()');
+    return;
   }
 
   const buffer = await docxController.generateDocument(title, verses, bibleBooks, notes);
 
-  console.log("Saving word document " + window.exportFilePath);
+  console.log("Saving word document " + exportFilePath);
 
 
   const fs = require('fs/promises');
-  await fs.writeFile(window.exportFilePath, buffer);
+  await fs.writeFile(exportFilePath, buffer);
 
   const shell = require('electron').shell;
-  shell.openPath(window.exportFilePath);
+  shell.openPath(exportFilePath);
 };
