@@ -81,21 +81,20 @@ class DocxExport {
     
     var dialogTitle = i18n.t("tags.export-tagged-verse-list");
 
-    exportHelper.showSaveDialog(fileName, 'docx', dialogTitle).then(filePath => {
-      if (filePath) {
-        if (type === 'TAGS') {
-          renderCurrentTagsForExport(currentTab);
-        } else if (type === 'NOTES') {
-          renderNotesForExport(currentTab, isInstantLoadingBook);
-        }
+    const filePath = await exportHelper.showSaveDialog(fileName, 'docx', dialogTitle);
+    if (filePath) {
+      if (type === 'TAGS') {
+        renderCurrentTagsForExport(currentTab, filePath);
+      } else if (type === 'NOTES') {
+        renderNotesForExport(currentTab, isInstantLoadingBook, filePath);
       }
-    });
+    }
   }
 }
 
 module.exports = DocxExport;
 
-function renderCurrentTagsForExport(currentTab) {
+function renderCurrentTagsForExport(currentTab, filePath) {
   const currentTagIdList = currentTab.getTagIdList();
   
   const currentTagTitleList = currentTab.getTagTitleList();
@@ -106,21 +105,21 @@ function renderCurrentTagsForExport(currentTab) {
     null,
     currentTagIdList,
     (verses, bibleBooks) => { 
-      exportController.saveWordDocument(title, verses, bibleBooks); 
+      exportController.saveWordDocument(filePath, title, verses, bibleBooks); 
     },
     'docx',
     false
   );
 }
 
-function renderNotesForExport(currentTab, isWholeBook=false) {
+function renderNotesForExport(currentTab, isWholeBook, filePath) {
   app_controller.text_controller.requestNotesForExport(
     undefined,
     currentTab.getBook(),
     isWholeBook ? null : currentTab.getChapter(),
     (verses, notes) => {
       const title = currentTab.getBookTitle() + (isWholeBook ? '' : ` ${currentTab.getChapter()}`);
-      exportController.saveWordDocument(title, verses, undefined, notes);
+      exportController.saveWordDocument(filePath, title, verses, undefined, notes);
     },
     'docx'
   );
