@@ -16,8 +16,6 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-var exportFilePath;
-
 module.exports.showSaveDialog = async function (fileLabel, fileExtension=undefined, dialogTitle=undefined) {
   if (platformHelper.isCordova()) return null; //TODO: figure out the way to save files in Cordova
 
@@ -25,7 +23,7 @@ module.exports.showSaveDialog = async function (fileLabel, fileExtension=undefin
   var dialogOptions = getExportDialogOptions(fileLabel, fileExtension, dialogTitle);
 
   return dialog.showSaveDialog(null, dialogOptions).then(result => {
-    exportFilePath = result.filePath;
+    const exportFilePath = result.filePath;
 
     if (!result.canceled && exportFilePath != undefined) {
       return exportFilePath;

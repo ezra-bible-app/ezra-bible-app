@@ -137,6 +137,7 @@ class TabController {
       var copiedMetaTab = Object.assign({}, this.metaTabs[i]);
       copiedMetaTab.cachedText = this.getTabHtml(i);
       copiedMetaTab.previousBook = null;
+      copiedMetaTab.headersLoaded = false;
 
       if (copiedMetaTab.referenceVerseElementId != null) {
         copiedMetaTab.cachedReferenceVerse = this.getReferenceVerseHtml(i);
