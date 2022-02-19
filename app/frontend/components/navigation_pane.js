@@ -138,7 +138,7 @@ class NavigationPane {
       navigationPane.addClass('navigation-pane-headers');
 
       if (!currentTab.headersLoaded) {
-        await this.updateNavigation(tabIndex);
+        await this.updateNavigation(tabIndex, true);
       }
     }
   }
@@ -243,7 +243,7 @@ class NavigationPane {
   }
 
   // FIXME: This function is slow with long lists of chapters. It can be optimized by using the vanilla js append function.
-  async updateChapterNavigation(tabIndex) {
+  async updateChapterNavigation(tabIndex, force=false) {
     var $navigationPane = this.getCurrentNavigationPane(tabIndex);
     const currentTab = app_controller.tab_controller.getTab(tabIndex);
 
@@ -255,8 +255,10 @@ class NavigationPane {
     const currentBook = currentTab.getBook();
     const headerNavOption = app_controller.optionsMenu._headerNavOption;
 
-    if (currentTranslation == null || currentBook == null || currentTab.isBookUnchanged()) {
-      return;
+    if (!force) {
+      if (currentTranslation == null || currentBook == null || currentTab.isBookUnchanged()) {
+        return;
+      }
     }
 
     this.resetNavigationPane(tabIndex);
@@ -373,7 +375,7 @@ class NavigationPane {
     }
   }
 
-  async updateNavigation(tabIndex=undefined) {
+  async updateNavigation(tabIndex=undefined, force=false) {
     if (tabIndex === undefined) {
       tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     }
@@ -397,7 +399,7 @@ class NavigationPane {
 
     if (currentTextType == 'book') { // Update navigation based on book chapters
 
-      await this.updateChapterNavigation(tabIndex);
+      await this.updateChapterNavigation(tabIndex, force);
 
       const currentTranslationId = currentTab.getBibleTranslationId();
       const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentTab.getBook());
