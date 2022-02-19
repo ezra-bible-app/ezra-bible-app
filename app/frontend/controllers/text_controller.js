@@ -509,7 +509,13 @@ class TextController {
 
     for (var i = 0; i < verseReferences.length; i++) {
       var currentVerseReference = verseReferences[i];
-      verseReferenceIds.push(currentVerseReference.id);
+
+      if (!verseReferenceIds.includes(currentVerseReference.id)) {
+        verseReferenceIds.push(currentVerseReference.id);
+      } else {
+        // Avoid double listing of verses
+        continue;
+      }
 
       var currentAbsoluteVerseNumber = versification == 'eng' ? currentVerseReference.absoluteVerseNrEng : currentVerseReference.absoluteVerseNrHeb;
 
