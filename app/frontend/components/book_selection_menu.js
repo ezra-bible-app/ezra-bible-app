@@ -162,10 +162,12 @@ class BookSelectionMenu {
 
       let apocryphalBookList = document.getElementsByClassName('apocryphal-books')[0];
 
-      if (moduleHasApocryphalBooks) {
-        apocryphalBookList.style.display = '';
-      } else {
-        apocryphalBookList.style.display = 'none';
+      if (apocryphalBookList != null) {
+        if (moduleHasApocryphalBooks) {
+          apocryphalBookList.style.display = '';
+        } else {
+          apocryphalBookList.style.display = 'none';
+        }
       }
     }
   }
