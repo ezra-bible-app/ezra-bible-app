@@ -507,8 +507,8 @@ class TextController {
     var verseReferenceIds = [];
     var verses = [];
 
-    for (var i = 0; i < verseReferences.length; i++) {
-      var currentVerseReference = verseReferences[i];
+    for (let i = 0; i < verseReferences.length; i++) {
+      let currentVerseReference = verseReferences[i];
 
       if (!verseReferenceIds.includes(currentVerseReference.id)) {
         verseReferenceIds.push(currentVerseReference.id);
@@ -517,13 +517,13 @@ class TextController {
         continue;
       }
 
-      var currentAbsoluteVerseNumber = versification == 'eng' ? currentVerseReference.absoluteVerseNrEng : currentVerseReference.absoluteVerseNrHeb;
+      let currentAbsoluteVerseNumber = versification == 'eng' ? currentVerseReference.absoluteVerseNrEng : currentVerseReference.absoluteVerseNrHeb;
 
-      var resultVerses = await ipcNsi.getBookText(bibleTranslationId,
+      let resultVerses = await ipcNsi.getBookText(bibleTranslationId,
                                                   currentVerseReference.bibleBookShortTitle,
                                                   currentAbsoluteVerseNumber,
                                                   1);
-      var verse = resultVerses[0];
+      let verse = resultVerses[0];
 
       if (verse !== undefined) {
         verses.push(verse);
@@ -575,8 +575,8 @@ class TextController {
     var verseReferenceIds = [];
     var verses = await ipcNsi.getVersesFromReferences(bibleTranslationId, xrefs);
 
-    for (var i = 0; i < verseReferences.length; i++) {
-      var currentVerseReference = verseReferences[i];
+    for (let i = 0; i < verseReferences.length; i++) {
+      let currentVerseReference = verseReferences[i];
 
       if (currentVerseReference != undefined) {
         verseReferenceIds.push(currentVerseReference.id);
