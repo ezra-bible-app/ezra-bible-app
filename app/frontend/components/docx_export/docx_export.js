@@ -171,16 +171,18 @@ async function agreeDisclaimerDialog(moduleId) {
     buttons[i18n.t('general.cancel')] = function() {
       $(this).dialog('close');
     };
-    buttons[i18n.t('general.ok')] = function() {
+    buttons[i18n.t('general.export')] = function() {
       agreed = true;
       $(this).dialog('close');
     };
+
+    const title = i18n.t('menu.export') + ' &mdash; ' + i18n.t('general.module-copyright');
   
     $dialogBox.dialog({
       width,
       height,
       position: [offsetLeft, 120],
-      title: i18n.t('general.module-copyright'),
+      title: title,
       resizable: false,
       dialogClass: 'ezra-dialog',
       buttons: buttons,
