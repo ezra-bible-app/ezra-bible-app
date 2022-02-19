@@ -46,6 +46,7 @@ class Tab {
     this.cachedText = null;
     this.cachedReferenceVerse = null;
     this.location = null;
+    this.headersLoaded = false;
   }
 
   isValid() {
@@ -126,7 +127,7 @@ class Tab {
   }
 
   isBookChanged() {
-    return this.book != this.previousBook;
+    return this.book != this.previousBook || this.bibleTranslationId != this.previousBibleTranslationId;
   }
 
   isBookUnchanged() {
@@ -254,6 +255,7 @@ class Tab {
   }
 
   setBibleTranslationId(bibleTranslationId) {
+    this.previousBibleTranslationId = this.bibleTranslationId;
     this.bibleTranslationId = bibleTranslationId;
   }
 

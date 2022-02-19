@@ -55,33 +55,32 @@ class TextController {
     app_controller.module_search_controller.resetSearch();
     await this.prepareForNewText(true, false);
 
-    setTimeout(async () => {
-      // Set selected tags and search term to null, since we just switched to a book
-      var currentTab = app_controller.tab_controller.getTab();
-      currentTab.setTagIdList(null);
-      currentTab.setSearchTerm(null);
-      currentTab.setXrefs(null);
-      currentTab.setReferenceVerseElementId(null);
+    await waitUntilIdle();
 
-      var currentVerseList = verseListController.getCurrentVerseList();
-      currentTab.tab_search.setVerseList(currentVerseList);
+    // Set selected tags and search term to null, since we just switched to a book
+    currentTab.setTagIdList(null);
+    currentTab.setSearchTerm(null);
+    currentTab.setXrefs(null);
+    currentTab.setReferenceVerseElementId(null);
 
-      var currentTabId = app_controller.tab_controller.getSelectedTabId();
-      var currentBook = currentTab.getBook();
+    var currentVerseList = verseListController.getCurrentVerseList();
+    currentTab.tab_search.setVerseList(currentVerseList);
 
-      await this.requestTextUpdate(currentTabId,
-                                   currentBook,
-                                   null,
-                                   null,
-                                   null,
-                                   null,
-                                   null,
-                                   chapter,
-                                   instantLoad);
+    var currentTabId = app_controller.tab_controller.getSelectedTabId();
+    var currentBook = currentTab.getBook();
 
-      await waitUntilIdle();
-      tags_controller.updateTagList(currentBook);
-    }, 50);
+    await this.requestTextUpdate(currentTabId,
+                                 currentBook,
+                                 null,
+                                 null,
+                                 null,
+                                 null,
+                                 null,
+                                 chapter,
+                                 instantLoad);
+
+    await waitUntilIdle();
+    tags_controller.updateTagList(currentBook);
   }
 
   async prepareForNewText(resetView, isSearch = false, tabIndex = undefined) {
@@ -322,10 +321,11 @@ class TextController {
     var verseTags = await ipcDb.getBookVerseTags(bibleBook.id, versification);
     var verseNotes = await ipcDb.getVerseNotesByBook(bibleBook.id, versification);
     var bookIntroduction = null;
+    var bookHasHeaders = await swordModuleHelper.bookHasHeaders(currentBibleTranslationId, bookShortTitle);
 
     if (startVerseNumber == 1) { // Only load book introduction if starting with verse 1
       try {
-        if (localSwordModule != null && localSwordModule.hasHeadings) {
+        if (bookHasHeaders) {
           bookIntroduction = await ipcNsi.getBookIntroduction(currentBibleTranslationId, bookShortTitle);
 
           var sanitizeHtml = require('sanitize-html');
@@ -357,7 +357,7 @@ class TextController {
         renderVerseMetaInfo: true,
         renderBibleBookHeaders: false,
         // only render chapter headers with the full book requested
-        renderChapterHeaders: isInstantLoadingBook && !localSwordModule.hasHeadings,
+        renderChapterHeaders: isInstantLoadingBook && !bookHasHeaders,
         renderBookNotes: (startVerseNumber == 1),
         bookIntroduction: bookIntroduction,
         bookNotes: bookNotes,

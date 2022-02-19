@@ -166,14 +166,21 @@ module.exports.moduleHasStrongs = async function(moduleId) {
   }
 };
 
-module.exports.moduleHasHeaders = async function(moduleId) {
+module.exports.bookHasHeaders = async function(moduleId, book) {
+  var hasHeaders = false;
   var swordModule = await this.getSwordModule(moduleId);
 
   if (swordModule != null) {
-    return swordModule.hasHeadings;
-  } else {
-    return false;
+    hasHeaders = swordModule.hasHeadings;
+    if (hasHeaders) {
+      const headerList = await ipcNsi.getBookHeaderList(moduleId, book);
+      if (headerList.length == 0) {
+        hasHeaders = false;
+      }
+    }
   }
+
+  return hasHeaders;
 };
 
 module.exports.getVersification = async function(moduleId) {
@@ -276,7 +283,7 @@ function urlify(text) {
   var aSplits = text.split(aTagRegex);
 
   // regex extracted from https://www.codegrepper.com/code-examples/whatever/use+regex+to+get+urls+from+string
-  var urlRegex = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/igm;
+  var urlRegex = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#/%=~_|$])/igm;
 
   var cleanedText = "";
 
