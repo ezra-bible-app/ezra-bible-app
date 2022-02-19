@@ -183,6 +183,10 @@ module.exports.bookHasHeaders = async function(moduleId, book) {
   return hasHeaders;
 };
 
+module.exports.moduleHasApocryphalBooks = async function(moduleId) {
+  return await ipcNsi.moduleHasApocryphalBooks(moduleId);
+};
+
 module.exports.getVersification = async function(moduleId) {
   if (moduleId == null) {
     return null;

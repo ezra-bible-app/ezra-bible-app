@@ -193,6 +193,10 @@ class IpcDbHandler {
       return global.models.BibleBook.isOtBook(bookCode);
     });
 
+    this._ipcMain.add('db_isApocryphalBook', async (bookCode) => {
+      return global.models.BibleBook.isApocryphalBook(bookCode);
+    });
+
     this._ipcMain.add('db_getVerseReferencesByBookAndAbsoluteVerseNumber', async (bookShortTitle, absoluteVerseNr, versification) => {
       var sequelizeVerseReferences = await global.models.VerseReference.findByBookAndAbsoluteVerseNumber(bookShortTitle, absoluteVerseNr, versification);
       var verseReferences = this.makeSequelizeResultsSerializable(sequelizeVerseReferences);

@@ -276,6 +276,21 @@ class IpcNsiHandler {
       return this._nsi.moduleHasBook(moduleCode, bookCode);
     });
 
+    this._ipcMain.add('nsi_moduleHasApocryphalBooks', (moduleCode) => {
+      const books = this._nsi.getBookList(moduleCode);
+
+      for (let i = 0; i < books.length; i++) {
+        let bookId = books[i];
+        let isApocryphal = global.models.BibleBook.isApocryphalBook(bookId);
+
+        if (isApocryphal) {
+          return true;
+        }
+      }
+
+      return false;
+    });
+
     this._ipcMain.add('nsi_getModuleBookStatus', (bookCode) => {
       var allModules = this._nsi.getAllLocalModules('BIBLE');
       var moduleBookStatus = {};

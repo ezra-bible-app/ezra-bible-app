@@ -668,7 +668,7 @@ main.content {
 }
 
 #book-selection-menu {
-  width: 38em;
+  width: 42em;
   margin-right: 2em;
 }
 
@@ -691,7 +691,7 @@ main.content {
 
 @media only screen and (min-width: 1000px) {
   #book-selection-menu {
-    width: 62em;
+    width: 75em;
   }
 
   #book-selection-menu-chapter-list {
@@ -711,7 +711,7 @@ main.content {
   flex-direction: row;
   flex-wrap: wrap;
   align-content: flex-start;
-  max-inline-size: 41em;
+  max-inline-size: 35em;
 }
 
 .Android #book-selection-menu-chapter-list #chapter-list-chapters {
@@ -728,6 +728,10 @@ main.content {
 }
 
 @media only screen and (min-width: 1000px) {
+  #book-selection-menu-chapter-list #chapter-list-chapters {
+    max-inline-size: 41em;
+  }
+
   #book-selection-menu-chapter-list a {
     flex: 0 0 3.3em;
   }
@@ -756,8 +760,19 @@ main.content {
   text-align: center;
 }
 
+.apocryphal-books {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  border-top: 1px solid lightgray;
+  padding-top: 0.8em;
+}
+
 .nt-books {
-  grid-template-rows: repeat(9, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+}
+
+.book-1John, .book-2John, .book-3John, .book-Jude, .book-Rev {
+  grid-column-start: 4;
 }
 
 .ot-nt-divider {
@@ -769,7 +784,7 @@ main.content {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  line-height: 2em;
+  line-height: 1.8em;
 }
 
 /* Formatting for large tablets and desktop */
@@ -779,13 +794,29 @@ main.content {
   }
 
   .ot-books {
-      flex-basis: 55%;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(14, 1fr);
+    flex-basis: 53%;
+  }
+
+  .apocryphal-books {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(14, 1fr);
+    border-left: 1px solid lightgray;
+    border-top: none;
+    padding-top: unset;
+    flex-basis: 20%;
   }
 
   .nt-books {
     grid-template-columns: repeat(3, 1fr);
-    flex-basis: 45%; /* 3 columns of 7 column layout + divider */ 
+    grid-template-rows: repeat(10, 1fr);
+    flex-basis: 52%; /* 3 columns of 7 column layout + divider */ 
     padding-bottom: 2em; /* to align NT and OT rows */
+  }
+
+  .book-1John, .book-2John, .book-3John, .book-Jude, .book-Rev {
+    grid-column-start: auto;
   }
 
   .ot-nt-divider {
@@ -795,6 +826,9 @@ main.content {
     padding-left: 0.5em;
   }
 
+  .book-list-column li {
+    line-height: 2em;
+  }
 }
 
 .verse-list-menu .focused-button {
@@ -948,6 +982,10 @@ li.book-unavailable a:focus,
 .darkmode--activated li.book-unavailable a:visited,
 .darkmode--activated li.book-unavailable a:focus {
   color: grey;
+}
+
+.apocryphal-books li.book-unavailable {
+  display: none;
 }
 
 .book-list-column li.book-available a:hover,
