@@ -181,7 +181,9 @@
     "scripture-quote-from": "Scripture taken from:",
     "export": "Export",
     "export-user-data-action": "Export user data",
-    "export-user-data-hint": "This function exports all user data (tags, notes) along with their verse references to a CSV file."
+    "export-user-data-hint": "This function exports all user data (tags, notes) along with their verse references to a CSV file.",
+    "installed": "Installed",
+    "not-installed": "Not installed"
   },
   "help": {
     "help-text-no-tags-book-opened": "To start working with tags, create your first tag by clicking on the button <i>New&nbsp;tag</i>.<br/><br/>After that you can browse the Bible text, click or drag-select verses and then assign the tag you just created.",
@@ -318,7 +320,7 @@
     "greek-dict": "Greek Dictionary",
     "hebrew-dict": "Hebrew Dictionary",
     "default-header": "<b>Dictionary</b>",
-    "help-instruction": "<p>How to show dictionary entries here:</p><ol><li>First open a translation with the Strong's feature.</li><li>While you press the SHIFT key you can move your mouse over the individual words and phrases to see dictionary entries here.</li><ol>",
+    "help-instruction": "<p>How to show dictionary entries here:</p><ol><li>Make sure that Strong's Dictionaries (Hebrew and Greek) are installed. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li><li>Open a translation with the Strong's feature.</li><li>While you press the SHIFT key you can move your mouse over the individual words and phrases to see dictionary entries here.</li><ol>",
     "find-all-occurrences": "Find all occurrences",
     "open-in-blueletter": "Open in Blue Letter Bible",
     "related-strongs": "Related Strong's"

@@ -247,6 +247,10 @@
   margin-top: 2em;
 }
 
+#dictionary-panel-help li {
+  margin-bottom: 0.5em;
+}
+
 #dictionary-panel-wrapper a:link {
   text-decoration: none;
   color: #2779aa;
@@ -481,4 +485,21 @@ table.tag-statistics tr:nth-child(even) {
 
 table.tag-statistics td, table.tag-statistics th {
   padding: 0.5em;
+}
+
+.dict-installed, .dict-not-installed {
+  padding: 0.1em;
+  border-radius: 3px;
+}
+
+.dict-installed {
+  background-color: lightgreen;
+}
+
+.dict-not-installed {
+  background-color: lightcoral;
+}
+
+.darkmode--activated .dict-installed {
+  color: black;
 }

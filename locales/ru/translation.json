@@ -183,7 +183,9 @@
     "scripture-quote-from": "Писание процитированно из:",
     "export": "Export",
     "export-user-data-action": "Export user data",
-    "export-user-data-hint": "This function exports all user data (tags, notes) along with their verse references to a CSV file."
+    "export-user-data-hint": "This function exports all user data (tags, notes) along with their verse references to a CSV file.",
+    "installed": "Installed",
+    "not-installed": "Not installed"
   },
   "help": {
     "help-text-no-tags-book-opens": "Чтобы начать работу с метками, создайте свою первую метку, нажав кнопку <i>Новая&nbsp;метка</i>.<br/> <br/> После этого вы можете просматривать текст Библии, нажимать или перетаскивать выделенные стихи чтобы назначить только что созданную метку.",
@@ -320,7 +322,7 @@
     "greek-dict": "Словарь греческого языка",
     "hebrew-dict": "Словарь иврита",
     "default-header": "<b>Словарь</b>",
-    "help-instruction": "<p>Отображение статей из словаря:</p><ol><li> Откройте перевод с номерами Стронга.</li><li> Удерживая клавишу SHIFT, наводите указатель мыши на отдельные слова и фразы, чтобы увидеть соответсвующую статью из словаря.</li><ol> ",
+    "help-instruction": "<p>Отображение статей из словаря:</p><ol><li>Make sure that Strong's Dictionaries (Hebrew and Greek) are installed. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li><li> Откройте перевод с номерами Стронга.</li><li> Удерживая клавишу SHIFT, наводите указатель мыши на отдельные слова и фразы, чтобы увидеть соответсвующую статью из словаря.</li><ol> ",
     "find-all-событий": "Найти все вхождения",
     "open-in-blueletter": "Открыть в Blue Letter Bible",
     "related-strongs": "Связанные номера Стронга"

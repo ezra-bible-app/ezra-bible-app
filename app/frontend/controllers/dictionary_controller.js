@@ -126,7 +126,12 @@ class DictionaryController {
   }
 
   async runAvailabilityCheck() {
+    var oldStatus = this.strongsAvailable;
     this.strongsAvailable = await ipcNsi.strongsAvailable();
+
+    if (this.strongsAvailable != oldStatus) {
+      this._dictionaryInfoBox.clearDictInfoBox();
+    }
   }
 
   hideStrongsBox(removeHl=false) {

@@ -183,7 +183,9 @@
     "scripture-quote-from": "Bijbelcitaat genomen uit:",
     "export": "Export",
     "export-user-data-action": "Export user data",
-    "export-user-data-hint": "This function exports all user data (tags, notes) along with their verse references to a CSV file."
+    "export-user-data-hint": "This function exports all user data (tags, notes) along with their verse references to a CSV file.",
+    "installed": "Installed",
+    "not-installed": "Not installed"
   },
   "help": {
     "help-text-no-tags-book-opened": "Om te beginnen werken met tags, maak uw eerste tag door te klikken op de knop  <i>Nieuwe&nbsp;tag</i>.<br/><br/>Daarna kunt u door de bijbeltekst bladeren, verzen aanklikken of slepen-selecteren en vervolgens de tag toewijzen die u zojuist hebt gemaakt.",
@@ -320,7 +322,7 @@
     "greek-dict": "Grieks woordenboek",
     "hebrew-dict": "Hebreeuws woordenboek",
     "default-header": "<b>Woordenboek</b>",
-    "help-instruction": "<p>Hoe woordenboeklemma's hier tonen:</p><ol><li>Open eerst een vertaling met de Strongs-functie.</li><li>Terwijl u op de SHIFT-toets drukt, kunt u uw muis over de afzonderlijke woorden en zinnen bewegen om de DICTIONARY ENTRIES hier te bekijken.</li><ol>",
+    "help-instruction": "<p>Hoe woordenboeklemma's hier tonen:</p><ol><li>Make sure that Strong's Dictionaries (Hebrew and Greek) are installed. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li><li>Open eerst een vertaling met de Strongs-functie.</li><li>Terwijl u op de SHIFT-toets drukt, kunt u uw muis over de afzonderlijke woorden en zinnen bewegen om de DICTIONARY ENTRIES hier te bekijken.</li><ol>",
     "find-all-occurrences": "Vind alle voorvallen",
     "open-in-blueletter": "In Blue Letter Bible openen",
     "related-strongs": "Gerelateerde Strongs"

@@ -173,7 +173,9 @@
     "scripture-quote-from": "Zitiert aus folgender Bibelübersetzung:",
     "export": "Export",
     "export-user-data-action": "Export user data",
-    "export-user-data-hint": "This function exports all user data (tags, notes) along with their verse references to a CSV file."
+    "export-user-data-hint": "This function exports all user data (tags, notes) along with their verse references to a CSV file.",
+    "installed": "Installed",
+    "not-installed": "Not installed"
   },
   "help": {
     "help-text-no-tags-book-opened": "Sie wollen anfangen mit Tags zu arbeiten?<br/><br/>Erstellen Sie Ihren ersten Tag, indem Sie auf den Button <i>Neuer&nbsp;Tag</i> klicken.<br/><br/>Danach können Sie beim Studium des Bibeltexts den Tag zuordnen, indem Sie auf den Vers klicken oder mehrere Verse mit gehaltener Maustaste auswählen und dann links die Auswahlbox neben dem gerade erstellten Tag anklicken.",
@@ -310,7 +312,7 @@
     "greek-dict": "Griechisches Wörterbuch",
     "hebrew-dict": "Hebräisches Wörterbuch",
     "default-header": "<b>Wörterbuch</b>",
-    "help-instruction": "<p>Wie Sie hier Wörterbucheinträge anzeigen:</p><ol><li>Zunächst öffnen Sie eine Übersetzung mit Unterstützung für Strong's.</li><li>Während Sie die SHIFT Taste drücken können Sie die Maus über einzelne Worte oder Texte bewegen, um hier Wörterbucheinträge anzuzeigen.</li><ol>",
+    "help-instruction": "<p>Wie Sie hier Wörterbucheinträge anzeigen:</p><ol><li>Make sure that Strong's Dictionaries (Hebrew and Greek) are installed. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li><li>Öffnen Sie eine Übersetzung mit Unterstützung für Strong's.</li><li>Während Sie die SHIFT Taste drücken können Sie die Maus über einzelne Worte oder Texte bewegen, um hier Wörterbucheinträge anzuzeigen.</li><ol>",
     "find-all-occurrences": "Alle Vorkommnisse finden",
     "open-in-blueletter": "In Blue Letter Bible öffnen",
     "related-strongs": "Verwandte Strong's"

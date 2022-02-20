@@ -40,8 +40,14 @@ class DictionaryInfoBox {
     this.currentFirstStrongsEntry = null;
     this.currentAdditionalStrongsEntries = [];
     this.currentLemma = null;
-    this.strongsAvailable = false;
-    this.uiInitDone = false;
+
+    eventController.subscribe('on-locale-changed', () => {
+      if (this.currentStrongsEntry == null) {
+        this.clearDictInfoBox();
+      }
+    });
+
+    this.clearDictInfoBox();
   }
 
   getJsStrongs() {
@@ -53,9 +59,18 @@ class DictionaryInfoBox {
   }
 
   clearDictInfoBox() {
+    var strongsAvailable = this.dictionaryController.strongsAvailable;
+    var dictionaryInstallStatus = i18n.t("general.installed");
+    var dictionaryInstallStatusClass = 'dict-installed';
+
+    if (!strongsAvailable) {
+      dictionaryInstallStatus = i18n.t("general.not-installed");
+      dictionaryInstallStatusClass = "dict-not-installed";
+    }
+
     this.dictionaryInfoBoxPanel.find('div').empty();
     this.dictionaryInfoBoxHeader.html(i18n.t("dictionary-panel.default-header", { interpolation: {escapeValue: false} }));
-    this.dictionaryInfoBoxHelp.html(i18n.t("dictionary-panel.help-instruction", { interpolation: {escapeValue: false} }));
+    this.dictionaryInfoBoxHelp.html(i18n.t("dictionary-panel.help-instruction", { install_status_class: dictionaryInstallStatusClass, install_status: dictionaryInstallStatus, interpolation: {escapeValue: false} }));
     this.dictionaryInfoBoxHelp.show();
   }
 

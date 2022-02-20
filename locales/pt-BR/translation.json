@@ -181,7 +181,9 @@
     "scripture-quote-from": "Escritura retirada de:",
     "export": "Export",
     "export-user-data-action": "Export user data",
-    "export-user-data-hint": "This function exports all user data (tags, notes) along with their verse references to a CSV file."
+    "export-user-data-hint": "This function exports all user data (tags, notes) along with their verse references to a CSV file.",
+    "installed": "Installed",
+    "not-installed": "Not installed"
   },
   "help": {
     "help-text-no-tags-book-opened": "Para começar a trabalhar com etiquetas, crie a primeira clicando no botão <i>Nova&nbsp;etiqueta</i>.<br/><br/>Depois disso, você pode navegar pelo texto da Bíblia e clicar, ou arrastar, e selecionar versículos - e em seguida, atribua a etiqueta que você acabou de criar.",
@@ -318,7 +320,7 @@
     "greek-dict": "Dicionário de Grego",
     "hebrew-dict": "Dicionário de Hebraico",
     "default-header": "<b>Dicionário</b>",
-    "help-instruction": "<p> Como mostrar entradas de dicionário aqui: </p><ol><li>Primeiro abra uma tradução com recurso Strong. </li><li>Enquanto pressiona a tecla SHIFT, você pode mover o mouse sobre palavras específicas ou frases para ver as entradas do dicionário aqui.</li><ol>",
+    "help-instruction": "<p> Como mostrar entradas de dicionário aqui: </p><ol><li>Make sure that Strong's Dictionaries (Hebrew and Greek) are installed. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li><li>Abra uma tradução com recurso Strong. </li><li>Enquanto pressiona a tecla SHIFT, você pode mover o mouse sobre palavras específicas ou frases para ver as entradas do dicionário aqui.</li><ol>",
     "find-all-occurrences": "Encontrar todas as ocorrências",
     "open-in-blueletter": "Abrir na Bíblia Blue Letter",
     "related-strongs": "Strong's relacionados"
