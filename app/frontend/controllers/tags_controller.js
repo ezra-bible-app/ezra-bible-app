@@ -75,19 +75,32 @@ class TagsController {
     this.lastContentId = null;
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
-      // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
-      this.verses_were_selected_before = true;
-      await this.updateTagsView(tabIndex);
-      this.resetActivePanelToTagPanel(tabIndex);
+      const currentTab = app_controller.tab_controller.getTab(tabIndex);
+
+      if (currentTab != null && currentTab.addedInteractively) {
+        // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
+        this.verses_were_selected_before = true;
+
+        await this.updateTagsView(tabIndex);
+        this.resetActivePanelToTagPanel(tabIndex);
+      }
     });
 
     eventController.subscribe('on-bible-text-loaded', () => {
       var currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
-      this.resetActivePanelToTagPanel(currentTabIndex);
+      const currentTab = app_controller.tab_controller.getTab(currentTabIndex);
+
+      if (currentTab != null && currentTab.addedInteractively) {
+        this.resetActivePanelToTagPanel(currentTabIndex);
+      }
     });
 
     eventController.subscribe('on-module-search-started', (tabIndex) => {
-      this.resetActivePanelToTagPanel(tabIndex);
+      const currentTab = app_controller.tab_controller.getTab(tabIndex);
+
+      if (currentTab != null && currentTab.addedInteractively) {
+        this.resetActivePanelToTagPanel(tabIndex);
+      }
     });
 
     eventController.subscribe('on-locale-changed', async () => {
