@@ -576,7 +576,7 @@ class TagsController {
       var currentVerseList = verseListController.getCurrentVerseList();
 
       // Create a list of filtered ids, that only contains the verses that do not have the selected tag yet
-      for (var i = 0; i < current_verse_reference_ids.length; i++) {
+      for (let i = 0; i < current_verse_reference_ids.length; i++) {
         var currentVerseReferenceId = current_verse_reference_ids[i];
         var currentVerseBox = currentVerseList[0].querySelector('.verse-reference-id-' + currentVerseReferenceId);
 
@@ -584,7 +584,7 @@ class TagsController {
           var existingTagIdElements = currentVerseBox.querySelectorAll('.tag-id');
           var existingTagIds = [];
           
-          for (var j = 0; j < existingTagIdElements.length; j++) {
+          for (let j = 0; j < existingTagIdElements.length; j++) {
             var currentTagId = parseInt(existingTagIdElements[j].innerText);
             existingTagIds.push(currentTagId);
           }
@@ -728,7 +728,7 @@ class TagsController {
 
     var currentVerseList = verseListController.getCurrentVerseList();
 
-    for (var i = 0; i < job.verse_ids.length; i++) {
+    for (let i = 0; i < job.verse_ids.length; i++) {
       var currentVerseReferenceId = job.verse_ids[i];
       var currentVerseBox = currentVerseList[0].querySelector('.verse-reference-id-' + currentVerseReferenceId);
       verse_boxes.push(currentVerseBox);
@@ -902,13 +902,13 @@ class TagsController {
   }
 
   removeEventListeners(element_list, type, listener) {
-    for (var i = 0; i < element_list.length; i++) {
+    for (let i = 0; i < element_list.length; i++) {
       element_list[i].removeEventListener(type, listener);
     }
   }
 
   addEventListeners(element_list, type, listener) {
-    for (var i = 0; i < element_list.length; i++) {
+    for (let i = 0; i < element_list.length; i++) {
       element_list[i].addEventListener(type, listener);
     }
   }
@@ -941,7 +941,7 @@ class TagsController {
       return (($(this).html() == tag_id) && ($(this).parent().hasClass(tag_class)));
     }).closest('.' + tag_class);
 
-    for (var i = 0; i < tag_data_elements.length; i++) {
+    for (let i = 0; i < tag_data_elements.length; i++) {
       var current_tag_data = $(tag_data_elements[i]);
       current_tag_data.find('.tag-title').html(title);
 
@@ -970,7 +970,7 @@ class TagsController {
       selected_verse_tags = app_controller.verse_selection.getCurrentSelectionTags();
       var checkbox_tags = document.querySelectorAll('.checkbox-tag');
 
-      for (var i = 0; i < checkbox_tags.length; i++) {
+      for (let i = 0; i < checkbox_tags.length; i++) {
         this.formatCheckboxElementBasedOnSelection(checkbox_tags[i], selected_verse_tags);
       }
 
@@ -995,7 +995,7 @@ class TagsController {
     var current_title_element_postfix = cb_element.querySelector('.cb-label-postfix');
     var match_found = false;
 
-    for (var j = 0; j < selected_verse_tags.length; j++) {
+    for (let j = 0; j < selected_verse_tags.length; j++) {
       var current_tag_obj = selected_verse_tags[j];
 
       if (current_tag_obj.title == current_title) {
@@ -1031,7 +1031,7 @@ class TagsController {
     var all_checkbox_elements = document.querySelectorAll('.checkbox-tag');
 
     if (all_checkbox_elements.length > 0) {
-      for (var i = 0; i < all_checkbox_elements.length; i++) {
+      for (let i = 0; i < all_checkbox_elements.length; i++) {
         var current_checkbox_element = all_checkbox_elements[i];
 
         var current_tag_button = current_checkbox_element.querySelector('.tag-button');
