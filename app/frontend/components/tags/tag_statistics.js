@@ -172,7 +172,8 @@ class TagStatistics {
     var bookTagStatisticsBoxContent = document.getElementById('tag-statistics-panel-wrapper');
 
     if (this.isEmpty()) {
-      bookTagStatisticsBoxContent.innerHTML = i18n.t('tag-statistics-panel.help-instruction', { interpolation: {escapeValue: false} });
+      let helpInstruction = i18n.t('tag-statistics-panel.help-instruction', { interpolation: {escapeValue: false} });
+      bookTagStatisticsBoxContent.innerHTML = `<p>${helpInstruction}</p>`;
     }
 
     if (chapterCount == null || allChapterVerseCounts == null || this.isEmpty()) {
