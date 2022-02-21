@@ -1566,6 +1566,7 @@ tr.compare-translation-row:nth-child(odd) {
   /*opacity: 0.8;*/
   user-select: none;
   position: fixed;
+  color: var(--text-color);
 }
 
 .strongs-hl {
