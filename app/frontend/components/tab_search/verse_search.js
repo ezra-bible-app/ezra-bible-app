@@ -189,11 +189,11 @@ class VerseSearch {
 
     if (searchType == "phrase") {
       this.currentVerseElementTextNodes = this.getTextNodes(verseElement);
-      this.exactPhraseHighlighter.highlightOccurrances(this.currentVerseElementTextNodes, searchString, caseSensitive, regexOptions);
+      this.exactPhraseHighlighter.highlightOccurrences(this.currentVerseElementTextNodes, searchString, caseSensitive, regexOptions);
     } else if (searchType == "strongsNumber") {
-      this.strongsHighlighter.highlightOccurrances(occurances);
+      this.strongsHighlighter.highlightOccurrences(occurances);
     } else {
-      this.singleWordHighlighter.highlightOccurrances(verseElement, searchString, regexOptions);
+      this.singleWordHighlighter.highlightOccurrences(verseElement, searchString, regexOptions);
     }
   }
 

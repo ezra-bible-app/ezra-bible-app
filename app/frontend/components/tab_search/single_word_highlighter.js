@@ -23,7 +23,7 @@ class SingleWordHighlighter {
     this.highlightFunction = highlightFunction;
   }
 
-  highlightOccurrances(verseElement, searchString, regexOptions) {
+  highlightOccurrences(verseElement, searchString, regexOptions) {
     var verseHtml = verseElement.innerHTML;
     // Replace all &nbsp; occurances with space. This is necessary in case of Strong's verse content.
     // Otherwise we don't find the user's searchString if it contains spaces.
