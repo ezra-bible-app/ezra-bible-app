@@ -7,7 +7,7 @@
     "context": "Context"
   },
   "application-menu": {
-    "quit-app": "Quit Ezra Bible App"
+    "quit-app": "Sluit Ezra Bible App"
   },
   "menu": {
     "book": "Boek",
@@ -181,11 +181,11 @@
     "module-copyright-intro": "Houd er rekening mee dat de {{module_name}} auteursrechtelijk beschermd is:",
     "module-copyright-disclaimer": "Door verder te gaan met exporteren, gaat u hierbij akkoord met het auteursrechtbeleid van deze vertaling en eventuele beperkingen met betrekking tot citaten uit de {{module_name}}.",
     "scripture-quote-from": "Bijbelcitaat genomen uit:",
-    "export": "Export",
-    "export-user-data-action": "Export user data",
-    "export-user-data-hint": "This function exports all user data (tags, notes) along with their verse references to a CSV file.",
-    "installed": "Installed",
-    "not-installed": "Not installed"
+    "export": "Exporteren",
+    "export-user-data-action": "Gebruikersdata exporteren",
+    "export-user-data-hint": "Deze functie exporteert alle gebruikersgegevens (tags, notities) samen met hun versverwijzingen naar een CSV-bestand.",
+    "installed": "Geïnstalleerd",
+    "not-installed": "Niet geïnstalleerd"
   },
   "help": {
     "help-text-no-tags-book-opened": "Om te beginnen werken met tags, maak uw eerste tag door te klikken op de knop  <i>Nieuwe&nbsp;tag</i>.<br/><br/>Daarna kunt u door de bijbeltekst bladeren, verzen aanklikken of slepen-selecteren en vervolgens de tag toewijzen die u zojuist hebt gemaakt.",
@@ -257,12 +257,12 @@
     "only-currentbook-tagged-verses": "Alleen huidig boek",
     "most-frequently-used": "Frequentst gebruikt",
     "less-frequently-used": "Minder frequent gebruikt",
-    "assign-tag-hint": "Select a verse to assign the tag",
-    "show-tagged-verses": "Show tagged verses",
-    "tag-count-selected_one": "{{count}} tag selected",
-    "tag-count-selected_other": "{{count}} tags selected",
-    "select-all-tags": "Select all",
-    "deselect-all-tags": "Deselect all"
+    "assign-tag-hint": "Selecteer een vers om de tag toe te wijzen",
+    "show-tagged-verses": "Toon getagde verzen",
+    "tag-count-selected_one": "{{count}} tag geselecteerd",
+    "tag-count-selected_other": "{{count}} tags geselecteerd",
+    "select-all-tags": "Alles selecteren",
+    "deselect-all-tags": "Alles deselecteren"
   },
   "bible-browser": {
     "chapter": "Hoofdstuk",
@@ -322,19 +322,19 @@
     "greek-dict": "Grieks woordenboek",
     "hebrew-dict": "Hebreeuws woordenboek",
     "default-header": "<b>Woordenboek</b>",
-    "help-instruction": "<p>Hoe woordenboeklemma's hier tonen:</p><ol><li>Make sure that Strong's Dictionaries (Hebrew and Greek) are installed. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li><li>Open eerst een vertaling met de Strongs-functie.</li><li>Terwijl u op de SHIFT-toets drukt, kunt u uw muis over de afzonderlijke woorden en zinnen bewegen om de DICTIONARY ENTRIES hier te bekijken.</li><ol>",
+    "help-instruction": "<p>Hoe woordenboeklemma's hier tonen:</p><ol><li>Wees eerst zeker dat de Strongwoordenboeken (Hebreeuws en Grieks) geïnstalleerd zijn. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li><li>Open dan een vertaling met de Strongs-functie.</li><li>Terwijl u op de SHIFT-toets drukt, kunt u uw muis over de afzonderlijke woorden en zinnen bewegen om de DICTIONARY ENTRIES hier te bekijken.</li><ol>",
     "find-all-occurrences": "Vind alle voorvallen",
     "open-in-blueletter": "In Blue Letter Bible openen",
     "related-strongs": "Gerelateerde Strongs"
   },
   "tag-statistics-panel": {
     "default-header": "Tag-statistieken",
-    "help-instruction": "Here you will see statistics of tags based on how frequently they are used in a book.<br><br> There are currently no tag assignments in this book. Once you start assigning tags, the tag statistics will refresh automatically."
+    "help-instruction": "Hier ziet u statistieken van tags op basis van hoe vaak ze in een boek gebruikt worden.<br><br> Er zijn momenteel geen toegewezen tags in dit boek. Zodra u begint met het toewijzen van tags, worden de tagstatistieken automatisch vernieuwd."
   },
   "compare-panel": {
     "default-header": "<b>Vertalingen vergelijken</b>",
     "show-parallel-translations": "Vertalingen vergelijken",
-    "help-instruction": "To compare translations, you select one verse or a group of verses.<br><br> This area will then automatically list the selected verses from all available translations.",
+    "help-instruction": "Om vertalingen te vergelijken, selecteert u één vers of een groep verzen.<br><br> Dit gebied toont dan automatisch de geselecteerde verzen van alle beschikbare vertalingen.",
     "compare": "Vergelijken"
   },
   "emoji": {
