@@ -7,7 +7,7 @@
     "context": "Contexto"
   },
   "application-menu": {
-    "quit-app": "Quit Ezra Bible App"
+    "quit-app": "Cerrar Ezra Bible App"
   },
   "menu": {
     "book": "Libro",
@@ -179,11 +179,11 @@
     "module-copyright-intro": "Por favor tenga en cuenta que {{module_name}} está sujeto a derechos de autor:",
     "module-copyright-disclaimer": "Al continuar exportando usted entiende y está de acuerdo con las políticas de citación y cualquier otra restricción que derive de los derechos de autor aplicables a {{module_name}}.",
     "scripture-quote-from": "Escritura tomada de:",
-    "export": "Export",
-    "export-user-data-action": "Export user data",
-    "export-user-data-hint": "This function exports all user data (tags, notes) along with their verse references to a CSV file.",
-    "installed": "Installed",
-    "not-installed": "Not installed"
+    "export": "Exportar",
+    "export-user-data-action": "Exportar datos del usuario",
+    "export-user-data-hint": "Esta función exporta todos los datos del usuario (etiquetas, notas), así como las referencias bíblicas a un archivo CSV",
+    "installed": "Instalado",
+    "not-installed": "No instalado"
   },
   "help": {
     "help-text-no-tags-book-opened": "Para comenzar a trabajar con las etiquetas, debe crear la primera pulsando en el botón <i>Nueva&nbsp;etiqueta</i>.<br/><br/>Después usted podrá seleccionar los textos de La Biblia que desee, para ello pulse sobre un verso o arrastre para seleccionar varios versos y agreguelos a la etiqueta que acaba de crear.",
@@ -255,12 +255,12 @@
     "only-currentbook-tagged-verses": "Solo del libro actual",
     "most-frequently-used": "Más usadas",
     "less-frequently-used": "Menos usadas",
-    "assign-tag-hint": "Select a verse to assign the tag",
-    "show-tagged-verses": "Show tagged verses",
-    "tag-count-selected_one": "{{count}} tag selected",
-    "tag-count-selected_other": "{{count}} tags selected",
-    "select-all-tags": "Select all",
-    "deselect-all-tags": "Deselect all"
+    "assign-tag-hint": "Seleccione un versículo para asignar la etiqueta",
+    "show-tagged-verses": "Mostrar los versículos etiquetados",
+    "tag-count-selected_one": "{{count}} etiqueta seleccionada",
+    "tag-count-selected_other": "{{count}} etiquetas seleccionadas",
+    "select-all-tags": "Seleccionar todas",
+    "deselect-all-tags": "Deseleccionar todas"
   },
   "bible-browser": {
     "chapter": "Capítulo",
@@ -320,19 +320,19 @@
     "greek-dict": "Diccionario Griego",
     "hebrew-dict": "Diccionario Hebreo",
     "default-header": "<b>Diccionario</b>",
-    "help-instruction": "<p>Como mostrar las entradas de diccionario aquí:</p><ol><li>Make sure that Strong's Dictionaries (Hebrew and Greek) are installed. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li><li>Abra una traducción con números Strongs.</li><li>Mientras mantiene pulsada la tecla SHIFT usted puede mover el cursor sobre palabras individuales o frases para ver las entradas en el diccionario.</li><ol>",
+    "help-instruction": "<p>Como mostrar las entradas de diccionario aquí:</p><ol><li>Asegúrese de que los diccionarios Strong's (Hebreo and Griego) estén instalados. Estado: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li><li>Abra una traducción con números Strongs.</li><li>Mientras mantiene pulsada la tecla SHIFT usted puede mover el cursor sobre palabras individuales o frases para ver las entradas en el diccionario.</li><ol>",
     "find-all-occurrences": "Encontrar todas las coincidencias",
     "open-in-blueletter": "Abrir en Blue Letter Bible",
     "related-strongs": "Números Strongs relacionados"
   },
   "tag-statistics-panel": {
     "default-header": "Estadística de etiquetas",
-    "help-instruction": "Here you will see statistics of tags based on how frequently they are used in a book.<br><br> There are currently no tag assignments in this book. Once you start assigning tags, the tag statistics will refresh automatically."
+    "help-instruction": "Aquí usted podrá consultar estadísticas basadas en cuantas ocasiones se usa una etiqueta en un libro.<br><br> Actualmente no hay etiquetas asignadas a este libro. Cuando usted comience a asignarlas, las estadísticas se actualizarán automáticamente."
   },
   "compare-panel": {
     "default-header": "<b>Comparar traducciones</b>",
     "show-parallel-translations": "Comparar traducciones",
-    "help-instruction": "To compare translations, you select one verse or a group of verses.<br><br> This area will then automatically list the selected verses from all available translations.",
+    "help-instruction": "Para comparar traducciones, usted debe seleccionar un versículo o un grupo de versículos.<br><br> La traducción en las diferentes versiones disponibles aparecerá aquí automáticamente.",
     "compare": "Comparar"
   },
   "emoji": {
