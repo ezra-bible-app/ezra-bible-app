@@ -292,6 +292,10 @@ class NavigationPane {
   }
 
   getUnixSectionHeaderId(tabId, chapter, sectionHeader) {
+    if (sectionHeader == null) {
+      return null;
+    }
+
     var unixSectionHeader = sectionHeader.trim().toLowerCase();
     unixSectionHeader = unixSectionHeader.replace(/ /g, "-").replace(/['`().,;:!?]/g, "");
     var unixSectionHeaderId = tabId + ' ' + chapter + ' ' + 'section-header-' + unixSectionHeader;
@@ -315,18 +319,21 @@ class NavigationPane {
         chapter = header.chapter;
         let sectionHeaderId = this.getUnixSectionHeaderId(cachedVerseListTabId, chapter, sectionHeader);
 
-        let currentHeaderLink = document.createElement('a');
-        currentHeaderLink.setAttribute('class', 'navigation-link header-link');
+        if (sectionHeaderId != null) {
+          let currentHeaderLink = document.createElement('a');
+          currentHeaderLink.setAttribute('class', 'navigation-link header-link');
 
-        let sectionHeaderLink = `javascript:app_controller.navigation_pane.goToSection('${sectionHeaderId}', ${sectionHeaderNumber}, ${chapter})`;
+          let sectionHeaderLink = `javascript:app_controller.navigation_pane.goToSection('${sectionHeaderId}', ${sectionHeaderNumber}, ${chapter})`;
 
-        currentHeaderLink.setAttribute('href', sectionHeaderLink);
-        $(currentHeaderLink).html(sectionHeader);
-        if (chapterSectionHeaderIndex == 0) {
-          $(currentHeaderLink).addClass('header-link-first');
+          currentHeaderLink.setAttribute('href', sectionHeaderLink);
+          $(currentHeaderLink).html(sectionHeader);
+          if (chapterSectionHeaderIndex == 0) {
+            $(currentHeaderLink).addClass('header-link-first');
+          }
+
+          navigationPane.append(currentHeaderLink);
         }
 
-        navigationPane.append(currentHeaderLink);
         chapterSectionHeaderIndex++;
         sectionHeaderNumber++;
       }
