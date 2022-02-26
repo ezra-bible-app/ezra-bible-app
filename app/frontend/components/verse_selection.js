@@ -133,7 +133,6 @@ class VerseSelection {
       verseText.classList.add('ui-selectee');
       this.selected_verse_box_elements.push(verseText);
 
-      this.highlightStrongs();
       this.updateSelected();
       this.updateViewsAfterVerseSelection();
       this.publishVersesSelected();
