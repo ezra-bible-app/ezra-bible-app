@@ -85,12 +85,21 @@ class TranslationController {
 
   getBibleSelect(tabIndex) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    var bibleSelect = currentVerseListMenu.find('select.bible-select');
-    return bibleSelect;
+
+    if (currentVerseListMenu != null) {
+      var bibleSelect = currentVerseListMenu.find('select.bible-select');
+      return bibleSelect;
+    } else {
+      return null;
+    }
   }
 
   async addLanguageGroupsToBibleSelectMenu(tabIndex, localModules=undefined) {
     var bibleSelect = this.getBibleSelect(tabIndex);
+    if (bibleSelect == null) {
+      return;
+    }
+
     var languages = await this.getLanguages('BIBLE', localModules);
 
     for (let i = 0; i < languages.length; i++) {
@@ -103,6 +112,9 @@ class TranslationController {
 
   updateUiBasedOnNumberOfTranslations(tabIndex, count) {
     var bibleSelect = this.getBibleSelect(tabIndex);
+    if (bibleSelect == null) {
+      return;
+    }
 
     if (count == 0) {
       bibleSelect.attr('disabled','disabled');
@@ -138,6 +150,10 @@ class TranslationController {
 
   addTranslationsToBibleSelectMenu(tabIndex, translations) {
     var bibleSelect = this.getBibleSelect(tabIndex)[0];
+    if (bibleSelect == null) {
+      return;
+    }
+
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentBibleTranslationId = null;
 
@@ -451,4 +467,3 @@ class TranslationController {
 }
 
 module.exports = TranslationController;
-
