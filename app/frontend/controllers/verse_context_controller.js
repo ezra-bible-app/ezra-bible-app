@@ -18,11 +18,13 @@
 
 const VerseBox = require('../ui_models/verse_box.js');
 const verseListController = require('../controllers/verse_list_controller.js');
+const VerseReferenceHelper = require('../helpers/verse_reference_helper.js');
 
 class VerseContextController {
 
   constructor() {
     this.context_verse = null;
+    this.verseReferenceHelper = new VerseReferenceHelper(ipcNsi);
   }
 
   initButtonEvents() {
@@ -63,11 +65,10 @@ class VerseContextController {
 
     var start_verse_box = current_reference.closest('.verse-box');
     var current_book_title = new VerseBox(start_verse_box[0]).getBibleBookShortTitle();
-    var verse_reference_helper = app_controller.verse_selection.verseReferenceHelper;
-    var start_verse_nr = await verse_reference_helper.referenceStringToAbsoluteVerseNr(currentBibleTranslationId,
-                                                                                       current_book_title,
-                                                                                       start_verse_box.find('.verse-reference-content').html(),
-                                                                                       false);
+    var start_verse_nr = await this.verseReferenceHelper.referenceStringToAbsoluteVerseNr(currentBibleTranslationId,
+                                                                                          current_book_title,
+                                                                                          start_verse_box.find('.verse-reference-content').html(),
+                                                                                          false);
     start_verse_nr -= 3;
     if (start_verse_nr < 1) {
       start_verse_nr = 1;
