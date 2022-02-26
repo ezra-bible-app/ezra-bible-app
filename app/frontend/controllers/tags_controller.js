@@ -482,10 +482,16 @@ class TagsController {
   }
 
   async assignLastTag() {
+    app_controller.hideAllMenus();
+    uiHelper.showTextLoadingIndicator();
+    await waitUntilIdle();
+
     if (this.tag_store.latest_tag_id != null) {
       var checkbox_tag = this.getCheckboxTag(this.tag_store.latest_tag_id);
       await this.clickCheckBoxTag(checkbox_tag);
     }
+
+    uiHelper.hideTextLoadingIndicator();
   }
 
   async handleTagLabelClick(event) {

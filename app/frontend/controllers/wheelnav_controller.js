@@ -154,7 +154,7 @@ function handleMenuClick(item) {
       }
       break;
     case 'assign_last_tag':
-      app_controller.assign_last_tag_button.handleClick();
+      tags_controller.assignLastTag();
       break;
     case 'copy_to_clipboard':
       app_controller.verse_selection.copySelectedVerseTextToClipboard();

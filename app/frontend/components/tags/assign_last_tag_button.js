@@ -71,11 +71,7 @@ class AssignLastTagButton {
 
   async handleClick() {
     if (!this._button[0].classList.contains('ui-state-disabled')) {
-      app_controller.hideAllMenus();
-      uiHelper.showTextLoadingIndicator();
-      await waitUntilIdle();
       await tags_controller.assignLastTag();
-      uiHelper.hideTextLoadingIndicator();
     }
   }
 
