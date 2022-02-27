@@ -30,6 +30,10 @@ class IpcDb {
     this._cachedBookTitleTranslations = {};
   }
 
+  async closeDatabase() {
+    return await this._ipcRenderer.call('db_close');
+  }
+
   async getDatabasePath() {
     return await this._ipcRenderer.call('db_getDatabasePath');
   }
@@ -43,17 +47,21 @@ class IpcDb {
   }
 
   async updateTag(id, newTitle) {
-    return await this._ipcRenderer.call('db_updateTag', id, newTitle).then(() => {
-      tags_controller.renameTagInView(id, newTitle);
+    return await this._ipcRenderer.call('db_updateTag', id, newTitle).then((result) => {
+      if (result.success) {
+        tags_controller.renameTagInView(id, newTitle);
+      }
+
+      return result;
     });
   }
 
-  assignTagToVerses(tagId, verseBoxes) {
-    this.updateTagsOnVerses(tagId, verseBoxes, "add");
+  async assignTagToVerses(tagId, verseBoxes) {
+    return await this.updateTagsOnVerses(tagId, verseBoxes, "add");
   }
 
   async removeTagFromVerses(tagId, verseBoxes) {
-    await this.updateTagsOnVerses(tagId, verseBoxes, "remove");
+    return await this.updateTagsOnVerses(tagId, verseBoxes, "remove");
   }
 
   async updateTagsOnVerses(tagId, verseBoxes, action) {
@@ -141,7 +149,7 @@ class IpcDb {
     var translation = null;
 
     if (!(currentLocale in this._cachedBookTitleTranslations)) {
-      this._cachedBookTitleTranslations[currentLocale] = {}
+      this._cachedBookTitleTranslations[currentLocale] = {};
     }
 
     if (!(shortName in this._cachedBookTitleTranslations[currentLocale])) {
@@ -168,6 +176,10 @@ class IpcDb {
 
   async isOtBook(bookCode) {
     return await this._ipcRenderer.call('db_isOtBook', bookCode);
+  }
+
+  async isApocryphalBook(bookCode) {
+    return await this._ipcRenderer.call('db_isApocryphalBook', bookCode);
   }
 
   async getVerseReferencesByBookAndAbsoluteVerseNumber(bookCode, absoluteVerseNr, versification) {
@@ -197,6 +209,10 @@ class IpcDb {
 
   async getLastMetaRecordUpdate() {
     return await this._ipcRenderer.call('db_getLastMetaRecordUpdate');
+  }
+
+  async exportUserData(exportFilePath=undefined) {
+    return await this._ipcRenderer.call('db_exportUserData', exportFilePath);
   }
 }
 

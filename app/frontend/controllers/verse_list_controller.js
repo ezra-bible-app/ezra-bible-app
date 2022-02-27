@@ -29,7 +29,7 @@ const eventController = require('../controllers/event_controller.js');
 
 module.exports.init = function init() {
   eventController.subscribe('on-bible-text-loaded', (tabIndex) => { this.bindEventsAfterBibleTextLoaded(tabIndex); });
-  eventController.subscribe('on-all-translations-removed', async () => { onAllTranslationsRemoved(); });
+  eventController.subscribe('on-all-translations-removed', async () => { this.onAllTranslationsRemoved(); });
 };
 
 module.exports.getCurrentVerseListFrame = function(tabIndex=undefined) {
@@ -238,7 +238,7 @@ module.exports.bindEventsAfterBibleTextLoaded = function(tabIndex=undefined, pre
     xref_markers = xref_markers.filter(":not('.events-configured')");
   }
 
-  tagBoxes.bind('mousedown', () => { app_controller.verse_selection.clear_verse_selection(); }).addClass('tag-events-configured');
+  tagBoxes.bind('mousedown', () => { app_controller.verse_selection.clearVerseSelection(); }).addClass('tag-events-configured');
 
   tags.bind('mousedown', async (event) => {
     event.stopPropagation();
@@ -330,9 +330,9 @@ module.exports.handleReferenceClick = async function(event) {
 };
 
 // Re-init application to state without Bible translations
-function onAllTranslationsRemoved() {
+module.exports.onAllTranslationsRemoved = function() {
   this.resetVerseListView();
   this.hideVerseListLoadingIndicator();
   this.getCurrentVerseList().append("<div class='help-text'>" + i18n.t("help.help-text-no-translations") + "</div>");
   $('.book-select-value').text(i18n.t("menu.book"));
-}
+};

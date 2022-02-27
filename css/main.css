@@ -32,6 +32,10 @@
   --highlight-border-color: #74b2e2;
   --highlight-border: 1px solid var(--highlight-border-color);
   --highlight-color: var(--accent-color);
+
+  --checkmark-success-color: LimeGreen;
+  
+  --disabled-button-color: #bbbbbb;
 }
 
 :root body.darkmode--activated {
@@ -46,6 +50,8 @@
   --highlight-bg: var(--highlight-bg-color) url(jquery-ui/dark-hive/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
   --highlight-border-color: #0b93d5;
   --highlight-color: var(--text-color);
+
+  --disabled-button-color: #555555;
 }
 
 .bold {
@@ -178,7 +184,7 @@ h2:nth-of-type(1) {
 
 .verse-list-menu {
   grid-area: menu;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.2em;
   border-radius: var(--border-radius);
   user-select: none;
   display: flex;
@@ -458,7 +464,8 @@ h2:nth-of-type(1) {
 .options-header,
 #book-selection-menu,
 #tag-selection-menu,
-#display-options-menu {
+#display-options-menu,
+#verse-context-menu {
   font-size: 0.9em;
 }
 
@@ -503,22 +510,6 @@ h2:nth-of-type(1) {
   height: 2.2em;
 }
 
-.tag-delete-button, .tag-rename-button {
-  display: flex;
-  float: right;
-  margin-right: 0.5em;
-  align-items: center;
-  justify-content: center;
-  width: 17px;
-  height: 17px;
-}
-
-.Android .tag-delete-button, .Android .tag-rename-button {
-  width: 24px;
-  height: 24px;
-  margin-right: 1em;
-}
-
 .tag-info,
 .notes-info {
   font-weight: bold;
@@ -561,8 +552,8 @@ h2:nth-of-type(1) {
   width: 100vw;
   height: 100vh;
   display: grid;
-  padding: 1em 1em 1em 0.5em;
-  grid-template-columns: minmax(0, auto) 1fr;
+  padding: 0.5em 1em 1em 0.5em;
+  grid-template-columns: auto minmax(0, auto) 1fr;
   grid-template-rows: 1fr minmax(0, auto);
   grid-template-areas: 
     "panel-buttons tool-panel content"
@@ -573,7 +564,7 @@ h2:nth-of-type(1) {
   grid-template-rows: minmax(55vh, 100vh) minmax(0, 23vh);
 }
 
-@media (orientation: landscape) {
+@media screen and (min-aspect-ratio: 15/10) {
   .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
     height: 89vh;
   }
@@ -585,13 +576,15 @@ h2:nth-of-type(1) {
   }
 }
 
-@media (orientation: portrait) {
+@media screen and (max-aspect-ratio: 15/10) {
   #app-container {
     grid-template-areas: 
       "content"
       "detail-panel"
       "tool-panel"
       "panel-buttons";
+
+    grid-template-columns: unset !important;
   }
 
   .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
@@ -646,7 +639,8 @@ main.content {
 
 .verse-selection-menu,
 #module-search-menu,
-#display-options-menu {
+#display-options-menu,
+#verse-context-menu {
   position: fixed;
   border: 2px solid var(--border-color);
   border-radius: var(--border-radius);
@@ -674,7 +668,7 @@ main.content {
 }
 
 #book-selection-menu {
-  width: 38em;
+  width: 40em;
   margin-right: 2em;
 }
 
@@ -697,7 +691,7 @@ main.content {
 
 @media only screen and (min-width: 1000px) {
   #book-selection-menu {
-    width: 62em;
+    width: 75em;
   }
 
   #book-selection-menu-chapter-list {
@@ -717,7 +711,7 @@ main.content {
   flex-direction: row;
   flex-wrap: wrap;
   align-content: flex-start;
-  max-inline-size: 41em;
+  max-inline-size: 35em;
 }
 
 .Android #book-selection-menu-chapter-list #chapter-list-chapters {
@@ -734,6 +728,10 @@ main.content {
 }
 
 @media only screen and (min-width: 1000px) {
+  #book-selection-menu-chapter-list #chapter-list-chapters {
+    max-inline-size: 41em;
+  }
+
   #book-selection-menu-chapter-list a {
     flex: 0 0 3.3em;
   }
@@ -762,8 +760,19 @@ main.content {
   text-align: center;
 }
 
+.apocryphal-books {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  border-top: 1px solid lightgray;
+  padding-top: 0.8em;
+}
+
 .nt-books {
-  grid-template-rows: repeat(9, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+}
+
+.book-1John, .book-2John, .book-3John, .book-Jude, .book-Rev {
+  grid-column-start: 4;
 }
 
 .ot-nt-divider {
@@ -775,7 +784,7 @@ main.content {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  line-height: 2em;
+  line-height: 1.8em;
 }
 
 /* Formatting for large tablets and desktop */
@@ -785,13 +794,29 @@ main.content {
   }
 
   .ot-books {
-      flex-basis: 55%;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(14, 1fr);
+    flex-basis: 53%;
+  }
+
+  .apocryphal-books {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(14, 1fr);
+    border-left: 1px solid lightgray;
+    border-top: none;
+    padding-top: unset;
+    flex-basis: 20%;
   }
 
   .nt-books {
     grid-template-columns: repeat(3, 1fr);
-    flex-basis: 45%; /* 3 columns of 7 column layout + divider */ 
+    grid-template-rows: repeat(10, 1fr);
+    flex-basis: 52%; /* 3 columns of 7 column layout + divider */ 
     padding-bottom: 2em; /* to align NT and OT rows */
+  }
+
+  .book-1John, .book-2John, .book-3John, .book-Jude, .book-Rev {
+    grid-column-start: auto;
   }
 
   .ot-nt-divider {
@@ -801,6 +826,9 @@ main.content {
     padding-left: 0.5em;
   }
 
+  .book-list-column li {
+    line-height: 2em;
+  }
 }
 
 .verse-list-menu .focused-button {
@@ -956,6 +984,10 @@ li.book-unavailable a:focus,
   color: grey;
 }
 
+.apocryphal-books li.book-unavailable {
+  display: none;
+}
+
 .book-list-column li.book-available a:hover,
 .book-list-column li.book-available a:focus,
 #book-selection-menu-chapter-list a:hover,
@@ -1047,7 +1079,7 @@ li.book-unavailable a:focus,
 .verse-list-header,
 .verse-statistics-chart-container {
   display: none;
-  margin-left: 1em;
+  margin-left: 0.2em;
   margin-top: 0.5em;
 }
 
@@ -1078,10 +1110,6 @@ li.book-unavailable a:focus,
 #start-module-search-button {
   margin-left: 0.8em;
   height: 2.2em;
-}
-
-.new-standard-tag-button {
-  margin-left: 0;
 }
 
 .assign-last-tag-button {
@@ -1132,30 +1160,6 @@ li.book-unavailable a:focus,
 
 .reference-verse {
   display: none;
-}
-
-.verse-content-edited {
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 0px 6px 6px 6px;
-  cursor: pointer;
-}
-
-.split-verse-marked-word {
-  background-color: #DEEDF7;
-}
-
-.split-verse-border {
-  border-right: 1px dashed black;
-}
-
-.split-verse-cancel-button-box {
-  padding-top: 0.3em;
-  text-align: right;
-}
-
-.split-verse-cancel-button {
-  margin: 0.5em;
 }
 
 .state-normal {
@@ -1226,7 +1230,6 @@ li.book-unavailable a:focus,
 
 .selected-verses {
   display: inline-block;
-  width: 14em;
 }
 
 .selected-verses a:link,
@@ -1241,13 +1244,14 @@ li.book-unavailable a:focus,
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .bible-select-block {
-  margin-right: 1em;
+  margin-right: 0.5em;
   margin-bottom: 0.5em;
   user-select: none;
+  min-width: 20em;
 }
 
 .bible-select-block select {
@@ -1257,7 +1261,13 @@ li.book-unavailable a:focus,
 
 #tag-selection-menu {
   padding: 1em;
-  width: 22em;
+  width: 26em;
+}
+
+#tag-selection-menu button {
+  padding: 0.3em;
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
 }
 
 .darkmode--activated #tag-selection-menu {
@@ -1275,7 +1285,8 @@ li.book-unavailable a:focus,
 
 .darkmode--activated #module-search-menu,
 .darkmode--activated .verse-selection-menu,
-.darkmode--activated #display-options-menu {
+.darkmode--activated #display-options-menu,
+.darkmode--activated #verse-context-menu {
   background: #000000 url(jquery-ui/dark-hive/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat;
   color: var(--text-color);
 }
@@ -1287,8 +1298,10 @@ li.book-unavailable a:focus,
 #tag-selection-taglist-global,
 #tag-selection-taglist-overlay {
   margin-top: 1em;
+  margin-bottom: 1em;
   padding-top: 0.5em;
   border-top: var(--area-border);
+  border-bottom: var(--area-border);
   height: 400px;
   overflow-y: scroll;
 }
@@ -1523,6 +1536,10 @@ s {
   text-decoration: none;
 }
 
+tr.compare-translation-row:nth-child(odd) {
+  background-color: var(--background-color-darker);
+}
+
 .compare-translation-row td.compare-translation-row {
   border-bottom: 1px dashed gray;
 }
@@ -1550,6 +1567,7 @@ s {
   /*opacity: 0.8;*/
   user-select: none;
   position: fixed;
+  color: var(--text-color);
 }
 
 .strongs-hl {
@@ -1770,4 +1788,8 @@ code {
 .darkmode--activated .assistant>.steps .disabled a:active {
   background: none;
   background-color: gray;
+}
+
+transchange {
+  font-style: italic;
 }

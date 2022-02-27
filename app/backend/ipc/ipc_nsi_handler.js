@@ -92,8 +92,8 @@ class IpcNsiHandler {
     });
 
     this._ipcMain.addWithProgressCallback('nsi_updateRepositoryConfig', async (progressCB) => {
-        var repoUpdateStatus = await this._nsi.updateRepositoryConfig(progressCB);
-        return repoUpdateStatus;
+      var repoUpdateStatus = await this._nsi.updateRepositoryConfig(progressCB);
+      return repoUpdateStatus;
     }, 'nsi_updateRepoConfigProgress');
     
     this._ipcMain.add('nsi_getRepoNames', () => {
@@ -243,8 +243,52 @@ class IpcNsiHandler {
       return this._nsi.getBookIntroduction(moduleCode, bookCode);
     });
 
+    this._ipcMain.add('nsi_getBookHeaderList', (moduleCode, bookCode) => {
+      var bookTextJson = this._nsi.getBookText(moduleCode, bookCode);
+
+      var bookTextHtml = "<div>";
+      bookTextJson.forEach((verse) => { bookTextHtml += verse.content; });
+      bookTextHtml += "</div>";
+
+      var HTMLParser = require('node-html-parser');
+      var root = HTMLParser.parse(bookTextHtml);
+      var rawSectionHeaders = root.querySelectorAll('.sword-section-title');
+      var sectionHeaders = [];
+
+      rawSectionHeaders.forEach((header) => {
+        let newSectionHeader = {};
+
+        newSectionHeader['moduleCode'] = moduleCode;
+        newSectionHeader['bibleBookShortTitle'] = bookCode;
+        newSectionHeader['type'] = header._attrs.type;
+        newSectionHeader['subType'] = header._attrs.subtype;
+        newSectionHeader['chapter'] = header._attrs.chapter;
+        newSectionHeader['verseNr'] = header._attrs.verse;
+        newSectionHeader['content'] = header.firstChild._rawText;
+
+        sectionHeaders.push(newSectionHeader);
+      });
+
+      return sectionHeaders;
+    });
+
     this._ipcMain.add('nsi_moduleHasBook', (moduleCode, bookCode) => {
       return this._nsi.moduleHasBook(moduleCode, bookCode);
+    });
+
+    this._ipcMain.add('nsi_moduleHasApocryphalBooks', (moduleCode) => {
+      const books = this._nsi.getBookList(moduleCode);
+
+      for (let i = 0; i < books.length; i++) {
+        let bookId = books[i];
+        let isApocryphal = global.models.BibleBook.isApocryphalBook(bookId);
+
+        if (isApocryphal) {
+          return true;
+        }
+      }
+
+      return false;
     });
 
     this._ipcMain.add('nsi_getModuleBookStatus', (bookCode) => {

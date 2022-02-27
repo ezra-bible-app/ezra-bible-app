@@ -16,6 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+/* eslint-disable no-undef */
+
 const PlatformHelper = require('../../lib/platform_helper.js');
 
 class IpcRenderer {

@@ -137,6 +137,10 @@ module.exports.initLocale = async function() {
   }
 
   window.reference_separator = i18n.t('general.chapter-verse-separator');
+
+  if (platformHelper.isMac()) {
+    await this.localizeMenu();
+  }
 };
 
 function preserveStringsForStartup() {
@@ -169,6 +173,20 @@ module.exports.changeLocale = async function(newLocale, saveSettings=true) {
   $(document).localize();
   window.reference_separator = i18n.t('general.chapter-verse-separator');
   await eventController.publishAsync('on-locale-changed', newLocale);
+
+  if (platformHelper.isMac()) {
+    await this.localizeMenu();
+  }
+};
+
+module.exports.localizeMenu = async function() {
+  const { ipcRenderer } = require('electron');
+
+  let menuLabels = {
+    'quit-app': i18n.t('application-menu.quit-app')
+  };
+
+  await ipcRenderer.invoke('localizeMenu', menuLabels);
 };
 
 module.exports.detectLocale = async function() {

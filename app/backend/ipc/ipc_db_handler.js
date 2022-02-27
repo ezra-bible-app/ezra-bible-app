@@ -53,77 +53,81 @@ class IpcDbHandler {
     global.models = require('../database/models')(this.dbDir);
   }
 
+  async closeDatabase() {
+    if (global.sequelize != null) {
+      await global.sequelize.close();
+      global.sequelize = null;
+    }
+  }
+
   initIpcInterface() {
+    this._ipcMain.add('db_close', async() => {
+      return await this.closeDatabase();
+    });
+
     this._ipcMain.add('db_getDatabasePath', async() => {
       return this.dbDir + path.sep + "ezra.sqlite";
     });
 
     this._ipcMain.add('db_createNewTag', async (newTagTitle) => {
-      return await models.Tag.create_new_tag(newTagTitle);
+      return await global.models.Tag.create_new_tag(newTagTitle);
     });
 
     this._ipcMain.add('db_removeTag', async (id) => {
-      return await models.Tag.destroy_tag(id);
+      return await global.models.Tag.destroy_tag(id);
     });
 
     this._ipcMain.add('db_updateTag', async(id, newTitle) => {
-      return await models.Tag.update_tag(id, newTitle);
+      return await global.models.Tag.update_tag(id, newTitle);
     });
 
     this._ipcMain.add('db_updateTagsOnVerses', async (tagId, verseObjects, versification, action) => {
-      return await models.Tag.update_tags_on_verses(tagId, verseObjects, versification, action);
+      return await global.models.Tag.update_tags_on_verses(tagId, verseObjects, versification, action);
     });
 
     this._ipcMain.add('db_getTagCount', async () => {
-      return await models.Tag.getTagCount();
+      return await global.models.Tag.getTagCount();
     });
 
     this._ipcMain.add('db_getAllTags', async (bibleBookId, lastUsed, onlyStats) => {
-      var allSequelizeTags = await models.Tag.getAllTags(bibleBookId, lastUsed, onlyStats);
+      var allSequelizeTags = await global.models.Tag.getAllTags(bibleBookId, lastUsed, onlyStats);
       var allTags = this.makeSequelizeResultsSerializable(allSequelizeTags);
       return allTags;
     });
 
     this._ipcMain.add('db_getBookVerseTags', async (bibleBookId, versification) => {
-      var bibleBook = await models.BibleBook.findByPk(bibleBookId);
+      var bibleBook = await global.models.BibleBook.findByPk(bibleBookId);
       var sequelizeVerseTags = await bibleBook.getVerseTags();
       var verseTags = this.makeSequelizeResultsSerializable(sequelizeVerseTags);
-      var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
+      var groupedVerseTags = global.models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
       return groupedVerseTags;
     });
 
     this._ipcMain.add('db_getVerseTagsByVerseReferenceIds', async (verseReferenceIds, versification) => {
-      var sequelizeVerseTags = await models.VerseTag.findByVerseReferenceIds(verseReferenceIds.join(','));
+      var sequelizeVerseTags = await global.models.VerseTag.findByVerseReferenceIds(verseReferenceIds.join(','));
       var verseTags = this.makeSequelizeResultsSerializable(sequelizeVerseTags);
-      var groupedVerseTags = models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
+      var groupedVerseTags = global.models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
       return groupedVerseTags;
     });
 
     this._ipcMain.add('db_persistNote', async (noteValue, verseObject, versification) => {
-      var sequelizeNote = await models.Note.persistNote(noteValue, verseObject, versification);
-      var note = undefined;
-
-      if (sequelizeNote !== undefined) {
-        note = sequelizeNote.dataValues;
-      }
-
-      return note;
+      return await global.models.Note.persistNote(noteValue, verseObject, versification);
     });
 
     this._ipcMain.add('db_getVerseNotesByBook', async (bibleBookId, versification) => {
-      var bibleBook = await models.BibleBook.findByPk(bibleBookId);
+      var bibleBook = await global.models.BibleBook.findByPk(bibleBookId);
       var sequelizeNotes = await bibleBook.getNotes();
       var notes = this.makeSequelizeResultsSerializable(sequelizeNotes);
-      var groupedVerseNotes = models.Note.groupNotesByVerse(notes, versification);
+      var groupedVerseNotes = global.models.Note.groupNotesByVerse(notes, versification);
       return groupedVerseNotes;
     });
 
     this._ipcMain.add('db_getBookNotes', async (shortTitle) => {
       var bookNotes = null;
-      var bookReference = await models.VerseReference.getBookReference(shortTitle);
+      var bookReference = await global.models.VerseReference.getBookReference(shortTitle);
 
       if (bookReference != null) {
-        bookNotes = await models.Note.findByVerseReferenceId(bookReference.id);
+        bookNotes = await global.models.Note.findByVerseReferenceId(bookReference.id);
 
         if (bookNotes != null) {
           bookNotes = bookNotes.dataValues;
@@ -134,14 +138,14 @@ class IpcDbHandler {
     });
 
     this._ipcMain.add('db_getNotesByVerseReferenceIds', async (verseReferenceIds, versification) => {
-      var sequelizeNotes = await models.Note.findByVerseReferenceIds(verseReferenceIds.join(','));
+      var sequelizeNotes = await global.models.Note.findByVerseReferenceIds(verseReferenceIds.join(','));
       var notes = this.makeSequelizeResultsSerializable(sequelizeNotes);
-      var groupedNotes = models.Note.groupNotesByVerse(notes, versification);
+      var groupedNotes = global.models.Note.groupNotesByVerse(notes, versification);
       return groupedNotes;
     });
 
     this._ipcMain.add('db_getBibleBook', async (shortTitle) => {
-      var sequelizeBibleBook = await models.BibleBook.findOne({ where: { shortTitle: shortTitle }});
+      var sequelizeBibleBook = await global.models.BibleBook.findOne({ where: { shortTitle: shortTitle }});
       var bibleBook = null;
       
       if (sequelizeBibleBook != null) {
@@ -152,45 +156,49 @@ class IpcDbHandler {
     });
 
     this._ipcMain.add('db_getBibleBooksFromSearchResults', async (searchResults) => {
-      var sequelizeBibleBooks = await models.BibleBook.findBySearchResults(searchResults);
+      var sequelizeBibleBooks = await global.models.BibleBook.findBySearchResults(searchResults);
       var bibleBooks = this.makeSequelizeResultsSerializable(sequelizeBibleBooks);
       return bibleBooks;
     });
 
     this._ipcMain.add('db_getBibleBooksFromTagIds', async (tagIds) => {
-      var sequelizeBibleBooks = await models.BibleBook.findByTagIds(tagIds);
+      var sequelizeBibleBooks = await global.models.BibleBook.findByTagIds(tagIds);
       var bibleBooks = this.makeSequelizeResultsSerializable(sequelizeBibleBooks);
       return bibleBooks;
     });
 
     this._ipcMain.add('db_getBibleBooksFromXrefs', async (xrefs) => {
-      var sequelizeBibleBooks = await models.BibleBook.findByXrefs(xrefs);
+      var sequelizeBibleBooks = await global.models.BibleBook.findByXrefs(xrefs);
       var bibleBooks = this.makeSequelizeResultsSerializable(sequelizeBibleBooks);
       return bibleBooks;
     });
 
     this._ipcMain.add('db_getBookTitleTranslation', async (shortTitle, language) => {
-      return await models.BibleBook.getBookTitleTranslation(shortTitle, language);
+      return await global.models.BibleBook.getBookTitleTranslation(shortTitle, language);
     });
 
     this._ipcMain.add('db_getBookLongTitle', async (shortTitle) => {
-      return await models.BibleBook.getBookLongTitle(shortTitle);
+      return await global.models.BibleBook.getBookLongTitle(shortTitle);
     });
 
     this._ipcMain.add('db_findBookTitle', async(title) => {
-      return await models.BibleBook.findBookTitle(title);
+      return await global.models.BibleBook.findBookTitle(title);
     });
 
     this._ipcMain.add('db_isNtBook', async (bookCode) => {
-      return models.BibleBook.isNtBook(bookCode);
+      return global.models.BibleBook.isNtBook(bookCode);
     });
 
     this._ipcMain.add('db_isOtBook', async (bookCode) => {
-      return models.BibleBook.isOtBook(bookCode);
+      return global.models.BibleBook.isOtBook(bookCode);
+    });
+
+    this._ipcMain.add('db_isApocryphalBook', async (bookCode) => {
+      return global.models.BibleBook.isApocryphalBook(bookCode);
     });
 
     this._ipcMain.add('db_getVerseReferencesByBookAndAbsoluteVerseNumber', async (bookShortTitle, absoluteVerseNr, versification) => {
-      var sequelizeVerseReferences = await models.VerseReference.findByBookAndAbsoluteVerseNumber(bookShortTitle, absoluteVerseNr, versification);
+      var sequelizeVerseReferences = await global.models.VerseReference.findByBookAndAbsoluteVerseNumber(bookShortTitle, absoluteVerseNr, versification);
       var verseReferences = this.makeSequelizeResultsSerializable(sequelizeVerseReferences);
       return verseReferences;
     });
@@ -201,7 +209,7 @@ class IpcDbHandler {
       for (let i = 0; i < verseObjects.length; i++) {
         var currentVerseObject = verseObjects[i];
 
-        var sequelizeVerseReferences = await models.VerseReference.findByBookAndAbsoluteVerseNumber(
+        var sequelizeVerseReferences = await global.models.VerseReference.findByBookAndAbsoluteVerseNumber(
           currentVerseObject._bibleBookShortTitle,
           currentVerseObject._absoluteVerseNr,
           versification
@@ -218,29 +226,55 @@ class IpcDbHandler {
     });
 
     this._ipcMain.add('db_getVerseReferencesByTagIds', async (tagIds) => {
-      var sequelizeVerseReferences = await models.VerseReference.findByTagIds(tagIds);
+      var sequelizeVerseReferences = await global.models.VerseReference.findByTagIds(tagIds);
       var verseReferences = this.makeSequelizeResultsSerializable(sequelizeVerseReferences);
       return verseReferences;
     });
 
     this._ipcMain.add('db_getVerseReferencesByXrefs', async (xrefs) => {
-      var sequelizeVerseReferences = await models.VerseReference.findByXrefs(xrefs);
+      var sequelizeVerseReferences = await global.models.VerseReference.findByXrefs(xrefs);
       var verseReferences = this.makeSequelizeResultsSerializable(sequelizeVerseReferences);
       return verseReferences;
     });
 
     this._ipcMain.add('db_getAbsoluteVerseNumbersFromReference', async (sourceVersification, bookCode, absoluteVerseNr, chapter, verseNr) => {
-      var absoluteVerseNumbers = models.VerseReference.getAbsoluteVerseNrs(sourceVersification,
-                                                                           bookCode,
-                                                                           absoluteVerseNr,
-                                                                           chapter,
-                                                                           verseNr);
+      var absoluteVerseNumbers = global.models.VerseReference.getAbsoluteVerseNrs(sourceVersification,
+                                                                                  bookCode,
+                                                                                  absoluteVerseNr,
+                                                                                  chapter,
+                                                                                  verseNr);
       return absoluteVerseNumbers;
     });
 
     this._ipcMain.add('db_getLastMetaRecordUpdate', async() => {
-      var lastUpdate = await models.MetaRecord.getLastUpdate();
+      var lastUpdate = await global.models.MetaRecord.getLastUpdate();
       return lastUpdate;
+    });
+
+    this._ipcMain.add('db_exportUserData', async(csvFilePath=undefined) => {
+      var verseReferences = await global.models.VerseReference.findAllWithUserData();
+      const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+
+      if (csvFilePath === undefined) {
+        const homeDir = require('os').homedir();
+        csvFilePath = path.join(homeDir, 'ezra_user_data_export.csv');
+      }
+
+      const csvWriter = createCsvWriter({
+        path: csvFilePath,
+        header: [
+          {id: 'bibleBookShortTitle', title: 'Book'},
+          {id: 'absoluteVerseNrEng', title: 'Absolute Verse Nr (ENG)'},
+          {id: 'absoluteVerseNrHeb', title: 'Absolute Verse Nr (HEB)'},
+          {id: 'chapter', title: 'Chapter'},
+          {id: 'verseNr', title: 'Verse Nr'},
+          {id: 'tagList', title: 'Tags'},
+          {id: 'noteText', title: 'Notes'},
+        ],
+        alwaysQuote: true
+      });
+
+      await csvWriter.writeRecords(verseReferences);
     });
   }
 

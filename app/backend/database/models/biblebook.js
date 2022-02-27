@@ -82,7 +82,23 @@ global.bookMap = {
   "2John"  : 63,
   "3John"  : 64,
   "Jude"   : 65,
-  "Rev"    : 66 
+  "Rev"    : 66,
+  "Tob"    : 67,
+  "Wis"    : 68,
+  "Jdt"    : 69,
+  "Sir"    : 70,
+  "Bar"    : 71,
+  "1Macc"  : 72,
+  "2Macc"  : 73,
+  "AddEsth": 74,
+  "PrAzar" : 75,
+  "Sus"    : 76,
+  "Bel"    : 77,
+  "1Esd"   : 78,
+  "2Esd"   : 79,
+  "PrMan"  : 80,
+  "AddPs"  : 81,
+  "EpLao"  : 82
 };
 
 global.bible_books = [
@@ -217,7 +233,39 @@ global.bible_books = [
   { long_title : 'Jude',
     short_title : "Jude" },
   { long_title : 'Revelation of John',
-    short_title : "Rev" }
+    short_title : "Rev" },
+  { long_title : 'Tobit',
+    short_title : 'Tob' },
+  { long_title : 'Wisdom',
+    short_title : 'Wis' },
+  { long_title : 'Judith',
+    short_title : 'Jdt' },
+  { long_title : 'Sirach',
+    short_title : 'Sir' },
+  { long_title : 'Baruch',
+    short_title : 'Bar' },
+  { long_title : 'I Maccabees',
+    short_title : '1Macc' },
+  { long_title : 'II Maccabees',
+    short_title : '2Macc' },
+  { long_title : 'Additions to Esther',
+    short_title : 'AddEsth' },
+  { long_title : 'Prayer of Azariah',
+    short_title : 'PrAzar' },
+  { long_title : 'Susanna',
+    short_title : 'Sus' },
+  { long_title : 'Bel and the Dragon',
+    short_title : 'Bel' },
+  { long_title : 'I Esdras',
+    short_title : '1Esd' },
+  { long_title : 'II Esdras',
+    short_title : '2Esd' },
+  { long_title : 'Prayer of Manasses',
+    short_title : 'PrMan' },
+  { long_title : 'Additional Psalm',
+    short_title : 'AddPs' },
+  { long_title : 'Laodiceans',
+    short_title : 'EpLao' }
 ];
 
 const otBooks = [ "Gen", "Exod", "Lev", "Num", "Deut", "Josh", "Judg", "Ruth", "1Sam", "2Sam", "1Kgs", "2Kgs",
@@ -228,6 +276,9 @@ const otBooks = [ "Gen", "Exod", "Lev", "Num", "Deut", "Josh", "Judg", "Ruth", "
 const ntBooks = [ "Matt", "Mark", "Luke", "John", "Acts", "Rom", "1Cor", "2Cor", "Gal", "Eph", "Phil", "Col",
                   "1Thess", "2Thess", "1Tim", "2Tim", "Titus", "Phlm", "Heb", "Jas", "1Pet", "2Pet",
                   "1John", "2John", "3John", "Jude", "Rev" ];
+
+const apocryphalBooks = [ "Tob", "Wis", "Jdt", "Sir", "Bar", "1Macc", "2Macc", "AddEsth",
+                          "PrAzar", "Sus", "Bel", "1Esd", "2Esd", "PrMan", "AddPs", "EpLao" ];
 
 'use strict';
 
@@ -258,7 +309,7 @@ module.exports = (sequelize, DataTypes) => {
                 " WHERE vr.bibleBookId=" + this.id +
                 " ORDER BY t.title ASC";
 
-    return sequelize.query(query, { model: models.VerseTag });
+    return sequelize.query(query, { model: global.models.VerseTag });
   };
 
   BibleBook.prototype.getNotes = function() {
@@ -268,12 +319,12 @@ module.exports = (sequelize, DataTypes) => {
                 " INNER JOIN BibleBooks b ON vr.bibleBookId = b.id" +
                 " WHERE vr.bibleBookId=" + this.id;
     
-    return sequelize.query(query, { model: models.Note });
+    return sequelize.query(query, { model: global.models.Note });
   };
 
   BibleBook.getBookLongTitle = function(book_short_title) {
-    for (var i = 0; i < bible_books.length; i++) {
-      var current_book = bible_books[i];
+    for (var i = 0; i < global.bible_books.length; i++) {
+      var current_book = global.bible_books[i];
       if (current_book.short_title == book_short_title) {
         return current_book.long_title;
       }
@@ -283,11 +334,13 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   BibleBook.getBookTitleTranslation = function(shortName, language) {
+    var currentBookName = null;
+
     if (shortName == null || shortName.length == 0 || language == null) {
       return null;
     } else {
-      var currentBookLongTitle = models.BibleBook.getBookLongTitle(shortName);
-      var currentBookName = ipcNsiHandler.getNSI().getSwordTranslation(currentBookLongTitle, language);
+      var currentBookLongTitle = global.models.BibleBook.getBookLongTitle(shortName);
+      currentBookName = global.ipcNsiHandler.getNSI().getSwordTranslation(currentBookLongTitle, language);
     }
     
     return currentBookName;   
@@ -300,7 +353,7 @@ module.exports = (sequelize, DataTypes) => {
                 " WHERE vt.tagId IN (" + tagIds + ")" +
                 " GROUP BY b.number ORDER BY b.number ASC";
 
-    return sequelize.query(query, { model: models.BibleBook });
+    return sequelize.query(query, { model: global.models.BibleBook });
   };
 
   BibleBook.findByVerseReferenceIds = function(verseReferenceIds) {
@@ -309,8 +362,8 @@ module.exports = (sequelize, DataTypes) => {
                 " WHERE vr.id IN (" + verseReferenceIds + ")" +
                 " GROUP BY b.number ORDER BY b.number ASC";
     
-    return sequelize.query(query, { model: models.BibleBook }); 
-  }
+    return sequelize.query(query, { model: global.models.BibleBook }); 
+  };
 
   BibleBook.findByXrefs = function(xrefs) {
     var bibleBooks = [];
@@ -323,8 +376,8 @@ module.exports = (sequelize, DataTypes) => {
                 " WHERE b.shortTitle IN (" + bibleBooks.join(',') + ")" +
                 " ORDER BY b.number ASC";
     
-    return sequelize.query(query, { model: models.BibleBook });    
-  }
+    return sequelize.query(query, { model: global.models.BibleBook });    
+  };
 
   BibleBook.findBySearchResults = function(searchResults) {
     var bibleBookIds = [];
@@ -340,8 +393,8 @@ module.exports = (sequelize, DataTypes) => {
                 " WHERE b.id IN (" + bibleBookIds.join(',') + ")" +
                 " GROUP BY b.number ORDER BY b.number ASC";
 
-    return sequelize.query(query, { model: models.BibleBook });   
-  }
+    return sequelize.query(query, { model: global.models.BibleBook });   
+  };
 
   BibleBook.getShortTitleById = async function(id) {
     if (id == null || id.length == 0) {
@@ -350,33 +403,37 @@ module.exports = (sequelize, DataTypes) => {
       var bibleBook = await BibleBook.findByPk(id);
       return bibleBook.shortTitle;
     }
-  }
+  };
 
   BibleBook.swordBooktoEzraBook = function(swordBook) {
-    return bookMap[swordBook];
+    return global.bookMap[swordBook];
   };
 
   BibleBook.getBookMap = function() {
-    return bookMap;
+    return global.bookMap;
   };
 
   BibleBook.findBookTitle = function(title) {
-    for (entry of bible_books) {
+    for (var entry of global.bible_books) {
       if (entry.short_title.indexOf(title) != -1) {
         return entry.short_title;
       }
     }
 
     return title;
-  }
+  };
 
   BibleBook.isNtBook = function(bookCode) {
     return ntBooks.includes(bookCode);
-  }
+  };
 
   BibleBook.isOtBook = function(bookCode) {
     return otBooks.includes(bookCode);
-  }
+  };
+
+  BibleBook.isApocryphalBook = function(bookCode) {
+    return apocryphalBooks.includes(bookCode);
+  };
 
   return BibleBook;
 };

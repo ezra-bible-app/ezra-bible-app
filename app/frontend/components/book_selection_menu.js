@@ -19,6 +19,7 @@
 const eventController = require('../controllers/event_controller.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 const cacheController = require('../controllers/cache_controller.js');
+const swordModuleHelper = require('../helpers/sword_module_helper.js');
 
 /**
  * The BookSelectionMenu component implements all event handling for the book selection menu.
@@ -76,8 +77,8 @@ class BookSelectionMenu {
       await this.updateAvailableBooks();
     });
 
-    eventController.subscribe('on-translation-added', async () => {
-      await this.updateAvailableBooks();
+    eventController.subscribe('on-translation-added', async (moduleCode) => {
+      await this.updateAvailableBooks(undefined, moduleCode);
     });
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
@@ -125,28 +126,47 @@ class BookSelectionMenu {
     cacheController.setCachedItem('bookSelectionMenuCache', html);
   }
 
-  async updateAvailableBooks(tabIndex=undefined) {
+  async updateAvailableBooks(tabIndex=undefined, moduleCode=undefined) {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     if (currentTab != null) {
       var currentBibleTranslationId = currentTab.getBibleTranslationId();
 
-      if (currentBibleTranslationId != null) {
-        var books = await ipcNsi.getBookList(currentBibleTranslationId);
-        var book_links = document.getElementById('book-selection-menu-book-list').querySelectorAll('li');
+      if (moduleCode !== undefined) {
+        currentBibleTranslationId = moduleCode;
+      }
 
-        for (var i = 0; i < book_links.length; i++) {
-          var current_book_link = book_links[i];
-          var current_link_book = current_book_link.getAttribute('class').split(' ')[0];
-          var current_book_id = current_link_book.split('-')[1];
-          
-          if (books.includes(current_book_id)) {
-            current_book_link.classList.remove('book-unavailable');
-            current_book_link.classList.add('book-available');
-          } else {
-            current_book_link.classList.add('book-unavailable');
-            current_book_link.classList.remove('book-available');
+      var moduleHasApocryphalBooks = await swordModuleHelper.moduleHasApocryphalBooks(currentBibleTranslationId);
+
+      if (currentBibleTranslationId != null) {
+        const books = await ipcNsi.getBookList(currentBibleTranslationId);
+        let bookLinks = document.getElementById('book-selection-menu-book-list').querySelectorAll('li');
+
+        for (let i = 0; i < bookLinks.length; i++) {
+          let currentBookLink = bookLinks[i];
+
+          if (currentBookLink.getAttribute('class') != null) {
+            let currentBook = currentBookLink.getAttribute('class').split(' ')[0];
+            let currentBookId = currentBook.split('-')[1];
+
+            if (books.includes(currentBookId)) {
+              currentBookLink.classList.remove('book-unavailable');
+              currentBookLink.classList.add('book-available');
+            } else {
+              currentBookLink.classList.add('book-unavailable');
+              currentBookLink.classList.remove('book-available');
+            }
           }
+        }
+      }
+
+      let apocryphalBookList = document.getElementsByClassName('apocryphal-books')[0];
+
+      if (apocryphalBookList != null) {
+        if (moduleHasApocryphalBooks) {
+          apocryphalBookList.style.display = '';
+        } else {
+          apocryphalBookList.style.display = 'none';
         }
       }
     }

@@ -113,7 +113,7 @@ module.exports = (sequelize, DataTypes) => {
 
   BibleTranslation.getLanguages = async function() {
     var query = "SELECT * FROM BibleTranslations ORDER BY languageName ASC";
-    var translations = await sequelize.query(query, { model: models.BibleTranslation });
+    var translations = await sequelize.query(query, { model: global.models.BibleTranslation });
     var languages = [];
     var languageCodes = [];
 
@@ -132,7 +132,7 @@ module.exports = (sequelize, DataTypes) => {
 
   BibleTranslation.getTranslations = async function() {
     var query = "SELECT id FROM BibleTranslations ORDER BY languageName ASC";
-    var translationRecords = await sequelize.query(query, { model: models.BibleTranslation });
+    var translationRecords = await sequelize.query(query, { model: global.models.BibleTranslation });
     var translations = [];
 
     for (var i = 0; i < translationRecords.length; i++) {
@@ -144,7 +144,7 @@ module.exports = (sequelize, DataTypes) => {
 
   BibleTranslation.getName = async function(id) {
     var query = "SELECT name FROM BibleTranslations WHERE id='" + id + "'";
-    var translationRecords = await sequelize.query(query, { model: models.BibleTranslation });
+    var translationRecords = await sequelize.query(query, { model: global.models.BibleTranslation });
 
     if (translationRecords.length > 0) {
       return translationRecords[0].name;
@@ -155,7 +155,7 @@ module.exports = (sequelize, DataTypes) => {
 
   BibleTranslation.getById = async function(id) {
     var query = "SELECT * FROM BibleTranslations WHERE id='" + id + "'";
-    var translationRecords = await sequelize.query(query, { model: models.BibleTranslation });
+    var translationRecords = await sequelize.query(query, { model: global.models.BibleTranslation });
 
     if (translationRecords.length > 0) {
       return translationRecords[0];
@@ -168,14 +168,14 @@ module.exports = (sequelize, DataTypes) => {
     var reImport = false;
     
     if (modelsInstance === undefined) {
-      modelsInstance = models;
+      modelsInstance = global.models;
     } else {
       reImport = true;
     }
 
-    nsi.enableMarkup();
+    global.nsi.enableMarkup();
 
-    var bibleText = nsi.getBibleText(translationCode);
+    var bibleText = global.nsi.getBibleText(translationCode);
     if (bibleText.length == 0) {
       console.log("ERROR: Bible text for " + translationCode + " has 0 verses!");
     }
@@ -203,7 +203,7 @@ module.exports = (sequelize, DataTypes) => {
       lastBook = book;
     }
 
-    var module = nsi.getLocalModule(translationCode);
+    var module = global.nsi.getLocalModule(translationCode);
 
     var languageName = languageMapper.getLanguageName(module.language);
 
@@ -227,13 +227,13 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   BibleTranslation.removeFromDb = async function(translationCode) {
-    await models.Verse.destroy({
+    await global.models.Verse.destroy({
       where: {
         bibleTranslationId: translationCode
       }
     });
 
-    await models.BibleTranslation.destroy({
+    await global.models.BibleTranslation.destroy({
       where: {
         id: translationCode
       }
@@ -241,7 +241,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   BibleTranslation.updateVersification = async function(translationCode) {
-    models.BibleTranslation.findByPk(translationCode).then(translation => {
+    global.models.BibleTranslation.findByPk(translationCode).then(translation => {
       translation.updateVersification();
     });
   };
@@ -274,8 +274,8 @@ module.exports = (sequelize, DataTypes) => {
                           " AND b.shortTitle='Rev'" +
                           " AND v.chapter=12";
 
-    var psalm3Verses = await sequelize.query(psalm3Query, { model: models.Verse });
-    var revelation12Verses = await sequelize.query(revelationQuery, { model: models.Verse });
+    var psalm3Verses = await sequelize.query(psalm3Query, { model: global.models.Verse });
+    var revelation12Verses = await sequelize.query(revelationQuery, { model: global.models.Verse });
 
     if (psalm3Verses.length == 8 || revelation12Verses.length == 17) { // ENGLISH versification
       this.versification = "ENGLISH";
@@ -299,7 +299,7 @@ module.exports = (sequelize, DataTypes) => {
                         " ON v.bibleBookId = b.id " +
                         " WHERE bibleTranslationId='" + translationCode + "'" +
                         " GROUP BY bibleBookId";
-    var books = await sequelize.query(booklistQuery, { model: models.BibleBook });
+    var books = await sequelize.query(booklistQuery, { model: global.models.BibleBook });
     var bookList = [];
 
     for (var i = 0; i < books.length; i++) {

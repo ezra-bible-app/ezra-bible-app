@@ -16,7 +16,6 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-
 const VerseBoxHelper = require('../helpers/verse_box_helper.js');
 const verseBoxHelper = new VerseBoxHelper();
 const VerseBox = require('../ui_models/verse_box.js');
@@ -24,6 +23,7 @@ const notesHelper = require('../helpers/notes_helper.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
+const { showErrorDialog } = require('../helpers/ezra_helper.js');
 require('../components/emoji_button_trigger.js');
 
 let CodeMirror = null;
@@ -110,9 +110,12 @@ class NotesController {
     }
   }
 
-  restoreCurrentlyEditedNotes(persist = true) {
+  async restoreCurrentlyEditedNotes(persist = true) {
     if (persist) {
-      this._saveEditorContent();
+      var success = await this._saveEditorContent();
+      if (success == false) {
+        return;
+      }
     }
 
     if (this.currentlyEditedNotes != null) {
@@ -150,7 +153,7 @@ class NotesController {
     this.currentEditor = null;
   }
 
-  _handleNotesClick(event) {
+  async _handleNotesClick(event) {
     var verseNotesBox = event.target.closest('.verse-notes');
 
     if (event.target.nodeName == 'A') {
@@ -171,7 +174,7 @@ class NotesController {
     }
 
     if (verseReferenceId != this.currentVerseReferenceId) {
-      this.restoreCurrentlyEditedNotes();
+      await this.restoreCurrentlyEditedNotes();
       this.currentVerseReferenceId = verseReferenceId;
       this.currentlyEditedNotes = verseNotesBox;
       this.currentlyEditedNotes.classList.remove('verse-notes-empty');
@@ -189,8 +192,11 @@ class NotesController {
   editVerseNotesForCurrentlySelectedVerse() {
     const selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
     const firstVerseBox = selectedVerseBoxes[0];
-    const verseNotes = firstVerseBox.querySelector('.verse-notes');
-    this._showAndClickVerseNotes(verseNotes);
+
+    if (firstVerseBox != null) {
+      const verseNotes = firstVerseBox.querySelector('.verse-notes');
+      this._showAndClickVerseNotes(verseNotes);
+    }
   }
 
   _showAndClickVerseNotes(verseNotes) {
@@ -236,7 +242,7 @@ class NotesController {
     var notesInfo = currentVerseBox.querySelector('.notes-info');
 
     if (notesInfo != null && noteValue == '') {
-        notesInfo.classList.remove('active');
+      notesInfo.classList.remove('active');
     }
   }
 
@@ -251,46 +257,61 @@ class NotesController {
 
       if (currentNoteValue != previousNoteValue) {
         currentNoteValue = currentNoteValue.trim();
-
-        this.currentlyEditedNotes.setAttribute('notes-content', currentNoteValue);
-        this._refreshNotesIndicator(currentNoteValue, currentVerseBox);
-
         var currentVerseObject = new VerseBox(currentVerseBox).getVerseObject();
         var translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
 
         const swordModuleHelper = require('../helpers/sword_module_helper.js');
         var versification = await swordModuleHelper.getVersification(translationId);
 
-        ipcDb.persistNote(currentNoteValue, currentVerseObject, versification).then((note) => {
-          if (note != undefined) {
-            var updatedTimestamp = null;
+        var result = await ipcDb.persistNote(currentNoteValue, currentVerseObject, versification);
 
-            if (currentNoteValue == "") {
-              updatedTimestamp = "";
-            } else {
-              updatedTimestamp = note.updatedAt;
-            }
+        if (result.success == false) {
+          var message = `The note could not be saved.<br>
+                        An unexpected database error occurred:<br><br>
+                        ${result.exception}<br><br>
+                        Please restart the app.`;
 
-            this._updateNoteDate(currentVerseBox, updatedTimestamp);
+          await showErrorDialog('Database Error', message);
+          this._focusEditor();
+          return false;
+        }
 
-            verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(
-              currentVerseBox, { noteValue: currentNoteValue, timestamp: updatedTimestamp }, (changedValue, targetVerseBox) => {
+        this.currentlyEditedNotes.setAttribute('notes-content', currentNoteValue);
+        this._refreshNotesIndicator(currentNoteValue, currentVerseBox);
 
-                var currentNotes = null;
+        var note = result.dbObject;
 
-                if (targetVerseBox.classList.contains('book-notes')) {
-                  currentNotes = targetVerseBox;
-                } else {
-                  currentNotes = targetVerseBox.querySelector('.verse-notes');
-                }
+        if (note != undefined) {
+          var updatedTimestamp = null;
 
-                currentNotes.setAttribute('notes-content', changedValue.noteValue);
-                this._updateNoteDate(targetVerseBox, changedValue.timestamp);
-              });
+          if (currentNoteValue == "") {
+            updatedTimestamp = "";
+          } else {
+            updatedTimestamp = note.updatedAt;
           }
-        });
+
+          this._updateNoteDate(currentVerseBox, updatedTimestamp);
+
+          verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(
+            currentVerseBox, { noteValue: currentNoteValue, timestamp: updatedTimestamp }, (changedValue, targetVerseBox) => {
+
+              var currentNotes = null;
+
+              if (targetVerseBox.classList.contains('book-notes')) {
+                currentNotes = targetVerseBox;
+              } else {
+                currentNotes = targetVerseBox.querySelector('.verse-notes');
+              }
+
+              currentNotes.setAttribute('notes-content', changedValue.noteValue);
+              this._updateNoteDate(targetVerseBox, changedValue.timestamp);
+            }
+          );
+        }
       }
     }
+
+    return true;
   }
 
   _updateNoteDate(verseBox, dbTimestamp) {
@@ -304,7 +325,7 @@ class NotesController {
   }
 
   _getRenderedEditorContent(original = false) {
-    const marked = require("marked");
+    const { marked } = require("marked");
 
     var content = null;
 
@@ -317,7 +338,7 @@ class NotesController {
     var renderedContent = "";
 
     if (content != "") {
-      renderedContent = marked(content);
+      renderedContent = marked.parse(content);
     }
 
     return renderedContent;
@@ -366,7 +387,7 @@ class NotesController {
   _getNotesElementContent(notesElement) {
     var notesContent = "";
     if (notesElement.hasAttribute('notes-content')) {
-      notesContent = notesElement.getAttribute('notes-content')
+      notesContent = notesElement.getAttribute('notes-content');
     }
 
     return notesContent;

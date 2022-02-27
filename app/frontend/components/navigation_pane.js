@@ -57,6 +57,10 @@ class NavigationPane {
     eventController.subscribe('on-translation-changed', () => {
       this.updateNavigation();
     });
+
+    eventController.subscribe('on-module-search-started', (tabIndex) => {
+      this.resetNavigationPane(tabIndex);
+    });
   }
 
   getCurrentNavigationPane(tabIndex=undefined) {
@@ -92,9 +96,9 @@ class NavigationPane {
       navigationPane.removeClass('navigation-pane-books');
 
       const swordModuleHelper = require('../helpers/sword_module_helper.js');
-      var hasHeaders = await swordModuleHelper.moduleHasHeaders(currentTranslationId);
+      var bookHasHeaders = await swordModuleHelper.bookHasHeaders(currentTranslationId, currentBook);
 
-      if (headerNavOption.isChecked && hasHeaders) {
+      if (headerNavOption.isChecked && bookHasHeaders) {
         
         navigationPane.removeClass('navigation-pane-chapters');
         navigationPane.addClass('navigation-pane-headers');
@@ -120,29 +124,36 @@ class NavigationPane {
     navigationPane.bind('mouseover', app_controller.verse_context_controller.hide_verse_expand_box);
   }
 
-  enableHeaderNavigation(tabIndex=undefined) {
-    var navigationPane = this.getCurrentNavigationPane(tabIndex);
-    var currentTab = app_controller.tab_controller.getTab(tabIndex);
-    var currentTranslationId = currentTab.getBibleTranslationId();
-    const swordModuleHelper = require('../helpers/sword_module_helper.js');
-    
-    if (swordModuleHelper.moduleHasHeaders(currentTranslationId)) {
+  async enableHeaderNavigation(tabIndex=undefined) {
+    const navigationPane = this.getCurrentNavigationPane(tabIndex);
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+    const currentTranslationId = currentTab.getBibleTranslationId();
+    const currentBook = currentTab.getBook();
+    const headerNavOption = app_controller.optionsMenu._headerNavOption;
 
+    const swordModuleHelper = require('../helpers/sword_module_helper.js');
+    const hasHeaders = await swordModuleHelper.bookHasHeaders(currentTranslationId, currentBook);
+
+    if (headerNavOption.isChecked && hasHeaders) {
       navigationPane.addClass('navigation-pane-headers');
+
+      if (!currentTab.headersLoaded) {
+        await this.updateNavigation(tabIndex, true);
+      }
     }
   }
 
   disableHeaderNavigation() {
-    var navigationPane = this.getCurrentNavigationPane();
+    const navigationPane = this.getCurrentNavigationPane();
     navigationPane.removeClass('navigation-pane-headers');
   }
 
   highlightSectionHeaderByTitle(title) {
     this.currentNavigationPane = this.getCurrentNavigationPane();
 
-    var allHeaderLinks = this.currentNavigationPane[0].querySelectorAll('.header-link');
+    const allHeaderLinks = this.currentNavigationPane[0].querySelectorAll('.header-link');
     for (var i = 0; i < allHeaderLinks.length; i++) {
-      var currentTitle = allHeaderLinks[i].innerText;
+      const currentTitle = allHeaderLinks[i].innerText;
 
       if (currentTitle == title) {
         this.highlightNavElement(undefined, i + 1, false, "HEADER");
@@ -232,28 +243,29 @@ class NavigationPane {
   }
 
   // FIXME: This function is slow with long lists of chapters. It can be optimized by using the vanilla js append function.
-  async updateChapterNavigation(tabIndex) {
+  async updateChapterNavigation(tabIndex, force=false) {
     var $navigationPane = this.getCurrentNavigationPane(tabIndex);
-    var currentTab = app_controller.tab_controller.getTab(tabIndex);
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     if (currentTab == null) {
       return;
     }
 
-    var currentTranslation = currentTab.getBibleTranslationId();
-    var currentBook = currentTab.getBook();
+    const currentTranslation = currentTab.getBibleTranslationId();
+    const currentBook = currentTab.getBook();
+    const headerNavOption = app_controller.optionsMenu._headerNavOption;
 
-    if (currentTranslation == null || currentBook == null || currentTab.isBookUnchanged()) {
-      return;
+    if (!force) {
+      if (currentTranslation == null || currentBook == null || currentTab.isBookUnchanged()) {
+        return;
+      }
     }
 
     this.resetNavigationPane(tabIndex);
 
-    var chapterCount = await ipcNsi.getBookChapterCount(currentTranslation, currentBook);
-    var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
-
-    var query = '.sword-section-title:not([subtype="x-Chapter"]):not([type="chapter"]):not([type="psalm"]):not([type="scope"]):not([type="acrostic"])';
-    var sectionTitleElements = currentVerseList.find(query);
+    const chapterCount = await ipcNsi.getBookChapterCount(currentTranslation, currentBook);
+    const headerList = await ipcNsi.getBookHeaderList(currentTranslation, currentBook);
+    const headerCount = headerList.length;
 
     var navigationHeader = document.createElement('div');
     navigationHeader.classList.add('nav-pane-header');
@@ -264,51 +276,64 @@ class NavigationPane {
     var cachedVerseListTabId = this.getCachedVerseListTabId(tabIndex);
     var sectionHeaderNumber = 1;
 
+    if (headerNavOption.isChecked && headerCount > 0) {
+      currentTab.headersLoaded = true;
+    }
+
     for (let i = 1; i <= chapterCount; i++) {
       var href = `javascript:app_controller.navigation_pane.goToChapter(${i})`;
       var chapterLinkHtml = `<a href='${href}' class='navigation-link chapter-link'>${i}</a>`;
       $navigationPane.append(chapterLinkHtml);
 
-      if (cachedVerseListTabId != null) {
-        sectionHeaderNumber = this.addHeaderNavLinksForChapter(cachedVerseListTabId, $navigationPane, sectionTitleElements, i, sectionHeaderNumber);
+      if (cachedVerseListTabId != null && headerNavOption.isChecked && headerCount > 0) {
+        sectionHeaderNumber = this.addHeaderNavLinksForChapter(cachedVerseListTabId, $navigationPane, headerList, i, sectionHeaderNumber);
       }
     }
   }
 
   getUnixSectionHeaderId(tabId, chapter, sectionHeader) {
+    if (sectionHeader == null) {
+      return null;
+    }
+
     var unixSectionHeader = sectionHeader.trim().toLowerCase();
     unixSectionHeader = unixSectionHeader.replace(/ /g, "-").replace(/['`().,;:!?]/g, "");
     var unixSectionHeaderId = tabId + ' ' + chapter + ' ' + 'section-header-' + unixSectionHeader;
     return unixSectionHeaderId;
   }
 
-  addHeaderNavLinksForChapter(cachedVerseListTabId, navigationPane, sectionTitleElements, chapter, sectionHeaderNumber=1) {
+  addHeaderNavLinksForChapter(cachedVerseListTabId, navigationPane, headerList, chapter, sectionHeaderNumber=1) {
     var chapterSectionHeaderIndex = 0;
 
-    for (var i = 0; i < sectionTitleElements.length; i++) {
-      var sectionTitleElement = sectionTitleElements[i];
-      var currentChapter = null;
+    for (let i = 0; i < headerList.length; i++) {
+      let header = headerList[i];
       
-      try {
-        currentChapter = parseInt(sectionTitleElement.getAttribute('chapter'));
-      // eslint-disable-next-line no-empty
-      } catch (exc) {}
+      if (header.chapter == chapter &&
+          header.subType != "x-Chapter" &&
+          header.type != "chapter" &&
+          header.type != "psalm" &&
+          header.type != "scope" &&
+          header.type != "acrostic") {
 
-      if (currentChapter != null && currentChapter == chapter) {
-        var sectionHeader = sectionTitleElement.textContent;
-        chapter = sectionTitleElement.getAttribute('chapter');
-        var sectionHeaderId = this.getUnixSectionHeaderId(cachedVerseListTabId, chapter, sectionHeader);
+        let sectionHeader = header.content;
+        chapter = header.chapter;
+        let sectionHeaderId = this.getUnixSectionHeaderId(cachedVerseListTabId, chapter, sectionHeader);
 
-        var currentHeaderLink = document.createElement('a');
-        currentHeaderLink.setAttribute('class', 'navigation-link header-link');
-        var sectionHeaderLink = `javascript:app_controller.navigation_pane.goToSection('${sectionHeaderId}', ${sectionHeaderNumber}, ${chapter})`;
-        currentHeaderLink.setAttribute('href', sectionHeaderLink);
-        $(currentHeaderLink).html(sectionHeader);
-        if (chapterSectionHeaderIndex == 0) {
-          $(currentHeaderLink).addClass('header-link-first');
+        if (sectionHeaderId != null) {
+          let currentHeaderLink = document.createElement('a');
+          currentHeaderLink.setAttribute('class', 'navigation-link header-link');
+
+          let sectionHeaderLink = `javascript:app_controller.navigation_pane.goToSection('${sectionHeaderId}', ${sectionHeaderNumber}, ${chapter})`;
+
+          currentHeaderLink.setAttribute('href', sectionHeaderLink);
+          $(currentHeaderLink).html(sectionHeader);
+          if (chapterSectionHeaderIndex == 0) {
+            $(currentHeaderLink).addClass('header-link-first');
+          }
+
+          navigationPane.append(currentHeaderLink);
         }
 
-        navigationPane.append(currentHeaderLink);
         chapterSectionHeaderIndex++;
         sectionHeaderNumber++;
       }
@@ -348,13 +373,16 @@ class NavigationPane {
   }
 
   clearNavigationPane() {
-    if (this.currentNavigationPane != null && this.currentNavigationPane[0].childNodes.length > 1) {
+    var currentTab = app_controller.tab_controller.getTab();
+
+    if (this.currentNavigationPane != null && this.currentNavigationPane[0].childNodes.length >= 1) {
+      currentTab.headersLoaded = false;
       this.currentNavigationPane[0].innerHTML = "";
       app_controller.tab_controller.clearLastHighlightedNavElementIndex();
     }
   }
 
-  async updateNavigation(tabIndex=undefined) {
+  async updateNavigation(tabIndex=undefined, force=false) {
     if (tabIndex === undefined) {
       tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     }
@@ -378,7 +406,7 @@ class NavigationPane {
 
     if (currentTextType == 'book') { // Update navigation based on book chapters
 
-      await this.updateChapterNavigation(tabIndex);
+      await this.updateChapterNavigation(tabIndex, force);
 
       const currentTranslationId = currentTab.getBibleTranslationId();
       const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentTab.getBook());
@@ -447,11 +475,11 @@ class NavigationPane {
     );
 
     if (currentTab.getChapter() != null && !isInstantLoadingBook && chapter != previouslyHighlightedChapter) {
-      app_controller.text_controller.loadBook(currentTab.getBook(),
-                                              currentTab.getBookTitle(),
-                                              currentTab.getReferenceBookTitle(),
-                                              false,
-                                              chapter);
+      await app_controller.text_controller.loadBook(currentTab.getBook(),
+                                                    currentTab.getBookTitle(),
+                                                    currentTab.getReferenceBookTitle(),
+                                                    false,
+                                                    chapter);
     } else {
       this.scrollToTop(undefined, chapter);
     }
@@ -470,9 +498,25 @@ class NavigationPane {
     }
   }
 
-  goToSection(sectionHeaderId, sectionHeaderNumber, chapter) {
-    this.highlightNavElement(undefined, chapter, true);
-    this.highlightNavElement(undefined, sectionHeaderNumber, true, "HEADER");
+  async goToSection(sectionHeaderId, sectionHeaderNumber, chapter) {
+    const currentTab = app_controller.tab_controller.getTab();
+    const currentChapter = currentTab.getChapter();
+    const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(
+      currentTab.getBibleTranslationId(),
+      currentTab.getBook()
+    );
+
+    let scrollNavElementIntoView = true;
+    if (!isInstantLoadingBook) {
+      scrollNavElementIntoView = false;
+    }
+
+    if (!isInstantLoadingBook && chapter != currentChapter) {
+      await this.goToChapter(chapter);
+    }
+
+    this.highlightNavElement(undefined, chapter, scrollNavElementIntoView);
+    this.highlightNavElement(undefined, sectionHeaderNumber, scrollNavElementIntoView, "HEADER");
 
     var reference = '#' + sectionHeaderId;
     window.location = reference;
@@ -486,16 +530,11 @@ class NavigationPane {
   }
 
   async updateNavigationFromVerseBox(focussedElement, verseBox=undefined) {
-    var currentTab = app_controller.tab_controller.getTab();
+    const currentTab = app_controller.tab_controller.getTab();
     const currentBook = currentTab.getBook();
     const currentTextType = currentTab.getTextType();
     const bibleTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
     const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(bibleTranslationId, currentBook);
-
-    if (currentTextType == 'book' && !isInstantLoadingBook) {
-      // We do not dynamically update the navigation based on versebox mouseover if we only display one chapter anyway.
-      return;
-    }
 
     if (verseBox == undefined) {
       verseBox = focussedElement.closest('.verse-box');
@@ -507,7 +546,7 @@ class NavigationPane {
 
       var verseReferenceContent = verseBox.querySelector('.verse-reference-content').innerText;
       var currentChapter = this.verse_reference_helper.getChapterFromReference(verseReferenceContent, separator);
-      this.highlightNavElement(undefined, currentChapter);
+      this.highlightNavElement(undefined, currentChapter, isInstantLoadingBook);
 
       var sectionTitle = "";
       if (focussedElement.classList.contains('sword-section-title')) {
@@ -533,7 +572,6 @@ class NavigationPane {
   }
 
   async onTabSearchResultsAvailable(occurrences) {
-
     var currentVerseListFrame = verseListController.getCurrentVerseListFrame();
     var bookHeaders = currentVerseListFrame.find('.tag-browser-verselist-book-header');
 
@@ -541,7 +579,7 @@ class NavigationPane {
     var separator = await i18nHelper.getReferenceSeparator(bibleTranslationId);
 
     // Highlight occurrences in navigation pane
-    for (var i = 0; i < occurrences.length; i++) {
+    for (let i = 0; i < occurrences.length; i++) {
       var currentOccurrences = $(occurrences[i]);
       var verseBox = currentOccurrences.closest('.verse-box');
       var currentTab = app_controller.tab_controller.getTab();

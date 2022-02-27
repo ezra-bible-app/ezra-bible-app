@@ -1,6 +1,62 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.5.0 - 2022-02-26]
+
+### Features
+
+* CSV export of all user data (tags, notes). ([#508][i508])
+* Support deuterocanonical / apocryphal books. ([#612][i612])
+
+### Enhancements
+
+* Render the transChange element as italic. ([#603][i603])
+* Easily choose many tags at the same time. ([#528][i528])
+* Move compare translation function to tool panel. ([#581][i581])
+* Move tag statistics to tool panel. ([#594][i594])
+* Move New Tag button to tag list panel. ([#572][i572])
+* Move verse-related action buttons to separate drop down menu. ([#595][i595])
+* Chapter navigation: Load section headers for complete book upfront. ([#340][i340])
+
+### Fixes
+
+* Fixed bug: macOS: Menu not localized. ([#353][i353])
+* Fixed bug: Strong's dictionaries not automatically available after manual installation. ([#610][i610])
+* Fixed bug: Verse with multiple tags showing multiple times in tagged verse list. ([#618][i618])
+
+[i508]: https://github.com/ezra-bible-app/ezra-bible-app/issues/508
+[i612]: https://github.com/ezra-bible-app/ezra-bible-app/issues/612
+[i603]: https://github.com/ezra-bible-app/ezra-bible-app/issues/603
+[i528]: https://github.com/ezra-bible-app/ezra-bible-app/issues/528
+[i581]: https://github.com/ezra-bible-app/ezra-bible-app/issues/581
+[i594]: https://github.com/ezra-bible-app/ezra-bible-app/issues/594
+[i572]: https://github.com/ezra-bible-app/ezra-bible-app/issues/572
+[i595]: https://github.com/ezra-bible-app/ezra-bible-app/issues/595
+[i340]: https://github.com/ezra-bible-app/ezra-bible-app/issues/340
+[i353]: https://github.com/ezra-bible-app/ezra-bible-app/issues/353
+[i610]: https://github.com/ezra-bible-app/ezra-bible-app/issues/610
+[i618]: https://github.com/ezra-bible-app/ezra-bible-app/issues/618
+
+## [1.4.2 - 2021-12-28]
+
+Bugfix release for Android.
+
+### Fixes
+
+* Fixed bug: Repositories in Module Assistant were not initialized correctly even though data was available. ([#587][i587])
+* Fixed bug: Links in dictionary panel were not showing underline with mouseover anymore. ([#588][i588])
+* Fixed bug on Android: Screen keyboard on 8" tablet in portrait mode unintentionally triggers landscape layout. ([#589][i589])
+* Fixed bug on Android: Unhandled SQLITE_READONLY issue. ([#596][i596])
+
+[i587]: https://github.com/ezra-bible-app/ezra-bible-app/issues/587
+[i588]: https://github.com/ezra-bible-app/ezra-bible-app/issues/588
+[i589]: https://github.com/ezra-bible-app/ezra-bible-app/issues/589
+[i596]: https://github.com/ezra-bible-app/ezra-bible-app/issues/596
+
+## [1.4.1 - 2021-12-21]
+
+Bugfix release for Windows. The GitHub Actions build for Windows was broken in 1.4.0.
+
 ## [1.4.0 - 2021-12-18]
 
 ### Enhancements
@@ -23,12 +79,14 @@ All notable changes to Ezra Bible App are documented in this file.
 * Fixed bug: Bible book locale was not rendered in case language code was hyphenated. ([#539](i539))
 * Fixed bug: Raised SWORD InstallMgr default timeout from 10s to 20s to fix issues with slow internet connections. ([#157][i157])
 * Fixed bug: The screen was cut off on Android in landscape mode. ([#545][i545])
+* Significant performance improvement for large tag lists. ([#543][i543])
 
 ### Enablers
 
 * Android: Adjusted target API level to 30 / Android 11. ([#509][i509])
 * Refactoring: Use observer pattern for events currently handled by AppController. ([#282](i282))
 * Android: Use new storage path /sdcard/Documents. ([#468][i468])
+* Android: Save last used Android version when app is closing. ([#546][i546])
 
 [i282]: https://github.com/ezra-bible-app/ezra-bible-app/issues/282
 [i394]: https://github.com/ezra-bible-app/ezra-bible-app/issues/394
@@ -49,6 +107,8 @@ All notable changes to Ezra Bible App are documented in this file.
 [i548]: https://github.com/ezra-bible-app/ezra-bible-app/issues/548
 [i346]: https://github.com/ezra-bible-app/ezra-bible-app/issues/346
 [i542]: https://github.com/ezra-bible-app/ezra-bible-app/issues/542
+[i546]: https://github.com/ezra-bible-app/ezra-bible-app/issues/546
+[i543]: https://github.com/ezra-bible-app/ezra-bible-app/discussions/543
 
 ## [1.3.0 - 2021-10-24]
 
@@ -627,7 +687,7 @@ This is a bugfix release.
 * Strong's support ([#10][i10])
   - Strong's transcriptions/original word are displayed as little hint/pop-up above the word when hovering the mouse over the corresponding word.
   - Detailed Strong's information is shown on the bottom left in a new area below the tags list.
-  - Strong's based search with link 'Find all occurrances' in info box.
+  - Strong's based search with link 'Find all occurrences' in info box.
 * Dutch translation (Thanks to Tom Lemmens)
 
 ### Enhancements

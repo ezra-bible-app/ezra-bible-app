@@ -36,6 +36,18 @@ class TagSelectionMenu {
     eventController.subscribe('on-tab-added', (tabIndex) => {
       this.init(tabIndex);
     });
+
+    eventController.subscribe('on-tag-created', async () => {
+      await this.requestTagsForMenu(true);
+    });
+
+    eventController.subscribe('on-tag-deleted', async () => {
+      await this.requestTagsForMenu(true);
+    });
+
+    eventController.subscribe('on-tag-renamed', async() => {
+      await this.requestTagsForMenu();
+    });
   }
 
   init(tabIndex=undefined) {
@@ -43,9 +55,40 @@ class TagSelectionMenu {
     currentVerseListMenu.find('.tag-select-button').bind('click', (event) => { this.handleTagMenuClick(event); });
     $('#tag-selection-filter-input').bind('keyup', () => { this.handleTagSearchInput(); });
 
+    // eslint-disable-next-line no-unused-vars
     $('#tag-selection-recently-used-checkbox').bind('click', (event) => {
       this.applyCurrentFilters();
     });
+
+    $('#select-all-tags-button').bind('click', () => {
+      this.selectAllTags();
+    });
+
+    $('#deselect-all-tags-button').bind('click', () => {
+      this.deselectAllTags();
+    });
+
+    $('#confirm-tag-selection-button').bind('click', () => {
+      this.handleConfirmButtonClick();
+    });
+  }
+
+  selectAllTags() {
+    var tagListContainer = this.getTagListContainer()[0];
+    tagListContainer.querySelectorAll('.tag-browser-tag-cb').forEach((cb) => { cb.checked = true; });
+    this.handleTagSelection();
+
+    var selectAllButton = document.getElementById('select-all-tags-button');
+    selectAllButton.classList.add('ui-state-disabled');
+  }
+
+  deselectAllTags() {
+    var tagListContainer = this.getTagListContainer()[0];
+    tagListContainer.querySelectorAll('.tag-browser-tag-cb').forEach((cb) => { cb.checked = false; });
+    this.handleTagSelection();
+
+    var selectAllButton = document.getElementById('select-all-tags-button');
+    selectAllButton.classList.remove('ui-state-disabled');
   }
 
   getTagListContainer() {
@@ -118,13 +161,12 @@ class TagSelectionMenu {
       menu.show();
 
       await waitUntilIdle();
-
-      if (!this.tag_menu_populated) {
-        await this.updateTagSelectionMenu();
-      }
+      await this.updateTagSelectionMenu();
 
       tagList.show();
       tagListOverlay.hide();
+
+      uiHelper.configureButtonStyles('#tag-selection-menu');
 
       if (platformHelper.isElectron()) {
         // We're only focussing the search filter on Electron, because on Android it would trigger the screen keyboard right away
@@ -145,6 +187,11 @@ class TagSelectionMenu {
 
   renderTagsInMenu(tags) {
     this.resetTagsInMenu();
+
+    if (tags.length > 50) {
+      document.getElementById('select-all-tags-button').style.display = 'none';
+    }
+
     var taglist_container = this.getTagListContainer();
     this.renderTagList(tags, taglist_container, false);
     this.bindClickToCheckboxLabels();
@@ -184,7 +231,7 @@ class TagSelectionMenu {
     }
 
     target_element.innerHTML = all_tags_html;
-    this.bindTagCbEvents();
+    this.initTagCBs();
   }
 
   updateCheckedTags(target_container) {
@@ -198,7 +245,7 @@ class TagSelectionMenu {
 
       var current_tag_is_checked = false;
       if (selected_tag_list !== null) {
-        current_tag_is_checked = selected_tag_list.includes(current_tag.innerText);
+        current_tag_is_checked = selected_tag_list.includes(current_tag.textContent);
       }
 
       var tag_browser_tag = current_tag.closest('.tag-browser-tag');
@@ -280,7 +327,7 @@ class TagSelectionMenu {
       var current_tag_id = $(checked_cbs[i]).closest('.tag-browser-tag').find('.tag-browser-tag-id').html();
       tag_list += current_tag_id;
 
-      if (i < (checked_cbs.length - 1)) tag_list += ","
+      if (i < (checked_cbs.length - 1)) tag_list += ",";
     }
 
     return tag_list;
@@ -294,22 +341,51 @@ class TagSelectionMenu {
       var current_tag_title = $(checked_cbs[i]).closest('.tag-browser-tag').find('.tag-browser-tag-title-content').text();
       tag_list += current_tag_title;
 
-      if (i < (checked_cbs.length - 1)) tag_list += ", "
+      if (i < (checked_cbs.length - 1)) tag_list += ", ";
     }
 
     return tag_list;
   }
 
-  async handleTagCbClick() {
+  async handleConfirmButtonClick() {
+    this.hideTagMenu();
     var currentTagIdList = this.selectedTagIds();
     var currentTagTitleList = this.selectedTagTitles();
     app_controller.openTaggedVerses(currentTagIdList, currentTagTitleList);
   }
 
-  bindTagCbEvents() {
+  handleTagSelection() {
+    var tagCountSelectedLabel = document.getElementById('tag-count-selected-label');
+    var confirmButton = document.getElementById('confirm-tag-selection-button');
+    var deselectAllButton = document.getElementById('deselect-all-tags-button');
+    var currentTagIdList = this.selectedTagIds();
+    var currentTagTitleList = this.selectedTagTitles();
+    var selectedTagCount = 0;
+   
+    if (currentTagIdList != "") { 
+      selectedTagCount = currentTagIdList.split(',').length;
+    }
+
+    if (selectedTagCount > 0) {
+      confirmButton.classList.remove('ui-state-disabled');
+      deselectAllButton.classList.remove('ui-state-disabled');
+    } else {
+      confirmButton.classList.add('ui-state-disabled');
+      deselectAllButton.classList.add('ui-state-disabled');
+    }
+
+    var tagCountLabelText = i18n.t('tags.tag-count-selected', { count: selectedTagCount });
+    tagCountSelectedLabel.textContent = tagCountLabelText;
+    tagCountSelectedLabel.setAttribute('title', currentTagTitleList);
+  }
+
+  initTagCBs() {
     var cbs = document.querySelectorAll('.tag-browser-tag-cb');
     for (var i = 0; i < cbs.length; i++) {
-      cbs[i].addEventListener('click', async () => { this.handleTagCbClick(); });
+      cbs[i].addEventListener('click', async () => { 
+        this.handleTagSelection(); 
+      });
+
       cbs[i].removeAttribute('checked');
       cbs[i].removeAttribute('disabled');
     }
@@ -324,6 +400,7 @@ class TagSelectionMenu {
     }
   }
 
+  // eslint-disable-next-line no-unused-vars
   async updateTagSelectionMenu(tabIndex) {
     if (!this.tag_menu_populated) {
       await this.requestTagsForMenu();
@@ -331,6 +408,7 @@ class TagSelectionMenu {
 
     var taglist_container = this.getTagListContainer();
     this.updateCheckedTags(taglist_container);
+    this.handleTagSelection();
   }
 
   updateVerseCountInTagMenu(tag_title, new_count) {

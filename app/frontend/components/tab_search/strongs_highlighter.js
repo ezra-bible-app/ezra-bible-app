@@ -22,7 +22,7 @@ class StrongsHighlighter {
     this.highlightFunction = highlightFunction;
   }
 
-  highlightOccurrances(occurances) {
+  highlightOccurrences(occurances) {
     occurances.forEach((occurance) => {
       var currentText = occurance.innerText;
       var highlightedText = this.highlightFunction(currentText);

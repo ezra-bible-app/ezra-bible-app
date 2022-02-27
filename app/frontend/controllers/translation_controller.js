@@ -46,6 +46,7 @@ class TranslationController {
       await this.initTranslationsMenu(-1, tabIndex);
     });
 
+    // eslint-disable-next-line no-unused-vars
     eventController.subscribe('on-translation-removed', async (translationId) => {
       $("select#bible-select").empty();
       await this.initTranslationsMenu();
@@ -84,12 +85,21 @@ class TranslationController {
 
   getBibleSelect(tabIndex) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    var bibleSelect = currentVerseListMenu.find('select.bible-select');
-    return bibleSelect;
+
+    if (currentVerseListMenu != null) {
+      var bibleSelect = currentVerseListMenu.find('select.bible-select');
+      return bibleSelect;
+    } else {
+      return null;
+    }
   }
 
   async addLanguageGroupsToBibleSelectMenu(tabIndex, localModules=undefined) {
     var bibleSelect = this.getBibleSelect(tabIndex);
+    if (bibleSelect == null) {
+      return;
+    }
+
     var languages = await this.getLanguages('BIBLE', localModules);
 
     for (let i = 0; i < languages.length; i++) {
@@ -102,6 +112,9 @@ class TranslationController {
 
   updateUiBasedOnNumberOfTranslations(tabIndex, count) {
     var bibleSelect = this.getBibleSelect(tabIndex);
+    if (bibleSelect == null) {
+      return;
+    }
 
     if (count == 0) {
       bibleSelect.attr('disabled','disabled');
@@ -109,7 +122,7 @@ class TranslationController {
       $('.tag-select-button').addClass('ui-state-disabled');
       $('.module-search-button').addClass('ui-state-disabled');
 
-      var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+      let currentVerseList = verseListController.getCurrentVerseList(tabIndex);
       // FIXME: This needs to be adjusted based on the new menu
       currentVerseList.find('.help-text').html(i18n.t("help.help-text-no-translations", { interpolation: {escapeValue: false} }));
     } else {
@@ -129,7 +142,7 @@ class TranslationController {
       }
 
       if (currentBook == null && currentTagIdList == "" && currentSearchTerm == null)  {
-        var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+        let currentVerseList = verseListController.getCurrentVerseList(tabIndex);
         currentVerseList.find('.help-text').text(i18n.t("help.help-text-translation-available"));
       }
     }
@@ -137,6 +150,10 @@ class TranslationController {
 
   addTranslationsToBibleSelectMenu(tabIndex, translations) {
     var bibleSelect = this.getBibleSelect(tabIndex)[0];
+    if (bibleSelect == null) {
+      return;
+    }
+
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
     var currentBibleTranslationId = null;
 
@@ -160,7 +177,7 @@ class TranslationController {
 
   async initTranslationsMenu(previousTabIndex=-1, tabIndex=undefined) {
     if (tabIndex === undefined) {
-      var tabIndex = app_controller.tab_controller.getSelectedTabIndex();
+      tabIndex = app_controller.tab_controller.getSelectedTabIndex();
     }
     //console.log("initTranslationsMenu " + tabIndex);
 
@@ -450,4 +467,3 @@ class TranslationController {
 }
 
 module.exports = TranslationController;
-

@@ -1,13 +1,13 @@
 {
   "tags-toolbar": {
     "new-tag": "Eticheta nouă",
-    "tag-statistics": "Statistici etichete",
     "assign-last-tag": "Atribuie ultima etichetă",
     "configure-translations": "Configurează traducerile",
     "configure-dicts": "Configurează dicționarele",
-    "show-parallel-translations": "Compară traducerile",
-    "compare": "Compară",
     "context": "Context"
+  },
+  "application-menu": {
+    "quit-app": "Închide Ezra Bible App"
   },
   "menu": {
     "book": "Carte",
@@ -178,7 +178,12 @@
     "module-copyright": "Copyright Traducere Biblie",
     "module-copyright-intro": "Te rog să ai în vedere că {{module_name}} deține copyright (drepturi de autor):",
     "module-copyright-disclaimer": "Prin continuarea exportului, îți exprimi acordul cu politica de copyright a acestei traduceri și cu orice restricții referitoare la citatele din {{module_name}}.",
-    "scripture-quote-from": "Citat preluat din:"
+    "scripture-quote-from": "Citat preluat din:",
+    "export": "Export",
+    "export-user-data-action": "Export user data",
+    "export-user-data-hint": "This function exports all user data (tags, notes) along with their verse references to a CSV file.",
+    "installed": "Instalat",
+    "not-installed": "Nu este instalat"
   },
   "help": {
     "help-text-no-tags-book-opened": "Pentru a începe să lucrezi cu etichete, crează prima ta etichetă făcând click pe butonul <i> Etichetă &nbsp;nouă </i>. <br/> <br/> După aceea poți răsfoi textul biblic, fă click sau trage-selectează versetele și apoi atribuie eticheta pe care tocmai ai creat-o.",
@@ -249,7 +254,13 @@
     "stats-total": "total",
     "only-currentbook-tagged-verses": "Doar cartea curentă",
     "most-frequently-used": "Cel mai frecvent utilizat",
-    "less-frequently-used": "Mai puțin frecvent utilizate"
+    "less-frequently-used": "Mai puțin frecvent utilizate",
+    "assign-tag-hint": "Selectează un verset pentru a-i atribui eticheta",
+    "show-tagged-verses": "Arată versetele etichetate",
+    "tag-count-selected_one": "{{count}} etichetă selectată",
+    "tag-count-selected_other": "{{count}} etichete selectate",
+    "select-all-tags": "Selectează tot",
+    "deselect-all-tags": "Deselectează tot"
   },
   "bible-browser": {
     "chapter": "Capitol",
@@ -292,7 +303,6 @@
     "select-chapter-before-loading": "Deschide cărțile cu selecție de capitol",
     "use-night-mode": "Mod de noapte",
     "keep-screen-on": "Menține ecranul aprins",
-    "tag-statistics": "Statistici etichete",
     "comparing-translations-for": "Comparare traduceri pentru",
     "strongs-number-not-valid": "Acesta nu este un număr valid de concordanță (Strong's)!",
     "open-new-tab": "Deschide filă nouă",
@@ -310,10 +320,20 @@
     "greek-dict": "Dicționar grec",
     "hebrew-dict": "Dicționar ebraic",
     "default-header": "<b>Dicţionar</b>",
-    "help-instruction": "<p> Cum să afișezi intrările de dicționar aici: </p> <ol> <li> Mai întâi deschide o traducere cu caracteristica Concordanță (Strong's). </li> <li> În timp ce apeși tasta SHIFT, poți muta mouse-ul peste anumite cuvinte și fraze ca să vezi intrările din dicționar aici. </li> <ol> ",
+    "help-instruction": "<p> Cum să afișezi intrările de dicționar aici: </p> <ol> <li>Asigură-te ca sunt instalate dicționarele de concordanță (Strong's) (Ebraică și Greacă). Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li> <li> Mai întâi deschide o traducere cu caracteristica Concordanță (Strong's). </li> <li> În timp ce apeși tasta SHIFT, poți muta mouse-ul peste anumite cuvinte și fraze ca să vezi intrările din dicționar aici. </li> <ol> ",
     "find-all-occurrences": "Găsește toate aparițiile",
     "open-in-blueletter": "Deschide în Biblia cu litere albastre",
     "related-strongs": "(Strong's) Concordanțe asociate"
+  },
+  "tag-statistics-panel": {
+    "default-header": "Statistici etichete",
+    "help-instruction": "Aici vei vedea statistici ale etichetelor bazate pe frecvența cu care sunt utilizate într-o carte.<br><br> În prezent, nu există atribuiri de etichete în această carte. Odată ce începi să atribui etichete, statisticile etichetelor se vor reîmprospăta automat."
+  },
+  "compare-panel": {
+    "default-header": "<b>Compară traducerile</b>",
+    "show-parallel-translations": "Compară traducerile",
+    "help-instruction": "Pentru a compara traducerile, selectează un verset sau un grup de versete.<br><br> Această zonă va lista automat versetele selectate din toate traducerile disponibile.",
+    "compare": "Compară"
   },
   "emoji": {
     "search": "Căută emoji ...",

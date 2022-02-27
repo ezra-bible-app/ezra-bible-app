@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const exportController = require('./export_controller.js');
+const exportHelper = require('../../helpers/export_helper.js');
 const { html } = require('../../helpers/ezra_helper.js');
 const swordHelper = require('../../helpers/sword_module_helper.js');
 
@@ -67,7 +68,6 @@ class DocxExport {
     var fileName;
     var isInstantLoadingBook = false;
 
-
     if (type === 'TAGS') {
       fileName = getUnixTagTitleList(currentTab);
     } else if (type === 'NOTES') {
@@ -77,23 +77,23 @@ class DocxExport {
       console.log('Unrecognized export type:', type);
       return;
     }
+    
+    var dialogTitle = i18n.t("tags.export-tagged-verse-list");
 
-    exportController.showSaveDialog(fileName).then(filePath => {
-      if (filePath) {
-        if (type === 'TAGS') {
-          renderCurrentTagsForExport(currentTab);
-        } else if (type === 'NOTES') {
-          renderNotesForExport(currentTab, isInstantLoadingBook);
-        }
+    const filePath = await exportHelper.showSaveDialog(fileName, 'docx', dialogTitle);
+    if (filePath) {
+      if (type === 'TAGS') {
+        renderCurrentTagsForExport(currentTab, filePath);
+      } else if (type === 'NOTES') {
+        renderNotesForExport(currentTab, isInstantLoadingBook, filePath);
       }
-    });
+    }
   }
-  
 }
 
 module.exports = DocxExport;
 
-function renderCurrentTagsForExport(currentTab) {
+function renderCurrentTagsForExport(currentTab, filePath) {
   const currentTagIdList = currentTab.getTagIdList();
   
   const currentTagTitleList = currentTab.getTagTitleList();
@@ -104,21 +104,21 @@ function renderCurrentTagsForExport(currentTab) {
     null,
     currentTagIdList,
     (verses, bibleBooks) => { 
-      exportController.saveWordDocument(title, verses, bibleBooks); 
+      exportController.saveWordDocument(filePath, title, verses, bibleBooks); 
     },
     'docx',
     false
   );
 }
 
-function renderNotesForExport(currentTab, isWholeBook=false) {
+function renderNotesForExport(currentTab, isWholeBook, filePath) {
   app_controller.text_controller.requestNotesForExport(
     undefined,
     currentTab.getBook(),
     isWholeBook ? null : currentTab.getChapter(),
     (verses, notes) => {
       const title = currentTab.getBookTitle() + (isWholeBook ? '' : ` ${currentTab.getChapter()}`);
-      exportController.saveWordDocument(title, verses, undefined, notes);
+      exportController.saveWordDocument(filePath, title, verses, undefined, notes);
     },
     'docx'
   );
@@ -170,16 +170,18 @@ async function agreeDisclaimerDialog(moduleId) {
     buttons[i18n.t('general.cancel')] = function() {
       $(this).dialog('close');
     };
-    buttons[i18n.t('general.ok')] = function() {
+    buttons[i18n.t('general.export')] = function() {
       agreed = true;
       $(this).dialog('close');
-    }
+    };
+
+    const title = i18n.t('menu.export') + ' &mdash; ' + i18n.t('general.module-copyright');
   
     $dialogBox.dialog({
       width,
       height,
       position: [offsetLeft, 120],
-      title: i18n.t('general.module-copyright'),
+      title: title,
       resizable: false,
       dialogClass: 'ezra-dialog',
       buttons: buttons,

@@ -14,3 +14,6 @@ updates:
       - dependency-name: "electron"
       - dependency-name: "spectron"
       - dependency-name: "chart.js"
+      - dependency-name: "sequelize"
+      - dependency-name: "sequelize-cli"
+      - dependency-name: "sqlite3"

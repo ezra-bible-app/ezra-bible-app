@@ -16,6 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+/* eslint-disable no-undef */
+
 const IpcGeneral = require('../ipc/ipc_general.js');
 const IpcI18n = require('../ipc/ipc_i18n.js');
 const i18nController = require('../controllers/i18n_controller.js');
@@ -58,11 +60,13 @@ class CordovaPlatform {
       }
 
       // cordova-plugin-ionic-keyboard event binding
+      // eslint-disable-next-line no-unused-vars
       window.addEventListener('keyboardDidShow', (event) => {
         document.body.classList.add('keyboard-shown');
       });
 
       // cordova-plugin-ionic-keyboard event binding
+      // eslint-disable-next-line no-unused-vars
       window.addEventListener('keyboardDidHide', (event) => {
         document.body.classList.remove('keyboard-shown');
       });
@@ -73,6 +77,7 @@ class CordovaPlatform {
 
   getAndroidVersion() {
     var userAgent = navigator.userAgent.toLowerCase(); 
+    // eslint-disable-next-line no-useless-escape
     var match = userAgent.match(/android\s([0-9\.]*)/i);
     var version = match ? match[1] : undefined;
 
@@ -91,7 +96,7 @@ class CordovaPlatform {
         resolve(status.hasPermission);
       }, () => {
         reject("Failed to check permissions!");
-      })
+      });
     });
   }
 
@@ -155,7 +160,8 @@ class CordovaPlatform {
     return new Promise((resolve, reject) => {
       var permissions = cordova.plugins.permissions;
 
-      return permissions.requestPermission(permissions.WRITE_EXTERNAL_STORAGE,
+      return permissions.requestPermission(
+        permissions.WRITE_EXTERNAL_STORAGE,
         (status) => { // success
           if ( status.hasPermission ) {
             resolve(true);

@@ -32,14 +32,14 @@ each tag in tags
   
   - var visible = true
   if current_filter != ''
-    - var visible = tags_controller.tagTitleMatchesFilter(tag.title, current_filter);
+    - var visible = tags_controller.tag_list_filter.tagTitleMatchesFilter(tag.title, current_filter);
 
   - var visibility = "";
   if !visible
-    - visibility = "display: none;"
+    - visibility = "hidden"
 
   - var last_used_timestamp = parseInt(tag.lastUsed);
-  div.checkbox-tag(style=visibility,
+  div.checkbox-tag(class=visibility,
                    tag-id=tag.id,
                    book-assignment-count=bookAssignmentCount,
                    global-assignment-count=globalAssignmentCount,
@@ -50,7 +50,8 @@ each tag in tags
       if current_book != null
         - tag_counts = currentStats.bookAssignmentCount + " | " + currentStats.globalAssignmentCount
     
-    input(class='tag-cb' type='checkbox' checked=false)
+    - var cb_id = 'tag-' + tag.id
+    i(id=cb_id class='fas fa-tag tag-button button-small')
 
     div(class='cb-input-label-stats')
       span(class='cb-label' class=used_in_book_class) #{tag.title}
@@ -61,9 +62,5 @@ each tag in tags
 
       span.cb-label-postfix
 
-    div(i18n='[title]tags.delete-tag', title=delete_tag_label class='tag-delete-button fg-button fg-button-icon-left ui-state-default ui-corner-all')
-      i(class='fas fa-trash-alt tag-delete-icon')
-
-    div(i18n='[title]tags.rename-tag', title=rename_tag_label class='tag-rename-button fg-button fg-button-icon-left ui-state-default ui-corner-all')
-      i(class='fas fa-edit tag-rename-icon')
-
+    i(i18n='[title]tags.rename-tag', title=rename_tag_label, class='fas fa-pen tag-rename-icon tag-rename-button button-small')
+    i(i18n='[title]tags.delete-tag', title=delete_tag_label, class='fas fa-trash-alt tag-delete-icon, tag-delete-button button-small')

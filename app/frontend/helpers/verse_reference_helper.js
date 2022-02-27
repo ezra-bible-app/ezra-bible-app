@@ -69,7 +69,7 @@ class VerseReferenceHelper
 
     var separator = await this.getReferenceSeparator(translation);
   
-    var split_support = false;
+    split_support = false;
     if (reference.search(/b/) != -1) {
       split_support = true;
     }

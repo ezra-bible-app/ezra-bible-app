@@ -30,14 +30,15 @@ const languageMapper = require('../../lib/language_mapper.js');
 module.exports.getReferenceSeparator = async function(moduleCode=undefined) {
   if (moduleCode == undefined) {
     
-    return reference_separator;
+    return window.reference_separator;
 
   } else {
-    var moduleReferenceSeparator = reference_separator;
+    var moduleReferenceSeparator = window.reference_separator;
     
     try {
       var localModule = await ipcNsi.getLocalModule(moduleCode);
       moduleReferenceSeparator = this.getSpecificTranslation(localModule.language, 'general.chapter-verse-separator');
+    // eslint-disable-next-line no-empty
     } catch (e) {}
     
     return moduleReferenceSeparator;

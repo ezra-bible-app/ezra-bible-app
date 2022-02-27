@@ -24,7 +24,7 @@
   overflow: hidden;
 }
 
-@media (orientation: landscape) {
+@media screen and (min-aspect-ratio: 15/10) {
   .Android #tool-panel #tag-list-stats {
     display: none;
   }
@@ -40,16 +40,27 @@
   }
 }
 
-@media (orientation: portrait) {
+
+@media screen and (max-aspect-ratio: 15/10) {
   #tool-panel {
-    height: 15em !important;
+    height: 10em !important;
     width: 100% !important;
     min-width: auto;
-    padding: 1em 0 0 0;
+    padding: 0.5em 0 0 0.2em;
   }
 
   #app-container.fullscreen #tool-panel {
-    height: 21.5em !important;
+    height: 15em !important;
+  }
+
+  @media (min-height: 800px) {
+    #tool-panel {
+      height: 15em !important;
+    }
+
+    #app-container.fullscreen #tool-panel {
+      height: 21.5em !important;
+    }
   }
 
   @media (min-height: 1000px) {
@@ -73,16 +84,14 @@
   }
 }
 
-@media (orientation: landscape) {
+@media screen and (min-aspect-ratio: 15/10) {
   #tool-panel {
     height: 100% !important;
   }
 }
 
 #tool-panel.hidden {
-  width: 0 !important;
-  min-width: 0;
-  padding: 0;
+  display: none;
 }
 
 #tool-panel > section {
@@ -127,7 +136,7 @@
   transition-delay: 0.5s;
 }
 
-@media (orientation: portrait) {
+@media screen and (max-aspect-ratio: 15/10) {
   #tool-panel .ui-resizable-n {
     display: block;
   }
@@ -143,7 +152,7 @@
   padding: 0 0.5em;
 }
 #detail-panel:empty, #detail-panel.hidden {
-  height: 0;
+  display: none;
 }
 
 #detail-panel > :first-child {
@@ -164,7 +173,7 @@
   padding: 0.5em 0.2em 0;
 }
 
-@media (orientation: portrait) {
+@media screen and (max-aspect-ratio: 15/10) {
   .ui-tabs .ui-tabs-panel {
     padding-left: 0;
   }
@@ -185,14 +194,6 @@
   height: 2.2em;
 }
 
-.accordion-panel input {
-  margin-right: 0.5em;
-}
-
-.Android .accordion-panel input {
-  margin-right: 1em;
-}
-
 .accordion-panel .ui-icon-triangle-1-s {
   display: none;
 }
@@ -205,11 +206,11 @@
   user-select: none;
 }
 
-#dictionary-panel-wrapper {
+.panel-wrapper {
   clear: both;
   height: calc(100% - 2.6em) !important;  /* overwrite default jqueryUI Accordion */
   box-sizing: border-box;
-  padding: 0.5em;
+  padding: 0.5em 0.5em !important;
   margin: 0.1em 0 0 0;
 }
 
@@ -242,8 +243,8 @@
   float: left;
 }
 
-#dictionary-panel-help {
-  margin-top: 2em;
+#dictionary-panel-help li {
+  margin-bottom: 0.5em;
 }
 
 #dictionary-panel-wrapper a:link {
@@ -251,11 +252,11 @@
   color: #2779aa;
 }
 
-.darkmode--activated #dictionary-panel-panel a:link {
+.darkmode--activated #dictionary-panel a:link {
   color: #97d0ff;
 }
 
-#dictionary-panel-panel a:hover {
+#dictionary-panel a:hover {
   text-decoration: underline;
 }
 
@@ -285,11 +286,17 @@ tr.td-underline td {
   float: left;
 }
 
+#new-standard-tag-button {
+  display: inline-block;
+  margin-left: 1em;
+  margin-top: -0.2em;
+  padding: 0.2em;
+}
+
 #tags-search-input {
   margin: 0;
-  margin-top: -0.2em;
   float: right;
-  width: 12em;
+  width: 9em;
 }
 
 #tag-filter-menu {
@@ -322,11 +329,16 @@ tr.td-underline td {
 }
 
 .checkbox-tag {
+  display: flex;
   min-height: 2em;
   content-visibility: auto;
   padding: 0.1em;
-  padding-top: 0.5em;
   padding-left: 0.5em;  
+  align-items: center;
+}
+
+.checkbox-tag *:not(.cb-input-label-stats) {
+  content-visibility: auto;
 }
 
 .Android .checkbox-tag {
@@ -346,32 +358,12 @@ tr.td-underline td {
   text-decoration: none;
 }
 
-.tag-cb {
-  margin-top: 0.25em;
+input.tag-cb {
+  display: none;
 }
 
-.Android .tag-cb {
-  margin-top: 0.1em;
-  margin-left: 0.5em;
-  transform: scale(1.5);
-}
-
-.cb-label,
-.cb-label-tag-assignment-count,
-.cb-label-postfix,
-.rename-tag-label {
-  margin-top: 0.1em;
-}
-
-.tag-cb,
-.cb-label,
-.cb-label-tag-assignment-count,
-.cb-label-postfix,
-.rename-tag-label,
-.meta-tag-title,
-.meta-tag-number-of-tags-container,
-.rename-meta-tag-label {
-  float: left;
+.tag-button {
+  margin-right: 1em !important;
 }
 
 .cb-label-tag-assignment-count,
@@ -384,7 +376,6 @@ tr.td-underline td {
   display: inline-block;
   max-width: 80%;
 }
-
 
 .Android .cb-input-label-stats {
   max-width: 70%;
@@ -402,19 +393,44 @@ tr.td-underline td {
   color: wheat;
 }
 
-.rename-tag-label,
-.rename-meta-tag-label {
-  display: none;
-  margin-left: 0.5em;
+.button-small {
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-content: center;
+  margin-right: 0.5em;
+  font-size: 0.7em;
   cursor: pointer;
+  color: #777;
+  border: 1px solid #8e8e8e;
+  border-radius: calc(var(--border-radius) - 2px);
+  background-color: var(--background-color);
+}
+.darkmode--activated .button-small {
+  color: #aaa;
+}
+.button-small.active, 
+.button-small.button-small:hover:not(.disabled):not(.no-hl) {
+  color: white;
+  background-color: var(--accent-color);
+  border-color: var(--highlight-border-color);
+}
+.button-small.disabled {
+  color: var(--disabled-button-color);
+  border-color: var(--disabled-button-color);
+  background-color: transparent;
+  opacity: 0.8;
 }
 
-#tags-content .ui-icon {
-  float: left;
+.Android .button-small {
+  width: 24px;
+  height: 24px;
+  margin-right: 1em;
+  font-size: 1em;
 }
 
-.cb-label input {
-  display: inline;
+.tag-rename-button {
+  margin-left: auto;
 }
 
 .ezra-dialog {
@@ -443,21 +459,43 @@ tr.td-underline td {
   width: 25em;
 }
 
-#new-tag-booktag-cb-label {
-  margin-left: 0.5em;
-}
-
 .is-global {
   display: none;
 }
 
 .selection-box {
   display: inline-block;
-  margin-left: 0.1em 0.1em 0.1em 0.5em;
+  margin: 0.1em 0.1em 0.3em 0.5em;
+  width: 18em;
 }
 
-@media only screen and (min-width: 1000px) {
-  .selection-box {
-    margin: 0 0 0 0.5em;
-  }  
+table.tag-statistics {
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+}
+
+table.tag-statistics tr:nth-child(even) {
+  background: var(--background-color-darker);
+}
+
+table.tag-statistics td, table.tag-statistics th {
+  padding: 0.5em;
+}
+
+.dict-installed, .dict-not-installed {
+  padding: 0.1em;
+  border-radius: 3px;
+}
+
+.dict-installed {
+  background-color: lightgreen;
+}
+
+.dict-not-installed {
+  background-color: lightcoral;
+}
+
+.darkmode--activated .dict-installed {
+  color: black;
 }

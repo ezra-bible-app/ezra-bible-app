@@ -1,13 +1,13 @@
 {
   "tags-toolbar": {
     "new-tag": "Nova etiqueta",
-    "tag-statistics": "Estatísticas de etiquetas",
     "assign-last-tag": "Atribuir última etiqueta",
     "configure-translations": "Configurar traduções",
     "configure-dicts": "Configurar dicionários",
-    "show-parallel-translations": "Comparar traduções",
-    "compare": "Comparar",
     "context": "Contexto"
+  },
+  "application-menu": {
+    "quit-app": "Sair da Bíblia Esdras"
   },
   "menu": {
     "book": "Livro",
@@ -178,7 +178,12 @@
     "module-copyright": "Direitos autorais de tradução da Bíblia",
     "module-copyright-intro": "Esteja ciente de que o {{module_name}} é protegido por direitos autorais:",
     "module-copyright-disclaimer": "Ao prosseguir com a exportação, você concorda com a política de direitos autorais desta tradução e com quaisquer restrições relacionadas às citações do {{module_name}}.",
-    "scripture-quote-from": "Escritura retirada de:"
+    "scripture-quote-from": "Escritura retirada de:",
+    "export": "Exportar",
+    "export-user-data-action": "Exportar dados do usuário",
+    "export-user-data-hint": "Esta função exporta todos os dados do usuário - (etiquetas e notas) juntamente com suas referências (versículos) - para um arquivo CSV.",
+    "installed": "Instalado",
+    "not-installed": "Não instalado"
   },
   "help": {
     "help-text-no-tags-book-opened": "Para começar a trabalhar com etiquetas, crie a primeira clicando no botão <i>Nova&nbsp;etiqueta</i>.<br/><br/>Depois disso, você pode navegar pelo texto da Bíblia e clicar, ou arrastar, e selecionar versículos - e em seguida, atribua a etiqueta que você acabou de criar.",
@@ -249,7 +254,13 @@
     "stats-total": "total",
     "only-currentbook-tagged-verses": "Apenas livro atual",
     "most-frequently-used": "Utilizadas com maior frequência",
-    "less-frequently-used": "Usadas com menor frequência"
+    "less-frequently-used": "Usadas com menor frequência",
+    "assign-tag-hint": "Selecione um versículo para atribuir uma etiqueta",
+    "show-tagged-verses": "Mostra versículos etiquetados",
+    "tag-count-selected_one": "{{count}} etiqueta selecionada",
+    "tag-count-selected_other": "{{count}} etiquetas selecionadas",
+    "select-all-tags": "Selecionar todas",
+    "deselect-all-tags": "Desconsiderar todas"
   },
   "bible-browser": {
     "chapter": "Capítulo",
@@ -292,7 +303,6 @@
     "select-chapter-before-loading": "Abrir livros com seleção por capítulo",
     "use-night-mode": "Modo noturno",
     "keep-screen-on": "Manter tela ativa",
-    "tag-statistics": "Estatísticas de etiquetas",
     "comparing-translations-for": "Comparando traduções para",
     "strongs-number-not-valid": "Este número de Strong não é válido!",
     "open-new-tab": "Abrir nova aba",
@@ -310,10 +320,20 @@
     "greek-dict": "Dicionário de Grego",
     "hebrew-dict": "Dicionário de Hebraico",
     "default-header": "<b>Dicionário</b>",
-    "help-instruction": "<p> Como mostrar entradas de dicionário aqui: </p><ol><li>Primeiro abra uma tradução com recurso Strong. </li><li>Enquanto pressiona a tecla SHIFT, você pode mover o mouse sobre palavras específicas ou frases para ver as entradas do dicionário aqui.</li><ol>",
+    "help-instruction": "<p> Como mostrar entradas de dicionário aqui: </p><ol><li>Certifique-se de que os dicionários de Strong (Hebraico e Grego) estão instalados. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li><li>Abra uma tradução com recurso Strong. </li><li>Enquanto pressiona a tecla SHIFT, você pode mover o mouse sobre palavras específicas ou frases para ver as entradas do dicionário aqui.</li><ol>",
     "find-all-occurrences": "Encontrar todas as ocorrências",
     "open-in-blueletter": "Abrir na Bíblia Blue Letter",
     "related-strongs": "Strong's relacionados"
+  },
+  "tag-statistics-panel": {
+    "default-header": "Estatísticas de etiquetas",
+    "help-instruction": "Aqui você verá estatísticas das etiquetas com base na frequência em que são utilizadas em cada livro.<br><br> No momento, não etiquetas atribuídas a este livro. Uma vez que você começar a atribuir etiquetas, as estatísticas serão atualizadas automaticamente."
+  },
+  "compare-panel": {
+    "default-header": "<b>Comparar traduções</b>",
+    "show-parallel-translations": "Comparar traduções",
+    "help-instruction": "Para comparar traduções, você deve selecionar um ou mais versículos.<br><br> Esta área listará automaticamente os versículos selecionados de todas as traduções disponíveis.",
+    "compare": "Comparar"
   },
   "emoji": {
     "search": "Buscar emojis...",

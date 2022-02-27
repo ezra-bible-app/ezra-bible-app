@@ -38,11 +38,11 @@ module.exports.getCachedItem = async function (key, defaultValue=false, shouldCh
   }
 
   return cached;
-}
+};
 
 module.exports.hasCachedItem = async function(key) {
   return await ipcSettings.has(key, CACHE_NAME);
-}
+};
 
 module.exports.setCachedItem = async function (key, value) {
   await ipcSettings.set(key, value, CACHE_NAME);
@@ -52,12 +52,11 @@ module.exports.setCachedItem = async function (key, value) {
     await ipcSettings.set('tabConfigurationTimestamp', currentTime, CACHE_NAME);
   }
 
-}
+};
 
 module.exports.deleteCache = async function (key) {
   await ipcSettings.delete(key, CACHE_NAME);
-}
-
+};
 
 module.exports.isCacheInvalid = async function () {
   var lastUsedVersion = await ipcSettings.get('lastUsedVersion', undefined);
@@ -72,7 +71,7 @@ module.exports.isCacheInvalid = async function () {
   console.log("Current language: " + currentLocale);*/
 
   return currentVersion != lastUsedVersion || currentLocale != cacheLocale;
-}
+};
 
 module.exports.isCacheOutdated = async function () {
   var tabConfigTimestamp = await this.getCachedItem('tabConfigurationTimestamp', null, false);
@@ -90,13 +89,13 @@ module.exports.isCacheOutdated = async function () {
   } else {
     return false;
   }
-}
+};
 
 //FIXME: if this is used only for checking cache validity store it in cache file and move it to appController
 module.exports.saveLastUsedVersion = async function () {
   await ipcSettings.storeLastUsedVersion();
-}
+};
 
 module.exports.saveLastLocale = async function () {
   await ipcSettings.set('cacheLocale', i18nController.getLocale(), CACHE_NAME);
-}
+};

@@ -16,39 +16,24 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-/**
- * This class controls Electron platform specific functionality:
- * - Full screen toggling and status checking as well as writing to the clipboard
- */
-class ElectronPlatform {
-  constructor() {}
+const path = require('path');
 
-  getWindow() {
-    const { remote } = require('electron');
-    var window = remote.getCurrentWindow();
-    return window;
-  }
+async function generateLongTagList() {
+  let homedir = require('os').homedir();
+  let userDataPath = path.join(homedir, '/.config/ezra-bible-app/');
 
-  toggleFullScreen() {
-    const { remote } = require('electron');
-    var window = remote.getCurrentWindow();
+  global.models = require('../app/backend/database/models')(userDataPath);
 
-    if (window.isFullScreen()) {
-      window.setFullScreen(false);
-    } else {
-      window.setFullScreen(true);
-    }
-  }
+  for (let i = 1; i <= 1000; i++) {
+    let tagTitle = `Tag ${i}`;
 
-  isFullScreen() {
-    var window = this.getWindow();
-    return window.isFullScreen();
-  }
-
-  async copyTextToClipboard(text) {
-    const { clipboard } = require('electron');
-    clipboard.writeText(text);
+    await global.models.Tag.create({
+      title: tagTitle,
+      bibleBookId: null
+    });
   }
 }
 
-module.exports = ElectronPlatform;
+(async () => {
+  await generateLongTagList();
+})();

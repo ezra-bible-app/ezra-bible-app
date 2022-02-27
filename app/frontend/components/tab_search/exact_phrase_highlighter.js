@@ -23,7 +23,7 @@ class ExactPhraseHighlighter {
     this.highlightFunction = highlightFunction;
   }
 
-  highlightOccurrances(nodes, searchString, caseSensitive=false, regexOptions) {
+  highlightOccurrences(nodes, searchString, caseSensitive=false, regexOptions) {
     this.resetPhraseSearch(searchString);
     var allHighlightNodes = this.getHighlightNodes(nodes, searchString, caseSensitive);
 

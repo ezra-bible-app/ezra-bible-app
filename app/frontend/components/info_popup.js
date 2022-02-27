@@ -17,8 +17,9 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const PlatformHelper = require('../../lib/platform_helper.js');
-const { html } = require('../helpers/ezra_helper.js');
+const { html, sleep } = require('../helpers/ezra_helper.js');
 const eventController = require('../controllers/event_controller.js');
+const exportHelper = require('../helpers/export_helper.js');
 
 class InfoPopup {
   constructor() {
@@ -35,7 +36,7 @@ class InfoPopup {
         if (currentBibleTranslationId != null) {
           this.enableCurrentAppInfoButton(tabIndex);
         }
-      }  
+      }
     });
 
     eventController.subscribe('on-all-translations-removed', () => {
@@ -101,7 +102,7 @@ class InfoPopup {
     }
 
     const swordVersion = await ipcNsi.getSwordVersion();
-    const chromiumVersion = getChromiumVersion();
+    const chromiumVersion = window.getChromiumVersion();
     const databasePath = await ipcDb.getDatabasePath();
     const configFilePath = await ipcSettings.getConfigFilePath();
     const swordPath = await ipcNsi.getSwordPath();
@@ -109,6 +110,8 @@ class InfoPopup {
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
     const moduleDescription = await swordModuleHelper.getModuleDescription(currentBibleTranslationId);
     const moduleInfo = await swordModuleHelper.getModuleInfo(currentBibleTranslationId, false, false);
+
+    const exportUserDataHint = await i18n.t('general.export-user-data-hint');
 
     var toggleFullScreenLine = '';
 
@@ -160,6 +163,17 @@ class InfoPopup {
           <tr><td>${i18n.t("general.config-file-path")}:</td><td>${configFilePath}</td></tr>
           <tr><td>${i18n.t("general.sword-path")}:</td><td>${swordPath}</td></tr>
         </table>
+
+        <div id="info-popup-export">
+          <h2>${i18n.t("general.export")}</h2>
+          <p>
+            <button id="export-user-data-button" title="${exportUserDataHint}" style="padding: 0.5em;" class="fg-button ui-state-default ui-corner-all" i18n="general.export-user-data-action">
+              ${i18n.t("general.export-user-data-action")}
+            </button>
+
+            <i id="user-data-export-result" class="fas fa-check fa-lg" style="display: none; margin-left: 0.5em; color: var(--checkmark-success-color);"></i>
+          </p>
+        </div>
       </div>
 
       <div id='app-info-tabs-4' class='info-tabs scrollable'>
@@ -197,7 +211,7 @@ class InfoPopup {
     </div>`;
 
     const width = uiHelper.getMaxDialogWidth();
-    const offsetLeft = ($(window).width() - width)/2;
+    const offsetLeft = ($(window).width() - width) / 2;
 
     $('#info-popup').dialog({
       width: width,
@@ -209,10 +223,29 @@ class InfoPopup {
     $('#info-popup-content').empty();
     $('#info-popup-content').html(appInfo.innerHTML);
     $('#app-info-tabs').tabs({ heightStyle: "fill" });
+
+    if (this.platformHelper.isElectron()) {
+      document.getElementById('export-user-data-button').addEventListener('click', async () => {
+        var dialogTitle = i18n.t("general.export-user-data-action");
+        var filePath = await exportHelper.showSaveDialog('User_data_export', 'csv', dialogTitle);
+
+        await ipcDb.exportUserData(filePath);
+
+        $('#user-data-export-result').fadeIn();
+        await sleep(3000);
+        $('#user-data-export-result').fadeOut();
+      });
+    } else {
+      // We hide the export section on Cordova, because the function is not supported there.
+      document.getElementById('info-popup-export').style.display = 'none';
+    }
+
+    uiHelper.configureButtonStyles('#info-popup-content');
+
     $('#info-popup').dialog("open");
   }
 
-  enableCurrentAppInfoButton(tabIndex=undefined) {
+  enableCurrentAppInfoButton(tabIndex = undefined) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     var appInfoButton = currentVerseListMenu.find('.app-info-button');
     appInfoButton.removeClass('ui-state-disabled');

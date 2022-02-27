@@ -20,6 +20,7 @@ const IpcMain = require('./ipc_main.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const Conf = require('conf');
 const fs = require('fs-extra');
+const path = require('path');
 
 class IpcSettingsHandler {
   constructor(androidVersion=undefined) {
@@ -42,14 +43,23 @@ class IpcSettingsHandler {
       };
 
       const userDataPath = this.platformHelper.getUserDataPath(false, this._androidVersion);
+      console.log(`Working with userDataPath ${userDataPath}`);
+
       if (!fs.existsSync(userDataPath)) {
+        console.log(`Directory ${userDataPath} does not exist yet, creating it!`);
         fs.mkdirSync(userDataPath, { recursive: true });
       }
 
       configOptions['cwd'] = userDataPath;
-      this._configurations[configName] = new Conf(configOptions);
 
-      console.log('Using settings file ' + this._configurations[configName].path);
+      try {
+        this._configurations[configName] = new Conf(configOptions);
+        console.log('Using settings file ' + this._configurations[configName].path);
+
+      } catch (exception) {
+        console.warn(`Got an exception when trying to set up configuration: ${exception}`);
+      }
+
     }
 
     return this._configurations[configName];

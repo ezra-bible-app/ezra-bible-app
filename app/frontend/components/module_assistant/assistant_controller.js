@@ -48,6 +48,7 @@ module.exports.initState = async function(moduleType) {
   const repositoriesAvailable = lastUpdate && await ipcNsi.repositoryConfigExisting();
 
   if (repositoriesAvailable) {
+    state.allRepositories = await ipcNsi.getRepoNames();
     state.reposUpdated = new Date(lastUpdate);
   }
   this.resetRepositoryUpdateSubscribers();

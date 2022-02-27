@@ -75,6 +75,7 @@ function handleVerseReferenceClick(event) {
   createWheelNavComponent();
 }
 
+// eslint-disable-next-line no-unused-vars
 function clearMenu(event) {
   if (currentSvgMenu) {
     currentSvgMenu.close();
@@ -108,6 +109,7 @@ function highlightCurrentVerseText(event) {
 function createWheelNavComponent() {
   var menuItems = getMenuItems();
 
+  // eslint-disable-next-line no-undef
   currentSvgMenu = new RadialMenu({
     parent      : currentWheelNavElement,
     size        : 170,
@@ -115,7 +117,7 @@ function createWheelNavComponent() {
     menuItems   : menuItems,
     onClick: handleMenuClick,
     onClose: function () {
-      app_controller.verse_selection.clear_verse_selection();
+      app_controller.verse_selection.clearVerseSelection();
     }
   });
 
@@ -125,11 +127,6 @@ function createWheelNavComponent() {
 function getMenuItems() {
 
   var items = [];
-
-  items.push({
-    id: 'compare',
-    icon: '#compare-icon'
-  });
 
   items.push({
     id: 'assign_last_tag',
@@ -157,7 +154,7 @@ function handleMenuClick(item) {
       }
       break;
     case 'assign_last_tag':
-      app_controller.assign_last_tag_button.handleClick();
+      tags_controller.assignLastTag();
       break;
     case 'copy_to_clipboard':
       app_controller.verse_selection.copySelectedVerseTextToClipboard();
