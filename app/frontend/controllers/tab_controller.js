@@ -137,6 +137,7 @@ class TabController {
       var copiedMetaTab = Object.assign({}, this.metaTabs[i]);
       copiedMetaTab.cachedText = this.getTabHtml(i);
       copiedMetaTab.previousBook = null;
+      copiedMetaTab.headersLoaded = false;
 
       if (copiedMetaTab.referenceVerseElementId != null) {
         copiedMetaTab.cachedReferenceVerse = this.getReferenceVerseHtml(i);
@@ -471,7 +472,12 @@ class TabController {
   }
 
   getSelectedTabIndex() {
-    var selectedTabIndex = this.tabs.tabs("option").selected;
+    var selectedTabIndex = null;
+
+    if (this.tabs != null) {
+      selectedTabIndex = this.tabs.tabs("option").selected;
+    }
+
     if (selectedTabIndex == null) {
       selectedTabIndex = 0;
     }

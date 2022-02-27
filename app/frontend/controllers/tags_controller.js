@@ -40,9 +40,8 @@ class TagsController {
 
     this.tag_store = new TagStore();
     this.tag_list_filter = new TagListFilter();
-    this.tag_store.onLatestUsedTagChanged = (tagId) => { app_controller.assign_last_tag_button.onLatestUsedTagChanged(tagId); };
+
     this.verse_box_helper = new VerseBoxHelper();
-    this.tag_stats_element_cache = {};
 
     this.new_standard_tag_button = $('#new-standard-tag-button');
     this.verse_selection_blocked = false;
@@ -50,6 +49,7 @@ class TagsController {
 
     this.assign_tag_label = i18n.t("tags.assign-tag");
     this.unassign_tag_label = i18n.t("tags.remove-tag-assignment");
+    this.assign_tag_hint = i18n.t("tags.assign-tag-hint");
   
     this.tag_to_be_deleted = null;
     this.tag_to_be_deleted_title = null;
@@ -68,7 +68,6 @@ class TagsController {
     this.selected_verse_references = [];
     this.selected_verse_boxes = [];
 
-    this.initialRenderingDone = false;
     this.newTagDialogInitDone = false;
     this.deleteTagConfirmationDialogInitDone = false;
     this.removeTagAssignmentConfirmationDialogInitDone = false;
@@ -76,10 +75,32 @@ class TagsController {
     this.lastContentId = null;
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
-      // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
-      this.verses_were_selected_before = true;
-      await this.updateTagsView(tabIndex);
+      const currentTab = app_controller.tab_controller.getTab(tabIndex);
 
+      if (currentTab != null && currentTab.addedInteractively) {
+        // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
+        this.verses_were_selected_before = true;
+
+        await this.updateTagsView(tabIndex);
+        this.resetActivePanelToTagPanel(tabIndex);
+      }
+    });
+
+    eventController.subscribe('on-bible-text-loaded', () => {
+      var currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+      const currentTab = app_controller.tab_controller.getTab(currentTabIndex);
+
+      if (currentTab != null && currentTab.addedInteractively) {
+        this.resetActivePanelToTagPanel(currentTabIndex);
+      }
+    });
+
+    eventController.subscribe('on-module-search-started', (tabIndex) => {
+      const currentTab = app_controller.tab_controller.getTab(tabIndex);
+
+      if (currentTab != null && currentTab.addedInteractively) {
+        this.resetActivePanelToTagPanel(tabIndex);
+      }
     });
 
     eventController.subscribe('on-locale-changed', async () => {
@@ -90,6 +111,21 @@ class TagsController {
     eventController.subscribe('on-translation-removed', async () => {
       await this.updateTagUiBasedOnTagAvailability();
     });
+
+    eventController.subscribe('on-verses-selected', async () => {
+      await this.updateTagsViewAfterVerseSelection(false);
+    });
+  }
+
+  resetActivePanelToTagPanel(tabIndex) {
+    var panelButtons = document.getElementById('panel-buttons');
+    var tab = app_controller.tab_controller.getTab(tabIndex);
+
+    if (panelButtons.activePanel != "" && panelButtons.activePanel != 'tag-panel') {
+      if (tab.isNew() || tab.isVerseList()) {
+        panelButtons.activePanel = 'tag-panel';
+      }
+    }
   }
 
   /**
@@ -213,7 +249,7 @@ class TagsController {
   
     remove_tag_assignment_confirmation_dlg_options.buttons = {};
     remove_tag_assignment_confirmation_dlg_options.buttons[i18n.t("general.cancel")] = function() {
-      tags_controller.remove_tag_assignment_job.cb.attr('checked','checked');
+      tags_controller.remove_tag_assignment_job.tag_button.addClass('active');
       tags_controller.remove_tag_assignment_job = null;
   
       $(this).dialog("close");
@@ -227,7 +263,7 @@ class TagsController {
     // eslint-disable-next-line no-unused-vars
     $('#remove-tag-assignment-confirmation-dialog').bind('dialogbeforeclose', function(event) {
       if (!tags_controller.persistence_ongoing && tags_controller.remove_tag_assignment_job != null) {
-        tags_controller.remove_tag_assignment_job.cb.attr('checked','checked');
+        tags_controller.remove_tag_assignment_job.tag_button.addClass('active');
         tags_controller.remove_tag_assignment_job = null;
       }
     });
@@ -307,6 +343,11 @@ class TagsController {
       }
     );
 
+    await eventController.publishAsync('on-latest-tag-changed', {
+      'tagId': tags_controller.rename_standard_tag_id,
+      'added': false
+    });
+
     tags_controller.sortTagLists();
     await tags_controller.updateTagsViewAfterVerseSelection(true);
   }
@@ -345,6 +386,10 @@ class TagsController {
     }
 
     await eventController.publishAsync('on-tag-created', result.dbObject.id);
+    await eventController.publishAsync('on-latest-tag-changed', {
+      'tagId': result.dbObject.id,
+      'added': true
+    });
 
     var tab = app_controller.tab_controller.getTab();
     await tags_controller.updateTagList(tab.getBook(), tab.getContentId(), true);
@@ -437,10 +482,16 @@ class TagsController {
   }
 
   async assignLastTag() {
+    app_controller.hideAllMenus();
+    uiHelper.showTextLoadingIndicator();
+    await waitUntilIdle();
+
     if (this.tag_store.latest_tag_id != null) {
       var checkbox_tag = this.getCheckboxTag(this.tag_store.latest_tag_id);
       await this.clickCheckBoxTag(checkbox_tag);
     }
+
+    uiHelper.hideTextLoadingIndicator();
   }
 
   async handleTagLabelClick(event) {
@@ -452,16 +503,37 @@ class TagsController {
     var current_verse_list = app_controller.verse_selection.selected_verse_references;
 
     if (!tags_controller.is_blocked && current_verse_list.length > 0) {
-      var checkbox = checkboxTag.find('.tag-cb');
-      checkbox.prop('checked', !checkbox.prop('checked'));
+      this.toggleTagButton(checkboxTag);
       await tags_controller.handleCheckboxTagStateChange(checkboxTag);
     }
+  }
+
+  toggleTagButton(checkboxTag) {
+    var tag_button = checkboxTag[0].querySelector('.tag-button');
+    var isActive = tag_button.classList.contains('active');
+
+    if (isActive) {
+      tag_button.classList.remove('active');
+
+      if (platformHelper.isElectron()) {
+        tag_button.classList.add('no-hl');
+        tag_button.addEventListener('mouseleave', tags_controller.removeTagButtonNoHl);
+      }
+    } else {
+      tag_button.classList.add('active');
+    }
+  }
+
+  removeTagButtonNoHl(event) {
+    event.target.classList.remove('no-hl');
+    event.target.removeEventListener('mouseleave', tags_controller.removeTagButtonNoHl);
   }
 
   async handleTagCbClick(event) {
     await waitUntilIdle();
 
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
+    this.toggleTagButton(checkbox_tag);
     await tags_controller.handleCheckboxTagStateChange(checkbox_tag);
   }
 
@@ -478,10 +550,9 @@ class TagsController {
     }, 300);
 
     var id = parseInt(checkbox_tag.attr('tag-id'));
-    var cb = checkbox_tag.find('.tag-cb')[0];
+    var tag_button = checkbox_tag[0].querySelector('.tag-button');
     var cb_label = checkbox_tag.find('.cb-label').html();
-    var checkbox_is_checked = $(cb).is(':checked');
-    cb.blur();
+    var tag_button_is_active = tag_button.classList.contains('active');
 
     var current_verse_selection = app_controller.verse_selection.current_verse_selection_as_xml(); 
     var current_verse_reference_ids = app_controller.verse_selection.current_verse_selection_as_verse_reference_ids();
@@ -494,7 +565,7 @@ class TagsController {
       is_global = true;
     }
 
-    if (checkbox_is_checked) {
+    if (tag_button_is_active) {
       // Update last used timestamp
       var current_timestamp = new Date(Date.now()).getTime();
       checkbox_tag.attr('last-used-timestamp', current_timestamp);
@@ -502,19 +573,16 @@ class TagsController {
       this.tag_store.updateTagTimestamp(id, current_timestamp);
       await this.tag_store.updateLatestAndOldestTagData();
 
-      // Drop the cached stats element, because it is outdated now
-      this.dropCachedTagStats(id);
-
       app_controller.tag_selection_menu.updateLastUsedTimestamp(id, current_timestamp);
       app_controller.tag_selection_menu.applyCurrentFilters();
 
-      $(cb).attr('title', i18n.t("tags.remove-tag-assignment"));
+      $(tag_button).attr('title', i18n.t("tags.remove-tag-assignment"));
 
       var filteredVerseBoxes = [];
       var currentVerseList = verseListController.getCurrentVerseList();
 
       // Create a list of filtered ids, that only contains the verses that do not have the selected tag yet
-      for (var i = 0; i < current_verse_reference_ids.length; i++) {
+      for (let i = 0; i < current_verse_reference_ids.length; i++) {
         var currentVerseReferenceId = current_verse_reference_ids[i];
         var currentVerseBox = currentVerseList[0].querySelector('.verse-reference-id-' + currentVerseReferenceId);
 
@@ -522,7 +590,7 @@ class TagsController {
           var existingTagIdElements = currentVerseBox.querySelectorAll('.tag-id');
           var existingTagIds = [];
           
-          for (var j = 0; j < existingTagIdElements.length; j++) {
+          for (let j = 0; j < existingTagIdElements.length; j++) {
             var currentTagId = parseInt(existingTagIdElements[j].innerText);
             existingTagIds.push(currentTagId);
           }
@@ -550,15 +618,16 @@ class TagsController {
                                              $.create_xml_doc(current_verse_selection),
                                              "assign");
 
+      await eventController.publishAsync('on-latest-tag-changed', {
+        'tagId': id,
+        'added': true
+      });
+
       var currentBook = app_controller.tab_controller.getTab().getBook();
 
       tags_controller.updateTagCountAfterRendering(currentBook != null);
       await tags_controller.updateTagsViewAfterVerseSelection(true);
       await tags_controller.updateTagUiBasedOnTagAvailability();
-
-      if (currentBook != null) {
-        await app_controller.tag_statistics.updateBookTagStatistics();
-      }
 
     } else {
 
@@ -570,7 +639,7 @@ class TagsController {
         'verse_list': current_verse_list,
         'verse_ids': current_verse_reference_ids,
         'xml_verse_selection': $.create_xml_doc(current_verse_selection),
-        'cb': $(cb)
+        'tag_button': $(tag_button)
       };
 
       if (current_verse_list.length > 1) {
@@ -658,14 +727,14 @@ class TagsController {
                                            job.xml_verse_selection,
                                            "remove");
 
-    job.cb.attr('title', i18n.t("tags.assign-tag"));
+    job.tag_button.attr('title', i18n.t("tags.assign-tag"));
     job.checkbox_tag.append(tags_controller.loading_indicator);
 
     var verse_boxes = [];
 
     var currentVerseList = verseListController.getCurrentVerseList();
 
-    for (var i = 0; i < job.verse_ids.length; i++) {
+    for (let i = 0; i < job.verse_ids.length; i++) {
       var currentVerseReferenceId = job.verse_ids[i];
       var currentVerseBox = currentVerseList[0].querySelector('.verse-reference-id-' + currentVerseReferenceId);
       verse_boxes.push(currentVerseBox);
@@ -683,15 +752,14 @@ class TagsController {
       return;
     }
 
-    // Drop the cached stats element, because it is outdated now
-    this.dropCachedTagStats(job.id);
-
-    await app_controller.assign_last_tag_button.onLatestUsedTagChanged(job.id, false);
+    await eventController.publishAsync('on-latest-tag-changed', {
+      'tagId': job.id,
+      'added': false
+    });
 
     var currentBook = app_controller.tab_controller.getTab().getBook();
     tags_controller.updateTagCountAfterRendering(currentBook != null);
     tags_controller.updateTagUiBasedOnTagAvailability();
-    await app_controller.tag_statistics.updateBookTagStatistics();
 
     tags_controller.remove_tag_assignment_job = null;
     tags_controller.persistence_ongoing = false;
@@ -738,25 +806,6 @@ class TagsController {
     global_tags_box.find('.checkbox-tag').sort_elements(sort_function);
   }
 
-  async refreshBookTagStatistics(tag_list, tag_statistics, current_book) {
-    var book_tag_statistics = [];
-    
-    for (var i = 0; i < tag_list.length; i++) {
-      var currentTag = tag_list[i];
-      var currentTagStatistics = tag_statistics[currentTag.id];
-
-      var is_used_in_current_book = (currentTagStatistics.bookAssignmentCount > 0) ? true : false;
-
-      if (current_book != null && is_used_in_current_book) {
-        book_tag_statistics[currentTag.title] = parseInt(currentTagStatistics.bookAssignmentCount);
-      }
-    }
-
-    if (current_book != null) {
-      await app_controller.tag_statistics.updateBookTagStatistics(book_tag_statistics);
-    }
-  }
-
   async getTagList(forceRefresh=true) {
     var tagList = await this.tag_store.getTagList(forceRefresh);
     return tagList;
@@ -783,133 +832,28 @@ class TagsController {
     }
   }
 
-  getNewTagStatsElement(tag_statistics, currentElementId, tagId, current_book) {
-    var newElement = document.createElement('span');
-    newElement.classList.add('cb-label-tag-assignment-count');
-    newElement.setAttribute('id', currentElementId);
-
-    var currentTagStatistics = tag_statistics[tagId];
-    var bookCount = currentTagStatistics.bookAssignmentCount;
-    var globalCount = currentTagStatistics.globalAssignmentCount;
-    var newElementStats = "(";
-
-    if (current_book != "no-book") newElementStats += bookCount + ' | ';
-    newElementStats += globalCount + ')';
-    newElement.innerText = newElementStats;
-
-    return newElement;
-  }
-
-  updateStatsElements(tag_statistics) {
-    var current_book = app_controller.tab_controller.getTab().getBook();
-    if (current_book == null) current_book = "no-book";
-
-    if (!(current_book in this.tag_stats_element_cache)) {
-      this.tag_stats_element_cache[current_book] = {};
-    }
-
-    var global_tags_box_el = document.getElementById('tags-content-global');
-    var tag_stats_elements = global_tags_box_el.querySelectorAll('.cb-label-tag-assignment-count');
-
-    for (var i = 0; i < tag_stats_elements.length; i++) {
-      var currentElement = tag_stats_elements[i];
-      var currentElementId = currentElement.getAttribute('id');
-      var lastHyphenIndex = currentElementId.lastIndexOf('-');
-
-      if (lastHyphenIndex == -1) continue;
-
-      var tagId = currentElementId.substring(lastHyphenIndex + 1);
-
-      if (!(currentElementId in this.tag_stats_element_cache[current_book])) {
-        var newElement = this.getNewTagStatsElement(tag_statistics, currentElementId, tagId, current_book);
-        this.tag_stats_element_cache[current_book][currentElementId] = newElement;
-      }
-
-      var cachedElement = this.tag_stats_element_cache[current_book][currentElementId];
-      var cbLabel = currentElement.parentNode.querySelector('.cb-label');
-
-      if (current_book != "no-book") {
-        var cachedElementText = cachedElement.innerText;
-        var indexOfDivider = cachedElementText.indexOf('|');
-        var bookCount = parseInt(cachedElementText.substring(1, indexOfDivider));        
-        var cbLabelClassList = cbLabel.classList;
-
-        if (bookCount > 0 && !cbLabelClassList.contains('cb-label-assigned')) {
-          cbLabel.classList.add('cb-label-assigned');
-        }
-
-        if (bookCount == 0 && cbLabelClassList.contains('cb-label-assigned')) {
-          cbLabel.classList.remove('cb-label-assigned');
-        }
-
-        var checkbox_tag = cbLabel.parentNode;
-        checkbox_tag.setAttribute('book-assignment-count', bookCount);
-      } else {
-        cbLabel.classList.remove('cb-label-assigned');
-      }
-
-      currentElement.parentNode.replaceChild(cachedElement, currentElement);
-    }
-  }
-
-  initTagStatsElementCache() {
-    var current_book = app_controller.tab_controller.getTab().getBook();
-
-    if (!(current_book in this.tag_stats_element_cache)) {
-      this.tag_stats_element_cache[current_book] = {};
-    }
-
-    var global_tags_box_el = document.getElementById('tags-content-global');
-    var tag_stats_elements = global_tags_box_el.querySelectorAll('.cb-label-tag-assignment-count');
-
-    for (var i = 0; i < tag_stats_elements.length; i++) {
-      var currentElement = tag_stats_elements[i];
-      var currentElementId = currentElement.getAttribute('id');
-
-      this.tag_stats_element_cache[current_book][currentElementId] = currentElement;
-    }
-  }
-
-  dropCachedTagStats(tagId) {
-    for (var book in this.tag_stats_element_cache) {
-      var bookCache = this.tag_stats_element_cache[book];
-      var elementId = 'cb-label-tag-assignment-count-' + tagId;
-
-      if (elementId in bookCache) {
-        delete bookCache[elementId];
-      }
-    }
-  }
-
   async renderTags(tag_list, tag_statistics, is_book=false) {
     //console.time("renderTags");
     var current_book = app_controller.tab_controller.getTab().getBook();
     var global_tags_box_el = document.getElementById('tags-content-global');
 
-    if (!this.initialRenderingDone) {
-      // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
-      this.verses_were_selected_before = true;
+    // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
+    this.verses_were_selected_before = true;
 
-      // eslint-disable-next-line no-undef
-      var all_tags_html = tagListTemplate({
-        tags: tag_list,
-        tagStatistics: tag_statistics,
-        current_book: current_book,
-        current_filter: $('#tags-search-input').val(),
-        rename_tag_label: i18n.t("tags.rename-tag"),
-        delete_tag_label: i18n.t("tags.delete-tag-permanently"),
-      });
+    // eslint-disable-next-line no-undef
+    var all_tags_html = tagListTemplate({
+      tags: tag_list,
+      tagStatistics: tag_statistics,
+      current_book: current_book,
+      current_filter: $('#tags-search-input').val(),
+      rename_tag_label: i18n.t("tags.rename-tag"),
+      delete_tag_label: i18n.t("tags.delete-tag-permanently"),
+    });
 
-      global_tags_box_el.innerHTML = '';
-      global_tags_box_el.innerHTML = all_tags_html;
+    global_tags_box_el.innerHTML = '';
+    global_tags_box_el.innerHTML = all_tags_html;
 
-      this.initTagStatsElementCache();
-      this.initialRenderingDone = true;
-    } else {
-      this.updateStatsElements(tag_statistics);
-    }
-
-    await tags_controller.refreshBookTagStatistics(tag_list, tag_statistics, current_book);
+    await app_controller.tag_statistics.refreshBookTagStatistics(tag_list, tag_statistics, current_book);
     uiHelper.configureButtonStyles('#tags-content');
 
     tags_controller.updateTagsViewAfterVerseSelection(true);
@@ -964,13 +908,13 @@ class TagsController {
   }
 
   removeEventListeners(element_list, type, listener) {
-    for (var i = 0; i < element_list.length; i++) {
+    for (let i = 0; i < element_list.length; i++) {
       element_list[i].removeEventListener(type, listener);
     }
   }
 
   addEventListeners(element_list, type, listener) {
-    for (var i = 0; i < element_list.length; i++) {
+    for (let i = 0; i < element_list.length; i++) {
       element_list[i].addEventListener(type, listener);
     }
   }
@@ -985,7 +929,7 @@ class TagsController {
         tags_controller.handleDeleteTagButtonClick(event);
       } else if (event.target.matches('.tag-rename-icon') || event.target.matches('.tag-rename-button')) {
         tags_controller.handleRenameTagClick(event);
-      } else if (event.target.matches('.tag-cb')) {
+      } else if (event.target.matches('.tag-button')) {
         await tags_controller.handleTagCbClick(event);
       } else if (event.target.matches('.cb-label')) {
         await tags_controller.handleTagLabelClick(event);
@@ -1003,7 +947,7 @@ class TagsController {
       return (($(this).html() == tag_id) && ($(this).parent().hasClass(tag_class)));
     }).closest('.' + tag_class);
 
-    for (var i = 0; i < tag_data_elements.length; i++) {
+    for (let i = 0; i < tag_data_elements.length; i++) {
       var current_tag_data = $(tag_data_elements[i]);
       current_tag_data.find('.tag-title').html(title);
 
@@ -1032,7 +976,7 @@ class TagsController {
       selected_verse_tags = app_controller.verse_selection.getCurrentSelectionTags();
       var checkbox_tags = document.querySelectorAll('.checkbox-tag');
 
-      for (var i = 0; i < checkbox_tags.length; i++) {
+      for (let i = 0; i < checkbox_tags.length; i++) {
         this.formatCheckboxElementBasedOnSelection(checkbox_tags[i], selected_verse_tags);
       }
 
@@ -1047,29 +991,28 @@ class TagsController {
       this.verses_were_selected_before = false;
     }
 
-    await app_controller.assign_last_tag_button.refreshLastTagButtonState(versesSelected, selected_verse_tags);
     //console.timeEnd('updateTagsViewAfterVerseSelection');
   }
 
   formatCheckboxElementBasedOnSelection(cb_element, selected_verse_tags) {
-    var current_checkbox = cb_element.querySelector('.tag-cb');
+    var current_tag_button = cb_element.querySelector('.tag-button');
     var current_title_element = cb_element.querySelector('.cb-label');
     var current_title = current_title_element.innerHTML;
     var current_title_element_postfix = cb_element.querySelector('.cb-label-postfix');
     var match_found = false;
 
-    for (var j = 0; j < selected_verse_tags.length; j++) {
+    for (let j = 0; j < selected_verse_tags.length; j++) {
       var current_tag_obj = selected_verse_tags[j];
 
       if (current_tag_obj.title == current_title) {
         if (current_tag_obj.complete) {
-          current_checkbox.setAttribute('title', this.unassign_tag_label);
-          current_checkbox.checked = true;
+          current_tag_button.setAttribute('title', this.unassign_tag_label);
+          current_tag_button.classList.add('active');
           current_title_element_postfix.innerHTML = '';
           current_title_element.classList.remove('underline');
         } else {
-          current_checkbox.setAttribute('title', this.assign_tag_label);
-          current_checkbox.checked = false;
+          current_tag_button.setAttribute('title', this.assign_tag_label);
+          current_tag_button.classList.remove('active');
           current_title_element_postfix.innerHTML = '&nbsp;*';
           current_title_element.classList.add('underline');
         }
@@ -1079,15 +1022,14 @@ class TagsController {
     }
 
     if (!match_found) {
-      current_checkbox.checked = false;
-      current_checkbox.setAttribute('title', this.assign_tag_label);
+      current_tag_button.classList.remove('active');
+      current_tag_button.setAttribute('title', this.assign_tag_label);
       current_title_element.classList.remove('underline');
       current_title_element_postfix.innerHTML = '';
     }
 
     if (!this.verses_were_selected_before) {
-      current_checkbox.removeAttribute('disabled');
-      current_checkbox.style.opacity = '1.0';
+      current_tag_button.classList.remove('disabled');
     }
   }
 
@@ -1095,14 +1037,13 @@ class TagsController {
     var all_checkbox_elements = document.querySelectorAll('.checkbox-tag');
 
     if (all_checkbox_elements.length > 0) {
-      for (var i = 0; i < all_checkbox_elements.length; i++) {
+      for (let i = 0; i < all_checkbox_elements.length; i++) {
         var current_checkbox_element = all_checkbox_elements[i];
 
-        var current_cb = current_checkbox_element.querySelector('.tag-cb');
-        current_cb.checked = false;
-        current_cb.setAttribute('disabled', 'disabled');
-        current_cb.setAttribute('title', '');
-        current_cb.style.opacity = '0.3';
+        var current_tag_button = current_checkbox_element.querySelector('.tag-button');
+        current_tag_button.setAttribute('title', this.assign_tag_hint);
+        current_tag_button.classList.add('disabled');
+        current_tag_button.classList.remove('active');
 
         var current_title_element = current_checkbox_element.querySelector('.cb-label');
         current_title_element.classList.remove('underline');
@@ -1122,6 +1063,10 @@ class TagsController {
     $('#tags-search-input').bind('keyup', (e) => { this.tag_list_filter.handleTagSearchInput(e); });
     $('#tags-search-input').bind('keydown', function(e) {
       e.stopPropagation(); 
+    });
+
+    document.getElementById('new-standard-tag-button').addEventListener('click', function() {
+      tags_controller.handleNewTagButtonClick($(this), "standard");
     });
 
     tags_controller.bindTagEvents();
@@ -1178,6 +1123,8 @@ class TagsController {
         var currentTabBook = currentTab.getBook();
         var currentTabContentId = currentTab.getContentId();
         this.updateTagList(currentTabBook, currentTabContentId, forceRefresh);
+      } else {
+        this.lastContentId = null;
       }
     }
   }

@@ -31,7 +31,7 @@ const verseListController = require('../controllers/verse_list_controller.js');
 class VerseSelection {
   constructor() {
     this.selected_verse_references = null;
-    this.selected_verse_box_elements = null;
+    this.selected_verse_box_elements = [];
     this.verseReferenceHelper = null;
 
     eventController.subscribe('on-locale-changed', async () => {
@@ -43,11 +43,11 @@ class VerseSelection {
     });
 
     eventController.subscribe('on-tab-selected', (tabIndex) => {
-      this.clear_verse_selection(true, tabIndex);
+      this.clearVerseSelection(true, tabIndex);
     });
 
     eventController.subscribe('on-all-translations-removed', () => {
-      this.clear_verse_selection();
+      this.clearVerseSelection();
     });
   }
 
@@ -81,12 +81,21 @@ class VerseSelection {
       stop: (event, ui) => {
         this.updateSelected(verseList);
         this.updateViewsAfterVerseSelection();
+        this.publishVersesSelected();
       },
 
       // eslint-disable-next-line no-unused-vars
       selected: (event, ui) => {
         // Not needed anymore!
       }
+    });
+  }
+
+  publishVersesSelected(tabIndex=undefined) {
+    eventController.publishAsync('on-verses-selected', {
+      'selectedElements': this.selected_verse_box_elements,
+      'selectedVerseTags': this.getCurrentSelectionTags(),
+      'tabIndex': tabIndex
     });
   }
 
@@ -101,10 +110,14 @@ class VerseSelection {
           e.target.matches('.verse-box') ||
           e.target.matches('.verse-list-frame')) {
         
-        this.clear_verse_selection();
+        this.clearVerseSelection();
         app_controller.handleBodyClick(e);
       }
     });
+  }
+
+  versesSelected() {
+    return this.selected_verse_box_elements.length > 0;
   }
 
   getVerseReferenceFromAnchor(anchorText) {
@@ -115,14 +128,14 @@ class VerseSelection {
 
   setVerseAsSelection(verseText) {
     if (verseText != null) {
-      this.clear_verse_selection(false, undefined);
+      this.clearVerseSelection(false, undefined);
       verseText.classList.add('ui-selected');
       verseText.classList.add('ui-selectee');
       this.selected_verse_box_elements.push(verseText);
 
-      this.highlightStrongs();
       this.updateSelected();
       this.updateViewsAfterVerseSelection();
+      this.publishVersesSelected();
     }
   }
 
@@ -144,7 +157,7 @@ class VerseSelection {
     this.selected_verse_references = selectedVerseReferences;
   }
 
-  clear_verse_selection(updateViews=true, tabIndex=undefined) {
+  clearVerseSelection(updateViews=true, tabIndex=undefined) {
     this.selected_verse_references = new Array;
     this.selected_verse_box_elements = new Array;
 
@@ -157,6 +170,7 @@ class VerseSelection {
 
     if (updateViews) {
       this.updateViewsAfterVerseSelection();
+      this.publishVersesSelected(tabIndex);
     }
   }
 
@@ -407,7 +421,7 @@ class VerseSelection {
     return selected_verse_ids;
   }
 
-  async updateSelectedVersesLabel(selectedVerseDisplayText=undefined) {
+  async getSelectedVerseLabelText(selectedVerseDisplayText=undefined) {
     var preDefinedText = false;
 
     if (selectedVerseDisplayText == undefined) {
@@ -426,44 +440,16 @@ class VerseSelection {
       selectedVerseDisplayText = i18n.t('bible-browser.some-search-results');
     }
 
-    this.getSelectedVersesLabel().html(selectedVerseDisplayText);
+    return selectedVerseDisplayText;
   }
 
-  highlightStrongs() {
-    if (this.selected_verse_box_elements.length == 1 &&
-        platformHelper.isCordova()) {
-      
-      app_controller.dictionary_controller.removeHighlight();
-      app_controller.dictionary_controller.highlightStrongsInVerse(this.selected_verse_box_elements[0], true);
-    }
+  async updateSelectedVersesLabel(selectedVerseDisplayText=undefined) {
+    selectedVerseDisplayText = await this.getSelectedVerseLabelText(selectedVerseDisplayText);
+    this.getSelectedVersesLabel().html(selectedVerseDisplayText);
   }
 
   async updateViewsAfterVerseSelection(selectedVerseDisplayText=undefined) {
     await this.updateSelectedVersesLabel(selectedVerseDisplayText);
-    await tags_controller.updateTagsViewAfterVerseSelection(false);
-    
-    var currentTab = app_controller.tab_controller.getTab();
-
-    if (this.selected_verse_box_elements.length > 0) { // Verses are selected!
-      app_controller.translationComparison.enableComparisonButton();
-
-      if (currentTab.isVerseList()) {
-        app_controller.verse_context_controller.enableContextButton();
-      }
-
-      app_controller.enableVerseButtons();
-
-      this.highlightStrongs();
-
-    } else { // No verses selected!
-      app_controller.translationComparison.disableComparisonButton();
-      app_controller.verse_context_controller.disableContextButton();
-      app_controller.disableVerseButtons();
-
-      if (platformHelper.isCordova()) {
-        app_controller.dictionary_controller.removeHighlight();
-      }
-    }
 
     var tabId = app_controller.tab_controller.getSelectedTabId();
     if (tabId !== undefined) {

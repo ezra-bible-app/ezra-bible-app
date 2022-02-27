@@ -36,7 +36,7 @@ class InfoPopup {
         if (currentBibleTranslationId != null) {
           this.enableCurrentAppInfoButton(tabIndex);
         }
-      }  
+      }
     });
 
     eventController.subscribe('on-all-translations-removed', () => {
@@ -211,7 +211,7 @@ class InfoPopup {
     </div>`;
 
     const width = uiHelper.getMaxDialogWidth();
-    const offsetLeft = ($(window).width() - width)/2;
+    const offsetLeft = ($(window).width() - width) / 2;
 
     $('#info-popup').dialog({
       width: width,
@@ -245,7 +245,7 @@ class InfoPopup {
     $('#info-popup').dialog("open");
   }
 
-  enableCurrentAppInfoButton(tabIndex=undefined) {
+  enableCurrentAppInfoButton(tabIndex = undefined) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     var appInfoButton = currentVerseListMenu.find('.app-info-button');
     appInfoButton.removeClass('ui-state-disabled');

@@ -16,19 +16,24 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const path = require('path');
 
-class StrongsHighlighter {
-  constructor(highlightFunction) {
-    this.highlightFunction = highlightFunction;
-  }
+async function generateLongTagList() {
+  let homedir = require('os').homedir();
+  let userDataPath = path.join(homedir, '/.config/ezra-bible-app/');
 
-  highlightOccurrences(occurances) {
-    occurances.forEach((occurance) => {
-      var currentText = occurance.innerText;
-      var highlightedText = this.highlightFunction(currentText);
-      occurance.innerHTML = highlightedText;
+  global.models = require('../app/backend/database/models')(userDataPath);
+
+  for (let i = 1; i <= 1000; i++) {
+    let tagTitle = `Tag ${i}`;
+
+    await global.models.Tag.create({
+      title: tagTitle,
+      bibleBookId: null
     });
   }
 }
 
-module.exports = StrongsHighlighter;
+(async () => {
+  await generateLongTagList();
+})();

@@ -47,6 +47,11 @@ class DictionaryController {
     this.strongsAvailable = false;
     this._dictionaryInfoBox = new DictionaryInfoBox(this);
 
+    this.bindEvents();
+    this.runAvailabilityCheck();
+  }
+
+  bindEvents() {
     Mousetrap.bind('shift', () => {
       this.shiftKeyPressed = true;
     });
@@ -68,6 +73,10 @@ class DictionaryController {
 
     window.addEventListener('scroll', () => {
       this.hideStrongsBox();
+    });
+
+    eventController.subscribe('on-dictionary-added', () => {
+      this.runAvailabilityCheck();
     });
 
     eventController.subscribe('on-bible-text-loaded', (tabIndex) => { 
@@ -97,7 +106,15 @@ class DictionaryController {
       }
     });
 
-    this.runAvailabilityCheck();
+    if (platformHelper.isCordova()) {
+      eventController.subscribe('on-verses-selected', (selectionDetails) => {    
+        this.removeHighlight();
+
+        if (selectionDetails.selectedElements.length == 1) {
+          this.highlightStrongsInVerse(selectionDetails.selectedElements[0], true);
+        }
+      });
+    }
   }
 
   getJsStrongs() {
@@ -109,7 +126,12 @@ class DictionaryController {
   }
 
   async runAvailabilityCheck() {
+    var oldStatus = this.strongsAvailable;
     this.strongsAvailable = await ipcNsi.strongsAvailable();
+
+    if (this.strongsAvailable != oldStatus) {
+      this._dictionaryInfoBox.clearDictInfoBox();
+    }
   }
 
   hideStrongsBox(removeHl=false) {

@@ -312,7 +312,12 @@ class ModuleSearchController {
     }
 
     var currentSearchResults = app_controller.tab_controller.getTab(index).getSearchResults();
-    return currentSearchResults.length > this.searchResultPerformanceLimit;
+
+    if (currentSearchResults != null) {
+      return currentSearchResults.length > this.searchResultPerformanceLimit;
+    } else {
+      return false;
+    }
   }
 
   validateStrongsKey() {
@@ -353,15 +358,14 @@ class ModuleSearchController {
 
     this.disableOtherFunctionsDuringSearch();
 
-    app_controller.navigation_pane.resetNavigationPane(tabIndex, true);
-    app_controller.verse_statistics_chart.resetChart(tabIndex);
-
     if (tabIndex === undefined) {
       var tab = app_controller.tab_controller.getTab();
       tab.setSearchOptions(this.getSearchType(), this.getSearchScope(), this.isCaseSensitive(), this.useExtendedVerseBoundaries());
       tab.setTextType('search_results');
       tab.setSearchCancelled(false);
     }
+
+    await eventController.publishAsync('on-module-search-started', tabIndex);
 
     //console.log("Starting search for " + this.currentSearchTerm + " on tab " + tabIndex);
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
@@ -473,7 +477,7 @@ class ModuleSearchController {
     var currentSearchTerm = currentTab.getSearchTerm();
     var currentSearchResults = currentTab.getSearchResults();
 
-    if (currentSearchResults.length > 0) {
+    if (currentSearchResults != null && currentSearchResults.length > 0) {
       await app_controller.text_controller.requestTextUpdate(currentTabId,
                                                              null,
                                                              null,
@@ -496,7 +500,7 @@ class ModuleSearchController {
     this.hideSearchMenu();
     var moduleSearchHeaderText;
 
-    if (currentSearchResults.length > 0) {
+    if (currentSearchResults != null && currentSearchResults.length > 0) {
       moduleSearchHeaderText = `<span i18n="bible-browser.search-result-header">${i18n.t("bible-browser.search-result-header")}</span> <i>${currentSearchTerm}</i> (${currentSearchResults.length})`;
     } else {
       var tab = app_controller.tab_controller.getTab(tabIndex);
@@ -519,7 +523,7 @@ class ModuleSearchController {
 
     moduleSearchHeader.html(header);
 
-    if (currentSearchResults.length > 0) {
+    if (currentSearchResults != null && currentSearchResults.length > 0) {
       var selectAllSearchResultsButton = document.createElement('button');
       selectAllSearchResultsButton.setAttribute('style', 'margin: 0.5em;');
       selectAllSearchResultsButton.classList.add('select-all-search-results-button');

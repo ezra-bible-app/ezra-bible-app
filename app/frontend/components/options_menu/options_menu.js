@@ -77,7 +77,7 @@ class OptionsMenu {
     this._keepScreenAwakeOption = this.initConfigOption('keepScreenAwakeOption', () => { this.keepScreenAwakeBasedOnOption(); });
     this._textSizeAdjustTagsNotesOption = this.initConfigOption('adjustTagsNotesTextSizeOption', () => { app_controller.textSizeSettings.updateTagsNotes(this._textSizeAdjustTagsNotesOption.isChecked); }, true);
     this._selectChapterBeforeLoadingOption = this.initConfigOption('selectChapterBeforeLoadingOption', () => {});
-    this._bookLoadingModeOption = this.initConfigOption('bookLoadingModeOption', async () => { this.handleBookLoadingModeOptionChange(); });
+    this._bookLoadingModeOption = this.initConfigOption('bookLoadingModeOption', async () => {});
 
     this.initLocaleSwitchOption();
     await this.initNightModeOption();
@@ -86,9 +86,7 @@ class OptionsMenu {
     this.refreshViewBasedOnOptions();
 
     eventController.subscribe('on-bible-text-loaded', async (tabIndex) => {
-      await this.handleBookLoadingModeOptionChange();
       this.showOrHideSectionTitlesBasedOnOption(tabIndex);
-      this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     });
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
@@ -410,24 +408,6 @@ class OptionsMenu {
     }
   }
 
-  async handleBookLoadingModeOptionChange(tabIndex=undefined) {
-    const currentTab = app_controller.tab_controller.getTab(tabIndex);
-    var enableOption = true;
-
-    if (currentTab != null && currentTab.getTextType() == 'book') {
-      var isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(
-        currentTab.getBibleTranslationId(),
-        currentTab.getBook()
-      );
-
-      if (!isInstantLoadingBook) {
-        enableOption = false;
-      }
-    }
-
-    this._headerNavOption.enabled = enableOption;
-  }
-
   changeTagsLayoutBasedOnOption(tabIndex=undefined) {
     var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
@@ -455,7 +435,6 @@ class OptionsMenu {
     this.changeTagsLayoutBasedOnOption(tabIndex);
     this.showOrHideVerseNotesBasedOnOption(tabIndex);
     this.fixNotesHeightBasedOnOption(tabIndex);
-    await this.handleBookLoadingModeOptionChange(tabIndex);
     this.showOrHideHeaderNavigationBasedOnOption(tabIndex);
     this.keepScreenAwakeBasedOnOption();
     theme_controller.useNightModeBasedOnOption();

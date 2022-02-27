@@ -117,7 +117,7 @@ function createWheelNavComponent() {
     menuItems   : menuItems,
     onClick: handleMenuClick,
     onClose: function () {
-      app_controller.verse_selection.clear_verse_selection();
+      app_controller.verse_selection.clearVerseSelection();
     }
   });
 
@@ -127,11 +127,6 @@ function createWheelNavComponent() {
 function getMenuItems() {
 
   var items = [];
-
-  items.push({
-    id: 'compare',
-    icon: '#compare-icon'
-  });
 
   items.push({
     id: 'assign_last_tag',
@@ -159,7 +154,7 @@ function handleMenuClick(item) {
       }
       break;
     case 'assign_last_tag':
-      app_controller.assign_last_tag_button.handleClick();
+      tags_controller.assignLastTag();
       break;
     case 'copy_to_clipboard':
       app_controller.verse_selection.copySelectedVerseTextToClipboard();

@@ -1,6 +1,42 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.5.0 - 2022-02-26]
+
+### Features
+
+* CSV export of all user data (tags, notes). ([#508][i508])
+* Support deuterocanonical / apocryphal books. ([#612][i612])
+
+### Enhancements
+
+* Render the transChange element as italic. ([#603][i603])
+* Easily choose many tags at the same time. ([#528][i528])
+* Move compare translation function to tool panel. ([#581][i581])
+* Move tag statistics to tool panel. ([#594][i594])
+* Move New Tag button to tag list panel. ([#572][i572])
+* Move verse-related action buttons to separate drop down menu. ([#595][i595])
+* Chapter navigation: Load section headers for complete book upfront. ([#340][i340])
+
+### Fixes
+
+* Fixed bug: macOS: Menu not localized. ([#353][i353])
+* Fixed bug: Strong's dictionaries not automatically available after manual installation. ([#610][i610])
+* Fixed bug: Verse with multiple tags showing multiple times in tagged verse list. ([#618][i618])
+
+[i508]: https://github.com/ezra-bible-app/ezra-bible-app/issues/508
+[i612]: https://github.com/ezra-bible-app/ezra-bible-app/issues/612
+[i603]: https://github.com/ezra-bible-app/ezra-bible-app/issues/603
+[i528]: https://github.com/ezra-bible-app/ezra-bible-app/issues/528
+[i581]: https://github.com/ezra-bible-app/ezra-bible-app/issues/581
+[i594]: https://github.com/ezra-bible-app/ezra-bible-app/issues/594
+[i572]: https://github.com/ezra-bible-app/ezra-bible-app/issues/572
+[i595]: https://github.com/ezra-bible-app/ezra-bible-app/issues/595
+[i340]: https://github.com/ezra-bible-app/ezra-bible-app/issues/340
+[i353]: https://github.com/ezra-bible-app/ezra-bible-app/issues/353
+[i610]: https://github.com/ezra-bible-app/ezra-bible-app/issues/610
+[i618]: https://github.com/ezra-bible-app/ezra-bible-app/issues/618
+
 ## [1.4.2 - 2021-12-28]
 
 Bugfix release for Android.
@@ -651,7 +687,7 @@ This is a bugfix release.
 * Strong's support ([#10][i10])
   - Strong's transcriptions/original word are displayed as little hint/pop-up above the word when hovering the mouse over the corresponding word.
   - Detailed Strong's information is shown on the bottom left in a new area below the tags list.
-  - Strong's based search with link 'Find all occurrances' in info box.
+  - Strong's based search with link 'Find all occurrences' in info box.
 * Dutch translation (Thanks to Tom Lemmens)
 
 ### Enhancements

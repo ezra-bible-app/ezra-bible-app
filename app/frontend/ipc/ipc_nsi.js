@@ -29,6 +29,7 @@ class IpcNsi {
     this._chapterVerseCountCache = new HierarchicalObjectCache();
     this._allChapterVerseCountCache = new HierarchicalObjectCache();
     this._bookListCache = new HierarchicalObjectCache();
+    this._bookHeaderCache = new HierarchicalObjectCache();
     this._moduleBookStatusCache = new HierarchicalObjectCache();
   }
 
@@ -197,8 +198,19 @@ class IpcNsi {
     return returnValue;
   }
 
+  async getBookHeaderList(moduleCode, bookCode) {
+    return await this._bookHeaderCache.fetch(async () => {
+      return await this._ipcRenderer.call('nsi_getBookHeaderList', moduleCode, bookCode);
+    }, moduleCode, bookCode);
+  }
+
   async moduleHasBook(moduleCode, bookCode) {
     var returnValue = this._ipcRenderer.call('nsi_moduleHasBook', moduleCode, bookCode);
+    return returnValue;
+  }
+
+  async moduleHasApocryphalBooks(moduleCode) {
+    var returnValue = this._ipcRenderer.call('nsi_moduleHasApocryphalBooks', moduleCode);
     return returnValue;
   }
 

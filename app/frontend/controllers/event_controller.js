@@ -45,10 +45,10 @@ function notCreated(event) {
  */
 
 /**
- * This function subscribes callback to be called when future events are published
+ * This function subscribes callback to be called when future events are published.
+ * The subscriber is handled with priority by inserting it on top of the subscriber list.
  * @param {EzraEvent} event Event key to be notified on publish
  * @param {SubscribedCallback} callback Function to call when when event is published
- * @param {Boolean} prioritize Whether or not this callback should be prioritized when the event is published
  * @returns {Subscription} subscription
  */
 module.exports.subscribePrioritized = function subscribe(event, callback) {

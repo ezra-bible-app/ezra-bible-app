@@ -55,33 +55,32 @@ class TextController {
     app_controller.module_search_controller.resetSearch();
     await this.prepareForNewText(true, false);
 
-    setTimeout(async () => {
-      // Set selected tags and search term to null, since we just switched to a book
-      var currentTab = app_controller.tab_controller.getTab();
-      currentTab.setTagIdList(null);
-      currentTab.setSearchTerm(null);
-      currentTab.setXrefs(null);
-      currentTab.setReferenceVerseElementId(null);
+    await waitUntilIdle();
 
-      var currentVerseList = verseListController.getCurrentVerseList();
-      currentTab.tab_search.setVerseList(currentVerseList);
+    // Set selected tags and search term to null, since we just switched to a book
+    currentTab.setTagIdList(null);
+    currentTab.setSearchTerm(null);
+    currentTab.setXrefs(null);
+    currentTab.setReferenceVerseElementId(null);
 
-      var currentTabId = app_controller.tab_controller.getSelectedTabId();
-      var currentBook = currentTab.getBook();
+    var currentVerseList = verseListController.getCurrentVerseList();
+    currentTab.tab_search.setVerseList(currentVerseList);
 
-      await this.requestTextUpdate(currentTabId,
-                                   currentBook,
-                                   null,
-                                   null,
-                                   null,
-                                   null,
-                                   null,
-                                   chapter,
-                                   instantLoad);
+    var currentTabId = app_controller.tab_controller.getSelectedTabId();
+    var currentBook = currentTab.getBook();
 
-      await waitUntilIdle();
-      tags_controller.updateTagList(currentBook);
-    }, 50);
+    await this.requestTextUpdate(currentTabId,
+                                 currentBook,
+                                 null,
+                                 null,
+                                 null,
+                                 null,
+                                 null,
+                                 chapter,
+                                 instantLoad);
+
+    await waitUntilIdle();
+    tags_controller.updateTagList(currentBook);
   }
 
   async prepareForNewText(resetView, isSearch = false, tabIndex = undefined) {
@@ -100,7 +99,7 @@ class TextController {
 
     if (tabIndex === undefined) {
       if (app_controller.verse_selection != null) {
-        app_controller.verse_selection.clear_verse_selection();
+        app_controller.verse_selection.clearVerseSelection();
       }
     }
 
@@ -322,10 +321,11 @@ class TextController {
     var verseTags = await ipcDb.getBookVerseTags(bibleBook.id, versification);
     var verseNotes = await ipcDb.getVerseNotesByBook(bibleBook.id, versification);
     var bookIntroduction = null;
+    var bookHasHeaders = await swordModuleHelper.bookHasHeaders(currentBibleTranslationId, bookShortTitle);
 
     if (startVerseNumber == 1) { // Only load book introduction if starting with verse 1
       try {
-        if (localSwordModule != null && localSwordModule.hasHeadings) {
+        if (bookHasHeaders) {
           bookIntroduction = await ipcNsi.getBookIntroduction(currentBibleTranslationId, bookShortTitle);
 
           var sanitizeHtml = require('sanitize-html');
@@ -357,7 +357,7 @@ class TextController {
         renderVerseMetaInfo: true,
         renderBibleBookHeaders: false,
         // only render chapter headers with the full book requested
-        renderChapterHeaders: isInstantLoadingBook && !localSwordModule.hasHeadings,
+        renderChapterHeaders: isInstantLoadingBook && !bookHasHeaders,
         renderBookNotes: (startVerseNumber == 1),
         bookIntroduction: bookIntroduction,
         bookNotes: bookNotes,
@@ -507,17 +507,23 @@ class TextController {
     var verseReferenceIds = [];
     var verses = [];
 
-    for (var i = 0; i < verseReferences.length; i++) {
-      var currentVerseReference = verseReferences[i];
-      verseReferenceIds.push(currentVerseReference.id);
+    for (let i = 0; i < verseReferences.length; i++) {
+      let currentVerseReference = verseReferences[i];
 
-      var currentAbsoluteVerseNumber = versification == 'eng' ? currentVerseReference.absoluteVerseNrEng : currentVerseReference.absoluteVerseNrHeb;
+      if (!verseReferenceIds.includes(currentVerseReference.id)) {
+        verseReferenceIds.push(currentVerseReference.id);
+      } else {
+        // Avoid double listing of verses
+        continue;
+      }
 
-      var resultVerses = await ipcNsi.getBookText(bibleTranslationId,
+      let currentAbsoluteVerseNumber = versification == 'eng' ? currentVerseReference.absoluteVerseNrEng : currentVerseReference.absoluteVerseNrHeb;
+
+      let resultVerses = await ipcNsi.getBookText(bibleTranslationId,
                                                   currentVerseReference.bibleBookShortTitle,
                                                   currentAbsoluteVerseNumber,
                                                   1);
-      var verse = resultVerses[0];
+      let verse = resultVerses[0];
 
       if (verse !== undefined) {
         verses.push(verse);
@@ -569,8 +575,8 @@ class TextController {
     var verseReferenceIds = [];
     var verses = await ipcNsi.getVersesFromReferences(bibleTranslationId, xrefs);
 
-    for (var i = 0; i < verseReferences.length; i++) {
-      var currentVerseReference = verseReferences[i];
+    for (let i = 0; i < verseReferences.length; i++) {
+      let currentVerseReference = verseReferences[i];
 
       if (currentVerseReference != undefined) {
         verseReferenceIds.push(currentVerseReference.id);

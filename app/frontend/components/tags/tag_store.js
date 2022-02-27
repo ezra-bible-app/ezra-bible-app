@@ -25,7 +25,6 @@ class TagStore {
     this.latest_timestamp = null;
     this.oldest_recent_timestamp = null;
     this.latest_tag_id = null;
-    this.onLatestUsedTagChanged = null;
 
     eventController.subscribePrioritized('on-tag-created', async (newTagId) => {
       this.resetBookTagStatistics();
@@ -207,7 +206,10 @@ class TagStore {
         this.latest_tag_id = tag.id;
 
         if (tag.id != previousLatestTagId) {
-          await this.onLatestUsedTagChanged(this.latest_tag_id);
+          await eventController.publishAsync('on-latest-tag-changed', {
+            'tagId': this.latest_tag_id,
+            'added': true
+          });
         }
 
         latest_tag_found = true;
@@ -219,7 +221,10 @@ class TagStore {
       this.latest_tag_id = null;
 
       if (this.latest_tag_id != previousLatestTagId) {
-        await this.onLatestUsedTagChanged(this.latest_tag_id);
+        await eventController.publishAsync('on-latest-tag-changed', {
+          'tagId': this.latest_tag_id,
+          'added': true
+        });
       }
     }
   }

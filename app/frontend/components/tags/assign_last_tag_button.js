@@ -47,12 +47,20 @@ class AssignLastTagButton {
       await this.onLatestUsedTagChanged(undefined, false);
     });
 
+    eventController.subscribe('on-verses-selected', async (selectionDetails) => {
+      await this.refreshLastTagButtonState(selectionDetails.selectedElements, selectionDetails.selectedVerseTags);
+    });
+
+    eventController.subscribe('on-latest-tag-changed', async (details) => {
+      await this.onLatestUsedTagChanged(details.tagId, details.added);
+    });
+
     this._button = null;
   }
 
-  init(tabIndex=undefined) {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    this._button = currentVerseListMenu.find('.assign-last-tag-button');
+  init() {
+    var verseContextMenu = $('#verse-context-menu');
+    this._button = verseContextMenu.find('.assign-last-tag-button');
 
     this._button.unbind('click');
     this._button.bind('click', async (event) => {
@@ -63,10 +71,7 @@ class AssignLastTagButton {
 
   async handleClick() {
     if (!this._button[0].classList.contains('ui-state-disabled')) {
-      uiHelper.showTextLoadingIndicator();
-      await waitUntilIdle();
       await tags_controller.assignLastTag();
-      uiHelper.hideTextLoadingIndicator();
     }
   }
 

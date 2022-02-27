@@ -18,36 +18,26 @@
 
 const VerseBox = require("../ui_models/verse_box.js");
 const i18nHelper = require('../helpers/i18n_helper.js');
+const eventController = require('../controllers/event_controller.js');
 
 /**
- * The TranslationComparison component implements a dialog that shows selected verses
+ * The TranslationComparison component implements a tool panel that shows selected verses
  * in a comparison table using all available Bible translations.
  * 
  * @category Component
  */
 class TranslationComparison {
   constructor() {
-    this.initDone = false;
-  }
+    eventController.subscribe('on-verses-selected', () => {
+      this.performRefresh();
+    });
 
-  getButton() {
-    return $('.show-parallel-translations-button');
-  }
+    eventController.subscribe('on-compare-panel-switched', () => {
+      this.performRefresh();
+    });
 
-  getAllButtons() {
-    return document.getElementsByClassName('show-parallel-translations-button');
-  }
-
-  initButtonEvents() {
-    var button = this.getButton();
-
-    button.unbind('click');
-    button.bind('click', async (event) => {
-      event.stopPropagation();
-
-      if (this.isButtonEnabled()) {
-        await this.handleButtonClick();
-      }
+    eventController.subscribe('on-locale-changed', () => {
+      this.performRefresh();
     });
   }
 
@@ -56,36 +46,7 @@ class TranslationComparison {
   }
 
   getBoxContent() {
-    return document.getElementById('compare-translations-box-content');
-  }
-
-  isButtonEnabled() {
-    return !(this.getButton().hasClass('ui-state-disabled'));
-  }
-
-  enableComparisonButton() {
-    var allButtons = this.getAllButtons();
-    for (let button of allButtons) {
-      button.classList.remove('ui-state-disabled');
-    }
-  }
-
-  disableComparisonButton() {
-    var allButtons = this.getAllButtons();
-    for (let button of allButtons) {
-      button.classList.add('ui-state-disabled');
-    }
-  }
-
-  initCompareTranslationsBox() {
-    var width = uiHelper.getMaxDialogWidth();
-
-    this.getBox().dialog({
-      width: width,
-      height: 500,
-      autoOpen: false,
-      dialogClass: 'ezra-dialog'
-    });
+    return document.getElementById('compare-panel-content');
   }
 
   async getVerseHtmlByTranslationId(sourceBibleTranslationId, targetTranslationId, verseBox, totalVerseCount) {
@@ -97,18 +58,14 @@ class TranslationComparison {
                                           bibleBookShortTitle,
                                           mappedAbsoluteVerseNumber,
                                           1);
+
     var targetTranslationVerse = verses[0];
     
-    var verseHtml = "<tr>";
+    var verseHtml = "";
     
-    if (targetTranslationVerse == null) {
-      console.log("Couldn't get verse " + bibleBookShortTitle + ' / ' + mappedAbsoluteVerseNumber + " for " + targetTranslationId);
-      if (totalVerseCount > 1) {
-        verseHtml += "<td></td>";
-      }
+    if (targetTranslationVerse != null && targetTranslationVerse.content != "") {
+      verseHtml += "<tr>";
 
-      verseHtml += "<td></td>";
-    } else {
       var moduleReferenceSeparator = await i18nHelper.getReferenceSeparator(targetTranslationId);
       var targetVerseReference = targetTranslationVerse.chapter + moduleReferenceSeparator + targetTranslationVerse.verseNr;
       
@@ -117,41 +74,59 @@ class TranslationComparison {
       }
 
       verseHtml += "<td class='verse-content-td'>" + targetTranslationVerse.content + "</td>";
+      verseHtml += "</tr>";
     }
-
-    verseHtml += "</tr>";
 
     return verseHtml;
   }
 
   async getCompareTranslationContent() {
-    var sourceTranslationId = app_controller.tab_controller.getTab().getBibleTranslationId();
+    var tab = app_controller.tab_controller.getTab();
+    if (tab == null) {
+      return;
+    }
+
+    var sourceTranslationId = tab.getBibleTranslationId();
     var selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
-    var compareTranslationContent = "<table>";
+    var compareTranslationContent = "<table style='width: 100%;'>";
     var allTranslations = await ipcNsi.getAllLocalModules();
 
     if (selectedVerseBoxes.length > 0) {
-      for (var i = 0; i < allTranslations.length; i++) {
-        var currentTranslationId = allTranslations[i].name;
-        var currentTranslationName = allTranslations[i].description;
-        var cssClass = '';
+      for (let i = 0; i < allTranslations.length; i++) {
+        let currentTranslationId = allTranslations[i].name;
+        let currentTranslationName = allTranslations[i].description;
+        let cssClass = '';
         if (i < allTranslations.length) {
           cssClass = 'compare-translation-row';
         }
 
-        compareTranslationContent += "<tr class='" + cssClass + "'>";
-        compareTranslationContent += "<td class='compare-translation-row' style='width: 16em; padding: 0.5em;'>" + currentTranslationName + "</td>";
-        compareTranslationContent += "<td class='compare-translation-row'><table>";
+        let contentCounter = 0;
+        let compareTranslationRow = "";
+        
+        compareTranslationRow += `<tr class='${cssClass}'>`;
+        compareTranslationRow += `<td class='compare-translation-row' style='width: 4em; padding: 0.5em;' title='${currentTranslationName}'>${currentTranslationId}</td>`;
+        compareTranslationRow += "<td class='compare-translation-row'><table>";
 
-        for (var j = 0; j < selectedVerseBoxes.length; j++) {
-          var currentVerseBox = $(selectedVerseBoxes[j]);
-          var verseHtml = await this.getVerseHtmlByTranslationId(sourceTranslationId, currentTranslationId, currentVerseBox, selectedVerseBoxes.length);
-          compareTranslationContent += verseHtml;
+        for (let j = 0; j < selectedVerseBoxes.length; j++) {
+          let currentVerseBox = $(selectedVerseBoxes[j]);
+          let verseHtml = await this.getVerseHtmlByTranslationId(sourceTranslationId,
+                                                                 currentTranslationId,
+                                                                 currentVerseBox,
+                                                                 selectedVerseBoxes.length);
+
+          compareTranslationRow += verseHtml;
+
+          if (verseHtml != "") {
+            contentCounter += 1;
+          }
         }
 
-        compareTranslationContent += "</table></td>";
+        compareTranslationRow += "</table></td>";
+        compareTranslationRow += "</tr>";
 
-        compareTranslationContent += "</tr>";
+        if (contentCounter > 0) {
+          compareTranslationContent += compareTranslationRow;
+        }
       }
     }
 
@@ -170,32 +145,65 @@ class TranslationComparison {
     loadingIndicator.style.display = 'none';
   }
 
-  async handleButtonClick() {
-    if (!this.initDone) {
-      this.initCompareTranslationsBox();
-      this.initDone = true;
+  isPanelActive() {
+    var panelButtons = document.getElementById('panel-buttons');
+    return panelButtons.activePanel == 'compare-panel';
+  }
+
+  getHelpBox() {
+    return document.getElementById('compare-panel-help');
+  }
+
+  async performRefresh() {
+    if (!this.isPanelActive()) {
+      return;
     }
 
-    var boxTitle = i18n.t("bible-browser.comparing-translations-for") + " " + 
-      app_controller.verse_selection.getSelectedVersesLabel().text();
+    var panelHeader = document.getElementById('compare-panel-header');
+    var helpBox = this.getHelpBox();
+    var panelTitle = "";
 
-    var width = uiHelper.getMaxDialogWidth();
-    var box = this.getBox();
+    if (app_controller.verse_selection != null &&
+        app_controller.verse_selection.selected_verse_box_elements != null &&
+        app_controller.verse_selection.selected_verse_box_elements.length > 0) {
 
-    box.dialog({
-      width: width,
-      title: boxTitle
-    });
+      panelTitle = i18n.t("bible-browser.comparing-translations-for") + " " + 
+        await app_controller.verse_selection.getSelectedVerseLabelText();
 
-    this.getBoxContent().innerHTML = "";
-    this.showLoadingIndicator();
-    box.dialog("open");
+      helpBox.classList.add('hidden');
 
-    setTimeout(async () => {
-      var compareTranslationContent = await this.getCompareTranslationContent();
+    } else {
+      panelTitle = i18n.t("compare-panel.default-header");
+      helpBox.classList.remove('hidden');
+    }
 
+    panelHeader.innerHTML = "<b>" + panelTitle + "</b>";
+
+    if (platformHelper.isCordova()) {
+
+      this.getBoxContent().innerHTML = "";
+      this.showLoadingIndicator();
+      this.performDelayedContentRefresh();
+
+    } else {
+
+      await this.performContentRefresh();
+    }
+  }
+
+  async performContentRefresh() {
+    var compareTranslationContent = await this.getCompareTranslationContent();
+
+    if (platformHelper.isCordova()) {
       this.hideLoadingIndicator();
-      this.getBoxContent().innerHTML = compareTranslationContent;
+    }
+
+    this.getBoxContent().innerHTML = compareTranslationContent;
+  }
+
+  performDelayedContentRefresh() {
+    setTimeout(async () => {
+      await this.performContentRefresh();
     }, 50);
   }
 }

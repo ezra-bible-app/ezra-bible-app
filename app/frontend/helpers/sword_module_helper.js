@@ -68,6 +68,8 @@ module.exports.getModuleDescription = async function(moduleId, isRemote=false) {
   }
   moduleInfo += await this.getModuleAbout(swordModule);
 
+  moduleInfo = urlify(moduleInfo);
+
   return moduleInfo;
 };
 
@@ -164,14 +166,25 @@ module.exports.moduleHasStrongs = async function(moduleId) {
   }
 };
 
-module.exports.moduleHasHeaders = async function(moduleId) {
+module.exports.bookHasHeaders = async function(moduleId, book) {
+  var hasHeaders = false;
   var swordModule = await this.getSwordModule(moduleId);
 
   if (swordModule != null) {
-    return swordModule.hasHeadings;
-  } else {
-    return false;
+    hasHeaders = swordModule.hasHeadings;
+    if (hasHeaders) {
+      const headerList = await ipcNsi.getBookHeaderList(moduleId, book);
+      if (headerList.length == 0) {
+        hasHeaders = false;
+      }
+    }
   }
+
+  return hasHeaders;
+};
+
+module.exports.moduleHasApocryphalBooks = async function(moduleId) {
+  return await ipcNsi.moduleHasApocryphalBooks(moduleId);
 };
 
 module.exports.getVersification = async function(moduleId) {
@@ -267,3 +280,32 @@ module.exports.isPublicDomain = async function(moduleId) {
   const license = await this.getModuleLicense(moduleId);
   return !license || PUBLIC_LICENSES.includes(license);
 };
+
+function urlify(text) {
+  // replace urls in text with <a> html tag
+  var aTagRegex = /(<a href.*?>.*?<\/a>)/g;
+  var aSplits = text.split(aTagRegex);
+
+  // regex extracted from https://www.codegrepper.com/code-examples/whatever/use+regex+to+get+urls+from+string
+  var urlRegex = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#/%=~_|$])/igm;
+
+  var cleanedText = "";
+
+  for (let index = 0; index < aSplits.length; index++) {
+    var split = aSplits[index];
+
+    if (split.substring(0, 2) === '<a') {
+      cleanedText += split;
+    } else {
+      cleanedText += split.replace(urlRegex, function (url) {
+        if (url.startsWith('www')) {
+          url = 'http://' + url;
+        }
+
+        return `<a href="${url}" target="_blank">${url}</a>`;
+      });
+    }
+  }
+
+  return cleanedText;
+}

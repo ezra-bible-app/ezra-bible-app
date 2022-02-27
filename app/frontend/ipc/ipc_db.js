@@ -178,6 +178,10 @@ class IpcDb {
     return await this._ipcRenderer.call('db_isOtBook', bookCode);
   }
 
+  async isApocryphalBook(bookCode) {
+    return await this._ipcRenderer.call('db_isApocryphalBook', bookCode);
+  }
+
   async getVerseReferencesByBookAndAbsoluteVerseNumber(bookCode, absoluteVerseNr, versification) {
     return await this._ipcRenderer.call('db_getVerseReferencesByBookAndAbsoluteVerseNumber', bookCode, absoluteVerseNr, versification);
   }
