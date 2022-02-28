@@ -234,7 +234,7 @@ class Startup {
     }
 
     if (this._platformHelper.isElectron()) {
-      window.app = require('electron').remote.app;
+      window.app = require('@electron/remote').app;
 
       const { ipcRenderer } = require('electron');
       await ipcRenderer.send('manageWindowState');

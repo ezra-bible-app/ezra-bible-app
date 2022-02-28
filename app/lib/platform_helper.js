@@ -31,8 +31,11 @@ class PlatformHelper {
   async isDebug() {
     if (this.isElectron()) {
 
-      var isDebug = require('electron-is-dev');
-      return isDebug;
+      if (this.isElectronMain()) {
+        return global.isDev;
+      } else {
+        return window.isDev;
+      }
 
     } else if (this.isCordovaFrontend()) {
 
@@ -97,23 +100,29 @@ class PlatformHelper {
 
   isCordovaFrontend() {
     return (typeof window !== 'undefined' && !!window.cordova);
-  } 
+  }
+
+  isElectronRenderer() {
+    return typeof window !== 'undefined' &&
+           typeof window.process === 'object' &&
+           window.process.type === 'renderer';
+  }
+
+  isElectronMain() {
+    return typeof process !== 'undefined' &&
+           typeof process.versions === 'object' &&
+           !!process.versions.electron;
+  }
 
   // https://github.com/electron/electron/issues/2288
   isElectron() {
     // Renderer process
-    if (typeof window !== 'undefined' &&
-        typeof window.process === 'object' &&
-        window.process.type === 'renderer') {
-        
+    if (this.isElectronRenderer()) {
       return true;
     }
 
     // Main process
-    if (typeof process !== 'undefined' &&
-        typeof process.versions === 'object' &&
-        !!process.versions.electron) {
-        
+    if (this.isElectronMain()) {
       return true;
     }
 

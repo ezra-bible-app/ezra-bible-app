@@ -72,10 +72,11 @@ window.initPlatform = function() {
         window.process.type === 'renderer') {
       
       // We only require these modules when running on Electron
-      require('v8-compile-cache');
+      //require('v8-compile-cache');
       require('log-timestamp');
 
-      window.isDev = require('electron-is-dev');
+      const app = require('@electron/remote').app;
+      window.isDev = !app.isPackaged;
     }
 
     if (isDev) {
