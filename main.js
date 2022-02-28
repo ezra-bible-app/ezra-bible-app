@@ -16,10 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-//require('v8-compile-cache');
-
 const { app, BrowserWindow, Menu, ipcMain, nativeTheme } = require('electron');
-require('@electron/remote/main').initialize();
 
 global.isDev = !app.isPackaged;
 
@@ -180,6 +177,7 @@ async function createWindow () {
     backgroundColor: bgColor
   });
 
+  require('@electron/remote/main').initialize();
   require("@electron/remote/main").enable(mainWindow.webContents);
  
   // The default menu will be created automatically if the app does not set one.
