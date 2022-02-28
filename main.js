@@ -16,10 +16,12 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-require('v8-compile-cache');
+//require('v8-compile-cache');
 
 const { app, BrowserWindow, Menu, ipcMain, nativeTheme } = require('electron');
-const isDev = require('electron-is-dev');
+require('@electron/remote/main').initialize();
+
+global.isDev = !app.isPackaged;
 
 const IPC = require('./app/backend/ipc/ipc.js');
 global.ipc = new IPC();
@@ -177,6 +179,8 @@ async function createWindow () {
     icon: path.join(__dirname, `icons/${platformHelper.isWin() ? 'ezra.ico' : 'ezra.png'}`),
     backgroundColor: bgColor
   });
+
+  require("@electron/remote/main").enable(mainWindow.webContents);
  
   // The default menu will be created automatically if the app does not set one.
   // It contains standard items such as File, Edit, View, Window and Help.

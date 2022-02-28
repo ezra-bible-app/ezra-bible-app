@@ -37,7 +37,7 @@ class ThemeController {
   async initNightMode() {
     var isMojaveOrLater = await platformHelper.isMacOsMojaveOrLater();
     if (isMojaveOrLater) { // On macOS (from Mojave) we initialize night mode based on the system settings
-      const nativeTheme = require('electron').remote.nativeTheme;
+      const nativeTheme = require('@electron/remote').nativeTheme;
 
       // Set up a listener to react when the native theme has changed
       nativeTheme.on('updated', () => {
@@ -74,7 +74,7 @@ class ThemeController {
   async toggleDarkModeIfNeeded() {
     var isMojaveOrLater = await platformHelper.isMacOsMojaveOrLater();
     if (isMojaveOrLater) {
-      const nativeTheme = require('electron').remote.nativeTheme;
+      const nativeTheme = require('@electron/remote').nativeTheme;
 
       if (nativeTheme.shouldUseDarkColors) {
         app_controller.optionsMenu._nightModeOption.checked = true;
@@ -131,7 +131,7 @@ class ThemeController {
 
     var isMojaveOrLater = platformHelper.isMacOsMojaveOrLater();
     if (isMojaveOrLater) {
-      const nativeTheme = require('electron').remote.nativeTheme;
+      const nativeTheme = require('@electron/remote').nativeTheme;
       useNightMode = nativeTheme.shouldUseDarkColors;
     } else {
       var useNightModeSettingAvailable = await ipcSettings.has('useNightMode');

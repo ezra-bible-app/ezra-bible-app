@@ -24,13 +24,13 @@ class ElectronPlatform {
   constructor() {}
 
   getWindow() {
-    const { remote } = require('electron');
+    const remote = require('@electron/remote');
     var window = remote.getCurrentWindow();
     return window;
   }
 
   toggleFullScreen() {
-    const { remote } = require('electron');
+    const remote = require('@electron/remote');
     var window = remote.getCurrentWindow();
 
     if (window.isFullScreen()) {
