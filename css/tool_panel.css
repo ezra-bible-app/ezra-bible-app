@@ -249,11 +249,11 @@
 
 #dictionary-panel-wrapper a:link {
   text-decoration: none;
-  color: #2779aa;
+  color: var(--accent-color);
 }
 
 .darkmode--activated #dictionary-panel a:link {
-  color: #97d0ff;
+  color: var(--accent-color-darkmode);
 }
 
 #dictionary-panel a:hover {
@@ -324,7 +324,7 @@ tr.td-underline td {
   margin: 0.1em 0 0 0;
   padding: 0.5em;
   user-select: none;
-  height: calc(100% - 2.6em);
+  height: calc(100% - 5.5em);
   box-sizing: border-box;
 }
 

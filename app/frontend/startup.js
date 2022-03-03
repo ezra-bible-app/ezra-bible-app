@@ -89,6 +89,7 @@ class Startup {
     }
 
     require('./components/tool_panel/panel_buttons.js');
+    require('./components/tags/tag_group_selection.js');
     require('./components/options_menu/config_option.js');
     require('./components/options_menu/select_option.js');
     require('./components/options_menu/locale_switch.js');
