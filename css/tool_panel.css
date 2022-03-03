@@ -496,6 +496,6 @@ table.tag-statistics td, table.tag-statistics th {
   background-color: lightcoral;
 }
 
-.darkmode--activated .dict-installed {
+.darkmode--activated .dict-installed, .darkmode--activated .dict-not-installed {
   color: black;
 }
