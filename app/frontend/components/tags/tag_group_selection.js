@@ -49,6 +49,7 @@ const template = html`
 #tag-group-selection a:hover {
   text-decoration: underline;
 }
+
 </style>
 
 <div id="tag-group-selection">
@@ -66,12 +67,40 @@ class TagGroupSelection extends HTMLElement {
 
     document.getElementById('tag-group-list-link').addEventListener('click', (event) => {
       event.preventDefault();
-
-      document.getElementById('tag-group-nav-arrow').style.display = 'none';
-      document.getElementById('tag-group-label').style.display = 'none';
-
+      this.hideTagGroupDisplay();
       eventController.publishAsync('on-tag-group-list-activated');
     });
+
+    eventController.subscribe('on-tag-group-selected', (tagGroup) => {
+      this.selectTagGroup(tagGroup);
+    });
+  }
+
+  selectTagGroup(tagGroup) {
+    if (tagGroup != null) {
+      this.getTagGroupLabel().innerText = tagGroup.title;
+      this.showTagGroupDisplay();
+    } else {
+      console.warn("TagGroupSelection.selectTagGroup / Received null");
+    }
+  }
+
+  hideTagGroupDisplay() {
+    this.getTagGroupNavArrow().style.display = 'none';
+    this.getTagGroupLabel().style.display = 'none';
+  }
+
+  showTagGroupDisplay() {
+    this.getTagGroupNavArrow().style.display = '';
+    this.getTagGroupLabel().style.display = '';
+  }
+
+  getTagGroupLabel() {
+    return document.getElementById('tag-group-label');
+  }
+
+  getTagGroupNavArrow() {
+    return document.getElementById('tag-group-nav-arrow');
   }
 }
 

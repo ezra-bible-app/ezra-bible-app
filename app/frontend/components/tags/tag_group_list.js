@@ -124,11 +124,16 @@ class TagGroupList extends HTMLElement {
 
     console.log(tagGroup);
 
+    this.hideTagGroupList();
     eventController.publishAsync('on-tag-group-selected', tagGroup);
   }
 
   showTagGroupList() {
     this.getContentDiv().style.display = '';
+  }
+
+  hideTagGroupList() {
+    this.getContentDiv().style.display = 'none';
   }
 
   getContentDiv() {
