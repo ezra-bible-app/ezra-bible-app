@@ -119,6 +119,10 @@ class TagsController {
     eventController.subscribe('on-tag-group-list-activated', () => {
       document.getElementById('tags-content-global').style.display = 'none';
     });
+
+    eventController.subscribe('on-tag-group-selected', (tagGroup) => {
+      document.getElementById('tags-content-global').style.display = '';
+    });
   }
 
   resetActivePanelToTagPanel(tabIndex) {
