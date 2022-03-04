@@ -52,7 +52,7 @@ const template = html`
 </style>
 
 <div id="tag-group-selection">
-  <a id="tag-group-list-link" href="">Tag groups</a> <span id="tag-group-nav-arrow">&rarr;</span> <span id="tag-group-label">General</span>
+  <a id="tag-group-list-link" href="">Tag groups</a> <span id="tag-group-nav-arrow">&rarr;</span> <span id="tag-group-label">All tags</span>
 </div>
 `;
 
@@ -66,10 +66,11 @@ class TagGroupSelection extends HTMLElement {
 
     document.getElementById('tag-group-list-link').addEventListener('click', (event) => {
       event.preventDefault();
-      eventController.publish('on-tag-group-list-activated');
 
       document.getElementById('tag-group-nav-arrow').style.display = 'none';
       document.getElementById('tag-group-label').style.display = 'none';
+
+      eventController.publishAsync('on-tag-group-list-activated');
     });
   }
 }
