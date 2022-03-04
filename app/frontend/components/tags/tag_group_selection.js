@@ -27,6 +27,10 @@ const template = html`
   padding-bottom: 0.7em;
   user-select: none;
   box-sizing: border-box;
+  border: 1px solid #dddddd;
+}
+
+.darkmode--activated #tag-group-selection {
   border: 1px solid #555555;
 }
 
