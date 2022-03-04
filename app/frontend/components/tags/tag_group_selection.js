@@ -86,6 +86,10 @@ class TagGroupSelection extends HTMLElement {
       this.onTagGroupListLinkClicked();
     });
 
+    this.getAddTagGroupButton().addEventListener('click', () => {
+      this.onAddTagGroupButtonClicked();
+    });
+
     eventController.subscribe('on-tag-group-selected', (tagGroup) => {
       this.selectTagGroup(tagGroup);
     });
@@ -104,6 +108,51 @@ class TagGroupSelection extends HTMLElement {
     this.getTagGroupListLink().classList.add('list-tag-groups');
     this.showAddTagGroupButton();
     eventController.publishAsync('on-tag-group-list-activated');
+  }
+
+  async onAddTagGroupButtonClicked() {
+    const addTagGroupTitle = i18n.t('tags.title');
+
+    const dialogBoxTemplate = html`
+    <div id="add-tag-group-dialog" style="padding-top: 2em;">
+      <label id="add-tag-group-title">${addTagGroupTitle}:</label>
+      <input type="text" label="" style="width: 15em;"/>
+    </div>
+    `;
+
+    return new Promise((resolve) => {
+
+      document.querySelector('#boxes').appendChild(dialogBoxTemplate.content);
+      const $dialogBox = $('#add-tag-group-dialog');
+      
+      const width = 300;
+      const height = 200;
+
+      var buttons = {};
+      buttons[i18n.t('general.cancel')] = function() {
+        $(this).dialog('close');
+      };
+      buttons[i18n.t('tags.create-tag-group')] = function() {
+        $(this).dialog('close');
+      };
+
+      const title = i18n.t('tags.add-tag-group');
+   
+      $dialogBox.dialog({
+        width,
+        height,
+        position: [80, 120],
+        title: title,
+        resizable: false,
+        dialogClass: 'ezra-dialog',
+        buttons: buttons,
+        close() {
+          $dialogBox.dialog('destroy');
+          $dialogBox.remove();
+          resolve();
+        }
+      });
+    });
   }
 
   selectTagGroup(tagGroup) {
