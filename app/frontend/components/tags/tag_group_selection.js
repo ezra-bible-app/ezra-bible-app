@@ -58,6 +58,12 @@ const template = html`
   cursor: default;
 }
 
+.darkmode--activated #tag-group-list-link.list-tag-groups:link,
+.darkmode--activated #tag-group-list-link.list-tag-groups:visited,
+.darkmode--activated #tag-group-list-link.list-tag-groups:hover {
+  color: var(--text-color)
+}
+
 #add-tag-group-button {
   float: right;
   padding: 0.2em;
