@@ -260,7 +260,8 @@
     "tag-count-selected_one": "{{count}} tag selected",
     "tag-count-selected_other": "{{count}} tags selected",
     "select-all-tags": "Select all",
-    "deselect-all-tags": "Deselect all"
+    "deselect-all-tags": "Deselect all",
+    "add-tag-group": "Add tag group"
   },
   "bible-browser": {
     "chapter": "Chapter",
