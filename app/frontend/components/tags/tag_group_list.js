@@ -38,6 +38,21 @@ const template = html`
   margin-bottom: 0.5em;
 }
 
+#tag-group-list-content a:link,
+#tag-group-list-content a:visited {
+  text-decoration: none;
+  color: var(--accent-color);
+}
+
+#tag-group-list-content a:hover {
+  text-decoration: underline;
+}
+
+.darkmode--activated #tag-group-list-content a:link,
+.darkmode--activated #tag-group-list-content a:visited {
+  color: var(--accent-color-darkmode);
+}
+
 .darkmode--activated #tag-group-list {
   border: 1px solid #555555;
 }

@@ -50,6 +50,14 @@ const template = html`
   text-decoration: underline;
 }
 
+#tag-group-list-link.list-tag-groups:link,
+#tag-group-list-link.list-tag-groups:visited,
+#tag-group-list-link.list-tag-groups:hover {
+  color: black;
+  text-decoration: none;
+  cursor: default;
+}
+
 </style>
 
 <div id="tag-group-selection">
@@ -65,10 +73,9 @@ class TagGroupSelection extends HTMLElement {
   connectedCallback() {  
     this.appendChild(template.content);
 
-    document.getElementById('tag-group-list-link').addEventListener('click', (event) => {
+    this.getTagGroupListLink().addEventListener('click', (event) => {
       event.preventDefault();
-      this.hideTagGroupDisplay();
-      eventController.publishAsync('on-tag-group-list-activated');
+      this.onTagGroupListLinkClicked();
     });
 
     eventController.subscribe('on-tag-group-selected', (tagGroup) => {
@@ -76,8 +83,15 @@ class TagGroupSelection extends HTMLElement {
     });
   }
 
+  onTagGroupListLinkClicked() {
+    this.hideTagGroupDisplay();
+    this.getTagGroupListLink().classList.add('list-tag-groups');
+    eventController.publishAsync('on-tag-group-list-activated');
+  }
+
   selectTagGroup(tagGroup) {
     if (tagGroup != null) {
+      this.getTagGroupListLink().classList.remove('list-tag-groups');
       this.getTagGroupLabel().innerText = tagGroup.title;
       this.showTagGroupDisplay();
     } else {
@@ -93,6 +107,10 @@ class TagGroupSelection extends HTMLElement {
   showTagGroupDisplay() {
     this.getTagGroupNavArrow().style.display = '';
     this.getTagGroupLabel().style.display = '';
+  }
+
+  getTagGroupListLink() {
+    return document.getElementById('tag-group-list-link');
   }
 
   getTagGroupLabel() {
