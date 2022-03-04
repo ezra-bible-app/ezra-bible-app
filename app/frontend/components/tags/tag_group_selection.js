@@ -58,10 +58,18 @@ const template = html`
   cursor: default;
 }
 
+#add-tag-group-button {
+  float: right;
+  padding: 0.2em;
+  display: none;
+}
+
 </style>
 
 <div id="tag-group-selection">
   <a id="tag-group-list-link" href="">Tag groups</a> <span id="tag-group-nav-arrow">&rarr;</span> <span id="tag-group-label">All tags</span>
+
+  <button id="add-tag-group-button" i18n="tags.add-tag-group" class="fg-button ui-state-default ui-corner-all"></button>
 </div>
 `;
 
@@ -81,11 +89,20 @@ class TagGroupSelection extends HTMLElement {
     eventController.subscribe('on-tag-group-selected', (tagGroup) => {
       this.selectTagGroup(tagGroup);
     });
+
+    eventController.subscribe('on-locale-changed', async () => {
+      this.localize();
+    });
+  }
+
+  localize() {
+    $('#tag-group-selection').localize();
   }
 
   onTagGroupListLinkClicked() {
     this.hideTagGroupDisplay();
     this.getTagGroupListLink().classList.add('list-tag-groups');
+    this.showAddTagGroupButton();
     eventController.publishAsync('on-tag-group-list-activated');
   }
 
@@ -94,6 +111,7 @@ class TagGroupSelection extends HTMLElement {
       this.getTagGroupListLink().classList.remove('list-tag-groups');
       this.getTagGroupLabel().innerText = tagGroup.title;
       this.showTagGroupDisplay();
+      this.hideAddTagGroupButton();
     } else {
       console.warn("TagGroupSelection.selectTagGroup / Received null");
     }
@@ -109,6 +127,14 @@ class TagGroupSelection extends HTMLElement {
     this.getTagGroupLabel().style.display = '';
   }
 
+  showAddTagGroupButton() {
+    this.getAddTagGroupButton().style.display = 'block';
+  }
+
+  hideAddTagGroupButton() {
+    this.getAddTagGroupButton().style.display = 'none';
+  }
+
   getTagGroupListLink() {
     return document.getElementById('tag-group-list-link');
   }
@@ -119,6 +145,10 @@ class TagGroupSelection extends HTMLElement {
 
   getTagGroupNavArrow() {
     return document.getElementById('tag-group-nav-arrow');
+  }
+
+  getAddTagGroupButton() {
+    return document.getElementById('add-tag-group-button');
   }
 }
 
