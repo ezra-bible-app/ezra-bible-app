@@ -22,6 +22,8 @@ const eventController = require('../../controllers/event_controller.js');
 const template = html`
 <style>
 #tag-group-list-content {
+  display: flex;
+  flex-direction: column;
   margin: 0.1em 0 0 0;
   padding: 0.5em;
   padding-top: 0.7em;
@@ -32,6 +34,10 @@ const template = html`
   height: calc(100% - 5.5em);
 }
 
+#tag-group-list-content a {
+  margin-bottom: 0.5em;
+}
+
 .darkmode--activated #tag-group-list {
   border: 1px solid #555555;
 }
@@ -39,21 +45,94 @@ const template = html`
 </style>
 
 <div id="tag-group-list-content" style="display: none;">
-  Tag Group List
 </div>
 `;
    
 class TagGroupList extends HTMLElement {
   constructor() {
     super();
+
+    this.populated = false;
   }
 
   connectedCallback() {  
     this.appendChild(template.content);
 
-    eventController.subscribe('on-tag-group-list-activated', () => {
-      document.getElementById('tag-group-list-content').style.display = '';
+    eventController.subscribe('on-tag-group-list-activated', async () => {
+      await this.populateTagGroupList();
+      this.showTagGroupList();
     });
+  }
+
+  async getTagGroups() {
+    if (this._tagGroups == null) {
+      this._tagGroups = [
+        { title: 'All tags', id: '1'},
+        { title: 'Sermons', id: '2' },
+        { title: 'Book-related Studies', id: '3' }
+      ];
+    }
+
+    return this._tagGroups;
+  }
+
+  async getTagGroupById(tagGroupId) {
+    const tagGroups = await this.getTagGroups();
+
+    for (let i = 0; i < tagGroups.length; i++) {
+      let tagGroup = tagGroups[i];
+      if (tagGroup.id == tagGroupId) {
+        return tagGroup;
+      }
+    }
+  }
+
+  async populateTagGroupList() {
+    if (this.populated) {
+      return;
+    }
+
+    const tagGroups = await this.getTagGroups();
+
+    tagGroups.forEach((tagGroup) => {
+      this.addTagGroup(tagGroup);
+    });
+
+    this.populated = true;
+  }
+
+  addTagGroup(tagGroup) {
+    if (this._contentDiv == null) {
+      this._contentDiv = this.getContentDiv();
+    }
+
+    let tagGroupLink = document.createElement('a');
+    tagGroupLink.setAttribute('href', '');
+    tagGroupLink.setAttribute('tagGroupId', tagGroup.id);
+    tagGroupLink.innerText = tagGroup.title;
+    tagGroupLink.addEventListener('click', (event) => {
+      event.preventDefault();
+      this.handleTagGroupClick(event);
+    });
+
+    this._contentDiv.appendChild(tagGroupLink);
+  }
+
+  async handleTagGroupClick(event) {
+    const tagGroupId = parseInt(event.target.getAttribute('tagGroupId'));
+    const tagGroup = await this.getTagGroupById(tagGroupId);
+
+    console.log(tagGroup);
+
+    eventController.publishAsync('on-tag-group-selected', tagGroup);
+  }
+
+  showTagGroupList() {
+    this.getContentDiv().style.display = '';
+  }
+
+  getContentDiv() {
+    return document.getElementById('tag-group-list-content');
   }
 }
 
