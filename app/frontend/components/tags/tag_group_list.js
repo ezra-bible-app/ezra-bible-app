@@ -21,7 +21,7 @@ const eventController = require('../../controllers/event_controller.js');
 
 const template = html`
 <style>
-#tag-group-selection {
+#tag-group-list-content {
   margin: 0.1em 0 0 0;
   padding: 0.5em;
   padding-top: 0.7em;
@@ -29,34 +29,21 @@ const template = html`
   user-select: none;
   box-sizing: border-box;
   border: 1px solid #dddddd;
+  height: calc(100% - 5.5em);
 }
 
-.darkmode--activated #tag-group-selection {
+.darkmode--activated #tag-group-list {
   border: 1px solid #555555;
 }
 
-#tag-group-selection a:link,
-#tag-group-selection a:visited {
-  text-decoration: none;
-  color: var(--accent-color);
-}
-
-.darkmode--activated #tag-group-selection a:link,
-.darkmode--activated #tag-group-selection a:visited {
-  color: var(--accent-color-darkmode);
-}
-
-#tag-group-selection a:hover {
-  text-decoration: underline;
-}
 </style>
 
-<div id="tag-group-selection">
-  <a id="tag-group-list-link" href="">Tag groups</a> <span id="tag-group-nav-arrow">&rarr;</span> <span id="tag-group-label">General</span>
+<div id="tag-group-list-content" style="display: none;">
+  Tag Group List
 </div>
 `;
-
-class TagGroupSelection extends HTMLElement {
+   
+class TagGroupList extends HTMLElement {
   constructor() {
     super();
   }
@@ -64,15 +51,11 @@ class TagGroupSelection extends HTMLElement {
   connectedCallback() {  
     this.appendChild(template.content);
 
-    document.getElementById('tag-group-list-link').addEventListener('click', (event) => {
-      event.preventDefault();
-      eventController.publish('on-tag-group-list-activated');
-
-      document.getElementById('tag-group-nav-arrow').style.display = 'none';
-      document.getElementById('tag-group-label').style.display = 'none';
+    eventController.subscribe('on-tag-group-list-activated', () => {
+      document.getElementById('tag-group-list-content').style.display = '';
     });
   }
 }
 
-customElements.define('tag-group-selection', TagGroupSelection);
-module.exports = TagGroupSelection;
+customElements.define('tag-group-list', TagGroupList);
+module.exports = TagGroupList;

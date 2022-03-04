@@ -115,6 +115,10 @@ class TagsController {
     eventController.subscribe('on-verses-selected', async () => {
       await this.updateTagsViewAfterVerseSelection(false);
     });
+
+    eventController.subscribe('on-tag-group-list-activated', () => {
+      document.getElementById('tags-content-global').style.display = 'none';
+    });
   }
 
   resetActivePanelToTagPanel(tabIndex) {
