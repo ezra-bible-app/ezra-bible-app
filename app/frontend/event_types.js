@@ -45,7 +45,7 @@
  * @typedef { "on-tag-panel-switched" | "on-dictionary-panel-switched" | "on-compare-panel-switched" } PanelEvents
  */
 /**
- * @typedef { "on-tag-created" | "on-tag-deleted" | "on-tag-renamed" | "on-latest-tag-changed" } TagEvents
+ * @typedef { "on-tag-created" | "on-tag-deleted" | "on-tag-renamed" | "on-latest-tag-changed" | "on-tag-group-list-activated" } TagEvents
  */
 /**
  * @typedef { "on-module-search-started" } ModuleSearchEvents
