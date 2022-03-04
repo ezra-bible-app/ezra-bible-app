@@ -77,6 +77,10 @@ class TagGroupList extends HTMLElement {
       await this.populateTagGroupList();
       this.showTagGroupList();
     });
+
+    eventController.subscribe('on-tag-group-create', (tagGroupTitle) => {
+      this.addTagGroup(tagGroupTitle);
+    });
   }
 
   async getTagGroups() {
@@ -110,13 +114,25 @@ class TagGroupList extends HTMLElement {
     const tagGroups = await this.getTagGroups();
 
     tagGroups.forEach((tagGroup) => {
-      this.addTagGroup(tagGroup);
+      this.addTagGroupElement(tagGroup);
     });
 
     this.populated = true;
   }
 
-  addTagGroup(tagGroup) {
+  addTagGroup(tagGroupTitle) {
+    let newId = this._tagGroups[this._tagGroups.length - 1].id + 1;
+
+    let tagGroup = {
+      title: tagGroupTitle,
+      id: newId
+    };
+
+    this._tagGroups.push(tagGroup);
+    this.addTagGroupElement(tagGroup);
+  }
+
+  addTagGroupElement(tagGroup) {
     if (this._contentDiv == null) {
       this._contentDiv = this.getContentDiv();
     }

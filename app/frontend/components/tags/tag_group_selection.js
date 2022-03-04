@@ -116,7 +116,7 @@ class TagGroupSelection extends HTMLElement {
     const dialogBoxTemplate = html`
     <div id="add-tag-group-dialog" style="padding-top: 2em;">
       <label id="add-tag-group-title">${addTagGroupTitle}:</label>
-      <input type="text" label="" style="width: 15em;"/>
+      <input id="tag-group-title-value" type="text" label="" style="width: 15em; border: 1px solid lightgray; border-radius: 4px;"/>
     </div>
     `;
 
@@ -126,13 +126,15 @@ class TagGroupSelection extends HTMLElement {
       const $dialogBox = $('#add-tag-group-dialog');
       
       const width = 300;
-      const height = 200;
+      const height = 180;
 
       var buttons = {};
       buttons[i18n.t('general.cancel')] = function() {
         $(this).dialog('close');
       };
       buttons[i18n.t('tags.create-tag-group')] = function() {
+        let tagGroupTitle = document.getElementById('tag-group-title-value').value;
+        eventController.publish('on-tag-group-create', tagGroupTitle);
         $(this).dialog('close');
       };
 
