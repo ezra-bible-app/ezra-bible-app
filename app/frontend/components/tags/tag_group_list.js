@@ -146,7 +146,7 @@ class TagGroupList extends HTMLElement {
 
     let tagGroupLink = document.createElement('a');
     tagGroupLink.setAttribute('href', '');
-    tagGroupLink.setAttribute('tagGroupId', tagGroup.id);
+    tagGroupLink.setAttribute('tag-group-id', tagGroup.id);
     tagGroupLink.innerText = tagGroup.title;
     tagGroupLink.addEventListener('click', (event) => {
       event.preventDefault();
@@ -157,7 +157,7 @@ class TagGroupList extends HTMLElement {
   }
 
   async handleTagGroupClick(event) {
-    const tagGroupId = parseInt(event.target.getAttribute('tagGroupId'));
+    const tagGroupId = parseInt(event.target.getAttribute('tag-group-id'));
     const tagGroup = await this.getTagGroupById(tagGroupId);
 
     console.log(tagGroup);
