@@ -12,9 +12,13 @@
   <p i18n="[html]tags.really-remove-tag-assignment"></p>
 </div>
 
-<div id="rename-standard-tag-dialog" style="display: none; padding-top: 2em; padding-bottom: 2em;">
-  <span id="rename-standard-tag-title-label" i18n="tags.title"></span>: <input id="rename-standard-tag-title-input" type="text" maxlength="255" />
+<div id="edit-tag-dialog" style="display: none; padding-top: 2em; padding-bottom: 2em;">
+  <span id="rename-tag-title-label" i18n="tags.title"></span>: <input id="rename-tag-title-input" type="text" maxlength="255" />
   <emoji-button-trigger></emoji-button-trigger>
+
+  <div style="height: 1em;"></div>
+  <span i18n="tags.tag-groups"></span>:
+  <tag-group-assignment-list></tag-group-assignment-list>
 </div>
 
 <div id="tags-content" class="accordion-panel ui-accordion ui-widget ui-helper-reset ui-accordion-icons" role="tablist">
