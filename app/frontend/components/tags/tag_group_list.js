@@ -18,6 +18,7 @@
 
 const { html } = require('../../helpers/ezra_helper.js');
 const eventController = require('../../controllers/event_controller.js');
+const TagGroupManager = require('./tag_group_manager.js');
 
 const template = html`
 <style>
@@ -79,61 +80,32 @@ class TagGroupList extends HTMLElement {
   constructor() {
     super();
 
-    this.populated = false;
+    let virtualTagGroups = [
+      { id: -1, title: 'All tags' }
+    ];
+
+    this.tagGroupManager = new TagGroupManager('tag-group-list-content',
+                                               (event) => { this.handleTagGroupClick(event); },
+                                               false,
+                                               virtualTagGroups);
   }
 
   connectedCallback() {  
     this.appendChild(template.content);
 
     eventController.subscribe('on-tag-group-list-activated', async () => {
-      await this.populateTagGroupList();
+      await this.tagGroupManager.populateTagGroupList();
       this.showTagGroupList();
     });
 
     eventController.subscribe('on-tag-group-creation', async (tagGroupTitle) => {
-      await this.addTagGroup(tagGroupTitle);
+      let tagGroup = await this.createTagGroupInDb(tagGroupTitle);
+      await this.tagGroupManager.addTagGroup(tagGroup);
+      eventController.publishAsync('on-tag-group-created', tagGroup);
     });
   }
 
-  async getTagGroups() {
-    if (this._tagGroups == null) {
-      let dbTagGroups = await ipcDb.getAllTagGroups();
-      this._tagGroups = [
-        { id: -1, title: 'All tags' }
-      ];
-
-      this._tagGroups = this._tagGroups.concat(dbTagGroups);
-    }
-
-    return this._tagGroups;
-  }
-
-  async getTagGroupById(tagGroupId) {
-    const tagGroups = await this.getTagGroups();
-
-    for (let i = 0; i < tagGroups.length; i++) {
-      let tagGroup = tagGroups[i];
-      if (tagGroup.id == tagGroupId) {
-        return tagGroup;
-      }
-    }
-  }
-
-  async populateTagGroupList() {
-    if (this.populated) {
-      return;
-    }
-
-    const tagGroups = await this.getTagGroups();
-
-    tagGroups.forEach((tagGroup) => {
-      this.addTagGroupElement(tagGroup);
-    });
-
-    this.populated = true;
-  }
-
-  async addTagGroup(tagGroupTitle) {
+  async createTagGroupInDb(tagGroupTitle) {
     let result = await ipcDb.createTagGroup(tagGroupTitle);
     if (!result.success) {
       // FIXME: Add error handling
@@ -147,36 +119,12 @@ class TagGroupList extends HTMLElement {
       id: newId
     };
 
-    this._tagGroups.push(tagGroup);
-    this.addTagGroupElement(tagGroup);
-
-    eventController.publishAsync('on-tag-group-created', tagGroup);
-  }
-
-  addTagGroupElement(tagGroup) {
-    if (this._contentDiv == null) {
-      this._contentDiv = this.getContentDiv();
-    }
-
-    let tagGroupElement = document.createElement('div');
-    tagGroupElement.setAttribute('class', 'tag-group');
-
-    let tagGroupLink = document.createElement('a');
-    tagGroupLink.setAttribute('href', '');
-    tagGroupLink.setAttribute('tag-group-id', tagGroup.id);
-    tagGroupLink.innerText = tagGroup.title;
-    tagGroupLink.addEventListener('click', (event) => {
-      event.preventDefault();
-      this.handleTagGroupClick(event);
-    });
-
-    tagGroupElement.appendChild(tagGroupLink);
-    this._contentDiv.appendChild(tagGroupElement);
+    return tagGroup;
   }
 
   async handleTagGroupClick(event) {
     const tagGroupId = parseInt(event.target.getAttribute('tag-group-id'));
-    const tagGroup = await this.getTagGroupById(tagGroupId);
+    const tagGroup = await this.tagGroupManager.getTagGroupById(tagGroupId);
 
     console.log(tagGroup);
 
