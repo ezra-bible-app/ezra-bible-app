@@ -69,8 +69,15 @@ class IpcDbHandler {
       return this.dbDir + path.sep + "ezra.sqlite";
     });
 
-    this._ipcMain.add('db_createNewTag', async (newTagTitle) => {
-      return await global.models.Tag.create_new_tag(newTagTitle);
+    this._ipcMain.add('db_createNewTag', async (newTagTitle, tagGroupId) => {
+      let result = await global.models.Tag.create_new_tag(newTagTitle);
+      
+      if (tagGroupId != null) {
+        let tagGroup = await global.models.TagGroup.findByPk(tagGroupId);
+        await tagGroup.addTag(result.dbObject.id);
+      }
+
+      return result;
     });
 
     this._ipcMain.add('db_removeTag', async (id) => {

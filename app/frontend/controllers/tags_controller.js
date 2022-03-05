@@ -73,6 +73,7 @@ class TagsController {
     this.removeTagAssignmentConfirmationDialogInitDone = false;
     this.renameStandardTagDialogInitDone = false;
     this.lastContentId = null;
+    this.currentTagGroupId = null;
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
       const currentTab = app_controller.tab_controller.getTab(tabIndex);
@@ -125,6 +126,8 @@ class TagsController {
 
       let tab = app_controller.tab_controller.getTab();
       let tagGroupId = tagGroup ? tagGroup.id : null;
+      this.currentTagGroupId = tagGroupId;
+
       this.updateTagList(tab.getBook(), tagGroupId, tab.getContentId(), true);
     });
   }
@@ -385,7 +388,7 @@ class TagsController {
     tags_controller.new_tag_created = true;
     this.last_created_tag = new_tag_title;
 
-    var result = await ipcDb.createNewTag(new_tag_title);
+    var result = await ipcDb.createNewTag(new_tag_title, this.currentTagGroupId);
     if (result.success == false) {
       var message = `The new tag <i>${new_tag_title}</i> could not be saved.<br>
                      An unexpected database error occurred:<br><br>
@@ -404,7 +407,7 @@ class TagsController {
     });
 
     var tab = app_controller.tab_controller.getTab();
-    await tags_controller.updateTagList(tab.getBook(), null, tab.getContentId(), true);
+    await tags_controller.updateTagList(tab.getBook(), this.currentTagGroupId, tab.getContentId(), true);
     await tags_controller.updateTagsViewAfterVerseSelection(true);
     uiHelper.hideTextLoadingIndicator();
   }
@@ -816,6 +819,11 @@ class TagsController {
     };
 
     global_tags_box.find('.checkbox-tag').sort_elements(sort_function);
+  }
+
+  async getTagList(forceRefresh=true) {
+    var tagList = await this.tag_store.getTagList(forceRefresh);
+    return tagList;
   }
 
   async updateTagList(currentBook, tagGroupId=null, contentId=null, forceRefresh=false) {
