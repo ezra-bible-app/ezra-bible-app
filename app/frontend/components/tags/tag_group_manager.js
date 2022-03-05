@@ -17,11 +17,12 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 class TagGroupManager {
-  constructor(contentDivId, onClickHandler, selectable=false, virtualTagGroups=[]) {
+  constructor(contentDivId, onClickHandler, selectable=false, cssClass, virtualTagGroups=[]) {
     this._tagGroups = null;
     this._contentDivId = contentDivId;
     this._onClickHandler = onClickHandler;
     this._selectable = selectable;
+    this._cssClass = cssClass;
     this._virtualTagGroups = virtualTagGroups;
   }
 
@@ -71,13 +72,17 @@ class TagGroupManager {
     }
 
     let tagGroupElement = document.createElement('div');
-    tagGroupElement.setAttribute('class', 'assignment-tag-group');
+    tagGroupElement.setAttribute('class', this._cssClass);
 
     let tagGroupIcon = null;
 
     if (this._selectable) {
       tagGroupIcon = document.createElement('i');
       tagGroupIcon.setAttribute('class', 'fas fa-tag tag-button button-small');
+      tagGroupIcon.addEventListener('click', (event) => {
+        this.toggleSelection(event);
+        this._onClickHandler(event);
+      });
     }
 
     let tagGroupLink = document.createElement('a');
@@ -86,6 +91,10 @@ class TagGroupManager {
     tagGroupLink.innerText = tagGroup.title;
     tagGroupLink.addEventListener('click', (event) => {
       event.preventDefault();
+
+      if (this._selectable) {
+        this.toggleSelection(event);
+      }
       this._onClickHandler(event);
     });
 
@@ -95,6 +104,25 @@ class TagGroupManager {
 
     tagGroupElement.appendChild(tagGroupLink);
     this._contentDiv.appendChild(tagGroupElement);
+  }
+
+  toggleSelection(event) {
+    let tagButton = event.target.closest('.' + this._cssClass).querySelector('.tag-button');
+    let link = event.target.closest('.' + this._cssClass).querySelector('a');
+    
+    if (link.classList.contains('active')) {
+      if (tagButton != null) {
+        tagButton.classList.remove('active');
+      }
+
+      link.classList.remove('active');
+    } else {
+      if (tagButton != null) {
+        tagButton.classList.add('active');
+      }
+
+      link.classList.add('active');
+    }
   }
 
   getContentDiv() {
