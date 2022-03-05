@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING
   }, {});
   TagGroup.associate = function(models) {
-    // associations can be defined here
+    TagGroup.belongsToMany(models.Tag, {through: 'TagGroupMembers'});
   };
 
   TagGroup.createTagGroup = async function(tagGroupTitle) {
