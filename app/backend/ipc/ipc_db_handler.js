@@ -110,6 +110,16 @@ class IpcDbHandler {
       return groupedVerseTags;
     });
 
+    this._ipcMain.add('db_createTagGroup', async(title) => {
+      return await global.models.TagGroup.createTagGroup(title);
+    });
+
+    this._ipcMain.add('db_getAllTagGroups', async () => {
+      var allSequelizeTagGroups = await global.models.TagGroup.findAll();
+      var allTagGroups = this.makeSequelizeResultsSerializable(allSequelizeTagGroups);
+      return allTagGroups;
+    });
+
     this._ipcMain.add('db_persistNote', async (noteValue, verseObject, versification) => {
       return await global.models.Note.persistNote(noteValue, verseObject, versification);
     });
