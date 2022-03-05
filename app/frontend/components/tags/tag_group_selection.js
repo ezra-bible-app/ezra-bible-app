@@ -140,7 +140,7 @@ class TagGroupSelection extends HTMLElement {
       };
       buttons[i18n.t('tags.create-tag-group')] = function() {
         let tagGroupTitle = document.getElementById('tag-group-title-value').value;
-        eventController.publish('on-tag-group-create', tagGroupTitle);
+        eventController.publishAsync('on-tag-group-create', tagGroupTitle);
         $(this).dialog('close');
       };
 

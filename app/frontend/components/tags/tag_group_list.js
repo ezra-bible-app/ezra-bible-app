@@ -78,18 +78,19 @@ class TagGroupList extends HTMLElement {
       this.showTagGroupList();
     });
 
-    eventController.subscribe('on-tag-group-create', (tagGroupTitle) => {
-      this.addTagGroup(tagGroupTitle);
+    eventController.subscribe('on-tag-group-create', async (tagGroupTitle) => {
+      await this.addTagGroup(tagGroupTitle);
     });
   }
 
   async getTagGroups() {
     if (this._tagGroups == null) {
+      let dbTagGroups = await ipcDb.getAllTagGroups();
       this._tagGroups = [
-        { title: 'All tags', id: '1'},
-        { title: 'Sermons', id: '2' },
-        { title: 'Book-related Studies', id: '3' }
+        { id: -1, title: 'All tags' }
       ];
+
+      this._tagGroups = this._tagGroups.concat(dbTagGroups);
     }
 
     return this._tagGroups;
@@ -120,8 +121,14 @@ class TagGroupList extends HTMLElement {
     this.populated = true;
   }
 
-  addTagGroup(tagGroupTitle) {
-    let newId = this._tagGroups[this._tagGroups.length - 1].id + 1;
+  async addTagGroup(tagGroupTitle) {
+    let result = await ipcDb.createTagGroup(tagGroupTitle);
+    if (!result.success) {
+      // FIXME: Add error handling
+      return;
+    }
+
+    let newId = result.dbObject.id;
 
     let tagGroup = {
       title: tagGroupTitle,

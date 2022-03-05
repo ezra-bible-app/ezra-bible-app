@@ -34,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Tag.associate = function(models) {
     Tag.belongsToMany(models.VerseReference, {through: 'VerseTags'});
+    Tag.belongsToMany(models.TagGroup, {through: 'TagGroupMembers'});
   };
 
   Tag.create_new_tag = async function(new_tag_title) {

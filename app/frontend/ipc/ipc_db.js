@@ -112,6 +112,14 @@ class IpcDb {
     return await this._ipcRenderer.call('db_getVerseTagsByVerseReferenceIds', verseReferenceIds, versification);
   }
 
+  async createTagGroup(title) {
+    return await this._ipcRenderer.call('db_createTagGroup', title);
+  }
+
+  async getAllTagGroups() {
+    return await this._ipcRenderer.call('db_getAllTagGroups');
+  }
+
   async persistNote(noteValue, verseObject, versification) {
     return await this._ipcRenderer.call('db_persistNote', noteValue, verseObject, versification);
   }
