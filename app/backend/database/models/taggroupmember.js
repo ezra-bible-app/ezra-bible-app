@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     tagGroupId: DataTypes.INTEGER,
     tagId: DataTypes.INTEGER
   }, {});
+  // eslint-disable-next-line no-unused-vars
   TagGroupMember.associate = function(models) {
     // associations can be defined here
   };
