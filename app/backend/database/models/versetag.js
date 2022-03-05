@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     absoluteVerseNrHeb: DataTypes.VIRTUAL
   }, {});
 
+  // eslint-disable-next-line no-unused-vars
   VerseTag.associate = function(models) {
     // associations can be defined here
   };

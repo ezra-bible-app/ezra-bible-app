@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   });
 
+  // eslint-disable-next-line no-unused-vars
   MetaRecord.associate = function(models) {
     // associations can be defined here
   };
