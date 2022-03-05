@@ -18,6 +18,7 @@
 
 const { html } = require('../../helpers/ezra_helper.js');
 const eventController = require('../../controllers/event_controller.js');
+const TagGroupManager = require('./tag_group_manager.js');
 
 const template = html`
 <style>
@@ -69,9 +70,12 @@ class TagGroupAssignmentList extends HTMLElement {
 
     this.populated = false;
     this._contentDiv = null;
+    this.tagGroupManager = new TagGroupManager('tag-group-assignment-list-content',
+                                               (event) => { this.handleTagGroupClick(event); },
+                                               true);
 
     eventController.subscribe('on-tag-group-created', async (tagGroupTitle) => {
-      await this.addTagGroup(tagGroupTitle);
+      await this.tagGroupManager.addTagGroup(tagGroupTitle);
     });
   }
 
@@ -79,75 +83,12 @@ class TagGroupAssignmentList extends HTMLElement {
     this.appendChild(template.content);
 
     (async () => {
-      await this.populateTagGroupAssignmentList();
+      await this.tagGroupManager.populateTagGroupList();
     })();
   }
 
-  async getTagGroups() {
-    if (this._tagGroups == null) {
-      this._tagGroups = await ipcDb.getAllTagGroups();
-    }
-
-    return this._tagGroups;
-  }
-
-  async getTagGroupById(tagGroupId) {
-    const tagGroups = await this.getTagGroups();
-
-    for (let i = 0; i < tagGroups.length; i++) {
-      let tagGroup = tagGroups[i];
-      if (tagGroup.id == tagGroupId) {
-        return tagGroup;
-      }
-    }
-  }
-
-  async populateTagGroupAssignmentList() {
-    if (this.populated) {
-      return;
-    }
-
-    const tagGroups = await this.getTagGroups();
-
-    tagGroups.forEach((tagGroup) => {
-      this.addTagGroupElement(tagGroup);
-    });
-
-    this.populated = true;
-  }
-
-  async addTagGroup(tagGroup) {
-    this._tagGroups.push(tagGroup);
-    this.addTagGroupElement(tagGroup);
-  }
-
-  addTagGroupElement(tagGroup) {
-    if (this._contentDiv == null) {
-      this._contentDiv = this.getContentDiv();
-    }
-
-    let tagGroupElement = document.createElement('div');
-    tagGroupElement.setAttribute('class', 'assignment-tag-group');
-
-    let tagGroupIcon = document.createElement('i');
-    tagGroupIcon.setAttribute('class', 'fas fa-tag tag-button button-small');
-
-    let tagGroupLink = document.createElement('a');
-    tagGroupLink.setAttribute('href', '');
-    tagGroupLink.setAttribute('tag-group-id', tagGroup.id);
-    tagGroupLink.innerText = tagGroup.title;
-    tagGroupLink.addEventListener('click', (event) => {
-      event.preventDefault();
-      this.handleTagGroupClick(event);
-    });
-
-    tagGroupElement.appendChild(tagGroupIcon);
-    tagGroupElement.appendChild(tagGroupLink);
-    this._contentDiv.appendChild(tagGroupElement);
-  }
-
-  getContentDiv() {
-    return document.getElementById('tag-group-assignment-list-content');
+  handleTagGroupClick(event) {
+    console.log('tag group click!');
   }
 }
 
