@@ -21,7 +21,7 @@ const eventController = require('../../controllers/event_controller.js');
 
 const template = html`
 <style>
-#tag-group-list-content {
+#tag-group-assignment-list-content {
   display: flex;
   flex-direction: column;
   margin: 0.1em 0 0 0;
@@ -31,78 +31,61 @@ const template = html`
   user-select: none;
   box-sizing: border-box;
   border: 1px solid #dddddd;
-  height: calc(100% - 5.5em);
+  height: 11em;
   overflow-y: scroll;
+  background-color: white;
 }
 
-.tag-group {
+.assignment-tag-group {
   display: flex;
   flex-direction: row;
   margin: 0.2em;
   padding: 0.3em;
 }
 
-.tag-group:nth-child(odd) {
+.assignment-tag-group:nth-child(odd) {
   background: var(--background-color-darker);
 }
 
-#tag-group-list-content a {
-  margin-bottom: 0.5em;
-}
-
-#tag-group-list-content a:link,
-#tag-group-list-content a:visited {
+#tag-group-assignment-list-content a:link,
+#tag-group-assignment-list-content a:visited {
   text-decoration: none;
-  color: var(--accent-color);
+  color: var(--text-color);
 }
 
-#tag-group-list-content a:hover {
-  text-decoration: underline;
-}
-
-.darkmode--activated #tag-group-list-content a:link,
-.darkmode--activated #tag-group-list-content a:visited {
-  color: var(--accent-color-darkmode);
-}
-
-.darkmode--activated #tag-group-list {
+.darkmode--activated #tag-group-assignment-list {
   border: 1px solid #555555;
 }
 
 </style>
 
-<div id="tag-group-list-content" class="scrollable" style="display: none;">
+<div id="tag-group-assignment-list-content" class="scrollable">
 </div>
 `;
-   
-class TagGroupList extends HTMLElement {
+
+class TagGroupAssignmentList extends HTMLElement {
   constructor() {
     super();
 
     this.populated = false;
+    this._contentDiv = null;
+
+    eventController.subscribe('on-tag-group-created', async (tagGroupTitle) => {
+      await this.addTagGroup(tagGroupTitle);
+    });
   }
 
   connectedCallback() {  
     this.appendChild(template.content);
 
-    eventController.subscribe('on-tag-group-list-activated', async () => {
-      await this.populateTagGroupList();
-      this.showTagGroupList();
-    });
-
-    eventController.subscribe('on-tag-group-creation', async (tagGroupTitle) => {
-      await this.addTagGroup(tagGroupTitle);
-    });
+    (async () => {
+      await this.populateTagGroupAssignmentList();
+    })();
   }
 
   async getTagGroups() {
     if (this._tagGroups == null) {
-      let dbTagGroups = await ipcDb.getAllTagGroups();
-      this._tagGroups = [
-        { id: -1, title: 'All tags' }
-      ];
-
-      this._tagGroups = this._tagGroups.concat(dbTagGroups);
+      this._tagGroups = await ipcDb.getAllTagGroups();
     }
 
     return this._tagGroups;
@@ -119,7 +102,7 @@ class TagGroupList extends HTMLElement {
     }
   }
 
-  async populateTagGroupList() {
+  async populateTagGroupAssignmentList() {
     if (this.populated) {
       return;
     }
@@ -133,24 +116,9 @@ class TagGroupList extends HTMLElement {
     this.populated = true;
   }
 
-  async addTagGroup(tagGroupTitle) {
-    let result = await ipcDb.createTagGroup(tagGroupTitle);
-    if (!result.success) {
-      // FIXME: Add error handling
-      return;
-    }
-
-    let newId = result.dbObject.id;
-
-    let tagGroup = {
-      title: tagGroupTitle,
-      id: newId
-    };
-
+  async addTagGroup(tagGroup) {
     this._tagGroups.push(tagGroup);
     this.addTagGroupElement(tagGroup);
-
-    eventController.publishAsync('on-tag-group-created', tagGroup);
   }
 
   addTagGroupElement(tagGroup) {
@@ -159,7 +127,10 @@ class TagGroupList extends HTMLElement {
     }
 
     let tagGroupElement = document.createElement('div');
-    tagGroupElement.setAttribute('class', 'tag-group');
+    tagGroupElement.setAttribute('class', 'assignment-tag-group');
+
+    let tagGroupIcon = document.createElement('i');
+    tagGroupIcon.setAttribute('class', 'fas fa-tag tag-button button-small');
 
     let tagGroupLink = document.createElement('a');
     tagGroupLink.setAttribute('href', '');
@@ -170,32 +141,15 @@ class TagGroupList extends HTMLElement {
       this.handleTagGroupClick(event);
     });
 
+    tagGroupElement.appendChild(tagGroupIcon);
     tagGroupElement.appendChild(tagGroupLink);
     this._contentDiv.appendChild(tagGroupElement);
   }
 
-  async handleTagGroupClick(event) {
-    const tagGroupId = parseInt(event.target.getAttribute('tag-group-id'));
-    const tagGroup = await this.getTagGroupById(tagGroupId);
-
-    console.log(tagGroup);
-
-    this.hideTagGroupList();
-    eventController.publishAsync('on-tag-group-selected', tagGroup);
-  }
-
-  showTagGroupList() {
-    this.getContentDiv().style.display = '';
-  }
-
-  hideTagGroupList() {
-    this.getContentDiv().style.display = 'none';
-  }
-
   getContentDiv() {
-    return document.getElementById('tag-group-list-content');
+    return document.getElementById('tag-group-assignment-list-content');
   }
 }
 
-customElements.define('tag-group-list', TagGroupList);
-module.exports = TagGroupList;
+customElements.define('tag-group-assignment-list', TagGroupAssignmentList);
+module.exports = TagGroupAssignmentList;

@@ -249,6 +249,7 @@
     "delete-tag-permanently": "Delete this tag permanently",
     "none-selected": "None",
     "rename-tag": "Rename tag",
+    "edit-tag": "Edit tag",
     "title": "Title",
     "stats-used": "used",
     "stats-total": "total",
@@ -262,7 +263,8 @@
     "select-all-tags": "Select all",
     "deselect-all-tags": "Deselect all",
     "add-tag-group": "Add tag group",
-    "create-tag-group": "Create tag group"
+    "create-tag-group": "Create tag group",
+    "tag-groups": "Tag groups"
   },
   "bible-browser": {
     "chapter": "Chapter",

@@ -59,7 +59,7 @@ class TagsController {
     this.new_tag_created = false;
     this.last_created_tag = "";
   
-    this.rename_standard_tag_id = null;
+    this.edit_tag_id = null;
   
     //this.xml_tag_statistics = null; // FIXME
     this.loading_indicator = "<img class=\"loading-indicator\" style=\"float: left; margin-left: 0.5em;\" " +
@@ -71,7 +71,7 @@ class TagsController {
     this.newTagDialogInitDone = false;
     this.deleteTagConfirmationDialogInitDone = false;
     this.removeTagAssignmentConfirmationDialogInitDone = false;
-    this.renameStandardTagDialogInitDone = false;
+    this.editTagDialogInitDone = false;
     this.lastContentId = null;
     this.currentTagGroupId = null;
 
@@ -285,59 +285,60 @@ class TagsController {
   }
 
   initRenameStandardTagDialog(force=false) {
-    if (!force && this.renameStandardTagDialogInitDone) {
+    if (!force && this.editTagDialogInitDone) {
       return;
     }
 
-    this.renameStandardTagDialogInitDone = true;
+    this.editTagDialogInitDone = true;
 
-    var rename_standard_tag_dlg_options = {
-      title: i18n.t("tags.rename-tag"),
+    var edit_tag_dlg_options = {
+      title: i18n.t("tags.edit-tag"),
       width: 400,
-      position: [40,250],
+      height: 400,
+      position: [40,200],
       autoOpen: false,
       dialogClass: 'ezra-dialog'
     };
-    rename_standard_tag_dlg_options.buttons = {};
-    rename_standard_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {
+    edit_tag_dlg_options.buttons = {};
+    edit_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {
       $(this).dialog("close");
     };
-    rename_standard_tag_dlg_options.buttons[i18n.t("general.rename")] = {
-      id: 'rename-tag-button',
-      text: i18n.t("general.rename"),
+    edit_tag_dlg_options.buttons[i18n.t("general.save")] = {
+      id: 'edit-tag-button',
+      text: i18n.t("general.save"),
       click: function() {
         tags_controller.closeDialogAndRenameTag();
       }
     };
-    $('#rename-standard-tag-dialog').dialog(rename_standard_tag_dlg_options);
+    $('#edit-tag-dialog').dialog(edit_tag_dlg_options);
   
     // Handle the enter key in the tag title field and rename the tag when it is pressed
-    $('#rename-standard-tag-title-input:not(.bound)').addClass('bound').on("keypress", (event) => {
+    $('#rename-tag-title-input:not(.bound)').addClass('bound').on("keypress", (event) => {
       if (event.which == 13) {
         tags_controller.closeDialogAndRenameTag();
       }
     // eslint-disable-next-line no-unused-vars
     }).on("keyup", async (event) => {
-      var tag_title = $('#rename-standard-tag-title-input').val();
-      await this.updateButtonStateBasedOnTagTitleValidation(tag_title, 'rename-tag-button');
+      var tag_title = $('#rename-tag-title-input').val();
+      await this.updateButtonStateBasedOnTagTitleValidation(tag_title, 'edit-tag-button');
     });
   }
 
   async closeDialogAndRenameTag() {
-    var new_title = $('#rename-standard-tag-title-input').val();
-    var tag_existing = await this.updateButtonStateBasedOnTagTitleValidation(new_title, 'rename-tag-button');
+    var new_title = $('#rename-tag-title-input').val();
+    var tag_existing = await this.updateButtonStateBasedOnTagTitleValidation(new_title, 'edit-tag-button');
 
     if (tag_existing) {
       return;
     }
 
-    $('#rename-standard-tag-dialog').dialog('close');
-    var checkbox_tag = this.getCheckboxTag(tags_controller.rename_standard_tag_id);
+    $('#rename-tag-dialog').dialog('close');
+    var checkbox_tag = this.getCheckboxTag(tags_controller.edit_tag_id);
     var is_global = (checkbox_tag.parent().attr('id') == 'tags-content-global');
     
-    var result = await ipcDb.updateTag(tags_controller.rename_standard_tag_id, new_title);
+    var result = await ipcDb.updateTag(tags_controller.edit_tag_id, new_title);
     if (result.success == false) {
-      var message = `The tag <i>${tags_controller.rename_standard_tag_title}</i> could not be renamed.<br>
+      var message = `The tag <i>${tags_controller.edit_tag_title}</i> could not be renamed.<br>
                      An unexpected database error occurred:<br><br>
                      ${result.exception}<br><br>
                      Please restart the app.`;
@@ -347,19 +348,19 @@ class TagsController {
       return;
     }
 
-    tags_controller.updateTagTitlesInVerseList(tags_controller.rename_standard_tag_id, is_global, new_title);
+    tags_controller.updateTagTitlesInVerseList(tags_controller.edit_tag_id, is_global, new_title);
 
     await eventController.publishAsync(
       'on-tag-renamed',
       {
-        tagId: tags_controller.rename_standard_tag_id,
-        oldTitle: tags_controller.rename_standard_tag_title,
+        tagId: tags_controller.edit_tag_id,
+        oldTitle: tags_controller.edit_tag_title,
         newTitle: new_title
       }
     );
 
     await eventController.publishAsync('on-latest-tag-changed', {
-      'tagId': tags_controller.rename_standard_tag_id,
+      'tagId': tags_controller.edit_tag_id,
       'added': false
     });
 
@@ -916,14 +917,14 @@ class TagsController {
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
     var cb_label = checkbox_tag.find('.cb-label').text();
 
-    const $tagInput = $('#rename-standard-tag-title-input');
-    this.updateButtonStateBasedOnTagTitleValidation('', 'rename-tag-button');
+    const $tagInput = $('#rename-tag-title-input');
+    this.updateButtonStateBasedOnTagTitleValidation('', 'edit-tag-button');
     $tagInput.val(cb_label);
-    $('#rename-standard-tag-dialog').dialog('open');
-    $('#rename-standard-tag-title-input').focus();
+    $('#edit-tag-dialog').dialog('open');
+    $('#rename-tag-title-input').focus();
 
-    tags_controller.rename_standard_tag_id = parseInt(checkbox_tag.attr('tag-id'));
-    tags_controller.rename_standard_tag_title = cb_label;
+    tags_controller.edit_tag_id = parseInt(checkbox_tag.attr('tag-id'));
+    tags_controller.edit_tag_title = cb_label;
   }
 
   updateTagCountAfterRendering(is_book=false) {
