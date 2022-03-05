@@ -148,7 +148,7 @@ class TagsController {
    */
   refreshTagDialogs() {
     this.initNewTagDialog(true);
-    this.initRenameStandardTagDialog(true);
+    this.initEditTagDialog(true);
     this.initRemoveTagAssignmentConfirmationDialog(true);
     this.initDeleteTagConfirmationDialog(true);
   }
@@ -284,7 +284,7 @@ class TagsController {
     });
   }
 
-  initRenameStandardTagDialog(force=false) {
+  initEditTagDialog(force=false) {
     if (!force && this.editTagDialogInitDone) {
       return;
     }
@@ -880,7 +880,7 @@ class TagsController {
       tagStatistics: tag_statistics,
       current_book: current_book,
       current_filter: $('#tags-search-input').val(),
-      rename_tag_label: i18n.t("tags.rename-tag"),
+      edit_tag_label: i18n.t("tags.edit-tag"),
       delete_tag_label: i18n.t("tags.delete-tag-permanently"),
     });
 
@@ -911,8 +911,8 @@ class TagsController {
     //console.timeEnd("renderTags");
   }
 
-  handleRenameTagClick(event) {
-    tags_controller.initRenameStandardTagDialog();
+  handleEditTagClick(event) {
+    tags_controller.initEditTagDialog();
 
     var checkbox_tag = $(event.target).closest('.checkbox-tag');
     var cb_label = checkbox_tag.find('.cb-label').text();
@@ -961,8 +961,8 @@ class TagsController {
 
       if (event.target.matches('.tag-delete-icon') || event.target.matches('.tag-delete-button')) {
         tags_controller.handleDeleteTagButtonClick(event);
-      } else if (event.target.matches('.tag-rename-icon') || event.target.matches('.tag-rename-button')) {
-        tags_controller.handleRenameTagClick(event);
+      } else if (event.target.matches('.tag-edit-icon') || event.target.matches('.tag-edit-button')) {
+        tags_controller.handleEditTagClick(event);
       } else if (event.target.matches('.tag-button')) {
         await tags_controller.handleTagCbClick(event);
       } else if (event.target.matches('.cb-label')) {
