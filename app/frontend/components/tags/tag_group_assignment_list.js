@@ -48,6 +48,10 @@ const template = html`
   background: var(--background-color-darker);
 }
 
+#tag-group-assignment-list-content a.active {
+  font-weight: bold;
+}
+
 #tag-group-assignment-list-content a:link,
 #tag-group-assignment-list-content a:visited {
   text-decoration: none;
@@ -72,7 +76,8 @@ class TagGroupAssignmentList extends HTMLElement {
     this._contentDiv = null;
     this.tagGroupManager = new TagGroupManager('tag-group-assignment-list-content',
                                                (event) => { this.handleTagGroupClick(event); },
-                                               true);
+                                               true,
+                                               'assignment-tag-group');
 
     eventController.subscribe('on-tag-group-created', async (tagGroupTitle) => {
       await this.tagGroupManager.addTagGroup(tagGroupTitle);
@@ -88,7 +93,7 @@ class TagGroupAssignmentList extends HTMLElement {
   }
 
   handleTagGroupClick(event) {
-    console.log('tag group click!');
+
   }
 }
 

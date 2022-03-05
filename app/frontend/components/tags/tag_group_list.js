@@ -87,6 +87,7 @@ class TagGroupList extends HTMLElement {
     this.tagGroupManager = new TagGroupManager('tag-group-list-content',
                                                (event) => { this.handleTagGroupClick(event); },
                                                false,
+                                               'tag-group',
                                                virtualTagGroups);
   }
 
