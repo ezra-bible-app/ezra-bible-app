@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
   const Tag = sequelize.define('Tag', {
     title: DataTypes.STRING,
     bibleBookId: DataTypes.INTEGER,
+    tagGroupList: DataTypes.VIRTUAL,
     globalAssignmentCount: DataTypes.VIRTUAL,
     bookAssignmentCount: DataTypes.VIRTUAL,
     lastUsed: DataTypes.VIRTUAL
@@ -122,11 +123,15 @@ module.exports = (sequelize, DataTypes) => {
                  " SUM(CASE WHEN vt.tagId IS NULL THEN 0 ELSE 1 END) AS globalAssignmentCount," +
                  " SUM(CASE WHEN vr.bibleBookId=" + bibleBookId + " THEN 1 ELSE 0 END) AS bookAssignmentCount";
 
+    query += ", GROUP_CONCAT(DISTINCT tg.id) AS tagGroupList";
+
     query += ", strftime('%s', MAX(vt.updatedAt)) AS lastUsed";
 
     query += " FROM Tags t" +
              " LEFT JOIN VerseTags vt ON vt.tagId = t.id" +
              " LEFT JOIN VerseReferences vr ON vt.verseReferenceId = vr.id" +
+             " LEFT JOIN TagGroupMembers tgm ON tgm.tagId = t.id" +
+             " LEFT JOIN TagGroups tg ON tg.id = tgm.tagGroupId" +
              " GROUP BY t.id";
     
     if (lastUsed) {
