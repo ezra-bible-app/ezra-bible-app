@@ -126,8 +126,6 @@ class TagGroupList extends HTMLElement {
     const tagGroupId = parseInt(event.target.getAttribute('tag-group-id'));
     const tagGroup = await this.tagGroupManager.getTagGroupById(tagGroupId);
 
-    console.log(tagGroup);
-
     this.hideTagGroupList();
     eventController.publishAsync('on-tag-group-selected', tagGroup);
   }
