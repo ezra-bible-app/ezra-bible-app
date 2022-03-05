@@ -122,6 +122,10 @@ class TagsController {
 
     eventController.subscribe('on-tag-group-selected', (tagGroup) => {
       document.getElementById('tags-content-global').style.display = '';
+
+      let tab = app_controller.tab_controller.getTab();
+      let tagGroupId = tagGroup ? tagGroup.id : null;
+      this.updateTagList(tab.getBook(), tagGroupId, tab.getContentId(), true);
     });
   }
 
@@ -400,7 +404,7 @@ class TagsController {
     });
 
     var tab = app_controller.tab_controller.getTab();
-    await tags_controller.updateTagList(tab.getBook(), tab.getContentId(), true);
+    await tags_controller.updateTagList(tab.getBook(), null, tab.getContentId(), true);
     await tags_controller.updateTagsViewAfterVerseSelection(true);
     uiHelper.hideTextLoadingIndicator();
   }
@@ -814,12 +818,7 @@ class TagsController {
     global_tags_box.find('.checkbox-tag').sort_elements(sort_function);
   }
 
-  async getTagList(forceRefresh=true) {
-    var tagList = await this.tag_store.getTagList(forceRefresh);
-    return tagList;
-  }
-
-  async updateTagList(currentBook, contentId=null, forceRefresh=false) {
+  async updateTagList(currentBook, tagGroupId=null, contentId=null, forceRefresh=false) {
     if (forceRefresh) {
       this.initialRenderingDone = false;
     }
@@ -830,6 +829,10 @@ class TagsController {
 
     if (contentId != this.lastContentId || forceRefresh) {
       var tagList = await this.tag_store.getTagList(forceRefresh);
+      if (tagGroupId != null && tagGroupId > 0) {
+        tagList = this.getTagGroupMembers(tagGroupId, tagList);
+      }
+
       var tagStatistics = await this.tag_store.getBookTagStatistics(currentBook, forceRefresh);
       await this.renderTags(tagList, tagStatistics, currentBook != null);
       await waitUntilIdle();
@@ -838,6 +841,20 @@ class TagsController {
     } else {
       app_controller.tag_statistics.highlightFrequentlyUsedTags();
     }
+  }
+
+  getTagGroupMembers(tagGroupId, tagList) {
+    let tagGroupMembers = [];
+
+    for (let i = 0; i < tagList.length; i++) {
+      let currentTag = tagList[i];
+
+      if (currentTag.tagGroupList != null && currentTag.tagGroupList.includes(tagGroupId.toString())) {
+        tagGroupMembers.push(currentTag);
+      }
+    }
+
+    return tagGroupMembers;
   }
 
   async renderTags(tag_list, tag_statistics, is_book=false) {
@@ -1130,7 +1147,7 @@ class TagsController {
 
         var currentTabBook = currentTab.getBook();
         var currentTabContentId = currentTab.getContentId();
-        this.updateTagList(currentTabBook, currentTabContentId, forceRefresh);
+        this.updateTagList(currentTabBook, null, currentTabContentId, forceRefresh);
       } else {
         this.lastContentId = null;
       }

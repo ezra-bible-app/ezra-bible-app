@@ -92,6 +92,16 @@ class IpcDbHandler {
     this._ipcMain.add('db_getAllTags', async (bibleBookId, lastUsed, onlyStats) => {
       var allSequelizeTags = await global.models.Tag.getAllTags(bibleBookId, lastUsed, onlyStats);
       var allTags = this.makeSequelizeResultsSerializable(allSequelizeTags);
+
+      for (let i = 0; i < allTags.length; i++) {
+        let currentTag = allTags[i];
+
+        if (currentTag.tagGroupList != null) {
+          let tagGroupListArray = currentTag.tagGroupList.split(',');
+          currentTag.tagGroupList = tagGroupListArray;
+        }
+      }
+
       return allTags;
     });
 
