@@ -47,10 +47,6 @@ const template = html`
   background: var(--background-color-darker);
 }
 
-#tag-group-list-content a {
-  margin-bottom: 0.5em;
-}
-
 #tag-group-list-content a:link,
 #tag-group-list-content a:visited {
   text-decoration: none;
