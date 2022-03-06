@@ -337,14 +337,11 @@ class TagsController {
     var addTagGroups = tagGroupAssignment.addList;
     var removeTagGroups = tagGroupAssignment.removeList;
 
-    console.log('Add: ' + addTagGroups);
-    console.log('Remove: ' + removeTagGroups);
-
     $('#edit-tag-dialog').dialog('close');
     var checkboxTag = this.getCheckboxTag(tags_controller.edit_tag_id);
     var isGlobal = (checkboxTag.parent().attr('id') == 'tags-content-global');
     
-    var result = await ipcDb.updateTag(tags_controller.edit_tag_id, newTitle);
+    var result = await ipcDb.updateTag(tags_controller.edit_tag_id, newTitle, addTagGroups, removeTagGroups);
     if (result.success == false) {
       var message = `The tag <i>${tags_controller.edit_tag_title}</i> could not be updated.<br>
                      An unexpected database error occurred:<br><br>
@@ -356,16 +353,30 @@ class TagsController {
       return;
     }
 
-    tags_controller.updateTagTitlesInVerseList(tags_controller.edit_tag_id, isGlobal, newTitle);
+    if (newTitle != oldTitle) {
+      tags_controller.updateTagInView(tags_controller.edit_tag_id, newTitle);
+      tags_controller.updateTagTitlesInVerseList(tags_controller.edit_tag_id, isGlobal, newTitle);
 
-    await eventController.publishAsync(
-      'on-tag-renamed',
-      {
+      await eventController.publishAsync(
+        'on-tag-renamed',
+        {
+          tagId: tags_controller.edit_tag_id,
+          oldTitle: tags_controller.edit_tag_title,
+          newTitle: newTitle
+        }
+      );
+    }
+
+    if (addTagGroups.length > 0 || removeTagGroups.length > 0) {
+      /*await eventController.publishAsync('on-tag-group-members-changed', {
         tagId: tags_controller.edit_tag_id,
-        oldTitle: tags_controller.edit_tag_title,
-        newTitle: newTitle
-      }
-    );
+        addTagGroups,
+        removeTagGroups
+      });*/
+
+      const currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+      await this.updateTagsView(currentTabIndex, true);
+    }
 
     await eventController.publishAsync('on-latest-tag-changed', {
       'tagId': tags_controller.edit_tag_id,
@@ -376,7 +387,7 @@ class TagsController {
     await tags_controller.updateTagsViewAfterVerseSelection(true);
   }
 
-  renameTagInView(id, title) {
+  updateTagInView(id, title) {
     // Rename tag in tag list on the left side
     var checkboxTag = tags_controller.getCheckboxTag(id);
     var label = checkboxTag.find('.cb-label');
@@ -1200,7 +1211,7 @@ class TagsController {
 
         var currentTabBook = currentTab.getBook();
         var currentTabContentId = currentTab.getContentId();
-        this.updateTagList(currentTabBook, null, currentTabContentId, forceRefresh);
+        this.updateTagList(currentTabBook, this.currentTagGroupId, currentTabContentId, forceRefresh);
       } else {
         this.lastContentId = null;
       }
