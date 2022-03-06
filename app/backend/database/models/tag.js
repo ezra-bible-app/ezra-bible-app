@@ -76,9 +76,25 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
 
-  Tag.update_tag = async function(id, title) {
+  Tag.update_tag = async function(id, newTitle, addTagGroups, removeTagGroups) {
     try {
-      await global.models.Tag.update({ title: title }, { where: { id: id }});
+      let tag = await global.models.Tag.findByPk(id);
+      let titleChanged = tag.title != newTitle;
+
+      if (titleChanged) {
+        await global.models.Tag.update({ title: newTitle }, { where: { id: id }});
+      }
+
+      addTagGroups.forEach(async (tagGroupId) => {
+        let tagGroup = await global.models.TagGroup.findByPk(tagGroupId);
+        await tagGroup.addTag(id);
+      });
+
+      removeTagGroups.forEach(async (tagGroupId) => {
+        let tagGroup = await global.models.TagGroup.findByPk(tagGroupId);
+        await tagGroup.removeTag(id);
+      });
+
       await global.models.MetaRecord.updateLastModified();
 
       return {
@@ -86,7 +102,7 @@ module.exports = (sequelize, DataTypes) => {
       };
 
     } catch (error) {
-      console.error("An error occurred while trying to rename the tag with id " + id + ": " + error);
+      console.error("An error occurred while trying to update the tag with id " + id + ": " + error);
 
       return global.getDatabaseException(error);
     }

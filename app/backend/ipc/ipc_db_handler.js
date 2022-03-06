@@ -84,8 +84,8 @@ class IpcDbHandler {
       return await global.models.Tag.destroy_tag(id);
     });
 
-    this._ipcMain.add('db_updateTag', async(id, newTitle) => {
-      return await global.models.Tag.update_tag(id, newTitle);
+    this._ipcMain.add('db_updateTag', async(id, newTitle, addTagGroups, removeTagGroups) => {
+      return await global.models.Tag.update_tag(id, newTitle, addTagGroups, removeTagGroups);
     });
 
     this._ipcMain.add('db_updateTagsOnVerses', async (tagId, verseObjects, versification, action) => {
