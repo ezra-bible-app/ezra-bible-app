@@ -80,8 +80,8 @@ class TagGroupManager {
       tagGroupIcon = document.createElement('i');
       tagGroupIcon.setAttribute('class', 'fas fa-tag tag-button button-small');
       tagGroupIcon.addEventListener('click', (event) => {
-        this.toggleSelection(event);
         this._onClickHandler(event);
+        this.toggleSelection(event);
       });
     }
 
@@ -92,10 +92,11 @@ class TagGroupManager {
     tagGroupLink.addEventListener('click', (event) => {
       event.preventDefault();
 
+      this._onClickHandler(event);
+
       if (this._selectable) {
         this.toggleSelection(event);
       }
-      this._onClickHandler(event);
     });
 
     if (this._selectable) {
@@ -107,21 +108,57 @@ class TagGroupManager {
   }
 
   toggleSelection(event) {
-    let tagButton = event.target.closest('.' + this._cssClass).querySelector('.tag-button');
-    let link = event.target.closest('.' + this._cssClass).querySelector('a');
+    let element = event.target.closest('.' + this._cssClass);
+    this.toggleElement(element);
+  }
+
+  toggleElement(element) {
+    let tagButton = element.querySelector('.tag-button');
+    let link = element.querySelector('a');
     
     if (link.classList.contains('active')) {
-      if (tagButton != null) {
-        tagButton.classList.remove('active');
-      }
-
-      link.classList.remove('active');
+      this.disableElement(tagButton, link);
     } else {
-      if (tagButton != null) {
-        tagButton.classList.add('active');
-      }
+      this.enableElement(tagButton, link);
+    }
+  }
 
-      link.classList.add('active');
+  enableElement(tagButton, link) {
+    if (tagButton != null) {
+      tagButton.classList.add('active');
+    }
+
+    link.classList.add('active');
+  }
+
+  disableElement(tagButton, link) {
+    if (tagButton != null) {
+      tagButton.classList.remove('active');
+    }
+
+    link.classList.remove('active');
+  }
+
+  async setTagId(tagId) {
+    this._tagId = tagId;
+
+    let tag = await tags_controller.tag_store.getTag(tagId);
+
+    if (tag.tagGroupList != null) {
+      let allTagGroupElements = this._contentDiv.querySelectorAll('.' + this._cssClass);
+
+      allTagGroupElements.forEach((tagGroupElement) => {
+        let tagButton = tagGroupElement.querySelector('.tag-button');
+        let link = tagGroupElement.querySelector('a');
+
+        this.disableElement(tagButton, link);
+
+        tag.tagGroupList.forEach((tagGroupId) => {
+          if (link.getAttribute('tag-group-id') == tagGroupId) {
+            this.enableElement(tagButton, link);
+          }
+        });
+      });
     }
   }
 

@@ -186,9 +186,9 @@ class TagsController {
     $('#new-standard-tag-title-input:not(.bound)').addClass('bound').on("keypress", async (event) => {
       if (event.which == 13) {
         var tag_title = $('#new-standard-tag-title-input').val();
-        var tag_existing = await this.updateButtonStateBasedOnTagTitleValidation(tag_title, 'create-tag-button');
+        var tagExisting = await this.updateButtonStateBasedOnTagTitleValidation(tag_title, 'create-tag-button');
 
-        if (tag_existing) {
+        if (tagExisting) {
           return;
         }
 
@@ -203,18 +203,16 @@ class TagsController {
   }
 
   async updateButtonStateBasedOnTagTitleValidation(tagTitle, buttonId) {
-    var tag_existing = await this.tagExists(tagTitle);
+    var tagExisting = await this.tagExists(tagTitle);
     let tagButton = document.getElementById(buttonId);
 
-    if (tag_existing || tagTitle == "") {
-      tagButton.classList.add('ui-state-disabled');
-      tagButton.setAttribute('disabled', true);
+    if (tagExisting || tagTitle == "") {
+      this.disableButton(tagButton);
     } else {
-      tagButton.classList.remove('ui-state-disabled');
-      tagButton.removeAttribute('disabled');
+      this.enableButton(tagButton);
     }
 
-    return tag_existing;
+    return tagExisting;
   }
 
   async tagExists(tagTitle) {
@@ -307,7 +305,7 @@ class TagsController {
       id: 'edit-tag-button',
       text: i18n.t("general.save"),
       click: function() {
-        tags_controller.closeDialogAndRenameTag();
+        tags_controller.closeDialogAndUpdateTag();
       }
     };
     $('#edit-tag-dialog').dialog(edit_tag_dlg_options);
@@ -315,30 +313,40 @@ class TagsController {
     // Handle the enter key in the tag title field and rename the tag when it is pressed
     $('#rename-tag-title-input:not(.bound)').addClass('bound').on("keypress", (event) => {
       if (event.which == 13) {
-        tags_controller.closeDialogAndRenameTag();
+        tags_controller.closeDialogAndUpdateTag();
       }
     // eslint-disable-next-line no-unused-vars
-    }).on("keyup", async (event) => {
-      var tag_title = $('#rename-tag-title-input').val();
-      await this.updateButtonStateBasedOnTagTitleValidation(tag_title, 'edit-tag-button');
+    }).on("keyup", (event) => {
+      this.handleEditTagChange();
     });
   }
 
-  async closeDialogAndRenameTag() {
-    var new_title = $('#rename-tag-title-input').val();
-    var tag_existing = await this.updateButtonStateBasedOnTagTitleValidation(new_title, 'edit-tag-button');
+  async closeDialogAndUpdateTag() {
+    var oldTitle = tags_controller.edit_tag_title;
+    var newTitle = $('#rename-tag-title-input').val();
 
-    if (tag_existing) {
-      return;
+    if (newTitle != oldTitle) {
+      let tagExisting = await this.updateButtonStateBasedOnTagTitleValidation(newTitle, 'edit-tag-button');
+
+      if (tagExisting) {
+        return;
+      }
     }
 
-    $('#rename-tag-dialog').dialog('close');
-    var checkbox_tag = this.getCheckboxTag(tags_controller.edit_tag_id);
-    var is_global = (checkbox_tag.parent().attr('id') == 'tags-content-global');
+    var tagGroupAssignment = document.getElementById('tag-group-assignment');
+    var addTagGroups = tagGroupAssignment.addList;
+    var removeTagGroups = tagGroupAssignment.removeList;
+
+    console.log('Add: ' + addTagGroups);
+    console.log('Remove: ' + removeTagGroups);
+
+    $('#edit-tag-dialog').dialog('close');
+    var checkboxTag = this.getCheckboxTag(tags_controller.edit_tag_id);
+    var isGlobal = (checkboxTag.parent().attr('id') == 'tags-content-global');
     
-    var result = await ipcDb.updateTag(tags_controller.edit_tag_id, new_title);
+    var result = await ipcDb.updateTag(tags_controller.edit_tag_id, newTitle);
     if (result.success == false) {
-      var message = `The tag <i>${tags_controller.edit_tag_title}</i> could not be renamed.<br>
+      var message = `The tag <i>${tags_controller.edit_tag_title}</i> could not be updated.<br>
                      An unexpected database error occurred:<br><br>
                      ${result.exception}<br><br>
                      Please restart the app.`;
@@ -348,14 +356,14 @@ class TagsController {
       return;
     }
 
-    tags_controller.updateTagTitlesInVerseList(tags_controller.edit_tag_id, is_global, new_title);
+    tags_controller.updateTagTitlesInVerseList(tags_controller.edit_tag_id, isGlobal, newTitle);
 
     await eventController.publishAsync(
       'on-tag-renamed',
       {
         tagId: tags_controller.edit_tag_id,
         oldTitle: tags_controller.edit_tag_title,
-        newTitle: new_title
+        newTitle: newTitle
       }
     );
 
@@ -370,8 +378,8 @@ class TagsController {
 
   renameTagInView(id, title) {
     // Rename tag in tag list on the left side
-    var checkbox_tag = tags_controller.getCheckboxTag(id);
-    var label = checkbox_tag.find('.cb-label');
+    var checkboxTag = tags_controller.getCheckboxTag(id);
+    var label = checkboxTag.find('.cb-label');
     label.text(title);
 
     // Rename tag in tag selection menu above bible browser
@@ -431,16 +439,16 @@ class TagsController {
   handleDeleteTagButtonClick(event) {
     tags_controller.initDeleteTagConfirmationDialog();
 
-    var checkbox_tag = $(event.target).closest('.checkbox-tag');
-    var tag_id = checkbox_tag.attr('tag-id');
-    var parent_id = checkbox_tag.parent().attr('id');
-    var label = checkbox_tag.find('.cb-label').html();
+    var checkboxTag = $(event.target).closest('.checkbox-tag');
+    var tag_id = checkboxTag.attr('tag-id');
+    var parent_id = checkboxTag.parent().attr('id');
+    var label = checkboxTag.find('.cb-label').html();
 
     tags_controller.tag_to_be_deleted_is_global = (parent_id == 'tags-content-global');
     tags_controller.tag_to_be_deleted_title = label;
     tags_controller.tag_to_be_deleted = tag_id;
     
-    var number_of_tagged_verses = checkbox_tag.attr('global-assignment-count');
+    var number_of_tagged_verses = checkboxTag.attr('global-assignment-count');
 
     $('#delete-tag-name').html(label);
     $('#delete-tag-number-of-verses').html(number_of_tagged_verses); // FIXME
@@ -472,8 +480,8 @@ class TagsController {
   }
 
   async removeTagById(tag_id, tag_title) {
-    var checkbox_tag = tags_controller.getCheckboxTag(tag_id);
-    checkbox_tag.detach();
+    var checkboxTag = tags_controller.getCheckboxTag(tag_id);
+    checkboxTag.detach();
 
     if (this.tag_store.latest_tag_id != null && this.tag_store.latest_tag_id == tag_id) {
       this.tag_store.latest_tag_id = null;
@@ -503,16 +511,16 @@ class TagsController {
     await waitUntilIdle();
 
     if (this.tag_store.latest_tag_id != null) {
-      var checkbox_tag = this.getCheckboxTag(this.tag_store.latest_tag_id);
-      await this.clickCheckBoxTag(checkbox_tag);
+      var checkboxTag = this.getCheckboxTag(this.tag_store.latest_tag_id);
+      await this.clickCheckBoxTag(checkboxTag);
     }
 
     uiHelper.hideTextLoadingIndicator();
   }
 
   async handleTagLabelClick(event) {
-    var checkbox_tag = $(event.target).closest('.checkbox-tag');
-    await this.clickCheckBoxTag(checkbox_tag);
+    var checkboxTag = $(event.target).closest('.checkbox-tag');
+    await this.clickCheckBoxTag(checkboxTag);
   }
 
   async clickCheckBoxTag(checkboxTag) {
@@ -548,12 +556,12 @@ class TagsController {
   async handleTagCbClick(event) {
     await waitUntilIdle();
 
-    var checkbox_tag = $(event.target).closest('.checkbox-tag');
-    this.toggleTagButton(checkbox_tag);
-    await tags_controller.handleCheckboxTagStateChange(checkbox_tag);
+    var checkboxTag = $(event.target).closest('.checkbox-tag');
+    this.toggleTagButton(checkboxTag);
+    await tags_controller.handleCheckboxTagStateChange(checkboxTag);
   }
 
-  async handleCheckboxTagStateChange(checkbox_tag) {
+  async handleCheckboxTagStateChange(checkboxTag) {
     var current_verse_list = app_controller.verse_selection.selected_verse_references;
 
     if (tags_controller.is_blocked || current_verse_list.length == 0) {
@@ -565,26 +573,26 @@ class TagsController {
       tags_controller.is_blocked = false;
     }, 300);
 
-    var id = parseInt(checkbox_tag.attr('tag-id'));
-    var tag_button = checkbox_tag[0].querySelector('.tag-button');
-    var cb_label = checkbox_tag.find('.cb-label').html();
+    var id = parseInt(checkboxTag.attr('tag-id'));
+    var tag_button = checkboxTag[0].querySelector('.tag-button');
+    var cb_label = checkboxTag.find('.cb-label').html();
     var tag_button_is_active = tag_button.classList.contains('active');
 
     var current_verse_selection = app_controller.verse_selection.current_verse_selection_as_xml(); 
     var current_verse_reference_ids = app_controller.verse_selection.current_verse_selection_as_verse_reference_ids();
 
-    checkbox_tag.find('.cb-label').removeClass('underline');
-    checkbox_tag.find('.cb-label-postfix').html('');
+    checkboxTag.find('.cb-label').removeClass('underline');
+    checkboxTag.find('.cb-label-postfix').html('');
 
     var is_global = false;
-    if (checkbox_tag.find('.is-global').html() == 'true') {
+    if (checkboxTag.find('.is-global').html() == 'true') {
       is_global = true;
     }
 
     if (tag_button_is_active) {
       // Update last used timestamp
       var current_timestamp = new Date(Date.now()).getTime();
-      checkbox_tag.attr('last-used-timestamp', current_timestamp);
+      checkboxTag.attr('last-used-timestamp', current_timestamp);
 
       this.tag_store.updateTagTimestamp(id, current_timestamp);
       await this.tag_store.updateLatestAndOldestTagData();
@@ -651,7 +659,7 @@ class TagsController {
         'id': id,
         'is_global': is_global,
         'cb_label': cb_label,
-        'checkbox_tag': checkbox_tag,
+        'checkboxTag': checkboxTag,
         'verse_list': current_verse_list,
         'verse_ids': current_verse_reference_ids,
         'xml_verse_selection': $.create_xml_doc(current_verse_selection),
@@ -671,16 +679,16 @@ class TagsController {
   }
   
   getCheckboxTag(id) {
-    var checkbox_tag = $('#tags-content-global').find('.checkbox-tag[tag-id="' + id + '"]');
-    return checkbox_tag;
+    var checkboxTag = $('#tags-content-global').find('.checkbox-tag[tag-id="' + id + '"]');
+    return checkboxTag;
   }
 
   updateTagVerseCount(id, verseBoxes, to_increment) {
     var count = verseBoxes.length;
-    var checkbox_tag = tags_controller.getCheckboxTag(id);
-    var cb_label_element = checkbox_tag.find('.cb-label');
+    var checkboxTag = tags_controller.getCheckboxTag(id);
+    var cb_label_element = checkboxTag.find('.cb-label');
     var tag_title = cb_label_element.text();
-    var tag_assignment_count_element = checkbox_tag.find('.cb-label-tag-assignment-count');
+    var tag_assignment_count_element = checkboxTag.find('.cb-label-tag-assignment-count');
     var tag_assignment_count_values = tag_assignment_count_element.text().substring(
       1, tag_assignment_count_element.text().length - 1
     );
@@ -713,8 +721,8 @@ class TagsController {
       cb_label_element.removeClass('cb-label-assigned');
     }
 
-    checkbox_tag.attr('book-assignment-count', new_book_count);
-    checkbox_tag.attr('global-assignment-count', new_global_count);
+    checkboxTag.attr('book-assignment-count', new_book_count);
+    checkboxTag.attr('global-assignment-count', new_global_count);
 
     var new_label = "";
     if (currentBook == null) {
@@ -744,7 +752,7 @@ class TagsController {
                                            "remove");
 
     job.tag_button.attr('title', i18n.t("tags.assign-tag"));
-    job.checkbox_tag.append(tags_controller.loading_indicator);
+    job.checkboxTag.append(tags_controller.loading_indicator);
 
     var verse_boxes = [];
 
@@ -914,17 +922,53 @@ class TagsController {
   handleEditTagClick(event) {
     tags_controller.initEditTagDialog();
 
-    var checkbox_tag = $(event.target).closest('.checkbox-tag');
-    var cb_label = checkbox_tag.find('.cb-label').text();
+    var checkboxTag = $(event.target).closest('.checkbox-tag');
+    var cb_label = checkboxTag.find('.cb-label').text();
+
+    tags_controller.edit_tag_id = parseInt(checkboxTag.attr('tag-id'));
+    tags_controller.edit_tag_title = cb_label;
 
     const $tagInput = $('#rename-tag-title-input');
-    this.updateButtonStateBasedOnTagTitleValidation('', 'edit-tag-button');
+    let tagButton = document.getElementById('edit-tag-button');
+    this.disableButton(tagButton);
+
     $tagInput.val(cb_label);
+
+    var tagGroupAssignment = document.getElementById('tag-group-assignment');
+    tagGroupAssignment.tagid = tags_controller.edit_tag_id;
+    tagGroupAssignment.onChange = () => {
+      this.handleEditTagChange();
+    };
+
     $('#edit-tag-dialog').dialog('open');
     $('#rename-tag-title-input').focus();
+  }
 
-    tags_controller.edit_tag_id = parseInt(checkbox_tag.attr('tag-id'));
-    tags_controller.edit_tag_title = cb_label;
+  handleEditTagChange() {
+    let tagGroupAssignment = document.getElementById('tag-group-assignment');
+    let tagButton = document.getElementById('edit-tag-button');
+    var oldTitle = tags_controller.edit_tag_title;
+    var newTitle = document.getElementById('rename-tag-title-input').value;
+
+    if (newTitle != oldTitle || tagGroupAssignment.isChanged) {
+      this.enableButton(tagButton);
+    } else {
+      this.disableButton(tagButton);
+    }
+
+    if (!tagGroupAssignment.isChanged) {
+      this.updateButtonStateBasedOnTagTitleValidation(newTitle, 'edit-tag-button');
+    }
+  }
+
+  enableButton(button) {
+    button.classList.remove('ui-state-disabled');
+    button.removeAttribute('disabled');
+  }
+
+  disableButton(button) {
+    button.classList.add('ui-state-disabled');
+    button.setAttribute('disabled', true);
   }
 
   updateTagCountAfterRendering(is_book=false) {
@@ -1008,10 +1052,10 @@ class TagsController {
     if (versesSelected) { // Verses are selected
 
       selected_verse_tags = app_controller.verse_selection.getCurrentSelectionTags();
-      var checkbox_tags = document.querySelectorAll('.checkbox-tag');
+      var checkboxTags = document.querySelectorAll('.checkbox-tag');
 
-      for (let i = 0; i < checkbox_tags.length; i++) {
-        this.formatCheckboxElementBasedOnSelection(checkbox_tags[i], selected_verse_tags);
+      for (let i = 0; i < checkboxTags.length; i++) {
+        this.formatCheckboxElementBasedOnSelection(checkboxTags[i], selected_verse_tags);
       }
 
       this.verses_were_selected_before = true;

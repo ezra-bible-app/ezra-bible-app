@@ -78,6 +78,9 @@ class TagGroupAssignmentList extends HTMLElement {
                                                (event) => { this.handleTagGroupClick(event); },
                                                true,
                                                'assignment-tag-group');
+    
+    this._removeList = [];
+    this._addList = [];
 
     eventController.subscribe('on-tag-group-created', async (tagGroupTitle) => {
       await this.tagGroupManager.addTagGroup(tagGroupTitle);
@@ -90,10 +93,65 @@ class TagGroupAssignmentList extends HTMLElement {
     (async () => {
       await this.tagGroupManager.populateTagGroupList();
     })();
+
+    if (this.getAttribute('onChange') != null) {
+      this._onChangeHandler = this.getAttribute('onChange');
+    }
+  }
+
+  set tagid(value) {
+    this._removeList = [];
+    this._addList = [];
+    this.tagGroupManager.setTagId(parseInt(value));
+  }
+
+  set onChange(value) {
+    this._onChangeHandler = value;
+  }
+
+  removeItem(arr, value) {
+    var index = arr.indexOf(value);
+    if (index > -1) {
+      arr.splice(index, 1);
+    }
+    return arr;
   }
 
   handleTagGroupClick(event) {
+    let tagGroupElement = event.target.closest('.assignment-tag-group');
+    let link = tagGroupElement.querySelector('a');
+    let isActive = link.classList.contains('active');
+    let tagGroupId = link.getAttribute('tag-group-id');
 
+    if (isActive) {
+      if (this._addList.includes(tagGroupId)) {
+        this._addList = this.removeItem(this._addList, tagGroupId);
+      } else {
+        this._removeList.push(tagGroupId);
+      }
+    } else {
+      if (this._removeList.includes(tagGroupId)) {
+        this._removeList = this.removeItem(this._removeList, tagGroupId);
+      } else {
+        this._addList.push(tagGroupId);
+      }
+    }
+
+    if (this._onChangeHandler != null) {
+      this._onChangeHandler();
+    }
+  }
+
+  get removeList() {
+    return this._removeList;
+  }
+
+  get addList() {
+    return this._addList;
+  }
+
+  get isChanged() {
+    return this._removeList.length != 0 || this._addList.length != 0;
   }
 }
 
