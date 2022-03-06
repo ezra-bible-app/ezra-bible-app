@@ -27,7 +27,6 @@ const template = html`
   flex-direction: column;
   margin: 0.1em 0 0 0;
   padding: 0.5em;
-  padding-top: 0.7em;
   padding-bottom: 0.7em;
   user-select: none;
   box-sizing: border-box;
@@ -40,7 +39,10 @@ const template = html`
   display: flex;
   flex-direction: row;
   margin: 0.2em;
-  padding: 0.3em;
+  padding: 0.1em;
+  padding-left: 0.5em;
+  min-height: 2em;
+  align-items: center;
 }
 
 .tag-group:nth-child(odd) {
