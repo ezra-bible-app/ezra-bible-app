@@ -264,6 +264,8 @@
     "deselect-all-tags": "Deselect all",
     "add-tag-group": "Add tag group",
     "create-tag-group": "Create tag group",
+    "rename-tag-group": "Rename tag group",
+    "delete-tag-group": "Delete tag group",
     "tag-groups": "Tag groups"
   },
   "bible-browser": {

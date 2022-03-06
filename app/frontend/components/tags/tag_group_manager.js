@@ -25,6 +25,9 @@ class TagGroupManager {
     this._editable = editable;
     this._cssClass = cssClass;
     this._virtualTagGroups = virtualTagGroups;
+
+    this._renameHint = i18n.t('tags.rename-tag-group');
+    this._deleteHint = i18n.t('tags.delete-tag-group');
   }
 
   async getTagGroups() {
@@ -91,9 +94,13 @@ class TagGroupManager {
     if (this._editable) {
       editButton = document.createElement('i');
       editButton.setAttribute('class', 'fas fa-pen tag-edit-icon tag-edit-button button-small');
+      editButton.setAttribute('i18n', '[title]tags.rename-tag-group');
+      editButton.setAttribute('title', this._renameHint);
 
       deleteButton = document.createElement('i');
       deleteButton.setAttribute('class', 'fas fa-trash-alt tag-delete-icon tag-delete-button button-small');
+      deleteButton.setAttribute('i18n', '[title]tags.delete-tag-group');
+      deleteButton.setAttribute('title', this._deleteHint);
     }
 
     let tagGroupLink = document.createElement('a');
