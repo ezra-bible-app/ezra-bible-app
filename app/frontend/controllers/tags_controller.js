@@ -119,6 +119,7 @@ class TagsController {
 
     eventController.subscribe('on-tag-group-list-activated', () => {
       document.getElementById('tags-content-global').style.display = 'none';
+      document.getElementById('tag-list-stats').style.visibility = 'hidden';
     });
 
     eventController.subscribe('on-tag-group-selected', async (tagGroup) => {
@@ -128,6 +129,7 @@ class TagsController {
 
       document.getElementById('tags-content-global').innerHTML = "";
       document.getElementById('tags-content-global').style.display = '';
+      document.getElementById('tag-list-stats').style.visibility = 'visible';
       await this.updateTagList(tab.getBook(), tagGroupId, tab.getContentId(), true);
     });
   }
