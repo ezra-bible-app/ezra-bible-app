@@ -132,7 +132,7 @@ class IpcDbHandler {
     });
 
     this._ipcMain.add('db_getAllTagGroups', async () => {
-      var allSequelizeTagGroups = await global.models.TagGroup.findAll();
+      var allSequelizeTagGroups = await global.models.TagGroup.findAll({ order: [['title', 'ASC']]});
       var allTagGroups = this.makeSequelizeResultsSerializable(allSequelizeTagGroups);
       return allTagGroups;
     });
