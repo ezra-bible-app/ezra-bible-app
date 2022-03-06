@@ -141,25 +141,23 @@ class TagGroupManager {
 
   async setTagId(tagId) {
     this._tagId = tagId;
-
     let tag = await tags_controller.tag_store.getTag(tagId);
+    let allTagGroupElements = this._contentDiv.querySelectorAll('.' + this._cssClass);
 
-    if (tag.tagGroupList != null) {
-      let allTagGroupElements = this._contentDiv.querySelectorAll('.' + this._cssClass);
+    allTagGroupElements.forEach((tagGroupElement) => {
+      let tagButton = tagGroupElement.querySelector('.tag-button');
+      let link = tagGroupElement.querySelector('a');
 
-      allTagGroupElements.forEach((tagGroupElement) => {
-        let tagButton = tagGroupElement.querySelector('.tag-button');
-        let link = tagGroupElement.querySelector('a');
+      this.disableElement(tagButton, link);
 
-        this.disableElement(tagButton, link);
-
+      if (tag.tagGroupList != null) {
         tag.tagGroupList.forEach((tagGroupId) => {
           if (link.getAttribute('tag-group-id') == tagGroupId) {
             this.enableElement(tagButton, link);
           }
         });
-      });
-    }
+      }
+    });
   }
 
   getContentDiv() {

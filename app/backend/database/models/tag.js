@@ -62,6 +62,7 @@ module.exports = (sequelize, DataTypes) => {
   Tag.destroy_tag = async function(id) {
     try {
       await global.models.VerseTag.destroy({ where: { tagId: id } });
+      await global.models.TagGroupMember.destroy({ where: { tagId: id }});
       await global.models.Tag.destroy({ where: { id: id } });
       await global.models.MetaRecord.updateLastModified();
 

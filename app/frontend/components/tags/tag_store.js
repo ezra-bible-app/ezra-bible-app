@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const eventController = require('../../controllers/event_controller.js');
+const ezraHelper = require('../../helpers/ezra_helper.js');
 
 class TagStore {
   constructor() {
@@ -42,6 +43,10 @@ class TagStore {
 
     eventController.subscribePrioritized('on-tag-renamed', async ({ tagId, newTitle }) => {
       await this.renameTag(tagId, newTitle);
+    });
+
+    eventController.subscribePrioritized('on-tag-group-members-changed', async ({ tagId, addTagGroups, removeTagGroups }) => {
+      await this.updateTagGroups(tagId, addTagGroups, removeTagGroups);
     });
   }
 
@@ -87,6 +92,20 @@ class TagStore {
   async renameTag(tagId, newTitle) {
     var tag = await this.getTag(tagId);
     tag.title = newTitle;
+  }
+
+  async updateTagGroups(tagId, addTagGroups, removeTagGroups) {
+    var tag = await this.getTag(tagId);
+
+    var tagGroupList = tag.tagGroupList;
+
+    addTagGroups.forEach((tagGroupId) => {
+      tagGroupList.push(tagGroupId);
+    });
+
+    removeTagGroups.forEach((tagGroupId) => {
+      tag.tagGroupList = ezraHelper.removeItemFromArray(tagGroupList, tagGroupId);
+    });
   }
 
   async getTag(tagId) {

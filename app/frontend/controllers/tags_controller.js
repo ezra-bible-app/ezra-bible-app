@@ -121,14 +121,14 @@ class TagsController {
       document.getElementById('tags-content-global').style.display = 'none';
     });
 
-    eventController.subscribe('on-tag-group-selected', (tagGroup) => {
-      document.getElementById('tags-content-global').style.display = '';
-
+    eventController.subscribe('on-tag-group-selected', async (tagGroup) => {
       let tab = app_controller.tab_controller.getTab();
       let tagGroupId = tagGroup ? tagGroup.id : null;
       this.currentTagGroupId = tagGroupId;
 
-      this.updateTagList(tab.getBook(), tagGroupId, tab.getContentId(), true);
+      document.getElementById('tags-content-global').innerHTML = "";
+      document.getElementById('tags-content-global').style.display = '';
+      await this.updateTagList(tab.getBook(), tagGroupId, tab.getContentId(), true);
     });
   }
 
@@ -357,6 +357,9 @@ class TagsController {
       tags_controller.updateTagInView(tags_controller.edit_tag_id, newTitle);
       tags_controller.updateTagTitlesInVerseList(tags_controller.edit_tag_id, isGlobal, newTitle);
 
+      tags_controller.sortTagLists();
+      await tags_controller.updateTagsViewAfterVerseSelection(true);
+
       await eventController.publishAsync(
         'on-tag-renamed',
         {
@@ -368,23 +371,22 @@ class TagsController {
     }
 
     if (addTagGroups.length > 0 || removeTagGroups.length > 0) {
-      /*await eventController.publishAsync('on-tag-group-members-changed', {
+      await eventController.publishAsync('on-tag-group-members-changed', {
         tagId: tags_controller.edit_tag_id,
         addTagGroups,
         removeTagGroups
-      });*/
+      });
 
-      const currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
-      await this.updateTagsView(currentTabIndex, true);
+      if (this.currentTagGroupId > 0) {
+        const currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+        await this.updateTagsView(currentTabIndex, true);
+      }
     }
 
     await eventController.publishAsync('on-latest-tag-changed', {
       'tagId': tags_controller.edit_tag_id,
       'added': false
     });
-
-    tags_controller.sortTagLists();
-    await tags_controller.updateTagsViewAfterVerseSelection(true);
   }
 
   updateTagInView(id, title) {

@@ -19,6 +19,7 @@
 const { html } = require('../../helpers/ezra_helper.js');
 const eventController = require('../../controllers/event_controller.js');
 const TagGroupManager = require('./tag_group_manager.js');
+const ezraHelper = require('../../helpers/ezra_helper.js');
 
 const template = html`
 <style>
@@ -109,14 +110,6 @@ class TagGroupAssignmentList extends HTMLElement {
     this._onChangeHandler = value;
   }
 
-  removeItem(arr, value) {
-    var index = arr.indexOf(value);
-    if (index > -1) {
-      arr.splice(index, 1);
-    }
-    return arr;
-  }
-
   handleTagGroupClick(event) {
     let tagGroupElement = event.target.closest('.assignment-tag-group');
     let link = tagGroupElement.querySelector('a');
@@ -125,7 +118,7 @@ class TagGroupAssignmentList extends HTMLElement {
 
     if (isActive) {
       if (this._addList.includes(tagGroupId)) {
-        this._addList = this.removeItem(this._addList, tagGroupId);
+        this._addList = ezraHelper.removeItemFromArray(this._addList, tagGroupId);
       } else {
         this._removeList.push(tagGroupId);
       }

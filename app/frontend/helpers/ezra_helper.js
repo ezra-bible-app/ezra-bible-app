@@ -105,6 +105,15 @@ module.exports.decodeEntities = function decodeHTMLEntities (str) {
   return str;
 };
 
+module.exports.removeItemFromArray = function(arr, value) {
+  var index = arr.indexOf(value);
+  if (index > -1) {
+    arr.splice(index, 1);
+  }
+
+  return arr;
+};
+
 /**
  * This function shows a modal error dialog to the user.
  *  
