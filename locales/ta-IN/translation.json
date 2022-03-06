@@ -81,16 +81,6 @@
     "open-in-blueletter": "நீல எழுத்து வேதாகமத்தில் திற",
     "related-strongs": "Strong's தொடர்புகள்"
   },
-  "tag-statistics-panel": {
-    "default-header": "Tag statistics",
-    "help-instruction": "Here you will see statistics of tags based on how frequently they are used in a book.<br><br> There are currently no tag assignments in this book. Once you start assigning tags, the tag statistics will refresh automatically."
-  },
-  "compare-panel": {
-    "default-header": "<b>Compare translations</b>",
-    "show-parallel-translations": "Compare translations",
-    "help-instruction": "To compare translations, you select one verse or a group of verses.<br><br> This area will then automatically list the selected verses from all available translations.",
-    "compare": "Compare"
-  },
   "emoji": {
     "categories": {
       "activities": "நடவடிக்கைகள்",
@@ -174,9 +164,7 @@
     "sword-version": "SWORD பதிப்பு",
     "translators": "மொழிபெயர்ப்பாளர்கள்",
     "versions-and-paths": "பதிப்புகள் மற்றும் பாதைகள்",
-    "yes": "ஆம்",
-    "installed": "Installed",
-    "not-installed": "Not installed"
+    "yes": "ஆம்"
   },
   "help": {
     "help-text-no-tags-book-opened": "குறிச்சொற்களுடன் பணிபுரியத் தொடங்க, <i>புதிய&nbsp;tag</i> என்ற பொத்தானைக் கிளிக் செய்வதன் மூலம் உங்கள் முதல் குறிச்சொல்லை உருவாக்கவும்.<br/><br/>அதன் பிறகு நீங்கள் வேதாகம உரையை உலாவலாம், வசனங்களைக் கிளிக் செய்யவும் அல்லது இழுக்கவும் மற்றும் தேர்ந்தெடுக்கவும் நீங்கள் இப்போது உருவாக்கிய குறிச்சொல்லை ஒதுக்கவும்.",
@@ -200,10 +188,10 @@
   },
   "module-assistant": {
     "add-modules": "சேர்க்கவும் {{module_type, accusative}} ",
-    "header": "உள்ளமை {{module_type, Instrumental, title-case}} ",
+    "header": "உள்ளமை {{module_type, instrumental, title-case}} ",
     "installation": "நிறுவுதல் ",
     "internet-usage-note": "<b>முக்கிய குறிப்பு</b><br/>கிறிஸ்தவர்கள் துன்புறுத்தப்படும் ஒரு நாட்டில் நீங்கள் இருந்தால்,<br/>உங்கள் இணைய வழங்குநரால் <b>நீங்கள் என்பதை கண்டறிய முடியும் என்பதை அறிந்து கொள்ளவும். கிறிஸ்தவ வளங்களை அணுகுதல்</b>!",
-    "intro-text": "Ezra Bible App உங்கள் இணைய இணைப்பைப் பயன்படுத்தி <b>{{module_type, குற்றச்சாட்டு}}</b> நிறுவுகிறது. {{module_type, Capitalize}} என்பது <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> மூலம் விநியோகிக்கப்படுகிறது மற்றும் <a class='external இலிருந்து பதிவிறக்கப்படும் ' href='http://www.crosswire.org/sword'>SWORD திட்டம்</a> களஞ்சியங்கள்.",
+    "intro-text": "Ezra Bible App உங்கள் இணைய இணைப்பைப் பயன்படுத்தி <b>{{module_type, accusative}}</b> நிறுவுகிறது. {{module_type, capitalize}} என்பது <a class='external' href='http://www.crosswire.org'>CrossWire Bible Society</a> மூலம் விநியோகிக்கப்படுகிறது மற்றும்  <a class='external' href='http://www.crosswire.org/sword'>SWORD திட்டம்</a> களஞ்சியங்கள்.",
     "languages": "மொழிகள்",
     "module-type-bible": "வேதாகம மொழிபெயர்ப்புகள்",
     "module-type-bible_accusative": "வேதாகம மொழிபெயர்ப்புகள்",
@@ -218,7 +206,7 @@
     "module-type-dict_singular": "அகராதி",
     "module-type-dict_singular-genitive": "அகராதி",
     "removal": "நீக்குதல்",
-    "remove-modules": "நீக்கு {{module_type, accusative}}",
+    "remove-modules": "நீக்கு",
     "remove": {
       "disable-remove-note": "இந்த {{module_type, singular}} பயனரின் கோப்பகத்தில் நிறுவப்படவில்லை அல்லது Ezra Bible App இன் செயல்பாட்டிற்கு அவசியமானது.",
       "removing": "நீக்குகிறது",
@@ -267,101 +255,62 @@
       "unlock-failed": "திறக்க முடியவில்லை! சரியான திறத்தல் விசையை உள்ளிடவும்.",
       "unlock-key": "திற விசை"
     },
-    "update-data": { 
-      "repo-data-last-updated": "Repository data was last updated on {{date}}.",
-      "update-now": "Update now",
-      "updating-repository-data": "Updating repository data! This will take a few seconds ...",
-      "update-failed": "Update failed",
-      "update-repository-data-failed": "Updating repository data failed! Are you offline?"
+    "update-data": {
+      "repo-data-last-updated": "களஞ்சிய தரவு கடைசியாக {{date}} அன்று புதுப்பிக்கப்பட்டது.",
+      "update-failed": "புதுப்பிப்பு தோல்வி",
+      "update-now": "இப்போது புதுப்பிக்கவும்",
+      "update-repository-data-failed": "களஞ்சியத் தரவைப் புதுப்பிப்பதில் தோல்வி! நீங்கள் onlineல் இருக்கிறீர்களா?",
+      "updating-repository-data": "களஞ்சியத் தரவைப் புதுப்பிக்கிறது! இதற்கு சில வினாடிகள் எடுக்கும்..."
     }
   },
+  "module-sync": {
+    "module-sync-header": "கூடுதல் தொகுதிகளை நிறுவுதல்"
+  },
   "search-menu": {
-    "case-sensitive": "Case sensitive",
-    "exact-phrase": "Exact phrase",
+    "case-sensitive": "கேஸ் சென்சிட்டிவ்",
+    "exact-phrase": "சரியான சொற்றொடர்",
+    "extended-verse-boundaries": "நீட்டிக்கப்பட்ட வசன எல்லைகள் (இரண்டு வசனங்கள்)",
     "multi-word": "பல தரப்பான வார்த்தைகள்",
     "nt": "புதிய ஏற்பாடு",
     "ot": "பழைய ஏற்பாடு",
     "search": "தேடு",
     "strongs": "Strong's எண் ",
-    "whole-bible": "முழு வேதாகமம்",
-    "extended-verse-boundaries": "Extended verse boundaries (Two verses)"
+    "whole-bible": "முழு வேதாகமம்"
   },
   "shortcuts": {
-    "tab-title": "Keyboard Shortcuts",
-    "description": "You can use the following shortcuts:",
-
-    "summary" : {
-      "font-section-title": "Font",
-      "current-tab-search-section-title": "Current Tab Search",
-      "miscellaneous-section-title": "Miscellaneous",
-      "in-tab-search": "Open current tab search",
-      "hide-in-tab-search-form": "Hide current tab search form",
-      "jump-to-next-search-occurance": "Jump to next search occurance",
-      "jump-to-previous-occurance": "Jump to previous occurance",
-      "copy-selected-verses-to-clipboard": "Copy selected verses to clipboard",
-      "toggle-fullscreen-only-Win-Linux": "Toggle fullscreen",
-      "enable-dynamic-strongs-display": "Enable dynamic Strong's display",
-      "open-new-tab": "Open new tab",
-      "increase-current-font-size": "Increase font size",
-      "decrease-current-font-size": "Decrease font size",
-      "reset-font-size-to-default": "Reset font size to default"
-    },
-
+    "description": "நீங்கள் பின்வரும் குறுக்குவழிகளைப் பயன்படுத்தலாம்:",
     "shortcut": {
-      "in-tab-search":"Ctrl/Cmd + f",
+      "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
+      "decrease-current-font-size": "Ctrl/Cmd -",
+      "enable-dynamic-strongs-display": "Shift + mouse over வசனம்",
       "hide-in-tab-search-form": "Esc",
+      "in-tab-search": "Ctrl/Cmd + f",
+      "increase-current-font-size": "Ctrl/Cmd +",
       "jump-to-next-search-occurance": "Enter",
       "jump-to-previous-occurance": "Shift + Enter",
-      "copy-selected-verses-to-clipboard": "Ctrl/Cmd + c",
-      "toggle-fullscreen-only-Win-Linux": "F11",
-      "enable-dynamic-strongs-display": "Shift + mouse over verse",
       "open-new-tab": "Ctrl/Cmd + t",
-      "increase-current-font-size": "Ctrl/Cmd +",
-      "decrease-current-font-size": "Ctrl/Cmd -",
-      "reset-font-size-to-default": "Ctrl/Cmd 0"
-    }
+      "reset-font-size-to-default": "Ctrl/Cmd 0",
+      "toggle-fullscreen-only-Win-Linux": "F11"
+    },
+    "summary": {
+      "copy-selected-verses-to-clipboard": "தேர்ந்தெடுக்கப்பட்ட வசனங்களை clipboardக்கு  நகலெடுக்கவும்",
+      "current-tab-search-section-title": "தற்போதைய tab தேடல்",
+      "decrease-current-font-size": "எழுத்துரு அளவைக் குறைக்கவும்",
+      "enable-dynamic-strongs-display": "Dynamic Strong's காட்சியை இயக்கவும்",
+      "font-section-title": "எழுத்துரு",
+      "hide-in-tab-search-form": "தற்போதைய tab தேடல் படிவத்தை மறை",
+      "in-tab-search": "தற்போதைய tab தேடலைத் திறக்கவும்",
+      "increase-current-font-size": "எழுத்துரு அளவை அதிகரிக்கவும்",
+      "jump-to-next-search-occurance": "அடுத்த தேடல் நிகழ்வுக்கு செல்லவும்",
+      "jump-to-previous-occurance": "முந்தைய நிகழ்வுக்குச் செல்லவும்",
+      "miscellaneous-section-title": "இதர",
+      "open-new-tab": "புதிய tabஐ திறக்கவும்",
+      "reset-font-size-to-default": "எழுத்துரு அளவை இயல்புநிலைக்கு மீட்டமைக்கவும்",
+      "toggle-fullscreen-only-Win-Linux": "மாற்று முழுத்திரை"
+    },
+    "tab-title": "விசைப்பலகை குறுக்குவழிகள்"
   },
-  "tags": {
-    "new-tag": "New tag",
-    "create-tag": "Create tag",
-    "delete-tag": "Delete tag",
-    "all-tags": "All tags",
-    "assigned-tags": "Assigned tags",
-    "unassigned-tags": "Unassigned tags",
-    "recently-used-tags": "Recently used tags",
-    "really-delete": "Do you really want to delete the following tag: ",
-    "tag-info-would-be-deleted": "The tag information would be deleted <b>for all associated verses!</b>",
-    "really-remove-tag-assignment": "Do you really want to remove the tag &quot;<span id='remove-tag-assignment-name' class='italic'></span>&quot; from the selected verses?",
-    "remove-tag-assignment": "Remove tag assignment",
-    "verses-tagged-with": "Verses tagged with ",
-    "loading-tags": "Loading tags",
-    "export-tagged-verse-list": "Export tagged verse list to Word document",
-    "run-export": "Run export",
-    "tag-filter": "Filter: ",
-    "recently-used-filter": "Filter recently used",
-    "assign-tag": "Assign tag",
-    "change-tags": "Change tags",
-    "delete-tag-permanently": "Delete this tag permanently",
-    "none-selected": "None",
-    "rename-tag": "Rename tag",
-    "title": "Title",
-    "stats-used": "used",
-    "stats-total": "total",
-    "only-currentbook-tagged-verses": "Only current book",
-    "most-frequently-used": "Most frequently used",
-    "less-frequently-used": "Less frequently used",
-    "assign-tag-hint": "Select a verse to assign the tag",
-    "show-tagged-verses": "Show tagged verses",
-    "tag-count-selected_one": "{{count}} tag selected",
-    "tag-count-selected_other": "{{count}} tags selected",
-    "select-all-tags": "Select all",
-    "deselect-all-tags": "Deselect all"
-  },
-  "tags-toolbar": {
-    "new-tag": "New tag",
-    "assign-last-tag": "Assign last tag",
-    "configure-translations": "Configure translations",
-    "configure-dicts": "Configure dictionaries",
-    "context": "Context"
+  "tag-statistics-panel": {
+    "default-header": "Tag புள்ளிவிவரங்கள்"
   }
 }
