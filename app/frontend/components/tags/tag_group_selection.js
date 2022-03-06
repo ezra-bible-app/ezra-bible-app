@@ -134,15 +134,26 @@ class TagGroupSelection extends HTMLElement {
       const width = 300;
       const height = 180;
 
-      var buttons = {};
-      buttons[i18n.t('general.cancel')] = function() {
-        $(this).dialog('close');
-      };
-      buttons[i18n.t('tags.create-tag-group')] = function() {
+      let createTagGroup = () => {
         let tagGroupTitle = document.getElementById('tag-group-title-value').value;
         eventController.publishAsync('on-tag-group-creation', tagGroupTitle);
-        $(this).dialog('close');
+        $dialogBox.dialog('close');
       };
+
+      var buttons = {};
+      buttons[i18n.t('general.cancel')] = function() {
+        $dialogBox.dialog('close');
+      };
+
+      buttons[i18n.t('tags.create-tag-group')] = function() {
+        createTagGroup();
+      };
+
+      document.getElementById('tag-group-title-value').addEventListener('keypress', (event) => {
+        if (event.key == 'Enter') {
+          createTagGroup();
+        }
+      });
 
       const title = i18n.t('tags.add-tag-group');
    
