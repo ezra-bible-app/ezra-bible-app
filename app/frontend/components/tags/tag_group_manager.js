@@ -17,11 +17,12 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 class TagGroupManager {
-  constructor(contentDivId, onClickHandler, selectable=false, cssClass, virtualTagGroups=[]) {
+  constructor(contentDivId, onClickHandler, selectable=false, editable=false, cssClass, virtualTagGroups=[]) {
     this._tagGroups = null;
     this._contentDivId = contentDivId;
     this._onClickHandler = onClickHandler;
     this._selectable = selectable;
+    this._editable = editable;
     this._cssClass = cssClass;
     this._virtualTagGroups = virtualTagGroups;
   }
@@ -75,6 +76,8 @@ class TagGroupManager {
     tagGroupElement.setAttribute('class', this._cssClass);
 
     let tagGroupIcon = null;
+    let editButton = null;
+    let deleteButton = null;
 
     if (this._selectable) {
       tagGroupIcon = document.createElement('i');
@@ -83,6 +86,14 @@ class TagGroupManager {
         this._onClickHandler(event);
         this.toggleSelection(event);
       });
+    }
+
+    if (this._editable) {
+      editButton = document.createElement('i');
+      editButton.setAttribute('class', 'fas fa-pen tag-edit-icon tag-edit-button button-small');
+
+      deleteButton = document.createElement('i');
+      deleteButton.setAttribute('class', 'fas fa-trash-alt tag-delete-icon tag-delete-button button-small');
     }
 
     let tagGroupLink = document.createElement('a');
@@ -104,6 +115,12 @@ class TagGroupManager {
     }
 
     tagGroupElement.appendChild(tagGroupLink);
+
+    if (tagGroup.id > 0 && this._editable) {
+      tagGroupElement.appendChild(editButton);
+      tagGroupElement.appendChild(deleteButton);
+    }
+
     this._contentDiv.appendChild(tagGroupElement);
   }
 
