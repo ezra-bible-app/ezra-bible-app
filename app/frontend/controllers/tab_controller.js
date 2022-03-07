@@ -40,7 +40,6 @@ class TabController {
     this.persistanceEnabled = false;
     this.defaultLabel = "-------------";
     this.tabTemplate = "<li><a href='#{href}'>#{label}</a> <span class='close-tab-button'><i class='fas fa-times'></i></span></li>";
-    this.tabCounter = 1;
     this.nextTabId = 2;
     /** @type Tab[] */
     this.metaTabs = [];
@@ -527,17 +526,19 @@ class TabController {
     }
 
     this.reloadTabs();
+
+    let newTabIndex = this.metaTabs.length - 1;
+
     if (!initialLoading) {
-      this.tabs.tabs('select', this.tabCounter);
+      this.tabs.tabs('select', newTabIndex);
     }
 
-    this.tabCounter++;
     this.nextTabId++;
 
     this.updateFirstTabCloseButton();
 
     if (!initialLoading) {
-      eventController.publish('on-tab-added', this.tabCounter - 1);
+      eventController.publish('on-tab-added', newTabIndex);
     }
   }
 
@@ -550,7 +551,6 @@ class TabController {
       if (current_href == href) {
         this.metaTabs.splice(i, 1);
         this.tabs.tabs("remove", i);
-        this.tabCounter--;
         break;
       }
     }
@@ -567,7 +567,6 @@ class TabController {
 
       this.metaTabs.pop();
       this.tabs.tabs("remove", 1);
-      this.tabCounter--;
     }
   }
 
