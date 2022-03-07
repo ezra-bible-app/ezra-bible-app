@@ -108,9 +108,13 @@ class VerseContextMenu extends HTMLElement {
 
   hideVerseContextMenuButton(tabIndex=undefined) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    var verseContextMenuButton = currentVerseListMenu[0].querySelector('.verse-context-menu-button');
-    verseContextMenuButton.classList.remove('ui-state-active');
-    document.getElementById('verse-context-menu').style.display = 'none';
+
+    if (currentVerseListMenu != null) {
+      var verseContextMenuButton = currentVerseListMenu[0].querySelector('.verse-context-menu-button');
+      verseContextMenuButton.classList.remove('ui-state-active');
+      document.getElementById('verse-context-menu').style.display = 'none';
+    }
+
     this.verseContextMenuOpened = false;
   }
 
