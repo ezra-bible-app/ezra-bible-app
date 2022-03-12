@@ -39,7 +39,7 @@
  * @typedef { "on-locale-changed" } I18nEvents
  */
 /**
- * @typedef { "on-theme-changed" | "on-fullscreen-changed" } AppEvents
+ * @typedef { "on-startup-completed" | "on-theme-changed" | "on-fullscreen-changed" } AppEvents
  */
 /**
  * @typedef { "on-tag-panel-switched" | "on-dictionary-panel-switched" | "on-compare-panel-switched" } PanelEvents
