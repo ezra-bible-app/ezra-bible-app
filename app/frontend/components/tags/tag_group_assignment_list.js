@@ -18,8 +18,8 @@
 
 const { html } = require('../../helpers/ezra_helper.js');
 const eventController = require('../../controllers/event_controller.js');
-const ItemListManager = require('./item_list_manager.js');
 const ezraHelper = require('../../helpers/ezra_helper.js');
+const TagGroupManager = require('./tag_group_manager.js');
 
 const template = html`
 <style>
@@ -75,7 +75,7 @@ class TagGroupAssignmentList extends HTMLElement {
 
     this.populated = false;
     this._contentDiv = null;
-    this.tagGroupManager = new ItemListManager('tag-group-assignment-list-content',
+    this.tagGroupManager = new TagGroupManager('tag-group-assignment-list-content',
                                                (event) => { this.handleTagGroupClick(event); },
                                                true,
                                                false,
