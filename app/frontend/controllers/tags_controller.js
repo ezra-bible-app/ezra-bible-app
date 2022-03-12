@@ -69,6 +69,7 @@ class TagsController {
     this.selected_verse_boxes = [];
 
     this.newTagDialogInitDone = false;
+    this.addTagsToGroupDialogInitDone = false;
     this.deleteTagConfirmationDialogInitDone = false;
     this.removeTagAssignmentConfirmationDialogInitDone = false;
     this.editTagDialogInitDone = false;
@@ -150,6 +151,7 @@ class TagsController {
    */
   refreshTagDialogs() {
     this.initNewTagDialog(true);
+    this.initAddTagsToGroupDialog(true);
     this.initEditTagDialog(true);
     this.initRemoveTagAssignmentConfirmationDialog(true);
     this.initDeleteTagConfirmationDialog(true);
@@ -181,6 +183,15 @@ class TagsController {
         tags_controller.saveNewTag(this, "standard");
       }
     };
+
+    document.getElementById('add-existing-tags-to-tag-group-link').addEventListener('click', (event) => {
+      event.preventDefault();
+
+      tags_controller.initAddTagsToGroupDialog();
+
+      $('#new-standard-tag-dialog').dialog("close");
+      $('#add-tags-to-group-dialog').dialog("open");
+    });
   
     $('#new-standard-tag-dialog').dialog(new_standard_tag_dlg_options);
 
@@ -202,6 +213,36 @@ class TagsController {
       var tag_title = $('#new-standard-tag-title-input').val();
       await this.updateButtonStateBasedOnTagTitleValidation(tag_title, 'create-tag-button');
     });
+  }
+
+  initAddTagsToGroupDialog(force=false) {
+    if (!force && this.addTagsToGroupDialogInitDone) {
+      return;
+    }
+
+    this.addTagsToGroupDialogInitDone = true;
+
+    var addTagsToGroupDialogOptions = {
+      title: i18n.t("tags.add-tags-to-group"),
+      width: 400,
+      position: [60,180],
+      autoOpen: false,
+      dialogClass: 'ezra-dialog'
+    };
+  
+    addTagsToGroupDialogOptions.buttons = {};
+    addTagsToGroupDialogOptions.buttons[i18n.t("general.cancel")] = function() {
+      $(this).dialog("close");
+    };
+    addTagsToGroupDialogOptions.buttons[i18n.t("tags.add-tags-to-group")] = {
+      id: 'add-tags-to-group-button',
+      text: i18n.t("tags.add-tags-to-group"),
+      click: function() {
+        //tags_controller.saveNewTag(this, "standard");
+      }
+    };
+
+    $('#add-tags-to-group-dialog').dialog(addTagsToGroupDialogOptions);
   }
 
   async updateButtonStateBasedOnTagTitleValidation(tagTitle, buttonId) {
