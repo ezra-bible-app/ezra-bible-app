@@ -21,7 +21,7 @@ const eventController = require('../../controllers/event_controller.js');
 
 const template = html`
 <style>
-#tag-group-selection {
+#tag-list-menu {
   margin: 0.1em 0 0 0;
   padding: 0.5em;
   padding-top: 0.7em;
@@ -31,22 +31,22 @@ const template = html`
   border: 1px solid #dddddd;
 }
 
-.darkmode--activated #tag-group-selection {
+.darkmode--activated #tag-list-menu {
   border: 1px solid #555555;
 }
 
-#tag-group-selection a:link,
-#tag-group-selection a:visited {
+#tag-list-menu a:link,
+#tag-list-menu a:visited {
   text-decoration: none;
   color: var(--accent-color);
 }
 
-.darkmode--activated #tag-group-selection a:link,
-.darkmode--activated #tag-group-selection a:visited {
+.darkmode--activated #tag-list-menu a:link,
+.darkmode--activated #tag-list-menu a:visited {
   color: var(--accent-color-darkmode);
 }
 
-#tag-group-selection a:hover {
+#tag-list-menu a:hover {
   text-decoration: underline;
 }
 
@@ -72,14 +72,14 @@ const template = html`
 
 </style>
 
-<div id="tag-group-selection">
+<div id="tag-list-menu">
   <a id="tag-group-list-link" href="">Tag groups</a> <span id="tag-group-nav-arrow">&rarr;</span> <span id="tag-group-label">All tags</span>
 
   <button id="add-tag-group-button" i18n="tags.add-tag-group" class="fg-button ui-state-default ui-corner-all"></button>
 </div>
 `;
 
-class TagGroupSelection extends HTMLElement {
+class TagListMenu extends HTMLElement {
   constructor() {
     super();
   }
@@ -106,7 +106,7 @@ class TagGroupSelection extends HTMLElement {
   }
 
   localize() {
-    $('#tag-group-selection').localize();
+    $('#tag-list-menu').localize();
   }
 
   onTagGroupListLinkClicked() {
@@ -220,5 +220,5 @@ class TagGroupSelection extends HTMLElement {
   }
 }
 
-customElements.define('tag-group-selection', TagGroupSelection);
-module.exports = TagGroupSelection;
+customElements.define('tag-list-menu', TagListMenu);
+module.exports = TagListMenu;
