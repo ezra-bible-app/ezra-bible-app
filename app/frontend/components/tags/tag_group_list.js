@@ -18,7 +18,7 @@
 
 const { html } = require('../../helpers/ezra_helper.js');
 const eventController = require('../../controllers/event_controller.js');
-const TagGroupManager = require('./tag_group_manager.js');
+const ItemListManager = require('./item_list_manager.js');
 
 const template = html`
 <style>
@@ -82,7 +82,7 @@ class TagGroupList extends HTMLElement {
       { id: -1, title: 'All tags' }
     ];
 
-    this.tagGroupManager = new TagGroupManager('tag-group-list-content',
+    this.tagGroupManager = new ItemListManager('tag-group-list-content',
                                                (event) => { this.handleTagGroupClick(event); },
                                                false,
                                                true,
@@ -94,13 +94,13 @@ class TagGroupList extends HTMLElement {
     this.appendChild(template.content);
 
     eventController.subscribe('on-tag-group-list-activated', async () => {
-      await this.tagGroupManager.populateTagGroupList();
+      await this.tagGroupManager.populateItemList();
       this.showTagGroupList();
     });
 
     eventController.subscribe('on-tag-group-creation', async (tagGroupTitle) => {
       let tagGroup = await this.createTagGroupInDb(tagGroupTitle);
-      await this.tagGroupManager.addTagGroup(tagGroup);
+      await this.tagGroupManager.addItem(tagGroup);
       eventController.publishAsync('on-tag-group-created', tagGroup);
     });
   }
@@ -123,8 +123,8 @@ class TagGroupList extends HTMLElement {
   }
 
   async handleTagGroupClick(event) {
-    const tagGroupId = parseInt(event.target.getAttribute('tag-group-id'));
-    const tagGroup = await this.tagGroupManager.getTagGroupById(tagGroupId);
+    const tagGroupId = parseInt(event.target.getAttribute('item-id'));
+    const tagGroup = await this.tagGroupManager.getItemById(tagGroupId);
 
     this.hideTagGroupList();
     eventController.publishAsync('on-tag-group-selected', tagGroup);

@@ -1067,9 +1067,9 @@ class TagsController {
     tags_box.addEventListener('click', async function(event) {
       // Use event delegation, so that we do not have to add an event listener to each element.
 
-      if (event.target.matches('.tag-delete-icon') || event.target.matches('.tag-delete-button')) {
+      if (event.target.matches('.delete-icon') || event.target.matches('.delete-button')) {
         tags_controller.handleDeleteTagButtonClick(event);
-      } else if (event.target.matches('.tag-edit-icon') || event.target.matches('.tag-edit-button')) {
+      } else if (event.target.matches('.edit-icon') || event.target.matches('.edit-button')) {
         tags_controller.handleEditTagClick(event);
       } else if (event.target.matches('.tag-button')) {
         await tags_controller.handleTagCbClick(event);

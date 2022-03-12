@@ -99,7 +99,7 @@ After("@remove-last-tag-after-scenario", async function() {
     return;
   }
 
-  var tagDeleteButton = await this.currentTag.$('.tag-delete-button'); 
+  var tagDeleteButton = await this.currentTag.$('.delete-button'); 
   await tagDeleteButton.click();
   await spectronHelper.sleep();
 

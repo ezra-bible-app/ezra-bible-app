@@ -18,7 +18,7 @@
 
 const { html } = require('../../helpers/ezra_helper.js');
 const eventController = require('../../controllers/event_controller.js');
-const TagGroupManager = require('./tag_group_manager.js');
+const ItemListManager = require('./item_list_manager.js');
 const ezraHelper = require('../../helpers/ezra_helper.js');
 
 const template = html`
@@ -75,7 +75,7 @@ class TagGroupAssignmentList extends HTMLElement {
 
     this.populated = false;
     this._contentDiv = null;
-    this.tagGroupManager = new TagGroupManager('tag-group-assignment-list-content',
+    this.tagGroupManager = new ItemListManager('tag-group-assignment-list-content',
                                                (event) => { this.handleTagGroupClick(event); },
                                                true,
                                                false,
@@ -85,7 +85,7 @@ class TagGroupAssignmentList extends HTMLElement {
     this._addList = [];
 
     eventController.subscribe('on-tag-group-created', async (tagGroupTitle) => {
-      await this.tagGroupManager.addTagGroup(tagGroupTitle);
+      await this.tagGroupManager.addItem(tagGroupTitle);
     });
   }
 
@@ -93,7 +93,7 @@ class TagGroupAssignmentList extends HTMLElement {
     this.appendChild(template.content);
 
     (async () => {
-      await this.tagGroupManager.populateTagGroupList();
+      await this.tagGroupManager.populateItemList();
     })();
 
     if (this.getAttribute('onChange') != null) {
@@ -104,7 +104,23 @@ class TagGroupAssignmentList extends HTMLElement {
   set tagid(value) {
     this._removeList = [];
     this._addList = [];
-    this.tagGroupManager.setTagId(parseInt(value));
+
+    this.setTagId(parseInt(value));
+  }
+
+  async setTagId(tagId) {
+    let tag = await tags_controller.tag_store.getTag(tagId);
+    let allItemElements = this.tagGroupManager.getAllItemElements();
+
+    allItemElements.forEach((itemElement) => {
+      this.tagGroupManager.disableItemElement(itemElement);
+
+      if (tag.tagGroupList != null) {
+        tag.tagGroupList.forEach((tagGroupId) => {
+          this.tagGroupManager.enableElementById(itemElement, tagGroupId);
+        });
+      }
+    });
   }
 
   set onChange(value) {
@@ -115,7 +131,7 @@ class TagGroupAssignmentList extends HTMLElement {
     let tagGroupElement = event.target.closest('.assignment-tag-group');
     let link = tagGroupElement.querySelector('a');
     let isActive = link.classList.contains('active');
-    let tagGroupId = link.getAttribute('tag-group-id');
+    let tagGroupId = link.getAttribute('item-id');
 
     if (isActive) {
       if (this._addList.includes(tagGroupId)) {
