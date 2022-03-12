@@ -484,6 +484,14 @@ class TagsController {
 
     tags_controller.initNewTagDialog();
 
+    let addExistingTagsLink = document.getElementById('add-existing-tags-to-tag-group-link').parentNode;
+
+    if (this.currentTagGroupId == null || this.currentTagGroupId < 1) {
+      addExistingTagsLink.style.display = 'none';
+    } else {
+      addExistingTagsLink.style.display = '';
+    }
+
     const $tagInput = $('#new-' + type + '-tag-title-input');
 
     $tagInput.val(''); 
