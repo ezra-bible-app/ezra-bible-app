@@ -141,7 +141,7 @@ class TagGroupAssignmentList extends HTMLElement {
       }
     } else {
       if (this._removeList.includes(tagGroupId)) {
-        this._removeList = this.removeItem(this._removeList, tagGroupId);
+        this._removeList = ezraHelper.removeItemFromArray(this._removeList, tagGroupId);
       } else {
         this._addList.push(tagGroupId);
       }
