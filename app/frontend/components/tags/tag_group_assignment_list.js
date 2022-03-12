@@ -128,40 +128,21 @@ class TagGroupAssignmentList extends HTMLElement {
   }
 
   handleTagGroupClick(event) {
-    let tagGroupElement = event.target.closest('.assignment-tag-group');
-    let link = tagGroupElement.querySelector('a');
-    let isActive = link.classList.contains('active');
-    let tagGroupId = link.getAttribute('item-id');
-
-    if (isActive) {
-      if (this._addList.includes(tagGroupId)) {
-        this._addList = ezraHelper.removeItemFromArray(this._addList, tagGroupId);
-      } else {
-        this._removeList.push(tagGroupId);
-      }
-    } else {
-      if (this._removeList.includes(tagGroupId)) {
-        this._removeList = ezraHelper.removeItemFromArray(this._removeList, tagGroupId);
-      } else {
-        this._addList.push(tagGroupId);
-      }
-    }
-
     if (this._onChangeHandler != null) {
       this._onChangeHandler();
     }
   }
 
   get removeList() {
-    return this._removeList;
+    return this.tagGroupManager._removeList;
   }
 
   get addList() {
-    return this._addList;
+    return this.tagGroupManager._addList;
   }
 
   get isChanged() {
-    return this._removeList.length != 0 || this._addList.length != 0;
+    return this.tagGroupManager._removeList.length != 0 || this.tagGroupManager._addList.length != 0;
   }
 }
 

@@ -16,6 +16,8 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const ezraHelper = require('../../helpers/ezra_helper.js');
+
 class ItemListManager {
   constructor(contentDivId,
               onClickHandler,
@@ -39,6 +41,9 @@ class ItemListManager {
 
     this._renameHint = i18n.t(this._renameHintI18n);
     this._deleteHint = i18n.t(this._deleteHintI18n);
+
+    this._addList = [];
+    this._removeList = [];
   }
 
   async getItems() {
@@ -149,6 +154,24 @@ class ItemListManager {
 
   toggleSelection(event) {
     let element = event.target.closest('.' + this._cssClass);
+    let link = element.querySelector('a');
+    let isActive = link.classList.contains('active');
+    let itemId = link.getAttribute('item-id');
+
+    if (isActive) {
+      if (this._addList.includes(itemId)) {
+        this._addList = ezraHelper.removeItemFromArray(this._addList, itemId);
+      } else {
+        this._removeList.push(itemId);
+      }
+    } else {
+      if (this._removeList.includes(itemId)) {
+        this._removeList = ezraHelper.removeItemFromArray(this._removeList, itemId);
+      } else {
+        this._addList.push(itemId);
+      }
+    }
+
     this.toggleElement(element);
   }
 
