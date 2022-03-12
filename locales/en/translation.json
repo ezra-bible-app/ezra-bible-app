@@ -266,7 +266,8 @@
     "create-tag-group": "Create tag group",
     "rename-tag-group": "Rename tag group",
     "delete-tag-group": "Delete tag group",
-    "tag-groups": "Tag groups"
+    "tag-groups": "Tag groups",
+    "add-existing-tag-to-current-tag-group": "Add existing tag to current tag group"
   },
   "bible-browser": {
     "chapter": "Chapter",
