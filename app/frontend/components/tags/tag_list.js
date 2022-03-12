@@ -88,10 +88,6 @@ class TagList extends HTMLElement {
                                       true,
                                       false,
                                       'tag-item');
-
-    eventController.subscribe('on-startup-completed', () => {
-      this.tagManager.populateItemList();
-    });
   }
 
   connectedCallback() {  
