@@ -243,11 +243,45 @@ class TagsController {
       id: 'add-tags-to-group-button',
       text: i18n.t("tags.add-tags-to-group"),
       click: function() {
-        //tags_controller.saveNewTag(this, "standard");
+        $(this).dialog("close");
+
+        const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
+        tags_controller.addTagsToGroup(tags_controller.currentTagGroupId, addTagsToGroupTagList.addList);
       }
     };
 
     $('#add-tags-to-group-dialog').dialog(addTagsToGroupDialogOptions);
+  }
+
+  async addTagsToGroup(tagGroupId, tagList) {
+    for (let i = 0; i < tagList.length; i++) {
+      let tagId = tagList[i];
+      let tag = this.tag_store.getTag(tagId);
+
+      let result = await ipcDb.updateTag(tagId, tag.title, [ tagGroupId ], []);
+
+      if (result.success == false) {
+        var message = `The tag <i>${tag.title}</i> could not be updated.<br>
+                      An unexpected database error occurred:<br><br>
+                      ${result.exception}<br><br>
+                      Please restart the app.`;
+
+        await showErrorDialog('Database Error', message);
+        uiHelper.hideTextLoadingIndicator();
+        return;
+      } else {
+        await eventController.publishAsync('on-tag-group-members-changed', {
+          tagId: tagId,
+          addTagGroups: [ tagGroupId ],
+          removeTagGroups: []
+        });
+      }
+    }
+
+    if (this.currentTagGroupId > 0) {
+      const currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+      await this.updateTagsView(currentTabIndex, true);
+    }
   }
 
   async updateButtonStateBasedOnTagTitleValidation(tagTitle, buttonId) {

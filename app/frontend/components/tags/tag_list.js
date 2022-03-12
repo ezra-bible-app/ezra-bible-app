@@ -105,6 +105,14 @@ class TagList extends HTMLElement {
     //console.log(tagItem);
   }
 
+  get addList() {
+    return this.tagManager._addList;
+  }
+
+  get isChanged() {
+    return this.tagManager._addList.length != 0;
+  }
+
   getContentDiv() {
     return document.getElementById('tag-list-content');
   }
