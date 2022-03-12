@@ -190,12 +190,22 @@ class TagsController {
       tags_controller.initAddTagsToGroupDialog();
       const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
       addTagsToGroupTagList.style.display = 'none';
-      addTagsToGroupTagList.tagManager.resetList();
+      await waitUntilIdle();
 
       $('#new-standard-tag-dialog').dialog("close");
       $('#add-tags-to-group-dialog').dialog("open");
       await waitUntilIdle();
 
+      await addTagsToGroupTagList.tagManager.populateItemList(true);
+
+      var tagList = await this.tag_store.getTagList();
+      tagList = this.getTagGroupMembers(this.currentTagGroupId, tagList);
+      var tagIdList = [];
+      tagList.forEach((tag) => { tagIdList.push(tag.id); });
+
+      addTagsToGroupTagList.tagManager.removeExistingItems(tagIdList);
+
+      await waitUntilIdle();
       addTagsToGroupTagList.style.removeProperty('display');
     });
   

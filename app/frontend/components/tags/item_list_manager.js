@@ -72,9 +72,13 @@ class ItemListManager {
     }
   }
 
-  async populateItemList() {
-    if (this.populated) {
+  async populateItemList(force=false) {
+    if (this.populated && !force) {
       return;
+    }
+
+    if (force) {
+      this.getContentDiv().innerHTML = "";
     }
 
     const items = await this.getItems();
@@ -215,6 +219,11 @@ class ItemListManager {
     link.classList.remove('active');
   }
 
+  getItemElementId(element) {
+    let link = element.querySelector('a');
+    return parseInt(link.getAttribute('item-id'));
+  }
+
   getContentDiv() {
     return document.getElementById(this._contentDivId);
   }
@@ -223,11 +232,15 @@ class ItemListManager {
     return this._contentDiv.querySelectorAll('.' + this._cssClass);
   }
 
-  resetList() {
+  removeExistingItems(existingItemIds) {
     let allItems = this.getAllItemElements();
 
     allItems.forEach((item) => {
-      this.disableItemElement(item);
+      let itemId = this.getItemElementId(item);
+
+      if (existingItemIds.includes(itemId)) {
+        item.remove();
+      }
     });
   }
 }

@@ -18,7 +18,6 @@
 
 const { html } = require('../../helpers/ezra_helper.js');
 const eventController = require('../../controllers/event_controller.js');
-const ezraHelper = require('../../helpers/ezra_helper.js');
 const TagGroupManager = require('./tag_group_manager.js');
 
 const template = html`
