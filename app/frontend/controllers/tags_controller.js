@@ -188,13 +188,15 @@ class TagsController {
       event.preventDefault();
 
       tags_controller.initAddTagsToGroupDialog();
-      document.getElementById('add-tags-to-group-tag-list').style.display = 'none';
+      const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
+      addTagsToGroupTagList.style.display = 'none';
+      addTagsToGroupTagList.tagManager.resetList();
 
       $('#new-standard-tag-dialog').dialog("close");
       $('#add-tags-to-group-dialog').dialog("open");
       await waitUntilIdle();
 
-      document.getElementById('add-tags-to-group-tag-list').style.removeProperty('display');
+      addTagsToGroupTagList.style.removeProperty('display');
     });
   
     $('#new-standard-tag-dialog').dialog(new_standard_tag_dlg_options);

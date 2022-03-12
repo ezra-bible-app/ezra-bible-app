@@ -222,6 +222,14 @@ class ItemListManager {
   getAllItemElements() {
     return this._contentDiv.querySelectorAll('.' + this._cssClass);
   }
+
+  resetList() {
+    let allItems = this.getAllItemElements();
+
+    allItems.forEach((item) => {
+      this.disableItemElement(item);
+    });
+  }
 }
 
 module.exports = ItemListManager;

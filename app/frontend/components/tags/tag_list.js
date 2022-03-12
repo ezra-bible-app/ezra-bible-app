@@ -83,11 +83,11 @@ class TagList extends HTMLElement {
   constructor() {
     super();
 
-    this.tagManager = new TagManager('tag-list-content',
-                                     (event) => { this.handleTagClick(event); },
-                                     true,
-                                     false,
-                                     'tag-item');
+    this._tagManager = new TagManager('tag-list-content',
+                                      () => { },
+                                      true,
+                                      false,
+                                      'tag-item');
 
     eventController.subscribe('on-startup-completed', () => {
       this.tagManager.populateItemList();
@@ -98,19 +98,16 @@ class TagList extends HTMLElement {
     this.appendChild(template.content);
   }
 
-  async handleTagClick(event) {
-    /*const tagId = parseInt(event.target.getAttribute('item-id'));
-    const tagItem = await this.tagManager.getItemById(tagId);*/
-
-    //console.log(tagItem);
-  }
-
   get addList() {
-    return this.tagManager._addList;
+    return this._tagManager._addList;
   }
 
   get isChanged() {
-    return this.tagManager._addList.length != 0;
+    return this._tagManager._addList.length != 0;
+  }
+
+  get tagManager() {
+    return this._tagManager;
   }
 
   getContentDiv() {
