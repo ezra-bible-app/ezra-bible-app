@@ -70,12 +70,22 @@ const template = html`
   display: none;
 }
 
+#new-standard-tag-button {
+  float: right;
+  margin-left: 1em;
+  padding: 0.2em;
+}
+
 </style>
 
 <div id="tag-list-menu">
   <a id="tag-group-list-link" href="">Tag groups</a> <span id="tag-group-nav-arrow">&rarr;</span> <span id="tag-group-label">All tags</span>
 
   <button id="add-tag-group-button" i18n="tags.add-tag-group" class="fg-button ui-state-default ui-corner-all"></button>
+
+  <button id="new-standard-tag-button" class="fg-button ui-state-default ui-corner-all" i18n="[title]tags.new-tag">
+    <i class="fas fa-plus fa-xs"></i>&nbsp;<i class="fas fa-tag fa-sm"></i>
+  </button>
 </div>
 `;
 
@@ -113,6 +123,7 @@ class TagListMenu extends HTMLElement {
     this.hideTagGroupDisplay();
     this.getTagGroupListLink().classList.add('list-tag-groups');
     this.showAddTagGroupButton();
+    this.hideAddTagButton();
     eventController.publishAsync('on-tag-group-list-activated');
   }
 
@@ -180,6 +191,7 @@ class TagListMenu extends HTMLElement {
       this.getTagGroupLabel().innerText = tagGroup.title;
       this.showTagGroupDisplay();
       this.hideAddTagGroupButton();
+      this.showAddTagButton();
     } else {
       console.warn("TagGroupSelection.selectTagGroup / Received null");
     }
@@ -201,6 +213,18 @@ class TagListMenu extends HTMLElement {
 
   hideAddTagGroupButton() {
     this.getAddTagGroupButton().style.display = 'none';
+  }
+
+  showAddTagButton() {
+    this.getAddTagButton().style.display = 'block';
+  }
+
+  hideAddTagButton() {
+    this.getAddTagButton().style.display = 'none';
+  }
+
+  getAddTagButton() {
+    return document.getElementById('new-standard-tag-button');
   }
 
   getTagGroupListLink() {
