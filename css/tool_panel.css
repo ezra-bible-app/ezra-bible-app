@@ -247,16 +247,21 @@
   margin-bottom: 0.5em;
 }
 
-#dictionary-panel-wrapper a:link {
+#dictionary-panel-wrapper a:link,
+#new-standard-tag-dialog a:link,
+#new-standard-tag-dialog a:visited {
   text-decoration: none;
   color: var(--accent-color);
 }
 
-.darkmode--activated #dictionary-panel a:link {
+.darkmode--activated #dictionary-panel a:link,
+.darkmode--activated #new-standard-tag-dialog a:link,
+.darkmode--activated #new-standard-tag-dialog a:visited {
   color: var(--accent-color-darkmode);
 }
 
-#dictionary-panel a:hover {
+#dictionary-panel a:hover,
+#new-standard-tag-dialog a:hover {
   text-decoration: underline;
 }
 
