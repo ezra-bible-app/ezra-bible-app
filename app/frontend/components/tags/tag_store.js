@@ -98,6 +98,9 @@ class TagStore {
     var tag = await this.getTag(tagId);
 
     var tagGroupList = tag.tagGroupList;
+    if (tagGroupList == null) {
+      tagGroupList = [];
+    }
 
     addTagGroups.forEach((tagGroupId) => {
       tagGroupList.push(tagGroupId);
