@@ -24,6 +24,7 @@ const IpcNsi = require('./ipc/ipc_nsi.js');
 const IpcDb = require('./ipc/ipc_db.js');
 const IpcSettings = require('./ipc/ipc_settings.js');
 const i18nController = require('./controllers/i18n_controller.js');
+const eventController = require('./controllers/event_controller.js');
 
 // UI Helper
 const UiHelper = require('./helpers/ui_helper.js');
@@ -92,6 +93,7 @@ class Startup {
     require('./components/tags/tag_list_menu.js');
     require('./components/tags/tag_group_list.js');
     require('./components/tags/tag_group_assignment_list.js');
+    require('./components/tags/tag_list.js');
     require('./components/options_menu/config_option.js');
     require('./components/options_menu/select_option.js');
     require('./components/options_menu/locale_switch.js');
@@ -342,6 +344,8 @@ class Startup {
       var newReleaseChecker = new NewReleaseChecker('new-release-info-box');
       newReleaseChecker.check();
     }
+
+    await eventController.publishAsync('on-startup-completed');
   }
 
   /** 

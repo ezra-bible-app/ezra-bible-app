@@ -22,8 +22,8 @@ class ItemListManager {
               selectable=false,
               editable=false,
               cssClass,
-              renameHintI18n,
-              deleteHintI18n,
+              renameHintI18n=null,
+              deleteHintI18n=null,
               virtualItems=[]) {
 
     this._items = null;

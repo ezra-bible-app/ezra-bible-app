@@ -184,13 +184,17 @@ class TagsController {
       }
     };
 
-    document.getElementById('add-existing-tags-to-tag-group-link').addEventListener('click', (event) => {
+    document.getElementById('add-existing-tags-to-tag-group-link').addEventListener('click', async (event) => {
       event.preventDefault();
 
       tags_controller.initAddTagsToGroupDialog();
+      document.getElementById('add-tags-to-group-tag-list').style.display = 'none';
 
       $('#new-standard-tag-dialog').dialog("close");
       $('#add-tags-to-group-dialog').dialog("open");
+      await waitUntilIdle();
+
+      document.getElementById('add-tags-to-group-tag-list').style.removeProperty('display');
     });
   
     $('#new-standard-tag-dialog').dialog(new_standard_tag_dlg_options);
@@ -225,6 +229,7 @@ class TagsController {
     var addTagsToGroupDialogOptions = {
       title: i18n.t("tags.add-tags-to-group"),
       width: 400,
+      height: 500,
       position: [60,180],
       autoOpen: false,
       dialogClass: 'ezra-dialog'
