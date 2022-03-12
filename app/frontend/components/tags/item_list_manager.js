@@ -17,7 +17,15 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 class ItemListManager {
-  constructor(contentDivId, onClickHandler, selectable=false, editable=false, cssClass, virtualItems=[]) {
+  constructor(contentDivId,
+              onClickHandler,
+              selectable=false,
+              editable=false,
+              cssClass,
+              renameHintI18n,
+              deleteHintI18n,
+              virtualItems=[]) {
+
     this._items = null;
     this._contentDivId = contentDivId;
     this._onClickHandler = onClickHandler;
@@ -26,8 +34,8 @@ class ItemListManager {
     this._cssClass = cssClass;
     this._virtualItems = virtualItems;
 
-    this._renameHintI18n = 'tags.rename-tag-group';
-    this._deleteHintI18n = 'tags.delete-tag-group';
+    this._renameHintI18n = renameHintI18n;
+    this._deleteHintI18n = deleteHintI18n;
 
     this._renameHint = i18n.t(this._renameHintI18n);
     this._deleteHint = i18n.t(this._deleteHintI18n);
@@ -35,12 +43,17 @@ class ItemListManager {
 
   async getItems() {
     if (this._items == null) {
-      let dbTagGroups = await ipcDb.getAllTagGroups();
+      let dbItems = await this.getDbItems();
       this._items = this._virtualItems;
-      this._items = this._items.concat(dbTagGroups);
+      this._items = this._items.concat(dbItems);
     }
 
     return this._items;
+  }
+
+  async getDbItems() {
+    let dbItems = [];
+    return dbItems;
   }
 
   async getItemById(itemId) {
