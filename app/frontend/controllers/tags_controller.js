@@ -75,6 +75,7 @@ class TagsController {
     this.editTagDialogInitDone = false;
     this.lastContentId = null;
     this.currentTagGroupId = null;
+    this.currentTagGroupTitle = null;
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
       const currentTab = app_controller.tab_controller.getTab(tabIndex);
@@ -127,6 +128,7 @@ class TagsController {
       let tab = app_controller.tab_controller.getTab();
       let tagGroupId = tagGroup ? tagGroup.id : null;
       this.currentTagGroupId = tagGroupId;
+      this.currentTagGroupTitle = tagGroup ? tagGroup.title : null;
 
       document.getElementById('tags-content-global').innerHTML = "";
       document.getElementById('tags-content-global').style.display = '';
@@ -564,6 +566,27 @@ class TagsController {
     tags_controller.tag_to_be_deleted = tag_id;
     
     var number_of_tagged_verses = checkboxTag.attr('global-assignment-count');
+
+    let deleteTagFromGroupExplanation = document.getElementById('delete-tag-from-group-explanation');
+    let reallyDeleteTagExplanation = document.getElementById('really-delete-tag-explanation');
+    let permanentlyDeleteTagBox = document.getElementById('permanently-delete-tag-box');
+    let tagGroup = this.currentTagGroupTitle;
+
+    if (this.currentTagGroupId != null) {
+      // Tag group used
+
+      reallyDeleteTagExplanation.style.display = 'none';
+      permanentlyDeleteTagBox.style.removeProperty('display');
+
+      deleteTagFromGroupExplanation.innerHTML = i18n.t('tags.delete-tag-from-group-explanation', { tag: label, group: tagGroup, interpolation: {escapeValue: false}});
+      deleteTagFromGroupExplanation.style.display = 'block';
+    } else {
+      // All tags - no tag group
+
+      deleteTagFromGroupExplanation.style.display = 'none';
+      permanentlyDeleteTagBox.style.display = 'none';
+      reallyDeleteTagExplanation.style.display = 'block';
+    }
 
     $('#delete-tag-name').html(label);
     $('#delete-tag-number-of-verses').html(number_of_tagged_verses); // FIXME
