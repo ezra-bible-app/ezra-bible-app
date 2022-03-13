@@ -193,7 +193,7 @@ class TagGroupList extends HTMLElement {
       await showErrorDialog('Database Error', message);
       return;
     } else {
-      await this.tagGroupManager.populateItemList(true); 
+      await eventController.publishAsync('on-tag-group-renamed', tagGroupId);
     }
   }
 
