@@ -258,7 +258,7 @@ class ItemListManager {
     return this._contentDiv.querySelectorAll('.' + this._cssClass);
   }
 
-  removeExistingItems(existingItemIds) {
+  removeItems(existingItemIds) {
     let allItems = this.getAllItemElements();
 
     allItems.forEach((item) => {
