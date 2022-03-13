@@ -50,8 +50,8 @@ class ItemListManager {
     this._removeList = [];
   }
 
-  async getItems() {
-    if (this._items == null) {
+  async getItems(force=false) {
+    if (this._items == null || force) {
       let dbItems = await this.getDbItems();
       this._items = this._virtualItems;
       this._items = this._items.concat(dbItems);
@@ -85,7 +85,7 @@ class ItemListManager {
       this.getContentDiv().innerHTML = "";
     }
 
-    const items = await this.getItems();
+    const items = await this.getItems(force);
 
     items.forEach((item) => {
       this.addItemElement(item);
@@ -135,10 +135,10 @@ class ItemListManager {
       editButton.setAttribute('class', 'fas fa-pen edit-icon edit-button button-small');
       editButton.setAttribute('i18n', '[title]' + this._renameHintI18n);
       editButton.setAttribute('title', this._renameHint);
-      editButton.addEventListener('click', (event) => {
+      editButton.addEventListener('click', async (event) => {
         if (this._onEditHandler != null) {
           let itemId = this.getItemIdFromClickEvent(event);
-          this._onEditHandler(itemId);
+          await this._onEditHandler(itemId);
         }
       });
 
@@ -146,10 +146,10 @@ class ItemListManager {
       deleteButton.setAttribute('class', 'fas fa-trash-alt delete-icon delete-button button-small');
       deleteButton.setAttribute('i18n', '[title]' + this._deleteHintI18n);
       deleteButton.setAttribute('title', this._deleteHint);
-      deleteButton.addEventListener('click', (event) => {
+      deleteButton.addEventListener('click', async (event) => {
         if (this._onDeleteHandler != null) {
           let itemId = this.getItemIdFromClickEvent(event);
-          this._onDeleteHandler(itemId);
+          await this._onDeleteHandler(itemId);
         }
       });
     }

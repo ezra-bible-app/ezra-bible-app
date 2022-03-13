@@ -110,6 +110,10 @@ class IpcDb {
     return await this._ipcRenderer.call('db_createTagGroup', title);
   }
 
+  async updateTagGroup(tagGroupId, title) {
+    return await this._ipcRenderer.call('db_updateTagGroup', tagGroupId, title);
+  }
+
   async getAllTagGroups() {
     return await this._ipcRenderer.call('db_getAllTagGroups');
   }

@@ -16,7 +16,7 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const { html } = require('../../helpers/ezra_helper.js');
+const { html, showErrorDialog } = require('../../helpers/ezra_helper.js');
 const eventController = require('../../controllers/event_controller.js');
 const TagGroupManager = require('./tag_group_manager.js');
 
@@ -133,7 +133,68 @@ class TagGroupList extends HTMLElement {
   }
 
   async handleTagGroupEdit(itemId) {
-    console.log("Edit tag group " + itemId);
+    const dialogBoxTemplate = html`
+    <div id="rename-tag-group-dialog" style="padding-top: 2em;">
+      <span id="rename-tag-group-title-label" i18n="tags.title"></span>:
+      <input id="rename-tag-group-title-input" type="text" maxlength="255" style="width: 25em;" />
+      <emoji-button-trigger></emoji-button-trigger>
+    </div>
+    `;
+
+    const tagGroup = await this.tagGroupManager.getItemById(itemId);
+
+    return new Promise((resolve) => {
+      document.querySelector('#boxes').appendChild(dialogBoxTemplate.content);
+      const $dialogBox = $('#rename-tag-group-dialog');
+      $dialogBox.localize();
+      
+      const width = 400;
+      const height = 200;
+
+      var buttons = {};
+      buttons[i18n.t('general.cancel')] = function() {
+        $(this).dialog('close');
+      };
+      buttons[i18n.t('general.save')] = () => {
+        const newTagGroupTitle = document.getElementById('rename-tag-group-title-input').value;
+        this.renameTagGroup(itemId, newTagGroupTitle);
+        $dialogBox.dialog('close');
+      };
+
+      const title = i18n.t('tags.rename-tag-group');
+      document.getElementById('rename-tag-group-title-input').value = tagGroup.title;
+    
+      $dialogBox.dialog({
+        width,
+        height,
+        position: [60,180],
+        title: title,
+        resizable: false,
+        dialogClass: 'ezra-dialog',
+        buttons: buttons,
+        close() {
+          $dialogBox.dialog('destroy');
+          $dialogBox.remove();
+          resolve();
+        }
+      });
+    });
+  }
+
+  async renameTagGroup(tagGroupId, newTitle) {
+    var result = await ipcDb.updateTagGroup(tagGroupId, newTitle);
+
+    if (result.success == false) {
+      var message = `The tag group <i>${tagGroupId}</i> could not be updated.<br>
+                     An unexpected database error occurred:<br><br>
+                     ${result.exception}<br><br>
+                     Please restart the app.`;
+
+      await showErrorDialog('Database Error', message);
+      return;
+    } else {
+      await this.tagGroupManager.populateItemList(true); 
+    }
   }
 
   async handleTagGroupDelete(itemId) {
