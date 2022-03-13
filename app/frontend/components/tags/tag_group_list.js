@@ -102,16 +102,24 @@ class TagGroupList extends HTMLElement {
 
     eventController.subscribe('on-tag-group-creation', async (tagGroupTitle) => {
       let tagGroup = await this.createTagGroupInDb(tagGroupTitle);
-      await this.tagGroupManager.addItem(tagGroup);
-      eventController.publishAsync('on-tag-group-created', tagGroup);
+
+      if (tagGroup != null) {
+        await this.tagGroupManager.addItem(tagGroup);
+        eventController.publishAsync('on-tag-group-created', tagGroup);
+      }
     });
   }
 
   async createTagGroupInDb(tagGroupTitle) {
     let result = await ipcDb.createTagGroup(tagGroupTitle);
     if (!result.success) {
-      // FIXME: Add error handling
-      return;
+      var message = `The tag group <i>${tagGroupTitle}</i> could not be created.<br>
+                     An unexpected database error occurred:<br><br>
+                     ${result.exception}<br><br>
+                     Please restart the app.`;
+
+      await showErrorDialog('Database Error', message);
+      return null;
     }
 
     let newId = result.dbObject.id;
