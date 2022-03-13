@@ -339,6 +339,16 @@ class TagsController {
       tags_controller.deleteTagAfterConfirmation();
     };
 
+    document.getElementById('permanently-delete-tag').addEventListener('change', function() {
+      let permanentlyDeleteTagWarning = document.getElementById('permanently-delete-tag-warning');
+
+      if (this.checked) {
+        permanentlyDeleteTagWarning.style.visibility = 'visible';
+      } else {
+        permanentlyDeleteTagWarning.style.visibility = 'hidden';
+      }
+    });
+
     $('#delete-tag-confirmation-dialog').dialog(delete_tag_confirmation_dlg_options);
   }
 
@@ -572,6 +582,7 @@ class TagsController {
     let deleteTagFromGroupExplanation = document.getElementById('delete-tag-from-group-explanation');
     let reallyDeleteTagExplanation = document.getElementById('really-delete-tag-explanation');
     let permanentlyDeleteTagBox = document.getElementById('permanently-delete-tag-box');
+    let permanentlyDeleteTagWarning = document.getElementById('permanently-delete-tag-warning');
     let tagGroup = this.currentTagGroupTitle;
 
     let permanentlyDeleteCheckbox = document.getElementById('permanently-delete-tag');
@@ -581,6 +592,7 @@ class TagsController {
       // Tag group used
 
       reallyDeleteTagExplanation.style.display = 'none';
+      permanentlyDeleteTagWarning.style.visibility = 'hidden';
       permanentlyDeleteTagBox.style.removeProperty('display');
 
       deleteTagFromGroupExplanation.innerHTML = i18n.t('tags.delete-tag-from-group-explanation', { tag: label, group: tagGroup, interpolation: {escapeValue: false}});
@@ -589,6 +601,7 @@ class TagsController {
       // All tags - no tag group
 
       deleteTagFromGroupExplanation.style.display = 'none';
+      permanentlyDeleteTagWarning.style.visibility = 'visible';
       permanentlyDeleteTagBox.style.display = 'none';
       reallyDeleteTagExplanation.style.display = 'block';
     }
