@@ -84,8 +84,8 @@ class TagGroupList extends HTMLElement {
 
     this.tagGroupManager = new TagGroupManager('tag-group-list-content',
                                                (event) => { this.handleTagGroupClick(event); },
-                                               (event) => { this.handleTagGroupEdit(event); },
-                                               (event) => { this.handleTagGroupDelete(event); },
+                                               (itemId) => { this.handleTagGroupEdit(itemId); },
+                                               (itemId) => { this.handleTagGroupDelete(itemId); },
                                                false,
                                                true,
                                                'tag-group',
@@ -193,7 +193,7 @@ class TagGroupList extends HTMLElement {
     var result = await ipcDb.updateTagGroup(tagGroupId, newTitle);
 
     if (result.success == false) {
-      var message = `The tag group <i>${tagGroupId}</i> could not be updated.<br>
+      var message = `The tag group <i>${newTitle}</i> could not be updated.<br>
                      An unexpected database error occurred:<br><br>
                      ${result.exception}<br><br>
                      Please restart the app.`;
@@ -205,8 +205,68 @@ class TagGroupList extends HTMLElement {
     }
   }
 
-  async handleTagGroupDelete(itemId) {
-    console.log("Delete tag group " + itemId);
+  async handleTagGroupDelete(tagGroupId) {
+    const tagGroup = await this.tagGroupManager.getItemById(tagGroupId);
+    const message = i18n.t('tags.really-delete-tag-group', { tagGroupTitle: tagGroup.title, interpolation: {escapeValue: false} });
+
+    const dialogBoxTemplate = html`
+    <div id="delete-tag-group-confirmation-dialog" style="padding-top: 2em;">
+    ${message}
+    </div>
+    `;
+
+    return new Promise((resolve) => {
+      document.querySelector('#boxes').appendChild(dialogBoxTemplate.content);
+      const $dialogBox = $('#delete-tag-group-confirmation-dialog');
+      $dialogBox.localize();
+      
+      const width = 400;
+      const height = 200;
+
+      var buttons = {};
+      buttons[i18n.t('general.cancel')] = function() {
+        $(this).dialog('close');
+      };
+      buttons[i18n.t('tags.delete-tag-group')] = () => {
+        this.deleteTagGroupInDb(tagGroupId);
+        $dialogBox.dialog('close');
+      };
+
+      const title = i18n.t('tags.delete-tag-group');
+    
+      $dialogBox.dialog({
+        width,
+        height,
+        position: [60,180],
+        title: title,
+        resizable: false,
+        dialogClass: 'ezra-dialog',
+        buttons: buttons,
+        close() {
+          $dialogBox.dialog('destroy');
+          $dialogBox.remove();
+          resolve();
+        }
+      });
+    });
+  }
+
+  async deleteTagGroupInDb(tagGroupId) {
+    var result = ipcDb.deleteTagGroup(tagGroupId);
+
+    if (result.success == false) {
+      const tagGroup = await this.tagGroupManager.getItemById(tagGroupId);
+
+      var message = `The tag group <i>${tagGroup.title}</i> could not be deleted.<br>
+                     An unexpected database error occurred:<br><br>
+                     ${result.exception}<br><br>
+                     Please restart the app.`;
+
+      await showErrorDialog('Database Error', message);
+      return;
+    } else {
+      await eventController.publishAsync('on-tag-group-deleted', tagGroupId);
+    }
   }
 
   showTagGroupList() {

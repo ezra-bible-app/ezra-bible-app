@@ -118,6 +118,10 @@ class IpcDb {
     return await this._ipcRenderer.call('db_getAllTagGroups');
   }
 
+  async deleteTagGroup(tagGroupId) {
+    return await this._ipcRenderer.call('db_deleteTagGroup', tagGroupId);
+  }
+
   async persistNote(noteValue, verseObject, versification) {
     return await this._ipcRenderer.call('db_persistNote', noteValue, verseObject, versification);
   }

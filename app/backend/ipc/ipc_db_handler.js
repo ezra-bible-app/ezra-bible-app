@@ -141,6 +141,10 @@ class IpcDbHandler {
       return allTagGroups;
     });
 
+    this._ipcMain.add('db_deleteTagGroup', async(id) => {
+      return await global.models.TagGroup.destroyTagGroup(id);
+    });
+
     this._ipcMain.add('db_persistNote', async (noteValue, verseObject, versification) => {
       return await global.models.Note.persistNote(noteValue, verseObject, versification);
     });
