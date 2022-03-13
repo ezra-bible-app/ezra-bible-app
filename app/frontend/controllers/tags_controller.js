@@ -54,6 +54,7 @@ class TagsController {
     this.tag_to_be_deleted = null;
     this.tag_to_be_deleted_title = null;
     this.tag_to_be_deleted_is_global = false;
+    this.permanently_delete_tag = true;
   
     this.remove_tag_assignment_job = null;
     this.new_tag_created = false;
@@ -564,6 +565,7 @@ class TagsController {
     tags_controller.tag_to_be_deleted_is_global = (parent_id == 'tags-content-global');
     tags_controller.tag_to_be_deleted_title = label;
     tags_controller.tag_to_be_deleted = tag_id;
+    tags_controller.permanently_delete_tag = tags_controller.currentTagGroupId == null ? true : false;
     
     var number_of_tagged_verses = checkboxTag.attr('global-assignment-count');
 
@@ -571,6 +573,9 @@ class TagsController {
     let reallyDeleteTagExplanation = document.getElementById('really-delete-tag-explanation');
     let permanentlyDeleteTagBox = document.getElementById('permanently-delete-tag-box');
     let tagGroup = this.currentTagGroupTitle;
+
+    let permanentlyDeleteCheckbox = document.getElementById('permanently-delete-tag');
+    permanentlyDeleteCheckbox.checked = false;
 
     if (this.currentTagGroupId != null) {
       // Tag group used
@@ -595,9 +600,22 @@ class TagsController {
 
   deleteTagAfterConfirmation() {
     $('#delete-tag-confirmation-dialog').dialog('close');
+
+    tags_controller.permanently_delete_tag = document.getElementById('permanently-delete-tag').checked;
    
     setTimeout(async () => {
-      var result = await ipcDb.removeTag(tags_controller.tag_to_be_deleted);
+      let result = null;
+
+      if (tags_controller.currentTagGroupId == null || tags_controller.permanently_delete_tag) {
+        // Permanently delete tag
+        result = await ipcDb.removeTag(tags_controller.tag_to_be_deleted);
+      } else {
+        // Remove tag from current tag group
+        result = await ipcDb.updateTag(tags_controller.tag_to_be_deleted,
+                                       tags_controller.tag_to_be_deleted_title,
+                                       [],
+                                       [ tags_controller.currentTagGroupId ]);
+      }
 
       if (result.success == false) {
         var message = `The tag <i>${tags_controller.tag_to_be_deleted_title}</i> could not be deleted.<br>
@@ -611,7 +629,11 @@ class TagsController {
       }
 
       await tags_controller.removeTagById(tags_controller.tag_to_be_deleted, tags_controller.tag_to_be_deleted_title);
-      await eventController.publishAsync('on-tag-deleted', tags_controller.tag_to_be_deleted);
+
+      if (tags_controller.currentTagGroupId == null) {
+        await eventController.publishAsync('on-tag-deleted', tags_controller.tag_to_be_deleted);
+      }
+
       await tags_controller.updateTagsViewAfterVerseSelection(true);
       await tags_controller.updateTagUiBasedOnTagAvailability();
     }, 50);
@@ -621,9 +643,11 @@ class TagsController {
     var checkboxTag = tags_controller.getCheckboxTag(tag_id);
     checkboxTag.detach();
 
-    if (this.tag_store.latest_tag_id != null && this.tag_store.latest_tag_id == tag_id) {
-      this.tag_store.latest_tag_id = null;
-      await this.tag_store.refreshTagList();
+    if (tags_controller.currentTagGroupId == null) {
+      if (this.tag_store.latest_tag_id != null && this.tag_store.latest_tag_id == tag_id) {
+        this.tag_store.latest_tag_id = null;
+        await this.tag_store.refreshTagList();
+      }
     }
 
     tags_controller.updateTagCountAfterRendering();
@@ -633,14 +657,13 @@ class TagsController {
       return ($(this).html() == tag_id);
     });
 
-    var verse_list = $.create_xml_doc(
-      app_controller.verse_selection.element_list_to_xml_verse_list(tag_data_elements)
-    );
+    if (tags_controller.currentTagGroupId == null) {
+      var verse_list = $.create_xml_doc(
+        app_controller.verse_selection.element_list_to_xml_verse_list(tag_data_elements)
+      );
 
-    tags_controller.changeVerseListTagInfo(tag_id,
-                                           tag_title,
-                                           verse_list,
-                                           "remove");
+      tags_controller.changeVerseListTagInfo(tag_id, tag_title, verse_list, "remove");
+    }
   }
 
   async assignLastTag() {
