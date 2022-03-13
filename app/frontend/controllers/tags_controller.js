@@ -1063,7 +1063,7 @@ class TagsController {
       current_book: current_book,
       current_filter: $('#tags-search-input').val(),
       edit_tag_label: i18n.t("tags.edit-tag"),
-      delete_tag_label: i18n.t("tags.delete-tag-permanently"),
+      delete_tag_label: i18n.t("tags.delete-tag"),
     });
 
     global_tags_box_el.innerHTML = '';
