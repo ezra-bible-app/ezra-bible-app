@@ -28,11 +28,13 @@ class TagManager extends ItemListManager {
 
     super(contentDivId,
           onClickHandler,
+          null, // onEditHandler
+          null, // onDeleteHandler
           selectable,
           editable,
           cssClass,
-          null,
-          null,
+          null, // editHint
+          null, // deleteHint
           virtualItems);
   }
 

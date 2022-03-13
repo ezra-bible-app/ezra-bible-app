@@ -84,6 +84,8 @@ class TagGroupList extends HTMLElement {
 
     this.tagGroupManager = new TagGroupManager('tag-group-list-content',
                                                (event) => { this.handleTagGroupClick(event); },
+                                               (event) => { this.handleTagGroupEdit(event); },
+                                               (event) => { this.handleTagGroupDelete(event); },
                                                false,
                                                true,
                                                'tag-group',
@@ -128,6 +130,14 @@ class TagGroupList extends HTMLElement {
 
     this.hideTagGroupList();
     eventController.publishAsync('on-tag-group-selected', tagGroup);
+  }
+
+  async handleTagGroupEdit(itemId) {
+    console.log("Edit tag group " + itemId);
+  }
+
+  async handleTagGroupDelete(itemId) {
+    console.log("Delete tag group " + itemId);
   }
 
   showTagGroupList() {

@@ -21,6 +21,8 @@ const ezraHelper = require('../../helpers/ezra_helper.js');
 class ItemListManager {
   constructor(contentDivId,
               onClickHandler,
+              onEditHandler,
+              onDeleteHandler,
               selectable=false,
               editable=false,
               cssClass,
@@ -31,6 +33,8 @@ class ItemListManager {
     this._items = null;
     this._contentDivId = contentDivId;
     this._onClickHandler = onClickHandler;
+    this._onEditHandler = onEditHandler;
+    this._onDeleteHandler = onDeleteHandler;
     this._selectable = selectable;
     this._editable = editable;
     this._cssClass = cssClass;
@@ -95,6 +99,13 @@ class ItemListManager {
     this.addItemElement(item);
   }
 
+  getItemIdFromClickEvent(event) {
+    let element = event.target.closest('.' + this._cssClass);
+    let link = element.querySelector('a');
+    let itemId = link.getAttribute('item-id');
+    return parseInt(itemId);
+  }
+
   addItemElement(item) {
     if (this._contentDiv == null) {
       this._contentDiv = this.getContentDiv();
@@ -111,7 +122,10 @@ class ItemListManager {
       itemIcon = document.createElement('i');
       itemIcon.setAttribute('class', 'fas fa-tag tag-button button-small');
       itemIcon.addEventListener('click', (event) => {
-        this._onClickHandler(event);
+        if (this._onClickHandler != null) {
+          this._onClickHandler(event);
+        }
+
         this.toggleSelection(event);
       });
     }
@@ -121,11 +135,23 @@ class ItemListManager {
       editButton.setAttribute('class', 'fas fa-pen edit-icon edit-button button-small');
       editButton.setAttribute('i18n', '[title]' + this._renameHintI18n);
       editButton.setAttribute('title', this._renameHint);
+      editButton.addEventListener('click', (event) => {
+        if (this._onEditHandler != null) {
+          let itemId = this.getItemIdFromClickEvent(event);
+          this._onEditHandler(itemId);
+        }
+      });
 
       deleteButton = document.createElement('i');
       deleteButton.setAttribute('class', 'fas fa-trash-alt delete-icon delete-button button-small');
       deleteButton.setAttribute('i18n', '[title]' + this._deleteHintI18n);
       deleteButton.setAttribute('title', this._deleteHint);
+      deleteButton.addEventListener('click', (event) => {
+        if (this._onDeleteHandler != null) {
+          let itemId = this.getItemIdFromClickEvent(event);
+          this._onDeleteHandler(itemId);
+        }
+      });
     }
 
     let itemLink = document.createElement('a');
