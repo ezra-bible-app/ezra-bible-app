@@ -21,6 +21,8 @@ const ItemListManager = require("./item_list_manager.js");
 class TagGroupManager extends ItemListManager {
   constructor(contentDivId,
               onClickHandler,
+              onEditHandler,
+              onDeleteHandler,
               selectable=false,
               editable=false,
               cssClass,
@@ -31,6 +33,8 @@ class TagGroupManager extends ItemListManager {
 
     super(contentDivId,
           onClickHandler,
+          onEditHandler,
+          onDeleteHandler,
           selectable,
           editable,
           cssClass,

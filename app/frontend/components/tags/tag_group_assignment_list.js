@@ -76,6 +76,8 @@ class TagGroupAssignmentList extends HTMLElement {
     this._contentDiv = null;
     this.tagGroupManager = new TagGroupManager('tag-group-assignment-list-content',
                                                (event) => { this.handleTagGroupClick(event); },
+                                               null,
+                                               null,
                                                true,
                                                false,
                                                'assignment-tag-group');
