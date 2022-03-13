@@ -206,7 +206,7 @@ class TagsController {
       var tagIdList = [];
       tagList.forEach((tag) => { tagIdList.push(tag.id); });
 
-      addTagsToGroupTagList.tagManager.removeExistingItems(tagIdList);
+      addTagsToGroupTagList.tagManager.removeItems(tagIdList);
 
       await waitUntilIdle();
       addTagsToGroupTagList.style.removeProperty('display');

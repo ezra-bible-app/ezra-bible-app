@@ -48,7 +48,7 @@ class TagGroupManager extends ItemListManager {
     });
 
     eventController.subscribe('on-tag-group-deleted', async (tagGroupId) => {
-      this.removeExistingItems([ tagGroupId ]);
+      this.removeItems([ tagGroupId ]);
     });
   }
 
