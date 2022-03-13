@@ -165,7 +165,7 @@ class TagGroupList extends HTMLElement {
       };
       buttons[i18n.t('general.save')] = () => {
         const newTagGroupTitle = document.getElementById('rename-tag-group-title-input').value;
-        this.renameTagGroup(itemId, newTagGroupTitle);
+        this.renameTagGroupInDb(itemId, newTagGroupTitle);
         $dialogBox.dialog('close');
       };
 
@@ -189,7 +189,7 @@ class TagGroupList extends HTMLElement {
     });
   }
 
-  async renameTagGroup(tagGroupId, newTitle) {
+  async renameTagGroupInDb(tagGroupId, newTitle) {
     var result = await ipcDb.updateTagGroup(tagGroupId, newTitle);
 
     if (result.success == false) {
