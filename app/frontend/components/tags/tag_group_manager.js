@@ -46,6 +46,10 @@ class TagGroupManager extends ItemListManager {
     eventController.subscribe('on-tag-group-renamed', async () => {
       this.populateItemList(true);
     });
+
+    eventController.subscribe('on-tag-group-deleted', async (tagGroupId) => {
+      this.removeExistingItems([ tagGroupId ]);
+    });
   }
 
   async getDbItems() {

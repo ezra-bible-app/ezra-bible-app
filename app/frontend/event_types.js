@@ -48,7 +48,7 @@
  * @typedef { "on-tag-created" | "on-tag-deleted" | "on-tag-renamed" | "on-latest-tag-changed" } TagEvents
  */
 /**
- * @typedef { "on-tag-group-list-activated" | "on-tag-group-selected" | "on-tag-group-creation" | "on-tag-group-created" | "on-tag-group-members-changed" | "on-tag-group-renamed" } TagGroupEvents
+ * @typedef { "on-tag-group-list-activated" | "on-tag-group-selected" | "on-tag-group-creation" | "on-tag-group-created" | "on-tag-group-members-changed" | "on-tag-group-renamed" | "on-tag-group-deleted" } TagGroupEvents
  */
 /**
  * @typedef { "on-module-search-started" } ModuleSearchEvents
