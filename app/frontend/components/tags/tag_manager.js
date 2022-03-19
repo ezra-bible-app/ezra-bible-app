@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const ItemListManager = require("./item_list_manager.js");
+const eventController = require('../../controllers/event_controller.js');
 
 class TagManager extends ItemListManager {
   constructor(contentDivId,
@@ -36,6 +37,14 @@ class TagManager extends ItemListManager {
           null, // editHint
           null, // deleteHint
           virtualItems);
+
+    eventController.subscribe('on-tag-renamed', async () => {
+      this.populateItemList(true);
+    });
+
+    eventController.subscribe('on-tag-deleted', async (tagId) => {
+      this.removeItems([ tagId ]);
+    });
   }
 
   async getDbItems() {
