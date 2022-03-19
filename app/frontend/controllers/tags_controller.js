@@ -202,7 +202,7 @@ class TagsController {
       await addTagsToGroupTagList.tagManager.refreshItemList();
 
       var tagList = await this.tag_store.getTagList();
-      tagList = this.getTagGroupMembers(this.currentTagGroupId, tagList);
+      tagList = await this.getTagGroupMembers(this.currentTagGroupId, tagList);
       var tagIdList = [];
       tagList.forEach((tag) => { tagIdList.push(tag.id); });
 
@@ -1014,6 +1014,10 @@ class TagsController {
   }
 
   async updateTagList(currentBook, tagGroupId=null, contentId=null, forceRefresh=false) {
+    if (tagGroupId == null) {
+      tagGroupId = this.currentTagGroupId;
+    }
+
     if (forceRefresh) {
       this.initialRenderingDone = false;
     }
@@ -1025,7 +1029,7 @@ class TagsController {
     if (contentId != this.lastContentId || forceRefresh) {
       var tagList = await this.tag_store.getTagList(forceRefresh);
       if (tagGroupId != null && tagGroupId > 0) {
-        tagList = this.getTagGroupMembers(tagGroupId, tagList);
+        tagList = await this.getTagGroupMembers(tagGroupId, tagList);
       }
 
       var tagStatistics = await this.tag_store.getBookTagStatistics(currentBook, forceRefresh);
@@ -1038,7 +1042,11 @@ class TagsController {
     }
   }
 
-  getTagGroupMembers(tagGroupId, tagList) {
+  async getTagGroupMembers(tagGroupId, tagList=null) {
+    if (tagList == null) {
+      tagList = await this.tag_store.getTagList();
+    }
+
     let tagGroupMembers = [];
 
     for (let i = 0; i < tagList.length; i++) {
