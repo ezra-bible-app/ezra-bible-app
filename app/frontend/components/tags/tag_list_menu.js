@@ -21,6 +21,17 @@ const eventController = require('../../controllers/event_controller.js');
 const UiHelper = require('../../helpers/ui_helper.js');
 
 const template = html`
+
+<!-- FONT AWESOME STYLES -->
+<link rel="preload" href="node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2" as="font" type="font/woff2">
+<link href="node_modules/@fortawesome/fontawesome-free/css/solid.min.css" rel="stylesheet" type="text/css" />
+<link href="node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css" rel="stylesheet" type="text/css" />
+
+<!-- JQUERY STYLES -->
+<link id="theme-css" href="css/jquery-ui/cupertino/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="css/jquery-ui/jquery-ui.selectmenu.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="css/jquery.steps.css" media="screen" rel="stylesheet" type="text/css" />
+
 <style>
 #tag-list-menu {
   margin: 0.1em 0 0 0;
@@ -78,16 +89,6 @@ const template = html`
   cursor: pointer;
 }
 </style>
-
-<!-- FONT AWESOME STYLES -->
-<link rel="preload" href="node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2" as="font" type="font/woff2">
-<link href="node_modules/@fortawesome/fontawesome-free/css/solid.min.css" rel="stylesheet" type="text/css" />
-<link href="node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css" rel="stylesheet" type="text/css" />
-
-<!-- JQUERY STYLES -->
-<link id="theme-css" href="css/jquery-ui/cupertino/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="css/jquery-ui/jquery-ui.selectmenu.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="css/jquery.steps.css" media="screen" rel="stylesheet" type="text/css" />
 
 <div id="tag-list-menu">
   <a id="tag-group-list-link" href="">Tag groups</a> <span id="tag-group-nav-arrow">&rarr;</span> <span id="tag-group-label">All tags</span>
