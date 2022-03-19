@@ -17,7 +17,6 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { html } = require('../../helpers/ezra_helper.js');
-const eventController = require('../../controllers/event_controller.js');
 const TagManager = require('./tag_manager.js');
 
 const template = html`
