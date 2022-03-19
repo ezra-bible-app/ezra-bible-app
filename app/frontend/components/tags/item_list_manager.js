@@ -107,10 +107,6 @@ class ItemListManager {
   }
 
   addItemElement(item) {
-    if (this._contentDiv == null) {
-      this._contentDiv = this.getContentDiv();
-    }
-
     let itemElement = document.createElement('div');
     itemElement.setAttribute('class', this._cssClass);
 
@@ -179,7 +175,7 @@ class ItemListManager {
       itemElement.appendChild(deleteButton);
     }
 
-    this._contentDiv.appendChild(itemElement);
+    this.getContentDiv().appendChild(itemElement);
   }
 
   toggleSelection(event) {
@@ -251,11 +247,15 @@ class ItemListManager {
   }
 
   getContentDiv() {
-    return document.getElementById(this._contentDivId);
+    if (this._contentDiv == null) {
+      this._contentDiv = document.getElementById(this._contentDivId);
+    }
+
+    return this._contentDiv;
   }
 
   getAllItemElements() {
-    return this._contentDiv.querySelectorAll('.' + this._cssClass);
+    return this.getContentDiv().querySelectorAll('.' + this._cssClass);
   }
 
   removeItems(existingItemIds) {
