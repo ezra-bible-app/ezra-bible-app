@@ -76,6 +76,10 @@ class ItemListManager {
     }
   }
 
+  async refreshItemList() {
+    await this.populateItemList(true);
+  }
+
   async populateItemList(force=false) {
     if (this.populated && !force) {
       return;

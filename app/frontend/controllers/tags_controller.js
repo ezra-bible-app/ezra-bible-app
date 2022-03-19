@@ -199,7 +199,7 @@ class TagsController {
       $('#add-tags-to-group-dialog').dialog("open");
       await waitUntilIdle();
 
-      await addTagsToGroupTagList.tagManager.populateItemList(true);
+      await addTagsToGroupTagList.tagManager.refreshItemList();
 
       var tagList = await this.tag_store.getTagList();
       tagList = this.getTagGroupMembers(this.currentTagGroupId, tagList);
@@ -293,10 +293,14 @@ class TagsController {
       }
     }
 
-    if (this.currentTagGroupId > 0) {
+    if (this.tagGroupUsed()) {
       const currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
       await this.updateTagsView(currentTabIndex, true);
     }
+  }
+
+  tagGroupUsed() {
+    return this.currentTagGroupId != null && this.currentTagGroupId > 0;
   }
 
   async updateButtonStateBasedOnTagTitleValidation(tagTitle, buttonId) {
@@ -484,7 +488,7 @@ class TagsController {
         removeTagGroups
       });
 
-      if (this.currentTagGroupId > 0) {
+      if (this.tagGroupUsed()) {
         const currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
         await this.updateTagsView(currentTabIndex, true);
       }
@@ -550,10 +554,10 @@ class TagsController {
 
     let addExistingTagsLink = document.getElementById('add-existing-tags-to-tag-group-link').parentNode;
 
-    if (this.currentTagGroupId == null || this.currentTagGroupId < 1) {
-      addExistingTagsLink.style.display = 'none';
-    } else {
+    if (this.tagGroupUsed()) {
       addExistingTagsLink.style.display = '';
+    } else {
+      addExistingTagsLink.style.display = 'none';
     }
 
     const $tagInput = $('#new-' + type + '-tag-title-input');
@@ -575,7 +579,7 @@ class TagsController {
     tags_controller.tag_to_be_deleted_is_global = (parent_id == 'tags-content-global');
     tags_controller.tag_to_be_deleted_title = label;
     tags_controller.tag_to_be_deleted = tag_id;
-    tags_controller.permanently_delete_tag = tags_controller.currentTagGroupId == null ? true : false;
+    tags_controller.permanently_delete_tag = tags_controller.tagGroupUsed() ? false : true;
     
     var number_of_tagged_verses = checkboxTag.attr('global-assignment-count');
 
@@ -588,7 +592,7 @@ class TagsController {
     let permanentlyDeleteCheckbox = document.getElementById('permanently-delete-tag');
     permanentlyDeleteCheckbox.checked = false;
 
-    if (this.currentTagGroupId != null) {
+    if (this.tagGroupUsed()) {
       // Tag group used
 
       reallyDeleteTagExplanation.style.display = 'none';
@@ -619,7 +623,7 @@ class TagsController {
     setTimeout(async () => {
       let result = null;
 
-      if (tags_controller.currentTagGroupId == null || tags_controller.permanently_delete_tag) {
+      if (!tags_controller.tagGroupUsed() || tags_controller.permanently_delete_tag) {
         // Permanently delete tag
         result = await ipcDb.removeTag(tags_controller.tag_to_be_deleted);
       } else {
@@ -643,7 +647,7 @@ class TagsController {
 
       await tags_controller.removeTagById(tags_controller.tag_to_be_deleted, tags_controller.tag_to_be_deleted_title);
 
-      if (tags_controller.currentTagGroupId == null) {
+      if (!tags_controller.tagGroupUsed()) {
         await eventController.publishAsync('on-tag-deleted', tags_controller.tag_to_be_deleted);
       }
 
@@ -656,7 +660,7 @@ class TagsController {
     var checkboxTag = tags_controller.getCheckboxTag(tag_id);
     checkboxTag.detach();
 
-    if (tags_controller.currentTagGroupId == null) {
+    if (!tags_controller.tagGroupUsed()) {
       if (this.tag_store.latest_tag_id != null && this.tag_store.latest_tag_id == tag_id) {
         this.tag_store.latest_tag_id = null;
         await this.tag_store.refreshTagList();
@@ -670,7 +674,7 @@ class TagsController {
       return ($(this).html() == tag_id);
     });
 
-    if (tags_controller.currentTagGroupId == null) {
+    if (!tags_controller.tagGroupUsed()) {
       var verse_list = $.create_xml_doc(
         app_controller.verse_selection.element_list_to_xml_verse_list(tag_data_elements)
       );
