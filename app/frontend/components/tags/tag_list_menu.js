@@ -29,8 +29,6 @@ const template = html`
 
 <!-- JQUERY STYLES -->
 <link id="theme-css" href="css/jquery-ui/cupertino/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="css/jquery-ui/jquery-ui.selectmenu.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="css/jquery.steps.css" media="screen" rel="stylesheet" type="text/css" />
 
 <style>
 #tag-list-menu {
