@@ -18,6 +18,7 @@
 
 const { html } = require('../../helpers/ezra_helper.js');
 const eventController = require('../../controllers/event_controller.js');
+const UiHelper = require('../../helpers/ui_helper.js');
 
 const template = html`
 <style>
@@ -74,9 +75,19 @@ const template = html`
   float: right;
   margin-left: 1em;
   padding: 0.2em;
+  cursor: pointer;
 }
-
 </style>
+
+<!-- FONT AWESOME STYLES -->
+<link rel="preload" href="node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2" as="font" type="font/woff2">
+<link href="node_modules/@fortawesome/fontawesome-free/css/solid.min.css" rel="stylesheet" type="text/css" />
+<link href="node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css" rel="stylesheet" type="text/css" />
+
+<!-- JQUERY STYLES -->
+<link id="theme-css" href="css/jquery-ui/cupertino/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="css/jquery-ui/jquery-ui.selectmenu.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="css/jquery.steps.css" media="screen" rel="stylesheet" type="text/css" />
 
 <div id="tag-list-menu">
   <a id="tag-group-list-link" href="">Tag groups</a> <span id="tag-group-nav-arrow">&rarr;</span> <span id="tag-group-label">All tags</span>
@@ -92,10 +103,13 @@ const template = html`
 class TagListMenu extends HTMLElement {
   constructor() {
     super();
+
+    this.uiHelper = new UiHelper();
   }
 
   connectedCallback() {  
-    this.appendChild(template.content);
+    const shadow = this.attachShadow({ mode: 'open' });
+    shadow.appendChild(template.content.cloneNode(true));
 
     this.getTagGroupListLink().addEventListener('click', (event) => {
       event.preventDefault();
@@ -113,10 +127,18 @@ class TagListMenu extends HTMLElement {
     eventController.subscribe('on-locale-changed', async () => {
       this.localize();
     });
+
+    this.localize();
+
+    this.shadowRoot.getElementById('new-standard-tag-button').addEventListener('click', function() {
+      tags_controller.handleNewTagButtonClick($(this), "standard");
+    });
+
+    this.uiHelper.configureButtonStyles(this.shadowRoot.getElementById('tag-list-menu'));
   }
 
   localize() {
-    $('#tag-list-menu').localize();
+    $(this.shadowRoot.getElementById('tag-list-menu')).localize();
   }
 
   onTagGroupListLinkClicked() {
@@ -224,23 +246,23 @@ class TagListMenu extends HTMLElement {
   }
 
   getAddTagButton() {
-    return document.getElementById('new-standard-tag-button');
+    return this.shadowRoot.getElementById('new-standard-tag-button');
   }
 
   getTagGroupListLink() {
-    return document.getElementById('tag-group-list-link');
+    return this.shadowRoot.getElementById('tag-group-list-link');
   }
 
   getTagGroupLabel() {
-    return document.getElementById('tag-group-label');
+    return this.shadowRoot.getElementById('tag-group-label');
   }
 
   getTagGroupNavArrow() {
-    return document.getElementById('tag-group-nav-arrow');
+    return this.shadowRoot.getElementById('tag-group-nav-arrow');
   }
 
   getAddTagGroupButton() {
-    return document.getElementById('add-tag-group-button');
+    return this.shadowRoot.getElementById('add-tag-group-button');
   }
 }
 
