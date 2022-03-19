@@ -80,6 +80,7 @@ const template = html`
   float: right;
   padding: 0.2em;
   display: none;
+  cursor: pointer;
 }
 
 #new-standard-tag-button {
@@ -121,7 +122,11 @@ class TagListMenu extends HTMLElement {
       this.onAddTagGroupButtonClicked();
     });
 
-    eventController.subscribe('on-tag-group-selected', (tagGroup) => {
+    this._tagGroupLinkEvent = this.getAttribute('tag-group-link-event');
+    this._tagGroupCreationEvent = this.getAttribute('tag-group-creation-event');
+    this._tagGroupSelectionEvent = this.getAttribute('tag-group-selection-event');
+
+    eventController.subscribe(this._tagGroupSelectionEvent, (tagGroup) => {
       this.selectTagGroup(tagGroup);
     });
 
@@ -147,7 +152,7 @@ class TagListMenu extends HTMLElement {
     this.getTagGroupListLink().classList.add('list-tag-groups');
     this.showAddTagGroupButton();
     this.hideAddTagButton();
-    eventController.publishAsync('on-tag-group-list-activated');
+    eventController.publishAsync(this._tagGroupLinkEvent);
   }
 
   async onAddTagGroupButtonClicked() {
@@ -170,7 +175,7 @@ class TagListMenu extends HTMLElement {
 
       let createTagGroup = () => {
         let tagGroupTitle = document.getElementById('tag-group-title-value').value;
-        eventController.publishAsync('on-tag-group-creation', tagGroupTitle);
+        eventController.publishAsync(this._tagGroupCreationEvent, tagGroupTitle);
         $dialogBox.dialog('close');
       };
 
