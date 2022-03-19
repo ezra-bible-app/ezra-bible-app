@@ -44,7 +44,7 @@ class TagGroupManager extends ItemListManager {
           virtualItems);
 
     eventController.subscribe('on-tag-group-renamed', async () => {
-      this.populateItemList(true);
+      this.refreshItemList();
     });
 
     eventController.subscribe('on-tag-group-deleted', async (tagGroupId) => {
