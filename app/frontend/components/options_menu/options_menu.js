@@ -71,6 +71,7 @@ class OptionsMenu {
     this._verseListNewTabOption = this.initConfigOption('openVerseListsInNewTabOption', () => {}, openVerseListsInNewTabByDefault);
     this._userDataIndicatorOption = this.initConfigOption('showUserDataIndicatorOption', () => { this.showOrHideUserDataIndicatorsBasedOnOption(); }, true);
     this._tagsOption = this.initConfigOption('showTagsOption', () => { this.showOrHideVerseTagsBasedOnOption(); });
+    this._tagGroupFilterOption = this.initConfigOption('useTagGroupFilter', () => { this.applyTagGroupFilterBasedOnOption(); });
     this._tagsColumnOption = this.initConfigOption('useTagsColumnOption', () => { this.changeTagsLayoutBasedOnOption(); });
     this._verseNotesOption = this.initConfigOption('showNotesOption', () => { this.showOrHideVerseNotesBasedOnOption(); });
     this._verseNotesFixedHeightOption = this.initConfigOption('fixNotesHeightOption', () => { this.fixNotesHeightBasedOnOption(); });
@@ -365,6 +366,14 @@ class OptionsMenu {
     }
   }
 
+  applyTagGroupFilterBasedOnOption() {
+    if (this._tagGroupFilterOption.isChecked) {
+      eventController.publishAsync('on-tag-group-filter-enabled');
+    } else {
+      eventController.publishAsync('on-tag-group-filter-disabled');
+    }
+  }
+
   showOrHideVerseNotesBasedOnOption(tabIndex=undefined) {
     var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
@@ -432,6 +441,7 @@ class OptionsMenu {
     this.showOrHideFootnotesBasedOnOption(tabIndex);
     this.showOrHideUserDataIndicatorsBasedOnOption(tabIndex);
     this.showOrHideVerseTagsBasedOnOption(tabIndex);
+    this.applyTagGroupFilterBasedOnOption();
     this.changeTagsLayoutBasedOnOption(tabIndex);
     this.showOrHideVerseNotesBasedOnOption(tabIndex);
     this.fixNotesHeightBasedOnOption(tabIndex);
