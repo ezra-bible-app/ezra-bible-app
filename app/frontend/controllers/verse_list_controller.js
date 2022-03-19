@@ -28,15 +28,24 @@ const eventController = require('../controllers/event_controller.js');
  */
 
 module.exports.init = function init() {
+  eventController.subscribe('on-all-translations-removed', async () => { this.onAllTranslationsRemoved(); });
+
   eventController.subscribe('on-bible-text-loaded', (tabIndex) => { 
     this.applyTagGroupFilter(tags_controller.currentTagGroupId, tabIndex);
     this.bindEventsAfterBibleTextLoaded(tabIndex);
   });
 
-  eventController.subscribe('on-all-translations-removed', async () => { this.onAllTranslationsRemoved(); });
-  eventController.subscribe('on-tag-group-filter-enabled', async () => { this.onTagGroupFilterEnabled(); });
-  eventController.subscribe('on-tag-group-filter-disabled', async () => { this.onTagGroupFilterDisabled(); });
-  eventController.subscribe('on-tag-group-selected', async(tagGroup) => { this.applyTagGroupFilter(tagGroup.id); });
+  eventController.subscribe('on-tag-group-filter-enabled', async () => {
+    this.applyTagGroupFilter(tags_controller.currentTagGroupId);
+  });
+
+  eventController.subscribe('on-tag-group-filter-disabled', async () => {
+    this.applyTagGroupFilter(null);
+  });
+
+  eventController.subscribe('on-tag-group-selected', async(tagGroup) => {
+    this.applyTagGroupFilter(tagGroup.id);
+  });
 };
 
 module.exports.getCurrentVerseListFrame = function(tabIndex=undefined) {
@@ -342,14 +351,6 @@ module.exports.onAllTranslationsRemoved = function() {
   this.hideVerseListLoadingIndicator();
   this.getCurrentVerseList().append("<div class='help-text'>" + i18n.t("help.help-text-no-translations") + "</div>");
   $('.book-select-value').text(i18n.t("menu.book"));
-};
-
-module.exports.onTagGroupFilterEnabled = function() {
-  this.applyTagGroupFilter(tags_controller.currentTagGroupId);
-};
-
-module.exports.onTagGroupFilterDisabled = function() {
-  this.applyTagGroupFilter(null);
 };
 
 module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefined) {
