@@ -145,8 +145,9 @@ each bibleBook in bibleBooks
               if current_verse_tags != null
                 each verseTag in current_verse_tags
                   //- var current_tag_title = verseTag.tagTitle.replace(/ /g, "&nbsp;")
-                  - var current_tag_title = verseTag.tagTitle
-                  div.tag(title=i18n.t('bible-browser.tag-hint'), i18n='[title]bible-browser.tag-hint') !{current_tag_title}
+                  - var current_tag_title = verseTag.tagTitle;
+                  - var tagClass = 'tag tag-' + verseTag.tagId;
+                  div(class=tagClass title=i18n.t('bible-browser.tag-hint'), i18n='[title]bible-browser.tag-hint') !{current_tag_title}
                   
           div.verse-text !{verse.content}
 
