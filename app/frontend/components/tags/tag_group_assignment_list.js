@@ -127,6 +127,7 @@ class TagGroupAssignmentList extends HTMLElement {
     this._onChangeHandler = value;
   }
 
+  // eslint-disable-next-line no-unused-vars
   handleTagGroupClick(event) {
     if (this._onChangeHandler != null) {
       this._onChangeHandler();
