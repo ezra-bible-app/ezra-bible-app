@@ -72,6 +72,7 @@ class TagSelectionMenu {
 
     this.currentTagGroupId = tagGroupId;
     await this.requestTagsForMenu(this.currentTagGroupId);
+    await this.updateTagSelectionMenu();
 
     this.showTagListUi();
   }
@@ -80,7 +81,7 @@ class TagSelectionMenu {
     this.getTagListContainer()[0].style.removeProperty('display');
     document.getElementById('tag-selection-filter-buttons').style.display = 'flex';
     document.getElementById('tag-selection-filter').style.removeProperty('display');
-    document.getElementById('tag-selection-summary').style.removeProperty('display');
+    document.getElementById('tag-selection-summary').style.display = 'flex';
   }
 
   init(tabIndex=undefined) {
@@ -405,12 +406,22 @@ class TagSelectionMenu {
     var tagCountSelectedLabel = document.getElementById('tag-count-selected-label');
     var confirmButton = document.getElementById('confirm-tag-selection-button');
     var deselectAllButton = document.getElementById('deselect-all-tags-button');
+    var selectAllButton = document.getElementById('select-all-tags-button');
     var currentTagIdList = this.selectedTagIds();
     var currentTagTitleList = this.selectedTagTitles();
     var selectedTagCount = 0;
    
     if (currentTagIdList != "") { 
       selectedTagCount = currentTagIdList.split(',').length;
+    }
+
+    var taglistContainer = this.getTagListContainer();
+    var tagList = taglistContainer[0].querySelectorAll('.tag-browser-tag');
+
+    if (selectedTagCount == tagList.length) {
+      selectAllButton.classList.add('ui-state-disabled');
+    } else {
+      selectAllButton.classList.remove('ui-state-disabled');
     }
 
     if (selectedTagCount > 0) {
