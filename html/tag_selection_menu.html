@@ -1,12 +1,16 @@
 <div class="selection-menu-footer not-shown"></div>
 <!--<div class="book-selection-menu-footer">Hint: Recently opened books are highlighted with <span class="bold">bold</span> font</div>-->
 
+<tag-list-menu tag-group-link-event="on-tag-selection-menu-group-list-activated"
+               tag-group-selection-event="on-tag-selection-menu-group-selected">
+</tag-list-menu>
+
 <div id="tag-selection-filter" style="margin-bottom: 0.8em;">
   <span id="tag-selection-filter-label" i18n="tags.tag-filter"></span>
   <input id="tag-selection-filter-input" type="text" maxlength="30" />
 </div>
 
-<div style="display: flex; flex-direction: row; align-items: center;">
+<div id="tag-selection-filter-buttons" style="display: flex; flex-direction: row; align-items: center; margin-bottom: 1em;">
   <div id="tag-selection-recently-used-filter">
     <input id="tag-selection-recently-used-checkbox" type="checkbox" />
     <label for="tag-selection-recently-used-checkbox" id="tag-selection-recently-used-label" i18n="tags.recently-used-filter"></label>
@@ -15,6 +19,12 @@
   <button id="select-all-tags-button" class="fg-button ui-corner-all ui-state-default" i18n="tags.select-all-tags" style="margin-left: 0.8em;"></button>
   <button id="deselect-all-tags-button" class="fg-button ui-corner-all ui-state-default" i18n="tags.deselect-all-tags" style="margin-left: 0.8em;"></button>
 </div>
+
+<tag-group-list id="tag-selection-menu-tag-group-list"
+                activation-event="on-tag-selection-menu-group-list-activated"
+                selection-event="on-tag-selection-menu-group-selected"
+                style="height: 524px; display: none;">
+</tag-group-list>
 
 <div id="tag-selection-taglist">
   <div id="tag-selection-taglist-global" class="scrollable">
@@ -28,7 +38,7 @@
   </div>
 </div>
 
-<div style="display: flex; flex-direction: row; align-items: center;">
+<div id="tag-selection-summary" style="display: flex; flex-direction: row; align-items: center; margin-top: 0.5em;">
   <div id="tag-count-selected-label" style="display: inline-block;"></div>
   <div style="flex-grow: 1;"></div>
   <button id="confirm-tag-selection-button" class="fg-button ui-corner-all ui-state-default" i18n="tags.show-tagged-verses" style="float: right;"></button>

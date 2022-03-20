@@ -28,6 +28,7 @@ class TagSelectionMenu {
   constructor() {
     this.tag_menu_is_opened = false;
     this.tag_menu_populated = false;
+    this.currentTagGroupId = -1;
 
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
       await this.updateTagSelectionMenu(tabIndex);
@@ -38,16 +39,48 @@ class TagSelectionMenu {
     });
 
     eventController.subscribe('on-tag-created', async () => {
-      await this.requestTagsForMenu(true);
+      await this.requestTagsForMenu(this.currentTagGroupId, true);
     });
 
     eventController.subscribe('on-tag-deleted', async () => {
-      await this.requestTagsForMenu(true);
+      await this.requestTagsForMenu(this.currentTagGroupId, true);
     });
 
     eventController.subscribe('on-tag-renamed', async() => {
-      await this.requestTagsForMenu();
+      await this.requestTagsForMenu(this.currentTagGroupId);
     });
+
+    eventController.subscribe('on-tag-selection-menu-group-list-activated', () => {
+      this.getTagListContainer()[0].style.display = 'none';
+      document.getElementById('tag-selection-filter-buttons').style.display = 'none';
+      document.getElementById('tag-selection-filter').style.display = 'none';
+      document.getElementById('tag-selection-summary').style.display = 'none';
+      document.getElementById('tag-selection-menu-tag-group-list').style.removeProperty('display');
+    });
+
+    eventController.subscribe('on-tag-selection-menu-group-selected', async (tagGroup) => {
+      this.showTagGroup(tagGroup.id);
+    });
+  }
+
+  hideTagGroupList() {
+    document.getElementById('tag-selection-menu-tag-group-list').style.display = 'none';
+  }
+
+  async showTagGroup(tagGroupId) {
+    this.hideTagGroupList();
+
+    this.currentTagGroupId = tagGroupId;
+    await this.requestTagsForMenu(this.currentTagGroupId);
+
+    this.showTagListUi();
+  }
+
+  showTagListUi() {
+    this.getTagListContainer()[0].style.removeProperty('display');
+    document.getElementById('tag-selection-filter-buttons').style.display = 'flex';
+    document.getElementById('tag-selection-filter').style.removeProperty('display');
+    document.getElementById('tag-selection-summary').style.removeProperty('display');
   }
 
   init(tabIndex=undefined) {
@@ -118,13 +151,19 @@ class TagSelectionMenu {
     tagListContainer.find('.tag-browser-tag').show();
   }
 
-  hideTagMenu() {
+  async hideTagMenu() {
     if (this.tag_menu_is_opened) {
-      $('#app-container').find('#tag-selection-menu').hide();
-      this.tag_menu_is_opened = false;
+      document.getElementById('tag-selection-menu').style.display = 'none';
+
+      let groupList = document.getElementById('tag-selection-menu-tag-group-list');
+      let currentGroup = await groupList.tagGroupManager.getItemById(this.currentTagGroupId);
+
+      eventController.publishAsync('on-tag-selection-menu-group-selected', currentGroup);
 
       var tag_button = $('#app-container').find('.tag-select-button');
       tag_button.removeClass('ui-state-active');
+
+      this.tag_menu_is_opened = false;
     }
   }
 
@@ -165,6 +204,7 @@ class TagSelectionMenu {
 
       tagList.show();
       tagListOverlay.hide();
+      this.showTagListUi();
 
       uiHelper.configureButtonStyles('#tag-selection-menu');
 
@@ -179,8 +219,13 @@ class TagSelectionMenu {
     }
   }
 
-  async requestTagsForMenu(forceRefresh=false) {
+  async requestTagsForMenu(tagGroupId=null, forceRefresh=false) {
     var tags = await tags_controller.getTagList(forceRefresh);
+
+    if (tagGroupId != null && tagGroupId > 0) {
+      tags = await tags_controller.getTagGroupMembers(tagGroupId, tags);
+    }
+
     this.renderTagsInMenu(tags);
     this.tag_menu_populated = true;
   }
@@ -190,6 +235,8 @@ class TagSelectionMenu {
 
     if (tags.length > 50) {
       document.getElementById('select-all-tags-button').style.display = 'none';
+    } else {
+      document.getElementById('select-all-tags-button').style.removeProperty('display');
     }
 
     var taglist_container = this.getTagListContainer();
