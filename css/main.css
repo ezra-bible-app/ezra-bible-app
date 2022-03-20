@@ -1793,3 +1793,59 @@ code {
 transchange {
   font-style: italic;
 }
+
+/*Librem/Pinephone etc*/
+@media screen and (max-width:600px) {
+  .verse-list-menu .fg-button {
+    margin-right:2px;
+    padding:1px 7px;
+  }
+  .verse-list-menu .fg-button >div{
+    display:none;
+  }
+  .options-group {
+    max-width:50vw;
+  }
+  .options-group .ui-selectmenu {
+    max-width:calc(100% - 40px);
+  }
+  .options-group .locale-switch-container{
+    max-width:80%;
+  }
+
+  #module-settings-assistant {
+    margin:0; padding:0;
+  }
+  .wizard.vertical > .steps {
+    width:16%
+  }
+  #module-settings-assistant-add .steps >ul >li >a {
+    margin:0; padding:2px;
+    font-size:10px;
+  }
+  #module-step-wrapper #module-list#module-list {
+    margin:2px;padding:2px;
+  }
+  #book-selection-menu-book-list, #book-selection-menu-chapter-list {
+    padding:0;
+  }
+  .book-list-column {
+    padding-inline-start:0px;
+    max-width:90vw;
+  }
+  .book-list-column li {
+    max-width:25vw; width:25vw;
+    padding:0;
+    margin:0;
+  }
+  .verse-reference {
+    flex-basis: 100%;
+  }
+  .verse-content {
+    padding: 0.2em;
+  }
+  .verse-box {
+    flex-wrap:wrap;
+  }
+}
+
