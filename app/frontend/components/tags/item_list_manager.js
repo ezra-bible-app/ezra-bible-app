@@ -19,7 +19,7 @@
 const ezraHelper = require('../../helpers/ezra_helper.js');
 
 class ItemListManager {
-  constructor(contentDivId,
+  constructor(contentDiv,
               onClickHandler,
               onEditHandler,
               onDeleteHandler,
@@ -31,7 +31,7 @@ class ItemListManager {
               virtualItems=[]) {
 
     this._items = null;
-    this._contentDivId = contentDivId;
+    this._contentDiv = contentDiv;
     this._onClickHandler = onClickHandler;
     this._onEditHandler = onEditHandler;
     this._onDeleteHandler = onDeleteHandler;
@@ -251,10 +251,6 @@ class ItemListManager {
   }
 
   getContentDiv() {
-    if (this._contentDiv == null) {
-      this._contentDiv = document.getElementById(this._contentDivId);
-    }
-
     return this._contentDiv;
   }
 
