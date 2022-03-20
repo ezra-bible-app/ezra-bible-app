@@ -61,7 +61,7 @@
     "generate-long-tag-list": "node build_scripts/generate_long_tag_list.js"
   },
   "dependencies": {
-    "@electron/remote": "^2.0.5",
+    "@electron/remote": "^2.0.8",
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@sentry/browser": "^6.11.0",
     "@sentry/electron": "^2.5.2",
@@ -85,14 +85,14 @@
     "log-timestamp": "^0.3.0",
     "marked": "^4.0.8",
     "mousetrap": "^1.6.5",
-    "node-html-parser": "^5.2.0",
+    "node-html-parser": "^5.3.3",
     "node-sword-interface": "^0.250.0",
     "pug": "^3.0.0",
     "remove-markdown": "^0.3.0",
     "sanitize-html": "^2.3.3",
     "sequelize": "^5.22.4",
     "simple-emoji-button": "^4.6.2",
-    "sqlite3": "5.0.0",
+    "sqlite3": "^5.0.2",
     "strongs": "^1.0.2",
     "umzug": "^2.3.0"
   },
@@ -117,7 +117,7 @@
     "pug-cli": "^1.0.0-alpha6",
     "sequelize-cli": "^5.5.1",
     "spectron": "^19.0.0",
-    "terser": "^5.5.1",
+    "terser": "^5.12.1",
     "xvfb-maybe": "^0.2.1"
   }
 }
