@@ -38,7 +38,6 @@ const template = html`
   user-select: none;
   box-sizing: border-box;
   border: 1px solid #dddddd;
-  /* height: calc(100% - 5.5em); */
   height: 100%;
   overflow-y: scroll;
 }
