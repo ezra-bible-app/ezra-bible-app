@@ -82,7 +82,9 @@ class TagList extends HTMLElement {
   constructor() {
     super();
 
-    this._tagManager = new TagManager('tag-list-content',
+    var contentDiv = document.getElementById('tag-list-content');
+
+    this._tagManager = new TagManager(contentDiv,
                                       () => { },
                                       true,
                                       false,
