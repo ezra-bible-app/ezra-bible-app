@@ -72,26 +72,25 @@ class TagGroupAssignmentList extends HTMLElement {
   constructor() {
     super();
 
-    this.populated = false;
-    this._contentDiv = null;
-    this.tagGroupManager = new TagGroupManager('tag-group-assignment-list-content',
+    this._removeList = [];
+    this._addList = [];
+  }
+
+  connectedCallback() {  
+    this.appendChild(template.content);
+
+    this._contentDiv = document.getElementById('tag-group-assignment-list-content');
+    this.tagGroupManager = new TagGroupManager(this._contentDiv,
                                                (event) => { this.handleTagGroupClick(event); },
                                                null,
                                                null,
                                                true,
                                                false,
                                                'assignment-tag-group');
-    
-    this._removeList = [];
-    this._addList = [];
 
     eventController.subscribe('on-tag-group-created', async (tagGroupTitle) => {
       await this.tagGroupManager.addItem(tagGroupTitle);
     });
-  }
-
-  connectedCallback() {  
-    this.appendChild(template.content);
 
     (async () => {
       await this.tagGroupManager.populateItemList();
