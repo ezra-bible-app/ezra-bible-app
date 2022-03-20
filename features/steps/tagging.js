@@ -22,8 +22,9 @@ const spectronHelper = require('../helpers/spectron_helper.js');
 const dbHelper = require("../helpers/db_helper.js");
 
 Given('I create the tag {string}', async function (tagName) {
-  var newTagButton = await spectronHelper.getWebClient().$('#new-standard-tag-button');
-  await newTagButton.click();
+  await spectronHelper.getWebClient().execute(() => {
+    document.querySelector('#tag-panel-tag-list-menu').shadowRoot.querySelector('#new-standard-tag-button').click();
+  });
 
   var newTagTitleInput = await spectronHelper.getWebClient().$('#new-standard-tag-title-input');
   await newTagTitleInput.setValue(tagName);
