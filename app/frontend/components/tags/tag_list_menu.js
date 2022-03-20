@@ -31,14 +31,17 @@ const template = html`
 <link id="theme-css" href="css/jquery-ui/cupertino/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
 
 <style>
+#tag-list-menu.box-style {
+  padding: 0.5em;
+  border: 1px solid #dddddd;
+}
+
 #tag-list-menu {
   margin: 0.1em 0 0 0;
-  padding: 0.5em;
   padding-top: 0.7em;
   padding-bottom: 0.7em;
   user-select: none;
   box-sizing: border-box;
-  border: 1px solid #dddddd;
 }
 
 .darkmode--activated #tag-list-menu {
@@ -87,14 +90,18 @@ const template = html`
   padding: 0.2em;
   cursor: pointer;
 }
+
+#tag-list-menu:not(.with-buttons) .add-element-button {
+  display: none;
+}
 </style>
 
 <div id="tag-list-menu">
   <a id="tag-group-list-link" href="">Tag groups</a> <span id="tag-group-nav-arrow">&rarr;</span> <span id="tag-group-label">All tags</span>
 
-  <button id="add-tag-group-button" i18n="tags.add-tag-group" class="fg-button ui-state-default ui-corner-all"></button>
+  <button id="add-tag-group-button" i18n="tags.add-tag-group" class="add-element-button fg-button ui-state-default ui-corner-all"></button>
 
-  <button id="new-standard-tag-button" class="fg-button ui-state-default ui-corner-all" i18n="[title]tags.new-tag">
+  <button id="new-standard-tag-button" i18n="[title]tags.new-tag" class="add-element-button fg-button ui-state-default ui-corner-all">
     <i class="fas fa-plus fa-xs"></i>&nbsp;<i class="fas fa-tag fa-sm"></i>
   </button>
 </div>
@@ -123,6 +130,17 @@ class TagListMenu extends HTMLElement {
     this._tagGroupLinkEvent = this.getAttribute('tag-group-link-event');
     this._tagGroupCreationEvent = this.getAttribute('tag-group-creation-event');
     this._tagGroupSelectionEvent = this.getAttribute('tag-group-selection-event');
+
+    if (this.getAttribute('box') == 'true') {
+      this.shadowRoot.getElementById('tag-list-menu').classList.add('box-style');
+    }
+
+    if (this.getAttribute('add-element-buttons') == 'true') {
+      this._addElementButtons = true;
+      this.shadowRoot.getElementById('tag-list-menu').classList.add('with-buttons');
+    } else {
+      this._addElementButtons = false;
+    }
 
     eventController.subscribe(this._tagGroupSelectionEvent, (tagGroup) => {
       this.selectTagGroup(tagGroup);
@@ -156,7 +174,11 @@ class TagListMenu extends HTMLElement {
   onTagGroupListLinkClicked() {
     this.hideTagGroupDisplay();
     this.getTagGroupListLink().classList.add('list-tag-groups');
-    this.showAddTagGroupButton();
+
+    if (this._addElementButtons) {
+      this.showAddTagGroupButton();
+    }
+
     this.hideAddTagButton();
     eventController.publishAsync(this._tagGroupLinkEvent);
   }
@@ -225,7 +247,10 @@ class TagListMenu extends HTMLElement {
       this.getTagGroupLabel().innerText = tagGroup.title;
       this.showTagGroupDisplay();
       this.hideAddTagGroupButton();
-      this.showAddTagButton();
+
+      if (this._addElementButtons) {
+        this.showAddTagButton();
+      }
     } else {
       console.warn("TagGroupSelection.selectTagGroup / Received null");
     }
