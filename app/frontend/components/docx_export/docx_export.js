@@ -20,6 +20,7 @@ const exportController = require('./export_controller.js');
 const exportHelper = require('../../helpers/export_helper.js');
 const { html } = require('../../helpers/ezra_helper.js');
 const swordHelper = require('../../helpers/sword_module_helper.js');
+const verseListTitleHelper = require('../../helpers/verse_list_title_helper.js');
 
 /**
  * The DocxExport component implements the export of tagged verses or verses and notes into a Word (docx) document.
@@ -127,6 +128,9 @@ function renderNotesForExport(currentTab, isWholeBook, filePath) {
 
 function getUnixTagTitleList(currentTab) {
   var currentTagTitleList = currentTab.getTagTitleList();
+  const andMore = i18n.t('general.and-more');
+  currentTagTitleList = verseListTitleHelper.shortenTitleList(currentTagTitleList, andMore);
+
   var unixTagTitleList = currentTagTitleList.replace(/, /g, "__");
   unixTagTitleList = unixTagTitleList.replace(/ /g, "_");
 
@@ -136,7 +140,6 @@ function getUnixTagTitleList(currentTab) {
 
   return unixTagTitleList;
 }
-
 
 async function agreeDisclaimerDialog(moduleId) {
 
