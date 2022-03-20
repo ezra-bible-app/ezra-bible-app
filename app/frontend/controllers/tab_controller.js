@@ -664,6 +664,18 @@ class TabController {
     this.getTab(index).setTagTitleList(tagTitleList);
     var currentTranslationId = this.getTab(index).getBibleTranslationId();
 
+    const MAX_TAGS_IN_TITLE = 3;
+
+    var tagTitleArray = tagTitleList.split(',');
+    if (tagTitleArray.length > MAX_TAGS_IN_TITLE) {
+      while (tagTitleArray.length > MAX_TAGS_IN_TITLE) {
+        tagTitleArray.pop();
+      }
+
+      tagTitleArray.push('...');
+      tagTitleList = tagTitleArray.join(', ');
+    }
+
     if (tagTitleList != undefined && tagTitleList != null) {
       if (tagTitleList == "") {
         this.resetCurrentTabTitle();
