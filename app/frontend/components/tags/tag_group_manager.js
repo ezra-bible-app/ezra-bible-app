@@ -20,7 +20,7 @@ const ItemListManager = require("./item_list_manager.js");
 const eventController = require('../../controllers/event_controller.js');
 
 class TagGroupManager extends ItemListManager {
-  constructor(contentDivId,
+  constructor(contentDiv,
               onClickHandler,
               onEditHandler,
               onDeleteHandler,
@@ -32,7 +32,7 @@ class TagGroupManager extends ItemListManager {
     let renameHintI18n = 'tags.rename-tag-group';
     let deleteHintI18n = 'tags.delete-tag-group';
 
-    super(contentDivId,
+    super(contentDiv,
           onClickHandler,
           onEditHandler,
           onDeleteHandler,
