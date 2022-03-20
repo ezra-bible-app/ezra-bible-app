@@ -25,6 +25,10 @@ const template = html`
 <link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
 
 <style>
+:host {
+  display: block;
+}
+
 #tag-group-list-content {
   display: flex;
   flex-direction: column;
@@ -34,7 +38,8 @@ const template = html`
   user-select: none;
   box-sizing: border-box;
   border: 1px solid #dddddd;
-  height: calc(100% - 5.5em);
+  /* height: calc(100% - 5.5em); */
+  height: 100%;
   overflow-y: scroll;
 }
 
@@ -87,25 +92,26 @@ class TagGroupList extends HTMLElement {
     shadow.appendChild(template.content.cloneNode(true));
 
     let virtualTagGroups = [
-      { id: -1, title: 'All tags' }
+      { id: -1, title: i18n.t('tags.all-tags') }
     ];
 
     var contentDiv = this.shadowRoot.getElementById('tag-group-list-content');
 
-    this.tagGroupManager = new TagGroupManager(contentDiv,
-                                               (event) => { this.handleTagGroupClick(event); },
-                                               (itemId) => { this.handleTagGroupEdit(itemId); },
-                                               (itemId) => { this.handleTagGroupDelete(itemId); },
-                                               false,
-                                               true,
-                                               'tag-group',
-                                               virtualTagGroups);
+    this._tagGroupManager = new TagGroupManager(contentDiv,
+                                                (event) => { this.handleTagGroupClick(event); },
+                                                (itemId) => { this.handleTagGroupEdit(itemId); },
+                                                (itemId) => { this.handleTagGroupDelete(itemId); },
+                                                false,
+                                                true,
+                                                'tag-group',
+                                                virtualTagGroups);
 
     this._activationEvent = this.getAttribute('activation-event');
+    this._selectionEvent = this.getAttribute('selection-event');
 
     if (this._activationEvent != null) {
       eventController.subscribe(this._activationEvent, async () => {
-        await this.tagGroupManager.populateItemList();
+        await this._tagGroupManager.populateItemList();
         this.showTagGroupList();
       });
     }
@@ -114,7 +120,7 @@ class TagGroupList extends HTMLElement {
       let tagGroup = await this.createTagGroupInDb(tagGroupTitle);
 
       if (tagGroup != null) {
-        await this.tagGroupManager.addItem(tagGroup);
+        await this._tagGroupManager.addItem(tagGroup);
         eventController.publishAsync('on-tag-group-created', tagGroup);
       }
     });
@@ -144,10 +150,13 @@ class TagGroupList extends HTMLElement {
 
   async handleTagGroupClick(event) {
     const tagGroupId = parseInt(event.target.getAttribute('item-id'));
-    const tagGroup = await this.tagGroupManager.getItemById(tagGroupId);
+    const tagGroup = await this._tagGroupManager.getItemById(tagGroupId);
 
     this.hideTagGroupList();
-    eventController.publishAsync('on-tag-group-selected', tagGroup);
+
+    if (this._selectionEvent != null) {
+      eventController.publishAsync(this._selectionEvent, tagGroup);
+    }
   }
 
   async handleTagGroupEdit(itemId) {
@@ -159,7 +168,7 @@ class TagGroupList extends HTMLElement {
     </div>
     `;
 
-    const tagGroup = await this.tagGroupManager.getItemById(itemId);
+    const tagGroup = await this._tagGroupManager.getItemById(itemId);
 
     return new Promise((resolve) => {
       document.querySelector('#boxes').appendChild(dialogBoxTemplate.content);
@@ -216,7 +225,7 @@ class TagGroupList extends HTMLElement {
   }
 
   async handleTagGroupDelete(tagGroupId) {
-    const tagGroup = await this.tagGroupManager.getItemById(tagGroupId);
+    const tagGroup = await this._tagGroupManager.getItemById(tagGroupId);
     const message = i18n.t('tags.really-delete-tag-group', { tagGroupTitle: tagGroup.title, interpolation: {escapeValue: false} });
 
     const dialogBoxTemplate = html`
@@ -265,7 +274,7 @@ class TagGroupList extends HTMLElement {
     var result = ipcDb.deleteTagGroup(tagGroupId);
 
     if (result.success == false) {
-      const tagGroup = await this.tagGroupManager.getItemById(tagGroupId);
+      const tagGroup = await this._tagGroupManager.getItemById(tagGroupId);
 
       var message = `The tag group <i>${tagGroup.title}</i> could not be deleted.<br>
                      An unexpected database error occurred:<br><br>
@@ -289,6 +298,10 @@ class TagGroupList extends HTMLElement {
 
   getContentDiv() {
     return this.shadowRoot.getElementById('tag-group-list-content');
+  }
+
+  get tagGroupManager() {
+    return this._tagGroupManager;
   }
 }
 
