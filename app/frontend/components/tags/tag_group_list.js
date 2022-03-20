@@ -21,6 +21,9 @@ const eventController = require('../../controllers/event_controller.js');
 const TagGroupManager = require('./tag_group_manager.js');
 
 const template = html`
+
+<link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
+
 <style>
 #tag-group-list-content {
   display: flex;
@@ -77,12 +80,19 @@ const template = html`
 class TagGroupList extends HTMLElement {
   constructor() {
     super();
+  }
+
+  connectedCallback() {  
+    const shadow = this.attachShadow({ mode: 'open' });
+    shadow.appendChild(template.content.cloneNode(true));
 
     let virtualTagGroups = [
       { id: -1, title: 'All tags' }
     ];
 
-    this.tagGroupManager = new TagGroupManager('tag-group-list-content',
+    var contentDiv = this.shadowRoot.getElementById('tag-group-list-content');
+
+    this.tagGroupManager = new TagGroupManager(contentDiv,
                                                (event) => { this.handleTagGroupClick(event); },
                                                (itemId) => { this.handleTagGroupEdit(itemId); },
                                                (itemId) => { this.handleTagGroupDelete(itemId); },
@@ -90,15 +100,15 @@ class TagGroupList extends HTMLElement {
                                                true,
                                                'tag-group',
                                                virtualTagGroups);
-  }
 
-  connectedCallback() {  
-    this.appendChild(template.content);
+    this._activationEvent = this.getAttribute('activation-event');
 
-    eventController.subscribe('on-tag-group-list-activated', async () => {
-      await this.tagGroupManager.populateItemList();
-      this.showTagGroupList();
-    });
+    if (this._activationEvent != null) {
+      eventController.subscribe(this._activationEvent, async () => {
+        await this.tagGroupManager.populateItemList();
+        this.showTagGroupList();
+      });
+    }
 
     eventController.subscribe('on-tag-group-creation', async (tagGroupTitle) => {
       let tagGroup = await this.createTagGroupInDb(tagGroupTitle);
@@ -278,7 +288,7 @@ class TagGroupList extends HTMLElement {
   }
 
   getContentDiv() {
-    return document.getElementById('tag-group-list-content');
+    return this.shadowRoot.getElementById('tag-group-list-content');
   }
 }
 
