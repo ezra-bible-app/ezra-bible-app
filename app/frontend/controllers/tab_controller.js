@@ -664,7 +664,7 @@ class TabController {
     this.getTab(index).setTagTitleList(tagTitleList);
     var currentTranslationId = this.getTab(index).getBibleTranslationId();
 
-    tagTitleList = verseListTitleHelper.shortenTitleList(tagTitleList, true);
+    tagTitleList = verseListTitleHelper.shortenTitleList(tagTitleList);
 
     if (tagTitleList != undefined && tagTitleList != null) {
       if (tagTitleList == "") {
