@@ -184,6 +184,8 @@ class TagListMenu extends HTMLElement {
   }
 
   async onAddTagGroupButtonClicked() {
+    eventController.publish('on-button-clicked');
+
     const addTagGroupTitle = i18n.t('tags.title');
 
     const dialogBoxTemplate = html`

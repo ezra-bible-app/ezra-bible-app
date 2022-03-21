@@ -133,6 +133,7 @@ class PanelButtons extends HTMLElement {
     }
 
     buttonElement.addEventListener('click', async (e) => {
+      eventController.publish('on-button-clicked');
       e.preventDefault();
       await this._updatePanels(targetPanel);
     });

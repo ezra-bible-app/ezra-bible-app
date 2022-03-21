@@ -123,6 +123,9 @@ class AppController {
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => { await this.onTabSelected(tabIndex); });
     eventController.subscribe('on-tab-added', (tabIndex) => { this.onTabAdded(tabIndex); });
     eventController.subscribe('on-verses-selected', (details) => { this.toggleVerseContextMenuButton(details.tabIndex); });
+    eventController.subscribe('on-tag-group-list-activated', () => { this.hideAllMenus(); });
+    eventController.subscribe('on-tag-group-selected', () => { this.hideAllMenus(); });
+    eventController.subscribe('on-button-clicked', () => { this.hideAllMenus(); });
 
     this.verse_context_controller.initButtonEvents();
     this.initExitEvent();
