@@ -30,7 +30,9 @@ module.exports = (sequelize, DataTypes) => {
     verseId: DataTypes.VIRTUAL,
     bibleBookId: DataTypes.VIRTUAL,
     absoluteVerseNrEng: DataTypes.VIRTUAL,
-    absoluteVerseNrHeb: DataTypes.VIRTUAL
+    absoluteVerseNrHeb: DataTypes.VIRTUAL,
+    chapter: DataTypes.VIRTUAL,
+    verseNr: DataTypes.VIRTUAL
   }, {});
 
   // eslint-disable-next-line no-unused-vars

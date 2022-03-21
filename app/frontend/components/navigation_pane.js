@@ -22,6 +22,7 @@ const i18nHelper = require('../helpers/i18n_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const VerseReferenceHelper = require('../helpers/verse_reference_helper.js');
 const verseListController = require('../controllers/verse_list_controller.js');
+const swordModuleHelper = require('../helpers/sword_module_helper.js');
 
 /**
  * The NavigationPane class implements the update and event handling of the
@@ -61,6 +62,16 @@ class NavigationPane {
     eventController.subscribe('on-module-search-started', (tabIndex) => {
       this.resetNavigationPane(tabIndex);
     });
+
+    eventController.subscribe('on-tag-group-selected', () => {
+      var currentTab = app_controller.tab_controller.getTab();
+      var currentBook = currentTab.getBook();
+      var currentTextType = currentTab.getTextType();
+
+      if (currentTextType == 'book' && currentBook != null) { // Book text mode
+        this.updateChapterTagIndicators();
+      }
+    });
   }
 
   getCurrentNavigationPane(tabIndex=undefined) {
@@ -94,8 +105,6 @@ class NavigationPane {
     if (currentTextType == 'book' && currentBook != null) { // Book text mode
 
       navigationPane.removeClass('navigation-pane-books');
-
-      const swordModuleHelper = require('../helpers/sword_module_helper.js');
       var bookHasHeaders = await swordModuleHelper.bookHasHeaders(currentTranslationId, currentBook);
 
       if (headerNavOption.isChecked && bookHasHeaders) {
@@ -130,8 +139,6 @@ class NavigationPane {
     const currentTranslationId = currentTab.getBibleTranslationId();
     const currentBook = currentTab.getBook();
     const headerNavOption = app_controller.optionsMenu._headerNavOption;
-
-    const swordModuleHelper = require('../helpers/sword_module_helper.js');
     const hasHeaders = await swordModuleHelper.bookHasHeaders(currentTranslationId, currentBook);
 
     if (headerNavOption.isChecked && hasHeaders) {
@@ -242,6 +249,28 @@ class NavigationPane {
     }
   }
 
+  chapterHasVerseTags(chapter, bookVerseTags, tagGroupMembers) {
+    for (let verseTagKey in bookVerseTags) {
+      let verseTagList = bookVerseTags[verseTagKey];
+
+      for (let i = 0; i < verseTagList.length; i++) {
+        let verseTag = verseTagList[i];
+
+        if (tagGroupMembers != null) {
+          if (!tagGroupMembers.includes(verseTag.tagId)) {
+            continue;
+          }
+        }
+
+        if (verseTag.chapter == chapter) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
   // FIXME: This function is slow with long lists of chapters. It can be optimized by using the vanilla js append function.
   async updateChapterNavigation(tabIndex, force=false) {
     var $navigationPane = this.getCurrentNavigationPane(tabIndex);
@@ -281,12 +310,48 @@ class NavigationPane {
     }
 
     for (let i = 1; i <= chapterCount; i++) {
-      var href = `javascript:app_controller.navigation_pane.goToChapter(${i})`;
-      var chapterLinkHtml = `<a href='${href}' class='navigation-link chapter-link'>${i}</a>`;
+      let href = `javascript:app_controller.navigation_pane.goToChapter(${i})`;
+      let chapterLinkHtml = `<a href='${href}' class='navigation-link chapter-link'>${i}</a>`;
       $navigationPane.append(chapterLinkHtml);
+
+      let tagIndicator = `<i id='tag-indicator-chapter-${i}' class='fas fa-tag tag-indicator' style='visibility: hidden'></i>`;
+      $navigationPane.append(tagIndicator);
 
       if (cachedVerseListTabId != null && headerNavOption.isChecked && headerCount > 0) {
         sectionHeaderNumber = this.addHeaderNavLinksForChapter(cachedVerseListTabId, $navigationPane, headerList, i, sectionHeaderNumber);
+      }
+    }
+  }
+
+  async updateChapterTagIndicators(tabIndex=undefined) {
+    const currentTab = app_controller.tab_controller.getTab(tabIndex);
+
+    if (currentTab == null) {
+      return;
+    }
+
+    var $navigationPane = this.getCurrentNavigationPane(tabIndex);
+    const currentTranslation = currentTab.getBibleTranslationId();
+    const currentBook = currentTab.getBook();
+    const versification = await swordModuleHelper.getThreeLetterVersification(currentTranslation);
+    const dbBook = await ipcDb.getBibleBook(currentBook);
+    const chapterCount = await ipcNsi.getBookChapterCount(currentTranslation, currentBook);
+    const verseTags = await ipcDb.getBookVerseTags(dbBook.id, versification);
+
+    let tagGroupMembers = null;
+
+    if (tags_controller.tagGroupUsed()) {
+      tagGroupMembers = await tags_controller.getTagGroupMemberIds(tags_controller.currentTagGroupId);
+    }
+
+    for (let i = 1; i <= chapterCount; i++) {
+      let chapterHasTags = this.chapterHasVerseTags(i, verseTags, tagGroupMembers);
+      let tagIndicator = $navigationPane[0].querySelector('#tag-indicator-chapter-' + i);
+
+      if (chapterHasTags) {
+        tagIndicator.style.visibility = 'visible';
+      } else {
+        tagIndicator.style.visibility = 'hidden';
       }
     }
   }
@@ -304,6 +369,9 @@ class NavigationPane {
 
   addHeaderNavLinksForChapter(cachedVerseListTabId, navigationPane, headerList, chapter, sectionHeaderNumber=1) {
     var chapterSectionHeaderIndex = 0;
+
+    var headerLinkBox = document.createElement('div');
+    headerLinkBox.classList.add('header-link-box');
 
     for (let i = 0; i < headerList.length; i++) {
       let header = headerList[i];
@@ -331,13 +399,15 @@ class NavigationPane {
             $(currentHeaderLink).addClass('header-link-first');
           }
 
-          navigationPane.append(currentHeaderLink);
+          headerLinkBox.append(currentHeaderLink);
         }
 
         chapterSectionHeaderIndex++;
         sectionHeaderNumber++;
       }
     }
+
+    navigationPane.append(headerLinkBox);
 
     return sectionHeaderNumber;
   }
@@ -407,6 +477,7 @@ class NavigationPane {
     if (currentTextType == 'book') { // Update navigation based on book chapters
 
       await this.updateChapterNavigation(tabIndex, force);
+      await this.updateChapterTagIndicators(tabIndex);
 
       const currentTranslationId = currentTab.getBibleTranslationId();
       const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentTab.getBook());
