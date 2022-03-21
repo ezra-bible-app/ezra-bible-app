@@ -81,6 +81,10 @@ const template = html`
 class TagList extends HTMLElement {
   constructor() {
     super();
+  }
+
+  connectedCallback() {  
+    this.appendChild(template.content);
 
     var contentDiv = document.getElementById('tag-list-content');
 
@@ -89,10 +93,6 @@ class TagList extends HTMLElement {
                                       true,
                                       false,
                                       'tag-item');
-  }
-
-  connectedCallback() {  
-    this.appendChild(template.content);
   }
 
   get addList() {
