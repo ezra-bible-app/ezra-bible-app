@@ -253,9 +253,11 @@ class BookSelectionMenu {
       bookMenu.classList.remove('select-chapter');
       this.book_menu_is_opened = false;
 
-      var currentVerseListMenu = app_controller.getCurrentVerseListMenu()[0];
-      var bookButton = currentVerseListMenu.querySelector('.book-select-button');
-      bookButton.classList.remove('ui-state-active');
+      if (app_controller.getCurrentVerseListMenu() != null) {
+        var currentVerseListMenu = app_controller.getCurrentVerseListMenu()[0];
+        var bookButton = currentVerseListMenu.querySelector('.book-select-button');
+        bookButton.classList.remove('ui-state-active');
+      }
     }
   }
 
