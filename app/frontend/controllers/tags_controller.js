@@ -550,6 +550,7 @@ class TagsController {
       return;
     }
 
+    eventController.publish('on-button-clicked');
     tags_controller.initNewTagDialog();
 
     let addExistingTagsLink = document.getElementById('add-existing-tags-to-tag-group-link').parentNode;
@@ -569,6 +570,7 @@ class TagsController {
   }
 
   handleDeleteTagButtonClick(event) {
+    eventController.publish('on-button-clicked');
     tags_controller.initDeleteTagConfirmationDialog();
 
     var checkboxTag = $(event.target).closest('.checkbox-tag');
@@ -1113,6 +1115,7 @@ class TagsController {
   }
 
   handleEditTagClick(event) {
+    eventController.publish('on-button-clicked');
     tags_controller.initEditTagDialog();
 
     var checkboxTag = $(event.target).closest('.checkbox-tag');

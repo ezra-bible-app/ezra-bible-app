@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { waitUntilIdle, sleep } = require('../../helpers/ezra_helper.js');
+const eventController = require('../../controllers/event_controller.js');
 
 /**
  * The TagListFilter component implements the filter functionality of the tag list.
@@ -37,6 +38,8 @@ class TagListFilter {
   }
 
   handleFilterButtonClick(e) {
+    eventController.publish('on-button-clicked');
+
     var position = $(e.target).offset();
     var filter_menu = $('#tag-filter-menu');
 
