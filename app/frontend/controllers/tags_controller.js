@@ -204,9 +204,7 @@ class TagsController {
       await addTagsToGroupTagList.tagManager.refreshItemList();
 
       var tagList = await this.tag_store.getTagList();
-      tagList = await this.getTagGroupMembers(this.currentTagGroupId, tagList);
-      var tagIdList = [];
-      tagList.forEach((tag) => { tagIdList.push(tag.id); });
+      var tagIdList = await this.getTagGroupMemberIds(this.currentTagGroupId, tagList);
 
       addTagsToGroupTagList.tagManager.removeItems(tagIdList);
 
@@ -1060,6 +1058,13 @@ class TagsController {
     }
 
     return tagGroupMembers;
+  }
+
+  async getTagGroupMemberIds(tagGroupId, tagList=null) {
+    tagList = await this.getTagGroupMembers(tagGroupId, tagList);
+    var tagIdList = [];
+    tagList.forEach((tag) => { tagIdList.push(tag.id); });
+    return tagIdList;
   }
 
   async renderTags(tag_list, tag_statistics, is_book=false) {

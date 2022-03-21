@@ -32,7 +32,7 @@
 }
 
 .navigation-pane-chapters {
-  width: 3em;
+  width: 5em;
 }
 
 .navigation-pane-headers {
@@ -64,7 +64,6 @@
   width: 10.5em;
   text-align: left;
   border: 1px solid transparent;
-  margin-left: 3em;
   float: left;
   clear: none;
 }
@@ -121,4 +120,18 @@ a.hl-search-result:link {
   font-weight: bold;
   margin-bottom: 0.5em;
   padding-left: 0.2em;
+}
+
+.navigation-pane .tag-indicator {
+  display: block;
+  float: left;
+  padding-top: 0.5em;
+  margin-left: 0.5em;
+  margin-right: 0.3em;
+  color: var(--accent-color);
+  opacity: 1;
+}
+
+.header-link-box {
+  float: left;
 }
