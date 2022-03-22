@@ -50,6 +50,10 @@ class ItemListManager {
     this._removeList = [];
   }
 
+  setContentDiv(contentDiv) {
+    this._contentDiv = contentDiv;
+  }
+
   async getItems(force=false) {
     if (this._items == null || force) {
       let dbItems = await this.getDbItems();
@@ -63,6 +67,20 @@ class ItemListManager {
   async getDbItems() {
     let dbItems = [];
     return dbItems;
+  }
+
+  async getDbItemIndex(itemId) {
+    let dbItems = await this.getDbItems();
+
+    for (let i = 0; i < dbItems.length; i++) {
+      let currentItem = dbItems[i];
+
+      if (currentItem.id == itemId) {
+        return i;
+      }
+    }
+
+    return -1;
   }
 
   async getItemById(itemId) {
@@ -99,8 +117,14 @@ class ItemListManager {
   }
 
   async addItem(item) {
-    this._items.push(item);
-    this.addItemElement(item);
+    if (this._items == null) {
+      await this.getItems();
+    }
+
+    let dbItemIndex = await this.getDbItemIndex(item.id);
+    let insertIndex = dbItemIndex + this._virtualItems.length;
+    this._items.splice(insertIndex, 0, item);
+    this.addItemElement(item, insertIndex);
   }
 
   getItemIdFromClickEvent(event) {
@@ -110,7 +134,7 @@ class ItemListManager {
     return parseInt(itemId);
   }
 
-  addItemElement(item) {
+  addItemElement(item, index=null) {
     let itemElement = document.createElement('div');
     itemElement.setAttribute('class', this._cssClass);
 
@@ -122,11 +146,13 @@ class ItemListManager {
       itemIcon = document.createElement('i');
       itemIcon.setAttribute('class', 'fas fa-tag tag-button button-small');
       itemIcon.addEventListener('click', (event) => {
+        if (this._selectable) {
+          this.toggleSelection(event);
+        }
+
         if (this._onClickHandler != null) {
           this._onClickHandler(event);
         }
-
-        this.toggleSelection(event);
       });
     }
 
@@ -161,10 +187,12 @@ class ItemListManager {
     itemLink.addEventListener('click', (event) => {
       event.preventDefault();
 
-      this._onClickHandler(event);
-
       if (this._selectable) {
         this.toggleSelection(event);
+      }
+
+      if (this._onClickHandler != null) {
+        this._onClickHandler(event);
       }
     });
 
@@ -179,7 +207,12 @@ class ItemListManager {
       itemElement.appendChild(deleteButton);
     }
 
-    this.getContentDiv().appendChild(itemElement);
+    if (index == null) {
+      this.getContentDiv().appendChild(itemElement);
+    } else {
+      let contentDiv = this.getContentDiv();
+      contentDiv.insertBefore(itemElement, contentDiv.children[index]);
+    }
   }
 
   toggleSelection(event) {
