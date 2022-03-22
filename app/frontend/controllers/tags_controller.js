@@ -402,7 +402,7 @@ class TagsController {
 
     var edit_tag_dlg_options = {
       title: i18n.t("tags.edit-tag"),
-      width: 400,
+      width: 450,
       height: 400,
       position: [40,200],
       autoOpen: false,
