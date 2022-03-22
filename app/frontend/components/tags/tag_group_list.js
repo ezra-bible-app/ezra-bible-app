@@ -22,7 +22,13 @@ const TagGroupManager = require('./tag_group_manager.js');
 
 const template = html`
 
+<!-- FONT AWESOME STYLES -->
+<link rel="preload" href="node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2" as="font" type="font/woff2">
+<link href="node_modules/@fortawesome/fontawesome-free/css/solid.min.css" rel="stylesheet" type="text/css" />
+<link href="node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css" rel="stylesheet" type="text/css" />
+
 <link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="css/tool_panel.css" media="screen" rel="stylesheet" type="text/css" />
 
 <style>
 :host {
