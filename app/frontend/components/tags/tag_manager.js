@@ -20,14 +20,13 @@ const ItemListManager = require("./item_list_manager.js");
 const eventController = require('../../controllers/event_controller.js');
 
 class TagManager extends ItemListManager {
-  constructor(contentDiv,
-              onClickHandler,
+  constructor(onClickHandler,
               selectable=false,
               editable=false,
               cssClass,
               virtualItems=[]) {
 
-    super(contentDiv,
+    super(null,
           onClickHandler,
           null, // onEditHandler
           null, // onDeleteHandler

@@ -72,28 +72,26 @@ class TagGroupAssignmentList extends HTMLElement {
   constructor() {
     super();
 
-    this._removeList = [];
-    this._addList = [];
+    this._tagGroupManager = new TagGroupManager((event) => { this.handleTagGroupClick(event); },
+                                                null,
+                                                null,
+                                                true,
+                                                false,
+                                                'assignment-tag-group');
   }
 
   connectedCallback() {  
     this.appendChild(template.content);
 
     this._contentDiv = document.getElementById('tag-group-assignment-list-content');
-    this.tagGroupManager = new TagGroupManager(this._contentDiv,
-                                               (event) => { this.handleTagGroupClick(event); },
-                                               null,
-                                               null,
-                                               true,
-                                               false,
-                                               'assignment-tag-group');
+    this._tagGroupManager.setContentDiv(this._contentDiv);
 
     eventController.subscribe('on-tag-group-created', async (tagGroupTitle) => {
-      await this.tagGroupManager.addItem(tagGroupTitle);
+      await this._tagGroupManager.addItem(tagGroupTitle);
     });
 
     (async () => {
-      await this.tagGroupManager.populateItemList();
+      await this._tagGroupManager.populateItemList();
     })();
 
     if (this.getAttribute('onChange') != null) {
@@ -102,22 +100,22 @@ class TagGroupAssignmentList extends HTMLElement {
   }
 
   set tagid(value) {
-    this._removeList = [];
-    this._addList = [];
+    this._tagGroupManager._removeList = [];
+    this._tagGroupManager._addList = [];
 
     this.setTagId(parseInt(value));
   }
 
   async setTagId(tagId) {
     let tag = await tags_controller.tag_store.getTag(tagId);
-    let allItemElements = this.tagGroupManager.getAllItemElements();
+    let allItemElements = this._tagGroupManager.getAllItemElements();
 
     allItemElements.forEach((itemElement) => {
-      this.tagGroupManager.disableItemElement(itemElement);
+      this._tagGroupManager.disableItemElement(itemElement);
 
       if (tag.tagGroupList != null) {
         tag.tagGroupList.forEach((tagGroupId) => {
-          this.tagGroupManager.enableElementById(itemElement, tagGroupId);
+          this._tagGroupManager.enableElementById(itemElement, tagGroupId);
         });
       }
     });
@@ -135,15 +133,15 @@ class TagGroupAssignmentList extends HTMLElement {
   }
 
   get removeList() {
-    return this.tagGroupManager._removeList;
+    return this._tagGroupManager._removeList;
   }
 
   get addList() {
-    return this.tagGroupManager._addList;
+    return this._tagGroupManager._addList;
   }
 
   get isChanged() {
-    return this.tagGroupManager._removeList.length != 0 || this.tagGroupManager._addList.length != 0;
+    return this._tagGroupManager._removeList.length != 0 || this._tagGroupManager._addList.length != 0;
   }
 }
 

@@ -81,18 +81,18 @@ const template = html`
 class TagList extends HTMLElement {
   constructor() {
     super();
+
+    this._tagManager = new TagManager(() => { },
+                                      true,
+                                      false,
+                                      'tag-item');
   }
 
   connectedCallback() {  
     this.appendChild(template.content);
 
-    var contentDiv = document.getElementById('tag-list-content');
-
-    this._tagManager = new TagManager(contentDiv,
-                                      () => { },
-                                      true,
-                                      false,
-                                      'tag-item');
+    this._contentDiv = document.getElementById('tag-list-content');
+    this._tagManager.setContentDiv(this._contentDiv);
   }
 
   get addList() {

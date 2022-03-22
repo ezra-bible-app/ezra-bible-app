@@ -90,29 +90,28 @@ const template = html`
 class TagGroupList extends HTMLElement {
   constructor() {
     super();
-  }
-
-  connectedCallback() {  
-    const shadow = this.attachShadow({ mode: 'open' });
-    shadow.appendChild(template.content.cloneNode(true));
 
     let virtualTagGroups = [
       { id: -1, title: i18n.t('tags.all-tags') }
     ];
 
-    var contentDiv = this.shadowRoot.getElementById('tag-group-list-content');
-
-    this._tagGroupManager = new TagGroupManager(contentDiv,
-                                                (event) => { this.handleTagGroupClick(event); },
+    this._tagGroupManager = new TagGroupManager((event) => { this.handleTagGroupClick(event); },
                                                 (itemId) => { this.handleTagGroupEdit(itemId); },
                                                 (itemId) => { this.handleTagGroupDelete(itemId); },
                                                 false,
-                                                true,
+                                                this._editable,
                                                 'tag-group',
                                                 virtualTagGroups);
+  }
 
-    this._activationEvent = this.getAttribute('activation-event');
-    this._selectionEvent = this.getAttribute('selection-event');
+  connectedCallback() {
+    const shadow = this.attachShadow({ mode: 'open' });
+    shadow.appendChild(template.content.cloneNode(true));
+
+    this.readAttributes();
+
+    this._contentDiv = this.shadowRoot.getElementById('tag-group-list-content');
+    this._tagGroupManager.setContentDiv(this._contentDiv);
 
     if (this._activationEvent != null) {
       eventController.subscribe(this._activationEvent, async () => {
@@ -121,14 +120,41 @@ class TagGroupList extends HTMLElement {
       });
     }
 
-    eventController.subscribe('on-tag-group-creation', async (tagGroupTitle) => {
-      let tagGroup = await this.createTagGroupInDb(tagGroupTitle);
+    if (this._persist) {
+      eventController.subscribe('on-tag-group-creation', async (tagGroupTitle) => {
+        let tagGroup = await this.createTagGroupInDb(tagGroupTitle);
+        eventController.publishAsync('on-tag-group-created', tagGroup);
+      });
+    }
 
+    eventController.subscribe('on-tag-group-created', async (tagGroup) => {
       if (tagGroup != null) {
         await this._tagGroupManager.addItem(tagGroup);
-        eventController.publishAsync('on-tag-group-created', tagGroup);
       }
     });
+  }
+
+  readAttributes() {
+    this._persist = false;
+    this._editable = false;
+    this._activationEvent = null;
+    this._selectionEvent = null;
+
+    if (this.hasAttribute('editable')) {
+      this._editable = this.getAttribute('editable') == 'true';
+    }
+    
+    if (this.hasAttribute('persist')) {
+      this._persist = this.getAttribute('persist') == "true";
+    }
+
+    if (this.hasAttribute('activation-event')) {
+      this._activationEvent = this.getAttribute('activation-event');
+    }
+
+    if (this.hasAttribute('selection-event')) {
+      this._selectionEvent = this.getAttribute('selection-event');
+    }
   }
 
   async createTagGroupInDb(tagGroupTitle) {
