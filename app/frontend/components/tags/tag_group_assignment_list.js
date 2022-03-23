@@ -86,8 +86,8 @@ class TagGroupAssignmentList extends HTMLElement {
     this._contentDiv = document.getElementById('tag-group-assignment-list-content');
     this._tagGroupManager.setContentDiv(this._contentDiv);
 
-    eventController.subscribe('on-tag-group-created', async (tagGroupTitle) => {
-      await this._tagGroupManager.addItem(tagGroupTitle);
+    eventController.subscribe('on-tag-group-created', async (tagGroup) => {
+      await this._tagGroupManager.addItem(tagGroup);
     });
 
     (async () => {
