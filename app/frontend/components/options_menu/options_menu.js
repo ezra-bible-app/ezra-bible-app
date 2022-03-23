@@ -339,14 +339,17 @@ class OptionsMenu {
   showOrHideUserDataIndicatorsBasedOnOption(tabIndex=undefined) {
     var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+    var currentNavigationPane = app_controller.navigation_pane.getCurrentNavigationPane(tabIndex);
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
       if (this._userDataIndicatorOption.isChecked) {
         currentReferenceVerse.removeClass('verse-list-without-user-data-indicators');
         currentVerseList.removeClass('verse-list-without-user-data-indicators');
+        currentNavigationPane.addClass('with-tag-indicators');
       } else {
         currentReferenceVerse.addClass('verse-list-without-user-data-indicators');
         currentVerseList.addClass('verse-list-without-user-data-indicators');
+        currentNavigationPane.removeClass('with-tag-indicators');
       }
     }
   }
