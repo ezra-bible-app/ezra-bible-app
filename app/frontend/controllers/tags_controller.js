@@ -534,6 +534,13 @@ class TagsController {
     }
 
     await eventController.publishAsync('on-tag-created', result.dbObject.id);
+
+    await eventController.publishAsync('on-tag-group-members-changed', {
+      tagId: result.dbObject.id,
+      addTagGroups: [ this.currentTagGroupId ],
+      removeTagGroups: []
+    });
+
     await eventController.publishAsync('on-latest-tag-changed', {
       'tagId': result.dbObject.id,
       'added': true
@@ -649,7 +656,13 @@ class TagsController {
 
       await tags_controller.removeTagById(tags_controller.tag_to_be_deleted, tags_controller.tag_to_be_deleted_title);
 
-      if (!tags_controller.tagGroupUsed()) {
+      if (tags_controller.tagGroupUsed()) {
+        await eventController.publishAsync('on-tag-group-members-changed', {
+          tagId: tags_controller.tag_to_be_deleted,
+          addTagGroups: [],
+          removeTagGroups: [ this.currentTagGroupId ]
+        });
+      } else {
         await eventController.publishAsync('on-tag-deleted', tags_controller.tag_to_be_deleted);
       }
 
