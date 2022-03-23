@@ -72,7 +72,7 @@ class IpcDbHandler {
     this._ipcMain.add('db_createNewTag', async (newTagTitle, tagGroupId) => {
       let result = await global.models.Tag.create_new_tag(newTagTitle);
       
-      if (tagGroupId != null) {
+      if (tagGroupId != null && tagGroupId > 0) {
         let tagGroup = await global.models.TagGroup.findByPk(tagGroupId);
         await tagGroup.addTag(result.dbObject.id);
       }
