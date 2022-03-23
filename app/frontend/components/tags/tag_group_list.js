@@ -81,6 +81,11 @@ const template = html`
   border: 1px solid #555555;
 }
 
+.item-count {
+  color: #808080;
+  margin-left: 0.5em;
+}
+
 </style>
 
 <div id="tag-group-list-content" class="scrollable" style="display: none;">
@@ -94,6 +99,8 @@ class TagGroupList extends HTMLElement {
     let virtualTagGroups = [
       { id: -1, title: i18n.t('tags.all-tags') }
     ];
+
+    this._editable = false;
 
     this._tagGroupManager = new TagGroupManager((event) => { this.handleTagGroupClick(event); },
                                                 (itemId) => { this.handleTagGroupEdit(itemId); },
@@ -113,6 +120,14 @@ class TagGroupList extends HTMLElement {
     this._contentDiv = this.shadowRoot.getElementById('tag-group-list-content');
     this._tagGroupManager.setContentDiv(this._contentDiv);
 
+    if (this._editable) {
+      this._tagGroupManager.setEditable();
+    }
+
+    if (this._showTagCount) {
+      this._tagGroupManager.showItemCount();
+    }
+  
     if (this._activationEvent != null) {
       eventController.subscribe(this._activationEvent, async () => {
         await this._tagGroupManager.populateItemList();
@@ -139,6 +154,7 @@ class TagGroupList extends HTMLElement {
     this._editable = false;
     this._activationEvent = null;
     this._selectionEvent = null;
+    this._showTagCount = null;
 
     if (this.hasAttribute('editable')) {
       this._editable = this.getAttribute('editable') == 'true';
@@ -154,6 +170,10 @@ class TagGroupList extends HTMLElement {
 
     if (this.hasAttribute('selection-event')) {
       this._selectionEvent = this.getAttribute('selection-event');
+    }
+
+    if (this.hasAttribute('show-tag-count')) {
+      this._showTagCount = this.getAttribute('show-tag-count') == "true";
     }
   }
 
