@@ -34,8 +34,8 @@ module.exports = (sequelize, DataTypes) => {
 
   TagGroup.findWithTagCount = function() {
     var query = "SELECT tg.*, COUNT(t.id) AS count FROM TagGroups tg" +
-                " INNER JOIN TagGroupMembers tgm ON tgm.tagGroupId = tg.id" +
-                " INNER JOIN Tags t ON tgm.tagId = t.id" +
+                " LEFT JOIN TagGroupMembers tgm ON tgm.tagGroupId = tg.id" +
+                " LEFT JOIN Tags t ON tgm.tagId = t.id" +
                 " GROUP BY tg.id ORDER BY tg.title ASC";
     
     return sequelize.query(query, { model: global.models.TagGroup }); 
