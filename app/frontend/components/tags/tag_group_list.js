@@ -144,6 +144,10 @@ class TagGroupList extends HTMLElement {
 
     eventController.subscribe('on-tag-group-created', async (tagGroup) => {
       if (tagGroup != null) {
+        if (tagGroup.count === undefined) {
+          tagGroup.count = 0;
+        }
+
         await this._tagGroupManager.addItem(tagGroup);
       }
     });
