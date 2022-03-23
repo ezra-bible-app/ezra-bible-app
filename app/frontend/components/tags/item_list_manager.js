@@ -48,10 +48,20 @@ class ItemListManager {
 
     this._addList = [];
     this._removeList = [];
+
+    this._showItemCount = false;
   }
 
   setContentDiv(contentDiv) {
     this._contentDiv = contentDiv;
+  }
+
+  showItemCount() {
+    this._showItemCount = true;
+  }
+
+  setEditable() {
+    this._editable = true;
   }
 
   async getItems(force=false) {
@@ -139,6 +149,7 @@ class ItemListManager {
     itemElement.setAttribute('class', this._cssClass);
 
     let itemIcon = null;
+    let itemCount = null;
     let editButton = null;
     let deleteButton = null;
 
@@ -154,6 +165,12 @@ class ItemListManager {
           this._onClickHandler(event);
         }
       });
+    }
+
+    if (this._showItemCount) {
+      itemCount = document.createElement('span');
+      itemCount.setAttribute('class', 'item-count');
+      itemCount.innerText = `(${item.count})`;
     }
 
     if (this._editable) {
@@ -201,6 +218,10 @@ class ItemListManager {
     }
 
     itemElement.appendChild(itemLink);
+
+    if (item.count !== undefined && this._showItemCount) {
+      itemElement.appendChild(itemCount);
+    }
 
     if (item.id > 0 && this._editable) {
       itemElement.appendChild(editButton);

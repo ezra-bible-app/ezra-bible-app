@@ -25,10 +25,20 @@
  */
 module.exports = (sequelize, DataTypes) => {
   const TagGroup = sequelize.define('TagGroup', {
-    title: DataTypes.STRING
+    title: DataTypes.STRING,
+    count: DataTypes.VIRTUAL
   }, {});
   TagGroup.associate = function(models) {
     TagGroup.belongsToMany(models.Tag, {through: 'TagGroupMembers'});
+  };
+
+  TagGroup.findWithTagCount = function() {
+    var query = "SELECT tg.*, COUNT(t.id) AS count FROM TagGroups tg" +
+                " INNER JOIN TagGroupMembers tgm ON tgm.tagGroupId = tg.id" +
+                " INNER JOIN Tags t ON tgm.tagId = t.id" +
+                " GROUP BY tg.id ORDER BY tg.title ASC";
+    
+    return sequelize.query(query, { model: global.models.TagGroup }); 
   };
 
   TagGroup.createTagGroup = async function(tagGroupTitle) {
