@@ -30,10 +30,12 @@ const template = html`
 <!-- JQUERY STYLES -->
 <link id="theme-css" href="css/jquery-ui/cupertino/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
 
+<link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
+
 <style>
 #tag-list-menu.box-style {
   padding: 0.5em;
-  border: 1px solid #dddddd;
+  border: 1px solid var(--border-color);
 }
 
 #tag-list-menu {
