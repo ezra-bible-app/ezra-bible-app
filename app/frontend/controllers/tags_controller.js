@@ -124,6 +124,9 @@ class TagsController {
       document.getElementById('tags-content-global').style.display = 'none';
       document.getElementById('tag-list-stats').style.visibility = 'hidden';
       document.getElementById('tag-panel-tag-group-list').style.removeProperty('display');
+      document.getElementById('tag-list-filter-button').style.display = 'none';
+      document.getElementById('tags-search-input').value = "";
+      document.getElementById('tags-search-input').style.display = 'none';
     });
 
     eventController.subscribe('on-tag-group-selected', async (tagGroup) => {
@@ -132,6 +135,8 @@ class TagsController {
       this.currentTagGroupId = tagGroupId;
       this.currentTagGroupTitle = tagGroup ? tagGroup.title : null;
 
+      document.getElementById('tags-search-input').style.removeProperty('display');
+      document.getElementById('tag-list-filter-button').style.removeProperty('display');
       document.getElementById('tag-panel-tag-group-list').style.display = 'none';
       document.getElementById('tags-content-global').innerHTML = "";
       document.getElementById('tags-content-global').style.display = '';
