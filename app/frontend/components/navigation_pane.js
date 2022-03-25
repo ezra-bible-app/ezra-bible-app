@@ -63,7 +63,7 @@ class NavigationPane {
       this.resetNavigationPane(tabIndex);
     });
 
-    eventController.subscribe('on-tag-group-selected', () => {
+    let updateChapterTagIndicatorsForBookTextType = () => {
       var currentTab = app_controller.tab_controller.getTab();
       var currentBook = currentTab.getBook();
       var currentTextType = currentTab.getTextType();
@@ -71,6 +71,18 @@ class NavigationPane {
       if (currentTextType == 'book' && currentBook != null) { // Book text mode
         this.updateChapterTagIndicators();
       }
+    };
+
+    eventController.subscribe('on-tag-group-selected', () => {
+      updateChapterTagIndicatorsForBookTextType();
+    });
+
+    eventController.subscribe('on-tag-group-filter-enabled', () => {
+      updateChapterTagIndicatorsForBookTextType();
+    });
+
+    eventController.subscribe('on-tag-group-filter-disabled', () => {
+      updateChapterTagIndicatorsForBookTextType();
     });
   }
 
@@ -337,10 +349,11 @@ class NavigationPane {
     const dbBook = await ipcDb.getBibleBook(currentBook);
     const chapterCount = await ipcNsi.getBookChapterCount(currentTranslation, currentBook);
     const verseTags = await ipcDb.getBookVerseTags(dbBook.id, versification);
+    const tagGroupFilterOption = app_controller.optionsMenu._tagGroupFilterOption;
 
     let tagGroupMembers = null;
 
-    if (tags_controller.tagGroupUsed()) {
+    if (tags_controller.tagGroupUsed() && tagGroupFilterOption.isChecked) {
       tagGroupMembers = await tags_controller.getTagGroupMemberIds(tags_controller.currentTagGroupId);
     }
 
