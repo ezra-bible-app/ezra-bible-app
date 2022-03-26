@@ -110,6 +110,7 @@ class TagGroupList extends HTMLElement {
     ];
 
     this._editable = false;
+    this._subscriptionDone = false;
 
     this._tagGroupManager = new TagGroupManager((event) => { this.handleTagGroupClick(event); },
                                                 (itemId) => { this.handleTagGroupEdit(itemId); },
@@ -136,7 +137,17 @@ class TagGroupList extends HTMLElement {
     if (this._showTagCount) {
       this._tagGroupManager.showItemCount();
     }
-  
+
+    this.subscribeEvents();
+  }
+
+  subscribeEvents() {
+    if (this._subscriptionDone) {
+      return;
+    }
+
+    this._subscriptionDone = true;
+
     if (this._activationEvent != null) {
       eventController.subscribe(this._activationEvent, async () => {
         await this._tagGroupManager.populateItemList();
