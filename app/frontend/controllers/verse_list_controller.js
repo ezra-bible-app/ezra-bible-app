@@ -362,7 +362,7 @@ module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefin
   if (tagGroupId == null || tagGroupId < 0 || !tagGroupFilterOption.isChecked) {
     // Show all tags
     allTagElements.forEach((tagElement) => {
-      tagElement.style.removeProperty('display');
+      tagElement.classList.remove('hidden');
     });
 
   } else {
@@ -378,10 +378,24 @@ module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefin
       let currentTagId = parseInt(tagElement.getAttribute('tag-id'));
 
       if (tagGroupMemberIds.includes(currentTagId)) {
-        tagElement.style.removeProperty('display');
+        tagElement.classList.remove('hidden');
       } else {
-        tagElement.style.display = 'none';
+        tagElement.classList.add('hidden');
       }
     });
   }
+
+  let verseBoxes = verseList.querySelectorAll('.verse-box');
+
+  // Update visibility of verse tag indicators
+  verseBoxes.forEach((verseBox) => {
+    let visibleTagCount = verseBox.querySelectorAll('.tag:not(.hidden)').length;
+
+    let tagIndicator = verseBox.querySelector('.tag-info');
+    if (visibleTagCount > 0) {
+      tagIndicator.classList.add('visible');
+    } else {
+      tagIndicator.classList.remove('visible');
+    }
+  });
 };
