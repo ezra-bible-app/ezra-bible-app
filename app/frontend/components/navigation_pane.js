@@ -361,10 +361,12 @@ class NavigationPane {
       let chapterHasTags = this.chapterHasVerseTags(i, verseTags, tagGroupMembers);
       let tagIndicator = $navigationPane[0].querySelector('#tag-indicator-chapter-' + i);
 
-      if (chapterHasTags) {
-        tagIndicator.style.visibility = 'visible';
-      } else {
-        tagIndicator.style.visibility = 'hidden';
+      if (tagIndicator != null) {
+        if (chapterHasTags) {
+          tagIndicator.style.visibility = 'visible';
+        } else {
+          tagIndicator.style.visibility = 'hidden';
+        }
       }
     }
   }
