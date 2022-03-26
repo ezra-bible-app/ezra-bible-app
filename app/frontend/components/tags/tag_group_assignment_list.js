@@ -79,6 +79,10 @@ class TagGroupAssignmentList extends HTMLElement {
                                                 true,
                                                 false,
                                                 'assignment-tag-group');
+
+    eventController.subscribe('on-tag-group-created', async (tagGroup) => {
+      await this._tagGroupManager.addItem(tagGroup);
+    });
   }
 
   connectedCallback() {  
@@ -86,10 +90,6 @@ class TagGroupAssignmentList extends HTMLElement {
 
     this._contentDiv = document.getElementById('tag-group-assignment-list-content');
     this._tagGroupManager.setContentDiv(this._contentDiv);
-
-    eventController.subscribe('on-tag-group-created', async (tagGroup) => {
-      await this._tagGroupManager.addItem(tagGroup);
-    });
 
     (async () => {
       await this._tagGroupManager.populateItemList();
