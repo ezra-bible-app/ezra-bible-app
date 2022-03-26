@@ -199,6 +199,7 @@ class TagsController {
 
       tags_controller.initAddTagsToGroupDialog();
       const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
+      addTagsToGroupTagList.tagManager.reset();
       addTagsToGroupTagList.style.display = 'none';
       await waitUntilIdle();
 

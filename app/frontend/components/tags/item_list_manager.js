@@ -52,6 +52,11 @@ class ItemListManager {
     this._showItemCount = false;
   }
 
+  reset() {
+    this._addList = [];
+    this._removeList = [];
+  }
+
   setContentDiv(contentDiv) {
     this._contentDiv = contentDiv;
   }
