@@ -18,6 +18,7 @@
 
 const ItemListManager = require("./item_list_manager.js");
 const eventController = require('../../controllers/event_controller.js');
+const { waitUntilIdle } = require("../../helpers/ezra_helper.js");
 
 class TagGroupManager extends ItemListManager {
   constructor(onClickHandler,
@@ -42,8 +43,10 @@ class TagGroupManager extends ItemListManager {
           deleteHintI18n,
           virtualItems);
 
-    eventController.subscribe('on-tag-group-renamed', async () => {
-      this.refreshItemList();
+    eventController.subscribe('on-tag-group-renamed', async (tagGroupId) => {
+      await this.refreshItemList();
+      await waitUntilIdle();
+      this.highlightItem(tagGroupId);
     });
 
     eventController.subscribe('on-tag-group-members-changed', async () => {

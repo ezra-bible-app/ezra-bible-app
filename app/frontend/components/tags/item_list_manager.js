@@ -126,6 +126,14 @@ class ItemListManager {
     this.populated = true;
   }
 
+  highlightItem(itemId) {
+    if (itemId > 0) {
+      let element = this.getContentDiv().querySelector('#' + this._cssClass + '-' + itemId);
+      $(element).effect('bounce', 'fast');
+      element.style.removeProperty('display');
+    }
+  }
+
   async addItem(item) {
     if (this._items == null) {
       await this.getItems();
@@ -147,6 +155,10 @@ class ItemListManager {
   addItemElement(item, index=null) {
     let itemElement = document.createElement('div');
     itemElement.setAttribute('class', this._cssClass);
+
+    if (item.id > 0) {
+      itemElement.setAttribute('id', this._cssClass + '-' + item.id);
+    }
 
     let itemIcon = null;
     let itemCount = null;
