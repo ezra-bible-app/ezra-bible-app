@@ -36,10 +36,10 @@ const template = html`
 #tag-list-menu.box-style {
   padding: 0.5em;
   border: 1px solid var(--border-color);
+  border-top: 0;
 }
 
 #tag-list-menu {
-  margin: 0.1em 0 0 0;
   padding-top: 0.7em;
   padding-bottom: 0.7em;
   user-select: none;

@@ -32,9 +32,10 @@ const template = html`
   user-select: none;
   box-sizing: border-box;
   border: 1px solid #dddddd;
+  border-radius: 4px;
   height: 11em;
   overflow-y: scroll;
-  background-color: white;
+  background-color: var(--background-color);
 }
 
 .assignment-tag-group {
