@@ -48,6 +48,19 @@ const template = html`
   overflow-y: scroll;
 }
 
+#tag-group-list-content.rounded-bottom-corners {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+#tag-group-list-content.rounded-corners {
+  border-radius: 6px;
+}
+
+#tag-group-list-content.hidden-top-border {
+  border-top: 0;
+}
+
 .tag-group {
   display: flex;
   flex-direction: row;
@@ -155,6 +168,7 @@ class TagGroupList extends HTMLElement {
     this._activationEvent = null;
     this._selectionEvent = null;
     this._showTagCount = null;
+    this._roundedBottomCorners = null;
 
     if (this.hasAttribute('editable')) {
       this._editable = this.getAttribute('editable') == 'true';
@@ -174,6 +188,24 @@ class TagGroupList extends HTMLElement {
 
     if (this.hasAttribute('show-tag-count')) {
       this._showTagCount = this.getAttribute('show-tag-count') == "true";
+    }
+
+    if (this.hasAttribute('hide-top-border')) {
+      if (this.getAttribute('hide-top-border') == 'true') {
+        this.getContentDiv().classList.add('hidden-top-border');
+      }
+    }
+
+    if (this.hasAttribute('rounded-corners')) {
+      if (this.getAttribute('rounded-corners') == 'true') {
+        this.getContentDiv().classList.add('rounded-corners');
+      }
+    }
+
+    if (this.hasAttribute('rounded-bottom-corners')) {
+      if (this.getAttribute('rounded-bottom-corners') == 'true') {
+        this.getContentDiv().classList.add('rounded-bottom-corners');
+      }
     }
   }
 
