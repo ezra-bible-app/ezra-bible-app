@@ -1,3 +1,20 @@
+/* This file is part of Ezra Bible App.
+
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+
+   Ezra Bible App is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 2 of the License, or
+   (at your option) any later version.
+
+   Ezra Bible App is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Ezra Bible App. See the file LICENSE.
+   If not, see <http://www.gnu.org/licenses/>. */
 
 /*
 Necessary styles for smaller screen devices,
@@ -5,57 +22,61 @@ Librem 5/Pinephone etc.
 */
 @media screen and (max-width:600px) {
   .verse-list-menu .fg-button {
-    margin-right:2px;
-    padding:1px 12px;
+    margin-right: 2px;
+    padding: 1px 12px;
   }
   .verse-list-menu .fg-button >div{
-    display:none;
+    display: none;
   }
   #display-options-menu {/*Scrollable settings*/
-    bottom:0;
-    overflow:auto;
+    bottom: 0;
+    overflow: auto;
   }
   .options-group {
-    max-width:50vw;
+    max-width: 50vw;
   }
   .options-group .ui-selectmenu {
-    max-width:calc(100% - 40px);
-    margin-left:0;
-    display:block;
+    max-width: calc(100% - 40px);
+    margin-left: 0;
+    display: block;
   }
   .locale-detect.fg-button {
-    margin:0;
-    width:36px;
-    margin-left:-60px;
+    margin: 0;
+    width: 36px;
+    margin-left: -60px;
   }
   .options-group .locale-switch-container{
-    max-width:80%;
+    max-width: 80%;
   }
 
   #module-settings-assistant {
-    margin:0; padding:0;
+    margin: 0;
+    padding: 0;
   }
   .wizard.vertical > .steps {
-    width:16%
+    width: 16%
   }
   #module-settings-assistant-add .steps >ul >li >a {
-    margin:0; padding:2px;
-    font-size:10px;
+    margin: 0;
+    padding: 2px;
+    font-size: 10px;
   }
   #module-step-wrapper #module-list#module-list {
-    margin:2px;padding:2px;
+    margin: 2px;
+    padding: 2px;
   }
   #book-selection-menu-book-list, #book-selection-menu-chapter-list {
-    padding:0;
+    padding: 0;
   }
   .book-list-column {
-    padding-inline-start:0px;
-    max-width:90vw;
+    padding-inline-start: 0px;
+    max-width: 90vw;
   }
   .book-list-column li {
-    max-width:25vw; width:25vw;
-    padding:0;
-    margin:0;
+    max-width: 25vw;
+    width: 25vw;
+    padding: 0;
+    margin: 0;
   }
   .verse-reference {
     flex-basis: 100%;
@@ -64,27 +85,28 @@ Librem 5/Pinephone etc.
     padding: 0.2em;
   }
   .verse-box {
-    flex-wrap:wrap;
+    flex-wrap: wrap;
   }
   .verse-notes-buttons >a {
-    padding:8px 0;
-    display:inline-block;
+    padding: 8px 0;
+    display: inline-block;
   }
-  .verse-list-without-tags .verse-notes:not(.book-notes), .verse-list:not(.verse-list-tags-column) .verse-notes:not(.book-notes) {
+  .verse-list-without-tags .verse-notes:not(.book-notes),
+  .verse-list:not(.verse-list-tags-column) .verse-notes:not(.book-notes) {
   /* not teeny unusable notes area*/
-    width:100% !important;
+    width: 100% !important;
   }
 
   /*Make dialogs not go out of screen*/
   .ui-dialog {
-    max-width:100vw;
-    max-height:100vh;
+    max-width: 100vw;
+    max-height: 100vh;
   }
   .ui-dialog-content {
-    max-height:calc(99vh - 60px);
+    max-height: calc(99vh - 60px);
   }
   .ui-tabs .ui-tabs-panel.info-tabs {
-    height:calc(99vh - 180px);
+    height: calc(99vh - 180px);
   }
 
   /* tag dropdown*/
@@ -94,16 +116,12 @@ Librem 5/Pinephone etc.
   }
   /*search dropdown*/
   #module-search-menu {
-    left:0 !important;
-    max-width:100vw;
+    left: 0 !important;
+    max-width: 100vw;
   }
   .navigation-pane.navigation-pane-books {
-    min-width:50px;
-    max-width:30vw;
-    padding:2px;
+    min-width: 50px;
+    max-width: 30vw;
+    padding: 2px;
   }
 }
-
-
-
-
