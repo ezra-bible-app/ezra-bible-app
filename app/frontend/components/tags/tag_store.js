@@ -97,17 +97,16 @@ class TagStore {
   async updateTagGroups(tagId, addTagGroups, removeTagGroups) {
     var tag = await this.getTag(tagId);
 
-    var tagGroupList = tag.tagGroupList;
-    if (tagGroupList == null) {
-      tagGroupList = [];
+    if (tag.tagGroupList == null) {
+      tag.tagGroupList = [];
     }
 
     addTagGroups.forEach((tagGroupId) => {
-      tagGroupList.push(tagGroupId);
+      tag.tagGroupList.push(tagGroupId);
     });
 
     removeTagGroups.forEach((tagGroupId) => {
-      tag.tagGroupList = ezraHelper.removeItemFromArray(tagGroupList, tagGroupId);
+      tag.tagGroupList = ezraHelper.removeItemFromArray(tag.tagGroupList, tagGroupId);
     });
   }
 
