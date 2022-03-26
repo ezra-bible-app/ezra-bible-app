@@ -193,7 +193,8 @@ class TagListMenu extends HTMLElement {
     const dialogBoxTemplate = html`
     <div id="add-tag-group-dialog" style="padding-top: 2em;">
       <label id="add-tag-group-title">${addTagGroupTitle}:</label>
-      <input id="tag-group-title-value" type="text" label="" style="width: 15em; border: 1px solid lightgray; border-radius: 4px;"/>
+      <input id="tag-group-title-value" type="text" label="" style="width: 25em; border: 1px solid lightgray; border-radius: 4px;"/>
+      <emoji-button-trigger></emoji-button-trigger>
     </div>
     `;
 
@@ -202,8 +203,8 @@ class TagListMenu extends HTMLElement {
       document.querySelector('#boxes').appendChild(dialogBoxTemplate.content);
       const $dialogBox = $('#add-tag-group-dialog');
       
-      const width = 300;
-      const height = 180;
+      const width = 400;
+      const height = 200;
 
       let createTagGroup = () => {
         let tagGroupTitle = document.getElementById('tag-group-title-value').value;
