@@ -40,7 +40,7 @@ const template = html`
   margin: 0.2em;
   padding: 0.1em;
   padding-left: 0.5em;
-  min-height: 2em;
+  min-height: 2.4em;
   align-items: center;
   content-visibility: auto;
 }
