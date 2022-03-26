@@ -499,12 +499,14 @@ class TagsController {
       }
     }
 
-    checkboxTag.effect('bounce', 'fast');
-
     await eventController.publishAsync('on-latest-tag-changed', {
       'tagId': tags_controller.edit_tag_id,
       'added': false
     });
+
+    await waitUntilIdle();
+    checkboxTag = this.getCheckboxTag(tags_controller.edit_tag_id);
+    checkboxTag.effect('bounce', 'fast');
   }
 
   updateTagInView(id, title) {
