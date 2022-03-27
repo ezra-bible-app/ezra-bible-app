@@ -26,6 +26,7 @@ Feature: Tag groups
     And I go to the list of tag groups
     When I create a tag group "New tag group"
     Then the tag group "New tag group" is listed in the tag group list
+    And the tag group "New tag group" is existing in the database
     When I open the tag selection menu
     And I go the tag group list of the tag selection menu
     Then the tag group "New tag group" is listed in the tag group list
