@@ -16,7 +16,7 @@
 #  along with Ezra Bible App. See the file LICENSE.
 #  If not, see <http://www.gnu.org/licenses/>.
 
-# features/004_bible_browsing.feature
+# features/003_bible_browsing.feature
 
 Feature: Bible browsing
   In order to do study the text of a book

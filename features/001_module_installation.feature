@@ -16,7 +16,7 @@
 #  along with Ezra Bible App. See the file LICENSE.
 #  If not, see <http://www.gnu.org/licenses/>.
 
-# features/002_module_installation.feature
+# features/001_module_installation.feature
 
 Feature: Module installation
   In order to study bible text
