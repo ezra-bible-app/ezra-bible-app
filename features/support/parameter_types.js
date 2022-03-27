@@ -25,7 +25,7 @@ defineParameterType({
 
 defineParameterType({
   name: 'first_tab_menu',
-  regexp: /book selection|search|options|translation selection/,
+  regexp: /book selection|search|options|translation selection|tag selection/,
   transformer: s => {
     switch (s) {
       case 'book selection':
@@ -35,7 +35,9 @@ defineParameterType({
       case 'options':
         return '.display-options-button';
       case 'translation selection':
-        return '.bible-select-block .ui-selectmenu'; 
+        return '.bible-select-block .ui-selectmenu';
+      case 'tag selection':
+        return '.tag-select-button';
     }
   }
 });
