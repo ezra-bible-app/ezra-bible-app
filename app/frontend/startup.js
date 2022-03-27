@@ -346,6 +346,7 @@ class Startup {
     }
 
     await eventController.publishAsync('on-startup-completed');
+    app_controller.startupCompleted = true;
   }
 
   /** 
