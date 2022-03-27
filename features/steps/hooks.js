@@ -82,6 +82,17 @@ Before({ timeout: 80000}, async function (scenario) {
     app = spectronHelper.initApp(args, true);
     chaiAsPromised.transferPromiseness = app.transferPromiseness;
     await app.start();
+    await spectronHelper.sleep(2000);
+
+    var startupCompleted = false;
+
+    while (!startupCompleted) {
+      startupCompleted = await app.webContents.executeJavaScript(`
+        isStartupCompleted();
+      `);
+
+      await spectronHelper.sleep(1000);
+    }
   }
 });
 
@@ -148,7 +159,7 @@ AfterAll({ timeout: 10000}, async function () {
       });
     }
 
-    var exitCode = await app.stop();
-    return exitCode;
+    /*var exitCode = await app.stop();
+    return exitCode;*/
   }
 });

@@ -116,6 +116,18 @@ window.isChromiumOlder = function() {
   return getChromiumMajorVersion() < CHROMIUM_VERSION_UP_TO_DATE;
 };
 
+/**
+ * This function is used by the cucumber acceptance test to check whether app startup has been completed.
+ * @returns Whether or not the startup has been completed
+ */
+window.isStartupCompleted = function() {
+  if (app_controller) {
+    return app_controller.isStartupCompleted();
+  } else {
+    return false;
+  }
+};
+
 function getChromiumMajorVersion() {
   var chromiumVersion = window.getChromiumVersion();
   var splittedVersion = chromiumVersion.split('.');

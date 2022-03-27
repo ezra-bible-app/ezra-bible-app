@@ -57,9 +57,12 @@ const cacheController = require('./cache_controller.js');
  */
 class AppController {
   constructor() {
-    this.book_menu_is_opened = false;
     this.verseContextMenuOpened = false;
-    this.current_cr_verse_id = null;
+    this.startupCompleted = false;
+  }
+
+  isStartupCompleted() {
+    return this.startupCompleted;
   }
 
   /**
