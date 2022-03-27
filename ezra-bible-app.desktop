@@ -9,3 +9,4 @@ Icon=ezra-bible-app
 Terminal=false
 StartupNotify=false
 Categories=Education;Spirituality;Literature;
+X-Purism-FormFactor=Workstation;Mobile;
