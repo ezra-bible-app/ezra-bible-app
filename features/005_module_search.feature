@@ -16,7 +16,7 @@
 #  along with Ezra Bible App. See the file LICENSE.
 #  If not, see <http://www.gnu.org/licenses/>.
 
-# features/006_module_search.feature
+# features/005_module_search.feature
 
 Feature: Module search
   In order to do find topical material

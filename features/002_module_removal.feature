@@ -16,7 +16,7 @@
 #  along with Ezra Bible App. See the file LICENSE.
 #  If not, see <http://www.gnu.org/licenses/>.
 
-# features/003_module_removal.feature
+# features/002_module_removal.feature
 
 Feature: Module removal
   If a module is no longer relevant for my bible study

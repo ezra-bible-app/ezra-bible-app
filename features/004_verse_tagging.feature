@@ -16,7 +16,7 @@
 #  along with Ezra Bible App. See the file LICENSE.
 #  If not, see <http://www.gnu.org/licenses/>.
 
-# features/005_verse_tagging.feature
+# features/004_verse_tagging.feature
 
 Feature: Verse tagging
   In order to categorize verses I can assign tags to each individual verse.
