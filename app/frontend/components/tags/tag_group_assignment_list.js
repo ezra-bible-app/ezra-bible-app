@@ -21,6 +21,15 @@ const eventController = require('../../controllers/event_controller.js');
 const TagGroupManager = require('./tag_group_manager.js');
 
 const template = html`
+
+<!-- FONT AWESOME STYLES -->
+<link rel="preload" href="node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2" as="font" type="font/woff2">
+<link href="node_modules/@fortawesome/fontawesome-free/css/solid.min.css" rel="stylesheet" type="text/css" />
+<link href="node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="css/tool_panel.css" media="screen" rel="stylesheet" type="text/css" />
+
 <style>
 #tag-group-assignment-list-content {
   display: flex;
@@ -86,9 +95,12 @@ class TagGroupAssignmentList extends HTMLElement {
   }
 
   connectedCallback() {  
-    this.appendChild(template.content);
+    if (!this.shadowRoot) {
+      const shadow = this.attachShadow({ mode: 'open' });
+      shadow.appendChild(template.content.cloneNode(true));
+    }
 
-    this._contentDiv = document.getElementById('tag-group-assignment-list-content');
+    this._contentDiv = this.shadowRoot.getElementById('tag-group-assignment-list-content');
     this._tagGroupManager.setContentDiv(this._contentDiv);
 
     (async () => {
