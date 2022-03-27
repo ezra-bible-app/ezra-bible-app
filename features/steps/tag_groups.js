@@ -113,3 +113,13 @@ When('I open the edit dialog of the tag {string}', async function (tagTitle) {
     }
   }
 });
+
+Then('the tag group {string} is existing in the database', async function (tagGroupTitle) {
+  let models = await dbHelper.initDatabase();
+  let tagGroups = await models.TagGroup.findAll();
+
+  assert(tagGroups.length == 1, `Did not get 1 tag group, but ${tagGroups.length} tag groups!`);
+
+  let firstTagGroup = tagGroups[0];
+  assert(firstTagGroup.title == tagGroupTitle, `DB tag group title is not ${tagGroupTitle}, but ${firstTagGroup.title}`);
+});
