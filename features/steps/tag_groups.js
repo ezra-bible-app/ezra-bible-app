@@ -20,6 +20,7 @@ const { Given, When, Then } = require("cucumber");
 const { assert } = require("chai");
 const spectronHelper = require('../helpers/spectron_helper.js');
 const dbHelper = require("../helpers/db_helper.js");
+const uiHelper = require('../helpers/ui_helper.js');
 
 Given('I go to the list of tag groups', async function () {
   await spectronHelper.getWebClient().execute(() => {
@@ -78,20 +79,7 @@ When('I go the tag group list of the tag selection menu', async function () {
 });
 
 When('I open the tag group {string}', async function (tagGroupTitle) {
-  this.currentTagGroupListSelector = '#tag-panel-tag-group-list';
-
-  await spectronHelper.getWebClient().execute((expectedTitle, tagGroupListSelector) => {
-    var tagGroups = document.querySelector(tagGroupListSelector).shadowRoot.querySelectorAll('.tag-group');
-
-    tagGroups.forEach((tagGroup) => {
-      let link = tagGroup.querySelector('a');
-      let title = link.innerText;
-
-      if (title == expectedTitle) {
-        link.click();
-      }
-    });
-  }, tagGroupTitle, this.currentTagGroupListSelector);
+  await uiHelper.selectTagGroup(tagGroupTitle);
 });
 
 When('I open the edit dialog of the tag {string}', async function (tagTitle) {
