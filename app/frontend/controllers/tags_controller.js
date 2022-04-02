@@ -1412,16 +1412,12 @@ class TagsController {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     if (currentTab !== undefined) {
-      if (currentTab.isValid()) {
-        this.showTagListLoadingIndicator();
-        await waitUntilIdle();
+      this.showTagListLoadingIndicator();
+      await waitUntilIdle();
 
-        var currentTabBook = currentTab.getBook();
-        var currentTabContentId = currentTab.getContentId();
-        this.updateTagList(currentTabBook, this.currentTagGroupId, currentTabContentId, forceRefresh);
-      } else {
-        this.lastContentId = null;
-      }
+      var currentTabBook = currentTab.getBook();
+      var currentTabContentId = currentTab.getContentId();
+      this.updateTagList(currentTabBook, this.currentTagGroupId, currentTabContentId, forceRefresh);
     }
   }
 }
