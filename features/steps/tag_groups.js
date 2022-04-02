@@ -123,3 +123,59 @@ Then('the tag group {string} is existing in the database', async function (tagGr
   let firstTagGroup = tagGroups[0];
   assert(firstTagGroup.title == tagGroupTitle, `DB tag group title is not ${tagGroupTitle}, but ${firstTagGroup.title}`);
 });
+
+Given('I choose to add existing tags to the current tag group', async function () {
+  let addExistingTagsLink = await spectronHelper.getWebClient().$('#add-existing-tags-to-tag-group-link');
+  await addExistingTagsLink.click();
+  await spectronHelper.sleep(500);
+});
+
+Given('I select the tag {string} to be added to the current tag group', async function (tagTitle) {
+  let addTagsToTagGroupList = await spectronHelper.getWebClient().$('#add-tags-to-group-tag-list');
+  let tagItems = await addTagsToTagGroupList.$$('.tag-item');
+
+  for (let i = 0; i < tagItems.length; i++) {
+    let link = await tagItems[i].$('a');
+    let linkText = await link.getText();
+
+    if (linkText == tagTitle) {
+      await link.click();
+      await spectronHelper.sleep(500);
+      break;
+    }
+  }
+});
+
+When('I add the selected tags to the group', async function () {
+  let addTagsToGroupButton = await spectronHelper.getWebClient().$('#add-tags-to-group-button');
+  await addTagsToGroupButton.click();
+});
+
+Then('the following tags are assigned to the tag group {string}', async function (tagGroup, dataTable) {
+  let models = await dbHelper.initDatabase();
+  let dbTagGroup = await models.TagGroup.findOne({ where: { title: tagGroup, }});
+  let tagGroupMembers = await models.TagGroupMember.findAll({ where: { tagGroupId: dbTagGroup.id } });
+
+  let expectedTagList = dataTable.rawTable;
+  let allTagsFound = true;
+
+  for (let i = 0; i < expectedTagList.length; i++) {
+    let expectedTag = expectedTagList[i][0];
+    let dbTag = await models.Tag.findOne({ where: {title: expectedTag }});
+    let tagFound = false;
+
+    for (let j = 0; j < tagGroupMembers.length; j++) {
+      let tagGroupMember = tagGroupMembers[j];
+
+      if (tagGroupMember.dataValues.tagId == dbTag.id) {
+        tagFound = true;
+      }
+    }
+
+    if (!tagFound) {
+      allTagsFound = false;
+    }
+  }
+
+  assert(allTagsFound == true, "Not all expected tag group members were found in the database!");
+});
