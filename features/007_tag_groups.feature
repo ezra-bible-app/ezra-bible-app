@@ -46,7 +46,10 @@ Feature: Tag groups
     And I open the add tag dialog
     And I choose to add existing tags to the current tag group
     And I select the tag "Test1" to be added to the current tag group
+    And I select the tag "Test2" to be added to the current tag group
     When I add the selected tags to the group
     Then the tag "Test1" is listed in the tag list
+    And the tag "Test2" is listed in the tag list
     And the following tags are assigned to the tag group "Another tag group"
       | Test1 |
+      | Test2 |
