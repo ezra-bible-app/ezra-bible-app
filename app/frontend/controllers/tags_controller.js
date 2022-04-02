@@ -1410,15 +1410,21 @@ class TagsController {
 
   async updateTagsView(tabIndex, forceRefresh = false) {
     var currentTab = app_controller.tab_controller.getTab(tabIndex);
+    var tagCount = await ipcDb.getTagCount();
 
     if (currentTab !== undefined) {
-      this.showTagListLoadingIndicator();
+      if (tagCount > 0) {
+        this.showTagListLoadingIndicator();
+      }
+
       await waitUntilIdle();
 
       var currentTabBook = currentTab.getBook();
       var currentTabContentId = currentTab.getContentId();
       this.updateTagList(currentTabBook, this.currentTagGroupId, currentTabContentId, forceRefresh);
     }
+
+    await this.updateTagUiBasedOnTagAvailability(tagCount);
   }
 }
 
