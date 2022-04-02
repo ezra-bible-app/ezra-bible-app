@@ -81,12 +81,15 @@ class TagsController {
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
       const currentTab = app_controller.tab_controller.getTab(tabIndex);
 
-      if (currentTab != null && currentTab.addedInteractively) {
+      if (currentTab != null) {
         // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
         this.verses_were_selected_before = true;
 
         await this.updateTagsView(tabIndex);
-        this.resetActivePanelToTagPanel(tabIndex);
+
+        if (currentTab.addedInteractively) {
+          this.resetActivePanelToTagPanel(tabIndex);
+        }
       }
     });
 
