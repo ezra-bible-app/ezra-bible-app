@@ -192,7 +192,7 @@ AfterAll({ timeout: 10000}, async function () {
       });
     }
 
-    /*var exitCode = await app.stop();
-    return exitCode;*/
+    var exitCode = await app.stop();
+    return exitCode;
   }
 });
