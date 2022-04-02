@@ -22,6 +22,7 @@ const chaiAsPromised = require("chai-as-promised");
 const spectronHelper = require("../helpers/spectron_helper.js");
 const nsiHelper = require("../helpers/nsi_helper.js");
 const uiHelper = require("../helpers/ui_helper.js");
+const dbHelper = require('../helpers/db_helper.js');
 
 function hasTag(scenario, tag) {
   for (var i = 0; i < scenario.pickle.tags.length; i++) {
@@ -140,6 +141,37 @@ After("@remove-last-note-after-scenario", async function() {
   await saveButton.click();
 
   await spectronHelper.sleep();
+});
+
+After("@cleanup-after-scenario", async function() {
+  await spectronHelper.getWebClient().keys('Escape');
+
+  let models = await dbHelper.initDatabase();
+  let tags = await models.Tag.findAll();
+  let tagGroups = await models.TagGroup.findAll();
+
+  for (let i = 0; i < tags.length; i++) {
+    await models.Tag.destroy_tag(tags[i].id);
+  }
+
+  for (let i = 0; i < tagGroups.length; i++) {
+    await models.TagGroup.destroyTagGroup(tagGroups[i].id);
+  }
+
+  await spectronHelper.sleep(500);
+
+  await spectronHelper.getWebClient().execute(async () => {
+    await tags_controller.updateTagsView(true);
+    
+    const eventController = require('./app/frontend/controllers/event_controller.js');
+    await eventController.publish('on-tag-group-renamed');
+  });
+
+  await spectronHelper.getWebClient().execute(() => {
+    document.querySelector('#tag-panel-tag-list-menu').shadowRoot.querySelector('#tag-group-list-link').click();
+  });
+
+  await uiHelper.selectTagGroup('All tags');
 });
 
 After(async function(scenario) {

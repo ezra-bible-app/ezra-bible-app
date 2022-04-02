@@ -71,3 +71,20 @@ module.exports.setBookLoadingOption = async function(selectedOptionText) {
   await selectedOption.click();
   await spectronHelper.sleep();
 };
+
+module.exports.selectTagGroup = async function(tagGroupTitle) {
+  this.currentTagGroupListSelector = '#tag-panel-tag-group-list';
+
+  await spectronHelper.getWebClient().execute((expectedTitle, tagGroupListSelector) => {
+    var tagGroups = document.querySelector(tagGroupListSelector).shadowRoot.querySelectorAll('.tag-group');
+
+    tagGroups.forEach((tagGroup) => {
+      let link = tagGroup.querySelector('a');
+      let title = link.innerText;
+
+      if (title == expectedTitle) {
+        link.click();
+      }
+    });
+  }, tagGroupTitle, this.currentTagGroupListSelector);
+};
