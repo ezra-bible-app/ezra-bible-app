@@ -16,7 +16,7 @@
 #  along with Ezra Bible App. See the file LICENSE.
 #  If not, see <http://www.gnu.org/licenses/>.
 
-# features/008_tag_groups.feature
+# features/007_tag_groups.feature
 
 Feature: Tag groups
   I can use Tag groups to organize tags in different topical areas.
@@ -39,12 +39,12 @@ Feature: Tag groups
     And I create the tag "Test2"
     And I create the tag "Test3"
     And I go to the list of tag groups
-    And I create a tag group "New tag group"
-    And I open the tag group "New tag group"
+    And I create a tag group "Another tag group"
+    And I open the tag group "Another tag group"
     And I open the add tag dialog
     And I choose to add existing tags to the current tag group
     And I select the tag "Test1" to be added to the current tag group
     When I add the selected tags to the group
     Then the tag "Test1" is listed in the tag list
-    And the following tags are assigned to the tag group "New tag group"
+    And the following tags are assigned to the tag group "Another tag group"
       | Test1 |

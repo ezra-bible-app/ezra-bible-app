@@ -149,6 +149,7 @@ Given('I select the tag {string} to be added to the current tag group', async fu
 When('I add the selected tags to the group', async function () {
   let addTagsToGroupButton = await spectronHelper.getWebClient().$('#add-tags-to-group-button');
   await addTagsToGroupButton.click();
+  await spectronHelper.sleep(500);
 });
 
 Then('the following tags are assigned to the tag group {string}', async function (tagGroup, dataTable) {
