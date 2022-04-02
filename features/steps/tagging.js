@@ -84,3 +84,29 @@ Then('the tag {string} is visible in the bible browser at the selected verse', a
   var firstTagTitle = await tags[0].getText();
   assert(firstTagTitle == tagName, `Expected browser tag with title '${tagName}', but got '${firstTagTitle}'`);
 });
+
+Given('I open the add tag dialog', async function () {
+  await spectronHelper.getWebClient().execute(() => {
+    document.querySelector('#tag-panel-tag-list-menu').shadowRoot.querySelector('#new-standard-tag-button').click();
+  });
+});
+
+Then('the tag {string} is listed in the tag list', async function (tagTitle) {
+  var tagsList = await spectronHelper.getWebClient().$('#tags-content-global');
+  var allTags = await tagsList.$$('.checkbox-tag');
+  var tagFound = false;
+
+  for (var i = 0; i < allTags.length; i++) {
+    this.currentTag = allTags[i];
+
+    var currentLabel = await this.currentTag.$('.cb-label');
+    var currentLabelText = await currentLabel.getText();
+
+    if (currentLabelText == tagTitle) {
+      tagFound = true;
+      break;
+    }
+  }
+
+  assert(tagFound, `The tag '${tagTitle}' could not be found in the list!`);
+});
