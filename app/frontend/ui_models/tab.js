@@ -312,8 +312,10 @@ class Tab {
 
 Tab.fromJsonObject = function(jsonObject, tabIndex) {
   var tab = new Tab();
+
   Object.assign(tab, jsonObject);
   tab.initTabSearch(tabIndex);
+  tab.previousBibleTranslationId = tab.bibleTranslationId;
 
   return tab;
 };
