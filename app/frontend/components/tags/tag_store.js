@@ -102,11 +102,11 @@ class TagStore {
     }
 
     addTagGroups.forEach((tagGroupId) => {
-      tag.tagGroupList.push(tagGroupId);
+      tag.tagGroupList.push(tagGroupId.toString());
     });
 
     removeTagGroups.forEach((tagGroupId) => {
-      tag.tagGroupList = ezraHelper.removeItemFromArray(tag.tagGroupList, tagGroupId);
+      tag.tagGroupList = ezraHelper.removeItemFromArray(tag.tagGroupList, tagGroupId.toString());
     });
   }
 
