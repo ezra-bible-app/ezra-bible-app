@@ -184,8 +184,8 @@ class TagsController {
 
     var new_standard_tag_dlg_options = {
       title: i18n.t("tags.new-tag"),
-      width: 400,
-      position: [60,180],
+      width: 450,
+      position: [55,180],
       autoOpen: false,
       dialogClass: 'ezra-dialog'
     };
@@ -260,9 +260,9 @@ class TagsController {
 
     var addTagsToGroupDialogOptions = {
       title: i18n.t("tags.add-tags-to-group"),
-      width: 400,
+      width: 450,
       height: 500,
-      position: [60,180],
+      position: [55,180],
       autoOpen: false,
       dialogClass: 'ezra-dialog'
     };
@@ -347,7 +347,7 @@ class TagsController {
     var delete_tag_confirmation_dlg_options = {
       title: i18n.t("tags.delete-tag"),
       width: 300,
-      position: [60,180],
+      position: [55,180],
       autoOpen: false,
       dialogClass: 'ezra-dialog'
     };
@@ -383,7 +383,7 @@ class TagsController {
     var remove_tag_assignment_confirmation_dlg_options = {
       title: i18n.t("tags.remove-tag-assignment"),
       width: 360,
-      position: [40,250],
+      position: [55,250],
       autoOpen: false,
       dialogClass: 'ezra-dialog'
     };
@@ -421,7 +421,7 @@ class TagsController {
       title: i18n.t("tags.edit-tag"),
       width: 450,
       height: 400,
-      position: [40,200],
+      position: [55,200],
       autoOpen: false,
       dialogClass: 'ezra-dialog'
     };
