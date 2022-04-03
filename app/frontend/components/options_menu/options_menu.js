@@ -71,7 +71,7 @@ class OptionsMenu {
     this._verseListNewTabOption = this.initConfigOption('openVerseListsInNewTabOption', () => {}, openVerseListsInNewTabByDefault);
     this._userDataIndicatorOption = this.initConfigOption('showUserDataIndicatorOption', () => { this.showOrHideUserDataIndicatorsBasedOnOption(); }, true);
     this._tagsOption = this.initConfigOption('showTagsOption', () => { this.showOrHideVerseTagsBasedOnOption(); });
-    this._tagGroupFilterOption = this.initConfigOption('useTagGroupFilter', () => { this.applyTagGroupFilterBasedOnOption(); });
+    this._tagGroupFilterOption = this.initConfigOption('useTagGroupFilterOption', () => { this.applyTagGroupFilterBasedOnOption(); });
     this._tagsColumnOption = this.initConfigOption('useTagsColumnOption', () => { this.changeTagsLayoutBasedOnOption(); });
     this._verseNotesOption = this.initConfigOption('showNotesOption', () => { this.showOrHideVerseNotesBasedOnOption(); });
     this._verseNotesFixedHeightOption = this.initConfigOption('fixNotesHeightOption', () => { this.fixNotesHeightBasedOnOption(); });
