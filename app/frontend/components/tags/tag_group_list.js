@@ -105,7 +105,7 @@ class TagGroupList extends HTMLElement {
   constructor() {
     super();
 
-    let virtualTagGroups = [
+    this._virtualTagGroups = [
       { id: -1, title: i18n.t('tags.all-tags') }
     ];
 
@@ -118,7 +118,7 @@ class TagGroupList extends HTMLElement {
                                                 false,
                                                 this._editable,
                                                 'tag-group',
-                                                virtualTagGroups);
+                                                this._virtualTagGroups);
   }
 
   connectedCallback() {
@@ -150,6 +150,7 @@ class TagGroupList extends HTMLElement {
 
     if (this._activationEvent != null) {
       eventController.subscribe(this._activationEvent, async () => {
+        this._virtualTagGroups[0].count = await ipcDb.getTagCount();
         await this._tagGroupManager.populateItemList();
         this.showTagGroupList();
       });
@@ -171,6 +172,19 @@ class TagGroupList extends HTMLElement {
         await this._tagGroupManager.addItem(tagGroup);
       }
     });
+
+    eventController.subscribe('on-tag-created', async () => {
+      await this.updateTagCountAndRefreshList();
+    });
+
+    eventController.subscribe('on-tag-deleted', async () => {
+      await this.updateTagCountAndRefreshList();
+    });
+  }
+
+  async updateTagCountAndRefreshList() {
+    this._virtualTagGroups[0].count = await ipcDb.getTagCount();
+    await this._tagGroupManager.refreshItemList();
   }
 
   readAttributes() {
