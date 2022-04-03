@@ -53,3 +53,28 @@ Feature: Tag groups
     And the following tags are assigned to the tag group "Another tag group"
       | Test1 |
       | Test2 |
+    
+  @cleanup-after-scenario 
+  Scenario: Bible browser can filter tags for selected tag group
+    Given I open the book selection menu
+    And I select the book Ephesians
+    And I create the tag "Test1"
+    And I create the tag "Test2"
+    And I create the tag "Test3"
+    And I select the verse "Ephesians 1:1"
+    And I assign the tag "Test1" to the current verse selection
+    And I select the verse "Ephesians 1:2"
+    And I assign the tag "Test2" to the current verse selection
+    And I select the verse "Ephesians 1:3"
+    And I assign the tag "Test3" to the current verse selection
+    And I go to the list of tag groups
+    And I create a tag group "Filtered"
+    When I open the tag group "Filtered"
+    And I have the tag group filter enabled
+    Then 0 verses are shown with tags in the Bible browser
+    When I open the add tag dialog
+    And I choose to add existing tags to the current tag group
+    And I select the tag "Test1" to be added to the current tag group
+    And I select the tag "Test2" to be added to the current tag group
+    And I add the selected tags to the group
+    Then 2 verses are shown with tags in the Bible browser

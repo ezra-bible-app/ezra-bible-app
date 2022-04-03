@@ -168,3 +168,27 @@ Then('the following tags are assigned to the tag group {string}', async function
 
   assert(allTagsFound == true, "Not all expected tag group members were found in the database!");
 });
+
+Then('{int} verses are shown with tags in the Bible browser', async function(expectedTaggedVerseCount) {
+  let taggedVerseCount = await spectronHelper.getWebClient().execute(() => {
+    let verseListTabs = document.querySelector('#verse-list-tabs-1');
+    let verseBoxes = verseListTabs.querySelectorAll('.verse-box');
+    let taggedVerseCount = 0;
+
+    for (let i = 0; i < verseBoxes.length; i++) {
+      let currentVerseBox = verseBoxes[i];
+
+      let visibleTags = currentVerseBox.querySelectorAll('.tag:not(.hidden)');
+      let tagCount = visibleTags.length;
+
+      if (tagCount > 0) {
+        taggedVerseCount += 1;
+      }
+    }
+
+    return taggedVerseCount;
+  });
+
+  assert(taggedVerseCount == expectedTaggedVerseCount,
+         `Did not find ${expectedTaggedVerseCount} tagged verses, but rather ${taggedVerseCount}.`);
+});
