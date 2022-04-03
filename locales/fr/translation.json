@@ -270,7 +270,16 @@
     "tag-count-selected_one": "{{count}} étiquette sélectionnée",
     "tag-count-selected_other": "{{count}} étiquettes sélectionnées",
     "select-all-tags": "Sélectionner tout",
-    "deselect-all-tags": "Déselectionner tout"
+    "deselect-all-tags": "Déselectionner tout",
+    "add-tag-group": "Add tag group",
+    "create-tag-group": "Create tag group",
+    "rename-tag-group": "Rename tag group",
+    "delete-tag-group": "Delete tag group",
+    "tag-groups": "Tag groups",
+    "add-existing-tags-to-current-tag-group": "Add existing tags to current tag group",
+    "add-tags-to-group": "Add tags to group",
+    "delete-tag-from-group-explanation": "The tag <i>{{tag}}</i> will be deleted from the group <i>{{group}}</i>. To permanently delete the tag, click the checkbox below.",
+    "really-delete-tag-group": "Do you really want to delete the tag group<br/><i>{{tagGroupTitle}}</i>?"
   },
   "bible-browser": {
     "chapter": "Chapitre",
