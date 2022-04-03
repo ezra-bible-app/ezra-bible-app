@@ -44,7 +44,7 @@ defineParameterType({
 
 defineParameterType({
   name: 'display_option',
-  regexp: /tags|notes|indicators|xrefs|footnotes|navigation|current tab search/,
+  regexp: /tags|notes|indicators|xrefs|footnotes|navigation|current tab search|tag group filter/,
   transformer: s => {
     switch (s) {
       case 'tags':
@@ -61,15 +61,17 @@ defineParameterType({
         return '#showBookChapterNavigationOption';
       case 'current tab search':
         return '#showTabSearchOption';
+      case 'tag group filter':
+        return '#useTagGroupFilterOption';
     }
   }
 });
 
 defineParameterType({
   name: 'state',
-  regexp: /displayed|hidden/,
+  regexp: /displayed|hidden|enabled|disabled/,
   type: 'boolean',
-  transformer: s => s == 'displayed'
+  transformer: s => s == 'displayed' || s == 'enabled'
 });
 
 defineParameterType({
