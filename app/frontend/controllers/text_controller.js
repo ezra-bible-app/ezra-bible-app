@@ -794,6 +794,7 @@ class TextController {
         tabIndex = selectedTabIndex;
       }
 
+      await waitUntilIdle();
       await eventController.publishAsync('on-bible-text-loaded', tabIndex);
       uiHelper.hideTextLoadingIndicator();
     }
