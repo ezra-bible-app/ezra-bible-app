@@ -45,7 +45,10 @@ class TextController {
 
   async loadBook(bookCode, bookTitle, referenceBookTitle, instantLoad = true, chapter = undefined) {
     app_controller.book_selection_menu.hideBookMenu();
+    await waitUntilIdle();
+
     app_controller.book_selection_menu.highlightSelectedBookInMenu(bookCode);
+    await waitUntilIdle();
 
     var currentTab = app_controller.tab_controller.getTab();
     currentTab.setTextType('book');
@@ -54,7 +57,6 @@ class TextController {
     app_controller.tag_selection_menu.resetTagMenu();
     app_controller.module_search_controller.resetSearch();
     await this.prepareForNewText(true, false);
-
     await waitUntilIdle();
 
     // Set selected tags and search term to null, since we just switched to a book
