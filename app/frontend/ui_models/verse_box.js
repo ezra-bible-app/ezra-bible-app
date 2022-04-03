@@ -175,7 +175,7 @@ class VerseBox {
     return $(this.verseBoxElement).find('.tag-info').attr('title').split(', ');
   }
 
-  updateVisibleTags(tag_title_array=undefined) {
+  updateVisibleTags(tag_title_array=undefined, newTagTitle=undefined, newTagId=undefined) {
     if (this.verseBoxElement == null) {
       return;
     }
@@ -189,7 +189,11 @@ class VerseBox {
 
     for (var i = 0; i < tag_title_array.length; i++) {
       var current_tag_title = tag_title_array[i];
-      var tag_html = this.htmlForVisibleTag(current_tag_title);
+      if (current_tag_title != newTagTitle) {
+        newTagId = undefined;
+      }
+
+      var tag_html = this.htmlForVisibleTag(current_tag_title, newTagId);
       tag_box.append(tag_html);
     }
 
@@ -201,8 +205,16 @@ class VerseBox {
     }
   }
 
-  htmlForVisibleTag(tag_title) {
-    return `<div class='tag' title='${i18n.t('bible-browser.tag-hint')}'>${tag_title}</div>`;
+  htmlForVisibleTag(tag_title, newTagId) {
+    let tagHtml = `<div class='tag' title='${i18n.t('bible-browser.tag-hint')}'`;
+
+    if (newTagId !== undefined) {
+      tagHtml += ` tag-id='${newTagId}'`;
+    }
+
+    tagHtml += `>${tag_title}</div>`;
+
+    return tagHtml;
   }
 
   changeVerseListTagInfo(tag_id, tag_title, action) {
@@ -218,7 +230,7 @@ class VerseBox {
 
     if (updated) {
       this.updateTagDataContainer(tag_id, tag_title, action);
-      this.updateVisibleTags(new_tag_info_title_array);
+      this.updateVisibleTags(new_tag_info_title_array, tag_title, tag_id);
     }
   }
 
