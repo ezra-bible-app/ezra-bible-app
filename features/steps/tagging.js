@@ -36,10 +36,7 @@ Given('I create the tag {string}', async function (tagName) {
 When('I assign the tag {string} to the current verse selection', async function (tagName) {
   var tagsList = await spectronHelper.getWebClient().$('#tags-content-global');
   var allTags = await tagsList.$$('.checkbox-tag');
-  var tagCount = allTags.length;
   var tagFound = false;
-
-  assert(tagCount == 1, `The tagCount is not 1, but ${tagCount}`);
 
   for (var i = 0; i < allTags.length; i++) {
     this.currentTag = allTags[i];
