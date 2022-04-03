@@ -548,11 +548,13 @@ class TagsController {
 
     await eventController.publishAsync('on-tag-created', result.dbObject.id);
 
-    await eventController.publishAsync('on-tag-group-members-changed', {
-      tagId: result.dbObject.id,
-      addTagGroups: [ this.currentTagGroupId ],
-      removeTagGroups: []
-    });
+    if (this.tagGroupUsed()) {
+      await eventController.publishAsync('on-tag-group-members-changed', {
+        tagId: result.dbObject.id,
+        addTagGroups: [ this.currentTagGroupId ],
+        removeTagGroups: []
+      });
+    }
 
     await eventController.publishAsync('on-latest-tag-changed', {
       'tagId': result.dbObject.id,
@@ -1253,7 +1255,7 @@ class TagsController {
 
       var current_verse_box = new VerseBox(current_tag_data.closest('.verse-box')[0]);
       current_verse_box.updateTagTooltip();
-      current_verse_box.updateVisibleTags();
+      current_verse_box.updateVisibleTags(undefined, tag_id, title);
     }
   }
 
