@@ -210,14 +210,6 @@ class TagsController {
       $('#add-tags-to-group-dialog').dialog("open");
       await waitUntilIdle();
 
-      await addTagsToGroupTagList.tagManager.refreshItemList();
-
-      var tagList = await this.tag_store.getTagList();
-      var tagIdList = await this.getTagGroupMemberIds(this.currentTagGroupId, tagList);
-
-      addTagsToGroupTagList.tagManager.removeItems(tagIdList);
-
-      await waitUntilIdle();
       addTagsToGroupTagList.style.removeProperty('display');
     });
   
@@ -241,6 +233,17 @@ class TagsController {
       var tag_title = $('#new-standard-tag-title-input').val();
       await this.updateButtonStateBasedOnTagTitleValidation(tag_title, 'create-tag-button');
     });
+  }
+
+  async updateAddTagToGroupTagList() {
+    const addTagsToGroupTagList = document.getElementById('add-tags-to-group-tag-list');
+    await addTagsToGroupTagList.tagManager.refreshItemList();
+    let tagList = await this.tag_store.getTagList();
+    let tagIdList = await this.getTagGroupMemberIds(this.currentTagGroupId, tagList);
+    addTagsToGroupTagList.tagManager.removeItems(tagIdList);
+
+    let tagCount = addTagsToGroupTagList.tagManager.getAllItemElements().length;
+    return tagCount;
   }
 
   initAddTagsToGroupDialog(force=false) {
@@ -567,7 +570,7 @@ class TagsController {
     uiHelper.hideTextLoadingIndicator();
   }
 
-  handleNewTagButtonClick(button, type) {
+  async handleNewTagButtonClick(button, type) {
     if ($(button).hasClass('ui-state-disabled')) {
       return;
     }
@@ -577,16 +580,23 @@ class TagsController {
 
     let addExistingTagsLink = document.getElementById('add-existing-tags-to-tag-group-link').parentNode;
 
-    if (this.tagGroupUsed()) {
-      addExistingTagsLink.style.display = '';
-    } else {
-      addExistingTagsLink.style.display = 'none';
-    }
-
     const $tagInput = $('#new-' + type + '-tag-title-input');
 
     $tagInput.val(''); 
     this.updateButtonStateBasedOnTagTitleValidation('', 'create-tag-button');
+
+    if (this.tagGroupUsed()) {
+      let remainingTagCount = await this.updateAddTagToGroupTagList();
+
+      if (remainingTagCount > 0) {
+        addExistingTagsLink.style.removeProperty('display');
+      } else {
+        addExistingTagsLink.style.display = 'none';
+      }
+    } else {
+      addExistingTagsLink.style.display = 'none';
+    }
+
     $('#new-' + type + '-tag-dialog').dialog('open');
     $tagInput.focus();
   }
