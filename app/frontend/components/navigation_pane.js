@@ -342,9 +342,14 @@ class NavigationPane {
       return;
     }
 
-    var $navigationPane = this.getCurrentNavigationPane(tabIndex);
     const currentTranslation = currentTab.getBibleTranslationId();
     const currentBook = currentTab.getBook();
+
+    if (currentTranslation == null || currentBook == null || currentTab.isBookUnchanged()) {
+      return;
+    }
+
+    var $navigationPane = this.getCurrentNavigationPane(tabIndex);
     const versification = await swordModuleHelper.getThreeLetterVersification(currentTranslation);
     const dbBook = await ipcDb.getBibleBook(currentBook);
     const chapterCount = await ipcNsi.getBookChapterCount(currentTranslation, currentBook);
