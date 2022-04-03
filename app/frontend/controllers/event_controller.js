@@ -115,7 +115,7 @@ module.exports.publish = async function publish(event, payload=undefined, waitAs
  */
 module.exports.publishAsync = async function publishAsync(event, payload=undefined) {
 
-  const promisifiedResults = this.publish(event, payload, true);
+  const promisifiedResults = await this.publish(event, payload, true);
 
   var results = [];
   
