@@ -69,6 +69,7 @@ class TagsController {
     this.selected_verse_references = [];
     this.selected_verse_boxes = [];
 
+    this.initialRenderingDone = false;
     this.newTagDialogInitDone = false;
     this.addTagsToGroupDialogInitDone = false;
     this.deleteTagConfirmationDialogInitDone = false;
@@ -78,6 +79,10 @@ class TagsController {
     this.currentTagGroupId = null;
     this.currentTagGroupTitle = null;
 
+    this.subscribeEvents();
+  }
+
+  subscribeEvents() {
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
       const currentTab = app_controller.tab_controller.getTab(tabIndex);
 
@@ -85,7 +90,7 @@ class TagsController {
         // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
         this.verses_were_selected_before = true;
 
-        await this.updateTagsView(tabIndex);
+        await this.updateTagsView(tabIndex, !this.initialRenderingDone);
 
         if (currentTab.addedInteractively) {
           this.resetActivePanelToTagPanel(tabIndex);
@@ -1074,6 +1079,7 @@ class TagsController {
 
       var tagStatistics = await this.tag_store.getBookTagStatistics(currentBook, forceRefresh);
       await this.renderTags(tagList, tagStatistics, currentBook != null);
+      this.initialRenderingDone = true;
       await waitUntilIdle();
 
       this.lastContentId = contentId;
