@@ -27,6 +27,7 @@ class IpcNsi {
     this._isCordova = platformHelper.isCordova();
     this._bookChapterCountCache = new HierarchicalObjectCache();
     this._chapterVerseCountCache = new HierarchicalObjectCache();
+    this._bookVerseCountCache = new HierarchicalObjectCache();
     this._allChapterVerseCountCache = new HierarchicalObjectCache();
     this._bookListCache = new HierarchicalObjectCache();
     this._bookHeaderCache = new HierarchicalObjectCache();
@@ -187,6 +188,12 @@ class IpcNsi {
     }, moduleCode, bookCode, chapter);
   }
 
+  async getBookVerseCount(moduleCode, bookCode) {
+    return await this._bookVerseCountCache.fetch(async () => {
+      return await this._ipcRenderer.call('nsi_getBookVerseCount', moduleCode, bookCode);
+    }, moduleCode, bookCode);
+  }
+
   async getAllChapterVerseCounts(moduleCode, bookCode) {
     return await this._allChapterVerseCountCache.fetch(async () => {
       return await this._ipcRenderer.call('nsi_getAllChapterVerseCounts', moduleCode, bookCode);
@@ -200,7 +207,15 @@ class IpcNsi {
 
   async getBookHeaderList(moduleCode, bookCode) {
     return await this._bookHeaderCache.fetch(async () => {
-      return await this._ipcRenderer.call('nsi_getBookHeaderList', moduleCode, bookCode);
+      let totalVerseCount = await this.getBookVerseCount(moduleCode, bookCode);
+      let bookHeaders = [];
+
+      for (let i = 1; i <= totalVerseCount; i += 100) {
+        let currentHeaders = await this._ipcRenderer.call('nsi_getBookHeaderList', moduleCode, bookCode, i, 100);
+        bookHeaders = bookHeaders.concat(currentHeaders);
+      }
+
+      return bookHeaders;
     }, moduleCode, bookCode);
   }
 
