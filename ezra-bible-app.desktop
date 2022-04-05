@@ -9,3 +9,6 @@ Icon=ezra-bible-app
 Terminal=false
 StartupNotify=false
 Categories=Education;Spirituality;Literature;
+# The following line is only relevant for PureOS (used by phones like Librem 5)
+# see also https://puri.sm/posts/specify-form-factors-in-your-librem-5-apps/
+X-Purism-FormFactor=Workstation;Mobile;
