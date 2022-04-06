@@ -18,7 +18,24 @@
 
 const ezraHelper = require('../../helpers/ezra_helper.js');
 
+/**
+ * The ItemListManager is a class that populates and manages a list of tag-related items. It is designed as an abstract class.
+ * The method getDbItems must be overwritten in child classes that inherit from this class.
+ */
 class ItemListManager {
+  /**
+   * 
+   * @param {Element} contentDiv The element that is used as the container for the item list.
+   * @param {function} onClickHandler The handler that is called when an item is clicked.
+   * @param {function} onEditHandler The handler that is called when the edit button is pressed.
+   * @param {function} onDeleteHandler The handler that is called when the delete button is pressed.
+   * @param {Boolean} selectable Whether or not items shall be selectable.
+   * @param {Boolean} editable Whether or not items shall be editable.
+   * @param {string} cssClass The class that shall be put on the items in the list, so that they are easily stylable. 
+   * @param {string} renameHintI18n The i18next key for the rename tooltip/hint.
+   * @param {string} deleteHintI18n The i18next key for the delete tooltip/hint.
+   * @param {Array} virtualItems A list of virtual items that shall be added on top of the list.
+   */
   constructor(contentDiv,
               onClickHandler,
               onEditHandler,
