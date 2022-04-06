@@ -209,9 +209,10 @@ class IpcNsi {
     return await this._bookHeaderCache.fetch(async () => {
       let totalVerseCount = await this.getBookVerseCount(moduleCode, bookCode);
       let bookHeaders = [];
+      let pageSize = 100;
 
-      for (let i = 1; i <= totalVerseCount; i += 100) {
-        let currentHeaders = await this._ipcRenderer.call('nsi_getBookHeaderList', moduleCode, bookCode, i, 100);
+      for (let i = 1; i <= totalVerseCount; i += pageSize) {
+        let currentHeaders = await this._ipcRenderer.call('nsi_getBookHeaderList', moduleCode, bookCode, i, pageSize);
         bookHeaders = bookHeaders.concat(currentHeaders);
       }
 
