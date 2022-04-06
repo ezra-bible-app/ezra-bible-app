@@ -109,6 +109,20 @@ const template = html`
 </div>
 `;
 
+/**
+ * The TagListMenu is a web component that shows the currently selected tag groups as well as buttons for adding a tag group or adding a tag.
+ * 
+ * The respective element is <tag-list-menu></tag-list-menu>.
+ * 
+ * The user can switch between two views:
+ * - One when the list of tag groups are shown (triggers the event provided via the attribute tag-group-link-event).
+ * - One when a tag group gets selected (triggered by the event provided via the attribute tag-group-selection-event).
+ * 
+ * The following attributes are supported:
+ * - tag-group-link-event: Fired when the user clicks on the "Tag Groups" link.
+ * - tag-group-creation-event: Fired when the user creates a new tag group.
+ * - tag-group-selection-event: The component will subscribe to this event and react once it gets fired.
+ */
 class TagListMenu extends HTMLElement {
   constructor() {
     super();
