@@ -78,6 +78,12 @@ const template = html`
 </div>
 `;
 
+/**
+ * The TagGroupAssignmentList is a web component that lists tag groups for the purpose of selecting them in the context of a higher-level editor.
+ * The respective element is <tag-group-assignment-list></tag-group-assignment-list>.
+ * 
+ * A on change handler can be assigned via the onChange attribute.
+ */
 class TagGroupAssignmentList extends HTMLElement {
   constructor() {
     super();

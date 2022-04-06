@@ -101,6 +101,21 @@ const template = html`
 </div>
 `;
    
+/**
+ * The TagGroupList is a web component that lists all tag groups.
+ * 
+ * The respective element is <tag-group-list></tag-group-list>.
+ * 
+ * The following attributes are supported:
+ * - editable: A Boolean attribute that determines whether the list shows edit buttons.
+ * - persist: A Boolean attribute that determines whether changes of the list shall be written to the database or not.
+ * - activation-event: The event used for populating the list and then showing it.
+ * - selection-event: The event that shall be fired when an item is selected.
+ * - show-tag-count: A Boolean attribute that determines whether or not the tag count shall be shown behind each tag group.
+ * - hide-top-border: A Boolean attribute that determines whether the top border shall be hidden.
+ * - rounded-corners: A Boolean attribute that determines whether or not the borders of the box shall be rounded.
+ * - rounded-bottom-corners: A Boolean attribute that determines whether or not the bottom corners of the box shall be rounded.
+ */
 class TagGroupList extends HTMLElement {
   constructor() {
     super();
