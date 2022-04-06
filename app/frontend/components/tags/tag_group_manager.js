@@ -20,6 +20,9 @@ const ItemListManager = require("./item_list_manager.js");
 const eventController = require('../../controllers/event_controller.js');
 const { waitUntilIdle } = require("../../helpers/ezra_helper.js");
 
+/**
+ * The tag group manager is a special ItemListManager for a list of tag groups.
+ */
 class TagGroupManager extends ItemListManager {
   constructor(onClickHandler,
               onEditHandler,

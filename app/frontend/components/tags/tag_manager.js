@@ -19,6 +19,9 @@
 const ItemListManager = require("./item_list_manager.js");
 const eventController = require('../../controllers/event_controller.js');
 
+/**
+ * The TagManager is a special ItemListManager for a list of tags.
+ */
 class TagManager extends ItemListManager {
   constructor(onClickHandler,
               selectable=false,
