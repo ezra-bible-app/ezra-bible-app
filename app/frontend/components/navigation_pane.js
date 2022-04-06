@@ -55,9 +55,9 @@ class NavigationPane {
       this.clearHighlightedSearchResults();
     });
 
-    eventController.subscribe('on-translation-changed', () => {
+    /*eventController.subscribe('on-translation-changed', () => {
       this.updateNavigation();
-    });
+    });*/
 
     eventController.subscribe('on-module-search-started', (tabIndex) => {
       this.resetNavigationPane(tabIndex);
@@ -335,7 +335,7 @@ class NavigationPane {
     }
   }
 
-  async updateChapterTagIndicators(tabIndex=undefined) {
+  async updateChapterTagIndicators(tabIndex=undefined, force=false) {
     const currentTab = app_controller.tab_controller.getTab(tabIndex);
 
     if (currentTab == null) {
@@ -345,7 +345,7 @@ class NavigationPane {
     const currentTranslation = currentTab.getBibleTranslationId();
     const currentBook = currentTab.getBook();
 
-    if (currentTranslation == null || currentBook == null || currentTab.isBookUnchanged()) {
+    if (currentTranslation == null || currentBook == null || currentTab.isBookUnchanged() || force) {
       return;
     }
 
@@ -497,7 +497,7 @@ class NavigationPane {
     if (currentTextType == 'book') { // Update navigation based on book chapters
 
       await this.updateChapterNavigation(tabIndex, force);
-      await this.updateChapterTagIndicators(tabIndex);
+      await this.updateChapterTagIndicators(tabIndex, force);
 
       const currentTranslationId = currentTab.getBibleTranslationId();
       const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentTab.getBook());
