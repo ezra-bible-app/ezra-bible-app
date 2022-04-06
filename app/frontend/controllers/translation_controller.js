@@ -244,8 +244,6 @@ class TranslationController {
         var newBibleTranslationId = bibleSelect[0].value;
 
         ipcSettings.set('bibleTranslation', newBibleTranslationId);
-        app_controller.tab_controller.setCurrentBibleTranslationId(newBibleTranslationId);
-        app_controller.tab_controller.refreshBibleTranslationInTabTitle(newBibleTranslationId);
 
         setTimeout(() => {
           eventController.publish('on-translation-changed', {from: oldBibleTranslationId, to: newBibleTranslationId});
