@@ -78,6 +78,11 @@ const template = html`
 </div>
 `;
 
+/**
+ * The TagList is a web component that lists all tags. The tags are selectable.
+ * 
+ * The respective element is <tag-list></tag-list>.
+ */
 class TagList extends HTMLElement {
   constructor() {
     super();
@@ -95,10 +100,16 @@ class TagList extends HTMLElement {
     this._tagManager.setContentDiv(this._contentDiv);
   }
 
+  /**
+   * Gets the list of tags that were selected.
+   */
   get addList() {
     return this._tagManager._addList;
   }
 
+  /**
+   * Indicates whether or not tags have been selected.
+   */
   get isChanged() {
     return this._tagManager._addList.length != 0;
   }
