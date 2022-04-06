@@ -844,6 +844,7 @@ class TabController {
     var currentTab = this.getTab();
 
     this.setCurrentBibleTranslationId(newBibleTranslationId);
+    this.refreshBibleTranslationInTabTitle(newBibleTranslationId);
 
     // The tab search is not valid anymore if the translation is changing. Therefore we reset it.
     if (currentTab.tab_search != null) {
