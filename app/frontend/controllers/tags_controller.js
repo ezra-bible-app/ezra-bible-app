@@ -325,9 +325,9 @@ class TagsController {
     let tagButton = document.getElementById(buttonId);
 
     if (tagExisting || tagTitle == "") {
-      this.disableButton(tagButton);
+      uiHelper.disableButton(tagButton);
     } else {
-      this.enableButton(tagButton);
+      uiHelper.enableButton(tagButton);
     }
 
     return tagExisting;
@@ -1170,7 +1170,7 @@ class TagsController {
 
     const $tagInput = $('#rename-tag-title-input');
     let tagButton = document.getElementById('edit-tag-button');
-    this.disableButton(tagButton);
+    uiHelper.disableButton(tagButton);
 
     $tagInput.val(cb_label);
 
@@ -1191,24 +1191,14 @@ class TagsController {
     var newTitle = document.getElementById('rename-tag-title-input').value;
 
     if (newTitle != oldTitle || tagGroupAssignment.isChanged) {
-      this.enableButton(tagButton);
+      uiHelper.enableButton(tagButton);
     } else {
-      this.disableButton(tagButton);
+      uiHelper.disableButton(tagButton);
     }
 
     if (!tagGroupAssignment.isChanged) {
       this.updateButtonStateBasedOnTagTitleValidation(newTitle, 'edit-tag-button');
     }
-  }
-
-  enableButton(button) {
-    button.classList.remove('ui-state-disabled');
-    button.removeAttribute('disabled');
-  }
-
-  disableButton(button) {
-    button.classList.add('ui-state-disabled');
-    button.setAttribute('disabled', true);
   }
 
   updateTagCountAfterRendering(is_book=false) {
