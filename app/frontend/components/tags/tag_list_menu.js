@@ -19,6 +19,7 @@
 const { html } = require('../../helpers/ezra_helper.js');
 const eventController = require('../../controllers/event_controller.js');
 const UiHelper = require('../../helpers/ui_helper.js');
+const tagGroupValidator = require('./tag_group_validator.js');
 
 const template = html`
 
@@ -231,23 +232,27 @@ class TagListMenu extends HTMLElement {
         $dialogBox.dialog('close');
       };
 
-      buttons[i18n.t('tags.create-tag-group')] = function() {
-        createTagGroup();
+      buttons[i18n.t('tags.create-tag-group')] = {
+        id: 'create-tag-group-button',
+        text: i18n.t('tags.create-tag-group'),
+        click: () => {
+          createTagGroup();
+        }
       };
+      
+      document.getElementById('tag-group-title-value').addEventListener('keyup', async (event) => {
+        await tagGroupValidator.validateNewTagGroupTitle('tag-group-title-value', 'create-tag-group-button');
 
-      document.getElementById('tag-group-title-value').addEventListener('keypress', (event) => {
         if (event.key == 'Enter') {
           createTagGroup();
         }
       });
 
-      const title = i18n.t('tags.add-tag-group');
-   
       $dialogBox.dialog({
         width,
         height,
         position: [80, 120],
-        title: title,
+        title: i18n.t('tags.add-tag-group'),
         resizable: false,
         dialogClass: 'ezra-dialog',
         buttons: buttons,
@@ -257,6 +262,8 @@ class TagListMenu extends HTMLElement {
           resolve();
         }
       });
+
+      tagGroupValidator.validateNewTagGroupTitle('tag-group-title-value', 'create-tag-group-button');
     });
   }
 

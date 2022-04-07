@@ -19,6 +19,7 @@
 const { html, showErrorDialog } = require('../../helpers/ezra_helper.js');
 const eventController = require('../../controllers/event_controller.js');
 const TagGroupManager = require('./tag_group_manager.js');
+const tagGroupValidator = require('./tag_group_validator.js');
 
 const template = html`
 
@@ -302,17 +303,29 @@ class TagGroupList extends HTMLElement {
       const height = 200;
 
       var buttons = {};
+
       buttons[i18n.t('general.cancel')] = function() {
         $(this).dialog('close');
       };
-      buttons[i18n.t('general.save')] = () => {
-        const newTagGroupTitle = document.getElementById('rename-tag-group-title-input').value;
-        this.renameTagGroupInDb(itemId, newTagGroupTitle);
-        $dialogBox.dialog('close');
+
+      buttons[i18n.t('general.save')] = {
+        text: i18n.t('general.save'),
+        id: 'edit-tag-group-save-button',
+        click: () => {
+          this.renameTagGroupAndCloseDialog(itemId, $dialogBox);
+        }
       };
 
       const title = i18n.t('tags.rename-tag-group');
       document.getElementById('rename-tag-group-title-input').value = tagGroup.title;
+      
+      document.getElementById('rename-tag-group-title-input').addEventListener('keyup', async (event) => {
+        await tagGroupValidator.validateNewTagGroupTitle('rename-tag-group-title-input', 'edit-tag-group-save-button');
+
+        if (event.key == 'Enter') {
+          this.renameTagGroupAndCloseDialog(itemId, $dialogBox);
+        }
+      });
     
       $dialogBox.dialog({
         width,
@@ -328,7 +341,15 @@ class TagGroupList extends HTMLElement {
           resolve();
         }
       });
+
+      tagGroupValidator.validateNewTagGroupTitle('rename-tag-group-title-input', 'edit-tag-group-save-button');
     });
+  }
+
+  renameTagGroupAndCloseDialog(itemId, $dialogBox) {
+    const newTagGroupTitle = document.getElementById('rename-tag-group-title-input').value;
+    this.renameTagGroupInDb(itemId, newTagGroupTitle);
+    $dialogBox.dialog('close');
   }
 
   async renameTagGroupInDb(tagGroupId, newTitle) {

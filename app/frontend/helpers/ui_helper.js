@@ -170,6 +170,16 @@ class UiHelper {
     $menu.css('left', leftOffset);
     $menu.show();
   }
+
+  enableButton(button) {
+    button.classList.remove('ui-state-disabled');
+    button.removeAttribute('disabled');
+  }
+
+  disableButton(button) {
+    button.classList.add('ui-state-disabled');
+    button.setAttribute('disabled', true);
+  }
 }
 
 module.exports = UiHelper;
