@@ -346,8 +346,10 @@ class NavigationPane {
     const currentTranslation = currentTab.getBibleTranslationId();
     const currentBook = currentTab.getBook();
 
-    if (currentTranslation == null || currentBook == null || currentTab.isBookUnchanged() || force) {
-      return;
+    if (!force) {
+      if (currentTranslation == null || currentBook == null || currentTab.isBookUnchanged()) {
+        return;
+      }
     }
 
     var $navigationPane = this.getCurrentNavigationPane(tabIndex);
