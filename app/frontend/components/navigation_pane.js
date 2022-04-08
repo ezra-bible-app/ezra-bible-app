@@ -117,7 +117,7 @@ class NavigationPane {
     if (currentTextType == 'book' && currentBook != null) { // Book text mode
 
       navigationPane.removeClass('navigation-pane-books');
-      var bookHasHeaders = await swordModuleHelper.bookHasHeaders(currentTranslationId, currentBook);
+      var bookHasHeaders = await swordModuleHelper.bookHasHeaders(currentTranslationId, currentBook, false);
 
       if (headerNavOption.isChecked && bookHasHeaders) {
         
@@ -151,13 +151,14 @@ class NavigationPane {
     const currentTranslationId = currentTab.getBibleTranslationId();
     const currentBook = currentTab.getBook();
     const headerNavOption = app_controller.optionsMenu._headerNavOption;
-    const hasHeaders = await swordModuleHelper.bookHasHeaders(currentTranslationId, currentBook);
+    const hasHeaders = await swordModuleHelper.bookHasHeaders(currentTranslationId, currentBook, false);
 
     if (headerNavOption.isChecked && hasHeaders) {
       navigationPane.addClass('navigation-pane-headers');
 
       if (!currentTab.headersLoaded) {
         await this.updateNavigation(tabIndex, true);
+        await this.updateChapterTagIndicators(tabIndex, true);
       }
     }
   }
