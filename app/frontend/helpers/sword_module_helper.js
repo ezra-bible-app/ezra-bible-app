@@ -166,13 +166,14 @@ module.exports.moduleHasStrongs = async function(moduleId) {
   }
 };
 
-module.exports.bookHasHeaders = async function(moduleId, book) {
+module.exports.bookHasHeaders = async function(moduleId, book, validate=true) {
   var hasHeaders = false;
   var swordModule = await this.getSwordModule(moduleId);
 
   if (swordModule != null) {
     hasHeaders = swordModule.hasHeadings;
-    if (hasHeaders) {
+
+    if (hasHeaders && validate) {
       const headerList = await ipcNsi.getBookHeaderList(moduleId, book);
       if (headerList.length == 0) {
         hasHeaders = false;
