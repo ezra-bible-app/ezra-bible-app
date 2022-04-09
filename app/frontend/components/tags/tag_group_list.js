@@ -396,9 +396,13 @@ class TagGroupList extends HTMLElement {
       buttons[i18n.t('general.cancel')] = function() {
         $(this).dialog('close');
       };
-      buttons[i18n.t('tags.delete-tag-group')] = () => {
-        this.deleteTagGroupInDb(tagGroupId);
-        $dialogBox.dialog('close');
+      buttons[i18n.t('tags.delete-tag-group')] = {
+        id: 'delete-tag-group-button',
+        text: i18n.t('tags.delete-tag-group'),
+        click: () => {
+          this.deleteTagGroupInDb(tagGroupId);
+          $dialogBox.dialog('close');
+        }
       };
 
       const title = i18n.t('tags.delete-tag-group');
