@@ -230,3 +230,33 @@ Then('there are {int} tag groups in the database', async function (tagGroupCount
 
   assert(actualCount == tagGroupCount, `Did not find ${tagGroupCount} in the DB, but ${actualCount}`);
 });
+
+When('I rename the tag group {string} to {string}', async function (tagGroupTitle, newTagGroupTitle) {
+  let tagGroupFound = await spectronHelper.getWebClient().execute(async (tagGroupTitle) => {
+    let tagGroupList = document.querySelector('#tag-panel-tag-group-list').shadowRoot.querySelector('#tag-group-list-content');
+    let allTagGroups = tagGroupList.querySelectorAll('.tag-group');
+    let tagGroupFound = false;
+
+    for (let i = 0; i < allTagGroups.length; i++) {
+      let currentTagGroup = allTagGroups[i];
+      let currentTitle = currentTagGroup.querySelector('a').innerText;
+      if (currentTitle == tagGroupTitle) {
+        tagGroupFound = true;
+        let currentEditButton = currentTagGroup.querySelector('.edit-button');
+        currentEditButton.click();
+        break;
+      }
+    }
+
+    return tagGroupFound;
+  }, tagGroupTitle);
+
+  assert(tagGroupFound == true, `The tag group ${tagGroupTitle} could not be found in the list!`);
+  await spectronHelper.sleep(200);
+
+  let titleInput = await spectronHelper.getWebClient().$('#rename-tag-group-title-input');
+  await titleInput.setValue(newTagGroupTitle);
+
+  let tagGroupRenameConfirmButton = await spectronHelper.getWebClient().$('#edit-tag-group-save-button');
+  await tagGroupRenameConfirmButton.click();
+});
