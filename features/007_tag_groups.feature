@@ -36,6 +36,16 @@ Feature: Tag groups
     Then the tag group "New tag group" is listed in the tag group list
   
   @cleanup-after-scenario 
+  Scenario: Deleting a tag group
+    Given I create the tag "Test"
+    And I go to the list of tag groups
+    When I create a tag group "New tag group"
+    Then the tag group "New tag group" is listed in the tag group list
+    And the tag group "New tag group" is existing in the database
+    When I delete the tag group "New tag group"
+    Then there are 0 tag groups in the database
+  
+  @cleanup-after-scenario 
   Scenario: Adding existing tags to a tag group
     Given I create the tag "Test1"
     And I create the tag "Test2"

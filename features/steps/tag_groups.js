@@ -192,3 +192,41 @@ Then('{int} verses are shown with tags in the Bible browser', async function(exp
   assert(taggedVerseCount == expectedTaggedVerseCount,
          `Did not find ${expectedTaggedVerseCount} tagged verses, but rather ${taggedVerseCount}.`);
 });
+
+When('I delete the tag group {string}', async function (tagGroupTitle) {
+  let tagGroupFound = await spectronHelper.getWebClient().execute(async (tagGroupTitle) => {
+    let tagGroupList = document.querySelector('#tag-panel-tag-group-list').shadowRoot.querySelector('#tag-group-list-content');
+    let allTagGroups = tagGroupList.querySelectorAll('.tag-group');
+    let tagGroupFound = false;
+
+    for (let i = 0; i < allTagGroups.length; i++) {
+      let currentTagGroup = allTagGroups[i];
+      let currentTitle = currentTagGroup.querySelector('a').innerText;
+      if (currentTitle == tagGroupTitle) {
+        tagGroupFound = true;
+        let currentDeleteButton = currentTagGroup.querySelector('.delete-button');
+        currentDeleteButton.click();
+
+        setTimeout(() => {
+          let tagGroupDeleteConfirmButton = document.querySelector('#delete-tag-group-button');
+          tagGroupDeleteConfirmButton.click();
+        }, 200);
+
+        break;
+      }
+    }
+
+    return tagGroupFound;
+  }, tagGroupTitle);
+
+  assert(tagGroupFound == true, `The tag group ${tagGroupTitle} could not be found in the list!`);
+  await spectronHelper.sleep(500);
+});
+
+Then('there are {int} tag groups in the database', async function (tagGroupCount) {
+  let models = await dbHelper.initDatabase();
+  let dbTagGroups = await models.TagGroup.findAll();
+  let actualCount = dbTagGroups.length;
+
+  assert(actualCount == tagGroupCount, `Did not find ${tagGroupCount} in the DB, but ${actualCount}`);
+});
