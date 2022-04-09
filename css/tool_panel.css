@@ -326,6 +326,12 @@ tr.td-underline td {
   box-sizing: border-box;
 }
 
+#tags-content-global loading-indicator {
+  display: flex;
+  justify-content: center;
+  margin-top: 5em;
+}
+
 .checkbox-tag {
   display: flex;
   min-height: 2em;
