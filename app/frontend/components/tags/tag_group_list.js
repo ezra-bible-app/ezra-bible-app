@@ -72,6 +72,11 @@ const template = html`
   align-items: center;
 }
 
+.Android .tag-group {
+  height: 2.5em;
+  padding-top: 0.8em;
+}
+
 .tag-group:nth-child(odd) {
   background: var(--background-color-darker);
 }
@@ -144,6 +149,7 @@ class TagGroupList extends HTMLElement {
     this.readAttributes();
 
     this._contentDiv = this.shadowRoot.getElementById('tag-group-list-content');
+    platformHelper.addPlatformCssClass(this._contentDiv);
     this._tagGroupManager.setContentDiv(this._contentDiv);
 
     if (this._editable) {
