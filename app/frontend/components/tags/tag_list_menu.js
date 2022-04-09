@@ -35,7 +35,8 @@ const template = html`
 
 <style>
 #tag-list-menu.box-style {
-  padding: 0.5em;
+  padding: 0.7em;
+  padding-bottom: 0.9em;
   border: 1px solid var(--border-color);
   border-top: 0;
 }
@@ -94,6 +95,12 @@ const template = html`
   cursor: pointer;
 }
 
+.Android #new-standard-tag-button {
+  height: 24px;
+  margin-right: 1.3em;
+  font-size: 1em;
+}
+
 #tag-list-menu:not(.with-buttons) .add-element-button {
   display: none;
 }
@@ -104,7 +111,7 @@ const template = html`
 
   <button id="add-tag-group-button" i18n="tags.add-tag-group" class="add-element-button fg-button ui-state-default ui-corner-all"></button>
 
-  <button id="new-standard-tag-button" i18n="[title]tags.new-tag" class="add-element-button fg-button ui-state-default ui-corner-all">
+  <button id="new-standard-tag-button" i18n="[title]tags.new-tag" class="add-element-button button-small fg-button ui-state-default ui-corner-all">
     <i class="fas fa-plus fa-xs"></i>&nbsp;<i class="fas fa-tag fa-sm"></i>
   </button>
 </div>
@@ -134,6 +141,9 @@ class TagListMenu extends HTMLElement {
   connectedCallback() {  
     const shadow = this.attachShadow({ mode: 'open' });
     shadow.appendChild(template.content.cloneNode(true));
+    let rootElement = this.shadowRoot.getElementById('tag-list-menu');
+
+    platformHelper.addPlatformCssClass(rootElement);
 
     this.getTagGroupListLink().addEventListener('click', (event) => {
       event.preventDefault();
@@ -149,12 +159,12 @@ class TagListMenu extends HTMLElement {
     this._tagGroupSelectionEvent = this.getAttribute('tag-group-selection-event');
 
     if (this.getAttribute('box') == 'true') {
-      this.shadowRoot.getElementById('tag-list-menu').classList.add('box-style');
+      rootElement.classList.add('box-style');
     }
 
     if (this.getAttribute('add-element-buttons') == 'true') {
       this._addElementButtons = true;
-      this.shadowRoot.getElementById('tag-list-menu').classList.add('with-buttons');
+      rootElement.classList.add('with-buttons');
     } else {
       this._addElementButtons = false;
     }
