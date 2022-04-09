@@ -149,7 +149,11 @@ class TagsController {
       document.getElementById('tags-content-global').innerHTML = "";
       document.getElementById('tags-content-global').style.display = '';
       document.getElementById('tag-list-stats').style.visibility = 'visible';
+
+      this.showTagListLoadingIndicator();
+      await waitUntilIdle();
       await this.updateTagList(tab.getBook(), tagGroupId, tab.getContentId(), true);
+      this.hideTagListLoadingIndicator();
     });
   }
 
@@ -1406,14 +1410,23 @@ class TagsController {
   }
 
   showTagListLoadingIndicator() {
-    var loadingIndicator = $('#tags-loading-indicator');
-    loadingIndicator.find('.loader').show();
-    loadingIndicator.show();
+    let tagsContentGlobal = document.getElementById('tags-content-global');
+    let loadingIndicator = tagsContentGlobal.querySelector('loading-indicator');
+
+    if (loadingIndicator == null) {
+      let element = document.createElement('loading-indicator');
+      tagsContentGlobal.appendChild(element);
+      loadingIndicator = tagsContentGlobal.querySelector('loading-indicator');
+    }
+
+    $(loadingIndicator).find('.loader').show();
+    $(loadingIndicator).show();
   }
 
   hideTagListLoadingIndicator() {
-    var loadingIndicator = $('#tags-loading-indicator');
-    loadingIndicator.hide();
+    let tagsContentGlobal = document.getElementById('tags-content-global');
+    let loadingIndicator = tagsContentGlobal.querySelector('loading-indicator');
+    $(loadingIndicator).hide();
   }
 
   async updateTagsView(tabIndex, forceRefresh = false) {
