@@ -306,8 +306,13 @@ class NavigationPane {
     this.resetNavigationPane(tabIndex);
 
     const chapterCount = await ipcNsi.getBookChapterCount(currentTranslation, currentBook);
-    const headerList = await ipcNsi.getBookHeaderList(currentTranslation, currentBook);
-    const headerCount = headerList.length;
+    let headerList = [];
+    let headerCount = 0;
+
+    if (headerNavOption.isChecked && !currentTab.headersLoaded) {
+      headerList = await ipcNsi.getBookHeaderList(currentTranslation, currentBook);
+      headerCount = headerList.length;
+    }
 
     var navigationHeader = document.createElement('div');
     navigationHeader.classList.add('nav-pane-header');
