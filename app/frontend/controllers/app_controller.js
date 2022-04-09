@@ -352,10 +352,7 @@ class AppController {
     }
     
     app_controller.hideAllMenus();
-    app_controller.notes_controller.restoreCurrentlyEditedNotes();
-
-    var currentTab = app_controller.tab_controller.getTab();
-    currentTab.tab_search.blurInputField();
+    eventController.publish('on-body-clicked');
   }
 
   hideAllMenus() {
