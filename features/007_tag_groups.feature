@@ -45,6 +45,13 @@ Feature: Tag groups
     When I delete the tag group "New tag group"
     Then there are 0 tag groups in the database
   
+  @cleanup-after-scenario
+  Scenario: Renaming a tag group
+    Given I go to the list of tag groups
+    And I create a tag group "New tag group"
+    When I rename the tag group "New tag group" to "Newer tag group"
+    Then the tag group "Newer tag group" is existing in the database
+  
   @cleanup-after-scenario 
   Scenario: Adding existing tags to a tag group
     Given I create the tag "Test1"
