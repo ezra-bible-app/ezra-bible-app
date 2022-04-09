@@ -1373,8 +1373,13 @@ class TagsController {
     $('#tag-filter-menu').find('input').bind('click', (e) => { tags_controller.tag_list_filter.handleTagFilterTypeClick(e); });
 
     $('#tags-search-input').bind('keyup', (e) => { this.tag_list_filter.handleTagSearchInput(e); });
-    $('#tags-search-input').bind('keydown', function(e) {
-      e.stopPropagation(); 
+    $('#tags-search-input').bind('keydown', (e) => {
+      e.stopPropagation();
+    });
+
+    $('#tags-search-input').bind('mouseup', (e) => {
+      e.stopPropagation();
+      $('#tags-search-input').select();
     });
 
     tags_controller.bindTagEvents();
