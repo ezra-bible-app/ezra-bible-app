@@ -137,18 +137,22 @@ class PlatformHelper {
     return false;
   }
 
-  addPlatformCssClass() {
+  addPlatformCssClass(element=undefined) {
+    if (element === undefined) {
+      element = document.body;
+    }
+
     if (this.isMac()) {
-      document.body.classList.add('OSX');
+      element.classList.add('OSX');
     } else if (this.isAndroid()) {
-      document.body.classList.add('Android');
+      element.classList.add('Android');
       if (window.isChromiumOlder()) {
-        document.body.classList.add('webview-older'); // in Android it's possible to have lower versions of WebView
+        element.classList.add('webview-older'); // in Android it's possible to have lower versions of WebView
       }
     } else if (this.isLinux()) {
-      document.body.classList.add('Linux');
+      element.classList.add('Linux');
     } else if (this.isWin()) {
-      document.body.classList.add('Windows');
+      element.classList.add('Windows');
     }
   }
 
