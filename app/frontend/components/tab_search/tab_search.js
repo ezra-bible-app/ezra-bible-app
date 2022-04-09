@@ -68,6 +68,10 @@ class TabSearch {
 
     var currentVerseList = parentTab.find('.verse-list');
     this.setVerseList(currentVerseList);
+
+    eventController.subscribe('on-body-clicked', () => {
+      this.blurInputField();
+    });
   }
 
   initInputField() {

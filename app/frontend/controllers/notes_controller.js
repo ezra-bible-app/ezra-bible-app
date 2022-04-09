@@ -63,6 +63,10 @@ class NotesController {
       this.restoreCurrentlyEditedNotes();
     });
 
+    eventController.subscribe('on-body-clicked', () => {
+      this.restoreCurrentlyEditedNotes();
+    });
+
     eventController.subscribe('on-theme-changed', (theme) => {
       switch (theme) {
         case 'dark':
