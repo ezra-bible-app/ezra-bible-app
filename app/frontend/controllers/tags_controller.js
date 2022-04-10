@@ -456,6 +456,7 @@ class TagsController {
   async closeDialogAndUpdateTag() {
     var oldTitle = tags_controller.edit_tag_title;
     var newTitle = $('#rename-tag-title-input').val();
+    newTitle = newTitle.trim();
 
     if (newTitle != oldTitle) {
       let tagExisting = await this.updateButtonStateBasedOnTagTitleValidation(newTitle, 'edit-tag-button');
@@ -545,6 +546,7 @@ class TagsController {
     var new_tag_title = $('#new-' + type + '-tag-title-input').val();
     tags_controller.new_tag_created = true;
     this.last_created_tag = new_tag_title;
+    new_tag_title = new_tag_title.trim();
 
     var result = await ipcDb.createNewTag(new_tag_title, this.currentTagGroupId);
     if (result.success == false) {

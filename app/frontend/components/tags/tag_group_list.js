@@ -257,6 +257,8 @@ class TagGroupList extends HTMLElement {
   }
 
   async createTagGroupInDb(tagGroupTitle) {
+    tagGroupTitle = tagGroupTitle.trim();
+
     let result = await ipcDb.createTagGroup(tagGroupTitle);
     if (!result.success) {
       var message = `The tag group <i>${tagGroupTitle}</i> could not be created.<br>
@@ -359,6 +361,8 @@ class TagGroupList extends HTMLElement {
   }
 
   async renameTagGroupInDb(tagGroupId, newTitle) {
+    newTitle = newTitle.trim();
+
     var result = await ipcDb.updateTagGroup(tagGroupId, newTitle);
 
     if (result.success == false) {
