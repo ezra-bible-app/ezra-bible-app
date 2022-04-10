@@ -151,8 +151,10 @@ class ItemListManager {
   highlightItem(itemId) {
     if (itemId > 0) {
       let element = this.getContentDiv().querySelector('#' + this._cssClass + '-' + itemId);
-      $(element).effect('bounce', 'fast');
-      element.style.removeProperty('display');
+      if (element != null) {
+        $(element).effect('bounce', 'fast');
+        element.style.removeProperty('display');
+      }
     }
   }
 
