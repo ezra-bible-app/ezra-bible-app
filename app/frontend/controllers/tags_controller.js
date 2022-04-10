@@ -338,6 +338,7 @@ class TagsController {
   }
 
   async tagExists(tagTitle) {
+    tagTitle = tagTitle.trim();
     return await this.tag_store.tagExists(tagTitle);
   }
 
