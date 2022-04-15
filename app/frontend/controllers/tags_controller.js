@@ -202,7 +202,7 @@ class TagsController {
       id: 'create-tag-button',
       text: i18n.t("tags.create-tag"),
       click: function() {
-        tags_controller.saveNewTag(this, "standard");
+        tags_controller.saveNewTag(this);
       }
     };
 
@@ -235,7 +235,7 @@ class TagsController {
         }
 
         $('#new-standard-tag-dialog').dialog("close");
-        tags_controller.saveNewTag(event, "standard");
+        tags_controller.saveNewTag(event);
       }
     // eslint-disable-next-line no-unused-vars
     }).on("keyup", async (event) => {
@@ -538,18 +538,21 @@ class TagsController {
     tag_selection_entry.text(title);
   }
 
-  async saveNewTag(e, type) {
+  async saveNewTag(e) {
     uiHelper.showTextLoadingIndicator();
     $(e).dialog("close");
 
     await waitUntilIdle(); // Give the dialog some time to close
 
-    var new_tag_title = $('#new-' + type + '-tag-title-input').val();
+    var new_tag_title = $('#new-standard-tag-title-input').val();
     tags_controller.new_tag_created = true;
     this.last_created_tag = new_tag_title;
     new_tag_title = new_tag_title.trim();
 
-    var result = await ipcDb.createNewTag(new_tag_title, this.currentTagGroupId);
+    let tagGroupAssignment = document.getElementById('new-tag-dialog-tag-group-assignment');
+    let tagGroups = tagGroupAssignment.addList;
+
+    var result = await ipcDb.createNewTag(new_tag_title, tagGroups);
     if (result.success == false) {
       var message = `The new tag <i>${new_tag_title}</i> could not be saved.<br>
                      An unexpected database error occurred:<br><br>
@@ -582,7 +585,7 @@ class TagsController {
     uiHelper.hideTextLoadingIndicator();
   }
 
-  async handleNewTagButtonClick(button, type) {
+  async handleNewTagButtonClick(button) {
     if ($(button).hasClass('ui-state-disabled')) {
       return;
     }
@@ -592,9 +595,17 @@ class TagsController {
 
     let addExistingTagsLink = document.getElementById('add-existing-tags-to-tag-group-link').parentNode;
 
-    const $tagInput = $('#new-' + type + '-tag-title-input');
-
+    const $tagInput = $('#new-standard-tag-title-input');
     $tagInput.val(''); 
+
+    let tagGroupAssignment = document.getElementById('new-tag-dialog-tag-group-assignment');
+    await tagGroupAssignment.tagGroupManager.refreshItemList();
+    tagGroupAssignment.tagGroupManager._addList = [];
+
+    if (this.tagGroupUsed()) {
+      tagGroupAssignment.tagGroupManager.enableElementById(this.currentTagGroupId);
+    }
+
     this.updateButtonStateBasedOnTagTitleValidation('', 'create-tag-button');
 
     if (this.tagGroupUsed()) {
@@ -609,7 +620,7 @@ class TagsController {
       addExistingTagsLink.style.display = 'none';
     }
 
-    $('#new-' + type + '-tag-dialog').dialog('open');
+    $('#new-standard-tag-dialog').dialog('open');
     $tagInput.focus();
   }
 

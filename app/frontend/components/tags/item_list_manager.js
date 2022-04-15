@@ -305,12 +305,23 @@ class ItemListManager {
     }
   }
 
-  enableElementById(element, id) {
+  enableElementIfIdMatches(element, id) {
     let link = element.querySelector('a');
 
     if (link.getAttribute('item-id') == id) {
       this.enableItemElement(element);
     }
+  }
+
+  enableElementById(id) {
+    let allItems = this.getAllItemElements();
+
+    allItems.forEach((item) => {
+      let itemId = this.getItemElementId(item);
+      if (itemId == id) {
+        this.enableItemElement(item);
+      }
+    });
   }
 
   enableItemElement(element) {

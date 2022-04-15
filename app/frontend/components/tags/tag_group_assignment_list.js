@@ -134,7 +134,7 @@ class TagGroupAssignmentList extends HTMLElement {
 
       if (tag.tagGroupList != null) {
         tag.tagGroupList.forEach((tagGroupId) => {
-          this._tagGroupManager.enableElementById(itemElement, tagGroupId);
+          this._tagGroupManager.enableElementIfIdMatches(itemElement, tagGroupId);
         });
       }
     });
@@ -161,6 +161,10 @@ class TagGroupAssignmentList extends HTMLElement {
 
   get isChanged() {
     return this._tagGroupManager._removeList.length != 0 || this._tagGroupManager._addList.length != 0;
+  }
+
+  get tagGroupManager() {
+    return this._tagGroupManager;
   }
 }
 

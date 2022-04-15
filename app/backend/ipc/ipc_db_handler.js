@@ -69,12 +69,18 @@ class IpcDbHandler {
       return this.dbDir + path.sep + "ezra.sqlite";
     });
 
-    this._ipcMain.add('db_createNewTag', async (newTagTitle, tagGroupId) => {
+    this._ipcMain.add('db_createNewTag', async (newTagTitle, tagGroups) => {
       let result = await global.models.Tag.create_new_tag(newTagTitle);
       
-      if (tagGroupId != null && tagGroupId > 0) {
-        let tagGroup = await global.models.TagGroup.findByPk(tagGroupId);
-        await tagGroup.addTag(result.dbObject.id);
+      if (tagGroups != null) {
+        for (let i = 0; i < tagGroups.length; i++) {
+          let tagGroupId = tagGroups[i];
+          
+          if (tagGroupId != null && tagGroupId > 0) {
+            let tagGroup = await global.models.TagGroup.findByPk(tagGroupId);
+            await tagGroup.addTag(result.dbObject.id);
+          }
+        }
       }
 
       return result;
