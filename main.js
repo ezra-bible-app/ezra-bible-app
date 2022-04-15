@@ -43,7 +43,7 @@ if (process.platform === 'win32') {
 }
 
 if (!isDev) {
-  global.Sentry = require('@sentry/electron/dist/main');
+  global.Sentry = require('@sentry/electron/main');
 
   Sentry.init({
     debug: false,
