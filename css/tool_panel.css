@@ -254,7 +254,7 @@
   color: var(--accent-color);
 }
 
-.darkmode--activated #dictionary-panel a:link,
+.darkmode--activated #dictionary-panel-wrapper a:link,
 .darkmode--activated #new-standard-tag-dialog a:link,
 .darkmode--activated #new-standard-tag-dialog a:visited {
   color: var(--accent-color-darkmode);
