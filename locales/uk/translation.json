@@ -331,7 +331,11 @@
     "greek-dict": "Словник грецької",
     "hebrew-dict": "Словник івріту",
     "default-header": "<b>Словник</b>",
-    "help-instruction": "<p>Як відобразити словникові записи:</p><ol><li>Переконайтеся, що встановленно словники Стронга (івриту та грецької). Поточний стан: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li><li>Відкрийте переклад, що містить числа Стронга.</li><li>Затиснюючи клавішу SHIFT, переміщуйте мишу повз окремі слова та фрази, щоб побачити тут словникові записи.</li><ol>",
+    "help-instruction-intro": "Як відобразити словникові записи:",
+    "help-instruction-part1": "Переконайтеся, що встановленно словники Стронга (івриту та грецької). Поточний стан: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
+    "help-instruction-part2": "Відкрийте переклад, що містить числа Стронга.",
+    "help-instruction-part3": "Затиснюючи клавішу SHIFT, переміщуйте мишу повз окремі слова та фрази, щоб побачити тут словникові записи.",
+    "help-instruction-part3-cordova": "Touch and hold individual words or phrases until you see dictionary entries here.",
     "find-all-occurrences": "Знайти всі випадки",
     "open-in-blueletter": "Відкрити у Blue Letter Bible",
     "related-strongs": "Пов'язані числа Стронга"

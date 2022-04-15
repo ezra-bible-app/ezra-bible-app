@@ -333,7 +333,11 @@
     "greek-dict": "Словарь греческого языка",
     "hebrew-dict": "Словарь иврита",
     "default-header": "<b>Словарь</b>",
-    "help-instruction": "<p>Отображение статей из словаря:</p><ol><li>Убедитесь, что установленны словари Стронга (иврита и греческого). Статус: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li><li> Откройте перевод с номерами Стронга.</li><li> Удерживая клавишу SHIFT, наводите указатель мыши на отдельные слова и фразы, чтобы увидеть соответсвующую статью из словаря.</li><ol> ",
+    "help-instruction-intro": "Отображение статей из словаря:",
+    "help-instruction-part1": "Убедитесь, что установленны словари Стронга (иврита и греческого). Статус: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
+    "help-instruction-part2": "Откройте перевод с номерами Стронга.",
+    "help-instruction-part3": "Удерживая клавишу SHIFT, наводите указатель мыши на отдельные слова и фразы, чтобы увидеть соответсвующую статью из словаря.",
+    "help-instruction-part3-cordova": "Touch and hold individual words or phrases until you see dictionary entries here.",
     "find-all-событий": "Найти все вхождения",
     "open-in-blueletter": "Открыть в Blue Letter Bible",
     "related-strongs": "Связанные номера Стронга"
