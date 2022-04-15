@@ -60,6 +60,8 @@ class DictionaryInfoBox {
   }
 
   clearDictInfoBox() {
+    this.currentStrongsEntry = null;
+
     var strongsAvailable = this.dictionaryController.strongsAvailable;
     var dictionaryInstallStatus = i18n.t("general.installed");
     var dictionaryInstallStatusClass = 'dict-installed';
