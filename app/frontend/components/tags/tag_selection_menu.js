@@ -30,11 +30,11 @@ class TagSelectionMenu {
     this.tag_menu_populated = false;
     this.currentTagGroupId = -1;
 
-    this.bindEvents();
-    this.subscribeEvents();
+    this.bindUserEvents();
+    this.subscribeAppEvents();
   }
 
-  bindEvents() {
+  bindUserEvents() {
     $('#tag-selection-filter-input').bind('keyup', () => { this.handleTagSearchInput(); });
 
     // eslint-disable-next-line no-unused-vars
@@ -55,7 +55,7 @@ class TagSelectionMenu {
     });
   }
 
-  subscribeEvents() {
+  subscribeAppEvents() {
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
       await this.updateTagSelectionMenu(tabIndex);
     });
