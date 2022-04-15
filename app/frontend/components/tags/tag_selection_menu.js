@@ -30,12 +30,38 @@ class TagSelectionMenu {
     this.tag_menu_populated = false;
     this.currentTagGroupId = -1;
 
+    this.bindEvents();
+    this.subscribeEvents();
+  }
+
+  bindEvents() {
+    $('#tag-selection-filter-input').bind('keyup', () => { this.handleTagSearchInput(); });
+
+    // eslint-disable-next-line no-unused-vars
+    $('#tag-selection-recently-used-checkbox').bind('click', (event) => {
+      this.applyCurrentFilters();
+    });
+
+    $('#select-all-tags-button').bind('click', () => {
+      this.selectAllTags();
+    });
+
+    $('#deselect-all-tags-button').bind('click', () => {
+      this.deselectAllTags();
+    });
+
+    $('#confirm-tag-selection-button').bind('click', () => {
+      this.handleConfirmButtonClick();
+    });
+  }
+
+  subscribeEvents() {
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
       await this.updateTagSelectionMenu(tabIndex);
     });
 
     eventController.subscribe('on-tab-added', (tabIndex) => {
-      this.init(tabIndex);
+      this.initForTab(tabIndex);
     });
 
     eventController.subscribe('on-tag-created', async () => {
@@ -63,6 +89,11 @@ class TagSelectionMenu {
     });
   }
 
+  initForTab(tabIndex=undefined) {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+    currentVerseListMenu.find('.tag-select-button').bind('click', (event) => { this.handleTagMenuClick(event); });
+  }
+
   hideTagGroupList() {
     document.getElementById('tag-selection-menu-tag-group-list').style.display = 'none';
   }
@@ -82,29 +113,6 @@ class TagSelectionMenu {
     document.getElementById('tag-selection-filter-buttons').style.display = 'flex';
     document.getElementById('tag-selection-filter').style.removeProperty('display');
     document.getElementById('tag-selection-summary').style.display = 'flex';
-  }
-
-  init(tabIndex=undefined) {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    currentVerseListMenu.find('.tag-select-button').bind('click', (event) => { this.handleTagMenuClick(event); });
-    $('#tag-selection-filter-input').bind('keyup', () => { this.handleTagSearchInput(); });
-
-    // eslint-disable-next-line no-unused-vars
-    $('#tag-selection-recently-used-checkbox').bind('click', (event) => {
-      this.applyCurrentFilters();
-    });
-
-    $('#select-all-tags-button').bind('click', () => {
-      this.selectAllTags();
-    });
-
-    $('#deselect-all-tags-button').bind('click', () => {
-      this.deselectAllTags();
-    });
-
-    $('#confirm-tag-selection-button').bind('click', () => {
-      this.handleConfirmButtonClick();
-    });
   }
 
   selectAllTags() {
