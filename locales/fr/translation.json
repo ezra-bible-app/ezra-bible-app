@@ -340,7 +340,12 @@
     "greek-dict": "Dictionnaire grec",
     "hebrew-dict": "Dictionnaire hébreu",
     "default-header": "<b>Dictionnaire</b>",
-    "help-instruction": "<p>Comment afficher les entrées de dictionnaire ici :</p><ol><li>Vérifiez que les dictionnaires Strong (hébreu et grec) sont installés. Statut: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li><li>Ouvrez ensuite une traduction avec la fonctionnalité des nombres de Strong.</li><li>En pressant la touche SHIFT vous pouvez déplacer votre souris sur chaque mot en particulier ou sur une phrase pour y voir les entrées de dictionnaire.</li><ol>",    "find-all-occurrences": "Trouver toutes les occurrences",
+    "help-instruction": "Comment afficher les entrées de dictionnaire ici :",
+    "help-instruction-part1": "Vérifiez que les dictionnaires Strong (hébreu et grec) sont installés. Statut: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
+    "help-instruction-part2": "Ouvrez ensuite une traduction avec la fonctionnalité des nombres de Strong.",
+    "help-instruction-part3": "En pressant la touche SHIFT vous pouvez déplacer votre souris sur chaque mot en particulier ou sur une phrase pour y voir les entrées de dictionnaire.",
+    "help-instruction-part3-cordova": "Touch and hold individual words or phrases until you see dictionary entries here.",
+    "find-all-occurrences": "Trouver toutes les occurrences",
     "open-in-blueletter": "Ouvrir dans la Blue Letter Bible",
     "related-strongs": "Strong associés"
   },

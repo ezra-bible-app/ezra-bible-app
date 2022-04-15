@@ -322,7 +322,11 @@
     "greek-dict": "Griechisches Wörterbuch",
     "hebrew-dict": "Hebräisches Wörterbuch",
     "default-header": "<b>Wörterbuch</b>",
-    "help-instruction": "<p>Wie Sie hier Wörterbucheinträge anzeigen:</p><ol><li>Stellen Sie sicher, dass die Strong's Wörterbücher (Hebräisch und Griechisch) installiert sind. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li><li>Öffnen Sie eine Übersetzung mit Unterstützung für Strong's.</li><li>Während Sie die SHIFT Taste drücken können Sie die Maus über einzelne Worte oder Texte bewegen, um hier Wörterbucheinträge anzuzeigen.</li><ol>",
+    "help-instruction-intro": "Wie Sie hier Wörterbucheinträge anzeigen:",
+    "help-instruction-part1": "Stellen Sie sicher, dass die Strong's Wörterbücher (Hebräisch und Griechisch) installiert sind. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
+    "help-instruction-part2": "Öffnen Sie eine Übersetzung mit Unterstützung für Strong's.",
+    "help-instruction-part3": "Während Sie die SHIFT Taste drücken können Sie die Maus über einzelne Worte oder Texte bewegen, um hier Wörterbucheinträge anzuzeigen.",
+    "help-instruction-part3-cordova": "Touch and hold individual words or phrases until you see dictionary entries here.",
     "find-all-occurrences": "Alle Vorkommnisse finden",
     "open-in-blueletter": "In Blue Letter Bible öffnen",
     "related-strongs": "Verwandte Strong's"

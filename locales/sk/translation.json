@@ -330,7 +330,11 @@
     "greek-dict": "Grécky slovník",
     "hebrew-dict": "Hebrejský slovník",
     "default-header": "<b>Slovník</b>",
-    "help-instruction": "<p>Ako tu zobraziť položky slovníka:</p><ol><li>Uistite sa, že sú nainštalované Strongove slovníky (hebrejčina a gréčtina). Stav: <span class='{{ install_status_class }}'>{{ install_status }}</span>.</li><li>Otvorte preklad pomocou funkcie Strong.</li><li>Zatiaľ čo stlačíte tlačidlo Kláves SHIFT môžete posúvať myšou po jednotlivých slovách a frázach, aby ste tu zobrazili položky v slovníku.</li><ol>",
+    "help-instruction-intro": "Ako tu zobraziť položky slovníka:",
+    "help-instruction-part1": "Uistite sa, že sú nainštalované Strongove slovníky (hebrejčina a gréčtina). Stav: <span class='{{ install_status_class }}'>{{ install_status }}</span>.",
+    "help-instruction-part2": "Otvorte preklad pomocou funkcie Strong.",
+    "help-instruction-part3": "Zatiaľ čo stlačíte tlačidlo Kláves SHIFT môžete posúvať myšou po jednotlivých slovách a frázach, aby ste tu zobrazili položky v slovníku.",
+    "help-instruction-part3-cordova": "Touch and hold individual words or phrases until you see dictionary entries here.",
     "find-all-occurrences": "Nájsť všetky výskyty",
     "open-in-blueletter": "Otvoriť v Blue Letter Bible",
     "related-strongs": "Súvisiace Strongy"

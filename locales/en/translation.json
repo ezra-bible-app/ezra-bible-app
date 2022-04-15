@@ -333,7 +333,11 @@
     "greek-dict": "Greek Dictionary",
     "hebrew-dict": "Hebrew Dictionary",
     "default-header": "<b>Dictionary</b>",
-    "help-instruction": "<p>How to show dictionary entries here:</p><ol><li>Make sure that Strong's Dictionaries (Hebrew and Greek) are installed. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li><li>Open a translation with the Strong's feature.</li><li>While you press the SHIFT key you can move your mouse over the individual words and phrases to see dictionary entries here.</li><ol>",
+    "help-instruction-intro": "How to show dictionary entries here:",
+    "help-instruction-part1": "Make sure that Strong's Dictionaries (Hebrew and Greek) are installed. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
+    "help-instruction-part2": "Open a translation with the Strong's feature.",
+    "help-instruction-part3": "While you press the SHIFT key you can move your mouse over the individual words and phrases to see dictionary entries here.",
+    "help-instruction-part3-cordova": "Touch and hold individual words or phrases until you see dictionary entries here.",
     "find-all-occurrences": "Find all occurrences",
     "open-in-blueletter": "Open in Blue Letter Bible",
     "related-strongs": "Related Strong's"
