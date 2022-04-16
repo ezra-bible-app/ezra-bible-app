@@ -115,8 +115,8 @@
     "module-sync-header": "Instalando módulos adicionales"
   },
   "general": {
-    "about-ezra-bible-app": "About Ezra Bible App",
-    "general-app-info": "General information about Ezra Bible App can be found on the website.<br>Technical information about the development of Ezra Bible App can be found on GitHub.",
+    "about-ezra-bible-app": "Acerca de Ezra Bible App",
+    "general-app-info": "La información general acerca de Ezra Bible App puede ser encontrada en el sitio web oficial.<br>La información técnica sobre el desarrollo de Ezra Bible App puede ser encontrada en GitHub.",
     "chapter-verse-separator": ":",
     "module-application-info": "Información del módulo y la aplicación",
     "application-info": "Información de la aplicación",
@@ -186,7 +186,7 @@
     "export-user-data-hint": "Esta función exporta todos los datos del usuario (etiquetas, notas), así como las referencias bíblicas a un archivo CSV",
     "installed": "Instalado",
     "not-installed": "No instalado",
-    "and-more": "and more"
+    "and-more": "y otras"
   },
   "help": {
     "help-text-no-tags-book-opened": "Para comenzar a trabajar con las etiquetas, debe crear la primera pulsando en el botón <i>Nueva&nbsp;etiqueta</i>.<br/><br/>Después usted podrá seleccionar los textos de La Biblia que desee, para ello pulse sobre un verso o arrastre para seleccionar varios versos y agreguelos a la etiqueta que acaba de crear.",
@@ -252,7 +252,7 @@
     "delete-tag-permanently": "Eliminar esta etiqueta permanentemente",
     "none-selected": "Nada",
     "rename-tag": "Renombrar etiqueta",
-    "edit-tag": "Edit tag",
+    "edit-tag": "Editar etiqueta",
     "title": "Título",
     "stats-used": "usado",
     "stats-total": "total",
@@ -265,16 +265,16 @@
     "tag-count-selected_other": "{{count}} etiquetas seleccionadas",
     "select-all-tags": "Seleccionar todas",
     "deselect-all-tags": "Deseleccionar todas",
-    "add-tag-group": "Add tag group",
-    "create-tag-group": "Create tag group",
-    "rename-tag-group": "Rename tag group",
-    "delete-tag-group": "Delete tag group",
-    "tag-group": "Tag group",
-    "tag-groups": "Tag groups",
-    "add-existing-tags-to-current-tag-group": "Add existing tags to current tag group",
-    "add-tags-to-group": "Add tags to group",
-    "delete-tag-from-group-explanation": "The tag <i>{{tag}}</i> will be deleted from the group <i>{{group}}</i>. To permanently delete the tag, click the checkbox below.",
-    "really-delete-tag-group": "Do you really want to delete the tag group<br/><i>{{tagGroupTitle}}</i>?"
+    "add-tag-group": "Añadir grupo de etiquetas",
+    "create-tag-group": "Crear grupo de etiquetas",
+    "rename-tag-group": "Renombrar grupo de etiquetas",
+    "delete-tag-group": "Eliminar grupo de etiquetas",
+    "tag-group": "Grupo de etiquetas",
+    "tag-groups": "Grupos de etiquetas",
+    "add-existing-tags-to-current-tag-group": "Añadir las etiquetas existentes al grupo de etiquetas actual",
+    "add-tags-to-group": "Añadir etiquetas al grupo",
+    "delete-tag-from-group-explanation": "La etiqueta <i>{{tag}}</i> será eliminada del grupo <i>{{group}}</i>. Para eliminar completamente la etiqueta, haga clic en el botón debajo.",
+    "really-delete-tag-group": "Realmente desea eliminar el grupo de etiquetas<br/><i>{{tagGroupTitle}}</i>?"
   },
   "bible-browser": {
     "chapter": "Capítulo",
@@ -311,7 +311,7 @@
     "open-verse-lists-in-new-tab": "Abrir la lista de versículos en una nueva pestaña",
     "show-notes-tags-indicators": "Mostrar indicadores de notas/etiquetas",
     "show-tags": "Mostrar etiquetas",
-    "use-tag-group-filter": "Use tag group filter",
+    "use-tag-group-filter": "Usar el filtro de grupo de etiquetas",
     "show-notes": "Mostrar notas",
     "limit-notes-display-size": "Limitar el tamaño de las notas",
     "use-tags-column": "Usar columna de etiquetas",
@@ -339,7 +339,7 @@
     "help-instruction-part1": "Asegúrese de que los diccionarios Strong's (Hebreo y Griego) estén instalados. Estado: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Abra una traducción con números Strongs.",
     "help-instruction-part3": "Mientras mantiene pulsada la tecla SHIFT usted puede mover el cursor sobre palabras individuales o frases para ver las entradas en el diccionario.",
-    "help-instruction-part3-cordova": "Touch and hold individual words or phrases until you see dictionary entries here.",
+    "help-instruction-part3-cordova": "Toque y mantenga pulsado sobre palabras o frases hasta que vea las entradas del diccionario aquí.",
     "find-all-occurrences": "Encontrar todas las coincidencias",
     "open-in-blueletter": "Abrir en Blue Letter Bible",
     "related-strongs": "Números Strongs relacionados"
