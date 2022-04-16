@@ -22,7 +22,7 @@ Librem 5/Pinephone etc.
 */
 @media screen and (max-width:600px) {
   .verse-list-menu .fg-button {
-    margin-right: 2px;
+    margin-right: 0.5em;
     padding: 1px 12px;
   }
   .verse-list-menu .fg-button >div{
@@ -78,8 +78,13 @@ Librem 5/Pinephone etc.
     padding: 0;
     margin: 0;
   }
-  .verse-reference {
-    flex-basis: 100%;
+  .verse-list-without-user-data-indicators .verse-reference {
+    width: unset;
+    margin-left: unset;
+  }
+  .verse-reference-content {
+    width: unset;
+    min-width: 2.5em;
   }
   .verse-content {
     padding: 0.2em;
@@ -95,6 +100,7 @@ Librem 5/Pinephone etc.
   .verse-list:not(.verse-list-tags-column) .verse-notes:not(.book-notes) {
   /* not teeny unusable notes area*/
     width: 100% !important;
+    margin-left: unset !important;
   }
 
   /*Make dialogs not go out of screen*/
