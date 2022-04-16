@@ -107,7 +107,7 @@ const template = html`
 </style>
 
 <div id="tag-list-menu">
-  <a id="tag-group-list-link" href="">Tag groups</a> <span id="tag-group-nav-arrow">&rarr;</span> <span id="tag-group-label">All tags</span>
+  <a id="tag-group-list-link" href="" i18n="tags.tag-groups"></a> <span id="tag-group-nav-arrow">&rarr;</span> <span id="tag-group-label" i18n="tags.all-tags"></span>
 
   <button id="add-tag-group-button" i18n="tags.add-tag-group" class="add-element-button fg-button ui-state-default ui-corner-all"></button>
 
