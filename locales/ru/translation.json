@@ -187,7 +187,8 @@
     "export-user-data-action": "Экспорт данных пользователя",
     "export-user-data-hint": "Эта функция экспортирует все данные пользователя (метки, заметки) вместе с ссылками стихов в файл CSV.",
     "installed": "Установленно",
-    "not-installed": "Не установленно"
+    "not-installed": "Не установленно",
+    "and-more": "and more"
   },
   "help": {
     "help-text-no-tags-book-opens": "Чтобы начать работу с метками, создайте свою первую метку, нажав кнопку <i>Новая&nbsp;метка</i>.<br/> <br/> После этого вы можете просматривать текст Библии, нажимать или перетаскивать выделенные стихи чтобы назначить только что созданную метку.",
@@ -253,6 +254,7 @@
     "delete-tag-constantly": "Окончательно удалить эту метку",
     "none-selected": "-",
     "rename-tag": "Переименовать метку",
+    "edit-tag": "Edit tag",
     "title": "Заголовок",
     "stats-used": "использовано",
     "stats-total": "всего",
@@ -312,6 +314,7 @@
     "open-verse-lists-in-new-tab": "Списки стихов в новой вкладке",
     "show-notes-tags-indicators": "Иконки заметок/меток",
     "show-tags": "Метки",
+    "use-tag-group-filter": "Use tag group filter",
     "show-notes": "Заметки",
     "limit-notes-display-size": "Ограничить высоту заметок",
     "use-tags-column": "Метки в отдельном столбце",

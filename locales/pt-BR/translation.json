@@ -185,7 +185,8 @@
     "export-user-data-action": "Exportar dados do usuário",
     "export-user-data-hint": "Esta função exporta todos os dados do usuário - (etiquetas e notas) juntamente com suas referências (versículos) - para um arquivo CSV.",
     "installed": "Instalado",
-    "not-installed": "Não instalado"
+    "not-installed": "Não instalado",
+    "and-more": "and more"
   },
   "help": {
     "help-text-no-tags-book-opened": "Para começar a trabalhar com etiquetas, crie a primeira clicando no botão <i>Nova&nbsp;etiqueta</i>.<br/><br/>Depois disso, você pode navegar pelo texto da Bíblia e clicar, ou arrastar, e selecionar versículos - e em seguida, atribua a etiqueta que você acabou de criar.",
@@ -251,6 +252,7 @@
     "delete-tag-permanently": "Apaga esta etiqueta permanentemente",
     "none-selected": "Nenhuma",
     "rename-tag": "Renomeia etiqueta",
+    "edit-tag": "Edit tag",
     "title": "Título",
     "stats-used": "utilizado",
     "stats-total": "total",
@@ -309,6 +311,7 @@
     "open-verse-lists-in-new-tab": "Abrir listas de versículos em nova aba",
     "show-notes-tags-indicators": "Mostrar notas/indicadores de etiquetas",
     "show-tags": "Mostrar etiquetas",
+    "use-tag-group-filter": "Use tag group filter",
     "show-notes": "Mostrar notas",
     "limit-notes-display-size": "Limitar o tamanho da janela de notas",
     "use-tags-column": "Utilizar coluna de etiquetas",

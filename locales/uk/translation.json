@@ -185,7 +185,8 @@
     "export-user-data-action": "Вивіз користувацьких даних",
     "export-user-data-hint": "Цей засіб вивозить всі користувацькі дані (міти, нотатки) разом із посиланнями віршів до файлу CSV.",
     "installed": "Встановленно",
-    "not-installed": "Не встановленно"
+    "not-installed": "Не встановленно",
+    "and-more": "and more"
   },
   "help": {
     "help-text-no-tags-book-opened": "Щоб розпочати роботу з мітами, створіть свою першу міту, натиснувши кнопку <i>Нова&nbsp;міта</i>. <br/><br/>Після цього ви можете переглядати текст Біблії, клацати або перетягувати вірші, щоб призначати щойно створену міту.",
@@ -251,6 +252,7 @@
     "delete-tag-permanently": "Видалити цю міту назавжди",
     "none-selected": "-",
     "rename-tag": "Перейменувати міту",
+    "edit-tag": "Edit tag",
     "title": "Назва",
     "stats-used": "використано",
     "stats-total": "Всього",
@@ -310,6 +312,7 @@
     "open-verse-lists-in-new-tab": "Перелік віршів у новій вкладці",
     "show-notes-tags-indicators": "Позначки нотаток та міт",
     "show-tags": "Міти",
+    "use-tag-group-filter": "Use tag group filter",
     "show-notes": "Нотатки",
     "limit-notes-display-size": "Обмежити висоту нотаток",
     "use-tags-column": "Міти у окремому стовпці",

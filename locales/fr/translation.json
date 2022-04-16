@@ -195,7 +195,8 @@
     "export-user-data-action": "Exporter les données utilisateur",
     "export-user-data-hint": "Cette fonction exporte toutes les données utilisateur (étiquettes, notes) ainsi que leurs références de verset dans un fichier CSV.",
     "installed": "Installé",
-    "not-installed": "Pas installé"
+    "not-installed": "Pas installé",
+    "and-more": "and more"
   },
   "help": {
     "help-text-no-tags-book-opened": "Pour commencer à utiliser les étiquettes, créez votre première étiquette en cliquant sur le bouton <i>Nouvelle étiquette</i>.<br/><br/>Ensuite, vous pouvez parcourir le texte biblique, cliquer ou faire glisser les versets, puis attribuer l’étiquette que vous venez de créer.",
@@ -261,6 +262,7 @@
     "delete-tag-permanently": "Supprimer définitivement cette étiquette",
     "none-selected": "Aucun",
     "rename-tag": "Renommer l’étiquette",
+    "edit-tag": "Edit tag",
     "title": "Titre ",
     "stats-used": "utilisée",
     "stats-total": "total",
@@ -319,6 +321,7 @@
     "open-verse-lists-in-new-tab": "Ouvrir les listes des versets dans un nouvel onglet",
     "show-notes-tags-indicators": "Afficher les indicateurs de notes / étiquettes",
     "show-tags": "Montrer les étiquettes",
+    "use-tag-group-filter": "Use tag group filter",
     "show-notes": "Montrer les notes",
     "limit-notes-display-size": "Limiter la taille des notes",
     "use-tags-column": "Utiliser des colonnes d’étiquettes",

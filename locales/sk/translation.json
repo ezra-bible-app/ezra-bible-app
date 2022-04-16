@@ -185,7 +185,8 @@
     "export-user-data-action": "Exportujte údaje používateľa",
     "export-user-data-hint": "Táto funkcia exportuje všetky používateľské dáta (tagy, poznámky) spolu s ich odkazmi na verše do súboru CSV.",
     "installed": "Nainštalované",
-    "not-installed": "Nenainštalované"
+    "not-installed": "Nenainštalované",
+    "and-more": "and more"
   },
   "help": {
     "help-text-no-tags-book-opened": "Ak chcete začať pracovať so značkami, vytvorte svoju prvú značku kliknutím na tlačidlo <i>Nová&nbsp;značka</i>.<br/><br/>Potom môžete listovať v biblickom texte, kliknúť alebo vybrať jednotlivé verše a potom im priradiť značku, ktorú ste práve vytvorili.",
@@ -251,6 +252,7 @@
     "delete-tag-permanently": "Permanentne vymazať štítok",
     "none-selected": "Žiadne",
     "rename-tag": "Premenovať štítok",
+    "edit-tag": "Edit tag",
     "title": "Titulok",
     "stats-used": "použité",
     "stats-total": "spolu",
@@ -309,6 +311,7 @@
     "open-verse-lists-in-new-tab": "Otvoriť zoznamy veršov na novej karte",
     "show-notes-tags-indicators": "Zobraziť poznámky/indikátory štítkov",
     "show-tags": "Zobraziť štítky",
+    "use-tag-group-filter": "Use tag group filter",
     "show-notes": "Zobraziť poznámky",
     "limit-notes-display-size": "Obmedzte veľkosť zobrazenia poznámok",
     "use-tags-column": "Použite stĺpec značiek",
