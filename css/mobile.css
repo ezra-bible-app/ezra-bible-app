@@ -50,6 +50,10 @@ Librem 5/Pinephone etc.
     display: none;
   }
 
+  .bible-select-block {
+    margin-right: unset;
+  }
+
   .selection-box {
     margin: 0.1em 0.1em 0.3em 0em;
   }
