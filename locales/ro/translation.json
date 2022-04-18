@@ -39,7 +39,7 @@
     "module-type-bible_accusative": "traduceri biblice",
     "module-type-bible_genitive": "traducerilor biblice",
     "module-type-bible_instrumental": "traduceri biblice",
-    "module-type-bible_singular": "treducere",
+    "module-type-bible_singular": "traducere",
     "module-type-bible_singular-genitive": "traducerii",
     "module-type-dict": "dicționare",
     "module-type-dict_accusative": "dicționare",
@@ -115,8 +115,8 @@
     "module-sync-header": "Se instalează module adiționale"
   },
   "general": {
-    "about-ezra-bible-app": "About Ezra Bible App",
-    "general-app-info": "General information about Ezra Bible App can be found on the website.<br>Technical information about the development of Ezra Bible App can be found on GitHub.",
+    "about-ezra-bible-app": "Despre Ezra Bible App",
+    "general-app-info": "Informații generale despre Ezra Bible App pot fi găsite pe site-ul web.<br>Informații tehnice despre dezvoltarea Ezra Bible App pot fi găsite pe GitHub.",
     "chapter-verse-separator": ":",
     "module-application-info": "Informații despre module și aplicație",
     "application-info": "Informații despre aplicație",
@@ -161,7 +161,7 @@
     "rename": "Redenumește",
     "loading": "Se încarcă",
     "new-release-available-title": "Versiune nouă disponibilă!",
-    "new-release-available-body": "O nersiune nouă pentru Ezra Bible App este disponibilă!",
+    "new-release-available-body": "O versiune nouă pentru Ezra Bible App este disponibilă!",
     "latest-version": "Versiune recentă",
     "release-notes-download": "Note de lansare & Descărcări",
     "no-repeated-info": "Nu îmi mai arăta asta",
@@ -186,10 +186,10 @@
     "export-user-data-hint": "This function exports all user data (tags, notes) along with their verse references to a CSV file.",
     "installed": "Instalat",
     "not-installed": "Nu este instalat",
-    "and-more": "and more"
+    "and-more": "și mai multe"
   },
   "help": {
-    "help-text-no-tags-book-opened": "Pentru a începe să lucrezi cu etichete, crează prima ta etichetă făcând click pe butonul <i> Etichetă &nbsp;nouă </i>. <br/> <br/> După aceea poți răsfoi textul biblic, fă click sau trage-selectează versetele și apoi atribuie eticheta pe care tocmai ai creat-o.",
+    "help-text-no-tags-book-opened": "Pentru a începe să lucrezi cu etichete, creează prima ta etichetă făcând click pe butonul <i> Etichetă &nbsp;nouă </i>. <br/> <br/> După aceea poți răsfoi textul biblic, fă click sau trage-selectează versetele și apoi atribuie eticheta pe care tocmai ai creat-o.",
     "help-text-no-tags-no-book-opened": "Pentru a începe să lucrezi cu etichete, selectează mai întâi o carte biblică pentru a studia.",
     "help-text-translation-available": "Pentru a începe, selectează o carte sau o etichetă din meniul de mai sus.",
     "help-text-no-translations": "Pentru început, instalează mai întâi cel puțin o traducere biblică. <br/> <br/> Poți deschide asistentul de instalare făcând click pe pictograma de setări și apoi pe <i> Configurare traduceri </i>."
@@ -212,7 +212,7 @@
       "open-new-tab": "Deschide filă nouă",
       "increase-current-font-size": "Mărește dimensiunea curentă a fontului",
       "decrease-current-font-size": "Micșorează dimensiunea curentă a fontului",
-      "reset-font-size-to-default": "Resetează dimeniunea fontului la valoarea implicită"
+      "reset-font-size-to-default": "Resetează dimensiunea fontului la valoarea implicită"
     },
 
     "shortcut": {
@@ -231,7 +231,7 @@
   },
   "tags": {
     "new-tag": "Etichetă nouă",
-    "create-tag": "Crează etichetă",
+    "create-tag": "Creează etichetă",
     "delete-tag": "Șterge etichetă",
     "all-tags": "Toate etichetele",
     "assigned-tags": "Etichete atribuite",
@@ -252,7 +252,7 @@
     "delete-tag-permanently": "Șterge definitiv această etichetă",
     "none-selected": "Nimic",
     "rename-tag": "Redenumește eticheta",
-    "edit-tag": "Edit tag",
+    "edit-tag": "Editează eticheta",
     "title": "Titlu",
     "stats-used": "folosit",
     "stats-total": "total",
@@ -265,16 +265,16 @@
     "tag-count-selected_other": "{{count}} etichete selectate",
     "select-all-tags": "Selectează tot",
     "deselect-all-tags": "Deselectează tot",
-    "add-tag-group": "Add tag group",
-    "create-tag-group": "Create tag group",
-    "rename-tag-group": "Rename tag group",
-    "delete-tag-group": "Delete tag group",
-    "tag-group": "Tag group",
-    "tag-groups": "Tag groups",
-    "add-existing-tags-to-current-tag-group": "Add existing tags to current tag group",
-    "add-tags-to-group": "Add tags to group",
-    "delete-tag-from-group-explanation": "The tag <i>{{tag}}</i> will be deleted from the group <i>{{group}}</i>. To permanently delete the tag, click the checkbox below.",
-    "really-delete-tag-group": "Do you really want to delete the tag group<br/><i>{{tagGroupTitle}}</i>?"
+    "add-tag-group": "Adaugă grup de etichete",
+    "create-tag-group": "Creează grup de etichete",
+    "rename-tag-group": "Redenumește grup de etichete",
+    "delete-tag-group": "Șterge grup de etichete",
+    "tag-group": "Grup de etichete",
+    "tag-groups": "Grupuri de etichete",
+    "add-existing-tags-to-current-tag-group": "Adaugă etichete existente la grupul de etichete selectat",
+    "add-tags-to-group": "Adaugă etichete la grup",
+    "delete-tag-from-group-explanation": "Eticheta <i>{{tag}}</i> va fi ștearsă din grupul <i>{{group}}</i>. Pentru a șterge eticheta definitiv, bifează caseta de mai jos.",
+    "really-delete-tag-group": "Chiar dorești să ștergi grupul de etichete<br/><i>{{tagGroupTitle}}</i>?"
   },
   "bible-browser": {
     "chapter": "Capitol",
@@ -291,7 +291,7 @@
     "load-verse-context": "Încarcă contextul acestui verset",
     "tag-hint": "Click pentru a afișa toate versetele cu această etichetă",
     "show-search-results": "Afișează rezultatele căutării",
-    "search-performance-hint": "Se afișează doar lista de cărți ndatorită numărului mare de rezultate ale căutării. Poți solicita rezultatele căutării individuale pentru fiecare carte.",
+    "search-performance-hint": "Se afișează doar lista de cărți datorită numărului mare de rezultate ale căutării. Poți solicita rezultatele căutării individuale pentru fiecare carte.",
     "select-all-search-results": "Selectează toate rezultatele căutării",
     "all-search-results": "Toate rezultatele căutării",
     "some-search-results": "Rezultate parțiale ale căutării",
@@ -304,14 +304,14 @@
     "show-section-titles": "Afișează titlurile secțiunii",
     "show-xrefs": "Afișează referințe încrucișate",
     "show-footnotes": "Afișează note de subsol",
-    "show-dictionary": "Afișează dictionar",
+    "show-dictionary": "Afișează dicționar",
     "show-book-chapter-navigation": "Afișează navigare carte/capitol",
     "show-header-navigation": "Afișează navigare antet",
     "show-tab-search": "Afișează căutare filă curentă",
     "open-verse-lists-in-new-tab": "Deschide listele de versete într-o filă nouă",
     "show-notes-tags-indicators": "Afișează indicatori de note/etichete",
     "show-tags": "Afișează etichete",
-    "use-tag-group-filter": "Use tag group filter",
+    "use-tag-group-filter": "Folosește filtrul pentru grup de etichete",
     "show-notes": "Afișează note",
     "limit-notes-display-size": "Limitează dimensiunea afișării notelor",
     "use-tags-column": "Folosește coloana Etichete",
@@ -334,12 +334,12 @@
   "dictionary-panel": {
     "greek-dict": "Dicționar grec",
     "hebrew-dict": "Dicționar ebraic",
-    "default-header": "<b>Dicţionar</b>",
+    "default-header": "<b>Dicționar</b>",
     "help-instruction-intro": "Cum să afișezi intrările de dicționar aici:",
     "help-instruction-part1": "Asigură-te ca sunt instalate dicționarele de concordanță (Strong's) (Ebraică și Greacă). Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
     "help-instruction-part2": "Mai întâi deschide o traducere cu caracteristica Concordanță (Strong's).",
     "help-instruction-part3": "În timp ce apeși tasta SHIFT, poți muta mouse-ul peste anumite cuvinte și fraze ca să vezi intrările din dicționar aici.",
-    "help-instruction-part3-cordova": "Touch and hold individual words or phrases until you see dictionary entries here.",
+    "help-instruction-part3-cordova": "Atinge și ține apăsat pe cuvintele sau expresiile individuale până când vei vedea intrările din dicționar aici.",
     "find-all-occurrences": "Găsește toate aparițiile",
     "open-in-blueletter": "Deschide în Biblia cu litere albastre",
     "related-strongs": "(Strong's) Concordanțe asociate"
