@@ -193,7 +193,7 @@ h2:nth-of-type(1) {
 }
 
 #app-container.fullscreen .verse-list-menu {
-  display: none;
+  display: none !important;
 }
 
 .verse-list-menu-line {
@@ -1278,7 +1278,6 @@ li.book-unavailable a:focus,
 
 #module-search-menu {
   padding: 1em;
-  width: 20em;
 }
 
 #start-module-search-button {
