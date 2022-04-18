@@ -34,13 +34,13 @@ Librem 5/Pinephone etc.
     max-width: 80vw !important;
     max-height: 80vh !important;
   }
-
-  #book-selection-menu {
-    width: unset;
-  }
 }
 
 @media screen and (max-width: 600px) {
+  #book-selection-menu {
+    width: 92%;
+  }
+
   .verse-list-menu .fg-button {
     margin-right: 0.5em;
     padding: 1px 12px;
