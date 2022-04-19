@@ -589,7 +589,13 @@ h2:nth-of-type(1) {
   }
 
   .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
-    height: 93.5vh;
+    height: 90.5vh;
+  }
+
+  @media (min-height: 650px) {
+    .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
+      height: 93.5vh;
+    }
   }
 
   @media (min-height: 1200px) {

@@ -20,22 +20,6 @@
 Necessary styles for smaller screen devices,
 Librem 5/Pinephone etc.
 */
-@media screen and (max-width: 410px) {
-  .app-info-button, .export-docx-button {
-    display: none !important;
-  }
-
-  #tag-list-stats {
-    display: none !important;
-  }
-
-  /*Make dialogs not go out of screen*/
-  .ui-dialog {
-    max-width: 80vw !important;
-    max-height: 80vh !important;
-  }
-}
-
 @media screen and (max-width: 600px) {
   #book-selection-menu {
     width: 92%;
@@ -59,6 +43,7 @@ Librem 5/Pinephone etc.
   }
 
   #bookLoadingModeOption-button {
+    width: unset;
     margin-left: 1.5em !important;
   }
 
@@ -200,8 +185,28 @@ Librem 5/Pinephone etc.
 
 @media screen and (max-height: 650px) {
   #display-options-menu {/*Scrollable settings if there is not enough space vertically */
-    bottom: 0;
+    bottom: 5.5em;
     width: unset;
     overflow-y: auto;
+  }
+}
+
+@media screen and (max-width: 410px) {
+  .app-info-button, .export-docx-button {
+    display: none !important;
+  }
+
+  #tag-list-stats {
+    display: none !important;
+  }
+
+  /*Make dialogs not go out of screen*/
+  .ui-dialog {
+    max-width: 80vw !important;
+    max-height: 80vh !important;
+  }
+
+  .verse-list-menu .fg-button {
+    margin-right: 0.2em;
   }
 }
