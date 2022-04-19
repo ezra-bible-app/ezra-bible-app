@@ -310,6 +310,7 @@ class IpcDbHandler {
           {id: 'chapter', title: 'Chapter'},
           {id: 'verseNr', title: 'Verse Nr'},
           {id: 'tagList', title: 'Tags'},
+          {id: 'tagGroupList', title: 'Tag Groups'},
           {id: 'noteText', title: 'Notes'},
         ],
         alwaysQuote: true
