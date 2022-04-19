@@ -197,7 +197,7 @@ module.exports = (sequelize, DataTypes) => {
                  b.shortTitle as bibleBookShortTitle,
                  b.longTitle AS bibleBookLongTitle,
                  GROUP_CONCAT(t.title, ';') AS tagList,
-                 replace(GROUP_CONCAT(DISTINCT tg.title), ',', ';') AS tagGroupList,
+                 REPLACE(GROUP_CONCAT(DISTINCT tg.title), ',', ';') AS tagGroupList,
                  n.text AS noteText
                  FROM VerseReferences vr
                  INNER JOIN BibleBooks b ON
