@@ -115,8 +115,8 @@
     "module-sync-header": "Inštalujem prídavné moduly"
   },
   "general": {
-    "about-ezra-bible-app": "About Ezra Bible App",
-    "general-app-info": "General information about Ezra Bible App can be found on the website.<br>Technical information about the development of Ezra Bible App can be found on GitHub.",
+    "about-ezra-bible-app": "O Ezra Bible Apikácii",
+    "general-app-info": "Všeobecné informácie o aplikácii Ezra Bible nájdete na webovej stránke.<br>Technické informácie o vývoji aplikácie Ezra Bible App nájdete na GitHub.",
     "chapter-verse-separator": ":",
     "module-application-info": "Info o moduloch a aplikácii",
     "application-info": "Info o aplikácii",
@@ -186,7 +186,7 @@
     "export-user-data-hint": "Táto funkcia exportuje všetky používateľské dáta (tagy, poznámky) spolu s ich odkazmi na verše do súboru CSV.",
     "installed": "Nainštalované",
     "not-installed": "Nenainštalované",
-    "and-more": "and more"
+    "and-more": "a viac"
   },
   "help": {
     "help-text-no-tags-book-opened": "Ak chcete začať pracovať so značkami, vytvorte svoju prvú značku kliknutím na tlačidlo <i>Nová&nbsp;značka</i>.<br/><br/>Potom môžete listovať v biblickom texte, kliknúť alebo vybrať jednotlivé verše a potom im priradiť značku, ktorú ste práve vytvorili.",
@@ -252,7 +252,7 @@
     "delete-tag-permanently": "Permanentne vymazať štítok",
     "none-selected": "Žiadne",
     "rename-tag": "Premenovať štítok",
-    "edit-tag": "Edit tag",
+    "edit-tag": "Upraviť štítok",
     "title": "Titulok",
     "stats-used": "použité",
     "stats-total": "spolu",
@@ -265,16 +265,16 @@
     "tag-count-selected_other": "{{count}} vybrané značky",
     "select-all-tags": "Označiť všetko",
     "deselect-all-tags": "Odznačiť všetko",
-    "add-tag-group": "Add tag group",
-    "create-tag-group": "Create tag group",
-    "rename-tag-group": "Rename tag group",
-    "delete-tag-group": "Delete tag group",
-    "tag-group": "Tag group",
-    "tag-groups": "Tag groups",
-    "add-existing-tags-to-current-tag-group": "Add existing tags to current tag group",
-    "add-tags-to-group": "Add tags to group",
-    "delete-tag-from-group-explanation": "The tag <i>{{tag}}</i> will be deleted from the group <i>{{group}}</i>. To permanently delete the tag, click the checkbox below.",
-    "really-delete-tag-group": "Do you really want to delete the tag group<br/><i>{{tagGroupTitle}}</i>?"
+    "add-tag-group": "Pridať skupinu značiek",
+    "create-tag-group": "Vytvoriť skupinu značiek",
+    "rename-tag-group": "Premenovať skupinu značiek",
+    "delete-tag-group": "Vymazať skupinu značiek",
+    "tag-group": "Skupina značiek",
+    "tag-groups": "Skupiny značiek",
+    "add-existing-tags-to-current-tag-group": "Pridať existujúce značky do aktuálnej skupiny značiek",
+    "add-tags-to-group": "Pridať značky do skupiny",
+    "delete-tag-from-group-explanation": "Značka <i>{{tag}}</i> bude vymazaná zo skupiny <i>{{group}}</i>. Ak chcete značku natrvalo odstrániť, kliknite na zaškrtávacie políčko nižšie.",
+    "really-delete-tag-group": "Naozaj chcete odstrániť skupinu značiek<br/><i>{{tagGroupTitle}}</i>?"
   },
   "bible-browser": {
     "chapter": "Kapitola",
@@ -311,11 +311,11 @@
     "open-verse-lists-in-new-tab": "Otvoriť zoznamy veršov na novej karte",
     "show-notes-tags-indicators": "Zobraziť poznámky/indikátory štítkov",
     "show-tags": "Zobraziť štítky",
-    "use-tag-group-filter": "Use tag group filter",
+    "use-tag-group-filter": "Použiť filter skupiny značiek",
     "show-notes": "Zobraziť poznámky",
     "limit-notes-display-size": "Obmedzte veľkosť zobrazenia poznámok",
     "use-tags-column": "Použite stĺpec značiek",
-    "select-chapter-before-loading": "Open books with chapter selection",
+    "select-chapter-before-loading": "Otvoriť knihy s výberom kapitol",
     "use-night-mode": "Nočný mód",
     "keep-screen-on": "Ponechať zapnutý displej",
     "comparing-translations-for": "Porovnanie prekladov pre",
@@ -339,7 +339,7 @@
     "help-instruction-part1": "Uistite sa, že sú nainštalované Strongove slovníky (hebrejčina a gréčtina). Stav: <span class='{{ install_status_class }}'>{{ install_status }}</span>.",
     "help-instruction-part2": "Otvorte preklad pomocou funkcie Strong.",
     "help-instruction-part3": "Zatiaľ čo stlačíte tlačidlo Kláves SHIFT môžete posúvať myšou po jednotlivých slovách a frázach, aby ste tu zobrazili položky v slovníku.",
-    "help-instruction-part3-cordova": "Touch and hold individual words or phrases until you see dictionary entries here.",
+    "help-instruction-part3-cordova": "Dotknite sa a podržte jednotlivé slová alebo frázy, kým neuvidíte položky v slovníku.",
     "find-all-occurrences": "Nájsť všetky výskyty",
     "open-in-blueletter": "Otvoriť v Blue Letter Bible",
     "related-strongs": "Súvisiace Strongy"
