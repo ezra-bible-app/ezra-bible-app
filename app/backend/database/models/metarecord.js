@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   });
 
+  // eslint-disable-next-line no-unused-vars
   MetaRecord.associate = function(models) {
     // associations can be defined here
   };

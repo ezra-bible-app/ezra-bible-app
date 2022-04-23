@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -69,16 +69,29 @@ class IpcDbHandler {
       return this.dbDir + path.sep + "ezra.sqlite";
     });
 
-    this._ipcMain.add('db_createNewTag', async (newTagTitle) => {
-      return await global.models.Tag.create_new_tag(newTagTitle);
+    this._ipcMain.add('db_createNewTag', async (newTagTitle, tagGroups) => {
+      let result = await global.models.Tag.create_new_tag(newTagTitle);
+      
+      if (tagGroups != null) {
+        for (let i = 0; i < tagGroups.length; i++) {
+          let tagGroupId = tagGroups[i];
+          
+          if (tagGroupId != null && tagGroupId > 0) {
+            let tagGroup = await global.models.TagGroup.findByPk(tagGroupId);
+            await tagGroup.addTag(result.dbObject.id);
+          }
+        }
+      }
+
+      return result;
     });
 
     this._ipcMain.add('db_removeTag', async (id) => {
       return await global.models.Tag.destroy_tag(id);
     });
 
-    this._ipcMain.add('db_updateTag', async(id, newTitle) => {
-      return await global.models.Tag.update_tag(id, newTitle);
+    this._ipcMain.add('db_updateTag', async(id, newTitle, addTagGroups, removeTagGroups) => {
+      return await global.models.Tag.update_tag(id, newTitle, addTagGroups, removeTagGroups);
     });
 
     this._ipcMain.add('db_updateTagsOnVerses', async (tagId, verseObjects, versification, action) => {
@@ -92,6 +105,16 @@ class IpcDbHandler {
     this._ipcMain.add('db_getAllTags', async (bibleBookId, lastUsed, onlyStats) => {
       var allSequelizeTags = await global.models.Tag.getAllTags(bibleBookId, lastUsed, onlyStats);
       var allTags = this.makeSequelizeResultsSerializable(allSequelizeTags);
+
+      for (let i = 0; i < allTags.length; i++) {
+        let currentTag = allTags[i];
+
+        if (currentTag.tagGroupList != null) {
+          let tagGroupListArray = currentTag.tagGroupList.split(',');
+          currentTag.tagGroupList = tagGroupListArray;
+        }
+      }
+
       return allTags;
     });
 
@@ -108,6 +131,24 @@ class IpcDbHandler {
       var verseTags = this.makeSequelizeResultsSerializable(sequelizeVerseTags);
       var groupedVerseTags = global.models.VerseTag.groupVerseTagsByVerse(verseTags, versification);
       return groupedVerseTags;
+    });
+
+    this._ipcMain.add('db_createTagGroup', async(title) => {
+      return await global.models.TagGroup.createTagGroup(title);
+    });
+
+    this._ipcMain.add('db_updateTagGroup', async(id, title) => {
+      return await global.models.TagGroup.updateTagGroup(id, title);
+    });
+
+    this._ipcMain.add('db_getAllTagGroups', async () => {
+      var allSequelizeTagGroups = await global.models.TagGroup.findWithTagCount();
+      var allTagGroups = this.makeSequelizeResultsSerializable(allSequelizeTagGroups);
+      return allTagGroups;
+    });
+
+    this._ipcMain.add('db_deleteTagGroup', async(id) => {
+      return await global.models.TagGroup.destroyTagGroup(id);
     });
 
     this._ipcMain.add('db_persistNote', async (noteValue, verseObject, versification) => {
@@ -269,6 +310,7 @@ class IpcDbHandler {
           {id: 'chapter', title: 'Chapter'},
           {id: 'verseNr', title: 'Verse Nr'},
           {id: 'tagList', title: 'Tags'},
+          {id: 'tagGroupList', title: 'Tag Groups'},
           {id: 'noteText', title: 'Notes'},
         ],
         alwaysQuote: true

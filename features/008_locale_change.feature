@@ -1,6 +1,6 @@
 #  This file is part of Ezra Bible App.
 #
-#  Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+#  Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 #
 #  Ezra Bible App is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 #  along with Ezra Bible App. See the file LICENSE.
 #  If not, see <http://www.gnu.org/licenses/>.
 
-# features/007_locale_change.feature
+# features/008_locale_change.feature
 
 Feature: Change app language (locale)
   In order to be able to use Ezra Bible App in my native language I can manualy select desired app language
@@ -26,7 +26,7 @@ Feature: Change app language (locale)
     And I have the navigation displayed
     And I have the current tab search displayed
 
-  Scenario Outline:: Switch app locale
+  Scenario Outline: Switch app locale
     Given I open the options dialog
     When I change to the "<locale_native>" locale
     Then the tab title is "<tab_title>"

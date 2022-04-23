@@ -111,6 +111,8 @@
     "module-sync-header": "Installiere zusätzliche Module"
   },
   "general": {
+    "about-ezra-bible-app": "Über Ezra Bible App",
+    "general-app-info": "Allgemeine Informationen zu Ezra Bible App finden Sie auf der Webseite.<br>Technische Informationen zur Entwicklung von Ezra Bible App finden Sie auf GitHub.",
     "chapter-verse-separator": ",",
     "module-application-info": "Modul- und App-Informationen",
     "application-info": "App-Informationen",
@@ -175,7 +177,8 @@
     "export-user-data-action": "Benutzerdaten exportieren",
     "export-user-data-hint": "Diese Funktion exportiert alle Benutzerdaten (Tags, Notizen) zusammen mit den Versangaben in eine CSV Datei.",
     "installed": "Installiert",
-    "not-installed": "Nicht installiert"
+    "not-installed": "Nicht installiert",
+    "and-more": "und weitere"
   },
   "help": {
     "help-text-no-tags-book-opened": "Sie wollen anfangen mit Tags zu arbeiten?<br/><br/>Erstellen Sie Ihren ersten Tag, indem Sie auf den Button <i>Neuer&nbsp;Tag</i> klicken.<br/><br/>Danach können Sie beim Studium des Bibeltexts den Tag zuordnen, indem Sie auf den Vers klicken oder mehrere Verse mit gehaltener Maustaste auswählen und dann links die Auswahlbox neben dem gerade erstellten Tag anklicken.",
@@ -241,6 +244,7 @@
     "delete-tag-permanently": "Diesen Tag dauerhaft löschen",
     "none-selected": "Keine",
     "rename-tag": "Tag umbenennen",
+    "edit-tag": "Tag editieren",
     "title": "Titel",
     "stats-used": "benutzt",
     "stats-total": "gesamt",
@@ -252,7 +256,17 @@
     "tag-count-selected_one": "{{count}} Tag ausgewählt",
     "tag-count-selected_other": "{{count}} Tags ausgewählt",
     "select-all-tags": "Alle auswählen",
-    "deselect-all-tags": "Auswahl aufheben"
+    "deselect-all-tags": "Auswahl aufheben",
+    "add-tag-group": "Tag Gruppe hinzufügen",
+    "create-tag-group": "Tag Gruppe erstellen",
+    "rename-tag-group": "Tag Gruppe umbenennen",
+    "delete-tag-group": "Tag Gruppe löschen",
+    "tag-group": "Tag Gruppe",
+    "tag-groups": "Tag Gruppen",
+    "add-existing-tags-to-current-tag-group": "Existierende Tags zur aktuellen Tag Gruppe hinzufügen",
+    "add-tags-to-group": "Tags zu Gruppe hinzufügen",
+    "delete-tag-from-group-explanation": "Der Tag <i>{{tag}}</i> wird aus der Gruppe <i>{{group}}</i> entfernt. Um den Tag vollständig zu löschen, klicken Sie das Markierungsfeld unten an.",
+    "really-delete-tag-group": "Möchten Sie die Tag Gruppe <i>{{tagGroupTitle}}</i> wirklich löschen?"
   },
   "bible-browser": {
     "chapter": "Kapitel",
@@ -289,6 +303,7 @@
     "open-verse-lists-in-new-tab": "Verslisten in neuem Tab öffnen",
     "show-notes-tags-indicators": "Zeige Notiz/Tag Indikatoren",
     "show-tags": "Zeige Tags",
+    "use-tag-group-filter": "Tag Gruppen Filter",
     "show-notes": "Zeige Notizen",
     "limit-notes-display-size": "Limitiere Notizgröße",
     "use-tags-column": "Tags in Spalte",
@@ -312,7 +327,11 @@
     "greek-dict": "Griechisches Wörterbuch",
     "hebrew-dict": "Hebräisches Wörterbuch",
     "default-header": "<b>Wörterbuch</b>",
-    "help-instruction": "<p>Wie Sie hier Wörterbucheinträge anzeigen:</p><ol><li>Stellen Sie sicher, dass die Strong's Wörterbücher (Hebräisch und Griechisch) installiert sind. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li><li>Öffnen Sie eine Übersetzung mit Unterstützung für Strong's.</li><li>Während Sie die SHIFT Taste drücken können Sie die Maus über einzelne Worte oder Texte bewegen, um hier Wörterbucheinträge anzuzeigen.</li><ol>",
+    "help-instruction-intro": "Wie Sie hier Wörterbucheinträge anzeigen:",
+    "help-instruction-part1": "Stellen Sie sicher, dass die Strong's Wörterbücher (Hebräisch und Griechisch) installiert sind. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
+    "help-instruction-part2": "Öffnen Sie eine Übersetzung mit Unterstützung für Strong's.",
+    "help-instruction-part3": "Während Sie die SHIFT Taste drücken können Sie die Maus über einzelne Worte oder Texte bewegen, um hier Wörterbucheinträge anzuzeigen.",
+    "help-instruction-part3-cordova": "Berühren und halten Sie individuelle Worte oder Satzteile einen Moment bis Sie hier Wörterbucheinträge sehen.",
     "find-all-occurrences": "Alle Vorkommnisse finden",
     "open-in-blueletter": "In Blue Letter Bible öffnen",
     "related-strongs": "Verwandte Strong's"

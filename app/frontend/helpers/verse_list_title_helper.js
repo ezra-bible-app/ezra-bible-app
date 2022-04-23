@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,4 +31,20 @@ module.exports.getTaggedVerseListTitle = function(localizedReference, tagTitle) 
 module.exports.getXrefsVerseListTitle = function(localizedReference) {
   var title = `${localizedReference} &ndash; ${i18n.t("general.module-xrefs")}`;
   return title;
+};
+
+module.exports.shortenTitleList = function(tagTitleList, lastElement='...') {
+  const MAX_TAGS_IN_TITLE = 3;
+
+  var tagTitleArray = tagTitleList.split(',');
+  if (tagTitleArray.length > MAX_TAGS_IN_TITLE) {
+    while (tagTitleArray.length > MAX_TAGS_IN_TITLE) {
+      tagTitleArray.pop();
+    }
+
+    tagTitleArray.push(lastElement);
+    tagTitleList = tagTitleArray.join(', ');
+  }
+
+  return tagTitleList;
 };

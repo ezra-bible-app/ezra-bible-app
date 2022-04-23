@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -22,8 +22,9 @@ const spectronHelper = require('../helpers/spectron_helper.js');
 const dbHelper = require("../helpers/db_helper.js");
 
 Given('I create the tag {string}', async function (tagName) {
-  var newTagButton = await spectronHelper.getWebClient().$('#new-standard-tag-button');
-  await newTagButton.click();
+  await spectronHelper.getWebClient().execute(() => {
+    document.querySelector('#tag-panel-tag-list-menu').shadowRoot.querySelector('#new-standard-tag-button').click();
+  });
 
   var newTagTitleInput = await spectronHelper.getWebClient().$('#new-standard-tag-title-input');
   await newTagTitleInput.setValue(tagName);
@@ -35,10 +36,7 @@ Given('I create the tag {string}', async function (tagName) {
 When('I assign the tag {string} to the current verse selection', async function (tagName) {
   var tagsList = await spectronHelper.getWebClient().$('#tags-content-global');
   var allTags = await tagsList.$$('.checkbox-tag');
-  var tagCount = allTags.length;
   var tagFound = false;
-
-  assert(tagCount == 1, `The tagCount is not 1, but ${tagCount}`);
 
   for (var i = 0; i < allTags.length; i++) {
     this.currentTag = allTags[i];
@@ -82,4 +80,30 @@ Then('the tag {string} is visible in the bible browser at the selected verse', a
 
   var firstTagTitle = await tags[0].getText();
   assert(firstTagTitle == tagName, `Expected browser tag with title '${tagName}', but got '${firstTagTitle}'`);
+});
+
+Given('I open the add tag dialog', async function () {
+  await spectronHelper.getWebClient().execute(() => {
+    document.querySelector('#tag-panel-tag-list-menu').shadowRoot.querySelector('#new-standard-tag-button').click();
+  });
+});
+
+Then('the tag {string} is listed in the tag list', async function (tagTitle) {
+  var tagsList = await spectronHelper.getWebClient().$('#tags-content-global');
+  var allTags = await tagsList.$$('.checkbox-tag');
+  var tagFound = false;
+
+  for (var i = 0; i < allTags.length; i++) {
+    this.currentTag = allTags[i];
+
+    var currentLabel = await this.currentTag.$('.cb-label');
+    var currentLabelText = await currentLabel.getText();
+
+    if (currentLabelText == tagTitle) {
+      tagFound = true;
+      break;
+    }
+  }
+
+  assert(tagFound, `The tag '${tagTitle}' could not be found in the list!`);
 });

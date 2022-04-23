@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 
 :root {
   --accent-color: #2779AA;
+  --accent-color-darkmode: #97d0ff;
   --background-color: #f2f5f7;
   --background-color-darker: #e6e9eb;
   --widget-bg-color: #eeeeee;
@@ -192,7 +193,7 @@ h2:nth-of-type(1) {
 }
 
 #app-container.fullscreen .verse-list-menu {
-  display: none;
+  display: none !important;
 }
 
 .verse-list-menu-line {
@@ -588,7 +589,13 @@ h2:nth-of-type(1) {
   }
 
   .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
-    height: 93.5vh;
+    height: 90.5vh;
+  }
+
+  @media (min-height: 650px) {
+    .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
+      height: 93.5vh;
+    }
   }
 
   @media (min-height: 1200px) {
@@ -1261,6 +1268,7 @@ li.book-unavailable a:focus,
 
 #tag-selection-menu {
   padding: 1em;
+  padding-top: 0;
   width: 26em;
 }
 
@@ -1276,7 +1284,6 @@ li.book-unavailable a:focus,
 
 #module-search-menu {
   padding: 1em;
-  width: 20em;
 }
 
 #start-module-search-button {
@@ -1297,7 +1304,6 @@ li.book-unavailable a:focus,
 
 #tag-selection-taglist-global,
 #tag-selection-taglist-overlay {
-  margin-top: 1em;
   margin-bottom: 1em;
   padding-top: 0.5em;
   border-top: var(--area-border);
@@ -1327,7 +1333,8 @@ li.book-unavailable a:focus,
 #module-search-input,
 #tags-search-input,
 #new-standard-tag-title-input,
-#rename-standard-tag-title-input,
+#rename-tag-title-input,
+#rename-tag-group-title-input,
 .tab-search-input,
 .tab-search-type,
 #search-type,
@@ -1793,3 +1800,4 @@ code {
 transchange {
   font-style: italic;
 }
+

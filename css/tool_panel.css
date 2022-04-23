@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -43,50 +43,55 @@
 
 @media screen and (max-aspect-ratio: 15/10) {
   #tool-panel {
-    height: 10em !important;
+    height: 13em !important;
     width: 100% !important;
     min-width: auto;
     padding: 0.5em 0 0 0.2em;
   }
 
   #app-container.fullscreen #tool-panel {
-    height: 15em !important;
+    height: 18em !important;
   }
 
   @media (min-height: 800px) {
     #tool-panel {
-      height: 15em !important;
+      height: 18em !important;
     }
 
     #app-container.fullscreen #tool-panel {
-      height: 21.5em !important;
+      height: 24.5em !important;
     }
   }
 
   @media (min-height: 1000px) {
     #tool-panel {
-      height: 21.5em !important;
+      height: 24.5em !important;
     }
 
     #app-container.fullscreen #tool-panel {
-      height: 25em !important;
+      height: 28em !important;
     }
   }
 
   @media (min-height: 1200px) {
     #tool-panel {
-      height: 25em !important;
+      height: 28em !important;
     }
 
     #app-container.fullscreen #tool-panel {
-      height: 30em !important;
+      height: 33em !important;
     }
   }
 }
 
+/* LANDSCAPE */
 @media screen and (min-aspect-ratio: 15/10) {
   #tool-panel {
     height: 100% !important;
+  }
+
+  .Android #tool-panel {
+    width: 22em;
   }
 }
 
@@ -247,16 +252,21 @@
   margin-bottom: 0.5em;
 }
 
-#dictionary-panel-wrapper a:link {
+#dictionary-panel-wrapper a:link,
+#new-standard-tag-dialog a:link,
+#new-standard-tag-dialog a:visited {
   text-decoration: none;
-  color: #2779aa;
+  color: var(--accent-color);
 }
 
-.darkmode--activated #dictionary-panel a:link {
-  color: #97d0ff;
+.darkmode--activated #dictionary-panel-wrapper a:link,
+.darkmode--activated #new-standard-tag-dialog a:link,
+.darkmode--activated #new-standard-tag-dialog a:visited {
+  color: var(--accent-color-darkmode);
 }
 
-#dictionary-panel a:hover {
+#dictionary-panel a:hover,
+#new-standard-tag-dialog a:hover {
   text-decoration: underline;
 }
 
@@ -284,13 +294,6 @@ tr.td-underline td {
   font-weight: bold;
   color: black;
   float: left;
-}
-
-#new-standard-tag-button {
-  display: inline-block;
-  margin-left: 1em;
-  margin-top: -0.2em;
-  padding: 0.2em;
 }
 
 #tags-search-input {
@@ -324,8 +327,14 @@ tr.td-underline td {
   margin: 0.1em 0 0 0;
   padding: 0.5em;
   user-select: none;
-  height: calc(100% - 2.6em);
+  height: calc(100% - 5.8em);
   box-sizing: border-box;
+}
+
+#tags-content-global loading-indicator {
+  display: flex;
+  justify-content: center;
+  margin-top: 5em;
 }
 
 .checkbox-tag {
@@ -429,7 +438,7 @@ input.tag-cb {
   font-size: 1em;
 }
 
-.tag-rename-button {
+.edit-button {
   margin-left: auto;
 }
 
@@ -455,8 +464,8 @@ input.tag-cb {
 }
 
 #new-standard-tag-title-input,
-#rename-standard-tag-title-input {
-  width: 25em;
+#rename-tag-title-input {
+  width: 26em;
 }
 
 .is-global {
@@ -496,6 +505,6 @@ table.tag-statistics td, table.tag-statistics th {
   background-color: lightcoral;
 }
 
-.darkmode--activated .dict-installed {
+.darkmode--activated .dict-installed, .darkmode--activated .dict-not-installed {
   color: black;
 }

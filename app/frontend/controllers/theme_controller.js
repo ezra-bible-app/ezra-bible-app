@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ class ThemeController {
   async initNightMode() {
     var isMojaveOrLater = await platformHelper.isMacOsMojaveOrLater();
     if (isMojaveOrLater) { // On macOS (from Mojave) we initialize night mode based on the system settings
-      const nativeTheme = require('electron').remote.nativeTheme;
+      const nativeTheme = require('@electron/remote').nativeTheme;
 
       // Set up a listener to react when the native theme has changed
       nativeTheme.on('updated', () => {
@@ -74,7 +74,7 @@ class ThemeController {
   async toggleDarkModeIfNeeded() {
     var isMojaveOrLater = await platformHelper.isMacOsMojaveOrLater();
     if (isMojaveOrLater) {
-      const nativeTheme = require('electron').remote.nativeTheme;
+      const nativeTheme = require('@electron/remote').nativeTheme;
 
       if (nativeTheme.shouldUseDarkColors) {
         app_controller.optionsMenu._nightModeOption.checked = true;
@@ -131,7 +131,7 @@ class ThemeController {
 
     var isMojaveOrLater = platformHelper.isMacOsMojaveOrLater();
     if (isMojaveOrLater) {
-      const nativeTheme = require('electron').remote.nativeTheme;
+      const nativeTheme = require('@electron/remote').nativeTheme;
       useNightMode = nativeTheme.shouldUseDarkColors;
     } else {
       var useNightModeSettingAvailable = await ipcSettings.has('useNightMode');

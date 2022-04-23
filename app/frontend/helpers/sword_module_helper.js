@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -166,13 +166,14 @@ module.exports.moduleHasStrongs = async function(moduleId) {
   }
 };
 
-module.exports.bookHasHeaders = async function(moduleId, book) {
+module.exports.bookHasHeaders = async function(moduleId, book, validate=true) {
   var hasHeaders = false;
   var swordModule = await this.getSwordModule(moduleId);
 
   if (swordModule != null) {
     hasHeaders = swordModule.hasHeadings;
-    if (hasHeaders) {
+
+    if (hasHeaders && validate) {
       const headerList = await ipcNsi.getBookHeaderList(moduleId, book);
       if (headerList.length == 0) {
         hasHeaders = false;

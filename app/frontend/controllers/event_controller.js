@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -86,9 +86,10 @@ module.exports.subscribe = function subscribe(event, callback, prioritize=false)
  * This function calls all callbacks that subscribed to the specific event
  * @param {EzraEvent} event Event key to be notified
  * @param {*} payload 
- * @returns {Array} Array of callback results
+ * @param {Boolean} waitAsync Whether or not the function should wait for the subscribers (default: false)
+ * @returns {[]} Array of callback results
  */
-module.exports.publish = function publish(event, payload=undefined) {
+module.exports.publish = async function publish(event, payload=undefined, waitAsync=false) {
   var results = [];
 
   if (notCreated(event)) {
@@ -98,7 +99,7 @@ module.exports.publish = function publish(event, payload=undefined) {
 
   for (let subscribedCallback of subscribers[event]) {
     if (typeof subscribedCallback === 'function') {
-      const r = subscribedCallback(payload);
+      const r = waitAsync ? await subscribedCallback(payload) : subscribedCallback(payload);
       results.push(r);
     }
   }
@@ -114,7 +115,7 @@ module.exports.publish = function publish(event, payload=undefined) {
  */
 module.exports.publishAsync = async function publishAsync(event, payload=undefined) {
 
-  const promisifiedResults = this.publish(event, payload);
+  const promisifiedResults = await this.publish(event, payload, true);
 
   var results = [];
   
@@ -122,7 +123,7 @@ module.exports.publishAsync = async function publishAsync(event, payload=undefin
     // TODO: It's better to use Promise.allSettled()
     results = await Promise.all(promisifiedResults);
   } catch(error) {
-    console.log('One of callbacks was rejected:', error);
+    console.log('One of the callbacks was rejected:', error);
     console.trace();
   }
 

@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,31 +28,13 @@ class TagSelectionMenu {
   constructor() {
     this.tag_menu_is_opened = false;
     this.tag_menu_populated = false;
+    this.currentTagGroupId = -1;
 
-    eventController.subscribe('on-tab-selected', async (tabIndex) => {
-      await this.updateTagSelectionMenu(tabIndex);
-    });
-
-    eventController.subscribe('on-tab-added', (tabIndex) => {
-      this.init(tabIndex);
-    });
-
-    eventController.subscribe('on-tag-created', async () => {
-      await this.requestTagsForMenu(true);
-    });
-
-    eventController.subscribe('on-tag-deleted', async () => {
-      await this.requestTagsForMenu(true);
-    });
-
-    eventController.subscribe('on-tag-renamed', async() => {
-      await this.requestTagsForMenu();
-    });
+    this.bindUserEvents();
+    this.subscribeAppEvents();
   }
 
-  init(tabIndex=undefined) {
-    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    currentVerseListMenu.find('.tag-select-button').bind('click', (event) => { this.handleTagMenuClick(event); });
+  bindUserEvents() {
     $('#tag-selection-filter-input').bind('keyup', () => { this.handleTagSearchInput(); });
 
     // eslint-disable-next-line no-unused-vars
@@ -71,6 +53,66 @@ class TagSelectionMenu {
     $('#confirm-tag-selection-button').bind('click', () => {
       this.handleConfirmButtonClick();
     });
+  }
+
+  subscribeAppEvents() {
+    eventController.subscribe('on-tab-selected', async (tabIndex) => {
+      await this.updateTagSelectionMenu(tabIndex);
+    });
+
+    eventController.subscribe('on-tab-added', (tabIndex) => {
+      this.initForTab(tabIndex);
+    });
+
+    eventController.subscribe('on-tag-created', async () => {
+      await this.requestTagsForMenu(this.currentTagGroupId, true);
+    });
+
+    eventController.subscribe('on-tag-deleted', async () => {
+      await this.requestTagsForMenu(this.currentTagGroupId, true);
+    });
+
+    eventController.subscribe('on-tag-renamed', async() => {
+      await this.requestTagsForMenu(this.currentTagGroupId);
+    });
+
+    eventController.subscribe('on-tag-selection-menu-group-list-activated', () => {
+      this.getTagListContainer()[0].style.display = 'none';
+      document.getElementById('tag-selection-filter-buttons').style.display = 'none';
+      document.getElementById('tag-selection-filter').style.display = 'none';
+      document.getElementById('tag-selection-summary').style.display = 'none';
+      document.getElementById('tag-selection-menu-tag-group-list').style.removeProperty('display');
+    });
+
+    eventController.subscribe('on-tag-selection-menu-group-selected', async (tagGroup) => {
+      this.showTagGroup(tagGroup.id);
+    });
+  }
+
+  initForTab(tabIndex=undefined) {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+    currentVerseListMenu.find('.tag-select-button').bind('click', (event) => { this.handleTagMenuClick(event); });
+  }
+
+  hideTagGroupList() {
+    document.getElementById('tag-selection-menu-tag-group-list').style.display = 'none';
+  }
+
+  async showTagGroup(tagGroupId) {
+    this.hideTagGroupList();
+
+    this.currentTagGroupId = tagGroupId;
+    await this.requestTagsForMenu(this.currentTagGroupId);
+    await this.updateTagSelectionMenu();
+
+    this.showTagListUi();
+  }
+
+  showTagListUi() {
+    this.getTagListContainer()[0].style.removeProperty('display');
+    document.getElementById('tag-selection-filter-buttons').style.display = 'flex';
+    document.getElementById('tag-selection-filter').style.removeProperty('display');
+    document.getElementById('tag-selection-summary').style.display = 'flex';
   }
 
   selectAllTags() {
@@ -118,13 +160,19 @@ class TagSelectionMenu {
     tagListContainer.find('.tag-browser-tag').show();
   }
 
-  hideTagMenu() {
+  async hideTagMenu() {
     if (this.tag_menu_is_opened) {
-      $('#app-container').find('#tag-selection-menu').hide();
-      this.tag_menu_is_opened = false;
+      document.getElementById('tag-selection-menu').style.display = 'none';
+
+      let groupList = document.getElementById('tag-selection-menu-tag-group-list');
+      let currentGroup = await groupList.tagGroupManager.getItemById(this.currentTagGroupId);
+
+      eventController.publishAsync('on-tag-selection-menu-group-selected', currentGroup);
 
       var tag_button = $('#app-container').find('.tag-select-button');
       tag_button.removeClass('ui-state-active');
+
+      this.tag_menu_is_opened = false;
     }
   }
 
@@ -165,6 +213,7 @@ class TagSelectionMenu {
 
       tagList.show();
       tagListOverlay.hide();
+      this.showTagListUi();
 
       uiHelper.configureButtonStyles('#tag-selection-menu');
 
@@ -179,8 +228,13 @@ class TagSelectionMenu {
     }
   }
 
-  async requestTagsForMenu(forceRefresh=false) {
+  async requestTagsForMenu(tagGroupId=null, forceRefresh=false) {
     var tags = await tags_controller.getTagList(forceRefresh);
+
+    if (tagGroupId != null && tagGroupId > 0) {
+      tags = await tags_controller.getTagGroupMembers(tagGroupId, tags);
+    }
+
     this.renderTagsInMenu(tags);
     this.tag_menu_populated = true;
   }
@@ -190,6 +244,8 @@ class TagSelectionMenu {
 
     if (tags.length > 50) {
       document.getElementById('select-all-tags-button').style.display = 'none';
+    } else {
+      document.getElementById('select-all-tags-button').style.removeProperty('display');
     }
 
     var taglist_container = this.getTagListContainer();
@@ -358,12 +414,22 @@ class TagSelectionMenu {
     var tagCountSelectedLabel = document.getElementById('tag-count-selected-label');
     var confirmButton = document.getElementById('confirm-tag-selection-button');
     var deselectAllButton = document.getElementById('deselect-all-tags-button');
+    var selectAllButton = document.getElementById('select-all-tags-button');
     var currentTagIdList = this.selectedTagIds();
     var currentTagTitleList = this.selectedTagTitles();
     var selectedTagCount = 0;
    
     if (currentTagIdList != "") { 
       selectedTagCount = currentTagIdList.split(',').length;
+    }
+
+    var taglistContainer = this.getTagListContainer();
+    var tagList = taglistContainer[0].querySelectorAll('.tag-browser-tag');
+
+    if (selectedTagCount == tagList.length) {
+      selectAllButton.classList.add('ui-state-disabled');
+    } else {
+      selectAllButton.classList.remove('ui-state-disabled');
     }
 
     if (selectedTagCount > 0) {

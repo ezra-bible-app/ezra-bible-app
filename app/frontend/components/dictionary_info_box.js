@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const eventController = require('../controllers/event_controller.js');
+const { html } = require('../helpers/ezra_helper.js');
 
 let jsStrongs = null;
 
@@ -59,6 +60,8 @@ class DictionaryInfoBox {
   }
 
   clearDictInfoBox() {
+    this.currentStrongsEntry = null;
+
     var strongsAvailable = this.dictionaryController.strongsAvailable;
     var dictionaryInstallStatus = i18n.t("general.installed");
     var dictionaryInstallStatusClass = 'dict-installed';
@@ -70,7 +73,32 @@ class DictionaryInfoBox {
 
     this.dictionaryInfoBoxPanel.find('div').empty();
     this.dictionaryInfoBoxHeader.html(i18n.t("dictionary-panel.default-header", { interpolation: {escapeValue: false} }));
-    this.dictionaryInfoBoxHelp.html(i18n.t("dictionary-panel.help-instruction", { install_status_class: dictionaryInstallStatusClass, install_status: dictionaryInstallStatus, interpolation: {escapeValue: false} }));
+
+    let helpInstructionPart1 = i18n.t("dictionary-panel.help-instruction-part1", {
+      install_status_class: dictionaryInstallStatusClass,
+      install_status: dictionaryInstallStatus,
+      interpolation: {escapeValue: false}
+    });
+
+    let helpInstructionPart2 = i18n.t("dictionary-panel.help-instruction-part2");
+    let helpInstructionPart3 = "";
+   
+    if (platformHelper.isCordova()) {
+      helpInstructionPart3 = i18n.t("dictionary-panel.help-instruction-part3-cordova");
+    } else {
+      helpInstructionPart3 = i18n.t("dictionary-panel.help-instruction-part3");
+    }
+    
+    let helpInstruction = html`
+      <p>${i18n.t("dictionary-panel.help-instruction-intro")}</p>
+      <ol>
+        <li>${helpInstructionPart1}</li>
+        <li>${helpInstructionPart2}</li>
+        <li>${helpInstructionPart3}</li>
+      </ol>
+    `;
+
+    this.dictionaryInfoBoxHelp.html(helpInstruction.innerHTML);
     this.dictionaryInfoBoxHelp.show();
   }
 

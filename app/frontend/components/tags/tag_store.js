@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const eventController = require('../../controllers/event_controller.js');
+const ezraHelper = require('../../helpers/ezra_helper.js');
 
 class TagStore {
   constructor() {
@@ -42,6 +43,10 @@ class TagStore {
 
     eventController.subscribePrioritized('on-tag-renamed', async ({ tagId, newTitle }) => {
       await this.renameTag(tagId, newTitle);
+    });
+
+    eventController.subscribePrioritized('on-tag-group-members-changed', async ({ tagId, addTagGroups, removeTagGroups }) => {
+      await this.updateTagGroups(tagId, addTagGroups, removeTagGroups);
     });
   }
 
@@ -87,6 +92,22 @@ class TagStore {
   async renameTag(tagId, newTitle) {
     var tag = await this.getTag(tagId);
     tag.title = newTitle;
+  }
+
+  async updateTagGroups(tagId, addTagGroups, removeTagGroups) {
+    var tag = await this.getTag(tagId);
+
+    if (tag.tagGroupList == null) {
+      tag.tagGroupList = [];
+    }
+
+    addTagGroups.forEach((tagGroupId) => {
+      tag.tagGroupList.push(tagGroupId.toString());
+    });
+
+    removeTagGroups.forEach((tagGroupId) => {
+      tag.tagGroupList = ezraHelper.removeItemFromArray(tag.tagGroupList, tagGroupId.toString());
+    });
   }
 
   async getTag(tagId) {

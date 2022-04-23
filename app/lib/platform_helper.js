@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,8 +31,11 @@ class PlatformHelper {
   async isDebug() {
     if (this.isElectron()) {
 
-      var isDebug = require('electron-is-dev');
-      return isDebug;
+      if (this.isElectronMain()) {
+        return global.isDev;
+      } else {
+        return window.isDev;
+      }
 
     } else if (this.isCordovaFrontend()) {
 
@@ -97,23 +100,29 @@ class PlatformHelper {
 
   isCordovaFrontend() {
     return (typeof window !== 'undefined' && !!window.cordova);
-  } 
+  }
+
+  isElectronRenderer() {
+    return typeof window !== 'undefined' &&
+           typeof window.process === 'object' &&
+           window.process.type === 'renderer';
+  }
+
+  isElectronMain() {
+    return typeof process !== 'undefined' &&
+           typeof process.versions === 'object' &&
+           !!process.versions.electron;
+  }
 
   // https://github.com/electron/electron/issues/2288
   isElectron() {
     // Renderer process
-    if (typeof window !== 'undefined' &&
-        typeof window.process === 'object' &&
-        window.process.type === 'renderer') {
-        
+    if (this.isElectronRenderer()) {
       return true;
     }
 
     // Main process
-    if (typeof process !== 'undefined' &&
-        typeof process.versions === 'object' &&
-        !!process.versions.electron) {
-        
+    if (this.isElectronMain()) {
       return true;
     }
 
@@ -128,18 +137,22 @@ class PlatformHelper {
     return false;
   }
 
-  addPlatformCssClass() {
+  addPlatformCssClass(element=undefined) {
+    if (element === undefined) {
+      element = document.body;
+    }
+
     if (this.isMac()) {
-      document.body.classList.add('OSX');
+      element.classList.add('OSX');
     } else if (this.isAndroid()) {
-      document.body.classList.add('Android');
+      element.classList.add('Android');
       if (window.isChromiumOlder()) {
-        document.body.classList.add('webview-older'); // in Android it's possible to have lower versions of WebView
+        element.classList.add('webview-older'); // in Android it's possible to have lower versions of WebView
       }
     } else if (this.isLinux()) {
-      document.body.classList.add('Linux');
+      element.classList.add('Linux');
     } else if (this.isWin()) {
-      document.body.classList.add('Windows');
+      element.classList.add('Windows');
     }
   }
 

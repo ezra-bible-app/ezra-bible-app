@@ -1,20 +1,41 @@
 <div id="new-standard-tag-dialog" style="display: none; padding-top: 2em; padding-bottom: 2em;">
   <span id="new-standard-tag-title-label" i18n="tags.title"></span>: <input id="new-standard-tag-title-input" type="text" maxlength="255" />
   <emoji-button-trigger></emoji-button-trigger>
+
+  <div id="tag-group-assignment-section" style="margin-top: 1em;">
+    <span i18n="tags.tag-groups"></span>:
+    <tag-group-assignment-list id="new-tag-dialog-tag-group-assignment"></tag-group-assignment-list>
+
+    <div style="margin-top: 1em;">
+      <a id="add-existing-tags-to-tag-group-link" href="" i18n="tags.add-existing-tags-to-current-tag-group"></a>
+    </div>
+  </div>
+</div>
+
+<div id="add-tags-to-group-dialog" style="display: none; padding-top: 2em; padding-bottom: 2em;">
+  <tag-list id="add-tags-to-group-tag-list" style="display: none;"></tag-list>
 </div>
 
 <div id="delete-tag-confirmation-dialog" style="display: none;">
-  <p><span i18n="tags.really-delete"></span><span style="font-style: italic;" id="delete-tag-name"></span></p>
-  <p><span i18n="[html]tags.tag-info-would-be-deleted"></span> (<span id="delete-tag-number-of-verses"></span>)</p>
+  <p id="delete-tag-from-group-explanation" style="display: none;"></p>
+  <div id="permanently-delete-tag-box" style="border-top: 1px solid gray; padding-top: 0.5em;">
+  <input id="permanently-delete-tag" type="checkbox"/><label style="margin-left: 0.2em;" for="permanently-delete-tag" i18n="tags.delete-tag-permanently"></label>
+  </div>
+  <p id="really-delete-tag-explanation"><span i18n="tags.really-delete"></span><span style="font-style: italic;" id="delete-tag-name"></span></p>
+  <p id="permanently-delete-tag-warning" style="margin-bottom: 0;"><span i18n="[html]tags.tag-info-would-be-deleted"></span> (<span id="delete-tag-number-of-verses"></span>)</p>
 </div>
 
 <div id="remove-tag-assignment-confirmation-dialog" style="display: none;">
   <p i18n="[html]tags.really-remove-tag-assignment"></p>
 </div>
 
-<div id="rename-standard-tag-dialog" style="display: none; padding-top: 2em; padding-bottom: 2em;">
-  <span id="rename-standard-tag-title-label" i18n="tags.title"></span>: <input id="rename-standard-tag-title-input" type="text" maxlength="255" />
+<div id="edit-tag-dialog" style="display: none; padding-top: 2em; padding-bottom: 2em;">
+  <span id="rename-tag-title-label" i18n="tags.title"></span>: <input id="rename-tag-title-input" type="text" maxlength="255" />
   <emoji-button-trigger></emoji-button-trigger>
+
+  <div style="height: 1em;"></div>
+  <span i18n="tags.tag-groups"></span>:
+  <tag-group-assignment-list id="tag-group-assignment"></tag-group-assignment-list>
 </div>
 
 <div id="tags-content" class="accordion-panel ui-accordion ui-widget ui-helper-reset ui-accordion-icons" role="tablist">
@@ -25,22 +46,35 @@
       <span id="tag-list-filter-button-active">*</span>
       <span id="tag-list-stats" style="margin-left: 1em;"></span>
 
-      <div id="new-standard-tag-button" class="fg-button ui-state-default ui-corner-all" i18n="[title]tags.new-tag">
-        <i class="fas fa-plus fa-xs"></i>&nbsp;<i class="fas fa-tag fa-sm"></i>
-      </div>
-
       <input type="text" id="tags-search-input"></input>
     </a>
   </h3>
-  <div id="tags-content-global" class="tags-content-global scrollable ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
-    <div id="tags-loading-indicator" style="display: none; width: 18em; margin-top: 5em; margin-left: auto; margin-right: auto;">
-      <div class="loading-indicator-text" style="float: left;" i18n="tags.loading-tags"></div>
 
-      <div class="loader">
-        <div class="bounce1"></div>
-        <div class="bounce2"></div>
-        <div class="bounce3"></div>
-      </div>
-    </div>
+  <tag-list-menu id="tag-panel-tag-list-menu"
+                 box="true"
+                 add-element-buttons="true"
+                 tag-group-link-event="on-tag-group-list-activated"
+                 tag-group-creation-event="on-tag-group-creation"
+                 tag-group-selection-event="on-tag-group-selected">
+  </tag-list-menu>
+
+  <tag-group-list id="tag-panel-tag-group-list"
+                  persist="true"
+                  editable="true"
+                  show-tag-count="true"
+                  activation-event="on-tag-group-list-activated"
+                  selection-event="on-tag-group-selected"
+                  hide-top-border="true"
+                  rounded-bottom-corners="true"
+                  style="height: calc(100% - 5.8em); display: none;">
+  </tag-group-list>
+
+  <div id="tags-content-global" class="tags-content-global
+                                       scrollable
+                                       ui-accordion-content
+                                       ui-helper-reset
+                                       ui-widget-content
+                                       ui-corner-bottom
+                                       ui-accordion-content-active">
   </div>
 </div>

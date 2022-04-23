@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     bibleBookShortTitle: DataTypes.VIRTUAL,
     bibleBookLongTitle: DataTypes.VIRTUAL,
     tagList: DataTypes.VIRTUAL,
+    tagGroupList: DataTypes.VIRTUAL,
     noteText: DataTypes.VIRTUAL,
   }, {
     timestamps: false
@@ -196,6 +197,7 @@ module.exports = (sequelize, DataTypes) => {
                  b.shortTitle as bibleBookShortTitle,
                  b.longTitle AS bibleBookLongTitle,
                  GROUP_CONCAT(t.title, ';') AS tagList,
+                 REPLACE(GROUP_CONCAT(DISTINCT tg.title), ',', ';') AS tagGroupList,
                  n.text AS noteText
                  FROM VerseReferences vr
                  INNER JOIN BibleBooks b ON
@@ -204,6 +206,10 @@ module.exports = (sequelize, DataTypes) => {
                  vt.verseReferenceId = vr.id
                  LEFT JOIN Tags t ON
                  vt.verseReferenceId = vr.id AND vt.tagId = t.id
+                 LEFT JOIN TagGroupMembers tgm ON
+                 tgm.tagId = t.id
+                 LEFT JOIN TagGroups tg ON
+                 tg.id = tgm.tagGroupId
                  LEFT JOIN Notes n ON n.verseReferenceId = vr.id
                  GROUP BY vr.id
                  ORDER BY b.number ASC, vr.absoluteVerseNrEng ASC`;

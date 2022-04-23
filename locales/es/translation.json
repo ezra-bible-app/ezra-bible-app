@@ -115,6 +115,8 @@
     "module-sync-header": "Instalando módulos adicionales"
   },
   "general": {
+    "about-ezra-bible-app": "Acerca de Ezra Bible App",
+    "general-app-info": "La información general acerca de Ezra Bible App puede ser encontrada en el sitio web oficial.<br>La información técnica sobre el desarrollo de Ezra Bible App puede ser encontrada en GitHub.",
     "chapter-verse-separator": ":",
     "module-application-info": "Información del módulo y la aplicación",
     "application-info": "Información de la aplicación",
@@ -183,7 +185,8 @@
     "export-user-data-action": "Exportar datos del usuario",
     "export-user-data-hint": "Esta función exporta todos los datos del usuario (etiquetas, notas), así como las referencias bíblicas a un archivo CSV",
     "installed": "Instalado",
-    "not-installed": "No instalado"
+    "not-installed": "No instalado",
+    "and-more": "y otras"
   },
   "help": {
     "help-text-no-tags-book-opened": "Para comenzar a trabajar con las etiquetas, debe crear la primera pulsando en el botón <i>Nueva&nbsp;etiqueta</i>.<br/><br/>Después usted podrá seleccionar los textos de La Biblia que desee, para ello pulse sobre un verso o arrastre para seleccionar varios versos y agreguelos a la etiqueta que acaba de crear.",
@@ -249,6 +252,7 @@
     "delete-tag-permanently": "Eliminar esta etiqueta permanentemente",
     "none-selected": "Nada",
     "rename-tag": "Renombrar etiqueta",
+    "edit-tag": "Editar etiqueta",
     "title": "Título",
     "stats-used": "usado",
     "stats-total": "total",
@@ -260,7 +264,17 @@
     "tag-count-selected_one": "{{count}} etiqueta seleccionada",
     "tag-count-selected_other": "{{count}} etiquetas seleccionadas",
     "select-all-tags": "Seleccionar todas",
-    "deselect-all-tags": "Deseleccionar todas"
+    "deselect-all-tags": "Deseleccionar todas",
+    "add-tag-group": "Añadir grupo de etiquetas",
+    "create-tag-group": "Crear grupo de etiquetas",
+    "rename-tag-group": "Renombrar grupo de etiquetas",
+    "delete-tag-group": "Eliminar grupo de etiquetas",
+    "tag-group": "Grupo de etiquetas",
+    "tag-groups": "Grupos de etiquetas",
+    "add-existing-tags-to-current-tag-group": "Añadir las etiquetas existentes al grupo de etiquetas actual",
+    "add-tags-to-group": "Añadir etiquetas al grupo",
+    "delete-tag-from-group-explanation": "La etiqueta <i>{{tag}}</i> será eliminada del grupo <i>{{group}}</i>. Para eliminar completamente la etiqueta, haga clic en el botón debajo.",
+    "really-delete-tag-group": "Realmente desea eliminar el grupo de etiquetas<br/><i>{{tagGroupTitle}}</i>?"
   },
   "bible-browser": {
     "chapter": "Capítulo",
@@ -297,6 +311,7 @@
     "open-verse-lists-in-new-tab": "Abrir la lista de versículos en una nueva pestaña",
     "show-notes-tags-indicators": "Mostrar indicadores de notas/etiquetas",
     "show-tags": "Mostrar etiquetas",
+    "use-tag-group-filter": "Usar el filtro de grupo de etiquetas",
     "show-notes": "Mostrar notas",
     "limit-notes-display-size": "Limitar el tamaño de las notas",
     "use-tags-column": "Usar columna de etiquetas",
@@ -320,7 +335,11 @@
     "greek-dict": "Diccionario Griego",
     "hebrew-dict": "Diccionario Hebreo",
     "default-header": "<b>Diccionario</b>",
-    "help-instruction": "<p>Como mostrar las entradas de diccionario aquí:</p><ol><li>Asegúrese de que los diccionarios Strong's (Hebreo y Griego) estén instalados. Estado: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li><li>Abra una traducción con números Strongs.</li><li>Mientras mantiene pulsada la tecla SHIFT usted puede mover el cursor sobre palabras individuales o frases para ver las entradas en el diccionario.</li><ol>",
+    "help-instruction-intro": "Como mostrar las entradas de diccionario aquí:",
+    "help-instruction-part1": "Asegúrese de que los diccionarios Strong's (Hebreo y Griego) estén instalados. Estado: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
+    "help-instruction-part2": "Abra una traducción con números Strongs.",
+    "help-instruction-part3": "Mientras mantiene pulsada la tecla SHIFT usted puede mover el cursor sobre palabras individuales o frases para ver las entradas en el diccionario.",
+    "help-instruction-part3-cordova": "Toque y mantenga pulsado sobre palabras o frases hasta que vea las entradas del diccionario aquí.",
     "find-all-occurrences": "Encontrar todas las coincidencias",
     "open-in-blueletter": "Abrir en Blue Letter Bible",
     "related-strongs": "Números Strongs relacionados"

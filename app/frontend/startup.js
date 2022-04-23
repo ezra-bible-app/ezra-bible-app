@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@ const IpcNsi = require('./ipc/ipc_nsi.js');
 const IpcDb = require('./ipc/ipc_db.js');
 const IpcSettings = require('./ipc/ipc_settings.js');
 const i18nController = require('./controllers/i18n_controller.js');
+const eventController = require('./controllers/event_controller.js');
 
 // UI Helper
 const UiHelper = require('./helpers/ui_helper.js');
@@ -89,6 +90,10 @@ class Startup {
     }
 
     require('./components/tool_panel/panel_buttons.js');
+    require('./components/tags/tag_list_menu.js');
+    require('./components/tags/tag_group_list.js');
+    require('./components/tags/tag_group_assignment_list.js');
+    require('./components/tags/tag_list.js');
     require('./components/options_menu/config_option.js');
     require('./components/options_menu/select_option.js');
     require('./components/options_menu/locale_switch.js');
@@ -234,7 +239,7 @@ class Startup {
     }
 
     if (this._platformHelper.isElectron()) {
-      window.app = require('electron').remote.app;
+      window.app = require('@electron/remote').app;
 
       const { ipcRenderer } = require('electron');
       await ipcRenderer.send('manageWindowState');
@@ -339,6 +344,9 @@ class Startup {
       var newReleaseChecker = new NewReleaseChecker('new-release-info-box');
       newReleaseChecker.check();
     }
+
+    await eventController.publishAsync('on-startup-completed');
+    app_controller.startupCompleted = true;
   }
 
   /** 

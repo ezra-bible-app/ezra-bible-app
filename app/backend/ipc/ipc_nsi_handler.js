@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -223,6 +223,19 @@ class IpcNsiHandler {
       return this._nsi.getBookChapterCount(moduleCode, bookCode);
     });
 
+    this._ipcMain.add('nsi_getBookVerseCount', (moduleCode, bookCode) => {
+      var bookChapterCount = this._nsi.getBookChapterCount(moduleCode, bookCode);
+
+      let verseCount = 0;
+
+      for (let i = 1; i <= bookChapterCount; i++) {
+        let chapterVerseCount = this._nsi.getChapterVerseCount(moduleCode, bookCode, i);
+        verseCount += chapterVerseCount;
+      }
+
+      return verseCount;
+    });
+
     this._ipcMain.add('nsi_getChapterVerseCount', (moduleCode, bookCode, chapter) => {
       return this._nsi.getChapterVerseCount(moduleCode, bookCode, chapter);
     });
@@ -243,8 +256,8 @@ class IpcNsiHandler {
       return this._nsi.getBookIntroduction(moduleCode, bookCode);
     });
 
-    this._ipcMain.add('nsi_getBookHeaderList', (moduleCode, bookCode) => {
-      var bookTextJson = this._nsi.getBookText(moduleCode, bookCode);
+    this._ipcMain.add('nsi_getBookHeaderList', (moduleCode, bookCode, startVerseNumber=-1, verseCount=-1) => {
+      var bookTextJson = this._nsi.getBookText(moduleCode, bookCode, startVerseNumber, verseCount);
 
       var bookTextHtml = "<div>";
       bookTextJson.forEach((verse) => { bookTextHtml += verse.content; });

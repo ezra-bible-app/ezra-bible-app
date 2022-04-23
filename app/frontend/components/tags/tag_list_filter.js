@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,6 +17,7 @@
    If not, see <http://www.gnu.org/licenses/>. */
 
 const { waitUntilIdle, sleep } = require('../../helpers/ezra_helper.js');
+const eventController = require('../../controllers/event_controller.js');
 
 /**
  * The TagListFilter component implements the filter functionality of the tag list.
@@ -37,6 +38,8 @@ class TagListFilter {
   }
 
   handleFilterButtonClick(e) {
+    eventController.publish('on-button-clicked');
+
     var position = $(e.target).offset();
     var filter_menu = $('#tag-filter-menu');
 
@@ -61,6 +64,12 @@ class TagListFilter {
     checkboxTag.classList.remove('hidden');
     this.addAlternatingClass(checkboxTag, counter);
     return (counter + 1);
+  }
+
+  reset() {
+    $('#tag-list-filter-button-active').hide();
+    let tagFilterAllTagsOption = document.getElementById('tag-filter-all-tags');
+    tagFilterAllTagsOption.click();
   }
 
   async handleTagFilterTypeClick(e) {

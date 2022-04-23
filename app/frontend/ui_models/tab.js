@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -312,8 +312,10 @@ class Tab {
 
 Tab.fromJsonObject = function(jsonObject, tabIndex) {
   var tab = new Tab();
+
   Object.assign(tab, jsonObject);
   tab.initTabSearch(tabIndex);
+  tab.previousBibleTranslationId = tab.bibleTranslationId;
 
   return tab;
 };

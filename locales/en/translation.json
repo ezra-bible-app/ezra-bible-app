@@ -115,6 +115,8 @@
     "module-sync-header": "Installing additional modules"
   },
   "general": {
+    "about-ezra-bible-app": "About Ezra Bible App",
+    "general-app-info": "General information about Ezra Bible App can be found on the website.<br>Technical information about the development of Ezra Bible App can be found on GitHub.",
     "chapter-verse-separator": ":",
     "module-application-info": "Module and Application Info",
     "application-info": "Application Info",
@@ -183,7 +185,8 @@
     "export-user-data-action": "Export user data",
     "export-user-data-hint": "This function exports all user data (tags, notes) along with their verse references to a CSV file.",
     "installed": "Installed",
-    "not-installed": "Not installed"
+    "not-installed": "Not installed",
+    "and-more": "and more"
   },
   "help": {
     "help-text-no-tags-book-opened": "To start working with tags, create your first tag by clicking on the button <i>New&nbsp;tag</i>.<br/><br/>After that you can browse the Bible text, click or drag-select verses and then assign the tag you just created.",
@@ -249,6 +252,7 @@
     "delete-tag-permanently": "Delete this tag permanently",
     "none-selected": "None",
     "rename-tag": "Rename tag",
+    "edit-tag": "Edit tag",
     "title": "Title",
     "stats-used": "used",
     "stats-total": "total",
@@ -260,7 +264,17 @@
     "tag-count-selected_one": "{{count}} tag selected",
     "tag-count-selected_other": "{{count}} tags selected",
     "select-all-tags": "Select all",
-    "deselect-all-tags": "Deselect all"
+    "deselect-all-tags": "Deselect all",
+    "add-tag-group": "Add tag group",
+    "create-tag-group": "Create tag group",
+    "rename-tag-group": "Rename tag group",
+    "delete-tag-group": "Delete tag group",
+    "tag-group": "Tag group",
+    "tag-groups": "Tag groups",
+    "add-existing-tags-to-current-tag-group": "Add existing tags to current tag group",
+    "add-tags-to-group": "Add tags to group",
+    "delete-tag-from-group-explanation": "The tag <i>{{tag}}</i> will be deleted from the group <i>{{group}}</i>. To permanently delete the tag, click the checkbox below.",
+    "really-delete-tag-group": "Do you really want to delete the tag group<br/><i>{{tagGroupTitle}}</i>?"
   },
   "bible-browser": {
     "chapter": "Chapter",
@@ -297,6 +311,7 @@
     "open-verse-lists-in-new-tab": "Open verse lists in new tab",
     "show-notes-tags-indicators": "Show notes/tags indicators",
     "show-tags": "Show tags",
+    "use-tag-group-filter": "Use tag group filter",
     "show-notes": "Show notes",
     "limit-notes-display-size": "Limit notes display size",
     "use-tags-column": "Use tags column",
@@ -320,7 +335,11 @@
     "greek-dict": "Greek Dictionary",
     "hebrew-dict": "Hebrew Dictionary",
     "default-header": "<b>Dictionary</b>",
-    "help-instruction": "<p>How to show dictionary entries here:</p><ol><li>Make sure that Strong's Dictionaries (Hebrew and Greek) are installed. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li><li>Open a translation with the Strong's feature.</li><li>While you press the SHIFT key you can move your mouse over the individual words and phrases to see dictionary entries here.</li><ol>",
+    "help-instruction-intro": "How to show dictionary entries here:",
+    "help-instruction-part1": "Make sure that Strong's Dictionaries (Hebrew and Greek) are installed. Status: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
+    "help-instruction-part2": "Open a translation with the Strong's feature.",
+    "help-instruction-part3": "While you press the SHIFT key you can move your mouse over the individual words and phrases to see dictionary entries here.",
+    "help-instruction-part3-cordova": "Touch and hold individual words or phrases until you see dictionary entries here.",
     "find-all-occurrences": "Find all occurrences",
     "open-in-blueletter": "Open in Blue Letter Bible",
     "related-strongs": "Related Strong's"

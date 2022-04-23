@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ defineParameterType({
 
 defineParameterType({
   name: 'first_tab_menu',
-  regexp: /book selection|search|options|translation selection/,
+  regexp: /book selection|search|options|translation selection|tag selection/,
   transformer: s => {
     switch (s) {
       case 'book selection':
@@ -35,14 +35,16 @@ defineParameterType({
       case 'options':
         return '.display-options-button';
       case 'translation selection':
-        return '.bible-select-block .ui-selectmenu'; 
+        return '.bible-select-block .ui-selectmenu';
+      case 'tag selection':
+        return '.tag-select-button';
     }
   }
 });
 
 defineParameterType({
   name: 'display_option',
-  regexp: /tags|notes|indicators|xrefs|footnotes|navigation|current tab search/,
+  regexp: /tags|notes|indicators|xrefs|footnotes|navigation|current tab search|tag group filter/,
   transformer: s => {
     switch (s) {
       case 'tags':
@@ -59,15 +61,17 @@ defineParameterType({
         return '#showBookChapterNavigationOption';
       case 'current tab search':
         return '#showTabSearchOption';
+      case 'tag group filter':
+        return '#useTagGroupFilterOption';
     }
   }
 });
 
 defineParameterType({
   name: 'state',
-  regexp: /displayed|hidden/,
+  regexp: /displayed|hidden|enabled|disabled/,
   type: 'boolean',
-  transformer: s => s == 'displayed'
+  transformer: s => s == 'displayed' || s == 'enabled'
 });
 
 defineParameterType({

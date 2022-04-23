@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 module.exports.showSaveDialog = async function (fileLabel, fileExtension=undefined, dialogTitle=undefined) {
   if (platformHelper.isCordova()) return null; //TODO: figure out the way to save files in Cordova
 
-  const dialog = require('electron').remote.dialog;
+  const dialog = require('@electron/remote').dialog;
   var dialogOptions = getExportDialogOptions(fileLabel, fileExtension, dialogTitle);
 
   return dialog.showSaveDialog(null, dialogOptions).then(result => {
@@ -34,7 +34,7 @@ module.exports.showSaveDialog = async function (fileLabel, fileExtension=undefin
 };
 
 function getExportDialogOptions(fileLabel, fileExtension="out", dialogTitle="Export") {
-  const app = require('electron').remote.app;
+  const app = require('@electron/remote').app;
   var today = new Date();
   var month = getPaddedNumber(today.getMonth() + 1);
   var day = getPaddedNumber(today.getDate());

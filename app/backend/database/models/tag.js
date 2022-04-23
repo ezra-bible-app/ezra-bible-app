@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
   const Tag = sequelize.define('Tag', {
     title: DataTypes.STRING,
     bibleBookId: DataTypes.INTEGER,
+    tagGroupList: DataTypes.VIRTUAL,
     globalAssignmentCount: DataTypes.VIRTUAL,
     bookAssignmentCount: DataTypes.VIRTUAL,
     lastUsed: DataTypes.VIRTUAL
@@ -34,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Tag.associate = function(models) {
     Tag.belongsToMany(models.VerseReference, {through: 'VerseTags'});
+    Tag.belongsToMany(models.TagGroup, {through: 'TagGroupMembers'});
   };
 
   Tag.create_new_tag = async function(new_tag_title) {
@@ -60,6 +62,7 @@ module.exports = (sequelize, DataTypes) => {
   Tag.destroy_tag = async function(id) {
     try {
       await global.models.VerseTag.destroy({ where: { tagId: id } });
+      await global.models.TagGroupMember.destroy({ where: { tagId: id }});
       await global.models.Tag.destroy({ where: { id: id } });
       await global.models.MetaRecord.updateLastModified();
 
@@ -74,9 +77,25 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
 
-  Tag.update_tag = async function(id, title) {
+  Tag.update_tag = async function(id, newTitle, addTagGroups, removeTagGroups) {
     try {
-      await global.models.Tag.update({ title: title }, { where: { id: id }});
+      let tag = await global.models.Tag.findByPk(id);
+      let titleChanged = tag.title != newTitle;
+
+      if (titleChanged) {
+        await global.models.Tag.update({ title: newTitle }, { where: { id: id }});
+      }
+
+      addTagGroups.forEach(async (tagGroupId) => {
+        let tagGroup = await global.models.TagGroup.findByPk(tagGroupId);
+        await tagGroup.addTag(id);
+      });
+
+      removeTagGroups.forEach(async (tagGroupId) => {
+        let tagGroup = await global.models.TagGroup.findByPk(tagGroupId);
+        await tagGroup.removeTag(id);
+      });
+
       await global.models.MetaRecord.updateLastModified();
 
       return {
@@ -84,7 +103,7 @@ module.exports = (sequelize, DataTypes) => {
       };
 
     } catch (error) {
-      console.error("An error occurred while trying to rename the tag with id " + id + ": " + error);
+      console.error("An error occurred while trying to update the tag with id " + id + ": " + error);
 
       return global.getDatabaseException(error);
     }
@@ -121,12 +140,22 @@ module.exports = (sequelize, DataTypes) => {
                  " SUM(CASE WHEN vt.tagId IS NULL THEN 0 ELSE 1 END) AS globalAssignmentCount," +
                  " SUM(CASE WHEN vr.bibleBookId=" + bibleBookId + " THEN 1 ELSE 0 END) AS bookAssignmentCount";
 
+    if (!onlyStats) {
+      query += ", GROUP_CONCAT(DISTINCT tg.id) AS tagGroupList";
+    }
+
     query += ", strftime('%s', MAX(vt.updatedAt)) AS lastUsed";
 
     query += " FROM Tags t" +
              " LEFT JOIN VerseTags vt ON vt.tagId = t.id" +
-             " LEFT JOIN VerseReferences vr ON vt.verseReferenceId = vr.id" +
-             " GROUP BY t.id";
+             " LEFT JOIN VerseReferences vr ON vt.verseReferenceId = vr.id";
+
+    if (!onlyStats) {
+      query += " LEFT JOIN TagGroupMembers tgm ON tgm.tagId = t.id" +
+               " LEFT JOIN TagGroups tg ON tg.id = tgm.tagGroupId";
+    }
+
+    query += " GROUP BY t.id";
     
     if (lastUsed) {
       query += " ORDER BY lastUsed DESC limit 5";

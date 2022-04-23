@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,10 +16,9 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-require('v8-compile-cache');
-
 const { app, BrowserWindow, Menu, ipcMain, nativeTheme } = require('electron');
-const isDev = require('electron-is-dev');
+
+global.isDev = !app.isPackaged;
 
 const IPC = require('./app/backend/ipc/ipc.js');
 global.ipc = new IPC();
@@ -44,7 +43,7 @@ if (process.platform === 'win32') {
 }
 
 if (!isDev) {
-  global.Sentry = require('@sentry/electron/dist/main');
+  global.Sentry = require('@sentry/electron/main');
 
   Sentry.init({
     debug: false,
@@ -177,6 +176,9 @@ async function createWindow () {
     icon: path.join(__dirname, `icons/${platformHelper.isWin() ? 'ezra.ico' : 'ezra.png'}`),
     backgroundColor: bgColor
   });
+
+  require('@electron/remote/main').initialize();
+  require("@electron/remote/main").enable(mainWindow.webContents);
  
   // The default menu will be created automatically if the app does not set one.
   // It contains standard items such as File, Edit, View, Window and Help.

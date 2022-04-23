@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -71,6 +71,7 @@ class OptionsMenu {
     this._verseListNewTabOption = this.initConfigOption('openVerseListsInNewTabOption', () => {}, openVerseListsInNewTabByDefault);
     this._userDataIndicatorOption = this.initConfigOption('showUserDataIndicatorOption', () => { this.showOrHideUserDataIndicatorsBasedOnOption(); }, true);
     this._tagsOption = this.initConfigOption('showTagsOption', () => { this.showOrHideVerseTagsBasedOnOption(); });
+    this._tagGroupFilterOption = this.initConfigOption('useTagGroupFilterOption', () => { this.applyTagGroupFilterBasedOnOption(); });
     this._tagsColumnOption = this.initConfigOption('useTagsColumnOption', () => { this.changeTagsLayoutBasedOnOption(); });
     this._verseNotesOption = this.initConfigOption('showNotesOption', () => { this.showOrHideVerseNotesBasedOnOption(); });
     this._verseNotesFixedHeightOption = this.initConfigOption('fixNotesHeightOption', () => { this.fixNotesHeightBasedOnOption(); });
@@ -338,14 +339,17 @@ class OptionsMenu {
   showOrHideUserDataIndicatorsBasedOnOption(tabIndex=undefined) {
     var currentReferenceVerse = referenceVerseController.getCurrentReferenceVerse(tabIndex);
     var currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+    var currentNavigationPane = app_controller.navigation_pane.getCurrentNavigationPane(tabIndex);
 
     if (currentVerseList[0] != null && currentVerseList[0] != undefined) {
       if (this._userDataIndicatorOption.isChecked) {
         currentReferenceVerse.removeClass('verse-list-without-user-data-indicators');
         currentVerseList.removeClass('verse-list-without-user-data-indicators');
+        currentNavigationPane.addClass('with-tag-indicators');
       } else {
         currentReferenceVerse.addClass('verse-list-without-user-data-indicators');
         currentVerseList.addClass('verse-list-without-user-data-indicators');
+        currentNavigationPane.removeClass('with-tag-indicators');
       }
     }
   }
@@ -362,6 +366,14 @@ class OptionsMenu {
         currentReferenceVerse.addClass('verse-list-without-tags');
         currentVerseList.addClass('verse-list-without-tags');
       }
+    }
+  }
+
+  applyTagGroupFilterBasedOnOption() {
+    if (this._tagGroupFilterOption.isChecked) {
+      eventController.publishAsync('on-tag-group-filter-enabled');
+    } else {
+      eventController.publishAsync('on-tag-group-filter-disabled');
     }
   }
 
@@ -432,6 +444,7 @@ class OptionsMenu {
     this.showOrHideFootnotesBasedOnOption(tabIndex);
     this.showOrHideUserDataIndicatorsBasedOnOption(tabIndex);
     this.showOrHideVerseTagsBasedOnOption(tabIndex);
+    this.applyTagGroupFilterBasedOnOption();
     this.changeTagsLayoutBasedOnOption(tabIndex);
     this.showOrHideVerseNotesBasedOnOption(tabIndex);
     this.fixNotesHeightBasedOnOption(tabIndex);

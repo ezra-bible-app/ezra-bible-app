@@ -115,6 +115,8 @@
     "module-sync-header": "Встановлення додаткових модулів"
   },
   "general": {
+    "about-ezra-bible-app": "About Ezra Bible App",
+    "general-app-info": "General information about Ezra Bible App can be found on the website.<br>Technical information about the development of Ezra Bible App can be found on GitHub.",
     "chapter-verse-separator": ":",
     "module-application-info": "Відомості про переклад Біблії та застосунок",
     "application-info": "Відомості застосунку",
@@ -183,7 +185,8 @@
     "export-user-data-action": "Вивіз користувацьких даних",
     "export-user-data-hint": "Цей засіб вивозить всі користувацькі дані (міти, нотатки) разом із посиланнями віршів до файлу CSV.",
     "installed": "Встановленно",
-    "not-installed": "Не встановленно"
+    "not-installed": "Не встановленно",
+    "and-more": "and more"
   },
   "help": {
     "help-text-no-tags-book-opened": "Щоб розпочати роботу з мітами, створіть свою першу міту, натиснувши кнопку <i>Нова&nbsp;міта</i>. <br/><br/>Після цього ви можете переглядати текст Біблії, клацати або перетягувати вірші, щоб призначати щойно створену міту.",
@@ -249,6 +252,7 @@
     "delete-tag-permanently": "Видалити цю міту назавжди",
     "none-selected": "-",
     "rename-tag": "Перейменувати міту",
+    "edit-tag": "Edit tag",
     "title": "Назва",
     "stats-used": "використано",
     "stats-total": "Всього",
@@ -261,7 +265,17 @@
     "tag-count-selected_few": "{{count}} міти обрані",
     "tag-count-selected_many": "{{count}} міт обранно",
     "select-all-tags": "Обрати усі",
-    "deselect-all-tags": "Прибрати вибір"
+    "deselect-all-tags": "Прибрати вибір",
+    "add-tag-group": "Add tag group",
+    "create-tag-group": "Create tag group",
+    "rename-tag-group": "Rename tag group",
+    "delete-tag-group": "Delete tag group",
+    "tag-group": "Tag group",
+    "tag-groups": "Tag groups",
+    "add-existing-tags-to-current-tag-group": "Add existing tags to current tag group",
+    "add-tags-to-group": "Add tags to group",
+    "delete-tag-from-group-explanation": "The tag <i>{{tag}}</i> will be deleted from the group <i>{{group}}</i>. To permanently delete the tag, click the checkbox below.",
+    "really-delete-tag-group": "Do you really want to delete the tag group<br/><i>{{tagGroupTitle}}</i>?"
   },
   "bible-browser": {
     "chapter": "Розділ",
@@ -298,6 +312,7 @@
     "open-verse-lists-in-new-tab": "Перелік віршів у новій вкладці",
     "show-notes-tags-indicators": "Позначки нотаток та міт",
     "show-tags": "Міти",
+    "use-tag-group-filter": "Use tag group filter",
     "show-notes": "Нотатки",
     "limit-notes-display-size": "Обмежити висоту нотаток",
     "use-tags-column": "Міти у окремому стовпці",
@@ -321,7 +336,11 @@
     "greek-dict": "Словник грецької",
     "hebrew-dict": "Словник івріту",
     "default-header": "<b>Словник</b>",
-    "help-instruction": "<p>Як відобразити словникові записи:</p><ol><li>Переконайтеся, що встановленно словники Стронга (івриту та грецької). Поточний стан: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li><li>Відкрийте переклад, що містить числа Стронга.</li><li>Затиснюючи клавішу SHIFT, переміщуйте мишу повз окремі слова та фрази, щоб побачити тут словникові записи.</li><ol>",
+    "help-instruction-intro": "Як відобразити словникові записи:",
+    "help-instruction-part1": "Переконайтеся, що встановленно словники Стронга (івриту та грецької). Поточний стан: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
+    "help-instruction-part2": "Відкрийте переклад, що містить числа Стронга.",
+    "help-instruction-part3": "Затиснюючи клавішу SHIFT, переміщуйте мишу повз окремі слова та фрази, щоб побачити тут словникові записи.",
+    "help-instruction-part3-cordova": "Touch and hold individual words or phrases until you see dictionary entries here.",
     "find-all-occurrences": "Знайти всі випадки",
     "open-in-blueletter": "Відкрити у Blue Letter Bible",
     "related-strongs": "Пов'язані числа Стронга"

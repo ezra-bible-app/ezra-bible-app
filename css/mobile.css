@@ -1,0 +1,212 @@
+/* This file is part of Ezra Bible App.
+
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+
+   Ezra Bible App is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 2 of the License, or
+   (at your option) any later version.
+
+   Ezra Bible App is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Ezra Bible App. See the file LICENSE.
+   If not, see <http://www.gnu.org/licenses/>. */
+
+/*
+Necessary styles for smaller screen devices,
+Librem 5/Pinephone etc.
+*/
+@media screen and (max-width: 600px) {
+  #book-selection-menu {
+    width: 92%;
+  }
+
+  .verse-list-menu .fg-button {
+    margin-right: 0.5em;
+    padding: 1px 12px;
+  }
+
+  .verse-list-menu .fg-button > div {
+    display: none;
+  }
+
+  .bible-select-block {
+    margin-right: unset;
+  }
+
+  .selection-box {
+    margin: 0.1em 0.1em 0.3em 0em;
+  }
+
+  #bookLoadingModeOption-button {
+    width: unset;
+    margin-left: 1.5em !important;
+  }
+
+  .options-group {
+    max-width: 48vw;
+  }
+
+  .ui-selectmenu {
+    height: unset !important;
+  }
+
+  .locale-switch-container .ui-selectmenu {
+    margin-left: 0;
+    display: block;
+    width: unset !important;
+    max-width: 7em !important;
+  }
+
+  #module-settings-assistant {
+    margin: 0;
+    padding: 0;
+  }
+
+  .wizard.vertical > .steps {
+    width: 16%
+  }
+
+  #module-settings-assistant-add .steps > ul > li > a {
+    margin: 0;
+    padding: 2px;
+    font-size: 10px;
+  }
+
+  #module-step-wrapper #module-list#module-list {
+    margin: 2px;
+    padding: 2px;
+  }
+
+  #book-selection-menu-book-list, #book-selection-menu-chapter-list {
+    padding: 0;
+  }
+
+  .book-list-column {
+    padding-inline-start: 0px;
+    max-width: 90vw;
+  }
+
+  .book-list-column li {
+    padding: 0;
+    margin: 0;
+  }
+
+  .verse-list-without-user-data-indicators .verse-reference {
+    width: unset;
+    margin-left: unset;
+  }
+
+  .verse-reference-content {
+    width: unset;
+    min-width: 2.5em;
+  }
+
+  .verse-content {
+    padding: 0.2em;
+  }
+
+  .verse-box {
+    flex-wrap: wrap;
+  }
+
+  .verse-notes-buttons > a {
+    padding: 8px 0;
+    display: inline-block;
+  }
+
+  .verse-list-without-tags .verse-notes:not(.book-notes),
+  .verse-list:not(.verse-list-tags-column) .verse-notes:not(.book-notes) {
+  /* not teeny unusable notes area*/
+    width: 100% !important;
+    margin-top: 0.5em;
+    margin-left: unset !important;
+  }
+
+  /*Make dialogs not go out of screen*/
+  .ui-dialog {
+    max-width: 100vw;
+    max-height: 100vh;
+  }
+
+  .ui-dialog-content {
+    max-height: calc(99vh - 60px);
+  }
+
+  .ui-tabs .ui-tabs-panel.info-tabs {
+    height: calc(99vh - 180px);
+  }
+
+  #tag-selection-menu, #module-search-menu {
+    font-size: 0.8em;
+  }
+
+  #tool-panel {
+    font-size: 0.9em;
+  }
+
+  /* tag dropdown*/
+  #tag-selection-menu {
+    max-width: 69vw;
+    max-height: 70vh;
+  }
+
+  /*search dropdown*/
+  #module-search-menu {
+    left: 0 !important;
+    max-width: 100vw;
+  }
+
+  .navigation-pane.navigation-pane-books {
+    min-width: 50px;
+    max-width: 30vw;
+    padding: 2px;
+  }
+
+  #new-standard-tag-title-input, #rename-standard-tag-title-input {
+    width: 15em !important;
+  }
+
+  /*.fullscreen-button {
+    top: 1.2em;
+    right: 1.7em;
+  }*/
+}
+
+@media screen and (max-height: 600px) {
+  #tag-selection-taglist-global, #tag-selection-taglist-overlay {
+    height: 200px;
+  }
+}
+
+@media screen and (max-height: 650px) {
+  #display-options-menu {/*Scrollable settings if there is not enough space vertically */
+    bottom: 5.5em;
+    width: unset;
+    overflow-y: auto;
+  }
+}
+
+@media screen and (max-width: 410px) {
+  .app-info-button, .export-docx-button {
+    display: none !important;
+  }
+
+  #tag-list-stats {
+    display: none !important;
+  }
+
+  /*Make dialogs not go out of screen*/
+  .ui-dialog {
+    max-width: 80vw !important;
+    max-height: 80vh !important;
+  }
+
+  .verse-list-menu .fg-button {
+    margin-right: 0.2em;
+  }
+}

@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -57,9 +57,12 @@ const cacheController = require('./cache_controller.js');
  */
 class AppController {
   constructor() {
-    this.book_menu_is_opened = false;
     this.verseContextMenuOpened = false;
-    this.current_cr_verse_id = null;
+    this.startupCompleted = false;
+  }
+
+  isStartupCompleted() {
+    return this.startupCompleted;
   }
 
   /**
@@ -122,6 +125,9 @@ class AppController {
     eventController.subscribe('on-tab-selected', async (tabIndex=0) => { await this.onTabSelected(tabIndex); });
     eventController.subscribe('on-tab-added', (tabIndex) => { this.onTabAdded(tabIndex); });
     eventController.subscribe('on-verses-selected', (details) => { this.toggleVerseContextMenuButton(details.tabIndex); });
+    eventController.subscribe('on-tag-group-list-activated', () => { this.hideAllMenus(); });
+    eventController.subscribe('on-tag-group-selected', () => { this.hideAllMenus(); });
+    eventController.subscribe('on-button-clicked', () => { this.hideAllMenus(); });
 
     this.verse_context_controller.initButtonEvents();
     this.initExitEvent();
@@ -345,10 +351,7 @@ class AppController {
     }
     
     app_controller.hideAllMenus();
-    app_controller.notes_controller.restoreCurrentlyEditedNotes();
-
-    var currentTab = app_controller.tab_controller.getTab();
-    currentTab.tab_search.blurInputField();
+    eventController.publish('on-body-clicked');
   }
 
   hideAllMenus() {

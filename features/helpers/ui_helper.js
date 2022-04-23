@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -70,4 +70,21 @@ module.exports.setBookLoadingOption = async function(selectedOptionText) {
   const selectedOption = await dropdownList.$(`./li/a[contains(text(), '${selectedOptionText}')]`);
   await selectedOption.click();
   await spectronHelper.sleep();
+};
+
+module.exports.selectTagGroup = async function(tagGroupTitle) {
+  this.currentTagGroupListSelector = '#tag-panel-tag-group-list';
+
+  await spectronHelper.getWebClient().execute((expectedTitle, tagGroupListSelector) => {
+    var tagGroups = document.querySelector(tagGroupListSelector).shadowRoot.querySelectorAll('.tag-group');
+
+    tagGroups.forEach((tagGroup) => {
+      let link = tagGroup.querySelector('a');
+      let title = link.innerText;
+
+      if (title == expectedTitle) {
+        link.click();
+      }
+    });
+  }, tagGroupTitle, this.currentTagGroupListSelector);
 };

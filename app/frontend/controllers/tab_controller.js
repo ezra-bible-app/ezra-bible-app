@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -40,7 +40,6 @@ class TabController {
     this.persistanceEnabled = false;
     this.defaultLabel = "-------------";
     this.tabTemplate = "<li><a href='#{href}'>#{label}</a> <span class='close-tab-button'><i class='fas fa-times'></i></span></li>";
-    this.tabCounter = 1;
     this.nextTabId = 2;
     /** @type Tab[] */
     this.metaTabs = [];
@@ -74,7 +73,7 @@ class TabController {
       await this.updateTabTitlesAfterLocaleChange();
     });
 
-    eventController.subscribe('on-translation-changed', async (data) => await this.onBibleTranslationChanged(data));
+    eventController.subscribePrioritized('on-translation-changed', async (data) => await this.onBibleTranslationChanged(data));
 
     eventController.subscribe('on-translation-removed', async (translationId) => {
       var installedTranslations = await app_controller.translation_controller.getInstalledModules();
@@ -527,17 +526,19 @@ class TabController {
     }
 
     this.reloadTabs();
+
+    let newTabIndex = this.metaTabs.length - 1;
+
     if (!initialLoading) {
-      this.tabs.tabs('select', this.tabCounter);
+      this.tabs.tabs('select', newTabIndex);
     }
 
-    this.tabCounter++;
     this.nextTabId++;
 
     this.updateFirstTabCloseButton();
 
     if (!initialLoading) {
-      eventController.publish('on-tab-added', this.tabCounter - 1);
+      eventController.publish('on-tab-added', newTabIndex);
     }
   }
 
@@ -550,7 +551,6 @@ class TabController {
       if (current_href == href) {
         this.metaTabs.splice(i, 1);
         this.tabs.tabs("remove", i);
-        this.tabCounter--;
         break;
       }
     }
@@ -567,7 +567,6 @@ class TabController {
 
       this.metaTabs.pop();
       this.tabs.tabs("remove", 1);
-      this.tabCounter--;
     }
   }
 
@@ -664,6 +663,8 @@ class TabController {
   setCurrentTagTitleList(tagTitleList, verseReference, index = undefined) {
     this.getTab(index).setTagTitleList(tagTitleList);
     var currentTranslationId = this.getTab(index).getBibleTranslationId();
+
+    tagTitleList = verseListTitleHelper.shortenTitleList(tagTitleList);
 
     if (tagTitleList != undefined && tagTitleList != null) {
       if (tagTitleList == "") {
@@ -843,6 +844,7 @@ class TabController {
     var currentTab = this.getTab();
 
     this.setCurrentBibleTranslationId(newBibleTranslationId);
+    this.refreshBibleTranslationInTabTitle(newBibleTranslationId);
 
     // The tab search is not valid anymore if the translation is changing. Therefore we reset it.
     if (currentTab.tab_search != null) {

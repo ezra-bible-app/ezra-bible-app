@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,8 +28,28 @@ const eventController = require('../controllers/event_controller.js');
  */
 
 module.exports.init = function init() {
-  eventController.subscribe('on-bible-text-loaded', (tabIndex) => { this.bindEventsAfterBibleTextLoaded(tabIndex); });
   eventController.subscribe('on-all-translations-removed', async () => { this.onAllTranslationsRemoved(); });
+
+  eventController.subscribe('on-bible-text-loaded', (tabIndex) => { 
+    this.applyTagGroupFilter(tags_controller.currentTagGroupId, tabIndex);
+    this.bindEventsAfterBibleTextLoaded(tabIndex);
+  });
+
+  eventController.subscribe('on-tag-group-filter-enabled', async () => {
+    this.applyTagGroupFilter(tags_controller.currentTagGroupId);
+  });
+
+  eventController.subscribe('on-tag-group-filter-disabled', async () => {
+    this.applyTagGroupFilter(null);
+  });
+
+  eventController.subscribe('on-tag-group-selected', async(tagGroup) => {
+    this.applyTagGroupFilter(tagGroup.id);
+  });
+
+  eventController.subscribe('on-tag-group-members-changed', async() => {
+    this.applyTagGroupFilter(tags_controller.currentTagGroupId);
+  });
 };
 
 module.exports.getCurrentVerseListFrame = function(tabIndex=undefined) {
@@ -335,4 +355,51 @@ module.exports.onAllTranslationsRemoved = function() {
   this.hideVerseListLoadingIndicator();
   this.getCurrentVerseList().append("<div class='help-text'>" + i18n.t("help.help-text-no-translations") + "</div>");
   $('.book-select-value').text(i18n.t("menu.book"));
+};
+
+module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefined) {
+  let tagGroupFilterOption = app_controller.optionsMenu._tagGroupFilterOption;
+
+  let verseList = this.getCurrentVerseList(tabIndex)[0];
+  let allTagElements = verseList.querySelectorAll('.tag');
+
+  if (tagGroupId == null || tagGroupId < 0 || !tagGroupFilterOption.isChecked) {
+    // Show all tags
+    allTagElements.forEach((tagElement) => {
+      tagElement.classList.remove('hidden');
+    });
+
+  } else {
+    // Show tags filtered by current tag group
+    let tagGroupMembers = await tags_controller.getTagGroupMembers(tagGroupId);
+    let tagGroupMemberIds = [];
+
+    tagGroupMembers.forEach((member) => {
+      tagGroupMemberIds.push(member.id);
+    });
+
+    allTagElements.forEach((tagElement) => {
+      let currentTagId = parseInt(tagElement.getAttribute('tag-id'));
+
+      if (tagGroupMemberIds.includes(currentTagId)) {
+        tagElement.classList.remove('hidden');
+      } else {
+        tagElement.classList.add('hidden');
+      }
+    });
+  }
+
+  let verseBoxes = verseList.querySelectorAll('.verse-box');
+
+  // Update visibility of verse tag indicators
+  verseBoxes.forEach((verseBox) => {
+    let visibleTagCount = verseBox.querySelectorAll('.tag:not(.hidden)').length;
+
+    let tagIndicator = verseBox.querySelector('.tag-info');
+    if (visibleTagCount > 0) {
+      tagIndicator.classList.add('visible');
+    } else {
+      tagIndicator.classList.remove('visible');
+    }
+  });
 };

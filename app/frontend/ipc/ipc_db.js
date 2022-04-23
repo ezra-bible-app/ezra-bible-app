@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -38,22 +38,16 @@ class IpcDb {
     return await this._ipcRenderer.call('db_getDatabasePath');
   }
 
-  async createNewTag(newTagTitle) {
-    return await this._ipcRenderer.call('db_createNewTag', newTagTitle);
+  async createNewTag(newTagTitle, tagGroups) {
+    return await this._ipcRenderer.call('db_createNewTag', newTagTitle, tagGroups);
   }
 
   async removeTag(id) {
     return await this._ipcRenderer.call('db_removeTag', id);
   }
 
-  async updateTag(id, newTitle) {
-    return await this._ipcRenderer.call('db_updateTag', id, newTitle).then((result) => {
-      if (result.success) {
-        tags_controller.renameTagInView(id, newTitle);
-      }
-
-      return result;
-    });
+  async updateTag(id, newTitle, addTagGroups, removeTagGroups) {
+    return await this._ipcRenderer.call('db_updateTag', id, newTitle, addTagGroups, removeTagGroups);
   }
 
   async assignTagToVerses(tagId, verseBoxes) {
@@ -110,6 +104,22 @@ class IpcDb {
 
   async getVerseTagsByVerseReferenceIds(verseReferenceIds, versification) {
     return await this._ipcRenderer.call('db_getVerseTagsByVerseReferenceIds', verseReferenceIds, versification);
+  }
+
+  async createTagGroup(title) {
+    return await this._ipcRenderer.call('db_createTagGroup', title);
+  }
+
+  async updateTagGroup(tagGroupId, title) {
+    return await this._ipcRenderer.call('db_updateTagGroup', tagGroupId, title);
+  }
+
+  async getAllTagGroups() {
+    return await this._ipcRenderer.call('db_getAllTagGroups');
+  }
+
+  async deleteTagGroup(tagGroupId) {
+    return await this._ipcRenderer.call('db_deleteTagGroup', tagGroupId);
   }
 
   async persistNote(noteValue, verseObject, versification) {

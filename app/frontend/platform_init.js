@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -71,11 +71,11 @@ window.initPlatform = function() {
         typeof window.process === 'object' &&
         window.process.type === 'renderer') {
       
-      // We only require these modules when running on Electron
-      require('v8-compile-cache');
+      // We only require this module when running on Electron
       require('log-timestamp');
 
-      window.isDev = require('electron-is-dev');
+      const app = require('@electron/remote').app;
+      window.isDev = !app.isPackaged;
     }
 
     if (isDev) {
@@ -114,6 +114,18 @@ window.getChromiumVersion = function() {
 // FIXME: Remove this function, since it is not used anywhere?
 window.isChromiumOlder = function() {
   return getChromiumMajorVersion() < CHROMIUM_VERSION_UP_TO_DATE;
+};
+
+/**
+ * This function is used by the cucumber acceptance test to check whether app startup has been completed.
+ * @returns Whether or not the startup has been completed
+ */
+window.isStartupCompleted = function() {
+  if (app_controller) {
+    return app_controller.isStartupCompleted();
+  } else {
+    return false;
+  }
 };
 
 function getChromiumMajorVersion() {

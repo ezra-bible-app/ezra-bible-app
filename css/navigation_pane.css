@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -32,11 +32,19 @@
 }
 
 .navigation-pane-chapters {
-  width: 3em;
+  width: 3.2em;
+}
+
+.navigation-pane-chapters.with-tag-indicators {
+  width: 5.2em;
 }
 
 .navigation-pane-headers {
   min-width: 15em;
+}
+
+.navigation-pane-headers.with-tag-indicators {
+  min-width: 17em;
 }
 
 .navigation-pane-books {
@@ -64,7 +72,6 @@
   width: 10.5em;
   text-align: left;
   border: 1px solid transparent;
-  margin-left: 3em;
   float: left;
   clear: none;
 }
@@ -121,4 +128,22 @@ a.hl-search-result:link {
   font-weight: bold;
   margin-bottom: 0.5em;
   padding-left: 0.2em;
+}
+
+.navigation-pane .tag-indicator {
+  float: left;
+  padding-top: 0.5em;
+  margin-left: 0.5em;
+  margin-right: 0.3em;
+  color: var(--accent-color);
+  opacity: 1;
+  display: none;
+}
+
+.navigation-pane.with-tag-indicators .tag-indicator {
+  display: block;
+}
+
+.header-link-box {
+  float: left;
 }

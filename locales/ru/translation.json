@@ -117,6 +117,8 @@
     "module-sync-header": "Установка дополнительных модулей"
   },
   "general": {
+    "about-ezra-bible-app": "About Ezra Bible App",
+    "general-app-info": "General information about Ezra Bible App can be found on the website.<br>Technical information about the development of Ezra Bible App can be found on GitHub.",
     "chapter-verse-separator": ":",
     "module-application-info": "Информация о модуле и приложении",
     "application-info": "Информация о приложении",
@@ -185,7 +187,8 @@
     "export-user-data-action": "Экспорт данных пользователя",
     "export-user-data-hint": "Эта функция экспортирует все данные пользователя (метки, заметки) вместе с ссылками стихов в файл CSV.",
     "installed": "Установленно",
-    "not-installed": "Не установленно"
+    "not-installed": "Не установленно",
+    "and-more": "and more"
   },
   "help": {
     "help-text-no-tags-book-opens": "Чтобы начать работу с метками, создайте свою первую метку, нажав кнопку <i>Новая&nbsp;метка</i>.<br/> <br/> После этого вы можете просматривать текст Библии, нажимать или перетаскивать выделенные стихи чтобы назначить только что созданную метку.",
@@ -251,6 +254,7 @@
     "delete-tag-constantly": "Окончательно удалить эту метку",
     "none-selected": "-",
     "rename-tag": "Переименовать метку",
+    "edit-tag": "Edit tag",
     "title": "Заголовок",
     "stats-used": "использовано",
     "stats-total": "всего",
@@ -263,7 +267,17 @@
     "tag-count-selected_few": "{{count}} метки выбранны",
     "tag-count-selected_many": "{{count}} меток выбранно",
     "select-all-tags": "Выбрать все",
-    "deselect-all-tags": "Убрать выделение"
+    "deselect-all-tags": "Убрать выделение",
+    "add-tag-group": "Add tag group",
+    "create-tag-group": "Create tag group",
+    "rename-tag-group": "Rename tag group",
+    "delete-tag-group": "Delete tag group",
+    "tag-group": "Tag group",
+    "tag-groups": "Tag groups",
+    "add-existing-tags-to-current-tag-group": "Add existing tags to current tag group",
+    "add-tags-to-group": "Add tags to group",
+    "delete-tag-from-group-explanation": "The tag <i>{{tag}}</i> will be deleted from the group <i>{{group}}</i>. To permanently delete the tag, click the checkbox below.",
+    "really-delete-tag-group": "Do you really want to delete the tag group<br/><i>{{tagGroupTitle}}</i>?"
   },
   "bible-browser": {
     "chapter": "Глава",
@@ -300,6 +314,7 @@
     "open-verse-lists-in-new-tab": "Списки стихов в новой вкладке",
     "show-notes-tags-indicators": "Иконки заметок/меток",
     "show-tags": "Метки",
+    "use-tag-group-filter": "Use tag group filter",
     "show-notes": "Заметки",
     "limit-notes-display-size": "Ограничить высоту заметок",
     "use-tags-column": "Метки в отдельном столбце",
@@ -323,7 +338,11 @@
     "greek-dict": "Словарь греческого языка",
     "hebrew-dict": "Словарь иврита",
     "default-header": "<b>Словарь</b>",
-    "help-instruction": "<p>Отображение статей из словаря:</p><ol><li>Убедитесь, что установленны словари Стронга (иврита и греческого). Статус: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.</li><li> Откройте перевод с номерами Стронга.</li><li> Удерживая клавишу SHIFT, наводите указатель мыши на отдельные слова и фразы, чтобы увидеть соответсвующую статью из словаря.</li><ol> ",
+    "help-instruction-intro": "Отображение статей из словаря:",
+    "help-instruction-part1": "Убедитесь, что установленны словари Стронга (иврита и греческого). Статус: <span class='{{ install_status_class }}'>{{ install_status  }}</span>.",
+    "help-instruction-part2": "Откройте перевод с номерами Стронга.",
+    "help-instruction-part3": "Удерживая клавишу SHIFT, наводите указатель мыши на отдельные слова и фразы, чтобы увидеть соответсвующую статью из словаря.",
+    "help-instruction-part3-cordova": "Touch and hold individual words or phrases until you see dictionary entries here.",
     "find-all-событий": "Найти все вхождения",
     "open-in-blueletter": "Открыть в Blue Letter Bible",
     "related-strongs": "Связанные номера Стронга"

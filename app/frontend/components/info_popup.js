@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -139,6 +139,12 @@ class InfoPopup {
       </div>
 
       <div id='app-info-tabs-3' class='info-tabs scrollable'>
+        <h2>${i18n.t("general.about-ezra-bible-app")}</h2>
+        <p>${i18n.t("general.general-app-info")}</p>
+
+        Website: <a class='external' href='https://ezrabibleapp.net'>ezrabibleapp.net</a><br>
+        GitHub: <a class='external' href='https://github.com/ezra-bible-app/ezra-bible-app'>github.com/ezra-bible-app/ezra-bible-app</a>
+
         <h2>${i18n.t("general.developers")}</h2>
         <a class='external' href='https://github.com/tobias-klein'>Tobias Klein (Maintainer)</a><br>
         <a class='external' href='https://github.com/zhuiks'>Evgen Kucherov</a>

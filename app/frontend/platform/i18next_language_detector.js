@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -21,9 +21,13 @@ const locales = require('../../../locales/locales.json');
 function detect() {
   var locale; // this can be either 4 letter (en-US) or 2 letter (en)
 
-  if (platformHelper.isElectron()) {
-    const _electron = require('electron');
-    locale = (_electron.app || _electron.remote.app).getLocale();
+  if (platformHelper.isElectronRenderer()) {
+    const app = require('@electron/remote').app;
+    locale = app.getLocale();
+
+  } else if (platformHelper.isElectronMain()) {    
+    const app = require('electron');
+    locale = app.getLocale();
 
   } else {
     locale = navigator.language;

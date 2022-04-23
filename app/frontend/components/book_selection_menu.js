@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -253,9 +253,11 @@ class BookSelectionMenu {
       bookMenu.classList.remove('select-chapter');
       this.book_menu_is_opened = false;
 
-      var currentVerseListMenu = app_controller.getCurrentVerseListMenu()[0];
-      var bookButton = currentVerseListMenu.querySelector('.book-select-button');
-      bookButton.classList.remove('ui-state-active');
+      if (app_controller.getCurrentVerseListMenu() != null) {
+        var currentVerseListMenu = app_controller.getCurrentVerseListMenu()[0];
+        var bookButton = currentVerseListMenu.querySelector('.book-select-button');
+        bookButton.classList.remove('ui-state-active');
+      }
     }
   }
 

@@ -1,6 +1,6 @@
 /* This file is part of Ezra Bible App.
 
-   Copyright (C) 2019 - 2021 Ezra Bible App Development Team <contact@ezrabibleapp.net>
+   Copyright (C) 2019 - 2022 Ezra Bible App Development Team <contact@ezrabibleapp.net>
 
    Ezra Bible App is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -45,7 +45,10 @@ class TextController {
 
   async loadBook(bookCode, bookTitle, referenceBookTitle, instantLoad = true, chapter = undefined) {
     app_controller.book_selection_menu.hideBookMenu();
+    await waitUntilIdle();
+
     app_controller.book_selection_menu.highlightSelectedBookInMenu(bookCode);
+    await waitUntilIdle();
 
     var currentTab = app_controller.tab_controller.getTab();
     currentTab.setTextType('book');
@@ -54,7 +57,6 @@ class TextController {
     app_controller.tag_selection_menu.resetTagMenu();
     app_controller.module_search_controller.resetSearch();
     await this.prepareForNewText(true, false);
-
     await waitUntilIdle();
 
     // Set selected tags and search term to null, since we just switched to a book
@@ -321,7 +323,7 @@ class TextController {
     var verseTags = await ipcDb.getBookVerseTags(bibleBook.id, versification);
     var verseNotes = await ipcDb.getVerseNotesByBook(bibleBook.id, versification);
     var bookIntroduction = null;
-    var bookHasHeaders = await swordModuleHelper.bookHasHeaders(currentBibleTranslationId, bookShortTitle);
+    var bookHasHeaders = await swordModuleHelper.bookHasHeaders(currentBibleTranslationId, bookShortTitle, false);
 
     if (startVerseNumber == 1) { // Only load book introduction if starting with verse 1
       try {
@@ -792,6 +794,7 @@ class TextController {
         tabIndex = selectedTabIndex;
       }
 
+      await waitUntilIdle();
       await eventController.publishAsync('on-bible-text-loaded', tabIndex);
       uiHelper.hideTextLoadingIndicator();
     }
