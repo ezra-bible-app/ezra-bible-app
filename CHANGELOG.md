@@ -1,6 +1,41 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.6.0 - 2022-04-23]
+
+### Features
+
+* Tags can now be categorized / grouped in tag groups. ([#641][i641])
+
+### Enhancements
+
+* Chapter navigation: Highlight chapters that contain tagged verses. ([#650][i650])
+* Select complete existing filter text when clicking into tag list filter input field. ([#599][i599])
+* Adapt dictionary info box help text for Android / touch screen. ([#623][i623])
+* Add links to the Ezra Bible App website / repository. ([#627][i627])
+
+### Fixes
+
+* Fixed performance issues when loading large books. ([#659][i659])
+* Fixed bug: Tab title was getting too long when selecting many tags. ([#648][i648])
+* Fixed bug: File name of exported file was getting too long when selecting many tags. ([#649][i649])
+* Fixed bug: Inaccurate search results when limiting search scope. ([#666][i666])
+
+### Enablers
+
+* Upgraded Electron to version 17.1.0. ([#638][i638])
+
+[i599]: https://github.com/ezra-bible-app/ezra-bible-app/issues/599
+[i623]: https://github.com/ezra-bible-app/ezra-bible-app/issues/623
+[i627]: https://github.com/ezra-bible-app/ezra-bible-app/issues/627
+[i638]: https://github.com/ezra-bible-app/ezra-bible-app/issues/638
+[i641]: https://github.com/ezra-bible-app/ezra-bible-app/pull/641
+[i648]: https://github.com/ezra-bible-app/ezra-bible-app/issues/648
+[i649]: https://github.com/ezra-bible-app/ezra-bible-app/issues/649
+[i650]: https://github.com/ezra-bible-app/ezra-bible-app/issues/650
+[i659]: https://github.com/ezra-bible-app/ezra-bible-app/issues/659
+[i666]: https://github.com/ezra-bible-app/ezra-bible-app/issues/666
+
 ## [1.5.0 - 2022-02-26]
 
 ### Features
