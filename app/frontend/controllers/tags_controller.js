@@ -898,6 +898,11 @@ class TagsController {
         'added': true
       });
 
+      await eventController.publishAsync('on-tag-assignment-change', {
+        'tagId': id,
+        'added': true
+      });
+
       var currentBook = app_controller.tab_controller.getTab().getBook();
 
       tags_controller.updateTagCountAfterRendering(currentBook != null);
@@ -1028,6 +1033,11 @@ class TagsController {
     }
 
     await eventController.publishAsync('on-latest-tag-changed', {
+      'tagId': job.id,
+      'added': false
+    });
+
+    await eventController.publishAsync('on-tag-assignment-change', {
       'tagId': job.id,
       'added': false
     });

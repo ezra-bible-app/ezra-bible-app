@@ -50,6 +50,10 @@ module.exports.init = function init() {
   eventController.subscribe('on-tag-group-members-changed', async() => {
     this.applyTagGroupFilter(tags_controller.currentTagGroupId);
   });
+
+  eventController.subscribe('on-tag-assignment-change', async() => {
+    this.applyTagGroupFilter(tags_controller.currentTagGroupId);
+  });
 };
 
 module.exports.getCurrentVerseListFrame = function(tabIndex=undefined) {
