@@ -87,7 +87,7 @@ module.exports.subscribe = function subscribe(event, callback, prioritize=false)
  * @param {EzraEvent} event Event key to be notified
  * @param {*} payload 
  * @param {Boolean} waitAsync Whether or not the function should wait for the subscribers (default: false)
- * @returns {[]} Array of callback results
+ * @returns {Array} Array of callback results
  */
 module.exports.publish = async function publish(event, payload=undefined, waitAsync=false) {
   var results = [];
