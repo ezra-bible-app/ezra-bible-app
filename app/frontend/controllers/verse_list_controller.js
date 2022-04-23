@@ -51,8 +51,8 @@ module.exports.init = function init() {
     this.applyTagGroupFilter(tags_controller.currentTagGroupId);
   });
 
-  eventController.subscribe('on-tag-assignment-change', async() => {
-    this.applyTagGroupFilter(tags_controller.currentTagGroupId);
+  eventController.subscribe('on-tag-assignment-change', async(verseBox) => {
+    this.applyTagGroupFilter(tags_controller.currentTagGroupId, verseBox);
   });
 };
 
@@ -361,11 +361,15 @@ module.exports.onAllTranslationsRemoved = function() {
   $('.book-select-value').text(i18n.t("menu.book"));
 };
 
-module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefined) {
+module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefined, rootElement=undefined) {
   let tagGroupFilterOption = app_controller.optionsMenu._tagGroupFilterOption;
-
   let verseList = this.getCurrentVerseList(tabIndex)[0];
-  let allTagElements = verseList.querySelectorAll('.tag');
+
+  if (rootElement === undefined) {
+    rootElement = verseList;
+  }
+
+  let allTagElements = rootElement.querySelectorAll('.tag');
 
   if (tagGroupId == null || tagGroupId < 0 || !tagGroupFilterOption.isChecked) {
     // Show all tags
