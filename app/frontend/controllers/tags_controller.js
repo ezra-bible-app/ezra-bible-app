@@ -599,12 +599,21 @@ class TagsController {
     const $tagInput = $('#new-standard-tag-title-input');
     $tagInput.val(''); 
 
-    let tagGroupAssignment = document.getElementById('new-tag-dialog-tag-group-assignment');
-    await tagGroupAssignment.tagGroupManager.refreshItemList();
-    tagGroupAssignment.tagGroupManager._addList = [];
+    let allTagGroups = await ipcDb.getAllTagGroups();
+    let tagGroupAssignmentSection = document.getElementById('tag-group-assignment-section');
 
-    if (this.tagGroupUsed()) {
-      tagGroupAssignment.tagGroupManager.enableElementById(this.currentTagGroupId);
+    if (allTagGroups.length == 0) {
+      tagGroupAssignmentSection.style.display = 'none';
+    } else {
+      tagGroupAssignmentSection.style.removeProperty('display');
+
+      let tagGroupAssignment = document.getElementById('new-tag-dialog-tag-group-assignment');
+      await tagGroupAssignment.tagGroupManager.refreshItemList();
+      tagGroupAssignment.tagGroupManager._addList = [];
+
+      if (this.tagGroupUsed()) {
+        tagGroupAssignment.tagGroupManager.enableElementById(this.currentTagGroupId);
+      }
     }
 
     this.updateButtonStateBasedOnTagTitleValidation('', 'create-tag-button');
