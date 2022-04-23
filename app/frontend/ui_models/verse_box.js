@@ -175,7 +175,7 @@ class VerseBox {
     return $(this.verseBoxElement).find('.tag-info').attr('title').split(', ');
   }
 
-  updateVisibleTags(tag_title_array=undefined, newTagTitle=undefined, newTagId=undefined) {
+  async updateVisibleTags(tag_title_array=undefined) {
     if (this.verseBoxElement == null) {
       return;
     }
@@ -188,12 +188,9 @@ class VerseBox {
     }
 
     for (var i = 0; i < tag_title_array.length; i++) {
-      var current_tag_title = tag_title_array[i];
-      if (current_tag_title != newTagTitle) {
-        newTagId = undefined;
-      }
-
-      var tag_html = this.htmlForVisibleTag(current_tag_title, newTagId);
+      let current_tag_title = tag_title_array[i];
+      let tagId = await tags_controller.tag_store.getTagByTitle(current_tag_title);
+      let tag_html = this.htmlForVisibleTag(current_tag_title, tagId);
       tag_box.append(tag_html);
     }
 
@@ -230,7 +227,7 @@ class VerseBox {
 
     if (updated) {
       this.updateTagDataContainer(tag_id, tag_title, action);
-      this.updateVisibleTags(new_tag_info_title_array, tag_title, tag_id);
+      this.updateVisibleTags(new_tag_info_title_array);
     }
   }
 
