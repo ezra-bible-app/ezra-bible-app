@@ -91,16 +91,16 @@ const template = html`
 #new-standard-tag-button {
   float: right;
   margin-left: 1em;
-  padding: 0.2em;
+  margin-right: 0.5em;
+  padding: 0.4em;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .Android #new-standard-tag-button {
   height: 24px;
-  margin-right: 1.2em;
   font-size: 1.1em;
-  padding: 0.4em;
-  display: flex;
 }
 
 #tag-list-menu:not(.with-buttons) .add-element-button {
@@ -313,7 +313,7 @@ class TagListMenu extends HTMLElement {
   }
 
   showAddTagButton() {
-    this.getAddTagButton().style.display = 'block';
+    this.getAddTagButton().style.display = 'flex';
   }
 
   hideAddTagButton() {
