@@ -83,7 +83,7 @@ const template = html`
 
 #add-tag-group-button {
   float: right;
-  padding: 0.2em;
+  padding: 0.4em;
   display: none;
   cursor: pointer;
 }
