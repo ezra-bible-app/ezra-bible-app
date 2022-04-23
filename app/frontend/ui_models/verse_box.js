@@ -189,8 +189,8 @@ class VerseBox {
 
     for (let i = 0; i < tag_title_array.length; i++) {
       let current_tag_title = tag_title_array[i];
-      let tagId = await tags_controller.tag_store.getTagByTitle(current_tag_title);
-      let tag_html = this.htmlForVisibleTag(current_tag_title, tagId);
+      let current_tag = await tags_controller.tag_store.getTagByTitle(current_tag_title);
+      let tag_html = this.htmlForVisibleTag(current_tag_title, current_tag.id);
       tag_box.append(tag_html);
     }
 
