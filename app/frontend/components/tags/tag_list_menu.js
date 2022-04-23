@@ -97,8 +97,10 @@ const template = html`
 
 .Android #new-standard-tag-button {
   height: 24px;
-  margin-right: 1.3em;
-  font-size: 1em;
+  margin-right: 1.2em;
+  font-size: 1.1em;
+  padding: 0.4em;
+  display: flex;
 }
 
 #tag-list-menu:not(.with-buttons) .add-element-button {
