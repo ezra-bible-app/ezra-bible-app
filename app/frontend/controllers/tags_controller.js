@@ -129,6 +129,7 @@ class TagsController {
     });
 
     eventController.subscribe('on-tag-group-list-activated', () => {
+      this.tag_list_filter.reset();
       document.getElementById('tags-content-global').style.display = 'none';
       document.getElementById('tag-list-stats').style.visibility = 'hidden';
       document.getElementById('tag-panel-tag-group-list').style.removeProperty('display');

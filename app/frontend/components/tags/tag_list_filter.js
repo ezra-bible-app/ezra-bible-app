@@ -66,6 +66,12 @@ class TagListFilter {
     return (counter + 1);
   }
 
+  reset() {
+    $('#tag-list-filter-button-active').hide();
+    let tagFilterAllTagsOption = document.getElementById('tag-filter-all-tags');
+    tagFilterAllTagsOption.click();
+  }
+
   async handleTagFilterTypeClick(e) {
     await waitUntilIdle();
     tags_controller.tag_list_filter.showTagSelectionFilterLoadingIndicator();
