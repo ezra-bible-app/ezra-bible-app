@@ -171,6 +171,10 @@ Librem 5/Pinephone etc.
     width: 15em !important;
   }
 
+  .text-loader {
+    margin-right: unset;
+  }
+
   /*.fullscreen-button {
     top: 1.2em;
     right: 1.7em;
