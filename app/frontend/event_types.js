@@ -45,7 +45,7 @@
  * @typedef { "on-tag-panel-switched" | "on-dictionary-panel-switched" | "on-compare-panel-switched" } PanelEvents
  */
 /**
- * @typedef { "on-tag-created" | "on-tag-deleted" | "on-tag-renamed" | "on-tag-assignment-change" | "on-latest-tag-changed" } TagEvents
+ * @typedef { "on-tag-created" | "on-tag-deleted" | "on-tag-renamed" | "on-latest-tag-changed" } TagEvents
  */
 /**
  * @typedef { "on-tag-group-list-activated" | "on-tag-selection-menu-group-list-activated" | "on-tag-selection-menu-group-selected" | "on-tag-group-selected" | "on-tag-group-creation" | "on-tag-group-created" | "on-tag-group-members-changed" | "on-tag-group-renamed" | "on-tag-group-deleted" | "on-tag-group-filter-enabled" | "on-tag-group-filter-disabled" } TagGroupEvents

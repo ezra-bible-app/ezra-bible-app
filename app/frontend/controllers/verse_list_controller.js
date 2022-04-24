@@ -50,10 +50,6 @@ module.exports.init = function init() {
   eventController.subscribe('on-tag-group-members-changed', async() => {
     this.applyTagGroupFilter(tags_controller.currentTagGroupId);
   });
-
-  eventController.subscribe('on-tag-assignment-change', async(verseBox) => {
-    this.applyTagGroupFilter(tags_controller.currentTagGroupId, verseBox);
-  });
 };
 
 module.exports.getCurrentVerseListFrame = function(tabIndex=undefined) {
@@ -379,12 +375,7 @@ module.exports.applyTagGroupFilter = async function(tagGroupId, tabIndex=undefin
 
   } else {
     // Show tags filtered by current tag group
-    let tagGroupMembers = await tags_controller.getTagGroupMembers(tagGroupId);
-    let tagGroupMemberIds = [];
-
-    tagGroupMembers.forEach((member) => {
-      tagGroupMemberIds.push(member.id);
-    });
+    let tagGroupMemberIds = await tags_controller.getTagGroupMemberIds(tagGroupId);
 
     allTagElements.forEach((tagElement) => {
       let currentTagId = parseInt(tagElement.getAttribute('tag-id'));

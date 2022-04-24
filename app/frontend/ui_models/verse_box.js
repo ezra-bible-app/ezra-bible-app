@@ -180,6 +180,17 @@ class VerseBox {
       return;
     }
 
+    let tagGroupFilterOption = app_controller.optionsMenu._tagGroupFilterOption;
+    let tagGroupId = tags_controller.currentTagGroupId;
+    let filterTags = true;
+    let tagGroupMemberIds = [];
+
+    if (tagGroupId == null || tagGroupId < 0 || !tagGroupFilterOption.isChecked) {
+      filterTags = false;
+    } else {
+      tagGroupMemberIds = await tags_controller.getTagGroupMemberIds(tagGroupId);
+    }
+
     var tag_box = $(this.verseBoxElement).find('.tag-box');
     tag_box.empty();
 
@@ -190,7 +201,13 @@ class VerseBox {
     for (let i = 0; i < tag_title_array.length; i++) {
       let current_tag_title = tag_title_array[i];
       let current_tag = await tags_controller.tag_store.getTagByTitle(current_tag_title);
-      let tag_html = this.htmlForVisibleTag(current_tag_title, current_tag.id);
+      let visible = true;
+
+      if (filterTags && !tagGroupMemberIds.includes(current_tag.id)) {
+        visible = false;
+      }
+
+      let tag_html = this.htmlForVisibleTag(current_tag_title, current_tag.id, visible);
       tag_box.append(tag_html);
     }
 
@@ -202,8 +219,9 @@ class VerseBox {
     }
   }
 
-  htmlForVisibleTag(tag_title, newTagId) {
-    let tagHtml = `<div class='tag' title='${i18n.t('bible-browser.tag-hint')}'`;
+  htmlForVisibleTag(tag_title, newTagId, visible=true) {
+    let cssClass = visible ? 'tag' : 'tag hidden';
+    let tagHtml = `<div class='${cssClass}' title='${i18n.t('bible-browser.tag-hint')}'`;
 
     if (newTagId !== undefined) {
       tagHtml += ` tag-id='${newTagId}'`;

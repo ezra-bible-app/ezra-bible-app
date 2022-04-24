@@ -1059,8 +1059,6 @@ class TagsController {
 
       let verseBoxObj = new VerseBox(current_verse_box);
       verseBoxObj.changeVerseListTagInfo(tag_id, tag_title, action);
-
-      await eventController.publishAsync('on-tag-assignment-change', current_verse_box);
     }
 
     for (let i = 0; i < selected_verses.length; i++) {
@@ -1071,8 +1069,6 @@ class TagsController {
         let verseBoxObj = new VerseBox(targetVerseBox);
         verseBoxObj.changeVerseListTagInfo(changedValue.tag_id, changedValue.tag_title, changedValue.action);
       });
-
-      await eventController.publishAsync('on-tag-assignment-change', current_verse_box);
     }
   }
 
