@@ -209,4 +209,8 @@ Librem 5/Pinephone etc.
   .verse-list-menu .fg-button {
     margin-right: 0.2em;
   }
+
+  .selection-box {
+    display: none !important;
+  }
 }
