@@ -324,6 +324,7 @@ class TextController {
     var verseNotes = await ipcDb.getVerseNotesByBook(bibleBook.id, versification);
     var bookIntroduction = null;
     var bookHasHeaders = await swordModuleHelper.bookHasHeaders(currentBibleTranslationId, bookShortTitle, false);
+    var bookChapterCount = await ipcNsi.getBookChapterCount(currentBibleTranslationId, bookShortTitle);
 
     if (startVerseNumber == 1) { // Only load book introduction if starting with verse 1
       try {
@@ -362,6 +363,7 @@ class TextController {
         renderChapterHeaders: isInstantLoadingBook && !bookHasHeaders,
         renderChapterNavigationLinks: !isInstantLoadingBook,
         renderBookNotes: (startVerseNumber == 1),
+        bookChapterCount: bookChapterCount,
         bookIntroduction: bookIntroduction,
         bookNotes: bookNotes,
         bibleBooks: [bibleBook],

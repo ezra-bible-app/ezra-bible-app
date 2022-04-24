@@ -181,7 +181,7 @@ each bibleBook in bibleBooks
               a(class='cancel-edit', i18n='general.cancel', href='') !{i18n.t('general.cancel')}
             div(class='verse-notes-timestamp') !{verseNoteUpdate}
 
-    if verse_count == verses.length && renderChapterNavigationLinks == true
+    if verse_count == verses.length && renderChapterNavigationLinks == true && verse.chapter < bookChapterCount
       - next_chapter = verse.chapter + 1
       - next_chapter_text = i18n.t('bible-browser.chapter') + ' ' + next_chapter
       div.chapter-nav
