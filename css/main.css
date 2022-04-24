@@ -265,6 +265,26 @@ div.chapter-nav {
   font-size: 1.2em;
 }
 
+a.chapter-nav:link,
+a.chapter-nav:visited {
+  text-decoration: none;
+  color: var(--accent-color);
+}
+
+.Android a.chapter-nav:link,
+.Android a.chapter-nav:visited {
+  text-decoration: underline;
+}
+
+a.chapter-nav:hover {
+  text-decoration: underline;
+}
+
+.darkmode--activated a.chapter-nav:link,
+.darkmode--activated a.chapter-nav:visited {
+  color: var(--accent-color-darkmode);
+}
+
 .verse-box {
   display: flex;
   margin: 0 0.5em 0.2em 0;
