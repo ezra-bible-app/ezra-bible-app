@@ -44,6 +44,10 @@ class TextController {
   }
 
   async loadBook(bookCode, bookTitle, referenceBookTitle, instantLoad = true, chapter = undefined) {
+    if (platformHelper.isCordova()) {
+      uiHelper.showTextLoadingIndicator();
+    }
+
     app_controller.book_selection_menu.hideBookMenu();
     await waitUntilIdle();
 
@@ -86,6 +90,10 @@ class TextController {
   }
 
   async prepareForNewText(resetView, isSearch = false, tabIndex = undefined) {
+    if (platformHelper.isCordova() && (tabIndex == 0 || tabIndex == undefined)) {
+      uiHelper.showTextLoadingIndicator();
+    }
+
     if (!isSearch) {
       app_controller.module_search_controller.cancelAnyModuleSearch();
     }
@@ -113,10 +121,6 @@ class TextController {
     if (textType == 'book' && currentTab != null && currentTab.isBookUnchanged()) {
       // Do not reset verse list view if the book has not changed.
       resetView = false;
-
-      if (platformHelper.isCordova() && (tabIndex == 0 || tabIndex == undefined)) {
-        uiHelper.showTextLoadingIndicator();
-      }
     }
 
     if (resetView && (tabIndex == 0 || tabIndex == undefined)) {
