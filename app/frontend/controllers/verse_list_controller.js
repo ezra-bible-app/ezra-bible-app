@@ -272,6 +272,14 @@ module.exports.bindEventsAfterBibleTextLoaded = function(tabIndex=undefined, pre
 
   verseList.find('.verse-box').bind('mouseover', (e) => { onVerseBoxMouseOver(e); });
 
+  verseList.find('a.chapter-nav').bind('mousedown', async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const chapter = parseInt(event.target.getAttribute('chapter'));
+    await app_controller.navigation_pane.goToChapter(chapter);
+  });
+
   if (getPlatform().isFullScreen()) {
     wheelnavController.bindEvents();
   }

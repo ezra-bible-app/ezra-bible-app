@@ -360,6 +360,7 @@ class TextController {
         renderBibleBookHeaders: false,
         // only render chapter headers with the full book requested
         renderChapterHeaders: isInstantLoadingBook && !bookHasHeaders,
+        renderChapterNavigationLinks: !isInstantLoadingBook,
         renderBookNotes: (startVerseNumber == 1),
         bookIntroduction: bookIntroduction,
         bookNotes: bookNotes,
@@ -474,7 +475,6 @@ class TextController {
     if (render_type == "html") {
 
       await this.getVersesAsHtml(current_tab_id,
-                                 tab_index,
                                  bibleBooks,
                                  bookNames,
                                  bibleBookStats,
@@ -542,7 +542,6 @@ class TextController {
     if (render_type == "html") {
 
       await this.getVersesAsHtml(current_tab_id,
-                                 tab_index,
                                  bibleBooks,
                                  bookNames,
                                  bibleBookStats,
@@ -595,7 +594,6 @@ class TextController {
     if (render_type == "html") {
 
       await this.getVersesAsHtml(current_tab_id,
-                                 tab_index,
                                  bibleBooks,
                                  bookNames,
                                  bibleBookStats,
@@ -623,7 +621,6 @@ class TextController {
   }
 
   async getVersesAsHtml(current_tab_id,
-                        tabIndex, // TODO: Remove this parameter, because it is not used!
                         bibleBooks,
                         bookNames,
                         bibleBookStats,
@@ -647,6 +644,7 @@ class TextController {
       versification: versification,
       verseListId: current_tab_id,
       renderBibleBookHeaders: renderBibleBookHeaders,
+      renderChapterNavigationLinks: false,
       renderVerseMetaInfo: renderVerseMetaInfo,
       bibleBooks: bibleBooks,
       bookNames: bookNames,

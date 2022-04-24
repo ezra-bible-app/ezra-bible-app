@@ -259,6 +259,12 @@ h2:nth-of-type(1) {
   margin: 1.5em;
 }
 
+div.chapter-nav {
+  margin-top: 0.5em;
+  text-align: center;
+  font-size: 1.2em;
+}
+
 .verse-box {
   display: flex;
   margin: 0 0.5em 0.2em 0;

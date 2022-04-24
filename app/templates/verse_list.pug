@@ -85,6 +85,12 @@ each bibleBook in bibleBooks
         h2.chapter-header
           span(i18n=chapterText) #{i18n.t(chapterText)}
           | &nbsp;#{verse.chapter}
+      
+    if verse_count == 1 && renderChapterNavigationLinks == true && verse.chapter > 1
+      - previous_chapter = verse.chapter - 1
+      - previous_chapter_text = i18n.t('bible-browser.chapter') + ' ' + previous_chapter
+      div.chapter-nav
+        a(class='chapter-nav', href='javascript:;', chapter=previous_chapter) #{previous_chapter_text}
 
     - old_chapter = verse.chapter
     
@@ -174,6 +180,12 @@ each bibleBook in bibleBooks
               span &nbsp;|&nbsp;
               a(class='cancel-edit', i18n='general.cancel', href='') !{i18n.t('general.cancel')}
             div(class='verse-notes-timestamp') !{verseNoteUpdate}
+
+    if verse_count == verses.length && renderChapterNavigationLinks == true
+      - next_chapter = verse.chapter + 1
+      - next_chapter_text = i18n.t('bible-browser.chapter') + ' ' + next_chapter
+      div.chapter-nav
+        a(class='chapter-nav', href='javascript:;', chapter=next_chapter) #{next_chapter_text}
 
   if verse_count == 0 && renderBibleBookHeaders == true
     div.book-section(id=verseListId + "-book-section-" + bibleBook.shortTitle)
