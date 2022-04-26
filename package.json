@@ -112,7 +112,7 @@
     "electron-winstaller": "^4.0.2",
     "eslint": "^8.1.0",
     "git-to-json": "^2.1.4",
-    "jest": "^27.4.7",
+    "jest": "^28.0.0",
     "jsdoc": "^3.6.6",
     "pug-cli": "^1.0.0-alpha6",
     "sequelize-cli": "^5.5.1",
