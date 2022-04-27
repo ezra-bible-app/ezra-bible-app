@@ -82,6 +82,21 @@ jobs:
           name: ezra-bible-app_ubuntu2004_latest
           path: ezra-bible-app_latest.deb
 
+    build-ubuntu-2204:
+      name: Build Ubuntu 22.04 package
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v1
+      - name: Build
+        uses: ./.github/actions/build_ubuntu2204
+        env:
+          SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      - name: Upload deb file
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: ezra-bible-app_ubuntu2204_latest
+          path: ezra-bible-app_latest.deb
+
     build-mint18:
         name: Build Mint 18 package
         runs-on: ubuntu-latest
@@ -220,6 +235,11 @@ jobs:
         with:
           name: ezra-bible-app_ubuntu2004_latest
 
+      - name: Download ubuntu-2204 package
+        uses: actions/download-artifact@v1.0.0
+        with:
+          name: ezra-bible-app_ubuntu2204_latest
+
       - name: Download mint18 package
         uses: actions/download-artifact@v1.0.0
         with:
@@ -262,6 +282,7 @@ jobs:
           mv ezra-bible-app_win32_latest/ezra-bible-app_win32_setup_latest.exe packages/ezra-bible-app_win32_setup-${GITHUB_REF##*/}.exe
           mv ezra-bible-app_ubuntu1804_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_ubuntu1804-${GITHUB_REF##*/}.deb
           mv ezra-bible-app_ubuntu2004_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_ubuntu2004-${GITHUB_REF##*/}.deb
+          mv ezra-bible-app_ubuntu2204_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_ubuntu2204-${GITHUB_REF##*/}.deb
           mv ezra-bible-app_mint18_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_mint18-${GITHUB_REF##*/}.deb
           mv ezra-bible-app_debian10_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_debian10-${GITHUB_REF##*/}.deb
           mv ezra-bible-app_debian11_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_debian11-${GITHUB_REF##*/}.deb
