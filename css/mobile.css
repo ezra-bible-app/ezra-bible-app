@@ -231,6 +231,15 @@ Librem 5/Pinephone etc.
     right: 1.7em;
   }*/
 
+  /* Hide regular tabs navigation */
+  .ui-tabs-nav {
+    display: none;
+  }
+
+  .ui-tabs .ui-tabs-panel {
+    padding-top: 0em !important;
+  }
+
   .mobile-scrollable::-webkit-scrollbar {
     width: 0.5em;
     border-width: 1px;
