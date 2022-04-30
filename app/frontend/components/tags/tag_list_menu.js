@@ -46,6 +46,19 @@ const template = html`
   padding-bottom: 0.7em;
   user-select: none;
   box-sizing: border-box;
+  height: 3em;
+}
+
+#tag-list-menu-navigation {
+  display: flex;
+  align-items: center;
+  float: left;
+}
+
+#tag-group-nav-arrow {
+  display: inline-block;
+  margin-left: 0.3em;
+  margin-right: 0.3em;
 }
 
 .darkmode--activated #tag-list-menu {
@@ -109,7 +122,13 @@ const template = html`
 </style>
 
 <div id="tag-list-menu">
-  <a id="tag-group-list-link" href="" i18n="tags.tag-groups"></a> <span id="tag-group-nav-arrow">&rarr;</span> <span id="tag-group-label" i18n="tags.all-tags"></span>
+  <div id="tag-list-menu-navigation">
+    <a id="tag-group-list-link" href="" i18n="tags.tag-groups"></a>
+    <div id="tag-group-nav-arrow">
+      <i class="fa-solid fa-angle-right"></i>
+    </div> 
+    <span id="tag-group-label" i18n="tags.all-tags"></span>
+  </div>
 
   <button id="add-tag-group-button" i18n="tags.add-tag-group" class="add-element-button fg-button ui-state-default ui-corner-all"></button>
 
