@@ -256,6 +256,10 @@ Librem 5/Pinephone etc.
     border: 1px solid slategrey;
     border-radius: var(--border-radius);
   }
+
+  #showHeaderNavigationOption, #bookLoadingModeOption-button, #showUserDataIndicatorOption {
+    display: none;
+  }
 }
 
 @media screen and (max-height: 600px) {
