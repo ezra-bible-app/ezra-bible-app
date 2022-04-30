@@ -351,8 +351,12 @@ class NavigationPane {
     const currentTranslation = currentTab.getBibleTranslationId();
     const currentBook = currentTab.getBook();
 
+    if (currentTranslation == null || currentBook == null) {
+      return;
+    }
+
     if (!force) {
-      if (currentTranslation == null || currentBook == null || currentTab.isBookUnchanged()) {
+      if (currentTab.isBookUnchanged()) {
         return;
       }
     }
@@ -361,7 +365,7 @@ class NavigationPane {
     const versification = await swordModuleHelper.getThreeLetterVersification(currentTranslation);
     const dbBook = await ipcDb.getBibleBook(currentBook);
     const chapterCount = await ipcNsi.getBookChapterCount(currentTranslation, currentBook);
-    const verseTags = await ipcDb.getBookVerseTags(dbBook.id, versification);
+    const verseTags = dbBook != null ? await ipcDb.getBookVerseTags(dbBook.id, versification) : [];
     const tagGroupFilterOption = app_controller.optionsMenu._tagGroupFilterOption;
 
     let tagGroupMembers = null;
