@@ -22,7 +22,19 @@ Librem 5/Pinephone etc.
 */
 @media screen and (max-width: 600px) {
   #book-selection-menu {
-    width: 92%;
+    width: 95% !important;
+    height: calc(100% - 3em);
+    top: 0 !important;
+    left: 0 !important;
+  }
+
+  .book-list-column li {
+    line-height: 2.2em !important;
+  }
+
+  .verse-selection-menu {
+    border-radius: unset !important;
+    box-shadow: unset !important;
   }
 
   .verse-list-menu .fg-button {
