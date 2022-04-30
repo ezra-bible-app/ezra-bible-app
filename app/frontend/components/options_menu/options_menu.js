@@ -179,6 +179,8 @@ class OptionsMenu {
 
   hideDisplayMenu() {
     if (this.menuIsOpened) {
+      document.getElementById('app-container').classList.remove('fullscreen-menu');
+
       $('#app-container').find('#display-options-menu').hide();
       this.menuIsOpened = false;
 
@@ -196,6 +198,8 @@ class OptionsMenu {
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
       var display_options_button = currentVerseListMenu.find('.display-options-button');
       var menu = $('#app-container').find('#display-options-menu');
+
+      document.getElementById('app-container').classList.add('fullscreen-menu');
       
       uiHelper.showButtonMenu(display_options_button, menu);
 

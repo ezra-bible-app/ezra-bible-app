@@ -21,6 +21,11 @@ Necessary styles for smaller screen devices,
 Librem 5/Pinephone etc.
 */
 @media screen and (max-width: 600px) {
+  #app-container {
+    padding: 0.5em !important;
+    padding-bottom: 1em !important;
+  }
+
   #book-selection-menu {
     height: calc(100% - 3em);
     top: 0 !important;
@@ -231,9 +236,13 @@ Librem 5/Pinephone etc.
 
 @media screen and (max-height: 650px) {
   #display-options-menu {/*Scrollable settings if there is not enough space vertically */
-    bottom: 5.5em;
-    width: unset;
+    top: 0 !important;
+    width: 100%;
+    height: calc(100% - 5.5em);
     overflow-y: auto;
+    border: unset !important;
+    border-radius: unset !important;
+    box-shadow: unset !important;
   }
 }
 
