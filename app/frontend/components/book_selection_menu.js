@@ -248,6 +248,8 @@ class BookSelectionMenu {
 
   hideBookMenu() {
     if (this.book_menu_is_opened) {
+      document.getElementById('app-container').classList.remove('fullscreen-menu');
+
       var bookMenu = document.querySelector('#app-container #book-selection-menu');
       bookMenu.style.display = 'none';
       bookMenu.classList.remove('select-chapter');
@@ -274,6 +276,8 @@ class BookSelectionMenu {
       var currentVerseListMenu = app_controller.getCurrentVerseListMenu();
       var book_button = currentVerseListMenu.find('.book-select-button');
       var menu = $('#app-container').find('#book-selection-menu');
+
+      document.getElementById('app-container').classList.add('fullscreen-menu');
 
       uiHelper.showButtonMenu(book_button, menu);
 

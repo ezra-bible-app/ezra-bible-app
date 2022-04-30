@@ -22,19 +22,29 @@ Librem 5/Pinephone etc.
 */
 @media screen and (max-width: 600px) {
   #book-selection-menu {
-    width: 95% !important;
     height: calc(100% - 3em);
     top: 0 !important;
     left: 0 !important;
+    padding-left: 1em;
   }
 
   .book-list-column li {
-    line-height: 2.2em !important;
+    line-height: 2.1em !important;
+  }
+
+  .book-list-column li.book-selected a:link,
+  .book-list-column li.book-selected a:visited,
+  .book-list-column li.book-selected a:focus {
+    border: unset !important;
+    border-radius: unset !important;
+    background: unset !important;
+    font-weight: bold;
   }
 
   .verse-selection-menu {
     border-radius: unset !important;
     box-shadow: unset !important;
+    border: unset !important;
   }
 
   .verse-list-menu .fg-button {
@@ -186,6 +196,10 @@ Librem 5/Pinephone etc.
 
   .text-loader {
     margin-right: unset;
+  }
+
+  #app-container.fullscreen-menu .fullscreen-button {
+    display: none;
   }
 
   /*.fullscreen-button {
