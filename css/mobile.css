@@ -71,7 +71,7 @@ Librem 5/Pinephone etc.
   #bookLoadingModeOption-button {
     width: unset !important;
     margin-left: 1em !important;
-    max-width: 12.5em;
+    max-width: 11em;
   }
 
   .options-group {
