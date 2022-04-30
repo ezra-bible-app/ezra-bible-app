@@ -61,6 +61,10 @@ Librem 5/Pinephone etc.
     padding: 1px 12px;
   }
 
+  .verse-list-menu .fa-caret-down {
+    display: none;
+  }
+
   .verse-list-menu .fg-button > div {
     display: none;
   }
@@ -226,6 +230,23 @@ Librem 5/Pinephone etc.
     top: 1.2em;
     right: 1.7em;
   }*/
+
+  .mobile-scrollable::-webkit-scrollbar {
+    width: 0.5em;
+    border-width: 1px;
+    border-radius: var(--border-radius);
+  }
+
+  .mobile-scrollable::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: var(--border-radius);
+  }
+
+  .mobile-scrollable::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    border: 1px solid slategrey;
+    border-radius: var(--border-radius);
+  }
 }
 
 @media screen and (max-height: 600px) {
