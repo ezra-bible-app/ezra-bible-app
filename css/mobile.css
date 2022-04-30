@@ -43,8 +43,9 @@ Librem 5/Pinephone etc.
   }
 
   #bookLoadingModeOption-button {
-    width: unset;
-    margin-left: 1.5em !important;
+    width: unset !important;
+    margin-left: 1em !important;
+    max-width: 12.5em;
   }
 
   .options-group {
