@@ -86,11 +86,27 @@ each bibleBook in bibleBooks
           span(i18n=chapterText) #{i18n.t(chapterText)}
           | &nbsp;#{verse.chapter}
       
-    if verse_count == 1 && renderChapterNavigationLinks == true && verse.chapter > 1
+    if verse_count == 1 && renderChapterNavigationLinks == true
       - previous_chapter = verse.chapter - 1
-      - previous_chapter_text = i18n.t('bible-browser.chapter') + ' ' + previous_chapter
+      - current_chapter_text = i18n.t('bible-browser.chapter') + ' ' + verse.chapter
       div.chapter-nav
-        a(class='chapter-nav', href='javascript:;', chapter=previous_chapter) #{previous_chapter_text}
+        - previous_chapter_nav_class = 'chapter-nav'
+        if verse.chapter == 1
+          - previous_chapter_nav_class = 'chapter-nav invisible'
+
+        a(class=previous_chapter_nav_class, href='javascript:;', chapter=previous_chapter)
+          i(class="fa-solid fa-angles-left")
+
+        span(style='padding-left: 0.5em; padding-right: 0.5em;') #{current_chapter_text}
+
+        - next_chapter_nav_class = 'chapter-nav'
+        if verse.chapter == bookChapterCount
+          - next_chapter_nav_class = 'chapter-nav invisible'
+
+        - next_chapter = verse.chapter + 1
+        a(class=next_chapter_nav_class, href='javascript:;', chapter=next_chapter)
+          i(class="fa-solid fa-angles-right")
+
 
     - old_chapter = verse.chapter
     
@@ -185,7 +201,9 @@ each bibleBook in bibleBooks
       - next_chapter = verse.chapter + 1
       - next_chapter_text = i18n.t('bible-browser.chapter') + ' ' + next_chapter
       div.chapter-nav
-        a(class='chapter-nav', href='javascript:;', chapter=next_chapter) #{next_chapter_text}
+        a(class='chapter-nav', href='javascript:;', chapter=next_chapter)
+          i(class="fa-solid fa-angles-right")
+          span(style='padding-left: 0.5em;') #{next_chapter_text}
 
   if verse_count == 0 && renderBibleBookHeaders == true
     div.book-section(id=verseListId + "-book-section-" + bibleBook.shortTitle)

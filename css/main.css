@@ -1280,6 +1280,10 @@ li.book-unavailable a:focus,
   display: none !important;
 }
 
+.invisible {
+  visibility: hidden !important;
+}
+
 .bible-select-block {
   margin-right: 0.5em;
   margin-bottom: 0.5em;
