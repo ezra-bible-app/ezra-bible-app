@@ -85,8 +85,19 @@ Librem 5/Pinephone etc.
   .locale-switch-container .ui-selectmenu {
     margin-left: 0;
     display: block;
-    width: unset !important;
-    max-width: 7em !important;
+    max-width: 8em !important;
+  }
+
+  .locale-detect {
+    width: 1.5em !important;
+  }
+
+  .locale-detect i {
+    display: none;
+  }
+
+  .locale-detect i.fas+[i18n] {
+    margin-left: unset !important;
   }
 
   #module-settings-assistant {
