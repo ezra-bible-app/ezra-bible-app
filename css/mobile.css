@@ -73,6 +73,10 @@ Librem 5/Pinephone etc.
     margin-right: unset;
   }
 
+  .bible-select-block .ui-selectmenu {
+    width: 130px !important;
+  }
+
   .selection-box {
     margin: 0.1em 0.1em 0.3em 0em;
   }
