@@ -207,15 +207,19 @@ Librem 5/Pinephone etc.
   #tag-selection-menu {
     top: 0 !important;
     left: 0 !important;
-    height: calc(100% - 3em) !important;
+    height: 100% !important;
   }
 
   #tag-selection-taglist {
-    height: calc(100% - 18em) !important;
+    height: 55% !important;
+  }
+
+  .keyboard-shown #tag-selection-taglist {
+    height: 40% !important;
   }
 
   #tag-selection-menu-tag-group-list {
-    height: calc(100% - 10em) !important;
+    height: calc(100% - 13em) !important;
   }
 
   #tag-selection-taglist-global, #tag-selection-taglist-overlay {
