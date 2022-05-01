@@ -34,7 +34,7 @@ Librem 5/Pinephone etc.
   }
 
   .book-list-column li {
-    line-height: 2.1em !important;
+    line-height: 2em !important;
   }
 
   .book-list-column li.book-selected a:link,
@@ -257,8 +257,12 @@ Librem 5/Pinephone etc.
     border-radius: var(--border-radius);
   }
 
-  #showHeaderNavigationOption, #bookLoadingModeOption-button, #showUserDataIndicatorOption {
+  #showHeaderNavigationOption, #bookLoadingModeOption-button, #showUserDataIndicatorOption, #showFootnotesOption {
     display: none;
+  }
+
+  .backButtonNavigation {
+    display: block !important;
   }
 }
 

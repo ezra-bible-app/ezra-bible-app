@@ -496,6 +496,10 @@ a.chapter-nav:hover {
   font-size: 0.9em;
 }
 
+.backButtonNavigation {
+  display: none;
+}
+
 #main-content,
 .ui-dialog .ui-dialog-content,
 .ezra-dialog,

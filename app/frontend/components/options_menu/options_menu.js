@@ -55,17 +55,26 @@ class OptionsMenu {
       app_controller.openModuleSettingsAssistant('DICT'); 
     });
 
+    $('#displayOptionsBackButton').bind('click', () => {
+      this.hideDisplayMenu();
+    });
+
     var openVerseListsInNewTabByDefault = false;
+    var bookChapterNavDefault = true;
 
     if (this.platformHelper.isCordova()) {
       openVerseListsInNewTabByDefault = true;
+    }
+
+    if (this.platformHelper.isMobile()) {
+      bookChapterNavDefault = false;
     }
 
     this._bookIntroOption = this.initConfigOption('showBookIntroOption', () => { this.showOrHideBookIntroductionBasedOnOption(); });
     this._sectionTitleOption = this.initConfigOption('showSectionTitleOption', () => { this.showOrHideSectionTitlesBasedOnOption(); });
     this._xrefsOption = this.initConfigOption('showXrefsOption', () => { this.showOrHideXrefsBasedOnOption(); });
     this._footnotesOption = this.initConfigOption('showFootnotesOption', () => { this.showOrHideFootnotesBasedOnOption(); });
-    this._bookChapterNavOption = this.initConfigOption('showBookChapterNavigationOption', () => { this.showOrHideBookChapterNavigationBasedOnOption(); });
+    this._bookChapterNavOption = this.initConfigOption('showBookChapterNavigationOption', () => { this.showOrHideBookChapterNavigationBasedOnOption(); }, bookChapterNavDefault);
     this._headerNavOption = this.initConfigOption('showHeaderNavigationOption', () => { this.showOrHideHeaderNavigationBasedOnOption(); });
     this._tabSearchOption = this.initConfigOption('showTabSearchOption', () => { this.showOrHideTabSearchFormBasedOnOption(undefined, true); });
     this._verseListNewTabOption = this.initConfigOption('openVerseListsInNewTabOption', () => {}, openVerseListsInNewTabByDefault);

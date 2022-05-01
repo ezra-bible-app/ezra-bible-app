@@ -47,6 +47,10 @@ class BookSelectionMenu {
       await this.localizeBookSelectionMenu();
     }
 
+    document.getElementById('bookMenuBackButton').addEventListener('click', () => {
+      this.hideBookMenu();
+    });
+
     this.initLinks();
     this.subscribeForEvents();
     this.init_completed = true;

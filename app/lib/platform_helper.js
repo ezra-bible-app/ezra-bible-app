@@ -137,6 +137,10 @@ class PlatformHelper {
     return false;
   }
 
+  isMobile() {
+    return window.innerWidth <= 600;
+  }
+
   addPlatformCssClass(element=undefined) {
     if (element === undefined) {
       element = document.body;
