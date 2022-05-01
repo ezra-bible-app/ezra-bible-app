@@ -293,6 +293,11 @@ Librem 5/Pinephone etc.
   .backButtonNavigation {
     display: block !important;
   }
+
+  .verse-list-frame {
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+  }
 }
 
 @media screen and (max-height: 600px) {
