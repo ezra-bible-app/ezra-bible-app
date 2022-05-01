@@ -75,7 +75,7 @@ Librem 5/Pinephone etc.
   }
 
   .bible-select-block .ui-selectmenu {
-    width: 100px !important;
+    width: 80px !important;
   }
 
   .selection-box {
@@ -83,7 +83,8 @@ Librem 5/Pinephone etc.
   }
 
   .current-tab-title-label {
-    margin-left: 1em;
+    width: 10em;
+    text-align: center;
     font-weight: bold;
     font-size: 1.2em;
     display: unset !important;
