@@ -54,9 +54,10 @@ class TagSelectionMenu {
       this.handleConfirmButtonClick();
     });
 
-    $('#tagSelectionBackButton').bind('click', async () => {
-      await waitUntilIdle();
-      this.hideTagMenu();
+    $('#tagSelectionBackButton').bind('click', () => {
+      setTimeout(() => {
+        this.hideTagMenu();
+      }, 100);
     });
   }
 
