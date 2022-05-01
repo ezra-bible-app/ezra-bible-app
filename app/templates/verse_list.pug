@@ -88,7 +88,6 @@ each bibleBook in bibleBooks
       
     if verse_count == 1 && renderChapterNavigationLinks == true
       - previous_chapter = verse.chapter - 1
-      - current_chapter_text = i18n.t('bible-browser.chapter') + ' ' + verse.chapter
       div.chapter-nav
         - previous_chapter_nav_class = 'chapter-nav'
         if verse.chapter == 1
@@ -97,7 +96,8 @@ each bibleBook in bibleBooks
         a(class=previous_chapter_nav_class, href='javascript:;', chapter=previous_chapter)
           i(class="fa-solid fa-angles-left")
 
-        span(style='padding-left: 0.5em; padding-right: 0.5em;') #{current_chapter_text}
+        span(style='padding-left: 0.5em; padding-right: 0.5em;', i18n='bible-browser.chapter') #{i18n.t('bible-browser.chapter')}
+        span(style='padding-right: 0.5em;') #{verse.chapter}
 
         - next_chapter_nav_class = 'chapter-nav'
         if verse.chapter == bookChapterCount
