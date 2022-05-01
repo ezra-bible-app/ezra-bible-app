@@ -266,6 +266,7 @@ h2:nth-of-type(1) {
 
 div.chapter-nav {
   margin-top: 0.5em;
+  margin-bottom: 0.5em;
   text-align: center;
   font-size: 1.2em;
   font-weight: bold;
