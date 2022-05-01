@@ -71,14 +71,22 @@ Librem 5/Pinephone etc.
 
   .bible-select-block {
     margin-right: unset;
+    min-width: unset !important;
   }
 
   .bible-select-block .ui-selectmenu {
-    width: 130px !important;
+    width: 100px !important;
   }
 
   .selection-box {
-    margin: 0.1em 0.1em 0.3em 0em;
+    display: none !important;
+  }
+
+  .current-tab-title-label {
+    margin-left: 1em;
+    font-weight: bold;
+    font-size: 1.2em;
+    display: unset !important;
   }
 
   #bookLoadingModeOption-button {
@@ -338,9 +346,5 @@ Librem 5/Pinephone etc.
 
   .verse-list-menu .fg-button {
     margin-right: 0.2em;
-  }
-
-  .selection-box {
-    display: none !important;
   }
 }

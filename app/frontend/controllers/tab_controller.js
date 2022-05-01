@@ -639,6 +639,9 @@ class TabController {
     if (tabTitle != currentTitle) {
       link.html(tabTitle);
     }
+
+    var currentTabTitleLabel = tabsElement.find('.current-tab-title-label');
+    currentTabTitleLabel.html(title);
   }
 
   getTabTitle() {

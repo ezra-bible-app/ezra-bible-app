@@ -472,12 +472,6 @@ input.tag-cb {
   display: none;
 }
 
-.selection-box {
-  display: inline-block;
-  margin: 0.1em 0.1em 0.3em 0.5em;
-  width: 18em;
-}
-
 table.tag-statistics {
   margin-left: auto;
   margin-right: auto;

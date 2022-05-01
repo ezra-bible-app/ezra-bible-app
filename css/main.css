@@ -1311,6 +1311,16 @@ li.book-unavailable a:focus,
   display: none;
 }
 
+.current-tab-title-label {
+  display: none;
+}
+
+.selection-box {
+  display: inline-block;
+  margin: 0.1em 0.1em 0.3em 0.5em;
+  width: 18em;
+}
+
 #tag-selection-menu {
   padding: 1em;
   padding-top: 0;
