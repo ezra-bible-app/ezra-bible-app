@@ -219,6 +219,11 @@ h2:nth-of-type(1) {
   padding-bottom: 1em;
 }
 
+.verse-list-frame.no-chapter-nav {
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+}
+
 #app-container.fullscreen .verse-list-frame {
   margin-right: 0.2em;
 }
@@ -263,6 +268,7 @@ div.chapter-nav {
   margin-top: 0.5em;
   text-align: center;
   font-size: 1.2em;
+  font-weight: bold;
 }
 
 a.chapter-nav:link,
@@ -1228,6 +1234,10 @@ li.book-unavailable a:focus,
   font-size: 1.2em;
 }
 
+.verse-list-book.verse-list-without-chapter-titles .sword-chapter-title {
+  display: none;
+}
+
 .chapter-header {
   display: none;
 }
@@ -1483,7 +1493,8 @@ li.book-unavailable a:focus,
   z-index: 10;
   flex-flow: row wrap;
 }
-.verse-list-frame-no-chapter-nav + .tab-search {
+
+.verse-list-frame.no-chapter-nav + .tab-search {
   border-bottom-left-radius: 4px;
 }
 
