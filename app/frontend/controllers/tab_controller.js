@@ -97,6 +97,11 @@ class TabController {
     eventController.subscribe('on-tag-renamed', ({ tagId, oldTitle, newTitle }) => {
       this.updateTabTitleAfterTagRenaming(oldTitle, newTitle);
     });
+
+    eventController.subscribe('on-bible-text-loaded', () => {
+      let bibleTranslationId = this.getTab().getBibleTranslationId();
+      this.setCurrentBibleTranslationId(bibleTranslationId);
+    });
   }
 
   initFirstTab() {
