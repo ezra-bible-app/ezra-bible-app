@@ -105,6 +105,10 @@ Librem 5/Pinephone etc.
     max-width: 8em !important;
   }
 
+  .locale-switch-container .ui-selectmenu-menu-dropdown {
+    height: 250px !important;
+  }
+
   .locale-detect {
     width: 1.5em !important;
   }
