@@ -254,10 +254,11 @@ Librem 5/Pinephone etc.
     display: none;
   }
 
-  /*.fullscreen-button {
-    top: 1.2em;
-    right: 1.7em;
-  }*/
+  .fullscreen-button {
+    top: 0.8em;
+    right: 1.3em;
+    padding: 0.4em 0.5em;
+  }
 
   /* Hide regular tabs navigation */
   .ui-tabs-nav {
