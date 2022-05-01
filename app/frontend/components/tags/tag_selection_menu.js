@@ -53,6 +53,11 @@ class TagSelectionMenu {
     $('#confirm-tag-selection-button').bind('click', () => {
       this.handleConfirmButtonClick();
     });
+
+    $('#tagSelectionBackButton').bind('click', async () => {
+      await waitUntilIdle();
+      this.hideTagMenu();
+    });
   }
 
   subscribeAppEvents() {
@@ -163,6 +168,7 @@ class TagSelectionMenu {
   async hideTagMenu() {
     if (this.tag_menu_is_opened) {
       document.getElementById('tag-selection-menu').style.display = 'none';
+      document.getElementById('app-container').classList.remove('fullscreen-menu');
 
       let groupList = document.getElementById('tag-selection-menu-tag-group-list');
       let currentGroup = await groupList.tagGroupManager.getItemById(this.currentTagGroupId);
@@ -188,6 +194,8 @@ class TagSelectionMenu {
       app_controller.handleBodyClick();
     } else {
       app_controller.hideAllMenus();
+
+      document.getElementById('app-container').classList.add('fullscreen-menu');
 
       tagSelectButton.addClass('ui-state-active');
       var tag_select_button_offset = tagSelectButton.offset();

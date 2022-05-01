@@ -200,10 +200,30 @@ Librem 5/Pinephone etc.
     font-size: 0.9em;
   }
 
-  /* tag dropdown*/
   #tag-selection-menu {
-    max-width: 69vw;
-    max-height: 70vh;
+    top: 0 !important;
+    left: 0 !important;
+    height: calc(100% - 3em) !important;
+  }
+
+  #tag-selection-taglist {
+    height: calc(100% - 18em) !important;
+  }
+
+  #tag-selection-menu-tag-group-list {
+    height: calc(100% - 10em) !important;
+  }
+
+  #tag-selection-taglist-global, #tag-selection-taglist-overlay {
+    height: 100% !important;
+  }
+
+  #tag-selection-summary {
+    margin-top: 1.5em !important;
+  }
+
+  #deselect-all-tags-button, #confirm-tag-selection-button {
+    padding: 0.5em !important;
   }
 
   /*search dropdown*/
