@@ -160,8 +160,42 @@ Librem 5/Pinephone etc.
     padding: 0;
   }
 
+  #module-settings-assistant > .container {
+    padding-top: unset !important;
+  }
+
+  #module-settings-assistant-init {
+    font-size: 0.9em !important;
+  }
+
+  #module-settings-assistant-init button {
+    height: unset !important;
+    padding: 0.4em 2em !important;
+  }
+
+  #module-settings-assistant-init > .module-assistant-type-buttons {
+    gap: 2em !important;
+    margin: 1em;
+  }
+
+  #module-settings-assistant-init > section {
+    padding: 0.4em 2em !important;
+  }
+
+  #module-settings-assistant .assistant-note {
+    display: none;
+  }
+
   .wizard.vertical > .steps {
-    width: 16%
+    display: none;
+  }
+
+  .wizard.vertical > .content {
+    width: 95%;
+  }
+
+  #module-info {
+    display: none;
   }
 
   #module-settings-assistant-add .steps > ul > li > a {
@@ -364,8 +398,8 @@ Librem 5/Pinephone etc.
 
   /*Make dialogs not go out of screen*/
   .ui-dialog {
-    max-width: 80vw !important;
-    max-height: 80vh !important;
+    max-width: 97vw !important;
+    max-height: 92vh !important;
   }
 
   .verse-list-menu .fg-button {
