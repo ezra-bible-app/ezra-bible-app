@@ -72,21 +72,42 @@ Librem 5/Pinephone etc.
   .bible-select-block {
     margin-right: unset;
     min-width: unset !important;
+    font-size: 0.8em;
   }
 
   .bible-select-block .ui-selectmenu {
-    width: 130px !important;
+    width: 110px !important;
+  }
+
+  .bible-select-block .ui-selectmenu-status {
+    padding-left: 0.6em;
+  }
+
+  #last-verse-list-menu-line {
+    display: none;
   }
 
   .selection-box {
     display: none !important;
   }
 
+  #bible-select-title-line {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 100%;
+  }
+
+  #mobile-loader {
+    display: unset;
+  }
+
+  #desktop-loader {
+    display: none !important;
+  }
+
   .current-tab-title-label {
-    width: 10em;
     text-align: center;
     font-weight: bold;
-    font-size: 1.2em;
     display: unset !important;
   }
 
@@ -128,6 +149,10 @@ Librem 5/Pinephone etc.
 
   .locale-detect i.fas+[i18n] {
     margin-left: unset !important;
+  }
+
+  .chapter-nav {
+    font-size: unset !important;
   }
 
   #module-settings-assistant {
@@ -303,12 +328,26 @@ Librem 5/Pinephone etc.
     border-radius: var(--border-radius);
   }
 
-  #showHeaderNavigationOption, #bookLoadingModeOption-button, #showUserDataIndicatorOption, #showFootnotesOption {
+  #showHeaderNavigationOption, #bookLoadingModeOption-button, #showFootnotesOption {
     display: none;
   }
 
   .backButtonNavigation {
     display: block !important;
+  }
+
+  #display-options-menu {/*Scrollable settings if there is not enough space vertically */
+    top: 0 !important;
+    width: 100%;
+    height: calc(100% - 3em);
+    overflow-y: auto;
+    border: unset !important;
+    border-radius: unset !important;
+    box-shadow: unset !important;
+  }
+
+  .export-docx-button {
+    display: none !important;
   }
 }
 
@@ -318,23 +357,7 @@ Librem 5/Pinephone etc.
   }
 }
 
-@media screen and (max-height: 650px) {
-  #display-options-menu {/*Scrollable settings if there is not enough space vertically */
-    top: 0 !important;
-    width: 100%;
-    height: calc(100% - 5.5em);
-    overflow-y: auto;
-    border: unset !important;
-    border-radius: unset !important;
-    box-shadow: unset !important;
-  }
-}
-
 @media screen and (max-width: 410px) {
-  .app-info-button, .export-docx-button {
-    display: none !important;
-  }
-
   #tag-list-stats {
     display: none !important;
   }

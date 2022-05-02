@@ -142,12 +142,12 @@ class UiHelper {
 
   showTextLoadingIndicator(tabIndex=undefined) {
     var textLoadingIndicator = this.getCurrentTextLoadingIndicator(tabIndex);
-    textLoadingIndicator.show();
+    textLoadingIndicator.removeClass('hidden');
   }
 
   hideTextLoadingIndicator(tabIndex=undefined) {
     var textLoadingIndicator = this.getCurrentTextLoadingIndicator(tabIndex);
-    textLoadingIndicator.hide();
+    textLoadingIndicator.addClass('hidden');
   }
 
   showButtonMenu($button, $menu) {

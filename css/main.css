@@ -1831,6 +1831,10 @@ code {
   margin-right: 1.5em;
 }
 
+#mobile-loader {
+  display: none;
+}
+
 .darkmode--activated p,
 .darkmode--activated .verse-list-container {
   color: var(--text-color);
