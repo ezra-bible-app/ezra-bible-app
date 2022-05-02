@@ -58,7 +58,7 @@ Librem 5/Pinephone etc.
 
   .verse-list-menu .fg-button {
     margin-right: 0.5em;
-    padding: 1px 12px;
+    padding: 1px 10px;
   }
 
   .verse-list-menu .fa-caret-down {
@@ -164,8 +164,8 @@ Librem 5/Pinephone etc.
     padding-top: unset !important;
   }
 
-  #module-settings-assistant-init {
-    font-size: 0.9em !important;
+  #module-settings-assistant-init, #module-settings-assistant-add {
+    font-size: 0.85em !important;
   }
 
   #module-settings-assistant-init button {
@@ -183,6 +183,10 @@ Librem 5/Pinephone etc.
   }
 
   #module-settings-assistant .assistant-note {
+    display: none;
+  }
+
+  #module-info, .module-info-button {
     display: none;
   }
 
@@ -378,6 +382,7 @@ Librem 5/Pinephone etc.
     border: unset !important;
     border-radius: unset !important;
     box-shadow: unset !important;
+    font-size: 0.85em;
   }
 
   .export-docx-button {

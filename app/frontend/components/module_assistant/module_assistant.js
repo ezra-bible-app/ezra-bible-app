@@ -187,7 +187,7 @@ class ModuleAssistant extends HTMLElement{
 
     if (platformHelper.isMobile()) {
       dialogWidth = $(window).width();
-      dialogHeight = $(window).height();
+      dialogHeight = $(window).height() - 80;
     }
 
     this._assistantAdd.hide();
