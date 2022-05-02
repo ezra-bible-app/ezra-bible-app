@@ -183,7 +183,12 @@ class ModuleAssistant extends HTMLElement{
       dialogWidth = 1100;
     }
 
-    const dialogHeight = $(window).height() * 0.75;
+    var dialogHeight = $(window).height() * 0.75;
+
+    if (platformHelper.isMobile()) {
+      dialogWidth = $(window).width();
+      dialogHeight = $(window).height();
+    }
 
     this._assistantAdd.hide();
     this._assistantRemove.hide();
@@ -203,13 +208,19 @@ class ModuleAssistant extends HTMLElement{
 
     assistantHelper.localizeContainer(document.querySelector('#module-settings-assistant-init'), moduleType);
 
-    $('#module-settings-assistant').dialog({
+    let moduleSettingsDialogOptions = {
       modal: true,
       title: assistantHelper.localizeText("module-assistant.header", moduleType),
       dialogClass: 'ezra-dialog module-assistant-dialog',
       width: dialogWidth,
       height: dialogHeight,
-    });
+    };
+
+    if (platformHelper.isMobile()) {
+      moduleSettingsDialogOptions.position = [0, 0];
+    }
+
+    $('#module-settings-assistant').dialog(moduleSettingsDialogOptions);
 
     assistantHelper.unlockDialog();
   }
