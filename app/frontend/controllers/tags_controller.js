@@ -293,7 +293,7 @@ class TagsController {
   async addTagsToGroup(tagGroupId, tagList) {
     for (let i = 0; i < tagList.length; i++) {
       let tagId = tagList[i];
-      let tag = this.tag_store.getTag(tagId);
+      let tag = await this.tag_store.getTag(tagId);
 
       let result = await ipcDb.updateTag(tagId, tag.title, [ tagGroupId ], []);
 
