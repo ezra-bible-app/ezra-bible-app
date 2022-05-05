@@ -50,7 +50,7 @@ module.exports.getVerseBox = async function(verseReference) {
 
 module.exports.waitUntilGlobalLoaderIsHidden = async function(timeoutMs = 20000) {
   var verseListMenu = await spectronHelper.getWebClient().$('.verse-list-menu');
-  var loader = await verseListMenu.$('.loader');
+  var loader = await verseListMenu.$('#desktop-loader');
 
   await spectronHelper.getWebClient().waitUntil(async () => { // Wait until loader is hidden
     var loaderDisplay = await loader.getCSSProperty('display');

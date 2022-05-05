@@ -36,7 +36,7 @@ When('I perform the search', {timeout: 50 * 1000}, async function () {
   await uiHelper.waitUntilGlobalLoaderIsHidden(50000);
 });
 
-Then('there are {int} search results', async function (searchResultCount) {
+Then('there are {int} search results', {timeout: 10 * 1000}, async function (searchResultCount) {
   var verseListTabs = await spectronHelper.getWebClient().$('#verse-list-tabs-1');
 
   var verseBoxes = await verseListTabs.$$('.verse-box');

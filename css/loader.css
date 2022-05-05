@@ -1,7 +1,6 @@
 /* taken from https://github.com/tobiasahlin/SpinKit */
 
 .loader {
-  display: none;
   float: left;
   width: 70px;
   text-align: center;
