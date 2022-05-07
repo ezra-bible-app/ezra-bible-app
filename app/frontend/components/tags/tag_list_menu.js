@@ -32,6 +32,7 @@ const template = html`
 <link id="theme-css" href="css/jquery-ui/cupertino/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
 
 <link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="css/mobile.css" media="screen" rel="stylesheet" type="text/css" />
 
 <style>
 #tag-list-menu.box-style {

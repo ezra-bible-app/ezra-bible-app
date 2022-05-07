@@ -423,11 +423,21 @@ class TagsController {
 
     this.editTagDialogInitDone = true;
 
+    var dialogWidth = 450;
+    var dialogHeight = 400;
+    var position = [55, 200];
+
+    if (platformHelper.isMobile()) {
+      dialogWidth = $(window).width();
+      dialogHeight = $(window).height() - 80;
+      position = [0, 0];
+    }
+
     var edit_tag_dlg_options = {
       title: i18n.t("tags.edit-tag"),
-      width: 450,
-      height: 400,
-      position: [55,200],
+      width: dialogWidth,
+      height: dialogHeight,
+      position: position,
       autoOpen: false,
       dialogClass: 'ezra-dialog'
     };

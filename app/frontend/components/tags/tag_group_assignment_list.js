@@ -28,6 +28,7 @@ const template = html`
 <link href="node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css" rel="stylesheet" type="text/css" />
 
 <link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="css/mobile.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="css/tool_panel.css" media="screen" rel="stylesheet" type="text/css" />
 
 <style>

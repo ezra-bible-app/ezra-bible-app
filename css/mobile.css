@@ -310,6 +310,10 @@ Librem 5/Pinephone etc.
     padding: 0.5em !important;
   }
 
+  #tag-group-assignment-list-content {
+    height: 24em !important;
+  }
+
   /*search dropdown*/
   #module-search-menu {
     left: 0 !important;
@@ -399,6 +403,20 @@ Librem 5/Pinephone etc.
 @media screen and (max-width: 410px) {
   #tag-list-stats {
     display: none !important;
+  }
+
+  #tags-content-global {
+    font-size: 0.9em;
+  }
+
+  .Android .button-small:not(#new-standard-tag-button) {
+    font-size: 0.9em !important;
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  #new-standard-tag-title-input, #rename-tag-title-input {
+    width: 88% !important;
   }
 
   /*Make dialogs not go out of screen*/
