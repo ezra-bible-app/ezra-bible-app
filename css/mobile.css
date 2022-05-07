@@ -298,6 +298,14 @@ Librem 5/Pinephone etc.
     height: calc(100% - 13em) !important;
   }
 
+  .Android .tag-group, .Android .checkbox-tag {
+    padding-top: unset !important;
+  }
+
+  .Android .tag-group a {
+    max-width: 16em !important;
+  }
+
   #tag-selection-taglist-global, #tag-selection-taglist-overlay {
     height: 100% !important;
   }
@@ -311,7 +319,7 @@ Librem 5/Pinephone etc.
   }
 
   #tag-group-assignment-list-content {
-    height: 24em !important;
+    height: 22em !important;
   }
 
   /*search dropdown*/
@@ -407,6 +415,7 @@ Librem 5/Pinephone etc.
 
   #tags-content-global {
     font-size: 0.9em;
+    height: calc(100% - 6.5em) !important;
   }
 
   .Android .button-small:not(#new-standard-tag-button) {
