@@ -602,6 +602,7 @@ a.chapter-nav:hover {
   grid-template-rows: minmax(55vh, 100vh) minmax(0, 23vh);
 }
 
+/* LANDSCAPE */
 @media screen and (min-aspect-ratio: 15/10) {
   .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
     height: 89vh;
@@ -614,6 +615,7 @@ a.chapter-nav:hover {
   }
 }
 
+/* PORTRAIT */
 @media screen and (max-aspect-ratio: 15/10) {
   #app-container {
     grid-template-areas: 

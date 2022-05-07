@@ -52,6 +52,7 @@ const template = html`
       cursor: pointer;
     }
 
+    /* PORTRAIT */
     @media screen and (max-aspect-ratio: 15/10) {
       #panel-switches {
         height: var(--button-size);
