@@ -441,10 +441,12 @@ class TagsController {
       autoOpen: false,
       dialogClass: 'ezra-dialog'
     };
+
     edit_tag_dlg_options.buttons = {};
     edit_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {
-      $(this).dialog("close");
+      setTimeout(() => { $(this).dialog("close"); }, 100);
     };
+
     edit_tag_dlg_options.buttons[i18n.t("general.save")] = {
       id: 'edit-tag-button',
       text: i18n.t("general.save"),
@@ -452,6 +454,7 @@ class TagsController {
         tags_controller.closeDialogAndUpdateTag();
       }
     };
+
     $('#edit-tag-dialog').dialog(edit_tag_dlg_options);
   
     // Handle the enter key in the tag title field and rename the tag when it is pressed
@@ -1277,12 +1280,12 @@ class TagsController {
     tags_box.addEventListener('click', async function(event) {
       // Use event delegation, so that we do not have to add an event listener to each element.
 
+      const CLICK_TIMEOUT = 100;
+
       if (event.target.matches('.delete-icon') || event.target.matches('.delete-button')) {
-        await waitUntilIdle();
-        tags_controller.handleDeleteTagButtonClick(event);
+        setTimeout(() => { tags_controller.handleDeleteTagButtonClick(event); }, CLICK_TIMEOUT);
       } else if (event.target.matches('.edit-icon') || event.target.matches('.edit-button')) {
-        await waitUntilIdle();
-        tags_controller.handleEditTagClick(event);
+        setTimeout(() => { tags_controller.handleEditTagClick(event); }, CLICK_TIMEOUT);
       } else if (event.target.matches('.tag-button')) {
         await waitUntilIdle();
         await tags_controller.handleTagCbClick(event);
