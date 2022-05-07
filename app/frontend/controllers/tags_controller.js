@@ -363,17 +363,31 @@ class TagsController {
 
     this.deleteTagConfirmationDialogInitDone = true;
 
+    var dialogWidth = 300;
+    var dialogHeight = null;
+    var position = [55, 180];
+
+    if (platformHelper.isMobile()) {
+      dialogWidth = $(window).width();
+      dialogHeight = $(window).height() - 85;
+      position = [0, 0];
+    }
+
     var delete_tag_confirmation_dlg_options = {
       title: i18n.t("tags.delete-tag"),
-      width: 300,
-      position: [55,180],
+      width: dialogWidth,
+      position: position,
       autoOpen: false,
       dialogClass: 'ezra-dialog'
     };
+
+    if (dialogHeight !== null) {
+      delete_tag_confirmation_dlg_options.height = dialogHeight;
+    }
   
     delete_tag_confirmation_dlg_options.buttons = {};
     delete_tag_confirmation_dlg_options.buttons[i18n.t("general.cancel")] = function() {
-      $(this).dialog("close");
+      setTimeout(() => { $(this).dialog("close"); }, 100);
     };
     delete_tag_confirmation_dlg_options.buttons[i18n.t("tags.delete-tag")] = function() {
       tags_controller.deleteTagAfterConfirmation();
@@ -657,10 +671,7 @@ class TagsController {
     }
 
     $('#new-standard-tag-dialog').dialog('open');
-
-    if (!platformHelper.isMobile()) {
-      $tagInput.focus();
-    }
+    $tagInput.focus();
   }
 
   handleDeleteTagButtonClick(event) {
