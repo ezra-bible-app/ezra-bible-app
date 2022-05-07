@@ -406,7 +406,7 @@ Librem 5/Pinephone etc.
   }
 
   #edit-tag-dialog {
-    padding-top: unset !important;
+    padding-top: 1em !important;
     padding-bottom: unset !important;
   }
 }
@@ -434,13 +434,13 @@ Librem 5/Pinephone etc.
   }
 
   #new-standard-tag-title-input, #rename-tag-title-input {
-    width: 88% !important;
+    width: 85% !important;
   }
 
   /*Make dialogs not go out of screen*/
   .ui-dialog {
     max-width: 97vw !important;
-    max-height: 92vh !important;
+    max-height: 97vh !important;
   }
 
   .verse-list-menu .fg-button {
