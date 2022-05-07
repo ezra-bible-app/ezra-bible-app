@@ -400,6 +400,10 @@ Librem 5/Pinephone etc.
   .export-docx-button {
     display: none !important;
   }
+
+  #edit-tag-dialog {
+    padding-top: unset !important;
+  }
 }
 
 @media screen and (max-height: 600px) {
@@ -436,5 +440,13 @@ Librem 5/Pinephone etc.
 
   .verse-list-menu .fg-button {
     margin-right: 0.2em;
+  }
+
+  .keyboard-shown #edit-tag-dialog {
+    height: 195px !important;
+  }
+
+  .keyboard-shown #tag-group-assignment-list-content {
+    height: 8em !important;
   }
 }

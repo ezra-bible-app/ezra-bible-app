@@ -641,7 +641,10 @@ class TagsController {
     }
 
     $('#new-standard-tag-dialog').dialog('open');
-    $tagInput.focus();
+
+    if (!platformHelper.isMobile()) {
+      $tagInput.focus();
+    }
   }
 
   handleDeleteTagButtonClick(event) {
@@ -1212,14 +1215,17 @@ class TagsController {
 
     $tagInput.val(cb_label);
 
+    $('#edit-tag-dialog').dialog('open');
+
     var tagGroupAssignment = document.getElementById('tag-group-assignment');
     tagGroupAssignment.tagid = tags_controller.edit_tag_id;
     tagGroupAssignment.onChange = () => {
       this.handleEditTagChange();
     };
 
-    $('#edit-tag-dialog').dialog('open');
-    $('#rename-tag-title-input').focus();
+    if (!platformHelper.isMobile()) {
+      $('#rename-tag-title-input').focus();
+    }
   }
 
   handleEditTagChange() {
@@ -1272,12 +1278,16 @@ class TagsController {
       // Use event delegation, so that we do not have to add an event listener to each element.
 
       if (event.target.matches('.delete-icon') || event.target.matches('.delete-button')) {
+        await waitUntilIdle();
         tags_controller.handleDeleteTagButtonClick(event);
       } else if (event.target.matches('.edit-icon') || event.target.matches('.edit-button')) {
+        await waitUntilIdle();
         tags_controller.handleEditTagClick(event);
       } else if (event.target.matches('.tag-button')) {
+        await waitUntilIdle();
         await tags_controller.handleTagCbClick(event);
       } else if (event.target.matches('.cb-label')) {
+        await waitUntilIdle();
         await tags_controller.handleTagLabelClick(event);
       } else {
         return;
