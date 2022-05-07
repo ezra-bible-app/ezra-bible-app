@@ -187,18 +187,31 @@ class TagsController {
 
     this.newTagDialogInitDone = true;
 
+    var dialogWidth = 450;
+    var dialogHeight = 400;
+    var position = [55, 200];
+
+    if (platformHelper.isMobile()) {
+      dialogWidth = $(window).width();
+      dialogHeight = $(window).height() - 85;
+      position = [0, 0];
+    }
+
     var new_standard_tag_dlg_options = {
       title: i18n.t("tags.new-tag"),
-      width: 450,
-      position: [55,180],
+      width: dialogWidth,
+      height: dialogHeight,
+      position: position,
       autoOpen: false,
       dialogClass: 'ezra-dialog'
     };
   
     new_standard_tag_dlg_options.buttons = {};
+
     new_standard_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {
-      $(this).dialog("close");
+      setTimeout(() => { $(this).dialog("close"); }, 100);
     };
+
     new_standard_tag_dlg_options.buttons[i18n.t("tags.create-tag")] = {
       id: 'create-tag-button',
       text: i18n.t("tags.create-tag"),

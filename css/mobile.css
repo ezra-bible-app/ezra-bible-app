@@ -450,4 +450,8 @@ Librem 5/Pinephone etc.
   .keyboard-shown #edit-tag-dialog {
     height: 220px !important;
   }
+
+  .keyboard-shown #new-standard-tag-dialog {
+    height: unset !important;
+  }
 }

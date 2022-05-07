@@ -210,7 +210,7 @@ class TagListMenu extends HTMLElement {
     this.localize();
 
     this.shadowRoot.getElementById('new-standard-tag-button').addEventListener('click', function() {
-      setTimeout(() => { tags_controller.handleNewTagButtonClick($(this)); }, 100);
+      setTimeout(() => { tags_controller.handleNewTagButtonClick($(this)); }, 150);
     });
 
     this.uiHelper.configureButtonStyles(this.shadowRoot.getElementById('tag-list-menu'));
