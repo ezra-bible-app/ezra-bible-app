@@ -409,6 +409,10 @@ Librem 5/Pinephone etc.
     padding-top: 1em !important;
     padding-bottom: unset !important;
   }
+
+  .ezra-dialog {
+    box-shadow: unset !important;
+  }
 }
 
 @media screen and (max-height: 600px) {
