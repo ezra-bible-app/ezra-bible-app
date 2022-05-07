@@ -603,7 +603,7 @@ a.chapter-nav:hover {
 }
 
 /* LANDSCAPE */
-@media screen and (min-aspect-ratio: 15/10) {
+@media screen and (min-aspect-ratio: 13/10) {
   .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
     height: 89vh;
   }
@@ -616,7 +616,7 @@ a.chapter-nav:hover {
 }
 
 /* PORTRAIT */
-@media screen and (max-aspect-ratio: 15/10) {
+@media screen and (max-aspect-ratio: 13/10) {
   #app-container {
     grid-template-areas: 
       "content"

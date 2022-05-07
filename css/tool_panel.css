@@ -25,7 +25,7 @@
 }
 
 /* LANDSCAPE */
-@media screen and (min-aspect-ratio: 15/10) {
+@media screen and (min-aspect-ratio: 13/10) {
   .Android #tool-panel #tag-list-stats {
     display: none;
   }
@@ -43,7 +43,7 @@
 
 
 /* PORTRAIT */
-@media screen and (max-aspect-ratio: 15/10) {
+@media screen and (max-aspect-ratio: 13/10) {
   #tool-panel {
     height: 13em !important;
     width: 100% !important;
@@ -87,7 +87,7 @@
 }
 
 /* LANDSCAPE */
-@media screen and (min-aspect-ratio: 15/10) {
+@media screen and (min-aspect-ratio: 13/10) {
   #tool-panel {
     height: 100% !important;
   }
@@ -144,7 +144,7 @@
 }
 
 /* PORTRAIT */
-@media screen and (max-aspect-ratio: 15/10) {
+@media screen and (max-aspect-ratio: 13/10) {
   #tool-panel .ui-resizable-n {
     display: block;
   }
@@ -182,7 +182,7 @@
 }
 
 /* PORTRAIT */
-@media screen and (max-aspect-ratio: 15/10) {
+@media screen and (max-aspect-ratio: 13/10) {
   .ui-tabs .ui-tabs-panel {
     padding-left: 0;
   }
