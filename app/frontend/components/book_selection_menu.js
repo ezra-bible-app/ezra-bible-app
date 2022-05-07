@@ -48,7 +48,7 @@ class BookSelectionMenu {
     }
 
     document.getElementById('bookMenuBackButton').addEventListener('click', () => {
-      this.hideBookMenu();
+      setTimeout(() => { this.hideBookMenu(); }, 100);
     });
 
     this.initLinks();

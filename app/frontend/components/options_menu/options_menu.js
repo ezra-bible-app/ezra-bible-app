@@ -56,7 +56,7 @@ class OptionsMenu {
     });
 
     $('#displayOptionsBackButton').bind('click', () => {
-      this.hideDisplayMenu();
+      setTimeout(() => { this.hideDisplayMenu(); }, 100);
     });
 
     var openVerseListsInNewTabByDefault = false;

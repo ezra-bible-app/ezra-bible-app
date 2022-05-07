@@ -55,9 +55,7 @@ class TagSelectionMenu {
     });
 
     $('#tagSelectionBackButton').bind('click', () => {
-      setTimeout(() => {
-        this.hideTagMenu();
-      }, 150);
+      setTimeout(() => { this.hideTagMenu(); }, 100);
     });
   }
 
