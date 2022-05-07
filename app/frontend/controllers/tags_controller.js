@@ -429,7 +429,7 @@ class TagsController {
 
     if (platformHelper.isMobile()) {
       dialogWidth = $(window).width();
-      dialogHeight = $(window).height() - 80;
+      dialogHeight = $(window).height() - 85;
       position = [0, 0];
     }
 

@@ -28,8 +28,8 @@ const template = html`
 <link href="node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css" rel="stylesheet" type="text/css" />
 
 <link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="css/mobile.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="css/tool_panel.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="css/mobile.css" media="screen" rel="stylesheet" type="text/css" />
 
 <style>
 #tag-group-assignment-list-content {
@@ -108,7 +108,20 @@ class TagGroupAssignmentList extends HTMLElement {
     }
 
     this._contentDiv = this.shadowRoot.getElementById('tag-group-assignment-list-content');
+    platformHelper.addPlatformCssClass(this._contentDiv);
     this._tagGroupManager.setContentDiv(this._contentDiv);
+
+    // cordova-plugin-ionic-keyboard event binding
+    // eslint-disable-next-line no-unused-vars
+    window.addEventListener('keyboardDidShow', (event) => {
+      this._contentDiv.classList.add('keyboard-shown');
+    });
+
+    // cordova-plugin-ionic-keyboard event binding
+    // eslint-disable-next-line no-unused-vars
+    window.addEventListener('keyboardDidHide', (event) => {
+      this._contentDiv.classList.remove('keyboard-shown');
+    });
 
     (async () => {
       await this._tagGroupManager.populateItemList();

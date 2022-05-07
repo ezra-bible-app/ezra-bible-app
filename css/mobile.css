@@ -322,6 +322,10 @@ Librem 5/Pinephone etc.
     height: 22em !important;
   }
 
+  #tag-group-assignment-list-content.keyboard-shown {
+    height: 8em !important;
+  }
+
   /*search dropdown*/
   #module-search-menu {
     left: 0 !important;
@@ -403,6 +407,7 @@ Librem 5/Pinephone etc.
 
   #edit-tag-dialog {
     padding-top: unset !important;
+    padding-bottom: unset !important;
   }
 }
 
@@ -443,10 +448,6 @@ Librem 5/Pinephone etc.
   }
 
   .keyboard-shown #edit-tag-dialog {
-    height: 195px !important;
-  }
-
-  .keyboard-shown #tag-group-assignment-list-content {
-    height: 8em !important;
+    height: 220px !important;
   }
 }
