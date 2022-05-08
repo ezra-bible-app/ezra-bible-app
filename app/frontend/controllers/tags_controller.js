@@ -190,10 +190,10 @@ class TagsController {
     var dialogWidth = 450;
     var dialogHeight = 400;
     var draggable = true;
-    var position = [55, 200];
+    var position = [55, 120];
 
     if (platformHelper.isMobile()) {
-      dialogWidth = $(window).width();
+      dialogWidth = $(window).width() - 10;
       dialogHeight = $(window).height() - 85;
       draggable = false;
       position = [0, 0];
@@ -280,12 +280,26 @@ class TagsController {
 
     this.addTagsToGroupDialogInitDone = true;
 
+    var dialogWidth = 450;
+    var dialogHeight = 500;
+    var draggable = true;
+    var position = [55, 120];
+
+    if (platformHelper.isMobile()) {
+      dialogWidth = $(window).width() - 10;
+      dialogHeight = $(window).height() - 85;
+      draggable = false;
+      position = [0, 0];
+    }
+
     var addTagsToGroupDialogOptions = {
       title: i18n.t("tags.add-tags-to-group"),
-      width: 450,
-      height: 500,
-      position: [55,180],
+      width: dialogWidth,
+      height: dialogHeight,
+      position: position,
       autoOpen: false,
+      resizable: false,
+      draggable: draggable,
       dialogClass: 'ezra-dialog'
     };
   
@@ -369,11 +383,13 @@ class TagsController {
 
     var dialogWidth = 300;
     var dialogHeight = null;
-    var position = [55, 180];
+    var draggable = true;
+    var position = [55, 120];
 
     if (platformHelper.isMobile()) {
-      dialogWidth = $(window).width();
+      dialogWidth = $(window).width() - 10;
       dialogHeight = $(window).height() - 85;
+      draggable = false;
       position = [0, 0];
     }
 
@@ -382,6 +398,8 @@ class TagsController {
       width: dialogWidth,
       position: position,
       autoOpen: false,
+      draggable: draggable,
+      resizable: false,
       dialogClass: 'ezra-dialog'
     };
 
@@ -420,8 +438,10 @@ class TagsController {
     var remove_tag_assignment_confirmation_dlg_options = {
       title: i18n.t("tags.remove-tag-assignment"),
       width: 360,
-      position: [55,250],
+      position: [55, 120],
       autoOpen: false,
+      draggable: true,
+      resizable: false,
       dialogClass: 'ezra-dialog'
     };
   
@@ -456,11 +476,13 @@ class TagsController {
 
     var dialogWidth = 450;
     var dialogHeight = 400;
-    var position = [55, 200];
+    var draggable = true;
+    var position = [55, 120];
 
     if (platformHelper.isMobile()) {
-      dialogWidth = $(window).width();
+      dialogWidth = $(window).width() - 10;
       dialogHeight = $(window).height() - 85;
+      draggable = false;
       position = [0, 0];
     }
 
@@ -470,6 +492,8 @@ class TagsController {
       height: dialogHeight,
       position: position,
       autoOpen: false,
+      resizable: false,
+      draggable: draggable,
       dialogClass: 'ezra-dialog'
     };
 
