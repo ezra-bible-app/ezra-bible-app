@@ -138,7 +138,8 @@ class PlatformHelper {
   }
 
   isMobile() {
-    return window.innerWidth <= 420;
+    const MAX_MOBILE_PIXELS = 450;
+    return window.innerWidth <= MAX_MOBILE_PIXELS || window.innerHeight <= MAX_MOBILE_PIXELS;
   }
 
   addPlatformCssClass(element=undefined) {

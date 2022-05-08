@@ -114,7 +114,14 @@ Librem 5/Pinephone etc.
   }
 }
 
-@media screen and (max-width: 420px) {
+@media screen and (max-height: 450px) {
+  #app-container {
+    padding: 0.5em !important;
+    padding-bottom: 0em !important;
+  }
+}
+
+@media screen and (max-width: 450px), (max-height: 450px) {
   #book-selection-menu {
     height: calc(100% - 3em);
     top: 0 !important;
