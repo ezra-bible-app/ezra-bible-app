@@ -32,6 +32,7 @@ const template = html`
 <link id="theme-css" href="css/jquery-ui/cupertino/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
 
 <link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="css/tool_panel.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="css/mobile.css" media="screen" rel="stylesheet" type="text/css" />
 
 <style>
@@ -106,15 +107,18 @@ const template = html`
   float: right;
   margin-left: 1em;
   margin-right: 0.5em;
-  padding: 0.4em;
+  padding: 0.2em;
+  padding-left: 0.4em;
+  padding-right: 0.4em;
   cursor: pointer;
   display: flex;
   align-items: center;
+  font-size: 1em;
 }
 
 .Android #new-standard-tag-button {
-  height: 24px;
-  font-size: 1.1em;
+  height: unset !important;
+  font-size: 0.9em;
 }
 
 #tag-list-menu:not(.with-buttons) .add-element-button {
@@ -133,9 +137,9 @@ const template = html`
 
   <button id="add-tag-group-button" i18n="tags.add-tag-group" class="add-element-button fg-button ui-state-default ui-corner-all"></button>
 
-  <button id="new-standard-tag-button" i18n="[title]tags.new-tag" class="add-element-button button-small fg-button ui-state-default ui-corner-all">
+  <div id="new-standard-tag-button" i18n="[title]tags.new-tag" class="add-element-button button-small">
     <i class="fas fa-plus fa-xs"></i>&nbsp;<i class="fas fa-tag fa-sm"></i>
-  </button>
+  </div>
 </div>
 `;
 
@@ -209,8 +213,8 @@ class TagListMenu extends HTMLElement {
 
     this.localize();
 
-    this.shadowRoot.getElementById('new-standard-tag-button').addEventListener('click', function() {
-      setTimeout(() => { tags_controller.handleNewTagButtonClick($(this)); }, 150);
+    this.shadowRoot.getElementById('new-standard-tag-button').addEventListener('click', async function(event) {
+      setTimeout(() => { tags_controller.handleNewTagButtonClick(event); }, 100);
     });
 
     this.uiHelper.configureButtonStyles(this.shadowRoot.getElementById('tag-list-menu'));

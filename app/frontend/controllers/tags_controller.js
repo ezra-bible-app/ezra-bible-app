@@ -189,11 +189,13 @@ class TagsController {
 
     var dialogWidth = 450;
     var dialogHeight = 400;
+    var draggable = true;
     var position = [55, 200];
 
     if (platformHelper.isMobile()) {
       dialogWidth = $(window).width();
       dialogHeight = $(window).height() - 85;
+      draggable = false;
       position = [0, 0];
     }
 
@@ -203,6 +205,8 @@ class TagsController {
       height: dialogHeight,
       position: position,
       autoOpen: false,
+      draggable: draggable,
+      resizable: false,
       dialogClass: 'ezra-dialog'
     };
   
@@ -626,18 +630,22 @@ class TagsController {
     uiHelper.hideTextLoadingIndicator();
   }
 
-  async handleNewTagButtonClick(button) {
-    if ($(button).hasClass('ui-state-disabled')) {
+  async handleNewTagButtonClick(event) {
+    if (event.target.classList.contains('ui-state-disabled')) {
       return;
     }
 
     eventController.publish('on-button-clicked');
     tags_controller.initNewTagDialog();
 
-    let addExistingTagsLink = document.getElementById('add-existing-tags-to-tag-group-link').parentNode;
+    const tagInput = document.getElementById('new-standard-tag-title-input');
+    tagInput.value = '';
+    var $dialogContainer = $('#new-standard-tag-dialog');
+    $dialogContainer.dialog('open');
 
-    const $tagInput = $('#new-standard-tag-title-input');
-    $tagInput.val(''); 
+    await waitUntilIdle();
+    tagInput.focus();
+    await waitUntilIdle();
 
     let allTagGroups = await ipcDb.getAllTagGroups();
     let tagGroupAssignmentSection = document.getElementById('tag-group-assignment-section');
@@ -648,7 +656,7 @@ class TagsController {
       tagGroupAssignmentSection.style.removeProperty('display');
 
       let tagGroupAssignment = document.getElementById('new-tag-dialog-tag-group-assignment');
-      await tagGroupAssignment.tagGroupManager.refreshItemList();
+      //await tagGroupAssignment.tagGroupManager.refreshItemList();
       tagGroupAssignment.tagGroupManager._addList = [];
 
       if (this.tagGroupUsed()) {
@@ -657,6 +665,7 @@ class TagsController {
     }
 
     this.updateButtonStateBasedOnTagTitleValidation('', 'create-tag-button');
+    let addExistingTagsLink = document.getElementById('add-existing-tags-to-tag-group-link').parentNode;
 
     if (this.tagGroupUsed()) {
       let remainingTagCount = await this.updateAddTagToGroupTagList();
@@ -669,9 +678,6 @@ class TagsController {
     } else {
       addExistingTagsLink.style.display = 'none';
     }
-
-    $('#new-standard-tag-dialog').dialog('open');
-    $tagInput.focus();
   }
 
   handleDeleteTagButtonClick(event) {
