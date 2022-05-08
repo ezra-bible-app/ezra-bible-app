@@ -372,7 +372,7 @@ Librem 5/Pinephone etc.
     padding: 2px;
   }
 
-  #new-standard-tag-title-input, #rename-tag-title-input {
+  #new-standard-tag-title-input, #rename-tag-title-input, #tag-group-title-value, #rename-tag-group-title-input {
     width: 15em !important;
   }
 
@@ -459,11 +459,11 @@ Librem 5/Pinephone etc.
     padding-top: 0em !important;
   }
 
-  .keyboard-shown #edit-tag-dialog {
-    height: 75vh !important;
+  .keyboard-shown #new-standard-tag-dialog, .keyboard-shown #edit-tag-dialog {
+    height: 65vh !important;
   }
 
-  .keyboard-shown #new-standard-tag-dialog {
-    height: 70vh !important;
+  .keyboard-shown #add-tag-group-dialog, .keyboard-shown #rename-tag-group-dialog {
+    height: 55vh !important;
   }
 }

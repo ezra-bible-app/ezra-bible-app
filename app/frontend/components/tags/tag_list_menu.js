@@ -254,8 +254,17 @@ class TagListMenu extends HTMLElement {
       document.querySelector('#boxes').appendChild(dialogBoxTemplate.content);
       const $dialogBox = $('#add-tag-group-dialog');
       
-      const width = 400;
-      const height = 200;
+      var width = 400;
+      var height = 200;
+      var draggable = true;
+      var position = [55, 120];
+
+      if (platformHelper.isMobile()) {
+        width = $(window).width() - 10;
+        height = $(window).height() - 85;
+        draggable = false;
+        position = [0, 0];
+      }
 
       let createTagGroup = () => {
         let tagGroupTitle = document.getElementById('tag-group-title-value').value;
@@ -285,10 +294,11 @@ class TagListMenu extends HTMLElement {
       });
 
       $dialogBox.dialog({
-        width,
-        height,
-        position: [80, 120],
+        width: width,
+        height: height,
+        position: position,
         title: i18n.t('tags.add-tag-group'),
+        draggable: draggable,
         resizable: false,
         dialogClass: 'ezra-dialog',
         buttons: buttons,
@@ -300,6 +310,8 @@ class TagListMenu extends HTMLElement {
       });
 
       tagGroupValidator.validateNewTagGroupTitle('tag-group-title-value', 'create-tag-group-button');
+
+      document.getElementById('tag-group-title-value').focus();
     });
   }
 

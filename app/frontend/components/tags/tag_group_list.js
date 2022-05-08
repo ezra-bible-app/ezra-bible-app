@@ -308,8 +308,17 @@ class TagGroupList extends HTMLElement {
       const $dialogBox = $('#rename-tag-group-dialog');
       $dialogBox.localize();
       
-      const width = 400;
-      const height = 200;
+      var width = 400;
+      var height = 200;
+      var position = [55, 120];
+      var draggable = true;
+
+      if (platformHelper.isMobile()) {
+        width = $(window).width() - 10;
+        height = $(window).height() - 85;
+        draggable = false;
+        position = [0, 0];
+      }
 
       var buttons = {};
 
@@ -337,11 +346,12 @@ class TagGroupList extends HTMLElement {
       });
     
       $dialogBox.dialog({
-        width,
-        height,
-        position: [60,180],
+        width: width,
+        height: height,
+        position: position,
         title: title,
         resizable: false,
+        draggable: draggable,
         dialogClass: 'ezra-dialog',
         buttons: buttons,
         close() {
@@ -352,6 +362,8 @@ class TagGroupList extends HTMLElement {
       });
 
       tagGroupValidator.validateNewTagGroupTitle('rename-tag-group-title-input', 'edit-tag-group-save-button');
+
+      document.getElementById('rename-tag-group-title-input').focus();
     });
   }
 
@@ -394,8 +406,17 @@ class TagGroupList extends HTMLElement {
       const $dialogBox = $('#delete-tag-group-confirmation-dialog');
       $dialogBox.localize();
       
-      const width = 400;
-      const height = 200;
+      var width = 400;
+      var height = 200;
+      var position = [55, 120];
+      var draggable = true;
+
+      if (platformHelper.isMobile()) {
+        width = $(window).width() - 10;
+        height = $(window).height() - 85;
+        draggable = false;
+        position = [0, 0];
+      }
 
       var buttons = {};
       buttons[i18n.t('general.cancel')] = function() {
@@ -413,11 +434,12 @@ class TagGroupList extends HTMLElement {
       const title = i18n.t('tags.delete-tag-group');
     
       $dialogBox.dialog({
-        width,
-        height,
-        position: [60,180],
+        width: width,
+        height: height,
+        position: position,
         title: title,
         resizable: false,
+        draggable: draggable,
         dialogClass: 'ezra-dialog',
         buttons: buttons,
         close() {
