@@ -274,7 +274,7 @@ Librem 5/Pinephone etc.
   }
 
   #module-info {
-    display: none;
+    display: none !important;
   }
 
   #module-settings-assistant-add .steps > ul > li > a {
