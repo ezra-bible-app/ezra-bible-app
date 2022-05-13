@@ -28,6 +28,7 @@ class IpcDb {
     this._isCordova = this._platformHelper.isCordova();
     this._getAllTagsCounter = 0;
     this._cachedBookTitleTranslations = {};
+    this._cachedTagList = [];
   }
 
   async closeDatabase() {
@@ -83,19 +84,27 @@ class IpcDb {
 
   async getAllTags(bibleBookId=0, lastUsed=false, onlyStats=false) {
     var getAllTagsCounter = null;
-    
-    if (this._isCordova) {
-      this._getAllTagsCounter += 1;
-      getAllTagsCounter = this._getAllTagsCounter;
-      console.time('getAllTags_' + getAllTagsCounter);
+    var debug = false;
+    var useCache = false;
+
+    if (app_controller === undefined || app_controller && !app_controller.isStartupCompleted()) {
+      useCache = true;
     }
 
     var timeoutMs = 5000;
-    var allTags = await this._ipcRenderer.callWithTimeout('db_getAllTags', timeoutMs, bibleBookId, lastUsed, onlyStats);
+    if (useCache && this._cachedTagList.length == 0 || !useCache) {
+      if (debug || this._isCordova) {
+        this._getAllTagsCounter += 1;
+        getAllTagsCounter = this._getAllTagsCounter;
+        console.time('getAllTags_' + getAllTagsCounter);
+      }
+
+      this._cachedTagList = await this._ipcRenderer.callWithTimeout('db_getAllTags', timeoutMs, bibleBookId, lastUsed, onlyStats);
+      if (debug || this._isCordova) console.timeEnd('getAllTags_' + getAllTagsCounter);
+    }
     
-    if (this._isCordova) console.timeEnd('getAllTags_' + getAllTagsCounter);
     
-    return allTags;
+    return this._cachedTagList;
   }
 
   async getBookVerseTags(bibleBookId, versification) {
