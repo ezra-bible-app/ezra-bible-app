@@ -184,10 +184,12 @@ class ModuleAssistant extends HTMLElement{
     }
 
     var dialogHeight = $(window).height() * 0.75;
+    var draggable = true;
 
     if (platformHelper.isMobile()) {
       dialogWidth = $(window).width();
       dialogHeight = $(window).height() - 80;
+      draggable = false;
     }
 
     this._assistantAdd.hide();
@@ -214,6 +216,8 @@ class ModuleAssistant extends HTMLElement{
       dialogClass: 'ezra-dialog module-assistant-dialog',
       width: dialogWidth,
       height: dialogHeight,
+      resizable: false,
+      draggable: draggable
     };
 
     if (platformHelper.isMobile()) {
