@@ -313,16 +313,42 @@ Librem 5/Pinephone etc.
     margin: 0;
   }
 
-  .ui-tabs .ui-tabs-panel.info-tabs {
-    height: calc(99vh - 180px);
+  #info-popup, #app-info-tabs .ui-tabs-nav li {
+    font-size: 0.9em !important;
+  }
+
+  #info-tabs.ui-tabs-panel {
+    padding-left: unset !important;
+  }
+
+  #info-popup table {
+    table-layout: fixed;
+  }
+
+  #info-popup table td {
+    max-width: 14em;
+    overflow-wrap: break-word;
+  }
+
+  /* Hide keyboard shortcuts on mobile */
+  #app-info-tabs-4-nav, #app-info-tabs-4 {
+    display: none !important;
+  }
+
+  #app-info-tabs .ui-tabs-nav {
+    padding: 0 !important;
+  }
+
+  .ui-widget-header {
+    border: unset !important;
   }
 
   #tag-selection-menu, #module-search-menu {
-    font-size: 0.8em;
+    font-size: 0.8em !important;
   }
 
   #tool-panel {
-    font-size: 0.9em;
+    font-size: 0.9em !important;
   }
 
   #tag-selection-menu {
@@ -464,6 +490,10 @@ Librem 5/Pinephone etc.
   /* Hide regular tabs navigation */
   .ui-tabs-nav {
     display: none;
+  }
+
+  #app-info-tabs .ui-tabs-nav {
+    display: unset;
   }
 
   .ui-tabs .ui-tabs-panel {

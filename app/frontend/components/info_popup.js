@@ -69,11 +69,7 @@ class InfoPopup {
 
     this.initAppInfoBoxDone = true;
 
-    var width = uiHelper.getMaxDialogWidth();
-
     $('#info-popup').dialog({
-      width: width,
-      height: 550,
       autoOpen: false,
       dialogClass: 'ezra-dialog'
     });
@@ -127,7 +123,7 @@ class InfoPopup {
         <li><a href='#app-info-tabs-1'>${i18n.t('general.sword-module-description')}</a></li>
         <li><a href='#app-info-tabs-2'>${i18n.t('general.sword-module-details')}</a></li>
         <li><a href='#app-info-tabs-3'>${i18n.t('general.application-info')}</a></li>
-        <li><a href='#app-info-tabs-4'>${i18n.t('shortcuts.tab-title')}</a></li>
+        <li id='app-info-tabs-4-nav'><a href='#app-info-tabs-4'>${i18n.t('shortcuts.tab-title')}</a></li>
       </ul>
 
       <div id='app-info-tabs-1' class='info-tabs scrollable'>
@@ -216,14 +212,28 @@ class InfoPopup {
       </div>
     </div>`;
 
-    const width = uiHelper.getMaxDialogWidth();
-    const offsetLeft = ($(window).width() - width) / 2;
+    var dialogWidth = uiHelper.getMaxDialogWidth();
+    var dialogHeight = 550;
+    var draggable = true;
+
+    var offsetLeft = ($(window).width() - dialogWidth) / 2;
+    var position = [offsetLeft, 120];
+
+
+    if (platformHelper.isMobile()) {
+      dialogWidth = $(window).width() - 10;
+      dialogHeight = $(window).height() - 85;
+      draggable = false;
+      position = [0, 0];
+    }
 
     $('#info-popup').dialog({
-      width: width,
+      width: dialogWidth,
+      height: dialogHeight,
       title: i18n.t('general.module-application-info'),
-      position: [offsetLeft, 120],
-      resizable: false
+      position: position,
+      resizable: false,
+      draggable: draggable
     });
 
     $('#info-popup-content').empty();
