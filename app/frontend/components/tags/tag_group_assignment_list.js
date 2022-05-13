@@ -123,10 +123,6 @@ class TagGroupAssignmentList extends HTMLElement {
       this._contentDiv.classList.remove('keyboard-shown');
     });
 
-    (async () => {
-      await this._tagGroupManager.populateItemList();
-    })();
-
     if (this.getAttribute('onChange') != null) {
       this._onChangeHandler = this.getAttribute('onChange');
     }
