@@ -103,7 +103,6 @@ class IpcDb {
       if (debug || this._isCordova) console.timeEnd('getAllTags_' + getAllTagsCounter);
     }
     
-    
     return this._cachedTagList;
   }
 
