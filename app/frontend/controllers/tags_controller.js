@@ -680,7 +680,7 @@ class TagsController {
       tagGroupAssignmentSection.style.removeProperty('display');
 
       let tagGroupAssignment = document.getElementById('new-tag-dialog-tag-group-assignment');
-      //await tagGroupAssignment.tagGroupManager.refreshItemList();
+      await tagGroupAssignment.tagGroupManager.refreshItemList();
       tagGroupAssignment.tagGroupManager._addList = [];
 
       if (this.tagGroupUsed()) {
@@ -1256,7 +1256,7 @@ class TagsController {
     //console.timeEnd("renderTags");
   }
 
-  handleEditTagClick(event) {
+  async handleEditTagClick(event) {
     eventController.publish('on-button-clicked');
     tags_controller.initEditTagDialog();
 
@@ -1275,6 +1275,8 @@ class TagsController {
     $('#edit-tag-dialog').dialog('open');
 
     var tagGroupAssignment = document.getElementById('tag-group-assignment');
+    await tagGroupAssignment.tagGroupManager.refreshItemList();
+
     tagGroupAssignment.tagid = tags_controller.edit_tag_id;
     tagGroupAssignment.onChange = () => {
       this.handleEditTagChange();
