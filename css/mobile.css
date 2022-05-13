@@ -187,6 +187,10 @@ Librem 5/Pinephone etc.
     display: none !important;
   }
 
+  .verse-list-loading-indicator {
+    margin-top: 100px !important;
+  }
+
   .current-tab-title-label {
     text-align: center;
     font-weight: bold;
