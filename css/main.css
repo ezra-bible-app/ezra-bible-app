@@ -104,6 +104,9 @@ button {
   border: 2px solid var(--border-color);
   background-color: var(--background-color);
   color: black;
+  padding: 0.5em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
 }
 .darkmode--activated .button {
   color: #aaa;
