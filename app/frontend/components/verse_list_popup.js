@@ -347,14 +347,16 @@ class VerseListPopup {
       await this.loadXrefs(event.target, currentTabId, currentTabIndex);
     }
 
-    var width = uiHelper.getMaxDialogWidth();
-    var box_position = this.getOverlayVerseBoxPosition(verse_box);
-
-    $('#verse-list-popup').dialog({
-      width: width,
-      position: [box_position.left, box_position.top],
+    var dialogOptions = {
       title: this.currentPopupTitle
-    });
+    };
+
+    if (!platformHelper.isMobile()) {
+      dialogOptions.width = uiHelper.getMaxDialogWidth();
+      dialogOptions.position = this.getOverlayVerseBoxPosition(verse_box);
+    }
+
+    $('#verse-list-popup').dialog(dialogOptions);
 
     this.toggleBookFilter(referenceType);
 
