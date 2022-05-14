@@ -97,6 +97,29 @@ button {
   font: caption;
 }
 
+.button {
+  font-size: 1em;
+  display: inline-block;
+  border-radius: var(--border-radius);
+  border: 2px solid var(--border-color);
+  background-color: var(--background-color);
+  color: black;
+}
+.darkmode--activated .button {
+  color: #aaa;
+}
+.button:hover:not(.disabled) {
+  color: white;
+  background-color: var(--accent-color);
+  border-color: var(--highlight-border-color);
+}
+.button.disabled {
+  color: var(--disabled-button-color);
+  border-color: var(--disabled-button-color);
+  background-color: transparent;
+  opacity: 0.8;
+}
+
 :focus {
   outline: none;
 }
