@@ -43,12 +43,32 @@ class VerseListPopup {
   }
 
   initVerseListPopup() {
-    $('#verse-list-popup').dialog({
-      width: 700,
-      position: [200,200],
+    var width = 700;
+    var height = null;
+    var position = [200, 200];
+    var draggable = true;
+
+    if (platformHelper.isMobile()) {
+      width = $(window).width() - 10;
+      height = $(window).height() - 85;
+      draggable = false;
+      position = [0, 0];
+    }
+
+    var dialogOptions = {
+      width: width,
+      position: position,
       autoOpen: false,
+      draggable: draggable,
+      resizable: false,
       dialogClass: 'ezra-dialog'
-    });
+    };
+
+    if (platformHelper.isMobile()) {
+      dialogOptions.height = height;
+    }
+
+    $('#verse-list-popup').dialog(dialogOptions);
 
     var currentBookFilter = "";
     currentBookFilter = "<input type='checkbox' id='only-currentbook-tagged-verses' style='margin-right: 0.3em;'></input>" + 
@@ -400,7 +420,7 @@ class VerseListPopup {
   renderVerseListInPopup(htmlVerses, verseCount) {
     $('#verse-list-popup-loading-indicator').hide();
 
-    if (getPlatform().isFullScreen()) {
+    if (getPlatform().isFullScreen() || platformHelper.isMobile()) {
       this.disableNewTabButton();
     } else {
       this.enableNewTabButton();

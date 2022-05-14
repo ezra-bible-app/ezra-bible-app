@@ -343,6 +343,10 @@ Librem 5/Pinephone etc.
     border: unset !important;
   }
 
+  #verse-list-popup-verse-list {
+    height: unset !important;
+  }
+
   #tag-selection-menu, #module-search-menu {
     font-size: 0.8em !important;
   }
