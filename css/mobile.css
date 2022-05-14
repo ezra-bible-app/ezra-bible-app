@@ -86,6 +86,10 @@ Librem 5/Pinephone etc.
     min-width: 2.5em;
   }
 
+  #app-container.fullscreen .verse-reference-content {
+    text-decoration: unset !important;
+  }
+
   .verse-content {
     padding: 0.2em;
   }
