@@ -144,7 +144,9 @@ After("@remove-last-note-after-scenario", async function() {
 });
 
 After("@cleanup-after-scenario", async function() {
-  await spectronHelper.getWebClient().keys('Escape');
+  await spectronHelper.getWebClient().execute(() => {
+    $('.ui-dialog-content').dialog('close');
+  });
 
   let models = await dbHelper.initDatabase();
   let tags = await models.Tag.findAll();
