@@ -63,7 +63,7 @@ class OptionsMenu {
     var bookChapterNavDefault = true;
     var userDataIndicatorDefault = true;
 
-    if (this.platformHelper.isCordova()) {
+    if (this.platformHelper.isCordova() && !this.platformHelper.isMobile()) {
       openVerseListsInNewTabByDefault = true;
     }
 
