@@ -83,6 +83,16 @@ class TagsController {
   }
 
   subscribeEvents() {
+    eventController.subscribe('on-tag-panel-switched', async (isOpen) => {
+      if (isOpen) {
+        await this.updateTagsView(undefined, !this.initialRenderingDone);
+      } else if (platformHelper.isCordova() || platformHelper.isMobile()) {
+        // Reset tag list on mobile when switching off the tag panel
+        this.initialRenderingDone = false;
+        document.getElementById('tags-content-global').innerHTML = "";
+      }
+    });
+
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
       const currentTab = app_controller.tab_controller.getTab(tabIndex);
 
@@ -90,7 +100,9 @@ class TagsController {
         // Assume that verses were selected before, because otherwise the checkboxes may not be properly cleared
         this.verses_were_selected_before = true;
 
-        await this.updateTagsView(tabIndex, !this.initialRenderingDone);
+        if (this.tagPanelIsActive()) {
+          await this.updateTagsView(tabIndex, !this.initialRenderingDone);
+        }
 
         if (currentTab.addedInteractively) {
           this.resetActivePanelToTagPanel(tabIndex);
@@ -156,6 +168,12 @@ class TagsController {
       await this.updateTagList(tab.getBook(), tagGroupId, tab.getContentId(), true);
       this.hideTagListLoadingIndicator();
     });
+  }
+
+  tagPanelIsActive() {
+    let tagPanelButton = document.getElementById('tag-panel-button');
+    let isActive = tagPanelButton.classList.contains('active');
+    return isActive;
   }
 
   resetActivePanelToTagPanel(tabIndex) {
