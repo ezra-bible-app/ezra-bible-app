@@ -60,8 +60,9 @@ class TagSelectionMenu {
   }
 
   subscribeAppEvents() {
+    /* FIXME: Remove this if it is not needed! */
     eventController.subscribe('on-tab-selected', async (tabIndex) => {
-      await this.updateTagSelectionMenu(tabIndex);
+      //await this.updateTagSelectionMenu(tabIndex);
     });
 
     eventController.subscribe('on-tab-added', (tabIndex) => {
