@@ -61,7 +61,7 @@ class VerseListPopup {
       autoOpen: false,
       draggable: draggable,
       resizable: false,
-      dialogClass: 'ezra-dialog'
+      dialogClass: 'ezra-dialog verse-list-popup'
     };
 
     if (platformHelper.isMobile()) {

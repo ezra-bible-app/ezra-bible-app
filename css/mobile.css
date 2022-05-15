@@ -519,4 +519,12 @@ Librem 5/Pinephone etc.
   .keyboard-shown #add-tag-group-dialog, .keyboard-shown #rename-tag-group-dialog {
     height: 55vh !important;
   }
+
+  #ui-dialog-title-verse-list-popup {
+    max-width: 11em;
+  }
+
+  #only-currentbook-tagged-verses, #only-currentbook-tagged-verses-label, #current-book-tagged-verses-count {
+    font-size: 0.8em !important;
+  }
 }
