@@ -467,6 +467,10 @@ Librem 5/Pinephone etc.
     height: calc(100% - 6.5em) !important;
   }
 
+  #tags-content-global loading-indicator {
+    margin-top: 3em !important;
+  }
+
   .Android .button-small:not(#new-standard-tag-button) {
     font-size: 0.9em !important;
     width: 16px !important;
