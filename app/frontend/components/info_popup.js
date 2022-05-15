@@ -130,7 +130,7 @@ class InfoPopup {
         ${moduleDescription}
       </div>
       
-      <div id='app-info-tabs-2' class='info-tabs scrollable'>
+      <div id='app-info-tabs-2' class='info-tabs scrollable' style='padding-top: 1em;'>
         ${moduleInfo}
       </div>
 
