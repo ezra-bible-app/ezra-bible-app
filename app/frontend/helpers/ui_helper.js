@@ -180,6 +180,28 @@ class UiHelper {
     button.classList.add('ui-state-disabled');
     button.setAttribute('disabled', true);
   }
+
+  getDialogOptions(width, height, draggable, position, resizable=false) {
+    if (platformHelper.isMobile()) {
+      width = $(window).width() - 10;
+      height = $(window).height() - 85;
+      draggable = false;
+      position = [0, 0];
+    }
+
+    let dialogOptions = {
+      width: width,
+      draggable: draggable,
+      resizable: resizable,
+      position: position
+    };
+
+    if (height != null) {
+      dialogOptions.height = height;
+    }
+
+    return dialogOptions;
+  }
 }
 
 module.exports = UiHelper;
