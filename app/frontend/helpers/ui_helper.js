@@ -192,9 +192,12 @@ class UiHelper {
     let dialogOptions = {
       width: width,
       draggable: draggable,
-      resizable: resizable,
-      position: position
+      resizable: resizable
     };
+
+    if (position != null) {
+      dialogOptions.position = position;
+    }
 
     if (height != null) {
       dialogOptions.height = height;
