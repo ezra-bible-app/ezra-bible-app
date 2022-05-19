@@ -192,7 +192,8 @@ class UiHelper {
     let dialogOptions = {
       width: width,
       draggable: draggable,
-      resizable: resizable
+      resizable: resizable,
+      dialogClass: 'ezra-dialog'
     };
 
     if (position != null) {
