@@ -210,24 +210,9 @@ class TagsController {
     var draggable = true;
     var position = [55, 120];
 
-    if (platformHelper.isMobile()) {
-      dialogWidth = $(window).width() - 10;
-      dialogHeight = $(window).height() - 85;
-      draggable = false;
-      position = [0, 0];
-    }
-
-    var new_standard_tag_dlg_options = {
-      title: i18n.t("tags.new-tag"),
-      width: dialogWidth,
-      height: dialogHeight,
-      position: position,
-      autoOpen: false,
-      draggable: draggable,
-      resizable: false,
-      dialogClass: 'ezra-dialog'
-    };
-  
+    let new_standard_tag_dlg_options = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+    new_standard_tag_dlg_options.title = i18n.t("tags.new-tag");
+    new_standard_tag_dlg_options.autoOpen = false;  
     new_standard_tag_dlg_options.buttons = {};
 
     new_standard_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {
@@ -303,23 +288,9 @@ class TagsController {
     var draggable = true;
     var position = [55, 120];
 
-    if (platformHelper.isMobile()) {
-      dialogWidth = $(window).width() - 10;
-      dialogHeight = $(window).height() - 85;
-      draggable = false;
-      position = [0, 0];
-    }
-
-    var addTagsToGroupDialogOptions = {
-      title: i18n.t("tags.add-tags-to-group"),
-      width: dialogWidth,
-      height: dialogHeight,
-      position: position,
-      autoOpen: false,
-      resizable: false,
-      draggable: draggable,
-      dialogClass: 'ezra-dialog'
-    };
+    let addTagsToGroupDialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+    addTagsToGroupDialogOptions.title = i18n.t("tags.add-tags-to-group");
+    addTagsToGroupDialogOptions.autoOpen = false;
   
     addTagsToGroupDialogOptions.buttons = {};
     addTagsToGroupDialogOptions.buttons[i18n.t("general.cancel")] = function() {
@@ -404,26 +375,9 @@ class TagsController {
     var draggable = true;
     var position = [55, 120];
 
-    if (platformHelper.isMobile()) {
-      dialogWidth = $(window).width() - 10;
-      dialogHeight = $(window).height() - 85;
-      draggable = false;
-      position = [0, 0];
-    }
-
-    var delete_tag_confirmation_dlg_options = {
-      title: i18n.t("tags.delete-tag"),
-      width: dialogWidth,
-      position: position,
-      autoOpen: false,
-      draggable: draggable,
-      resizable: false,
-      dialogClass: 'ezra-dialog'
-    };
-
-    if (dialogHeight !== null) {
-      delete_tag_confirmation_dlg_options.height = dialogHeight;
-    }
+    let delete_tag_confirmation_dlg_options = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+    delete_tag_confirmation_dlg_options.title = i18n.t("tags.delete-tag");
+    delete_tag_confirmation_dlg_options.autoOpen = false;
   
     delete_tag_confirmation_dlg_options.buttons = {};
     delete_tag_confirmation_dlg_options.buttons[i18n.t("general.cancel")] = function() {
@@ -453,15 +407,9 @@ class TagsController {
 
     this.removeTagAssignmentConfirmationDialogInitDone = true;
 
-    var remove_tag_assignment_confirmation_dlg_options = {
-      title: i18n.t("tags.remove-tag-assignment"),
-      width: 360,
-      position: [55, 120],
-      autoOpen: false,
-      draggable: true,
-      resizable: false,
-      dialogClass: 'ezra-dialog'
-    };
+    let remove_tag_assignment_confirmation_dlg_options = uiHelper.getDialogOptions(360, null, true, [55, 120]);
+    remove_tag_assignment_confirmation_dlg_options.autoOpen = false;
+    remove_tag_assignment_confirmation_dlg_options.title = i18n.t("tags.remove-tag-assignment");
   
     remove_tag_assignment_confirmation_dlg_options.buttons = {};
     remove_tag_assignment_confirmation_dlg_options.buttons[i18n.t("general.cancel")] = function() {
@@ -497,23 +445,9 @@ class TagsController {
     var draggable = true;
     var position = [55, 120];
 
-    if (platformHelper.isMobile()) {
-      dialogWidth = $(window).width() - 10;
-      dialogHeight = $(window).height() - 85;
-      draggable = false;
-      position = [0, 0];
-    }
-
-    var edit_tag_dlg_options = {
-      title: i18n.t("tags.edit-tag"),
-      width: dialogWidth,
-      height: dialogHeight,
-      position: position,
-      autoOpen: false,
-      resizable: false,
-      draggable: draggable,
-      dialogClass: 'ezra-dialog'
-    };
+    let edit_tag_dlg_options = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+    edit_tag_dlg_options.title = i18n.t("tags.edit-tag");
+    edit_tag_dlg_options.autoOpen = false;
 
     edit_tag_dlg_options.buttons = {};
     edit_tag_dlg_options.buttons[i18n.t("general.cancel")] = function() {

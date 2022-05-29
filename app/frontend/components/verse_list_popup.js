@@ -48,25 +48,9 @@ class VerseListPopup {
     var position = [200, 200];
     var draggable = true;
 
-    if (platformHelper.isMobile()) {
-      width = $(window).width() - 10;
-      height = $(window).height() - 85;
-      draggable = false;
-      position = [0, 0];
-    }
-
-    var dialogOptions = {
-      width: width,
-      position: position,
-      autoOpen: false,
-      draggable: draggable,
-      resizable: false,
-      dialogClass: 'ezra-dialog verse-list-popup'
-    };
-
-    if (platformHelper.isMobile()) {
-      dialogOptions.height = height;
-    }
+    let dialogOptions = uiHelper.getDialogOptions(width, height, position, draggable);
+    dialogOptions.autoOpen = false;
+    dialogOptions.dialogClass = 'ezra-dialog verse-list-popup';
 
     $('#verse-list-popup').dialog(dialogOptions);
 

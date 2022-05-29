@@ -219,23 +219,10 @@ class InfoPopup {
     var offsetLeft = ($(window).width() - dialogWidth) / 2;
     var position = [offsetLeft, 120];
 
+    let dialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
+    dialogOptions.title = i18n.t('general.module-application-info');
 
-    if (platformHelper.isMobile()) {
-      dialogWidth = $(window).width() - 10;
-      dialogHeight = $(window).height() - 85;
-      draggable = false;
-      position = [0, 0];
-    }
-
-    $('#info-popup').dialog({
-      width: dialogWidth,
-      height: dialogHeight,
-      title: i18n.t('general.module-application-info'),
-      position: position,
-      resizable: false,
-      draggable: draggable
-    });
-
+    $('#info-popup').dialog(dialogOptions);
     $('#info-popup-content').empty();
     $('#info-popup-content').html(appInfo.innerHTML);
     $('#app-info-tabs').tabs({ heightStyle: "fill" });
