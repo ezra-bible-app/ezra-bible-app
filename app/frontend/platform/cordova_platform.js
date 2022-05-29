@@ -236,7 +236,6 @@ class CordovaPlatform {
     let dialogOptions = uiHelper.getDialogOptions(400, null, false, null);
     dialogOptions.title = welcomeTitle;
     dialogOptions.dialogClass = 'ezra-dialog dialog-without-close-button android-dialog-large-fontsize';
-    dialogOptions.modal = true;
 
     this.getPermissionBox().dialog(dialogOptions);
   }
