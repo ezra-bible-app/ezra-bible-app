@@ -134,37 +134,39 @@ class TranslationController {
         bibleSelectBlock.addClass('hidden');
       } else {
         bibleSelect.attr('disabled','disabled');
-        $('.book-select-button').addClass('ui-state-disabled');
-        $('.tag-select-button').addClass('ui-state-disabled');
-        $('.module-search-button').addClass('ui-state-disabled');
-
-        let currentVerseList = verseListController.getCurrentVerseList(tabIndex);
-        // FIXME: This needs to be adjusted based on the new menu
-        currentVerseList.find('.help-text').html(i18n.t("help.help-text-no-translations", { interpolation: {escapeValue: false} }));
       }
+
+      $('.book-select-button').addClass('ui-state-disabled');
+      $('.tag-select-button').addClass('ui-state-disabled');
+      $('.module-search-button').addClass('ui-state-disabled');
+
+      let currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+      // FIXME: This needs to be adjusted based on the new menu
+      currentVerseList.find('.help-text').html(i18n.t("help.help-text-no-translations", { interpolation: {escapeValue: false} }));
     } else {
       if (platformHelper.isMobile()) {
         bibleSelectBlock.removeClass('hidden');
       } else {
         $('.bible-select').removeAttr('disabled');
-        $('.book-select-button').removeClass('ui-state-disabled');
-        $('.module-search-button').removeClass('ui-state-disabled');
+      }
 
-        var currentBook = null;
-        var currentTagIdList = "";
-        var currentSearchTerm = null;
+      $('.book-select-button').removeClass('ui-state-disabled');
+      $('.module-search-button').removeClass('ui-state-disabled');
 
-        var currentTab = app_controller.tab_controller.getTab(tabIndex);
-        if (currentTab != null) {
-          currentBook = currentTab.getBook();
-          currentTagIdList = currentTab.getTagIdList();
-          currentSearchTerm = currentTab.getSearchTerm();
-        }
+      var currentBook = null;
+      var currentTagIdList = "";
+      var currentSearchTerm = null;
 
-        if (currentBook == null && currentTagIdList == "" && currentSearchTerm == null)  {
-          let currentVerseList = verseListController.getCurrentVerseList(tabIndex);
-          currentVerseList.find('.help-text').text(i18n.t("help.help-text-translation-available"));
-        }
+      var currentTab = app_controller.tab_controller.getTab(tabIndex);
+      if (currentTab != null) {
+        currentBook = currentTab.getBook();
+        currentTagIdList = currentTab.getTagIdList();
+        currentSearchTerm = currentTab.getSearchTerm();
+      }
+
+      if (currentBook == null && currentTagIdList == "" && currentSearchTerm == null)  {
+        let currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+        currentVerseList.find('.help-text').text(i18n.t("help.help-text-translation-available"));
       }
     }
   }
