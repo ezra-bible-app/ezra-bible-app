@@ -67,11 +67,6 @@ Librem 5/Pinephone etc.
     display: none !important;
   }
 
-  #new-standard-tag-dialog, #edit-tag-dialog {
-    padding-top: 1em !important;
-    padding-bottom: unset !important;
-  }
-
   .ezra-dialog {
     box-shadow: unset !important;
   }
@@ -126,6 +121,11 @@ Librem 5/Pinephone etc.
 }
 
 @media screen and (max-width: 450px), (max-height: 450px) {
+  #app-container.fullscreen .verse-list {
+    padding-top: 0.5em !important;
+    padding-bottom: 0.5em !important;
+  }
+
   #book-selection-menu {
     height: calc(100% - 3em);
     top: 0 !important;
@@ -491,11 +491,7 @@ Librem 5/Pinephone etc.
     margin-right: 0.2em;
   }
 
-  .keyboard-shown #edit-tag-dialog {
-    height: 220px !important;
-  }
-
-  .keyboard-shown #new-standard-tag-dialog {
+  .keyboard-shown #new-standard-tag-dialog, .keyboard-shown #edit-tag-dialog {
     height: unset !important;
   }
 
@@ -512,12 +508,8 @@ Librem 5/Pinephone etc.
     padding-top: 0em !important;
   }
 
-  .keyboard-shown #new-standard-tag-dialog, .keyboard-shown #edit-tag-dialog {
-    height: 65vh !important;
-  }
-
   .keyboard-shown #add-tag-group-dialog, .keyboard-shown #rename-tag-group-dialog {
-    height: 55vh !important;
+    height: 57vh !important;
   }
 
   #ui-dialog-title-verse-list-popup {
