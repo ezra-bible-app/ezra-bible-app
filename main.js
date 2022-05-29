@@ -61,11 +61,18 @@ if (!isDev) {
   };
 }
 
-require('electron-debug')({
-  isEnabled: true,
-  showDevTools: false,
-  devToolsMode: 'bottom'
-});
+try {
+  // Loading electron-debug in a try/catch block, because we have observed failures related to this step
+  // If it fails ... startup is broken. Why it failed? Unclear!
+
+  require('electron-debug')({
+    isEnabled: true,
+    showDevTools: false,
+    devToolsMode: 'bottom'
+  });
+} catch (e) {
+  console.log('Could not load electron-debug');
+}
 
 function shouldUseDarkMode() {
   var useDarkMode = false;
@@ -108,7 +115,7 @@ async function createWindow () {
 
   var preloadScript = '';
   if (!isDev) {
-    preloadScript = path.join(__dirname, 'app/frontend/helpers/sentry.js')
+    preloadScript = path.join(__dirname, 'app/frontend/helpers/sentry.js');
   }
 
   const windowStateKeeper = require('electron-window-state');
