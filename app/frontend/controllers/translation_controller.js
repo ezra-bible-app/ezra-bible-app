@@ -94,6 +94,17 @@ class TranslationController {
     }
   }
 
+  getBibleSelectBlock(tabIndex) {
+    var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
+
+    if (currentVerseListMenu != null) {
+      var bibleSelectBlock = currentVerseListMenu.find('.bible-select-block');
+      return bibleSelectBlock;
+    } else {
+      return null;
+    }
+  }
+
   async addLanguageGroupsToBibleSelectMenu(tabIndex, localModules=undefined) {
     var bibleSelect = this.getBibleSelect(tabIndex);
     if (bibleSelect == null) {
@@ -112,38 +123,48 @@ class TranslationController {
 
   updateUiBasedOnNumberOfTranslations(tabIndex, count) {
     var bibleSelect = this.getBibleSelect(tabIndex);
-    if (bibleSelect == null) {
+    var bibleSelectBlock = this.getBibleSelectBlock(tabIndex);
+
+    if (bibleSelect == null || bibleSelectBlock == null) {
       return;
     }
 
     if (count == 0) {
-      bibleSelect.attr('disabled','disabled');
-      $('.book-select-button').addClass('ui-state-disabled');
-      $('.tag-select-button').addClass('ui-state-disabled');
-      $('.module-search-button').addClass('ui-state-disabled');
+      if (platformHelper.isMobile()) {
+        bibleSelectBlock.addClass('hidden');
+      } else {
+        bibleSelect.attr('disabled','disabled');
+        $('.book-select-button').addClass('ui-state-disabled');
+        $('.tag-select-button').addClass('ui-state-disabled');
+        $('.module-search-button').addClass('ui-state-disabled');
 
-      let currentVerseList = verseListController.getCurrentVerseList(tabIndex);
-      // FIXME: This needs to be adjusted based on the new menu
-      currentVerseList.find('.help-text').html(i18n.t("help.help-text-no-translations", { interpolation: {escapeValue: false} }));
-    } else {
-      $('.bible-select').removeAttr('disabled');
-      $('.book-select-button').removeClass('ui-state-disabled');
-      $('.module-search-button').removeClass('ui-state-disabled');
-
-      var currentBook = null;
-      var currentTagIdList = "";
-      var currentSearchTerm = null;
-
-      var currentTab = app_controller.tab_controller.getTab(tabIndex);
-      if (currentTab != null) {
-        currentBook = currentTab.getBook();
-        currentTagIdList = currentTab.getTagIdList();
-        currentSearchTerm = currentTab.getSearchTerm();
-      }
-
-      if (currentBook == null && currentTagIdList == "" && currentSearchTerm == null)  {
         let currentVerseList = verseListController.getCurrentVerseList(tabIndex);
-        currentVerseList.find('.help-text').text(i18n.t("help.help-text-translation-available"));
+        // FIXME: This needs to be adjusted based on the new menu
+        currentVerseList.find('.help-text').html(i18n.t("help.help-text-no-translations", { interpolation: {escapeValue: false} }));
+      }
+    } else {
+      if (platformHelper.isMobile()) {
+        bibleSelectBlock.removeClass('hidden');
+      } else {
+        $('.bible-select').removeAttr('disabled');
+        $('.book-select-button').removeClass('ui-state-disabled');
+        $('.module-search-button').removeClass('ui-state-disabled');
+
+        var currentBook = null;
+        var currentTagIdList = "";
+        var currentSearchTerm = null;
+
+        var currentTab = app_controller.tab_controller.getTab(tabIndex);
+        if (currentTab != null) {
+          currentBook = currentTab.getBook();
+          currentTagIdList = currentTab.getTagIdList();
+          currentSearchTerm = currentTab.getSearchTerm();
+        }
+
+        if (currentBook == null && currentTagIdList == "" && currentSearchTerm == null)  {
+          let currentVerseList = verseListController.getCurrentVerseList(tabIndex);
+          currentVerseList.find('.help-text').text(i18n.t("help.help-text-translation-available"));
+        }
       }
     }
   }
