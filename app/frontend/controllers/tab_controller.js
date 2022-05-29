@@ -619,7 +619,11 @@ class TabController {
   }
 
   resetCurrentTabTitle() {
-    this.setTabTitle(this.defaultLabel);
+    if (platformHelper.isMobile()) {
+      this.setTabTitle('');
+    } else {
+      this.setTabTitle(this.defaultLabel);
+    }
   }
 
   setTabTitle(title, bibleTranslationId = undefined, index = undefined) {
