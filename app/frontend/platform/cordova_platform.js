@@ -233,14 +233,12 @@ class CordovaPlatform {
 
     var welcomeTitle = i18n.t("cordova.welcome-to-ezra-bible-app");
 
-    this.getPermissionBox().dialog({
-      title: welcomeTitle,
-      width: 400,
-      autoOpen: true,
-      dialogClass: 'ezra-dialog dialog-without-close-button android-dialog-large-fontsize',
-      modal: true,
-      resizable: false
-    });
+    let dialogOptions = uiHelper.getDialogOptions(400, null, false, null);
+    dialogOptions.title = welcomeTitle;
+    dialogOptions.dialogClass = 'ezra-dialog dialog-without-close-button android-dialog-large-fontsize';
+    dialogOptions.modal = true;
+
+    this.getPermissionBox().dialog(dialogOptions);
   }
 
   isAndroidWithScopedStorage() {
