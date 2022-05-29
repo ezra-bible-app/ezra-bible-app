@@ -290,6 +290,7 @@ class TagsController {
 
     let addTagsToGroupDialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
     addTagsToGroupDialogOptions.title = i18n.t("tags.add-tags-to-group");
+    addTagsToGroupDialogOptions.autoOpen = false;
   
     addTagsToGroupDialogOptions.buttons = {};
     addTagsToGroupDialogOptions.buttons[i18n.t("general.cancel")] = function() {
@@ -376,6 +377,7 @@ class TagsController {
 
     let delete_tag_confirmation_dlg_options = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
     delete_tag_confirmation_dlg_options.title = i18n.t("tags.delete-tag");
+    delete_tag_confirmation_dlg_options.autoOpen = false;
   
     delete_tag_confirmation_dlg_options.buttons = {};
     delete_tag_confirmation_dlg_options.buttons[i18n.t("general.cancel")] = function() {
