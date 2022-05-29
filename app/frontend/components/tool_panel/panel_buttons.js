@@ -102,7 +102,11 @@ class PanelButtons extends HTMLElement {
 
   async connectedCallback() {
     this.toolPanelElement = document.querySelector('#tool-panel');
-    this._activePanel = await ipcSettings.get(SETTINGS_KEY, null);
+    let activePanelSetting = await ipcSettings.get(SETTINGS_KEY, null);
+
+    if (typeof(activePanelSetting) == 'string') {
+      this._activePanel = await ipcSettings.get(SETTINGS_KEY, null);
+    }
 
     const slottedElements = this.shadowRoot.querySelector('slot').assignedElements();
     slottedElements.forEach(el => this._initButton(el));
