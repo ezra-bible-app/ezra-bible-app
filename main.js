@@ -107,7 +107,7 @@ function updateMenu(labels=undefined) {
   Menu.setApplicationMenu(menu);
 }
 
-async function createWindow () {
+async function createWindow(firstStart=true) {
   const path = require('path');
   const url = require('url');
 
@@ -184,7 +184,10 @@ async function createWindow () {
     backgroundColor: bgColor
   });
 
-  require('@electron/remote/main').initialize();
+  if (firstStart) {
+    require('@electron/remote/main').initialize();
+  }
+
   require("@electron/remote/main").enable(mainWindow.webContents);
  
   // The default menu will be created automatically if the app does not set one.
@@ -240,6 +243,6 @@ app.on('activate', async () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
-    await createWindow();
+    await createWindow(false);
   }
 });
