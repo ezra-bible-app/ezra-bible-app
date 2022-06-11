@@ -184,7 +184,7 @@ async function createWindow(firstStart=true) {
     backgroundColor: bgColor
   });
 
-  if (firstStart) {
+  if (firstStart) { // electron remote can only be initialized once, on macOS this function may run multiple times
     require('@electron/remote/main').initialize();
   }
 
