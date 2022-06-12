@@ -265,7 +265,7 @@ Librem 5/Pinephone etc.
   }
 
   #module-settings-assistant-init > .module-assistant-type-buttons {
-    gap: 2em !important;
+    gap: 0.5em !important;
     margin: 1em;
   }
 
