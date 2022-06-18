@@ -16,12 +16,13 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+const uiHelper = require('./ui_helper.js');
+
 /**
  * This module contains utility functions that are used through the app
  * @module ezraHelper
  * @category Utility
  */
-
 
 module.exports.sleep = async function (time) {
   return new Promise(resolve => {
@@ -140,26 +141,21 @@ module.exports.showErrorDialog = async function(dialogTitle, errorMessage) {
     const height = 300;
     const offsetLeft = ($(window).width() - width)/2;
 
-    var buttons = {};
-    buttons[i18n.t('general.ok')] = function() {
+    let dialogOptions = uiHelper.getDialogOptions(width, height, false, [offsetLeft, 120]);
+    dialogOptions.dialogClass = 'ezra-dialog';
+    dialogOptions.title = dialogTitle;
+    dialogOptions.buttons = {};
+    dialogOptions.close = () => {
+      $dialogBox.dialog('destroy');
+      $dialogBox.remove();
+      resolve(confirmed);
+    };
+
+    dialogOptions.buttons[i18n.t('general.ok')] = function() {
       confirmed = true;
       $(this).dialog('close');
     };
   
-    $dialogBox.dialog({
-      width,
-      height,
-      position: [offsetLeft, 120],
-      title: dialogTitle,
-      resizable: false,
-      modal: true,
-      dialogClass: 'ezra-dialog',
-      buttons: buttons,
-      close() {
-        $dialogBox.dialog('destroy');
-        $dialogBox.remove();
-        resolve(confirmed);
-      }
-    });
+    $dialogBox.dialog(dialogOptions);
   });
 };
