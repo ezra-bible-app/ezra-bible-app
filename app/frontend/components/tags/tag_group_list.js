@@ -313,20 +313,16 @@ class TagGroupList extends HTMLElement {
       var position = [55, 120];
       var draggable = true;
 
-      if (platformHelper.isMobile()) {
-        width = $(window).width() - 10;
-        height = $(window).height() - 85;
-        draggable = false;
-        position = [0, 0];
-      }
+      let dialogOptions = uiHelper.getDialogOptions(width, height, draggable, position);
+      dialogOptions.title = i18n.t('tags.rename-tag-group');
+      dialogOptions.buttons = {};
+      dialogOptions.dialogClass = 'ezra-dialog';
 
-      var buttons = {};
-
-      buttons[i18n.t('general.cancel')] = function() {
+      dialogOptions.buttons[i18n.t('general.cancel')] = function() {
         $(this).dialog('close');
       };
 
-      buttons[i18n.t('general.save')] = {
+      dialogOptions.buttons[i18n.t('general.save')] = {
         text: i18n.t('general.save'),
         id: 'edit-tag-group-save-button',
         click: () => {
@@ -334,7 +330,12 @@ class TagGroupList extends HTMLElement {
         }
       };
 
-      const title = i18n.t('tags.rename-tag-group');
+      dialogOptions.close = () => {
+        $dialogBox.dialog('destroy');
+        $dialogBox.remove();
+        resolve();
+      };
+
       document.getElementById('rename-tag-group-title-input').value = tagGroup.title;
       
       document.getElementById('rename-tag-group-title-input').addEventListener('keyup', async (event) => {
@@ -345,21 +346,7 @@ class TagGroupList extends HTMLElement {
         }
       });
     
-      $dialogBox.dialog({
-        width: width,
-        height: height,
-        position: position,
-        title: title,
-        resizable: false,
-        draggable: draggable,
-        dialogClass: 'ezra-dialog',
-        buttons: buttons,
-        close() {
-          $dialogBox.dialog('destroy');
-          $dialogBox.remove();
-          resolve();
-        }
-      });
+      $dialogBox.dialog(dialogOptions);
 
       tagGroupValidator.validateNewTagGroupTitle('rename-tag-group-title-input', 'edit-tag-group-save-button');
 
@@ -411,18 +398,16 @@ class TagGroupList extends HTMLElement {
       var position = [55, 120];
       var draggable = true;
 
-      if (platformHelper.isMobile()) {
-        width = $(window).width() - 10;
-        height = $(window).height() - 85;
-        draggable = false;
-        position = [0, 0];
-      }
+      let dialogOptions = uiHelper.getDialogOptions(width, height, draggable, position);
+      dialogOptions.title = i18n.t('tags.delete-tag-group');
+      dialogOptions.dialogClass = 'ezra-dialog';
+      dialogOptions.buttons = {};
 
-      var buttons = {};
-      buttons[i18n.t('general.cancel')] = function() {
+      dialogOptions.buttons[i18n.t('general.cancel')] = function() {
         $(this).dialog('close');
       };
-      buttons[i18n.t('tags.delete-tag-group')] = {
+
+      dialogOptions.buttons[i18n.t('tags.delete-tag-group')] = {
         id: 'delete-tag-group-button',
         text: i18n.t('tags.delete-tag-group'),
         click: () => {
@@ -431,23 +416,13 @@ class TagGroupList extends HTMLElement {
         }
       };
 
-      const title = i18n.t('tags.delete-tag-group');
-    
-      $dialogBox.dialog({
-        width: width,
-        height: height,
-        position: position,
-        title: title,
-        resizable: false,
-        draggable: draggable,
-        dialogClass: 'ezra-dialog',
-        buttons: buttons,
-        close() {
-          $dialogBox.dialog('destroy');
-          $dialogBox.remove();
-          resolve();
-        }
-      });
+      dialogOptions.close = () => {
+        $dialogBox.dialog('destroy');
+        $dialogBox.remove();
+        resolve();
+      };
+
+      $dialogBox.dialog(dialogOptions);
     });
   }
 
