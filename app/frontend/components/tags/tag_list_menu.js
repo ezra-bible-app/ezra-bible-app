@@ -259,12 +259,14 @@ class TagListMenu extends HTMLElement {
       var draggable = true;
       var position = [55, 120];
 
-      if (platformHelper.isMobile()) {
-        width = $(window).width() - 10;
-        height = $(window).height() - 85;
-        draggable = false;
-        position = [0, 0];
-      }
+      let dialogOptions = uiHelper.getDialogOptions(width, height, draggable, position);
+      dialogOptions.title = i18n.t('tags.add-tag-group');
+      dialogOptions.dialogClass = 'ezra-dialog';
+      dialogOptions.close = () => {
+        $dialogBox.dialog('destroy');
+        $dialogBox.remove();
+        resolve();
+      };
 
       let createTagGroup = () => {
         let tagGroupTitle = document.getElementById('tag-group-title-value').value;
@@ -272,12 +274,13 @@ class TagListMenu extends HTMLElement {
         $dialogBox.dialog('close');
       };
 
-      var buttons = {};
-      buttons[i18n.t('general.cancel')] = function() {
+      dialogOptions.buttons = {};
+
+      dialogOptions.buttons[i18n.t('general.cancel')] = function() {
         $dialogBox.dialog('close');
       };
 
-      buttons[i18n.t('tags.create-tag-group')] = {
+      dialogOptions.buttons[i18n.t('tags.create-tag-group')] = {
         id: 'create-tag-group-button',
         text: i18n.t('tags.create-tag-group'),
         click: () => {
@@ -293,21 +296,7 @@ class TagListMenu extends HTMLElement {
         }
       });
 
-      $dialogBox.dialog({
-        width: width,
-        height: height,
-        position: position,
-        title: i18n.t('tags.add-tag-group'),
-        draggable: draggable,
-        resizable: false,
-        dialogClass: 'ezra-dialog',
-        buttons: buttons,
-        close() {
-          $dialogBox.dialog('destroy');
-          $dialogBox.remove();
-          resolve();
-        }
-      });
+      $dialogBox.dialog(dialogOptions);
 
       tagGroupValidator.validateNewTagGroupTitle('tag-group-title-value', 'create-tag-group-button');
 
