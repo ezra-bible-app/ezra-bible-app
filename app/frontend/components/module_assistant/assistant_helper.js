@@ -117,7 +117,7 @@ module.exports.listCheckboxSection = function (arr, selected, sectionTitle="", o
 
   const template = html`
     <h3 style="margin: 1em 0 0;">${sectionTitle}</h3>
-    <div style="display: grid; grid-template-columns: repeat(${options.columns}, minmax(15em, 1fr)); grid-row-gap: ${options.rowGap}; grid-column-gap: 1em; grid-auto-flow: dense; padding: 0.5em 0 0.5em ${paddingLeft}; grid-auto-rows:${rowHight};">
+    <div class="language-list" style="display: grid; grid-template-columns: repeat(${options.columns}, minmax(15em, 1fr)); grid-row-gap: ${options.rowGap}; grid-column-gap: 1em; grid-auto-flow: dense; padding: 0.5em 0 0.5em ${paddingLeft}; grid-auto-rows:${rowHight};">
       ${checkboxes}
     </div>`;
   return template.content;

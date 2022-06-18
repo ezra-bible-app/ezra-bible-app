@@ -522,4 +522,17 @@ Librem 5/Pinephone etc.
   #only-currentbook-tagged-verses, #only-currentbook-tagged-verses-label, #current-book-tagged-verses-count {
     font-size: 0.8em !important;
   }
+
+  .Android .verse-list-scroll-notes .verse-notes-text {
+    max-height: 130px;
+  }
+
+  .update-repository-data-wrapper {
+    height: 5em !important;
+  }
+
+  .language-list {
+    display: flex !important;
+    flex-direction: column;
+  }
 }
