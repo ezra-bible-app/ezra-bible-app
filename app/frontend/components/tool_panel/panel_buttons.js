@@ -18,6 +18,7 @@
 
 const { html } = require('../../helpers/ezra_helper.js');
 const eventController = require('../../controllers/event_controller.js');
+const PlatformHelper = require('../../../lib/platform_helper.js');
 
 const SETTINGS_KEY = "activeToolPanel";
 
@@ -98,6 +99,8 @@ class PanelButtons extends HTMLElement {
     this._activePanel = null;
     this.panelEvents = {};
     this._disabledPanels = new Set();
+
+    this._platformHelper = new PlatformHelper();
   }
 
   async connectedCallback() {
@@ -111,10 +114,11 @@ class PanelButtons extends HTMLElement {
     const slottedElements = this.shadowRoot.querySelector('slot').assignedElements();
     slottedElements.forEach(el => this._initButton(el));
 
-    if (this._activePanel) {
-      await this._togglePanel(this._activePanel, true);
-    } else {
+    if (!this._activePanel || this._platformHelper.isMobile()) {
+      this._activePanel = "";
       this.toolPanelElement.classList.add('hidden');
+    } else {
+      await this._togglePanel(this._activePanel, true);
     }
     
   }
