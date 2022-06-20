@@ -524,7 +524,7 @@ Librem 5/Pinephone etc.
   }
 
   .Android .verse-list-scroll-notes .verse-notes-text {
-    max-height: 130px;
+    max-height: 130px !important;
   }
 
   .update-repository-data-wrapper {
