@@ -428,7 +428,11 @@ Librem 5/Pinephone etc.
     display: none;
   }
 
-  #showHeaderNavigationOption, #bookLoadingModeOption-button, #showFootnotesOption, #openVerseListsInNewTabOption {
+  #showHeaderNavigationOption,
+  #bookLoadingModeOption-button,
+  #showFootnotesOption,
+  #openVerseListsInNewTabOption,
+  #showTabSearchOption {
     display: none;
   }
 
