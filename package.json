@@ -98,7 +98,7 @@
     "umzug": "^2.3.0"
   },
   "devDependencies": {
-    "@sentry/cli": "^1.74.3",
+    "@sentry/cli": "^2.4.1",
     "better-docs": "^2.3.2",
     "brfs": "^2.0.2",
     "browserify": "^17.0.0",
