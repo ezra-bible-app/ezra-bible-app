@@ -153,12 +153,17 @@ Librem 5/Pinephone etc.
     border: unset !important;
   }
 
+  .text-size-menu .fg-button {
+    width: 0.8rem;
+    height: 1.5rem;
+  }
+
   .Android #book-selection-menu-chapter-list #chapter-list-chapters {
     max-inline-size: 24em !important;
   }
 
   .verse-list-menu .fg-button {
-    margin-right: 0.7em;
+    margin-right: 0.4em;
     padding: 1px 10px;
   }
 
