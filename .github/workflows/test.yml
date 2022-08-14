@@ -18,8 +18,6 @@ jobs:
         
         - name: Run test
           run: npm run test
-          env:
-            FORCE_COLOR: true
 
     e2e-test:
         name: Run Cucumber tests
