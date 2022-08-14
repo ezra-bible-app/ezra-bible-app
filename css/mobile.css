@@ -147,7 +147,7 @@ Librem 5/Pinephone etc.
     font-weight: bold;
   }
 
-  .verse-selection-menu {
+  .verse-selection-menu:not(.text-size-menu) {
     border-radius: unset !important;
     box-shadow: unset !important;
     border: unset !important;
@@ -158,7 +158,7 @@ Librem 5/Pinephone etc.
   }
 
   .verse-list-menu .fg-button {
-    margin-right: 0.5em;
+    margin-right: 0.7em;
     padding: 1px 10px;
   }
 
@@ -496,10 +496,6 @@ Librem 5/Pinephone etc.
   .ui-dialog {
     max-width: 97vw !important;
     max-height: 97vh !important;
-  }
-
-  .verse-list-menu .fg-button {
-    margin-right: 0.2em;
   }
 
   .keyboard-shown #new-standard-tag-dialog, .keyboard-shown #edit-tag-dialog {
