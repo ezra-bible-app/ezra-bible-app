@@ -320,6 +320,10 @@ Librem 5/Pinephone etc.
     margin: 0;
   }
 
+  .info-tabs {
+    height: calc(100% - 5em);
+  }
+
   #info-popup, #app-info-tabs .ui-tabs-nav li {
     font-size: 0.9em !important;
   }

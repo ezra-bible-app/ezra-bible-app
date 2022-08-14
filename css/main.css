@@ -456,6 +456,10 @@ a.chapter-nav:hover {
   overflow: inherit;
 }
 
+#app-info-tabs {
+  height: calc(100% - 1em);
+}
+
 .verse-list-without-tags .tag-box,
 .ezra-dialog .tag-box {
   display: none;
@@ -1824,7 +1828,7 @@ tr.compare-translation-row:nth-child(odd) {
 }
 
 .info-tabs {
-  height: 430px;
+  height: calc(100% - 3em);
   overflow-y: scroll;
 }
 
