@@ -58,15 +58,20 @@ class IPC {
   async init(isDebug, electronMainWindow=undefined, androidVersion=undefined) {
     if (!global.ipcInitialized) {
       global.ipcInitialized = true;
+      let customSwordDir = undefined;
 
       this.initNonPersistentIpc();
 
       if (this.platformHelper.isCordova()) {
         // In case of Electron this has already been initalized before (see c'tor), but for Cordova we still need to do it!
         this.ipcSettingsHandler = new IpcSettingsHandler(androidVersion);
+
+        if (androidVersion !== undefined && androidVersion >= 11) {
+          customSwordDir = this.platformHelper.getUserDataPath(false, androidVersion);
+        }
       }
 
-      global.ipcNsiHandler = new IpcNsiHandler();
+      global.ipcNsiHandler = new IpcNsiHandler(customSwordDir);
 
       if (this.platformHelper.isElectron()) {
         global.ipcNsiHandler.setMainWindow(electronMainWindow);

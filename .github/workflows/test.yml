@@ -3,21 +3,21 @@ name: Ezra Bible App test suite
 on: push
 
 jobs:
-    unit-test:
-        name: Run jest tests
-        runs-on: ubuntu-20.04
-        timeout-minutes: 10
-        steps:
-        - uses: actions/checkout@v2
-        - uses: actions/setup-node@v2
-          with:
-            node-version: '14'
-
-        - name: Install package.json dependencies (except node-sword-interface)
-          run: npm uninstall node-sword-interface
-        
-        - name: Run test
-          run: npm run test
+    #unit-test:
+    #    name: Run jest tests
+    #    runs-on: ubuntu-20.04
+    #    timeout-minutes: 10
+    #    steps:
+    #    - uses: actions/checkout@v2
+    #    - uses: actions/setup-node@v2
+    #      with:
+    #        node-version: '14'
+    #
+    #    - name: Install package.json dependencies (except node-sword-interface)
+    #      run: npm uninstall node-sword-interface
+    #    
+    #    - name: Run test
+    #      run: npm run test
 
     e2e-test:
         name: Run Cucumber tests

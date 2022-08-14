@@ -147,10 +147,15 @@ Librem 5/Pinephone etc.
     font-weight: bold;
   }
 
-  .verse-selection-menu {
+  .verse-selection-menu:not(.text-size-menu) {
     border-radius: unset !important;
     box-shadow: unset !important;
     border: unset !important;
+  }
+
+  .text-size-menu .fg-button {
+    width: 0.8rem;
+    height: 1.5rem;
   }
 
   .Android #book-selection-menu-chapter-list #chapter-list-chapters {
@@ -158,7 +163,7 @@ Librem 5/Pinephone etc.
   }
 
   .verse-list-menu .fg-button {
-    margin-right: 0.5em;
+    margin-right: 0.4em;
     padding: 1px 10px;
   }
 
@@ -318,6 +323,10 @@ Librem 5/Pinephone etc.
   .book-list-column li {
     padding: 0;
     margin: 0;
+  }
+
+  .info-tabs {
+    height: calc(100% - 5em);
   }
 
   #info-popup, #app-info-tabs .ui-tabs-nav li {
@@ -492,10 +501,6 @@ Librem 5/Pinephone etc.
   .ui-dialog {
     max-width: 97vw !important;
     max-height: 97vh !important;
-  }
-
-  .verse-list-menu .fg-button {
-    margin-right: 0.2em;
   }
 
   .keyboard-shown #new-standard-tag-dialog, .keyboard-shown #edit-tag-dialog {
