@@ -116,6 +116,7 @@
     "jest": "^28.0.0",
     "jest-environment-jsdom": "^28.0.0",
     "jsdoc": "^3.6.6",
+    "node-gyp": "^9.1.0",
     "pug-cli": "^1.0.0-alpha6",
     "sequelize-cli": "^5.5.1",
     "spectron": "^19.0.0",
