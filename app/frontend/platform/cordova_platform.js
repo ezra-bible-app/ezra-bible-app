@@ -119,7 +119,6 @@ class CordovaPlatform {
   onPermissionGranted() {
     console.log("Permission to access storage has been GRANTED!");
     this.getPermissionBox().dialog('close');
-    uiHelper.showGlobalLoadingIndicator();
     this.initPersistenceAndStart();
   }
 
@@ -267,19 +266,29 @@ class CordovaPlatform {
       window.ipcI18n = new IpcI18n();
       await i18nController.initI18N();
 
-      this.hasPermission().then((result) => {
-        if (result == true) {
-          this.initPersistenceAndStart();
-        } else {
-          this.showPermissionInfo();
-        }
-      }, () => {
-        console.log("Failed to check existing permissions ...");
-      });
+      const androidVersion = this.getAndroidVersion();
+
+      if (androidVersion >= 11) {
+        // On Android 11 we start directly without asking for storage permissions, we because we store everything internally
+        this.initPersistenceAndStart();
+      } else {
+        // On Android < 11 we first need to check storage permissions, because we are using the external storage (/sdcard).
+        this.hasPermission().then((result) => {
+          if (result == true) {
+            this.initPersistenceAndStart();
+          } else {
+            this.showPermissionInfo();
+          }
+        }, () => {
+          console.log("Failed to check existing permissions ...");
+        });
+      }
     });
   }
 
   async initPersistenceAndStart() {
+    uiHelper.showGlobalLoadingIndicator();
+
     const androidVersion = this.getAndroidVersion();
     window.ipcGeneral = new IpcGeneral();
 
