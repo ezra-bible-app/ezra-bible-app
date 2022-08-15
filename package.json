@@ -95,7 +95,7 @@
     "simple-emoji-button": "^4.6.2",
     "sqlite3": "^5.0.2",
     "strongs": "^1.0.2",
-    "umzug": "^2.3.0"
+    "umzug": "^3.2.1"
   },
   "devDependencies": {
     "@sentry/cli": "^1.74.3",
