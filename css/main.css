@@ -663,7 +663,7 @@ a.chapter-nav:hover {
 
   @media (min-height: 650px) {
     .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
-      height: 91.5vh;
+      height: 93vh;
     }
   }
 
