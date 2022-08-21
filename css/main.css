@@ -1828,7 +1828,7 @@ tr.compare-translation-row:nth-child(odd) {
 }
 
 .info-tabs {
-  height: calc(100% - 3em);
+  height: calc(100% - 5em);
   overflow-y: scroll;
 }
 
