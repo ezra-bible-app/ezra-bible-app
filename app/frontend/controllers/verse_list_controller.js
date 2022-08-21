@@ -302,8 +302,6 @@ module.exports.initSwipeEvents = async function(tabIndex) {
   const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentBook);
 
   if (!isInstantLoadingBook) {
-    const maxChapters = await ipcNsi.getBookChapterCount(currentTranslationId, currentBook);
-
     let hammerTime = new Hammer(verseList[0], {
       recognizers: [
         [Hammer.Swipe,{ direction: Hammer.DIRECTION_HORIZONTAL }],
@@ -315,7 +313,7 @@ module.exports.initSwipeEvents = async function(tabIndex) {
     });
 
     hammerTime.on('swipeleft', () => { 
-      this.goToNextChapter(maxChapters);
+      this.goToNextChapter();
     });
   }
 };
@@ -335,7 +333,12 @@ module.exports.goToPreviousChapter = async function() {
   }
 };
 
-module.exports.goToNextChapter = async function(maxChapters) {
+module.exports.goToNextChapter = async function() {
+  let currentTab = app_controller.tab_controller.getTab();
+  const currentTranslationId = currentTab.getBibleTranslationId();
+  const currentBook = currentTab.getBook();
+  const maxChapters = await ipcNsi.getBookChapterCount(currentTranslationId, currentBook);
+
   let currentChapter = this.getCurrentChapter();
 
   if (currentChapter < maxChapters) {
