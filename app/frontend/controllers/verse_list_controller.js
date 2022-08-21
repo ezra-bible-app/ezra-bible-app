@@ -20,6 +20,8 @@ const VerseBox = require('../ui_models/verse_box.js');
 const { getPlatform } = require('../helpers/ezra_helper.js');
 const wheelnavController = require('../controllers/wheelnav_controller.js');
 const eventController = require('../controllers/event_controller.js');
+const PlatformHelper = require('../../lib/platform_helper.js');
+const Hammer = require('../../../lib/hammerjs/hammer.js');
 
 /**
  * This controller provides an API for the verse list as well as event handlers for clicks within the verse list.
@@ -30,10 +32,15 @@ const eventController = require('../controllers/event_controller.js');
 module.exports.init = function init() {
   eventController.subscribe('on-all-translations-removed', async () => { this.onAllTranslationsRemoved(); });
 
-  eventController.subscribe('on-bible-text-loaded', (tabIndex) => { 
+  eventController.subscribe('on-bible-text-loaded', async (tabIndex) => { 
     this.addVerseListClasses(tabIndex);
     this.applyTagGroupFilter(tags_controller.currentTagGroupId, tabIndex);
     this.bindEventsAfterBibleTextLoaded(tabIndex);
+
+    let platformHelper = new PlatformHelper();
+    if (platformHelper.isCordova()) {
+      this.initSwipeEvents(tabIndex);
+    }
   });
 
   eventController.subscribe('on-tag-group-filter-enabled', async () => {
@@ -283,6 +290,57 @@ module.exports.bindEventsAfterBibleTextLoaded = function(tabIndex=undefined, pre
 
   if (getPlatform().isFullScreen()) {
     wheelnavController.bindEvents();
+  }
+};
+
+module.exports.initSwipeEvents = async function(tabIndex) {
+  let verseList = this.getCurrentVerseList(tabIndex);
+
+  let currentTab = app_controller.tab_controller.getTab(tabIndex);
+  const currentTranslationId = currentTab.getBibleTranslationId();
+  const currentBook = currentTab.getBook();
+  const isInstantLoadingBook = await app_controller.translation_controller.isInstantLoadingBook(currentTranslationId, currentBook);
+
+  if (!isInstantLoadingBook) {
+    const maxChapters = await ipcNsi.getBookChapterCount(currentTranslationId, currentBook);
+
+    let hammerTime = new Hammer(verseList[0], {
+      recognizers: [
+        [Hammer.Swipe,{ direction: Hammer.DIRECTION_HORIZONTAL }],
+      ]
+    });
+
+    hammerTime.on('swiperight', () => {
+      this.goToPreviousChapter();
+    });
+
+    hammerTime.on('swipeleft', () => { 
+      this.goToNextChapter(maxChapters);
+    });
+  }
+};
+
+module.exports.getCurrentChapter = function() {
+  let verseList = this.getCurrentVerseList();
+  let firstVerseBox = new VerseBox(verseList[0].querySelector('.verse-box'));
+  return firstVerseBox.getChapter();
+};
+
+module.exports.goToPreviousChapter = async function() {
+  let currentChapter = this.getCurrentChapter();
+
+  if (currentChapter > 1) {
+    let previousChapter = currentChapter - 1;
+    await app_controller.navigation_pane.goToChapter(previousChapter);
+  }
+};
+
+module.exports.goToNextChapter = async function(maxChapters) {
+  let currentChapter = this.getCurrentChapter();
+
+  if (currentChapter < maxChapters) {
+    let nextChapter = currentChapter + 1;
+    await app_controller.navigation_pane.goToChapter(nextChapter);
   }
 };
 
