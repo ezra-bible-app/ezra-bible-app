@@ -3,6 +3,8 @@ All notable changes to Ezra Bible App are documented in this file.
 
 ## [1.7.0 - 2022-08-21]
 
+This release adds support for Android mobile devices.
+
 ### Enhancements
 
 * Exclude currently opened Bible translation in compare translations function. ([#681][i681])
