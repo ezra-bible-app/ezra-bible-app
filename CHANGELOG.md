@@ -1,6 +1,34 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.7.0 - 2022-08-21]
+
+### Enhancements
+
+* Exclude currently opened Bible translation in compare translations function. ([#681][i681])
+* Only activate mouseover/longpress dictionary look-up when dictionary panel is open. ([#680][i680])
+* Navigate chapters by swiping left/right. ([#730][i730])
+
+### Fixes
+
+* Fixed bug: Tag title was getting erased when adding a tag to tag group. ([#688][i688])
+* Fixed storage/permission issues on Android 11. ([#704][i704])
+* Fixed bug: Tag group filter was not considered when updating visible tags of a verse after assignment changes. ([#678][i678])
+
+### Enablers
+
+* Optimized layout & style for mobile screens. ([#669][i669])
+* Added support for Ubuntu 22.04. ([#684][i684])
+
+[i669]: https://github.com/ezra-bible-app/ezra-bible-app/issues/669
+[i678]: https://github.com/ezra-bible-app/ezra-bible-app/issues/678
+[i680]: https://github.com/ezra-bible-app/ezra-bible-app/issues/680
+[i681]: https://github.com/ezra-bible-app/ezra-bible-app/issues/681
+[i684]: https://github.com/ezra-bible-app/ezra-bible-app/issues/684
+[i688]: https://github.com/ezra-bible-app/ezra-bible-app/issues/688
+[i704]: https://github.com/ezra-bible-app/ezra-bible-app/issues/704
+[i730]: https://github.com/ezra-bible-app/ezra-bible-app/issues/730
+
 ## [1.6.0 - 2022-04-23]
 
 ### Features
