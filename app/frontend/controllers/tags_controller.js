@@ -509,12 +509,6 @@ class TagsController {
     }
 
     if (newTitle != oldTitle) {
-      tags_controller.updateTagInView(tags_controller.edit_tag_id, newTitle);
-      tags_controller.updateTagTitlesInVerseList(tags_controller.edit_tag_id, isGlobal, newTitle);
-
-      tags_controller.sortTagLists();
-      await tags_controller.updateTagsViewAfterVerseSelection(true);
-
       await eventController.publishAsync(
         'on-tag-renamed',
         {
@@ -523,6 +517,12 @@ class TagsController {
           newTitle: newTitle
         }
       );
+
+      tags_controller.updateTagInView(tags_controller.edit_tag_id, newTitle);
+      tags_controller.updateTagTitlesInVerseList(tags_controller.edit_tag_id, isGlobal, newTitle);
+
+      tags_controller.sortTagLists();
+      await tags_controller.updateTagsViewAfterVerseSelection(true);
     }
 
     if (addTagGroups.length > 0 || removeTagGroups.length > 0) {
@@ -1320,7 +1320,7 @@ class TagsController {
 
       var current_verse_box = new VerseBox(current_tag_data.closest('.verse-box')[0]);
       current_verse_box.updateTagTooltip();
-      current_verse_box.updateVisibleTags(undefined, tag_id, title);
+      current_verse_box.updateVisibleTags();
     }
   }
 
