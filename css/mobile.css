@@ -418,7 +418,7 @@ Librem 5/Pinephone etc.
   }
 
   #tag-group-assignment-list-content.keyboard-shown {
-    height: 8em !important;
+    height: 10em !important;
   }
 
   /*search dropdown*/
@@ -509,6 +509,11 @@ Librem 5/Pinephone etc.
 
   .keyboard-shown #new-standard-tag-dialog, .keyboard-shown #edit-tag-dialog {
     height: unset !important;
+  }
+
+  #new-standard-tag-dialog, #edit-tag-dialog {
+    padding-top: 1em !important;
+    padding-bottom: 1em !important;
   }
 
   /* Hide regular tabs navigation */
