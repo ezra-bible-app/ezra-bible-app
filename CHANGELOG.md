@@ -1,6 +1,10 @@
 # Ezra Bible App - Changelog
 All notable changes to Ezra Bible App are documented in this file.
 
+## [1.7.1 - 2022-08-28]
+
+This is a bugfix release primarily addressing issues on Android.
+
 ## [1.7.0 - 2022-08-21]
 
 This release adds support for Android mobile devices.
