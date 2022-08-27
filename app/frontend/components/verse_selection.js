@@ -32,6 +32,9 @@ class VerseSelection {
   constructor() {
     this.selected_verse_references = null;
     this.selected_verse_box_elements = [];
+    this.previous_selection_existing = false;
+    this.previousFirstVerseReference = null;
+    this.previousVerseCount = null;
     this.verseReferenceHelper = null;
 
     eventController.subscribe('on-locale-changed', async () => {
@@ -84,8 +87,27 @@ class VerseSelection {
       // eslint-disable-next-line no-unused-vars
       stop: (event, ui) => {
         this.updateSelected(verseList);
-        this.updateViewsAfterVerseSelection();
-        this.publishVersesSelected();
+
+        let currentFirstVerseReference = this.getFirstSelectedVerseReferenceId();
+        let currentVerseCount = this.selected_verse_box_elements.length;
+
+        if (this.previous_selection_existing && 
+            currentFirstVerseReference == this.previousFirstVerseReference &&
+            currentVerseCount == this.previousVerseCount) {
+
+          this.clearVerseSelection(true, undefined);
+          this.updateViewsAfterVerseSelection();
+          this.previous_selection_existing = false;
+        } else {
+          this.updateViewsAfterVerseSelection();
+          this.publishVersesSelected();
+          this.previous_selection_existing = true;
+
+          if (this.selected_verse_box_elements.length > 0) {
+            this.previousFirstVerseReference = this.getFirstSelectedVerseReferenceId();
+            this.previousVerseCount = this.selected_verse_box_elements.length;
+          }
+        }
       },
 
       // eslint-disable-next-line no-unused-vars
@@ -93,6 +115,10 @@ class VerseSelection {
         // Not needed anymore!
       }
     });
+  }
+
+  getFirstSelectedVerseReferenceId() {
+    return this.selected_verse_box_elements[0].getAttribute('verse-reference-id');
   }
 
   publishVersesSelected(tabIndex=undefined) {
