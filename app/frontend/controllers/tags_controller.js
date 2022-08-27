@@ -637,6 +637,7 @@ class TagsController {
 
       if (this.tagGroupUsed()) {
         tagGroupAssignment.tagGroupManager.enableElementById(this.currentTagGroupId);
+        tagGroupAssignment.tagGroupManager._addList = [ this.currentTagGroupId ];
       }
     }
 
