@@ -367,6 +367,10 @@ Librem 5/Pinephone etc.
     font-size: 0.8em !important;
   }
 
+  #tag-selection-menu {
+    width: 94%;
+  }
+
   #tool-panel {
     font-size: 0.9em !important;
   }
