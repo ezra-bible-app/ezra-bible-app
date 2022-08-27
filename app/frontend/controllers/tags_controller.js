@@ -625,15 +625,15 @@ class TagsController {
 
     let allTagGroups = await ipcDb.getAllTagGroups();
     let tagGroupAssignmentSection = document.getElementById('tag-group-assignment-section');
+    let tagGroupAssignment = document.getElementById('new-tag-dialog-tag-group-assignment');
+    tagGroupAssignment.tagGroupManager._addList = [];
 
     if (allTagGroups.length == 0) {
       tagGroupAssignmentSection.style.display = 'none';
     } else {
       tagGroupAssignmentSection.style.removeProperty('display');
 
-      let tagGroupAssignment = document.getElementById('new-tag-dialog-tag-group-assignment');
       await tagGroupAssignment.tagGroupManager.refreshItemList();
-      tagGroupAssignment.tagGroupManager._addList = [];
 
       if (this.tagGroupUsed()) {
         tagGroupAssignment.tagGroupManager.enableElementById(this.currentTagGroupId);
