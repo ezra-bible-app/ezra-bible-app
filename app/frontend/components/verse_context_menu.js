@@ -86,7 +86,7 @@ class VerseContextMenu extends HTMLElement {
 
       var verseContextMenu = $('#verse-context-menu');
 
-      if (!event.target.classList.contains('ui-state-disabled')) {
+      if (!event.target.closest('.fg-button').classList.contains('ui-state-disabled')) {
         if (this.verseContextMenuOpened) {
           this.hidden = true;
           this.verseContextMenuOpened = false;
