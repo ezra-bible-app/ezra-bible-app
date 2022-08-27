@@ -339,7 +339,8 @@
     "open-chapters-large-books": "Ouvrir les gros livres par chapitre",
     "open-chapters-all-books": "Ouvrir tous les livres par chapitre",
     "copy": "Copier",
-    "edit-note": "Modifier la note"
+    "edit-note": "Modifier la note",
+    "delete-note": "Delete note"
   },
   "dictionary-panel": {
     "greek-dict": "Dictionnaire grec",

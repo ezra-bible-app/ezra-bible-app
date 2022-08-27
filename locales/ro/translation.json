@@ -329,7 +329,8 @@
     "open-chapters-large-books": "Deschide cărțile mari per capitol",
     "open-chapters-all-books": "Deschide toate cărțile per capitol",
     "copy": "Copiază",
-    "edit-note": "Editează nota"
+    "edit-note": "Editează nota",
+    "delete-note": "Delete note"
   },
   "dictionary-panel": {
     "greek-dict": "Dicționar grec",

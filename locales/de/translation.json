@@ -321,7 +321,8 @@
     "open-chapters-large-books": "Große Bücher kapitelweise öffnen",
     "open-chapters-all-books": "Alle Bücher kapitelweise öffnen",
     "copy": "Kopieren",
-    "edit-note": "Notiz ändern"
+    "edit-note": "Notiz ändern",
+    "delete-note": "Delete note"
   },
   "dictionary-panel": {
     "greek-dict": "Griechisches Wörterbuch",

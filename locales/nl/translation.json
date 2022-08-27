@@ -331,7 +331,8 @@
     "open-chapters-large-books": "Open grote boeken volgens hoofdstuk",
     "open-chapters-all-books": "Open alle boeken volgens hoofdstuk",
     "copy": "Kopiëren",
-    "edit-note": "Notitie aanpassen"
+    "edit-note": "Notitie aanpassen",
+    "delete-note": "Delete note"
   },
   "dictionary-panel": {
     "greek-dict": "Grieks woordenboek",

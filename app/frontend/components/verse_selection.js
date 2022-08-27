@@ -51,6 +51,10 @@ class VerseSelection {
     });
   }
 
+  getSelectedVerseBoxes() {
+    return this.selected_verse_box_elements;
+  }
+
   initHelper(nsi) {
     this.verseReferenceHelper = new VerseReferenceHelper(nsi);
   }

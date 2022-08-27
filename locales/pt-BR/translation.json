@@ -329,7 +329,8 @@
     "open-chapters-large-books": "Abrir grandes livros em modo capítulo-inteligente",
     "open-chapters-all-books": "Abrir todos os livros em modo capítulo-inteligente",
     "copy": "Copiar",
-    "edit-note": "Editar nota"
+    "edit-note": "Editar nota",
+    "delete-note": "Delete note"
   },
   "dictionary-panel": {
     "greek-dict": "Dicionário de Grego",

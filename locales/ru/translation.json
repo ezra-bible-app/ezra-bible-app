@@ -332,7 +332,8 @@
     "open-chapters-large-books": "Открывать по главам большие книги",
     "open-chapters-all-books": "Открывать по главам все книги",
     "copy": "Скопировать",
-    "edit-note": "Редактировать заметку"
+    "edit-note": "Редактировать заметку",
+    "delete-note": "Delete note"
   },
   "dictionary-panel": {
     "greek-dict": "Словарь греческого языка",

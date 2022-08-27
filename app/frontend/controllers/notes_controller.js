@@ -141,8 +141,13 @@ class NotesController {
       }
     }
 
+    this._renderContent(!persist);
+    this._reset();
+  }
+
+  _renderContent(original=false) {
     if (this.currentlyEditedNotes != null) {
-      var renderedContent = this._getRenderedEditorContent(!persist);
+      var renderedContent = this._getRenderedEditorContent(original);
       this._updateRenderedContent(this.currentlyEditedNotes, renderedContent);
       var currentVerseBox = this._getCurrentVerseBox();
 
@@ -166,8 +171,6 @@ class NotesController {
         this.currentlyEditedNotes.classList.remove('visible');
       }
     }
-
-    this._reset();
   }
 
   _reset() {
@@ -222,12 +225,30 @@ class NotesController {
     }
   }
 
+  deleteVerseNotesForCurrentlySelectedVerse() {
+    const selectedVerseBoxes = app_controller.verse_selection.selected_verse_box_elements;
+    const firstVerseBox = selectedVerseBoxes[0];
+
+    if (firstVerseBox != null) {
+      const verseNotes = firstVerseBox.querySelector('.verse-notes');
+      this._deleteVerseNotes(verseNotes);
+    }
+  }
+
   _showAndClickVerseNotes(verseNotes) {
     verseNotes.classList.toggle('visible');
 
     if (verseNotes.classList.contains('verse-notes-empty')) {
       verseNotes.dispatchEvent(new MouseEvent('click'));
     }
+  }
+
+  async _deleteVerseNotes(verseNotes) {
+    this.currentVerseReferenceId = verseNotes.closest('.verse-box').getAttribute('verse-reference-id');
+    this.currentlyEditedNotes = verseNotes;
+    await this._saveEditorContent("");
+    this._renderContent(true);
+    this._reset();
   }
 
   _getCurrentVerseBox() {
@@ -269,24 +290,27 @@ class NotesController {
     }
   }
 
-  async _saveEditorContent() {
+  async _saveEditorContent(newNoteValue=null) {
     var currentVerseBox = this._getCurrentVerseBox();
 
     if (this.currentlyEditedNotes != null && currentVerseBox != null) {
-      var currentNoteValue = this.currentEditor.getValue();
+      if (newNoteValue == null) {
+        newNoteValue = this.currentEditor.getValue();
+      }
+
       var previousNoteValue = this.currentlyEditedNotes.getAttribute('notes-content');
 
-      this._updateActiveIndicator(currentNoteValue);
+      this._updateActiveIndicator(newNoteValue);
 
-      if (currentNoteValue != previousNoteValue) {
-        currentNoteValue = currentNoteValue.trim();
+      if (newNoteValue != previousNoteValue) {
+        newNoteValue = newNoteValue.trim();
         var currentVerseObject = new VerseBox(currentVerseBox).getVerseObject();
         var translationId = app_controller.tab_controller.getTab().getBibleTranslationId();
 
         const swordModuleHelper = require('../helpers/sword_module_helper.js');
         var versification = await swordModuleHelper.getVersification(translationId);
 
-        var result = await ipcDb.persistNote(currentNoteValue, currentVerseObject, versification);
+        var result = await ipcDb.persistNote(newNoteValue, currentVerseObject, versification);
 
         if (result.success == false) {
           var message = `The note could not be saved.<br>
@@ -299,15 +323,15 @@ class NotesController {
           return false;
         }
 
-        this.currentlyEditedNotes.setAttribute('notes-content', currentNoteValue);
-        this._refreshNotesIndicator(currentNoteValue, currentVerseBox);
+        this.currentlyEditedNotes.setAttribute('notes-content', newNoteValue);
+        this._refreshNotesIndicator(newNoteValue, currentVerseBox);
 
         var note = result.dbObject;
 
         if (note != undefined) {
           var updatedTimestamp = null;
 
-          if (currentNoteValue == "") {
+          if (newNoteValue == "") {
             updatedTimestamp = "";
           } else {
             updatedTimestamp = note.updatedAt;
@@ -316,7 +340,7 @@ class NotesController {
           this._updateNoteDate(currentVerseBox, updatedTimestamp);
 
           verseBoxHelper.iterateAndChangeAllDuplicateVerseBoxes(
-            currentVerseBox, { noteValue: currentNoteValue, timestamp: updatedTimestamp }, (changedValue, targetVerseBox) => {
+            currentVerseBox, { noteValue: newNoteValue, timestamp: updatedTimestamp }, (changedValue, targetVerseBox) => {
 
               var currentNotes = null;
 
@@ -331,6 +355,12 @@ class NotesController {
             }
           );
         }
+      }
+
+      if (newNoteValue != "") {
+        await eventController.publishAsync('on-note-created');
+      } else {
+        await eventController.publishAsync('on-note-deleted');
       }
     }
 

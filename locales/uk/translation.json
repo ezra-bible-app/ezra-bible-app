@@ -330,7 +330,8 @@
     "open-chapters-large-books": "Відкривати за розділом великі книги",
     "open-chapters-all-books": "Відкривати за розділом усі книги",
     "copy": "Зкопіювати",
-    "edit-note": "Редагувати нотатку"
+    "edit-note": "Редагувати нотатку",
+    "delete-note": "Delete note"
   },
   "dictionary-panel": {
     "greek-dict": "Словник грецької",
