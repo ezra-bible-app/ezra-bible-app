@@ -23,7 +23,8 @@ const notesHelper = require('../helpers/notes_helper.js');
 const i18nHelper = require('../helpers/i18n_helper.js');
 const eventController = require('../controllers/event_controller.js');
 const verseListController = require('../controllers/verse_list_controller.js');
-const { showErrorDialog } = require('../helpers/ezra_helper.js');
+const PlatformHelper = require('../../lib/platform_helper.js');
+const { showErrorDialog, sleep } = require('../helpers/ezra_helper.js');
 require('../components/emoji_button_trigger.js');
 
 let CodeMirror = null;
@@ -52,6 +53,7 @@ function getCodeMirror() {
 class NotesController {
   constructor() {
     this.theme = this.getCurrentTheme();
+    this._platformHelper = new PlatformHelper();
     this._reset();
 
     eventController.subscribe('on-bible-text-loaded', (tabIndex) => {
@@ -116,6 +118,23 @@ class NotesController {
 
   async restoreCurrentlyEditedNotes(persist = true) {
     if (persist) {
+
+      if (this._platformHelper.isCordova()) {
+        // There is an issue on Android that makes CodeMirror behave weirdly.
+        // This leads to the last word of the text being cut off after adding text, unless the user has already typed a space or . character. 
+        // See https://github.com/codemirror/codemirror5/issues/5244
+        // To work around this issue, we fire the compositionend event before saving the editor content.
+        // This will force CodeMirror to properly save the editor lines.
+
+        if (this.currentlyEditedNotes != null) {
+          let codeMirrorLines = this.currentlyEditedNotes.querySelector('.CodeMirror-code');
+          codeMirrorLines.dispatchEvent(new Event('compositionend'));
+
+          // We need to wait a little bit, so that CodeMirror has a chance to respond.
+          await sleep(100);
+        }
+      }
+      
       var success = await this._saveEditorContent();
       if (success == false) {
         return;
