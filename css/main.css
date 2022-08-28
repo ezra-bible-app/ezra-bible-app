@@ -302,6 +302,7 @@ a.chapter-nav:link,
 a.chapter-nav:visited {
   text-decoration: none;
   color: var(--accent-color);
+  margin: 1em;
 }
 
 .Android a.chapter-nav:link,
