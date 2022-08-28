@@ -19,6 +19,7 @@
 const IpcMain = require('./ipc_main.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const path = require('path');
+const DropboxSync = require('../db_sync/dropbox_sync.js');
 
 let dbHelper = null;
 
@@ -33,7 +34,7 @@ class IpcDbHandler {
 
   async initDatabase(isDebug, androidVersion=undefined) {
     const DbHelper = require('../database/db_helper.js');
-    var userDataDir = this.platformHelper.getUserDataPath(false, androidVersion);
+    let userDataDir = this.platformHelper.getUserDataPath(false, androidVersion);
 
     dbHelper = new DbHelper(userDataDir);
     this.dbDir = dbHelper.getDatabaseDir(isDebug);
@@ -50,7 +51,44 @@ class IpcDbHandler {
     }
 
     await dbHelper.initDatabase(this.dbDir, androidVersion);
+
+    // eslint-disable-next-line no-undef
+    let config = ipc.ipcSettingsHandler.getConfig();
+    if (config !== undefined && config.has('dropboxToken') && !config.has('customDatabaseDir')) {
+      console.log('Synchronizing database with Dropbox!');
+      await this.syncDatabaseWithDropbox();
+    }
+
     global.models = require('../database/models')(this.dbDir);
+  }
+
+  async syncDatabaseWithDropbox() {
+    // eslint-disable-next-line no-undef
+    let config = ipc.ipcSettingsHandler.getConfig();
+
+    const dropboxToken = config.get('dropboxToken');
+    const firstDropboxSyncDone = config.get('firstDropboxSyncDone', false);
+    const databaseFilePath = this.getDatabaseFilePath();
+    const dropboxFilePath = '/ezra_test/ezra.sqlite';
+
+    let prioritizeRemote = false;
+    if (!firstDropboxSyncDone) {
+      prioritizeRemote = true;
+    }
+
+    let dropboxSync = new DropboxSync(dropboxToken);
+    
+    if (await dropboxSync.isAuthenticated()) {
+      console.log(`Dropbox authenticated! Attempting to synchronize local file ${databaseFilePath} with Dropbox!`);
+
+      await dropboxSync.syncFileTwoWay(databaseFilePath, dropboxFilePath, prioritizeRemote);
+
+      if (!firstDropboxSyncDone) {
+        config.set('firstDropboxSyncDone', true);
+      }
+    } else {
+      console.warn('Dropbox could not be authenticated!');
+    }
   }
 
   async closeDatabase() {
@@ -60,13 +98,17 @@ class IpcDbHandler {
     }
   }
 
+  getDatabaseFilePath() {
+    return this.dbDir + path.sep + "ezra.sqlite";
+  }
+
   initIpcInterface() {
     this._ipcMain.add('db_close', async() => {
       return await this.closeDatabase();
     });
 
     this._ipcMain.add('db_getDatabasePath', async() => {
-      return this.dbDir + path.sep + "ezra.sqlite";
+      return this.getDatabaseFilePath();
     });
 
     this._ipcMain.add('db_createNewTag', async (newTagTitle, tagGroups) => {

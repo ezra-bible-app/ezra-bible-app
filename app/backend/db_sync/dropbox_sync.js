@@ -74,7 +74,7 @@ class DropboxSync {
     }
   }
 
-  async syncFileTwoWay(filePath, dropboxPath) {
+  async syncFileTwoWay(filePath, dropboxPath, prioritizeRemote=false) {
     if (!fs.existsSync(filePath)) {
       console.warn(`File ${filePath} does not exist!`);
       return -4;
@@ -98,12 +98,22 @@ class DropboxSync {
       returnValue = 0;
 
     } else {
-      console.log(`File ${filePath} is different from file in Dropbox at ${dropboxPath}. Checking which one is newer ...`);
+      console.log(`File ${filePath} is different from file in Dropbox at ${dropboxPath}.`);
 
-      let dropboxFileNewer = await this.isDropboxFileNewer(dropboxPath, filePath);
+      const dropboxFileExisting = await this.isDropboxFileExisting(dropboxPath);
+      let dropboxFileNewer = false;
 
-      if (dropboxFileNewer) {
-        console.log(`The Dropbox file at ${dropboxPath} is newer than the local file at ${filePath}. Downloading the Dropbox file.`);
+      if (dropboxFileExisting) {
+        console.log('Checking which one is newer ...');
+        dropboxFileNewer = await this.isDropboxFileNewer(dropboxPath, filePath);
+      }
+
+      if (dropboxFileExisting && (dropboxFileNewer || prioritizeRemote)) {
+        if (prioritizeRemote) {
+          console.log(`We are going to prioritize the remote file ${dropboxPath} and download it!`);
+        } else {
+          console.log(`The Dropbox file at ${dropboxPath} is newer than the local file at ${filePath}. Downloading the Dropbox file.`);
+        }
 
         try {
           const localFilePath = path.dirname(filePath);
@@ -142,6 +152,19 @@ class DropboxSync {
     return returnValue;
   }
 
+  async isDropboxFileExisting(dropboxPath) {
+    try {
+      await this.getFileMetaData(dropboxPath);
+      return true;
+    } catch (e) {
+      if (e.error.error_summary.indexOf('not_found') != -1) {
+        return false;
+      }
+
+      throw e;
+    }
+  }
+
   async isDropboxFileNewer(dropboxPath, filePath) {
     if (!fs.existsSync(filePath)) {
       throw Error(`File ${filePath} does not exist!`);
@@ -160,7 +183,20 @@ class DropboxSync {
     }
 
     let localHash = await this.getLocalFileHash(localFilePath);
-    let remoteMetaData = await this.getFileMetaData(dropboxPath);
+    let remoteMetaData = null;
+
+    try {
+      remoteMetaData = await this.getFileMetaData(dropboxPath);
+    } catch (e) {
+      console.log(e.error.error_summary);
+      if (e.error.error_summary.indexOf('not_found') != -1) {
+        remoteMetaData = {};
+        remoteMetaData.content_hash = "";
+      } else {
+        throw e;
+      }
+    }
+
     let remoteHash = remoteMetaData.content_hash;
 
     return localHash === remoteHash;

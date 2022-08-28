@@ -36,7 +36,7 @@ module.exports.showDbSyncConfigDialog = async function() {
   dbSyncDialogOptions.title = i18n.t("general.setup-db-sync");
   dbSyncDialogOptions.buttons = {};
 
-  let dropboxTokenValue = await ipcSettings.get(DROPBOX_TOKEN_SETTINGS_KEY);
+  let dropboxTokenValue = await ipcSettings.get(DROPBOX_TOKEN_SETTINGS_KEY, "");
   $('#dropbox-token').val(dropboxTokenValue);
 
   dbSyncDialogOptions.buttons[i18n.t("general.save")] = {
@@ -60,6 +60,9 @@ module.exports.showDbSyncConfigDialog = async function() {
 };
 
 module.exports.saveDbSyncConfiguration = async function() {
-  let dropboxTokenValue = $('#dropbox-token').val();
-  await ipcSettings.set(DROPBOX_TOKEN_SETTINGS_KEY, dropboxTokenValue);
+  let dropboxTokenValue = $('#dropbox-token').val().trim();
+
+  if (dropboxTokenValue != "") {
+    await ipcSettings.set(DROPBOX_TOKEN_SETTINGS_KEY, dropboxTokenValue);
+  }
 };
