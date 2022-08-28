@@ -61,7 +61,7 @@ window.initPlatform = function() {
 
       window.addEventListener('load', showIncompatibleWebviewMessage);
     }
-  } else { // Electron!
+  } else if (isElectronRenderer()) { // Electron!
 
     window.isElectron = true;
     window.isAndroid = false;
@@ -85,6 +85,17 @@ window.initPlatform = function() {
     }
 
     loadScript('app/frontend/ezra_init.js');
+
+  } else { // Everything else ... (desktop browser?)
+
+    window.isElectron = false;
+
+    window.i18n = {
+      t: function() {},
+      locale: 'en'
+    };
+
+    loadScript('dist/ezra_init.js');
   }
 };
 
@@ -133,6 +144,12 @@ function getChromiumMajorVersion() {
   var splittedVersion = chromiumVersion.split('.');
   chromiumVersion = parseInt(splittedVersion[0]);
   return chromiumVersion;
+}
+
+function isElectronRenderer() {
+  return typeof window !== 'undefined' &&
+          typeof window.process === 'object' &&
+          window.process.type === 'renderer';
 }
 
 function isAndroidWebView() {

@@ -290,7 +290,12 @@ class Startup {
     }
 
     loadingIndicator.find('.loader').show();
-    $(document).localize();
+
+    try {
+      $(document).localize();
+    } catch (e) {
+      console.warn("Could not localize the DOM!");
+    }
 
     if (this._platformHelper.isTest()) {
       await this.initTest();

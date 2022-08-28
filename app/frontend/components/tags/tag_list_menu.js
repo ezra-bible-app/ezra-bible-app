@@ -221,7 +221,11 @@ class TagListMenu extends HTMLElement {
   }
 
   localize() {
-    $(this.shadowRoot.getElementById('tag-list-menu')).localize();
+    try {
+      $(this.shadowRoot.getElementById('tag-list-menu')).localize();
+    } catch (e) {
+      console.warn("Could not localize tag-list-menu!");
+    }
   }
 
   onTagGroupListLinkClicked() {

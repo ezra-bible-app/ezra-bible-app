@@ -256,7 +256,7 @@ class AppController {
     var moduleSearchButton = currentVerseListMenu.querySelector('.module-search-button');
 
     var bibleTranslations = await ipcNsi.getAllLocalModules();
-    if (bibleTranslations.length > 0) {
+    if (bibleTranslations != null && bibleTranslations.length > 0) {
       bookSelectButton.classList.remove('ui-state-disabled');
       moduleSearchButton.classList.remove('ui-state-disabled');
     } else {
