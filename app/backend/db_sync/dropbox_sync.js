@@ -66,7 +66,21 @@ class DropboxSync {
   }
 
   async syncFileTwoWay(filePath, dropboxPath) {
-    let isSynced = await this.isFileSynced(filePath, dropboxPath);
+    if (!fs.existsSync(filePath)) {
+      console.warn(`File ${filePath} does not exist!`);
+      return -4;
+    }
+
+    let isSynced = null;
+    
+    try {
+      isSynced = await this.isFileSynced(filePath, dropboxPath);
+    } catch (e) {
+      console.log(e);
+      console.warn(`Could not determine sync status for ${filePath}`);
+      return -5;
+    }
+
     let returnValue = null;
 
     if (isSynced) {
@@ -83,7 +97,6 @@ class DropboxSync {
         console.log(`The Dropbox file at ${dropboxPath} is newer than the local file at ${filePath}. Downloading the Dropbox file.`);
 
         try {
-
           const localFilePath = path.dirname(filePath);
           await this.downloadFile(dropboxPath, localFilePath);
           returnValue = 1;
@@ -97,7 +110,6 @@ class DropboxSync {
         console.log(`The local file at ${filePath} is newer than the Dropbox file at ${dropboxPath}. Uploading local file to Dropbox.`);
 
         try {
-
           await this.uploadFile(filePath, dropboxPath);
           returnValue = 2;
 
@@ -122,6 +134,10 @@ class DropboxSync {
   }
 
   async isDropboxFileNewer(dropboxPath, filePath) {
+    if (!fs.existsSync(filePath)) {
+      throw Error(`File ${filePath} does not exist!`);
+    }
+
     let remoteMetaData = await this.getFileMetaData(dropboxPath);
     let serverModified = new Date(remoteMetaData.server_modified);
     let localModified = new Date(fs.statSync(filePath).mtime);
@@ -130,6 +146,10 @@ class DropboxSync {
   }
 
   async isFileSynced(localFilePath, dropboxPath) {
+    if (!fs.existsSync(localFilePath)) {
+      throw Error(`File ${localFilePath} does not exist!`);
+    }
+
     let localHash = await this.getLocalFileHash(localFilePath);
     let remoteMetaData = await this.getFileMetaData(dropboxPath);
     let remoteHash = remoteMetaData.content_hash;
