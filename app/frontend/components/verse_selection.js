@@ -106,6 +106,9 @@ class VerseSelection {
           if (this.selected_verse_box_elements.length > 0) {
             this.previousFirstVerseReference = this.getFirstSelectedVerseReferenceId();
             this.previousVerseCount = this.selected_verse_box_elements.length;
+          } else {
+            this.previousVerseCount = 0;
+            this.previousFirstVerseReference = null;
           }
         }
       },
@@ -118,7 +121,11 @@ class VerseSelection {
   }
 
   getFirstSelectedVerseReferenceId() {
-    return this.selected_verse_box_elements[0].getAttribute('verse-reference-id');
+    if (this.selected_verse_box_elements != null && this.selected_verse_box_elements.length > 0) {
+      return this.selected_verse_box_elements[0].getAttribute('verse-reference-id');
+    } else {
+      return null;
+    }
   }
 
   publishVersesSelected(tabIndex=undefined) {
