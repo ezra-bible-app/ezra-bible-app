@@ -1176,7 +1176,8 @@ li.book-unavailable a:focus,
 }
 
 #show-translation-settings-button,
-#show-dict-settings-button {
+#show-dict-settings-button,
+#setup-db-sync-button {
   padding: 0.5em;
   display: block;
   width: 100%;

@@ -27,7 +27,7 @@ const LOCALE_SELECT_WIDTH = '170px'; // FIXME: magic number that works with jQue
 const template = html`
   <style>
     #locale-switch-box {
-      margin-top: 4em;
+      margin-top: 2em;
     }
     .locale-switch-container {
       width: 100%;
