@@ -156,7 +156,17 @@ class StepInstall extends HTMLElement {
 
       if (!moduleInstalled) {
         this.querySelector('#module-install-progress-msg').innerHTML = '';
-        await ipcNsi.installModule(moduleCode, progress => this._handleModuleInstallProgress(progress));
+        let result = await ipcNsi.installModule(moduleCode, progress => this._handleModuleInstallProgress(progress));
+        if (result < 0) {
+          /*
+          These are the return codes from SWORD when the module installation fails:
+
+          -1: General installation issue
+          -9: Installation cancelled by user or internet connection suddenly interrupted
+
+          */
+          installSuccessful = false;
+        }
       }
 
       if (swordModule.locked) {
