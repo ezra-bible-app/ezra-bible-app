@@ -41,6 +41,15 @@ class DropboxSync {
     return folders;
   }
 
+  async isAuthenticated() {
+    try {
+      await this.getFolders();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   async downloadFile(dropboxPath, destinationDir) {
     return this._dbx.filesDownload({path: dropboxPath}).then((response) => {
       let fileName = response.result.name;
