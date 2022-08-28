@@ -790,6 +790,12 @@ main.content {
   max-inline-size: 35em;
 }
 
+#book-selection-menu a.current-chapter {
+  background: var(--highlight-bg);
+  border: var(--highlight-border) !important;
+  border-radius: 4px;
+}
+
 .Android #book-selection-menu-chapter-list #chapter-list-chapters {
   max-inline-size: 34em;
 }

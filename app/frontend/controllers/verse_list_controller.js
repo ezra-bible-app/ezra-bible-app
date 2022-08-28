@@ -288,6 +288,17 @@ module.exports.bindEventsAfterBibleTextLoaded = function(tabIndex=undefined, pre
     await app_controller.navigation_pane.goToChapter(chapter);
   });
 
+  verseList.find('a.chapter-nav-dialog').bind('mousedown', async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const currentTab = app_controller.tab_controller.getTab();
+    const currentBook = currentTab.getBook();
+    const currentChapter = currentTab.getChapter();
+
+    app_controller.book_selection_menu.openBookChapterList(currentBook, currentChapter);
+  });
+
   if (getPlatform().isFullScreen()) {
     wheelnavController.bindEvents();
   }
