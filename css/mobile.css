@@ -329,6 +329,10 @@ Librem 5/Pinephone etc.
     height: calc(100% - 5em);
   }
 
+  #info-popup.ui-dialog-content {
+    padding: 0 !important;
+  }
+
   #info-popup, #app-info-tabs .ui-tabs-nav li {
     font-size: 0.9em !important;
   }
