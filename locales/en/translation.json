@@ -189,7 +189,8 @@
     "not-installed": "Not installed",
     "and-more": "and more",
     "database-sync": "Database sync",
-    "setup-db-sync": "Setup database synchronization"
+    "setup-db-sync": "Setup database synchronization",
+    "enter-dropbox-token": "Please enter your Dropbox token"
   },
   "help": {
     "help-text-no-tags-book-opened": "To start working with tags, create your first tag by clicking on the button <i>New&nbsp;tag</i>.<br/><br/>After that you can browse the Bible text, click or drag-select verses and then assign the tag you just created.",
