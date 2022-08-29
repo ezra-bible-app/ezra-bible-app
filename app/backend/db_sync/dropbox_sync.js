@@ -41,13 +41,8 @@ class DropboxSync {
     return folders;
   }
 
-  async isAuthenticated() {
-    try {
-      await this.getFolders();
-      return true;
-    } catch (e) {
-      return false;
-    }
+  async testAuthentication() {
+    await this.getFolders();
   }
 
   async downloadFile(dropboxPath, destinationDir) {

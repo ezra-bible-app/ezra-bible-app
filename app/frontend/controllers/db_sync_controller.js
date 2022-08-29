@@ -61,8 +61,5 @@ module.exports.showDbSyncConfigDialog = async function() {
 
 module.exports.saveDbSyncConfiguration = async function() {
   let dropboxTokenValue = $('#dropbox-token').val().trim();
-
-  if (dropboxTokenValue != "") {
-    await ipcSettings.set(DROPBOX_TOKEN_SETTINGS_KEY, dropboxTokenValue);
-  }
+  await ipcSettings.set(DROPBOX_TOKEN_SETTINGS_KEY, dropboxTokenValue);
 };

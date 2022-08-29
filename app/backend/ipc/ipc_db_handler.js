@@ -54,7 +54,11 @@ class IpcDbHandler {
 
     // eslint-disable-next-line no-undef
     let config = ipc.ipcSettingsHandler.getConfig();
-    if (config !== undefined && config.has('dropboxToken') && !config.has('customDatabaseDir')) {
+    if (config !== undefined &&
+        config.has('dropboxToken') &&
+        config.get('dropboxToken') != "" &&
+        !config.has('customDatabaseDir')) {
+
       console.log('Synchronizing database with Dropbox!');
       await this.syncDatabaseWithDropbox();
     }
@@ -65,8 +69,11 @@ class IpcDbHandler {
   async syncDatabaseWithDropbox() {
     // eslint-disable-next-line no-undef
     let config = ipc.ipcSettingsHandler.getConfig();
-
     const dropboxToken = config.get('dropboxToken');
+    if (dropboxToken == "") {
+      return;
+    }
+
     const firstDropboxSyncDone = config.get('firstDropboxSyncDone', false);
     const databaseFilePath = this.getDatabaseFilePath();
     const dropboxFilePath = '/ezra/ezra.sqlite';
@@ -77,8 +84,17 @@ class IpcDbHandler {
     }
 
     let dropboxSync = new DropboxSync(dropboxToken);
+
+    let authenticated = false;
+
+    try {
+      await dropboxSync.testAuthentication();
+      authenticated = true;
+    } catch (e) {
+      console.log(e);
+    }
     
-    if (await dropboxSync.isAuthenticated()) {
+    if (authenticated) {
       console.log(`Dropbox authenticated! Attempting to synchronize local file ${databaseFilePath} with Dropbox!`);
 
       await dropboxSync.syncFileTwoWay(databaseFilePath, dropboxFilePath, prioritizeRemote);
