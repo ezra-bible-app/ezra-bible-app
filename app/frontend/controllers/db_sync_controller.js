@@ -118,6 +118,7 @@ module.exports.setupDropboxAuthentication = function() {
       window.sessionStorage.clear();
       window.sessionStorage.setItem("codeVerifier", dbxAuth.codeVerifier);
 
+      // Open the Dropbox authentication url in the system web browser
       window.open(authUrl, '_system');
     })
     .catch((error) => console.error(error));
