@@ -330,7 +330,7 @@ Librem 5/Pinephone etc.
   }
 
   #info-popup.ui-dialog-content {
-    padding: 0 !important;
+    padding: 0.2em !important;
   }
 
   #info-popup, #app-info-tabs .ui-tabs-nav li {
