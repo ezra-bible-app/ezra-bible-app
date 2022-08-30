@@ -433,8 +433,7 @@ a.chapter-nav:hover {
 
 #verse-list-popup,
 #book-tag-statistics-box,
-#info-popup,
-#db-sync-box {
+#info-popup {
   display: none;
 }
 
@@ -518,7 +517,6 @@ a.chapter-nav:hover {
 #search-scope,
 #search-scope option,
 .ui-dialog #bible-sync-box,
-.ui-dialog #db-sync-box,
 .ui-dialog #new-release-info-box,
 .ui-widget:not(.ezra-dialog),
 .ui-widget:not(.ezra-dialog) .ui-widget,
