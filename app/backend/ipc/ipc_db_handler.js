@@ -97,7 +97,21 @@ class IpcDbHandler {
     if (authenticated) {
       console.log(`Dropbox authenticated! Attempting to synchronize local file ${databaseFilePath} with Dropbox!`);
 
-      await dropboxSync.syncFileTwoWay(databaseFilePath, dropboxFilePath, prioritizeRemote);
+      let result = await dropboxSync.syncFileTwoWay(databaseFilePath, dropboxFilePath, prioritizeRemote);
+      let lastDropboxSyncResult = null;
+
+      if (result == 1) {
+        lastDropboxSyncResult = 'DOWNLOAD';
+      } else if (result == 2) {
+        lastDropboxSyncResult = 'UPLOAD';
+      } else if (result == 0) {
+        lastDropboxSyncResult = 'NONE';
+      } else if (result < 0) {
+        lastDropboxSyncResult = 'FAILED';
+      }
+
+      config.set('lastDropboxSyncResult', lastDropboxSyncResult);
+      config.set('lastDropboxSyncTime', new Date());
 
       if (!firstDropboxSyncDone) {
         config.set('firstDropboxSyncDone', true);
