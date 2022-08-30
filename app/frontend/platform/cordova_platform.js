@@ -47,6 +47,8 @@ class CordovaPlatform {
       // Enable to test Sentry in debug version
       // isDebug = false;
 
+      window.open = cordova.InAppBrowser.open;
+
       if (!isDebug) {
         var version = await cordova.getAppVersion.getVersionNumber();
         console.log("Configuring Sentry (WebView) with app version: " + version);
