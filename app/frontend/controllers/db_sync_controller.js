@@ -95,18 +95,11 @@ module.exports.setupDropboxAuthentication = function() {
         dbxAuth.setCodeVerifier(window.sessionStorage.getItem('codeVerifier'));
         dbxAuth.getAccessTokenFromCode(REDIRECT_URI, this.getCodeFromUrl(eventData.url))
           .then((response) => {
-            dbxAuth.setAccessToken(response.result.access_token);
-            var dbx = new Dropbox.Dropbox({
-              auth: dbxAuth
-            });
-            return dbx.filesListFolder({
-              path: ''
-            });
-          })
-          .then((response) => {
-            console.log(response.result.entries);
-          })
-          .catch((error) => {
+
+            console.log("Saving Dropbox token!");
+            return ipcSettings.set(DROPBOX_TOKEN_SETTINGS_KEY, response.result.access_token);
+
+          }).catch((error) => {
             console.error(error);
           });
       }
