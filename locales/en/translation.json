@@ -389,5 +389,10 @@
     "init-user-interface": "Initializing user interface",
     "loading-settings": "Loading settings",
     "waiting-app-ready": "Waiting for app to get ready"
+  },
+  "dropbox": {
+    "dropbox-sync-info": "Dropbox synchronization info",
+    "last-dropbox-sync-time": "Last sync",
+    "last-dropbox-sync-result": "Last sync result"
   }
 }

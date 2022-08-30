@@ -103,6 +103,14 @@ class InfoPopup {
     const configFilePath = await ipcSettings.getConfigFilePath();
     const swordPath = await ipcNsi.getSwordPath();
 
+    let lastDropboxSyncTime = '--';
+    if (await ipcSettings.has('lastDropboxSyncTime')) {
+      lastDropboxSyncTime = new Date(await ipcSettings.get('lastDropboxSyncTime'));
+      lastDropboxSyncTime = lastDropboxSyncTime.toLocaleDateString() + ' / ' + lastDropboxSyncTime.toLocaleTimeString();
+    }
+
+    const lastDropboxSyncResult = await ipcSettings.get('lastDropboxSyncResult', '--');
+
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
     const moduleDescription = await swordModuleHelper.getModuleDescription(currentBibleTranslationId);
     const moduleInfo = await swordModuleHelper.getModuleInfo(currentBibleTranslationId, false, false);
@@ -164,6 +172,12 @@ class InfoPopup {
           <tr><td>${i18n.t("general.database-path")}:</td><td>${databasePath}</td></tr>
           <tr><td>${i18n.t("general.config-file-path")}:</td><td>${configFilePath}</td></tr>
           <tr><td>${i18n.t("general.sword-path")}:</td><td>${swordPath}</td></tr>
+        </table>
+
+        <h2>${i18n.t("dropbox.dropbox-sync-info")}</h2>
+        <table>
+          <tr><td style='width: 15em;'>${i18n.t("dropbox.last-dropbox-sync-time")}:</td><td>${lastDropboxSyncTime}</td></tr>
+          <tr><td style='width: 15em;'>${i18n.t("dropbox.last-dropbox-sync-result")}:</td><td>${lastDropboxSyncResult}</td></tr>
         </table>
 
         <div id="info-popup-export">
