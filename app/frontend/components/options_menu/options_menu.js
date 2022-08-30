@@ -58,7 +58,8 @@ class OptionsMenu {
 
     $('#setup-db-sync-button').bind('click', () => {
       this.hideDisplayMenu();
-      dbSyncController.showDbSyncConfigDialog();
+      //dbSyncController.showDbSyncConfigDialog();
+      dbSyncController.setupDropboxAuthentication();
     });
 
     $('#displayOptionsBackButton').bind('click', () => {
