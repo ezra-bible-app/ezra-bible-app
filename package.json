@@ -85,6 +85,7 @@
     "i18next-electron-language-detector": "0.0.10",
     "iso-639-3": "^3.0.1",
     "isomorphic-fetch": "^3.0.0",
+    "izitoast": "^1.4.0",
     "jquery-i18next": "^1.2.1",
     "log-timestamp": "^0.3.0",
     "marked": "^4.0.8",
