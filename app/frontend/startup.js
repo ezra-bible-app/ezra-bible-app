@@ -24,6 +24,7 @@ const IpcNsi = require('./ipc/ipc_nsi.js');
 const IpcDb = require('./ipc/ipc_db.js');
 const IpcSettings = require('./ipc/ipc_settings.js');
 const i18nController = require('./controllers/i18n_controller.js');
+const dbSyncController = require('./controllers/db_sync_controller.js');
 const eventController = require('./controllers/event_controller.js');
 
 // UI Helper
@@ -333,6 +334,8 @@ class Startup {
     // Restore the scroll position of the first tab.
     app_controller.tab_controller.restoreScrollPosition(0);
     // FIXME: Also highlight the last navigation element in the navigation pane and scroll to it
+
+    dbSyncController.showSyncResultMessage();
 
     if (this._platformHelper.isElectron()) {
       const { ipcRenderer } = require('electron');

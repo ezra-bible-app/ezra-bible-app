@@ -56,10 +56,26 @@ module.exports.setupDropboxAuthentication = function() {
         dbxAuth.getAccessTokenFromCode(REDIRECT_URI, this.getCodeFromUrl(eventData.url))
           .then((response) => {
 
+            // eslint-disable-next-line no-undef
+            iziToast.success({
+              title: i18n.t('dropbox.linking-msg-title'),
+              message: i18n.t('dropbox.linking-success-msg'),
+              position: 'topCenter',
+              timeout: 5000
+            });
+
             console.log("Saving Dropbox token!");
             return ipcSettings.set(DROPBOX_TOKEN_SETTINGS_KEY, response.result.access_token);
 
           }).catch((error) => {
+            // eslint-disable-next-line no-undef
+            iziToast.error({
+              title: i18n.t('dropbox.linking-msg-title'),
+              message: i18n.t('dropbox.linking-failed-msg'),
+              position: 'topCenter',
+              timeout: 5000
+            });
+
             console.error(error);
           });
       }
@@ -75,4 +91,35 @@ module.exports.setupDropboxAuthentication = function() {
       window.open(authUrl, '_system');
     })
     .catch((error) => console.error(error));
+};
+
+module.exports.showSyncResultMessage = async function() {
+  let lastDropboxSyncTime = '--';
+  if (await ipcSettings.has('lastDropboxSyncTime')) {
+    lastDropboxSyncTime = new Date(await ipcSettings.get('lastDropboxSyncTime'));
+    lastDropboxSyncTime = lastDropboxSyncTime.toLocaleDateString() + ' / ' + lastDropboxSyncTime.toLocaleTimeString();
+  }
+
+  const lastDropboxSyncResult = await ipcSettings.get('lastDropboxSyncResult', '');
+
+  if (lastDropboxSyncResult != "") {
+
+    if (lastDropboxSyncResult == 'FAILED') {
+      // eslint-disable-next-line no-undef
+      iziToast.error({
+        title: i18n.t('dropbox.sync-msg-title'),
+        message: i18n.t('dropbox.sync-failed-msg', { date: lastDropboxSyncTime }),
+        position: 'topCenter',
+        timeout: 3000
+      });
+    } else {
+      // eslint-disable-next-line no-undef
+      iziToast.success({
+        title: i18n.t('dropbox.sync-msg-title'),
+        message: i18n.t('dropbox.sync-success-msg', { date: lastDropboxSyncTime }),
+        position: 'topCenter',
+        timeout: 5000
+      });
+    }
+  }
 };
