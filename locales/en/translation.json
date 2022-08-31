@@ -397,7 +397,7 @@
     "sync-success-msg": "Successfully synchronized database with Dropbox ({{date}}).",
     "sync-failed-msg": "Failed to synchronize database with Dropbox ({{date}}).",
     "linking-msg-title": "Dropbox linking",
-    "linking-success-msg": "Linking successfull!",
-    "linking-failed-msg": "Linking failed!"
+    "linking-success-msg": "Successfull!",
+    "linking-failed-msg": "Failed!"
   }
 }
