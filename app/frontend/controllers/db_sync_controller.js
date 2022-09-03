@@ -16,20 +16,28 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
-const DROPBOX_TOKEN_SETTINGS_KEY = 'dropboxToken';
 const Dropbox = require('dropbox');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const platformHelper = new PlatformHelper();
 
-let dbSyncDialogInitDone = false;
+const DROPBOX_TOKEN_SETTINGS_KEY = 'dropboxToken';
+const DROPBOX_LINK_STATUS_SETTINGS_KEY = 'dropboxLinkStatus';
+const DROPBOX_FOLDER_SETTINGS_KEY = 'dropboxFolder';
+const DROPBOX_ONLY_WIFI_SETTINGS_KEY = 'dropboxOnlyWifi';
+
+let dbSyncInitDone = false;
+let dbSyncDropboxToken = null;
+let dbSyncDropboxLinkStatus = null;
+let dbSyncDropboxFolder = null;
+let dbSyncOnlyWifi = false;
 
 async function initDbSyncDialog() {
-  if (dbSyncDialogInitDone) {
+  if (dbSyncInitDone) {
     return;
   }
 
   var dialogWidth = 450;
-  var dialogHeight = 400;
+  var dialogHeight = 480;
   var draggable = true;
   var position = [55, 120];
 
@@ -38,15 +46,29 @@ async function initDbSyncDialog() {
   dbSyncDialogOptions.autoOpen = false;
   dbSyncDialogOptions.buttons = {};
 
-  let dropboxTokenValue = await ipcSettings.get(DROPBOX_TOKEN_SETTINGS_KEY, "");
-  $('#dropbox-token').val(dropboxTokenValue);
+  dbSyncDropboxToken = await ipcSettings.get(DROPBOX_TOKEN_SETTINGS_KEY, "");
+  dbSyncDropboxLinkStatus = await ipcSettings.get(DROPBOX_LINK_STATUS_SETTINGS_KEY, null);
+  dbSyncDropboxFolder = await ipcSettings.get(DROPBOX_FOLDER_SETTINGS_KEY, 'ezra');
+  dbSyncOnlyWifi = await ipcSettings.get(DROPBOX_ONLY_WIFI_SETTINGS_KEY, false);
+
+  updateDropboxLinkStatusLabel();
 
   dbSyncDialogOptions.buttons[i18n.t("general.save")] = {
     id: 'save-db-sync-config-button',
     text: i18n.t("general.save"),
-    click: () => {
+    click: async () => {
       $('#db-sync-box').dialog("close");
-      this.saveDbSyncConfiguration();
+
+      if (dbSyncDropboxLinkStatus == 'LINKED') {
+        await ipcSettings.set(DROPBOX_TOKEN_SETTINGS_KEY, dbSyncDropboxToken);
+      }
+
+      dbSyncDropboxFolder = $('#dropbox-sync-folder').text();
+      dbSyncOnlyWifi = document.getElementById('only-sync-on-wifi').checked;
+
+      await ipcSettings.set(DROPBOX_LINK_STATUS_SETTINGS_KEY, dbSyncDropboxLinkStatus);
+      await ipcSettings.set(DROPBOX_FOLDER_SETTINGS_KEY, dbSyncDropboxFolder);
+      await ipcSettings.set(DROPBOX_ONLY_WIFI_SETTINGS_KEY, dbSyncOnlyWifi);
     }
   };
 
@@ -59,10 +81,29 @@ async function initDbSyncDialog() {
   };
 
   $('#link-dropbox-account').bind('click', () => {
+    $('#dropbox-link-status').text();
     setupDropboxAuthentication();
   });
 
   $('#db-sync-box').dialog(dbSyncDialogOptions);
+
+  dbSyncInitDone = true;
+}
+
+function updateDropboxLinkStatusLabel() {
+  if (dbSyncDropboxLinkStatus == 'LINKED') {
+    $('#dropbox-link-status').text(i18n.t('dropbox.dropbox-link-status-linked'));
+    $('#dropbox-link-status').addClass('success');
+    $('#dropbox-link-status').removeClass('failed');
+
+  } else if (dbSyncDropboxLinkStatus == 'FAILED') {
+    $('#dropbox-link-status').text(i18n.t('dropbox.dropbox-link-status-linking-failed'));
+    $('#dropbox-link-status').addClass('failed');
+    $('#dropbox-link-status').removeClass('success');
+
+  } else if (dbSyncDropboxLinkStatus === null) {
+    $('#dropbox-link-status').text(i18n.t('dropbox.dropbox-link-status-not-linked'));
+  }
 }
 
 /**
@@ -78,16 +119,16 @@ module.exports.showDbSyncConfigDialog = async function() {
 };
 
 // Parses the url and gets the access token if it is in the urls hash
-module.exports.getCodeFromUrl = function(url) {
+function getCodeFromUrl(url) {
   var code = url.replace('ezrabible://app?code=', '');
   return code;
-};
+}
 
 // If the user was just redirected from authenticating, the urls hash will
 // contain the access token.
-module.exports.hasRedirectedFromAuth = function(url) {
-  return !!this.getCodeFromUrl(url);
-};
+function hasRedirectedFromAuth(url) {
+  return !!getCodeFromUrl(url);
+}
 
 function setupDropboxAuthentication() {
   var REDIRECT_URI = 'ezrabible://app';
@@ -101,31 +142,17 @@ function setupDropboxAuthentication() {
     universalLinks.subscribe('launchedAppFromLink', (eventData) => {
       console.log('Launched from link: ' + eventData.url);
 
-      if (this.hasRedirectedFromAuth(eventData.url)) {
+      if (hasRedirectedFromAuth(eventData.url)) {
         dbxAuth.setCodeVerifier(window.sessionStorage.getItem('codeVerifier'));
-        dbxAuth.getAccessTokenFromCode(REDIRECT_URI, this.getCodeFromUrl(eventData.url))
+        dbxAuth.getAccessTokenFromCode(REDIRECT_URI, getCodeFromUrl(eventData.url))
           .then((response) => {
-
-            // eslint-disable-next-line no-undef
-            iziToast.success({
-              title: i18n.t('dropbox.linking-msg-title'),
-              message: i18n.t('dropbox.linking-success-msg'),
-              position: 'topCenter',
-              timeout: 5000
-            });
-
-            console.log("Saving Dropbox token!");
-            return ipcSettings.set(DROPBOX_TOKEN_SETTINGS_KEY, response.result.access_token);
+            dbSyncDropboxToken = response.result.access_token;
+            dbSyncDropboxLinkStatus = 'LINKED';
+            updateDropboxLinkStatusLabel();
 
           }).catch((error) => {
-            // eslint-disable-next-line no-undef
-            iziToast.error({
-              title: i18n.t('dropbox.linking-msg-title'),
-              message: i18n.t('dropbox.linking-failed-msg'),
-              position: 'topCenter',
-              timeout: 5000
-            });
-
+            dbSyncDropboxLinkStatus = 'FAILED';
+            updateDropboxLinkStatusLabel();
             console.error(error);
           });
       }

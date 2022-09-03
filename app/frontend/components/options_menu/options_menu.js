@@ -56,9 +56,9 @@ class OptionsMenu {
       app_controller.openModuleSettingsAssistant('DICT'); 
     });
 
-    $('#setup-db-sync-button').bind('click', () => {
+    $('#setup-db-sync-button').bind('click', async () => {
       this.hideDisplayMenu();
-      dbSyncController.showDbSyncConfigDialog();
+      await dbSyncController.showDbSyncConfigDialog();
     });
 
     $('#displayOptionsBackButton').bind('click', () => {

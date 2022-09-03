@@ -446,10 +446,34 @@ a.chapter-nav:hover {
 #db-sync-box-content * {
   display: flex;
   flex-direction: row;
+  margin-bottom: 1em;
 }
 
-#db-sync-box-content label {
+#db-sync-box-content label,
+#db-sync-box-content span {
   width: 12em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  border-radius: 4px;
+}
+
+#db-sync-box-content input {
+  margin-left: 0.5em;
+}
+
+#dropbox-link-status {
+  width: fit-content !important;
+  margin-left: 0.5em;
+  background-color: lightyellow;
+  border: 1px solid lightgray;
+}
+
+#dropbox-link-status.success {
+  background-color: lightgreen;
+}
+
+#dropbox-link-status.failed {
+  background-color: lightsalmon;
 }
 
 #verse-list-popup-verse-list {
