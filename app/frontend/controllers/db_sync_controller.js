@@ -16,6 +16,13 @@
    along with Ezra Bible App. See the file LICENSE.
    If not, see <http://www.gnu.org/licenses/>. */
 
+
+/**
+ * This controller manages the settings for database synchronization. 
+ * @module dbSyncController
+ * @category Controller
+ */
+
 const Dropbox = require('dropbox');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const platformHelper = new PlatformHelper();
@@ -30,6 +37,43 @@ let dbSyncDropboxToken = null;
 let dbSyncDropboxLinkStatus = null;
 let dbSyncDropboxFolder = null;
 let dbSyncOnlyWifi = false;
+
+module.exports.showDbSyncConfigDialog = async function() {
+  await initDbSyncDialog();
+
+  $('#db-sync-box').dialog("open");
+};
+
+module.exports.showSyncResultMessage = async function() {
+  let lastDropboxSyncTime = '--';
+  if (await ipcSettings.has('lastDropboxSyncTime')) {
+    lastDropboxSyncTime = new Date(await ipcSettings.get('lastDropboxSyncTime'));
+    lastDropboxSyncTime = lastDropboxSyncTime.toLocaleDateString() + ' / ' + lastDropboxSyncTime.toLocaleTimeString();
+  }
+
+  const lastDropboxSyncResult = await ipcSettings.get('lastDropboxSyncResult', '');
+
+  if (lastDropboxSyncResult != "") {
+
+    if (lastDropboxSyncResult == 'FAILED') {
+      // eslint-disable-next-line no-undef
+      iziToast.error({
+        title: i18n.t('dropbox.sync-msg-title'),
+        message: i18n.t('dropbox.sync-failed-msg', { date: lastDropboxSyncTime }),
+        position: 'topCenter',
+        timeout: 3000
+      });
+    } else {
+      // eslint-disable-next-line no-undef
+      iziToast.success({
+        title: i18n.t('dropbox.sync-msg-title'),
+        message: i18n.t('dropbox.sync-success-msg', { date: lastDropboxSyncTime }),
+        position: 'topCenter',
+        timeout: 5000
+      });
+    }
+  }
+};
 
 async function initDbSyncDialog() {
   if (dbSyncInitDone) {
@@ -106,18 +150,6 @@ function updateDropboxLinkStatusLabel() {
   }
 }
 
-/**
- * This controller manages the settings for database synchronization. 
- * @module dbSyncController
- * @category Controller
- */
-
-module.exports.showDbSyncConfigDialog = async function() {
-  await initDbSyncDialog();
-
-  $('#db-sync-box').dialog("open");
-};
-
 // Parses the url and gets the access token if it is in the urls hash
 function getCodeFromUrl(url) {
   var code = url.replace('ezrabible://app?code=', '');
@@ -170,34 +202,3 @@ function setupDropboxAuthentication() {
     })
     .catch((error) => console.error(error));
 }
-
-module.exports.showSyncResultMessage = async function() {
-  let lastDropboxSyncTime = '--';
-  if (await ipcSettings.has('lastDropboxSyncTime')) {
-    lastDropboxSyncTime = new Date(await ipcSettings.get('lastDropboxSyncTime'));
-    lastDropboxSyncTime = lastDropboxSyncTime.toLocaleDateString() + ' / ' + lastDropboxSyncTime.toLocaleTimeString();
-  }
-
-  const lastDropboxSyncResult = await ipcSettings.get('lastDropboxSyncResult', '');
-
-  if (lastDropboxSyncResult != "") {
-
-    if (lastDropboxSyncResult == 'FAILED') {
-      // eslint-disable-next-line no-undef
-      iziToast.error({
-        title: i18n.t('dropbox.sync-msg-title'),
-        message: i18n.t('dropbox.sync-failed-msg', { date: lastDropboxSyncTime }),
-        position: 'topCenter',
-        timeout: 3000
-      });
-    } else {
-      // eslint-disable-next-line no-undef
-      iziToast.success({
-        title: i18n.t('dropbox.sync-msg-title'),
-        message: i18n.t('dropbox.sync-success-msg', { date: lastDropboxSyncTime }),
-        position: 'topCenter',
-        timeout: 5000
-      });
-    }
-  }
-};
