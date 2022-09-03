@@ -21,20 +21,21 @@ const Dropbox = require('dropbox');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const platformHelper = new PlatformHelper();
 
-/**
- * This controller manages the settings for database synchronization. 
- * @module dbSyncController
- * @category Controller
- */
+let dbSyncDialogInitDone = false;
 
-module.exports.showDbSyncConfigDialog = async function() {
+async function initDbSyncDialog() {
+  if (dbSyncDialogInitDone) {
+    return;
+  }
+
   var dialogWidth = 450;
   var dialogHeight = 400;
   var draggable = true;
   var position = [55, 120];
 
   let dbSyncDialogOptions = uiHelper.getDialogOptions(dialogWidth, dialogHeight, draggable, position);
-  dbSyncDialogOptions.title = i18n.t("general.setup-db-sync");
+  dbSyncDialogOptions.title = i18n.t("dropbox.setup-db-sync");
+  dbSyncDialogOptions.autoOpen = false;
   dbSyncDialogOptions.buttons = {};
 
   let dropboxTokenValue = await ipcSettings.get(DROPBOX_TOKEN_SETTINGS_KEY, "");
@@ -57,7 +58,23 @@ module.exports.showDbSyncConfigDialog = async function() {
     }
   };
 
+  $('#link-dropbox-account').bind('click', () => {
+    setupDropboxAuthentication();
+  });
+
   $('#db-sync-box').dialog(dbSyncDialogOptions);
+}
+
+/**
+ * This controller manages the settings for database synchronization. 
+ * @module dbSyncController
+ * @category Controller
+ */
+
+module.exports.showDbSyncConfigDialog = async function() {
+  await initDbSyncDialog();
+
+  $('#db-sync-box').dialog("open");
 };
 
 // Parses the url and gets the access token if it is in the urls hash
@@ -72,7 +89,7 @@ module.exports.hasRedirectedFromAuth = function(url) {
   return !!this.getCodeFromUrl(url);
 };
 
-module.exports.setupDropboxAuthentication = function() {
+function setupDropboxAuthentication() {
   var REDIRECT_URI = 'ezrabible://app';
   var CLIENT_ID = 'ivkivdw70sfvwo2';
   var dbxAuth = new Dropbox.DropboxAuth({
@@ -124,7 +141,7 @@ module.exports.setupDropboxAuthentication = function() {
       window.open(authUrl, '_system');
     })
     .catch((error) => console.error(error));
-};
+}
 
 module.exports.showSyncResultMessage = async function() {
   let lastDropboxSyncTime = '--';

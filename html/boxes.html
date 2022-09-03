@@ -43,8 +43,21 @@
 
 <div id="db-sync-box">
   <div id="db-sync-box-content">
-    <h4 i18n="general.enter-dropbox-token"></h4>
-    <textarea id="dropbox-token" style="width: 35em; height: 7em;"></textarea>
+    <p i18n="[html]dropbox.dropbox-sync-explanation-part1"></p>
+    <p i18n="[html]dropbox.dropbox-sync-explanation-part2"></p>
+
+    <button id="link-dropbox-account"
+            style="width: fit-content; padding: 0.5em;"
+            class="fg-button ui-corner-all ui-state-default"
+            i18n="dropbox.link-dropbox-account"></button>
+
+    <div style="margin-top: 2em;">
+      <label for="only-sync-on-wifi" i18n="dropbox.only-sync-on-wifi"></label> <input id="only-sync-on-wifi" type="checkbox"></input><br/>
+    </div>
+
+    <div>
+      <label for="dropbox-sync-folder" i18n="dropbox.dropbox-sync-folder"></label> <input id="dropbox-sync-folder" value="ezra"></input>
+    </div>
   </div>
 </div>
 

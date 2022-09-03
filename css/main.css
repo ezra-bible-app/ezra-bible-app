@@ -438,6 +438,20 @@ a.chapter-nav:hover {
   display: none;
 }
 
+#db-sync-box-content {
+  display: flex;
+  flex-direction: column;
+}
+
+#db-sync-box-content * {
+  display: flex;
+  flex-direction: row;
+}
+
+#db-sync-box-content label {
+  width: 12em;
+}
+
 #verse-list-popup-verse-list {
   padding-right: 0.2em;
   height: 350px;
@@ -518,6 +532,7 @@ a.chapter-nav:hover {
 #search-scope,
 #search-scope option,
 .ui-dialog #bible-sync-box,
+.ui-dialog #db-sync-box,
 .ui-dialog #new-release-info-box,
 .ui-widget:not(.ezra-dialog),
 .ui-widget:not(.ezra-dialog) .ui-widget,
@@ -1435,7 +1450,7 @@ li.book-unavailable a:focus,
 .tab-search-type,
 #search-type,
 #search-scope,
-#dropbox-token {
+#dropbox-sync-folder {
   border: 1px solid lightgray;
   border-radius: 4px;
 }
