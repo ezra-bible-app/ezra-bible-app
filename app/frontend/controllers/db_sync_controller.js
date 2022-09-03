@@ -76,6 +76,15 @@ module.exports.showSyncResultMessage = async function() {
 };
 
 async function initDbSyncDialog() {
+  dbSyncDropboxToken = await ipcSettings.get(DROPBOX_TOKEN_SETTINGS_KEY, "");
+  dbSyncDropboxLinkStatus = await ipcSettings.get(DROPBOX_LINK_STATUS_SETTINGS_KEY, null);
+  dbSyncDropboxFolder = await ipcSettings.get(DROPBOX_FOLDER_SETTINGS_KEY, 'ezra');
+  dbSyncOnlyWifi = await ipcSettings.get(DROPBOX_ONLY_WIFI_SETTINGS_KEY, false);
+
+  $('#dropbox-sync-folder').val(dbSyncDropboxFolder);
+  document.getElementById('only-sync-on-wifi').checked = dbSyncOnlyWifi;
+  updateDropboxLinkStatusLabel();
+
   if (dbSyncInitDone) {
     return;
   }
@@ -90,13 +99,6 @@ async function initDbSyncDialog() {
   dbSyncDialogOptions.autoOpen = false;
   dbSyncDialogOptions.buttons = {};
 
-  dbSyncDropboxToken = await ipcSettings.get(DROPBOX_TOKEN_SETTINGS_KEY, "");
-  dbSyncDropboxLinkStatus = await ipcSettings.get(DROPBOX_LINK_STATUS_SETTINGS_KEY, null);
-  dbSyncDropboxFolder = await ipcSettings.get(DROPBOX_FOLDER_SETTINGS_KEY, 'ezra');
-  dbSyncOnlyWifi = await ipcSettings.get(DROPBOX_ONLY_WIFI_SETTINGS_KEY, false);
-
-  updateDropboxLinkStatusLabel();
-
   dbSyncDialogOptions.buttons[i18n.t("general.save")] = {
     id: 'save-db-sync-config-button',
     text: i18n.t("general.save"),
@@ -107,7 +109,7 @@ async function initDbSyncDialog() {
         await ipcSettings.set(DROPBOX_TOKEN_SETTINGS_KEY, dbSyncDropboxToken);
       }
 
-      dbSyncDropboxFolder = $('#dropbox-sync-folder').text();
+      dbSyncDropboxFolder = $('#dropbox-sync-folder').val();
       dbSyncOnlyWifi = document.getElementById('only-sync-on-wifi').checked;
 
       await ipcSettings.set(DROPBOX_LINK_STATUS_SETTINGS_KEY, dbSyncDropboxLinkStatus);
