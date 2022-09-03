@@ -433,7 +433,8 @@ a.chapter-nav:hover {
 
 #verse-list-popup,
 #book-tag-statistics-box,
-#info-popup {
+#info-popup,
+#db-sync-box {
   display: none;
 }
 
