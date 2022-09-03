@@ -38,6 +38,8 @@ let dbSyncDropboxLinkStatus = null;
 let dbSyncDropboxFolder = null;
 let dbSyncOnlyWifi = false;
 
+let dbxAuth = getDropboxAuth();
+
 module.exports.showDbSyncConfigDialog = async function() {
   await initDbSyncDialog();
 
@@ -75,6 +77,25 @@ module.exports.showSyncResultMessage = async function() {
   }
 };
 
+function initAuthCallbacks() {
+  if (platformHelper.isCordova()) {
+
+    // eslint-disable-next-line no-undef
+    universalLinks.subscribe('launchedAppFromLink', (eventData) => {
+      console.log('Got Dropbox auth callback with url: ' + eventData.url);
+      handleRedirect(eventData.url);
+    });
+
+  } else if (platformHelper.isElectron()) {
+
+    require('electron').ipcRenderer.on('dropbox-auth-callback', (event, url) => {
+      console.log('Got Dropbox auth callback with url: ' + url);
+      handleRedirect(url);
+    });
+
+  }
+}
+
 async function initDbSyncDialog() {
   dbSyncDropboxToken = await ipcSettings.get(DROPBOX_TOKEN_SETTINGS_KEY, "");
   dbSyncDropboxLinkStatus = await ipcSettings.get(DROPBOX_LINK_STATUS_SETTINGS_KEY, null);
@@ -88,6 +109,8 @@ async function initDbSyncDialog() {
   if (dbSyncInitDone) {
     return;
   }
+
+  initAuthCallbacks();
 
   var dialogWidth = 450;
   var dialogHeight = 480;
@@ -126,9 +149,9 @@ async function initDbSyncDialog() {
     }
   };
 
-  $('#link-dropbox-account').bind('click', () => {
+  $('#link-dropbox-account').bind('click', async () => {
     $('#dropbox-link-status').text();
-    setupDropboxAuthentication();
+    await setupDropboxAuthentication();
   });
 
   $('#db-sync-box').dialog(dbSyncDialogOptions);
@@ -154,7 +177,15 @@ function updateDropboxLinkStatusLabel() {
 
 // Parses the url and gets the access token if it is in the urls hash
 function getCodeFromUrl(url) {
-  var code = url.replace('ezrabible://app?code=', '');
+  let replacementString = null;
+
+  if (platformHelper.isCordova()) {
+    replacementString = 'ezrabible://app?code=';
+  } else if (platformHelper.isElectron()) {
+    replacementString = '/dropbox_auth?code=';
+  }
+
+  var code = url.replace(replacementString, '');
   return code;
 }
 
@@ -164,34 +195,50 @@ function hasRedirectedFromAuth(url) {
   return !!getCodeFromUrl(url);
 }
 
-function setupDropboxAuthentication() {
-  const REDIRECT_URI = 'ezrabible://app';
+function getRedirectUri() {
+  if (platformHelper.isCordova()) {
+    return 'ezrabible://app';
+  } else if (platformHelper.isElectron()) {
+    return 'http://localhost:9999/dropbox_auth';
+  }
+}
+
+function handleRedirect(url) {
+  const REDIRECT_URI = getRedirectUri();
+
+  if (hasRedirectedFromAuth(url)) {
+    dbxAuth.setCodeVerifier(window.sessionStorage.getItem('codeVerifier'));
+    dbxAuth.getAccessTokenFromCode(REDIRECT_URI, getCodeFromUrl(url))
+      .then((response) => {
+        dbSyncDropboxToken = response.result.access_token;
+        dbSyncDropboxLinkStatus = 'LINKED';
+        updateDropboxLinkStatusLabel();
+
+      }).catch((error) => {
+        dbSyncDropboxLinkStatus = 'FAILED';
+        updateDropboxLinkStatusLabel();
+        console.error(error);
+      });
+  }
+}
+
+function getDropboxAuth() {
   const CLIENT_ID = 'ivkivdw70sfvwo2';
 
   let dbxAuth = new Dropbox.DropboxAuth({
     clientId: CLIENT_ID,
   });
 
-  if (platformHelper.isCordova()) {
-    // eslint-disable-next-line no-undef
-    universalLinks.subscribe('launchedAppFromLink', (eventData) => {
-      console.log('Launched from link: ' + eventData.url);
+  return dbxAuth;
+}
 
-      if (hasRedirectedFromAuth(eventData.url)) {
-        dbxAuth.setCodeVerifier(window.sessionStorage.getItem('codeVerifier'));
-        dbxAuth.getAccessTokenFromCode(REDIRECT_URI, getCodeFromUrl(eventData.url))
-          .then((response) => {
-            dbSyncDropboxToken = response.result.access_token;
-            dbSyncDropboxLinkStatus = 'LINKED';
-            updateDropboxLinkStatusLabel();
+async function setupDropboxAuthentication() {
+  const REDIRECT_URI = getRedirectUri();
 
-          }).catch((error) => {
-            dbSyncDropboxLinkStatus = 'FAILED';
-            updateDropboxLinkStatusLabel();
-            console.error(error);
-          });
-      }
-    });
+  console.log('Starting Dropbox authentication with this REDIRECT_URI: ' + REDIRECT_URI);
+
+  if (platformHelper.isElectron()) {
+    await ipcGeneral.startDropboxAuthServer();
   }
 
   dbxAuth.getAuthenticationUrl(REDIRECT_URI, undefined, 'code', 'offline', undefined, undefined, true)

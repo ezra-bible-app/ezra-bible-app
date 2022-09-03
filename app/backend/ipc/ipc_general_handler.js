@@ -18,6 +18,8 @@
 
 const PlatformHelper = require('../../lib/platform_helper.js');
 const IpcMain = require('./ipc_main.js');
+let expressApp = null;
+let expressServer = null;
 
 class IpcGeneralHandler {
   constructor() {
@@ -115,6 +117,26 @@ class IpcGeneralHandler {
       }
 
       return bookNames;
+    });
+
+    this._ipcMain.add('general_startDropboxAuthServer', async() => {
+      console.log('Starting express server, listening on port 9999');
+
+      const express = require('express');
+      expressApp = express();
+
+      expressApp.get('/dropbox_auth', function(req, res){
+        let url = req.url;
+        console.log('Got request at ' + url);
+
+        // Close the window immediately
+        res.send('<html><head><script type="text/javascript">window.close();</script></head><body></body></html>');
+
+        global.mainWindow.webContents.send('dropbox-auth-callback', url);
+        expressServer.close();
+      });
+
+      expressServer = expressApp.listen(9999);
     });
 
     this._ipcMain.add('general_getIpcCallStats', async() => {
