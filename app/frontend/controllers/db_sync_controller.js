@@ -131,9 +131,10 @@ function hasRedirectedFromAuth(url) {
 }
 
 function setupDropboxAuthentication() {
-  var REDIRECT_URI = 'ezrabible://app';
-  var CLIENT_ID = 'ivkivdw70sfvwo2';
-  var dbxAuth = new Dropbox.DropboxAuth({
+  const REDIRECT_URI = 'ezrabible://app';
+  const CLIENT_ID = 'ivkivdw70sfvwo2';
+
+  let dbxAuth = new Dropbox.DropboxAuth({
     clientId: CLIENT_ID,
   });
 
