@@ -74,9 +74,10 @@ class IpcDbHandler {
       return;
     }
 
+    const dropboxFolder = config.get('dropboxFolder', 'ezra');
     const firstDropboxSyncDone = config.get('firstDropboxSyncDone', false);
     const databaseFilePath = this.getDatabaseFilePath();
-    const dropboxFilePath = '/ezra/ezra.sqlite';
+    const dropboxFilePath = `/${dropboxFolder}/ezra.sqlite`;
 
     let prioritizeRemote = false;
     if (!firstDropboxSyncDone) {
