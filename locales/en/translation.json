@@ -397,6 +397,7 @@
     "dropbox-link-status-not-linked": "Not linked",
     "dropbox-link-status-linked": "Linked",
     "dropbox-link-status-linking-failed": "Linking failed!",
+    "dropbox-link-status-auth-expired": "Authentication expired!",
     "only-sync-on-wifi": "Only sync on WiFi",
     "dropbox-sync-folder": "Dropbox sync folder",
     "dropbox-sync-info": "Dropbox synchronization info",
@@ -404,6 +405,7 @@
     "last-dropbox-sync-result": "Last sync result",
     "sync-msg-title": "Dropbox sync",
     "sync-success-msg": "Successfully synchronized database with Dropbox ({{date}}).",
-    "sync-failed-msg": "Failed to synchronize database with Dropbox ({{date}})."
+    "sync-failed-msg": "Failed to synchronize database with Dropbox ({{date}}).",
+    "auth-expired-msg": "Failed to synchronize database with Dropbox / authentication expired! ({{date}})"
   }
 }

@@ -87,19 +87,25 @@ class IpcDbHandler {
     let dropboxSync = new DropboxSync(dropboxToken);
 
     let authenticated = false;
+    let lastDropboxSyncResult = null;
 
     try {
       await dropboxSync.testAuthentication();
       authenticated = true;
     } catch (e) {
-      console.log(e);
+      if (e.error.error_summary.indexOf('expired') != -1) {
+        console.log('Dropbox authentication expired!');
+        config.set('dropboxLinkStatus', 'AUTH_EXPIRED');
+        lastDropboxSyncResult = 'AUTH_EXPIRED';
+      } else {
+        console.log(e);
+      }
     }
-    
+
     if (authenticated) {
       console.log(`Dropbox authenticated! Attempting to synchronize local file ${databaseFilePath} with Dropbox!`);
 
       let result = await dropboxSync.syncFileTwoWay(databaseFilePath, dropboxFilePath, prioritizeRemote);
-      let lastDropboxSyncResult = null;
 
       if (result == 1) {
         lastDropboxSyncResult = 'DOWNLOAD';
@@ -111,15 +117,15 @@ class IpcDbHandler {
         lastDropboxSyncResult = 'FAILED';
       }
 
-      config.set('lastDropboxSyncResult', lastDropboxSyncResult);
-      config.set('lastDropboxSyncTime', new Date());
-
       if (!firstDropboxSyncDone) {
         config.set('firstDropboxSyncDone', true);
       }
     } else {
       console.warn('Dropbox could not be authenticated!');
     }
+
+    config.set('lastDropboxSyncResult', lastDropboxSyncResult);
+    config.set('lastDropboxSyncTime', new Date());
   }
 
   async closeDatabase() {

@@ -56,22 +56,35 @@ module.exports.showSyncResultMessage = async function() {
   const lastDropboxSyncResult = await ipcSettings.get('lastDropboxSyncResult', '');
 
   if (lastDropboxSyncResult != "") {
+    let msgPosition = 'bottomRight';
+
+    if (platformHelper.isCordova()) {
+      msgPosition = 'topCenter';
+    }
 
     if (lastDropboxSyncResult == 'FAILED') {
       // eslint-disable-next-line no-undef
       iziToast.error({
         title: i18n.t('dropbox.sync-msg-title'),
         message: i18n.t('dropbox.sync-failed-msg', { date: lastDropboxSyncTime }),
-        position: 'topCenter',
-        timeout: 3000
+        position: msgPosition,
+        timeout: 8000
+      });
+    } else if (lastDropboxSyncResult == 'AUTH_EXPIRED') {
+      // eslint-disable-next-line no-undef
+      iziToast.error({
+        title: i18n.t('dropbox.sync-msg-title'),
+        message: i18n.t('dropbox.auth-expired-msg', { date: lastDropboxSyncTime }),
+        position: msgPosition,
+        timeout: 8000
       });
     } else {
       // eslint-disable-next-line no-undef
       iziToast.success({
         title: i18n.t('dropbox.sync-msg-title'),
         message: i18n.t('dropbox.sync-success-msg', { date: lastDropboxSyncTime }),
-        position: 'topCenter',
-        timeout: 5000
+        position: msgPosition,
+        timeout: 3000
       });
     }
   }
@@ -167,6 +180,11 @@ function updateDropboxLinkStatusLabel() {
 
   } else if (dbSyncDropboxLinkStatus == 'FAILED') {
     $('#dropbox-link-status').text(i18n.t('dropbox.dropbox-link-status-linking-failed'));
+    $('#dropbox-link-status').addClass('failed');
+    $('#dropbox-link-status').removeClass('success');
+
+  } else if (dbSyncDropboxLinkStatus == 'AUTH_EXPIRED') {
+    $('#dropbox-link-status').text(i18n.t('dropbox.dropbox-link-status-auth-expired'));
     $('#dropbox-link-status').addClass('failed');
     $('#dropbox-link-status').removeClass('success');
 
