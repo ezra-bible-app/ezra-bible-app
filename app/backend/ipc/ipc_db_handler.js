@@ -70,11 +70,18 @@ class IpcDbHandler {
   async syncDatabaseWithDropbox() {
     // eslint-disable-next-line no-undef
     let config = ipc.ipcSettingsHandler.getConfig();
-    const dropboxToken = config.get('dropboxToken');
+    
+    let dropboxToken = config.get('dropboxToken');
     if (dropboxToken == "") {
       return;
     }
 
+    const dropboxRefreshToken = config.get('dropboxRefreshToken');
+    if (dropboxRefreshToken == "") {
+      return;
+    }
+
+    const DROPBOX_CLIENT_ID = 'omhgjqlxpfn2r8z';
     const dropboxFolder = config.get('dropboxFolder', 'ezra');
     const firstDropboxSyncDone = config.get('firstDropboxSyncDone', false);
     const databaseFilePath = this.getDatabaseFilePath();
@@ -85,22 +92,37 @@ class IpcDbHandler {
       prioritizeRemote = true;
     }
 
-    let dropboxSync = new DropboxSync(dropboxToken);
+    let dropboxSync = new DropboxSync(DROPBOX_CLIENT_ID, dropboxToken, dropboxRefreshToken);
 
     let authenticated = false;
     let lastDropboxSyncResult = null;
 
     try {
+      let refreshedAccessToken = await dropboxSync.refreshAccessToken();
+
+      if (refreshedAccessToken == dropboxToken) {
+        console.log('Existing Dropbox token valid!');
+      } else {
+        console.log('Refreshed Dropbox access token!');
+        dropboxToken = refreshedAccessToken;
+        config.set('dropboxToken', refreshedAccessToken);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+    try {
       await dropboxSync.testAuthentication();
       authenticated = true;
     } catch (e) {
-      if (e.error.error_summary.indexOf('expired') != -1) {
+      /*if (e.error.error_summary.indexOf('expired') != -1) {
         console.log('Dropbox authentication expired!');
         config.set('dropboxLinkStatus', 'AUTH_EXPIRED');
         lastDropboxSyncResult = 'AUTH_EXPIRED';
       } else {
         console.log(e);
-      }
+      }*/
+      console.log(e);
     }
 
     if (authenticated) {

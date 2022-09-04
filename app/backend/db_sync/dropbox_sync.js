@@ -23,9 +23,24 @@ const path = require('path');
 const dch = require('./dropbox_content_hasher.js');
 
 class DropboxSync {
-  constructor(TOKEN) {
+  constructor(CLIENT_ID, TOKEN, REFRESH_TOKEN) {
     this._TOKEN = TOKEN;
-    this._dbx = new Dropbox.Dropbox({ accessToken: this._TOKEN, fetch: isomorphicFetch });
+    this._REFRESH_TOKEN = REFRESH_TOKEN;
+    this._CLIENT_ID = CLIENT_ID;
+
+    this._dbxAuth = new Dropbox.DropboxAuth({
+      clientId: CLIENT_ID,
+      refreshToken: REFRESH_TOKEN,
+      accessToken: TOKEN
+    });
+
+    this._dbx = new Dropbox.Dropbox({ accessToken: this._TOKEN,
+                                      fetch: isomorphicFetch });
+  }
+
+  async refreshAccessToken() {
+    await this._dbxAuth.checkAndRefreshAccessToken();
+    return this._dbxAuth.getAccessToken();
   }
 
   async getFolders() {

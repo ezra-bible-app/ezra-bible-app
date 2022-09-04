@@ -29,12 +29,14 @@ const platformHelper = new PlatformHelper();
 
 const DROPBOX_CLIENT_ID = 'omhgjqlxpfn2r8z';
 const DROPBOX_TOKEN_SETTINGS_KEY = 'dropboxToken';
+const DROPBOX_REFRESH_TOKEN_SETTINGS_KEY = 'dropboxRefreshToken';
 const DROPBOX_LINK_STATUS_SETTINGS_KEY = 'dropboxLinkStatus';
 const DROPBOX_FOLDER_SETTINGS_KEY = 'dropboxFolder';
 const DROPBOX_ONLY_WIFI_SETTINGS_KEY = 'dropboxOnlyWifi';
 
 let dbSyncInitDone = false;
 let dbSyncDropboxToken = null;
+let dbSyncDropboxRefreshToken = null;
 let dbSyncDropboxLinkStatus = null;
 let dbSyncDropboxFolder = null;
 let dbSyncOnlyWifi = false;
@@ -112,6 +114,7 @@ function initAuthCallbacks() {
 
 async function initDbSync() {
   dbSyncDropboxToken = await ipcSettings.get(DROPBOX_TOKEN_SETTINGS_KEY, "");
+  dbSyncDropboxRefreshToken = await ipcSettings.get(DROPBOX_REFRESH_TOKEN_SETTINGS_KEY, "");
   dbSyncDropboxLinkStatus = await ipcSettings.get(DROPBOX_LINK_STATUS_SETTINGS_KEY, null);
   dbSyncDropboxFolder = await ipcSettings.get(DROPBOX_FOLDER_SETTINGS_KEY, 'ezra');
   dbSyncOnlyWifi = await ipcSettings.get(DROPBOX_ONLY_WIFI_SETTINGS_KEY, false);
@@ -144,6 +147,7 @@ async function initDbSync() {
 
       if (dbSyncDropboxLinkStatus == 'LINKED') {
         await ipcSettings.set(DROPBOX_TOKEN_SETTINGS_KEY, dbSyncDropboxToken);
+        await ipcSettings.set(DROPBOX_REFRESH_TOKEN_SETTINGS_KEY, dbSyncDropboxRefreshToken);
       }
 
       dbSyncDropboxFolder = $('#dropbox-sync-folder').val();
@@ -230,6 +234,7 @@ function handleRedirect(url) {
     dbxAuth.getAccessTokenFromCode(REDIRECT_URI, getCodeFromUrl(url))
       .then((response) => {
         dbSyncDropboxToken = response.result.access_token;
+        dbSyncDropboxRefreshToken = response.result.refresh_token;
         dbSyncDropboxLinkStatus = 'LINKED';
         updateDropboxLinkStatusLabel();
 
