@@ -75,6 +75,10 @@ class InfoPopup {
     });
   }
 
+  getFormattedTimestamp(timestamp) {
+    return timestamp.toLocaleDateString() + ' / ' + timestamp.toLocaleTimeString();
+  }
+
   async showAppInfo() {
     var CommitInfo = null;
     var gitCommit = "";
@@ -106,7 +110,19 @@ class InfoPopup {
     let lastDropboxSyncTime = '--';
     if (await ipcSettings.has('lastDropboxSyncTime')) {
       lastDropboxSyncTime = new Date(await ipcSettings.get('lastDropboxSyncTime'));
-      lastDropboxSyncTime = lastDropboxSyncTime.toLocaleDateString() + ' / ' + lastDropboxSyncTime.toLocaleTimeString();
+      lastDropboxSyncTime = this.getFormattedTimestamp(lastDropboxSyncTime);
+    }
+
+    let lastDropboxDownloadTime = '--';
+    if (await ipcSettings.has('lastDropboxDownloadTime')) {
+      lastDropboxDownloadTime = new Date(await ipcSettings.get('lastDropboxDownloadTime'));
+      lastDropboxDownloadTime = this.getFormattedTimestamp(lastDropboxDownloadTime);
+    }
+
+    let lastDropboxUploadTime = '--';
+    if (await ipcSettings.has('lastDropboxUploadTime')) {
+      lastDropboxUploadTime = new Date(await ipcSettings.get('lastDropboxUploadTime'));
+      lastDropboxUploadTime = this.getFormattedTimestamp(lastDropboxUploadTime);
     }
 
     const lastDropboxSyncResult = await ipcSettings.get('lastDropboxSyncResult', '--');
@@ -178,6 +194,8 @@ class InfoPopup {
         <table>
           <tr><td style='width: 15em;'>${i18n.t("dropbox.last-dropbox-sync-time")}:</td><td>${lastDropboxSyncTime}</td></tr>
           <tr><td style='width: 15em;'>${i18n.t("dropbox.last-dropbox-sync-result")}:</td><td>${lastDropboxSyncResult}</td></tr>
+          <tr><td style='width: 15em;'>${i18n.t("dropbox.last-dropbox-download-time")}:</td><td>${lastDropboxDownloadTime}</td></tr>
+          <tr><td style='width: 15em;'>${i18n.t("dropbox.last-dropbox-upload-time")}:</td><td>${lastDropboxUploadTime}</td></tr>
         </table>
 
         <div id="info-popup-export">

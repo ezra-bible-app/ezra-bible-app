@@ -403,6 +403,8 @@
     "dropbox-sync-info": "Dropbox synchronization info",
     "last-dropbox-sync-time": "Last sync",
     "last-dropbox-sync-result": "Last sync result",
+    "last-dropbox-download-time": "Last download",
+    "last-dropbox-upload-time": "Last upload",
     "sync-msg-title": "Dropbox sync",
     "sync-success-msg": "Successfully synchronized database with Dropbox ({{date}}).",
     "sync-failed-msg": "Failed to synchronize database with Dropbox ({{date}}).",
