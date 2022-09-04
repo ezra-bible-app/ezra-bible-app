@@ -130,6 +130,7 @@
     "sword-path": "SWORD module path",
     "chromium-version": "Chromium version",
     "database-path": "Database path",
+    "database-size": "Database size",
     "config-file-path": "Configuration path",
     "module-name": "Name",
     "module-version": "Version",

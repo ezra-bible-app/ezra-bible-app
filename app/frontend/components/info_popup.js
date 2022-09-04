@@ -104,6 +104,7 @@ class InfoPopup {
     const swordVersion = await ipcNsi.getSwordVersion();
     const chromiumVersion = window.getChromiumVersion();
     const databasePath = await ipcDb.getDatabasePath();
+    const databaseSize = await ipcDb.getDatabaseSize() + ' MB';
     const configFilePath = await ipcSettings.getConfigFilePath();
     const swordPath = await ipcNsi.getSwordPath();
 
@@ -186,6 +187,7 @@ class InfoPopup {
           <tr><td>${i18n.t("general.sword-version")}:</td><td>${swordVersion}</td></tr>
           <tr><td>${i18n.t("general.chromium-version")}:</td><td>${chromiumVersion}</td></tr>
           <tr><td>${i18n.t("general.database-path")}:</td><td>${databasePath}</td></tr>
+          <tr><td>${i18n.t("general.database-size")}:</td><td>${databaseSize}</td></tr>
           <tr><td>${i18n.t("general.config-file-path")}:</td><td>${configFilePath}</td></tr>
           <tr><td>${i18n.t("general.sword-path")}:</td><td>${swordPath}</td></tr>
         </table>

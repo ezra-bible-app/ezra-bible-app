@@ -18,8 +18,9 @@
 
 const IpcMain = require('./ipc_main.js');
 const PlatformHelper = require('../../lib/platform_helper.js');
-const path = require('path');
 const DropboxSync = require('../db_sync/dropbox_sync.js');
+const path = require('path');
+const fs = require('fs');
 
 let dbHelper = null;
 
@@ -148,6 +149,14 @@ class IpcDbHandler {
 
     this._ipcMain.add('db_getDatabasePath', async() => {
       return this.getDatabaseFilePath();
+    });
+
+    this._ipcMain.add('db_getDatabaseSize', async() => {
+      let filePath = this.getDatabaseFilePath();
+      let size = fs.statSync(filePath).size;
+      let sizeMb = Number(size / (1024 * 1024)).toFixed(2);
+
+      return sizeMb;
     });
 
     this._ipcMain.add('db_createNewTag', async (newTagTitle, tagGroups) => {

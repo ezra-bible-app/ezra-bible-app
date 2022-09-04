@@ -39,6 +39,10 @@ class IpcDb {
     return await this._ipcRenderer.call('db_getDatabasePath');
   }
 
+  async getDatabaseSize() {
+    return await this._ipcRenderer.call('db_getDatabaseSize');
+  }
+
   async createNewTag(newTagTitle, tagGroups) {
     return await this._ipcRenderer.call('db_createNewTag', newTagTitle, tagGroups);
   }
