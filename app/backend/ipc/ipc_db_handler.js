@@ -117,7 +117,7 @@ class IpcDbHandler {
         lastDropboxSyncResult = 'FAILED';
       }
 
-      if (!firstDropboxSyncDone) {
+      if (result >= 0 && !firstDropboxSyncDone) {
         config.set('firstDropboxSyncDone', true);
       }
     } else {
