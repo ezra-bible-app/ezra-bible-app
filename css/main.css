@@ -482,7 +482,7 @@ a.chapter-nav:hover {
 }
 
 .Android #only-sync-on-wifi-option {
-  display: block;
+  display: flex;
 }
 
 #verse-list-popup-verse-list {
