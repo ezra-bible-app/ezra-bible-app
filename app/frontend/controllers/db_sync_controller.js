@@ -27,6 +27,7 @@ const Dropbox = require('dropbox');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const platformHelper = new PlatformHelper();
 
+const DROPBOX_CLIENT_ID = 'omhgjqlxpfn2r8z';
 const DROPBOX_TOKEN_SETTINGS_KEY = 'dropboxToken';
 const DROPBOX_LINK_STATUS_SETTINGS_KEY = 'dropboxLinkStatus';
 const DROPBOX_FOLDER_SETTINGS_KEY = 'dropboxFolder';
@@ -241,10 +242,8 @@ function handleRedirect(url) {
 }
 
 function getDropboxAuth() {
-  const CLIENT_ID = 'ivkivdw70sfvwo2';
-
   let dbxAuth = new Dropbox.DropboxAuth({
-    clientId: CLIENT_ID,
+    clientId: DROPBOX_CLIENT_ID,
   });
 
   return dbxAuth;
