@@ -466,6 +466,7 @@ a.chapter-nav:hover {
   margin-left: 0.5em;
   background-color: lightyellow;
   border: 1px solid lightgray;
+  color: black;
 }
 
 #dropbox-link-status.success {
