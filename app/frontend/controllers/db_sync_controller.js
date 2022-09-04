@@ -73,14 +73,6 @@ module.exports.showSyncResultMessage = async function() {
         position: msgPosition,
         timeout: 8000
       });
-    } else if (lastDropboxSyncResult == 'AUTH_EXPIRED') {
-      // eslint-disable-next-line no-undef
-      iziToast.error({
-        title: i18n.t('dropbox.sync-msg-title'),
-        message: i18n.t('dropbox.auth-expired-msg', { date: lastDropboxSyncTime }),
-        position: msgPosition,
-        timeout: 8000
-      });
     } else {
       // eslint-disable-next-line no-undef
       iziToast.success({
@@ -92,6 +84,14 @@ module.exports.showSyncResultMessage = async function() {
     }
   }
 };
+
+function getDropboxAuth() {
+  let dbxAuth = new Dropbox.DropboxAuth({
+    clientId: DROPBOX_CLIENT_ID,
+  });
+
+  return dbxAuth;
+}
 
 function initAuthCallbacks() {
   if (platformHelper.isCordova()) {
@@ -188,11 +188,6 @@ function updateDropboxLinkStatusLabel() {
     $('#dropbox-link-status').addClass('failed');
     $('#dropbox-link-status').removeClass('success');
 
-  } else if (dbSyncDropboxLinkStatus == 'AUTH_EXPIRED') {
-    $('#dropbox-link-status').text(i18n.t('dropbox.dropbox-link-status-auth-expired'));
-    $('#dropbox-link-status').addClass('failed');
-    $('#dropbox-link-status').removeClass('success');
-
   } else if (dbSyncDropboxLinkStatus === null) {
     $('#dropbox-link-status').text(i18n.t('dropbox.dropbox-link-status-not-linked'));
   }
@@ -231,12 +226,16 @@ function handleRedirect(url) {
 
   if (hasRedirectedFromAuth(url)) {
     dbxAuth.setCodeVerifier(window.sessionStorage.getItem('codeVerifier'));
+
     dbxAuth.getAccessTokenFromCode(REDIRECT_URI, getCodeFromUrl(url))
       .then((response) => {
         dbSyncDropboxToken = response.result.access_token;
         dbSyncDropboxRefreshToken = response.result.refresh_token;
         dbSyncDropboxLinkStatus = 'LINKED';
         updateDropboxLinkStatusLabel();
+
+        // This configuration will be permanently stored
+        // once the user hits the save button of the Dropbox configuration dialog
 
       }).catch((error) => {
         dbSyncDropboxLinkStatus = 'FAILED';
@@ -246,29 +245,28 @@ function handleRedirect(url) {
   }
 }
 
-function getDropboxAuth() {
-  let dbxAuth = new Dropbox.DropboxAuth({
-    clientId: DROPBOX_CLIENT_ID,
-  });
-
-  return dbxAuth;
-}
-
 async function setupDropboxAuthentication() {
   const REDIRECT_URI = getRedirectUri();
 
   console.log('Starting Dropbox authentication with this REDIRECT_URI: ' + REDIRECT_URI);
 
   if (platformHelper.isElectron()) {
+    // On Electron the authentication code will come back through a local web server that we start here.
+    // Once the user approves the Dropbox access, Dropbox will redirect the user to a web site served
+    // by this local server. The code is then read in the backend (see ipc_general_handler.js) and
+    // sent back via IPC on the channel dropbox-auth-callback, see the code in initAuthCallbacks().
     await ipcGeneral.startDropboxAuthServer();
   }
 
   dbxAuth.getAuthenticationUrl(REDIRECT_URI, undefined, 'code', 'offline', undefined, undefined, true)
     .then(authUrl => {
       window.sessionStorage.clear();
+
+      // Relevant as part of a PKCE authentication flow (setting the Proof Key for Code Exchange)
       window.sessionStorage.setItem("codeVerifier", dbxAuth.codeVerifier);
 
-      // Open the Dropbox authentication url in the system web browser
+      // Open the Dropbox authentication url in the system web browser.
+      // The next step after this will be a redirect which will be handled by handleRedirect().
       let popup = window.open(authUrl, '_system');
 
       if (platformHelper.isElectron()) {

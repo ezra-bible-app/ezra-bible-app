@@ -115,13 +115,6 @@ class IpcDbHandler {
       await dropboxSync.testAuthentication();
       authenticated = true;
     } catch (e) {
-      /*if (e.error.error_summary.indexOf('expired') != -1) {
-        console.log('Dropbox authentication expired!');
-        config.set('dropboxLinkStatus', 'AUTH_EXPIRED');
-        lastDropboxSyncResult = 'AUTH_EXPIRED';
-      } else {
-        console.log(e);
-      }*/
       console.log(e);
     }
 

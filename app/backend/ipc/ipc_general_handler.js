@@ -129,7 +129,7 @@ class IpcGeneralHandler {
         let url = req.url;
         console.log('Got request at ' + url);
 
-        // Close the window immediately
+        // Send a script that closes the window immediately
         res.send('<html><head><script type="text/javascript">window.close();</script></head><body></body></html>');
 
         global.mainWindow.webContents.send('dropbox-auth-callback', url);
