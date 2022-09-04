@@ -41,7 +41,7 @@ let dbSyncOnlyWifi = false;
 let dbxAuth = getDropboxAuth();
 
 module.exports.showDbSyncConfigDialog = async function() {
-  await initDbSyncDialog();
+  await initDbSync();
 
   $('#db-sync-box').dialog("open");
 };
@@ -96,7 +96,7 @@ function initAuthCallbacks() {
   }
 }
 
-async function initDbSyncDialog() {
+async function initDbSync() {
   dbSyncDropboxToken = await ipcSettings.get(DROPBOX_TOKEN_SETTINGS_KEY, "");
   dbSyncDropboxLinkStatus = await ipcSettings.get(DROPBOX_LINK_STATUS_SETTINGS_KEY, null);
   dbSyncDropboxFolder = await ipcSettings.get(DROPBOX_FOLDER_SETTINGS_KEY, 'ezra');
