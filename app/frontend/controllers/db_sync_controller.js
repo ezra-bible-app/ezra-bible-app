@@ -143,19 +143,7 @@ async function initDbSync() {
     id: 'save-db-sync-config-button',
     text: i18n.t("general.save"),
     click: async () => {
-      $('#db-sync-box').dialog("close");
-
-      if (dbSyncDropboxLinkStatus == 'LINKED') {
-        await ipcSettings.set(DROPBOX_TOKEN_SETTINGS_KEY, dbSyncDropboxToken);
-        await ipcSettings.set(DROPBOX_REFRESH_TOKEN_SETTINGS_KEY, dbSyncDropboxRefreshToken);
-      }
-
-      dbSyncDropboxFolder = $('#dropbox-sync-folder').val();
-      dbSyncOnlyWifi = document.getElementById('only-sync-on-wifi').checked;
-
-      await ipcSettings.set(DROPBOX_LINK_STATUS_SETTINGS_KEY, dbSyncDropboxLinkStatus);
-      await ipcSettings.set(DROPBOX_FOLDER_SETTINGS_KEY, dbSyncDropboxFolder);
-      await ipcSettings.set(DROPBOX_ONLY_WIFI_SETTINGS_KEY, dbSyncOnlyWifi);
+      handleDropboxConfigurationSave();
     }
   };
 
@@ -175,6 +163,22 @@ async function initDbSync() {
   $('#db-sync-box').dialog(dbSyncDialogOptions);
 
   dbSyncInitDone = true;
+}
+
+async function handleDropboxConfigurationSave() {
+  $('#db-sync-box').dialog("close");
+
+  dbSyncDropboxFolder = $('#dropbox-sync-folder').val();
+  dbSyncOnlyWifi = document.getElementById('only-sync-on-wifi').checked;
+
+  if (dbSyncDropboxLinkStatus == 'LINKED') {
+    await ipcSettings.set(DROPBOX_TOKEN_SETTINGS_KEY, dbSyncDropboxToken);
+    await ipcSettings.set(DROPBOX_REFRESH_TOKEN_SETTINGS_KEY, dbSyncDropboxRefreshToken);
+  }
+
+  await ipcSettings.set(DROPBOX_LINK_STATUS_SETTINGS_KEY, dbSyncDropboxLinkStatus);
+  await ipcSettings.set(DROPBOX_FOLDER_SETTINGS_KEY, dbSyncDropboxFolder);
+  await ipcSettings.set(DROPBOX_ONLY_WIFI_SETTINGS_KEY, dbSyncOnlyWifi);
 }
 
 function updateDropboxLinkStatusLabel() {
