@@ -109,8 +109,10 @@ class IpcDbHandler {
 
       if (result == 1) {
         lastDropboxSyncResult = 'DOWNLOAD';
+        config.set('lastDropboxDownloadTime', new Date());
       } else if (result == 2) {
         lastDropboxSyncResult = 'UPLOAD';
+        config.set('lastDropboxUploadTime', new Date());
       } else if (result == 0) {
         lastDropboxSyncResult = 'NONE';
       } else if (result < 0) {
