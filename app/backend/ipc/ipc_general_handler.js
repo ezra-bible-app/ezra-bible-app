@@ -134,9 +134,17 @@ class IpcGeneralHandler {
 
         global.mainWindow.webContents.send('dropbox-auth-callback', url);
         expressServer.close();
+        expressServer = null;
       });
 
       expressServer = expressApp.listen(9999);
+    });
+
+    this._ipcMain.add('general_stopDropboxAuthServer', async() => {
+      if (expressServer != null) {
+        expressServer.close();
+        expressServer = null;
+      }
     });
 
     this._ipcMain.add('general_getIpcCallStats', async() => {

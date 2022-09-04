@@ -247,7 +247,16 @@ async function setupDropboxAuthentication() {
       window.sessionStorage.setItem("codeVerifier", dbxAuth.codeVerifier);
 
       // Open the Dropbox authentication url in the system web browser
-      window.open(authUrl, '_system');
+      let popup = window.open(authUrl, '_system');
+
+      if (platformHelper.isElectron()) {
+        let timer = setInterval(() => { 
+          if(popup.closed) {
+            clearInterval(timer);
+            ipcGeneral.stopDropboxAuthServer();
+          }
+        }, 500);
+      }
     })
     .catch((error) => console.error(error));
 }
