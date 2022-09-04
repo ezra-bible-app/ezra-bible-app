@@ -185,7 +185,7 @@ function getCodeFromUrl(url) {
     replacementString = '/dropbox_auth?code=';
   }
 
-  var code = url.replace(replacementString, '');
+  let code = url.replace(replacementString, '');
   return code;
 }
 
