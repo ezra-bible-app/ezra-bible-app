@@ -477,6 +477,14 @@ a.chapter-nav:hover {
   background-color: lightsalmon;
 }
 
+#only-sync-on-wifi-option {
+  display: none;
+}
+
+.Android #only-sync-on-wifi-option {
+  display: block;
+}
+
 #verse-list-popup-verse-list {
   padding-right: 0.2em;
   height: 350px;
