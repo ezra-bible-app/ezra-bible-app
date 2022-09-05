@@ -59,18 +59,20 @@ module.exports.deleteCache = async function (key) {
 };
 
 module.exports.isCacheInvalid = async function () {
-  var lastUsedVersion = await ipcSettings.get('lastUsedVersion', undefined);
-  var currentVersion = await ipcGeneral.getAppVersion();
+  let lastUsedVersion = await ipcSettings.get('lastUsedVersion', undefined);
+  let currentVersion = await ipcGeneral.getAppVersion();
 
-  var cacheLocale = await ipcSettings.get('cacheLocale', undefined, CACHE_NAME);
-  var currentLocale = i18nController.getLocale();
+  let cacheLocale = await ipcSettings.get('cacheLocale', undefined, CACHE_NAME);
+  let currentLocale = i18nController.getLocale();
+
+  let lastDropboxSyncResult = await ipcSettings.get('lastDropboxSyncResult', '');
 
   /*console.log("Last version: " + lastUsedVersion);
   console.log("Current version: " + currentVersion);
   console.log("Last used language: " + cacheLocale);
   console.log("Current language: " + currentLocale);*/
 
-  return currentVersion != lastUsedVersion || currentLocale != cacheLocale;
+  return currentVersion != lastUsedVersion || currentLocale != cacheLocale || lastDropboxSyncResult == 'DOWNLOAD';
 };
 
 module.exports.isCacheOutdated = async function () {
