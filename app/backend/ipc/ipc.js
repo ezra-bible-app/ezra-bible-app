@@ -81,9 +81,9 @@ class IPC {
     }
   }
 
-  async initDatabase(isDebug, androidVersion=undefined) {
+  async initDatabase(isDebug, androidVersion=undefined, connectionType=undefined) {
     global.ipcDbHandler = new IpcDbHandler();
-    await global.ipcDbHandler.initDatabase(isDebug, androidVersion);
+    await global.ipcDbHandler.initDatabase(isDebug, androidVersion, connectionType);
   }
 
   async closeDatabase() {

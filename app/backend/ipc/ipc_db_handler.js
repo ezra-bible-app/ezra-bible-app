@@ -33,7 +33,7 @@ class IpcDbHandler {
     this.initIpcInterface();
   }
 
-  async initDatabase(isDebug, androidVersion=undefined) {
+  async initDatabase(isDebug, androidVersion=undefined, connectionType=undefined) {
     const DbHelper = require('../database/db_helper.js');
     let userDataDir = this.platformHelper.getUserDataPath(false, androidVersion);
 
@@ -60,17 +60,23 @@ class IpcDbHandler {
         config.get('dropboxToken') != "" &&
         !config.has('customDatabaseDir')) {
 
-      console.log('Synchronizing database with Dropbox!');
-      await this.syncDatabaseWithDropbox();
+      await this.syncDatabaseWithDropbox(connectionType);
     }
 
     global.models = require('../database/models')(this.dbDir);
   }
 
-  async syncDatabaseWithDropbox() {
+  async syncDatabaseWithDropbox(connectionType=undefined) {
     // eslint-disable-next-line no-undef
     let config = ipc.ipcSettingsHandler.getConfig();
-    
+
+    let onlySyncOnWifi = config.get('dropboxOnlyWifi', false);
+
+    if (connectionType !== undefined && onlySyncOnWifi && connectionType != 'wifi') {
+      console.log(`Configured to only sync Dropbox on Wifi. Not syncing, since we are currently on ${connectionType}.`);
+      return;
+    }
+
     let dropboxToken = config.get('dropboxToken');
     if (dropboxToken == "") {
       return;
@@ -80,6 +86,8 @@ class IpcDbHandler {
     if (dropboxRefreshToken == "") {
       return;
     }
+
+    console.log('Synchronizing database with Dropbox!');
 
     const DROPBOX_CLIENT_ID = 'omhgjqlxpfn2r8z';
     const dropboxFolder = config.get('dropboxFolder', 'ezra');

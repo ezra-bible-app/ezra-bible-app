@@ -297,8 +297,11 @@ class CordovaPlatform {
     uiHelper.updateLoadingSubtitle("cordova.init-sword", "Initializing SWORD");
     await ipcGeneral.initPersistentIpc(androidVersion);
 
+    // This depends on having cordova-plugin-network-information available
+    let connectionType = navigator.connection.type;
+
     uiHelper.updateLoadingSubtitle("cordova.init-database", "Initializing database");
-    await ipcGeneral.initDatabase(androidVersion);
+    await ipcGeneral.initDatabase(androidVersion, connectionType);
 
     await startup.initApplication();
   }

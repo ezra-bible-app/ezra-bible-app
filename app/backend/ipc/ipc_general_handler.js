@@ -34,8 +34,8 @@ class IpcGeneralHandler {
         return global.main.initPersistentIpc(androidVersion);
       });
 
-      this._ipcMain.add('general_initDatabase', async(androidVersion=undefined) => {
-        return global.main.initDatabase(androidVersion);
+      this._ipcMain.add('general_initDatabase', async(androidVersion=undefined, connectionType=undefined) => {
+        return global.main.initDatabase(androidVersion, connectionType);
       });
     }
 

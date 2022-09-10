@@ -33,10 +33,10 @@ class IpcGeneral {
     return result;
   }
 
-  async initDatabase(androidVersion=undefined) {
+  async initDatabase(androidVersion=undefined, connectionType=undefined) {
     var timeoutMs = 15000;
     console.time('initDatabase');
-    var result = await this._ipcRenderer.callWithTimeout('general_initDatabase', timeoutMs, androidVersion);
+    var result = await this._ipcRenderer.callWithTimeout('general_initDatabase', timeoutMs, androidVersion, connectionType);
     console.timeEnd('initDatabase');
     return result;
   }
