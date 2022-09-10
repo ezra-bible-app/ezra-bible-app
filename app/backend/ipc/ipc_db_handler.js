@@ -33,6 +33,16 @@ class IpcDbHandler {
     this.initIpcInterface();
   }
 
+  hasValidDropboxConfig() {
+    // eslint-disable-next-line no-undef
+    let config = ipc.ipcSettingsHandler.getConfig();
+
+    return config !== undefined &&
+           config.has('dropboxToken') &&
+           config.get('dropboxToken') != "" &&
+           !config.has('customDatabaseDir');
+  }
+
   async initDatabase(isDebug, androidVersion=undefined, connectionType=undefined) {
     const DbHelper = require('../database/db_helper.js');
     let userDataDir = this.platformHelper.getUserDataPath(false, androidVersion);
@@ -53,13 +63,7 @@ class IpcDbHandler {
 
     await dbHelper.initDatabase(this.dbDir, androidVersion);
 
-    // eslint-disable-next-line no-undef
-    let config = ipc.ipcSettingsHandler.getConfig();
-    if (config !== undefined &&
-        config.has('dropboxToken') &&
-        config.get('dropboxToken') != "" &&
-        !config.has('customDatabaseDir')) {
-
+    if (this.hasValidDropboxConfig()) {
       await this.syncDatabaseWithDropbox(connectionType);
     }
 
@@ -168,6 +172,12 @@ class IpcDbHandler {
   initIpcInterface() {
     this._ipcMain.add('db_close', async() => {
       return await this.closeDatabase();
+    });
+
+    this._ipcMain.add('db_syncDropbox', async(connectionType) => {
+      if (this.hasValidDropboxConfig()) {
+        await this.syncDatabaseWithDropbox(connectionType);
+      }
     });
 
     this._ipcMain.add('db_getDatabasePath', async() => {
