@@ -114,6 +114,18 @@ function initAuthCallbacks() {
   }
 }
 
+module.exports.initDbSyncNotification = function() {
+  if (platformHelper.isElectron()) {
+    require('electron').ipcRenderer.on('dropbox-synced', (event, message) => {
+      module.exports.showSyncResultMessage();
+    });
+  } else if (platformHelper.isCordova()) {
+    nodejs.channel.on('dropbox-synced', (message) => {
+      module.exports.showSyncResultMessage();
+    });
+  }
+}
+
 async function initDbSync() {
   dbSyncDropboxToken = await ipcSettings.get(DROPBOX_TOKEN_SETTINGS_KEY, "");
   dbSyncDropboxRefreshToken = await ipcSettings.get(DROPBOX_REFRESH_TOKEN_SETTINGS_KEY, "");

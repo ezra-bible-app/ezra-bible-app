@@ -335,6 +335,7 @@ class Startup {
     app_controller.tab_controller.restoreScrollPosition(0);
     // FIXME: Also highlight the last navigation element in the navigation pane and scroll to it
 
+    dbSyncController.initDbSyncNotification();
     dbSyncController.showSyncResultMessage();
 
     if (this._platformHelper.isElectron()) {

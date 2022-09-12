@@ -70,8 +70,7 @@ class IpcDbHandler {
     global.models = require('../database/models')(this.dbDir);
   }
 
-  async syncDatabaseWithDropbox(connectionType=undefined) {
-
+  async syncDatabaseWithDropbox(connectionType=undefined, notifyFrontend=false) {
     let onlySyncOnWifi = this._config.get('dropboxOnlyWifi', false);
 
     if (connectionType !== undefined && onlySyncOnWifi && connectionType != 'wifi') {
@@ -154,6 +153,14 @@ class IpcDbHandler {
 
     this._config.set('lastDropboxSyncResult', lastDropboxSyncResult);
     this._config.set('lastDropboxSyncTime', new Date());
+
+    if (notifyFrontend) {
+      if (this.platformHelper.isElectron()) {
+        global.mainWindow.webContents.send('dropbox-synced');
+      } else if (this.platformHelper.isCordova()) {
+        cordova.channel.post('dropbox-synced', '');
+      }
+    }
   }
 
   async closeDatabase() {
@@ -170,6 +177,10 @@ class IpcDbHandler {
   async triggerDropboxSyncIfConfigured() {
     const DROPBOX_SYNC_TIMEOUT_MS = 2 * 60 * 1000;
 
+    if (!this.hasValidDropboxConfig()) {
+      return;
+    }
+
     if (this._config.has('dropboxSyncAfterChanges') &&
         this._config.get('dropboxSyncAfterChanges') == false) {
       
@@ -185,7 +196,7 @@ class IpcDbHandler {
     console.log(`Starting new Dropbox sync in ${DROPBOX_SYNC_TIMEOUT_MS / 1000} seconds!`);
     this._dropboxSyncTimeout = setTimeout(async () => {
       console.log(`Syncing Dropbox based on timeout after ${DROPBOX_SYNC_TIMEOUT_MS / 1000} seconds!`);
-      this.syncDatabaseWithDropbox();
+      this.syncDatabaseWithDropbox(undefined, true);
     }, DROPBOX_SYNC_TIMEOUT_MS);
   }
 
