@@ -21,6 +21,8 @@ const IpcMain = require('./ipc_main.js');
 let expressApp = null;
 let expressServer = null;
 
+global.connectionType = undefined;
+
 class IpcGeneralHandler {
   constructor() {
     this._ipcMain = new IpcMain();
@@ -35,9 +37,14 @@ class IpcGeneralHandler {
       });
 
       this._ipcMain.add('general_initDatabase', async(androidVersion=undefined, connectionType=undefined) => {
+        global.connectionType = connectionType;
         return global.main.initDatabase(androidVersion, connectionType);
       });
     }
+
+    this._ipcMain.add('general_setConnectionType', async (connectionType) => {
+      global.connectionType = connectionType;
+    });
 
     this._ipcMain.add('general_getMajorOsVersion', async () => {
       var releaseVersion = require('os').release();

@@ -41,6 +41,11 @@ class IpcGeneral {
     return result;
   }
 
+  async setConnectionType(connectionType) {
+    var result = await this._ipcRenderer.call('general_setConnectionType', connectionType);
+    return result;
+  }
+
   async getMajorOsVersion() {
     return await this._ipcRenderer.call('general_getMajorOsVersion');
   }

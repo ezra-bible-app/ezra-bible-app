@@ -45,7 +45,7 @@ let dbSyncAfterChanges = false;
 
 let dbxAuth = getDropboxAuth();
 
-module.exports.initDbSyncNotification = function() {
+module.exports.init = function() {
   if (platformHelper.isElectron()) {
     require('electron').ipcRenderer.on('dropbox-synced', (event, message) => {
       module.exports.showSyncResultMessage();
@@ -53,6 +53,10 @@ module.exports.initDbSyncNotification = function() {
   } else if (platformHelper.isCordova()) {
     nodejs.channel.on('dropbox-synced', (message) => {
       module.exports.showSyncResultMessage();
+    });
+
+    navigator.connection.addEventListener('change', () => {
+      ipcGeneral.setConnectionType(navigator.connection.type);
     });
   }
 };

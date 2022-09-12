@@ -196,7 +196,7 @@ class IpcDbHandler {
     console.log(`Starting new Dropbox sync in ${DROPBOX_SYNC_TIMEOUT_MS / 1000} seconds!`);
     this._dropboxSyncTimeout = setTimeout(async () => {
       console.log(`Syncing Dropbox based on timeout after ${DROPBOX_SYNC_TIMEOUT_MS / 1000} seconds!`);
-      this.syncDatabaseWithDropbox(undefined, true);
+      this.syncDatabaseWithDropbox(global.connectionType, true);
     }, DROPBOX_SYNC_TIMEOUT_MS);
   }
 
