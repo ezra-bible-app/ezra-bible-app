@@ -29,18 +29,18 @@ class IpcDbHandler {
     this._ipcMain = new IpcMain();
     this.platformHelper = new PlatformHelper();
     this.dbDir = null;
+    this._config = ipc.ipcSettingsHandler.getConfig();
+    this._dropboxSyncTimeout = null;
 
     this.initIpcInterface();
   }
 
   hasValidDropboxConfig() {
-    // eslint-disable-next-line no-undef
-    let config = ipc.ipcSettingsHandler.getConfig();
 
-    return config !== undefined &&
-           config.has('dropboxToken') &&
-           config.get('dropboxToken') != "" &&
-           !config.has('customDatabaseDir');
+    return this._config !== undefined &&
+           this._config.has('dropboxToken') &&
+           this._config.get('dropboxToken') != "" &&
+           !this._config.has('customDatabaseDir');
   }
 
   async initDatabase(isDebug, androidVersion=undefined, connectionType=undefined) {
@@ -71,22 +71,20 @@ class IpcDbHandler {
   }
 
   async syncDatabaseWithDropbox(connectionType=undefined) {
-    // eslint-disable-next-line no-undef
-    let config = ipc.ipcSettingsHandler.getConfig();
 
-    let onlySyncOnWifi = config.get('dropboxOnlyWifi', false);
+    let onlySyncOnWifi = this._config.get('dropboxOnlyWifi', false);
 
     if (connectionType !== undefined && onlySyncOnWifi && connectionType != 'wifi') {
       console.log(`Configured to only sync Dropbox on Wifi. Not syncing, since we are currently on ${connectionType}.`);
       return;
     }
 
-    let dropboxToken = config.get('dropboxToken');
+    let dropboxToken = this._config.get('dropboxToken');
     if (dropboxToken == "") {
       return;
     }
 
-    const dropboxRefreshToken = config.get('dropboxRefreshToken');
+    const dropboxRefreshToken = this._config.get('dropboxRefreshToken');
     if (dropboxRefreshToken == "") {
       return;
     }
@@ -94,8 +92,8 @@ class IpcDbHandler {
     console.log('Synchronizing database with Dropbox!');
 
     const DROPBOX_CLIENT_ID = 'omhgjqlxpfn2r8z';
-    const dropboxFolder = config.get('dropboxFolder', 'ezra');
-    const firstDropboxSyncDone = config.get('firstDropboxSyncDone', false);
+    const dropboxFolder = this._config.get('dropboxFolder', 'ezra');
+    const firstDropboxSyncDone = this._config.get('firstDropboxSyncDone', false);
     const databaseFilePath = this.getDatabaseFilePath();
     const dropboxFilePath = `/${dropboxFolder}/ezra.sqlite`;
 
@@ -117,7 +115,7 @@ class IpcDbHandler {
       } else {
         console.log('Refreshed Dropbox access token!');
         dropboxToken = refreshedAccessToken;
-        config.set('dropboxToken', refreshedAccessToken);
+        this._config.set('dropboxToken', refreshedAccessToken);
       }
     } catch (e) {
       console.log(e);
@@ -137,10 +135,10 @@ class IpcDbHandler {
 
       if (result == 1) {
         lastDropboxSyncResult = 'DOWNLOAD';
-        config.set('lastDropboxDownloadTime', new Date());
+        this._config.set('lastDropboxDownloadTime', new Date());
       } else if (result == 2) {
         lastDropboxSyncResult = 'UPLOAD';
-        config.set('lastDropboxUploadTime', new Date());
+        this._config.set('lastDropboxUploadTime', new Date());
       } else if (result == 0) {
         lastDropboxSyncResult = 'NONE';
       } else if (result < 0) {
@@ -148,14 +146,14 @@ class IpcDbHandler {
       }
 
       if (result >= 0 && !firstDropboxSyncDone) {
-        config.set('firstDropboxSyncDone', true);
+        this._config.set('firstDropboxSyncDone', true);
       }
     } else {
       console.warn('Dropbox could not be authenticated!');
     }
 
-    config.set('lastDropboxSyncResult', lastDropboxSyncResult);
-    config.set('lastDropboxSyncTime', new Date());
+    this._config.set('lastDropboxSyncResult', lastDropboxSyncResult);
+    this._config.set('lastDropboxSyncTime', new Date());
   }
 
   async closeDatabase() {
@@ -167,6 +165,28 @@ class IpcDbHandler {
 
   getDatabaseFilePath() {
     return this.dbDir + path.sep + "ezra.sqlite";
+  }
+
+  async triggerDropboxSyncIfConfigured() {
+    const DROPBOX_SYNC_TIMEOUT_MS = 2 * 60 * 1000;
+
+    if (this._config.has('dropboxSyncAfterChanges') &&
+        this._config.get('dropboxSyncAfterChanges') == false) {
+      
+      return;
+    }
+
+    if (this._dropboxSyncTimeout !== null) {
+      console.log('Cancelling existing Dropbox sync timeout!');
+      clearTimeout(this._dropboxSyncTimeout);
+      this._dropboxSyncTimeout = null;
+    }
+
+    console.log(`Starting new Dropbox sync in ${DROPBOX_SYNC_TIMEOUT_MS / 1000} seconds!`);
+    this._dropboxSyncTimeout = setTimeout(async () => {
+      console.log(`Syncing Dropbox based on timeout after ${DROPBOX_SYNC_TIMEOUT_MS / 1000} seconds!`);
+      this.syncDatabaseWithDropbox();
+    }, DROPBOX_SYNC_TIMEOUT_MS);
   }
 
   initIpcInterface() {
@@ -206,19 +226,33 @@ class IpcDbHandler {
         }
       }
 
+      this.triggerDropboxSyncIfConfigured();
+
       return result;
     });
 
     this._ipcMain.add('db_removeTag', async (id) => {
-      return await global.models.Tag.destroy_tag(id);
+      let result = await global.models.Tag.destroy_tag(id);
+
+      this.triggerDropboxSyncIfConfigured();
+
+      return result;
     });
 
     this._ipcMain.add('db_updateTag', async(id, newTitle, addTagGroups, removeTagGroups) => {
-      return await global.models.Tag.update_tag(id, newTitle, addTagGroups, removeTagGroups);
+      let result = await global.models.Tag.update_tag(id, newTitle, addTagGroups, removeTagGroups);
+
+      this.triggerDropboxSyncIfConfigured();
+
+      return result;
     });
 
     this._ipcMain.add('db_updateTagsOnVerses', async (tagId, verseObjects, versification, action) => {
-      return await global.models.Tag.update_tags_on_verses(tagId, verseObjects, versification, action);
+      let result = await global.models.Tag.update_tags_on_verses(tagId, verseObjects, versification, action);
+
+      this.triggerDropboxSyncIfConfigured();
+
+      return result;
     });
 
     this._ipcMain.add('db_getTagCount', async () => {
@@ -257,11 +291,19 @@ class IpcDbHandler {
     });
 
     this._ipcMain.add('db_createTagGroup', async(title) => {
-      return await global.models.TagGroup.createTagGroup(title);
+      let result = await global.models.TagGroup.createTagGroup(title);
+
+      this.triggerDropboxSyncIfConfigured();
+
+      return result;
     });
 
     this._ipcMain.add('db_updateTagGroup', async(id, title) => {
-      return await global.models.TagGroup.updateTagGroup(id, title);
+      let result = await global.models.TagGroup.updateTagGroup(id, title);
+
+      this.triggerDropboxSyncIfConfigured();
+
+      return result;
     });
 
     this._ipcMain.add('db_getAllTagGroups', async () => {
@@ -271,11 +313,19 @@ class IpcDbHandler {
     });
 
     this._ipcMain.add('db_deleteTagGroup', async(id) => {
-      return await global.models.TagGroup.destroyTagGroup(id);
+      let result = await global.models.TagGroup.destroyTagGroup(id);
+
+      this.triggerDropboxSyncIfConfigured();
+
+      return result;
     });
 
     this._ipcMain.add('db_persistNote', async (noteValue, verseObject, versification) => {
-      return await global.models.Note.persistNote(noteValue, verseObject, versification);
+      let result = await global.models.Note.persistNote(noteValue, verseObject, versification);
+
+      this.triggerDropboxSyncIfConfigured();
+
+      return result;
     });
 
     this._ipcMain.add('db_getVerseNotesByBook', async (bibleBookId, versification) => {

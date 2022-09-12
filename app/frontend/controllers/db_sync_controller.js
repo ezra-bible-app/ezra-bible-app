@@ -33,6 +33,7 @@ const DROPBOX_REFRESH_TOKEN_SETTINGS_KEY = 'dropboxRefreshToken';
 const DROPBOX_LINK_STATUS_SETTINGS_KEY = 'dropboxLinkStatus';
 const DROPBOX_FOLDER_SETTINGS_KEY = 'dropboxFolder';
 const DROPBOX_ONLY_WIFI_SETTINGS_KEY = 'dropboxOnlyWifi';
+const DROPBOX_SYNC_AFTER_CHANGES_KEY = 'dropboxSyncAfterChanges';
 
 let dbSyncInitDone = false;
 let dbSyncDropboxToken = null;
@@ -40,6 +41,7 @@ let dbSyncDropboxRefreshToken = null;
 let dbSyncDropboxLinkStatus = null;
 let dbSyncDropboxFolder = null;
 let dbSyncOnlyWifi = false;
+let dbSyncAfterChanges = false;
 
 let dbxAuth = getDropboxAuth();
 
@@ -118,9 +120,11 @@ async function initDbSync() {
   dbSyncDropboxLinkStatus = await ipcSettings.get(DROPBOX_LINK_STATUS_SETTINGS_KEY, null);
   dbSyncDropboxFolder = await ipcSettings.get(DROPBOX_FOLDER_SETTINGS_KEY, 'ezra');
   dbSyncOnlyWifi = await ipcSettings.get(DROPBOX_ONLY_WIFI_SETTINGS_KEY, false);
+  dbSyncAfterChanges = await ipcSettings.get(DROPBOX_SYNC_AFTER_CHANGES_KEY, false);
 
   $('#dropbox-sync-folder').val(dbSyncDropboxFolder);
   document.getElementById('only-sync-on-wifi').checked = dbSyncOnlyWifi;
+  document.getElementById('sync-dropbox-after-changes').checked = dbSyncAfterChanges;
   updateDropboxLinkStatusLabel();
 
   if (dbSyncInitDone) {
@@ -170,6 +174,7 @@ async function handleDropboxConfigurationSave() {
 
   dbSyncDropboxFolder = $('#dropbox-sync-folder').val();
   dbSyncOnlyWifi = document.getElementById('only-sync-on-wifi').checked;
+  dbSyncAfterChanges = document.getElementById('sync-dropbox-after-changes').checked;
 
   if (dbSyncDropboxLinkStatus == 'LINKED') {
     await ipcSettings.set(DROPBOX_TOKEN_SETTINGS_KEY, dbSyncDropboxToken);
@@ -179,6 +184,7 @@ async function handleDropboxConfigurationSave() {
   await ipcSettings.set(DROPBOX_LINK_STATUS_SETTINGS_KEY, dbSyncDropboxLinkStatus);
   await ipcSettings.set(DROPBOX_FOLDER_SETTINGS_KEY, dbSyncDropboxFolder);
   await ipcSettings.set(DROPBOX_ONLY_WIFI_SETTINGS_KEY, dbSyncOnlyWifi);
+  await ipcSettings.set(DROPBOX_SYNC_AFTER_CHANGES_KEY, dbSyncAfterChanges);
 }
 
 function updateDropboxLinkStatusLabel() {
