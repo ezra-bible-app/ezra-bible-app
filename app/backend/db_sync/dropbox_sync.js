@@ -40,7 +40,11 @@ class DropboxSync {
 
   async refreshAccessToken() {
     await this._dbxAuth.checkAndRefreshAccessToken();
-    return this._dbxAuth.getAccessToken();
+    this._TOKEN = this._dbxAuth.getAccessToken();
+    this._dbx = new Dropbox.Dropbox({ accessToken: this._TOKEN, 
+                                      fetch: isomorphicFetch });
+    
+    return this._TOKEN;
   }
 
   async getFolders() {
