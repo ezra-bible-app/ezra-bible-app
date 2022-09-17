@@ -173,9 +173,9 @@ class DropboxSync {
     } catch (e) {
       if (e.error.error_summary.indexOf('not_found') != -1) {
         return false;
+      } else {
+        throw e;
       }
-
-      throw e;
     }
   }
 
