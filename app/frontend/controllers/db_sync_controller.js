@@ -55,9 +55,11 @@ module.exports.init = function() {
       module.exports.showSyncResultMessage();
     });
 
-    navigator.connection.addEventListener('change', () => {
+    const CONNECTION_MONITORING_CYCLE_MS = 10000;
+
+    setInterval(() => {
       ipcGeneral.setConnectionType(navigator.connection.type);
-    });
+    }, CONNECTION_MONITORING_CYCLE_MS);
   }
 };
 
