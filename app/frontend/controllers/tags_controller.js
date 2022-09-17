@@ -1503,7 +1503,9 @@ class TagsController {
 
       var currentTabBook = currentTab.getBook();
       var currentTabContentId = currentTab.getContentId();
-      this.updateTagList(currentTabBook, this.currentTagGroupId, currentTabContentId, forceRefresh);
+      await this.updateTagList(currentTabBook, this.currentTagGroupId, currentTabContentId, forceRefresh);
+
+      this.hideTagListLoadingIndicator();
     }
 
     await this.updateTagUiBasedOnTagAvailability(tagCount);
