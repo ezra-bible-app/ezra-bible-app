@@ -350,6 +350,10 @@ Librem 5/Pinephone etc.
     overflow-wrap: break-word;
   }
 
+  #db-sync-box-content *:not(li) {
+    margin-bottom: 1em !important;
+  }
+
   /* Hide keyboard shortcuts on mobile */
   #app-info-tabs-4-nav, #app-info-tabs-4 {
     display: none !important;
