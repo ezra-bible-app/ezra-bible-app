@@ -60,7 +60,10 @@ module.exports.init = function() {
 
     setInterval(() => {
 
-      if (lastConnectionType !== undefined && navigator.connection.type == 'wifi') {
+      if (lastConnectionType !== undefined &&
+          lastConnectionType != 'wifi' &&
+          navigator.connection.type == 'wifi') {
+
         ipcDb.syncDropbox();
       }
 
