@@ -48,11 +48,15 @@ let dbxAuth = getDropboxAuth();
 
 module.exports.init = function() {
   if (platformHelper.isElectron()) {
-    require('electron').ipcRenderer.on('dropbox-synced', (event, message) => {
+
+    require('electron').ipcRenderer.on('dropbox-synced', () => {
       module.exports.showSyncResultMessage();
     });
+
   } else if (platformHelper.isCordova()) {
-    nodejs.channel.on('dropbox-synced', (message) => {
+
+    // eslint-disable-next-line no-undef
+    nodejs.channel.on('dropbox-synced', () => {
       module.exports.showSyncResultMessage();
     });
 
@@ -163,8 +167,8 @@ async function initDbSync() {
 
   initAuthCallbacks();
 
-  var dialogWidth = 450;
-  var dialogHeight = 500;
+  var dialogWidth = 500;
+  var dialogHeight = 550;
   var draggable = true;
   var position = [55, 120];
 
