@@ -187,11 +187,7 @@ class IpcDbHandler {
       return;
     }
 
-    if (this._dropboxSyncTimeout !== null) {
-      console.log('Cancelling existing Dropbox sync timeout!');
-      clearTimeout(this._dropboxSyncTimeout);
-      this._dropboxSyncTimeout = null;
-    }
+    this.cancelDropboxSyncTimeout();
 
     console.log(`Starting new Dropbox sync in ${DROPBOX_SYNC_TIMEOUT_MS / 1000} seconds!`);
     this._dropboxSyncTimeout = setTimeout(async () => {
@@ -200,8 +196,17 @@ class IpcDbHandler {
     }, DROPBOX_SYNC_TIMEOUT_MS);
   }
 
+  cancelDropboxSyncTimeout() {
+    if (this._dropboxSyncTimeout !== null) {
+      console.log('Cancelling existing Dropbox sync timeout!');
+      clearTimeout(this._dropboxSyncTimeout);
+      this._dropboxSyncTimeout = null;
+    }
+  }
+
   initIpcInterface() {
     this._ipcMain.add('db_close', async() => {
+      this.cancelDropboxSyncTimeout();
       return await this.closeDatabase();
     });
 
