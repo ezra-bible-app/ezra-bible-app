@@ -60,7 +60,8 @@ module.exports.init = function() {
 
     setInterval(() => {
 
-      if (lastConnectionType !== undefined &&
+      if (dbSyncOnlyWifi &&
+          lastConnectionType !== undefined &&
           lastConnectionType != 'wifi' &&
           navigator.connection.type == 'wifi') {
 
