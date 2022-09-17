@@ -164,10 +164,14 @@ class IpcDbHandler {
   }
 
   async closeDatabase() {
+    this.cancelDropboxSyncTimeout();
+
     if (global.sequelize != null) {
       await global.sequelize.close();
       global.sequelize = null;
     }
+
+    await this.syncDatabaseWithDropbox(global.connectionType);
   }
 
   getDatabaseFilePath() {
@@ -206,9 +210,7 @@ class IpcDbHandler {
 
   initIpcInterface() {
     this._ipcMain.add('db_close', async() => {
-      this.cancelDropboxSyncTimeout();
       await this.closeDatabase();
-      await this.syncDatabaseWithDropbox(global.connectionType);
     });
 
     this._ipcMain.add('db_syncDropbox', async(connectionType) => {
