@@ -443,7 +443,7 @@ a.chapter-nav:hover {
   flex-direction: column;
 }
 
-#db-sync-box-content * {
+#db-sync-box-content *:not(li) {
   display: flex;
   flex-direction: row;
   margin-bottom: 1em;
