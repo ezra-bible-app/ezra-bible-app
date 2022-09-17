@@ -207,7 +207,8 @@ class IpcDbHandler {
   initIpcInterface() {
     this._ipcMain.add('db_close', async() => {
       this.cancelDropboxSyncTimeout();
-      return await this.closeDatabase();
+      await this.closeDatabase();
+      await this.syncDatabaseWithDropbox(global.connectionType);
     });
 
     this._ipcMain.add('db_syncDropbox', async(connectionType) => {
