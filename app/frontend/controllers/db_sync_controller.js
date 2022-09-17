@@ -42,6 +42,7 @@ let dbSyncDropboxLinkStatus = null;
 let dbSyncDropboxFolder = null;
 let dbSyncOnlyWifi = false;
 let dbSyncAfterChanges = false;
+let lastConnectionType = undefined;
 
 let dbxAuth = getDropboxAuth();
 
@@ -58,7 +59,14 @@ module.exports.init = function() {
     const CONNECTION_MONITORING_CYCLE_MS = 5000;
 
     setInterval(() => {
+
+      if (lastConnectionType !== undefined && navigator.connection.type == 'wifi') {
+        ipcDb.syncDropbox();
+      }
+
       ipcGeneral.setConnectionType(navigator.connection.type);
+      lastConnectionType = navigator.connection.type;
+
     }, CONNECTION_MONITORING_CYCLE_MS);
   }
 };
