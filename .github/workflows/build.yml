@@ -179,6 +179,28 @@ jobs:
             name: ezra-bible-app_fedora33_latest
             path: ezra-bible-app_latest.rpm
 
+    build-fedora35:
+        name: Build Fedora 35 package
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v1
+        - name: Build
+          uses: ./.github/actions/build_fedora35
+          env:
+            SENTRY_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        # Create package and rename package are separate steps for Fedora 35,
+        # because for some reason electron-installer-redhat is not properly
+        # working on Fedora 35!
+        - name: Create package
+          run: npm install electron-installer-redhat && npm run rpm_fedora
+        - name: Rename package
+          run: mv release/packages/*.rpm $GITHUB_WORKSPACE/ezra-bible-app_latest.rpm
+        - name: Upload rpm file
+          uses: actions/upload-artifact@v1.0.0
+          with:
+            name: ezra-bible-app_fedora35_latest
+            path: ezra-bible-app_latest.rpm
+
     build-centos8:
         name: Build CentOS 8 package
         runs-on: ubuntu-latest
@@ -217,8 +239,8 @@ jobs:
                build-ubuntu-2004, build-ubuntu-2204,
                build-mint18, build-buster,
                build-bullseye, build-fedora31,
-               build-fedora33, build-centos8,
-               build-opensuse-leap ]
+               build-fedora33, build-fedora35,
+               build-centos8, build-opensuse-leap ]
 
       steps:
       - name: Download win32 package
