@@ -217,7 +217,7 @@ jobs:
             path: ezra-bible-app_latest.rpm
 
     build-opensuse-leap:
-        name: Build OpenSuse Leap package
+        name: Build OpenSuse Leap 15.2 package
         runs-on: ubuntu-latest
         steps:
         - uses: actions/checkout@v1
@@ -228,7 +228,7 @@ jobs:
         - name: Upload rpm file
           uses: actions/upload-artifact@v1.0.0
           with:
-            name: ezra-bible-app_opensuse_leap_latest
+            name: ezra-bible-app_opensuse_leap_15.2_latest
             path: ezra-bible-app_latest.rpm
 
     release:
@@ -296,7 +296,7 @@ jobs:
       - name: Download opensuse leap package
         uses: actions/download-artifact@v1.0.0
         with:
-          name: ezra-bible-app_opensuse_leap_latest
+          name: ezra-bible-app_opensuse_leap_15.2_latest
 
       - name: Rename artifacts for publishing
         shell: bash
@@ -311,7 +311,7 @@ jobs:
           mv ezra-bible-app_debian11_latest/ezra-bible-app_latest.deb packages/ezra-bible-app_debian11-${GITHUB_REF##*/}.deb
           mv ezra-bible-app_centos8_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_centos8-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_fedora31_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_fedora31-${GITHUB_REF##*/}.rpm
-          mv ezra-bible-app_opensuse_leap_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_opensuse_leap-${GITHUB_REF##*/}.rpm
+          mv ezra-bible-app_opensuse_leap_15.2_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_opensuse_leap_15.2-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_fedora33_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_fedora33-${GITHUB_REF##*/}.rpm
 
       - name: Publish artifacts
