@@ -86,7 +86,7 @@
     "log-timestamp": "^0.3.0",
     "marked": "^4.0.8",
     "mousetrap": "^1.6.5",
-    "node-html-parser": "^5.3.3",
+    "node-html-parser": "^6.1.1",
     "node-sword-interface": "^0.253.0",
     "pug": "^3.0.0",
     "remove-markdown": "^0.3.0",
