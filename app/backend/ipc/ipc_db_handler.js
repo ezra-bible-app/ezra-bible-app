@@ -79,12 +79,12 @@ class IpcDbHandler {
     }
 
     let dropboxToken = this._config.get('dropboxToken');
-    if (dropboxToken == "") {
+    if (dropboxToken == "" || dropboxToken == null) {
       return;
     }
 
     const dropboxRefreshToken = this._config.get('dropboxRefreshToken');
-    if (dropboxRefreshToken == "") {
+    if (dropboxRefreshToken == "" || dropboxRefreshToken == null) {
       return;
     }
 
