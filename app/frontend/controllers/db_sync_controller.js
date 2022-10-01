@@ -34,6 +34,11 @@ const DROPBOX_LINK_STATUS_SETTINGS_KEY = 'dropboxLinkStatus';
 const DROPBOX_FOLDER_SETTINGS_KEY = 'dropboxFolder';
 const DROPBOX_ONLY_WIFI_SETTINGS_KEY = 'dropboxOnlyWifi';
 const DROPBOX_SYNC_AFTER_CHANGES_KEY = 'dropboxSyncAfterChanges';
+const DROPBOX_LAST_SYNC_RESULT_KEY = 'lastDropboxSyncResult';
+const DROPBOX_LAST_SYNC_TIME_KEY = 'lastDropboxSyncTime';
+const DROPBOX_FIRST_SYNC_DONE_KEY = 'firstDropboxSyncDone';
+const DROPBOX_LAST_DOWNLOAD_TIME_KEY = 'lastDropboxDownloadTime';
+const DROPBOX_LAST_UPLOAD_TIME_KEY = 'lastDropboxUploadTime';
 
 let dbSyncInitDone = false;
 let dbSyncDropboxToken = null;
@@ -43,6 +48,8 @@ let dbSyncDropboxFolder = null;
 let dbSyncOnlyWifi = false;
 let dbSyncAfterChanges = false;
 let lastConnectionType = undefined;
+
+let resetDropboxConfiguration = false;
 
 let dbxAuth = getDropboxAuth();
 
@@ -87,12 +94,12 @@ module.exports.showDbSyncConfigDialog = async function() {
 
 module.exports.showSyncResultMessage = async function() {
   let lastDropboxSyncTime = '--';
-  if (await ipcSettings.has('lastDropboxSyncTime')) {
-    lastDropboxSyncTime = new Date(await ipcSettings.get('lastDropboxSyncTime'));
+  if (await ipcSettings.has(DROPBOX_LAST_SYNC_TIME_KEY)) {
+    lastDropboxSyncTime = new Date(await ipcSettings.get(DROPBOX_LAST_SYNC_TIME_KEY));
     lastDropboxSyncTime = lastDropboxSyncTime.toLocaleDateString() + ' / ' + lastDropboxSyncTime.toLocaleTimeString();
   }
 
-  const lastDropboxSyncResult = await ipcSettings.get('lastDropboxSyncResult', '');
+  const lastDropboxSyncResult = await ipcSettings.get(DROPBOX_LAST_SYNC_RESULT_KEY, '');
 
   if (lastDropboxSyncResult != "") {
     let msgPosition = 'bottomRight';
@@ -168,7 +175,7 @@ async function initDbSync() {
   initAuthCallbacks();
 
   var dialogWidth = 500;
-  var dialogHeight = 550;
+  var dialogHeight = 580;
   var draggable = true;
   var position = [55, 120];
 
@@ -198,6 +205,11 @@ async function initDbSync() {
     await setupDropboxAuthentication();
   });
 
+  $('#reset-dropbox-account-link').bind('click', async () => {
+    resetDropboxConfiguration = true;
+    updateDropboxLinkStatusLabel(true);
+  });
+
   $('#db-sync-box').dialog(dbSyncDialogOptions);
 
   dbSyncInitDone = true;
@@ -210,7 +222,22 @@ async function handleDropboxConfigurationSave() {
   dbSyncOnlyWifi = document.getElementById('only-sync-on-wifi').checked;
   dbSyncAfterChanges = document.getElementById('sync-dropbox-after-changes').checked;
 
-  if (dbSyncDropboxLinkStatus == 'LINKED') {
+  if (resetDropboxConfiguration) {
+    dbSyncDropboxToken = null;
+    dbSyncDropboxRefreshToken = null;
+    dbSyncDropboxLinkStatus = null;
+    dbSyncDropboxFolder = 'ezra';
+    dbSyncOnlyWifi = false;
+    dbSyncAfterChanges = false;
+
+    await ipcSettings.set(DROPBOX_LAST_SYNC_RESULT_KEY, '');
+    await ipcSettings.set(DROPBOX_LAST_SYNC_TIME_KEY, '');
+    await ipcSettings.set(DROPBOX_LAST_DOWNLOAD_TIME_KEY, '');
+    await ipcSettings.set(DROPBOX_LAST_UPLOAD_TIME_KEY, '');
+    await ipcSettings.set(DROPBOX_FIRST_SYNC_DONE_KEY, false);
+  }
+
+  if (dbSyncDropboxLinkStatus == 'LINKED' || resetDropboxConfiguration == true) {
     await ipcSettings.set(DROPBOX_TOKEN_SETTINGS_KEY, dbSyncDropboxToken);
     await ipcSettings.set(DROPBOX_REFRESH_TOKEN_SETTINGS_KEY, dbSyncDropboxRefreshToken);
   }
@@ -219,21 +246,25 @@ async function handleDropboxConfigurationSave() {
   await ipcSettings.set(DROPBOX_FOLDER_SETTINGS_KEY, dbSyncDropboxFolder);
   await ipcSettings.set(DROPBOX_ONLY_WIFI_SETTINGS_KEY, dbSyncOnlyWifi);
   await ipcSettings.set(DROPBOX_SYNC_AFTER_CHANGES_KEY, dbSyncAfterChanges);
+
+  resetDropboxConfiguration = false;
 }
 
-function updateDropboxLinkStatusLabel() {
-  if (dbSyncDropboxLinkStatus == 'LINKED') {
+function updateDropboxLinkStatusLabel(resetLink=false) {
+  if (dbSyncDropboxLinkStatus == 'LINKED' && !resetLink) {
     $('#dropbox-link-status').text(i18n.t('dropbox.dropbox-link-status-linked'));
     $('#dropbox-link-status').addClass('success');
     $('#dropbox-link-status').removeClass('failed');
 
-  } else if (dbSyncDropboxLinkStatus == 'FAILED') {
+  } else if (dbSyncDropboxLinkStatus == 'FAILED' && !resetLink) {
     $('#dropbox-link-status').text(i18n.t('dropbox.dropbox-link-status-linking-failed'));
     $('#dropbox-link-status').addClass('failed');
     $('#dropbox-link-status').removeClass('success');
 
-  } else if (dbSyncDropboxLinkStatus === null) {
+  } else if (dbSyncDropboxLinkStatus === null || resetLink) {
     $('#dropbox-link-status').text(i18n.t('dropbox.dropbox-link-status-not-linked'));
+    $('#dropbox-link-status').removeClass('success');
+    $('#dropbox-link-status').removeClass('failed');
   }
 }
 
@@ -311,7 +342,7 @@ async function setupDropboxAuthentication() {
 
       // Open the Dropbox authentication url in the system web browser.
       // The next step after this will be a redirect which will be handled by handleRedirect().
-      let popup = window.open(authUrl, '_system');
+      let popup = window.open(authUrl, '_system', "width=1024, height=768");
 
       if (platformHelper.isElectron()) {
         let timer = setInterval(() => { 

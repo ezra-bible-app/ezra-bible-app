@@ -53,11 +53,18 @@
     </ul>
     <p i18n="dropbox.dropbox-sync-explanation-part4"></p>
 
-    <button id="link-dropbox-account"
-            style="width: fit-content; padding: 0.5em; margin-top: 0.5em;"
-            class="fg-button ui-corner-all ui-state-default"
-            i18n="dropbox.link-dropbox-account"></button>
-    
+    <div style="display: flex; flex-direction: row;">
+      <button id="link-dropbox-account"
+              style="width: fit-content; padding: 0.5em; margin-top: 0.5em;"
+              class="fg-button ui-corner-all ui-state-default"
+              i18n="dropbox.link-dropbox-account"></button>
+
+      <button id="reset-dropbox-account-link"
+              style="width: fit-content; padding: 0.5em; margin-left: 2em; margin-top: 0.5em;"
+              class="fg-button ui-corner-all ui-state-default"
+              i18n="dropbox.reset-dropbox-account-link"></button>
+    </div>
+   
     <div style="margin-top: 1em;">
       <span i18n="dropbox.dropbox-link-status"></span>
       <span id="dropbox-link-status" i18n="dropbox.dropbox-link-status-not-linked"></span>
