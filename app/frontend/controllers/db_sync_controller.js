@@ -345,6 +345,9 @@ async function setupDropboxAuthentication() {
       let popup = window.open(authUrl, '_system', "width=1024, height=768");
 
       if (platformHelper.isElectron()) {
+        // On Electron we need to observe whether the user is closing the popup so that we can also stop the 
+        // Dropbox auth server again. This would usually happen in the backend when the authentication / linking
+        // is successfully, but if the user aborts (closes the window) we need to handle it manually.
         let timer = setInterval(() => { 
           if(popup.closed) {
             clearInterval(timer);
