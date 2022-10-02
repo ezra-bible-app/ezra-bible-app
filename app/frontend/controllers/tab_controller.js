@@ -103,8 +103,8 @@ class TabController {
       this.setCurrentBibleTranslationId(bibleTranslationId);
     });
 
-    eventController.subscribe('on-db-refresh', () => {
-      this.loadTabConfiguration(true);
+    eventController.subscribe('on-db-refresh', async () => {
+      await this.loadTabConfiguration(true);
     });
   }
 
@@ -188,10 +188,15 @@ class TabController {
   }
 
   async loadMetaTabsFromSettings() {
-    var savedMetaTabs = await cacheController.getCachedItem('tabConfiguration', [], false);
-    var loadedTabCount = 0;
+    let savedMetaTabs = await cacheController.getCachedItem('tabConfiguration', [], false);
+    let loadedTabCount = 0;
+    let tabCount = savedMetaTabs.length;
 
-    for (var i = 0; i < savedMetaTabs.length; i++) {
+    if (platformHelper.isMobile()) {
+      tabCount = 1;
+    }
+
+    for (let i = 0; i < tabCount; i++) {
       var currentMetaTab = Tab.fromJsonObject(savedMetaTabs[i], i);
 
       if (!currentMetaTab.isValid()) {
@@ -213,7 +218,7 @@ class TabController {
 
       var tabTitle = currentMetaTab.getTitle();
       this.setTabTitle(tabTitle, currentMetaTab.getBibleTranslationId(), loadedTabCount);
-      eventController.publish('on-tab-added', i);
+      await eventController.publishAsync('on-tab-added', i);
       loadedTabCount += 1;
     }
 
@@ -225,8 +230,9 @@ class TabController {
   }
 
   async populateFromMetaTabs(force=false) {
-    var cacheOutdated = await cacheController.isCacheOutdated();
-    var cacheInvalid = await cacheController.isCacheInvalid();
+    let cacheOutdated = await cacheController.isCacheOutdated();
+    let cacheInvalid = await cacheController.isCacheInvalid();
+    let tabCount = this.metaTabs.length;
 
     if (cacheOutdated) {
       console.log("Tab content cache is outdated. Database has been updated in the meantime!");
@@ -236,7 +242,11 @@ class TabController {
       console.log("Cache is invalid. New app version?");
     }
 
-    for (let i = 0; i < this.metaTabs.length; i++) {
+    if (platformHelper.isMobile()) {
+      tabCount = 1;
+    }
+
+    for (let i = 0; i < tabCount; i++) {
       let currentMetaTab = this.metaTabs[i];
 
       if (cacheOutdated || cacheInvalid || force) {

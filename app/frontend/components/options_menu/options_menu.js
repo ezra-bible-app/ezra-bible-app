@@ -173,7 +173,7 @@ class OptionsMenu {
 
   initCurrentOptionsMenu(tabIndex=undefined) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    currentVerseListMenu.find('.display-options-button').bind('click', (event) => { this.handleMenuClick(event); });
+    currentVerseListMenu.find('.display-options-button').unbind('click').bind('click', (event) => { this.handleMenuClick(event); });
   }
 
   initConfigOption(configOptionId, eventHandler, checkedByDefault=false) {
