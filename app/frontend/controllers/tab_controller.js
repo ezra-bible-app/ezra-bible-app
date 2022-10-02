@@ -104,6 +104,7 @@ class TabController {
     });
 
     eventController.subscribe('on-db-refresh', async () => {
+      verseListController.resetVerseListView();
       await this.loadTabConfiguration(true);
     });
   }
