@@ -116,14 +116,22 @@ class InfoPopup {
 
     let lastDropboxDownloadTime = '--';
     if (await ipcSettings.has('lastDropboxDownloadTime')) {
-      lastDropboxDownloadTime = new Date(await ipcSettings.get('lastDropboxDownloadTime'));
-      lastDropboxDownloadTime = this.getFormattedTimestamp(lastDropboxDownloadTime);
+      let rawDropboxDownloadTime = await ipcSettings.get('lastDropboxDownloadTime', '--');
+
+      if (rawDropboxDownloadTime != '--' && rawDropboxDownloadTime != '') {
+        lastDropboxDownloadTime = new Date(rawDropboxDownloadTime);
+        lastDropboxDownloadTime = this.getFormattedTimestamp(lastDropboxDownloadTime);
+      }
     }
 
     let lastDropboxUploadTime = '--';
     if (await ipcSettings.has('lastDropboxUploadTime')) {
-      lastDropboxUploadTime = new Date(await ipcSettings.get('lastDropboxUploadTime'));
-      lastDropboxUploadTime = this.getFormattedTimestamp(lastDropboxUploadTime);
+      let rawDropboxUploadTime = await ipcSettings.get('lastDropboxUploadTime', '--');
+
+      if (rawDropboxUploadTime != '--' && rawDropboxUploadTime != '') {
+        lastDropboxUploadTime = new Date(rawDropboxUploadTime);
+        lastDropboxUploadTime = this.getFormattedTimestamp(lastDropboxUploadTime);
+      }
     }
 
     const lastDropboxSyncResult = await ipcSettings.get('lastDropboxSyncResult', '--');
