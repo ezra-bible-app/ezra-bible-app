@@ -229,9 +229,6 @@ async function handleDropboxConfigurationSave() {
     dbSyncDropboxToken = null;
     dbSyncDropboxRefreshToken = null;
     dbSyncDropboxLinkStatus = null;
-    dbSyncDropboxFolder = 'ezra';
-    dbSyncOnlyWifi = false;
-    dbSyncAfterChanges = false;
 
     await ipcSettings.set(DROPBOX_LAST_SYNC_RESULT_KEY, '');
     await ipcSettings.set(DROPBOX_LAST_SYNC_TIME_KEY, '');
