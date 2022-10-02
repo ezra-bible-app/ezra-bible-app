@@ -102,6 +102,10 @@ class TabController {
       let bibleTranslationId = this.getTab().getBibleTranslationId();
       this.setCurrentBibleTranslationId(bibleTranslationId);
     });
+
+    eventController.subscribe('on-db-refresh', () => {
+      this.populateFromMetaTabs(true);
+    });
   }
 
   initFirstTab() {
@@ -220,7 +224,7 @@ class TabController {
     return loadedTabCount;
   }
 
-  async populateFromMetaTabs() {
+  async populateFromMetaTabs(force=false) {
     var cacheOutdated = await cacheController.isCacheOutdated();
     var cacheInvalid = await cacheController.isCacheInvalid();
 
@@ -232,22 +236,22 @@ class TabController {
       console.log("Cache is invalid. New app version?");
     }
 
-    for (var i = 0; i < this.metaTabs.length; i++) {
-      var currentMetaTab = this.metaTabs[i];
+    for (let i = 0; i < this.metaTabs.length; i++) {
+      let currentMetaTab = this.metaTabs[i];
 
-      if (cacheOutdated || cacheInvalid) {
+      if (cacheOutdated || cacheInvalid || force) {
         currentMetaTab.cachedText = null;
         currentMetaTab.cachedReferenceVerse = null;
       }
 
-      var isSearch = (currentMetaTab.textType == 'search_results');
+      let isSearch = (currentMetaTab.textType == 'search_results');
       await app_controller.text_controller.prepareForNewText(true, isSearch, i);
 
       if (currentMetaTab.textType == 'search_results') {
 
         await app_controller.module_search_controller.populateSearchMenu(i);
 
-        var searchResultBookId = -1; // all books requested
+        let searchResultBookId = -1; // all books requested
         if (app_controller.module_search_controller.searchResultsExceedPerformanceLimit(i)) {
           searchResultBookId = 0; // no books requested - only list headers at first
         }

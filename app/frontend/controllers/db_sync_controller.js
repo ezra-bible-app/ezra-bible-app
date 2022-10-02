@@ -26,6 +26,7 @@
 const Dropbox = require('dropbox');
 const PlatformHelper = require('../../lib/platform_helper.js');
 const platformHelper = new PlatformHelper();
+const eventController = require('./event_controller.js');
 
 const DROPBOX_CLIENT_ID = 'omhgjqlxpfn2r8z';
 const DROPBOX_TOKEN_SETTINGS_KEY = 'dropboxToken';
@@ -47,6 +48,7 @@ let dbSyncDropboxLinkStatus = null;
 let dbSyncDropboxFolder = null;
 let dbSyncOnlyWifi = false;
 let dbSyncAfterChanges = false;
+let dbSyncFirstSyncDone = false;
 let lastConnectionType = undefined;
 
 let resetDropboxConfiguration = false;
@@ -162,6 +164,7 @@ async function initDbSync() {
   dbSyncDropboxFolder = await ipcSettings.get(DROPBOX_FOLDER_SETTINGS_KEY, 'ezra');
   dbSyncOnlyWifi = await ipcSettings.get(DROPBOX_ONLY_WIFI_SETTINGS_KEY, false);
   dbSyncAfterChanges = await ipcSettings.get(DROPBOX_SYNC_AFTER_CHANGES_KEY, false);
+  dbSyncFirstSyncDone = await ipcSettings.get(DROPBOX_FIRST_SYNC_DONE_KEY, false);
 
   $('#dropbox-sync-folder').val(dbSyncDropboxFolder);
   document.getElementById('only-sync-on-wifi').checked = dbSyncOnlyWifi;
@@ -246,6 +249,12 @@ async function handleDropboxConfigurationSave() {
   await ipcSettings.set(DROPBOX_FOLDER_SETTINGS_KEY, dbSyncDropboxFolder);
   await ipcSettings.set(DROPBOX_ONLY_WIFI_SETTINGS_KEY, dbSyncOnlyWifi);
   await ipcSettings.set(DROPBOX_SYNC_AFTER_CHANGES_KEY, dbSyncAfterChanges);
+
+  if (dbSyncDropboxLinkStatus == 'LINKED' && !dbSyncFirstSyncDone) {
+    await ipcDb.syncDropbox();
+    await eventController.publishAsync('on-db-refresh');
+    await module.exports.showSyncResultMessage();
+  }
 
   resetDropboxConfiguration = false;
 }

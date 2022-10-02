@@ -168,6 +168,12 @@ class TagsController {
       await this.updateTagList(tab.getBook(), tagGroupId, tab.getContentId(), true);
       this.hideTagListLoadingIndicator();
     });
+
+    eventController.subscribe('on-db-refresh', async () => {
+      const currentTabIndex = app_controller.tab_controller.getSelectedTabIndex();
+      document.getElementById('tags-content-global').innerHTML = "";
+      await this.updateTagsView(currentTabIndex, true);
+    });
   }
 
   tagPanelIsActive() {
