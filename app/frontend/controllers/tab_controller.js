@@ -104,7 +104,7 @@ class TabController {
     });
 
     eventController.subscribe('on-db-refresh', () => {
-      this.populateFromMetaTabs(true);
+      this.loadTabConfiguration(true);
     });
   }
 
@@ -285,7 +285,7 @@ class TabController {
     }
   }
 
-  async loadTabConfiguration() {
+  async loadTabConfiguration(force=false) {
     var bibleTranslationSettingAvailable = await ipcSettings.has('bibleTranslation');
 
     if (bibleTranslationSettingAvailable) {
@@ -300,7 +300,7 @@ class TabController {
       loadedTabCount = await this.loadMetaTabsFromSettings();
 
       if (loadedTabCount > 0) {
-        await this.populateFromMetaTabs();
+        await this.populateFromMetaTabs(force);
       } else {
         verseListController.hideVerseListLoadingIndicator();
         uiHelper.hideTextLoadingIndicator();
