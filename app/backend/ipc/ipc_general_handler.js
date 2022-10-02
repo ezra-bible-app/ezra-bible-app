@@ -134,7 +134,7 @@ class IpcGeneralHandler {
 
       expressApp.get('/dropbox_auth', function(req, res){
         let url = req.url;
-        console.log('Got request at ' + url);
+        //console.log('Got request at ' + url);
 
         // Send a script that closes the window immediately
         res.send('<html><head><script type="text/javascript">window.close();</script></head><body></body></html>');

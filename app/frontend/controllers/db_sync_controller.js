@@ -143,14 +143,14 @@ function initAuthCallbacks() {
 
     // eslint-disable-next-line no-undef
     universalLinks.subscribe('launchedAppFromLink', (eventData) => {
-      console.log('Got Dropbox auth callback with url: ' + eventData.url);
+      //console.log('Got Dropbox auth callback with url: ' + eventData.url);
       handleRedirect(eventData.url);
     });
 
   } else if (platformHelper.isElectron()) {
 
     require('electron').ipcRenderer.on('dropbox-auth-callback', (event, url) => {
-      console.log('Got Dropbox auth callback with url: ' + url);
+      //console.log('Got Dropbox auth callback with url: ' + url);
       handleRedirect(url);
     });
 
@@ -332,7 +332,7 @@ function handleRedirect(url) {
 async function setupDropboxAuthentication() {
   const REDIRECT_URI = getRedirectUri();
 
-  console.log('Starting Dropbox authentication with this REDIRECT_URI: ' + REDIRECT_URI);
+  //console.log('Starting Dropbox authentication with this REDIRECT_URI: ' + REDIRECT_URI);
 
   if (platformHelper.isElectron()) {
     // On Electron the authentication code will come back through a local web server that we start here.
