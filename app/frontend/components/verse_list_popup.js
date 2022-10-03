@@ -332,7 +332,8 @@ class VerseListPopup {
     }
 
     var dialogOptions = {
-      title: this.currentPopupTitle
+      // Truncate the popup title to 15 characters on mobile screens and show an ellipsis after the cut off string (...)
+      title: platformHelper.isMobile() ? this.currentPopupTitle.replace(/(.{15})..+/, "$1&hellip;") : this.currentPopupTitle
     };
 
     if (!platformHelper.isMobile()) {
