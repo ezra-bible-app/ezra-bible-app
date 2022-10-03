@@ -715,11 +715,19 @@ a.chapter-nav:hover {
     .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
       height: 91vh;
     }
+
+    .Android:not(.keyboard-shown) #app-container.fullscreen {
+      height: 97vh;
+    }
   }
 
   @media (min-height: 1200px) {
     .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
       height: 95vh;
+    }
+
+    .Android:not(.keyboard-shown) #app-container.fullscreen {
+      height: 98vh;
     }
   }
 }
