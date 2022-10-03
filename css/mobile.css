@@ -566,4 +566,8 @@ Librem 5/Pinephone etc.
     display: flex !important;
     flex-direction: column;
   }
+
+  #open-verselist-in-new-tab-button {
+    display: none !important;
+  }
 }
