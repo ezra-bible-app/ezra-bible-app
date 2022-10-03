@@ -178,7 +178,7 @@ async function initDbSync() {
   initAuthCallbacks();
 
   var dialogWidth = 500;
-  var dialogHeight = 580;
+  var dialogHeight = 600;
   var draggable = true;
   var position = [55, 120];
 
