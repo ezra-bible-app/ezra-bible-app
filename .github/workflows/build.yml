@@ -288,6 +288,11 @@ jobs:
         with:
           name: ezra-bible-app_fedora33_latest
 
+      - name: Download fedora35 package
+        uses: actions/download-artifact@v1.0.0
+        with:
+          name: ezra-bible-app_fedora35_latest
+
       - name: Download centos8 package
         uses: actions/download-artifact@v1.0.0
         with:
@@ -313,6 +318,7 @@ jobs:
           mv ezra-bible-app_fedora31_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_fedora31-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_opensuse_leap_15.2_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_opensuse_leap_15.2-${GITHUB_REF##*/}.rpm
           mv ezra-bible-app_fedora33_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_fedora33-${GITHUB_REF##*/}.rpm
+          mv ezra-bible-app_fedora35_latest/ezra-bible-app_latest.rpm packages/ezra-bible-app_fedora35-${GITHUB_REF##*/}.rpm
 
       - name: Publish artifacts
         uses: softprops/action-gh-release@v1
