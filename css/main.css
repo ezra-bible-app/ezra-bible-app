@@ -708,12 +708,12 @@ a.chapter-nav:hover {
   }
 
   .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
-    height: 90.5vh;
+    height: 89vh;
   }
 
   @media (min-height: 650px) {
     .Android:not(.keyboard-shown) #app-container:not(.fullscreen) {
-      height: 93vh;
+      height: 91vh;
     }
   }
 

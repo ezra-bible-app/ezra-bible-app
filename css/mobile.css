@@ -354,6 +354,10 @@ Librem 5/Pinephone etc.
     margin-bottom: 1em !important;
   }
 
+  #dropbox-sync-folder {
+    width: 8em;
+  }
+
   /* Hide keyboard shortcuts on mobile */
   #app-info-tabs-4-nav, #app-info-tabs-4 {
     display: none !important;
@@ -462,9 +466,10 @@ Librem 5/Pinephone etc.
   }
 
   #display-options-menu {/*Scrollable settings if there is not enough space vertically */
+    position: absolute !important;
     top: 0 !important;
     width: 100%;
-    height: calc(100% - 3em);
+    height: calc(100% - 1.5em);
     overflow-y: auto;
     border: unset !important;
     border-radius: unset !important;
