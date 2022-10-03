@@ -332,8 +332,10 @@ class VerseListPopup {
     }
 
     var dialogOptions = {
-      // Truncate the popup title to 15 characters on mobile screens and show an ellipsis after the cut off string (...)
-      title: platformHelper.isMobile() ? this.currentPopupTitle.replace(/(.{15})..+/, "$1&hellip;") : this.currentPopupTitle
+      // Truncate the popup title of tagged verse lists to 15 characters on mobile screens
+      // and show an ellipsis after the cut off string (...)
+      title: platformHelper.isMobile() && referenceType == "TAGGED_VERSES" ? 
+        this.currentPopupTitle.replace(/(.{15})..+/, "$1&hellip;") : this.currentPopupTitle
     };
 
     if (!platformHelper.isMobile()) {
