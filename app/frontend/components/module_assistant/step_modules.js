@@ -264,8 +264,17 @@ async function getModulesByLang(languageCode, repositories, installedModules, he
                                                                      strongsFilter,
                                                                      hebrewStrongsFilter,
                                                                      greekStrongsFilter);
+    
+    const hiddenModules = [
+      'GerHfa2002' // The GerHfa2002 (Hoffnung für alle) is excluded from the list, since you cannot purchase an unlock key anymore.
+    ];
 
     for( const swordModule of currentRepoLangModules) {
+
+      if (hiddenModules.includes(swordModule.name)) {
+        continue;
+      }
+
       let moduleInfo = {
         code: swordModule.name,
         text: `${swordModule.description} [${swordModule.name}]`,
