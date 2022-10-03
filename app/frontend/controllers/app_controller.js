@@ -264,7 +264,7 @@ class AppController {
       moduleSearchButton.classList.add('ui-state-disabled');
     }
 
-    bookSelectButton.addEventListener('click', (event) => {
+    $(bookSelectButton).unbind('click').bind('click', (event) => {
       this.book_selection_menu.handleBookMenuClick(event);
     });
 

@@ -47,6 +47,8 @@ class CordovaPlatform {
       // Enable to test Sentry in debug version
       // isDebug = false;
 
+      window.open = cordova.InAppBrowser.open;
+
       if (!isDebug) {
         var version = await cordova.getAppVersion.getVersionNumber();
         console.log("Configuring Sentry (WebView) with app version: " + version);
@@ -296,7 +298,7 @@ class CordovaPlatform {
     await ipcGeneral.initPersistentIpc(androidVersion);
 
     uiHelper.updateLoadingSubtitle("cordova.init-database", "Initializing database");
-    await ipcGeneral.initDatabase(androidVersion);
+    await ipcGeneral.initDatabase(androidVersion, navigator.connection.type);
 
     await startup.initApplication();
   }

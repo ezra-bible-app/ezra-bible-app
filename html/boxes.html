@@ -41,6 +41,53 @@
   </div>
 </div>
 
+<div id="db-sync-box">
+  <div id="db-sync-box-content">
+    <p i18n="[html]dropbox.dropbox-sync-explanation-part1"></p>
+    <p i18n="dropbox.dropbox-sync-explanation-part2" style="margin-bottom: 0;"></p>
+    <ul style="display: block !important; margin-top: 0;">
+      <li i18n="dropbox.dropbox-sync-explanation-part3a"></li>
+      <li i18n="dropbox.dropbox-sync-explanation-part3b"></li>
+      <li i18n="dropbox.dropbox-sync-explanation-part3c"></li>
+      <li i18n="dropbox.dropbox-sync-explanation-part3d"></li>
+      <li i18n="dropbox.dropbox-sync-explanation-part3e"></li>
+    </ul>
+    <p i18n="dropbox.dropbox-sync-explanation-part4"></p>
+
+    <div style="display: flex; flex-direction: row;">
+      <button id="link-dropbox-account"
+              style="width: fit-content; padding: 0.5em; margin-top: 0.5em;"
+              class="fg-button ui-corner-all ui-state-default"
+              i18n="dropbox.link-dropbox-account"></button>
+
+      <button id="reset-dropbox-account-link"
+              style="width: fit-content; padding: 0.5em; margin-left: 2em; margin-top: 0.5em;"
+              class="fg-button ui-corner-all ui-state-default"
+              i18n="dropbox.reset-dropbox-account-link"></button>
+    </div>
+   
+    <div style="margin-top: 1em;">
+      <span i18n="dropbox.dropbox-link-status"></span>
+      <span id="dropbox-link-status" i18n="dropbox.dropbox-link-status-not-linked"></span>
+    </div>
+
+    <div>
+      <label for="sync-dropbox-after-changes" i18n="dropbox.sync-after-changes"></label>
+      <input id="sync-dropbox-after-changes" type="checkbox"></input>
+    </div>
+
+    <div id="only-sync-on-wifi-option">
+      <label for="only-sync-on-wifi" i18n="dropbox.only-sync-on-wifi"></label>
+      <input id="only-sync-on-wifi" type="checkbox"></input><br/>
+    </div>
+
+    <div>
+      <label for="dropbox-sync-folder" i18n="dropbox.dropbox-sync-folder"></label>
+      <input id="dropbox-sync-folder" value="ezra"></input>
+    </div>
+  </div>
+</div>
+
 <div id="tag-filter-menu">
   <input id="tag-filter-all-tags" type="radio" name="tag-filter" value="all" checked="checked"><label for="tag-filter-all-tags" i18n="tags.all-tags"></label></input><br/>
   <input id="tag-filter-assigned-tags" type="radio" name="tag-filter" value="assigned"><label for="tag-filter-assigned-tags" i18n="tags.assigned-tags"></label></input>

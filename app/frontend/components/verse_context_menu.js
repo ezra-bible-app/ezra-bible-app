@@ -119,7 +119,7 @@ class VerseContextMenu extends HTMLElement {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
     var verseContextMenuButton = currentVerseListMenu[0].querySelector('.verse-context-menu-button');
 
-    verseContextMenuButton.addEventListener('click', (event) => {
+    $(verseContextMenuButton).unbind('click').bind('click', (event) => {
       event.stopPropagation();
 
       var verseContextMenu = $('#verse-context-menu');

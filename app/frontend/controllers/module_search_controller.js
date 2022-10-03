@@ -56,7 +56,7 @@ class ModuleSearchController {
 
   initModuleSearch(tabIndex=undefined) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    currentVerseListMenu.find('.module-search-button').bind('click', (event) => { this.handleSearchMenuClick(event); });
+    currentVerseListMenu.find('.module-search-button').unbind('click').bind('click', (event) => { this.handleSearchMenuClick(event); });
     
     // Handle the click on the search button
     $('#start-module-search-button:not(.bound)').addClass('bound').bind('click', (event) => { this.startSearch(event); });

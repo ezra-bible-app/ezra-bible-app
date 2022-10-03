@@ -433,8 +433,56 @@ a.chapter-nav:hover {
 
 #verse-list-popup,
 #book-tag-statistics-box,
-#info-popup {
+#info-popup,
+#db-sync-box {
   display: none;
+}
+
+#db-sync-box-content {
+  display: flex;
+  flex-direction: column;
+}
+
+#db-sync-box-content *:not(li) {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0.5em;
+}
+
+#db-sync-box-content label,
+#db-sync-box-content span {
+  width: 14em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  border-radius: 4px;
+}
+
+#db-sync-box-content input {
+  margin-left: 0.5em;
+}
+
+#dropbox-link-status {
+  width: fit-content !important;
+  margin-left: 0.5em;
+  background-color: lightyellow;
+  border: 1px solid lightgray;
+  color: black;
+}
+
+#dropbox-link-status.success {
+  background-color: lightgreen;
+}
+
+#dropbox-link-status.failed {
+  background-color: lightsalmon;
+}
+
+#only-sync-on-wifi-option {
+  display: none !important;
+}
+
+.Android #only-sync-on-wifi-option {
+  display: flex !important;
 }
 
 #verse-list-popup-verse-list {
@@ -517,6 +565,7 @@ a.chapter-nav:hover {
 #search-scope,
 #search-scope option,
 .ui-dialog #bible-sync-box,
+.ui-dialog #db-sync-box,
 .ui-dialog #new-release-info-box,
 .ui-widget:not(.ezra-dialog),
 .ui-widget:not(.ezra-dialog) .ui-widget,
@@ -1176,7 +1225,8 @@ li.book-unavailable a:focus,
 }
 
 #show-translation-settings-button,
-#show-dict-settings-button {
+#show-dict-settings-button,
+#setup-db-sync-button {
   padding: 0.5em;
   display: block;
   width: 100%;
@@ -1432,7 +1482,8 @@ li.book-unavailable a:focus,
 .tab-search-input,
 .tab-search-type,
 #search-type,
-#search-scope {
+#search-scope,
+#dropbox-sync-folder {
   border: 1px solid lightgray;
   border-radius: 4px;
 }

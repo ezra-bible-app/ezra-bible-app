@@ -75,6 +75,10 @@ class InfoPopup {
     });
   }
 
+  getFormattedTimestamp(timestamp) {
+    return timestamp.toLocaleDateString() + ' / ' + timestamp.toLocaleTimeString();
+  }
+
   async showAppInfo() {
     var CommitInfo = null;
     var gitCommit = "";
@@ -100,8 +104,37 @@ class InfoPopup {
     const swordVersion = await ipcNsi.getSwordVersion();
     const chromiumVersion = window.getChromiumVersion();
     const databasePath = await ipcDb.getDatabasePath();
+    const databaseSize = await ipcDb.getDatabaseSize() + ' MB';
     const configFilePath = await ipcSettings.getConfigFilePath();
     const swordPath = await ipcNsi.getSwordPath();
+
+    let lastDropboxSyncTime = '--';
+    if (await ipcSettings.has('lastDropboxSyncTime')) {
+      lastDropboxSyncTime = new Date(await ipcSettings.get('lastDropboxSyncTime'));
+      lastDropboxSyncTime = this.getFormattedTimestamp(lastDropboxSyncTime);
+    }
+
+    let lastDropboxDownloadTime = '--';
+    if (await ipcSettings.has('lastDropboxDownloadTime')) {
+      let rawDropboxDownloadTime = await ipcSettings.get('lastDropboxDownloadTime', '--');
+
+      if (rawDropboxDownloadTime != '--' && rawDropboxDownloadTime != '') {
+        lastDropboxDownloadTime = new Date(rawDropboxDownloadTime);
+        lastDropboxDownloadTime = this.getFormattedTimestamp(lastDropboxDownloadTime);
+      }
+    }
+
+    let lastDropboxUploadTime = '--';
+    if (await ipcSettings.has('lastDropboxUploadTime')) {
+      let rawDropboxUploadTime = await ipcSettings.get('lastDropboxUploadTime', '--');
+
+      if (rawDropboxUploadTime != '--' && rawDropboxUploadTime != '') {
+        lastDropboxUploadTime = new Date(rawDropboxUploadTime);
+        lastDropboxUploadTime = this.getFormattedTimestamp(lastDropboxUploadTime);
+      }
+    }
+
+    const lastDropboxSyncResult = await ipcSettings.get('lastDropboxSyncResult', '--');
 
     const swordModuleHelper = require('../helpers/sword_module_helper.js');
     const moduleDescription = await swordModuleHelper.getModuleDescription(currentBibleTranslationId);
@@ -162,8 +195,17 @@ class InfoPopup {
           <tr><td>${i18n.t("general.sword-version")}:</td><td>${swordVersion}</td></tr>
           <tr><td>${i18n.t("general.chromium-version")}:</td><td>${chromiumVersion}</td></tr>
           <tr><td>${i18n.t("general.database-path")}:</td><td>${databasePath}</td></tr>
+          <tr><td>${i18n.t("general.database-size")}:</td><td>${databaseSize}</td></tr>
           <tr><td>${i18n.t("general.config-file-path")}:</td><td>${configFilePath}</td></tr>
           <tr><td>${i18n.t("general.sword-path")}:</td><td>${swordPath}</td></tr>
+        </table>
+
+        <h2>${i18n.t("dropbox.dropbox-sync-info")}</h2>
+        <table>
+          <tr><td style='width: 15em;'>${i18n.t("dropbox.last-dropbox-sync-time")}:</td><td>${lastDropboxSyncTime}</td></tr>
+          <tr><td style='width: 15em;'>${i18n.t("dropbox.last-dropbox-sync-result")}:</td><td>${lastDropboxSyncResult}</td></tr>
+          <tr><td style='width: 15em;'>${i18n.t("dropbox.last-dropbox-download-time")}:</td><td>${lastDropboxDownloadTime}</td></tr>
+          <tr><td style='width: 15em;'>${i18n.t("dropbox.last-dropbox-upload-time")}:</td><td>${lastDropboxUploadTime}</td></tr>
         </table>
 
         <div id="info-popup-export">

@@ -35,8 +35,22 @@ class IpcDb {
     return await this._ipcRenderer.call('db_close');
   }
 
+  async syncDropbox() {
+    let connectionType = undefined;
+
+    if (this._platformHelper.isCordova()) {
+      connectionType = navigator.connection.type;
+    }
+
+    return await this._ipcRenderer.call('db_syncDropbox', connectionType);
+  }
+
   async getDatabasePath() {
     return await this._ipcRenderer.call('db_getDatabasePath');
+  }
+
+  async getDatabaseSize() {
+    return await this._ipcRenderer.call('db_getDatabaseSize');
   }
 
   async createNewTag(newTagTitle, tagGroups) {

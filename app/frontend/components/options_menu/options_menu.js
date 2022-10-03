@@ -22,6 +22,7 @@ const i18nController = require('../../controllers/i18n_controller.js');
 const eventController = require('../../controllers/event_controller.js');
 const referenceVerseController = require('../../controllers/reference_verse_controller.js');
 const verseListController = require('../../controllers/verse_list_controller.js');
+const dbSyncController = require('../../controllers/db_sync_controller.js');
 
 /**
  * The OptionsMenu component handles all event handling related to the options menu.
@@ -53,6 +54,11 @@ class OptionsMenu {
   
     $('#show-dict-settings-button').bind('click', function() {
       app_controller.openModuleSettingsAssistant('DICT'); 
+    });
+
+    $('#setup-db-sync-button').bind('click', async () => {
+      this.hideDisplayMenu();
+      await dbSyncController.showDbSyncConfigDialog();
     });
 
     $('#displayOptionsBackButton').bind('click', () => {
@@ -167,7 +173,7 @@ class OptionsMenu {
 
   initCurrentOptionsMenu(tabIndex=undefined) {
     var currentVerseListMenu = app_controller.getCurrentVerseListMenu(tabIndex);
-    currentVerseListMenu.find('.display-options-button').bind('click', (event) => { this.handleMenuClick(event); });
+    currentVerseListMenu.find('.display-options-button').unbind('click').bind('click', (event) => { this.handleMenuClick(event); });
   }
 
   initConfigOption(configOptionId, eventHandler, checkedByDefault=false) {
