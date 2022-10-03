@@ -36,6 +36,7 @@ const template = html`
       flex-direction: column;
       align-items: flex-start;
       margin-inline-end: 0.5em;
+      margin-left: 0.2em;
     }
     
     ::slotted(button) {
