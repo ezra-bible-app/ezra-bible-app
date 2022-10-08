@@ -522,20 +522,22 @@ class VerseSelection {
       let currentVerseNr = verseReferenceContent.split(separator)[1];
       
       let currentText = currentVerseBox.find('.verse-text').clone();
+      let paragraphBreaks = this.getLineBreak() + this.getLineBreak() + this.getLineBreak() + this.getLineBreak();
+      currentText.find('.sword-paragraph-end').replaceWith(paragraphBreaks);
       currentText.find('.sword-markup').remove();
 
       if (selectionHasMultipleVerses) {
         selectedText += currentVerseNr + " ";
       }
 
-      selectedText += currentText.html().replace(/&nbsp;/g, ' ').trim() + " ";
+      selectedText += currentText.html().replace(/&nbsp;/g, ' ') + " ";
     }
 
     var parser = new DOMParser();
     var htmlText = parser.parseFromString("<div>" + selectedText + "</div>", 'text/html');
 
     selectedText = htmlText.querySelector('div').innerText;
-    selectedText += " " + this.getLineBreak() + app_controller.verse_selection.getSelectedVersesLabel().text();
+    selectedText += " " + this.getLineBreak() + this.getLineBreak() + app_controller.verse_selection.getSelectedVersesLabel().text();
 
     return selectedText;
   }

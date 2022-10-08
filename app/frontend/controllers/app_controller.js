@@ -286,8 +286,7 @@ class AppController {
     }
 
     Mousetrap.bind(shortCut, async () => {
-      var selectedVerseText = await this.verse_selection.getSelectedVerseText();
-      getPlatform().copyTextToClipboard(selectedVerseText);
+      await this.verse_selection.copySelectedVerseTextToClipboard();
       return false;
     });
 
