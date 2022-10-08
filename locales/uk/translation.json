@@ -130,6 +130,7 @@
     "sword-path": "Шлях до модую SWORD",
     "chromium-version": "Версія Chromium",
     "database-path": "Розташування бази даних",
+    "database-size": "Database size",
     "config-file-path": "Розташування налаштувань",
     "module-name": "Ім'я",
     "module-version": "Версія",

@@ -130,6 +130,7 @@
     "sword-path": "Ruta del módulo SWORD",
     "chromium-version": "Versión de Chromium",
     "database-path": "Ruta al directorio de la base de datos",
+    "database-size": "Database size",
     "config-file-path": "Ruta al directorio de configuración",
     "module-name": "Nombre",
     "module-version": "Versión",

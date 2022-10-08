@@ -130,6 +130,7 @@
     "sword-path": "cale modul SWORD",
     "chromium-version": "versiune Chromium",
     "database-path": "cale Bază de date",
+    "database-size": "Database size",
     "config-file-path": "cale Configurare",
     "module-name": "Nume",
     "module-version": "Versiune",

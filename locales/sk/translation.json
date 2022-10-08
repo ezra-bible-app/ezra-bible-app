@@ -130,6 +130,7 @@
     "sword-path": "Cesta k modulu SWORD",
     "chromium-version": "Verzia Chromium",
     "database-path": "Cesta k databáze",
+    "database-size": "Database size",
     "config-file-path": "Cesta ku konfigurácii",
     "module-name": "Meno",
     "module-version": "Verzia",

@@ -132,6 +132,7 @@
     "sword-path": "Pad van SWORD-module",
     "chromium-version": "Chromiumversie",
     "database-path": "Pad van databank",
+    "database-size": "Database size",
     "config-file-path": "Pad van configuratie",
     "module-name": "Naam",
     "module-version": "Versie",

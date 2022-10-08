@@ -132,6 +132,7 @@
     "sword-path": "Путь к модулю SWORD",
     "chromium-version": "Версия Chromium",
     "database-path": "Расположение базы данных",
+    "database-size": "Database size",
     "config-file-path": "Расположение файла конфигурации",
     "module-name": "Название",
     "module-version": "Версия",
