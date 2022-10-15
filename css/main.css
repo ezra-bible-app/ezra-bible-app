@@ -1714,6 +1714,11 @@ tr.compare-translation-row:nth-child(odd) {
   padding: 0.5em;
 }
 
+/* This is a workaround for markup issues, see https://github.com/ezra-bible-app/ezra-bible-app/issues/734 */
+.compare-translation-row .verse-content-td .sword-milestone {
+  display: unset !important;
+}
+
 #strongs-box {
   display: none;
   text-align: center;
