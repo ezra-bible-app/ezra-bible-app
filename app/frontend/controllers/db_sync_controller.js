@@ -95,6 +95,12 @@ module.exports.showDbSyncConfigDialog = async function() {
 };
 
 module.exports.showSyncResultMessage = async function() {
+  let onlyWifi = await ipcSettings.get(DROPBOX_ONLY_WIFI_SETTINGS_KEY, false);
+  if (onlyWifi && navigator.connection.type != 'wifi') {
+    // We return directly and do not show any sync message if the only WiFi option is enabled and we are not on WiFi.
+    return;
+  }
+
   let lastDropboxSyncTime = '--';
   if (await ipcSettings.has(DROPBOX_LAST_SYNC_TIME_KEY)) {
     lastDropboxSyncTime = new Date(await ipcSettings.get(DROPBOX_LAST_SYNC_TIME_KEY));
