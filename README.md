@@ -18,7 +18,7 @@ Ezra Bible App is a modern and user-friendly, cross-platform Bible app focussing
 
 For user information (features, screenshots, install instructions) have a look at the [project's website](https://ezrabibleapp.net). This GitHub page focusses on technical information.
 
-![Ezra Project 0.11.0](https://ezrabibleapp.net/assets/screenshots/ezra_project_0_11_0_scaled_down.png "Ezra Project 0.11.0")
+![Ezra Bible App 1.8.0](https://ezrabibleapp.net/assets/screenshots/ezra_bible_app_1.8.0_scaled_down.png "Ezra Bible App 1.8.0")
 
 ## Development
 
