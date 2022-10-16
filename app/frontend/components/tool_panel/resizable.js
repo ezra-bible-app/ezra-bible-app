@@ -22,7 +22,7 @@
 //   <div class="ui-resizable-handle"></div>
 // `;
 
-const MIN_WIDTH = 30 * 16;
+const MIN_WIDTH = 25 * 16;
 const MIN_HEIGHT = 15 * 16;
 
 var toolPanel, panelHeight=MIN_HEIGHT, panelWidth=MIN_WIDTH;
