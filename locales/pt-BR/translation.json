@@ -130,7 +130,7 @@
     "sword-path": "Caminho do módulo SWORD",
     "chromium-version": "Versão do Chromium",
     "database-path": "Caminho do Banco de Dados",
-    "database-size": "Database size",
+    "database-size": "Tamanho do Banco de Dados",
     "config-file-path": "Caminho da Configuração",
     "module-name": "Nome",
     "module-version": "Versão",
@@ -157,7 +157,7 @@
     "next": "Pŕoximo",
     "previous": "Anterior",
     "finish": "Finalizar",
-    "back": "Back",
+    "back": "Voltar",
     "save": "Gravar",
     "cancel": "Cancelar",
     "rename": "Renomear",
@@ -332,7 +332,7 @@
     "open-chapters-all-books": "Abrir todos os livros em modo capítulo-inteligente",
     "copy": "Copiar",
     "edit-note": "Editar nota",
-    "delete-note": "Delete note"
+    "delete-note": "Apagar nota"
   },
   "dictionary-panel": {
     "greek-dict": "Dicionário de Grego",
